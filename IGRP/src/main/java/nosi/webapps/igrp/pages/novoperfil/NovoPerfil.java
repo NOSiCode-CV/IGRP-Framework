@@ -4,26 +4,39 @@ import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
 public class NovoPerfil extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_nome")
 	private String nome;
+
 	@RParam(rParamName = "p_codigo")
 	private String codigo;
+
+	@RParam(rParamName = "p_plsql_codigo")
+	private String plsql_codigo;
+
 	@RParam(rParamName = "p_activo")
 	private int activo;
 	@RParam(rParamName = "p_activo_check")
 	private int activo_check;
+
 	@RParam(rParamName = "p_nada")
 	private String nada;
+
 	@RParam(rParamName = "p_aplicacao")
 	private int aplicacao;
+
 	@RParam(rParamName = "p_organica")
 	private int organica;
+
 	@RParam(rParamName = "p_perfil_pai")
 	private String perfil_pai;
+
 	@RParam(rParamName = "p_extras")
 	private String extras;
+
 	@RParam(rParamName = "p_primeira_pagina")
 	private int primeira_pagina;
 	
@@ -46,6 +59,13 @@ public class NovoPerfil extends Model{
 	}
 	public String getCodigo(){
 		return this.codigo;
+	}
+	
+	public void setPlsql_codigo(String plsql_codigo){
+		this.plsql_codigo = plsql_codigo;
+	}
+	public String getPlsql_codigo(){
+		return this.plsql_codigo;
 	}
 	
 	public void setActivo(int activo){

@@ -56,7 +56,9 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 	private List<ProfileType> profilesType;
 	@OneToMany(mappedBy = "organization",fetch=FetchType.EAGER)
 	private Set<Profile> profiles;
-
+	
+	private String plsql_code; 
+	
 	public Organization() {
 		super();
 	}
@@ -142,6 +144,14 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 
 	public void setProfiles(Set<Profile> profiles) {
 		this.profiles = profiles;
+	}
+	
+	public String getPlsql_code() {
+		return plsql_code;
+	}
+
+	public void setPlsql_code(String plsql_code) {
+		this.plsql_code = plsql_code;
 	}
 
 	@Override

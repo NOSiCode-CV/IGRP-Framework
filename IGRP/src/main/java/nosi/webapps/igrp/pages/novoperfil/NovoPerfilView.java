@@ -5,13 +5,14 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.config.Config;
+import nosi.core.webapp.Core;
 
 public class NovoPerfilView extends View {
 
 	public Field sectionheader_1_text;
 	public Field nome;
 	public Field codigo;
+	public Field plsql_codigo;
 	public Field activo;
 	public Field activo_check;
 	public Field nada;
@@ -20,7 +21,7 @@ public class NovoPerfilView extends View {
 	public Field perfil_pai;
 	public Field extras;
 	public Field primeira_pagina;
-	public IGRPForm sectionheader_1;
+	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -30,7 +31,7 @@ public class NovoPerfilView extends View {
 
 		this.setPageTitle("Registar Perfil");
 			
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
 		form_1 = new IGRPForm("form_1","");
 
@@ -41,11 +42,15 @@ public class NovoPerfilView extends View {
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		codigo = new TextField(model,"codigo");
 		codigo.setLabel(gt("Código"));
-		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
+		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		
+		plsql_codigo = new TextField(model,"plsql_codigo");
+		plsql_codigo.setLabel(gt("PL/SQL (código)"));
+		plsql_codigo.propertie().add("name","p_plsql_codigo").add("type","text").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		activo = new CheckBoxField(model,"activo");
 		activo.setLabel(gt("Ativo?"));
@@ -53,7 +58,7 @@ public class NovoPerfilView extends View {
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("desclabel","false");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
@@ -61,7 +66,7 @@ public class NovoPerfilView extends View {
 		
 		organica = new ListField(model,"organica");
 		organica.setLabel(gt("Organização"));
-		organica.propertie().add("remote",new Config().getResolveUrl("igrp","NovoPerfil","index")).add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
+		organica.propertie().add("remote",Core.getIGRPLink("igrp","NovoPerfil","index")).add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
 		perfil_pai = new ListField(model,"perfil_pai");
 		perfil_pai.setLabel(gt("Perfil pai"));
@@ -69,7 +74,7 @@ public class NovoPerfilView extends View {
 		
 		extras = new SeparatorField(model,"extras");
 		extras.setLabel(gt("Extras"));
-		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","250").add("desclabel","false");
+		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false");
 		
 		primeira_pagina = new ListField(model,"primeira_pagina");
 		primeira_pagina.setLabel(gt("Primeira página"));
@@ -79,7 +84,7 @@ public class NovoPerfilView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
 		btn_gravar = new IGRPButton("Gravar","igrp","NovoPerfil","gravar","submit","primary|fa-save","","");
-		btn_gravar.propertie.add("type","specific").add("rel","gravar");
+		btn_gravar.propertie.add("type","specific").add("rel","gravar").add("refresh_components","");
 
 		
 	}
@@ -92,6 +97,7 @@ public class NovoPerfilView extends View {
 
 		form_1.addField(nome);
 		form_1.addField(codigo);
+		form_1.addField(plsql_codigo);
 		form_1.addField(activo);
 		form_1.addField(nada);
 		form_1.addField(aplicacao);
@@ -111,6 +117,7 @@ public class NovoPerfilView extends View {
 		
 		nome.setValue(model);
 		codigo.setValue(model);
+		plsql_codigo.setValue(model);
 		activo.setValue(model);
 		nada.setValue(model);
 		aplicacao.setValue(model);
