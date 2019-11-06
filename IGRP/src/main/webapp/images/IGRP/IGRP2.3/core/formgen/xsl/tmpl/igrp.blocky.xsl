@@ -217,6 +217,18 @@
 					 </value>
 					 	
 				</block>
+				
+				<block type="comment_code" prev-statement="" color="280">
+				
+				   	<value type="dummy" title="comment code">
+				   	
+				   		<field type="image" name="img" src="{$path}/core/blockly/blockly/media/comment-icon.svg"></field>
+				   	
+				   	</value>
+					 
+					 <value name="value1" type="statement"></value>
+					 	
+				</block>
 				 
 			</category>
 			
