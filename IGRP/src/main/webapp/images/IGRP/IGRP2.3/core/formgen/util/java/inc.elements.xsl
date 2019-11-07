@@ -654,6 +654,24 @@
 			
 	</xsl:template>
 	
+	<xsl:template name="blockly.element.comment_code" >
+	
+		<xsl:variable name="valor">
+		
+			<xsl:call-template name="blockly.getValue">
+			
+				<xsl:with-param name="value" select="*[@name='value1']"/>
+				
+			</xsl:call-template>
+			
+		</xsl:variable>
+		
+		<xsl:value-of select="$newlineTab1"></xsl:value-of>	
+	
+		<xsl:text>/*</xsl:text><xsl:value-of select="$valor"></xsl:value-of><xsl:text>*/</xsl:text>	
+			
+	</xsl:template>
+	
 	<xsl:template name="blockly.element.get_custom_line" >
 	
 		<xsl:variable name="valor">
@@ -1536,6 +1554,12 @@
 			<xsl:when test="$block-type = 'get_custom_line'">
 			
 				<xsl:call-template name="blockly.element.get_custom_line"></xsl:call-template>
+				
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'comment_code'">
+			
+				<xsl:call-template name="blockly.element.comment_code"></xsl:call-template>
 				
 			</xsl:when>
 		

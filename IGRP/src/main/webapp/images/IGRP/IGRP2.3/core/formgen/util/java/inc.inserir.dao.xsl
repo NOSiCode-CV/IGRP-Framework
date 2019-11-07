@@ -90,9 +90,21 @@
 					
 					<xsl:text>Transaction transaction = null;</xsl:text>
 					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>			
 					
-					<xsl:text>String isEdit = Core.getParam("isEdit");</xsl:text>
+					
+					<xsl:choose>
+		
+						<xsl:when test="$checkbox = 'TRUE'">
+						
+							<xsl:value-of select="$newlineTab1"></xsl:value-of>
+							
+							<xsl:text>String isEdit = Core.getParam("isEdit");</xsl:text>
+							
+						</xsl:when>
+					
+					</xsl:choose>					
+					
+					
 					
 					<xsl:value-of select="$newlineTab1"></xsl:value-of>
 					
