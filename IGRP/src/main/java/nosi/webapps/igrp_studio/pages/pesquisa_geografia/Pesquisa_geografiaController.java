@@ -37,7 +37,7 @@ public class Pesquisa_geografiaController extends Controller {
 		
 		model.setTreemenu_1(this.chamarServico(Core.isNotNull(id) ? id : "238", view)); 
 		
-		view.treemenu_1_link.setVisible(false); 
+		//view.treemenu_1_link.setVisible(false); 
 		
 		/*----#end-code----*/
 		view.setModel(model);
@@ -137,6 +137,7 @@ public class Pesquisa_geografiaController extends Controller {
 			Pesquisa_geografia.Treemenu_1 tab_geo = new Pesquisa_geografia.Treemenu_1();
 			tab_geo.setTreemenu_1_tmid("" + Core.toBigDecimal(local.getString("id")).toBigInteger());
 			tab_geo.setTreemenu_1_link_desc(local.getString("nome"));
+			
 			try {
 				tab_geo.setNivel(local.getString("nivel"));
 				}catch (Exception e) {}

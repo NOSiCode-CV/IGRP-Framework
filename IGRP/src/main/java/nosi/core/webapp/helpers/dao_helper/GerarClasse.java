@@ -80,7 +80,7 @@ public class GerarClasse {
 				content_variaveis = content_variaveis + "\t@Id\n";
 				if(tipo_db.equalsIgnoreCase(DatabaseConfigHelper.ORACLE)) {
 					content_import = content_import + "import javax.persistence.SequenceGenerator;\n";
-					content_variaveis = content_variaveis +   "\t@SequenceGenerator(name = \""+seq+"Gen\",sequenceName =\""+seq+"\", initialValue = 1, allocationSize = 1)\n";
+					content_variaveis = content_variaveis +   "\t@SequenceGenerator(name = \""+seq+"Gen\",sequenceName =\""+seq+"\", initialValue = 1, allocationSize = 1, schema=\""+schema+"\")\n";
 					content_variaveis = content_variaveis + "\t@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = \""+seq+"Gen\")\n";
 				}else {
 					content_variaveis = content_variaveis +  "\t@GeneratedValue(strategy=GenerationType.AUTO)\n";
@@ -134,7 +134,7 @@ public class GerarClasse {
 					
 				}
 			
-				content_variaveis = content_variaveis +  "\t@Column(name=\""+cl.getName()+"\",nullable="+( cl.isNullable() ? "true" : "false") +",length="+ cl.getSize()  +")\n"+
+				content_variaveis = content_variaveis +  "\t@Column(name=\""+cl.getName()+"\",nullable="+( cl.isNullable() ? "true" : "false") +",length="+cl.getSize()  +")\n"+
 						"\tprivate "+ this.resolveType(cl) +" " +this.resolveName1Dw(cl.getName())+";\n";
 				
 				/*if(ge.isGerar_list()) {
