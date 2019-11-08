@@ -314,7 +314,7 @@ public final class EmailMessage { // Not inherit
 	        }
 	        // Rodape
 	        body += "                                    <p style=\"color:#797f89;margin-bottom:0;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:13px;\"> "
-	                + "                                        <a href=\"" + helpLink + "\" style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;color:#ef5b25;text-decoration:none\" target=\"_blank\" >Clique aqui</a>" + " para mais informações"
+	                + "                                        <a href=\"" + helpLink + "\" style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;color:#ef5b25;text-decoration:none\" target=\"_blank\" >Click here</a>" + " +info."
 	                + "                                    </p>";
 	        body += "                                </td>"
 	                + "                            </tr>"
@@ -329,13 +329,13 @@ public final class EmailMessage { // Not inherit
 	    }
 	}
 	
-	public static void main(String[] args) throws IOException {
-		String email = "iekinyfernandes@gmail.com";
-		String aux = "<p>Activity Test Email </p>";
-		boolean r = EmailMessage.newInstance()
-				.authenticate("igrpframeworkjava@gmail.com", "Pa$$w0rd10")
-				.setTo(email).setFrom("igrpframeworkjava@gmail.com").setSubject("Reset de Password")
-				.setMsg(aux, "utf-8", "html").send();
-	}
+//	public static void main(String[] args) throws IOException {
+//		String email = "iekinyfernandes@gmail.com";
+//		String aux = "<p>Activity Test Email </p>";
+//		boolean r = EmailMessage.newInstance()
+//				.authenticate("igrpframeworkjava@gmail.com", "Pa$$w0rd10")
+//				.setTo(email).setFrom("igrpframeworkjava@gmail.com").setSubject("Reset de Password")
+//				.setMsg(aux, "utf-8", "html").send();
+//	}
 	
 }

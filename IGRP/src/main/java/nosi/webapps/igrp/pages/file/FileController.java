@@ -49,12 +49,15 @@ public class FileController extends Controller {
 	
 	public Response actionSaveImage()  throws Exception {		
 		Properties p = new Properties();
-		Integer id = Core.saveFile("p_file_name");
-		if(id.intValue()==0) {
-			id = new Integer(-1);
+		Integer id = new Integer(-1);
+		String uuid = Core.saveFileNGetUuid("p_file_name");
+		if(Core.isNull(uuid)) {			
 			p.put("msg", Core.gt("Error saving file."));
+		}else {
+			id= new CLob().find().andWhere("uuid", "=",uuid).one().getId();
 		}
 		p.put("id", id);
+		p.put("uuid", uuid);
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(Core.toJson(p));
 	}
