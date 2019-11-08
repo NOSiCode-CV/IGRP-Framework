@@ -68,6 +68,11 @@ public class EnvController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
+		Properties settings = ConfigApp.getInstance().loadCommonConfig();
+		String igrp_plsql_url = settings.getProperty("igrp.plsql.url");
+		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
+			view.plsql_codigo.setVisible(false);
+		
       	model.setGen_auto_code(1); 
       	model.setImg_src("default.svg");	
 	
