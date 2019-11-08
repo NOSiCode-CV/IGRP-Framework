@@ -47,14 +47,15 @@ public class Route {
 		}else {
 			//if a PAGES_SCAPE_ENCRYPT calls a redirect to a public page, must not encrypt it
 			if(qs.contains("isPublic=1")) {
-				url = "webapps?r="+app+"/"+page+"/"+action+qs+"&target=_blank";
+				
+				url = "webapps?r="+app+"/"+page+"/"+action+qs+(qs.contains("target")?"":"&target=_blank");
 			}else if(qs.contains("isPublic=2")) {
-				url = "webapps?r="+Core.encryptPublicPage(app+"/"+page+"/"+action).replace(" ", "+")+qs+"&target=_blank";
+				url = "webapps?r="+Core.encryptPublicPage(app+"/"+page+"/"+action).replace(" ", "+")+qs+(qs.contains("target")?"":"&target=_blank");
 			}else {			
 				if(isPublic==1) {
-					url = "webapps?r="+app+"/"+page+"/"+action+qs+"&isPublic=1&target=_blank&dad="+dad;
+					url = "webapps?r="+app+"/"+page+"/"+action+qs+"&isPublic=1"+(qs.contains("target")?"":"&target=_blank");
 				}else if(isPublic==2) {
-					url = "webapps?r="+Core.encryptPublicPage(app+"/"+page+"/"+action).replace(" ", "+")+qs+"&isPublic=2&target=_blank";
+					url = "webapps?r="+Core.encryptPublicPage(app+"/"+page+"/"+action).replace(" ", "+")+qs+"&isPublic=2"+(qs.contains("target")?"":"&target=_blank");
 				}
 				else {
 					url = "?r="+Core.encrypt(app+"/"+page+"/"+action)+qs;
