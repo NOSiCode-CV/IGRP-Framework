@@ -103,6 +103,7 @@
 
 .box-tm .nav.nav-list.tree > li > a{
 	position: static;
+	border-bottom: 1px solid #eaeaea;
 }
 
 .box-tm .nav.nav-list.tree > li > a.holder .icon{
@@ -118,6 +119,11 @@
 .box-tm .nav.nav-list.tree > li > a.holder:focus:before{
 	background-color: #eee;
 	text-decoration: none;
+}
+
+.box-tm .nav-list .tree-toggler a.form-link:not([href]):hover{
+	text-decoration: none;
+	cursor: default;
 }
 
 .box-tm .nav > li > a>i.fa+*{
@@ -140,7 +146,8 @@
 
 .box-tm .tree[type='active']:before, .box-tm .tree-toggler:before, 
 .box-tm .nav-list[type='active'] .holder:before,
-.box-tm .nav-list .holder:before{
+.box-tm .nav-list .holder:before,
+.box-tm .nav.nav-list.tree > li > a:before{
     content: "";
     display: block;
     position: absolute;
@@ -153,9 +160,20 @@
 .box-tm .tree-toggler[type='active']:before, 
 .box-tm .nav-list[type='active'] .holder:before,
 .box-tm .nav-list .holder, .box-tm .tree-toggler:before,
-.box-tm .nav-list .holder:before{
+.box-tm .nav-list .holder:before,
+.box-tm .nav.nav-list.tree > li > a:before{
 	border-bottom: 1px solid #eaeaea;
 }
+
+.box-tm .nav.nav-list.tree > li > a:before{
+	top:0;
+}
+
+.box-tm .nav.nav-list.tree > li > a:hover{
+	background-color: transparent;
+	text-decoration:underline;
+}
+
 
 .box-tm .list-holder .tree{
 	display: none;

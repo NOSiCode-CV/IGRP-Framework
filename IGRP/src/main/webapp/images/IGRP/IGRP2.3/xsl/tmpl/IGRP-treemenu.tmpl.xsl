@@ -345,19 +345,22 @@
         <xsl:param name="class" select="'form-link'"/>
         
         <xsl:if test="not($haslink)">
-+	        <xsl:choose>
-+	            <xsl:when test="$parser = 'true'">
-+	                <xsl:attribute name="class"><xsl:value-of select="'lookup-parser'"/></xsl:attribute>
-+	            </xsl:when>
-+	            <xsl:otherwise>
-+	                <xsl:attribute name="class"><xsl:value-of select="$class"/></xsl:attribute>
-+	                <xsl:attribute name="tree-target"><xsl:value-of select="$target"/></xsl:attribute>
-+	                <xsl:if test="$href != ''">
-+	                    <xsl:attribute name="href"><xsl:value-of select="$href"/></xsl:attribute>
-+	                </xsl:if>
-+	            </xsl:otherwise>
-+	        </xsl:choose>
-+        </xsl:if>
+	        <xsl:choose>
+	            <xsl:when test="$parser = 'true'">
+	                <xsl:attribute name="class"><xsl:value-of select="'lookup-parser'"/></xsl:attribute>
+	            </xsl:when>
+	            <xsl:otherwise>
+	                <xsl:attribute name="class"><xsl:value-of select="$class"/></xsl:attribute>
+	                <xsl:if test="$href != ''">
+	                    <xsl:attribute name="tree-target"><xsl:value-of select="$target"/></xsl:attribute>
+	                    <xsl:attribute name="href"><xsl:value-of select="$href"/></xsl:attribute>
+	                    <xsl:if test="$target = 'changesrc'">
+	                        <xsl:attribute name="target-fields"><xsl:value-of select="$target_fields"/></xsl:attribute>
+	                    </xsl:if>
+	                </xsl:if>
+	            </xsl:otherwise>
+	        </xsl:choose>
+        </xsl:if>
         
         <xsl:apply-templates mode="contextparam" select="../context-menu"/>
     </xsl:template>
@@ -418,7 +421,7 @@
                                                 <xsl:with-param name="target" select="$target"/>
                                                 <xsl:with-param name="target_fields" select="$target_fields"/>
                                                 <xsl:with-param name="href" select="../*[name() = concat($name,'_link')]"/>
-                                                <xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
+                                    			<xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
                                             </xsl:call-template>
 
                                             <xsl:call-template name="setTooltip">
@@ -432,7 +435,7 @@
                                         <a class="form-link">
                                             <xsl:call-template name="setTarget">
                                                 <xsl:with-param name="parser" select="$parser"/>
-                                                <xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
+                                    			<xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
                                             </xsl:call-template>
 
                                             <xsl:call-template name="setTooltip">
@@ -469,7 +472,6 @@
                                     <xsl:with-param name="target_fields" select="$target_fields"/>
                                     <xsl:with-param name="class" select="'form-link holder'"/>
                                     <xsl:with-param name="href" select="../*[name() = concat($name,'_link')]"/>
-                                    <xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
                                     <xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
                                 </xsl:call-template>
 
