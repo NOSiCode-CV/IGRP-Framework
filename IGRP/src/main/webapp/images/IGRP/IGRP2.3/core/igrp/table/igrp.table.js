@@ -473,13 +473,11 @@
 
             });
 			
-			/*$.IGRP.events.on('element-transform',function(p){
-	
-				var tableHolder = p.content;
+			$.IGRP.events.on('element-transform',function(p){
 				
-				_self.resetTableConfigurations(tableHolder);
+				_self.resetTableConfigurations(p.content);
 				
-		    });*/
+		    });
 			
 			$.IGRP.events.on('submit-complete',function(p){
 				
