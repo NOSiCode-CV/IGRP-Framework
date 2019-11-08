@@ -5,6 +5,8 @@ import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.xml.XMLWritter;
 import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
+import java.io.Serializable;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
@@ -24,6 +26,7 @@ import static nosi.core.i18n.Translator.gt;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
@@ -32,6 +35,8 @@ import java.util.Map.Entry;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
+
+import com.google.gson.Gson;
 
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
@@ -221,95 +226,77 @@ public class Oauth2openidwso2Controller extends Controller {
 		 String header = Igrp.getInstance().getRequest().getHeader("Authorization"); 
 		 nosi.webapps.igrp.dao.Config config = new  nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "IGRPWEB_INTEGRATION_PLSQL_TOKEN").one(); 
 		 if(config != null) { 
-			 
-			// if(header != null && config.getValue() != null && config.getValue().equals(header)) {
+			  
+			 if(header != null && config.getValue() != null && config.getValue().equals(header)) {
 				 
 				String currentDad = Core.getParam("p_current_dad");
 				String userId = Core.getParam("p_user_id"); 
 				String currentOrg = Core.getParam("p_current_org");
 				String currentProf = Core.getParam("p_current_prof"); 
 				
-				 currentDad = "igrp"; 
-				 userId = "2";  // email 
-				 currentOrg = "1"; 
-				 currentProf = "2"; 
-				 
-				 System.out.println(header + " - " + config.getValue()); 
-					 
 				Application application = new Application().find().andWhere("plsql_code", "=", currentDad).one(); 
 				Organization organization = new Organization().find().andWhere("plsql_code", "=", currentOrg).one();
 				ProfileType profileType = new ProfileType().find().andWhere("plsql_code", "=", currentProf).one(); 
 				User user = new User().find().andWhere("email", "=", userId).one(); 
 				
-				XMLWritter xml_menu = new XMLWritter();
-				xml_menu.startElement("menus");
-						
-				LinkedHashMap<String, List<MenuProfile>> allMenus = new Menu().getMyMenu(currentDad, Core.toInt(userId), Core.toInt(currentOrg), Core.toInt(currentProf)); 
-					
+				try {
+					 currentDad = application.getDad(); 
+					 userId = user.getId() + ""; 
+					 currentOrg = organization.getId() + ""; 
+					 currentProf = profileType.getId() + ""; 
+				} catch (Exception e) { 
+				}
+				
+				
+				 currentDad = "igrp"; 
+				 userId = "2";  // email 
+				 currentOrg = "1"; 
+				 currentProf = "2"; 
+				
+				
+				List<MenuProfile> allMenus = new Menu().getMyMenu(currentDad, Core.toInt(userId), Core.toInt(currentOrg), Core.toInt(currentProf)); 
+				List<Oauth2openidwso2Controller.IgrpMenu> myMenus = new ArrayList<Oauth2openidwso2Controller.IgrpMenu>();
 					if (allMenus != null) {
-						for (Entry<String, List<MenuProfile>> m : allMenus.entrySet()) {
-							xml_menu.startElement("menu");
-							xml_menu.setElement("title", gt(m.getKey()));
+						for (MenuProfile m : allMenus) { 
+							IgrpMenu igrpMenu = new IgrpMenu(); 
+							igrpMenu.setArea(m.getTarget());
+							igrpMenu.setId("" + m.getId());
+							igrpMenu.setEstado("" + m.getStatus());
+							igrpMenu.setImgsrc("");
+							igrpMenu.setTitle(m.getTitle());
+							igrpMenu.setDescription("");
+							igrpMenu.setSelf_id(m.getSelf_id() != null ? m.getSelf_id() + "" : "");
+							igrpMenu.setUrl(createOidcEndpoint(m.getApp(), m.getPage(), m.getAction())); 
 							
-							for (MenuProfile main : m.getValue()) {
-								if (main.isSubMenuAndSuperMenu()) {
-									
-									if(main.getType() == 1) { // menu para uma pagina externa e publica 
-										String aux = buildMenuUrlByDad( main.getLink());
-										if(aux != null)
-											xml_menu.setElement("link", aux + "webapps?r=" + main.getLink()); 
-										else 
-											xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
+							try {
+								if(!igrpMenu.getSelf_id().equals(igrpMenu.getId()) && !checkIfExistsMenus(igrpMenu.getSelf_id(), myMenus)) {
+									Menu aux = new Menu().findOne(Core.toInt(igrpMenu.getSelf_id())); 
+									if(aux != null) {
+										IgrpMenu igrpMenuAux = new IgrpMenu(); 
+										igrpMenuAux.setArea(aux.getTarget());
+										igrpMenuAux.setId("" + aux.getId());
+										igrpMenuAux.setEstado("" + aux.getStatus());
+										igrpMenuAux.setImgsrc("");
+										igrpMenuAux.setTitle(aux.getDescr());
+										igrpMenuAux.setDescription(aux.getDescr());
+										igrpMenuAux.setSelf_id("");
+										igrpMenuAux.setUrl("#"); 
+										
+										myMenus.add(igrpMenuAux); 
 									}
-									else if(main.getType() == 2) { // Fazer sso obrigatorio 
-										xml_menu.setElement("link", main.getLink()); 
-									}
-									else if(main.getType() == 3) {
-										xml_menu.setElement("link", "webapps?r=" + main.getLink());
-									}
-									else {
-										xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
-									}
-									
-									xml_menu.setElement("target", main.getTarget());
 								}
-								xml_menu.setElement("order", "" + main.getOrder());
-								xml_menu.startElement("submenu");
-								xml_menu.writeAttribute("title", gt(main.getTitle()));
-								xml_menu.writeAttribute("id", "" + main.getId());
-								
-								if(main.getType() == 1) { // menu para uma pagina externa e publica 
-									String aux = buildMenuUrlByDad( main.getLink());
-									if(aux != null)
-										xml_menu.setElement("link", aux + "webapps?r=" + main.getLink()); 
-									else 
-										xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
-								}
-								else if(main.getType() == 2) { // Fazer sso obrigatorio 
-									xml_menu.setElement("link", main.getLink()); 
-								} else if(main.getType() == 3) {
-									xml_menu.setElement("link", "webapps?r=" + main.getLink());
-								}
-								else {
-									xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
-								}
-								
-								xml_menu.setElement("title", gt(main.getTitle()));
-								xml_menu.setElement("target", main.getTarget());
-								xml_menu.setElement("id", "" + main.getId());
-								xml_menu.setElement("status", "" + main.getStatus());
-								xml_menu.setElement("order", "" + main.getOrder());
-								xml_menu.endElement();
+							} catch (Exception e) {
 							}
-							xml_menu.endElement();
+							
+							myMenus.add(igrpMenu); 
+							
 						}
 					}
 					
-				xml_menu.endElement();
+				json = new Gson().toJson(myMenus);
 				
-				json = XML.toJSONObject(xml_menu.toString()).toString();
-				
-			 //}	 
+			 }
+			 
 		}
 		
 		this.format = Response.FORMAT_JSON;
@@ -317,6 +304,20 @@ public class Oauth2openidwso2Controller extends Controller {
 		return this.renderView(json);
 	}
 	
+	private String createOidcEndpoint(String app, String page, String action) { 
+		Properties settings = ConfigApp.getInstance().loadCommonConfig();
+		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
+		String url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
+		if(r != null && r.equalsIgnoreCase("true") && url != null && !url.isEmpty()) {
+			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
+			String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
+			redirect_uri = redirect_uri.replace("IGRP", warName); 
+			String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
+			String state = app + "/" + page +  "/" + action; 
+			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=" + state + "&redirect_uri=" + redirect_uri;	
+		}
+		return url; 
+	}
 	
 	private String buildMenuUrlByDad(String input) {
 		String url = null;
@@ -339,6 +340,82 @@ public class Oauth2openidwso2Controller extends Controller {
 		return url;
 	}
 	
+	public static class IgrpMenu implements Serializable{
+		
+		private String title; 
+		private String imgsrc; 
+		private String url; 
+		private String area;
+		private String id;
+		private String description; 
+		private String estado;
+		private String self_id;
+		
+		public String getTitle() {
+			return title;
+		}
+		public void setTitle(String title) {
+			this.title = title;
+		}
+		public String getImgsrc() {
+			return imgsrc;
+		}
+		public void setImgsrc(String imgsrc) {
+			this.imgsrc = imgsrc;
+		}
+		public String getUrl() {
+			return url;
+		}
+		public void setUrl(String url) {
+			this.url = url;
+		}
+		public String getArea() {
+			return area;
+		}
+		public void setArea(String area) {
+			this.area = area;
+		}
+		public String getId() {
+			return id;
+		}
+		public void setId(String id) {
+			this.id = id;
+		}
+		public String getDescription() {
+			return description;
+		}
+		public void setDescription(String description) {
+			this.description = description;
+		}
+		public String getEstado() {
+			return estado;
+		}
+		public void setEstado(String estado) {
+			this.estado = estado;
+		}
+		public String getSelf_id() {
+			return self_id;
+		}
+		public void setSelf_id(String self_id) {
+			this.self_id = self_id;
+		}
+	}
+	
+	private boolean checkIfExistsMenus(String id, List<IgrpMenu> myMenus) { 
+		boolean r = false; 
+		try {
+			if(myMenus != null) { 
+				for(IgrpMenu m : myMenus) { 
+					if(id.equals(m.getId())) {
+						r = true;
+						break;
+					}
+				}
+			}
+		} catch (Exception e) { 
+		}
+		return r; 
+	}
 		
 
 /*----#end-code----*/

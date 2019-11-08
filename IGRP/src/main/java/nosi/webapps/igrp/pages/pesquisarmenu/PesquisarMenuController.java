@@ -33,6 +33,8 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.Menu.MenuProfile;
+import nosi.webapps.igrp.dao.Organization;
+import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp_studio.pages.env.EnvController.IgrpPLSQLApp;
 
 import org.json.JSONException;
@@ -495,19 +497,35 @@ public class PesquisarMenuController extends Controller {
 			if(baseUrl == null || baseUrl.isEmpty())
 				throw new Exception("Invalid url ...");
 			
-			User u = Core.getCurrentUser();
+			User u = Core.getCurrentUser(); 
 			
-			String sha1 = nosi.core.webapp.User.encryptToHash("francisco.horta@nosi.cv" + "" + this.PLSQL_CLIENT_KEY, "SHA1"); 
+			nosi.webapps.igrp.dao.Config config = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", this.PLSQL_CLIENT_KEY_NAME).one();
 			
+			String javaSessID = "1"; 
+			String appCode = "";
+			String ipAdress = "IP"; 
+			String profCode = ""; 
+			String orgCode = ""; 
+			String email = u.getEmail(); 
+			
+			String sha1 = nosi.core.webapp.User.encryptToHash(email + (config != null ? config.getValue() : ""), "SHA1"); 
+			
+			try {
+				appCode = Core.getCurrentApp().getPlsql_code(); 
+				profCode = new ProfileType().findOne(Core.getCurrentProfile()).getPlsql_code(); 
+				orgCode = new Organization().findOne(Core.getCurrentOrganization()).getPlsql_code(); 
+			} catch (Exception e) {
+			}
+			/*
 			String javaSessID = "1"; 
 			String appCode = "REDGLOBAL";
 			String ipAdress = "IP"; 
 			String profCode = "ADMIN"; 
 			String orgCode = "01.03";
-			
+			*/
 			String base64 = Base64.getEncoder().encodeToString(new String(javaSessID + ";" + appCode + ";" + ipAdress + ";" + profCode + ";" + orgCode).getBytes()); 
 			
-			String endpoint = baseUrl.replace("userapps/", "profmenus/") + "francisco.horta@nosi.cv" + "/" + sha1.toUpperCase() + "/" + base64;
+			String endpoint = baseUrl.replace("userapps/", "profmenus/") + email + "/" + sha1.toUpperCase() + "/" + base64;
 			
 			URL url = new URL(endpoint);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -529,9 +547,9 @@ public class PesquisarMenuController extends Controller {
 		} 
 		
 		return menus;
-	}
+	} 
 	
-	private final String PLSQL_CLIENT_KEY = ";21157452-8a87-45ff-99f2-107df5b4145a";
+	private final String PLSQL_CLIENT_KEY_NAME = "PLSQL_CLIENT_KEY";
 	
 	/*----#end-code----*/
 }
