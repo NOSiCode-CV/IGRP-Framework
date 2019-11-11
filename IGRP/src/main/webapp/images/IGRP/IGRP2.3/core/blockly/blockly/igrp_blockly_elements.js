@@ -256,7 +256,7 @@
 				
 		  }, ListMutationSettings),
 	  
-				    		    
+		  
 	  separator :$.extend({
 			
 		init : function(block){

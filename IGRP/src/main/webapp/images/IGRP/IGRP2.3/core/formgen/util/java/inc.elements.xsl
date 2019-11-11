@@ -170,6 +170,62 @@
 	
 	</xsl:template>
 	
+	<xsl:template name="blockly.element.model_form_">
+		
+		<xsl:variable name="modelType" select="substring-before(@id,'::')"/>
+		
+		<xsl:variable name="modelValue" select="substring-after(@id,'::')"/>
+		
+		<xsl:variable name="modeltypechild" select="substring-before(value[@name='value1']/block/field,'::')"/>
+		
+		<xsl:variable name="nameCap">
+		
+			<xsl:call-template name="InitCap">
+			
+				<xsl:with-param name="text" select="$modelValue"/>
+				
+			</xsl:call-template>
+			
+		</xsl:variable>
+		
+	   	<xsl:variable name="setting">
+	   	
+			<xsl:call-template name="blockly.getValue">
+			
+				<xsl:with-param name="value" select="*[@name='value1']"/>
+				
+			</xsl:call-template>	
+			
+		</xsl:variable>
+		
+		<xsl:variable name="modelset">
+		
+			<xsl:text>model.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of><xsl:text>(</xsl:text>
+			
+				<xsl:call-template name="convert_blocks">
+				
+					<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
+					
+					<xsl:with-param name="value" select="$setting"></xsl:with-param>
+					
+					<xsl:with-param name="from" select="$modeltypechild"></xsl:with-param>
+					
+					<xsl:with-param name="to" select="$modelType"></xsl:with-param>
+					
+					<xsl:with-param name="neto" select="neto"></xsl:with-param>
+					
+					<xsl:with-param name="valuechild" select="$modelValue"></xsl:with-param>
+					
+				</xsl:call-template>
+				
+			<xsl:text>);</xsl:text>
+			
+		</xsl:variable>
+		
+		<xsl:value-of select="$modelset"></xsl:value-of>
+	
+	</xsl:template>
+	
 	<xsl:template name="blockly.element.getDao">
 	
 		<xsl:variable name="dao" select="substring-after(@type,'get-dao-')"/>
@@ -1363,6 +1419,12 @@
 				
 			</xsl:when>
 			
+			<xsl:when test="contains($block-type, 'save_formu_')">
+			
+				<xsl:call-template name="blockly.element.inserir_dao"></xsl:call-template>
+				
+			</xsl:when>
+			
 			<xsl:when test="$block-type = 'editar_dao'">
 			
 				<xsl:call-template name="blockly.element.editar_dao"></xsl:call-template>
@@ -1375,7 +1437,19 @@
 				
 			</xsl:when>
 			
+			<xsl:when test="contains($block-type, 'formuu_')">
+			
+				<xsl:call-template name="blockly.element.index_editar"></xsl:call-template>
+				
+			</xsl:when>
+			
 			<xsl:when test="$block-type = 'model_get'">
+			
+				<xsl:call-template name="blockly.element.model_get"></xsl:call-template>
+				
+			</xsl:when>
+			
+			<xsl:when test="contains($block-type, 'mod_form')">
 			
 				<xsl:call-template name="blockly.element.model_get"></xsl:call-template>
 				
@@ -1384,6 +1458,12 @@
 			<xsl:when test="$block-type = 'model_set'">
 			
 				<xsl:call-template name="blockly.element.model_set"></xsl:call-template>
+				
+			</xsl:when>
+			
+			<xsl:when test="contains($block-type, 'model_form_')">
+			
+				<xsl:call-template name="blockly.element.model_form_"></xsl:call-template>
 				
 			</xsl:when>
 			

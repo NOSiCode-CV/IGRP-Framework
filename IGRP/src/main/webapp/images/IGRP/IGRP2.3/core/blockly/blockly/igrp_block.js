@@ -60,6 +60,14 @@ function SetupBlockly(){
 			if( type.indexOf('grafico_') == 0 )
 				
 				IGRPElement = IGRP_BLOCKLY_ELEMENTS.grafico;
+			
+			if( type.indexOf('formuu_') == 0 )
+				
+				IGRPElement = IGRP_BLOCKLY_ELEMENTS.index_editar;
+			
+			if( type.indexOf('save_formu_') == 0 )
+				
+				IGRPElement = IGRP_BLOCKLY_ELEMENTS.inserir_dao;
 				
 		
 		Blockly.Blocks[type] = {
