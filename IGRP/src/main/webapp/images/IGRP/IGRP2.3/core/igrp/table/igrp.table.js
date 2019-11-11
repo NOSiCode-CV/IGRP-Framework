@@ -473,11 +473,11 @@
 
             });
 			
-			$.IGRP.events.on('element-transform',function(p){
+			/*$.IGRP.events.on('element-transform',function(p){
 				
 				_self.resetTableConfigurations(p.content);
 				
-		    });
+		    });*/
 			
 			$.IGRP.events.on('submit-complete',function(p){
 				

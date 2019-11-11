@@ -857,17 +857,21 @@ if($ && $.IGRP && !$.IGRP.rules){
 					       	'X-IGRP-REMOTE' : 1
 					   	},
 
-						/*success:function(c){
+						success:function(c){
+							console.log(c);
 							
-							$.IGRP.utils.refreshComponents({
+							if ($.IGRP.components.tableCtrl.resetTableConfigurations)
+								$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
+							
+							/*$.IGRP.utils.refreshComponents({
 								
 								wrapper : c.itemHTML,
 								
 								itemName : tableName
 								
-							});
+							});*/
 
-						},*/
+						},
 
 						error:function(){
 							
