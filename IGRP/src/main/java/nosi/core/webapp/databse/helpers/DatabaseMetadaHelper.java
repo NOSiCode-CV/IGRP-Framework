@@ -257,7 +257,7 @@ public class DatabaseMetadaHelper {
 		private boolean isPrimaryKey;
 		private boolean isNullable;
 		private boolean isForeignKey;
-		private int size;
+		private Integer size;
 		private Object defaultValue;
 		private String tableRelation;
 		private String columnMap;
@@ -322,11 +322,11 @@ public class DatabaseMetadaHelper {
 			this.isNullable = isNullable;
 		}
 
-		public int getSize() {
+		public Integer getSize() {
 			return size;
 		}
 
-		public void setSize(int size) {
+		public void setSize(Integer size) {
 			this.size = size;
 		}
 
