@@ -1897,6 +1897,36 @@ $.IGRP.on('init', function(){
 		
 	});
 	
+	$(document).on('blockly-widget-div-created', function(e, element){
+		
+		var inputSearch = $('<input class="blockly-search-widget"/>');
+		
+		$(element).append(inputSearch);
+		
+		inputSearch.on('keyup', function(){
+			
+			var items = $('.goog-menuitem-content', element),
+				val   = inputSearch.val();
+			
+			if(val.length > 0 ){
+				
+				items.hide();
+				
+				var found = items.filter(':contains('+val+')');
+				
+				found.show();
+				
+			}
+				
+			else{
+				items.show()
+			}
+				
+			
+		})
+		
+	})
+	
 	$('li[rel="gen-blocky"]').on('click',function() {
 		
 		$('.blocly-dynamic').remove();

@@ -16862,7 +16862,11 @@ Blockly.WidgetDiv.DIV = null;
 Blockly.WidgetDiv.owner_ = null;
 Blockly.WidgetDiv.dispose_ = null;
 Blockly.WidgetDiv.createDom = function() {
+	
     Blockly.WidgetDiv.DIV || (Blockly.WidgetDiv.DIV = goog.dom.createDom("div", "blocklyWidgetDiv"), document.body.appendChild(Blockly.WidgetDiv.DIV))
+    
+    
+    
 };
 Blockly.WidgetDiv.show = function(a, b, c) {
     Blockly.WidgetDiv.hide();
@@ -16872,7 +16876,10 @@ Blockly.WidgetDiv.show = function(a, b, c) {
     Blockly.WidgetDiv.DIV.style.top = a.y + "px";
     Blockly.WidgetDiv.DIV.style.direction = b ? "rtl" : "ltr";
     Blockly.WidgetDiv.DIV.style.display = "block";
-    Blockly.Events.setGroup(!0)
+    Blockly.Events.setGroup(!0);
+    /* IGRP widget hook */
+    $(document).trigger('blockly-widget-div-created', Blockly.WidgetDiv.DIV);
+    
 };
 Blockly.WidgetDiv.hide = function() {
     Blockly.WidgetDiv.owner_ && (Blockly.WidgetDiv.owner_ = null, Blockly.WidgetDiv.DIV.style.display = "none", Blockly.WidgetDiv.DIV.style.left = "", Blockly.WidgetDiv.DIV.style.top = "", Blockly.WidgetDiv.DIV.style.height = "", Blockly.WidgetDiv.dispose_ && Blockly.WidgetDiv.dispose_(), Blockly.WidgetDiv.dispose_ = null, goog.dom.removeChildren(Blockly.WidgetDiv.DIV), Blockly.Events.setGroup(!1))
