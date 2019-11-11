@@ -134,7 +134,7 @@ public class GerarClasse {
 					
 				}
 			
-				content_variaveis = content_variaveis +  "\t@Column(name=\""+cl.getName()+"\",nullable="+( cl.isNullable() ? "true" : "false") +",length="+cl.getSize()  +")\n"+
+				content_variaveis = content_variaveis +  "\t@Column(name=\""+cl.getName()+"\",nullable="+( cl.isNullable() ? "true" : "false") +( cl.getSize() == 2147483647 ? "" : ",length="+cl.getSize() ) +")\n"+
 						"\tprivate "+ this.resolveType(cl) +" " +this.resolveName1Dw(cl.getName())+";\n";
 				
 				/*if(ge.isGerar_list()) {
@@ -191,12 +191,12 @@ public class GerarClasse {
 		    case Types.SMALLINT:
 		    case Types.INTEGER:	
 		    case Types.TINYINT:
+		    case Types.NUMERIC:
 		        result = "Integer";
 		        break;		        
 		    case Types.BIGINT:
 		        result = "BigInteger";
 		        break;
-		    case Types.NUMERIC:
 		    case Types.DECIMAL:		  
 		    	 result = "BigDecimal";
 			        break;		   
