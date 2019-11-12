@@ -37,6 +37,17 @@
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>CRUD Generator</title>
+        <toolsbar_3 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="add_datasource" refresh_components="">
+                <title>Add datasource</title>
+                <app>igrp_studio</app>
+                <page>ListaPage</page>
+                <link>index</link>
+                <target>mpsubmit</target>
+                <img>primary|fa-database</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</preview>
+            </item>
+        </toolsbar_3>
         <form_1 type="form" xml-type="form" title="CRUD/DAO generator" gen-type="container" gen-group="">
             <fields>
                 <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="" tags="false">
@@ -132,12 +143,52 @@
                         </rule>
                     </rules>
                 </schema>
-                <add_datasource_botton name="p_add_datasource_botton" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp_studio" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-list-alt" maxlength="30" placeholder="" right="false" custom_action="" action_type="false" request_fields="" refresh_submit="false" desclabel="false">
-                    <label>Add datasource</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
-                </add_datasource_botton>
+                <table_type name="p_table_type" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="String">
+                    <label>Table Type</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <rules>
+                        <rule type="remote_list">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_aplicacao</item>
+                                <item>p_data_source</item>
+                                <item>p_schema</item>
+                                <item>p_table_type</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
+                </table_type>
             </fields>
         </form_1>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gerar_dao" custom_return="true" refresh_components="">
+                <title>DAO</title>
+                <app>igrp_studio</app>
+                <page>ListaEnv</page>
+                <link>index</link>
+                <target>submit_ajax</target>
+                <img>danger|fa-gears</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
+            </item>
+        </toolsbar_2>
         <table_1 type="table" xml-type="table" title="Escolha a tabela" gen-type="container" gen-group="true">
             <fields>
                 <check_table name="p_check_table" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" showLabel="true" java-type="int" group_in="" check="true" desc="true">
@@ -152,33 +203,33 @@
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Magna doloremque deserunt moll</table_name>
+                        <table_name name="p_table_name">Voluptatem accusantium mollit</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Unde adipiscing amet sit accus</table_name>
+                        <table_name name="p_table_name">Labore rem amet magna natus</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Sed amet dolor stract omnis</table_name>
+                        <table_name name="p_table_name">Aperiam ut mollit natus totam</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Sit elit natus adipiscing amet</table_name>
+                        <table_name name="p_table_name">Doloremque amet ut ipsum persp</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Stract accusantium aliqua magn</table_name>
+                        <table_name name="p_table_name">Sed omnis laudantium ut rem</table_name>
                     </row>
                 </value>
             </table>
         </table_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gerar">
+            <item type="specific" code="" rel="gerar" refresh_components="">
                 <title>CRUD</title>
                 <app>igrp_studio</app>
                 <page>CRUDGenerator</page>
@@ -188,17 +239,6 @@
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xml</preview>
             </item>
         </toolsbar_1>
-        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gerar_dao" custom_return="true">
-                <title>DAO</title>
-                <app>igrp_studio</app>
-                <page>ListaEnv</page>
-                <link>index</link>
-                <target>submit_ajax</target>
-                <img>danger|fa-gears</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
-            </item>
-        </toolsbar_2>
     </content>
     <blockly>
         <imports></imports>
