@@ -13,15 +13,11 @@ import nosi.core.gui.page.Page;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import nosi.core.config.Config;
 import javax.xml.transform.TransformerConfigurationException;
-import java.io.StringReader;
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.databse.helpers.*;
@@ -40,21 +36,22 @@ public class CRUDGeneratorController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		CRUDGenerator model = new CRUDGenerator();
 		model.load();
-		model.setAdd_datasource_botton("igrp_studio","ListaPage","index");
 		CRUDGeneratorView view = new CRUDGeneratorView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Ipsum aliqua iste stract lauda' as table_name "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Aperiam ut doloremque omnis ap' as table_name "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.schema.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.table_type.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/	 
 		
-		model.setAdd_datasource_botton("igrp","ConfigDatabase","index");
+		view.btn_add_datasource.setLink("igrp","ConfigDatabase","index");
 		view.aplicacao.setValue(new Application().getListApps());
 		view.btn_gerar_dao.setLink("index&dao_boo=true&dad_id="+model.getAplicacao());
+		view.table_type.setValue(this.preencherTableType());
 		
 		List<String> list_table = null;
 		
@@ -73,7 +70,12 @@ public class CRUDGeneratorController extends Controller {
 				view.schema.setValue(schemasMap);
 				
 				if(Core.isNotNull(model.getSchema())) {
-					list_table = DatabaseMetadaHelper.getTables(config,model.getSchema());
+					
+					
+					
+					list_table = DatabaseMetadaHelper.getTables(config,model.getSchema(),model.getTable_type());
+					
+					
 					List<CRUDGenerator.Table_1> list_tb = new ArrayList<>();
 					int i =1;
 					for(String li : list_table) {
@@ -115,13 +117,47 @@ public class CRUDGeneratorController extends Controller {
 					/* --  FIM ACTION GERAR  --*/
 					
 				}
-			model.getAdd_datasource_botton().addParam("p_aplicacao",model.getAplicacao());
+			//model.getAdd_datasource_botton().addParam("p_aplicacao",model.getAplicacao());
 			}
 		}
 			
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
+	}
+	
+	public Response actionAdd_datasource() throws IOException, IllegalArgumentException, IllegalAccessException{
+		CRUDGenerator model = new CRUDGenerator();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp_studio","ListaPage","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/*----#start-code(add_datasource)----*/
+		
+		
+		/*----#end-code----*/
+		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
+	}
+	
+	public Response actionGerar_dao() throws IOException, IllegalArgumentException, IllegalAccessException{
+		CRUDGenerator model = new CRUDGenerator();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp_studio","ListaEnv","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/*----#start-code(gerar_dao)----*/
+		return this.forward("igrp_studio","Daogenerator","index",this.queryString());
+		
+		/*----#end-code----*/
+			
 	}
 	
 	public Response actionGerar() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -145,7 +181,7 @@ public class CRUDGeneratorController extends Controller {
 						.andWhere("id","=",Core.toInt(model.getData_source(),-1))
 						.andWhere("application", "=",Core.toInt(model.getAplicacao(),-1))
 						.one();	
-				List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema());
+				List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema(),"TABLE");
 				
 				String[] rows_id = Core.getParamArray("p_check_table_fk");
 				String[] p_checkbox_check = Core.getParamArray( "p_check_table_check_fk" );
@@ -184,23 +220,6 @@ public class CRUDGeneratorController extends Controller {
 		this.addQueryString("dao_boo","false");
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","CRUDGenerator","index", this.queryString());	
-	}
-	
-	public Response actionGerar_dao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		CRUDGenerator model = new CRUDGenerator();
-		model.load();
-		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  return this.forward("igrp_studio","ListaEnv","index",this.queryString()); //if submit, loads the values
-		  Use model.validate() to validate your model
-		  ----#gen-example */
-		/*----#start-code(gerar_dao)----*/
-		return this.forward("igrp_studio","Daogenerator","index",this.queryString());
-		
-		/*----#end-code----*/
-			
 	}
 	
 		
@@ -420,6 +439,20 @@ public class CRUDGeneratorController extends Controller {
 			flag = FileHelper.save(path, fileName, content);
 		}
 		return flag;
+	}
+	
+	public LinkedHashMap<String, String> preencherTableType() {
+		LinkedHashMap<String, String> valores = new LinkedHashMap<>();
+		
+		valores.put("table", "TABLE");
+		valores.put("view", "VIEW");
+		valores.put("system table", "SYSTEM TABLE");
+		valores.put("global temporary", "GLOBAL TEMPORARY");
+		valores.put("local temporary", "LOCAL TEMPORARY");
+		valores.put("alias", "ALIAS");
+		valores.put("synonym", "SYNONYM");
+		
+		return valores;
 	}
 	
 	/******************** FIM METODO USADOS PARA GERAR DAO *******************/ 

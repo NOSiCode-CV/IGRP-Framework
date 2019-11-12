@@ -1,7 +1,5 @@
 package nosi.webapps.igrp_studio.pages.crudgenerator;
 
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -20,10 +18,8 @@ public class CRUDGenerator extends Model{
 	@RParam(rParamName = "p_schema")
 	private String schema;
 
-	@RParam(rParamName = "p_add_datasource_botton")
-	private IGRPLink add_datasource_botton;
-	@RParam(rParamName = "p_add_datasource_botton_desc")
-	private String add_datasource_botton_desc;
+	@RParam(rParamName = "p_table_type")
+	private String table_type;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -55,26 +51,11 @@ public class CRUDGenerator extends Model{
 		return this.schema;
 	}
 	
-	public IGRPLink setAdd_datasource_botton(String app,String page,String action){
-		this.add_datasource_botton = new IGRPLink(app,page,action);
-		return this.add_datasource_botton;
+	public void setTable_type(String table_type){
+		this.table_type = table_type;
 	}
-	public IGRPLink getAdd_datasource_botton(){
-		return this.add_datasource_botton;
-	}
-	public void setAdd_datasource_botton_desc(String add_datasource_botton_desc){
-		this.add_datasource_botton_desc = add_datasource_botton_desc;
-	}
-	public String getAdd_datasource_botton_desc(){
-		return this.add_datasource_botton_desc;
-	}
-	public IGRPLink setAdd_datasource_botton(String link){
-		this.add_datasource_botton = new IGRPLink(link);
-		return this.add_datasource_botton;
-	}
-	public IGRPLink setAdd_datasource_botton(Report link){
-		this.add_datasource_botton = new IGRPLink(link);
-		return this.add_datasource_botton;
+	public String getTable_type(){
+		return this.table_type;
 	}
 
 

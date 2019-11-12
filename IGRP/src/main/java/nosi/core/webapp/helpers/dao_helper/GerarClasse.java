@@ -236,7 +236,7 @@ public class GerarClasse {
 		for(String aux : name.split("_")){
 			nome += aux.substring(0, 1).toUpperCase() + aux.substring(1).toLowerCase();
 		}
-		return nome;
+		return nome.replaceAll(" ", "_");
 	}
 	
 	private String resolveName1Dw(String name) {
@@ -244,7 +244,8 @@ public class GerarClasse {
 		for(String aux : name.split("_")){
 			nome += aux.substring(0, 1).toUpperCase() + aux.substring(1).toLowerCase();
 		}
-		return StringUtils.uncapitalize(nome);
+		
+		return StringUtils.uncapitalize(nome.replaceAll(" ", "_"));
 	}
 	
 	private String decreptyCode(String type) {

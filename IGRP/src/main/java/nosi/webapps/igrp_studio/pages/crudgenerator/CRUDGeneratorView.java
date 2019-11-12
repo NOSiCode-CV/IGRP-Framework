@@ -12,17 +12,19 @@ public class CRUDGeneratorView extends View {
 	public Field aplicacao;
 	public Field data_source;
 	public Field schema;
-	public Field add_datasource_botton;
+	public Field table_type;
 	public Field check_table;
 	public Field check_table_check;
 	public Field table_name;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 
-	public IGRPToolsBar toolsbar_1;
+	public IGRPToolsBar toolsbar_3;
 	public IGRPToolsBar toolsbar_2;
-	public IGRPButton btn_gerar;
+	public IGRPToolsBar toolsbar_1;
+	public IGRPButton btn_add_datasource;
 	public IGRPButton btn_gerar_dao;
+	public IGRPButton btn_gerar;
 
 	public CRUDGeneratorView(){
 
@@ -44,11 +46,9 @@ public class CRUDGeneratorView extends View {
 		schema.setLabel(gt("Schema"));
 		schema.propertie().add("remote",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_schema").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","").add("tags","false");
 		
-		add_datasource_botton = new LinkField(model,"add_datasource_botton");
-		add_datasource_botton.setLabel(gt("Add datasource"));
-		add_datasource_botton.setValue(Core.getIGRPLink("igrp_studio","ListaPage","index"));
-
-									add_datasource_botton.propertie().add("name","p_add_datasource_botton").add("type","link").add("target","modal").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false");
+		table_type = new ListField(model,"table_type");
+		table_type.setLabel(gt("Table Type"));
+		table_type.propertie().add("remote",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_table_type").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","String");
 		
 		check_table = new CheckBoxField(model,"check_table");
 		check_table.setLabel(gt(""));
@@ -62,14 +62,18 @@ public class CRUDGeneratorView extends View {
 		table_name.propertie().add("name","p_table_name").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 
-		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
+		toolsbar_3 = new IGRPToolsBar("toolsbar_3");
 		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
+		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_gerar = new IGRPButton("CRUD","igrp_studio","CRUDGenerator","gerar","submit_ajax","success|fa-gear","","");
-		btn_gerar.propertie.add("type","specific").add("rel","gerar");
+		btn_add_datasource = new IGRPButton("Add datasource","igrp_studio","CRUDGenerator","add_datasource","mpsubmit","primary|fa-database","","");
+		btn_add_datasource.propertie.add("type","specific").add("rel","add_datasource").add("refresh_components","");
 
 		btn_gerar_dao = new IGRPButton("DAO","igrp_studio","CRUDGenerator","gerar_dao","submit_ajax","danger|fa-gears","","");
-		btn_gerar_dao.propertie.add("type","specific").add("rel","gerar_dao");
+		btn_gerar_dao.propertie.add("type","specific").add("rel","gerar_dao").add("refresh_components","");
+
+		btn_gerar = new IGRPButton("CRUD","igrp_studio","CRUDGenerator","gerar","submit_ajax","success|fa-gear","","");
+		btn_gerar.propertie.add("type","specific").add("rel","gerar").add("refresh_components","");
 
 		
 	}
@@ -77,23 +81,26 @@ public class CRUDGeneratorView extends View {
 	@Override
 	public void render(){
 		
+
 		form_1.addField(aplicacao);
 		form_1.addField(data_source);
 		form_1.addField(schema);
-		form_1.addField(add_datasource_botton);
+		form_1.addField(table_type);
+
 
 		table_1.addField(check_table);
 		table_1.addField(check_table_check);
 		table_1.addField(table_name);
 
 
-
-		toolsbar_1.addButton(btn_gerar);
+		toolsbar_3.addButton(btn_add_datasource);
 		toolsbar_2.addButton(btn_gerar_dao);
+		toolsbar_1.addButton(btn_gerar);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
-		this.addToPage(toolsbar_1);
+		this.addToPage(toolsbar_3);
 		this.addToPage(toolsbar_2);
+		this.addToPage(toolsbar_1);
 	}
 		
 	@Override
@@ -102,7 +109,7 @@ public class CRUDGeneratorView extends View {
 		aplicacao.setValue(model);
 		data_source.setValue(model);
 		schema.setValue(model);
-		add_datasource_botton.setValue(model);
+		table_type.setValue(model);
 		check_table.setValue(model);
 		table_name.setValue(model);	
 

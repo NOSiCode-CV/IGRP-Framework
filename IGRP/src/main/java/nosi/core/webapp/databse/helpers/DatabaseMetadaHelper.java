@@ -17,15 +17,37 @@ import nosi.webapps.igrp.dao.Config_env;
  * Emanuel 10 Dec 2017
  */
 public class DatabaseMetadaHelper {
-
 	
-	public static List<String> getTables(Config_env config, String schema) {
+	private static String TABLE_TYPE_TABLE = "TABLE";
+	private static String TABLE_TYPE_VIEW = "VIEW";
+	private static String TABLE_TYPE_SYSTEM_TABLE = "SYSTEM TABLE";
+	private static String TABLE_TYPE_GLOBAL_TEMPORARY = "GLOBAL TEMPORARY";
+	private static String TABLE_TYPE_LOCAL_TEMPORARY = "LOCAL TEMPORARY";
+	private static String TABLE_TYPE_ALIAS = "ALIAS";
+	private static String TABLE_TYPE_SYNONYM = "SYNONYM";
+	
+	public static List<String> getTables(Config_env config, String schema, String type_table) {
 		List<String> list = new ArrayList<>();
 		try (java.sql.Connection con = Connection.getConnection(config);
-				ResultSet tables = con.getMetaData().getTables(null, schema, null, new String[] { "TABLE" });) {
+				ResultSet tables = con.getMetaData().getTables(null, schema, null, new String[] { "TABLE","VIEW", "SYSTEM TABLE", "GLOBAL TEMPORARY","LOCAL TEMPORARY", "ALIAS", "SYNONYM" });) {
 			// Get All Tables on the schema database
 			while (tables.next()) {
-				list.add(tables.getString(3));// Get Table Name
+				if(TABLE_TYPE_TABLE.equalsIgnoreCase(type_table) && tables.getString("TABLE_TYPE").equalsIgnoreCase(TABLE_TYPE_TABLE)) {
+					list.add(tables.getString("TABLE_NAME"));// Get Table Name
+					}else if(TABLE_TYPE_VIEW.equalsIgnoreCase(type_table) && tables.getString("TABLE_TYPE").equalsIgnoreCase(TABLE_TYPE_VIEW)) {
+						list.add(tables.getString("TABLE_NAME"));// Get view Name
+						}else if(TABLE_TYPE_SYSTEM_TABLE.equalsIgnoreCase(type_table) && tables.getString("TABLE_TYPE").equalsIgnoreCase(TABLE_TYPE_SYSTEM_TABLE)) {
+							list.add(tables.getString("TABLE_NAME"));// Get SYSTEM TABLE Name
+							}else if(TABLE_TYPE_GLOBAL_TEMPORARY.equalsIgnoreCase(type_table) && tables.getString("TABLE_TYPE").equalsIgnoreCase(TABLE_TYPE_GLOBAL_TEMPORARY)) {
+								list.add(tables.getString("TABLE_NAME"));// Get GLOBAL TEMPORARY Name
+								}else if(TABLE_TYPE_LOCAL_TEMPORARY.equalsIgnoreCase(type_table) && tables.getString("TABLE_TYPE").equalsIgnoreCase(TABLE_TYPE_LOCAL_TEMPORARY)) {
+									list.add(tables.getString("TABLE_NAME"));// Get LOCAL TEMPORARY Name
+									}else if(TABLE_TYPE_ALIAS.equalsIgnoreCase(type_table) && tables.getString("TABLE_TYPE").equalsIgnoreCase(TABLE_TYPE_ALIAS))
+										list.add(tables.getString("TABLE_NAME"));// Get ALIAS Name
+										else if(TABLE_TYPE_SYNONYM.equalsIgnoreCase(type_table) && tables.getString("TABLE_TYPE").equalsIgnoreCase(TABLE_TYPE_SYNONYM)) {
+											list.add(tables.getString("TABLE_NAME"));// Get SYNONYM Name
+										}
+			
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
