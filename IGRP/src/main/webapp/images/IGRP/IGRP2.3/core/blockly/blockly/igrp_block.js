@@ -328,7 +328,7 @@ Blockly.Blocks['insert_t'] = {
 		
 		init : function() {
 			
-			this.appendDummyInput().appendField("add insert");
+			this.appendDummyInput().appendField("add to transaction");
 			
 			this.appendStatementInput("SCRIPT");
 			
