@@ -76,6 +76,12 @@
 				
 				</xsl:when>
 				
+				<xsl:when test="$from = 'String' and $to = 'Image'">	
+				
+					<xsl:text>Core.getLinkFileByUuid(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
+				
+				</xsl:when>
+				
 				<xsl:when test="$from = 'Integer' and $to = 'hidden'">
 				
 					<xsl:text>""+</xsl:text><xsl:value-of select="$value"></xsl:value-of>
@@ -171,6 +177,26 @@
 					<xsl:text>""+</xsl:text><xsl:value-of select="$value"></xsl:value-of>
 					
 				</xsl:when>
+				
+				<xsl:when test=" $from = 'Image' and $to = 'String' ">
+				
+					<xsl:variable name="otherdao">
+			
+						<xsl:call-template name="replace-all">
+						
+							<xsl:with-param name="text" select="$value"/>
+							
+							<xsl:with-param name="replace" select="'()'"/>
+							
+							<xsl:with-param name="by" select="'_uuid()'"/>
+							
+						</xsl:call-template>
+						
+					</xsl:variable>
+				
+					<xsl:value-of select="$otherdao"/>
+				
+				</xsl:when>  
 
 				<xsl:when test="$from = 'String[]' and $to = 'String'">	
 				

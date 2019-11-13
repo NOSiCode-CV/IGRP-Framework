@@ -66,7 +66,7 @@ Blockly.Blocks.texts.HUE = 200;
 
 var GetJavaType = {
 		
-	text : 'String',
+	text : 'Text',
 	
 	number : 'Integer',
 	
