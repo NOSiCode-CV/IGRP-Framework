@@ -167,6 +167,12 @@
                                     filename: uploadName[0],
                                     format  : uploadName[1]
                                 }
+                            ],
+                            pArrayItem : [
+                            	{
+                            		name  : 'dad',
+                            		value : $('body').attr('app')
+                            	}
                             ]
                         },
                         pUrl        : 'webapps?r=igrp/File/save-image',
