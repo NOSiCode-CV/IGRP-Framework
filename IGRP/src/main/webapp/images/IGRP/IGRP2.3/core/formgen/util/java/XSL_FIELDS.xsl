@@ -641,6 +641,16 @@
     				<xsl:with-param name="java_type_return" select="$java_type_return"/>
     			</xsl:call-template>
    			</xsl:if>
+   			<xsl:if test="($type='img')">	    			
+   				<xsl:call-template name="genMethod-Get-Set">
+    				<xsl:with-param name="type" select="'as'"/>
+    				<xsl:with-param name="type_content" select="''"/>
+    				<xsl:with-param name="name" select="concat($name,'_uuid')"/>
+    				<xsl:with-param name="tab_" select="$tab_"/>
+    				<xsl:with-param name="tab2_" select="$tab2_"/>
+    				<xsl:with-param name="java_type_return" select="$java_type_return"/>
+    			</xsl:call-template>
+   			</xsl:if>
     </xsl:template>
 
 </xsl:stylesheet>

@@ -125,6 +125,14 @@
 						<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,'_check;')"/>				
 						<xsl:value-of select="$newline"/>
 					</xsl:if>
+					<xsl:if test="(@type='img' )">	 						
+						<xsl:value-of select="$tab"/>				
+						<xsl:value-of select="concat('@RParam(rParamName = ',$double_quotes,@name,'_uuid',$double_quotes,')')"/>			
+						<xsl:value-of select="$newline"/>			
+						<xsl:value-of select="$tab"/>
+						<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,'_uuid;')"/>				
+						<xsl:value-of select="$newline"/>
+					</xsl:if>
 				</xsl:if>
 			</xsl:for-each>
     	</xsl:for-each> 
@@ -340,6 +348,11 @@
 	 			<xsl:value-of select="$newline"/>
 	 			<xsl:value-of select="$tab2"/>
 				<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,'_check;')"/>
+			</xsl:if>	
+			<xsl:if test="@type = 'img' ">				
+	 			<xsl:value-of select="$newline"/>
+	 			<xsl:value-of select="$tab2"/>
+				<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,'_uuid;')"/>
 			</xsl:if>			
 			<xsl:if test="@type = 'link'">		
 				<xsl:value-of select="$newline"/>
