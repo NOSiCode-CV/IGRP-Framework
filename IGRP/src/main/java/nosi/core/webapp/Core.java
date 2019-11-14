@@ -637,13 +637,26 @@ public final class Core { // Not inherit
 	public static Date getCurrentDateSql() {
 		return DateHelper.getCurrentDate();
 	}
-	/**
+	/**Use getCurrentDateCalendar
 	 * Return the current time in java.util.Date format
 	 * 
 	 * @return new java.util.Date(System.currentTimeMillis())
 	 */
+	
 	public static java.util.Date getCurrentDateUtil() {
 		return DateHelper.getCurrentDateUtil();
+	}
+	
+	/** 
+	 * {@code
+	 *  "Current Calendar's Year: " + calendar.get(Calendar.YEAR)); 
+        "Current Calendar's Day: " + calendar.get(Calendar.DATE)); 
+        "Current MINUTE: " + calendar.get(Calendar.MINUTE)); 
+        "Current SECOND: " + calendar.get(Calendar.SECOND)); }
+	 * @return java.util.Calendar.getInstance()
+	 */
+	public static java.util.Calendar getCurrentDateCalendar() {
+		return DateHelper.getCurrentDateCalendar();
 	}
 	
 
@@ -700,6 +713,8 @@ public final class Core { // Not inherit
 	 * @return {@code (User) Igrp.getInstance().getUser().getIdentity();}
 	 */
 	public static nosi.webapps.igrp.dao.User getCurrentUser() {
+		if(null==Igrp.getInstance().getUser())
+			return null;
 		nosi.webapps.igrp.dao.User user = (nosi.webapps.igrp.dao.User) Igrp.getInstance().getUser().getIdentity();
 		if (user != null)
 			user.setReadOnly(true);
@@ -2225,7 +2240,7 @@ public final class Core { // Not inherit
 				out.write(content);
 				out.flush();
 				out.close();
-				return Core.saveFileNGetUuid(file, name,mime_type, Core.getCurrentDadParam());
+				return Core.saveFileNGetUuid(file, name,mime_type, (Core.isNotNull(Core.getCurrentDad()) && !Core.getCurrentDad().equalsIgnoreCase("igrp")?Core.getCurrentDad():Core.getCurrentDadParam()));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

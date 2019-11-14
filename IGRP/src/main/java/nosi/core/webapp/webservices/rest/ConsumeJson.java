@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 
 /**
@@ -40,7 +41,7 @@ public class ConsumeJson {
 		in.lines().forEach(response::append);
 		in.close();
 		conn.disconnect();
-		System.out.println("response getObjectFromJson: " + response.toString());
+		//System.out.println("response getObjectFromJson: " + response.toString());
 		return response.toString();
 	}
 
@@ -62,7 +63,12 @@ public class ConsumeJson {
 			conn.disconnect();
 			return response.toString();
 		} catch (Exception e) {
-			Core.setMessageError("Erro: " + e.toString());
+			String eString = e.toString();
+			if(!new Config().getEnvironment().equals("dev"))
+				System.out.println("Erro getJsonFromUrl: "+eString);
+			else {				
+				Core.setMessageError("Erro: " + eString);
+			}
 			return null;
 		}
 	}

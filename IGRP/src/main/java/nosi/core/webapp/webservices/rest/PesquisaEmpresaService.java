@@ -37,10 +37,19 @@ public class PesquisaEmpresaService {
 						
 			try {
 				String json = json_obj.getJsonFromUrl(url.replaceAll(" ", "%20"), AUTHORIZATION);
-				
+				if(Core.isNull(json)) {
+					Core.setMessageError();
+					return empresas;
+					}
+					
 				JSONObject obj = new JSONObject(json);
-				JSONObject Entries = obj.getJSONObject("Entries");
+				JSONObject Entries = obj.optJSONObject("Entries");
 				 
+				if(Core.isNull(Entries)) {
+					Core.setMessageInfo("Nenhum registo encontrado");
+					return empresas;
+					}
+				
 				try {
 					JSONArray Entry = Entries.getJSONArray("Entry");
 					for(int i = 0; i < Entry.length(); i++) {
@@ -59,7 +68,7 @@ public class PesquisaEmpresaService {
 				
 				
 			}catch (Exception e) {			
-				Core.setMessageInfo("Nenhum registo encontrado");
+				Core.setMessageError();
 			}
 			
 			

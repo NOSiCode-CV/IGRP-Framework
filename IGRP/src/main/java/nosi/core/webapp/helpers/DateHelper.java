@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
 import nosi.core.webapp.Core;
 import java.sql.Timestamp;
@@ -66,9 +67,13 @@ public class DateHelper {
 	public static java.sql.Date getCurrentDate(){
 		return new java.sql.Date(System.currentTimeMillis());
 	}
-	
+
 	public static java.util.Date getCurrentDateUtil(){
 		return new java.util.Date(System.currentTimeMillis());
+	}
+	
+	public static java.util.Calendar getCurrentDateCalendar(){
+		return java.util.Calendar.getInstance();
 	}
 
 	

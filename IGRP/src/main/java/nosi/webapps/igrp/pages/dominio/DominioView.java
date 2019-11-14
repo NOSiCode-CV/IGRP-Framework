@@ -69,10 +69,10 @@ public class DominioView extends View {
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Ativo?"));
-		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","10").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("check","true").add("desc","true");
+		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","1000").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("check","true").add("desc","true");
 		
 		estado_check = new CheckBoxField(model,"estado_check");
-		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","10").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("check","true").add("desc","true");
+		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","1000").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("check","true").add("desc","true");
 		
 		ordem = new HiddenField(model,"ordem");
 		ordem.setLabel(gt(""));

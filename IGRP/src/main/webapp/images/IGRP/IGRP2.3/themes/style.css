@@ -1788,6 +1788,7 @@ ul.nav-tabs{
 #igrp-apps-1 .app-img {
     position: absolute;
     left: 15px;
+    top: 15px;
     height: 50px;
     width: 50px;   
     max-width: 50px;

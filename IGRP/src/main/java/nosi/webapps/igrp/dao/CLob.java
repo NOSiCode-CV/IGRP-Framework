@@ -61,7 +61,7 @@ public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 	private Date dt_updated;
 	@ManyToOne
 	@JoinColumn(name="user_created_fk",foreignKey=@ForeignKey(name="CLOB_USER_CREATED_FK"),nullable=true)
-	private User user = Core.getCurrentUser(); 
+	private User user = Core.isNotNull(Core.getCurrentUser())?Core.getCurrentUser():null; 
 	
 	
 	private String estado = "A"; // A -> Ativo; I -> InAtivo  

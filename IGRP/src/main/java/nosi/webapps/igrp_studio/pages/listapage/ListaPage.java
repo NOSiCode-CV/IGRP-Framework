@@ -86,21 +86,21 @@ public class ListaPage extends Model{
 	@RParam(rParamName = "p_link_btn_nova_pagina_desc")
 	private String link_btn_nova_pagina_desc;
 	
-	private List<Table_1> table_1 = new ArrayList<>();	
-	public void setTable_1(List<Table_1> table_1){
-		this.table_1 = table_1;
-	}
-	public List<Table_1> getTable_1(){
-		return this.table_1;
-	}
-
-	
 	private List<Table_2> table_2 = new ArrayList<>();	
 	public void setTable_2(List<Table_2> table_2){
 		this.table_2 = table_2;
 	}
 	public List<Table_2> getTable_2(){
 		return this.table_2;
+	}
+
+	
+	private List<Table_1> table_1 = new ArrayList<>();	
+	public void setTable_1(List<Table_1> table_1){
+		this.table_1 = table_1;
+	}
+	public List<Table_1> getTable_1(){
+		return this.table_1;
 	}
 
 	
@@ -342,47 +342,6 @@ public class ListaPage extends Model{
 	}
 
 
-	public static class Table_1 extends IGRPTable.Table{
-		private Integer status_page;
-		private Integer status_page_check;
-		private String descricao_page;
-		private String id_page;
-		private String nome_page;
-		public void setStatus_page(Integer status_page){
-			this.status_page = status_page;
-		}
-		public Integer getStatus_page(){
-			return this.status_page;
-		}
-		public void setStatus_page_check(Integer status_page_check){
-			this.status_page_check = status_page_check;
-		}
-		public Integer getStatus_page_check(){
-			return this.status_page_check;
-		}
-
-		public void setDescricao_page(String descricao_page){
-			this.descricao_page = descricao_page;
-		}
-		public String getDescricao_page(){
-			return this.descricao_page;
-		}
-
-		public void setId_page(String id_page){
-			this.id_page = id_page;
-		}
-		public String getId_page(){
-			return this.id_page;
-		}
-
-		public void setNome_page(String nome_page){
-			this.nome_page = nome_page;
-		}
-		public String getNome_page(){
-			return this.nome_page;
-		}
-
-	}
 	public static class Table_2 extends IGRPTable.Table{
 		private String my_app_img;
 		private IGRPLink my_aplicacao;
@@ -425,13 +384,54 @@ public class ListaPage extends Model{
 		}
 
 	}
+	public static class Table_1 extends IGRPTable.Table{
+		private Integer status_page;
+		private Integer status_page_check;
+		private String descricao_page;
+		private String id_page;
+		private String nome_page;
+		public void setStatus_page(Integer status_page){
+			this.status_page = status_page;
+		}
+		public Integer getStatus_page(){
+			return this.status_page;
+		}
+		public void setStatus_page_check(Integer status_page_check){
+			this.status_page_check = status_page_check;
+		}
+		public Integer getStatus_page_check(){
+			return this.status_page_check;
+		}
 
-	public void loadTable_1(BaseQueryInterface query) {
-		this.setTable_1(this.loadTable(query,Table_1.class));
+		public void setDescricao_page(String descricao_page){
+			this.descricao_page = descricao_page;
+		}
+		public String getDescricao_page(){
+			return this.descricao_page;
+		}
+
+		public void setId_page(String id_page){
+			this.id_page = id_page;
+		}
+		public String getId_page(){
+			return this.id_page;
+		}
+
+		public void setNome_page(String nome_page){
+			this.nome_page = nome_page;
+		}
+		public String getNome_page(){
+			return this.nome_page;
+		}
+
 	}
 
 	public void loadTable_2(BaseQueryInterface query) {
 		this.setTable_2(this.loadTable(query,Table_2.class));
+	}
+
+	public void loadTable_1(BaseQueryInterface query) {
+		this.setTable_1(this.loadTable(query,Table_1.class));
 	}
 
 }

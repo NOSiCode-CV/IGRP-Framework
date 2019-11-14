@@ -53,13 +53,13 @@ public class ListaPageController extends Controller {
 		model.setCrud_generator("igrp_studio","CRUDGenerator","index");
 		model.setLink_btn_nova_pagina("igrp","Page","index");
 		ListaPageView view = new ListaPageView();
-		view.id_page.setParam(true);
 		view.env_fk.setParam(true);
+		view.id_page.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Mollit sit omnis lorem deserun' as descricao_page,'hidden-204a_55ad' as id_page,'hidden-e4e8_da63' as nome_page "));
-		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-22b1_b83f' as env_fk "));
+		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-795a_0a47' as env_fk "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Anim lorem natus officia dolor' as descricao_page,'hidden-60a8_ca64' as id_page,'hidden-d02a_e762' as nome_page "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -67,23 +67,32 @@ public class ListaPageController extends Controller {
 
 		
 		Map<Object, Object> listApp = new Application().getListApps();
+		final Map<Object, Object> map = Core.toMap(new Modulo().getModuloByApp(Core.toInt(model.getApplication())), "name",
+				"descricao", "-- Selecionar --");
 		if(listApp!=null && listApp.size()==2) {
 			model.setApplication(listApp.keySet().stream().filter(a->a!=null).findFirst().get().toString());
 		}
+		
+		String app = Core.getParam("app");
+		
 		String uri = Igrp.getInstance().getRequest().getRequestURI();
 		Core.log(uri);
-		if(!uri.equals("/IGRP/app/webapps"))
+		if(!uri.equals("/IGRP/app/webapps")) {
 			if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET")) {
 				final Application dad = Core.findApplicationByDad(uri.split("/")[1].toLowerCase());
 				if(dad!=null)
 					model.setApplication(dad.getId().toString());
 				
 			}
+		}else {
+			if(Core.isNotNull(model.getApplication()) && Core.findApplicationById(Core.toInt(model.getApplication())).getExterno()>0)
+				Core.setMessageError("ESTÁ NA PASTA PRINCIPAL /IGRP/app/. ESTA APLICAÇÃO É DO TIPO CUSTOM HOST. MUDAR DE DAD POR FAVOR!");
+				
+		}
 				
 		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
 		ArrayList<ListaPage.Table_2> apps = new ArrayList<>();
-
-		String app = Core.getParam("app");
+		
 
 		if (Core.isNotNull(app)) {
 			if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET")) {
@@ -130,7 +139,10 @@ public class ListaPageController extends Controller {
 			ListaPage.Table_1 table1 = new ListaPage.Table_1();
 			table1.setId_page("" + ac.getId());
 			table1.setNome_page(ac.getPage());
-			table1.setDescricao_page(ac.getPage_descr() + " (" + ac.getPage() + ")");
+			String module= "";
+			if(map.size() > 1 && Core.isNotNull(ac.getNomeModulo()))
+				module="#"+map.get(ac.getNomeModulo())+" | ";
+			table1.setDescricao_page(module+ac.getPage_descr() + " (" + ac.getPage() + ")");
 			int check = ac.getStatus() == 1 ? ac.getStatus() : -1;
 			table1.setStatus_page(ac.getStatus());
 			table1.setStatus_page_check(check);
@@ -170,8 +182,7 @@ public class ListaPageController extends Controller {
 
 		
 		view.application.setValue(listApp );
-		final Map<Object, Object> map = Core.toMap(new Modulo().getModuloByApp(Core.toInt(model.getApplication())), "name",
-				"descricao", "-- Selecionar --");
+		
 		view.modulo.setValue(map);
 	   	view.modulo.setVisible(map.size() > 1);
 
@@ -191,8 +202,8 @@ public class ListaPageController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		  this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
+		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		  return this.forward("igrp_studio","Env","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -202,6 +213,24 @@ public class ListaPageController extends Controller {
 		return this.redirect("igrp_studio","Env","index", this.queryString());	
 	}
 	
+	public Response actionFile_editor() throws IOException, IllegalArgumentException, IllegalAccessException{
+		ListaPage model = new ListaPage();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
+		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
+		  return this.forward("igrp_studio","File_editor","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/*----#start-code(file_editor)----*/
+		this.addQueryString("p_env_fk", Core.getParam("p_env_fk"));
+		/*----#end-code----*/
+		return this.redirect("igrp_studio","File_editor","index", this.queryString());	
+	}
+	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ListaPage model = new ListaPage();
 		model.load();
@@ -209,8 +238,8 @@ public class ListaPageController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		  this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
+		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		  return this.forward("igrp","Page","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -231,8 +260,8 @@ public class ListaPageController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		  this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
+		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		  return this.forward("igrp_studio","ListaPage","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -253,8 +282,8 @@ public class ListaPageController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		  this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
+		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		  return this.forward("igrp_studio","ListaPage","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -275,9 +304,9 @@ public class ListaPageController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		  this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
-		  return this.forward("igrp_studio","Env","index",this.queryString()); //if submit, loads the values
+		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
+		  return this.forward("igrp_studio","ListaEnv","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(gerar_codigo)----*/
@@ -287,7 +316,7 @@ public class ListaPageController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Env","index", this.queryString());	
+		return this.redirect("igrp_studio","ListaEnv","index", this.queryString());	
 	}
 	
 	public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -297,8 +326,8 @@ public class ListaPageController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		  this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
+		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		  return this.forward("igrp_studio","ListaPage","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -324,24 +353,6 @@ public class ListaPageController extends Controller {
 
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
-	}
-	
-	public Response actionFile_editor() throws IOException, IllegalArgumentException, IllegalAccessException{
-		ListaPage model = new ListaPage();
-		model.load();
-		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
-		  this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
-		  return this.forward("igrp_studio","File_editor","index",this.queryString()); //if submit, loads the values
-		  Use model.validate() to validate your model
-		  ----#gen-example */
-		/*----#start-code(file_editor)----*/
-		this.addQueryString("p_env_fk", Core.getParam("p_env_fk"));
-		/*----#end-code----*/
-		return this.redirect("igrp_studio","File_editor","index", this.queryString());	
 	}
 	
 		
