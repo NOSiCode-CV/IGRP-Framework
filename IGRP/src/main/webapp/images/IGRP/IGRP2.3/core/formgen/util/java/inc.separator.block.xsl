@@ -178,6 +178,8 @@
 					
 					<xsl:with-param name="value" select="$ValueChild"></xsl:with-param>
 					
+					<xsl:with-param name="valueblock" select="$rowValue"></xsl:with-param>
+					
 					<xsl:with-param name="from" select="$rowtypechild"></xsl:with-param>
 					
 					<xsl:with-param name="to" select="$rowType"></xsl:with-param>

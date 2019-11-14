@@ -6,6 +6,8 @@
 		
 		<xsl:param name="value"/>
 		
+		<xsl:param name="valueblock"/>
+		
 		<xsl:param name="from"/>
 		
 		<xsl:param name="to" />
@@ -138,7 +140,26 @@
 				
 				<xsl:when test=" $from = 'File' and $to = 'String' ">
 				
-					<xsl:value-of select="$value"></xsl:value-of><xsl:text>!= null &amp;&amp; </xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>.isUploaded()? Core.saveFileNGetUuid(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>):null</xsl:text>
+					<xsl:variable name="upvalueblock">
+		
+						<xsl:call-template name="InitCap">
+						
+							<xsl:with-param name="text" select="$valueblock"/>
+							
+						</xsl:call-template>
+						
+					</xsl:variable>
+
+					<xsl:value-of select="$value"/><xsl:text>!= null &amp;&amp; </xsl:text><xsl:value-of select="$value"/><xsl:text>.isUploaded() ? </xsl:text>
+					
+					<xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$upvalueblock"/><xsl:text>() == null ? </xsl:text>
+					
+					<xsl:text>Core.saveFileNGetUuid(</xsl:text><xsl:value-of select="$value"/><xsl:text>) : </xsl:text>
+					
+					<xsl:text>Core.updateFile(</xsl:text><xsl:value-of select="$value"/><xsl:text>,</xsl:text><xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$upvalueblock"/>
+					
+					<xsl:text>()) ? </xsl:text><xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$upvalueblock"/><xsl:text>() : null : null</xsl:text>
+					
 				
 				</xsl:when>  
 				

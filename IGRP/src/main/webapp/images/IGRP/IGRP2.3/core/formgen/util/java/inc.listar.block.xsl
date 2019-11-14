@@ -222,6 +222,8 @@
 			
 			<xsl:variable name="wheretype" select="substring-before(value[@name=$value1Name]/block/field,'::')"/>
 			
+			<xsl:variable name="wherevalue" select="substring-after(value[@name=$value1Name]/block/field,'::')"/>
+			
 			<xsl:variable name="filter">
 			
 				<xsl:call-template name="utils.meaning">
@@ -280,6 +282,8 @@
 					
 					<xsl:with-param name="value" select="$valor2_"></xsl:with-param>
 					
+					<xsl:with-param name="valueblock" select="$wherevalue"></xsl:with-param>
+					
 					<xsl:with-param name="from" select="$wheretypechild"></xsl:with-param>
 					
 					<xsl:with-param name="to" select="$wheretype"></xsl:with-param>
@@ -309,6 +313,8 @@
 					<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
 					
 					<xsl:with-param name="value" select="$valor3_"></xsl:with-param>
+					
+					<xsl:with-param name="valueblock" select="$wherevalue"></xsl:with-param>
 					
 					<xsl:with-param name="from" select="$wheretypechild"></xsl:with-param>
 					

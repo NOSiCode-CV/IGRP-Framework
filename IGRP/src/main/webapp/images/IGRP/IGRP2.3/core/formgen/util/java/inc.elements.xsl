@@ -30,13 +30,13 @@
 	
 		<xsl:variable name="rowType" select="substring-before(@id,'::')"/>
 		
+		<xsl:variable name="rowValue" select="substring-after(@id,'::')"/>
+		
 		<xsl:variable name="rowtypechild" select="substring-before(value[@name='fields_model']/block/field,'::')"/>
 		
 		<xsl:variable name="rowvaluechild" select="substring-after(value[@name='fields_model']/block/field,'::')"/>
 		
 		<xsl:variable name="rowtypeneto" select="substring-before(value[@name='fields_model']/block/value[@name='dao_rela']/block/field,'::')"/>
-		
-		<xsl:variable name="rowValue" select="substring-after(@id,'::')"/>
 		
 		<xsl:variable name="nameCap">
 		
@@ -67,6 +67,8 @@
 					<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
 					
 					<xsl:with-param name="value" select="$valorA"></xsl:with-param>
+					
+					<xsl:with-param name="valueblock" select="$rowValue"></xsl:with-param>
 					
 					<xsl:with-param name="from" select="$rowtypechild"></xsl:with-param>
 					
@@ -180,7 +182,7 @@
 		
 		<xsl:choose>
 		
-			<xsl:when test="$modelType = 'Image' or $modelType = 'Text'">
+			<xsl:when test="$modelType = 'Image' or $modelType = 'Text' or $modelType = 'File'">
 				
 				<xsl:text>view.</xsl:text><xsl:value-of select="$modelValue"></xsl:value-of><xsl:text>.setValue(</xsl:text>
 				
@@ -189,6 +191,8 @@
 						<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
 						
 						<xsl:with-param name="value" select="$setting"></xsl:with-param>
+						
+						<xsl:with-param name="valueblock" select="$modelValue"></xsl:with-param>
 						
 						<xsl:with-param name="from" select="$modeltypechild"></xsl:with-param>
 						
@@ -213,6 +217,8 @@
 						<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
 						
 						<xsl:with-param name="value" select="$setting"></xsl:with-param>
+						
+						<xsl:with-param name="valueblock" select="$modelValue"></xsl:with-param>
 						
 						<xsl:with-param name="from" select="$modeltypechild"></xsl:with-param>
 						
@@ -403,6 +409,8 @@
 								<xsl:with-param name="daolow" select="$daolow"></xsl:with-param>
 								
 								<xsl:with-param name="value" select="$valorA"></xsl:with-param>
+								
+								<xsl:with-param name="valueblock" select="$fieldValue"></xsl:with-param>
 								
 								<xsl:with-param name="from" select="$fieldTypechild"></xsl:with-param>
 								
