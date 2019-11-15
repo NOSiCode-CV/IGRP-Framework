@@ -20,7 +20,7 @@ public class MessageValidator {
 	public static final String MESSAGE_SIZE = "The field size must be between the specified boundaries (included)";
 	
 	public static final String MESSAGE_POSITIVE = "The field must be a Positive value";
-	
+	 
 	public static final String MESSAGE_POSITIVE_OR_ZERO = "The field must be a Positive or Zero value";
 
 	public static final String MESSAGE_PATTERN = "The field must match the specified regular expression";
