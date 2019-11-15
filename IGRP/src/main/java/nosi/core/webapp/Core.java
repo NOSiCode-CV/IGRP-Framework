@@ -1900,13 +1900,13 @@ public final class Core { // Not inherit
 	public static boolean updateFile(byte[] content, String name, String mime_type, Integer id) {
 		try {
 			if(Core.isNotNull(name)) {
-				String extension = name.substring(name.indexOf("."));
+				String extension = name.substring(name.lastIndexOf("."));
 				File file = File.createTempFile(name, extension);
 				FileOutputStream out = new FileOutputStream(file);
 				out.write(content);
 				out.flush();
 				out.close();
-				return updateFile(file, name,mime_type, Core.getCurrentDadParam(),id);
+				return updateFile(file, name,mime_type, Core.getCurrentDad(),id);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1932,7 +1932,7 @@ public final class Core { // Not inherit
 				out.write(content);
 				out.flush();
 				out.close();
-				return updateFile(file, name,mime_type, Core.getCurrentDadParam(),uuid);
+				return updateFile(file, name,mime_type, Core.getCurrentDad(),uuid);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2037,7 +2037,7 @@ public final class Core { // Not inherit
 	 * @return
 	 */
 	public static boolean updateFile(File file, String name, String mime_type,Integer id) {
-		return updateFile(file, name, mime_type, Core.getCurrentDadParam(),id);
+		return updateFile(file, name, mime_type, Core.getCurrentDad(),id);
 	}
 	/** by UUID - update a file to the Igrp core DataBase and return true or false ...
 	 * 
@@ -2048,7 +2048,7 @@ public final class Core { // Not inherit
 	 * @return
 	 */
 	public static boolean updateFile(File file, String name, String mime_type,String uuid) {
-		return updateFile(file, name, mime_type, Core.getCurrentDadParam(),uuid);
+		return updateFile(file, name, mime_type, Core.getCurrentDad(),uuid);
 	}
 	
 	@Deprecated
@@ -2062,13 +2062,15 @@ public final class Core { // Not inherit
 	 * @return
 	 */
 	public static boolean updateFile(byte[] bytes, String name, String mime_type,String dad,Integer id) {
-		CLob clob = new CLob().findOne(id);
+		CLob clob = getFile(id);
 		if(Core.isNotNullMultiple(clob,bytes,name) && id.intValue()>0) {
 			clob.setC_lob_content(bytes);
 			clob.setDt_updated(new Date(System.currentTimeMillis()));
-			clob.setApplication_updated(new Application().findByDad(Core.getCurrentDadParam()));
+			clob.setApplication_updated(Core.findApplicationByDad(Core.getCurrentDad()));
 			clob.setName(name);
 			clob.setMime_type(mime_type);
+			if(Core.isNull(clob.getUuid()))
+				clob.generateUid();
 			clob = clob.update();
 			return !clob.hasError();
 		}
@@ -2207,20 +2209,27 @@ public final class Core { // Not inherit
 	 * @return in ID
 	 */
 	public static Integer saveFile(byte[] content, String name, String mime_type) {
+		Integer id = new Integer(0);
 		try {
 			if(Core.isNotNull(name)) {
-				String extension = name.substring(name.indexOf("."));
+				String extension = name.substring(name.lastIndexOf("."));
 				File file = File.createTempFile(name, extension);
 				FileOutputStream out = new FileOutputStream(file);
 				out.write(content);
 				out.flush();
-				out.close();
-				return Core.saveFile(file, name,mime_type, Core.getCurrentDadParam());
+				out.close();				
+				String uuid = Core.saveFileNGetUuid(file, name,mime_type, Core.getCurrentDad());
+				if(Core.isNull(uuid)) {			
+					Core.setMessageError("Error saving file.");
+				}else {
+					id= new CLob().find().andWhere("uuid", "=",uuid).one().getId();	
+				}
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new Integer(0);
+		return id;
 	}
 	
 	/**
@@ -2234,7 +2243,7 @@ public final class Core { // Not inherit
 	public static String saveFileNGetUuid(byte[] content, String name, String mime_type) {
 		try {
 			if(Core.isNotNull(name)) {
-				String extension = name.substring(name.indexOf("."));
+				String extension = name.substring(name.lastIndexOf("."));
 				File file = File.createTempFile(name, extension);
 				FileOutputStream out = new FileOutputStream(file);
 				out.write(content);

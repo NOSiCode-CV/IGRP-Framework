@@ -118,7 +118,7 @@ public class Permission {
 
 	public  String getCurrentEnv() {
 		ApplicationPermition appP = this.getApplicationPermition();
-		return appP!=null && !appP.getDad().equals("")?appP.getDad():"igrp";
+		return appP!=null && !appP.getDad().equals("")?appP.getDad():Core.getCurrentDadParam();
 	}
 	
 	public  Integer getCurrentPerfilId() {
