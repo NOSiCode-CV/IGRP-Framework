@@ -1,7 +1,9 @@
 package nosi.core.config;
 
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.webapps.igrp.dao.Action;
 
 /**
  * Emanuel
@@ -9,7 +11,14 @@ import nosi.core.webapp.security.EncrypDecrypt;
  */
 public interface IHeaderConfig {
 
+	
 	default public String getLinkHome() {
+		Integer pageId = Core.getParamInt("p_id_page");
+		if(Igrp.getInstance() != null && pageId!=null && "generator".contentEquals(Igrp.getInstance().getCurrentPageName())) {
+			 Action ac = new Action().findOne(pageId);
+			 Integer idApp = (ac != null && ac.getApplication() != null)?ac.getApplication().getId():null;
+			 return "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"ListaPage"+"/"+"index")+"&dad=igrp_studio&p_application="+idApp;
+		}
         return "webapps?r="+EncrypDecrypt.encrypt("igrp"+"/"+"home"+"/"+"index");
 	}
 	
