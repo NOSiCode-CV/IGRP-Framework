@@ -58,8 +58,8 @@ public class ListaPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-795a_0a47' as env_fk "));
-		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Anim lorem natus officia dolor' as descricao_page,'hidden-60a8_ca64' as id_page,'hidden-d02a_e762' as nome_page "));
+		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-e7ac_3928' as env_fk "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Stract amet magna amet aperiam' as descricao_page,'hidden-6938_0fed' as id_page,'hidden-3ee3_295c' as nome_page "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -79,9 +79,9 @@ public class ListaPageController extends Controller {
 		Core.log(uri);
 		if(!uri.equals("/IGRP/app/webapps")) {
 			if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET")) {
-				final Application dad = Core.findApplicationByDad(uri.split("/")[1].toLowerCase());
-				if(dad!=null)
-					model.setApplication(dad.getId().toString());
+				final Application appX = new Application().find().andWhere("url","=",uri.split("/")[1].toLowerCase()).one();
+				if(appX!=null)
+					model.setApplication(appX.getId().toString());
 				
 			}
 		}else {
@@ -101,12 +101,9 @@ public class ListaPageController extends Controller {
 		}
 
 		if (Core.isNotNull(model.getApplication())) {
-			model.getBtn_import().addParam("p_list_aplicacao", model.getApplication())
-								.addParam("tab-tabcontent_1-importar_pagina", "1");
-			model.setLink_btn_nova_pagina("igrp", "Page", "index")
-              	.addParam("p_env_fk", model.getApplication());
-			model.getCrud_generator().addParam("p_aplicacao",
-					model.getApplication());
+			model.getBtn_import().addParam("tab-tabcontent_1-importar_pagina", "1").addParam("p_env_fk", model.getApplication());
+			model.setLink_btn_nova_pagina("igrp", "Page", "index").addParam("p_env_fk", model.getApplication());
+			model.getCrud_generator().addParam("p_aplicacao",model.getApplication());
 			model.getInfopanel_1_url().addParam("p_env_fk", model.getApplication());			
 			view.infopanel_2_url.addParam("p_env_fk", model.getApplication());
 			

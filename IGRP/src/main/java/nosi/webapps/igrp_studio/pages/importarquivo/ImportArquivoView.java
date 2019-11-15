@@ -5,7 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.config.Config;
+import nosi.core.webapp.Core;
 
 public class ImportArquivoView extends View {
 
@@ -25,21 +25,24 @@ public class ImportArquivoView extends View {
 	public Field sql_script;
 	public Field aplicacao_combo_img;
 	public Field imagens;
+	public Field icon_app;
+	public Field icon_app_check;
+	public Field form_5_link_1;
 	public Field sectionheader_3_text;
 	public Field list_aplicacao;
 	public Field arquivo_pagina;
-	public IGRPForm sectionheader_1;
-	public IGRPForm tabcontent_1;
-	public IGRPForm sectionheader_2;
-	public IGRPForm sectionheader_4;
-	public IGRPForm sectionheader_5;
-	public IGRPForm sectionheader_6;
-	public IGRPForm box_1;
+	public IGRPSectionHeader sectionheader_1;
+	public IGRPTabContent tabcontent_1;
+	public IGRPSectionHeader sectionheader_2;
+	public IGRPSectionHeader sectionheader_4;
+	public IGRPSectionHeader sectionheader_5;
+	public IGRPSectionHeader sectionheader_6;
 	public IGRPForm form_2;
 	public IGRPForm form_3;
 	public IGRPForm form_4;
 	public IGRPForm form_5;
-	public IGRPForm sectionheader_3;
+	public IGRPBox box_1;
+	public IGRPSectionHeader sectionheader_3;
 	public IGRPForm form_6;
 
 	public IGRPButton btn_btm_import_aplicacao;
@@ -52,19 +55,17 @@ public class ImportArquivoView extends View {
 
 		this.setPageTitle("Import Arquivo");
 			
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
-		tabcontent_1 = new IGRPForm("tabcontent_1","");
+		tabcontent_1 = new IGRPTabContent("tabcontent_1","");
 
-		sectionheader_2 = new IGRPForm("sectionheader_2","");
+		sectionheader_2 = new IGRPSectionHeader("sectionheader_2","");
 
-		sectionheader_4 = new IGRPForm("sectionheader_4","");
+		sectionheader_4 = new IGRPSectionHeader("sectionheader_4","");
 
-		sectionheader_5 = new IGRPForm("sectionheader_5","");
+		sectionheader_5 = new IGRPSectionHeader("sectionheader_5","");
 
-		sectionheader_6 = new IGRPForm("sectionheader_6","");
-
-		box_1 = new IGRPForm("box_1","");
+		sectionheader_6 = new IGRPSectionHeader("sectionheader_6","");
 
 		form_2 = new IGRPForm("form_2","");
 
@@ -74,7 +75,9 @@ public class ImportArquivoView extends View {
 
 		form_5 = new IGRPForm("form_5","");
 
-		sectionheader_3 = new IGRPForm("sectionheader_3","");
+		box_1 = new IGRPBox("box_1","");
+
+		sectionheader_3 = new IGRPSectionHeader("sectionheader_3","");
 
 		form_6 = new IGRPForm("form_6","");
 
@@ -85,19 +88,19 @@ public class ImportArquivoView extends View {
 		
 		importar_aplicacao = new TextField(model,"importar_aplicacao");
 		importar_aplicacao.setLabel(gt("Importar IGRP"));
-		importar_aplicacao.propertie().add("name","p_importar_aplicacao").add("type","button").add("request_fields","").add("maxlength","50");
+		importar_aplicacao.propertie().add("name","p_importar_aplicacao").add("type","button").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("maxlength","50");
 		
 		importar_jar_file = new TextField(model,"importar_jar_file");
 		importar_jar_file.setLabel(gt("Importar extra lib."));
-		importar_jar_file.propertie().add("name","p_importar_jar_file").add("type","button").add("request_fields","").add("maxlength","50");
+		importar_jar_file.propertie().add("name","p_importar_jar_file").add("type","button").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("maxlength","50");
 		
 		importar_sql_script = new TextField(model,"importar_sql_script");
 		importar_sql_script.setLabel(gt("Importar Sql Script"));
-		importar_sql_script.propertie().add("name","p_importar_sql_script").add("type","button").add("request_fields","").add("maxlength","50");
+		importar_sql_script.propertie().add("name","p_importar_sql_script").add("type","button").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("maxlength","50");
 		
 		importar_imagem = new TextField(model,"importar_imagem");
 		importar_imagem.setLabel(gt("Importar Imagens"));
-		importar_imagem.propertie().add("name","p_importar_imagem").add("type","button").add("request_fields","").add("maxlength","50");
+		importar_imagem.propertie().add("name","p_importar_imagem").add("type","button").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("maxlength","50");
 		
 		sectionheader_2_text = new TextField(model,"sectionheader_2_text");
 		sectionheader_2_text.setLabel(gt(""));
@@ -129,7 +132,7 @@ public class ImportArquivoView extends View {
 		
 		aplicacao_script = new ListField(model,"aplicacao_script");
 		aplicacao_script.setLabel(gt("Aplicação"));
-		aplicacao_script.propertie().add("remote",new Config().getResolveUrl("igrp_studio","ImportArquivo","index")).add("name","p_aplicacao_script").add("type","select").add("multiple","false").add("domain","").add("maxlength","250").add("required","true").add("disabled","false").add("java-type","").add("tags","false");
+		aplicacao_script.propertie().add("remote",Core.getIGRPLink("igrp_studio","ImportArquivo","index")).add("name","p_aplicacao_script").add("type","select").add("multiple","false").add("domain","").add("maxlength","250").add("required","true").add("disabled","false").add("java-type","").add("tags","false");
 		
 		data_source = new ListField(model,"data_source");
 		data_source.setLabel(gt("Data Source"));
@@ -147,6 +150,16 @@ public class ImportArquivoView extends View {
 		imagens.setLabel(gt("Imagens"));
 		imagens.propertie().add("name","p_imagens").add("type","file").add("accept","image/*").add("targetrend","").add("multiple","true").add("rendvalue","false").add("maxlength","250").add("required","true").add("disabled","false");
 		
+		icon_app = new CheckBoxField(model,"icon_app");
+		icon_app.setLabel(gt("Icon app?"));
+		icon_app.propertie().add("name","p_icon_app").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("switch","true").add("check","true");
+		
+		form_5_link_1 = new LinkField(model,"form_5_link_1");
+		form_5_link_1.setLabel(gt("Link"));
+		form_5_link_1.setValue(Core.getIGRPLink("igrp_studio","ListaEnv","index"));
+
+									form_5_link_1.propertie().add("name","p_form_5_link_1").add("type","link").add("target","_self").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false");
+		
 		sectionheader_3_text = new TextField(model,"sectionheader_3_text");
 		sectionheader_3_text.setLabel(gt(""));
 		sectionheader_3_text.setValue(gt("Importar página IGRP antiga (.zip)"));
@@ -162,20 +175,20 @@ public class ImportArquivoView extends View {
 		
 
 
-		btn_btm_import_aplicacao = new IGRPButton("Import","igrp_studio","ImportArquivo","btm_import_aplicacao","submit_form","primary|fa-upload","","");
-		btn_btm_import_aplicacao.propertie.add("type","form").add("rel","btm_import_aplicacao");
+		btn_btm_import_aplicacao = new IGRPButton("Importar","igrp_studio","ImportArquivo","btm_import_aplicacao","submit_form","primary|fa-upload","","");
+		btn_btm_import_aplicacao.propertie.add("type","form").add("rel","btm_import_aplicacao").add("refresh_components","");
 
-		btn_importar_jar_file = new IGRPButton("Importar","igrp_studio","ImportArquivo","importar_jar_file","submit_form","primary|fa-upload","","");
-		btn_importar_jar_file.propertie.add("type","form").add("rel","importar_jar_file");
+		btn_importar_jar_file = new IGRPButton("Importar","igrp_studio","ImportArquivo","importar_jar_file","submit_form","danger|fa-upload","","");
+		btn_importar_jar_file.propertie.add("type","form").add("rel","importar_jar_file").add("refresh_components","");
 
-		btn_importar_script = new IGRPButton("Importar","igrp_studio","ImportArquivo","importar_script","submit_form","primary|fa-upload","","");
-		btn_importar_script.propertie.add("type","form").add("rel","importar_script");
+		btn_importar_script = new IGRPButton("Importar","igrp_studio","ImportArquivo","importar_script","submit_form","warning|fa-upload","","");
+		btn_importar_script.propertie.add("type","form").add("rel","importar_script").add("refresh_components","");
 
-		btn_import_images = new IGRPButton("Import","igrp_studio","ImportArquivo","import_images","submit_form","primary|fa-upload","","");
-		btn_import_images.propertie.add("type","form").add("rel","import_images");
+		btn_import_images = new IGRPButton("Importar","igrp_studio","ImportArquivo","import_images","submit_form","purple|fa-upload","","");
+		btn_import_images.propertie.add("type","form").add("rel","import_images").add("refresh_components","");
 
-		btn_btm_importar_page = new IGRPButton("Import","igrp_studio","ImportArquivo","btm_importar_page","submit_form","primary|fa-upload","","");
-		btn_btm_importar_page.propertie.add("type","form").add("rel","btm_importar_page");
+		btn_btm_importar_page = new IGRPButton("Importar","igrp_studio","ImportArquivo","btm_importar_page","submit_form","primary|fa-upload","","");
+		btn_btm_importar_page.propertie.add("type","form").add("rel","btm_importar_page").add("refresh_components","");
 
 		
 	}
@@ -198,7 +211,6 @@ public class ImportArquivoView extends View {
 
 		sectionheader_6.addField(sectionheader_6_text);
 
-
 		form_2.addField(arquivo_aplicacao);
 
 		form_3.addField(jar_file);
@@ -209,6 +221,9 @@ public class ImportArquivoView extends View {
 
 		form_5.addField(aplicacao_combo_img);
 		form_5.addField(imagens);
+		form_5.addField(icon_app);
+		form_5.addField(form_5_link_1);
+
 
 		sectionheader_3.addField(sectionheader_3_text);
 
@@ -226,11 +241,11 @@ public class ImportArquivoView extends View {
 		this.addToPage(sectionheader_4);
 		this.addToPage(sectionheader_5);
 		this.addToPage(sectionheader_6);
-		this.addToPage(box_1);
 		this.addToPage(form_2);
 		this.addToPage(form_3);
 		this.addToPage(form_4);
 		this.addToPage(form_5);
+		this.addToPage(box_1);
 		this.addToPage(sectionheader_3);
 		this.addToPage(form_6);
 	}
@@ -249,6 +264,8 @@ public class ImportArquivoView extends View {
 		sql_script.setValue(model);
 		aplicacao_combo_img.setValue(model);
 		imagens.setValue(model);
+		icon_app.setValue(model);
+		form_5_link_1.setValue(model);
 		list_aplicacao.setValue(model);
 		arquivo_pagina.setValue(model);	
 

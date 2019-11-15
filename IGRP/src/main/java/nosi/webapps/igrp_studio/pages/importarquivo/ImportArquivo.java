@@ -1,47 +1,79 @@
 package nosi.webapps.igrp_studio.pages.importarquivo;
 
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.uploadfile.UploadFile;
 
 public class ImportArquivo extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_importar_aplicacao")
 	private String importar_aplicacao;
+
 	@RParam(rParamName = "p_importar_jar_file")
 	private String importar_jar_file;
+
 	@RParam(rParamName = "p_importar_sql_script")
 	private String importar_sql_script;
+
 	@RParam(rParamName = "p_importar_imagem")
 	private String importar_imagem;
+
 	@RParam(rParamName = "p_sectionheader_2_text")
 	private String sectionheader_2_text;
+
 	@RParam(rParamName = "p_sectionheader_4_text")
 	private String sectionheader_4_text;
+
 	@RParam(rParamName = "p_sectionheader_5_text")
 	private String sectionheader_5_text;
+
 	@RParam(rParamName = "p_sectionheader_6_text")
 	private String sectionheader_6_text;
+
 	@RParam(rParamName = "p_arquivo_aplicacao")
-	private String arquivo_aplicacao;
+	private UploadFile arquivo_aplicacao;
+
 	@RParam(rParamName = "p_jar_file")
-	private String jar_file;
+	private UploadFile jar_file;
+
 	@RParam(rParamName = "p_aplicacao_script")
 	private String aplicacao_script;
+
 	@RParam(rParamName = "p_data_source")
 	private String data_source;
+
 	@RParam(rParamName = "p_sql_script")
-	private String sql_script;
+	private UploadFile sql_script;
+
 	@RParam(rParamName = "p_aplicacao_combo_img")
 	private String aplicacao_combo_img;
+
 	@RParam(rParamName = "p_imagens")
-	private String imagens;
+	private UploadFile[] imagens;
+
+	@RParam(rParamName = "p_icon_app")
+	private int icon_app;
+	@RParam(rParamName = "p_icon_app_check")
+	private int icon_app_check;
+
+	@RParam(rParamName = "p_form_5_link_1")
+	private IGRPLink form_5_link_1;
+	@RParam(rParamName = "p_form_5_link_1_desc")
+	private String form_5_link_1_desc;
+
 	@RParam(rParamName = "p_sectionheader_3_text")
 	private String sectionheader_3_text;
+
 	@RParam(rParamName = "p_list_aplicacao")
 	private String list_aplicacao;
+
 	@RParam(rParamName = "p_arquivo_pagina")
-	private String arquivo_pagina;
+	private UploadFile arquivo_pagina;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -106,17 +138,17 @@ public class ImportArquivo extends Model{
 		return this.sectionheader_6_text;
 	}
 	
-	public void setArquivo_aplicacao(String arquivo_aplicacao){
+	public void setArquivo_aplicacao(UploadFile arquivo_aplicacao){
 		this.arquivo_aplicacao = arquivo_aplicacao;
 	}
-	public String getArquivo_aplicacao(){
+	public UploadFile getArquivo_aplicacao(){
 		return this.arquivo_aplicacao;
 	}
 	
-	public void setJar_file(String jar_file){
+	public void setJar_file(UploadFile jar_file){
 		this.jar_file = jar_file;
 	}
-	public String getJar_file(){
+	public UploadFile getJar_file(){
 		return this.jar_file;
 	}
 	
@@ -134,10 +166,10 @@ public class ImportArquivo extends Model{
 		return this.data_source;
 	}
 	
-	public void setSql_script(String sql_script){
+	public void setSql_script(UploadFile sql_script){
 		this.sql_script = sql_script;
 	}
-	public String getSql_script(){
+	public UploadFile getSql_script(){
 		return this.sql_script;
 	}
 	
@@ -148,11 +180,46 @@ public class ImportArquivo extends Model{
 		return this.aplicacao_combo_img;
 	}
 	
-	public void setImagens(String imagens){
+	public void setImagens(UploadFile[] imagens){
 		this.imagens = imagens;
 	}
-	public String getImagens(){
+	public UploadFile[] getImagens(){
 		return this.imagens;
+	}
+	
+	public void setIcon_app(int icon_app){
+		this.icon_app = icon_app;
+	}
+	public int getIcon_app(){
+		return this.icon_app;
+	}
+	public void setIcon_app_check(int icon_app_check){
+		this.icon_app_check = icon_app_check;
+	}
+	public int getIcon_app_check(){
+		return this.icon_app_check;
+	}
+	
+	public IGRPLink setForm_5_link_1(String app,String page,String action){
+		this.form_5_link_1 = new IGRPLink(app,page,action);
+		return this.form_5_link_1;
+	}
+	public IGRPLink getForm_5_link_1(){
+		return this.form_5_link_1;
+	}
+	public void setForm_5_link_1_desc(String form_5_link_1_desc){
+		this.form_5_link_1_desc = form_5_link_1_desc;
+	}
+	public String getForm_5_link_1_desc(){
+		return this.form_5_link_1_desc;
+	}
+	public IGRPLink setForm_5_link_1(String link){
+		this.form_5_link_1 = new IGRPLink(link);
+		return this.form_5_link_1;
+	}
+	public IGRPLink setForm_5_link_1(Report link){
+		this.form_5_link_1 = new IGRPLink(link);
+		return this.form_5_link_1;
 	}
 	
 	public void setSectionheader_3_text(String sectionheader_3_text){
@@ -169,10 +236,10 @@ public class ImportArquivo extends Model{
 		return this.list_aplicacao;
 	}
 	
-	public void setArquivo_pagina(String arquivo_pagina){
+	public void setArquivo_pagina(UploadFile arquivo_pagina){
 		this.arquivo_pagina = arquivo_pagina;
 	}
-	public String getArquivo_pagina(){
+	public UploadFile getArquivo_pagina(){
 		return this.arquivo_pagina;
 	}
 

@@ -2,9 +2,12 @@ package nosi.webapps.igrp_studio.pages.importarquivo;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.util.Collection;
 import java.util.Map;
@@ -30,6 +33,7 @@ public class ImportArquivoController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ImportArquivo model = new ImportArquivo();
 		model.load();
+		model.setForm_5_link_1("igrp_studio","ListaEnv","index");
 		ImportArquivoView view = new ImportArquivoView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -42,8 +46,20 @@ public class ImportArquivoController extends Controller {
 		/*----#start-code(index)----*/
 		view.list_aplicacao.setValue(new Application().getListApps());	
 		view.aplicacao_script.setValue(new Application().getListApps());
-		view.aplicacao_combo_img.setValue(new Application().getListApps());
-      
+		view.aplicacao_combo_img.setValue(new Application().getListApps());   
+        model.setIcon_app_check(1);
+     	String dad = Core.getCurrentDad();
+        Integer id_dad=Core.getParamInt("p_env_fk");
+		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {     
+			id_dad=(Core.findApplicationByDad(dad)).getId();
+          	view.list_aplicacao.propertie().add("disabled","true");
+       		view.aplicacao_script.propertie().add("disabled","true");
+          	view.aplicacao_combo_img.propertie().add("disabled","true");      	
+			
+		}
+      		model.setList_aplicacao(""+id_dad);
+        	model.setAplicacao_script(""+id_dad);
+          	model.setAplicacao_combo_img(""+id_dad);      
 		if(Core.isNotNull(model.getAplicacao_script())) {			
 			final Map<Object, Object> listDSbyEnv = new Config_env().getListDSbyEnv(Core.toInt(model.getAplicacao_script()));
 			if(listDSbyEnv.size() == 2){
@@ -62,8 +78,10 @@ public class ImportArquivoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ImportArquivo","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp_studio","ImportArquivo","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(btm_import_aplicacao)----*/
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			boolean result = false;
@@ -130,8 +148,10 @@ public class ImportArquivoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ImportArquivo","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp_studio","ImportArquivo","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(importar_jar_file)----*/
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			Collection<Part> parts;
@@ -163,10 +183,16 @@ public class ImportArquivoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ImportArquivo","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp_studio","ImportArquivo","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(importar_script)----*/
 		try {
+           String dad = Core.getCurrentDad();        
+            this.addQueryString("p_env_fk",model.getAplicacao_script());
+		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad))     			
+        	model.setAplicacao_script(""+(Core.findApplicationByDad(dad)).getId());
 			this.loadQueryString();
 			Part file = Core.getFile("p_sql_script");
 			if(file!=null && Core.isNotNull(model.getData_source())) {
@@ -194,31 +220,43 @@ public class ImportArquivoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ImportArquivo","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp_studio","ImportArquivo","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(import_images)----*/
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
+           String dad = Core.getCurrentDad();    
+          this.addQueryString("p_env_fk",model.getAplicacao_combo_img());
+		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) 
+          	model.setAplicacao_combo_img(""+(Core.findApplicationByDad(dad)).getId());  
 			try {
 				Collection<Part> parts = Core.getFiles();
 				boolean imported = false;
-				Application application = new Application().findOne(Integer.parseInt(model.getAplicacao_combo_img()));
+             
+				Application application = Core.findApplicationById(Core.toInt(model.getAplicacao_combo_img()));
 				for(Part part:parts){
 					if(part!=null) {
 						String fileName = part.getSubmittedFileName();
 						if(Core.isNotNull(fileName)) {
-							int index = fileName.indexOf(".");
+							int index = fileName.lastIndexOf(".");
 							if(index!=-1) {
 								String extensionName = fileName.substring(index+1);
 								String appImgPath = application.getDad();
-								String imgWorkSapce = Path.getImageWorkSpace(appImgPath);
-								String imgWorkSapce1 = Path.getImageWorkSpace("iconApp");
-								if(Core.isNotNull(imgWorkSapce))//Saving in your workspace case exists
+                              	if(model.getIcon_app()!=1){
+                                  	String imgWorkSapce = Path.getImageWorkSpace(appImgPath);
+                                  if(Core.isNotNull(imgWorkSapce))//Saving in your workspace case exists
 									imported = FileHelper.saveImage(imgWorkSapce, fileName,extensionName.toLowerCase(), part);
-								if(Core.isNotNull(imgWorkSapce1))//Saving in your workspace case exists
+                                  //Saving into server
+								 imported = FileHelper.saveImage(Path.getImageServer(appImgPath), fileName,extensionName.toLowerCase(), part);
+								 this.addQueryString("p_form_5_link_1",imgWorkSapce);
+								 this.addQueryString("p_form_5_link_1_desc",imgWorkSapce);
+                              	}else{
+                                  String imgWorkSapce1 = Path.getImageWorkSpace("iconApp");
+                                  if(Core.isNotNull(imgWorkSapce1))//Saving in your workspace case exists
 									imported = FileHelper.saveImage(imgWorkSapce1, fileName,extensionName.toLowerCase(), part);
-								//Saving into server
-								imported = FileHelper.saveImage(Path.getImageServer(appImgPath), fileName,extensionName.toLowerCase(), part);
-								imported = FileHelper.saveImage(Path.getImageServer("iconApp"), fileName,extensionName.toLowerCase(), part);
+                                  imported = FileHelper.saveImage(Path.getImageServer("iconApp"), fileName,extensionName.toLowerCase(), part);    
+                                }		
 							}
 						}
 					}
@@ -244,8 +282,10 @@ public class ImportArquivoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ImportArquivo","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp_studio","ImportArquivo","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(btm_importar_page)----*/
 		
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
@@ -314,6 +354,8 @@ public class ImportArquivoController extends Controller {
 		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 	
 	/*----#end-code----*/

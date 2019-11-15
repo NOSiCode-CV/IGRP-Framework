@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListaEnv extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	
@@ -34,7 +35,7 @@ public class ListaEnv extends Model{
 		private int status;
 		private int status_check;
 		private IGRPLink name;
-		private String name_desc;
+		private String name_desc= "Name";
 		private String dad;
 		private String id;
 		public void setStatus(int status){

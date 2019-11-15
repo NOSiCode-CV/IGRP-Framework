@@ -344,6 +344,7 @@ public class ListaPage extends Model{
 
 	public static class Table_2 extends IGRPTable.Table{
 		private String my_app_img;
+		private String my_app_img_uuid;
 		private IGRPLink my_aplicacao;
 		private String my_aplicacao_desc= "Aplicação";
 		private Integer env_fk;
@@ -352,6 +353,12 @@ public class ListaPage extends Model{
 		}
 		public String getMy_app_img(){
 			return this.my_app_img;
+		}
+		public void setMy_app_img_uuid(String my_app_img_uuid){
+			this.my_app_img_uuid = my_app_img_uuid;
+		}
+		public String getMy_app_img_uuid(){
+			return this.my_app_img_uuid;
 		}
 
 		public IGRPLink setMy_aplicacao(String app,String page,String action){
