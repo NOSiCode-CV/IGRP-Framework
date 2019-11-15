@@ -131,15 +131,11 @@ public class LoginController extends Controller {
 			return redirectToUrl(_url);
 		}
 		
-		// Clear the cookies 
+		// Clear all cookies 
 		for (Cookie c : Igrp.getInstance().getRequest().getCookies()) {
-			if (c.getName().equals("_identity-igrp")) {
 				c.setMaxAge(0);
 				c.setValue(null);
 				Igrp.getInstance().getResponse().addCookie(c);
-				break;
-			}				
-			
 		}
 		
 		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 

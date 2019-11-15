@@ -3933,6 +3933,13 @@ public final class Core { // Not inherit
 		return HibernateUtils.getSessionFactory(connectionName);
 	}
 	
+	public static Session getSession() {
+		return Core.getSession(Core.defaultConnection());
+	}
+	public static SessionFactory getSessionFactory() {
+		return Core.getSessionFactory(Core.defaultConnection());
+	}
+	
 	public static void lockProccess(String codeOrg, String codeProf, String userName, String procId, String taskId) {
 		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User().findIdentityByUsername(userName);
 		Organization org = new Organization().findByCode(codeOrg);
