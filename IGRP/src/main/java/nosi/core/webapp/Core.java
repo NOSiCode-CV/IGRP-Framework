@@ -583,11 +583,11 @@ public final class Core { // Not inherit
 	 * @return {@code new Permission().getCurrentEnv();}
 	 */
 	public static String getCurrentDadParam() {
-		String current_app_conn = Core.getParam("current_app_conn", false);
-		Integer isPublic= Core.getParamInt("isPublic",false);
+		String current_app_conn = Core.getParam("current_app_conn", false);		
 		if (Core.isNotNull(current_app_conn)) {
 			return current_app_conn;
 		}
+		Integer isPublic= Core.getParamInt("isPublic",false);
 		String r = Core.getParam("r");
 		r = isPublic.intValue()==1? r : Core.decrypt(r);
 		String[] r_split = Core.isNotNull(r) ? r.split("/") : null;
@@ -1926,7 +1926,7 @@ public final class Core { // Not inherit
 	public static boolean updateFile(byte[] content, String name, String mime_type, String uuid) {
 		try {
 			if(Core.isNotNull(name)) {
-				String extension = name.substring(name.indexOf("."));
+				String extension = name.substring(name.lastIndexOf("."));
 				File file = File.createTempFile(name, extension);
 				FileOutputStream out = new FileOutputStream(file);
 				out.write(content);
