@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 /*----#end-code----*/
 		
-public class Gestao_tipo_documentoController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+public class Gestao_tipo_documentoController extends Controller { 
+	
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{ 
 		Gestao_tipo_documento model = new Gestao_tipo_documento();
 		model.load();
 		Gestao_tipo_documentoView view = new Gestao_tipo_documentoView();
@@ -24,27 +25,43 @@ public class Gestao_tipo_documentoController extends Controller {
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
+		int id = Core.getParamInt("p_id"); 
+		
 		model.setAtivo(1);
 		model.setAtivo_check(1);
-      	view.aplicacao.setValue(new Application().getListApps());
-		if(Core.isNotNull(model.getAplicacao())) {
-			List<Gestao_tipo_documento.Table_1> list = new ArrayList<>();
-			new TipoDocumento().find().andWhere("status", "<>",2).andWhere("application", "=",Core.toInt(model.getAplicacao())).all().forEach(td->{
-				Gestao_tipo_documento.Table_1 t = new Gestao_tipo_documento.Table_1();
-				t.setId(""+td.getId());
-				t.setT_aplicacao(td.getApplication().getName());
-				t.setT_codigo(td.getCodigo());
-				t.setT_descricao(td.getDescricao());
-				t.setT_nome(td.getNome());
-				t.setT_estado(this.getStatus(td.getStatus()));
-				list.add(t);
-			});
-			model.setTable_1(list);
-		}
-		int id = Core.getParamInt("p_id");
-		if(id!=0) {
+	 	view.aplicacao.setValue(new Application().getListApps());
+	 	
+		if(id != 0) {
 			view.btn_gravar.addParameter("p_id", id);
 			view.table_1.setVisible(false);
+			TipoDocumento tipoDocumento = new TipoDocumento().findOne(id); 
+			if(tipoDocumento != null) {
+				model.setNome(tipoDocumento.getNome());
+				model.setCodigo(tipoDocumento.getCodigo());
+				model.setDescricao(tipoDocumento.getDescricao());
+				model.setAplicacao(tipoDocumento.getApplication() != null ? tipoDocumento.getApplication().getId() + "" : "");
+				view.aplicacao.propertie().add("disabled", "disabled");
+				if(tipoDocumento.getStatus() != 1) {
+					model.setAtivo(1);
+					model.setAtivo_check(-1);
+				}
+			}
+			
+		}else {
+			if(Core.isNotNull(model.getAplicacao())) {
+				List<Gestao_tipo_documento.Table_1> list = new ArrayList<>();
+				new TipoDocumento().find().andWhere("status", "<>",2).andWhere("application", "=",Core.toInt(model.getAplicacao())).all().forEach(td->{
+					Gestao_tipo_documento.Table_1 t = new Gestao_tipo_documento.Table_1();
+					t.setId(""+td.getId());
+					t.setT_aplicacao(td.getApplication().getName());
+					t.setT_codigo(td.getCodigo());
+					t.setT_descricao(td.getDescricao());
+					t.setT_nome(td.getNome());
+					t.setT_estado(this.getStatus(td.getStatus()));
+					list.add(t);
+				});
+				model.setTable_1(list);
+			}
 		}
 		/*----#end-code----*/
 		view.setModel(model);
@@ -64,9 +81,9 @@ public class Gestao_tipo_documentoController extends Controller {
 		int id = Core.getParamInt("p_id");
 		if(id!=0) {
 			TipoDocumento td = new TipoDocumento().findOne(id);
-			td.setApplication(new Application().findOne(Core.toInt(model.getAplicacao())));
+			//td.setApplication(new Application().findOne(Core.toInt(model.getAplicacao())));
 			td.setCodigo(model.getCodigo());
-			td.setDescricao(model.getDescricao());
+			td.setDescricao(model.getDescricao()); 
 			td.setNome(model.getNome());
 			td.setStatus(model.getAtivo());
 			td = td.update();
@@ -74,9 +91,9 @@ public class Gestao_tipo_documentoController extends Controller {
 				Core.setMessageSuccess();
 			}else {
 				Core.setMessageError();
-				this.addQueryString("p_id", id);
-				return this.forward("igrp","Gestao_tipo_documento","index", this.queryString());
 			}
+			this.addQueryString("p_id", id);
+			return this.forward("igrp","Gestao_tipo_documento","index", this.queryString());
 		}else {
 			TipoDocumento td = new TipoDocumento(model.getNome(), model.getAtivo(), model.getDescricao(), model.getCodigo(),new Application().findOne(Core.toInt(model.getAplicacao())));
 			td = td.insert();
