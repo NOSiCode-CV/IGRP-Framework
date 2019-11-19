@@ -271,8 +271,8 @@ public class Controller {
 				e.printStackTrace();
 			}
 		}
-
-		return display.display();
+		String xml = display.displayInputNOutputDocsInDistinctFormList(); 
+		return xml;
 	}
 
 	protected final Response renderView(View view) throws IOException { // Overload ...

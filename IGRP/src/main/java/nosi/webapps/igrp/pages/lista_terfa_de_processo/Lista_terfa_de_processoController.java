@@ -35,7 +35,6 @@ public class Lista_terfa_de_processoController extends Controller {
 		String processDefinitionKey = Core.getParam(BPMNConstants.PRM_PROCESS_DEFINITION_KEY);
 		String taskDefinitionKey = Core.getParam(BPMNConstants.PRM_TASK_DEFINITION_KEY);
 		
-		
 		String processInstanceId = Core.getParam(BPMNConstants.PRM_PROCESS_INSTANCE_ID);
 		String processKey = Core.getParam(BPMNConstants.PRM_PROCESS_KEY);
 		String processId = Core.getParam(BPMNConstants.PRM_PROCESS_ID);
@@ -50,13 +49,14 @@ public class Lista_terfa_de_processoController extends Controller {
 				t.setDescricao_tarefa(Core.isNotNull(task.getName())?task.getName():task.getTaskDefinitionKey());
 				t.setData_inicio(Core.ToChar(task.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
 				t.setData_fim(Core.ToChar(task.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
-				t.setEstado(this.getStatusTask(task));
-				t.setPrm_taskid(task.getId());
-				System.out.println(task.getProcessDefinitionKey() + " - " + task.getTaskDefinitionKey()); 
+				t.setEstado(this.getStatusTask(task)); 
 				t.setProcessdefinitionkey(task.getProcessDefinitionKey());
 				t.setTaskdefinitionkey(task.getTaskDefinitionKey());
-				listTasks.add(t);			}
-			view.table_1.addData(listTasks);
+				if(t.getEstado().equals("2")) 
+					t.hiddenButton(view.btn_ver_detalhes); 
+				listTasks.add(t);			
+			} 
+				view.table_1.addData(listTasks);
 		}
 		view.btn_voltar.addParameter(BPMNConstants.PRM_PROCESS_KEY, processKey)
 						.addParameter(BPMNConstants.PRM_PROCESS_ID, processId);

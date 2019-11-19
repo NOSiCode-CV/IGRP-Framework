@@ -176,13 +176,20 @@ public class LookupListPageController extends Controller {
 						 
 						 int j = 0; 
 						 int z = 0; 
+						 String []n = Core.getParamArray("p_nome_fk_desc");
 						 for(int i=0; i < listTipo.size(); i++) { 
 							if(listTipo.get(i).equalsIgnoreCase("IN")) { 
 								result = this.saveOrUpdate(p_checkbox_fk.get(j++), this.proccessCheckBoxObrigatorio(z < listObrigatorio.size() ? listObrigatorio.get(z++) : "0"), listTipo.get(i), model, "tipo_documento_fk");
 							}else 
 								if(listTipo.get(i).equalsIgnoreCase("OUT")) { 
-									result = this.saveOrUpdate(p_checkbox_fk.get(j++), this.proccessCheckBoxObrigatorio(z < listObrigatorio.size() ? listObrigatorio.get(z++) : "0"), listTipo.get(i), model, "report_fk");
-							}
+									String aux = n[i]; 
+									RepTemplate repTemplate = new RepTemplate().find().andWhere("code", "=", "" + aux).one(); 
+									
+									if(repTemplate != null)
+										result = this.saveOrUpdate(p_checkbox_fk.get(j++), this.proccessCheckBoxObrigatorio(z < listObrigatorio.size() ? listObrigatorio.get(z++) : "0"), listTipo.get(i), model, "report_fk");
+									else 
+										result = this.saveOrUpdate(p_checkbox_fk.get(j++), this.proccessCheckBoxObrigatorio(z < listObrigatorio.size() ? listObrigatorio.get(z++) : "0"), listTipo.get(i), model, "tipo_documento_fk");	
+								}
 						 }
 					 }
 				}
