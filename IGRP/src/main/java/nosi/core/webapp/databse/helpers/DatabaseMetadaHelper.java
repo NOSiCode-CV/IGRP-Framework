@@ -71,7 +71,7 @@ public class DatabaseMetadaHelper {
 		if (con != null) {
 			try (ResultSet keysR = con.getMetaData().getPrimaryKeys(null, schema, tableName)) {
 				while (keysR.next()) {
-					keys.add(keysR.getString("COLUMN_NAME").toLowerCase());
+					keys.add(keysR.getString("COLUMN_NAME"));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -106,8 +106,8 @@ public class DatabaseMetadaHelper {
 		if (con != null) {
 			try (ResultSet keysR = con.getMetaData().getImportedKeys(null, schema, tableName)) {
 				while (keysR.next()) {
-					keys.put(keysR.getString("FKCOLUMN_NAME").toLowerCase(),
-							keysR.getString("PKTABLE_NAME").toLowerCase());
+					keys.put(keysR.getString("FKCOLUMN_NAME"),
+							keysR.getString("PKTABLE_NAME"));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -121,8 +121,8 @@ public class DatabaseMetadaHelper {
 		if (con != null) {
 			try (ResultSet keysR = con.getMetaData().getImportedKeys(null, schema, tableName)) {
 				while (keysR.next()) {
-					keys.put(keysR.getString("FKCOLUMN_NAME").toLowerCase(),
-							keysR.getString("FK_NAME").toLowerCase());
+					keys.put(keysR.getString("FKCOLUMN_NAME"),
+							keysR.getString("FK_NAME"));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -137,7 +137,7 @@ public class DatabaseMetadaHelper {
 		if (con != null) {
 			try (ResultSet keysR = con.getMetaData().getExportedKeys(null, schema, tableName)) {
 				while (keysR.next()) {
-					keys.add(keysR.getString("PKCOLUMN_NAME").toLowerCase());
+					keys.add(keysR.getString("PKCOLUMN_NAME"));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -301,7 +301,7 @@ public class DatabaseMetadaHelper {
 		}
 
 		public void setName(String name) {
-			this.name = name.toLowerCase();
+			this.name = name;
 		}
 
 		public Object getType() {

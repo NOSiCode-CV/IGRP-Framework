@@ -66,7 +66,7 @@ public class GerarClasse {
 		String content_variaveis = "";
 		for(DatabaseMetadaHelper.Column cl : columns) {
 			
-			System.out.println("tudo "+cl.toString()+" ctypedname "+cl.getColumnTypeName​()+" cname "+cl.getConnectionName()+" map"+cl.getColumnMap());
+			
 			
 			if(isBigint && this.resolveType(cl).equalsIgnoreCase("BigInteger")) {
 					content_import = content_import + "import java.math.BigInteger;\n";
@@ -95,7 +95,7 @@ public class GerarClasse {
 				String tabela_relacional = cl.getTableRelation();
 				content_variaveis = content_variaveis + "\t@ManyToOne\n"
 						+ "\t@JoinColumn(name=\""+ cl.getName() +"\", foreignKey=@ForeignKey(name=\""+ fk_constrain_name.get(cl.getName())+"\"), nullable="+( cl.isNullable() ? "true" : "false") +")\n"+
-						"\tprivate "+ this.resolveName1Up(tabela_relacional) +" " +this.resolveName1Dw(tabela_relacional)+";\n";
+						"\tprivate "+ this.resolveName1Up(tabela_relacional) +" " +this.resolveName1Dw(tabela_relacional)+"_"+cl.getName()+";\n";
 				if(cont_import == 1) {
 					content_import = content_import +"import javax.persistence.ManyToOne;\n" +
 							"import javax.persistence.JoinColumn;\n" +
@@ -108,6 +108,8 @@ public class GerarClasse {
 				
 				new CRUDGeneratorController().generateDAO(config, schema, tabela_relacional, dad_name);
 				System.out.println("nome de kes tabela dependente "+ tabela_relacional); 
+				System.out.println("tudo "+cl.toString()+" ctypedname "+cl.getColumnTypeName​()+" cname "+cl.getConnectionName()+" map"+cl.getColumnMap());
+				
 				/*
 				if(gerar) {
 					Core.setMessageInfo("Também foi gerado classe dependente '"+ this.resolveName(fk_table_name.get(cl.getName())) +"'.");
@@ -162,12 +164,13 @@ public class GerarClasse {
 						"\t\tthis."+this.resolveName1Dw(cl.getName())+" = "+this.resolveName1Dw(cl.getName())+";\n" + 
 						"\t}\n";
 			}else {
-				Map<String, String> fk_table_name = new DatabaseMetadaHelper().getForeignKeys(config, schema, tbl_name,dad_name);
-				content_setAndGet = content_setAndGet + "\tpublic " + this.resolveName1Up(fk_table_name.get(cl.getName())) + " get"+this.resolveName1Up(fk_table_name.get(cl.getName()))+"() {\n" + 
-						"\t\treturn "+this.resolveName1Dw(fk_table_name.get(cl.getName()))+";\n" + 
+				//Map<String, String> fk_table_name = new DatabaseMetadaHelper().getForeignKeys(config, schema, tbl_name,dad_name);
+				String tabela_relacional = cl.getTableRelation();
+				content_setAndGet = content_setAndGet + "\tpublic " + this.resolveName1Up(tabela_relacional) + " get"+this.resolveName1Up(tabela_relacional)+"_"+cl.getName()+"() {\n" + 
+						"\t\treturn "+this.resolveName1Dw(tabela_relacional)+"_"+cl.getName()+";\n" + 
 						"\t}\n" + 
-						"\tpublic void set"+this.resolveName1Up(fk_table_name.get(cl.getName()))+"("+ this.resolveName1Up(fk_table_name.get(cl.getName())) +" "+this.resolveName1Dw(fk_table_name.get(cl.getName()))+") {\n" + 
-						"\t\tthis."+this.resolveName1Dw(fk_table_name.get(cl.getName()))+" = "+this.resolveName1Dw(fk_table_name.get(cl.getName()))+";\n" + 
+						"\tpublic void set"+this.resolveName1Up(tabela_relacional)+"_"+cl.getName()+"("+ this.resolveName1Up(tabela_relacional) +" "+this.resolveName1Dw(tabela_relacional)+"_"+cl.getName()+") {\n" + 
+						"\t\tthis."+this.resolveName1Dw(tabela_relacional)+"_"+cl.getName()+" = "+this.resolveName1Dw(tabela_relacional)+"_"+cl.getName()+";\n" + 
 						"\t}\n";
 			}
 		}
@@ -269,7 +272,7 @@ public class GerarClasse {
 				"join all_sequences seqs " + 
 				"on seqs.sequence_owner = deps.referenced_owner " + 
 				"and seqs.sequence_name = deps.referenced_name " + 
-				"where tabs.table_name='" + tablename+"' or tabs.table_name='"+tablename.toUpperCase()+"'";
+				"where tabs.table_name='" + tablename + "'";
 			java.sql.Connection con = Connection.getConnection(config);
 		
 			PreparedStatement st = con.prepareStatement(sql); 
