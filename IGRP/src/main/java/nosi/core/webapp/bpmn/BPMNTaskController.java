@@ -87,7 +87,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			if(m!=null){
 				xml.addXml(m);
 			}
-			xml.endElement();
+			xml.endElement(); 
 			return this.renderView(xml.toString());	
 		}
 		Core.setAttribute("javax.servlet.error.message", gt("Task não tem página associada!"));
@@ -185,18 +185,12 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			Part part = parts.get(i);
 			if(Core.isNotNullMultiple(part,part.getSubmittedFileName())) {
 				try {
-					byte[] bytes = FileHelper.convertInputStreamToByte(part.getInputStream());
-					String file_id = doc_id[i].toString();
-					CLob clob = null;
-					if(Core.isNotNull(file_id) && !file_id.equals("-1")) {
-						clob = new CLob().findOne(Core.toInt(file_id));
-					}else {
-						clob = new CLob(part.getSubmittedFileName(), part.getContentType(),bytes,new Date(System.currentTimeMillis()), app );
-						clob.showMessage();
-						clob = clob.insert();
-					}
+					byte[] bytes = FileHelper.convertInputStreamToByte(part.getInputStream()); 
+					CLob clob = new CLob(part.getSubmittedFileName(), part.getContentType(),bytes,new Date(System.currentTimeMillis()), app );
+					clob.showMessage();
+					clob = clob.insert();
 					this.saveTaskFile(clob,id_tp_doc,i,taskId);
-				} catch (IOException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}else if(input_type[i].toString().equals("OUT")) {
@@ -212,16 +206,15 @@ public abstract class BPMNTaskController extends Controller implements Interface
 
 	private void saveTaskFile(CLob clob,Object[] id_tp_doc,int i,String taskId) {
 		if(clob!=null && !clob.hasError()) {
-			String tp_doc_id =id_tp_doc[i].toString();
-			TipoDocumentoEtapa tpdoc = new TipoDocumentoEtapa().findOne(Core.toInt(tp_doc_id));
-			if(tpdoc!=null) {
+			String tp_doc_id = id_tp_doc[i].toString(); 
+			TipoDocumentoEtapa tpdoc = new TipoDocumentoEtapa().findOne(Core.toInt(tp_doc_id)); 
+			if(tpdoc != null) {
 				nosi.webapps.igrp.dao.TaskFile taskFile = new nosi.webapps.igrp.dao.TaskFile(clob, tpdoc ,taskId);
 				taskFile.insert();
 			}
 		}
 	}
 
-	
 	private Response renderNextTask(List<TaskService> tasks) throws IOException {
 		return renderNextTask(null,tasks);
 	}

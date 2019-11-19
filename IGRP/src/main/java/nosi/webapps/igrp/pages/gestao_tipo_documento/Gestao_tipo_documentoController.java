@@ -42,7 +42,7 @@ public class Gestao_tipo_documentoController extends Controller {
 				model.setAplicacao(tipoDocumento.getApplication() != null ? tipoDocumento.getApplication().getId() + "" : "");
 				view.aplicacao.propertie().add("disabled", "disabled");
 				if(tipoDocumento.getStatus() != 1) {
-					model.setAtivo(1);
+					model.setAtivo(0);
 					model.setAtivo_check(-1);
 				}
 			}
@@ -85,7 +85,7 @@ public class Gestao_tipo_documentoController extends Controller {
 			td.setCodigo(model.getCodigo());
 			td.setDescricao(model.getDescricao()); 
 			td.setNome(model.getNome());
-			td.setStatus(model.getAtivo());
+			td.setStatus(model.getAtivo() != null ? model.getAtivo() : 0); 
 			td = td.update();
 			if(td!=null && !td.hasError()) {
 				Core.setMessageSuccess();

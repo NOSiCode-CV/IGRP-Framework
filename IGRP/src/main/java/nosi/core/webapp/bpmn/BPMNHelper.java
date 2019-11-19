@@ -67,12 +67,13 @@ public class BPMNHelper {
 		return "";
 	}
 	
-	//Add file separator, allow to upload your file
+	//Add file separator, allow to upload your file 
 	public static String addFileSeparator(String taskDad,String processDefinition,String taskDefinition,List<HistoricTaskService> history) {
-		DisplayDocmentType display = new DisplayDocmentType();
-		List<TipoDocumentoEtapa> listInOutDoc = getInputOutputDocumentType(taskDad,processDefinition, taskDefinition, history);
-		display.setListDocmentType(listInOutDoc);
-		return display.display();
+		DisplayDocmentType displayDocsInput = new DisplayDocmentType();
+		List<TipoDocumentoEtapa> listInOutDoc = getInputOutputDocumentType(taskDad, processDefinition, taskDefinition, history);
+		displayDocsInput.setListDocmentType(listInOutDoc);
+		String xml = displayDocsInput.displayAllDocsInSameFormList(); 
+		return xml;
 	}
 	
 	
@@ -138,10 +139,9 @@ public class BPMNHelper {
 			String currentTaskDefinition, String preiviewProcessDefinition_, String previewTaskDefinition) {
 		String currentProcessDefinition = resolveProcessDenifition(currentProcessDefinition_);
 		String preiviewProcessDefinition = resolveProcessDenifition(preiviewProcessDefinition_);		
-		List<TipoDocumentoEtapa> docsReport = getDocumentOutputReport(currentTaskApp,preiviewProcessDefinition,previewTaskDefinition);
-		List<TipoDocumentoEtapa> docsOthers = getDocumentOutputOthers(currentTaskApp,currentProcessDefinition,currentTaskDefinition);
+		List<TipoDocumentoEtapa> docsReport = getDocumentOutputReport(currentTaskApp,preiviewProcessDefinition, currentTaskDefinition);
+		List<TipoDocumentoEtapa> docsOthers = getDocumentOutputOthers(currentTaskApp,currentProcessDefinition, currentTaskDefinition);
 		List<TipoDocumentoEtapa> tipoDocs = new ArrayList<>();
-		
 		if(docsReport!=null)
 			tipoDocs.addAll(docsReport);
 		if(docsOthers!=null)

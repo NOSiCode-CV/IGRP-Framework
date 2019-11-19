@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.gui.components.IGRPTable.Table;
+import nosi.core.gui.fields.Field;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.SeparatorList;
@@ -55,6 +56,12 @@ public class FormlistDocument extends Model {
 		private Pair formlist_documento_task_mostrar;
 		private Pair formlist_documento_user;
 		private Pair formlist_documento_doc_id;
+		
+		private Pair formlist_documento_output_task_nome;
+		private Pair formlist_documento_output_task_descricao;
+		private Pair formlist_documento_output_task_obrigatoriedade;
+		private Pair formlist_documento_output_user;
+		private Pair formlist_documento_output_task_mostrar;
 
 		public Pair getFormlist_documento_id_tp_doc() {
 			return formlist_documento_id_tp_doc;
@@ -120,17 +127,45 @@ public class FormlistDocument extends Model {
 			this.formlist_documento_doc_id = formlist_documento_doc_id;
 		}
 
-		@Override
-		public String toString() {
-			return "Formlist_documento_task [formlist_documento_id_tp_doc=" + formlist_documento_id_tp_doc
-					+ ", formlist_documento_task_nome=" + formlist_documento_task_nome
-					+ ", formlist_documento_task_descricao=" + formlist_documento_task_descricao
-					+ ", formlist_documento_task_obrigatoriedade=" + formlist_documento_task_obrigatoriedade
-					+ ", formlist_documento_task_documento=" + formlist_documento_task_documento
-					+ ", formlist_documento_task_mostrar=" + formlist_documento_task_mostrar
-					+ ", formlist_documento_user=" + formlist_documento_user + ", formlist_documento_doc_id="
-					+ formlist_documento_doc_id + "]";
+		public Pair getFormlist_documento_output_task_nome() {
+			return formlist_documento_output_task_nome;
 		}
 
+		public void setFormlist_documento_output_task_nome(Pair formlist_documento_output_task_nome) {
+			this.formlist_documento_output_task_nome = formlist_documento_output_task_nome;
+		}
+
+		public Pair getFormlist_documento_output_task_descricao() {
+			return formlist_documento_output_task_descricao;
+		}
+
+		public void setFormlist_documento_output_task_descricao(Pair formlist_documento_output_task_descricao) {
+			this.formlist_documento_output_task_descricao = formlist_documento_output_task_descricao;
+		}
+
+		public Pair getFormlist_documento_output_task_obrigatoriedade() {
+			return formlist_documento_output_task_obrigatoriedade;
+		}
+
+		public void setFormlist_documento_output_task_obrigatoriedade(Pair formlist_documento_output_task_obrigatoriedade) {
+			this.formlist_documento_output_task_obrigatoriedade = formlist_documento_output_task_obrigatoriedade;
+		}
+
+		public Pair getFormlist_documento_output_user() {
+			return formlist_documento_output_user;
+		}
+
+		public void setFormlist_documento_output_user(Pair formlist_documento_output_user) {
+			this.formlist_documento_output_user = formlist_documento_output_user;
+		}
+
+		public Pair getFormlist_documento_output_task_mostrar() {
+			return formlist_documento_output_task_mostrar;
+		}
+
+		public void setFormlist_documento_output_task_mostrar(Pair formlist_documento_output_task_mostrar) {
+			this.formlist_documento_output_task_mostrar = formlist_documento_output_task_mostrar;
+		}
+		
 	}
 }
