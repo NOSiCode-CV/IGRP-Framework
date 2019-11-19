@@ -113,8 +113,8 @@ public class ConfigDatabaseController extends Controller {
 				
 			} else
 				if(Core.isNotNull(model.getTipo_base_dados())) {
-					if(Core.isNotNull(model.getUrl_connection())){
-						if(!model.getUrl_connection().contains(model.getTipo_base_dados()))
+					if(Core.isNotNull(model.getUrl_connection().trim())){
+						if(!model.getUrl_connection().trim().contains(model.getTipo_base_dados()))
 							model.setUrl_connection(DatabaseConfigHelper.getUrlConnections(model.getTipo_base_dados()));
 					}else
 						model.setUrl_connection(DatabaseConfigHelper.getUrlConnections(model.getTipo_base_dados()));	
@@ -158,7 +158,7 @@ public class ConfigDatabaseController extends Controller {
 			config.setUsername(Core.encrypt(model.getUsername(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setPassword(Core.encrypt(model.getPassword(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setType_db(Core.encrypt(model.getTipo_base_dados(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
-			config.setUrl_connection(Core.encrypt(model.getUrl_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			config.setUrl_connection(Core.encrypt(model.getUrl_connection().trim(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setDriver_connection(Core.encrypt(model.getDriver_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setName(model.getNome_de_conexao());
 			Migrate m = new Migrate();
@@ -308,7 +308,7 @@ public class ConfigDatabaseController extends Controller {
 			config.setUsername(Core.encrypt(model.getUsername(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setPassword(Core.encrypt(model.getPassword(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setType_db(Core.encrypt(model.getTipo_base_dados(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
-			config.setUrl_connection(Core.encrypt(model.getUrl_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			config.setUrl_connection(Core.encrypt(model.getUrl_connection().trim(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setDriver_connection(Core.encrypt(model.getDriver_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setName(model.getNome_de_conexao());
 			Migrate m = new Migrate();

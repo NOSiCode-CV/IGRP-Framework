@@ -31,7 +31,7 @@ public class HomeController extends Controller {
 				String []aux = destination.split("/");
 				if(aux.length != 3)
 					throw new ServerErrorHttpException(); 
-				new Permission().changeOrgAndProfile(aux[0]); 
+				new Permission().changeOrgAndProfile(dad); 
 			return redirect(aux[0], aux[1], aux[2], this.queryString());
 			}catch(Exception e) {
 			}
@@ -51,12 +51,12 @@ public class HomeController extends Controller {
 			this.addQueryString("app", dad);
 			this.addQueryString("page", page);
 			return redirect("igrp_studio", "env", "openApp",this.queryString());
-		}		
-		
-		try { // Eliminar 
-			new Permission().changeOrgAndProfile("igrp");
-		}catch(Exception e) {
-			
+		}else {
+			try { // Eliminar 
+				new Permission().changeOrgAndProfile("igrp");
+			}catch(Exception e) {
+				
+			}			
 		}
 		
 		HomeView view = new HomeView();

@@ -861,29 +861,7 @@ public final class Core { // Not inherit
 	 * @return
 	 */
 	public static CLob getFile(int fileId) {
-		CLob cLob = null;
-
-		String igrpCoreConnection = ConfigApp.getInstance().getBaseConnection();
-		try(java.sql.Connection conn = Connection.getConnection(igrpCoreConnection)) {
-			String sql = "select * from tbl_clob where id = ?";
-			java.sql.PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, fileId);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				cLob = new CLob();
-				cLob.setC_lob_content(rs.getBytes("c_lob_content"));
-				cLob.setDt_created(rs.getDate("dt_created"));
-				cLob.setName(rs.getString("name"));
-				cLob.setMime_type(rs.getString("mime_type"));
-				cLob.setId(new Integer(rs.getInt("id")));
-			}
-			rs.close();
-			ps.close();
-		} catch (java.sql.SQLException e) {
-			e.printStackTrace();
-			cLob = null;
-		} 
-
+		CLob cLob = new CLob().findOne(fileId);
 		return cLob;
 	}
 	
@@ -892,30 +870,7 @@ public final class Core { // Not inherit
 	 * @return nosi.webapps.igrp.dao.Clob 
 	 */
 	public static CLob getFileByUuid(String uuid) {
-		CLob cLob = null;
-
-		String igrpCoreConnection = ConfigApp.getInstance().getBaseConnection();
-		try(java.sql.Connection conn = Connection.getConnection(igrpCoreConnection)) {
-			String sql = "select * from tbl_clob where uuid = ?";
-			java.sql.PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, uuid);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				cLob = new CLob();
-				cLob.setC_lob_content(rs.getBytes("c_lob_content"));
-				cLob.setDt_created(rs.getDate("dt_created"));
-				cLob.setName(rs.getString("name"));
-				cLob.setMime_type(rs.getString("mime_type"));
-				cLob.setId(new Integer(rs.getInt("id")));
-				cLob.setUuid(rs.getString("uuid"));
-			}
-			rs.close();
-			ps.close();
-		} catch (java.sql.SQLException e) {
-			e.printStackTrace();
-			cLob = null;
-		} 
-
+		CLob cLob = new CLob().find().andWhere("uuid", "=",uuid).one();
 		return cLob;
 	}
 	

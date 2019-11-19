@@ -546,7 +546,7 @@ public class EnvController extends Controller {
 					
 					} 
 					if(env.getExternal() == 2 && !deployedWarName.equals(env.getUrl())) { // Custom dad 
-						url += "/" + env.getUrl() + "/igrpoauth2sso?app=" + env.getUrl(); 
+						url += "/" + env.getUrl() + "/igrpoauth2sso?app=" + env.getDad(); 
 						if(action != null) 
 							url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
 						else
