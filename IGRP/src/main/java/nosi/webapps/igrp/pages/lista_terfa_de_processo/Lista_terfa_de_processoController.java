@@ -16,8 +16,9 @@ import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
 /*----#end-code----*/
 		
-public class Lista_terfa_de_processoController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+public class Lista_terfa_de_processoController extends Controller { 
+	
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{ 
 		Lista_terfa_de_processo model = new Lista_terfa_de_processo();
 		model.load();
 		Lista_terfa_de_processoView view = new Lista_terfa_de_processoView();
@@ -52,11 +53,12 @@ public class Lista_terfa_de_processoController extends Controller {
 				t.setEstado(this.getStatusTask(task)); 
 				t.setProcessdefinitionkey(task.getProcessDefinitionKey());
 				t.setTaskdefinitionkey(task.getTaskDefinitionKey());
+				t.setPrm_taskid(task.getId()); 
 				if(t.getEstado().equals("2")) 
 					t.hiddenButton(view.btn_ver_detalhes); 
 				listTasks.add(t);			
 			} 
-				view.table_1.addData(listTasks);
+			view.table_1.addData(listTasks);
 		}
 		view.btn_voltar.addParameter(BPMNConstants.PRM_PROCESS_KEY, processKey)
 						.addParameter(BPMNConstants.PRM_PROCESS_ID, processId);
