@@ -73,6 +73,7 @@ var LOOKUPFIELD = function(type,params){
 										
 									}
 									if(c.fields && c.fields[0]){
+										console.log(c.fields)
 										c.fields.forEach(function(f){
 										
 											var tag   = f.properties.tag,

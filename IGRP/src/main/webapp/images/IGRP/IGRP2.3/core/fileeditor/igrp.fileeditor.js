@@ -12,6 +12,42 @@
 
 			searchClearClss : 's-clear'
 		};
+	
+	function resizeCodeMirrorArea(){
+
+		var h = $(window).height()-44;
+		
+		$('.cm-s-default').each(function(i,cm){
+		
+			if( $(cm).hasClass('has-error') ){
+					
+				$(cm).height(h-160);
+				
+			}else{
+				
+				$(cm).height(h);
+				
+			}
+			
+		});
+
+	};
+	
+	function removeEditorsErrors(resize){
+		
+		/*$('.igrp-fileeditor-coder').remove();
+		
+		$('.server-editor').removeClass('has-error');
+		
+		$('.server-transform').removeClass('has-error');*/
+
+		$('.CodeMirror-gutter-wrapper').removeClass('has-error');
+		
+		if(resize)
+			
+			resizeCodeMirrorArea();
+
+	};
 
 	function FileEditor(dom){
 
@@ -28,42 +64,10 @@
 		fileEditor.viewr   	 = $('.igrp-fileeditor-tab',dom);
 
 		fileEditor.addModal = $('#fileeditor-add-modal');
-
-		function removeEditorsErrors(resize){
 		
-			/*$('.igrp-fileeditor-coder').remove();
-			
-			$('.server-editor').removeClass('has-error');
-			
-			$('.server-transform').removeClass('has-error');*/
-			
-			$('.CodeMirror-gutter-wrapper').removeClass('has-error');
-			
-			if(resize)
-				
-				resizeCodeMirrorArea();
+		
 
-		};
-
-		function resizeCodeMirrorArea(){
-
-			var h = $(window).height()-86;
-			
-			$('.cm-s-default').each(function(i,cm){
-				
-				if( $(cm).hasClass('has-error') ){
-						
-					$(cm).height(h-160);
-					
-				}else{
-					
-					$(cm).height(h);
-					
-				}
-				
-			});
-
-		};
+		
 
 		function showEditorsErrors(jsonRes,editor){
 
@@ -81,7 +85,7 @@
 						
 						editor 	   = $('.server-editor[editor-part="'+menuType+'"]'),*/
 
-						errorsW    = $('<div class="gen-editor-errors col-sm-12"><table><tbody/></table></div>');
+						errorsW    = $('<div class="gen-editor-errors col-sm-12"><div class="btn btn-default btn-sm gen-editor-errors-close" onclick="$.IGRP.components.fileeditor.closeErrors()"><i class="fa fa-times"></i></div><table><tbody/></table></div>');
 					
 					
 					editor.addClass('has-error');
@@ -157,8 +161,6 @@
 									
 								message = jsonRes.msg;
 								type    = mtype == 'error' ? 'danger' : mtype;
-
-								console.log(jsonRes);
 								
 								showEditorsErrors(jsonRes,editor);
 							});	
@@ -699,6 +701,19 @@
 
 			}
 
+		},
+		
+		closeErrors : function(){
+
+			console.log($('.cm-s-default.has-error'));
+			
+			$('.cm-s-default.has-error').removeClass('has-error');
+			
+			$('.gen-editor-errors').remove();
+			
+			removeEditorsErrors(true);
+			
+			return false;
 		},
 		
 		init : function(){

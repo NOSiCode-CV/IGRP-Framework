@@ -310,15 +310,18 @@ div[item-name="igrp-fileeditor"] ul.nav li.active a:after{
 	background: red*/
 }
 
-.gen-editor-errors{
-	position:fixed;
-	bottom:0;
-	height:160px;
-	background:white;
-	z-index:10;
-	padding:10px 30px;
-	overflow:auto;
+.gen-editor-errors {
+    position: fixed;
+    bottom: 0;
+    height: 160px;
+    background: white;
+    z-index: 10;
+    padding: 10px 30px;
+    overflow: auto;
+    width: calc(100% - 350px);
+    left: 350px;
 }
+
 .gen-editor-errors table{
 	width:100%;
 }
@@ -338,6 +341,15 @@ div[item-name="igrp-fileeditor"] ul.nav li.active a:after{
 
 .gen-editor-errors table tbody tr:hover{
 	background-color:none!important;
+}
+
+.gen-editor-errors .gen-editor-errors-close{
+	position: absolute;
+    right: 0;
+    top: 0;
+    font-size:16px;
+    cursor:pointer;
+	border:0
 }
 
 .CodeMirror-gutter-wrapper.has-error .CodeMirror-linenumber{
