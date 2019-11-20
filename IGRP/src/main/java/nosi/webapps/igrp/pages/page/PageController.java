@@ -4,6 +4,8 @@ import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.io.File;
 import java.lang.reflect.Method;
@@ -46,7 +48,6 @@ import nosi.core.cversion.GitLab;
 /*----#end-code----*/
 		
 public class PageController extends Controller {
-	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Page model = new Page();
 		model.load();
@@ -61,8 +62,13 @@ public class PageController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		Boolean isEdit = false;
-		final Integer idPage = Core.getParamInt("p_id_page");
-		if (idPage != 0) {
+		Integer idPage = Core.getParamInt("p_id_page");
+		
+		if(idPage == 0){
+			idPage = model.getId_pagin_hidd();
+		}
+		
+		if (Core.isNotNull(idPage)) {
 			// EDIT/UPDATE PAGE
 			Action a = new Action();
 			a = a.findOne(idPage);
@@ -73,6 +79,7 @@ public class PageController extends Controller {
 				model.setPage_descr(a.getPage_descr());
 				model.setPage(a.getPage());
 				model.setId("" + a.getId());
+				model.setId_pagin_hidd(a.getId());
 				model.setVersion(a.getVersion());
 				model.setXsl_src(a.getXsl_src());
 				model.setStatus(a.getStatus());
@@ -118,8 +125,10 @@ public class PageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","Page","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","Page","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 
 			int idPage = Core.getParamInt("p_id");
@@ -242,6 +251,8 @@ public class PageController extends Controller {
 			
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 
 	private boolean checkifexists(Page model) {

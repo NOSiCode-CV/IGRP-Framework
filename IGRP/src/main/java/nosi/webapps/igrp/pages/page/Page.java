@@ -6,84 +6,119 @@ import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
 public class Page extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_page_descr")
 	private String page_descr;
+
 	@RParam(rParamName = "p_page")
 	private String page;
+
 	@RParam(rParamName = "p_status")
 	private int status;
 	@RParam(rParamName = "p_status_check")
 	private int status_check;
+
 	@RParam(rParamName = "p_gen_auto_code")
 	private int gen_auto_code;
 	@RParam(rParamName = "p_gen_auto_code_check")
 	private int gen_auto_code_check;
+
 	@RParam(rParamName = "p_publico")
 	private short publico;
 	@RParam(rParamName = "p_publico_check")
 	private short publico_check;
+
 	@RParam(rParamName = "p_public_link")
 	private String public_link;
+
 	@RParam(rParamName = "p_public_link_2")
 	private String public_link_2;
+
 	@RParam(rParamName = "p_nada")
 	private String nada;
+
 	@RParam(rParamName = "p_env_fk")
 	private String env_fk;
+
 	@RParam(rParamName = "p_componente")
 	private int componente;
 	@RParam(rParamName = "p_componente_check")
 	private int componente_check;
+
 	@RParam(rParamName = "p_extras")
 	private String extras;
+
 	@RParam(rParamName = "p_primeira_pagina")
 	private int primeira_pagina;
 	@RParam(rParamName = "p_primeira_pagina_check")
 	private int primeira_pagina_check;
+
 	@RParam(rParamName = "p_criar_menu")
 	private int criar_menu;
 	@RParam(rParamName = "p_criar_menu_check")
 	private int criar_menu_check;
+
 	@RParam(rParamName = "p_modulo")
 	private String modulo;
+
 	@RParam(rParamName = "p_novo_modulo")
 	private IGRPLink novo_modulo;
 	@RParam(rParamName = "p_novo_modulo_desc")
 	private String novo_modulo_desc;
+
 	@RParam(rParamName = "p_version")
 	private String version;
+
 	@RParam(rParamName = "p_id")
 	private String id;
+
 	@RParam(rParamName = "p_table_name")
 	private String table_name;
+
 	@RParam(rParamName = "p_xsl_src")
 	private String xsl_src;
+
 	@RParam(rParamName = "p_img_src")
 	private String img_src;
+
 	@RParam(rParamName = "p_action")
 	private String action;
+
 	@RParam(rParamName = "p_page_type")
 	private String page_type;
+
 	@RParam(rParamName = "p_flg_menu")
 	private String flg_menu;
+
 	@RParam(rParamName = "p_flg_transaction")
 	private String flg_transaction;
+
 	@RParam(rParamName = "p_self_id")
 	private String self_id;
+
 	@RParam(rParamName = "p_self_fw_id")
 	private String self_fw_id;
+
 	@RParam(rParamName = "p_db_connection")
 	private String db_connection;
+
 	@RParam(rParamName = "p_flg_offline")
 	private String flg_offline;
+
 	@RParam(rParamName = "p_flg_internet")
 	private String flg_internet;
+
 	@RParam(rParamName = "p_proc_name")
 	private String proc_name;
+
 	@RParam(rParamName = "p_action_descr")
 	private String action_descr;
+
+	@RParam(rParamName = "p_id_pagin_hidd")
+	private Integer id_pagin_hidd;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -358,6 +393,13 @@ public class Page extends Model{
 	}
 	public String getAction_descr(){
 		return this.action_descr;
+	}
+	
+	public void setId_pagin_hidd(Integer id_pagin_hidd){
+		this.id_pagin_hidd = id_pagin_hidd;
+	}
+	public Integer getId_pagin_hidd(){
+		return this.id_pagin_hidd;
 	}
 
 
