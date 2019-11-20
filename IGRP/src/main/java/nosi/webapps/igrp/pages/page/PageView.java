@@ -5,7 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.config.Config;
+import nosi.core.webapp.Core;
 
 public class PageView extends View {
 
@@ -47,7 +47,8 @@ public class PageView extends View {
 	public Field flg_internet;
 	public Field proc_name;
 	public Field action_descr;
-	public IGRPForm sectionheader_1;
+	public Field id_pagin_hidd;
+	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -57,7 +58,7 @@ public class PageView extends View {
 
 		this.setPageTitle("Registar Pagina");
 			
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
 		form_1 = new IGRPForm("form_1","");
 
@@ -68,11 +69,11 @@ public class PageView extends View {
 		
 		page_descr = new TextField(model,"page_descr");
 		page_descr.setLabel(gt("Título"));
-		page_descr.propertie().add("remote",new Config().getResolveUrl("igrp","Page","generate-link")).add("name","p_page_descr").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
+		page_descr.propertie().add("remote",Core.getIGRPLink("igrp","Page","generate-link")).add("name","p_page_descr").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		page = new TextField(model,"page");
 		page.setLabel(gt("Código"));
-		page.propertie().add("remote",new Config().getResolveUrl("igrp","Page","generate-link")).add("name","p_page").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
+		page.propertie().add("remote",Core.getIGRPLink("igrp","Page","generate-link")).add("name","p_page").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo"));
@@ -88,15 +89,15 @@ public class PageView extends View {
 		
 		public_link = new TextField(model,"public_link");
 		public_link.setLabel(gt("Public Link"));
-		public_link.propertie().add("name","p_public_link").add("type","text").add("maxlength","250").add("required","false").add("readonly","true").add("disabled","false").add("desclabel","false");
+		public_link.propertie().add("name","p_public_link").add("type","text").add("maxlength","250").add("required","false").add("readonly","true").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		public_link_2 = new TextField(model,"public_link_2");
 		public_link_2.setLabel(gt("Public Link"));
-		public_link_2.propertie().add("name","p_public_link_2").add("type","text").add("maxlength","250").add("required","false").add("readonly","true").add("disabled","false").add("desclabel","false");
+		public_link_2.propertie().add("name","p_public_link_2").add("type","text").add("maxlength","250").add("required","false").add("readonly","true").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt("  "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("desclabel","false");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
 		
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicação"));
@@ -108,7 +109,7 @@ public class PageView extends View {
 		
 		extras = new SeparatorField(model,"extras");
 		extras.setLabel(gt("Extras"));
-		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","30").add("desclabel","false");
+		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
 		
 		primeira_pagina = new CheckBoxField(model,"primeira_pagina");
 		primeira_pagina.setLabel(gt("Primeira Página"));
@@ -124,9 +125,9 @@ public class PageView extends View {
 		
 		novo_modulo = new LinkField(model,"novo_modulo");
 		novo_modulo.setLabel(gt("Módulo"));
-		novo_modulo.setValue(new Config().getResolveUrl("igrp","Page","index"));
+		novo_modulo.setValue(Core.getIGRPLink("igrp","Page","index"));
 
-									novo_modulo.propertie().add("name","p_novo_modulo").add("type","link").add("target","right_panel").add("maxlength","30").add("request_fields","").add("refresh_submit","false").add("desclabel","false");
+									novo_modulo.propertie().add("name","p_novo_modulo").add("type","link").add("target","right_panel").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","");
 		
 		version = new ListField(model,"version");
 		version.setLabel(gt("Versão de Página"));
@@ -192,11 +193,15 @@ public class PageView extends View {
 		action_descr.setLabel(gt(""));
 		action_descr.propertie().add("name","p_action_descr").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","action_descr");
 		
+		id_pagin_hidd = new HiddenField(model,"id_pagin_hidd");
+		id_pagin_hidd.setLabel(gt(""));
+		id_pagin_hidd.propertie().add("name","p_id_pagin_hidd").add("type","hidden").add("maxlength","250").add("java-type","Integer").add("tag","id_pagin_hidd");
+		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
 		btn_gravar = new IGRPButton("Gravar","igrp","Page","gravar","submit_ajax","primary|fa-save","","");
-		btn_gravar.propertie.add("type","specific").add("rel","gravar");
+		btn_gravar.propertie.add("type","specific").add("rel","gravar").add("refresh_components","");
 
 		
 	}
@@ -238,6 +243,7 @@ public class PageView extends View {
 		form_1.addField(flg_internet);
 		form_1.addField(proc_name);
 		form_1.addField(action_descr);
+		form_1.addField(id_pagin_hidd);
 
 		toolsbar_1.addButton(btn_gravar);
 		this.addToPage(sectionheader_1);
@@ -278,7 +284,8 @@ public class PageView extends View {
 		flg_offline.setValue(model);
 		flg_internet.setValue(model);
 		proc_name.setValue(model);
-		action_descr.setValue(model);	
+		action_descr.setValue(model);
+		id_pagin_hidd.setValue(model);	
 
 		}
 }
