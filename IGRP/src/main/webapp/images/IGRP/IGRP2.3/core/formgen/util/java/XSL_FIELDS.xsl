@@ -239,11 +239,31 @@
 						</xsl:variable>
 						
 						<xsl:if test="$isPersist = 'false' ">
-							<xsl:value-of select="$newline"/>
-							<xsl:value-of select="$tab2"/>
-						 	<xsl:value-of select="concat($tag_name,'.setValue(model);')"/>
+						
+							<xsl:variable name="filter_pg">
+								<xsl:value-of select="$newline"/>
+								<xsl:value-of select="$tab2"/>
+							 	<xsl:value-of select="concat($tag_name,'.setValue(model);')"/>
+							 </xsl:variable>
+							 
+							 <xsl:choose>
+							 
+								 <xsl:when test="contains($filter_pg,'filter_pg')">
+								 
+								 	<xsl:text>/*</xsl:text><xsl:value-of select="$filter_pg"></xsl:value-of><xsl:text>*/</xsl:text>
+								 
+								 </xsl:when>
+								 
+								 <xsl:otherwise>
+								 
+								 	<xsl:value-of select="$filter_pg"></xsl:value-of>
+								 
+								 </xsl:otherwise>
+							 
+							 </xsl:choose>
 							
 					 	</xsl:if>
+					 	
 					 	<xsl:if test="@type = 'link' and @desc='true'">
 							<xsl:value-of select="$newline"/>
 					  	    <xsl:value-of select="$tab2"/>
