@@ -9,8 +9,8 @@
  		<xsl:value-of select="concat('public class ',$class_name,'Controller extends Controller {')"/>
 <!-- 	 		<xsl:value-of select="$tab2"/> -->
 <!-- 	     	<xsl:value-of select="$newline"/> -->
-	 		<xsl:call-template name="actionIndex"></xsl:call-template>
-	 		<xsl:call-template name="actionEditCalendar"></xsl:call-template>	 		
+	 		<xsl:call-template name="actionIndex"></xsl:call-template>	 		
+	 		<xsl:call-template name="actionEditCalendar"></xsl:call-template>	 	
 	 		<xsl:call-template name="createActions"></xsl:call-template> 	
  		<xsl:value-of select="'}'"/>
     </xsl:template>  
@@ -578,6 +578,7 @@
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:when test="@type='treemenu'">
+				    <xsl:text>/*</xsl:text>
 					<xsl:variable name="params">
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
@@ -586,12 +587,15 @@
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat('String p_active = Core.getParam(',$double_quotes,'p_active',$double_quotes,');')"/>
 					</xsl:variable>
+					
 					<xsl:call-template name="gen-action">
+					
 						<xsl:with-param name="action_name_"><xsl:value-of select="concat('Remote_',name())"/></xsl:with-param>
 						<xsl:with-param name="page_"><xsl:value-of select="$class_name"/></xsl:with-param>
 						<xsl:with-param name="type_render_"><xsl:value-of select="'render_message'"/></xsl:with-param>
 						<xsl:with-param name="extra" select="$params"/>
 					</xsl:call-template>
+					<xsl:text>*/</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
                    	

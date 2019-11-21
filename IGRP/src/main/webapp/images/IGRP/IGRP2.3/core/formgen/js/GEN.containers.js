@@ -2852,6 +2852,19 @@ var CONTAINER = function(name,params){
 		var rtn = container.options.draw[name];
 		return rtn;
 	}
+	
+	var openIgrpDoc = function(type){
+		
+		if($('#igrp-doc')[0] && $('#link_doc')[0]){
+			var url = $('#link_doc').val();
+			
+			url += url.indexOf('?') !== -1 ? '&' : '?'; 
+			
+			url += 'target=_blank&p_type='+type;
+			
+			$('#igrp-doc').attr({'href' : url, 'position' : type});
+		}
+	}
 
 	var getContainerHolder = function(container){
 		var holder = $(VARS.getContainerSettsHtml(container));
@@ -2861,6 +2874,8 @@ var CONTAINER = function(name,params){
 			e.preventDefault();
 
 			GEN.edit(container,e);
+			
+			openIgrpDoc(container.type);
 			
 			e.stopPropagation();
 
@@ -2961,10 +2976,15 @@ var CONTAINER = function(name,params){
 		var holder = $(VARS.getFieldsSettsHtml(field));
 		
 		holder.find('.field-edit').on('click',function(e){
-			//console.log(e);
+			
 			e.preventDefault();
+			
 			__params.onEdit(e);
+			
+			openIgrpDoc(field.type);
+			
 			e.stopPropagation();
+			
 			return false;
 		});
 

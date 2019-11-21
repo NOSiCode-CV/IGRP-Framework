@@ -149,23 +149,31 @@
 					<xsl:value-of select="$newlineTab2"></xsl:value-of>
 					
 					<xsl:text>}</xsl:text>
+
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>
 					
+					<xsl:text>if (</xsl:text><xsl:value-of select="$daolow"/><xsl:text> != null){</xsl:text>
+			
 				</xsl:when>
 			
 			</xsl:choose>
-		
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			
-			<xsl:text>if (</xsl:text><xsl:value-of select="$daolow"/><xsl:text> != null){</xsl:text>
 			
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			
 			<xsl:value-of select="$insercao"></xsl:value-of>
 			
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:choose>
+		
+				<xsl:when test="$checkbox = 'TRUE'">
+				
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>
+				
+					<xsl:text>}</xsl:text>
+					
+				</xsl:when>
 			
-			<xsl:text>}</xsl:text>
-			
+			</xsl:choose>
+				
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			
 			<xsl:text>session.persist(</xsl:text><xsl:value-of select="$daolow"/><xsl:text>);</xsl:text>

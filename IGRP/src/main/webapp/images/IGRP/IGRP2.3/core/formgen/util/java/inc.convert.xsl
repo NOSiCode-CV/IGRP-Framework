@@ -158,7 +158,7 @@
 					
 					<xsl:text>Core.updateFile(</xsl:text><xsl:value-of select="$value"/><xsl:text>,</xsl:text><xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$upvalueblock"/>
 					
-					<xsl:text>()) ? </xsl:text><xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$upvalueblock"/><xsl:text>() : null : null</xsl:text>
+					<xsl:text>()) ? </xsl:text><xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$upvalueblock"/><xsl:text>() : </xsl:text><xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$upvalueblock"/><xsl:text>() : null</xsl:text>
 					
 				
 				</xsl:when>  
@@ -221,13 +221,13 @@
 
 				<xsl:when test="$from = 'String[]' and $to = 'String'">	
 				
-					<xsl:text>String.join(";",</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
+					<xsl:value-of select="$value"/><xsl:text>!= null? String.join(";",</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>): null</xsl:text>
 					
 				</xsl:when>
 				
 				<xsl:when test="$from = 'checkboxlist' and $to = 'String'">	
 				
-					<xsl:text>String.join(";",</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
+					<xsl:value-of select="$value"/><xsl:text>!= null? String.join(";",</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>): null</xsl:text>
 					
 				</xsl:when>
 				

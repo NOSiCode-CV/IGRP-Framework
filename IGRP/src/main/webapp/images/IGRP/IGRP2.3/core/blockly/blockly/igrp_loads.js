@@ -1236,35 +1236,35 @@ $('#active_selenium').on('click', function() {
 					
 							+'<block type="index_editar" color ="160" mutator="where" prev-statement="" next-statement="" inline="true">'
 							
-							+'<value type="dummy" >'
-							
-							+'<field type="text" options="fill model"></field>'
-							
-							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
-							
-							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
-							
-								+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+								+'<value type="dummy" >'
 								
-							//+'<field type="text" title="by:" options=""></field>'
+									+'<field type="text" options="fill model"></field>'
+									
+									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
+									
+									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 								
-							+'</value>'
-							
-							+'<value name="value2" type="statement">'
-							
-							 +'<block type="model_set" prev-statement="" next-statement="" color="300">'
-							 
-						 		+'<value name="value1" type="value" title="set model">'
-						 		
-						 			+'<field type="dropdown" name="set_model" options="IGRP_BLOCKLY_DROPS.fields"></field>'
-						 			
-						 			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/model_icon.svg"></field>'
-						 			
+									+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+									
+									//+'<field type="text" title="by:" options=""></field>'
+									
 								+'</value>'
 								
-							 +'</block>'
+								+'<value name="value2" type="statement">'
+							
+									 +'<block type="model_set" prev-statement="" next-statement="" color="300">'
+									 
+								 		+'<value name="value1" type="value" title="set model">'
+								 		
+								 			+'<field type="dropdown" name="set_model" options="IGRP_BLOCKLY_DROPS.fields"></field>'
+								 			
+								 			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/model_icon.svg"></field>'
+								 			
+										+'</value>'
+										
+									 +'</block>'
 							 
-							+'</value>' 
+								+'</value>' 
 							
 							+'</block>'
 					
@@ -1292,29 +1292,41 @@ $('#active_selenium').on('click', function() {
 							
 							+'<block type="param_foreign" output="" color="160" class="blocly-dynamic">'
 							
-							+'<value name="value1" type="value"  title="get foreign-key">'
-							
-							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/foreign-icon.svg"></field>'
-							
-							+'</value>'	
+								+'<value name="value1" type="value"  title="get foreign-key">'
+								
+									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/foreign-icon.svg"></field>'
+								
+								+'</value>'	
 							
 							+'</block>'
-						
-					// +'<block type="instance_dao" color ="160" prev-statement=""
 							
-					// next-statement="">'
+							+'<block type="dao_obj" output="" color="160" class="blocly-dynamic">'
 							
-					// +'<value name="findone" type="value" >'
+								+'<value type="dummy" >'
+								
+									+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+								
+									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
+								
+								+'</value>'	
 							
-					// +'<field type="dropdown" name="dao" title="declarate obj in DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							+'</block>'
 							
-					// +'<field type="text" options="or find by:"></field>'
-							
-					// +'</value>'
-							
-					// +'</block>'
-											
-					// +'<block type="dao_obj" color ="160" output="" title="obj"></block>'
+						// +'<block type="instance_dao" color ="160" prev-statement=""
+								
+						// next-statement="">'
+								
+						// +'<value name="findone" type="value" >'
+								
+						// +'<field type="dropdown" name="dao" title="declarate obj in DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+								
+						// +'<field type="text" options="or find by:"></field>'
+								
+						// +'</value>'
+								
+						// +'</block>'
+												
+						// +'<block type="dao_obj" color ="160" output="" title="obj"></block>'
 						
 					+'</category><sep class="blocly-dynamic"></sep>'
 					

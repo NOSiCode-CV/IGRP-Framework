@@ -27,16 +27,16 @@
 	</xsl:template>
 	
 	<xsl:template name="blockly.element.row">
-	
-		<xsl:variable name="rowType" select="substring-before(@id,'::')"/>
-		
-		<xsl:variable name="rowValue" select="substring-after(@id,'::')"/>
 		
 		<xsl:variable name="rowtypechild" select="substring-before(value[@name='fields_model']/block/field,'::')"/>
 		
 		<xsl:variable name="rowvaluechild" select="substring-after(value[@name='fields_model']/block/field,'::')"/>
 		
 		<xsl:variable name="rowtypeneto" select="substring-before(value[@name='fields_model']/block/value[@name='dao_rela']/block/field,'::')"/>
+		
+		<xsl:variable name="rowType" select="substring-before(@id,'::')"/>
+		
+		<xsl:variable name="rowValue" select="substring-after(@id,'::')"/>
 		
 		<xsl:variable name="nameCap">
 		
@@ -691,8 +691,20 @@
 	</xsl:template>
 	
 	<xsl:template name="blockly.element.dao_obj" >
+	
+		<xsl:variable name="dao" select="field[@name='dao']"/>
+		
+		<xsl:variable name="daolow">
+		
+	       	<xsl:call-template name="LowerCase">
+	       	
+	       		<xsl:with-param name="text" select="$dao"/>
+	       		
+	       	</xsl:call-template>
+	       	
+		</xsl:variable>
 
-		<xsl:text>obj</xsl:text>
+		<xsl:value-of select="$daolow"/>
 		
 	</xsl:template>
 	

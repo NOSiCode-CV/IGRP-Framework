@@ -362,6 +362,9 @@
                   <xsl:if test="rows/content/form/label/link_save">
                       <input type="hidden" class="form-hidden" name="p_link_save" value="{rows/content/form/value/link_save}"></input>
                   </xsl:if>
+                  <xsl:if test="rows/content/form/label/link_doc">
+                     <input type="hidden" class="form-hidden" name="p_link_doc" id="link_doc" value="{rows/content/form/value/link_doc}"></input>
+                 </xsl:if>
               </form-hidden>
               <!--PAGE SETTINGS-->
               <div class="modal fade" data-backdrop="static" tabindex="-1" id="gen-settings-modal" role="dialog" >
@@ -490,8 +493,7 @@
                               <div rel="rules" class="gen-properties-setts-holder">
                                   <xsl:call-template name="rules-list"/>
                               </div>
-                              
-                              
+           
 
                               <div rel="xsl" class="gen-properties-setts-holder">
                                   <div>
@@ -525,9 +527,20 @@
                               </div>
                               
                               <div class="modal-buttons text-right">
-                              	<span class="igrp-doc pull-left">
-                              		<a href="#" target="_newtab"><i class="fa fa-info-circle"/> Doc </a>	
-                              	</span>
+                              	<xsl:if test="rows/content/form/label/link_doc">
+	                              	<span class="igrp-doc pull-left">
+	                              		<a id="igrp-doc" href="{rows/content/form/value/link_doc}" target="_newtab">
+	                              			<i class="fa fa-info-circle" style="margin-right:5px"/>
+	                              			<xsl:choose>
+	                              				<xsl:when test="rows/content/form/label/link_doc != ''">
+	                              					<xsl:value-of select="rows/content/form/label/link_doc"></xsl:value-of>
+	                              				</xsl:when>
+	                              				<xsl:otherwise>Documento</xsl:otherwise>
+	                              			</xsl:choose>
+	                              			
+	                              		</a>	
+	                              	</span>
+                              	 </xsl:if>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> 
                               	<button type="button" class="btn btn-primary"  id="gen-edit-confirm">Confirm <i class="fa fa-check"/></button>
                           	</div>
