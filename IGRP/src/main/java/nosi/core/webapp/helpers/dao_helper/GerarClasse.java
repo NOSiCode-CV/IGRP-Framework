@@ -95,7 +95,7 @@ public class GerarClasse {
 				String tabela_relacional = cl.getTableRelation();
 				content_variaveis = content_variaveis + "\t@ManyToOne\n"
 						+ "\t@JoinColumn(name=\""+ cl.getName() +"\", foreignKey=@ForeignKey(name=\""+ fk_constrain_name.get(cl.getName())+"\"), nullable="+( cl.isNullable() ? "true" : "false") +")\n"+
-						"\tprivate "+ this.resolveName1Up(tabela_relacional) +" " +this.resolveName1Dw(tabela_relacional)+"_"+cl.getName()+";\n";
+						"\tprivate "+ this.resolveName1Up(tabela_relacional) +" " +this.resolveName1Dw(cl.getName())+";\n";
 				if(cont_import == 1) {
 					content_import = content_import +"import javax.persistence.ManyToOne;\n" +
 							"import javax.persistence.JoinColumn;\n" +
@@ -166,11 +166,11 @@ public class GerarClasse {
 			}else {
 				//Map<String, String> fk_table_name = new DatabaseMetadaHelper().getForeignKeys(config, schema, tbl_name,dad_name);
 				String tabela_relacional = cl.getTableRelation();
-				content_setAndGet = content_setAndGet + "\tpublic " + this.resolveName1Up(tabela_relacional) + " get"+this.resolveName1Up(tabela_relacional)+"_"+cl.getName()+"() {\n" + 
-						"\t\treturn "+this.resolveName1Dw(tabela_relacional)+"_"+cl.getName()+";\n" + 
+				content_setAndGet = content_setAndGet + "\tpublic " + this.resolveName1Up(tabela_relacional) + " get"+this.resolveName1Up(cl.getName())+"() {\n" + 
+						"\t\treturn "+this.resolveName1Dw(cl.getName())+";\n" + 
 						"\t}\n" + 
-						"\tpublic void set"+this.resolveName1Up(tabela_relacional)+"_"+cl.getName()+"("+ this.resolveName1Up(tabela_relacional) +" "+this.resolveName1Dw(tabela_relacional)+"_"+cl.getName()+") {\n" + 
-						"\t\tthis."+this.resolveName1Dw(tabela_relacional)+"_"+cl.getName()+" = "+this.resolveName1Dw(tabela_relacional)+"_"+cl.getName()+";\n" + 
+						"\tpublic void set"+this.resolveName1Up(cl.getName())+"("+ this.resolveName1Up(tabela_relacional) +" "+this.resolveName1Dw(cl.getName())+") {\n" + 
+						"\t\tthis."+this.resolveName1Dw(cl.getName())+" = "+this.resolveName1Dw(cl.getName())+";\n" + 
 						"\t}\n";
 			}
 		}
