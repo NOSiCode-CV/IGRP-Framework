@@ -284,7 +284,7 @@ public class PesquisarMenuController extends Controller {
 					xml_menu.setElement("target", m.getArea());
 					xml_menu.setElement("id", "" + m.getId());
 					xml_menu.setElement("status", "" + m.getEstado());
-					xml_menu.setElement("order", "100");
+					xml_menu.setElement("order", "99");
 					for(IgrpPLSQLMenu submenu : menus) {
 						if(submenu.getSelf_id() != null && m.getId() != null && submenu.getSelf_id().equalsIgnoreCase(m.getId())) {
 							xml_menu.startElement("submenu");
@@ -294,7 +294,7 @@ public class PesquisarMenuController extends Controller {
 							xml_menu.setElement("target", submenu.getArea());
 							xml_menu.setElement("id", "" + submenu.getId());
 							xml_menu.setElement("status", "" + submenu.getEstado());
-							xml_menu.setElement("order", "100");
+							xml_menu.setElement("order", "99");
 							xml_menu.setElement("link", "" + submenu.getUrl()); 
 							xml_menu.endElement();
 							hasChild = true;

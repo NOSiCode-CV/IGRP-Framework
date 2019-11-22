@@ -61,7 +61,7 @@ public class NovoUtilizadorController extends Controller {
 			Integer idApp = Core.findApplicationByDad(dad).getId();
 			model.setAplicacao(idApp);
 			view.aplicacao.propertie().add("disabled", "true");
-
+			view.btn_gravar.addParameter("p_aplicacao", model.getAplicacao());
 		}
 		if (id_prof != 0) {
 			ProfileType prof = Core.findProfileById(id_prof);
@@ -76,15 +76,14 @@ public class NovoUtilizadorController extends Controller {
 		final Map<Object, Object> listApps = new Application().getListApps();
 //		Adds IGRP studio to the list if user has the app to allow invites do the app
 		final Integer idSDAD = Core.findApplicationByDad("igrp_studio").getId();
-		if (new Profile().find().andWhere("type", "=", "ENV").andWhere("user", "=", Core.getCurrentUser().getId())
-				.andWhere("type_fk", "=", idSDAD).one() != null)
+		if (new Profile().find().andWhere("type", "=", "ENV").andWhere("user", "=", Core.getCurrentUser().getId()).andWhere("type_fk", "=", idSDAD).one() != null)
 			listApps.put(idSDAD, "IGRP Studio");
 		view.aplicacao.setValue(listApps);
 		view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
 		view.perfil.setValue(new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()));
-//		If the combo app is disabled, you need to add in the button
-		if (Core.isNotNullOrZero(model.getAplicacao()))
-			view.btn_gravar.addParameter("p_aplicacao", model.getAplicacao());
+
+		
+			
 		if (Core.isNotNullOrZero(id) && !id.trim().isEmpty()) {
 //			Edit invite mode
 			User u = Core.findUserById((Integer.parseInt(id)));

@@ -67,29 +67,46 @@ public class ListaPageController extends Controller {
 
 		
 		Map<Object, Object> listApp = new Application().getListApps();
-		final Map<Object, Object> map = Core.toMap(new Modulo().getModuloByApp(Core.toInt(model.getApplication())), "name",
-				"descricao", "-- Selecionar --");
 		if(listApp!=null && listApp.size()==2) {
 			model.setApplication(listApp.keySet().stream().filter(a->a!=null).findFirst().get().toString());
 		}
+		
 		
 		String app = Core.getParam("app");
 		
 		String uri = Igrp.getInstance().getRequest().getRequestURI();
 		Core.log(uri);
+		
+		
 		if(!uri.equals("/IGRP/app/webapps")) {
-			if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET")) {
+			if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET")) {		
 				final Application appX = new Application().find().andWhere("url","=",uri.split("/")[1].toLowerCase()).one();
 				if(appX!=null)
 					model.setApplication(appX.getId().toString());
 				
 			}
 		}else {
-			if(Core.isNotNull(model.getApplication()) && Core.findApplicationById(Core.toInt(model.getApplication())).getExterno()>0)
-				Core.setMessageError("ESTÁ NA PASTA PRINCIPAL /IGRP/app/. ESTA APLICAÇÃO É DO TIPO CUSTOM HOST. MUDAR DE DAD POR FAVOR!");
+			if(Core.isNotNull(model.getApplication()) && Core.findApplicationById(Core.toInt(model.getApplication())).getExterno()>0) {
+				Core.setMessageError("ESTÁ NA PASTA PRINCIPAL /IGRP/app/. ESTA APLICAÇÃO É DO TIPO CUSTOM HOST. MUDAR DE DAD POR FAVOR!");	
+//				nosi.webapps.igrp.dao.Action ac = Core.findApplicationByDad(dad).getAction();
+//				String page = "tutorial/DefaultPage/index&title=";
+//				if(ac!=null) {
+//					page = ac.getPage();
+//					/**
+//					 * Go to home page of application or go to default page in case not exists home page associate to application
+//					 */
+//					page = (ac.getApplication()!=null)?(ac.getApplication().getDad().toLowerCase() + "/" + page):page+"/DefaultPage";
+//					page +="/index&title="+ac.getAction_descr();
+//				}
+//				this.addQueryString("app", dad);
+//				this.addQueryString("page", page);
+//				return redirect("igrp_studio", "env", "openApp",this.queryString());
+			}
+			
 				
 		}
-				
+		
+		
 		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
 		ArrayList<ListaPage.Table_2> apps = new ArrayList<>();
 		
@@ -130,14 +147,16 @@ public class ListaPageController extends Controller {
 					.andWhere("isComponent", "<>", (short)2).all();
 		}   
 		Collections.sort(actions, new SortbyStatus());
-      
+		final Map<Object, Object> map = Core.toMap(new Modulo().getModuloByApp(Core.toInt(model.getApplication())), "name",
+				"descricao", "-- Selecionar --");
+				
    
 		for (Action ac : actions) {
 			ListaPage.Table_1 table1 = new ListaPage.Table_1();
 			table1.setId_page("" + ac.getId());
 			table1.setNome_page(ac.getPage());
 			String module= "";
-			if(map.size() > 1 && Core.isNotNull(ac.getNomeModulo()))
+			if(map.size() > 1 && Core.isNotNull(ac.getNomeModulo()) && Core.isNotNull(map.get(ac.getNomeModulo())))
 				module="#"+map.get(ac.getNomeModulo())+" | ";
 			table1.setDescricao_page(module+ac.getPage_descr() + " (" + ac.getPage() + ")");
 			int check = ac.getStatus() == 1 ? ac.getStatus() : -1;
@@ -338,9 +357,9 @@ public class ListaPageController extends Controller {
 			Core.setAttribute("p_pagina_ids_check_fk",new String[] {""+id});
 			// insert data on import/export table
 			ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), this.getConfig().getUserName(),DateHelper.getCurrentDataTime(), "Export");
-			ie_dao = ie_dao.insert();
+			ie_dao = ie_dao.insert();			
 			
-			byte[] bytes = new ExportHelper().export(model_w);
+			byte[] bytes = ExportHelper.export(model_w);
 			if(bytes!=null) {
 				return this.xSend(bytes,model_w.getFile_name() + ".jar", Core.MimeType.APPLICATION_JAR, true);
 			}
@@ -384,7 +403,21 @@ public class ListaPageController extends Controller {
 		// Used for sorting in ascending order of
 		// roll number
 		public int compare(Action a, Action b) {
-			return b.getStatus() - a.getStatus();
+			if(a.getNomeModulo()==null)
+				a.setNomeModulo("");
+			if(b.getNomeModulo()==null)
+				b.setNomeModulo("");
+			
+				int NameCompare = a.getNomeModulo().compareTo(b.getNomeModulo()); 
+	            int StatusCompare = b.getStatus() - a.getStatus();
+	  
+	            // 2-level comparison using if-else block 
+	            if (StatusCompare == 0) { 
+	                return ((NameCompare == 0) ? StatusCompare : NameCompare); 
+	            } else { 
+	                return StatusCompare; 
+	            } 
+
 		}
 	}
 	/*----#end-code----*/
