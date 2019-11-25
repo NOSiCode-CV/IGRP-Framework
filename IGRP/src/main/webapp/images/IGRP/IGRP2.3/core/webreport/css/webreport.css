@@ -101,7 +101,8 @@
 .nav-sidebar li .tree-menu-options{
 	position: absolute;
 	right:0;
-	top: -1px;
+	top: 50%;
+    margin-top: -13px;
 	display: none;
 	z-index: 10;
 }
@@ -232,9 +233,9 @@ div[data-notify="container"].alert{
    	border: 1px solid #EAEAEA;
     box-shadow:0px 4px 10px 0px #ddd;
     padding: 10px;
-    width:calc(100% - 70px);
+    width:calc(100% - 90px);
     z-index: 2;
-    right: 51px;
+    right: 80px;
     opacity: 0;
     -webkit-transition: .4s;
     -moz-transition: .4s;
@@ -287,6 +288,7 @@ div[data-notify="container"].alert{
 #igrp-sidebar .nav-sidebar > li > a,
 .treeview-menu>li>a{
 	color: #337ab7;
+	padding: 12px 55px 12px 15px;
 }
 
 .treeview-menu>li>a:hover, .treeview-menu>li>a.active{

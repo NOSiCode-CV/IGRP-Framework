@@ -250,6 +250,7 @@ $(function ($) {
 							if(data){
 								var datasorceXml = $(data).find('fields datasorce_app list'),
 									url 		 = $(data).find('fields link_add_source value').text(),
+									upload 		 = $(data).find('fields link_upload_img value').text(),
 									loading 	 = $('<div/>').addClass('loading loader'),
 									tab 		 = $('#tab-tabcontent_1-reports');
 
@@ -259,8 +260,11 @@ $(function ($) {
 									xsl 	 : path+'/core/webreport/xsl/reports.tmpl.xsl',
 									xml 	 : $(data).getXMLDocument(),
 									complete : function(c){
+										
 										$(loading,tab).remove();
+										
 										$.WR.document.info.show();
+										
 										if ($.WR.id)
 											$('#list-reports #'+$.WR.id+' .linkReports').click();
 									},
@@ -273,6 +277,9 @@ $(function ($) {
 									$('.wr-op-datasource .btn').attr('href',url);
 									$('.wr-newdatasource').addClass('active');
 								}
+								
+								if(upload && upload != undefined)
+									$('#p_link_upload_img').val(upload);
 
 								$.WR.fieldDataSource.setVal(datasorceXml);
 
@@ -429,7 +436,7 @@ $(function ($) {
 
 					$('#wr-list-document').on('mouseenter','.infoReport',function(){
 					var li  = $(this).parents('li.treeview:first'),
-						top = li.position().top + 7;
+						top = li.position().top + 18;
 
 						info.html(li.attr('info')).css({top:top}).addClass('active');
 					});
