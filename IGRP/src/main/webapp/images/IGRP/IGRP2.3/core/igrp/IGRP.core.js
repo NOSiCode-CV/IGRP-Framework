@@ -267,6 +267,11 @@
 							formElement.text(value).val(value);
 							
 						break;
+						
+						case 'link'
+							formElement.attr('href',value);
+						
+						break;
 
 						default:
 							if (lookup)
