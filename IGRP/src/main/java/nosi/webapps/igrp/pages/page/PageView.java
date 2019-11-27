@@ -31,6 +31,7 @@ public class PageView extends View {
 	public Field criar_menu_check;
 	public Field modulo;
 	public Field novo_modulo;
+	public Field editar_modulo;
 	public Field version;
 	public Field id;
 	public Field table_name;
@@ -121,13 +122,19 @@ public class PageView extends View {
 		
 		modulo = new ListField(model,"modulo");
 		modulo.setLabel(gt("Módulo"));
-		modulo.propertie().add("name","p_modulo").add("type","select").add("multiple","false").add("domain","").add("maxlength","50").add("required","false").add("disabled","false").add("java-type","").add("tags","false");
+		modulo.propertie().add("remote",Core.getIGRPLink("igrp","Page","setModuloEditar")).add("name","p_modulo").add("type","select").add("multiple","false").add("domain","").add("maxlength","50").add("required","false").add("disabled","false").add("java-type","").add("tags","false");
 		
 		novo_modulo = new LinkField(model,"novo_modulo");
 		novo_modulo.setLabel(gt("Módulo"));
 		novo_modulo.setValue(Core.getIGRPLink("igrp","Page","index"));
 
 									novo_modulo.propertie().add("name","p_novo_modulo").add("type","link").add("target","right_panel").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","");
+		
+		editar_modulo = new LinkField(model,"editar_modulo");
+		editar_modulo.setLabel(gt("Módulo"));
+		editar_modulo.setValue(Core.getIGRPLink("igrp","Dominio","index"));
+
+									editar_modulo.propertie().add("name","p_editar_modulo").add("type","link").add("target","right_panel").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","");
 		
 		version = new ListField(model,"version");
 		version.setLabel(gt("Versão de Página"));
@@ -227,6 +234,7 @@ public class PageView extends View {
 		form_1.addField(criar_menu);
 		form_1.addField(modulo);
 		form_1.addField(novo_modulo);
+		form_1.addField(editar_modulo);
 		form_1.addField(version);
 		form_1.addField(id);
 		form_1.addField(table_name);
@@ -269,6 +277,7 @@ public class PageView extends View {
 		criar_menu.setValue(model);
 		modulo.setValue(model);
 		novo_modulo.setValue(model);
+		editar_modulo.setValue(model);
 		version.setValue(model);
 		id.setValue(model);
 		table_name.setValue(model);
