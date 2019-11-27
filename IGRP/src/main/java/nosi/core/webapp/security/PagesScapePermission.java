@@ -54,6 +54,7 @@ public class PagesScapePermission {
 		PAGES_SCAPE_ENCRYPT.add("igrp_studio/env/myApps".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp_studio/env/openApp".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp_studio/WebReport/get-image".toLowerCase());
+		PAGES_SCAPE_ENCRYPT.add("igrp/File/get-image-txt".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/File/save-image".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/File/get-file".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/Page/fileExists".toLowerCase());

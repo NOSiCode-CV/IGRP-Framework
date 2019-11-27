@@ -60,8 +60,21 @@ public class Path {
 		return null;
 	}
 	
+	public static String getImageWorkSpaceTxt(String nameApp, String pageApp ) {
+		Config config = new Config();
+		String basePath = config.getWorkspace();
+		if(Core.isNotNull(basePath) && FileHelper.dirExists(basePath)) {
+			return config.getWorkspace()+File.separator+"src"+File.separator+"main"+File.separator+"webapp"+File.separator+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"assets"+File.separator+"img"+File.separator+nameApp+File.separator+pageApp; 			
+		}
+		return null;
+	}
+	
 	public static String getImageServer(String nameApp) {
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/")+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"assets"+File.separator+"img"+File.separator+nameApp;
+	}
+	
+	public static String getImageServerTxt(String nameApp, String pageApp ) {
+		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/")+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"assets"+File.separator+"img"+File.separator+nameApp+File.separator+pageApp;
 	}
 	
 	public static String getRootPath() {

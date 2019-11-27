@@ -593,6 +593,18 @@ public final class Core { // Not inherit
 		String[] r_split = Core.isNotNull(r) ? r.split("/") : null;
 		return r_split != null ? r_split[0] : "igrp";
 	}
+	
+	public static String getCurrentPage() {
+		String current_app_conn = Core.getParam("current_app_conn", false);		
+		if (Core.isNotNull(current_app_conn)) {
+			return current_app_conn;
+		}
+		Integer isPublic= Core.getParamInt("isPublic",false);
+		String r = Core.getParam("r");
+		r = isPublic.intValue()==1? r : Core.decrypt(r);
+		String[] r_split = Core.isNotNull(r) ? r.split("/") : null;
+		return r_split != null ? r_split[1] : "igrp";
+	}
 
 	/**
 	 * Get Current Datetime (dd/MM/yyyy HH:mm:ss)

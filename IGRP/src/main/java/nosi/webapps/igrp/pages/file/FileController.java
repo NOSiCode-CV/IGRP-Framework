@@ -3,14 +3,26 @@ package nosi.webapps.igrp.pages.file;
 
 import nosi.core.webapp.Controller;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import nosi.core.webapp.Core;
+import nosi.core.webapp.FlashMessage;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.TempFile;
+import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.TempFileHelper;
+import nosi.core.webapp.helpers.UrlHelper;
+import nosi.core.webapp.import_export_v2.common.Path;
+
 import java.util.Properties;
 /*----#end-code----*/
+
+import javax.servlet.ServletException;
+import javax.servlet.http.Part;
 
 
 public class FileController extends Controller {		
@@ -60,6 +72,63 @@ public class FileController extends Controller {
 		p.put("uuid", uuid);
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(Core.toJson(p));
+	}
+	
+	public Response actionSaveImageTxt()  throws IOException, ServletException {
+		boolean r = false;
+		String fileName="";
+		String appName= Core.getCurrentApp().getDad();
+		String pageName = Core.getParam("p_page_name");
+
+		try {
+			Part file = Core.getFile("p_file_name");
+			if (file != null) {
+				fileName = file.getSubmittedFileName();
+				fileName =  fileName.replaceAll(" ", "-");
+				if(Core.isNotNull(fileName)) {
+					int index = fileName.indexOf(".");
+					if(index!=-1) {
+						String extensionName = fileName.substring(index+1);
+						String workSapce = Path.getImageWorkSpaceTxt(appName,pageName);
+						if(Core.isNotNull(workSapce))//Saving in your workspace case exists
+							r = FileHelper.saveImage(workSapce, fileName,extensionName.toLowerCase(), file);
+						//Saving into server
+						r = FileHelper.saveImage(Path.getImageServerTxt(appName,pageName), fileName,extensionName.toLowerCase(), file);
+						System.out.println("Image saved:"+r);
+					}
+				}
+			}
+		} catch (ServletException e) {
+			r = false;
+		}
+		
+		String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
+		
+		//String fileNameUrl= UrlHelper.urlEncoding(fileName);
+		
+		String link = baseUrl.toString()+"?r=igrp/File/get-image-txt&p_app_name="+appName+"&p_page_name="+pageName+"&p_file_name="+fileName;
+		
+		System.out.println("Link doc:"+link);
+		if(r)
+			return this.renderView("{\"type\":\"success\",\"message\":\""+FlashMessage.MESSAGE_SUCCESS+"\",\"link\":\""+link+"\"}");
+		else
+			return this.renderView("{\"type\":\"error\",\"message\":\""+FlashMessage.MESSAGE_ERROR+"\",\"link\":\"\"}");
+	}
+	
+	public Response actionGetImageTxt()  throws IOException, IllegalArgumentException, IllegalAccessException {
+		Response resp = new Response();
+		String fileName = Core.getParam("p_file_name");
+		String appName = Core.getParam("p_app_name");
+		String pageName = Core.getParam("p_page_name");
+		if(Core.isNotNull(fileName)) {
+			
+			System.out.println("Image getted doc:"+fileName);
+			System.out.println("Appname getted doc:"+appName);
+			String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
+			return this.redirectToUrl(baseUrl.toString().replaceAll("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/"+appName+"/"+pageName+"/"+fileName);
+		}
+		resp.setContent(FlashMessage.MSG_ERROR);	
+		return resp;
 	}
 	/*----#end-code----*/
 	}
