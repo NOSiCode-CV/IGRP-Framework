@@ -860,6 +860,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				s.beginTransaction();
 			}
 			if(this.isShowConsoleSql) {
+				Core.log(this.getSql());
 				System.out.println(this.getSql());
 			}
 			TypedQuery<T> query = s.createQuery(this.getSql(), this.className);

@@ -396,8 +396,8 @@ public class PageController extends Controller {
 					FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(), new String[] { pageFile.getFileXml(), pageFile.getFileXsl(), pageFile.getFileJson() });
 				boolean r = FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),new String[] { pageFile.getFileXml(), pageFile.getFileXsl(), pageFile.getFileJson() });
 				
-				System.out.println("path_xsl: " + path_xsl); 
-				System.out.println("path_class: " + path_class); 
+			//	System.out.println("path_xsl: " + path_xsl); 
+				//System.out.println("path_class: " + path_class); 
 				
 				if (ac.getIsComponent() == 0) {
 					r = FileHelper.saveFilesJava(path_class, ac.getPage(),new String[] { pageFile.getFileModel(), pageFile.getFileView(), pageFile.getFileController() });

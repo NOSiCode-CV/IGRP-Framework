@@ -172,7 +172,7 @@ public class ReportImport extends AbstractImport implements IImport {
 	private CLob getClob(CLobSerializable report, String dad) {
 		if (report != null) {
 			CLob clob = new CLob(report.getName(), report.getMime_type(), report.getC_lob_content(),
-					report.getDt_created(), new Application().findByDad(dad));
+					report.getDt_created(), Core.findApplicationByDad(dad));
 			clob = clob.insert();
 			this.addError(clob.hasError() ? clob.getError().get(0) : null);
 			return clob;
