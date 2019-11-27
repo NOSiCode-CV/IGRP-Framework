@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -34,6 +36,7 @@ import nosi.core.webapp.helpers.ExtractReserveCode;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.Route;
+import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.xml.XMLWritter;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.webapps.igrp.dao.Action;
@@ -52,6 +55,7 @@ public class PageController extends Controller {
 		Page model = new Page();
 		model.load();
 		model.setNovo_modulo("igrp","Page","index");
+		model.setEditar_modulo("igrp","Dominio","index");
 		PageView view = new PageView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -87,8 +91,6 @@ public class PageController extends Controller {
 				model.setComponente(a.getIsComponent());
 				if (a.getNomeModulo() != null && !a.getNomeModulo().isEmpty())
 					model.setModulo(a.getNomeModulo());
-				else
-					model.setModulo(null);
 				Application app = Core.findApplicationById(a.getApplication().getId());	
 				if(app!=null && app.getAction()!=null)
 					model.setPrimeira_pagina(idPage.equals(app.getAction().getId())? 1:0);
@@ -102,13 +104,16 @@ public class PageController extends Controller {
 			model.setCriar_menu(1);
 			model.setGen_auto_code(1);
 		}
-		model.setNovo_modulo("igrp_studio", "modulo", "index").addParam("p_aplicacao", model.getEnv_fk());
+		
 		view.env_fk.setValue(new Application().getListApps());
 		view.version.setValue(this.getConfig().getVersions());
 		view.version.setVisible(false);
 		view.id.setParam(true);
 		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getEnv_fk())), "name", "descricao","-- Selecionar --"));
-
+		
+		model.setNovo_modulo("igrp_studio", "modulo", "index").addParam("p_aplicacao", model.getEnv_fk());
+		model.setEditar_modulo("igrp_studio","modulo","index").addParam("p_aplicacao", model.getEnv_fk());
+		
 		if (isEdit) {
 			view.sectionheader_1_text.setValue("Page builder - Atualizar");
 			view.page.propertie().setProperty("disabled", "true");
@@ -253,8 +258,19 @@ public class PageController extends Controller {
 	
 		
 		
-/*----#start-code(custom_actions)----*/
-
+/*----#start-code(custom_actions)----
+ * "+Core.getIGRPLink("igrp_studio","modulo","index&amp;p_modulo_cod="+model.getModulo())+"
+ * */
+	
+	
+	public Response actionSetModuloEditar(Page model) {
+		String xml = "<content>"
+				       + "<editar_modulo>" +  StringEscapeUtils.escapeXml11(Core.getIGRPLink("igrp_studio","modulo","index&p_modulo_cod="+model.getModulo())) + "</editar_modulo>"
+				   + "</content>";
+		return this.renderView(xml);
+	}
+	
+	
 	private boolean checkifexists(Page model) {
 		// TODO Auto-generated method stub 
 		return Core.isNull(new Action().find().andWhere("application.id", "=", Core.toInt(model.getEnv_fk()))

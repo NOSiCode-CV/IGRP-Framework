@@ -69,6 +69,11 @@ public class Page extends Model{
 	@RParam(rParamName = "p_novo_modulo_desc")
 	private String novo_modulo_desc;
 
+	@RParam(rParamName = "p_editar_modulo")
+	private IGRPLink editar_modulo;
+	@RParam(rParamName = "p_editar_modulo_desc")
+	private String editar_modulo_desc;
+
 	@RParam(rParamName = "p_version")
 	private String version;
 
@@ -281,6 +286,28 @@ public class Page extends Model{
 	public IGRPLink setNovo_modulo(Report link){
 		this.novo_modulo = new IGRPLink(link);
 		return this.novo_modulo;
+	}
+	
+	public IGRPLink setEditar_modulo(String app,String page,String action){
+		this.editar_modulo = new IGRPLink(app,page,action);
+		return this.editar_modulo;
+	}
+	public IGRPLink getEditar_modulo(){
+		return this.editar_modulo;
+	}
+	public void setEditar_modulo_desc(String editar_modulo_desc){
+		this.editar_modulo_desc = editar_modulo_desc;
+	}
+	public String getEditar_modulo_desc(){
+		return this.editar_modulo_desc;
+	}
+	public IGRPLink setEditar_modulo(String link){
+		this.editar_modulo = new IGRPLink(link);
+		return this.editar_modulo;
+	}
+	public IGRPLink setEditar_modulo(Report link){
+		this.editar_modulo = new IGRPLink(link);
+		return this.editar_modulo;
 	}
 	
 	public void setVersion(String version){

@@ -61,7 +61,7 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Título</label>
-                    <value>Ipsum elit officia unde totam</value>
+                    <value>Doloremque perspiciatis dolor totam rem</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -74,7 +74,7 @@
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Código</label>
-                    <value>Iste aperiam sit lorem labore</value>
+                    <value>Rem doloremque officia deserunt amet</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -100,11 +100,11 @@
                 </publico>
                 <public_link name="p_public_link" type="text" maxlength="250" required="false" change="false" readonly="true" disabled="false" placeholder="" desclabel="false" right="true">
                     <label>Public Link</label>
-                    <value>Lorem perspiciatis ut stract ut</value>
+                    <value>Accusantium aliqua ipsum omnis unde</value>
                 </public_link>
                 <public_link_2 name="p_public_link_2" type="text" maxlength="250" required="false" change="false" readonly="true" disabled="false" placeholder="" desclabel="false" right="true">
                     <label>Public Link</label>
-                    <value>Omnis dolor sit ut labore</value>
+                    <value>Accusantium sed amet perspiciatis accusantium</value>
                 </public_link_2>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
                     <label></label>
@@ -170,11 +170,23 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules>
+                        <rule type="remote">
+                            <proc>setModuloEditar</proc>
+                            <requestFields>
+                                <item>p_modulo</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
                 </modulo>
                 <novo_modulo name="p_novo_modulo" type="link" target="right_panel" target_fields="" closerefresh="true" action="index" page="Page" app="igrp" custom_action="" action_type="false" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="false" request_fields="" refresh_submit="false" desclabel="false" refresh_components="">
                     <label>Módulo</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml</value>
                 </novo_modulo>
+                <editar_modulo name="p_editar_modulo" type="link" target="right_panel" target_fields="" closerefresh="true" action="index" page="Dominio" app="igrp" custom_action="" action_type="false" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-pencil-square-o" maxlength="30" placeholder="" right="false" request_fields="" refresh_submit="false" desclabel="false" refresh_components="">
+                    <label>Módulo</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
+                </editar_modulo>
                 <version name="p_version" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Versão de Página</label>
                     <list>
