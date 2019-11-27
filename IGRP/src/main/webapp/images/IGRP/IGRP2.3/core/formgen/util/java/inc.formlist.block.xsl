@@ -251,7 +251,7 @@
 		
 			<xsl:choose>
 				
-				<xsl:when test="$typedad != 'inserir_dao' ">
+				<xsl:when test="$typedad != 'inserir_dao' and not(contains($typedad,'save_formu_')) ">
 				
 					<xsl:value-of select="$newlineTab1"></xsl:value-of>
 					
@@ -353,7 +353,7 @@
 			
 			<xsl:choose>
 				
-				<xsl:when test="$typedad != 'inserir_dao' ">
+				<xsl:when test="$typedad != 'inserir_dao' and not(contains($typedad,'save_formu_')) ">
 				
 					<xsl:value-of select="$newlineTab2"></xsl:value-of>	
 					

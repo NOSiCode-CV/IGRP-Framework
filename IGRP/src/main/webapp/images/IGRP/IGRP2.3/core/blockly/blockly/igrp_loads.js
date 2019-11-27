@@ -376,7 +376,7 @@ $('#active_selenium').on('click', function() {
 						
 							+'<field type="field_text" name="opcao_val" options="key"></field>'
 							
-							+'<field type="field_text" name="opcao_des" options="value"></field>'
+							+'<field type="field_text" name="opcao_des" options="description"></field>'
 							
 						+'</value>'
 						
@@ -410,7 +410,7 @@ $('#active_selenium').on('click', function() {
 					
 					+'</value>'
 					
-					+'<value type="value" title="value" name="value_val">'
+					+'<value type="value" title="description" name="value_val">'
 					
 				+'</value>'
 				
