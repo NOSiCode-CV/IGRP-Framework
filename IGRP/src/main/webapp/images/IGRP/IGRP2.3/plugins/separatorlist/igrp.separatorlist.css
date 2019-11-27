@@ -55,7 +55,7 @@
 
 .IGRP-separatorlist[dialog="true"] .table-row-add i:before{
 	/*color:#31b0d5!important;*/
-	content:"\f00a";
+	content:"\f0fe";
 }
 
 .IGRP-separatorlist[dialog="true"]:not(.dialog-open) .splist-table{

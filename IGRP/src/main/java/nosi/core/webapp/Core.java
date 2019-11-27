@@ -713,7 +713,7 @@ public final class Core { // Not inherit
 	 * @return {@code (User) Igrp.getInstance().getUser().getIdentity();}
 	 */
 	public static nosi.webapps.igrp.dao.User getCurrentUser() {
-		if(null==Igrp.getInstance().getUser())
+		if(null==Igrp.getInstance() || null==Igrp.getInstance().getUser())
 			return null;
 		nosi.webapps.igrp.dao.User user = (nosi.webapps.igrp.dao.User) Igrp.getInstance().getUser().getIdentity();
 		if (user != null)

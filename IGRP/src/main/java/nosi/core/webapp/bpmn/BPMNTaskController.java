@@ -188,6 +188,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 					byte[] bytes = FileHelper.convertInputStreamToByte(part.getInputStream()); 
 					CLob clob = new CLob(part.getSubmittedFileName(), part.getContentType(),bytes,new Date(System.currentTimeMillis()), app );
 					clob.showMessage();
+					clob.generateUid();
 					clob = clob.insert();
 					this.saveTaskFile(clob,id_tp_doc,i,taskId);
 				} catch (Exception e) {
@@ -196,7 +197,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			}else if(input_type[i].toString().equals("OUT")) {
 				String file_id = doc_id[i].toString();
 				if(Core.isNotNull(file_id) && !file_id.equals("-1")) {
-					CLob clob = new CLob().findOne(Core.toInt(file_id));
+					CLob clob = Core.getFile(Core.toInt(file_id));					
 					this.saveTaskFile(clob,id_tp_doc,i,taskId);
 				}
 			}
