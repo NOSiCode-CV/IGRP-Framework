@@ -268,7 +268,8 @@
 							
 						break;
 						
-						case 'link'
+						case 'link':
+							
 							formElement.attr('href',value);
 						
 						break;
