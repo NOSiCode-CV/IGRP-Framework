@@ -20,6 +20,9 @@ public class CRUDGenerator extends Model{
 
 	@RParam(rParamName = "p_table_type")
 	private String table_type;
+
+	@RParam(rParamName = "p_form_2_radiolist_1")
+	private Integer form_2_radiolist_1;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -56,6 +59,13 @@ public class CRUDGenerator extends Model{
 	}
 	public String getTable_type(){
 		return this.table_type;
+	}
+	
+	public void setForm_2_radiolist_1(Integer form_2_radiolist_1){
+		this.form_2_radiolist_1 = form_2_radiolist_1;
+	}
+	public Integer getForm_2_radiolist_1(){
+		return this.form_2_radiolist_1;
 	}
 
 

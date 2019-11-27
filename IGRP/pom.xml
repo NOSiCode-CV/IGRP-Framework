@@ -45,6 +45,9 @@
 		<apache.commons.io.version>2.6</apache.commons.io.version>
 		<apache.logging.log4j.version>2.12.1</apache.logging.log4j.version>
 		<apache.poi.version>4.1.1</apache.poi.version>
+		<apache.httpcomponents.httpmime.version>4.5.10</apache.httpcomponents.httpmime.version>
+		<apache.httpcomponents.httpcore.version>4.4.12</apache.httpcomponents.httpcore.version>				
+		
 		<!-- -->
 
 		<reflections.version>0.9.11</reflections.version>
@@ -260,13 +263,31 @@
 			<type>pom</type>
 		</dependency>
 	
-	<!-- https://mvnrepository.com/artifact/org.apache.axis2/axis2 -->
+		<!-- https://mvnrepository.com/artifact/org.apache.axis2/axis2 -->
 		<dependency>
 			<groupId>org.apache.axis2</groupId>
 			<artifactId>axis2</artifactId>
 			<version>${apache.axis.version}</version>
 			<type>pom</type>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime -->
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpmime</artifactId>
+		    <version>${apache.httpcomponents.httpmime.version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpcore</artifactId>
+		    <version>${apache.httpcomponents.httpcore.version}</version>
+		</dependency>
+		
+		
+		
+		
 		<!--END Apache dependencies -->
 
 		<!-- Java Mail - SMTP -->

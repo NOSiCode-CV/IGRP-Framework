@@ -26,7 +26,7 @@ public class DominioController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT 'Perspiciatis unde omnis unde rem' as description,'Accusantium magna sit iste ipsum' as key,'1' as estado,'hidden-a04d_7733' as ordem "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Adipiscing ipsum doloremque consectetur lorem' as description,'Natus magna anim aliqua doloremque' as key,'1' as estado,'hidden-b389_9a51' as ordem "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.lst_dominio.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -66,6 +66,7 @@ public class DominioController extends Controller {
 		}
         view.btn_gravar_domain.setVisible(Core.isNull(model.getLst_dominio()));           
      	view.btn_guardar_item_domain.setVisible(Core.isNotNull(model.getLst_dominio()));
+     // view.formlist_1.setVisible(Core.isNotNull(model.getLst_dominio()));
      		 
 		/*----#end-code----*/
 		view.setModel(model);
@@ -88,6 +89,7 @@ public class DominioController extends Controller {
 			Core.setMessageSuccess();
 			this.addQueryString("p_aplicacao", model.getAplicacao());
 			this.addQueryString("p_lst_dominio", model.getLst_dominio());
+          	this.addQueryString("target", Core.getParam("target"));
 			return this.redirect("igrp","Dominio","index", this.queryString());
 		}else {
 			Core.setMessageError();
@@ -112,7 +114,8 @@ public class DominioController extends Controller {
 		if(DomainHeper.saveDomain(model)) {
 			Core.setMessageSuccess();
 			this.addQueryString("p_aplicacao", model.getAplicacao());
-			this.addQueryString("p_lst_dominio", model.getNovo_dominio());
+		//this.addQueryString("p_lst_dominio", model.getNovo_dominio());
+          this.addQueryString("target", Core.getParam("target"));
 			return this.redirect("igrp","Dominio","index", this.queryString());
 		}else {
 			Core.setMessageError();

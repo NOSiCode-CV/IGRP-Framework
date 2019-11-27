@@ -16,15 +16,17 @@ public class CRUDGeneratorView extends View {
 	public Field check_table;
 	public Field check_table_check;
 	public Field table_name;
+	public Field form_2_radiolist_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
+	public IGRPForm form_2;
 
 	public IGRPToolsBar toolsbar_3;
-	public IGRPToolsBar toolsbar_2;
 	public IGRPToolsBar toolsbar_1;
+	public IGRPToolsBar toolsbar_2;
 	public IGRPButton btn_add_datasource;
-	public IGRPButton btn_gerar_dao;
 	public IGRPButton btn_gerar;
+	public IGRPButton btn_gerar_dao;
 
 	public CRUDGeneratorView(){
 
@@ -33,6 +35,8 @@ public class CRUDGeneratorView extends View {
 		form_1 = new IGRPForm("form_1","CRUD/DAO generator");
 
 		table_1 = new IGRPTable("table_1","Escolha a tabela");
+
+		form_2 = new IGRPForm("form_2","");
 
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
@@ -61,19 +65,23 @@ public class CRUDGeneratorView extends View {
 		table_name.setLabel(gt("Table Name"));
 		table_name.propertie().add("name","p_table_name").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
+		form_2_radiolist_1 = new RadioListField(model,"form_2_radiolist_1");
+		form_2_radiolist_1.setLabel(gt("Escolha 1º"));
+		form_2_radiolist_1.propertie().add("name","p_form_2_radiolist_1").add("type","radiolist").add("domain","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("child_size","6").add("java-type","");
+		
 
 		toolsbar_3 = new IGRPToolsBar("toolsbar_3");
-		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
+		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
 
 		btn_add_datasource = new IGRPButton("Add datasource","igrp_studio","CRUDGenerator","add_datasource","mpsubmit","primary|fa-database","","");
 		btn_add_datasource.propertie.add("type","specific").add("rel","add_datasource").add("refresh_components","");
 
-		btn_gerar_dao = new IGRPButton("DAO","igrp_studio","CRUDGenerator","gerar_dao","submit_ajax","danger|fa-gears","","");
-		btn_gerar_dao.propertie.add("type","specific").add("rel","gerar_dao").add("refresh_components","");
-
 		btn_gerar = new IGRPButton("CRUD","igrp_studio","CRUDGenerator","gerar","submit_ajax","success|fa-gear","","");
 		btn_gerar.propertie.add("type","specific").add("rel","gerar").add("refresh_components","");
+
+		btn_gerar_dao = new IGRPButton("DAO","igrp_studio","CRUDGenerator","gerar_dao","submit_ajax","danger|fa-gears","","");
+		btn_gerar_dao.propertie.add("type","specific").add("rel","gerar_dao").add("refresh_components","");
 
 		
 	}
@@ -87,20 +95,23 @@ public class CRUDGeneratorView extends View {
 		form_1.addField(schema);
 		form_1.addField(table_type);
 
-
 		table_1.addField(check_table);
 		table_1.addField(check_table_check);
 		table_1.addField(table_name);
 
+		form_2.addField(form_2_radiolist_1);
+
+
 
 		toolsbar_3.addButton(btn_add_datasource);
-		toolsbar_2.addButton(btn_gerar_dao);
 		toolsbar_1.addButton(btn_gerar);
+		toolsbar_2.addButton(btn_gerar_dao);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
+		this.addToPage(form_2);
 		this.addToPage(toolsbar_3);
-		this.addToPage(toolsbar_2);
 		this.addToPage(toolsbar_1);
+		this.addToPage(toolsbar_2);
 	}
 		
 	@Override
@@ -111,7 +122,8 @@ public class CRUDGeneratorView extends View {
 		schema.setValue(model);
 		table_type.setValue(model);
 		check_table.setValue(model);
-		table_name.setValue(model);	
+		table_name.setValue(model);
+		form_2_radiolist_1.setValue(model);	
 
 		table_1.loadModel(((CRUDGenerator) model).getTable_1());
 		}

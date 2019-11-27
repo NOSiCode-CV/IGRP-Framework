@@ -84,8 +84,8 @@ public class DominioView extends View {
 		btn_guardar_item_domain = new IGRPButton("Guardar","igrp","Dominio","guardar_item_domain","submit_ajax","primary|fa-save","","");
 		btn_guardar_item_domain.propertie.add("type","specific").add("rel","guardar_item_domain").add("refresh_components","formlist_1");
 
-		btn_gravar_domain = new IGRPButton("Adicionar","igrp","Dominio","gravar_domain","submit","success|fa-plus-square","","");
-		btn_gravar_domain.propertie.add("type","specific").add("rel","gravar_domain").add("refresh_components","");
+		btn_gravar_domain = new IGRPButton("Adicionar","igrp","Dominio","gravar_domain","submit_ajax","success|fa-plus-square","","");
+		btn_gravar_domain.propertie.add("type","specific").add("rel","gravar_domain").add("refresh_components","toolsbar_1,form_1,formlist_1");
 
 		
 	}

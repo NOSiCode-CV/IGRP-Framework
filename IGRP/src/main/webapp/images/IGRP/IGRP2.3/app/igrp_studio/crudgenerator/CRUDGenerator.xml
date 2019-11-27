@@ -178,17 +178,6 @@
                 </table_type>
             </fields>
         </form_1>
-        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gerar_dao" custom_return="true" refresh_components="">
-                <title>DAO</title>
-                <app>igrp_studio</app>
-                <page>ListaEnv</page>
-                <link>index</link>
-                <target>submit_ajax</target>
-                <img>danger|fa-gears</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
-            </item>
-        </toolsbar_2>
         <table_1 type="table" xml-type="table" title="Escolha a tabela" gen-type="container" gen-group="true">
             <fields>
                 <check_table name="p_check_table" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" showLabel="true" java-type="int" group_in="" check="true" desc="true">
@@ -203,31 +192,57 @@
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Voluptatem accusantium mollit</table_name>
+                        <table_name name="p_table_name">Consectetur anim accusantium s</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Labore rem amet magna natus</table_name>
+                        <table_name name="p_table_name">Labore perspiciatis ipsum iste</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Aperiam ut mollit natus totam</table_name>
+                        <table_name name="p_table_name">Deserunt laudantium sit volupt</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Doloremque amet ut ipsum persp</table_name>
+                        <table_name name="p_table_name">Ipsum aperiam amet totam sit</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Sed omnis laudantium ut rem</table_name>
+                        <table_name name="p_table_name">Totam unde elit sit magna</table_name>
                     </row>
                 </value>
             </table>
         </table_1>
+        <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <form_2_radiolist_1 name="p_form_2_radiolist_1" type="radiolist" domain="" maxlength="250" required="false" change="false" readonly="false" disabled="false" child_size="6" right="false" java-type="">
+                    <label>Escolha 1º</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <rules/>
+                </form_2_radiolist_1>
+            </fields>
+        </form_2>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gerar" refresh_components="">
                 <title>CRUD</title>
@@ -239,11 +254,43 @@
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xml</preview>
             </item>
         </toolsbar_1>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gerar_dao" custom_return="true" refresh_components="">
+                <title>DAO</title>
+                <app>igrp_studio</app>
+                <page>ListaEnv</page>
+                <link>index</link>
+                <target>submit_ajax</target>
+                <img>danger|fa-gears</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
+            </item>
+        </toolsbar_2>
     </content>
     <blockly>
-        <imports></imports>
+        <imports>
+            <import type="fill_combo">Select</import>
+        </imports>
         <xml>
-            <block type="controller" id="controller" x="388" y="13"></block>
+            <block type="controller" id="controller" x="388" y="13">
+                <statement name="index">
+                    <block type="fill_combo" id="pmuV/p@`;lOaQD!n7u`?" inline="true">
+                        <field name="selecao">form_2_radiolist_1</field>
+                        <field name="selecionar">FALSE</field>
+                        <statement name="value2">
+                            <block type="option_combo" id="b!qgzG3EpCrHOg_CPwI:" inline="true">
+                                <field name="opcao_val">dao</field>
+                                <field name="opcao_des">DAO</field>
+                                <next>
+                                    <block type="option_combo" id="br;]:5d)Y#Fuzp^?w!};" inline="true">
+                                        <field name="opcao_val">crud</field>
+                                        <field name="opcao_des">CRUD</field>
+                                    </block>
+                                </next>
+                            </block>
+                        </statement>
+                    </block>
+                </statement>
+            </block>
         </xml>
     </blockly>
 </rows>

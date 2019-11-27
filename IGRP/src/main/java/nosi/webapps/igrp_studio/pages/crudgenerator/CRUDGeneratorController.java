@@ -7,6 +7,8 @@ import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /* Start-Code-Block (import) */
+import java.util.LinkedHashMap;
+import static nosi.core.i18n.Translator.gt;
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.gui.page.Page;
@@ -40,12 +42,18 @@ public class CRUDGeneratorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Aperiam ut doloremque omnis ap' as table_name "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Aperiam dolor magna dolor aper' as table_name "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.schema.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.table_type.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.form_2_radiolist_1.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+	LinkedHashMap<String, String> form_2_radiolist_1 = new LinkedHashMap<>();
+	form_2_radiolist_1.put("dao",gt("DAO"));
+	form_2_radiolist_1.put("crud",gt("CRUD"));
+	view.form_2_radiolist_1.setValue(form_2_radiolist_1);
+	
 		/*----#start-code(index)----*/	 
 		
 		view.btn_add_datasource.setLink("igrp","ConfigDatabase","index");
@@ -143,23 +151,6 @@ public class CRUDGeneratorController extends Controller {
 		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
 	}
 	
-	public Response actionGerar_dao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		CRUDGenerator model = new CRUDGenerator();
-		model.load();
-		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  return this.forward("igrp_studio","ListaEnv","index",this.queryString()); //if submit, loads the values
-		  Use model.validate() to validate your model
-		  ----#gen-example */
-		/*----#start-code(gerar_dao)----*/
-		return this.forward("igrp_studio","Daogenerator","index",this.queryString());
-		
-		/*----#end-code----*/
-			
-	}
-	
 	public Response actionGerar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		CRUDGenerator model = new CRUDGenerator();
 		model.load();
@@ -220,6 +211,23 @@ public class CRUDGeneratorController extends Controller {
 		this.addQueryString("dao_boo","false");
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","CRUDGenerator","index", this.queryString());	
+	}
+	
+	public Response actionGerar_dao() throws IOException, IllegalArgumentException, IllegalAccessException{
+		CRUDGenerator model = new CRUDGenerator();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp_studio","ListaEnv","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/*----#start-code(gerar_dao)----*/
+		return this.forward("igrp_studio","Daogenerator","index",this.queryString());
+		
+		/*----#end-code----*/
+			
 	}
 	
 		
