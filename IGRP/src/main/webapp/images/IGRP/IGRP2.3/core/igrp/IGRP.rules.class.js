@@ -1012,7 +1012,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 				var oppObject = jQuery.extend(true,{}, o);;
 
-				var orule = conditionsList[rules[0].condition].opposite;
+				var orule = conditionsList[rules[0].condition] ? conditionsList[rules[0].condition].opposite : null;
 
 				var oactions = oppObject.conditions.actions.slice();
 
