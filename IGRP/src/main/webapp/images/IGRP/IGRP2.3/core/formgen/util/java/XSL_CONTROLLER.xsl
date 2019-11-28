@@ -351,7 +351,12 @@
 							</xsl:if>
 						</xsl:for-each>
 						
-
+						<xsl:if test="//rows/content/*[@type!='table']/fields/*[@type='texteditor']">
+								<xsl:text> //model.setLink_upload_img(this.getConfig().getResolveUrl("igrp","file","save-image-txt&amp;p_page_name="+Core.getCurrentPage()));</xsl:text>
+								<xsl:value-of select="$newlineTab2"/>	
+						</xsl:if>	
+						
+						
 						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>					
 						<xsl:call-template name="setParam"/>
 						<xsl:call-template name="setSqlCombobox_">						
@@ -364,8 +369,7 @@
 							<xsl:call-template name="setSqlCombobox"/>					
 							<xsl:call-template name="setBoxValue"/>	
 							<xsl:call-template name="end-example"/>
-						</xsl:if>	
-						
+						</xsl:if>
 						
 						<xsl:call-template name="blockly.elements">
 							<xsl:with-param name="elements" select="//rows/blockly/xml/block/statement[@name='index']/block"/>

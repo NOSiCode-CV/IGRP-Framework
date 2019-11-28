@@ -100,7 +100,25 @@
 		 updateShape_: function (arr) {
 			 
 			 	var _block = this;
-				 
+			 	
+			 	var mutation_num = this.itemCount_;
+			 	
+			 	if(_block.getInput("get_pa")!= null)
+			 		{
+			 	
+					 	if(mutation_num != 0){
+					 		
+					 		_block.getInput("get_pa").setVisible(false);
+					 			
+					 	}
+					 	
+					 	if(mutation_num == 0){
+					 		
+					 		_block.getInput("get_pa").setVisible(true);
+					 			
+					 	}
+			 		}
+			 		
 			 	var appendMutationFields = function(v,id){
 			 		
 			 		

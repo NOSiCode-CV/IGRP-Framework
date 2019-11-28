@@ -560,6 +560,16 @@
 			
 		</xsl:variable>
 		
+		<xsl:variable name="edit_pa">
+		
+			<xsl:call-template name="blockly.getValue">
+			
+				<xsl:with-param name="value" select="value[@name='get_pa']"/>
+				
+			</xsl:call-template>
+			
+		</xsl:variable>
+		
 		<xsl:variable name="code_edit">
 		
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
@@ -574,15 +584,31 @@
 			
 			<xsl:text>if (Core.isNotNull(isEdit)) {</xsl:text>
 			
-			<xsl:value-of select="$newlineTab2"/>
+			<xsl:choose>
 			
-			<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daofilter"/><xsl:text> = new </xsl:text><xsl:value-of select="$dao"/><xsl:text>().find();</xsl:text>
-			
-			<xsl:value-of select="$andWheres"/>
-			
-			<xsl:value-of select="$newlineTab2"/>
-			
-			<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text> = </xsl:text><xsl:value-of select="$daofilter"></xsl:value-of><xsl:text>.one();</xsl:text>
+				<xsl:when test="$mutation!= 0">
+				
+					<xsl:value-of select="$newlineTab2"/>
+					
+					<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daofilter"/><xsl:text> = new </xsl:text><xsl:value-of select="$dao"/><xsl:text>().find();</xsl:text>
+					
+					<xsl:value-of select="$andWheres"/>
+					
+					<xsl:value-of select="$newlineTab2"/>
+					
+					<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text> = </xsl:text><xsl:value-of select="$daofilter"></xsl:value-of><xsl:text>.one();</xsl:text>
+	
+				</xsl:when>
+				
+				<xsl:otherwise>
+				
+					<xsl:value-of select="$newlineTab2"/>
+				
+					<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text> = new </xsl:text><xsl:value-of select="$dao"/><xsl:text>().findOne(</xsl:text><xsl:value-of select="$edit_pa"/><xsl:text>);</xsl:text>
+						
+				</xsl:otherwise>
+				
+			</xsl:choose>
 			
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			
