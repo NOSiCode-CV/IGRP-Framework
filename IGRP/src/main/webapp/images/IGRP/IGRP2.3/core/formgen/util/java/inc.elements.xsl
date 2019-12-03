@@ -612,7 +612,7 @@
 			
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			
-			<xsl:text>if (</xsl:text><xsl:value-of select="$daolow"/><xsl:text>!=null) {</xsl:text>
+			<xsl:text>if (</xsl:text><xsl:value-of select="$daolow"/><xsl:text>!=null &amp;&amp; !</xsl:text><xsl:value-of select="$daolow"/><xsl:text>.hasError()) {</xsl:text>
 			
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			
@@ -691,6 +691,28 @@
 		<xsl:value-of select="$newlineTab1"></xsl:value-of>
 		
 		<xsl:text>view.btn_</xsl:text><xsl:value-of select="$button"/><xsl:text>.addParameter("p_</xsl:text><xsl:value-of select="$paramget"/><xsl:text>", Core.getParam("p_</xsl:text><xsl:value-of select="$paramget"/><xsl:text>"));</xsl:text>
+		
+	</xsl:template>
+	
+	<xsl:template name="blockly.element.send_par_dao" >
+		
+		<xsl:variable name="paramget" select="field[@name='param']"/>
+		
+		<xsl:variable name="button" select="field[@name='button']"/>
+		
+		<xsl:variable name="valor">
+		
+			<xsl:call-template name="blockly.getValue">
+			
+				<xsl:with-param name="value" select="value[@name='dao_field']"/>
+				
+			</xsl:call-template>
+			
+		</xsl:variable>
+		
+		<xsl:value-of select="$newlineTab1"></xsl:value-of>
+		
+		<xsl:text>view.btn_</xsl:text><xsl:value-of select="$button"/><xsl:text>.addParameter("p_</xsl:text><xsl:value-of select="$paramget"/><xsl:text>", </xsl:text><xsl:value-of select="$valor"/><xsl:text>);</xsl:text>
 		
 	</xsl:template>
 	
@@ -1552,6 +1574,12 @@
 			<xsl:when test="$block-type = 'rediret_p'">
 			
 				<xsl:call-template name="blockly.element.rediret_p"></xsl:call-template>
+				
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'send_par_dao'">
+			
+				<xsl:call-template name="blockly.element.send_par_dao"></xsl:call-template>
 				
 			</xsl:when>
 			

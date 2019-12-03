@@ -84,6 +84,12 @@
 				
 				</xsl:when>
 				
+				<xsl:when test=" $from = 'String' and $to = 'File' ">
+				
+					<xsl:text>"Can not fill the upload field form!"</xsl:text>
+				
+				</xsl:when>  
+				
 				<xsl:when test="$from = 'Integer' and $to = 'hidden'">
 				
 					<xsl:text>""+</xsl:text><xsl:value-of select="$value"></xsl:value-of>
@@ -201,7 +207,7 @@
 				
 				<xsl:when test=" $from = 'Image' and $to = 'String' ">
 				
-					<xsl:variable name="otherdao">
+					<xsl:variable name="valuuid">
 			
 						<xsl:call-template name="replace-all">
 						
@@ -214,8 +220,20 @@
 						</xsl:call-template>
 						
 					</xsl:variable>
+					
+					<xsl:variable name="upvalueblock">
+		
+						<xsl:call-template name="InitCap">
+						
+							<xsl:with-param name="text" select="$valueblock"/>
+							
+						</xsl:call-template>
+						
+					</xsl:variable>
 				
-					<xsl:value-of select="$otherdao"/>
+					<xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$upvalueblock"/><xsl:text>() == null ? </xsl:text><xsl:value-of select="$valuuid"/><xsl:text> : </xsl:text>
+					
+					<xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$upvalueblock"/><xsl:text>()</xsl:text>
 				
 				</xsl:when>  
 

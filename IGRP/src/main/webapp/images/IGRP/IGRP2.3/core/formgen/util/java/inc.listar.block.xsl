@@ -62,6 +62,8 @@
 	   	
 	   	<xsl:variable name="row">
 	   	
+	   		<xsl:value-of select="$newlineTab3"></xsl:value-of>
+	   	
 			<xsl:call-template name="blockly.getValue">
 
 				<xsl:with-param name="value" select="*[@name='value2']"/>
@@ -147,8 +149,6 @@
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			
 			<xsl:value-of select="$page-title"></xsl:value-of><xsl:text>.</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text> row = new </xsl:text><xsl:value-of select="$page-title"></xsl:value-of><xsl:text>.</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text>();</xsl:text> 
-			
-			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			
 			<xsl:value-of select="$row"></xsl:value-of>
 			

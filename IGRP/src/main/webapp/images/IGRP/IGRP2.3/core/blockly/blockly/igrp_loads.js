@@ -493,6 +493,26 @@ $('#active_selenium').on('click', function() {
 				+'</value>'
 				
 			+'</block>'
+			
+			+'<block type="send_par_dao" color="60" prev-statement="" next-statement="" inline="true" class="blocly-dynamic">'
+			
+				+'<value type="dummy" >'
+				
+					+'<field type="field_text" name="param" title="send parameter" options=""></field>'
+				
+				+'</value>'
+				
+				+'<value type="value" name="dao_field"  title="="></value>'
+				
+				+'<value type="dummy" >'
+				
+					+'<field type="dropdown" name="button"  title=" in button" options="IGRP_BLOCKLY_DROPS.buttons"></field>'
+					
+					+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/send-icon.svg"></field>'
+					
+				+'</value>'
+				
+			+'</block>'
 	
 			+'<block type="add_isedit" prev-statement="" next-statement="" color="60" class="blocly-dynamic">'
 			
@@ -510,7 +530,7 @@ $('#active_selenium').on('click', function() {
 			
 				+'<value name="value1" type="dummy" >'
 				
-					+'<field type="field_text" name="param" title="send parameter" options=""></field>'
+					+'<field type="field_text" name="param" title="add parameter" options=""></field>'
 				
 				+'</value>'
 				
@@ -1354,7 +1374,7 @@ $('#active_selenium').on('click', function() {
 						
 							+'<value name="PARAM" type="dummy">'
 							
-								+'<field type="dropdown" name="iskey" title="send primary-key" options="IGRP_BLOCKLY_DROPS.keys"></field>'
+								+'<field type="dropdown" name="iskey" title="add primary-key" options="IGRP_BLOCKLY_DROPS.keys"></field>'
 								
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/send-icon.svg"></field>'
 								
@@ -1366,7 +1386,7 @@ $('#active_selenium').on('click', function() {
 							
 							+'<value type="dummy">'
 							
-								+'<field type="text" options="send parameter isEdit"></field>'
+								+'<field type="text" options="add parameter isEdit"></field>'
 							
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/send-icon.svg"></field>'
 							
