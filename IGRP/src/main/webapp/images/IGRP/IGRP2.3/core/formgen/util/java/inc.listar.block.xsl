@@ -10,7 +10,7 @@
 		
 		<xsl:variable name="fill" select="field[@name='FILL']"/>
 		
-		<xsl:variable name="table" select="@id"/>
+		<xsl:variable name="table" select="substring-after(@type,'listar_')"/>
 		
 		<xsl:variable name="dao_low">
 		
@@ -61,8 +61,6 @@
 	   	</xsl:variable>
 	   	
 	   	<xsl:variable name="row">
-	   	
-	   		<xsl:value-of select="$newlineTab3"></xsl:value-of>
 	   	
 			<xsl:call-template name="blockly.getValue">
 
@@ -149,6 +147,8 @@
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			
 			<xsl:value-of select="$page-title"></xsl:value-of><xsl:text>.</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text> row = new </xsl:text><xsl:value-of select="$page-title"></xsl:value-of><xsl:text>.</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text>();</xsl:text> 
+			
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			
 			<xsl:value-of select="$row"></xsl:value-of>
 			

@@ -158,7 +158,7 @@
 			
 			</xsl:choose>
 			
-			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			
 			<xsl:value-of select="$insercao"></xsl:value-of>
 			

@@ -1,5 +1,5 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
+	
 	<xsl:include href="inc.listar.block.xsl"/>
 	
 	<xsl:include href="inc.separator.block.xsl"/>
@@ -59,6 +59,8 @@
 		</xsl:variable>
 		
 		<xsl:variable name="rowset">
+		
+			<xsl:value-of select="$tab2"></xsl:value-of>
 		
 			<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of><xsl:text>(</xsl:text>
 			
@@ -183,6 +185,8 @@
 		<xsl:choose>
 		
 			<xsl:when test="$modelType = 'Image' or $modelType = 'Text' or $modelType = 'File'">
+			
+				<xsl:value-of select="$tab2"></xsl:value-of>
 				
 				<xsl:text>view.</xsl:text><xsl:value-of select="$modelValue"></xsl:value-of><xsl:text>.setValue(</xsl:text>
 				
@@ -209,6 +213,8 @@
 			</xsl:when>
 			
 			<xsl:otherwise>
+			
+				<xsl:value-of select="$tab2"></xsl:value-of>
 			
 				<xsl:text>model.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of><xsl:text>(</xsl:text>
 				
@@ -401,6 +407,8 @@
 				</xsl:when>
 					
 				<xsl:otherwise>
+				
+					<xsl:value-of select="$tab2"></xsl:value-of>
 				
 					<xsl:value-of select="$daolow"/><xsl:text>.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text>
 					
@@ -614,7 +622,7 @@
 			
 			<xsl:text>if (</xsl:text><xsl:value-of select="$daolow"/><xsl:text>!=null &amp;&amp; !</xsl:text><xsl:value-of select="$daolow"/><xsl:text>.hasError()) {</xsl:text>
 			
-			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			
 			<xsl:value-of select="$edicao"></xsl:value-of>
 			
