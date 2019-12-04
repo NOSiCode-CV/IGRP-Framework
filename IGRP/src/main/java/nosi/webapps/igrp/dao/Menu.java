@@ -174,13 +174,14 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 
 	public boolean getPermissionMen(String app) {
 		
-		List<Profile> p = new Profile().find()
+		Profile p = new Profile().find()
 				.andWhere("type", "=","MEN")
 				.andWhere("organization", "=",Core.getCurrentOrganization())
+//				.andWhere("organization.application.dad", "=",app)
 				.andWhere("profileType", "=",Core.getCurrentProfile())
 				.andWhere("profileType.status", "=", 1)
-				.all();
-		return p.size() > 0;
+				.one();
+		return p!=null;
 		
 		
 	}

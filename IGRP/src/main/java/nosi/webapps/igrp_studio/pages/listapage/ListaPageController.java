@@ -17,6 +17,7 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.webapps.igrp.dao.Modulo;
 import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp_studio.pages.listapage.ListaPage.Table_2;
 import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -108,7 +109,7 @@ public class ListaPageController extends Controller {
 		
 		
 		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
-		ArrayList<ListaPage.Table_2> apps = new ArrayList<>();
+		List<ListaPage.Table_2> apps = new ArrayList<>();
 		
 
 		if (Core.isNotNull(app)) {
@@ -203,6 +204,7 @@ public class ListaPageController extends Controller {
 	   	view.modulo.setVisible(map.size() > 1);
 
 		view.table_1.addData(lista);
+		Collections.sort(apps, new SortbyID());
 		view.table_2.addData(apps);
 		view.btn_eliminar.setVisible(false);
 
@@ -418,6 +420,16 @@ public class ListaPageController extends Controller {
 	                return StatusCompare; 
 	            } 
 
+		}
+	}
+	class SortbyID implements Comparator<ListaPage.Table_2> {
+	
+
+		@Override
+		public int compare(Table_2 o1, Table_2 o2) {
+			// TODO Auto-generated method stub
+			return o2.getEnv_fk()-o1.getEnv_fk();
+		
 		}
 	}
 	/*----#end-code----*/

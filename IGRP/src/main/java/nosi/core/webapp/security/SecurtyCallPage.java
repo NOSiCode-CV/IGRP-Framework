@@ -49,7 +49,10 @@ public class SecurtyCallPage {
 	 * @return
 	 */
 	public static boolean isPublic(String route) {
-		final boolean withoutLogin = PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains(route.toLowerCase());
+		final boolean withoutLogin = PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains(route.toLowerCase());	
+		if(withoutLogin) {		
+			return withoutLogin;
+		}		
 		int isPublic = Core.getParamInt("isPublic").intValue();
 		if(isPublic ==1 || isPublic==2) {
 			String r = route;

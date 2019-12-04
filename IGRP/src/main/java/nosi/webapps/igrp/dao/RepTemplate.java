@@ -42,7 +42,9 @@ public class RepTemplate extends IGRPBaseActiveRecord<RepTemplate> implements Se
 	private Date dt_created;
 	@Temporal(TemporalType.DATE)
 	private Date dt_updated;
-	private int status;
+	
+		
+	private int status; // 1= Active; 2= public active
 	
 	@ManyToOne
 	@JoinColumn(name="user_created_fk",foreignKey=@ForeignKey(name="REP_TEMPLATE_USER_CREATED_FK"),nullable=false)

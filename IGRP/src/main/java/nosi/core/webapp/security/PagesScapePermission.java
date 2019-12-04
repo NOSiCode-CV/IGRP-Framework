@@ -24,6 +24,9 @@ public class PagesScapePermission {
 		PAGES_WIDTHOUT_LOGIN.add("igrp/error-page/permission".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/error-page/notFound".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/ErrorPage/notFound".toLowerCase());	
+		PAGES_WIDTHOUT_LOGIN.add("igrp/File/get-image-txt".toLowerCase());
+		PAGES_WIDTHOUT_LOGIN.add("igrp/File/save-image".toLowerCase());
+		PAGES_WIDTHOUT_LOGIN.add("igrp/File/get-file".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/Page/detailPage".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/Page/listPage".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/Page/listService".toLowerCase());
@@ -34,6 +37,8 @@ public class PagesScapePermission {
 		PAGES_WIDTHOUT_LOGIN.add("igrp/Page/getPageJson".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("inps_porton/Pagamento_de_servico/index".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("inps_porton/Pagamento_de_servico/pagar".toLowerCase());
+		PAGES_WIDTHOUT_LOGIN.add("igrp_studio/web-report/get-link-report".toLowerCase());
+		PAGES_WIDTHOUT_LOGIN.add("igrp_studio/WebReport/preview".toLowerCase());
 		
 	}
 

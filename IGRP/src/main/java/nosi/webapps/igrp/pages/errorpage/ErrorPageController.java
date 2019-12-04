@@ -43,27 +43,29 @@ public class ErrorPageController extends Controller {
       ErrorPage model = new ErrorPage();
       model.load();
 		ErrorPageView view = new ErrorPageView();
-	//	if(Igrp.getInstance().getUser().isAuthenticated()){
-			
-			Exception e = (Exception)Igrp.getInstance().getRequest().getAttribute(RequestDispatcher.ERROR_EXCEPTION);
-			if(e!=null)
-				e.printStackTrace();
-			
-			String errorMsg = Igrp.getInstance().getRequest().getAttribute("javax.servlet.error.message") + ""; 
-			
-			//logger.error(errorMsg);
-			
+	//	if(Igrp.getInstance().getUser().isAuthenticated()){					
 			try {
-				Igrp.getInstance().getFlashMessage().addMessage("error", errorMsg );
-				// dbug
-				Core.log(Igrp.getInstance().getRequest().getSession().getAttribute("igrp.error").toString());
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-				Core.log("TryCatch: "+e.toString());
-			}
+				Exception e = (Exception)Igrp.getInstance().getRequest().getAttribute(RequestDispatcher.ERROR_EXCEPTION);
+				if(e!=null) {
+					Core.log("ExpTion: "+e.toString());
+					e.printStackTrace();
+				}				
+				
+				String errorMsg = Core.getAttribute("javax.servlet.error.message",true); 
+				
+				//logger.error(errorMsg);
+				if(errorMsg!=null)
+					Core.setMessageError(errorMsg);
 			
-			Igrp.getInstance().getFlashMessage().addMessage("info", Core.gt("Por favor contactar o serviço de HELPDESK para mais informações.(helpdesk@nosi.cv - Tel:2607973)"));
+				// dbug
+				if(Igrp.getInstance()!=null && Igrp.getInstance().getRequest() !=null && Igrp.getInstance().getRequest().getSession()!=null  )
+				Core.log(Igrp.getInstance().getRequest().getSession().getAttribute("igrp.error")+"");
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block				
+				Core.log("TryCatch: "+e1.toString());
+				e1.printStackTrace();
+			}
+			Core.setMessageInfo(Core.gt("Por favor contactar o serviço de HELPDESK para mais informações.(helpdesk@nosi.cv - Tel:2607973)"));
 			view.setModel(model);
 			return this.renderView(view);
 //		}

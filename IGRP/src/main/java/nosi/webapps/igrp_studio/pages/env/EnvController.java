@@ -18,6 +18,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -583,8 +586,9 @@ public class EnvController extends Controller {
 			
 			this.addQueryString("dad", app); 		
 			return this.redirect(p[0], p[1], p[2],this.queryString());
-		}
-		
+		}		
+		Core.setMessageError(gt("Não tem permissão! No permission! Page: ")+page);		
+		Core.setAttribute("javax.servlet.error.message", gt("Não tem permissão! No permission! Page: ")+page);		
 		return this.redirectError();
 	}
 	
