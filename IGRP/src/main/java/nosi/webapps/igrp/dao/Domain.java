@@ -31,11 +31,11 @@ public class Domain extends IGRPBaseActiveRecord<Domain> implements Serializable
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	@Column(nullable=false, length=50)
-	private String dominio;
-	@Column(nullable=false, length=50)
-	private String valor;
 	@Column(nullable=false, length=100)
+	private String dominio;
+	@Column(nullable=false, length=150)
+	private String valor;
+	@Column(nullable=false, length=250)
 	private String description;
 	@Column(nullable=false, length=8)
 	private String status = "ATIVE";

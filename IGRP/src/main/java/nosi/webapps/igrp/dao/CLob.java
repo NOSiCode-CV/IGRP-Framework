@@ -5,6 +5,7 @@ package nosi.webapps.igrp.dao;
  */
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import javax.persistence.Column;
@@ -19,7 +20,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import nosi.core.webapp.Core;
 
@@ -49,6 +53,9 @@ public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 	@Temporal(TemporalType.DATE)
 	@Column(nullable=false)
 	private Date dt_created;
+	
+	@CreationTimestamp
+    private LocalDateTime createDateTime;
 	@ManyToOne
 	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="CLOB_ENV_FK"),nullable=true)
 	private Application application;
@@ -58,7 +65,11 @@ public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 	private Application application_updated;
 	
 	@Temporal(TemporalType.DATE)
-	private Date dt_updated;
+	private Date dt_updated;	
+	
+     @UpdateTimestamp
+    private LocalDateTime updateDateTime;  
+     
 	@ManyToOne
 	@JoinColumn(name="user_created_fk",foreignKey=@ForeignKey(name="CLOB_USER_CREATED_FK"),nullable=true)
 	private User user = Core.isNotNull(Core.getCurrentUser())?Core.getCurrentUser():null; 

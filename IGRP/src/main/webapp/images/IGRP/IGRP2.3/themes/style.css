@@ -68,7 +68,9 @@ img{
 
  max-width: 100%;
 }
-
+.img-rounded {
+    border-radius: 50%;
+}
 b{
   font-weight: 500
 }

@@ -153,14 +153,14 @@ public class ConfigDatabaseController extends Controller {
 		
       if (Igrp.getMethod().equalsIgnoreCase("post")) {		
 			Config_env config = new Config_env();
-			config.setApplication(new Application().findOne(Integer.parseInt(model.getAplicacao())));
+			config.setApplication(Core.findApplicationById(Core.toInt(model.getAplicacao())));
 			config.setCharset("utf-8");
-			config.setUsername(Core.encrypt(model.getUsername(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
-			config.setPassword(Core.encrypt(model.getPassword(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			config.setUsername(Core.encrypt(model.getUsername().trim(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			config.setPassword(Core.encrypt(model.getPassword().trim(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setType_db(Core.encrypt(model.getTipo_base_dados(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setUrl_connection(Core.encrypt(model.getUrl_connection().trim(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setDriver_connection(Core.encrypt(model.getDriver_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
-			config.setName(model.getNome_de_conexao());
+			config.setName(model.getNome_de_conexao().trim());
 			Migrate m = new Migrate();
 			m.load();
 			if (!(new MigrationIGRP().validate(m)) || config.getName().equalsIgnoreCase(this.configApp.getBaseConnection())) {
@@ -305,12 +305,12 @@ public class ConfigDatabaseController extends Controller {
 			Config_env config = new Config_env().findOne(id_conn);
 			config.setApplication(Core.findApplicationById(Integer.parseInt(model.getAplicacao())));
 			config.setCharset("utf-8");
-			config.setUsername(Core.encrypt(model.getUsername(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
-			config.setPassword(Core.encrypt(model.getPassword(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			config.setUsername(Core.encrypt(model.getUsername().trim(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			config.setPassword(Core.encrypt(model.getPassword().trim(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setType_db(Core.encrypt(model.getTipo_base_dados(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setUrl_connection(Core.encrypt(model.getUrl_connection().trim(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setDriver_connection(Core.encrypt(model.getDriver_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
-			config.setName(model.getNome_de_conexao());
+			config.setName(model.getNome_de_conexao().trim());
 			Migrate m = new Migrate();
 			m.load();
 
@@ -367,9 +367,9 @@ public class ConfigDatabaseController extends Controller {
 				"<hibernate-configuration>\n" + 
 				"\t<session-factory>\n" +
 				"\t\t<property name=\"hibernate.connection.driver_class\">"+Core.decrypt(config.getDriver_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)+"</property>\r\n" + 
-				"\t\t<property name=\"hibernate.connection.url\">"+Core.decrypt(config.getUrl_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)+"</property>\r\n" + 
-				"\t\t<property name=\"hibernate.connection.username\">"+Core.decrypt(config.getUsername(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)+"</property>\r\n" + 
-				"\t\t<property name=\"hibernate.connection.password\">"+Core.decrypt(config.getPassword(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)+"</property>\r\n" + 
+				"\t\t<property name=\"hibernate.connection.url\">"+Core.decrypt(config.getUrl_connection().trim(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)+"</property>\r\n" + 
+				"\t\t<property name=\"hibernate.connection.username\">"+Core.decrypt(config.getUsername().trim(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)+"</property>\r\n" + 
+				"\t\t<property name=\"hibernate.connection.password\">"+Core.decrypt(config.getPassword().trim(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)+"</property>\r\n" + 
 				"\t\t<property name=\"hibernate.hbm2ddl.auto\">update</property>\r\n" + 
 				"\t\t<property name=\"hibernate.connection.isolation\">2</property>\r\n" + 
 				"\t\t<property name=\"hibernate.connection.autocommit\">false</property>\r\n" + 
