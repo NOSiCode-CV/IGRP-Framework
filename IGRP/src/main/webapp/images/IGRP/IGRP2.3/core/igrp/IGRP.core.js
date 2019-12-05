@@ -1161,6 +1161,12 @@
         	$.IGRP.utils.verticalCentralize();
         	
         	$.IGRP.utils.adjustableRows();
+        	
+        	$.IGRP.events.on('submit-complete',function(){
+        		
+        		$.IGRP.utils.adjustableRows();
+        		
+        	});
         
         };
         
