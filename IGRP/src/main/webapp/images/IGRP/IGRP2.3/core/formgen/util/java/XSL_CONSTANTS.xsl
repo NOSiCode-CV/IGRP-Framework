@@ -561,7 +561,7 @@
         
     </xsl:template>
     
-  
+  	<!-- name()!='img' and name()!='class' and -->
     <xsl:template name="filterComponentsAttrs">
     	<xsl:if test=" 
     		name() != 'persist' and 
@@ -574,11 +574,11 @@
     		name()!='action' and
     		name()!='page' and
     		name()!='app' and
-    		name()!='class' and
+    		
     		name()!='btnSize' and
     		name()!='iconColor' and
     		name()!='iconClass' and
-    		name()!='img' and
+    		
     		name()!='align' and
     		name()!='lookup_parser' and
     		name()!='iskey' and

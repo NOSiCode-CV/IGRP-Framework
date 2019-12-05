@@ -2,7 +2,9 @@ var GENVIEW = function(name,params){
 	CONTAINER.call(this,name,params);
 	
 	var container = this;
-
+	
+	var GEN = VARS.getGen();
+	
 	container.includes = {css:[{ path:'/plugins/view/igrp.view.css' }]};
 
 	container.ready = function(){
@@ -12,6 +14,29 @@ var GENVIEW = function(name,params){
 			value     :true,
 			transform :true
 		});
+		
+		container.setPropriety({
+			name      :'template',
+			label     :'Template',
+			value     :{
+				value : 'default',
+				options : [
+					{
+						label: 'Default',
+						value : 'default'
+					},
+					{
+						label: 'InfoBar',
+						value : 'info'
+					},
+					{
+						label: '2 Columns',
+						value : '2cols'
+					},
+				]
+			}
+		});
+		
 	}
 	container.onFieldsXMLGenerate = function(str){
 		return container.GET.img() ? '<'+container.GET.tag()+'_img type="text" name="p_'+container.GET.tag()+'_img" maxlength="300"><value>/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value></'+container.GET.tag()+'_img>' : "";
@@ -23,6 +48,24 @@ var GENVIEW = function(name,params){
 			name  : 'maxlength',
 			value : 250 
 		});
+		
+		GEN.setBTNClass(f,'default');
+		
+		GEN.setImgAttr(f,{
+			value:''
+		});
+		
+		f.setPropriety( {
+			name : 'showlabel',
+			label : 'Show Label',
+			value : true
+		});
+		
+		
+		/*f.setProperty({
+			name  : 'icon',
+			value : 250 
+		});*/
 
 	}
 }

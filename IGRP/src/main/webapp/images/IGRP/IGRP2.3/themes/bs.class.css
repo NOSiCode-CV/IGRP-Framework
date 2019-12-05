@@ -1,3 +1,12 @@
+
+.text-link{
+	color:#337ab7
+}
+
+.text-purple{
+	color:#611BBD; 
+}
+
 .btn-purple { 
   color: #ffffff; 
   background-color: #611BBD; 
@@ -46,6 +55,10 @@ fieldset[disabled] .btn-purple.active {
 
 
 /* BTN BLACK */
+.text-black{
+	color:black;
+}
+
 .btn-black { 
   color: #FFFFFF; 
   background-color: #000000; 
@@ -94,6 +107,10 @@ fieldset[disabled] .btn-black.active {
 
 
 /* BTN GREY */
+
+.text-grey{
+	color:#DBDBDB
+}
 .btn-grey { 
   color: #333333; 
   background-color: #DBDBDB; 

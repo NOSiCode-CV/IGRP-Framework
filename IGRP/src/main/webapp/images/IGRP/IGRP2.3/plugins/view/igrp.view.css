@@ -54,5 +54,37 @@
 
 .view-block .view-buttons{
 	margin-top: 15px;
+}
+
+i.view-img{
+	margin-right:4px;
+	font-size:14px;
 	
 }
+
+/* Templates */
+
+/*info*/
+.view-block[template="info"]{
+	background:transparent;
+	box-shadow:none;
+	margin:0
+}
+
+.view-block[template="info"] .box-body{
+	padding:0
+}
+
+.view-block[template="info"] .view-item{
+	padding:4px 2px;
+	float:left;
+	border-bottom:0!important;
+	margin-right:4px;
+}
+
+.view-block[template="2cols"] .view-item{
+	width:50%;
+	float:left;
+}
+
+

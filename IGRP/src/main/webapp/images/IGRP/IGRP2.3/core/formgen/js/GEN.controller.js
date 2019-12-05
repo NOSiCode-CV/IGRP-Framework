@@ -5286,6 +5286,22 @@ var GENERATOR = function(genparams){
   		}
   		return arr;
 	}
+	
+	GEN.getFieldSizeOptions = function(field){
+		
+		var sizeOptions = field.GET.type() == 'texteditor' || field.GET.type() == 'separator' ? 
+		  {
+		  	value: 12,
+		  	options:[{value:12,label:'col-sm-12 (100%)'}]
+		  } :
+		  {
+		  	value: field.parent.formOptions ? field.parent.formOptions.lastSize : 12,
+		  	options:GEN.getFieldSize()
+		  	//options:[{value:'12',label:'100%'},{value:'9',label:'75%'},{value:'8',label:'66.66%'},{value:'6',label:'50%'},{value:'4',label:'33%'},{value:'3',label:'25%'},{value:'2',label:'16.6%'},{value:'1',label:'8.33%'}]
+		  }
+		
+		return sizeOptions
+	}
 
 	GEN.setFormFieldAttr = function(field){
 		
@@ -5371,7 +5387,7 @@ var GENERATOR = function(genparams){
 			field.setPropriety({
 				label     : 'Field Size',
 				name      : 'size',
-				propriety : sizeOptions,
+				propriety : GEN.getFieldSizeOptions(field),
 				onChange:function(value){
 					container.formOptions.lastSize = value;
 				}
