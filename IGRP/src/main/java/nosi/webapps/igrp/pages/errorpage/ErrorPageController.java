@@ -59,7 +59,7 @@ public class ErrorPageController extends Controller {
 			
 				// dbug
 				if(Igrp.getInstance()!=null && Igrp.getInstance().getRequest() !=null && Igrp.getInstance().getRequest().getSession()!=null  )
-				Core.log(Igrp.getInstance().getRequest().getSession().getAttribute("igrp.error")+"");
+					Core.log(Igrp.getInstance().getRequest().getSession().getAttribute("igrp.error")+"");
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block				
 				Core.log("TryCatch: "+e1.toString());

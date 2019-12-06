@@ -158,12 +158,16 @@ form [item-type="plaintext"]{
 
 /* FORM VALIDATION */
 .form-validator-label {
-	position: absolute;
-	left: 15px;
-    top: 12px;
-    font-size: 10px;
+ 	position: absolute;
+    left: 24px;
+    top: 17px;
+    font-size: 11px;
     font-weight: normal!important;
-    color: #c9302c;
+    background: #c9302c;
+    color: white;
+    padding-left: 3px;
+    padding-right: 3px;
+    z-index: 1;
 }
 
 .input-group .form-validator-label {

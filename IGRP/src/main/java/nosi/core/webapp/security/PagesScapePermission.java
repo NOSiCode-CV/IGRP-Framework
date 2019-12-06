@@ -39,6 +39,8 @@ public class PagesScapePermission {
 		PAGES_WIDTHOUT_LOGIN.add("inps_porton/Pagamento_de_servico/pagar".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp_studio/web-report/get-link-report".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp_studio/WebReport/preview".toLowerCase());
+		PAGES_WIDTHOUT_LOGIN.add("igrp_studio/web-report/get-xsl".toLowerCase());
+		
 		
 	}
 

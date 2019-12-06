@@ -4,6 +4,7 @@ package nosi.webapps.igrp.dao;
  * 29 Jun 2017
  */
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name="tbl_rep_instance")
@@ -37,6 +40,14 @@ public class RepInstance extends IGRPBaseActiveRecord<RepInstance> implements Se
 	@Column(nullable=false)
 	@Temporal(TemporalType.DATE)
 	private Date dt_created;
+	
+	 @UpdateTimestamp
+	 private LocalDateTime updateDateTime;  
+	
+	public LocalDateTime getUpdateDateTime() {
+		return updateDateTime;
+	}
+
 	private String reference;
 	private int ref_fk;
 	@ManyToOne(cascade=CascadeType.REMOVE)
