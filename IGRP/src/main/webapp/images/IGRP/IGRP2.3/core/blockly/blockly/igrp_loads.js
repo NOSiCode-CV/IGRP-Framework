@@ -66,7 +66,7 @@ Blockly.Blocks.texts.HUE = 200;
 
 var GetJavaType = {
 		
-	text : 'Text',
+	text : 'String',
 	
 	number : 'Integer',
 	
@@ -251,6 +251,14 @@ $('#active_selenium').on('click', function() {
 			{
 				
 				fields_model.push([ tag, 'String[]'+'::'+tag]);
+				
+				addmodel++;
+			}
+			
+			else if(javaType =="String" && persist =="true")
+			{
+				
+				fields_model.push([ tag, 'Section'+'::'+tag]);
 				
 				addmodel++;
 			}

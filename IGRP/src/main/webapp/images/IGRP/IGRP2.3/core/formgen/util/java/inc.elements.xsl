@@ -184,7 +184,7 @@
 		
 		<xsl:choose>
 		
-			<xsl:when test="$modelType = 'Image' or $modelType = 'Text' or $modelType = 'File'">
+			<xsl:when test="$modelType = 'Image' or $modelType = 'Section' or $modelType = 'File'">
 			
 				<xsl:value-of select="$tab2"></xsl:value-of>
 				
