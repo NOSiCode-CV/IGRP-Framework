@@ -232,19 +232,19 @@ public class XMLTransform {
 		String javaType = javaType_.replaceAll("class ", "");
 		switch (javaType) {
 			case "java.lang.Integer":
-				javaType = "int";
+				javaType = "Integer";
 				break;
 			case "java.lang.Double":
-				javaType = "double";
+				javaType = "Double";
 				break;
 			case "java.lang.Float":
-				javaType = "float";
+				javaType = "Float";
 				break;
 			case "java.lang.Long":
-				javaType = "long";
+				javaType = "Long";
 				break;
 			case "java.lang.Short":
-				javaType = "short";
+				javaType = "Short";
 				break;
 			case "java.sql.Date":
 				javaType = "Date";

@@ -469,9 +469,7 @@
     		</xsl:call-template>
  			<xsl:variable name="tag_name">
 				<xsl:value-of select="name()"/>
-		 	</xsl:variable>
- 			<xsl:value-of select="$newline"/>
- 			<xsl:value-of select="$tab2"/>
+		 	</xsl:variable> 			
  			<xsl:value-of select="concat('private Pair ',$tag_name,';')"/> 	
  			
 			<xsl:if test="@type = 'checkbox' or @type='radio'">				
