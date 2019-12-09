@@ -44,6 +44,17 @@ public class ListField extends AbstractField {
 
 	@Override
 	protected void configValue(Object model) {
+		try {
+			// Check first if select field is initialized with domains (For BPMN purpose) 
+			String hasDomain = (String) this.propertie().get("domain"); 
+			if(hasDomain != null && (this.getListOptions() == null || this.getListOptions().isEmpty())) {
+				String aux[] = hasDomain.split("«");
+				String domainName = aux[0].trim(); 
+				String appName = aux[1].trim(); 
+				this.loadDomain(domainName, appName, "-- Selecionar --");
+			}
+		} catch (Exception e) {
+		}
 		if (this.propertie.get("multiple") != null && this.propertie.get("multiple").equals("true")) {
 			this.setValue(IgrpHelper.getValueArray(model, this.getName()));
 		} else
