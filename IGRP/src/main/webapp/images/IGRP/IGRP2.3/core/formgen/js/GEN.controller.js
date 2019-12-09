@@ -289,8 +289,8 @@ var GENERATOR = function(genparams){
 		    blocklyXML = GetDefaultBlocklyXML(),
 		    
 		    blocklyImports = GetBlocklyImports();
-
-		rtn+='<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="'+filename+'" type="text/xsl"?>';
+		var subpath = filename.substring(1);	
+		rtn+='<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="'+'..'+subpath.substring(subpath.indexOf('/'))+'" type="text/xsl"?>';
 		
 		rtn+='<rows>';
 			rtn+=VARS.xml.site;
@@ -301,9 +301,9 @@ var GENERATOR = function(genparams){
 			//plsql
 			rtn+=VARS.xml.plsql();
 			//slide menu
-			rtn+='<slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />';
+			rtn+='<slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />';
 			//top menu
-			rtn+='<top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />';
+			rtn+='<top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />';
 			//content
 			rtn+='<content>';
 				rtn+='<title>'+actionD+'</title>';

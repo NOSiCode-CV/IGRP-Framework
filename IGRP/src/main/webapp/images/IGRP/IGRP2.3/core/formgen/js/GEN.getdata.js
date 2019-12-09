@@ -155,7 +155,8 @@ var DATA = {
 			break;
 
 			case 'img':
-				rtn = path+'/assets/img/jon_doe.jpg';
+				var subpath = path.substring(1);	
+				rtn = '..'+subpath.substring(subpath.indexOf('/'))+'/assets/img/jon_doe.jpg';
 			break;
 
 			case 'hidden':

@@ -21,9 +21,9 @@
     <app>CADASTRO_V02</app>
     <page>WORKFLOW</page>
     <target></target>
-    <applications file="/images/IGRP/xml/IGRP-applications.xml" />
-    <top_menu file="/images/IGRP/xml/IGRP-top_menu.xml" />
-    <slide-menu file="/images/IGRP/xml/IGRP-slide-menu.xml?v=2" />
+    <applications file="../images/IGRP/IGRP2.3/xml/IGRP-applications.xml" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <content>
         <title>8.1.1 - HOJE [ 1 - Etapa Inicial ]</title>
         <messages>
@@ -48,7 +48,7 @@
                 <nome>William</nome>
 
                 <link>www.nosi.cv</link>
-                <view_foto>images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</view_foto>
+                <view_foto>../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</view_foto>
             </value>
         </view>
         <form>

@@ -25,11 +25,11 @@ var IMGFIELD = function(type,params){
 		};
 
 	field.ready = function(){
-
+		var subpath = path.substring(1);	
 		field.setPropriety({
 			name:'img',
 			label:'Image',
-			value:path+'/assets/img/jon_doe.jpg',
+			value:'..'+subpath.substring(subpath.indexOf('/'))+'/assets/img/jon_doe.jpg',
 			size:'12',
 			valuePersist : true,
 			onChange:function(v){

@@ -1,5 +1,7 @@
 package nosi.webapps.tutorial.pages.defaultpage;
 
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -8,20 +10,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultPage extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_infopanel_1_title")
 	private String infopanel_1_title;
+
 	@RParam(rParamName = "p_infopanel_1_val")
 	private String infopanel_1_val;
+
 	@RParam(rParamName = "p_infopanel_1_url")
-	private String infopanel_1_url;
+	private IGRPLink infopanel_1_url;
+	@RParam(rParamName = "p_infopanel_1_url_desc")
+	private String infopanel_1_url_desc;
+
 	@RParam(rParamName = "p_infopanel_1_bg")
 	private String infopanel_1_bg;
+
 	@RParam(rParamName = "p_infopanel_1_icn")
 	private String infopanel_1_icn;
+
 	@RParam(rParamName = "p_carousel_1_label")
 	private String carousel_1_label;
+
 	@RParam(rParamName = "p_carousel_1_img")
 	private String carousel_1_img;
 	
@@ -32,24 +44,7 @@ public class DefaultPage extends Model{
 	public List<Carousel_1> getCarousel_1(){
 		return this.carousel_1;
 	}
-	@RParam(rParamName = "p_carousel_1_id")
-	private String[] p_carousel_1_id;
-	@RParam(rParamName = "p_carousel_1_del")
-	private String[] p_carousel_1_del;
-	
-	public void setP_carousel_1_id(String[] p_carousel_1_id){
-		this.p_carousel_1_id = p_carousel_1_id;
-	}
-	public String[] getP_carousel_1_id(){
-		return this.p_carousel_1_id;
-	}
-	
-	public void setP_carousel_1_del(String[] p_carousel_1_del){
-		this.p_carousel_1_del = p_carousel_1_del;
-	}
-	public String[] getP_carousel_1_del(){
-		return this.p_carousel_1_del;
-	}
+
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -72,10 +67,25 @@ public class DefaultPage extends Model{
 		return this.infopanel_1_val;
 	}
 	
-	public void setInfopanel_1_url(String infopanel_1_url){
-		this.infopanel_1_url = infopanel_1_url;
+	public IGRPLink setInfopanel_1_url(String app,String page,String action){
+		this.infopanel_1_url = new IGRPLink(app,page,action);
+		return this.infopanel_1_url;
 	}
-	public String getInfopanel_1_url(){
+	public IGRPLink getInfopanel_1_url(){
+		return this.infopanel_1_url;
+	}
+	public void setInfopanel_1_url_desc(String infopanel_1_url_desc){
+		this.infopanel_1_url_desc = infopanel_1_url_desc;
+	}
+	public String getInfopanel_1_url_desc(){
+		return this.infopanel_1_url_desc;
+	}
+	public IGRPLink setInfopanel_1_url(String link){
+		this.infopanel_1_url = new IGRPLink(link);
+		return this.infopanel_1_url;
+	}
+	public IGRPLink setInfopanel_1_url(Report link){
+		this.infopanel_1_url = new IGRPLink(link);
 		return this.infopanel_1_url;
 	}
 	

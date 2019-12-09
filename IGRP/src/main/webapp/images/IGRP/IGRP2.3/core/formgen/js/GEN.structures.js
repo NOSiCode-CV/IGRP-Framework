@@ -418,7 +418,8 @@ var GENSTRUCTURES = function(GEN){
 	}
 
 	var genMap = function(container){
-		return path+'/xml/gis/map.xml';
+		var subpath = path.substring(1);	
+		return '..'+subpath.substring(subpath.indexOf('/'))+'/xml/gis/map.xml';
 	}
 
 	GEN.genContextMenu = function(container){
@@ -469,10 +470,10 @@ var GENSTRUCTURES = function(GEN){
 	                    '<app>'+app+'</app>'+
 	                    '<page>'+page+'</page>'+
 	                    '<link>'+link+'</link>'+
-	                    '<parameter>'+item.action.link+'?</parameter>'+
+	                    '<parameter>'+'..'+item.action.link.substring(1).substring(item.action.link.substring(1).indexOf('/'))+'?</parameter>'+
 	                    '<target>'+target+'</target>'+
 	                    '<img>'+_class+'|'+item.GET.img()+'</img>'+
-	                    '<preview>'+item.action.link+'</preview>'+
+	                    '<preview>'+'..'+item.action.link.substring(1).substring(item.action.link.substring(1).indexOf('/'))+'</preview>'+
 	                     map+
 	                 '</item>';
 			});
@@ -768,12 +769,11 @@ var GENSTRUCTURES = function(GEN){
 	}
 	
 	var genLookUpField = function(f){
-		
+			
 		console.log(f);
 		
-		var link 	= f.action && f.action.link ? f.action.link : '',
-		
-			rtn     = '<lookup>'+link+'</lookup>',
+		var link 	= f.action && f.action.link ? f.action.link : '',				
+			rtn     = '<lookup>'+'..'+link.substring(1).substring(link.substring(1).indexOf('/'))+'</lookup>',
 		
 			isTable = f.parent.GET.type() == 'formlist' ? 'is-table="true"' : '';
 		
