@@ -75,7 +75,7 @@ public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 	private User user = Core.isNotNull(Core.getCurrentUser())?Core.getCurrentUser():null; 
 	
 	
-	private String estado = "A"; // A -> Ativo; I -> InAtivo  
+	private String estado = "A"; // A -> Ativo; I -> InAtivo; AP -> Ativo e publico
 	
 	private String uuid;
 	

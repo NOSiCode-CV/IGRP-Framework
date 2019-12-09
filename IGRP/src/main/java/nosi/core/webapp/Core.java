@@ -2361,11 +2361,17 @@ public final class Core { // Not inherit
 		Application app = new Application().findByDad(dad);
 		if(Core.isNotNullMultiple(bytes,name,dad) && app!=null) {
 			CLob clob = new CLob(name, mime_type,bytes , new Date(System.currentTimeMillis()), app);
-			clob.generateUid();
-			clob = clob.insert();
+			clob.generateUid();			
+			clob = clob.insert();			
 			clob.showMessage();
-			if(!clob.hasError())
+			if(!clob.hasError()) {
+				if(!(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated())) {
+					clob.setEstado("AP");
+					clob.update();
+				}					
 				return clob.getId();
+			}
+				
 		}
 		return new Integer(0);
 	}
@@ -2374,10 +2380,15 @@ public final class Core { // Not inherit
 		Application app = new Application().findByDad(dad);
 		if(Core.isNotNullMultiple(bytes,name,dad) && app!=null) {
 			CLob clob = new CLob(name, mime_type,bytes , new Date(System.currentTimeMillis()), app);
-			clob.generateUid();
+			clob.generateUid();			
 			clob = clob.insert();
 			clob.showMessage();
-			if(!clob.hasError())
+			if(!clob.hasError()) {
+				if(!(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated())) {
+					clob.setEstado("AP");
+					clob.update();
+				}	
+			}
 				return clob.getUuid(); 
 		}
 		return null;

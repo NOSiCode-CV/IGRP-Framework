@@ -41,15 +41,21 @@ public class FileController extends Controller {
 	
 	/*----#start-code(custom_actions)----*/
 	public Response actionGetFile() throws Exception {
+			
 		String uuid= Core.getParam("uuid");		
 		CLob file;
 		if(Core.isNotNull(uuid))
 			 file = Core.getFileByUuid(uuid);
 		else
 			 file = Core.getFile(Core.getParamInt("p_id").intValue());
-		if(file!=null)
+		if(file!=null) {
+			if(!(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated())  && !file.getEstado().equals("AP")){
+				throw new Exception("File not public. Not estado AP");
+			}
 			return this.xSend(file.getC_lob_content(), file.getName(), file.getMime_type(), false);
-		throw new Exception("File not found.");
+		}else		
+			throw new Exception("File not found.");
+		
 	}
 	
 	public Response actionGetTempFile() throws Exception {		
@@ -79,7 +85,6 @@ public class FileController extends Controller {
 		String fileName="";
 		String appName= Core.getCurrentApp().getDad();
 		String pageName = Core.getParam("p_page_name");
-
 		try {
 			Part file = Core.getFile("p_file_name");
 			if (file != null) {
