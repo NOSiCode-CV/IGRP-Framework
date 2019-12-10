@@ -1,6 +1,6 @@
 /*SIDE CTRL*/
 (function(){
-	console.log(path)
+	//console.log(path)
 	$.IGRP = {
 
 		_init:false,
@@ -277,7 +277,7 @@
 			}();
 			
 			var MOZ = function(){
-				console.log($.browser)
+				//console.log($.browser)
 				if($.browser.mozilla )
 					$('html').addClass('mozilla');
 				

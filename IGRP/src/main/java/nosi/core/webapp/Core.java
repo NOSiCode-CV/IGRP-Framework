@@ -992,7 +992,11 @@ public final class Core { // Not inherit
 	 * @return
 	 */
 	public static String getLinkFile(String p_id) {
-		return Route.getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
+		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){
+			return Route.getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
+		}else
+			return Route.getResolveUrl("igrp", "File", "getPublicFile&p_id=" + p_id);
+		
 	}
 	
 	/**
@@ -1003,7 +1007,11 @@ public final class Core { // Not inherit
 	 * @return link
 	 */
 	public static String getLinkFileByUuid(String uuid) {
-		return Route.getResolveUrl("igrp", "File", "get-file&uuid=" + uuid);
+		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){
+			return Route.getResolveUrl("igrp", "File", "get-file&uuid=" + uuid);
+		}else
+			return Route.getResolveUrl("igrp", "File", "getPublicFile&uuid=" + uuid);
+		
 	}
 	@Deprecated
 	/**Use getLinkFileByUuid()
@@ -1012,7 +1020,7 @@ public final class Core { // Not inherit
 	 * @return
 	 */
 	public static String getLinkFile(int p_id) {
-		return Route.getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
+		return  getLinkFile(""+p_id); 
 	}
 	
 	public static String getLinkTempFile(String p_uuid) {
@@ -2037,8 +2045,12 @@ public final class Core { // Not inherit
 			clob.setName(name);
 			clob.setMime_type(mime_type);
 			if(Core.isNull(clob.getUuid()))
-				clob.generateUid();
+				clob.generateUid();					
+			if(!(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated())) {
+				clob.setEstado("AP");			
+			}				
 			clob = clob.update();
+			clob.showMessage();
 			return !clob.hasError();
 		}
 		return false;
@@ -2060,7 +2072,11 @@ public final class Core { // Not inherit
 			clob.setApplication_updated(new Application().findByDad(Core.getCurrentDadParam()));
 			clob.setName(name);
 			clob.setMime_type(mime_type);
+			if(!(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated())) {
+				clob.setEstado("AP");			
+			}	
 			clob = clob.update();
+			clob.showMessage();
 			return !clob.hasError();
 		}
 		return false;
