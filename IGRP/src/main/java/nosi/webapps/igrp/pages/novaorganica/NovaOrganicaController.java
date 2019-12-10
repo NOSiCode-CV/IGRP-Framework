@@ -114,6 +114,11 @@ public class NovaOrganicaController extends Controller {
 		NovaOrganicaView view = new NovaOrganicaView();
         model.load();
      
+        
+		Properties settings = ConfigApp.getInstance().loadCommonConfig();
+		String igrp_plsql_url = settings.getProperty("igrp.plsql.url");
+		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
+			view.plsql_codigo.setVisible(false);
 		Organization organization =  Core.findOrganizationById(Integer.parseInt(idOrganica));       
 		model.setCodigo(organization.getCode());
 		model.setNome(organization.getName());

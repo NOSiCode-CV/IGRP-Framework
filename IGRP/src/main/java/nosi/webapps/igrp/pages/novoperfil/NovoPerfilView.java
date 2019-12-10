@@ -5,7 +5,6 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.webapp.Core;
 
 public class NovoPerfilView extends View {
 
@@ -66,11 +65,11 @@ public class NovoPerfilView extends View {
 		
 		organica = new ListField(model,"organica");
 		organica.setLabel(gt("Organização"));
-		organica.propertie().add("remote",Core.getIGRPLink("igrp","NovoPerfil","index")).add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
+		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
 		perfil_pai = new ListField(model,"perfil_pai");
 		perfil_pai.setLabel(gt("Perfil pai"));
-		perfil_pai.propertie().add("name","p_perfil_pai").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		perfil_pai.propertie().add("name","p_perfil_pai").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
 		extras = new SeparatorField(model,"extras");
 		extras.setLabel(gt("Extras"));

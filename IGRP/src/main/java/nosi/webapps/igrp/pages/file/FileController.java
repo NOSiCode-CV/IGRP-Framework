@@ -109,7 +109,7 @@ public class FileController extends Controller {
 				fileName = file.getSubmittedFileName();
 				fileName =  fileName.replaceAll(" ", "-");
 				if(Core.isNotNull(fileName)) {
-					int index = fileName.indexOf(".");
+					int index = fileName.lastIndexOf(".");
 					if(index!=-1) {
 						String extensionName = fileName.substring(index+1);
 						String workSapce = Path.getImageWorkSpaceTxt(appName,pageName);

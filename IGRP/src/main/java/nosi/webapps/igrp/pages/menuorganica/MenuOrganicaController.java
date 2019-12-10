@@ -207,7 +207,7 @@ public class MenuOrganicaController extends Controller {
 		boolean success = false;
 		if (model.getType().equals("org")) {
 			success = this.insertMenu(chekedIds, "MEN", model.getId(), this.profAdmin.getId(), this.userAdmin.getId());
-			List<ProfileType> profilesOfOrg = new ProfileType().find().andWhere("organization.id", "=", model.getId())
+			List<ProfileType> profilesOfOrg = new ProfileType().find().andWhere("organization.id", "=", model.getId()).orderByAsc("id")
 					.all();
 			if (profilesOfOrg != null && profilesOfOrg.size() > 0) {
 				ProfileType p = profilesOfOrg.get(0);

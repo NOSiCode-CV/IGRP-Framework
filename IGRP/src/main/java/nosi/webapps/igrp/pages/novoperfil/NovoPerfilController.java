@@ -1,12 +1,9 @@
 package nosi.webapps.igrp.pages.novoperfil;
 
-import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import java.util.Properties;
-
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /* Start-Code-Block (import) */
@@ -20,6 +17,10 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.core.webapp.activit.rest.entities.GroupService;
 import nosi.core.webapp.activit.rest.services.GroupServiceRest;
+
+import java.util.HashMap;
+import java.util.Properties;
+import nosi.core.config.ConfigApp;
 /*----#end-code----*/
 		
 public class NovoPerfilController extends Controller {
@@ -54,12 +55,15 @@ public class NovoPerfilController extends Controller {
 				? new Organization().getListOrganizations(model.getAplicacao())
 				: null);
 		// Perfil pai/Parent profile ocult (not in use)
-		view.perfil_pai.setVisible(false);
+		//view.perfil_pai.setVisible(false);
 		view.btn_gravar.setTitle("Adicionar");
 		view.btn_gravar.addParameter("p_aplicacao", model.getAplicacao());
 
-		if (Core.isNotNullOrZero(model.getAplicacao()))
+		if (Core.isNotNullOrZero(model.getAplicacao())) {
 			view.primeira_pagina.setValue(new Action().getListActions(model.getAplicacao()));
+			view.perfil_pai.setValue(model.getOrganica() != 0 ? new ProfileType().getListProfiles4Pai(model.getAplicacao(), model.getOrganica()): null);
+		}
+			
 
 		/*----#end-code----*/
 		view.setModel(model);
@@ -84,10 +88,10 @@ public class NovoPerfilController extends Controller {
 		pt.setOrganization(Core.findOrganizationById(model.getOrganica()));
 		pt.setPlsql_code(model.getPlsql_codigo());
 		
-		/*
-		 * if(model.getPerfil_pai()!=0){ pt.setProfiletype(new
-		 * ProfileType().findOne(model.getPerfil())); }
-		 */
+		 if(Core.isNotNullOrZero(model.getPerfil_pai())){
+			 pt.setProfiletype(new ProfileType().findOne(model.getPerfil_pai()));
+		 }
+		
 		pt.setStatus(model.getActivo());
 		pt.setApplication(Core.findApplicationById(model.getAplicacao()));
 		pt.setFirstPage(new Action().findOne(model.getPrimeira_pagina()));
@@ -144,6 +148,12 @@ public class NovoPerfilController extends Controller {
 		NovoPerfil model = new NovoPerfil();
 		model.load();
 		NovoPerfilView view = new NovoPerfilView();
+		
+		Properties settings = ConfigApp.getInstance().loadCommonConfig();
+		String igrp_plsql_url = settings.getProperty("igrp.plsql.url");
+		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
+			view.plsql_codigo.setVisible(false);
+		
 		ProfileType p = new ProfileType().findOne(Integer.parseInt(idProf));
 		model.setCodigo(p.getCode());
 		model.setNome(p.getDescr());
@@ -153,8 +163,8 @@ public class NovoPerfilController extends Controller {
 			model.setOrganica(p.getOrganization().getId());
 		}
 		model.setActivo(p.getStatus());
-		if (p.getProfiletype() != null) {
-			// model.setPerfil_pai(p.getProfiletype().getId());
+		if (Core.isNotNull(p.getProfiletype())) {
+			 model.setPerfil_pai(p.getProfiletype().getId());
 		}
 		if (p.getFirstPage() != null)
 			model.setPrimeira_pagina(p.getFirstPage().getId());
@@ -164,17 +174,13 @@ public class NovoPerfilController extends Controller {
 		view.btn_gravar.addParameter("p_id", idProf).addParameter("p_aplicacao", model.getAplicacao());
 		view.aplicacao.setValue(new Application().getListApps());
 
-		if (Core.isNotNullOrZero(model.getAplicacao()))
+		if (Core.isNotNullOrZero(model.getAplicacao())) {
 			view.primeira_pagina.setValue(new Action().getListActions(model.getAplicacao()));
-		/*
-		 * view.perfil.setValue( model.getAplicacao() != 0 && model.getOrganica() != 0 ?
-		 * new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica())
-		 * : null);
-		 */
-		view.perfil_pai.setVisible(false);
-		view.organica.setValue(Core.isNotNullOrZero(model.getAplicacao())
-				? new Organization().getListOrganizations(model.getAplicacao())
-				: null);
+			view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
+			HashMap<String, String> listProfiles4Pai = new ProfileType().getListProfiles4Pai(model.getAplicacao(), model.getOrganica());
+			listProfiles4Pai.remove(idProf);
+			view.perfil_pai.setValue(model.getOrganica() != 0 ? listProfiles4Pai: null);			
+		}	
 		view.setModel(model);
 		return this.renderView(view);
 	}
@@ -192,10 +198,11 @@ public class NovoPerfilController extends Controller {
 			p.setDescr(model.getNome());
 			p.setOrganization(Core.findOrganizationById(model.getOrganica()));
 			p.setPlsql_code(model.getPlsql_codigo()); 
-			/*
-			 * if(model.getPerfil_pai()!=0){ p.setProfiletype(new
-			 * ProfileType().findOne(model.getPerfil())); }
-			 */
+			
+			 if(Core.isNotNullOrZero(model.getPerfil_pai())){
+				 p.setProfiletype(new ProfileType().findOne(model.getPerfil_pai()));
+			}
+			 
 			p.setStatus(model.getActivo());
 			p.setApplication(Core.findApplicationById(model.getAplicacao()));
 			p.setFirstPage(new Action().findOne(model.getPrimeira_pagina()));

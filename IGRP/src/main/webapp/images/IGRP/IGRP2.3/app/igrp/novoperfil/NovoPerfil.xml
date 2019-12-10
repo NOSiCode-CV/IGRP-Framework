@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xsl" type="text/xsl"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <title>Dummie XML prototype</title>
@@ -33,8 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=10</preserve_url>
     </plsql>
-    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Registar Perfil</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -61,15 +61,15 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nome</label>
-                    <value>Magna anim officia magna ipsum</value>
+                    <value>Doloremque officia sit accusan</value>
                 </nome>
                 <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Código</label>
-                    <value>Doloremque voluptatem unde ape</value>
+                    <value>Accusantium iste accusantium e</value>
                 </codigo>
                 <plsql_codigo name="p_plsql_codigo" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
                     <label>PL/SQL (código)</label>
-                    <value>Labore officia amet laudantium mollit</value>
+                    <value>Doloremque perspiciatis anim adipiscing lorem</value>
                 </plsql_codigo>
                 <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" check="true">
                     <label>Ativo?</label>
@@ -100,7 +100,7 @@
                         </option>
                     </list>
                 </aplicacao>
-                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="" java-type="int" tags="false">
+                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="int" tags="false">
                     <label>Organização</label>
                     <list>
                         <option/>
@@ -121,17 +121,8 @@
                             <value>4</value>
                         </option>
                     </list>
-                    <rules>
-                        <rule type="remote_combobox">
-                            <proc>index</proc>
-                            <requestFields>
-                                <item>p_aplicacao</item>
-                                <item>p_organica</item>
-                            </requestFields>
-                        </rule>
-                    </rules>
                 </organica>
-                <perfil_pai name="p_perfil_pai" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
+                <perfil_pai name="p_perfil_pai" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="int" tags="false">
                     <label>Perfil pai</label>
                     <list>
                         <option/>

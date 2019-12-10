@@ -36,7 +36,7 @@ public class PesquisarPerfilController extends Controller {
 		if(idApp!=0 && idOrg!=0)
 		for(ProfileType p:profile_db.find()
 				.andWhere("application", "=",idApp)
-				.andWhere("organization", "=",idOrg).all()){
+				.andWhere("organization", "=",idOrg).orderByAsc("id").all()){
 			PesquisarPerfil.Table_1 table1 = new PesquisarPerfil.Table_1();
 			table1.setCodigo(p.getCode());
 			table1.setDescricao(p.getDescr());

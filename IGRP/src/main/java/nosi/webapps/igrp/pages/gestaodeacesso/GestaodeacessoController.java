@@ -1,5 +1,6 @@
 package nosi.webapps.igrp.pages.gestaodeacesso;
 
+import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
@@ -13,6 +14,7 @@ import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import java.util.List;
+import java.util.Properties;
 import java.util.ArrayList;
 /*----#end-code----*/
 		
@@ -34,6 +36,7 @@ public class GestaodeacessoController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
+	
 		List<Gestaodeacesso.Org_table> data = new ArrayList<>();
 		String ichange = Core.getParam("ichange");   
       view.id_app.setParam(true);

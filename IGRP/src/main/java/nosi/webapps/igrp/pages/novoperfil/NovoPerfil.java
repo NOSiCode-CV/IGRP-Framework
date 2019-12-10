@@ -32,7 +32,7 @@ public class NovoPerfil extends Model{
 	private int organica;
 
 	@RParam(rParamName = "p_perfil_pai")
-	private String perfil_pai;
+	private int perfil_pai;
 
 	@RParam(rParamName = "p_extras")
 	private String extras;
@@ -102,10 +102,10 @@ public class NovoPerfil extends Model{
 		return this.organica;
 	}
 	
-	public void setPerfil_pai(String perfil_pai){
+	public void setPerfil_pai(int perfil_pai){
 		this.perfil_pai = perfil_pai;
 	}
-	public String getPerfil_pai(){
+	public int getPerfil_pai(){
 		return this.perfil_pai;
 	}
 	

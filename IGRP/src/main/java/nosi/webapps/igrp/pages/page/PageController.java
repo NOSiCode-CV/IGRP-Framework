@@ -385,6 +385,7 @@ public class PageController extends Controller {
 		Compiler compiler = null;
 		PageFile pageFile = null;
 		Boolean workspace=false;
+		String messages = "";
 		if (ac != null) {
 			 pageFile = new PageFile();	
 			
@@ -426,10 +427,11 @@ public class PageController extends Controller {
 							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(),new String[] { pageFile.getFileModel(), pageFile.getFileView(), pageFile.getFileController() }, FileHelper.ENCODE_UTF8,FileHelper.ENCODE_UTF8);// ENCODE_UTF8 for default encode eclipse
 						}
 					}
-				}
+				}else
+					messages += ("<message type=\""+FlashMessage.SUCCESS+"\">" + StringEscapeUtils.escapeXml10(Core.toJson(new MapErrorCompile(Core.gt("Componente registado com sucesso"), null)))+ "</message>");
 			}
 		}
-		String messages = "";
+		
 		if(compiler!=null && compiler.hasError())
 			messages += ("<message type=\""+FlashMessage.ERROR+"\">" + StringEscapeUtils.escapeXml11(compiler.getErrorToJson()) + "</message>");
 		if(compiler!=null && compiler.hasWarning())
