@@ -110,7 +110,7 @@ public class CRUDGeneratorController extends Controller {
 							for(String id_ch : cbh.getChekedIds()) {
 								String tableName = list_table.get(Integer.parseInt(id_ch)-1);
 								String dad_name = Core.findApplicationById(Core.toInt(model.getAplicacao())).getDad();
-								r = this.generateDAO(config,model.getSchema(),tableName, dad_name);
+								r = this.generateDAO(config,model.getSchema(),tableName, dad_name,false,"","");
 							}
 							
 							if(r) {
@@ -390,15 +390,15 @@ public class CRUDGeneratorController extends Controller {
 	}
 	
 	
-	public boolean  generateDAO(Config_env config,String schema, String tableName, String dad_name) throws IOException{ 
+	public boolean  generateDAO(Config_env config,String schema, String tableName, String dad_name, boolean tem_list, String cont_list, String conten_list_set_get) throws IOException{ 
 		boolean flag = false;
 		String dao_name_class = resolveDAOName(tableName);
-		flag = processGenerate(config, dao_name_class, schema,tableName, dad_name);
+		flag = processGenerate(config, dao_name_class, schema,tableName, dad_name, tem_list, cont_list,conten_list_set_get);
 		return flag;
 	}
 	
 
-	public boolean processGenerate(Config_env config, String dao_name_class, String schema, String tableName, String dad_name) {
+	public boolean processGenerate(Config_env config, String dao_name_class, String schema, String tableName, String dad_name, boolean tem_list, String cont_list,String conten_list_set_get) {
 		boolean flag = false;
 		boolean flag_compile = false;
 		List<DatabaseMetadaHelper.Column> columns = null;
@@ -418,17 +418,18 @@ public class CRUDGeneratorController extends Controller {
 			flag = saveFiles(dao_name_class+".java", "", new Config().getPathDAO(dad_name));
 			
 			//Gerar conteudo da classe DAO
-			String content = new GerarClasse().gerarCode(dad_name,tableName,dao_name_class, columns,schema,config);
+			String content = new GerarClasse().gerarCode(dad_name,tableName,dao_name_class, columns,schema,config, tem_list, cont_list,conten_list_set_get);
 			
 			//Salvar os files de classe DAO
 			flag = saveFiles(dao_name_class+".java", content, new Config().getPathDAO(dad_name));
 			
 			//compilar as classes DAO
 			Compiler compiler = new Compiler();
-			compiler.addFileName(new Config().getPathDAO(dad_name)+File.separator+dao_name_class+".java");
+			compiler.addFileName(new Config().getPathDAO(dad_name)+dao_name_class+".java");
 			compiler.compile();
 			flag_compile = compiler.hasError();
-			
+			System.out.println(new Config().getPathDAO(dad_name)+dao_name_class+".java");
+			System.out.println("flag_compile "+flag_compile);
 			if(flag_compile) {
 				Core.setMessageWarning("Ups... Erro na compilção na classe "+dao_name_class);
 			}
