@@ -231,6 +231,18 @@
 							if(formElement.is('[multiple]'))
 
 								value = value.split('|');
+							
+								if(!$('option',formElement)[0]){
+											
+									$.IGRP.components.select2.setOptions({
+										select: formElement,
+										options: {
+											text: '',
+											value: value,
+											selected: true
+										}
+									});
+								}
 
 							formElement.val(value);
 
