@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.Connection;
 import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
@@ -22,7 +23,7 @@ import nosi.webapps.igrp_studio.pages.crudgenerator.CRUDGeneratorController;
  * Aug 22, 2019
  */
 public class GerarClasse {
-	public String gerarCode(String dad_name,String tbl_name, String clas_dao_name,List<DatabaseMetadaHelper.Column> columns, String schema,Config_env config) throws IOException {
+	public String gerarCode(String dad_name,String tbl_name, String clas_dao_name,List<DatabaseMetadaHelper.Column> columns, String schema,Config_env config, boolean tem_list, String conten_list, String conten_list_set_get) throws IOException {
 		
 		//definição das variaveis
 		String content_import="";
@@ -32,8 +33,8 @@ public class GerarClasse {
 		boolean isBigint=true,isBigDec=true;
 		int cont_import = 0;
 		String tipo_db = this.decreptyCode(config.getType_db());
-		
 		String seq="";
+		
 		if(tipo_db.equalsIgnoreCase(DatabaseConfigHelper.ORACLE)) {
 			seq = this.getSequenceOracle(tbl_name, config);
 		}
@@ -65,9 +66,6 @@ public class GerarClasse {
 		
 		String content_variaveis = "";
 		for(DatabaseMetadaHelper.Column cl : columns) {
-			
-			
-			
 			if(isBigint && this.resolveType(cl).equalsIgnoreCase("BigInteger")) {
 					content_import = content_import + "import java.math.BigInteger;\n";
 					isBigint=false;
@@ -83,12 +81,14 @@ public class GerarClasse {
 					content_variaveis = content_variaveis +   "\t@SequenceGenerator(name = \""+seq+"Gen\",sequenceName =\""+seq+"\", initialValue = 1, allocationSize = 1, schema=\""+schema+"\")\n";
 					content_variaveis = content_variaveis + "\t@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = \""+seq+"Gen\")\n";
 				}else {
-					content_variaveis = content_variaveis +  "\t@GeneratedValue(strategy=GenerationType.AUTO)\n";
+					content_variaveis = content_variaveis +  "\t@GeneratedValue(strategy=GenerationType.IDENTITY)\n";
 				}
-						
 						
 				content_variaveis = content_variaveis +   "\t@Column(name=\""+cl.getName()+"\", nullable="+( cl.isNullable() ? "true" : "false") +")\n"
 						 + "\tprivate "+ this.resolveType(cl) +" " +this.resolveName1Dw(cl.getName())+";\n";
+				
+				
+				
 			}else if(cl.isForeignKey()) {
 				cont_import +=1;
 				Map<String, String> fk_constrain_name = new DatabaseMetadaHelper().getForeignKeysConstrainName(config, schema, tbl_name,dad_name);
@@ -103,21 +103,13 @@ public class GerarClasse {
 				}
 				
 				//vereficar se a classe com dependencia existe
-				//if(!Core.fileExists(new Config().getPathDAO(dad_name) + this.resolveName(fk_table_name.get(cl.getName()))+".java")) {
-				//}
-				
-				new CRUDGeneratorController().generateDAO(config, schema, tabela_relacional, dad_name);
-				System.out.println("nome de kes tabela dependente "+ tabela_relacional); 
-				System.out.println("tudo "+cl.toString()+" ctypedname "+cl.getColumnTypeName​()+" cname "+cl.getConnectionName()+" map"+cl.getColumnMap());
-				
-				/*
-				if(gerar) {
-					Core.setMessageInfo("Também foi gerado classe dependente '"+ this.resolveName(fk_table_name.get(cl.getName())) +"'.");
+				if(!Core.fileExists(new Config().getPathDAO(dad_name) + this.resolveDAOName(tabela_relacional+".java"))) {
+					conten_list = this.GerarList(clas_dao_name, this.resolveName1Dw(cl.getName()));
+					conten_list_set_get = this.GerarListSetGet(clas_dao_name, this.resolveName1Dw(cl.getName()));
+					new CRUDGeneratorController().generateDAO(config, schema, tabela_relacional, dad_name,true, conten_list, conten_list_set_get);
 				}
-                */
+				
 			}else {
-				
-				
 				if(this.resolveType(cl).equalsIgnoreCase("Date")) {
 					cont +=1;
 					String temporalType="DATE";
@@ -139,25 +131,25 @@ public class GerarClasse {
 				content_variaveis = content_variaveis +  "\t@Column(name=\""+cl.getName()+"\",nullable="+( cl.isNullable() ? "true" : "false") +( cl.getSize() == 2147483647 ? "" : ",length="+cl.getSize() ) +")\n"+
 						"\tprivate "+ this.resolveType(cl) +" " +this.resolveName1Dw(cl.getName())+";\n";
 				
-				/*if(ge.isGerar_list()) {
-					//annotation OneToMany
-					content_import = content_import + "import javax.persistence.OneToMany;\n"
-													+ "import javax.persistence.FetchType;\n"
-													+ "import javax.persistence.CascadeType;\n"
-													+ "import java.util.List;\n\n";
-					content_variaveis = content_variaveis + "\t@OneToMany(cascade = CascadeType.REMOVE, mappedBy=\""+ge.getVariavel_tabela()+"\",fetch=FetchType.EAGER)\n" + 
-															"\tprivate List<"+ge.getTabela()+"> "+ge.getTabela().toLowerCase()+"s;";
-					
-				}*/
-				
 			}
+			
+			}
+		if(tem_list) {
+			content_import = content_import + "import javax.persistence.CascadeType;\n" + 
+											  "import javax.persistence.OneToMany;\n" + 
+											  "import java.util.List;\n" +
+											  "import javax.xml.bind.annotation.XmlTransient;\n\n";
+			content_variaveis = content_variaveis + conten_list;
+			
 		}
+		
 		content_variaveis = content_variaveis +"\n";
 		
 		String content_setAndGet = "";
 		for(DatabaseMetadaHelper.Column cl : columns) {
 			if(!cl.isForeignKey()) {
-				content_setAndGet = content_setAndGet + "\tpublic " + this.resolveType(cl) + " get"+this.resolveName1Up(cl.getName())+"() {\n" + 
+				  content_setAndGet = content_setAndGet + (cl.getTypeSql()==Types.NUMERIC?"\t//Change Integer to BigDecimal if the number is very large!\n":"")+
+						"\tpublic " + this.resolveType(cl) + " get"+this.resolveName1Up(cl.getName())+"() {\n" + 
 						"\t\treturn "+this.resolveName1Dw(cl.getName())+";\n" + 
 						"\t}\n" + 
 						"\tpublic void set"+this.resolveName1Up(cl.getName())+"("+ this.resolveType(cl) +" "+this.resolveName1Dw(cl.getName())+") {\n" + 
@@ -174,11 +166,15 @@ public class GerarClasse {
 						"\t}\n";
 			}
 		}
+		if(tem_list) {
+			content_setAndGet = content_setAndGet + conten_list_set_get;
+			
+		}
 		
 		String content_total = content_package + content_import + content + content_variaveis + content_setAndGet +"}";
 		return content_total;
 	}
-	
+	//resolver o tipo do sql para java
 	private String resolveType(DatabaseMetadaHelper.Column column) {
 		String result="String";
 		switch (column.getTypeSql()) {
@@ -234,6 +230,17 @@ public class GerarClasse {
 		return result;
 	}
 	
+	
+	//resolver o problema do nome da tabela
+		public String resolveDAOName(String tabela_name) {
+			String dao_name_class = "";
+			for(String aux : tabela_name.split("_")){
+				dao_name_class += aux.substring(0, 1).toUpperCase() + aux.substring(1).toLowerCase();
+			}
+			return dao_name_class;
+		}
+		
+		
 	private String resolveName1Up(String name) {
 		String nome = "";
 		for(String aux : name.split("_")){
@@ -251,11 +258,13 @@ public class GerarClasse {
 		return StringUtils.uncapitalize(nome.replaceAll(" ", "_"));
 	}
 	
+	//descodifica o tipo de base de dados
 	private String decreptyCode(String type) {
 		String tipo_db = Core.decrypt(type, EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);
 		return tipo_db;
 	}
 	
+	//criar a sequencia no oracle
 	private String getSequenceOracle(String tablename, Config_env config) {
 		String sql=" ";
 		String sequence=" ";
@@ -285,6 +294,25 @@ public class GerarClasse {
 			e.printStackTrace();
 		}
 		return sequence;
+	}
+	
+	//para gerar a variavel da lista
+	private String GerarList(String nome_dao_pai, String nome_column_pai) {
+			String content_variaveis = "\t@OneToMany(cascade = CascadeType.ALL, mappedBy = \"" + nome_column_pai + "\")\n" +
+					"\tprivate List<"+nome_dao_pai+"> "+ this.resolveName1Dw(nome_dao_pai) +"List;\n";
+			return content_variaveis;
+	}
+	
+	//para gerar os gets and sets da lista
+	private String GerarListSetGet(String nome_dao_pai, String nome_column_pai) {
+		String content_setAndGet = "\t@XmlTransient\n" + 
+				"\tpublic List<"+nome_dao_pai+"> get"+this.resolveName1Dw(nome_dao_pai)+"List() {\n" + 
+				"\t\treturn "+this.resolveName1Dw(nome_dao_pai)+"List;\n" + 
+				"\t}\n" + 
+				"\tpublic void set"+this.resolveName1Dw(nome_dao_pai)+"List(List<"+nome_dao_pai + "> "+this.resolveName1Dw(nome_dao_pai)+"List) {\n" + 
+				"\t\tthis."+this.resolveName1Dw(nome_dao_pai) +"List = "+this.resolveName1Dw(nome_dao_pai)+"List;\n" + 
+				"\t}\n";
+		return content_setAndGet;
 	}
 	
 }
