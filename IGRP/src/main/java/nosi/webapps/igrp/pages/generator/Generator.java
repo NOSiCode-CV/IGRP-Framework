@@ -8,6 +8,7 @@ public class Generator extends Model{
 	private String nome;
 	private String link_image;
 	private String link_save;
+	private String link_doc;
 	private String page_form;
 	private String page_xml;
 	private String page_xsl;
@@ -62,6 +63,12 @@ public class Generator extends Model{
 	}
 	public void setLink_save(String link_save) {
 		this.link_save = link_save;
+	}
+	public String getLink_doc() {
+		return link_doc;
+	}
+	public void setLink_doc(String link_doc) {
+		this.link_doc = link_doc;
 	}
 	public String getPage_form() {
 		return page_form;

@@ -24,6 +24,7 @@ public class GeneratorView extends View{
 	public Field nome;
 	public Field link_image;
 	public Field link_save;
+	public Field link_doc;
 	public Field page_form;
 	public Field page_xml;
 	public Field page_xsl;
@@ -60,6 +61,7 @@ public class GeneratorView extends View{
 		nome = new TextField(model,"nome");
 		link_image = new LinkField(model,"link_image");
 		link_save = new LinkField(model,"link_save");
+		link_doc = new LinkField(model,"link_doc");
 		page_form = new LinkField(model,"page_form");
 		page_xml = new FileField(model,"page_xml");
 		page_xsl = new FileField(model,"page_xsl");
@@ -96,6 +98,7 @@ public class GeneratorView extends View{
 		form.addField(nome);
 		form.addField(link_image);
 		form.addField(link_save);
+		form.addField(link_doc);
 		form.addField(page_form);
 		form.addField(page_xml);
 		form.addField(page_xsl);

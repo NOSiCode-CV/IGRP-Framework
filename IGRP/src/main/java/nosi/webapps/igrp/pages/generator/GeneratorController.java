@@ -28,7 +28,8 @@ public class GeneratorController extends Controller{
 					model.setId_objeto(id);
 					model.setId(ac.getId());
 					model.setId_pai(ac.getApplication().getId());
-					model.setLink_image(this.getConfig().getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/img.list.php?name=");	
+					model.setLink_image(this.getConfig().getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/img.list.php?name=");
+					model.setLink_doc(this.getConfig().getResolveUrl("igrp_web_doc","Teste_treemenu","index"));
 					String json = this.getConfig().getCurrentBaseServerPahtXsl(ac)+ File.separator +ac.getPage()+".json";
 					Random r = new Random();
 					if(FileHelper.fileExists(json)){
