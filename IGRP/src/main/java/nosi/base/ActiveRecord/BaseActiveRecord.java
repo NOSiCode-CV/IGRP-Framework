@@ -6,8 +6,12 @@ import java.lang.reflect.ParameterizedType;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.Id;
+import javax.persistence.Query;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -475,7 +479,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	@Transient	 
 	protected String generateSql() {
-		return " SELECT "+this.columnsSelect+" "+this.getAlias()+" FROM "+this.getTableName()+" "+this.getAlias()+" ";
+		return " SELECT "+(Core.isNull(this.columnsSelect)?(" "+this.getAlias()):this.columnsSelect)+" FROM "+this.getTableName()+" "+this.getAlias()+" ";
 	}
 	
 	@Transient	 
@@ -880,6 +884,61 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			this.closeSession();
 		}
 		return list;
+	}
+	
+	@SuppressWarnings("resource")
+	public List<Map<String, Object>> allColumns(String... columns) {
+		List<Map<String, Object>> lista = new ArrayList<>();
+		if (columns != null && columns.length > 0) {
+			for (String columnName : columns)
+				this.columnsSelect += ", " + recq.resolveColumnName(this.getAlias(), columnName.trim()) + " ";
+			this.columnsSelect = this.columnsSelect.substring(1);
+			this.sql = this.generateSql() + this.sql;
+			Session s = this.getSession();
+			try {
+				if (!s.getTransaction().isActive()) {
+					s.beginTransaction();
+				}
+				if (this.isShowConsoleSql) {
+					Core.log(this.getSql());
+					System.out.println(this.getSql());
+				}
+				Query query = s.createQuery(this.getSql());
+				if (this.offset > -1) {
+					query.setFirstResult(offset);
+				}
+				if (this.limit > -1) {
+					query.setMaxResults(limit);
+				}
+				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
+				if (this.parametersMap != null && !this.parametersMap.isEmpty()) {
+					for (Iterator<DatabaseMetadaHelper.Column> i = parametersMap.iterator(); i.hasNext();) {
+						Column col = i.next();
+						ParametersHelper.setParameter(query, col.getDefaultValue(), col);
+					}
+				}
+				List<Object> list = query.getResultList();
+				for (Iterator<Object> iter = list.iterator(); iter.hasNext();) {
+					Map<String, Object> mapObject = new HashMap<>();
+					Object[] teste = (Object[]) iter.next();
+					for (int i = 0; teste.length > i; i++)
+						mapObject.put(columns[i], teste[i]);
+					lista.add(mapObject);
+				}
+			} catch (Exception e) {
+				this.keepConnection = false;
+				this.setError(e);
+			} finally {
+				this.closeSession();
+			}
+		}
+		return lista;
+	}
+
+	public Map<String, Object> oneColumns(String... columns) {
+		this.limit = 1;
+		List<Map<String, Object>> list = this.allColumns(columns);
+		return (list != null && !list.isEmpty() && list.size() > 0) ? list.get(0) : null;
 	}
 		
 	private boolean beginTransaction(Transaction transaction) {		
