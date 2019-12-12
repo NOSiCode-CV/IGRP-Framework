@@ -236,11 +236,11 @@
 											
 									$.IGRP.components.select2.setOptions({
 										select: formElement,
-										options: {
+										options: [{
 											text: '',
 											value: value,
 											selected: true
-										}
+										}]
 									});
 								}
 
