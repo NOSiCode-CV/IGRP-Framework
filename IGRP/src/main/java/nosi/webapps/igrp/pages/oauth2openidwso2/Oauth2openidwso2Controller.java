@@ -247,12 +247,12 @@ public class Oauth2openidwso2Controller extends Controller {
 				} catch (Exception e) { 
 				}
 				
-				/*
+				
 				 currentDad = "igrp"; 
 				 userId = "2";  // email 
 				 currentOrg = "1"; 
 				 currentProf = "2"; 
-				*/
+				
 				
 				List<MenuProfile> allMenus = new Menu().getMyMenu(currentDad, Core.toInt(userId), Core.toInt(currentOrg), Core.toInt(currentProf)); 
 				List<Oauth2openidwso2Controller.IgrpMenu> myMenus = new ArrayList<Oauth2openidwso2Controller.IgrpMenu>();
