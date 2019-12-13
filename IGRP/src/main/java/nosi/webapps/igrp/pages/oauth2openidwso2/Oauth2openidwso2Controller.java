@@ -223,7 +223,7 @@ public class Oauth2openidwso2Controller extends Controller {
 		
 		String json = "{}"; // empty json 
 		
-		 String header = Core.getParam("p_authorization"); //Igrp.getInstance().getRequest().getHeader("Authorization"); 
+		 String header = Igrp.getInstance().getRequest().getHeader("Authorization"); 
 		 nosi.webapps.igrp.dao.Config config = new  nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "IGRPWEB_INTEGRATION_PLSQL_TOKEN").one(); 
 		 if(config != null) { 
 			  
