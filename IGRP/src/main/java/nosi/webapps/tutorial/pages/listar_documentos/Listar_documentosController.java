@@ -84,21 +84,24 @@ public class Listar_documentosController extends Controller {
 	          
 	          model.setId_rel(document.getRelacionados());
 	          
-	          String[]p_id2 = model.getId_rel().split(";");
-	            
-	          if(p_id2 != null){
-	          	  
-	                for(String x : p_id2){
-	               	 
-	               	Document documen = new Document().findOne(Core.toInt(x));
-	               	
-	               	IGRPButton btn_relaciona = new IGRPButton(documen.getTitulo(),"tutorial","Listar_documentos","index&p_id="+documen.getIdDoc(),"void","link|fa-angle-right","","");
-	               	btn_relaciona.propertie.add("type","specific").add("rel","relacionados").add("refresh_components","");
-	               	
-	               	view.documentos_relacionados.addButton(btn_relaciona);
+	          if(Core.isNotNull(model.getId_rel())) {
+	        	  String[]p_id2 = model.getId_rel().split(";");
+		            
+		          if(p_id2 != null){
+		          	  
+		                for(String x : p_id2){
+		               	 
+		               	Document documen = new Document().findOne(Core.toInt(x));
+		               	
+		               	IGRPButton btn_relaciona = new IGRPButton(documen.getTitulo(),"tutorial","Listar_documentos","index&p_id="+documen.getIdDoc(),"void","link|fa-angle-right","","");
+		               	btn_relaciona.propertie.add("type","specific").add("rel","relacionados").add("refresh_components","");
+		               	
+		               	view.documentos_relacionados.addButton(btn_relaciona);
 
-	                }
-	            }
+		                }
+		            }
+	          }
+	         
 	          
 	        }
 	    
