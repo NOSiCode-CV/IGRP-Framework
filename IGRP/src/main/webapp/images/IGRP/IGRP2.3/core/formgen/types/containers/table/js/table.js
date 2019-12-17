@@ -685,7 +685,7 @@ var GENTABLE = function(name,params){
 		var rtn = '<tfoot><tr>';
 
 		container.GET.fields().forEach(function(f){
-			if(f.type != 'hidden'){
+			if($.inArray(f.type,container.reject) === -1){
 				var fValue = container.GET.path()+"/table/value/row[@total='yes']/"+f.GET.tag();
 			var align  =  f.GET.align ? f.GET.align() : '';
 			rtn+='<td align="'+align+'">';

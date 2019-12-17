@@ -307,7 +307,7 @@
 			table = container.GET.path()+"/table/value/row";
 
 		container.GET.fields().forEach(function(f){
-			if(f.type != 'hidden'){
+			if($.inArray(f.type,container.reject) === -1){
 				var fValue = table+"[@total='yes']/"+f.GET.tag();
 			var align  =  f.GET.align ? f.GET.align() : 'right';
 			rtn+=' <xsl:if test="'+fValue+'"><td class="total-col" align="'+align+'" id="total-col-'+f.GET.tag()+'">';
