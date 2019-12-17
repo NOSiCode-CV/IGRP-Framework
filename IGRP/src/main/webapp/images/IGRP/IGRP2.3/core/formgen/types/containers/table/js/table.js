@@ -682,23 +682,29 @@ var GENTABLE = function(name,params){
 	}
 
 	var getTableFooter = function(){
-		var rtn = '<tfoot><tr>';
+		var rtn   = '<tfoot><tr>';
 
 		container.GET.fields().forEach(function(f){
-			if($.inArray(f.type,container.reject) === -1){
-				var fValue = container.GET.path()+"/table/value/row[@total='yes']/"+f.GET.tag();
-			var align  =  f.GET.align ? f.GET.align() : '';
-			rtn+='<td align="'+align+'">';
-				rtn+='<xsl:value-of select="'+fValue+'"/>'
-			rtn+='</td>';
+			
+			if($.inArray(f.type,container.reject) === -1 && f.GET.tag() != container.GET.tag()+'_filter'){
+				
+				var fValue = container.GET.path()+"/table/value/row[@total='yes']/"+f.GET.tag(),
+				
+					align  =  f.GET.align ? f.GET.align() : '';
+			
+				rtn+='<xsl:if test="'+fValue+'"><td align="'+align+'">';
+				
+				rtn+='<xsl:value-of select="'+fValue+'"/>';
+				
+				rtn+='</td></xsl:if>';
 			}
 		});
 
 		if(container.GET.ctxInlineTmpl())
-			rtn+='<td/>'
+			rtn+='<xsl:if test="rows/content/'+container.GET.tag()+'/table/context-menu/item"><td/></xsl:if>';
 
-		rtn+='</tr></tfoot>'
-
+		rtn+='</tr></tfoot>';
+		
 		return rtn;
 	}
 				
