@@ -19,6 +19,12 @@ public class Listar_documentos extends Model{
 
 	@RParam(rParamName = "p_id_rel")
 	private String id_rel;
+
+	@RParam(rParamName = "p_atualizado_em")
+	private String atualizado_em;
+
+	@RParam(rParamName = "p_sectionheader_2_text")
+	private String sectionheader_2_text;
 	
 	private List<Treemenu_1> treemenu_1 = new ArrayList<>();	
 	public void setTreemenu_1(List<Treemenu_1> treemenu_1){
@@ -48,6 +54,20 @@ public class Listar_documentos extends Model{
 	}
 	public String getId_rel(){
 		return this.id_rel;
+	}
+	
+	public void setAtualizado_em(String atualizado_em){
+		this.atualizado_em = atualizado_em;
+	}
+	public String getAtualizado_em(){
+		return this.atualizado_em;
+	}
+	
+	public void setSectionheader_2_text(String sectionheader_2_text){
+		this.sectionheader_2_text = sectionheader_2_text;
+	}
+	public String getSectionheader_2_text(){
+		return this.sectionheader_2_text;
 	}
 
 

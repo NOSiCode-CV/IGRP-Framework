@@ -25,7 +25,11 @@ public class Listar_documentosController extends Controller {
 		model.load();
 		Listar_documentosView view = new Listar_documentosView();
 		/*----#start-code(index)----*/
-		
+	
+        System.out.println(Core.getCurrentDate());
+        System.out.println(Core.getCurrentDataTime());
+        System.out.println(Core.getCurrentDate1());
+        System.out.println(Core.getCurrentDateSql());
 		
       try{
 	
@@ -81,6 +85,8 @@ public class Listar_documentosController extends Controller {
 	          view.sectionheader_1_text.setValue(document.getTitulo());
 	          
 	          model.setForm_1_plaintext_1(document.getDescricao());
+              
+              model.setAtualizado_em(document.getData()!=null?Core.dateToString(document.getData(),"dd-MM-yyyy"):null);
 	          
 	          model.setId_rel(document.getRelacionados());
 	          

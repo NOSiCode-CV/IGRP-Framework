@@ -110,6 +110,7 @@ public class Inserir_documentoController extends Controller {
             document.setDescricao(model.getDescricao());
             document.setRelacionados(model.getRelacionados()!=null?String.join(";",model.getRelacionados()) : null);
             document.setData(Core.getCurrentDateSql());
+            
 		}
 		session.persist(document);
       
