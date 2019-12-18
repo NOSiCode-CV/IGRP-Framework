@@ -195,11 +195,11 @@ public class ConfigDBIGRP {
 	
 	//Update de URL no ficheiro cfg.xml para conecção dinâmina com a base de dados IGRP Web Doc H2.
 	
-	  public static boolean updateHibernateConfigFileOfApp(String connectionName) {
+	  public static boolean updateHibernateConfigFileOfApp(String connectionName) { 
 			boolean success = false;
 			try {
 				String fileName = connectionName + ".cfg.xml"; 
-				String path = new Config().getPathConexao() ;
+				String path = new Config().getPathConexao() ; 
 				String connectionURL =	"jdbc:h2:file:"+Path.getRootPath()+"tutorial"+File.separator+"igrpweb_doc;AUTO_SERVER=TRUE";
 				String cfgFileContent = SaveMapeamentoDAO.getHibernateConfig(path + File.separator + fileName); 
 				String fgFileContent = processHibernateConfigFileXml(cfgFileContent, connectionURL); 

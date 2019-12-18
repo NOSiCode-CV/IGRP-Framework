@@ -65,14 +65,10 @@ public class HibernateUtils {
 			return SESSION_FACTORY_IGRP_H2;
 		}
 		String fileName = connectionName + "." + dad;
-		if (!SESSION_FACTORY.containsKey(connectionName)) {
-			SESSION_FACTORY.put(connectionName, buildSessionFactory(buildConfig(connectionName, fileName, dad).build()));
-		}
-		
 		
 		if (connectionName!=null && connectionName.equalsIgnoreCase(TUTORIAL_DOC_CONECTION_NAME)) {
 			
-			ConfigDBIGRP.updateHibernateConfigFileOfApp(connectionName);
+			ConfigDBIGRP.updateHibernateConfigFileOfApp(fileName);
 			
 			fileName = TUTORIAL_DOC_CONECTION_NAME + "." + TUTORIAL_DOC_APP_NAME;
 			dad= TUTORIAL_DOC_APP_NAME;
@@ -81,9 +77,9 @@ public class HibernateUtils {
 				SESSION_FACTORY.put(TUTORIAL_DOC_CONECTION_NAME, buildSessionFactory(buildConfig(connectionName, fileName, dad).build()));
 			}
 			
+		}else if (!SESSION_FACTORY.containsKey(connectionName)) {
+			SESSION_FACTORY.put(connectionName, buildSessionFactory(buildConfig(connectionName, fileName, dad).build()));
 		}
-		
-		
 		
 		SessionFactory sessionFactory = SESSION_FACTORY.get(connectionName);
 		if(sessionFactory!=null && sessionFactory.isOpen())
