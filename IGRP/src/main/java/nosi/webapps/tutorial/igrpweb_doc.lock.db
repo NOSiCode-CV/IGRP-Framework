@@ -1,6 +1,6 @@
 #FileLock
-#Tue Dec 17 09:54:05 CVT 2019
+#Wed Dec 18 15:23:08 CVT 2019
 hostName=NOSI-DDS-61.gov.cv
-id=16f137e3ff504d32927579ba6701d2b42f78b15ebc3
+id=16f19d1dc2d7042feecd25afc0107e4ec6ab83cb034
 method=file
-server=192.168.56.1\:53493
+server=192.168.56.1\:57083

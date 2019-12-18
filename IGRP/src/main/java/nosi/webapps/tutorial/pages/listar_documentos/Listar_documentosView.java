@@ -17,16 +17,16 @@ public class Listar_documentosView extends View {
 	public Field treemenu_1_child;
 	public Field treemenu_1_active;
 	public Field sectionheader_1_text;
+	public Field sectionheader_2_text;
 	public Field form_1_plaintext_1;
 	public Field id_rel;
 	public Field atualizado_em;
-	public Field sectionheader_2_text;
 	public IGRPTreeMenu treemenu_1;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPBox box_controll;
+	public IGRPSectionHeader sectionheader_2;
 	public IGRPForm form_1;
 	public IGRPView view_1;
-	public IGRPSectionHeader sectionheader_2;
 
 	public IGRPVerticalMenu documentos_relacionados;
 	public IGRPButton btn_documentos_relacionados;
@@ -41,11 +41,11 @@ public class Listar_documentosView extends View {
 
 		box_controll = new IGRPBox("box_controll","");
 
+		sectionheader_2 = new IGRPSectionHeader("sectionheader_2","");
+
 		form_1 = new IGRPForm("form_1","");
 
 		view_1 = new IGRPView("view_1","");
-
-		sectionheader_2 = new IGRPSectionHeader("sectionheader_2","");
 
 		treemenu_1_link = new LinkField(model,"treemenu_1_link");
 		treemenu_1_link.setLabel(gt("Link"));
@@ -78,6 +78,11 @@ public class Listar_documentosView extends View {
 		sectionheader_1_text.setValue(gt("Sectionheader"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
+		sectionheader_2_text = new TextField(model,"sectionheader_2_text");
+		sectionheader_2_text.setLabel(gt(""));
+		sectionheader_2_text.setValue(gt("<p><span style='font-size:12px;'>Documentos Relacionados</span></p>"));
+		sectionheader_2_text.propertie().add("type","text").add("name","p_sectionheader_2_text").add("maxlength","4000");
+		
 		form_1_plaintext_1 = new PlainTextField(model,"form_1_plaintext_1");
 		form_1_plaintext_1.setLabel(gt("Plaintext"));
 		form_1_plaintext_1.propertie().add("name","p_form_1_plaintext_1").add("type","plaintext").add("clear","false").add("disable_output_escaping","true").add("html_class","ff-fix").add("maxlength","4000");
@@ -89,11 +94,6 @@ public class Listar_documentosView extends View {
 		atualizado_em = new DateField(model,"atualizado_em");
 		atualizado_em.setLabel(gt("Atualizado em:"));
 		atualizado_em.propertie().add("name","p_atualizado_em").add("type","date").add("range","false").add("maxlength","250").add("class","info").add("img","fa-clock-o").add("showlabel","true");
-		
-		sectionheader_2_text = new TextField(model,"sectionheader_2_text");
-		sectionheader_2_text.setLabel(gt(""));
-		sectionheader_2_text.setValue(gt("<p>Documentos Relacionados</p>"));
-		sectionheader_2_text.propertie().add("type","text").add("name","p_sectionheader_2_text").add("maxlength","4000");
 		
 
 		documentos_relacionados = new IGRPVerticalMenu("documentos_relacionados");
@@ -118,21 +118,21 @@ public class Listar_documentosView extends View {
 		sectionheader_1.addField(sectionheader_1_text);
 
 
+		sectionheader_2.addField(sectionheader_2_text);
 
 		form_1.addField(form_1_plaintext_1);
 		form_1.addField(id_rel);
 
 		view_1.addField(atualizado_em);
 
-		sectionheader_2.addField(sectionheader_2_text);
 
 		documentos_relacionados.addButton(btn_documentos_relacionados);
 		this.addToPage(treemenu_1);
 		this.addToPage(sectionheader_1);
 		this.addToPage(box_controll);
+		this.addToPage(sectionheader_2);
 		this.addToPage(form_1);
 		this.addToPage(view_1);
-		this.addToPage(sectionheader_2);
 		this.addToPage(documentos_relacionados);
 	}
 		

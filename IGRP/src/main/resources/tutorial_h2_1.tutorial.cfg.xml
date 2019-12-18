@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">org.h2.Driver</property>
+		<property name="hibernate.connection.url">jdbc:h2:file:C:\Users\rodney.fernandes\Desktop\teste\IGRP-Framework\IGRP\src\main\java\nosi\webapps\tutorial\igrpweb_doc;AUTO_SERVER=TRUE</property>
+		<property name="hibernate.connection.username">igrpweb</property>
+		<property name="hibernate.connection.password">docdb</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="hibernate.connection.isolation">2</property>
+		<property name="hibernate.connection.autocommit">false</property>
+		<property name="hibernate.connection.pool_size">5</property>
+		<property name="hibernate.hbm2ddl.jdbc_metadata_extraction_strategy">individually</property>
+		<property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
+		<property name="hibernate.transaction.auto_close_session">DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
+		<!-- Hikaricp configuration -->
+		<property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>
+		<property name="hibernate.hikari.connectionTimeout">60000</property>
+		<property name="hibernate.hikari.idleTimeout">10000</property>
+		<property name="hibernate.hikari.minimumIdle">0</property>
+		<property name="hibernate.hikari.maximumPoolSize">10</property>
+		<property name="hibernate.hikari.maxLifetime">30000</property>
+		<property name="hibernate.hikari.leakDetectionThreshold">0</property>
+		<property name="hibernate.hikari.connectionTimeout">120000</property>
+		<property name="hibernate.hikari.idleTimeout">600000</property>
+		<property name="hibernate.hikari.maxLifetime">1800000</property>
+		<property name="hibernate.hikari.connectionTimeout">120000</property>
+		<property name="hibernate.hikari.idleTimeout">600000</property>
+		<property name="hibernate.hikari.maxLifetime">1800000</property>
+
+
+ 		<mapping class="nosi.webapps.tutorial.dao.Document"/>
+		<mapping class="nosi.webapps.tutorial.dao.Tipo"/>
+	</session-factory>
+</hibernate-configuration>

@@ -82,4 +82,10 @@ public class Document extends BaseActiveRecord<Document> implements Serializable
 	public void setIdType(Tipo idType) {
 		this.idType = idType;
 	}
+	
+	@Override
+		public String getConnectionName() {
+			
+			return "tutorial_h2_1";
+		}
 }

@@ -2,9 +2,20 @@ package nosi.webapps.tutorial.pages.listar_documentos;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.dao_helper.SaveMapeamentoDAO;
+import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
 import nosi.core.webapp.databse.helpers.QueryInterface;
+
+import static nosi.core.i18n.Translator.gt;
+
+import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
+
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 /* Start-Code-Block (import) */
 /* End-Code-Block */
@@ -14,9 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import nosi.webapps.tutorial.dao.Document;
 import org.apache.commons.text.StringEscapeUtils;
-import java.util.Arrays;
 import nosi.core.gui.components.IGRPButton;
-
 /*----#end-code----*/
 		
 public class Listar_documentosController extends Controller {
@@ -25,12 +34,7 @@ public class Listar_documentosController extends Controller {
 		model.load();
 		Listar_documentosView view = new Listar_documentosView();
 		/*----#start-code(index)----*/
-	
-        System.out.println(Core.getCurrentDate());
-        System.out.println(Core.getCurrentDataTime());
-        System.out.println(Core.getCurrentDate1());
-        System.out.println(Core.getCurrentDateSql());
-		
+			
       try{
 	
           List<Tipo> tipoList = new Tipo().find().all();
@@ -70,7 +74,7 @@ public class Listar_documentosController extends Controller {
 	    
 	        if(Core.isNotNullOrZero(Core.getParam("p_type"))){
 	
-	            documentfilter.andWhere("tipo.nome","=",Core.getParam("p_type"));
+	            documentfilter.andWhere("idType.nome","=",Core.getParam("p_type"));
 	        }
 	
 	        if(Core.isNotNullOrZero(Core.getParamInt("p_id"))){
@@ -148,7 +152,7 @@ public class Listar_documentosController extends Controller {
 		
 		
 		/*----#end-code----*/
-		return this.redirect("igrp_web_doc","Teste_treemenu","index", this.queryString());	
+		return this.redirect("tutorial","Listar_documentos","index", this.queryString());	
 	}
 	
 		
@@ -209,7 +213,7 @@ public Response actionRemote_treemenu_1() throws IOException, IllegalArgumentExc
      
   return xml2;
   } 
-
-
+	
+ 
 /*----#end-code----*/
 }

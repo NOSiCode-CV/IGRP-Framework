@@ -4,6 +4,7 @@ package nosi.base.ActiveRecord;
  * 29 May 2018
  */
 
+import java.io.File;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -20,8 +21,10 @@ import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
+import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.webapps.igrp.dao.Config_env;
+import nosi.webapps.tutorial.pages.listar_documentos.Listar_documentosController;
 
 public class HibernateUtils {
 
@@ -32,6 +35,8 @@ public class HibernateUtils {
 	public static final StandardServiceRegistryBuilder REGISTRY_BUILDER_IGRP;
 	public static final StandardServiceRegistryBuilder REGISTRY_BUILDER_IGRP_H2;
 	private static final String SUFIX_HIBERNATE_CONFIG = ".cfg.xml";
+	private static final String TUTORIAL_DOC_CONECTION_NAME = "tutorial_h2_1";
+	private static final String TUTORIAL_DOC_APP_NAME = "tutorial";
 
 	static {
 		String connectionName = ConfigApp.getInstance().getBaseConnection();
@@ -63,6 +68,23 @@ public class HibernateUtils {
 		if (!SESSION_FACTORY.containsKey(connectionName)) {
 			SESSION_FACTORY.put(connectionName, buildSessionFactory(buildConfig(connectionName, fileName, dad).build()));
 		}
+		
+		
+		if (connectionName!=null && connectionName.equalsIgnoreCase(TUTORIAL_DOC_CONECTION_NAME)) {
+			
+			ConfigDBIGRP.updateHibernateConfigFileOfApp(connectionName);
+			
+			fileName = TUTORIAL_DOC_CONECTION_NAME + "." + TUTORIAL_DOC_APP_NAME;
+			dad= TUTORIAL_DOC_APP_NAME;
+			connectionName= TUTORIAL_DOC_CONECTION_NAME;
+			if (!SESSION_FACTORY.containsKey(TUTORIAL_DOC_CONECTION_NAME)) {
+				SESSION_FACTORY.put(TUTORIAL_DOC_CONECTION_NAME, buildSessionFactory(buildConfig(connectionName, fileName, dad).build()));
+			}
+			
+		}
+		
+		
+		
 		SessionFactory sessionFactory = SESSION_FACTORY.get(connectionName);
 		if(sessionFactory!=null && sessionFactory.isOpen())
 			return sessionFactory;

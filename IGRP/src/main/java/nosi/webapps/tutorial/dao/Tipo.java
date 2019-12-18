@@ -49,4 +49,11 @@ public class Tipo extends BaseActiveRecord<Tipo> implements Serializable{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	@Override
+	public String getConnectionName() {
+		
+		return "tutorial_h2_1";
+	}
+	
 }

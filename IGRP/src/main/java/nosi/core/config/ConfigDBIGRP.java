@@ -5,9 +5,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.Iterator;
 import java.util.Properties;
+
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.dao_helper.SaveMapeamentoDAO;
+import nosi.core.webapp.import_export_v2.common.Path;
 
 /**
  * @author: Emanuel Pereira
@@ -184,5 +192,61 @@ public class ConfigDBIGRP {
 				+ type_db + ", username=" + username + ", password=" + password + ", name=" + name + ", fileName="
 				+ fileName + ", path=" + path + "]";
 	}
+	
+	//Update de URL no ficheiro cfg.xml para conecção dinâmina com a base de dados IGRP Web Doc H2.
+	
+	  public static boolean updateHibernateConfigFileOfApp(String connectionName) {
+			boolean success = false;
+			try {
+				String fileName = connectionName + ".cfg.xml"; 
+				String path = new Config().getPathConexao() ;
+				String connectionURL =	"jdbc:h2:file:"+Path.getRootPath()+"tutorial"+File.separator+"igrpweb_doc;AUTO_SERVER=TRUE";
+				String cfgFileContent = SaveMapeamentoDAO.getHibernateConfig(path + File.separator + fileName); 
+				String fgFileContent = processHibernateConfigFileXml(cfgFileContent, connectionURL); 
+				if(fgFileContent != null && !fgFileContent.isEmpty()) 
+					success = saveFiles(fileName, fgFileContent, path); 
+			} catch (Exception e) {
+				e.printStackTrace(); 
+			}
+			return success;
+		}
+		
+		private static String processHibernateConfigFileXml(String xmlInput, String Url) {
+			String xmlOutput = null; 
+			try {
+			//   Document originalDoc = new SAXReader().read(new StringReader("<root><given></given></root>")); 
+				 org.dom4j.Document  doc = new SAXReader().read(new StringReader(xmlInput)); 
+				Element root = doc.getRootElement();
+
+				    // iterate through child elements of root
+				    Iterator<Element> i = root.elementIterator("session-factory"); 
+				    if(i.hasNext()) { 
+				    	Element element = (Element) i.next(); 
+				    	   Iterator<Element> j = element.elementIterator(); 
+				    	   while(j.hasNext()) { 
+				    		   Element property = (Element) j.next(); 
+				    		   String attr_name = property.attributeValue("name");
+				    		   if(attr_name != null) {
+				    			   if(attr_name.equals("hibernate.connection.url")) 
+				    				   property.setText(Url);
+				    			    }
+				    	   }
+				    }
+				    xmlOutput = doc.asXML();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return xmlOutput;
+		}
+		
+		private static boolean saveFiles(String fileName,String content,String path) throws IOException {
+			boolean flag = false;
+			if(Core.isNotNull(content)) {
+				flag = FileHelper.save(path, fileName, content);
+			}
+			return flag;
+		}
+
 	
 }

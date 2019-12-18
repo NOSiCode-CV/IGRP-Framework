@@ -34,7 +34,7 @@ public class Inserir_documentoView extends View {
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
 		titulo = new TextField(model,"titulo");
-		titulo.setLabel(gt("Título do docuemtento"));
+		titulo.setLabel(gt("Título do documento"));
 		titulo.propertie().add("name","p_titulo").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		type = new ListField(model,"type");
