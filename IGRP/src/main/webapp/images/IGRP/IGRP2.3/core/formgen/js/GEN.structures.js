@@ -465,15 +465,16 @@ var GENSTRUCTURES = function(GEN){
 					
 				}
 
+				var linkAction= (item.action && item.action.link) ? '..'+item.action.link.substring(1).substring(item.action.link.substring(1).indexOf('/')) : '';
 				rtn+='<item type="'+itemType+'" code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+' refresh_components="'+refresh_components+'">'+
 	                    '<title>'+item.GET.label()+'</title>'+
 	                    '<app>'+app+'</app>'+
 	                    '<page>'+page+'</page>'+
 	                    '<link>'+link+'</link>'+
-	                    '<parameter>'+'..'+item.action.link.substring(1).substring(item.action.link.substring(1).indexOf('/'))+'?</parameter>'+
+	                    '<parameter>'+linkAction+'?</parameter>'+
 	                    '<target>'+target+'</target>'+
 	                    '<img>'+_class+'|'+item.GET.img()+'</img>'+
-	                    '<preview>'+'..'+item.action.link.substring(1).substring(item.action.link.substring(1).indexOf('/'))+'</preview>'+
+	                    '<preview>'+linkAction+'</preview>'+
 	                     map+
 	                 '</item>';
 			});
@@ -501,7 +502,7 @@ var GENSTRUCTURES = function(GEN){
 				_class = f.GET.class && f.GET.class() ? f.GET.class()+'|' : '',
 				parent = f.GET.parent && f.GET.parent() ? 'parent="'+f.GET.parent()+'"':'',
 				params = '',
-				actionLINK = f.action ? f.action.link : '',
+				actionLINK = (f.action && f.action.link) ? '..'+f.action.link.substring(1).substring(f.action.link.substring(1).indexOf('/')) : '',		
 				customReturn = f.GET.custom_return ? f.GET.custom_return() : false,
 				customReturnAttr = customReturn ? 'custom_return="true"' : '',
 				refresh_components = '';
@@ -772,8 +773,8 @@ var GENSTRUCTURES = function(GEN){
 			
 		console.log(f);
 		
-		var link 	= f.action && f.action.link ? f.action.link : '',				
-			rtn     = '<lookup>'+'..'+link.substring(1).substring(link.substring(1).indexOf('/'))+'</lookup>',
+		var link 	= (f.action && f.action.link) ? '..'+f.action.link.substring(1).substring(f.action.link.substring(1).indexOf('/')) : '',				
+			rtn     = '<lookup>'+link+'</lookup>',
 		
 			isTable = f.parent.GET.type() == 'formlist' ? 'is-table="true"' : '';
 		
