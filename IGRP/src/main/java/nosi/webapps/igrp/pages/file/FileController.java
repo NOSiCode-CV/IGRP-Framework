@@ -41,39 +41,15 @@ public class FileController extends Controller {
 	
 	/*----#start-code(custom_actions)----*/
 	public Response actionGetFile() throws Exception {
-			
 		String uuid= Core.getParam("uuid");		
 		CLob file;
 		if(Core.isNotNull(uuid))
 			 file = Core.getFileByUuid(uuid);
 		else
 			 file = Core.getFile(Core.getParamInt("p_id").intValue());
-		if(file!=null) {
-			if(!(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated())  && !file.getEstado().equals("AP")){
-				throw new Exception("File not public. Not estado AP");
-			}
+		if(file!=null)
 			return this.xSend(file.getC_lob_content(), file.getName(), file.getMime_type(), false);
-		}else		
-			throw new Exception("File not found.");
-		
-	}
-	
-	public Response actionGetPublicFile() throws Exception {
-		
-		String uuid= Core.getParam("uuid");		
-		CLob file;
-		if(Core.isNotNull(uuid))
-			 file = Core.getFileByUuid(uuid);
-		else
-			 file = Core.getFile(Core.getParamInt("p_id").intValue());
-		if(file!=null) {
-			if(!file.getEstado().equals("AP")){
-				throw new Exception("File not public. Not estado AP");
-			}
-			return this.xSend(file.getC_lob_content(), file.getName(), file.getMime_type(), false);
-		}else		
-			throw new Exception("File not found.");
-		
+		throw new Exception("File not found.");
 	}
 	
 	public Response actionGetTempFile() throws Exception {		
@@ -103,13 +79,14 @@ public class FileController extends Controller {
 		String fileName="";
 		String appName= Core.getCurrentApp().getDad();
 		String pageName = Core.getParam("p_page_name");
+
 		try {
 			Part file = Core.getFile("p_file_name");
 			if (file != null) {
 				fileName = file.getSubmittedFileName();
 				fileName =  fileName.replaceAll(" ", "-");
 				if(Core.isNotNull(fileName)) {
-					int index = fileName.lastIndexOf(".");
+					int index = fileName.indexOf(".");
 					if(index!=-1) {
 						String extensionName = fileName.substring(index+1);
 						String workSapce = Path.getImageWorkSpaceTxt(appName,pageName);
@@ -117,7 +94,6 @@ public class FileController extends Controller {
 							r = FileHelper.saveImage(workSapce, fileName,extensionName.toLowerCase(), file);
 						//Saving into server
 						r = FileHelper.saveImage(Path.getImageServerTxt(appName,pageName), fileName,extensionName.toLowerCase(), file);
-						System.out.println("Image saved:"+r);
 					}
 				}
 			}
@@ -125,11 +101,11 @@ public class FileController extends Controller {
 			r = false;
 		}
 		
-		String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
+		//String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
 		
 		//String fileNameUrl= UrlHelper.urlEncoding(fileName);
 		
-		String link = baseUrl.toString()+"?r=igrp/File/get-image-txt&p_app_name="+appName+"&p_page_name="+pageName+"&p_file_name="+fileName;
+		String link = "?r=igrp/File/get-image-txt&p_app_name="+appName+"&p_page_name="+pageName+"&p_file_name="+fileName;
 		
 		System.out.println("Link doc:"+link);
 		if(r)
@@ -144,9 +120,6 @@ public class FileController extends Controller {
 		String appName = Core.getParam("p_app_name");
 		String pageName = Core.getParam("p_page_name");
 		if(Core.isNotNull(fileName)) {
-			
-			System.out.println("Image getted doc:"+fileName);
-			System.out.println("Appname getted doc:"+appName);
 			String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
 			return this.redirectToUrl(baseUrl.toString().replaceAll("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/"+appName+"/"+pageName+"/"+fileName);
 		}

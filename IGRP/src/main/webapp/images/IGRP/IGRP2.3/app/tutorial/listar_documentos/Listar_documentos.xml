@@ -147,6 +147,33 @@
         <box_controll type="box" xml-type="form" gen-type="container" gen-group="">
             <fields/>
         </box_controll>
+        <sectionheader_2 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_2_text type="text" name="p_sectionheader_2_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[<p><span style='font-size:12px;'>Documentos Relacionados</span></p>
+]]>
+                    </value>
+                </sectionheader_2_text>
+            </fields>
+        </sectionheader_2>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <form_1_plaintext_1 name="p_form_1_plaintext_1" type="plaintext" clear="false" disable_output_escaping="true" html_class="ff-fix" maxlength="4000" right="false">
+                    <label>Plaintext</label>
+                    <value>Adipiscing sit adipiscing deserunt ut sed ut unde ut natus omnis accusantium consectetur aperiam ipsum omnis accusantium deserunt omnis rem stract natus aperiam magna laudantium</value>
+                </form_1_plaintext_1>
+                <hidden name="p_id_rel" type="hidden" maxlength="250" java-type="" tag="id_rel"/>
+            </fields>
+        </form_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <atualizado_em name="p_atualizado_em" type="date" range="false" maxlength="250" class="info" iconColor="#333" iconClass="" img="fa-clock-o" showlabel="true">
+                    <label>Atualizado em:</label>
+                    <value>04-07-2017</value>
+                </atualizado_em>
+            </fields>
+        </view_1>
         <documentos_relacionados type="verticalmenu" xml-type="verticalmenu" title="Documentos Relacionados" dynamic-menu="true" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="documentos_relacionados" refresh_components="">
                 <title/>
@@ -158,33 +185,6 @@
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_web_doc/teste_treemenu/Teste_treemenu.xml</preview>
             </item>
         </documentos_relacionados>
-        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
-            <fields>
-                <form_1_plaintext_1 name="p_form_1_plaintext_1" type="plaintext" clear="false" disable_output_escaping="true" html_class="ff-fix" maxlength="4000" right="false">
-                    <label>Plaintext</label>
-                    <value>Accusantium mollit dolor stract elit mollit lorem natus aliqua perspiciatis natus anim officia voluptatem laudantium ut accusantium totam dolor sed adipiscing doloremque aperiam dolor labore</value>
-                </form_1_plaintext_1>
-                <hidden name="p_id_rel" type="hidden" maxlength="250" java-type="" tag="id_rel"/>
-            </fields>
-        </form_1>
-        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
-            <fields>
-                <atualizado_em name="p_atualizado_em" type="date" range="false" maxlength="250" class="info" iconColor="#333" iconClass="" img="fa-clock-o" showlabel="true">
-                    <label>Atualizado em:</label>
-                    <value>06-06-2012</value>
-                </atualizado_em>
-            </fields>
-        </view_1>
-        <sectionheader_2 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
-            <fields>
-                <sectionheader_2_text type="text" name="p_sectionheader_2_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[<p>Documentos Relacionados</p>
-]]>
-                    </value>
-                </sectionheader_2_text>
-            </fields>
-        </sectionheader_2>
     </content>
     <blockly>
         <imports></imports>

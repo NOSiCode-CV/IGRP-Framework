@@ -214,7 +214,7 @@
 					
 					<xsl:value-of select="$newlineTab1"></xsl:value-of>
 					
-					<xsl:text>else if (!model.validate())</xsl:text>
+					<xsl:text>else</xsl:text>
 							
 					<xsl:value-of select="$newlineTab2"></xsl:value-of>
 					

@@ -518,6 +518,7 @@ public class WebReportController extends Controller {
 		}
 		String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
 		String link = baseUrl.toString()+"?r=igrp_studio/WebReport/get-image&p_file_name="+fileName;
+		System.out.println("Link report:"+link);
 		if(r)
 			return this.renderView("{\"type\":\"success\",\"message\":\""+FlashMessage.MESSAGE_SUCCESS+"\",\"link\":\""+link+"\"}");
 		else
@@ -535,6 +536,8 @@ public class WebReportController extends Controller {
 		Response resp = new Response();
 		String fileName = Core.getParam("p_file_name");
 		if(Core.isNotNull(fileName)) {
+			
+			System.out.println("Image getted report:"+fileName);
 			String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
 			return this.redirectToUrl(baseUrl.toString().replaceAll("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/reports/"+fileName);
 		}

@@ -50,8 +50,8 @@
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <titulo name="p_titulo" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
-                    <label>Título do docuemtento</label>
-                    <value>Aliqua natus dolor deserunt iste</value>
+                    <label>Título do documento</label>
+                    <value>Elit sed deserunt unde omnis</value>
                 </titulo>
                 <type name="p_type" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
                     <label>Tipo</label>
@@ -77,7 +77,7 @@
                 </type>
                 <descricao name="p_descricao" type="texteditor" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
                     <label>Documento</label>
-                    <value>Labore anim rem ut laudantium voluptatem ipsum unde accusantium rem ipsum elit ut voluptatem doloremque totam mollit magna accusantium laudantium</value>
+                    <value>Sit officia lorem rem laudantium omnis perspiciatis sed dolor amet lorem accusantium perspiciatis sit stract ut sit omnis iste mollit</value>
                 </descricao>
                 <relacionados name="p_relacionados" type="select" multiple="true" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
                     <label>Documentos relacionados</label>

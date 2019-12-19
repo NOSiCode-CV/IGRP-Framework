@@ -680,9 +680,13 @@ $('#active_selenium').on('click', function() {
 								+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
 								
 								+'<field type="dropdown" name="find" title="list" options="IGRP_BLOCKLY_DROPS.findList"></field>'
-								
-								+'<field type="checkbox" name="FILL" title="empty table?" options="FALSE"></field>'
 							
+							+'</value>'
+							
+							+'<value type="dummy" name= "empty_table">'
+							
+								+'<field type="checkbox" name="FILL" title="empty table?" options="FALSE"></field>'
+						
 							+'</value>'
 							
 							+'<value name="value2" type="statement" check="Linha" >'
