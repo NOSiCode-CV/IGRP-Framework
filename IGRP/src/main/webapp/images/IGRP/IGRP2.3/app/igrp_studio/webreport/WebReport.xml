@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -47,7 +47,7 @@
             </fields>
         </page_title>
         <fmn type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gravar" custom_return="true">
+            <item type="specific" code="" rel="gravar" custom_return="true" refresh_components="">
                 <title>Gravar</title>
                 <app>igrp_studio</app>
                 <page>WebReport</page>
@@ -56,7 +56,7 @@
                 <img>success|fa-save</img>
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/webreport/WebReport.xml</preview>
             </item>
-            <item type="specific" code="" rel="preview" custom_return="true">
+            <item type="specific" code="" rel="preview" custom_return="true" refresh_components="">
                 <title>Preview</title>
                 <app>igrp_studio</app>
                 <page>WebReport</page>
@@ -68,11 +68,11 @@
         </fmn>
         <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <reports name="p_reports" type="button" target_fields="" iconColor="#333" iconClass="" img="fa-file-text-o" request_fields="" closerefresh="false" custom_return="false" maxlength="50">
+                <reports name="p_reports" type="button" target_fields="" iconColor="#333" iconClass="" img="fa-file-text-o" request_fields="" closerefresh="false" custom_return="false" refresh_components="" refresh_submit="false" maxlength="50">
                     <label>Reports</label>
                     <value/>
                 </reports>
-                <data_source name="p_data_source" type="button" target_fields="" iconColor="#333" iconClass="" img="fa-database" request_fields="" closerefresh="false" custom_return="false" maxlength="50">
+                <data_source name="p_data_source" type="button" target_fields="" iconColor="#333" iconClass="" img="fa-database" request_fields="" closerefresh="false" custom_return="false" refresh_components="" refresh_submit="false" maxlength="50">
                     <label>Data Source</label>
                     <value/>
                 </data_source>
@@ -80,7 +80,7 @@
         </tabcontent_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <env_fk name="p_env_fk" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" tags="false" java-type="">
+                <env_fk name="p_env_fk" type="select" multiple="false" domain="" maxlength="30" required="false" change="true" disabled="false" right="false" tags="false" java-type="">
                     <label>Aplicacao</label>
                     <list>
                         <option/>
@@ -124,29 +124,29 @@
                         </option>
                     </list>
                 </datasorce_app>
-                <report_editor name="p_report_editor" type="texteditor" maxlength="300000" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <report_editor name="p_report_editor" type="texteditor" maxlength="300000" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Report Editor</label>
-                    <value>Stract ipsum rem consectetur voluptatem doloremque ipsum perspiciatis consectetur stract sit magna iste labore dolor voluptatem labore laudantium ipsum omnis</value>
+                    <value>Sed mollit natus totam omnis lorem iste sit unde stract natus iste amet anim consectetur magna iste sit aliqua consectetur</value>
                 </report_editor>
-                <link_add_source name="p_link_add_source" type="link" target="_self" target_fields="" action="index" page="WebReport" app="igrp_studio" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="2000" placeholder="" right="false" request_fields="" closerefresh="false" custom_action="" action_type="false">
+                <link_add_source name="p_link_add_source" type="link" target="_self" target_fields="" action="index" page="WebReport" app="igrp_studio" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="2000" placeholder="" right="false" request_fields="" closerefresh="false" custom_action="" action_type="false" refresh_components="" refresh_submit="false" desclabel="false">
                     <label>Link add source</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/webreport/WebReport.xml</value>
                 </link_add_source>
-                <dialog_titulo_report name="p_dialog_titulo_report" type="plaintext" clear="false" maxlength="3000" right="false">
+                <dialog_titulo_report name="p_dialog_titulo_report" type="plaintext" clear="false" maxlength="3000" right="false" disable_output_escaping="false" html_class="">
                     <label>Dialog_titulo_report</label>
-                    <value>Aliqua dolor iste sit elit adipiscing aperiam sit elit rem lorem stract consectetur deserunt stract adipiscing ut totam elit accusantium stract lorem totam aliqua accusantium</value>
+                    <value>Consectetur amet sit accusantium sit aliqua accusantium omnis amet mollit lorem laudantium sit ut officia amet ut accusantium anim omnis ipsum perspiciatis lorem labore lorem</value>
                 </dialog_titulo_report>
-                <dialog_keys_report name="p_dialog_keys_report" type="plaintext" clear="false" maxlength="3000" right="false">
+                <dialog_keys_report name="p_dialog_keys_report" type="plaintext" clear="false" maxlength="3000" right="false" disable_output_escaping="false" html_class="">
                     <label>Dialog_keys_report</label>
-                    <value>Doloremque natus adipiscing ipsum laudantium ut adipiscing aperiam sed labore ipsum sit totam sit stract accusantium rem anim ipsum laudantium sit aliqua anim sed unde</value>
+                    <value>Dolor sed rem aperiam unde rem adipiscing labore anim doloremque ipsum consectetur accusantium magna anim unde ipsum voluptatem anim amet perspiciatis totam accusantium elit unde</value>
                 </dialog_keys_report>
-                <codigo_report name="p_codigo_report" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <codigo_report name="p_codigo_report" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Codigo Report</label>
-                    <value>Anim voluptatem sed deserunt a</value>
+                    <value>Voluptatem deserunt officia mo</value>
                 </codigo_report>
-                <title_report name="p_title_report" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <title_report name="p_title_report" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Title Report</label>
-                    <value>Iste magna aperiam sit aperiam</value>
+                    <value>Anim elit deserunt adipiscing</value>
                 </title_report>
                 <hidden name="p_link_source" type="hidden" maxlength="30" java-type="" tag="link_source"/>
                 <hidden name="p_edit_name_report" type="hidden" maxlength="30" java-type="" tag="edit_name_report"/>
@@ -156,55 +156,55 @@
         </form_1>
         <gen_table type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <title name="p_title" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                <title name="p_title" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
                     <label>Title</label>
                 </title>
-                <link name="p_link" type="link" target="_self" target_fields="" action="index" page="WebReport" app="igrp_studio" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" request_fields="" closerefresh="false" custom_action="" action_type="false" show_header="true" desc="true">
+                <link name="p_link" type="link" target="_self" target_fields="" action="index" page="WebReport" app="igrp_studio" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" request_fields="" closerefresh="false" custom_action="" action_type="false" show_header="true" list_source="" refresh_components="" refresh_submit="false" showLabel="true" group_in="" desc="true">
                     <label>Link</label>
                 </link>
-                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
                     <label>Descricao</label>
                 </descricao>
-                <id name="p_id" type="number" min="" max="" maxlength="30" align="left" lookup_parser="false" iskey="false" total_footer="false" java-type="">
+                <id name="p_id" type="number" min="" max="" maxlength="30" align="left" lookup_parser="false" iskey="false" total_footer="false" java-type="" showLabel="true" group_in="">
                     <label>Id</label>
                 </id>
             </fields>
             <table>
                 <value>
                     <row>
-                        <title name="p_title">Deserunt mollit amet officia e</title>
+                        <title name="p_title">Labore consectetur deserunt ip</title>
                         <link name="p_link" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/webreport/WebReport.xml</link>
                         <link_desc name="p_link_desc">Link</link_desc>
-                        <descricao name="p_descricao">Rem voluptatem deserunt omnis</descricao>
-                        <id name="p_id">12</id>
+                        <descricao name="p_descricao">Rem iste deserunt voluptatem c</descricao>
+                        <id name="p_id">4</id>
                     </row>
                     <row>
-                        <title name="p_title">Unde voluptatem deserunt sed m</title>
+                        <title name="p_title">Iste mollit totam ut laudantiu</title>
                         <link name="p_link" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/webreport/WebReport.xml</link>
                         <link_desc name="p_link_desc">Link</link_desc>
-                        <descricao name="p_descricao">Dolor amet perspiciatis ut off</descricao>
-                        <id name="p_id">21</id>
+                        <descricao name="p_descricao">Lorem anim sit mollit omnis</descricao>
+                        <id name="p_id">8</id>
                     </row>
                     <row>
-                        <title name="p_title">Deserunt sit aliqua deserunt l</title>
+                        <title name="p_title">Perspiciatis consectetur aliqu</title>
                         <link name="p_link" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/webreport/WebReport.xml</link>
                         <link_desc name="p_link_desc">Link</link_desc>
-                        <descricao name="p_descricao">Voluptatem officia lorem ut se</descricao>
+                        <descricao name="p_descricao">Consectetur deserunt sit dolor</descricao>
                         <id name="p_id">28</id>
                     </row>
                     <row>
-                        <title name="p_title">Dolor mollit accusantium aperi</title>
+                        <title name="p_title">Lorem consectetur omnis amet t</title>
                         <link name="p_link" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/webreport/WebReport.xml</link>
                         <link_desc name="p_link_desc">Link</link_desc>
-                        <descricao name="p_descricao">Officia unde aperiam officia l</descricao>
-                        <id name="p_id">23</id>
+                        <descricao name="p_descricao">Deserunt aperiam amet sit iste</descricao>
+                        <id name="p_id">26</id>
                     </row>
                     <row>
-                        <title name="p_title">Mollit ut aliqua voluptatem na</title>
+                        <title name="p_title">Adipiscing voluptatem adipisci</title>
                         <link name="p_link" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/webreport/WebReport.xml</link>
                         <link_desc name="p_link_desc">Link</link_desc>
-                        <descricao name="p_descricao">Ut magna voluptatem magna unde</descricao>
-                        <id name="p_id">27</id>
+                        <descricao name="p_descricao">Magna aperiam elit rem natus</descricao>
+                        <id name="p_id">22</id>
                     </row>
                 </value>
             </table>
@@ -225,32 +225,38 @@
             <value>
                 <row>
                     <col>2010</col>
-                    <col>61</col>
-                    <col>894</col>
-                    <col>644</col>
-                    <col>249</col>
+                    <col>402</col>
+                    <col>801</col>
+                    <col>917</col>
+                    <col>846</col>
                 </row>
                 <row>
                     <col>2009</col>
-                    <col>62</col>
-                    <col>103</col>
-                    <col>625</col>
-                    <col>174</col>
+                    <col>240</col>
+                    <col>343</col>
+                    <col>787</col>
+                    <col>391</col>
                 </row>
                 <row>
                     <col>2015</col>
                     <col>1010</col>
-                    <col>46</col>
-                    <col>171</col>
-                    <col>942</col>
+                    <col>453</col>
+                    <col>207</col>
+                    <col>669</col>
                 </row>
             </value>
             <colors>
-                <col>#f405f4</col>
-                <col>#d95cd7</col>
-                <col>#f23d74</col>
-                <col>#8666f0</col>
+                <col>#07b88d</col>
+                <col>#55d305</col>
+                <col>#044c47</col>
+                <col>#fda500</col>
             </colors>
         </chart_1>
     </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
 </rows>

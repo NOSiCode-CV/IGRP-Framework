@@ -5,7 +5,8 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.config.Config;
+import nosi.core.webapp.Core;
+
 public class WebReportView extends View {
 
 	public Field page_title_text;
@@ -25,10 +26,11 @@ public class WebReportView extends View {
 	public Field link_upload_img;
 	public Field title;
 	public Field link;
+	public Field link_desc;
 	public Field descricao;
 	public Field id;
-	public IGRPForm page_title;
-	public IGRPForm tabcontent_1;
+	public IGRPSectionHeader page_title;
+	public IGRPTabContent tabcontent_1;
 	public IGRPForm form_1;
 	public IGRPTable gen_table;
 	public IGRPChart chart_1;
@@ -41,9 +43,9 @@ public class WebReportView extends View {
 
 		this.setPageTitle("Report Builder");
 			
-		page_title = new IGRPForm("page_title","");
+		page_title = new IGRPSectionHeader("page_title","");
 
-		tabcontent_1 = new IGRPForm("tabcontent_1","");
+		tabcontent_1 = new IGRPTabContent("tabcontent_1","");
 
 		form_1 = new IGRPForm("form_1","");
 
@@ -58,11 +60,11 @@ public class WebReportView extends View {
 		
 		reports = new TextField(model,"reports");
 		reports.setLabel(gt("Reports"));
-		reports.propertie().add("name","p_reports").add("type","button").add("request_fields","").add("maxlength","50");
+		reports.propertie().add("name","p_reports").add("type","button").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("maxlength","50");
 		
 		data_source = new TextField(model,"data_source");
 		data_source.setLabel(gt("Data Source"));
-		data_source.propertie().add("name","p_data_source").add("type","button").add("request_fields","").add("maxlength","50");
+		data_source.propertie().add("name","p_data_source").add("type","button").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("maxlength","50");
 		
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicacao"));
@@ -74,29 +76,29 @@ public class WebReportView extends View {
 		
 		report_editor = new TextEditorField(model,"report_editor");
 		report_editor.setLabel(gt("Report Editor"));
-		report_editor.propertie().add("name","p_report_editor").add("type","texteditor").add("maxlength","300000").add("required","false").add("readonly","false").add("disabled","false");
+		report_editor.propertie().add("name","p_report_editor").add("type","texteditor").add("maxlength","300000").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		link_add_source = new LinkField(model,"link_add_source");
 		link_add_source.setLabel(gt("Link add source"));
-		link_add_source.setValue(new Config().getResolveUrl("igrp_studio","WebReport","index"));
+		link_add_source.setValue(Core.getIGRPLink("igrp_studio","WebReport","index"));
 
-									link_add_source.propertie().add("name","p_link_add_source").add("type","link").add("target","_self").add("maxlength","2000").add("request_fields","");
+									link_add_source.propertie().add("name","p_link_add_source").add("type","link").add("target","_self").add("maxlength","2000").add("placeholder",gt("")).add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("desclabel","false");
 		
 		dialog_titulo_report = new PlainTextField(model,"dialog_titulo_report");
 		dialog_titulo_report.setLabel(gt("Dialog_titulo_report"));
-		dialog_titulo_report.propertie().add("name","p_dialog_titulo_report").add("type","plaintext").add("clear","false").add("maxlength","3000");
+		dialog_titulo_report.propertie().add("name","p_dialog_titulo_report").add("type","plaintext").add("clear","false").add("maxlength","3000").add("disable_output_escaping","false").add("html_class","");
 		
 		dialog_keys_report = new PlainTextField(model,"dialog_keys_report");
 		dialog_keys_report.setLabel(gt("Dialog_keys_report"));
-		dialog_keys_report.propertie().add("name","p_dialog_keys_report").add("type","plaintext").add("clear","false").add("maxlength","3000");
+		dialog_keys_report.propertie().add("name","p_dialog_keys_report").add("type","plaintext").add("clear","false").add("maxlength","3000").add("disable_output_escaping","false").add("html_class","");
 		
 		codigo_report = new TextField(model,"codigo_report");
 		codigo_report.setLabel(gt("Codigo Report"));
-		codigo_report.propertie().add("name","p_codigo_report").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false");
+		codigo_report.propertie().add("name","p_codigo_report").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		title_report = new TextField(model,"title_report");
 		title_report.setLabel(gt("Title Report"));
-		title_report.propertie().add("name","p_title_report").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false");
+		title_report.propertie().add("name","p_title_report").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		link_source = new HiddenField(model,"link_source");
 		link_source.setLabel(gt(""));
@@ -116,30 +118,32 @@ public class WebReportView extends View {
 		
 		title = new TextField(model,"title");
 		title.setLabel(gt("Title"));
-		title.propertie().add("name","p_title").add("type","text").add("maxlength","30");
+		title.propertie().add("name","p_title").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		link = new LinkField(model,"link");
 		link.setLabel(gt("Link"));
-		link.setValue(new Config().getResolveUrl("igrp_studio","WebReport","index"));
+		link.setValue(Core.getIGRPLink("igrp_studio","WebReport","index"));
 
-									link.propertie().add("name","p_link").add("type","link").add("target","_self").add("maxlength","30").add("request_fields","").add("show_header","true").add("desc","true");
+									link_desc = new LinkField(model,"link_desc");
+		link_desc.setLabel(gt("Link"));
+		link.propertie().add("name","p_link").add("type","link").add("target","_self").add("maxlength","30").add("request_fields","").add("show_header","true").add("list_source","").add("refresh_components","").add("refresh_submit","false").add("showLabel","true").add("group_in","").add("desc","true");
 		
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Descricao"));
-		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30");
+		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		id = new NumberField(model,"id");
 		id.setLabel(gt("Id"));
-		id.propertie().add("name","p_id").add("type","number").add("min","").add("max","").add("maxlength","30").add("total_footer","false").add("java-type","");
+		id.propertie().add("name","p_id").add("type","number").add("min","").add("max","").add("maxlength","30").add("total_footer","false").add("java-type","").add("showLabel","true").add("group_in","");
 		
 
 		fmn = new IGRPToolsBar("fmn");
 
 		btn_gravar = new IGRPButton("Gravar","igrp_studio","WebReport","gravar","submit","success|fa-save","","");
-		btn_gravar.propertie.add("type","specific").add("rel","gravar");
+		btn_gravar.propertie.add("type","specific").add("rel","gravar").add("refresh_components","");
 
 		btn_preview = new IGRPButton("Preview","igrp_studio","WebReport","preview","alert_submit","default|fa-file-video-o","","");
-		btn_preview.propertie.add("type","specific").add("rel","preview");
+		btn_preview.propertie.add("type","specific").add("rel","preview").add("refresh_components","");
 
 		
 		chart_1.setCaption("");
@@ -147,7 +151,7 @@ public class WebReportView extends View {
 		chart_1.setXaxys("Eixo de X");
 		chart_1.setYaxys("Eixo de Y");
 		chart_1.setUrl("#");
-		chart_1.addColor("#a2fa0b").addColor("#1b30cf").addColor("#756b1c").addColor("#e18942");
+		chart_1.addColor("#560648").addColor("#4542ee").addColor("#aa1a4f").addColor("#4f3599");
 
 	}
 		
@@ -175,6 +179,7 @@ public class WebReportView extends View {
 
 		gen_table.addField(title);
 		gen_table.addField(link);
+		gen_table.addField(link_desc);
 		gen_table.addField(descricao);
 		gen_table.addField(id);
 
@@ -208,9 +213,11 @@ public class WebReportView extends View {
 		link_upload_img.setValue(model);
 		title.setValue(model);
 		link.setValue(model);
+		link_desc.setValue(model);
 		descricao.setValue(model);
 		id.setValue(model);	
 
 		gen_table.loadModel(((WebReport) model).getGen_table());
+		chart_1.loadModel(((WebReport) model).getChart_1());
 		}
 }

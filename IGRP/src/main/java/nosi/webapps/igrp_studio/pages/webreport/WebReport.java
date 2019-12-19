@@ -1,6 +1,5 @@
 package nosi.webapps.igrp_studio.pages.webreport;
 
-
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
@@ -9,38 +8,54 @@ import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import java.util.ArrayList;
 import java.util.List;
+import nosi.core.gui.components.IGRPChart3D;
 
 public class WebReport extends Model{		
+
 	@RParam(rParamName = "p_page_title_text")
 	private String page_title_text;
+
 	@RParam(rParamName = "p_reports")
 	private String reports;
+
 	@RParam(rParamName = "p_data_source")
 	private String data_source;
+
 	@RParam(rParamName = "p_env_fk")
 	private String env_fk;
+
 	@RParam(rParamName = "p_datasorce_app")
 	private String[] datasorce_app;
+
 	@RParam(rParamName = "p_report_editor")
 	private String report_editor;
+
 	@RParam(rParamName = "p_link_add_source")
 	private IGRPLink link_add_source;
 	@RParam(rParamName = "p_link_add_source_desc")
 	private String link_add_source_desc;
+
 	@RParam(rParamName = "p_dialog_titulo_report")
 	private String dialog_titulo_report;
+
 	@RParam(rParamName = "p_dialog_keys_report")
 	private String dialog_keys_report;
+
 	@RParam(rParamName = "p_codigo_report")
 	private String codigo_report;
+
 	@RParam(rParamName = "p_title_report")
 	private String title_report;
+
 	@RParam(rParamName = "p_link_source")
 	private String link_source;
+
 	@RParam(rParamName = "p_edit_name_report")
 	private String edit_name_report;
+
 	@RParam(rParamName = "p_link_config")
 	private String link_config;
+
 	@RParam(rParamName = "p_link_upload_img")
 	private String link_upload_img;
 	
@@ -51,24 +66,16 @@ public class WebReport extends Model{
 	public List<Gen_table> getGen_table(){
 		return this.gen_table;
 	}
-	@RParam(rParamName = "p_gen_table_id")
-	private String[] p_gen_table_id;
-	@RParam(rParamName = "p_gen_table_del")
-	private String[] p_gen_table_del;
+
 	
-	public void setP_gen_table_id(String[] p_gen_table_id){
-		this.p_gen_table_id = p_gen_table_id;
+	private List<Chart_1> chart_1 = new ArrayList<>();	
+	public void setChart_1(List<Chart_1> chart_1){
+		this.chart_1 = chart_1;
 	}
-	public String[] getP_gen_table_id(){
-		return this.p_gen_table_id;
+	public List<Chart_1> getChart_1(){
+		return this.chart_1;
 	}
-	
-	public void setP_gen_table_del(String[] p_gen_table_del){
-		this.p_gen_table_del = p_gen_table_del;
-	}
-	public String[] getP_gen_table_del(){
-		return this.p_gen_table_del;
-	}
+
 	
 	public void setPage_title_text(String page_title_text){
 		this.page_title_text = page_title_text;
@@ -194,9 +201,9 @@ public class WebReport extends Model{
 	public static class Gen_table extends IGRPTable.Table{
 		private String title;
 		private IGRPLink link;
-		private String link_desc;
+		private String link_desc= "Link";
 		private String descricao;
-		private int id;
+		private Integer id;
 		public void setTitle(String title){
 			this.title = title;
 		}
@@ -233,17 +240,28 @@ public class WebReport extends Model{
 			return this.descricao;
 		}
 
-		public void setId(int id){
+		public void setId(Integer id){
 			this.id = id;
 		}
-		public int getId(){
+		public Integer getId(){
 			return this.id;
 		}
 
 	}
+	public static class Chart_1 extends IGRPChart3D{
+		public Chart_1(String eixoX, String eixoY, Object eixoZ) {
+			super(eixoX, eixoY,eixoZ);
+		}
+		public Chart_1() {
+		}
+	}
 
 	public void loadGen_table(BaseQueryInterface query) {
 		this.setGen_table(this.loadTable(query,Gen_table.class));
+	}
+
+	public void loadChart_1(BaseQueryInterface query) {
+		this.setChart_1(this.loadTable(query,Chart_1.class));
 	}
 
 }
