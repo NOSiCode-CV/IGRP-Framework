@@ -5,6 +5,7 @@
 package nosi.webapps.igrp.pages.alter_prioridade_tarefa;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.Map;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import nosi.core.webapp.activit.rest.entities.TaskService;
+import nosi.core.webapp.bpmn.BPMNConstants;
 
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
@@ -28,8 +30,8 @@ public class Alter_prioridade_tarefaController extends Controller {
 		listPrioridade.put("0", "Normal");
 		TaskServiceIGRP taskRest = new TaskServiceIGRP();
 		Alter_prioridade_tarefa model = new Alter_prioridade_tarefa();
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		String type = Igrp.getInstance().getRequest().getParameter("type");
+		String id = Core.getParam(BPMNConstants.PRM_TASK_ID);
+		String type = Core.getParam("type");
 		if(id!=null && !id.equals("")){
 			TaskService task = taskRest.getTask(id);
 			if(task!=null){

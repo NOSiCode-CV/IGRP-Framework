@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.UpdateTimestamp;
 
 import nosi.core.webapp.Core;
 
@@ -70,6 +74,9 @@ public class ActivityExecute extends IGRPBaseActiveRecord<ActivityExecute> imple
 	
 	@Column(name="process_name", length = 250)
 	private String processName;
+	
+    @UpdateTimestamp
+    private LocalDateTime updateDateTime;  
 	
 	public ActivityExecute() {
 		

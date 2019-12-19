@@ -23,8 +23,7 @@ public class LookupListUserController extends Controller {
 		model.loadTable_1(Core.query(null,"SELECT 'epape@example.com' as email_1,'Accusantium dolor voluptatem r' as login_1,'Accusantium amet deserunt ut s' as nome_1,'1' as id "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/		
-		String type = Core.getParam("type");
-		
+		String type = Core.getParam("type");		
 		
 		List<LookupListUser.Table_1> data = null;
 		if(type!=null && type.equalsIgnoreCase("my_user")) {

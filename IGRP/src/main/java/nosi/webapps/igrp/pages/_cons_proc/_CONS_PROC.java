@@ -8,26 +8,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class _CONS_PROC extends Model{		
+
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
+
 	@RParam(rParamName = "p_tipo_processo")
 	private String tipo_processo;
+
 	@RParam(rParamName = "p_cbx_utilizador")
 	private String cbx_utilizador;
-	@RParam(rParamName = "p_status")
-	private String status;
+
 	@RParam(rParamName = "p_referencia_pedido")
 	private String referencia_pedido;
+
 	@RParam(rParamName = "p_requerente")
 	private String requerente;
+
 	@RParam(rParamName = "p_num")
 	private String num;
+
+	@RParam(rParamName = "p_status")
+	private String status;
+
 	@RParam(rParamName = "p_intervalo_entrada")
 	private String intervalo_entrada;
+
 	@RParam(rParamName = "p_dt_ini")
 	private String dt_ini;
+
 	@RParam(rParamName = "p_dt_fim")
 	private String dt_fim;
+
+	@RParam(rParamName = "p_sectionheader_1_text")
+	private String sectionheader_1_text;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -59,13 +72,6 @@ public class _CONS_PROC extends Model{
 		return this.cbx_utilizador;
 	}
 	
-	public void setStatus(String status){
-		this.status = status;
-	}
-	public String getStatus(){
-		return this.status;
-	}
-	
 	public void setReferencia_pedido(String referencia_pedido){
 		this.referencia_pedido = referencia_pedido;
 	}
@@ -85,6 +91,13 @@ public class _CONS_PROC extends Model{
 	}
 	public String getNum(){
 		return this.num;
+	}
+	
+	public void setStatus(String status){
+		this.status = status;
+	}
+	public String getStatus(){
+		return this.status;
 	}
 	
 	public void setIntervalo_entrada(String intervalo_entrada){
@@ -107,17 +120,31 @@ public class _CONS_PROC extends Model{
 	public String getDt_fim(){
 		return this.dt_fim;
 	}
+	
+	public void setSectionheader_1_text(String sectionheader_1_text){
+		this.sectionheader_1_text = sectionheader_1_text;
+	}
+	public String getSectionheader_1_text(){
+		return this.sectionheader_1_text;
+	}
 
 
 	public static class Table_1 extends IGRPTable.Table{
+		private String estado;
 		private String num_processo;
 		private String processo;
 		private String eatapa;
 		private String dt_inicio_etapa;
 		private String dt_fim_etapa;
 		private String atribuido_a;
-		private String estado;
 		private String id_task;
+		public void setEstado(String estado){
+			this.estado = estado;
+		}
+		public String getEstado(){
+			return this.estado;
+		}
+
 		public void setNum_processo(String num_processo){
 			this.num_processo = num_processo;
 		}
@@ -158,13 +185,6 @@ public class _CONS_PROC extends Model{
 		}
 		public String getAtribuido_a(){
 			return this.atribuido_a;
-		}
-
-		public void setEstado(String estado){
-			this.estado = estado;
-		}
-		public String getEstado(){
-			return this.estado;
 		}
 
 		public void setId_task(String id_task){

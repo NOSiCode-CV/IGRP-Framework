@@ -48,10 +48,24 @@ public class ListField extends AbstractField {
 			// Check first if select field is initialized with domains (For BPMN purpose) 
 			String hasDomain = (String) this.propertie().get("domain"); 
 			if(hasDomain != null && (this.getListOptions() == null || this.getListOptions().isEmpty())) {
-				String aux[] = hasDomain.split("«");
-				String domainName = aux[0].trim(); 
-				String appName = aux[1].trim(); 
-				this.loadDomain(domainName, appName, "-- Selecionar --");
+				if(hasDomain.contains("«")) {
+					String aux[] = hasDomain.split(" « ");
+					String domainName = aux[0].trim(); 
+					String appName = aux[1].trim(); 
+					if(this.propertie.getProperty("type").equals("radiolist") || this.propertie.getProperty("type").equals("checkboxlist"))
+						this.loadDomainByApp(domainName, appName);
+					else
+						this.loadDomain(domainName, appName, "-- Selecionar --");
+				}else {
+					if(this.propertie.getProperty("type").equals("radiolist") || this.propertie.getProperty("type").equals("checkboxlist"))
+						this.loadDomain(hasDomain);
+					else
+						this.loadDomain(hasDomain, "-- Selecionar --");
+					
+					
+				}
+					
+				
 			}
 		} catch (Exception e) {
 		}

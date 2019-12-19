@@ -1,10 +1,13 @@
 package nosi.webapps.igrp.pages._cons_proc;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
@@ -16,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.webapps.igrp.dao.Application;
-
+import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 		
 public class _CONS_PROCController extends Controller {
@@ -28,15 +31,20 @@ public class _CONS_PROCController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Aperiam anim consectetur strac' as num_processo,'Magna voluptatem sit stract aliqua' as processo,'Sit magna voluptatem anim sit' as eatapa,'Mollit adipiscing omnis deseru' as dt_inicio_etapa,'Unde iste consectetur rem sit' as dt_fim_etapa,'Elit sed labore natus omnis' as atribuido_a,'3' as estado,'hidden-6b66_e9cc' as id_task "));
+		model.loadTable_1(Core.query(null,"SELECT '2' as estado,'Aliqua adipiscing doloremque s' as num_processo,'Consectetur anim elit doloremque sit' as processo,'Anim laudantium totam elit officia' as eatapa,'Aliqua mollit aperiam adipisci' as dt_inicio_etapa,'Dolor officia lorem sed anim' as dt_fim_etapa,'Lorem elit stract magna mollit' as atribuido_a,'hidden-7a2c_7e6a' as id_task "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo_processo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.cbx_utilizador.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.status.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		model.setAplicacao(""+Core.getCurrentAppId());
-		Application app = new Application().findOne(Core.toInt(model.getAplicacao()));
+		model.setAplicacao(""+Core.getCurrentAppId());		
+     	String dad = Core.getCurrentDad();
+		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
+			model.setAplicacao("" + (Core.findApplicationByDad(dad)).getId());
+        	view.aplicacao.propertie().add("disabled","true");     			
+		}      
+      	Application app = Core.findApplicationById(Core.toInt(model.getAplicacao()));
 		List<_CONS_PROC.Table_1> data = new ArrayList<>();
 		TaskServiceIGRP taskQuery = new TaskServiceIGRP();
 		if(Core.isNotNull(model.getAplicacao())){			
@@ -97,6 +105,7 @@ public class _CONS_PROCController extends Controller {
 		view.status.setValue(StatusTask.getStatus());
 		view.btn_pesquisar.setLink("index");
 		view.table_1.addData(data);
+    	view.sectionheader_1_text.setValue("<p>"+gt("Consultar Processo")+"</p>");
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -108,13 +117,15 @@ public class _CONS_PROCController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id_task",Core.getParam("p_id_task"));
-		 return this.forward("igrp","_CONS_PROC","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id_task",Core.getParam("p_id_task"));
+		  return this.forward("igrp","_CONS_PROC","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(pesquisar)----*/
-
+	return this.forward("igrp","_CONS_PROC","index",this.queryString()); 
 		/*----#end-code----*/
-		return this.redirect("igrp","_CONS_PROC","index", this.queryString());	
+			
 	}
 	
 	public Response actionVer_etapa() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -123,9 +134,11 @@ public class _CONS_PROCController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id_task",Core.getParam("p_id_task"));
-		 return this.forward("igrp","Page","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id_task",Core.getParam("p_id_task"));
+		  return this.forward("igrp","Page","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(ver_etapa)----*/
 		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_id_task")).addQueryString("target", "_blank");
         return this.redirect("igrp","Detalhes_tarefas","index", this.queryString());	
@@ -139,15 +152,19 @@ public class _CONS_PROCController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id_task",Core.getParam("p_id_task"));
-		 return this.forward("igrp","DetalhesProcesso","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id_task",Core.getParam("p_id_task"));
+		  return this.forward("igrp","DetalhesProcesso","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(ver_processo)----*/
 		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_id_task")).addQueryString("target", "_blank");
 		/*----#end-code----*/
 		return this.redirect("igrp","DetalhesProcesso","index", this.queryString());	
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 	
 	

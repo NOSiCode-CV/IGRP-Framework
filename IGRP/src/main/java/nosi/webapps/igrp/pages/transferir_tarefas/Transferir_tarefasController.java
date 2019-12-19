@@ -7,6 +7,7 @@ import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
+import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.User;
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
@@ -22,7 +23,7 @@ public class Transferir_tarefasController extends Controller {
 		Transferir_tarefasView view = new Transferir_tarefasView();
 		/*----#start-code(index)----*/				
 
-		String id = Igrp.getInstance().getRequest().getParameter("p_p_id_g");
+		String id = Core.getParam(BPMNConstants.PRM_TASK_ID);
 		if(Core.isNotNull(id)){
 			TaskService task = new TaskServiceIGRP().getTask(id);
 			if(task!=null){
@@ -67,7 +68,7 @@ public class Transferir_tarefasController extends Controller {
 		     }else {
 		    	 Core.setMessageError(Core.gt("Nao foi possivel transferir a tarefa para ")+user.getName());
 		     }
-			this.addQueryString("p_p_id_g", taskId);
+			this.addQueryString(BPMNConstants.PRM_TASK_ID, taskId);
 		}else {
 	    	 Core.setMessageError(Core.gt("User invalido"));
 	     }
