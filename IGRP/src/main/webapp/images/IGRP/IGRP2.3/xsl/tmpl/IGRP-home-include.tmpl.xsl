@@ -321,7 +321,13 @@
     <!-- DEBUG -->
     <xsl:call-template name="IGRP-debug"/>
     <!--/DEBUG -->
-  
+    
+    <!-- FOOTER -->
+    <xsl:if test="rows/content/igrpfooter">
+      <xsl:call-template name="IGRP-footer"/>
+    </xsl:if>
+  	<!-- /FOOTER -->
+  	
      <!-- JS -->
     <script src="{$path}/core/bootstrap/{$bs-v}/js/bootstrap.min.js"></script>
     
@@ -798,6 +804,33 @@
     </div>
 
   </xsl:template>
+  
+  <!-- IGRP footer -->
+
+  <xsl:template name="IGRP-footer">
+    <footer class="IGRP-footer col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3">
+      <xsl:if test="rows/content/igrpfooter/copyright">
+        <div class="col-sm-8">
+          <div class="disable-output-escaping">
+            <xsl:value-of select="rows/content/igrpfooter/copyright" disable-output-escaping="yes"/>
+          </div>
+        </div>
+      </xsl:if>
+      <xsl:if test="rows/content/igrpfooter/developed">
+        <div class="col-sm-4">
+          <div class="text-right">
+            <span class="disable-output-escaping mr-5">
+              <xsl:value-of select="rows/content/igrpfooter/developed" disable-output-escaping="yes"/>
+            </span>
+            <a class="link disable-output-escaping" target="_newtab" href="{rows/content/igrpfooter/by/@link}">
+              <xsl:value-of select="rows/content/igrpfooter/by" disable-output-escaping="yes"/>
+            </a>
+          </div>
+        </div>
+      </xsl:if>
+    </footer>
+  </xsl:template>
+  
   <!--TEMPLATE FOR  NAVIGATION-->
   <xsl:include href="IGRP-navigation.tmpl.xsl?v=1"/>
 

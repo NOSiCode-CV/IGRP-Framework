@@ -1072,6 +1072,7 @@ html#igrp-login body{
     /*padding: 15px;*/
     margin-right: auto;
     margin-left: auto;
+    min-height: 100vh;
 }
 
 .content>.row{
@@ -2272,4 +2273,23 @@ body.iframe-nav-holder #igrp-sidebar{
   webkit-animation: fa-spin 2s infinite linear;
   animation: fa-spin 2s infinite linear;
   margin:0 5px;
+}
+
+.IGRP-footer{
+  background: #ccccccd6;
+  line-height: 40px;
+  font-size: 13px;
+  font-weight: 400;
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0px;
+}
+
+.mr-5{
+  margin-right: 5px;
+}
+
+body.sidebar-off .IGRP-footer{
+  margin-left: 0!important;
+  width : 100% !important;
 }
