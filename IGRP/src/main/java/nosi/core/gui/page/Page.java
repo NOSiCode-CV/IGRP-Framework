@@ -30,7 +30,12 @@ public class Page{
 	private String template;
 	private View view;
 	List<Object> gui;
-	private String linkXsl=null;
+	private String linkXsl=null; 
+	
+	private boolean showFooter = false; 
+	private String copyright = "&copy; Copyright 2019, Núcleo Operacional da Sociedade de informação - E.P.E. Todos os direitos reservados."; 
+	private String developed = "Design &amp; Concepção"; 
+
 	
 	public View getView() {
 		return view;
@@ -97,8 +102,21 @@ public class Page{
 		String m = msg.toString();
 		if(m!=null){
 			xml.addXml(m);
+		} 
+		
+		if(this.showFooter) { 
+			xml.startElement("igrpfooter"); 
+			xml.setElement("copyright", this.copyright); 
+			xml.setElement("developed", this.developed); 
+			xml.startElement("by"); 
+			xml.writeAttribute("link", "https://www.nosi.cv/index.php/pt/"); 
+			xml.text("NOSi"); 
+			xml.endElement(); 
+			xml.endElement(); 
 		}
+		
 		xml.endElement();		
+		
 		this.template = xml + "";
 	}
 	
@@ -134,7 +152,19 @@ public class Page{
 		page = page.replaceAll("-", "");
 		return page;
 	}
+
+	public void setCopyright(String copyright) {
+		this.copyright = copyright;
+	}
 	
+	public void setDeveloped(String developed) {
+		this.developed = developed;
+	}
+
+	public void displayFooter(boolean showFooter) {
+		this.showFooter = showFooter;
+	}
+
 	public static String resolvePageName(String page){
 		String page_name = "";
 		for(String aux : page.split("-")){
@@ -200,7 +230,6 @@ public class Page{
 					msg+=" \nCheck debugger at the bottom of the page.";
 				}
 				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error",sw.toString());
-				System.out.println(sw.toString());
 				throw new NotFoundHttpException(msg);
 			}
 			
