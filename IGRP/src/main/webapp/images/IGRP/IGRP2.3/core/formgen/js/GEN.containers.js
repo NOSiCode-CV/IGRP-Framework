@@ -2853,18 +2853,6 @@ var CONTAINER = function(name,params){
 		return rtn;
 	}
 	
-	var openIgrpDoc = function(type){
-		
-		if($('#igrp-doc')[0] && $('#link_doc')[0]){
-			var url = $('#link_doc').val();
-			
-			url += url.indexOf('?') !== -1 ? '&' : '?'; 
-			
-			url += 'target=_blank&p_type='+type;
-			
-			$('#igrp-doc').attr({'href' : url, 'position' : type});
-		}
-	}
 
 	var getContainerHolder = function(container){
 		var holder = $(VARS.getContainerSettsHtml(container));
@@ -2875,7 +2863,7 @@ var CONTAINER = function(name,params){
 
 			GEN.edit(container,e);
 			
-			openIgrpDoc(container.type);
+			GEN.openIgrpDoc(container.type);
 			
 			e.stopPropagation();
 
@@ -2981,7 +2969,7 @@ var CONTAINER = function(name,params){
 			
 			__params.onEdit(e);
 			
-			openIgrpDoc(field.type);
+			GEN.openIgrpDoc(field.type);
 			
 			e.stopPropagation();
 			
@@ -3094,6 +3082,7 @@ var CONTAINER = function(name,params){
 			$('#igrp-sidebar .nav-tabs li a[href="#gen-list-fields"]').click();
 		});
 		
+		
 		$(window).resize(function(){
 			container.onWindowResize();
 		});
@@ -3125,7 +3114,6 @@ var CONTAINER = function(name,params){
 	container.setEvents = setEvents;
 
 	container.setVars = setVars;
-	
 
 	//_EVENTS LISTNERS
 	/*functions to subscribe*/
