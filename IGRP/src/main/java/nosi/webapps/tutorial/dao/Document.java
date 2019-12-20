@@ -36,7 +36,7 @@ public class Document extends BaseActiveRecord<Document> implements Serializable
 	@Temporal(TemporalType.DATE)
 	@Column(name="DATA",nullable=true,length=10)
 	private Date data;
-	@Column(name="DESCRICAO",nullable=true,length=255)
+	@Column(name="DESCRICAO",nullable=true,length=999999999)
 	private String descricao;
 	@Column(name="RELACIONADOS",nullable=true,length=255)
 	private String relacionados;

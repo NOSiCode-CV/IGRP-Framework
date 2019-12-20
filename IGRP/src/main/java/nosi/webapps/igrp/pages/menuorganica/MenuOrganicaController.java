@@ -35,9 +35,6 @@ public class MenuOrganicaController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
-		
-		
-		
 		ArrayList<MenuOrganica.Table_1> data = new ArrayList<>();
 		List<Menu> menus = new ArrayList<>();
 		int env_fk = Core.getParamInt("env_fk");

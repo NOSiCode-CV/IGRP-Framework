@@ -30,21 +30,7 @@ public class Inserir_documentoController extends Controller {
 		view.relacionados.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		
-		try{
-	Document documentfilter = new Document().find();
-	
-	List<Document> documentList = documentfilter.all();
-	view.relacionados.setValue(Core.toMap(documentList, "idDoc","titulo"));
-	}catch ( Exception e ) {
-		e.printStackTrace();
-	}
-      
-	Tipo tipofilter = new Tipo().find();
-	List<Tipo> tipoList = tipofilter.all();
-	view.type.setValue(Core.toMap(tipoList, "idTipo","nome"));
-      
-      try{
+	    try{
 	String isEdit = Core.getParam("isEdit");
 	if (Core.isNotNull(isEdit)) {
 		Document documentfilter = new Document().find();
@@ -57,7 +43,7 @@ public class Inserir_documentoController extends Controller {
             model.setTitulo(document.getTitulo());
             model.setType(document.getIdType().getDescricao());
             model.setDescricao(document.getDescricao());
-            model.setRelacionados(document.getRelacionados().split(";"));
+            model.setRelacionados(document.getRelacionados()!=null?document.getRelacionados().split(";"):null);
 	
 	view.btn_salvar.addParameter("p_id_doc", Core.getParam("p_id_doc"));
 	
@@ -67,7 +53,23 @@ public class Inserir_documentoController extends Controller {
 	}catch ( Exception e ) {
 		e.printStackTrace();
 	}
-            
+            	
+	try{
+	Document documentfilter = new Document().find();
+	
+	List<Document> documentList = documentfilter.all();
+	view.relacionados.setValue(Core.toMap(documentList, "idDoc","titulo"));
+	}catch ( Exception e ) {
+		e.printStackTrace();
+	}
+   try{   
+	Tipo tipofilter = new Tipo().find();
+	List<Tipo> tipoList = tipofilter.all();
+	view.type.setValue(Core.toMap(tipoList, "idTipo","nome"));
+   	}catch ( Exception e ) {
+		e.printStackTrace();
+	}   
+  
       model.setLink_upload_img(this.getConfig().getResolveUrl("igrp","file","save-image-txt&p_page_name="+Core.getCurrentPage()));
 		/*----#end-code----*/
 		view.setModel(model);
@@ -85,12 +87,10 @@ public class Inserir_documentoController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(salvar)----*/
-		 
-	Session session = null;
-	Transaction transaction = null;
-    String isEdit = Core.getParam("isEdit");
-	try{
-	if (model.validate()) {
+      Session session = null;
+      Transaction transaction = null;
+      String isEdit = Core.getParam("isEdit");
+      try{
 		session = Core.getSession(Core.defaultConnection());
 		transaction = session.getTransaction();
 		transaction.begin();
@@ -99,27 +99,20 @@ public class Inserir_documentoController extends Controller {
 
 		if(Core.isNotNull(isEdit)) {
 			 document = session.find(Document.class, Core.getParamInt("p_id_doc"));
-          
 		}
       
 		if (document != null){
 			document.setTitulo(model.getTitulo());
-          
             Tipo tipo_foreign = session.find(Tipo.class, Core.toInt(model.getType()));
 			document.setIdType(tipo_foreign);
             document.setDescricao(model.getDescricao());
             document.setRelacionados(model.getRelacionados()!=null?String.join(";",model.getRelacionados()) : null);
-            document.setData(Core.getCurrentDateSql());
-            
+            document.setData(Core.getCurrentDateSql());  
 		}
 		session.persist(document);
-      
 		transaction.commit();
-      
 		Core.setMessageSuccess();
-	}
-	else if (!model.validate())
-		Core.setMessageError();
+
 	}catch ( Exception e ) {
 		Core.setMessageError("Error: "+ e.getMessage());
 		if (transaction != null)
@@ -132,7 +125,7 @@ public class Inserir_documentoController extends Controller {
       
       if(Core.isNotNull(isEdit)) {
 		this.addQueryString("isEdit", "true");
-		return this.forward("igrp_web_doc","Inserir_documentacao","index",this.queryString());
+		return this.forward("tutorial","Inserir_documento","index",this.queryString());
 	}
 		
 		/*----#end-code----*/

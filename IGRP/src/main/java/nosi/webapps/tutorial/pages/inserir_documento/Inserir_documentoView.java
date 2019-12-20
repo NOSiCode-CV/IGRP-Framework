@@ -43,7 +43,7 @@ public class Inserir_documentoView extends View {
 		
 		descricao = new TextEditorField(model,"descricao");
 		descricao.setLabel(gt("Documento"));
-		descricao.propertie().add("name","p_descricao").add("type","texteditor").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		descricao.propertie().add("name","p_descricao").add("type","texteditor").add("maxlength","999999").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		relacionados = new ListField(model,"relacionados");
 		relacionados.setLabel(gt("Documentos relacionados"));
@@ -59,7 +59,7 @@ public class Inserir_documentoView extends View {
 		
 
 
-		btn_salvar = new IGRPButton("Salvar","tutorial","Inserir_documento","salvar","submit","primary|fa-save","","");
+		btn_salvar = new IGRPButton("Salvar","tutorial","Inserir_documento","salvar","submit_form","primary|fa-save","","");
 		btn_salvar.propertie.add("type","form").add("class","primary").add("rel","salvar").add("refresh_components","");
 
 		

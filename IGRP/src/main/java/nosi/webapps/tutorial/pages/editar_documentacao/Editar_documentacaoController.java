@@ -25,7 +25,7 @@ public class Editar_documentacaoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Labore dolor totam rem aperiam' as titulo,'Adipiscing aperiam anim sed an' as tipo,'Elit anim deserunt iste volupt' as relacionados,'Amet totam voluptatem dolor is' as data,'hidden-e013_2d6b' as id_doc "));
+		model.loadTable_1(Core.query(null,"SELECT 'Mollit rem totam ut aperiam' as titulo,'Deserunt aliqua adipiscing sit' as tipo,'Aliqua doloremque mollit ut na' as relacionados,'Doloremque consectetur officia' as data,'hidden-231f_ec76' as id_doc "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		try{
@@ -37,7 +37,7 @@ public class Editar_documentacaoController extends Controller {
 		for(Document document : documentList){
 			Editar_documentacao.Table_1 row = new Editar_documentacao.Table_1();
 			row.setTitulo(document.getTitulo());
-			row.setTipo(document.getIdType().getNome()!=null?document.getIdType().getDescricao():null);
+			row.setTipo(document.getIdType().getNome()!=null?document.getIdType().getNome():null);
 			row.setRelacionados(document.getRelacionados());
 			row.setData(document.getData()!=null?Core.dateToString(document.getData(),"dd-MM-yyyy"):null);
 			row.setId_doc(""+document.getIdDoc());
@@ -87,7 +87,17 @@ public class Editar_documentacaoController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		
-		
+		Document document = new Document().findOne(Core.getParamInt("p_id_doc"));
+	if (document != null && !document.hasError()) {
+		boolean del = document.delete(document.getIdDoc());
+		if (del == true)
+			Core.setMessageSuccess("Deleted from DB successfully!");
+		else
+			Core.setMessageError("Error deleting person from DB!");
+	} else {
+		Core.setMessageError(document.getError().toString());
+	}
+	
 		/*----#end-code----*/
 		return this.redirect("tutorial","Editar_documentacao","index", this.queryString());	
 	}

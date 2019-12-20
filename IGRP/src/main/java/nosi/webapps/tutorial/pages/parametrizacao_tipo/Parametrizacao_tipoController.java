@@ -29,7 +29,7 @@ public class Parametrizacao_tipoController extends Controller {
 		model.loadTable_1(Core.query(null,"SELECT 'Ut accusantium labore sed anim' as nome_tipo,'Aliqua accusantium iste elit a' as descricao_do_tipo,'hidden-1cb3_d24c' as id_tipo "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		try{
+	try{
 	String isEdit = Core.getParam("isEdit");
 	if (Core.isNotNull(isEdit)) {
 		Tipo tipofilter = new Tipo().find();

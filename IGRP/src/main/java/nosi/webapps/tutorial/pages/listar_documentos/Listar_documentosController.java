@@ -23,6 +23,13 @@ import nosi.core.webapp.Response;
 import nosi.webapps.tutorial.dao.Tipo;
 import java.util.ArrayList;
 import java.util.List;
+
+import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Menu;
+import nosi.webapps.igrp.dao.Organization;
+import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.tutorial.dao.Document;
 import org.apache.commons.text.StringEscapeUtils;
 import nosi.core.gui.components.IGRPButton;
@@ -34,7 +41,65 @@ public class Listar_documentosController extends Controller {
 		model.load();
 		Listar_documentosView view = new Listar_documentosView();
 		/*----#start-code(index)----*/
+	
+		
+	try {
+		
+		Action doc_action = new Action().find().andWhere("page","=","Listar_documentos").andWhere("xsl_src","=","tutorial/listar_documentos/Listar_documentos.xsl").one();
+		
+		Menu doc_menu = new Menu().find().andWhere("application","=",2).andWhere("descr","=", "Listar Documentos").one();
+
+		if(doc_action == null && doc_menu == null) {
 			
+			Action doc_insert_action = new Action();
+			doc_insert_action.setAction("index");
+			doc_insert_action.setAction_descr("Listar Documentos");
+			doc_insert_action.setIsComponent((short)1);
+			doc_insert_action.setPackage_name("nosi.webapps.tutorial.pages");
+			doc_insert_action.setPage_descr("Listar Documentos");
+			doc_insert_action.setPage("Listar_documentos");
+			doc_insert_action.setStatus(1);
+			doc_insert_action.setTipo((short)1);
+			doc_insert_action.setVersion("2.3");
+			doc_insert_action.setXsl_src("tutorial/listar_documentos/Listar_documentos.xsl");	
+			Application app_foreign = new Application().find().andWhere("dad","=","tutorial").one();
+			doc_insert_action.setApplication(app_foreign);
+			doc_insert_action.insert();
+			
+			Core.setMessageSuccess("Ação de documentação criada");
+			
+			
+			Menu doc_insert_menu = new Menu();
+			doc_insert_menu.setDescr("Listar Documentos");
+			doc_insert_menu.setFlg_base(0);
+			doc_insert_menu.setOrderby(39);
+			doc_insert_menu.setStatus(1);
+			doc_insert_menu.setTarget("_self");
+			doc_insert_menu.setAction(doc_insert_action);
+			doc_insert_menu.setApplication(app_foreign);
+			doc_insert_menu.setMenu(doc_insert_menu);
+			doc_insert_menu.insert();
+			
+			Core.setMessageSuccess("Menu de documentação criada");
+			
+			Profile doc_insert_perfil = new Profile();
+			doc_insert_perfil.setType("MEN");
+			doc_insert_perfil.setType_fk(doc_insert_menu.getId());
+			Organization org_foreign = new Organization().find().andWhere("code","=","org.tutorial").one();
+			doc_insert_perfil.setOrganization(org_foreign);
+			ProfileType pf_type_foreign = new ProfileType().find().andWhere("code","=","perfil.tutorial").one();
+			doc_insert_perfil.setProfileType(pf_type_foreign);
+			doc_insert_perfil.setUser(Core.getCurrentUser());
+			doc_insert_perfil.insert();
+			
+			Core.setMessageSuccess("Perfil de documentação Criado");
+				
+		}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
       try{
 	
           List<Tipo> tipoList = new Tipo().find().all();

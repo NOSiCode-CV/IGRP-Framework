@@ -106,8 +106,7 @@ public class FileController extends Controller {
 		//String fileNameUrl= UrlHelper.urlEncoding(fileName);
 		
 		String link = "?r=igrp/File/get-image-txt&p_app_name="+appName+"&p_page_name="+pageName+"&p_file_name="+fileName;
-		
-		System.out.println("Link doc:"+link);
+
 		if(r)
 			return this.renderView("{\"type\":\"success\",\"message\":\""+FlashMessage.MESSAGE_SUCCESS+"\",\"link\":\""+link+"\"}");
 		else
