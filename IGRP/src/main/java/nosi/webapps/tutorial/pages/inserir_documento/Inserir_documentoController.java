@@ -41,7 +41,7 @@ public class Inserir_documentoController extends Controller {
 		if (document!=null) {
 			model.setId_doc(""+document.getIdDoc());
             model.setTitulo(document.getTitulo());
-            model.setType(document.getIdType().getDescricao());
+            model.setType(document.getIdType().getNome());
             model.setDescricao(document.getDescricao());
             model.setRelacionados(document.getRelacionados()!=null?document.getRelacionados().split(";"):null);
 	
@@ -65,7 +65,7 @@ public class Inserir_documentoController extends Controller {
    try{   
 	Tipo tipofilter = new Tipo().find();
 	List<Tipo> tipoList = tipofilter.all();
-	view.type.setValue(Core.toMap(tipoList, "idTipo","nome"));
+	view.type.setValue(Core.toMap(tipoList, "idTipo","nome","-- Selecionar --"));
    	}catch ( Exception e ) {
 		e.printStackTrace();
 	}   

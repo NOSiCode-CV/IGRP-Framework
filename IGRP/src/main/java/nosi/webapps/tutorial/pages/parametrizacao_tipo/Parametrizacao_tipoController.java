@@ -26,7 +26,7 @@ public class Parametrizacao_tipoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Ut accusantium labore sed anim' as nome_tipo,'Aliqua accusantium iste elit a' as descricao_do_tipo,'hidden-1cb3_d24c' as id_tipo "));
+		model.loadTable_1(Core.query(null,"SELECT 'Anim voluptatem elit doloremqu' as nome_tipo,'Mollit deserunt amet doloremqu' as descricao_do_tipo,'hidden-0175_703b' as id_tipo "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 	try{
@@ -90,19 +90,25 @@ public class Parametrizacao_tipoController extends Controller {
 		
 	Session session = null;
 	Transaction transaction = null;
+    String isEdit = Core.getParam("isEdit");
 	try{
 	if (model.validate()) {
 		session = Core.getSession(Core.defaultConnection());
 		transaction = session.getTransaction();
 		transaction.begin();
 		Tipo tipo  = new Tipo();
+		if(Core.isNotNull(isEdit)) {
+			 tipo = session.find(Tipo.class, Core.getParamInt("p_id_tipo"));
+		}
+		if (tipo != null){
 		tipo.setNome(model.getTipo());
 		tipo.setDescricao(model.getDescricao());
+        }
 		session.persist(tipo);
 		transaction.commit();
 		Core.setMessageSuccess();
 	}
-	else if (!model.validate())
+	else
 		Core.setMessageError();
 	}catch ( Exception e ) {
 		Core.setMessageError("Error: "+ e.getMessage());
@@ -112,6 +118,11 @@ public class Parametrizacao_tipoController extends Controller {
 		if (session != null && session.isOpen()) {
 			session.close();
 		}
+	}
+      
+      if(Core.isNotNull(isEdit)) {
+		this.addQueryString("isEdit", "true");
+		return this.forward("tutorial","Parametrizacao_tipo","index",this.queryString());
 	}
 	
 		/*----#end-code----*/

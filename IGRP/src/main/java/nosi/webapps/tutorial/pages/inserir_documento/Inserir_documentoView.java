@@ -39,7 +39,7 @@ public class Inserir_documentoView extends View {
 		
 		type = new ListField(model,"type");
 		type.setLabel(gt("Tipo"));
-		type.propertie().add("name","p_type").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
+		type.propertie().add("name","p_type").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","true").add("disabled","false").add("java-type","");
 		
 		descricao = new TextEditorField(model,"descricao");
 		descricao.setLabel(gt("Documento"));

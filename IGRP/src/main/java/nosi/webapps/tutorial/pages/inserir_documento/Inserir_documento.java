@@ -3,6 +3,8 @@ package nosi.webapps.tutorial.pages.inserir_documento;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
+import nosi.core.validator.constraints.*;
+
 public class Inserir_documento extends Model{		
 
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -11,6 +13,7 @@ public class Inserir_documento extends Model{
 	@RParam(rParamName = "p_titulo")
 	private String titulo;
 
+	@NotNull()
 	@RParam(rParamName = "p_type")
 	private String type;
 
