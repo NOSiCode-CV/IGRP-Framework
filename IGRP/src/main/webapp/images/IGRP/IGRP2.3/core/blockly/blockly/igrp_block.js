@@ -65,6 +65,10 @@ function SetupBlockly(){
 				
 				IGRPElement = IGRP_BLOCKLY_ELEMENTS.index_editar;
 			
+			if( type.indexOf('vieww_') == 0 )
+				
+				IGRPElement = IGRP_BLOCKLY_ELEMENTS.index_editar;
+			
 			if( type.indexOf('save_formu_') == 0 )
 				
 				IGRPElement = IGRP_BLOCKLY_ELEMENTS.inserir_dao;

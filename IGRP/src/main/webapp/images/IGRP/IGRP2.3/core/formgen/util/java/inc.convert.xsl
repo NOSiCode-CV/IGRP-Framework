@@ -84,6 +84,12 @@
 				
 				</xsl:when>
 				
+				<xsl:when test="$from = 'String' and contains($valueblock,'_img')">	
+				
+					<xsl:text>Core.getLinkFileByUuid(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
+				
+				</xsl:when>
+				
 				<xsl:when test=" $from = 'String' and $to = 'File' ">
 				
 					<xsl:text>"Can not fill the upload field form!"</xsl:text>
