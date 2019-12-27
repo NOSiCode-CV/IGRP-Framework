@@ -303,8 +303,9 @@ var GENERATOR = function(genparams){
 		    
 		    blocklyImports = GetBlocklyImports();
 		var subpath = filename.substring(1);	
-		rtn+='<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="'+'..'+subpath.substring(subpath.indexOf('/'))+'" type="text/xsl"?>';
-		
+		//rtn+='<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="'+'..'+subpath.substring(subpath.indexOf('/'))+'" type="text/xsl"?>';
+		rtn+='<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="'+filename+'" type="text/xsl"?>';
+
 		rtn+='<rows>';
 			rtn+=VARS.xml.site;
 			//page
