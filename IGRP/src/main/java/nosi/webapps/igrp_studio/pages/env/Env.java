@@ -14,9 +14,6 @@ public class Env extends Model{
 	@RParam(rParamName = "p_dad")
 	private String dad;
 
-	@RParam(rParamName = "p_plsql_codigo")
-	private String plsql_codigo;
-
 	@RParam(rParamName = "p_description")
 	private String description;
 
@@ -60,11 +57,13 @@ public class Env extends Model{
 	@RParam(rParamName = "p_apache_dad")
 	private String apache_dad;
 
+	@RParam(rParamName = "p_plsql_codigo")
+	private String plsql_codigo;
+
 	@RParam(rParamName = "p_flg_old")
 	private int flg_old;
-	
 	@RParam(rParamName = "p_flg_old_check")
-	private int flg_old_check; 
+	private int flg_old_check;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -85,13 +84,6 @@ public class Env extends Model{
 	}
 	public String getDad(){
 		return this.dad;
-	}
-	
-	public void setPlsql_codigo(String plsql_codigo){
-		this.plsql_codigo = plsql_codigo;
-	}
-	public String getPlsql_codigo(){
-		return this.plsql_codigo;
 	}
 	
 	public void setDescription(String description){
@@ -195,6 +187,13 @@ public class Env extends Model{
 	}
 	public String getApache_dad(){
 		return this.apache_dad;
+	}
+	
+	public void setPlsql_codigo(String plsql_codigo){
+		this.plsql_codigo = plsql_codigo;
+	}
+	public String getPlsql_codigo(){
+		return this.plsql_codigo;
 	}
 	
 	public void setFlg_old(int flg_old){

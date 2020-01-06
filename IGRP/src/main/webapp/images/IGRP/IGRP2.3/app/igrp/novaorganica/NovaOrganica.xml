@@ -33,8 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=7</preserve_url>
     </plsql>
-    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Registar Organica</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -54,23 +54,19 @@
                 <link>index</link>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xml</preview>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <nome name="p_nome" type="text" maxlength="60" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nome</label>
-                    <value>Natus accusantium deserunt anim sit</value>
+                    <value>Laudantium unde officia rem ipsum</value>
                 </nome>
                 <codigo name="p_codigo" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="ex: org2" right="false" desclabel="false">
                     <label>Código</label>
-                    <value>Laudantium amet sed amet ut</value>
+                    <value>Officia stract consectetur officia rem</value>
                 </codigo>
-                <plsql_codigo name="p_plsql_codigo" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
-                    <label>PL/SQL (código)</label>
-                    <value>Perspiciatis labore adipiscing ut aliqua</value>
-                </plsql_codigo>
                 <ativo name="p_ativo" type="checkbox" maxlength="50" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="int" check="true">
                     <label>Ativo</label>
                     <value>1</value>
@@ -122,6 +118,13 @@
                         </option>
                     </list>
                 </organizacao_pai>
+                <extras name="p_extras" type="separator" maxlength="250" placeholder="" desclabel="false" right="false">
+                    <label>Extras</label>
+                </extras>
+                <plsql_codigo name="p_plsql_codigo" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                    <label>PL/SQL (código)</label>
+                    <value>Sit adipiscing amet labore voluptatem</value>
+                </plsql_codigo>
             </fields>
         </form_1>
     </content>

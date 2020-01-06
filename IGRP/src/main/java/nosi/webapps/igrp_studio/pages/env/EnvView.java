@@ -11,7 +11,6 @@ public class EnvView extends View {
 	public Field sectionheader_1_text;
 	public Field name;
 	public Field dad;
-	public Field plsql_codigo;
 	public Field description;
 	public Field status;
 	public Field status_check;
@@ -27,6 +26,7 @@ public class EnvView extends View {
 	public Field link_menu;
 	public Field link_center;
 	public Field apache_dad;
+	public Field plsql_codigo;
 	public Field flg_old;
 	public Field flg_old_check;
 	public IGRPSectionHeader sectionheader_1;
@@ -55,10 +55,6 @@ public class EnvView extends View {
 		dad = new TextField(model,"dad");
 		dad.setLabel(gt("Código"));
 		dad.propertie().add("name","p_dad").add("type","text").add("maxlength","30").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
-		
-		plsql_codigo = new TextField(model,"plsql_codigo");
-		plsql_codigo.setLabel(gt("PL/SQL (código)"));
-		plsql_codigo.propertie().add("name","p_plsql_codigo").add("type","text").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		description = new TextAreaField(model,"description");
 		description.setLabel(gt("Descrição"));
@@ -112,6 +108,10 @@ public class EnvView extends View {
 		apache_dad.setLabel(gt("DAD"));
 		apache_dad.propertie().add("name","p_apache_dad").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
+		plsql_codigo = new TextField(model,"plsql_codigo");
+		plsql_codigo.setLabel(gt("PL/SQL (código)"));
+		plsql_codigo.propertie().add("name","p_plsql_codigo").add("type","text").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		
 		flg_old = new CheckBoxField(model,"flg_old");
 		flg_old.setLabel(gt("Antigo?"));
 		flg_old.propertie().add("name","p_flg_old").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","int").add("check","true");
@@ -133,7 +133,6 @@ public class EnvView extends View {
 
 		form_1.addField(name);
 		form_1.addField(dad);
-		form_1.addField(plsql_codigo);
 		form_1.addField(description);
 		form_1.addField(status);
 		form_1.addField(gen_auto_code);
@@ -147,6 +146,7 @@ public class EnvView extends View {
 		form_1.addField(link_menu);
 		form_1.addField(link_center);
 		form_1.addField(apache_dad);
+		form_1.addField(plsql_codigo);
 		form_1.addField(flg_old);
 
 		toolsbar_1.addButton(btn_gravar);
@@ -160,7 +160,6 @@ public class EnvView extends View {
 		
 		name.setValue(model);
 		dad.setValue(model);
-		plsql_codigo.setValue(model);
 		description.setValue(model);
 		status.setValue(model);
 		gen_auto_code.setValue(model);
@@ -174,6 +173,7 @@ public class EnvView extends View {
 		link_menu.setValue(model);
 		link_center.setValue(model);
 		apache_dad.setValue(model);
+		plsql_codigo.setValue(model);
 		flg_old.setValue(model);	
 
 		}

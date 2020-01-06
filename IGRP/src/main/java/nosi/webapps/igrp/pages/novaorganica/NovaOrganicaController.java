@@ -1,12 +1,9 @@
 package nosi.webapps.igrp.pages.novaorganica;
 
-import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import java.util.Properties;
-
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /* Start-Code-Block (import) */
@@ -18,6 +15,8 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.User;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.ConfigApp;
+import java.util.Properties;
 /*----#end-code----*/
 		
 public class NovaOrganicaController extends Controller {
@@ -35,8 +34,11 @@ public class NovaOrganicaController extends Controller {
 		
 		Properties settings = ConfigApp.getInstance().loadCommonConfig();
 		String igrp_plsql_url = settings.getProperty("igrp.plsql.url");
-		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
-			view.plsql_codigo.setVisible(false);
+		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()){
+          view.extras.setVisible(false);
+          view.plsql_codigo.setVisible(false);
+        } 
+		
 	
 	      String dad = Core.getCurrentDad();
 	      if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {

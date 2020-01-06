@@ -14,9 +14,6 @@ public class NovoPerfil extends Model{
 	@RParam(rParamName = "p_codigo")
 	private String codigo;
 
-	@RParam(rParamName = "p_plsql_codigo")
-	private String plsql_codigo;
-
 	@RParam(rParamName = "p_activo")
 	private int activo;
 	@RParam(rParamName = "p_activo_check")
@@ -39,6 +36,9 @@ public class NovoPerfil extends Model{
 
 	@RParam(rParamName = "p_primeira_pagina")
 	private int primeira_pagina;
+
+	@RParam(rParamName = "p_plsql_codigo")
+	private String plsql_codigo;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -59,13 +59,6 @@ public class NovoPerfil extends Model{
 	}
 	public String getCodigo(){
 		return this.codigo;
-	}
-	
-	public void setPlsql_codigo(String plsql_codigo){
-		this.plsql_codigo = plsql_codigo;
-	}
-	public String getPlsql_codigo(){
-		return this.plsql_codigo;
 	}
 	
 	public void setActivo(int activo){
@@ -121,6 +114,13 @@ public class NovoPerfil extends Model{
 	}
 	public int getPrimeira_pagina(){
 		return this.primeira_pagina;
+	}
+	
+	public void setPlsql_codigo(String plsql_codigo){
+		this.plsql_codigo = plsql_codigo;
+	}
+	public String getPlsql_codigo(){
+		return this.plsql_codigo;
 	}
 
 

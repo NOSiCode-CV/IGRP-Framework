@@ -57,8 +57,7 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 /*----#end-code----*/
 		
-public class EnvController extends Controller { 
-	
+public class EnvController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Env model = new Env();
 		model.load();

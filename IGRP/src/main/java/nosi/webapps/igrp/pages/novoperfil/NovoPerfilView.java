@@ -11,7 +11,6 @@ public class NovoPerfilView extends View {
 	public Field sectionheader_1_text;
 	public Field nome;
 	public Field codigo;
-	public Field plsql_codigo;
 	public Field activo;
 	public Field activo_check;
 	public Field nada;
@@ -20,6 +19,7 @@ public class NovoPerfilView extends View {
 	public Field perfil_pai;
 	public Field extras;
 	public Field primeira_pagina;
+	public Field plsql_codigo;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 
@@ -46,10 +46,6 @@ public class NovoPerfilView extends View {
 		codigo = new TextField(model,"codigo");
 		codigo.setLabel(gt("Código"));
 		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
-		
-		plsql_codigo = new TextField(model,"plsql_codigo");
-		plsql_codigo.setLabel(gt("PL/SQL (código)"));
-		plsql_codigo.propertie().add("name","p_plsql_codigo").add("type","text").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		activo = new CheckBoxField(model,"activo");
 		activo.setLabel(gt("Ativo?"));
@@ -79,6 +75,10 @@ public class NovoPerfilView extends View {
 		primeira_pagina.setLabel(gt("Primeira página"));
 		primeira_pagina.propertie().add("name","p_primeira_pagina").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","int");
 		
+		plsql_codigo = new TextField(model,"plsql_codigo");
+		plsql_codigo.setLabel(gt("PL/SQL (código)"));
+		plsql_codigo.propertie().add("name","p_plsql_codigo").add("type","text").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
@@ -96,7 +96,6 @@ public class NovoPerfilView extends View {
 
 		form_1.addField(nome);
 		form_1.addField(codigo);
-		form_1.addField(plsql_codigo);
 		form_1.addField(activo);
 		form_1.addField(nada);
 		form_1.addField(aplicacao);
@@ -104,6 +103,7 @@ public class NovoPerfilView extends View {
 		form_1.addField(perfil_pai);
 		form_1.addField(extras);
 		form_1.addField(primeira_pagina);
+		form_1.addField(plsql_codigo);
 
 		toolsbar_1.addButton(btn_gravar);
 		this.addToPage(sectionheader_1);
@@ -116,14 +116,14 @@ public class NovoPerfilView extends View {
 		
 		nome.setValue(model);
 		codigo.setValue(model);
-		plsql_codigo.setValue(model);
 		activo.setValue(model);
 		nada.setValue(model);
 		aplicacao.setValue(model);
 		organica.setValue(model);
 		perfil_pai.setValue(model);
 		extras.setValue(model);
-		primeira_pagina.setValue(model);	
+		primeira_pagina.setValue(model);
+		plsql_codigo.setValue(model);	
 
 		}
 }
