@@ -17,9 +17,4 @@ public class CheckBoxListField extends ListField {
 		this.propertie.remove("multiple");
 	}
 	
-	@Override
-	protected void configValue(Object model){
-		this.setValue(IgrpHelper.getValueArray(model, this.getName()));
-	}
-	
 }

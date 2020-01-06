@@ -1,6 +1,5 @@
 package nosi.webapps.igrp.pages.detalhes_dashboard_processo;
 
-
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
@@ -11,28 +10,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Detalhes_dashboard_processo extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
-	@RParam(rParamName = "p_total_proc_finished_title")
-	private String total_proc_finished_title;
-	@RParam(rParamName = "p_total_proc_finished_val")
-	private String total_proc_finished_val;
-	@RParam(rParamName = "p_total_proc_finished_url")
-	private String total_proc_finished_url;
-	@RParam(rParamName = "p_total_proc_finished_bg")
-	private String total_proc_finished_bg;
-	@RParam(rParamName = "p_total_proc_finished_icn")
-	private String total_proc_finished_icn;
+
 	@RParam(rParamName = "p_total_proc_em_execucao_title")
 	private String total_proc_em_execucao_title;
+
 	@RParam(rParamName = "p_total_proc_em_execucao_val")
 	private String total_proc_em_execucao_val;
+
 	@RParam(rParamName = "p_total_proc_em_execucao_url")
-	private String total_proc_em_execucao_url;
+	private IGRPLink total_proc_em_execucao_url;
+	@RParam(rParamName = "p_total_proc_em_execucao_url_desc")
+	private String total_proc_em_execucao_url_desc;
+
 	@RParam(rParamName = "p_total_proc_em_execucao_bg")
 	private String total_proc_em_execucao_bg;
+
 	@RParam(rParamName = "p_total_proc_em_execucao_icn")
 	private String total_proc_em_execucao_icn;
+
+	@RParam(rParamName = "p_total_proc_finished_title")
+	private String total_proc_finished_title;
+
+	@RParam(rParamName = "p_total_proc_finished_val")
+	private String total_proc_finished_val;
+
+	@RParam(rParamName = "p_total_proc_finished_url")
+	private IGRPLink total_proc_finished_url;
+	@RParam(rParamName = "p_total_proc_finished_url_desc")
+	private String total_proc_finished_url_desc;
+
+	@RParam(rParamName = "p_total_proc_finished_bg")
+	private String total_proc_finished_bg;
+
+	@RParam(rParamName = "p_total_proc_finished_icn")
+	private String total_proc_finished_icn;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -50,41 +64,6 @@ public class Detalhes_dashboard_processo extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setTotal_proc_finished_title(String total_proc_finished_title){
-		this.total_proc_finished_title = total_proc_finished_title;
-	}
-	public String getTotal_proc_finished_title(){
-		return this.total_proc_finished_title;
-	}
-	
-	public void setTotal_proc_finished_val(String total_proc_finished_val){
-		this.total_proc_finished_val = total_proc_finished_val;
-	}
-	public String getTotal_proc_finished_val(){
-		return this.total_proc_finished_val;
-	}
-	
-	public void setTotal_proc_finished_url(String total_proc_finished_url){
-		this.total_proc_finished_url = total_proc_finished_url;
-	}
-	public String getTotal_proc_finished_url(){
-		return this.total_proc_finished_url;
-	}
-	
-	public void setTotal_proc_finished_bg(String total_proc_finished_bg){
-		this.total_proc_finished_bg = total_proc_finished_bg;
-	}
-	public String getTotal_proc_finished_bg(){
-		return this.total_proc_finished_bg;
-	}
-	
-	public void setTotal_proc_finished_icn(String total_proc_finished_icn){
-		this.total_proc_finished_icn = total_proc_finished_icn;
-	}
-	public String getTotal_proc_finished_icn(){
-		return this.total_proc_finished_icn;
-	}
-	
 	public void setTotal_proc_em_execucao_title(String total_proc_em_execucao_title){
 		this.total_proc_em_execucao_title = total_proc_em_execucao_title;
 	}
@@ -99,10 +78,25 @@ public class Detalhes_dashboard_processo extends Model{
 		return this.total_proc_em_execucao_val;
 	}
 	
-	public void setTotal_proc_em_execucao_url(String total_proc_em_execucao_url){
-		this.total_proc_em_execucao_url = total_proc_em_execucao_url;
+	public IGRPLink setTotal_proc_em_execucao_url(String app,String page,String action){
+		this.total_proc_em_execucao_url = new IGRPLink(app,page,action);
+		return this.total_proc_em_execucao_url;
 	}
-	public String getTotal_proc_em_execucao_url(){
+	public IGRPLink getTotal_proc_em_execucao_url(){
+		return this.total_proc_em_execucao_url;
+	}
+	public void setTotal_proc_em_execucao_url_desc(String total_proc_em_execucao_url_desc){
+		this.total_proc_em_execucao_url_desc = total_proc_em_execucao_url_desc;
+	}
+	public String getTotal_proc_em_execucao_url_desc(){
+		return this.total_proc_em_execucao_url_desc;
+	}
+	public IGRPLink setTotal_proc_em_execucao_url(String link){
+		this.total_proc_em_execucao_url = new IGRPLink(link);
+		return this.total_proc_em_execucao_url;
+	}
+	public IGRPLink setTotal_proc_em_execucao_url(Report link){
+		this.total_proc_em_execucao_url = new IGRPLink(link);
 		return this.total_proc_em_execucao_url;
 	}
 	
@@ -119,17 +113,74 @@ public class Detalhes_dashboard_processo extends Model{
 	public String getTotal_proc_em_execucao_icn(){
 		return this.total_proc_em_execucao_icn;
 	}
+	
+	public void setTotal_proc_finished_title(String total_proc_finished_title){
+		this.total_proc_finished_title = total_proc_finished_title;
+	}
+	public String getTotal_proc_finished_title(){
+		return this.total_proc_finished_title;
+	}
+	
+	public void setTotal_proc_finished_val(String total_proc_finished_val){
+		this.total_proc_finished_val = total_proc_finished_val;
+	}
+	public String getTotal_proc_finished_val(){
+		return this.total_proc_finished_val;
+	}
+	
+	public IGRPLink setTotal_proc_finished_url(String app,String page,String action){
+		this.total_proc_finished_url = new IGRPLink(app,page,action);
+		return this.total_proc_finished_url;
+	}
+	public IGRPLink getTotal_proc_finished_url(){
+		return this.total_proc_finished_url;
+	}
+	public void setTotal_proc_finished_url_desc(String total_proc_finished_url_desc){
+		this.total_proc_finished_url_desc = total_proc_finished_url_desc;
+	}
+	public String getTotal_proc_finished_url_desc(){
+		return this.total_proc_finished_url_desc;
+	}
+	public IGRPLink setTotal_proc_finished_url(String link){
+		this.total_proc_finished_url = new IGRPLink(link);
+		return this.total_proc_finished_url;
+	}
+	public IGRPLink setTotal_proc_finished_url(Report link){
+		this.total_proc_finished_url = new IGRPLink(link);
+		return this.total_proc_finished_url;
+	}
+	
+	public void setTotal_proc_finished_bg(String total_proc_finished_bg){
+		this.total_proc_finished_bg = total_proc_finished_bg;
+	}
+	public String getTotal_proc_finished_bg(){
+		return this.total_proc_finished_bg;
+	}
+	
+	public void setTotal_proc_finished_icn(String total_proc_finished_icn){
+		this.total_proc_finished_icn = total_proc_finished_icn;
+	}
+	public String getTotal_proc_finished_icn(){
+		return this.total_proc_finished_icn;
+	}
 
 
 	public static class Table_1 extends IGRPTable.Table{
+		private String estado;
 		private IGRPLink n_processo;
-		private String n_processo_desc;
+		private String n_processo_desc= "Nº processo";
 		private String descricao;
 		private String iniciado_em;
-		private String estado;
 		private String id;
 		private String process_definition;
 		private String process_key;
+		public void setEstado(String estado){
+			this.estado = estado;
+		}
+		public String getEstado(){
+			return this.estado;
+		}
+
 		public IGRPLink setN_processo(String app,String page,String action){
 			this.n_processo = new IGRPLink(app,page,action);
 			return this.n_processo;
@@ -164,13 +215,6 @@ public class Detalhes_dashboard_processo extends Model{
 		}
 		public String getIniciado_em(){
 			return this.iniciado_em;
-		}
-
-		public void setEstado(String estado){
-			this.estado = estado;
-		}
-		public String getEstado(){
-			return this.estado;
 		}
 
 		public void setId(String id){

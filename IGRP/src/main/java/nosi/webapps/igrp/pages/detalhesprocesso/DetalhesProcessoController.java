@@ -1,10 +1,15 @@
-
 package nosi.webapps.igrp.pages.detalhesprocesso;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
+
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import nosi.core.webapp.activit.rest.entities.DeploymentService;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
@@ -16,15 +21,16 @@ import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
 import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
 import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
 import nosi.core.webapp.bpmn.BPMNConstants;
-/*----#END-PRESERVED-AREA----*/
-
-public class DetalhesProcessoController extends Controller {		
-
-
+/*----#end-code----*/
+		
+public class DetalhesProcessoController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
-	
 		DetalhesProcesso model = new DetalhesProcesso();
+		model.load();
+		DetalhesProcessoView view = new DetalhesProcessoView();
+		/*----#start-code(index)----*/
+	
+
 		String taskId = Core.getParam(BPMNConstants.PRM_TASK_ID);
 		String processId = Core.getParam(BPMNConstants.PRM_PROCESS_ID);
 		String process_definitionId = Core.getParam(BPMNConstants.PRM_DEFINITION_ID);
@@ -46,12 +52,12 @@ public class DetalhesProcessoController extends Controller {
 			}
 			processId = model.getNumero_de_processo();
 		}
-		DetalhesProcessoView view = new DetalhesProcessoView(model);
+
 		ProcessDefinitionServiceRest processDefinitionRest =new ProcessDefinitionServiceRest();
 		//Get Diagram in runtime
 		String content = processDefinitionRest.getProcessDiagram(processId);
 		if(content!=null) {
-			System.out.println(content);
+			//System.out.println(content);
 			view.img_1.setValue("data:image/png;base64,"+content);
 		}else {
 			//Get Diagram on historic
@@ -69,11 +75,15 @@ public class DetalhesProcessoController extends Controller {
 			view.view_1.setVisible(false);
 			view.sectionheader_1.setVisible(false);
 		}
-		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
-	}
-
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
-	/*----#END-PRESERVED-AREA----*/
+		/*----#end-code----*/
+		view.setModel(model);
+		return this.renderView(view);	
+	}
+	
+		
+		
+/*----#start-code(custom_actions)----*/
+	
+	/*----#end-code----*/
 }

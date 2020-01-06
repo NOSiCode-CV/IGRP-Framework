@@ -1,24 +1,32 @@
 package nosi.webapps.igrp.pages.detalhesprocesso;
+
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
 public class DetalhesProcesso extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_numero_de_processo")
 	private String numero_de_processo;
+
 	@RParam(rParamName = "p_descricao")
 	private String descricao;
-	@RParam(rParamName = "p_data_criacao_de_processo")
-	private String data_criacao_de_processo;
+
 	@RParam(rParamName = "p_data_inicio_de_processo")
 	private String data_inicio_de_processo;
+
+	@RParam(rParamName = "p_data_criacao_de_processo")
+	private String data_criacao_de_processo;
+
 	@RParam(rParamName = "p_data_fim_processo")
 	private String data_fim_processo;
-	@RParam(rParamName = "p_view_1_img")
-	private String view_1_img;
+
 	@RParam(rParamName = "p_img_1")
 	private String img_1;
+	@RParam(rParamName = "p_img_1_uuid")
+	private String img_1_uuid;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -41,18 +49,18 @@ public class DetalhesProcesso extends Model{
 		return this.descricao;
 	}
 	
-	public void setData_criacao_de_processo(String data_criacao_de_processo){
-		this.data_criacao_de_processo = data_criacao_de_processo;
-	}
-	public String getData_criacao_de_processo(){
-		return this.data_criacao_de_processo;
-	}
-	
 	public void setData_inicio_de_processo(String data_inicio_de_processo){
 		this.data_inicio_de_processo = data_inicio_de_processo;
 	}
 	public String getData_inicio_de_processo(){
 		return this.data_inicio_de_processo;
+	}
+	
+	public void setData_criacao_de_processo(String data_criacao_de_processo){
+		this.data_criacao_de_processo = data_criacao_de_processo;
+	}
+	public String getData_criacao_de_processo(){
+		return this.data_criacao_de_processo;
 	}
 	
 	public void setData_fim_processo(String data_fim_processo){
@@ -62,19 +70,19 @@ public class DetalhesProcesso extends Model{
 		return this.data_fim_processo;
 	}
 	
-	public void setView_1_img(String view_1_img){
-		this.view_1_img = view_1_img;
-	}
-	public String getView_1_img(){
-		return this.view_1_img;
-	}
-	
 	public void setImg_1(String img_1){
 		this.img_1 = img_1;
 	}
 	public String getImg_1(){
 		return this.img_1;
 	}
+	public void setImg_1_uuid(String img_1_uuid){
+		this.img_1_uuid = img_1_uuid;
+	}
+	public String getImg_1_uuid(){
+		return this.img_1_uuid;
+	}
+
 
 
 }

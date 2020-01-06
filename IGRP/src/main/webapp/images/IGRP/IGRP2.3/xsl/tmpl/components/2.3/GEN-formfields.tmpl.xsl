@@ -241,7 +241,7 @@
 						<div class="input-group">
 							<input type="text" class="form-control not-form" readonly=""/>
 							<span class="input-group-btn">
-								<span class="btn btn-default file-btn-holder">
+								<span class="btn btn-primary file-btn-holder">
 									<i class="fa fa-upload"/>
 									<input value="{$fieldValue}" target-rend="" class="transparent " type="file" accept="">
 										<xsl:call-template name="field-attributes">

@@ -209,8 +209,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		if(clob!=null && !clob.hasError()) {
 			String tp_doc_id = id_tp_doc[i].toString(); 
 			TipoDocumentoEtapa tpdoc = new TipoDocumentoEtapa().findOne(Core.toInt(tp_doc_id)); 
-			if(tpdoc != null) {
+			if(tpdoc != null && !tpdoc.hasError()) {
 				nosi.webapps.igrp.dao.TaskFile taskFile = new nosi.webapps.igrp.dao.TaskFile(clob, tpdoc ,taskId);
+				taskFile.generateUid();
 				taskFile.insert();
 			}
 		}

@@ -12,7 +12,7 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import nosi.webapps.igrp_studio.pages.bpmndesigner.ReserveCodeControllerTask;
-
+import static nosi.core.i18n.Translator.gt;
 /**
  * Emanuel
  * 7 May 2018
@@ -100,14 +100,17 @@ public class BPMNHelper {
 				 										.andWhere("tipo_doc_task.tipoDocumento.id","=",t.getTipoDocumento().getId())
 				 										.one();
 						 if(taskFile!=null) {
-							 link.setLink(Core.getLinkFile(taskFile.getClob().getId()));
+							 if(taskFile.getClob().getUuid()!=null)
+								 link.setLink(Core.getLinkFileByUuid(taskFile.getClob().getUuid()));
+							 else
+								 link.setLink(Core.getLinkFile(taskFile.getClob().getId().intValue()));
 							 t.setFileId(taskFile.getClob().getId());
 						 }
 		 			 }
 		 			 if(t.getRepTemplate()!=null) {
 		 				link = new IGRPLink(Core.getLinkReport(t.getRepTemplate().getCode()).addParam(BPMNConstants.PRM_TASK_ID, getCurrentTaskId()));
 		 			 }
-		 			 link.setLink_desc("Mostrar");
+		 			 link.setLink_desc(gt("Mostrar"));
 					 t.setLink(link);
 				});		
 		}
@@ -178,10 +181,13 @@ public class BPMNHelper {
 							.one();
 			 }
 			 if(taskFile!=null) {
-				 link.setLink(Core.getLinkFile(taskFile.getClob().getId().intValue()));
+				 if(taskFile.getClob().getUuid()!=null)
+					 link.setLink(Core.getLinkFileByUuid(taskFile.getClob().getUuid()));
+				 else
+					 link.setLink(Core.getLinkFile(taskFile.getClob().getId().intValue()));
 				 t.setFileId(taskFile.getClob().getId());
 			 }
- 			 link.setLink_desc("Mostrar");
+ 			 link.setLink_desc(gt("Mostrar"));
 			 t.setLink(link);
 		});
 		return tipoDocs;
@@ -200,7 +206,7 @@ public class BPMNHelper {
 		tipoDocs.stream().forEach(t->{
 			 t.setFileId(new Integer(-1));
 			 IGRPLink link = new IGRPLink(Core.getLinkReport(t.getRepTemplate().getCode()).addParam(BPMNConstants.PRM_TASK_ID, getCurrentTaskId()));
- 			 link.setLink_desc("Mostrar");
+ 			 link.setLink_desc(gt("Mostrar"));
 			 t.setLink(link);
 		});
 		return tipoDocs;

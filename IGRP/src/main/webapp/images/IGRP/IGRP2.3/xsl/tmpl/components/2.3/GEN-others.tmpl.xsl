@@ -1,7 +1,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:template name="GEN-view">
 		<xsl:variable name="tag" select="name()"/>
-		<div class="box clearfix view-block gen-container-item " item-name="{$tag}">
+		<div class="box clearfix view-block gen-container-item " template="2cols" gen-class="" item-name="{$tag}">
 			<xsl:attribute name="has-img">
 				<xsl:choose>
 					<xsl:when test="fields/*[name() = concat($tag,'_img')]">true</xsl:when>
@@ -9,11 +9,11 @@
 				</xsl:choose>
 			</xsl:attribute>
 			
-			<xsl:if test="@title">
+			<xsl:if test="@title">			
 	            <xsl:call-template name="box-header">
 	                <xsl:with-param name="title" select="@title"/>
-	                <xsl:with-param name="collapsible" select="'false'"/>
-	                <xsl:with-param name="collapsed" select="'false'"/>
+	                <xsl:with-param name="collapsible" select="'true'"/>
+	                <xsl:with-param name="collapsed" select="'true'"/>
 	            </xsl:call-template>
             </xsl:if>
             <div class="box-body">
