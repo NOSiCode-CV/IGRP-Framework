@@ -350,8 +350,8 @@
             },
             {
               "event": "change",
-              "condition": "equal",
-              "value": "regexp",
+              "condition": "jsx",
+              "value": "{this} == 'regexp' || {this} == 'notregexp'",
               "action": "show",
               "targets": "gen_rule_patern",
               "name": "Condition Rule 4",
@@ -359,30 +359,48 @@
             },
             {
               "event": "change",
-              "condition": "diff",
-              "value": "regexp",
+              "condition": "jsx",
+              "value": "{this} != 'regexp' && {this} != 'notregexp'",
               "action": "notrequired",
-              "targets": "gen_rule_patern",
+              "targets": "gen_rule_patern,gen_rule_patern_custom",
               "name": "Pattern Not Required",
               "opposite": "1"
             },
             {
               "event": "load",
-              "condition": "diff",
-              "value": "regexp",
+              "condition": "jsx",
+              "value": "{this} != 'regexp' && {this} != 'notregexp'",
               "action": "notrequired",
-              "targets": "gen_rule_patern",
+              "targets": "gen_rule_patern,gen_rule_patern_custom",
               "name": "Pattern Not Required",
               "opposite": "1"
             },
             {
+	            "event": "change",
+	            "condition": "jsx",
+	            "value": "{this} != 'regexp' && {this} != 'notregexp'",
+	            "action": "hide",
+	            "targets": "gen_rule_patern_custom",
+	            "name": "Pattern Not Required",
+	            "opposite": ""
+	          },
+	          {
+	            "event": "load",
+	            "condition": "jsx",
+	            "value": "{this} != 'regexp' && {this} != 'notregexp'",
+	            "action": "hide",
+	            "targets": "gen_rule_patern_custom",
+	            "name": "Pattern Not Required",
+	            "opposite": ""
+	          },
+	          {
               "event": "change",
-              "condition": "equal",
-              "value": "regexp",
+              "condition": "jsx",
+              "value": "{this} == 'regexp' || {this} == 'notregexp'",
               "action": "hide",
               "targets": "gen_rule_value",
               "name": "Condition Rule 5",
-              "opposite": ""
+              "opposite": "1"
             },
             {
               "event": "load",

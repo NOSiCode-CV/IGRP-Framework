@@ -64,6 +64,8 @@
 
                       <option value="regexp">RegExp</option>
                       
+                      <option value="notregexp">Not RegExp</option>
+                      
                       <option value="jsx">Custom</option>
 
                   </select>

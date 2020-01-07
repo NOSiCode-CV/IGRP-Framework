@@ -921,6 +921,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 		if(roption=='custom'){
 			//rtn =  new RegExp(r.rule.patern_custom).test(r.fieldValue);
 			rtn =  eval(r.rule.patern_custom).test(r.fieldValue);
+			console.log(rtn);
 		}else{
 			var re = regexList[roption];
 			rtn = re && re.exp ? re.exp.test(r.fieldValue) : false;
