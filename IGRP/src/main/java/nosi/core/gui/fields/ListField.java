@@ -47,7 +47,7 @@ public class ListField extends AbstractField {
 		try {
 			// Check first if select field is initialized with domains (For BPMN purpose) 
 			String hasDomain = (String) this.propertie().get("domain"); 
-			if(hasDomain != null && (this.getListOptions() == null || this.getListOptions().isEmpty())) {
+			if(Core.isNotNull(hasDomain) && (this.getListOptions() == null || this.getListOptions().isEmpty())) {
 				if(hasDomain.contains("«")) {
 					String aux[] = hasDomain.split(" « ");
 					String domainName = aux[0].trim(); 

@@ -27,7 +27,7 @@ public class Dash_board_processoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_2(Core.query(null,"SELECT 'Voluptatem adipiscing totam si' as nome_processo,'hidden-9df3_8e52' as process_id,'hidden-ddb6_1d1c' as process_key "));
+		model.loadTable_2(Core.query(null,"SELECT 'Sit deserunt voluptatem sed ac' as nome_processo,'hidden-b439_59bf' as process_id,'hidden-b5b2_02b5' as process_key "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/	
 		view.btn_iniciar_processo.setPage("ExecucaoTarefas");
