@@ -25,6 +25,10 @@
                   console.error(err);
                } else{
                   pdid = $('#camunda-id').val();
+                  
+                  if($('#camunda-process-id')[0])
+                	  pdid = $('#camunda-process-id').val();
+                  
                   $('body').addClass('shown');
                }
             });
@@ -110,6 +114,10 @@
 
                                    setTimeout(function() {
                                       $('#camunda-id').val(proceid);
+                                      
+                                      if($('#camunda-process-id')[0])
+                                    	  $('#camunda-process-id').val(proceid);
+                                      
                                    }, 100);
                                 }
                            }catch(e){console.log(e);null;}
