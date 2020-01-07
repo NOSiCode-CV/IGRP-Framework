@@ -1,7 +1,7 @@
 <?xml-stylesheet href="palettes.xsl?v=30" type="text/xsl"?>
 <palettes>
-	<color name="fresh" bg-text-color="white">#4ABDAC</color>
-	<color name="vermillion" bg-text-color="white">#FC4A1A</color>
+	<color name="fresh" bg-text-color="white">#009688</color>
+	<color name="vermillion" bg-text-color="white">#F44336</color>
 	<color name="orange" bg-text-color="white">#F79E02</color>
 	<color name="starrynight" bg-text-color="white">#0375BA</color>
 	<color name="irises" bg-text-color="white">#007849</color>

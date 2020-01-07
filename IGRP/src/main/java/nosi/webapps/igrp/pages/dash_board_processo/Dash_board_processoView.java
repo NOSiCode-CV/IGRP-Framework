@@ -28,7 +28,7 @@ public class Dash_board_processoView extends View {
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
-		sectionheader_1_text.setValue(gt("<p>Lista de Processos</p>"));
+		sectionheader_1_text.setValue(gt("<p>Mapa de Processos</p>"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
 		nome_processo = new TextField(model,"nome_processo");

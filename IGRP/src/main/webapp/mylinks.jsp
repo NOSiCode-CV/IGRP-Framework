@@ -33,7 +33,7 @@
              {
                value:"cp-vermillion",
                label:"vermillion",
-               color:"#FC4A1A",
+               color:"#F44336",
                text :"white"
              },
              {
@@ -441,8 +441,8 @@
             color: #4ABDAC!important;
             }
             .cp-vermillion {
-            background: #FC4A1A!important;
-            border-color: #FC4A1A!important;
+            background: #F44336!important;
+            border-color: #F44336!important;
             color: white!important;
             }
             .cp-vermillion-text {
