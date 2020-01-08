@@ -24,13 +24,16 @@
                   $('body').removeClass('shown');
                   console.error(err);
                } else{
-                  pdid = $('#camunda-id').val();
+                  /*pdid = $('#camunda-id').val();
                   
                   if($('#camunda-process-id')[0])
-                	  pdid = $('#camunda-process-id').val();
+                	  pdid = $('#camunda-process-id').val();*/
                   
                   $('body').addClass('shown');
                }
+               
+               $.IGRP.utils.loading.hide();
+               
             });
          },'text');
       },
@@ -78,15 +81,21 @@
       },
       processClick : function(){
          $("body").on("click",".treeview a[type='line'].treeClick",function(e) {
+        	 
             e.preventDefault();
+            
             var url = $(this).attr('href');
 
             if(url){
+            	
                $('#igrp-app-title').html(bpmn.title+' [ '+$(this).text()+'  ]');
 
                bpmn.id = $(this).attr('idObj') || null;
                
                if(!$(e.target).hasClass("btn")){
+            	   
+            	   $.IGRP.utils.loading.show();
+            	   
                   com.importXML(url);
                }
             }
@@ -188,20 +197,26 @@
          
          if(!bpmn.id && !proceid)
              proceid = 'process_'+Math.floor(Date.now() / 1000);
+         else
+        	 proceid = bpmn.id;
 
             //bpmLookup.attr('href',$.IGRP.utils.getUrl(lookupHref)+'p_env_fk='+bpmn.app);
 
          bpmLookup.on('click',function(e){
             var href =  $.IGRP.utils.getUrl(hrefAfterApp),
                gid   = $('#camunda-id').val();
+            
+            if($('#camunda-process-id')[0])
+            	gid = $('#camunda-process-id').val();
 
             if (gid){
                href  += 'p_general_id='+gid;
 
-               if (pdid)
-                  href += '&p_process_id='+pdid;
+               if (bpmn.id)
+                  href += '&p_process_id='+bpmn.id;
 
                $(this).attr('href',href);
+               
             }else{
                $.IGRP.notify({
                   message : 'Campo id do Separador General Ã© Obrigatorio.',
