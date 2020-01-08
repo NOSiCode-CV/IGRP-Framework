@@ -227,3 +227,7 @@ div[data-entry="form-fields"]{
 .bpp-properties-entry[data-entry="form-fields"]{
   margin-top: 70px;
 }
+
+.input-group-btn.IGRP_lookupPopup .btn{
+	padding: 9px 12px;
+}
