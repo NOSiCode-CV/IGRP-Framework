@@ -31,10 +31,10 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=65</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=371</preserve_url>
     </plsql>
-    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Export Wizard Step 1</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -47,21 +47,21 @@
             </fields>
         </sectionheader_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="seguinte">
+            <item type="specific" code="" rel="seguinte" refresh_components="">
                 <title>Seguinte</title>
-                <app>igrp_studio</app>
-                <page>Wizard_export_step_2</page>
-                <link>index</link>
+                <app/>
+                <page/>
+                <link/>
                 <target>submit</target>
                 <img>primary|fa-forward</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/wizard_export_step_2/Wizard_export_step_2.xml</preview>
+                <preview/>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <file_name name="p_file_name" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>File Name</label>
-                    <value>Perspiciatis consectetur sit amet doloremque</value>
+                    <value>Rem deserunt sit natus accusantium</value>
                 </file_name>
                 <selecionar_opcao name="p_selecionar_opcao" type="checkboxlist" domain="" maxlength="250" required="true" change="false" readonly="false" disabled="false" child_size="6" right="false" java-type="">
                     <label>Selecionar opções</label>
@@ -88,4 +88,10 @@
             </fields>
         </form_1>
     </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
 </rows>

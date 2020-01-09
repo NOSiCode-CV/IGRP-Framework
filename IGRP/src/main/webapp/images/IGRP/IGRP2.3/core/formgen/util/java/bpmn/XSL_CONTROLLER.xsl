@@ -122,7 +122,7 @@
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
 
-		<!-- Action Update -->
+		<!-- Action Update 
 		<xsl:value-of select="concat($tab,'public Response actionUpdate() throws IOException, ServletException, IllegalArgumentException, IllegalAccessException {')"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:call-template name="start-code-comment">
@@ -138,7 +138,7 @@
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="concat($tab,'}')"/>
 		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$newline"/>-->
 
 		<!-- Action getInputDocumentType -->
 		<xsl:value-of select="concat($tab,'public List&lt;TipoDocumentoEtapa&gt; getInputDocumentType() {')"/>

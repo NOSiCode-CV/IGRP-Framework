@@ -4,12 +4,16 @@ import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
 public class Wizard_export_step_1 extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_file_name")
 	private String file_name;
+
 	@RParam(rParamName = "p_selecionar_opcao")
 	private String[] selecionar_opcao;
+
 	@RParam(rParamName = "p_application_id")
 	private int application_id;
 	

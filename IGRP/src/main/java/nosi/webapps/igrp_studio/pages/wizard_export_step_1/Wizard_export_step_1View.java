@@ -33,7 +33,7 @@ public class Wizard_export_step_1View extends View {
 		
 		file_name = new TextField(model,"file_name");
 		file_name.setLabel(gt("File Name"));
-		file_name.propertie().add("name","p_file_name").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
+		file_name.propertie().add("name","p_file_name").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		selecionar_opcao = new CheckBoxListField(model,"selecionar_opcao");
 		selecionar_opcao.setLabel(gt("Selecionar opções"));
@@ -47,7 +47,7 @@ public class Wizard_export_step_1View extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
 		btn_seguinte = new IGRPButton("Seguinte","igrp_studio","Wizard_export_step_1","seguinte","submit","primary|fa-forward","","");
-		btn_seguinte.propertie.add("type","specific").add("rel","seguinte");
+		btn_seguinte.propertie.add("type","specific").add("rel","seguinte").add("refresh_components","");
 
 		
 	}

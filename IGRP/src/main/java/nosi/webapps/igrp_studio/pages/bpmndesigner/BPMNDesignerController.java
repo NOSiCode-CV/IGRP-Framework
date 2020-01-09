@@ -55,6 +55,7 @@ public class BPMNDesignerController extends Controller {
 				processo.setTitle(process.getName());
 				processo.setLink("igrp_studio", "BPMNDesigner", "get-bpmn-design&p_id="+process.getId());
 				processo.setId(process.getId());
+				processo.setId_objeto(process.getId().split(":")[0]);
 				data.add(processo);
 			}
 			view.gen_table.addData(data);

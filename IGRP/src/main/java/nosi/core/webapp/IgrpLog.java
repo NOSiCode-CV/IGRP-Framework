@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Iekiny Marcel
  * Jan 11, 2018
@@ -35,7 +37,7 @@ public final class IgrpLog implements Component { // Not inherited
 			String key = i.next();
 			String values = "";
 			
-			if(qs.contains(key+"=")) {
+			if(StringUtils.countMatches(qs, key+"=")==1) {
 				values = Igrp.getInstance().getRequest().getParameter(key);
 			}else {
 				String []result = Igrp.getInstance().getRequest().getParameterValues(key); 
