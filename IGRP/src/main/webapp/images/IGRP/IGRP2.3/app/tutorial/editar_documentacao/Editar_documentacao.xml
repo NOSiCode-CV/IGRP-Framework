@@ -60,55 +60,55 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <titulo name="p_titulo">Iste elit sit doloremque adipi</titulo>
-                        <tipo name="p_tipo">Aperiam sit ipsum doloremque a</tipo>
-                        <relacionados name="p_relacionados">Adipiscing sit labore sed unde</relacionados>
-                        <data name="p_data">Sit anim amet consectetur unde</data>
-                        <id_doc name="p_id_doc" tag="id_doc">hidden-f6bf_9a1e</id_doc>
+                        <titulo name="p_titulo">Iste sit omnis aliqua mollit</titulo>
+                        <tipo name="p_tipo">Elit elit rem omnis aperiam</tipo>
+                        <relacionados name="p_relacionados">Amet rem voluptatem magna sit</relacionados>
+                        <data name="p_data">Totam deserunt sit aperiam acc</data>
+                        <id_doc name="p_id_doc" tag="id_doc">hidden-ab91_cf38</id_doc>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <titulo name="p_titulo">Natus mollit ipsum mollit accu</titulo>
-                        <tipo name="p_tipo">Ut lorem sed aliqua lorem</tipo>
-                        <relacionados name="p_relacionados">Labore elit labore omnis dolor</relacionados>
-                        <data name="p_data">Laudantium amet labore unde am</data>
-                        <id_doc name="p_id_doc" tag="id_doc">hidden-e65d_2ea8</id_doc>
+                        <titulo name="p_titulo">Ut totam dolor sit deserunt</titulo>
+                        <tipo name="p_tipo">Unde accusantium magna officia</tipo>
+                        <relacionados name="p_relacionados">Magna iste aperiam dolor dolor</relacionados>
+                        <data name="p_data">Amet aperiam deserunt aliqua m</data>
+                        <id_doc name="p_id_doc" tag="id_doc">hidden-0ed4_75a3</id_doc>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <titulo name="p_titulo">Adipiscing doloremque laudanti</titulo>
-                        <tipo name="p_tipo">Natus ut rem magna dolor</tipo>
-                        <relacionados name="p_relacionados">Stract anim aperiam officia ap</relacionados>
-                        <data name="p_data">Lorem adipiscing dolor officia</data>
-                        <id_doc name="p_id_doc" tag="id_doc">hidden-41bb_14a9</id_doc>
+                        <titulo name="p_titulo">Totam accusantium perspiciatis</titulo>
+                        <tipo name="p_tipo">Accusantium laudantium magna n</tipo>
+                        <relacionados name="p_relacionados">Sed sit dolor sit perspiciatis</relacionados>
+                        <data name="p_data">Sit omnis sit accusantium laud</data>
+                        <id_doc name="p_id_doc" tag="id_doc">hidden-d9e9_6fa8</id_doc>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <titulo name="p_titulo">Labore mollit amet totam sit</titulo>
-                        <tipo name="p_tipo">Doloremque natus aperiam lorem</tipo>
-                        <relacionados name="p_relacionados">Doloremque anim voluptatem lau</relacionados>
-                        <data name="p_data">Sed rem natus sit adipiscing</data>
-                        <id_doc name="p_id_doc" tag="id_doc">hidden-efa1_edb9</id_doc>
+                        <titulo name="p_titulo">Accusantium mollit sed laudant</titulo>
+                        <tipo name="p_tipo">Totam lorem sit rem dolor</tipo>
+                        <relacionados name="p_relacionados">Consectetur laudantium unde co</relacionados>
+                        <data name="p_data">Magna mollit sit rem accusanti</data>
+                        <id_doc name="p_id_doc" tag="id_doc">hidden-c40c_9d7b</id_doc>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <titulo name="p_titulo">Anim amet sit deserunt stract</titulo>
-                        <tipo name="p_tipo">Sit totam dolor adipiscing ist</tipo>
-                        <relacionados name="p_relacionados">Sit iste doloremque omnis sit</relacionados>
-                        <data name="p_data">Omnis unde aperiam anim elit</data>
-                        <id_doc name="p_id_doc" tag="id_doc">hidden-57da_42f2</id_doc>
+                        <titulo name="p_titulo">Rem natus ut sit adipiscing</titulo>
+                        <tipo name="p_tipo">Totam consectetur iste unde ad</tipo>
+                        <relacionados name="p_relacionados">Rem iste officia perspiciatis</relacionados>
+                        <data name="p_data">Accusantium sit dolor adipisci</data>
+                        <id_doc name="p_id_doc" tag="id_doc">hidden-8e2c_ca46</id_doc>
                     </row>
                 </value>
                 <context-menu>
@@ -117,20 +117,20 @@
                         <app>tutorial</app>
                         <page>Inserir_documento</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/tutorial/inserir_documento/Inserir_documento.xml?</parameter>
+                        <parameter>../images/IGRP/IGRP2.3/app/tutorial/inserir_documento/Inserir_documento.xml?</parameter>
                         <target>mpsubmit|refresh</target>
                         <img>warning|fa-edit</img>
-                        <preview>/IGRP/images/IGRP/IGRP2.3/app/tutorial/inserir_documento/Inserir_documento.xml</preview>
+                        <preview>../images/IGRP/IGRP2.3/app/tutorial/inserir_documento/Inserir_documento.xml</preview>
                     </item>
                     <item type="specific" code="" class="danger" rel="eliminar" refresh_components="">
                         <title>Eliminar</title>
                         <app>tutorial</app>
                         <page>Editar_documentacao</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/tutorial/editar_documentacao/Editar_documentacao.xml?</parameter>
+                        <parameter>../images/IGRP/IGRP2.3/app/tutorial/editar_documentacao/Editar_documentacao.xml?</parameter>
                         <target>confirm</target>
                         <img>danger|fa-times-circle-o</img>
-                        <preview>/IGRP/images/IGRP/IGRP2.3/app/tutorial/editar_documentacao/Editar_documentacao.xml</preview>
+                        <preview>../images/IGRP/IGRP2.3/app/tutorial/editar_documentacao/Editar_documentacao.xml</preview>
                     </item>
                 </context-menu>
             </table>

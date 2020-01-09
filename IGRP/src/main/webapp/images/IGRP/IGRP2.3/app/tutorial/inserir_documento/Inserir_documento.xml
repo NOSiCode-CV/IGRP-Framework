@@ -51,9 +51,9 @@
             <fields>
                 <titulo name="p_titulo" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
                     <label>Título do documento</label>
-                    <value>Elit sed deserunt unde omnis</value>
+                    <value>Natus doloremque dolor amet deserunt</value>
                 </titulo>
-                <type name="p_type" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
+                <type name="p_type" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
                     <label>Tipo</label>
                     <list>
                         <option/>
@@ -74,10 +74,15 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <validations>
+                        <validation>
+                            <annotation>@NotNull</annotation>
+                        </validation>
+                    </validations>
                 </type>
-                <descricao name="p_descricao" type="texteditor" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                <descricao name="p_descricao" type="texteditor" maxlength="999999" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
                     <label>Documento</label>
-                    <value>Sit officia lorem rem laudantium omnis perspiciatis sed dolor amet lorem accusantium perspiciatis sit stract ut sit omnis iste mollit</value>
+                    <value>Sit mollit sit stract sit amet dolor consectetur perspiciatis totam doloremque laudantium aperiam omnis perspiciatis rem accusantium mollit unde anim</value>
                 </descricao>
                 <relacionados name="p_relacionados" type="select" multiple="true" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
                     <label>Documentos relacionados</label>
@@ -110,10 +115,10 @@
                     <app>tutorial</app>
                     <page>Inserir_documento</page>
                     <link>index</link>
-                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/tutorial/inserir_documento/Inserir_documento.xml?</parameter>
-                    <target>submit</target>
+                    <parameter>../images/IGRP/IGRP2.3/app/tutorial/inserir_documento/Inserir_documento.xml?</parameter>
+                    <target>submit_form</target>
                     <img>primary|fa-save</img>
-                    <preview>/IGRP/images/IGRP/IGRP2.3/app/tutorial/inserir_documento/Inserir_documento.xml</preview>
+                    <preview>../images/IGRP/IGRP2.3/app/tutorial/inserir_documento/Inserir_documento.xml</preview>
                 </item>
             </tools-bar>
         </form_1>

@@ -22,6 +22,7 @@ import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.webapps.tutorial.dao.Tipo;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import nosi.webapps.igrp.dao.Action;
@@ -47,7 +48,7 @@ public class Listar_documentosController extends Controller {
 		
 		Action doc_action = new Action().find().andWhere("page","=","Listar_documentos").andWhere("xsl_src","=","tutorial/listar_documentos/Listar_documentos.xsl").one();
 		
-		Menu doc_menu = new Menu().find().andWhere("application","=",2).andWhere("descr","=", "Listar Documentos").one();
+		Menu doc_menu = new Menu().find().andWhere("application","=", Core.findApplicationByDad("tutorial").getId()).andWhere("descr","=", "Listar Documentos").one();
 
 		if(doc_action == null && doc_menu == null) {
 			
@@ -104,8 +105,10 @@ public class Listar_documentosController extends Controller {
 	
           List<Tipo> tipoList = new Tipo().find().all();
 
+          //java.util.Collections.sort(tipoList)
+
           List< Listar_documentos.Treemenu_1> tipoTable = new ArrayList<>();
-          
+        
           if(tipoList != null){
         	  
               for(Tipo tip : tipoList){
@@ -123,7 +126,9 @@ public class Listar_documentosController extends Controller {
                  tipoTable.add(row);
               }
           }
-
+          
+          tipoTable.sort(Comparator.comparing(Listar_documentos.Treemenu_1::getTreemenu_1_link_desc));
+          
           model.setTreemenu_1(tipoTable);
 
       }catch(Exception e){
