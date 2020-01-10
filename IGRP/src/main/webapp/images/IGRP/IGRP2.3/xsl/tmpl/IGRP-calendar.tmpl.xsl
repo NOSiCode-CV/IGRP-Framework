@@ -8,6 +8,8 @@
         <xsl:param name="addevents"/>
         <xsl:param name="defaultview"/>
         <xsl:param name="defaultdate"/>
+        <xsl:param name="ebeforetoday"/>
+        <xsl:param name="weekends"/>
         <xsl:param name="views"/>
         <xsl:param name="header"/>
         
@@ -67,6 +69,8 @@
                         addevents       : '<xsl:value-of select="$addevents"/>',
                         defaultview     : '<xsl:value-of select="$defaultview"/>',
                         defaultdate     : '<xsl:value-of select="$defaultdate"/>',
+                        ebeforetoday    : '<xsl:value-of select="$ebeforetoday"/>',
+                        weekends        : '<xsl:value-of select="$weekends"/>',
                         views           : '<xsl:value-of select="$views"/>',
                         header          : '<xsl:value-of select="$header"/>'
                     });

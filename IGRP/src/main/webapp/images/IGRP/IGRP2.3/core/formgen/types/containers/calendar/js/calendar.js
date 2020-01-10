@@ -136,6 +136,18 @@ var GENCALENDAR = function(name,params){
 			multiple:true
 		}
 	});
+	
+	container.setPropriety({
+		name :'weekends',
+		label:'Hide Weekends',
+		value:false
+	});
+
+	container.setPropriety({
+		name :'ebeforetoday',
+		label:'Event before today',
+		value:false
+	});
 
 	container.setPropriety({
 		name:'editevents',

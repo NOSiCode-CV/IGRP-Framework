@@ -96,16 +96,18 @@
             return data;
         },
         init:function(id,p){
-            var options = $.extend(_opts,p),
-                cal     = $('.igrp-calendar#'+id),
-                view    = p.defaultview ? p.defaultview : 'month';
-                date    = p.defaultdate ? p.defaultdate : new Date().toJSON().slice(0,10).replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1');
+            var options 		= $.extend(_opts,p),
+                cal     		= $('.igrp-calendar#'+id),
+                view    		= p.defaultview ? p.defaultview : 'month',
+                ebeforetoday    = p.ebeforetoday && p.ebeforetoday == 'true' ? true : false,
+                date    		= p.defaultdate ? p.defaultdate : new Date().toJSON().slice(0,10).replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1');
            
             cal.on('contextmenu', function (e) {
                 e.preventDefault();
             });
             
-            var holder = cal.parent();
+            var holder = cal.parent(),
+            	locale = options.locale ? options.locale : _opts.locale;
             
             var calendar = cal.fullCalendar({
                 header:{
@@ -118,11 +120,17 @@
                     basicWeek : true,
                     default   : true
                 },
-                locale      : options.locale,
-                defaultDate : $.IGRP.components.calendar.dateConvert(date),
-                editable    : true,
-                eventLimit  : true,
-                lazyFetching: true,
+                locale       : locale,
+                defaultDate  : $.IGRP.components.calendar.dateConvert(date),
+                editable     : true,
+                eventLimit   : true,
+                lazyFetching : true,
+                weekends     : p.weekends && p.weekends == 'true' ? false : true,
+        		businessHours: {
+                    daysOfWeek: [ 1, 2, 3, 4],
+                    startTime : '00:00',
+                    endTime   : '23:00',
+                },
                 defaultView :view,
                 //events: p.loadevents,
                 events: function(start, end, timezone, callback) {
@@ -227,11 +235,13 @@
                     });
                 },
                 dayClick : function(date, allDay ,jsEvent, view) {
-                    var param = 'p_date='+date.format().igrpDateFormat();
-                    
-                    //param +='&p_type='+$('#p_type').val();
+                    var param = 'p_date='+date.format().igrpDateFormat(),
+                        valid = true;
 
-                    if (p.addevents) {
+                    if(ebeforetoday)
+                        valid = moment().subtract(1, "days").isBefore(moment(date));
+
+                    if (p.addevents && valid) {
                         $.IGRP.components.iframeNav.set({
                             url     : $.IGRP.utils.getUrl(p.addevents)+param,
                             clicked : $('<a close="refresh"/>')
