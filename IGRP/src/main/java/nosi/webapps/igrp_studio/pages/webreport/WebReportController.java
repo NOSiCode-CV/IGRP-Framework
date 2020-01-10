@@ -93,16 +93,16 @@ public class WebReportController extends Controller {
 				data.add(t1);
 			}
 			view.gen_table.addData(data);
-			model.setLink_add_source(this.getConfig().getResolveUrl("igrp","data-source","index&dad=igrp&target=_blank&id_env="+model.getEnv_fk()));
+			model.setLink_add_source(this.getConfig().getResolveUrl("igrp","data-source","index&target=_blank&id_env="+model.getEnv_fk()));
 			model.setLink_upload_img(this.getConfig().getResolveUrl("igrp_studio","web-report","save-image&id_env="+model.getEnv_fk()));
 			
 		}else {
-			model.setLink_add_source(this.getConfig().getResolveUrl("igrp","data-source","index&dad=igrp&target=_blank"));
+			model.setLink_add_source(this.getConfig().getResolveUrl("igrp","data-source","index&target=_blank"));
 			model.setLink_upload_img(this.getConfig().getResolveUrl("igrp_studio","web-report","save-image"));
 		}
 		view.env_fk.setValue(new Application().getListApps());
-		model.setLink_source(this.getConfig().getResolveUrl("igrp","data-source","get-data-source&dad=igrp&target=_blank"));
-		model.setEdit_name_report(this.getConfig().getResolveUrl("igrp_studio","web-report","save-edit-template&dad=igrp"));
+		model.setLink_source(this.getConfig().getResolveUrl("igrp","data-source","get-data-source&target=_blank"));
+		model.setEdit_name_report(this.getConfig().getResolveUrl("igrp_studio","web-report","save-edit-template"));
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
