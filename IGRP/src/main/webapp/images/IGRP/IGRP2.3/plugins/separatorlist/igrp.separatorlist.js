@@ -335,9 +335,10 @@ $.fn.separatorList = function(o){
 				rtn  	   = false,
 				valid 	   = formFields.filter(':not(.no-required-validation)').valid();
 
-			if( !formFields[0] || valid){
+			if( !formFields[0] || ( valid && hasValue(formFields) )){
+				
 				var values  = getFormFieldsValue(formFields,sl);
-
+				
 				try{
 					appendToTable(values,sl);
 				}catch(err){
@@ -345,7 +346,7 @@ $.fn.separatorList = function(o){
 				}
 
 				rtn = true;
-
+				
 			}else{
 				console.log('error')
 			}
@@ -535,6 +536,25 @@ $.fn.separatorList = function(o){
 
 		var getFormFields = function(sl){
 			return $(':input[name]:not(.not-form)',getForm(sl));
+		}
+
+		var hasValue = function(fields){
+
+			var hasval = false;
+
+			$.each(fields,function(i,f){
+				var type = $(f).attr('type') ? $(f).attr('type') : $(f).parents('[item-type]').attr('item-type');
+
+				if(type !== 'hidden'){
+
+					if($(f).val()){
+						hasval = true;
+						return false;
+					}
+				}
+			});
+
+			return hasval;
 		}
 
 		var getFormFieldsValue = function(fields,sl){
