@@ -99,7 +99,7 @@
             var options 		= $.extend(_opts,p),
                 cal     		= $('.igrp-calendar#'+id),
                 view    		= p.defaultview ? p.defaultview : 'month',
-                ebeforetoday    = p.ebeforetoday && p.ebeforetoday == 'true' ? true : false,
+                ebeforetoday    = p.ebeforetoday && p.ebeforetoday == 'false' ? true : false,
                 date    		= p.defaultdate ? p.defaultdate : new Date().toJSON().slice(0,10).replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1');
            
             cal.on('contextmenu', function (e) {
