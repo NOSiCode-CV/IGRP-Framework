@@ -10,6 +10,7 @@ import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import java.util.Set;
+import static nosi.core.i18n.Translator.gt;
 /**
  * Emanuel 15 May 2019
  */
@@ -27,7 +28,7 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 	
 	public List<ProcessDefinitionService> getMyProcessDefinitions(String dadApp) {
 		List<ProcessDefinitionService> list = processDefinitionServiceRest
-				.getProcessDefinitionsAtivos(Core.getCurrentApp().getDad());
+				.getProcessDefinitionsAtivos(dadApp);		
 		list = list.stream().filter(p -> this.filterAccess(p)).collect(Collectors.toList());
 		return list;
 	}
@@ -35,7 +36,8 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 	public Map<String, String> mapToComboBox(String dadApp) {
 		List<ProcessDefinitionService> list = this.getMyProcessDefinitions(dadApp);
 		Map<String, String> map = new HashMap<>();
-		map.put(null, "--- Selecionar Processo ----");
+		
+		map.put(null, gt("-- Selecionar --"));
 		map.putAll(list.stream()
 				.collect(Collectors.toMap(ProcessDefinitionService::getId, ProcessDefinitionService::getName)));
 		return map;
@@ -43,8 +45,8 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 
 	public Map<String, String> mapToComboBoxByKey(String dadApp) {
 		List<ProcessDefinitionService> list = this.getMyProcessDefinitions(dadApp);
-		Map<String, String> map = new HashMap<>();
-		map.put(null, "--- Selecionar Processo ----");
+		Map<String, String> map = new HashMap<>();		
+		map.put(null,gt("-- Selecionar --"));
 		map.putAll(list.stream()
 				.collect(Collectors.toMap(ProcessDefinitionService::getKey, ProcessDefinitionService::getName)));
 		return map;
@@ -62,8 +64,10 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 		if (Core.isNotNull(processKey)) {
 			List<TaskService> list = new TaskServiceRest().getTasksByProcessKey(processKey, tenantId);
 			Set<TaskService> listDistint = list.stream().distinct().collect(Collectors.toSet());// Remove Duplicate
-			Map<String, String> map = listDistint.stream()
-					.collect(Collectors.toMap(TaskService::getTaskDefinitionKey, TaskService::getName));
+			Map<String, String> map = new HashMap<>();	
+			map.put(null, gt("-- Selecionar --"));
+			map.putAll(listDistint.stream()
+					.collect(Collectors.toMap(TaskService::getTaskDefinitionKey, TaskService::getName)));
 			return map;
 		}
 		return null;

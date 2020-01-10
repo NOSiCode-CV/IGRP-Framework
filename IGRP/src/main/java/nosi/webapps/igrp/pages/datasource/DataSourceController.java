@@ -91,12 +91,7 @@ public class DataSourceController extends Controller {
 					model.setId_pagina(ac.getId());
 				}
 			}
-			Application app = new Application().findOne(Core.toInt(model.getId_env()));
-			view.pagina.setLookup("igrp","LookupListPage","index");
-			view.pagina.addParam("p_prm_target","_blank");
-			view.pagina.addParam("p_id_pagina", "id");
-			view.pagina.addParam("p_pagina", "descricao");
-			view.pagina.addParam("p_env_fk", model.getId_env());
+			Application app = Core.findApplicationById(Core.toInt(model.getId_env()));		
 			
 			view.data_source.setValue(listDSbyEnv);
 			
@@ -106,6 +101,11 @@ public class DataSourceController extends Controller {
 					view.objecto.setVisible(true);
 				}else if(model.getTipo().equalsIgnoreCase("page")){
 					view.pagina.setVisible(true);
+					view.pagina.setLookup("igrp","LookupListPage","index");
+					view.pagina.addParam("p_prm_target","_blank");
+					view.pagina.addParam("p_id_pagina", "id");
+					view.pagina.addParam("p_pagina", "descricao");
+					view.pagina.addParam("p_env_fk", model.getId_env());
 				}else if(model.getTipo().equalsIgnoreCase("query")){
 					view.query.setVisible(true);
 				}else
