@@ -2283,6 +2283,7 @@ body.iframe-nav-holder #igrp-sidebar{
   position: -webkit-sticky;
   position: sticky;
   bottom: 0px;
+  z-index: 2;
 }
 
 .mr-5{

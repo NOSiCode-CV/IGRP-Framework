@@ -148,6 +148,18 @@ var GENCALENDAR = function(name,params){
 		label:'Event before today',
 		value:false
 	});
+	
+	container.setPropriety({
+		name:'firstday',
+		label:'First day week',
+		value:{
+			value   : '1',
+			options :[
+				{value : '-0', label : 'Sunday'},
+				{value : '1', label : 'Monday'}
+			]
+		}
+	});
 
 	container.setPropriety({
 		name:'editevents',

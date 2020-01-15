@@ -121,6 +121,7 @@
                     default   : true
                 },
                 locale       : locale,
+                firstDay     : p.firstday && p.firstday == '-0' ? 0 : 1,
                 defaultDate  : $.IGRP.components.calendar.dateConvert(date),
                 editable     : true,
                 eventLimit   : true,
