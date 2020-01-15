@@ -107,7 +107,7 @@
             });
             
             var holder = cal.parent(),
-            	locale = options.locale ? options.locale : _opts.locale;
+            	locale = options.locale  ? options.locale : 'pt';
             
             var calendar = cal.fullCalendar({
                 header:{
@@ -178,6 +178,7 @@
                         }
                     });
                 },
+                timeFormat: 'H:mm',
                 eventColor: '#008975',
                 loading:function(isLoading, view ){
                     if(isLoading)
