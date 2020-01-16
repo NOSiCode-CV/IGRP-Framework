@@ -9,7 +9,7 @@
 			
 		</i>
 	</xsl:if>
-	<xsl:if test="#path#/@showlabel != 'false'">
+	<xsl:if test="#path#/@showlabel != 'false' or not(#path#/@showlabel)">
 		<span class="view-label"><xsl:value-of select="#path#/label"/></span>
 	</xsl:if>
     
