@@ -105,8 +105,6 @@ public class Listar_documentosController extends Controller {
 	
           List<Tipo> tipoList = new Tipo().find().all();
 
-          //java.util.Collections.sort(tipoList)
-
           List< Listar_documentos.Treemenu_1> tipoTable = new ArrayList<>();
         
           if(tipoList != null){
@@ -119,13 +117,15 @@ public class Listar_documentosController extends Controller {
 
                    row.setTreemenu_1_child("1"); 
 
-                  row.setTreemenu_1_tmid(""+tip.getIdTipo());
+                   row.setTreemenu_1_tmid(""+tip.getIdTipo());
 
-                  //row.setTreemenu_1_link("#");
+                   //row.setTreemenu_1_link("#");
 
-                 tipoTable.add(row);
+                   tipoTable.add(row);
               }
           }
+          
+        //java.util.Collections.sort(tipoTable)
           
           tipoTable.sort(Comparator.comparing(Listar_documentos.Treemenu_1::getTreemenu_1_link_desc));
           
@@ -143,12 +143,47 @@ public class Listar_documentosController extends Controller {
 	        Document documentfilter = new Document().find();
 	    
 	        if(Core.isNotNullOrZero(Core.getParam("p_type"))){
-	
-	            documentfilter.andWhere("idType.nome","=",Core.getParam("p_type"));
+	        	
+	        	String tipo_doc = Core.getParam("p_type");
+	        	
+	        	int id_doc = 0;
+	        	
+	        	switch(tipo_doc) {
+	        	  case "bpmn": id_doc = 71; break; case "partilha":id_doc = 52; break; case "report": id_doc = 162; break; case "select": id_doc = 84;
+	        	  case "text": id_doc = 216; break; case "table": id_doc = 47; break; case "dominio": id_doc = 50; break; case "perfil": id_doc = 67;
+	        	  case "base_dados": id_doc = 65; break; case "acesso": id_doc = 63; break; case "organica": id_doc = 66; break; case "studio": id_doc = 55;
+	        	  case "menu": id_doc = 68; break; case "transacao": id_doc = 69; break; case "utilizadores": id_doc = 75; break; case "new_app": id_doc = 74;
+	        	  case "page": id_doc = 76; break; case "gerador": id_doc = 78; break; case "design": id_doc = 79; break; case "import_sql": id_doc = 82;
+	        	  case "mvc": id_doc = 72; break; case "calendar": id_doc = 196; break; case "file": id_doc = 87; break; case "file_editor": id_doc = 91;
+	        	  case "chart": id_doc = 198; break; case "circlestatbox": id_doc = 200; break; case "fingerprint": id_doc = 202; break; case "formlist": id_doc = 203;
+	        	  case "iframe": id_doc = 206; break; case "infopanel": id_doc = 208; break; case "leafletmap": id_doc = 202; break; case "mapchart": id_doc = 212;
+	        	  case "separatorlist": id_doc = 301; break; case "tabcontent": id_doc = 218; break; case "toolsbar": id_doc = 220; break; case "treemenu": id_doc = 222;
+	        	  case "verticalmenu": id_doc = 224; break; case "video": id_doc = 226; break; case "view": id_doc = 228; break; case "checkbox": id_doc = 231;
+	        	  case "checkboxlist": id_doc = 233; break; case "color": id_doc = 235; break; case "date": id_doc = 237; break; case "link": id_doc = 239;
+	        	  case "img": id_doc = 241; break; case "lookup": id_doc = 243; break; case "number": id_doc = 245; break; case "plaintext": id_doc = 247;
+	        	  case "radiolist": id_doc = 249; break; case "range": id_doc = 251; break; case "button": id_doc = 251; break; case "email": id_doc = 307;
+	        	  case "sqltools": id_doc = 311; break; case "map_os": id_doc = 235; break; case "smallbox": id_doc = 351; break; case "statbox": id_doc = 353;
+	        	  case "locator": id_doc = 355; break; case "url": id_doc = 361; break; case "hidden": id_doc = 363; break; case "password": id_doc = 396;
+	        	  case "box": id_doc = 44; break; case "separator": id_doc = 398; break; case "textarea": id_doc = 400; break; case "texteditor": id_doc = 307;
+	        	  case "time": id_doc = 404; break; case "virtualkeyboard": id_doc = 406; break; case "import": id_doc = 409; break; case "carousel": id_doc = 445;
+	        	  case "form": id_doc = 262; break; case "panels": id_doc = 446; break; case "quickbuttonbox": id_doc = 447; break; case "sectionheader": id_doc = 448;
+	        	  case "timeline": id_doc = 449; break; case "treelist": id_doc = 450; break; case "radio": id_doc = 451; break; 
+	        	  default: id_doc = 1;
+	        	}
+	    
+//	        	if(tipo_doc.equalsIgnoreCase("bpmn")) {	
+//	        		id_doc = 71;
+//	        	}
+//	        	else if(tipo_doc.equalsIgnoreCase("partilha")) {	
+//	        		id_doc = 52;
+//	        	}
+
+	            //documentfilter.andWhere("idType.nome","=",Core.getParam("p_type"));
+	        	
+	        	documentfilter.andWhere("idDoc","=",id_doc);
 	        }
 	
 	        if(Core.isNotNullOrZero(Core.getParamInt("p_id"))){
-	
 	            documentfilter.andWhere("idDoc","=",Core.getParamInt("p_id"));
 	        }
 	        
@@ -269,20 +304,20 @@ public Response actionRemote_treemenu_1() throws IOException, IllegalArgumentExc
   return xml;
   } 
    
-   public String getXml2(String id) {
-
-	   String xml2 = "<item>" + 
-		"<title>Teste</title>" +	   
-		"<app>tutorial</app>" +		
-		"<page>Teste_treemenu</page>" +
-		"<link>index&amp;p_id="+id+"</link>" +
-		"<target>_self</target>" +
-		"<img>link|fa-angle-right</img>" +
-		"<preview/>" +
-		"</item>";
-     
-  return xml2;
-  } 
+//   public String getXml2(String id) {
+//
+//	   String xml2 = "<item>" + 
+//		"<title>Teste</title>" +	   
+//		"<app>tutorial</app>" +		
+//		"<page>Teste_treemenu</page>" +
+//		"<link>index&amp;p_id="+id+"</link>" +
+//		"<target>_self</target>" +
+//		"<img>link|fa-angle-right</img>" +
+//		"<preview/>" +
+//		"</item>";
+//     
+//  return xml2;
+//  } 
 	
  
 /*----#end-code----*/

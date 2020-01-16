@@ -37,6 +37,9 @@
                     <div id="igrp-app-title" class="">
                         <xsl:value-of select="rows/content/page_title/fields/page_title_text/value"/>
                     </div>
+                    <a href="{rows/content/form_1/fields/link_doc/value}" class="bpmn-controller link btn btn-link form-link" target="_newtab" request-fields="">
+                      <i class="fa [object Object]"></i><span><span>Documento</span></span>
+                      </a>0
                 </nav>
                 <xsl:if test="rows/content/fmn">
                   <div class="toolsbar-holder default gen-container-item hidden" gen-structure="toolsbar" gen-fields=".btns-holder a.btn" item-name="fmn">

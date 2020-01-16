@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/partilhageral/Partilhageral.xsl" type="text/xsl"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp_studio/partilhageral/Partilhageral.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <title>Dummie XML prototype</title>
@@ -33,10 +33,10 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=49</preserve_url>
     </plsql>
-    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
-        <title>Partilha Página</title>
+        <title>Partilha Inter-Aplicações</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="40">
@@ -98,10 +98,10 @@
         </form_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <estado name="p_estado" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="int" showLabel="true" check="true" desc="true">
+                <estado name="p_estado" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="int" showLabel="true" group_in="" check="true" desc="true">
                     <label></label>
                 </estado>
-                <nome name="p_nome" type="plaintext" maxlength="100" align="left" lookup_parser="false" iskey="false" showLabel="true">
+                <nome name="p_nome" type="plaintext" maxlength="100" align="left" lookup_parser="false" iskey="false" showLabel="true" disable_output_escaping="false" html_class="" group_in="">
                     <label>Nome (code)</label>
                 </nome>
             </fields>
@@ -110,27 +110,27 @@
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Accusantium labore magna stract magna sed ut lorem unde doloremque rem sed totam anim ut perspiciati</nome>
+                        <nome name="p_nome">Voluptatem totam lorem anim natus doloremque anim sit stract consectetur labore mollit officia strac</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Consectetur adipiscing amet officia accusantium anim iste voluptatem officia aperiam lorem amet iste</nome>
+                        <nome name="p_nome">Aperiam perspiciatis unde officia labore aperiam ipsum officia amet rem stract elit ipsum sed perspi</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Stract elit ut sed labore amet consectetur officia magna dolor totam sit sit natus consectetur persp</nome>
+                        <nome name="p_nome">Omnis ut labore ut officia unde consectetur voluptatem amet voluptatem laudantium lorem doloremque e</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Sit officia ipsum aperiam totam officia aliqua doloremque ut perspiciatis dolor sed ut dolor ut ipsu</nome>
+                        <nome name="p_nome">Adipiscing mollit natus officia omnis totam labore rem anim iste totam accusantium dolor accusantium</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Adipiscing iste voluptatem omnis consectetur officia lorem unde perspiciatis aliqua sit consectetur</nome>
+                        <nome name="p_nome">Adipiscing officia adipiscing elit voluptatem adipiscing consectetur voluptatem aliqua ut rem dolor</nome>
                     </row>
                 </value>
             </table>
@@ -158,21 +158,38 @@
                             <value>4</value>
                         </option>
                     </list>
-                    <rules/>
+                    <rules>
+                        <rule type="remote_list">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_aplicacao_origem</item>
+                                <item>p_elemento</item>
+                                <item>p_app_or</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
                 </aplicacao_destino>
             </fields>
         </form_2>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="partilhar">
+            <item type="specific" code="" rel="partilhar" refresh_components="">
                 <title>Partilhar</title>
                 <app>igrp_studio</app>
                 <page>Partilhageral</page>
                 <link>index</link>
                 <target>submit_ajax</target>
                 <img>success|fa-share-alt</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/partilhageral/Partilhageral.xml</preview>
+                <preview>../images/IGRP/IGRP2.3/app/igrp_studio/partilhageral/Partilhageral.xml</preview>
             </item>
         </toolsbar_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="default" btnSize="" iconColor="#333" iconClass="" img="" maxlength="250" showlabel="true">
+                    <label>Documento</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
+                </documento>
+            </fields>
+        </view_1>
     </content>
     <blockly>
         <imports></imports>

@@ -35,6 +35,7 @@ public class BPMNDesignerView extends View {
 	public Field bpmn;
 	public Field formkey;
 	public Field linkfile;
+	public Field link_doc;
 	public IGRPSectionHeader page_title;
 	public IGRPForm form_1;
 	public IGRPTable context_menu;
@@ -147,6 +148,11 @@ public class BPMNDesignerView extends View {
 		linkfile.setValue(new Config().getResolveUrl("igrp_studio","File_editor","index"));
 		linkfile.propertie().add("name","p_linkfile").add("type","link").add("target","modal").add("maxlength","30");
 		
+		link_doc = new LinkField(model,"link_doc");
+		link_doc.setLabel(gt("link_doc"));
+		link_doc.setValue(new Config().getResolveUrl("tutorial","Listar_documentos","index&p_type=bpmn"));
+		link_doc.propertie().add("name","p_link_doc").add("type","link").add("target","modal").add("maxlength","30");
+		
 	}
 		
 	@Override
@@ -161,6 +167,7 @@ public class BPMNDesignerView extends View {
 		form_1.addField(env_fk);
 		form_1.addField(p_link_add_area);
 		form_1.addField(linkfile);
+		form_1.addField(link_doc);
 
 		context_menu.addField(ctx_nome);
 		context_menu.addField(ctx_link);

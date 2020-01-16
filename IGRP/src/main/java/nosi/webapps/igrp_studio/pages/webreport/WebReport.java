@@ -15,6 +15,11 @@ public class WebReport extends Model{
 	@RParam(rParamName = "p_page_title_text")
 	private String page_title_text;
 
+	@RParam(rParamName = "p_documento")
+	private IGRPLink documento;
+	@RParam(rParamName = "p_documento_desc")
+	private String documento_desc;
+
 	@RParam(rParamName = "p_reports")
 	private String reports;
 
@@ -82,6 +87,28 @@ public class WebReport extends Model{
 	}
 	public String getPage_title_text(){
 		return this.page_title_text;
+	}
+	
+	public IGRPLink setDocumento(String app,String page,String action){
+		this.documento = new IGRPLink(app,page,action);
+		return this.documento;
+	}
+	public IGRPLink getDocumento(){
+		return this.documento;
+	}
+	public void setDocumento_desc(String documento_desc){
+		this.documento_desc = documento_desc;
+	}
+	public String getDocumento_desc(){
+		return this.documento_desc;
+	}
+	public IGRPLink setDocumento(String link){
+		this.documento = new IGRPLink(link);
+		return this.documento;
+	}
+	public IGRPLink setDocumento(Report link){
+		this.documento = new IGRPLink(link);
+		return this.documento;
 	}
 	
 	public void setReports(String reports){

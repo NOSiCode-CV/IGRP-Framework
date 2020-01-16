@@ -49,12 +49,14 @@ public class WebReportController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		WebReport model = new WebReport();
 		model.load();
+		model.setDocumento("igrp_studio","ListaPage","index");
 		model.setLink_add_source("igrp_studio","WebReport","index");
+		 //model.setLink_upload_img(this.getConfig().getResolveUrl("igrp","file","save-image-txt&p_page_name="+Core.getCurrentPage()));
 		WebReportView view = new WebReportView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadGen_table(Core.query(null,"SELECT 'Doloremque aliqua ut doloremqu' as title,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/webreport/WebReport.xml' as link,'Deserunt sit laudantium accusa' as descricao,'13' as id "));
+		model.loadGen_table(Core.query(null,"SELECT 'Elit perspiciatis officia amet' as title,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/webreport/WebReport.xml' as link,'Totam magna rem sit aliqua' as descricao,'11' as id "));
 		view.chart_1.loadQuery(Core.query(null,"SELECT 'X1' as EixoX, 'Y1' as EixoY, 15 as EixoZ"
                                       +" UNION SELECT 'X2' as EixoX, 'Y2' as EixoY, 10 as EixoZ"
                                       +" UNION SELECT 'X2' as EixoX, 'Y2' as EixoY, 23 as EixoZ"
@@ -64,6 +66,9 @@ public class WebReportController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
+      
+ 		model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=report")); 
+      
 		if(Core.isNotNull(model.getEnv_fk())){
 			Integer env_fk = Core.toInt(model.getEnv_fk());
 			view.datasorce_app.setValue(this.dsh.getListSources(env_fk));

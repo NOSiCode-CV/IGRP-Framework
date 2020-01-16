@@ -27,17 +27,21 @@ public class PartilhageralController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Partilhageral model = new Partilhageral();
 		model.load();
+		model.setDocumento("igrp_studio","ListaPage","index");
 		PartilhageralView view = new PartilhageralView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Deserunt anim laudantium omnis sed unde magna stract omnis anim natus doloremque consectetur aperiam' as nome "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Amet omnis ut sit totam sit ipsum anim stract totam aliqua ut deserunt voluptatem aliqua sit rem dol' as nome "));
 		view.aplicacao_origem.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.elemento.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.aplicacao_destino.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		String dad = Core.getCurrentDad();
+	
+     model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=partilha")); 
+      
+      String dad = Core.getCurrentDad();
 
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 			model.setAplicacao_origem("" + (Core.findApplicationByDad(dad)).getId());

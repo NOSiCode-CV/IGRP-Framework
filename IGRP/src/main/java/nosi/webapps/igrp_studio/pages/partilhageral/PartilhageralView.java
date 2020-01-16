@@ -5,6 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Core;
 
 public class PartilhageralView extends View {
 
@@ -16,17 +17,19 @@ public class PartilhageralView extends View {
 	public Field estado_check;
 	public Field nome;
 	public Field aplicacao_destino;
+	public Field documento;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 	public IGRPForm form_2;
+	public IGRPView view_1;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_partilhar;
 
 	public PartilhageralView(){
 
-		this.setPageTitle("Partilha Página");
+		this.setPageTitle("Partilha Inter-Aplicações");
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
@@ -35,6 +38,8 @@ public class PartilhageralView extends View {
 		table_1 = new IGRPTable("table_1","");
 
 		form_2 = new IGRPForm("form_2","");
+
+		view_1 = new IGRPView("view_1","");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
@@ -55,24 +60,30 @@ public class PartilhageralView extends View {
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt(" "));
-		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
+		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
 		estado_check = new CheckBoxField(model,"estado_check");
-		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
+		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
 		nome = new PlainTextField(model,"nome");
 		nome.setLabel(gt("Nome (code)"));
-		nome.propertie().add("name","p_nome").add("type","plaintext").add("maxlength","100").add("showLabel","true");
+		nome.propertie().add("name","p_nome").add("type","plaintext").add("maxlength","100").add("showLabel","true").add("disable_output_escaping","false").add("html_class","").add("group_in","");
 		
 		aplicacao_destino = new ListField(model,"aplicacao_destino");
 		aplicacao_destino.setLabel(gt("Aplicação destino"));
-		aplicacao_destino.propertie().add("name","p_aplicacao_destino").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("disabled","false").add("java-type","").add("tags","false");
+		aplicacao_destino.propertie().add("remote",Core.getIGRPLink("igrp_studio","Partilhageral","index")).add("name","p_aplicacao_destino").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("disabled","false").add("java-type","").add("tags","false");
+		
+		documento = new LinkField(model,"documento");
+		documento.setLabel(gt("Documento"));
+		documento.setValue(Core.getIGRPLink("igrp_studio","ListaPage","index"));
+
+									documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","default").add("img","").add("maxlength","250").add("showlabel","true");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
 		btn_partilhar = new IGRPButton("Partilhar","igrp_studio","Partilhageral","partilhar","submit_ajax","success|fa-share-alt","","");
-		btn_partilhar.propertie.add("type","specific").add("rel","partilhar");
+		btn_partilhar.propertie.add("type","specific").add("rel","partilhar").add("refresh_components","");
 
 		
 	}
@@ -93,11 +104,14 @@ public class PartilhageralView extends View {
 		form_2.addField(aplicacao_destino);
 
 
+		view_1.addField(documento);
+
 		toolsbar_1.addButton(btn_partilhar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
 		this.addToPage(form_2);
+		this.addToPage(view_1);
 		this.addToPage(toolsbar_1);
 	}
 		
@@ -109,7 +123,8 @@ public class PartilhageralView extends View {
 		app_or.setValue(model);
 		estado.setValue(model);
 		nome.setValue(model);
-		aplicacao_destino.setValue(model);	
+		aplicacao_destino.setValue(model);
+		documento.setValue(model);	
 
 		table_1.loadModel(((Partilhageral) model).getTable_1());
 		}

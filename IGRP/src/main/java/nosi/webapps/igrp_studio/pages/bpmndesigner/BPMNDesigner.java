@@ -23,6 +23,8 @@ public class BPMNDesigner extends Model{
 	private String processos;
 	@RParam(rParamName = "p_bpmn")
 	private String bpmn;
+	@RParam(rParamName = "p_link_doc")
+	private String link_doc;
 
 	private List<Context_menu> context_menu = new ArrayList<>();
 	public void setContext_menu(List<Context_menu> context_menu){
@@ -94,6 +96,13 @@ public class BPMNDesigner extends Model{
 	}
 	public String getBpmn(){
 		return this.bpmn;
+	}
+	
+	public String getLink_doc() {
+		return link_doc;
+	}
+	public void setLink_doc(String link_doc) {
+		this.link_doc = link_doc;
 	}
 
 

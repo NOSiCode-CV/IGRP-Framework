@@ -46,6 +46,7 @@ public class BPMNDesignerController extends Controller {
 		model.load();
 		BPMNDesignerView view = new BPMNDesignerView(model);
 		view.env_fk.setValue(new Application().getListApps());
+		model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=bpmn"));
 		Application app = Core.findApplicationById(Core.toInt(model.getEnv_fk()));		
 		if(app!=null) {
 			List<BPMNDesigner.Gen_table> data = new ArrayList<>();
