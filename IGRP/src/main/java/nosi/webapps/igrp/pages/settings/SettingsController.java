@@ -74,20 +74,22 @@ public class SettingsController extends Controller {
 		// if(Core.isNotNull(model.getOrganica()))
 		// model.setOrganica(Permission.getCurrentOrganization() + "");
 
-		User user = (User) Igrp.getInstance().getUser().getIdentity();
-
-		
 
 		view.btn_alterar_senha.setLink("igrp", "ChangePassword", "index&target=_blank");
-
-		view.nome.setValue(user.getName());
-		view.email.setValue(user.getEmail());
-		view.username.setValue(user.getUser_name());
-		view.sectionheader_1_text.setValue(Core.gt("Área Pessoal") + ": " + user.getName());
-		view.telefone.setValue(user.getPhone());
-		view.telemovel.setValue(user.getMobile());
-		view.password_expira_em.setValue(user.getValid_until());
-
+		
+		model.setNome(Core.getCurrentUser().getName());
+		model.setEmail(Core.getCurrentUser().getEmail());
+		model.setUsername(Core.getCurrentUser().getUser_name());
+		view.sectionheader_1_text.setValue(Core.gt("Área Pessoal") + ": " + Core.getCurrentUser().getName());
+		model.setTelefone(Core.getCurrentUser().getPhone());
+		model.setTelemovel(Core.getCurrentUser().getMobile());
+		model.setPassword_expira_em(Core.getCurrentUser().getValid_until());
+		
+		//hidden the fields for now
+		view.ultimo_acesso_rede_estado.setVisible(false);
+		view.ultimo_acesso_igrp.setVisible(false);
+		view.password_expira_em.setVisible(false);
+		
 		// HashMap<String,String> organizations = new
 		// Organization().getListMyOrganizations();
 		// view.organica.setValue(organizations);
