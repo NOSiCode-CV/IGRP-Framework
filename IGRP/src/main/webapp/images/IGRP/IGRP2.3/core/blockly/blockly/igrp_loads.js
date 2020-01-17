@@ -1401,13 +1401,17 @@ $('#active_selenium').on('click', function() {
 	
 	var iurl   = iurlArr[0] == '' ? iurlArr[1] : 'IGRP';
 	
-	$.ajax({url : '/'+iurl+'/app/webapps?r=igrp_studio/Env/Retornarxml&app_name='+AppTitle, headers : {'x-igrp-remote' : 1},
+	$.ajax({
 		
-	method : 'GET',
-	
-	dataType : 'xml',
-	
-	success : function(data) {
+		url : '/'+iurl+'/app/webapps?r=igrp_studio/Env/Retornarxml&app_name='+AppTitle, 
+		
+		headers : {'x-igrp-remote' : 1},
+		
+		method : 'GET',
+		
+		dataType : 'xml',
+		
+		success : function(data) {
 		
 		var temdao = '';
 		
@@ -1521,9 +1525,7 @@ $('#active_selenium').on('click', function() {
 					+'</category><sep class="blocly-dynamic"></sep>'
 					
 			);
-				
-				
-				
+					
 				if(addforeign!=0)
 					
 				{

@@ -20,9 +20,11 @@ public class DominioView extends View {
 	public Field estado_check;
 	public Field ordem_desc;
 	public Field ordem;
+	public Field documento;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPFormList formlist_1;
+	public IGRPView view_1;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_guardar_item_domain;
@@ -30,13 +32,15 @@ public class DominioView extends View {
 
 	public DominioView(){
 
-		this.setPageTitle("Gestão de Dominio");
+		this.setPageTitle("Gestão de Domínios");
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
 		form_1 = new IGRPForm("form_1","");
 
 		formlist_1 = new IGRPFormList("formlist_1","");
+
+		view_1 = new IGRPView("view_1","");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
@@ -78,6 +82,12 @@ public class DominioView extends View {
 		ordem.setLabel(gt(""));
 		ordem.propertie().add("name","p_ordem").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","ordem").add("desc","true");
 		
+		documento = new LinkField(model,"documento");
+		documento.setLabel(gt("Documento"));
+		documento.setValue(Core.getIGRPLink("igrp","Dominio","index"));
+
+									documento.propertie().add("name","p_documento").add("type","link").add("target","_self").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","default").add("img","fa-info-circle").add("maxlength","250").add("showlabel","true");
+		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
@@ -107,11 +117,14 @@ public class DominioView extends View {
 		formlist_1.addField(estado_check);
 		formlist_1.addField(ordem);
 
+		view_1.addField(documento);
+
 		toolsbar_1.addButton(btn_guardar_item_domain);
 		toolsbar_1.addButton(btn_gravar_domain);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(formlist_1);
+		this.addToPage(view_1);
 		this.addToPage(toolsbar_1);
 	}
 		
@@ -125,7 +138,8 @@ public class DominioView extends View {
 		description.setValue(model);
 		key.setValue(model);
 		estado.setValue(model);
-		ordem.setValue(model);	
+		ordem.setValue(model);
+		documento.setValue(model);	
 
 		formlist_1.loadModel(((Dominio) model).getFormlist_1());
 		}

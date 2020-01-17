@@ -64,7 +64,7 @@ public class WebReportController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		  
- 		model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=report")); 
+ 		model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=report"));
  		
     
 		if(Core.isNotNull(model.getEnv_fk())){

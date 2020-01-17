@@ -5,6 +5,8 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+
+import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 
 public class WebReportView extends View {
@@ -28,6 +30,7 @@ public class WebReportView extends View {
 	public Field title;
 	public Field link;
 	public Field link_desc;
+	public Field link_doc;
 	public Field descricao;
 	public Field id;
 	public IGRPSectionHeader page_title;
@@ -133,8 +136,13 @@ public class WebReportView extends View {
 		link = new LinkField(model,"link");
 		link.setLabel(gt("Link"));
 		link.setValue(Core.getIGRPLink("igrp_studio","WebReport","index"));
+		
+		link_doc = new LinkField(model,"link_doc");
+		link_doc.setLabel(gt("link_doc"));
+		link_doc.setValue(new Config().getResolveUrl("tutorial","Listar_documentos","index&p_type=report"));
+		link_doc.propertie().add("name","p_link_doc").add("type","link").add("target","modal").add("maxlength","30");
 
-									link_desc = new LinkField(model,"link_desc");
+		link_desc = new LinkField(model,"link_desc");
 		link_desc.setLabel(gt("Link"));
 		link.propertie().add("name","p_link").add("type","link").add("target","_self").add("class","link").add("img","fa-link").add("maxlength","30").add("request_fields","").add("show_header","true").add("list_source","").add("refresh_components","").add("refresh_submit","false").add("showLabel","true").add("group_in","").add("desc","true");
 		
@@ -187,6 +195,7 @@ public class WebReportView extends View {
 		form_1.addField(link_source);
 		form_1.addField(edit_name_report);
 		form_1.addField(link_config);
+		form_1.addField(link_doc);
 		form_1.addField(link_upload_img);
 
 		gen_table.addField(title);

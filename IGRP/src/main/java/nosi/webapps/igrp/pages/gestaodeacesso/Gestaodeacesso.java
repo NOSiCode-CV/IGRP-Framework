@@ -10,22 +10,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Gestaodeacesso extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
+	@RParam(rParamName = "p_documento_link")
+	private IGRPLink documento_link;
+	@RParam(rParamName = "p_documento_link_desc")
+	private String documento_link_desc;
+
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
+
 	@RParam(rParamName = "p_adicionar_organica")
 	private IGRPLink adicionar_organica;
 	@RParam(rParamName = "p_adicionar_organica_desc")
 	private String adicionar_organica_desc;
+
 	@RParam(rParamName = "p_gestao_de_utilizadores")
 	private IGRPLink gestao_de_utilizadores;
 	@RParam(rParamName = "p_gestao_de_utilizadores_desc")
 	private String gestao_de_utilizadores_desc;
+
 	@RParam(rParamName = "p_gestao_de_menu")
 	private IGRPLink gestao_de_menu;
 	@RParam(rParamName = "p_gestao_de_menu_desc")
 	private String gestao_de_menu_desc;
+
 	@RParam(rParamName = "p_id_app")
 	private int id_app;
 	
@@ -43,6 +54,28 @@ public class Gestaodeacesso extends Model{
 	}
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
+	}
+	
+	public IGRPLink setDocumento_link(String app,String page,String action){
+		this.documento_link = new IGRPLink(app,page,action);
+		return this.documento_link;
+	}
+	public IGRPLink getDocumento_link(){
+		return this.documento_link;
+	}
+	public void setDocumento_link_desc(String documento_link_desc){
+		this.documento_link_desc = documento_link_desc;
+	}
+	public String getDocumento_link_desc(){
+		return this.documento_link_desc;
+	}
+	public IGRPLink setDocumento_link(String link){
+		this.documento_link = new IGRPLink(link);
+		return this.documento_link;
+	}
+	public IGRPLink setDocumento_link(Report link){
+		this.documento_link = new IGRPLink(link);
+		return this.documento_link;
 	}
 	
 	public void setAplicacao(String aplicacao){
@@ -131,7 +164,7 @@ public class Gestaodeacesso extends Model{
 		private int estado_check;
 		private String org_nome;
 		private IGRPLink mostrar_perfis;
-		private String mostrar_perfis_desc;
+		private String mostrar_perfis_desc= "Mostrar perfis";
 		private String id;
 		public void setEstado(int estado){
 			this.estado = estado;

@@ -33,6 +33,9 @@
                     <div id="igrp-app-title" class="">
                  Report Designer
                     </div>
+                       <a href="{rows/content/form_1/fields/link_doc/value}" class="bpmn-controller link btn btn-link form-link" target="_newtab" request-fields="">
+                      <i class="fa [object Object]"></i><span><span>Documento</span></span>
+                      </a>
                 </nav>
                 <form method="POST" class="IGRP-form" name="formular_default">
                     <div class="hidden">

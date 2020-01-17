@@ -22,16 +22,18 @@ public class DominioController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Dominio model = new Dominio();
 		model.load();
+		model.setDocumento("igrp","Dominio","index");
 		DominioView view = new DominioView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT 'Adipiscing ipsum doloremque consectetur lorem' as description,'Natus magna anim aliqua doloremque' as key,'1' as estado,'hidden-b389_9a51' as ordem "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Sit consectetur sit doloremque amet' as description,'Amet rem dolor deserunt laudantium' as key,'1' as estado,'hidden-0952_c835' as ordem "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.lst_dominio.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/			
-		view.aplicacao.setValue(DomainHeper.getApplications());
+		model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=dominio"));
+      view.aplicacao.setValue(DomainHeper.getApplications());
 		//view.estado.setQuery(DomainHeper.getEstadoQuery());
 		view.estado_check.setValue(1);
 		//model.setPublico_check(1);

@@ -60,6 +60,9 @@ public class WebReport extends Model{
 
 	@RParam(rParamName = "p_link_config")
 	private String link_config;
+	
+	@RParam(rParamName = "p_link_doc")
+	private String link_doc;
 
 	@RParam(rParamName = "p_link_upload_img")
 	private String link_upload_img;
@@ -195,6 +198,14 @@ public class WebReport extends Model{
 	public String getTitle_report(){
 		return this.title_report;
 	}
+	
+	public String getLink_doc() {
+		return link_doc;
+	}
+	public void setLink_doc(String link_doc) {
+		this.link_doc = link_doc;
+	}
+
 	
 	public void setLink_source(String link_source){
 		this.link_source = link_source;

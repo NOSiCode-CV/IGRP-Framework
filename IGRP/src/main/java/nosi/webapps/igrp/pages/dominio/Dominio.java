@@ -1,5 +1,7 @@
 package nosi.webapps.igrp.pages.dominio;
 
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
@@ -24,6 +26,11 @@ public class Dominio extends Model{
 
 	@RParam(rParamName = "p_app")
 	private Integer app;
+
+	@RParam(rParamName = "p_documento")
+	private IGRPLink documento;
+	@RParam(rParamName = "p_documento_desc")
+	private String documento_desc;
 	
 	@SeparatorList(name = Formlist_1.class)
 	@Valid
@@ -96,19 +103,37 @@ public class Dominio extends Model{
 	public Integer getApp(){
 		return this.app;
 	}
+	
+	public IGRPLink setDocumento(String app,String page,String action){
+		this.documento = new IGRPLink(app,page,action);
+		return this.documento;
+	}
+	public IGRPLink getDocumento(){
+		return this.documento;
+	}
+	public void setDocumento_desc(String documento_desc){
+		this.documento_desc = documento_desc;
+	}
+	public String getDocumento_desc(){
+		return this.documento_desc;
+	}
+	public IGRPLink setDocumento(String link){
+		this.documento = new IGRPLink(link);
+		return this.documento;
+	}
+	public IGRPLink setDocumento(Report link){
+		this.documento = new IGRPLink(link);
+		return this.documento;
+	}
 
 
 	public static class Formlist_1{
 		private Pair formlist_1_id;
-
-		private Pair description;
-
-		private Pair key;
-
-		private Pair estado;
+private Pair description;
+private Pair key;
+private Pair estado;
 		private Pair estado_check;
-
-		private Pair ordem;
+private Pair ordem;
 		public void setFormlist_1_id(Pair formlist_1_id){
 			this.formlist_1_id = formlist_1_id;
 		}
