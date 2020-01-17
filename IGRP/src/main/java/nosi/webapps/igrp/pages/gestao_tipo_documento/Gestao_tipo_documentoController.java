@@ -1,9 +1,13 @@
 package nosi.webapps.igrp.pages.gestao_tipo_documento;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.TipoDocumento;
@@ -11,9 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 /*----#end-code----*/
 		
-public class Gestao_tipo_documentoController extends Controller { 
-	
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{ 
+public class Gestao_tipo_documentoController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Gestao_tipo_documento model = new Gestao_tipo_documento();
 		model.load();
 		Gestao_tipo_documentoView view = new Gestao_tipo_documentoView();
@@ -21,7 +24,7 @@ public class Gestao_tipo_documentoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '2' as t_estado,'Aperiam adipiscing totam elit' as t_aplicacao,'Laudantium amet unde doloremqu' as t_codigo,'Totam voluptatem anim rem sit' as t_nome,'Amet natus officia deserunt vo' as t_descricao,'hidden-b25b_981b' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '2' as t_estado,'Dolor anim voluptatem sit sit' as t_aplicacao,'Lorem elit consectetur natus i' as t_nome,'Perspiciatis mollit rem deseru' as t_codigo,'Labore sit omnis laudantium ma' as t_descricao,'hidden-da3e_02a0' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -29,6 +32,11 @@ public class Gestao_tipo_documentoController extends Controller {
 		
 		model.setAtivo(1);
 		model.setAtivo_check(1);
+		String dad = Core.getCurrentDad();
+		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
+			model.setAplicacao("" + (Core.findApplicationByDad(dad)).getId());
+			view.aplicacao.propertie().add("disabled","true");			
+		}
 	 	view.aplicacao.setValue(new Application().getListApps());
 	 	
 		if(id != 0) {
@@ -45,6 +53,7 @@ public class Gestao_tipo_documentoController extends Controller {
 					model.setAtivo(0);
 					model.setAtivo_check(-1);
 				}
+				view.btn_gravar.setTitle("Atualizar");
 			}
 			
 		}else {
@@ -63,6 +72,10 @@ public class Gestao_tipo_documentoController extends Controller {
 				model.setTable_1(list);
 			}
 		}
+		if(Core.isNotNullOrZero(model.getAplicacao())) {
+			view.btn_gravar.addParameter("p_aplicacao", model.getAplicacao());
+		}
+		
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -74,9 +87,11 @@ public class Gestao_tipo_documentoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","Gestao_tipo_documento","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		int id = Core.getParamInt("p_id");
 		if(id!=0) {
@@ -106,7 +121,7 @@ public class Gestao_tipo_documentoController extends Controller {
 		}
 		this.addQueryString("p_aplicacao", model.getAplicacao());
 		/*----#end-code----*/
-		return this.redirect("igrp","Gestao_tipo_documento","index", this.queryString());	
+		return this.redirect("igrp","Dominio","index", this.queryString());	
 	}
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -115,9 +130,11 @@ public class Gestao_tipo_documentoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","Gestao_tipo_documento","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","Gestao_tipo_documento","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(editar)----*/
 		int id = Core.getParamInt("p_id");
 		TipoDocumento td = new TipoDocumento().findOne(id);
@@ -129,7 +146,7 @@ public class Gestao_tipo_documentoController extends Controller {
 			model.setCodigo(td.getCodigo());
 			model.setDescricao(td.getDescricao());
 			model.setNome(td.getNome());
-			return this.forward("igrp","Gestao_tipo_documento","index",model,this.queryString());
+			return this.forward("igrp","Gestao_tipo_documento","index",this.queryString());
 		}
 		
 		/*----#end-code----*/
@@ -142,9 +159,11 @@ public class Gestao_tipo_documentoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","Gestao_tipo_documento","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","Gestao_tipo_documento","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		
 		int id = Core.getParamInt("p_id");
@@ -162,6 +181,8 @@ public class Gestao_tipo_documentoController extends Controller {
 		return this.redirect("igrp","Gestao_tipo_documento","index", this.queryString());	
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 	private String getStatus(int status) {
 		return status==1?"1":"2";

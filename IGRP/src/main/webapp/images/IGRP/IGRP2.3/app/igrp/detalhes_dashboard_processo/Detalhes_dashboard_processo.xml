@@ -108,11 +108,11 @@
                 <estado name="p_estado" type="color" format="hex" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
                     <label>Estado</label>
                 </estado>
-                <n_processo name="p_n_processo" type="link" target="submit" request_fields="" target_fields="" closerefresh="false" action="index" page="Lista_terfa_de_processo" app="igrp" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" refresh_submit="false" showLabel="true" show_header="true" list_source="" refresh_components="" group_in="" desc="true">
+                <n_processo name="p_n_processo" type="link" target="submit" request_fields="" target_fields="" closerefresh="false" action="index" page="Lista_terfa_de_processo" app="igrp" custom_action="" action_type="false" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-tasks" maxlength="30" align="center" lookup_parser="false" iskey="false" refresh_submit="false" showLabel="true" show_header="true" list_source="" refresh_components="" group_in="" desc="true">
                     <label>Nº processo</label>
                 </n_processo>
                 <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
-                    <label>Descricao</label>
+                    <label>Descrição</label>
                 </descricao>
                 <iniciado_em name="p_iniciado_em" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
                     <label>Iniciado em</label>
@@ -131,53 +131,11 @@
                         <estado name="p_estado">1</estado>
                         <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml</n_processo>
                         <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
-                        <descricao name="p_descricao">Aliqua perspiciatis labore acc</descricao>
-                        <iniciado_em name="p_iniciado_em">Ut accusantium consectetur str</iniciado_em>
-                        <id name="p_id" tag="id">hidden-9d95_928b</id>
-                        <process_definition name="p_process_definition" tag="process_definition">hidden-c8d6_fdc4</process_definition>
-                        <process_key name="p_process_key" tag="process_key">hidden-4416_ec01</process_key>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <estado name="p_estado">2</estado>
-                        <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml</n_processo>
-                        <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
-                        <descricao name="p_descricao">Voluptatem sed labore iste rem</descricao>
-                        <iniciado_em name="p_iniciado_em">Perspiciatis natus sed iste se</iniciado_em>
-                        <id name="p_id" tag="id">hidden-3268_ebec</id>
-                        <process_definition name="p_process_definition" tag="process_definition">hidden-8185_93ec</process_definition>
-                        <process_key name="p_process_key" tag="process_key">hidden-cfa6_7bed</process_key>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <estado name="p_estado">2</estado>
-                        <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml</n_processo>
-                        <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
-                        <descricao name="p_descricao">Mollit ut dolor omnis elit</descricao>
-                        <iniciado_em name="p_iniciado_em">Ut ipsum sit rem stract</iniciado_em>
-                        <id name="p_id" tag="id">hidden-c24d_ea73</id>
-                        <process_definition name="p_process_definition" tag="process_definition">hidden-e58a_a305</process_definition>
-                        <process_key name="p_process_key" tag="process_key">hidden-9853_6859</process_key>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <estado name="p_estado">2</estado>
-                        <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml</n_processo>
-                        <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
-                        <descricao name="p_descricao">Totam consectetur adipiscing s</descricao>
-                        <iniciado_em name="p_iniciado_em">Stract magna anim lorem sed</iniciado_em>
-                        <id name="p_id" tag="id">hidden-4461_239d</id>
-                        <process_definition name="p_process_definition" tag="process_definition">hidden-876c_d3d5</process_definition>
-                        <process_key name="p_process_key" tag="process_key">hidden-dd3e_216f</process_key>
+                        <descricao name="p_descricao">Amet perspiciatis elit stract</descricao>
+                        <iniciado_em name="p_iniciado_em">Omnis mollit natus ipsum natus</iniciado_em>
+                        <id name="p_id" tag="id">hidden-5285_6a86</id>
+                        <process_definition name="p_process_definition" tag="process_definition">hidden-22fb_1075</process_definition>
+                        <process_key name="p_process_key" tag="process_key">hidden-8f4d_6e3c</process_key>
                     </row>
                     <row>
                         <context-menu>
@@ -187,11 +145,53 @@
                         <estado name="p_estado">1</estado>
                         <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml</n_processo>
                         <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
-                        <descricao name="p_descricao">Consectetur elit amet labore n</descricao>
-                        <iniciado_em name="p_iniciado_em">Laudantium dolor labore dolor</iniciado_em>
-                        <id name="p_id" tag="id">hidden-6407_c2b2</id>
-                        <process_definition name="p_process_definition" tag="process_definition">hidden-c441_a4e1</process_definition>
-                        <process_key name="p_process_key" tag="process_key">hidden-a920_4a86</process_key>
+                        <descricao name="p_descricao">Stract totam omnis anim amet</descricao>
+                        <iniciado_em name="p_iniciado_em">Sit aliqua totam amet ut</iniciado_em>
+                        <id name="p_id" tag="id">hidden-6420_5e16</id>
+                        <process_definition name="p_process_definition" tag="process_definition">hidden-97b0_a2e5</process_definition>
+                        <process_key name="p_process_key" tag="process_key">hidden-daa4_46b9</process_key>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">1</estado>
+                        <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml</n_processo>
+                        <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
+                        <descricao name="p_descricao">Deserunt laudantium voluptatem</descricao>
+                        <iniciado_em name="p_iniciado_em">Sit adipiscing consectetur ali</iniciado_em>
+                        <id name="p_id" tag="id">hidden-7974_5277</id>
+                        <process_definition name="p_process_definition" tag="process_definition">hidden-6a15_68af</process_definition>
+                        <process_key name="p_process_key" tag="process_key">hidden-7a1c_7368</process_key>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">1</estado>
+                        <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml</n_processo>
+                        <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
+                        <descricao name="p_descricao">Ut accusantium aperiam unde do</descricao>
+                        <iniciado_em name="p_iniciado_em">Accusantium officia omnis aper</iniciado_em>
+                        <id name="p_id" tag="id">hidden-699d_467a</id>
+                        <process_definition name="p_process_definition" tag="process_definition">hidden-0380_9851</process_definition>
+                        <process_key name="p_process_key" tag="process_key">hidden-6d32_ad85</process_key>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">1</estado>
+                        <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml</n_processo>
+                        <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
+                        <descricao name="p_descricao">Ipsum totam sed dolor aperiam</descricao>
+                        <iniciado_em name="p_iniciado_em">Iste aperiam rem anim voluptat</iniciado_em>
+                        <id name="p_id" tag="id">hidden-efd6_7e1f</id>
+                        <process_definition name="p_process_definition" tag="process_definition">hidden-dac6_3642</process_definition>
+                        <process_key name="p_process_key" tag="process_key">hidden-f726_3d7a</process_key>
                     </row>
                 </value>
                 <legend_color>

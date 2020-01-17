@@ -216,16 +216,16 @@ public class MigrationIGRPInitConfig {
 			
 			List<Menu> menus = new ArrayList<>();		
 				//Profile() the type_fk is 1
-			menus.add(new Menu("Gestão de Aplicação", 1, 1, 0, null, null, app_igrp, null));
+			menus.add(new Menu("Gestão de Aplicação", 98, 1, 0, null, null, app_igrp, null));
 				//Profile() the type_fk is 2
-			menus.add(new Menu("Parametros Gerais", 1, 1, 0, null, null, app_igrp, null));
+			menus.add(new Menu("Parametros Gerais", 98, 1, 0, null, null, app_igrp, null));
 				//Profile() the type_fk is 3
-			menus.add(new Menu("Auditoria", 1, 1, 0, null, null, app_igrp, null));
+			menus.add(new Menu("Auditoria", 98, 1, 0, null, null, app_igrp, null));
 				//Profile() the type_fk is 4
 			menus.add(new Menu("IGRP Studio", 1, 1, 0, null, null, app_igrp_studio, null));			
 //		Temp menu for making this menu parent less	
 				//Profile() the type_fk is 5
-			Menu tempMenuAB = new Menu("Application Builder", 2, 1, 1, "_self", actions.get(2), app_igrp_studio,menus.get(3));
+			Menu tempMenuAB = new Menu("Application Builder", 98, 1, 1, "_self", actions.get(2), app_igrp_studio,menus.get(3));
 //			tempMenuAB.setMenu(tempMenuAB);
 			menus.add(tempMenuAB);
 				//Profile() the type_fk is 6
@@ -259,7 +259,7 @@ public class MigrationIGRPInitConfig {
 //			tempMenuCG.setMenu(tempMenuCG);
 			menus.add(tempMenuCG);
 				//Profile() the type_fk is 15
-			Menu tempMenuCP = new Menu("Consultar Processo", 99, 1, 1, "_self", actions.get(46), app_igrp,null);
+			Menu tempMenuCP = new Menu("Consultar Processo", 90, 1, 1, "_self", actions.get(46), app_igrp,null);
 			tempMenuCP.setMenu(tempMenuCP);
 			menus.add(tempMenuCP);
 				//Profile() the type_fk is 16
@@ -267,7 +267,7 @@ public class MigrationIGRPInitConfig {
 			tempMenuOA.setMenu(tempMenuOA);
 			menus.add(tempMenuOA);					
 			//Profile() the type_fk is 17
-			Menu partilha = new Menu("Partilha Inter-Aplicações", 99, 1, 1, "_self", actions.get(48), app_igrp_studio, null);
+			Menu partilha = new Menu("Partilha Inter-Aplicações", 98, 1, 1, "_self", actions.get(48), app_igrp_studio, null);
 			partilha.setMenu(partilha);
 			menus.add(partilha);
 			//Profile() the type_fk is 18

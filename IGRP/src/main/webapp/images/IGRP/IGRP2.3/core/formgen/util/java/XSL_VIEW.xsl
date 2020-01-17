@@ -194,7 +194,7 @@
 		 		<xsl:value-of select="$mapDeclaration"/>
 		 		
 		 		<xsl:for-each select="table/legend_color/item">
-		 			<xsl:variable name="color_name" select="concat('color_',value,'_',$tbName)"></xsl:variable>
+		 			<xsl:variable name="color_name" select="concat('color_',substring-after(color,'#'),'_',$tbName)"></xsl:variable>
 		 			<xsl:variable name="color_desc">
 			 			<xsl:text>Map</xsl:text><xsl:value-of select="$lt"/>
 			 			<xsl:text>String, String</xsl:text>

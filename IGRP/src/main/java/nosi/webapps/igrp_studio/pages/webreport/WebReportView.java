@@ -15,7 +15,7 @@ public class WebReportView extends View {
 	public Field data_source;
 	public Field env_fk;
 	public Field datasorce_app;
-	public Field report_editor;
+	public Field report_editor;	
 	public Field link_add_source;
 	public Field dialog_titulo_report;
 	public Field dialog_keys_report;

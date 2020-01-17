@@ -105,10 +105,10 @@ public class Detalhes_dashboard_processoView extends View {
 
 									n_processo_desc = new LinkField(model,"n_processo_desc");
 		n_processo_desc.setLabel(gt("Nº processo"));
-		n_processo.propertie().add("name","p_n_processo").add("type","link").add("target","submit").add("request_fields","").add("class","link").add("img","fa-link").add("maxlength","30").add("refresh_submit","false").add("showLabel","true").add("show_header","true").add("list_source","").add("refresh_components","").add("group_in","").add("desc","true");
+		n_processo.propertie().add("name","p_n_processo").add("type","link").add("target","submit").add("request_fields","").add("class","primary").add("img","fa-tasks").add("maxlength","30").add("refresh_submit","false").add("showLabel","true").add("show_header","true").add("list_source","").add("refresh_components","").add("group_in","").add("desc","true");
 		
 		descricao = new TextField(model,"descricao");
-		descricao.setLabel(gt("Descricao"));
+		descricao.setLabel(gt("Descrição"));
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		iniciado_em = new TextField(model,"iniciado_em");

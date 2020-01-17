@@ -8,20 +8,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Gestao_tipo_documento extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
+
 	@RParam(rParamName = "p_ativo")
 	private Integer ativo;
 	@RParam(rParamName = "p_ativo_check")
 	private Integer ativo_check;
-	@RParam(rParamName = "p_nada")
-	private String nada;
+
 	@RParam(rParamName = "p_nome")
 	private String nome;
+
 	@RParam(rParamName = "p_codigo")
 	private String codigo;
+
 	@RParam(rParamName = "p_descricao")
 	private String descricao;
 	
@@ -61,13 +65,6 @@ public class Gestao_tipo_documento extends Model{
 		return this.ativo_check;
 	}
 	
-	public void setNada(String nada){
-		this.nada = nada;
-	}
-	public String getNada(){
-		return this.nada;
-	}
-	
 	public void setNome(String nome){
 		this.nome = nome;
 	}
@@ -93,8 +90,8 @@ public class Gestao_tipo_documento extends Model{
 	public static class Table_1 extends IGRPTable.Table{
 		private String t_estado;
 		private String t_aplicacao;
-		private String t_codigo;
 		private String t_nome;
+		private String t_codigo;
 		private String t_descricao;
 		private String id;
 		public void setT_estado(String t_estado){
@@ -111,18 +108,18 @@ public class Gestao_tipo_documento extends Model{
 			return this.t_aplicacao;
 		}
 
-		public void setT_codigo(String t_codigo){
-			this.t_codigo = t_codigo;
-		}
-		public String getT_codigo(){
-			return this.t_codigo;
-		}
-
 		public void setT_nome(String t_nome){
 			this.t_nome = t_nome;
 		}
 		public String getT_nome(){
 			return this.t_nome;
+		}
+
+		public void setT_codigo(String t_codigo){
+			this.t_codigo = t_codigo;
+		}
+		public String getT_codigo(){
+			return this.t_codigo;
 		}
 
 		public void setT_descricao(String t_descricao){

@@ -428,7 +428,7 @@ public class PageController extends Controller {
 						}
 					}
 				}else
-					messages += ("<message type=\""+FlashMessage.SUCCESS+"\">" + StringEscapeUtils.escapeXml10(Core.toJson(new MapErrorCompile(Core.gt("Componente registado com sucesso"), null)))+ "</message>");
+					messages += ("<message type=\""+FlashMessage.INFO+"\">" + StringEscapeUtils.escapeXml10(Core.toJson(new MapErrorCompile(Core.gt("Componente registado com sucesso"), null)))+ "</message>");
 			}
 		}
 		

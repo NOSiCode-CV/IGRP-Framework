@@ -471,7 +471,7 @@ public final class Core { // Not inherit
 	 * @param data
 	 * @param inputFormat
 	 * @param outputFormat
-	 * @return {@code DateHelper.formatDate(data,inputFormat,outputFormat);}
+	 * @return {@code java.sql.Date DateHelper.formatDate(data,inputFormat,outputFormat);}
 	 */
 	public static java.sql.Date formatDate(String data, String inputFormat, String outputFormat) {
 		return DateHelper.formatDate(data, inputFormat, outputFormat);
@@ -2677,7 +2677,13 @@ public final class Core { // Not inherit
 		}
 		return null;
 	}
-
+	/**
+	 * @category BPMN
+	 * 
+	 * @param processDefinitionKey
+	 * @param processInstanceId
+	 * @return List of TaskVariables
+	 */	
 	private static List<TaskVariables> getProcessVariables(String processDefinitionKey,String processInstanceId) {
 		List<HistoricProcessInstance> task1 = new ProcessInstanceServiceRest()
 				.getHistoryOfProccessInstanceId(processDefinitionKey,processInstanceId,false);
@@ -2686,7 +2692,11 @@ public final class Core { // Not inherit
 		}
 		return null;
 	}
-
+	/**
+	 * @category BPMN
+	 * @param processDefinitionKey
+	 * @return List of TaskVariables
+	 */
 	private static List<TaskVariables> getProcessVariables(String processDefinitionKey) {
 		List<HistoricProcessInstance> task1 = new ProcessInstanceServiceRest()
 				.getHistoryOfProccessInstanceId(processDefinitionKey);
@@ -2695,7 +2705,11 @@ public final class Core { // Not inherit
 		}
 		return null;
 	}
-
+	/**
+	 * @category BPMN
+	 * @param taskDefinitionKey
+	 * @return class HistoricTaskService
+	 */
 	public static HistoricTaskService getTaskHistory(String taskDefinitionKey) {
 		String id = Core.getExecutionId();
 		if (Core.isNotNull(id)) {
@@ -2706,7 +2720,14 @@ public final class Core { // Not inherit
 		}
 		return null;
 	}
-
+	/**@category BPMN
+	 * 
+	 * @param obj
+	 * @param json
+	 * @return
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 */
 	public static Object unnserializeFromTask(Object obj, String json)
 			throws IllegalArgumentException, IllegalAccessException {
 		CustomVariableIGRP rows = new Gson().fromJson(json, CustomVariableIGRP.class);
@@ -2718,7 +2739,13 @@ public final class Core { // Not inherit
 		}
 		return obj;
 	}
-
+		/**@category BPMN
+		 * 
+		 * @param variableName
+		 * @param scope
+		 * @param type
+		 * @param value
+		 */
 	public static void setTaskVariable(String variableName, String scope, String type, Object value) {
 		String taskId = Core.getParamTaskId();
 		TaskServiceRest taskRest = new TaskServiceRest();
@@ -2730,7 +2757,11 @@ public final class Core { // Not inherit
 			taskRest.submitVariables(taskId);
 		}
 	}
-
+	/**@category BPMN
+	 * 
+	 * @param variableName
+	 * @return
+	 */
 	public static String getTaskVariable(String variableName) {
 		if (Core.isNull(variableName))
 			return "";
@@ -2745,7 +2776,12 @@ public final class Core { // Not inherit
 		}
 		return "";
 	}
-
+	/**@category BPMN
+	 * 
+	 * @param taskDefinitionKey
+	 * @param variableName
+	 * @return
+	 */
 	public static String getTaskVariable(String taskDefinitionKey, String variableName) {
 		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
 		if (vars != null) {
@@ -2756,11 +2792,19 @@ public final class Core { // Not inherit
 		}
 		return "";
 	}
-
+	/**@category BPMN
+	 * 
+	 * @param variableName
+	 * @param value
+	 */
 	public static void setTaskVariableString(String variableName, String value) {
 		Core.setTaskVariable(variableName, "global", "string", value);
 	}
-
+	/**@category BPMN
+	 * 
+	 * @param variableName
+	 * @param value
+	 */
 	public static void setTaskVariableInt(String variableName, Integer value) {
 		Core.setTaskVariable(variableName, "global", "integer", value);
 	}
@@ -2832,7 +2876,12 @@ public final class Core { // Not inherit
 	public static String getTaskVariableString(String variableName) {
 		return Core.getTaskVariable(variableName);
 	}
-
+	/**@category BPMN
+	 * 
+	 * @param taskDefinitionKey
+	 * @param variableName
+	 * @return
+	 */
 	public static String getTaskVariableString(String taskDefinitionKey, String variableName) {
 		return Core.getTaskVariable(taskDefinitionKey, variableName);
 	}

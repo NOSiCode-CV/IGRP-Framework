@@ -89,6 +89,7 @@ public class ImportArquivoController extends Controller {
 			try {
 				Part file = Igrp.getInstance().getRequest().getPart("p_arquivo_aplicacao");
 				descricao += file.getSubmittedFileName().replace(".app.jar", "").replace(".zip", "");
+				descricao += " "+file.getSize()+" KB";
 				if(file.getSubmittedFileName().endsWith(".zip") || file.getSubmittedFileName().endsWith(".jar")) {
 					if(file.getSubmittedFileName().endsWith(".zip")){
 						result = new Import().importApp(new ImportAppZip(file));
@@ -128,7 +129,10 @@ public class ImportArquivoController extends Controller {
 				}
 				
 				FileHelper.deletePartFile(file);
-			} catch (ServletException e) {
+			} catch (ServletException e) {		
+				ImportExportDAO ie_dao = new ImportExportDAO(descricao, Core.getCurrentUser().getUser_name(), Core.getCurrentDataTime(), "Import - Exception");
+				ie_dao = ie_dao.insert();
+			
 				Core.setMessageError(e.getMessage());
 				return this.forward("igrp_studio", "ImportArquivo", "index");
 			}	
@@ -137,6 +141,7 @@ public class ImportArquivoController extends Controller {
 				ie_dao = ie_dao.insert();
 				Core.setMessageSuccess();
 			}
+				
 		}
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
