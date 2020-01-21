@@ -16,7 +16,7 @@
 			app	 		= parent.attr('app') ? parent.attr('app') : '',
 			url 		= package ? app+separator+package+separator+'remote_'+name : $.IGRP.utils.getPageUrl(),
 			params 		= package ? 'p_id='+p.id : 'p_remote_tmid='+p.id+'&p_remote_tm='+name,
-			parser		= parent.attr('parser') && parent.attr('parser') == 'true' ? true : false;
+			parser		= parent.attr('parser') && parent.attr('parser') == 'true' ? 'true' : 'false';
 
 			xslParams.name 				= name;
 			xslParams.target  			= parent.attr('target');
