@@ -48,8 +48,8 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-info-circle" maxlength="250" showlabel="true">
-                    <label>Documento</label>
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                    <label>Help</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
                 </documento>
             </fields>
@@ -107,8 +107,8 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Adipiscing officia stract rem</dad>
-                        <id name="p_id" tag="id">hidden-cbf1_702d</id>
+                        <dad name="p_dad">Officia mollit sed amet mollit</dad>
+                        <id name="p_id" tag="id">hidden-bd7e_e3ca</id>
                     </row>
                     <row>
                         <context-menu>
@@ -119,8 +119,8 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Adipiscing ipsum elit laudanti</dad>
-                        <id name="p_id" tag="id">hidden-4a54_90a2</id>
+                        <dad name="p_dad">Consectetur ipsum officia aper</dad>
+                        <id name="p_id" tag="id">hidden-2a45_6db9</id>
                     </row>
                     <row>
                         <context-menu>
@@ -131,8 +131,8 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Aperiam perspiciatis aliqua ap</dad>
-                        <id name="p_id" tag="id">hidden-e43a_c795</id>
+                        <dad name="p_dad">Accusantium amet ut laudantium</dad>
+                        <id name="p_id" tag="id">hidden-b56b_38cd</id>
                     </row>
                     <row>
                         <context-menu>
@@ -143,8 +143,8 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Consectetur sit accusantium la</dad>
-                        <id name="p_id" tag="id">hidden-0c45_6717</id>
+                        <dad name="p_dad">Rem mollit laudantium amet off</dad>
+                        <id name="p_id" tag="id">hidden-dd51_f89a</id>
                     </row>
                     <row>
                         <context-menu>
@@ -155,8 +155,8 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Perspiciatis sit ipsum iste co</dad>
-                        <id name="p_id" tag="id">hidden-23f6_5c54</id>
+                        <dad name="p_dad">Voluptatem sit doloremque natu</dad>
+                        <id name="p_id" tag="id">hidden-51d3_a42b</id>
                     </row>
                 </value>
                 <context-menu>
