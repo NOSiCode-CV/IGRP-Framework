@@ -99,12 +99,14 @@ table tfoot{
 }
 
 .table-img{
-  max-height: 80px;
+  	width: 60px;
+	height: 60px;
 }
 
 table td.img{
   width: 70px;
   padding: 5px 0px !important;
+  text-align: center;
 }
 
 table td.min-width{
