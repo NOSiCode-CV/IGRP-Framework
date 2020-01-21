@@ -13,6 +13,11 @@ public class ListaEnv extends Model{
 
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
+	@RParam(rParamName = "p_documento")
+	private IGRPLink documento;
+	@RParam(rParamName = "p_documento_desc")
+	private String documento_desc;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -28,6 +33,28 @@ public class ListaEnv extends Model{
 	}
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
+	}
+	
+	public IGRPLink setDocumento(String app,String page,String action){
+		this.documento = new IGRPLink(app,page,action);
+		return this.documento;
+	}
+	public IGRPLink getDocumento(){
+		return this.documento;
+	}
+	public void setDocumento_desc(String documento_desc){
+		this.documento_desc = documento_desc;
+	}
+	public String getDocumento_desc(){
+		return this.documento_desc;
+	}
+	public IGRPLink setDocumento(String link){
+		this.documento = new IGRPLink(link);
+		return this.documento;
+	}
+	public IGRPLink setDocumento(Report link){
+		this.documento = new IGRPLink(link);
+		return this.documento;
 	}
 
 

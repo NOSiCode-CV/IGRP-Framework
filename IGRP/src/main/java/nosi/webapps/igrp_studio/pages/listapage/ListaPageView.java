@@ -24,6 +24,7 @@ public class ListaPageView extends View {
 	public Field infopanel_3_url;
 	public Field infopanel_3_bg;
 	public Field infopanel_3_icn;
+	public Field documento;
 	public Field application;
 	public Field modulo;
 	public Field nada;
@@ -43,6 +44,7 @@ public class ListaPageView extends View {
 	public IGRPForm infopanel_1;
 	public IGRPForm infopanel_2;
 	public IGRPForm infopanel_3;
+	public IGRPView view_1;
 	public IGRPBox box_2;
 	public IGRPBox box_1;
 	public IGRPForm form_1;
@@ -67,6 +69,8 @@ public class ListaPageView extends View {
 		infopanel_2 = new IGRPForm("infopanel_2","");
 
 		infopanel_3 = new IGRPForm("infopanel_3","");
+
+		view_1 = new IGRPView("view_1","");
 
 		box_2 = new IGRPBox("box_2","");
 
@@ -138,6 +142,12 @@ public class ListaPageView extends View {
 		infopanel_3_icn.setLabel(gt("Icon"));
 		infopanel_3_icn.propertie().add("name","p_infopanel_3_icn").add("type","text").add("maxlength","4000");
 		
+		documento = new LinkField(model,"documento");
+		documento.setLabel(gt("Help"));
+		documento.setValue(Core.getIGRPLink("igrp_studio","ListaPage","index"));
+
+									documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-info-circle").add("maxlength","250").add("showlabel","true");
+		
 		application = new ListField(model,"application");
 		application.setLabel(gt("Aplicação"));
 		application.propertie().add("name","p_application").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
@@ -164,7 +174,7 @@ public class ListaPageView extends View {
 		
 		link_btn_nova_pagina = new LinkField(model,"link_btn_nova_pagina");
 		link_btn_nova_pagina.setLabel(gt("Nova página"));
-		link_btn_nova_pagina.setValue(Core.getIGRPLink("igrp","Page","index"));
+		link_btn_nova_pagina.setValue(Core.getIGRPLink("undefined","undefined","undefined"));
 
 									link_btn_nova_pagina.propertie().add("name","p_link_btn_nova_pagina").add("type","link").add("target","modal").add("class","success").add("img","fa-plus-square").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","");
 		
@@ -256,6 +266,8 @@ public class ListaPageView extends View {
 		infopanel_3.addField(infopanel_3_bg);
 		infopanel_3.addField(infopanel_3_icn);
 
+		view_1.addField(documento);
+
 
 
 		form_1.addField(application);
@@ -265,13 +277,13 @@ public class ListaPageView extends View {
 		form_1.addField(crud_generator);
 		form_1.addField(link_btn_nova_pagina);
 
-
 		table_1.addField(status_page);
 		table_1.addField(status_page_check);
 		table_1.addField(modulo_tab);
 		table_1.addField(descricao_page);
 		table_1.addField(id_page);
 		table_1.addField(nome_page);
+
 
 		table_2.addField(my_app_img);
 		table_2.addField(my_aplicacao);
@@ -288,6 +300,7 @@ public class ListaPageView extends View {
 		this.addToPage(infopanel_1);
 		this.addToPage(infopanel_2);
 		this.addToPage(infopanel_3);
+		this.addToPage(view_1);
 		this.addToPage(box_2);
 		this.addToPage(box_1);
 		this.addToPage(form_1);
@@ -314,6 +327,7 @@ public class ListaPageView extends View {
 		infopanel_3_url.setValue(model);
 		infopanel_3_bg.setValue(model);
 		infopanel_3_icn.setValue(model);
+		documento.setValue(model);
 		application.setValue(model);
 		modulo.setValue(model);
 		nada.setValue(model);

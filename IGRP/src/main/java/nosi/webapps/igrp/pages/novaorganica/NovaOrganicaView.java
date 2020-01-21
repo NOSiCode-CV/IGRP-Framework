@@ -5,10 +5,12 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Core;
 
 public class NovaOrganicaView extends View {
 
 	public Field sectionheader_1_text;
+	public Field documento;
 	public Field nome;
 	public Field codigo;
 	public Field ativo;
@@ -19,6 +21,7 @@ public class NovaOrganicaView extends View {
 	public Field extras;
 	public Field plsql_codigo;
 	public IGRPSectionHeader sectionheader_1;
+	public IGRPView view_1;
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -30,12 +33,20 @@ public class NovaOrganicaView extends View {
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
+		view_1 = new IGRPView("view_1","");
+
 		form_1 = new IGRPForm("form_1","");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		sectionheader_1_text.setValue(gt("Gestão de Orgânica - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","40");
+		
+		documento = new LinkField(model,"documento");
+		documento.setLabel(gt("Help"));
+		documento.setValue(Core.getIGRPLink("igrp","Dominio","index"));
+
+									documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-info-circle").add("maxlength","250").add("showlabel","true");
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
@@ -83,6 +94,8 @@ public class NovaOrganicaView extends View {
 		
 		sectionheader_1.addField(sectionheader_1_text);
 
+		view_1.addField(documento);
+
 
 		form_1.addField(nome);
 		form_1.addField(codigo);
@@ -95,6 +108,7 @@ public class NovaOrganicaView extends View {
 
 		toolsbar_1.addButton(btn_gravar);
 		this.addToPage(sectionheader_1);
+		this.addToPage(view_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);
 	}
@@ -102,6 +116,7 @@ public class NovaOrganicaView extends View {
 	@Override
 	public void setModel(Model model) {
 		
+		documento.setValue(model);
 		nome.setValue(model);
 		codigo.setValue(model);
 		ativo.setValue(model);

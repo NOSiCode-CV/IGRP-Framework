@@ -36,7 +36,7 @@
     <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
-        <title>Partilha Página</title>
+        <title>Partilha Inter-Aplicações</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="40">
@@ -46,14 +46,6 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
-            <fields>
-                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-info-circle" maxlength="250" showlabel="true">
-                    <label>Manual de utilização</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
-                </documento>
-            </fields>
-        </view_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <aplicacao_origem name="p_aplicacao_origem" type="select" multiple="false" domain="" maxlength="50" required="true" change="true" disabled="false" right="false" java-type="" tags="false">
@@ -118,27 +110,27 @@
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Amet dolor adipiscing voluptatem omnis sit amet perspiciatis stract anim totam mollit deserunt aperi</nome>
+                        <nome name="p_nome">Consectetur officia doloremque magna ut officia voluptatem consectetur labore accusantium sed offici</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Dolor deserunt dolor magna stract aperiam dolor totam doloremque dolor sit ipsum rem labore elit sit</nome>
+                        <nome name="p_nome">Omnis magna deserunt doloremque mollit lorem doloremque sit lorem totam adipiscing accusantium volup</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Labore doloremque omnis accusantium sed natus amet mollit accusantium doloremque deserunt ipsum labo</nome>
+                        <nome name="p_nome">Sit elit stract sit elit ipsum natus rem accusantium doloremque unde accusantium mollit rem stract e</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Natus accusantium stract lorem voluptatem adipiscing sit amet accusantium doloremque accusantium ame</nome>
+                        <nome name="p_nome">Anim ut ipsum laudantium lorem anim natus totam mollit elit totam iste sed aliqua dolor aperiam dese</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Iste totam accusantium rem omnis natus magna totam laudantium deserunt elit lorem aliqua totam aliqu</nome>
+                        <nome name="p_nome">Ipsum amet totam omnis accusantium adipiscing doloremque labore rem laudantium ut consectetur natus</nome>
                     </row>
                 </value>
             </table>
@@ -190,6 +182,14 @@
                 <preview>../images/IGRP/IGRP2.3/app/igrp_studio/partilhageral/Partilhageral.xml</preview>
             </item>
         </toolsbar_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-info-circle" maxlength="250" showlabel="true">
+                    <label>Help</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
+                </documento>
+            </fields>
+        </view_1>
     </content>
     <blockly>
         <imports></imports>

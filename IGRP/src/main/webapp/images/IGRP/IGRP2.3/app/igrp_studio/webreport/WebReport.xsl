@@ -31,11 +31,10 @@
                         <i class="fa fa-navicon"></i>
                     </div>
                     <div id="igrp-app-title" class="">
-                 Report Designer
+                 		Report Designer
                     </div>
-                       <a href="{rows/content/form_1/fields/link_doc/value}" class="bpmn-controller link btn btn-link form-link" target="_newtab" request-fields="">
-                      <i class="fa [object Object]"></i><span><span>Documento</span></span>
-                      </a>
+                    
+                      
                 </nav>
                 <form method="POST" class="IGRP-form" name="formular_default">
                     <div class="hidden">
@@ -47,7 +46,9 @@
                             <div class="col-md-3 col-sm-4 sidebar tree-list" id="igrp-sidebar">
                                 <xsl:if test="rows/content/form_1/fields/env_fk">
                                     <div class="row">
-                                        <br/>
+                                        <a id="igrp-doc" href="{rows/content/form_1/fields/link_doc/value}" class="bpmn-controller link btn btn-link pull-right" target="_newtab" request-fields="">
+					                       <i class="fa fa-info-circle" style="margin-right:5px"></i>Help
+					                      </a>
                                         <div class="col-md-12 form-group  gen-fields-holder" item-name="env_fk" item-type="select">
                                             <label for="{rows/content/form_1/fields/env_fk/@name}">
                                                 <xsl:value-of select="rows/content/form_1/fields/env_fk/label"/>

@@ -6,6 +6,8 @@ import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.webapps.igrp.dao.ProfileType;
 import java.util.ArrayList;
@@ -15,15 +17,16 @@ public class PesquisarPerfilController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarPerfil model = new PesquisarPerfil();
 		model.load();
+		model.setHelp("igrp","Dominio","index");
 		PesquisarPerfilView view = new PesquisarPerfilView();
 		view.id.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Ipsum labore aliqua laudantium' as organica,'1' as estado,'Doloremque natus mollit totam' as descricao,'Magna mollit stract laudantium' as codigo,'hidden-541e_9ccd' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Anim ipsum labore ut unde' as organica,'1' as estado,'Sed consectetur labore sit ame' as descricao,'Adipiscing deserunt aperiam al' as codigo,'hidden-832c_2d41' as id "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-	
+		model.setHelp(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=perfil"));
 		ArrayList<PesquisarPerfil.Table_1> lista = new ArrayList<>();
 		ProfileType profile_db = new ProfileType();			
 		int idOrg = model.getId_org();//.getParamInt("id_org",false);
@@ -64,9 +67,11 @@ public class PesquisarPerfilController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","NovoPerfil","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","NovoPerfil","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(novo)----*/
       
       //NOT IN USE. setlink() in actionIndex set because getParam dosent work for a variable and param of other page
@@ -82,9 +87,11 @@ public class PesquisarPerfilController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","NovoPerfil","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","NovoPerfil","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(editar)----*/
  			
 		 this.addQueryString("p_id",Core.getParam("p_id"));
@@ -101,9 +108,11 @@ public class PesquisarPerfilController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","MenuOrganica","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","MenuOrganica","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(menu)----*/
      //p_id is a param (iskey=true) that will be send automatically
      this.addQueryString("p_type","perfil");
@@ -123,9 +132,11 @@ public class PesquisarPerfilController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","TransacaoOrganica","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","TransacaoOrganica","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(transacao)----*/
 		//don't need to add p_id because its declared view.id.setParam(true);
         this.addQueryString("p_type","perfil");        
@@ -140,9 +151,11 @@ public class PesquisarPerfilController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarPerfil","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","PesquisarPerfil","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(associar_etapa)----*/
 		
 		this.loadQueryString().addQueryString("type", "prof");
@@ -157,9 +170,11 @@ public class PesquisarPerfilController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","NovoUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","NovoUtilizador","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(convidar)----*/
 	 return this.forward("igrp","NovoUtilizador","index", this.queryString());
 		/*----#end-code----*/
@@ -172,9 +187,11 @@ public class PesquisarPerfilController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarPerfil","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","PesquisarPerfil","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		int id = Core.getParamInt("p_id");
         if(id!=0){
@@ -189,6 +206,8 @@ public class PesquisarPerfilController extends Controller {
 		return this.redirect("igrp","PesquisarPerfil","index", this.queryString());	
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 	
 	/*----#end-code----*/

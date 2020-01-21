@@ -1,5 +1,7 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -8,18 +10,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PesquisarUtilizador extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
+	@RParam(rParamName = "p_documento")
+	private IGRPLink documento;
+	@RParam(rParamName = "p_documento_desc")
+	private String documento_desc;
+
 	@RParam(rParamName = "p_username")
 	private String username;
+
 	@RParam(rParamName = "p_email")
 	private String email;
+
 	@RParam(rParamName = "p_nada")
 	private String nada;
+
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
+
 	@RParam(rParamName = "p_organica")
 	private String organica;
+
 	@RParam(rParamName = "p_perfil")
 	private String perfil;
 	
@@ -37,6 +51,28 @@ public class PesquisarUtilizador extends Model{
 	}
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
+	}
+	
+	public IGRPLink setDocumento(String app,String page,String action){
+		this.documento = new IGRPLink(app,page,action);
+		return this.documento;
+	}
+	public IGRPLink getDocumento(){
+		return this.documento;
+	}
+	public void setDocumento_desc(String documento_desc){
+		this.documento_desc = documento_desc;
+	}
+	public String getDocumento_desc(){
+		return this.documento_desc;
+	}
+	public IGRPLink setDocumento(String link){
+		this.documento = new IGRPLink(link);
+		return this.documento;
+	}
+	public IGRPLink setDocumento(Report link){
+		this.documento = new IGRPLink(link);
+		return this.documento;
 	}
 	
 	public void setUsername(String username){

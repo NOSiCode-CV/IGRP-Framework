@@ -50,23 +50,25 @@ public class ListaPageController extends Controller {
 		model.setInfopanel_3_url(Core.getIGRPLink("igrp_studio","ListaEnv","index"));
 		model.setInfopanel_3_bg("cp-starrynight");
 		model.setInfopanel_3_icn("fa-folder-open");
+		model.setDocumento("igrp_studio","ListaPage","index");
 		model.setBtn_import("igrp_studio","ImportArquivo","index");
 		model.setCrud_generator("igrp_studio","CRUDGenerator","index");
-		model.setLink_btn_nova_pagina("igrp","Page","index");
+		model.setLink_btn_nova_pagina("undefined","undefined","undefined");
 		ListaPageView view = new ListaPageView();
 		view.id_page.setParam(true);
 		view.env_fk.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Sed rem sit natus elit' as modulo_tab,'Doloremque unde officia ut str' as descricao_page,'hidden-ec56_8c50' as id_page,'hidden-a049_3db9' as nome_page "));
-		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-b73b_fd36' as env_fk "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Laudantium totam anim stract i' as modulo_tab,'Iste mollit amet aliqua sit' as descricao_page,'hidden-e758_f170' as id_page,'hidden-47d4_8de6' as nome_page "));
+		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-1499_8fe1' as env_fk "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
-		
+		model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=studio"));
+      
 		Map<Object, Object> listApp = new Application().getListApps();
 		if(listApp!=null && listApp.size()==2) {
 			model.setApplication(listApp.keySet().stream().filter(a->a!=null).findFirst().get().toString());
@@ -238,12 +240,10 @@ public class ListaPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
-		  this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
-		  return this.forward("igrp","Page","index",this.queryString()); //if submit, loads the values
-		  Use model.validate() to validate your model
-		  ----#gen-example */
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
+		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
+		 return this.forward("igrp_studio","listapage","index",this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(editar)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -251,7 +251,8 @@ public class ListaPageController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp","Page","index", this.queryString());	
+		
+		return this.redirect("igrp_studio","listapage","index", this.queryString());	
 	}
 	
 	public Response actionVisualizar() throws IOException, IllegalArgumentException, IllegalAccessException{

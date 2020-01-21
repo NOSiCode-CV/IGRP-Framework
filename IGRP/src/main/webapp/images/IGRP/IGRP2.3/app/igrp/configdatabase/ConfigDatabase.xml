@@ -33,8 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=37</preserve_url>
     </plsql>
-    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Configurar Base de Dados de uma aplicação</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -54,7 +54,7 @@
                 <link>index</link>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xml</preview>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
@@ -106,29 +106,29 @@
                 </tipo_base_dados>
                 <nome_de_conexao name="p_nome_de_conexao" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="A name ex: myConn, DEVNOSI" right="false" desclabel="false">
                     <label>Nome da conexão</label>
-                    <value>Rem perspiciatis anim consectetur aliqua</value>
+                    <value>Perspiciatis consectetur adipiscing totam elit</value>
                 </nome_de_conexao>
                 <config name="p_config" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
                     <label>Config</label>
                 </config>
                 <url_connection name="p_url_connection" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Url Connection</label>
-                    <value>Dolor iste elit ut stract</value>
+                    <value>Anim perspiciatis doloremque adipiscing lorem</value>
                 </url_connection>
                 <driver_connection name="p_driver_connection" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Driver Connection</label>
-                    <value>Aperiam unde lorem laudantium unde</value>
+                    <value>Officia accusantium totam anim unde</value>
                 </driver_connection>
                 <paragraph_1 name="p_paragraph_1" type="plaintext" clear="false" maxlength="250" right="false" disable_output_escaping="false" html_class="">
                     <label>Example</label>
-                    <value>Elit perspiciatis voluptatem labore omnis stract amet totam ut natus officia omnis rem sit rem sit sit sed stract adipiscing ut perspiciatis unde deserunt anim</value>
+                    <value>Aperiam sed sit anim stract lorem officia mollit sit ipsum anim perspiciatis omnis magna aliqua laudantium iste stract iste dolor elit sed officia accusantium aliqua</value>
                 </paragraph_1>
                 <credenciais name="p_credenciais" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
                     <label>Credenciais</label>
                 </credenciais>
                 <username name="p_username" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Username</label>
-                    <value>Doloremque ut elit consectetur unde</value>
+                    <value>Sed stract laudantium amet dolor</value>
                 </username>
                 <password name="p_password" type="password" maxlength="80" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Password</label>
@@ -178,12 +178,12 @@
                         </context-menu>
                         <default_ name="p_default_" check="true" desc="true">1</default_>
                         <default__desc name="p_default__desc">1</default__desc>
-                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Natus stract adipiscing rem na</nome_de_conexao_tabela>
-                        <user_name_tabela name="p_user_name_tabela">Iste adipiscing stract aperiam</user_name_tabela>
-                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Adipiscing lorem totam sed lau</tipo_de_base_de_dados_tabela>
-                        <t_url_connection name="p_t_url_connection">Officia natus dolor ipsum moll</t_url_connection>
-                        <t_driver_connection name="p_t_driver_connection">Lorem officia voluptatem lorem</t_driver_connection>
-                        <id name="p_id" tag="id">hidden-1894_1f4b</id>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Labore officia voluptatem aper</nome_de_conexao_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Iste adipiscing unde ut sit</user_name_tabela>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Stract natus deserunt adipisci</tipo_de_base_de_dados_tabela>
+                        <t_url_connection name="p_t_url_connection">Officia rem sit magna sit</t_url_connection>
+                        <t_driver_connection name="p_t_driver_connection">Stract magna rem sit unde</t_driver_connection>
+                        <id name="p_id" tag="id">hidden-7ac7_188d</id>
                     </row>
                     <row>
                         <context-menu>
@@ -192,12 +192,12 @@
                         </context-menu>
                         <default_ name="p_default_" check="true" desc="true">1</default_>
                         <default__desc name="p_default__desc">1</default__desc>
-                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Deserunt rem sit unde amet</nome_de_conexao_tabela>
-                        <user_name_tabela name="p_user_name_tabela">Doloremque aliqua natus sit la</user_name_tabela>
-                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Elit ipsum doloremque totam lo</tipo_de_base_de_dados_tabela>
-                        <t_url_connection name="p_t_url_connection">Laudantium lorem deserunt omni</t_url_connection>
-                        <t_driver_connection name="p_t_driver_connection">Totam iste ut unde omnis</t_driver_connection>
-                        <id name="p_id" tag="id">hidden-e72c_ae41</id>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Amet totam amet totam natus</nome_de_conexao_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Iste omnis voluptatem aperiam</user_name_tabela>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Accusantium sed mollit magna r</tipo_de_base_de_dados_tabela>
+                        <t_url_connection name="p_t_url_connection">Iste aperiam deserunt totam ma</t_url_connection>
+                        <t_driver_connection name="p_t_driver_connection">Elit ipsum doloremque sit tota</t_driver_connection>
+                        <id name="p_id" tag="id">hidden-027d_d313</id>
                     </row>
                     <row>
                         <context-menu>
@@ -206,12 +206,12 @@
                         </context-menu>
                         <default_ name="p_default_" check="true" desc="true">1</default_>
                         <default__desc name="p_default__desc">1</default__desc>
-                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Elit voluptatem iste unde dese</nome_de_conexao_tabela>
-                        <user_name_tabela name="p_user_name_tabela">Laudantium aperiam iste sed la</user_name_tabela>
-                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Mollit ipsum labore officia na</tipo_de_base_de_dados_tabela>
-                        <t_url_connection name="p_t_url_connection">Sed doloremque natus totam lab</t_url_connection>
-                        <t_driver_connection name="p_t_driver_connection">Voluptatem dolor adipiscing de</t_driver_connection>
-                        <id name="p_id" tag="id">hidden-1cef_173f</id>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Laudantium sit omnis anim accu</nome_de_conexao_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Magna natus amet perspiciatis</user_name_tabela>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Deserunt aperiam sit doloremqu</tipo_de_base_de_dados_tabela>
+                        <t_url_connection name="p_t_url_connection">Doloremque sit perspiciatis do</t_url_connection>
+                        <t_driver_connection name="p_t_driver_connection">Consectetur lorem sit labore m</t_driver_connection>
+                        <id name="p_id" tag="id">hidden-2c29_d9bf</id>
                     </row>
                     <row>
                         <context-menu>
@@ -220,12 +220,12 @@
                         </context-menu>
                         <default_ name="p_default_" check="true" desc="true">1</default_>
                         <default__desc name="p_default__desc">1</default__desc>
-                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Iste aliqua aperiam sit anim</nome_de_conexao_tabela>
-                        <user_name_tabela name="p_user_name_tabela">Laudantium sit officia volupta</user_name_tabela>
-                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Magna labore adipiscing offici</tipo_de_base_de_dados_tabela>
-                        <t_url_connection name="p_t_url_connection">Omnis adipiscing officia sed s</t_url_connection>
-                        <t_driver_connection name="p_t_driver_connection">Magna mollit sit adipiscing se</t_driver_connection>
-                        <id name="p_id" tag="id">hidden-dee9_5f50</id>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Sit officia consectetur ut adi</nome_de_conexao_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Officia accusantium mollit per</user_name_tabela>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Aliqua omnis laudantium ipsum</tipo_de_base_de_dados_tabela>
+                        <t_url_connection name="p_t_url_connection">Sed sit aperiam accusantium al</t_url_connection>
+                        <t_driver_connection name="p_t_driver_connection">Perspiciatis natus aperiam tot</t_driver_connection>
+                        <id name="p_id" tag="id">hidden-38dc_0a94</id>
                     </row>
                     <row>
                         <context-menu>
@@ -234,12 +234,12 @@
                         </context-menu>
                         <default_ name="p_default_" check="true" desc="true">1</default_>
                         <default__desc name="p_default__desc">1</default__desc>
-                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Consectetur aliqua iste offici</nome_de_conexao_tabela>
-                        <user_name_tabela name="p_user_name_tabela">Consectetur voluptatem mollit</user_name_tabela>
-                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Omnis consectetur magna ut sit</tipo_de_base_de_dados_tabela>
-                        <t_url_connection name="p_t_url_connection">Perspiciatis sed elit officia</t_url_connection>
-                        <t_driver_connection name="p_t_driver_connection">Laudantium adipiscing labore a</t_driver_connection>
-                        <id name="p_id" tag="id">hidden-5c5d_6590</id>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Anim labore ipsum laudantium d</nome_de_conexao_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Ipsum aliqua ipsum omnis offic</user_name_tabela>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Aperiam laudantium ipsum aperi</tipo_de_base_de_dados_tabela>
+                        <t_url_connection name="p_t_url_connection">Totam ipsum deserunt magna rem</t_url_connection>
+                        <t_driver_connection name="p_t_driver_connection">Stract natus mollit sed totam</t_driver_connection>
+                        <id name="p_id" tag="id">hidden-9e84_aa05</id>
                     </row>
                 </value>
                 <context-menu>
@@ -248,24 +248,29 @@
                         <app>igrp</app>
                         <page>ConfigDatabase</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xml?</parameter>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xml?</parameter>
                         <target>submit</target>
                         <img>warning|fa-pencil</img>
-                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xml</preview>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xml</preview>
                     </item>
                     <item type="specific" code="" class="danger" rel="delete" custom_return="true" refresh_components="">
                         <title>Delete</title>
                         <app>igrp</app>
                         <page>ConfigDatabase</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xml?</parameter>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xml?</parameter>
                         <target>submit</target>
                         <img>danger|fa-trash</img>
-                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xml</preview>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xml</preview>
                     </item>
                 </context-menu>
             </table>
         </table_1>
     </content>
-    <blockly></blockly>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
 </rows>
