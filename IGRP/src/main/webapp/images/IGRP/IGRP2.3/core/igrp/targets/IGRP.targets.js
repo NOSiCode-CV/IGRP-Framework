@@ -400,13 +400,16 @@
 				success:function(c){
 		
 					var table = $('.gen-container-item[item-name="'+tableName+'"]');
-
-						$('.igrp-table-filter [filter-item="'+filterLetter[1]+'"]',table).addClass('active');
+						
+					if ($.IGRP.components.tableCtrl.resetTableConfigurations)
+						$.IGRP.components.tableCtrl.resetTableConfigurations(table);
+					
+					$('.igrp-table-filter [filter-item="'+filterLetter[1]+'"]',table).addClass('active');
 						
 				},
 
 				error:function(){
-					console.log('filter error line 272 IGRP.targets.js')
+					console.log('filter error line 409 IGRP.targets.js')
 				}
 
 			});
