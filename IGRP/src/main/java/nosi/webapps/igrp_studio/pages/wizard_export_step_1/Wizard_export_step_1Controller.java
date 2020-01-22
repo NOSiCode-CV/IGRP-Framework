@@ -68,7 +68,6 @@ public class Wizard_export_step_1Controller extends Controller {
 		
 /*----#start-code(custom_actions)----*/
 	
-		@SuppressWarnings("static-method")
 		private String getSql() {
 			String sql = "";
 			OptionsImportExport[] ops = OptionsImportExport.values();

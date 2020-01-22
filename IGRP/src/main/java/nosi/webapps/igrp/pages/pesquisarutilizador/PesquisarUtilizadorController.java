@@ -6,6 +6,8 @@ import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
@@ -25,6 +27,7 @@ public class PesquisarUtilizadorController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
+		model.setDocumento("igrp","Dominio","index");
 		PesquisarUtilizadorView view = new PesquisarUtilizadorView();
 		view.nome.setParam(true);
 		view.tb_email.setParam(true);
@@ -32,13 +35,15 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Accusantium deserunt sit omnis rem adipiscing offi' as nominho,'2' as range_1,'Consectetur officia unde adipiscing stract adipiscing aperiam deserunt unde sit ipsum laudantium acc' as nome,'Anim adipiscing lorem stract iste unde omnis lorem perspiciatis ut sit accusantium voluptatem elit u' as tb_email,'Omnis lorem unde perspiciatis magna officia magna' as perfile,'hidden-d378_4599' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Elit laudantium totam accusantium consectetur dese' as nominho,'2' as range_1,'Voluptatem aliqua amet ut omnis ut lorem sit mollit totam voluptatem magna aliqua deserunt sed offic' as nome,'Adipiscing rem ipsum aperiam adipiscing aliqua aperiam consectetur rem omnis elit deserunt sed amet' as tb_email,'Elit unde mollit aperiam stract rem officia volupt' as perfile,'hidden-b7c5_897e' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
+      model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=utilizador"));
+      
    		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();
 
       	int idApp = Core.toInt(model.getAplicacao());
@@ -130,11 +135,13 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_nome",Core.getParam("p_nome"));
-		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","NovoUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_nome",Core.getParam("p_nome"));
+		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","NovoUtilizador","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(convidar)----*/
    
       // this.addQueryString("p_aplicacao",  model.getAplicacao());
@@ -159,11 +166,13 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_nome",Core.getParam("p_nome"));
-		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","RegistarUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_nome",Core.getParam("p_nome"));
+		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","RegistarUtilizador","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(adicionar_utilizador)----*/
 
 		/*----#end-code----*/
@@ -176,11 +185,13 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_nome",Core.getParam("p_nome"));
-		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_nome",Core.getParam("p_nome"));
+		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","PesquisarUtilizador","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(pesquisar)----*/
 	
 			
@@ -197,11 +208,13 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_nome",Core.getParam("p_nome"));
-		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","RegistarUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_nome",Core.getParam("p_nome"));
+		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","RegistarUtilizador","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(editar)----*/
 		 
       if (Core.isNotNull(Core.getParam("p_tb_email"))) {
@@ -222,11 +235,13 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_nome",Core.getParam("p_nome"));
-		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_nome",Core.getParam("p_nome"));
+		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","PesquisarUtilizador","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(assiocar_menu)----*/
 		int id=Core.getParamInt("p_id");
 		this.addQueryString("p_id",id)
@@ -245,11 +260,13 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_nome",Core.getParam("p_nome"));
-		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_nome",Core.getParam("p_nome"));
+		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","PesquisarUtilizador","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(assiocar_transacao)----*/
 		this.addQueryString("p_id",Core.getParamInt("p_id"))
 			.addQueryString("userEmail", Core.getParam("p_tb_email"))
@@ -265,11 +282,13 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_nome",Core.getParam("p_nome"));
-		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_nome",Core.getParam("p_nome"));
+		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","PesquisarUtilizador","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(assiocar_etapa)----*/
 		Profile p = new Profile().findOne(Core.getParamInt("p_id"));
       	if(p!=null)
@@ -286,11 +305,13 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_nome",Core.getParam("p_nome"));
-		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","NovoUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_nome",Core.getParam("p_nome"));
+		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","NovoUtilizador","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(convidar_user)----*/
 		Integer id = Core.getParamInt("p_id");		
 		Profile p = new Profile().findOne(id);
@@ -311,11 +332,13 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_nome",Core.getParam("p_nome"));
-		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_nome",Core.getParam("p_nome"));
+		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","PesquisarUtilizador","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		String id = Core.getParam("p_id");
 		if (id != null) {
@@ -343,6 +366,8 @@ public class PesquisarUtilizadorController extends Controller {
 			
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 //	public Response actionListaGeral() throws IOException, IllegalArgumentException, IllegalAccessException {
 //		PesquisarUtilizador model = new PesquisarUtilizador();

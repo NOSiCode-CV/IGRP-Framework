@@ -13,11 +13,13 @@ public class CRUDGeneratorView extends View {
 	public Field data_source;
 	public Field schema;
 	public Field table_type;
+	public Field documento;
 	public Field check_table;
 	public Field check_table_check;
 	public Field table_name;
 	public Field form_2_radiolist_1;
 	public IGRPForm form_1;
+	public IGRPView view_1;
 	public IGRPTable table_1;
 	public IGRPForm form_2;
 
@@ -33,6 +35,8 @@ public class CRUDGeneratorView extends View {
 		this.setPageTitle("CRUD Generator");
 			
 		form_1 = new IGRPForm("form_1","CRUD/DAO generator");
+
+		view_1 = new IGRPView("view_1","");
 
 		table_1 = new IGRPTable("table_1","Escolha a tabela");
 
@@ -53,6 +57,12 @@ public class CRUDGeneratorView extends View {
 		table_type = new ListField(model,"table_type");
 		table_type.setLabel(gt("Table Type"));
 		table_type.propertie().add("remote",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_table_type").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","String");
+		
+		documento = new LinkField(model,"documento");
+		documento.setLabel(gt("Help"));
+		documento.setValue(Core.getIGRPLink("igrp_studio","ListaPage","index"));
+
+									documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
 		
 		check_table = new CheckBoxField(model,"check_table");
 		check_table.setLabel(gt(""));
@@ -95,6 +105,8 @@ public class CRUDGeneratorView extends View {
 		form_1.addField(schema);
 		form_1.addField(table_type);
 
+		view_1.addField(documento);
+
 		table_1.addField(check_table);
 		table_1.addField(check_table_check);
 		table_1.addField(table_name);
@@ -107,6 +119,7 @@ public class CRUDGeneratorView extends View {
 		toolsbar_1.addButton(btn_gerar);
 		toolsbar_2.addButton(btn_gerar_dao);
 		this.addToPage(form_1);
+		this.addToPage(view_1);
 		this.addToPage(table_1);
 		this.addToPage(form_2);
 		this.addToPage(toolsbar_3);
@@ -121,6 +134,7 @@ public class CRUDGeneratorView extends View {
 		data_source.setValue(model);
 		schema.setValue(model);
 		table_type.setValue(model);
+		documento.setValue(model);
 		check_table.setValue(model);
 		table_name.setValue(model);
 		form_2_radiolist_1.setValue(model);	

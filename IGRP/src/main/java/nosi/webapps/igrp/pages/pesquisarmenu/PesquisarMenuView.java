@@ -6,6 +6,8 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
+import nosi.core.config.Config;
+
 public class PesquisarMenuView extends View {
 
 	public Field sectionheader_1_text;
@@ -23,6 +25,7 @@ public class PesquisarMenuView extends View {
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
+	public Field link_doc;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_btn_novo;
@@ -75,6 +78,11 @@ public class PesquisarMenuView extends View {
 		pagina.setLabel(gt("Página"));
 		pagina.propertie().add("name","p_pagina").add("type","plaintext").add("maxlength","100");
 		
+		link_doc = new LinkField(model,"link_doc");
+		link_doc.setLabel(gt("link_doc"));
+		link_doc.setValue(new Config().getResolveUrl("tutorial","Listar_documentos","index&p_type=menu"));
+		link_doc.propertie().add("name","p_link_doc").add("type","link").add("target","modal").add("maxlength","30");
+		
 		checkbox = new CheckBoxField(model,"checkbox");
 		checkbox.setLabel(gt("Público"));
 		checkbox.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","").add("check","true").add("desc","true");
@@ -108,6 +116,7 @@ public class PesquisarMenuView extends View {
 
 		form_1.addField(aplicacao);
 		form_1.addField(id_app);
+		form_1.addField(link_doc);
 
 
 		table_1.addField(t1_menu_principal);

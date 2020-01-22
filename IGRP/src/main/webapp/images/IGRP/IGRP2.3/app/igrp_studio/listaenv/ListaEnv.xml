@@ -33,8 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=3</preserve_url>
     </plsql>
-    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Application builder</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -46,6 +46,14 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                    <label>Help</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
+                </documento>
+            </fields>
+        </view_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="importar" refresh_components="">
                 <title>Importar</title>
@@ -54,7 +62,7 @@
                 <link>index</link>
                 <target>modal|refresh</target>
                 <img>danger|fa-upload</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
+                <preview>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
             </item>
             <item type="specific" code="" rel="novo" refresh_components="">
                 <title>Novo</title>
@@ -63,7 +71,7 @@
                 <link>index</link>
                 <target>modal|refresh</target>
                 <img>success|fa-plus</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</preview>
+                <preview>../images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</preview>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
@@ -99,8 +107,8 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Ut consectetur mollit unde nat</dad>
-                        <id name="p_id" tag="id">hidden-8662_75bf</id>
+                        <dad name="p_dad">Officia mollit sed amet mollit</dad>
+                        <id name="p_id" tag="id">hidden-bd7e_e3ca</id>
                     </row>
                     <row>
                         <context-menu>
@@ -111,8 +119,8 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Anim laudantium labore consect</dad>
-                        <id name="p_id" tag="id">hidden-b1c4_9b38</id>
+                        <dad name="p_dad">Consectetur ipsum officia aper</dad>
+                        <id name="p_id" tag="id">hidden-2a45_6db9</id>
                     </row>
                     <row>
                         <context-menu>
@@ -123,8 +131,8 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Magna totam sit magna perspici</dad>
-                        <id name="p_id" tag="id">hidden-25ce_5b7f</id>
+                        <dad name="p_dad">Accusantium amet ut laudantium</dad>
+                        <id name="p_id" tag="id">hidden-b56b_38cd</id>
                     </row>
                     <row>
                         <context-menu>
@@ -135,8 +143,8 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Iste dolor lorem mollit natus</dad>
-                        <id name="p_id" tag="id">hidden-e281_cc65</id>
+                        <dad name="p_dad">Rem mollit laudantium amet off</dad>
+                        <id name="p_id" tag="id">hidden-dd51_f89a</id>
                     </row>
                     <row>
                         <context-menu>
@@ -147,8 +155,8 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Officia elit stract elit conse</dad>
-                        <id name="p_id" tag="id">hidden-cf0f_18b4</id>
+                        <dad name="p_dad">Voluptatem sit doloremque natu</dad>
+                        <id name="p_id" tag="id">hidden-51d3_a42b</id>
                     </row>
                 </value>
                 <context-menu>
@@ -157,40 +165,40 @@
                         <app>igrp_studio</app>
                         <page>ListaEnv</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml?</parameter>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml?</parameter>
                         <target>mpsubmit|refresh</target>
                         <img>warning|fa-pencil</img>
-                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
                     </item>
                     <item type="specific" code="" class="danger" rel="eliminar" refresh_components="">
                         <title>Eliminar</title>
                         <app>igrp_studio</app>
                         <page>ListaEnv</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml?</parameter>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml?</parameter>
                         <target>confirm</target>
                         <img>danger|fa-trash-o</img>
-                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
                     </item>
                     <item type="specific" code="" class="black" rel="configurar_base_dados" custom_return="true" refresh_components="">
                         <title>Configurar Base Dados</title>
                         <app>igrp_studio</app>
                         <page>Env</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml?</parameter>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml?</parameter>
                         <target>modal</target>
                         <img>black|fa-database</img>
-                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</preview>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</preview>
                     </item>
                     <item type="specific" code="" class="default" rel="exportar" refresh_components="">
                         <title>Export</title>
                         <app>igrp_studio</app>
                         <page>ListaEnv</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml?</parameter>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml?</parameter>
                         <target>confirm</target>
                         <img>default|fa-download</img>
-                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
                     </item>
                 </context-menu>
             </table>

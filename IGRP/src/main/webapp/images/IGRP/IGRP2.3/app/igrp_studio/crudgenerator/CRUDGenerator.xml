@@ -33,8 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=44</preserve_url>
     </plsql>
-    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>CRUD Generator</title>
         <toolsbar_3 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
@@ -45,7 +45,7 @@
                 <link>index</link>
                 <target>mpsubmit</target>
                 <img>primary|fa-database</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</preview>
+                <preview>../images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</preview>
             </item>
         </toolsbar_3>
         <form_1 type="form" xml-type="form" title="CRUD/DAO generator" gen-type="container" gen-group="">
@@ -178,6 +178,14 @@
                 </table_type>
             </fields>
         </form_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                    <label>Help</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
+                </documento>
+            </fields>
+        </view_1>
         <table_1 type="table" xml-type="table" title="Escolha a tabela" gen-type="container" gen-group="true">
             <fields>
                 <check_table name="p_check_table" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" showLabel="true" java-type="int" group_in="" check="true" desc="true">
@@ -192,27 +200,27 @@
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Consectetur anim accusantium s</table_name>
+                        <table_name name="p_table_name">Iste magna anim amet anim</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Labore perspiciatis ipsum iste</table_name>
+                        <table_name name="p_table_name">Dolor totam rem stract amet</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Deserunt laudantium sit volupt</table_name>
+                        <table_name name="p_table_name">Aliqua natus aperiam labore om</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Ipsum aperiam amet totam sit</table_name>
+                        <table_name name="p_table_name">Sit lorem natus perspiciatis i</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Totam unde elit sit magna</table_name>
+                        <table_name name="p_table_name">Voluptatem officia accusantium</table_name>
                     </row>
                 </value>
             </table>
@@ -251,7 +259,7 @@
                 <link>index</link>
                 <target>submit_ajax</target>
                 <img>success|fa-gear</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xml</preview>
+                <preview>../images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xml</preview>
             </item>
         </toolsbar_1>
         <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
@@ -262,7 +270,7 @@
                 <link>index</link>
                 <target>submit_ajax</target>
                 <img>danger|fa-gears</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
+                <preview>../images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
             </item>
         </toolsbar_2>
     </content>

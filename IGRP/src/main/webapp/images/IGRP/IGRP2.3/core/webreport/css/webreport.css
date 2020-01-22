@@ -321,3 +321,8 @@ body.wb-report #igrp-global-modal{
 	margin: 0;
 
 }
+
+#igrp-doc{
+	font-size: 12px;
+    margin-top: 15px;
+}

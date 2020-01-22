@@ -47,6 +47,7 @@ public class ConfigDatabaseController extends Controller {
 		view.tipo_base_dados.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
+		model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=base_dados"));
 		String id_app = model.getAplicacao();
 		java.util.List<Config_env> list_app = new Config_env().find().andWhere("application", "=",Core.toInt(id_app)).all();
 		ArrayList<ConfigDatabase.Table_1> lista_tabela = new ArrayList<>();

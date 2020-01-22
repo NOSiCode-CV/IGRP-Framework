@@ -32,7 +32,7 @@ public class PartilhageralController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Amet omnis ut sit totam sit ipsum anim stract totam aliqua ut deserunt voluptatem aliqua sit rem dol' as nome "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Mollit elit sed perspiciatis labore laudantium totam sit iste natus elit deserunt ipsum consectetur' as nome "));
 		view.aplicacao_origem.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.elemento.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.aplicacao_destino.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));

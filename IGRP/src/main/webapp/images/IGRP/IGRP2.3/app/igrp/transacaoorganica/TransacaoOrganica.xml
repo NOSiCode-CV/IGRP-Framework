@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -33,27 +33,27 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=20</preserve_url>
     </plsql>
-    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Associar Transacao a Organica</title>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gravar" custom_return="true">
+            <item type="specific" code="" rel="gravar" custom_return="true" refresh_components="">
                 <title>Gravar</title>
                 <app>igrp</app>
                 <page>Dominio</page>
                 <link>index</link>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <transacao name="p_transacao" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="" check="true" desc="true">
+                <transacao name="p_transacao" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="int" showLabel="true" group_in="" check="true" desc="true">
                     <label></label>
                 </transacao>
-                <nome name="p_nome" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                <nome name="p_nome" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
                     <label>Nome (code)</label>
                 </nome>
             </fields>
@@ -62,40 +62,40 @@
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Unde aperiam sit natus ipsum</nome>
+                        <nome name="p_nome">Amet perspiciatis laudantium a</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Stract dolor natus stract moll</nome>
+                        <nome name="p_nome">Laudantium amet adipiscing und</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Accusantium perspiciatis amet</nome>
+                        <nome name="p_nome">Elit adipiscing unde accusanti</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Aperiam anim magna accusantium</nome>
+                        <nome name="p_nome">Deserunt sed dolor labore volu</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Magna unde adipiscing perspici</nome>
+                        <nome name="p_nome">Consectetur omnis anim aperiam</nome>
                     </row>
                 </value>
             </table>
         </table_1>
         <toolsbar_3 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gestao_de_transacoes">
+            <item type="specific" code="" rel="gestao_de_transacoes" refresh_components="">
                 <title>Gestão de transações</title>
                 <app>igrp</app>
                 <page>Transaccao</page>
                 <link>index</link>
                 <target>submit_popup</target>
                 <img>black|fa-exchange</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml</preview>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml</preview>
             </item>
         </toolsbar_3>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
@@ -104,5 +104,19 @@
                 <hidden name="p_type" type="hidden" maxlength="30" java-type="String" tag="type"/>
             </fields>
         </form_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <help name="p_help" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="" action_type="false" class="default" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                    <label>Help</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
+                </help>
+            </fields>
+        </view_1>
     </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
 </rows>

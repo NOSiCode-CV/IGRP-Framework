@@ -12,6 +12,15 @@ public class TransacaoOrganica extends Model{
 	private int id;
 	@RParam(rParamName = "p_type")
 	private String type;
+	@RParam(rParamName = "p_link_doc")
+	private String link_doc;
+
+	public String getLink_doc() {
+		return link_doc;
+	}
+	public void setLink_doc(String link_doc) {
+		this.link_doc = link_doc;
+	}
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){

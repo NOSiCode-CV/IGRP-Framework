@@ -79,7 +79,7 @@ public class ExportSqlHelper {
 
 
 	private void loadDocTypeData(Wizard_export_step_2 model) {
-		String sql = "SELECT id as tipo_doc_ids,id as tipo_doc_ids_check, concat(codigo,' - ',descricao) as descricao_tipo_doc "
+		String sql = "SELECT id as tipo_doc_ids,0 as tipo_doc_ids_check, concat(codigo,' - ',descricao) as descricao_tipo_doc "
 				   + "FROM tbl_tipo_documento "
 				   + "WHERE status=1 AND env_fk=:application_id";
 		model.loadTable_doc_type(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
@@ -105,7 +105,7 @@ public class ExportSqlHelper {
 
 
 	private void loadTransationData(Wizard_export_step_2 model) {
-		String sql = "SELECT id as transation_ids,id as transation_ids_check, concat(descr,' (',code,')') as descricao_transation "
+		String sql = "SELECT id as transation_ids,0 as transation_ids_check, concat(descr,' (',code,')') as descricao_transation "
 				   + "FROM tbl_transaction "
 				   + "WHERE status=1 AND env_fk=:application_id";
 		model.loadTbl_transation(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
@@ -120,7 +120,7 @@ public class ExportSqlHelper {
 			int size = this.files.size();
 			int count = 0;
 			for(File f:this.files) {
-				sql += "SELECT '" + f.getAbsolutePath() + "' as " + columnName + "_ids,'" + f.getAbsolutePath() + "' as " + columnName
+				sql += "SELECT '" + f.getAbsolutePath() + "' as " + columnName + "_ids,0 as " + columnName
 						+ "_ids_check, '" +f.getParentFile().getName()+" / "+f.getName()+"' as descricao_" + columnName;
 				++count;
 				if(count!=size) {
@@ -166,7 +166,7 @@ public class ExportSqlHelper {
 			model.loadTable_dao(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql));
 	}
 	private void loadMenuData(Wizard_export_step_2 model) {
-		String sql = "SELECT id as menu_ids,id as menu_ids_check, descr as descricao_menu "
+		String sql = "SELECT id as menu_ids,0 as menu_ids_check, descr as descricao_menu "
 				   + "FROM tbl_menu "
 				   + "WHERE env_fk=:application_id";
 		model.loadTable_menu(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
@@ -175,7 +175,7 @@ public class ExportSqlHelper {
 
 	
 	private void loadConnectionData(Wizard_export_step_2 model) {
-		String sql = "SELECT id as conexao_ids,id as conexao_ids_check, name as descricao_conexao "
+		String sql = "SELECT id as conexao_ids,0 as conexao_ids_check, name as descricao_conexao "
 				   + "FROM tbl_config_env "
 				   + "WHERE env_fk=:application_id";
 		model.loadTable_connections(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
@@ -183,14 +183,14 @@ public class ExportSqlHelper {
 
 
 	private void loadReportData(Wizard_export_step_2 model) {
-		String sql = "SELECT id as report_ids,id as report_ids_check, concat(name,' (',code,')') as descricao_report "
+		String sql = "SELECT id as report_ids,0 as report_ids_check, concat(name,' (',code,')') as descricao_report "
 				   + "FROM tbl_rep_template "
 				   + "WHERE env_fk=:application_id AND status=1";
 		model.loadTable_report(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
 	}
 
 	private void loadPageData(Wizard_export_step_2 model) {
-		String sql = "SELECT id as pagina_ids,id as pagina_ids_check,concat(page_descr,' (',page,')') as descricao_pagina "
+		String sql = "SELECT id as pagina_ids,0 as pagina_ids_check,concat(page_descr,' (',page,')') as descricao_pagina "
 				   + "FROM tbl_action "
 				   + "WHERE env_fk=:application_id AND status=1 AND processkey is null";
 		if(Core.isNotNull(model.getModulo())) {
@@ -209,7 +209,7 @@ public class ExportSqlHelper {
 	}
 
 	private void loadDomainData(Wizard_export_step_2 model) {
-		String sql = "SELECT DISTINCT dominio as domain_ids,dominio as domain_ids_check, dominio as descricao_domain "
+		String sql = "SELECT DISTINCT dominio as domain_ids,0 as domain_ids_check, dominio as descricao_domain "
 				   + "FROM tbl_domain WHERE status='ATIVE' AND env_fk="+model.getApplication_id();
 //		sql += " UNION ";
 //		sql += " SELECT dominio as domain_ids,'-1' as domain_ids_check, dominio as descricao_domain "
@@ -222,7 +222,7 @@ public class ExportSqlHelper {
 		for(ProcessDefinitionService process: new ProcessDefinitionIGRP().getProcessDefinitionsForCreated(this.application.getDad())){
 			Table_bpmn t = new Table_bpmn();
 			t.setBpmn_ids(process.getId());
-			t.setBpmn_ids_check(process.getId());
+			//t.setBpmn_ids_check(process.getId());
 			t.setDescricao_bpmn(process.getName());
 			table_1.add(t );
 		}
