@@ -110,27 +110,27 @@
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Consectetur officia doloremque magna ut officia voluptatem consectetur labore accusantium sed offici</nome>
+                        <nome name="p_nome">Magna ut unde voluptatem perspiciatis deserunt elit accusantium officia sit aliqua voluptatem consec</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Omnis magna deserunt doloremque mollit lorem doloremque sit lorem totam adipiscing accusantium volup</nome>
+                        <nome name="p_nome">Perspiciatis elit magna iste sit lorem totam deserunt iste mollit unde elit magna sit labore deserun</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Sit elit stract sit elit ipsum natus rem accusantium doloremque unde accusantium mollit rem stract e</nome>
+                        <nome name="p_nome">Rem mollit natus stract dolor perspiciatis magna ut mollit labore dolor deserunt iste anim totam ape</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Anim ut ipsum laudantium lorem anim natus totam mollit elit totam iste sed aliqua dolor aperiam dese</nome>
+                        <nome name="p_nome">Mollit natus adipiscing amet anim iste natus consectetur adipiscing dolor deserunt amet consectetur</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Ipsum amet totam omnis accusantium adipiscing doloremque labore rem laudantium ut consectetur natus</nome>
+                        <nome name="p_nome">Anim lorem aliqua elit mollit elit consectetur doloremque aperiam voluptatem anim mollit adipiscing</nome>
                     </row>
                 </value>
             </table>
@@ -184,7 +184,7 @@
         </toolsbar_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-info-circle" maxlength="250" showlabel="true">
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
                     <label>Help</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
                 </documento>

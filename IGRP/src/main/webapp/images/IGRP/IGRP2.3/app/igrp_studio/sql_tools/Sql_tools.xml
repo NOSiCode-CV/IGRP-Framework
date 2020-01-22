@@ -37,6 +37,14 @@
     <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>SQL Tool</title>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                    <label>Help</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
+                </help>
+            </fields>
+        </view_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <application name="p_application" type="select" multiple="false" domain="" maxlength="250" required="true" change="true" disabled="false" right="false" java-type="" tags="false">
@@ -88,7 +96,7 @@
                 </separator_1>
                 <sql name="p_sql" type="textarea" maxlength="1000000" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>SQL</label>
-                    <value>Dolor mollit laudantium natus voluptatem unde doloremque anim ipsum sed voluptatem perspiciatis anim stract unde</value>
+                    <value>Anim omnis sit lorem mollit iste dolor laudantium elit deserunt laudantium iste ut deserunt voluptatem</value>
                 </sql>
             </fields>
             <tools-bar>
@@ -110,14 +118,6 @@
                 <value/>
             </table>
         </table_1>
-        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
-            <fields>
-                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="default" btnSize="" iconColor="#333" iconClass="" img="fa-info-circle" maxlength="250" showlabel="true">
-                    <label>Help</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
-                </help>
-            </fields>
-        </view_1>
     </content>
     <blockly>
         <imports></imports>
