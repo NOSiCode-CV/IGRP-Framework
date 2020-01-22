@@ -156,12 +156,24 @@ public class LookupListPageController extends Controller {
 			if(Core.isNotNull(model.getTaskid()) && Core.isNotNull(model.getProcessid()) && Core.isNotNull(model.getEnv_fk())) {
 				this.addQueryString("p_general_id", model.getTaskid()).addQueryString("p_process_id", model.getProcessid()).addQueryString("p_env_fk", model.getEnv_fk());
 		
-				if(model.getFormlist_1() !=null) {
-					 Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, "tbl_tipo_documento_etapa")
+				if(model.getFormlist_1() !=null) {			
+					
+//					ResultSet query= 
+					Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, "tbl_tipo_documento_etapa")
 						.where("processid=:processid AND taskid=:taskid")
 						.addString("processid", model.getProcessid())
 						.addString("taskid", model.getTaskid())
 						.execute();
+//					Core.setMessageInfo("anes "+model.getTaskid());
+//					if(query!=null && query.hasError()) {						
+//						Core.update(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, "tbl_tipo_documento_etapa")
+//						.addInt("status",0)
+//						.where("processid=:processid AND taskid=:taskid")
+//						.addString("processid", model.getProcessid())
+//						.addString("taskid", model.getTaskid())
+//						.execute();
+//					}
+					
 					
 				 	 CheckBoxHelper cb = Core.extractCheckBox(Core.getParamArray("p_checkbox_fk"), Core.getParamArray("p_checkbox_check_fk"));
 				 	 List<String> p_checkbox_fk = cb.getChekedIds();
@@ -230,6 +242,16 @@ public class LookupListPageController extends Controller {
 /*----#start-code(custom_actions)----*/
 	private ResultSet saveOrUpdate(String p_checkbox_fk,int p_obrigatorio_fk,String p_tipo_fk,LookupListPage model,String relation_type_id) {
 		if(p_checkbox_fk != null && Core.toInt(p_checkbox_fk,-1) != -1) { 
+//			TipoDocumentoEtapa tipoDocumentoEtapa=new TipoDocumentoEtapa()
+//			.where("processid","=",model.getProcessid())
+//			.andWhere("taskid", "=", model.getTaskid())
+//			.andWhere(relation_type_id, "=", Core.toInt(p_checkbox_fk))
+//			.andWhere("tipo","=", p_tipo_fk).one();
+//			
+//			if(tipoDocumentoEtapa!=null && !tipoDocumentoEtapa.hasError() && tipoDocumentoEtapa.getCount()==1) {
+//				
+//			}
+			
 			return  Core.insert(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_tipo_documento_etapa")
 					.addInt("status", 1)
 					.addInt(relation_type_id,Core.toInt(p_checkbox_fk))
