@@ -821,8 +821,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 							});
 							
 							$.IGRP.components.select2.setOptions({
-								select: $('select', f),
-								options: options
+								select : $('select', f),
+								options: options,
+								isRules: true
 							});
 						}
 						
