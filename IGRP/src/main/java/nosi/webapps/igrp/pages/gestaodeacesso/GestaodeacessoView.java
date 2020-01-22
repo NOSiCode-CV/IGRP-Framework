@@ -54,7 +54,7 @@ public class GestaodeacessoView extends View {
 		documento_link.setLabel(gt("Help"));
 		documento_link.setValue(Core.getIGRPLink("igrp","Dominio","index"));
 
-									documento_link.propertie().add("name","p_documento_link").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-info-circle").add("maxlength","250").add("showlabel","true");
+									documento_link.propertie().add("name","p_documento_link").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));

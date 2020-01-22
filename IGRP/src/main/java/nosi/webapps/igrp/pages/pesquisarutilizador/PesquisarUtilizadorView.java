@@ -62,7 +62,7 @@ public class PesquisarUtilizadorView extends View {
 		documento.setLabel(gt("Help"));
 		documento.setValue(Core.getIGRPLink("igrp","Dominio","index"));
 
-									documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-info-circle").add("maxlength","250").add("showlabel","true");
+									documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
 		
 		username = new TextField(model,"username");
 		username.setLabel(gt("Username"));

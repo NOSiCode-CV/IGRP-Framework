@@ -9,14 +9,14 @@ import nosi.core.webapp.Core;
 
 public class Sql_toolsView extends View {
 
+	public Field help;
 	public Field application;
 	public Field data_source;
 	public Field separator_1;
 	public Field sql;
-	public Field help;
+	public IGRPView view_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
-	public IGRPView view_1;
 
 	public IGRPButton btn_run;
 
@@ -24,12 +24,18 @@ public class Sql_toolsView extends View {
 
 		this.setPageTitle("SQL Tool");
 			
+		view_1 = new IGRPView("view_1","");
+
 		form_1 = new IGRPForm("form_1","");
 
 		table_1 = new IGRPTable("table_1","");
 
-		view_1 = new IGRPView("view_1","");
+		help = new LinkField(model,"help");
+		help.setLabel(gt("Help"));
+		help.setValue(Core.getIGRPLink("igrp_studio","ListaPage","index"));
 
+									help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
+		
 		application = new ListField(model,"application");
 		application.setLabel(gt("Aplicação"));
 		application.propertie().add("name","p_application").add("type","select").add("multiple","false").add("domain","").add("maxlength","250").add("required","true").add("disabled","false").add("java-type","").add("tags","false");
@@ -46,12 +52,6 @@ public class Sql_toolsView extends View {
 		sql.setLabel(gt("SQL"));
 		sql.propertie().add("name","p_sql").add("type","textarea").add("maxlength","1000000").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
-		help = new LinkField(model,"help");
-		help.setLabel(gt("Help"));
-		help.setValue(Core.getIGRPLink("igrp_studio","ListaPage","index"));
-
-									help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","default").add("img","fa-info-circle").add("maxlength","250").add("showlabel","true");
-		
 
 
 		btn_run = new IGRPButton("Run","igrp_studio","Sql_tools","run","submit_form","success|fa-play-circle","","");
@@ -63,28 +63,28 @@ public class Sql_toolsView extends View {
 	@Override
 	public void render(){
 		
+		view_1.addField(help);
+
 		form_1.addField(application);
 		form_1.addField(data_source);
 		form_1.addField(separator_1);
 		form_1.addField(sql);
 
 
-		view_1.addField(help);
-
 		form_1.addButton(btn_run);
+		this.addToPage(view_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
-		this.addToPage(view_1);
 	}
 		
 	@Override
 	public void setModel(Model model) {
 		
+		help.setValue(model);
 		application.setValue(model);
 		data_source.setValue(model);
 		separator_1.setValue(model);
-		sql.setValue(model);
-		help.setValue(model);	
+		sql.setValue(model);	
 
 		table_1.loadModel(((Sql_tools) model).getTable_1());
 		}

@@ -45,10 +45,10 @@ public class ListaEnvView extends View {
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
 		documento = new LinkField(model,"documento");
-		documento.setLabel(gt("Documento"));
+		documento.setLabel(gt("Help"));
 		documento.setValue(Core.getIGRPLink("igrp_studio","ListaPage","index"));
 
-									documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-info-circle").add("maxlength","250").add("showlabel","true");
+									documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo?"));

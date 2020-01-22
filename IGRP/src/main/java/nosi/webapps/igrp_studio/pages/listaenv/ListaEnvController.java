@@ -32,7 +32,7 @@ public class ListaEnvController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml' as name,'Dolor aperiam lorem rem elit' as dad,'hidden-8f9a_8b30' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml' as name,'Voluptatem natus laudantium om' as dad,'hidden-0f5f_ef98' as id "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		

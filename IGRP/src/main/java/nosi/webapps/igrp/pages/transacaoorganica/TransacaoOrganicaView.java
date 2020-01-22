@@ -6,6 +6,8 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
+import nosi.core.config.Config;
+
 public class TransacaoOrganicaView extends View {
 
 	public Field transacao;
@@ -15,6 +17,7 @@ public class TransacaoOrganicaView extends View {
 	public Field type;
 	public IGRPTable table_1;
 	public IGRPForm form_1;
+	public Field link_doc;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPToolsBar toolsbar_3;
@@ -57,6 +60,12 @@ public class TransacaoOrganicaView extends View {
 
 		btn_gestao_de_transacoes = new IGRPButton("Gestão de transações","igrp","TransacaoOrganica","gestao_de_transacoes","submit_popup","black|fa-exchange","","");
 		btn_gestao_de_transacoes.propertie.add("type","specific").add("rel","gestao_de_transacoes");
+		
+
+		link_doc = new LinkField(model,"link_doc");
+		link_doc.setLabel(gt("link_doc"));
+		link_doc.setValue(new Config().getResolveUrl("tutorial","Listar_documentos","index&p_type=transacao"));
+		link_doc.propertie().add("name","p_link_doc").add("type","link").add("target","modal").add("maxlength","30");
 
 		
 	}
@@ -72,6 +81,7 @@ public class TransacaoOrganicaView extends View {
 
 		form_1.addField(id);
 		form_1.addField(type);
+		form_1.addField(link_doc);
 
 		toolsbar_1.addButton(btn_gravar);
 		toolsbar_3.addButton(btn_gestao_de_transacoes);
