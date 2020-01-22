@@ -13,6 +13,7 @@ public class File_editorView extends View {
 	public Field save_url;
 	public Field create_url;
 	public IGRPForm form_1;
+	public Field link_doc;
 
 
 	public File_editorView(){
@@ -38,6 +39,11 @@ public class File_editorView extends View {
 		create_url.setValue(new Config().getResolveUrl("igrp_studio","File_editor","index"));
 		create_url.propertie().add("name","p_create_url").add("type","link").add("target","_self").add("request_fields","").add("maxlength","250");
 		
+		link_doc = new LinkField(model,"link_doc");
+		link_doc.setLabel(gt("Help"));
+		link_doc.setValue(new Config().getResolveUrl("tutorial","Listar_documentos","index&p_type=file_editor"));
+		link_doc.propertie().add("name","p_link_doc").add("type","link").add("target","modal").add("maxlength","30");
+		
 
 
 		
@@ -49,6 +55,7 @@ public class File_editorView extends View {
 		form_1.addField(json_data);
 		form_1.addField(save_url);
 		form_1.addField(create_url);
+		form_1.addField(link_doc);
 
 		this.addToPage(form_1);
 	}

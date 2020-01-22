@@ -125,6 +125,16 @@ public class Page extends Model{
 	@RParam(rParamName = "p_id_pagin_hidd")
 	private Integer id_pagin_hidd;
 	
+	@RParam(rParamName = "p_link_doc")
+	private String link_doc;
+	
+	public String getLink_doc() {
+		return link_doc;
+	}
+	public void setLink_doc(String link_doc) {
+		this.link_doc = link_doc;
+	}
+	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
 	}

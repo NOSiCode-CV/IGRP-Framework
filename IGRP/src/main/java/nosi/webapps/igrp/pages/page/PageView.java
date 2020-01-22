@@ -5,6 +5,8 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+
+import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 
 public class PageView extends View {
@@ -51,6 +53,7 @@ public class PageView extends View {
 	public Field id_pagin_hidd;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
+	public Field link_doc;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
@@ -204,7 +207,11 @@ public class PageView extends View {
 		id_pagin_hidd.setLabel(gt(""));
 		id_pagin_hidd.propertie().add("name","p_id_pagin_hidd").add("type","hidden").add("maxlength","250").add("java-type","Integer").add("tag","id_pagin_hidd");
 		
-
+		link_doc = new LinkField(model,"link_doc");
+		link_doc.setLabel(gt("Help"));
+		link_doc.setValue(new Config().getResolveUrl("tutorial","Listar_documentos","index&p_type=new_page"));
+		link_doc.propertie().add("name","p_link_doc").add("type","link").add("target","modal").add("maxlength","30");
+		
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
 		btn_gravar = new IGRPButton("Gravar","igrp","Page","gravar","submit_ajax","primary|fa-save","","");
@@ -252,6 +259,7 @@ public class PageView extends View {
 		form_1.addField(proc_name);
 		form_1.addField(action_descr);
 		form_1.addField(id_pagin_hidd);
+		form_1.addField(link_doc);
 
 		toolsbar_1.addButton(btn_gravar);
 		this.addToPage(sectionheader_1);

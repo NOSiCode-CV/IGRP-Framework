@@ -1,5 +1,7 @@
 package nosi.webapps.igrp_studio.pages.wizard_export_step_1;
 
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
@@ -16,6 +18,11 @@ public class Wizard_export_step_1 extends Model{
 
 	@RParam(rParamName = "p_application_id")
 	private int application_id;
+
+	@RParam(rParamName = "p_help")
+	private IGRPLink help;
+	@RParam(rParamName = "p_help_desc")
+	private String help_desc;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -43,6 +50,28 @@ public class Wizard_export_step_1 extends Model{
 	}
 	public int getApplication_id(){
 		return this.application_id;
+	}
+	
+	public IGRPLink setHelp(String app,String page,String action){
+		this.help = new IGRPLink(app,page,action);
+		return this.help;
+	}
+	public IGRPLink getHelp(){
+		return this.help;
+	}
+	public void setHelp_desc(String help_desc){
+		this.help_desc = help_desc;
+	}
+	public String getHelp_desc(){
+		return this.help_desc;
+	}
+	public IGRPLink setHelp(String link){
+		this.help = new IGRPLink(link);
+		return this.help;
+	}
+	public IGRPLink setHelp(Report link){
+		this.help = new IGRPLink(link);
+		return this.help;
 	}
 
 

@@ -33,8 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=17</preserve_url>
     </plsql>
-    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Registar Pagina</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -54,14 +54,14 @@
                 <link>index</link>
                 <target>submit_ajax</target>
                 <img>primary|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml</preview>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/page/Page.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Título</label>
-                    <value>Doloremque perspiciatis dolor totam rem</value>
+                    <value>Unde ipsum ut natus sit</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -74,7 +74,7 @@
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Código</label>
-                    <value>Rem doloremque officia deserunt amet</value>
+                    <value>Officia dolor anim amet lorem</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -100,11 +100,11 @@
                 </publico>
                 <public_link name="p_public_link" type="text" maxlength="250" required="false" change="false" readonly="true" disabled="false" placeholder="" desclabel="false" right="true">
                     <label>Public Link</label>
-                    <value>Accusantium aliqua ipsum omnis unde</value>
+                    <value>Lorem iste sit lorem iste</value>
                 </public_link>
                 <public_link_2 name="p_public_link_2" type="text" maxlength="250" required="false" change="false" readonly="true" disabled="false" placeholder="" desclabel="false" right="true">
                     <label>Public Link</label>
-                    <value>Accusantium sed amet perspiciatis accusantium</value>
+                    <value>Ut doloremque aliqua voluptatem lorem</value>
                 </public_link_2>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
                     <label></label>
@@ -227,6 +227,14 @@
                 <hidden name="p_id_pagin_hidd" type="hidden" maxlength="250" java-type="Integer" tag="id_pagin_hidd"/>
             </fields>
         </form_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="" action_type="false" class="default" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                    <label>Help</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
+                </help>
+            </fields>
+        </view_1>
     </content>
     <blockly>
         <imports></imports>
