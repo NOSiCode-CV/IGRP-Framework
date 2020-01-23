@@ -37,6 +37,14 @@
     <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Associar Transacao a Organica</title>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="" action_type="false" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                    <label>Help</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
+                </help>
+            </fields>
+        </view_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar" custom_return="true" refresh_components="">
                 <title>Gravar</title>
@@ -62,27 +70,27 @@
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Amet perspiciatis laudantium a</nome>
+                        <nome name="p_nome">Consectetur unde aperiam adipi</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Laudantium amet adipiscing und</nome>
+                        <nome name="p_nome">Anim sed dolor amet dolor</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Elit adipiscing unde accusanti</nome>
+                        <nome name="p_nome">Omnis natus sit anim doloremqu</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Deserunt sed dolor labore volu</nome>
+                        <nome name="p_nome">Officia doloremque aperiam str</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Consectetur omnis anim aperiam</nome>
+                        <nome name="p_nome">Consectetur ipsum lorem anim m</nome>
                     </row>
                 </value>
             </table>
@@ -104,14 +112,6 @@
                 <hidden name="p_type" type="hidden" maxlength="30" java-type="String" tag="type"/>
             </fields>
         </form_1>
-        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
-            <fields>
-                <help name="p_help" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="" action_type="false" class="default" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
-                    <label>Help</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
-                </help>
-            </fields>
-        </view_1>
     </content>
     <blockly>
         <imports></imports>

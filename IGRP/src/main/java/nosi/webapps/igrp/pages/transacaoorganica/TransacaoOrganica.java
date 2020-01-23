@@ -1,5 +1,7 @@
 package nosi.webapps.igrp.pages.transacaoorganica;
 
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -8,19 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TransacaoOrganica extends Model{		
+
+	@RParam(rParamName = "p_help")
+	private IGRPLink help;
+	@RParam(rParamName = "p_help_desc")
+	private String help_desc;
+
 	@RParam(rParamName = "p_id")
 	private int id;
+
 	@RParam(rParamName = "p_type")
 	private String type;
-	@RParam(rParamName = "p_link_doc")
-	private String link_doc;
-
-	public String getLink_doc() {
-		return link_doc;
-	}
-	public void setLink_doc(String link_doc) {
-		this.link_doc = link_doc;
-	}
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -29,23 +29,28 @@ public class TransacaoOrganica extends Model{
 	public List<Table_1> getTable_1(){
 		return this.table_1;
 	}
-	@RParam(rParamName = "p_table_1_id")
-	private String[] p_table_1_id;
-	@RParam(rParamName = "p_table_1_del")
-	private String[] p_table_1_del;
+
 	
-	public void setP_table_1_id(String[] p_table_1_id){
-		this.p_table_1_id = p_table_1_id;
+	public IGRPLink setHelp(String app,String page,String action){
+		this.help = new IGRPLink(app,page,action);
+		return this.help;
 	}
-	public String[] getP_table_1_id(){
-		return this.p_table_1_id;
+	public IGRPLink getHelp(){
+		return this.help;
 	}
-	
-	public void setP_table_1_del(String[] p_table_1_del){
-		this.p_table_1_del = p_table_1_del;
+	public void setHelp_desc(String help_desc){
+		this.help_desc = help_desc;
 	}
-	public String[] getP_table_1_del(){
-		return this.p_table_1_del;
+	public String getHelp_desc(){
+		return this.help_desc;
+	}
+	public IGRPLink setHelp(String link){
+		this.help = new IGRPLink(link);
+		return this.help;
+	}
+	public IGRPLink setHelp(Report link){
+		this.help = new IGRPLink(link);
+		return this.help;
 	}
 	
 	public void setId(int id){
