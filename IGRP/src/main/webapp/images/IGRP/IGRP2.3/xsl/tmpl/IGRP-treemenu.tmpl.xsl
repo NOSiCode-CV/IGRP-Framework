@@ -344,12 +344,12 @@
         <xsl:param name="haslink" select="false()"/>
         <xsl:param name="class" select="'form-link'"/>
         
-        <xsl:if test="not($haslink)">
-	        <xsl:choose>
-	            <xsl:when test="$parser = 'true'">
-	                <xsl:attribute name="class"><xsl:value-of select="'lookup-parser'"/></xsl:attribute>
-	            </xsl:when>
-	            <xsl:otherwise>
+        <xsl:choose>
+            <xsl:when test="$parser = 'true'">
+                <xsl:attribute name="class"><xsl:value-of select="'lookup-parser'"/></xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+            	<xsl:if test="not($haslink)">
 	                <xsl:attribute name="class"><xsl:value-of select="$class"/></xsl:attribute>
 	                <xsl:if test="$href != ''">
 	                    <xsl:attribute name="tree-target"><xsl:value-of select="$target"/></xsl:attribute>
@@ -358,9 +358,9 @@
 	                        <xsl:attribute name="target-fields"><xsl:value-of select="$target_fields"/></xsl:attribute>
 	                    </xsl:if>
 	                </xsl:if>
-	            </xsl:otherwise>
-	        </xsl:choose>
-        </xsl:if>
+                </xsl:if>
+            </xsl:otherwise>
+        </xsl:choose>
         
         <xsl:apply-templates mode="contextparam" select="../context-menu"/>
     </xsl:template>
