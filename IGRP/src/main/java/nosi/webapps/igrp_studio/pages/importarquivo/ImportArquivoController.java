@@ -34,6 +34,7 @@ public class ImportArquivoController extends Controller {
 		ImportArquivo model = new ImportArquivo();
 		model.load();
 		model.setForm_5_link_1("igrp_studio","ListaEnv","index");
+		model.setHelp("igrp_studio","ListaPage","index");
 		ImportArquivoView view = new ImportArquivoView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -44,7 +45,8 @@ public class ImportArquivoController extends Controller {
 		view.list_aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		view.list_aplicacao.setValue(new Application().getListApps());	
+		model.setHelp(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=import"));
+     	view.list_aplicacao.setValue(new Application().getListApps());	
 		view.aplicacao_script.setValue(new Application().getListApps());
 		view.aplicacao_combo_img.setValue(new Application().getListApps());   
         model.setIcon_app_check(1);

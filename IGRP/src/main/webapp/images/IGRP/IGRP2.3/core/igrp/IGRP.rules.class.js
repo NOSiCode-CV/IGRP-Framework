@@ -802,37 +802,29 @@ if($ && $.IGRP && !$.IGRP.rules){
 						
 							itemName = $(f).attr('item-name'),
 							
-							itemType = $(f).attr('item-type'),
-							
 							responseElement = isString ? list : ( list.documentElement || false ),
 							
 							wrapper  = $(responseElement).is(itemName) ? list : $(list).find('rows content '+itemName)[0];
 
 						if (wrapper) {
 							
-							if(itemType == 'select'){
+							$.each($('option', wrapper), function(z, o) {
 								
-								$.each($('option', wrapper), function(z, o) {
-									
-									var selected = $(o).attr('selected') ? true : false;
-									
-									options.push({
-										text: $('text', o).text(),
-										value: $('value', o).text(),
-										selected: selected
-									});
-									
+								var selected = $(o).attr('selected') ? true : false;
+								
+								options.push({
+									text: $('text', o).text(),
+									value: $('value', o).text(),
+									selected: selected
 								});
 								
-								$.IGRP.components.select2.setOptions({
-									select: $('select', f),
-									options: options
-								});
-								
-							}
-							else
-								$.IGRP.utils.setFieldValue({tag : wrapper});
-								
+							});
+							
+							$.IGRP.components.select2.setOptions({
+								select : $('select', f),
+								options: options,
+								isRules: true
+							});
 						}
 						
 					});

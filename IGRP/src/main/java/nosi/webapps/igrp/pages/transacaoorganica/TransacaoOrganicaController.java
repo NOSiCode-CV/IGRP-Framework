@@ -2,10 +2,12 @@ package nosi.webapps.igrp.pages.transacaoorganica;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-import nosi.webapps.igrp.dao.Application;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -14,7 +16,7 @@ import nosi.webapps.igrp.dao.Share;
 import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp_studio.pages.partilhageral.TipoPartilha;
-
+import nosi.webapps.igrp.dao.Application;
 import java.util.ArrayList;
 import java.util.Comparator;
 import nosi.core.webapp.helpers.CheckBoxHelper;
@@ -23,23 +25,22 @@ import java.util.stream.Collectors;
 import nosi.core.config.ConfigDBIGRP;
 
 /*----#end-code----*/
-
 		
 public class TransacaoOrganicaController extends Controller {
-	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		TransacaoOrganica model = new TransacaoOrganica();
 		model.load();
+		model.setHelp("igrp","Dominio","index");
 		TransacaoOrganicaView view = new TransacaoOrganicaView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as transacao,'Officia adipiscing doloremque' as nome "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as transacao,'Sit accusantium officia consec' as nome "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		int id=model.getId();
         String type= model.getType();
-	
+	model.setHelp(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=transacao"));
 		if(Core.isInt(id) && Core.isNotNull(type)){		
 			
 			ArrayList<TransacaoOrganica.Table_1> data = new ArrayList<>();
@@ -104,14 +105,16 @@ public class TransacaoOrganicaController extends Controller {
 		TransacaoOrganica model = new TransacaoOrganica();
 		model.load();
 		/*----#gen-example
-		  EXAMPLES COPY/PASTE: 
-		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder. 
-		 this.addQueryString("p_id","12"); //to send a query string in the URL 
-		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		if(Core.isInt(model.getId()) && Core.isNotNull(model.getType())){
 			
-			CheckBoxHelper cb = Core.extractCheckBox(Core.getParamArray("p_transacao"), Core.getParamArray("p_transacao_check"));
+			CheckBoxHelper cb = Core.extractCheckBox(Core.getParamArray("p_transacao_fk"), Core.getParamArray("p_transacao_check_fk"));
 			this.deleteOldTransactions(model,cb.getUncheckedIds());
 			this.assocNewsTransactios(model, this.filterIds(model,cb.getChekedIds())); 
 			
@@ -128,8 +131,10 @@ public class TransacaoOrganicaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","Transaccao","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","Transaccao","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(gestao_de_transacoes)----*/
 		 this.addQueryString("p_aplicacao",Core.getParam("p_aplicacao"));
 		
@@ -137,6 +142,8 @@ public class TransacaoOrganicaController extends Controller {
 		return this.redirect("igrp","Transaccao","index", this.queryString());	
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 
 	private User userAdmin = new User().getUserAdmin();

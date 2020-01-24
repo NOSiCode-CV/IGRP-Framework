@@ -530,12 +530,12 @@
                               	<xsl:if test="rows/content/form/label/link_doc">
 	                              	<span class="igrp-doc pull-left">
 	                              		<a id="igrp-doc" href="{rows/content/form/value/link_doc}" target="_newtab">
-	                              			<i class="fa fa-info-circle" style="margin-right:5px"/>
+	                              			<i class="fa fa-question-circle" style="margin-right:5px"></i>
 	                              			<xsl:choose>
 	                              				<xsl:when test="rows/content/form/label/link_doc != ''">
 	                              					<xsl:value-of select="rows/content/form/label/link_doc"></xsl:value-of>
 	                              				</xsl:when>
-	                              				<xsl:otherwise>Documento</xsl:otherwise>
+	                              				<xsl:otherwise>Help</xsl:otherwise>
 	                              			</xsl:choose>
 	                              			
 	                              		</a>	

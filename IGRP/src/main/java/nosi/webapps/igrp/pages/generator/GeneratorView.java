@@ -62,6 +62,7 @@ public class GeneratorView extends View{
 		link_image = new LinkField(model,"link_image");
 		link_save = new LinkField(model,"link_save");
 		link_doc = new LinkField(model,"link_doc");
+		link_doc.setLabel(gt("Help"));
 		page_form = new LinkField(model,"page_form");
 		page_xml = new FileField(model,"page_xml");
 		page_xsl = new FileField(model,"page_xsl");
@@ -87,6 +88,7 @@ public class GeneratorView extends View{
 		btn_gravar = new IGRPButton(gt("Gravar"), "igrp", "page", "saveGenPage", "submit", "save.png", "","");
 		btn_publicar = new IGRPButton(gt("Publicar"), "igrp", "page", "publishGenPage", "submit", "save.png", "","");
 		btn_pesquisar = new IGRPButton(gt("Pesquisar"), "igrp", "form", "1", "_self", "search.png","","");
+	
 	}
 	
 	@Override

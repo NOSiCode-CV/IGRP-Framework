@@ -26,15 +26,18 @@ public class ListaEnvController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ListaEnv model = new ListaEnv();
 		model.load();
+		model.setDocumento("igrp_studio","ListaPage","index");
 		ListaEnvView view = new ListaEnvView();
 		view.id.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml' as name,'Consectetur voluptatem natus m' as dad,'hidden-cc81_6320' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml' as name,'Voluptatem natus laudantium om' as dad,'hidden-0f5f_ef98' as id "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-
+		
+      model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=new_app"));
+      	
 		ArrayList<ListaEnv.Table_1> lista = new ArrayList<>();
 		Application app = new Application();		
 		List<Application> apps = new ArrayList<>();

@@ -38,6 +38,7 @@ public class File_editorController extends Controller {
 		model.setCreate_url("igrp_studio","File_editor","index");
 		File_editorView view = new File_editorView();
 		/*----#start-code(index)----*/
+		model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=file_editor"));
 		model.setJson_data("igrp_studio", "File_editor", "get-json-all-folder").addParam("task_id", Core.getParam("p_task_id")).addParam("env_fk", Core.getParam("p_env_fk"));
 		model.setSave_url("igrp_studio", "File_editor", "save-and-compile-file");
 		String type = Core.getParam("type");

@@ -20,6 +20,16 @@ public class File_editor extends Model{
 	@RParam(rParamName = "p_create_url_desc")
 	private String create_url_desc;
 	
+	@RParam(rParamName = "p_link_doc")
+	private String link_doc;
+	
+	public String getLink_doc() {
+		return link_doc;
+	}
+	public void setLink_doc(String link_doc) {
+		this.link_doc = link_doc;
+	}
+	
 	public IGRPLink setJson_data(String app,String page,String action){
 		this.json_data = new IGRPLink(app,page,action);
 		return this.json_data;

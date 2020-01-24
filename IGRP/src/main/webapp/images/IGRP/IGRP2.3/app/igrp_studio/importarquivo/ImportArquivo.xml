@@ -33,8 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=36</preserve_url>
     </plsql>
-    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Import Arquivo</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -115,10 +115,10 @@
                     <app>igrp_studio</app>
                     <page>ImportArquivo</page>
                     <link>index</link>
-                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
                     <target>submit_form</target>
                     <img>primary|fa-upload</img>
-                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
                 </item>
             </tools-bar>
         </form_2>
@@ -135,10 +135,10 @@
                     <app>igrp_studio</app>
                     <page>ImportArquivo</page>
                     <link>index</link>
-                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
                     <target>submit_form</target>
                     <img>danger|fa-upload</img>
-                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
                 </item>
             </tools-bar>
         </form_3>
@@ -207,10 +207,10 @@
                     <app>igrp_studio</app>
                     <page>ImportArquivo</page>
                     <link>index</link>
-                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
                     <target>submit_form</target>
                     <img>warning|fa-upload</img>
-                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
                 </item>
             </tools-bar>
         </form_4>
@@ -257,10 +257,10 @@
                     <app>igrp_studio</app>
                     <page>ImportArquivo</page>
                     <link>index</link>
-                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
                     <target>submit_form</target>
                     <img>purple|fa-upload</img>
-                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
                 </item>
             </tools-bar>
         </form_5>
@@ -311,13 +311,21 @@
                     <app>igrp_studio</app>
                     <page>ImportArquivo</page>
                     <link>index</link>
-                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
                     <target>submit_form</target>
                     <img>primary|fa-upload</img>
-                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
                 </item>
             </tools-bar>
         </form_6>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="default" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                    <label>Help</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
+                </help>
+            </fields>
+        </view_1>
     </content>
     <blockly>
         <imports></imports>

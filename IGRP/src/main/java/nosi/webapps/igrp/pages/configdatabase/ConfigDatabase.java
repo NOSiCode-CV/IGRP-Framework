@@ -31,6 +31,9 @@ public class ConfigDatabase extends Model{
 	@RParam(rParamName = "p_password")
 	private String password;
 	
+	@RParam(rParamName = "p_link_doc")
+	private String link_doc;
+	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
@@ -52,6 +55,13 @@ public class ConfigDatabase extends Model{
 	}
 	public String getAplicacao(){
 		return this.aplicacao;
+	}
+	
+	public String getLink_doc() {
+		return link_doc;
+	}
+	public void setLink_doc(String link_doc) {
+		this.link_doc = link_doc;
 	}
 	
 	public void setTipo_base_dados(String tipo_base_dados){

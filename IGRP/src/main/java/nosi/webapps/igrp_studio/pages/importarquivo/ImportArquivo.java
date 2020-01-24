@@ -74,6 +74,11 @@ public class ImportArquivo extends Model{
 
 	@RParam(rParamName = "p_arquivo_pagina")
 	private UploadFile arquivo_pagina;
+
+	@RParam(rParamName = "p_help")
+	private IGRPLink help;
+	@RParam(rParamName = "p_help_desc")
+	private String help_desc;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -241,6 +246,28 @@ public class ImportArquivo extends Model{
 	}
 	public UploadFile getArquivo_pagina(){
 		return this.arquivo_pagina;
+	}
+	
+	public IGRPLink setHelp(String app,String page,String action){
+		this.help = new IGRPLink(app,page,action);
+		return this.help;
+	}
+	public IGRPLink getHelp(){
+		return this.help;
+	}
+	public void setHelp_desc(String help_desc){
+		this.help_desc = help_desc;
+	}
+	public String getHelp_desc(){
+		return this.help_desc;
+	}
+	public IGRPLink setHelp(String link){
+		this.help = new IGRPLink(link);
+		return this.help;
+	}
+	public IGRPLink setHelp(Report link){
+		this.help = new IGRPLink(link);
+		return this.help;
 	}
 
 

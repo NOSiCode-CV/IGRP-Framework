@@ -1,5 +1,7 @@
 package nosi.webapps.igrp_studio.pages.crudgenerator;
 
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -20,6 +22,11 @@ public class CRUDGenerator extends Model{
 
 	@RParam(rParamName = "p_table_type")
 	private String table_type;
+
+	@RParam(rParamName = "p_documento")
+	private IGRPLink documento;
+	@RParam(rParamName = "p_documento_desc")
+	private String documento_desc;
 
 	@RParam(rParamName = "p_form_2_radiolist_1")
 	private Integer form_2_radiolist_1;
@@ -59,6 +66,28 @@ public class CRUDGenerator extends Model{
 	}
 	public String getTable_type(){
 		return this.table_type;
+	}
+	
+	public IGRPLink setDocumento(String app,String page,String action){
+		this.documento = new IGRPLink(app,page,action);
+		return this.documento;
+	}
+	public IGRPLink getDocumento(){
+		return this.documento;
+	}
+	public void setDocumento_desc(String documento_desc){
+		this.documento_desc = documento_desc;
+	}
+	public String getDocumento_desc(){
+		return this.documento_desc;
+	}
+	public IGRPLink setDocumento(String link){
+		this.documento = new IGRPLink(link);
+		return this.documento;
+	}
+	public IGRPLink setDocumento(Report link){
+		this.documento = new IGRPLink(link);
+		return this.documento;
 	}
 	
 	public void setForm_2_radiolist_1(Integer form_2_radiolist_1){

@@ -67,7 +67,8 @@ public class PageController extends Controller {
 		/*----#start-code(index)----*/
 		Boolean isEdit = false;
 		Integer idPage = Core.getParamInt("p_id_page");
-		
+		model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=new_page"));
+ 	
 		if(idPage == 0){
 			idPage = model.getId_pagin_hidd();
 		}
@@ -459,41 +460,83 @@ public class PageController extends Controller {
 	}
 
 	// Read json and extract transactions
-	private void processJson(String fileJson, Action ac) throws IOException {
+	private void processJson(String fileJson, Action ac) {
 		JSONObject objJson;
+		if(fileJson.contains("\"transaction\":true")) {				
 		try {
 			objJson = new JSONObject(fileJson);
-			JSONArray rows = objJson.getJSONArray("rows");
-			for (int i = 0; i < rows.length(); i++) {
-				JSONArray collumns;
-				try {
-					collumns = rows.getJSONObject(i).getJSONArray("columns");
-					for (int j = 0; j < collumns.length(); j++) {
-						JSONArray containers;
-						try {
-							containers = collumns.getJSONObject(j).getJSONArray("containers");
-							for (int h = 0; h < containers.length(); h++) {
-								JSONArray fields;
-								try {
-									fields = containers.getJSONObject(h).getJSONArray("fields");
-									this.processTransactions(fields, ac);
-								} catch (JSONException e) {
-								}
-								JSONArray contextMenu;
-								try {
-									contextMenu = containers.getJSONObject(h).getJSONArray("contextMenu");
-									this.processTransactions(contextMenu, ac);
-								} catch (JSONException e) {
-								}
-							}
-						} catch (JSONException e) {
+			
+			this.processBoxContent(objJson,ac);
+			
+//			JSONArray rows = objJson.getJSONArray("rows");					
+//			for (int i = 0; i < rows.length(); i++) {
+//				JSONArray collumns;
+//				try {
+//					collumns = rows.getJSONObject(i).getJSONArray("columns");
+//					for (int j = 0; j < collumns.length(); j++) {
+//						JSONArray containers;
+//						try {
+//							containers = collumns.getJSONObject(j).getJSONArray("containers");
+//							for (int h = 0; h < containers.length(); h++) {
+//								JSONArray fields;
+//								try {
+//									fields = containers.getJSONObject(h).getJSONArray("fields");
+//									this.processTransactions(fields, ac);
+//								} catch (JSONException e) {
+//								}
+//								JSONArray contextMenu;
+//								try {
+//									contextMenu = containers.getJSONObject(h).getJSONArray("contextMenu");
+//									this.processTransactions(contextMenu, ac);
+//								} catch (JSONException e) {
+//								}
+//								JSONArray contents;									
+//								try {
+//									contents = containers.getJSONObject(h).getJSONArray("contents");
+//									this.processBoxContent( contents,ac);	
+//									
+//								} catch (Exception e) {
+//								}
+//							}
+//						} catch (Exception e) {
+//						}
+//					}
+//				} catch (Exception e) {
+//				}
+//			}
+		} catch (Exception e) {			
+		}
+		}	
+		
+		
+			
+	}
+
+	private void processBoxContent( JSONObject contents, Action ac) {
+		if(contents!=null) {
+		JSONArray rowsc = contents.getJSONArray("rows");	
+		for (int ic = 0; ic < rowsc.length(); ic++) {
+			JSONArray collumnsc= rowsc.optJSONObject(ic).optJSONArray("columns");
+			if(collumnsc!=null) {
+				for (int jc = 0; jc < collumnsc.length(); jc++) {
+					JSONArray containersc = collumnsc.optJSONObject(jc).optJSONArray("containers");
+					if(containersc!=null) {											
+						for (int hc = 0; hc < containersc.length(); hc++) {
+							JSONArray fieldsc = containersc.optJSONObject(hc).optJSONArray("fields");
+							if(fieldsc!=null && fieldsc.toString().contains("\"transaction\":true"))
+								this.processTransactions(fieldsc, ac);													
+							JSONArray contextMenuc = containersc.optJSONObject(hc).optJSONArray("contextMenu");
+							if(contextMenuc!=null && contextMenuc.toString().contains("\"transaction\":true"))
+								this.processTransactions(contextMenuc, ac);
+							JSONArray contentsX = containersc.optJSONObject(hc).optJSONArray("contents");
+							if(contentsX!=null && contentsX.toString().contains("\"transaction\":true"))
+								this.processBoxContent(contentsX.optJSONObject(0),ac);
 						}
 					}
-				} catch (JSONException e) {
 				}
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
+				
+		}
 		}
 	}
 
@@ -504,9 +547,10 @@ public class PageController extends Controller {
 			try {
 				p = fields.getJSONObject(i).getJSONObject("properties");
 				try {
-					if (p.get("transaction") != null && p.get("transaction").toString().equals("true")) {
+					if (p.get("transaction") != null && p.get("transaction").toString().equals("true")) {						
 						this.saveTransaction(p.get("name").toString(), p.get("label").toString(),
-								p.get("action").toString(), p.get("tag").toString(), ac);
+								p.get("action").toString(), p.get("tag").toString(), ac);						
+						
 					}
 				} catch (JSONException e) {
 				}

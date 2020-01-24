@@ -1,5 +1,7 @@
 package nosi.webapps.igrp_studio.pages.sql_tools;
 
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -8,12 +10,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Sql_tools extends Model{		
+
+	@RParam(rParamName = "p_help")
+	private IGRPLink help;
+	@RParam(rParamName = "p_help_desc")
+	private String help_desc;
+
 	@RParam(rParamName = "p_application")
 	private String application;
+
 	@RParam(rParamName = "p_data_source")
 	private String data_source;
+
 	@RParam(rParamName = "p_separator_1")
 	private String separator_1;
+
 	@RParam(rParamName = "p_sql")
 	private String sql;
 	
@@ -24,23 +35,28 @@ public class Sql_tools extends Model{
 	public List<Table_1> getTable_1(){
 		return this.table_1;
 	}
-	@RParam(rParamName = "p_table_1_id")
-	private String[] p_table_1_id;
-	@RParam(rParamName = "p_table_1_del")
-	private String[] p_table_1_del;
+
 	
-	public void setP_table_1_id(String[] p_table_1_id){
-		this.p_table_1_id = p_table_1_id;
+	public IGRPLink setHelp(String app,String page,String action){
+		this.help = new IGRPLink(app,page,action);
+		return this.help;
 	}
-	public String[] getP_table_1_id(){
-		return this.p_table_1_id;
+	public IGRPLink getHelp(){
+		return this.help;
 	}
-	
-	public void setP_table_1_del(String[] p_table_1_del){
-		this.p_table_1_del = p_table_1_del;
+	public void setHelp_desc(String help_desc){
+		this.help_desc = help_desc;
 	}
-	public String[] getP_table_1_del(){
-		return this.p_table_1_del;
+	public String getHelp_desc(){
+		return this.help_desc;
+	}
+	public IGRPLink setHelp(String link){
+		this.help = new IGRPLink(link);
+		return this.help;
+	}
+	public IGRPLink setHelp(Report link){
+		this.help = new IGRPLink(link);
+		return this.help;
 	}
 	
 	public void setApplication(String application){

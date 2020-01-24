@@ -231,3 +231,8 @@ div[data-entry="form-fields"]{
 .input-group-btn.IGRP_lookupPopup .btn{
 	padding: 9px 12px;
 }
+
+#igrp-doc{
+	font-size: 12px;
+    margin-top: 15px;
+}

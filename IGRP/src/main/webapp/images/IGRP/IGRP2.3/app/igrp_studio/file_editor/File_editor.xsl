@@ -46,7 +46,12 @@
             </div>
           </div>
           <xsl:call-template name="IGRP-bottom"/>
-        </form>
+          
+          <div> <a id="igrp-doc" href="{rows/content/form_1/fields/link_doc/value}" class="bpmn-controller link btn btn-link pull-right" target="_newtab" request-fields="">
+                 <i class="fa fa-question-circle" style="margin-right:5px"></i>Help
+                 </a></div>
+      
+        </form>       
 
         <!-- CODE MIRROR -->
         <script src="{$path}/core/codemirror/js/codemirror.js"></script>
@@ -73,7 +78,8 @@
         <script type="text/javascript" src="{$path}/plugins/tabs/igrp.tabs.js?v={$version}"/>
         <script type="text/javascript" src="{$path}/core/fileeditor/igrp.fileeditor.js?v={$version}"/>
         <script type="text/javascript" src="{$path}/core/fileeditor/classes/templates.clss.js?v={$version}"/>
-      </body>
+      </body>           		
+		
     </html>
   </xsl:template>
   <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1525862739638"/>

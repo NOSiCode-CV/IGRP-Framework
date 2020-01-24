@@ -21,6 +21,7 @@ public class ConfigDatabaseView extends View {
 	public Field username;
 	public Field password;
 	public Field default_;
+	public Field link_doc;
 	public Field default__check;
 	public Field nome_de_conexao_tabela;
 	public Field user_name_tabela;
@@ -31,6 +32,7 @@ public class ConfigDatabaseView extends View {
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
+	
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
@@ -103,6 +105,11 @@ public class ConfigDatabaseView extends View {
 		nome_de_conexao_tabela.setLabel(gt("Nome da conexão"));
 		nome_de_conexao_tabela.propertie().add("name","p_nome_de_conexao_tabela").add("type","text").add("maxlength","30").add("showLabel","true");
 		
+		link_doc = new LinkField(model,"link_doc");
+		link_doc.setLabel(gt("link_doc"));
+		link_doc.setValue(new Config().getResolveUrl("tutorial","Listar_documentos","index&p_type=base_dados"));
+		link_doc.propertie().add("name","p_link_doc").add("type","link").add("target","modal").add("maxlength","30");
+		
 		user_name_tabela = new TextField(model,"user_name_tabela");
 		user_name_tabela.setLabel(gt("Username"));
 		user_name_tabela.propertie().add("name","p_user_name_tabela").add("type","text").add("maxlength","30").add("showLabel","true");
@@ -154,6 +161,7 @@ public class ConfigDatabaseView extends View {
 		form_1.addField(credenciais);
 		form_1.addField(username);
 		form_1.addField(password);
+		form_1.addField(link_doc);
 
 		table_1.addField(default_);
 		table_1.addField(default__check);

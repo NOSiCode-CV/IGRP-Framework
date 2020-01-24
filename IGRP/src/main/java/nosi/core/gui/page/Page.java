@@ -33,7 +33,7 @@ public class Page{
 	private String linkXsl=null; 
 	
 	private boolean showFooter = false; 
-	private String copyright = "&copy; Copyright 2019, Núcleo Operacional da Sociedade de informação - E.P.E. Todos os direitos reservados."; 
+	private String copyright = "&copy; Copyright 2020, Núcleo Operacional da Sociedade de informação - E.P.E. Todos os direitos reservados."; 
 	private String developed = "Design &amp; Concepção"; 
 
 	

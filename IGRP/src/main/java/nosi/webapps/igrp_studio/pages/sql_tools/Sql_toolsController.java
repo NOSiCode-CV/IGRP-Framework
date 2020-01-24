@@ -6,6 +6,8 @@ import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
@@ -27,6 +29,7 @@ public class Sql_toolsController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Sql_tools model = new Sql_tools();
 		model.load();
+		model.setHelp("igrp_studio","ListaPage","index");
 		Sql_toolsView view = new Sql_toolsView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -36,7 +39,8 @@ public class Sql_toolsController extends Controller {
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		view.application.setValue(new Application().getListApps());
+		model.setHelp(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=sqltools"));
+      view.application.setValue(new Application().getListApps());
 		if (Core.isNotNull(model.getApplication())) {
 			final Map<Object, Object> listDSbyEnv = new Config_env().getListDSbyEnv(Core.toInt(model.getApplication()));
 			if(listDSbyEnv.size() == 2){
@@ -85,8 +89,9 @@ public class Sql_toolsController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp_studio","ListaPage","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(run)----*/
 		if (Core.isNotNull(model.getApplication()) && Core.isNotNull(model.getData_source()) && Core.isNotNull(model.getSql())) {
@@ -96,6 +101,8 @@ public class Sql_toolsController extends Controller {
 		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 	private void addRowToTable(IGRPTable table_1, List<Tuple> list, String sql, Config_env config_env) throws SQLException {
 		List<Column> columns = DatabaseMetadaHelper.getCollumns(config_env, sql.trim());

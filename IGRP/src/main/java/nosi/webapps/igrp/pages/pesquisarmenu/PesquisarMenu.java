@@ -16,6 +16,9 @@ public class PesquisarMenu extends Model{
 	@RParam(rParamName = "p_id_app")
 	private int id_app;
 	
+	@RParam(rParamName = "p_link_doc")
+	private String link_doc;
+	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
@@ -45,6 +48,14 @@ public class PesquisarMenu extends Model{
 	public int getId_app(){
 		return this.id_app;
 	}
+	
+	public String getLink_doc() {
+		return link_doc;
+	}
+	public void setLink_doc(String link_doc) {
+		this.link_doc = link_doc;
+	}
+
 
 
 	public static class Table_1 extends IGRPTable.Table{
