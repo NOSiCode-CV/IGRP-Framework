@@ -18,6 +18,7 @@ import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
@@ -680,6 +681,14 @@ public final class Core { // Not inherit
 	public static Integer getCurrentOrganization() {
 		return new Permission().getCurrentOrganization();
 	}
+	
+	/**
+	 * Get current Profile ID
+	 */
+	public static Integer getCurrentYear() {
+		return Core.getCurrentDateCalendar().get(Calendar.YEAR);
+	}
+	
 
 	/**
 	 * Get current Profile ID
