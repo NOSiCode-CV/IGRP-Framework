@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -33,8 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=14</preserve_url>
     </plsql>
-    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Área pessoal</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -48,52 +48,61 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <nome name="p_nome" type="text" maxlength="100">
+                <nome name="p_nome" type="text" maxlength="100" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Nome</label>
-                    <value>Voluptatem aperiam aliqua totam amet</value>
+                    <value>Doloremque natus magna accusantium adipiscing</value>
                 </nome>
-                <email name="p_email" type="text" maxlength="100">
+                <email name="p_email" type="text" maxlength="100" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Email</label>
-                    <value>Elit dolor natus sit laudantium</value>
+                    <value>Elit adipiscing ut iste sit</value>
                 </email>
-                <username name="p_username" type="text" maxlength="30">
+                <username name="p_username" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Username</label>
-                    <value>Amet laudantium rem aperiam ma</value>
+                    <value>Perspiciatis voluptatem sit co</value>
                 </username>
-                <telefone name="p_telefone" type="text" maxlength="30">
+                <telefone name="p_telefone" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Telefone</label>
-                    <value>Sit aperiam unde ut labore</value>
+                    <value>Adipiscing laudantium rem aper</value>
                 </telefone>
-                <telemovel name="p_telemovel" type="text" maxlength="30">
+                <telemovel name="p_telemovel" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Telemóvel</label>
-                    <value>Aliqua omnis ut sit natus</value>
+                    <value>Lorem voluptatem aliqua rem ac</value>
                 </telemovel>
-                <ultimo_acesso_igrp name="p_ultimo_acesso_igrp" type="text" maxlength="30">
+                <ultimo_acesso_igrp name="p_ultimo_acesso_igrp" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Ultimo Acesso IGRP</label>
-                    <value>Aperiam aliqua amet sit deseru</value>
+                    <value>Labore ipsum totam natus persp</value>
                 </ultimo_acesso_igrp>
-                <ultimo_acesso_rede_estado name="p_ultimo_acesso_rede_estado" type="text" maxlength="30">
+                <ultimo_acesso_rede_estado name="p_ultimo_acesso_rede_estado" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Ultimo Acesso Rede Estado</label>
-                    <value>Magna omnis mollit stract lore</value>
+                    <value>Sit amet sit consectetur strac</value>
                 </ultimo_acesso_rede_estado>
-                <password_expira_em name="p_password_expira_em" type="text" maxlength="30">
+                <password_expira_em name="p_password_expira_em" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Password Expira em</label>
-                    <value>Aliqua consectetur aperiam tot</value>
+                    <value>Perspiciatis iste ut deserunt</value>
                 </password_expira_em>
                 <view_1_img type="text" name="p_view_1_img" maxlength="300">
-                    <value>/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                    <value>../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
                 </view_1_img>
             </fields>
         </view_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="alterar_senha">
+            <item type="specific" code="" rel="alterar_senha" refresh_components="">
                 <title>Alterar senha</title>
                 <app>igrp</app>
                 <page>ChangePassword</page>
                 <link>index</link>
                 <target>right_panel</target>
                 <img>info|fa-lock</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/changepassword/ChangePassword.xml</preview>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/changepassword/ChangePassword.xml</preview>
+            </item>
+            <item type="specific" code="" rel="editar_perfil" refresh_components="">
+                <title>Editar Perfil</title>
+                <app>igrp</app>
+                <page>RegistarUtilizador</page>
+                <link>index</link>
+                <target>right_panel_submit</target>
+                <img>warning|fa-pencil-square-o</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
@@ -120,7 +129,7 @@
                         </option>
                     </list>
                 </idioma>
-                <separator_1 name="p_separator_1" type="separator" maxlength="30" placeholder="" right="false">
+                <separator_1 name="p_separator_1" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
                     <label>Acesso</label>
                 </separator_1>
                 <perfil name="p_perfil" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
@@ -149,4 +158,10 @@
             </fields>
         </form_1>
     </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
 </rows>
