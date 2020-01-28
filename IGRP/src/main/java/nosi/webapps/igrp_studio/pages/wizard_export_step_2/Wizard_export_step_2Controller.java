@@ -25,28 +25,34 @@ public class Wizard_export_step_2Controller extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_bpmn(Core.query(null,"SELECT '1' as bpmn_ids,'Laudantium consectetur perspic' as descricao_bpmn "));
-		model.loadTable_report(Core.query(null,"SELECT '1' as report_ids,'Omnis consectetur natus elit s' as descricao_report "));
-		model.loadTable_modulo(Core.query(null,"SELECT '1' as modulo_ids,'Doloremque rem magna aperiam a' as descricao_modulo "));
-		model.loadTable_dao(Core.query(null,"SELECT '1' as dao_ids,'Omnis aliqua totam anim amet' as descricao_dao "));
-		model.loadTable_service(Core.query(null,"SELECT '1' as services_ids,'Perspiciatis magna officia str' as descricao_services "));
-		model.loadTable_connections(Core.query(null,"SELECT '1' as conexao_ids,'Elit totam lorem anim amet' as descricao_conexao "));
-		model.loadTable_domain(Core.query(null,"SELECT '1' as domain_ids,'Omnis aperiam stract consectet' as descricao_domain "));
-		model.loadTable_doc_type(Core.query(null,"SELECT '1' as tipo_doc_ids,'Elit labore stract sit elit' as descricao_tipo_doc "));
-		model.loadTable_menu(Core.query(null,"SELECT '1' as menu_ids,'Mollit perspiciatis adipiscing' as descricao_menu "));
-		model.loadTbl_transation(Core.query(null,"SELECT '1' as transation_ids,'Amet labore accusantium consec' as descricao_transation "));
-		model.loadTable_others_class(Core.query(null,"SELECT '1' as others_class_ids,'Voluptatem adipiscing sit sit' as descricao_others_class "));
-		model.loadTable_pagina(Core.query(null,"SELECT '1' as pagina_ids,'Perspiciatis dolor rem stract' as descricao_pagina "));
+		model.loadTable_bpmn(Core.query(null,"SELECT '1' as bpmn_ids,'Deserunt consectetur ut ipsum' as descricao_bpmn "));
+		model.loadTable_pagina(Core.query(null,"SELECT '1' as pagina_ids,'Adipiscing labore sed omnis am' as descricao_pagina "));
+		model.loadTable_report(Core.query(null,"SELECT '1' as report_ids,'Labore totam elit perspiciatis' as descricao_report "));
+		model.loadTable_doc_type(Core.query(null,"SELECT '1' as tipo_doc_ids,'Consectetur sit accusantium do' as descricao_tipo_doc "));
+		model.loadTable_menu(Core.query(null,"SELECT '1' as menu_ids,'Accusantium elit rem sed strac' as descricao_menu "));
+		model.loadTable_modulo(Core.query(null,"SELECT '1' as modulo_ids,'Accusantium voluptatem dolor l' as descricao_modulo "));
+		model.loadTable_domain(Core.query(null,"SELECT '1' as domain_ids,'Stract amet aliqua doloremque' as descricao_domain "));
+		model.loadTbl_transation(Core.query(null,"SELECT '1' as transation_ids,'Perspiciatis laudantium stract' as descricao_transation "));
+		model.loadTable_dao(Core.query(null,"SELECT '1' as dao_ids,'Omnis stract aperiam ut offici' as descricao_dao "));
+		model.loadTable_connections(Core.query(null,"SELECT '1' as conexao_ids,'Lorem accusantium amet volupta' as descricao_conexao "));
+		model.loadTable_others_class(Core.query(null,"SELECT '1' as others_class_ids,'Dolor doloremque adipiscing do' as descricao_others_class "));
+		model.loadTable_service(Core.query(null,"SELECT '1' as services_ids,'Iste perspiciatis magna labore' as descricao_services "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
      	String nomeApp = Core.findApplicationById(model.getApplication_id()).getName();
 		String[] p_selecionar_opcao = Core.getParamArray("p_selecionar_opcao");
-		String aux = Arrays.toString(p_selecionar_opcao);
-		if(Core.isNotNull(model.getApplication_id()) && p_selecionar_opcao!=null) {
+		if(p_selecionar_opcao!=null) {
+			String aux = Arrays.toString(p_selecionar_opcao);
 			aux = aux.replace("[", "").replace("]", "");
 			model.setExport_type(aux);
+		}
+		else if(model.getExport_type() != null){
+			p_selecionar_opcao=model.getExport_type().split(", ");
+		}
+	
+		if(Core.isNotNullMultiple(model.getApplication_id(),p_selecionar_opcao)) {			
 			new ExportSqlHelper().loadDataExport(view,model,p_selecionar_opcao);
 		}
 		final Map<Object, Object> map = Core.toMap(new Modulo().getModuloByApp(model.getApplication_id()), "name",
