@@ -218,7 +218,7 @@
 					 	
 				</block>
 				
-				<block type="comment_code" prev-statement="" color="280">
+				<block type="comment_code" prev-statement="" next-statement="" color="280">
 				
 				   	<value type="dummy" title="comment code">
 				   	

@@ -26,7 +26,7 @@ public class Parametrizacao_tipoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Anim voluptatem elit doloremqu' as nome_tipo,'Mollit deserunt amet doloremqu' as descricao_do_tipo,'hidden-0175_703b' as id_tipo "));
+		model.loadTable_1(Core.query(null,"SELECT 'Sit ipsum totam iste laudantiu' as nome_tipo,'Magna stract ipsum deserunt vo' as descricao_do_tipo,'10' as ordem_tbl,'hidden-75f0_04c2' as id_tipo "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 	try{
@@ -41,10 +41,9 @@ public class Parametrizacao_tipoController extends Controller {
 			model.setTipo(tipo.getNome());
 			model.setDescricao(tipo.getDescricao());
 			model.setId_tipo_form(Core.getParamInt("p_id_tipo"));
-	
-	view.btn_salvar.addParameter("p_id_tipo", Core.getParam("p_id_tipo"));
-	
-	view.btn_salvar.addParameter("isEdit", "true");
+          	model.setOrdem(tipo.getOrdem());
+			view.btn_salvar.addParameter("p_id_tipo", Core.getParam("p_id_tipo"));
+			view.btn_salvar.addParameter("isEdit", "true");
 		}
 	}
 	}catch ( Exception e ) {
@@ -61,6 +60,7 @@ public class Parametrizacao_tipoController extends Controller {
 			Parametrizacao_tipo.Table_1 row = new Parametrizacao_tipo.Table_1();
 			row.setNome_tipo(tipo.getNome());
 			row.setDescricao_do_tipo(tipo.getDescricao());
+          	row.setOrdem_tbl(tipo.getOrdem());
 			row.setId_tipo(tipo.getIdTipo());
 			tipoTable.add(row);
 		}
@@ -103,6 +103,7 @@ public class Parametrizacao_tipoController extends Controller {
 		if (tipo != null){
 		tipo.setNome(model.getTipo());
 		tipo.setDescricao(model.getDescricao());
+        tipo.setOrdem(model.getOrdem());
         }
 		session.persist(tipo);
 		transaction.commit();
