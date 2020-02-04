@@ -13,11 +13,13 @@ import javax.servlet.http.Cookie;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.ApplicationPermition;
+import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.Share;
 import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.dao.User;
 
@@ -28,17 +30,19 @@ public class Permission {
 	
 	private ApplicationPermition applicationPermition; 
 	
-	public boolean isPermition(String app,String page,String action){//check permission on app		
+	public boolean isPermition(String app, String appP,String page,String action){//check permission on app		
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){
-			if(PagesScapePermission.PAGES_SHAREDS.contains((app+"/"+page+"/"+action).toLowerCase())){
+			if(PagesScapePermission.PAGES_SHAREDS.contains((appP+"/"+page+"/"+action).toLowerCase())){
 				return true;
 			}
-			boolean x = new Application().getPermissionApp(app);
-			if(!x){
-				x = new Menu().getPermissionMen(app);
-			}
+//			Checks if the user has been invited to this app
+			boolean x = (new Application().getPermissionApp(app) && new Menu().getPermissionMen(appP,page)) ||app.equalsIgnoreCase("igrp_studio") || app.equalsIgnoreCase("tutorial");
+			
+//			if(!x) {
+//				x=new Share().getPermissionPage(app,appP,new Action().findByPage(page, appP).getId());
+//			}		
 			return x;
-		}else if(PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains((app+"/"+page+"/"+action).toLowerCase()))
+		}else if(PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains((appP+"/"+page+"/"+action).toLowerCase()))
 //					(action.equalsIgnoreCase("login") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("login")) || 
 //					(action.equalsIgnoreCase("logout") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("login")) || 
 //					(action.equalsIgnoreCase("permission") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("error-page")) ||
@@ -75,18 +79,10 @@ public class Permission {
 					 profType.setId(prof.getProfileType().getId());
 					 ApplicationPermition appP = this.getApplicationPermition(dad);
 					 if(appP==null) {
-						 appP = new ApplicationPermition(app.getId(),dad, prof.getOrganization().getId(), prof.getProfileType().getId(),prof.getOrganization().getCode(),prof.getProfileType().getCode());
+						 appP = new ApplicationPermition(app.getId(),dad, org!=null?org.getId():null, profType!=null ? profType.getId():null,prof!=null && prof.getOrganization()!=null? prof.getOrganization().getCode():null,prof!=null && prof.getProfileType()!=null?prof.getProfileType().getCode():null);
 					}
 					 this.applicationPermition = appP;
-					try {
-						String json = Core.toJson(appP);
-						Cookie cookie = new Cookie(dad, URLEncoder.encode( json,ENCODE));
-						cookie.setMaxAge(MAX_AGE);
-						Igrp.getInstance().getResponse().addCookie(cookie);
-					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					 this.setCookie(appP);
 				}
 			}
 		}
