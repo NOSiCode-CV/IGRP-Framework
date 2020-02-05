@@ -60,8 +60,8 @@ public class ListaPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Sed perspiciatis aperiam rem i' as modulo_tab,'Laudantium sit elit sed amet' as descricao_page,'hidden-bcbe_dda8' as id_page,'hidden-384a_eb73' as nome_page "));
-		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-7494_3799' as env_fk "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Magna voluptatem perspiciatis' as modulo_tab,'Labore adipiscing stract sit e' as descricao_page,'hidden-2eb1_ba75' as id_page,'hidden-7f19_48f1' as nome_page "));
+		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-9a2e_4ad1' as env_fk "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */

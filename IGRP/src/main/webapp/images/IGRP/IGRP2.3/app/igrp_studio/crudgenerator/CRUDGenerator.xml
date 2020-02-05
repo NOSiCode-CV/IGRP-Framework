@@ -184,6 +184,10 @@
                     <label>Help</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
                 </documento>
+                <forum name="p_forum" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="ListaPage" app="igrp_studio" custom_action="https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&amp;utm_medium=link&amp;utm_campaign=share-link" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-comments" maxlength="250" showlabel="true">
+                    <label>Forum</label>
+                    <value>https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&amp;utm_medium=link&amp;utm_campaign=share-link</value>
+                </forum>
             </fields>
         </view_1>
         <table_1 type="table" xml-type="table" title="Escolha a tabela" gen-type="container" gen-group="true">
@@ -200,27 +204,27 @@
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Iste magna anim amet anim</table_name>
+                        <table_name name="p_table_name">Sit sit consectetur amet aperi</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Dolor totam rem stract amet</table_name>
+                        <table_name name="p_table_name">Mollit stract perspiciatis lor</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Aliqua natus aperiam labore om</table_name>
+                        <table_name name="p_table_name">Accusantium perspiciatis unde</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Sit lorem natus perspiciatis i</table_name>
+                        <table_name name="p_table_name">Ipsum perspiciatis iste totam</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Voluptatem officia accusantium</table_name>
+                        <table_name name="p_table_name">Ipsum deserunt ut officia dolo</table_name>
                     </row>
                 </value>
             </table>
