@@ -7,14 +7,26 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 			var rtn 		= false,
 				field 		= $(p.field),
-				type  		= field.attr('type'),
-				fieldValue 	= field.val(),
+				type  		= field.attr('type') || field.parents('[item-type]').attr('item-type'),
+				fieldValue  = field.val(),
 				condition   = typeof p.condition == 'string' ? conditionsList[p.condition] : p.condition;
 
-
-			if (type == 'radio' || type == 'checkbox') 
-
-				fieldValue =  $('input[name="'+field.attr('name')+'"]:checked').val();
+			
+			if (type == 'radio' || type == 'checkbox') {
+				
+				fieldValue = [];
+				
+				$('input[name="'+field.attr('name')+'"]:checked').each(function(){
+					
+					fieldValue.push($(this).val());
+					
+				});
+				
+				//fieldValue = fieldValue.join(',');
+				
+				//fieldValue = $('input[name="'+field.attr('name')+'"]:checked').val();
+				
+			}
 
 			p.fieldValue = fieldValue;
 
@@ -175,8 +187,6 @@ if($ && $.IGRP && !$.IGRP.rules){
 						
 						validateAndExecute($(this),rule);
 						
-						console.log(this);
-						
 					});
 
 				});
@@ -303,27 +313,59 @@ if($ && $.IGRP && !$.IGRP.rules){
 	var conditionsList = {
 		equal:{
 			satisfy:function(r){
-
-				return !isNaN(r.fieldValue*1)?(r.fieldValue == r.rule.value):(r.fieldValue.toLowerCase() == r.rule.value.toLowerCase());
+				
+				var satisfy = false;
+				
+				if(r.fieldValue){
+					
+					if($.isArray(r.fieldValue))
+						satisfy = $.inArray(r.rule.value,r.fieldValue) !== -1;
+					
+					else
+						satisfy = !isNaN(r.fieldValue*1) ? (r.fieldValue == r.rule.value) : (r.fieldValue.toLowerCase() == r.rule.value.toLowerCase());
+				}
+				
+				return satisfy;
+				
+				//return !isNaN(r.fieldValue*1) ? (r.fieldValue == r.rule.value) : (r.fieldValue.toLowerCase() == r.rule.value.toLowerCase());
 				
 			},
 			opposite:'diff'
 		},
 		diff:{
 			satisfy:function(r){
-				return !isNaN(r.fieldValue*1)?(r.fieldValue != r.rule.value):(r.fieldValue.toLowerCase() != r.rule.value.toLowerCase());
+				
+				var satisfy = false;
+				
+				if(r.fieldValue){
+					
+					if($.isArray(r.fieldValue))
+						satisfy = $.inArray(r.rule.value,r.fieldValue) === -1;
+					
+					else
+						satisfy = !isNaN(r.fieldValue*1) ? (r.fieldValue != r.rule.value) : (r.fieldValue.toLowerCase() != r.rule.value.toLowerCase());
+				}
+				
+				return satisfy;
+				
+				//return !isNaN(r.fieldValue*1) ? (r.fieldValue != r.rule.value) : (r.fieldValue.toLowerCase() != r.rule.value.toLowerCase());
+			
 			},
 			opposite:'equal'
 		},
 		greater:{
 			satisfy:function(r){
-				return !isNaN(r.fieldValue*1)?(r.fieldValue > r.rule.value):(r.fieldValue.toLowerCase() > r.rule.value.toLowerCase());
+				
+				return !isNaN(r.fieldValue*1) ? (r.fieldValue > r.rule.value) : (r.fieldValue.toLowerCase() > r.rule.value.toLowerCase());
+			
 			},
 			opposite:'less'
 		},
 		less:{
 			satisfy:function(r){
-				return !isNaN(r.fieldValue*1)?(r.fieldValue < r.rule.value):(r.fieldValue.toLowerCase() < r.rule.value.toLowerCase());
+				
+				return !isNaN(r.fieldValue*1) ? (r.fieldValue < r.rule.value) : (r.fieldValue.toLowerCase() < r.rule.value.toLowerCase());
+			
 			},
 			opposite:'greater'
 		},
