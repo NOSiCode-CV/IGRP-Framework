@@ -79,57 +79,67 @@
 			
 			var rows = $('table.table[id] tbody tr', o.parent);
 			
-			rows.each(function(trIndex, tr){
+			if(!rows[0] && $('table.table[id] thead tr th', o.parent)[0]){
 				
-				var table = $(tr).parents('table');
+				$(o.thSelector, $('table.table[id] thead', o.parent)).each(function(i, th){
+					
+					$(th).remove();
+					
+				});
+			}
+			else{
 				
-				var tdContent;
-
-				$(o.thSelector, table).each(function(i, th){
+				rows.each(function(trIndex, tr){
 					
-					var thName    = $(this).attr('td-name'),
+					var table = $(tr).parents('table');
 					
-						groupName = $(this).attr('group-in'),
+					var tdContent;
+	
+					$(o.thSelector, table).each(function(i, th){
 						
-						tdHolder = $('td[item-name="'+groupName+'"]', tr),
+						var thName    = $(this).attr('td-name'),
 						
-						tdInfo   = $('td[item-name="'+thName+'"]',tr);
-					
-					if(tdHolder[0] && tdInfo[0]){
-						
-						$(th).removeClass('is-grouped');
-						
-						var infoHolder = $('<div class="table-info-holder" item-name="'+thName+'">'+
-												'<div class="table-info-th '+$(th).attr('class')+'">'+$(th).html()+'</div>'+
-												'<div class="table-info-td '+tdInfo.attr('class')+'">'+tdInfo.html()+'</div>'+
-										   '</div>'),
-							tdMainHolder;
-										   
-					
-						if(!tdHolder.find('.table-info-group-main')[0]){
+							groupName = $(this).attr('group-in'),
 							
-							tdMainHolder = $('<div class="table-info-group-main"></div>');
+							tdHolder = $('td[item-name="'+groupName+'"]', tr),
 							
-							tdHolder.append( tdMainHolder );
+							tdInfo   = $('td[item-name="'+thName+'"]',tr);
+						
+						if(tdHolder[0] && tdInfo[0]){
 							
-							tdHolder.find('>*').appendTo( tdMainHolder );
+							$(th).removeClass('is-grouped');
+							
+							var infoHolder = $('<div class="table-info-holder" item-name="'+thName+'">'+
+													'<div class="table-info-th '+$(th).attr('class')+'">'+$(th).html()+'</div>'+
+													'<div class="table-info-td '+tdInfo.attr('class')+'">'+tdInfo.html()+'</div>'+
+											   '</div>'),
+								tdMainHolder;
+											   
+						
+							if(!tdHolder.find('.table-info-group-main')[0]){
+								
+								tdMainHolder = $('<div class="table-info-group-main"></div>');
+								
+								tdHolder.append( tdMainHolder );
+								
+								tdHolder.find('>*').appendTo( tdMainHolder );
+							}
+							
+					
+							tdHolder.append( infoHolder );
+							
+							$(th).addClass('is-grouped');
+							
+							tdInfo.addClass('is-grouped');
+							
 						}
-						
+	
+					});			
+					
+				});
 				
-						tdHolder.append( infoHolder );
-						
-						$(th).addClass('is-grouped');
-						
-						tdInfo.addClass('is-grouped');
-						
-					}
-
-				});			
-				
-			});
-			
-			rows.parents('table').find('.is-grouped').remove();
-			
+				rows.parents('table').find('.is-grouped').remove();
+			}
 		},
 
 		dataTable : function(op){
