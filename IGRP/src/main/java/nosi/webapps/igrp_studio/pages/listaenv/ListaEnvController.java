@@ -68,7 +68,8 @@ public class ListaEnvController extends Controller {
               if (ac != null) {					
 					page = (ac != null && ac.getPage() != null) ? ac.getPage() : page;
 					page = ac.getApplication().getDad().toLowerCase() + "/" + page;
-				}				
+				}
+              //Creates the link to open a app
              	table.setName("igrp_studio", "env", "openApp")
 						.addParam("app", a.getDad())
 						.addParam("page", page + "/index");
