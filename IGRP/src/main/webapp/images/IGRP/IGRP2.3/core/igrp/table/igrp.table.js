@@ -79,9 +79,9 @@
 			
 			var rows = $('table.table[id] tbody tr', o.parent);
 			
-			if(!rows[0] && $('table.table[id] thead tr th', o.parent)[0]){
+			if(!rows[0] && $('table.table[id] thead tr th[group-in]', o.parent)[0]){
 				
-				$(o.thSelector, $('table.table[id] thead', o.parent)).each(function(i, th){
+				$('table.table[id] thead tr th[group-in]', o.parent).each(function(i, th){
 					
 					$(th).remove();
 					
