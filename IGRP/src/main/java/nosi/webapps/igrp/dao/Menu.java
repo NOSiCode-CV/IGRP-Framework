@@ -22,6 +22,7 @@ import java.util.List;
 import javax.persistence.Column;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.core.webapp.security.EncrypDecrypt;
 
@@ -172,17 +173,23 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		this.isInserted = isInserted;
 	}
 
-	public boolean getPermissionMen(String app) {
+	public boolean getPermissionMen(String app,String page) {
 		
-		Profile p = new Profile().find()
-				.andWhere("type", "=","MEN")
-				.andWhere("organization", "=",Core.getCurrentOrganization())
-//				.andWhere("organization.application.dad", "=",app)
-				.andWhere("profileType", "=",Core.getCurrentProfile())
-				.andWhere("profileType.status", "=", 1)
+		Menu m = new Menu().find()
+				.andWhere("application", "=",Core.findApplicationByDad(app).getId())
+				.andWhere("action", "=",new Action().findByPage(page, app).getId())				
+				.andWhere("status", "=", 1)
+				.orWhere("flg_base","=",1)
 				.one();
-		return p!=null;
+		return m!=null;
 		
+//		.andWhere("type", "=","MEN")
+//		.andWhere("organization", "=",Core.getCurrentOrganization())
+//		.andWhere("organization.application.dad", "=",app)
+//		.andWhere("profileType", "=",Core.getCurrentProfile())
+//		.andWhere("profileType.status", "=", 1)
+//		.one();
+//		
 		
 	}
 	public List<Menu> getMyMen_de_env(int env_fk) {
@@ -315,6 +322,44 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		for(Menu m : aux){
 			lista.put(m.getId(),m.getDescr());
 		}
+		return lista;
+	}
+	//Returns the actions/Pages of all the items of the menu of a app 
+	public LinkedHashMap<Integer, String> getListAction(int app) {
+		LinkedHashMap<Integer,String> lista = new LinkedHashMap<>();
+		lista.put(null, gt("-- Selecionar --"));
+		List<Menu> aux = this.find()				
+				.andWhere("application", "=",app)
+				.andWhere("action", "notnull")		
+				.andWhere("status", "=", 1)
+				.orWhere("flg_base","=",1)
+				.orderBy("flg_base")
+				.all();	
+		for(Menu m : aux){
+			
+			lista.put(m.getAction().getId(),m.getFlg_base()==0? m.getDescr():m.getDescr()+" ["+m.getApplication().getDad()+"]");
+		}
+		return lista;
+	}	
+	
+	//Returns the actions/Pages of all the items of the menu of a app of a Org
+	public LinkedHashMap<Integer, String> getListActionByOrg(int appID, int orgID) {
+		LinkedHashMap<Integer,String> lista = new LinkedHashMap<>();
+		lista.put(null, gt("-- Selecionar --"));
+	
+		String sqlMenuByApp = "SELECT m.id,m.descr,m.flg_base,m.action_fk  FROM tbl_menu m where  ((m.env_fk=:env_fk or  m.flg_base=1) and EXISTS (SELECT type_fk from tbl_profile p where p.type='MEN' AND p.org_fk=:org_fk AND p.type_fk=m.id ) ) "; 
+	//String sqlPublicMenu = "SELECT m.id,m.descr,m.flg_base,m.action_fk,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND type_fk=m.id) then 1 else 0 END) as isInserted FROM tbl_menu m WHERE m.action_fk is not null AND m.status=1 AND m.env_fk<>:env_fk AND m.flg_base=1";
+		ResultSet.Record record = Core.query(this.getConnectionName(),sqlMenuByApp)									 
+									  .addInt("org_fk", orgID)
+									  .addInt("env_fk", appID)
+									  .orderByAsc("flg_base")									 
+									  .getRecordList();
+		record.RowList.forEach(row->{		
+
+			lista.put(row.getInt("action_fk"),row.getString("descr"));			
+		});
+		
+		
 		return lista;
 	}	
 

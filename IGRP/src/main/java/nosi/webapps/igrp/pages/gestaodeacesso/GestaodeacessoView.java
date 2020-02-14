@@ -11,6 +11,7 @@ public class GestaodeacessoView extends View {
 
 	public Field sectionheader_1_text;
 	public Field documento_link;
+	public Field forum;
 	public Field aplicacao;
 	public Field adicionar_organica;
 	public Field gestao_de_utilizadores;
@@ -55,6 +56,11 @@ public class GestaodeacessoView extends View {
 		documento_link.setValue(Core.getIGRPLink("igrp","Dominio","index"));
 
 									documento_link.propertie().add("name","p_documento_link").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
+		
+		forum = new LinkField(model,"forum");
+		forum.setLabel(gt("Forum"));
+		forum.setValue(gt("https://gitter.im/igrpweb/gestao_de_acessos?utm_source=share-link&utm_medium=link&utm_campaign=share-link"));
+		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-comments").add("maxlength","250").add("showlabel","true");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
@@ -131,6 +137,7 @@ public class GestaodeacessoView extends View {
 		sectionheader_1.addField(sectionheader_1_text);
 
 		view_1.addField(documento_link);
+		view_1.addField(forum);
 
 		form_1.addField(aplicacao);
 		form_1.addField(adicionar_organica);

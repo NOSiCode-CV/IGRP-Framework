@@ -52,6 +52,7 @@ import nosi.core.webapp.security.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
@@ -350,7 +351,7 @@ public class EnvController extends Controller {
 		view.sectionheader_1_text.setValue(Core.gt("App builder - Atualizar"));
     	view.dad.propertie().setProperty("disabled", "true");
 		view.btn_gravar.setLink("igrp_studio", "env", "editar&p_id=" + idAplicacao);
-		view.action_fk.setValue(new Action().getListActions(idAplicacao));
+		view.action_fk.setValue(new Menu().getListAction(idAplicacao));
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
@@ -485,7 +486,7 @@ public class EnvController extends Controller {
 		String[] p = page.split("/");
 		Permission permission = new Permission();
 		
-		if(permission.isPermition(p[0], p[1], p[2])) {
+		if(permission.isPermition(app,p[0], p[1], p[2])) {
 			permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
 			
 			Application env = Core.findApplicationByDad(app);
@@ -569,7 +570,7 @@ public class EnvController extends Controller {
 						p[0] = action.getApplication().getDad();
 						p[1] = action.getPage();
 						p[2] = action.getAction();
-						if(!permission.isPermition(p[0], p[1], p[2])) {
+						if(!permission.isPermition(app,p[0], p[1], p[2])) {
 							p[0]="tutorial";
 							p[1]="DefaultPage";
 							p[1]="index";

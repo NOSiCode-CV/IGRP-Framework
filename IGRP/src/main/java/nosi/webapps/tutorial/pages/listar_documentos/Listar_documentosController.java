@@ -22,6 +22,8 @@ import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.webapps.tutorial.dao.Tipo;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -31,6 +33,8 @@ import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp_studio.pages.listapage.ListaPage;
+import nosi.webapps.igrp_studio.pages.listapage.ListaPage.Table_2;
 import nosi.webapps.tutorial.dao.Document;
 import org.apache.commons.text.StringEscapeUtils;
 import nosi.core.gui.components.IGRPButton;
@@ -104,6 +108,8 @@ public class Listar_documentosController extends Controller {
       try{
 	
           List<Tipo> tipoList = new Tipo().find().all();
+          
+          Collections.sort(tipoList, new SortbyID());
 
           List< Listar_documentos.Treemenu_1> tipoTable = new ArrayList<>();
         
@@ -125,9 +131,7 @@ public class Listar_documentosController extends Controller {
               }
           }
           
-        //java.util.Collections.sort(tipoTable)
-          
-          tipoTable.sort(Comparator.comparing(Listar_documentos.Treemenu_1::getTreemenu_1_link_desc));
+         // tipoTable.sort(Comparator.comparing(Listar_documentos.Treemenu_1::getTreemenu_1_link_desc));
           
           model.setTreemenu_1(tipoTable);
 
@@ -311,7 +315,16 @@ public Response actionRemote_treemenu_1() throws IOException, IllegalArgumentExc
 //     
 //  return xml2;
 //  } 
-	
+   
+   class SortbyID implements Comparator<Tipo> {
+		
+		@Override
+		public int compare(Tipo o1, Tipo o2) {
+			// TODO Auto-generated method stub
+			return o1.getOrdem()-o2.getOrdem();
+		
+		}
+	}
  
 /*----#end-code----*/
 }

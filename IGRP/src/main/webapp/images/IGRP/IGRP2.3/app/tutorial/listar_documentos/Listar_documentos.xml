@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/tutorial/listar_documentos/Listar_documentos.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/tutorial/listar_documentos/Listar_documentos.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <title>Dummie XML prototype</title>
@@ -31,7 +31,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=231</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=234</preserve_url>
     </plsql>
     <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
@@ -161,11 +161,19 @@
             <fields>
                 <form_1_plaintext_1 name="p_form_1_plaintext_1" type="plaintext" clear="false" disable_output_escaping="true" html_class="ff-fix" maxlength="4000" right="false">
                     <label>Plaintext</label>
-                    <value>Elit officia perspiciatis dolor anim sit accusantium sit doloremque sit aliqua lorem mollit lorem omnis sed ut amet deserunt dolor amet voluptatem officia consectetur deserunt</value>
+                    <value>Lorem deserunt elit amet laudantium accusantium adipiscing deserunt dolor aliqua magna sit natus laudantium voluptatem sed iste dolor adipiscing doloremque deserunt amet unde adipiscing ipsum</value>
                 </form_1_plaintext_1>
                 <hidden name="p_id_rel" type="hidden" maxlength="250" java-type="" tag="id_rel"/>
             </fields>
         </form_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <atualizado_em name="p_atualizado_em" type="date" range="false" maxlength="250" class="info" iconColor="#333" iconClass="" img="fa-clock-o" showlabel="true">
+                    <label>Atualizado em:</label>
+                    <value>07-04-2015</value>
+                </atualizado_em>
+            </fields>
+        </view_1>
         <documentos_relacionados type="verticalmenu" xml-type="verticalmenu" title="Documentos Relacionados" dynamic-menu="true" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="documentos_relacionados" refresh_components="">
                 <title/>
@@ -177,14 +185,6 @@
                 <preview/>
             </item>
         </documentos_relacionados>
-        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
-            <fields>
-                <atualizado_em name="p_atualizado_em" type="date" range="false" maxlength="250" class="info" iconColor="#333" iconClass="" img="fa-clock-o" showlabel="true">
-                    <label>Atualizado em:</label>
-                    <value>05-01-2011</value>
-                </atualizado_em>
-            </fields>
-        </view_1>
     </content>
     <blockly>
         <imports></imports>

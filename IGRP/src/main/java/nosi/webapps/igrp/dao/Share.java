@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import nosi.core.webapp.Core;
+
 /**
  * Iekiny Marcel
  * Mar 9, 2018
@@ -109,6 +111,20 @@ public class Share extends IGRPBaseActiveRecord<Share> implements Serializable{
 		results = this.find().andWhere("owner.id", "=", appOrigem).andWhere("env.id", "=", appDestino).andWhere("type", "=", type).all();
 		return results;
 	}
+public boolean getPermissionPage(String dad,String app, Integer action) {
+	Share s= new Share().find()
+			.where("env.dad", "=", dad)
+			.andWhere("owner.dad", "=",app)
+			.andWhere("type_fk", "=",action)
+			.andWhere("type", "=", "PAGE")
+			.andWhere("status", "=", 1)
+			.one();
+	
+		return s!=null;
+		
+		
+	}
+	
 
 	@Override
 	public String toString() {

@@ -30,24 +30,32 @@ public class Inserir_documentoController extends Controller {
 		view.relacionados.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-	    try{
-	String isEdit = Core.getParam("isEdit");
-	if (Core.isNotNull(isEdit)) {
-		Document documentfilter = new Document().find();
-	if(Core.isNotNullOrZero(Core.getParamInt("p_id_doc"))){
-		documentfilter.andWhere("idDoc","=",Core.getParamInt("p_id_doc"));
-	}
-		Document document = documentfilter.one();
-		if (document!=null) {
-			model.setId_doc(""+document.getIdDoc());
-            model.setTitulo(document.getTitulo());
-            model.setType(document.getIdType().getNome());
-            model.setDescricao(document.getDescricao());
-            model.setRelacionados(document.getRelacionados()!=null?document.getRelacionados().split(";"):null);
-	
-	view.btn_salvar.addParameter("p_id_doc", Core.getParam("p_id_doc"));
-	
-	view.btn_salvar.addParameter("isEdit", "true");
+	try{   
+		Tipo tipofilter = new Tipo().find();
+		List<Tipo> tipoList = tipofilter.all();
+		view.type.setValue(Core.toMap(tipoList, "idTipo","nome","-- Selecionar --"));
+   	}catch ( Exception e ) {
+		e.printStackTrace();
+	}   
+
+	try{
+		String isEdit = Core.getParam("isEdit");
+		if (Core.isNotNull(isEdit)) {
+			Document documentfilter = new Document().find();
+		if(Core.isNotNullOrZero(Core.getParamInt("p_id_doc"))){
+			documentfilter.andWhere("idDoc","=",Core.getParamInt("p_id_doc"));
+		}
+			Document document = documentfilter.one();
+			if (document!=null) {
+				model.setId_doc(""+document.getIdDoc());
+	            model.setTitulo(document.getTitulo());
+	            model.setType(document.getIdType().getIdTipo()+"");
+	            model.setDescricao(document.getDescricao());
+	            model.setRelacionados(document.getRelacionados()!=null?document.getRelacionados().split(";"):null);
+		
+		view.btn_salvar.addParameter("p_id_doc", Core.getParam("p_id_doc"));
+		
+		view.btn_salvar.addParameter("isEdit", "true");
 		}
 	}
 	}catch ( Exception e ) {
@@ -62,13 +70,6 @@ public class Inserir_documentoController extends Controller {
 	}catch ( Exception e ) {
 		e.printStackTrace();
 	}
-   try{   
-	Tipo tipofilter = new Tipo().find();
-	List<Tipo> tipoList = tipofilter.all();
-	view.type.setValue(Core.toMap(tipoList, "idTipo","nome","-- Selecionar --"));
-   	}catch ( Exception e ) {
-		e.printStackTrace();
-	}   
   
       model.setLink_upload_img(this.getConfig().getResolveUrl("igrp","file","save-image-txt&p_page_name="+Core.getCurrentPage()));
 		/*----#end-code----*/
