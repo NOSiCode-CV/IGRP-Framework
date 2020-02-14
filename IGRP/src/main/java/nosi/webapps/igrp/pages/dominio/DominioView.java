@@ -21,10 +21,12 @@ public class DominioView extends View {
 	public Field estado_check;
 	public Field ordem_desc;
 	public Field ordem;
+	public Field forum;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPView view_1;
 	public IGRPForm form_1;
 	public IGRPFormList formlist_1;
+	public IGRPView view_2;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_guardar_item_domain;
@@ -41,6 +43,8 @@ public class DominioView extends View {
 		form_1 = new IGRPForm("form_1","");
 
 		formlist_1 = new IGRPFormList("formlist_1","");
+
+		view_2 = new IGRPView("view_2","");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
@@ -88,6 +92,11 @@ public class DominioView extends View {
 		ordem.setLabel(gt(""));
 		ordem.propertie().add("name","p_ordem").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","ordem").add("desc","true");
 		
+		forum = new LinkField(model,"forum");
+		forum.setLabel(gt("Forum"));
+		forum.setValue(gt("https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&utm_medium=link&utm_campaign=share-link"));
+		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-comments").add("maxlength","250").add("showlabel","true");
+		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
@@ -105,8 +114,8 @@ public class DominioView extends View {
 		
 		sectionheader_1.addField(sectionheader_1_text);
 
-
 		view_1.addField(documento);
+
 
 		form_1.addField(aplicacao);
 		form_1.addField(lst_dominio);
@@ -119,12 +128,15 @@ public class DominioView extends View {
 		formlist_1.addField(estado_check);
 		formlist_1.addField(ordem);
 
+		view_2.addField(forum);
+
 		toolsbar_1.addButton(btn_guardar_item_domain);
 		toolsbar_1.addButton(btn_gravar_domain);
 		this.addToPage(sectionheader_1);
 		this.addToPage(view_1);
 		this.addToPage(form_1);
 		this.addToPage(formlist_1);
+		this.addToPage(view_2);
 		this.addToPage(toolsbar_1);
 	}
 		
