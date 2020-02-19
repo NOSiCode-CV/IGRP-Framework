@@ -1,9 +1,13 @@
 package nosi.webapps.igrp.pages.settings;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.i18n.I18nManager;
 import nosi.core.webapp.Igrp;
@@ -19,7 +23,7 @@ public class SettingsController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Settings model = new Settings();
 		model.load();
-		model.setView_1_img("/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg");
+		model.setView_1_img("../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg");
 		SettingsView view = new SettingsView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -28,6 +32,13 @@ public class SettingsController extends Controller {
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
+		
+		
+		if(this.getConfig().getAutenticationType().equalsIgnoreCase("ldap")) {
+			view.btn_alterar_senha.setVisible(false);
+		}
+		
+		
 		
 		String ichange = Igrp.getInstance().getRequest().getParameter("ichange");
 		// String ichange = Core.getParam("ichange");
@@ -105,8 +116,6 @@ public class SettingsController extends Controller {
 		view.setModel(model);
 		return this.renderView(view);	
 	}
-
-
 	
 	public Response actionAlterar_senha() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Settings model = new Settings();
@@ -114,14 +123,36 @@ public class SettingsController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","ChangePassword","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","ChangePassword","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(alterar_senha)----*/
-		
+		this.addQueryString("settings","true");
 		/*----#end-code----*/
 		return this.redirect("igrp","ChangePassword","index", this.queryString());	
 	}
 	
+	public Response actionEditar_perfil() throws IOException, IllegalArgumentException, IllegalAccessException{
+		Settings model = new Settings();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","RegistarUtilizador","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/*----#start-code(editar_perfil)----*/
+		
+		this.addQueryString("p_id",Core.getCurrentUser().getId());
+      	return this.redirect("igrp","RegistarUtilizador","editar", this.queryString());
+		/*----#end-code----*/
+			
+	}
+	
+		
+		
 /*----#start-code(custom_actions)----*/
 	public HashMap<String, String> getIdiomaMap() {
 		HashMap<String, String> idioma = new HashMap<String, String>();
