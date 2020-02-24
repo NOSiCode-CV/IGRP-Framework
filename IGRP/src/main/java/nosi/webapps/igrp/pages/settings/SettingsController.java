@@ -146,6 +146,7 @@ public class SettingsController extends Controller {
 		/*----#start-code(editar_perfil)----*/
 		
 		this.addQueryString("p_id",Core.getCurrentUser().getId());
+		this.addQueryString("settings","settings");
       	return this.redirect("igrp","RegistarUtilizador","editar", this.queryString());
 		/*----#end-code----*/
 			
