@@ -318,9 +318,7 @@
 		
 		<script type="text/javascript" src="{$path}/core/blockly/blockly/igrp_blockly_elements.js"></script>
 		
-		<script type="text/javascript" src="{$path}/core/blockly/blockly/java_compressed.js"></script>
-		
-		<script type="text/javascript" src="{$path}/core/blockly/blockly/teste_mutators.js"></script>
+		<script type="text/javascript" src="{$path}/core/blockly/blockly/java_compressed.js"></script>		
 		
 		<script type="text/javascript" src="{$path}/core/blockly/blockly/igrp_loads.js"></script>
 		
