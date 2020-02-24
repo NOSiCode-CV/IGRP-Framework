@@ -9,10 +9,11 @@ if($ && $.IGRP && !$.IGRP.rules){
 				field 		= $(p.field),
 				type  		= field.attr('type') || field.parents('[item-type]').attr('item-type'),
 				fieldValue  = field.val(),
-				condition   = typeof p.condition == 'string' ? conditionsList[p.condition] : p.condition;
+				condition   = typeof p.condition == 'string' ? conditionsList[p.condition] : p.condition,
+				arrType 	= ['radio','radiolist','checkbox','checkboxlist'];
 
 			
-			if (type == 'radio' || type == 'checkbox') {
+			if ($.inArray(type,arrType) !== -1) {
 				
 				fieldValue = [];
 				
