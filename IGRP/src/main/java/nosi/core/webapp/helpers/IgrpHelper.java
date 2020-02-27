@@ -94,8 +94,8 @@ public final class IgrpHelper {
 		String value = "";
 		if(model!=null && name!=null && !name.equals("")){		
 			value = "";
-		    for (Method m : model.getClass().getDeclaredMethods()) {
-		    	String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
+			String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
+		    for (Method m : model.getClass().getDeclaredMethods()) {		    	
 		    	if(m.getName().startsWith("get") && m.getName().equals("get"+methodName)){
 			    	try {
 			    		if(m.invoke(model)!=null) {
@@ -133,8 +133,8 @@ public final class IgrpHelper {
 	public static Object getValueArray(Object model,String name){
 		Object value = null;
 		if(model!=null && name!=null && !name.equals("")){	
-		    for (Method m : model.getClass().getDeclaredMethods()) {
-		    	String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
+			String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
+			for (Method m : model.getClass().getDeclaredMethods()) {		    	
 		    	if(m.getName().startsWith("get") && m.getName().equals("get"+methodName)){
 			    	try {
 			    		

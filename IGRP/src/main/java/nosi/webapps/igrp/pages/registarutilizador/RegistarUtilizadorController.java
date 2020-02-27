@@ -114,9 +114,11 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 		RegistarUtilizador model = new RegistarUtilizador();	
 	    model.load();
     
-			view.password.setVisible(false);
+	    if(Core.isNotNull(sett)) {
+	    	view.password.setVisible(false);
 			view.confirmar_password.setVisible(false);
-
+	    }
+			
 	        User user = Core.findUserById(Integer.parseInt(idUser));
 		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){			
