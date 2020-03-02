@@ -208,6 +208,10 @@ var GENSTRUCTURES = function(GEN){
 					'<label>add Eventos</label>'+
 					'<value></value>'+
 				'</'+tag+'_add>'+
+				'<'+tag+'_load name="p_'+tag+'_load"  type="link" maxlength="4000">'+
+					'<label>load Eventos</label>'+
+					'<value></value>'+
+				'</'+tag+'_load>'+
 				'<'+tag+'_view name="p_'+tag+'_view"  type="text" maxlength="30">'+
 					'<label>Default View</label>'+
 					'<value></value>'+

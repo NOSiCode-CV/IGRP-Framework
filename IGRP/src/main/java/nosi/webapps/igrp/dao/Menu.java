@@ -330,10 +330,12 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		lista.put(null, gt("-- Selecionar --"));
 		List<Menu> aux = this.find()				
 				.andWhere("application", "=",app)
-				.andWhere("action", "notnull")		
-				.andWhere("status", "=", 1)
+				.andWhere("status", "=", 1)		
+				.andWhere("action", "notnull")
 				.orWhere("flg_base","=",1)
+				.andWhere("action", "notnull")						
 				.orderBy("flg_base")
+				.setShowConsoleSql(true)
 				.all();	
 		for(Menu m : aux){
 			

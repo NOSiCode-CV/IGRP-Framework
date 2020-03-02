@@ -4,32 +4,46 @@ import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
 public class Settings extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_nome")
 	private String nome;
+
 	@RParam(rParamName = "p_email")
 	private String email;
+
 	@RParam(rParamName = "p_username")
 	private String username;
+
 	@RParam(rParamName = "p_telefone")
 	private String telefone;
+
 	@RParam(rParamName = "p_telemovel")
 	private String telemovel;
+
 	@RParam(rParamName = "p_ultimo_acesso_igrp")
 	private String ultimo_acesso_igrp;
+
 	@RParam(rParamName = "p_ultimo_acesso_rede_estado")
 	private String ultimo_acesso_rede_estado;
+
 	@RParam(rParamName = "p_password_expira_em")
 	private String password_expira_em;
+
 	@RParam(rParamName = "p_view_1_img")
 	private String view_1_img;
+
 	@RParam(rParamName = "p_idioma")
 	private String idioma;
+
 	@RParam(rParamName = "p_separator_1")
 	private String separator_1;
+
 	@RParam(rParamName = "p_perfil")
 	private String perfil;
+
 	@RParam(rParamName = "p_organica")
 	private String organica;
 	
