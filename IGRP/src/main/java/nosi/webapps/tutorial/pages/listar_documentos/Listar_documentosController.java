@@ -180,9 +180,16 @@ public class Listar_documentosController extends Controller {
 	        	documentfilter.andWhere("idDoc","=",id_doc);
 	        }
 	
-	        if(Core.isNotNullOrZero(Core.getParamInt("p_id"))){
+	        else if(Core.isNotNullOrZero(Core.getParamInt("p_id"))){
+	        	
 	            documentfilter.andWhere("idDoc","=",Core.getParamInt("p_id"));
 	        }
+	        
+	        else {
+	        	
+	        	 documentfilter.andWhere("idDoc","=",54);	
+	        }
+	       
 	        
 	        Document document = documentfilter.one();
 	    
