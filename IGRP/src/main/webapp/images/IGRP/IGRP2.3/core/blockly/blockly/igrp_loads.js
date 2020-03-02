@@ -26,7 +26,7 @@ var CORE_CONV = [["converter para inteiro", "converter para inteiro"],["converte
 
 var FIND = [["--", "--"],["all", "todos"],["one", "um"]];
 
-var FINDLIST = [["--", "--"],["all", "TODOSS"],["one", "UMM"]];
+var FINDLIST = [["all", "TODOSS"],["one", "UMM"]];
 
 var TIPO = [["Inteiro", "Inteiro"],["Data", "Data"],["Texto", "Texto"]];
 
