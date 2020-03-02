@@ -443,12 +443,13 @@
 			$(document).on('change', 'table .IGRP_checkall', function() {
 				var table    = $(this).parents('.table').first(),
 					checkrel = $(this).attr('check-rel'),
-					checkers = $('[check-rel="'+checkrel+'"]:not(.IGRP_checkall)',table),
+					checkers = $('[check-rel="'+checkrel+'"]:not(.IGRP_checkall):not([disabled])',table),
 					checkAll = $(this).is(':checked');
 					
 				
 				checkers.each(function(i,e){
 					var parent 	 = $(e).parents('div[item-name="'+checkrel+'"]')[0] ? $(e).parents('div[item-name="'+checkrel+'"]') : $(e).parents('td');
+					
 					com.checkdControl({
 						rel 	: checkrel,
 						o   	: parent,
