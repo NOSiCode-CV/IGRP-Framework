@@ -52,6 +52,7 @@ public class Inserir_documentoController extends Controller {
 	            model.setType(document.getIdType().getIdTipo()+"");
 	            model.setDescricao(document.getDescricao());
 	            model.setRelacionados(document.getRelacionados()!=null?document.getRelacionados().split(";"):null);
+             	model.setOrdem(document.getOrdem());
 		
 		view.btn_salvar.addParameter("p_id_doc", Core.getParam("p_id_doc"));
 		
@@ -108,7 +109,8 @@ public class Inserir_documentoController extends Controller {
 			document.setIdType(tipo_foreign);
             document.setDescricao(model.getDescricao());
             document.setRelacionados(model.getRelacionados()!=null?String.join(";",model.getRelacionados()) : null);
-            document.setData(Core.getCurrentDateSql());  
+            document.setData(Core.getCurrentDateSql());
+          	document.setOrdem(model.getOrdem());
 		}
 		session.persist(document);
 		transaction.commit();

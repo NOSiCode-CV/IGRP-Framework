@@ -45,6 +45,8 @@ public class Document extends BaseActiveRecord<Document> implements Serializable
 	@ManyToOne
 	@JoinColumn(name="ID_TYPE", foreignKey=@ForeignKey(name="FOREIGN_KEY_TYPE_ID"), nullable=true)
 	private Tipo idType;
+	@Column(name="ORDEM",nullable=false,length=255)
+	private Integer ordem;
 
 	public Integer getIdDoc() {
 		return idDoc;
@@ -76,6 +78,14 @@ public class Document extends BaseActiveRecord<Document> implements Serializable
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
+	
+	public Integer getOrdem() {
+		return ordem;
+	}
+	public void setOrdem(Integer ordem) {
+		this.ordem = ordem;
+	}
+	
 	public Tipo getIdType() {
 		return idType;
 	}

@@ -172,7 +172,7 @@ public class Listar_documentosController extends Controller {
 	        	  case "time": id_doc = 404; break; case "virtualkeyboard": id_doc = 406; break; case "import": id_doc = 409; break; case "carousel": id_doc = 445; break;
 	        	  case "form": id_doc = 262; break; case "panels": id_doc = 446; break; case "quickbuttonbox": id_doc = 447; break; case "sectionheader": id_doc = 448; break;
 	        	  case "timeline": id_doc = 449; break; case "treelist": id_doc = 450; break; case "radio": id_doc = 451; break; case "new_page": id_doc = 76; break;
-	        	  case "crud": id_doc = 457; break; default: id_doc = 1;
+	        	  case "crud": id_doc = 457; break; default: id_doc = 54;
 	        	}
 
 	            //documentfilter.andWhere("idType.nome","=",Core.getParam("p_type"));
@@ -197,6 +197,7 @@ public class Listar_documentosController extends Controller {
 	          model.setId_rel(document.getRelacionados());
 	          
 	          if(Core.isNotNull(model.getId_rel())) {
+	        	  
 	        	  String[]p_id2 = model.getId_rel().split(";");
 		            
 		          if(p_id2 != null){
@@ -273,6 +274,8 @@ public Response actionRemote_treemenu_1() throws IOException, IllegalArgumentExc
             documentfilter.andWhere("idType","=",Core.toInt(p_id));
         }
 		List<Document> documentList = documentfilter.all();
+		
+		Collections.sort(documentList, new SortbyID2());
 
 		for (Document li : documentList) {
 
@@ -320,6 +323,16 @@ public Response actionRemote_treemenu_1() throws IOException, IllegalArgumentExc
 		
 		@Override
 		public int compare(Tipo o1, Tipo o2) {
+			// TODO Auto-generated method stub
+			return o1.getOrdem()-o2.getOrdem();
+		
+		}
+	}
+   
+   class SortbyID2 implements Comparator<Document> {
+		
+		@Override
+		public int compare(Document o1, Document o2) {
 			// TODO Auto-generated method stub
 			return o1.getOrdem()-o2.getOrdem();
 		
