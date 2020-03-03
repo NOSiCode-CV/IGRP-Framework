@@ -868,6 +868,14 @@
 				            }
 			            }
 			        };
+					
+					chart.structure.plotOptions.series.dataLabels = {
+						enabled: true,
+						style: {
+							color: '#FFFFFF',
+							textOutline: 'none'
+						}
+					};
 
 			        if(showData){
 
