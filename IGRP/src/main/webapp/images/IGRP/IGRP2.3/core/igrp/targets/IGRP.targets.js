@@ -275,7 +275,9 @@
 			
 			var clickedID = clicked.attr('id');
 			
-			var sourceInput     = $('.list-association-source [name="p_'+clickedID+'_association_rel"]');
+			var sourceInput     = $('.list-association-source [name*="p_'+clickedID+'_association_rel"]');
+			
+			console.log(sourceInput)
 			
 			if(sourceInput[0]){
 				
