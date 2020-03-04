@@ -11,7 +11,6 @@ import java.math.BigInteger;
 import java.net.FileNameMap;
 import java.net.URLConnection;
 import java.sql.Date;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.Normalizer;
@@ -46,6 +45,7 @@ import com.google.gson.GsonBuilder;
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.ConfigApp;
 import nosi.core.gui.components.IGRPForm;
+import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
 import nosi.core.mail.EmailMessage;
@@ -4136,4 +4136,9 @@ public final class Core { // Not inherit
 	public static int digits(String number) {
 		return String.valueOf(number).length();
 	}
+	
+	public static String generateXmlForCalendar(String tagName, List<?> data) {
+		return IGRPTable.generateXmlForCalendar(tagName, data); 
+	}
+	
 }
