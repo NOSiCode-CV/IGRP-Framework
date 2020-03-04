@@ -271,12 +271,16 @@
 		
 		var listAssociation = function(p){
 			
-			var sourceInput     = $('.list-association-source [name="p_lst_association_rel"]');
+			var clicked = p.clicked;
+			
+			var clickedID = clicked.attr('id');
+			
+			var sourceInput     = $('.list-association-source [name="p_'+clickedID+'_association_rel"]');
 			
 			if(sourceInput[0]){
 				
 				var ListSource = sourceInput.parents('.list-association-source').first();
-				
+
 				$.IGRP.components.ListAssociation.set({
 					
 					source : ListSource,
