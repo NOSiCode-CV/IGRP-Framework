@@ -60,6 +60,7 @@ import nosi.core.gui.fields.HiddenField;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.xml.XMLWritter;
 import nosi.core.gui.fields.FieldProperties;
 import java.util.Map;
 import java.io.UnsupportedEncodingException;
@@ -385,4 +386,35 @@ public class IGRPTable extends IGRPComponent{
 			return null;
 		}
 	}
+	
+	public static String generateXmlForCalendar(String tagName, List<?> data) { 
+		XMLWritter xmlWritter = new XMLWritter(); 
+		xmlWritter.startElement(tagName + "_events"); 
+		xmlWritter.startElement("table"); 
+		xmlWritter.startElement("value");
+		
+		if(data != null) {
+			for(Object obj : data) {
+				xmlWritter.startElement("row"); 
+				xmlWritter.setElement("context-menu", ""); 
+				java.lang.reflect.Field []fields = obj.getClass().getDeclaredFields(); 
+				if(fields != null) {
+					for(java.lang.reflect.Field field : fields) {
+						xmlWritter.startElement(field.getName()); 
+						xmlWritter.writeAttribute("name", "p_" + field.getName());
+						xmlWritter.text(IgrpHelper.getValue(obj, field.getName()));
+						xmlWritter.endElement(); 
+					}
+				}
+				xmlWritter.endElement(); 
+			}
+		}
+		
+		xmlWritter.endElement(); 
+		xmlWritter.endElement(); 
+		xmlWritter.endElement(); 
+		
+		return xmlWritter.toString();
+	}
+	
 }
