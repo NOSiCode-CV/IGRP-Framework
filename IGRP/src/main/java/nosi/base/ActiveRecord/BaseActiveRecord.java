@@ -1092,7 +1092,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 				this.setParameters(query);
 				count = (Long)query.getSingleResult();
-				transaction.commit();
+				if(!this.keepConnection)
+					transaction.commit();
 			}
 		}catch (Exception e) {
 			if (transaction != null) {
