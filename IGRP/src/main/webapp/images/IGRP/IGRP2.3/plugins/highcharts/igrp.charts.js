@@ -4,7 +4,8 @@
 
 	var Colors = $.IGRP.components.colorPalettes.colors;
 
-	var colorsIdx = -1;
+	var colorsIdx = -1,
+		chartTwoEx = ['pie','funnel','semipie','pyramid'];
 
 
 	function getRandomColor(size) {
@@ -869,13 +870,15 @@
 			            }
 			        };
 					
-					chart.structure.plotOptions.series.dataLabels = {
-						enabled: true,
-						style: {
-							color: '#FFFFFF',
-							textOutline: 'none'
-						}
-					};
+					if ($.inArray(type.toLowerCase(), chartTwoEx) === - 1) {
+						chart.structure.plotOptions.series.dataLabels = {
+							enabled: true,
+							style: {
+								color: '#FFFFFF',
+								textOutline: 'none'
+							}
+						};
+					}
 
 			        if(showData){
 
@@ -1041,8 +1044,7 @@
 				);
 
 				if (remote) {
-					var chartGroup = 'threeEx',
-						chartTwoEx = ['pie','funnel','semipie','pyramid'];
+					var chartGroup = 'threeEx';
 
 					if ($.inArray(type,chartTwoEx) != - 1)
 						chartGroup = 'twoEx';
