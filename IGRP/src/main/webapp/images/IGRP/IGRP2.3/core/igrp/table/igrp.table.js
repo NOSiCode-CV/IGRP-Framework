@@ -507,39 +507,74 @@
 			sum : {
 	            allrow : function(p){
 	                p.obj.each(function(i,tr){
-	                    var val = 0;
+
+						var total = 0;
+						
 	                    $(p.field,tr).each(function(io,o){
-	                        val += com.operation.isNum($(o).val());
-	                    });
-	                    $(p.result,tr).val(val);
+	                        total += com.operation.isNum($(o).val());
+						});
+
+						if($(p.result,tr)[0]){
+
+							total = $.IGRP.utils.numberFormat({
+								obj : p.result,
+								val : total
+							});
+
+							$(p.result,tr).val(val);
+						}
+						
 	                });
 	            },
 
 	            row : function(p){
-	                var total = 0;
+
+					var total = 0;
+					
 	                $(p.field,p.obj).each(function(io,o){
 	                    total += com.operation.isNum($(o).val());
-	                });
-	                if (p.result)
-	                    $(p.result,p.tr).val(total).trigger('change');
+					});
+					
+	                if ($(p.result,p.obj)[0]){
+						
+						total = $.IGRP.utils.numberFormat({
+							obj: $(p.result, p.obj).filter('[numberformat]'),
+							val : total
+						});
+
+						$(p.result,p.obj).val(total).trigger('change');
+					}
 
 	                return total;
 	            },
 	            col : function(p){
-	                var total = 0;
+					var total = 0,
+						obj   = null;
+					
 	                p.obj.each(function(i,tr){
-	                    total += com.operation.isNum($(p.field,$(tr)).val());
-	                });
+						if(i === 0)
+							obj = $(p.field,$(tr));
 
+	                    total += com.operation.isNum($(p.field,$(tr)).val());
+					});
+					
 	                if (p.result[0]){
-	                    $(':input',p.result).val(total);
+
+						total = $.IGRP.utils.numberFormat({
+							obj : obj,
+							val : total
+						});
+
+						$(':input',p.result).val(total);
 	                    $('p',p.result).html(total);
 	                }
 
 	                return total;
 	            },
 	            allcol : function(p){
-	                var total = {};
+					
+					var total = {};
+					
 	                p.obj.each(function(i,tr){
 	                    total[i] = com.operation.sum.col({
 	                        obj     : p.obj,
@@ -550,7 +585,7 @@
 
 	                return total;
 	            }
-	        }
+			}
 		},
 
 		init:function(){
