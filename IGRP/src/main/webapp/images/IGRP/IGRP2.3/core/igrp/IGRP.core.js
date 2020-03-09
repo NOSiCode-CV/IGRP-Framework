@@ -583,13 +583,18 @@
 
 				arrStar.forEach(function (idx, i) {
 
-					var xpr  = p.str.substring(idx, arrEnd[i] + endStr.length),
+					var xpr   = p.str.substring(idx, arrEnd[i] + endStr.length),
 
-						name = 'p_' + xpr.slice(starStr.length, xpr.indexOf(endStr)) + prefix;
+						name  = 'p_' + xpr.slice(starStr.length, xpr.indexOf(endStr)) + prefix,
+						
+						field = $('[name="' + name + '"]', holder);
+					
+					if(!field[0])
+						field = $('[name="' + name + '"]', $.IGRP.utils.getForm());
 
 					arrObj[name] = {
 						str 	: xpr,
-						field	: $('[name="' + name + '"]', holder)
+						field	: field
 					};
 
 				});
