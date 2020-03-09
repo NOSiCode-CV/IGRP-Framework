@@ -242,7 +242,7 @@
     <xsl:param name="ctx-params" select="''"/>
     <xsl:param name="view"/>
 
-    <a class="{$class}" target="{target}">
+    <a id="{@id}" class="{$class}" target="{target}">
       <xsl:choose>
         <xsl:when test="contains(target, '|')">
           <xsl:call-template name="get-target-params">

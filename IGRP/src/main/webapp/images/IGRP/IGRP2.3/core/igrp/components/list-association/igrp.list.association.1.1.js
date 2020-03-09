@@ -36,7 +36,7 @@
 				},
 				
 				config : function(wrapper){
-					
+
 					var separatorID = $(wrapper).attr('id');
 		
 					 $('[list-source]',wrapper).each(function(){
@@ -68,32 +68,12 @@
 						$(wrapper).data( 'list-association-target-set', true );
 						 
 					 });
-					
-					/*var separatorlist = $(wrapper).find('.IGRP-separatorlist'),
-					
-						tag 		  = $(wrapper).attr('item-name'),
-						
-						idName 		  = 'p_'+tag+'_association_id_fk',
-						
-						sourcelist    = null;
-					
-					separatorlist.data('current', null);
-					
-					separatorlist.find('tbody tr').each(function(i,tr){
-						
-						if( !$('input[name="'+idName+'"]', tr).val() )
-							
-							SetTargetRowUniqueID( tr, idName );
-						
-					});
-					
-					separatorlist.on('row-add', function(e, params){
-						
-						SetTargetRowUniqueID( params.row, idName );
-						
-					});
-					
-					$(wrapper).data('list-association-target-set', true);*/
+					 
+					 $( $.IGRP.components.globalModal.modalid ).on('before-hide', function(){
+						 if($(wrapper).find('.IGRP-separatorlist')[0])
+							 $(wrapper).find('.IGRP-separatorlist')[0].resetForm();
+				
+					 });
 					
 				}
 				
@@ -124,7 +104,7 @@
 									if( ! $('[name="p_'+tableID+'_edit"]', rowOnEdition)[0]  ){
 										
 										rowOnEdition.prepend('<input type="hidden" class="sl-row-id-edit" name="p_'+tableID+'_edit" value="'+rowID+'"/>')
-										console.log('adsjkdalk')
+										
 									}
 									
 								}
@@ -175,15 +155,18 @@
 					
 					$(wrapper).data('list-association-source-set', true);
 					
+					$( $.IGRP.components.globalModal.modalid ).on('before-hide', function(){
+						
+						if($(wrapper).find('.IGRP-separatorlist')[0])
+
+							$(wrapper).find('.IGRP-separatorlist')[0].resetForm();
+						
+					 });
+					
 				}
 				
 			}
 				
-		},
-		
-		formlist : {
-			
-			
 		}
 			
 	};
@@ -204,6 +187,10 @@
 	function GetListType(target){
 		
 		var type = false;
+		
+		if($(target).find('table.table')[0])
+			
+			type = 'separatorlist';
 		
 		if($(target).find('.IGRP-separatorlist')[0])
 			
@@ -263,13 +250,19 @@
 				
 				beforeHide : function(){
 					
+					
+					
 					$( $.IGRP.components.globalModal.modalid ).removeData('target-row');
 					
 					options.source.hide().appendTo( sourceParent );
 					
-					options.target.find('.IGRP-separatorlist')[0].resetForm();
+					$( $.IGRP.components.globalModal.modalid ).trigger('before-hide');
 					
-					options.source.find('.IGRP-separatorlist')[0].resetForm();
+					/*if(options.target.find('.IGRP-separatorlist')[0])
+						options.target.find('.IGRP-separatorlist')[0].resetForm();
+					
+					if(options.source.find('.IGRP-separatorlist')[0])
+						options.source.find('.IGRP-separatorlist')[0].resetForm();*/
 					
 				},
 				

@@ -446,7 +446,8 @@ var GENSTRUCTURES = function(GEN){
 					customReturn = item.GET.custom_return ? item.GET.custom_return() : false,
 					customReturnAttr = customReturn ? 'custom_return="true"' : '';
 					target = item.GET.target(),
-					refresh_components = '';
+					refresh_components = '',
+					id     = item.GET.id ? item.GET.id() : '';
 
 				if(item.GET.target_fields && item.GET.target_fields())
 					target += '|'+item.GET.target_fields();
@@ -470,7 +471,7 @@ var GENSTRUCTURES = function(GEN){
 				}
 
 				var linkAction= (item.action && item.action.link) ? '..'+item.action.link.substring(1).substring(item.action.link.substring(1).indexOf('/')) : '';
-				rtn+='<item type="'+itemType+'" code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+' refresh_components="'+refresh_components+'">'+
+				rtn+='<item id="'+id+'" type="'+itemType+'" code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+' refresh_components="'+refresh_components+'">'+
 	                    '<title>'+item.GET.label()+'</title>'+
 	                    '<app>'+app+'</app>'+
 	                    '<page>'+page+'</page>'+
