@@ -487,6 +487,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		return " SELECT count("+this.getAlias()+") FROM "+this.getTableName()+" "+this.getAlias()+" ";
 	}
 	
+	@Transient
+	protected String generateSqlMax(String columnName) {
+		return " SELECT max("+recq.resolveColumnName(this.getAlias(),columnName)+") FROM "+this.getTableName()+" "+this.getAlias()+" ";
+	}
+	
 	@Transient	 
 	protected Class<T> getClassType(){
 		ParameterizedType genericType = (ParameterizedType) this.getClass().getGenericSuperclass();
@@ -1105,6 +1110,35 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		}
 		
 		return count;
+	}
+	
+	@Override
+	@Transient
+	@XmlTransient
+	public <V> V getMax(String columnName, Class<V> type) {
+		this.sql = this.generateSqlMax(columnName)+this.sql;
+		Transaction transaction = null;
+		V result = null;
+		try {
+			transaction = this.getSession().getTransaction();
+			if(this.beginTransaction(transaction)) {
+				TypedQuery<T> query = (TypedQuery<T>)this.getSession().createQuery(this.getSql(), type);
+				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
+				this.setParameters(query);
+				result = type.cast(query.getSingleResult());
+				if(!this.keepConnection)
+					transaction.commit();
+				
+			}
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			this.setError(e);
+		} finally {
+			this.closeSession();
+		}
+		return result;
 	}
 	
 	@Transient	 
