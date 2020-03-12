@@ -15,13 +15,15 @@ e verifique se o problema que você está prestes a enviar não é duplicado.
 
 <!--(Como se pode reproduzir o problema - isso é muito importante)-->
 
-### Exemplo de projeto
+### Informação do Ambiente igrp**web**
 
-<!--
-(Se possível, crie um projeto de exemplo aqui no igrp-web-framework que exiba o comportamento problemático e vincule-o aqui no relatório de bug)
-
-(Se você estiver usando uma versão mais antiga do igrp-web-framework, isso também determinará se o bug foi corrigido em uma versão mais recente)
--->
+<!-- (informações do ambiente igrp onde se verificou o bug) -->
+* Instancia:  <!--eg: igrpdev.gov.cv -->
+* DAD: <!--eg: IGRP -->
+* Aplicação: <!--eg: igrp_studio -->
+* Modulo: <!--eg: Aplication Builder -->
+* Pagina: <!--eg: index -->
+* Versão: <!--eg: v.031120 -->
 
 ### Qual é o atual comportamento * bug *?
 
@@ -36,9 +38,16 @@ e verifique se o problema que você está prestes a enviar não é duplicado.
 <!-- (Cole os logs relevantes - use blocos de código (``)) para formatar a saída do console,
 logs e código, já que é difícil ler de outra maneira.) -->
 
+#### Informação git repository
+
+<!-- Para versões de repositorios remote do igrpweb facultar opcionalmente-->
+* user:
+* tag version:
+* branch:
+
 ### Saída de verificações
 
-<!--(Se você estiver relatando um bug no GitLab.com, escreva: Este bug ocorre no GitLab.com)-->
+<!--(Se você estiver relatando um bug no git.nosi.cv, escreva: Este bug ocorre no git.nosi.cv)-->
 
 ### Possíveis correções
 
