@@ -1,80 +1,80 @@
-<!---
-Please read this!
+<! ---
+Por favor leia isto!
 
-Before opening a new issue, make sure to search for keywords in the issues
-filtered by the "regression" or "bug" label:
+Antes de abrir um novo problema, pesquise por palavras-chave nos problemas
+filtrado pelo rótulo "regressão" ou "bug":
 
 - https://gitlab.com/gitlab-org/gitlab/issues?label_name%5B%5D=regression
 - https://gitlab.com/gitlab-org/gitlab/issues?label_name%5B%5D=bug
 
-and verify the issue you're about to submit isn't a duplicate.
+e verifique se o problema que você está prestes a enviar não é duplicado.
 --->
 
-### Summary
+### Resumo
 
-(Summarize the bug encountered concisely)
+(Resuma o erro encontrado de forma concisa)
 
-### Steps to reproduce
+### Passos para reproduzir
 
-(How one can reproduce the issue - this is very important)
+(Como se pode reproduzir o problema - isso é muito importante)
 
-### Example Project
+### Exemplo de projeto
 
-(If possible, please create an example project here on GitLab.com that exhibits the problematic behavior, and link to it here in the bug report)
+(Se possível, crie um projeto de exemplo aqui no GitLab.com que exiba o comportamento problemático e vincule-o aqui no relatório de bug)
 
-(If you are using an older version of GitLab, this will also determine whether the bug is fixed in a more recent version)
+(Se você estiver usando uma versão mais antiga do GitLab, isso também determinará se o bug foi corrigido em uma versão mais recente)
 
-### What is the current *bug* behavior?
+### Qual é o atual comportamento * bug *?
 
-(What actually happens)
+(O que realmente acontece)
 
-### What is the expected *correct* behavior?
+### Qual é o comportamento * correto * esperado?
 
-(What you should see instead)
+(O que você deve ver em vez disso)
 
-### Relevant logs and/or screenshots
+### Logs e / ou capturas de tela relevantes
 
-(Paste any relevant logs - please use code blocks (```) to format console output,
-logs, and code as it's tough to read otherwise.)
+(Cole os logs relevantes - use blocos de código (``)) para formatar a saída do console,
+logs e código, já que é difícil ler de outra maneira.)
 
-### Output of checks
+### Saída de verificações
 
-(If you are reporting a bug on GitLab.com, write: This bug happens on GitLab.com)
+(Se você estiver relatando um bug no GitLab.com, escreva: Este bug ocorre no GitLab.com)
 
-#### Results of GitLab environment info
+#### Resultados das informações do ambiente do GitLab
 
-<details>
-<summary>Expand for output related to GitLab environment info</summary>
+<detalhes>
+<summary> Expanda para saída relacionada às informações do ambiente do GitLab </summary>
 <pre>
 
-(For installations with omnibus-gitlab package run and paste the output of:
-`sudo gitlab-rake gitlab:env:info`)
+(Para instalações com o pacote omnibus-gitlab, execute e cole a saída de:
+`sudo gitlab-rake gitlab: env: informações`)
 
-(For installations from source run and paste the output of:
-`sudo -u git -H bundle exec rake gitlab:env:info RAILS_ENV=production`)
+(Para instalações da origem, execute e cole a saída de:
+`exec suke -u git -H exec rake gitlab: env: info RAILS_ENV = produção`)
 
 </pre>
 </details>
 
-#### Results of GitLab application Check
+#### Resultados da aplicação GitLab
 
-<details>
-<summary>Expand for output related to the GitLab application check</summary>
+<detalhes>
+<summary> Expanda para saída relacionada à verificação do aplicativo GitLab </summary>
 <pre>
 
-(For installations with omnibus-gitlab package run and paste the output of:
-`sudo gitlab-rake gitlab:check SANITIZE=true`)
+(Para instalações com o pacote omnibus-gitlab, execute e cole a saída de:
+`sudo gitlab-rake gitlab: verifique SANITIZE = true`)
 
-(For installations from source run and paste the output of:
-`sudo -u git -H bundle exec rake gitlab:check RAILS_ENV=production SANITIZE=true`)
+(Para instalações da origem, execute e cole a saída de:
+`exec suke -u git -H exec rake gitlab: verifique RAILS_ENV = produção SANITIZE = true`)
 
-(we will only investigate if the tests are passing)
+(investigaremos apenas se os testes estiverem passando)
 
 </pre>
 </details>
 
-### Possible fixes
+### Possíveis correções
 
-(If you can, link to the line of code that might be responsible for the problem)
+(Se possível, vincule à linha de código que pode ser responsável pelo problema)
 
-/label ~bug
+/ label ~ bug
