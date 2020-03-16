@@ -24,6 +24,12 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Map.Entry;
 import javax.servlet.http.Cookie;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.HttpHeaders;
+
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
 import nosi.core.gui.components.IGRPTopMenu;
@@ -37,6 +43,7 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp_studio.pages.env.EnvController.IgrpPLSQLApp;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -66,8 +73,8 @@ public class PesquisarMenuController extends Controller {
 		Menu menu = new Menu();
 		int idApp = Core.getParamInt("p_id_app");
 		int idOrg = 0;
-		// int idMen = 0;
-		// If in a app, choose automatically the app in the combobox
+		// int idMen = 0; 
+		// If in a app, choose automatically the app in the combobox 
 		String dad = Core.getCurrentDad();
 
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
@@ -201,8 +208,8 @@ public class PesquisarMenuController extends Controller {
 	
 /*----#start-code(custom_actions)----*/
 
-	// Menu list I have access to
-	public Response actionMyMenu() throws IOException {
+	// Menu list I have access to 
+	public Response actionMyMenu() throws IOException { 
 		XMLWritter xml_menu = new XMLWritter();
 		xml_menu.startElement("menus");
 		if (Igrp.getInstance().getUser().isAuthenticated()) {
@@ -216,20 +223,9 @@ public class PesquisarMenuController extends Controller {
 					for (MenuProfile main : m.getValue()) {
 						if (main.isSubMenuAndSuperMenu()) {
 							
-							if(main.getType() == 1) { // menu para uma pagina externa e publica 
-								String aux = buildMenuUrlByDad( main.getLink());
-								if(aux != null)
-									xml_menu.setElement("link", aux + "webapps?r=" + main.getLink()); 
-								else 
-									xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
-							}
-							else if(main.getType() == 2) { // Fazer sso obrigatorio 
+							if(main.getType() == 1 || main.getType() == 2) { // Fazer sso obrigatorio 
 								xml_menu.setElement("link", main.getLink()); 
-							}
-							else if(main.getType() == 3) {
-								xml_menu.setElement("link", "webapps?r=" + main.getLink());
-							}
-							else {
+							}else {
 								xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
 							}
 							
@@ -240,19 +236,9 @@ public class PesquisarMenuController extends Controller {
 						xml_menu.writeAttribute("title", gt(main.getTitle()));
 						xml_menu.writeAttribute("id", "" + main.getId());
 						
-						if(main.getType() == 1) { // menu para uma pagina externa e publica 
-							String aux = buildMenuUrlByDad( main.getLink());
-							if(aux != null)
-								xml_menu.setElement("link", aux + "webapps?r=" + main.getLink()); 
-							else 
-								xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
-						}
-						else if(main.getType() == 2) { // Fazer sso obrigatorio 
+						if(main.getType() == 1 || main.getType() == 2) { // Fazer sso obrigatorio 
 							xml_menu.setElement("link", main.getLink()); 
-						} else if(main.getType() == 3) {
-							xml_menu.setElement("link", "webapps?r=" + main.getLink());
-						}
-						else {
+						}else {
 							xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
 						}
 						
@@ -275,7 +261,7 @@ public class PesquisarMenuController extends Controller {
 		return this.renderView(xml_menu.toString());
 	}
 	
-	public void displayMenusPlSql(XMLWritter xml_menu) {
+	private void displayMenusPlSql(XMLWritter xml_menu) {
 		List<IgrpPLSQLMenu> menus = getAllMyMenusFromPlSql();
 		if(menus != null && !menus.isEmpty()) {
 			for(IgrpPLSQLMenu m : menus) {
@@ -383,29 +369,6 @@ public class PesquisarMenuController extends Controller {
 		public int compare(Menu a, Menu b) {
 			return b.getStatus() - a.getStatus();
 		}
-	}
-	
-	private String buildMenuUrlByDad(String input) {
-		String url = null;
-		try {
-			String []aux = input.split("/");
-			String dad = aux[0];
-			Application app = Core.findApplicationByDad(dad);
-			String u = Igrp.getInstance().getRequest().getRequestURL().toString().replace(Igrp.getInstance().getRequest().getRequestURI(), "");
-			
-//			boolean isDevEnv = new Config().getEnvironment().equalsIgnoreCase("dev");
-			
-			if(app.getExternal() == 2 && app.getUrl() != null && !app.getUrl().isEmpty()) {
-				String customDad = app.getUrl();
-				url = u + "/" + customDad + "/app/"; 
-			}
-			
-			if(app.getExternal() == 1)
-				url = u + "/" + dad + "/app/"; 
-			
-		} catch (Exception e) {
-		}
-		return url;
 	} 
 	
 	/** Integration with IGRP-PLSQL Apps **
@@ -494,20 +457,21 @@ public class PesquisarMenuController extends Controller {
 		List<IgrpPLSQLMenu> menus = new ArrayList<IgrpPLSQLMenu>();
 		try {
 		
-			Properties properties =  ConfigApp.getInstance().loadConfig("common", "main.xml");
-			String baseUrl = properties.getProperty("igrp.plsql.url");
-			if(baseUrl == null || baseUrl.isEmpty())
-				throw new Exception("Invalid url ...");
+			Properties properties =  ConfigApp.getInstance().loadConfig("common", "main.xml"); 
+			String endpoint = properties.getProperty("igrp.plsql.mymenus.url"); 
+			String token = properties.getProperty("igrp.plsql.mymenus.token"); 
+			if(endpoint == null || endpoint.isEmpty() || token == null || token.isEmpty()) 
+				throw new Exception("Invalid url ..."); 
 			
 			User u = Core.getCurrentUser(); 
 			
 			nosi.webapps.igrp.dao.Config config = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", this.PLSQL_CLIENT_KEY_NAME).one();
 			
 			String javaSessID = "1"; 
-			String appCode = "";
+			String appCode = "REDGLOBAL";
 			String ipAdress = "IP"; 
-			String profCode = ""; 
-			String orgCode = ""; 
+			String profCode = "ADMIN"; 
+			String orgCode = "01.03"; 
 			String email = u.getEmail(); 
 			
 			String sha1 = nosi.core.webapp.User.encryptToHash(email + (config != null ? config.getValue() : ""), "SHA1"); 
@@ -518,40 +482,85 @@ public class PesquisarMenuController extends Controller {
 				orgCode = new Organization().findOne(Core.getCurrentOrganization()).getPlsql_code(); 
 			} catch (Exception e) {
 			}
-			/*
-			String javaSessID = "1"; 
-			String appCode = "REDGLOBAL";
-			String ipAdress = "IP"; 
-			String profCode = "ADMIN"; 
-			String orgCode = "01.03";
-			*/
-			String base64 = Base64.getEncoder().encodeToString(new String(javaSessID + ";" + appCode + ";" + ipAdress + ";" + profCode + ";" + orgCode).getBytes()); 
 			
-			String endpoint = baseUrl.replace("userapps/", "profmenus/") + email + "/" + sha1.toUpperCase() + "/" + base64;
+			endpoint += "?prof_code=" + profCode + "&org_code=" + orgCode + "&app=" + appCode; 
 			
-			URL url = new URL(endpoint);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setConnectTimeout(5000); // 5s 
-			conn.setDoInput(true);
-			StringBuilder result = new StringBuilder();
-			BufferedReader cin = new BufferedReader(new InputStreamReader(conn.getInputStream(),"ISO-8859-1"));
-			String aux = null;
-			while((aux = cin.readLine()) != null) {
-				result.append(aux);
+			//System.out.println("endpoint: " + endpoint); 
+			
+			Client client = ClientBuilder.newClient(); 
+			WebTarget webTarget = client.target(endpoint); 
+			Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
+			javax.ws.rs.core.Response response  = invocationBuilder.get(); 
+			
+			String json = response.readEntity(String.class); 
+			
+			client.close(); 
+			
+			JSONObject obj = new JSONObject(json); 
+			JSONObject userAppMenus_t = obj.getJSONObject("UserAppMenus_t"); 
+			//System.out.println("json: " + json);
+			if(userAppMenus_t != null && userAppMenus_t.has("UserAppMenu_o")) {
+				JSONArray UserAppMenu_o = userAppMenus_t.getJSONArray("UserAppMenu_o"); 
+				
+				if(UserAppMenu_o != null) { 
+					
+					for(int i = 0; i < UserAppMenu_o.length(); i++) {
+						try {
+							JSONObject m = UserAppMenu_o.getJSONObject(i); 
+							IgrpPLSQLMenu menu = new IgrpPLSQLMenu(); 
+							
+							menu.setId("" + m.getLong("id"));
+							menu.setTitle("" + m.getString("title"));
+							menu.setArea("" + m.getString("area"));
+							try {
+								menu.setEstado("" + m.getInt("estado")); 
+							} catch (Exception e) {
+								menu.setEstado("0");
+							}
+							
+							try {
+								menu.setDescription("" + m.getString("description"));
+							} catch (Exception e) {
+								menu.setDescription(""); 
+							}
+							
+							try {
+								menu.setUrl("" + m.getString("link"));
+							} catch (Exception e) {
+								menu.setUrl("https://www.google.com/"); 
+							}
+							try {
+								menu.setImgsrc("" + m.getString("imgsrc"));
+							} catch (Exception e) {
+								menu.setImgsrc("#");
+							}
+							try {
+								menu.setSelf_id("" + m.getString("self_id"));
+							} catch (Exception e) {
+								menu.setSelf_id("");
+							}
+							
+							menus.add(menu); 
+							
+						} catch (Exception e) {
+							e.printStackTrace(); 
+						}
+					}
+					
+					// System.out.println("menus.size(): " + menus.size());
+				}
 			}
-			cin.close();
-			conn.disconnect();
-			
-			menus = new Gson().fromJson(result.toString(), new TypeToken<List<IgrpPLSQLMenu>>() {}.getType());
+		
 			
 		}catch(Exception e) { 
 			// e.printStackTrace(); 
 		} 
 		
+		
 		return menus;
 	} 
 	
-	private final String PLSQL_CLIENT_KEY_NAME = "PLSQL_CLIENT_KEY";
+	private final String PLSQL_CLIENT_KEY_NAME = "PLSQL_CLIENT_KEY"; 
 	
 	/*----#end-code----*/
 }

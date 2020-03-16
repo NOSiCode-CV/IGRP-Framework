@@ -199,7 +199,7 @@ public class PartilhageralController extends Controller {
 					.andWhere("owner.id", "=", Core.toInt(model.getAplicacao_origem())).andWhere("type", "=", model.getElemento())
 					.all();
 
-			for (Share s : sharesRemoved) { // remove all
+			for (Share s : sharesRemoved) { // remove all 
 				s.setStatus(0);
 				s.update();
 			}
