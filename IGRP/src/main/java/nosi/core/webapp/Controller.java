@@ -196,7 +196,9 @@ public class Controller {
 			ViewTaskDetails details = this.getTaskDetails(taskService, taskId);
 			xml.addXml(this.getTaskViewDetails(details));
 			xml.addXml(content);
-			xml.addXml(this.getDocument(runtimeTask, bpmn, ac, details.getUserName()));
+			
+			xml.addXml(this.getDocument(runtimeTask, bpmn, ac, details.getUserName())); 
+			
 			if (m != null) {
 				xml.addXml(m);
 			}
@@ -242,7 +244,7 @@ public class Controller {
 		}
 		return details;
 	}
-
+	
 	private String getDocument(RuntimeTask runtimeTak, InterfaceBPMNTask bpmn, Action action, String userName) {
 		if (bpmn == null)
 			return BPMNHelper.addFileSeparator(action.getApplication().getDad(),
@@ -250,31 +252,32 @@ public class Controller {
 
 		DisplayDocmentType display = new DisplayDocmentType();
 		display.setUserName(userName);
-		display.setListDocmentType(bpmn.getInputDocumentType());
+		display.setListDocmentType(bpmn.getInputDocumentType()); 
+		
 		String previewTask = runtimeTak.getPreviewTask();
 		boolean isDetails = runtimeTak.isDetails();
 		if (isDetails)
 			display.setShowInputFile(false);
 
-		if (Core.isNotNull(previewTask)) {
 			try {
 				Core.setAttribute(BPMNConstants.PRM_TASK_DEFINITION, runtimeTak.getTask().getTaskDefinitionKey());
 				String packageName = "nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".process."
 						+ runtimeTak.getTask().getProcessDefinitionKey().toLowerCase();
-				Class<?> c = Class.forName(packageName + "." + BPMNConstants.PREFIX_TASK + previewTask + "Controller");
+				Class<?> c = Class.forName(packageName + "." + BPMNConstants.PREFIX_TASK + runtimeTak.getTask().getTaskDefinitionKey() + "Controller");
 				Method method = c.getMethod("getOutputDocumentType");
 				@SuppressWarnings("unchecked")
-				List<TipoDocumentoEtapa> listDocOutput = (List<TipoDocumentoEtapa>) method.invoke(c.newInstance());
-				display.addListDocumentType(listDocOutput);
+				List<TipoDocumentoEtapa> listDocOutput = (List<TipoDocumentoEtapa>) method.invoke(c.newInstance()); 
+				display.addListDocumentType(listDocOutput); 
+				
 			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException | InstantiationException e) {
 				e.printStackTrace();
 			}
-		}
-		String xml = display.displayInputNOutputDocsInDistinctFormList(); 
+			
+		String xml = display.displayInputNOutputDocsInDistinctFormList(); 		
 		return xml;
 	}
-
+	
 	protected final Response renderView(View view) throws IOException { // Overload ...
 		return this.renderView(view, false);
 	}
@@ -586,18 +589,7 @@ public class Controller {
 		app.getLog().addMessage(modelName);
 		app.getLog().addMessage(xsl); 
 		
-		detectAppHomePageWhenSSO(); 
-		
 	} 
-	
-	private void detectAppHomePageWhenSSO() {
-		//if(!Igrp.getInstance().getUser().isAuthenticated()) {
-			String app_ = Igrp.getInstance().getRequest().getParameter("app"); 
-			if(app_ != null && !app_.isEmpty())
-				Igrp.getInstance().getRequest().getSession().setAttribute("_homepage", app_);
-		//	System.out.println("_homepage: " + app_); 
-		//}
-	}
 
 	protected Object run() {
 		Igrp app = Igrp.getInstance();

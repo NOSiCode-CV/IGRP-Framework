@@ -271,15 +271,12 @@ public abstract class BPMNTaskController extends Controller implements Interface
 
 	@Override
 	public List<TipoDocumentoEtapa> getOutputDocumentType() {
-		String previewTaskDefinition = this.runtimeTask.getPreviewTask();
-		String preiviewProcessDefinition = this.runtimeTask.getPreiviewProcessDefinition();
 		String currentTaskDefinition = this.runtimeTask.getTask().getTaskDefinitionKey();
 		String currentProcessDefinition = this.runtimeTask.getTask().getProcessDefinitionKey();
 		String currentTaskApp = this.runtimeTask.getTask().getTenantId();
 		currentTaskApp = Core.isNotNull(currentTaskApp)?currentTaskApp:this.runtimeTask.getPreiviewApp();
-		currentTaskDefinition = Core.isNotNull(currentTaskDefinition)?currentTaskDefinition:previewTaskDefinition;
-		currentProcessDefinition = Core.isNotNull(currentProcessDefinition)?currentProcessDefinition:preiviewProcessDefinition;
-		return BPMNHelper.getOutputDocumentType(currentTaskApp,currentProcessDefinition,currentTaskDefinition,preiviewProcessDefinition,previewTaskDefinition);
+		
+		return BPMNHelper.getOutputDocumentType(currentTaskApp,currentProcessDefinition,currentTaskDefinition);
 	}
 
 	@Override
