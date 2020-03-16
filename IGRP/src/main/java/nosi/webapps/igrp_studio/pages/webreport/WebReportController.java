@@ -238,7 +238,8 @@ public class WebReportController extends Controller {
 			for(RepTemplateSource rep:new RepTemplateSource().getAllDataSources(rt.getId())){
 				xml += this.getData(rep,name_array,value_array);
 			}
-			xml = this.genXml(xml,rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0);
+			xml = this.genXml(xml,rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0); 
+			
 			this.format = Response.FORMAT_XML;
 			return this.renderView(xml);
 		}
@@ -573,7 +574,6 @@ public class WebReportController extends Controller {
 		Response resp = new Response();
 		String fileName = Core.getParam("p_file_name");
 		String env=Core.getParam("env");
-		//System.out.println("env "+env);
 		if(Core.isNotNull(fileName)) {
 			String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
 			//String url2 = Path.getImageServer((Core.isNull(env)?"":env+File.separator)+"reports")+File.separator+fileName;		

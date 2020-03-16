@@ -119,7 +119,7 @@ public class Oauth2openidwso2Controller extends Controller {
 		String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
 		redirect_uri = redirect_uri.replace("IGRP", warName); 
 		
-		url += "?response_type=code&client_id=" + client_id + "&scope=openid&state=TWILIGHT10&redirect_uri=" + redirect_uri;
+		url += "?response_type=code&client_id=" + client_id + "&scope=openid&state=igrpweb&redirect_uri=" + redirect_uri;
 		
 		return redirectToUrl(url);
 		
@@ -155,7 +155,9 @@ public class Oauth2openidwso2Controller extends Controller {
 		
 		int i = 0; 
 		
-		if(p != null)
+		
+		
+		if(p != null) {
 			for(Application app : apps) {
 				JSONObject jsonObject = new JSONObject(); 
 				
@@ -181,6 +183,7 @@ public class Oauth2openidwso2Controller extends Controller {
 				
 				allApps.put(i++, jsonObject); 
 			}
+		}
 		
 		this.format = Response.FORMAT_JSON; 
 		
@@ -207,7 +210,7 @@ public class Oauth2openidwso2Controller extends Controller {
 			//if(r != null && r.equalsIgnoreCase("true") && url != null && !url.isEmpty()) {
 				String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
 				String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
-				url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=TWILIGHT10&redirect_uri=" + redirect_uri; 			
+				url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrpweb&redirect_uri=" + redirect_uri; 			
 				
 				return url; 
 			//} 
@@ -223,11 +226,11 @@ public class Oauth2openidwso2Controller extends Controller {
 		
 		String json = "{}"; // empty json 
 		
-		 String header = Igrp.getInstance().getRequest().getHeader("Authorization"); 
+		/* String header = Igrp.getInstance().getRequest().getHeader("Authorization"); 
 		 nosi.webapps.igrp.dao.Config config = new  nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "IGRPWEB_INTEGRATION_PLSQL_TOKEN").one(); 
 		 if(config != null) { 
-			  
-			 if(header != null && config.getValue() != null && config.getValue().equals(header)) {
+			*/  
+			 //if(header != null && config.getValue() != null && config.getValue().equals(header)) {
 				 
 				String currentDad = Core.getParam("p_current_dad");
 				String userId = Core.getParam("p_user_id"); 
@@ -295,9 +298,9 @@ public class Oauth2openidwso2Controller extends Controller {
 					
 				json = new Gson().toJson(myMenus);
 				
-			 }
+			// }
 			 
-		}
+		//}
 		
 		this.format = Response.FORMAT_JSON;
 		

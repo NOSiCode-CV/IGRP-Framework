@@ -10,6 +10,7 @@ import nosi.core.webapp.activit.rest.entities.HistoricTaskService;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLWritter;
+import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import nosi.webapps.igrp_studio.pages.bpmndesigner.ReserveCodeControllerTask;
 import static nosi.core.i18n.Translator.gt;
@@ -80,9 +81,9 @@ public class BPMNHelper {
 	public static List<TipoDocumentoEtapa> getInputOutputDocumentType(String taskDad,String processDefinition,String taskDefinition,List<HistoricTaskService> history) {
 		DisplayDocmentType display = new DisplayDocmentType();
 		if(history!=null && !history.isEmpty()) {			
-			display.addListDocumentType(getOutputDocumentType(taskDad,history.get(0).getProcessDefinitionId(),taskDefinition,null,null));
+			display.addListDocumentType(getOutputDocumentType(taskDad,history.get(0).getProcessDefinitionId(),taskDefinition));
 		}else {
-			display.addListDocumentType(getOutputDocumentType(taskDad,processDefinition,taskDefinition,null,null));
+			display.addListDocumentType(getOutputDocumentType(taskDad,processDefinition,taskDefinition));
 		}
 		display.setListDocmentType(getInputDocumentTypeHistory(taskDad,processDefinition, taskDefinition));
 		return display.getListDocmentType();
@@ -118,7 +119,7 @@ public class BPMNHelper {
 	}
 	
 
-	public static List<TipoDocumentoEtapa> getInputDocumentType(String taskDad,String processDefinition,String taskDefinition){
+	public static List<TipoDocumentoEtapa> getInputDocumentType(String taskDad, String processDefinition, String taskDefinition){
 		List<TipoDocumentoEtapa> tipoDocsIN = new TipoDocumentoEtapa()
 				.find()
 				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")
@@ -139,12 +140,12 @@ public class BPMNHelper {
 	}
 
 	public static List<TipoDocumentoEtapa> getOutputDocumentType(String currentTaskApp, String currentProcessDefinition_,
-			String currentTaskDefinition, String preiviewProcessDefinition_, String previewTaskDefinition) {
+			String currentTaskDefinition) {
 		String currentProcessDefinition = resolveProcessDenifition(currentProcessDefinition_);
-		String preiviewProcessDefinition = resolveProcessDenifition(preiviewProcessDefinition_);		
-		List<TipoDocumentoEtapa> docsReport = getDocumentOutputReport(currentTaskApp,preiviewProcessDefinition, currentTaskDefinition);
+		List<TipoDocumentoEtapa> docsReport = getDocumentOutputReport(currentTaskApp,currentProcessDefinition, currentTaskDefinition);
 		List<TipoDocumentoEtapa> docsOthers = getDocumentOutputOthers(currentTaskApp,currentProcessDefinition, currentTaskDefinition);
-		List<TipoDocumentoEtapa> tipoDocs = new ArrayList<>();
+		List<TipoDocumentoEtapa> tipoDocs = new ArrayList<>(); 
+		
 		if(docsReport!=null)
 			tipoDocs.addAll(docsReport);
 		if(docsOthers!=null)
@@ -152,34 +153,61 @@ public class BPMNHelper {
 		return tipoDocs;
 	}
 	
-	private static List<TipoDocumentoEtapa> getDocumentOutputOthers(String taskDad,String processDefinition,
-			String taskDefinition) {
+	private static List<TipoDocumentoEtapa> getDocumentOutputOthers(String taskDad, String processDefinition,
+			String taskDefinition) { 
+		
+		RuntimeTask runtimeTask = RuntimeTask.getRuntimeTask(); 
+		List<ActivityExecute> allBeforeTasks = new ActivityExecute().find()
+				.andWhere("processName", "=", runtimeTask.getTask().getProcessDefinitionId())
+				.andWhere("processid", "=", runtimeTask.getTask().getProcessInstanceId())
+				.orderByDesc("id")
+				.all(); 
+		
 		List<TipoDocumentoEtapa> tipoDocs = new TipoDocumentoEtapa()
 				.find()
 				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")
 				.andWhere("taskId", "=",Core.isNotNull(taskDefinition)?taskDefinition:"-1")
-				.andWhere("status", "=",1)
+				.andWhere("status", "=", 1)
 				.andWhere("tipo", "=","OUT")
 				.andWhere("tipoDocumento", "notnull")
 				.andWhere("tipoDocumento.application.dad", "=",taskDad)
 				.all();	
-		tipoDocs.stream().forEach(t->{
+		
+		List<TipoDocumentoEtapa> aux = new ArrayList<TipoDocumentoEtapa>(); 
+		List<String> taskIds = new ArrayList<String>();
+		
+		for(TipoDocumentoEtapa t : tipoDocs) {
+			for(ActivityExecute task : allBeforeTasks) {
+				TipoDocumentoEtapa doc = new TipoDocumentoEtapa().find()
+						.andWhere("processId", "=", task.getProccessKey())
+						.andWhere("taskId", "=", task.getTaskKey())
+						.andWhere("tipo", "=", "IN")
+						.andWhere("status", "=", 1)
+						.andWhere("tipoDocumento", "=", t.getTipoDocumento())
+						.one(); 
+				if(doc != null) {
+					aux.add(doc); 
+					taskIds.add(task.getTaskid()); 
+				}
+			}
+		}
+		
+		aux.removeIf(obj -> { 
+			for(TipoDocumentoEtapa doc_ : aux) 
+				return doc_ != obj && doc_.getTipoDocumento() != null && obj.getTipoDocumento() != null && doc_.getTipoDocumento().equals(obj.getTipoDocumento()); 
+			return false; 
+		});
+		
+		for(int i = 0; i < aux.size(); i++) { 
+			TipoDocumentoEtapa t = aux.get(i); 
+			t.setTipo("OUT");
 			 IGRPLink link = new IGRPLink();	
-			 t.setFileId(-1);
-			 String taskId = RuntimeTask.getRuntimeTask().getPreviewTaskId();	
-			 nosi.webapps.igrp.dao.TaskFile taskFile = null;
-			 if(Core.isNotNull(taskId)) {
-				 taskFile = new nosi.webapps.igrp.dao.TaskFile().find()
-							.where("taskId","=",taskId)
-							.andWhere("tipo_doc_task.tipoDocumento.id","=",t.getTipoDocumento().getId())
-							.one();
-			 }else {
-				 taskFile = new nosi.webapps.igrp.dao.TaskFile().find()
-							.where("tipo_doc_task.taskId","=",taskDefinition)
-							.andWhere("tipo_doc_task.processId","=",processDefinition)
-							.andWhere("tipo_doc_task.tipoDocumento.id","=",t.getTipoDocumento().getId())
-							.one();
-			 }
+			 t.setFileId(-1); 
+			 nosi.webapps.igrp.dao.TaskFile taskFile = new nosi.webapps.igrp.dao.TaskFile().find()
+						.where("taskId","=", taskIds.get(i))
+						.andWhere("tipo_doc_task.tipoDocumento.id","=",t.getTipoDocumento().getId())
+						.one();
+			 
 			 if(taskFile!=null) {
 				 if(taskFile.getClob().getUuid()!=null)
 					 link.setLink(Core.getLinkFileByUuid(taskFile.getClob().getUuid()));
@@ -187,13 +215,15 @@ public class BPMNHelper {
 					 link.setLink(Core.getLinkFile(taskFile.getClob().getId().intValue()));
 				 t.setFileId(taskFile.getClob().getId());
 			 }
- 			 link.setLink_desc(gt("Mostrar"));
+			 link.setLink_desc(gt("Mostrar"));
 			 t.setLink(link);
-		});
-		return tipoDocs;
+		}
+		
+		return aux;
 	}
 
 	private static List<TipoDocumentoEtapa> getDocumentOutputReport(String taskDad,String processDefinition,String taskDefinition) {
+		
 		List<TipoDocumentoEtapa> tipoDocs =  new TipoDocumentoEtapa()
 				.find()
 				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")
@@ -202,7 +232,7 @@ public class BPMNHelper {
 				.andWhere("tipo", "=","OUT")
 				.andWhere("repTemplate", "notnull")
 				.andWhere("repTemplate.application.dad", "=",taskDad)
-				.all();			
+				.all();		
 		tipoDocs.stream().forEach(t->{
 			 t.setFileId(new Integer(-1));
 			 IGRPLink link = new IGRPLink(Core.getLinkReport(t.getRepTemplate().getCode()).addParam(BPMNConstants.PRM_TASK_ID, getCurrentTaskId()));

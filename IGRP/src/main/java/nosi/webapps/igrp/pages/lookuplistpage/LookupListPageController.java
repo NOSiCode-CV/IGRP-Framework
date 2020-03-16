@@ -156,24 +156,13 @@ public class LookupListPageController extends Controller {
 			if(Core.isNotNull(model.getTaskid()) && Core.isNotNull(model.getProcessid()) && Core.isNotNull(model.getEnv_fk())) {
 				this.addQueryString("p_general_id", model.getTaskid()).addQueryString("p_process_id", model.getProcessid()).addQueryString("p_env_fk", model.getEnv_fk());
 		
-				if(model.getFormlist_1() !=null) {			
+				if(model.getFormlist_1() != null) {			
 					
-//					ResultSet query= 
 					Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, "tbl_tipo_documento_etapa")
 						.where("processid=:processid AND taskid=:taskid")
 						.addString("processid", model.getProcessid())
 						.addString("taskid", model.getTaskid())
 						.execute();
-//					Core.setMessageInfo("anes "+model.getTaskid());
-//					if(query!=null && query.hasError()) {						
-//						Core.update(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, "tbl_tipo_documento_etapa")
-//						.addInt("status",0)
-//						.where("processid=:processid AND taskid=:taskid")
-//						.addString("processid", model.getProcessid())
-//						.addString("taskid", model.getTaskid())
-//						.execute();
-//					}
-					
 					
 				 	 CheckBoxHelper cb = Core.extractCheckBox(Core.getParamArray("p_checkbox_fk"), Core.getParamArray("p_checkbox_check_fk"));
 				 	 List<String> p_checkbox_fk = cb.getChekedIds();

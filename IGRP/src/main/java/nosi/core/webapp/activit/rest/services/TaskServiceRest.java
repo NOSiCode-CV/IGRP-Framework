@@ -367,8 +367,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		return r;
 	}
 
-
-	public List<TaskService> getTasksByProcessDefinitionId(String processDefinitionId) {
+	public List<TaskService> getTasksByProcessDefinitionIdds(String processDefinitionId) {
 		List<TaskService> list = new ArrayList<>();
 		RestRequest req = this.getRestRequest();
 		req.setAccept_format(MediaType.APPLICATION_XML);
@@ -378,7 +377,6 @@ public class TaskServiceRest extends GenericActivitiRest {
 				String xml = FileHelper.convertToString((InputStream) response.getEntity());
 				list = this.extractTasks(xml, false);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			response.close();
@@ -412,45 +410,45 @@ public class TaskServiceRest extends GenericActivitiRest {
 		List<TaskService> list = new ArrayList<>();
 		String xml_ = xml.replace("xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"", "").replaceAll("activiti:formKey",
 				"formKey");
-		if (Core.isNotNull(xml_)) {
-			StringReader r = new StringReader(xml_);
-			TaskOfProcess listTasks = JAXB.unmarshal(r, TaskOfProcess.class);
-			if (listTasks != null && listTasks.getProcess() != null) {
-				if (includeStartProcess && listTasks.getProcess().get(0) != null
-						&& listTasks.getProcess().get(0).getStartEventObject() != null
-						&& listTasks.getProcess().get(0).getStartEventObject().get(0) != null) {
-					TaskService t = new TaskService();
-					t.setProcessDefinitionId(listTasks.getProcess().get(0).getId());
-					t.setId("Start" + t.getProcessDefinitionId());
-					t.setTaskDefinitionKey("Start" + t.getProcessDefinitionId());
-					t.setName("Start");
-					t.setFormKey(listTasks.getProcess().get(0).getStartEventObject().get(0).getFormKey());
-					list.add(t);
-				}
-				if (listTasks.getProcess().get(0) != null && listTasks.getProcess().get(0).getUserTask() != null) {
-					for (UserTask task : listTasks.getProcess().get(0).getUserTask()) {
+			if (Core.isNotNull(xml_)) { 
+				StringReader r = new StringReader(xml_); 
+				TaskOfProcess listTasks = JAXB.unmarshal(r, TaskOfProcess.class);
+				if (listTasks != null && listTasks.getProcess() != null) {
+					if (includeStartProcess && listTasks.getProcess().get(0) != null
+							&& listTasks.getProcess().get(0).getStartEventObject() != null
+							&& listTasks.getProcess().get(0).getStartEventObject().get(0) != null) {
 						TaskService t = new TaskService();
-						t.setId(task.getId());
-						t.setTaskDefinitionKey(task.getId());
-						t.setName(task.getName());
-						t.setFormKey(task.getFormKey());
 						t.setProcessDefinitionId(listTasks.getProcess().get(0).getId());
+						t.setId("Start" + t.getProcessDefinitionId());
+						t.setTaskDefinitionKey("Start" + t.getProcessDefinitionId());
+						t.setName("Start");
+						t.setFormKey(listTasks.getProcess().get(0).getStartEventObject().get(0).getFormKey());
 						list.add(t);
 					}
-				}
-				if (listTasks.getProcess().get(0).getSubProcess() != null) {
-					for (UserTask task : listTasks.getProcess().get(0).getSubProcess().getUserTask()) {
-						TaskService t = new TaskService();
-						t.setId(task.getId());
-						t.setName(task.getName());
-						t.setTaskDefinitionKey(task.getId());
-						t.setFormKey(task.getFormKey());
-						t.setProcessDefinitionId(listTasks.getProcess().get(0).getSubProcess().getId());
-						list.add(t);
+					if (listTasks.getProcess().get(0) != null && listTasks.getProcess().get(0).getUserTask() != null) {
+						for (UserTask task : listTasks.getProcess().get(0).getUserTask()) {
+							TaskService t = new TaskService();
+							t.setId(task.getId());
+							t.setTaskDefinitionKey(task.getId());
+							t.setName(task.getName());
+							t.setFormKey(task.getFormKey());
+							t.setProcessDefinitionId(listTasks.getProcess().get(0).getId());
+							list.add(t);
+						}
+					}
+					if (listTasks.getProcess().get(0).getSubProcess() != null) {
+						for (UserTask task : listTasks.getProcess().get(0).getSubProcess().getUserTask()) {
+							TaskService t = new TaskService();
+							t.setId(task.getId());
+							t.setName(task.getName());
+							t.setTaskDefinitionKey(task.getId());
+							t.setFormKey(task.getFormKey());
+							t.setProcessDefinitionId(listTasks.getProcess().get(0).getSubProcess().getId());
+							list.add(t);
+						}
 					}
 				}
 			}
-		}
 		return list;
 	}
 

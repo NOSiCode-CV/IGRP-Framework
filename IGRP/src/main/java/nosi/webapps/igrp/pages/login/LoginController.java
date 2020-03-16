@@ -41,6 +41,7 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.security.Permission;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -192,8 +193,20 @@ public class LoginController extends Controller {
 				new Permission().changeOrgAndProfile(param[0]);
 				return this.redirectToUrl(destination);
 			}
-			try {
-				return this.redirect("igrp", "home", "index");
+			try { 
+				String state = Core.getParam("state"); 
+				if(state != null && !state.isEmpty()) { 
+					String []aux = state.split("/"); 
+					if(aux != null && aux.length == 4) {
+						String dad = aux[3]; 
+						if(dad != null && !dad.isEmpty()) { 
+							Application application = new Application().find().andWhere("dad", "=", dad).one(); 
+							if(application != null) 
+								this.addQueryString("dad", state); 
+						}
+					}
+				}
+				return this.redirect("igrp", "home", "index", this.queryString()); 
 			}catch (Exception e) {
 			}
 		}
@@ -272,7 +285,7 @@ public class LoginController extends Controller {
 							&& settings.getProperty("igrp.env.isNhaLogin").equals("true")) {
 						return checkEnvironments_nhaLogin(username);
 					}
-					// TODO by Marcos: must decrypt de URL when you do Route.remenber()
+					
 					String destination = Route.previous(); 
 					if (destination != null) {
 						String qs = URI.create(destination).getQuery();
@@ -607,6 +620,8 @@ public class LoginController extends Controller {
 
 			JSONObject jToken = new JSONObject(resultPost);
 			
+			System.out.println("jToken: " + jToken);
+			
 			String token = (String) jToken.get("access_token");
 			String id_token = (String) jToken.get("id_token");
 			String refresh_token = (String) jToken.get("refresh_token"); 
@@ -710,7 +725,14 @@ public class LoginController extends Controller {
 								user.setIsAuthenticated(1);
 								user.setRefreshToken(refresh_token);
 								user = user.update();
-								return redirect("igrp", "home", "index"); 
+								
+								// Custom Dad 
+								String externalUrl = createUrlOauth2OpenIdWso2(); 
+								if(externalUrl != null) 
+									return this.redirectToUrl(externalUrl); 
+								
+								return redirect("igrp", "home", "index", this.queryString());  
+								
 							} catch (Exception e) {
 							}
 						}
@@ -740,7 +762,13 @@ public class LoginController extends Controller {
 									newUser.setOidcState(session_state);
 									newUser.setRefreshToken(refresh_token);
 									newUser.update();
-									return redirect("igrp", "home", "index"); 
+									
+									// Custom Dad 
+									String externalUrl = createUrlOauth2OpenIdWso2(); 
+									if(externalUrl != null) 
+										return this.redirectToUrl(externalUrl); 
+									
+									return redirect("igrp", "home", "index", this.queryString()); 
 								}
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -803,11 +831,50 @@ public class LoginController extends Controller {
 			String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
 			redirect_uri = redirect_uri.replace("IGRP", warName); 
 			String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
-			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=TWILIGHT10&redirect_uri=" + redirect_uri;
+			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrpweb&redirect_uri=" + redirect_uri; 
 			return redirectToUrl(url); 
 			
 		}
 		return null; 
+	}
+	
+	private String createUrlOauth2OpenIdWso2() { 
+		String url = null;
+		try {
+			String state = Core.getParam("state"); 
+			if(state != null && !state.isEmpty()) { 
+				String []aux = state.split("/"); 
+				if(aux != null && aux.length == 4) { 
+					String dad = aux[3]; 
+					if(dad != null && !dad.isEmpty()) { 
+						
+						Application application = new Application().find().andWhere("dad", "=", dad).one(); 
+						
+						String contextName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
+						
+						if(application != null) { 
+							this.addQueryString("dad", state); 
+							if(application.getExternal() == 2 && !contextName.equalsIgnoreCase(application.getUrl())) { 
+								url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
+								String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
+								String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
+								url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrpweb&redirect_uri=" + redirect_uri; 
+								
+								url = url.replace("/IGRP/", "/" + application.getUrl() + "/");  
+							}
+						} 
+						
+					} 
+				} 
+				
+			}
+		} catch (Exception e) { 
+			e.printStackTrace(); 
+		}
+		
+		System.out.println("Url(Login): " + url);
+		
+		return url; 
 	}
 	
 	private String createUrlForOAuth2OpenIdRequest() { 
