@@ -5395,13 +5395,15 @@ var GENERATOR = function(genparams){
 						value: ''
 					});
 					
-					field.setPropriety({
-						label    : 'Description Label',
-						name     : 'desclabel',
-						value 	 : false,
-						xslValue : 'desclabel'
-					});
-
+					if(container.GET.type() != 'formlist'){
+					
+						field.setPropriety({
+							label    : 'Description Label',
+							name     : 'desclabel',
+							value 	 : false,
+							xslValue : 'desclabel'
+						});
+					}
 				}
 			//}
 			

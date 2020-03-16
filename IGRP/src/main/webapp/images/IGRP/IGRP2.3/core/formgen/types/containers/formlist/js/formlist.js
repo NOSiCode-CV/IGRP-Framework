@@ -83,21 +83,7 @@
 					container.SET.tableFooter(v);
 					container.SET.totalcol(v);
 				},
-				xslValue : 'total-col="true"',
-				onEditionStart: function (v) {
-
-					$('input', v.input).on('change', function () {
-
-						var isChecked = $(this).is(':checked'),
-							action = isChecked ? 'show' : 'hide',
-							holderformat = $('.gen-properties-setts-holder div[rel="numberformat"]');
-
-						holderformat[action]();
-
-						if (!isChecked)
-							$(':input', holderformat).val('');
-					});
-				}
+				xslValue : 'total-col="true"'
 			});
 
 			field.setPropriety({
@@ -120,22 +106,7 @@
 					container.SET.addTotalRow(v);
 					container.SET.totalrow(v);
 				},
-				xslValue : 'total-row="true"',
-				onEditionStart: function (v) {
-
-					$('input', v.input).on('change', function () {
-
-						var isChecked = $(this).is(':checked'),
-							action = isChecked ? 'show' : 'hide',
-							holdermathcal = $('.gen-properties-setts-holder div[rel="mathcal"]');
-
-						holdermathcal[action]();
-
-						if (!isChecked)
-							$(':input', holdermathcal).val('');
-							
-					});
-				}
+				xslValue : 'total-row="true"'
 			});
 
 			field.setPropriety({
@@ -143,33 +114,6 @@
 				value   :false,
 				editable:false,
 				xslValue:'total-row'
-			});
-			
-			field.setPropriety({
-				name : 'mathcal',
-				label: 'Mathematical Expression',
-				value: '',
-				size : 12,
-				inputType: 'textarea',
-				onEditionStart: function (o) {
-					if (field.GET.total_row && field.GET.total_row())
-						o.input.show();
-					else
-						o.input.hide();
-				}
-			});
-
-			field.setPropriety({
-				name: 'numberformat',
-				label: 'Number Format',
-				value: '',
-				size: 12,
-				onEditionStart: function (o) {
-					if (field.GET.total_col && field.GET.total_col())
-						o.input.show();
-					else
-						o.input.hide();
-				}
 			});
 		}
 	
@@ -207,12 +151,13 @@
 
 						addColField = new f.field('number',{
 							properties:{
-								label 	 : 'Total',
-								tag   	 : name,
-								name  	 : 'p_'+name,
-								readonly : true,
-								totalrow : true,
-								total_col: true
+								label 	 	: 'Total',
+								tag   	 	: name,
+								name  	 	: 'p_'+name,
+								readonly 	: true,
+								totalrow 	: true,
+								total_col	: true,
+								calculation : true
 							}
 						});
 

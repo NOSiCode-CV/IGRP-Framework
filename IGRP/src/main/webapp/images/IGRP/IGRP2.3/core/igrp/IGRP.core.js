@@ -483,6 +483,14 @@
 			isNotNaN : function(v){
 				return isNaN(v)? 0:v*1;
 			},
+			
+			getType: function (f) {
+				var parent 	= f.parents('[item-name]'),
+					type 	= parent[0] ? parent.attr('item-type') : (f.attr('type') ? f.attr('type') : f.prop('tagName'));
+
+				return type.toLowerCase();
+			},
+			
 			arrRemoveItem : function(arr,v){
                 return $.grep(arr, function(val) {
 				  return val != v;
@@ -612,7 +620,10 @@
 
 						var extract = p.extract[f],
 							val 	= extract.field.val();
-
+						
+						if ($.IGRP.utils.getType(extract.field) == 'date')
+							val = new Date(val).getTime();
+						
 						val = $.isNumeric(val) ? val * 1 : "'"+val+"'";
 						
 						str = str.replaceAll(extract.str, val);
