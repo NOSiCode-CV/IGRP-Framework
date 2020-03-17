@@ -24,7 +24,7 @@ public class RegistarUtilizadorController extends Controller {
 		model.load();
 		RegistarUtilizadorView view = new RegistarUtilizadorView();
 		/*----#start-code(index)----*/
-
+		
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -108,17 +108,19 @@ public class RegistarUtilizadorController extends Controller {
 	}
 	
 /*----#start-code(custom_actions)----*/
-public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws IOException, IllegalArgumentException, IllegalAccessException{
+public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(rParamName = "settings") String sett) throws IOException, IllegalArgumentException, IllegalAccessException{
 		
-		
+		RegistarUtilizadorView view = new RegistarUtilizadorView();
 		RegistarUtilizador model = new RegistarUtilizador();	
-        model.load();
+	    model.load();
+    
+	    if(Core.isNotNull(sett)) {
+	    	view.password.setVisible(false);
+			view.confirmar_password.setVisible(false);
+	    }
+			
+	        User user = Core.findUserById(Integer.parseInt(idUser));
 		
-        
-        User user = Core.findUserById(Integer.parseInt(idUser));		
-		model.setNome(user.getName());
-		model.setUsername(user.getUser_name().toLowerCase().trim());
-		model.setEmail(user.getEmail().toLowerCase(Locale.ROOT));
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){			
 					
 			boolean isError = false;
@@ -128,7 +130,7 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws 
 			}				
 			if(!isError){
 				user.setName(model.getNome());
-				user.setPass_hash(nosi.core.webapp.User.encryptToHash(model.getUsername() + "" + model.getPassword(), "SHA-256"));
+				//user.setPass_hash(nosi.core.webapp.User.encryptToHash(model.getUsername() + "" + model.getPassword(), "SHA-256"));
 				//user.setEmail(model.getEmail()); 
 				//user.setUser_name(model.getUsername());
 				user.setUpdated_at(System.currentTimeMillis());
@@ -141,8 +143,14 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws 
 				else
 					Core.setMessageError(gt("Error ao atualizar uilizador."));
 			}			
-		}		
-		RegistarUtilizadorView view = new RegistarUtilizadorView();
+		}	else {
+		
+	        model.setNome(user.getName());
+			model.setUsername(user.getUser_name().toLowerCase().trim());
+			model.setEmail(user.getEmail().toLowerCase(Locale.ROOT));
+			
+		}	
+		
 		view.email.propertie().setProperty("readonly", "true");	
 		view.username.propertie().setProperty("readonly", "true");	
 		view.password.propertie().setProperty("required","false");

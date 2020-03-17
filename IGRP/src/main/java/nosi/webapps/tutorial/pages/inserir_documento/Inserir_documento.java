@@ -17,6 +17,9 @@ public class Inserir_documento extends Model{
 	@RParam(rParamName = "p_type")
 	private String type;
 
+	@RParam(rParamName = "p_ordem")
+	private Integer ordem;
+
 	@RParam(rParamName = "p_descricao")
 	private String descricao;
 
@@ -48,6 +51,13 @@ public class Inserir_documento extends Model{
 	}
 	public String getType(){
 		return this.type;
+	}
+	
+	public void setOrdem(Integer ordem){
+		this.ordem = ordem;
+	}
+	public Integer getOrdem(){
+		return this.ordem;
 	}
 	
 	public void setDescricao(String descricao){

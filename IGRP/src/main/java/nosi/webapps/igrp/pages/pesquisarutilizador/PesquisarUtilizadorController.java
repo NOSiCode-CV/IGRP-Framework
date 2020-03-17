@@ -42,7 +42,10 @@ public class PesquisarUtilizadorController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
-      model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=utilizador"));
+		if(!Core.getCurrentUser().getUser_name().equalsIgnoreCase("igrpweb@nosi.cv"))
+			view.btn_editar.setVisible(false);
+        
+		model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=utilizador"));
       
    		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();
 

@@ -135,13 +135,14 @@
                 defaultView :view,
                 //events: p.loadevents,
                 events: function(start, end, timezone, callback) {
+                	
                     $.ajax({
-                        url:$.IGRP.utils.getPageUrl(),
-                        data:$.IGRP.utils.getForm().serializeArray(),
-                        type  :"POST",
-                        method:"POST",
-                        dataType: 'xml',
-                        cache: false,
+                        url		:	p.loadevents ? p.loadevents : $.IGRP.utils.getPageUrl(),
+                        data  	:	$.IGRP.utils.getForm().serializeArray(),
+                        type  	:	"POST",
+                        method 	:	"POST",
+                        dataType: 	'xml',
+                        cache 	:	false,
                         success: function(doc) {
                             var events = [];
 

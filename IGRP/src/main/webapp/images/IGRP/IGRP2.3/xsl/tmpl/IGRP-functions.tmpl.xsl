@@ -184,6 +184,18 @@
       <xsl:attribute name="temp-store">true</xsl:attribute>
     </xsl:if>
     
+    <xsl:if test="$field/@mathcal and $field/@mathcal != ''">
+      <xsl:attribute name="mathcal">
+        <xsl:value-of select="$field/@mathcal"/>
+      </xsl:attribute>
+    </xsl:if>
+
+    <xsl:if test="$field/@numberformat and $field/@numberformat != ''">
+      <xsl:attribute name="numberformat">
+        <xsl:value-of select="$field/@numberformat"/>
+      </xsl:attribute>
+    </xsl:if>
+    
   </xsl:template>
 
 </xsl:stylesheet>

@@ -46,45 +46,6 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
-            <fields>
-                <nome name="p_nome" type="text" maxlength="100" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Nome</label>
-                    <value>Doloremque natus magna accusantium adipiscing</value>
-                </nome>
-                <email name="p_email" type="text" maxlength="100" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Email</label>
-                    <value>Elit adipiscing ut iste sit</value>
-                </email>
-                <username name="p_username" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Username</label>
-                    <value>Perspiciatis voluptatem sit co</value>
-                </username>
-                <telefone name="p_telefone" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Telefone</label>
-                    <value>Adipiscing laudantium rem aper</value>
-                </telefone>
-                <telemovel name="p_telemovel" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Telemóvel</label>
-                    <value>Lorem voluptatem aliqua rem ac</value>
-                </telemovel>
-                <ultimo_acesso_igrp name="p_ultimo_acesso_igrp" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Ultimo Acesso IGRP</label>
-                    <value>Labore ipsum totam natus persp</value>
-                </ultimo_acesso_igrp>
-                <ultimo_acesso_rede_estado name="p_ultimo_acesso_rede_estado" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Ultimo Acesso Rede Estado</label>
-                    <value>Sit amet sit consectetur strac</value>
-                </ultimo_acesso_rede_estado>
-                <password_expira_em name="p_password_expira_em" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Password Expira em</label>
-                    <value>Perspiciatis iste ut deserunt</value>
-                </password_expira_em>
-                <view_1_img type="text" name="p_view_1_img" maxlength="300">
-                    <value>../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
-                </view_1_img>
-            </fields>
-        </view_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="alterar_senha" refresh_components="">
                 <title>Alterar senha</title>
@@ -95,16 +56,55 @@
                 <img>info|fa-lock</img>
                 <preview>../images/IGRP/IGRP2.3/app/igrp/changepassword/ChangePassword.xml</preview>
             </item>
-            <item type="specific" code="" rel="editar_perfil" refresh_components="">
+            <item type="specific" code="" rel="editar_perfil" custom_return="true" refresh_components="">
                 <title>Editar Perfil</title>
                 <app>igrp</app>
                 <page>RegistarUtilizador</page>
                 <link>index</link>
-                <target>right_panel_submit</target>
+                <target>right_panel_submit|refresh</target>
                 <img>warning|fa-pencil-square-o</img>
                 <preview>../images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xml</preview>
             </item>
         </toolsbar_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <nome name="p_nome" type="text" maxlength="100" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Nome</label>
+                    <value>Deserunt aliqua amet laudantium unde</value>
+                </nome>
+                <email name="p_email" type="text" maxlength="100" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Email</label>
+                    <value>Consectetur anim unde adipiscing ipsum</value>
+                </email>
+                <username name="p_username" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Username</label>
+                    <value>Sit totam aliqua sit doloremqu</value>
+                </username>
+                <telefone name="p_telefone" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Telefone</label>
+                    <value>Officia sit rem amet voluptate</value>
+                </telefone>
+                <telemovel name="p_telemovel" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Telemóvel</label>
+                    <value>Officia consectetur unde lauda</value>
+                </telemovel>
+                <ultimo_acesso_igrp name="p_ultimo_acesso_igrp" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Ultimo Acesso IGRP</label>
+                    <value>Adipiscing ut unde natus aperi</value>
+                </ultimo_acesso_igrp>
+                <ultimo_acesso_rede_estado name="p_ultimo_acesso_rede_estado" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Ultimo Acesso Rede Estado</label>
+                    <value>Rem iste doloremque lorem natu</value>
+                </ultimo_acesso_rede_estado>
+                <password_expira_em name="p_password_expira_em" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Password Expira em</label>
+                    <value>Totam doloremque ut laudantium</value>
+                </password_expira_em>
+                <view_1_img type="text" name="p_view_1_img" maxlength="300">
+                    <value>../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </view_1_img>
+            </fields>
+        </view_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <idioma name="p_idioma" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="" tags="false">

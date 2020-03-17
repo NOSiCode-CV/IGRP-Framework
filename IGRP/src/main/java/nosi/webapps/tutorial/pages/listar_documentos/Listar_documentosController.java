@@ -22,6 +22,8 @@ import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.webapps.tutorial.dao.Tipo;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -31,6 +33,8 @@ import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp_studio.pages.listapage.ListaPage;
+import nosi.webapps.igrp_studio.pages.listapage.ListaPage.Table_2;
 import nosi.webapps.tutorial.dao.Document;
 import org.apache.commons.text.StringEscapeUtils;
 import nosi.core.gui.components.IGRPButton;
@@ -104,6 +108,8 @@ public class Listar_documentosController extends Controller {
       try{
 	
           List<Tipo> tipoList = new Tipo().find().all();
+          
+          Collections.sort(tipoList, new SortbyID());
 
           List< Listar_documentos.Treemenu_1> tipoTable = new ArrayList<>();
         
@@ -125,9 +131,7 @@ public class Listar_documentosController extends Controller {
               }
           }
           
-        //java.util.Collections.sort(tipoTable)
-          
-          tipoTable.sort(Comparator.comparing(Listar_documentos.Treemenu_1::getTreemenu_1_link_desc));
+         // tipoTable.sort(Comparator.comparing(Listar_documentos.Treemenu_1::getTreemenu_1_link_desc));
           
           model.setTreemenu_1(tipoTable);
 
@@ -168,7 +172,7 @@ public class Listar_documentosController extends Controller {
 	        	  case "time": id_doc = 404; break; case "virtualkeyboard": id_doc = 406; break; case "import": id_doc = 409; break; case "carousel": id_doc = 445; break;
 	        	  case "form": id_doc = 262; break; case "panels": id_doc = 446; break; case "quickbuttonbox": id_doc = 447; break; case "sectionheader": id_doc = 448; break;
 	        	  case "timeline": id_doc = 449; break; case "treelist": id_doc = 450; break; case "radio": id_doc = 451; break; case "new_page": id_doc = 76; break;
-	        	  case "crud": id_doc = 457; break; default: id_doc = 1;
+	        	  case "crud": id_doc = 457; break; default: id_doc = 54;
 	        	}
 
 	            //documentfilter.andWhere("idType.nome","=",Core.getParam("p_type"));
@@ -176,9 +180,16 @@ public class Listar_documentosController extends Controller {
 	        	documentfilter.andWhere("idDoc","=",id_doc);
 	        }
 	
-	        if(Core.isNotNullOrZero(Core.getParamInt("p_id"))){
+	        else if(Core.isNotNullOrZero(Core.getParamInt("p_id"))){
+	        	
 	            documentfilter.andWhere("idDoc","=",Core.getParamInt("p_id"));
 	        }
+	        
+	        else {
+	        	
+	        	 documentfilter.andWhere("idDoc","=",54);	
+	        }
+	       
 	        
 	        Document document = documentfilter.one();
 	    
@@ -193,6 +204,7 @@ public class Listar_documentosController extends Controller {
 	          model.setId_rel(document.getRelacionados());
 	          
 	          if(Core.isNotNull(model.getId_rel())) {
+	        	  
 	        	  String[]p_id2 = model.getId_rel().split(";");
 		            
 		          if(p_id2 != null){
@@ -269,6 +281,8 @@ public Response actionRemote_treemenu_1() throws IOException, IllegalArgumentExc
             documentfilter.andWhere("idType","=",Core.toInt(p_id));
         }
 		List<Document> documentList = documentfilter.all();
+		
+		Collections.sort(documentList, new SortbyID2());
 
 		for (Document li : documentList) {
 
@@ -311,7 +325,26 @@ public Response actionRemote_treemenu_1() throws IOException, IllegalArgumentExc
 //     
 //  return xml2;
 //  } 
-	
+   
+   class SortbyID implements Comparator<Tipo> {
+		
+		@Override
+		public int compare(Tipo o1, Tipo o2) {
+			// TODO Auto-generated method stub
+			return o1.getOrdem()-o2.getOrdem();
+		
+		}
+	}
+   
+   class SortbyID2 implements Comparator<Document> {
+		
+		@Override
+		public int compare(Document o1, Document o2) {
+			// TODO Auto-generated method stub
+			return o1.getOrdem()-o2.getOrdem();
+		
+		}
+	}
  
 /*----#end-code----*/
 }

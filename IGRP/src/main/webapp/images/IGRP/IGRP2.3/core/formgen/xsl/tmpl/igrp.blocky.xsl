@@ -218,7 +218,7 @@
 					 	
 				</block>
 				
-				<block type="comment_code" prev-statement="" color="280">
+				<block type="comment_code" prev-statement="" next-statement="" color="280">
 				
 				   	<value type="dummy" title="comment code">
 				   	
@@ -318,9 +318,7 @@
 		
 		<script type="text/javascript" src="{$path}/core/blockly/blockly/igrp_blockly_elements.js"></script>
 		
-		<script type="text/javascript" src="{$path}/core/blockly/blockly/java_compressed.js"></script>
-		
-		<script type="text/javascript" src="{$path}/core/blockly/blockly/teste_mutators.js"></script>
+		<script type="text/javascript" src="{$path}/core/blockly/blockly/java_compressed.js"></script>		
 		
 		<script type="text/javascript" src="{$path}/core/blockly/blockly/igrp_loads.js"></script>
 		

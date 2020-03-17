@@ -33,8 +33,19 @@ var GENVIEW = function(name,params){
 						label: '2 Columns',
 						value : '2cols'
 					},
+					
+					{
+						label: '3 Columns',
+						value : '3cols'
+					},
 				]
 			}
+		});
+		
+		container.setPropriety({
+			name  : 'itemSeparator',
+			label : 'Separator Border',
+			value : true
 		});
 		
 	}

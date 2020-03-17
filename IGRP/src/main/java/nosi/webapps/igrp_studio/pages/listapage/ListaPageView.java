@@ -25,6 +25,7 @@ public class ListaPageView extends View {
 	public Field infopanel_3_bg;
 	public Field infopanel_3_icn;
 	public Field documento;
+	public Field forum;
 	public Field application;
 	public Field modulo;
 	public Field nada;
@@ -148,6 +149,11 @@ public class ListaPageView extends View {
 
 									documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
 		
+		forum = new LinkField(model,"forum");
+		forum.setLabel(gt("Forum"));
+		forum.setValue(gt("https://gitter.im/igrpweb/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link"));
+		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-comments").add("maxlength","250").add("showlabel","true");
+		
 		application = new ListField(model,"application");
 		application.setLabel(gt("Aplicação"));
 		application.propertie().add("name","p_application").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
@@ -267,6 +273,7 @@ public class ListaPageView extends View {
 		infopanel_3.addField(infopanel_3_icn);
 
 		view_1.addField(documento);
+		view_1.addField(forum);
 
 
 

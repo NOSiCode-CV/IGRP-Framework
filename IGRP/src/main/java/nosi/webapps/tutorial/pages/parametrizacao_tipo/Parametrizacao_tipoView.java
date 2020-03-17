@@ -10,9 +10,11 @@ public class Parametrizacao_tipoView extends View {
 
 	public Field tipo;
 	public Field descricao;
+	public Field ordem;
 	public Field id_tipo_form;
 	public Field nome_tipo;
 	public Field descricao_do_tipo;
+	public Field ordem_tbl;
 	public Field id_tipo;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
@@ -37,6 +39,10 @@ public class Parametrizacao_tipoView extends View {
 		descricao.setLabel(gt("Descrição"));
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
+		ordem = new NumberField(model,"ordem");
+		ordem.setLabel(gt("Ordem"));
+		ordem.propertie().add("name","p_ordem").add("type","number").add("min","").add("max","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("java-type","");
+		
 		id_tipo_form = new HiddenField(model,"id_tipo_form");
 		id_tipo_form.setLabel(gt(""));
 		id_tipo_form.propertie().add("name","p_id_tipo_form").add("type","hidden").add("maxlength","250").add("java-type","int").add("tag","id_tipo_form");
@@ -48,6 +54,10 @@ public class Parametrizacao_tipoView extends View {
 		descricao_do_tipo = new TextField(model,"descricao_do_tipo");
 		descricao_do_tipo.setLabel(gt("Descrição do tipo"));
 		descricao_do_tipo.propertie().add("name","p_descricao_do_tipo").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
+		
+		ordem_tbl = new NumberField(model,"ordem_tbl");
+		ordem_tbl.setLabel(gt("Ordem"));
+		ordem_tbl.propertie().add("name","p_ordem_tbl").add("type","number").add("min","").add("max","").add("maxlength","30").add("showLabel","true").add("total_footer","false").add("group_in","").add("java-type","");
 		
 		id_tipo = new HiddenField(model,"id_tipo");
 		id_tipo.setLabel(gt(""));
@@ -72,10 +82,12 @@ public class Parametrizacao_tipoView extends View {
 		
 		form_1.addField(tipo);
 		form_1.addField(descricao);
+		form_1.addField(ordem);
 		form_1.addField(id_tipo_form);
 
 		table_1.addField(nome_tipo);
 		table_1.addField(descricao_do_tipo);
+		table_1.addField(ordem_tbl);
 		table_1.addField(id_tipo);
 
 		form_1.addButton(btn_salvar);
@@ -90,9 +102,11 @@ public class Parametrizacao_tipoView extends View {
 		
 		tipo.setValue(model);
 		descricao.setValue(model);
+		ordem.setValue(model);
 		id_tipo_form.setValue(model);
 		nome_tipo.setValue(model);
 		descricao_do_tipo.setValue(model);
+		ordem_tbl.setValue(model);
 		id_tipo.setValue(model);	
 
 		table_1.loadModel(((Parametrizacao_tipo) model).getTable_1());

@@ -14,6 +14,7 @@ public class CRUDGeneratorView extends View {
 	public Field schema;
 	public Field table_type;
 	public Field documento;
+	public Field forum;
 	public Field check_table;
 	public Field check_table_check;
 	public Field table_name;
@@ -64,6 +65,11 @@ public class CRUDGeneratorView extends View {
 
 									documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
 		
+		forum = new LinkField(model,"forum");
+		forum.setLabel(gt("Forum"));
+		forum.setValue(gt("https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&utm_medium=link&utm_campaign=share-link"));
+		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-comments").add("maxlength","250").add("showlabel","true");
+		
 		check_table = new CheckBoxField(model,"check_table");
 		check_table.setLabel(gt(""));
 		check_table.propertie().add("name","p_check_table").add("type","checkbox").add("maxlength","30").add("switch","false").add("showLabel","true").add("java-type","int").add("group_in","").add("check","true").add("desc","true");
@@ -106,6 +112,7 @@ public class CRUDGeneratorView extends View {
 		form_1.addField(table_type);
 
 		view_1.addField(documento);
+		view_1.addField(forum);
 
 		table_1.addField(check_table);
 		table_1.addField(check_table_check);

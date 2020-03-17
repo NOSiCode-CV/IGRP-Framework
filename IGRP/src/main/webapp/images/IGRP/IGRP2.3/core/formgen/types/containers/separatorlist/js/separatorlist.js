@@ -24,6 +24,7 @@ var GENSEPARATORLIST = function(name,params){
 		js  : [ 
 			{ path   : '/plugins/separatorlist/igrp.separatorlist.js' },
 			{ path   : '/core/igrp/form/igrp.forms.js' }, 
+			{ path   : '/core/igrp/components/list-association/igrp.list.association.1.1.js' }
 		]
 	};
 

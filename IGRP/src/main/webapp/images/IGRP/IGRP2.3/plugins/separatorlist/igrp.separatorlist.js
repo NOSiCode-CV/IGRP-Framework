@@ -438,6 +438,12 @@ $.fn.separatorList = function(o){
 				
 				$(row).trigger('removed-from-separatorlist');
 				
+				$(sl).trigger('before-row-remove', [{
+					
+					row : row
+					
+				}]);
+				
 				$(row).remove();
 
 				sl.events.execute('row-remove',{
@@ -725,12 +731,12 @@ $.fn.separatorList = function(o){
 			sl.events.declare(["link-field-add"]);
 			
 			sl.events.on("link-field-add",function(o){
-				
+
 				var _class = o.field.attr('class'),
 				
 					icon   = o.field.attr('icon') || '';
 				
-				return '<a href="'+o.value+'" class="'+_class+'" target="'+o.target+'"><i class="fa '+icon+'"></i><span>'+o.text+'</span></a>'
+				return '<a id="'+o.field.attr('id')+'" href="'+o.value+'" class="'+_class+'" target="'+o.target+'"><i class="fa '+icon+'"></i><span>'+o.text+'</span></a>'
 				
 			},true);
 

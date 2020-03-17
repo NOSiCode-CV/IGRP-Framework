@@ -6,6 +6,7 @@
         <xsl:param name="editevents"/>
         <xsl:param name="alleditevents"/>
         <xsl:param name="addevents"/>
+        <xsl:param name="loadevents"/>
         <xsl:param name="defaultview"/>
         <xsl:param name="defaultdate"/>
         <xsl:param name="ebeforetoday"/>
@@ -68,6 +69,7 @@
                         editevents      : '<xsl:value-of select="$editevents"/>',
                         alleditevents   : '<xsl:value-of select="$alleditevents"/>',
                         addevents       : '<xsl:value-of select="$addevents"/>',
+                        loadevents 		: '<xsl:value-of select="$loadevents"/>',
                         defaultview     : '<xsl:value-of select="$defaultview"/>',
                         defaultdate     : '<xsl:value-of select="$defaultdate"/>',
                         ebeforetoday    : '<xsl:value-of select="$ebeforetoday"/>',

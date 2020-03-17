@@ -5,6 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Core;
 
 public class Pesquisa_bi_cni_passportView extends View {
 
@@ -47,7 +48,7 @@ public class Pesquisa_bi_cni_passportView extends View {
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
-		sectionheader_1_text.setValue(gt("<p>Pesquisa BI / NIC (CNI)</p>"));
+		sectionheader_1_text.setValue(gt("<p>Pesquisa BI / NIC (CNI) / Passaporte novo</p>"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
 		tipo_documento = new ListField(model,"tipo_documento");
@@ -56,84 +57,84 @@ public class Pesquisa_bi_cni_passportView extends View {
 		
 		numero_do_documento = new TextField(model,"numero_do_documento");
 		numero_do_documento.setLabel(gt("Número do documento"));
-		numero_do_documento.propertie().add("name","p_numero_do_documento").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","true");
+		numero_do_documento.propertie().add("remote",Core.getIGRPLink("igrp_studio","Pesquisa_bi_cni_passport","index")).add("name","p_numero_do_documento").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("BI/NIC/Passaporte. Ex: 1234567 / 19801002M001Q / PA123456")).add("desclabel","true");
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","false");
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		data_nascimento = new DateField(model,"data_nascimento");
 		data_nascimento.setLabel(gt("Data nascimento"));
-		data_nascimento.propertie().add("name","p_data_nascimento").add("type","date").add("range","false").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","false");
+		data_nascimento.propertie().add("name","p_data_nascimento").add("type","date").add("range","false").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("class","primary").add("desclabel","false");
 		
 		tipo_documento_tab = new TextField(model,"tipo_documento_tab");
 		tipo_documento_tab.setLabel(gt("Doc."));
-		tipo_documento_tab.propertie().add("name","p_tipo_documento_tab").add("type","text").add("maxlength","30").add("showLabel","true");
+		tipo_documento_tab.propertie().add("name","p_tipo_documento_tab").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		n_doc_tab = new TextField(model,"n_doc_tab");
 		n_doc_tab.setLabel(gt("N# do documento"));
-		n_doc_tab.propertie().add("name","p_n_doc_tab").add("type","text").add("maxlength","30").add("showLabel","true");
+		n_doc_tab.propertie().add("name","p_n_doc_tab").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		nome_tab = new TextField(model,"nome_tab");
 		nome_tab.setLabel(gt("Nome"));
-		nome_tab.propertie().add("name","p_nome_tab").add("type","text").add("maxlength","30").add("showLabel","true");
+		nome_tab.propertie().add("name","p_nome_tab").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		sexo_tab = new TextField(model,"sexo_tab");
 		sexo_tab.setLabel(gt("Sexo"));
-		sexo_tab.propertie().add("name","p_sexo_tab").add("type","text").add("maxlength","30").add("showLabel","true");
+		sexo_tab.propertie().add("name","p_sexo_tab").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		data_nascimento_tab = new DateField(model,"data_nascimento_tab");
 		data_nascimento_tab.setLabel(gt("Data nascimento"));
-		data_nascimento_tab.propertie().add("name","p_data_nascimento_tab").add("type","date").add("range","false").add("maxlength","30").add("showLabel","true");
+		data_nascimento_tab.propertie().add("name","p_data_nascimento_tab").add("type","date").add("range","false").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		nome_pai_tab = new TextField(model,"nome_pai_tab");
 		nome_pai_tab.setLabel(gt("Nome pai"));
-		nome_pai_tab.propertie().add("name","p_nome_pai_tab").add("type","text").add("maxlength","30").add("showLabel","true");
+		nome_pai_tab.propertie().add("name","p_nome_pai_tab").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		nome_mae_tab = new TextField(model,"nome_mae_tab");
 		nome_mae_tab.setLabel(gt("Nome mãe"));
-		nome_mae_tab.propertie().add("name","p_nome_mae_tab").add("type","text").add("maxlength","30").add("showLabel","true");
+		nome_mae_tab.propertie().add("name","p_nome_mae_tab").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		data_emissao_tab = new TextField(model,"data_emissao_tab");
 		data_emissao_tab.setLabel(gt("Data Emissão"));
-		data_emissao_tab.propertie().add("name","p_data_emissao_tab").add("type","text").add("maxlength","30").add("showLabel","true");
+		data_emissao_tab.propertie().add("name","p_data_emissao_tab").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		emissor_tab = new TextField(model,"emissor_tab");
 		emissor_tab.setLabel(gt("Emissor"));
-		emissor_tab.propertie().add("name","p_emissor_tab").add("type","text").add("maxlength","30").add("showLabel","true");
+		emissor_tab.propertie().add("name","p_emissor_tab").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		nic_cni_tab = new TextField(model,"nic_cni_tab");
 		nic_cni_tab.setLabel(gt("NIC"));
-		nic_cni_tab.propertie().add("name","p_nic_cni_tab").add("type","text").add("maxlength","30").add("showLabel","true");
+		nic_cni_tab.propertie().add("name","p_nic_cni_tab").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		estado_civil = new HiddenField(model,"estado_civil");
 		estado_civil.setLabel(gt(""));
-		estado_civil.propertie().add("name","p_estado_civil").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","estado_civil");
+		estado_civil.propertie().add("name","p_estado_civil").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","estado_civil");
 		
 		nat_conselho = new HiddenField(model,"nat_conselho");
 		nat_conselho.setLabel(gt(""));
-		nat_conselho.propertie().add("name","p_nat_conselho").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","nat_conselho");
+		nat_conselho.propertie().add("name","p_nat_conselho").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","nat_conselho");
 		
 		residencia = new HiddenField(model,"residencia");
 		residencia.setLabel(gt(""));
-		residencia.propertie().add("name","p_residencia").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","residencia");
+		residencia.propertie().add("name","p_residencia").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","residencia");
 		
 		dt_validade = new HiddenField(model,"dt_validade");
 		dt_validade.setLabel(gt(""));
-		dt_validade.propertie().add("name","p_dt_validade").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","dt_validade");
+		dt_validade.propertie().add("name","p_dt_validade").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","dt_validade");
 		
 		bi_tab = new HiddenField(model,"bi_tab");
 		bi_tab.setLabel(gt(""));
-		bi_tab.propertie().add("name","p_bi_tab").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","bi_tab");
+		bi_tab.propertie().add("name","p_bi_tab").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","bi_tab");
 		
 		passaporte_tab = new HiddenField(model,"passaporte_tab");
 		passaporte_tab.setLabel(gt(""));
-		passaporte_tab.propertie().add("name","p_passaporte_tab").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","passaporte_tab");
+		passaporte_tab.propertie().add("name","p_passaporte_tab").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","passaporte_tab");
 		
 
 
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp_studio","Pesquisa_bi_cni_passport","pesquisar","submit_ajax","primary|fa-search","","");
-		btn_pesquisar.propertie.add("type","form").add("rel","pesquisar");
+		btn_pesquisar.propertie.add("type","form").add("class","primary").add("rel","pesquisar").add("refresh_components","");
 
 		
 	}

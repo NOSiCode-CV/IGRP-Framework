@@ -8,14 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pesquisa_bi_cni_passport extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_tipo_documento")
 	private String tipo_documento;
+
 	@RParam(rParamName = "p_numero_do_documento")
 	private String numero_do_documento;
+
 	@RParam(rParamName = "p_nome")
 	private String nome;
+
 	@RParam(rParamName = "p_data_nascimento")
 	private String data_nascimento;
 	

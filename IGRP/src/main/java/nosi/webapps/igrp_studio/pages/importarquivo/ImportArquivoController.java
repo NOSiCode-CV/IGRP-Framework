@@ -85,65 +85,72 @@ public class ImportArquivoController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(btm_import_aplicacao)----*/
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			boolean result = false;
-			String descricao = "";
-			try {
-				Part file = Igrp.getInstance().getRequest().getPart("p_arquivo_aplicacao");
-				descricao += file.getSubmittedFileName().replace(".app.jar", "").replace(".zip", "");
-				descricao += " "+file.getSize()+" KB";
-				if(file.getSubmittedFileName().endsWith(".zip") || file.getSubmittedFileName().endsWith(".jar")) {
-					if(file.getSubmittedFileName().endsWith(".zip")){
-						result = new Import().importApp(new ImportAppZip(file));
-					}else if(file.getSubmittedFileName().endsWith(".jar") && !file.getSubmittedFileName().endsWith(".app.jar")){					
-						ImportHelper importApp = new ImportHelper();
-						importApp.importFile(file);
-						if(!importApp.hasError() && !importApp.hasWarning()) {
-							result = true;
-						}
-						else {
-							if(importApp.hasError()) {
-								importApp.getErrors().stream().forEach(e->{
-									Core.setMessageError(e);
-								});
-							}
-							if(importApp.hasWarning()) {
-								importApp.getWarnings().stream().forEach(e->{
-									Core.setMessageWarning(e);
-								});
-							}
-						}
-					}else if(file.getSubmittedFileName().endsWith(".app.jar")){//Old import (deprecated)			
-						ImportAppJava importApp = new ImportAppJava(file);
-						importApp.importApp();
-						if(importApp.hasError()) {
-							importApp.getErros().stream().forEach(err->{
-								Core.setMessageError(err);
-							});
-						}else {
-							result = true;
-						}
-					}else{
-						result = false;
-					}
-				}else {
-					Core.setMessageError("Extensão válido tem de ser .zip ou .app.jar... tente de novo!!");
-				}
-				
-				FileHelper.deletePartFile(file);
-			} catch (ServletException e) {		
-				ImportExportDAO ie_dao = new ImportExportDAO(descricao, Core.getCurrentUser().getUser_name(), Core.getCurrentDataTime(), "Import - Exception");
-				ie_dao = ie_dao.insert();
+		try {
 			
-				Core.setMessageError(e.getMessage());
-				return this.forward("igrp_studio", "ImportArquivo", "index");
-			}	
-			if(result){
-				ImportExportDAO ie_dao = new ImportExportDAO(descricao, Core.getCurrentUser().getUser_name(), Core.getCurrentDataTime(), "Import");
-				ie_dao = ie_dao.insert();
-				Core.setMessageSuccess();
-			}
+			if(Igrp.getMethod().equalsIgnoreCase("post")){
+				boolean result = false;
+				String descricao = "";
+				try {
+					Part file = Igrp.getInstance().getRequest().getPart("p_arquivo_aplicacao");
+					descricao += file.getSubmittedFileName().replace(".app.jar", "").replace(".zip", "");
+					descricao += " "+file.getSize()+" KB";
+					if(file.getSubmittedFileName().endsWith(".zip") || file.getSubmittedFileName().endsWith(".jar")) {
+						if(file.getSubmittedFileName().endsWith(".zip")){
+							result = new Import().importApp(new ImportAppZip(file));
+						}else if(file.getSubmittedFileName().endsWith(".jar") && !file.getSubmittedFileName().endsWith(".app.jar")){					
+							ImportHelper importApp = new ImportHelper();
+							importApp.importFile(file);
+							if(!importApp.hasError() && !importApp.hasWarning()) {
+								result = true;
+							}
+							else {
+								if(importApp.hasError()) {
+									importApp.getErrors().stream().forEach(e->{
+										Core.setMessageError(e);
+									});
+								}
+								if(importApp.hasWarning()) {
+									importApp.getWarnings().stream().forEach(e->{
+										Core.setMessageWarning(e);
+									});
+								}
+							}
+						}else if(file.getSubmittedFileName().endsWith(".app.jar")){//Old import (deprecated)			
+							ImportAppJava importApp = new ImportAppJava(file);
+							importApp.importApp();
+							if(importApp.hasError()) {
+								importApp.getErros().stream().forEach(err->{
+									Core.setMessageError(err);
+								});
+							}else {
+								result = true;
+							}
+						}else{
+							result = false;
+						}
+					}else {
+						Core.setMessageError("Extensão válido tem de ser .zip ou .app.jar... tente de novo!!");
+					}
+					
+					FileHelper.deletePartFile(file);
+				} catch (ServletException e) {		
+					ImportExportDAO ie_dao = new ImportExportDAO(descricao, Core.getCurrentUser().getUser_name(), Core.getCurrentDataTime(), "Import - Exception");
+					ie_dao = ie_dao.insert();
 				
+					Core.setMessageError(e.getMessage());
+					return this.forward("igrp_studio", "ImportArquivo", "index");
+				}	
+				if(result){
+					ImportExportDAO ie_dao = new ImportExportDAO(descricao, Core.getCurrentUser().getUser_name(), Core.getCurrentDataTime(), "Import");
+					ie_dao = ie_dao.insert();
+					Core.setMessageSuccess();
+				}
+					
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace(); 
+			Core.setMessageError(); 
 		}
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	

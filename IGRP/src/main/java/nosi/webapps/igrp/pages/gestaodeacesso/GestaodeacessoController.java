@@ -33,12 +33,13 @@ public class GestaodeacessoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadOrg_table(Core.query(null,"SELECT '1' as estado,'Natus doloremque consectetur o' as org_nome,'/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml' as mostrar_perfis,'hidden-5383_2437' as id "));
+		model.loadOrg_table(Core.query(null,"SELECT '1' as estado,'Aperiam omnis unde labore sed' as org_nome,'/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml' as mostrar_perfis,'hidden-9715_6948' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
 		model.setDocumento_link(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=acesso"));
+
       
 		List<Gestaodeacesso.Org_table> data = new ArrayList<>();
 		String ichange = Core.getParam("ichange");   

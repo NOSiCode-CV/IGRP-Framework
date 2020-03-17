@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/tutorial/parametrizacao_tipo/Parametrizacao_tipo.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/tutorial/parametrizacao_tipo/Parametrizacao_tipo.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <title>Dummie XML prototype</title>
@@ -41,12 +41,16 @@
             <fields>
                 <tipo name="p_tipo" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
                     <label>Tipo</label>
-                    <value>Lorem consectetur deserunt ut iste</value>
+                    <value>Magna doloremque aperiam lorem aliqua</value>
                 </tipo>
                 <descricao name="p_descricao" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
                     <label>Descrição</label>
-                    <value>Dolor rem stract sed labore</value>
+                    <value>Perspiciatis mollit sit aliqua accusantium</value>
                 </descricao>
+                <ordem name="p_ordem" type="number" min="" max="" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" java-type="">
+                    <label>Ordem</label>
+                    <value>12</value>
+                </ordem>
                 <hidden name="p_id_tipo_form" type="hidden" maxlength="250" java-type="int" tag="id_tipo_form"/>
             </fields>
             <tools-bar>
@@ -70,6 +74,9 @@
                 <descricao_do_tipo name="p_descricao_do_tipo" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
                     <label>Descrição do tipo</label>
                 </descricao_do_tipo>
+                <ordem_tbl name="p_ordem_tbl" type="number" min="" max="" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" total_footer="false" group_in="" java-type="">
+                    <label>Ordem</label>
+                </ordem_tbl>
                 <id_tipo name="p_id_tipo" type="hidden" maxlength="30" showLabel="true" iskey="true" group_in="" java-type="int" tag="id_tipo"/>
             </fields>
             <table>
@@ -79,45 +86,50 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_tipo name="p_nome_tipo">Elit laudantium anim unde moll</nome_tipo>
-                        <descricao_do_tipo name="p_descricao_do_tipo">Rem mollit amet anim lorem</descricao_do_tipo>
-                        <id_tipo name="p_id_tipo" tag="id_tipo">hidden-1e17_72bd</id_tipo>
+                        <nome_tipo name="p_nome_tipo">Consectetur magna amet totam i</nome_tipo>
+                        <descricao_do_tipo name="p_descricao_do_tipo">Voluptatem sed labore iste nat</descricao_do_tipo>
+                        <ordem_tbl name="p_ordem_tbl">24</ordem_tbl>
+                        <id_tipo name="p_id_tipo" tag="id_tipo">hidden-cff7_ec7f</id_tipo>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_tipo name="p_nome_tipo">Anim iste voluptatem laudantiu</nome_tipo>
-                        <descricao_do_tipo name="p_descricao_do_tipo">Ut anim lorem stract accusanti</descricao_do_tipo>
-                        <id_tipo name="p_id_tipo" tag="id_tipo">hidden-489c_cf68</id_tipo>
+                        <nome_tipo name="p_nome_tipo">Rem elit aperiam amet perspici</nome_tipo>
+                        <descricao_do_tipo name="p_descricao_do_tipo">Doloremque mollit magna amet o</descricao_do_tipo>
+                        <ordem_tbl name="p_ordem_tbl">0</ordem_tbl>
+                        <id_tipo name="p_id_tipo" tag="id_tipo">hidden-57d9_a421</id_tipo>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_tipo name="p_nome_tipo">Magna ipsum sit voluptatem ist</nome_tipo>
-                        <descricao_do_tipo name="p_descricao_do_tipo">Sit elit natus dolor lorem</descricao_do_tipo>
-                        <id_tipo name="p_id_tipo" tag="id_tipo">hidden-f004_4fe5</id_tipo>
+                        <nome_tipo name="p_nome_tipo">Sed aperiam sed aliqua volupta</nome_tipo>
+                        <descricao_do_tipo name="p_descricao_do_tipo">Totam accusantium unde natus p</descricao_do_tipo>
+                        <ordem_tbl name="p_ordem_tbl">11</ordem_tbl>
+                        <id_tipo name="p_id_tipo" tag="id_tipo">hidden-b35e_9aaf</id_tipo>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_tipo name="p_nome_tipo">Laudantium doloremque elit des</nome_tipo>
-                        <descricao_do_tipo name="p_descricao_do_tipo">Officia mollit ipsum doloremqu</descricao_do_tipo>
-                        <id_tipo name="p_id_tipo" tag="id_tipo">hidden-a39b_74a8</id_tipo>
+                        <nome_tipo name="p_nome_tipo">Amet magna ut mollit lorem</nome_tipo>
+                        <descricao_do_tipo name="p_descricao_do_tipo">Accusantium sed elit iste cons</descricao_do_tipo>
+                        <ordem_tbl name="p_ordem_tbl">7</ordem_tbl>
+                        <id_tipo name="p_id_tipo" tag="id_tipo">hidden-894f_a961</id_tipo>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_tipo name="p_nome_tipo">Dolor omnis sit aperiam amet</nome_tipo>
-                        <descricao_do_tipo name="p_descricao_do_tipo">Unde dolor sit adipiscing ut</descricao_do_tipo>
-                        <id_tipo name="p_id_tipo" tag="id_tipo">hidden-a82a_f3d0</id_tipo>
+                        <nome_tipo name="p_nome_tipo">Laudantium amet voluptatem eli</nome_tipo>
+                        <descricao_do_tipo name="p_descricao_do_tipo">Sit aliqua anim laudantium dol</descricao_do_tipo>
+                        <ordem_tbl name="p_ordem_tbl">13</ordem_tbl>
+                        <id_tipo name="p_id_tipo" tag="id_tipo">hidden-648b_7486</id_tipo>
                     </row>
                 </value>
                 <context-menu>
