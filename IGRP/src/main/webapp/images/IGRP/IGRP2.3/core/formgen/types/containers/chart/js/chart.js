@@ -19,6 +19,7 @@ var GENCHART = function(name,params){
 			{ path : '/plugins/highcharts/funnel.js' },
 			{ path : '/plugins/highcharts/heatmap.js' },
 			{ path : '/plugins/highcharts/treemap.js' },
+			{ path : '/plugins/highcharts/highcharts-3d.js' },
 			{ path : '/plugins/highcharts/igrp.charts.js' },
 		]
 	}
@@ -101,6 +102,15 @@ var GENCHART = function(name,params){
 			value 	 : false,
 			xslValue : function(){
 				return '<xsl:with-param name="datalabels" select="\''+container.GET.datalabels()+'\'"/>';
+			}
+		});
+		
+		container.setPropriety({
+			name: 'view3d',
+			label: 'View 3D',
+			value: false,
+			xslValue: function () {
+				return '<xsl:with-param name="view3d" select="\'' + container.GET.view3d() + '\'"/>';
 			}
 		});
 	}
