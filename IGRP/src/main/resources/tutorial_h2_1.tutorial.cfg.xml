@@ -28,8 +28,11 @@
 		<property name="hibernate.hikari.idleTimeout">600000</property>
 		<property name="hibernate.hikari.maxLifetime">1800000</property>
 
-
- 		<mapping class="nosi.webapps.tutorial.dao.Document"/>
+		<mapping class="nosi.webapps.tutorial.dao.Document"/>
 		<mapping class="nosi.webapps.tutorial.dao.Tipo"/>
+	
+
+		<!-- Mapping your class here... 
+		Ex: <mapping class="nosi.webapps.tutorial.dao.Employee"/> 		-->
 	</session-factory>
 </hibernate-configuration>
