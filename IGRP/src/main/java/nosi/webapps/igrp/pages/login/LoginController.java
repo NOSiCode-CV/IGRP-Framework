@@ -835,7 +835,7 @@ public class LoginController extends Controller {
 			return redirectToUrl(url); 
 			
 		}
-		return null; 
+		return null;
 	}
 	
 	private String createUrlOauth2OpenIdWso2() { 
