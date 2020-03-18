@@ -30,6 +30,8 @@ public class Tipo extends BaseActiveRecord<Tipo> implements Serializable{
 	private String descricao;
 	@Column(name="NOME",nullable=false,length=255)
 	private String nome;
+	@Column(name="ORDEM",nullable=false,length=255)
+	private Integer ordem;
 
 	public Integer getIdTipo() {
 		return idTipo;
@@ -48,6 +50,13 @@ public class Tipo extends BaseActiveRecord<Tipo> implements Serializable{
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public Integer getOrdem() {
+		return ordem;
+	}
+	public void setOrdem(Integer ordem) {
+		this.ordem = ordem;
 	}
 	
 	@Override

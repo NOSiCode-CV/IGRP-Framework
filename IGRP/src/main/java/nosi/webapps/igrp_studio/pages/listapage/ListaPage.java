@@ -67,6 +67,11 @@ public class ListaPage extends Model{
 	@RParam(rParamName = "p_documento_desc")
 	private String documento_desc;
 
+	@RParam(rParamName = "p_forum")
+	private IGRPLink forum;
+	@RParam(rParamName = "p_forum_desc")
+	private String forum_desc;
+
 	@RParam(rParamName = "p_application")
 	private String application;
 
@@ -281,6 +286,28 @@ public class ListaPage extends Model{
 		return this.documento;
 	}
 	
+	public IGRPLink setForum(String app,String page,String action){
+		this.forum = new IGRPLink(app,page,action);
+		return this.forum;
+	}
+	public IGRPLink getForum(){
+		return this.forum;
+	}
+	public void setForum_desc(String forum_desc){
+		this.forum_desc = forum_desc;
+	}
+	public String getForum_desc(){
+		return this.forum_desc;
+	}
+	public IGRPLink setForum(String link){
+		this.forum = new IGRPLink(link);
+		return this.forum;
+	}
+	public IGRPLink setForum(Report link){
+		this.forum = new IGRPLink(link);
+		return this.forum;
+	}
+	
 	public void setApplication(String application){
 		this.application = application;
 	}
@@ -419,7 +446,7 @@ public class ListaPage extends Model{
 
 	}
 	public static class Table_2 extends IGRPTable.Table{
-		private String my_app_img;
+		private String my_app_img="/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg";
 		private String my_app_img_uuid;
 		private IGRPLink my_aplicacao;
 		private String my_aplicacao_desc= "Aplicação";

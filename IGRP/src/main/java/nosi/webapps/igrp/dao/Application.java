@@ -320,10 +320,12 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 
 	public boolean getPermissionApp(String dad) {
 		User u = (User) Core.getCurrentUser();
-		Profile p = new Profile();
-		p = p.findOne(p.getCriteria().where(p.getBuilder().equal(p.getRoot().get("user"), u.getId()),
-				p.getBuilder().equal(p.getRoot().get("type"), "ENV"),
-				p.getBuilder().equal(p.getRoot().join("profileType").join("application").get("dad"), dad)));
+		Profile p = new Profile().find()
+				.andWhere("type", "=", "ENV")
+				.andWhere("user", "=", u.getId())
+				.andWhere("type_fk", "=",Core.findApplicationByDad(dad).getId())
+				.one() ;
+		
 		return p != null;
 	}
 

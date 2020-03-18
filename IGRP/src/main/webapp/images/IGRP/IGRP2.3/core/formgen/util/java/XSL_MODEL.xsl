@@ -326,7 +326,7 @@
 						<xsl:value-of select="@tag"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="name()"/>
+						<xsl:value-of select="name()"/>						
 					</xsl:otherwise>
 				</xsl:choose>
 		 	</xsl:variable>
@@ -337,11 +337,10 @@
 		    		<xsl:with-param name="multiple" select="@multiple"/>
 		    	</xsl:call-template>
 			</xsl:variable>
-			<xsl:if test="@type != 'link'">
+			<xsl:if test="@type != 'link' and @type != 'img'">
 			<xsl:value-of select="$newline"/>
- 			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,';')"/>		
-			
+ 			<xsl:value-of select="$tab2"/>						
+			<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,';')"/>				
 			</xsl:if>
  			
 			<xsl:if test="@type = 'checkbox' or @type='radio'">				
@@ -349,8 +348,11 @@
 	 			<xsl:value-of select="$tab2"/>
 				<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,'_check;')"/>
 			</xsl:if>	
-			<xsl:if test="@type = 'img' ">				
-	 			<xsl:value-of select="$newline"/>
+			<xsl:if test="@type = 'img' ">	
+				<xsl:value-of select="$newline"/>
+ 				<xsl:value-of select="$tab2"/>			
+				<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,'=',$double_quotes,@img,$double_quotes,';')"/>		
+				<xsl:value-of select="$newline"/>
 	 			<xsl:value-of select="$tab2"/>
 				<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,'_uuid;')"/>
 			</xsl:if>			

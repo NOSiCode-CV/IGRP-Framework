@@ -11,6 +11,7 @@ public class Inserir_documentoView extends View {
 	public Field sectionheader_1_text;
 	public Field titulo;
 	public Field type;
+	public Field ordem;
 	public Field descricao;
 	public Field relacionados;
 	public Field id_doc;
@@ -40,6 +41,10 @@ public class Inserir_documentoView extends View {
 		type = new ListField(model,"type");
 		type.setLabel(gt("Tipo"));
 		type.propertie().add("name","p_type").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","true").add("disabled","false").add("java-type","");
+		
+		ordem = new NumberField(model,"ordem");
+		ordem.setLabel(gt("Ordem"));
+		ordem.propertie().add("name","p_ordem").add("type","number").add("min","").add("max","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("java-type","");
 		
 		descricao = new TextEditorField(model,"descricao");
 		descricao.setLabel(gt("Documento"));
@@ -72,6 +77,7 @@ public class Inserir_documentoView extends View {
 
 		form_1.addField(titulo);
 		form_1.addField(type);
+		form_1.addField(ordem);
 		form_1.addField(descricao);
 		form_1.addField(relacionados);
 		form_1.addField(id_doc);
@@ -87,6 +93,7 @@ public class Inserir_documentoView extends View {
 		
 		titulo.setValue(model);
 		type.setValue(model);
+		ordem.setValue(model);
 		descricao.setValue(model);
 		relacionados.setValue(model);
 		id_doc.setValue(model);

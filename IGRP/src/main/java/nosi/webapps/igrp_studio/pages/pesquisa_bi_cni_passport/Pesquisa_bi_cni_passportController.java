@@ -1,9 +1,13 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_bi_cni_passport;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.webservices.rest.ConsumeJson;
 import nosi.core.config.ConfigApp;
@@ -24,7 +28,7 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Consectetur totam sit voluptat' as tipo_documento_tab,'Mollit dolor sit consectetur l' as n_doc_tab,'Officia consectetur voluptatem' as nome_tab,'Labore natus amet consectetur' as sexo_tab,'08-02-2013' as data_nascimento_tab,'Sit stract mollit natus volupt' as nome_pai_tab,'Ut lorem omnis dolor sed' as nome_mae_tab,'Dolor sit anim officia accusan' as data_emissao_tab,'Iste adipiscing anim dolor ali' as emissor_tab,'Dolor unde totam aliqua ipsum' as nic_cni_tab,'hidden-728f_1c33' as estado_civil,'hidden-54c0_49d4' as nat_conselho,'hidden-bca2_0197' as residencia,'hidden-f337_bee6' as dt_validade,'hidden-0a51_682a' as bi_tab,'hidden-3c46_a7dd' as passaporte_tab "));
+		model.loadTable_1(Core.query(null,"SELECT 'Anim natus aperiam ipsum sit' as tipo_documento_tab,'Officia iste voluptatem offici' as n_doc_tab,'Sit rem accusantium ut dolor' as nome_tab,'Aliqua amet stract mollit dolo' as sexo_tab,'06-03-2015' as data_nascimento_tab,'Iste omnis aliqua natus dolor' as nome_pai_tab,'Adipiscing voluptatem lorem re' as nome_mae_tab,'Officia adipiscing officia und' as data_emissao_tab,'Anim amet dolor magna rem' as emissor_tab,'Elit laudantium elit omnis rem' as nic_cni_tab,'hidden-3c39_706d' as estado_civil,'hidden-fb8d_0665' as nat_conselho,'hidden-a354_b588' as residencia,'hidden-b363_d6aa' as dt_validade,'hidden-b9d3_7bee' as bi_tab,'hidden-5598_a467' as passaporte_tab "));
 		view.tipo_documento.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -105,8 +109,6 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		view.setModel(model);
 		return this.renderView(view);	
 	}
-
-	
 	
 	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Pesquisa_bi_cni_passport model = new Pesquisa_bi_cni_passport();
@@ -114,8 +116,10 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","Pesquisa_bi_cni_passport","index",this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp_studio","Pesquisa_bi_cni_passport","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(pesquisar)----*/
 //if(1==1)
 		return this.redirect("igrp_studio","Pesquisa_bi_cni_passport","index",model,this.queryString());
@@ -123,6 +127,8 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 			
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 	public HashMap<String, String> getTipoDoc() {
 		HashMap<String, String> tipo_doc = new HashMap<>();
@@ -143,8 +149,10 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		    	tab_geral.setBi_tab(""+pessoa.get("BI"));
 		 
 			}else {
-				tab_geral.setTipo_documento_tab(pessoa.getString("ID_TP_DOC"));
-		    	tab_geral.setN_doc_tab(pessoa.getString("NUM_DOCUMENTO"));	                    	
+				tab_geral.setTipo_documento_tab(pessoa.getString("ID_TP_DOC"));				
+		    	tab_geral.setN_doc_tab(pessoa.getString("NUM_DOCUMENTO"));	
+		    	if(tab_geral.getTipo_documento_tab().equals("PEC"))
+		    		tab_geral.setPassaporte_tab(tab_geral.getN_doc_tab());
 		    	tab_geral.setNic_cni_tab(pessoa.getString("ID_CIVIL"));
 			}
 

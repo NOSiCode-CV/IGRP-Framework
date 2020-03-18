@@ -599,17 +599,11 @@
 	        }
 	
 	    });
+	    
+	    $(document).on('formlist:add-row', function (e, p) {
 
-    /*$('.IGRP_formlist [item-type="plaintext"]').each(function(){
+	        $.IGRP.utils.mathcal(p.row);
 
-        var item = $(this),
-
-            itemName = item.attr('item-name');
-
-        console.log( $('input[name="p_'+itemName+'_fk"]', item) )
-
-    });*/
-
-    
+	    });
 
 })();

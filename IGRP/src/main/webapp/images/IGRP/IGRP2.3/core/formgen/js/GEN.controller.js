@@ -4952,7 +4952,9 @@ var GENERATOR = function(genparams){
 		
 		var RemoveAssociationFeatures = function(field, list){
 			
-			var targetHiddenField = field.parent.GET.fieldByTag('lst_association_id');
+			var parentTag = field.id;
+			
+			var targetHiddenField = field.parent.GET.fieldByTag( parentTag+'_association_id' );
 			
 			if(targetHiddenField)
 
@@ -4964,7 +4966,7 @@ var GENERATOR = function(genparams){
 				
 				if(list){
 					
-					var sourceHiddenField = list.GET.fieldByTag('lst_association_rel' );
+					var sourceHiddenField = list.GET.fieldByTag( parentTag+'_association_rel' );
 					
 					list.customStyle.class = list.customStyle.class.replaceAll('list-association-source','');
 					
@@ -5037,7 +5039,6 @@ var GENERATOR = function(genparams){
 					
 					toggle();
 					
-					
 				},
 				onChange:function(v,params){
 					
@@ -5049,9 +5050,11 @@ var GENERATOR = function(genparams){
 							
 								setFieldCallback = function(list){
 								
-									var sourceHiddenField = list.GET.fieldByTag( 'lst_association_rel' ),
+									var parentTag = field.id;
+								
+									var sourceHiddenField = list.GET.fieldByTag( parentTag+'_association_rel' ),
 									
-										targetHiddenField = field.parent.GET.fieldByTag('lst_association_id'),
+										targetHiddenField = field.parent.GET.fieldByTag(parentTag+'_association_id'),
 										
 										hiddenClass	      = GEN.getDeclaredField('hidden');
 									
@@ -5061,7 +5064,7 @@ var GENERATOR = function(genparams){
 										
 										var targetHiddenField = new hiddenClass.field('hidden',{});
 										
-										targetHiddenField.SET.tag( 'lst_association_id' );
+										targetHiddenField.SET.tag( parentTag+'_association_id' );
 										
 										field.parent.SET.fields( [targetHiddenField] );
 										
@@ -5069,9 +5072,9 @@ var GENERATOR = function(genparams){
 									
 									if(!sourceHiddenField){
 										
-										var sourceHiddenField = new hiddenClass.field('hidden',{});
-										
-										sourceHiddenField.SET.tag( 'lst_association_rel' );
+										var sourceHiddenField = new hiddenClass.field('hidden', {} );
+								
+										sourceHiddenField.SET.tag( parentTag+'_association_rel' );
 										
 										list.customStyle.class = list.customStyle.class+' list-association-source';
 										

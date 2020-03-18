@@ -13,6 +13,7 @@ import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.core.webapp.activit.rest.entities.GroupService;
@@ -60,7 +61,7 @@ public class NovoPerfilController extends Controller {
 		view.btn_gravar.addParameter("p_aplicacao", model.getAplicacao());
 
 		if (Core.isNotNullOrZero(model.getAplicacao())) {
-			view.primeira_pagina.setValue(new Action().getListActions(model.getAplicacao()));
+			view.primeira_pagina.setValue(new Menu().getListActionByOrg(model.getAplicacao(),model.getOrganica()));
 			view.perfil_pai.setValue(model.getOrganica() != 0 ? new ProfileType().getListProfiles4Pai(model.getAplicacao(), model.getOrganica()): null);
 		}
 			
@@ -175,7 +176,7 @@ public class NovoPerfilController extends Controller {
 		view.aplicacao.setValue(new Application().getListApps());
 
 		if (Core.isNotNullOrZero(model.getAplicacao())) {
-			view.primeira_pagina.setValue(new Action().getListActions(model.getAplicacao()));
+			view.primeira_pagina.setValue(new Menu().getListActionByOrg(model.getAplicacao(),model.getOrganica()));
 			view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
 			HashMap<String, String> listProfiles4Pai = new ProfileType().getListProfiles4Pai(model.getAplicacao(), model.getOrganica());
 			listProfiles4Pai.remove(idProf);

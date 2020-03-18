@@ -19,6 +19,11 @@ public class Gestaodeacesso extends Model{
 	@RParam(rParamName = "p_documento_link_desc")
 	private String documento_link_desc;
 
+	@RParam(rParamName = "p_forum")
+	private IGRPLink forum;
+	@RParam(rParamName = "p_forum_desc")
+	private String forum_desc;
+
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
 
@@ -76,6 +81,28 @@ public class Gestaodeacesso extends Model{
 	public IGRPLink setDocumento_link(Report link){
 		this.documento_link = new IGRPLink(link);
 		return this.documento_link;
+	}
+	
+	public IGRPLink setForum(String app,String page,String action){
+		this.forum = new IGRPLink(app,page,action);
+		return this.forum;
+	}
+	public IGRPLink getForum(){
+		return this.forum;
+	}
+	public void setForum_desc(String forum_desc){
+		this.forum_desc = forum_desc;
+	}
+	public String getForum_desc(){
+		return this.forum_desc;
+	}
+	public IGRPLink setForum(String link){
+		this.forum = new IGRPLink(link);
+		return this.forum;
+	}
+	public IGRPLink setForum(Report link){
+		this.forum = new IGRPLink(link);
+		return this.forum;
 	}
 	
 	public void setAplicacao(String aplicacao){

@@ -61,3 +61,8 @@
     border-color: red !important;
     color: #fff;
 }
+
+.statbox_container[active="true"] .statbox{
+	border:2px solid #00000040!important;
+	box-shadow:0 0 10px 2px #55555585
+}

@@ -60,6 +60,7 @@ import nosi.core.gui.fields.HiddenField;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.xml.XMLWritter;
 import nosi.core.gui.fields.FieldProperties;
 import java.util.Map;
 import java.io.UnsupportedEncodingException;
@@ -174,35 +175,6 @@ public class IGRPTable extends IGRPComponent{
 		button.propertie.put("type", "form");
 		this.buttons.add(button);
 	}
-	
-	private void includeRowTotal() {
-		Map<String, Float> m = new HashMap<String, Float>(); 
-		for(Field field : this.fields) {
-			String total_footer = field.propertie().getProperty("total_footer"); 
-			if(total_footer != null && total_footer.equalsIgnoreCase("true")) {
-				List<?> all = this.modelList != null ? this.modelList : this.data != null ? this.data : new ArrayList<>();
-				Float total = (float) 0; 
-				for(Object obj : all) { 
-					String val = IgrpHelper.getValue(obj, field.getName()); 
-					total += Core.toFloat(val); 
-				}
-				m.put(field.getName(), total);
-			}else 
-				m.put(field.getName(), null);
-		}
-		if(!m.isEmpty()) {
-			this.xml.startElement("row");
-			this.xml.writeAttribute("total", "yes"); 
-			for(Entry<String, Float> e : m.entrySet()) {
-				this.xml.startElement(e.getKey());
-				this.xml.writeAttribute("name", "p_" + e.getKey()); 
-				if(e.getValue() != null)
-					this.xml.text(e.getValue() + ""); 
-				this.xml.endElement();
-			}
-			this.xml.endElement();
-		}
-	}
 			
 	public String toString(){
 		this.xml.startElement(this.tag_name);
@@ -211,15 +183,11 @@ public class IGRPTable extends IGRPComponent{
 				GenXMLField.toXml(this.xml,this.fields);
 				this.xml.startElement("table");
 					this.xml.startElement("value");
-					
 						if(this.modelList != null)
-							this.genRowsWithSql(); 
+							this.genRowsWithSql();
 						else
 							this.genRows();
-						
-						this.includeRowTotal();	
-						
-					this.xml.endElement();//end tag value 
+					this.xml.endElement();//end tag value
 				this.genLegendColor();
 				this.contextmenu.setButtons(this.buttons);
 				this.xml.addXml(this.contextmenu.toXmlTools());
@@ -236,8 +204,8 @@ public class IGRPTable extends IGRPComponent{
 				this.contextmenu.setButtons(this.buttons);
 				this.xml.addXml(this.contextmenu.toXmlTools());
 			}
-		this.xml.endElement(); 
-		String aux = this.xml.toString(); 
+		this.xml.endElement();
+		String aux = this.xml.toString();
 		return aux;
 	}
 
@@ -306,12 +274,12 @@ public class IGRPTable extends IGRPComponent{
 	}
 
 	
-	protected void genRows() { 
-		if(this.data != null && this.data.size() > 0 && this.fields.size() > 0){ 
+	protected void genRows() {
+		if(this.data != null && this.data.size() > 0 && this.fields.size() > 0){
 			for(Object obj:this.data){
 				this.xml.startElement("row");
 				this.xml.startElement("context-menu");
-				for(Field field : this.fields){
+				for(Field field:this.fields){
 					if(field.isParam()){
 						String value = IgrpHelper.getValue(obj, field.getName());
 						value = (value==null||value.equals(""))?IgrpHelper.getValue(obj, field.getValue().toString()).toString():value;
@@ -338,8 +306,8 @@ public class IGRPTable extends IGRPComponent{
 					this.xml.endElement();		
 				}
 				this.xml.endElement();
-				for(Field field:this.fields){ 
-					if(field.isVisible()) { 
+				for(Field field:this.fields){
+					if(field.isVisible()) {
 						this.xml.startElement(field.getTagName());
 						this.xml.writeAttribute("name", field.propertie().getProperty("name"));
 						String val = IgrpHelper.getValue(obj, field.getName());
@@ -418,4 +386,35 @@ public class IGRPTable extends IGRPComponent{
 			return null;
 		}
 	}
+	
+	public static String generateXmlForCalendar(String tagName, List<?> data) { 
+		XMLWritter xmlWritter = new XMLWritter(); 
+		xmlWritter.startElement(tagName + "_events"); 
+		xmlWritter.startElement("table"); 
+		xmlWritter.startElement("value");
+		
+		if(data != null) {
+			for(Object obj : data) {
+				xmlWritter.startElement("row"); 
+				xmlWritter.setElement("context-menu", ""); 
+				java.lang.reflect.Field []fields = obj.getClass().getDeclaredFields(); 
+				if(fields != null) {
+					for(java.lang.reflect.Field field : fields) {
+						xmlWritter.startElement(field.getName()); 
+						xmlWritter.writeAttribute("name", "p_" + field.getName());
+						xmlWritter.text(IgrpHelper.getValue(obj, field.getName()));
+						xmlWritter.endElement(); 
+					}
+				}
+				xmlWritter.endElement(); 
+			}
+		}
+		
+		xmlWritter.endElement(); 
+		xmlWritter.endElement(); 
+		xmlWritter.endElement(); 
+		
+		return xmlWritter.toString();
+	}
+	
 }

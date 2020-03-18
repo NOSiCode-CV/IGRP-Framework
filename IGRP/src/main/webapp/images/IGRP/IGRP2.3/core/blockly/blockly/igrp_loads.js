@@ -26,7 +26,7 @@ var CORE_CONV = [["converter para inteiro", "converter para inteiro"],["converte
 
 var FIND = [["--", "--"],["all", "todos"],["one", "um"]];
 
-var FINDLIST = [["--", "--"],["all", "TODOSS"],["one", "UMM"]];
+var FINDLIST = [["all", "TODOSS"],["one", "UMM"]];
 
 var TIPO = [["Inteiro", "Inteiro"],["Data", "Data"],["Texto", "Texto"]];
 
@@ -225,7 +225,7 @@ $('#active_selenium').on('click', function() {
 
   //***************************************************** FIELDS_MODEL ***********************************************
 	 
-	 $('rows>content>*[type]', BlocklyXML).each(function(i, element) {
+	 $('rows>content>*[type!=separatorlist][type!=formlist]', BlocklyXML).each(function(i, element) {
 			
 			$(element).find('>fields>*').each(function(x, field) {
 				
@@ -1505,22 +1505,6 @@ $('#active_selenium').on('click', function() {
 								+'</value>'	
 							
 							+'</block>'
-							
-						// +'<block type="instance_dao" color ="160" prev-statement=""
-								
-						// next-statement="">'
-								
-						// +'<value name="findone" type="value" >'
-								
-						// +'<field type="dropdown" name="dao" title="declarate obj in DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-								
-						// +'<field type="text" options="or find by:"></field>'
-								
-						// +'</value>'
-								
-						// +'</block>'
-												
-						// +'<block type="dao_obj" color ="160" output="" title="obj"></block>'
 						
 					+'</category><sep class="blocly-dynamic"></sep>'
 					

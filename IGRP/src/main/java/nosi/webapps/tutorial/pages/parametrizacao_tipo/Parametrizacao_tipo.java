@@ -15,6 +15,9 @@ public class Parametrizacao_tipo extends Model{
 	@RParam(rParamName = "p_descricao")
 	private String descricao;
 
+	@RParam(rParamName = "p_ordem")
+	private Integer ordem;
+
 	@RParam(rParamName = "p_id_tipo_form")
 	private int id_tipo_form;
 	
@@ -41,6 +44,13 @@ public class Parametrizacao_tipo extends Model{
 		return this.descricao;
 	}
 	
+	public void setOrdem(Integer ordem){
+		this.ordem = ordem;
+	}
+	public Integer getOrdem(){
+		return this.ordem;
+	}
+	
 	public void setId_tipo_form(int id_tipo_form){
 		this.id_tipo_form = id_tipo_form;
 	}
@@ -52,6 +62,7 @@ public class Parametrizacao_tipo extends Model{
 	public static class Table_1 extends IGRPTable.Table{
 		private String nome_tipo;
 		private String descricao_do_tipo;
+		private Integer ordem_tbl;
 		private int id_tipo;
 		public void setNome_tipo(String nome_tipo){
 			this.nome_tipo = nome_tipo;
@@ -65,6 +76,13 @@ public class Parametrizacao_tipo extends Model{
 		}
 		public String getDescricao_do_tipo(){
 			return this.descricao_do_tipo;
+		}
+
+		public void setOrdem_tbl(Integer ordem_tbl){
+			this.ordem_tbl = ordem_tbl;
+		}
+		public Integer getOrdem_tbl(){
+			return this.ordem_tbl;
 		}
 
 		public void setId_tipo(int id_tipo){

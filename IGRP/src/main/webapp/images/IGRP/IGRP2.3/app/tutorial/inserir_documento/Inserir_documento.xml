@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/tutorial/inserir_documento/Inserir_documento.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/tutorial/inserir_documento/Inserir_documento.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <title>Dummie XML prototype</title>
@@ -51,7 +51,7 @@
             <fields>
                 <titulo name="p_titulo" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
                     <label>Título do documento</label>
-                    <value>Natus doloremque dolor amet deserunt</value>
+                    <value>Totam amet totam aperiam deserunt</value>
                 </titulo>
                 <type name="p_type" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
                     <label>Tipo</label>
@@ -80,9 +80,13 @@
                         </validation>
                     </validations>
                 </type>
+                <ordem name="p_ordem" type="number" min="" max="" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" java-type="">
+                    <label>Ordem</label>
+                    <value>139</value>
+                </ordem>
                 <descricao name="p_descricao" type="texteditor" maxlength="999999" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
                     <label>Documento</label>
-                    <value>Sit mollit sit stract sit amet dolor consectetur perspiciatis totam doloremque laudantium aperiam omnis perspiciatis rem accusantium mollit unde anim</value>
+                    <value>Ipsum perspiciatis officia rem voluptatem aliqua perspiciatis anim doloremque dolor deserunt sed omnis voluptatem dolor mollit lorem ipsum lorem accusantium</value>
                 </descricao>
                 <relacionados name="p_relacionados" type="select" multiple="true" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
                     <label>Documentos relacionados</label>

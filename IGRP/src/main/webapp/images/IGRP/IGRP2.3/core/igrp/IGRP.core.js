@@ -232,16 +232,38 @@
 
 								value = value.split('|');
 							
-								if(!$('option',formElement)[0]){
+								if($(tag).attr('isremote')){
+							
+									if(!$('option',formElement)[0]){
+										
+										var options;
+										
+										if(Array.isArray(value)){
 											
-									$.IGRP.components.select2.setOptions({
-										select: formElement,
-										options: [{
-											text: '',
-											value: value,
-											selected: true
-										}]
-									});
+											value.forEach(function(xv){
+												
+												options.push({
+													text: '',
+													value: xv,
+													selected: true
+												});
+												
+											});
+											
+										}else{
+											
+											options = [{
+												text: '',
+												value: value,
+												selected: true
+											}];
+										}
+												
+										$.IGRP.components.select2.setOptions({
+											select: formElement,
+											options: options
+										});
+									}
 								}
 
 							formElement.val(value);
@@ -455,12 +477,206 @@
 			htmlDecode:function(str){
 				return str?$('<div />').html(str).text():"";
 			},
+			minify : function (str) {
+				return str.replace(/^\s+|\r\n|\n|\r|(>)\s+(<)|\s+$/gm, '$1$2');
+			},
 			isNotNaN : function(v){
 				return isNaN(v)? 0:v*1;
 			},
 			arrRemoveItem : function(arr,v){
                 return $.grep(arr, function(val) {
 				  return val != v;
+				});
+			},
+			rounding : {
+
+				mask : function (x) {
+					x = x ? x.toString() : '';
+					x = x.indexOf('.') != -1 ? x.replace('.', ',') : x;
+					return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : 0;
+				},
+
+				fixedTo : function (v, f) {
+					return v.toFixed(f ? f : 2);
+				},
+
+				roundTo : function (v, d) {
+					d = d ? d : 1;
+					return Number(Math.round(v + 'e' + d) + 'e-' + d);
+				},
+
+				round : function (v) {
+					return Math.round(v);
+				},
+
+				ceil : function (v) {
+					return Math.ceil(v);
+				},
+
+				ceilTo : function (v, d) {
+					d = d ? d : 1;
+					return Number(Math.ceil(v + 'e' + d) + 'e-' + d);
+				},
+
+				floor : function (v) {
+					return Math.floor(v);
+				},
+
+				abs : function (v) {
+					return Math.abs(v);
+				}
+			},
+
+			numberFormat : function(p){
+
+				var val = p.val;
+				
+				try {
+					
+					if(p.obj && p.obj.is('[numberformat]')){
+						
+						p.obj.attr('numberformat').split(',').forEach(function (fr) {
+
+							var round = null,
+								auxfr = null;
+
+							if (fr.indexOf(':') !== -1) {
+								fr = fr.split(':');
+
+								if (!isNaN(fr[1])) {
+									round = fr[1] * 1;
+									auxfr = fr[0] + 'To';
+
+								} else
+									auxfr = fr[0];
+							}else
+								auxfr = fr;
+							
+							val = $.IGRP.utils.rounding[auxfr](p.val, round);
+							
+						});
+
+						return val;
+					}	
+				} catch (error) {
+					console.log('numberFormat', error);
+				}
+
+				return val;
+			},
+
+			extractFieldName : function(p){
+
+				var starStr	= p.star || '{',
+
+					endStr 	= p.end  || '}',
+
+					holder	= p.holder || $.IGRP.utils.getForm(),
+
+					arrStar	= $.IGRP.utils.string.getIndices(starStr, p.str),
+
+					arrEnd	= $.IGRP.utils.string.getIndices(endStr, p.str),
+					
+					arrObj	= {},
+					
+					prefix	= p.isTable ? '_fk' : '';
+
+				arrStar.forEach(function (idx, i) {
+
+					var xpr   = p.str.substring(idx, arrEnd[i] + endStr.length),
+
+						name  = 'p_' + xpr.slice(starStr.length, xpr.indexOf(endStr)) + prefix,
+						
+						field = $('[name="' + name + '"]', holder);
+					
+					if(!field[0])
+						field = $('[name="' + name + '"]', $.IGRP.utils.getForm());
+
+					arrObj[name] = {
+						str 	: xpr,
+						field	: field
+					};
+
+				});
+
+				return arrObj;
+			},
+
+			runMathcal: function (p) {
+
+				try {
+
+					var str = p.fx;
+					
+					for (var f in p.extract) {
+
+						var extract = p.extract[f],
+							val 	= extract.field.val();
+
+						val = $.isNumeric(val) ? val * 1 : "'"+val+"'";
+						
+						str = str.replaceAll(extract.str, val);
+					};
+
+					str = str.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
+
+					var val = eval(str);
+
+					p.val = val;
+
+					val = $.IGRP.utils.numberFormat({
+						obj : p.field,
+						val : val
+					});
+
+					p.formatVal = val;
+
+					if (p.isTable)
+						$('[name="' + p.field.attr('name') + '_desc"]', p.holder).val(val);
+
+					p.field.val(val).trigger('change').trigger('calculation-result', [p]);
+
+					$(document).trigger('field:calculation', [p]);
+
+				} catch (error) {
+					console.log('runMathcal', error);
+				}
+			},
+
+			mathcal: function (obj) {
+
+				obj = $(obj)[0] ? obj : $('body');
+
+				$('*[mathcal]', obj).each(function () {
+
+					var _this 	= $(this),
+
+						fx 		= $.IGRP.utils.minify(_this.attr('mathcal')),
+
+						isTable = _this.parents('table')[0] ? true : false,
+
+						holder 	= isTable ? _this.parents('tr:first') : $.IGRP.utils.getForm(),
+						
+						extract	= $.IGRP.utils.extractFieldName({
+							str 	: fx,
+							holder 	: holder,
+							isTable : isTable
+						});
+
+					if ($.isPlainObject(extract)){
+
+						for (var f in extract) {
+							
+							$(document).trigger('document:mathcal', [{
+								name 	: f,
+								fx 		: fx,
+								holder 	: holder,
+								field 	: _this,
+								isTable : isTable,
+								extract : extract
+							}]);
+						}
+					}
 				});
 			},
 			file2base64 : function(p){
@@ -1174,9 +1390,13 @@
         	
         	$.IGRP.utils.adjustableRows();
         	
+        	$.IGRP.utils.mathcal();
+        	
         	$.IGRP.events.on('submit-complete',function(){
         		
         		$.IGRP.utils.adjustableRows();
+        		
+        		$.IGRP.utils.mathcal();
         		
         	});
         
@@ -1189,6 +1409,15 @@
 	}else{
 		console.log('jQuery or IGRP.js missing!')
 	}
+	
+	$(document).on('document:mathcal', function (i, p) {
+
+		$('[name="' + p.name + '"]',p.holder).on('change' ,function () {
+
+			$.IGRP.utils.runMathcal(p);
+
+		});
+	});
 
 }($));
 

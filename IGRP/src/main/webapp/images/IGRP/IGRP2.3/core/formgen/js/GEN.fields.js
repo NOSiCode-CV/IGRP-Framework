@@ -57,7 +57,9 @@ var Field = function(type,params){
 	field.export = function(){
 		
 		var prop = {
-			properties:{},
+			properties:{
+				_id : field.id
+			},
 			style:{
 				id :field.customStyle.id,
 				class :field.customStyle.class,
@@ -283,7 +285,9 @@ var Field = function(type,params){
 		}
 	}
 	
-	var notEditableAttrs = {};
+	var notEditableAttrs = {
+		_id : true
+	};
 	
 	field.setHiddenProperty = function(name){
 		
@@ -420,6 +424,8 @@ var Field = function(type,params){
 					field.SET[p](properties[p],{transform:false});
 			}
 		}
+		
+		field.proprieties._id = paramsProperties && paramsProperties && paramsProperties._id ? paramsProperties._id : field.id;
 	}
 
 	field.setFilesIncludes = function(){
@@ -452,8 +458,10 @@ var Field = function(type,params){
 		var orderStr   =  field.order ? '-'+field.order : '';
 
 		field.type     = type;
-
-		field.id       = type+'-'+(new Date()).getTime()+orderStr+'-'+genNum(9999);
+		
+		field.id = params && params.properties &&params.properties._id ? params.properties._id : type+'_'+$.IGRP.utils.unique();//  type+'-'+(new Date()).getTime()+orderStr+'-'+genNum(9999);
+		
+		//field.id       = type+'-'+(new Date()).getTime()+orderStr+'-'+genNum(9999);
 
 		field.folder   = VARS.genPath+'/types/fields/'+type;
 
@@ -486,8 +494,11 @@ var Field = function(type,params){
 		label     : capitalizeFirstLetter(type),
 		tag       : '',
 		name      : '',
-		type      : type,
+		type      : type
+		
 	}
+	
+	
 
 	var tagChangeEvents = [];
 	
