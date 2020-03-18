@@ -344,10 +344,14 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 	
 	public List<Profile> getMyAppByEmail(String email) {
+		System.out.println("p_uid(email): " + email); 
 		List<Profile> list = new Profile().find()
 				.andWhere("type", "=", "ENV")
 				.andWhere("user.email", "=", email)
 				.andWhere("type_fk", ">", 1).all();
+		
+		System.out.println("p.size(): " + list.size()); 
+		
 		if(list!=null && !list.isEmpty()) {
 			list=list.stream() 
 				.filter(distinctByKey(p -> p.getType_fk())) 

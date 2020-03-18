@@ -43,7 +43,7 @@ public class DisplayDocmentType{
 		formlist_documento_task.getProperties().put("type", "workflow_document");
 		formlist_documento_task.getProperties().add("no-delete", "true").add("no-add", "true");
 		this.addField(formlist_documento_task);		
-		formlist_documento_task.addData(this.getInputDocsData());
+		formlist_documento_task.addData(this.getInputDocsData()); 
 		return formlist_documento_task.getData() !=null && formlist_documento_task.getData().size() > 0 ? formlist_documento_task.toString() : "";
 	}
 	
@@ -107,7 +107,7 @@ public class DisplayDocmentType{
 	private List<Formlist_documento_task> getInputDocsData() {
 		List<Formlist_documento_task> data = new ArrayList<>();
 		if(this.listDocmentType!=null) {
-			this.listDocmentType.stream().forEach(td->{		
+			this.listDocmentType.stream().forEach(td->{	
 				if(td.getTipo().equals("IN")) {
 					Formlist_documento_task ft = new Formlist_documento_task();
 					String descricao="",nome = "";
@@ -134,6 +134,7 @@ public class DisplayDocmentType{
 				}
 			});
 		}
+		
 		return data;
 	}
 	
@@ -164,6 +165,9 @@ public class DisplayDocmentType{
 				}
 			});
 		}
+		
+		System.out.println("Docs out: " + data.size()); 
+		
 		return data;
 	}
 

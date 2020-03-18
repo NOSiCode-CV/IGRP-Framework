@@ -94,7 +94,7 @@ public class GitLab {
 		boolean success = true;
 		try {
 			if(files != null)
-				for(File f: files)
+				for(File f: files) 
 					this.git.add().addFilepattern(f.getPath()).call(); 
 		} catch (Exception e) {
 			e.printStackTrace();

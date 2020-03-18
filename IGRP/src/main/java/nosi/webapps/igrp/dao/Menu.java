@@ -19,7 +19,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Properties;
+
 import javax.persistence.Column;
+
+import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.databse.helpers.ResultSet;
@@ -237,8 +241,6 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				Action pagina = new Action().find().andWhere("page", "=", r.getString("page")).andWhere("application.dad", "=", r.getString("dad_app_page")).one();
 				if(pagina != null) {
 					if(pagina.getTipo() == 1) { // If it is a public page ... 
-					
-						
 						ms.setType(1);
 						String aux=Igrp.getInstance().getServlet().getInitParameter("default_language");					
 						ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action") + "&dad=" + currentDad + "&isPublic=1&lang="+(Core.isNull(aux) ? "pt_PT" : aux) /*+ "&target=_blank"*/);
@@ -250,44 +252,35 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 							// Codigo para paginas partilhadas ... dads diferentes ... (Link para SSO) ... 
 							// Authenticacao obrigatoria  
 							
-							if(new nosi.core.config.Config().getEnvironment().equalsIgnoreCase("dev")) { 
+								ms.setType(2); 
 								
-								ms.setType(2);
+								String deployedWarName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
 								
-								//Externo
+								//Externo 
 								if(pagina.getApplication().getExternal() == 1) {
-									String _u = buildMenuUrlByDad(r.getString("dad_app_page"));
-									_u += "&app=" + r.getString("dad_app_page");
-									_u += "&_url=" + r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action") ;
-									ms.setLink(_u);
-								}
-								//Custom host folder 
-								if(pagina.getApplication().getExternal() == 2) {
-									
-									String deployedWarName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
-									
 									if(deployedWarName.equals(pagina.getApplication().getUrl())) { 
 										ms.setType(3);
 										ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + currentDad); 
-										
-									}else {
-										
-										String _u = buildMenuUrlByDad(pagina.getApplication().getUrl()); // Custom Dad 
-										_u += "&app=" + r.getString("dad_app_page"); 
-										_u += "&_url=" + r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")+"&dad=" + r.getString("dad_app_page") ;
+									}else {								
+										String _u = buildMenuUrlByDadUsingAutentika(r.getString("dad_app_page"), r.getString("dad_app_page"), r.getString("page"),  r.getString("action"));
 										ms.setLink(_u);
-										
-									}
-									
+									} 
 								}
-								 
-							}else {
-								ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
-							}
+								
+								//Custom host folder 
+								if(pagina.getApplication().getExternal() == 2) {
+									if(deployedWarName.equals(pagina.getApplication().getUrl())) { 
+										ms.setType(3);
+										ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + currentDad); 
+									
+									}else {
+										String _u = buildMenuUrlByDadUsingAutentika(pagina.getApplication().getUrl(), r.getString("dad_app_page"), r.getString("page"), r.getString("action")); // Custom Dad 
+										ms.setLink(_u);
+									}
+								}
 							
 						}else {
 							ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
-							//ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action")+"&dad="+currentDad);	
 						}
 					}
 				}
@@ -377,6 +370,20 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		try {
 			String u = Igrp.getInstance().getRequest().getRequestURL().toString().replace(Igrp.getInstance().getRequest().getRequestURI(), "");
 			url = u + "/" + dad + "/igrpoauth2sso"; 
+		} catch (Exception e) {
+		}
+		return url;
+	}
+	
+	private String buildMenuUrlByDadUsingAutentika(String dad, String app, String page, String action) {
+		String url = "#";
+		try {
+			Properties settings =  ConfigApp.getInstance().loadConfig("common", "main.xml"); 
+			url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
+			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
+			String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
+			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrpweb&redirect_uri=" + redirect_uri; 
+			url = url.replace("/IGRP/", "/" + dad + "/").replace("state=igrpweb", "state=" + app + "/" + page + "/" + action + "/" + dad); 
 		} catch (Exception e) {
 		}
 		return url;
