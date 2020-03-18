@@ -5,33 +5,33 @@ goog.require('Blockly.Java');
 	// ********************************************** DECLARATE VARIABLES  ********************************
 	//*****************************************************************************************************
 
-var GEN = null;
-var blockyInit = false;
-var COMPARISON = [["==", "=="],["!=", "!="],[">=", ">="], ["<=", "<="],[">=", ">="], [">", ">"], ["<", "<"]];
-var RETURNS = [["forward", "forward"],["redirect", "redirect"]];
-var PAGES = [];
-var CORE_IF = [["verificar se está nulo", "verificar se está nulo"],["verificar se não está nulo", "verificar se não está nulo"]];
-var CORE_MSG = [["mensagem sucesso", "mensagem sucesso"],["mensagem de erro", "mensagem erro"]];
-var CORE_CONV = [["converter para inteiro", "converter para inteiro"],["converter texto para data", "converter texto para data"],["converter para texto", "converter para texto"]];
-var FIND = [["--", "--"],["all", "todos"],["one", "um"]];
-var FINDLIST = [["all", "TODOSS"],["one", "UMM"]];
-var TIPO = [["Inteiro", "Inteiro"],["Data", "Data"],["Texto", "Texto"]];
-var WHERE = [["=", "WHERE_EQ"],["!=", "WHERE_DIF"],["<", "WHERE_LT"],["<=", "WHERE_LTE"],[">", "WHERE_GT"],[">=", "WHERE_GTE"],["like", "WHERE_LIKE"],["notlike", "WHERE_NOTLIKE"]];
-var FILTER = [["andWhere", "andWhere"],["andWhereIsNull", "andWhereIsNull"],["andWhereNotNull", "andWhereNotNull"],["andWhereBetween", "andWhereBetween"],		  
+var GEN = null,
+	blockyInit = false,
+	COMPARISON = [["==", "=="],["!=", "!="],[">=", ">="], ["<=", "<="],[">=", ">="], [">", ">"], ["<", "<"]],
+	RETURNS = [["forward", "forward"],["redirect", "redirect"]],
+	PAGES = [],
+	CORE_IF = [["verificar se está nulo", "verificar se está nulo"],["verificar se não está nulo", "verificar se não está nulo"]],
+	CORE_MSG = [["mensagem sucesso", "mensagem sucesso"],["mensagem de erro", "mensagem erro"]],
+	CORE_CONV = [["converter para inteiro", "converter para inteiro"],["converter texto para data", "converter texto para data"],["converter para texto", "converter para texto"]],
+	FIND = [["--", "--"],["all", "todos"],["one", "um"]],
+	FINDLIST = [["all", "TODOSS"],["one", "UMM"]],
+	TIPO = [["Inteiro", "Inteiro"],["Data", "Data"],["Texto", "Texto"]],
+	WHERE = [["=", "WHERE_EQ"],["!=", "WHERE_DIF"],["<", "WHERE_LT"],["<=", "WHERE_LTE"],[">", "WHERE_GT"],[">=", "WHERE_GTE"],["like", "WHERE_LIKE"],["notlike", "WHERE_NOTLIKE"]],
+	FILTER = [["andWhere", "andWhere"],["andWhereIsNull", "andWhereIsNull"],["andWhereNotNull", "andWhereNotNull"],["andWhereBetween", "andWhereBetween"],		  
 				["orWhere", "orWhere"],["orWhereIsNull", "orWhereIsNull"],["orWhereNotNull", "orWhereNotNull"],["orWhereBetween", "orWhereBetween"],	  
-				["having", "having"],["where", "where"],["whereIn", "whereIn"],["whereNotIn", "whereNotIn"]];
-var ANDOR = [["and", "and"],["or", "or"]];
-var TRU_FAL = [["true", "true"],["false", "false"]];
-var daoClasses = {};
-var IGRP_BLOCKLY_DROPS={	
-	daos : {}		
-};
-var AppTitle, PageTitle, pagetitle;
-var fields_model = [], form_id = [], key_model = [], fields_table = [], fields_separator = [], fields_formlist = [], fields_model_form = [], view_model = [], fields_model_view = [];
-var chart = [], tables_model = [], separator_model = [], formlist_model = [], form_model = [], buttons_model = [], all_buttons = [];
-var daos_list = [], bloc_fields = [], imports_insert = [], imports_list = [], fields_esp_row = [], custom_action = [];
-var select = [];
-var addcombo=0, addseparator=0, addforeign=0, addchart=0, addtable =0, addbutton=0, addmodel=0, addformlist=0, addform=0, addview=0, custombutton=0;
+				["having", "having"],["where", "where"],["whereIn", "whereIn"],["whereNotIn", "whereNotIn"]],
+	ANDOR = [["and", "and"],["or", "or"]],
+	TRU_FAL = [["true", "true"],["false", "false"]],
+	daoClasses = {},
+	IGRP_BLOCKLY_DROPS={	
+		daos : {}		
+	},
+	AppTitle, PageTitle, pagetitle,
+	fields_model = [], form_id = [], key_model = [], fields_table = [], fields_separator = [], fields_formlist = [], fields_model_form = [], view_model = [], fields_model_view = [].
+	chart = [], tables_model = [], separator_model = [], formlist_model = [], form_model = [], buttons_model = [], all_buttons = [],
+	daos_list = [], bloc_fields = [], imports_insert = [], imports_list = [], fields_esp_row = [], custom_action = [],
+	select = [],
+	addcombo=0, addseparator=0, addforeign=0, addchart=0, addtable =0, addbutton=0, addmodel=0, addformlist=0, addform=0, addview=0, custombutton=0;
 
 Blockly.Blocks.texts.HUE = 200;
 
@@ -135,15 +135,15 @@ $('#active_selenium').on('click', function() {
 	 
 	 $('rows>content>*[type!=separatorlist][type!=formlist]', BlocklyXML).each(function(i, element) {
 			$(element).find('>fields>*').each(function(x, field) {
-			var	 tag = $(field).prop('tagName');
-			var type = $(field).attr('java-type') || $(field).attr('type');
-			var ChooseType = $(field).attr('type');
-			var key  = $(field).attr('iskey');
-			var domain = $(field).attr('domain');
-			var tagg = $(field).attr('tag');
-			var multiple = $(field).attr('multiple');
-			var persist = $(field).attr('persist');
-			var javaType = GetJavaType[type] || type || 'String';
+			var tag = $(field).prop('tagName'),
+				type = $(field).attr('java-type') || $(field).attr('type'),
+				ChooseType = $(field).attr('type'),
+				key  = $(field).attr('iskey'),
+				domain = $(field).attr('domain'),
+				tagg = $(field).attr('tag'),
+				multiple = $(field).attr('multiple'),
+				persist = $(field).attr('persist'),
+				javaType = GetJavaType[type] || type || 'String';
 			if(multiple =="true")
 			{	
 				fields_model.push([ tag, 'String[]'+'::'+tag]);
@@ -208,7 +208,7 @@ $('#active_selenium').on('click', function() {
 				+'</block>'
 				+'</category>'
 				+'<sep class="blocly-dynamic"></sep>'
-				);	
+			);	
 		}
 	 
 	//*********************************************** FILL_COMBO ***************************************************	
@@ -255,7 +255,7 @@ $('#active_selenium').on('click', function() {
 	    //********************************************** BUTTONS **********************************************************
 	
 	 var str=''; 
-		$('item[rel]', BlocklyXML).each(function(i, element) {	
+		$('item[rel]', BlocklyXML).each(function(i, element){	
 			var button = $(element).attr('rel');
 			var custom = $(element).attr('custom_return');
 			var page_target = $(element).find('>page').text();
@@ -389,13 +389,12 @@ $('#active_selenium').on('click', function() {
 									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
 									+'</value><next>';''
 					});
-					
 						rtn+= '<block type="add_isedit" prev-statement="" next-statement="" color="60" class="blocly-dynamic">'
 									+'<value name="value3" type="dummy">'
 										+'<field type="dropdown" name="button" title="send parameter isEdit in button" options="IGRP_BLOCKLY_DROPS.buttons"></field>'
 										+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/send-icon.svg"></field>'
 									+'</value>';			
-							
+
 					IGRP_BLOCKLY_DROPS.tablesTest[form].forEach(function(f, fi){
 						rtn+='</next></block>';	
 					})
@@ -597,24 +596,15 @@ $('#active_selenium').on('click', function() {
 	
 // ********************************************** VIEW *****************************************************************
 
-	$('rows>content>*[type="view"]', BlocklyXML).each(function(i, element) {
-		
-		IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];
-		
+	$('rows>content>*[type="view"]', BlocklyXML).each(function(i, element) {	
+		IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];	
 	$(element).find('>fields>*').each(function(x, field) {
-			
 			var	 tag = $(field).prop('tagName');
-			
 			var type = $(field).attr('java-type') || $(field).attr('type');
-			
 			var ChooseType = $(field).attr('type');
-			
 			var key  = $(field).attr('iskey');
-			
 			var domain = $(field).attr('domain');
-			
 			var tagg = $(field).attr('tag');
-			
 			var multiple = $(field).attr('multiple');
 			
 			var persist = $(field).attr('persist');
