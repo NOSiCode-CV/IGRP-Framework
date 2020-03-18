@@ -373,6 +373,7 @@ $('#active_selenium').on('click', function() {
 				addform++;
 				if(addform == 1)
 				{
+					
 				$('#toolbox').append(
 						'<category id="form" name="Form" colour="180" class="blocly-dynamic"></category>'
 						+'<sep class="blocly-dynamic"></sep>'
