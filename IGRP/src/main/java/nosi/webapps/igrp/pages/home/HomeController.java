@@ -2,10 +2,8 @@ package nosi.webapps.igrp.pages.home;
 /*---- Import your packages here... ----*/
 
 import java.io.IOException;
-import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.security.Permission;
 
@@ -29,7 +27,6 @@ public class HomeController extends Controller {
 			return redirect("igrp_studio", "env", "openApp", this.queryString()); 
 		}
 		
-
 		if(Core.isNotNull(dad) && !dad.equals("igrp")) {
 			nosi.webapps.igrp.dao.Action ac = Core.findApplicationByDad(dad).getAction();
 			String page = "tutorial/DefaultPage/index&title=";

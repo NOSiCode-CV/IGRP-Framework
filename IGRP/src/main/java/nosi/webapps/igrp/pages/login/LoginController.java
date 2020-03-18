@@ -54,7 +54,7 @@ public class LoginController extends Controller {
 
 	/*----#start-code(custom_actions)----*/
 
-	private Properties settings = ConfigApp.getInstance().loadCommonConfig();
+	private Properties settings = ConfigApp.getInstance().loadCommonConfig(); 
 	
 
 	public Response actionLogin() throws Exception { 
@@ -835,7 +835,7 @@ public class LoginController extends Controller {
 			return redirectToUrl(url); 
 			
 		}
-		return null; 
+		return null;
 	}
 	
 	private String createUrlOauth2OpenIdWso2() { 
@@ -860,7 +860,7 @@ public class LoginController extends Controller {
 								String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
 								url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrpweb&redirect_uri=" + redirect_uri; 
 								
-								url = url.replace("/IGRP/", "/" + application.getUrl() + "/");  
+								url = url.replace("/IGRP/", "/" + application.getUrl() + "/").replace("state=igrpweb", "state=" + state);  
 							}
 						} 
 						
