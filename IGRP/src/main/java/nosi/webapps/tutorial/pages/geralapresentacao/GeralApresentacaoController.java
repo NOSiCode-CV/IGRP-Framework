@@ -34,7 +34,6 @@ public class GeralApresentacaoController extends Controller {
 		
 		List<GeralApresentacao.Table_1> lista = new ArrayList<GeralApresentacao.Table_1>();
 		
-		
 		GeralApresentacao.Table_1 obj = new GeralApresentacao.Table_1();
 		
 		obj.setDocumento("Import IGRP WEB");
