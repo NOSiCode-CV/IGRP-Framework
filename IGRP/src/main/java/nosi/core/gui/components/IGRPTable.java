@@ -176,12 +176,12 @@ public class IGRPTable extends IGRPComponent{
 		this.buttons.add(button);
 	}
 	
-	private void includeRowTotal() {
+	protected void includeRowTotal() { 
 		Map<String, Float> m = new HashMap<String, Float>(); 
 		boolean hasOneFieldTotal = false; 
 		for(Field field : this.fields) {
-			String total_footer = field.propertie().getProperty("total_footer"); 
-			if(total_footer != null && total_footer.equalsIgnoreCase("true")) {
+			String total_footer_or_col =  field.propertie().getProperty(this instanceof IGRPFormList ? "total_col" : "total_footer"); 
+			if(total_footer_or_col != null && total_footer_or_col.equalsIgnoreCase("true")) {
 				List<?> all = this.modelList != null ? this.modelList : this.data != null ? this.data : new ArrayList<>();
 				Float total = (float) 0; 
 				for(Object obj : all) { 

@@ -12,21 +12,15 @@ import nosi.core.webapp.Response;
 import java.io.File;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
-import nosi.core.cversion.GitLab;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 
 import static nosi.core.i18n.Translator.gt;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -42,7 +36,6 @@ import java.util.zip.CheckedOutputStream;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
@@ -65,8 +58,7 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Profile;
-import nosi.webapps.igrp.dao.ProfileType;
-import nosi.webapps.igrp.dao.User;
+import nosi.webapps.igrp.dao.ProfileType; 
 /*----#end-code----*/
 		
 public class EnvController extends Controller { 
@@ -142,14 +134,8 @@ public class EnvController extends Controller {
 			if(app.getExternal() == 1) { 
 				if(Core.isNotNull(model.getHost()))
 					app.setUrl(model.getHost().trim());
-				else {
-					/*String uri = Igrp.getInstance().getRequest().getRequestURI();
-					String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
-					url += "/" + app.getDad().trim().toUpperCase() + "/app/webapps?r=" + app.getDad().trim().toLowerCase() + "/default-page/index" ;
-					app.setUrl(url); 				
-					*/
-					autoDeploy = true;					
-				}	
+				else 
+					autoDeploy = true; 
 			}
 			
 			app.setImg_src(model.getImg_src());
@@ -174,8 +160,6 @@ public class EnvController extends Controller {
 			
 			if(app != null){
 				
-				//createSvnRepo(app);
-				
 				FileHelper.createDiretory(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
 				
 				if(autoDeploy && !appAutoDeploy(app.getDad())) 
@@ -183,7 +167,7 @@ public class EnvController extends Controller {
 			
 				Core.setMessageSuccess();	
 
-				//loadOrInitializeGitRepository(app.getDad());
+				// ... Git control version code here ... 
 				
 				return this.redirect("igrp_studio", "env","index");				
 			}else{
@@ -196,7 +180,6 @@ public class EnvController extends Controller {
 			
 	}
 	
-		
 		
 /*----#start-code(custom_actions)----*/
 	
@@ -213,7 +196,6 @@ public class EnvController extends Controller {
 			
 			File destinationFile = new File(result.replace("IGRP-Template", appDad.toLowerCase()));
 			
-			//boolean b  = Files.copy(file, destinationFile);
 			FileOutputStream fos = new FileOutputStream(destinationFile.getAbsolutePath());			
 			CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());			
 			JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos));				
@@ -244,50 +226,6 @@ public class EnvController extends Controller {
 		}
 		return flag;
 	}
-	
-//	private void createSvnRepo(Application app){
-//		Svn  svnapi = new Svn();
-//		String env = "";
-//		env = Igrp.getInstance().getServlet().getInitParameter("env");
-//		switch(env) {
-//			case "dev": 
-//				svnapi.setWorkFolder("dev/" + app.getDad().toLowerCase() + "/pages");
-//			break;
-//			case "prod": 
-//				svnapi.setWorkFolder("prod/" + app.getDad().toLowerCase() + "/pages");
-//			break;
-//			case "sta": 
-//				svnapi.setWorkFolder("sta/" + app.getDad().toLowerCase() + "/pages");
-//			break;
-//		}
-//        svnapi.setMessage("Create Repo. for Application - " + app.getDad());
-//        boolean flag = false;
-//		try {
-//			flag = svnapi.mkdir();
-//		} catch (IOException | InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//      /*  System.out.println("Criar Pasta " + flag); 
-//        System.out.println(svnapi.getCmd());
-//        System.out.println(svnapi.getCmdResult());*/
-//        
-//		try {
-//			svnapi.setLocalUriPath(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
-//			svnapi.setSvnUrl("https://subversion.gov.cv:18080/svn/FrontIGRP/trunk/"); 
-//			svnapi.setSvnUrl(svnapi.getSvnUrl()  + env + "/" + app.getDad().toLowerCase() + "/pages");
-//			svnapi.setWorkFolder("");
-//			flag = svnapi.co();
-//		} catch (IOException | InterruptedException e) {
-//			e.printStackTrace();
-//		} 
-//	/*	
-//      System.out.println("Checkout " + flag); 
-//      System.out.println(svnapi.getCmd());
-//      System.out.println(svnapi.getCmdResult());*/
-//        
-//	}
-	
-	
 
 	public Response actionEditar() throws IllegalArgumentException, IllegalAccessException, IOException{
 		
@@ -310,7 +248,6 @@ public class EnvController extends Controller {
 		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 			model.load();			
-			//aplica_db.setDad(model.getDad());
 			aplica_db.setName(model.getName());
 			aplica_db.setImg_src(model.getImg_src());	
 			aplica_db.setExternal(Core.toInt(model.getFlg_external()).intValue());
@@ -350,7 +287,7 @@ public class EnvController extends Controller {
 				
 				Core.setMessageSuccess(); 
 				
-//				loadOrInitializeGitRepository(aplica_db.getDad());
+				// ... Git control version code here ...	
 				
 				return redirect("igrp_studio", "env","editar&p_id=" + idAplicacao);
 				
@@ -381,8 +318,7 @@ public class EnvController extends Controller {
 		String type = Core.getParam("type");
 		
 		Igrp.getInstance().getResponse().setContentType("text/xml");
-	//	Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"); 
-
+	
 		List<Profile> myApp = new Application().getMyApp(); 
 		myApp = myApp.stream()
 				  .filter(profile->profile.getOrganization().getApplication().getStatus()==1).collect(Collectors.toList());
@@ -443,7 +379,6 @@ public class EnvController extends Controller {
 			}
 		}
 		
-		
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
 		for(IgrpPLSQLApp obj: allowApps){
@@ -499,7 +434,7 @@ public class EnvController extends Controller {
 		Permission permission = new Permission();
 		
 		if(permission.isPermition(app,p[0], p[1], p[2])) {
-			permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
+			permission.changeOrgAndProfile(app); // Muda perfil e organica de acordo com aplicacao aberta 
 			
 			Application env = Core.findApplicationByDad(app);
 			
@@ -536,7 +471,6 @@ public class EnvController extends Controller {
 							p[1]="DefaultPage";
 							p[1]="index";
 						}
-							
 					}
 				}
 			}catch (Exception e) {
@@ -591,11 +525,10 @@ public class EnvController extends Controller {
 			}
 			
 		}catch(Exception e) {
-			//e.printStackTrace();
+			//e.printStackTrace(); 
 		}
 	}
 	
-	// For serialization purpose
 	public static class IgrpPLSQLApp {
 		private String id;
 		private String name;
@@ -678,7 +611,7 @@ public class EnvController extends Controller {
 			   return files;
 			}
 			return null;
-			}
+		}
 		
 		
 		public String GerarXML(Config conf, String dad){
@@ -695,15 +628,13 @@ public class EnvController extends Controller {
 				else
 					x= conf.getPathServerClass(dad)+File.separator+"dao";
 				
-				
 				Map<String,String> dao = listFilesDirectory(x);
 				
 				if( dao != null ) {
 					
 					for (Map.Entry<String, String> entry : dao.entrySet()) {
-						//System.out.println(entry.getKey() + "/" + entry.getValue()); 
-						 try {
-							 
+						
+						try {
 							 String path=entry.getValue().substring(entry.getValue().indexOf("nosi"+File.separator+"webapps"+File.separator)).replace(".java", "").replace(File.separator, ".");
 							 String nome_classe = entry.getKey().replace(".java", "");
 							 
@@ -716,7 +647,6 @@ public class EnvController extends Controller {
 					         
 					         for (int i = 0; i < fields.length; i++) 
 					         {
-					        	 //System.out.println(fields[i].getName());
 					        	 
 					        	 if(!fields[i].getName().startsWith("pc") && !fields[i].getName().startsWith("class") && !fields[i].getName().startsWith("serialVersion"))
 					        	 {
@@ -752,7 +682,6 @@ public class EnvController extends Controller {
 					}
 					
 				}
-					
 				
 			}
 			
@@ -762,41 +691,6 @@ public class EnvController extends Controller {
 			
 		}
 
-	}
-	
-	public void loadOrInitializeGitRepository(String dad) { 
-		
-		Config conf = new Config();
-		if(conf.getEnvironment() != null && conf.getEnvironment().equalsIgnoreCase("dev")) {
-			
-			String gitUri = null;
-			String username = null;
-			String password = null;
-			String path = conf.getPathOfImagesFolder() + File.separator + "tig" + File.separator + dad; 
-			
-			try {
-				gitUri = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", dad + ".git.uri").one().getValue(); 
-				username = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", dad + ".git.username").one().getValue();
-				password = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", dad + ".git.password").one().getValue();
-			} catch (Exception e) {
-				e.printStackTrace(); 
-			}
-			
-			GitLab gitLab = new GitLab();
-			gitLab.setUri(gitUri);
-			gitLab.setUsername(username);
-			gitLab.setPassword(password);
-			gitLab.setDirPath(path); 
-			
-			boolean r = gitLab.loadFromGitDir(); 
-			
-			if(!r) 
-				gitLab.cloneRepository(); 
-			
-			gitLab.closeGitConnection(); 
-			
-		}
-		
 	}
 	
 	private String buildAppUrlUsingAutentikaForSSO(Application env) { 
@@ -823,7 +717,5 @@ public class EnvController extends Controller {
 		return url;
 	}
 	
-	
-
 	/*----#end-code----*/
 }

@@ -192,6 +192,16 @@
 			            data: data
 			        }]
 			    };
+				
+				if(p.view3d){
+					chart.chart['options3d'] = {
+						enabled: true,
+						alpha: 45,
+						beta: 0
+					};
+
+					chart.plotOptions.pie['depth'] = 35;
+				}
 
 				return {structure:chart, colors:colors};
 			},
@@ -249,6 +259,17 @@
 				        data: data
 				    }]
 				};
+				
+				if (p.view3d) {
+
+					chart.chart['options3d'] = {
+						enabled: true,
+						alpha: 45,
+						beta: 0
+					};
+
+					chart.plotOptions.pie['depth'] = 35;
+				}
 
 				return {structure:chart, colors:colors};
 			},
@@ -557,7 +578,8 @@
 			OTHERS : function(p){// type['LINE','AREA','COLUMN','SPLINE','BAR','STACKEDBAR','STACKEDAREA','STACKEDPERCENTAREA','STACKEDCOLUMN','STACKEDGROUPEDCOLUMN']
 				var data   = [],
 					colors = [],
-					type   = p.type;
+					type   = p.type,
+					vtype  = com.getTypeChart(type);
 
 				p.labels.forEach(function(e,i){
 					data.push({
@@ -569,7 +591,7 @@
 				
 				var chart = {
 					chart:{
-						type: com.getTypeChart(type),
+						type: vtype,
 						marginTop: 50
 					},
 				    title: {
@@ -596,6 +618,21 @@
 			        },
 				    series: data
 				};
+				
+				if(p.view3d){
+					
+					chart.chart['options3d'] = {
+						enabled: true,
+						alpha: 10,
+						beta: 25,
+						depth: 70,
+						viewDistance: 25
+					};
+
+					chart.plotOptions[vtype] = {
+						depth: 25
+					};
+				}
 
 				if (type == 'STACKEDAREA' || type == 'STACKEDPERCENTAREA') {
 					var stacking = 'normal';
@@ -783,6 +820,7 @@
 				categories  = o.attr('chart-categories') ? o.attr('chart-categories').split('|') : [],
 				filterType  = o.attr('filter-type') ? o.attr('filter-type').split(',') : [],
 				colors  	= o.attr('chart-colors') ? o.attr('chart-colors').split('|') : [],
+				view3d 		= o.attr('chart-3d') && o.attr('chart-3d') == 'true' ? true : false,
 				showData 	= o.attr('chart-datalabels') && o.attr('chart-datalabels') == 'true' ? true : false;
 	
 			if (data[0]) {
@@ -822,6 +860,7 @@
 					desclabel 	: o.attr('chart-desc-label') ? o.attr('chart-desc-label') : '',
 					labels 		: labels,
 					type 		: type,
+					view3d 		: view3d,
 					title  		: title
 				});
 
@@ -842,9 +881,9 @@
 				            events:{
 				                click:function(e){
 				                	
-				                	var pointX = this.category.toString() ||  this.name,
-				                		pointY = this.y.toString() || this.value,
-				                		pointZ = this.series.name;
+				                	var pointX = this.category ? this.category.toString() : this.name,
+										pointY = this.y ? this.y.toString() : this.value,
+					                	pointZ = this.series.name;
 
 				                	if (type == 'HEATMAP') {
 				                		pointX = categories[this.x];
@@ -870,7 +909,7 @@
 			            }
 			        };
 					
-					if ($.inArray(type.toLowerCase(), chartTwoEx) === - 1) {
+					/*if ($.inArray(type.toLowerCase(), chartTwoEx) === - 1) {
 						chart.structure.plotOptions.series.dataLabels = {
 							enabled: true,
 							style: {
@@ -878,7 +917,7 @@
 								textOutline: 'none'
 							}
 						};
-					}
+					}*/
 
 			        if(showData){
 
@@ -890,10 +929,10 @@
 			                	fontSize	: "11px", 
 			                	fontWeight	: "none", 
 			                	textOutline	: "1px contrast" 
-			                },
+			                }/*,
 			                formatter : function(){
 			                	return this.y > 0 ? this.y : '';
-			                }
+			                }*/
 				        };
 			        }
 

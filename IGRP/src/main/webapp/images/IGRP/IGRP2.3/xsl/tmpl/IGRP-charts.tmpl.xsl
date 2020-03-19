@@ -4,6 +4,8 @@
   <xsl:param name="filter"/>
   <xsl:param name="filter_type"/>
   <xsl:param name="remote_filter"/>
+  <xsl:param name="datalabels"/>
+  <xsl:param name="view3d"/>
   
   <xsl:template match="*">
     
@@ -21,6 +23,8 @@
       <xsl:with-param name="filter" select="$filter"/>
       <xsl:with-param name="filter_type" select="$filter_type"/>
       <xsl:with-param name="remote_filter" select="$remote_filter"/>
+      <xsl:with-param name="datalabels" select="$datalabels"/>
+      <xsl:with-param name="view3d" select="$view3d"/>
     </xsl:call-template>
   </xsl:template>  
   
@@ -32,6 +36,9 @@
     <xsl:param name="filter" select="'false'"/>
     <xsl:param name="filter_type"/>
     <xsl:param name="remote_filter"/>
+    <xsl:param name="datalabels"/>
+    <xsl:param name="view3d"/>
+    
     <xsl:variable name="vtipo">
       <xsl:choose>
         <xsl:when test="$tipo = 'barchart' or $tipo = 'BarChart'">bar</xsl:when>
@@ -79,6 +86,18 @@
     
     <div class="IGRP-highcharts" item-name="{$graph-id}" chart-categories="{$categories}" chart-id="id-{$graph-id}" chart-type="{$vtipo}" chart-desc-label="{$desc-label}" chart-labels="{$labels}" chart-colors="{$colors}" chart-data="{$data}" chart-url="{$url}">
 
+      <xsl:if test="$datalabels = 'true'">
+        <xsl:attribute name="chart-datalabels">
+          <xsl:value-of select="$datalabels"/>
+        </xsl:attribute>
+      </xsl:if>
+
+      <xsl:if test="$view3d = 'true'">
+        <xsl:attribute name="chart-3d">
+          <xsl:value-of select="$view3d"/>
+        </xsl:attribute>
+      </xsl:if>
+      
       <xsl:if test="$filter = 'true'">
         <xsl:if test="$filter_type != ''">
           <xsl:attribute name="filter-type">
@@ -119,6 +138,8 @@
     <xsl:param name="filter" select="'false'"/>
     <xsl:param name="filter_type"/>
     <xsl:param name="remote_filter"/>
+    <xsl:param name="datalabels"/>
+    <xsl:param name="view3d"/>
     
     <xsl:variable name="vheight" select="$height+50"/>
     
@@ -131,6 +152,8 @@
         <xsl:with-param name="filter" select="$filter"/>
         <xsl:with-param name="filter_type" select="$filter_type"/>
         <xsl:with-param name="remote_filter" select="$remote_filter"/>
+        <xsl:with-param name="datalabels" select="$datalabels"/>
+        <xsl:with-param name="view3d" select="$view3d"/>
       </xsl:call-template>
       <div class="_clear"/>
    </div>
