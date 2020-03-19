@@ -180,9 +180,9 @@
         </form_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="ListaPage" app="igrp_studio" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=crud" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
                     <label>Help</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
+                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=crud</value>
                 </documento>
                 <forum name="p_forum" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="ListaPage" app="igrp_studio" custom_action="https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&amp;utm_medium=link&amp;utm_campaign=share-link" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-comments" maxlength="250" showlabel="true">
                     <label>Forum</label>
@@ -204,27 +204,27 @@
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Sit sit consectetur amet aperi</table_name>
+                        <table_name name="p_table_name">Amet anim dolor rem aliqua</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Mollit stract perspiciatis lor</table_name>
+                        <table_name name="p_table_name">Labore stract accusantium dolo</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Accusantium perspiciatis unde</table_name>
+                        <table_name name="p_table_name">Sit anim voluptatem consectetu</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Ipsum perspiciatis iste totam</table_name>
+                        <table_name name="p_table_name">Dolor accusantium sit laudanti</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Ipsum deserunt ut officia dolo</table_name>
+                        <table_name name="p_table_name">Rem omnis sed natus sit</table_name>
                     </row>
                 </value>
             </table>

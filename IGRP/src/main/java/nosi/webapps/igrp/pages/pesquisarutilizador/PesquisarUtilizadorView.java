@@ -60,9 +60,8 @@ public class PesquisarUtilizadorView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.setValue(Core.getIGRPLink("igrp","Dominio","index"));
-
-									documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
+		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=utilizador"));
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
 		
 		username = new TextField(model,"username");
 		username.setLabel(gt("Username"));
@@ -129,25 +128,25 @@ public class PesquisarUtilizadorView extends View {
 		btn_adicionar_utilizador.propertie.add("type","specific").add("rel","adicionar_utilizador").add("refresh_components","");
 
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","pesquisar","submit","primary|fa-search","","");
-		btn_pesquisar.propertie.add("type","form").add("class","primary").add("rel","pesquisar").add("refresh_components","");
+		btn_pesquisar.propertie.add("id","button_5e31_2699").add("type","form").add("class","primary").add("rel","pesquisar").add("refresh_components","");
 
 		btn_editar = new IGRPButton("Editar","igrp","PesquisarUtilizador","editar","mpsubmit|refresh","warning|fa-pencil","","");
-		btn_editar.propertie.add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
+		btn_editar.propertie.add("id","button_8625_a0d4").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
 
 		btn_assiocar_menu = new IGRPButton("Assiocar Menu","igrp","PesquisarUtilizador","assiocar_menu","right_panel_submit","info|fa-bars","","");
-		btn_assiocar_menu.propertie.add("type","specific").add("class","info").add("rel","assiocar_menu").add("refresh_components","");
+		btn_assiocar_menu.propertie.add("id","button_f39b_61a7").add("type","specific").add("class","info").add("rel","assiocar_menu").add("refresh_components","");
 
 		btn_assiocar_transacao = new IGRPButton("Assiocar Transacao","igrp","PesquisarUtilizador","assiocar_transacao","right_panel","black|fa-exchange","","");
-		btn_assiocar_transacao.propertie.add("type","specific").add("class","black").add("rel","assiocar_transacao").add("refresh_components","");
+		btn_assiocar_transacao.propertie.add("id","button_ead4_9d21").add("type","specific").add("class","black").add("rel","assiocar_transacao").add("refresh_components","");
 
 		btn_assiocar_etapa = new IGRPButton("Assiocar Etapa","igrp","PesquisarUtilizador","assiocar_etapa","right_panel","primary|fa-sitemap","","");
-		btn_assiocar_etapa.propertie.add("type","specific").add("class","primary").add("rel","assiocar_etapa").add("refresh_components","");
+		btn_assiocar_etapa.propertie.add("id","button_ac82_afbd").add("type","specific").add("class","primary").add("rel","assiocar_etapa").add("refresh_components","");
 
 		btn_convidar_user = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar_user","right_panel|refresh","warning|fa-send","","");
-		btn_convidar_user.propertie.add("type","specific").add("class","warning").add("rel","convidar_user").add("refresh_components","");
+		btn_convidar_user.propertie.add("id","button_0c9f_e52a").add("type","specific").add("class","warning").add("rel","convidar_user").add("refresh_components","");
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarUtilizador","eliminar","alert_submit","danger|fa-trash","","");
-		btn_eliminar.propertie.add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
+		btn_eliminar.propertie.add("id","button_2f8d_ba41").add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
 
 		
 	}
@@ -195,7 +194,6 @@ public class PesquisarUtilizadorView extends View {
 	@Override
 	public void setModel(Model model) {
 		
-		documento.setValue(model);
 		username.setValue(model);
 		email.setValue(model);
 		nada.setValue(model);

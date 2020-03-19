@@ -110,27 +110,27 @@
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Magna ut unde voluptatem perspiciatis deserunt elit accusantium officia sit aliqua voluptatem consec</nome>
+                        <nome name="p_nome">Laudantium sit aperiam voluptatem anim aperiam perspiciatis rem natus accusantium rem amet labore un</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Perspiciatis elit magna iste sit lorem totam deserunt iste mollit unde elit magna sit labore deserun</nome>
+                        <nome name="p_nome">Ipsum officia totam ipsum unde unde stract sit aperiam stract lorem accusantium anim ipsum labore ap</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Rem mollit natus stract dolor perspiciatis magna ut mollit labore dolor deserunt iste anim totam ape</nome>
+                        <nome name="p_nome">Laudantium adipiscing lorem doloremque perspiciatis voluptatem anim adipiscing unde accusantium omni</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Mollit natus adipiscing amet anim iste natus consectetur adipiscing dolor deserunt amet consectetur</nome>
+                        <nome name="p_nome">Iste omnis ut lorem perspiciatis sit mollit ipsum sit elit stract accusantium laudantium sed rem con</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Anim lorem aliqua elit mollit elit consectetur doloremque aperiam voluptatem anim mollit adipiscing</nome>
+                        <nome name="p_nome">Voluptatem officia iste consectetur accusantium labore aperiam ipsum adipiscing totam magna ut totam</nome>
                     </row>
                 </value>
             </table>
@@ -184,9 +184,9 @@
         </toolsbar_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="ListaPage" app="igrp_studio" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=partilha" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
                     <label>Help</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
+                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=partilha</value>
                 </documento>
             </fields>
         </view_1>

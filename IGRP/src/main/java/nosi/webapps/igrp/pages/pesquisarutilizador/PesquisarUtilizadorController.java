@@ -27,7 +27,6 @@ public class PesquisarUtilizadorController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
-		model.setDocumento("igrp","Dominio","index");
 		PesquisarUtilizadorView view = new PesquisarUtilizadorView();
 		view.nome.setParam(true);
 		view.tb_email.setParam(true);
@@ -35,17 +34,16 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Elit laudantium totam accusantium consectetur dese' as nominho,'2' as range_1,'Voluptatem aliqua amet ut omnis ut lorem sit mollit totam voluptatem magna aliqua deserunt sed offic' as nome,'Adipiscing rem ipsum aperiam adipiscing aliqua aperiam consectetur rem omnis elit deserunt sed amet' as tb_email,'Elit unde mollit aperiam stract rem officia volupt' as perfile,'hidden-b7c5_897e' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Natus rem mollit anim doloremque sit elit stract i' as nominho,'3' as range_1,'Iste perspiciatis magna amet iste omnis deserunt iste sit doloremque totam magna mollit sed consecte' as nome,'Voluptatem adipiscing unde deserunt aliqua amet laudantium deserunt adipiscing natus mollit unde vol' as tb_email,'Ipsum deserunt dolor accusantium amet mollit aliqu' as perfile,'hidden-f7f5_0270' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
+		//model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=utilizador"));
 		
-		if(!Core.getCurrentUser().getUser_name().equalsIgnoreCase("igrpweb@nosi.cv"))
+      if(!Core.getCurrentUser().getUser_name().equalsIgnoreCase("igrpweb@nosi.cv"))
 			view.btn_editar.setVisible(false);
-        
-		model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=utilizador"));
       
    		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();
 

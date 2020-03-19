@@ -39,9 +39,9 @@
         <title>Associar Transacao a Organica</title>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="" action_type="false" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=transacao" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
                     <label>Help</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
+                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=transacao</value>
                 </help>
             </fields>
         </view_1>
@@ -70,27 +70,27 @@
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Consectetur unde aperiam adipi</nome>
+                        <nome name="p_nome">Ipsum magna omnis ipsum offici</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Anim sed dolor amet dolor</nome>
+                        <nome name="p_nome">Stract aperiam natus aliqua la</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Omnis natus sit anim doloremqu</nome>
+                        <nome name="p_nome">Omnis voluptatem omnis amet al</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Officia doloremque aperiam str</nome>
+                        <nome name="p_nome">Labore stract voluptatem ut do</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Consectetur ipsum lorem anim m</nome>
+                        <nome name="p_nome">Aperiam aliqua perspiciatis la</nome>
                     </row>
                 </value>
             </table>

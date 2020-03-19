@@ -48,12 +48,20 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=dominio" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
                     <label>Help</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
+                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=dominio</value>
                 </documento>
             </fields>
         </view_1>
+        <view_2 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <forum name="p_forum" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&amp;utm_medium=link&amp;utm_campaign=share-link" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-comments" maxlength="250" showlabel="true">
+                    <label>Forum</label>
+                    <value>https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&amp;utm_medium=link&amp;utm_campaign=share-link</value>
+                </forum>
+            </fields>
+        </view_2>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="guardar_item_domain" custom_return="true" refresh_components="formlist_1">
                 <title>Guardar</title>
@@ -137,7 +145,7 @@
                 </lst_dominio>
                 <novo_dominio name="p_novo_dominio" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="dad_name Ex: igrp_types_doc" right="true" desclabel="false">
                     <label>Novo domínio</label>
-                    <value>Perspiciatis anim adipiscing aperiam officia</value>
+                    <value>Unde dolor lorem consectetur voluptatem</value>
                 </novo_dominio>
                 <hidden name="p_app" type="hidden" maxlength="250" java-type="Integer" tag="app"/>
             </fields>
@@ -158,66 +166,58 @@
             <table>
                 <value>
                     <row>
-                        <description name="p_description" desc="true">Dolor elit ut stract magna</description>
-                        <description_desc name="p_description_desc">Dolor elit ut stract magna</description_desc>
-                        <key name="p_key" desc="true">Sit lorem doloremque stract dolor</key>
-                        <key_desc name="p_key_desc">Sit lorem doloremque stract dolor</key_desc>
+                        <description name="p_description" desc="true">Perspiciatis mollit laudantium dolor lorem</description>
+                        <description_desc name="p_description_desc">Perspiciatis mollit laudantium dolor lorem</description_desc>
+                        <key name="p_key" desc="true">Ipsum voluptatem dolor sed omnis</key>
+                        <key_desc name="p_key_desc">Ipsum voluptatem dolor sed omnis</key_desc>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-b7b8_ae4c</ordem>
-                        <ordem_desc name="p_ordem_desc">hidden-b7b8_ae4c</ordem_desc>
+                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-fc39_ffdc</ordem>
+                        <ordem_desc name="p_ordem_desc">hidden-fc39_ffdc</ordem_desc>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Sit voluptatem sit mollit dolor</description>
-                        <description_desc name="p_description_desc">Sit voluptatem sit mollit dolor</description_desc>
-                        <key name="p_key" desc="true">Dolor doloremque ipsum ipsum labore</key>
-                        <key_desc name="p_key_desc">Dolor doloremque ipsum ipsum labore</key_desc>
+                        <description name="p_description" desc="true">Aperiam ut natus rem voluptatem</description>
+                        <description_desc name="p_description_desc">Aperiam ut natus rem voluptatem</description_desc>
+                        <key name="p_key" desc="true">Mollit deserunt mollit sit elit</key>
+                        <key_desc name="p_key_desc">Mollit deserunt mollit sit elit</key_desc>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-7248_2bad</ordem>
-                        <ordem_desc name="p_ordem_desc">hidden-7248_2bad</ordem_desc>
+                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-516a_c8ea</ordem>
+                        <ordem_desc name="p_ordem_desc">hidden-516a_c8ea</ordem_desc>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Laudantium accusantium ipsum aliqua ipsum</description>
-                        <description_desc name="p_description_desc">Laudantium accusantium ipsum aliqua ipsum</description_desc>
-                        <key name="p_key" desc="true">Officia natus ipsum unde perspiciatis</key>
-                        <key_desc name="p_key_desc">Officia natus ipsum unde perspiciatis</key_desc>
+                        <description name="p_description" desc="true">Sit adipiscing doloremque adipiscing lorem</description>
+                        <description_desc name="p_description_desc">Sit adipiscing doloremque adipiscing lorem</description_desc>
+                        <key name="p_key" desc="true">Aperiam anim doloremque amet stract</key>
+                        <key_desc name="p_key_desc">Aperiam anim doloremque amet stract</key_desc>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-9caf_8a2d</ordem>
-                        <ordem_desc name="p_ordem_desc">hidden-9caf_8a2d</ordem_desc>
+                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-e331_29be</ordem>
+                        <ordem_desc name="p_ordem_desc">hidden-e331_29be</ordem_desc>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Omnis laudantium amet lorem stract</description>
-                        <description_desc name="p_description_desc">Omnis laudantium amet lorem stract</description_desc>
-                        <key name="p_key" desc="true">Stract amet adipiscing omnis perspiciatis</key>
-                        <key_desc name="p_key_desc">Stract amet adipiscing omnis perspiciatis</key_desc>
+                        <description name="p_description" desc="true">Ipsum doloremque omnis voluptatem ut</description>
+                        <description_desc name="p_description_desc">Ipsum doloremque omnis voluptatem ut</description_desc>
+                        <key name="p_key" desc="true">Iste ipsum stract mollit officia</key>
+                        <key_desc name="p_key_desc">Iste ipsum stract mollit officia</key_desc>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-e547_7492</ordem>
-                        <ordem_desc name="p_ordem_desc">hidden-e547_7492</ordem_desc>
+                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-47e7_bb25</ordem>
+                        <ordem_desc name="p_ordem_desc">hidden-47e7_bb25</ordem_desc>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Ipsum deserunt voluptatem iste stract</description>
-                        <description_desc name="p_description_desc">Ipsum deserunt voluptatem iste stract</description_desc>
-                        <key name="p_key" desc="true">Ipsum magna elit totam aperiam</key>
-                        <key_desc name="p_key_desc">Ipsum magna elit totam aperiam</key_desc>
+                        <description name="p_description" desc="true">Stract sit omnis ipsum accusantium</description>
+                        <description_desc name="p_description_desc">Stract sit omnis ipsum accusantium</description_desc>
+                        <key name="p_key" desc="true">Officia mollit iste labore natus</key>
+                        <key_desc name="p_key_desc">Officia mollit iste labore natus</key_desc>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-f199_95b3</ordem>
-                        <ordem_desc name="p_ordem_desc">hidden-f199_95b3</ordem_desc>
+                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-a63c_9356</ordem>
+                        <ordem_desc name="p_ordem_desc">hidden-a63c_9356</ordem_desc>
                     </row>
                 </value>
             </table>
         </formlist_1>
-        <view_2 type="view" xml-type="view" gen-type="container" gen-group="">
-            <fields>
-                <forum name="p_forum" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&amp;utm_medium=link&amp;utm_campaign=share-link" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-comments" maxlength="250" showlabel="true">
-                    <label>Forum</label>
-                    <value>https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&amp;utm_medium=link&amp;utm_campaign=share-link</value>
-                </forum>
-            </fields>
-        </view_2>
     </content>
     <blockly>
         <imports></imports>

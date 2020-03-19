@@ -65,10 +65,11 @@ public class PageController extends Controller {
 		view.version.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
+		//model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=new_page"));
+		
 		Boolean isEdit = false;
 		Integer idPage = Core.getParamInt("p_id_page");
-		model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=new_page"));
- 	
+		
 		if(idPage == 0){
 			idPage = model.getId_pagin_hidd();
 		}
