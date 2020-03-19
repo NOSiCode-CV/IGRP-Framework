@@ -620,8 +620,6 @@ public class LoginController extends Controller {
 
 			JSONObject jToken = new JSONObject(resultPost);
 			
-			System.out.println("jToken: " + jToken);
-			
 			String token = (String) jToken.get("access_token");
 			String id_token = (String) jToken.get("id_token");
 			String refresh_token = (String) jToken.get("refresh_token"); 
@@ -871,8 +869,6 @@ public class LoginController extends Controller {
 		} catch (Exception e) { 
 			e.printStackTrace(); 
 		}
-		
-		System.out.println("Url(Login): " + url);
 		
 		return url; 
 	}

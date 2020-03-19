@@ -185,12 +185,16 @@ public class IGRPSeparatorList extends IGRPTable {
 		GenXMLField.toXml(this.xml, this.fields);
 		this.xml.startElement("table");
 		this.xml.startElement("value");
-		this.genRows();
+		this.genRows(); 
+		
+		if(this instanceof IGRPFormList) 
+			this.includeRowTotal(); 
+		
 		this.xml.endElement();
 		this.xml.endElement();
 		this.xml.endElement();
-
-		return this.xml.toString();
+		
+		return this.xml.toString(); 
 	}
 
 	public void noEdit() {

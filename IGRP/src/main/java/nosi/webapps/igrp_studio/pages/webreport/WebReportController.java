@@ -45,7 +45,8 @@ import nosi.core.webapp.datasource.helpers.DataSourceParam;
 import nosi.core.webapp.datasource.helpers.Parameters;
 /*----#end-code----*/
 		
-public class WebReportController extends Controller {
+public class WebReportController extends Controller { 
+	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		WebReport model = new WebReport();
 		model.load();
@@ -72,7 +73,7 @@ public class WebReportController extends Controller {
 			view.datasorce_app.setValue(this.dsh.getListSources(env_fk));
 			RepTemplate  rep = new RepTemplate();
 			List<WebReport.Gen_table> data = new ArrayList<>(); 
-			for(RepTemplate r: rep.find().andWhere("application", "=", env_fk).all()){
+			for(RepTemplate r: rep.find().andWhere("status", "=", 1).andWhere("application", "=", env_fk).all()){
 				String params = "";
 				WebReport.Gen_table t1 = new WebReport.Gen_table();
 				List<RepTemplateSource> listParams = new RepTemplateSource().find().andWhere("repTemplate", "=", r.getId()).all();
@@ -576,11 +577,10 @@ public class WebReportController extends Controller {
 		String env=Core.getParam("env");
 		if(Core.isNotNull(fileName)) {
 			String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
-			//String url2 = Path.getImageServer((Core.isNull(env)?"":env+File.separator)+"reports")+File.separator+fileName;		
+			// String url2 = Path.getImageServer((Core.isNull(env)?"":env+File.separator)+"reports")+File.separator+fileName;		
 			String url =  baseUrl.toString().replaceAll("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/"+(Core.isNull(env)?"":env+"/")+"reports/"+fileName;
-			//TODO:  caso nao nada na pasta procurar normal porque pode ser que foi colocado
-			//if(Core.fileExists(url2)) {				System.out.println("Exists sim");			}else				System.out.println("ak exists");			
-				return this.redirectToUrl(url);
+			// TODO:  caso nao nada na pasta procurar normal porque pode ser que foi colocado 
+			return this.redirectToUrl(url);
 		}
 		resp.setContent(FlashMessage.MSG_ERROR);	
 		return resp;

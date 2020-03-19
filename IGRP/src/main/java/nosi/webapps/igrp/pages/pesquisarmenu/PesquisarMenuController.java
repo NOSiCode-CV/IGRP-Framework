@@ -2,12 +2,7 @@ package nosi.webapps.igrp.pages.pesquisarmenu;
 
 import nosi.core.webapp.Controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -16,7 +11,6 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.business.ProcessInstanceIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -30,27 +24,23 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 
-import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
-import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.Menu.MenuProfile;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
-import nosi.webapps.igrp_studio.pages.env.EnvController.IgrpPLSQLApp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import java.io.Serializable;
 
-import static nosi.core.i18n.Translator.gt;
+import static nosi.core.i18n.Translator.gt; 
 /*----#end-code----*/
 		
 public class PesquisarMenuController extends Controller { 
@@ -223,7 +213,7 @@ public class PesquisarMenuController extends Controller {
 					for (MenuProfile main : m.getValue()) {
 						if (main.isSubMenuAndSuperMenu()) {
 							
-							if(main.getType() == 1 || main.getType() == 2) { // Fazer sso obrigatorio 
+							if(main.getType() == 2) { // Fazer sso obrigatorio 
 								xml_menu.setElement("link", main.getLink()); 
 							}else {
 								xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
@@ -236,7 +226,7 @@ public class PesquisarMenuController extends Controller {
 						xml_menu.writeAttribute("title", gt(main.getTitle()));
 						xml_menu.writeAttribute("id", "" + main.getId());
 						
-						if(main.getType() == 1 || main.getType() == 2) { // Fazer sso obrigatorio 
+						if(main.getType() == 2) { // Fazer sso obrigatorio 
 							xml_menu.setElement("link", main.getLink()); 
 						}else {
 							xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
@@ -364,8 +354,6 @@ public class PesquisarMenuController extends Controller {
 	}
 
 	class SortbyStatus implements Comparator<Menu> {
-		// Used for sorting in ascending order of
-		// roll number
 		public int compare(Menu a, Menu b) {
 			return b.getStatus() - a.getStatus();
 		}
@@ -453,7 +441,7 @@ public class PesquisarMenuController extends Controller {
 		
 	}
 	
-	private List<IgrpPLSQLMenu> getAllMyMenusFromPlSql() {
+	private List<IgrpPLSQLMenu> getAllMyMenusFromPlSql() { 
 		List<IgrpPLSQLMenu> menus = new ArrayList<IgrpPLSQLMenu>();
 		try {
 		
@@ -463,29 +451,19 @@ public class PesquisarMenuController extends Controller {
 			if(endpoint == null || endpoint.isEmpty() || token == null || token.isEmpty()) 
 				throw new Exception("Invalid url ..."); 
 			
-			User u = Core.getCurrentUser(); 
-			
-			nosi.webapps.igrp.dao.Config config = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", this.PLSQL_CLIENT_KEY_NAME).one();
-			
-			String javaSessID = "1"; 
-			String appCode = "REDGLOBAL";
-			String ipAdress = "IP"; 
-			String profCode = "ADMIN"; 
-			String orgCode = "01.03"; 
-			String email = u.getEmail(); 
-			
-			String sha1 = nosi.core.webapp.User.encryptToHash(email + (config != null ? config.getValue() : ""), "SHA1"); 
+			String appCode = ""; 
+			String profCode = ""; 
+			String orgCode = ""; 
 			
 			try {
 				appCode = Core.getCurrentApp().getPlsql_code(); 
 				profCode = new ProfileType().findOne(Core.getCurrentProfile()).getPlsql_code(); 
 				orgCode = new Organization().findOne(Core.getCurrentOrganization()).getPlsql_code(); 
-			} catch (Exception e) {
+			} catch (Exception e) { 
+				
 			}
 			
 			endpoint += "?prof_code=" + profCode + "&org_code=" + orgCode + "&app=" + appCode; 
-			
-			//System.out.println("endpoint: " + endpoint); 
 			
 			Client client = ClientBuilder.newClient(); 
 			WebTarget webTarget = client.target(endpoint); 
@@ -498,7 +476,6 @@ public class PesquisarMenuController extends Controller {
 			
 			JSONObject obj = new JSONObject(json); 
 			JSONObject userAppMenus_t = obj.getJSONObject("UserAppMenus_t"); 
-			//System.out.println("json: " + json);
 			if(userAppMenus_t != null && userAppMenus_t.has("UserAppMenu_o")) {
 				JSONArray UserAppMenu_o = userAppMenus_t.getJSONArray("UserAppMenu_o"); 
 				
@@ -546,21 +523,15 @@ public class PesquisarMenuController extends Controller {
 							e.printStackTrace(); 
 						}
 					}
-					
-					// System.out.println("menus.size(): " + menus.size());
 				}
 			}
 		
-			
 		}catch(Exception e) { 
 			// e.printStackTrace(); 
 		} 
 		
-		
 		return menus;
 	} 
-	
-	private final String PLSQL_CLIENT_KEY_NAME = "PLSQL_CLIENT_KEY"; 
 	
 	/*----#end-code----*/
 }
