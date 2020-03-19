@@ -17,7 +17,7 @@
         </tr>
       </thead>
       <tbody>
-        <xsl:for-each select="#path#/table/value/row">
+        <xsl:for-each select="#path#/table/value/row[not(@total='yes')]">
           <tr gen-id="drop-zone" row="{position()}">
             <input type="hidden" name="p_#tag#_id" value="{#tag#_id}" />
             <gen-template name="table-rows-hiddens"/>
