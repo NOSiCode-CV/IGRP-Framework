@@ -29,7 +29,6 @@ public class Sql_toolsController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Sql_tools model = new Sql_tools();
 		model.load();
-		model.setHelp("igrp_studio","ListaPage","index");
 		Sql_toolsView view = new Sql_toolsView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -39,7 +38,8 @@ public class Sql_toolsController extends Controller {
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		model.setHelp(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=sqltools"));
+		//model.setHelp(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=sqltools"));
+      
       view.application.setValue(new Application().getListApps());
 		if (Core.isNotNull(model.getApplication())) {
 			final Map<Object, Object> listDSbyEnv = new Config_env().getListDSbyEnv(Core.toInt(model.getApplication()));

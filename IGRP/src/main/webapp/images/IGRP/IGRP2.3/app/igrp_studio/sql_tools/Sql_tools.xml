@@ -39,9 +39,9 @@
         <title>SQL Tool</title>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="ListaPage" app="igrp_studio" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=sqltools" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
                     <label>Help</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
+                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=sqltools</value>
                 </help>
             </fields>
         </view_1>
@@ -96,11 +96,11 @@
                 </separator_1>
                 <sql name="p_sql" type="textarea" maxlength="1000000" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>SQL</label>
-                    <value>Anim omnis sit lorem mollit iste dolor laudantium elit deserunt laudantium iste ut deserunt voluptatem</value>
+                    <value>Natus rem officia sed accusantium mollit officia rem amet voluptatem sed anim laudantium rem sit</value>
                 </sql>
             </fields>
             <tools-bar>
-                <item type="form" code="" class="success" rel="run" refresh_components="">
+                <item id="button_c2cb_2f60" type="form" code="" class="success" rel="run" refresh_components="">
                     <title>Run</title>
                     <app>igrp_studio</app>
                     <page>ListaPage</page>

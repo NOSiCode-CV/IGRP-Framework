@@ -46,9 +46,8 @@ public class ListaEnvView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.setValue(Core.getIGRPLink("igrp_studio","ListaPage","index"));
-
-									documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
+		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=new_app"));
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo?"));
@@ -83,16 +82,16 @@ public class ListaEnvView extends View {
 		btn_novo.propertie.add("type","specific").add("rel","novo").add("refresh_components","");
 
 		btn_editar = new IGRPButton("Editar","igrp_studio","ListaEnv","editar","mpsubmit|refresh","warning|fa-pencil","","");
-		btn_editar.propertie.add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
+		btn_editar.propertie.add("id","button_c6d1_e0a5").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp_studio","ListaEnv","eliminar","confirm","danger|fa-trash-o","","");
-		btn_eliminar.propertie.add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
+		btn_eliminar.propertie.add("id","button_62f1_debb").add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
 
 		btn_configurar_base_dados = new IGRPButton("Configurar Base Dados","igrp_studio","ListaEnv","configurar_base_dados","modal","black|fa-database","","");
-		btn_configurar_base_dados.propertie.add("type","specific").add("class","black").add("rel","configurar_base_dados").add("refresh_components","");
+		btn_configurar_base_dados.propertie.add("id","button_81be_6e42").add("type","specific").add("class","black").add("rel","configurar_base_dados").add("refresh_components","");
 
 		btn_exportar = new IGRPButton("Export","igrp_studio","ListaEnv","exportar","confirm","default|fa-download","","");
-		btn_exportar.propertie.add("type","specific").add("class","default").add("rel","exportar").add("refresh_components","");
+		btn_exportar.propertie.add("id","button_c71f_27b5").add("type","specific").add("class","default").add("rel","exportar").add("refresh_components","");
 
 		
 	}
@@ -127,7 +126,6 @@ public class ListaEnvView extends View {
 	@Override
 	public void setModel(Model model) {
 		
-		documento.setValue(model);
 		status.setValue(model);
 		name.setValue(model);
 		name_desc.setValue(model);

@@ -75,9 +75,8 @@ public class PartilhageralView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.setValue(Core.getIGRPLink("igrp_studio","ListaPage","index"));
-
-									documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
+		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=partilha"));
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -123,8 +122,7 @@ public class PartilhageralView extends View {
 		app_or.setValue(model);
 		estado.setValue(model);
 		nome.setValue(model);
-		aplicacao_destino.setValue(model);
-		documento.setValue(model);	
+		aplicacao_destino.setValue(model);	
 
 		table_1.loadModel(((Partilhageral) model).getTable_1());
 		}

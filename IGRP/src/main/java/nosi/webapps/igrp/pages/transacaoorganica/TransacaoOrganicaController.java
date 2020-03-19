@@ -30,12 +30,11 @@ public class TransacaoOrganicaController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		TransacaoOrganica model = new TransacaoOrganica();
 		model.load();
-		model.setHelp("igrp","Dominio","index");
 		TransacaoOrganicaView view = new TransacaoOrganicaView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as transacao,'Sit accusantium officia consec' as nome "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as transacao,'Totam accusantium sed lorem re' as nome "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		int id=model.getId();

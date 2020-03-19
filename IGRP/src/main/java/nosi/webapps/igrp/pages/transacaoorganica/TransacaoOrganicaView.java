@@ -36,9 +36,8 @@ public class TransacaoOrganicaView extends View {
 
 		help = new LinkField(model,"help");
 		help.setLabel(gt("Help"));
-		help.setValue(Core.getIGRPLink("igrp","Dominio","index"));
-
-									help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","primary").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
+		help.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=transacao"));
+		help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
 		
 		transacao = new CheckBoxField(model,"transacao");
 		transacao.setLabel(gt(" "));
@@ -98,7 +97,6 @@ public class TransacaoOrganicaView extends View {
 	@Override
 	public void setModel(Model model) {
 		
-		help.setValue(model);
 		transacao.setValue(model);
 		nome.setValue(model);
 		id.setValue(model);

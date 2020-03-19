@@ -48,9 +48,9 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <documento_link name="p_documento_link" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                <documento_link name="p_documento_link" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=acesso" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
                     <label>Help</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
+                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=acesso</value>
                 </documento_link>
                 <forum name="p_forum" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://gitter.im/igrpweb/gestao_de_acessos?utm_source=share-link&amp;utm_medium=link&amp;utm_campaign=share-link" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-comments" maxlength="250" showlabel="true">
                     <label>Forum</label>
@@ -128,10 +128,10 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Totam ut laudantium aperiam of</org_nome>
+                        <org_nome name="p_org_nome">Ut adipiscing voluptatem sit o</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">hidden-1850_28f7</id>
+                        <id name="p_id" tag="id">hidden-4021_5adc</id>
                     </row>
                     <row>
                         <context-menu>
@@ -140,10 +140,10 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Dolor sit ipsum sit officia</org_nome>
+                        <org_nome name="p_org_nome">Anim adipiscing omnis unde des</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">hidden-526e_5e1f</id>
+                        <id name="p_id" tag="id">hidden-084f_d551</id>
                     </row>
                     <row>
                         <context-menu>
@@ -152,10 +152,10 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Ipsum stract totam labore elit</org_nome>
+                        <org_nome name="p_org_nome">Deserunt magna totam unde sed</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">hidden-b80b_194a</id>
+                        <id name="p_id" tag="id">hidden-a986_0ba4</id>
                     </row>
                     <row>
                         <context-menu>
@@ -164,10 +164,10 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Lorem unde labore ipsum sit</org_nome>
+                        <org_nome name="p_org_nome">Aperiam anim totam dolor aliqu</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">hidden-ec42_3b51</id>
+                        <id name="p_id" tag="id">hidden-30c3_e6ad</id>
                     </row>
                     <row>
                         <context-menu>
@@ -176,14 +176,14 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Accusantium anim doloremque al</org_nome>
+                        <org_nome name="p_org_nome">Aliqua anim perspiciatis accus</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">hidden-326f_bf34</id>
+                        <id name="p_id" tag="id">hidden-2625_1f3d</id>
                     </row>
                 </value>
                 <context-menu>
-                    <item type="specific" code="" class="warning" rel="editar" custom_return="true" refresh_components="">
+                    <item id="button_ef0b_e3d3" type="specific" code="" class="warning" rel="editar" custom_return="true" refresh_components="">
                         <title>Editar</title>
                         <app>igrp</app>
                         <page>Dominio</page>
@@ -193,7 +193,7 @@
                         <img>warning|fa-pencil</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
                     </item>
-                    <item type="specific" code="" class="info" rel="menu" custom_return="true" refresh_components="">
+                    <item id="button_ffb1_fe36" type="specific" code="" class="info" rel="menu" custom_return="true" refresh_components="">
                         <title>Menu</title>
                         <app>igrp</app>
                         <page>Dominio</page>
@@ -203,7 +203,7 @@
                         <img>info|fa-bars</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
                     </item>
-                    <item type="specific" code="" class="black" rel="transacti_org" custom_return="true" refresh_components="">
+                    <item id="button_a597_1f01" type="specific" code="" class="black" rel="transacti_org" custom_return="true" refresh_components="">
                         <title>Transaction</title>
                         <app>igrp</app>
                         <page>TransacaoOrganica</page>
@@ -213,7 +213,7 @@
                         <img>black|fa-exchange</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xml</preview>
                     </item>
-                    <item type="specific" code="" class="danger" rel="eliminar" custom_return="true" refresh_components="">
+                    <item id="button_1699_b3b1" type="specific" code="" class="danger" rel="eliminar" custom_return="true" refresh_components="">
                         <title>Eliminar</title>
                         <app>igrp</app>
                         <page>Gestaodeacesso</page>
@@ -223,7 +223,7 @@
                         <img>danger|fa-trash</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/gestaodeacesso/Gestaodeacesso.xml</preview>
                     </item>
-                    <item type="specific" code="" class="primary" rel="associar_etapa" custom_return="true" refresh_components="">
+                    <item id="button_5045_3859" type="specific" code="" class="primary" rel="associar_etapa" custom_return="true" refresh_components="">
                         <title>Associar Etapa</title>
                         <app>igrp</app>
                         <page>Gestaodeacesso</page>
