@@ -23,7 +23,6 @@ public class NovaOrganicaController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovaOrganica model = new NovaOrganica();
 		model.load();
-		model.setDocumento("igrp","Dominio","index");
 		NovaOrganicaView view = new NovaOrganicaView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -33,7 +32,7 @@ public class NovaOrganicaController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
-      model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=organica"));
+      //model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=organica"));
       
 		Properties settings = ConfigApp.getInstance().loadCommonConfig();
 		String igrp_plsql_url = settings.getProperty("igrp.plsql.url");

@@ -20,6 +20,11 @@ public class Dominio extends Model{
 	@RParam(rParamName = "p_documento_desc")
 	private String documento_desc;
 
+	@RParam(rParamName = "p_forum")
+	private IGRPLink forum;
+	@RParam(rParamName = "p_forum_desc")
+	private String forum_desc;
+
 	@RParam(rParamName = "p_aplicacao")
 	private Integer aplicacao;
 
@@ -31,11 +36,6 @@ public class Dominio extends Model{
 
 	@RParam(rParamName = "p_app")
 	private Integer app;
-
-	@RParam(rParamName = "p_forum")
-	private IGRPLink forum;
-	@RParam(rParamName = "p_forum_desc")
-	private String forum_desc;
 	
 	@SeparatorList(name = Formlist_1.class)
 	@Valid
@@ -103,6 +103,28 @@ public class Dominio extends Model{
 		return this.documento;
 	}
 	
+	public IGRPLink setForum(String app,String page,String action){
+		this.forum = new IGRPLink(app,page,action);
+		return this.forum;
+	}
+	public IGRPLink getForum(){
+		return this.forum;
+	}
+	public void setForum_desc(String forum_desc){
+		this.forum_desc = forum_desc;
+	}
+	public String getForum_desc(){
+		return this.forum_desc;
+	}
+	public IGRPLink setForum(String link){
+		this.forum = new IGRPLink(link);
+		return this.forum;
+	}
+	public IGRPLink setForum(Report link){
+		this.forum = new IGRPLink(link);
+		return this.forum;
+	}
+	
 	public void setAplicacao(Integer aplicacao){
 		this.aplicacao = aplicacao;
 	}
@@ -129,28 +151,6 @@ public class Dominio extends Model{
 	}
 	public Integer getApp(){
 		return this.app;
-	}
-	
-	public IGRPLink setForum(String app,String page,String action){
-		this.forum = new IGRPLink(app,page,action);
-		return this.forum;
-	}
-	public IGRPLink getForum(){
-		return this.forum;
-	}
-	public void setForum_desc(String forum_desc){
-		this.forum_desc = forum_desc;
-	}
-	public String getForum_desc(){
-		return this.forum_desc;
-	}
-	public IGRPLink setForum(String link){
-		this.forum = new IGRPLink(link);
-		return this.forum;
-	}
-	public IGRPLink setForum(Report link){
-		this.forum = new IGRPLink(link);
-		return this.forum;
 	}
 
 
