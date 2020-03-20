@@ -4,8 +4,8 @@
 	<session-factory>
 
 		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/db_igrp</property>
-		<property name="hibernate.connection.password">postgres</property>
+		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/db_igrp1</property>
+		<property name="hibernate.connection.password">Felisberta17</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<property name="hibernate.connection.username">postgres</property>
 		<property name="hibernate.connection.isolation">2</property>

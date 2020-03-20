@@ -102,8 +102,6 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		this.menu = menu;
 	}
 
-
-
 	public Integer getId() {
 		return id;
 	}
@@ -185,19 +183,11 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				.andWhere("status", "=", 1)
 				.orWhere("flg_base","=",1)
 				.one();
-		return m!=null;
-		
-//		.andWhere("type", "=","MEN")
-//		.andWhere("organization", "=",Core.getCurrentOrganization())
-//		.andWhere("organization.application.dad", "=",app)
-//		.andWhere("profileType", "=",Core.getCurrentProfile())
-//		.andWhere("profileType.status", "=", 1)
-//		.one();
-//		
-		
+		return m!=null; 
 	}
+	
 	public List<Menu> getMyMen_de_env(int env_fk) {
-//		First shows all the app pages than all the public pages in the menu
+		// First shows all the app pages than all the public pages in the menu
 		List<Menu> list = new Menu().find().andWhere("action", "notnull")
 				.andWhere("status", "=", 1).andWhere("application", "=", env_fk).all();
 		List<Menu> menus_App = new Menu().find().andWhere("action", "notnull").andWhere("flg_base", "=", 1)
@@ -210,7 +200,6 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		return menus_App;
 	}
 	
-
 	public LinkedHashMap<String,List<MenuProfile>> getMyMenu() {
 		LinkedHashMap<String,List<MenuProfile>> list = new LinkedHashMap<>();
 		String currentDad = Core.getCurrentDad(); 
@@ -248,9 +237,6 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 						
 						if(!r.getString("dad_app_page").equals("tutorial") && !r.getString("dad_app_page").equals("igrp_studio") && !r.getString("dad_app_page").equals("igrp") && !r.getString("dad_app_page").equals(currentDad) 
 								&& pagina.getApplication().getExternal() != 0) { 
-							
-							// Codigo para paginas partilhadas ... dads diferentes ... (Link para SSO) ... 
-							// Authenticacao obrigatoria  
 							
 								ms.setType(2); 
 								
@@ -365,16 +351,6 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				+ menu + ", organization=" + organization + "]";
 	}
 	
-	private String buildMenuUrlByDad(String dad) {
-		String url = null;
-		try {
-			String u = Igrp.getInstance().getRequest().getRequestURL().toString().replace(Igrp.getInstance().getRequest().getRequestURI(), "");
-			url = u + "/" + dad + "/igrpoauth2sso"; 
-		} catch (Exception e) {
-		}
-		return url;
-	}
-	
 	private String buildMenuUrlByDadUsingAutentika(String dad, String app, String page, String action) {
 		String url = "#";
 		try {
@@ -388,8 +364,6 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		}
 		return url;
 	}
-	
-	
 	
 	// To integrate with PL-SQL services as a Rest 
 	public List<MenuProfile> getMyMenu(String currentDad, Integer userId, Integer currentOrg, Integer currentProf) { 
@@ -431,11 +405,6 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		}
 		return list;
 	} 
-	
-	
-	
-	
-	
 	
 	public static class MenuProfile{
 		private Integer id;
@@ -528,7 +497,6 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		public void setSelf_id(Integer self_id) {
 			this.self_id = self_id;
 		}
-		
 	}
 	
 }

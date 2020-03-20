@@ -145,9 +145,8 @@ public class ListaPageView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.setValue(Core.getIGRPLink("igrp_studio","ListaPage","index"));
-
-									documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
+		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=studio"));
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
 		
 		forum = new LinkField(model,"forum");
 		forum.setLabel(gt("Forum"));
@@ -231,22 +230,22 @@ public class ListaPageView extends View {
 		btn_nova_aplicacao.propertie.add("type","specific").add("rel","nova_aplicacao").add("refresh_components","");
 
 		btn_editar = new IGRPButton("Editar","igrp_studio","ListaPage","editar","mpsubmit|refresh","warning|fa-pencil","","");
-		btn_editar.propertie.add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
+		btn_editar.propertie.add("id","button_2f1f_9a95").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
 
 		btn_visualizar = new IGRPButton("Visualizar","igrp_studio","ListaPage","visualizar","_blank","primary|fa-eye","","");
-		btn_visualizar.propertie.add("type","specific").add("class","primary").add("rel","visualizar").add("refresh_components","");
+		btn_visualizar.propertie.add("id","button_2b2e_6dcc").add("type","specific").add("class","primary").add("rel","visualizar").add("refresh_components","");
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp_studio","ListaPage","eliminar","confirm","danger|fa-trash","","");
-		btn_eliminar.propertie.add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
+		btn_eliminar.propertie.add("id","button_1a04_e42f").add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
 
 		btn_gerar_codigo = new IGRPButton("Gerar Código","igrp_studio","ListaPage","gerar_codigo","_newtab","info|fa-gears","","");
-		btn_gerar_codigo.propertie.add("type","specific").add("class","info").add("rel","gerar_codigo").add("refresh_components","");
+		btn_gerar_codigo.propertie.add("id","button_6ec4_439f").add("type","specific").add("class","info").add("rel","gerar_codigo").add("refresh_components","");
 
 		btn_download = new IGRPButton("Download","igrp_studio","ListaPage","download","download","grey|fa-download","","");
-		btn_download.propertie.add("type","specific").add("class","grey").add("rel","download").add("refresh_components","");
+		btn_download.propertie.add("id","button_c00a_2a67").add("type","specific").add("class","grey").add("rel","download").add("refresh_components","");
 
 		btn_file_editor = new IGRPButton("File Editor","igrp_studio","ListaPage","file_editor","_blank","info|fa-file-code-o","","");
-		btn_file_editor.propertie.add("type","specific").add("class","info").add("rel","file_editor").add("refresh_components","");
+		btn_file_editor.propertie.add("id","button_85b4_99c6").add("type","specific").add("class","info").add("rel","file_editor").add("refresh_components","");
 
 		
 	}
@@ -284,13 +283,13 @@ public class ListaPageView extends View {
 		form_1.addField(crud_generator);
 		form_1.addField(link_btn_nova_pagina);
 
+
 		table_1.addField(status_page);
 		table_1.addField(status_page_check);
 		table_1.addField(modulo_tab);
 		table_1.addField(descricao_page);
 		table_1.addField(id_page);
 		table_1.addField(nome_page);
-
 
 		table_2.addField(my_app_img);
 		table_2.addField(my_aplicacao);
@@ -334,7 +333,6 @@ public class ListaPageView extends View {
 		infopanel_3_url.setValue(model);
 		infopanel_3_bg.setValue(model);
 		infopanel_3_icn.setValue(model);
-		documento.setValue(model);
 		application.setValue(model);
 		modulo.setValue(model);
 		nada.setValue(model);

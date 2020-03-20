@@ -38,12 +38,11 @@ public class CRUDGeneratorController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		CRUDGenerator model = new CRUDGenerator();
 		model.load();
-		model.setDocumento("igrp_studio","ListaPage","index");
 		CRUDGeneratorView view = new CRUDGeneratorView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Ut magna aliqua unde accusanti' as table_name "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Magna deserunt lorem magna sit' as table_name "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.schema.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -56,7 +55,7 @@ public class CRUDGeneratorController extends Controller {
 	view.form_2_radiolist_1.setValue(form_2_radiolist_1);
 	
 		/*----#start-code(index)----*/	 
-		model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=crud"));
+		//model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=crud"));
 		view.btn_add_datasource.setLink("igrp","ConfigDatabase","index");
 		view.aplicacao.setValue(new Application().getListApps());
 		view.btn_gerar_dao.setLink("index&dao_boo=true&dad_id="+model.getAplicacao());

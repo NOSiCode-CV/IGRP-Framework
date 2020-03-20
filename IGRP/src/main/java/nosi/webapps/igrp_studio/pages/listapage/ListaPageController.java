@@ -50,7 +50,6 @@ public class ListaPageController extends Controller {
 		model.setInfopanel_3_url(Core.getIGRPLink("igrp_studio","ListaEnv","index"));
 		model.setInfopanel_3_bg("cp-starrynight");
 		model.setInfopanel_3_icn("fa-folder-open");
-		model.setDocumento("igrp_studio","ListaPage","index");
 		model.setBtn_import("igrp_studio","ImportArquivo","index");
 		model.setCrud_generator("igrp_studio","CRUDGenerator","index");
 		model.setLink_btn_nova_pagina("undefined","undefined","undefined");
@@ -60,14 +59,14 @@ public class ListaPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Totam sit deserunt doloremque' as modulo_tab,'Sit doloremque aliqua iste mol' as descricao_page,'hidden-d2e1_6310' as id_page,'hidden-f6ef_be8a' as nome_page "));
-		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-ec59_f3d5' as env_fk "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Stract rem omnis totam officia' as modulo_tab,'Anim laudantium magna ipsum na' as descricao_page,'hidden-4147_07fb' as id_page,'hidden-de1d_f9d3' as nome_page "));
+		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-12b3_9b8a' as env_fk "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
-		model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=studio"));
+		//model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=studio"));
       
 		Map<Object, Object> listApp = new Application().getListApps();
 		if(listApp!=null && listApp.size()==2) {
