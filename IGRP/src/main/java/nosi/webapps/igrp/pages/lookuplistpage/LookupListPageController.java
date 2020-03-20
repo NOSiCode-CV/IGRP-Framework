@@ -43,6 +43,7 @@ public class LookupListPageController extends Controller {
 	
 		List<Action> listActions = new Action().find()
 											   .andWhere("application", "=",Core.toInt(model.getEnv_fk()))
+											   .andWhere("status", "=", 1)
 											   .andWhere("page", "like", model.getPage())
 											   .andWhere("page_descr", "like",model.getPage_descr())
 											   .andWhere("isComponent", "=",(short)0)
