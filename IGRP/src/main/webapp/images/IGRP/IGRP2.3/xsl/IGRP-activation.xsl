@@ -18,7 +18,7 @@
         </style>
       </head>
       <body class="fluid" has-menu="false">
-        
+         
         <form action="{rows/content/action}" method="post">
           
           <xsl:for-each select="rows/content/form/value/hidden">
