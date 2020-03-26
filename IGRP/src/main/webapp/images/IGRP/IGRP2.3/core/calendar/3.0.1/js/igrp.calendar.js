@@ -47,7 +47,7 @@
                 param +='&p_end='+p.event.end.format();
 
             $.ajax({
-                url   : p.url+'.EDITEVENTS_'+p.id.toUpperCase(),
+                url   : p.url,
                 data  : param,
                 type  :"POST",
                 method:"POST"
@@ -256,12 +256,16 @@
                         index = $(jsEvent.target).parents('.fc-event-container').index(),
                         edit  = p.alleditevents ? p.alleditevents : p.addevents,
                         param = 'p_date='+$('table thead tr td:eq('+index+')',table).attr('data-date').igrpDateFormat();*/
-                    var edit  = p.alleditevents ? p.alleditevents : p.addevents;
+                    var edit  = p.alleditevents ? p.alleditevents : p.addevents,
+                    	data  = {
+                            url : $.IGRP.utils.getUrl(edit)+'p_event_id='+event.id
+                        };
+                    
+                    if(p.refreshonedit && p.refreshonedit == 'true')
+                    	data['clicked'] = $('<a close="refresh"/>');
 
                     if (edit) {
-                        $.IGRP.components.iframeNav.set({
-                            url     : $.IGRP.utils.getUrl(edit)+'p_event_id='+event.id
-                        });
+                        $.IGRP.components.iframeNav.set(data);
                     }
                 },
                 eventDrop : function(event, delta, revertFunc, jsEvent) {

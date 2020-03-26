@@ -160,16 +160,15 @@ var GENCALENDAR = function(name,params){
 			]
 		}
 	});
-
+	
 	container.setPropriety({
-		name:'editevents',
-		value:true,
-		editable:false,
+		name:'refreshonedit',
+		label:'Refresh Parent when editing events',
+		size: 12,
+		value:false,
 		xslValue:function(){
-			var app     = GEN.SETTINGS.table ? GEN.SETTINGS.table.split('.')[0] : GEN.DETAILS.app,
-            	package = GEN.SETTINGS.package;
 			
-			return '<xsl:with-param name="editevents" select="\''+app+'.'+package+'\'"/>';
+			return '<xsl:with-param name="refreshonedit" select="\'true\'"/>';
 		}
 	});
 
