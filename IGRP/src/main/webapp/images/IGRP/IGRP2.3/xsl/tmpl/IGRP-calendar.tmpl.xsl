@@ -14,6 +14,7 @@
         <xsl:param name="firstday"/>
         <xsl:param name="views"/>
         <xsl:param name="header"/>
+        <xsl:param name="refreshonedit"/>
         
         <div class="igrp-calendar-holder">
             <div id="{$id}" class="igrp-calendar"></div>
@@ -76,7 +77,8 @@
                         weekends        : '<xsl:value-of select="$weekends"/>',
                         firstday        : '<xsl:value-of select="$firstday"/>',
                         views           : '<xsl:value-of select="$views"/>',
-                        header          : '<xsl:value-of select="$header"/>'
+                        header          : '<xsl:value-of select="$header"/>',
+                        refreshonedit   : '<xsl:value-of select="$refreshonedit"/>'
                     });
                 });
             </script>

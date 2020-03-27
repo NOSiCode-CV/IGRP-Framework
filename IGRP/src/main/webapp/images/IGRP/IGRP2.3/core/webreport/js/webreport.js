@@ -626,15 +626,17 @@ $(function ($) {
 								if(data.datasorce_app){
 									
 									$.WR.datasorce = data.datasorce_app.split(',');
-									$.WR.objDataSource.find("option").removeAttr("selected");
+									
+									$.WR.objDataSource.find("option").removeAttr("selected").prop('selected',false);
 
 									$.WR.objDataSource.find("option").each(function(i,e){
+										
 										if($.inArray($(e).val(),$.WR.datasorce) != -1)
-											$(e).attr("selected","selected").prop('selected',true);
+											$(e).attr("selected","selected").attr("selected",'selected').prop('selected',true);
 									});
 
 								}else
-									$.WR.objDataSource.find("option").removeAttr("selected");
+									$.WR.objDataSource.find("option").removeAttr("selected").prop('selected',false);
 
 								$.WR.objDataSource.trigger('change');
 							}

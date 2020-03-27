@@ -1,6 +1,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:template name="GEN-formfield">
 		<xsl:param name="tag" select="name()"/>
+		<xsl:param name="name" select="name()"/>
 		<xsl:param name="type" select="@type"/>
 		<xsl:param name="tableEdit" select="false()"/>
 		<xsl:param name="isFormlist" select="false()"/>
@@ -8,28 +9,43 @@
 		<xsl:param name="valuecheck"/>
 		<xsl:param name="setLabel" select="true()"/>
 		<xsl:param name="fieldNameSuffix" select="''"/>
-		<xsl:param name="sizeClass" select="'col-sm-3'"/>
-		<xsl:param name="currentRow" select="."/>
+		<xsl:param name="sizeClass"/>
 		<xsl:variable name="nameAttr" select="concat(@name,$fieldNameSuffix)"/>
-		
+
+		<xsl:variable name="vsizeclass">
+			<xsl:choose>
+				<xsl:when test="$sizeClass">
+					<xsl:value-of select="$sizeClass"></xsl:value-of>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:choose>
+						<xsl:when test="@size and @size != ''">
+							<xsl:value-of select="@size"></xsl:value-of>
+						</xsl:when>
+						<xsl:otherwise>col-md-3</xsl:otherwise>
+					</xsl:choose>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
 		<xsl:variable name="fieldValue">
 			<xsl:choose>
-			    <xsl:when test="$isFormlist"><xsl:value-of select="$currentRow/*[name() = $tag]"/></xsl:when>
+			    <xsl:when test="$isFormlist"><xsl:value-of select="../../table/value/row/*[name() = $tag]"/></xsl:when>
 			    <xsl:otherwise><xsl:value-of select="./value"/></xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
 
 		<xsl:if test="@type != 'hidden'">
 			<xsl:choose>
-				<xsl:when test="@type = 'separator' or @type = 'group'">
+				<xsl:when test="@type='separator' or @type='sectionheader'  or @type='paragraph'">
 					<div class="box-head subtitle" text-color="primary" item-name="{name()}">
 						<span>
-							<xsl:value-of select="text()"/>
+							<xsl:value-of select="label"/>
 						</span>
 					</div>
 				</xsl:when>
 				<xsl:when test="contains(@type,'select')">
-					<div class="form-group {$sizeClass}">
+					<div class="form-group {$vsizeclass}">
 						<xsl:call-template name="field-wrapper"/>
 						<xsl:if test="$setLabel">
 							<xsl:call-template name="form-item-label"/>
@@ -56,7 +72,7 @@
 					</div>
 				</xsl:when>
 				<xsl:when test="contains(@type,'date')">
-					<div class="form-group {$sizeClass}">
+					<div class="form-group {$vsizeclass}">
 						<xsl:call-template name="field-wrapper"/>
 						<xsl:if test="$setLabel">
 							<xsl:call-template name="form-item-label"/>
@@ -83,7 +99,7 @@
 							<xsl:otherwise>0</xsl:otherwise>
 						</xsl:choose>
 					</xsl:variable>
-					<div class="form-group {$sizeClass}">
+					<div class="form-group {$vsizeclass}">
 						<xsl:call-template name="field-wrapper"/>
 						<xsl:if test="$setLabel">
 							<xsl:call-template name="form-item-label"/>
@@ -107,7 +123,7 @@
 					</div>
 				</xsl:when>
 				<xsl:when test="@type = 'link'">
-					<div class="form-group {$sizeClass}">
+					<div class="form-group {$vsizeclass}">
 						<xsl:call-template name="field-wrapper"/>
 						<a href="{$fieldValue}" class="link btn btn-primary form-link">
 							<xsl:choose>
@@ -142,11 +158,11 @@
 				</xsl:when>
 				<xsl:when test="contains(@type,'textarea')">
 					<xsl:variable name="size">
-						<xsl:if test="$sizeClass != ''">
+						<xsl:if test="$vsizeclass != ''">
 							<xsl:choose>
 								<xsl:when test="@type='textarea_m'">col-sm-6</xsl:when>
 								<xsl:when test="@type='textarea_g'">col-sm-12</xsl:when>
-								<xsl:otherwise>col-sm-3</xsl:otherwise>
+								<xsl:otherwise><xsl:value-of select="$vsizeclass"></xsl:value-of></xsl:otherwise>
 							</xsl:choose>
 						</xsl:if>
 					</xsl:variable>
@@ -165,7 +181,7 @@
 					</div>
 				</xsl:when>
 				<xsl:when test="@type = 'checkbox' or @type='radio'">
-					<div class="{$sizeClass}" item-name="{$tag}" item-type="checkbox">
+					<div class="{$vsizeclass}" item-name="{$tag}" item-type="checkbox">
 						<div class="form-group">
 							<xsl:if test="@required = 'true'">
 								<xsl:attribute name="required">required</xsl:attribute>
@@ -176,6 +192,7 @@
 										<xsl:call-template name="field-attributes">
 											<xsl:with-param name="fieldNameSuffix" select="$fieldNameSuffix"/>
 											<xsl:with-param name="isFormlist" select="$isFormlist"/>
+											<xsl:with-param name="name" select="$name"/>
 										</xsl:call-template>
 										<xsl:if test="$fieldValue = '1'">
 											<xsl:attribute name="checked">checked</xsl:attribute>
@@ -198,7 +215,7 @@
 							<xsl:otherwise>radio</xsl:otherwise>
 						</xsl:choose>
 					</xsl:variable>
-					<div class="{$sizeClass}">
+					<div class="{$vsizeclass}">
 						<xsl:attribute name="item-name">
 							<xsl:value-of select="name()"/>
 						</xsl:attribute>
@@ -233,7 +250,7 @@
 					</div>
 				</xsl:when>
 				<xsl:when test="@type = 'file'">
-					<div class="form-group {$sizeClass}">
+					<div class="form-group {$vsizeclass}">
 						<xsl:call-template name="field-wrapper"/>
 						<xsl:if test="$setLabel">
 							<xsl:call-template name="form-item-label"/>
@@ -241,7 +258,7 @@
 						<div class="input-group">
 							<input type="text" class="form-control not-form" readonly=""/>
 							<span class="input-group-btn">
-								<span class="btn btn-primary file-btn-holder">
+								<span class="btn btn-default file-btn-holder">
 									<i class="fa fa-upload"/>
 									<input value="{$fieldValue}" target-rend="" class="transparent " type="file" accept="">
 										<xsl:call-template name="field-attributes">
@@ -255,7 +272,7 @@
 					</div>
 				</xsl:when>
 				<xsl:when test="@type = 'color'">
-					<div class="form-group {$sizeClass}">
+					<div class="form-group {$vsizeclass}">
 						<xsl:call-template name="field-wrapper"/>
 						<xsl:if test="$setLabel">
 							<xsl:call-template name="form-item-label"/>
@@ -274,19 +291,19 @@
 					</div>
 				</xsl:when>
 				<xsl:when test="@type = 'image'">
-					<div class="{$sizeClass}">
+					<div class="{$vsizeclass}">
 						<xsl:call-template name="field-wrapper"/>
 						<img src="{$fieldValue}" data-label="{.}" name="{$nameAttr}" id="{$nameAttr}" class=" "/>
 					</div>
 				</xsl:when>
 				<xsl:when test="@type = 'plaintext'">
-					<div class="{$sizeClass} form-group ">
+					<div class="{$vsizeclass} form-group ">
 						<xsl:call-template name="field-wrapper"/>
 						<xsl:value-of select="$fieldValue"/>
 					</div>
 				</xsl:when>
 				<xsl:when test="contains(@type,'vkb_')">
-					<div class="form-group {$sizeClass}">
+					<div class="form-group {$vsizeclass}">
 						<xsl:call-template name="field-wrapper"/>
 						<xsl:if test="$setLabel">
 							<xsl:call-template name="form-item-label"/>
@@ -338,7 +355,7 @@
 					</div>
 				</xsl:when>
 				<xsl:otherwise>
-					<div class="form-group {$sizeClass}">
+					<div class="form-group {$vsizeclass}">
 						<xsl:call-template name="field-wrapper"/>
 						<xsl:if test="$setLabel">
 							<xsl:call-template name="form-item-label"/>
@@ -411,16 +428,19 @@
 		<xsl:param name="readonly" select="$field/@readonly"/>
 		<xsl:param name="maxlength" select="$field/@maxlength"/>
 		<xsl:param name="visible" select="$field/@visible"/>
+		<xsl:param name="multiple" select="$field/@multiple"/>
+		<xsl:param name="tags" select="$field/@tags"/>
 		<xsl:param name="fieldNameSuffix" select="''"/>
 		<xsl:param name="isFormlist" select="false()"/>
+		<xsl:param name="vname" select="$field/@name"/>
 
 		<xsl:if test="$isFormlist != true() and $type != 'checkboxlist' and $type != 'radiolist'">
     		<xsl:attribute name="id"><xsl:value-of select="$field/@name"/></xsl:attribute>
     	</xsl:if>
 
-		<xsl:if test="$field/@name">
+		<xsl:if test="$vname">
 			<xsl:attribute name="name">
-				<xsl:value-of select="concat($field/@name,$fieldNameSuffix)"/>
+				<xsl:value-of select="concat($vname,$fieldNameSuffix)"/>
 			</xsl:attribute>
 		</xsl:if>
 		<xsl:if test="$required='true'">
@@ -438,38 +458,63 @@
 				<xsl:value-of select="'true'" />
 			</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="$readonly='true'">
+		<xsl:if test="$disabled='true' or $disabled='disabled'">
 			<xsl:attribute name="disabled">
 				<xsl:value-of select="'disabled'" />
 			</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="$readonly='readonly'">
+		
+		<xsl:if test="$readonly='true' or $readonly='readonly'  and ($type != 'file' or not($type))">
 			<xsl:attribute name="readonly">
 				<xsl:value-of select="'readonly'" />
 			</xsl:attribute>
 		</xsl:if>
+		
 		<xsl:if test="$visible='false'">
 			<xsl:attribute name="visible">
 				<xsl:value-of select="'false'" />
 			</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="$type='selectlist' or $type='selectmultdynamic'">
+		
+		<xsl:if test="$multiple = 'true'">
 			<xsl:attribute name="multiple">true</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="$type='selectdynamic' or $type='selectmultdynamic'">
+		
+		<xsl:if test="$tags='true'">
 			<xsl:attribute name="tags">true</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="$type!='file'">
+		
+		<xsl:if test="$maxlength and ($type!='file' or $type != 'radio' or $type != 'checkbox' or not($type))">
 			<xsl:attribute name="maxlength">
 				<xsl:value-of select="$maxlength" />
 			</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="$rel!=''">
-			<xsl:attribute name="rel">
-				<xsl:text>F_</xsl:text>
-				<xsl:value-of select="$rel" />
-			</xsl:attribute>
-		</xsl:if>
+		
+		<xsl:if test="$field/@remote and $field/@remote != ''">
+	      <xsl:attribute name="igrp-remote">
+	        <xsl:value-of select="$field/@remote" />
+	      </xsl:attribute>
+	    </xsl:if>
+	    
+	    <xsl:if test="$field/@temp-value and $field/@temp-value != ''">
+	      <xsl:attribute name="value">
+	        <xsl:value-of select="$field/@temp-value" />
+	      </xsl:attribute>
+	      <xsl:attribute name="temp-store">true</xsl:attribute>
+	    </xsl:if>
+	    
+	    <xsl:if test="$field/@mathcal and $field/@mathcal != ''">
+	      <xsl:attribute name="mathcal">
+	        <xsl:value-of select="$field/@mathcal"/>
+	      </xsl:attribute>
+	    </xsl:if>
+	
+	    <xsl:if test="$field/@numberformat and $field/@numberformat != ''">
+	      <xsl:attribute name="numberformat">
+	        <xsl:value-of select="$field/@numberformat"/>
+	      </xsl:attribute>
+	    </xsl:if>
+	    
 	</xsl:template>
-	<!--<xsl:include href="../../IGRP-virtualkeyboard.tmpl.xsl?v=1507218349954"/>-->
+	
 </xsl:stylesheet>
