@@ -22,12 +22,11 @@ public class DominioController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Dominio model = new Dominio();
 		model.load();
-		model.setDocumento("igrp","Dominio","index");
 		DominioView view = new DominioView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT 'Dolor elit sit aperiam rem' as description,'Sit officia ipsum ut elit' as key,'1' as estado,'hidden-2ac1_e915' as ordem "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Lorem aliqua anim magna voluptatem' as description,'Lorem amet elit laudantium deserunt' as key,'1' as estado,'hidden-3439_7808' as ordem "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.lst_dominio.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */

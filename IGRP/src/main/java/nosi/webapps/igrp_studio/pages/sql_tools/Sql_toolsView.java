@@ -32,9 +32,8 @@ public class Sql_toolsView extends View {
 
 		help = new LinkField(model,"help");
 		help.setLabel(gt("Help"));
-		help.setValue(Core.getIGRPLink("igrp_studio","ListaPage","index"));
-
-									help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
+		help.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=sqltools"));
+		help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
 		
 		application = new ListField(model,"application");
 		application.setLabel(gt("Aplicação"));
@@ -55,7 +54,7 @@ public class Sql_toolsView extends View {
 
 
 		btn_run = new IGRPButton("Run","igrp_studio","Sql_tools","run","submit_form","success|fa-play-circle","","");
-		btn_run.propertie.add("type","form").add("class","success").add("rel","run").add("refresh_components","");
+		btn_run.propertie.add("id","button_c2cb_2f60").add("type","form").add("class","success").add("rel","run").add("refresh_components","");
 
 		
 	}
@@ -80,7 +79,6 @@ public class Sql_toolsView extends View {
 	@Override
 	public void setModel(Model model) {
 		
-		help.setValue(model);
 		application.setValue(model);
 		data_source.setValue(model);
 		separator_1.setValue(model);

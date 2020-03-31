@@ -61,9 +61,8 @@ public class CRUDGeneratorView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.setValue(Core.getIGRPLink("igrp_studio","ListaPage","index"));
-
-									documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
+		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=crud"));
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
 		
 		forum = new LinkField(model,"forum");
 		forum.setLabel(gt("Forum"));
@@ -141,7 +140,6 @@ public class CRUDGeneratorView extends View {
 		data_source.setValue(model);
 		schema.setValue(model);
 		table_type.setValue(model);
-		documento.setValue(model);
 		check_table.setValue(model);
 		table_name.setValue(model);
 		form_2_radiolist_1.setValue(model);	

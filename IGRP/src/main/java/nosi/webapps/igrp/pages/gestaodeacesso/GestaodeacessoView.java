@@ -53,9 +53,8 @@ public class GestaodeacessoView extends View {
 		
 		documento_link = new LinkField(model,"documento_link");
 		documento_link.setLabel(gt("Help"));
-		documento_link.setValue(Core.getIGRPLink("igrp","Dominio","index"));
-
-									documento_link.propertie().add("name","p_documento_link").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
+		documento_link.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=acesso"));
+		documento_link.propertie().add("name","p_documento_link").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
 		
 		forum = new LinkField(model,"forum");
 		forum.setLabel(gt("Forum"));
@@ -114,19 +113,19 @@ public class GestaodeacessoView extends View {
 
 
 		btn_editar = new IGRPButton("Editar","igrp","Gestaodeacesso","editar","right_panel|refresh_submit","warning|fa-pencil","","");
-		btn_editar.propertie.add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
+		btn_editar.propertie.add("id","button_ef0b_e3d3").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
 
 		btn_menu = new IGRPButton("Menu","igrp","Gestaodeacesso","menu","right_panel|refresh_submit","info|fa-bars","","");
-		btn_menu.propertie.add("type","specific").add("class","info").add("rel","menu").add("refresh_components","");
+		btn_menu.propertie.add("id","button_ffb1_fe36").add("type","specific").add("class","info").add("rel","menu").add("refresh_components","");
 
 		btn_transacti_org = new IGRPButton("Transaction","igrp","Gestaodeacesso","transacti_org","right_panel","black|fa-exchange","","");
-		btn_transacti_org.propertie.add("type","specific").add("class","black").add("rel","transacti_org").add("refresh_components","");
+		btn_transacti_org.propertie.add("id","button_a597_1f01").add("type","specific").add("class","black").add("rel","transacti_org").add("refresh_components","");
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp","Gestaodeacesso","eliminar","confirm","danger|fa-trash","","");
-		btn_eliminar.propertie.add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
+		btn_eliminar.propertie.add("id","button_1699_b3b1").add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
 
 		btn_associar_etapa = new IGRPButton("Associar Etapa","igrp","Gestaodeacesso","associar_etapa","right_panel","primary|fa-sitemap","","");
-		btn_associar_etapa.propertie.add("type","specific").add("class","primary").add("rel","associar_etapa").add("refresh_components","");
+		btn_associar_etapa.propertie.add("id","button_5045_3859").add("type","specific").add("class","primary").add("rel","associar_etapa").add("refresh_components","");
 
 		
 	}
@@ -166,7 +165,6 @@ public class GestaodeacessoView extends View {
 	@Override
 	public void setModel(Model model) {
 		
-		documento_link.setValue(model);
 		aplicacao.setValue(model);
 		adicionar_organica.setValue(model);
 		gestao_de_utilizadores.setValue(model);

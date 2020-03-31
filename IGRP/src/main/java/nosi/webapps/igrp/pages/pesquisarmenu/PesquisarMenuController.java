@@ -58,7 +58,7 @@ public class PesquisarMenuController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
-		model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=menu"));
+		//model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=menu"));
 		
 		Menu menu = new Menu();
 		int idApp = Core.getParamInt("p_id_app");

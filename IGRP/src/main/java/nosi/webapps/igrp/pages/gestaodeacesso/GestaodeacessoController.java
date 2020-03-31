@@ -23,7 +23,6 @@ public class GestaodeacessoController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Gestaodeacesso model = new Gestaodeacesso();
 		model.load();
-		model.setDocumento_link("igrp","Dominio","index");
 		model.setAdicionar_organica("igrp","NovaOrganica","index");
 		model.setGestao_de_utilizadores("igrp","PesquisarUtilizador","index");
 		model.setGestao_de_menu("igrp","PesquisarMenu","index");
@@ -33,12 +32,12 @@ public class GestaodeacessoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadOrg_table(Core.query(null,"SELECT '1' as estado,'Aperiam omnis unde labore sed' as org_nome,'/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml' as mostrar_perfis,'hidden-9715_6948' as id "));
+		model.loadOrg_table(Core.query(null,"SELECT '1' as estado,'Totam lorem amet unde mollit' as org_nome,'/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml' as mostrar_perfis,'hidden-7521_6b78' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
-		model.setDocumento_link(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=acesso"));
+		//model.setDocumento_link(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=acesso"));
 
       
 		List<Gestaodeacesso.Org_table> data = new ArrayList<>();

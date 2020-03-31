@@ -57,7 +57,7 @@
                       </li>  -->
                      
                      <li rel="gen-blocky"  active-text-color="primary">
-                        <span>BLOCKLY (BETA)</span>
+                        <span>BLOCKLY</span>
                       </li>
                       
                       <li rel="gen-java" xslt-path="{$path}/core/formgen/util/java" xslt-file="XSL_GENERATOR.xsl" text-color="1">
@@ -327,11 +327,7 @@
 									
                              </div>
                             
-                              
-                       
                           </div>
-                          
-
 
                       </div>
                   </div>
@@ -363,7 +359,7 @@
                       <input type="hidden" class="form-hidden" name="p_link_save" value="{rows/content/form/value/link_save}"></input>
                   </xsl:if>
                   <xsl:if test="rows/content/form/label/link_doc">
-                     <input type="hidden" class="form-hidden" name="p_link_doc" id="link_doc" value="{rows/content/form/value/link_doc}"></input>
+                     <input type="hidden" class="form-hidden" name="p_link_doc" id="link_doc" value="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT"></input>
                  </xsl:if>
               </form-hidden>
               <!--PAGE SETTINGS-->
@@ -529,7 +525,7 @@
                               <div class="modal-buttons text-right">
                               	<xsl:if test="rows/content/form/label/link_doc">
 	                              	<span class="igrp-doc pull-left">
-	                              		<a id="igrp-doc" href="{rows/content/form/value/link_doc}" target="_newtab">
+	                              		<a id="igrp-doc" href="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT" target="_newtab">
 	                              			<i class="fa fa-question-circle" style="margin-right:5px"></i>
 	                              			<xsl:choose>
 	                              				<xsl:when test="rows/content/form/label/link_doc != ''">

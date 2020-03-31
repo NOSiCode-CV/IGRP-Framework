@@ -54,7 +54,7 @@
                             <div class="col-md-3 col-sm-4 sidebar tree-list" id="igrp-sidebar">
                                 <xsl:if test="rows/content/form_1/fields/env_fk">
                                     <div class="row">
-                                    	<a id="igrp-doc" href="{rows/content/form_1/fields/link_doc/value}" class="bpmn-controller link btn btn-link pull-right" target="_newtab" request-fields="">
+                                    	<a id="igrp-doc" href="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=bpmn" class="bpmn-controller link btn btn-link pull-right" target="_newtab" request-fields="">
 					                      <i class="fa fa-question-circle" style="margin-right:5px"></i>Help
 					                      </a>
 					                      <a id="igrp-forum" href="https://gitter.im/igrpweb/bpmn?utm_source=share-link&amp;utm_medium=link&amp;utm_campaign=share-link" class="bpmn-controller link btn btn-link pull-right" target="_newtab" request-fields="">
