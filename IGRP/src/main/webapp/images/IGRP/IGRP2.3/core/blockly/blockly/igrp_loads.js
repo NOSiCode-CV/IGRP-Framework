@@ -136,17 +136,24 @@ $('#active_selenium').on('click', function() {
 	 $('rows>content>*[type!=separatorlist][type!=formlist]', BlocklyXML).each(function(i, element) {
 			$(element).find('>fields>*').each(function(x, field) {
 			var tag = $(field).prop('tagName'),
+				tagg = $(field).attr('tag'),
 				type = $(field).attr('java-type') || $(field).attr('type'),
 				ChooseType = $(field).attr('type'),
 				key  = $(field).attr('iskey'),
 				domain = $(field).attr('domain'),
-				tagg = $(field).attr('tag'),
+				
 				multiple = $(field).attr('multiple'),
 				persist = $(field).attr('persist'),
+				range = $(field).attr('range'),
 				javaType = GetJavaType[type] || type || 'String';
 			if(multiple =="true")
 			{	
 				fields_model.push([ tag, 'String[]'+'::'+tag]);
+				addmodel++;
+			}
+			else if(range =="true")
+			{	
+				fields_model.push([ tag, 'String'+'::'+tag+'//range']);
 				addmodel++;
 			}
 			else if(javaType =="String" && persist =="true")
@@ -340,19 +347,24 @@ $('#active_selenium').on('click', function() {
 			IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];
 			$(element).find('>fields>*').each(function(x, field) {
 				var tag = $(field).prop('tagName'),
+					tagg = $(field).attr('tag'),
 					type = $(field).attr('java-type') || $(field).attr('type'),
 					ChooseType = $(field).attr('type'),
 					key  = $(field).attr('iskey'),
 					domain = $(field).attr('domain'),
-					tagg = $(field).attr('tag'),
 					multiple = $(field).attr('multiple'),
 					persist = $(field).attr('persist'),
+					range = $(field).attr('range'),
 					javaType = GetJavaType[type] || type || 'String';
 				if(multiple =="true")
 				{
 					fields_model_form.push([ tag, 'String[]'+'::'+tag]);
-					IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push( [ tag, 'String[]'+ '::'+tag] );
-					addmodel++;
+					IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push([tag, 'String[]'+ '::'+tag]);
+				}
+				else if(range =="true")
+				{	
+					fields_model_form.push([ tag, 'String'+'::'+tag+'//range']);
+					IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push([tag, 'String'+'::'+tag+'//range']);
 				}
 				else if(tag == "hidden")
 				{
@@ -379,7 +391,7 @@ $('#active_selenium').on('click', function() {
 						+'<sep class="blocly-dynamic"></sep>'
 						);
 				}		
-				var getFormlistBlock = function(){
+				var getFormBlock = function(){
 					var rtn = '',
 						first = true;
 					IGRP_BLOCKLY_DROPS.tablesTest[form].forEach(function(f, fi){
@@ -415,9 +427,10 @@ $('#active_selenium').on('click', function() {
 								+'<field type="text" options="by"></field>'
 							+'</value>'
 							+'<value name="value2" type="statement" >'
-								+getFormlistBlock()
+								+getFormBlock()
 							+'</value>'
 						+'</block>'
+						
 						+'<block type="save_formu_'+form+'" mutator="separatori" color="180"  prev-statement="" next-statement="" inline="true">'
 							+'<value type="dummy">'
 								+'<field type="text" options="save '+form+'"></field>'
@@ -429,6 +442,7 @@ $('#active_selenium').on('click', function() {
 							+'<value name="value2" type="statement" >'
 							+'</value>'
 						+'</block>'
+						
 						+'<block type="mod_form'+form+'" output="" color="300">'
 							+'<value type="dummy" title="get model" name="value1">'
 								+'<field type="dropdown" name="get_model" options="IGRP_BLOCKLY_DROPS.tablesTest.'+form+'"></field>'

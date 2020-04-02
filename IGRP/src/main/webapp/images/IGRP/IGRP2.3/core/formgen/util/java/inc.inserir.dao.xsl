@@ -225,6 +225,10 @@
 					<xsl:text>}catch ( Exception e ) {</xsl:text>
 					
 					<xsl:value-of select="$newlineTab2"></xsl:value-of>
+		
+					<xsl:text>e.printStackTrace();</xsl:text>
+					
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>
 					
 					<xsl:text>Core.setMessageError("Error: "+ e.getMessage());</xsl:text>
 					
