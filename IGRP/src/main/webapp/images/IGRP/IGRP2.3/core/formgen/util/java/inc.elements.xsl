@@ -90,11 +90,11 @@
 	
 	</xsl:template>
 	
-	<xsl:template name="blockly.element.model_get">
+	<xsl:template name="blockly.element.get_model">
 		
 		<xsl:variable name="fieldType" select="substring-before(field,'::')"/>
 		
-		<xsl:variable name="fieldValue" select="substring-after(field,'::')"/>
+		<xsl:variable name="fieldValue" select="substring-after(substring-before(field,'//'),'::')"/>
 		
 		<xsl:variable name="nameCap">
 		
@@ -1156,6 +1156,10 @@
 			</xsl:call-template>
 			
 		</xsl:variable>
+		
+		<xsl:value-of select="$newlineTab1"/>
+		
+		<xsl:text>try{</xsl:text>
 			
 		<xsl:value-of select="$newlineTab1"/>
 		
@@ -1258,6 +1262,18 @@
 		<xsl:value-of select="$newlineTab1"></xsl:value-of>
 		
 		<xsl:text>model.set</xsl:text><xsl:value-of select="$graficoup"/><xsl:text>(</xsl:text><xsl:value-of select="$grafico"/><xsl:text>);</xsl:text>
+		
+		<xsl:value-of select="$newlineTab1"></xsl:value-of>
+		
+		<xsl:text>}catch ( Exception e ) {</xsl:text>
+		
+		<xsl:value-of select="$newlineTab2"></xsl:value-of>
+		
+		<xsl:text>e.printStackTrace();</xsl:text>
+		
+		<xsl:value-of select="$newlineTab1"></xsl:value-of>
+		
+		<xsl:text>}</xsl:text> 
 		
 		<xsl:value-of select="$newlineTab1"></xsl:value-of>
 		
@@ -1667,15 +1683,15 @@
 				
 			</xsl:when>
 			
-			<xsl:when test="$block-type = 'model_get'">
+			<xsl:when test="$block-type = 'get_model'">
 			
-				<xsl:call-template name="blockly.element.model_get"></xsl:call-template>
+				<xsl:call-template name="blockly.element.get_model"></xsl:call-template>
 				
 			</xsl:when>
 			
 			<xsl:when test="contains($block-type, 'mod_form')">
 			
-				<xsl:call-template name="blockly.element.model_get"></xsl:call-template>
+				<xsl:call-template name="blockly.element.get_model"></xsl:call-template>
 				
 			</xsl:when>
 			
