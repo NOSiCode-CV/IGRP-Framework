@@ -452,7 +452,7 @@
 		        
 		        if (pxchecked) {
 		        	
-				      block.appendValueInput("param_id").appendField("by:");
+				      block.appendValueInput("param_id").appendField("find");
 				      
 				      block.moveInputBefore("param_id", "value2");
 				     
