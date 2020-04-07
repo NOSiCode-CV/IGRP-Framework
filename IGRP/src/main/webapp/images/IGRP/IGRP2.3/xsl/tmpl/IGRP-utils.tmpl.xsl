@@ -62,6 +62,12 @@
         	<xsl:value-of select="$refresh_components"></xsl:value-of>
         </xsl:attribute>
       </xsl:if>
+      
+      <xsl:if test="target = 'sharpadbclient'"> 
+        <xsl:attribute name="sharpadbclient">
+          <xsl:value-of select="@sharpadbclient"></xsl:value-of>
+        </xsl:attribute>
+      </xsl:if>
 
       <xsl:if test="img!=''"> 
         <xsl:attribute name="has-img">true</xsl:attribute>
