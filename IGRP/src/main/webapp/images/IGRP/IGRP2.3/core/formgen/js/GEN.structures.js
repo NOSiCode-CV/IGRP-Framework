@@ -451,7 +451,8 @@ var GENSTRUCTURES = function(GEN){
 					customReturnAttr = customReturn ? 'custom_return="true"' : '';
 					target = item.GET.target(),
 					refresh_components = '',
-					id     = item.GET.id ? item.GET.id() : '';
+					id     = item.GET.id ? item.GET.id() : '',
+					adbcli = target == 'sharpadbclient' ? 'sharpadbclient="' + f.GET.adbcli()+'"' : '';
 
 				if(item.GET.target_fields && item.GET.target_fields())
 					target += '|'+item.GET.target_fields();
@@ -475,7 +476,7 @@ var GENSTRUCTURES = function(GEN){
 				}
 
 				var linkAction= (item.action && item.action.link) ? '..'+item.action.link.substring(1).substring(item.action.link.substring(1).indexOf('/')) : '';
-				rtn+='<item id="'+id+'" type="'+itemType+'" code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+' refresh_components="'+refresh_components+'">'+
+				rtn+='<item id="'+id+'" type="'+itemType+'" ' + adbcli +' code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+' refresh_components="'+refresh_components+'">'+
 	                    '<title>'+item.GET.label()+'</title>'+
 	                    '<app>'+app+'</app>'+
 	                    '<page>'+page+'</page>'+
@@ -514,7 +515,8 @@ var GENSTRUCTURES = function(GEN){
 				actionLINK = (f.action && f.action.link) ? '..'+f.action.link.substring(1).substring(f.action.link.substring(1).indexOf('/')) : '',		
 				customReturn = f.GET.custom_return ? f.GET.custom_return() : false,
 				customReturnAttr = customReturn ? 'custom_return="true"' : '',
-				refresh_components = '';
+				refresh_components = '',
+				adbcli = target == 'sharpadbclient' ? 'sharpadbclient="' + f.GET.adbcli()+'"' : '';
 
 			if(f.GET.target_fields && f.GET.target_fields())
 				target += '|'+f.GET.target_fields();
@@ -531,7 +533,7 @@ var GENSTRUCTURES = function(GEN){
 			}
 
 				//console.log(params);
-			rtn+='<item  type="specific" code="" rel="'+tag+'" '+tran+' '+parent+' '+customReturnAttr+' refresh_components="'+refresh_components+'">'+
+			rtn+='<item  type="specific" code="" rel="'+tag+'" '+tran+' '+parent+' '+customReturnAttr+' refresh_components="'+refresh_components+'" ' + adbcli +'>'+
 		            '<title>'+title+'</title>'+
 		            '<app>'+app+'</app>'+
 		            '<page>'+page+'</page>'+

@@ -124,7 +124,42 @@
 						});
 						
 					
-				}
+				},
+
+				sharpadbclient: [
+					{
+						value: '',
+						label: ''
+					},
+					{
+						value: 'start',
+						label: 'Start'
+					},
+					{
+						value: 'stop',
+						label: 'Stop'
+					},
+					{
+						value: 'pause',
+						label: 'Pause'
+					},
+					{
+						value: 'install',
+						label: 'Install'
+					},
+					{
+						value: 'uninstall',
+						label: 'Uninstall'
+					},
+					{
+						value: 'sync',
+						label: 'Synchronize'
+					},
+					{
+						value: 'config',
+						label: 'Config'
+					}
+				]
 				
 			}
 		}

@@ -885,6 +885,11 @@
 			},300);
 		};
 		
+		var sharpadbclient = function(p){
+			if($.IGRP.components.sharpadbclient.run)
+				$.IGRP.components.sharpadbclient.run(p);
+		};
+		
 		var handleXMLMessages = function(xml){
 
 			try{
@@ -1232,6 +1237,12 @@
 
 				action : _self
 
+			},
+			
+			sharpadbclient: {
+				label: 'Sharp Adb Client',
+
+				action: sharpadbclient
 			},
 
 			specific     : {
