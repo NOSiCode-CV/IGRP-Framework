@@ -6,26 +6,53 @@
 
         call: function (p) {
             //$('.sa-nsweb').attr('src', "SACWebAPI:" + JSON.stringify(p));
+            var notify = p.notify ? p.notify : true;
+
             $.ajax({
-                url     : 'https://localhost:5000/SACWebAPI/'+p.task ,
+                url     : 'https://localhost:44327/SACWebAPI/'+p.task ,
                 method  : 'POST',
                 data    : JSON.stringify(p.data),
                 contentType: "application/json",
                 dataType: "json",
                 success : function(s){
-                    
-                    if(p.success)
-                        p.success(s);
-                    else{
-                        console.log(s);
+                    if(s){
+                        if(p.success)
+                            p.success(s);
+                        
+                        if (notify) {
+                            $.IGRP.notify({
+                                message: s.message,
+                                type   : s.type
+                            });
+                        }
                     }
                 },
                 error : function(e){
                     
                     if(p.error)
                         p.error(e);
-                    else{
-                        console.log(e);
+                    
+                    if(notify){
+                        if (e.hasOwnProperty('responseJSON')){
+                            var resp = e.responseJSON;
+
+                            if (resp && resp.hasOwnProperty('errors')){
+
+                                var errors = resp.errors;
+
+                                for( n in errors){
+                                    
+                                    errors[n].forEach(function (er) {
+                                        
+                                        $.IGRP.notify({
+                                            message: er,
+                                            type   : 'danger'
+                                        });
+                                    });
+                                }
+                            }
+
+                        }
                     }
                 }
 
@@ -36,31 +63,31 @@
 
             var jsonEvents = {
                 start : {
-                    task: 'evaluationtasks',
+                    task: 'evaluationtask',
                     id  : 1
                 },
                 stop : {
-                    task: 'evaluationtasks',
+                    task: 'evaluationtask',
                     id  : 2
                 },
                 sync : {
-                    task: 'evaluationtasks',
+                    task: 'evaluationtask',
                     id  : 3
                 },
                 pause : {
-                    task: 'evaluationtasks',
+                    task: 'evaluationtask',
                     id  : 4
                 },
                 config : {
-                    task: 'apptasks',
+                    task: 'apptask',
                     id  : 1
                 },
                 install : {
-                    task: 'apptasks',
+                    task: 'apptask',
                     id  : 2
                 },
                 uninstall : {
-                    task: 'apptasks',
+                    task: 'apptask',
                     id  : 3
                 }
             }
