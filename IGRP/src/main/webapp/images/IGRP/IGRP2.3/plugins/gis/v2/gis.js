@@ -3,46 +3,12 @@
 	var modules = {};
 
 	function MapController(dom){
-		
+				
 		var app    = this,
 
-			data   = JSON.parse($(dom).data().config) || {},
+			dataURL   = $(dom).data().configURL || false,
 
-			id     = $(dom).attr('id') || 'map-'+$.IGRP.utils.unique(),
-
-			config = $.extend({
-
-				id : id,
-
-				dom : dom,
-
-				groupLayers : [],
-
-				widgets : []
-
-			}, data ),
-			
-			dynamicSettings = GetDynamicMapSettings(id);
-
-		if(dynamicSettings){
-			
-			config = $.extend( config, dynamicSettings );
-
-			/*for(var s in dynamicSettings){
-				
-				var settingValue = dynamicSettings[s];
-				
-				if( (s in config) && $.isArray(settingValue) )//concat array
-					
-					$.merge( config[s], settingValue );
-					
-				else
-					
-					config[s] = settingValue;
-				
-			}*/
-			
-		}
+			id     = $(dom).attr('id') || 'map-'+$.IGRP.utils.unique();
 
 		app.dom    = dom;
 		
@@ -63,81 +29,56 @@
 			$('.gis-widgets-controller', app.dom).append(btn);
 
 		};
+		
+		if(dataURL){
+			
+			$.get(dataURL).then(function(d){
+				
+				var data = typeof d === 'string' ? JSON.parse(d) : d;
+								
+				var config = $.extend({
 
-		if(modules.Map){
+					id : id,
 
-			app.map = new modules.Map( app, config );
+					dom : dom,
 
-			if(modules.BaseMaps)
+				}, data );
+								
+				if(modules.Map){
+					
+					app.map = new modules.Map( app, config );
 
-				app.basemaps = new modules.BaseMaps( app, config.baseMaps );
+					if(modules.BaseMaps)
 
-			if(modules.Layers)
+						app.basemaps = new modules.BaseMaps( app, config.baseMaps );
 
-				app.layers = new modules.Layers( app, config.groupLayers );
+					if(modules.Layers)
 
-			if(modules.Widgets)
+						app.layers = new modules.Layers( app, config.groupLayers );
 
-				app.widgets = new modules.Widgets( app, config.widgets );
+					if(modules.Widgets)
 
-			if(modules.Panels)
+						app.widgets = new modules.Widgets( app, config.widgets );
 
-				app.panels = new modules.Panels(dom);
+					if(modules.Panels)
 
-		};
+						app.panels = new modules.Panels(dom);
+					
+				};
+				
+			});
+	
+		}
 
 		return app;
 
-	};
-	
-	
-	function GetDynamicMapSettings(id){
-		
-		var settings = null;
-		
-		try{
-			
-			var params = document.IGRPParams || $.IGRP.utils.url.getParams(),
-			
-				mapsettings = params.gis_map_settings;
-	
-			if(typeof mapsettings === 'string')
-				
-				mapsettings = JSON.parse(decodeURI(params.gis_map_settings ));
-	
-			if(mapsettings){
-				
-				try{
-					
-					var mapSettings    = mapsettings;
-				
-					if( mapSettings && mapSettings.id == id )
-						
-						settings = mapSettings;
-	
-				}catch(err){
-					
-					console.log(err);
-					
-				}
-	
-			}
-			
-		}catch(err){
-			
-			console.log(err);
-			
-		}
-		
-		return settings;
-		
 	};
 
 	window.GIS = $.IGRP.component('GIS',{
 		
 		path : $.IGRP.path+'/plugins/gis/v2',
 
-		maps : [],
+		maps : {},
 
 		module : function(name, options){
 
@@ -171,8 +112,7 @@
 		
 		getMap : function(id){
 			
-			console.log(id);
-			console.log(maps);
+			return this.maps[id];
 			
 		},
 
@@ -182,7 +122,9 @@
 			
 			elements.each(function(i, e){
 				
-				GIS.maps.push( new MapController(e) );
+				var map = new MapController(e);
+				
+				GIS.maps[map.id] = map;
 
 			});
 

@@ -1,0 +1,27 @@
+.gis-widget-wrapper[widget-type="measurement"] .tasks{
+	border-top: 2px solid whitesmoke;
+	text-align: right;
+}
+
+.gis-widget-wrapper[widget-type="measurement"] .results .group{
+	margin-top: 10px;
+    padding-top: 10px;
+}
+
+.gis-widget-wrapper[widget-type="measurement"] .results .heading {
+    margin-right: 5px;
+    color: #999;
+}
+
+.gis-widget-wrapper[widget-type="measurement"] .results .heading {
+    margin-right: 5px;
+    color: #999;
+}
+
+.gis-widget-wrapper[widget-type="measurement"] p{
+    line-height: 1.5em;
+}
+
+.gis-widget-wrapper[widget-type="measurement"] .coorddivider{
+    color: #ccc;
+}

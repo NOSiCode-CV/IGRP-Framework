@@ -1,0 +1,12 @@
+.gis-widget-wrapper[widget-type="edition"] form input{
+	text-transform: capitalize;
+}
+
+.gis-widget-wrapper[widget-type="edition"] .title{
+    display: inline-block;
+    font-size: 13px;
+    margin: 0;
+    line-height: 1;
+    vertical-align: middle;
+    padding-left: 3px;
+}

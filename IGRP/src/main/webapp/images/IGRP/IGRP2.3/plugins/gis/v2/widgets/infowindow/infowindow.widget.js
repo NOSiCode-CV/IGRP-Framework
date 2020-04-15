@@ -6,7 +6,11 @@
 		
 			data   = widget.data(),
 		
-			Layers = [];
+			Layers = app.layers.getLayers(),
+			
+			Layer  = null,
+			
+			pop    = null;
 		
 		function GetFeatureProperties(feature, wich){
 			
@@ -32,7 +36,7 @@
 		
 		function SetWindowContent(feature, attributes){
 			
-			var visibleAttrs = !attributes || attributes == '*' ? feature.properties : GetFeatureProperties(feature,attributes),
+			var visibleAttrs = !attributes || attributes == '*' ? feature.properties : GetFeatureProperties(feature, attributes),
 					
 				content 	 = Utils.feature.properties.toHTML( visibleAttrs );
 			
@@ -40,27 +44,27 @@
 			
 		};
 		
-		function GetLayers(){
-			
-			if(data && data.layers && data.layers[0]){
-				
-				data.layers.forEach(function(l){
-					
-					var layer = app.layers.get( l.layer );
-					
-					if(layer){
+		function onLayerClick(e){
+		
+			var feature = e.layer && e.layer.feature ? e.layer.feature : null;
 						
-						layer.on('click', function (e) {
-							
-							var feature = e.layer && e.layer.feature ? e.layer.feature : null;
-							
-							if(feature)
-						
-								var pop = L.popup().setLatLng(e.latlng).setContent( SetWindowContent(feature, l.attributes) ).openOn(app.viewer());
+			if(feature)
+		
+				pop = L.popup().setLatLng(e.latlng).setContent( SetWindowContent(feature, Layer.attributes) ).openOn(app.viewer());
 
-						});
+		};
+		
+		function Enabled(){
+		
+			if(Layers){
+				
+				Layers.forEach(function(l){
+					
+					Layer = app.layers.get( l.id );
+					
+					if(Layer)
 						
-					}
+						Layer.on('click', onLayerClick, this);	
 					
 				});
 				
@@ -68,7 +72,44 @@
 			
 		};
 		
-		GetLayers();
+		function Disable(){
+			
+			if(Layers){
+				
+				Layers.forEach(function(l){
+					
+					var layer = app.layers.get( l.id );
+					
+					if(layer)
+						
+						layer.off('click', onLayerClick, this);
+						
+				});
+				
+			}
+			
+			if(pop)
+				
+				pop.remove();
+			
+		};
+		
+		
+		(function(){
+			
+			widget.on( 'activate', function(){
+				
+				Enabled();
+				
+			});
+			
+			widget.on( 'deactivate', function(){
+				
+				Disable();
+				
+			});
+									
+		})();
 		
 	};
 	

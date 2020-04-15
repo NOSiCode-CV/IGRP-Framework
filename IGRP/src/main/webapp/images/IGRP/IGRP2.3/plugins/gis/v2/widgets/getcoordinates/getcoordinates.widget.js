@@ -1,6 +1,6 @@
 (function(){
 	
-	var utils = GIS.module('utils');
+	var utils = GIS.module('Utils');
 	
 	function GetCoordinatesWidget( widget, app ){
 		
@@ -8,7 +8,7 @@
 		
 			DrawLayer, DrawControl, DrawTool, EditTool;
 
-		widget.action('activate', function(){
+		widget.action('start', function(){
 			
 			if(!widget.addedMarker)
 				
@@ -76,7 +76,7 @@
 			
 			Clear();
 			
-			widget.actions.activate();
+			widget.actions.start();
 			
 		});
 
@@ -140,26 +140,26 @@
 				 });
 				
 			}
-
-			widget.on('activate', widget.actions.activate );
-			
-			widget.on('deactivate', Clear );
-
+		
 		}
 		
-		Init();
+		(function(){
+			
+			widget.on('activate', function(){
+				
+				Init();
+				
+				widget.actions.start()
+							
+			});
+			
+			widget.on('deactivate', Clear );
+			
+		})();
 		
 	};
 
 	GIS.widgets.register('getcoordinates', {
-		
-		dependencies : {
-				
-			js  : [ 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js' ],
-			
-			css : [ 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css' ]
-				
-		},
 		
 		init : GetCoordinatesWidget
 		

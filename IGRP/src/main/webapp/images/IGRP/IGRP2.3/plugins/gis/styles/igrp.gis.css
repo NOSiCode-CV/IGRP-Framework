@@ -100,6 +100,17 @@
 	margin: 0;
 }
 
+/*No Group Layer*/
+.not-layer-group{
+	display: block;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.not-layer-group ul>li{
+	padding: 8px 0;
+}
+
 /* layers visibility */
 .material-switch > input[type="checkbox"] {
     display: none;   
@@ -507,4 +518,25 @@
     -webkit-transform: scale(1.0);
     transform: scale(1.0);
   }
+}
+
+/**/
+
+.leaflet-editing-icon{	
+	border-radius: 50%;
+	background-color: #0085BA;
+	width: 12px !important;
+    height: 12px !important;
+    margin-left: -6px !important;
+    margin-top: -6px !important;
+}
+
+.leaflet-marker-draggable{
+	border-radius: 50%;
+	background-color: #0085BA;
+}
+
+.locate-marker-icon{
+	 text-align: center !important; 
+  	 line-height: 20px !important;
 }

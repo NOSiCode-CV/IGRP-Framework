@@ -2,8 +2,6 @@
 
 	GIS.module('Utils', {
 		
-		test : 'Test',
-
 		feature : {
 			
 			getData : function(feature){
@@ -72,6 +70,8 @@
 				},
 				
 				toHTML : function(props){
+										
+					var title = $('<h3 class="title" />');
 					
 					var html = $('<ul class="gis-feature-properties-view" />');
 					
@@ -91,9 +91,7 @@
 						}
 						
 					}
-					
-					console.log(html)
-					
+										
 					return html[0];
 					
 				}
@@ -104,10 +102,162 @@
 		
 		geometry : {
 			
+			point   : 'POINT',
 			
+			polygon : 'POLYGON',
 			
-		}
+			line    : 'LINE'
+			
+		},
 		
+		templates : {
+			
+			render : function(template, data){
+				
+				var template = Handlebars.compile( template );
+				
+		 	 	return  template( data );
+				
+			}
+			
+		},
+		
+		L : {
+			
+			Geometry : {
+				
+				readableArea: function (area, isMetric) {
+					
+					var areaStr;
+	
+					if (isMetric) {
+						
+						if (area >= 10000) {
+							
+							areaStr = (area * 0.0001).toFixed(2) + ' ha';
+							
+						} else {
+							
+							areaStr = area.toFixed(2) + ' m²';
+							
+						}
+						
+					} else {
+						
+						area *= 0.836127; // Square yards in 1 meter
+	
+						if (area >= 3097600) { //3097600 square yards in 1 square mile
+							
+							areaStr = (area / 3097600).toFixed(2) + ' mi²';
+							
+						} else if (area >= 4840) {//48040 square yards in 1 acre
+							
+							areaStr = (area / 4840).toFixed(2) + ' acres';
+							
+						} else {
+							
+							areaStr = Math.ceil(area) + ' yd²';
+							
+						}
+						
+					}
+	
+					return areaStr;
+				},				
+			
+				toDegreesMinutesAndSeconds: function(coordinate) {
+					
+				    var absolute = Math.abs(coordinate);
+				    
+				    var degrees = Math.floor(absolute);
+				    
+				    var minutesNotTruncated = (absolute - degrees) * 60;
+				    
+				    var minutes = Math.floor(minutesNotTruncated);
+				    
+				    var seconds = ((minutesNotTruncated - minutes) * 60).toFixed(2);
+	
+				    return degrees + "° " + minutes + "' " + seconds + '"';
+				    
+				},
+				
+				toDMS_lat: function(lat) {
+					
+				    var latitude = this.toDegreesMinutesAndSeconds(lat);
+				    
+				    var latitudeCardinal = lat >= 0 ? "N" : "S";
+	
+				    return latitude + " " + latitudeCardinal;
+				    
+				},
+				
+				toDMS_lng: function(lng) {
+					
+				    var longitude = this.toDegreesMinutesAndSeconds(lng);
+				    
+				    var longitudeCardinal = lng >= 0 ? "E" : "W";
+	
+				    return longitude + " " + longitudeCardinal;
+				    
+				}
+			
+			}
+			
+		},
+		
+		shp: {
+			
+			getFile: function(files){
+						        
+		        if (files.length == 0) return;				
+
+		        var file = files[0];
+
+		        if (file.name.slice(-3) != 'zip'){ 
+		        	
+		            $.IGRP.notify({
+		            	
+		            	message : 'Select .zip file!',
+	        			
+	        			type    : 'warning'
+		            	
+		            })
+		            
+		            return;
+		            
+		        } else {
+		        	
+		            return file;
+		            
+		        }
+
+		    },
+		    
+		    HandleZipFile: function(file){
+		    	
+		    	return new Promise(function(resolve, reject) {
+				
+					var reader = new FileReader();
+					
+			        reader.onload = function(){
+			        	
+			            if (reader.readyState != 2 || reader.error){
+			            	
+			                return;
+			                
+			            } else {
+			            				            	
+			            	resolve(reader.result)
+			                
+			            }
+			        }
+			        
+			        reader.readAsArrayBuffer(file);
+			        
+		    	});
+				
+			},
+		},
 
 	});
 	
