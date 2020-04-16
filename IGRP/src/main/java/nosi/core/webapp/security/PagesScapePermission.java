@@ -40,7 +40,7 @@ public class PagesScapePermission {
 		PAGES_WIDTHOUT_LOGIN.add("igrp_studio/web-report/get-link-report".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp_studio/WebReport/preview".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp_studio/web-report/get-xsl".toLowerCase());
-		PAGES_WIDTHOUT_LOGIN.add("postondinosilha/Pagamentos_de_donativos/index".toLowerCase());
+		PAGES_WIDTHOUT_LOGIN.add("portondinosilha/Pagamento_de_donativo/index".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("portondinosilha/Pagamento_de_servico/index".toLowerCase());
 		
 	}
@@ -77,7 +77,7 @@ public class PagesScapePermission {
 		PAGES_SCAPE_ENCRYPT.add("igrp/Page/getPageJson".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("inps_porton/Pagamento_de_servico/index".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("inps_porton/Pagamento_de_servico/pagar".toLowerCase());
-		PAGES_SCAPE_ENCRYPT.add("postondinosilha/Pagamentos_de_donativos/index".toLowerCase());
+		PAGES_SCAPE_ENCRYPT.add("portondinosilha/Pagamento_de_donativo/index".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("portondinosilha/Pagamento_de_servico/index".toLowerCase());
 	}
 	
