@@ -62,7 +62,7 @@
 			
 			var clusters = false;
 			
-			if(data.Geom_Type == utils.geometry.point){
+			if(data.geomType == utils.geometry.point){
 				
 				var layer = L.markerClusterGroup();
 								

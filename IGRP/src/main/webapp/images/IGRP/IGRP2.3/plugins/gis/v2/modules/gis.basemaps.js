@@ -7,13 +7,23 @@
 		var basemaps 		= this,
 
 			viewer   	    = app.viewer(),
-
-			list            = list || [ { name : 'Wikimedia', default : true } ],
-
-			defaultBaseMap	= list.filter(function(b){ return b.default })[0],
-
-			selectedBaseMap = false;
 		
+		    selectedBaseMap = false,
+		    
+			list            = list || [];
+			
+		if(list.length == 0) list.push({ name : 'OpenStreetMap.BlackAndWhite', default : true })
+			
+		var	defaultBaseMap	= list.filter(function(b){ return b.default })[0] || null;
+		
+		if(!defaultBaseMap) {
+			
+			defaultBaseMap = list[0];
+			
+			defaultBaseMap.default = true;
+			
+		}
+					
 		basemaps.set = function(basemap, url, callback){
 			
 			var baseMapLayer = basemaps.get({url : url, name: basemap});
@@ -141,7 +151,7 @@
 
 		if(defaultBaseMap)
 
-			basemaps.set( defaultBaseMap.name );
+			basemaps.set( defaultBaseMap.name, defaultBaseMap.url );
 
 		return  basemaps;
 
