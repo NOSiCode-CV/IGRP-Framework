@@ -10,6 +10,8 @@
 
 		Widgets.items = [];
 		
+		Widgets.dependencies = [];
+		
 		function SetEvents(){
 			
 			$(app.dom).on('click','.gis-widget-controller', function(){
@@ -17,16 +19,6 @@
 				var id = $(this).attr('widget-id');
 				
 				Widgets.toggle( id );
-				
-				/*var id = $(this).attr('widget-id');
-				
-				if(!$(this).hasClass('active'))
-					
-					Widgets.activate(id);
-					
-				else
-					
-					Widgets.deactivate(id);*/
 
 			});
 			
@@ -43,8 +35,6 @@
 					var mapSettingsStr = decodeURIComponent(params.gis_map_settings),
 					
 						mapSettings    = JSON.parse(mapSettingsStr);
-				
-					console.log(mapSettings )
 					
 				}catch(err){
 					
@@ -53,59 +43,6 @@
 				}
 	
 			}
-			
-			/*if(params.gislocator == "1" && params.gislocatormap && params.gislocatormap == app.id){
-				
-				try{
-					
-					Widgets.add( {
-						
-						type : 'getcoordinates',
-						
-						title : 'Get Coordinates',
-						
-						active : 'true',
-						
-						control : {
-							
-							button : false
-							
-						},
-						
-						js : true,
-						
-						position : 'top'
-						
-					} );
-					
-				}catch(err){
-					
-					console.log(err)
-				}
-				
-				
-				
-			}/*
-			
-			//if(params.)
-			
-			/*
-			 * 
-			    
-			    active: true
-				control: {button: false}
-				css: true
-				data: {layers: Array(2)}
-				html: true
-				icon: "fa-search"
-				js: true
-				name: "pesquisar"
-				position: "top"
-				title: "Pesquisar"
-				type: "search"
-	
-			 
-			 * */
 			
 		};
 		
@@ -156,10 +93,19 @@
 		};
 
 		(function(){
-			
-			if(widgets && widgets[0])
-
-				Widgets.add( widgets );
+						
+			if(widgets && widgets[0]){
+				
+				try{
+					
+					Widgets.add( widgets );
+					
+				}catch(err){
+					
+					console.log(err)
+					
+				}
+			}
 			
 			SetEvents();
 

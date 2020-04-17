@@ -1,0 +1,156 @@
+{
+	"center" : [14.9239579,-23.509161],
+	"zoom" : 18,
+    "baseMaps": [
+        {
+            "default": false,
+            "name": "Wikimedia"
+        },
+        {
+            "default": true,
+            "name": "OpenStreetMap"
+        },
+        {
+            "default": false,
+            "name": "GoogleSatellite"
+        },
+        {
+            "default": false,
+            "name": "Esri.WorldImagery"
+        },
+        {
+            "default": false,
+            "name": "OpenStreetMap.DE"
+        },
+        {
+            "default": false,
+            "name": "Oceans",
+            "url" : "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+        }
+    ],
+    "groupLayers": [
+        {
+            "id": 1504,
+            "name": "Divisão Administrativa",
+            "options": {
+                "layers": "POSER:divisao_admin"
+            },
+            "type": "WMS",
+            "url": "https://gis.nosi.cv/geoserver/POSER/wms",
+            "visible": false
+        },
+        {
+            "layers": [                
+                {
+                    "id": 1505,
+                    "name": "Pontos de Agua",
+                    "options": {
+                        "typeName": "POSER:pontosanas"
+                    },
+                    "type": "WFS",
+                    "Geom_Type": "POINT",
+                    "url": "https://gis-teste.nosi.cv/geoserver/POSER/ows",
+                    "visible": true
+                },
+                {
+                    "id": 1506,
+                    "name": "Conselho de Cabo Verde",
+                    "options": {
+                        "typeName": "POSER:concelho_cv"
+                    },
+                    "type": "WFS",
+                    "Geom_Type": "POLYGON",
+                    "url": "https://gis-teste.nosi.cv/geoserver/POSER/ows",
+                    "visible": true
+                },
+                {
+                    "id": 1507,
+                    "name": "Linhas de Santiago",
+                    "options": {
+                        "typeName": "POSER:Linhas_Santiago"
+                    },
+                    "type": "WFS",
+                    "Geom_Type": "LINE",
+                    "url": "https://gis-teste.nosi.cv/geoserver/POSER/ows",
+                    "visible": false
+                }             
+            ],
+            "title": "WFS",
+            "visible": true
+        }
+    ],
+    "widgets": [
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {},
+            "icon": "fa-search",
+            "name": "map_os_1_map_widget_1",
+            "position": "button_level",
+            "title": "Search",
+            "type": "search"
+        },
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {},
+            "icon": "fa-list-ol",
+            "name": "map_os_1_map_widget_2",
+            "position": "button_level",
+            "title": "Legenda",
+            "type": "legend"
+        },
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {},
+            "icon": "fa-info",
+            "name": "map_os_1_map_widget_3",
+            "position": "button_level",
+            "title": "Identify",
+            "type": "infowindow"
+        },
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {},
+            "icon": "fa-medium",
+            "name": "map_os_1_map_widget_4",
+            "position": "button_level",
+            "title": "Medir distâncias e Áreas",
+            "type": "measurement"
+        },        
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {},
+            "icon": "fa-object-group",
+            "name": "map_os_1_map_widget_5",
+            "position": "button_level",
+            "title": "Edição",
+            "type": "edition"
+        },
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {},
+            "icon": "fa-crosshairs",
+            "name": "map_os_1_map_widget_6",
+            "position": "button_level",
+            "title": "Get Coordinates",
+            "type": "getcoordinates"
+        }
+    ]
+}

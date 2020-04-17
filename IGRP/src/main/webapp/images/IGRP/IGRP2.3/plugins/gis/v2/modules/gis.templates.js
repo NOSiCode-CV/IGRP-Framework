@@ -5,8 +5,11 @@
 		Layers : {
 
 			layer : function(layer){
+				
+				
+				var group_id = typeof layer.group !== 'undefined' ?  layer.group.id : '',				
 			
-				var r = '<li layer-type="'+layer.type+'" layer-id="'+layer.id+'" group-id="'+layer.group.id+'" class="visibility-controller gis-layer">'+
+					r = '<li layer-type="'+layer.type+'" layer-id="'+layer.id+'" group-id="'+group_id+'" class="visibility-controller gis-layer">'+
 							'<a>'+layer.name+'</a>'+
 							Tmpl.Layers.visibility( layer.id, layer.visible )+
 						'</li>';
@@ -57,6 +60,15 @@
 			                '</div>'+
 		                '</span>';
 
+			},
+			
+			element: function(){
+				 
+				return '<div class="visibility-controller layer-group not-layer-group"><ul/></div>';
+			},
+			
+			select : function(layer){
+				return '';
 			}
 
 		},
@@ -66,8 +78,12 @@
 			item : function(b){
 
 				var activeClss = b.default ? 'active' : '';
+				
+				var url = typeof b.url === 'string' ?  b.url : '';
+				
+				var iconURL = b.iconURL ?  b.iconURL : path+'/plugins/gis/images/basemaps/'+b.name+'.jpg';
 
-				return  '<div class="gis-basemap-item '+activeClss+'" basemap-name="'+b.name+'" style="background-image:url('+path+'/plugins/gis/images/basemaps/'+b.name+'.jpg)">'+
+				return  '<div class="gis-basemap-item '+activeClss+'" basemap-name="'+b.name+'" basemap-url="'+url+'" style="background-image:url('+iconURL+')">'+
 
 							'<span>'+b.name+'</span>'+
 
@@ -82,11 +98,8 @@
 			wrapper : function(w){
 				
 				var r = '<div class="gis-widget-wrapper" widget-id="'+w.id+'" widget-type="'+w.options.type+'">'+
-				
-							
-					
-						'</div>';
-					
+									
+						'</div>';					
 				
 				return r;
 				
