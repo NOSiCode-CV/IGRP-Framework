@@ -485,8 +485,7 @@
 			},
 			
 			getType: function (f) {
-				var parent 	= f.parents('[item-name]'),
-					type 	= parent[0] ? parent.attr('item-type') : (f.attr('type') ? f.attr('type') : f.prop('tagName'));
+				var type = f.attr('type') ? f.attr('type') : f.prop('tagName');
 
 				return type.toLowerCase();
 			},
