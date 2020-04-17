@@ -4,30 +4,22 @@
     "baseMaps": [
         {
             "default": false,
-            "name": "Wikimedia"
+            "name": "OpenStreetMap"
         },
         {
             "default": true,
-            "name": "OpenStreetMap"
+            "name": "OpenStreetMap.BlackAndWhite"
         },
         {
             "default": false,
             "name": "GoogleSatellite"
         },
         {
-            "default": false,
-            "name": "Esri.WorldImagery"
-        },
-        {
-            "default": false,
-            "name": "OpenStreetMap.DE"
-        },
-        {
-            "default": false,
-            "name": "Oceans",
+            "default": true,
+            "name": "WorldImagery",
             "url" : "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
         }
-    ],
+    ],    
     "groupLayers": [
         {
             "id": 1504,
@@ -36,6 +28,7 @@
                 "layers": "POSER:divisao_admin"
             },
             "type": "WMS",
+            "geomType": "POLYGON",
             "url": "https://gis.nosi.cv/geoserver/POSER/wms",
             "visible": false
         },
@@ -48,7 +41,7 @@
                         "typeName": "POSER:pontosanas"
                     },
                     "type": "WFS",
-                    "Geom_Type": "POINT",
+                    "geomType": "POINT",
                     "url": "https://gis-teste.nosi.cv/geoserver/POSER/ows",
                     "visible": true
                 },
@@ -59,7 +52,7 @@
                         "typeName": "POSER:concelho_cv"
                     },
                     "type": "WFS",
-                    "Geom_Type": "POLYGON",
+                    "geomType": "POLYGON",
                     "url": "https://gis-teste.nosi.cv/geoserver/POSER/ows",
                     "visible": true
                 },
@@ -70,7 +63,7 @@
                         "typeName": "POSER:Linhas_Santiago"
                     },
                     "type": "WFS",
-                    "Geom_Type": "LINE",
+                    "geomType": "LINE",
                     "url": "https://gis-teste.nosi.cv/geoserver/POSER/ows",
                     "visible": false
                 }             
@@ -139,18 +132,6 @@
             "position": "button_level",
             "title": "Edição",
             "type": "edition"
-        },
-        {
-            "active": false,
-            "control": {
-                "button": true
-            },
-            "data": {},
-            "icon": "fa-crosshairs",
-            "name": "map_os_1_map_widget_6",
-            "position": "button_level",
-            "title": "Get Coordinates",
-            "type": "getcoordinates"
         }
     ]
 }

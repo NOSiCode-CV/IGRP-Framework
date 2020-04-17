@@ -117,7 +117,7 @@
 				/*Layer Sem Grupo*/
 				var layer = Layers.add( groupOptions );
 				
-				if(!layer.visble)
+				if(!layer.visible)
 					
 					layer.hide();
 				
