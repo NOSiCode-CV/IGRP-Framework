@@ -33,17 +33,17 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=25</preserve_url>
     </plsql>
-    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Lista de Pagina Para Lookup</title>
         <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <associar_pagina name="p_associar_pagina" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-file-powerpoint-o" request_fields="" refresh_submit="false" maxlength="50">
+                <associar_pagina name="p_associar_pagina" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-file-powerpoint-o" request_fields="" refresh_submit="false" refresh_components="" maxlength="50">
                     <label>Associar Página</label>
                     <value/>
                 </associar_pagina>
-                <associar_documentos name="p_associar_documentos" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-file-word-o" request_fields="" refresh_submit="false" maxlength="50">
+                <associar_documentos name="p_associar_documentos" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-file-word-o" request_fields="" refresh_submit="false" refresh_components="" maxlength="50">
                     <label>Associar Documentos</label>
                     <value/>
                 </associar_documentos>
@@ -75,35 +75,35 @@
                 </env_fk>
                 <page_descr name="p_page_descr" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Título</label>
-                    <value>Magna accusantium magna dolor rem</value>
+                    <value>Rem labore unde sed aperiam</value>
                 </page_descr>
                 <page name="p_page" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Code</label>
-                    <value>Aperiam rem perspiciatis labore sed</value>
+                    <value>Sed consectetur stract dolor elit</value>
                 </page>
             </fields>
             <tools-bar>
-                <item type="form" code="" class="primary" rel="pesquisar">
+                <item id="button_a6fd_a12c" type="form" code="" class="primary" rel="pesquisar" refresh_components="">
                     <title>Pesquisar</title>
                     <app>igrp</app>
                     <page>Dominio</page>
                     <link>index</link>
-                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
                     <target>submit</target>
                     <img>primary|fa-search</img>
-                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
                 </item>
             </tools-bar>
         </form_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gravar">
+            <item type="specific" code="" rel="gravar" refresh_components="">
                 <title>Gravar</title>
                 <app>igrp</app>
                 <page>LookupListPage</page>
                 <link>index</link>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xml</preview>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xml</preview>
             </item>
         </toolsbar_1>
         <formlist_1 type="formlist" xml-type="formlist" gen-clean="true" gen-type="container" gen-group="true">
@@ -135,11 +135,12 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules/>
                 </tipo>
-                <nome name="p_nome" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="true" placeholder="" right="false" desclabel="false" desc="true">
+                <nome name="p_nome" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="true" placeholder="" right="false" desc="true">
                     <label>Nome</label>
                 </nome>
-                <descricao_documento name="p_descricao_documento" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="true" placeholder="" right="false" desclabel="false" desc="true">
+                <descricao_documento name="p_descricao_documento" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="true" placeholder="" right="false" desc="true">
                     <label>Descrição</label>
                 </descricao_documento>
                 <type_doc name="p_type_doc" type="hidden" maxlength="250" java-type="String" tag="type_doc" desc="true"/>
@@ -153,12 +154,12 @@
                         <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
                         <tipo name="p_tipo" desc="true">2</tipo>
                         <tipo_desc name="p_tipo_desc">2</tipo_desc>
-                        <nome name="p_nome" desc="true">Doloremque aperiam amet ipsum</nome>
-                        <nome_desc name="p_nome_desc">Doloremque aperiam amet ipsum</nome_desc>
-                        <descricao_documento name="p_descricao_documento" desc="true">Accusantium sed aperiam magna</descricao_documento>
-                        <descricao_documento_desc name="p_descricao_documento_desc">Accusantium sed aperiam magna</descricao_documento_desc>
-                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-770a_965a</type_doc>
-                        <type_doc_desc name="p_type_doc_desc">hidden-770a_965a</type_doc_desc>
+                        <nome name="p_nome" desc="true">Iste rem unde labore unde</nome>
+                        <nome_desc name="p_nome_desc">Iste rem unde labore unde</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Amet officia aperiam rem dolor</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Amet officia aperiam rem dolor</descricao_documento_desc>
+                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-48f5_5061</type_doc>
+                        <type_doc_desc name="p_type_doc_desc">hidden-48f5_5061</type_doc_desc>
                     </row>
                     <row>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
@@ -167,12 +168,12 @@
                         <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
                         <tipo name="p_tipo" desc="true">2</tipo>
                         <tipo_desc name="p_tipo_desc">2</tipo_desc>
-                        <nome name="p_nome" desc="true">Lorem aliqua sed deserunt aper</nome>
-                        <nome_desc name="p_nome_desc">Lorem aliqua sed deserunt aper</nome_desc>
-                        <descricao_documento name="p_descricao_documento" desc="true">Officia ipsum anim sed deserun</descricao_documento>
-                        <descricao_documento_desc name="p_descricao_documento_desc">Officia ipsum anim sed deserun</descricao_documento_desc>
-                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-4c55_158a</type_doc>
-                        <type_doc_desc name="p_type_doc_desc">hidden-4c55_158a</type_doc_desc>
+                        <nome name="p_nome" desc="true">Sed officia dolor aperiam sed</nome>
+                        <nome_desc name="p_nome_desc">Sed officia dolor aperiam sed</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Deserunt sed dolor perspiciati</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Deserunt sed dolor perspiciati</descricao_documento_desc>
+                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-90fd_add2</type_doc>
+                        <type_doc_desc name="p_type_doc_desc">hidden-90fd_add2</type_doc_desc>
                     </row>
                     <row>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
@@ -181,12 +182,12 @@
                         <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
                         <tipo name="p_tipo" desc="true">2</tipo>
                         <tipo_desc name="p_tipo_desc">2</tipo_desc>
-                        <nome name="p_nome" desc="true">Adipiscing aliqua doloremque p</nome>
-                        <nome_desc name="p_nome_desc">Adipiscing aliqua doloremque p</nome_desc>
-                        <descricao_documento name="p_descricao_documento" desc="true">Dolor aliqua mollit omnis moll</descricao_documento>
-                        <descricao_documento_desc name="p_descricao_documento_desc">Dolor aliqua mollit omnis moll</descricao_documento_desc>
-                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-bc3a_4de7</type_doc>
-                        <type_doc_desc name="p_type_doc_desc">hidden-bc3a_4de7</type_doc_desc>
+                        <nome name="p_nome" desc="true">Aperiam unde stract ipsum unde</nome>
+                        <nome_desc name="p_nome_desc">Aperiam unde stract ipsum unde</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Iste lorem magna elit laudanti</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Iste lorem magna elit laudanti</descricao_documento_desc>
+                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-97df_d0d9</type_doc>
+                        <type_doc_desc name="p_type_doc_desc">hidden-97df_d0d9</type_doc_desc>
                     </row>
                     <row>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
@@ -195,12 +196,12 @@
                         <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
                         <tipo name="p_tipo" desc="true">2</tipo>
                         <tipo_desc name="p_tipo_desc">2</tipo_desc>
-                        <nome name="p_nome" desc="true">Voluptatem perspiciatis ut sed</nome>
-                        <nome_desc name="p_nome_desc">Voluptatem perspiciatis ut sed</nome_desc>
-                        <descricao_documento name="p_descricao_documento" desc="true">Accusantium sit ipsum ut accus</descricao_documento>
-                        <descricao_documento_desc name="p_descricao_documento_desc">Accusantium sit ipsum ut accus</descricao_documento_desc>
-                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-dc7b_2eaa</type_doc>
-                        <type_doc_desc name="p_type_doc_desc">hidden-dc7b_2eaa</type_doc_desc>
+                        <nome name="p_nome" desc="true">Dolor sed lorem mollit sit</nome>
+                        <nome_desc name="p_nome_desc">Dolor sed lorem mollit sit</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Deserunt anim elit adipiscing</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Deserunt anim elit adipiscing</descricao_documento_desc>
+                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-fe9a_2e8e</type_doc>
+                        <type_doc_desc name="p_type_doc_desc">hidden-fe9a_2e8e</type_doc_desc>
                     </row>
                     <row>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
@@ -209,12 +210,12 @@
                         <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
                         <tipo name="p_tipo" desc="true">2</tipo>
                         <tipo_desc name="p_tipo_desc">2</tipo_desc>
-                        <nome name="p_nome" desc="true">Aperiam omnis totam mollit sit</nome>
-                        <nome_desc name="p_nome_desc">Aperiam omnis totam mollit sit</nome_desc>
-                        <descricao_documento name="p_descricao_documento" desc="true">Ut anim sed natus magna</descricao_documento>
-                        <descricao_documento_desc name="p_descricao_documento_desc">Ut anim sed natus magna</descricao_documento_desc>
-                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-02e8_9591</type_doc>
-                        <type_doc_desc name="p_type_doc_desc">hidden-02e8_9591</type_doc_desc>
+                        <nome name="p_nome" desc="true">Laudantium sit ut anim volupta</nome>
+                        <nome_desc name="p_nome_desc">Laudantium sit ut anim volupta</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Unde natus ipsum omnis ut</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Unde natus ipsum omnis ut</descricao_documento_desc>
+                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-eeb4_5ede</type_doc>
+                        <type_doc_desc name="p_type_doc_desc">hidden-eeb4_5ede</type_doc_desc>
                     </row>
                 </value>
             </table>
@@ -232,29 +233,29 @@
             <table>
                 <value>
                     <row>
-                        <descricao name="p_descricao">Natus adipiscing perspiciatis</descricao>
-                        <nome_pagina name="p_nome_pagina">Laudantium officia doloremque</nome_pagina>
-                        <id name="p_id" tag="id">hidden-8a8f_1852</id>
+                        <descricao name="p_descricao">Amet deserunt aperiam dolor de</descricao>
+                        <nome_pagina name="p_nome_pagina">Accusantium ut accusantium lor</nome_pagina>
+                        <id name="p_id" tag="id">hidden-ccf0_8894</id>
                     </row>
                     <row>
-                        <descricao name="p_descricao">Mollit labore anim officia dol</descricao>
-                        <nome_pagina name="p_nome_pagina">Stract officia sit ut omnis</nome_pagina>
-                        <id name="p_id" tag="id">hidden-7c4c_7ef7</id>
+                        <descricao name="p_descricao">Magna sed iste doloremque sed</descricao>
+                        <nome_pagina name="p_nome_pagina">Dolor lorem rem doloremque ut</nome_pagina>
+                        <id name="p_id" tag="id">hidden-6286_f248</id>
                     </row>
                     <row>
-                        <descricao name="p_descricao">Sit consectetur mollit anim do</descricao>
-                        <nome_pagina name="p_nome_pagina">Laudantium voluptatem amet sit</nome_pagina>
-                        <id name="p_id" tag="id">hidden-3d1e_3b55</id>
+                        <descricao name="p_descricao">Amet iste perspiciatis lorem a</descricao>
+                        <nome_pagina name="p_nome_pagina">Perspiciatis deserunt voluptat</nome_pagina>
+                        <id name="p_id" tag="id">hidden-c869_ee92</id>
                     </row>
                     <row>
-                        <descricao name="p_descricao">Officia totam lorem sit ut</descricao>
-                        <nome_pagina name="p_nome_pagina">Deserunt aliqua magna sit anim</nome_pagina>
-                        <id name="p_id" tag="id">hidden-1a52_81fd</id>
+                        <descricao name="p_descricao">Iste sed elit labore elit</descricao>
+                        <nome_pagina name="p_nome_pagina">Mollit amet stract natus dolor</nome_pagina>
+                        <id name="p_id" tag="id">hidden-a601_63dd</id>
                     </row>
                     <row>
-                        <descricao name="p_descricao">Consectetur ipsum aliqua conse</descricao>
-                        <nome_pagina name="p_nome_pagina">Sit voluptatem sed accusantium</nome_pagina>
-                        <id name="p_id" tag="id">hidden-92cd_4d6f</id>
+                        <descricao name="p_descricao">Officia labore omnis sit dolor</descricao>
+                        <nome_pagina name="p_nome_pagina">Totam sit omnis dolor officia</nome_pagina>
+                        <id name="p_id" tag="id">hidden-eabe_c46e</id>
                     </row>
                 </value>
             </table>

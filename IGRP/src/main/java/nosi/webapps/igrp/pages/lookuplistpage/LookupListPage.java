@@ -156,20 +156,14 @@ public class LookupListPage extends Model{
 	}
 	public static class Formlist_1{
 		private Pair formlist_1_id;
-
-		private Pair checkbox;
+private Pair checkbox;
 		private Pair checkbox_check;
-
-		private Pair obrigatorio;
+private Pair obrigatorio;
 		private Pair obrigatorio_check;
-
-		private Pair tipo;
-
-		private Pair nome;
-
-		private Pair descricao_documento;
-
-		private Pair type_doc;
+private Pair tipo;
+private Pair nome;
+private Pair descricao_documento;
+private Pair type_doc;
 		public void setFormlist_1_id(Pair formlist_1_id){
 			this.formlist_1_id = formlist_1_id;
 		}
