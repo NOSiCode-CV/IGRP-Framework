@@ -196,18 +196,21 @@
 
 				var lookup = null,
 					label  = null,
+					isremote = null,
 					tag    = p.tag,
 					value  = p.value;
 
 				if (typeof $(tag) === 'object'){
 					
-					lookup  = $(tag).attr('lookup') ? $(tag).attr('lookup') : null;
+					lookup  	= $(tag).attr('lookup') ? $(tag).attr('lookup') : null;
 
-					label   = $(tag).attr('label') ? $(tag).attr('label') : null;
+					label   	= $(tag).attr('label') ? $(tag).attr('label') : null;
+					
+					isremote   	= $(tag).attr('isremote') ? $(tag).attr('isremote') : null;
+					
+					value   	= $(tag).text();
 
-					value   = $(tag).text();
-
-					tag 	= tag.tagName.toLowerCase();
+					tag 		= tag.tagName.toLowerCase();
 					
 				}
 
@@ -232,7 +235,7 @@
 
 								value = value.split('|');
 							
-								if($(tag).attr('isremote')){
+								if(isremote){
 							
 									if(!$('option',formElement)[0]){
 										
