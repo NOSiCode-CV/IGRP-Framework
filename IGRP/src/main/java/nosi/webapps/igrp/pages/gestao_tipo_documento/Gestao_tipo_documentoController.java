@@ -24,7 +24,7 @@ public class Gestao_tipo_documentoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '2' as t_estado,'Dolor anim voluptatem sit sit' as t_aplicacao,'Lorem elit consectetur natus i' as t_nome,'Perspiciatis mollit rem deseru' as t_codigo,'Labore sit omnis laudantium ma' as t_descricao,'hidden-da3e_02a0' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '2' as t_estado,'Sit adipiscing unde aliqua und' as t_aplicacao,'Natus sit unde magna unde' as t_nome,'Stract accusantium ut deserunt' as t_codigo,'Totam perspiciatis iste aperia' as t_descricao,'hidden-9986_60e8' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -89,7 +89,7 @@ public class Gestao_tipo_documentoController extends Controller {
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
 		  this.addQueryString("p_id",Core.getParam("p_id"));
-		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
+		  return this.forward("igrp","Gestao_tipo_documento","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(gravar)----*/
@@ -121,7 +121,7 @@ public class Gestao_tipo_documentoController extends Controller {
 		}
 		this.addQueryString("p_aplicacao", model.getAplicacao());
 		/*----#end-code----*/
-		return this.redirect("igrp","Dominio","index", this.queryString());	
+		return this.redirect("igrp","Gestao_tipo_documento","index", this.queryString());	
 	}
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
