@@ -5,6 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Core;
 import java.util.Map;
 import java.util.LinkedHashMap;
 
@@ -51,7 +52,7 @@ public class Gestao_tipo_documentoView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
+		aplicacao.propertie().add("remote",Core.getIGRPLink("igrp","Gestao_tipo_documento","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","true").add("disabled","false").add("java-type","");
 		
 		ativo = new CheckBoxField(model,"ativo");
 		ativo.setLabel(gt("Ativo?"));
@@ -96,13 +97,13 @@ public class Gestao_tipo_documentoView extends View {
 
 
 		btn_gravar = new IGRPButton("Adicionar","igrp","Gestao_tipo_documento","gravar","submit_form","primary|fa-file-text","","");
-		btn_gravar.propertie.add("type","form").add("class","primary").add("rel","gravar").add("refresh_components","");
+		btn_gravar.propertie.add("id","button_3c1a_01a3").add("type","form").add("class","primary").add("rel","gravar").add("refresh_components","");
 
 		btn_editar = new IGRPButton("Editar","igrp","Gestao_tipo_documento","editar","right_panel_submit|refresh","warning|fa-pencil","","");
-		btn_editar.propertie.add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
+		btn_editar.propertie.add("id","button_f3a4_0ff8").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp","Gestao_tipo_documento","eliminar","alert_submit","danger|fa-trash","","");
-		btn_eliminar.propertie.add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
+		btn_eliminar.propertie.add("id","button_64e9_34fa").add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
 
 		
 	}
