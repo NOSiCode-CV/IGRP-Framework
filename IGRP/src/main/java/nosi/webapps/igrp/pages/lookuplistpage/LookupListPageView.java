@@ -53,11 +53,11 @@ public class LookupListPageView extends View {
 
 		associar_pagina = new TextField(model,"associar_pagina");
 		associar_pagina.setLabel(gt("Associar Página"));
-		associar_pagina.propertie().add("name","p_associar_pagina").add("type","button").add("request_fields","").add("refresh_submit","false").add("maxlength","50");
+		associar_pagina.propertie().add("name","p_associar_pagina").add("type","button").add("img","fa-file-powerpoint-o").add("request_fields","").add("refresh_submit","false").add("refresh_components","").add("maxlength","50");
 		
 		associar_documentos = new TextField(model,"associar_documentos");
 		associar_documentos.setLabel(gt("Associar Documentos"));
-		associar_documentos.propertie().add("name","p_associar_documentos").add("type","button").add("request_fields","").add("refresh_submit","false").add("maxlength","50");
+		associar_documentos.propertie().add("name","p_associar_documentos").add("type","button").add("img","fa-file-word-o").add("request_fields","").add("refresh_submit","false").add("refresh_components","").add("maxlength","50");
 		
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicação"));
@@ -91,11 +91,11 @@ public class LookupListPageView extends View {
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","true").add("placeholder",gt("")).add("desclabel","false").add("desc","true");
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","true").add("placeholder",gt("")).add("desc","true");
 		
 		descricao_documento = new TextField(model,"descricao_documento");
 		descricao_documento.setLabel(gt("Descrição"));
-		descricao_documento.propertie().add("name","p_descricao_documento").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","true").add("placeholder",gt("")).add("desclabel","false").add("desc","true");
+		descricao_documento.propertie().add("name","p_descricao_documento").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","true").add("placeholder",gt("")).add("desc","true");
 		
 		type_doc = new HiddenField(model,"type_doc");
 		type_doc.setLabel(gt(""));
@@ -125,10 +125,10 @@ public class LookupListPageView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
 		btn_gravar = new IGRPButton("Gravar","igrp","LookupListPage","gravar","submit","primary|fa-save","","");
-		btn_gravar.propertie.add("type","specific").add("rel","gravar");
+		btn_gravar.propertie.add("type","specific").add("rel","gravar").add("refresh_components","");
 
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","LookupListPage","pesquisar","submit","primary|fa-search","","");
-		btn_pesquisar.propertie.add("type","form").add("rel","pesquisar");
+		btn_pesquisar.propertie.add("id","button_a6fd_a12c").add("type","form").add("class","primary").add("rel","pesquisar").add("refresh_components","");
 
 		
 	}

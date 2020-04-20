@@ -2,7 +2,6 @@ package nosi.webapps.igrp.pages.lookuplistpage;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
@@ -16,16 +15,18 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.TipoDocumento;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
-import nosi.webapps.igrp.pages.lookuplistpage.LookupListPage.Formlist_1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import nosi.core.config.ConfigDBIGRP;
-/*----#end-code----*/
+
+import nosi.core.webapp.helpers.CheckBoxHelper;
+
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
+
+/*----#end-code----*/
 		
 public class LookupListPageController extends Controller {
-	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		LookupListPage model = new LookupListPage();
 		model.load();
@@ -33,8 +34,8 @@ public class LookupListPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT '1' as checkbox,'1' as obrigatorio,'2' as tipo,'Aperiam sit stract adipiscing' as nome,'Elit sed stract natus ipsum' as descricao_documento,'hidden-9e80_17d3' as type_doc "));
-		model.loadTable_1(Core.query(null,"SELECT 'Omnis rem aliqua omnis deserun' as descricao,'Voluptatem sit ut anim amet' as nome_pagina,'hidden-0d66_5528' as id "));
+		model.loadFormlist_1(Core.query(null,"SELECT '1' as checkbox,'1' as obrigatorio,'2' as tipo,'Doloremque anim voluptatem str' as nome,'Lorem sit ipsum deserunt dolor' as descricao_documento,'hidden-4d32_fe9a' as type_doc "));
+		model.loadTable_1(Core.query(null,"SELECT 'Sed aliqua mollit perspiciatis' as descricao,'Mollit sit stract amet iste' as nome_pagina,'hidden-9a83_2623' as id "));
 		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -153,21 +154,23 @@ public class LookupListPageController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		try {
-			ResultSet result  = new ResultSet();
+			boolean result  = false;
 			if(Core.isNotNull(model.getTaskid()) && Core.isNotNull(model.getProcessid()) && Core.isNotNull(model.getEnv_fk())) {
 				this.addQueryString("p_general_id", model.getTaskid()).addQueryString("p_process_id", model.getProcessid()).addQueryString("p_env_fk", model.getEnv_fk());
 		
 				if(model.getFormlist_1() != null) {			
 					
-					Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, "tbl_tipo_documento_etapa")
-						.where("processid=:processid AND taskid=:taskid")
+					Core.update(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, "tbl_tipo_documento_etapa")
+						.addInt("status", 0)
+						.where("processid=:processid AND taskid=:taskid AND status = 1")
 						.addString("processid", model.getProcessid())
 						.addString("taskid", model.getTaskid())
 						.execute();
 					
-				 	 CheckBoxHelper cb = Core.extractCheckBox(Core.getParamArray("p_checkbox_fk"), Core.getParamArray("p_checkbox_check_fk"));
-				 	 List<String> p_checkbox_fk = cb.getChekedIds();
-					 
+					String []cb = Core.getParamArray("p_checkbox_fk"); 
+					// CheckBoxHelper cb = Core.extractCheckBox(Core.getParamArray("p_checkbox_fk"), Core.getParamArray("p_checkbox_check_fk"));
+				 	 List<String> p_checkbox_fk = Arrays.asList(cb); 
+				 	 
 					 if(p_checkbox_fk != null) {
 						 
 						 List<String> listTypeDoc = Arrays.asList(Core.getParamArray("p_type_doc_fk")); 
@@ -179,31 +182,31 @@ public class LookupListPageController extends Controller {
 						 int j = 0; 
 						 int z = 0; 
 						 String []n = Core.getParamArray("p_nome_fk_desc");
-						 for(int i=0; i < listTipo.size(); i++) { 
+						 for(int i=0; i < listTipo.size(); i++) {
+							 
 							if(listTipo.get(i).equalsIgnoreCase("IN")) { 
-								result = this.saveOrUpdate(p_checkbox_fk.get(j++), this.proccessCheckBoxObrigatorio(z < listObrigatorio.size() ? listObrigatorio.get(z++) : "0"), listTipo.get(i), model, "tipo_documento_fk");
+								result = this.saveOrUpdate(p_checkbox_fk.get(j), this.proccessCheckBoxObrigatorio(z < listObrigatorio.size() ? listObrigatorio.get(z++) : "0"), listTipo.get(i), model, "tipo_documento_fk");
 							}else 
 								if(listTipo.get(i).equalsIgnoreCase("OUT")) { 
 									String aux = n[i]; 
 									RepTemplate repTemplate = new RepTemplate().find().andWhere("code", "=", "" + aux).one(); 
 									
 									if(repTemplate != null)
-										result = this.saveOrUpdate(p_checkbox_fk.get(j++), this.proccessCheckBoxObrigatorio(z < listObrigatorio.size() ? listObrigatorio.get(z++) : "0"), listTipo.get(i), model, "report_fk");
+										result = this.saveOrUpdate(p_checkbox_fk.get(j), this.proccessCheckBoxObrigatorio(z < listObrigatorio.size() ? listObrigatorio.get(z++) : "0"), listTipo.get(i), model, "report_fk");
 									else 
-										result = this.saveOrUpdate(p_checkbox_fk.get(j++), this.proccessCheckBoxObrigatorio(z < listObrigatorio.size() ? listObrigatorio.get(z++) : "0"), listTipo.get(i), model, "tipo_documento_fk");	
-								}
+										result = this.saveOrUpdate(p_checkbox_fk.get(j), this.proccessCheckBoxObrigatorio(z < listObrigatorio.size() ? listObrigatorio.get(z++) : "0"), listTipo.get(i), model, "tipo_documento_fk");	
+							}
+							
+							j++;
 						 }
 					 }
 				}
-			}else {
-				result.setError("Error...");
 			}
-			if(!result.hasError()) {
+			
+			if(result) 
 				Core.setMessageSuccess();
-			}
-			else {
-				Core.setMessageError(result.getError()+":"+result.getSql());
-			}
+			else 
+				Core.setMessageError();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -230,29 +233,70 @@ public class LookupListPageController extends Controller {
 		
 		
 /*----#start-code(custom_actions)----*/
-	private ResultSet saveOrUpdate(String p_checkbox_fk,int p_obrigatorio_fk,String p_tipo_fk,LookupListPage model,String relation_type_id) {
-		if(p_checkbox_fk != null && Core.toInt(p_checkbox_fk,-1) != -1) { 
-//			TipoDocumentoEtapa tipoDocumentoEtapa=new TipoDocumentoEtapa()
-//			.where("processid","=",model.getProcessid())
-//			.andWhere("taskid", "=", model.getTaskid())
-//			.andWhere(relation_type_id, "=", Core.toInt(p_checkbox_fk))
-//			.andWhere("tipo","=", p_tipo_fk).one();
-//			
-//			if(tipoDocumentoEtapa!=null && !tipoDocumentoEtapa.hasError() && tipoDocumentoEtapa.getCount()==1) {
-//				
-//			}
-			
-			return  Core.insert(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_tipo_documento_etapa")
-					.addInt("status", 1)
-					.addInt(relation_type_id,Core.toInt(p_checkbox_fk))
-					.addString("processid", model.getProcessid())
-					.addString("taskid", model.getTaskid())
-					.addInt("required", p_obrigatorio_fk)
-					.addString("tipo", p_tipo_fk)
-					.execute();
+	
+	
+	private boolean saveOrUpdate(String p_checkbox_fk,int p_obrigatorio_fk,String p_tipo_fk,LookupListPage model,String relation_type_id) {
+		boolean success = false;
+		try {
+			if(p_checkbox_fk != null && Core.toInt(p_checkbox_fk,-1) != -1) { 
+				
+				TipoDocumentoEtapa doc = null; 
+				
+				if(relation_type_id.equalsIgnoreCase("report_fk")) {
+					doc = new TipoDocumentoEtapa().find()
+							.andWhere("processId", "= ",  model.getProcessid())
+							.andWhere("tipo", "=", p_tipo_fk)
+							.andWhere("required", "=", p_obrigatorio_fk)
+							.andWhere("taskId", "=", model.getTaskid())
+							.andWhere("status", "=", 0)
+							.andWhere("repTemplate.id", "=", Core.toInt(p_checkbox_fk))
+							.one(); 
+				}
+				if(relation_type_id.equalsIgnoreCase("tipo_documento_fk")) {
+					doc = new TipoDocumentoEtapa().find()
+							.andWhere("processId", "= ",  model.getProcessid())
+							.andWhere("tipo", "=", p_tipo_fk)
+							.andWhere("required", "=", p_obrigatorio_fk)
+							.andWhere("taskId", "=", model.getTaskid())
+							.andWhere("status", "=", 0)
+							.andWhere("tipoDocumento.id", "=", Core.toInt(p_checkbox_fk))
+							.one(); 
+				}
+						
+				if(doc != null) {
+					doc.setStatus(1);
+					doc = doc.update(); 
+					success = doc != null && !doc.hasError(); 
+				}else { 
+					doc = new TipoDocumentoEtapa(); 
+					doc.setStatus(1); 
+					if(relation_type_id.equalsIgnoreCase("report_fk")) { 
+						RepTemplate repTemplate = new RepTemplate(); 
+						repTemplate.setId(Core.toInt(p_checkbox_fk));
+						doc.setRepTemplate(repTemplate); 
+					}
+					if(relation_type_id.equalsIgnoreCase("tipo_documento_fk")) {
+						TipoDocumento tipoDocumento = new TipoDocumento(); 
+						tipoDocumento.setId(Core.toInt(p_checkbox_fk)); 
+						doc.setTipoDocumento(tipoDocumento);
+					}
+					doc.setTipo(p_tipo_fk); 
+					doc.setRequired(p_obrigatorio_fk); 
+					doc.setTaskId(model.getTaskid()); 
+					doc.setProcessId(model.getProcessid()); 
+					doc = doc.insert(); 
+					
+					success = doc != null && !doc.hasError(); 
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return new ResultSet(); 
+		
+		return success; 
 	}
+	
+	
 	
 	private int proccessCheckBoxObrigatorio(String v) { 
 		int required = 0;
