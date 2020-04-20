@@ -237,7 +237,6 @@ public class LookupListPageController extends Controller {
 	
 	private boolean saveOrUpdate(String p_checkbox_fk,int p_obrigatorio_fk,String p_tipo_fk,LookupListPage model,String relation_type_id) {
 		boolean success = false;
-		
 		try {
 			if(p_checkbox_fk != null && Core.toInt(p_checkbox_fk,-1) != -1) { 
 				
