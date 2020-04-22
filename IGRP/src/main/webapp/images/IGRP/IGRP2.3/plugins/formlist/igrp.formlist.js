@@ -429,8 +429,6 @@
 
                     });
 
-                    console.log(arr);
-                    
                     return arr;
 
                 };
@@ -492,9 +490,14 @@
 
                     if( merge ){
                     	
-                    	e.removeClonableRow();
-  
-                         $('tbody',e).append(rows);
+                    	//e.removeClonableRow();
+                    	var rowIdx = $($.IGRP.components.iframeNav.modal).attr('formlist-lookup-row');
+                    	
+                    	var row    = $(e).find('tbody tr').eq(rowIdx);
+
+                    	$(rows).insertAfter( row );
+                    	
+                    	row.remove();
 
                     }else{
 
