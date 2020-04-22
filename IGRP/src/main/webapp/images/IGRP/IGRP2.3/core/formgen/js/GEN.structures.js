@@ -452,7 +452,7 @@ var GENSTRUCTURES = function(GEN){
 					target = item.GET.target(),
 					refresh_components = '',
 					id     = item.GET.id ? item.GET.id() : '',
-					adbcli = target == 'sharpadbclient' ? 'sharpadbclient="' + f.GET.adbcli()+'"' : '';
+					adbcli = target == 'sharpadbclient' ? 'sharpadbclient="' + item.GET.adbcli()+'"' : '';
 
 				if(item.GET.target_fields && item.GET.target_fields())
 					target += '|'+item.GET.target_fields();
