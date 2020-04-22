@@ -9,7 +9,7 @@
             var notify = p.notify ? p.notify : true;
 
             $.ajax({
-                url     : 'https://localhost:44327/SACWebAPI/'+p.task ,
+                url     : com.urlservice.all + p.task ,
                 method  : 'POST',
                 data    : JSON.stringify(p.data),
                 contentType: "application/json",
@@ -43,7 +43,7 @@
                                 for( n in errors){
                                     
                                     errors[n].forEach(function (er) {
-                                        
+            
                                         $.IGRP.notify({
                                             message: er,
                                             type   : 'danger'
@@ -55,8 +55,12 @@
                         }
                     }
                 }
-
             })
+        },
+
+        urlservice : {
+            prod: 'https://sac-hostservice.nosi.cv:10110/SACWebAPI/',
+            all : 'https://sac-hostservice.nosi.cv:44326/SACWebAPI/'
         },
 
         actions : function(str){

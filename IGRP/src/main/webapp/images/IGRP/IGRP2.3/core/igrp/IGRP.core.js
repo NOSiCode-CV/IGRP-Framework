@@ -490,7 +490,7 @@
 			getType: function (f) {
 				var type = f.attr('type') ? f.attr('type') : f.prop('tagName');
 
-				return type.toLowerCase();
+				return type ? type.toLowerCase() : '';
 			},
 			
 			arrRemoveItem : function(arr,v){
