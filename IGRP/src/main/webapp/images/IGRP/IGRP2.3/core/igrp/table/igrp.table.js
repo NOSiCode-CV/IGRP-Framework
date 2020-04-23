@@ -567,7 +567,7 @@
 
 						$(':input',p.result).val(total);
 	                    $('p',p.result).html(total);
-	                    $('input[name="'+p.result.attr('id')+'_fk"]').change();
+	                    $('input[name="p_'+p.result.attr('id')+'"]').change();
 	                }
 
 	                return total;

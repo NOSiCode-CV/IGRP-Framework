@@ -60,8 +60,8 @@
         },
 
         urlservice : {
-            prod: 'https://sac-hostservice.nosi.cv:10110/SACWebAPI/',
-            all : 'https://sac-hostservice.nosi.cv:44326/SACWebAPI/'
+            prod: 'https://sac-hostservice.nosi.cv:10110/api/',
+            all : 'https://sac-hostservice.nosi.cv:44326/api/'
         },
 
         actions : function(str){

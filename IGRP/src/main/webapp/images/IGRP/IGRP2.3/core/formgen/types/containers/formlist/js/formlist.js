@@ -320,7 +320,7 @@
 				if(f.GET.total_col && f.GET.total_col()){
 					rtn+='<xsl:if test="not('+fValue+'/@visible)">'+
 						'<p><xsl:value-of select="'+fValue+'"/></p>'+
-						'<input type="hidden" name="' + id + '_fk" value="{' + fValue + '}"/>'+
+						'<input type="hidden" name="p_' + id + '" value="{' + fValue + '}"/>'+
 					'</xsl:if>';
 				}
 	
