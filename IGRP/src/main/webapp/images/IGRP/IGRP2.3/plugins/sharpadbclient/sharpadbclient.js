@@ -6,10 +6,11 @@
 
         call: function (p) {
             //$('.sa-nsweb').attr('src', "SACWebAPI:" + JSON.stringify(p));
-            var notify = p.notify ? p.notify : true;
+            var notify = p.notify ? p.notify : true,
+                dad    = $('#p_dad')[0] && $('#p_dad').val() ? 'prod' : 'all';
 
             $.ajax({
-                url     : com.urlservice.all + p.task ,
+                url     : com.urlservice[dad] + p.task ,
                 method  : 'POST',
                 data    : JSON.stringify(p.data),
                 contentType: "application/json",
