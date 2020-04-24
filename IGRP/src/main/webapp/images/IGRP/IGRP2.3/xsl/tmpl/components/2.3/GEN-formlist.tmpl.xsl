@@ -27,9 +27,9 @@
 									</th>
 								</xsl:if>
 	            			</xsl:for-each>
-							<xsl:if test="not(@no-add) or not(@no-delete)">
+							<xsl:if test="not(@no-delete) or not(@no-add)">
 								<th class="table-btn add">
-									<xsl:if test="not(@noadd)">
+									<xsl:if test="not(@no-add)">
 										<a class="formlist-row-add btn btn-primary" rel="{$tag}">
 											<i class="fa fa-plus"/>
 										</a>
@@ -39,7 +39,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<xsl:for-each select="$table/value/row[not(@total='yes')]">
+						<xsl:for-each select="$table/value/row">
+							<xsl:variable name="currentRow" select="."></xsl:variable>
 							<xsl:variable name="pos" select="position()"></xsl:variable>
 							<tr row="{$pos}">
 								<input type="hidden" name="p_{$tag}_id" value="{*[name() = concat($tag,'_id')]/text()}"/>
@@ -51,9 +52,9 @@
 									<xsl:variable name="descName" select="concat($fieldTag,'_desc')"/>
 									<xsl:variable name="checkName" select="concat($fieldTag,'_check')"/>
 									
-									<xsl:variable name="value" select="../../table/value/row/*[name() =$fieldTag]/text()" />
-									<xsl:variable name="value_desc" select="../../table/value/row/*[name()=$descName]/text()" />
-              						<xsl:variable name="value_check" select="../../table/value/row/*[name()=$checkName]/text()" />
+									<xsl:variable name="value" select="$currentRow/*[name() =$fieldTag]/text()" />
+									<xsl:variable name="value_desc" select="$currentRow/*[name()=$descName]/text()" />
+              						<xsl:variable name="value_check" select="$currentRow/*[name()=$checkName]/text()" />
 									<xsl:choose>
 										<xsl:when test="@type = 'hidden' or @type = 'group' or @visible">
 											<input type="hidden" name="{@name}_fk" value="{$value}" />
@@ -67,8 +68,9 @@
 					                          		<xsl:with-param name="isFormlist" select="true()"/>
 					                          		<xsl:with-param name="valuedesc" select="$value_desc"/>
 					                          		<xsl:with-param name="valuecheck" select="$value_check"/>
-					                          		<xsl:with-param name="sizeClass" select="'col-md-12'"/>
+					                          		<xsl:with-param name="sizeClass" select="''"/>
 					                          		<xsl:with-param name="fieldNameSuffix" select="'_fk'"/>
+					                          		<xsl:with-param name="currentRow" select="$currentRow"/>
 					                          	</xsl:call-template>
 					                          	<xsl:if test="@type = 'text'">
 					                          		<input type="hidden" name="{@name}_fk" value="{$value}" />
@@ -79,7 +81,7 @@
 									</xsl:choose>
 
 								</xsl:for-each>
-								<xsl:if test="not(../../../@no-add) or not(../../../@no-delete)">
+								<xsl:if test="not(../../../@no-delete) or not(../../../@no-add)">
 									<td class="table-btn delete" data-row="{position()}">
 										<xsl:if test="not(@nodelete)">
 											<span class="formlist-row-remove btn btn-danger" rel="{$tag}">
@@ -91,26 +93,6 @@
 							</tr>
 						</xsl:for-each>
 					</tbody>
-					<xsl:if test="$table/value/row[@total='yes']">
-						<tfoot>	
-							<xsl:for-each select="$table/value/row[@total='yes']">
-								<tr>	
-									<xsl:for-each select="*[name() != 'context-menu']">
-										<xsl:variable name="fieldTag" select="name()"/>
-										<td>
-											<xsl:value-of select="text()"/>
-											<input type="hidden" name="p_{name()}_fk" value="text()" />
-											<xsl:variable name="value_desc" select="../../table/value/row/*[name()= concat($fieldTag,'_desc') ]/text()" />
-											<input type="hidden" name="p_{name()}_fk_desc" value="{$value_desc}" />
-										</td>
-									</xsl:for-each>
-									<xsl:if test="not(../../../@no-add) or not(../../../@no-delete)">
-										<td class="table-btn"></td>
-									</xsl:if>
-								</tr>
-							</xsl:for-each>
-						</tfoot>
-					</xsl:if>
 				</table>
 			</div>
 		</div>
