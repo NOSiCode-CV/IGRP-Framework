@@ -79,7 +79,7 @@
                 <xsl:attribute name="parser"><xsl:value-of select="$parser"/></xsl:attribute>
             </xsl:if>
 
-            <ul class="nav nav-list nav-header">
+            <ul class="nav nav-list nav-header ">
                 <xsl:for-each select="./table/value/row/*[name() = $parentId]">
                     <xsl:variable name="id" select="../*[name() = concat($name,'_tmid')]"/>
                     <xsl:if test="not(text())">
