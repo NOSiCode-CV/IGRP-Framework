@@ -7,47 +7,49 @@
         call: function (p) {
             //$('.sa-nsweb').attr('src', "SACWebAPI:" + JSON.stringify(p));
             var notify = p.notify ? p.notify : true,
-                dad    = $('#p_dad')[0] && $('#p_dad').val() ? 'prod' : 'all';
-            
+                port = $('#p_dad')[0] && $('#p_dad').val() ? 'prod' : 'all';
+
+            port = $.IGRP.components.sharpadbclient.serviceport[port];
+
             $.ajax({
-                url     : 'https://sac-hostservice.nosi.cv:'+com.servicePort[dad]+'/api/' + p.task ,
-                method  : 'POST',
-                data    : JSON.stringify(p.data),
+                url: 'https://sac-hostservice.nosi.cv:' + port + '/api/' + p.task,
+                method: 'POST',
+                data: JSON.stringify(p.data),
                 contentType: "application/json",
                 dataType: "json",
-                success : function(s){
-                    if(s){
-                        if(p.success)
+                success: function (s) {
+                    if (s) {
+                        if (p.success)
                             p.success(s);
-                        
+
                         if (notify) {
                             $.IGRP.notify({
                                 message: s.message,
-                                type   : s.type
+                                type: s.type
                             });
                         }
                     }
                 },
-                error : function(e){
-                    
-                    if(p.error)
+                error: function (e) {
+
+                    if (p.error)
                         p.error(e);
-                    
-                    if(notify){
-                        if (e.hasOwnProperty('responseJSON')){
+
+                    if (notify) {
+                        if (e.hasOwnProperty('responseJSON')) {
                             var resp = e.responseJSON;
 
-                            if (resp && resp.hasOwnProperty('errors')){
+                            if (resp && resp.hasOwnProperty('errors')) {
 
                                 var errors = resp.errors;
 
-                                for( n in errors){
-                                    
+                                for (n in errors) {
+
                                     errors[n].forEach(function (er) {
-            
+
                                         $.IGRP.notify({
                                             message: er,
-                                            type   : 'danger'
+                                            type: 'danger'
                                         });
                                     });
                                 }
@@ -59,66 +61,66 @@
             })
         },
 
-        servicePort : {
+        serviceport : {
             prod: 10110,
-            all : 44326
+            all: 44326
         },
 
-        actions : function(str){
+        actions: function (str) {
 
             var jsonEvents = {
-                start : {
+                start: {
                     task: 'evaluationtask',
-                    id  : 1
+                    id: 1
                 },
-                stop : {
+                stop: {
                     task: 'evaluationtask',
-                    id  : 2
+                    id: 2
                 },
-                sync : {
+                sync: {
                     task: 'evaluationtask',
-                    id  : 3
+                    id: 3
                 },
-                pause : {
+                pause: {
                     task: 'evaluationtask',
-                    id  : 4
+                    id: 4
                 },
-                config : {
+                config: {
                     task: 'apptask',
-                    id  : 1
+                    id: 1
                 },
-                install : {
+                install: {
                     task: 'apptask',
-                    id  : 2
+                    id: 2
                 },
-                uninstall : {
+                uninstall: {
                     task: 'apptask',
-                    id  : 3
+                    id: 3
                 }
             }
 
             return jsonEvents[str];
         },
 
-        run : function(p){
+        run: function (p) {
             var action = com.actions(p.clicked.attr('sharpadbclient')),
                 params = {
-                    data : {
-                        id  : action.id
+                    data: {
+                        id: action.id
                     },
-                    task : action.task
+                    task: action.task
                 };
 
-            if(p.url)
+            if (p.url)
                 params.data['url'] = p.url;
 
-            if(p.success)
+            if (p.success)
                 params['success'] = p.success;
 
-            if(p.error)
+            if (p.error)
                 params['error'] = p.error;
 
-            com.call(params);
+            com.call(params,com);
         },
 
         init: function () {
