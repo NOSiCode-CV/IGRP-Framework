@@ -5255,18 +5255,23 @@ var GENERATOR = function(genparams){
 		var jsIncludes = [
 				{ path: '/plugins/sharpadbclient/sharpadbclient.js' }
 			],
-			removeIncluds = function (arr, type) {
+			removeIncluds = function (arr, t) {
+				
 				arr.forEach(function (e) {
-					for (var i = 0; i < field.includes[type].length; i++) {
-						var inc = field.includes[type][i];
 	
-						if (inc.path == e.path) {
-							var index = field.includes[type].indexOf(inc);
+					if (field.includes[t]){
 	
-							if (index > -1)
-								field.includes[type].splice(index, 1);
+						for (var i = 0; i < field.includes[t].length; i++) {
+							var inc = field.includes[t][i];
 	
-							break;
+							if (inc.path == e.path) {
+								var index = field.includes[t].indexOf(inc);
+	
+								if (index > -1)
+									field.includes[t].splice(index, 1);
+	
+								break;
+							}
 						}
 					}
 				});

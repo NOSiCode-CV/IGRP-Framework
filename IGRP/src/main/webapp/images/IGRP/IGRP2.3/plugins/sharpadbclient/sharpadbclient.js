@@ -8,9 +8,9 @@
             //$('.sa-nsweb').attr('src', "SACWebAPI:" + JSON.stringify(p));
             var notify = p.notify ? p.notify : true,
                 dad    = $('#p_dad')[0] && $('#p_dad').val() ? 'prod' : 'all';
-
+            
             $.ajax({
-                url     : com.urlservice[dad] + p.task ,
+                url     : 'https://sac-hostservice.nosi.cv:'+com.servicePort[dad]+'/api/' + p.task ,
                 method  : 'POST',
                 data    : JSON.stringify(p.data),
                 contentType: "application/json",
@@ -59,9 +59,9 @@
             })
         },
 
-        urlservice : {
-            prod: 'https://sac-hostservice.nosi.cv:10110/api/',
-            all : 'https://sac-hostservice.nosi.cv:44326/api/'
+        servicePort : {
+            prod: 10110,
+            all : 44326
         },
 
         actions : function(str){
