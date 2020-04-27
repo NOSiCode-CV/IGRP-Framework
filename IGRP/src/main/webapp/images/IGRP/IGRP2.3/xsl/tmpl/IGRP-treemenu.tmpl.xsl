@@ -415,7 +415,7 @@
                                 </span>
                                 <xsl:choose>
                                     <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                        <a>
+                                        <a text="{../*[name() = concat($name,'_link_desc')]}">
                                             <xsl:call-template name="setTarget">
                                                 <xsl:with-param name="parser" select="$parser"/>
                                                 <xsl:with-param name="target" select="$target"/>
@@ -432,7 +432,7 @@
                                         </a>
                                     </xsl:when>
                                     <xsl:otherwise>
-                                        <a class="form-link">
+                                        <a class="form-link" text="{../*[name() = concat($name,'_link_desc')]}">
                                             <xsl:call-template name="setTarget">
                                                 <xsl:with-param name="parser" select="$parser"/>
                                     			<xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
@@ -465,7 +465,7 @@
                             </div>
                         </xsl:when>
                         <xsl:otherwise>
-                            <a>
+                            <a text="{../*[name() = concat($name,'_link_desc')]}">
                                 <xsl:call-template name="setTarget">
                                     <xsl:with-param name="parser" select="$parser"/>
                                     <xsl:with-param name="target" select="$target"/>
