@@ -55,7 +55,7 @@
                     type="text" 
                     class="form-control igrp-search-list" 
                     placeholder="Pesquisar ..." 
-                    search-list="#tm_{$name} ul.nav-list li .nav-header a"
+                    search-list="#tm_{$name} ul.nav-list li a"
                     search-attr="text"
                     search-item-parent=".nav-header"
                     search-item-wrapper=".box-tm" />
@@ -79,7 +79,7 @@
                 <xsl:attribute name="parser"><xsl:value-of select="$parser"/></xsl:attribute>
             </xsl:if>
 
-            <ul class="nav nav-list nav-header">
+            <ul class="nav nav-list">
                 <xsl:for-each select="./table/value/row/*[name() = $parentId]">
                     <xsl:variable name="id" select="../*[name() = concat($name,'_tmid')]"/>
                     <xsl:if test="not(text())">
