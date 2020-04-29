@@ -60,8 +60,9 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 	private Menu menu;	
 	@Transient
 	private Organization organization;
-	@Transient
-	private String link;
+	
+	private String link; 
+	
 	@Transient
 	private boolean isInserted;
 	@Transient
@@ -497,6 +498,14 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		public void setSelf_id(Integer self_id) {
 			this.self_id = self_id;
 		}
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 	
 }

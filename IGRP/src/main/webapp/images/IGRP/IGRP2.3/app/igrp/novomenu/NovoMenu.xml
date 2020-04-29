@@ -33,8 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=8</preserve_url>
     </plsql>
-    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Registar Menu</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -47,14 +47,14 @@
             </fields>
         </sectionheader_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gravar">
+            <item type="specific" code="" rel="gravar" refresh_components="">
                 <title>Gravar</title>
                 <app>igrp</app>
                 <page>NovoMenu</page>
                 <link>index</link>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/novomenu/NovoMenu.xml</preview>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/novomenu/NovoMenu.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
@@ -81,6 +81,19 @@
                         </option>
                     </list>
                 </env_fk>
+                <global_acl name="p_global_acl" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="false" java-type="int" switch="false" check="true">
+                    <label>Global ACL?</label>
+                    <value>1</value>
+                    <rules>
+                        <rule type="remote_combobox">
+                            <proc>index_</proc>
+                            <requestFields>
+                                <item>p_env_fk</item>
+                                <item>p_global_acl</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
+                </global_acl>
                 <action_fk name="p_action_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="int" tags="false">
                     <label>Página</label>
                     <list>
@@ -108,6 +121,7 @@
                             <requestFields>
                                 <item>p_form_1</item>
                                 <item>p_env_fk</item>
+                                <item>p_global_acl</item>
                                 <item>p_action_fk</item>
                                 <item>p_id</item>
                                 <item>p_app</item>
@@ -120,7 +134,7 @@
                 </detalhes>
                 <titulo name="p_titulo" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Título</label>
-                    <value>Iste dolor lorem aperiam anim</value>
+                    <value>Lorem iste sit aperiam aliqua</value>
                 </titulo>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" check="true">
                     <label>Ativo?</label>
@@ -151,9 +165,9 @@
                         </option>
                     </list>
                 </self_id>
-                <orderby name="p_orderby" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="int" desclabel="false">
+                <orderby name="p_orderby" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="int" desclabel="false" calculation="false" mathcal="" numberformat="">
                     <label>Posição</label>
-                    <value>27</value>
+                    <value>12</value>
                 </orderby>
                 <target name="p_target" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Target</label>
@@ -179,7 +193,7 @@
                 </target>
                 <link name="p_link" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Link (Procedure)</label>
-                    <value>Voluptatem perspiciatis accusa</value>
+                    <value>Rem labore stract omnis iste</value>
                 </link>
                 <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" check="true">
                     <label>Público?</label>
