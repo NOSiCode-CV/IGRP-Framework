@@ -1,4 +1,5 @@
-package nosi.webapps.igrp.pages.lookuplistpage;
+	
+	package nosi.webapps.igrp.pages.lookuplistpage;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
@@ -34,8 +35,8 @@ public class LookupListPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT '1' as checkbox,'1' as obrigatorio,'2' as tipo,'Doloremque anim voluptatem str' as nome,'Lorem sit ipsum deserunt dolor' as descricao_documento,'hidden-4d32_fe9a' as type_doc "));
-		model.loadTable_1(Core.query(null,"SELECT 'Sed aliqua mollit perspiciatis' as descricao,'Mollit sit stract amet iste' as nome_pagina,'hidden-9a83_2623' as id "));
+		model.loadFormlist_1(Core.query(null,"SELECT '1' as checkbox,'1' as obrigatorio,'2' as tipo,'Magna totam laudantium perspic' as nome,'Aperiam ut unde elit magna' as descricao_documento,'hidden-17ca_43e1' as type_doc "));
+		model.loadTable_1(Core.query(null,"SELECT 'Stract sit aliqua stract magna' as descricao,'Omnis stract aperiam omnis ist' as nome_pagina,'hidden-493a_6cc3' as id "));
 		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -154,7 +155,7 @@ public class LookupListPageController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		try {
-			boolean result  = false;
+			boolean result  = true;
 			if(Core.isNotNull(model.getTaskid()) && Core.isNotNull(model.getProcessid()) && Core.isNotNull(model.getEnv_fk())) {
 				this.addQueryString("p_general_id", model.getTaskid()).addQueryString("p_process_id", model.getProcessid()).addQueryString("p_env_fk", model.getEnv_fk());
 		
@@ -197,7 +198,9 @@ public class LookupListPageController extends Controller {
 										result = this.saveOrUpdate(p_checkbox_fk.get(j), this.proccessCheckBoxObrigatorio(z < listObrigatorio.size() ? listObrigatorio.get(z++) : "0"), listTipo.get(i), model, "tipo_documento_fk");	
 							}
 							
-							j++;
+							j++; 
+							
+							if(!result) break; 
 						 }
 					 }
 				}
