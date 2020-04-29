@@ -279,6 +279,7 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 					lista.put(ac.getId(), ac.getPage());
 
 			}
+		
 		// For shared pages, it will add the (dad)
 		for (Action ac : aux) {
 			if (Core.isNotNull(ac.getPage_descr()))
