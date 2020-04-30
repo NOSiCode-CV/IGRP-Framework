@@ -34,7 +34,7 @@ public class TransacaoOrganicaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as transacao,'Totam accusantium sed lorem re' as nome "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as transacao,'Voluptatem aliqua ipsum mollit' as nome "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		int id=model.getId();
@@ -139,6 +139,24 @@ public class TransacaoOrganicaController extends Controller {
 		
 		/*----#end-code----*/
 		return this.redirect("igrp","Transaccao","index", this.queryString());	
+	}
+	
+	public Response actionNovo_transacao() throws IOException, IllegalArgumentException, IllegalAccessException{
+		TransacaoOrganica model = new TransacaoOrganica();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","EditarTransacao","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/*----#start-code(novo_transacao)----*/
+		
+		this.addQueryString("novo_transa","novo_transa");
+		
+		/*----#end-code----*/
+		return this.redirect("igrp","EditarTransacao","index", this.queryString());	
 	}
 	
 		
