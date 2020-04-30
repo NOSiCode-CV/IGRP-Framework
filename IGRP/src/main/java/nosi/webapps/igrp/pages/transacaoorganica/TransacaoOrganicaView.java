@@ -23,6 +23,7 @@ public class TransacaoOrganicaView extends View {
 	public IGRPToolsBar toolsbar_3;
 	public IGRPButton btn_gravar;
 	public IGRPButton btn_gestao_de_transacoes;
+	public IGRPButton btn_novo_transacao;
 
 	public TransacaoOrganicaView(){
 
@@ -36,8 +37,7 @@ public class TransacaoOrganicaView extends View {
 
 		help = new LinkField(model,"help");
 		help.setLabel(gt("Help"));
-		help.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=transacao"));
-		help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
+		help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		transacao = new CheckBoxField(model,"transacao");
 		transacao.setLabel(gt(" "));
@@ -65,8 +65,11 @@ public class TransacaoOrganicaView extends View {
 		btn_gravar = new IGRPButton("Gravar","igrp","TransacaoOrganica","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar").add("refresh_components","");
 
-		btn_gestao_de_transacoes = new IGRPButton("Gestão de transações","igrp","TransacaoOrganica","gestao_de_transacoes","submit_popup","black|fa-exchange","","");
+		btn_gestao_de_transacoes = new IGRPButton("Gestão transações","igrp","TransacaoOrganica","gestao_de_transacoes","mpsubmit|refresh","black|fa-exchange","","");
 		btn_gestao_de_transacoes.propertie.add("type","specific").add("rel","gestao_de_transacoes").add("refresh_components","");
+
+		btn_novo_transacao = new IGRPButton("Novo Transação","igrp","TransacaoOrganica","novo_transacao","right_panel|refresh","success|fa-plus-square","","");
+		btn_novo_transacao.propertie.add("type","specific").add("rel","novo_transacao").add("refresh_components","");
 
 		
 	}
@@ -87,6 +90,7 @@ public class TransacaoOrganicaView extends View {
 
 		toolsbar_1.addButton(btn_gravar);
 		toolsbar_3.addButton(btn_gestao_de_transacoes);
+		toolsbar_3.addButton(btn_novo_transacao);
 		this.addToPage(view_1);
 		this.addToPage(table_1);
 		this.addToPage(form_1);
@@ -97,6 +101,7 @@ public class TransacaoOrganicaView extends View {
 	@Override
 	public void setModel(Model model) {
 		
+		help.setValue(model);
 		transacao.setValue(model);
 		nome.setValue(model);
 		id.setValue(model);
