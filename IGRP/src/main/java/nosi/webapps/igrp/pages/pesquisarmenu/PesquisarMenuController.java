@@ -480,14 +480,14 @@ public class PesquisarMenuController extends Controller {
 				JSONArray UserAppMenu_o = userAppMenus_t.getJSONArray("Entry"); 
 				
 				if(UserAppMenu_o != null) { 
-					
+
 					for(int i = 0; i < UserAppMenu_o.length(); i++) {
 						try {
 							JSONObject m = UserAppMenu_o.getJSONObject(i); 
 							IgrpPLSQLMenu menu = new IgrpPLSQLMenu(); 
 							
 							menu.setId("" + m.getLong("id"));
-							menu.setTitle("" + m.getString("title"));
+							menu.setTitle("" + m.getString("title")); 
 							menu.setArea("" + m.getString("area"));
 							try {
 								menu.setEstado("" + m.getInt("estado")); 

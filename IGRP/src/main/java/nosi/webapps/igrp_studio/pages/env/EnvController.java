@@ -507,7 +507,7 @@ public class EnvController extends Controller {
 			
 			String json = response.readEntity(String.class); 
 			
-			client.close(); 
+			client.close();
 			
 			JSONObject obj = new JSONObject(json); 
 			JSONObject apps_t = obj.getJSONObject("Entries"); 

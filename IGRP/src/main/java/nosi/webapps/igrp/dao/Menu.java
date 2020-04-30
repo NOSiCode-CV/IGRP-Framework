@@ -209,7 +209,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 						 .select(sqlMenuByUser)
 						 .addInt("org_fk", Core.getCurrentOrganization())
 						 .addInt("prof_type_fk", Core.getCurrentProfile())
-						 .addString("dad", currentDad )
+						 .addString("dad", currentDad ) 
 						 .addInt("status", 1)
 						 .addInt("org_fk", Core.getCurrentOrganization())
 						 .addInt("prof_type_fk", Core.getCurrentProfile())
