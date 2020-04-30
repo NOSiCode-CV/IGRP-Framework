@@ -463,7 +463,7 @@ public class PesquisarMenuController extends Controller {
 				
 			}
 			
-			endpoint += "?prof_code=" + profCode + "&org_code=" + orgCode + "&app=" + appCode; 
+			endpoint += "?prof_code=" + profCode + "&org_code=" + orgCode + "&app_code=" + appCode; 
 			
 			Client client = ClientBuilder.newClient(); 
 			WebTarget webTarget = client.target(endpoint); 
@@ -475,9 +475,9 @@ public class PesquisarMenuController extends Controller {
 			client.close(); 
 			
 			JSONObject obj = new JSONObject(json); 
-			JSONObject userAppMenus_t = obj.getJSONObject("UserAppMenus_t"); 
-			if(userAppMenus_t != null && userAppMenus_t.has("UserAppMenu_o")) {
-				JSONArray UserAppMenu_o = userAppMenus_t.getJSONArray("UserAppMenu_o"); 
+			JSONObject userAppMenus_t = obj.getJSONObject("Entries"); 
+			if(userAppMenus_t != null && userAppMenus_t.has("Entry")) {
+				JSONArray UserAppMenu_o = userAppMenus_t.getJSONArray("Entry"); 
 				
 				if(UserAppMenu_o != null) { 
 					

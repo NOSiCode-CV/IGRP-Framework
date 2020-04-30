@@ -498,7 +498,7 @@ public class EnvController extends Controller {
 			if(baseUrl == null || baseUrl.isEmpty() || token == null || token.isEmpty()) 
 				throw new Exception("Invalid url ..."); 
 			
-			String endpoint = baseUrl + "?p_email=" + "iekini.fernandes@nosi.cv"; 
+			String endpoint = baseUrl + "?email=" + Core.getCurrentUser().getEmail(); 
 			
 			Client client = ClientBuilder.newClient(); 
 			WebTarget webTarget = client.target(endpoint); 
@@ -510,9 +510,9 @@ public class EnvController extends Controller {
 			client.close(); 
 			
 			JSONObject obj = new JSONObject(json); 
-			JSONObject apps_t = obj.getJSONObject("apps_t"); 
-			if(apps_t != null && apps_t.has("apps_o")) {
-				JSONArray apps_o = apps_t.getJSONArray("apps_o"); 
+			JSONObject apps_t = obj.getJSONObject("Entries"); 
+			if(apps_t != null && apps_t.has("Entry")) {
+				JSONArray apps_o = apps_t.getJSONArray("Entry"); 
 				if(apps_o != null) {
 					List<IgrpPLSQLApp> allApps = new Gson().fromJson(apps_o.toString(), new TypeToken<List<IgrpPLSQLApp>>() {}.getType()); 
 					for(IgrpPLSQLApp app : allApps) { 

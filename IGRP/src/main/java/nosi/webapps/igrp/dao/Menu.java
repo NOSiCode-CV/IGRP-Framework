@@ -229,9 +229,10 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				ms.setStatus(r.getShort("status")); 
 				
 				String link = r.getString("link"); 
-				if(link != null) 
+				if(link != null) {
 					ms.setLink(link); 
-				System.out.println("link: " + link);
+					ms.setType(2);
+				}
 				
 				Action pagina = new Action().find().andWhere("page", "=", r.getString("page")).andWhere("application.dad", "=", r.getString("dad_app_page")).one();
 				if(pagina != null) {
