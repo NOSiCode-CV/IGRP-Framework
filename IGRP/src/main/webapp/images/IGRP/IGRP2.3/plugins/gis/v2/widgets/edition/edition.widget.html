@@ -28,7 +28,7 @@
 				</div>
 			</div>
 			
-			<div class="widget-step" step-id="select" step-trigger="action-tool-create action-tool-delete action-tool-editor action-confirm-delete" style="padding:0">
+			<div class="widget-step" step-id="select" step-trigger="action-tool-create action-tool-edit action-tool-delete action-tool-editor action-confirm-delete" style="padding:0">
 				<div class="clearfix bg-white" style="padding: 8px; border-bottom: 2px solid whitesmoke">
 					<a href="#" class="btn btn-grey btn-sm" widget-action="back-tools">
 						<i class="fa fa-arrow-left"></i>
@@ -205,7 +205,7 @@
 				</div>
 				
 				<form style="padding: 8px 8px 0;">
-					<textarea class="form-control" rows="4" style="width: 100%"></textarea>
+					<textarea class="form-control" rows="4" style="width: 100%" placeholder="[14.900772, -23.510917]"></textarea>
 				</form>
 				
 			</div>
@@ -234,18 +234,13 @@
 								
 			</div>
 			
-			<div class="widget-step" step-id="div-edit" style="padding: 0;" step-trigger="action-tool-edit">
+			<div class="widget-step" step-id="div-edit" style="padding: 0;" step-trigger="action-start-editing">
 				
 				<div class="clearfix bg-white" style="padding: 8px; border-bottom: 2px solid whitesmoke;">
 					<a href="#" class="btn btn-grey btn-sm" widget-action="back-tools">
 						<i class="fa fa-arrow-left"></i>
 					</a>
-					
-					<a href="#" class="btn btn-default btn-sm" widget-action="start-editing">
-						<i class="fa fa-play"></i>
-						<span>Iniciar</span>
-				    </a>
-					
+										
 					<a href="#" class="btn btn-default btn-sm" widget-action="save-editing">
 						<i class="fa fa-save"></i>
 						<span>Gravar</span>

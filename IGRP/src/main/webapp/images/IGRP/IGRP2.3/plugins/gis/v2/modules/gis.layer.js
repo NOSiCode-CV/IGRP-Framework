@@ -319,7 +319,9 @@
 
 				map.on('moveend', function(){
 					
-					GetData();
+					if(!map.enableEditing)
+						
+						GetData();
 					
 				});
 

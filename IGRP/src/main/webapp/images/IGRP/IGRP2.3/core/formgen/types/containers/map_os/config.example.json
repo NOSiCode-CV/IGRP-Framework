@@ -13,11 +13,6 @@
         {
             "default": false,
             "name": "GoogleSatellite"
-        },
-        {
-            "default": true,
-            "name": "WorldImagery",
-            "url" : "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
         }
     ],    
     "groupLayers": [
@@ -41,18 +36,18 @@
                         "typeName": "POSER:pontosanas"
                     },
                     "type": "WFS",
-                    "geomType": "POINT",
+                    "geomType": "Point",
                     "url": "https://gis-teste.nosi.cv/geoserver/POSER/ows",
                     "visible": true
                 },
                 {
                     "id": 1506,
-                    "name": "Conselho de Cabo Verde",
+                    "name": "Concelho de Cabo Verde",
                     "options": {
                         "typeName": "POSER:concelho_cv"
                     },
                     "type": "WFS",
-                    "geomType": "POLYGON",
+                    "geomType": "Polygon",
                     "url": "https://gis-teste.nosi.cv/geoserver/POSER/ows",
                     "visible": true
                 },
@@ -63,14 +58,14 @@
                         "typeName": "POSER:Linhas_Santiago"
                     },
                     "type": "WFS",
-                    "geomType": "LINE",
+                    "geomType": "Line",
                     "url": "https://gis-teste.nosi.cv/geoserver/POSER/ows",
                     "visible": false
                 }             
             ],
             "title": "WFS",
             "visible": true
-        }
+        }        
     ],
     "widgets": [
         {
@@ -78,11 +73,11 @@
             "control": {
                 "button": true
             },
-            "data": {},
+            "data": {"advanced": true},
             "icon": "fa-search",
             "name": "map_os_1_map_widget_1",
             "position": "button_level",
-            "title": "Search",
+            "title": "Pesquisar",
             "type": "search"
         },
         {
@@ -106,7 +101,7 @@
             "icon": "fa-info",
             "name": "map_os_1_map_widget_3",
             "position": "button_level",
-            "title": "Identify",
+            "title": "Identificar Elementos",
             "type": "infowindow"
         },
         {

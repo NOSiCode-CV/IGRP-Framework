@@ -22,9 +22,8 @@
 
 				}
 
-			}, o ),
-			
-			locate = null, markerLocate = null, DisactivedLocate = true;
+			}, o );
+
 
 		map.addLayer = function(layer){
 
@@ -60,66 +59,7 @@
 		
 		map.locate = function(){
 			
-			DisactivedLocate = false;	
-			
-			if(locate){
-				
-				ClearLocate()
-				
-				return false;
-				
-			}
-			
-			map.view.locate({setView: true, watch: true})
-			
-			.on('locationfound', function(e){
-				
-				if(locate){
-					
-					ClearLocate()
-					
-				}
-								
-	        	markerLocate = L.marker([e.latitude, e.longitude],{
-	        		
-	        		icon: L.divIcon({
-	        		    html: '<i class="fa fa-lg fa-map-pin" style="color: #0085BA"></i>',
-	        		    iconSize: [30, 30],
-	        		    className: 'locate-marker-icon'
-	        		  })
-	        		
-	        	}).bindPopup('Your are here :)').openPopup();
-						            
-	        	locate = L.circle([e.latitude, e.longitude], e.accuracy/2, {
-	                
-	                color: 'blue',
-	                
-	                fillColor: '#136AEC',
-	                
-	                fillOpacity: 0.15,
-	                
-	                weight:      0
-	                
-	            });
-	        	
-	            map.view.addLayer(markerLocate);
-	            
-	            map.view.addLayer(locate);
-	            
-	            setTimeout(function(){
-	            	
-	            	DisactivedLocate = true;
-	            	
-	            	map.view.stopLocate()
-	            
-	            }, 3000)
-	            	            
-	        })
-	       .on('locationerror', function(e){
-	    	   
-	            console.log("Location access denied :: " + e);
-	            
-	        });
+			Utils.control.locate.init(map.view);
 						
 			return false;
 		};
@@ -139,20 +79,6 @@
 			return map.view;
 
 		};
-		
-		function ClearLocate(){
-			
-			if(locate){
-				
-				map.view.removeLayer(locate)
-				
-				map.view.removeLayer(markerLocate)
-				
-			}
-				
-			locate = null;
-			
-		}
 		
 		function SetGraphics(){
 			
@@ -195,6 +121,7 @@
 
 		}
 		
+		
 		function SetControllers(){
 
 			$('.gis-zoom-in', app.dom).on('click', map.zoomIn);
@@ -211,12 +138,14 @@
 				
 				map.expand();
 			
-			map.view.on('move', function(){
+			map.view.locateOptions = {disativated: true};
 			
-				if	(DisactivedLocate) ClearLocate()
-				
-			})
-
+			Utils.control.mousePosition.add(map.view, settings);
+			
+			var scale = Utils.control.scale.add(map.view);
+			
+			map.view.utils = {scale : scale}
+						
 		};
 
 		(function(){
@@ -227,8 +156,6 @@
 				
 				editable: true,
 				
-				//crs: proj4.defs("EPSG:4826","+proj=lcc +lat_1=15 +lat_2=16.66666666666667 +lat_0=15.83333333333333 +lon_0=-24 +x_0=161587.83 +y_0=128511.202 +datum=WGS84 +units=m +no_defs")
-
 			}).setView(settings.center, settings.zoom);			
 			
 			SetControllers();

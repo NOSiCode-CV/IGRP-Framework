@@ -4,7 +4,7 @@
 	
 	function SearchWidget( widget, app ){
 		
-		var input, check, txtCql, submitSearch, inputDiv,
+		var input, check, txtCql, submitSearch, inputParent,
 		
 			Layers  = [],
 			
@@ -14,6 +14,7 @@
 			
 			timeout = function(){};
 			
+		widget.activeFilter = false;			
 		
 		widget.templateParams = {
 			
@@ -60,7 +61,7 @@
 				$('.search-widget-results', widget.html).show();
 				
 				$('.search-clear', widget.html).show();
-				
+								
 			}catch(err){
 				
 				console.log(err)
@@ -76,7 +77,7 @@
 			GetLayers();
 			
 			getCqlFilter();
-				
+							
 			if( (val && val.length >= 1 || cqlFilters ) && Layers.length >= 1){
 				
 				var reqs    = [],
@@ -274,9 +275,9 @@
 			
 			var teste = '',
 				
-				attrWithReplace = [];
+				attrReplaced = [];
 			
-			cqlFilters = txtCql.val();
+			cqlFilters = " " + txtCql.val();
 			
 			if (isSearchAdvanced()){
 				
@@ -286,11 +287,9 @@
 										
 					for(var attr in attributes){
 						
-						if(attrWithReplace.indexOf(attr) == -1 && cqlFilters.includes(attr)){
+						if(attrReplaced.indexOf(attr) == -1 && cqlFilters.includes(attr))
 														
-							cqlFilters = cqlFilters.replace(attr, 'strToLowerCase('+attr+')');
-							
-						}						
+							cqlFilters = cqlFilters.replace(" "+attr+" ", ' strToLowerCase('+attr+') ');
 						
 					};
 										
@@ -316,13 +315,17 @@
 			
 			input = $('.search-input-wrapper input', widget.html);
 			
-			inputDiv = $('.search-input-wrapper', widget.html);
+			inputParent = $('.search-input-wrapper', widget.html);
 			
 			check = $('#search-ckeck-advanced :checkbox', widget.html);
+			
+			checkParent = $('#search-ckeck-advanced', widget.html);
 			
 			txtCql = $('#search-txt-cql textarea', widget.html);
 
 			submitSearch= $('#search-form-submit', widget.html);
+						
+			if(!data.advanced) checkParent.hide();
 			
 			widget.html.on('click', '.search-item', function(){
 				
@@ -376,6 +379,17 @@
 				
 			});
 			
+			
+			widget.action("search", function(){
+				
+				clearTimeout(timeout);
+
+				timeout = setTimeout(Search, 600 );
+				
+				widget.loading(true);
+				
+			})
+			
 			$('.search-clear', widget.html).on('click', function(){
 				
 				clearSearch();
@@ -397,9 +411,7 @@
 				var val = $(this).val();
 				
 				$('#layer-atts-select', widget.html).hide();
-				
-				$('#search-ckeck-advanced', widget.html).hide();
-				
+								
 				if (!val) return;
 						
 				var layer       = app.layers.get(val)
@@ -417,27 +429,32 @@
 				});
 				
 				$('#layer-atts-select', widget.html).show();	
-				$('#search-ckeck-advanced', widget.html).show();
 								
 			});
 			
 			check.on('change', function(){
 				
-		    	$('#search-form-advanced', widget.html).hide();	
-		    	
-		    	inputDiv.show();
+				inputParent.show();
 		    	
 		    	clearSearch();
-				
-				 if (this.checked) {
+		    	
+				if (this.checked) {
+					 					 
+					 inputParent.hide();
 					 
-					 $('#search-form-advanced', widget.html).show();
+					 widget.activeFilter = true;
 					 
-					 inputDiv.hide();
+					 widget.steps.filter.activate();
 
+			    }else{
+			    	
+			    	$("#search-form-advanced").removeClass('active');
+			    	
+			    	widget.activeFilter = false;
+			    	
 			    }
 			});
-			
+						
 			widget.html.on('click', '#search-grid-operators button',function(){
 								 
 				 genCqlFilter($(this).data('operator'));
@@ -471,6 +488,8 @@
 				UnHighLightFeatures();
 				
 				clearSearch();
+				
+				check.trigger("click");
 				
 			})
 									

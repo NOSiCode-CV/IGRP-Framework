@@ -10,7 +10,9 @@
 					
 					center,
 					
-					bounds;
+					bounds,
+					
+					type;
 				
 				switch(feature.geometry.type){
 					
@@ -20,13 +22,18 @@
 				
 						bounds = L.latLngBounds(point, point);
 						
+						type  = 'Point';
+						
 					break;
 					
+					case 'LineString':
 					case 'MultiLineString':
 						
 						var line = L.polyline( feature.geometry.coordinates );
 						
 						bounds =  line.getBounds();
+						
+						type  = 'Line';
 						
 					break;
 					
@@ -36,6 +43,8 @@
 						var polygon  = L.polygon( feature.geometry.coordinates );
 						
 						bounds   =  polygon.getBounds();
+						
+						type  = 'Polygon';
 
 					break;
 				
@@ -44,6 +53,8 @@
 				center   = bounds.getCenter();
 				
 				return {
+					
+					type   : type,
 					
 					center : JSON.stringify(center),
 					
@@ -102,11 +113,11 @@
 		
 		geometry : {
 			
-			point   : 'POINT',
+			point   : 'Point',
 			
-			polygon : 'POLYGON',
+			polygon : 'Polygon',
 			
-			line    : 'LINE'
+			line    : 'Line'
 			
 		},
 		
@@ -258,7 +269,181 @@
 				
 			},
 		},
+		
+		control : {
+			
+			mousePosition: {
+				
+				setMousePosition: function(e){
+										
+					var lat = L.Util.formatNum(e.latlng.lng, 6);
+					
+					var lng = L.Util.formatNum(e.latlng.lng, 6);
+					
+					var value = lat + ',' + lng;
+					
+					this._mouse_position = L.DomUtil.get('gis-mouse-position');
+					
+					this._mouse_position.innerHTML  = value;
+					
+				},
+				
+				setDefaultMousePosition: function(settings){
+					
+					if(!settings.center) return;
+					
+					this._mouse_position = L.DomUtil.get('gis-mouse-position');
+					
+					this._mouse_position.innerHTML  = L.Util.formatNum(settings.center[0], 6) + ',' + L.Util.formatNum(settings.center[1], 6);;
+					
+				},
+				
+				add: function(map, settings){
+					
+					this.setDefaultMousePosition(settings);
+					
+					map.on('mousemove', this.setMousePosition, this);
+								
+					map.off('mousemove', this.setMousePosition);
+					
+				},
+				
+			},
+			
+			locate: {
+				
+				Clear: function(map){
+					
+					if(map.locateOptions.marker){
+						
+						map.removeLayer(map.locateOptions.marker)
+						
+						map.removeLayer(map.locateOptions.circle)
+						
+					}
+						
+					map.locateOptions.marker = null;
+					
+					map.locateOptions.circle = null;
+					
+				},
+				
+				onLocationFound: function(e, map) {
+					
+					this.Clear(map)
+					
+				    var radius = e.accuracy;
 
+					map.locateOptions.marker = L.marker(e.latlng, {
+						
+						icon: L.divIcon({
+		        			
+		        		    html: '<i class="fa fa-lg fa-map-pin" style="color: #0085BA"></i>',
+		        		    
+		        		    iconSize: [30, 30],
+		        		    
+		        		    className: 'locate-marker-icon'
+		        		    	
+		        		  })
+		        		  
+					}).addTo(map).bindPopup("Você está aqui :)").openPopup();
+
+					map.locateOptions.circle = L.circle(e.latlng, radius/3).addTo(map);
+									    				    
+				},
+				
+				onLocationError: function(e) {
+				    console.log("Location Error:: " + e.message);
+				},
+				
+				init: function(map){
+					
+					self = this;
+					
+					map.locateOptions.disativated  = false;	
+					
+					if(map.locateOptions.marker){
+						
+						this.Clear(map)
+						
+						return false;
+						
+					}
+					
+					map.locate({setView: true, watch: true});
+					
+					map.on('locationfound', function(e){
+						
+						self.onLocationFound(e, map)
+						
+					});
+					
+					map.on('locationerror', this.onLocationError);	
+					
+					map.on('moveend', function() {
+						
+						map.locateOptions.disativated = true;
+		            	
+		            	map.stopLocate()
+		            	
+					})
+										
+				},
+				
+			},
+			
+			scale: {
+				
+				_updateScale: function ( label, ratio, maxWidth) {
+										
+					this._label = L.DomUtil.get('gis-scale-label');
+					
+					this._label.innerHTML  = label;
+					
+					this._ruler = L.DomUtil.get('gis-scale-ruler');
+										
+					this._ruler.style.width = Math.round(maxWidth * ratio) + 'px';
+										
+				},
+				
+				_update: function (map) {
+					
+					var maxWidth = 100,
+					
+					    y = map.getSize().y / 2,
+					
+					    maxMeters = map.distance(
+							map.containerPointToLatLng([0, y]),
+							map.containerPointToLatLng([maxWidth, y]));
+										
+					    scale = new L.control.scale(),
+					
+					    meters = scale._getRoundNum(maxMeters);
+					
+					    label = meters < 1000 ? meters + ' m' : (meters / 1000) + ' km';
+					
+					this._updateScale(label, meters / maxMeters, maxWidth);
+					    
+				},
+								
+				add: function(map){
+					
+					this._update(map);
+					
+					map.on('move', function(){
+						
+						map.utils.scale._update(map)
+						
+					});	
+					
+					return this;
+								
+				}
+				
+			},
+			
+		},
+		
 	});
 	
 	/* HandleBars Functions */

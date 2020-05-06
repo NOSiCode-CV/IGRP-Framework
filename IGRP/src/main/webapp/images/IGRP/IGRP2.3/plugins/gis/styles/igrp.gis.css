@@ -143,7 +143,7 @@
 }
 
 .gis-panel.bottom{
-  bottom: 0;
+  bottom: 15px;
   right: 0;
   top: auto;
 }
@@ -151,6 +151,44 @@
 .gis-panel.bottom .gis-panel-inner {
 	margin-bottom:0;
 }
+
+/*gis-footer-controller*/
+
+.gis-footer-controller{	
+	position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 401;
+}
+
+.gis-footer-controller .footer-panel{
+	float: right;
+    background-color: rgba(255,255,255,0.8);
+    padding-left: 3px;
+    display: flex;
+    font-size: 12px;
+    color: #000;
+    padding-right: 10px;
+}
+
+.gis-footer-controller .footer-panel div{
+	margin-left: 10px;
+}
+
+.gis-footer-controller .gis-scale #gis-scale-ruler{
+    display: inline-block;
+    height: 4px;
+    border: 2px solid gray;
+    border-top: none;
+}
+
+.gis-footer-controller .gis-scale #gis-scale-label{
+	display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+}
+
+/*End*/
 
 .gis-widget-panel{
 	box-shadow:0px 0px 5px 1px rgba(0, 0, 0, 0.15);
@@ -230,6 +268,7 @@
   z-index: 10;
   display: none;
   box-shadow: 2px 0px 20px 0px rgba(0, 0, 0, 0.3);
+  overflow: auto;
 }
 
 .gis-panel.open .gis-panel-menu-content{
