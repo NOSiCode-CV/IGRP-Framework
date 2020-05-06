@@ -70,27 +70,27 @@
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Dolor consectetur accusantium</nome>
+                        <nome name="p_nome">Lorem iste aliqua amet accusan</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Ut doloremque anim stract sit</nome>
+                        <nome name="p_nome">Aperiam omnis dolor iste dolor</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Stract voluptatem anim sit des</nome>
+                        <nome name="p_nome">Elit rem ut sit aliqua</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Officia ut laudantium sed omni</nome>
+                        <nome name="p_nome">Omnis dolor laudantium ut dese</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Sit voluptatem lorem aliqua de</nome>
+                        <nome name="p_nome">Amet rem mollit ipsum doloremq</nome>
                     </row>
                 </value>
             </table>
@@ -106,7 +106,7 @@
                 <preview>../images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml</preview>
             </item>
             <item type="specific" code="" rel="novo_transacao" refresh_components="">
-                <title>Novo Transação</title>
+                <title>Nova Transação</title>
                 <app>igrp</app>
                 <page>EditarTransacao</page>
                 <link>index</link>
