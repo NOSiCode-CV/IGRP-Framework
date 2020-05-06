@@ -17,7 +17,7 @@
 				
 				<div class="widget-step measurement-body" step-id="measurement" widget-trigger="action-measure-area action-measure-length" step-when="widget.drawStart" style="padding: 0 8px 8px">
 					<p class="help widget-step clearfix" step-id="help" step-when="widget.drawHelp">Adicione pontos no mapa, para criar uma nova medição</p>
-					<div class="results" widget-template="results">
+					<div class="results" widget-template="measurement">
 						{{#if this.lastPoint.lat}}
 							<div class="group" style="margin-top: 0;"> 
 								<p class="heading">Último ponto</p>

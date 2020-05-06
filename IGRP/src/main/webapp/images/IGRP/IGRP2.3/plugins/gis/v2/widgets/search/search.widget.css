@@ -1,5 +1,9 @@
 .search-input-wrapper{
-	position:Relative;
+	position:relative;
+}
+
+.gis-widget-wrapper[widget-type="search"] .form-group{
+    margin-bottom: 8px;
 }
 
 .gis-widget-wrapper[widget-type="search"] #search-widget-form{
@@ -10,22 +14,23 @@
 /*Pesquisa Avancado*/
 .gis-widget-wrapper[widget-type="search"] #search-ckeck-advanced input{
     margin: 0;
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15px
 }
 
 .gis-widget-wrapper[widget-type="search"] #search-ckeck-advanced label{
-	padding-left: 10px!important;
     display: inline-block;
     position: relative;
     vertical-align: top;
     margin-bottom: 0;
     cursor: pointer;
+    font-size: 11px;
+    font-weight: 300;
 }
 
 .gis-widget-wrapper[widget-type="search"] #search-grid-operators button{
 	margin: 2px;
-	width: 44px;
+	width: 37px;
 }
 
 .gis-widget-wrapper[widget-type="search"] #search-txt-cql textarea{
@@ -59,6 +64,11 @@
 	outline:0;
 	transition:opacity .2s;
 }
+
+.gis-widget-wrapper[widget-type="search"] .search-input-wrapper .input-group-addon i{
+	pointer-events: none;
+}
+
 
 /* accordion */
 .gis-widget-wrapper[widget-type="search"] .panel-group,

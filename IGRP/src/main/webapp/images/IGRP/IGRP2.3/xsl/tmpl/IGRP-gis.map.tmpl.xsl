@@ -12,7 +12,7 @@
 
         <div class="igrp-map-os-wrapper" id="{$id}">
          		
-		 <div class="gis-panel widget"></div>
+		  <div class="gis-panel widget"></div>
 		
           <div class="gis-panel left">
             
@@ -71,6 +71,17 @@
 	          </button>
             </div>
           
+          </div>
+          
+          <div class="gis-footer-controller">
+          	<div class="footer-panel">
+          		<div class="gis-attribution"></div>          		
+          		<div id="gis-mouse-position">0,0</div>  
+          		<div class="gis-scale">
+          			<span id="gis-scale-label"></span>
+          			<div id="gis-scale-ruler"></div>
+          		</div>        		
+          	</div>          	
           </div>
           
           <div id="{$id}-map" class="gis-map-view" style="min-height:650px"></div>

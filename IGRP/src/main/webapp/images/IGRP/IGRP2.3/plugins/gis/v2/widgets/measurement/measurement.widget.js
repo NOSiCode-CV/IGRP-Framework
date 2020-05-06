@@ -38,7 +38,7 @@
 			 
 		    var distance =  L.GeometryUtil.length(obj.getLatLngs());
 		    
-		  //@param {String} unit 'metric' or 'imperial'
+		    //@param {String} unit 'metric' or 'imperial'
 		    return L.GeometryUtil.readableDistance(distance,'metric');
 		    
 		};
@@ -55,7 +55,7 @@
 		
 		function SetResult(result){
 			
-			widget.setTemplateParam('results', {
+			widget.setTemplateParam('measurement', {
 				
 				length  	     : result.length,
 				

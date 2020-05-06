@@ -1,8 +1,8 @@
 (function(){
-
+   
 	function InfoWindowWidget(widget, app){
 		
-		var Utils  = GIS.module('Utils'),
+		var utils  = GIS.module('Utils'),
 		
 			data   = widget.data(),
 		
@@ -34,23 +34,39 @@
 			
 		};
 		
-		function SetWindowContent(feature, attributes){
+		function SetWindowContent(feature, attributes, area){
 			
-			var visibleAttrs = !attributes || attributes == '*' ? feature.properties : GetFeatureProperties(feature, attributes),
+			var visibleAttrs = !attributes || attributes == '*' ? feature.properties : GetFeatureProperties(feature, attributes);
+			
+			if(area) visibleAttrs.area_calculada = area;
 					
-				content 	 = Utils.feature.properties.toHTML( visibleAttrs );
+			var	content 	 = utils.feature.properties.toHTML( visibleAttrs );
 			
 			return content;
 			
 		};
 		
+		function getArea(obj) {
+			
+			if(obj instanceof L.Marker || obj instanceof L.CircleMarker) return;
+			
+			var latLngs  =  obj.getLatLngs();
+						 			
+		    var area =  L.GeometryUtil.geodesicArea(latLngs[0][0]);
+	
+			return utils.L.Geometry.readableArea(area, 'metric');
+		  
+		};
+		
 		function onLayerClick(e){
 		
-			var feature = e.layer && e.layer.feature ? e.layer.feature : null;
-						
+			var feature = e.layer && e.layer.feature ? e.layer.feature : null,
+				
+			 	area = getArea(e.layer);
+									
 			if(feature)
 		
-				pop = L.popup().setLatLng(e.latlng).setContent( SetWindowContent(feature, Layer.attributes) ).openOn(app.viewer());
+				pop = L.popup().setLatLng(e.latlng).setContent( SetWindowContent(feature, Layer.attributes, area) ).openOn(app.viewer());
 
 		};
 		
@@ -114,6 +130,12 @@
 	};
 	
 	GIS.widgets.register('infowindow', {
+		
+		dependencies : {
+			
+			js  : [ 'https://npmcdn.com/leaflet-geometryutil@0.9.3/src/leaflet.geometryutil.js' ]
+				
+		},
 		
 		init : InfoWindowWidget
 		

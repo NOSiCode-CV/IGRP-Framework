@@ -7,6 +7,10 @@
 	<div class="gis-widget-panel-body">
 		<div id="search-widget-form">
 			<div class="search-input-layer" >
+			    <div class="form-group" id="search-ckeck-advanced">
+					<input type="checkbox" id="" widget-action="check" action-event="change">
+					<label>Filtro Avançado</label>
+				</div>
 				<div class="form-group" widget-template="layers">
 					<select class="form-control" id="layers-select">
 					<option value="">--- Select Layer ---</option>
@@ -23,49 +27,48 @@
 					{{/each}}
 					</select>
 				</div>
-										
-				<div class="form-group" id="search-ckeck-advanced" style="display:none;">
-					<input type="checkbox" id="">
-					<label>Filtro Avançado</label>
-				</div>
-				
-				<div id="search-form-advanced" style="display:none;">			
+							
+				<div id="search-form-advanced" class="widget-step clearfix" step-id="filter" step-when="widget.activeFilter" style="padding: 0">		
+					
 					<div class="form-group" id="search-grid-operators">
 						<div class="btn-group" role="group" aria-label="...">
-						  <button type="button" class="btn btn-default" data-operator="=">=</button>
-						  <button type="button" class="btn btn-default" data-operator="<>"><></button>					  
-						  <button type="button" class="btn btn-default" data-operator=">">></button>
-						  <button type="button" class="btn btn-default" data-operator=">=">>=</button>
-						  <button type="button" class="btn btn-default" data-operator="<"><</button>
-						  <button type="button" class="btn btn-default" data-operator="<="><=</button>
-						  <button type="button" class="btn btn-default" data-operator="LIKE '%%' ">Like</button>
-						  <button type="button" class="btn btn-default" data-operator="AND">And</button>
-						  <button type="button" class="btn btn-default" data-operator="OR">Or</button>
-						  <button type="button" class="btn btn-default" data-operator="NOT IN('')">Not</button>
-						  <button type="button" class="btn btn-default" data-operator="IN('')">In</button>
-						  <button type="button" class="btn btn-default" data-operator="BETWEEN">BETWEEN</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="=">=</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="<>"><></button>					  
+						  <button type="button" class="btn btn-default btn-sm" data-operator=">">></button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator=">=">>=</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="<"><</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="<="><=</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="like '%%' ">Like</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="and">And</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="or">Or</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="not in('')">Not</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="in('')">In</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="between" style="width: 77px;">Between</button>
 						</div>
 					</div>
 					
-					<div class="form-group" id="search-txt-cql">
-						<textarea rows="4" cols="100"></textarea>
+					<div class="" id="search-txt-cql">
+						<textarea rows="3" cols="100"></textarea>
 					</div>
 					
-					<div class="form-group">
+					<div class="" style="text-align: right;">
+					    <!--<div class="search-clear" style="display:none">
+							<i class="fa fa-times"></i>
+						</div>  -->
 						<button widget-action="search-submit" class="btn btn-primary btn-sm" type="button" id="search-form-submit">
 							<i class="fa fa-search"></i>
 							<span>Pesquisar</span>
-						</button>
-					</div>
-				
+					 	</button>
+					 </div>
 				</div>
 				
 			</div>
 			<div class="search-input-wrapper">
 				<div class="input-group">
+				
 					<input type="text" class="form-control" placeholder="Pesquisar...">
 					
-					<span class="input-group-addon">
+					<span class="input-group-addon" step-action="search" step-event="click">
 						<i class="fa fa-search"></i>
 					</span>
 				</div>
@@ -116,21 +119,21 @@
 		</div>
 	  
 		<div class="lds-css">
-		<div class="lds-spinner" >
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
+			<div class="lds-spinner" >
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
 		</div>
-	</div>
   
   	</div>
 </div>

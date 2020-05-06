@@ -96,9 +96,7 @@
 						cql_filter : cql
 						
 					});
-					
-					console.log(queryOptions);
-					
+										
 					queryRequest = $.get( queryOptions.url, queryOptions.options );
 					
 				}	
