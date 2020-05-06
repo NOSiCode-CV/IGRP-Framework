@@ -55,7 +55,7 @@ public class EditarTransacaoController extends Controller {
 			model.setAplicacao("" + (Core.findApplicationByDad(dad)).getId());
 			model.setStatus(1);
 	        
-	        
+	        view.sectionheader_1_text.setValue("Nova Transação");
 	        
 		}
           

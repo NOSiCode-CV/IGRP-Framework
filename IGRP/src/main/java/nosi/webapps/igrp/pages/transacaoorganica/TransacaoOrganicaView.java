@@ -68,7 +68,7 @@ public class TransacaoOrganicaView extends View {
 		btn_gestao_de_transacoes = new IGRPButton("Gestão transações","igrp","TransacaoOrganica","gestao_de_transacoes","mpsubmit|refresh","black|fa-exchange","","");
 		btn_gestao_de_transacoes.propertie.add("type","specific").add("rel","gestao_de_transacoes").add("refresh_components","");
 
-		btn_novo_transacao = new IGRPButton("Novo Transação","igrp","TransacaoOrganica","novo_transacao","right_panel|refresh","success|fa-plus-square","","");
+		btn_novo_transacao = new IGRPButton("Nova Transação","igrp","TransacaoOrganica","novo_transacao","right_panel|refresh","success|fa-plus-square","","");
 		btn_novo_transacao.propertie.add("type","specific").add("rel","novo_transacao").add("refresh_components","");
 
 		
