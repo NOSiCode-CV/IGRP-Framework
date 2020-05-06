@@ -254,10 +254,17 @@ public class PesquisarMenuController extends Controller {
 	private void displayMenusPlSql(XMLWritter xml_menu) {
 		List<IgrpPLSQLMenu> menus = getAllMyMenusFromPlSql();
 		if(menus != null && !menus.isEmpty()) {
+			
+			xml_menu.startElement("menu");
+			xml_menu.setElement("title", "IGRP-PLSQL SSO");
+			xml_menu.setElement("order", "99");
+			xml_menu.setElement("id", "2020");
+			xml_menu.setElement("status", "1");
+			
 			for(IgrpPLSQLMenu m : menus) {
 				if(m.getSelf_id() == null || m.getSelf_id().isEmpty()) {
 					boolean hasChild = false;
-					xml_menu.startElement("menu");
+					xml_menu.startElement("submenu");
 					xml_menu.setElement("title", gt(m.getTitle()));
 					xml_menu.setElement("target", m.getArea());
 					xml_menu.setElement("id", "" + m.getId());
@@ -283,6 +290,9 @@ public class PesquisarMenuController extends Controller {
 					xml_menu.endElement();
 				}
 			}
+			
+			xml_menu.endElement();
+			
 		}
 	}
 
