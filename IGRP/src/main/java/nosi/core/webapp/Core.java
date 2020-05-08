@@ -155,7 +155,7 @@ public final class Core { // Not inherit
 	 * 
 	 * @return
 	 */
-	public String getHostName() {		
+	public static String getHostName() {		
 		HttpServletRequest req = Igrp.getInstance().getRequest();		
 		return req.getRequestURL().toString();
 	}
