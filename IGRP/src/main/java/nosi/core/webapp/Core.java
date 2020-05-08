@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.persistence.Tuple;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -146,6 +147,19 @@ public final class Core { // Not inherit
 	public static void addToSession(String key, String value) {
 		Igrp.getInstance().getRequest().getSession().setAttribute(key, value);
 	}
+	
+
+	/**
+	 * return the applications host
+	 * 
+	 * 
+	 * @return
+	 */
+	public String getHostName() {		
+		HttpServletRequest req = Igrp.getInstance().getRequest();		
+		return req.getRequestURL().toString();
+	}
+	
 
 	/**
 	 * Check permition transaction for current user
