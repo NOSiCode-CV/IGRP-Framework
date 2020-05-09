@@ -60,8 +60,9 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 	private Menu menu;	
 	@Transient
 	private Organization organization;
-	@Transient
-	private String link;
+	
+	private String link; 
+	
 	@Transient
 	private boolean isInserted;
 	@Transient
@@ -225,7 +226,12 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				ms.setOrder(r.getInt("orderby"));
 				ms.setTitle(r.getString("descr"));
 				ms.setTarget(r.getString("target"));
-				ms.setStatus(r.getShort("status"));
+				ms.setStatus(r.getShort("status")); 
+				
+				String link = r.getString("link"); 
+				if(link != null) 
+					ms.setLink(link); 
+				System.out.println("link: " + link);
 				
 				Action pagina = new Action().find().andWhere("page", "=", r.getString("page")).andWhere("application.dad", "=", r.getString("dad_app_page")).one();
 				if(pagina != null) {
@@ -497,6 +503,14 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		public void setSelf_id(Integer self_id) {
 			this.self_id = self_id;
 		}
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 	
 }

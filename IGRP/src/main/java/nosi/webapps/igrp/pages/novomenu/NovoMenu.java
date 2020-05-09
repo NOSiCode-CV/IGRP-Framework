@@ -11,6 +11,11 @@ public class NovoMenu extends Model{
 	@RParam(rParamName = "p_env_fk")
 	private int env_fk;
 
+	@RParam(rParamName = "p_global_acl")
+	private int global_acl;
+	@RParam(rParamName = "p_global_acl_check")
+	private int global_acl_check;
+
 	@RParam(rParamName = "p_action_fk")
 	private int action_fk;
 
@@ -69,6 +74,19 @@ public class NovoMenu extends Model{
 	}
 	public int getEnv_fk(){
 		return this.env_fk;
+	}
+	
+	public void setGlobal_acl(int global_acl){
+		this.global_acl = global_acl;
+	}
+	public int getGlobal_acl(){
+		return this.global_acl;
+	}
+	public void setGlobal_acl_check(int global_acl_check){
+		this.global_acl_check = global_acl_check;
+	}
+	public int getGlobal_acl_check(){
+		return this.global_acl_check;
 	}
 	
 	public void setAction_fk(int action_fk){
