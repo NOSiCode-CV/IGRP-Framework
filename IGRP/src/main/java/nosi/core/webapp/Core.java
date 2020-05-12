@@ -1,5 +1,7 @@
 package nosi.core.webapp;
 
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -16,10 +18,12 @@ import java.text.DateFormat;
 import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +84,7 @@ import nosi.core.webapp.uploadfile.UploadFile;
 import nosi.core.webapp.webservices.rest.Geografia;
 import nosi.core.webapp.webservices.soap.SoapClient;
 import nosi.core.xml.XMLWritter;
+import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.ActivityEcexuteType;
 import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.Application;
@@ -90,6 +95,7 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumento;
 import nosi.webapps.igrp.dao.Transaction;
+import nosi.webapps.igrp.dao.User;
 
 /**
  * The core of the IGRP, here you can find all the main functions and helper
@@ -371,6 +377,69 @@ public final class Core { // Not inherit
 		app.setReadOnly(true);
 		return app.findByDad(dad);
 	}
+	
+	
+	/**
+	 * List all Application that user has access
+	 * 
+	 */
+	public static Map<Object, Object> getListApps() {
+		return new Application().getListApps();
+	}
+	
+	
+	/**
+	 * List pages By id_application
+	 * 
+	 * @param id_app
+	 * 
+	 */
+	public static HashMap<Integer, String> getListActions(int id_app) {
+		
+		List<Action> actions = new ArrayList<Action>();
+		actions = new Action().find().andWhere("application", "=", id_app).andWhere("status", "=", 1)
+				.andWhere("isComponent", "<>", (short)2).all();
+		
+		HashMap<Integer, String> all_page = new HashMap<>();
+		
+		if(Core.isNotNull(actions)) {
+			for(Action ac : actions) {
+				all_page.put(null, gt("-- Selecionar --"));
+				if (Core.isNotNull(ac.getPage_descr()))
+					all_page.put(ac.getId(), ac.getPage_descr());
+				else
+					all_page.put(ac.getId(), ac.getPage());
+			}
+			return all_page;
+		}else {
+			all_page.put(null, gt("-- Selecionar --"));
+			return all_page;
+		} 
+		
+		
+	}
+	
+	
+	/**
+	 * find page By id_page
+	 * 
+	 * @param id_page
+	 * 
+	 */
+	public static Action getInfoPage(int id_page) {
+		if(Core.isNotNull(id_page)) {
+			Action action = new Action().findOne(id_page);
+			action.setReadOnly(true);
+			return action;	
+		}else {
+			return null;
+		}
+			
+		
+	}
+	
+	
+	
 
 	/**
 	 * Find Application By ID
