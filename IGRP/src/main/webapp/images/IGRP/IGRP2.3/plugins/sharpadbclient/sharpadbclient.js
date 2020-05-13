@@ -13,7 +13,7 @@
             port = $.IGRP.components.sharpadbclient.serviceport[port];
 
             $.ajax({
-                url         : port + '/api/' + p.task,
+                url         : 'https://sac-hostservice.nosi.cv:'+ port + '/api/' + p.task,
                 method      : 'POST',
                 data        : JSON.stringify(p.data),
                 contentType : "application/json",
@@ -65,11 +65,10 @@
         },
 
         serviceport : {
-            prod    : 'https://sac-hostservice.nosi.cv:10110',
-            dev     : 'https://sac-hostservice.nosi.cv:44326',
-            all 	: 'http://localhost:5000'
+            prod: '10110',
+            all : '10108'
         },
-
+        
         actions: function (str) {
 
             var jsonEvents = {
