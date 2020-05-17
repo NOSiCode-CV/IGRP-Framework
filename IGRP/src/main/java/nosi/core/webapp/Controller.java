@@ -274,7 +274,8 @@ public class Controller {
 				e.printStackTrace();
 			}
 			
-		String xml = display.displayInputNOutputDocsInDistinctFormList(); 		
+		String xml = display.displayInputNOutputDocsInDistinctFormList(); 	
+		
 		return xml;
 	}
 	

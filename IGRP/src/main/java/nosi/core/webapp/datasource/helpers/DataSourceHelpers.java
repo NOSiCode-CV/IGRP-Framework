@@ -50,7 +50,7 @@ public class DataSourceHelpers {
 	public HashMap<Integer,String> getListSources(Integer id){
 		HashMap<Integer,String> lista = new HashMap<>();
 		//lista.put(null, "--- Selecionar Aplicação ---");
-		for(RepSource rep:new RepSource().find().andWhere("application", "=",id).all()){
+		for(RepSource rep:new RepSource().find().andWhere("application", "=",id).andWhere("status", "=", 1).all()){
 			lista.put(rep.getId(), rep.getName());
 		}
 		return lista;

@@ -390,6 +390,7 @@ public class Config {
 		
 		if( Core.isNotNull(app)  && Core.isNotNull(page)){
 			RuntimeTask runtimeTask = RuntimeTask.getRuntimeTask();
+			
 			Action ac = new Action();
 			if(Core.isNotNull(runtimeTask))
 				ac = ac.find()

@@ -29,8 +29,9 @@ import nosi.core.webapp.activit.rest.helpers.DateHelper;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 /*----#end-code----*/
 		
-public class ExecucaoTarefasController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+public class ExecucaoTarefasController extends Controller { 
+	
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{ 
 		ExecucaoTarefas model = new ExecucaoTarefas();
 		model.load();
 		model.setView_estatistica_img("../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg");
@@ -401,6 +402,8 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(executar_button_minha_tarefas)----*/
+		
+		System.out.println("Executar_button_minha_tarefas entrado."); 
 		String taskId = Core.getParam("p_id");
 		if (Core.isNotNull(taskId)) {
 			BPMNExecution bpmn = new BPMNExecution();
