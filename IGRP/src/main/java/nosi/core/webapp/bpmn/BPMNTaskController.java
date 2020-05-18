@@ -39,7 +39,7 @@ import static nosi.core.i18n.Translator.gt;
 public abstract class BPMNTaskController extends Controller implements InterfaceBPMNTask{
 	private String page;
 	private String myCustomPermission;
-	private RuntimeTask runtimeTask;
+	protected RuntimeTask runtimeTask;
 	private BPMNExecution bpmnExecute;
 	
 	public BPMNTaskController() {
@@ -337,5 +337,5 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	protected void setCustomPermission(String customPermission) {
 		this.myCustomPermission = customPermission;
 	}
-
+	
 }

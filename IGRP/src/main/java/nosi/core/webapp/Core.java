@@ -64,6 +64,7 @@ import nosi.core.webapp.activit.rest.entities.TaskVariables;
 import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import nosi.core.webapp.bpmn.BPMNConstants;
+import nosi.core.webapp.bpmn.BPMNExecution;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.databse.helpers.Connection;
 import nosi.core.webapp.databse.helpers.QueryDelete;
@@ -1410,7 +1411,11 @@ public final class Core { // Not inherit
 
 	public static String getParamTaskId() {
 		String taskId = Core.getParam(BPMNConstants.PRM_TASK_ID);
-		Core.setAttribute(BPMNConstants.PRM_TASK_ID, taskId);
+		
+		System.out.println(BPMNConstants.PRM_TASK_ID + " NovotaskId: " + taskId);
+		
+		Core.setAttribute(BPMNConstants.PRM_TASK_ID, taskId); 
+		
 		return taskId;
 	}
 
@@ -4222,6 +4227,37 @@ public final class Core { // Not inherit
 	
 	public static String generateXmlForCalendar(String tagName, List<?> data) {
 		return IGRPTable.generateXmlForCalendar(tagName, data); 
+	}
+	
+	/**
+	 * @param processKey (Ex: Processo_pedido_compra)
+	 * @param processDefinitionId (Ex: Processo_pedido_compra:7:30019)
+	 * @return
+	 */
+	public static Response startProcess(String processKey, String processDefinitionId) {
+		try {
+			if (Core.isNotNullMultiple(processDefinitionId, processKey)) {
+				BPMNExecution bpmn = new BPMNExecution();
+				return bpmn.startProcess(processKey, processDefinitionId);
+			}
+		} catch (Exception e) {
+		}
+		return null; 
+	}
+	
+	/**
+	 * @param taskId (Ex: 35834)
+	 * @return
+	 */
+	public static Response startTask(String taskId) {
+		try {
+			if (Core.isNotNull(taskId)) {
+				BPMNExecution bpmn = new BPMNExecution();
+				return bpmn.openTask(taskId); 
+			}
+		} catch (Exception e) { 
+		}
+		return null; 
 	}
 	
 }

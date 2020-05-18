@@ -139,18 +139,18 @@ public class BPMNExecution extends Controller{
 	}
 	
 	public Response executeTask(String taskId) throws IOException {
-		if (Core.isNotNull(taskId)) {
-			RuntimeTask runtime = this.getRuntimeTask(taskId);
-			if (runtime != null && runtime.getTask()!=null) {
-				this.restartQueryString();
-				Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, runtime);
-				Core.setAttribute(BPMNConstants.PRM_TASK_EXECUTION_ID, runtime.getTask().getExecutionId());	
-				this.addQueryString(BPMNConstants.PRM_TASK_ID, taskId);
-				return this.forward(runtime.getTask().getTenantId(),
-						BPMNConstants.PREFIX_TASK + runtime.getTask().getTaskDefinitionKey(), "save",
-						this.queryString());
+			if (Core.isNotNull(taskId)) {
+				RuntimeTask runtime = this.getRuntimeTask(taskId);
+				if (runtime != null && runtime.getTask()!=null) {
+					this.restartQueryString();
+					Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, runtime);
+					Core.setAttribute(BPMNConstants.PRM_TASK_EXECUTION_ID, runtime.getTask().getExecutionId());	
+					this.addQueryString(BPMNConstants.PRM_TASK_ID, taskId);
+					return this.forward(runtime.getTask().getTenantId(),
+							BPMNConstants.PREFIX_TASK + runtime.getTask().getTaskDefinitionKey(), "save",
+							this.queryString());
+				}
 			}
-		}
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 

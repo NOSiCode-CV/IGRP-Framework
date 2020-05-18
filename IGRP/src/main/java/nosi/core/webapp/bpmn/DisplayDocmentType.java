@@ -166,8 +166,6 @@ public class DisplayDocmentType{
 			});
 		}
 		
-		System.out.println("Docs out: " + data.size()); 
-		
 		return data;
 	}
 
