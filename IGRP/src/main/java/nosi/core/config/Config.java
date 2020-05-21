@@ -2,6 +2,8 @@ package nosi.core.config;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import nosi.core.gui.components.IGRPButton;
@@ -382,22 +384,26 @@ public class Config {
 		
 		if( Core.isNotNull(app)  && Core.isNotNull(page)){
 			
-			RuntimeTask runtimeTask = RuntimeTask.getRuntimeTask();
+			RuntimeTask runtimeTask = RuntimeTask.getRuntimeTask(); 
 			
 			Action ac = new Action();
 			if(Core.isNotNull(runtimeTask)) {
-				ac = ac.find()
+					List<Action> actions = new Action().find()
 					   .andWhere("application.dad", "=", runtimeTask.getTask().getTenantId())
 					   .andWhere("page", "=", Page.resolvePageName(page))
-					   .andWhere(ac.restriction().equals("processKey", runtimeTask.getTask().getProcessDefinitionKey().toLowerCase()).or().equals("processKey", runtimeTask.getTask().getProcessDefinitionKey()))
-					   .one();
+					   .all(); 
+					if(actions != null && !actions.isEmpty()) {
+						Optional<Action> opt = actions.stream().filter(p -> p.getProcessKey() != null && p.getProcessKey().equalsIgnoreCase(runtimeTask.getTask().getProcessDefinitionKey()))
+							.findFirst(); 
+						if(opt.isPresent()) 
+							ac = opt.get(); 
+					}
 			}else {
 				ac = ac.find()
 					   .andWhere("application.dad", "=", app.toLowerCase())
 					   .andWhere("page", "=", Page.resolvePageName(page))
 					   .one();
 			}
-			
 			if(ac!=null && ac.getPackage_name()!=null) {
 				String p = ac.getPackage_name().toLowerCase();
 				if(p.endsWith("pages")) 
