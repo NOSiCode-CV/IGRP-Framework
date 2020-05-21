@@ -20,7 +20,6 @@ import nosi.webapps.igrp.dao.User;
 
 public class Config {
 
-	
 	private final String LINK_XSL_GENERATOR = "images/IGRP/IGRP2.3/app/igrp/generator/Generator.xsl";
 	private final String LINK_XSL_HOME_STUDIO = "images/IGRP/IGRP2.3/xsl/IGRP-Studio-home.xsl";
 	private final String LINK_XSL_HOME_APP = "images/IGRP/IGRP2.3/xsl/IGRP-homeApp.xsl";
@@ -144,13 +143,6 @@ public class Config {
 	    }catch(Exception e) {
 	    	
 	    }
-	    /*
-	    Core.setMessageInfo("APP_LINK_IMAGE not is null: " + APP_LINK_IMAGE);
-	    
-	    Core.setMessageInfo("Nome Servlet: " + Igrp.getInstance().getServlet().getServletContext().getServletContextName());
-	    
-	    Core.setMessageInfo("Nome war file: " +  deployWarName);
-	    */
 	    return Igrp.getInstance().getServlet().getServletContext().getRealPath("/images").
 	    		replace(deployWarName, APP_LINK_IMAGE);
 	}
@@ -389,25 +381,29 @@ public class Config {
 		String basePackage = "nosi.webapps." + app.toLowerCase() + ".pages." + page.toLowerCase() + "." + page + "Controller";
 		
 		if( Core.isNotNull(app)  && Core.isNotNull(page)){
+			
 			RuntimeTask runtimeTask = RuntimeTask.getRuntimeTask();
 			
 			Action ac = new Action();
-			if(Core.isNotNull(runtimeTask))
+			if(Core.isNotNull(runtimeTask)) {
 				ac = ac.find()
 					   .andWhere("application.dad", "=", runtimeTask.getTask().getTenantId())
 					   .andWhere("page", "=", Page.resolvePageName(page))
-					   .andWhere("processKey", "=", runtimeTask.getTask().getProcessDefinitionKey().toLowerCase())
+					   .andWhere(ac.restriction().equals("processKey", runtimeTask.getTask().getProcessDefinitionKey().toLowerCase()).or().equals("processKey", runtimeTask.getTask().getProcessDefinitionKey()))
 					   .one();
-			else
+			}else {
 				ac = ac.find()
 					   .andWhere("application.dad", "=", app.toLowerCase())
 					   .andWhere("page", "=", Page.resolvePageName(page))
 					   .one();
+			}
+			
 			if(ac!=null && ac.getPackage_name()!=null) {
 				String p = ac.getPackage_name().toLowerCase();
-				if(p.endsWith("pages"))
-					return ac.getPackage_name().toLowerCase()+"."+ac.getPage().toLowerCase()+ "." + ac.getPage() + "Controller";
-				return ac.getPackage_name().toLowerCase()+ "." + ac.getPage() + "Controller";
+				if(p.endsWith("pages")) 
+					basePackage = ac.getPackage_name().toLowerCase()+"."+ac.getPage().toLowerCase()+ "." + ac.getPage() + "Controller"; 
+				else 
+					basePackage = ac.getPackage_name().toLowerCase()+ "." + ac.getPage() + "Controller"; 
 			}	
 		}
 		return basePackage;
