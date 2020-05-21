@@ -403,7 +403,6 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		  ----#gen-example */
 		/*----#start-code(executar_button_minha_tarefas)----*/
 		
-		System.out.println("Executar_button_minha_tarefas entrado."); 
 		String taskId = Core.getParam("p_id");
 		if (Core.isNotNull(taskId)) {
 			BPMNExecution bpmn = new BPMNExecution();

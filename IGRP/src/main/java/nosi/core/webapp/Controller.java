@@ -613,8 +613,7 @@ public class Controller {
 			auxActionName = "actionIndex";
 			auxcontrollerPath = this.config.getPackage("igrp", "Home", auxActionName);
 		}
-
-		return Page.loadPage(auxcontrollerPath, auxActionName); // :-)
+		return Page.loadPage(auxcontrollerPath, auxActionName); 
 	}
 
 	protected Response call(String app, String page, String action) {
