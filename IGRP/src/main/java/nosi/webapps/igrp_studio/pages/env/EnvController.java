@@ -12,6 +12,8 @@ import nosi.core.webapp.Response;
 import java.io.File;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
+import nosi.core.integration.pdex.service.AppConfig;
+import nosi.core.integration.pdex.service.AppConfig.App;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -34,18 +36,7 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.HttpHeaders;
-
 import org.apache.commons.io.IOUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
@@ -76,7 +67,7 @@ public class EnvController extends Controller {
 		/*----#start-code(index)----*/
 		
 		Properties settings = ConfigApp.getInstance().loadCommonConfig();
-		String igrp_plsql_url = settings.getProperty("igrp.plsql.myapps.url");
+		String igrp_plsql_url = settings.getProperty(this.IGRP_PDEX_APPCONFIG_URL);
 		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
 			view.plsql_codigo.setVisible(false);
 		
@@ -335,8 +326,8 @@ public class EnvController extends Controller {
 		xml_menu.startElement("applications");
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
-		List<IgrpPLSQLApp> allowApps = new ArrayList<IgrpPLSQLApp>();
-		List<IgrpPLSQLApp> denyApps = new ArrayList<IgrpPLSQLApp>();
+		List<App> allowApps = new ArrayList<App>();
+		List<App> denyApps = new ArrayList<App>();
 		getAllApps(allowApps,denyApps);
 		/** End **/
 
@@ -381,7 +372,7 @@ public class EnvController extends Controller {
 		
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
-		for(IgrpPLSQLApp obj: allowApps){
+		for(App obj: allowApps){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "yes");
 			xml_menu.setElement("link", obj.getLink());
@@ -393,7 +384,7 @@ public class EnvController extends Controller {
 			displayTitle = true;
 		}
 
-		for(IgrpPLSQLApp obj: denyApps){
+		for(App obj: denyApps){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "no");
 			xml_menu.setElement("link", obj.getLink());
@@ -489,102 +480,19 @@ public class EnvController extends Controller {
 	/** Integration with IGRP-PLSQL Apps **
 	 * */
 	// Begin
-	private void getAllApps(List<IgrpPLSQLApp> allowApps /*INOUT var*/, List<IgrpPLSQLApp> denyApps  /*INOUT var*/) {
-		try {
-			
-			Properties properties =  ConfigApp.getInstance().loadConfig("common", "main.xml"); 
-			String baseUrl = properties.getProperty("igrp.plsql.myapps.url"); 
-			String token = properties.getProperty("igrp.plsql.myapps.token"); 
-			if(baseUrl == null || baseUrl.isEmpty() || token == null || token.isEmpty()) 
-				throw new Exception("Invalid url ..."); 
-			
-			String endpoint = baseUrl + "?email=" + Core.getCurrentUser().getEmail(); 
-			
-			Client client = ClientBuilder.newClient(); 
-			WebTarget webTarget = client.target(endpoint); 
-			Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
-			javax.ws.rs.core.Response response  = invocationBuilder.get(); 
-			
-			String json = response.readEntity(String.class); 
-			
-			client.close();
-			
-			JSONObject obj = new JSONObject(json); 
-			JSONObject apps_t = obj.getJSONObject("Entries"); 
-			if(apps_t != null && apps_t.has("Entry")) {
-				JSONArray apps_o = apps_t.getJSONArray("Entry"); 
-				if(apps_o != null) {
-					List<IgrpPLSQLApp> allApps = new Gson().fromJson(apps_o.toString(), new TypeToken<List<IgrpPLSQLApp>>() {}.getType()); 
-					for(IgrpPLSQLApp app : allApps) { 
-						if(app.getAvailable().equals("yes")) 
-							allowApps.add(app);
-						else 
-							denyApps.add(app);
-					}
-				}
-			}
-			
-		}catch(Exception e) {
-			//e.printStackTrace(); 
-		}
-	}
-	
-	public static class IgrpPLSQLApp {
-		private String id;
-		private String name;
-		private String dad;
-		private String description;
-		private String img_src;
-		private String link;
-		private String available;
-		
-		public String getAvailable() {
-			return available;
-		}
-		public void setAvailable(String available) {
-			this.available = available;
-		}
-		public String getId() {
-			return id;
-		}
-		public void setId(String id) {
-			this.id = id;
-		}
-		public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
-		public String getDad() {
-			return dad;
-		}
-		public void setDad(String dad) {
-			this.dad = dad;
-		}
-		public String getDescription() {
-			return description;
-		}
-		public void setDescription(String description) {
-			this.description = description;
-		}
-		public String getImg_src() {
-			return img_src;
-		}
-		public void setImg_src(String img_src) {
-			this.img_src = img_src;
-		}
-		public String getLink() {
-			return link;
-		}
-		public void setLink(String link) {
-			this.link = link;
-		}
-		
-		@Override
-		public String toString() {
-			return "IgrpPLSQLApp [id=" + id + ", name=" + name + ", dad=" + dad + ", description=" + description
-					+ ", img_src=" + img_src + ", link=" + link + ", available=" + available + "]";
+	private void getAllApps(List<App> allowApps /*INOUT var*/, List<App> denyApps  /*INOUT var*/) {
+		Properties properties =  ConfigApp.getInstance().loadConfig("common", "main.xml"); 
+		String baseUrl = properties.getProperty(IGRP_PDEX_APPCONFIG_URL); 
+		String token = properties.getProperty(IGRP_PDEX_APPCONFIG_TOKEN); 
+		AppConfig appConfig = new AppConfig(); 
+		appConfig.setUrl(baseUrl);
+		appConfig.setToken(token);
+		List<App> allApps = appConfig.userApps(Core.getCurrentUser().getEmail()); 
+		for(App app : allApps) { 
+			if(app.getAvailable().equals("yes")) 
+				allowApps.add(app);
+			else 
+				denyApps.add(app);
 		}
 	}
 	
@@ -717,5 +625,8 @@ public class EnvController extends Controller {
 		return url;
 	}
 	
+	
+	private final String IGRP_PDEX_APPCONFIG_URL = "igrp.pdex.appconfig.url";
+	private final String IGRP_PDEX_APPCONFIG_TOKEN = "igrp.pdex.appconfig.token";
 	/*----#end-code----*/
 }
