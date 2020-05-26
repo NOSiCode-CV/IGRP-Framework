@@ -164,7 +164,6 @@
 .gis-footer-controller .footer-panel{
 	float: right;
     background-color: rgba(255,255,255,0.8);
-    padding-left: 3px;
     display: flex;
     font-size: 12px;
     color: #000;
@@ -173,6 +172,9 @@
 
 .gis-footer-controller .footer-panel div{
 	margin-left: 10px;
+}
+.gis-footer-controller .footer-panel .gis-attribution{
+	display: none;
 }
 
 .gis-footer-controller .gis-scale #gis-scale-ruler{
@@ -185,7 +187,6 @@
 .gis-footer-controller .gis-scale #gis-scale-label{
 	display: inline-block;
     max-width: 100%;
-    margin-bottom: 5px;
 }
 
 /*End*/

@@ -46,6 +46,14 @@
 					
 					config.css = true; config.js = true;  config.html = true; 
 					
+				case 'selection_menu':
+					
+					config.js = true; config.css = true
+					
+				case  'query_expression':
+				
+					config.js = true;
+					
 				break;
 				
 			}

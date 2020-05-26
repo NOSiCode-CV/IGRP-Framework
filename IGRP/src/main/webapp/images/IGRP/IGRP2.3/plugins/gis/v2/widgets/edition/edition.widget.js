@@ -1,6 +1,8 @@
 (function(){
 	
-	var utils = GIS.module('Utils');
+	var utils = GIS.module('Utils'),
+	
+	    Templates = GIS.module('Templates');
 	
 	function EditionWidget( widget, app ){
 
@@ -34,7 +36,7 @@
 			
 			CurrentAction = 'init-create';		
 			
-			SetTitle('Novo');
+			SetTitle('Desenhar');
 			
 		});
 		
@@ -42,7 +44,7 @@
 			
 			CurrentAction = 'start-editing';	
 						
-			SetTitle('Editar');
+			SetTitle('Modificar');
 						
 		});
 		
@@ -56,7 +58,7 @@
 		
 		widget.action('tool-shp', function(){
 						
-			SetTitle('Shpfile');
+			SetTitle('Upload Shapefile');
 						
 		});
 		
@@ -64,7 +66,7 @@
 			
 			CurrentAction = 'init-editor';
 			
-			SetTitle('Editor');
+			SetTitle('Inserir Coordenadas');
 			
 		});
 		
@@ -848,7 +850,9 @@
 				
 				EditTool.disable();
 			
-			DrawLayer.clearLayers();	
+			if(DrawLayer)
+			
+				DrawLayer.clearLayers();	
 			
 			ClearShp();
 			
@@ -956,7 +960,7 @@
 				    form.html("");
 				
 			});
-			
+								
 		};
 		
 		function SetTitle(t){
@@ -985,8 +989,23 @@
 								
 				SetControllers();
 				
+				widget.setTemplateParams({
+					
+					add : Templates.Widgets.edition.icon( 'add' ),
+					
+					edit : Templates.Widgets.edition.icon( 'edit' ),
+					
+					trash : Templates.Widgets.edition.icon( 'trash' ),
+					
+					shp : Templates.Widgets.edition.icon( 'upshape' ),
+					
+					coords : Templates.Widgets.edition.icon( 'coords' )
+					
+				});	
+				
+				
 			});
-			
+						
 		})();
 		
 	};

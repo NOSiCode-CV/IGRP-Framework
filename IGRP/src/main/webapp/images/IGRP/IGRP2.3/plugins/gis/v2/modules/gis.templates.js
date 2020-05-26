@@ -149,8 +149,38 @@
 							'<a class="widget-deactivate" href="#" target="void"><i class="fa fa-times-circle"></i></a>'+
 					   '</div>';
 				
+			},
+			
+			selectionMenu : function(item, params){
+				
+				var r = '',
+				
+					target = item.target || '_blank',
+					
+					fa     = item.icon ? item.icon : 'fa-angle-right';
+				
+					icon   = '<div class="icon-item-holder"><i class="fa fa-lg ' + fa  + '"></i></div>',
+										
+					url      = item.url ? item.url + L.Util.getParamString(params, item.url, false) : '#';			
+		
+				r += '<a href="' +url+ '" class="list-group-item list-group-item-action text-decoration-none" target="'+target+'">'+
+						icon + '<span class="">'+item.label+'</span>' +
+					 '</a>';
+				
+				return r;
+				
+			},
+			
+			edition : {
+				
+				icon: function(name){
+					
+					return path+'/plugins/gis/images/'+name+'.png';
+					
+				}
 			}
 
+		
 		}
 
 	});
