@@ -60,17 +60,27 @@
 
 		WFS : function(data,app){
 			
-			var clusters = false;
+			var map     = app.viewer(),
+			
+				clusters = false,
+			
+				layer    = null,
+				
+				queryRequest = null,
+				
+				options = {},
+				
+				filter  = "[nome = 'MAIO']";
 			
 			if(data.geomType == utils.geometry.point){
 				
-				var layer = L.markerClusterGroup();
+				layer = L.markerClusterGroup();
 								
 				clusters = true;
 				
 			}else{
 			
-				var layer   = L.geoJSON(null,{
+				layer   = L.geoJSON(null,{
 					
 						style: function (feature) {
 					        
@@ -91,18 +101,12 @@
 					});
 			}
 
-			var	map     = app.viewer(),
-				
-				queryRequest = null,
-				
-				options = {};
-			
 			layer.request = null;
 
 			layer.visible   = data.visible;
 			
 			layer.highlighted = [];
-			
+						
 			//find object in layer
 			layer.find = function(fid){
 			
@@ -279,9 +283,7 @@
 							layer.clear();							
 								
 							if (clusters){
-								
-								//markers.addData(geo);
-								
+																
 								var markers = L.geoJson(geo);
 								
 								layer.addLayer(markers);
@@ -370,6 +372,8 @@
 		layer.highlight  = layer.highlight || function(){};
 		
 		layer.find 		 = layer.find || function(){};
+		
+		layer.getFeature = layer.getFeature || function(){};
 
 		layer.data = function( name ){
 			
@@ -544,7 +548,20 @@
 			
 		};
 		
+		function GetLegendGraphic(){
+						
+			$.get(layer.Info.owsURL+'?service=WMS&request=GetLegendGraphic&layer='+layer.Info.workspaceLayer+'&version=1.0.0&format=application/json').then(function(json){
+				
+				layer.Legend = json.Legend[0];
+				
+			});
+			
+		};
+		
+		
 		GetDescribeData();
+		
+		GetLegendGraphic();
 
 		layer.addTo( layer.container );
 				

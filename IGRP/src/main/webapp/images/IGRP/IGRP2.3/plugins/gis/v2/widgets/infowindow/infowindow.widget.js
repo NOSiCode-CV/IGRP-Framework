@@ -131,12 +131,6 @@
 	
 	GIS.widgets.register('infowindow', {
 		
-		dependencies : {
-			
-			js  : [ 'https://npmcdn.com/leaflet-geometryutil@0.9.3/src/leaflet.geometryutil.js' ]
-				
-		},
-		
 		init : InfoWindowWidget
 		
 	});

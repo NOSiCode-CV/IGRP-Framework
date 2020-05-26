@@ -1,6 +1,6 @@
 {
-	"center" : [14.9239579,-23.509161],
-	"zoom" : 18,
+	"center" : [15.9277964,-24.2861932],
+	"zoom" : 8,
     "baseMaps": [
         {
             "default": false,
@@ -127,6 +127,79 @@
             "position": "button_level",
             "title": "Edição",
             "type": "edition"
+        },        
+        {
+            "active": true,
+            "control": {
+                "button": false
+            },
+            "data": [
+        		{
+        			"layer" : 1506,
+        			"menu":[
+	            		{
+	            			"url": "webapps?r=nosigis/Ver_mapa/index&dad=nosigis&target=_blank&isPublic=1",
+			            	"target": "modal",
+			            	"label": "Detalhes Item",
+			            	"icon": "fa-angle-right",
+			            	"param_name": "teste,test2",
+			            	"param_value": "1,3",
+			            	"attributes": "objectid,id"  	
+	            		},
+	            		{
+	            			"url": "../images/IGRP/IGRP2.3/app/nosigis/teste/Teste.xml",
+			            	"target": "_blank",
+			            	"label": "Detalhes Item 2",
+			            	"icon": null,
+			            	"param_name": null,
+			            	"param_value": null,
+			            	"attributes": "objectid,id" 	
+	            		},
+	            		{
+	            			"url": "../images/IGRP/IGRP2.3/app/nosigis/teste/Teste.xml",
+			            	"target": null,
+			            	"label": "Detalhes Item 3",
+			            	"icon": null,
+			            	"param_name": null,
+			            	"param_value": null,
+			            	"attributes": null  	
+	            		}
+	            	]  	 
+        		},
+        		{
+        			"layer" : 1505,
+        			"menu":[
+	            		{
+	            			"url": "http://localhost:8080/IGRP-Template/app/webapps?r=HTdurvERt7R0doatFb61qjHYSA3mTTpH8xWZ4id3zUY=&dad=nosigis&title=Ver%20Mapa",
+			            	"target": "_blank",
+			            	"label": "Detalhes Item",
+			            	"icon": "fa-angle-right",
+			            	"param_name": null,
+			            	"param_value": null,
+			            	"attributes": "id"  	
+	            		}
+	            	]  	 
+        		}
+        	],
+            "icon": "",
+            "name": "map_os_1_map_widget_6",
+            "position": "button_level",
+            "title": "Menu",
+            "type": "selection_menu"
+        },      
+        {
+            "active": true,
+            "control": {
+                "button": false
+            },
+            "data": {
+            	"query" : ""
+            },
+            "icon": "",
+            "name": "map_os_1_map_widget_7",
+            "position": "button_level",
+            "title": "Query Expression",
+            "type": "query_expression"
         }
     ]
 }

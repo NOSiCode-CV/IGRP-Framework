@@ -81,6 +81,8 @@
 					
 					{ path : '/plugins/leaflet/library/plugins/draw/Leaflet.Editable.js' },
 					
+					{ path : 'https://npmcdn.com/leaflet-geometryutil@0.9.3/src/leaflet.geometryutil.js'},
+					
 					{ path : '/plugins/handlebars/handlebars-v4.1.1.js' },
 					
 					{ path : '/plugins/gis/v2/gis.js' },
