@@ -5,34 +5,43 @@
     $.IGRP.component('sharpadbclient', {
 
         call : function (p) {
-            //$('.sa-nsweb').attr('src', "SACWebAPI:" + JSON.stringify(p));
 
             var notify = p.notify ? p.notify : true,
                 port   = $('#p_dad')[0] && $('#p_dad').val() ? $('#p_dad').val() : 'all';
 
             port = $.IGRP.components.sharpadbclient.serviceport[port];
-
+           
             $.ajax({
-                url         : 'https://sac-hostservice.nosi.cv:'+ port + '/api/' + p.task,
+                url         : 'https://sac-brig.nosi.cv:'+ port + '/api/' + p.task,
                 method      : 'POST',
                 data        : JSON.stringify(p.data),
                 contentType : "application/json",
                 dataType    : "json",
                 success     : function (s) {
                     if (s) {
+
+                        s.type = 'success';
+
+                        if(s.status == 500){
+                            s.type  = 'danger';
+                            s.title = 'Algo deu errado, por favor tente novamente.'
+                        }
+
+                        s.type = type;
+                    
                         if (p.success)
                             p.success(s);
 
                         if (notify) {
                             $.IGRP.notify({
-                                message: s.message,
+                                message: s.title,
                                 type   : s.type
                             });
                         }
                     }
                 },
-                error    : function (e) {
-
+                error : function (e) {
+                    
                     if (p.error)
                         p.error(e);
 
@@ -42,20 +51,12 @@
 
                             var resp = e.responseJSON;
 
-                            if (resp && resp.hasOwnProperty('errors')) {
+                            if (resp && resp.hasOwnProperty('title')) {
 
-                                var errors = resp.errors;
-
-                                for (n in errors) {
-
-                                    errors[n].forEach(function (er) {
-
-                                        $.IGRP.notify({
-                                            message: er,
-                                            type   : 'danger'
-                                        });
-                                    });
-                                }
+                                $.IGRP.notify({
+                                    message: resp.title,
+                                    type   : 'danger'
+                                });
                             }
 
                         }
@@ -65,10 +66,10 @@
         },
 
         serviceport : {
-            prod: '10110',
-            all : '10108'
+            prod: 10110,
+            all : 10108
         },
-        
+
         actions: function (str) {
 
             var jsonEvents = {
