@@ -786,17 +786,26 @@ $('#active_selenium').on('click', function() {
 				);
 			}
 			$('#dashboard').append(	
+					
 					'<category id="'+char+'" name="'+char+'" colour="120" class="blocly-dynamic">'
-					+'<block type="grafico_'+char+'" color ="120" prev-statement="" next-statement="" >'
-						+'<value name="value1" type="dummy" >'
-							+'<field type="text" options="fill '+char+'"></field>'
-							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
-							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
-							+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-						+'</value>'
-						+'<value name="eixoX"  title="Eixo X" type="value"></value>'
-						+'<value name="eixoY"  title="Eixo Y" type="value"></value>'
-					+'</block>'
+						+'<block type="grafico_'+char+'" color ="120" mutator="where" prev-statement="" next-statement=""  inline="true">'
+							+'<value name="value1" type="dummy" >'
+								+'<field type="text" options="fill '+char+'"></field>'
+								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
+								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
+								+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							+'</value>'
+							+'<value name="value2" type="statement">'
+								+'<block type="EixoX" color ="300" prev-statement="" next-statement="">'
+									+'<value name="eixo"  title="Eixo X" type="value"></value>'
+										+'<next>'
+											+'<block type="EixoY" color ="300" prev-statement="" next-statement="">'
+												+'<value name="eixo"  title="Eixo Y" type="value"></value>'
+											+'</block>'	
+										+'</next>'
+								+'</block>'	
+							+'</value>'
+						+'</block>'
 					+'</category>'
 				+'</category>'
 			);
@@ -928,8 +937,8 @@ $('#active_selenium').on('click', function() {
 			$('#'+daos+'').append(
 				'<block type="set-dao-'+daos+'" igrp="tete" color="160"  prev-statement="" next-statement="" class="blocly-dynamic">'
 					+'<value name="value1" type="value" title="set '+daos+'">'
-						+'<field type="dropdown" name="fields" options="IGRP_BLOCKLY_DROPS.daos.'+daos+'"></field>'
-						+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
+//						+'<field type="dropdown" name="fields" options="IGRP_BLOCKLY_DROPS.daos.'+daos+'"></field>'
+//						+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 					+'</value>'
 				+'</block>\n');
 			$('#'+daos+'').append(
