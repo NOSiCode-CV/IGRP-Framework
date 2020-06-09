@@ -280,7 +280,14 @@ function SetupBlockly(){
 					var daoName = type.split('get-dao-').pop();
 					
 					$(document).trigger('get-dao-block-init', [ block, daoName ]);
-				}		
+				}
+				
+				if(type.indexOf('set-dao-') >= 0){
+					
+					var daoName = type.split('set-dao-').pop();
+					
+					$(document).trigger('set-dao-block-init', [ block, daoName ]);
+				}	
 					
 			}
 		};
