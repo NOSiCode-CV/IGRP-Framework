@@ -2,34 +2,33 @@
 if($ && $.IGRP && !$.IGRP.rules){
 
 	$.IGRP.rules = {
+			
+		getFieldValue : function(field){
+			var type  		= field.attr('type') || field.parents('[item-type]').attr('item-type'),
+				fieldValue  = field.val(),
+				arrType 	= ['radio','radiolist','checkbox','checkboxlist'];
+			
+			if ($.inArray(type,arrType) !== -1) {
+					
+					fieldValue = [];
+					
+					$('input[name="'+field.attr('name')+'"]:checked').each(function(){
+						
+						fieldValue.push($(this).val());
+						
+					});
+					
+			}
+			
+			return fieldValue;
+		},
 		
 		satisfy:function(p){
 
 			var rtn 		= false,
-				field 		= $(p.field),
-				type  		= field.attr('type') || field.parents('[item-type]').attr('item-type'),
-				fieldValue  = field.val(),
-				condition   = typeof p.condition == 'string' ? conditionsList[p.condition] : p.condition,
-				arrType 	= ['radio','radiolist','checkbox','checkboxlist'];
+				condition   = typeof p.condition == 'string' ? conditionsList[p.condition] : p.condition;
 
-			
-			if ($.inArray(type,arrType) !== -1) {
-				
-				fieldValue = [];
-				
-				$('input[name="'+field.attr('name')+'"]:checked').each(function(){
-					
-					fieldValue.push($(this).val());
-					
-				});
-				
-				//fieldValue = fieldValue.join(',');
-				
-				//fieldValue = $('input[name="'+field.attr('name')+'"]:checked').val();
-				
-			}
-
-			p.fieldValue = fieldValue;
+			p.fieldValue = $.IGRP.rules.getFieldValue($(p.field));
 
 			try{
 
@@ -496,9 +495,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 					var ro     = replaceObj[o],
 
-						tfield = ro.field,
-
-						val    = tfield.val(),
+						val    = $.IGRP.rules.getFieldValue($(ro.field)),
 
 						xval   = $(r.field).attr('type') == 'number' ? val : "'"+val+"'";
 
@@ -511,8 +508,6 @@ if($ && $.IGRP && !$.IGRP.rules){
 				conditionStr = conditionStr.replaceAll('&gt;','>');
 
 				conditionStr = conditionStr.replaceAll('&amp;','&');
-
-				console.log(conditionStr);
 
 				return eval(conditionStr);
 			},
@@ -559,9 +554,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 					var ro     = replaceObj[o],
 
-						tfield = ro.field,
-
-						val    = tfield.val(),
+						val    = $.IGRP.rules.getFieldValue($(ro.field)),
 
 						xval   = $(r.field).attr('type') == 'number' ? val : "'"+val+"'";
 
@@ -1042,8 +1035,6 @@ if($ && $.IGRP && !$.IGRP.rules){
 			if(response){
 
 				var a = o.conditions.actions;
-				
-				console.log(a)
 				
 				if(a && a[0])
 					
