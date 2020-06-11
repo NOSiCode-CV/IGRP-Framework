@@ -247,8 +247,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 							
 								ms.setType(2); 
 								
-								String deployedWarName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
-								
+								String deployedWarName = Core.getDeployedWarName();
 								//Externo 
 								if(pagina.getApplication().getExternal() == 1) {
 									if(deployedWarName.equals(pagina.getApplication().getUrl())) { 

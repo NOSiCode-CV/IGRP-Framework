@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
@@ -39,10 +41,8 @@ public class Config {
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
 	public final String VERSION = "V200512";
-
-	public Config() {
 	
-	}
+	public Config() {}
 	
 	public String getLinkXSLLogin() {
 		return this.getLinkImgBase().replaceAll("\\\\", SEPARATOR_FOR_HTTP)+this.LINK_XSL_LOGIN;
@@ -333,8 +333,14 @@ public class Config {
 		return this.getBasePathServerXsl() + this.getImageAppPath(page);
 	}
 	
-	public String getCurrentBaseServerPahtXsl(Action page) {
-		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/") + this.getImageAppPath(page);
+	public String getCurrentBaseServerPahtXsl(Action page) { 
+		ServletContext sc = Igrp.getInstance().getServlet().getServletContext(); 
+		String path = sc.getRealPath("/") + this.getImageAppPath(page); 
+		if(page.getApplication().getExterno() == 2) {
+			String deployedName = new File(sc.getRealPath("/")).getName(); 
+			path = path.replace(deployedName + File.separator + "images", page.getApplication().getUrl() + File.separator + "images"); 
+		}
+		return path;
 	}
 	
 	public String getImageAppPath(Application app,String version) {

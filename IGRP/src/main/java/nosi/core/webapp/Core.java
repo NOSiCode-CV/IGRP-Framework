@@ -50,6 +50,7 @@ import com.google.gson.GsonBuilder;
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.ConfigApp;
 import nosi.core.gui.components.IGRPForm;
+import nosi.core.gui.components.IGRPLink;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
@@ -95,6 +96,7 @@ import nosi.webapps.igrp.dao.Domain;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumento;
+import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.dao.User;
 
@@ -151,7 +153,7 @@ public final class Core { // Not inherit
 	 * @param key
 	 * @param value
 	 */
-	public static void addToSession(String key, String value) {
+	public static void addToSession(String key, Object value) {
 		Igrp.getInstance().getRequest().getSession().setAttribute(key, value);
 	}
 	
@@ -1776,7 +1778,7 @@ public final class Core { // Not inherit
 	 */
 	public static boolean mail(String to, String subject, String msg, String charset, String mimetype,
 			File[] attachs, String replyTo) {
-		Properties setting = ConfigApp.getInstance().loadCommonConfig();
+		Properties setting = ConfigApp.getInstance().getMainSettings(); 
 		String email = setting.getProperty("mail.user");
 		return mail(email, to, subject, msg, charset, mimetype, attachs, replyTo, null);
 	}
@@ -4259,5 +4261,67 @@ public final class Core { // Not inherit
 		}
 		return null; 
 	}
+	
+	/**
+	 * @param appDad (Ex: igrp)
+	 * @param processId (Ex: Processo_pedido_compra)
+	 * @return List<TipoDocumentoEtapa> package nosi.webapps.igrp.dao 
+	 */
+	public static List<TipoDocumentoEtapa> getOutputFilesByProcessId(String appDad, String processId) { 
+		return getFilesByProcessIdNTaskId(appDad, processId, null); 
+	}
+	
+	/**
+	 * @param appDad (Ex: igrp)
+	 * @param processId (Ex: Processo_pedido_compra)
+	 * @param taskId (Ex: Pedido)
+	 * @return List<TipoDocumentoEtapa> package nosi.webapps.igrp.dao 
+	 */
+	public static List<TipoDocumentoEtapa> getFilesByProcessIdNTaskId(String appDad, String processId, String taskId) { 
+		List<TipoDocumentoEtapa> allOutDocs = new ArrayList<TipoDocumentoEtapa>(); 
+		List<TipoDocumentoEtapa> tipoDocs = null;
+		TipoDocumentoEtapa tipoDocumentoEtapa = new TipoDocumentoEtapa().find().andWhere("processId", "=", Core.isNotNull(processId) ? processId: "-1");
+		if(taskId != null) 
+			tipoDocumentoEtapa = tipoDocumentoEtapa.andWhere("taskId", "=", taskId);
+		tipoDocs = tipoDocumentoEtapa.andWhere("status", "=", 1).andWhere("tipo", "=", "OUT").all();
+		if(tipoDocs != null) { 
+			for(TipoDocumentoEtapa doc : tipoDocs) {
+				 if(doc.getTipoDocumento() != null && doc.getTipoDocumento().getApplication() != null && doc.getTipoDocumento().getApplication().getDad().equals(appDad)) {
+					 nosi.webapps.igrp.dao.TaskFile taskFile = new nosi.webapps.igrp.dao.TaskFile().find()
+								.andWhere("tipo_doc_task", "=", doc)
+								.one();
+					 if(taskFile != null) {
+						 IGRPLink link = new IGRPLink();
+						 if(taskFile.getClob().getUuid()!=null)
+							 link.setLink(Core.getLinkFileByUuid(taskFile.getClob().getUuid()));
+						 else
+							 link.setLink(Core.getLinkFile(taskFile.getClob().getId().intValue()));
+						 link.setLink_desc(gt("Mostrar"));
+						 doc.setFileId(taskFile.getClob().getId());
+						 doc.setLink(link);
+						 allOutDocs.add(doc);
+					 }
+				 }
+				 if(doc.getRepTemplate() != null && doc.getRepTemplate().getApplication() != null && doc.getRepTemplate().getApplication().getDad().equals(appDad)) { 
+					 doc.setFileId(new Integer(-1));
+					 IGRPLink link = new IGRPLink(Core.getLinkReport(doc.getRepTemplate().getCode()));
+		 			 link.setLink_desc(gt("Mostrar"));
+					 doc.setLink(link);
+					 allOutDocs.add(doc);
+				 }
+			}
+		} 
+		return allOutDocs; 
+	}
+	
+	/**
+	 * @return The deployed war name 
+	 */
+	public static String getDeployedWarName() {
+		String deployedWarName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
+		return deployedWarName; 
+	}
+	
+	
 	
 }

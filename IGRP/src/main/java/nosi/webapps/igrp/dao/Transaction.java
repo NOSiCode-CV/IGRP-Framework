@@ -39,6 +39,8 @@ public class Transaction extends IGRPBaseActiveRecord<Transaction> implements Se
 	@Transient
 	private boolean isInserted;
 	
+	private Integer external; // null|0 -> default; 1 -> Transaction from GlobalAcl 
+	
 	public Transaction(){}
 	
 	public Transaction(String code, String descr, int status, Application application) {
@@ -95,6 +97,14 @@ public class Transaction extends IGRPBaseActiveRecord<Transaction> implements Se
 
 	public void setInserted(boolean isInserted) {
 		this.isInserted = isInserted;
+	}
+	
+	public Integer getExternal() {
+		return external;
+	}
+
+	public void setExternal(Integer external) {
+		this.external = external;
 	}
 
 	public boolean getPermission(String transaction) {
