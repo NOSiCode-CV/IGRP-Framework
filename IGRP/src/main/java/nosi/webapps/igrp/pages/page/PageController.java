@@ -36,7 +36,6 @@ import nosi.core.webapp.helpers.ExtractReserveCode;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.Route;
-import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.xml.XMLWritter;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.webapps.igrp.dao.Action;
@@ -50,8 +49,9 @@ import nosi.core.cversion.GitLab;
 
 /*----#end-code----*/
 		
-public class PageController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+public class PageController extends Controller { 
+	
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{ 
 		Page model = new Page();
 		model.load();
 		model.setNovo_modulo("igrp","Page","index");
@@ -70,9 +70,8 @@ public class PageController extends Controller {
 		Boolean isEdit = false;
 		Integer idPage = Core.getParamInt("p_id_page");
 		
-		if(idPage == 0){
-			idPage = model.getId_pagin_hidd();
-		}
+		if(idPage == 0) 
+			idPage = model.getId_pagin_hidd(); 
 		
 		if (Core.isNotNull(idPage)) {
 			// EDIT/UPDATE PAGE
@@ -464,53 +463,13 @@ public class PageController extends Controller {
 	private void processJson(String fileJson, Action ac) {
 		JSONObject objJson;
 		if(fileJson.contains("\"transaction\":true")) {				
-		try {
-			objJson = new JSONObject(fileJson);
-			
-			this.processBoxContent(objJson,ac);
-			
-//			JSONArray rows = objJson.getJSONArray("rows");					
-//			for (int i = 0; i < rows.length(); i++) {
-//				JSONArray collumns;
-//				try {
-//					collumns = rows.getJSONObject(i).getJSONArray("columns");
-//					for (int j = 0; j < collumns.length(); j++) {
-//						JSONArray containers;
-//						try {
-//							containers = collumns.getJSONObject(j).getJSONArray("containers");
-//							for (int h = 0; h < containers.length(); h++) {
-//								JSONArray fields;
-//								try {
-//									fields = containers.getJSONObject(h).getJSONArray("fields");
-//									this.processTransactions(fields, ac);
-//								} catch (JSONException e) {
-//								}
-//								JSONArray contextMenu;
-//								try {
-//									contextMenu = containers.getJSONObject(h).getJSONArray("contextMenu");
-//									this.processTransactions(contextMenu, ac);
-//								} catch (JSONException e) {
-//								}
-//								JSONArray contents;									
-//								try {
-//									contents = containers.getJSONObject(h).getJSONArray("contents");
-//									this.processBoxContent( contents,ac);	
-//									
-//								} catch (Exception e) {
-//								}
-//							}
-//						} catch (Exception e) {
-//						}
-//					}
-//				} catch (Exception e) {
-//				}
-//			}
-		} catch (Exception e) {			
-		}
+			try {
+				objJson = new JSONObject(fileJson);
+				
+				this.processBoxContent(objJson,ac);
+				} catch (Exception e) {			
+			}
 		}	
-		
-		
-			
 	}
 
 	private void processBoxContent( JSONObject contents, Action ac) {
@@ -815,10 +774,8 @@ public class PageController extends Controller {
 						.andWhere("application.dad", "=", p_app)
 						.one();
 			}
-			if (ac != null) {
-				json = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac) + "/",
-						ac.getPage() + ".json");
-			}
+			if (ac != null) 
+				json = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac) + "/", ac.getPage() + ".json"); 
 		}
 		this.format = Response.FORMAT_JSON; 
 		return this.renderView(json);
@@ -929,6 +886,5 @@ public class PageController extends Controller {
 			}
 		}
 	}
-	
 	/*----#end-code----*/
 }

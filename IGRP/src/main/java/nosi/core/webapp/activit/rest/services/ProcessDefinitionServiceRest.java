@@ -112,7 +112,7 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity()); 
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

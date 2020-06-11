@@ -20,18 +20,22 @@ public final class ConfigApp {
 	private String version;
 	private String data_install;
 	private String isInstallation;
-	private Config config;
+	private Config config; 
+	
+	private Properties commonMain;
+	
 	private static final ConfigApp CONFIG_APP = new ConfigApp();
 	
 	private ConfigApp() {
 		this.config = new Config();
+		commonMain = this.loadConfig("common", "main.xml");
 	}
 	
 	public static ConfigApp getInstance() {
 		return CONFIG_APP;
 	}
 	
-	public Properties loadConfig(String fileName) {
+	public static Properties loadConfig(String fileName) { // xml to properties 
 		File file = new File(fileName);
 		Properties props = new Properties();
 		try (FileInputStream fis = new FileInputStream(file)) {
@@ -43,13 +47,20 @@ public final class ConfigApp {
 		return props;
 	}
 	
-	public Properties loadCommonConfig() {
-		return ConfigApp.getInstance().loadConfig("common", "main.xml");
+	public Properties loadProperties(String fileName) throws IOException {
+		Properties props = new Properties();
+		InputStream in = getClass().getResourceAsStream(fileName);
+		if(in!=null) {
+			props.load(in);
+			in.close();
+		}
+		return props;
 	}
 	
+	
 	public Properties loadConfig(String filePath, String fileName) {
-		String path = new Config().getBasePathConfig() + File.separator + filePath;
-		return this.loadConfig(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
+		String path = this.config.getBasePathConfig() + File.separator + filePath;
+		return loadConfig(this.getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
 	}
 	
 	public String getBaseConnection() {
@@ -111,16 +122,6 @@ public final class ConfigApp {
 		this.saveProperties(p, this.config.getBasePathClass()+"config"+File.separator+"install"+File.separator+"install.properties");
 	}
 	
-	public Properties loadProperties(String fileName) throws IOException {
-		Properties props = new Properties();
-		InputStream in = getClass().getResourceAsStream(fileName);
-		if(in!=null) {
-			props.load(in);
-			in.close();
-		}
-		return props;
-	}
-	
 	public void saveProperties(Properties p,String fileName) throws IOException {
 		OutputStream out = new FileOutputStream(fileName);	
 		if(out!=null) {
@@ -139,4 +140,21 @@ public final class ConfigApp {
 		}
 		return Core.isNotNull(this.isInstallation);
 	}
+	
+	public String getAutentikaUrlForSso() {
+		String url = commonMain.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
+		String redirect_uri = commonMain.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
+		String client_id = commonMain.getProperty("ids.wso2.oauth2.client_id"); 
+		url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrpweb&redirect_uri=" + redirect_uri; 
+		return url;
+	}
+
+	public Properties getMainSettings() {
+		return commonMain;
+	}
+
+	public Config getConfig() {
+		return config;
+	}
+	
 }

@@ -59,14 +59,13 @@ public class EnvController extends Controller {
 		model.load();
 		EnvView view = new EnvView();
 		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		view.action_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.flg_external.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
-		Properties settings = ConfigApp.getInstance().loadCommonConfig();
+		Properties settings = this.configApp.getMainSettings();
 		String igrp_plsql_url = settings.getProperty(this.IGRP_PDEX_APPCONFIG_URL);
 		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
 			view.plsql_codigo.setVisible(false);
@@ -161,9 +160,9 @@ public class EnvController extends Controller {
 				// ... Git control version code here ... 
 				
 				return this.redirect("igrp_studio", "env","index");				
-			}else{
-				Core.setMessageError();
-			}
+			}else
+				Core.setMessageError(); 
+			
 		}
 		
 		return this.forward("igrp_studio", "env", "index");
@@ -420,7 +419,6 @@ public class EnvController extends Controller {
 
 
 	public Response actionOpenApp(@RParam(rParamName = "app") String app, @RParam(rParamName = "page") String page) throws Exception{ 
-		
 		String[] p = page.split("/");
 		Permission permission = new Permission();
 		
@@ -429,7 +427,7 @@ public class EnvController extends Controller {
 			
 			Application env = Core.findApplicationByDad(app);
 			
-			Properties properties = ConfigApp.getInstance().loadCommonConfig();
+			Properties properties = this.configApp.getMainSettings();
 			String currentEnv = new Config().getEnvironment();
 			String devUrl = properties.getProperty("igrp.env.dev.url"); 
 			
@@ -440,12 +438,15 @@ public class EnvController extends Controller {
 			return redirectToUrl(devUrl); 
 			}
 			
-			//1 External ; 2 custom dad 
-			if(env.getExternal() == 1 || env.getExternal() == 2) { 
-				String url = buildAppUrlUsingAutentikaForSSO(env); 
-				if(url != null) 
-					return redirectToUrl(url); 
-			} 
+			// 2 - custom dad 
+			String url = null; 
+			if(env.getExternal() == 2)  
+				url = buildAppUrlUsingAutentikaForSSO(env); 
+			// 1 External 
+			if(env.getExternal() == 1) 
+				url = env.getUrl(); 
+			if(url != null) 
+				return redirectToUrl(url); 
 			
 			try {
 				final ApplicationPermition applicationPermition = permission.getApplicationPermitionBeforeCookie();
@@ -468,7 +469,6 @@ public class EnvController extends Controller {
 				System.err.println("EnvController line535:"+e.getLocalizedMessage());
 				e.printStackTrace();
 			}
-			
 			this.addQueryString("dad", app); 		
 			return this.redirect(p[0], p[1], p[2],this.queryString());
 		}		
@@ -605,20 +605,11 @@ public class EnvController extends Controller {
 		String url = null;
 		try { 
 			String contextName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName(); 
-			if(env != null && !contextName.equalsIgnoreCase(env.getUrl())) { 
-				
-				Properties settings =  ConfigApp.getInstance().loadConfig("common", "main.xml"); 
-				url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
-				String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
-				String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
-				
-				url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrpweb&redirect_uri=" + redirect_uri; 
-				
+			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !contextName.equalsIgnoreCase(env.getUrl())) {
+				url = this.configApp.getAutentikaUrlForSso(); 
 				url = url.replace("state=igrpweb", "state=" + env.getDad()); 
-				
 				url = url.replace("/IGRP/", "/" + env.getUrl() + "/"); 
 			}
-			
 		} catch (Exception e) { 
 		}
 		

@@ -39,7 +39,7 @@ public class NovoPerfilController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
-		Properties settings = ConfigApp.getInstance().loadCommonConfig();
+		Properties settings = this.configApp.getMainSettings();
 		String igrp_plsql_url = settings.getProperty("igrp.plsql.url");
 		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
 			view.plsql_codigo.setVisible(false);
@@ -150,7 +150,7 @@ public class NovoPerfilController extends Controller {
 		model.load();
 		NovoPerfilView view = new NovoPerfilView();
 		
-		Properties settings = ConfigApp.getInstance().loadCommonConfig();
+		Properties settings = this.configApp.getMainSettings();
 		String igrp_plsql_url = settings.getProperty("igrp.plsql.url");
 		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
 			view.plsql_codigo.setVisible(false);

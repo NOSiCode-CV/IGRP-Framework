@@ -47,8 +47,10 @@ import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
  * @author Marcel Iekiny Apr 15, 2017
  */
 public class Controller {
+	
 	protected Config config = new Config();
 	protected ConfigApp configApp = ConfigApp.getInstance();
+	
 	private QueryString<String, Object> queryString = new QueryString<>();
 	private View view;
 
@@ -128,13 +130,9 @@ public class Controller {
 		return Core.getParamDouble(name);
 	}
 
-	public Controller() {
-		this.view = null;
-	}
+	public Controller() {}
 
-	protected final Response renderView(View view, boolean isRenderPartial) throws IOException { // renderiza a view e
-																									// aplica ou nao um
-																									// layout
+	protected final Response renderView(View view, boolean isRenderPartial) throws IOException { 
 		Response resp = new Response();
 		this.view = view;
 		view.setContext(this); // associa controller ao view

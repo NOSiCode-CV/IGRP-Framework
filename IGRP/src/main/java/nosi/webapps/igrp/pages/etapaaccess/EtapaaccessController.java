@@ -193,7 +193,8 @@ public class EtapaaccessController extends Controller {
 			TaskServiceRest taskRest = new TaskServiceRest();
 			for(ProcessDefinitionService process:processRest.getProcessDefinitionsForCreated(org.getApplication().getDad())){
 				String link = process.getResource().replace("/resources/", "/resourcedata/");
-				String resource = new ResourceServiceRest().getResourceData(link);
+				String resource = new ResourceServiceRest().getResourceData(link); 
+				System.out.println("link: " + link); 
 				list.addAll(taskRest.extractTasks(resource,true));
 				listExist.addAll(this.getTaskOrgExists(org.getId(), process.getKey()));
 			}

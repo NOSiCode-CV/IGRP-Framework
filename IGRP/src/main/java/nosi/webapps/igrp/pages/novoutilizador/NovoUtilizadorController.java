@@ -374,7 +374,7 @@ public class NovoUtilizadorController extends Controller {
 			if (Core.isNull(email) && !email.contains("@"))
 				continue;
 			email = email.toLowerCase(Locale.ROOT).trim();
-			Properties settings = loadIdentityServerSettings();
+			Properties settings = this.configApp.getMainSettings();
 //		check & Get User from Ldap 
 			User utiliz = Core.findUserByEmail(email.trim());
 			User userLdap ;
@@ -517,9 +517,6 @@ public class NovoUtilizadorController extends Controller {
 		return ok;
 	}
 
-	private Properties loadIdentityServerSettings() {
-		return this.configApp.loadCommonConfig();
-	}
 
 	private void sendEmailToInvitedUser(User u, NovoUtilizador model) {
 		String url_ = Igrp.getInstance().getRequest().getRequestURL() + "?r=igrp/login/login&activation_key="
