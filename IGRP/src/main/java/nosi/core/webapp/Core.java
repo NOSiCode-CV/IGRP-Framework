@@ -4322,6 +4322,4 @@ public final class Core { // Not inherit
 		return deployedWarName; 
 	}
 	
-	
-	
 }
