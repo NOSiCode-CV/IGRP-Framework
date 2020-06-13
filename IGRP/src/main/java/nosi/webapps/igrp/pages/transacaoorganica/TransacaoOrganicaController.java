@@ -21,13 +21,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import nosi.core.webapp.helpers.CheckBoxHelper;
 import java.util.List;
-import java.util.Properties;
 import java.util.stream.Collectors;
 
-import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigDBIGRP;
-import nosi.core.integration.pdex.service.GlobalAcl;
-import nosi.core.integration.pdex.service.GlobalAcl.AppTransaction;
 
 /*----#end-code----*/
 		
@@ -45,9 +41,7 @@ public class TransacaoOrganicaController extends Controller {
 		int id=model.getId();
         String type= model.getType();
         
-        loadAppTransaction(model); // Load from Global Acl 
-        
-	model.setHelp(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=transacao"));
+        model.setHelp(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=transacao"));
 		if(Core.isInt(id) && Core.isNotNull(type)){		
 			
 			ArrayList<TransacaoOrganica.Table_1> data = new ArrayList<>();
@@ -434,54 +428,6 @@ public class TransacaoOrganicaController extends Controller {
 			
 		}
 		
-	}
-	
-	
-	private void loadAppTransaction(TransacaoOrganica model) {
-		GlobalAcl acl = new GlobalAcl(); 
-		Properties settings =  ConfigApp.getInstance().loadConfig("common", "main.xml"); 
-		String endpoint = settings.getProperty("igrp.acl.permissionacl.url"); 
-		String token = settings.getProperty("igrp.acl.permissionacl.token"); 
-		acl.setToken(token);
-		acl.setUrl(endpoint);
-		acl.setInstanceName("igrpdev");
-		
-		String type = model.getType(); 
-		
-		try {
-			if(type.equals("org")){
-				Organization org = Core.findOrganizationById(model.getId());
-				acl.setAppCode(org.getApplication().getDad());
-			}else if(type.equals("perfil")){
-					ProfileType p = new ProfileType().findOne(model.getId()); 
-					if( p.getApplication() != null) {  
-						acl.setAppCode(p.getApplication().getDad());
-					}else { 
-						acl.setAppCode("igrp");
-					}
-			}else if(type.equalsIgnoreCase("user")) {
-					Profile profile = new Profile().findOne(model.getId());
-					acl.setAppCode(profile.getOrganization().getApplication().getDad());
-				}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		List<AppTransaction> appTransactions = acl.appTransaction(); 
-		System.out.println("appTransactions: " + appTransactions.size()); 
-		//appTransactions = appTransactions.stream().filter(p -> p.getType() != null && p.getType().equalsIgnoreCase("TRAN")).collect(Collectors.toList());
-		for(AppTransaction appTransaction : appTransactions) {
-			Transaction t = new Transaction().find().andWhere("code", "=", appTransaction.getCode()).one(); 
-			Application app = Core.findApplicationByDad(acl.getAppCode());
-			if(t == null && app != null) {
-				t = new Transaction(); 
-				t.setCode(appTransaction.getCode());
-				t.setDescr(appTransaction.getDescription() + " (GAcl)");
-				t.setStatus(1);
-				t.setApplication(app);
-				t = t.insert(); 
-			}
-		}
 	}
 	
 	

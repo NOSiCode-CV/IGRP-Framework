@@ -22,7 +22,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 /*----#end-code----*/
 		
-public class EtapaaccessController extends Controller {
+public class EtapaaccessController extends Controller { 
+	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Etapaaccess model = new Etapaaccess();
 		model.load();

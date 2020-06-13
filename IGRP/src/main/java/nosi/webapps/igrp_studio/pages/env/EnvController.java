@@ -481,7 +481,7 @@ public class EnvController extends Controller {
 	 * */
 	// Begin
 	private void getAllApps(List<App> allowApps /*INOUT var*/, List<App> denyApps  /*INOUT var*/) {
-		Properties properties =  ConfigApp.getInstance().loadConfig("common", "main.xml"); 
+		Properties properties =  this.configApp.getMainSettings(); 
 		String baseUrl = properties.getProperty(IGRP_PDEX_APPCONFIG_URL); 
 		String token = properties.getProperty(IGRP_PDEX_APPCONFIG_TOKEN); 
 		AppConfig appConfig = new AppConfig(); 

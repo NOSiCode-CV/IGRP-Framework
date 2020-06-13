@@ -30,12 +30,12 @@
 	<entry key="igrp.env.stage.url">http://localhost:8080/IGRP/igrpoauth2sso</entry>
 	
 	<!-- Integrate with PlSql Apps --> 
-	<entry key="igrp.pdex.appconfig.url">https://api-dev-pdex.gov.cv:8242/t/igrpdev.gov/app_config/1.0.0</entry> 
-	<entry key="igrp.pdex.appconfig.token">Bearer f861b2cc-65ce-3946-beb5-edabd0bd4a68</entry> 
+	<entry key="igrp.pdex.appconfig.url">https://api-dev-pdex.gov.cv:8242/t/igrpdev.gov/appConfig2/1.0.0</entry> 
+	<entry key="igrp.pdex.appconfig.token">Bearer 1309859e-28e8-30f4-8af8-79466b14331f</entry> 
 	
 	<!-- Integrate with Global Acl --> 
-	<entry key="igrp.acl.permissionacl.url">https://api-dev-pdex.gov.cv:8242/t/igrpdev.gov/acl_global/1.0.0/permissionAcl</entry>
-	<entry key="igrp.acl.permissionacl.token">Bearer f861b2cc-65ce-3946-beb5-edabd0bd4a68</entry>
+	<entry key="igrp.acl.permissionacl.url">https://api-dev-pdex.gov.cv:8242/t/igrpdev.gov/new_acl_global/1.0.0</entry>
+	<entry key="igrp.acl.permissionacl.token">Bearer 1309859e-28e8-30f4-8af8-79466b14331f</entry>
 	
 	<!--  -->
 	<entry key="igrp.authentication.govcv.enbaled">false</entry>
