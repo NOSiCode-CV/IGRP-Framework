@@ -649,6 +649,7 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 				t.setN_tarefa_g(task.getProcessInstanceId());
 				t.setTipo(this.listProc.get(task.getProcessDefinitionId()));
 				t.setData_fim_g(task.getDueDate() != null ? task.getDueDate().toString() : "");
+				t.setPrioridade_g(""+task.getPriority());
 				taskManage.add(t);
 			}
 			this.showTabManage(view, true);// show tab when user is manager
@@ -669,6 +670,7 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 			t.setId(task.getId());
 			t.setN_tarefa_m(task.getProcessInstanceId());
 			t.setData_fim_m(task.getDueDate() != null ? task.getDueDate().toString() : "");
+			t.setPrioridade_m(""+task.getPriority());
 			myTasks.add(t);
 		}
 		return myTasks;
