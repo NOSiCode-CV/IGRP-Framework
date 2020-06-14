@@ -46,7 +46,7 @@ public class NovoMenuController extends Controller {
       if (Core.isNotNullOrZero(id)) {
 			// If its a update it will enter here and the value p_id is from the GET url
 			Menu menu = new Menu().findOne(id);
-
+			
 			if (null != menu.getMenu())
 				model.setSelf_id(menu.getMenu().getId());
 			model.setStatus(menu.getStatus());
@@ -60,7 +60,6 @@ public class NovoMenuController extends Controller {
 				if (menu.getAction().getId() != model.getAction_fk()) 
 					model.setTitulo(getPageTituleByID(model));
 			} else{
-             
               	if (menu.getAction() != null){                   
                    model.setAction_fk(menu.getAction().getId());
                 }                 
@@ -160,8 +159,9 @@ public class NovoMenuController extends Controller {
 				if(model.getGlobal_acl() == 1) { 
 					int action_global_acl_id = model.getAction_fk(); 
 					PermissionAcl acl = getPermissionAclByTypeFk(action_global_acl_id, app); 
-					if(acl != null && acl.getLink() != null && !acl.getLink().isEmpty()) 
+					if(acl != null && acl.getLink() != null && !acl.getLink().isEmpty()) {
 						menu.setLink(acl.getLink()); 
+					}
 				}else {
 					menu.setAction(new Action().findOne(model.getAction_fk())); 
 				}
@@ -269,17 +269,15 @@ public class NovoMenuController extends Controller {
 		String baseUrl = properties.getProperty(IGRP_PDEX_GLOBALACL_URL); 
 		String token = properties.getProperty(IGRP_PDEX_GLOBALACL_TOKEN); 
 		
-		
 		GlobalAcl globalAcl = new GlobalAcl(); 
 		globalAcl.setUrl(baseUrl);
 		globalAcl.setToken(token);
 		globalAcl.setInstanceName(config.getValue());
 		if(env != null)
 			globalAcl.setAppCode(env.getDad());
-		
-		globalAcl.setAppCode(env.getDad());
-		globalAcl.setInstanceName("igrpdev");
 		globalAcl.setType(GlobalAcl.TYPE.PAGE.name());
+		
+		globalAcl.setAppCode("sgit_turismo"); 
 		
 		acls = globalAcl.permissionAcl(); 
 		
@@ -290,7 +288,7 @@ public class NovoMenuController extends Controller {
 		PermissionAcl acl = null; 
 		List<PermissionAcl> acls = loadPermissionAcl(envFk); 
 		for(PermissionAcl obj : acls) {
-			if(obj.getType().equals("PAGE") && obj.getType_fk() == type_fk) {
+			if(obj.getType().equals(GlobalAcl.TYPE.PAGE.name()) && obj.getType_fk() == type_fk) {
 				acl = obj;
 				break;
 			}

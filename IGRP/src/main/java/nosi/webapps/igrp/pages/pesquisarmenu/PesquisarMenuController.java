@@ -101,14 +101,20 @@ public class PesquisarMenuController extends Controller {
 				} else if (menu_db1.getMenu().getId() != menu_db1.getId()) {
 					table1.setT1_menu_principal(menu_db1.getMenu().getDescr());
 				}
+				table1.setTable_titulo(gt(menu_db1.getDescr()));
 				if (menu_db1.getAction() != null) {
 					String mdad = "";
 					if (menu_db1.getAction().getApplication().getId() != idApp)
 						mdad = menu_db1.getAction().getApplication().getDad() + " / ";
 					table1.setPagina(mdad+gt(menu_db1.getAction().getPage_descr()) + " (" + menu_db1.getAction().getPage()
-							+ ")" );
-					table1.setTable_titulo(gt(menu_db1.getDescr()));
-				}
+							+ ")" ); 
+				}else 
+					if(menu_db1.getLink() != null && !menu_db1.getLink().isEmpty()) {
+						table1.setPagina("Página Externa (GlobalAcl)"); 
+						table1.hiddenButton(view.btn_editar); 
+						table1.setCheckbox(1);
+						table1.setCheckbox_check(1);
+					}
 				table1.setOrdem(menu_db1.getOrderby());
 				table1.setAtivo(menu_db1.getStatus());
 				table1.setAtivo_check(menu_db1.getStatus() == 1 ? menu_db1.getStatus() : -1);
@@ -196,16 +202,31 @@ public class PesquisarMenuController extends Controller {
 	public Response actionMyMenu() throws IOException { 
 		XMLWritter xml_menu = new XMLWritter();
 		xml_menu.startElement("menus");
-		if (Igrp.getInstance().getUser().isAuthenticated()) {
-			Menu x = new Menu();
-			LinkedHashMap<String, List<MenuProfile>> menu = x.getMyMenu();
-			if (menu != null) {
-				for (Entry<String, List<MenuProfile>> m : menu.entrySet()) {
-					xml_menu.startElement("menu");
-					xml_menu.setElement("title", gt(m.getKey()));
-					
-					for (MenuProfile main : m.getValue()) {
-						if (main.isSubMenuAndSuperMenu()) {
+		
+		try {
+			if (Igrp.getInstance().getUser().isAuthenticated()) {
+				Menu x = new Menu();
+				LinkedHashMap<String, List<MenuProfile>> menu = x.getMyMenu();
+				if (menu != null) {
+					for (Entry<String, List<MenuProfile>> m : menu.entrySet()) {
+						xml_menu.startElement("menu");
+						xml_menu.setElement("title", gt(m.getKey()));
+						
+						for (MenuProfile main : m.getValue()) {
+							if (main.isSubMenuAndSuperMenu()) {
+								
+								if(main.getType() == 2) { // Fazer sso obrigatorio 
+									xml_menu.setElement("link", main.getLink()); 
+								}else {
+									xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
+								}
+								
+								xml_menu.setElement("target", main.getTarget());
+							}
+							xml_menu.setElement("order", "" + main.getOrder());
+							xml_menu.startElement("submenu");
+							xml_menu.writeAttribute("title", gt(main.getTitle()));
+							xml_menu.writeAttribute("id", "" + main.getId());
 							
 							if(main.getType() == 2) { // Fazer sso obrigatorio 
 								xml_menu.setElement("link", main.getLink()); 
@@ -213,29 +234,19 @@ public class PesquisarMenuController extends Controller {
 								xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
 							}
 							
+							xml_menu.setElement("title", gt(main.getTitle()));
 							xml_menu.setElement("target", main.getTarget());
+							xml_menu.setElement("id", "" + main.getId());
+							xml_menu.setElement("status", "" + main.getStatus());
+							xml_menu.setElement("order", "" + main.getOrder());
+							xml_menu.endElement();
 						}
-						xml_menu.setElement("order", "" + main.getOrder());
-						xml_menu.startElement("submenu");
-						xml_menu.writeAttribute("title", gt(main.getTitle()));
-						xml_menu.writeAttribute("id", "" + main.getId());
-						
-						if(main.getType() == 2) { // Fazer sso obrigatorio 
-							xml_menu.setElement("link", main.getLink()); 
-						}else {
-							xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
-						}
-						
-						xml_menu.setElement("title", gt(main.getTitle()));
-						xml_menu.setElement("target", main.getTarget());
-						xml_menu.setElement("id", "" + main.getId());
-						xml_menu.setElement("status", "" + main.getStatus());
-						xml_menu.setElement("order", "" + main.getOrder());
 						xml_menu.endElement();
 					}
-					xml_menu.endElement();
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		displayMenusPlSql(xml_menu); 
