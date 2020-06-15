@@ -1,5 +1,6 @@
 package nosi.core.integration.pdex.service;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,13 +26,12 @@ public class AppConfig extends PdexServiceTemplate{
 		super();
 	}
 	
-	public List<App> userApps(String uid){
-		uid = "iekini.fernandes@nosi.cv";
+	public List<App> userApps(String uid){ 
 		List<App> allApps = new ArrayList<App>(); 
 		if(url == null || url.isEmpty() || token == null || token.isEmpty()) 
 			return allApps; 
 		try {
-			url += "/user_apps?email=" + uid; 
+			url += "/user_apps?email=" + URLEncoder.encode(uid, "utf-8"); 
 			Client client = ClientBuilder.newClient(); 
 			WebTarget webTarget = client.target(url); 
 			Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
@@ -39,9 +39,9 @@ public class AppConfig extends PdexServiceTemplate{
 			String json = response.readEntity(String.class); 
 			client.close();
 			JSONObject obj = new JSONObject(json); 
-			JSONObject apps_t = obj.getJSONObject("Entries"); 
+			JSONObject apps_t = obj.optJSONObject("Entries"); 
 			if(apps_t != null && apps_t.has("Entry")) {
-				JSONArray apps_o = apps_t.getJSONArray("Entry"); 
+				JSONArray apps_o = apps_t.optJSONArray("Entry"); 
 				if(apps_o != null) 
 					allApps = new Gson().fromJson(apps_o.toString(), new TypeToken<List<App>>() {}.getType()); 
 			}
@@ -53,82 +53,71 @@ public class AppConfig extends PdexServiceTemplate{
 	
 	public List<ExternalMenu> profAppMenus(String appCode, String orgCode, String profCode){ 
 		List<ExternalMenu> menus = new ArrayList<ExternalMenu>(); 
-		profCode = "ADMIN"; 
-		orgCode = "01.03"; 
-		appCode = "REDGLOBAL"; 
 		if(url == null || url.isEmpty() || token == null || token.isEmpty()) 
 			return menus; 
 		try {
 			url += "/prof_app_menus?prof_code=" + profCode + "&org_code=" + orgCode + "&app_code=" + appCode;  
-			
 			Client client = ClientBuilder.newClient(); 
 			WebTarget webTarget = client.target(url); 
 			Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
 			javax.ws.rs.core.Response response  = invocationBuilder.get(); 
-			
 			String json = response.readEntity(String.class); 
-			
-			System.out.println(json);
-			
 			client.close(); 
 			
 			JSONObject obj = new JSONObject(json); 
-			JSONObject userAppMenus_t = obj.getJSONObject("Entries"); 
+			JSONObject userAppMenus_t = obj.optJSONObject("Entries"); 
 			if(userAppMenus_t != null && userAppMenus_t.has("Entry")) {
-				JSONArray UserAppMenu_o = userAppMenus_t.getJSONArray("Entry"); 
-				
-				if(UserAppMenu_o != null) { 
-
-					for(int i = 0; i < UserAppMenu_o.length(); i++) {
-						try {
-							JSONObject m = UserAppMenu_o.getJSONObject(i); 
-							ExternalMenu menu = new ExternalMenu(); 
-							
-							menu.setId("" + m.getLong("id"));
-							menu.setTitle("" + m.getString("title")); 
-							menu.setArea("" + m.getString("area"));
-							try {
-								menu.setEstado("" + m.getInt("estado")); 
-							} catch (Exception e) {
-								menu.setEstado("0");
-							}
-							
-							try {
-								menu.setDescription("" + m.getString("description"));
-							} catch (Exception e) {
-								menu.setDescription(""); 
-							}
-							
-							try {
-								menu.setUrl("" + m.getString("url"));
-							} catch (Exception e) {
-								menu.setUrl("#"); 
-							}
-							try {
-								menu.setImgsrc("" + m.getString("imgsrc"));
-							} catch (Exception e) {
-								menu.setImgsrc("#");
-							}
-							try {
-								menu.setSelf_id("" + m.getString("self_id"));
-							} catch (Exception e) {
-								menu.setSelf_id("");
-							}
-							
-							menus.add(menu); 
-							
-						} catch (Exception e) {
-							e.printStackTrace(); 
-						}
-					}
-				}
+				JSONArray UserAppMenu_o = userAppMenus_t.optJSONArray("Entry"); 
+				if(UserAppMenu_o != null) {
+					for(int i = 0; i < UserAppMenu_o.length(); i++) 
+						menus.add(extractMenuFromJson(UserAppMenu_o.getJSONObject(i))); 
+				}else 
+					extractMenuFromJson(userAppMenus_t.getJSONObject("Entry")); 
+			}
+		} catch (Exception e) {
+			//e.printStackTrace(); 
+		}
+		return menus;
+	} 
+	
+	private static ExternalMenu extractMenuFromJson(JSONObject m) {
+		ExternalMenu menu = new ExternalMenu(); 
+		try {
+			menu.setId("" + m.getLong("id"));
+			menu.setTitle("" + m.getString("title")); 
+			menu.setArea("" + m.getString("area"));
+			try {
+				menu.setEstado("" + m.getInt("estado")); 
+			} catch (Exception e) {
+				menu.setEstado("0");
 			}
 			
+			try {
+				menu.setDescription("" + m.getString("description"));
+			} catch (Exception e) {
+				menu.setDescription(""); 
+			}
+			
+			try {
+				menu.setUrl("" + m.getString("url"));
+			} catch (Exception e) {
+				menu.setUrl("#"); 
+			}
+			try {
+				menu.setImgsrc("" + m.getString("imgsrc"));
+			} catch (Exception e) {
+				menu.setImgsrc("#");
+			}
+			try {
+				menu.setSelf_id("" + m.getString("self_id"));
+			} catch (Exception e) {
+				menu.setSelf_id("");
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace(); 
 		}
-		return menus;
+		return menu; 
 	}
 	
 	public static class App {

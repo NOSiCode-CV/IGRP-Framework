@@ -194,7 +194,7 @@ public class BPMNHelper {
 		
 		aux.removeIf(obj -> { 
 			for(TipoDocumentoEtapa doc_ : aux) 
-				return doc_ != obj && doc_.getTipoDocumento() != null && obj.getTipoDocumento() != null && doc_.getTipoDocumento().equals(obj.getTipoDocumento()); 
+				return doc_ != obj && doc_.getTipoDocumento() != null && obj.getTipoDocumento() != null && doc_.getTipoDocumento().getCodigo().equals(obj.getTipoDocumento().getCodigo()); 
 			return false; 
 		});
 		
@@ -222,8 +222,7 @@ public class BPMNHelper {
 		return aux;
 	}
 
-	private static List<TipoDocumentoEtapa> getDocumentOutputReport(String taskDad,String processDefinition,String taskDefinition) {
-		
+	private static List<TipoDocumentoEtapa> getDocumentOutputReport(String taskDad,String processDefinition,String taskDefinition) { 
 		List<TipoDocumentoEtapa> tipoDocs =  new TipoDocumentoEtapa()
 				.find()
 				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")

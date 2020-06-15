@@ -406,7 +406,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		return list;
 	}
 
-	public List<TaskService> extractTasks(String xml, boolean includeStartProcess) {
+	public List<TaskService> extractTasks(String xml, boolean includeStartProcess) { 
 		List<TaskService> list = new ArrayList<>();
 		String xml_ = xml.replace("xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"", "").replaceAll("activiti:formKey",
 				"formKey");

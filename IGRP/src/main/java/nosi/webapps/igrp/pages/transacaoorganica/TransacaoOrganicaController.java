@@ -22,6 +22,7 @@ import java.util.Comparator;
 import nosi.core.webapp.helpers.CheckBoxHelper;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import nosi.core.config.ConfigDBIGRP;
 
 /*----#end-code----*/
@@ -39,7 +40,8 @@ public class TransacaoOrganicaController extends Controller {
 		/*----#start-code(index)----*/
 		int id=model.getId();
         String type= model.getType();
-	model.setHelp(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=transacao"));
+        
+        model.setHelp(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=transacao"));
 		if(Core.isInt(id) && Core.isNotNull(type)){		
 			
 			ArrayList<TransacaoOrganica.Table_1> data = new ArrayList<>();
@@ -426,12 +428,6 @@ public class TransacaoOrganicaController extends Controller {
 			
 		}
 		
-	}
-	
-	private boolean isSharedTransaction(Transaction transaction) {
-		boolean flag = false;
-		
-		return flag;
 	}
 	
 	

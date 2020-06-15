@@ -190,8 +190,8 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 	public List<Menu> getOrgMenu(Integer appId,Integer orgId) {		
 			List<Menu> myMenu = new ArrayList<>();			
 			//First shows all the app pages than all the public pages in the menu
-			String sqlMenuByApp = "SELECT m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND type_fk=m.id) then 1 else 0 END) as isInserted  FROM tbl_menu m WHERE m.action_fk is not null AND m.status=1 AND m.env_fk=:env_fk";
-			String sqlPublicMenu = "SELECT m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND type_fk=m.id) then 1 else 0 END) as isInserted FROM tbl_menu m WHERE m.action_fk is not null AND m.status=1 AND m.env_fk<>:env_fk AND m.flg_base=1";
+			String sqlMenuByApp = "SELECT m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND type_fk=m.id) then 1 else 0 END) as isInserted  FROM tbl_menu m WHERE (m.action_fk is not null or link is not null) AND m.status=1 AND m.env_fk=:env_fk";
+			String sqlPublicMenu = "SELECT m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND type_fk=m.id) then 1 else 0 END) as isInserted FROM tbl_menu m WHERE (m.action_fk is not null or link is not null) AND m.status=1 AND m.env_fk<>:env_fk AND m.flg_base=1";
 			ResultSet.Record record = Core.query(this.getConnectionName(),sqlMenuByApp)
 										  .union()
 										  .select(sqlPublicMenu)
@@ -218,7 +218,7 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 		String sqlMenuByOrg = " SELECT m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND prof_type_fk=:prof_fk AND type_fk=m.id) then 1 else 0 END) as isInserted  "
 							+ " FROM tbl_menu m INNER JOIN tbl_profile p ON p.type_fk=m.id AND p.type='MEN' AND p.org_fk=:org_fk"
 							+ " RIGHT JOIN tbl_profile_type pt ON pt.id=p.prof_type_fk AND pt.code='ALL' AND pt.descr='ALL PROFILE' "
-							+ " WHERE m.action_fk is not null AND m.status=1";
+							+ " WHERE (m.action_fk is not null or link is not null) AND m.status=1";
 		ResultSet.Record record = Core.query(this.getConnectionName(),sqlMenuByOrg)
 									  .addInt("org_fk", orgId)
 									  .addInt("prof_fk", profId)
@@ -294,7 +294,7 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 		String sqlMenuByOrg = " SELECT m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN_USER' AND org_fk=:org_fk AND user_fk=:user_fk AND type_fk=m.id) then 1 else 0 END) as isInserted  "
 							+ " FROM tbl_menu m INNER JOIN tbl_profile p ON p.type_fk=m.id AND p.type='MEN' AND p.org_fk=:org_fk"
 							+ " RIGHT JOIN tbl_profile_type pt ON pt.id=p.prof_type_fk AND pt.code='ALL' AND pt.descr='ALL PROFILE' "
-							+ " WHERE m.action_fk is not null AND m.status=1";
+							+ " WHERE (m.action_fk is not null or link is not null) AND m.status=1";
 		ResultSet.Record record = Core.query(this.getConnectionName(),sqlMenuByOrg)
 									  .addInt("org_fk", orgId)
 									  .addInt("user_fk", userId)

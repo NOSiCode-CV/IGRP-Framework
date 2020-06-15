@@ -18,7 +18,12 @@ import org.json.JSONObject;
  */
 public class GlobalAcl extends PdexServiceTemplate{
 	
-	private String instanceName;
+	private String instanceName; 
+	private String type; 
+	
+	public enum TYPE{
+		PAGE, 
+	}
 	
 	public GlobalAcl() {
 		super();
@@ -26,32 +31,47 @@ public class GlobalAcl extends PdexServiceTemplate{
 	
 	public List<PermissionAcl> permissionAcl(){
 		List<PermissionAcl> acls = new ArrayList<PermissionAcl>(); 
-		
 		if(instanceName == null || instanceName.isEmpty() || appCode == null || appCode.isEmpty() || url == null || url.isEmpty() || token == null || token.isEmpty()) 
 			return acls; 
-		
+		url += "/permissionAcl?instance_id=" + this.instanceName + "&code=" + this.appCode  + "&type=" + type; 
 		Client client = ClientBuilder.newClient(); 
 		WebTarget webTarget = client.target(this.url); 
 		Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
 		javax.ws.rs.core.Response response  = invocationBuilder.get(); 
 		String json = response.readEntity(String.class); 
 		client.close(); 
-		
 		JSONObject obj = new JSONObject(json);
-		JSONObject Entries = obj.optJSONObject("Entries"); 
-		if(Entries != null) {
-			JSONArray Entry = Entries.optJSONArray("Entry");
-			if(Entry != null) { 
-				for(int i=0 ; i< Entry.length() ; i++) {
-					JSONObject r = Entry.optJSONObject(i); 
+		if(obj.has("Entries")) {
+			JSONObject Entries = obj.optJSONObject("Entries"); 
+			if(Entries != null && Entries.has("Entry")) { 
+				JSONArray Entry = Entries.optJSONArray("Entry");
+				if(Entry != null) { 
+					for(int i=0 ; i< Entry.length() ; i++) {
+						JSONObject r = Entry.getJSONObject(i); 
+						PermissionAcl acl = new PermissionAcl(); 
+						try { acl.setEnv_fk(r.getString("env_fk"));  } catch (Exception e) {}
+						try { acl.setEnv_owner_fk(r.getString("env_owner_fk"));  } catch (Exception e) {}
+						try { acl.setStatus(r.getString("STATUS"));  } catch (Exception e) {}
+						try { acl.setType(r.getString("TYPE"));  } catch (Exception e) {}
+						try { acl.setType_fk(r.getInt("type_fk"));  } catch (Exception e) {}
+						try { acl.setDescription(r.getString("description"));  } catch (Exception e) {} 
+						try { acl.setLink(r.getString("link"));  } catch (Exception e) {}
+						try { acl.setOrg_fk(r.getInt("org_fk"));  } catch (Exception e) {}
+						try { acl.setProf_fk(r.getInt("prof_fk"));  } catch (Exception e) {}
+						acls.add(acl); 
+					}
+				}else {
+					JSONObject r = Entries.getJSONObject("Entry");
 					PermissionAcl acl = new PermissionAcl(); 
-					try { acl.setEnv_fk(r.getString("ENV_FK"));  } catch (Exception e) {}
-					try { acl.setEnv_owner_fk(r.getString("ENV_OWNER_FK"));  } catch (Exception e) {}
+					try { acl.setEnv_fk(r.getString("env_fk"));  } catch (Exception e) {}
+					try { acl.setEnv_owner_fk(r.getString("env_owner_fk"));  } catch (Exception e) {}
 					try { acl.setStatus(r.getString("STATUS"));  } catch (Exception e) {}
 					try { acl.setType(r.getString("TYPE"));  } catch (Exception e) {}
-					try { acl.setType_fk(r.getInt("TYPE_FK"));  } catch (Exception e) {}
-					try { acl.setDescription(r.getString("description"));  } catch (Exception e) {}
+					try { acl.setType_fk(r.getInt("type_fk"));  } catch (Exception e) {}
+					try { acl.setDescription(r.getString("description"));  } catch (Exception e) {} 
 					try { acl.setLink(r.getString("link"));  } catch (Exception e) {}
+					try { acl.setOrg_fk(r.getInt("org_fk"));  } catch (Exception e) {}
+					try { acl.setProf_fk(r.getInt("prof_fk"));  } catch (Exception e) {}
 					acls.add(acl); 
 				}
 			}
@@ -101,7 +121,21 @@ public class GlobalAcl extends PdexServiceTemplate{
 		private int type_fk; 
 		private String description; 
 		private String link;
+		private int org_fk; 
+		private int prof_fk; 
 		
+		public int getOrg_fk() {
+			return org_fk;
+		}
+		public void setOrg_fk(int org_fk) {
+			this.org_fk = org_fk;
+		}
+		public int getProf_fk() {
+			return prof_fk;
+		}
+		public void setProf_fk(int prof_fk) {
+			this.prof_fk = prof_fk;
+		}
 		public String getEnv_fk() {
 			return env_fk;
 		}
@@ -194,4 +228,11 @@ public class GlobalAcl extends PdexServiceTemplate{
 		this.instanceName = instanceName;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 }

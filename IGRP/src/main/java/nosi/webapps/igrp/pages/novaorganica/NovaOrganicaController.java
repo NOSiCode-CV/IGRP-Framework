@@ -34,7 +34,7 @@ public class NovaOrganicaController extends Controller {
 		
       //model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=organica"));
       
-		Properties settings = ConfigApp.getInstance().loadCommonConfig();
+		Properties settings = this.configApp.getMainSettings();
 		String igrp_plsql_url = settings.getProperty("igrp.plsql.url");
 		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()){
           view.extras.setVisible(false);
@@ -118,8 +118,7 @@ public class NovaOrganicaController extends Controller {
 		NovaOrganicaView view = new NovaOrganicaView();
         model.load();
      
-        
-		Properties settings = ConfigApp.getInstance().loadCommonConfig();
+		Properties settings = this.configApp.getMainSettings();
 		String igrp_plsql_url = settings.getProperty("igrp.plsql.url");
 		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
 			view.plsql_codigo.setVisible(false);

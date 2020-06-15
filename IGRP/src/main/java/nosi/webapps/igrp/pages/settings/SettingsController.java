@@ -53,8 +53,8 @@ public class SettingsController extends Controller {
 						ApplicationPermition appP = new ApplicationPermition(prof.getOrganization().getApplication().getId(),
 								prof.getOrganization().getApplication().getDad(), prof.getOrganization().getId(), prof.getId(),
 								prof.getOrganization().getCode(),prof.getCode());
-						Igrp.getInstance().getRequest().getSession().setAttribute(appP.getDad(),appP);
-						new Permission().setCookie(appP);
+						Core.addToSession(appP.getDad(), appP); 
+						new Permission().setCookie(appP); 
 					}
 					if (Core.isNotNull(model.getIdioma())) {
 						Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(model.getIdioma());
