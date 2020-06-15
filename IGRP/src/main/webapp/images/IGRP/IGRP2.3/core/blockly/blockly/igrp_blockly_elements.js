@@ -140,6 +140,7 @@
 			init : function(block){
 				block.itemCount_ = 0;
 				block.updateShape_();
+				block.updateShape__ = function(){};
 //				this.onTableSet = function(item){		
 //					var XML = $.parseXML(VARS.getGen().getXML());	
 //					var menus = function(){
@@ -160,6 +161,7 @@
 		init : function(block){
 			 block.itemCount_ = 0;
 			 block.updateShape_();
+			 block.updateShape__ = function(){};
 		}	
 	  }, ListMutationSettings),
 	  
@@ -169,6 +171,7 @@
 			init : function(block){
 				block.itemCount_ = 0;
 				block.updateShape_();
+				block.updateShape__ = function(){};
 			}	
 		  }, ListMutationSettings),
   
@@ -178,6 +181,7 @@
 		init : function(block){
 			block.itemCount_ = 0;
 			block.updateShape_();
+			block.updateShape__ = function(){};
 		}	
 	  }, ListMutationSettings),
 	  
@@ -187,6 +191,7 @@
 		init : function(block){
 			block.itemCount_ = 0;
 			block.updateShape_();
+			block.updateShape__ = function(){};
 		}	
 	  }, ListMutationSettings),
 		
