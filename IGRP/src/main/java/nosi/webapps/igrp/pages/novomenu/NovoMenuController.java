@@ -277,8 +277,6 @@ public class NovoMenuController extends Controller {
 			globalAcl.setAppCode(env.getDad());
 		globalAcl.setType(GlobalAcl.TYPE.PAGE.name());
 		
-		globalAcl.setAppCode("sgit_turismo"); 
-		
 		acls = globalAcl.permissionAcl(); 
 		
 		return acls;
