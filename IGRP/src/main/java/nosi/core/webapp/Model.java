@@ -265,9 +265,13 @@ public abstract class Model { // IGRP super model
 				} else {
 					String param = "p_" + m.getName() + "_fk";
 					String[] values1 = Core.getParamArray(param);
-					if(values1==null || values1.length==0) {
-						if(allFiles!=null && allFiles.containsKey(param)) 
+					if((values1!=null && values1.length==0) || values1==null) {
+//						values1 =  Core.getParamArray("p_" + m.getName());
+//					}
+//					if((values1!=null && values1.length==0) || values1==null) {
+						if(allFiles!=null && allFiles.containsKey(param)) {
 							values1 = allFiles.get(param).stream().map(f->f.getName()).toArray(String[]::new);
+						}
 					}
 					String[] values2 = Core.getParamArray(param+ "_desc");
 					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
@@ -326,9 +330,7 @@ public abstract class Model { // IGRP super model
 							try {
 								if(fileId!=null && fileId.size() > row && Core.isNotNull(fileId.get(row))) {
 									BeanUtils.setProperty(obj2, m.getName(),new IGRPSeparatorList.Pair(fileId.get(row), key,value));
-								}else { 
-									if(m.getName().contains("male") || m.getName().contains("female")) 
-										//System.out.println(m.getName() + " " + key + " # " + value); 
+								}else {
 									BeanUtils.setProperty(obj2, m.getName(), new IGRPSeparatorList.Pair(key,key, value));
 								}
 							} catch (Exception e) {
