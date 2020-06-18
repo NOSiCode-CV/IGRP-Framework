@@ -1,7 +1,5 @@
 package nosi.core.webapp;
 
-import static nosi.core.i18n.Translator.gt;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -66,6 +64,7 @@ import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.bpmn.BPMNExecution;
+import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.databse.helpers.Connection;
 import nosi.core.webapp.databse.helpers.QueryDelete;
@@ -98,7 +97,6 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumento;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import nosi.webapps.igrp.dao.Transaction;
-import nosi.webapps.igrp.dao.User;
 
 /**
  * The core of the IGRP, here you can find all the main functions and helper
@@ -4248,6 +4246,23 @@ public final class Core { // Not inherit
 	}
 	
 	/**
+	 * @param processKey (Ex: Processo_pedido_compra)
+	 * @param processDefinitionId (Ex: Processo_pedido_compra:7:30019) 
+	 * @param params For custom params, will be sent as query string 
+	 * @return
+	 */
+	public static Response startProcess(String processKey, String processDefinitionId, Map<String, String> params) { 
+		if(params != null) { 
+			try {
+				BPMNExecution bpmn = new BPMNExecution();
+				return bpmn.startProcess(processKey, processDefinitionId, params);
+			} catch (Exception e) {
+			}
+		} 
+		return startProcess(processKey, processDefinitionId);
+	}
+	
+	/**
 	 * @param taskId (Ex: 35834)
 	 * @return
 	 */
@@ -4278,40 +4293,7 @@ public final class Core { // Not inherit
 	 * @return List<TipoDocumentoEtapa> package nosi.webapps.igrp.dao 
 	 */
 	public static List<TipoDocumentoEtapa> getFilesByProcessIdNTaskId(String appDad, String processId, String taskId) { 
-		List<TipoDocumentoEtapa> allOutDocs = new ArrayList<TipoDocumentoEtapa>(); 
-		List<TipoDocumentoEtapa> tipoDocs = null;
-		TipoDocumentoEtapa tipoDocumentoEtapa = new TipoDocumentoEtapa().find().andWhere("processId", "=", Core.isNotNull(processId) ? processId: "-1");
-		if(taskId != null) 
-			tipoDocumentoEtapa = tipoDocumentoEtapa.andWhere("taskId", "=", taskId);
-		tipoDocs = tipoDocumentoEtapa.andWhere("status", "=", 1).andWhere("tipo", "=", "OUT").all();
-		if(tipoDocs != null) { 
-			for(TipoDocumentoEtapa doc : tipoDocs) {
-				 if(doc.getTipoDocumento() != null && doc.getTipoDocumento().getApplication() != null && doc.getTipoDocumento().getApplication().getDad().equals(appDad)) {
-					 nosi.webapps.igrp.dao.TaskFile taskFile = new nosi.webapps.igrp.dao.TaskFile().find()
-								.andWhere("tipo_doc_task", "=", doc)
-								.one();
-					 if(taskFile != null) {
-						 IGRPLink link = new IGRPLink();
-						 if(taskFile.getClob().getUuid()!=null)
-							 link.setLink(Core.getLinkFileByUuid(taskFile.getClob().getUuid()));
-						 else
-							 link.setLink(Core.getLinkFile(taskFile.getClob().getId().intValue()));
-						 link.setLink_desc(gt("Mostrar"));
-						 doc.setFileId(taskFile.getClob().getId());
-						 doc.setLink(link);
-						 allOutDocs.add(doc);
-					 }
-				 }
-				 if(doc.getRepTemplate() != null && doc.getRepTemplate().getApplication() != null && doc.getRepTemplate().getApplication().getDad().equals(appDad)) { 
-					 doc.setFileId(new Integer(-1));
-					 IGRPLink link = new IGRPLink(Core.getLinkReport(doc.getRepTemplate().getCode()));
-		 			 link.setLink_desc(gt("Mostrar"));
-					 doc.setLink(link);
-					 allOutDocs.add(doc);
-				 }
-			}
-		} 
-		return allOutDocs; 
+		return BPMNHelper.getFilesByProcessIdNTaskId(appDad, processId, taskId); 
 	}
 	
 	/**

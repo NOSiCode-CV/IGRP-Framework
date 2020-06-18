@@ -28,4 +28,5 @@ public final class BPMNConstants {
 	public static final String PRM_TASK_EXECUTION_ID = "taskExecutionId";
 	public static final String CUSTOM_VARIABLE_CUSTOM_PERMISSION = "my_custom_permission";
 	public static final String PRM_PREVIEW_TASK_ID = "previewTaskId";
+	public static final String CUSTOM_PARAM_PREFIX = "x_"; 
 }
