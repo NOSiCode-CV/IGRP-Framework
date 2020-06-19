@@ -78,7 +78,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			}
 			if(Core.isNotNull(this.runtimeTask.getTask().getId())) {
 				xml.addXml(BPMNButton.generateButtonTask(this.runtimeTask.getTask().getTenantId(),action.getApplication().getId(),
-						BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(),"save", this.runtimeTask.getTask().getTenantId()).toString());
+						BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(),"save", this.runtimeTask.getTask().getTenantId(), this.queryString()).toString());
 			}
 			xml.addXml(content);
 			xml.addXml(BPMNHelper.addFileSeparator(this.runtimeTask.getTask().getTenantId(),this.runtimeTask.getTask().getProcessDefinitionId(),this.runtimeTask.getTask().getTaskDefinitionKey(),null));

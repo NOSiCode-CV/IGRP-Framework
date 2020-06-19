@@ -2,9 +2,14 @@ package nosi.core.webapp.bpmn;
 
 import static nosi.core.i18n.Translator.gt;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.QueryString;
 
 /**
  * Emanuel
@@ -57,15 +62,15 @@ public class BPMNButton {
 		return toolsbar1;
 	}
 	
-	public static IGRPToolsBar generateButtonTask(String appDad,Integer appId, String page,String action, String taskId) {
-		return generateButtonTask(appDad,appId, page, action, BUTTON_IMG_SAVE_PROCESS, taskId);
+	public static IGRPToolsBar generateButtonTask(String appDad,Integer appId, String page,String action, String taskId, QueryString<String, Object> qs) {
+		return generateButtonTask(appDad,appId, page, action, BUTTON_IMG_SAVE_PROCESS, taskId, qs);
 	}
 
-	public static IGRPToolsBar generateButtonEditTask(String appDad,Integer appId,String page,String action,String taskId) {
-		return generateButtonTask(appDad,appId, page, action, BUTTON_IMG_EDIT_PROCESS, taskId);
+	public static IGRPToolsBar generateButtonEditTask(String appDad,Integer appId,String page,String action,String taskId, QueryString<String, Object> qs) {
+		return generateButtonTask(appDad,appId, page, action, BUTTON_IMG_EDIT_PROCESS, taskId, qs);
 	}
 	
-	public static IGRPToolsBar generateButtonTask(String appDad,Integer appId, String page,String action,String icon, String taskId) {
+	public static IGRPToolsBar generateButtonTask(String appDad,Integer appId, String page,String action,String icon, String taskId, QueryString<String, Object> qs) {
 		IGRPToolsBar toolsbar1 = new IGRPToolsBar("toolsbar");
 		IGRPButton button = new IGRPButton();
 		button.getProperties().add("code", BUTTON_NEXT);
@@ -74,11 +79,30 @@ public class BPMNButton {
 		button.setTitle(gt(TITLE_BUTTON_NEXT));
 		button.setApp(appDad);
 		button.setPage(page);
-		button.setLink(action+"&"+BPMNConstants.PRM_TASK_ID+"="+taskId);
+		String _link = action + "&"+ BPMNConstants.PRM_TASK_ID + "=" + taskId; 
+		StringBuilder sb = new StringBuilder(); 
+		setQueryString(qs, sb); 
+		if(sb.length() > 0) 
+			_link += sb.toString(); 
+		button.setLink(_link);
 		button.setTarget(BUTTON_TARGET_SAVE_PROCESS);
 		button.setImg(icon);
 		toolsbar1.addButton(button);
 		return toolsbar1;
+	}
+	
+	private static void setQueryString(QueryString<String, Object> queryString, StringBuilder qs) {
+		if (queryString != null && !queryString.getQueryString().isEmpty()) {
+			queryString.getQueryString().entrySet().stream().forEach(q -> q.getValue().stream().filter(q1 -> q1 != null)
+					.forEach(q1 -> {
+						try {
+							if(q.getKey().startsWith(BPMNConstants.CUSTOM_PARAM_PREFIX))
+								qs.append("&" + q.getKey() + "=" +  (Core.isNotNull(q1) && q1 instanceof String? URLEncoder.encode((String) q1, StandardCharsets.UTF_8.toString()):q1));
+						} catch (UnsupportedEncodingException e) {
+							e.printStackTrace();
+						}
+					}));
+		}
 	}
 	
 	

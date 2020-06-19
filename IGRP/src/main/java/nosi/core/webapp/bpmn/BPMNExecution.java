@@ -2,6 +2,8 @@ package nosi.core.webapp.bpmn;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.Part;
@@ -32,6 +34,20 @@ public class BPMNExecution extends Controller{
 	public Response startProcess(String processKey,String processDefinitionId) {
 		if(Core.isNotNullMultiple(processKey,processDefinitionId)) {
 			this.restartQueryString();
+			this.addQueryString(BPMNConstants.PRM_DEFINITION_ID,processDefinitionId);
+			return this.call(Core.getParam("dad"), BPMNConstants.PREFIX_START_PROCESS+processKey, "save", this.queryString());
+		}
+		return null;
+	}
+	
+	public Response startProcess(String processKey, String processDefinitionId, Map<String, String> params) {
+		if(Core.isNotNullMultiple(processKey,processDefinitionId)) {
+			this.restartQueryString();
+			if(params != null && !params.isEmpty()) { 
+				for(Entry<String, String> param : params.entrySet())  
+					if(param.getKey().startsWith(BPMNConstants.CUSTOM_PARAM_PREFIX)) 
+						this.addQueryString(param.getKey(), param.getValue()); 
+			}
 			this.addQueryString(BPMNConstants.PRM_DEFINITION_ID,processDefinitionId);
 			return this.call(Core.getParam("dad"), BPMNConstants.PREFIX_START_PROCESS+processKey, "save", this.queryString());
 		}

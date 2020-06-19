@@ -182,14 +182,14 @@ public class Controller {
 		XMLWritter xml = new XMLWritter("rows", this.config.getLinkPageXsl(ac), "utf-8");
 		xml.addXml(this.getConfig().getHeader(null));
 		xml.startElement("content");
-		xml.writeAttribute("type", "");
+		xml.writeAttribute("type", ""); 
 		if (Core.isNotNull(runtimeTask)) {
 			TaskServiceRest taskService = new TaskServiceRest();
 			String taskId = runtimeTask.getTask().getId();
 			if (runtimeTask.isSaveButton()) {
 				xml.addXml(BPMNButton.generateButtonBack().toString());
 				xml.addXml(BPMNButton.generateButtonTask("igrp", ac.getApplication().getId(), "ExecucaoTarefas",
-						"process-task", taskId).toString());
+						"process-task", taskId, this.queryString).toString());
 			}
 			ViewTaskDetails details = this.getTaskDetails(taskService, taskId);
 			xml.addXml(this.getTaskViewDetails(details));
@@ -371,7 +371,6 @@ public class Controller {
 						try {
 							qs += "&" + q.getKey() + "=" +  (Core.isNotNull(q1) && q1 instanceof String? URLEncoder.encode((String) q1, StandardCharsets.UTF_8.toString()):q1);
 						} catch (UnsupportedEncodingException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}));
@@ -611,6 +610,7 @@ public class Controller {
 			auxActionName = "actionIndex";
 			auxcontrollerPath = this.config.getPackage("igrp", "Home", auxActionName);
 		}
+		
 		return Page.loadPage(auxcontrollerPath, auxActionName); 
 	}
 
