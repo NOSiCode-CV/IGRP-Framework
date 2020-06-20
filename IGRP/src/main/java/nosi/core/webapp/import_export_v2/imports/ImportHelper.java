@@ -10,6 +10,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.JarUnJarFile;
 import nosi.core.webapp.import_export_v2.common.OptionsImportExport;
 import nosi.core.webapp.import_export_v2.imports.application.ApplicationImport;
+import nosi.core.webapp.import_export_v2.imports.bpmn.BPMNTipoDocEtapaImport;
 import nosi.core.webapp.import_export_v2.imports.bpmn.BpmnImport;
 import nosi.core.webapp.import_export_v2.imports.connection.ConnectionImport;
 import nosi.core.webapp.import_export_v2.imports.dao.DaoImport;
@@ -106,6 +107,10 @@ public class ImportHelper {
 			ServicesImport service = new ServicesImport(application);
 			service.deserialization(this.getJsonContent(OptionsImportExport.SERVICE.getFileName()));
 			imp.add(service);
+			
+			BPMNTipoDocEtapaImport bpmnTipoDocEtapaImport = new BPMNTipoDocEtapaImport(application);
+			bpmnTipoDocEtapaImport.deserialization(this.getJsonContent(OptionsImportExport.BPMN_DOCUMENT_TYPE.getFileName()));
+			imp.add(bpmnTipoDocEtapaImport);
 			
 			imp.execute();
 			imp.compile(app.getApplication());			
