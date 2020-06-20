@@ -3,6 +3,7 @@ package nosi.core.webapp.import_export_v2.exports;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.import_export_v2.exports.application.ApplicationExport;
 import nosi.core.webapp.import_export_v2.exports.bpmn.BPMNExport;
+import nosi.core.webapp.import_export_v2.exports.bpmn.BPMNTipoDocEtapaExport;
 import nosi.core.webapp.import_export_v2.exports.connection.ConnectionExport;
 import nosi.core.webapp.import_export_v2.exports.dao.DAOExport;
 import nosi.core.webapp.import_export_v2.exports.document_type.ExportDocumentType;
@@ -55,6 +56,7 @@ public class ExportHelper {
 		new ExportTransation().export(export, transation_ids);
 		new ExportDocumentType().export(export, doc_type_ids);
 		new ServicesExport().export(export, service_ids);
+		new BPMNTipoDocEtapaExport(application).export(export, bpm_ids); 
 		return export.execute();
 	}
 
