@@ -44,9 +44,9 @@ public class BPMNTipoDocEtapaImport extends AbstractImport implements IImport {
 						if(_docEtapa.getReportCode() != null) {
 							RepTemplate report = new RepTemplate().find().andWhere("code", "=", _docEtapa.getReportCode()).andWhere("application", "=", application).one(); 
 							TipoDocumentoEtapa existDao = new TipoDocumentoEtapa().find().andWhere("repTemplate", "=", report)
-									.andWhere("tipo", "=", _docEtapa.getTipo()).andWhere("taskid", "=", _docEtapa.getTaskId())
+									.andWhere("tipo", "=", _docEtapa.getTipo()).andWhere("taskId", "=", _docEtapa.getTaskId())
 									.andWhere("status", "=", _docEtapa.getStatus()).andWhere("required", "=", _docEtapa.getRequired())
-									.andWhere("processid", "=", _docEtapa.getProcessId()).one(); 
+									.andWhere("processId", "=", _docEtapa.getProcessId()).one(); 
 							if(existDao == null) {
 								TipoDocumentoEtapa dao = new TipoDocumentoEtapa(); 
 								Core.mapper(_docEtapa, dao); 
@@ -58,9 +58,9 @@ public class BPMNTipoDocEtapaImport extends AbstractImport implements IImport {
 						if(_docEtapa.getTipoDocCode() != null) { 
 							TipoDocumento tipoDocumento = new TipoDocumento().find().andWhere("codigo", "=", _docEtapa.getTipoDocCode()).andWhere("application.dad", "=", application).one();  
 							TipoDocumentoEtapa existDao = new TipoDocumentoEtapa().find().andWhere("tipoDocumento", "=", tipoDocumento)
-									.andWhere("tipo", "=", _docEtapa.getTipo()).andWhere("taskid", "=", _docEtapa.getTaskId())
+									.andWhere("tipo", "=", _docEtapa.getTipo()).andWhere("taskId", "=", _docEtapa.getTaskId())
 									.andWhere("status", "=", _docEtapa.getStatus()).andWhere("required", "=", _docEtapa.getRequired())
-									.andWhere("processid", "=", _docEtapa.getProcessId()).one(); 
+									.andWhere("processId", "=", _docEtapa.getProcessId()).one(); 
 							if(existDao == null) {
 								TipoDocumentoEtapa dao = new TipoDocumentoEtapa(); 
 								Core.mapper(_docEtapa, dao); 
