@@ -47,7 +47,7 @@ public class BPMNTipoDocEtapaImport extends AbstractImport implements IImport {
 									.andWhere("tipo", "=", _docEtapa.getTipo()).andWhere("taskId", "=", _docEtapa.getTaskId())
 									.andWhere("status", "=", _docEtapa.getStatus()).andWhere("required", "=", _docEtapa.getRequired())
 									.andWhere("processId", "=", _docEtapa.getProcessId()).one(); 
-							if(existDao == null) {
+							if(existDao == null && report != null) {
 								TipoDocumentoEtapa dao = new TipoDocumentoEtapa(); 
 								dao.setProcessId(_docEtapa.getProcessId());
 								dao.setRequired(_docEtapa.getRequired());
@@ -65,7 +65,7 @@ public class BPMNTipoDocEtapaImport extends AbstractImport implements IImport {
 									.andWhere("tipo", "=", _docEtapa.getTipo()).andWhere("taskId", "=", _docEtapa.getTaskId())
 									.andWhere("status", "=", _docEtapa.getStatus()).andWhere("required", "=", _docEtapa.getRequired())
 									.andWhere("processId", "=", _docEtapa.getProcessId()).one(); 
-							if(existDao == null) {
+							if(existDao == null && tipoDocumento != null) {
 								TipoDocumentoEtapa dao = new TipoDocumentoEtapa(); 
 								dao.setProcessId(_docEtapa.getProcessId());
 								dao.setRequired(_docEtapa.getRequired());
