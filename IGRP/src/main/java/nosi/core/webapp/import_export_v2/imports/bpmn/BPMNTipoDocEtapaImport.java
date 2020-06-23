@@ -49,7 +49,11 @@ public class BPMNTipoDocEtapaImport extends AbstractImport implements IImport {
 									.andWhere("processId", "=", _docEtapa.getProcessId()).one(); 
 							if(existDao == null) {
 								TipoDocumentoEtapa dao = new TipoDocumentoEtapa(); 
-								Core.mapper(_docEtapa, dao); 
+								dao.setProcessId(_docEtapa.getProcessId());
+								dao.setRequired(_docEtapa.getRequired());
+								dao.setStatus(_docEtapa.getStatus());
+								dao.setTaskId(_docEtapa.getTaskId());
+								dao.setTipo(_docEtapa.getTipo());
 								dao.setRepTemplate(report);
 								dao.insert(); 
 							}
@@ -63,7 +67,11 @@ public class BPMNTipoDocEtapaImport extends AbstractImport implements IImport {
 									.andWhere("processId", "=", _docEtapa.getProcessId()).one(); 
 							if(existDao == null) {
 								TipoDocumentoEtapa dao = new TipoDocumentoEtapa(); 
-								Core.mapper(_docEtapa, dao); 
+								dao.setProcessId(_docEtapa.getProcessId());
+								dao.setRequired(_docEtapa.getRequired());
+								dao.setStatus(_docEtapa.getStatus());
+								dao.setTaskId(_docEtapa.getTaskId());
+								dao.setTipo(_docEtapa.getTipo());
 								dao.setTipoDocumento(tipoDocumento);
 								dao.insert(); 
 							}
