@@ -53,7 +53,11 @@ public class BPMNTipoDocEtapaExport implements IExport{
 		TipoDocumentoEtapa tipoDocumentoEtapa = new TipoDocumentoEtapa().find().andWhere("status", "=", 1).andWhere("processId", "=", id).one(); 
 		if(tipoDocumentoEtapa != null) {
 			BPMNTipoDocEtapaSerializable bpmnTipoDocEtapaSerializable = new BPMNTipoDocEtapaSerializable(); 
-			Core.mapper(tipoDocumentoEtapa, bpmnTipoDocEtapaSerializable); 
+			bpmnTipoDocEtapaSerializable.setProcessId(tipoDocumentoEtapa.getProcessId()); 
+			bpmnTipoDocEtapaSerializable.setRequired(tipoDocumentoEtapa.getRequired()); 
+			bpmnTipoDocEtapaSerializable.setStatus(tipoDocumentoEtapa.getStatus()); 
+			bpmnTipoDocEtapaSerializable.setTaskId(tipoDocumentoEtapa.getTaskId()); 
+			bpmnTipoDocEtapaSerializable.setTipo(tipoDocumentoEtapa.getTipo()); 
 			if(tipoDocumentoEtapa.getRepTemplate() != null)
 				bpmnTipoDocEtapaSerializable.setReportCode(tipoDocumentoEtapa.getRepTemplate().getCode()); 
 			if(tipoDocumentoEtapa.getTipoDocumento() != null)
