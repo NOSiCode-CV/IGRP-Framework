@@ -9,6 +9,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
@@ -23,7 +24,7 @@ public class Alter_prioridade_tarefaController extends Controller {
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
-		Map<String,String> listPrioridade = new HashMap<String,String>();
+		Map<String,String> listPrioridade = new LinkedHashMap<String,String>();
 		listPrioridade.put(null, gt("--- Escolher Prioridade ---"));
 		listPrioridade.put("100", "Urgente");
       	listPrioridade.put("75", "Alta");
