@@ -29,26 +29,25 @@ import nosi.core.webapp.activit.rest.helpers.DateHelper;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 /*----#end-code----*/
 		
-public class ExecucaoTarefasController extends Controller { 
-	
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{ 
+public class ExecucaoTarefasController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ExecucaoTarefas model = new ExecucaoTarefas();
 		model.load();
 		model.setView_estatistica_img("../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg");
 		ExecucaoTarefasView view = new ExecucaoTarefasView();
-		view.p_id_c.setParam(true);
-		view.p_id_g.setParam(true);
 		view.p_id_d.setParam(true);
+		view.p_id_g.setParam(true);
 		view.p_id_e.setParam(true);
 		view.id.setParam(true);
+		view.p_id_c.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable__colaboradores(Core.query(null,"SELECT 'Ut stract sed amet stract' as nome_colab_tabela,'Stract sit rem doloremque laud' as contacto_colab_tabela,'Doloremque stract deserunt eli' as n_tarefas_colab_tabela,'Omnis adipiscing totam natus c' as n_atendimento_colab_tabela,'Sed sit lorem stract ut' as media_tempo_colab_tabela,'Sed voluptatem rem deserunt am' as ranking_colab_tabela,'Natus totam labore adipiscing' as percentagem_colab_tabela,'Doloremque aperiam voluptatem' as foto_colab_tabela,'Doloremque anim deserunt dolor' as param_colab_tabela,'hidden-6138_69d4' as p_id_c "));
-		model.loadTable_gerir_tarefas(Core.query(null,"SELECT '100' as prioridade_g,'Doloremque stract officia anim' as numero_processo_tabela,'Elit sed voluptatem adipiscing unde' as n_tarefa_g,'Stract magna laudantium lorem' as tipo,'Accusantium doloremque ipsum n' as desc_tarefa,'Accusantium officia accusantiu' as atribuido_por,'Stract ut laudantium dolor rem' as atribuido_a,'Ipsum elit labore sed aliqua' as data_entrada,'02-07-2012' as data_fim_g,'hidden-aad6_6b8c' as p_id_g "));
-		model.loadTable_disponiveis(Core.query(null,"SELECT '50' as prioridade,'Accusantium doloremque elit sed sit' as n_tarefa_d,'Perspiciatis adipiscing magna' as tarefas_tabela_disponiveis,'Omnis perspiciatis labore aliq' as categorias_processo_tabela_disponiveis,'Officia perspiciatis deserunt' as data_entrada_tabela_disponiveis,'06-07-2013' as data_fim_d,'hidden-7ce0_3ad0' as p_id_d "));
-		model.loadTable_estatistica(Core.query(null,"SELECT 'Anim laudantium perspiciatis r' as n_processo_estat_tabela,'Accusantium labore amet stract' as tipo_estatistica_tabela,'Anim voluptatem aliqua perspic' as desc_tarefa_estat_tabela,'Unde iste labore sit magna' as data_entrada_estat_tabela,'Aliqua labore officia anim ist' as data_conclusao_estat_tabela,'hidden-ca5c_9f13' as p_id_e "));
-		model.loadTable_minhas_tarefas(Core.query(null,"SELECT '50' as prioridade_m,'Doloremque accusantium anim laudantium stract' as n_tarefa_m,'Officia anim dolor totam omnis' as tipo_tabela_minhas_tarefas,'Iste omnis aperiam accusantium' as desc_tarefa_tabela_minhas_tarefas,'Rem elit totam amet anim' as atribuido_por_tabela_minhas_tarefas,'Accusantium aliqua mollit pers' as data_entrada_tabela_minhas_tarefas,'02-06-2015' as data_fim_m,'Elit adipiscing stract aliqua' as espera_tabela_minhas_tarefas,'hidden-bdcb_4ec8' as id "));
+		model.loadTable_disponiveis(Core.query(null,"SELECT '75' as prioridade,'Deserunt natus sit elit aliqua' as n_tarefa_d,'Elit totam sed elit consectetu' as tarefas_tabela_disponiveis,'Amet voluptatem consectetur la' as categorias_processo_tabela_disponiveis,'Sit labore sit labore voluptat' as data_entrada_tabela_disponiveis,'06-05-2013' as data_fim_d,'hidden-91a1_4f3c' as p_id_d "));
+		model.loadTable_gerir_tarefas(Core.query(null,"SELECT '0' as prioridade_g,'Stract anim magna rem adipiscing' as n_tarefa_g,'Lorem mollit perspiciatis adip' as desc_tarefa,'Accusantium laudantium totam a' as tipo,'Stract perspiciatis deserunt s' as data_entrada,'07-05-2014' as data_fim_g,'Labore unde lorem accusantium' as atribuido_por,'Iste magna sed ut labore' as atribuido_a,'hidden-b464_f884' as p_id_g,'hidden-12cf_cb9b' as numero_processo_tabela "));
+		model.loadTable_estatistica(Core.query(null,"SELECT 'Sit unde iste lorem officia' as n_processo_estat_tabela,'Sit laudantium ut officia lore' as desc_tarefa_estat_tabela,'Rem ipsum aliqua deserunt natu' as tipo_estatistica_tabela,'Voluptatem magna mollit sit am' as data_entrada_estat_tabela,'Doloremque sit doloremque laud' as data_conclusao_estat_tabela,'hidden-de0a_de94' as p_id_e "));
+		model.loadTable_minhas_tarefas(Core.query(null,"SELECT '75' as prioridade_m,'Aperiam totam adipiscing stract omnis' as n_tarefa_m,'Deserunt voluptatem accusantiu' as desc_tarefa_tabela_minhas_tarefas,'Amet iste natus aliqua volupta' as tipo_tabela_minhas_tarefas,'Doloremque omnis sit unde omni' as data_entrada_tabela_minhas_tarefas,'03-04-2013' as data_fim_m,'Omnis iste officia iste aperia' as atribuido_por_tabela_minhas_tarefas,'Perspiciatis consectetur unde' as espera_tabela_minhas_tarefas,'hidden-0bf4_3b59' as id "));
+		model.loadTable__colaboradores(Core.query(null,"SELECT 'Sit ut aperiam deserunt sit' as nome_colab_tabela,'Magna aliqua elit omnis volupt' as contacto_colab_tabela,'Omnis adipiscing iste consecte' as n_tarefas_colab_tabela,'Mollit magna aperiam adipiscin' as n_atendimento_colab_tabela,'Elit omnis ut dolor labore' as media_tempo_colab_tabela,'Labore sed ipsum accusantium l' as ranking_colab_tabela,'Rem sed aliqua dolor sed' as percentagem_colab_tabela,'Ipsum natus voluptatem magna a' as foto_colab_tabela,'Lorem rem stract amet ipsum' as param_colab_tabela,'hidden-8fae_9388' as p_id_c "));
 		view.tipo_processo_form_disponiveis.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.prioridade_form_disponiveis.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo_processo_minhas_tarefas.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -111,11 +110,11 @@ public class ExecucaoTarefasController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
 		  return this.forward("igrp","ExecucaoTarefas","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -132,11 +131,11 @@ public class ExecucaoTarefasController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
 		  return this.forward("igrp","ExecucaoTarefas","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -153,11 +152,11 @@ public class ExecucaoTarefasController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
 		  return this.forward("igrp","ExecucaoTarefas","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -174,11 +173,11 @@ public class ExecucaoTarefasController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
 		  return this.forward("igrp","ExecucaoTarefas","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -195,11 +194,11 @@ public class ExecucaoTarefasController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
 		  return this.forward("igrp","ExecucaoTarefas","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -209,67 +208,30 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 			
 	}
 	
-	public Response actionVer_detalhes() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionAssumir_button_tabela() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ExecucaoTarefas model = new ExecucaoTarefas();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
-		  return this.forward("igrp","Transferir_tarefas","index",this.queryString()); //if submit, loads the values
-		  Use model.validate() to validate your model
-		  ----#gen-example */
-		/*----#start-code(ver_detalhes)----*/
-		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_p_id_g")).addQueryString("type", "view");
-		/*----#end-code----*/
-		return this.redirect("igrp","Transferir_tarefas","index", this.queryString());	
-	}
-	
-	public Response actionVer_estatistica() throws IOException, IllegalArgumentException, IllegalAccessException{
-		ExecucaoTarefas model = new ExecucaoTarefas();
-		model.load();
-		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		  this.addQueryString("p_id","12"); //to send a query string in the URL
 		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
-		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
-		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
-		  this.addQueryString("p_id",Core.getParam("p_id"));
-		  return this.forward("igrp","Transferir_tarefas","index",this.queryString()); //if submit, loads the values
+		  return this.forward("igrp","ExecucaoTarefas","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
-		/*----#start-code(ver_estatistica)----*/
-		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_p_id_c"));
+		/*----#start-code(assumir_button_tabela)----*/
+		String id = Core.getParam("p_p_id_d");
+		if (Core.isNotNull(id) && new TaskServiceRest().claimTask(id, Core.getCurrentUser().getUser_name())) {
+			Core.setMessageSuccess(Core.gt("Tarefa assumido com sucesso"));
+		} else {
+			Core.setMessageError();
+		}
 		/*----#end-code----*/
-		return this.redirect("igrp","Transferir_tarefas","index", this.queryString());	
-	}
-	
-	public Response actionEnviar_msg() throws IOException, IllegalArgumentException, IllegalAccessException{
-		ExecucaoTarefas model = new ExecucaoTarefas();
-		model.load();
-		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
-		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
-		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
-		  this.addQueryString("p_id",Core.getParam("p_id"));
-		  return this.forward("igrp","Transferir_tarefas","index",this.queryString()); //if submit, loads the values
-		  Use model.validate() to validate your model
-		  ----#gen-example */
-		/*----#start-code(enviar_msg)----*/
-		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_p_id_g"));
-		/*----#end-code----*/
-		return this.redirect("igrp","Transferir_tarefas","index", this.queryString());	
+		return this.redirect("igrp","ExecucaoTarefas","index", this.queryString());	
 	}
 	
 	public Response actionTransferir_tarefa() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -279,11 +241,11 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
 		  return this.forward("igrp","Transferir_tarefas","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -300,11 +262,11 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
 		  return this.forward("igrp","ExecucaoTarefas","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -325,11 +287,11 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
 		  return this.forward("igrp","DetalhesProcesso","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -346,11 +308,11 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
 		  return this.forward("igrp","Alter_prioridade_tarefa","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -360,32 +322,6 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		return this.redirect("igrp","Alter_prioridade_tarefa","index", this.queryString());	
 	}
 	
-	public Response actionAssumir_button_tabela() throws IOException, IllegalArgumentException, IllegalAccessException{
-		ExecucaoTarefas model = new ExecucaoTarefas();
-		model.load();
-		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
-		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
-		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
-		  this.addQueryString("p_id",Core.getParam("p_id"));
-		  return this.forward("igrp","ExecucaoTarefas","index",this.queryString()); //if submit, loads the values
-		  Use model.validate() to validate your model
-		  ----#gen-example */
-		/*----#start-code(assumir_button_tabela)----*/
-		String id = Core.getParam("p_p_id_d");
-		if (Core.isNotNull(id) && new TaskServiceRest().claimTask(id, Core.getCurrentUser().getUser_name())) {
-			Core.setMessageSuccess(Core.gt("Tarefa assumido com sucesso"));
-		} else {
-			Core.setMessageError();
-		}
-		/*----#end-code----*/
-		return this.redirect("igrp","ExecucaoTarefas","index", this.queryString());	
-	}
-	
 	public Response actionExecutar_button_minha_tarefas() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ExecucaoTarefas model = new ExecucaoTarefas();
 		model.load();
@@ -393,11 +329,11 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
 		  return this.forward("igrp","ExecucaoTarefas","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -419,11 +355,11 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
 		  return this.forward("igrp","ExecucaoTarefas","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -444,11 +380,11 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
 		  return this.forward("igrp","DetalhesProcesso","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -465,11 +401,11 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
-		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
 		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
 		  return this.forward("igrp","ExecucaoTarefas","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -483,6 +419,69 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		// return this.redirect("igrp","ExecucaoTarefas","index");
 		/*----#end-code----*/
 		return this.redirect("igrp","ExecucaoTarefas","index", this.queryString());	
+	}
+	
+	public Response actionVer_detalhes() throws IOException, IllegalArgumentException, IllegalAccessException{
+		ExecucaoTarefas model = new ExecucaoTarefas();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
+		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
+		  return this.forward("igrp","Transferir_tarefas","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/*----#start-code(ver_detalhes)----*/
+		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_p_id_g")).addQueryString("type", "view");
+		/*----#end-code----*/
+		return this.redirect("igrp","Transferir_tarefas","index", this.queryString());	
+	}
+	
+	public Response actionVer_estatistica() throws IOException, IllegalArgumentException, IllegalAccessException{
+		ExecucaoTarefas model = new ExecucaoTarefas();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
+		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
+		  return this.forward("igrp","Transferir_tarefas","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/*----#start-code(ver_estatistica)----*/
+		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_p_id_c"));
+		/*----#end-code----*/
+		return this.redirect("igrp","Transferir_tarefas","index", this.queryString());	
+	}
+	
+	public Response actionEnviar_msg() throws IOException, IllegalArgumentException, IllegalAccessException{
+		ExecucaoTarefas model = new ExecucaoTarefas();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
+		  this.addQueryString("p_p_id_g",Core.getParam("p_p_id_g"));
+		  this.addQueryString("p_p_id_e",Core.getParam("p_p_id_e"));
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_p_id_c",Core.getParam("p_p_id_c"));
+		  return this.forward("igrp","Transferir_tarefas","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/*----#start-code(enviar_msg)----*/
+		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_p_id_g"));
+		/*----#end-code----*/
+		return this.redirect("igrp","Transferir_tarefas","index", this.queryString());	
 	}
 	
 		
@@ -642,13 +641,15 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 				ExecucaoTarefas.Table_gerir_tarefas t = new ExecucaoTarefas.Table_gerir_tarefas();
 				t.setAtribuido_a(task.getAssignee());
 				t.setAtribuido_por(task.getOwner());
-				t.setData_entrada(task.getCreateTime().toString());
+				t.setData_entrada(Core.isNotNull(task.getCreateTime())
+						? Core.dateToString(task.getCreateTime(), "yyyy-MM-dd HH:mm:ss"): "");
 				t.setDesc_tarefa(task.getDescription() != null ? task.getDescription() : task.getName());
 				t.setNumero_processo_tabela(task.getProcessDefinitionId());
 				t.setP_id_g(task.getId());
 				t.setN_tarefa_g(task.getProcessInstanceId());
-				t.setTipo(this.listProc.get(task.getProcessDefinitionId()));
-				t.setData_fim_g(task.getDueDate() != null ? task.getDueDate().toString() : "");
+				t.setTipo(task.getProcessName()+getVersion(task));
+				t.setData_fim_g(Core.isNotNull(task.getDueDate())
+						? Core.dateToString(task.getDueDate(), "yyyy-MM-dd HH:mm:ss"): "");
 				t.setPrioridade_g(""+task.getPriority());
 				taskManage.add(t);
 			}
@@ -664,13 +665,16 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		for (TaskService task : tasks) {
 			ExecucaoTarefas.Table_minhas_tarefas t = new ExecucaoTarefas.Table_minhas_tarefas();
 			t.setAtribuido_por_tabela_minhas_tarefas(task.getOwner());
-			t.setData_entrada_tabela_minhas_tarefas(task.getCreateTime().toString());
+			t.setData_entrada_tabela_minhas_tarefas(Core.isNotNull(task.getCreateTime())
+					? Core.dateToString(task.getCreateTime(), "yyyy-MM-dd HH:mm:ss"): "");
 			t.setDesc_tarefa_tabela_minhas_tarefas(task.getDescription() != null ? task.getDescription() : task.getName());
-			t.setTipo_tabela_minhas_tarefas(task.getProcessName());
+			t.setTipo_tabela_minhas_tarefas(task.getProcessName()+getVersion(task));
 			t.setId(task.getId());
 			t.setN_tarefa_m(task.getProcessInstanceId());
-			t.setData_fim_m(task.getDueDate() != null ? task.getDueDate().toString() : "");
+			t.setData_fim_m(Core.isNotNull(task.getDueDate())
+					? Core.dateToString(task.getDueDate(), "yyyy-MM-dd HH:mm:ss"): "");
 			t.setPrioridade_m(""+task.getPriority());
+			t.setEspera_tabela_minhas_tarefas(task.getSuspended()?"Sim":"");
 			myTasks.add(t);
 		}
 		return myTasks;
@@ -682,16 +686,26 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		List<TaskService> tasks = this.applyFiler(model,AVAILABLE); // apply new filter
 		for (TaskService task : tasks) {
 			ExecucaoTarefas.Table_disponiveis t = new ExecucaoTarefas.Table_disponiveis();
-			t.setCategorias_processo_tabela_disponiveis(task.getProcessDefinitionKey());
-			t.setData_entrada_tabela_disponiveis(task.getCreateTime().toString());
+			t.setCategorias_processo_tabela_disponiveis(task.getProcessName()+getVersion(task));
+			t.setData_entrada_tabela_disponiveis(Core.isNotNull(task.getCreateTime())
+					? Core.dateToString(task.getCreateTime(), "yyyy-MM-dd HH:mm:ss"): "");
 			t.setP_id_d(task.getId());
 			t.setN_tarefa_d(task.getProcessInstanceId());
-			t.setData_fim_d(task.getDueDate() != null ? task.getDueDate().toString() : "");
+			t.setData_fim_d(Core.isNotNull(task.getDueDate())
+					? Core.dateToString(task.getDueDate(), "yyyy-MM-dd HH:mm:ss"): "");
 			t.setTarefas_tabela_disponiveis(task.getDescription() != null ? task.getDescription() : task.getName());
 			t.setPrioridade(""+task.getPriority());
 			tasksDisponiveis.add(t);
 		}
 		return tasksDisponiveis;
+	}
+	
+	private String getVersion(TaskService task) {
+		String [] taskS=task.getProcessDefinitionId().split(":");
+		if(taskS.length==3) {
+			return " v."+taskS[1];
+		}
+		return "";
 	}
 
 	private Map<String, String> listProc = new ProcessDefinitionIGRP().mapToComboBoxByKey(Core.getCurrentDad());

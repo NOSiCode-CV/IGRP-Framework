@@ -46,7 +46,14 @@ public final class ConfigApp {
 		}
 		return props;
 	}
-	
+	@Deprecated
+	/**
+	 * Use getMainSettings
+	 * @return loadConfig("common", "main.xml");
+	 */
+	public Properties loadCommonConfig() {
+		return commonMain;
+}
 	public Properties loadProperties(String fileName) throws IOException {
 		Properties props = new Properties();
 		InputStream in = getClass().getResourceAsStream(fileName);

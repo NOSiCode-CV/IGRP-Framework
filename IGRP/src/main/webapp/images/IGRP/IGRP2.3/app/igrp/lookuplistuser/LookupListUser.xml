@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -33,84 +33,86 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=31</preserve_url>
     </plsql>
-    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Lookup Lista Utilizador</title>
-        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+        <form_1 type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
             <fields>
-                <email name="p_email" type="email" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <email name="p_email" type="email" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Email</label>
-                    <value>sosnicag@example.com</value>
+                    <value>zubwevne@example.com</value>
                 </email>
-                <login name="p_login" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <login name="p_login" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Login</label>
-                    <value>Aperiam laudantium sit aperiam</value>
+                    <value>Accusantium rem sed dolor aliq</value>
                 </login>
-                <nome name="p_nome" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <nome name="p_nome" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nome</label>
-                    <value>Sed elit consectetur deserunt</value>
+                    <value>Lorem deserunt stract rem dolo</value>
                 </nome>
             </fields>
             <tools-bar>
-                <item type="form" code="" class="primary" rel="pesquisar">
+                <item id="button_2a9b_deb7" type="form" code="" class="primary" rel="pesquisar" refresh_components="">
                     <title>Pesquisar</title>
-                    <app/>
-                    <page/>
-                    <link/>
-                    <parameter>undefined?</parameter>
+                    <app>igrp</app>
+                    <page>LookupListUser</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp/lookuplistuser/LookupListUser.xml?</parameter>
                     <target>submit</target>
                     <img>primary|fa-search</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp/lookuplistuser/LookupListUser.xml</preview>
                 </item>
             </tools-bar>
         </form_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <email_1 name="p_email_1" type="email" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                <email_1 name="p_email_1" type="email" maxlength="30" align="left" lookup_parser="true" iskey="false" showLabel="true" group_in="">
                     <label>Email</label>
                 </email_1>
-                <login_1 name="p_login_1" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                <login_1 name="p_login_1" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false" showLabel="true" group_in="">
                     <label>Login</label>
                 </login_1>
-                <nome_1 name="p_nome_1" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                <nome_1 name="p_nome_1" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false" showLabel="true" group_in="">
                     <label>Nome</label>
                 </nome_1>
-                <id name="p_id" type="hidden" maxlength="30" iskey="false" tag="id"/>
+                <id name="p_id" type="hidden" maxlength="30" iskey="false" showLabel="true" group_in="" java-type="" tag="id"/>
             </fields>
             <table>
                 <value>
                     <row>
-                        <email_1 name="p_email_1">ujwa@example.com</email_1>
-                        <login_1 name="p_login_1">Stract perspiciatis voluptatem</login_1>
-                        <nome_1 name="p_nome_1">Natus sed sit elit dolor</nome_1>
-                        <id name="p_id" tag="id">1</id>
+                        <email_1 name="p_email_1">lufos@example.com</email_1>
+                        <login_1 name="p_login_1">Ipsum sed sit stract rem</login_1>
+                        <nome_1 name="p_nome_1">Perspiciatis labore sit volupt</nome_1>
+                        <id name="p_id" tag="id">hidden-498a_3385</id>
                     </row>
                     <row>
-                        <email_1 name="p_email_1">niciz@example.com</email_1>
-                        <login_1 name="p_login_1">Consectetur dolor aperiam ut i</login_1>
-                        <nome_1 name="p_nome_1">Dolor omnis accusantium sit re</nome_1>
-                        <id name="p_id" tag="id">1</id>
+                        <email_1 name="p_email_1">inuesicel@example.com</email_1>
+                        <login_1 name="p_login_1">Ipsum rem accusantium consecte</login_1>
+                        <nome_1 name="p_nome_1">Stract lorem omnis unde stract</nome_1>
+                        <id name="p_id" tag="id">hidden-0fea_4779</id>
                     </row>
                     <row>
-                        <email_1 name="p_email_1">onzuvid@example.com</email_1>
-                        <login_1 name="p_login_1">Stract iste labore elit sit</login_1>
-                        <nome_1 name="p_nome_1">Sit sit magna sit aliqua</nome_1>
-                        <id name="p_id" tag="id">1</id>
+                        <email_1 name="p_email_1">jijiziroj@example.com</email_1>
+                        <login_1 name="p_login_1">Officia voluptatem officia dol</login_1>
+                        <nome_1 name="p_nome_1">Natus lorem ipsum consectetur</nome_1>
+                        <id name="p_id" tag="id">hidden-2129_819b</id>
                     </row>
                     <row>
-                        <email_1 name="p_email_1">viijofev@example.com</email_1>
-                        <login_1 name="p_login_1">Mollit aperiam rem omnis elit</login_1>
-                        <nome_1 name="p_nome_1">Deserunt consectetur voluptate</nome_1>
-                        <id name="p_id" tag="id">1</id>
+                        <email_1 name="p_email_1">radkik@example.com</email_1>
+                        <login_1 name="p_login_1">Omnis deserunt magna totam und</login_1>
+                        <nome_1 name="p_nome_1">Doloremque magna totam rem str</nome_1>
+                        <id name="p_id" tag="id">hidden-e871_2b4e</id>
                     </row>
                     <row>
-                        <email_1 name="p_email_1">nolgik@example.com</email_1>
-                        <login_1 name="p_login_1">Sit deserunt ipsum lorem sit</login_1>
-                        <nome_1 name="p_nome_1">Lorem rem natus elit lorem</nome_1>
-                        <id name="p_id" tag="id">1</id>
+                        <email_1 name="p_email_1">di@example.com</email_1>
+                        <login_1 name="p_login_1">Unde anim omnis iste stract</login_1>
+                        <nome_1 name="p_nome_1">Voluptatem rem consectetur des</nome_1>
+                        <id name="p_id" tag="id">hidden-ae15_8b25</id>
                     </row>
                 </value>
             </table>
         </table_1>
     </content>
+    <blockly></blockly>
 </rows>

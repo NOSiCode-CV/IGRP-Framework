@@ -61,11 +61,11 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nome</label>
-                    <value>Elit natus amet laudantium vol</value>
+                    <value>Officia sit accusantium dolor</value>
                 </nome>
-                <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                <codigo name="p_codigo" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Código</label>
-                    <value>Anim aliqua ut stract aliqua</value>
+                    <value>Iste elit doloremque voluptatem mollit</value>
                 </codigo>
                 <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" check="true">
                     <label>Ativo?</label>
@@ -167,7 +167,7 @@
                 </primeira_pagina>
                 <plsql_codigo name="p_plsql_codigo" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
                     <label>PL/SQL (código)</label>
-                    <value>Unde aliqua stract adipiscing dolor</value>
+                    <value>Deserunt lorem deserunt aperiam unde</value>
                 </plsql_codigo>
             </fields>
         </form_1>
