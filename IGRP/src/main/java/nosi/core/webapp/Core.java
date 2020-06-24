@@ -1412,7 +1412,7 @@ public final class Core { // Not inherit
 	public static String getParamTaskId() {
 		String taskId = Core.getParam(BPMNConstants.PRM_TASK_ID);
 		
-		System.out.println(BPMNConstants.PRM_TASK_ID + " NovotaskId: " + taskId);
+		//System.out.println(BPMNConstants.PRM_TASK_ID + " NovotaskId: " + taskId);
 		
 		Core.setAttribute(BPMNConstants.PRM_TASK_ID, taskId); 
 		
