@@ -221,18 +221,21 @@ public class Page{
 			StringWriter sw = new StringWriter();
 		    PrintWriter pw = new PrintWriter(sw);
 		    e.printStackTrace(pw);
-
+		    String env = "";
+		    env = Igrp.getInstance().getServlet().getInitParameter("env");
 			if(e.getCause() instanceof  NullPointerException) {
 				String msg = "Error NullPointerException - "+Igrp.getInstance().getCurrentPageName()+"Controller.java!";
-				String env = "";
-				env = Igrp.getInstance().getServlet().getInitParameter("env");
+				
+				
 				if(env.equals("dev") || env.equals("sta")) {
-					msg+=" \nCheck debugger at the bottom of the page.";
+					msg+=" \nCheck debugger at the bottom of the page.";					
 				}
+				System.err.println("Nullpointer in "+Core.getCurrentDad()+": "+sw.toString());
 				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error",sw.toString());
 				throw new NotFoundHttpException(msg);
 			}
-			
+//			if(env.equals("dev") || env.equals("sta"))
+//				System.err.println("Error in "+Core.getCurrentDad()+"/"+Igrp.getInstance().getCurrentPageName()+": "+sw.toString());
 			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error", sw.toString());
 			if(Core.isNotNull(e.getCause()) && Core.isNotNull(e.getCause().getMessage())) {
 				Core.log("ERRO: "+e.getCause().getMessage()); //dosen't work because error page is not the original
