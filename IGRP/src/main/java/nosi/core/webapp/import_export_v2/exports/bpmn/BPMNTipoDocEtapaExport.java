@@ -50,21 +50,23 @@ public class BPMNTipoDocEtapaExport implements IExport{
 	public void add(String id) { 
 		String []aux = id.split(":"); 
 		id = aux[0]; 
-		TipoDocumentoEtapa tipoDocumentoEtapa = new TipoDocumentoEtapa().find().andWhere("status", "=", 1).andWhere("processId", "=", id).one(); 
-		if(tipoDocumentoEtapa != null) {
-			BPMNTipoDocEtapaSerializable bpmnTipoDocEtapaSerializable = new BPMNTipoDocEtapaSerializable(); 
-			bpmnTipoDocEtapaSerializable.setProcessId(tipoDocumentoEtapa.getProcessId()); 
-			bpmnTipoDocEtapaSerializable.setRequired(tipoDocumentoEtapa.getRequired()); 
-			bpmnTipoDocEtapaSerializable.setStatus(tipoDocumentoEtapa.getStatus()); 
-			bpmnTipoDocEtapaSerializable.setTaskId(tipoDocumentoEtapa.getTaskId()); 
-			bpmnTipoDocEtapaSerializable.setTipo(tipoDocumentoEtapa.getTipo()); 
-			if(tipoDocumentoEtapa.getRepTemplate() != null)
-				bpmnTipoDocEtapaSerializable.setReportCode(tipoDocumentoEtapa.getRepTemplate().getCode()); 
-			if(tipoDocumentoEtapa.getTipoDocumento() != null)
-				bpmnTipoDocEtapaSerializable.setTipoDocCode(tipoDocumentoEtapa.getTipoDocumento().getCodigo()); 
-			if(application != null) 
-				bpmnTipoDocEtapaSerializable.setAppCode(application.getDad()); 
-			this.docEtapa.add(bpmnTipoDocEtapaSerializable);
+		List<TipoDocumentoEtapa> tipoDocumentoEtapas = new TipoDocumentoEtapa().find().andWhere("status", "=", 1).andWhere("processId", "=", id).all(); 
+		if(tipoDocumentoEtapas != null) {
+			for(TipoDocumentoEtapa tipoDocumentoEtapa : tipoDocumentoEtapas) {
+				BPMNTipoDocEtapaSerializable bpmnTipoDocEtapaSerializable = new BPMNTipoDocEtapaSerializable(); 
+				bpmnTipoDocEtapaSerializable.setProcessId(tipoDocumentoEtapa.getProcessId()); 
+				bpmnTipoDocEtapaSerializable.setRequired(tipoDocumentoEtapa.getRequired()); 
+				bpmnTipoDocEtapaSerializable.setStatus(tipoDocumentoEtapa.getStatus()); 
+				bpmnTipoDocEtapaSerializable.setTaskId(tipoDocumentoEtapa.getTaskId()); 
+				bpmnTipoDocEtapaSerializable.setTipo(tipoDocumentoEtapa.getTipo()); 
+				if(tipoDocumentoEtapa.getRepTemplate() != null)
+					bpmnTipoDocEtapaSerializable.setReportCode(tipoDocumentoEtapa.getRepTemplate().getCode()); 
+				if(tipoDocumentoEtapa.getTipoDocumento() != null)
+					bpmnTipoDocEtapaSerializable.setTipoDocCode(tipoDocumentoEtapa.getTipoDocumento().getCodigo()); 
+				if(application != null) 
+					bpmnTipoDocEtapaSerializable.setAppCode(application.getDad()); 
+				this.docEtapa.add(bpmnTipoDocEtapaSerializable);
+			}
 		}
 	}
 
