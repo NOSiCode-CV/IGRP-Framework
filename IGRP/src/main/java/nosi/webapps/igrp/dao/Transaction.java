@@ -129,7 +129,7 @@ public class Transaction extends IGRPBaseActiveRecord<Transaction> implements Se
 					.addInt("org_fk", Core.getCurrentOrganization())
 					.addString("code", transaction)
 					.addString("type_user", "TRANS_USER")
-					.addInt("user_fk", Core.getCurrentUser().getId())
+					.addInt("user_fk", ( Core.isNotNull(Core.getCurrentUser()) ?  Core.getCurrentUser().getId() : -1))
 					.addString("code", transaction)
 					.addInt("prof_type_fk", Core.getCurrentProfile())
 					.addInt("org_fk", Core.getCurrentOrganization())
