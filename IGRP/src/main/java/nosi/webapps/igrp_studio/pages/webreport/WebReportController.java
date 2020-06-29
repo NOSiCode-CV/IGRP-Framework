@@ -20,13 +20,14 @@ import nosi.core.webapp.Igrp;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.GUIDGenerator;
-import nosi.core.webapp.helpers.UrlHelper;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
@@ -171,8 +172,10 @@ public class WebReportController extends Controller {
 					clob_html.update();
 					rt.update();
 				}
+				
 				RepTemplateSource rts = new RepTemplateSource();
 				rts.deleteAll(rt.getId());//Delete old data source of report
+				
 				if(data_sources!=null && data_sources.length>0){
 					for(String dts:data_sources){
 						rts = new RepTemplateSource(rt, new RepSource().findOne(Core.toInt(dts)));
@@ -191,16 +194,20 @@ public class WebReportController extends Controller {
 														.where("rep_source_fk=:rep_source_fk AND rep_template_fk=:rep_template_fk")
 														.addInt("rep_source_fk", Core.toInt(p.getId()))
 														.addInt("rep_template_fk", rt.getId())
-														.getSingleRecord();								
-								Core.insert(this.configApp.getBaseConnection(),"tbl_rep_template_source_param")
-									.addString("parameter", param.getName())
-									.addString("parameter_type", param.getType())
-									.addInt("rep_template_source_fk", record.getInt("id"))
-									.execute();
+														.getSingleRecord();			
+								int idRepTempSource = record.getInt("id"); 
+								RepTemplateSourceParam rTsp = new RepTemplateSourceParam().find().andWhere("parameter", "=", param.getName()).andWhere("repTemplateSource.id", "=", idRepTempSource).one(); 
+								if(rTsp == null)
+									Core.insert(this.configApp.getBaseConnection(),"tbl_rep_template_source_param")
+										.addString("parameter", param.getName())
+										.addString("parameter_type", param.getType())
+										.addInt("rep_template_source_fk", idRepTempSource)
+										.execute();
 							}
 						}
 					}
 				}
+				
 				XMLWritter xml = new XMLWritter();
 				xml.startElement("rows");
 				xml.addXml(FlashMessage.MSG_SUCCESS);
@@ -393,7 +400,7 @@ public class WebReportController extends Controller {
 	private String getDataForQueryOrObject(RepTemplateSource rep,String []name_array,String []value_array) {
 		String query = rep.getRepSource().getType_query();
 		query = rep.getRepSource().getType().equalsIgnoreCase("object")?("SELECT * FROM "+query):query;
-		query += rep.getRepSource().getType().equalsIgnoreCase("query") && !query.toLowerCase().contains("where")?" WHERE 1=1 ":"";		
+		query += rep.getRepSource().getType().equalsIgnoreCase("query") && !query.toLowerCase().contains("where")?" WHERE 1=1 ":""; 
 		String rowsXml = this.dsh.getSqlQueryToXml(query, name_array, value_array,rep.getRepTemplate(),rep.getRepSource());
 		return this.processPreview(rowsXml,rep,rep.getRepSource());
 	}
