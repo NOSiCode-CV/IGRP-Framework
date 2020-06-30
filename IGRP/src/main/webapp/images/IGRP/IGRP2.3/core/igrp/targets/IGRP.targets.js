@@ -518,32 +518,35 @@
 		
 		var modal       = function(p){
 			
-			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)
-				
-				mWindow = mWindow ? mWindow : window;
-		
 			var url = setTargetParameter(p.url);
 			
-			mUrl = url;
+			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0){
+				
+				mWindow = mWindow ? mWindow : window;
+			
+				mUrl = url;
+			}
 			
 			$.IGRP.components.iframeNav.set({
 				url    :url,
 				clicked:p.clicked
 			});
+			
 			return false;
+			
 		};
 
 		var right_panel       = function(p){
-
-			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)
-				
-				mWindow = window;
 			
 			var url = setTargetParameter(p.url);
 			
 			p.url = url;
+
+			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0){
 			
-			mUrl = url;
+				mWindow = window;
+			    mUrl = url;
+			}
 
 			$.IGRP.components.rightPanel.set(p);
 			
@@ -673,6 +676,7 @@
 
 				if (mWindow) {
 					_window = mWindow;
+					
 					popup 	= false;
 					mWindow = null;
 					
