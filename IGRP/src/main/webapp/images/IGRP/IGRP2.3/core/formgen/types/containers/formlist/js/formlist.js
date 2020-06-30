@@ -324,8 +324,8 @@
 					'</xsl:if>';
 				}
 	
-				rtn+='<input type="hidden" name="{'+fValue+'/@name}_fk_desc" value="{'+fValue+'}"/>'+
-					'<input type="hidden" name="{'+fValue+'/@name}_fk" value="{'+fValue+'_desc}"/>'
+				/*rtn+='<input type="hidden" name="{'+fValue+'/@name}_fk_desc" value="{'+fValue+'}"/>'+
+					'<input type="hidden" name="{'+fValue+'/@name}_fk" value="{'+fValue+'_desc}"/>'*/
 				rtn+='</td></xsl:if>';
 			}
 		});
