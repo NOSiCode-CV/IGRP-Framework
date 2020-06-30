@@ -40,8 +40,8 @@ $.fn.separatorList = function(o){
 					value:JSON.stringify(slEstorage).replace(/"/g, "'"),
 					class:'submittable'
 				});
-
-				//localStorage.setItem(p.name, JSON.stringify(slEstorage));
+				
+				$(p.sl).parents('form').attr('target','editseparator');
 			},
 			reset : function(sl){
 				$(sl).removeAttr('row-action');
@@ -49,10 +49,10 @@ $.fn.separatorList = function(o){
 				$(sl).removeAttr('row-id');
 
 				$('input[name="p_fwl_'+sl.name+'trc"]').remove();
-				//localStorage.removeItem(sl.name);
+				$('.splist-form-holder .dynamic-alert',$(sl)).remove();
+				$(sl).parents('form').removeAttr('target');
 			},
 			get : function(sl){
-				//var sle = localStorage.getItem(sl.name);
 
 				var sle  = $('input[name="p_fwl_'+sl.name+'trc"]').val();
 				sle      = sle ? JSON.parse(sle.replace(/'/g, '"')) : {};
@@ -815,6 +815,33 @@ $.fn.separatorList = function(o){
             	}
           	},true);
 		};
+		
+		var onSubmitIsEdited = function(sl,e){
+			var $obj = $('input[name="p_fwl_'+sl.name+'trc"]'),
+				valid = true;
+			
+			if($obj[0] && $obj.val()){
+				
+				if($(e.target).attr('target') == 'editseparator')
+					e.preventDefault();
+				
+				if(!$('.splist-form-holder .dynamic-alert',$(sl))[0]){
+					
+					$('.splist-form-holder',$(sl)).append($.IGRP.utils.message.alert({
+						type : 'danger',
+						text : 'Para opcões de insersão mutliplas e necessario clicar em Adicionar.'
+					}));
+					
+				}
+				
+				if($.IGRP.components.tabcontent)
+					$.IGRP.components.tabcontent.activeTabHasFieldsError($('.splist-form-holder',$(sl)));
+	
+				valid = false;
+			}
+	
+			return valid;
+		};
 
 		var setEvents = function(sl){
 			
@@ -939,7 +966,25 @@ $.fn.separatorList = function(o){
 				resetForm(getFormFields(sl),sl);
 				$('tbody tr',sl).remove();
 				sl.events.execute('reset-all');
-			}
+			};
+			
+			
+			$.IGRP.events.on('submit',function(o){
+				if(o.valid){
+					onSubmitIsEdited(sl,o.event);
+				}
+				
+				return false;
+			});
+		
+			$.IGRP.events.on('submit-ajax',function(o){
+				if(o.valid){
+					onSubmitIsEdited(sl,o.event);
+				}
+				
+				return false;
+			});
+			
 			
 			$(sl).on('row-add', function(e, data){
 				
