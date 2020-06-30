@@ -576,7 +576,7 @@
 			if(valid){
 			
 				if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)				
-					mWindow = window;
+						mWindow = window;
 				
 				$.IGRP.components.iframeNav.set({
 					url    : setTargetParameter($.IGRP.utils.getUrl(p.url)+formData),
