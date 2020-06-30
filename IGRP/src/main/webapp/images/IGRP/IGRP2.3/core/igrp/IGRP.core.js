@@ -774,7 +774,7 @@
 					var type = p.type.toLowerCase() || 'info',
 						icon = $.IGRP.utils.message.getIcon[type];
 
-					return '<div class="alert alert-'+type+'" role="alert">'+
+					return '<div class="dynamic-alert alert alert-'+type+'" role="alert">'+
 						'<i class="fa fa-'+icon+' igrp-msg-icon"></i>'+
 						'<a class="close" data-dismiss="alert" aria-label="Close">'+
 						'<span aria-hidden="true"><i class="fa fa-times"></i></span>'+

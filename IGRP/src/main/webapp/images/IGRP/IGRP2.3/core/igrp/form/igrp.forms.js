@@ -223,7 +223,11 @@
   			
   			hasFieldsError : function(){
   				if($(':input.error')[0]){
-					var tab = $(':input[required].error:first').parents('.panel-collapse, .tab-pane');
+  					
+  					if($.IGRP.components.tabcontent)
+  						$.IGRP.components.tabcontent.activeTabHasFieldsError($(':input[required].error:first'));
+						
+					/*var tab = $(':input[required].error:first').parents('.panel-collapse, .tab-pane');
 					
 					if(tab[0]){
 						var pre   = tab.hasClass('panel-collapse') ? 'pnl-' : '',
@@ -236,7 +240,7 @@
 
 							if(click)
 								$('[rel="'+pre+tab.attr('id')+'"] a[data-toggle]:first').click();
-					}
+					}*/
 					
 					$.IGRP.scrollTo($(':input.error:first'));
 				}

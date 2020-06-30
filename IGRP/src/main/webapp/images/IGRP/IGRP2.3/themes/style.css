@@ -81,6 +81,7 @@ b{
 
 .alert{
   padding:10px;
+  position: relative;
 }
 
 .alert-info-link {
@@ -2009,10 +2010,15 @@ table thead th {
   font-size: 18px
 }
 
+.dynamic-alert.alert{
+	padding-left: 25px;
+}
+
 .igrp-msg-icon{
   position: absolute;
-  top: 8px;
+  top: 50%;
   left: 10px;
+  margin-top: -6.4px;
 }
 
 .igrp-msg-wrapper .alert-dismissable,

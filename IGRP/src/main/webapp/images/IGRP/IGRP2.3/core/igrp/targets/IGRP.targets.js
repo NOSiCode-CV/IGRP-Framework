@@ -1357,7 +1357,7 @@
 
 			/*form submit controller */
 			form.on('submit',function(e){ 
-
+				
 				var validate  = form.attr('validateCtrl'),
 					fields    = $.IGRP.utils.getFieldsValidate(),
 					vfields   = fields.filter('.submittable'),//form.find('.submittable'),//$.IGRP.utils.getFieldsValidate(),
@@ -1371,9 +1371,10 @@
  				
  				var eventCB  = $.IGRP.events.execute('submit',{
  					valid  : canSubmit,
- 					fields :  fields
+ 					fields : fields,
+ 					event  : e
  				});
-
+ 				
  				canSubmit = eventCB == false ? false : canSubmit;
 
  				if (canSubmit){

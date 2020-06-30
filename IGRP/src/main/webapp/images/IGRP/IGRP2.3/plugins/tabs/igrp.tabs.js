@@ -145,6 +145,24 @@
 			}
 
 		},
+		
+		activeTabHasFieldsError : function(obj){
+			
+			var tab = obj.parents('.panel-collapse, .tab-pane');
+			
+			if(tab[0]){
+				var pre   = tab.hasClass('panel-collapse') ? 'pnl-' : '',
+					click = true;
+
+					if(pre == 'pnl-'){
+						if(tab.hasClass('in'))
+							click = false;
+					}
+
+					if(click)
+						$('[rel="'+pre+tab.attr('id')+'"] a[data-toggle]:first').click();
+			}
+		},
 
 		storeActive:function(){
 
