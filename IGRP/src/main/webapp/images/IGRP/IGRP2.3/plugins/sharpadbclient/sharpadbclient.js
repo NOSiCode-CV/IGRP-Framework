@@ -26,8 +26,6 @@
                             s.type  = 'danger';
                             s.title = 'Algo deu errado, por favor tente novamente.'
                         }
-
-                        s.type = type;
                     
                         if (p.success)
                             p.success(s);
