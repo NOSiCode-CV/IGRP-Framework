@@ -20,6 +20,7 @@ import nosi.core.webapp.Igrp;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
@@ -65,10 +66,8 @@ public class WebReportController extends Controller {
 		view.datasorce_app.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		  
  		model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=report"));
  		
-    
 		if(Core.isNotNull(model.getEnv_fk())){
 			Integer env_fk = Core.toInt(model.getEnv_fk());
 			view.datasorce_app.setValue(this.dsh.getListSources(env_fk));
@@ -78,17 +77,11 @@ public class WebReportController extends Controller {
 				String params = "";
 				WebReport.Gen_table t1 = new WebReport.Gen_table();
 				List<RepTemplateSource> listParams = new RepTemplateSource().find().andWhere("repTemplate", "=", r.getId()).all();
-				if(listParams.size() > 0){
-					//Get parameters
-					for(RepTemplateSource param:listParams){
-						if(param.getParameters()!=null) {
-							for(RepTemplateSourceParam p:param.getParameters()) {
+				if(listParams.size() > 0)
+					for(RepTemplateSource param : listParams)
+						if(param.getParameters() != null) 
+							for(RepTemplateSourceParam p:param.getParameters()) 
 								params += ".addParam(\""+p.getParameter().toLowerCase()+"\",\"?\")";
-							}
-						}
-					}
-				}			
-
 				String link = "Core.getLinkReport(\""+r.getCode()+"\")"+params+"; //or Core.getLinkReport(\""+r.getCode()+"\",new Report()"+params+");";
 				t1.setDescricao(link);
 				t1.setLink("igrp_studio", "web-report", "load-template&id="+r.getId());
@@ -242,12 +235,23 @@ public class WebReportController extends Controller {
 			rt = rt.findOne(Core.toInt(id));
 			String []name_array = Core.getParamArray("name_array");
 			String []value_array = Core.getParamArray("value_array");
-			//Iterate data source per template
-			for(RepTemplateSource rep:new RepTemplateSource().getAllDataSources(rt.getId())){
-				xml += this.getData(rep,name_array,value_array);
-			}
-			xml = this.genXml(xml,rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0); 
+			List<RepTemplateSource> allRepTemplateSource = new RepTemplateSource().getAllDataSources(rt.getId()); 
+			List<RepTemplateSource> allRepTemplateSourceTask  = allRepTemplateSource.stream().filter(p -> p.getRepSource().getType().equalsIgnoreCase("task")).collect(Collectors.toList()); 
+			allRepTemplateSource.removeIf(p -> p.getRepSource().getType().equalsIgnoreCase("task")); 
 			
+			//Iterate data source per template
+			for(RepTemplateSource rep : allRepTemplateSource)
+				xml += this.getData(rep,name_array,value_array); 
+			
+			String taskId = this.getCurrentTaskId(); 
+			if(taskId != null && !taskId.isEmpty()) {
+				String []allTasksId = taskId.split("-"); 
+				if(allTasksId.length == allRepTemplateSourceTask.size()) 
+					for(int i = 0; i < allRepTemplateSourceTask.size(); i++) 
+						xml += this.getDataForTask(allRepTemplateSourceTask.get(i), taskId); 
+			}
+			
+			xml = this.genXml(xml,rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0); 
 			this.format = Response.FORMAT_XML;
 			return this.renderView(xml);
 		}
@@ -305,16 +309,14 @@ public class WebReportController extends Controller {
 	
 	//Faz previsualizacao de report usando a contra senha
 	public Response actionGetLinkReport() throws IOException{
-		
-		
 		String p_code = Core.getParam("p_rep_code");
 		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", p_code).one();
-		
+		/*
 		if(!(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()) && rt.getStatus()!=2 ){
 			//User without login
 			Core.setMessageError("Report not public! Status not 2");
 			return this.redirect("igrp", "ErrorPage", "exception");
-		}
+		}*/
 		String []name_array = Core.getParamArray("name_array");
 		String []value_array = Core.getParamArray("value_array");
 		String params = "";
@@ -327,6 +329,9 @@ public class WebReportController extends Controller {
 		this.loadQueryString();
 		this.removeQueryString("name_array");
 		this.removeQueryString("value_array");		
+		/*int isPublic = Core.getParamInt("isPublic"); 
+		if(isPublic == 1)
+			this.addQueryString("isPublic", isPublic); */
 		if(rt!=null)
 			return this.redirect("igrp_studio", "WebReport", "preview&p_rep_id="+rt.getId()+"&p_type=1"+params,this.queryString());
 		return this.redirect("igrp", "ErrorPage", "exception");
@@ -343,15 +348,13 @@ public class WebReportController extends Controller {
 				return this.getDataForQueryOrObject(rep,name_array,value_array);
 			case "page":
 				return this.getDataForPage(rep);
-			case "task":
-				return this.getDataForTask(rep);
 			default:
 				return "";
 		}
 	}
 
 
-	private String getDataForTask(RepTemplateSource rep) {
+	private String getDataForTask(RepTemplateSource rep, String taskId) {
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
 		xml.writeAttribute("uuid", rep.getRepSource().getSource_identify());
@@ -360,13 +363,14 @@ public class WebReportController extends Controller {
 			//Process_Test:01_01 => Process_Test
 			processDefinitionKey = processDefinitionKey.contains(":")?processDefinitionKey.substring(0,processDefinitionKey.indexOf(":")):processDefinitionKey;
 		}
-		String taskId = this.getCurrentTaskId();
+		
 		this.loadQueryString();
 		this.addQueryString(BPMNConstants.PRM_PROCESS_DEFINITION_KEY, processDefinitionKey)
 			.addQueryString(BPMNConstants.PRM_TASK_DEFINITION_KEY, rep.getRepSource().getTaskid())
 			.addQueryString(BPMNConstants.PRM_TASK_ID, taskId);
 		String content = this.call("igrp","Detalhes_tarefas","index",this.queryString()).getContent();
 		xml.addXml(XMLExtractComponent.extractXML(content));
+		
 		xml.addXml(ds.getDefaultForm(ds.getDefaultFieldsWithProc()));
 		xml.endElement();
 		return xml.toString();
@@ -444,8 +448,6 @@ public class WebReportController extends Controller {
 			return this.getContentXml(rs.getSource_identify(),rts.getRepSource().getName(),rowsXml);
 		}else if(rs.getType().equalsIgnoreCase("page")){
 			return this.getDataForPage(rts);
-		}else if(rs.getType().equalsIgnoreCase("task")){
-			return this.getDataForTask(rts);
 		}
 		return "";
 	}
@@ -563,7 +565,6 @@ public class WebReportController extends Controller {
 		} catch (ServletException e) {
 			r = false;
 		}
-		String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
 		String link = "?r=igrp_studio/WebReport/get-image&p_file_name="+fileName+"&env="+env;
 		if(r)
 			return this.renderView("{\"type\":\"success\",\"message\":\""+FlashMessage.MESSAGE_SUCCESS+"\",\"link\":\""+link+"\"}");
@@ -594,6 +595,6 @@ public class WebReportController extends Controller {
 	}
 	
 	private DataSourceController ds = new DataSourceController();
-	private DataSourceHelpers dsh = new DataSourceHelpers();
+	private DataSourceHelpers dsh = new DataSourceHelpers(); 
 	/*----#end-code----*/
 }
