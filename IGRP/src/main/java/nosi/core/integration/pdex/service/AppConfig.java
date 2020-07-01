@@ -28,7 +28,7 @@ public class AppConfig extends PdexServiceTemplate{
 	
 	public List<App> userApps(String uid){ 
 		List<App> allApps = new ArrayList<App>(); 
-		if(url == null || url.isEmpty() || token == null || token.isEmpty()) 
+		if(url == null || url.isEmpty() || !ping(url, DEFAULT_TIMEOUT) || token == null || token.isEmpty()) 
 			return allApps; 
 		try {
 			url += "/user_apps?email=" + URLEncoder.encode(uid, "utf-8"); 
@@ -53,7 +53,7 @@ public class AppConfig extends PdexServiceTemplate{
 	
 	public List<ExternalMenu> profAppMenus(String appCode, String orgCode, String profCode){ 
 		List<ExternalMenu> menus = new ArrayList<ExternalMenu>(); 
-		if(url == null || url.isEmpty() || token == null || token.isEmpty()) 
+		if(url == null || url.isEmpty() || !ping(url, DEFAULT_TIMEOUT) || token == null || token.isEmpty()) 
 			return menus; 
 		try {
 			url += "/prof_app_menus?prof_code=" + profCode + "&org_code=" + orgCode + "&app_code=" + appCode;  
