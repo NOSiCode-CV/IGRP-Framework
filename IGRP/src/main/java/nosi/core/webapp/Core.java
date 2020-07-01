@@ -1171,7 +1171,26 @@ public final class Core { // Not inherit
 		}
 		return new Report().invokeReport(code_report, rep);
 	}
+	
+	/**
+	 * @param partial nosi.core.gui.components.IGRPLink object 
+	 * @return A Public or Private URL that point to Report 
+	 */
+	public static String getFullUrl(IGRPLink partial) {
+		String url = new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + "" + partial.getLink(); 
+		return url;
+	}
+	
+	/**
+	 * @param partial String  
+	 * @return A Public or Private URL that point to Report 
+	 */
+	public static String getFullUrl(String partial) {
+		String url = new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + "" + partial; 
+		return url;
+	}
 
+	
 	/**
 	 * {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
 	 * 
