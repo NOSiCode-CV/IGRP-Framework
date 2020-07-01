@@ -969,7 +969,7 @@ $.fn.separatorList = function(o){
 			};
 			
 			
-			/*$.IGRP.events.on('submit',function(o){
+			$.IGRP.events.on('submit',function(o){
 				if(o.valid){
 					onSubmitIsEdited(sl,o.event);
 				}
@@ -979,7 +979,7 @@ $.fn.separatorList = function(o){
 				if(o.valid){
 					onSubmitIsEdited(sl,o.event);
 				}
-			});*/
+			});
 			
 			
 			$(sl).on('row-add', function(e, data){
