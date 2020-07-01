@@ -51,7 +51,7 @@ public class Transferir_tarefasView extends View {
 		novo_utilizador.addLookupParam("p_novo_utilizador","nome_1");
 		novo_utilizador.addLookupParam("p_id_utilizador","id");
 		novo_utilizador.addLookupParam("p_email_do_utilizador","email_1");
-		novo_utilizador.propertie().add("name","p_novo_utilizador").add("type","lookup").add("lookup_type","LOOKUP").add("class","primary").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("lookup_eraser","false").add("desclabel","false");
+		novo_utilizador.propertie().add("name","p_novo_utilizador").add("type","lookup").add("lookup_type","LOOKUP").add("class","primary").add("maxlength","255").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("lookup_eraser","false").add("desclabel","false");
 		
 		email_do_utilizador = new TextField(model,"email_do_utilizador");
 		email_do_utilizador.setLabel(gt("Email do utilizador"));
@@ -120,6 +120,7 @@ public class Transferir_tarefasView extends View {
 		form_1.addField(id_utilizador);
 		form_1.addField(id);
 
+
 		view_1.addField(detalhes_de_processo);
 		view_1.addField(numero_processo);
 		view_1.addField(criado_por_);
@@ -129,7 +130,6 @@ public class Transferir_tarefasView extends View {
 		view_1.addField(descricao_de_tarefa);
 		view_1.addField(n_tarefa);
 		view_1.addField(atribuido_a);
-
 
 		toolsbar_1.addButton(btn_gravar);
 		this.addToPage(sectionheader_1);

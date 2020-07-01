@@ -30,15 +30,15 @@ public class LookupListUserView extends View {
 
 		email = new EmailField(model,"email");
 		email.setLabel(gt("Email"));
-		email.propertie().add("name","p_email").add("type","email").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		email.propertie().add("name","p_email").add("type","email").add("maxlength","255").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		login = new TextField(model,"login");
 		login.setLabel(gt("Login"));
-		login.propertie().add("name","p_login").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		login.propertie().add("name","p_login").add("type","text").add("maxlength","255").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","255").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		email_1 = new EmailField(model,"email_1");
 		email_1.setLabel(gt("Email"));

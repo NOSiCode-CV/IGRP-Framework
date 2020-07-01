@@ -829,7 +829,7 @@ $.fn.separatorList = function(o){
 					
 					$('.splist-form-holder',$(sl)).append($.IGRP.utils.message.alert({
 						type : 'danger',
-						text : 'Para opcões de insersão mutliplas e necessario clicar em Adicionar.'
+						text : 'Para opções de inserção múltiplas é necessário clicar em adicionar.'
 					}));
 					
 				}
