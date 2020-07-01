@@ -62,7 +62,6 @@ public class IGRPLink {
 		return this;
 	}
 
-	
 	public Report getReport() {
 		return report;
 	}
@@ -86,8 +85,8 @@ public class IGRPLink {
 	public String getLink() {
 		if(this.report!=null) {
 			this.link = this.report.getLink();
-			this.report.getParams().entrySet().stream().forEach(p->{
-				link += ("&name_array="+p.getKey() + "&value_array="+p.getValue());
+			this.report.getParams().entrySet().stream().forEach(p->{ 
+				link += ("&name_array="+p.getKey() + "&value_array="+p.getValue()); 
 			});
 			return link;
 		}
@@ -101,11 +100,8 @@ public class IGRPLink {
 		return this.link.replace("&&", "&");
 	}
 	
-
 	@Override
 	public String toString() {
 		return "IGRPLink [app=" + app + ", page=" + page + ", action=" + action + ", queryString=" + queryString + "]";
 	}
-	
-	
 }

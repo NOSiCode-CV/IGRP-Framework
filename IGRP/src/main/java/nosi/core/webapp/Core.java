@@ -1136,6 +1136,20 @@ public final class Core { // Not inherit
 	public static Report getLinkReport(String code_report) {
 		return new Report().getLinkReport(code_report);
 	}
+	
+	/**
+	 * This method you can invoking using Link or Button.
+	 * 
+	 * Example with filter id=2:
+	 * {@code model.setLink(Core.getLinkReport("rep_persons").addParam("p_id", 2))}
+	 * 
+	 * @param code_report The unique code that identifies Report
+	 * @param isPublic For Public Report Link purpose 
+	 * @return 
+	 */
+	public static Report getLinkReport(String code_report, boolean isPublic) {
+		return new Report().getLinkReport(code_report, isPublic);
+	}
 
 	/**
 	 * Get Report for Response redirect {@code .addParam } for filtering
