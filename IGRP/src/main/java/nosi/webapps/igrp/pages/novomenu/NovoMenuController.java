@@ -59,11 +59,12 @@ public class NovoMenuController extends Controller {
 			if (Core.isNotNullOrZero(model.getAction_fk())){
 				if (menu.getAction().getId() != model.getAction_fk()) 
 					model.setTitulo(getPageTituleByID(model));
-			} else{
-              	if (menu.getAction() != null){                   
-                   model.setAction_fk(menu.getAction().getId());
-                }                 
-            }        
+			}
+
+          	if (menu.getAction() != null){                   
+               model.setAction_fk(menu.getAction().getId());
+            }
+            view.action_fk.setVisible(false);
 
 		} else {
 			int app =model.getApp();
@@ -172,6 +173,11 @@ public class NovoMenuController extends Controller {
 			} else if (Core.isNotNullOrZero(model.getAction_fk()))
 				menu.setMenu(menu);
 
+			if(Core.isNullOrZero(model.getSelf_id())) {
+				menu.setMenu(menu);
+			}
+				
+			
 			if (Core.isNotNullOrZero(id)) {
 				// UPDATE menu will enter here
 				menu = menu.update();
