@@ -89,8 +89,10 @@ public class NovoPerfilController extends Controller {
 		pt.setOrganization(Core.findOrganizationById(model.getOrganica()));
 		pt.setPlsql_code(model.getPlsql_codigo());
 		
-		 if(Core.isNotNullOrZero(model.getPerfil_pai())){
+		 if(Core.isNotNull(model.getPerfil_pai())){
 			 pt.setProfiletype(new ProfileType().findOne(model.getPerfil_pai()));
+		 }else {
+			 pt.setProfiletype(null);
 		 }
 		
 		pt.setStatus(model.getActivo());
@@ -202,7 +204,9 @@ public class NovoPerfilController extends Controller {
 			
 			 if(Core.isNotNullOrZero(model.getPerfil_pai())){
 				 p.setProfiletype(new ProfileType().findOne(model.getPerfil_pai()));
-			}
+			}else {
+				 p.setProfiletype(null);
+			 }
 			 
 			p.setStatus(model.getActivo());
 			p.setApplication(Core.findApplicationById(model.getAplicacao()));
