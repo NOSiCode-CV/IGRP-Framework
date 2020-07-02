@@ -41,7 +41,7 @@ $.fn.separatorList = function(o){
 					class:'submittable'
 				});
 				
-				//$(p.sl).parents('form').attr('target','editseparator');
+				$(p.sl).parents('form').attr('target','editseparator');
 			},
 			reset : function(sl){
 				$(sl).removeAttr('row-action');
@@ -50,7 +50,7 @@ $.fn.separatorList = function(o){
 
 				$('input[name="p_fwl_'+sl.name+'trc"]').remove();
 				$('.splist-form-holder .dynamic-alert',$(sl)).remove();
-				//$(sl).parents('form').removeAttr('target');
+				$(sl).parents('form').removeAttr('target');
 			},
 			get : function(sl){
 
@@ -822,8 +822,8 @@ $.fn.separatorList = function(o){
 			
 			if($obj[0] && $obj.val()){
 				
-				/*if($(e.target).attr('target') == 'editseparator')
-					e.preventDefault();*/
+				if($(e.target).attr('target') == 'editseparator')
+					e.preventDefault();
 				
 				if(!$('.splist-form-holder .dynamic-alert',$(sl))[0]){
 					
