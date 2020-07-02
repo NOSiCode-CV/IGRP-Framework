@@ -232,14 +232,14 @@
 
 					};
 
-					var datatable = $(t).DataTable(options)
+					var datatable = $(t).DataTable(options);
 
 					$.IGRP.on('submit',function(o){
 						
-						if(o.valid)
-
+						if(o.valid && o.target == 'submit'){
 							datatable.destroy();
-
+						}
+					
 	            	});
 					
 					$.IGRP.events.on('submit-ajax',function(o){

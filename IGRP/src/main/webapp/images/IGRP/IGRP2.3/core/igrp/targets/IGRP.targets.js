@@ -1321,11 +1321,15 @@
 
 		$.IGRP.on('init',function(){
 			
-			form        = $.IGRP.utils.getForm(),
+			form    = $.IGRP.utils.getForm();
 
-			doc 	    = $(document),
-
+			doc 	    = $(document);
+			
 			confirmText = $('#confirm-text').text();
+			
+			var target = '_bank',
+			
+				_this  = null;
 
 			configTargetsEvents();
 
@@ -1334,16 +1338,18 @@
 				
 				e.preventDefault();
 				
-				var target       = $(this).attr('target')  ? $(this).attr('target'): '_blank';
+				target       = $(this).attr('target')  ? $(this).attr('target'): '_blank';
 				
 				var url          = $(this).attr('fw_href') ? $(this).attr('fw_href') : $(this).attr('href');			
 				
 				var targetAction = $.IGRP.targets[target] && $.IGRP.targets[target].action ? $.IGRP.targets[target].action : _blank;
+					
+				_this 	     = $(this);
 
 				ev.execute('target-click',{
 					target  : target,
 					url     : url,
-					clicked : this
+					clicked : _this
 				});
 
 				$.IGRP.store.set({
@@ -1354,7 +1360,7 @@
 				return targetAction({
 					url     : url,
 					target  : target,
-					clicked : $(this)
+					clicked : _this
 				});
 
 			});
@@ -1373,10 +1379,12 @@
  					}) == 1 ? true : false;
 
  				
- 				var eventCB  = $.IGRP.events.execute('submit',{
- 					valid  : canSubmit,
- 					fields : fields,
- 					event  : e
+ 				var eventCB = $.IGRP.events.execute('submit',{
+ 					valid   : canSubmit,
+ 					fields  : fields,
+ 					event   : e,
+ 					clicked : _this,
+ 					target  : target
  				});
  				
  				canSubmit = eventCB == false ? false : canSubmit;
