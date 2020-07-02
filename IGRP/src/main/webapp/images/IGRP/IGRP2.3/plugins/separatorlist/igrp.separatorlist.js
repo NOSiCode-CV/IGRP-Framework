@@ -828,13 +828,8 @@ $.fn.separatorList = function(o){
 				if(!$('.splist-form-holder .dynamic-alert',$(sl))[0]){
 					
 					$('.splist-form-holder',$(sl)).append($.IGRP.utils.message.alert({
-<<<<<<< HEAD
 						type : 'warning',
 						text : 'Para opcões de insersão mutliplas e necessario clicar em Adicionar.'
-=======
-						type : 'danger',
-						text : 'Para opções de inserção múltiplas é necessário clicar em adicionar.'
->>>>>>> branch 'develop' of http://git.nosi.cv/igrp-web/igrp-web-framework.git
 					}));
 					
 				}
