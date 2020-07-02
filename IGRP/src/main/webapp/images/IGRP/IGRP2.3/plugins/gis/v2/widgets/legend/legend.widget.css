@@ -1,0 +1,18 @@
+.gis-widget-wrapper[widget-type="legend"]{
+	background: rgba(255, 255, 255, 0.9)
+}
+
+.gis-widget-wrapper[widget-type="legend"] .list-group{
+	max-height:248px;
+	overflow:auto;
+}
+
+.gis-widget-wrapper[widget-type="legend"] .children{
+	padding: 5px 0 0 15px;
+}
+
+.gis-widget-wrapper[widget-type="legend"] .children span{
+	margin-left: 5px;
+	vertical-align: super;
+}
+

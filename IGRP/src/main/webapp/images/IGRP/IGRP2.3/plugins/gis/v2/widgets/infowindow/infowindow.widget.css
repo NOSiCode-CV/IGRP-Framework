@@ -1,0 +1,7 @@
+.leaflet-popup-content-wrapper{
+	min-width: 200px;
+}
+
+.leaflet-popup-content-wrapper .gis-feature-properties-view li{
+	text-transform: capitalize;
+}

@@ -205,11 +205,5 @@ public class TaskService extends Activiti implements java.io.Serializable{
 		return "TaskService [taskDefinitionKey=" + taskDefinitionKey + ", tenantId=" + tenantId + ", formKey=" + formKey
 				+ ", processDefinitionKey=" + processDefinitionKey + ", id=" + id + "]";
 	}
-
-	
-
-
-
-	
 	
 }

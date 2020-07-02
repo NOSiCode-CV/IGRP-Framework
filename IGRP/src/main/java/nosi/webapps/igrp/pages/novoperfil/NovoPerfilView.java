@@ -45,7 +45,7 @@ public class NovoPerfilView extends View {
 		
 		codigo = new TextField(model,"codigo");
 		codigo.setLabel(gt("Código"));
-		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		activo = new CheckBoxField(model,"activo");
 		activo.setLabel(gt("Ativo?"));

@@ -31,7 +31,7 @@ public class Geografia {
 	}
 	
 	public Geografia() { 
-		Properties properties =  ConfigApp.getInstance().loadCommonConfig();
+		Properties properties =  ConfigApp.getInstance().getMainSettings(); 
 		this.url = properties.getProperty("link.rest.pesquisa_geografia");
 		if(this.url != null) 
 			this.url = this.url.replace("GeoINGT", "t/igrp.cv/geografia").replace("select_geo_by_id", "select_parents_by_id");

@@ -16,10 +16,12 @@ import java.text.DateFormat;
 import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.persistence.Tuple;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -45,6 +48,7 @@ import com.google.gson.GsonBuilder;
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.ConfigApp;
 import nosi.core.gui.components.IGRPForm;
+import nosi.core.gui.components.IGRPLink;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
@@ -59,6 +63,8 @@ import nosi.core.webapp.activit.rest.entities.TaskVariables;
 import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import nosi.core.webapp.bpmn.BPMNConstants;
+import nosi.core.webapp.bpmn.BPMNExecution;
+import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.databse.helpers.Connection;
 import nosi.core.webapp.databse.helpers.QueryDelete;
@@ -79,6 +85,7 @@ import nosi.core.webapp.uploadfile.UploadFile;
 import nosi.core.webapp.webservices.rest.Geografia;
 import nosi.core.webapp.webservices.soap.SoapClient;
 import nosi.core.xml.XMLWritter;
+import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.ActivityEcexuteType;
 import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.Application;
@@ -88,6 +95,7 @@ import nosi.webapps.igrp.dao.Domain;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumento;
+import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import nosi.webapps.igrp.dao.Transaction;
 
 /**
@@ -143,9 +151,22 @@ public final class Core { // Not inherit
 	 * @param key
 	 * @param value
 	 */
-	public static void addToSession(String key, String value) {
+	public static void addToSession(String key, Object value) {
 		Igrp.getInstance().getRequest().getSession().setAttribute(key, value);
 	}
+	
+
+	/**
+	 * return the applications host
+	 * 
+	 * 
+	 * @return
+	 */
+	public static String getHostName() {		
+		HttpServletRequest req = Igrp.getInstance().getRequest();		
+		return req.getRequestURL().toString();
+	}
+	
 
 	/**
 	 * Check permition transaction for current user
@@ -357,6 +378,69 @@ public final class Core { // Not inherit
 		app.setReadOnly(true);
 		return app.findByDad(dad);
 	}
+	
+	
+	/**
+	 * List all Application that user has access
+	 * 
+	 */
+	public static Map<Object, Object> getListApps() {
+		return new Application().getListApps();
+	}
+	
+	
+	/**
+	 * List pages By id_application
+	 * 
+	 * @param id_app
+	 * 
+	 */
+	public static HashMap<Integer, String> getListActions(int id_app) {
+		
+		List<Action> actions = new ArrayList<Action>();
+		actions = new Action().find().andWhere("application", "=", id_app).andWhere("status", "=", 1)
+				.andWhere("isComponent", "<>", (short)2).all();
+		
+		HashMap<Integer, String> all_page = new HashMap<>();
+		
+		if(Core.isNotNull(actions)) {
+			for(Action ac : actions) {
+				all_page.put(null, gt("-- Selecionar --"));
+				if (Core.isNotNull(ac.getPage_descr()))
+					all_page.put(ac.getId(), ac.getPage_descr());
+				else
+					all_page.put(ac.getId(), ac.getPage());
+			}
+			return all_page;
+		}else {
+			all_page.put(null, gt("-- Selecionar --"));
+			return all_page;
+		} 
+		
+		
+	}
+	
+	
+	/**
+	 * find page By id_page
+	 * 
+	 * @param id_page
+	 * 
+	 */
+	public static Action getInfoPage(int id_page) {
+		if(Core.isNotNull(id_page)) {
+			Action action = new Action().findOne(id_page);
+			action.setReadOnly(true);
+			return action;	
+		}else {
+			return null;
+		}
+			
+		
+	}
+	
+	
+	
 
 	/**
 	 * Find Application By ID
@@ -1052,6 +1136,20 @@ public final class Core { // Not inherit
 	public static Report getLinkReport(String code_report) {
 		return new Report().getLinkReport(code_report);
 	}
+	
+	/**
+	 * This method you can invoking using Link or Button.
+	 * 
+	 * Example with filter id=2:
+	 * {@code model.setLink(Core.getLinkReport("rep_persons").addParam("p_id", 2))}
+	 * 
+	 * @param code_report The unique code that identifies Report
+	 * @param isPublic For Public Report Link purpose 
+	 * @return 
+	 */
+	public static Report getLinkReport(String code_report, boolean isPublic) {
+		return new Report().getLinkReport(code_report, isPublic);
+	}
 
 	/**
 	 * Get Report for Response redirect {@code .addParam } for filtering
@@ -1073,7 +1171,26 @@ public final class Core { // Not inherit
 		}
 		return new Report().invokeReport(code_report, rep);
 	}
+	
+	/**
+	 * @param partial nosi.core.gui.components.IGRPLink object 
+	 * @return A Public or Private URL that point to Report 
+	 */
+	public static String getFullUrl(IGRPLink partial) {
+		String url = new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + "" + partial.getLink(); 
+		return url;
+	}
+	
+	/**
+	 * @param partial String  
+	 * @return A Public or Private URL that point to Report 
+	 */
+	public static String getFullUrl(String partial) {
+		String url = new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + "" + partial; 
+		return url;
+	}
 
+	
 	/**
 	 * {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
 	 * 
@@ -1327,7 +1444,11 @@ public final class Core { // Not inherit
 
 	public static String getParamTaskId() {
 		String taskId = Core.getParam(BPMNConstants.PRM_TASK_ID);
-		Core.setAttribute(BPMNConstants.PRM_TASK_ID, taskId);
+		
+		//System.out.println(BPMNConstants.PRM_TASK_ID + " NovotaskId: " + taskId);
+		
+		Core.setAttribute(BPMNConstants.PRM_TASK_ID, taskId); 
+		
 		return taskId;
 	}
 
@@ -1688,7 +1809,7 @@ public final class Core { // Not inherit
 	 */
 	public static boolean mail(String to, String subject, String msg, String charset, String mimetype,
 			File[] attachs, String replyTo) {
-		Properties setting = ConfigApp.getInstance().loadCommonConfig();
+		Properties setting = ConfigApp.getInstance().getMainSettings(); 
 		String email = setting.getProperty("mail.user");
 		return mail(email, to, subject, msg, charset, mimetype, attachs, replyTo, null);
 	}
@@ -4139,6 +4260,81 @@ public final class Core { // Not inherit
 	
 	public static String generateXmlForCalendar(String tagName, List<?> data) {
 		return IGRPTable.generateXmlForCalendar(tagName, data); 
+	}
+	
+	/**
+	 * @param processKey (Ex: Processo_pedido_compra)
+	 * @param processDefinitionId (Ex: Processo_pedido_compra:7:30019)
+	 * @return
+	 */
+	public static Response startProcess(String processKey, String processDefinitionId) {
+		try {
+			if (Core.isNotNullMultiple(processDefinitionId, processKey)) {
+				BPMNExecution bpmn = new BPMNExecution();
+				return bpmn.startProcess(processKey, processDefinitionId);
+			}
+		} catch (Exception e) {
+		}
+		return null; 
+	}
+	
+	/**
+	 * @param processKey (Ex: Processo_pedido_compra)
+	 * @param processDefinitionId (Ex: Processo_pedido_compra:7:30019) 
+	 * @param params For custom params, will be sent as query string 
+	 * @return
+	 */
+	public static Response startProcess(String processKey, String processDefinitionId, Map<String, String> params) { 
+		if(params != null) { 
+			try {
+				BPMNExecution bpmn = new BPMNExecution();
+				return bpmn.startProcess(processKey, processDefinitionId, params);
+			} catch (Exception e) {
+			}
+		} 
+		return startProcess(processKey, processDefinitionId);
+	}
+	
+	/**
+	 * @param taskId (Ex: 35834)
+	 * @return
+	 */
+	public static Response startTask(String taskId) {
+		try {
+			if (Core.isNotNull(taskId)) {
+				BPMNExecution bpmn = new BPMNExecution();
+				return bpmn.openTask(taskId); 
+			}
+		} catch (Exception e) { 
+		}
+		return null; 
+	}
+	
+	/**
+	 * @param appDad (Ex: igrp)
+	 * @param processId (Ex: Processo_pedido_compra)
+	 * @return List<TipoDocumentoEtapa> package nosi.webapps.igrp.dao 
+	 */
+	public static List<TipoDocumentoEtapa> getOutputFilesByProcessId(String appDad, String processId) { 
+		return getFilesByProcessIdNTaskId(appDad, processId, null); 
+	}
+	
+	/**
+	 * @param appDad (Ex: igrp)
+	 * @param processId (Ex: Processo_pedido_compra)
+	 * @param taskId (Ex: Pedido)
+	 * @return List<TipoDocumentoEtapa> package nosi.webapps.igrp.dao 
+	 */
+	public static List<TipoDocumentoEtapa> getFilesByProcessIdNTaskId(String appDad, String processId, String taskId) { 
+		return BPMNHelper.getFilesByProcessIdNTaskId(appDad, processId, taskId); 
+	}
+	
+	/**
+	 * @return The deployed war name 
+	 */
+	public static String getDeployedWarName() {
+		String deployedWarName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
+		return deployedWarName; 
 	}
 	
 }

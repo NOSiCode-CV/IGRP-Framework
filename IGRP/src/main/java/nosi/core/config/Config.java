@@ -2,7 +2,11 @@ package nosi.core.config;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
+
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
@@ -20,7 +24,6 @@ import nosi.webapps.igrp.dao.User;
 
 public class Config {
 
-	
 	private final String LINK_XSL_GENERATOR = "images/IGRP/IGRP2.3/app/igrp/generator/Generator.xsl";
 	private final String LINK_XSL_HOME_STUDIO = "images/IGRP/IGRP2.3/xsl/IGRP-Studio-home.xsl";
 	private final String LINK_XSL_HOME_APP = "images/IGRP/IGRP2.3/xsl/IGRP-homeApp.xsl";
@@ -37,11 +40,9 @@ public class Config {
 	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";	
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
-	public final String VERSION = "200319"; 
-
-	public Config() {
+	public final String VERSION = "200628";
 	
-	}
+	public Config() {}
 	
 	public String getLinkXSLLogin() {
 		return this.getLinkImgBase().replaceAll("\\\\", SEPARATOR_FOR_HTTP)+this.LINK_XSL_LOGIN;
@@ -144,13 +145,6 @@ public class Config {
 	    }catch(Exception e) {
 	    	
 	    }
-	    /*
-	    Core.setMessageInfo("APP_LINK_IMAGE not is null: " + APP_LINK_IMAGE);
-	    
-	    Core.setMessageInfo("Nome Servlet: " + Igrp.getInstance().getServlet().getServletContext().getServletContextName());
-	    
-	    Core.setMessageInfo("Nome war file: " +  deployWarName);
-	    */
 	    return Igrp.getInstance().getServlet().getServletContext().getRealPath("/images").
 	    		replace(deployWarName, APP_LINK_IMAGE);
 	}
@@ -339,8 +333,14 @@ public class Config {
 		return this.getBasePathServerXsl() + this.getImageAppPath(page);
 	}
 	
-	public String getCurrentBaseServerPahtXsl(Action page) {
-		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/") + this.getImageAppPath(page);
+	public String getCurrentBaseServerPahtXsl(Action page) { 
+		ServletContext sc = Igrp.getInstance().getServlet().getServletContext(); 
+		String path = sc.getRealPath("/") + this.getImageAppPath(page); 
+		if(page.getApplication().getExterno() == 2) {
+			String deployedName = new File(sc.getRealPath("/")).getName(); 
+			path = path.replace(deployedName + File.separator + "images", page.getApplication().getUrl() + File.separator + "images"); 
+		}
+		return path;
 	}
 	
 	public String getImageAppPath(Application app,String version) {
@@ -389,24 +389,33 @@ public class Config {
 		String basePackage = "nosi.webapps." + app.toLowerCase() + ".pages." + page.toLowerCase() + "." + page + "Controller";
 		
 		if( Core.isNotNull(app)  && Core.isNotNull(page)){
-			RuntimeTask runtimeTask = RuntimeTask.getRuntimeTask();
+			
+			RuntimeTask runtimeTask = RuntimeTask.getRuntimeTask(); 
+			
 			Action ac = new Action();
-			if(Core.isNotNull(runtimeTask))
-				ac = ac.find()
+			if(Core.isNotNull(runtimeTask)) {
+					List<Action> actions = new Action().find()
 					   .andWhere("application.dad", "=", runtimeTask.getTask().getTenantId())
 					   .andWhere("page", "=", Page.resolvePageName(page))
-					   .andWhere("processKey", "=", runtimeTask.getTask().getProcessDefinitionKey().toLowerCase())
-					   .one();
-			else
+					   .all(); 
+					if(actions != null && !actions.isEmpty()) {
+						Optional<Action> opt = actions.stream().filter(p -> p.getProcessKey() != null && p.getProcessKey().equalsIgnoreCase(runtimeTask.getTask().getProcessDefinitionKey()))
+							.findFirst(); 
+						if(opt.isPresent()) 
+							ac = opt.get(); 
+					}
+			}else {
 				ac = ac.find()
 					   .andWhere("application.dad", "=", app.toLowerCase())
 					   .andWhere("page", "=", Page.resolvePageName(page))
 					   .one();
+			}
 			if(ac!=null && ac.getPackage_name()!=null) {
 				String p = ac.getPackage_name().toLowerCase();
-				if(p.endsWith("pages"))
-					return ac.getPackage_name().toLowerCase()+"."+ac.getPage().toLowerCase()+ "." + ac.getPage() + "Controller";
-				return ac.getPackage_name().toLowerCase()+ "." + ac.getPage() + "Controller";
+				if(p.endsWith("pages")) 
+					basePackage = ac.getPackage_name().toLowerCase()+"."+ac.getPage().toLowerCase()+ "." + ac.getPage() + "Controller"; 
+				else 
+					basePackage = ac.getPackage_name().toLowerCase()+ "." + ac.getPage() + "Controller"; 
 			}	
 		}
 		return basePackage;

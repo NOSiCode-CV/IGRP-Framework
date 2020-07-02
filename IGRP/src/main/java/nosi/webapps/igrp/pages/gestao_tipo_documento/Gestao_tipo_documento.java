@@ -7,11 +7,14 @@ import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import java.util.ArrayList;
 import java.util.List;
 
+import nosi.core.validator.constraints.*;
+
 public class Gestao_tipo_documento extends Model{		
 
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 
+	@NotNull()
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
 

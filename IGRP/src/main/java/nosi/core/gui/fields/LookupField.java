@@ -8,8 +8,10 @@ package nosi.core.gui.fields;
  */
 import java.util.Map;
 
+import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.Route;
+import nosi.webapps.igrp.dao.Application;
 
 import java.util.LinkedHashMap;
 
@@ -51,11 +53,21 @@ public class LookupField extends TextField {
 	}
 
 	@Override
-	public void setLookup(String app,String page,String action) {
+	public void setLookup(String app, String page, String action) { 
 		int isPublic = Core.getParamInt("isPublic").intValue();
 		if(isPublic==1)
-			this.lookup = Route.getResolveUrl(app, page, action, Core.getCurrentDad(),1).replace("?", "").replace("webapps", "");
-		else
-			this.lookup = Route.getResolveUrl(app, page, action).replace("?", "").replace("webapps", "");
+			this.lookup = Route.getResolveUrl(app, page, action, Core.getCurrentDad(), 1).replace("?", "").replace("webapps", "");
+		else { 
+			this.lookup = Route.getResolveUrl(app, page, action).replace("?", "").replace("webapps", ""); 
+			Application application = Core.findApplicationByDad(app); 
+			if(application != null && application.getExterno() == 2) {
+				String deployedWarName = Core.getDeployedWarName(); 
+				if(!deployedWarName.equals(application.getUrl())) {
+					this.lookup = ConfigApp.getInstance().getAutentikaUrlForSso();
+					this.lookup = this.lookup.replace("state=igrpweb", "state=" + app + "/" + page + "/" + action); 
+					this.lookup = this.lookup.replace("/IGRP/", "/" + application.getUrl() + "/"); 
+				}
+			}
+		}
 	}
 }

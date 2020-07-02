@@ -50,15 +50,16 @@ public class BPMNDesignerController extends Controller {
 		Application app = Core.findApplicationById(Core.toInt(model.getEnv_fk()));		
 		if(app!=null) {
 			List<BPMNDesigner.Gen_table> data = new ArrayList<>();
-			for(ProcessDefinitionService process: new ProcessDefinitionServiceRest().getProcessDefinitionsAtivos(app.getDad())){
-				BPMNDesigner.Gen_table processo = new BPMNDesigner.Gen_table();
-				processo.setId(process.getId());
-				processo.setTitle(process.getName());
-				processo.setLink("igrp_studio", "BPMNDesigner", "get-bpmn-design&p_id="+process.getId());
-				processo.setId(process.getId());
-				processo.setId_objeto(process.getId().split(":")[0]);
-				data.add(processo);
-			}
+			for(ProcessDefinitionService process: new ProcessDefinitionServiceRest().getProcessDefinitionsAtivos(app.getDad()))
+				if(process.getId() != null && !process.getId().isEmpty()) {
+					BPMNDesigner.Gen_table processo = new BPMNDesigner.Gen_table();
+					processo.setId(process.getId());
+					processo.setTitle(process.getName() != null && !process.getName().isEmpty() ? process.getName() : "Name Not set");
+					processo.setLink("igrp_studio", "BPMNDesigner", "get-bpmn-design&p_id="+process.getId());
+					processo.setId(process.getId());
+					processo.setId_objeto(process.getId().split(":")[0]);
+					data.add(processo);
+				}
 			view.gen_table.addData(data);
 		}
 		view.formkey.setLookup("igrp","LookupListPage","index");

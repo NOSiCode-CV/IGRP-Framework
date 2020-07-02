@@ -11,22 +11,17 @@
       <xsl:when test="$id">
 
         <div class="igrp-map-os-wrapper" id="{$id}">
-         
-          <!--  <div class="gis-loading">
-            <div class="gis-spinner">
-              <div class="bounce1"></div>
-              <div class="bounce2"></div>
-              <div class="bounce3"></div>
-            </div>
-          </div>-->
-		
-		 <div class="gis-panel widget"></div>
+         		
+		  <div class="gis-panel widget"></div>
 		
           <div class="gis-panel left">
             
             <div class="btn-group-vertical gis-panel-inner" role="group" >
               <button type="button" class="btn btn-default gis-zoom-in" text-color="primary">
                 <i class="fa fa-plus"></i>
+              </button>
+              <button type="button" class="btn btn-default gis-zoom-home" text-color="primary">
+                <i class="fa fa-home"></i>
               </button>
               <button type="button" class="btn btn-default gis-zoom-out" text-color="primary">
                 <i class="fa fa-minus"></i>
@@ -66,6 +61,11 @@
           <div class="gis-panel bottom">
           	
           	<div  type="button" class="btn-group-vertical gis-panel-inner" role="group">
+          	  <button class="gis-locate btn btn-default"  text-color="primary">
+	          	<i class="fa fa-compass"></i>
+	          </button>
+	       </div>
+	       <div  type="button" class="btn-group-vertical gis-panel-inner" role="group">
               <button class="gis-expand btn btn-default"  text-color="primary">
 	          	<i class="fa fa-expand"></i>
 	          </button>
@@ -73,10 +73,21 @@
           
           </div>
           
+          <div class="gis-footer-controller">
+          	<div class="footer-panel">
+          		<div class="gis-attribution"></div>          		
+          		<div id="gis-mouse-position">0,0</div>  
+          		<div class="gis-scale">
+          			<span id="gis-scale-label"></span>
+          			<div id="gis-scale-ruler"></div>
+          		</div>        		
+          	</div>          	
+          </div>
+          
           <div id="{$id}-map" class="gis-map-view" style="min-height:650px"></div>
 
           <xsl:if test="$data">
-            <script>$('#<xsl:value-of select="$id"/>').data('config', '<xsl:value-of select="$data"/>')</script>
+            <script>$('#<xsl:value-of select="$id"/>').data('configURL', '<xsl:value-of select="$data"/>')</script>
           </xsl:if>
           
         </div>

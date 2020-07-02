@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import nosi.core.webapp.helpers.Route;
 
@@ -20,20 +21,25 @@ public class Report extends Controller{
 	private String qs = "";
 	private String link;
 	
+
 	@SuppressWarnings("unchecked")
 	public Response invokeReport(String code_report,Report rep){
 		qs+="&p_rep_code="+code_report;
-		if(rep!=null){
-			rep.getParams().entrySet().stream().filter(p->!(p.getValue() instanceof List)).forEach(p->{
-				if(p.getValue()!=null && !p.getValue().toString().equals("?"))
-					qs += ("&name_array="+p.getKey() + "&value_array="+p.getValue());
-			});
-			rep.getParams().entrySet().stream().filter(p->p.getValue() instanceof List).forEach(p->{
-				((List<Object>) p.getValue()).stream().forEach(v->{
-					qs += ("&name_array="+p.getKey() + "&value_array="+v.toString());
-				});
-			});
-		}
+		if(rep!=null) 
+			for(Entry<String, Object> p : rep.getParams().entrySet()) 
+				if(!(p.getValue() instanceof List)) {
+					if(p.getValue() != null && !p.getValue().toString().equals("?")) { 
+						if (p.getKey().equals("isPublic") && p.getValue().equals("1")) 
+							qs += "&" + p.getKey() + "=" + p.getValue(); // isPublic=1 :-) 
+						else 
+							qs += ("&name_array="+p.getKey() + "&value_array="+p.getValue()); 
+					}
+				}else {
+					List<Object> parms = (List<Object>) p.getValue(); 
+					for(Object v : parms) 
+						qs += ("&name_array="+p.getKey() + "&value_array="+v.toString());
+				}
+		
 		try {
 			return this.redirect("igrp_studio", "web-report", "get-link-report"+qs);
 		} catch (IOException e) {
@@ -43,8 +49,14 @@ public class Report extends Controller{
 	}
 	
 	public Report getLinkReport(String code_report){
-		Report rep = new Report();
-		rep.setLink(Route.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&p_rep_code="+code_report);
+		return getLinkReport(code_report, false); 
+	}
+	
+	public Report getLinkReport(String code_report, boolean isPublic){
+		Report rep = new Report(); 
+		if(isPublic) 
+			Core.setAttribute("isPublic", "1"); 
+			rep.setLink(Route.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&p_rep_code="+code_report); 
 		return rep;
 	}
 	
@@ -77,6 +89,5 @@ public class Report extends Controller{
 		}
 		return rep;
 	}
-	
 	
 }

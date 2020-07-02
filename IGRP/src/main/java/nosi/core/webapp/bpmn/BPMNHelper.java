@@ -5,7 +5,12 @@ import java.util.List;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.entities.HistoricTaskService;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.entities.TaskService;
+import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
+import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 //import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
@@ -18,7 +23,9 @@ import static nosi.core.i18n.Translator.gt;
  * Emanuel
  * 7 May 2018
  */
-public class BPMNHelper {
+public final class BPMNHelper {
+	
+	private BPMNHelper() {}
 
 	public static String getGenerateXML(String app,String process_key,String task_key,String form_key,String path) {
 		XMLWritter xml = new XMLWritter();
@@ -194,7 +201,7 @@ public class BPMNHelper {
 		
 		aux.removeIf(obj -> { 
 			for(TipoDocumentoEtapa doc_ : aux) 
-				return doc_ != obj && doc_.getTipoDocumento() != null && obj.getTipoDocumento() != null && doc_.getTipoDocumento().equals(obj.getTipoDocumento()); 
+				return doc_ != obj && doc_.getTipoDocumento() != null && obj.getTipoDocumento() != null && doc_.getTipoDocumento().getCodigo().equals(obj.getTipoDocumento().getCodigo()); 
 			return false; 
 		});
 		
@@ -222,8 +229,7 @@ public class BPMNHelper {
 		return aux;
 	}
 
-	private static List<TipoDocumentoEtapa> getDocumentOutputReport(String taskDad,String processDefinition,String taskDefinition) {
-		
+	private static List<TipoDocumentoEtapa> getDocumentOutputReport(String taskDad,String processDefinition,String taskDefinition) { 
 		List<TipoDocumentoEtapa> tipoDocs =  new TipoDocumentoEtapa()
 				.find()
 				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")
@@ -240,6 +246,87 @@ public class BPMNHelper {
 			 t.setLink(link);
 		});
 		return tipoDocs;
+	}
+	
+	public static List<TipoDocumentoEtapa> getFilesByProcessIdNTaskId(String appDad, String processId, String taskId) { 
+		List<TipoDocumentoEtapa> allOutDocs = new ArrayList<TipoDocumentoEtapa>(); 
+		List<TipoDocumentoEtapa> tipoDocs = null;
+		TipoDocumentoEtapa tipoDocumentoEtapa = new TipoDocumentoEtapa().find().andWhere("processId", "=", Core.isNotNull(processId) ? processId: "-1");
+		if(taskId != null) 
+			tipoDocumentoEtapa = tipoDocumentoEtapa.andWhere("taskId", "=", taskId);
+		tipoDocs = tipoDocumentoEtapa.andWhere("status", "=", 1).andWhere("tipo", "=", "OUT").all();
+		if(tipoDocs != null) { 
+			for(TipoDocumentoEtapa doc : tipoDocs) {
+				if(doc.getTipoDocumento() != null && doc.getTipoDocumento().getApplication() != null && doc.getTipoDocumento().getApplication().getDad().equals(appDad)) {  
+					 List<TaskService> etapas = getAllTaskFromMetadataXml(appDad, processId); 
+					 int reverseOffset = 0;
+					 for(TaskService etapa : etapas) {
+						 if(etapa.getId().equals(doc.getTaskId())) {
+							 reverseOffset = etapas.indexOf(etapa); 
+							 break; 
+						 }
+					 }
+					 for(int i = reverseOffset; i >= 0; i--) {
+						 TipoDocumentoEtapa taskBefore = new TipoDocumentoEtapa().find().andWhere("processId", "=", Core.isNotNull(processId) ? processId: "-1")
+			 						.andWhere("status", "=", 1)
+			 						.andWhere("taskid", "=", etapas.get(i))
+			 						.andWhere("tipo", "=", "IN")
+			 						.one(); 
+						 if(taskBefore != null) {
+							 doc = taskBefore;
+							 break;
+						 }
+					 }
+					 
+					 nosi.webapps.igrp.dao.TaskFile taskFile = new nosi.webapps.igrp.dao.TaskFile().find()
+								.andWhere("tipo_doc_task", "=", doc)
+								.one();
+					 if(taskFile != null) {
+						 IGRPLink link = new IGRPLink();
+						 if(taskFile.getClob().getUuid() != null)
+							 link.setLink(Core.getLinkFileByUuid(taskFile.getClob().getUuid()));
+						 else
+							 link.setLink(Core.getLinkFile(taskFile.getClob().getId().intValue()));
+						 link.setLink_desc(gt("Mostrar"));
+						 doc.setFileId(taskFile.getClob().getId());
+						 doc.setLink(link);
+						 allOutDocs.add(doc);
+					 }
+					 
+				 }
+				 if(doc.getRepTemplate() != null && doc.getRepTemplate().getApplication() != null && doc.getRepTemplate().getApplication().getDad().equals(appDad)) { 
+					 doc.setFileId(new Integer(-1));
+					 IGRPLink link = new IGRPLink(Core.getLinkReport(doc.getRepTemplate().getCode()));
+		 			 link.setLink_desc(gt("Mostrar"));
+					 doc.setLink(link);
+					 allOutDocs.add(doc);
+				 }
+			}
+		} 
+		return allOutDocs; 
+	}
+	
+	
+	public static List<TaskService> getAllTaskFromMetadataXml(String appDad, String processId) {
+		List<TaskService> list = new ArrayList<TaskService>();
+		List<ProcessDefinitionService> allProcess = new ProcessDefinitionIGRP().getProcessDefinitionsForCreated(appDad); 
+		if(allProcess != null) {
+			TaskServiceRest taskRest = new TaskServiceRest();
+			for(ProcessDefinitionService process : allProcess) { 
+				if(processId == null) {
+					String link = process.getResource().replace("/resources/", "/resourcedata/");
+					String resource = new ResourceServiceRest().getResourceData(link); 
+					list.addAll(taskRest.extractTasks(resource,true));
+				}else {
+					if(process.getKey().equals(processId)) { 
+						String link = process.getResource().replace("/resources/", "/resourcedata/");
+						String resource = new ResourceServiceRest().getResourceData(link); 
+						list.addAll(taskRest.extractTasks(resource, true));
+					}
+				}
+			}
+		}
+		return list; 
 	}
 
 	private static String resolveProcessDenifition(String processDefinition_) {

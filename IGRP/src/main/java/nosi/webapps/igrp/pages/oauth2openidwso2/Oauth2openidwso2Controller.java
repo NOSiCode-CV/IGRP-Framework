@@ -308,7 +308,7 @@ public class Oauth2openidwso2Controller extends Controller {
 	}
 	
 	private String createOidcEndpoint(String app, String page, String action) { 
-		Properties settings = ConfigApp.getInstance().loadCommonConfig();
+		Properties settings = this.configApp.getMainSettings();
 		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
 		String url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
 		if(r != null && r.equalsIgnoreCase("true") && url != null && !url.isEmpty()) {

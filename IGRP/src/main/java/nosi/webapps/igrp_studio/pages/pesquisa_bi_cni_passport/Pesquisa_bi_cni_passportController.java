@@ -39,7 +39,7 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		
 		ConsumeJson json_obj = new ConsumeJson();
 		
-		Properties setting = ConfigApp.getInstance().loadCommonConfig();
+		Properties setting = this.configApp.getMainSettings();
 		
 		String json="";
 		String authorization="";

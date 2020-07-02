@@ -18,11 +18,34 @@
 
 					format : 'image/png',
 					
-					//srs : 'EPSG:4826'
-					//crs: L.CRS.EPSG4326
+				}, data.options );
+						
+			layer = L.tileLayer.wms(data.url, options);
+
+			layer.updateData= function(){
+			
+				layer.setParams({}, false);
+				
+			}
+			
+			return layer;
+
+		},
+				
+		WCS : function(data, app){
+			
+			var layer   = null,
+			
+				map     = app.viewer(),
+
+				options = $.extend({
+
+					transparent : true,
+
+					format : 'image/png',
 
 				}, data.options );
-				
+			
 			layer = L.tileLayer.wms(data.url, options);
 
 			layer.updateData= function(){
@@ -37,40 +60,53 @@
 
 		WFS : function(data,app){
 			
-			var layer   = L.geoJSON(null,{
-				
-					style: function (feature) {
-				        
-						return {
-							weight: 1,
-							opacity : 0.5
-				        	
-				        };
-				        
-				    },
-				
-					onEachFeature : function(feature,layer){
-					
-						//layer.bindPopup( 'ID: '+feature.id );
-	
-					}
-					
-				}),
-
-				map     = app.viewer(),
+			var map     = app.viewer(),
+			
+				clusters = false,
+			
+				layer    = null,
 				
 				queryRequest = null,
 				
-				options = {};
+				options = {},
+				
+				filter  = "[nome = 'MAIO']";
 			
-			//console.log(layer)
+			if(data.geomType == utils.geometry.point){
+				
+				layer = L.markerClusterGroup();
+								
+				clusters = true;
+				
+			}else{
+			
+				layer   = L.geoJSON(null,{
+					
+						style: function (feature) {
+					        
+							return {
+								weight: 1,
+								opacity : 0.5
+					        	
+					        };
+					        
+					    },
+					
+						onEachFeature : function(feature,layer){
+						
+							//layer.bindPopup( 'ID: '+feature.id );
+		
+						}
+						
+					});
+			}
 
 			layer.request = null;
 
 			layer.visible   = data.visible;
 			
 			layer.highlighted = [];
-			
+						
 			//find object in layer
 			layer.find = function(fid){
 			
@@ -120,11 +156,13 @@
 					
 				})
 				
-				layer.eachLayer(function(fl) {
+				if(layer.getGeometryType() !== 'Point')
 					
-					layer.resetStyle(fl)
-			 
-				});
+					layer.eachLayer(function(fl) {
+						
+						layer.resetStyle(fl)
+				 
+					});
 				
 				layer.highlighted = [];
 				
@@ -215,6 +253,8 @@
 					request : 'GetFeature',
 
 					outputFormat:'application/json',
+					
+					//srsName : 'EPSG:4326',
 
 					maxFeatures : 600
 
@@ -240,9 +280,19 @@
 
 							layer.clear = layer.clearLayers;
 
-							layer.clear();
-
-							layer.addData(geo);
+							layer.clear();							
+								
+							if (clusters){
+																
+								var markers = L.geoJson(geo);
+								
+								layer.addLayer(markers);
+								
+							}else{
+								
+								layer.addData(geo);
+								
+							}	
 							
 							layer.fire('data-loaded', { data:geo });
 
@@ -271,7 +321,9 @@
 
 				map.on('moveend', function(){
 					
-					GetData();
+					if(!map.enableEditing)
+						
+						GetData();
 					
 				});
 
@@ -320,6 +372,8 @@
 		layer.highlight  = layer.highlight || function(){};
 		
 		layer.find 		 = layer.find || function(){};
+		
+		layer.getFeature = layer.getFeature || function(){};
 
 		layer.data = function( name ){
 			
@@ -346,6 +400,26 @@
 			return type;
 			
 		};
+		
+		layer.getGeometryDraw = function(){
+			
+			var type = "";
+			
+			if(layer.Description.geometryType.indexOf('Polygon') >= 0 )
+				
+				type = 'Polygon';
+			
+			if(layer.Description.geometryType.indexOf('Line') >= 0 )
+				
+				type = 'Polyline';
+			
+			if(layer.Description.geometryType.indexOf('Point') >= 0 )
+				
+				type = 'Marker';
+			
+			return type;
+			
+		};
 
 		layer.query = function(o){
 			
@@ -357,7 +431,9 @@
 				
 				attributes : o.attributes,
 				
-				value 	   : o.value
+				value 	   : o.value,
+				
+				cql		   : o.cql
 				
 			});
 			
@@ -373,6 +449,8 @@
 
 			layer.updateData();
 			
+			map.fire('addlayer', layer);
+			
 		};
 
 		layer.hide = function(){
@@ -380,7 +458,9 @@
 			layer.visible = false;
 
 			layer.container.removeLayer( layer );
-
+			
+			map.fire('removelayer', layer);
+			
 		};
 
 		layer.on('add', function(){
@@ -399,6 +479,8 @@
 			
 				workSpace	   = workSpaceLayer.split(':')[0],
 				
+				workSpaceName  = workSpaceLayer.split(':')[1],
+				
 				indexOfWMS     =  layerData.url.lastIndexOf('/wms'),
 				
 				owsUrl 		   = layerData.url;
@@ -411,9 +493,13 @@
 				
 				workspace 	   : workSpace,
 				
+				workspaceName  : workSpaceName,
+				
 				workspaceLayer : workSpaceLayer,
 				
 				workspaceLink  : 'https:/www.nosi.cv/'+workSpace,
+				
+				geometryField  : 'geom',
 				
 				owsURL  	   : owsUrl
 				
@@ -438,7 +524,7 @@
 					
 				};
 			
-			$.get(layer.Info.owsURL+'?service=wfs&request=DescribeFeatureType&typeName='+layer.Info.workspaceLayer+'&version=1.0.0').then(function(xml){
+			$.get(layer.Info.owsURL+'?service=WFS&request=DescribeFeatureType&typeName='+layer.Info.workspaceLayer+'&version=1.0.0').then(function(xml){
 				
 				var attrsElements = $(xml).find('xsd\\:sequence xsd\\:element')
 				
@@ -462,10 +548,23 @@
 			
 		};
 		
+		function GetLegendGraphic(){
+						
+			$.get(layer.Info.owsURL+'?service=WMS&request=GetLegendGraphic&layer='+layer.Info.workspaceLayer+'&version=1.0.0&format=application/json').then(function(json){
+				
+				layer.Legend = json.Legend[0];
+				
+			});
+			
+		};
+		
+		
 		GetDescribeData();
+		
+		GetLegendGraphic();
 
 		layer.addTo( layer.container );
-
+				
 		return layer;
 			
 	});

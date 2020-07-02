@@ -52,11 +52,10 @@ public class GenXMLField {
 						if(field instanceof LookupField){
 							if(field.vertionLookup()==1) {
 								String link = field.getLookup()+"&forLookup=true";
-								
 								for(Entry<String, Object> param:((LookupField) field).getParams().entrySet()){
 									link+= "&"+param.getKey()+"="+param.getValue();
 								}
-								xml.setElement("lookup", link);
+								xml.setElement("lookup", link); 
 							}
 							else if(field.vertionLookup()==2){
 								String link = field.getLookup()+"&jsonLookup=";
@@ -68,7 +67,7 @@ public class GenXMLField {
 								for(Entry<String, Object> param:((LookupField) field).getParams().entrySet()){
 									link+= "&"+param.getKey()+"="+param.getValue();
 								}
-								xml.setElement("lookup", link);
+								xml.setElement("lookup", link); 
 							}
 						}
 						xml.endElement();
@@ -134,13 +133,6 @@ public class GenXMLField {
 							xml.text(""+field.getValue());
 							if(field instanceof LookupField){
 								xml.setElement("lookup", field.getLookup());
-								/*
-								 * <lookup_1 name="p_lookup_1" type="lookup" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false">
-					                    <label>Lookup</label>
-					                    <value/>
-					                    <lookup>http://xpto/file.xml</lookup>
-					                </lookup_1>
-								 */
 							}
 							xml.endElement();
 						}

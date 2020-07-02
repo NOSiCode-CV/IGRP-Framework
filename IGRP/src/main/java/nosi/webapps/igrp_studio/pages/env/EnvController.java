@@ -12,6 +12,8 @@ import nosi.core.webapp.Response;
 import java.io.File;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
+import nosi.core.integration.pdex.service.AppConfig;
+import nosi.core.integration.pdex.service.AppConfig.App;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -34,18 +36,7 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.HttpHeaders;
-
 import org.apache.commons.io.IOUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
@@ -68,15 +59,14 @@ public class EnvController extends Controller {
 		model.load();
 		EnvView view = new EnvView();
 		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		view.action_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.flg_external.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
-		Properties settings = ConfigApp.getInstance().loadCommonConfig();
-		String igrp_plsql_url = settings.getProperty("igrp.plsql.myapps.url");
+		Properties settings = this.configApp.getMainSettings();
+		String igrp_plsql_url = settings.getProperty(this.IGRP_PDEX_APPCONFIG_URL);
 		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
 			view.plsql_codigo.setVisible(false);
 		
@@ -170,9 +160,9 @@ public class EnvController extends Controller {
 				// ... Git control version code here ... 
 				
 				return this.redirect("igrp_studio", "env","index");				
-			}else{
-				Core.setMessageError();
-			}
+			}else
+				Core.setMessageError(); 
+			
 		}
 		
 		return this.forward("igrp_studio", "env", "index");
@@ -335,8 +325,8 @@ public class EnvController extends Controller {
 		xml_menu.startElement("applications");
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
-		List<IgrpPLSQLApp> allowApps = new ArrayList<IgrpPLSQLApp>();
-		List<IgrpPLSQLApp> denyApps = new ArrayList<IgrpPLSQLApp>();
+		List<App> allowApps = new ArrayList<App>();
+		List<App> denyApps = new ArrayList<App>();
 		getAllApps(allowApps,denyApps);
 		/** End **/
 
@@ -381,7 +371,7 @@ public class EnvController extends Controller {
 		
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
-		for(IgrpPLSQLApp obj: allowApps){
+		for(App obj: allowApps){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "yes");
 			xml_menu.setElement("link", obj.getLink());
@@ -393,7 +383,7 @@ public class EnvController extends Controller {
 			displayTitle = true;
 		}
 
-		for(IgrpPLSQLApp obj: denyApps){
+		for(App obj: denyApps){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "no");
 			xml_menu.setElement("link", obj.getLink());
@@ -429,7 +419,6 @@ public class EnvController extends Controller {
 
 
 	public Response actionOpenApp(@RParam(rParamName = "app") String app, @RParam(rParamName = "page") String page) throws Exception{ 
-		
 		String[] p = page.split("/");
 		Permission permission = new Permission();
 		
@@ -438,7 +427,7 @@ public class EnvController extends Controller {
 			
 			Application env = Core.findApplicationByDad(app);
 			
-			Properties properties = ConfigApp.getInstance().loadCommonConfig();
+			Properties properties = this.configApp.getMainSettings();
 			String currentEnv = new Config().getEnvironment();
 			String devUrl = properties.getProperty("igrp.env.dev.url"); 
 			
@@ -449,12 +438,15 @@ public class EnvController extends Controller {
 			return redirectToUrl(devUrl); 
 			}
 			
-			//1 External ; 2 custom dad 
-			if(env.getExternal() == 1 || env.getExternal() == 2) { 
-				String url = buildAppUrlUsingAutentikaForSSO(env); 
-				if(url != null) 
-					return redirectToUrl(url); 
-			} 
+			// 2 - custom dad 
+			String url = null; 
+			if(env.getExternal() == 2)  
+				url = buildAppUrlUsingAutentikaForSSO(env); 
+			// 1 External 
+			if(env.getExternal() == 1) 
+				url = env.getUrl(); 
+			if(url != null) 
+				return redirectToUrl(url); 
 			
 			try {
 				final ApplicationPermition applicationPermition = permission.getApplicationPermitionBeforeCookie();
@@ -477,7 +469,6 @@ public class EnvController extends Controller {
 				System.err.println("EnvController line535:"+e.getLocalizedMessage());
 				e.printStackTrace();
 			}
-			
 			this.addQueryString("dad", app); 		
 			return this.redirect(p[0], p[1], p[2],this.queryString());
 		}		
@@ -489,102 +480,19 @@ public class EnvController extends Controller {
 	/** Integration with IGRP-PLSQL Apps **
 	 * */
 	// Begin
-	private void getAllApps(List<IgrpPLSQLApp> allowApps /*INOUT var*/, List<IgrpPLSQLApp> denyApps  /*INOUT var*/) {
-		try {
-			
-			Properties properties =  ConfigApp.getInstance().loadConfig("common", "main.xml"); 
-			String baseUrl = properties.getProperty("igrp.plsql.myapps.url"); 
-			String token = properties.getProperty("igrp.plsql.myapps.token"); 
-			if(baseUrl == null || baseUrl.isEmpty() || token == null || token.isEmpty()) 
-				throw new Exception("Invalid url ..."); 
-			
-			String endpoint = baseUrl + "?p_email=" + "iekini.fernandes@nosi.cv"; 
-			
-			Client client = ClientBuilder.newClient(); 
-			WebTarget webTarget = client.target(endpoint); 
-			Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
-			javax.ws.rs.core.Response response  = invocationBuilder.get(); 
-			
-			String json = response.readEntity(String.class); 
-			
-			client.close(); 
-			
-			JSONObject obj = new JSONObject(json); 
-			JSONObject apps_t = obj.getJSONObject("apps_t"); 
-			if(apps_t != null && apps_t.has("apps_o")) {
-				JSONArray apps_o = apps_t.getJSONArray("apps_o"); 
-				if(apps_o != null) {
-					List<IgrpPLSQLApp> allApps = new Gson().fromJson(apps_o.toString(), new TypeToken<List<IgrpPLSQLApp>>() {}.getType()); 
-					for(IgrpPLSQLApp app : allApps) { 
-						if(app.getAvailable().equals("yes")) 
-							allowApps.add(app);
-						else 
-							denyApps.add(app);
-					}
-				}
-			}
-			
-		}catch(Exception e) {
-			//e.printStackTrace(); 
-		}
-	}
-	
-	public static class IgrpPLSQLApp {
-		private String id;
-		private String name;
-		private String dad;
-		private String description;
-		private String img_src;
-		private String link;
-		private String available;
-		
-		public String getAvailable() {
-			return available;
-		}
-		public void setAvailable(String available) {
-			this.available = available;
-		}
-		public String getId() {
-			return id;
-		}
-		public void setId(String id) {
-			this.id = id;
-		}
-		public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
-		public String getDad() {
-			return dad;
-		}
-		public void setDad(String dad) {
-			this.dad = dad;
-		}
-		public String getDescription() {
-			return description;
-		}
-		public void setDescription(String description) {
-			this.description = description;
-		}
-		public String getImg_src() {
-			return img_src;
-		}
-		public void setImg_src(String img_src) {
-			this.img_src = img_src;
-		}
-		public String getLink() {
-			return link;
-		}
-		public void setLink(String link) {
-			this.link = link;
-		}
-		
-		@Override
-		public String toString() {
-			return "IgrpPLSQLApp [id=" + id + ", name=" + name + ", dad=" + dad + ", description=" + description
-					+ ", img_src=" + img_src + ", link=" + link + ", available=" + available + "]";
+	private void getAllApps(List<App> allowApps /*INOUT var*/, List<App> denyApps  /*INOUT var*/) {
+		Properties properties =  this.configApp.getMainSettings(); 
+		String baseUrl = properties.getProperty(IGRP_PDEX_APPCONFIG_URL); 
+		String token = properties.getProperty(IGRP_PDEX_APPCONFIG_TOKEN); 
+		AppConfig appConfig = new AppConfig(); 
+		appConfig.setUrl(baseUrl);
+		appConfig.setToken(token);
+		List<App> allApps = appConfig.userApps(Core.getCurrentUser().getEmail()); 
+		for(App app : allApps) { 
+			if(app.getAvailable().equals("yes")) 
+				allowApps.add(app);
+			else 
+				denyApps.add(app);
 		}
 	}
 	
@@ -697,25 +605,19 @@ public class EnvController extends Controller {
 		String url = null;
 		try { 
 			String contextName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName(); 
-			if(env != null && !contextName.equalsIgnoreCase(env.getUrl())) { 
-				
-				Properties settings =  ConfigApp.getInstance().loadConfig("common", "main.xml"); 
-				url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
-				String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
-				String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
-				
-				url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrpweb&redirect_uri=" + redirect_uri; 
-				
+			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !contextName.equalsIgnoreCase(env.getUrl())) {
+				url = this.configApp.getAutentikaUrlForSso(); 
 				url = url.replace("state=igrpweb", "state=" + env.getDad()); 
-				
 				url = url.replace("/IGRP/", "/" + env.getUrl() + "/"); 
 			}
-			
 		} catch (Exception e) { 
 		}
 		
 		return url;
 	}
 	
+	
+	private final String IGRP_PDEX_APPCONFIG_URL = "igrp.pdex.appconfig.url";
+	private final String IGRP_PDEX_APPCONFIG_TOKEN = "igrp.pdex.appconfig.token";
 	/*----#end-code----*/
 }

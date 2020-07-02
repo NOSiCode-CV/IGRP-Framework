@@ -1,10 +1,14 @@
 (function(){
+	
+	var config = GIS.module('Config');
 
 	GIS.module('Widget', function(app, options){
 		
 		var widget    = this,
 			
 			Templates = GIS.module('Templates'),
+			
+			Utils 	  = GIS.module('Utils'),
 			
 			events	  = new $.EVENTS(['activate','deactivate','load-html', 'ready']),
 			
@@ -13,7 +17,7 @@
 			_htmlRequest = false;
 		
 		widget.html = "";
-		
+				
 		widget.on = events.on;
 		
 		widget.map = app;
@@ -35,7 +39,13 @@
 			trigger : events.execute
 				
 		};
-
+		
+		widget.templateParams = {};
+		
+		var initialConfig = config.getOptions(options.type)
+		
+		options = $.extend(initialConfig, options);	
+		
 		widget.action = function(name, fnc){
 			
 			if(!widget.actions[name])
@@ -53,7 +63,7 @@
 		};
 		
 		widget.activateStep = function(id){
-			
+						
 			if(widget.steps[id])
 				
 				widget.steps[id].activate();
@@ -84,6 +94,18 @@
 			
 		};
 		
+		widget.loading = function (v){
+			
+			if(v)
+				
+				widget.html.addClass('loading');
+			
+			else
+				
+				widget.html.removeClass('loading');
+			
+		};
+		
 		widget.activate = function(){
 			
 			if(widget.options.html){
@@ -111,9 +133,7 @@
 							events.execute('load-html', widget.html);
 
 							OpenWidgetPanel();
-							
-							
-							
+														
 						}
 					});
 					
@@ -137,6 +157,42 @@
 			CloseWidgetPanel();
 			
 		};
+		
+		
+		widget.setTemplateParams = function(object){
+			
+			for( var key in object ){
+				
+				var value = object[key];
+				
+				widget.templateParams[key] = value;
+				
+			}
+			
+			$('[widget-template]',widget.html).each(function(i,e){
+				
+				var tempName = $(this).attr('widget-template'),
+				
+					template = widget.templates[tempName],
+				
+					result 	 = Utils.templates.render( template, widget.templateParams );
+				
+				$(e).replaceWith( result );
+				
+			});
+			
+		
+		}
+		
+		widget.setTemplateParam = function(tempName, v){
+			
+			var template = widget.templates[tempName];
+			
+				result 	 = Utils.templates.render( template, v );
+						
+			$('[widget-template='+tempName+']').replaceWith( result );
+			
+		}
 		
 		widget.setMenu = function(arr){
 			
@@ -278,7 +334,7 @@
 							widgetExtension.init(widget, app);
 						
 						};
-
+						
 					if(widgetExtension.dependencies)
 						
 						LoadDependencies( widgetExtension.dependencies,  initWidget);
@@ -306,15 +362,15 @@
 			if(dependencies.js && dependencies.js[0]){
 				
 				var jsDependenciesReq = [];
-				
+								
 				dependencies.js.forEach(function(js){
-					
-					jsDependenciesReq.push($.getScript( js ));
-					
+												
+					jsDependenciesReq.push($.getScript( js ));					
+						
 				});
 				
 				$.when.apply($, jsDependenciesReq).then( function(){
-					
+										
 					Ready( callback );
 					
 				} );
@@ -407,7 +463,7 @@
 			step.activate = function(){
 				
 				EvaluateStepsRules();
-	
+					
 				if(!rule){
 					
 					$steps.not('[step-when]').not(html).each(function(){
@@ -426,6 +482,7 @@
 				}
 
 			};	
+			
 			
 			if(trigger){
 				

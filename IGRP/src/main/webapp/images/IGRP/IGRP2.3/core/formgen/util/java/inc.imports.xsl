@@ -200,6 +200,8 @@
 						
 					</xsl:variable>
 					
+					<xsl:value-of select="$newline"></xsl:value-of>
+					
 					<xsl:text>import java.util.ArrayList;</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
@@ -208,8 +210,16 @@
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
+					<xsl:text>import java.util.stream.Collectors;</xsl:text>
+					
+					<xsl:value-of select="$newline"></xsl:value-of>
+					
 					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.pages.</xsl:text><xsl:value-of select="$pagelow"/><xsl:text>.</xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$grafico"/><xsl:text>;</xsl:text>
 	
+					<xsl:value-of select="$newline"></xsl:value-of>
+					
+					<xsl:text>import java.util.Map;</xsl:text>
+					
 				</xsl:when>
 	
 				<xsl:when test="@type = 'dao'">
