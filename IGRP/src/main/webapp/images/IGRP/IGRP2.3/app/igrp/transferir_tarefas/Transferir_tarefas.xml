@@ -48,7 +48,7 @@
         </sectionheader_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <novo_utilizador name="p_novo_utilizador" type="lookup" action="index" page="LookupListUser" app="igrp" lookup_type="LOOKUP" class="primary" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" lookup_eraser="false" desclabel="false">
+                <novo_utilizador name="p_novo_utilizador" type="lookup" action="index" page="LookupListUser" app="igrp" lookup_type="LOOKUP" class="primary" maxlength="255" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" lookup_eraser="false" desclabel="false">
                     <label>Novo Utilizador</label>
                     <value/>
                     <lookup>../images/IGRP/IGRP2.3/app/igrp/lookuplistuser/LookupListUser.xml</lookup>
@@ -60,50 +60,12 @@
                 </novo_utilizador>
                 <email_do_utilizador name="p_email_do_utilizador" type="text" maxlength="250" required="false" change="false" readonly="true" disabled="true" placeholder="" desclabel="false" right="false">
                     <label>Email do utilizador</label>
-                    <value>Stract doloremque adipiscing aperiam voluptatem</value>
+                    <value>Labore consectetur rem ipsum rem</value>
                 </email_do_utilizador>
                 <hidden name="p_id_utilizador" type="hidden" maxlength="30" java-type="Integer" tag="id_utilizador"/>
                 <hidden name="p_id" type="hidden" maxlength="100" java-type="String" tag="id"/>
             </fields>
         </form_1>
-        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
-            <fields>
-                <detalhes_de_processo name="p_detalhes_de_processo" type="separator" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Detalhes de Processo</label>
-                </detalhes_de_processo>
-                <numero_processo name="p_numero_processo" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Número Processo</label>
-                    <value>Magna natus elit laudantium magna</value>
-                </numero_processo>
-                <criado_por_ name="p_criado_por_" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Criado Por </label>
-                    <value>Sit rem anim voluptatem sit</value>
-                </criado_por_>
-                <data_inicio name="p_data_inicio" type="date" range="false" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Data Início</label>
-                    <value>03-03-2012</value>
-                </data_inicio>
-                <detalhes_de_tarefa name="p_detalhes_de_tarefa" type="separator" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Detalhes de Tarefa</label>
-                </detalhes_de_tarefa>
-                <tipo_processo name="p_tipo_processo" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Tipo Processo</label>
-                    <value>Elit doloremque aliqua dolor lorem</value>
-                </tipo_processo>
-                <descricao_de_tarefa name="p_descricao_de_tarefa" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Descrição de Tarefa</label>
-                    <value>Adipiscing labore amet perspiciatis elit</value>
-                </descricao_de_tarefa>
-                <n_tarefa name="p_n_tarefa" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Nº Tarefa</label>
-                    <value>Natus labore lorem doloremque elit</value>
-                </n_tarefa>
-                <atribuido_a name="p_atribuido_a" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Atribuido à</label>
-                    <value>Ut lorem amet perspiciatis aperiam</value>
-                </atribuido_a>
-            </fields>
-        </view_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar" refresh_components="">
                 <title>Gravar</title>
@@ -115,6 +77,44 @@
                 <preview>../images/IGRP/IGRP2.3/app/igrp/transferir_tarefas/Transferir_tarefas.xml</preview>
             </item>
         </toolsbar_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <detalhes_de_processo name="p_detalhes_de_processo" type="separator" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Detalhes de Processo</label>
+                </detalhes_de_processo>
+                <numero_processo name="p_numero_processo" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Número Processo</label>
+                    <value>Adipiscing aperiam sit anim ipsum</value>
+                </numero_processo>
+                <criado_por_ name="p_criado_por_" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Criado Por </label>
+                    <value>Aperiam perspiciatis magna mollit elit</value>
+                </criado_por_>
+                <data_inicio name="p_data_inicio" type="date" range="false" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Data Início</label>
+                    <value>03-02-2016</value>
+                </data_inicio>
+                <detalhes_de_tarefa name="p_detalhes_de_tarefa" type="separator" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Detalhes de Tarefa</label>
+                </detalhes_de_tarefa>
+                <tipo_processo name="p_tipo_processo" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Tipo Processo</label>
+                    <value>Sit totam deserunt stract consectetur</value>
+                </tipo_processo>
+                <descricao_de_tarefa name="p_descricao_de_tarefa" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Descrição de Tarefa</label>
+                    <value>Consectetur perspiciatis omnis aperiam iste</value>
+                </descricao_de_tarefa>
+                <n_tarefa name="p_n_tarefa" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Nº Tarefa</label>
+                    <value>Magna aliqua ut natus mollit</value>
+                </n_tarefa>
+                <atribuido_a name="p_atribuido_a" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Atribuido à</label>
+                    <value>Dolor stract mollit elit magna</value>
+                </atribuido_a>
+            </fields>
+        </view_1>
     </content>
     <blockly>
         <imports></imports>
