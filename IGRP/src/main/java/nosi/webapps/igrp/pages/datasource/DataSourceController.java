@@ -290,6 +290,11 @@ public class DataSourceController extends Controller {
 	}
 	
 	public List<Field> getDefaultFields(){
+		User currentUser = Core.getCurrentUser(); 
+		Application currentApp = Core.getCurrentApp(); 
+		Integer currentOrgId = Core.getCurrentOrganization(); 
+		Integer currentProf = Core.getCurrentProfile(); 
+		
 		List<Field> fields = new ArrayList<>();
 		Field data_atual = new TextField(null, "p_data_atual");
 		data_atual.setLabel(Core.gt("data atual"));
@@ -297,25 +302,25 @@ public class DataSourceController extends Controller {
 		
 		Field user_atual = new TextField(null,"p_user_atual");
 		user_atual.setLabel(Core.gt("user atual"));
-		user_atual.setValue(Core.getCurrentUser().getName());
+		user_atual.setValue(currentUser != null ? currentUser.getName() : "");
 		
 		Field email_atual = new TextField(null,"p_email_atual");
 		email_atual.setLabel(Core.gt("email atual"));
-		email_atual.setValue(Core.getCurrentUser().getEmail());
+		email_atual.setValue(currentUser != null ? currentUser.getEmail() : "");
 		
 		Field application = new TextField(null,"p_application");
 		application.setLabel(Core.gt("aplicação atual"));
-		application.setValue(Core.getCurrentApp().getName());
+		application.setValue(currentApp != null ? currentApp.getName() : "");
 
 		Field organization = new TextField(null,"p_organization");
 		organization.setLabel(Core.gt("orgânica atual"));
-		Organization org = new Organization().findOne(Core.getCurrentOrganization());
+		Organization org = new Organization().findOne(currentOrgId != null ? currentOrgId : -1);
 		if(org!=null)
 			organization.setValue(org.getName());
 
 		Field profile = new TextField(null,"p_profile");
 		profile.setLabel(Core.gt("perfil atual"));
-		ProfileType prof = new ProfileType().findOne(Core.getCurrentProfile()); 
+		ProfileType prof = new ProfileType().findOne(currentProf != null ? currentProf : -1); 
 		if(prof!=null)
 			profile.setValue(prof.getDescr());
 		
