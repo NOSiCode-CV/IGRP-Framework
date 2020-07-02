@@ -39,6 +39,8 @@ public class Transaction extends IGRPBaseActiveRecord<Transaction> implements Se
 	@Transient
 	private boolean isInserted;
 	
+	private Integer external; // null|0 -> default; 1 -> Transaction from GlobalAcl 
+	
 	public Transaction(){}
 	
 	public Transaction(String code, String descr, int status, Application application) {
@@ -96,6 +98,14 @@ public class Transaction extends IGRPBaseActiveRecord<Transaction> implements Se
 	public void setInserted(boolean isInserted) {
 		this.isInserted = isInserted;
 	}
+	
+	public Integer getExternal() {
+		return external;
+	}
+
+	public void setExternal(Integer external) {
+		this.external = external;
+	}
 
 	public boolean getPermission(String transaction) {
 		String sqlByProfile = "SELECT T.* FROM tbl_transaction T,tbl_profile P"
@@ -119,7 +129,7 @@ public class Transaction extends IGRPBaseActiveRecord<Transaction> implements Se
 					.addInt("org_fk", Core.getCurrentOrganization())
 					.addString("code", transaction)
 					.addString("type_user", "TRANS_USER")
-					.addInt("user_fk", Core.getCurrentUser().getId())
+					.addInt("user_fk", ( Core.isNotNull(Core.getCurrentUser()) ?  Core.getCurrentUser().getId() : -1))
 					.addString("code", transaction)
 					.addInt("prof_type_fk", Core.getCurrentProfile())
 					.addInt("org_fk", Core.getCurrentOrganization())

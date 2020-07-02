@@ -136,17 +136,24 @@ $('#active_selenium').on('click', function() {
 	 $('rows>content>*[type!=separatorlist][type!=formlist]', BlocklyXML).each(function(i, element) {
 			$(element).find('>fields>*').each(function(x, field) {
 			var tag = $(field).prop('tagName'),
+				tagg = $(field).attr('tag'),
 				type = $(field).attr('java-type') || $(field).attr('type'),
 				ChooseType = $(field).attr('type'),
 				key  = $(field).attr('iskey'),
 				domain = $(field).attr('domain'),
-				tagg = $(field).attr('tag'),
+				
 				multiple = $(field).attr('multiple'),
 				persist = $(field).attr('persist'),
+				range = $(field).attr('range'),
 				javaType = GetJavaType[type] || type || 'String';
 			if(multiple =="true")
 			{	
 				fields_model.push([ tag, 'String[]'+'::'+tag]);
+				addmodel++;
+			}
+			else if(range =="true")
+			{	
+				fields_model.push([ tag, 'String'+'::'+tag+'//range']);
 				addmodel++;
 			}
 			else if(javaType =="String" && persist =="true")
@@ -182,13 +189,13 @@ $('#active_selenium').on('click', function() {
 	 {
 		$('#toolbox').append(	
 			'<category id="model" name="Model '+PageTitle+'" colour="300" class="blocly-dynamic">'
-				 +'<block type="model_set" prev-statement="" next-statement="" coment="teste" color="300">'
+				 +'<block type="set_model" prev-statement="" next-statement="" coment="teste" color="300">'
 			 		+'<value name="value1" type="value" title="set model">'
 			 			+'<field type="dropdown" name="set_model" options="IGRP_BLOCKLY_DROPS.fields"></field>'
 			 			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/model_icon.svg"></field>'
 					+'</value>'
 				 +'</block>'
-				 +'<block type="model_get" output="" color="300">'
+				 +'<block type="get_model" output="" color="300">'
 				 	+'<value name="value1" type="dummy" title="get model">'
 				 		+'<field type="dropdown" name="get_model" options="IGRP_BLOCKLY_DROPS.fields"></field>'
 				 		+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/model_icon.svg"></field>'
@@ -340,19 +347,24 @@ $('#active_selenium').on('click', function() {
 			IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];
 			$(element).find('>fields>*').each(function(x, field) {
 				var tag = $(field).prop('tagName'),
+					tagg = $(field).attr('tag'),
 					type = $(field).attr('java-type') || $(field).attr('type'),
 					ChooseType = $(field).attr('type'),
 					key  = $(field).attr('iskey'),
 					domain = $(field).attr('domain'),
-					tagg = $(field).attr('tag'),
 					multiple = $(field).attr('multiple'),
 					persist = $(field).attr('persist'),
+					range = $(field).attr('range'),
 					javaType = GetJavaType[type] || type || 'String';
 				if(multiple =="true")
 				{
 					fields_model_form.push([ tag, 'String[]'+'::'+tag]);
-					IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push( [ tag, 'String[]'+ '::'+tag] );
-					addmodel++;
+					IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push([tag, 'String[]'+ '::'+tag]);
+				}
+				else if(range =="true")
+				{	
+					fields_model_form.push([ tag, 'String'+'::'+tag+'//range']);
+					IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push([tag, 'String'+'::'+tag+'//range']);
 				}
 				else if(tag == "hidden")
 				{
@@ -379,7 +391,7 @@ $('#active_selenium').on('click', function() {
 						+'<sep class="blocly-dynamic"></sep>'
 						);
 				}		
-				var getFormlistBlock = function(){
+				var getFormBlock = function(){
 					var rtn = '',
 						first = true;
 					IGRP_BLOCKLY_DROPS.tablesTest[form].forEach(function(f, fi){
@@ -412,12 +424,13 @@ $('#active_selenium').on('click', function() {
 								+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
 							+'</value>'
 							+'<value type="value" name="get_pa">'
-								+'<field type="text" options="by"></field>'
+								+'<field type="text" options="find"></field>'
 							+'</value>'
 							+'<value name="value2" type="statement" >'
-								+getFormlistBlock()
+								+getFormBlock()
 							+'</value>'
 						+'</block>'
+						
 						+'<block type="save_formu_'+form+'" mutator="separatori" color="180"  prev-statement="" next-statement="" inline="true">'
 							+'<value type="dummy">'
 								+'<field type="text" options="save '+form+'"></field>'
@@ -429,6 +442,7 @@ $('#active_selenium').on('click', function() {
 							+'<value name="value2" type="statement" >'
 							+'</value>'
 						+'</block>'
+						
 						+'<block type="mod_form'+form+'" output="" color="300">'
 							+'<value type="dummy" title="get model" name="value1">'
 								+'<field type="dropdown" name="get_model" options="IGRP_BLOCKLY_DROPS.tablesTest.'+form+'"></field>'
@@ -659,7 +673,7 @@ $('#active_selenium').on('click', function() {
 							+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
 						+'</value>'
 						+'<value type="value" name="get_pa">'
-							+'<field type="text" options="by"></field>'
+							+'<field type="text" options="find"></field>'
 						+'</value>'
 						+'<value name="value2" type="statement" >'
 						+getViewBlock()
@@ -772,17 +786,26 @@ $('#active_selenium').on('click', function() {
 				);
 			}
 			$('#dashboard').append(	
+					
 					'<category id="'+char+'" name="'+char+'" colour="120" class="blocly-dynamic">'
-					+'<block type="grafico_'+char+'" color ="120" prev-statement="" next-statement="" >'
-						+'<value name="value1" type="dummy" >'
-							+'<field type="text" options="fill '+char+'"></field>'
-							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
-							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
-							+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-						+'</value>'
-						+'<value name="eixoX"  title="Eixo X" type="value"></value>'
-						+'<value name="eixoY"  title="Eixo Y" type="value"></value>'
-					+'</block>'
+						+'<block type="grafico_'+char+'" color ="120" mutator="where" prev-statement="" next-statement=""  inline="true">'
+							+'<value name="value1" type="dummy" >'
+								+'<field type="text" options="fill '+char+'"></field>'
+								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
+								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
+								+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							+'</value>'
+							+'<value name="value2" type="statement">'
+								+'<block type="EixoX" color ="300" prev-statement="" next-statement="">'
+									+'<value name="eixo"  title="Eixo X" type="value"></value>'
+										+'<next>'
+											+'<block type="EixoY" color ="300" prev-statement="" next-statement="">'
+												+'<value name="eixo"  title="Eixo Y" type="value"></value>'
+											+'</block>'	
+										+'</next>'
+								+'</block>'	
+							+'</value>'
+						+'</block>'
 					+'</category>'
 				+'</category>'
 			);
@@ -805,7 +828,7 @@ $('#active_selenium').on('click', function() {
 		{
 			$('#toolbox').append(
 					'<category id="dao" name="DAO" colour="160" class="blocly-dynamic">'
-							+'<block type="index_editar" color ="160" mutator="where" prev-statement="" next-statement="" inline="true">'
+						/*	+'<block type="index_editar" color ="160" mutator="where" prev-statement="" next-statement="" inline="true">'
 								+'<value type="dummy" >'
 									+'<field type="text" options="fill model"></field>'
 									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
@@ -824,17 +847,29 @@ $('#active_selenium').on('click', function() {
 									 +'</block>'
 								+'</value>' 
 							+'</block>'
-							+'<block type="inserir_dao" mutator="separatori" color ="160" prev-statement="" next-statement="" inline="true">'
-								+'<value type="dummy" title="save">'
+							*/
+							+'<block type="insert_simple_dao" color ="160" prev-statement="" next-statement="" inline="true">'
+								+'<value type="dummy" title="insert">'
 									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/right-arrow.svg"></field>'
 									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 									+'<field type="text" options="DAO"></field>'
 									+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-									+'<field type="checkbox" name="EDIT" title="edit?" options="FALSE" update-shape="true"></field>'
 								+'</value>'
 								+'<value name="value2" type="statement">'
 								+'</value>'
 							+'</block>'
+							+'<block type="update_simple_dao" color ="160" prev-statement="" next-statement="" inline="true">'
+							+'<value type="value" name="param_edit" title="update">'
+								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/right-arrow.svg"></field>'
+								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
+								+'<field type="text" options="DAO"></field>'
+								+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+								+'<field type="text" options="find"></field>'
+							+'</value>'
+							+'<value name="value2" type="statement">'
+							+'</value>'
+						+'</block>'
+							
 							+'<block type="param_foreign" output="" color="160" class="blocly-dynamic">'
 								+'<value name="value1" type="value"  title="get foreign-key">'
 									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/foreign-icon.svg"></field>'
@@ -902,8 +937,8 @@ $('#active_selenium').on('click', function() {
 			$('#'+daos+'').append(
 				'<block type="set-dao-'+daos+'" igrp="tete" color="160"  prev-statement="" next-statement="" class="blocly-dynamic">'
 					+'<value name="value1" type="value" title="set '+daos+'">'
-						+'<field type="dropdown" name="fields" options="IGRP_BLOCKLY_DROPS.daos.'+daos+'"></field>'
-						+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
+//						+'<field type="dropdown" name="fields" options="IGRP_BLOCKLY_DROPS.daos.'+daos+'"></field>'
+//						+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 					+'</value>'
 				+'</block>\n');
 			$('#'+daos+'').append(

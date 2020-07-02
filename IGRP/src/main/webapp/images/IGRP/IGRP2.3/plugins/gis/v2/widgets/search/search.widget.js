@@ -1,27 +1,33 @@
 (function(){
 	
-	var utils = GIS.module('utils');
+	var utils = GIS.module('Utils');
 	
 	function SearchWidget( widget, app ){
 		
-		var input, 
+		var input, check, txtCql, submitSearch, inputParent,
 		
 			Layers  = [],
+			
+			cqlFilters = '',
 			
 			data    = widget.data(),
 			
 			timeout = function(){};
+			
+		widget.activeFilter = false;			
 		
-		function Loading(v){
+		widget.templateParams = {
 			
-			if(v)
+			layers 		     : [],
+			
+			total  	      	 : 0,
+ 	 		
+ 	 		noResultsMessage : 'Não foram encontrados resultados.',
+ 	 		
+ 	 		searchResults 	 : [],
+ 	 		
+ 	 		layerAttributes  : []
 				
-				widget.html.addClass('loading');
-			
-			else
-				
-				widget.html.removeClass('loading');
-			
 		};
 		
 		function ClearResults(){
@@ -39,27 +45,23 @@
 		function SetResults(results){
 			
 			try{
-	
-				var template 	 = Handlebars.compile(widget.templates.results),
-				
-			 	 	resultsHtml = template({
-			 	 		
-			 	 		total  	      : results.length,
-			 	 		
-			 	 		noResultsMessage : 'Não foram encontrados resultados.',
-			 	 		
-			 	 		searchResults : results
-			 	 		
-			 	 	});
-				
+
+				widget.setTemplateParam('results', {
+					
+					total  	      	 : results.length,
+		 	 		
+		 	 		noResultsMessage : 'Não foram encontrados resultados.',
+		 	 		
+		 	 		searchResults 	 : results
+					
+				});
+								
 				ClearResults();
-	 
-				$('.search-widget-results', widget.html).replaceWith( resultsHtml );
 				 
 				$('.search-widget-results', widget.html).show();
 				
 				$('.search-clear', widget.html).show();
-				
+								
 			}catch(err){
 				
 				console.log(err)
@@ -72,19 +74,24 @@
 			
 			var val = input.val();
 			
-			if( val && val.length >= 1){
+			GetLayers();
+			
+			getCqlFilter();
+							
+			if( (val && val.length >= 1 || cqlFilters ) && Layers.length >= 1){
 				
 				var reqs    = [],
 				
 					Results = [];
 				
+				////cql_filter
 				Layers.forEach(function(l){
-					
+										
 					var layer  = l.layer,
 					
 						attributes = l.attributes,
 
-						req = layer.query({ attributes : attributes, value : val });
+						req = layer.query({ attributes : attributes, value : val, cql : cqlFilters });
 					
 					req.then(function(f){
 						
@@ -117,8 +124,8 @@
 					SetResults( Results );
 			
 				}).always(function(v){
-
-					Loading(false);
+					
+					widget.loading(false);
 					
 				});
 				
@@ -126,7 +133,7 @@
 				
 				ClearResults();
 				
-				Loading(false);
+				widget.loading(false);
 				
 			}
 
@@ -152,6 +159,10 @@
 		
 		function GetLayers(){
 			
+			var layer_id = $('select#layers-select').val(),
+			
+			    attributes = $('select#layer-atts-select').val();
+			
 			if(data){
 				
 				if(data.layers && data.layers[0]){
@@ -176,11 +187,145 @@
 				
 			}
 			
+			Layers = [];
+			
+			var layer = app.layers.get( layer_id );
+									
+			if(layer && (attributes.length >= 1 || isSearchAdvanced() )){
+				
+				Layers.push({
+					
+					layer : layer,
+					
+					attributes : attributes
+					
+				});
+				
+			}
+			
+		};
+		
+		function LoadFields(){
+			
+			var _layers = [],
+			
+				_grouplayers = app.layers.getLayers();
+						
+			_grouplayers.forEach(function(l){
+				
+				var layer  =  l.data();
+				
+				_layers.push({
+					name : layer.name,
+					id   : layer.id
+				});
+				
+			});
+			
+			try{
+				
+				widget.setTemplateParams( {
+					
+					'layers': _layers
+					
+				} );
+				
+			}catch(err){
+				
+				console.log(err)
+				
+			}
+		};
+		
+		function AttributesToSelect(json){
+			
+			var attributes = [];
+			
+			for(var key in json){
+				
+	            attributes.push({
+	            	
+	            	id : key,
+	            	
+	            	name : key.toUpperCase()
+	            	
+	            });
+	            
+	        }
+			
+			return attributes;
+		};
+		
+		function isSearchAdvanced(){
+			
+			return check.is(":checked");
+			
+		}
+		
+		function genCqlFilter(v){
+			
+			if (!v) return '';
+			
+			var value = txtCql.val() +' '+ v;
+			 
+			txtCql.val(value);
+		};
+		
+		function getCqlFilter(){
+			
+			var teste = '',
+				
+				attrReplaced = [];
+			
+			cqlFilters = " " + txtCql.val();
+			
+			if (isSearchAdvanced()){
+				
+				Layers.forEach(function(l){
+					
+					var attributes = l.layer.Description.attributes;
+										
+					for(var attr in attributes){
+						
+						if(attrReplaced.indexOf(attr) == -1 && cqlFilters.includes(attr))
+														
+							cqlFilters = cqlFilters.replace(" "+attr+" ", ' strToLowerCase('+attr+') ');
+						
+					};
+										
+				});
+				
+			}
+						
+		};
+				
+		function clearSearch(){
+			
+			input.val('').trigger('keyup');
+			
+			input[0].focus();
+			
+			txtCql.val('');
+			
+			//ClearResults();
+			
 		};
 		
 		function SetEvents(){
 			
-			input = $('input',widget.html);
+			input = $('.search-input-wrapper input', widget.html);
+			
+			inputParent = $('.search-input-wrapper', widget.html);
+			
+			check = $('#search-ckeck-advanced :checkbox', widget.html);
+			
+			checkParent = $('#search-ckeck-advanced', widget.html);
+			
+			txtCql = $('#search-txt-cql textarea', widget.html);
+
+			submitSearch= $('#search-form-submit', widget.html);
+						
+			if(!data.advanced) checkParent.hide();
 			
 			widget.html.on('click', '.search-item', function(){
 				
@@ -225,45 +370,129 @@
 			});
 			
 			input.on('keyup', function(){
-				
+	
 				clearTimeout(timeout);
-			    	
+
 				timeout = setTimeout(Search, 600 );
 				
-				Loading(true);
+				widget.loading(true);
 				
 			});
+			
+			
+			widget.action("search", function(){
+				
+				clearTimeout(timeout);
+
+				timeout = setTimeout(Search, 600 );
+				
+				widget.loading(true);
+				
+			})
 			
 			$('.search-clear', widget.html).on('click', function(){
 				
-				input.val('').trigger('keyup');
+				clearSearch();
+								
+			});
+			
+			submitSearch.on('click', function(){				
 				
-				input[0].focus();
+				clearTimeout(timeout);
+
+				timeout = setTimeout(Search, 600 );
 				
-				//ClearResults();
+				widget.loading(true);
 				
 			});
 			
-			/*$(document).on('mouseup',function(e) {
-			    
-				var container = widget.html;
+			widget.html.on('change', 'select#layers-select',function(){
+				
+				var val = $(this).val();
+				
+				$('#layer-atts-select', widget.html).hide();
+								
+				if (!val) return;
+						
+				var layer       = app.layers.get(val)
+				
+					_attributes = layer.Description.attributes,
+					
+					attributes  = [];				
+			
+				attributes = AttributesToSelect(_attributes);
+								
+				widget.setTemplateParam('attributes', {
+					
+					'layerAttributes': attributes
+					
+				});
+				
+				$('#layer-atts-select', widget.html).show();	
+								
+			});
+			
+			check.on('change', function(){
+				
+				inputParent.show();
+		    	
+		    	clearSearch();
+		    	
+				if (this.checked) {
+					 					 
+					 inputParent.hide();
+					 
+					 widget.activeFilter = true;
+					 
+					 widget.steps.filter.activate();
 
-			    if (!container.is(e.target) && container.has(e.target).length === 0)
-			        
-			    	ClearResults();
-			 
-			});*/
-
+			    }else{
+			    	
+			    	$("#search-form-advanced").removeClass('active');
+			    	
+			    	widget.activeFilter = false;
+			    	
+			    }
+			});
+						
+			widget.html.on('click', '#search-grid-operators button',function(){
+								 
+				 genCqlFilter($(this).data('operator'));
+				 				 				 
+			});
+			
+			widget.html.on('click', 'select#layer-atts-select',function(){
+				
+				if(isSearchAdvanced()){
+					
+					genCqlFilter($(this).val());
+					
+				}
+			});
+			
 		};
+		
 		
 		(function(){
 			
-			widget.on( 'load-html', SetEvents );
+			widget.on( 'activate', function(){
+								
+				SetEvents();
+				
+				LoadFields();
+								
+			});
 			
-			widget.on( 'deactivate', UnHighLightFeatures)
-			
-			GetLayers();
-			
+			widget.on( 'deactivate', function(){
+				
+				UnHighLightFeatures();
+				
+				clearSearch();
+				
+				check.trigger("click");
+				
+			})
+									
 		})();
 		
 	}

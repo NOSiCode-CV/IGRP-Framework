@@ -59,19 +59,19 @@
 		},
 		
 		cql : function (layer,o){
-			
+						
 			var attributes   = o.attributes || [],
 			
 				value  		 = o.value || '',
 				
 				queryRequest = null,
 				
-				cql    		 = '';
+				cql    		 = o.cql || '';
 			
 			if(layer){
 
 				if(value){
-					
+										
 					for(var i=0; i < attributes.length; i++){
 						
 						var attr 	   = attributes[i],
@@ -80,7 +80,7 @@
 							
 							comparison = isNumber ? "LIKE '%"+value+"%'" : "LIKE '%"+value.toLowerCase()+"%'",
 									
-							attr       = isNumber ? attr : "strToLowerCase("+attr+")";
+							attr       = /*isNumber ? attr :*/ "strToLowerCase("+attr+")";
 						
 						cql+= attr +' '+ comparison;
 						
@@ -88,15 +88,15 @@
 							
 							cql+= ' OR '
 					}
-					
+				}
+				
+				if(cql){
 					var queryOptions = Query.getQueryOptions( layer,{
 						
 						cql_filter : cql
 						
 					});
-					
-					console.log(queryOptions);
-					
+										
 					queryRequest = $.get( queryOptions.url, queryOptions.options );
 					
 				}	

@@ -1,12 +1,57 @@
-.gis-widget-wrapper[widget-type="search"]{
-
-	background: rgba(255, 255, 255, 0.9)
-}
-
 .search-input-wrapper{
-	position:Relative;
+	position:relative;
 }
-.gis-widget-wrapper[widget-type="search"] input{
+
+.gis-widget-wrapper[widget-type="search"] .form-group{
+    margin-bottom: 8px;
+}
+
+.gis-widget-wrapper[widget-type="search"] #search-widget-form{
+	background-color: white;
+    padding: 10px;
+}
+
+/*Pesquisa Avancado*/
+.gis-widget-wrapper[widget-type="search"] #search-ckeck-advanced input{
+    margin: 0;
+    width: 15px;
+    height: 15px
+}
+
+.gis-widget-wrapper[widget-type="search"] #search-ckeck-advanced label{
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    margin-bottom: 0;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 300;
+}
+
+.gis-widget-wrapper[widget-type="search"] #search-grid-operators button{
+	margin: 2px;
+	width: 37px;
+}
+
+.gis-widget-wrapper[widget-type="search"] #search-txt-cql textarea{
+	width: 100%;
+	font-size: 20px;
+}
+
+.gis-widget-wrapper[widget-type="search"] #search-form-submit{
+	font-size: 10px;
+    text-transform: uppercase;
+    padding: 4px 6px;
+}
+
+
+.gis-widget-wrapper[widget-type="search"] #search-form-submit span{
+	margin-left: 5px;
+}
+
+
+/*Pesquisa Input default*/
+.gis-widget-wrapper[widget-type="search"] .search-input-wrapper input{
 	position:relative;
 	z-index:1;
 	height:38px;
@@ -19,6 +64,11 @@
 	outline:0;
 	transition:opacity .2s;
 }
+
+.gis-widget-wrapper[widget-type="search"] .search-input-wrapper .input-group-addon i{
+	pointer-events: none;
+}
+
 
 /* accordion */
 .gis-widget-wrapper[widget-type="search"] .panel-group,

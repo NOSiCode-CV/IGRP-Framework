@@ -10,6 +10,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.JarUnJarFile;
 import nosi.core.webapp.import_export_v2.common.OptionsImportExport;
 import nosi.core.webapp.import_export_v2.imports.application.ApplicationImport;
+import nosi.core.webapp.import_export_v2.imports.bpmn.BPMNTipoDocEtapaImport;
 import nosi.core.webapp.import_export_v2.imports.bpmn.BpmnImport;
 import nosi.core.webapp.import_export_v2.imports.connection.ConnectionImport;
 import nosi.core.webapp.import_export_v2.imports.dao.DaoImport;
@@ -82,6 +83,10 @@ public class ImportHelper {
 			transation.deserialization(this.getJsonContent(OptionsImportExport.TRANSATION.getFileName()));
 			imp.add(transation);
 			
+			ConnectionImport conn = new ConnectionImport(application);
+			conn.deserialization(this.getJsonContent(OptionsImportExport.CONNECTION.getFileName()));
+			imp.add(conn);
+			
 			ReportImport report = new ReportImport(application);
 			report.deserialization(this.getJsonContent(OptionsImportExport.REPORT.getFileName()));
 			imp.add(report);
@@ -89,11 +94,6 @@ public class ImportHelper {
 			BpmnImport bpmn = new BpmnImport(application);
 			bpmn.deserialization(this.getJsonContent(OptionsImportExport.BPMN.getFileName()));
 			imp.add(bpmn);
-			
-			ConnectionImport conn = new ConnectionImport(application);
-			conn.deserialization(this.getJsonContent(OptionsImportExport.CONNECTION.getFileName()));
-			imp.add(conn);
-		
 			
 			DomainImport domain = new DomainImport(application);
 			domain.deserialization(this.getJsonContent(OptionsImportExport.DOMAIN.getFileName()));
@@ -106,6 +106,10 @@ public class ImportHelper {
 			ServicesImport service = new ServicesImport(application);
 			service.deserialization(this.getJsonContent(OptionsImportExport.SERVICE.getFileName()));
 			imp.add(service);
+			
+			BPMNTipoDocEtapaImport bpmnTipoDocEtapaImport = new BPMNTipoDocEtapaImport(application);
+			bpmnTipoDocEtapaImport.deserialization(this.getJsonContent(OptionsImportExport.BPMN_DOCUMENT_TYPE.getFileName()));
+			imp.add(bpmnTipoDocEtapaImport);
 			
 			imp.execute();
 			imp.compile(app.getApplication());			

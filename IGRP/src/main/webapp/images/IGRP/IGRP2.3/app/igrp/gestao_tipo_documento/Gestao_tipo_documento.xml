@@ -48,7 +48,7 @@
         </sectionheader_1>
         <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -69,6 +69,19 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules>
+                        <rule type="remote_list">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_aplicacao</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
+                    <validations>
+                        <validation>
+                            <annotation>@NotNull</annotation>
+                        </validation>
+                    </validations>
                 </aplicacao>
                 <ativo name="p_ativo" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="false" java-type="Integer" switch="true" check="true">
                     <label>Ativo?</label>
@@ -80,27 +93,27 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nome</label>
-                    <value>Mollit perspiciatis sit rem dolor</value>
+                    <value>Iste ipsum stract totam sed</value>
                 </nome>
                 <codigo name="p_codigo" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Codigo</label>
-                    <value>Dolor natus sit magna sed</value>
+                    <value>Sed deserunt stract sit sit</value>
                 </codigo>
                 <descricao name="p_descricao" type="textarea" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Descrição</label>
-                    <value>Elit ipsum adipiscing stract accusantium elit mollit lorem totam perspiciatis accusantium ut unde aliqua iste</value>
+                    <value>Accusantium labore perspiciatis anim magna iste perspiciatis aliqua anim deserunt unde dolor laudantium sit adipiscing</value>
                 </descricao>
             </fields>
             <tools-bar>
-                <item type="form" code="" class="primary" rel="gravar" refresh_components="">
+                <item id="button_3c1a_01a3" type="form" code="" class="primary" rel="gravar" refresh_components="">
                     <title>Adicionar</title>
                     <app>igrp</app>
-                    <page>Dominio</page>
+                    <page>Gestao_tipo_documento</page>
                     <link>index</link>
-                    <parameter>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp/gestao_tipo_documento/Gestao_tipo_documento.xml?</parameter>
                     <target>submit_form</target>
                     <img>primary|fa-file-text</img>
-                    <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp/gestao_tipo_documento/Gestao_tipo_documento.xml</preview>
                 </item>
             </tools-bar>
         </novo>
@@ -130,24 +143,12 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <t_estado name="p_t_estado">2</t_estado>
-                        <t_aplicacao name="p_t_aplicacao">Deserunt amet unde adipiscing</t_aplicacao>
-                        <t_nome name="p_t_nome">Lorem laudantium totam dolorem</t_nome>
-                        <t_codigo name="p_t_codigo">Amet unde rem ut dolor</t_codigo>
-                        <t_descricao name="p_t_descricao">Adipiscing sit consectetur und</t_descricao>
-                        <id name="p_id" tag="id">hidden-a8ea_6f7b</id>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
                         <t_estado name="p_t_estado">1</t_estado>
-                        <t_aplicacao name="p_t_aplicacao">Anim rem doloremque ipsum dolo</t_aplicacao>
-                        <t_nome name="p_t_nome">Natus sit lorem natus officia</t_nome>
-                        <t_codigo name="p_t_codigo">Adipiscing unde mollit labore</t_codigo>
-                        <t_descricao name="p_t_descricao">Amet stract officia deserunt m</t_descricao>
-                        <id name="p_id" tag="id">hidden-924e_dc90</id>
+                        <t_aplicacao name="p_t_aplicacao">Sed adipiscing doloremque ipsu</t_aplicacao>
+                        <t_nome name="p_t_nome">Natus lorem doloremque iste de</t_nome>
+                        <t_codigo name="p_t_codigo">Accusantium dolor ipsum unde l</t_codigo>
+                        <t_descricao name="p_t_descricao">Mollit sed magna anim consecte</t_descricao>
+                        <id name="p_id" tag="id">hidden-809d_1b62</id>
                     </row>
                     <row>
                         <context-menu>
@@ -155,11 +156,11 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <t_estado name="p_t_estado">2</t_estado>
-                        <t_aplicacao name="p_t_aplicacao">Totam sed mollit anim voluptat</t_aplicacao>
-                        <t_nome name="p_t_nome">Doloremque officia perspiciati</t_nome>
-                        <t_codigo name="p_t_codigo">Sit totam accusantium lorem se</t_codigo>
-                        <t_descricao name="p_t_descricao">Magna labore iste consectetur</t_descricao>
-                        <id name="p_id" tag="id">hidden-4660_634c</id>
+                        <t_aplicacao name="p_t_aplicacao">Doloremque totam natus iste la</t_aplicacao>
+                        <t_nome name="p_t_nome">Sit dolor voluptatem elit unde</t_nome>
+                        <t_codigo name="p_t_codigo">Doloremque laudantium mollit s</t_codigo>
+                        <t_descricao name="p_t_descricao">Perspiciatis aperiam dolor sit</t_descricao>
+                        <id name="p_id" tag="id">hidden-ee31_70c9</id>
                     </row>
                     <row>
                         <context-menu>
@@ -167,23 +168,35 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <t_estado name="p_t_estado">2</t_estado>
-                        <t_aplicacao name="p_t_aplicacao">Accusantium laudantium dolorem</t_aplicacao>
-                        <t_nome name="p_t_nome">Accusantium iste stract aperia</t_nome>
-                        <t_codigo name="p_t_codigo">Doloremque ut officia doloremq</t_codigo>
-                        <t_descricao name="p_t_descricao">Iste rem stract consectetur si</t_descricao>
-                        <id name="p_id" tag="id">hidden-9eed_887a</id>
+                        <t_aplicacao name="p_t_aplicacao">Deserunt aliqua unde consectet</t_aplicacao>
+                        <t_nome name="p_t_nome">Adipiscing lorem officia amet</t_nome>
+                        <t_codigo name="p_t_codigo">Amet omnis voluptatem labore t</t_codigo>
+                        <t_descricao name="p_t_descricao">Laudantium consectetur dolorem</t_descricao>
+                        <id name="p_id" tag="id">hidden-6baa_191c</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <t_estado name="p_t_estado">1</t_estado>
-                        <t_aplicacao name="p_t_aplicacao">Aperiam officia laudantium ame</t_aplicacao>
-                        <t_nome name="p_t_nome">Voluptatem magna adipiscing si</t_nome>
-                        <t_codigo name="p_t_codigo">Laudantium anim perspiciatis r</t_codigo>
-                        <t_descricao name="p_t_descricao">Sed consectetur aperiam accusa</t_descricao>
-                        <id name="p_id" tag="id">hidden-8b21_1847</id>
+                        <t_estado name="p_t_estado">2</t_estado>
+                        <t_aplicacao name="p_t_aplicacao">Deserunt elit dolor amet adipi</t_aplicacao>
+                        <t_nome name="p_t_nome">Magna voluptatem aliqua lorem</t_nome>
+                        <t_codigo name="p_t_codigo">Mollit magna officia doloremqu</t_codigo>
+                        <t_descricao name="p_t_descricao">Adipiscing ipsum perspiciatis</t_descricao>
+                        <id name="p_id" tag="id">hidden-36f5_7fb3</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <t_estado name="p_t_estado">2</t_estado>
+                        <t_aplicacao name="p_t_aplicacao">Consectetur amet totam elit om</t_aplicacao>
+                        <t_nome name="p_t_nome">Laudantium unde magna deserunt</t_nome>
+                        <t_codigo name="p_t_codigo">Voluptatem totam ut totam offi</t_codigo>
+                        <t_descricao name="p_t_descricao">Sed totam voluptatem perspicia</t_descricao>
+                        <id name="p_id" tag="id">hidden-b527_2433</id>
                     </row>
                 </value>
                 <legend_color>
@@ -199,7 +212,7 @@
                     </item>
                 </legend_color>
                 <context-menu>
-                    <item type="specific" code="" class="warning" rel="editar" refresh_components="">
+                    <item id="button_f3a4_0ff8" type="specific" code="" class="warning" rel="editar" refresh_components="">
                         <title>Editar</title>
                         <app>igrp</app>
                         <page>Gestao_tipo_documento</page>
@@ -209,7 +222,7 @@
                         <img>warning|fa-pencil</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/gestao_tipo_documento/Gestao_tipo_documento.xml</preview>
                     </item>
-                    <item type="specific" code="" class="danger" rel="eliminar" refresh_components="">
+                    <item id="button_64e9_34fa" type="specific" code="" class="danger" rel="eliminar" refresh_components="">
                         <title>Eliminar</title>
                         <app>igrp</app>
                         <page>Gestao_tipo_documento</page>

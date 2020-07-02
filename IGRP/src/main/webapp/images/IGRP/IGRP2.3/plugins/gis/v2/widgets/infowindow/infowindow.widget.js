@@ -1,12 +1,16 @@
 (function(){
-
+   
 	function InfoWindowWidget(widget, app){
 		
-		var Utils  = GIS.module('Utils'),
+		var utils  = GIS.module('Utils'),
 		
 			data   = widget.data(),
 		
-			Layers = [];
+			Layers = app.layers.getLayers(),
+			
+			Layer  = null,
+			
+			pop    = null;
 		
 		function GetFeatureProperties(feature, wich){
 			
@@ -30,37 +34,53 @@
 			
 		};
 		
-		function SetWindowContent(feature, attributes){
+		function SetWindowContent(feature, attributes, area){
 			
-			var visibleAttrs = !attributes || attributes == '*' ? feature.properties : GetFeatureProperties(feature,attributes),
+			var visibleAttrs = !attributes || attributes == '*' ? feature.properties : GetFeatureProperties(feature, attributes);
+			
+			if(area) visibleAttrs.area_calculada = area;
 					
-				content 	 = Utils.feature.properties.toHTML( visibleAttrs );
+			var	content 	 = utils.feature.properties.toHTML( visibleAttrs );
 			
 			return content;
 			
 		};
 		
-		function GetLayers(){
+		function getArea(obj) {
 			
-			if(data && data.layers && data.layers[0]){
+			if(obj instanceof L.Marker || obj instanceof L.CircleMarker) return;
+			
+			var latLngs  =  obj.getLatLngs();
+						 			
+		    var area =  L.GeometryUtil.geodesicArea(latLngs[0][0]);
+	
+			return utils.L.Geometry.readableArea(area, 'metric');
+		  
+		};
+		
+		function onLayerClick(e){
+		
+			var feature = e.layer && e.layer.feature ? e.layer.feature : null,
 				
-				data.layers.forEach(function(l){
-					
-					var layer = app.layers.get( l.layer );
-					
-					if(layer){
-						
-						layer.on('click', function (e) {
-							
-							var feature = e.layer && e.layer.feature ? e.layer.feature : null;
-							
-							if(feature)
-						
-								var pop = L.popup().setLatLng(e.latlng).setContent( SetWindowContent(feature, l.attributes) ).openOn(app.viewer());
+			 	area = getArea(e.layer);
+									
+			if(feature)
+		
+				pop = L.popup().setLatLng(e.latlng).setContent( SetWindowContent(feature, Layer.attributes, area) ).openOn(app.viewer());
 
-						});
+		};
+		
+		function Enabled(){
+		
+			if(Layers){
+				
+				Layers.forEach(function(l){
+					
+					Layer = app.layers.get( l.id );
+					
+					if(Layer)
 						
-					}
+						Layer.on('click', onLayerClick, this);	
 					
 				});
 				
@@ -68,7 +88,44 @@
 			
 		};
 		
-		GetLayers();
+		function Disable(){
+			
+			if(Layers){
+				
+				Layers.forEach(function(l){
+					
+					var layer = app.layers.get( l.id );
+					
+					if(layer)
+						
+						layer.off('click', onLayerClick, this);
+						
+				});
+				
+			}
+			
+			if(pop)
+				
+				pop.remove();
+			
+		};
+		
+		
+		(function(){
+			
+			widget.on( 'activate', function(){
+				
+				Enabled();
+				
+			});
+			
+			widget.on( 'deactivate', function(){
+				
+				Disable();
+				
+			});
+									
+		})();
 		
 	};
 	

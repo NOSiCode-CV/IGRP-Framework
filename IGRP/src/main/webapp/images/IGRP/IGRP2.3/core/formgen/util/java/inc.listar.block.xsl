@@ -221,8 +221,12 @@
 			<xsl:variable name="wheretypechild" select="substring-before(value[@name=$value2Name]/block/field,'::')"/>
 			
 			<xsl:variable name="wheretype" select="substring-before(value[@name=$value1Name]/block/field,'::')"/>
+				
+			<xsl:variable name="wherevalue" select="substring-after(substring-before(value[@name=$value2Name]/block/field,'//'),'::')"/>
 			
-			<xsl:variable name="wherevalue" select="substring-after(value[@name=$value1Name]/block/field,'::')"/>
+			<xsl:variable name="wherevalue3" select="substring-after(substring-before(value[@name=$value3Name]/block/field,'//'),'::')"/>
+			
+			<xsl:variable name="whererange" select="substring-after(value[@name=$value2Name]/block/field,'//')"/>
 			
 			<xsl:variable name="filter">
 			
@@ -396,18 +400,66 @@
 				
 				<xsl:when test="$filter ='.andWhereBetween' or $filter ='.orWhereBetween'">
 				
-					<xsl:value-of select="$newlineTab1"/>
-				
-					<xsl:text>if(Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value2"/><xsl:text>) &amp;&amp; Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value3"/><xsl:text>)){</xsl:text>
-	
-					<xsl:value-of select="$newlineTab2"/>
+					<xsl:variable name="upvaluefield1">
+		
+						<xsl:call-template name="InitCap">
+						
+							<xsl:with-param name="text" select="$wherevalue"/>
+							
+						</xsl:call-template>
+						
+					</xsl:variable>
 					
-					<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="$value1"/><xsl:text>,</xsl:text><xsl:value-of select="$value2"/><xsl:text>,</xsl:text><xsl:value-of select="$value3"/><xsl:text>);</xsl:text>
+					<xsl:variable name="upvaluefield2">
+		
+						<xsl:call-template name="InitCap">
+						
+							<xsl:with-param name="text" select="$wherevalue3"/>
+							
+						</xsl:call-template>
+						
+					</xsl:variable>
 					
-					<xsl:value-of select="$newlineTab1"/>
+					<xsl:choose>
 					
-					<xsl:text>}</xsl:text>
-				
+						<xsl:when test="$whererange != ''">
+						
+							<xsl:value-of select="$newlineTab1"/>
+					
+							<xsl:text>if(Core.isNotNullOrZero(model.get</xsl:text><xsl:value-of select="$upvaluefield1"/><xsl:text>())){</xsl:text>
+			
+							<xsl:value-of select="$newlineTab2"/>
+							
+							<xsl:text>String datas[]= model.get</xsl:text><xsl:value-of select="$upvaluefield1"/><xsl:text>().trim().split("/");</xsl:text>
+							
+							<xsl:value-of select="$newlineTab2"/>
+							
+							<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="$value1"/><xsl:text>, Core.formatDate(datas[0], "dd-mm-yyyy", "yyyy-mm-dd"),Core.formatDate(datas[1], "dd-mm-yyyy", "yyyy-mm-dd"));</xsl:text>
+							
+							<xsl:value-of select="$newlineTab1"/>
+							
+							<xsl:text>}</xsl:text>
+						
+						</xsl:when>
+						
+						<xsl:otherwise>
+						
+							<xsl:value-of select="$newlineTab1"/>
+					
+							<xsl:text>if(Core.isNotNullOrZero(model.get</xsl:text><xsl:value-of select="$upvaluefield1"/><xsl:text>()) &amp;&amp; Core.isNotNullOrZero(model.get</xsl:text><xsl:value-of select="$upvaluefield2"/><xsl:text>())){</xsl:text>
+			
+							<xsl:value-of select="$newlineTab2"/>
+							
+							<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="$value1"/><xsl:text>,</xsl:text><xsl:value-of select="$value2"/><xsl:text>,</xsl:text><xsl:value-of select="$value3"/><xsl:text>);</xsl:text>
+							
+							<xsl:value-of select="$newlineTab1"/>
+							
+							<xsl:text>}</xsl:text>
+						
+						</xsl:otherwise>
+					
+					</xsl:choose>
+
 				</xsl:when>
 
 			</xsl:choose>

@@ -61,6 +61,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 	@Transient
 	private Organization organization;
 	
+	@Column(length = 2000)
 	private String link; 
 	
 	@Transient
@@ -209,7 +210,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 						 .select(sqlMenuByUser)
 						 .addInt("org_fk", Core.getCurrentOrganization())
 						 .addInt("prof_type_fk", Core.getCurrentProfile())
-						 .addString("dad", currentDad )
+						 .addString("dad", currentDad ) 
 						 .addInt("status", 1)
 						 .addInt("org_fk", Core.getCurrentOrganization())
 						 .addInt("prof_type_fk", Core.getCurrentProfile())
@@ -229,53 +230,51 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				ms.setStatus(r.getShort("status")); 
 				
 				String link = r.getString("link"); 
-				if(link != null) 
+				if(link != null && !link.isEmpty()) { 
 					ms.setLink(link); 
-				System.out.println("link: " + link);
-				
-				Action pagina = new Action().find().andWhere("page", "=", r.getString("page")).andWhere("application.dad", "=", r.getString("dad_app_page")).one();
-				if(pagina != null) {
-					if(pagina.getTipo() == 1) { // If it is a public page ... 
-						ms.setType(1);
-						String aux=Igrp.getInstance().getServlet().getInitParameter("default_language");					
-						ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action") + "&dad=" + currentDad + "&isPublic=1&lang="+(Core.isNull(aux) ? "pt_PT" : aux) /*+ "&target=_blank"*/);
-					}else {
-						
-						if(!r.getString("dad_app_page").equals("tutorial") && !r.getString("dad_app_page").equals("igrp_studio") && !r.getString("dad_app_page").equals("igrp") && !r.getString("dad_app_page").equals(currentDad) 
-								&& pagina.getApplication().getExternal() != 0) { 
-							
-								ms.setType(2); 
-								
-								String deployedWarName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
-								
-								//Externo 
-								if(pagina.getApplication().getExternal() == 1) {
-									if(deployedWarName.equals(pagina.getApplication().getUrl())) { 
-										ms.setType(3);
-										ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + currentDad); 
-									}else {								
-										String _u = buildMenuUrlByDadUsingAutentika(r.getString("dad_app_page"), r.getString("dad_app_page"), r.getString("page"),  r.getString("action"));
-										ms.setLink(_u);
-									} 
-								}
-								
-								//Custom host folder 
-								if(pagina.getApplication().getExternal() == 2) {
-									if(deployedWarName.equals(pagina.getApplication().getUrl())) { 
-										ms.setType(3);
-										ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + currentDad); 
-									
-									}else {
-										String _u = buildMenuUrlByDadUsingAutentika(pagina.getApplication().getUrl(), r.getString("dad_app_page"), r.getString("page"), r.getString("action")); // Custom Dad 
-										ms.setLink(_u);
-									}
-								}
-							
+					ms.setType(2);
+				}else {
+					Action pagina = new Action().find().andWhere("page", "=", r.getString("page")).andWhere("application.dad", "=", r.getString("dad_app_page")).one();
+					if(pagina != null) {
+						if(pagina.getTipo() == 1) { // If it is a public page ... 
+							ms.setType(1);
+							String aux=Igrp.getInstance().getServlet().getInitParameter("default_language");					
+							ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action") + "&dad=" + currentDad + "&isPublic=1&lang="+(Core.isNull(aux) ? "pt_PT" : aux) /*+ "&target=_blank"*/);
 						}else {
-							ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
+							
+							if(!r.getString("dad_app_page").equals("tutorial") && !r.getString("dad_app_page").equals("igrp_studio") && !r.getString("dad_app_page").equals("igrp") && !r.getString("dad_app_page").equals(currentDad) 
+									&& pagina.getApplication().getExternal() != 0) { 
+								
+									ms.setType(2); 
+									
+									String deployedWarName = Core.getDeployedWarName();
+									//Externo 
+									if(pagina.getApplication().getExternal() == 1) {
+										if(deployedWarName.equals(pagina.getApplication().getUrl())) { 
+											ms.setType(3);
+											ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + currentDad); 
+										}else {								
+											String _u = buildMenuUrlByDadUsingAutentika(r.getString("dad_app_page"), r.getString("dad_app_page"), r.getString("page"),  r.getString("action"));
+											ms.setLink(_u);
+										} 
+									}
+									//Custom host folder 
+									if(pagina.getApplication().getExternal() == 2) {
+										if(deployedWarName.equals(pagina.getApplication().getUrl())) { 
+											ms.setType(3);
+											ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + currentDad); 
+										}else {
+											String _u = buildMenuUrlByDadUsingAutentika(pagina.getApplication().getUrl(), r.getString("dad_app_page"), r.getString("page"), r.getString("action")); // Custom Dad 
+											ms.setLink(_u);
+										}
+									}
+							}else 
+								ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
 						}
 					}
 				}
+				
+				
 				
 				ms.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
 				

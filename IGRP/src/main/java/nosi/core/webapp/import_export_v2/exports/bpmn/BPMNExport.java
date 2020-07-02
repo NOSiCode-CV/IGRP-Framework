@@ -26,7 +26,7 @@ import nosi.webapps.igrp.dao.Application;
 public class BPMNExport implements IExport{
 
 	private List<BPMNSerializable> bpmns;
-	private Application application;
+	private Application application; 
 	
 	@Override
 	public String getFileName() {

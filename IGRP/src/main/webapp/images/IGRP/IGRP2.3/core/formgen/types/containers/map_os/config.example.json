@@ -1,0 +1,205 @@
+{
+	"center" : [15.9277964,-24.2861932],
+	"zoom" : 8,
+    "baseMaps": [
+        {
+            "default": false,
+            "name": "OpenStreetMap"
+        },
+        {
+            "default": true,
+            "name": "OpenStreetMap.BlackAndWhite"
+        },
+        {
+            "default": false,
+            "name": "GoogleSatellite"
+        }
+    ],    
+    "groupLayers": [
+        {
+            "id": 1504,
+            "name": "Divisão Administrativa",
+            "options": {
+                "layers": "POSER:divisao_admin"
+            },
+            "type": "WMS",
+            "geomType": "POLYGON",
+            "url": "https://gis.nosi.cv/geoserver/POSER/wms",
+            "visible": false
+        },
+        {
+            "layers": [                
+                {
+                    "id": 1505,
+                    "name": "Pontos de Agua",
+                    "options": {
+                        "typeName": "POSER:pontosanas"
+                    },
+                    "type": "WFS",
+                    "geomType": "Point",
+                    "url": "https://gis-teste.nosi.cv/geoserver/POSER/ows",
+                    "visible": true
+                },
+                {
+                    "id": 1506,
+                    "name": "Concelho de Cabo Verde",
+                    "options": {
+                        "typeName": "POSER:concelho_cv"
+                    },
+                    "type": "WFS",
+                    "geomType": "Polygon",
+                    "url": "https://gis-teste.nosi.cv/geoserver/POSER/ows",
+                    "visible": true
+                },
+                {
+                    "id": 1507,
+                    "name": "Linhas de Santiago",
+                    "options": {
+                        "typeName": "POSER:Linhas_Santiago"
+                    },
+                    "type": "WFS",
+                    "geomType": "Line",
+                    "url": "https://gis-teste.nosi.cv/geoserver/POSER/ows",
+                    "visible": false
+                }             
+            ],
+            "title": "WFS",
+            "visible": true
+        }        
+    ],
+    "widgets": [
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {"advanced": true},
+            "icon": "fa-search",
+            "name": "map_os_1_map_widget_1",
+            "position": "button_level",
+            "title": "Pesquisar",
+            "type": "search"
+        },
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {},
+            "icon": "fa-list-ol",
+            "name": "map_os_1_map_widget_2",
+            "position": "button_level",
+            "title": "Legenda",
+            "type": "legend"
+        },
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {},
+            "icon": "fa-info",
+            "name": "map_os_1_map_widget_3",
+            "position": "button_level",
+            "title": "Identificar Elementos",
+            "type": "infowindow"
+        },
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {},
+            "icon": "fa-medium",
+            "name": "map_os_1_map_widget_4",
+            "position": "button_level",
+            "title": "Medir distâncias e Áreas",
+            "type": "measurement"
+        },        
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {},
+            "icon": "fa-object-group",
+            "name": "map_os_1_map_widget_5",
+            "position": "button_level",
+            "title": "Edição",
+            "type": "edition"
+        },        
+        {
+            "active": true,
+            "control": {
+                "button": false
+            },
+            "data": [
+        		{
+        			"layer" : 1506,
+        			"menu":[
+	            		{
+	            			"url": "webapps?r=nosigis/Ver_mapa/index&dad=nosigis&target=_blank&isPublic=1",
+			            	"target": "modal",
+			            	"label": "Detalhes Item",
+			            	"icon": "fa-angle-right",
+			            	"param_name": "teste,test2",
+			            	"param_value": "1,3",
+			            	"attributes": "objectid,id"  	
+	            		},
+	            		{
+	            			"url": "../images/IGRP/IGRP2.3/app/nosigis/teste/Teste.xml",
+			            	"target": "_blank",
+			            	"label": "Detalhes Item 2",
+			            	"icon": null,
+			            	"param_name": null,
+			            	"param_value": null,
+			            	"attributes": "objectid,id" 	
+	            		},
+	            		{
+	            			"url": "../images/IGRP/IGRP2.3/app/nosigis/teste/Teste.xml",
+			            	"target": null,
+			            	"label": "Detalhes Item 3",
+			            	"icon": null,
+			            	"param_name": null,
+			            	"param_value": null,
+			            	"attributes": null  	
+	            		}
+	            	]  	 
+        		},
+        		{
+        			"layer" : 1505,
+        			"menu":[
+	            		{
+	            			"url": "http://localhost:8080/IGRP-Template/app/webapps?r=HTdurvERt7R0doatFb61qjHYSA3mTTpH8xWZ4id3zUY=&dad=nosigis&title=Ver%20Mapa",
+			            	"target": "_blank",
+			            	"label": "Detalhes Item",
+			            	"icon": "fa-angle-right",
+			            	"param_name": null,
+			            	"param_value": null,
+			            	"attributes": "id"  	
+	            		}
+	            	]  	 
+        		}
+        	],
+            "icon": "",
+            "name": "map_os_1_map_widget_6",
+            "position": "button_level",
+            "title": "Menu",
+            "type": "selection_menu"
+        },      
+        {
+            "active": true,
+            "control": {
+                "button": false
+            },
+            "data": {
+            	"query" : ""
+            },
+            "icon": "",
+            "name": "map_os_1_map_widget_7",
+            "position": "button_level",
+            "title": "Query Expression",
+            "type": "query_expression"
+        }
+    ]
+}

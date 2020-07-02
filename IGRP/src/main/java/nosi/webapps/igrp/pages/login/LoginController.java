@@ -32,7 +32,6 @@ import org.json.JSONObject;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 import nosi.core.config.Config;
-import nosi.core.config.ConfigApp;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -54,8 +53,11 @@ public class LoginController extends Controller {
 
 	/*----#start-code(custom_actions)----*/
 
-	private Properties settings = ConfigApp.getInstance().loadCommonConfig(); 
+	private Properties settings; 
 	
+	public LoginController() {
+		settings = this.configApp.getMainSettings(); 
+	}
 
 	public Response actionLogin() throws Exception { 
 		
@@ -830,8 +832,8 @@ public class LoginController extends Controller {
 			redirect_uri = redirect_uri.replace("IGRP", warName); 
 			String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
 			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrpweb&redirect_uri=" + redirect_uri; 
-			return redirectToUrl(url); 
 			
+			return redirectToUrl(url); 
 		}
 		return null;
 	}

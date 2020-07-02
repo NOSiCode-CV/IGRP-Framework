@@ -1,6 +1,6 @@
 (function(){
 	
-	GIS.module('Map', function(app, o){
+	GIS.module('Map', function(app, o ){
 
 		var Utils    = GIS.module('Utils'),
 		
@@ -22,7 +22,8 @@
 
 				}
 
-			},o);
+			}, o );
+
 
 		map.addLayer = function(layer){
 
@@ -30,9 +31,7 @@
 
 		};
 
-		map.setCenter = function(center){
-
-		};
+		map.setCenter = function(center){};
 
 		map.zoomIn = function(){
 
@@ -49,6 +48,22 @@
 			return false;
 
 		};
+		
+		map.zoomHome = function(){
+			
+			map.view.flyTo(settings.center, settings.zoom);
+			
+			return false;
+
+		};
+		
+		map.locate = function(){
+			
+			Utils.control.locate.init(map.view);
+						
+			return false;
+		};
+
 		
 		map.expand = function(){
 			
@@ -105,19 +120,32 @@
 			}
 
 		}
-
+		
+		
 		function SetControllers(){
 
 			$('.gis-zoom-in', app.dom).on('click', map.zoomIn);
 
-			$('.gis-zoom-out', app.dom).on('click',map.zoomOut);
+			$('.gis-zoom-out', app.dom).on('click', map.zoomOut);
 			
-			$('.gis-expand', app.dom).on('click',map.expand);
+			$('.gis-zoom-home', app.dom).on('click', map.zoomHome);
+			
+			$('.gis-locate', app.dom).on('click', map.locate);
+			
+			$('.gis-expand', app.dom).on('click', map.expand);
 			
 			if(settings.fullscreen)
 				
 				map.expand();
-
+			
+			map.view.locateOptions = {disativated: true};
+			
+			Utils.control.mousePosition.add(map.view, settings);
+			
+			var scale = Utils.control.scale.add(map.view);
+			
+			map.view.utils = {scale : scale}
+						
 		};
 
 		(function(){
@@ -126,10 +154,9 @@
 
 				zoomControl : false,
 				
-				//crs: proj4.defs("EPSG:4826","+proj=lcc +lat_1=15 +lat_2=16.66666666666667 +lat_0=15.83333333333333 +lon_0=-24 +x_0=161587.83 +y_0=128511.202 +datum=WGS84 +units=m +no_defs")
-
-			}).setView(settings.center, settings.zoom);
-			
+				editable: true,
+				
+			}).setView(settings.center, settings.zoom);			
 			
 			SetControllers();
 

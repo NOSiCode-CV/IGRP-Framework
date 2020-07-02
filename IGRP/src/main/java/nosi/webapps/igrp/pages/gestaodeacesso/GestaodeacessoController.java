@@ -19,7 +19,8 @@ import java.util.Properties;
 import java.util.ArrayList;
 /*----#end-code----*/
 		
-public class GestaodeacessoController extends Controller {
+public class GestaodeacessoController extends Controller { 
+	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Gestaodeacesso model = new Gestaodeacesso();
 		model.load();

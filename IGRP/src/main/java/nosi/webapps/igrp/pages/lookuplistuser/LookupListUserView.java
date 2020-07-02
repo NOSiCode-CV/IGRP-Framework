@@ -24,42 +24,42 @@ public class LookupListUserView extends View {
 
 		this.setPageTitle("Lookup Lista Utilizador");
 			
-		form_1 = new IGRPForm("form_1","");
+		form_1 = new IGRPForm("form_1","Filtro");
 
 		table_1 = new IGRPTable("table_1","");
 
 		email = new EmailField(model,"email");
 		email.setLabel(gt("Email"));
-		email.propertie().add("name","p_email").add("type","email").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false");
+		email.propertie().add("name","p_email").add("type","email").add("maxlength","255").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		login = new TextField(model,"login");
 		login.setLabel(gt("Login"));
-		login.propertie().add("name","p_login").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false");
+		login.propertie().add("name","p_login").add("type","text").add("maxlength","255").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false");
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","255").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		email_1 = new EmailField(model,"email_1");
 		email_1.setLabel(gt("Email"));
-		email_1.propertie().add("name","p_email_1").add("type","email").add("maxlength","30");
+		email_1.propertie().add("name","p_email_1").add("type","email").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		login_1 = new TextField(model,"login_1");
 		login_1.setLabel(gt("Login"));
-		login_1.propertie().add("name","p_login_1").add("type","text").add("maxlength","30");
+		login_1.propertie().add("name","p_login_1").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		nome_1 = new TextField(model,"nome_1");
 		nome_1.setLabel(gt("Nome"));
-		nome_1.propertie().add("name","p_nome_1").add("type","text").add("maxlength","30");
+		nome_1.propertie().add("name","p_nome_1").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("showLabel","true").add("group_in","").add("java-type","").add("tag","id");
 		
 
 
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","LookupListUser","pesquisar","submit","primary|fa-search","","");
-		btn_pesquisar.propertie.add("type","form").add("rel","pesquisar");
+		btn_pesquisar.propertie.add("id","button_2a9b_deb7").add("type","form").add("class","primary").add("rel","pesquisar").add("refresh_components","");
 
 		
 	}
