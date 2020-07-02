@@ -828,7 +828,7 @@ $.fn.separatorList = function(o){
 				if(!$('.splist-form-holder .dynamic-alert',$(sl))[0]){
 					
 					$('.splist-form-holder',$(sl)).append($.IGRP.utils.message.alert({
-						type : 'danger',
+						type : 'warning',
 						text : 'Para opcões de insersão mutliplas e necessario clicar em Adicionar.'
 					}));
 					
