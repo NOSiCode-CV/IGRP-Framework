@@ -83,6 +83,10 @@ public class ImportHelper {
 			transation.deserialization(this.getJsonContent(OptionsImportExport.TRANSATION.getFileName()));
 			imp.add(transation);
 			
+			ConnectionImport conn = new ConnectionImport(application);
+			conn.deserialization(this.getJsonContent(OptionsImportExport.CONNECTION.getFileName()));
+			imp.add(conn);
+			
 			ReportImport report = new ReportImport(application);
 			report.deserialization(this.getJsonContent(OptionsImportExport.REPORT.getFileName()));
 			imp.add(report);
@@ -90,11 +94,6 @@ public class ImportHelper {
 			BpmnImport bpmn = new BpmnImport(application);
 			bpmn.deserialization(this.getJsonContent(OptionsImportExport.BPMN.getFileName()));
 			imp.add(bpmn);
-			
-			ConnectionImport conn = new ConnectionImport(application);
-			conn.deserialization(this.getJsonContent(OptionsImportExport.CONNECTION.getFileName()));
-			imp.add(conn);
-		
 			
 			DomainImport domain = new DomainImport(application);
 			domain.deserialization(this.getJsonContent(OptionsImportExport.DOMAIN.getFileName()));
