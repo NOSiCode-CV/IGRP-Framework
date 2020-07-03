@@ -30,7 +30,7 @@
             <xsl:for-each select="*[name() != 'title' and name() != 'data_source_id' and name() != 'menu' and name() != 'messages' and not(substring(name(),(string-length(name())-4),5) =  '_desc') and not(substring(name(),(string-length(name())-5),6) =  '_check') and not(substring(name(),1,5) =  'p_fwl') and @type != 'sectionheader' and @type != 'toolsbar' and @type != 'tabcontent']|*[name() ='form']/table/*|*[name() ='form']|*[name() ='filter']|*[name() ='view']">
               <xsl:variable name="no" select="name()"/>
               <xsl:variable name="nohead" select="local-name(..)"/>
-              <xsl:variable name="vnoType" select="@type"/>
+              <xsl:variable name="vnoType" select="@xml-type"/>
               <xsl:variable name="tag">
                 <xsl:choose>
                   <xsl:when test="$nohead = 'table'">table</xsl:when>
