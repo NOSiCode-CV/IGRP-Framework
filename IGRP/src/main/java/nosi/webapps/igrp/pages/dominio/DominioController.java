@@ -32,11 +32,9 @@ public class DominioController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/			
 		model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=dominio"));
-      view.aplicacao.setValue(DomainHeper.getApplications());
-		//view.estado.setQuery(DomainHeper.getEstadoQuery());
-		view.estado_check.setValue(1);
-		//model.setPublico_check(1);
-	
+        view.aplicacao.setValue(DomainHeper.getApplications());
+		
+		
 		String dad = Core.getCurrentDad();		
   		 if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {	
            	model.setApp(Core.findApplicationByDad(dad).getId());
@@ -56,7 +54,10 @@ public class DominioController extends Controller {
 			view.lst_dominio.setQuery(domainQuery, gt("-- Selecione ou adicione um domínio ++"));	     
 		if(Core.isNotNull(model.getLst_dominio())) {  
 			
-			model.loadFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio(),app));
+			//model.loadFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio(),app));
+			
+			model.setFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio(),app));
+			
 			//final List<Domain> findDomainByCode = Core.findDomainByCode(model.getLst_dominio(),app);
 		//	model.setPublico(findDomainByCode!=null && !findDomainByCode.isEmpty() && findDomainByCode.size()>0?(findDomainByCode.get(0).getDomainType().equals(DomainType.PUBLIC)?1:0):0);
 		}
