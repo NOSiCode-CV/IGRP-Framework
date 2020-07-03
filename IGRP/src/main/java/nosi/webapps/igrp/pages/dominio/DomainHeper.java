@@ -48,7 +48,7 @@ public class DomainHeper {
 		try{
 			Domain domainfilter = new Domain().find().where("dominio", "=", dominio);
 			if(Core.isNotNullOrZero(appId)) {
-				domainfilter = new Domain().find().where("application", "=", appId);
+				domainfilter = domainfilter.andWhere("application", "=", appId);
 			}
 			
 			List<Domain> domainfilterList = domainfilter.all();
