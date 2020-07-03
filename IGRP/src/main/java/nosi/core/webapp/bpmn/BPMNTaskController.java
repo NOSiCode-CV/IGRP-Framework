@@ -299,7 +299,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		Action action = new Action().find()
 									.andWhere("page", "=",this.page)
 									.andWhere("application.dad", "=",task.getTenantId())
-									 .andWhere("processKey", "=", task.getProcessDefinitionKey().toLowerCase())
+									 .andWhere("processKey", "=", task.getProcessDefinitionKey())
 									.one();
 		String json = "";
 		if(task.getVariables()!=null) {

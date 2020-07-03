@@ -248,7 +248,7 @@ public class WebReportController extends Controller {
 				String []allTasksId = taskId.split("-"); 
 				if(allTasksId.length == allRepTemplateSourceTask.size()) 
 					for(int i = 0; i < allRepTemplateSourceTask.size(); i++) 
-						xml += this.getDataForTask(allRepTemplateSourceTask.get(i), taskId); 
+						xml += this.getDataForTask(allRepTemplateSourceTask.get(i), allTasksId[i]); 
 			}
 			
 			xml = this.genXml(xml,rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0); 
@@ -361,16 +361,17 @@ public class WebReportController extends Controller {
 		String processDefinitionKey = rep.getRepSource().getProcessid();
 		if(processDefinitionKey!=null) {
 			//Process_Test:01_01 => Process_Test
-			processDefinitionKey = processDefinitionKey.contains(":")?processDefinitionKey.substring(0,processDefinitionKey.indexOf(":")):processDefinitionKey;
+			processDefinitionKey = processDefinitionKey.contains(":") ? processDefinitionKey.substring(0,processDefinitionKey.indexOf(":")) : processDefinitionKey;
 		}
-		
-		this.loadQueryString();
-		this.addQueryString(BPMNConstants.PRM_PROCESS_DEFINITION_KEY, processDefinitionKey)
-			.addQueryString(BPMNConstants.PRM_TASK_DEFINITION_KEY, rep.getRepSource().getTaskid())
+		this.removeQueryString("p_" + BPMNConstants.PRM_PROCESS_DEFINITION_KEY); 
+		this.removeQueryString("p_" + BPMNConstants.PRM_TASK_DEFINITION_KEY); 
+		this.removeQueryString(BPMNConstants.PRM_TASK_ID); 
+		this.addQueryString("p_" + BPMNConstants.PRM_PROCESS_DEFINITION_KEY, processDefinitionKey)
+			.addQueryString("p_" + BPMNConstants.PRM_TASK_DEFINITION_KEY, rep.getRepSource().getTaskid())
 			.addQueryString(BPMNConstants.PRM_TASK_ID, taskId);
-		String content = this.call("igrp","Detalhes_tarefas","index",this.queryString()).getContent();
+		String content = this.call("igrp","Detalhes_tarefas","index",this.queryString()).getContent(); 
+		this.restartQueryString();
 		xml.addXml(XMLExtractComponent.extractXML(content));
-		
 		xml.addXml(ds.getDefaultForm(ds.getDefaultFieldsWithProc()));
 		xml.endElement();
 		return xml.toString();
