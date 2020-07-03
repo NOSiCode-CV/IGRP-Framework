@@ -51,16 +51,11 @@ public class DominioController extends Controller {
 	     	mapDom.put(null,gt("++ Adicione um domínio ++"));
 			view.lst_dominio.setValue(mapDom);
 		}else
-			view.lst_dominio.setQuery(domainQuery, gt("-- Selecione ou adicione um domínio ++"));	     
+			view.lst_dominio.setQuery(domainQuery, gt("-- Selecione ou adicione um domínio ++"));	
+
 		if(Core.isNotNull(model.getLst_dominio())) {  
-			
-			//model.loadFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio(),app));
-			
 			model.setFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio(),app));
-			
-			//final List<Domain> findDomainByCode = Core.findDomainByCode(model.getLst_dominio(),app);
-		//	model.setPublico(findDomainByCode!=null && !findDomainByCode.isEmpty() && findDomainByCode.size()>0?(findDomainByCode.get(0).getDomainType().equals(DomainType.PUBLIC)?1:0):0);
-		}
+    	}
       
 		if(Core.isNotNullOrZero(app)) {
 			 view.btn_gravar_domain.addParameter("p_aplicacao",app);
