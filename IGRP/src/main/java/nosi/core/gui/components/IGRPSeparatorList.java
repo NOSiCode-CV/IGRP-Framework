@@ -151,7 +151,7 @@ public class IGRPSeparatorList extends IGRPTable {
 	
 	protected void genRowField(Field field,String key,String value) {
 		
-		if(!field.getName().contains("_check")) {
+		//if(!field.getName().contains("_check")) {
 			
 			String sufix = "_desc";
 			this.xml.startElement(field.getTagName());
@@ -159,7 +159,7 @@ public class IGRPSeparatorList extends IGRPTable {
 				if(field instanceof CheckBoxListField || field instanceof CheckBoxField 
 					|| field instanceof RadioListField || field instanceof RadioField) {
 					this.xml.writeAttribute("check","true");
-					sufix = this instanceof IGRPFormList ? "_check" : sufix;
+					//sufix = this instanceof IGRPFormList ? "_check" : sufix;
 				}
 				if(field instanceof FileField && Core.isNotNull(field.propertie().getProperty(TEMP_VALUE))) {
 					this.xml.writeAttribute(TEMP_VALUE, field.propertie().getProperty(TEMP_VALUE));
@@ -175,7 +175,7 @@ public class IGRPSeparatorList extends IGRPTable {
 				this.xml.endElement();
 			}
 			
-		}
+		//}
 	}
 	
 	@Override
