@@ -32,10 +32,6 @@ public class Lista_terfa_de_processoController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
-		String taskId = Core.getParam(BPMNConstants.PRM_TASK_ID);
-		String processDefinitionKey = Core.getParam(BPMNConstants.PRM_PROCESS_DEFINITION_KEY);
-		String taskDefinitionKey = Core.getParam(BPMNConstants.PRM_TASK_DEFINITION_KEY);
-		
 		String processInstanceId = Core.getParam(BPMNConstants.PRM_PROCESS_INSTANCE_ID);
 		String processKey = Core.getParam(BPMNConstants.PRM_PROCESS_KEY);
 		String processId = Core.getParam(BPMNConstants.PRM_PROCESS_ID);
@@ -60,8 +56,7 @@ public class Lista_terfa_de_processoController extends Controller {
 			} 
 			view.table_1.addData(listTasks);
 		}
-		view.btn_voltar.addParameter(BPMNConstants.PRM_PROCESS_KEY, processKey)
-						.addParameter(BPMNConstants.PRM_PROCESS_ID, processId);
+		view.btn_voltar.addParameter(BPMNConstants.PRM_PROCESS_KEY, processKey).addParameter(BPMNConstants.PRM_PROCESS_ID, processId);
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -102,9 +97,9 @@ public class Lista_terfa_de_processoController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(ver_detalhes)----*/
-		 this.addQueryString("p_prm_taskid",Core.getParam("p_prm_taskid"));
-		 this.addQueryString("p_processdefinitionkey",Core.getParam("p_processdefinitionkey"));
-		 this.addQueryString("p_taskDefinitionKey",Core.getParam("p_taskDefinitionKey"));
+		 this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_prm_taskid"));
+		 this.addQueryString("p_" + BPMNConstants.PRM_PROCESS_DEFINITION_KEY, Core.getParam("p_processdefinitionkey"));
+		 this.addQueryString("p_" + BPMNConstants.PRM_TASK_DEFINITION_KEY, Core.getParam("p_taskDefinitionKey"));
 		
 		/*----#end-code----*/
 		return this.redirect("igrp","Detalhes_tarefas","index", this.queryString());	
