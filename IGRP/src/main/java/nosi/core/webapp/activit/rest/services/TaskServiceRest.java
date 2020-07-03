@@ -33,8 +33,6 @@ import nosi.core.webapp.webservices.helpers.ResponseError;
  */
 public class TaskServiceRest extends GenericActivitiRest {
 
-
-
 	public TaskService getTaskByExecutionId(String id) {
 		this.clearFilterUrl();
 		this.addFilterUrl("executionId", id);
@@ -70,6 +68,28 @@ public class TaskServiceRest extends GenericActivitiRest {
 		TaskService t = new TaskService();
 		Response response = new RestRequest().put("runtime/tasks", ResponseConverter.convertDaoToJson(task),
 				task.getId());
+		if (response != null) {
+			String contentResp = "";
+			try {
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (response.getStatus() == 200) {
+				t = (TaskService) ResponseConverter.convertJsonToDao(contentResp, TaskService.class);
+			} else {
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+			response.close();
+		}
+		return t;
+	}
+	
+	public TaskService changePriority(TaskService task) {
+		JSONObject json = new JSONObject();
+		json.put("priority", task.getPriority()); 
+		TaskService t = new TaskService();
+		Response response = new RestRequest().put("runtime/tasks", json.toString(), task.getId()); 
 		if (response != null) {
 			String contentResp = "";
 			try {
@@ -357,13 +377,12 @@ public class TaskServiceRest extends GenericActivitiRest {
 		this.variables.add(new TaskVariables(name, "local", type, value, null));
 	}
 
-	public boolean submitVariables(String taskId) {
+	public boolean submitVariables(String taskId) {		
 		Response response = this.getRestRequest().post("runtime/tasks/" + taskId + "/variables",
-				ResponseConverter.convertDaoToJson(this.variables));
-		boolean r = response!=null && response.getStatus() == 201;
-		if(response!=null) {
+				ResponseConverter.convertDaoToJson(this.variables)); 
+		boolean r = response != null && response.getStatus() == 201;
+		if(response != null) 
 			response.close();
-		}
 		return r;
 	}
 
