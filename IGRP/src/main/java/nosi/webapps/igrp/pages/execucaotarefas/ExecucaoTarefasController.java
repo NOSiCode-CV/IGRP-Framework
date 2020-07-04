@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
@@ -65,12 +66,15 @@ public class ExecucaoTarefasController extends Controller {
 
 		this.showTabManage(view, false);// hide tab when user is not manager
 
-
 		List<ExecucaoTarefas.Table_gerir_tarefas> taskManage = this.getTaskManage(model, view);
 
 		List<ExecucaoTarefas.Table_minhas_tarefas> myTasks = this.getMyTasks(model, view);
 
-		List<ExecucaoTarefas.Table_disponiveis> tasksDisponiveis = this.getAvailableTask(model, view);
+		List<ExecucaoTarefas.Table_disponiveis> tasksDisponiveis = this.getAvailableTask(model, view); 
+		
+		myTasks.sort(Comparator.comparing(ExecucaoTarefas.Table_minhas_tarefas::getPrioridade_m));
+		tasksDisponiveis.sort(Comparator.comparing(ExecucaoTarefas.Table_disponiveis::getPrioridade));
+		taskManage.sort(Comparator.comparing(ExecucaoTarefas.Table_gerir_tarefas::getPrioridade_g));
 
 		view.table_gerir_tarefas.addData(taskManage);
 		view.table_disponiveis.addData(tasksDisponiveis);

@@ -101,4 +101,8 @@ public class TaskServiceIGRP extends GenericActivitiIGRP{
 				: false;
 		return isTask;
 	}
+	
+	public TaskService getCurrentTaskByProcessNr(String processNr) {
+		return this.taskServiceRest.getCurrentTaskByProcessNr(processNr);
+	}
 }
