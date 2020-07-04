@@ -494,5 +494,28 @@ public class TaskServiceRest extends GenericActivitiRest {
 		}
 		return d;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public TaskService getCurrentTaskByProcessNr(String processNr) {
+		List<TaskService> t = new ArrayList<TaskService>();
+		Response response = this.getRestRequest().get("runtime/tasks?processInstanceId=" + processNr);
+		if (response != null) {
+			String contentResp = "";
+			try {
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (response.getStatus() == 200) 
+				 t = (List<TaskService>) ResponseConverter.convertJsonToListDao(contentResp, "data", 
+							new TypeToken<List<TaskService>>() {
+							}.getType());
+			 else
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			
+			response.close();
+		}
+		return !t.isEmpty() ? t.get(0) : null;
+	}
 
 }

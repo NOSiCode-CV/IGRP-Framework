@@ -4337,4 +4337,12 @@ public final class Core { // Not inherit
 		return deployedWarName; 
 	}
 	
+	/**
+	 * @param processNr
+	 * @return
+	 */
+	public static TaskService getCurrentTaskByProcessNr(String processNr) {
+		return new TaskServiceIGRP().getCurrentTaskByProcessNr(processNr); 
+	}
+	
 }
