@@ -23,6 +23,9 @@ public class Transferir_tarefas extends Model{
 	@RParam(rParamName = "p_detalhes_de_processo")
 	private String detalhes_de_processo;
 
+	@RParam(rParamName = "p_tipo_processo")
+	private String tipo_processo;
+
 	@RParam(rParamName = "p_numero_processo")
 	private String numero_processo;
 
@@ -34,9 +37,6 @@ public class Transferir_tarefas extends Model{
 
 	@RParam(rParamName = "p_detalhes_de_tarefa")
 	private String detalhes_de_tarefa;
-
-	@RParam(rParamName = "p_tipo_processo")
-	private String tipo_processo;
 
 	@RParam(rParamName = "p_descricao_de_tarefa")
 	private String descricao_de_tarefa;
@@ -89,6 +89,13 @@ public class Transferir_tarefas extends Model{
 		return this.detalhes_de_processo;
 	}
 	
+	public void setTipo_processo(String tipo_processo){
+		this.tipo_processo = tipo_processo;
+	}
+	public String getTipo_processo(){
+		return this.tipo_processo;
+	}
+	
 	public void setNumero_processo(String numero_processo){
 		this.numero_processo = numero_processo;
 	}
@@ -115,13 +122,6 @@ public class Transferir_tarefas extends Model{
 	}
 	public String getDetalhes_de_tarefa(){
 		return this.detalhes_de_tarefa;
-	}
-	
-	public void setTipo_processo(String tipo_processo){
-		this.tipo_processo = tipo_processo;
-	}
-	public String getTipo_processo(){
-		return this.tipo_processo;
 	}
 	
 	public void setDescricao_de_tarefa(String descricao_de_tarefa){

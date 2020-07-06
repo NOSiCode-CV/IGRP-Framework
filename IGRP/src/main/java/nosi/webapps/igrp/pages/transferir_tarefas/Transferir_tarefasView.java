@@ -14,11 +14,11 @@ public class Transferir_tarefasView extends View {
 	public Field id_utilizador;
 	public Field id;
 	public Field detalhes_de_processo;
+	public Field tipo_processo;
 	public Field numero_processo;
 	public Field criado_por_;
 	public Field data_inicio;
 	public Field detalhes_de_tarefa;
-	public Field tipo_processo;
 	public Field descricao_de_tarefa;
 	public Field n_tarefa;
 	public Field atribuido_a;
@@ -69,6 +69,10 @@ public class Transferir_tarefasView extends View {
 		detalhes_de_processo.setLabel(gt("Detalhes de Processo"));
 		detalhes_de_processo.propertie().add("name","p_detalhes_de_processo").add("type","separator").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
 		
+		tipo_processo = new TextField(model,"tipo_processo");
+		tipo_processo.setLabel(gt("Tipo Processo"));
+		tipo_processo.propertie().add("name","p_tipo_processo").add("type","text").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
+		
 		numero_processo = new TextField(model,"numero_processo");
 		numero_processo.setLabel(gt("Número Processo"));
 		numero_processo.propertie().add("name","p_numero_processo").add("type","text").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
@@ -84,10 +88,6 @@ public class Transferir_tarefasView extends View {
 		detalhes_de_tarefa = new SeparatorField(model,"detalhes_de_tarefa");
 		detalhes_de_tarefa.setLabel(gt("Detalhes de Tarefa"));
 		detalhes_de_tarefa.propertie().add("name","p_detalhes_de_tarefa").add("type","separator").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
-		
-		tipo_processo = new TextField(model,"tipo_processo");
-		tipo_processo.setLabel(gt("Tipo Processo"));
-		tipo_processo.propertie().add("name","p_tipo_processo").add("type","text").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
 		
 		descricao_de_tarefa = new TextField(model,"descricao_de_tarefa");
 		descricao_de_tarefa.setLabel(gt("Descrição de Tarefa"));
@@ -122,11 +122,11 @@ public class Transferir_tarefasView extends View {
 
 
 		view_1.addField(detalhes_de_processo);
+		view_1.addField(tipo_processo);
 		view_1.addField(numero_processo);
 		view_1.addField(criado_por_);
 		view_1.addField(data_inicio);
 		view_1.addField(detalhes_de_tarefa);
-		view_1.addField(tipo_processo);
 		view_1.addField(descricao_de_tarefa);
 		view_1.addField(n_tarefa);
 		view_1.addField(atribuido_a);
@@ -146,11 +146,11 @@ public class Transferir_tarefasView extends View {
 		id_utilizador.setValue(model);
 		id.setValue(model);
 		detalhes_de_processo.setValue(model);
+		tipo_processo.setValue(model);
 		numero_processo.setValue(model);
 		criado_por_.setValue(model);
 		data_inicio.setValue(model);
 		detalhes_de_tarefa.setValue(model);
-		tipo_processo.setValue(model);
 		descricao_de_tarefa.setValue(model);
 		n_tarefa.setValue(model);
 		atribuido_a.setValue(model);	

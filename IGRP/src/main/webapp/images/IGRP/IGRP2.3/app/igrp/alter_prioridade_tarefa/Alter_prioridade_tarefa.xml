@@ -48,10 +48,9 @@
         </sectionheader_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <nova_prioridade name="p_nova_prioridade" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" tags="false" java-type="">
+                <nova_prioridade name="p_nova_prioridade" type="radiolist" domain="" maxlength="30" required="true" change="false" readonly="false" disabled="false" child_size="12" right="false" java-type="">
                     <label>Nova Prioridade</label>
                     <list>
-                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -69,11 +68,6 @@
                             <value>4</value>
                         </option>
                     </list>
-                    <validations>
-                        <validation>
-                            <annotation>@NotNull</annotation>
-                        </validation>
-                    </validations>
                 </nova_prioridade>
                 <hidden name="p_id" type="hidden" maxlength="30" java-type="" tag="id"/>
             </fields>
@@ -92,64 +86,44 @@
         </form_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <detalhes_da_tarefa name="p_detalhes_da_tarefa" type="separator" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Detalhes da Tarefa</label>
-                </detalhes_da_tarefa>
-                <tipo_da_tarefa name="p_tipo_da_tarefa" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Tipo da Tarefa</label>
-                    <value>Sit iste voluptatem laudantium accusantium</value>
-                </tipo_da_tarefa>
-                <data_criacao_da_tarefa name="p_data_criacao_da_tarefa" type="date" range="false" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Data Criação da Tarefa</label>
-                    <value>07-02-2011</value>
-                </data_criacao_da_tarefa>
-                <data_inicio_da_tarefa name="p_data_inicio_da_tarefa" type="date" range="false" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Data Início da Tarefa</label>
-                    <value>07-02-2010</value>
-                </data_inicio_da_tarefa>
-                <data_fim_da_tarefa name="p_data_fim_da_tarefa" type="date" range="false" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Data Fim da Tarefa</label>
-                    <value>01-02-2013</value>
-                </data_fim_da_tarefa>
-                <prioridade_da_tarefa name="p_prioridade_da_tarefa" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Prioridade da Tarefa</label>
-                    <value>Laudantium natus elit lorem perspiciatis</value>
-                </prioridade_da_tarefa>
-                <tarefa_atribuida_por name="p_tarefa_atribuida_por" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Tarefa Atribuida Por</label>
-                    <value>Mollit dolor ut amet perspiciatis</value>
-                </tarefa_atribuida_por>
-                <tarefa_atribuida_a name="p_tarefa_atribuida_a" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Tarefa Atribuida A</label>
-                    <value>Accusantium aperiam ut magna mollit</value>
-                </tarefa_atribuida_a>
-                <descricao_da_tarefa name="p_descricao_da_tarefa" type="textarea" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Descrição da Tarefa</label>
-                    <value>Magna voluptatem officia anim elit ipsum iste aliqua anim perspiciatis magna lorem dolor anim deserunt</value>
-                </descricao_da_tarefa>
                 <detalhes_do_processo name="p_detalhes_do_processo" type="separator" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Detalhes do Processo</label>
                 </detalhes_do_processo>
                 <tipo_de_processo name="p_tipo_de_processo" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Tipo de Processo</label>
-                    <value>Magna doloremque aliqua voluptatem officia</value>
+                    <value>Voluptatem laudantium perspiciatis natus doloremque</value>
                 </tipo_de_processo>
                 <numero_de_processo name="p_numero_de_processo" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Número de Processo</label>
-                    <value>Iste accusantium sed mollit officia</value>
+                    <value>Anim magna totam mollit magna</value>
                 </numero_de_processo>
-                <data_criacao_do_processo name="p_data_criacao_do_processo" type="date" range="false" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Data Criação do Processo</label>
-                    <value>07-04-2015</value>
-                </data_criacao_do_processo>
                 <data_inicio_do_processo name="p_data_inicio_do_processo" type="date" range="false" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Data Início do Processo</label>
-                    <value>05-07-2010</value>
+                    <value>04-04-2015</value>
                 </data_inicio_do_processo>
-                <data_fim_do_processo name="p_data_fim_do_processo" type="date" range="false" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Data Fim do Processo</label>
-                    <value>05-05-2015</value>
-                </data_fim_do_processo>
+                <detalhes_da_tarefa name="p_detalhes_da_tarefa" type="separator" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Detalhes da Tarefa</label>
+                </detalhes_da_tarefa>
+                <descricao_da_tarefa name="p_descricao_da_tarefa" type="textarea" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Descrição da Tarefa</label>
+                    <value>Consectetur officia magna sit lorem perspiciatis doloremque aperiam ut natus labore elit perspiciatis mollit ut</value>
+                </descricao_da_tarefa>
+                <data_inicio_da_tarefa name="p_data_inicio_da_tarefa" type="date" range="false" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Data Início da Tarefa</label>
+                    <value>01-08-2013</value>
+                </data_inicio_da_tarefa>
+                <prioridade_da_tarefa name="p_prioridade_da_tarefa" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Prioridade da Tarefa</label>
+                    <value>Dolor aperiam adipiscing magna dolor</value>
+                </prioridade_da_tarefa>
+                <tarefa_atribuida_por name="p_tarefa_atribuida_por" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Tarefa Atribuida Por</label>
+                    <value>Ut consectetur dolor doloremque totam</value>
+                </tarefa_atribuida_por>
+                <tarefa_atribuida_a name="p_tarefa_atribuida_a" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Tarefa Atribuida A</label>
+                    <value>Perspiciatis consectetur stract accusantium sed</value>
+                </tarefa_atribuida_a>
             </fields>
         </view_1>
     </content>

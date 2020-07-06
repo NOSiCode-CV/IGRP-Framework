@@ -11,21 +11,16 @@ public class Alter_prioridade_tarefaView extends View {
 	public Field sectionheader_1_text;
 	public Field nova_prioridade;
 	public Field id;
-	public Field detalhes_da_tarefa;
-	public Field tipo_da_tarefa;
-	public Field data_criacao_da_tarefa;
-	public Field data_inicio_da_tarefa;
-	public Field data_fim_da_tarefa;
-	public Field prioridade_da_tarefa;
-	public Field tarefa_atribuida_por;
-	public Field tarefa_atribuida_a;
-	public Field descricao_da_tarefa;
 	public Field detalhes_do_processo;
 	public Field tipo_de_processo;
 	public Field numero_de_processo;
-	public Field data_criacao_do_processo;
 	public Field data_inicio_do_processo;
-	public Field data_fim_do_processo;
+	public Field detalhes_da_tarefa;
+	public Field descricao_da_tarefa;
+	public Field data_inicio_da_tarefa;
+	public Field prioridade_da_tarefa;
+	public Field tarefa_atribuida_por;
+	public Field tarefa_atribuida_a;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPView view_1;
@@ -47,49 +42,13 @@ public class Alter_prioridade_tarefaView extends View {
 		sectionheader_1_text.setValue(gt("Alterar prioridade da Tarefa"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
-		nova_prioridade = new ListField(model,"nova_prioridade");
+		nova_prioridade = new RadioListField(model,"nova_prioridade");
 		nova_prioridade.setLabel(gt("Nova Prioridade"));
-		nova_prioridade.propertie().add("name","p_nova_prioridade").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("disabled","false").add("tags","false").add("java-type","");
+		nova_prioridade.propertie().add("name","p_nova_prioridade").add("type","radiolist").add("domain","").add("maxlength","30").add("required","true").add("readonly","false").add("disabled","false").add("child_size","12").add("java-type","");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
 		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","id");
-		
-		detalhes_da_tarefa = new SeparatorField(model,"detalhes_da_tarefa");
-		detalhes_da_tarefa.setLabel(gt("Detalhes da Tarefa"));
-		detalhes_da_tarefa.propertie().add("name","p_detalhes_da_tarefa").add("type","separator").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
-		
-		tipo_da_tarefa = new TextField(model,"tipo_da_tarefa");
-		tipo_da_tarefa.setLabel(gt("Tipo da Tarefa"));
-		tipo_da_tarefa.propertie().add("name","p_tipo_da_tarefa").add("type","text").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
-		
-		data_criacao_da_tarefa = new DateField(model,"data_criacao_da_tarefa");
-		data_criacao_da_tarefa.setLabel(gt("Data Criação da Tarefa"));
-		data_criacao_da_tarefa.propertie().add("name","p_data_criacao_da_tarefa").add("type","date").add("range","false").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
-		
-		data_inicio_da_tarefa = new DateField(model,"data_inicio_da_tarefa");
-		data_inicio_da_tarefa.setLabel(gt("Data Início da Tarefa"));
-		data_inicio_da_tarefa.propertie().add("name","p_data_inicio_da_tarefa").add("type","date").add("range","false").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
-		
-		data_fim_da_tarefa = new DateField(model,"data_fim_da_tarefa");
-		data_fim_da_tarefa.setLabel(gt("Data Fim da Tarefa"));
-		data_fim_da_tarefa.propertie().add("name","p_data_fim_da_tarefa").add("type","date").add("range","false").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
-		
-		prioridade_da_tarefa = new TextField(model,"prioridade_da_tarefa");
-		prioridade_da_tarefa.setLabel(gt("Prioridade da Tarefa"));
-		prioridade_da_tarefa.propertie().add("name","p_prioridade_da_tarefa").add("type","text").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
-		
-		tarefa_atribuida_por = new TextField(model,"tarefa_atribuida_por");
-		tarefa_atribuida_por.setLabel(gt("Tarefa Atribuida Por"));
-		tarefa_atribuida_por.propertie().add("name","p_tarefa_atribuida_por").add("type","text").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
-		
-		tarefa_atribuida_a = new TextField(model,"tarefa_atribuida_a");
-		tarefa_atribuida_a.setLabel(gt("Tarefa Atribuida A"));
-		tarefa_atribuida_a.propertie().add("name","p_tarefa_atribuida_a").add("type","text").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
-		
-		descricao_da_tarefa = new TextAreaField(model,"descricao_da_tarefa");
-		descricao_da_tarefa.setLabel(gt("Descrição da Tarefa"));
-		descricao_da_tarefa.propertie().add("name","p_descricao_da_tarefa").add("type","textarea").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
 		
 		detalhes_do_processo = new SeparatorField(model,"detalhes_do_processo");
 		detalhes_do_processo.setLabel(gt("Detalhes do Processo"));
@@ -103,17 +62,33 @@ public class Alter_prioridade_tarefaView extends View {
 		numero_de_processo.setLabel(gt("Número de Processo"));
 		numero_de_processo.propertie().add("name","p_numero_de_processo").add("type","text").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
 		
-		data_criacao_do_processo = new DateField(model,"data_criacao_do_processo");
-		data_criacao_do_processo.setLabel(gt("Data Criação do Processo"));
-		data_criacao_do_processo.propertie().add("name","p_data_criacao_do_processo").add("type","date").add("range","false").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
-		
 		data_inicio_do_processo = new DateField(model,"data_inicio_do_processo");
 		data_inicio_do_processo.setLabel(gt("Data Início do Processo"));
 		data_inicio_do_processo.propertie().add("name","p_data_inicio_do_processo").add("type","date").add("range","false").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
 		
-		data_fim_do_processo = new DateField(model,"data_fim_do_processo");
-		data_fim_do_processo.setLabel(gt("Data Fim do Processo"));
-		data_fim_do_processo.propertie().add("name","p_data_fim_do_processo").add("type","date").add("range","false").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
+		detalhes_da_tarefa = new SeparatorField(model,"detalhes_da_tarefa");
+		detalhes_da_tarefa.setLabel(gt("Detalhes da Tarefa"));
+		detalhes_da_tarefa.propertie().add("name","p_detalhes_da_tarefa").add("type","separator").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
+		
+		descricao_da_tarefa = new TextAreaField(model,"descricao_da_tarefa");
+		descricao_da_tarefa.setLabel(gt("Descrição da Tarefa"));
+		descricao_da_tarefa.propertie().add("name","p_descricao_da_tarefa").add("type","textarea").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
+		
+		data_inicio_da_tarefa = new DateField(model,"data_inicio_da_tarefa");
+		data_inicio_da_tarefa.setLabel(gt("Data Início da Tarefa"));
+		data_inicio_da_tarefa.propertie().add("name","p_data_inicio_da_tarefa").add("type","date").add("range","false").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
+		
+		prioridade_da_tarefa = new TextField(model,"prioridade_da_tarefa");
+		prioridade_da_tarefa.setLabel(gt("Prioridade da Tarefa"));
+		prioridade_da_tarefa.propertie().add("name","p_prioridade_da_tarefa").add("type","text").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
+		
+		tarefa_atribuida_por = new TextField(model,"tarefa_atribuida_por");
+		tarefa_atribuida_por.setLabel(gt("Tarefa Atribuida Por"));
+		tarefa_atribuida_por.propertie().add("name","p_tarefa_atribuida_por").add("type","text").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
+		
+		tarefa_atribuida_a = new TextField(model,"tarefa_atribuida_a");
+		tarefa_atribuida_a.setLabel(gt("Tarefa Atribuida A"));
+		tarefa_atribuida_a.propertie().add("name","p_tarefa_atribuida_a").add("type","text").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
 		
 
 
@@ -131,21 +106,16 @@ public class Alter_prioridade_tarefaView extends View {
 		form_1.addField(nova_prioridade);
 		form_1.addField(id);
 
-		view_1.addField(detalhes_da_tarefa);
-		view_1.addField(tipo_da_tarefa);
-		view_1.addField(data_criacao_da_tarefa);
-		view_1.addField(data_inicio_da_tarefa);
-		view_1.addField(data_fim_da_tarefa);
-		view_1.addField(prioridade_da_tarefa);
-		view_1.addField(tarefa_atribuida_por);
-		view_1.addField(tarefa_atribuida_a);
-		view_1.addField(descricao_da_tarefa);
 		view_1.addField(detalhes_do_processo);
 		view_1.addField(tipo_de_processo);
 		view_1.addField(numero_de_processo);
-		view_1.addField(data_criacao_do_processo);
 		view_1.addField(data_inicio_do_processo);
-		view_1.addField(data_fim_do_processo);
+		view_1.addField(detalhes_da_tarefa);
+		view_1.addField(descricao_da_tarefa);
+		view_1.addField(data_inicio_da_tarefa);
+		view_1.addField(prioridade_da_tarefa);
+		view_1.addField(tarefa_atribuida_por);
+		view_1.addField(tarefa_atribuida_a);
 
 		form_1.addButton(btn_salvar);
 		this.addToPage(sectionheader_1);
@@ -158,21 +128,16 @@ public class Alter_prioridade_tarefaView extends View {
 		
 		nova_prioridade.setValue(model);
 		id.setValue(model);
-		detalhes_da_tarefa.setValue(model);
-		tipo_da_tarefa.setValue(model);
-		data_criacao_da_tarefa.setValue(model);
-		data_inicio_da_tarefa.setValue(model);
-		data_fim_da_tarefa.setValue(model);
-		prioridade_da_tarefa.setValue(model);
-		tarefa_atribuida_por.setValue(model);
-		tarefa_atribuida_a.setValue(model);
-		descricao_da_tarefa.setValue(model);
 		detalhes_do_processo.setValue(model);
 		tipo_de_processo.setValue(model);
 		numero_de_processo.setValue(model);
-		data_criacao_do_processo.setValue(model);
 		data_inicio_do_processo.setValue(model);
-		data_fim_do_processo.setValue(model);	
+		detalhes_da_tarefa.setValue(model);
+		descricao_da_tarefa.setValue(model);
+		data_inicio_da_tarefa.setValue(model);
+		prioridade_da_tarefa.setValue(model);
+		tarefa_atribuida_por.setValue(model);
+		tarefa_atribuida_a.setValue(model);	
 
 		}
 }

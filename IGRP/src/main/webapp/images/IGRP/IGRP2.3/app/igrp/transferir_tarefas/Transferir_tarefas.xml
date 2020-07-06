@@ -60,7 +60,7 @@
                 </novo_utilizador>
                 <email_do_utilizador name="p_email_do_utilizador" type="text" maxlength="250" required="false" change="false" readonly="true" disabled="true" placeholder="" desclabel="false" right="false">
                     <label>Email do utilizador</label>
-                    <value>Labore consectetur rem ipsum rem</value>
+                    <value>Deserunt sit unde amet stract</value>
                 </email_do_utilizador>
                 <hidden name="p_id_utilizador" type="hidden" maxlength="30" java-type="Integer" tag="id_utilizador"/>
                 <hidden name="p_id" type="hidden" maxlength="100" java-type="String" tag="id"/>
@@ -82,36 +82,36 @@
                 <detalhes_de_processo name="p_detalhes_de_processo" type="separator" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Detalhes de Processo</label>
                 </detalhes_de_processo>
+                <tipo_processo name="p_tipo_processo" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Tipo Processo</label>
+                    <value>Deserunt labore sit unde mollit</value>
+                </tipo_processo>
                 <numero_processo name="p_numero_processo" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Número Processo</label>
-                    <value>Adipiscing aperiam sit anim ipsum</value>
+                    <value>Sed iste unde sit aperiam</value>
                 </numero_processo>
                 <criado_por_ name="p_criado_por_" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Criado Por </label>
-                    <value>Aperiam perspiciatis magna mollit elit</value>
+                    <value>Adipiscing stract lorem stract unde</value>
                 </criado_por_>
                 <data_inicio name="p_data_inicio" type="date" range="false" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Data Início</label>
-                    <value>03-02-2016</value>
+                    <value>04-08-2015</value>
                 </data_inicio>
                 <detalhes_de_tarefa name="p_detalhes_de_tarefa" type="separator" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Detalhes de Tarefa</label>
                 </detalhes_de_tarefa>
-                <tipo_processo name="p_tipo_processo" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>Tipo Processo</label>
-                    <value>Sit totam deserunt stract consectetur</value>
-                </tipo_processo>
                 <descricao_de_tarefa name="p_descricao_de_tarefa" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Descrição de Tarefa</label>
-                    <value>Consectetur perspiciatis omnis aperiam iste</value>
+                    <value>Sit accusantium amet totam aperiam</value>
                 </descricao_de_tarefa>
                 <n_tarefa name="p_n_tarefa" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Nº Tarefa</label>
-                    <value>Magna aliqua ut natus mollit</value>
+                    <value>Sit doloremque deserunt aperiam amet</value>
                 </n_tarefa>
                 <atribuido_a name="p_atribuido_a" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Atribuido à</label>
-                    <value>Dolor stract mollit elit magna</value>
+                    <value>Aperiam mollit voluptatem iste unde</value>
                 </atribuido_a>
             </fields>
         </view_1>
