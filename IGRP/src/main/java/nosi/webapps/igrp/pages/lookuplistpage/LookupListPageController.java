@@ -1,5 +1,4 @@
-	
-	package nosi.webapps.igrp.pages.lookuplistpage;
+package nosi.webapps.igrp.pages.lookuplistpage;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
@@ -18,10 +17,7 @@ import nosi.webapps.igrp.dao.TipoDocumento;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import nosi.core.config.ConfigDBIGRP;
-
-import nosi.core.webapp.helpers.CheckBoxHelper;
 
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 
@@ -103,7 +99,8 @@ public class LookupListPageController extends Controller {
 													.orderByAsc("name").all(); 
 			
 			if(repTemplates != null) {
-				for(RepTemplate repTemplate : repTemplates) {
+				for(RepTemplate repTemplate : repTemplates) { 
+					
 					LookupListPage.Formlist_1 row = new LookupListPage.Formlist_1();
 					row.setDescricao_documento(new Pair(repTemplate.getName(), repTemplate.getName()));
 					row.setFormlist_1_id(new Pair(repTemplate.getId() + "", repTemplate.getId() + "")); 
@@ -155,11 +152,13 @@ public class LookupListPageController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		try {
+			
 			boolean result  = true;
 			if(Core.isNotNull(model.getTaskid()) && Core.isNotNull(model.getProcessid()) && Core.isNotNull(model.getEnv_fk())) {
+				
 				this.addQueryString("p_general_id", model.getTaskid()).addQueryString("p_process_id", model.getProcessid()).addQueryString("p_env_fk", model.getEnv_fk());
 		
-				if(model.getFormlist_1() != null) {			
+				if(model.getFormlist_1() != null) {	
 					
 					Core.update(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, "tbl_tipo_documento_etapa")
 						.addInt("status", 0)
@@ -168,41 +167,29 @@ public class LookupListPageController extends Controller {
 						.addString("taskid", model.getTaskid())
 						.execute();
 					
-					String []cb = Core.getParamArray("p_checkbox_fk"); 
-					// CheckBoxHelper cb = Core.extractCheckBox(Core.getParamArray("p_checkbox_fk"), Core.getParamArray("p_checkbox_check_fk"));
-				 	 List<String> p_checkbox_fk = Arrays.asList(cb); 
-				 	 
-					 if(p_checkbox_fk != null) {
-						 
-						 List<String> listTypeDoc = Arrays.asList(Core.getParamArray("p_type_doc_fk")); 
-						 List<String> listTipo = Arrays.asList(Core.getParamArray("p_tipo_fk")); 
-						 
-						 CheckBoxHelper cb_ = Core.extractCheckBox(Core.getParamArray("p_obrigatorio_fk"), Core.getParamArray("p_obrigatorio_check_fk"));	
-						 List<String> listObrigatorio = cb_.getChekedIds();
-						 
-						 int j = 0; 
-						 int z = 0; 
-						 String []n = Core.getParamArray("p_nome_fk_desc");
-						 for(int i=0; i < listTipo.size(); i++) {
-							 
-							if(listTipo.get(i).equalsIgnoreCase("IN")) { 
-								result = this.saveOrUpdate(p_checkbox_fk.get(j), this.proccessCheckBoxObrigatorio(z < listObrigatorio.size() ? listObrigatorio.get(z++) : "0"), listTipo.get(i), model, "tipo_documento_fk");
-							}else 
-								if(listTipo.get(i).equalsIgnoreCase("OUT")) { 
-									String aux = n[i]; 
-									RepTemplate repTemplate = new RepTemplate().find().andWhere("code", "=", "" + aux).one(); 
+						 int line = 0; 
+						 for(LookupListPage.Formlist_1 row : model.getFormlist_1()) { 
+							 line++; 
+							 if(row.getCheckbox().getKey().equals(row.getCheckbox_check().getKey())) { // If Checked 
+								 if(row.getTipo().getKey() == null || row.getTipo().getKey().isEmpty()) { 
+									 Core.setMessageWarning("A " + line + "ª linha (Nome Documento: " + row.getNome().getValue() + ") não foi processada. Favor escolher o tipo de documento."); 
+									 continue; 
+								 }
+								 if(row.getTipo().getKey().equalsIgnoreCase("IN")) { 
+										result = this.saveOrUpdate(row.getCheckbox().getKey(), this.proccessCheckBoxObrigatorio(row.getObrigatorio_check().getKey()), row.getTipo().getKey(), model, "tipo_documento_fk");
+									}else 
+										if(row.getTipo().getKey().equalsIgnoreCase("OUT")) { 
+											RepTemplate repTemplate = new RepTemplate().find().andWhere("code", "=", "" + row.getNome().getKey()).one(); 
+											if(repTemplate != null) 
+												result = this.saveOrUpdate(row.getCheckbox().getKey(), this.proccessCheckBoxObrigatorio(row.getObrigatorio_check().getKey()), row.getTipo().getKey(), model, "report_fk");
+											else 
+												result = this.saveOrUpdate(row.getCheckbox().getKey(), this.proccessCheckBoxObrigatorio(row.getObrigatorio_check().getKey()), row.getTipo().getKey(), model, "tipo_documento_fk");	
+										}
 									
-									if(repTemplate != null)
-										result = this.saveOrUpdate(p_checkbox_fk.get(j), this.proccessCheckBoxObrigatorio(z < listObrigatorio.size() ? listObrigatorio.get(z++) : "0"), listTipo.get(i), model, "report_fk");
-									else 
-										result = this.saveOrUpdate(p_checkbox_fk.get(j), this.proccessCheckBoxObrigatorio(z < listObrigatorio.size() ? listObrigatorio.get(z++) : "0"), listTipo.get(i), model, "tipo_documento_fk");	
-							}
-							
-							j++; 
-							
-							if(!result) break; 
-						 }
-					 }
+									if(!result) break; 
+							 	}
+						 	}
+						 
 				}
 			}
 			
