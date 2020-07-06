@@ -31,7 +31,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=259</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=63</preserve_url>
     </plsql>
     <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
@@ -62,49 +62,49 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_processo name="p_nome_processo">Anim totam stract omnis stract</nome_processo>
-                        <process_id name="p_process_id" tag="process_id">hidden-136a_7a03</process_id>
-                        <process_key name="p_process_key" tag="process_key">hidden-0d33_0901</process_key>
+                        <nome_processo name="p_nome_processo">Magna voluptatem deserunt iste</nome_processo>
+                        <process_id name="p_process_id" tag="process_id">hidden-f2d6_a71d</process_id>
+                        <process_key name="p_process_key" tag="process_key">hidden-269f_a72e</process_key>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_processo name="p_nome_processo">Sed accusantium omnis consecte</nome_processo>
-                        <process_id name="p_process_id" tag="process_id">hidden-17f5_0d86</process_id>
-                        <process_key name="p_process_key" tag="process_key">hidden-eb61_dc74</process_key>
+                        <nome_processo name="p_nome_processo">Sed rem elit perspiciatis adip</nome_processo>
+                        <process_id name="p_process_id" tag="process_id">hidden-f995_13b4</process_id>
+                        <process_key name="p_process_key" tag="process_key">hidden-fb28_e54e</process_key>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_processo name="p_nome_processo">Dolor ut sit accusantium elit</nome_processo>
-                        <process_id name="p_process_id" tag="process_id">hidden-1b26_625b</process_id>
-                        <process_key name="p_process_key" tag="process_key">hidden-68c1_fda0</process_key>
+                        <nome_processo name="p_nome_processo">Sed officia omnis laudantium i</nome_processo>
+                        <process_id name="p_process_id" tag="process_id">hidden-2610_38ad</process_id>
+                        <process_key name="p_process_key" tag="process_key">hidden-9081_de0e</process_key>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_processo name="p_nome_processo">Laudantium aliqua sed iste nat</nome_processo>
-                        <process_id name="p_process_id" tag="process_id">hidden-cfab_b577</process_id>
-                        <process_key name="p_process_key" tag="process_key">hidden-d9b6_fcd5</process_key>
+                        <nome_processo name="p_nome_processo">Aliqua officia natus lorem str</nome_processo>
+                        <process_id name="p_process_id" tag="process_id">hidden-d3ed_05c5</process_id>
+                        <process_key name="p_process_key" tag="process_key">hidden-0fbb_8563</process_key>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_processo name="p_nome_processo">Dolor labore stract doloremque</nome_processo>
-                        <process_id name="p_process_id" tag="process_id">hidden-0cac_1b09</process_id>
-                        <process_key name="p_process_key" tag="process_key">hidden-ba7c_d86e</process_key>
+                        <nome_processo name="p_nome_processo">Aliqua sed adipiscing aperiam</nome_processo>
+                        <process_id name="p_process_id" tag="process_id">hidden-24fa_d688</process_id>
+                        <process_key name="p_process_key" tag="process_key">hidden-1e3e_aef7</process_key>
                     </row>
                 </value>
                 <context-menu>
-                    <item type="specific" code="" class="primary" rel="iniciar_processo" refresh_components="">
+                    <item id="button_96a4_5ff5" type="specific" code="" class="primary" rel="iniciar_processo" refresh_components="">
                         <title>Iniciar Processo</title>
                         <app>igrp</app>
                         <page>Dominio</page>
@@ -114,7 +114,7 @@
                         <img>primary|fa-play</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
                     </item>
-                    <item type="specific" code="" class="grey" rel="detalhes_processo" refresh_components="">
+                    <item id="button_d6eb_cd54" type="specific" code="" class="grey" rel="detalhes_processo" refresh_components="">
                         <title>Detalhes Processo</title>
                         <app>igrp</app>
                         <page>Detalhes_dashboard_processo</page>
@@ -123,6 +123,16 @@
                         <target>mpsubmit</target>
                         <img>grey|fa-list</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/detalhes_dashboard_processo/Detalhes_dashboard_processo.xml</preview>
+                    </item>
+                    <item id="button_d82a_52b1" type="specific" code="" class="danger" rel="eliminar_processo" refresh_components="">
+                        <title>Eliminar Processo</title>
+                        <app>igrp</app>
+                        <page>Dash_board_processo</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xml?</parameter>
+                        <target>alert_submit</target>
+                        <img>danger|fa-times</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xml</preview>
                     </item>
                 </context-menu>
             </table>

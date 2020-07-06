@@ -47,8 +47,7 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 		List<ProcessDefinitionService> list = this.getMyProcessDefinitions(dadApp);
 		Map<String, String> map = new HashMap<>();		
 		map.put(null,gt("-- Selecionar --"));
-		map.putAll(list.stream()
-				.collect(Collectors.toMap(ProcessDefinitionService::getKey, ProcessDefinitionService::getName)));
+		map.putAll(list.stream().collect(HashMap::new, (m,v)->m.put(v.getKey(), v.getName()), HashMap::putAll));
 		return map;
 	}
 
@@ -67,7 +66,7 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 			Map<String, String> map = new HashMap<>();	
 			map.put(null, gt("-- Selecionar --"));
 			map.putAll(listDistint.stream()
-					.collect(Collectors.toMap(TaskService::getTaskDefinitionKey, TaskService::getName)));
+					.collect(HashMap::new, (m,v)->m.put(v.getTaskDefinitionKey(), v.getName()), HashMap::putAll));
 			return map;
 		}
 		return null;
