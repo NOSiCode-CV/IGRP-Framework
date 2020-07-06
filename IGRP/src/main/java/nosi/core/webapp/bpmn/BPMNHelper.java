@@ -195,15 +195,10 @@ public final class BPMNHelper {
 				if(doc != null) {
 					aux.add(doc); 
 					taskIds.add(task.getTaskid()); 
+					break;
 				}
 			}
 		}
-		
-		aux.removeIf(obj -> { 
-			for(TipoDocumentoEtapa doc_ : aux) 
-				return doc_ != obj && doc_.getTipoDocumento() != null && obj.getTipoDocumento() != null && doc_.getTipoDocumento().getCodigo().equals(obj.getTipoDocumento().getCodigo()); 
-			return false; 
-		});
 		
 		for(int i = 0; i < aux.size(); i++) { 
 			TipoDocumentoEtapa t = aux.get(i); 
@@ -303,6 +298,9 @@ public final class BPMNHelper {
 				 }
 			}
 		} 
+		
+		
+		
 		return allOutDocs; 
 	}
 	
