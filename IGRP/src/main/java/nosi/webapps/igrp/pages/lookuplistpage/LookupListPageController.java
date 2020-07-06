@@ -152,14 +152,12 @@ public class LookupListPageController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		try {
-			
 			boolean result  = true;
 			if(Core.isNotNull(model.getTaskid()) && Core.isNotNull(model.getProcessid()) && Core.isNotNull(model.getEnv_fk())) {
 				
 				this.addQueryString("p_general_id", model.getTaskid()).addQueryString("p_process_id", model.getProcessid()).addQueryString("p_env_fk", model.getEnv_fk());
-		
+				
 				if(model.getFormlist_1() != null) {	
-					
 					Core.update(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, "tbl_tipo_documento_etapa")
 						.addInt("status", 0)
 						.where("processid=:processid AND taskid=:taskid AND status = 1")
@@ -179,17 +177,16 @@ public class LookupListPageController extends Controller {
 										result = this.saveOrUpdate(row.getCheckbox().getKey(), this.proccessCheckBoxObrigatorio(row.getObrigatorio_check().getKey()), row.getTipo().getKey(), model, "tipo_documento_fk");
 									}else 
 										if(row.getTipo().getKey().equalsIgnoreCase("OUT")) { 
-											RepTemplate repTemplate = new RepTemplate().find().andWhere("code", "=", "" + row.getNome().getKey()).one(); 
+											RepTemplate repTemplate = new RepTemplate().find().andWhere("code", "=", "" + row.getNome().getValue()).one(); 
 											if(repTemplate != null) 
 												result = this.saveOrUpdate(row.getCheckbox().getKey(), this.proccessCheckBoxObrigatorio(row.getObrigatorio_check().getKey()), row.getTipo().getKey(), model, "report_fk");
 											else 
 												result = this.saveOrUpdate(row.getCheckbox().getKey(), this.proccessCheckBoxObrigatorio(row.getObrigatorio_check().getKey()), row.getTipo().getKey(), model, "tipo_documento_fk");	
-										}
+											}
 									
 									if(!result) break; 
 							 	}
 						 	}
-						 
 				}
 			}
 			
