@@ -31,6 +31,9 @@ import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 /*----#end-code----*/
 		
 public class ExecucaoTarefasController extends Controller {
+	
+	//Tab availables not showing if you have the dad_hide_tab_d in the config file
+			final String getConfig = Core.getConfig(Core.getCurrentDad()+"_hide_tab_d");
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ExecucaoTarefas model = new ExecucaoTarefas();
 		model.load();
@@ -64,6 +67,8 @@ public class ExecucaoTarefasController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
+		
+		
 		this.showTabManage(view, false);// hide tab when user is not manager
 
 		List<ExecucaoTarefas.Table_gerir_tarefas> taskManage = this.getTaskManage(model, view);
@@ -626,7 +631,9 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 	}
 
 	private void showTabManage(ExecucaoTarefasView view, boolean isVisible) {
-		final String getConfig = Core.getConfig("SPS_available_profs");
+		
+		
+		//Tab availables not showing if you have the dad_hide_tab_d in the config file
 		if(Core.isNotNull(getConfig) && getConfig.contains(Core.getCurrentProfileCode()))
 			view.disponiveis.setVisible(isVisible);
 		view.gerir_tarefas.setVisible(isVisible);
