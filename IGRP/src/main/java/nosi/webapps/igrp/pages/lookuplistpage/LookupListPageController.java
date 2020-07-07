@@ -75,7 +75,6 @@ public class LookupListPageController extends Controller {
 					row.setNome(new Pair(tipoDocumento.getNome(), tipoDocumento.getNome())); 
 					row.setCheckbox(new Pair(tipoDocumento.getId() + "", "-1")); 
 					row.setObrigatorio(new Pair("1", "0")); 
-					
 					TipoDocumentoEtapa tipoDocumentoEtapas = new TipoDocumentoEtapa().find()
 																	.andWhere("processId", "=", model.getProcessid())
 																	.andWhere("tipoDocumento", "=", tipoDocumento)
@@ -84,8 +83,11 @@ public class LookupListPageController extends Controller {
 																	.one(); 
 					if(tipoDocumentoEtapas != null) {
 						row.setCheckbox(new Pair(tipoDocumento.getId() + "", tipoDocumento.getId() + "")); 
-						if(tipoDocumentoEtapas.getRequired() != 0)
+						row.setCheckbox_check(new Pair(tipoDocumento.getId() + "", tipoDocumento.getId() + "")); 
+						if(tipoDocumentoEtapas.getRequired() != 0) {
 							row.setObrigatorio(new Pair(tipoDocumentoEtapas.getRequired() + "", tipoDocumentoEtapas.getRequired() + "")); 
+							row.setObrigatorio_check(new Pair(tipoDocumentoEtapas.getRequired() + "", tipoDocumentoEtapas.getRequired() + "")); 
+						}
 						row.setTipo(new Pair(tipoDocumentoEtapas.getTipo(), tipoDocumentoEtapas.getTipo()));
 					}
 					
@@ -97,10 +99,8 @@ public class LookupListPageController extends Controller {
 													.andWhere("application.id", "=", Core.toInt(model.getEnv_fk()))
 													.andWhere("status", "=", 1)
 													.orderByAsc("name").all(); 
-			
 			if(repTemplates != null) {
 				for(RepTemplate repTemplate : repTemplates) { 
-					
 					LookupListPage.Formlist_1 row = new LookupListPage.Formlist_1();
 					row.setDescricao_documento(new Pair(repTemplate.getName(), repTemplate.getName()));
 					row.setFormlist_1_id(new Pair(repTemplate.getId() + "", repTemplate.getId() + "")); 
@@ -116,8 +116,11 @@ public class LookupListPageController extends Controller {
 							.one(); 
 					if(tipoDocumentoEtapas != null) {
 						row.setCheckbox(new Pair(repTemplate.getId() + "", repTemplate.getId() + "")); 
-						if(tipoDocumentoEtapas.getRequired() != 0)
+						row.setCheckbox_check(new Pair(repTemplate.getId() + "", repTemplate.getId() + "")); 
+						if(tipoDocumentoEtapas.getRequired() != 0) {
 							row.setObrigatorio(new Pair(tipoDocumentoEtapas.getRequired() + "", tipoDocumentoEtapas.getRequired() + "")); 
+							row.setObrigatorio_check(new Pair(tipoDocumentoEtapas.getRequired() + "", tipoDocumentoEtapas.getRequired() + "")); 
+						}
 						row.setTipo(new Pair(tipoDocumentoEtapas.getTipo(), tipoDocumentoEtapas.getTipo()));
 					} 
 					
