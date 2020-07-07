@@ -692,7 +692,7 @@ var GENTABLE = function(name,params){
 				
 					align  =  f.GET.align ? f.GET.align() : '';
 			
-				rtn+='<xsl:if test="'+fValue+'"><td align="'+align+'">';
+				rtn+='<xsl:if test="'+fValue+'"><td align="'+align+'" td-name="'+f.GET.tag()+'">';
 				
 				rtn+='<xsl:value-of select="'+fValue+'"/>';
 				

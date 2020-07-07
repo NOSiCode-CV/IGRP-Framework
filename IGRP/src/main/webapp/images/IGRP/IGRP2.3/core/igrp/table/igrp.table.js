@@ -83,7 +83,12 @@
 				
 				$('table.table[id] thead tr th[group-in]', o.parent).each(function(i, th){
 					
+					var thFoot = $('tfoot td[td-name="'+$(this).attr('td-name')+'"]',$(this).parents('table'));
+					
 					$(th).remove();
+					
+					if(thFoot[0])
+						thFoot.remove();
 					
 				});
 			}
@@ -131,6 +136,11 @@
 							$(th).addClass('is-grouped');
 							
 							tdInfo.addClass('is-grouped');
+							
+							var thFoot = $('tfoot td[td-name="'+thName+'"]',table);
+							
+							if(thFoot[0])
+								thFoot.remove();
 							
 						}
 	
