@@ -1814,6 +1814,36 @@ public final class Core { // Not inherit
 		return mail(email, to, subject, msg, charset, mimetype, attachs, replyTo, null);
 	}
 	
+	
+	
+	public static boolean mail(String from, String to, String subject, String msg, String charset, String mimetype,
+			File[] attachs, String replyTo, boolean multiplerecepients, Properties customConfig) {
+		EmailMessage sender = EmailMessage.newInstance();
+		boolean result = false;
+		try {
+			sender.setFrom(from).setTo(to).multipleRecipients(multiplerecepients).setSubject(subject).setMsg(msg, charset, mimetype).replyTo(replyTo);
+			
+			if (Core.isNotNull(attachs))
+				for (File f : attachs)
+					sender.attach(f);
+			
+			if(customConfig != null) {
+				Enumeration<Object> i = customConfig.keys(); 
+				while(i.hasMoreElements()) {
+					String key =  (String) i.nextElement();
+					sender.getSettings().setProperty(key, customConfig.getProperty(key));
+				}
+			}
+			
+			result = sender.send();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
+	
 	public static boolean mail(String from, String to, String subject, String msg, String charset, String mimetype,
 			File[] attachs, String replyTo, Properties customConfig) {
 			EmailMessage sender = EmailMessage.newInstance();
