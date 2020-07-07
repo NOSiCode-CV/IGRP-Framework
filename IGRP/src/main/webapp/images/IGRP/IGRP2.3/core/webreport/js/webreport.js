@@ -1303,7 +1303,9 @@ $(function ($) {
 			    	},
 			    	elements:{
 			    		span : function(element){
-			    			var span  = {};
+			    			var span    = {},
+								arrType = ['radio','radiolist','checkbox','checkboxlist','select'];
+			    			
 			    			span.tag  = element.attributes.tag || element.attributes.tag;
 			    			span.pos  = element.attributes.pos;
 			    			span.no   = element.attributes.no;
@@ -1328,9 +1330,17 @@ $(function ($) {
 		                                '<xsl:with-param name="title" select="rows/content'+pos+'/'+span.tag+'/caption"/>'+
 		                            '</xsl:call-template></div>';
 
-			    				} else if(span.type == 'select'){
+			    				}/* else if(span.type == 'select'){
 			    					span.element = '<xsl:value-of select="rows/content'+pos+'/'+span.no+'/fields/'+span.tag+'/list/option[@selected='+"'"+'true'+"'"+']/text"/>';
-			    				}
+			    				
+			    				}*/ else if ($.inArray(span.type,arrType) !== -1){
+									span.element = '<span class="brl" '+$.WR.element.getStyle(element)+'>'+
+														'<xsl:for-each select="rows/content'+pos+'/'+span.no+'/fields/'+span.tag+'/list/option[@selected='+"'"+'true'+"'"+']">'+
+															'<xsl:value-of select="text"></xsl:value-of>'+
+															'<xsl:if test="position() != last()"><xsl:text>; &nbsp;</xsl:text>'+
+														'</xsl:if></xsl:for-each>'+
+													'</span>';
+								}
 
 			    				element.setHtml(span.element);
 
