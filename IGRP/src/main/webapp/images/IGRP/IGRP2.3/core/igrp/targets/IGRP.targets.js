@@ -1327,7 +1327,7 @@
 			
 			confirmText = $('#confirm-text').text();
 			
-			var target = '_bank',
+			var target = '_blank',
 			
 				_this  = null;
 
