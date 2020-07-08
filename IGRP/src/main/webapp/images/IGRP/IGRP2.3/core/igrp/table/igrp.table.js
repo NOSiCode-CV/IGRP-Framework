@@ -83,7 +83,12 @@
 				
 				$('table.table[id] thead tr th[group-in]', o.parent).each(function(i, th){
 					
+					var thFoot = $('tfoot td[td-name="'+$(this).attr('td-name')+'"]',$(this).parents('table'));
+					
 					$(th).remove();
+					
+					if(thFoot[0])
+						thFoot.remove();
 					
 				});
 			}
@@ -131,6 +136,11 @@
 							$(th).addClass('is-grouped');
 							
 							tdInfo.addClass('is-grouped');
+							
+							var thFoot = $('tfoot td[td-name="'+thName+'"]',table);
+							
+							if(thFoot[0])
+								thFoot.remove();
 							
 						}
 	
@@ -309,31 +319,41 @@
 			});
 			
 		},
-		
+			
 		checkdControl : function(p){
+			console.log(p);
+			var inp     = $('input[type="hidden"].'+p.rel,p.o),
+				table   = p.o.parents('table'),
+				hidden  = '<input type="hidden" class="'+p.rel+'" value="'+p.value+'" name="p_'+p.rel+'_fk"/>',
+				inpcheck = p.o.find( '.'+p.rel+'_check');
 			
-			var inp   = $('input[type="hidden"].'+p.rel, p.o),
-			
-				check   = p.o.find( '.'+p.rel+'_check' );
-			
+			console.log(inpcheck);
+	
 			if(p.check){
-				
-				check.val( p.value );
-				
-                if (inp[0])
-                    inp.remove();
-                
-                
-            }else{
-            
-            	check.val( "" );
-            	
-                if (!inp[0])
-                    p.o.append('<input type="hidden" class="'+p.rel+'" value="'+p.value+'" name="'+p.name+'"/>');
-                
-                
-            }
-			
+	
+				inpcheck.val( p.value );
+	
+	            if (inp[0])
+	                inp.remove();
+	        }
+	        else{
+	
+	        	inpcheck.val( '' );
+	
+	        	if (!inp[0])
+	                p.o.append(hidden);
+	        }
+	
+	        if(p.type == 'radio'){
+	    		$('tbody tr td input[check-rel="'+p.rel+'"]',table).each(function(){
+	    			var td = $(this).parents('td:first');
+	
+	    			if(!$('input[type="hidden"].'+p.rel,td)[0] && !$(this).is(':checked')){
+	    				td.append(hidden);
+	    				td.find( '.'+p.rel+'_check').val('');
+	    			}
+	    		});
+	    	}
 			
 		},
 		
@@ -466,15 +486,15 @@
 				
                 var o   = $(this),
                     rel = o.attr('check-rel'),
-                    obj = $('td[item-name="'+rel+'"]',o.parents('tr:first')),
-                    inp = $('input[type="hidden"].'+rel,obj);
+                    obj = $('td[item-name="'+rel+'"]',o.parents('tr:first'));
 
                 com.checkdControl({
                     rel     : rel,
                     o       : obj,
                     check   : o.is(':checked'),
                     value   : o.val(),
-                    name    : o.attr('name')
+                    name    : o.attr('name'),
+                    type  	: o.attr('type')
                 });
             });
 			

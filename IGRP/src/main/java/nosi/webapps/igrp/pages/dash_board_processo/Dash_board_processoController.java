@@ -12,6 +12,8 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
+
 import java.util.ArrayList;
 import java.util.List;
 import nosi.webapps.igrp.pages.dash_board_processo.Dash_board_processo.Table_2;
@@ -27,7 +29,7 @@ public class Dash_board_processoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_2(Core.query(null,"SELECT 'Sit deserunt voluptatem sed ac' as nome_processo,'hidden-b439_59bf' as process_id,'hidden-b5b2_02b5' as process_key "));
+		model.loadTable_2(Core.query(null,"SELECT 'Sit ut elit aperiam sit' as nome_processo,'hidden-a896_15c6' as process_id,'hidden-8373_28c6' as process_key "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/	
 		view.btn_iniciar_processo.setPage("ExecucaoTarefas");
@@ -76,6 +78,35 @@ public class Dash_board_processoController extends Controller {
 		
 		/*----#end-code----*/
 		return this.redirect("igrp","Detalhes_dashboard_processo","index", this.queryString());	
+	}
+	
+	public Response actionEliminar_processo() throws IOException, IllegalArgumentException, IllegalAccessException{
+		Dash_board_processo model = new Dash_board_processo();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_process_id",Core.getParam("p_process_id"));
+		  this.addQueryString("p_process_key",Core.getParam("p_process_key"));
+		  return this.forward("igrp","Dash_board_processo","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/*----#start-code(eliminar_processo)----*/
+	
+		try {
+			String processId = Core.getParam("p_process_id"); 
+			ProcessDefinitionService process = new ProcessDefinitionServiceRest().getProcessDefinition(processId); 
+			if(new ProcessDefinitionServiceRest().delete(process.getDeploymentId())) 
+				Core.setMessageSuccess(); 
+			else 
+				Core.setMessageError(); 
+		} catch (Exception e) {
+			Core.setMessageError(); 
+		}
+		
+		/*----#end-code----*/
+		return this.redirect("igrp","Dash_board_processo","index", this.queryString());	
 	}
 	
 		
