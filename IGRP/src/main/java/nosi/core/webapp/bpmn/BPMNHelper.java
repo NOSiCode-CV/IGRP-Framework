@@ -16,6 +16,7 @@ import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.ActivityExecute;
+import nosi.webapps.igrp.dao.RepTemplateSource;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import nosi.webapps.igrp_studio.pages.bpmndesigner.ReserveCodeControllerTask;
 import static nosi.core.i18n.Translator.gt;
@@ -234,12 +235,31 @@ public final class BPMNHelper {
 				.andWhere("repTemplate", "notnull")
 				.andWhere("repTemplate.application.dad", "=",taskDad)
 				.all();		
-		tipoDocs.stream().forEach(t->{
-			 t.setFileId(new Integer(-1));
-			 IGRPLink link = new IGRPLink(Core.getLinkReport(t.getRepTemplate().getCode()).addParam(BPMNConstants.PRM_TASK_ID, getCurrentTaskId()));
- 			 link.setLink_desc(gt("Mostrar"));
-			 t.setLink(link);
-		});
+		for(TipoDocumentoEtapa t : tipoDocs) { 
+			RuntimeTask runtimeTask = RuntimeTask.getRuntimeTask(); 
+			t.setFileId(new Integer(-1));
+			nosi.core.webapp.Report r = Core.getLinkReport(t.getRepTemplate().getCode()); 
+			List<RepTemplateSource> allDataSources = new RepTemplateSource().find().andWhere("repTemplate", "=", t.getRepTemplate()).all(); 
+			String p_task_id = "";  
+			if(allDataSources != null) { 
+				for(RepTemplateSource ds : allDataSources) {
+					if(ds.getRepSource() != null && "Task".equalsIgnoreCase(ds.getRepSource().getType()) && ds.getRepSource().getTaskid() != null) { 
+						ActivityExecute completedTask = new ActivityExecute().find()
+							.andWhere("processName", "=", runtimeTask.getTask().getProcessDefinitionId())
+							.andWhere("processid", "=", runtimeTask.getTask().getProcessInstanceId())
+							.andWhere("taskKey", "=", ds.getRepSource().getTaskid())
+							.orderByDesc("id").one(); 
+							if(completedTask != null)
+								p_task_id += p_task_id.isEmpty() ? completedTask.getTaskid() : String.join("-", p_task_id, completedTask.getTaskid()); 
+					}
+				}
+			}
+			r.addParam(BPMNConstants.PRM_TASK_ID, !p_task_id.isEmpty() ? p_task_id : "-1");
+			IGRPLink link = new IGRPLink(r);
+			link.setLink_desc(gt("Mostrar"));
+			t.setLink(link);
+		}
+		
 		return tipoDocs;
 	}
 	
