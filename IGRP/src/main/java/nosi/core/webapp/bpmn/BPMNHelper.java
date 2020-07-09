@@ -250,7 +250,7 @@ public final class BPMNHelper {
 							.andWhere("taskKey", "=", ds.getRepSource().getTaskid())
 							.orderByDesc("id").one(); 
 							if(completedTask != null)
-								p_task_id += p_task_id.isEmpty() ? completedTask.getTaskid() : String.join("-", p_task_id, completedTask.getTaskid()); 
+								p_task_id = p_task_id.isEmpty() ? completedTask.getTaskid() : String.join("-", p_task_id, completedTask.getTaskid()); 
 					}
 				}
 			}
