@@ -145,6 +145,10 @@ public class NovoMenuController extends Controller {
 			if (Core.isNotNullOrZero(id)) {
 				// UPDATE menu will enter here
 				menu = new Menu().findOne(id);
+				
+				if(Core.isNullOrZero(model.getSelf_id())) {
+					menu.setMenu(menu);
+				}
 			} else {
 				// NEW menu will enter here
 				menu = new Menu();
@@ -173,9 +177,7 @@ public class NovoMenuController extends Controller {
 			} else if (Core.isNotNullOrZero(model.getAction_fk()))
 				menu.setMenu(menu);
 
-			if(Core.isNullOrZero(model.getSelf_id())) {
-				menu.setMenu(menu);
-			}
+			
 				
 			
 			if (Core.isNotNullOrZero(id)) {
