@@ -617,7 +617,7 @@ public class EnvController extends Controller {
 			String contextName = Core.getDeployedWarName(); 
 			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !contextName.equalsIgnoreCase(env.getUrl())) {
 				url = this.configApp.getAutentikaUrlForSso(); 
-				url = url.replace("state=igrpweb", "state=" + URLEncoder.encode("ENV|" + env.getDad(), "utf-8")); 
+				url = url.replace("state=igrpweb", "state=ENV/" + env.getDad()); 
 				url = url.replace("/IGRP/", "/" + env.getUrl() + "/"); 
 			}
 		} catch (Exception e) { 
