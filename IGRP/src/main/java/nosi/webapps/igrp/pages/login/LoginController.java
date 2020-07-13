@@ -52,7 +52,7 @@ import service.client.WSO2UserStub;
 public class LoginController extends Controller {
 
 	/*----#start-code(custom_actions)----*/
-
+	
 	private Properties settings; 
 	
 	public LoginController() {
@@ -197,17 +197,8 @@ public class LoginController extends Controller {
 			}
 			try { 
 				String state = Core.getParam("state"); 
-				if(state != null && !state.isEmpty()) { 
-					String []aux = state.split("/"); 
-					if(aux != null && aux.length == 4) {
-						String dad = aux[3]; 
-						if(dad != null && !dad.isEmpty()) { 
-							Application application = new Application().find().andWhere("dad", "=", dad).one(); 
-							if(application != null) 
-								this.addQueryString("dad", state); 
-						}
-					}
-				}
+				if(state != null && !state.isEmpty()) 
+					this.addQueryString("dad", state); 
 				return this.redirect("igrp", "home", "index", this.queryString()); 
 			}catch (Exception e) {
 			}
@@ -682,6 +673,7 @@ public class LoginController extends Controller {
 		String error = Core.getParam("error"); 
 		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
 		String authCode = Core.getParam("code");  
+		String state = Core.getParam("state"); 
 		
 		if(r != null && r.equalsIgnoreCase("true")) {
 			
@@ -713,6 +705,8 @@ public class LoginController extends Controller {
 					String email = _r.get("email") != null ? _r.get("email").trim().toLowerCase() : _r.get("email"); 
 					String uid = _r.get("sub"); 
 					
+					this.addQueryString("dad", state); 
+					
 					User user = new User().find().andWhere("email", "=", email).one(); 
 					
 					if (user != null) {
@@ -726,19 +720,12 @@ public class LoginController extends Controller {
 								user.setRefreshToken(refresh_token);
 								user = user.update();
 								
-								// Custom Dad 
-								String externalUrl = createUrlOauth2OpenIdWso2(); 
-								if(externalUrl != null) 
-									return this.redirectToUrl(externalUrl); 
-								
 								return redirect("igrp", "home", "index", this.queryString());  
-								
 							} catch (Exception e) {
 							}
 						}
 						
-					}else {
-						
+					}else { 
 						// Caso o utilizador não existir na base de dados fazer auto-invite no quando env=dev ... 
 						if(new Config().getEnvironment().equalsIgnoreCase("dev")) {
 							
@@ -762,11 +749,6 @@ public class LoginController extends Controller {
 									newUser.setOidcState(session_state);
 									newUser.setRefreshToken(refresh_token);
 									newUser.update();
-									
-									// Custom Dad 
-									String externalUrl = createUrlOauth2OpenIdWso2(); 
-									if(externalUrl != null) 
-										return this.redirectToUrl(externalUrl); 
 									
 									return redirect("igrp", "home", "index", this.queryString()); 
 								}
@@ -836,43 +818,6 @@ public class LoginController extends Controller {
 			return redirectToUrl(url); 
 		}
 		return null;
-	}
-	
-	private String createUrlOauth2OpenIdWso2() { 
-		String url = null;
-		try {
-			String state = Core.getParam("state"); 
-			if(state != null && !state.isEmpty()) { 
-				String []aux = state.split("/"); 
-				if(aux != null && aux.length == 4) { 
-					String dad = aux[3]; 
-					if(dad != null && !dad.isEmpty()) { 
-						
-						Application application = new Application().find().andWhere("dad", "=", dad).one(); 
-						
-						String contextName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
-						
-						if(application != null) { 
-							this.addQueryString("dad", state); 
-							if(application.getExternal() == 2 && !contextName.equalsIgnoreCase(application.getUrl())) { 
-								url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
-								String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
-								String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
-								url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrpweb&redirect_uri=" + redirect_uri; 
-								
-								url = url.replace("/IGRP/", "/" + application.getUrl() + "/").replace("state=igrpweb", "state=" + state);  
-							}
-						} 
-						
-					} 
-				} 
-				
-			}
-		} catch (Exception e) { 
-			e.printStackTrace(); 
-		}
-		
-		return url; 
 	}
 	
 	private String createUrlForOAuth2OpenIdRequest() { 

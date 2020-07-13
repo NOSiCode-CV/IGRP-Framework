@@ -17,6 +17,7 @@ import nosi.core.integration.pdex.service.AppConfig.App;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
 
 import static nosi.core.i18n.Translator.gt;
 
@@ -613,10 +614,10 @@ public class EnvController extends Controller {
 	private String buildAppUrlUsingAutentikaForSSO(Application env) { 
 		String url = null;
 		try { 
-			String contextName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName(); 
+			String contextName = Core.getDeployedWarName(); 
 			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !contextName.equalsIgnoreCase(env.getUrl())) {
 				url = this.configApp.getAutentikaUrlForSso(); 
-				url = url.replace("state=igrpweb", "state=ENV|" + env.getDad()); 
+				url = url.replace("state=igrpweb", "state=" + URLEncoder.encode("ENV|" + env.getDad(), "utf-8")); 
 				url = url.replace("/IGRP/", "/" + env.getUrl() + "/"); 
 			}
 		} catch (Exception e) { 
