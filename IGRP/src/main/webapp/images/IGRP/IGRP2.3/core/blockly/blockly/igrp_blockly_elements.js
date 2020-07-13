@@ -102,7 +102,7 @@
 			 			_block.getInput('ADD'+ id +'STATE3').setVisible(false);
             		}
 			 	}
-			 var getDDField = function(idx){
+			 	var getDDField = function(idx){
 			 		return new Blockly.FieldDropdown(FILTER, function(input_type){
 	            		appendMutationFields(input_type,idx)
 	            	})
@@ -131,7 +131,7 @@
 		    }	    
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////START IGRP_BLOCKLY_ELEMENTS ////////////////////////////////////////////////////////
 	
 	window.IGRP_BLOCKLY_ELEMENTS = {
 			
@@ -282,6 +282,115 @@
 		    }
 		},
 		
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		//Handle with CORE BLOCK
+		
+		core_fun_set : {
+			
+			init : function(block){
+			var options = IGRP_BLOCKLY_DROPS.core;
+			var dropdown = new Blockly.FieldDropdown(options, function(option) {	
+				this.sourceBlock_.updateShape_(option);    
+		    });	
+		    block.getInput("CORE").appendField(dropdown, 'CORE_FUNCTION')
+			     .appendField(new Blockly.FieldImage(path+"/core/blockly/blockly/media/igrpweb_logo.png",40,20,"*"));
+		    block.setInputsInline(true);
+		    block.appendValueInput("value1").setVisible(false);
+		    block.appendValueInput("value2").setVisible(false);
+		    block.appendValueInput("value3").setVisible(false);
+		    block.appendValueInput("value4").setVisible(false);
+		    block.appendValueInput("value5").setVisible(false);
+		    
+			block.mutationToDom =  function() {
+			    var container = document.createElement('mutation');
+			    var itemInput = this.getFieldValue('CORE_FUNCTION');
+			    container.setAttribute('hover_type', itemInput);
+			    return container; 
+			},
+
+			block.domToMutation = function(xmlElement) {
+			    var itemInput = xmlElement.getAttribute('hover_type');
+			    this.updateShape_(itemInput);  
+			},
+			
+			block.updateShape_  = function(input_type) {		 
+			 	var type    = input_type;
+
+			    if (type == 'enviar_email') {
+					block.getInput("value1").setVisible(true);
+					block.getInput("value2").setVisible(true);
+					block.getInput("value3").setVisible(true);
+					block.getInput("value4").setVisible(true);
+					block.getInput("value5").setVisible(true);
+			    }
+			    else {
+					block.getInput("value1").setVisible(false);
+					block.getInput("value2").setVisible(false);
+					block.getInput("value3").setVisible(false);
+					block.getInput("value4").setVisible(false);
+					block.getInput("value5").setVisible(false);
+			    }
+			  }
+			}
+		},
+		
+	core_fun_get : {
+			
+			init : function(block){
+			var options = IGRP_BLOCKLY_DROPS.core;
+			var dropdown = new Blockly.FieldDropdown(options, function(option) {	
+				this.sourceBlock_.updateShape_(option);    
+		    });	
+		    block.getInput("CORE").appendField(dropdown, 'CORE_FUNCTION')
+			     .appendField(new Blockly.FieldImage(path+"/core/blockly/blockly/media/igrpweb_logo.png",40,20,"*"));
+		    block.setInputsInline(true);
+		    block.appendValueInput("value1").setVisible(false);
+		    block.appendValueInput("value2").setVisible(false);
+		    block.appendValueInput("value3").setVisible(false);
+		    block.appendValueInput("value4").setVisible(false);
+		    block.appendValueInput("value5").setVisible(false);
+		    
+			block.mutationToDom =  function() {
+			    var container = document.createElement('mutation');
+			    var itemInput = this.getFieldValue('CORE_FUNCTION');
+			    container.setAttribute('hover_type', itemInput);
+			    return container; 
+			},
+
+			block.domToMutation = function(xmlElement) {
+			    var itemInput = xmlElement.getAttribute('hover_type');
+			    this.updateShape_(itemInput);  
+			},
+			
+			block.updateShape_  = function(input_type) {		 
+			 	var type    = input_type;
+
+			    if (type == 'enviar_email') {
+					block.getInput("value1").setVisible(true);
+					block.getInput("value2").setVisible(true);
+					block.getInput("value3").setVisible(true);
+					block.getInput("value4").setVisible(true);
+					block.getInput("value5").setVisible(true);
+			    }
+			    else if (type == 'apanhar_parametro_texto') {
+					block.getInput("value1").setVisible(true);
+					block.getInput("value2").setVisible(false);
+					block.getInput("value3").setVisible(false);
+					block.getInput("value4").setVisible(false);
+					block.getInput("value5").setVisible(false);
+			    }
+			    else {
+					block.getInput("value1").setVisible(false);
+					block.getInput("value2").setVisible(false);
+					block.getInput("value3").setVisible(false);
+					block.getInput("value4").setVisible(false);
+					block.getInput("value5").setVisible(false);
+			    }
+			  }
+			}
+		},
+		
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 	grafico :$.extend({
@@ -318,7 +427,7 @@
 	
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////  END IGRP_BLOCKLY_ELEMENTS  /////////////////////////////////////////////////
 	
 //Handle SET Dao Blocks
 	
@@ -330,6 +439,7 @@
 		block.setColour(160);
 	    block.getInput("value1").appendField(dropdown, 'DAO_FIELD')
 		     .appendField(new Blockly.FieldImage(path+"/core/blockly/blockly/media/dao.svg",15,15,"*"));
+	    
 		block.mutationToDom =  function() {
 		    var container = document.createElement('mutation');
 		    var itemInput = this.getFieldValue('DAO_FIELD');
@@ -347,7 +457,7 @@
 				type        = strSplit[0],
 				val 	    = strSplit[1],
 		        inputExists = this.getInput('dao_rela'); 
-		    if (type && type != '--' && type != 'String' && type != 'Date' && type != 'Integer' && type != 'BigInteger' && type != 'Boolean') {
+		    if (type.includes("_FK#")) {
 		      if (!inputExists) {
 		        this.setInputsInline(true);
 		      }
@@ -390,7 +500,7 @@
 				type        = strSplit[0],
 				val 	    = strSplit[1],
 		        inputExists = this.getInput('dao_rela'); 
-		    if (type && type != '--' && type != 'String' && type != 'Date' && type != 'Integer' && type != 'BigInteger' && type != 'Boolean') {
+		    if (type.includes("_FK#")) {
 		      if (!inputExists) {
 		        this.appendValueInput('dao_rela').setCheck();
 		      }
