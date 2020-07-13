@@ -2,7 +2,6 @@ package nosi.webapps.igrp.pages.home;
 /*---- Import your packages here... ----*/
 
 import java.io.IOException;
-import java.net.URLDecoder;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -19,8 +18,7 @@ public class HomeController extends Controller {
 	public Response actionIndex() throws IOException{ 
 		String dad = Core.getParam("dad"); 
 		if(dad != null) {
-			dad = URLDecoder.decode(dad, "utf-8"); 
-			String []aux = dad.split("\\|"); // Ex.: ENV|id|APP;ORG;PROF|p_id=1;p_type=3  
+			String []aux = dad.split("/"); // Ex.: ENV/id/APP;ORG;PROF/p_id=1;p_type=3  
 			if(aux != null) { 
 				if(aux.length >= 2) { 
 					String type = aux[0]; 

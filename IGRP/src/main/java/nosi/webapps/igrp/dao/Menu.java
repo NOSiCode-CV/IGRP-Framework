@@ -14,13 +14,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.io.File;
 import java.io.Serializable;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Properties;
 
 import javax.persistence.Column;
 
@@ -363,7 +360,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 			Action pagina = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", page).one(); 
 			if(pagina != null) {
 				url =  ConfigApp.getInstance().getAutentikaUrlForSso(); 
-				url = url.replace("/IGRP/", "/" + dad + "/").replace("state=igrpweb", "state=" + URLEncoder.encode("PAGE|" + pagina.getId() + "|" + dad, "utf-8")); 
+				url = url.replace("/IGRP/", "/" + dad + "/").replace("state=igrpweb", "state=PAGE/" + pagina.getId() + "/" + dad); 
 			}
 		} catch (Exception e) {
 		}
