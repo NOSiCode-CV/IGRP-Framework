@@ -39,11 +39,6 @@ public class NovoPerfilController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
-		Properties settings = this.configApp.getMainSettings();
-		String igrp_plsql_url = settings.getProperty("igrp.plsql.url");
-		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
-			view.plsql_codigo.setVisible(false);
-		
 		String dad = Core.getCurrentDad();
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 			model.setAplicacao(Core.findApplicationByDad(dad).getId());
@@ -87,7 +82,7 @@ public class NovoPerfilController extends Controller {
 		pt.setCode(model.getCodigo() + "." + Core.findApplicationById(model.getAplicacao()).getDad());
 		pt.setDescr(model.getNome());
 		pt.setOrganization(Core.findOrganizationById(model.getOrganica()));
-		pt.setPlsql_code(model.getPlsql_codigo());
+
 		
 		 if(Core.isNotNull(model.getPerfil_pai())){
 			 pt.setProfiletype(new ProfileType().findOne(model.getPerfil_pai()));
@@ -150,18 +145,13 @@ public class NovoPerfilController extends Controller {
 		String idProf = Core.getParam("p_id");
 		NovoPerfil model = new NovoPerfil();
 		model.load();
-		NovoPerfilView view = new NovoPerfilView();
-		
-		Properties settings = this.configApp.getMainSettings();
-		String igrp_plsql_url = settings.getProperty("igrp.plsql.url");
-		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
-			view.plsql_codigo.setVisible(false);
-		
+		NovoPerfilView view = new NovoPerfilView();		
+				
 		ProfileType p = new ProfileType().findOne(Integer.parseInt(idProf));
 		model.setCodigo(p.getCode());
 		model.setNome(p.getDescr());
 		model.setAplicacao(p.getApplication().getId());
-		model.setPlsql_codigo(p.getPlsql_code()); 
+	
 		if (p.getOrganization() != null) {
 			model.setOrganica(p.getOrganization().getId());
 		}
@@ -200,7 +190,7 @@ public class NovoPerfilController extends Controller {
 			p.setCode(model.getCodigo());
 			p.setDescr(model.getNome());
 			p.setOrganization(Core.findOrganizationById(model.getOrganica()));
-			p.setPlsql_code(model.getPlsql_codigo()); 
+		
 			
 			 if(Core.isNotNullOrZero(model.getPerfil_pai())){
 				 p.setProfiletype(new ProfileType().findOne(model.getPerfil_pai()));
