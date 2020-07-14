@@ -37,17 +37,6 @@
     <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Lista Terfa de Processo</title>
-        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="voltar" refresh_components="">
-                <title>Voltar</title>
-                <app>igrp</app>
-                <page>Detalhes_dashboard_processo</page>
-                <link>index</link>
-                <target>_self</target>
-                <img>primary|fa-arrow-left</img>
-                <preview>../images/IGRP/IGRP2.3/app/igrp/detalhes_dashboard_processo/Detalhes_dashboard_processo.xml</preview>
-            </item>
-        </toolsbar_1>
         <table_1 type="table" xml-type="table" title="Lista das etapas" gen-type="container" gen-group="true">
             <fields>
                 <estado name="p_estado" type="color" format="hex" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
@@ -80,14 +69,14 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <estado name="p_estado">1</estado>
-                        <descricao_tarefa name="p_descricao_tarefa">Perspiciatis iste totam sit aperiam</descricao_tarefa>
-                        <data_inicio name="p_data_inicio">Accusantium natus rem sit omni</data_inicio>
-                        <data_fim name="p_data_fim">Ipsum mollit sit accusantium a</data_fim>
-                        <n_tarefa name="p_n_tarefa">Voluptatem adipiscing iste nat</n_tarefa>
-                        <atribuido_a name="p_atribuido_a">Totam deserunt officia totam sit</atribuido_a>
-                        <processdefinitionkey name="p_processdefinitionkey" tag="processdefinitionkey">hidden-de42_e0a1</processdefinitionkey>
-                        <taskdefinitionkey name="p_taskDefinitionKey" tag="taskdefinitionkey">hidden-4c0e_0f46</taskdefinitionkey>
-                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-c6d9_43eb</prm_taskid>
+                        <descricao_tarefa name="p_descricao_tarefa">Dolor anim accusantium perspiciatis officia</descricao_tarefa>
+                        <data_inicio name="p_data_inicio">Rem ut adipiscing officia aliq</data_inicio>
+                        <data_fim name="p_data_fim">Adipiscing sit lorem natus lor</data_fim>
+                        <n_tarefa name="p_n_tarefa">Magna consectetur elit deserun</n_tarefa>
+                        <atribuido_a name="p_atribuido_a">Voluptatem ut mollit officia laudantium</atribuido_a>
+                        <processdefinitionkey name="p_processdefinitionkey" tag="processdefinitionkey">hidden-0587_6994</processdefinitionkey>
+                        <taskdefinitionkey name="p_taskDefinitionKey" tag="taskdefinitionkey">hidden-878a_ec0c</taskdefinitionkey>
+                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-24d9_3557</prm_taskid>
                     </row>
                     <row>
                         <context-menu>
@@ -95,14 +84,14 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <estado name="p_estado">2</estado>
-                        <descricao_tarefa name="p_descricao_tarefa">Ut omnis unde lorem omnis</descricao_tarefa>
-                        <data_inicio name="p_data_inicio">Perspiciatis lorem perspiciati</data_inicio>
-                        <data_fim name="p_data_fim">Lorem ut adipiscing iste sed</data_fim>
-                        <n_tarefa name="p_n_tarefa">Unde aperiam labore adipiscing</n_tarefa>
-                        <atribuido_a name="p_atribuido_a">Consectetur stract iste rem adipiscing</atribuido_a>
-                        <processdefinitionkey name="p_processdefinitionkey" tag="processdefinitionkey">hidden-1f0a_fa52</processdefinitionkey>
-                        <taskdefinitionkey name="p_taskDefinitionKey" tag="taskdefinitionkey">hidden-a875_d6ae</taskdefinitionkey>
-                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-8c33_5c86</prm_taskid>
+                        <descricao_tarefa name="p_descricao_tarefa">Doloremque deserunt voluptatem omnis ipsum</descricao_tarefa>
+                        <data_inicio name="p_data_inicio">Doloremque unde ipsum sit sit</data_inicio>
+                        <data_fim name="p_data_fim">Unde natus dolor amet ut</data_fim>
+                        <n_tarefa name="p_n_tarefa">Omnis voluptatem mollit labore</n_tarefa>
+                        <atribuido_a name="p_atribuido_a">Natus ipsum iste mollit laudantium</atribuido_a>
+                        <processdefinitionkey name="p_processdefinitionkey" tag="processdefinitionkey">hidden-7e39_4f2c</processdefinitionkey>
+                        <taskdefinitionkey name="p_taskDefinitionKey" tag="taskdefinitionkey">hidden-6cf9_8802</taskdefinitionkey>
+                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-bb2e_92a7</prm_taskid>
                     </row>
                     <row>
                         <context-menu>
@@ -110,14 +99,14 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <estado name="p_estado">2</estado>
-                        <descricao_tarefa name="p_descricao_tarefa">Officia totam sit labore aperiam</descricao_tarefa>
-                        <data_inicio name="p_data_inicio">Stract aliqua omnis iste dolor</data_inicio>
-                        <data_fim name="p_data_fim">Ipsum officia adipiscing strac</data_fim>
-                        <n_tarefa name="p_n_tarefa">Elit accusantium unde omnis ma</n_tarefa>
-                        <atribuido_a name="p_atribuido_a">Natus labore ut rem labore</atribuido_a>
-                        <processdefinitionkey name="p_processdefinitionkey" tag="processdefinitionkey">hidden-6f4d_4b2c</processdefinitionkey>
-                        <taskdefinitionkey name="p_taskDefinitionKey" tag="taskdefinitionkey">hidden-42d5_d592</taskdefinitionkey>
-                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-9b8e_a6d1</prm_taskid>
+                        <descricao_tarefa name="p_descricao_tarefa">Rem sed stract perspiciatis totam</descricao_tarefa>
+                        <data_inicio name="p_data_inicio">Elit sed amet mollit voluptate</data_inicio>
+                        <data_fim name="p_data_fim">Aliqua elit amet labore offici</data_fim>
+                        <n_tarefa name="p_n_tarefa">Elit consectetur perspiciatis</n_tarefa>
+                        <atribuido_a name="p_atribuido_a">Sed aliqua officia totam adipiscing</atribuido_a>
+                        <processdefinitionkey name="p_processdefinitionkey" tag="processdefinitionkey">hidden-fd6c_2edd</processdefinitionkey>
+                        <taskdefinitionkey name="p_taskDefinitionKey" tag="taskdefinitionkey">hidden-04a1_53b9</taskdefinitionkey>
+                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-da87_2e86</prm_taskid>
                     </row>
                     <row>
                         <context-menu>
@@ -125,29 +114,29 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <estado name="p_estado">1</estado>
-                        <descricao_tarefa name="p_descricao_tarefa">Rem laudantium unde mollit laudantium</descricao_tarefa>
-                        <data_inicio name="p_data_inicio">Sit dolor officia amet stract</data_inicio>
-                        <data_fim name="p_data_fim">Ut lorem dolor stract sed</data_fim>
-                        <n_tarefa name="p_n_tarefa">Aperiam iste labore ipsum sed</n_tarefa>
-                        <atribuido_a name="p_atribuido_a">Accusantium sed natus accusantium natus</atribuido_a>
-                        <processdefinitionkey name="p_processdefinitionkey" tag="processdefinitionkey">hidden-0262_80a4</processdefinitionkey>
-                        <taskdefinitionkey name="p_taskDefinitionKey" tag="taskdefinitionkey">hidden-eed4_17af</taskdefinitionkey>
-                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-25a0_1a35</prm_taskid>
+                        <descricao_tarefa name="p_descricao_tarefa">Omnis iste labore totam natus</descricao_tarefa>
+                        <data_inicio name="p_data_inicio">Adipiscing ut sit perspiciatis</data_inicio>
+                        <data_fim name="p_data_fim">Ipsum deserunt sed totam volup</data_fim>
+                        <n_tarefa name="p_n_tarefa">Magna omnis aperiam perspiciat</n_tarefa>
+                        <atribuido_a name="p_atribuido_a">Deserunt laudantium consectetur ut iste</atribuido_a>
+                        <processdefinitionkey name="p_processdefinitionkey" tag="processdefinitionkey">hidden-1e42_631f</processdefinitionkey>
+                        <taskdefinitionkey name="p_taskDefinitionKey" tag="taskdefinitionkey">hidden-6659_4f47</taskdefinitionkey>
+                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-f30d_b085</prm_taskid>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">2</estado>
-                        <descricao_tarefa name="p_descricao_tarefa">Accusantium sit sit officia iste</descricao_tarefa>
-                        <data_inicio name="p_data_inicio">Labore aliqua ut officia ut</data_inicio>
-                        <data_fim name="p_data_fim">Amet sit ipsum elit sit</data_fim>
-                        <n_tarefa name="p_n_tarefa">Dolor stract dolor aliqua elit</n_tarefa>
-                        <atribuido_a name="p_atribuido_a">Consectetur totam ut sit sit</atribuido_a>
-                        <processdefinitionkey name="p_processdefinitionkey" tag="processdefinitionkey">hidden-6e94_41bc</processdefinitionkey>
-                        <taskdefinitionkey name="p_taskDefinitionKey" tag="taskdefinitionkey">hidden-bfcd_9214</taskdefinitionkey>
-                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-43de_9538</prm_taskid>
+                        <estado name="p_estado">1</estado>
+                        <descricao_tarefa name="p_descricao_tarefa">Ut labore lorem perspiciatis ut</descricao_tarefa>
+                        <data_inicio name="p_data_inicio">Sit ipsum omnis labore totam</data_inicio>
+                        <data_fim name="p_data_fim">Labore stract aliqua doloremqu</data_fim>
+                        <n_tarefa name="p_n_tarefa">Iste anim totam natus iste</n_tarefa>
+                        <atribuido_a name="p_atribuido_a">Elit doloremque magna unde amet</atribuido_a>
+                        <processdefinitionkey name="p_processdefinitionkey" tag="processdefinitionkey">hidden-ad89_179c</processdefinitionkey>
+                        <taskdefinitionkey name="p_taskDefinitionKey" tag="taskdefinitionkey">hidden-4e69_11d7</taskdefinitionkey>
+                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-5bcc_b9f9</prm_taskid>
                     </row>
                 </value>
                 <legend_color>
@@ -163,15 +152,15 @@
                     </item>
                 </legend_color>
                 <context-menu>
-                    <item id="button_32f7_03fc" type="specific" code="" class="info" rel="ver_detalhes" refresh_components="">
+                    <item id="button_32f7_03fc" type="specific" code="" class="info" rel="ver_detalhes" custom_return="true" refresh_components="">
                         <title>Ver detalhes</title>
-                        <app/>
-                        <page/>
-                        <link/>
-                        <parameter>?</parameter>
+                        <app>igrp</app>
+                        <page>Dominio</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
                         <target>mpsubmit</target>
                         <img>info|fa-eye</img>
-                        <preview/>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
                     </item>
                 </context-menu>
             </table>

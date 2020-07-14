@@ -21,8 +21,6 @@ public class Lista_terfa_de_processoView extends View {
 	public Field prm_taskid;
 	public IGRPTable table_1;
 
-	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_voltar;
 	public IGRPButton btn_ver_detalhes;
 
 	public Lista_terfa_de_processoView(){
@@ -68,10 +66,6 @@ public class Lista_terfa_de_processoView extends View {
 		prm_taskid.propertie().add("name","p_prm_taskid").add("type","hidden").add("maxlength","30").add("showLabel","true").add("group_in","").add("java-type","String").add("tag","prm_taskid");
 		
 
-		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-
-		btn_voltar = new IGRPButton("Voltar","igrp","Lista_terfa_de_processo","voltar","_self","primary|fa-arrow-left","","");
-		btn_voltar.propertie.add("type","specific").add("rel","voltar").add("refresh_components","");
 
 		btn_ver_detalhes = new IGRPButton("Ver detalhes","igrp","Lista_terfa_de_processo","ver_detalhes","mpsubmit","info|fa-eye","","");
 		btn_ver_detalhes.propertie.add("id","button_32f7_03fc").add("type","specific").add("class","info").add("rel","ver_detalhes").add("refresh_components","");
@@ -82,7 +76,6 @@ public class Lista_terfa_de_processoView extends View {
 	@Override
 	public void render(){
 		
-
 		table_1.addField(estado);
 		table_1.addField(descricao_tarefa);
 		table_1.addField(data_inicio);
@@ -102,10 +95,8 @@ public class Lista_terfa_de_processoView extends View {
 		table_1_colors.put("2",color_95c11f_table_1);
 		this.table_1.setLegendColors(table_1_colors);
 		/* end table_1 legend colors*/
-		toolsbar_1.addButton(btn_voltar);
 		table_1.addButton(btn_ver_detalhes);
 		this.addToPage(table_1);
-		this.addToPage(toolsbar_1);
 	}
 		
 	@Override

@@ -42,7 +42,7 @@ public class Detalhes_dashboard_processoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '2' as estado,'Laudantium dolor voluptatem re' as descricao,'/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml' as n_processo,'Accusantium deserunt unde stra' as iniciado_em,'hidden-68ab_1649' as id,'hidden-ba7d_ad54' as process_definition,'hidden-d1c8_e761' as process_key "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Natus magna amet doloremque ad' as descricao,'/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml' as n_processo,'Totam natus elit perspiciatis' as iniciado_em,'hidden-3ad4_c9de' as id,'hidden-aa8f_af43' as process_definition,'hidden-9927_0569' as process_key "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		String processId = Core.getParam(BPMNConstants.PRM_PROCESS_ID);		
