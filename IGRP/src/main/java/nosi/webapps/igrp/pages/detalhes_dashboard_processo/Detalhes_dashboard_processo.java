@@ -167,9 +167,9 @@ public class Detalhes_dashboard_processo extends Model{
 
 	public static class Table_1 extends IGRPTable.Table{
 		private String estado;
+		private String descricao;
 		private IGRPLink n_processo;
 		private String n_processo_desc= "Nº processo";
-		private String descricao;
 		private String iniciado_em;
 		private String id;
 		private String process_definition;
@@ -179,6 +179,13 @@ public class Detalhes_dashboard_processo extends Model{
 		}
 		public String getEstado(){
 			return this.estado;
+		}
+
+		public void setDescricao(String descricao){
+			this.descricao = descricao;
+		}
+		public String getDescricao(){
+			return this.descricao;
 		}
 
 		public IGRPLink setN_processo(String app,String page,String action){
@@ -202,13 +209,6 @@ public class Detalhes_dashboard_processo extends Model{
 		this.n_processo = new IGRPLink(link);
 		return this.n_processo;
 	}
-
-		public void setDescricao(String descricao){
-			this.descricao = descricao;
-		}
-		public String getDescricao(){
-			return this.descricao;
-		}
 
 		public void setIniciado_em(String iniciado_em){
 			this.iniciado_em = iniciado_em;
