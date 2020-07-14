@@ -220,6 +220,8 @@
 			
 			<xsl:variable name="wheretypechild" select="substring-before(value[@name=$value2Name]/block/field,'::')"/>
 			
+			<xsl:variable name="block_namechild" select="value[@name=$value2Name]/block/@type"/>
+			
 			<xsl:variable name="wheretype" select="substring-before(value[@name=$value1Name]/block/field,'::')"/>
 				
 			<xsl:variable name="wherevalue" select="substring-after(substring-before(value[@name=$value2Name]/block/field,'//'),'::')"/>
@@ -244,13 +246,29 @@
 				
 					<xsl:when test="$valueDao != ''">
 					
-						<xsl:text>"</xsl:text><xsl:value-of select="$valueDao"></xsl:value-of><xsl:text>"</xsl:text>
+						<xsl:variable name="value_otherDao" select = "substring-after(value[@name=$value1Name]/block/value/block/field,'::')"></xsl:variable>
+			
+						<xsl:choose>
+						
+							<xsl:when test="$value_otherDao != ''">
+							
+								<xsl:text>"</xsl:text><xsl:value-of select="$valueDao"/><xsl:text>.</xsl:text><xsl:value-of select="$value_otherDao"/><xsl:text>"</xsl:text>
+								
+							</xsl:when>
+							
+							<xsl:otherwise>
+							
+								<xsl:text>"</xsl:text><xsl:value-of select="$valueDao"></xsl:value-of><xsl:text>"</xsl:text>
+							
+							</xsl:otherwise>
+						
+						</xsl:choose>
 						
 					</xsl:when>
 			
 					<xsl:otherwise>
 					
-						<xsl:text>"This field must be a DAO's Field!"</xsl:text>
+						<xsl:text>This field must be a DAO Field!</xsl:text>
 						
 					</xsl:otherwise>
 					
@@ -296,6 +314,10 @@
 					
 					<xsl:with-param name="valuechild" select="valuechild"></xsl:with-param>
 					
+					<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>
+					
+					<xsl:with-param name="block_name" select="block_name"></xsl:with-param>
+					
 				</xsl:call-template>
 						
 			</xsl:variable>
@@ -327,6 +349,10 @@
 					<xsl:with-param name="neto" select="neto"></xsl:with-param>
 					
 					<xsl:with-param name="valuechild" select="valuechild"></xsl:with-param>
+					
+					<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>
+					
+					<xsl:with-param name="block_name" select="block_name"></xsl:with-param>
 					
 				</xsl:call-template>
 						

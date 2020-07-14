@@ -89,6 +89,10 @@
 					
 					<xsl:with-param name="valuechild" select="$rowvaluechild"></xsl:with-param>
 					
+					<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>
+					
+					<xsl:with-param name="block_name" select="block_name"></xsl:with-param>
+					
 				</xsl:call-template>
 				
 			<xsl:text>);</xsl:text>
@@ -101,65 +105,17 @@
 	
 	<xsl:template name="blockly.element.core">
 	
-		<xsl:variable name="core_set">
+		<xsl:variable name="core_value">
 		
 			<xsl:call-template name="utils.core.meaning">
 			
-				<xsl:with-param name="key" select="field[@name='core_set']"/>
+				<xsl:with-param name="key" select="field[@name='CORE_FUNCTION']"/>
 				
 			</xsl:call-template>
 			
-		</xsl:variable>
+		</xsl:variable>	
 		
-		<xsl:variable name="core_get">
-		
-			<xsl:call-template name="utils.core.meaning">
-			
-				<xsl:with-param name="key" select="field[@name='core_get']"/>
-				
-			</xsl:call-template>
-			
-		</xsl:variable>
-		
-		<xsl:variable name="core_param"  select="field"></xsl:variable>
-		
-		<xsl:variable name="valor">
-		
-			<xsl:call-template name="blockly.getValue">
-			
-				<xsl:with-param name="value" select="value[@name='value1']"/>
-				
-			</xsl:call-template>
-			
-		</xsl:variable>
-		
-		<xsl:variable name="Core">
-		
-			<xsl:choose>
-			
-				<xsl:when test="$core_set != ''">
-				
-					<xsl:value-of select="$core_set"/><xsl:text>(</xsl:text><xsl:value-of select="$valor"/><xsl:text>);</xsl:text>
-				
-				</xsl:when>
-				
-				<xsl:when test="$core_get != ''">
-				
-					<xsl:value-of select="$core_get"/><xsl:text>(</xsl:text><xsl:value-of select="$valor"/><xsl:text>)</xsl:text>
-				
-				</xsl:when>
-				
-				<xsl:when test="$core_param != ''">
-				
-					<xsl:text>Core.getParamInt("p_</xsl:text><xsl:value-of select="$core_param"/><xsl:text>")</xsl:text>
-				
-				</xsl:when>
-			
-			</xsl:choose>
-			
-		</xsl:variable>
-		
-		<xsl:value-of select="$Core"></xsl:value-of>
+		<xsl:value-of select="$core_value"></xsl:value-of>
 		
 	</xsl:template>			
 	
@@ -1159,6 +1115,12 @@
 				
 			</xsl:when>
 			
+			<xsl:when test="contains($block-type, 'mod_view')">
+			
+				<xsl:call-template name="blockly.element.get_model"></xsl:call-template>
+				
+			</xsl:when>
+			
 			<xsl:when test="$block-type = 'set_model'">
 			
 				<xsl:call-template name="blockly.element.set_model"></xsl:call-template>
@@ -1171,7 +1133,7 @@
 				
 			</xsl:when>
 			
-			<xsl:when test="contains( $block-type,'core' )">
+			<xsl:when test="contains( $block-type,'core_fun' )">
 			
 				<xsl:call-template name="blockly.element.core"></xsl:call-template>
 				
@@ -1365,9 +1327,15 @@
 				
 			</xsl:when>
 			
-			<xsl:when test="contains($block-type, 'Eixo')">
+			<xsl:when test="$block-type = 'EixoX'">
 			
-				<xsl:call-template name="blockly.element.eixxos"></xsl:call-template>
+				<xsl:call-template name="blockly.element.eixo_x"></xsl:call-template>
+				
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'EixoY'">
+			
+				<xsl:call-template name="blockly.element.eixo_y"></xsl:call-template>
 				
 			</xsl:when>
 		

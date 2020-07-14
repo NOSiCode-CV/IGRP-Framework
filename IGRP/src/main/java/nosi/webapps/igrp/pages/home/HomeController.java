@@ -7,6 +7,8 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.ApplicationPermition;
 import nosi.core.webapp.security.Permission;
+import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 
@@ -16,21 +18,63 @@ public class HomeController extends Controller {
 	public Response actionIndex() throws IOException{ 
 		String dad = Core.getParam("dad"); 
 		if(dad != null) {
-			String []aux = dad.split("/"); 
+			String []aux = dad.split("/"); // Ex.: ENV/id/APP;ORG;PROF/p_id=1;p_type=3  
 			if(aux != null) { 
-				if(aux.length >= 4) {
-					String app = aux[0]; 
-					String page = aux[1]; 
-					String action = aux[2]; 
-					dad = aux[3]; 
-					page = app + "/" + page + "/" + action; 
-					this.addQueryString("app", dad); 
-					this.addQueryString("page", page); 
-					if(aux.length == 6) {
-						String orgCode = aux[4]; 
-						String profCode = aux[5]; 
-						// inject session and cookie 
+				if(aux.length >= 2) { 
+					String type = aux[0]; 
+					String value = aux[1]; 
+					String context = null; 
+					String params = null; 
+					if(aux.length == 4) {
+						context = aux[2]; 
+						params = aux[3]; 
 					}
+					String orgCode = null;
+					String profCode = null; 
+					String page = null; 
+					
+					if(context != null) { 
+						String []allContext = context.split(";"); 
+						if(allContext.length > 0) { 
+							dad = allContext[0]; 
+							if(allContext.length == 3) {
+								orgCode = allContext[1]; 
+								profCode = allContext[2]; 
+								// inject session and cookie 
+								injectOrgNProf(orgCode, profCode); 
+							}
+						}
+					}
+					
+					switch (type) {
+						case "ENV": 
+							Application application = Core.findApplicationByDad(value); 
+							if(application != null) {
+								dad = application.getDad(); 
+								nosi.webapps.igrp.dao.Action ac = application.getAction(); 
+								page = "tutorial/DefaultPage/index&title=";
+								if(ac != null && ac.getApplication()!=null) 
+									page = ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage() + "/index&title="+ac.getAction_descr();
+							}
+						break;
+						case "PAGE":
+							Action ac = new Action().findOne(Core.toInt(value)); 
+							if(ac != null && ac.getApplication()!=null) 
+								page = ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage() + "/index&title="+ac.getAction_descr(); 
+						break;
+						case "ACTI":
+							//Core.startTask(taskId)
+						break;
+						default:
+							break;
+					}
+					
+					if(params != null) 
+						this.addQueryString("p_params", params); 
+					
+					this.addQueryString("app", dad); 
+					this.addQueryString("page", page); // app + "/" + page + "/" + action; 
+					
 					return redirect("igrp_studio", "Env", "openApp", this.queryString()); 
 				}
 			}
@@ -72,5 +116,4 @@ public class HomeController extends Controller {
 		Core.addToSession(appP.getDad(), appP); 
 		new Permission().setCookie(appP); 
 	}
-	
 }

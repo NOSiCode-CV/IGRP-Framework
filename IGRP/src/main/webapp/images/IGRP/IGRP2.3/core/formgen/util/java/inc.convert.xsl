@@ -16,6 +16,10 @@
 		
 		<xsl:param name="valuechild" />
 		
+		<xsl:param name="block_namechild" />
+		
+		<xsl:param name="block_name" />
+		
 		<xsl:variable name="upvaluechild">
 		
 			<xsl:call-template name="InitCap">
@@ -84,7 +88,7 @@
 				
 				</xsl:when>
 				
-				<xsl:when test="$from = 'String' and contains($valueblock,'_img')">	
+				<xsl:when test="$from = 'String' and $to = 'Image_View'">	
 				
 					<xsl:text>Core.getLinkFileByUuid(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
 				
@@ -237,9 +241,7 @@
 						
 					</xsl:variable>
 				
-					<xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$upvalueblock"/><xsl:text>() == null ? </xsl:text><xsl:value-of select="$valuuid"/><xsl:text> : </xsl:text>
-					
-					<xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$upvalueblock"/><xsl:text>()</xsl:text>
+					<xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$upvalueblock"/><xsl:text>() == null ? </xsl:text><xsl:value-of select="$valuuid"/><xsl:text> : </xsl:text><xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$upvalueblock"/><xsl:text>()</xsl:text>
 				
 				</xsl:when>  
 
@@ -257,17 +259,33 @@
 				
 				<xsl:when test=" $neto != '' ">
 				
+					<xsl:variable name="first_neto">
+		
+						<xsl:call-template name="replace-all">
+						
+							<xsl:with-param name="text" select="$value"/>
+							
+							<xsl:with-param name="replace" select="substring-after($value,'()')"/>
+							
+							<xsl:with-param name="by" select="''"/>
+							
+						</xsl:call-template>
+						
+					</xsl:variable>
+				
 					<xsl:choose>
 					
 						<xsl:when test="$neto = 'Integer' and $to = 'String'">
 						
-							<xsl:value-of select="$value"/><xsl:text>!=null? ""+</xsl:text><xsl:value-of select="$value"/><xsl:text>:null</xsl:text>
+						
+						
+							<xsl:value-of select="$first_neto"/><xsl:text>!=null? ""+</xsl:text><xsl:value-of select="$value"/><xsl:text>:null</xsl:text>
 						
 						</xsl:when>
 						
 						<xsl:otherwise>
 						
-							<xsl:value-of select="$value"/><xsl:text>!=null?</xsl:text><xsl:value-of select="$value"/><xsl:text>:null</xsl:text>
+							<xsl:value-of select="$first_neto"/><xsl:text>!=null?</xsl:text><xsl:value-of select="$value"/><xsl:text>:null</xsl:text>
 						
 						</xsl:otherwise>
 					
@@ -298,6 +316,36 @@
 					</xsl:choose> 
 				
 				</xsl:when> 
+				
+				<xsl:when test="$from = 'Integer' and $to = 'Integer' and contains($block_name,'sep_row')">
+					
+					<xsl:text>""+</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text></xsl:text>
+					
+				</xsl:when>
+				
+				<xsl:when test="$from = 'Integer' and $to = 'Integer' and contains($block_name,'sep_form')">
+					
+					<xsl:text>""+</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text></xsl:text>
+					
+				</xsl:when>
+				
+				<xsl:when test="$from = 'Integer' and $to = 'Integer' and contains($block_namechild,'get_row_sep')">
+					
+					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
+					
+				</xsl:when>
+				
+				<xsl:when test="$from = 'Integer' and $to = 'Integer' and contains($block_namechild,'get_row_form')">
+					
+					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
+					
+				</xsl:when>
+				
+				<xsl:when test="$to = 'String' and $block_namechild = 'core_get_param'">
+					
+					<xsl:text>""+</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text></xsl:text>
+					
+				</xsl:when>
 				
 				<xsl:otherwise>
 				

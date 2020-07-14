@@ -14,12 +14,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Properties;
 
 import javax.persistence.Column;
 
@@ -254,7 +252,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 											ms.setType(3);
 											ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + currentDad); 
 										}else {								
-											String _u = buildMenuUrlByDadUsingAutentika(r.getString("dad_app_page"), r.getString("dad_app_page"), r.getString("page"),  r.getString("action"));
+											String _u = buildMenuUrlByDadUsingAutentika(r.getString("dad_app_page"), r.getString("dad_app_page"), r.getString("page"));
 											ms.setLink(_u);
 										} 
 									}
@@ -264,7 +262,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 											ms.setType(3);
 											ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + currentDad); 
 										}else {
-											String _u = buildMenuUrlByDadUsingAutentika(pagina.getApplication().getUrl(), r.getString("dad_app_page"), r.getString("page"), r.getString("action")); // Custom Dad 
+											String _u = buildMenuUrlByDadUsingAutentika(pagina.getApplication().getUrl(), r.getString("dad_app_page"), r.getString("page")); // Custom Dad 
 											ms.setLink(_u);
 										}
 									}
@@ -356,15 +354,14 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				+ menu + ", organization=" + organization + "]";
 	}
 	
-	private String buildMenuUrlByDadUsingAutentika(String dad, String app, String page, String action) {
+	private String buildMenuUrlByDadUsingAutentika(String dad, String app, String page) {
 		String url = "#";
 		try {
-			Properties settings =  ConfigApp.getInstance().loadConfig("common", "main.xml"); 
-			url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
-			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
-			String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
-			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrpweb&redirect_uri=" + redirect_uri; 
-			url = url.replace("/IGRP/", "/" + dad + "/").replace("state=igrpweb", "state=" + app + "/" + page + "/" + action + "/" + dad); 
+			Action pagina = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", page).one(); 
+			if(pagina != null) {
+				url =  ConfigApp.getInstance().getAutentikaUrlForSso(); 
+				url = url.replace("/IGRP/", "/" + dad + "/").replace("state=igrp", "state=PAGE/" + pagina.getId() + "/" + dad); 
+			}
 		} catch (Exception e) {
 		}
 		return url;

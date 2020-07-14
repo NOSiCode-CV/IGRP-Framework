@@ -102,8 +102,6 @@
 			
 			<xsl:value-of select="$newlineTab4"></xsl:value-of>
 			
-			<xsl:text>row.set</xsl:text><xsl:value-of select="$table_up"/><xsl:text>_id(new Pair( ""+ </xsl:text><xsl:value-of select="$dao_seplow"/><xsl:text>.get</xsl:text><xsl:value-of select="$ChildID"/><xsl:text>(), ""+</xsl:text><xsl:value-of select="$dao_seplow"/><xsl:text>.get</xsl:text><xsl:value-of select="$ChildID"/><xsl:text>()));</xsl:text>
-			
 			<xsl:value-of select="concat($newlineTab4,$sep_row)"></xsl:value-of>
 			
 			<xsl:value-of select="$newlineTab4"></xsl:value-of>
@@ -139,12 +137,51 @@
 		<xsl:value-of select="$code"></xsl:value-of>
 		
 	</xsl:template>
+	
+	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 	<xsl:template name="blockly.element.sep_row">
 	
+		<xsl:variable name="block_name" select="@type"/>
+	
 		<xsl:variable name="rowType" select="substring-before(@id,'::')"/>
 		
-		<xsl:variable name="rowValue" select="substring-after(@id,'::')"/>
+		<xsl:variable name="rowValue_inicial" select="substring-after(@id,'::')"/>
+		
+		<xsl:variable name="rowValue">
+		
+			<xsl:choose>
+			
+				<xsl:when test="contains($rowValue_inicial,'id_rrow_')">
+				
+					<xsl:variable name="replaced_field">
+			
+						<xsl:call-template name="replace-all">
+						
+							<xsl:with-param name="text" select="$rowValue_inicial"/>
+							
+							<xsl:with-param name="replace" select="'id_rrow_'"/>
+							
+							<xsl:with-param name="by" select="''"/>
+							
+						</xsl:call-template>
+						
+					</xsl:variable>
+					
+					<xsl:value-of select="concat($replaced_field,'_id')"></xsl:value-of>
+				
+				</xsl:when>
+				
+				<xsl:otherwise>
+					
+					<xsl:value-of select="$rowValue_inicial"></xsl:value-of>
+				
+				</xsl:otherwise>
+				
+			</xsl:choose>	
+
+		</xsl:variable>
 		
 		<xsl:variable name="rowtypechild" select="substring-before(value[@name='fields_model']/block/field,'::')"/>
 		
@@ -187,6 +224,10 @@
 					<xsl:with-param name="neto" select="rowtypeneto"></xsl:with-param>
 					
 					<xsl:with-param name="valuechild" select="$rowvaluechild"></xsl:with-param>
+					
+					<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>
+					
+					<xsl:with-param name="block_name" select="$block_name"></xsl:with-param>
 					
 			</xsl:call-template>
 			
@@ -272,6 +313,48 @@
 			</xsl:call-template>
 			
 		</xsl:variable>
+		
+		<xsl:variable name="edited">
+	   	
+			<xsl:call-template name="blockly.getValue">
+			
+				<xsl:with-param name="value" select="*[@name='edited']"/>
+				
+			</xsl:call-template>
+			
+		</xsl:variable>
+		
+		<xsl:variable name="valueblock" select="substring-after(value[@name='edited']/block/field,'::')"/> 
+		
+		<xsl:variable name="type_childblock" select="substring-before(value[@name='edited']/block/field,'::')"/>
+		
+		<xsl:variable name="block_namechild" select="value[@name='edited']/block/@type"/>
+		
+		<xsl:variable name="edited_convert">
+		
+			<xsl:call-template name="convert_blocks">
+					
+				<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
+				
+				<xsl:with-param name="value" select="$edited"></xsl:with-param>
+				
+				<xsl:with-param name="valueblock" select="$valueblock"></xsl:with-param>
+				
+				<xsl:with-param name="from" select="$type_childblock"></xsl:with-param>
+				
+				<xsl:with-param name="to" select="'Integer'"></xsl:with-param>
+				
+				<xsl:with-param name="neto" select="neto"></xsl:with-param>
+				
+				<xsl:with-param name="valuechild" select="value_namee"></xsl:with-param>
+				
+				<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>
+				
+				<xsl:with-param name="block_name" select="block_name"></xsl:with-param>
+				
+			</xsl:call-template>
+					
+		</xsl:variable>
 	
 		<xsl:variable name="code">
 		
@@ -335,15 +418,15 @@
 				
 				<xsl:value-of select="$newlineTab3"></xsl:value-of>
 				
-				<xsl:text>if( Core.isNotNull( row.get</xsl:text><xsl:value-of select="$table_up"/><xsl:text>_id())</xsl:text><xsl:text> &amp;&amp; Core.isNotNull( row.get</xsl:text><xsl:value-of select="$table_up"/><xsl:text>_id().getKey())){</xsl:text>
+				<xsl:text>if( Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$edited"/><xsl:text>)){</xsl:text>
 				
 				<xsl:value-of select="$newlineTab4"></xsl:value-of>
 				
-				<xsl:text>if(!</xsl:text><xsl:value-of select="$dao_seplow"/><xsl:text>editList.isEmpty() &amp;&amp; </xsl:text><xsl:value-of select="$dao_seplow"/><xsl:text>editList.remove(row.get</xsl:text><xsl:value-of select="$table_up"/><xsl:text>_id().getKey())) {</xsl:text>
+				<xsl:text>if(!</xsl:text><xsl:value-of select="$dao_seplow"/><xsl:text>editList.isEmpty() &amp;&amp; </xsl:text><xsl:value-of select="$dao_seplow"/><xsl:text>editList.remove(</xsl:text><xsl:value-of select="$edited"/><xsl:text>)){</xsl:text>
 				
 				<xsl:value-of select="$newlineTab5"></xsl:value-of>
 				
-				<xsl:value-of select="$dao_seplow"/><xsl:text> = session.find(</xsl:text><xsl:value-of select="$dao_sep"/><xsl:text>.class, Core.toInt(row.get</xsl:text><xsl:value-of select="$table_up"/><xsl:text>_id().getKey()));</xsl:text>
+				<xsl:value-of select="$dao_seplow"/><xsl:text> = session.find(</xsl:text><xsl:value-of select="$dao_sep"/><xsl:text>.class, </xsl:text><xsl:value-of select="$edited_convert"/><xsl:text>);</xsl:text>
 				
 				<xsl:value-of select="$newlineTab4"></xsl:value-of>
 				
@@ -475,11 +558,48 @@
 		
 	</xsl:template>	
 	
+	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	
 	<xsl:template name="blockly.element.get_row_sep">
 	
 		<xsl:variable name="rowType" select="substring-before(field,'::')"/>
 		
-		<xsl:variable name="rowValue" select="substring-after(field,'::')"/>
+		<xsl:variable name="rowValue_inicial" select="substring-after(field,'::')"/>
+		
+		<xsl:variable name="rowValue">
+		
+			<xsl:choose>
+			
+				<xsl:when test="contains($rowValue_inicial,'id_rrow_')">
+				
+					<xsl:variable name="replaced_field">
+			
+						<xsl:call-template name="replace-all">
+						
+							<xsl:with-param name="text" select="$rowValue_inicial"/>
+							
+							<xsl:with-param name="replace" select="'id_rrow_'"/>
+							
+							<xsl:with-param name="by" select="''"/>
+							
+						</xsl:call-template>
+						
+					</xsl:variable>
+					
+					<xsl:value-of select="concat($replaced_field,'_id')"></xsl:value-of>
+				
+				</xsl:when>
+				
+				<xsl:otherwise>
+					
+					<xsl:value-of select="$rowValue_inicial"></xsl:value-of>
+				
+				</xsl:otherwise>
+				
+			</xsl:choose>	
+
+		</xsl:variable>
 		
 		<xsl:variable name="rowtypechild" select="substring-before(value[@name='fields_model']/block/field,'::')"/>
 		

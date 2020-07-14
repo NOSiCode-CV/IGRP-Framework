@@ -11,7 +11,6 @@ import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.io.File;
 import nosi.core.config.Config;
-import nosi.core.config.ConfigApp;
 import nosi.core.integration.pdex.service.AppConfig;
 import nosi.core.integration.pdex.service.AppConfig.App;
 
@@ -35,6 +34,9 @@ import java.util.stream.Collectors;
 import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
+
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.apache.commons.io.IOUtils;
 
@@ -469,7 +471,18 @@ public class EnvController extends Controller {
 				System.err.println("EnvController line535:"+e.getLocalizedMessage());
 				e.printStackTrace();
 			}
-			this.addQueryString("dad", app); 		
+			
+			this.addQueryString("dad", app); 
+			String params = Core.getParam("p_params"); 
+			if(params != null) {
+				String allParams[] = params.split(";"); 
+				for(String param : allParams) {
+					String param_[] = param.split("="); 
+					if(param_.length == 2)
+						this.addQueryString(param_[0].trim(), param_[1].trim()); 
+				}
+			}
+			
 			return this.redirect(p[0], p[1], p[2],this.queryString());
 		}		
 		Core.setMessageError(gt("Não tem permissão! No permission! Page: ")+page);		
@@ -565,14 +578,10 @@ public class EnvController extends Controller {
 					        	 		
 					        	 		+ "<tipo>";
 					        	 
-					        	 		try {
-					        	 			String aux[] = fields[i].getType().getTypeName().split("\\."); 
-						        	 		
-						        	 		xml += aux[aux.length - 1];
-										} catch (Exception e) {
-											xml += fields[i].getType().getTypeName();
-										}
-					        	 		 
+							        	 xml += fields[i].getType().getSimpleName(); 
+					        	 		if(fields[i].getAnnotation(ManyToOne.class) != null || fields[i].getAnnotation(OneToOne.class) != null) 
+					        	 			xml += "_FK#";
+							        	 		 
 					        	 		xml += "</tipo>"
 					        	 		+ ""; 
 					        	 
@@ -604,10 +613,10 @@ public class EnvController extends Controller {
 	private String buildAppUrlUsingAutentikaForSSO(Application env) { 
 		String url = null;
 		try { 
-			String contextName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName(); 
+			String contextName = Core.getDeployedWarName(); 
 			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !contextName.equalsIgnoreCase(env.getUrl())) {
 				url = this.configApp.getAutentikaUrlForSso(); 
-				url = url.replace("state=igrpweb", "state=" + env.getDad()); 
+				url = url.replace("state=igrp", "state=ENV/" + env.getDad()); 
 				url = url.replace("/IGRP/", "/" + env.getUrl() + "/"); 
 			}
 		} catch (Exception e) { 
@@ -618,6 +627,7 @@ public class EnvController extends Controller {
 	
 	
 	private final String IGRP_PDEX_APPCONFIG_URL = "igrp.pdex.appconfig.url";
-	private final String IGRP_PDEX_APPCONFIG_TOKEN = "igrp.pdex.appconfig.token";
+	private final String IGRP_PDEX_APPCONFIG_TOKEN = "igrp.pdex.appconfig.token"; 
+	
 	/*----#end-code----*/
 }

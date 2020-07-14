@@ -152,7 +152,7 @@ public final class ConfigApp {
 		String url = commonMain.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
 		String redirect_uri = commonMain.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
 		String client_id = commonMain.getProperty("ids.wso2.oauth2.client_id"); 
-		url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrpweb&redirect_uri=" + redirect_uri; 
+		url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrp&redirect_uri=" + redirect_uri; 
 		return url;
 	}
 
