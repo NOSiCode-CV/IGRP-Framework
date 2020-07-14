@@ -360,7 +360,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 			Action pagina = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", page).one(); 
 			if(pagina != null) {
 				url =  ConfigApp.getInstance().getAutentikaUrlForSso(); 
-				url = url.replace("/IGRP/", "/" + dad + "/").replace("state=igrpweb", "state=PAGE/" + pagina.getId() + "/" + dad); 
+				url = url.replace("/IGRP/", "/" + dad + "/").replace("state=igrp", "state=PAGE/" + pagina.getId() + "/" + dad); 
 			}
 		} catch (Exception e) {
 		}

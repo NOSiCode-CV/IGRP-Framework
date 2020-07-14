@@ -813,7 +813,7 @@ public class LoginController extends Controller {
 			String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
 			redirect_uri = redirect_uri.replace("IGRP", warName); 
 			String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
-			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrpweb&redirect_uri=" + redirect_uri; 
+			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrp&redirect_uri=" + redirect_uri; 
 			
 			return redirectToUrl(url); 
 		}
