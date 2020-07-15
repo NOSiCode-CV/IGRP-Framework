@@ -18,41 +18,7 @@
 		
 		<xsl:variable name="typedad" select="substring-before($dad,'::')"/>
 		
-		<xsl:variable name="fieldType_inicial" select="substring-before(field,'::')"/>
-		
-		<xsl:variable name="fieldType">
-		
-			<xsl:choose>
-			
-				<xsl:when test="contains($fieldType_inicial,'_FK#')">
-				
-					<xsl:variable name="replaced_field">
-			
-						<xsl:call-template name="replace-all">
-						
-							<xsl:with-param name="text" select="$fieldType_inicial"/>
-							
-							<xsl:with-param name="replace" select="'_FK#'"/>
-							
-							<xsl:with-param name="by" select="''"/>
-							
-						</xsl:call-template>
-						
-					</xsl:variable>
-					
-					<xsl:value-of select="$replaced_field"></xsl:value-of>
-				
-				</xsl:when>
-				
-				<xsl:otherwise>
-					
-					<xsl:value-of select="$fieldType_inicial"></xsl:value-of>
-				
-				</xsl:otherwise>
-				
-			</xsl:choose>	
-
-		</xsl:variable>
+		<xsl:variable name="fieldType" select="substring-before(field,'::')"/>
 		
 		<xsl:variable name="fieldValue" select="substring-after(field,'::')"/>
 		
@@ -96,9 +62,6 @@
 		
 	</xsl:template>
 	
-	<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-	<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-	
 	<xsl:template name="blockly.element.setDao">
 	
 		<xsl:variable name="dao" select="substring-after(@type,'set-dao-')"/>
@@ -115,41 +78,7 @@
 		
 		<xsl:variable name="inline" select="@inline"/>
 		
-		<xsl:variable name="fieldType_inicial" select="substring-before(field,'::')"/>
-		
-		<xsl:variable name="fieldType">
-		
-			<xsl:choose>
-			
-				<xsl:when test="contains($fieldType_inicial,'_FK#')">
-				
-					<xsl:variable name="replaced_field">
-			
-						<xsl:call-template name="replace-all">
-						
-							<xsl:with-param name="text" select="$fieldType_inicial"/>
-							
-							<xsl:with-param name="replace" select="'_FK#'"/>
-							
-							<xsl:with-param name="by" select="''"/>
-							
-						</xsl:call-template>
-						
-					</xsl:variable>
-					
-					<xsl:value-of select="$replaced_field"></xsl:value-of>
-				
-				</xsl:when>
-				
-				<xsl:otherwise>
-					
-					<xsl:value-of select="$fieldType_inicial"></xsl:value-of>
-				
-				</xsl:otherwise>
-				
-			</xsl:choose>	
-
-		</xsl:variable>
+		<xsl:variable name="fieldType" select="substring-before(field,'::')"/>
 		
 		<xsl:variable name="fieldValue" select="substring-after(field,'::')"/>
 		
@@ -158,10 +87,6 @@
 		<xsl:variable name="fieldTypechild" select="substring-before(value/block/field,'::')"/>
 		
 		<xsl:variable name="fieldvaluechild" select="substring-after(value/block/field,'::')"/>
-		
-		<xsl:variable name="block_name" select="@type"/>
-		
-		<xsl:variable name="block_namechild" select="$childblocktype"/>
 		
 		<xsl:variable name="paramkey" select="value/block/field"/>
 			
@@ -190,12 +115,20 @@
 			<xsl:choose>
 				
 				<xsl:when test= "$inline='true'" >
+				
+					<xsl:variable name="valorparam">
+					
+						<xsl:call-template name="blockly.getValue">
+						
+							<xsl:with-param name="value" select="value[@name='value1']"/>
+							
+						</xsl:call-template>
+						
+					</xsl:variable>
 					
 					<xsl:variable name="type_param" select="substring-before(value/block/field,'::')"/>
 					
-					<xsl:variable name="foreign_name_block" select="value/block/@type"/>
-					
-					<xsl:variable name="value_param" select="substring-after(value[@name='value1']/block/field,'::')"/> 
+					<xsl:variable name="foreign_name" select="value/block/@type"/>
 					
 					<xsl:variable name="paramlow">
 					
@@ -207,53 +140,37 @@
 				       	
 				   	</xsl:variable>
 				   	
-				   	<xsl:variable name="valorparam">
-					
-						<xsl:call-template name="blockly.getValue">
-						
-							<xsl:with-param name="value" select="value[@name='value1']"/>
-							
-						</xsl:call-template>
-						
-					</xsl:variable>
-				   	
-				   	<xsl:variable name="valorparam_convert">
-		
-						<xsl:call-template name="convert_blocks">
-								
-							<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
-							
-							<xsl:with-param name="value" select="$valorparam"></xsl:with-param>
-							
-							<xsl:with-param name="valueblock" select="$value_param"></xsl:with-param>
-							
-							<xsl:with-param name="from" select="$type_param"></xsl:with-param>
-							
-							<xsl:with-param name="to" select="'Integer'"></xsl:with-param>
-							
-							<xsl:with-param name="neto" select="neto"></xsl:with-param>
-							
-							<xsl:with-param name="valuechild" select="value_namee"></xsl:with-param>
-							
-							<xsl:with-param name="block_namechild" select="$foreign_name_block"></xsl:with-param>
-							
-							<xsl:with-param name="block_name" select="block_name"></xsl:with-param>
-							
-						</xsl:call-template>
-								
-					</xsl:variable>
-				   	
 				   	<xsl:choose>
 				   	
-				   		<xsl:when test="$foreign_name_block = 'dao_obj'">
+				   		<xsl:when test="$foreign_name = 'dao_obj'">
 							
 							<xsl:value-of select="$daolow"/><xsl:text>.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text><xsl:value-of select="$valorparam"/><xsl:text>);</xsl:text>
 						
 						</xsl:when>
+
+						<xsl:when test="$foreign_name = 'core_get_param'">
+					   	
+						   	<xsl:value-of select="$fieldType"/><xsl:text> </xsl:text><xsl:value-of select="$paramlow"/><xsl:text>_foreign = session.find(</xsl:text><xsl:value-of select="$fieldType"/><xsl:text>.class, </xsl:text><xsl:value-of select="$valorparam"/><xsl:text>);</xsl:text>
+							
+							<xsl:value-of select="$newlineTab1"></xsl:value-of>
+							
+							<xsl:value-of select="$daolow"/><xsl:text>.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text><xsl:value-of select="$paramlow"/><xsl:text>_foreign);</xsl:text>
+						
+						</xsl:when>
+				   	
+					   	<xsl:when test="$type_param != 'Integer'">
+					   	
+						   	<xsl:value-of select="$fieldType"/><xsl:text> </xsl:text><xsl:value-of select="$paramlow"/><xsl:text>_foreign = session.find(</xsl:text><xsl:value-of select="$fieldType"/><xsl:text>.class, Core.toInt(</xsl:text><xsl:value-of select="$valorparam"/><xsl:text>));</xsl:text>
+							
+							<xsl:value-of select="$newlineTab1"></xsl:value-of>
+							
+							<xsl:value-of select="$daolow"/><xsl:text>.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text><xsl:value-of select="$paramlow"/><xsl:text>_foreign);</xsl:text>
+						
+						</xsl:when>
 						
 						<xsl:otherwise>
-		
-							<xsl:value-of select="$fieldType"/><xsl:text> </xsl:text><xsl:value-of select="$paramlow"/><xsl:text>_foreign = session.find(</xsl:text><xsl:value-of select="$fieldType"/><xsl:text>.class, </xsl:text><xsl:value-of select="$valorparam_convert"/><xsl:text>);</xsl:text>
+						
+							<xsl:value-of select="$fieldType"/><xsl:text> </xsl:text><xsl:value-of select="$paramlow"/><xsl:text>_foreign = session.find(</xsl:text><xsl:value-of select="$fieldType"/><xsl:text>.class, </xsl:text><xsl:value-of select="$valorparam"/><xsl:text>);</xsl:text>
 							
 							<xsl:value-of select="$newlineTab1"></xsl:value-of>
 							
@@ -286,10 +203,6 @@
 								<xsl:with-param name="neto" select="neto"></xsl:with-param>
 								
 								<xsl:with-param name="valuechild" select="$fieldvaluechild"></xsl:with-param>
-								
-								<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>
-								
-								<xsl:with-param name="block_name" select="$block_name"></xsl:with-param>
 								
 							</xsl:call-template>
 							

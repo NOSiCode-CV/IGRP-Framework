@@ -102,18 +102,6 @@
 				
 				</xsl:when>
 				
-				<xsl:when test="@type = 'insert_simple_dao'">
-
-					<xsl:value-of select="$newline"></xsl:value-of>
-					
-					<xsl:text>import org.hibernate.Session;</xsl:text>
-					
-					<xsl:value-of select="$newline"></xsl:value-of>
-					
-					<xsl:text>import org.hibernate.Transaction;</xsl:text>
-				
-				</xsl:when>
-				
 				<xsl:when test="@type = 'inserir_dao2'">
 
 					<xsl:value-of select="$newline"></xsl:value-of>

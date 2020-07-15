@@ -46,13 +46,7 @@
 		
 	</xsl:template>
 	
-<!--  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// --> 
-	
 	<xsl:template name="blockly.element.set_model">
-		
-		<xsl:variable name="block_name" select="@type"/> 
-		
-		<xsl:variable name="block_namechild" select="value/block/@type"/> 
 	
 		<xsl:variable name="modelType">
 		
@@ -100,25 +94,7 @@
 		
 		</xsl:variable>
 		
-	  	<xsl:variable name="modeltypechild">
-		
-			<xsl:choose>
-			
-				<xsl:when test="value[@name='value1']/block/value/block/field != ''">
-				
-					<xsl:value-of select="substring-before(value[@name='value1']/block/value[@name='dao_rela']/block/field,'::')"/>
-				
-				</xsl:when>
-				
-				<xsl:otherwise>
-				
-					<xsl:value-of select="substring-before(value[@name='value1']/block/field,'::')"/>
-				
-				</xsl:otherwise>
-				
-			</xsl:choose>
-		
-		</xsl:variable>
+		<xsl:variable name="modeltypechild" select="substring-before(value[@name='value1']/block/field,'::')"/>
 		
 		<xsl:variable name="nameCap">
 		
@@ -142,7 +118,7 @@
 		
 		<xsl:choose>
 		
-			<xsl:when test="$modelType = 'Image' or $modelType = 'Section' or $modelType = 'File'">
+			<xsl:when test="$modelType = 'Image' or $modelType = 'Section' or $modelType = 'File' or contains($modelValue,'_img')">
 			
 				<xsl:value-of select="$tab2"></xsl:value-of>
 				
@@ -163,10 +139,6 @@
 						<xsl:with-param name="neto" select="neto"></xsl:with-param>
 						
 						<xsl:with-param name="valuechild" select="$modelValue"></xsl:with-param>
-						
-						<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>
-						
-						<xsl:with-param name="block_name" select="$block_name"></xsl:with-param>
 						
 					</xsl:call-template>
 					
@@ -195,10 +167,6 @@
 						<xsl:with-param name="neto" select="neto"></xsl:with-param>
 						
 						<xsl:with-param name="valuechild" select="$modelValue"></xsl:with-param>
-						
-						<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>
-						
-						<xsl:with-param name="block_name" select="$block_name"></xsl:with-param>
 						
 					</xsl:call-template>
 					
