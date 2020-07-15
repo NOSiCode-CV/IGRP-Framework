@@ -33,19 +33,19 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=18</preserve_url>
     </plsql>
-    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Associar Menu a Organica</title>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gravar" custom_return="true">
+            <item type="specific" code="" rel="gravar" custom_return="true" refresh_components="">
                 <title>Gravar</title>
                 <app>igrp</app>
                 <page>Dominio</page>
                 <link>index</link>
                 <target>submit_ajax</target>
                 <img>primary|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" title="Menu «--» Profile" gen-type="container" gen-group="true">
@@ -53,7 +53,7 @@
                 <menu name="p_menu" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="int" showLabel="true" group_in="" check="true" desc="true">
                     <label></label>
                 </menu>
-                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                <descricao name="p_descricao" type="text" maxlength="255" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
                     <label>Nome</label>
                 </descricao>
                 <app name="p_app" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" group_in="" tag="app"/>
@@ -63,45 +63,45 @@
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Stract anim unde sit labore</descricao>
-                        <app name="p_app" tag="app">hidden-35d9_85b0</app>
+                        <descricao name="p_descricao">Labore sed labore sit natus</descricao>
+                        <app name="p_app" tag="app">hidden-5335_b538</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Ipsum adipiscing natus ipsum a</descricao>
-                        <app name="p_app" tag="app">hidden-ab0f_bcbd</app>
+                        <descricao name="p_descricao">Dolor iste lorem amet rem</descricao>
+                        <app name="p_app" tag="app">hidden-2248_96b5</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Ut anim perspiciatis sit conse</descricao>
-                        <app name="p_app" tag="app">hidden-0e4b_4c51</app>
+                        <descricao name="p_descricao">Natus sit adipiscing dolor ipsum</descricao>
+                        <app name="p_app" tag="app">hidden-87f2_1ebb</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Deserunt ut natus sit laudanti</descricao>
-                        <app name="p_app" tag="app">hidden-c5c3_1143</app>
+                        <descricao name="p_descricao">Doloremque omnis unde rem adipiscing</descricao>
+                        <app name="p_app" tag="app">hidden-96d8_56c4</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Sit perspiciatis officia rem i</descricao>
-                        <app name="p_app" tag="app">hidden-89b1_3d0d</app>
+                        <descricao name="p_descricao">Aperiam unde ipsum sit adipiscing</descricao>
+                        <app name="p_app" tag="app">hidden-3ac8_bca0</app>
                     </row>
                 </value>
             </table>
         </table_1>
         <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="novo" custom_return="true">
+            <item type="specific" code="" rel="novo" custom_return="true" refresh_components="">
                 <title>Novo</title>
                 <app>igrp</app>
                 <page>Dominio</page>
                 <link>index</link>
                 <target>modal|refresh</target>
                 <img>success|fa-plus-square-o</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
             </item>
         </toolsbar_2>
         <form_2 type="form" xml-type="form" gen-type="container" gen-group="">

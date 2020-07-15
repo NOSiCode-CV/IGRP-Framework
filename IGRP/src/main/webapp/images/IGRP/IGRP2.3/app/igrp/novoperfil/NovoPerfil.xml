@@ -59,15 +59,15 @@
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <nome name="p_nome" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                <nome name="p_nome" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nome</label>
-                    <value>Officia sit accusantium dolor</value>
+                    <value>Perspiciatis sed aliqua laudantium aperiam</value>
                 </nome>
                 <codigo name="p_codigo" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Código</label>
-                    <value>Iste elit doloremque voluptatem mollit</value>
+                    <value>Ut laudantium lorem accusantium deserunt</value>
                 </codigo>
-                <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" check="true">
+                <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="int" check="true">
                     <label>Ativo?</label>
                     <value>1</value>
                 </activo>
@@ -165,10 +165,6 @@
                         </option>
                     </list>
                 </primeira_pagina>
-                <plsql_codigo name="p_plsql_codigo" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
-                    <label>PL/SQL (código)</label>
-                    <value>Deserunt lorem deserunt aperiam unde</value>
-                </plsql_codigo>
             </fields>
         </form_1>
     </content>

@@ -49,7 +49,7 @@ public class Dash_board_processoView extends View {
 		btn_iniciar_processo = new IGRPButton("Iniciar Processo","igrp","Dash_board_processo","iniciar_processo","alert_submit","primary|fa-play","","");
 		btn_iniciar_processo.propertie.add("id","button_96a4_5ff5").add("type","specific").add("class","primary").add("rel","iniciar_processo").add("refresh_components","");
 
-		btn_detalhes_processo = new IGRPButton("Detalhes Processo","igrp","Dash_board_processo","detalhes_processo","mpsubmit","grey|fa-list","","");
+		btn_detalhes_processo = new IGRPButton("Detalhes Processo","igrp","Dash_board_processo","detalhes_processo","submit_popup","grey|fa-list","","");
 		btn_detalhes_processo.propertie.add("id","button_d6eb_cd54").add("type","specific").add("class","grey").add("rel","detalhes_processo").add("refresh_components","");
 
 		btn_eliminar_processo = new IGRPButton("Eliminar Processo","igrp","Dash_board_processo","eliminar_processo","alert_submit","danger|fa-times","","");

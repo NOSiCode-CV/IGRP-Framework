@@ -29,7 +29,7 @@ public class Dash_board_processoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_2(Core.query(null,"SELECT 'Sit ut elit aperiam sit' as nome_processo,'hidden-a896_15c6' as process_id,'hidden-8373_28c6' as process_key "));
+		model.loadTable_2(Core.query(null,"SELECT 'Ut laudantium iste anim offici' as nome_processo,'hidden-adf6_d79a' as process_id,'hidden-eb9d_1045' as process_key "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/	
 		view.btn_iniciar_processo.setPage("ExecucaoTarefas");
@@ -49,7 +49,7 @@ public class Dash_board_processoController extends Controller {
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
 		  this.addQueryString("p_process_id",Core.getParam("p_process_id"));
 		  this.addQueryString("p_process_key",Core.getParam("p_process_key"));
-		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
+		  return this.forward("igrp","ExecucaoTarefas","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(iniciar_processo)----*/
@@ -57,7 +57,7 @@ public class Dash_board_processoController extends Controller {
 		 this.addQueryString(BPMNConstants.PRM_DEFINITION_ID,Core.getParam(BPMNConstants.PRM_PROCESS_ID));
 		 this.addQueryString(BPMNConstants.PRM_PROCESS_KEY,Core.getParam(BPMNConstants.PRM_PROCESS_KEY));
 		/*----#end-code----*/
-		return this.redirect("igrp","Dominio","index", this.queryString());	
+		return this.redirect("igrp","ExecucaoTarefas","index", this.queryString());	
 	}
 	
 	public Response actionDetalhes_processo() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -73,7 +73,8 @@ public class Dash_board_processoController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(detalhes_processo)----*/
-		 this.addQueryString(BPMNConstants.PRM_PROCESS_ID,Core.getParam("p_process_id"));
+	 this.addQueryString("target", "_blank");
+      this.addQueryString(BPMNConstants.PRM_PROCESS_ID,Core.getParam("p_process_id"));
 		 this.addQueryString(BPMNConstants.PRM_PROCESS_KEY,Core.getParam("p_process_key"));
 		
 		/*----#end-code----*/

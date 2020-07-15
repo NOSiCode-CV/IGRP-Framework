@@ -23,7 +23,7 @@ public class PesquisarPerfilController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Totam deserunt voluptatem elit' as organica,'1' as estado,'Perspiciatis elit magna lorem' as descricao,'Dolor rem lorem anim perspicia' as codigo,'hidden-e786_bc62' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Mollit officia dolor perspiciatis adipiscing' as organica,'1' as estado,'Laudantium amet laudantium perspiciatis iste' as descricao,'Doloremque stract doloremque iste officia' as codigo,'hidden-dd96_da7b' as id "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		model.setHelp(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=perfil"));

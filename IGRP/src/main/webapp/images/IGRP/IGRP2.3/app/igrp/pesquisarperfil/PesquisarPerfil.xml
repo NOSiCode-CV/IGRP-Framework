@@ -48,7 +48,7 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
                     <label>Help</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
                 </help>
@@ -67,16 +67,16 @@
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <organica name="p_organica" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                <organica name="p_organica" type="text" maxlength="255" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
                     <label>Organização</label>
                 </organica>
                 <estado name="p_estado" type="checkbox" maxlength="30" align="center" lookup_parser="false" iskey="false" switch="false" java-type="int" showLabel="true" group_in="" check="true" desc="true">
                     <label>Estado</label>
                 </estado>
-                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                <descricao name="p_descricao" type="text" maxlength="255" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
                     <label>Nome</label>
                 </descricao>
-                <codigo name="p_codigo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                <codigo name="p_codigo" type="text" maxlength="255" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
                     <label>Código</label>
                 </codigo>
                 <id name="p_id" type="hidden" maxlength="30" iskey="true" java-type="" showLabel="true" group_in="" tag="id"/>
@@ -88,64 +88,64 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Sed iste consectetur mollit la</organica>
+                        <organica name="p_organica">Labore accusantium consectetur iste natus</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Omnis ut iste deserunt magna</descricao>
-                        <codigo name="p_codigo">Mollit ipsum adipiscing aperia</codigo>
-                        <id name="p_id" tag="id">hidden-4564_e878</id>
+                        <descricao name="p_descricao">Mollit perspiciatis consectetur laudantium consectetur</descricao>
+                        <codigo name="p_codigo">Dolor accusantium anim magna unde</codigo>
+                        <id name="p_id" tag="id">hidden-a4aa_f361</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Adipiscing ipsum aliqua totam</organica>
+                        <organica name="p_organica">Elit iste perspiciatis anim mollit</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Perspiciatis aperiam stract re</descricao>
-                        <codigo name="p_codigo">Ut voluptatem aliqua laudantiu</codigo>
-                        <id name="p_id" tag="id">hidden-bbc0_a028</id>
+                        <descricao name="p_descricao">Perspiciatis iste consectetur mollit omnis</descricao>
+                        <codigo name="p_codigo">Mollit iste natus voluptatem labore</codigo>
+                        <id name="p_id" tag="id">hidden-58b9_cc1e</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Deserunt stract aperiam labore</organica>
+                        <organica name="p_organica">Mollit dolor doloremque perspiciatis accusantium</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Elit iste mollit magna officia</descricao>
-                        <codigo name="p_codigo">Dolor mollit perspiciatis omni</codigo>
-                        <id name="p_id" tag="id">hidden-012a_9560</id>
+                        <descricao name="p_descricao">Sit labore consectetur sit anim</descricao>
+                        <codigo name="p_codigo">Amet magna unde labore anim</codigo>
+                        <id name="p_id" tag="id">hidden-56f9_2ff1</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Natus rem adipiscing voluptate</organica>
+                        <organica name="p_organica">Accusantium aperiam labore doloremque laudantium</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Aperiam adipiscing ut magna is</descricao>
-                        <codigo name="p_codigo">Iste lorem mollit totam perspi</codigo>
-                        <id name="p_id" tag="id">hidden-72fb_0fd1</id>
+                        <descricao name="p_descricao">Anim laudantium magna natus stract</descricao>
+                        <codigo name="p_codigo">Stract laudantium totam perspiciatis amet</codigo>
+                        <id name="p_id" tag="id">hidden-8555_bcb6</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Officia iste unde omnis laudan</organica>
+                        <organica name="p_organica">Officia voluptatem elit adipiscing iste</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Labore sed natus lorem unde</descricao>
-                        <codigo name="p_codigo">Amet rem sit ut rem</codigo>
-                        <id name="p_id" tag="id">hidden-17b5_13b9</id>
+                        <descricao name="p_descricao">Doloremque sit perspiciatis mollit laudantium</descricao>
+                        <codigo name="p_codigo">Deserunt iste unde aperiam amet</codigo>
+                        <id name="p_id" tag="id">hidden-c57f_a5b2</id>
                     </row>
                 </value>
                 <context-menu>
-                    <item type="specific" code="" class="warning" rel="editar" custom_return="true" refresh_components="">
+                    <item id="button_40d9_9edf" type="specific" code="" class="warning" rel="editar" custom_return="true" refresh_components="">
                         <title>Editar</title>
                         <app>igrp</app>
                         <page>NovoPerfil</page>
@@ -155,7 +155,7 @@
                         <img>warning|fa-pencil</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xml</preview>
                     </item>
-                    <item type="specific" code="" class="info" rel="menu" custom_return="true" refresh_components="">
+                    <item id="button_2d77_a624" type="specific" code="" class="info" rel="menu" custom_return="true" refresh_components="">
                         <title>Menu</title>
                         <app>igrp</app>
                         <page>MenuOrganica</page>
@@ -165,7 +165,7 @@
                         <img>info|fa-bars</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xml</preview>
                     </item>
-                    <item type="specific" code="" class="black" rel="transacao" custom_return="true" refresh_components="">
+                    <item id="button_6e1b_72ce" type="specific" code="" class="black" rel="transacao" custom_return="true" refresh_components="">
                         <title>Transacao</title>
                         <app>igrp</app>
                         <page>TransacaoOrganica</page>
@@ -175,7 +175,7 @@
                         <img>black|fa-exchange</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xml</preview>
                     </item>
-                    <item type="specific" code="" class="primary" rel="associar_etapa" custom_return="true" refresh_components="">
+                    <item id="button_0636_8fae" type="specific" code="" class="primary" rel="associar_etapa" custom_return="true" refresh_components="">
                         <title>Associar Etapa</title>
                         <app>igrp</app>
                         <page>PesquisarPerfil</page>
@@ -185,7 +185,7 @@
                         <img>primary|fa-sitemap</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</preview>
                     </item>
-                    <item type="specific" code="" class="warning" rel="convidar" custom_return="true" refresh_components="">
+                    <item id="button_a1c1_3c29" type="specific" code="" class="warning" rel="convidar" custom_return="true" refresh_components="">
                         <title>Convidar</title>
                         <app>igrp</app>
                         <page>NovoUtilizador</page>
@@ -195,7 +195,7 @@
                         <img>warning|fa-send</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xml</preview>
                     </item>
-                    <item type="specific" code="" class="danger" rel="eliminar" refresh_components="">
+                    <item id="button_aa26_9fae" type="specific" code="" class="danger" rel="eliminar" refresh_components="">
                         <title>Eliminar</title>
                         <app>igrp</app>
                         <page>PesquisarPerfil</page>

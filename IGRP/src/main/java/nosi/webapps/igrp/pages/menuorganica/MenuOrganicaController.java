@@ -31,7 +31,7 @@ public class MenuOrganicaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as menu,'Doloremque labore ut officia t' as descricao,'hidden-a7a3_2910' as app "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as menu,'Sit sit amet natus perspiciatis' as descricao,'hidden-5df8_7086' as app "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 

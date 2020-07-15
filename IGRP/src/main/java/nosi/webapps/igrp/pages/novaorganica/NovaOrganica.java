@@ -34,12 +34,6 @@ public class NovaOrganica extends Model{
 
 	@RParam(rParamName = "p_organizacao_pai")
 	private String organizacao_pai;
-
-	@RParam(rParamName = "p_extras")
-	private String extras;
-
-	@RParam(rParamName = "p_plsql_codigo")
-	private String plsql_codigo;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -116,20 +110,6 @@ public class NovaOrganica extends Model{
 	}
 	public String getOrganizacao_pai(){
 		return this.organizacao_pai;
-	}
-	
-	public void setExtras(String extras){
-		this.extras = extras;
-	}
-	public String getExtras(){
-		return this.extras;
-	}
-	
-	public void setPlsql_codigo(String plsql_codigo){
-		this.plsql_codigo = plsql_codigo;
-	}
-	public String getPlsql_codigo(){
-		return this.plsql_codigo;
 	}
 
 
