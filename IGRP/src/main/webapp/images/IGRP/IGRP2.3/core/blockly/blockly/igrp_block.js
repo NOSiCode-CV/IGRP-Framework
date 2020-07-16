@@ -72,6 +72,14 @@ function SetupBlockly(){
 			if( type.indexOf('save_formu_') == 0 )
 				
 				IGRPElement = IGRP_BLOCKLY_ELEMENTS.inserir_dao;
+			
+			if( type == 'core_fun_set')
+				
+				IGRPElement = IGRP_BLOCKLY_ELEMENTS.core_fun_set;
+			
+			if( type == 'core_fun_get')
+				
+				IGRPElement = IGRP_BLOCKLY_ELEMENTS.core_fun_get;
 				
 		
 		Blockly.Blocks[type] = {
@@ -287,7 +295,7 @@ function SetupBlockly(){
 					var daoName = type.split('set-dao-').pop();
 					
 					$(document).trigger('set-dao-block-init', [ block, daoName ]);
-				}	
+				}
 					
 			}
 		};
