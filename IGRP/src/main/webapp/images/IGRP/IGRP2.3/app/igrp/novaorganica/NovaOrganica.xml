@@ -48,9 +48,9 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=organica" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=organica" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
                     <label>Help</label>
-                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=organica</value>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
                 </documento>
             </fields>
         </view_1>
@@ -67,13 +67,13 @@
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <nome name="p_nome" type="text" maxlength="60" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                <nome name="p_nome" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nome</label>
-                    <value>Lorem elit iste sit omnis</value>
+                    <value>Totam aperiam lorem iste natus</value>
                 </nome>
-                <codigo name="p_codigo" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="ex: org2" right="false" desclabel="false">
+                <codigo name="p_codigo" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="ex: org2" right="false" desclabel="false">
                     <label>Código</label>
-                    <value>Stract officia voluptatem consectetur voluptatem</value>
+                    <value>Dolor magna iste laudantium dolor</value>
                 </codigo>
                 <ativo name="p_ativo" type="checkbox" maxlength="50" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="int" check="true">
                     <label>Ativo</label>
@@ -126,13 +126,6 @@
                         </option>
                     </list>
                 </organizacao_pai>
-                <extras name="p_extras" type="separator" maxlength="250" placeholder="" desclabel="false" right="false">
-                    <label>Extras</label>
-                </extras>
-                <plsql_codigo name="p_plsql_codigo" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
-                    <label>PL/SQL (código)</label>
-                    <value>Perspiciatis sit ipsum adipiscing consectetur</value>
-                </plsql_codigo>
             </fields>
         </form_1>
     </content>

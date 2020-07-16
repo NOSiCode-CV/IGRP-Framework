@@ -18,6 +18,7 @@ import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
 import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
+import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 		
 public class Detalhes_dashboard_processoController extends Controller {
@@ -41,7 +42,7 @@ public class Detalhes_dashboard_processoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '2' as estado,'/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml' as n_processo,'Deserunt labore anim ipsum des' as descricao,'Mollit rem ipsum deserunt tota' as iniciado_em,'hidden-de0b_0acd' as id,'hidden-4f5c_f7ee' as process_definition,'hidden-4471_6884' as process_key "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Natus magna amet doloremque ad' as descricao,'/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml' as n_processo,'Totam natus elit perspiciatis' as iniciado_em,'hidden-3ad4_c9de' as id,'hidden-aa8f_af43' as process_definition,'hidden-9927_0569' as process_key "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		String processId = Core.getParam(BPMNConstants.PRM_PROCESS_ID);		
@@ -74,7 +75,7 @@ public class Detalhes_dashboard_processoController extends Controller {
 		  this.addQueryString("p_id",Core.getParam("p_id"));
 		  this.addQueryString("p_process_definition",Core.getParam("p_process_definition"));
 		  this.addQueryString("p_process_key",Core.getParam("p_process_key"));
-		  return this.forward("igrp","DetalhesProcesso","index",this.queryString()); //if submit, loads the values
+		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(show_diagram)----*/
@@ -87,7 +88,7 @@ public class Detalhes_dashboard_processoController extends Controller {
 			return this.redirect("igrp","DetalhesProcesso", "index",this.queryString());
 		}
 		/*----#end-code----*/
-		return this.redirect("igrp","DetalhesProcesso","index", this.queryString());	
+		return this.redirect("igrp","Dominio","index", this.queryString());	
 	}
 	
 	public Response actionCancelar_processo() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -127,13 +128,14 @@ public class Detalhes_dashboard_processoController extends Controller {
 
 	private List<Detalhes_dashboard_processo.Table_1> getProcessInstances(String processId,String processKey,Detalhes_dashboard_processoView view) {
 		List<Detalhes_dashboard_processo.Table_1> listProcess = new ArrayList<>();
+      String txt = gt("Ver progresso de");
 			//Get process in execution
 			for(ProcessInstancesService pis:new ProcessInstanceIGRP().getRuntimeProcessIntances(processKey)) {
 				ProcessDefinitionService pds = new ProcessDefinitionServiceRest().getProcessDefinition(pis.getProcessDefinitionId());
 				Detalhes_dashboard_processo.Table_1 table1 = new Detalhes_dashboard_processo.Table_1();
-				table1.setDescricao(pds.getName());
+				table1.setDescricao(pds.getName()+" v."+pds.getVersion());
 				table1.setIniciado_em("       ---");
-				table1.setN_processo_desc(pis.getId());
+				table1.setN_processo_desc(txt+" "+pis.getId());
 				table1.setN_processo("igrp", "Lista_terfa_de_processo", "index")
 						.addParam("target", "_blank")
 						.addParam(BPMNConstants.PRM_PROCESS_INSTANCE_ID, pis.getId())
@@ -149,9 +151,9 @@ public class Detalhes_dashboard_processoController extends Controller {
 			for(HistoricProcessInstance hpi:new ProcessInstanceIGRP().getHistoryOfProccessInstanceIdFinished(processKey)) {
 				ProcessDefinitionService pds = new ProcessDefinitionServiceRest().getProcessDefinition(hpi.getProcessDefinitionId());
 				Detalhes_dashboard_processo.Table_1 table1 = new Detalhes_dashboard_processo.Table_1();
-				table1.setDescricao(pds.getName());
+				table1.setDescricao(pds.getName()+" v."+pds.getVersion());
 				table1.setIniciado_em(Core.ToChar(hpi.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
-				table1.setN_processo_desc(hpi.getId());
+				table1.setN_processo_desc(txt+" "+hpi.getId());
 				table1.setN_processo("igrp", "Lista_terfa_de_processo", "index")
 						.addParam("target", "_blank")
 						.addParam(BPMNConstants.PRM_PROCESS_INSTANCE_ID, hpi.getId())

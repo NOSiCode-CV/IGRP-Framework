@@ -34,14 +34,7 @@ public class NovaOrganicaController extends Controller {
 		
       //model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=organica"));
       
-		Properties settings = this.configApp.getMainSettings();
-		String igrp_plsql_url = settings.getProperty("igrp.plsql.url");
-		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()){
-          view.extras.setVisible(false);
-          view.plsql_codigo.setVisible(false);
-        } 
 		
-	
 	      String dad = Core.getCurrentDad();
 	      if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 				model.setAplicacao("" + (Core.findApplicationByDad(dad)).getId());
@@ -91,7 +84,7 @@ public class NovaOrganicaController extends Controller {
 			organization.setUser(u);
 			organization.setStatus(model.getAtivo());
 			organization.setName(model.getNome());
-			organization.setPlsql_code(model.getPlsql_codigo());
+		
 			organization = organization.insert();
 			if (organization != null && !organization.hasError()) {
 				Core.setMessageSuccess(gt("Orgânica registada com sucesso"));
@@ -118,15 +111,12 @@ public class NovaOrganicaController extends Controller {
 		NovaOrganicaView view = new NovaOrganicaView();
         model.load();
      
-		Properties settings = this.configApp.getMainSettings();
-		String igrp_plsql_url = settings.getProperty("igrp.plsql.url");
-		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
-			view.plsql_codigo.setVisible(false);
+		
 		Organization organization =  Core.findOrganizationById(Integer.parseInt(idOrganica));       
 		model.setCodigo(organization.getCode());
 		model.setNome(organization.getName());
 		model.setAplicacao("" + organization.getApplication().getId());
-		model.setPlsql_codigo(organization.getPlsql_code());
+	
 
 		/*
 		 * if(organization.getOrganization()!=null){
@@ -163,7 +153,7 @@ public class NovaOrganicaController extends Controller {
 			organization.setCode(model.getCodigo());
 			organization.setName(model.getNome());
 			organization.setApplication(new Application().findOne(model.getAplicacao()));
-			organization.setPlsql_code(model.getPlsql_codigo());
+			
 			/*
 			 * if(model.getOrganica_pai()!=0){ organization.setOrganization(new
 			 * Organization().findOne(model.getOrganica_pai())); }

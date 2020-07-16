@@ -23,9 +23,9 @@ public class Detalhes_dashboard_processoView extends View {
 	public Field total_proc_finished_bg;
 	public Field total_proc_finished_icn;
 	public Field estado;
+	public Field descricao;
 	public Field n_processo;
 	public Field n_processo_desc;
-	public Field descricao;
 	public Field iniciado_em;
 	public Field id;
 	public Field process_definition;
@@ -99,17 +99,17 @@ public class Detalhes_dashboard_processoView extends View {
 		estado.setLabel(gt("Estado"));
 		estado.propertie().add("name","p_estado").add("type","color").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
+		descricao = new TextField(model,"descricao");
+		descricao.setLabel(gt("Descrição"));
+		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
+		
 		n_processo = new LinkField(model,"n_processo");
 		n_processo.setLabel(gt("Nº processo"));
 		n_processo.setValue(Core.getIGRPLink("igrp","Lista_terfa_de_processo","index"));
 
 									n_processo_desc = new LinkField(model,"n_processo_desc");
 		n_processo_desc.setLabel(gt("Nº processo"));
-		n_processo.propertie().add("name","p_n_processo").add("type","link").add("target","submit").add("request_fields","").add("class","primary").add("img","fa-tasks").add("maxlength","30").add("refresh_submit","false").add("showLabel","true").add("show_header","true").add("list_source","").add("refresh_components","").add("group_in","").add("desc","true");
-		
-		descricao = new TextField(model,"descricao");
-		descricao.setLabel(gt("Descrição"));
-		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
+		n_processo.propertie().add("name","p_n_processo").add("type","link").add("target","mpsubmit").add("request_fields","").add("class","primary").add("img","fa-tasks").add("maxlength","30").add("refresh_submit","false").add("showLabel","true").add("show_header","true").add("list_source","").add("refresh_components","").add("group_in","").add("adbcli","").add("desc","true");
 		
 		iniciado_em = new TextField(model,"iniciado_em");
 		iniciado_em.setLabel(gt("Iniciado em"));
@@ -129,11 +129,11 @@ public class Detalhes_dashboard_processoView extends View {
 		
 
 
-		btn_show_diagram = new IGRPButton("Show diagram","igrp","Detalhes_dashboard_processo","show_diagram","mpsubmit","info|fa-eye","","");
-		btn_show_diagram.propertie.add("type","specific").add("class","info").add("rel","show_diagram").add("refresh_components","");
+		btn_show_diagram = new IGRPButton("Show diagram","igrp","Detalhes_dashboard_processo","show_diagram","mpsubmit","info|fa-sitemap","","");
+		btn_show_diagram.propertie.add("id","button_1d9c_1614").add("type","specific").add("class","info").add("rel","show_diagram").add("refresh_components","");
 
 		btn_cancelar_processo = new IGRPButton("Cancelar processo","igrp","Detalhes_dashboard_processo","cancelar_processo","confirm","danger|fa-times","","");
-		btn_cancelar_processo.propertie.add("type","specific").add("flg_transaction","true").add("class","danger").add("rel","cancelar_processo").add("refresh_components","");
+		btn_cancelar_processo.propertie.add("id","button_f22b_b678").add("type","specific").add("flg_transaction","true").add("class","danger").add("rel","cancelar_processo").add("refresh_components","");
 
 		
 	}
@@ -156,21 +156,21 @@ public class Detalhes_dashboard_processoView extends View {
 		total_proc_finished.addField(total_proc_finished_icn);
 
 		table_1.addField(estado);
+		table_1.addField(descricao);
 		table_1.addField(n_processo);
 		table_1.addField(n_processo_desc);
-		table_1.addField(descricao);
 		table_1.addField(iniciado_em);
 		table_1.addField(id);
 		table_1.addField(process_definition);
 		table_1.addField(process_key);
 		/* start table_1 legend colors*/
 		Map<Object, Map<String, String>> table_1_colors= new LinkedHashMap<>();
-		Map<String, String> color_1_table_1 = new LinkedHashMap<>();
-		color_1_table_1.put("#dc2b4c","Terminado");
-		table_1_colors.put("1",color_1_table_1);
-		Map<String, String> color_2_table_1 = new LinkedHashMap<>();
-		color_2_table_1.put("#1eed57","Em execucao");
-		table_1_colors.put("2",color_2_table_1);
+		Map<String, String> color_dc2b4c_table_1 = new LinkedHashMap<>();
+		color_dc2b4c_table_1.put("#dc2b4c","Terminado");
+		table_1_colors.put("1",color_dc2b4c_table_1);
+		Map<String, String> color_1eed57_table_1 = new LinkedHashMap<>();
+		color_1eed57_table_1.put("#1eed57","Em execucao");
+		table_1_colors.put("2",color_1eed57_table_1);
 		this.table_1.setLegendColors(table_1_colors);
 		/* end table_1 legend colors*/
 		table_1.addButton(btn_show_diagram);
@@ -195,9 +195,9 @@ public class Detalhes_dashboard_processoView extends View {
 		total_proc_finished_bg.setValue(model);
 		total_proc_finished_icn.setValue(model);
 		estado.setValue(model);
+		descricao.setValue(model);
 		n_processo.setValue(model);
 		n_processo_desc.setValue(model);
-		descricao.setValue(model);
 		iniciado_em.setValue(model);
 		id.setValue(model);
 		process_definition.setValue(model);

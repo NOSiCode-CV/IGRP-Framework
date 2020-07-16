@@ -13,6 +13,8 @@ import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.page.Page;
+import nosi.core.webapp.bpmn.BPMNConstants;
+import nosi.core.webapp.bpmn.RuntimeTask;
 import nosi.core.webapp.helpers.Route;
 /**
  * You can set/get the page title, addToPage...
@@ -57,11 +59,18 @@ public abstract class View  implements IHeaderConfig{
 		String target = Core.getParam("target");
 		String value = null;
 		String isPublic = Core.getParam("isPublic");
-		//No encrypt if page is public
-		if(Core.isNotNull(isPublic) && isPublic.equals("1")) {
-			value = "webapps?r="+Igrp.getInstance().getCurrentAppName()+"/"+Igrp.getInstance().getCurrentPageName()+"/index&target="+target+"&isPublic=1&lang="+Core.getParam("lang")+"&dad="+Igrp.getInstance().getCurrentAppName();
+		
+		RuntimeTask runtimeTask = RuntimeTask.getRuntimeTask(); 
+		if(runtimeTask != null) { 
+			System.out.println("Entrado ... ");
+			String taskId = runtimeTask.getTask().getId(); 
+			value = "webapps" + Route.toUrl("igrp", "ExecucaoTarefas", "Executar_button_minha_tarefas") + "&" + BPMNConstants.PRM_TASK_ID + "=" + taskId + "&dad=" + Core.getCurrentDad(); 
 		}else {
-			value = Route.getResolveUrl(Igrp.getInstance().getCurrentAppName(),Igrp.getInstance().getCurrentPageName(), "index"+(Core.isNotNull(target)?("&target="+target):""));
+			//No encrypt if page is public
+			if(Core.isNotNull(isPublic) && isPublic.equals("1")) 
+				value = "webapps?r="+Igrp.getInstance().getCurrentAppName()+"/"+Igrp.getInstance().getCurrentPageName()+"/index&target="+target+"&isPublic=1&lang="+Core.getParam("lang")+"&dad="+Igrp.getInstance().getCurrentAppName();
+			else 
+				value = Route.getResolveUrl(Igrp.getInstance().getCurrentAppName(),Igrp.getInstance().getCurrentPageName(), "index"+(Core.isNotNull(target)?("&target="+target):""));
 		}
 		field.propertie().add("value", value).add("name","p_env_frm_url").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","env_frm_url");
 		field.setValue(value);
