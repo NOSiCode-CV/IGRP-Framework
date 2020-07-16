@@ -236,7 +236,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		}
 		this.runtimeTask.setShowTimeLine("true");
 		this.runtimeTask.setSaveButton(true);
-		this.addQueryString("p_id", nextTask.getId());
+		this.addQueryString(BPMNConstants.PRM_TASK_ID, nextTask.getId());
 		return this.redirect("igrp","ExecucaoTarefas","executar_button_minha_tarefas",this.queryString());
 	}
 
