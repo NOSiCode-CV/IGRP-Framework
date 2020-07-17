@@ -404,7 +404,7 @@
 				      			this.sourceBlock_.updateShape__(pxchecked);			
 				 });
 				 
-				block.appendDummyInput().appendField("3D").appendField(checkbox, '3D');	
+				//block.appendDummyInput().appendField("3D").appendField(checkbox, '3D');	
 			 
 				 block.updateShape__ = function(pxchecked) {
 				    if (pxchecked) {

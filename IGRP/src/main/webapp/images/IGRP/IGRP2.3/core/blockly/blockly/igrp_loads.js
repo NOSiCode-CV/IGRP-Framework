@@ -807,10 +807,12 @@ $('#active_selenium').on('click', function() {
 		
 		//*********************************************** GRAFICO ***************************************************
 
-	$('rows>content>*[type="chart"]', BlocklyXML).each(function(i, element){
+	$('rows>content>*[type="chart"]', BlocklyXML).each(function(i, element){	
 	if($(element).attr('type')== 'chart')
 		{
 			var char = $(element).prop('tagName');
+			var char_type= $(element).find('chart_type').text();
+				
 			chart.push([ char, char ]);
 			addchart++;
 			if(addchart == 1)
@@ -820,6 +822,16 @@ $('#active_selenium').on('click', function() {
 					+'<sep class="blocly-dynamic"></sep>'
 				);
 			}
+			
+			if(char_type != 'pie')
+			{
+			var eixo_z = '<next>'
+							+'<block type="EixoZ" color ="300" prev-statement="" >'
+								+'<value name="eixo"  title="Eixo Z" type="value"></value>'
+							+'</block>'	
+						+'<next>';
+			}
+			
 			$('#dashboard').append(	
 					
 					'<category id="'+char+'" name="'+char+'" colour="120" class="blocly-dynamic">'
@@ -836,6 +848,9 @@ $('#active_selenium').on('click', function() {
 										+'<next>'
 											+'<block type="EixoY" color ="300" prev-statement="" next-statement="">'
 												+'<value name="eixo"  title="Eixo Y" type="value"></value>'
+												
+												+ eixo_z
+					
 											+'</block>'	
 										+'</next>'
 								+'</block>'	

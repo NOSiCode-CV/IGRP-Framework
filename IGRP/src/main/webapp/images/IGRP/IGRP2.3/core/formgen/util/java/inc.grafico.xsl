@@ -5,10 +5,6 @@
 		<xsl:variable name="mutation" select="mutation/@count"/>
 
 		<xsl:variable name="grafico" select="substring-after(@type,'grafico_')"/>
-	
-<!-- 		<xsl:variable name="rowtypechildX" select="substring-before(value[@name='eixoX']/block/field,'::')"/> -->
-		
-		<xsl:variable name="rowtypechildZ" select="substring-before(value[@name='eixoZ']/block/field,'::')"/>
 		
 		<xsl:variable name="dao" select="field[@name='dao']"/>
 		
@@ -52,60 +48,6 @@
 			
 		</xsl:variable>
 		
-		<xsl:variable name="eixoz">
-			
-			<xsl:call-template name="blockly.getValue">
-			
-				<xsl:with-param name="value" select="*[@name='eixoZ']"/>
-				
-				<xsl:with-param name="parent" select="."></xsl:with-param>
-				
-			</xsl:call-template>
-			
-		</xsl:variable>
-		
-		<xsl:variable name="z_split_1">
-		
-			<xsl:call-template name="replace-all">
-			
-				<xsl:with-param name="text" select="$eixoz"/>
-				
-				<xsl:with-param name="replace" select="'()'"/>
-				
-				<xsl:with-param name="by" select="''"/>
-				
-			</xsl:call-template>
-						
-		</xsl:variable>
-		
-		<xsl:variable name="z_split_2">
-		
-			<xsl:call-template name="replace-all">
-			
-				<xsl:with-param name="text" select="$z_split_1"/>
-				
-				<xsl:with-param name="replace" select="substring-before($z_split_1,'.')"/>
-				
-				<xsl:with-param name="by" select="''"/>
-				
-			</xsl:call-template>
-						
-		</xsl:variable>
-		
-		<xsl:variable name="z_split">
-		
-			<xsl:call-template name="replace-all">
-			
-				<xsl:with-param name="text" select="$z_split_2"/>
-				
-				<xsl:with-param name="replace" select="'.'"/>
-				
-				<xsl:with-param name="by" select="''"/>
-				
-			</xsl:call-template>
-						
-		</xsl:variable>
-		
 		<xsl:variable name="eixoy" select="*[@name='value2']/block/next/block/value/block/field"/>
 		
 		<xsl:variable name="rowtypechildY" select="substring-before($eixoy,'::')"/>
@@ -123,6 +65,26 @@
 		</xsl:variable>
 		
 		<xsl:variable name="y_split" select="concat('get',$y_split_2)"/>
+		
+		<!-- ######################################################## -->
+		
+		<xsl:variable name="eixoz" select="*[@name='value2']/block/next/block/next/block/value/block/field"/>
+		
+		<xsl:variable name="rowtypechildZ" select="substring-before($eixoz,'::')"/>
+		
+		<xsl:variable name="z_split_1" select="substring-after($eixoz,'::')"/>
+		
+		<xsl:variable name="z_split_2">
+		
+			<xsl:call-template name="InitCap">
+			
+				<xsl:with-param name="text" select="$z_split_1"/>
+				
+			</xsl:call-template>
+			
+		</xsl:variable>
+		
+		<xsl:variable name="z_split" select="concat('get',$z_split_2)"/>
 		
 		<xsl:variable name="options">
 		
@@ -154,7 +116,7 @@
 		
 			<xsl:when test="$eixoz != ''">
 			
-			<xsl:variable name="rowtypechildZ_FK">
+			<xsl:variable name="rowtypemap">
 		
 				<xsl:choose>
 				
@@ -188,13 +150,13 @@
 
 			</xsl:variable>
 			
-				<xsl:text>Map&lt;</xsl:text><xsl:value-of select="$rowtypechildZ_FK"/><xsl:text>, Long&gt; z_value = p.stream().collect(Collectors.groupingBy(</xsl:text><xsl:value-of select="$dao"/><xsl:text>::</xsl:text><xsl:value-of select="$z_split"/><xsl:text>,Collectors.counting()));</xsl:text>
+			<xsl:text>Map&lt;</xsl:text><xsl:value-of select="$rowtypemap"/><xsl:text>, Long&gt; z_value = p.stream().collect(Collectors.groupingBy(</xsl:text><xsl:value-of select="$dao"/><xsl:text>::</xsl:text><xsl:value-of select="$z_split"/><xsl:text>,Collectors.counting()));</xsl:text>
 			
 			</xsl:when>
 			
 			<xsl:otherwise>
 			
-				<xsl:variable name="rowtypechildY_FK">
+				<xsl:variable name="rowtypemap">
 		
 				<xsl:choose>
 				
@@ -228,7 +190,7 @@
 
 			</xsl:variable>
 			
-				<xsl:text>Map&lt;</xsl:text><xsl:value-of select="$rowtypechildY_FK"/><xsl:text>, Long&gt; y_value = p.stream().collect(Collectors.groupingBy(</xsl:text><xsl:value-of select="$dao"/><xsl:text>::</xsl:text><xsl:value-of select="$y_split"/><xsl:text>,Collectors.counting()));</xsl:text>
+				<xsl:text>Map&lt;</xsl:text><xsl:value-of select="$rowtypemap"/><xsl:text>, Long&gt; y_value = p.stream().collect(Collectors.groupingBy(</xsl:text><xsl:value-of select="$dao"/><xsl:text>::</xsl:text><xsl:value-of select="$y_split"/><xsl:text>,Collectors.counting()));</xsl:text>
 			
 			</xsl:otherwise>
 		
@@ -252,19 +214,7 @@
 		
 		<xsl:value-of select="$options"/>
 	
-		<xsl:choose>
-		
-			<xsl:when test="$checkbox = 'TRUE'">
-			
-				<xsl:value-of select="$newlineTab3"></xsl:value-of>
-						
-				<xsl:text>c.setEixoZ(z_value.get(</xsl:text><xsl:value-of select="$eixoz"/><xsl:text>));</xsl:text>
-		
-			</xsl:when>
-				
-		</xsl:choose>
-	
-		<xsl:value-of select="$newlineTab3"></xsl:value-of>
+		<xsl:value-of select="$newlineTab3"/>
 		
 		<xsl:text>model.get</xsl:text><xsl:value-of select="$graficoup"/><xsl:text>().add(c);</xsl:text>
 		
@@ -291,6 +241,9 @@
 		<xsl:value-of select="$newlineTab1"></xsl:value-of>
 
 	</xsl:template>
+	
+	
+	<!-- //////////////////////////////////////// EIXO X //////////////////////////////////////////////////////////////////// -->
 	
 	<xsl:template name="blockly.element.eixo_x" >
 		
@@ -328,11 +281,16 @@
 			
 	</xsl:template>
 	
+	<!-- //////////////////////////////////////// EIXO Y /////////////////////////////////////////////////////////////////// -->
+	
+	
 	<xsl:template name="blockly.element.eixo_y" >
 		
 		<xsl:variable name="rowtypechild" select="substring-before(value[@name='eixo']/block/field,'::')"/>
 		
 		<xsl:variable name="block_check" select="../../../../../block/field[@name='3D']"/>
+		
+		<xsl:variable name="z_exist" select ="next/block[@type='EixoZ']"/>
 	
 		<xsl:variable name="eixo">
 		
@@ -346,7 +304,7 @@
 		
 		<xsl:choose>
 		
-			<xsl:when test="$block_check = 'TRUE'">
+			<xsl:when test="$z_exist != ''">
 			
 				<xsl:choose>
 			
@@ -380,6 +338,26 @@
 
 		</xsl:choose>
 			
+	</xsl:template>
+	
+	<!-- //////////////////////////////////////// EIXO Z /////////////////////////////////////////////////////////////////// -->
+	
+	<xsl:template name="blockly.element.eixo_z" >
+	
+		<xsl:variable name="eixo">
+		
+			<xsl:call-template name="blockly.getValue">
+			
+				<xsl:with-param name="value" select="*[@name='eixo']"/>
+				
+			</xsl:call-template>
+			
+		</xsl:variable>
+				
+		<xsl:value-of select="$newlineTab3"></xsl:value-of>
+		
+		<xsl:text>c.setEixoZ(z_value.get(</xsl:text><xsl:value-of select="$eixo"/><xsl:text>));</xsl:text>
+		
 	</xsl:template>
 	
 </xsl:stylesheet>
