@@ -172,6 +172,14 @@
 			
 			<xsl:text>}</xsl:text>
 			
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			
+			<xsl:text>else</xsl:text>
+			
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			
+			<xsl:text>Core.setMessageError("Não foi possível fazer a edição.");</xsl:text>
+			
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			
 			<xsl:text>}catch ( Exception e ) {</xsl:text>
