@@ -117,7 +117,6 @@ public class Connection {
 	    connectionProps.put("password", password);
 	    boolean isConnect = true;
 	    try {
-	    	System.out.println("Driver: " + driver); 
 	    	Class.forName(driver); 
 			conn = DriverManager.getConnection(url,connectionProps);
 		} catch (SQLException | ClassNotFoundException e) {

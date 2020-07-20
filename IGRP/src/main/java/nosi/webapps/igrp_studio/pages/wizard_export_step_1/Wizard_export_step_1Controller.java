@@ -11,7 +11,11 @@ import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.import_export_v2.common.OptionsImportExport;
 import java.lang.String;
+import java.util.ArrayList;
+import java.util.Arrays;
 /*----#end-code----*/
+import java.util.List;
+import java.util.stream.Collectors;
 		
 public class Wizard_export_step_1Controller extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -70,23 +74,23 @@ public class Wizard_export_step_1Controller extends Controller {
 /*----#start-code(custom_actions)----*/
 	
 		private String getSql() {
-			String sql = "";
-			OptionsImportExport[] ops = OptionsImportExport.values();
-			ops[OptionsImportExport.APP.ordinal()] = null;
-			ops[OptionsImportExport.MODULO.ordinal()] = null;
-			int size = ops.length-2;
-			int count=0;
-			for(OptionsImportExport type:ops) {
-				if(type!=null) {
-					sql += "SELECT "+type.getValor()+" as ID,'"+type.getDescricao()+"' as NAME";
-					++count;
-					if(count!=size) {
-						sql+=" UNION ";
+			String sql = ""; 
+			try {
+				List<OptionsImportExport> list = Arrays.stream(OptionsImportExport.values()).filter(p -> p != OptionsImportExport.APP && p != OptionsImportExport.MODULO && p != OptionsImportExport.BPMN_DOCUMENT_TYPE).collect(Collectors.toList()); 
+				int index = 0;
+				for(OptionsImportExport type : list) { 
+					if(type != null) {
+						sql += "SELECT "+type.getValor()+" as ID,'" + type.getDescricao()+"' as NAME";
+						if(index++ != list.size() - 1) 
+							sql += " UNION ";
 					}
 				}
+				sql += " ORDER BY id";
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			sql += " ORDER BY id";
 			return sql;
 		}
+		
 	/*----#end-code----*/
 }

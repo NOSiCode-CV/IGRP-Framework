@@ -25,7 +25,6 @@ import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
-import nosi.webapps.igrp.dao.UserRole;
 import service.client.WSO2UserStub;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
@@ -237,27 +236,16 @@ public class LdapUserController extends Controller {
 			}else{
 				User u = new User().find().andWhere("email", "=", email).one();
 				if(u != null) {
-					
-					UserRole role = new UserRole().find().andWhere("role_name", "=", "IGRP_ADMIN").andWhere("user.user_name", "=", u.getUser_name()).one();
-					
-					//System.out.println(role.getId()); 
-					
-					role.delete(role.getId());
-					
 					u.setName(person.getDisplayName());
 					u.setEmail(person.getMail());
 					u.setUser_name(person.getUid());
 					u.setUpdated_at(System.currentTimeMillis());
 					u = u.update();
 					if(u != null) {
-						role = new UserRole();
-						role.setRole_name("IGRP_ADMIN");
-						role.setUser(u);
-						role = role.insert();
 						Core.setMessageSuccess(gt("Utilizador atualizado com sucesso."));
 						flag = true;
-					}else
-						Core.setMessageSuccess(gt("Ocorreu um erro. Favor contactar o administrador. "));
+					}else 
+						Core.setMessageSuccess(gt("Ocorreu um erro. Favor contactar o administrador. ")); 
 				}else {
 					Core.setMessageError(gt("Utilizador inválido. "));
 				}

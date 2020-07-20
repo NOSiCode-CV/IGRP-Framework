@@ -41,13 +41,6 @@ public final class MigrationIGRP {
 	private List<TipoDocumento> tipoDocumentos;
 	private List<TipoDocumentoEtapa> tipoDocumentoEtapas;
 	
-	// For OAuth 2.0
-	private List<OAuthClient> authClients;
-	private List<OAuthAccessToken> accessTokens;
-	private List<OAuthorizationCode> authorizationCodes;
-	private List<OAuthRefreshToken> refreshTokens;
-	private List<OAuthScope> authScopes;
-	private List<UserRole> userRoles;	
 	private String connetionName;
 	
 	public void start(Migrate model){
@@ -106,13 +99,6 @@ public final class MigrationIGRP {
 		tipoDocumentos = new TipoDocumento().findAll();
 		tipoDocumentoEtapas = new TipoDocumentoEtapa().findAll();
 		
-		// For OAuth 2.0
-		authScopes = new OAuthScope().findAll();
-		authClients = new OAuthClient().findAll();
-		authorizationCodes = new OAuthorizationCode().findAll();
-		accessTokens = new OAuthAccessToken().findAll();
-		refreshTokens = new OAuthRefreshToken().findAll();
-		userRoles = new UserRole().findAll();
 	}
 
 	private void saveData() {
@@ -507,89 +493,6 @@ public final class MigrationIGRP {
 				new Session().insert();//Using to increment value for last id
 			});
 		}
-		
-		// For OAuth 2.0
-		
-		if(authClients.size() > 0 ) {
-			authClients.stream().forEach(obj-> {
-				Core.insert(this.connetionName,"oauth_clients")
-					.addInt("id", obj.getId())
-					.addString("client_id", obj.getClient_id())
-					.addString("client_secret", obj.getClient_secret())
-					.addString("grant_types", obj.getGrant_types())
-					.addString("redirect_uri", obj.getRedirect_uri())
-					.addString("scope", obj.getScope())
-					.addInt("user_id", obj.getUser()!=null?obj.getUser().getId():null)
-					.execute();
-				new OAuthClient().insert();//Using to increment value for last id
-			});
-		}
-		
-		if(authScopes.size() > 0) {
-			authScopes.stream().forEach(obj-> {
-				Core.insert(this.connetionName,"oauth_scopes")
-					.addString("scope", obj.getScope())
-					.addInt("is_default", obj.getIs_default())
-					.execute();
-				new OAuthScope().insert();//Using to increment value for last id
-			});
-		}
-		
-		if(authorizationCodes.size() > 0) {
-			authorizationCodes.stream().forEach(obj->{
-				Core.insert(this.connetionName,"oauth_authorization_code")
-					.addInt("id", obj.getId())
-					.addString("authorization_code", obj.getAuthorization_code())
-					.addString("expires", obj.getExpires())
-					.addString("id_token", obj.getId_token())
-					.addString("redirect_uri", obj.getRedirect_uri())
-					.addString("scope", obj.getScope())
-					.addString("client_id", obj.getAuthClient().getClient_id())
-					.addInt("user_id", obj.getUser()!=null?obj.getUser().getId():null)
-					.execute();
-				new OAuthorizationCode().insert();//Using to increment value for last id
-			});
-		}
-		
-		if(accessTokens.size() > 0) {
-			accessTokens.stream().forEach(obj->{
-				Core.insert(this.connetionName,"oauth_access_tokens")
-					.addInt("id", obj.getId())
-					.addString("access_token", obj.getAccess_token())
-					.addString("expires", obj.getExpires())
-					.addString("scope", obj.getScope())
-					.addString("client_id", obj.getAuthClient().getClient_id())
-					.addInt("user_id", obj.getUser()!=null?obj.getUser().getId():null)
-					.execute();
-				new OAuthAccessToken().insert();//Using to increment value for last id
-			});
-		}
-		
-		if(refreshTokens.size() > 0) {
-			refreshTokens.stream().forEach(obj->{
-				Core.insert(this.connetionName,"oauth_refresh_tokens")
-				.addInt("id", obj.getId())
-				.addString("refresh_token", obj.getRefresh_token())
-				.addString("expires", obj.getExpires())
-				.addString("scope", obj.getScope())
-				.addString("client_id", obj.getAuthClient().getClient_id())
-				.addInt("user_id", obj.getUser()!=null?obj.getUser().getId():null)
-				.execute();
-				new OAuthRefreshToken().insert();//Using to increment value for last id
-			});
-		}
-		
-		if(userRoles.size() > 0 ) {
-			userRoles.stream().forEach(obj->{
-				Core.insert(this.connetionName,"tbl_user_roles")
-				.addInt("id", obj.getId())
-				.addString("role_name", obj.getRole_name())
-				.addString("user_name",obj.getUser()!=null? obj.getUser().getUser_name():null)
-				.execute();
-				new UserRole().insert();//Using to increment value for last id
-			});
-		}
-		
 	}
 
 }

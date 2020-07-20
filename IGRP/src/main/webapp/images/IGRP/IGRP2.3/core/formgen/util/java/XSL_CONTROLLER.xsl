@@ -444,7 +444,9 @@
 						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="'//programming your save edit calendar'"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="'//Your code here'"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="'Response response = new Response();'"/>
@@ -575,11 +577,27 @@
 			</xsl:variable>
 			<xsl:choose>
                 <xsl:when test="@type='calendar'">
+					
 					<xsl:call-template name="gen-action">
 						<xsl:with-param name="action_name_"><xsl:value-of select="concat('EditEvents',$actionName)"/></xsl:with-param>
 						<xsl:with-param name="page_"><xsl:value-of select="$class_name"/></xsl:with-param>
 						<xsl:with-param name="type_render_"><xsl:value-of select="'render_message'"/></xsl:with-param>
 					</xsl:call-template>
+					
+					
+					<xsl:call-template name="gen-action">
+						<xsl:with-param name="action_name_"><xsl:value-of select="concat('Load',$actionName)"/></xsl:with-param>
+						<xsl:with-param name="page_"><xsl:value-of select="$class_name"/></xsl:with-param>
+						<xsl:with-param name="type_render_"><xsl:value-of select="'render_message'"/></xsl:with-param>
+					</xsl:call-template> 
+					
+					<xsl:call-template name="gen-action">
+						<xsl:with-param name="action_name_"><xsl:value-of select="concat('Click',$actionName)"/></xsl:with-param>
+						<xsl:with-param name="page_"><xsl:value-of select="$class_name"/></xsl:with-param>
+						<xsl:with-param name="app_"><xsl:value-of select="$app"/></xsl:with-param>
+						<xsl:with-param name="type_render_"><xsl:value-of select="'redirect'"/></xsl:with-param>
+					</xsl:call-template>
+					
 				</xsl:when>
 				<xsl:when test="@type='treemenu'">
 				    <xsl:text>/*</xsl:text>

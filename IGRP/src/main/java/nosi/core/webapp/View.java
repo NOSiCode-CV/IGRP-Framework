@@ -62,7 +62,6 @@ public abstract class View  implements IHeaderConfig{
 		
 		RuntimeTask runtimeTask = RuntimeTask.getRuntimeTask(); 
 		if(runtimeTask != null) { 
-			System.out.println("Entrado ... ");
 			String taskId = runtimeTask.getTask().getId(); 
 			value = "webapps" + Route.toUrl("igrp", "ExecucaoTarefas", "Executar_button_minha_tarefas") + "&" + BPMNConstants.PRM_TASK_ID + "=" + taskId + "&dad=" + Core.getCurrentDad(); 
 		}else {

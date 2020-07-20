@@ -146,6 +146,7 @@ public class TipoDocumentoEtapa extends IGRPBaseActiveRecord<TipoDocumentoEtapa>
 				+ ", status=" + status + ", required=" + required + ", tipoDocumento=" + tipoDocumento
 				+ ", repTemplate=" + repTemplate + ", link=" + link + ", fileId=" + fileId + "]";
 	}
-
+	
+	
 
 }
