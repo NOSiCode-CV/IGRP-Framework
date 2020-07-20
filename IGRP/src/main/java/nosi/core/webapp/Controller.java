@@ -176,7 +176,8 @@ public class Controller {
 			resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 			resp.setDateHeader("Expires", 0); // Proxies.
 		}
-
+		
+		this.view.addToPage(this.view.addFieldToFormHidden());
 		String content = this.view.getPage().renderContent(false);
 		content = BPMNButton.removeXMLButton(content);
 		XMLWritter xml = new XMLWritter("rows", this.config.getLinkPageXsl(ac), "utf-8");
@@ -252,7 +253,6 @@ public class Controller {
 		display.setUserName(userName);
 		display.setListDocmentType(bpmn.getInputDocumentType()); 
 		
-		String previewTask = runtimeTak.getPreviewTask();
 		boolean isDetails = runtimeTak.isDetails();
 		if (isDetails)
 			display.setShowInputFile(false);

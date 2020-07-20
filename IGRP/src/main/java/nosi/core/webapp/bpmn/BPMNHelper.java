@@ -284,7 +284,7 @@ public final class BPMNHelper {
 					 for(int i = reverseOffset; i >= 0; i--) {
 						 TipoDocumentoEtapa taskBefore = new TipoDocumentoEtapa().find().andWhere("processId", "=", Core.isNotNull(processId) ? processId: "-1")
 			 						.andWhere("status", "=", 1)
-			 						.andWhere("taskid", "=", etapas.get(i))
+			 						.andWhere("taskId", "=", etapas.get(i).getTaskDefinitionKey())
 			 						.andWhere("tipo", "=", "IN")
 			 						.one(); 
 						 if(taskBefore != null) {

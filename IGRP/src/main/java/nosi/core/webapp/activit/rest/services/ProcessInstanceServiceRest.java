@@ -108,7 +108,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 	}
 
 	public List<HistoricProcessInstance> getHistoryOfProccessInstanceId(String processDefinitionKey) {
-		return this.getHistoryOfProccessInstanceId(processDefinitionKey,null, false);
+		return this.getHistoryOfProccessInstanceId(processDefinitionKey, null, false);
 	}
 
 

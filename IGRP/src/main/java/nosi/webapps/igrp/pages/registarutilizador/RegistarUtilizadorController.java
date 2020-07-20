@@ -14,7 +14,6 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
-import nosi.webapps.igrp.dao.UserRole;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 		
@@ -68,17 +67,11 @@ public class RegistarUtilizadorController extends Controller {
 				User ur_email = new User().findIdentityByEmail(model.getEmail());//verificar email
 				User ur_name = new User().findIdentityByUsername(username);//verificar username
 				if(ur_email != null || ur_name != null) {
-						Core.setMessageError("Email/Username já existe... por favor escolhe outro!!!");
-						return this.forward("igrp","RegistarUtilizador","index", this.queryString());
-					}else {
-						user = user.insert();
-						}
+					Core.setMessageError("Email/Username já existe... por favor escolhe outro!!!");
+					return this.forward("igrp","RegistarUtilizador","index", this.queryString());
+				}else 
+					user = user.insert();
 				
-				UserRole role = new UserRole();
-				String role_name = Igrp.getInstance().getServlet().getInitParameter("role_name");
-				role.setRole_name(role_name != null && !role_name.trim().isEmpty() ? role_name : "IGRP_ADMIN");
-				role.setUser(user);
-				role = role.insert();
 				if(user.getId()!=null){
 					Application app = new Application().find().andWhere("dad", "=", "tutorial").one();
 					ProfileType prof = new ProfileType().find().andWhere("code","=","perfil.tutorial").andWhere("application", "=",app.getId()).one();
@@ -113,16 +106,12 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 		RegistarUtilizadorView view = new RegistarUtilizadorView();
 		RegistarUtilizador model = new RegistarUtilizador();	
 	    model.load();
-    
 	    if(Core.isNotNull(sett)) {
 	    	view.password.setVisible(false);
 			view.confirmar_password.setVisible(false);
 	    }
-			
-	        User user = Core.findUserById(Integer.parseInt(idUser));
-		
+	    User user = Core.findUserById(Integer.parseInt(idUser));
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){			
-					
 			boolean isError = false;
 			if(!model.getPassword().equals(model.getConfirmar_password())){
 				Core.setMessageError(gt("Password inconsistentes ... Tente de novo."));
@@ -130,9 +119,6 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 			}				
 			if(!isError){
 				user.setName(model.getNome());
-				//user.setPass_hash(nosi.core.webapp.User.encryptToHash(model.getUsername() + "" + model.getPassword(), "SHA-256"));
-				//user.setEmail(model.getEmail()); 
-				//user.setUser_name(model.getUsername());
 				user.setUpdated_at(System.currentTimeMillis());
 				user = user.update();
 				if(user !=null){
@@ -144,7 +130,6 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 					Core.setMessageError(gt("Error ao atualizar uilizador."));
 			}			
 		}	else {
-		
 	        model.setNome(user.getName());
 			model.setUsername(user.getUser_name().toLowerCase().trim());
 			model.setEmail(user.getEmail().toLowerCase(Locale.ROOT));

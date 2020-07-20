@@ -16,14 +16,11 @@ import java.util.Set;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Parameter;
 import javax.persistence.Query;
 import javax.persistence.Tuple;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.gui.components.IGRPForm;
@@ -56,8 +53,6 @@ public class DataSourceHelpers {
 		return lista;
 	}
 	
-
-
 	/*Extract columns in Query Select and Check if the column is a parameter
 	 * 
 	 * Example: SELECT ID, NAME, EMAIL from tbl_user
