@@ -541,10 +541,9 @@
 				
 				DrawTool.disable();
 			
-			if(CurrentLayer){
+			if(CurrentLayer)
 				
 				StartDrawing( CurrentLayer );
-			}
 			
 		});
 		
@@ -644,7 +643,7 @@
 			
 			req.then(function(f){
 				
-				if(f.insertResults[0]){
+				if(f.insertResults && f.insertResults[0]){
 					
 					if (!Map.enableEditing) {
 						
@@ -668,8 +667,7 @@
 		        			
 		        		});
 						
-					} 
-					
+					}					
 					
 	        	}else if(f.exception){
 	        		
@@ -677,11 +675,13 @@
 	        		
 	        		$.IGRP.notify({
 	        			
-	        			message : 'Algo deu errado!',
+	        			message : 'Parece que algo deu errado #' + f.exception.message,
 	        			
 	        			type    : 'error'
 	        			
 	        		});
+	        		
+	        		widget.actions.cancel();
 	        		
 	        	}
 				
@@ -703,7 +703,7 @@
 				var wfst = GetWFST(CurrentLayer.layer.Info),
 					
 					layer = widget.addedObject;
-				
+							
 				if(widget.addedObject || widget.addedEditor){
 				    
 					var properties = {};
@@ -824,7 +824,7 @@
 		
 		function StartDrawing( l ){
 			
-			var type = l.layer.getGeometryDraw();
+			var type = l.layer.getGeometryDraw();			
 			
 			if (!type) return;
 									

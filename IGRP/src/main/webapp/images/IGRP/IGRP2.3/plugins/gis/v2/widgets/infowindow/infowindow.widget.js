@@ -59,11 +59,11 @@
 		};
 		
 		function onLayerClick(e){
-		
+								
 			var feature = e.layer && e.layer.feature ? e.layer.feature : null,
 				
 			 	area = getArea(e.layer);
-									
+												
 			if(feature)
 		
 				pop = L.popup().setLatLng(e.latlng).setContent( SetWindowContent(feature, Layer.attributes, area) ).openOn(app.viewer());
@@ -77,7 +77,7 @@
 				Layers.forEach(function(l){
 					
 					Layer = app.layers.get( l.id );
-					
+									
 					if(Layer)
 						
 						Layer.on('click', onLayerClick, this);	

@@ -98,6 +98,7 @@
 					{ path : '/plugins/gis/v2/modules/gis.widget.js' },
 					{ path : '/plugins/gis/v2/modules/gis.panels.js' },
 					{ path : '/plugins/gis/v2/modules/gis.graphics.js' },
+					{ path : '/plugins/gis/v2/modules/gis.legends.js' },
 				
 				],
 				xsl : [ 'gis.map' ]
@@ -205,11 +206,10 @@
 
 			container.xml.getStructure = function(o){
 
-				var xml    = '',
+				var xml    = '';
 
-					data   = JSON.stringify(GetMapData());
+					//data   = JSON.stringify(GetMapData());
 
-				console.log(data);
 				xml+='<fields>'+
 
 						'<'+container.GET.tag()+'_data type="text" name="p_'+container.GET.tag()+'_data" maxlength="8000" persist="true">'+

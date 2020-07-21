@@ -126,6 +126,8 @@ L.XmlUtil = {
     };
 
     var exceptionsNodes = exceptionReportElement.getElementsByTagNameNS(L.XmlUtil.namespaces.ows, 'Exception');
+    
+    
     for (var i = 0, exceptionsNodesCount = exceptionsNodes.length; i < exceptionsNodesCount; i++) {
       var exceptionNode = exceptionsNodes[i];
       var exceptionCode = exceptionNode.getAttribute('exceptionCode');
@@ -1930,6 +1932,7 @@ L.WFST = L.WFS.extend({
   },
 
   save: function (callback) {
+	  
     var transaction = L.XmlUtil.createElementNS('wfs:Transaction', { service: 'WFS', version: this.options.version });
 
     var inserted = [];
@@ -1995,7 +1998,7 @@ L.WFST = L.WFS.extend({
 	    	 })
 	      },
 	      error: function (data) {
-	    	  reject(err)
+	    	  reject(data)
 	        that.fire('save:failed', data);
 	      }
 	    });

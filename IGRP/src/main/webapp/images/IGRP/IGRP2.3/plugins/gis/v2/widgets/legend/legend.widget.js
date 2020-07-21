@@ -36,14 +36,16 @@
 				    legend = l.Legend;
 				
 				if(!l.visible) return this;
-				
-				var rules = legend.rules;
 								
+				var rules = legend !== undefined ? legend.rules : '';
+				
+				if(!rules) return this;
+												
 				for (var i in rules) {
 					
 					var symbolizers = rules[i].symbolizers[0];	
 					
-					var label = rules[i].name !== 'rule1' ? rules[i].name : '',
+					var label = rules[i].name !== 'rule1' ? rules[i].name : [],
 						
 						item = {label : label};
 					
@@ -75,7 +77,7 @@
 	                    
 	                    var colormap = raster.colormap;
 	                    
-	                    var entries = colormap.entries;
+	                    var entries = colormap ? colormap.entries : [];
 	                    
 	                    for(var i3 in entries){
 	                        
