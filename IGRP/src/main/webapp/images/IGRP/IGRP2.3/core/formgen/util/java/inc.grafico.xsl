@@ -108,6 +108,8 @@
 		
 		<xsl:value-of select="$newlineTab1"/>
 		
+<!-- 		Map<String, Long> y_value = p.stream().collect(Collectors.groupingBy(e -> e.getIdMarcaFk().getNomeMarca() ,Collectors.counting())); -->
+		
 		<xsl:text>List&lt;</xsl:text><xsl:value-of select="$dao"/><xsl:text>&gt; p  = </xsl:text><xsl:value-of select="$daofilter"/><xsl:text>.all();</xsl:text>
 		
 		<xsl:value-of select="$newlineTab1"/>

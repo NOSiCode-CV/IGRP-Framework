@@ -332,6 +332,18 @@
 			
 			<xsl:text>}</xsl:text>
 			
+			<xsl:choose>
+			
+				<xsl:when test="not(contains($edited, 'row.get'))">
+				
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>
+					
+					<xsl:text>if(Core.isNotNullOrZero( </xsl:text><xsl:value-of select="$edited"/><xsl:text>)){</xsl:text>
+				
+				</xsl:when>
+					
+			</xsl:choose>
+
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>	
 			
 			<xsl:text>String [] </xsl:text><xsl:value-of select="$daolow"/><xsl:text>deletedIdsArray = model.getP_</xsl:text><xsl:value-of select="$table"/><xsl:text>_del();</xsl:text>
@@ -363,6 +375,18 @@
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			
 			<xsl:text>}</xsl:text>
+			
+			<xsl:choose>
+			
+				<xsl:when test="not(contains($edited, 'row.get'))">
+				
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>
+					
+					<xsl:text>}</xsl:text>
+				
+				</xsl:when>
+					
+			</xsl:choose>
 			
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			
