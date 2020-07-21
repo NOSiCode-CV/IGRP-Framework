@@ -285,7 +285,7 @@
 						<xsl:value-of select="$fieldValue"/>
 					</div>
 				</xsl:when>
-				<xsl:when test="contains(@type,'vkb_')">
+				<!-- <xsl:when test="contains(@type,'vkb_')">
 					<div class="form-group {$sizeClass}">
 						<xsl:call-template name="field-wrapper"/>
 						<xsl:if test="$setLabel">
@@ -297,9 +297,9 @@
 							<xsl:with-param name="input_type" select="'password'"/>
 							<xsl:with-param name="input_name" select="$nameAttr"/>
 							<xsl:with-param name="id" select="$nameAttr"/>
-						</xsl:call-template>
+						</xsl:call-template> 
 					</div>
-				</xsl:when>
+				</xsl:when>-->
 				<xsl:when test="@type = 'texteditor'">
 					<div class="form-group col-sm-12">
 						<xsl:call-template name="field-wrapper"/>
