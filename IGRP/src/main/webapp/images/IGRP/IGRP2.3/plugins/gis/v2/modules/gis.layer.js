@@ -44,7 +44,7 @@
 
 					format : 'image/png',
 
-				}, data.options );
+				}, data.options );				
 			
 			layer = L.tileLayer.wms(data.url, options);
 
@@ -68,9 +68,9 @@
 				
 				queryRequest = null,
 				
-				options = {},
+				options = {}, style = {},
 				
-				filter  = "[nome = 'MAIO']";
+				Legend = GIS.module('Legends');			
 			
 			if(data.geomType == utils.geometry.point){
 				
@@ -79,28 +79,36 @@
 				clusters = true;
 				
 			}else{
-			
-				layer   = L.geoJSON(null,{
+				
+				layer  = L.geoJSON(null,{
 					
-						style: function (feature) {
-					        
-							return {
-								weight: 1,
-								opacity : 0.5
-					        	
-					        };
-					        
-					    },
+					style: setStyle
 					
-						onEachFeature : function(feature,layer){
-						
-							//layer.bindPopup( 'ID: '+feature.id );
-		
-						}
-						
-					});
+				});
 			}
-
+			
+			function setStyle(feature){
+				
+				var style = Legend.Get(data, feature);
+				
+				style.weight = style.weight || 1;
+				
+				style.opacity = style.opacity || 0.5;
+				
+			    return style;
+			    
+			};
+			
+			function setStylePoint(feature, latlng) {
+				
+				 var style = Legend.Get(data, feature),
+				
+				 	 icon  = GIS.module('Templates').Layers.icon(style);
+				 	 
+                 return L.marker(latlng, {icon: icon });
+         
+			};
+			
 			layer.request = null;
 
 			layer.visible   = data.visible;
@@ -283,11 +291,15 @@
 							layer.clear();							
 								
 							if (clusters){
-																
-								var markers = L.geoJson(geo);
+																							
+								var markers = L.geoJson(geo, {
+									 
+									pointToLayer : setStylePoint
+									
+								});
 								
 								layer.addLayer(markers);
-								
+																
 							}else{
 								
 								layer.addData(geo);
@@ -320,8 +332,8 @@
 				};
 
 				map.on('moveend', function(){
-					
-					if(!map.enableEditing)
+										
+					if(!map.enableEditing && !map.enableTimeSlider)
 						
 						GetData();
 					
@@ -344,6 +356,8 @@
 	};
 
 	GIS.module('Layer',function(data, app){
+		
+		GIS.module('Legends').GetLegend(data);
 
 		var layer     	 = Classes[data.type] ? Classes[data.type](data, app) : null,
 
@@ -363,8 +377,10 @@
 
 		layer.visible    = data.visible;
 		
-		layer.Info 		 = GetLayerInfo(),
+		layer.geometryField = 'geom',   
 		
+		layer.Info 		 = GetLayerInfo(),
+				
 		layer.updateData       = layer.updateData || function(){};
 		
 		layer.unHighlightAll   = layer.unHighlightAll || function(){};
@@ -374,7 +390,7 @@
 		layer.find 		 = layer.find || function(){};
 		
 		layer.getFeature = layer.getFeature || function(){};
-
+		
 		layer.data = function( name ){
 			
 			return name ? data[name] : data;
@@ -383,9 +399,9 @@
 		
 		layer.getGeometryType = function(){
 			
-			var type = "";
+			var type = data.geomType;
 			
-			if(layer.Description.geometryType.indexOf('Polygon') >= 0 )
+			/*if(layer.Description.geometryType.indexOf('Polygon') >= 0 )
 				
 				type = 'Polygon';
 			
@@ -395,25 +411,21 @@
 			
 			if(layer.Description.geometryType.indexOf('Point') >= 0 )
 				
-				type = 'Point';
+				type = 'Point';*/
 			
 			return type;
 			
 		};
 		
 		layer.getGeometryDraw = function(){
+					
+			var type = data.geomType;
 			
-			var type = "";
-			
-			if(layer.Description.geometryType.indexOf('Polygon') >= 0 )
-				
-				type = 'Polygon';
-			
-			if(layer.Description.geometryType.indexOf('Line') >= 0 )
+			if(data.geomType == utils.geometry.line)
 				
 				type = 'Polyline';
 			
-			if(layer.Description.geometryType.indexOf('Point') >= 0 )
+			if(data.geomType == utils.geometry.point)
 				
 				type = 'Marker';
 			
@@ -448,6 +460,8 @@
 			layer.addTo( layer.container );
 
 			layer.updateData();
+			
+			layer.bringToFront();
 			
 			map.fire('addlayer', layer);
 			
@@ -499,7 +513,7 @@
 				
 				workspaceLink  : 'https:/www.nosi.cv/'+workSpace,
 				
-				geometryField  : 'geom',
+				geometryField  : layer.geometryField,
 				
 				owsURL  	   : owsUrl
 				
@@ -511,9 +525,13 @@
 			
 			var geomAttrs = {
 					
-					geom : true,
+					geom     : true,
 					
-					the_geom:true
+					the_geom :true,
+					
+					GEOM     : true,
+					
+					SHAPE    : true
 				},
 				
 				res = {
@@ -521,6 +539,12 @@
 					attributes   : {},
 					
 					geometryType : ""
+					
+				},
+				
+				restriction = {
+					
+					'xsd:hexBinary' : true
 					
 				};
 			
@@ -530,39 +554,52 @@
 				
 				attrsElements.each(function(){
 					
-					var name = $(this).attr('name');
+					var name = $(this).attr('name'),
 					
-					if( geomAttrs[name] )
+						type = $(this).attr('type')
+											
+					if( geomAttrs[name] ){
 						
-						res.geometryType = $(this).attr('type')
+						res.geometryType = type
 						
-					else
+						layer.Info.geometryField = name;
 						
-						res.attributes[name] = $(this).attr('type').split('xsd:')[1]
+					}
+					else if(!restriction[type])
+						
+						res.attributes[name] = type.split('xsd:')[1]
 
 				});
 				
 			});
 			
 			layer.Description = res;
-			
+					
 		};
 		
 		function GetLegendGraphic(){
+			
+			if(data.Legend){
+				
+				layer.Legend = data.Legend;
+				
+				return false;
+			}
 						
 			$.get(layer.Info.owsURL+'?service=WMS&request=GetLegendGraphic&layer='+layer.Info.workspaceLayer+'&version=1.0.0&format=application/json').then(function(json){
 				
 				layer.Legend = json.Legend[0];
 				
+				layer.fire('legend-loaded', { data: layer.Legend });				
+				
 			});
 			
-		};
-		
+		};		
 		
 		GetDescribeData();
 		
 		GetLegendGraphic();
-
+		
 		layer.addTo( layer.container );
 				
 		return layer;

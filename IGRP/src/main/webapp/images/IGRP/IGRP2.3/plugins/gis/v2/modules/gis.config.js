@@ -12,50 +12,31 @@
 						
 			switch(widget){
 				
-				case 'search':
-					
-					config.css = true; config.js = true;  config.html = true; 
-					
-				break;
-				
+			    case 'getcoordinates':
+				case 'edition':
+			    case 'measurement':
 				case 'legend':
-									
+				case 'search':
+				case 'timeslider':
+					
 					config.css = true; config.js = true;  config.html = true; 
 					
-				break;
-								
+					break;
+							
+				case 'selection_menu':
 				case 'infowindow':
 					
 					config.css = true; config.js = true; 
 					
-				break;
-				
-				case 'measurement':
+					break;
 					
-					config.css = true; config.js = true;  config.html = true; 
-					
-				break;
-				
-				case 'edition':
-					
-					config.css = true; config.js = true;  config.html = true; 
-					
-				break;
-				
-				case 'getcoordinates':
-					
-					config.css = true; config.js = true;  config.html = true; 
-					
-				case 'selection_menu':
-					
-					config.js = true; config.css = true
-					
-				case  'query_expression':
+				case 'attribute_render':
+				case 'query_expression':
 				
 					config.js = true;
 					
-				break;
-				
+					break;
+							
 			}
 						
 			return config;

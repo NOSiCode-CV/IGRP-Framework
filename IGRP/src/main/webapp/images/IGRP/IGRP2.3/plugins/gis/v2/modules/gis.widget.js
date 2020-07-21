@@ -168,7 +168,7 @@
 				widget.templateParams[key] = value;
 				
 			}
-			
+						
 			$('[widget-template]',widget.html).each(function(i,e){
 				
 				var tempName = $(this).attr('widget-template'),
@@ -189,7 +189,7 @@
 			var template = widget.templates[tempName];
 			
 				result 	 = Utils.templates.render( template, v );
-						
+				
 			$('[widget-template='+tempName+']').replaceWith( result );
 			
 		}

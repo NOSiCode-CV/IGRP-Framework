@@ -276,7 +276,7 @@
 				
 				setMousePosition: function(e){
 										
-					var lat = L.Util.formatNum(e.latlng.lng, 6);
+					var lat = L.Util.formatNum(e.latlng.lat, 6);
 					
 					var lng = L.Util.formatNum(e.latlng.lng, 6);
 					
@@ -465,5 +465,21 @@
 		return index == 0 ? clss : '';
 
 	});
+	
+	//parse to int
+	Handlebars.registerHelper('_toInt', function(str) {
+				
+		str = str || 0;
+				
+		return parseInt(str,10);
 
+	});
+	
+	//parse to int
+	Handlebars.registerHelper('Ative', function(otpion, value) {
+						
+		return otpion === value ? true : false;
+
+	});
+	
 })();
