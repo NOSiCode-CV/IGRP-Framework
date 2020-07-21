@@ -390,8 +390,10 @@
 					if($('[role="form"]',p.content)[0] && p.content.hasClass('igrp-forms')){
 						
 						if($('.form-control.select2',p.content)[0])
-							
 							$.IGRP.components.select2.init(p.content);
+						
+						if ($('*[mathcal]', p.control)[0])
+							$.IGRP.utils.mathcal(p.control);
 					}
 				});
 				
