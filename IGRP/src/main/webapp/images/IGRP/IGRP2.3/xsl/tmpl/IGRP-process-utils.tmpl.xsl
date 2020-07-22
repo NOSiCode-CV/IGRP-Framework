@@ -479,7 +479,7 @@
 						<xsl:value-of select="$fieldValue"/>
 					</div>
 				</xsl:when>
-				<xsl:when test="contains(@type,'vkb_')">
+				<!--<xsl:when test="contains(@type,'vkb_')">
 					<div class="form-group {$sizeClass}">
 						<xsl:call-template name="field-wrapper"/>
 						<xsl:if test="$setLabel">
@@ -493,7 +493,7 @@
 							<xsl:with-param name="id" select="$nameAttr"/>
 						</xsl:call-template>
 					</div>
-				</xsl:when>
+				</xsl:when>-->
 				<xsl:when test="@type = 'texteditor'">
 					<div class="form-group col-sm-12">
 						<xsl:call-template name="field-wrapper"/>
@@ -665,10 +665,8 @@
 			</xsl:attribute>
 		</xsl:if>
 	</xsl:template>
-	<!--<xsl:include href="../../IGRP-virtualkeyboard.tmpl.xsl?v=1507218349954"/>-->
-
-
-						<!-- GEN-formlist.tmpl -->
+	
+	<!-- GEN-formlist.tmpl -->
 
 	<xsl:template name="GEN-formlist">
 		<xsl:param name="tag" select="name()"/>
