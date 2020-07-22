@@ -1,6 +1,7 @@
 package nosi.core.webapp.bpmn;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -42,9 +43,13 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	protected RuntimeTask runtimeTask;
 	private BPMNExecution bpmnExecute;
 	
+	private List<String> inputDocsErrors; 
+	private boolean inputDocsAlreadyValidate; 
+	
 	public BPMNTaskController() {
 		this.runtimeTask = RuntimeTask.getRuntimeTask();
 		this.bpmnExecute = new BPMNExecution();
+		inputDocsErrors = new ArrayList<String>(); 
 	}
 	@Override
 	public Response index(String app,Model model,View view) throws IOException {
@@ -101,7 +106,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		String taskId = Core.getParamTaskId();
 		if(Core.isNotNullMultiple(this.runtimeTask,taskId)){
 			List<Part> parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
-			if(parts!=null && !ValidateInputDocument.validateRequiredDocument(this,parts,this.runtimeTask)) {
+			if(!inputDocsAlreadyValidate && parts !=null && !ValidateInputDocument.validateRequiredDocument(this,parts,this.runtimeTask, this.inputDocsErrors)) { 
+				if(!this.inputDocsErrors.isEmpty()) 
+					this.inputDocsErrors.forEach(Core::setMessageError); 
 				Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, this.runtimeTask);
 				return this.forward(this.runtimeTask.getTask().getTenantId(), BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(), "index",this.queryString());
 			}
@@ -111,6 +118,19 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			return this.startProcess(processDefinitionId);
 		}		
 		return this.redirect("igrp", "ErrorPage", "exception");
+	} 
+	
+	protected Response inputDocsHasErrors() throws IOException, ServletException {
+		Response response = null; 
+		inputDocsAlreadyValidate = true; 
+		List<Part> parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
+		if(parts!=null && !ValidateInputDocument.validateRequiredDocument(this, parts, this.runtimeTask, this.inputDocsErrors)) { 
+			if(!this.inputDocsErrors.isEmpty()) 
+				this.inputDocsErrors.forEach(Core::setMessageError); 
+			Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, this.runtimeTask); 
+			response = this.forward(this.runtimeTask.getTask().getTenantId(), BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(), "index",this.queryString());
+		}
+		return response; 
 	}
 
 	private Response startProcess(String processDefinitionId) throws IOException, ServletException {
