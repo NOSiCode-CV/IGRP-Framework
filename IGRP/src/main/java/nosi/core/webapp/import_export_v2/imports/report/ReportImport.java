@@ -2,6 +2,8 @@ package nosi.core.webapp.import_export_v2.imports.report;
 
 import java.util.List;
 import com.google.gson.reflect.TypeToken;
+
+import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.import_export_v2.common.serializable.report.CLobSerializable;
 import nosi.core.webapp.import_export_v2.common.serializable.report.ReportParamsSerializable;
@@ -63,15 +65,11 @@ public class ReportImport extends AbstractImport implements IImport {
 					repTemplate.setXml_content(xml_content);
 					repTemplate.setXsl_content(xsl_content);
 					repTemplate = repTemplate.insert();
-//					this.addError(repTemplate.hasError() ? repTemplate.getError().get(0) : null);
-//					this.saveDataSource(report);
-//					this.saveParamDataSource(report, repTemplate);
 				} else {
 					repTemplate.setCode(report.getCode());
 					repTemplate.setDt_created(report.getDt_created());
 					repTemplate.setDt_updated(report.getDt_updated());
 					repTemplate.setName(report.getName());
-					//repTemplate.setReport_identify(report.getReport_identify());
 					repTemplate.setApplication(
 							this.application != null ? this.application : new Application().findByDad(report.getDad()));
 					repTemplate.setUser_created(Core.getCurrentUser());
@@ -87,9 +85,24 @@ public class ReportImport extends AbstractImport implements IImport {
 			});
 		}
 	}
+	
+	private void deleteTemplateSource(RepTemplate repTemplate) { 
+		List<RepTemplateSource> repTS = new RepTemplateSource().find().andWhere("repTemplate", "=", repTemplate).all();
+		if(repTS != null) { 
+			repTS.forEach(obj->{
+				Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG ,"public", "tbl_rep_template_source_param").where("rep_template_source_fk=:rep_template_source_fk")
+				.addInt("rep_template_source_fk", obj.getId())
+				.execute();
+			}); 
+		}
+		Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG ,"public", "tbl_rep_template_source").where("rep_template_fk=:rep_template_fk")
+		.addInt("rep_template_fk", repTemplate.getId())
+		.execute();
+	}
 
 	private void saveParamDataSource(ReportSerializable report, RepTemplate repTemplate) {
 		if (report.getSourcesReportAssoc() != null) {
+			deleteTemplateSource(repTemplate); 
 			report.getSourcesReportAssoc().stream().forEach(pds -> {
 				RepSource repSource = new RepSource().find().andWhere("source_identify", "=", pds.getSource()).one();
 				RepTemplateSource repTS = new RepTemplateSource().find().andWhere("repSource", "=", repSource)
