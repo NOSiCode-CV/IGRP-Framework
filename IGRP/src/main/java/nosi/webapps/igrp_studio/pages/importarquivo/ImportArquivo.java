@@ -6,6 +6,8 @@ import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.uploadfile.UploadFile;
 
+import nosi.core.validator.constraints.*;
+
 public class ImportArquivo extends Model{		
 
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -61,10 +63,9 @@ public class ImportArquivo extends Model{
 	@RParam(rParamName = "p_imagens")
 	private UploadFile[] imagens;
 
-	@RParam(rParamName = "p_icon_app")
-	private int icon_app;
-	@RParam(rParamName = "p_icon_app_check")
-	private int icon_app_check;
+	@NotNull()
+	@RParam(rParamName = "p_tipo")
+	private int tipo;
 
 	@RParam(rParamName = "p_form_5_link_1")
 	private IGRPLink form_5_link_1;
@@ -214,17 +215,11 @@ public class ImportArquivo extends Model{
 		return this.imagens;
 	}
 	
-	public void setIcon_app(int icon_app){
-		this.icon_app = icon_app;
+	public void setTipo(int tipo){
+		this.tipo = tipo;
 	}
-	public int getIcon_app(){
-		return this.icon_app;
-	}
-	public void setIcon_app_check(int icon_app_check){
-		this.icon_app_check = icon_app_check;
-	}
-	public int getIcon_app_check(){
-		return this.icon_app_check;
+	public int getTipo(){
+		return this.tipo;
 	}
 	
 	public IGRPLink setForm_5_link_1(String app,String page,String action){
