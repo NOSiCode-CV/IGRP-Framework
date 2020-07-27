@@ -27,10 +27,11 @@
             <span><xsl:value-of select="title"/></span>
           </a>
           <ul class="treeview-menu">
-            <xsl:for-each select="*[name() != 'title' and name() != 'data_source_id' and name() != 'menu' and name() != 'messages' and not(substring(name(),(string-length(name())-4),5) =  '_desc') and not(substring(name(),(string-length(name())-5),6) =  '_check') and not(substring(name(),1,5) =  'p_fwl') and @type != 'sectionheader' and @type != 'toolsbar' and @type != 'tabcontent']|*[name() ='form']/table/*|*[name() ='form']|*[name() ='filter']|*[name() ='view']">
+            <xsl:for-each select="*[name() != 'title' and name() != 'data_source_id' and name() != 'menu' and name() != 'messages' and not(substring(name(),(string-length(name())-4),5) =  '_desc') and not(substring(name(),(string-length(name())-5),6) =  '_check') and not(substring(name(),1,5) =  'p_fwl') and @type != 'sectionheader' and @type != 'toolsbar' and @type != 'tabcontent' and @type != 'box']|*[name() ='form']/table/*|*[name() ='form']|*[name() ='filter']|*[name() ='view']">
               <xsl:variable name="no" select="name()"/>
               <xsl:variable name="nohead" select="local-name(..)"/>
               <xsl:variable name="vnoType" select="@xml-type"/>
+              <xsl:variable name="elementType" select="@type"/>
               <xsl:variable name="tag">
                 <xsl:choose>
                   <xsl:when test="$nohead = 'table'">table</xsl:when>
@@ -45,7 +46,7 @@
                   <xsl:otherwise><xsl:value-of select="$vnoType"/></xsl:otherwise>
                 </xsl:choose>
               </xsl:variable>
-              <li class="treeview" rel="{name()}" type="node" tag="{$tag}" parentType="{$parentType}" parentPos="{$pos}">
+              <li class="treeview" rel="{name()}" type="node" tag="{$tag}" parentType="{$parentType}" parentPos="{$pos}" elementType="{$elementType}">
                 <xsl:if test="$parentType != 'chart' and $tag != 'table' and $tag != 'form'">
                   <xsl:attribute name="label"><xsl:value-of select="label"/></xsl:attribute>
                 </xsl:if>
@@ -87,7 +88,7 @@
                             <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
                           </xsl:choose>
                         </xsl:variable>
-                        <li class="treeview" rel="{name()}" noType="{@type}" tag="{$tag}" parentType="{$parentType}" parentPos="{$pos}">
+                        <li class="treeview" rel="{name()}" noType="{@type}" tag="{$tag}" parentType="{$parentType}" parentNoType="{$elementType}" parentPos="{$pos}">
                           <xsl:if test="$nohead = 'table'">
                             <xsl:attribute name="tagType">
                               <xsl:value-of select="'separator'"/>
