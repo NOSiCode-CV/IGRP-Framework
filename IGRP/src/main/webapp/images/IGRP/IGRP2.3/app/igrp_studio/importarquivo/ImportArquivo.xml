@@ -48,27 +48,27 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="ListaPage" app="igrp_studio" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=import" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=import" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
                     <label>Help</label>
-                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=import</value>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
                 </help>
             </fields>
         </view_1>
         <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <importar_aplicacao name="p_importar_aplicacao" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" custom_return="false" request_fields="" refresh_components="" refresh_submit="false" maxlength="50">
+                <importar_aplicacao name="p_importar_aplicacao" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" custom_return="false" request_fields="" refresh_components="" refresh_submit="false" adbcli="" maxlength="50">
                     <label>Importar IGRP</label>
                     <value/>
                 </importar_aplicacao>
-                <importar_jar_file name="p_importar_jar_file" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-external-link-square" custom_return="false" request_fields="" refresh_components="" refresh_submit="false" maxlength="50">
+                <importar_jar_file name="p_importar_jar_file" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-external-link-square" custom_return="false" request_fields="" refresh_components="" refresh_submit="false" adbcli="" maxlength="50">
                     <label>Importar extra lib.</label>
                     <value/>
                 </importar_jar_file>
-                <importar_sql_script name="p_importar_sql_script" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-code" request_fields="" refresh_components="" refresh_submit="false" maxlength="50">
+                <importar_sql_script name="p_importar_sql_script" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-code" request_fields="" refresh_components="" refresh_submit="false" adbcli="" maxlength="50">
                     <label>Importar Sql Script</label>
                     <value/>
                 </importar_sql_script>
-                <importar_imagem name="p_importar_imagem" type="button" request_fields="" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-image" refresh_components="" refresh_submit="false" maxlength="50">
+                <importar_imagem name="p_importar_imagem" type="button" request_fields="" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-image" refresh_components="" refresh_submit="false" adbcli="" maxlength="50">
                     <label>Importar Imagens</label>
                     <value/>
                 </importar_imagem>
@@ -222,6 +222,9 @@
                 </item>
             </tools-bar>
         </form_4>
+        <box_1 type="box" xml-type="form" title="" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
         <form_5 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <aplicacao_combo_img name="p_aplicacao_combo_img" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
@@ -250,11 +253,34 @@
                     <label>Imagens</label>
                     <value/>
                 </imagens>
-                <icon_app name="p_icon_app" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="false" java-type="int" switch="true" check="true">
-                    <label>Icon app?</label>
-                    <value>1</value>
-                </icon_app>
-                <form_5_link_1 name="p_form_5_link_1" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaEnv" app="igrp_studio" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="250" placeholder="" desclabel="false" right="false">
+                <tipo name="p_tipo" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="int">
+                    <label>Tipo</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <validations>
+                        <validation>
+                            <annotation>@NotNull</annotation>
+                        </validation>
+                    </validations>
+                </tipo>
+                <form_5_link_1 name="p_form_5_link_1" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaEnv" app="igrp_studio" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="250" placeholder="" desclabel="false" right="false" adbcli="">
                     <label>Link</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</value>
                 </form_5_link_1>
@@ -272,9 +298,6 @@
                 </item>
             </tools-bar>
         </form_5>
-        <box_1 type="box" xml-type="form" title="" gen-type="container" gen-group="">
-            <fields/>
-        </box_1>
         <sectionheader_3 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_3_text type="text" name="p_sectionheader_3_text" persist="true" maxlength="4000">
