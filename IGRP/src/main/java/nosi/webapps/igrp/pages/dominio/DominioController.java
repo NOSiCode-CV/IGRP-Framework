@@ -10,12 +10,12 @@ import nosi.core.webapp.Response;
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.ConfigDBIGRP;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.webapps.igrp.dao.Domain;
-import nosi.webapps.igrp.dao.DomainType;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+
 /*----#end-code----*/
 		
 public class DominioController extends Controller {
@@ -23,10 +23,12 @@ public class DominioController extends Controller {
 		Dominio model = new Dominio();
 		model.load();
 		DominioView view = new DominioView();
+		view.id_dom.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT 'Lorem aliqua anim magna voluptatem' as description,'Lorem amet elit laudantium deserunt' as key,'1' as estado,'hidden-3439_7808' as ordem "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Officia natus sit sit ipsum' as description,'Officia magna accusantium consectetur omnis' as key,'1' as estado,'hidden-6e0f_93ab' as ordem "));
+		model.loadTable_1(Core.query(null,"SELECT 'Anim voluptatem perspiciatis m' as dominio,'hidden-9145_3054' as id_dom "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.lst_dominio.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -65,6 +67,32 @@ public class DominioController extends Controller {
      	view.btn_guardar_item_domain.setVisible(Core.isNotNull(model.getLst_dominio()));
      // view.formlist_1.setVisible(Core.isNotNull(model.getLst_dominio()));
      		 
+     	
+     	
+     	
+     	
+     	//cod pa table de lista de dominio
+     	if(Core.isNotNull(model.getAplicacao())) {
+     		view.table_1.setVisible(true);
+     		
+     		model.loadTable_1(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"SELECT DISTINCT dominio as id_dom, dominio  as dominio FROM tbl_domain WHERE env_fk=:env_fk").addInt("env_fk", model.getAplicacao()));
+     		
+     		/*
+     		List<Domain> list_domain = new Domain().find().andWhere("application","=",model.getAplicacao()).all();
+     		List<Dominio.Table_1> tabe = new ArrayList<>();
+     		
+     		for(Domain d : list_domain) {
+     			Dominio.Table_1 row = new Dominio.Table_1();
+     			row.setDominio(d.getDominio());
+     			tabe.add(row);
+     		}
+     		model.setTable_1(tabe);*/
+     	}else {
+     		view.table_1.setVisible(false);
+     	}
+     	
+     	
+     	
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -77,6 +105,7 @@ public class DominioController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id_dom",Core.getParam("p_id_dom"));
 		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -103,6 +132,7 @@ public class DominioController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id_dom",Core.getParam("p_id_dom"));
 		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -120,6 +150,61 @@ public class DominioController extends Controller {
 		}
 		/*----#end-code----*/
 			
+	}
+	
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		Dominio model = new Dominio();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id_dom",Core.getParam("p_id_dom"));
+		  return this.forward("igrp","NovoDominio","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/*----#start-code(editar)----*/
+		
+		this.addQueryString("p_id_dom",Core.getParam("p_id_dom"));
+		/*----#end-code----*/
+		return this.redirect("igrp","NovoDominio","index", this.queryString());	
+	}
+	
+	public Response actionDelete() throws IOException, IllegalArgumentException, IllegalAccessException{
+		Dominio model = new Dominio();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id_dom",Core.getParam("p_id_dom"));
+		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/*----#start-code(delete)----*/
+		
+		
+		boolean dom = false;
+		List<Domain> list_domain = new Domain().find().andWhere("dominio","=",Core.getParam("p_id_dom")).all();
+ 		for(Domain d : list_domain) {
+			d.delete();
+			if(!d.hasError()) {
+				dom = true;
+			}
+ 		}
+
+		if(dom) {
+			Core.setMessageSuccess();
+		}else {
+			Core.setMessageError();
+		}
+		
+		
+		
+		
+		
+		/*----#end-code----*/
+		return this.redirect("igrp","Dominio","index", this.queryString());	
 	}
 	
 		
