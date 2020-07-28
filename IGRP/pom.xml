@@ -39,7 +39,7 @@
 
 		<!-- Apache properties -->
 		<apache.libintl.version>0.18.3</apache.libintl.version>
-		<apache.commons.beanutils.version>1.9.3</apache.commons.beanutils.version>
+		<apache.commons.beanutils.version>1.9.4</apache.commons.beanutils.version>
 		<apache.commons.lang3.version>3.9</apache.commons.lang3.version>
 		<apache.commons.text.version>1.7</apache.commons.text.version>
 		<apache.commons.io.version>2.6</apache.commons.io.version>
