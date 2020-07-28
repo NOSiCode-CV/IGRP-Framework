@@ -96,7 +96,7 @@
 
 			  	var myWindow =  window.open(p.url, p.win, windowFeatures);
 			  	
-			  	myWindow.focus();
+			  	myWindow.focus(); 
 
 				return myWindow;
 			},
