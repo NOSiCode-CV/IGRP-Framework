@@ -25,10 +25,10 @@
 		<junit.version>4.12</junit.version>
 		<!-- End Test properties -->
 		<tomee.classifier>plus</tomee.classifier>
-		<hibernate.version>5.4.10.Final</hibernate.version>
+		<hibernate.version>5.4.18.Final</hibernate.version>
 		<jersey.version>2.29</jersey.version>
 		<mysql.version>8.0.16</mysql.version>
-		<postgres.version>42.2.8</postgres.version>
+		<postgres.version>42.2.14</postgres.version>
 		<h2.version>1.4.199</h2.version>
 		<oracle.version></oracle.version>
 		<sqlserver.version>7.2.2.jre8</sqlserver.version>
@@ -39,11 +39,11 @@
 
 		<!-- Apache properties -->
 		<apache.libintl.version>0.18.3</apache.libintl.version>
-		<apache.commons.beanutils.version>1.9.3</apache.commons.beanutils.version>
+		<apache.commons.beanutils.version>1.9.4</apache.commons.beanutils.version>
 		<apache.commons.lang3.version>3.9</apache.commons.lang3.version>
 		<apache.commons.text.version>1.7</apache.commons.text.version>
 		<apache.commons.io.version>2.6</apache.commons.io.version>
-		<apache.logging.log4j.version>2.12.1</apache.logging.log4j.version>
+		<apache.logging.log4j.version>2.13.2</apache.logging.log4j.version>
 		<apache.poi.version>4.1.1</apache.poi.version>
 		<apache.httpcomponents.httpmime.version>4.5.10</apache.httpcomponents.httpmime.version>
 		<apache.httpcomponents.httpcore.version>4.4.12</apache.httpcomponents.httpcore.version>				
