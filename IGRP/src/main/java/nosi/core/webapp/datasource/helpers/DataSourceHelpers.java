@@ -184,8 +184,6 @@ public class DataSourceHelpers {
 		Map<String, String> paramsUrl = (value_array!=null && value_array.length > 0)?(Map<String, String>) IntStream.range(0, name_array.length).boxed().collect(Collectors.toMap(i ->name_array[i], i -> value_array[i])):null;
 		query = this.getResolveQuery(query,parameters,paramsUrl);		
 		
-		
-	
 		Session session =  HibernateUtils.getSessionFactory(rs.getConfig_env()).getCurrentSession();
 		if(session!=null) {			
 			try{
