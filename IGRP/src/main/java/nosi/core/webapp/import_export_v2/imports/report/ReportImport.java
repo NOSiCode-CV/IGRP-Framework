@@ -138,23 +138,23 @@ public class ReportImport extends AbstractImport implements IImport {
 			report.getSources().stream().forEach(source -> {
 				Config_env config = new Config_env().find()
 						.andWhere("connection_identify", "=", source.getConnection_name_identify()).one();
-
-				RepSource repSource = new RepSource().find()
-						.andWhere("source_identify", "=", source.getSource_identify()).one();
-				Application app = new Application().findByDad(source.getDad());
-				if (repSource == null) {
-					
-					repSource = new RepSource();
-					repSource.setDt_created(source.getDt_created());
-					repSource.setSource_identify(source.getSource_identify());
-					repSource.setUser_created(Core.getCurrentUser());					
-					mapper(source, config, repSource, app);
-					repSource = repSource.insert();
-					this.addError(repSource.hasError() ? repSource.getError().get(0) : null);
-				} else {
-					mapper(source, config, repSource, app);
-					repSource = repSource.update();
-					this.addError(repSource.hasError() ? repSource.getError().get(0) : null);
+				if(config != null) {
+					RepSource repSource = new RepSource().find()
+							.andWhere("source_identify", "=", source.getSource_identify()).one();
+					Application app = new Application().findByDad(source.getDad());
+					if (repSource == null) {
+						repSource = new RepSource();
+						repSource.setDt_created(source.getDt_created());
+						repSource.setSource_identify(source.getSource_identify());
+						repSource.setUser_created(Core.getCurrentUser());					
+						mapper(source, config, repSource, app);
+						repSource = repSource.insert();
+						this.addError(repSource.hasError() ? repSource.getError().get(0) : null);
+					} else {
+						mapper(source, config, repSource, app);
+						repSource = repSource.update();
+						this.addError(repSource.hasError() ? repSource.getError().get(0) : null);
+					}
 				}
 
 			});

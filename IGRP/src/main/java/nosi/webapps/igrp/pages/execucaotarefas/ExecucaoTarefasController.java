@@ -412,7 +412,7 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(detalhes_minha_tarefa)----*/
-		String id = Core.getParam(BPMNConstants.PRM_TASK_ID);
+		String id = Core.getParam(BPMNConstants.PRM_TASK_ID); 
 		if (Core.isNotNull(id)) {
 			this.addQueryString(BPMNConstants.PRM_TASK_ID, id).addQueryString("target", "_blank");
 			return this.redirect("igrp", "Detalhes_tarefas", "index", this.queryString());
@@ -437,7 +437,9 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(detalhes_processos_button_minha_tarefas)----*/
-		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam(BPMNConstants.PRM_TASK_ID)).addQueryString("target", "_blank");
+		String id = Core.getParam(BPMNConstants.PRM_TASK_ID); 
+		System.out.println("Detalhes Minhas Tarefas: " + id);
+		this.addQueryString(BPMNConstants.PRM_TASK_ID, id).addQueryString("target", "_blank");
 		/*----#end-code----*/
 		return this.redirect("igrp","DetalhesProcesso","index", this.queryString());	
 	}
