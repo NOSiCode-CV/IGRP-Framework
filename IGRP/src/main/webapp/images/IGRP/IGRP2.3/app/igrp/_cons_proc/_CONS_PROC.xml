@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/_cons_proc/_CONS_PROC.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/_cons_proc/_CONS_PROC.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <title>Dummie XML prototype</title>
@@ -37,6 +37,16 @@
     <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Consulta Processo</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[<p>Consultar Processo</p>
+]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
         <form type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <aplicacao name="p_aplicacao" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="true" disabled="false" right="false" java-type="">
@@ -110,11 +120,11 @@
                 </referencia_pedido>
                 <requerente name="p_requerente" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Requerente</label>
-                    <value>Omnis iste doloremque officia mollit</value>
+                    <value>Unde anim lorem ut mollit</value>
                 </requerente>
                 <num name="p_num" type="text" maxlength="150" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nº Processo</label>
-                    <value>Voluptatem anim doloremque officia ut</value>
+                    <value>Mollit stract ut voluptatem unde</value>
                 </num>
                 <status name="p_status" type="select" maxlength="30" multiple="false" domain="" required="false" change="false" disabled="false" right="false" java-type="" tags="false">
                     <label>Estado</label>
@@ -143,15 +153,15 @@
                 </intervalo_entrada>
                 <dt_ini name="p_dt_ini" type="date" maxlength="30" range="false" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="success" desclabel="false">
                     <label>Data Inicio</label>
-                    <value>02-01-2011</value>
+                    <value>02-04-2012</value>
                 </dt_ini>
                 <dt_fim name="p_dt_fim" type="date" maxlength="30" range="false" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="danger" desclabel="false">
                     <label>Data Fim</label>
-                    <value>06-01-2011</value>
+                    <value>02-04-2015</value>
                 </dt_fim>
             </fields>
             <tools-bar>
-                <item type="form" code="" class="primary" rel="pesquisar" custom_return="true" refresh_components="table_1">
+                <item id="button_433f_034e" type="form" code="" class="primary" rel="pesquisar" custom_return="true" refresh_components="table_1">
                     <title>Pesquisar</title>
                     <app>igrp</app>
                     <page>_CONS_PROC</page>
@@ -195,42 +205,14 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">1</estado>
-                        <num_processo name="p_num_processo">Labore dolor ipsum sit aperiam</num_processo>
-                        <processo name="p_processo">Sed laudantium aliqua sed accusantium</processo>
-                        <eatapa name="p_eatapa">Lorem officia sit natus mollit</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Ipsum stract deserunt aperiam</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Omnis dolor adipiscing officia</dt_fim_etapa>
-                        <atribuido_a name="p_atribuido_a">Labore iste sed lorem unde</atribuido_a>
-                        <id_task name="p_id_task" tag="id_task">hidden-e3d5_ce27</id_task>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <estado name="p_estado">1</estado>
-                        <num_processo name="p_num_processo">Amet sit lorem dolor stract</num_processo>
-                        <processo name="p_processo">Iste sit amet accusantium magna</processo>
-                        <eatapa name="p_eatapa">Anim ut elit anim ipsum</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Sed iste ut sit adipiscing</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Sit totam elit totam sit</dt_fim_etapa>
-                        <atribuido_a name="p_atribuido_a">Sit labore sit adipiscing aliq</atribuido_a>
-                        <id_task name="p_id_task" tag="id_task">hidden-2005_15c2</id_task>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <estado name="p_estado">3</estado>
-                        <num_processo name="p_num_processo">Ut dolor unde aperiam mollit</num_processo>
-                        <processo name="p_processo">Perspiciatis amet laudantium stract deserunt</processo>
-                        <eatapa name="p_eatapa">Totam deserunt doloremque elit unde</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Labore magna consectetur deser</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Labore sit sit sed sit</dt_fim_etapa>
-                        <atribuido_a name="p_atribuido_a">Labore dolor lorem deserunt mo</atribuido_a>
-                        <id_task name="p_id_task" tag="id_task">hidden-fd39_20d5</id_task>
+                        <estado name="p_estado">2</estado>
+                        <num_processo name="p_num_processo">Omnis sit magna ut lorem</num_processo>
+                        <processo name="p_processo">Natus stract adipiscing ut consectetur</processo>
+                        <eatapa name="p_eatapa">Aliqua labore aperiam accusantium voluptatem</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Aperiam anim aperiam anim offi</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Ut doloremque consectetur adip</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Voluptatem accusantium rem per</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-5479_8e96</id_task>
                     </row>
                     <row>
                         <context-menu>
@@ -238,13 +220,27 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <estado name="p_estado">2</estado>
-                        <num_processo name="p_num_processo">Adipiscing aliqua iste lorem s</num_processo>
-                        <processo name="p_processo">Perspiciatis voluptatem anim omnis aliqua</processo>
-                        <eatapa name="p_eatapa">Anim mollit adipiscing ipsum rem</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Anim magna mollit consectetur</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Dolor adipiscing labore amet u</dt_fim_etapa>
-                        <atribuido_a name="p_atribuido_a">Aliqua rem adipiscing rem iste</atribuido_a>
-                        <id_task name="p_id_task" tag="id_task">hidden-5e13_f62d</id_task>
+                        <num_processo name="p_num_processo">Natus doloremque accusantium i</num_processo>
+                        <processo name="p_processo">Sit omnis officia consectetur aperiam</processo>
+                        <eatapa name="p_eatapa">Elit natus anim dolor magna</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Sed officia amet adipiscing st</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Adipiscing stract anim totam l</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Ipsum sed ipsum laudantium off</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-1222_6192</id_task>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">1</estado>
+                        <num_processo name="p_num_processo">Ut aliqua rem adipiscing sit</num_processo>
+                        <processo name="p_processo">Labore magna doloremque anim sit</processo>
+                        <eatapa name="p_eatapa">Anim sit iste natus sit</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Unde sit unde voluptatem magna</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Aperiam anim dolor sit rem</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Labore stract sit omnis dolore</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-6092_2e58</id_task>
                     </row>
                     <row>
                         <context-menu>
@@ -252,13 +248,27 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <estado name="p_estado">2</estado>
-                        <num_processo name="p_num_processo">Anim officia totam anim labore</num_processo>
-                        <processo name="p_processo">Sit amet natus consectetur perspiciatis</processo>
-                        <eatapa name="p_eatapa">Perspiciatis elit officia stract amet</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Unde magna anim aliqua lorem</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Dolor magna accusantium lorem</dt_fim_etapa>
-                        <atribuido_a name="p_atribuido_a">Unde officia deserunt omnis mo</atribuido_a>
-                        <id_task name="p_id_task" tag="id_task">hidden-c9d0_2e57</id_task>
+                        <num_processo name="p_num_processo">Natus stract consectetur lauda</num_processo>
+                        <processo name="p_processo">Amet omnis sit lorem magna</processo>
+                        <eatapa name="p_eatapa">Sed perspiciatis sit accusantium laudantium</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Labore adipiscing sit unde ut</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Iste sed consectetur aliqua om</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Dolor natus voluptatem rem con</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-55f3_05b6</id_task>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">1</estado>
+                        <num_processo name="p_num_processo">Ut lorem totam lorem voluptate</num_processo>
+                        <processo name="p_processo">Iste deserunt sed officia aliqua</processo>
+                        <eatapa name="p_eatapa">Stract omnis elit voluptatem voluptatem</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Voluptatem deserunt unde deser</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Stract natus rem doloremque of</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Perspiciatis ipsum sed perspic</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-79d0_8f7c</id_task>
                     </row>
                 </value>
                 <legend_color>
@@ -279,8 +289,8 @@
                     </item>
                 </legend_color>
                 <context-menu>
-                    <item type="specific" code="" class="warning" rel="ver_etapa" custom_return="true" refresh_components="">
-                        <title>Ver Etapa</title>
+                    <item id="button_8d65_c46a" type="specific" code="" class="warning" rel="ver_etapa" custom_return="true" refresh_components="">
+                        <title>Detalhes da Tarefa</title>
                         <app>igrp</app>
                         <page>Page</page>
                         <link>index</link>
@@ -289,8 +299,8 @@
                         <img>warning|fa-file-text</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/page/Page.xml</preview>
                     </item>
-                    <item type="specific" code="" class="primary" rel="ver_processo" refresh_components="">
-                        <title>Ver Processo</title>
+                    <item id="button_893d_357f" type="specific" code="" class="primary" rel="ver_processo" refresh_components="">
+                        <title>Detalhes de Processo</title>
                         <app>igrp</app>
                         <page>DetalhesProcesso</page>
                         <link>index</link>
@@ -302,16 +312,6 @@
                 </context-menu>
             </table>
         </table_1>
-        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
-            <fields>
-                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[<p>Consultar Processo</p>
-]]>
-                    </value>
-                </sectionheader_1_text>
-            </fields>
-        </sectionheader_1>
     </content>
     <blockly>
         <imports></imports>
