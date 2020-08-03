@@ -42,7 +42,9 @@ import nosi.webapps.igrp.dao.RepTemplateSource;
  */
 public class DataSourceHelpers {
 
-	private XMLWritter xmlRows;
+	private XMLWritter xmlRows; 
+	
+	public static final int QUERY_TIMEOUT = 5; // 5s 
 
 	public HashMap<Integer,String> getListSources(Integer id){
 		HashMap<Integer,String> lista = new HashMap<>();
@@ -188,7 +190,7 @@ public class DataSourceHelpers {
 		if(session!=null) {			
 			try{
 				session.beginTransaction();
-				Query q = session.createNativeQuery(query,Tuple.class);
+				Query q = session.createNativeQuery(query,Tuple.class).setTimeout(QUERY_TIMEOUT);
 				if(value_array!=null && value_array.length>0){
 					for(Parameter<? extends Object> param:q.getParameters()){
 						this.setMapParameterQuery(q,param,parameters,paramsUrl);
