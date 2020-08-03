@@ -95,7 +95,7 @@
 			        ",screenX=" + left + ",screenY=" + top;
 
 			  	var myWindow =  window.open(p.url, p.win, windowFeatures);
-
+				myWindow.focus();
 				return myWindow;
 			},
 			openChartURL : function(pObj){

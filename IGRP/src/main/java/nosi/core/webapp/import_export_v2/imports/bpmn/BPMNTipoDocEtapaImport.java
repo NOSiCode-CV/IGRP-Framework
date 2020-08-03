@@ -40,22 +40,26 @@ public class BPMNTipoDocEtapaImport extends AbstractImport implements IImport {
 		try {
 			if(docEtapa != null) 
 				for(BPMNTipoDocEtapaSerializable _docEtapa : docEtapa) {
-					
 						if(_docEtapa.getReportCode() != null) {
 							RepTemplate report = new RepTemplate().find().andWhere("code", "=", _docEtapa.getReportCode()).andWhere("application", "=", application).one(); 
 							TipoDocumentoEtapa existDao = new TipoDocumentoEtapa().find().andWhere("repTemplate", "=", report)
 									.andWhere("tipo", "=", _docEtapa.getTipo()).andWhere("taskId", "=", _docEtapa.getTaskId())
-									.andWhere("status", "=", _docEtapa.getStatus()).andWhere("required", "=", _docEtapa.getRequired())
+									.andWhere("required", "=", _docEtapa.getRequired())
 									.andWhere("processId", "=", _docEtapa.getProcessId()).one(); 
-							if(existDao == null && report != null) {
-								TipoDocumentoEtapa dao = new TipoDocumentoEtapa(); 
-								dao.setProcessId(_docEtapa.getProcessId());
-								dao.setRequired(_docEtapa.getRequired());
-								dao.setStatus(_docEtapa.getStatus());
-								dao.setTaskId(_docEtapa.getTaskId());
-								dao.setTipo(_docEtapa.getTipo());
-								dao.setRepTemplate(report);
-								dao.insert(); 
+							if(report != null) {
+								if(existDao == null) {
+									TipoDocumentoEtapa dao = new TipoDocumentoEtapa(); 
+									dao.setProcessId(_docEtapa.getProcessId());
+									dao.setRequired(_docEtapa.getRequired());
+									dao.setStatus(_docEtapa.getStatus());
+									dao.setTaskId(_docEtapa.getTaskId());
+									dao.setTipo(_docEtapa.getTipo());
+									dao.setRepTemplate(report);
+									dao.insert(); 
+								}else {  
+									existDao.setStatus(_docEtapa.getStatus()); 
+									existDao.update(); 
+								}
 							}
 						}
 						else  
@@ -63,18 +67,23 @@ public class BPMNTipoDocEtapaImport extends AbstractImport implements IImport {
 							TipoDocumento tipoDocumento = new TipoDocumento().find().andWhere("codigo", "=", _docEtapa.getTipoDocCode()).andWhere("application.dad", "=", application).one();  
 							TipoDocumentoEtapa existDao = new TipoDocumentoEtapa().find().andWhere("tipoDocumento", "=", tipoDocumento)
 									.andWhere("tipo", "=", _docEtapa.getTipo()).andWhere("taskId", "=", _docEtapa.getTaskId())
-									.andWhere("status", "=", _docEtapa.getStatus()).andWhere("required", "=", _docEtapa.getRequired())
+									.andWhere("required", "=", _docEtapa.getRequired())
 									.andWhere("processId", "=", _docEtapa.getProcessId()).one(); 
-							if(existDao == null && tipoDocumento != null) {
-								TipoDocumentoEtapa dao = new TipoDocumentoEtapa(); 
-								dao.setProcessId(_docEtapa.getProcessId());
-								dao.setRequired(_docEtapa.getRequired());
-								dao.setStatus(_docEtapa.getStatus());
-								dao.setTaskId(_docEtapa.getTaskId());
-								dao.setTipo(_docEtapa.getTipo());
-								dao.setTipoDocumento(tipoDocumento);
-								dao.insert(); 
-							}
+							if(tipoDocumento != null) {
+								if(existDao == null) {
+									TipoDocumentoEtapa dao = new TipoDocumentoEtapa(); 
+									dao.setProcessId(_docEtapa.getProcessId());
+									dao.setRequired(_docEtapa.getRequired());
+									dao.setStatus(_docEtapa.getStatus());
+									dao.setTaskId(_docEtapa.getTaskId());
+									dao.setTipo(_docEtapa.getTipo());
+									dao.setTipoDocumento(tipoDocumento);
+									dao.insert(); 
+								}else { 
+										existDao.setStatus(_docEtapa.getStatus()); 
+										existDao.update(); 
+									}
+							}	
 						}
 				} 
 		} catch (Exception e) {

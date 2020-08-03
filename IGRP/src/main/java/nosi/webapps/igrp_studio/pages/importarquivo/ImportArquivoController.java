@@ -3,6 +3,8 @@ package nosi.webapps.igrp_studio.pages.importarquivo;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
+
+import java.io.File;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -41,14 +43,16 @@ public class ImportArquivoController extends Controller {
 		view.aplicacao_script.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.aplicacao_combo_img.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.tipo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.list_aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		//model.setHelp(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=import"));
-     	view.list_aplicacao.setValue(new Application().getListApps());	
+		
+      	view.tipo.setQuery(Core.query(null,"SELECT '1' as ID,'App (Ícone)' as NAME union all SELECT '2' as ID,'App (Imagem)' as NAME union all SELECT '3' as ID,'Report (Imagem)' as NAME"), "--- Selecionar ---");
+      
+      	view.list_aplicacao.setValue(new Application().getListApps());	
 		view.aplicacao_script.setValue(new Application().getListApps());
 		view.aplicacao_combo_img.setValue(new Application().getListApps());   
-        model.setIcon_app_check(1);
      	String dad = Core.getCurrentDad();
         Integer id_dad=Core.getParamInt("p_env_fk");
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {     
@@ -253,23 +257,31 @@ public class ImportArquivoController extends Controller {
 						String fileName = part.getSubmittedFileName();
 						if(Core.isNotNull(fileName)) {
 							int index = fileName.lastIndexOf(".");
-							if(index!=-1) {
-								String extensionName = fileName.substring(index+1);
-								String appImgPath = application.getDad();
-                              	if(model.getIcon_app()!=1){
-                                  	String imgWorkSapce = Path.getImageWorkSpace(appImgPath);
-                                  if(Core.isNotNull(imgWorkSapce))//Saving in your workspace case exists
+							if(index!=-1) { 
+								String extensionName = fileName.substring(index+1); 
+                              	if(model.getTipo() != 1){ 
+                              		
+                              		String appImgPath = application.getDad();
+                              		if(model.getTipo() == 3) 
+                              			appImgPath += File.separator + "reports"; 
+                              		String imgWorkSapce = Path.getImageWorkSpace(appImgPath);
+                              		
+                          		  //Saving in your workspace case exists
+                                  if(Core.isNotNull(imgWorkSapce)) 
 									imported = FileHelper.saveImage(imgWorkSapce, fileName,extensionName.toLowerCase(), part);
                                   //Saving into server
 								 imported = FileHelper.saveImage(Path.getImageServer(appImgPath), fileName,extensionName.toLowerCase(), part);
 								 this.addQueryString("p_form_5_link_1",imgWorkSapce);
 								 this.addQueryString("p_form_5_link_1_desc",imgWorkSapce);
+									 
                               	}else{
                                   String imgWorkSapce1 = Path.getImageWorkSpace("iconApp");
                                   if(Core.isNotNull(imgWorkSapce1))//Saving in your workspace case exists
 									imported = FileHelper.saveImage(imgWorkSapce1, fileName,extensionName.toLowerCase(), part);
                                   imported = FileHelper.saveImage(Path.getImageServer("iconApp"), fileName,extensionName.toLowerCase(), part);    
-                                }		
+                                }	
+                              	
+                              	
 							}
 						}
 					}

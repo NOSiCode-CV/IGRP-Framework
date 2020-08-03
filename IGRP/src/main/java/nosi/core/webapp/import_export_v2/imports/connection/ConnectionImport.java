@@ -34,20 +34,18 @@ public class ConnectionImport  extends AbstractImport implements IImport{
 	}
 
 	@Override
-	public void execute() {
-		if(this.conns!=null) {
-			this.conns.stream().forEach(c->{
-				if(this.application==null) {
+	public void execute() { 
+		if(this.conns!=null) { 
+			this.conns.stream().forEach(c->{ 
+				if(this.application == null) 
 					this.application = new Application().findByDad(c.getDad());
-				}
-				Config_env config = new Config_env().find().andWhere("name", "=",c.getName()).andWhere("application.dad", "=",c.getDad()).one();
+				Config_env config = new Config_env().find().andWhere("connection_identify", "=", c.getConnection_identify()).one();
 				if(config==null){
-					config = new Config_env(c.getPort(), c.getType_db(), c.getHost(), c.getName_db(), c.getUsername(), " ", c.getCharset(), c.getName(), this.application!=null?this.application:new Application().findByDad(c.getDad()));
+					config = new Config_env(c.getPort(), c.getType_db(), c.getHost(), c.getName_db(), c.getUsername(), " ", c.getCharset(), c.getName(), this.application);
 					config.setDriver_connection(c.getDriver_connection());
 					config.setUrl_connection(c.getUrl_connection());
 					config.setConnection_identify(c.getConnection_identify());
 					config.setIsDefault(c.getIsdefault());
-					config.setApplication(this.application);
 					config = config.insert();
 					this.addError(config.hasError()?config.getError().get(0):null);
 				}

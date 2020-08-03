@@ -26,6 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -53,10 +54,12 @@ import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
 import nosi.core.mail.EmailMessage;
+import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import nosi.core.webapp.activit.rest.entities.CustomVariableIGRP;
 import nosi.core.webapp.activit.rest.entities.HistoricProcessInstance;
 import nosi.core.webapp.activit.rest.entities.HistoricTaskService;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.Rows;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.entities.TaskVariables;
@@ -4367,8 +4370,24 @@ public final class Core { // Not inherit
 	 * @param processNr
 	 * @return
 	 */
-	public static TaskService getCurrentTaskByProcessNr(String processNr) {
+	public static TaskService getCurrentTaskByProcessNr(String processNr) { 
 		return new TaskServiceIGRP().getCurrentTaskByProcessNr(processNr); 
+	}
+	
+	/**
+	 * 
+	 * @param processKey
+	 * @return
+	 */
+	public static ProcessDefinitionService getProcessDefinitionByProcessKey(String processKey) { 
+		ProcessDefinitionService pDefinitionService = null; 
+		List<ProcessDefinitionService> l = new ProcessDefinitionIGRP().getMyProcessDefinitions(); 
+		if(l != null) {
+			Optional<ProcessDefinitionService> obj = l.stream().filter(p -> p.getKey().equals(processKey)).findFirst(); 
+			if(obj.isPresent()) 
+				pDefinitionService = obj.get(); 
+		}
+		return pDefinitionService; 
 	}
 	
 }

@@ -2,6 +2,7 @@ package nosi.webapps.igrp.pages.dominio;
 
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
+import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
@@ -73,6 +74,15 @@ public class Dominio extends Model{
 	public String[] getP_formlist_1_edit(){
 		return this.p_formlist_1_edit;
 	}
+	
+	private List<Table_1> table_1 = new ArrayList<>();	
+	public void setTable_1(List<Table_1> table_1){
+		this.table_1 = table_1;
+	}
+	public List<Table_1> getTable_1(){
+		return this.table_1;
+	}
+
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -154,6 +164,24 @@ public class Dominio extends Model{
 	}
 
 
+	public static class Table_1 extends IGRPTable.Table{
+		private String dominio;
+		private String id_dom;
+		public void setDominio(String dominio){
+			this.dominio = dominio;
+		}
+		public String getDominio(){
+			return this.dominio;
+		}
+
+		public void setId_dom(String id_dom){
+			this.id_dom = id_dom;
+		}
+		public String getId_dom(){
+			return this.id_dom;
+		}
+
+	}
 	public static class Formlist_1{
 		private Pair formlist_1_id;
 private Pair description;
@@ -206,6 +234,10 @@ private Pair ordem;
 
 	public void loadFormlist_1(BaseQueryInterface query) {
 		this.setFormlist_1(this.loadFormList(query,Formlist_1.class));
+	}
+
+	public void loadTable_1(BaseQueryInterface query) {
+		this.setTable_1(this.loadTable(query,Table_1.class));
 	}
 
 }

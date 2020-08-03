@@ -50,7 +50,7 @@ public class BPMNTipoDocEtapaExport implements IExport{
 	public void add(String id) { 
 		String []aux = id.split(":"); 
 		id = aux[0]; 
-		List<TipoDocumentoEtapa> tipoDocumentoEtapas = new TipoDocumentoEtapa().find().andWhere("status", "=", 1).andWhere("processId", "=", id).all(); 
+		List<TipoDocumentoEtapa> tipoDocumentoEtapas = new TipoDocumentoEtapa().find().andWhere("processId", "=", id).all(); 
 		if(tipoDocumentoEtapas != null) {
 			for(TipoDocumentoEtapa tipoDocumentoEtapa : tipoDocumentoEtapas) {
 				BPMNTipoDocEtapaSerializable bpmnTipoDocEtapaSerializable = new BPMNTipoDocEtapaSerializable(); 
