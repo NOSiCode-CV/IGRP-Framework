@@ -1,29 +1,34 @@
 package nosi.webapps.igrp.pages.etapaaccess;
 
-import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
-import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TaskAccess;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.pages.etapaaccess.Etapaaccess.Table_1;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Collectors; 
+
+import nosi.core.config.ConfigDBIGRP;
 /*----#end-code----*/
 		
-public class EtapaaccessController extends Controller { 
-	
+public class EtapaaccessController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Etapaaccess model = new Etapaaccess();
 		model.load();
@@ -31,7 +36,7 @@ public class EtapaaccessController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as id,'Lorem mollit sed omnis iste' as descricao,'' as processid,'hidden-4256_fb3d' as task_description "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as id,'Sit dolor voluptatem adipiscin' as descricao,'' as processid,'hidden-f2a1_7ea2' as task_description "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		String type = Core.getParam("type");
@@ -66,23 +71,31 @@ public class EtapaaccessController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","etapaaccess","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","etapaaccess","index",this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		String type = Core.getParam("type");
 		Integer orgProfId = Core.getParamInt("orgProfId");
 		String userEmail = Core.getParam("userEmail");
 		User user = null;
-		String[] p_id = Core.getParamArray("p_id");
-		String[] p_id_check = Core.getParamArray("p_id_check");
-		CheckBoxHelper cb = Core.extractCheckBox(p_id, p_id_check);
+		 String[] p_id = Core.getParamArray("p_id_fk");
+		 String[] p_id_check = Core.getParamArray("p_id_check_fk"); 
+		 
+		List<String> chekedIds = new ArrayList(Arrays.asList(p_id_check)); 
+		List<String> unChekedIds = new ArrayList(Arrays.asList(p_id)); // all Ids 
+		 
+		 try {
+			 unChekedIds.removeIf(p->chekedIds.stream().anyMatch(f->f.equals(p))); 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		if(type.compareTo("user")==0) {
 			user = new User().find().andWhere("email", "=",userEmail).one();
-			this.removeOldInserts(type,user.getId(),cb.getUncheckedIds());	
+			this.removeOldInserts(type, user.getId(), unChekedIds);	
 		}else {
-			this.removeOldInserts(type,orgProfId,cb.getUncheckedIds());	
+			this.removeOldInserts(type, orgProfId, unChekedIds);	
 		}
-		boolean r = this.insertNew(cb.getChekedIds(),type,orgProfId,user);		
+		boolean r = this.insertNew(chekedIds, type, orgProfId, user);		
 		if(r) {
 			Core.setMessageSuccess();
 		}else {
@@ -96,8 +109,9 @@ public class EtapaaccessController extends Controller {
 		
 			
 	}
-
-
+	
+		
+		
 /*----#start-code(custom_actions)----*/
 
 	private boolean insertNew(List<String> chekedIds, String type, Integer orgProfId,User user) {
@@ -114,33 +128,41 @@ public class EtapaaccessController extends Controller {
 			if("prof".compareTo(type)==0 || "user".compareTo(type)==0) {
 				prof = new ProfileType().findOne(orgProfId);
 			}
-			for(String id:chekedIds) {
+			for(String id : chekedIds) {
 				String[] taskProcess = id.split(separator);
 				if(taskProcess.length > 1) {
+					
+					TaskAccess taskAux = new TaskAccess().find().andWhere("processName", "=", taskProcess[1])
+										.andWhere("taskName", "=", taskProcess[0]); 
+					
 					TaskAccess task = new TaskAccess();
 					task.setProcessName(taskProcess[1]);
 					task.setTaskName(taskProcess[0]);
 					task.setTaskDescription(taskProcess[2]);
-					if("org".compareTo(type)==0) {
-						task.setOrganization(org);
-						r = task.insert()!=null;
-						//Chain the all profile child
-						if(r) {
-							org.getProfilesType().forEach(proftype->{
-								TaskAccess taskP = new TaskAccess();
-								taskP.setProcessName(taskProcess[1]);
-								taskP.setTaskName(taskProcess[0]);
-								taskP.setTaskDescription(taskProcess[2]);
-								taskP.setOrganization(proftype.getOrganization());
-								taskP.setProfileType(proftype);
-								taskP.insert();
-							});
+					if("org".compareTo(type)==0) { 
+						taskAux = taskAux.andWhere("organization", "=", org).one(); 
+						if(taskAux == null) {
+							task.setOrganization(org);
+							if(r = task.insert() != null) {
+								org.getProfilesType().forEach(proftype->{
+									TaskAccess taskP = new TaskAccess();
+									taskP.setProcessName(taskProcess[1]);
+									taskP.setTaskName(taskProcess[0]);
+									taskP.setTaskDescription(taskProcess[2]);
+									taskP.setOrganization(proftype.getOrganization());
+									taskP.setProfileType(proftype);
+									taskP.insert();
+								});
+							}
 						}
 					}
 					if("prof".compareTo(type)==0) {
-						task.setOrganization(prof.getOrganization());
-						task.setProfileType(prof);
-						r = task.insert()!=null;	
+						taskAux = taskAux.andWhere("organization", "=", prof.getOrganization()).andWhere("profileType", "=", prof).one(); 
+						if(taskAux == null) {
+							task.setOrganization(prof.getOrganization());
+							task.setProfileType(prof);
+							r = task.insert() != null;	
+						}
 					}
 					if("user".compareTo(type)==0) {
 						task = task.find().andWhere("processName", "=",task.getProcessName())
@@ -164,20 +186,37 @@ public class EtapaaccessController extends Controller {
 	 */
 	private void removeOldInserts(String type,Integer orgProfUserId,List<String> uncheckedIds) {
 		Integer orgId = Core.getParamInt("orgId");
-		if(uncheckedIds!=null  && orgId!=0) {
-			if("org".compareTo(type)==0) {				
-				Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_task_access").where("org_fk=:org_fk")
-									   .addInt("org_fk",orgProfUserId)
-									   .execute();
+		if(uncheckedIds != null  && orgId!=0) { 
+			for(String uncheckedId : uncheckedIds) { 
+				String processname = null; 
+				String taskname = null; 
+				try {
+					String aux[] = uncheckedId.split(this.separator); 
+					taskname = aux[0]; 
+					processname = aux[1];
+				} catch (Exception e) {} 
+				if("org".compareTo(type)==0) {				
+					Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_task_access")
+											.where("org_fk=:org_fk and processname=:processname and taskname=:taskname") 
+											.addInt("org_fk",orgProfUserId)
+										   .addString("taskname",taskname)
+										   .addString("processname",processname)
+										   .execute();
+				}
+				if("prof".compareTo(type)==0) {
+					Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_task_access") 
+						.where("prof_fk=:prof_fk and processname=:processname and taskname=:taskname") 
+					   .addInt("prof_fk",orgProfUserId)
+					   .addString("taskname",taskname)
+					   .addString("processname",processname)
+					   .execute();
+				}
+				if("user".compareTo(type)==0) {
+					Core.executeQuery(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"UPDATE tbl_task_access SET user_fk=null WHERE user_fk="+orgProfUserId+" AND prof_fk="+Core.getParamInt("profId"));
+				}
+				
 			}
-			if("prof".compareTo(type)==0) {
-				Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_task_access").where("prof_fk=:prof_fk")
-				   .addInt("prof_fk",orgProfUserId)
-				   .execute();
-			}
-			if("user".compareTo(type)==0) {
-				Core.executeQuery(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"UPDATE tbl_task_access SET user_fk=null WHERE user_fk="+orgProfUserId+" AND prof_fk="+Core.getParamInt("profId"));
-			}
+			
 		}
 	}
 
@@ -226,6 +265,10 @@ public class EtapaaccessController extends Controller {
 													.andWhere("organization", "=",prof.getOrganization().getId())
 													.andWhere("profileType", "isnull")
 													.all();
+			
+			list = list.stream().collect(Collectors.groupingBy(task->task.getProcessName() + "" + task.getTaskName()))
+				.values().stream().map(m->m.get(0)).collect(Collectors.toList()); // Eliminar Duplicatas 
+			
 			list.stream().forEach(task->{
 				Table_1 t = new Table_1();
 				t.setId(task.getTaskName()+separator+task.getProcessName()+separator+task.getTaskDescription());
