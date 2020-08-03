@@ -810,6 +810,84 @@
 		
 	</xsl:template>
 	
+	<xsl:template name="blockly.element.checkbox_table" >
+	
+		<xsl:variable name="checkbox" select="field[@name='checkbox']"/>
+		
+	   	<xsl:variable name="selecteds">
+	   	
+			<xsl:call-template name="blockly.getValue">
+			
+				<xsl:with-param name="value" select="statement[@name='value_selected']"/>
+				
+			</xsl:call-template>
+			
+		</xsl:variable>
+		
+		<xsl:variable name="unselecteds">
+		
+			<xsl:call-template name="blockly.getValue">
+			
+				<xsl:with-param name="value" select="statement[@name='value_unselected']"/>
+				
+			</xsl:call-template>
+			
+		</xsl:variable>
+		
+		<xsl:value-of select="$newlineTab1"/>
+				
+		<xsl:text>try{</xsl:text>
+		
+		<xsl:value-of select="$newlineTab2"/>
+		
+		<xsl:text>CheckBoxHelper cb = Core.extractCheckBox(Core.getParamArray("p_</xsl:text><xsl:value-of select="$checkbox"/><xsl:text>_fk"), Core.getParamArray("p_</xsl:text><xsl:value-of select="$checkbox"/><xsl:text>_check_fk"));</xsl:text>
+		
+		<xsl:value-of select="$newlineTab2"/>
+				
+		<xsl:text>List&lt;String&gt; selecteds = cb.getChekedIds();</xsl:text>
+		
+		<xsl:value-of select="$newlineTab2"/>
+		
+		<xsl:text>List&lt;String&gt; unselecteds = cb.getUncheckedIds();</xsl:text>
+		
+		<xsl:value-of select="$newlineTab2"/>
+		
+		<xsl:text>for(String checks : selecteds){</xsl:text>
+		
+ 		<xsl:value-of select="$selecteds"/> 
+		
+		<xsl:value-of select="$newlineTab2"/>
+				
+		<xsl:text>}</xsl:text>
+		
+		<xsl:value-of select="$newlineTab2"/>
+		
+		<xsl:text>for(String checks : selecteds){</xsl:text>
+		
+ 		<xsl:value-of select="$unselecteds"/> 
+		
+		<xsl:value-of select="$newlineTab2"/>
+				
+		<xsl:text>}</xsl:text>
+		
+		<xsl:value-of select="$newlineTab1"/>
+				
+		<xsl:text>}catch ( Exception e ) {</xsl:text>
+		
+		<xsl:value-of select="$newlineTab2"/>
+		
+		<xsl:text>e.printStackTrace();</xsl:text>
+		
+		<xsl:value-of select="$newlineTab2"/>
+		
+		<xsl:text>Core.setMessageError("Error: "+ e.getMessage());</xsl:text>
+		
+		<xsl:value-of select="$newlineTab1"/>
+		
+		<xsl:text>}</xsl:text>		
+	
+	</xsl:template>
+	
 	<xsl:template name="blockly.element.combo_dao" >
 	
 		<xsl:variable name="mutation" select="mutation/@count"/>
@@ -1347,6 +1425,12 @@
 			<xsl:when test="$block-type = 'EixoZ'">
 			
 				<xsl:call-template name="blockly.element.eixo_z"></xsl:call-template>
+				
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'checkbox_table'">
+			
+				<xsl:call-template name="blockly.element.checkbox_table"></xsl:call-template>
 				
 			</xsl:when>
 		

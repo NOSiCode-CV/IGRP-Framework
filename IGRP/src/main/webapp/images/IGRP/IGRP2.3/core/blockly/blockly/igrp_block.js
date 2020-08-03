@@ -73,6 +73,10 @@ function SetupBlockly(){
 				
 				IGRPElement = IGRP_BLOCKLY_ELEMENTS.inserir_dao;
 			
+			if( type == 'checkbox_table')
+				
+				IGRPElement = IGRP_BLOCKLY_ELEMENTS.checkbox_table;
+			
 			if( type == 'core_fun_set')
 				
 				IGRPElement = IGRP_BLOCKLY_ELEMENTS.core_fun_set;

@@ -218,69 +218,108 @@
 			this.itemCount_ = parseInt(xmlElement.getAttribute('count'), 10);
 			this.updateShape_(pxchecked);
 		},	
+		
 		decompose: function (workspace) {
-		        var containerBlock = workspace.newBlock('insert_t');
-		        containerBlock.initSvg();
-		        var connection = containerBlock.getInput('SCRIPT').connection;	 
-		        for (var i = 0; i < this.itemCount_; i++) { 
-		            var itemBlock = workspace.newBlock('separatori');
-		            itemBlock.initSvg();
-		            connection.connect(itemBlock.previousConnection);
-		            connection = itemBlock.nextConnection;
+	        var containerBlock = workspace.newBlock('insert_t');
+	        containerBlock.initSvg();
+	        var connection = containerBlock.getInput('SCRIPT').connection;	 
+	        for (var i = 0; i < this.itemCount_; i++) { 
+	            var itemBlock = workspace.newBlock('separatori');
+	            itemBlock.initSvg();
+	            connection.connect(itemBlock.previousConnection);
+	            connection = itemBlock.nextConnection;
+	        }
+	        return containerBlock; 
+	  },
+	  compose: function (containerBlock) {
+	        var itemBlock = containerBlock.getInputTargetBlock('SCRIPT');
+	        var connections = [];
+	        while (itemBlock) {
+	            connections.push(itemBlock.valueConnection_);
+	            itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
+	        }
+	      for (var i = 1; i < this.itemCount_; i++) {
+	            var connection = this.getInput('SEPARATOR'+i).connection.targetConnection;
+	            if (connection && connections.indexOf(connection) == -1) {
+	                //connection.disconnect();
+	            } 
+	        }
+	        this.itemCount_ = connections.length;
+	        Contador = this.itemCount_;
+	        this.updateShape_();
+	        for (var i = 1; i <= this.itemCount_; i++) {
+	            Blockly.Mutator.reconnect(connections[i], this, 'SEPARATOR'+i); 
+	        }
+	    },
+
+	    updateShape_: function (pxchecked) {
+		    var block = this;
+		    pxchecked = typeof pxchecked === 'undefined' ? this.getFieldValue('EDIT') == 'TRUE' : pxchecked;
+	        for (var i = 1; i <= this.itemCount_; i++) {
+	            if (!this.getInput('SEPARATOR'+i)) { 
+    	        	this.appendDummyInput('SEPARATORIL'+i).appendField("add insert");
+    	        	this.appendStatementInput('SEPARATOR'+i);
+	            }
+	        }
+	        while (this.getInput('SEPARATOR'+i)) {
+	            this.removeInput('SEPARATOR'+i);
+	            this.removeInput('SEPARATORIL'+i); 
+	            i++; 
+	        } 
+	        this.removeInput('param_id');
+	        if (pxchecked) {
+			      block.appendValueInput("param_id").appendField("find");
+			      block.moveInputBefore("param_id", "value2");
+			} else {
+			  this.removeInput('param_id');
+		      if (this.childBlocks_.length > 0) {
+		        for (var i = 0; i < block.childBlocks_.length; i++) {
+		          if (block.childBlocks_[i].type == 'px') {  
+			           block.childBlocks_[i].unplug();
+			           break;
+		          }
 		        }
-		        return containerBlock; 
-		  },
-		  compose: function (containerBlock) {
-		        var itemBlock = containerBlock.getInputTargetBlock('SCRIPT');
-		        var connections = [];
-		        while (itemBlock) {
-		            connections.push(itemBlock.valueConnection_);
-		            itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
-		        }
-		      for (var i = 1; i < this.itemCount_; i++) {
-		            var connection = this.getInput('SEPARATOR'+i).connection.targetConnection;
-		            if (connection && connections.indexOf(connection) == -1) {
-		                //connection.disconnect();
-		            } 
-		        }
-		        this.itemCount_ = connections.length;
-		        Contador = this.itemCount_;
-		        this.updateShape_();
-		        for (var i = 1; i <= this.itemCount_; i++) {
-		            Blockly.Mutator.reconnect(connections[i], this, 'SEPARATOR'+i); 
-		        }
-		    },
-		    updateShape_: function (pxchecked) {
-			    var block = this;
-			    pxchecked = typeof pxchecked === 'undefined' ? this.getFieldValue('EDIT') == 'TRUE' : pxchecked;
-		        for (var i = 1; i <= this.itemCount_; i++) {
-		            if (!this.getInput('SEPARATOR'+i)) { 
-	    	        	this.appendDummyInput('SEPARATORIL'+i).appendField("add insert");
-	    	        	this.appendStatementInput('SEPARATOR'+i);
-		            }
-		        }
-		        while (this.getInput('SEPARATOR'+i)) {
-		            this.removeInput('SEPARATOR'+i);
-		            this.removeInput('SEPARATORIL'+i); 
-		            i++; 
-		        } 
-		        this.removeInput('param_id');
-		        if (pxchecked) {
-				      block.appendValueInput("param_id").appendField("find");
-				      block.moveInputBefore("param_id", "value2");
-				} else {
-				  this.removeInput('param_id');
-			      if (this.childBlocks_.length > 0) {
-			        for (var i = 0; i < block.childBlocks_.length; i++) {
-			          if (block.childBlocks_[i].type == 'px') {  
-				           block.childBlocks_[i].unplug();
-				           break;
-			          }
-			        }
-			      }
-				}
-		    }
-		},
+		      }
+			}
+	    }
+	},
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		  
+		checkbox_table : {
+			
+			init : function(block){
+				block.itemCount_ = 0;
+				var checkbox = new Blockly.FieldCheckbox("FALSE", function(pxchecked) {
+					this.sourceBlock_.updateShape_(pxchecked);
+				});	
+			},
+			mutationToDom: function() {
+					var container = document.createElement('mutation');
+					container.setAttribute('count', this.itemCount_);
+				  var pxchecked = (this.getFieldValue('UNSEL') == 'TRUE');
+				  container.setAttribute('pxchecked', pxchecked);
+				  return container;
+			},	
+			domToMutation: function(xmlElement) {
+				var pxchecked = (xmlElement.getAttribute('pxchecked') == 'true');
+				this.itemCount_ = parseInt(xmlElement.getAttribute('count'), 10);
+				this.updateShape_(pxchecked);
+			},	
+			
+			    updateShape_: function (pxchecked) {
+				    var block = this;
+				    pxchecked = typeof pxchecked === 'undefined' ? this.getFieldValue('UNSEL') == 'TRUE' : pxchecked; 
+			        this.removeInput('param_id');
+			        if (pxchecked) {
+					      block.appendValueInput("param_id").appendField("find");
+					      block.moveInputBefore("param_id", "value2");
+					} else {
+					  this.removeInput('param_id');
+				      
+					}
+			    }
+			},
 		
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
@@ -376,6 +415,13 @@
 			    else if (type == 'apanhar_parametro_texto') {
 					block.getInput("value1").setVisible(true);
 					block.getInput("value2").setVisible(false);
+					block.getInput("value3").setVisible(false);
+					block.getInput("value4").setVisible(false);
+					block.getInput("value5").setVisible(false);
+			    }
+			    else if (type == 'get_domain') {
+					block.getInput("value1").setVisible(true);
+					block.getInput("value2").setVisible(true);
 					block.getInput("value3").setVisible(false);
 					block.getInput("value4").setVisible(false);
 					block.getInput("value5").setVisible(false);

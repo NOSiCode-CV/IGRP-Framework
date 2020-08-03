@@ -11,7 +11,7 @@ var GEN = null,
 	RETURNS = [["forward", "forward"],["redirect", "redirect"]],
 	PAGES = [],
 	CORE = [["--", "--"],["Atual Date", "data_atual"], ["Atual User Name", "nome_utilizador_atual"],["Atual User Email", "email_utilizador_atual"],["Send Email", "enviar_email"],
-		["Get Parameter Text", "apanhar_parametro_texto"]],
+		["Get Parameter Text", "apanhar_parametro_texto"], ["Get Domain", "get_domain"]],
 	FIND = [["--", "--"],["all", "todos"],["one", "um"]],
 	FINDLIST = [["all", "TODOSS"],["one", "UMM"]],
 	TIPO = [["Inteiro", "Inteiro"],["Data", "Data"],["Texto", "Texto"]],
@@ -28,9 +28,9 @@ var GEN = null,
 	AppTitle, PageTitle, pagetitle,
 	fields_model = [], form_id = [], key_model = [], fields_table = [], fields_separator = [], fields_formlist = [], fields_model_form = [], view_model = [], fields_model_view = [],
 	chart = [], tables_model = [], separator_model = [], formlist_model = [], form_model = [], buttons_model = [], all_buttons = [],
-	daos_list = [], bloc_fields = [], imports_insert = [], imports_list = [], fields_esp_row = [], custom_action = [],
-	select = [],
-	addcombo=0, addseparator=0, addforeign=0, addchart=0, addtable =0, addbutton=0, addmodel=0, addformlist=0, addform=0, addview=0, custombutton=0;
+	daos_list = [], bloc_fields = [], imports_insert = [], imports_list = [], fields_esp_row = [], custom_action = [], select = [],
+	checkbox_table = [],
+	addcombo=0, addcheckbox_table=0, addseparator=0, addforeign=0, addchart=0, addtable =0, addbutton=0, addmodel=0, addformlist=0, addform=0, addview=0, custombutton=0;
 
 Blockly.Blocks.texts.HUE = 200;
 
@@ -48,6 +48,7 @@ var GetJavaType = {
 	password: 'String',
 	plaintext: 'String',
 	hidden: 'String',
+	radiolist : 'Integer'
 }
 
 		// ********************************************** PREVIOUS FUNCTIONS  ********************************
@@ -123,8 +124,8 @@ $('#active_selenium').on('click', function() {
 	 formlist_model = [], formlist_model.push(['--','--']),  form_model.push(['--','--']), buttons_model = [], buttons_model.push([ '--', '--' ]),
 	 all_buttons = [], daos_list = [], daos_list.push([ '--', '--' ]), imports_insert = [], imports_insert.push([ '--', '--' ]),
 	 imports_list = [], imports_list.push([ '--', '--' ]), fields_esp_row = [], fields_esp_row.push([ '--', '--' ]),
-	 custom_action = [], custom_action.push([ '--', '--' ]), select = [], select.push([ '--', '--' ]),
-	 addcombo=0, addseparator=0, addforeign=0, addchart=0, addtable=0, addbutton=0, addmodel=0, addformlist=0, addform=0, addview=0, custombutton=0;
+	 custom_action = [], custom_action.push([ '--', '--' ]), select = [], select.push([ '--', '--' ]), checkbox_table = [], checkbox_table.push([ '--', '--' ]),
+	 addcombo=0, addcheckbox_table=0, addseparator=0, addforeign=0, addchart=0, addtable=0, addbutton=0, addmodel=0, addformlist=0, addform=0, addview=0, custombutton=0;
 	
 	 var BlocklyXML = $.parseXML(VARS.getGen().getXML());
 	 AppTitle = $('rows>app', BlocklyXML).text();
@@ -342,7 +343,7 @@ $('#active_selenium').on('click', function() {
 				+'</block>'
 				+'</category>'
 				+'<sep class="blocly-dynamic"></sep>'
-				);
+			);
 		}
 		
 // ********************************************** FORM *****************************************************************
@@ -467,8 +468,14 @@ $('#active_selenium').on('click', function() {
 				var	tag = $(field).prop('tagName'),
 					tag_hidden = $(field).attr('tag'),
 					type = $(field).attr('java-type') || $(field).attr('type'),
+					ChooseType = $(field).attr('type'),
 					javaType = GetJavaType[type] || type || 'String';
 				
+				if(ChooseType == "checkbox")
+				{
+					checkbox_table.push([ tag, tag ]);	
+					addcheckbox_table++;		
+				}
 				if(tag == 'hidden')
 				{	
 					fields_table.push([ tag_hidden, javaType + '::'+tag_hidden]);
@@ -532,6 +539,25 @@ $('#active_selenium').on('click', function() {
 					);
 			}
 	});
+	
+	//*********************************************** CHECKBOX-TABLE ***************************************************	
+	if(addcheckbox_table != 0)
+	{	
+	$('#toolbox').append(
+		'<category id="checkbox_tab" name="Check-box Table" colour="100" class="blocly-dynamic">'	
+			+'<block type="checkbox_table" color="100" prev-statement="" next-statement="" inline="true">'
+				+'<value type="dummy" title="check-box selecteds">'
+					+'<field type="dropdown" name="checkbox" options="IGRP_BLOCKLY_DROPS.checkbox_t"></field>'
+					+'<field type="checkbox" name="UNSEL" title="unselecteds?" options="FALSE"></field>'
+				+'</value>'
+				+'<value name="value_selected" type="statement"></value>'
+				+'<value type="dummy"  title="unselecteds"></value>'
+				+'<value name="value_unselected" type="statement"></value>'
+			+'</block>'
+		+'</category>'
+		+'<sep class="blocly-dynamic"></sep>'
+		);
+	}
 			
 			// ********************************************** SEPARATOR-LIST  *************************************
 			
@@ -987,6 +1013,7 @@ $('#active_selenium').on('click', function() {
 			formlists : formlist_model,
 			esp_rows : fields_esp_row,
 			selecao : select,
+			checkbox_t : checkbox_table,
 			ID_MODEL : form_id,
 			findList : FINDLIST,
 			keys : key_model,
