@@ -814,6 +814,8 @@
 	
 		<xsl:variable name="checkbox" select="field[@name='checkbox']"/>
 		
+		<xsl:variable name="unsel" select="field[@name='UNSEL']"/>
+		
 	   	<xsl:variable name="selecteds">
 	   	
 			<xsl:call-template name="blockly.getValue">
@@ -848,10 +850,6 @@
 		
 		<xsl:value-of select="$newlineTab2"/>
 		
-		<xsl:text>List&lt;String&gt; unselecteds = cb.getUncheckedIds();</xsl:text>
-		
-		<xsl:value-of select="$newlineTab2"/>
-		
 		<xsl:text>for(String checks : selecteds){</xsl:text>
 		
  		<xsl:value-of select="$selecteds"/> 
@@ -860,15 +858,27 @@
 				
 		<xsl:text>}</xsl:text>
 		
-		<xsl:value-of select="$newlineTab2"/>
+		<xsl:choose>
 		
-		<xsl:text>for(String checks : selecteds){</xsl:text>
-		
- 		<xsl:value-of select="$unselecteds"/> 
-		
-		<xsl:value-of select="$newlineTab2"/>
+			<xsl:when test="$unsel = 'TRUE'">
+			
+				<xsl:value-of select="$newlineTab2"/>
+			
+				<xsl:text>List&lt;String&gt; unselecteds = cb.getUncheckedIds();</xsl:text>
 				
-		<xsl:text>}</xsl:text>
+				<xsl:value-of select="$newlineTab2"/>
+			
+				<xsl:text>for(String unchecks : unselecteds){</xsl:text>
+				
+		 		<xsl:value-of select="$unselecteds"/> 
+				
+				<xsl:value-of select="$newlineTab2"/>
+						
+				<xsl:text>}</xsl:text>
+				
+			</xsl:when>
+		
+		</xsl:choose>
 		
 		<xsl:value-of select="$newlineTab1"/>
 				
@@ -886,6 +896,14 @@
 		
 		<xsl:text>}</xsl:text>		
 	
+	</xsl:template>
+	
+	<xsl:template name="blockly.element.checkss" >
+	
+		<xsl:variable name="check_sel" select="substring-after(field,'::')"/>
+				
+		<xsl:value-of select="$check_sel"/>
+		
 	</xsl:template>
 	
 	<xsl:template name="blockly.element.combo_dao" >
@@ -1431,6 +1449,12 @@
 			<xsl:when test="$block-type = 'checkbox_table'">
 			
 				<xsl:call-template name="blockly.element.checkbox_table"></xsl:call-template>
+				
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'checkss'">
+			
+				<xsl:call-template name="blockly.element.checkss"></xsl:call-template>
 				
 			</xsl:when>
 		

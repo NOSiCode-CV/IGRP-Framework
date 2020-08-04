@@ -14,6 +14,7 @@ var GEN = null,
 		["Get Parameter Text", "apanhar_parametro_texto"], ["Get Domain", "get_domain"]],
 	FIND = [["--", "--"],["all", "todos"],["one", "um"]],
 	FINDLIST = [["all", "TODOSS"],["one", "UMM"]],
+	CHECK_SELECT = [["checks", "String::checks"],["unchecks", "String::unchecks"]],
 	TIPO = [["Inteiro", "Inteiro"],["Data", "Data"],["Texto", "Texto"]],
 	WHERE = [["=", "WHERE_EQ"],["!=", "WHERE_DIF"],["<", "WHERE_LT"],["<=", "WHERE_LTE"],[">", "WHERE_GT"],[">=", "WHERE_GTE"],["like", "WHERE_LIKE"],["notlike", "WHERE_NOTLIKE"]],
 	FILTER = [["andWhere", "andWhere"],["andWhereIsNull", "andWhereIsNull"],["andWhereNotNull", "andWhereNotNull"],["andWhereBetween", "andWhereBetween"],		  
@@ -548,11 +549,13 @@ $('#active_selenium').on('click', function() {
 			+'<block type="checkbox_table" color="100" prev-statement="" next-statement="" inline="true">'
 				+'<value type="dummy" title="check-box selecteds">'
 					+'<field type="dropdown" name="checkbox" options="IGRP_BLOCKLY_DROPS.checkbox_t"></field>'
-					+'<field type="checkbox" name="UNSEL" title="unselecteds?" options="FALSE"></field>'
+					+'<field type="text" options="unselecteds?"></field>'
 				+'</value>'
-				+'<value name="value_selected" type="statement"></value>'
-				+'<value type="dummy"  title="unselecteds"></value>'
-				+'<value name="value_unselected" type="statement"></value>'
+			+'</block>'
+			+'<block type="checkss" color="300" output="">'
+				+'<value type="dummy">'
+					+'<field type="dropdown" name="check_sel" options="IGRP_BLOCKLY_DROPS.checksel"></field>'
+				+'</value>'
 			+'</block>'
 		+'</category>'
 		+'<sep class="blocly-dynamic"></sep>'
@@ -1001,6 +1004,7 @@ $('#active_selenium').on('click', function() {
 			find : FIND,
 			tipo : TIPO,
 			where : WHERE,
+			checksel : CHECK_SELECT,
 			returns : RETURNS,
 			pages : PAGES,
 			and_or : ANDOR,
@@ -1051,6 +1055,7 @@ function GetBlocklyImports(){
 		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace),
 			listarImports = $('block[type*="listar_"]',xml),	
 			inserirImports = $('block[type="inserir_dao"]',xml),
+			checkImports = $('block[type="checkbox_table"]',xml),
 			inserirImports2 = $('block[type*="save_formu_"]',xml),
 			inserirImports3 = $('block[type="insert_simple_dao"]',xml),
 			fillComboImports = $('block[type="fill_combo"]',xml),
@@ -1103,6 +1108,8 @@ function GetBlocklyImports(){
 			rtn+='<import type="insert_simple_dao">Inserir Daos</import>';
 		if(combodaoImports[0])
 			rtn+='<import type="combo_dao">Combo Dao</import>';
+		if(checkImports[0])
+			rtn+='<import type="checkbox_table">Check-box Import</import>';
 		if(daosImports[0] || fieldDaos[0]){
 			var incs = {};
 			daosImports.each(function(i, dao){

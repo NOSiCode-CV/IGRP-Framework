@@ -286,40 +286,42 @@
 		
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		  
-		checkbox_table : {
-			
-			init : function(block){
-				block.itemCount_ = 0;
-				var checkbox = new Blockly.FieldCheckbox("FALSE", function(pxchecked) {
-					this.sourceBlock_.updateShape_(pxchecked);
-				});	
-			},
-			mutationToDom: function() {
-					var container = document.createElement('mutation');
-					container.setAttribute('count', this.itemCount_);
-				  var pxchecked = (this.getFieldValue('UNSEL') == 'TRUE');
-				  container.setAttribute('pxchecked', pxchecked);
-				  return container;
-			},	
-			domToMutation: function(xmlElement) {
-				var pxchecked = (xmlElement.getAttribute('pxchecked') == 'true');
-				this.itemCount_ = parseInt(xmlElement.getAttribute('count'), 10);
-				this.updateShape_(pxchecked);
-			},	
-			
-			    updateShape_: function (pxchecked) {
-				    var block = this;
-				    pxchecked = typeof pxchecked === 'undefined' ? this.getFieldValue('UNSEL') == 'TRUE' : pxchecked; 
-			        this.removeInput('param_id');
-			        if (pxchecked) {
-					      block.appendValueInput("param_id").appendField("find");
-					      block.moveInputBefore("param_id", "value2");
-					} else {
-					  this.removeInput('param_id');
-				      
-					}
-			    }
-			},
+		
+	checkbox_table : {
+		
+		init : function(block){
+			block.itemCount_ = 0;
+			var checkbox = new Blockly.FieldCheckbox("FALSE", function(pxchecked) {
+				this.sourceBlock_.updateShape_(pxchecked);
+			});	
+		block.appendDummyInput().appendField(checkbox, 'UNSEL');
+		block.appendStatementInput("value_selected");
+		block.mutationToDom =  function() {
+		    var container = document.createElement('mutation');
+		    var pxchecked = (this.getFieldValue('UNSEL') == 'TRUE');
+		    container.setAttribute('pxchecked', pxchecked);
+		    return container; 
+		},
+
+		block.domToMutation = function(xmlElement) {
+			var pxchecked = (xmlElement.getAttribute('pxchecked') == 'true');
+			this.updateShape_(pxchecked);
+		},
+		
+		block.updateShape_  = function(pxchecked) {	
+		    var check = pxchecked;
+	        if (pxchecked) {
+	        		block.appendDummyInput("tete").appendField("unselecteds");
+			      block.appendStatementInput("value_unselected");
+			} else {
+			  this.removeInput('tete');
+			  this.removeInput('value_unselected');
+		      
+			}
+	    }
+		
+		}
+	},
 		
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
