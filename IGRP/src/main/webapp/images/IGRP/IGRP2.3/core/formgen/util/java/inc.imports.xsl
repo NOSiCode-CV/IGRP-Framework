@@ -268,6 +268,14 @@
 					</xsl:choose>
 				
 				</xsl:when>
+				
+				<xsl:when test="@type = 'checkbox_table'">
+				
+					<xsl:value-of select="$newline"></xsl:value-of>
+					
+					<xsl:text>import nosi.core.webapp.helpers.CheckBoxHelper;</xsl:text>
+					
+				</xsl:when>
 			
 			</xsl:choose>
 			

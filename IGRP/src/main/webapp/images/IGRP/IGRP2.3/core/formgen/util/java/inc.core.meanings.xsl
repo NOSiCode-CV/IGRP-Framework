@@ -145,6 +145,32 @@
 				<xsl:text>Core.getParam(</xsl:text><xsl:value-of select="$valor1"/><xsl:text>)</xsl:text>
 					
 			</xsl:when>
+			
+			<xsl:when test="$key = 'get_domain'">
+			
+				<xsl:variable name="valor1">
+		
+					<xsl:call-template name="blockly.getValue">
+					
+						<xsl:with-param name="value" select="*[@name='value1']"/>
+						
+					</xsl:call-template>
+					
+				</xsl:variable>
+				
+				<xsl:variable name="valor2">
+		
+					<xsl:call-template name="blockly.getValue">
+					
+						<xsl:with-param name="value" select="*[@name='value2']"/>
+						
+					</xsl:call-template>
+					
+				</xsl:variable>
+				
+				<xsl:text>Core.findDomainDescByKey(</xsl:text><xsl:value-of select="$valor1"/><xsl:text>, </xsl:text><xsl:value-of select="$valor2"/><xsl:text>) </xsl:text>
+					
+			</xsl:when>
 		
 		</xsl:choose>
 		
