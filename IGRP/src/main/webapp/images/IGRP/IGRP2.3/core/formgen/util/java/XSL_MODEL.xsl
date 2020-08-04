@@ -405,7 +405,7 @@
    		
    		<xsl:variable name="chartType">
    			<xsl:choose>
-   				<xsl:when test="chart_type='pie'">
+   				<xsl:when test="chart_type='pie' or chart_type='semipie' or chart_type='funnel'">
    					<xsl:value-of select="'IGRPChart2D'"/>
    				</xsl:when>
    				<xsl:otherwise>
@@ -418,7 +418,7 @@
 	 		<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
 				<xsl:choose>
-				<xsl:when test="chart_type = 'pie'">
+				<xsl:when test="chart_type = 'pie' or chart_type='semipie' or chart_type='funnel'">
 					<xsl:value-of select="concat('public ',$tableName,'(String eixoX, Object eixoY) {')"/>
 			 		<xsl:value-of select="$newline"/>
 					<xsl:value-of select="$tab3"/>
