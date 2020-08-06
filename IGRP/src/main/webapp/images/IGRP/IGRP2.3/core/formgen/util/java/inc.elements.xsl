@@ -861,7 +861,6 @@
 		<xsl:choose>
 		
 			<xsl:when test="$unsel = 'TRUE'">
-			
 				<xsl:value-of select="$newlineTab2"/>
 			
 				<xsl:text>List&lt;String&gt; unselecteds = cb.getUncheckedIds();</xsl:text>
