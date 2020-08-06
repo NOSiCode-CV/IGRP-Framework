@@ -2,8 +2,8 @@
 goog.provide('Blockly.Java.selenium');
 goog.require('Blockly.Java');
 
-	// ********************************************** DECLARATE VARIABLES  ********************************
-	//*****************************************************************************************************
+	// ********************************************** DECLARATE VARIABLES  *************************************************
+	//**********************************************************************************************************************
 
 var GEN = null,
 	blockyInit = false,
@@ -52,8 +52,8 @@ var GetJavaType = {
 	radiolist : 'Integer'
 }
 
-		// ********************************************** PREVIOUS FUNCTIONS  ********************************
-		//*****************************************************************************************************
+		// ********************************************** PREVIOUS FUNCTIONS  *********************************************
+		//*****************************************************************************************************************
 
 var calcHeight = function() {
 	$('#gen-blocky-view').height(function() {
@@ -70,7 +70,7 @@ $('#save_bloco_igrp').on('click',function() {
 	if (typeof (Storage) !== "undefined") {
 		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 		localStorage.setItem(document.getElementById("content_blocks").value,Blockly.Xml.domToText(xml));
-		alert("Bloco salvado");
+		alert("Bloco Salvado");
 		Blockly.mainWorkspace.clear();	
 	}
 });
@@ -100,7 +100,7 @@ $('#refresh_bloco').on('click', function() {
 		if (localStorage.data !== null) {	
 		var xml = Blockly.Xml.textToDom(localStorage.getItem(IGRPblockly));
 		Blockly.Xml.domToWorkspace(xml,Blockly.mainWorkspace);
-		var code = '';//Blockly.Java.workspaceToCode(Code.workspace);
+		var code = ''; //Blockly.Java.workspaceToCode(Code.workspace);
 		content.textContent = code;    
 		console.log("Bloco Atualizado");
 		}
@@ -114,8 +114,8 @@ $('#active_selenium').on('click', function() {
 	
 });
 
-		// ************************************* INIT LOAD XML AND REQUEST  ***********************************
-		//*****************************************************************************************************
+		// ************************************* INIT LOAD XML AND REQUEST  **********************************************
+		//****************************************************************************************************************
 
 	window.IGRPBlocklyInit = function(){
 	 fields_model = [], fields_model.push(['--','--']), chart = [], chart.push(['--','--']), form_id = [], view_model=[]; 
@@ -134,7 +134,7 @@ $('#active_selenium').on('click', function() {
 	 pagetitle = PageTitle.toLowerCase();
 	 IGRP_BLOCKLY_DROPS.tablesTest = {};
 	 
-  //***************************************************** FIELDS_MODEL ***********************************************
+  //***************************************************** FIELDS_MODEL **************************************************
 	 
 	 $('rows>content>*[type!=separatorlist][type!=formlist]', BlocklyXML).each(function(i, element) {
 			$(element).find('>fields>*').each(function(x, field) {
@@ -224,7 +224,8 @@ $('#active_selenium').on('click', function() {
 			);	
 		}
 	 
-	//*********************************************** FILL_COMBO ***************************************************	
+	//*********************************************** FILL_COMBO ***********************************************************
+	 
 		if(addcombo!=0)
 		{	
 		$('#toolbox').append(
@@ -347,7 +348,7 @@ $('#active_selenium').on('click', function() {
 			);
 		}
 		
-// ********************************************** FORM *****************************************************************
+// ********************************************** FORM *********************************************************************
 		
 		$('rows>content>*[type="form"]', BlocklyXML).each(function(i, element) {
 			IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];
@@ -541,7 +542,8 @@ $('#active_selenium').on('click', function() {
 			}
 	});
 	
-	//*********************************************** CHECKBOX-TABLE ***************************************************	
+	//*********************************************** CHECKBOX-TABLE ******************************************************	
+	
 	if(addcheckbox_table != 0)
 	{	
 	$('#toolbox').append(
@@ -562,7 +564,7 @@ $('#active_selenium').on('click', function() {
 		);
 	}
 			
-			// ********************************************** SEPARATOR-LIST  *************************************
+	// ********************************************** SEPARATOR-LIST  ***************************************************
 			
 	$('rows>content>*[type="separatorlist"]', BlocklyXML).each(function(i, element){
 		IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];
@@ -649,7 +651,7 @@ $('#active_selenium').on('click', function() {
 			}
 	});
 	
-	// ********************************************** FORM-LIST  *************************************
+	// ********************************************** FORM-LIST  *************************************************************
 
 	$('rows>content>*[type="formlist"]', BlocklyXML).each(function(i, element) {
 		IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];
@@ -739,7 +741,7 @@ $('#active_selenium').on('click', function() {
 		}	
 	});
 	
-// ********************************************** VIEW *****************************************************************
+// ********************************************** VIEW **********************************************************************
 
 	$('rows>content>*[type="view"]', BlocklyXML).each(function(i, element) {	
 		IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];	
@@ -833,8 +835,7 @@ $('#active_selenium').on('click', function() {
 	});	
 			
 		
-		
-		//*********************************************** GRAFICO ***************************************************
+		//*********************************************** GRAFICO ***********************************************************
 
 	$('rows>content>*[type="chart"]', BlocklyXML).each(function(i, element){	
 	if($(element).attr('type')== 'chart')
@@ -891,7 +892,7 @@ $('#active_selenium').on('click', function() {
 		}
 	});
 	
-       // *******************************************GET DAO OBJECTS *****************************************
+       // *******************************************GET DAO OBJECTS *******************************************************
 	
 	var iurlArr = path.split('/'),
 		iurl   = iurlArr[0] == '' ? iurlArr[1] : 'IGRP';
@@ -946,6 +947,7 @@ $('#active_selenium').on('click', function() {
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/send-icon.svg"></field>'
 							+'</value>'
 						+'</block>'	
+						
 						+'<block type="editar_dao" color ="60" prev-statement="" next-statement="">'
 							+'<value type="dummy">'
 								+'<field type="text" options="add parameter isEdit"></field>'
@@ -1233,8 +1235,7 @@ function HandleCode(code){
 			response[actionName] = actionCode;	
 		});
 		return response;
-	}
-	
+	}	
 }
 
 $.IGRP.on('init', function(){

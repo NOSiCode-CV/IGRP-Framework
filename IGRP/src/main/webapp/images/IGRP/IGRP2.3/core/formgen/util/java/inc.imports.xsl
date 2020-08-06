@@ -258,7 +258,6 @@
 						</xsl:when>
 						
 						<xsl:when test="$fieldType = 'Link'">
-						
 							<xsl:value-of select="$newline"></xsl:value-of>
 							
 							<xsl:text>import nosi.webapps.igrp.dao.CLob;</xsl:text>	
