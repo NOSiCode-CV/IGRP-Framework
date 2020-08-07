@@ -14,7 +14,7 @@ public class EtapaaccessView extends View {
 	public Field descricao;
 	public Field processid;
 	public Field task_description;
-	public IGRPForm sectionheader_1;
+	public IGRPSectionHeader sectionheader_1;
 	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -24,7 +24,7 @@ public class EtapaaccessView extends View {
 
 		this.setPageTitle("EtapaAccess");
 			
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
 		table_1 = new IGRPTable("table_1","");
 
@@ -35,28 +35,28 @@ public class EtapaaccessView extends View {
 		
 		id = new CheckBoxField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("name","p_id").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","String").add("check","true").add("desc","true");
+		id.propertie().add("name","p_id").add("type","checkbox").add("maxlength","255").add("switch","false").add("java-type","String").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
 		id_check = new CheckBoxField(model,"id_check");
-		id_check.propertie().add("name","p_id").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","String").add("check","true").add("desc","true");
+		id_check.propertie().add("name","p_id").add("type","checkbox").add("maxlength","255").add("switch","false").add("java-type","String").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Descricao"));
-		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30");
+		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		processid = new HiddenField(model,"processid");
 		processid.setLabel(gt(""));
-		processid.propertie().add("name","p_processId").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","processid");
+		processid.propertie().add("name","p_processId").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","processid");
 		
 		task_description = new HiddenField(model,"task_description");
 		task_description.setLabel(gt(""));
-		task_description.propertie().add("name","p_task_description").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","task_description");
+		task_description.propertie().add("name","p_task_description").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","task_description");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
 		btn_gravar = new IGRPButton("Gravar","igrp","Etapaaccess","gravar","submit","primary|fa-save","","");
-		btn_gravar.propertie.add("type","specific").add("rel","gravar");
+		btn_gravar.propertie.add("type","specific").add("rel","gravar").add("refresh_components","");
 
 		
 	}

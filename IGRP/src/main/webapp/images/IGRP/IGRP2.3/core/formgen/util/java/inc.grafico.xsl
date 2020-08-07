@@ -17,7 +17,6 @@
 				<xsl:with-param name="text" select="$grafico"/>
 				
 			</xsl:call-template>
-			
 		</xsl:variable>
 		
 		<xsl:variable name="daolow">
