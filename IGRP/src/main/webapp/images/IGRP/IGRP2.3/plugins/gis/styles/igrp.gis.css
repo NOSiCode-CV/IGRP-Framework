@@ -592,3 +592,7 @@
 	width: 25px;
     height: 41px;
 }
+
+.leaflet-popup-content-wrapper{
+	border-radius: 4px;	
+}

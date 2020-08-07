@@ -32,6 +32,7 @@
 					
 				case 'attribute_render':
 				case 'query_expression':
+				case 'mouseover':
 				
 					config.js = true;
 					

@@ -590,7 +590,7 @@
 				
 				layer.Legend = json.Legend[0];
 				
-				layer.fire('legend-loaded', { data: layer.Legend });				
+				map.fire('legend-added', { data: layer.Legend });				
 				
 			});
 			
