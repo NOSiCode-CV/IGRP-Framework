@@ -146,6 +146,8 @@
 			
 			Map.on('addlayer', Load);
 			
+			Map.on('legend-added', Load);
+			
 		};
 		
 		

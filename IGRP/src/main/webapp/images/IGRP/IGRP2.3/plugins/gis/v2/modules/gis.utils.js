@@ -87,17 +87,25 @@
 					var html = $('<ul class="gis-feature-properties-view" />');
 					
 					if(props){
-						
+
 						for(var p in props){
 							
-							var prop = props[p] || '';
+							var prop = props[p] || '', name = p;
 							
-							html.append(
-								'<li name="'+p+'">'+
-									'<span class="gis-feature-property-label" text-color="primary">'+p+'</span>'+
-									'<span class="gis-feature-property-value">'+prop+'</span>'+
-								'</li>'
-							);
+							if (props[p] && typeof props[p] != 'string'){
+								
+								prop = props[p].isImage ? '</br><img style="max-width:220px" src="'+prop+'"/>' : props[p].value;
+								
+								name  = props[p].name;
+							} 
+									
+							if(name)
+								html.append(
+									'<li name="'+name+'">'+
+										'<span class="gis-feature-property-label" text-color="primary">'+name+'</span>'+
+										 '<span class="gis-feature-property-value">'+prop+'</span>' +
+									'</li>'
+								);
 							
 						}
 						
