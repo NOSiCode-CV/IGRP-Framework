@@ -1084,7 +1084,7 @@ $(function ($) {
 					var group 		= p.group ? 'group = "'+p.group+'"' : '',
 						grouplist 	= p.colgroup ? 'colgroup = "'+p.colgroup+'"' : '',
 						grouphtml 	= p.grouphtml ? 'grouphtml = "'+p.grouphtml+'"': '',
-						tabel 		= '<table no="'+p.parentTag+'" '+grouphtml+' '+grouplist+' '+group+' pos="'+p.parentPos+'" class="table table-striped gen-data-table"><thead><tr>',
+						tabel 		= '<table type="'+p.parentNoType+'" no="'+p.parentTag+'" '+grouphtml+' '+grouplist+' '+group+' pos="'+p.parentPos+'" class="table table-striped gen-data-table"><thead><tr>',
 						td 			= '',
 						th  		= '';
 
@@ -1099,7 +1099,7 @@ $(function ($) {
 					return tabel;
 				},
 				ulol : function(p){
-					var obj = '<'+p.tag+' no="'+p.parentTag+'" pos="'+p.parentPos+'">',
+					var obj = '<'+p.tag+' type="'+p.parentNoType+'" no="'+p.parentTag+'" pos="'+p.parentPos+'">',
 						li  = '';
 
 					p.list.forEach(function(e,i){
@@ -1395,6 +1395,10 @@ $(function ($) {
 			    					if(node.name == 'td' && notTfoot){
 			    						//table.element.value = node.getHtml().replace(/&nbsp;/g, " ").replace(/\s+/g," ");
 			    						var tag   = node.attributes.tag || node.attributes.rel;
+			    						
+			    						if($.inArray(element.attributes.parentNoType,['separatorlist','formlist'])){
+											tag += '_desc';
+										}
 
 			    						if(tag && tag != undefined){
 			    							var value = tag,
@@ -1466,6 +1470,11 @@ $(function ($) {
 			    				element.forEach(function(node){
 			    					if (node.name == 'li'){
 			    						var tag = node.attributes.tag || node.attributes.rel;
+			    						
+			    						if($.inArray(element.attributes.parentNoType,['separatorlist','formlist'])){
+											tag += '_desc';
+										}
+			    						
 			    						ul.element += '<li '+$.WR.element.getStyle(node)+'><xsl:value-of select="'+tag+'"/></li>';
 			    					}
 			    				});
@@ -1489,6 +1498,11 @@ $(function ($) {
 			    				element.forEach(function(node){
 			    					if (node.name == 'li'){
 			    						var tag = node.attributes.tag || node.attributes.rel;
+			    						
+			    						if($.inArray(element.attributes.parentNoType,['separatorlist','formlist'])){
+											tag += '_desc';
+										}
+			    						
 			    						ol.element += '<li '+$.WR.element.getStyle(node)+'><xsl:value-of select="'+tag+'"/></li>';
 			    					}
 			    				});
@@ -1618,6 +1632,7 @@ $(function ($) {
 							element.type		= $target.attr('notype') ? $target.attr('notype') : $target.attr('type');
 							element.parentTag 	= $target.attr('tag');
 							element.parentType 	= $target.attr('parentType') || 'form';
+							element.parentNoType= $target.attr('parentNoType') || $target.attr('elementType')  || 'form';
 							element.parentPos 	= $target.attr('parentPos');
 							element.iskey 		= $target.find('.btn input[name="p_'+element.tag+'"]').is(':checked');
 
