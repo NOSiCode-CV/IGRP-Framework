@@ -1,5 +1,6 @@
 package nosi.core.webapp.import_export_v2.imports.bpmn;
 
+import java.util.Comparator;
 import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
@@ -38,7 +39,8 @@ public class BPMNTipoDocEtapaImport extends AbstractImport implements IImport {
 	@Override
 	public void execute() {
 		try {
-			if(docEtapa != null) 
+			if(docEtapa != null) { 
+				docEtapa.sort(Comparator.comparing(BPMNTipoDocEtapaSerializable::getStatus));
 				for(BPMNTipoDocEtapaSerializable _docEtapa : docEtapa) {
 						if(_docEtapa.getReportCode() != null) {
 							RepTemplate report = new RepTemplate().find().andWhere("code", "=", _docEtapa.getReportCode()).andWhere("application", "=", application).one(); 
@@ -86,6 +88,7 @@ public class BPMNTipoDocEtapaImport extends AbstractImport implements IImport {
 							}	
 						}
 				} 
+			}
 		} catch (Exception e) {
 			this.addError(e.getMessage()); 
 		}
