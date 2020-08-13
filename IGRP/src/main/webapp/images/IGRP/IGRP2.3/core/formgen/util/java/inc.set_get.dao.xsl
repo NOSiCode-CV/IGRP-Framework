@@ -20,6 +20,7 @@
 		
 		<xsl:variable name="fieldType_inicial" select="substring-before(field,'::')"/>
 		
+		
 		<xsl:variable name="fieldType">
 		
 			<xsl:choose>

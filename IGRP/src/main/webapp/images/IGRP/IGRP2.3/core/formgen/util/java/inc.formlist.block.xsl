@@ -18,6 +18,7 @@
 	       	
 		</xsl:variable>
 		
+		
 		<xsl:variable name="daofilter" select="concat($daolow,'filter')"/>
 		
 		<xsl:variable name="andWheres">

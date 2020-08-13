@@ -13,6 +13,7 @@
 			</xsl:when>
 			
 			<xsl:when test="$key = 'nome_utilizador_atual'">	
+			
 				<xsl:text>Core.getCurrentUser().getName()</xsl:text>
 					
 			</xsl:when>
