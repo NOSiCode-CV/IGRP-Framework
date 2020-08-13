@@ -24,6 +24,7 @@
 				
 			</xsl:call-template>
 			
+			
 		</xsl:variable>
 		
 		<xsl:variable name="operator">

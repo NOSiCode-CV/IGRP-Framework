@@ -25,6 +25,7 @@
 	
 	<xsl:template name="blockly.element.controller">
 		
+		
 		<xsl:call-template name="blockly.getValue">
 		
 			<xsl:with-param name="value" select="statement"></xsl:with-param>
