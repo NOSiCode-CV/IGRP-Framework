@@ -24,6 +24,7 @@
 		
 			<xsl:call-template name="listar.andWheres">
 			
+			
 				<xsl:with-param name="daofilter" select="$daofilter"/>
 			
 				<xsl:with-param name="total" select="$mutation"/>

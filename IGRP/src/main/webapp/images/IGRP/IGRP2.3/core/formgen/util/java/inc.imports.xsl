@@ -22,6 +22,7 @@
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
+					
 					<xsl:text>import java.util.List;</xsl:text>
 					
 				</xsl:when>
