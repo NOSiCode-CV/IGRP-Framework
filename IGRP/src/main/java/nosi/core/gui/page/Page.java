@@ -234,8 +234,8 @@ public class Page{
 				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error",sw.toString());
 				throw new NotFoundHttpException(msg);
 			}
-//			if(env.equals("dev") || env.equals("sta"))
-//				System.err.println("Error in "+Core.getCurrentDad()+"/"+Igrp.getInstance().getCurrentPageName()+": "+sw.toString());
+			if(env.equals("dev") || env.equals("sta"))
+				System.err.println("DevError in "+Core.getCurrentDad()+"/"+Igrp.getInstance().getCurrentPageName()+": "+sw.toString());
 			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error", sw.toString());
 			if(Core.isNotNull(e.getCause()) && Core.isNotNull(e.getCause().getMessage())) {
 				Core.log("ERRO: "+e.getCause().getMessage()); //dosen't work because error page is not the original

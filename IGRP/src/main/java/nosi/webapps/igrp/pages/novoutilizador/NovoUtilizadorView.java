@@ -5,7 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.config.Config;
+import nosi.core.webapp.Core;
 
 public class NovoUtilizadorView extends View {
 
@@ -36,7 +36,7 @@ public class NovoUtilizadorView extends View {
 		
 		email = new TextAreaField(model,"email");
 		email.setLabel(gt("E-mail(s)"));
-		email.propertie().add("name","p_email").add("type","textarea").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("user@nosi.cv; maria.rosario@nosi.cv; steve.jobs@nosi.cv ; ...")).add("desclabel","false");
+		email.propertie().add("name","p_email").add("type","textarea").add("maxlength","4000").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("user@nosi.cv; maria.rosario@nosi.cv; steve.jobs@nosi.cv ; ...")).add("desclabel","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
@@ -44,11 +44,11 @@ public class NovoUtilizadorView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("remote",new Config().getResolveUrl("igrp","NovoUtilizador","GetXMLOrganizations")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
+		aplicacao.propertie().add("remote",Core.getIGRPLink("igrp","NovoUtilizador","GetXMLOrganizations")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
 		organica = new ListField(model,"organica");
 		organica.setLabel(gt("Organização"));
-		organica.propertie().add("remote",new Config().getResolveUrl("igrp","NovoUtilizador","GetXMLProfile")).add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
+		organica.propertie().add("remote",Core.getIGRPLink("igrp","NovoUtilizador","GetXMLProfile")).add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel(gt("Perfil"));
@@ -58,7 +58,7 @@ public class NovoUtilizadorView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
 		btn_gravar = new IGRPButton("Gravar","igrp","NovoUtilizador","gravar","submit","primary|fa-save","","");
-		btn_gravar.propertie.add("type","specific").add("rel","gravar");
+		btn_gravar.propertie.add("type","specific").add("rel","gravar").add("refresh_components","");
 
 		
 	}

@@ -48,7 +48,7 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=utilizador" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=utilizador" action_type="true" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true" adbcli="">
                     <label>Help</label>
                     <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=utilizador</value>
                 </documento>
@@ -58,11 +58,11 @@
             <fields>
                 <username name="p_username" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Username</label>
-                    <value>Labore ut totam unde doloremque</value>
+                    <value>Accusantium elit labore iste lorem</value>
                 </username>
                 <email name="p_email" type="email" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Email</label>
-                    <value>fewar@example.com</value>
+                    <value>pa@example.com</value>
                 </email>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
                     <label></label>
@@ -237,26 +237,12 @@
                         </context-menu>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Stract ipsum ut dolor stract officia labore consec</nominho>
-                        <range_1 name="p_range_1">5</range_1>
-                        <nome name="p_nome">Omnis officia ipsum dolor officia lorem adipiscing elit dolor sed lorem consectetur sit ipsum aperia</nome>
-                        <tb_email name="p_tb_email">Perspiciatis totam mollit ipsum labore adipiscing aliqua totam adipiscing voluptatem consectetur ame</tb_email>
-                        <perfile name="p_perfile">Dolor unde sed iste mollit iste anim aperiam natus</perfile>
-                        <id name="p_id" tag="id">hidden-a6d8_1d81</id>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
-                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Officia stract elit omnis magna dolor laudantium i</nominho>
+                        <nominho name="p_nominho">Totam ipsum iste unde sit officia anim accusantium</nominho>
                         <range_1 name="p_range_1">6</range_1>
-                        <nome name="p_nome">Consectetur magna aperiam perspiciatis adipiscing unde voluptatem accusantium sit dolor deserunt rem</nome>
-                        <tb_email name="p_tb_email">Adipiscing voluptatem unde laudantium consectetur mollit dolor stract aperiam totam stract voluptate</tb_email>
-                        <perfile name="p_perfile">Ipsum lorem adipiscing aliqua totam accusantium la</perfile>
-                        <id name="p_id" tag="id">hidden-deef_1732</id>
+                        <nome name="p_nome">Magna accusantium voluptatem iste sit sed sit sed ut adipiscing sit labore aliqua sit elit laudantiu</nome>
+                        <tb_email name="p_tb_email">Dolor omnis magna unde officia stract mollit aperiam consectetur omnis totam rem aliqua elit perspic</tb_email>
+                        <perfile name="p_perfile">Adipiscing iste aperiam magna natus amet unde pers</perfile>
+                        <id name="p_id" tag="id">hidden-c00d_aed3</id>
                     </row>
                     <row>
                         <context-menu>
@@ -265,26 +251,12 @@
                         </context-menu>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Amet ut ipsum laudantium amet ut doloremque perspi</nominho>
-                        <range_1 name="p_range_1">1</range_1>
-                        <nome name="p_nome">Voluptatem sit omnis magna lorem officia rem totam adipiscing magna adipiscing officia lorem rem lab</nome>
-                        <tb_email name="p_tb_email">Consectetur rem aperiam anim officia dolor sed sit voluptatem amet adipiscing stract doloremque iste</tb_email>
-                        <perfile name="p_perfile">Ut adipiscing mollit aliqua perspiciatis adipiscin</perfile>
-                        <id name="p_id" tag="id">hidden-9ac8_1751</id>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
-                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Sed adipiscing sed sit laudantium deserunt rem ut</nominho>
+                        <nominho name="p_nominho">Lorem rem sed aperiam elit magna elit laudantium o</nominho>
                         <range_1 name="p_range_1">3</range_1>
-                        <nome name="p_nome">Rem adipiscing voluptatem officia aliqua rem sit unde accusantium adipiscing accusantium ut perspici</nome>
-                        <tb_email name="p_tb_email">Dolor sed sit consectetur anim aliqua ipsum aperiam aliqua adipiscing consectetur laudantium aperiam</tb_email>
-                        <perfile name="p_perfile">Aliqua magna stract amet accusantium aperiam accus</perfile>
-                        <id name="p_id" tag="id">hidden-56f7_031b</id>
+                        <nome name="p_nome">Accusantium voluptatem elit sit consectetur iste magna aperiam iste rem adipiscing mollit laudantium</nome>
+                        <tb_email name="p_tb_email">Doloremque rem consectetur aperiam stract anim anim stract unde natus accusantium sit aliqua magna a</tb_email>
+                        <perfile name="p_perfile">Adipiscing elit unde amet officia dolor aliqua ist</perfile>
+                        <id name="p_id" tag="id">hidden-7413_c1f4</id>
                     </row>
                     <row>
                         <context-menu>
@@ -293,12 +265,40 @@
                         </context-menu>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Voluptatem officia labore accusantium adipiscing l</nominho>
+                        <nominho name="p_nominho">Doloremque labore consectetur ipsum unde magna und</nominho>
+                        <range_1 name="p_range_1">8</range_1>
+                        <nome name="p_nome">Elit totam natus mollit deserunt officia voluptatem iste sit laudantium aperiam elit anim natus labo</nome>
+                        <tb_email name="p_tb_email">Magna perspiciatis dolor stract amet iste natus elit stract voluptatem magna voluptatem elit perspic</tb_email>
+                        <perfile name="p_perfile">Magna omnis natus omnis totam natus laudantium acc</perfile>
+                        <id name="p_id" tag="id">hidden-ddac_fdfb</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
+                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
+                        <nominho name="p_nominho">Rem sit voluptatem dolor lorem labore iste elit om</nominho>
                         <range_1 name="p_range_1">5</range_1>
-                        <nome name="p_nome">Iste totam officia lorem deserunt aliqua accusantium voluptatem mollit aperiam omnis ut totam perspi</nome>
-                        <tb_email name="p_tb_email">Stract officia totam anim adipiscing lorem mollit omnis ipsum magna ut doloremque ipsum omnis labore</tb_email>
-                        <perfile name="p_perfile">Mollit laudantium sed elit natus elit sit mollit a</perfile>
-                        <id name="p_id" tag="id">hidden-747e_9577</id>
+                        <nome name="p_nome">Labore iste stract unde natus officia accusantium labore natus dolor anim unde sit totam iste magna</nome>
+                        <tb_email name="p_tb_email">Unde natus adipiscing omnis aliqua consectetur iste labore officia deserunt magna anim unde rem laud</tb_email>
+                        <perfile name="p_perfile">Amet ipsum mollit rem elit sit voluptatem rem omni</perfile>
+                        <id name="p_id" tag="id">hidden-407f_fe52</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
+                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
+                        <nominho name="p_nominho">Sit sed consectetur sit officia magna ut dolor acc</nominho>
+                        <range_1 name="p_range_1">7</range_1>
+                        <nome name="p_nome">Mollit amet aliqua laudantium amet officia consectetur ut ipsum ipsum iste unde laudantium mollit si</nome>
+                        <tb_email name="p_tb_email">Doloremque aliqua consectetur omnis ipsum labore totam rem sed totam doloremque aliqua labore volupt</tb_email>
+                        <perfile name="p_perfile">Rem sed omnis aperiam totam ut sed doloremque cons</perfile>
+                        <id name="p_id" tag="id">hidden-b617_a85e</id>
                     </row>
                 </value>
                 <context-menu>
@@ -313,34 +313,34 @@
                         <preview>../images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xml</preview>
                     </item>
                     <item id="button_f39b_61a7" type="specific" code="" class="info" rel="assiocar_menu" custom_return="true" refresh_components="">
-                        <title>Assiocar Menu</title>
+                        <title>Associar Menu</title>
                         <app>igrp</app>
-                        <page>PesquisarUtilizador</page>
+                        <page>Dominio</page>
                         <link>index</link>
-                        <parameter>../images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xml?</parameter>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
                         <target>right_panel_submit</target>
                         <img>info|fa-bars</img>
-                        <preview>../images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xml</preview>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
                     </item>
                     <item id="button_ead4_9d21" type="specific" code="" class="black" rel="assiocar_transacao" custom_return="true" refresh_components="">
-                        <title>Assiocar Transacao</title>
+                        <title>Associar Transacao</title>
                         <app>igrp</app>
-                        <page>PesquisarUtilizador</page>
+                        <page>Dominio</page>
                         <link>index</link>
-                        <parameter>../images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xml?</parameter>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
                         <target>right_panel</target>
                         <img>black|fa-exchange</img>
-                        <preview>../images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xml</preview>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
                     </item>
                     <item id="button_ac82_afbd" type="specific" code="" class="primary" rel="assiocar_etapa" custom_return="true" refresh_components="">
-                        <title>Assiocar Etapa</title>
+                        <title>Associar Etapa</title>
                         <app>igrp</app>
-                        <page>PesquisarUtilizador</page>
+                        <page>Dominio</page>
                         <link>index</link>
-                        <parameter>../images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xml?</parameter>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
                         <target>right_panel</target>
                         <img>primary|fa-sitemap</img>
-                        <preview>../images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xml</preview>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
                     </item>
                     <item id="button_0c9f_e52a" type="specific" code="" class="warning" rel="convidar_user" custom_return="true" refresh_components="">
                         <title>Convidar</title>
