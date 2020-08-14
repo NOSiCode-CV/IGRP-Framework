@@ -577,7 +577,7 @@ public abstract class Model { // IGRP super model
 		Validator validator = factory.getValidator();		
 		Set<ConstraintViolation<Model>> constraintViolations = validator.validate(this);
 		constraintViolations.stream().forEach(e->{
-			Core.setMessageError(Core.gt(e.getMessage()));
+			Core.setMessageError(Core.gt(e.getMessage())+" ("+e.getPropertyPath().toString()+")");
 		});
 		return constraintViolations.size()==0;
 	}

@@ -9,6 +9,9 @@ import java.util.List;
 
 public class _CONS_PROC extends Model{		
 
+	@RParam(rParamName = "p_sectionheader_1_text")
+	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
 
@@ -38,9 +41,6 @@ public class _CONS_PROC extends Model{
 
 	@RParam(rParamName = "p_dt_fim")
 	private String dt_fim;
-
-	@RParam(rParamName = "p_sectionheader_1_text")
-	private String sectionheader_1_text;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -50,6 +50,13 @@ public class _CONS_PROC extends Model{
 		return this.table_1;
 	}
 
+	
+	public void setSectionheader_1_text(String sectionheader_1_text){
+		this.sectionheader_1_text = sectionheader_1_text;
+	}
+	public String getSectionheader_1_text(){
+		return this.sectionheader_1_text;
+	}
 	
 	public void setAplicacao(String aplicacao){
 		this.aplicacao = aplicacao;
@@ -119,13 +126,6 @@ public class _CONS_PROC extends Model{
 	}
 	public String getDt_fim(){
 		return this.dt_fim;
-	}
-	
-	public void setSectionheader_1_text(String sectionheader_1_text){
-		this.sectionheader_1_text = sectionheader_1_text;
-	}
-	public String getSectionheader_1_text(){
-		return this.sectionheader_1_text;
 	}
 
 
