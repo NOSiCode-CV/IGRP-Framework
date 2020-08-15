@@ -5,8 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.config.Config;
+import nosi.core.webapp.Core;
 
 public class PesquisarMenuView extends View {
 
@@ -22,10 +21,9 @@ public class PesquisarMenuView extends View {
 	public Field checkbox;
 	public Field checkbox_check;
 	public Field id;
-	public IGRPForm sectionheader_1;
+	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
-	public Field link_doc;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_btn_novo;
@@ -36,7 +34,7 @@ public class PesquisarMenuView extends View {
 
 		this.setPageTitle("Gestão de Menu");
 			
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
 		form_1 = new IGRPForm("form_1","");
 
@@ -49,7 +47,7 @@ public class PesquisarMenuView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		aplicacao.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarMenu","index")).add("remote",Core.getIGRPLink("igrp","PesquisarMenu","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
 		id_app = new HiddenField(model,"id_app");
 		id_app.setLabel(gt(""));
@@ -57,54 +55,49 @@ public class PesquisarMenuView extends View {
 		
 		t1_menu_principal = new PlainTextField(model,"t1_menu_principal");
 		t1_menu_principal.setLabel(gt("Menu pai"));
-		t1_menu_principal.propertie().add("name","p_t1_menu_principal").add("type","plaintext").add("maxlength","100");
+		t1_menu_principal.propertie().add("name","p_t1_menu_principal").add("type","plaintext").add("maxlength","100").add("disable_output_escaping","false").add("html_class","").add("showLabel","true").add("group_in","");
 		
 		ativo = new CheckBoxField(model,"ativo");
 		ativo.setLabel(gt("Ativo"));
-		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","").add("check","true").add("desc","true");
+		ativo.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarMenu","changeStatus")).add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
 		ativo_check = new CheckBoxField(model,"ativo_check");
-		ativo_check.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","").add("check","true").add("desc","true");
+		ativo_check.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
 		ordem = new NumberField(model,"ordem");
 		ordem.setLabel(gt("Ordem"));
-		ordem.propertie().add("name","p_ordem").add("type","number").add("min","").add("max","").add("maxlength","30").add("total_footer","false").add("java-type","");
+		ordem.propertie().add("name","p_ordem").add("type","number").add("min","").add("max","").add("maxlength","30").add("total_footer","false").add("java-type","").add("calculation","false").add("mathcal","").add("numberformat","").add("showLabel","true").add("group_in","");
 		
 		table_titulo = new PlainTextField(model,"table_titulo");
 		table_titulo.setLabel(gt("Título"));
-		table_titulo.propertie().add("name","p_table_titulo").add("type","plaintext").add("maxlength","100");
+		table_titulo.propertie().add("name","p_table_titulo").add("type","plaintext").add("maxlength","100").add("disable_output_escaping","false").add("html_class","").add("showLabel","true").add("group_in","");
 		
 		pagina = new PlainTextField(model,"pagina");
 		pagina.setLabel(gt("Página"));
-		pagina.propertie().add("name","p_pagina").add("type","plaintext").add("maxlength","100");
-		
-		link_doc = new LinkField(model,"link_doc");
-		link_doc.setLabel(gt("link_doc"));
-		link_doc.setValue(new Config().getResolveUrl("tutorial","Listar_documentos","index&p_type=menu"));
-		link_doc.propertie().add("name","p_link_doc").add("type","link").add("target","modal").add("maxlength","30");
+		pagina.propertie().add("name","p_pagina").add("type","plaintext").add("maxlength","100").add("disable_output_escaping","false").add("html_class","").add("showLabel","true").add("group_in","");
 		
 		checkbox = new CheckBoxField(model,"checkbox");
 		checkbox.setLabel(gt("Público"));
-		checkbox.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","").add("check","true").add("desc","true");
+		checkbox.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
 		checkbox_check = new CheckBoxField(model,"checkbox_check");
-		checkbox_check.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","").add("check","true").add("desc","true");
+		checkbox_check.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","id");
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","id");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
 		btn_btn_novo = new IGRPButton("Novo","igrp","PesquisarMenu","btn_novo","right_panel_submit|refresh","success|fa-plus-square","","");
-		btn_btn_novo.propertie.add("type","specific").add("rel","btn_novo");
+		btn_btn_novo.propertie.add("type","specific").add("rel","btn_novo").add("refresh_components","");
 
 		btn_editar = new IGRPButton("Editar","igrp","PesquisarMenu","editar","right_panel_submit|refresh","warning|fa-pencil","","");
-		btn_editar.propertie.add("type","specific").add("rel","editar");
+		btn_editar.propertie.add("id","button_edcd_6e25").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarMenu","eliminar","alert_submit","danger|fa-trash","","");
-		btn_eliminar.propertie.add("type","specific").add("rel","eliminar");
+		btn_eliminar.propertie.add("id","button_97b3_231a").add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
 
 		
 	}
@@ -116,7 +109,6 @@ public class PesquisarMenuView extends View {
 
 		form_1.addField(aplicacao);
 		form_1.addField(id_app);
-		form_1.addField(link_doc);
 
 
 		table_1.addField(t1_menu_principal);

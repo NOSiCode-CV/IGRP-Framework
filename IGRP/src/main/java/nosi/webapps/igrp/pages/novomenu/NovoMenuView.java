@@ -11,8 +11,6 @@ public class NovoMenuView extends View {
 
 	public Field sectionheader_1_text;
 	public Field env_fk;
-	public Field global_acl;
-	public Field global_acl_check;
 	public Field action_fk;
 	public Field detalhes;
 	public Field titulo;
@@ -25,6 +23,8 @@ public class NovoMenuView extends View {
 	public Field link;
 	public Field flg_base;
 	public Field flg_base_check;
+	public Field global_acl;
+	public Field global_acl_check;
 	public Field area;
 	public Field img_src;
 	public Field id;
@@ -51,10 +51,6 @@ public class NovoMenuView extends View {
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicação"));
 		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
-		
-		global_acl = new CheckBoxField(model,"global_acl");
-		global_acl.setLabel(gt("Global ACL?"));
-		global_acl.propertie().add("remote",Core.getIGRPLink("igrp","NovoMenu","index_")).add("name","p_global_acl").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("switch","false").add("check","true");
 		
 		action_fk = new ListField(model,"action_fk");
 		action_fk.setLabel(gt("Página"));
@@ -96,6 +92,10 @@ public class NovoMenuView extends View {
 		flg_base.setLabel(gt("Público?"));
 		flg_base.propertie().add("name","p_flg_base").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","int").add("check","true");
 		
+		global_acl = new CheckBoxField(model,"global_acl");
+		global_acl.setLabel(gt("Global ACL?"));
+		global_acl.propertie().add("remote",Core.getIGRPLink("igrp","NovoMenu","index_")).add("name","p_global_acl").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("switch","false").add("check","true");
+		
 		area = new HiddenField(model,"area");
 		area.setLabel(gt(""));
 		area.propertie().add("name","p_area").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","area");
@@ -128,7 +128,6 @@ public class NovoMenuView extends View {
 
 
 		form_1.addField(env_fk);
-		form_1.addField(global_acl);
 		form_1.addField(action_fk);
 		form_1.addField(detalhes);
 		form_1.addField(titulo);
@@ -139,6 +138,7 @@ public class NovoMenuView extends View {
 		form_1.addField(target);
 		form_1.addField(link);
 		form_1.addField(flg_base);
+		form_1.addField(global_acl);
 		form_1.addField(area);
 		form_1.addField(img_src);
 		form_1.addField(id);
@@ -154,7 +154,6 @@ public class NovoMenuView extends View {
 	public void setModel(Model model) {
 		
 		env_fk.setValue(model);
-		global_acl.setValue(model);
 		action_fk.setValue(model);
 		detalhes.setValue(model);
 		titulo.setValue(model);
@@ -165,6 +164,7 @@ public class NovoMenuView extends View {
 		target.setValue(model);
 		link.setValue(model);
 		flg_base.setValue(model);
+		global_acl.setValue(model);
 		area.setValue(model);
 		img_src.setValue(model);
 		id.setValue(model);

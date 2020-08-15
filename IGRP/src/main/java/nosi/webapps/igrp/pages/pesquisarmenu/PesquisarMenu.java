@@ -1,6 +1,5 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
-
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -9,15 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PesquisarMenu extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
+
 	@RParam(rParamName = "p_id_app")
 	private int id_app;
-	
-	@RParam(rParamName = "p_link_doc")
-	private String link_doc;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -48,25 +47,17 @@ public class PesquisarMenu extends Model{
 	public int getId_app(){
 		return this.id_app;
 	}
-	
-	public String getLink_doc() {
-		return link_doc;
-	}
-	public void setLink_doc(String link_doc) {
-		this.link_doc = link_doc;
-	}
-
 
 
 	public static class Table_1 extends IGRPTable.Table{
 		private String t1_menu_principal;
-		private Integer ativo;
-		private Integer ativo_check;
+		private int ativo;
+		private int ativo_check;
 		private Integer ordem;
 		private String table_titulo;
 		private String pagina;
-		private Integer checkbox;
-		private Integer checkbox_check;
+		private int checkbox;
+		private int checkbox_check;
 		private String id;
 		public void setT1_menu_principal(String t1_menu_principal){
 			this.t1_menu_principal = t1_menu_principal;
@@ -75,16 +66,16 @@ public class PesquisarMenu extends Model{
 			return this.t1_menu_principal;
 		}
 
-		public void setAtivo(Integer ativo){
+		public void setAtivo(int ativo){
 			this.ativo = ativo;
 		}
-		public Integer getAtivo(){
+		public int getAtivo(){
 			return this.ativo;
 		}
-		public void setAtivo_check(Integer ativo_check){
+		public void setAtivo_check(int ativo_check){
 			this.ativo_check = ativo_check;
 		}
-		public Integer getAtivo_check(){
+		public int getAtivo_check(){
 			return this.ativo_check;
 		}
 
@@ -109,16 +100,16 @@ public class PesquisarMenu extends Model{
 			return this.pagina;
 		}
 
-		public void setCheckbox(Integer checkbox){
+		public void setCheckbox(int checkbox){
 			this.checkbox = checkbox;
 		}
-		public Integer getCheckbox(){
+		public int getCheckbox(){
 			return this.checkbox;
 		}
-		public void setCheckbox_check(Integer checkbox_check){
+		public void setCheckbox_check(int checkbox_check){
 			this.checkbox_check = checkbox_check;
 		}
-		public Integer getCheckbox_check(){
+		public int getCheckbox_check(){
 			return this.checkbox_check;
 		}
 
