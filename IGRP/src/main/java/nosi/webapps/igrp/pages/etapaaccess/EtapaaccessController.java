@@ -246,7 +246,7 @@ public class EtapaaccessController extends Controller {
 						t.setId_check(t.getId());
 					}
 				}
-				t.setDescricao(task.getProcessDefinitionId() + " - " + task.getName());
+				t.setDescricao(Core.getSwitchNotNullValue(task.getProcessDefinitionKey(),task.getProcessDefinitionId()) + " - " + task.getName());
 				t.setProcessid(task.getProcessDefinitionId());
 				table.add(t);
 			});

@@ -438,6 +438,8 @@ public class TaskServiceRest extends GenericActivitiRest {
 							&& listTasks.getProcess().get(0).getStartEventObject().get(0) != null) {
 						TaskService t = new TaskService();
 						t.setProcessDefinitionId(listTasks.getProcess().get(0).getId());
+						if(Core.isNotNull(listTasks.getProcess().get(0).getName()))
+							t.setProcessDefinifionKey(listTasks.getProcess().get(0).getName());
 						t.setId("Start" + t.getProcessDefinitionId());
 						t.setTaskDefinitionKey("Start" + t.getProcessDefinitionId());
 						t.setName("Start");
@@ -452,6 +454,8 @@ public class TaskServiceRest extends GenericActivitiRest {
 							t.setName(task.getName());
 							t.setFormKey(task.getFormKey());
 							t.setProcessDefinitionId(listTasks.getProcess().get(0).getId());
+							if(Core.isNotNull(listTasks.getProcess().get(0).getName()))
+								t.setProcessDefinifionKey(listTasks.getProcess().get(0).getName());
 							list.add(t);
 						}
 					}
@@ -462,7 +466,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 							t.setName(task.getName());
 							t.setTaskDefinitionKey(task.getId());
 							t.setFormKey(task.getFormKey());
-							t.setProcessDefinitionId(listTasks.getProcess().get(0).getSubProcess().getId());
+							t.setProcessDefinitionId(listTasks.getProcess().get(0).getSubProcess().getId());							
 							list.add(t);
 						}
 					}
