@@ -90,7 +90,7 @@ public class EtapaaccessController extends Controller {
 		}
 		
 		if(type.compareTo("user")==0) {
-			user = new User().find().andWhere("email", "=",userEmail).one();
+			user = Core.findUserByEmail(userEmail);
 			this.removeOldInserts(type, user.getId(), unChekedIds);	
 		}else {
 			this.removeOldInserts(type, orgProfId, unChekedIds);	
@@ -126,7 +126,7 @@ public class EtapaaccessController extends Controller {
 			}			
 			ProfileType prof = null;
 			if("prof".compareTo(type)==0 || "user".compareTo(type)==0) {
-				prof = new ProfileType().findOne(orgProfId);
+				prof = Core.findProfileById(orgProfId);
 			}
 			for(String id : chekedIds) {
 				String[] taskProcess = id.split(separator);
@@ -143,17 +143,7 @@ public class EtapaaccessController extends Controller {
 						taskAux = taskAux.andWhere("organization", "=", org).one(); 
 						if(taskAux == null) {
 							task.setOrganization(org);
-							if(r = task.insert() != null) {
-								org.getProfilesType().forEach(proftype->{
-									TaskAccess taskP = new TaskAccess();
-									taskP.setProcessName(taskProcess[1]);
-									taskP.setTaskName(taskProcess[0]);
-									taskP.setTaskDescription(taskProcess[2]);
-									taskP.setOrganization(proftype.getOrganization());
-									taskP.setProfileType(proftype);
-									taskP.insert();
-								});
-							}
+							r = task.insert() != null;
 						}
 					}
 					if("prof".compareTo(type)==0) {
@@ -240,13 +230,13 @@ public class EtapaaccessController extends Controller {
 			 
 			list.stream().forEach(task->{
 				Table_1 t = new Table_1();
-				t.setId(task.getTaskDefinitionKey()+separator+task.getProcessDefinitionId()+separator+task.getProcessDefinitionId() + " - " + task.getName());
+				t.setId(task.getTaskDefinitionKey()+separator+task.getProcessDefinitionId()+separator+Core.getSwitchNotNullValue(task.getProcessDefinitionKey(),task.getProcessDefinitionId()) + " - " + task.getName()+" ("+task.getProcessDefinitionId()+")");
 				if(listExist!=null) {
 					if(!listExist.stream().filter(c->c.getProcessName().compareTo(task.getProcessDefinitionId())==0).filter(c->c.getTaskName().compareTo(task.getTaskDefinitionKey())==0).collect(Collectors.toList()).isEmpty()) {
 						t.setId_check(t.getId());
 					}
 				}
-				t.setDescricao(Core.getSwitchNotNullValue(task.getProcessDefinitionKey(),task.getProcessDefinitionId()) + " - " + task.getName());
+				t.setDescricao(Core.getSwitchNotNullValue(task.getProcessDefinitionKey(),task.getProcessDefinitionId()) + " - " + task.getName()+" ("+task.getProcessDefinitionId()+")");
 				t.setProcessid(task.getProcessDefinitionId());
 				table.add(t);
 			});
