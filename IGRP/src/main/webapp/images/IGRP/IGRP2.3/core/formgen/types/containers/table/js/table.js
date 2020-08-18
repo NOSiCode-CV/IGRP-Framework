@@ -686,7 +686,7 @@ var GENTABLE = function(name,params){
 
 		container.GET.fields().forEach(function(f){
 			
-			if($.inArray(f.type,container.reject) === -1 && f.GET.tag() != container.GET.tag()+'_filter'){
+			if($.inArray(f.type,container.reject) === -1 && f.GET.tag() != container.GET.tag()+'_filter' && f.type != 'hidden'){
 				
 				var fValue = container.GET.path()+"/table/value/row[@total='yes']/"+f.GET.tag(),
 				

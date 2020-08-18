@@ -844,25 +844,50 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 						if (wrapper) {
 							
-							$.each($('option', wrapper), function(z, o) {
-								
-								var selected = $(o).attr('selected') ? true : false;
-								
-								options.push({
-									text: $('text', o).text(),
-									value: $('value', o).text(),
-									selected: selected
+							var elementType = $.IGRP.utils.getType($(':input',f));
+							
+							if(elementType == 'select'){
+							
+								$.each($('option', wrapper), function(z, o) {
+									
+									var selected = $(o).attr('selected') ? true : false;
+									
+									options.push({
+										text: $('text', o).text(),
+										value: $('value', o).text(),
+										selected: selected
+									});
+									
 								});
 								
-							});
-							
-							$.IGRP.components.select2.setOptions({
-								select : $('select', f),
-								options: options,
-								isRules: true
-							});
+								$.IGRP.components.select2.setOptions({
+									select : $('select', f),
+									options: options,
+									isRules: true
+								});
+								
+							}else{
+								
+								var holderGroup = $('.form-group',f),
+									cloneGroup 	= $('.'+elementType,holderGroup).first().clone(!0);
+
+								$('.'+elementType,holderGroup).remove();
+								
+								$.each($('option',wrapper),function(z,o){
+									var group = cloneGroup.clone(!0),
+									 	label = $('text',o).text();
+									
+									$('input',$(group)).attr({
+										value: $('value',o).text(),
+										label: label
+									});
+
+									$('span',$(group)).html(label);
+
+									holderGroup.append($(group));
+								});							
+							}
 						}
-						
 					});
 					
 					if($(list).find('messages message')[0])
