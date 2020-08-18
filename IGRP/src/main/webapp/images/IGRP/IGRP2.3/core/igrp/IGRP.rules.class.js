@@ -846,7 +846,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 							
 							var elementType = $.IGRP.utils.getType($(':input',f));
 							
-							if(type == 'select'){
+							if(elementType == 'select'){
 							
 								$.each($('option', wrapper), function(z, o) {
 									
