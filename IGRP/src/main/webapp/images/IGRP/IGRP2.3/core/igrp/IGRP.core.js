@@ -301,9 +301,14 @@
 						break;
 							
 						case 'textarea':
-						case 'plaintext':
 							
 							formElement.text(value).val(value);
+							
+						break;
+						
+						case 'plaintext':
+							
+							formElement.html(value);
 							
 						break;
 						
