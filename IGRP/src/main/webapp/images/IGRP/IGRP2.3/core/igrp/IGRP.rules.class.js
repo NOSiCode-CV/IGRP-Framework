@@ -873,7 +873,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 								$('.'+elementType,holderGroup).remove();
 								
-								$.each($('option',list),function(z,o){
+								$.each($('option',wrapper),function(z,o){
 									var group = cloneGroup.clone(!0),
 									 	label = $('text',o).text();
 									
