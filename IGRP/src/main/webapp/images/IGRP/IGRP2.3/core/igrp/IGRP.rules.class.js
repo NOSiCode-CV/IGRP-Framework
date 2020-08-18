@@ -869,9 +869,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 							}else{
 								
 								var holderGroup = $('.form-group',f),
-									cloneGroup 	= $('.'+type,holderGroup).first().clone(!0);
+									cloneGroup 	= $('.'+elementType,holderGroup).first().clone(!0);
 
-								$('.'+type,holderGroup).remove();
+								$('.'+elementType,holderGroup).remove();
 								
 								$.each($('option',list),function(z,o){
 									var group = cloneGroup.clone(!0),
