@@ -31,7 +31,7 @@ public class GlobalAcl extends PdexServiceTemplate{
 	
 	public List<PermissionAcl> permissionAcl(){
 		List<PermissionAcl> acls = new ArrayList<PermissionAcl>(); 
-		if(instanceName == null || instanceName.isEmpty() || appCode == null || appCode.isEmpty() || url == null || url.isEmpty() || !ping(url, DEFAULT_TIMEOUT) || token == null || token.isEmpty()) 
+		if(instanceName == null || instanceName.isEmpty() || appCode == null || appCode.isEmpty() || url == null || url.isEmpty() || token == null || token.isEmpty()) 
 			return acls; 
 		url += "/permissionAcl?instance_id=" + this.instanceName + "&code=" + this.appCode  + "&type=" + type; 
 		Client client = ClientBuilder.newClient(); 
