@@ -1,12 +1,13 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
 import nosi.core.webapp.Controller;
-
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.activit.rest.business.ProcessInstanceIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
@@ -37,8 +38,7 @@ import org.json.JSONObject;
 import static nosi.core.i18n.Translator.gt; 
 /*----#end-code----*/
 		
-public class PesquisarMenuController extends Controller { 
-	
+public class PesquisarMenuController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
@@ -47,7 +47,7 @@ public class PesquisarMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Sit anim consectetur sed elit doloremque accusantium doloremque stract ipsum natus accusantium strac' as t1_menu_principal,'1' as ativo,'1' as ordem,'Anim natus unde sed iste lorem omnis lorem sit ut voluptatem elit laudantium consectetur omnis rem m' as table_titulo,'Voluptatem lorem doloremque voluptatem aperiam voluptatem laudantium ut aperiam deserunt omnis volup' as pagina,'1' as checkbox,'hidden-5145_d428' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Amet dolor laudantium unde aperiam rem elit ut totam accusantium unde magna ut deserunt natus ut ame' as t1_menu_principal,'1' as ativo,'29' as ordem,'Amet officia natus elit stract rem lorem aliqua sed lorem doloremque rem iste voluptatem totam molli' as table_titulo,'Ut labore aperiam totam aliqua adipiscing natus iste anim sed unde labore deserunt mollit sit adipis' as pagina,'1' as checkbox,'hidden-183f_b8d3' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -143,9 +143,11 @@ public class PesquisarMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(btn_novo)----*/
 		this.addQueryString("p_app", Core.getParam("p_aplicacao"));
 		return this.redirect("igrp", "NovoMenu", "index", this.queryString());
@@ -159,9 +161,11 @@ public class PesquisarMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","PesquisarMenu","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(editar)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
@@ -179,9 +183,11 @@ public class PesquisarMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","PesquisarMenu","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		int id = Core.getParamInt("p_id");
 		Menu menu_db = new Menu();
@@ -196,6 +202,8 @@ public class PesquisarMenuController extends Controller {
 			
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 
 	// Menu list I have access to 
@@ -347,19 +355,21 @@ public class PesquisarMenuController extends Controller {
 		this.format = Response.FORMAT_XML;
 		return this.renderView(topMenu.toString());
 	}
-
+	
+	  
 	public Response actionChangeStatus()
 			throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
 
 		this.format = Response.FORMAT_JSON;
-		String id = Core.getParam("p_id");
-		String status = Core.getParam("p_status");
+		Integer id = Core.getParamInt("p_id");
+		String status = Core.getParam("p_ativo_check");
 		boolean response = false;
-		if (Core.isNotNull(id)) {
-			Menu menu = new Menu().findOne(Integer.parseInt(id));
+		if (Core.isNotNullOrZero(id)) {
+			Menu menu = new Menu().findOne(id);
 			if (menu != null) {
-				menu.setStatus(Integer.parseInt(status));
-				if (menu.update() != null)
+				menu.setStatus(status.equals("true")?1:0);
+				menu=menu.update();
+				if (!menu.hasError())
 					response = true;
 			}
 		}

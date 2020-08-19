@@ -308,7 +308,7 @@
 						
 						case 'plaintext':
 							
-							formElement.html(value);
+							$('div[item-name="'+tag+'"]').html($.IGRP.utils.htmlDecode(value));
 							
 						break;
 						
