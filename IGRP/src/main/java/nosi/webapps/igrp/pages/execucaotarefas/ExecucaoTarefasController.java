@@ -589,7 +589,7 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 			taskServiceBO.addFilterUrl("finished", status);
 		}
 		if (Core.isNotNull(prioridade)) {
-			taskServiceBO.addFilterUrl("taskPriority", prioridade);
+			taskServiceBO.addFilterUrl("priority", prioridade);
 		}
 		List<TaskService> tasks = null;
 		switch (type) {
