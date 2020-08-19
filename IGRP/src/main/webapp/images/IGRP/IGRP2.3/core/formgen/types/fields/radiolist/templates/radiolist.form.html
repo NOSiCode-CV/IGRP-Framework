@@ -2,7 +2,7 @@
   <div class="form-group radiolist clear" #[required]#>
      <label>#label.val#</label>
         <xsl:for-each select="#list.path#/option">
-            <div class="radio col-md-#[child_size]#">
+            <div class="radio radiolist col-md-#[child_size]#">
                 <label style="font-weight: normal !important;" class="container-box"> <span><xsl:value-of select="text"/></span>
                     <input #[required]# type="radio" name="{../../@name}" value="{value}" class="radiolist #[change]#" label="{text}">
                         <xsl:call-template name="setAttributes">
