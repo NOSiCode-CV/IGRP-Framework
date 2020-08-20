@@ -10,8 +10,7 @@ import nosi.core.webapp.Response;
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.config.ConfigDBIGRP;
-import nosi.core.webapp.helpers.ReflectionHelper;
-import nosi.core.webapp.ReportKey;
+
 import java.io.File;
 
 import nosi.core.webapp.bpmn.BPMNConstants;
@@ -414,7 +413,7 @@ public class WebReportController extends Controller {
 	private String getCurrentTaskId() {
 		String[] nameArray = Core.getParamArray("name_array");
 		String[] valueArray = Core.getParamArray("value_array");
-		if(nameArray != null && valueArray != null && nameArray.length > 0 && valueArray.length > 0) {
+		if(nameArray.length > 0 && valueArray.length > 0) {
 			for(int i=0;i<nameArray.length;i++) {
 				if(nameArray[i].equalsIgnoreCase(BPMNConstants.PRM_TASK_ID)) {
 					return valueArray[i];
@@ -460,32 +459,12 @@ public class WebReportController extends Controller {
 	 */
 	private String genXml(String contentXml,RepTemplate rt,int type){
 		String contra_prova = GUIDGenerator.getGUIDUpperCase();
-		String packageFind = "nosi.webapps."+rt.getApplication().getDad().toLowerCase();
-		List<Class<?>> allClasses = ReflectionHelper.findClassesByInterface(ReportKey.class,packageFind);
-		if(allClasses != null) {
-			for(Class<?> c:allClasses) {
-				try {
-					Core.setAttribute("current_app_conn", rt.getApplication().getDad());
-					ReportKey key = (ReportKey) c.newInstance();
-					contra_prova = key.getKeyGenerate();
-				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}	
-				break;
-			}
-		}
 		User user = null;
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){
 			user = new User();
 			Integer user_id = Core.getCurrentUser().getId();			
 			user = user.findOne(user_id);
 		}		
-		
-		
 		String content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replaceAll("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contra_prova, rt,user);
 		if(type==1){
 //			Saves in the clob a report generated in this moment
