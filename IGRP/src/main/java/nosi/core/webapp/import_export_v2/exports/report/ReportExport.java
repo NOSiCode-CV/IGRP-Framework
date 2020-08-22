@@ -97,7 +97,7 @@ public class ReportExport implements IExport{
 				}
 					
 				e.setDad(s.getRepSource().getApplication().getDad());
-				e.setConnection_name_identify(s.getRepSource().getConfig_env()!=null?s.getRepSource().getConfig_env().getConnection_identify():"");
+				e.setConnection_name_identify(s.getRepSource().getConfig_env()!=null?s.getRepSource().getConfig_env().getName():"");
 				list.add(e);
 			});
 		}
