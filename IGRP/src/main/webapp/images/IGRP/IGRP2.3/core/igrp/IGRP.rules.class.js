@@ -882,7 +882,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 										label: label
 									});
 
-									$('span',$(group)).html(label);
+									$('span:not(.radiomark)',$(group)).html(label);
 
 									holderGroup.append($(group));
 								});							
