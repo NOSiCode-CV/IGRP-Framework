@@ -222,9 +222,6 @@
                 </item>
             </tools-bar>
         </form_4>
-        <box_1 type="box" xml-type="form" title="" gen-type="container" gen-group="">
-            <fields/>
-        </box_1>
         <form_5 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <aplicacao_combo_img name="p_aplicacao_combo_img" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
@@ -249,14 +246,9 @@
                         </option>
                     </list>
                 </aplicacao_combo_img>
-                <imagens name="p_imagens" type="file" accept="image/*" targetrend="" multiple="true" rendvalue="false" maxlength="250" required="true" disabled="false" right="false" class="purple">
-                    <label>Imagens</label>
-                    <value/>
-                </imagens>
-                <tipo name="p_tipo" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="int">
-                    <label>Tipo</label>
+                <tipo name="p_tipo" type="radiolist" domain="" maxlength="250" required="true" change="false" readonly="false" disabled="false" child_size="4" right="false" java-type="int">
+                    <label>Tipo / Localização</label>
                     <list>
-                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -274,15 +266,14 @@
                             <value>4</value>
                         </option>
                     </list>
-                    <validations>
-                        <validation>
-                            <annotation>@NotNull</annotation>
-                        </validation>
-                    </validations>
                 </tipo>
-                <form_5_link_1 name="p_form_5_link_1" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaEnv" app="igrp_studio" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="250" placeholder="" desclabel="false" right="false" adbcli="">
+                <imagens name="p_imagens" type="file" accept="image/*" targetrend="" multiple="true" rendvalue="false" maxlength="250" required="true" disabled="false" right="false" class="purple">
+                    <label>Imagens</label>
+                    <value/>
+                </imagens>
+                <form_5_link_1 name="p_form_5_link_1" type="plaintext" clear="false" disable_output_escaping="false" html_class="" maxlength="250" right="true">
                     <label>Link</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</value>
+                    <value>Sed sit amet iste labore sit sit accusantium aliqua officia consectetur voluptatem anim adipiscing totam sit natus laudantium perspiciatis officia sit aliqua magna officia mollit</value>
                 </form_5_link_1>
             </fields>
             <tools-bar>
@@ -298,6 +289,9 @@
                 </item>
             </tools-bar>
         </form_5>
+        <box_1 type="box" xml-type="form" title="" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
         <sectionheader_3 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_3_text type="text" name="p_sectionheader_3_text" persist="true" maxlength="4000">
