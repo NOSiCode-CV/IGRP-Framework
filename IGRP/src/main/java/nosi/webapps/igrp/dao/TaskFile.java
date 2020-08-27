@@ -39,7 +39,7 @@ public class TaskFile extends IGRPBaseActiveRecord<TaskFile> implements Serializ
 	@JoinColumn(name="tipo_documento_etapa_fk",foreignKey=@ForeignKey(name="TIPO_DOCUMENTO_ETAPA_CLOB_FK"),nullable=false)
 	private TipoDocumentoEtapa tipo_doc_task;
 
-	@Column(name="task_id",nullable=false,length=20)
+	@Column(name="task_id",nullable=false,length=255)
 	private String taskId;
 	
 	private String estado = "A"; // A -> Ativo; I -> InAtivo  
