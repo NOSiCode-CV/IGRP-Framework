@@ -1682,7 +1682,6 @@ $(function ($) {
 
 		$.WR.utils = {
 			getContentPositon : function(pos){
-				console.log(pos);
 				return isNaN(pos+1) ? "@uuid='"+pos+"'" : 'position()='+pos;
 			}
 		};
@@ -1694,7 +1693,7 @@ $(function ($) {
 			CKEDITOR.config.forcePasteAsPlainText = true;
 			CKEDITOR.config.toolbarCanCollapse = false;
 			CKEDITOR.config.height = h - parseInt(h/3 + 30);
-
+			
 			$.WR.editor.instanceReady();
 
 			$.WR.document.init();
