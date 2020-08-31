@@ -3,6 +3,8 @@ package nosi.webapps.igrp_studio.pages.importarquivo;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
+
+import java.io.File;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -11,10 +13,9 @@ import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.util.Collection;
 import java.util.Map;
-import java.io.File;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-import org.apache.commons.lang3.StringUtils;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.export.app.ImportAppJava;
 import nosi.core.webapp.export.app.ImportJavaPage;
@@ -34,6 +35,7 @@ public class ImportArquivoController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ImportArquivo model = new ImportArquivo();
 		model.load();
+		model.setForm_5_link_1("igrp_studio","ListaEnv","index");
 		ImportArquivoView view = new ImportArquivoView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -46,11 +48,8 @@ public class ImportArquivoController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
-      	view.tipo.setQuery(Core.query(null,"SELECT '2' as ID,'Image asset' as NAME union all SELECT '1' as ID,'Icon App' as NAME union all  SELECT '3' as ID,'[Report] Image' as NAME"));
-      	if(Core.isNullOrZero(model.getTipo()))
-      		model.setTipo(2);
-      	
-      //	model.getForm_5_link_1_desc()
+      	view.tipo.setQuery(Core.query(null,"SELECT '1' as ID,'App (Ícone)' as NAME union all SELECT '2' as ID,'App (Imagem)' as NAME union all SELECT '3' as ID,'Report (Imagem)' as NAME"), "--- Selecionar ---");
+      
       	view.list_aplicacao.setValue(new Application().getListApps());	
 		view.aplicacao_script.setValue(new Application().getListApps());
 		view.aplicacao_combo_img.setValue(new Application().getListApps());   
@@ -246,11 +245,9 @@ public class ImportArquivoController extends Controller {
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
            String dad = Core.getCurrentDad();    
           this.addQueryString("p_env_fk",model.getAplicacao_combo_img());
-          this.addQueryString("p_tipo",model.getTipo());
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) 
           	model.setAplicacao_combo_img(""+(Core.findApplicationByDad(dad)).getId());  
-			
-		try {
+			try {
 				Collection<Part> parts = Core.getFiles();
 				boolean imported = false;
              
@@ -262,9 +259,9 @@ public class ImportArquivoController extends Controller {
 							int index = fileName.lastIndexOf(".");
 							if(index!=-1) { 
 								String extensionName = fileName.substring(index+1); 
-								String appImgPath = application.getDad();
-                              	if(model.getTipo() != 1){                               		
+                              	if(model.getTipo() != 1){ 
                               		
+                              		String appImgPath = application.getDad();
                               		if(model.getTipo() == 3) 
                               			appImgPath += File.separator + "reports"; 
                               		String imgWorkSapce = Path.getImageWorkSpace(appImgPath);
@@ -273,17 +270,18 @@ public class ImportArquivoController extends Controller {
                                   if(Core.isNotNull(imgWorkSapce)) 
 									imported = FileHelper.saveImage(imgWorkSapce, fileName,extensionName.toLowerCase(), part);
                                   //Saving into server
-								 imported = FileHelper.saveImage(Path.getImageServer(appImgPath), fileName,extensionName.toLowerCase(), part);								
-								 this.addQueryString("p_form_5_link_1","../images/IGRP/IGRP2.3/assets/img/"+appImgPath.replaceAll("\\\\","/")+"/"+fileName+"\n");		 
+								 imported = FileHelper.saveImage(Path.getImageServer(appImgPath), fileName,extensionName.toLowerCase(), part);
+								 this.addQueryString("p_form_5_link_1",imgWorkSapce);
+								 this.addQueryString("p_form_5_link_1_desc",imgWorkSapce);
+									 
                               	}else{
                                   String imgWorkSapce1 = Path.getImageWorkSpace("iconApp");
                                   if(Core.isNotNull(imgWorkSapce1))//Saving in your workspace case exists
 									imported = FileHelper.saveImage(imgWorkSapce1, fileName,extensionName.toLowerCase(), part);
                                   imported = FileHelper.saveImage(Path.getImageServer("iconApp"), fileName,extensionName.toLowerCase(), part);    
-                               
-                         
-                              	}	                              	
-                 
+                                }	
+                              	
+                              	
 							}
 						}
 					}
