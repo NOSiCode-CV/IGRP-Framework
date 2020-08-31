@@ -11,18 +11,17 @@ public final class I18nFactory {
 
 	private I18nFactory() {}
 	
-	public static I18n createI18n(String name, String l) { //  
-		try {
-			String []aux = l.split("_");
-			Locale locale = new Locale(aux[0], aux[1]);
-			ResourceBundle bundle = ResourceBundle.getBundle(I18nManager.defaultPath, locale);			
-			I18n i18n = new I18n(name, bundle);
-			
-			return i18n;
-			
-		}catch(Exception e) { // MissingResourceException 
-			e.printStackTrace();
+	public static I18n createI18n(String name, Locale locale) {  
+		I18n i18n = null; 
+		try {	
+			i18n = new I18n(ResourceBundle.getBundle(name, locale)); 
+		}catch(Exception e) { 
+			try {
+				i18n = new I18n(ResourceBundle.getBundle(I18nManager.DEFAULT_CORE_BUNDLE_NAME, locale)); 
+			} catch (Exception e2) {
+				// e.printStackTrace(); 
+			}
 		}
-		return null;
+		return i18n;
 	}
 }
