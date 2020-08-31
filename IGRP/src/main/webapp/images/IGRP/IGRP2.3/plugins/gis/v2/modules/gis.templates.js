@@ -171,7 +171,7 @@
 			},
 			
 			selectionMenu : function(item, params){
-				
+
 				var r = '',
 				
 					target = item.target || '_blank',
@@ -180,7 +180,7 @@
 				
 					icon   = '<div class="icon-item-holder"><i class="fa fa-lg ' + fa  + '"></i></div>',
 										
-					url      = item.url ? item.url + L.Util.getParamString(params, item.url, false) : '#';			
+					url    = item.url ? item.url + (Object.keys(params).length > 0  ? L.Util.getParamString(params, item.url, false) : '') : '#';			
 		
 				r += '<a href="' +url+ '" class="list-group-item list-group-item-action text-decoration-none" target="'+target+'">'+
 						icon + '<span class="">'+item.label+'</span>' +

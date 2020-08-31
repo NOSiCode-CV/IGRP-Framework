@@ -31,6 +31,19 @@
 			
 			return params;
 		}
+		
+		function toIGRPParam(pParams){
+	
+			var res = '';
+			
+			for (var key in pParams){
+				
+				res += (res ? '|' : '') + key + ':' + pParams[key];
+					
+			}
+			
+			return {p_param : res};
+		}
 				
 		function SetWindowContent(menu, feature){
 						
@@ -41,6 +54,10 @@
 			menu.forEach(function(item){
 				
 				var params = getParamenters(item, properties);
+				
+				if(item.type && item.type == 'IGRP')
+					
+					params = toIGRPParam(params);
 									
 				content += Templates.Widgets.selectionMenu( item, params );
 			
