@@ -10,25 +10,21 @@ import nosi.core.webapp.Response;
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.config.ConfigDBIGRP;
-
 import java.io.File;
-
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Report;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.helpers.GUIDGenerator;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
@@ -378,24 +374,26 @@ public class WebReportController extends Controller {
 	}
 
 	private String getDataForPage(RepTemplateSource rep) {
-		Action ac = new Action().findOne(rep.getRepSource().getType_fk());
-		if(ac!=null){
-			String actionName = "";
-			for(String aux : ac.getAction().split("-"))
-				actionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-			actionName = "action" + actionName;
-			Core.setAttribute("current_app_conn", ac.getApplication().getDad());			
-			String controllerPath = this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction());			
-			Object ob = Page.loadPage(controllerPath,actionName);
-			Core.removeAttribute("current_app_conn");
-			if(ob!=null){
-				Response resp = (Response) ob;
-				String content = resp.getContent();
-				int start = content.indexOf("<content");
-				int end = content.indexOf("</rows>");
-				content = (start!=-1 && end!=-1)?content.substring(start,end):"";
-				content = content.replace("<content", "<content uuid=\""+rep.getRepSource().getSource_identify()+"\"");
-				return content;
+		if(rep.getRepSource().getType_fk() != null) {
+			Action ac = new Action().findOne(rep.getRepSource().getType_fk());
+			if(ac!=null){
+				String actionName = "";
+				for(String aux : ac.getAction().split("-"))
+					actionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+				actionName = "action" + actionName;
+				Core.setAttribute("current_app_conn", ac.getApplication().getDad());			
+				String controllerPath = this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction());			
+				Object ob = Page.loadPage(controllerPath,actionName);
+				Core.removeAttribute("current_app_conn");
+				if(ob!=null){
+					Response resp = (Response) ob;
+					String content = resp.getContent();
+					int start = content.indexOf("<content");
+					int end = content.indexOf("</rows>");
+					content = (start!=-1 && end!=-1)?content.substring(start,end):"";
+					content = content.replace("<content", "<content uuid=\""+rep.getRepSource().getSource_identify()+"\"");
+					return content;
+				}
 			}
 		}
 		return "";
@@ -413,7 +411,7 @@ public class WebReportController extends Controller {
 	private String getCurrentTaskId() {
 		String[] nameArray = Core.getParamArray("name_array");
 		String[] valueArray = Core.getParamArray("value_array");
-		if(nameArray.length > 0 && valueArray.length > 0) {
+		if(Core.isNotNullMultiple(nameArray,valueArray) && nameArray.length > 0 && valueArray.length > 0) {
 			for(int i=0;i<nameArray.length;i++) {
 				if(nameArray[i].equalsIgnoreCase(BPMNConstants.PRM_TASK_ID)) {
 					return valueArray[i];
@@ -458,7 +456,9 @@ public class WebReportController extends Controller {
 	 * 
 	 */
 	private String genXml(String contentXml,RepTemplate rt,int type){
-		String contra_prova = GUIDGenerator.getGUIDUpperCase();
+		Core.setAttribute("current_app_conn", rt.getApplication().getDad());
+		String packageFind = "nosi.webapps."+rt.getApplication().getDad().toLowerCase();
+		String contra_prova = Report.getContraProva(packageFind);
 		User user = null;
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){
 			user = new User();

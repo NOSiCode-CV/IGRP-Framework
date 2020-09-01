@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
+import nosi.core.webapp.helpers.ReflectionHelper;
+import nosi.core.webapp.helpers.GUIDGenerator;
 import nosi.core.webapp.helpers.Route;
 
 /**
@@ -88,6 +89,21 @@ public class Report extends Controller{
 			});
 		}
 		return rep;
+	}
+
+	public static String getContraProva(String packageFind) {
+		List<Class<?>> allClasses = ReflectionHelper.findClassesByInterface(ReportKey.class,packageFind);
+		if(allClasses != null) {
+			for(Class<?> c:allClasses) {
+				try {
+					ReportKey key = (ReportKey) c.newInstance();
+					return key.getKeyGenerate();
+				} catch (Exception e) {
+					return  GUIDGenerator.getGUIDUpperCase();
+				}	
+			}
+		}
+		return GUIDGenerator.getGUIDUpperCase();
 	}
 	
 }
