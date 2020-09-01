@@ -2,6 +2,7 @@ package nosi.core.webapp.import_export_v2.imports.report;
 
 import java.util.List;
 import com.google.gson.reflect.TypeToken;
+
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.import_export_v2.common.serializable.report.CLobSerializable;
