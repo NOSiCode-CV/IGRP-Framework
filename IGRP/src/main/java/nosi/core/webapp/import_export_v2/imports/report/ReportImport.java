@@ -71,7 +71,8 @@ public class ReportImport extends AbstractImport implements IImport {
 					repTemplate.setDt_updated(report.getDt_updated());
 					repTemplate.setName(report.getName());
 					repTemplate.setApplication(
-					this.application != null ? this.application : new Application().findByDad(report.getDad()));
+							this.application != null ? this.application : new Application().findByDad(report.getDad()));
+					repTemplate.setUser_created(Core.getCurrentUser());
 					repTemplate.setUser_updated(Core.getCurrentUser());
 					repTemplate.setStatus(report.getStatus());
 					repTemplate.setXml_content(xml_content);
@@ -101,14 +102,12 @@ public class ReportImport extends AbstractImport implements IImport {
 
 	private void saveParamDataSource(ReportSerializable report, RepTemplate repTemplate) {
 		if (report.getSourcesReportAssoc() != null) {
-
 			deleteTemplateSource(repTemplate); 
 			report.getSourcesReportAssoc().stream().forEach(pds -> {
 				RepSource repSource = new RepSource().find().andWhere("source_identify", "=", pds.getSource()).one();
 				RepTemplateSource repTS = new RepTemplateSource().find().andWhere("repSource", "=", repSource)
 						.andWhere("repTemplate", "=", repTemplate)
 						.one();
-				if(repSource!=null) {
 				if(repTS==null) {
 					repTS = new RepTemplateSource();
 					repTS.setRepSource(repSource);
@@ -130,14 +129,12 @@ public class ReportImport extends AbstractImport implements IImport {
 						}
 					}
 				}
-				}
 			});
 		}
 	}
 
 	private void saveDataSource(ReportSerializable report) {
 		if (report.getSources() != null) {
-	
 			report.getSources().stream().forEach(source -> {
 				Config_env config = new Config_env().find()
 						.andWhere("connection_identify", "=", source.getConnection_name_identify()).one();
@@ -153,16 +150,14 @@ public class ReportImport extends AbstractImport implements IImport {
 						mapper(source, config, repSource, app);
 						repSource = repSource.insert();
 						this.addError(repSource.hasError() ? repSource.getError().get(0) : null);
-					} else {						
-						mapper(source, config, repSource, app);						
+					} else {
+						mapper(source, config, repSource, app);
 						repSource = repSource.update();
 						this.addError(repSource.hasError() ? repSource.getError().get(0) : null);
 					}
-				}else {
-								Core.setMessageError("[Report] Error importing datasource "+source.getName()+" - connection not found with connection_identify="+source.getConnection_name_identify()+". Please import this connection database. ");
-								this.addError("Import error "+source.getName()+"; ");	
 				}
-				});
+
+			});
 		}
 	}
 
