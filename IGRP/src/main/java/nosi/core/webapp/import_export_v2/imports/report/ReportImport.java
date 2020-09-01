@@ -170,16 +170,19 @@ public class ReportImport extends AbstractImport implements IImport {
 		repSource.setType_query(source.getType_query());
 		if(source.getType_name().equals("Page") && source.getType_query()!=null) {
 			String[] appPage = source.getType_query().split("::");
-			repSource.setType_fk(new Action().findByPage(appPage[1],appPage[0]).getId());
-		}else
+			Action ac = new Action().findByPage(appPage[1],appPage[0]);
+			if(ac != null)
+				repSource.setType_fk(ac.getId());
+		}else {
 			repSource.setType_fk(source.getType_fk());
-		repSource.setType_name(source.getType_name());
-		repSource.setType(source.getType());
-		repSource.setTaskid(source.getTaskid());
-		repSource.setFormkey(source.getFormkey());
-		repSource.setProcessid(source.getProcessid());
-		repSource.setStatus(source.getStatus());			
-		repSource.setUser_updated(Core.getCurrentUser());
+			repSource.setType_name(source.getType_name());
+			repSource.setType(source.getType());
+			repSource.setTaskid(source.getTaskid());
+			repSource.setFormkey(source.getFormkey());
+			repSource.setProcessid(source.getProcessid());
+			repSource.setStatus(source.getStatus());			
+			repSource.setUser_updated(Core.getCurrentUser());
+		}
 	}
 
 	private CLob getClob(CLobSerializable report, String dad) {
