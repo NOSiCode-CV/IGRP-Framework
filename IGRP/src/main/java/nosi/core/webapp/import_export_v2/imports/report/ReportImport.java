@@ -72,7 +72,7 @@ public class ReportImport extends AbstractImport implements IImport {
 					repTemplate.setName(report.getName());
 					repTemplate.setApplication(
 							this.application != null ? this.application : new Application().findByDad(report.getDad()));
-					repTemplate.setUser_created(Core.getCurrentUser());
+					
 					repTemplate.setUser_updated(Core.getCurrentUser());
 					repTemplate.setStatus(report.getStatus());
 					repTemplate.setXml_content(xml_content);
@@ -108,6 +108,7 @@ public class ReportImport extends AbstractImport implements IImport {
 				RepTemplateSource repTS = new RepTemplateSource().find().andWhere("repSource", "=", repSource)
 						.andWhere("repTemplate", "=", repTemplate)
 						.one();
+				if(repSource!=null) {
 				if(repTS==null) {
 					repTS = new RepTemplateSource();
 					repTS.setRepSource(repSource);
@@ -128,6 +129,7 @@ public class ReportImport extends AbstractImport implements IImport {
 							this.addError(param.hasError() ? param.getError().get(0) : null);
 						}
 					}
+				}
 				}
 			});
 		}
@@ -155,7 +157,10 @@ public class ReportImport extends AbstractImport implements IImport {
 						repSource = repSource.update();
 						this.addError(repSource.hasError() ? repSource.getError().get(0) : null);
 					}
-				}
+				}else {
+					Core.setMessageError("[Report] Error importing datasource "+source.getName()+" - connection not found with connection_identify="+source.getConnection_name_identify()+". Please import this connection database. ");
+					this.addError("Import error "+source.getName()+"; ");	
+	}
 
 			});
 		}
@@ -173,8 +178,8 @@ public class ReportImport extends AbstractImport implements IImport {
 			Action ac = new Action().findByPage(appPage[1],appPage[0]);
 			if(ac != null)
 				repSource.setType_fk(ac.getId());
-		}else {
-			repSource.setType_fk(source.getType_fk());
+		}else 
+				repSource.setType_fk(source.getType_fk());
 			repSource.setType_name(source.getType_name());
 			repSource.setType(source.getType());
 			repSource.setTaskid(source.getTaskid());
@@ -182,7 +187,7 @@ public class ReportImport extends AbstractImport implements IImport {
 			repSource.setProcessid(source.getProcessid());
 			repSource.setStatus(source.getStatus());			
 			repSource.setUser_updated(Core.getCurrentUser());
-		}
+		
 	}
 
 	private CLob getClob(CLobSerializable report, String dad) {
