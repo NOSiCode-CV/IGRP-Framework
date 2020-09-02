@@ -6,17 +6,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-
 import nosi.core.webapp.Core;
+import nosi.core.webapp.ReportKey;
 
 /**
- * Emanuel Pereira
- *  Jun 5, 2020
+ * cvt00957
+ * Sep 1, 2020
  */
 public class ReflectionHelper {
 
-	public static List<Class<?>> findClassesByInterface(final Class<?> interfaceClass, final String fromPackage) {
-
+	public static List<Class<?>> findClassesByInterface(Class<ReportKey> interfaceClass, String fromPackage) {
 		if (Core.isNull(interfaceClass) || Core.isNull(fromPackage)) {
 			return null;
 		}
@@ -44,15 +43,7 @@ public class ReflectionHelper {
 
 		return rVal;
 	}
-
-	/**
-	 * Load all classes from a package.
-	 * 
-	 * @param packageName
-	 * @return
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 */
+	
 	public static Class[] getAllClassesFromPackage(final String packageName)
 			throws ClassNotFoundException, IOException {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -70,15 +61,7 @@ public class ReflectionHelper {
 		}
 		return classes.toArray(new Class[classes.size()]);
 	}
-
-	/**
-	 * Find file in package.
-	 * 
-	 * @param directory
-	 * @param packageName
-	 * @return
-	 * @throws ClassNotFoundException
-	 */
+	
 	public static List<Class<?>> findClasses(File directory, String packageName) throws ClassNotFoundException {
 		List<Class<?>> classes = new ArrayList<Class<?>>();
 		if (!directory.exists()) {
@@ -96,4 +79,5 @@ public class ReflectionHelper {
 		}
 		return classes;
 	}
+
 }

@@ -189,7 +189,7 @@
                                                             <div role="form">
                                                                 <div class="row">
                                                                     <div class="form-group col-md-12  gen-fields-holder" item-name="head-wr" item-type="texteditor">
-                                                                        <div id="head-wr" name="head" class="gen-texteditor editor">
+                                                                        <div id="head-wr" name="head" contenteditable="true" class="texteditor editor">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -206,7 +206,7 @@
                                                                 <xsl:if test="rows/content/form_1/fields/report_editor">
                                                                     <div class="row">
                                                                         <div class="form-group col-md-12  gen-fields-holder" item-name="body-wr" item-type="texteditor">
-                                                                            <div id="body-wr" name="body" class="gen-texteditor editor" height="700">
+                                                                            <div id="body-wr" name="body" class="gen-texteditor editor">
                                                                             </div>
                                                                         </div>
                                                                     </div>

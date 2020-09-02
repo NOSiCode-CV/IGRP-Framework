@@ -167,7 +167,7 @@ form [item-type="plaintext"]{
     color: white;
     padding-left: 3px;
     padding-right: 3px;
-    z-index: 3;
+    z-index: 1;
 }
 
 .input-group .form-validator-label {
