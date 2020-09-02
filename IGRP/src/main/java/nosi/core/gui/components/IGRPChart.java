@@ -126,7 +126,7 @@ public class IGRPChart extends IGRPComponent{
 		} catch (Exception e) {
 			Core.log("ERROR:" + e.getLocalizedMessage());
 			e.printStackTrace();
-		}
+		}		
 		this.xml.endElement();
 		return this.xml.toString();
 	}
@@ -290,6 +290,21 @@ public class IGRPChart extends IGRPComponent{
 			this.xml.setElement("col",l);
 		});	
 		this.xml.endElement();
+		generateColors(labels.size());
+	}
+	
+	private void generateColors(int countlabels) {
+		if(colors.size()>0 && countlabels>0) {
+			this.xml.startElement("colors");			
+			for(int i=0;i<countlabels/colors.size()+1;i++) {
+				this.colors.stream().forEach(l->{
+					this.xml.setElement("col",l);
+				});	
+			}
+			
+			this.xml.endElement();
+		}
+		
 	}
 	
 	public void loadQuery(BaseQueryInterface query) {
