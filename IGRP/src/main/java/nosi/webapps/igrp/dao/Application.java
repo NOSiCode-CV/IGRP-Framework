@@ -344,14 +344,10 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 	
 	public List<Profile> getMyAppByEmail(String email) {
-		System.out.println("p_uid(email): " + email); 
 		List<Profile> list = new Profile().find()
 				.andWhere("type", "=", "ENV")
 				.andWhere("user.email", "=", email)
 				.andWhere("type_fk", ">", 1).all();
-		
-		System.out.println("p.size(): " + list.size()); 
-		
 		if(list!=null && !list.isEmpty()) {
 			list=list.stream() 
 				.filter(distinctByKey(p -> p.getType_fk())) 
@@ -360,6 +356,30 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 			return list;
 		}
 		return null;
+	}
+	
+	public List<Profile> getAllProfile(String dad) {
+		List<Profile> list = new Profile().find()
+				.andWhere("type", "=", "ENV")
+				.andWhere("type_fk", ">", 1)
+				.andWhere("organization.application.dad", "=", dad)
+				.all();
+		if(list!=null && !list.isEmpty()) {
+			list=list.stream() 
+				.filter(distinctByKey(p -> p.getType_fk())) 
+				.collect(Collectors.toList());
+			list.sort(Comparator.comparing(Profile::getType_fk));
+			return list;
+		}
+		return null;
+	}
+	
+	public List<User> getAllUsers(String dad) {
+		List<Profile> list = this.getAllProfile(dad);
+		List<User> users = null; 
+		if(list != null)
+			 users = list.stream().filter(p->p.getUser() != null && !p.getUser().getUser_name().equals("root")).map(m->m.getUser()).collect(Collectors.toList()); 
+		return users; 
 	}
 	
 	public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor)
