@@ -25,10 +25,11 @@ public class HomeController extends Controller {
 					String value = aux[1]; 
 					String context = null; 
 					String params = null; 
-					if(aux.length == 4) {
+					if(aux.length > 2) {
 						context = aux[2]; 
-						params = aux[3]; 
-					}
+						if(aux.length == 4)
+							params = aux[3];
+					}	
 					String orgCode = null;
 					String profCode = null; 
 					String page = null; 
@@ -36,12 +37,14 @@ public class HomeController extends Controller {
 					if(context != null) { 
 						String []allContext = context.split(";"); 
 						if(allContext.length > 0) { 
-							dad = allContext[0]; 
+							if(allContext[0] != null && !allContext[0].isEmpty())
+								dad = allContext[0]; 
 							if(allContext.length == 3) {
-								orgCode = allContext[1]; 
-								profCode = allContext[2]; 
+								orgCode = allContext[1] != null && !allContext[1].isEmpty() ? allContext[1] : null; 
+								profCode = allContext[2] != null && !allContext[2].isEmpty() ? allContext[2] : null; 
 								// inject session and cookie 
-								injectOrgNProf(orgCode, profCode); 
+								if(orgCode != null && profCode != null)
+									injectOrgNProf(orgCode, profCode); 
 							}
 						}
 					}
@@ -108,12 +111,18 @@ public class HomeController extends Controller {
 	} 
 	
 	private void injectOrgNProf(String orgCode, String profCode) {
-		Organization org = new Organization().find().where("code", "=", orgCode).orWhere("plsql_code", "=", orgCode).one();
-		ProfileType prof = new ProfileType().find().where("code", "=", profCode).orWhere("plsql_code", "=", profCode).one();
-		ApplicationPermition appP = new ApplicationPermition(prof.getOrganization().getApplication().getId(),
-				prof.getOrganization().getApplication().getDad(), prof.getOrganization().getId(), prof.getId(),
-				prof.getOrganization().getCode(),prof.getCode());
-		Core.addToSession(appP.getDad(), appP); 
-		new Permission().setCookie(appP); 
+		ProfileType prof = new ProfileType().find().where("code", "=", profCode).one();
+		if(prof != null) {
+			ApplicationPermition appP = new ApplicationPermition(prof.getOrganization().getApplication().getId(),
+					prof.getOrganization().getApplication().getDad(), prof.getOrganization().getId(), prof.getId(),
+					prof.getOrganization().getCode(),prof.getCode());
+			Core.addToSession(appP.getDad(), appP); 
+			new Permission().setCookie(appP); 
+		}
+	}
+	
+	public static void main(String[] args) {
+		String r = "code;jhj;po"; 
+		System.out.println(r.split(";").length);
 	}
 }

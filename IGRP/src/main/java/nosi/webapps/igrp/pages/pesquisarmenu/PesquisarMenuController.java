@@ -38,7 +38,8 @@ import org.json.JSONObject;
 import static nosi.core.i18n.Translator.gt; 
 /*----#end-code----*/
 		
-public class PesquisarMenuController extends Controller {
+public class PesquisarMenuController extends Controller { 
+	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();

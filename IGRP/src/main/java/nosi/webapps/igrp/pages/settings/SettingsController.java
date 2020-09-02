@@ -14,7 +14,6 @@ import nosi.core.webapp.Igrp;
 import java.util.HashMap;
 import javax.servlet.http.Cookie;
 import nosi.webapps.igrp.dao.ProfileType;
-import nosi.webapps.igrp.dao.User;
 import nosi.core.webapp.helpers.ApplicationPermition;
 import nosi.core.webapp.security.Permission;
 /*----#end-code----*/
@@ -33,16 +32,14 @@ public class SettingsController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
+		String showMsgSuccess = Core.getParam("showMsgSuccess"); 
+		if(showMsgSuccess != null && showMsgSuccess.equals("true")) 
+			Core.setMessageSuccess("Dados gravados com sucesso!"); 
 		
-		if(this.getConfig().getAutenticationType().equalsIgnoreCase("ldap")) {
+		if(this.getConfig().getAutenticationType().equalsIgnoreCase("ldap"))
 			view.btn_alterar_senha.setVisible(false);
-		}
-		
-		
 		
 		String ichange = Igrp.getInstance().getRequest().getParameter("ichange");
-		// String ichange = Core.getParam("ichange");
-	
 		
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			boolean success = true;
@@ -57,9 +54,8 @@ public class SettingsController extends Controller {
 						new Permission().setCookie(appP); 
 					}
 					if (Core.isNotNull(model.getIdioma())) {
-						Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(model.getIdioma());
 						Cookie cookie = new Cookie("igrp_lang", model.getIdioma());
-						cookie.setMaxAge(I18nManager.cookieExpire);
+						cookie.setMaxAge(I18nManager.COOKIE_EXPIRE);
 						Igrp.getInstance().getResponse().addCookie(cookie);
 					}
 				}catch(Exception e) {
@@ -67,8 +63,9 @@ public class SettingsController extends Controller {
 				}
 			}
 			if(success)
-				Core.setMessageSuccess("Dados gravados com sucesso!");
-			return redirect("igrp", "Settings", "index");
+				this.addQueryString("showMsgSuccess", "true"); 
+			
+			return redirect("igrp", "Settings", "index", this.queryString());
 		} 
 		// Fetch all cookies 
 		for (Cookie cookie : Igrp.getInstance().getRequest().getCookies()) {
@@ -82,12 +79,7 @@ public class SettingsController extends Controller {
 		}
 		if (Core.isNull(model.getPerfil()))
 			model.setPerfil(Core.getCurrentProfile() + "");
-		// if(Core.isNotNull(model.getOrganica()))
-		// model.setOrganica(Permission.getCurrentOrganization() + "");
-
-
-		view.btn_alterar_senha.setLink("igrp", "ChangePassword", "index&target=_blank");
-		
+			view.btn_alterar_senha.setLink("igrp", "ChangePassword", "index&target=_blank");
 		model.setNome(Core.getCurrentUser().getName());
 		model.setEmail(Core.getCurrentUser().getEmail());
 		model.setUsername(Core.getCurrentUser().getUser_name());
@@ -101,17 +93,12 @@ public class SettingsController extends Controller {
 		view.ultimo_acesso_igrp.setVisible(false);
 		view.password_expira_em.setVisible(false);
 		
-		// HashMap<String,String> organizations = new
-		// Organization().getListMyOrganizations();
-		// view.organica.setValue(organizations);
-
 		HashMap<String, String> profiles = new ProfileType().getListMyProfiles();
 		view.perfil.setValue(profiles);
 
 		HashMap<String, String> idioma = getIdiomaMap();
 		view.idioma.setValue(idioma);
 		
-	
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -128,7 +115,7 @@ public class SettingsController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(alterar_senha)----*/
-		this.addQueryString("settings","true");
+		this.addQueryString("settings","true"); 
 		/*----#end-code----*/
 		return this.redirect("igrp","ChangePassword","index", this.queryString());	
 	}
@@ -144,15 +131,12 @@ public class SettingsController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(editar_perfil)----*/
-		
 		this.addQueryString("p_id",Core.getCurrentUser().getId());
 		this.addQueryString("settings","settings");
       	return this.redirect("igrp","RegistarUtilizador","editar", this.queryString());
 		/*----#end-code----*/
 			
 	}
-	
-		
 		
 /*----#start-code(custom_actions)----*/
 	public HashMap<String, String> getIdiomaMap() {

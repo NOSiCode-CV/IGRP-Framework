@@ -95,11 +95,13 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.Domain;
+import nosi.webapps.igrp.dao.Mapping;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumento;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import nosi.webapps.igrp.dao.Transaction;
+import nosi.webapps.igrp.dao.User;
 
 /**
  * The core of the IGRP, here you can find all the main functions and helper
@@ -107,11 +109,11 @@ import nosi.webapps.igrp.dao.Transaction;
  * 
  * @author: Emanuel Pereira 13 Nov 2017
  */
-public final class Core { // Not inherit
-
-	public static class MimeType extends nosi.core.webapp.helpers.mime_type.MimeType {
-
-	}
+public final class Core { 
+	
+	private Core() {}
+	
+	public static class MimeType extends nosi.core.webapp.helpers.mime_type.MimeType {} 
 
 	public enum Cons {
 
@@ -4388,6 +4390,85 @@ public final class Core { // Not inherit
 				pDefinitionService = obj.get(); 
 		}
 		return pDefinitionService; 
+	}
+	
+	/** 
+	 * @param tipo
+	 * @param id
+	 * @param appDad
+	 * @param orgCode
+	 * @param profCode
+	 * @param params
+	 * @return stateValue 
+	 */
+	public static String buildStateValueForSsoAutentika(String tipo, String id, String appDad, String orgCode, String profCode, Map<String, String> params) {
+		String stateValue = "<TIPO>/<ID>/<APP>;<ORG>;<PROF>/<PARAM=VALUE>"; 
+		if(tipo != null && !tipo.isEmpty() && id != null && !id.isEmpty()) {
+			stateValue = stateValue.replace("<TIPO>", tipo).replace("<ID>", id); 
+			if(appDad != null && !appDad.isEmpty()) {
+				stateValue = stateValue.replace("<APP>", appDad); 
+				if(orgCode != null && !orgCode.isEmpty()) {
+					stateValue = stateValue.replace("<ORG>", orgCode);
+					if(profCode != null && !profCode.isEmpty()) 
+						stateValue = stateValue.replace("<PROF>", profCode);
+				}
+			}
+			if(params != null) {
+				String r = params.entrySet().stream().
+						filter(p->p.getKey() != null && !p.getKey().isEmpty() && p.getValue() != null && !p.getValue().isEmpty())
+						.map(m->m.getKey() + "=" + m.getValue()).collect(Collectors.joining(";"));
+				stateValue = stateValue.replace("<PARAM=VALUE>", r);
+			}
+		}
+		stateValue = stateValue.replaceAll("<[A-Z]*(=[A-Z]+)?>", ""); 
+		return stateValue; 
+	}
+	
+	/**
+	 * @param appDad 
+	 * @return Returns a List<User> otherwise returns null if no record is found 
+	 */
+	public static List<User> getUsersByApplication(String appDad){
+		return new Application().getAllUsers(appDad); 
+	}
+	
+	/**
+	 * @param dadOrigem
+	 * @param dadDestino
+	 * @param tipo
+	 * @param valorOrigem
+	 * @return valorDestino
+	 */
+	public static String getProfOrOrgMapping(String dadOrigem, String dadDestino, int tipo, String valorOrigem){ 
+		String valorDestino = null; 
+		Mapping mapping = new Mapping().find()
+				.andWhere("dadOrigem", "=", dadOrigem)
+				.andWhere("dadDestino", "=", dadDestino)
+				.andWhere("tipo", "=", tipo)
+				.andWhere("valorOrigem", "=", valorOrigem).one();
+		if(mapping != null) 
+			valorDestino = mapping.getValorDestino(); 
+		return valorDestino; 
+	}
+	
+	/**
+	 * @param url
+	 * @param tipo
+	 * @param tipoId
+	 * @param dadDestino
+	 * @param params
+	 * @return
+	 */
+	public static String getValidAutentikaUrlForSso(String url, String tipo, String tipoId, String dadDestino, Map<String, String> params) { 
+		if(url == null || url.isEmpty()) return null; 
+		String orgCode = Core.getCurrentOrganizationCode();
+		String profCode = Core.getCurrentProfileCode(); 
+		String currentDad = Core.getCurrentDad(); 
+		orgCode = Core.getProfOrOrgMapping(currentDad, dadDestino, 2, orgCode); 
+		profCode = Core.getProfOrOrgMapping(currentDad, dadDestino, 1, profCode); 
+		String stateValue = Core.buildStateValueForSsoAutentika(tipo, tipoId, dadDestino, orgCode, profCode, params); 
+		url = url.replace("state=igrp", "state=" + stateValue); 
+		return url; 
 	}
 	
 }
