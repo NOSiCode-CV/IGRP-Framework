@@ -43,7 +43,7 @@ public class BpmnImport extends AbstractImport implements IImport {
 		if(this.bpmns!=null) {
 			this.bpmns.stream().forEach(bpmn->{
 				if(this.application==null) {
-					 this.application = new Application().findByDad(bpmn.getDad());
+					 this.application = Core.findApplicationByDad(bpmn.getDad());
 				}
 				this.saveBPMN(bpmn);
 				this.savePagesBPMN(bpmn);
@@ -59,8 +59,10 @@ public class BpmnImport extends AbstractImport implements IImport {
 					String basePath = Path.getPath(this.application);
 					basePath += "process" + File.separator + bpmn.getKey().toLowerCase() + File.separator;
 					try {
-						FileHelper.save(basePath, page.getFileName(), page.getFileContent());
-						this.fileName.add(basePath+page.getFileName());
+						if(!FileHelper.save(basePath, page.getFileName(), page.getFileContent()))
+							this.addError( page.getFileName()+" has error saving");
+						else
+							this.fileName.add(basePath+page.getFileName());
 					} catch (IOException e) {
 						this.addError(e.getMessage());
 					}
