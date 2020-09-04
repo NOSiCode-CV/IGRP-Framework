@@ -27,19 +27,21 @@ public class User implements Component{
 	
 	public User(){}
 	
-	public boolean login(Identity identity, int expire){ // Make login and authenticate the user ... using session and cookies
+	public boolean login(Identity identity, int expire){ // Make login and authenticate the user ... using session and cookies(remenberMe implementation purpose) 
 		if(identity == null || identity.getAuthenticationKey() == null || identity.getAuthenticationKey().isEmpty())
 			return false;
 		try {
 			this.identity = identity;
-			this.expire = expire;
 			new Permission().changeOrgAndProfile("tutorial");
 			// Create the session context
 			JSONArray json =  new JSONArray();
 			json.put(this.identity.getIdentityId());
 			json.put(this.identity.getAuthenticationKey() + "");
-			Igrp.getInstance().getRequest().getSession(true).setAttribute("_identity-igrp", json.toString());
-			this.sendCookie(Base64.getEncoder().encodeToString(json.toString().getBytes())); //  send a cookie to the end user 
+			Igrp.getInstance().getRequest().getSession(true).setAttribute("_identity-igrp", json.toString()); 
+			if(expire > 0) { 
+				this.expire = expire;
+				this.sendCookie(Base64.getEncoder().encodeToString(json.toString().getBytes())); //  send a cookie to the end user 
+			}
 		return true;
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -93,11 +95,10 @@ public class User implements Component{
 		}
 	}
 	
-	private void sendCookie(String value) {
+	private void sendCookie(String value) { 
 		Cookie aux = new Cookie("_identity-igrp", value);
 		aux.setMaxAge(this.expire);
 		aux.setHttpOnly(true);
-		//aux.setPath("/");
 		Igrp.getInstance().getResponse().addCookie(aux);
 	}
 	

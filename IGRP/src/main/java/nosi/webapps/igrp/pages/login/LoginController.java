@@ -7,7 +7,6 @@ package nosi.webapps.igrp.pages.login;
 /*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
@@ -40,7 +39,6 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.security.Permission;
-import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -305,7 +303,7 @@ public class LoginController extends Controller {
 		if (user != null && user.validate(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256")) && userIsAuthenticatedFlag(user)) {
 			if (user.getStatus() == 1) {
 				Profile profile = new Profile().getByUser(user.getId());
-				if (profile != null && Igrp.getInstance().getUser().login(user, 60 * 60/* 1h */)) { // 3600 * 24 * 30
+				if (profile != null && Igrp.getInstance().getUser().login(user, -1)) { 
 					if (!Session.afterLogin(profile))
 						Core.setMessageError("Ooops !!! Error no registo session ...");
 					// String backUrl = Route.previous(); // remember the last url that was 
@@ -541,7 +539,7 @@ public class LoginController extends Controller {
 		if (user.getStatus() == 1) {
 			Profile profile = new Profile().getByUser(user.getId());
 			
-			if (profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30)) {
+			if (profile != null && Igrp.getInstance().getUser().login(user, -1)) {
 				if (!Session.afterLogin(profile)) {
 					result = false;
 					Core.setMessageError(gt("Ooops !!! Error no registo session. "));
@@ -587,7 +585,7 @@ public class LoginController extends Controller {
 			String endpoint = settings.getProperty("ids.wso2.oauth2.endpoint.token");
 			
 			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri");
-			String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
+			String warName = Core.getDeployedWarName();
 			redirect_uri = redirect_uri.replace("IGRP", warName);
 			
 			Form postData = new Form(); 
@@ -814,7 +812,7 @@ public class LoginController extends Controller {
 		String url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
 		if(r != null && r.equalsIgnoreCase("true") && url != null && !url.isEmpty()) {
 			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
-			String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
+			String warName = Core.getDeployedWarName(); 
 			redirect_uri = redirect_uri.replace("IGRP", warName); 
 			String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
 			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrp&redirect_uri=" + redirect_uri; 
