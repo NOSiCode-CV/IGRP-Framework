@@ -138,30 +138,30 @@ public class ReportImport extends AbstractImport implements IImport {
 	private void saveDataSource(ReportSerializable report) {
 		if (report.getSources() != null) {
 			report.getSources().stream().forEach(source -> {
-				Config_env config = new Config_env().find()
-						.andWhere("connection_identify", "=", source.getConnection_name_identify()).one();
-				if(config != null) {
-					RepSource repSource = new RepSource().find()
-							.andWhere("source_identify", "=", source.getSource_identify()).one();
-					Application app = new Application().findByDad(source.getDad());
-					if (repSource == null) {
-						repSource = new RepSource();
-						repSource.setDt_created(source.getDt_created());
-						repSource.setSource_identify(source.getSource_identify());
-						repSource.setUser_created(Core.getCurrentUser());					
-						mapper(source, config, repSource, app);
-						repSource = repSource.insert();
-						this.addError(repSource.hasError() ? repSource.getError().get(0) : null);
-					} else {
-						mapper(source, config, repSource, app);
-						repSource = repSource.update();
-						this.addError(repSource.hasError() ? repSource.getError().get(0) : null);
+				Config_env config = null;
+				if(Core.isNotNull(source.getConnection_name_identify())) {
+					config = new Config_env().find().where("name", "=", source.getConnection_name_identify())
+							.andWhere("application.dad","=",source.getDad()).one();
+					if(config == null) {
+						this.addError("Data source invalido: "+source.getConnection_name_identify());
+						return;
 					}
-				}else {
-					Core.setMessageError("[Report] Error importing datasource "+source.getName()+" - connection not found with connection_identify="+source.getConnection_name_identify()+". Please import this connection database. ");
-					this.addError("Import error "+source.getName()+"; ");	
-	}
-
+				}
+				RepSource repSource = new RepSource().find().where("source_identify", "=", source.getSource_identify()).one();
+				Application app = new Application().findByDad(source.getDad());
+				if (repSource == null) {
+					repSource = new RepSource();
+					repSource.setDt_created(source.getDt_created());
+					repSource.setSource_identify(source.getSource_identify());
+					repSource.setUser_created(Core.getCurrentUser());					
+					mapper(source, config, repSource, app);
+					repSource = repSource.insert();
+					this.addError(repSource.hasError() ? repSource.getError().get(0) : null);
+				} else {
+					mapper(source, config, repSource, app);
+					repSource = repSource.update();
+					this.addError(repSource.hasError() ? repSource.getError().get(0) : null);
+				}
 			});
 		}
 	}

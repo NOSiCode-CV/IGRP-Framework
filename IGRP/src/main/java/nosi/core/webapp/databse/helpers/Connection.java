@@ -111,33 +111,35 @@ public class Connection {
 
 	
 	public static java.sql.Connection getConnection(String driver,String url, String user, String password) {
-		java.sql.Connection conn = null;
-	    Properties connectionProps = new Properties();
-	    connectionProps.put("user", user);
-	    connectionProps.put("password", password);
-	    boolean isConnect = true;
-	    try {
-	    	Class.forName(driver); 
-			conn = DriverManager.getConnection(url,connectionProps);
-		} catch (SQLException | ClassNotFoundException e) {
-			isConnect = false;
-			Core.setMessageError(e.getMessage());
-			Core.log(e.getMessage());
-			e.printStackTrace();
+		if(Core.isNotNullMultiple(driver,url,user,password)) {
+			java.sql.Connection conn = null;
+		    Properties connectionProps = new Properties();
+		    connectionProps.put("user", user);
+		    connectionProps.put("password", password);
+		    boolean isConnect = true;
+		    try {
+		    	Class.forName(driver); 
+				conn = DriverManager.getConnection(url,connectionProps);
+			} catch (SQLException | ClassNotFoundException e) {
+				isConnect = false;
+				Core.setMessageError(e.getMessage());
+				Core.log(e.getMessage());
+				e.printStackTrace();
+			}
+		    if(isConnect)
+		    	return conn;
+		    else {
+		    	if(conn!=null) {
+		    		try {
+						conn.close();
+					} catch (SQLException e) {
+						Core.setMessageError(e.getMessage());
+						Core.log(e.getMessage());
+						e.printStackTrace();
+					}
+		    	}
+		    }
 		}
-	    if(isConnect)
-	    	return conn;
-	    else {
-	    	if(conn!=null) {
-	    		try {
-					conn.close();
-				} catch (SQLException e) {
-					Core.setMessageError(e.getMessage());
-					Core.log(e.getMessage());
-					e.printStackTrace();
-				}
-	    	}
-	    }
 	    return null;
 	}
 	
