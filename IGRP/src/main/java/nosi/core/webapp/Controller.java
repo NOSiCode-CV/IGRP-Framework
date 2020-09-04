@@ -18,8 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
 import nosi.core.exception.ServerErrorHttpException;
+import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPMessage;
 import nosi.core.gui.components.IGRPView;
+import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
@@ -28,6 +30,7 @@ import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import nosi.core.webapp.bpmn.BPMNButton;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.bpmn.BPMNHelper;
+import nosi.core.webapp.bpmn.BPMNTimeLine;
 import nosi.core.webapp.bpmn.DisplayDocmentType;
 import nosi.core.webapp.bpmn.InterfaceBPMNTask;
 import nosi.core.webapp.bpmn.RuntimeTask;
@@ -193,14 +196,23 @@ public class Controller {
 						"process-task", taskId, this.queryString).toString());
 			}
 			ViewTaskDetails details = this.getTaskDetails(taskService, taskId);
+			BPMNTimeLine bpmnTimeLine = new BPMNTimeLine();
+			xml.addXml(bpmnTimeLine.get().toString());
 			xml.addXml(this.getTaskViewDetails(details));
 			xml.addXml(content);
-			
 			xml.addXml(this.getDocument(runtimeTask, bpmn, ac, details.getUserName())); 
 			
 			if (m != null) {
 				xml.addXml(m);
 			}
+			IGRPForm formHidden = new IGRPForm("hidden_form_igrp");
+			HiddenField field = new HiddenField("env_frm_url");
+			String pageTask = "ExecucaoTarefas";
+			String value = Route.getResolveUrl("igrp",pageTask, "executar_button_minha_tarefas&prm_app=igrp&prm_page="+pageTask+"&p_id="+runtimeTask.getTask().getId());
+			field.propertie().add("value", value).add("name","p_env_frm_url").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","env_frm_url");
+			field.setValue(value);
+			formHidden.addField(field);
+			xml.addXml(formHidden.toString());
 		}
 		xml.endElement();
 		resp.setContent(xml.toString());

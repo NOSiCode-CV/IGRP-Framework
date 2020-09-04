@@ -4,35 +4,41 @@ package nosi.core.webapp.bpmn;
  * 9 Jul 2018
  */
 
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import org.activiti.bpmn.converter.BpmnXMLConverter;
+import org.activiti.bpmn.model.SequenceFlow;
+import org.activiti.bpmn.model.StartEvent;
+import org.activiti.bpmn.model.UserTask;
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.LinkField;
 import nosi.core.gui.fields.TextField;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
 import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 
 public class BPMNTimeLine {
 	private int countTask=0;
-	private String url = "";
-	private Map<String,String> tasksSQ;
+	private RuntimeTask runtimeTask;
+	private int order = 0;
+	List<TaskTimeLine> taskTimeline;
 	
 	public BPMNTimeLine() {
+		this.runtimeTask = RuntimeTask.getRuntimeTask();
 	}
 	
 	public IGRPTable get() {
-		String showTimeLine = Core.getParam("showTimeLine");
 		IGRPTable table = new IGRPTable("table");
-		if(showTimeLine.equalsIgnoreCase("true")) {
+		if(this.runtimeTask.getShowTimeLine()) {
 			table.getProperties().put("type", "workflow");
 			Field title = new TextField(null,"title");
 			Field type = new TextField(null,"type");
@@ -58,62 +64,106 @@ public class BPMNTimeLine {
 		return table;
 	}
 	
+	private void recursiveTask(List<UserTask> userTasks,Map<String,String> refs,String taskSearch) {
+		final String next = refs.get(taskSearch);
+		userTasks.stream()
+			.filter(t->(t.getId().compareTo(""+taskSearch) == 0) && next!=null)
+			.forEach(t->{
+				TaskTimeLine tt = new TaskTimeLine();
+				tt.setTaskId(t.getId());
+				tt.setName(t.getName());
+				tt.setOrder((++order));
+				taskTimeline.add(tt);
+			});
+		
+		refs.remove(taskSearch,next);
+		if(refs != null && !refs.isEmpty()) {
+			if(next!=null)
+				recursiveTask(userTasks,refs,next);
+			else {
+				String next_ = refs.entrySet().stream().findFirst().get().getKey();
+				recursiveTask(userTasks,refs,next_);
+			}
+		}
+	}
 	
-	public List<TaskTimeLine> getTasks() {
-		this.tasksSQ = new HashMap<>();
-		this.url = new Config().getResolveUrl("igrp", "Detalhes_tarefas", "index");
-		String processDefinition = Core.getParam("processDefinitionId");
-		String taskId = Core.getParam("taskId");
-		TaskService taskS = new TaskServiceIGRP().getTask(taskId);		
-		ProcessDefinitionService p = new ProcessDefinitionServiceRest().getProcessDefinition(processDefinition);
-		String link = p.getResource().replace("/resources/", "/resourcedata/");
-		String resource = new ResourceServiceRest().getResourceData(link);
+	public List<TaskTimeLine> getTasks() {		
+		this.taskTimeline = new ArrayList<>();
+		Map<String,String> tasksSQ = new HashMap<String, String>();
+		String processDefinition = runtimeTask.getTask().getProcessDefinitionId();
 		TaskServiceRest taskSQ = new TaskServiceRest();
 		taskSQ.addFilterBody("finished", "true");
 		taskSQ.addFilterBody("processDefinitionId", processDefinition);
-		if(taskS != null)
-			taskSQ.addFilterBody("executionId", taskS.getExecutionId());
+		if(taskSQ != null)
+			taskSQ.addFilterBody("executionId", runtimeTask.getTask().getExecutionId());
 		try {
-		taskSQ.queryHistoryTask()
-					    .stream()
-					    .forEach(task->{
-					    	if(this.tasksSQ.size()==0) {
-					    		this.tasksSQ.put(task.getTaskDefinitionKey(), task.getId());
-					    	}else {
-					    		if(!this.tasksSQ.containsKey(task.getTaskDefinitionKey())) {
-					    			this.tasksSQ.put(task.getTaskDefinitionKey(), task.getId());
-					    		}
-					    	}
-					    });
+			taskSQ.queryHistoryTask()
+			    .stream()
+			    .forEach(task->{
+			    	if(tasksSQ.size()==0) {
+			    		tasksSQ.put(task.getTaskDefinitionKey(), task.getId());
+			    	}else {
+			    		if(!tasksSQ.containsKey(task.getTaskDefinitionKey())) {
+			    			tasksSQ.put(task.getTaskDefinitionKey(), task.getId());
+			    		}
+			    	}
+			    });
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(resource);
-		List<TaskService> tasks = taskSQ.extractTasks(resource,false);
-		List<TaskTimeLine> list = new ArrayList<>();
-		tasks.stream().forEach(task->{
-			TaskTimeLine t = new TaskTimeLine();
-			t.setTaskId(task.getId());
-			t.setName(task.getName());
-			if(taskS!=null && task.getTaskDefinitionKey().equalsIgnoreCase(taskS.getTaskDefinitionKey())) {
-				url = "#";
-				t.setType("curent");
-			}else {
-				url +="&taskId="+this.tasksSQ.get(task.getId());//+"&backButton=true";
-				t.setType("stage");
+		ProcessDefinitionService p = new ProcessDefinitionServiceRest().getProcessDefinition(processDefinition);
+		String link = p.getResource().replace("/resources/", "/resourcedata/");	
+		String resource = new ResourceServiceRest().getResourceData(link);
+		BpmnXMLConverter bpmn = new BpmnXMLConverter();
+		XMLInputFactory xif = XMLInputFactory.newInstance();
+		try {
+			List<StartEvent> startEvent = bpmn.convertToBpmnModel(xif.createXMLStreamReader(new StringReader(resource))).getMainProcess()
+					.findFlowElementsOfType(StartEvent.class);
+			List<UserTask> userTasks = bpmn.convertToBpmnModel(xif.createXMLStreamReader(new StringReader(resource))).getMainProcess()
+					.findFlowElementsOfType(UserTask.class);
+			List<SequenceFlow> sequenceFlows = bpmn
+					.convertToBpmnModel(xif.createXMLStreamReader(new StringReader(resource))).getMainProcess()
+					.findFlowElementsOfType(SequenceFlow.class);
+			Map<String,String> refs = new HashMap<String, String>();
+			int i=0;
+			for(SequenceFlow sf:sequenceFlows) {
+				if(!refs.containsKey(sf.getSourceRef())) {
+					refs.put(sf.getSourceRef(), sf.getTargetRef());
+				}else {
+					refs.put(sf.getSourceRef()+"_"+(++i), sf.getTargetRef());					
+				}
 			}
-			t.setUrl(url);
-			list.add(t);
-		});		
-		url= null;
-		return list ;
+			String start = startEvent.stream().findFirst().get().getId();
+			this.recursiveTask(userTasks,refs, start);
+			taskTimeline.stream()
+			.forEach(t->{
+				if(t.getName().equalsIgnoreCase(runtimeTask.getTask().getName())) {
+					t.setType("curent");
+					t.setUrl("#");
+				}else {
+					t.setType("stage");
+					if(tasksSQ.containsKey(t.getTaskId())) {
+						String url = new Config().getResolveUrl("igrp", "Detalhes_tarefas", "index");
+						url += "&"+BPMNConstants.PRM_TASK_ID+"="+tasksSQ.get(t.getTaskId());
+						t.setUrl(url);
+					}else {
+						t.setUrl("#");
+					}
+				}
+			});
+			Collections.sort(taskTimeline);
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
+		return taskTimeline ;
 	}
 	
-	public static class TaskTimeLine{
+	public static class TaskTimeLine  implements Comparable<TaskTimeLine>{
 		private String taskId;
 		private String name;
 		private String url = "#";
 		private String type;
+		private int order;
 		
 		public String getTaskId() {
 			return taskId;
@@ -138,7 +188,23 @@ public class BPMNTimeLine {
 		}
 		public void setType(String type) {
 			this.type = type;
-		}			
+		}
+		public int getOrder() {
+			return order;
+		}
+		public void setOrder(int order) {
+			this.order = order;
+		}
+		@Override
+		public int compareTo(TaskTimeLine t) {
+			return (""+this.getOrder()).compareTo(""+t.getOrder());
+		}
+		@Override
+		public String toString() {
+			return "TaskTimeLine [taskId=" + taskId + ", name=" + name + ", url=" + url + ", type=" + type + ", order="
+					+ order + "]";
+		}	
+		
 	}
 	
 	public static class TimeLine{

@@ -254,7 +254,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			this.runtimeTask.setPreviewTask(task.getTaskDefinitionKey());
 			this.runtimeTask.setPreviewTaskId(task.getId());
 		}
-		this.runtimeTask.setShowTimeLine("true");
+		this.runtimeTask.setShowTimeLine(true);
 		this.runtimeTask.setSaveButton(true);
 		this.addQueryString(BPMNConstants.PRM_TASK_ID, nextTask.getId());
 		return this.redirect("igrp","ExecucaoTarefas","executar_button_minha_tarefas",this.queryString());
@@ -341,7 +341,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			}
 		}	
 		this.runtimeTask = new RuntimeTask(task, action.getApplication().getId(), task.getTaskDefinitionKey(), task.getTenantId(),
-				task.getProcessDefinitionKey(), "false", task.getId());
+				task.getProcessDefinitionKey(), false, task.getId());
 		this.runtimeTask.setSaveButton(false);
 		this.runtimeTask.setDetails(true);
 		

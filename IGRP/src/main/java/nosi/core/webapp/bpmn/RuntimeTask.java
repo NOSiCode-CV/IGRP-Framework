@@ -20,7 +20,7 @@ public class RuntimeTask implements Serializable{
 	private String previewTask;
 	private String preiviewApp;
 	private String preiviewProcessDefinition;
-	private String showTimeLine;
+	private boolean showTimeLine;
 	private String previewTaskId;
 	private boolean saveButton;
 	private boolean isDetails;
@@ -30,7 +30,7 @@ public class RuntimeTask implements Serializable{
 	}
 	
 	public RuntimeTask(TaskService task,Integer appId, String previewTask, String preiviewApp, String preiviewProcessDefinition,
-			String showTimeLine, String previewTaskId) {
+			boolean showTimeLine, String previewTaskId) {
 		super();
 		this.task = task;
 		this.appId = appId;
@@ -81,11 +81,11 @@ public class RuntimeTask implements Serializable{
 		this.preiviewProcessDefinition = preiviewProcessDefinition;
 	}
 
-	public String getShowTimeLine() {
+	public boolean getShowTimeLine() {
 		return showTimeLine;
 	}
 
-	public void setShowTimeLine(String showTimeLine) {
+	public void setShowTimeLine(boolean showTimeLine) {
 		this.showTimeLine = showTimeLine;
 	}
 
