@@ -312,7 +312,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 			}
 			
 			
-			listApp.sort(Comparator.comparing(Application::getId));
+			listApp.sort(Comparator.comparing(Application::getId).reversed());
 		}
 		
 		return listApp;
