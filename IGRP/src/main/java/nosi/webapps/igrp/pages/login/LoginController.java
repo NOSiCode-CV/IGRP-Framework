@@ -710,6 +710,10 @@ public class LoginController extends Controller {
 					User user = new User().find().andWhere("email", "=", email).one(); 
 					
 					if (user != null) {
+						if(user.getStatus() != 1) {
+							Core.setMessageWarning("Este utilizador encontra-se desativado."); 
+							return redirectToUrl(createUrlForOAuth2OpenIdRequest());
+						}
 						this.afterLogin(user);
 						if(createSessionLdapAuthentication(user)) {
 							try {
