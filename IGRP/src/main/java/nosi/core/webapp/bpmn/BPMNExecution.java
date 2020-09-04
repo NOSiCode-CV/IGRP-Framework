@@ -186,7 +186,7 @@ public class BPMNExecution extends Controller{
 			Application app = new Application().findByDad(task.getTenantId());
 			if (app != null) {
 				RuntimeTask runtimeTask = new RuntimeTask(task, app.getId(), previewTask, preiviewApp,
-						preiviewProcessDefinition, "true", previewTaskId);
+						preiviewProcessDefinition, true, previewTaskId);
 				runtimeTask.setSaveButton(true);
 				return runtimeTask;
 			}
