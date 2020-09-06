@@ -44,6 +44,13 @@ public class IGRPFormList extends IGRPSeparatorList {
 	public IGRPFormList(String tag_name,String title) {
 		super(tag_name,title);
 		this.properties.put("type", "formlist");
+		String field_del = (tag_name+"_del").toLowerCase();
+		String[] del_lines_values = Core.getParamArray("p_"+field_del);
+		if(del_lines_values!=null) {
+			for(String value:del_lines_values) {
+				Core.addHiddenField(field_del, value);
+			}
+		}
 	}
 	
 	public IGRPFormList(String tag_name) {
