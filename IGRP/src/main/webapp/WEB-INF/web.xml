@@ -58,7 +58,7 @@
     <location>/app/webapps?r=igrp/error-page/exception</location>
   </error-page>
   <session-config>
-    <session-timeout>30</session-timeout>
+    <session-timeout>16</session-timeout>
   </session-config>
   <listener>
     <listener-class>nosi.core.listener.BasicListener</listener-class>
