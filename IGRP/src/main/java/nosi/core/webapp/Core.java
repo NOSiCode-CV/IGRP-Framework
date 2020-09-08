@@ -4393,8 +4393,8 @@ public final class Core {
 	}
 	
 	/** 
-	 * @param tipo
-	 * @param id
+	 * @param tipo ENV|PAGE|ACTI 
+	 * @param id The identifier of tipo parameter 
 	 * @param appDad
 	 * @param orgCode
 	 * @param profCode
@@ -4433,40 +4433,35 @@ public final class Core {
 	}
 	
 	/**
-	 * @param dadOrigem
-	 * @param dadDestino
-	 * @param tipo
-	 * @param valorOrigem
-	 * @return valorDestino
-	 */
-	public static String getProfOrOrgMapping(String dadOrigem, String dadDestino, int tipo, String valorOrigem){ 
-		String valorDestino = null; 
-		Mapping mapping = new Mapping().find()
-				.andWhere("dadOrigem", "=", dadOrigem)
-				.andWhere("dadDestino", "=", dadDestino)
-				.andWhere("tipo", "=", tipo)
-				.andWhere("valorOrigem", "=", valorOrigem).one();
-		if(mapping != null) 
-			valorDestino = mapping.getValorDestino(); 
-		return valorDestino; 
-	}
-	
-	/**
 	 * @param url
 	 * @param tipo
 	 * @param tipoId
-	 * @param dadDestino
+	 * @param dad
 	 * @param params
 	 * @return
 	 */
-	public static String getValidAutentikaUrlForSso(String url, String tipo, String tipoId, String dadDestino, Map<String, String> params) { 
+	public static String getValidAutentikaUrlForSso(String url, String tipo, String tipoId, String dad, Map<String, String> params) { 
 		if(url == null || url.isEmpty()) return null; 
 		String orgCode = Core.getCurrentOrganizationCode();
 		String profCode = Core.getCurrentProfileCode(); 
-		String currentDad = Core.getCurrentDad(); 
-		orgCode = Core.getProfOrOrgMapping(currentDad, dadDestino, 2, orgCode); 
-		profCode = Core.getProfOrOrgMapping(currentDad, dadDestino, 1, profCode); 
-		String stateValue = Core.buildStateValueForSsoAutentika(tipo, tipoId, dadDestino, orgCode, profCode, params); 
+		String stateValue = Core.buildStateValueForSsoAutentika(tipo, tipoId, dad, orgCode, profCode, params); 
+		url = url.replace("state=igrp", "state=" + stateValue); 
+		return url; 
+	} 
+	
+	/**
+	 * @param url Usually url = this.configApp.getAutentikaUrlForSso() where this = Controller 
+	 * @param tipo
+	 * @param tipoId
+	 * @param dad
+	 * @param orgCode
+	 * @param profCode
+	 * @param params
+	 * @return
+	 */
+	public static String getValidAutentikaUrlForSso(String url, String tipo, String tipoId, String dad, String orgCode, String profCode, Map<String, String> params) { 
+		if(url == null || url.isEmpty()) return null; 
+		String stateValue = Core.buildStateValueForSsoAutentika(tipo, tipoId, dad, orgCode, profCode, params); 
 		url = url.replace("state=igrp", "state=" + stateValue); 
 		return url; 
 	}

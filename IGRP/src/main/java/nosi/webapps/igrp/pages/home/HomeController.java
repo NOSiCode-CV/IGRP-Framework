@@ -44,7 +44,7 @@ public class HomeController extends Controller {
 								profCode = allContext[2] != null && !allContext[2].isEmpty() ? allContext[2] : null; 
 								// inject session and cookie 
 								if(orgCode != null && profCode != null)
-									injectOrgNProf(orgCode, profCode); 
+									/*injectOrgNProf(orgCode, profCode)*/; 
 							}
 						}
 					}
@@ -119,10 +119,5 @@ public class HomeController extends Controller {
 			Core.addToSession(appP.getDad(), appP); 
 			new Permission().setCookie(appP); 
 		}
-	}
-	
-	public static void main(String[] args) {
-		String r = "code;jhj;po"; 
-		System.out.println(r.split(";").length);
 	}
 }
