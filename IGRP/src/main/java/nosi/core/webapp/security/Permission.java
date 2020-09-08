@@ -30,28 +30,18 @@ public class Permission {
 	
 	private ApplicationPermition applicationPermition; 
 	
-	public boolean isPermition(String app, String appP,String page,String action){//check permission on app		
-		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){
-			if(PagesScapePermission.PAGES_SHAREDS.contains((appP+"/"+page+"/"+action).toLowerCase())){
-				return true;
-			}
-//			Checks if the user has been invited to this app
-			boolean x = (new Application().getPermissionApp(app) && new Menu().getPermissionMen(appP,page)) ||app.equalsIgnoreCase("igrp_studio") || app.equalsIgnoreCase("tutorial");
-			
-//			if(!x) {
-//				x=new Share().getPermissionPage(app,appP,new Action().findByPage(page, appP).getId());
-//			}		
-			return x;
-		}else if(PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains((appP+"/"+page+"/"+action).toLowerCase()))
-//					(action.equalsIgnoreCase("login") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("login")) || 
-//					(action.equalsIgnoreCase("logout") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("login")) || 
-//					(action.equalsIgnoreCase("permission") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("error-page")) ||
-//					(action.equalsIgnoreCase("exception") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("error-page")) ||
-//					(action.equalsIgnoreCase("notFound") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("error-page")))
-		{
-			return true;
+	public boolean isPermition(String app, String appP, String page, String action){ // check permission on app 
+		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){ 
+			if(PagesScapePermission.PAGES_SHAREDS.contains((appP + "/" + page + "/" + action).toLowerCase())) 
+				return true; 
+			if(app.equalsIgnoreCase("igrp_studio") || app.equalsIgnoreCase("tutorial")) 
+				return true; 
+			if(app.equals(appP)) 
+				return (new Application().getPermissionApp(app) && new Menu().getPermissionMen(appP, page)); 
+			else 
+				new Share().getPermissionPage(app,appP,new Action().findByPage(page, appP).getId()); 
 		}
-		return false;
+		return PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains((appP+"/"+page+"/"+action).toLowerCase());
 	}
 	
 	public  boolean isPermission(String transaction){

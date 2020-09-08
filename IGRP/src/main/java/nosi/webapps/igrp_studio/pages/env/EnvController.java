@@ -423,23 +423,9 @@ public class EnvController extends Controller {
 	public Response actionOpenApp(@RParam(rParamName = "app") String app, @RParam(rParamName = "page") String page) throws Exception{ 
 		String[] p = page.split("/");
 		Permission permission = new Permission();
-		
-		if(permission.isPermition(app,p[0], p[1], p[2])) {
-			permission.changeOrgAndProfile(app); // Muda perfil e organica de acordo com aplicacao aberta 
+		if(permission.isPermition(app, p[0], p[1], p[2])) { 
 			
 			Application env = Core.findApplicationByDad(app);
-			
-			Properties properties = this.configApp.getMainSettings();
-			String currentEnv = new Config().getEnvironment();
-			String devUrl = properties.getProperty("igrp.env.dev.url"); 
-			
-			// If you try to open igrp_studio in a not igrp_studio enviroment 
-			if(env != null && env.getDad().equalsIgnoreCase("igrp_studio") && currentEnv != null && !currentEnv.equalsIgnoreCase("dev") && devUrl != null && !devUrl.isEmpty()) { 				
-				String qs = "?app=" + env.getDad();
-				devUrl += qs;
-			return redirectToUrl(devUrl); 
-			}
-			
 			// 2 - custom dad 
 			String url = null; 
 			if(env.getExternal() == 2)  
@@ -450,6 +436,7 @@ public class EnvController extends Controller {
 			if(url != null) 
 				return redirectToUrl(url); 
 			
+			permission.changeOrgAndProfile(app); // Muda perfil e organica de acordo com aplicacao aberta 
 			try {
 				final ApplicationPermition applicationPermition = permission.getApplicationPermitionBeforeCookie();
 				Integer idPerfil = applicationPermition!=null?applicationPermition.getProfId():null;				
@@ -471,7 +458,6 @@ public class EnvController extends Controller {
 				System.err.println("EnvController line535:"+e.getLocalizedMessage());
 				e.printStackTrace();
 			}
-			
 			this.addQueryString("dad", app); 
 			String params = Core.getParam("p_params"); 
 			if(params != null) {
@@ -482,11 +468,10 @@ public class EnvController extends Controller {
 						this.addQueryString(param_[0].trim(), param_[1].trim()); 
 				}
 			}
-			
 			return this.redirect(p[0], p[1], p[2],this.queryString());
 		}		
-		Core.setMessageError(gt("Não tem permissão! No permission! Page: ")+page);		
-		Core.setAttribute("javax.servlet.error.message", gt("Não tem permissão! No permission! Page: ")+page);		
+		Core.setMessageError(gt("Não tem permissão! No permission! Page: ") + page);		
+		Core.setAttribute("javax.servlet.error.message", gt("Não tem permissão! No permission! Page: ") + page);		
 		return this.redirectError();
 	}
 	
