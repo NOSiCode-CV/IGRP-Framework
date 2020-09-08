@@ -361,8 +361,6 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 			if(pagina != null) { 
 				String orgCode = Core.getCurrentOrganizationCode();
 				String profCode = Core.getCurrentProfileCode(); 
-				orgCode = Core.getProfOrOrgMapping(dad, app, 2, orgCode); 
-				profCode = Core.getProfOrOrgMapping(dad, app, 1, profCode); 
 				String stateValue = Core.buildStateValueForSsoAutentika("PAGE", pagina.getId() + "", app, orgCode, profCode, null); 
 				url =  ConfigApp.getInstance().getAutentikaUrlForSso(); 
 				url = url.replace("/IGRP/", "/" + dad + "/").replace("state=igrp", "state=" + stateValue); 
