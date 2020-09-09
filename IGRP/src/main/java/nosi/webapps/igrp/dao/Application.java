@@ -385,12 +385,16 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 	
 	public List<User> getUsersByIds(String dad, Integer[] ids) {
+		List<User> users = null;
 		if (ids != null && ids.length > 0) {
-			List<User> users = Optional.ofNullable(this.getAllUsers(dad)).orElse(new ArrayList<User>());
 			Predicate<? super User> predicate = u -> Arrays.stream(ids).anyMatch(e -> e.equals(u.getId()));
-			return users.stream().filter(predicate).collect(Collectors.toList());
+			users = Optional.ofNullable(this.getAllUsers(dad))
+					.orElse(new ArrayList<User>())
+					.stream()
+					.filter(predicate)
+					.collect(Collectors.toList());
 		}
-		return null;
+		return users != null && !users.isEmpty() ? users : null;
 	}
 	
 	public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor)

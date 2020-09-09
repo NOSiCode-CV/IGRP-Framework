@@ -4433,6 +4433,15 @@ public final class Core {
 	}
 	
 	/**
+	 * @param appDad 
+	 * @param ids 
+	 * @return Returns a List<User> that match the array of ids, otherwise returns null if no record is found 
+	 */
+	public static List<User> getUsersByApplicationAndIds(String appDad, Integer[] ids){
+		return new Application().getUsersByIds(appDad, ids);
+	}	
+	
+	/**
 	 * @param url
 	 * @param tipo
 	 * @param tipoId
