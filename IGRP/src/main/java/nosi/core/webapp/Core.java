@@ -1810,9 +1810,9 @@ public final class Core {
 	 * @param replyTo
 	 * @return
 	 */
-	public static boolean mail(String from, String to, String subject, String msg, String charset, String mimetype,
+	public static boolean mail_v2(String from, String to, String subject, String msg, String charset, String mimetype,
 			Attachment[] attachs, String replyTo) {
-		return mail_(from, to, subject, msg, charset, mimetype, attachs, replyTo, null);
+		return mail_v2(from, to, subject, msg, charset, mimetype, attachs, replyTo, null);
 	}
 	
 	/**
@@ -1843,10 +1843,10 @@ public final class Core {
 	 * @param replyTo
 	 * @return
 	 */
-	public static boolean mail(String to, String subject, String msg, String charset, String mimetype, Attachment[] attachs, String replyTo) {
+	public static boolean mail_v2(String to, String subject, String msg, String charset, String mimetype, Attachment[] attachs, String replyTo) {
 		Properties setting = ConfigApp.getInstance().getMainSettings(); 
 		String email = setting.getProperty("mail.user");
-		return mail_(email, to, subject, msg, charset, mimetype, attachs, replyTo, null);
+		return mail_v2(email, to, subject, msg, charset, mimetype, attachs, replyTo, null);
 	}
 	
 	/**
@@ -1898,7 +1898,7 @@ public final class Core {
 	 * @param customConfig
 	 * @return
 	 */
-	public static boolean mail(String from, String to, String subject, String msg, String charset, String mimetype,
+	public static boolean mail_v2(String from, String to, String subject, String msg, String charset, String mimetype,
 		Attachment[] attachs, String replyTo, boolean multiplerecepients, Properties customConfig) {
 		EmailMessage sender = EmailMessage.newInstance();
 		boolean result = false;
@@ -1968,7 +1968,7 @@ public final class Core {
 	 * @param customConfig
 	 * @return
 	 */
-	public static boolean mail_(String from, String to, String subject, String msg, String charset, String mimetype,
+	public static boolean mail_v2(String from, String to, String subject, String msg, String charset, String mimetype,
 		Attachment[] attachs, String replyTo, Properties customConfig) {
 		EmailMessage sender = EmailMessage.newInstance();
 		boolean result = false;
