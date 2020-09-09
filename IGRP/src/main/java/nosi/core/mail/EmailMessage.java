@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import javax.activation.DataHandler;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -15,6 +17,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 
 import nosi.core.config.ConfigApp;
 
@@ -42,12 +45,14 @@ public class EmailMessage {
 	private String auth_username;
 	private String auth_password;
 	
-	private List<File> attaches;
+	private List<File> attaches; 
+	private List<Attachment> attachesBytes; 
 	
-	private EmailMessage() { // Not instantiate 
+	private EmailMessage() { 
 		if(!this.load()) 
 			this.loadDefaultConfig();
 		this.attaches = new ArrayList<File>();
+		this.attachesBytes = new ArrayList<Attachment>();
 		this.multipleRecipients = false;
 	}
 	
@@ -107,6 +112,11 @@ public class EmailMessage {
 		return this;
 	}
 	
+	public EmailMessage attach(Attachment attach) {
+		this.attachesBytes.add(attach);
+		return this;
+	}
+	
 	public EmailMessage newSettings(Properties p) {
 		this.settings = p;
 		return this;
@@ -135,9 +145,7 @@ public class EmailMessage {
 	}
 	
 	public boolean send() throws IOException { 
-		
 		checkNSetupCredencials();
-		
 		// Get the default Session object.
 		Session session = Session.getInstance(this.settings,
 			new javax.mail.Authenticator() {
@@ -149,14 +157,12 @@ public class EmailMessage {
 		try{
 			// Create a default MimeMessage object. 
 			MimeMessage message = new MimeMessage(session); 
-			
 			if(!validateEmail(this.from)) {
 				System.out.println("Email not sent ... Invalid email: <" + this.from + "> ");
 				return false;
 			}
 			// Set From: header field of the header.
 			message.setFrom(new InternetAddress(this.from));
-			
 			// Set To: header field of the header. 
 			if(this.multipleRecipients) {
 				if(!validateEmails(this.to)) {
@@ -176,10 +182,11 @@ public class EmailMessage {
 				message.setReplyTo(InternetAddress.parse(this.replyTo));
 			
 			// Set Subject: header field
-			message.setSubject(this.subject);
+			message.setSubject(this.subject); 
+			
 			// If there is any attach ... 
-			if(this.attaches.size() > 0) {
-				// Create a multipar message 
+			if(!this.attaches.isEmpty() || !this.attachesBytes.isEmpty()) {
+				// Create a multipart message 
 				MimeBodyPart mbp = new MimeBodyPart();
 		        Multipart multipart = new MimeMultipart();
 			    // Now set the actual message 
@@ -193,17 +200,13 @@ public class EmailMessage {
 					mbp.setText(this.msg);
 		        mbp.setContent(this.msg, this.subType);
 		        multipart.addBodyPart(mbp);
-				for(File attach : this.attaches) {
-					// Create the message part 
-					MimeBodyPart messageBodyPart = new MimeBodyPart();
-			         messageBodyPart.attachFile(attach);
-			         // Set text message part 
-			         multipart.addBodyPart(messageBodyPart);
-				}
-				 // Send the complete message parts 
-		         message.setContent(multipart);
+		        
+				if(!this.attaches.isEmpty()) 
+					this.wrapFilesToMultipart(message, multipart);
+				else 
+					this.wrapBytesToMultipart(message, multipart); 
 			}else {
-				// Now set the actual message 
+				// Otherwise set the actual message 
 				if(this.charset != null && !this.charset.isEmpty() && this.subType != null && !this.subType.isEmpty())
 					message.setText(this.msg, this.charset, this.subType);
 				else if(this.charset != null && !this.charset.isEmpty())
@@ -244,6 +247,59 @@ public class EmailMessage {
 	public EmailMessage replyTo(String emails) {
 		this.replyTo = emails;
 		return this;
+	} 
+	
+	protected void wrapFilesToMultipart(MimeMessage message,  Multipart multipart) throws MessagingException, IOException { 
+		for(File attach : this.attaches) {
+			// Create the message part 
+			MimeBodyPart messageBodyPart = new MimeBodyPart();
+	         messageBodyPart.attachFile(attach);
+	         // Set message part 
+	         multipart.addBodyPart(messageBodyPart);
+		} 
+		// Send the complete message parts 
+        message.setContent(multipart);
+	} 
+	
+	protected void wrapBytesToMultipart(MimeMessage message, Multipart multipart) throws MessagingException { 
+		for(Attachment obj : this.attachesBytes){
+			MimeBodyPart messageBodyPart = new MimeBodyPart(); 
+			ByteArrayDataSource bds = new ByteArrayDataSource(obj.content, obj.getType());
+			bds.setName(obj.getName()); 
+			messageBodyPart.setDataHandler(new DataHandler(bds)); 
+			messageBodyPart.setFileName(bds.getName()); 
+			// Set message part 
+	        multipart.addBodyPart(messageBodyPart);
+		}
+		// Send the complete message parts 
+        message.setContent(multipart); 
+	}
+	
+	public static class Attachment{ 
+		
+		private byte[] content; 
+		private String name; 
+		private String type;
+		
+		public byte[] getContent() {
+			return content;
+		}
+		public void setContent(byte[] content) {
+			this.content = content;
+		}
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public String getType() {
+			return type;
+		}
+		public void setType(String type) {
+			this.type = type;
+		} 
+		
 	}
 	
 	public static class PdexTemplate{
