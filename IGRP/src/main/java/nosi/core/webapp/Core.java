@@ -54,6 +54,7 @@ import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
 import nosi.core.mail.EmailMessage;
+import nosi.core.mail.EmailMessage.Attachment;
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import nosi.core.webapp.activit.rest.entities.CustomVariableIGRP;
@@ -1797,6 +1798,23 @@ public final class Core {
 			File[] attachs, String replyTo) {
 		return mail(from, to, subject, msg, charset, mimetype, attachs, replyTo, null);
 	}
+	
+	/**
+	 * @param from
+	 * @param to
+	 * @param subject
+	 * @param msg
+	 * @param charset  UTF-8,
+	 * @param mimetype text/html, plaintext
+	 * @param attachs
+	 * @param replyTo
+	 * @return
+	 */
+	public static boolean mail(String from, String to, String subject, String msg, String charset, String mimetype,
+			Attachment[] attachs, String replyTo) {
+		return mail_(from, to, subject, msg, charset, mimetype, attachs, replyTo, null);
+	}
+	
 	/**
 	 * Send mail with default email of igrp
 	 * @param to
@@ -1808,26 +1826,51 @@ public final class Core {
 	 * @param replyTo
 	 * @return
 	 */
-	public static boolean mail(String to, String subject, String msg, String charset, String mimetype,
-			File[] attachs, String replyTo) {
+	public static boolean mail(String to, String subject, String msg, String charset, String mimetype, File[] attachs, String replyTo) {
 		Properties setting = ConfigApp.getInstance().getMainSettings(); 
 		String email = setting.getProperty("mail.user");
 		return mail(email, to, subject, msg, charset, mimetype, attachs, replyTo, null);
 	}
 	
+	/**
+	 * Send mail with default email of igrp
+	 * @param to
+	 * @param subject
+	 * @param msg
+	 * @param charset
+	 * @param mimetype
+	 * @param attachs
+	 * @param replyTo
+	 * @return
+	 */
+	public static boolean mail(String to, String subject, String msg, String charset, String mimetype, Attachment[] attachs, String replyTo) {
+		Properties setting = ConfigApp.getInstance().getMainSettings(); 
+		String email = setting.getProperty("mail.user");
+		return mail_(email, to, subject, msg, charset, mimetype, attachs, replyTo, null);
+	}
 	
-	
+	/**
+	 * @param from
+	 * @param to
+	 * @param subject
+	 * @param msg
+	 * @param charset
+	 * @param mimetype
+	 * @param attachs
+	 * @param replyTo
+	 * @param multiplerecepients
+	 * @param customConfig
+	 * @return
+	 */
 	public static boolean mail(String from, String to, String subject, String msg, String charset, String mimetype,
-			File[] attachs, String replyTo, boolean multiplerecepients, Properties customConfig) {
+		File[] attachs, String replyTo, boolean multiplerecepients, Properties customConfig) {
 		EmailMessage sender = EmailMessage.newInstance();
 		boolean result = false;
 		try {
 			sender.setFrom(from).setTo(to).multipleRecipients(multiplerecepients).setSubject(subject).setMsg(msg, charset, mimetype).replyTo(replyTo);
-			
 			if (Core.isNotNull(attachs))
 				for (File f : attachs)
 					sender.attach(f);
-			
 			if(customConfig != null) {
 				Enumeration<Object> i = customConfig.keys(); 
 				while(i.hasMoreElements()) {
@@ -1835,7 +1878,6 @@ public final class Core {
 					sender.getSettings().setProperty(key, customConfig.getProperty(key));
 				}
 			}
-			
 			result = sender.send();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -1843,19 +1885,63 @@ public final class Core {
 		return result;
 	}
 	
+	/**
+	 * @param from
+	 * @param to
+	 * @param subject
+	 * @param msg
+	 * @param charset
+	 * @param mimetype
+	 * @param attachs
+	 * @param replyTo
+	 * @param multiplerecepients
+	 * @param customConfig
+	 * @return
+	 */
+	public static boolean mail(String from, String to, String subject, String msg, String charset, String mimetype,
+		Attachment[] attachs, String replyTo, boolean multiplerecepients, Properties customConfig) {
+		EmailMessage sender = EmailMessage.newInstance();
+		boolean result = false;
+		try {
+			sender.setFrom(from).setTo(to).multipleRecipients(multiplerecepients).setSubject(subject).setMsg(msg, charset, mimetype).replyTo(replyTo);
+			if (Core.isNotNull(attachs))
+				for (Attachment f : attachs)
+						sender.attach(f);
+			if(customConfig != null) {
+				Enumeration<Object> i = customConfig.keys(); 
+				while(i.hasMoreElements()) {
+					String key =  (String) i.nextElement();
+					sender.getSettings().setProperty(key, customConfig.getProperty(key));
+				}
+			}
+			result = sender.send();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
-	
+	/**
+	 * @param from
+	 * @param to
+	 * @param subject
+	 * @param msg
+	 * @param charset
+	 * @param mimetype
+	 * @param attachs
+	 * @param replyTo
+	 * @param customConfig
+	 * @return
+	 */
 	public static boolean mail(String from, String to, String subject, String msg, String charset, String mimetype,
 			File[] attachs, String replyTo, Properties customConfig) {
 			EmailMessage sender = EmailMessage.newInstance();
 			boolean result = false;
 			try {
 				sender.setFrom(from).setTo(to).setSubject(subject).setMsg(msg, charset, mimetype).replyTo(replyTo);
-				
 				if (Core.isNotNull(attachs))
 					for (File f : attachs)
 						sender.attach(f);
-				
 				if(customConfig != null) {
 					Enumeration<Object> i = customConfig.keys(); 
 					while(i.hasMoreElements()) {
@@ -1863,12 +1949,46 @@ public final class Core {
 						sender.getSettings().setProperty(key, customConfig.getProperty(key));
 					}
 				}
-				
 				result = sender.send();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			return result;
+	}
+	
+	/**
+	 * @param from
+	 * @param to
+	 * @param subject
+	 * @param msg
+	 * @param charset
+	 * @param mimetype
+	 * @param attachs
+	 * @param replyTo
+	 * @param customConfig
+	 * @return
+	 */
+	public static boolean mail_(String from, String to, String subject, String msg, String charset, String mimetype,
+		Attachment[] attachs, String replyTo, Properties customConfig) {
+		EmailMessage sender = EmailMessage.newInstance();
+		boolean result = false;
+		try {
+			sender.setFrom(from).setTo(to).setSubject(subject).setMsg(msg, charset, mimetype).replyTo(replyTo);
+			if (Core.isNotNull(attachs))
+				for (Attachment f : attachs)
+						sender.attach(f);
+			if(customConfig != null) {
+				Enumeration<Object> i = customConfig.keys(); 
+				while(i.hasMoreElements()) {
+					String key =  (String) i.nextElement();
+					sender.getSettings().setProperty(key, customConfig.getProperty(key));
+				}
+			}
+			result = sender.send();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	public static Map<Object, Object> mapArray(Object[] array1, Object[] array2) {
