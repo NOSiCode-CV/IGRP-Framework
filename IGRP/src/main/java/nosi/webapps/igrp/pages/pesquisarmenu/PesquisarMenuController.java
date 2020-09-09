@@ -112,7 +112,6 @@ public class PesquisarMenuController extends Controller {
 				}else 
 					if(menu_db1.getLink() != null && !menu_db1.getLink().isEmpty()) {
 						table1.setPagina("Página Externa (GlobalAcl)"); 
-						table1.hiddenButton(view.btn_editar); 
 						table1.setCheckbox(1);
 						table1.setCheckbox_check(1);
 					}
