@@ -6,10 +6,12 @@ package nosi.webapps.igrp.dao;
  */
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -380,6 +382,15 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		if(list != null)
 			 users = list.stream().filter(p->p.getUser() != null && !p.getUser().getUser_name().equals("root")).map(m->m.getUser()).collect(Collectors.toList()); 
 		return users; 
+	}
+	
+	public List<User> getUsersByIds(String dad, Integer[] ids) {
+		if (ids != null && ids.length > 0) {
+			List<User> users = Optional.ofNullable(this.getAllUsers(dad)).orElse(new ArrayList<User>());
+			Predicate<? super User> predicate = u -> Arrays.stream(ids).anyMatch(e -> e.equals(u.getId()));
+			return users.stream().filter(predicate).collect(Collectors.toList());
+		}
+		return null;
 	}
 	
 	public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor)
