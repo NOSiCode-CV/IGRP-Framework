@@ -384,6 +384,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		return users; 
 	}
 	
+	
 	public List<User> getUsersByIds(String dad, Integer[] ids) {
 		List<User> users = null;
 		if (ids != null && ids.length > 0) {
