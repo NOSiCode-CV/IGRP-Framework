@@ -69,9 +69,7 @@ public class LookupField extends TextField {
 				if(!deployedWarName.equals(application.getUrl()) && pagina != null) {
 					this.isSso = true; 
 					String orgCode = Core.getCurrentOrganizationCode();
-					String profCode = Core.getCurrentProfileCode(); 
-					orgCode = Core.getProfOrOrgMapping(currentDad, app, 2, orgCode); 
-					profCode = Core.getProfOrOrgMapping(currentDad, app, 1, profCode); 
+					String profCode = Core.getCurrentProfileCode();
 					String stateValue = Core.buildStateValueForSsoAutentika("PAGE", pagina.getId() + "", app, orgCode, profCode, null); 
 					this.lookup = ConfigApp.getInstance().getAutentikaUrlForSso();
 					this.lookup = this.lookup.replace("&state=igrp", ""); 
