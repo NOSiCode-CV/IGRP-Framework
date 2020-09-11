@@ -20,17 +20,36 @@
 							
 				attributes = data.attributes;
 			
-			for(var key in attributes){
+			for(var i in attributes){
 				
-				if(feature.properties.hasOwnProperty(key)){
+				var key = attributes[i].name,
+				
+				    value = attributes[i].value,
+				    
+				    type = attributes[i].type;				
+				
+				if(feature.properties.hasOwnProperty(key.toLowerCase())){
 					
-					properties[key] = {
+					properties[key.toLowerCase()] = {
 							
-						name : attributes[key],
+						name : value,
 						
-						value : feature.properties[key],
+						value : type === 'DATE' ? new Date(feature.properties[key.toUpperCase()]).toLocaleDateString("pt") : feature.properties[key.toUpperCase()],
 						
-						isImage  : data.image.includes(key) ? true : false		
+						isImage  : type === 'IMAGE' ? true : false		
+						
+					}
+				}
+				
+				if(feature.properties.hasOwnProperty(key.toUpperCase())){
+					
+					properties[key.toLowerCase()] = {
+							
+						name : value,
+						
+						value : type === 'DATE' ? new Date(feature.properties[key.toUpperCase()]).toLocaleDateString("pt") : feature.properties[key.toUpperCase()],
+						
+						isImage  : type === 'IMAGE' ? true : false		
 						
 					}
 				}

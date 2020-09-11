@@ -548,7 +548,7 @@
 					
 				};
 			
-			$.get(layer.Info.owsURL+'?service=WFS&request=DescribeFeatureType&typeName='+layer.Info.workspaceLayer+'&version=1.0.0').then(function(xml){
+			layer.requestDescription = $.get(layer.Info.owsURL+'?service=WFS&request=DescribeFeatureType&typeName='+layer.Info.workspaceLayer+'&version=1.0.0').then(function(xml){
 				
 				var attrsElements = $(xml).find('xsd\\:sequence xsd\\:element')
 				
@@ -570,7 +570,7 @@
 						res.attributes[name] = type.split('xsd:')[1]
 
 				});
-				
+								
 			});
 			
 			layer.Description = res;

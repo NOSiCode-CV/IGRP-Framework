@@ -23,7 +23,12 @@
 			    param_value = item.param_value ? item.param_value.split(',') : [];
 		    
 		    
-		    for(var key in properties) if(attributes.includes(key)) params[key] = properties[key];
+		    for(var key in properties){ 
+		    			    	
+		    	if (attributes.includes(key.toLowerCase())) params['p_' + key.toLowerCase()] = properties[key];
+				
+				else if (attributes.includes(key.toUpperCase())) params['p_' + key.toLowerCase()] = properties[key];
+		    }
 			
 			if(param_name.length = param_value.length )
 				

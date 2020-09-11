@@ -58,7 +58,7 @@
 			    layerId      = layerParam.split(':')[1];
 			    
 			 widget.layer = app.layers.get( layerId );
-			    
+			 			    
 			 if(!widget.layer.visible)
 				 
 				 widget.layer.show();
@@ -69,26 +69,37 @@
 					
 				 widget.attribute.value = attributes.split(':')[1];
 
-			}			    			
+			}	
+			 			 
+		}
+		
+		function getAttr(attr){
+			
+			if (!widget.layer.Description) return attr;
+			
+			var attributes  = widget.layer.Description.attributes;
 						
+			if (attributes.hasOwnProperty(attr.toLowerCase())) return attr.toLowerCase();
+			
+			else if (attributes.hasOwnProperty(attr.toUpperCase())) return attr.toUpperCase();
+		
+			return attr;
 		}
 		
 		function GetFeatures(){
 			
 			var val = widget.attribute.value,
 			
-				attr = widget.attribute.name.toLowerCase(),
-			   
 			    str  = Number(val),
 			    
 			    quote = "\'";  
 			    
 			if(isNaN(str)) val = quote + val.toLowerCase() + quote;
-				
-			var	cqlFilters = attr  + '=' + val,
+							
+			var	cqlFilters =  getAttr(widget.attribute.name) + '=' + val, 
 				
 				req = widget.layer.query({cql : cqlFilters });
-		    
+			
 			req.then(function(f){
 				
 				if(f.totalFeatures) widget.features = f.features;
@@ -127,18 +138,20 @@
 									
 			widget.layer.request.done(function(l){
 				
-				GetFeatures();
+				widget.layer.requestDescription.done(function(e){
+					
+					GetFeatures();
+					
+					$.when.apply(undefined,reqs).then(function(){
+						
+						var feature = widget.features[0];
+						
+						var  layer  = Utils.feature.getData(feature)
+						
+						SetExtent(layer)
 				
-				$.when.apply(undefined,reqs).then(function(){
-					
-					var feature = widget.features[0];
-					
-					var  layer  = Utils.feature.getData(feature)
-					
-					SetExtent(layer)
-			
-				})				
-				
+					})				
+				})
 			})
 		}
 		
