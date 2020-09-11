@@ -94,7 +94,7 @@
 							
 							if (props[p] && typeof props[p] != 'string'){
 								
-								prop = props[p].isImage ? '</br><img style="max-width:220px" src="'+prop+'"/>' : props[p].value;
+								prop = props[p].isImage ? '</br><img style="max-width:220px" src="'+prop+'"/>' : (props[p].value ? props[p].value : '');
 								
 								name  = props[p].name;
 							} 
@@ -103,7 +103,7 @@
 								html.append(
 									'<li name="'+name+'">'+
 										'<span class="gis-feature-property-label" text-color="primary">'+name+'</span>'+
-										 '<span class="gis-feature-property-value">'+prop+'</span>' +
+										 '<span class="gis-feature-property-value">' + prop  +'</span>' +
 									'</li>'
 								);
 							
