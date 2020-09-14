@@ -41,7 +41,7 @@ public class DomainImport extends AbstractImport implements IImport{
 				if(dm==null) {
 					dm = new Domain(d.getDominio(), d.getValor(), d.getDescription(), d.getStatus(), d.getOrdem(),d.getDomainType(),this.application);
 					dm = dm.insert();
-					this.addError(dm.hasError()?dm.getError().get(0):null);
+					this.addError(dm.hasError()?d.getDominio()+" - "+dm.getError().get(0):null);
 				}
 			});
 		}

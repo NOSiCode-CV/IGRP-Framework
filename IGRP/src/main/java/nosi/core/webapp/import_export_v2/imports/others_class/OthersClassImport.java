@@ -54,7 +54,7 @@ public class OthersClassImport extends AbstractImport implements IImport{
 					else
 						this.fileName.add(basePath + File.separator+fileClass.getFileName());
 				} catch (IOException e) {
-					this.addError(e.getMessage());
+					this.addError(fileClass.getFileName()+" - "+e.getMessage());
 				}
 			}
 		}

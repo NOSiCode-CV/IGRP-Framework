@@ -41,7 +41,7 @@ public class ImportTransation extends AbstractImport implements IImport{
 				if(tran==null) {
 					tran = new Transaction(t.getCode(), t.getDescr(), 1, this.application).insert();
 					if(tran!=null && tran.hasError()) {
-						this.addError(tran.getError().get(0));
+						this.addError(t.getCode()+" - "+tran.getError().get(0));
 					}
 				}
 			});
