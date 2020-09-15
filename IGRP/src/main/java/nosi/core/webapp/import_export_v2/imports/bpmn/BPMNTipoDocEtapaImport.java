@@ -81,13 +81,11 @@ public class BPMNTipoDocEtapaImport extends AbstractImport implements IImport {
 									dao.setStatus(_docEtapa.getStatus());
 									dao.setTaskId(_docEtapa.getTaskId());
 									dao.setTipo(_docEtapa.getTipo());
-									dao.setTipoDocumento(tipoDocumento);
-									dao.insert(); 
+									dao.setTipoDocumento(tipoDocumento);									
 									dao=dao.insert(); 
 									this.addError(dao.hasError()?dao.getError().get(0):null);
 								}else { 
-										existDao.setStatus(_docEtapa.getStatus()); 
-										existDao.update(); 
+										existDao.setStatus(_docEtapa.getStatus()); 										
 										existDao=existDao.update(); 
 										this.addError(existDao.hasError()?existDao.getError().get(0):null);
 									}

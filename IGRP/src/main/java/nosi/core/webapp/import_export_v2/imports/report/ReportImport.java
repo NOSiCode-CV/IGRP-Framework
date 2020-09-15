@@ -79,7 +79,7 @@ public class ReportImport extends AbstractImport implements IImport {
 					repTemplate.setXsl_content(xsl_content);
 					repTemplate = repTemplate.update();
 				}
-				this.addError(repTemplate.hasError() ? repTemplate.getError().get(0) : null);
+				this.addError(repTemplate.hasError() ? report.getName()+" - "+repTemplate.getError().get(0) : null);
 				this.saveDataSource(report);
 				this.saveParamDataSource(report, repTemplate);
 			});

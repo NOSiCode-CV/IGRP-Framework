@@ -40,7 +40,7 @@ public class PageImport extends AbstractImport implements IImport{
 	public void execute() {
 		if(this.pages!=null){
 			this.pages.stream().forEach(page->{
-				this.insertPgae(page);
+				this.insertPage(page);
 			});
 		}
 	}
@@ -56,7 +56,7 @@ public class PageImport extends AbstractImport implements IImport{
 				this.fileName.add(path+ac.getPage()+"View.java");
 				this.fileName.add(path+ac.getPage()+"Controller.java");
 			} catch (IOException e) {
-				this.addError(e.getMessage());
+				this.addError(ac.getPage()+" - "+e.getMessage());
 			}
 		}
 		if(page.getPageFiles()!=null) {
@@ -77,7 +77,7 @@ public class PageImport extends AbstractImport implements IImport{
 		}
 	}
 
-	protected void insertPgae(PageSerializable page) {
+	protected void insertPage(PageSerializable page) {
 		Action ac = new Action().find().andWhere("page", "=",page.getPage()).andWhere("application.dad", "=",page.getDad()).one();
 		if(ac==null) {
 			if(this.application == null) {
@@ -89,15 +89,16 @@ public class PageImport extends AbstractImport implements IImport{
 			ac.setProcessKey(page.getProcessKey());
 			ac.setTipo(page.getTipo());
 			ac = ac.insert();
-			this.addError(ac.hasError()?ac.getError().get(0):null);
+			this.addError(ac.hasError()?page.getPage()+" - "+ac.getError().get(0):null);
 		}else {
 			ac.setNomeModulo(page.getNomeModulo());
 			ac.setIsComponent(page.getIsComponent());
 			ac.setProcessKey(page.getProcessKey());
 			ac.setTipo(page.getTipo());
 			ac.setPage_descr(page.getPage_descr());
-			ac.setStatus(page.getStatus());
-			ac.update();
+			ac.setStatus(page.getStatus());			
+			ac = ac.update();
+			this.addError(ac.hasError()?page.getPage()+" - "+ac.getError().get(0):null);
 		}
 		if(!ac.hasError()) {
 			this.saveFile(page,ac);

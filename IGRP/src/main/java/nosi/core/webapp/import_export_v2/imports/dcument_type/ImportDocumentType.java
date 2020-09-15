@@ -44,7 +44,7 @@ public class ImportDocumentType  extends AbstractImport implements IImport{
 				if(tdoc==null) {
 					tdoc = new TipoDocumento(t.getNome(), 1, t.getDescricao(), t.getCodigo(), this.application).insert();
 					if(tdoc!=null && tdoc.hasError()) {
-						this.addError(tdoc.getError().get(0));
+						this.addError(t.getNome()+" - "+tdoc.getError().get(0));
 					}
 				}
 			});
