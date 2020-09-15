@@ -46,7 +46,6 @@ public class BPMNTipoDocEtapaImport extends AbstractImport implements IImport {
 							RepTemplate report = new RepTemplate().find().andWhere("code", "=", _docEtapa.getReportCode()).andWhere("application", "=", application).one(); 
 							TipoDocumentoEtapa existDao = new TipoDocumentoEtapa().find().andWhere("repTemplate", "=", report)
 									.andWhere("tipo", "=", _docEtapa.getTipo()).andWhere("taskId", "=", _docEtapa.getTaskId())
-									.andWhere("required", "=", _docEtapa.getRequired())
 									.andWhere("processId", "=", _docEtapa.getProcessId()).one(); 
 							if(report != null) {
 								if(existDao == null) {
@@ -61,6 +60,7 @@ public class BPMNTipoDocEtapaImport extends AbstractImport implements IImport {
 									this.addError(dao.hasError()?dao.getError().get(0):null);
 								}else {  
 									existDao.setStatus(_docEtapa.getStatus()); 
+									existDao.setRequired(_docEtapa.getRequired());
 									existDao=existDao.update(); 
 									this.addError(existDao.hasError()?existDao.getError().get(0):null);
 								}
@@ -68,10 +68,9 @@ public class BPMNTipoDocEtapaImport extends AbstractImport implements IImport {
 						}
 						else  
 						if(_docEtapa.getTipoDocCode() != null) { 
-							TipoDocumento tipoDocumento = new TipoDocumento().find().andWhere("codigo", "=", _docEtapa.getTipoDocCode()).andWhere("application.dad", "=", application).one();  
+							TipoDocumento tipoDocumento = new TipoDocumento().find().andWhere("codigo", "=", _docEtapa.getTipoDocCode()).andWhere("application", "=", application).one();  
 							TipoDocumentoEtapa existDao = new TipoDocumentoEtapa().find().andWhere("tipoDocumento", "=", tipoDocumento)
 									.andWhere("tipo", "=", _docEtapa.getTipo()).andWhere("taskId", "=", _docEtapa.getTaskId())
-									.andWhere("required", "=", _docEtapa.getRequired())
 									.andWhere("processId", "=", _docEtapa.getProcessId()).one(); 
 							if(tipoDocumento != null) {
 								if(existDao == null) {
@@ -85,7 +84,8 @@ public class BPMNTipoDocEtapaImport extends AbstractImport implements IImport {
 									dao=dao.insert(); 
 									this.addError(dao.hasError()?dao.getError().get(0):null);
 								}else { 
-										existDao.setStatus(_docEtapa.getStatus()); 										
+										existDao.setStatus(_docEtapa.getStatus()); 
+										existDao.setRequired(_docEtapa.getRequired());
 										existDao=existDao.update(); 
 										this.addError(existDao.hasError()?existDao.getError().get(0):null);
 									}
