@@ -104,11 +104,11 @@ public class Validation {
 	}
 	
 	public static boolean validateMax(String value,BigDecimal maxValue) {
-		return Core.toBigDecimal(value).compareTo(maxValue) < 0;
+		return Core.toBigDecimal(value).compareTo(maxValue) <= 0;
 	}
 
 	public static boolean validateMin(String value, BigDecimal minValue) {
-		return Core.toBigDecimal(value).compareTo(minValue) > 0;
+		return Core.toBigDecimal(value).compareTo(minValue) >= 0;
 	}
 	
 	public static boolean validateFileNotNull(UploadFile file) {
