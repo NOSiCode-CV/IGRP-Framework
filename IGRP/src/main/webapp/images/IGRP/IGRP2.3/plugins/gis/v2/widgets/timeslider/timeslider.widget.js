@@ -42,6 +42,8 @@
 		
 		settings.end_date = moment(settings.end_date, formatIn);
 		
+		settings.attributes = data.attributes;
+		
 		widget.templateParams = {
 				
 			layers 	    : [],
@@ -415,9 +417,25 @@
 			
 			var attributes = [];
 			
+			if(settings.attributes){
+				
+				var attrs = settings.attributes.split(',');
+				
+				for( var key in attrs )					
+					attributes.push({
+		            	
+		            	id : attrs[key],
+		            	
+		            	name : attrs[key]
+		            	
+		            });			
+				
+				return attributes;
+			}
+			
 			for(var key in json){
 				
-				if(json[key] == 'date')
+				if(json[key] == 'date' || json[key] == 'dateTime')
 				
 		            attributes.push({
 		            	
