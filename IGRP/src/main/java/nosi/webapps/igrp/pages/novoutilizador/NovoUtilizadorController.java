@@ -510,9 +510,10 @@ public class NovoUtilizadorController extends Controller {
 
 				} else {
 					Core.setMessageError("Este utilizador não existe no LDAP para convidar.");
-					ok = false;
+					
 				}
-			}
+			}else
+				ok = false;
 		}
 		return ok;
 	}
