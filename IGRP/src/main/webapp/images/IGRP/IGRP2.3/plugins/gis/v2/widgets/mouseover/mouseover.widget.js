@@ -12,7 +12,11 @@
 			
 			data   = widget.data(),
 			
-			pop    = null;	
+			pop    = null,
+			
+			delay = 600, 
+
+            overTimeout;
 						
 		function SetWindowContent(data, feature){
 						
@@ -26,7 +30,7 @@
 				
 				    value = attributes[i].value,
 				    
-				    type = attributes[i].type;				
+				    type = attributes[i].type;	
 				
 				if(feature.properties.hasOwnProperty(key.toLowerCase())){
 					
@@ -52,8 +56,9 @@
 						isImage  : type === 'IMAGE' ? true : false		
 						
 					}
-				}
 					
+				}
+									
 			}		
 			
 			var content = Utils.feature.properties.toHTML(properties);
@@ -67,9 +72,12 @@
 			if(!widget.active) return false;
 			
 			var feature = e.layer && e.layer.feature ? e.layer.feature : null;
-															
-			pop = L.popup().setLatLng(e.latlng).setContent( SetWindowContent(data, feature) ).openOn(Map);
-
+												
+			overTimeout = setTimeout(function(){
+				
+				pop = L.popup().setLatLng(e.latlng).setContent( SetWindowContent(data, feature) ).openOn(Map);
+			
+			}, delay);
 		};
 		
 		function addHooks(){
@@ -92,18 +100,104 @@
 						
 					});	
 					
+					Layer.on('mouseout', function(e){
+						
+						var target = e.originalEvent.toElement || e.originalEvent.relatedTarget;
+												
+						if (_getParent(target, "leaflet-popup")) {
+							
+							L.DomEvent.on(pop._container, "mouseout", _popupMouseOut, this);
+							
+							return true;
+		 
+						}
+						
+						if(pop) pop.remove();
+						
+                        clearTimeout(overTimeout);
+
+                        clearSelected();
+                        
+                     });
+					
 				}				
 				
 			});
 			
 		}
+		
+		function _popupMouseOut(e){
+						
+			L.DomEvent.off(pop, "mouseout", _popupMouseOut, this);
+	 
+			var target = e.toElement || e.relatedTarget;
+			
+			if (_getParent(target, "leaflet-popup"))
+				return true;
+			
+			if (target == this._icon)
+				return true;
+			
+			if(pop) pop.remove();
+		}
+		
+		function clearSelected(){
+
+            $(widget.html, 'image[selected="true"]').each(function(i,img){
+
+              img.removeAttribute('selected');
+
+            });
+
+        }
+		
+		function _getParent(element, className) {
+			
+			var parent = element.parentNode;
+			
+			while (parent != null) {
+				
+				if (parent.className && L.DomUtil.hasClass(parent, className))
+					return parent;
+				
+				parent = parent.parentNode;
+				
+			}
+			
+			return false;
+			
+		}
 				
 		(function(){
 			
+			jQuery(document).on('mousedown contextmenu',function(){
+
+			    if(pop) pop.remove();
+
+                clearTimeout(overTimeout);
+
+                clearSelected();
+
+            });
+			
+			Map.on('zoomstart',function(){
+
+			  if(pop) pop.remove();
+
+              clearTimeout(overTimeout);
+
+              clearSelected();
+
+           });
+			
 			widget.on('activate', function(){			
 				
-				addHooks();
-				
+				setTimeout(function(){
+					
+					addHooks();
+					
+				},500);
+							
 			});	
 			
 			widget.on('deactivate', function(){	
@@ -111,7 +205,6 @@
 				if(pop) pop.remove();
 				
 			});	
-			
 						
 		})();
 		

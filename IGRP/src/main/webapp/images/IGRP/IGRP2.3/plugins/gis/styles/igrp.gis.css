@@ -596,3 +596,7 @@
 .leaflet-popup-content-wrapper{
 	border-radius: 4px;	
 }
+
+.leaflet-zoom-animated{
+	bottom: 7px !important;
+}

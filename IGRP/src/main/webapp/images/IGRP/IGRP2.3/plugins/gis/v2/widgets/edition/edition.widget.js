@@ -896,7 +896,7 @@
 				
 				var layerdata = layer.data();
 								
-				if(layerdata.type == 'WFS')
+				if(layerdata.type == 'WFS' && layerdata.editable)
 								
 					Layers[ layer.id ] = {
 							
