@@ -1,10 +1,10 @@
 (function(){
-
+	var com;
+	
     $.IGRP.component('circlestatbox',{
-
-        init:function(o){
-
-            o = o || {};
+    	
+    	render : function(o){
+    		o = o || {};
 
             var selector = o.selector || '.circlestats-chart';
 
@@ -57,6 +57,20 @@
                 });
 
             });
+    	},
+
+        init:function(o){
+        	com = this;
+            
+        	$.IGRP.components.circlestatbox.render(o);
+        	
+            $.IGRP.events.on('element-transform',function(p){
+				
+				if($('.circlestats-chart',p.content)[0]){
+					
+					$.IGRP.components.circlestatbox.render($('.circlestats-chart',p.content));
+				}
+			});
         }
 
     },true);
