@@ -43,6 +43,7 @@ public class TaskServiceIGRP extends GenericActivitiIGRP{
 
 	public List<TaskService> getAvailableTasks() {
 		taskServiceRest.addFilterUrl("unassigned", "true");
+		taskServiceRest.addFilterUrl("tenantId", Core.getCurrentDad());
 		List<TaskService> tasks =  taskServiceRest.getTasks();
 		List<TaskAccess> myTasAccess = new TaskAccess().getTaskAccess();
 		this.setMyProccessAccess();
@@ -54,18 +55,19 @@ public class TaskServiceIGRP extends GenericActivitiIGRP{
 	
 	
 	public List<TaskService> getMabageTasks() {
+		taskServiceRest.addFilterUrl("tenantId", Core.getCurrentDad());
 		List<TaskService> tasks =  taskServiceRest.getTasks();
-		List<TaskAccess> myTasAccess = new TaskAccess().getTaskAccess();
+		List<TaskAccess> myTaskAccess = new TaskAccess().getTaskAccess();
 		this.setMyProccessAccess();
-		tasks = tasks.stream().filter(t->this.filterAvailableTaskAccess(t, myTasAccess ))
+		tasks = tasks.stream().filter(t->this.filterAvailableTaskAccess(t, myTaskAccess ))
 							 .filter(t->this.myproccessId.contains(t.getProcessInstanceId()))
 							 .collect(Collectors.toList());
 		return tasks;
 	}
 	
 	
-	private boolean filterAvailableTaskAccess(TaskService t,List<TaskAccess> myTasAccess) {
-		return myTasAccess
+	private boolean filterAvailableTaskAccess(TaskService t,List<TaskAccess> myTaskAccess) {
+		return myTaskAccess
 						.stream()
 						.filter(a->Core.isNotNull(t.getProcessDefinitionKey()) && a.getProcessName().compareTo(t.getProcessDefinitionKey())==0)
 						.filter(a->a.getTaskName().compareTo(t.getTaskDefinitionKey())==0)
