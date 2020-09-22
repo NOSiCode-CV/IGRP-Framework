@@ -6,8 +6,6 @@ import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.uploadfile.UploadFile;
 
-import nosi.core.validator.constraints.*;
-
 public class ImportArquivo extends Model{		
 
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -60,17 +58,14 @@ public class ImportArquivo extends Model{
 	@RParam(rParamName = "p_aplicacao_combo_img")
 	private String aplicacao_combo_img;
 
-	@RParam(rParamName = "p_imagens")
-	private UploadFile[] imagens;
-
-	@NotNull()
 	@RParam(rParamName = "p_tipo")
 	private int tipo;
 
+	@RParam(rParamName = "p_imagens")
+	private UploadFile[] imagens;
+
 	@RParam(rParamName = "p_form_5_link_1")
-	private IGRPLink form_5_link_1;
-	@RParam(rParamName = "p_form_5_link_1_desc")
-	private String form_5_link_1_desc;
+	private String form_5_link_1;
 
 	@RParam(rParamName = "p_sectionheader_3_text")
 	private String sectionheader_3_text;
@@ -208,13 +203,6 @@ public class ImportArquivo extends Model{
 		return this.aplicacao_combo_img;
 	}
 	
-	public void setImagens(UploadFile[] imagens){
-		this.imagens = imagens;
-	}
-	public UploadFile[] getImagens(){
-		return this.imagens;
-	}
-	
 	public void setTipo(int tipo){
 		this.tipo = tipo;
 	}
@@ -222,25 +210,17 @@ public class ImportArquivo extends Model{
 		return this.tipo;
 	}
 	
-	public IGRPLink setForm_5_link_1(String app,String page,String action){
-		this.form_5_link_1 = new IGRPLink(app,page,action);
-		return this.form_5_link_1;
+	public void setImagens(UploadFile[] imagens){
+		this.imagens = imagens;
 	}
-	public IGRPLink getForm_5_link_1(){
-		return this.form_5_link_1;
+	public UploadFile[] getImagens(){
+		return this.imagens;
 	}
-	public void setForm_5_link_1_desc(String form_5_link_1_desc){
-		this.form_5_link_1_desc = form_5_link_1_desc;
+	
+	public void setForm_5_link_1(String form_5_link_1){
+		this.form_5_link_1 = form_5_link_1;
 	}
-	public String getForm_5_link_1_desc(){
-		return this.form_5_link_1_desc;
-	}
-	public IGRPLink setForm_5_link_1(String link){
-		this.form_5_link_1 = new IGRPLink(link);
-		return this.form_5_link_1;
-	}
-	public IGRPLink setForm_5_link_1(Report link){
-		this.form_5_link_1 = new IGRPLink(link);
+	public String getForm_5_link_1(){
 		return this.form_5_link_1;
 	}
 	
