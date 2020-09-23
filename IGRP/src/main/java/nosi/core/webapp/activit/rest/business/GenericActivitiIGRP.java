@@ -62,7 +62,7 @@ public class GenericActivitiIGRP {
 			myProccessAccess = myProccessAccess.stream()
 					.filter(p->allowTask(p.getProccessKey(), p))
 					.collect(Collectors.toList());
-			proccess = myProccessAccess.stream().map(ActivityExecute::getProcessid).collect(Collectors.toList());
+			proccess = myProccessAccess.stream().map(ActivityExecute::getProcessid).distinct().collect(Collectors.toList());
 		}
 		return proccess;
 	}
