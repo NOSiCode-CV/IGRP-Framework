@@ -34,10 +34,10 @@ public class Permission {
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){ 
 			if(PagesScapePermission.PAGES_SHAREDS.contains((appP + "/" + page + "/" + action).toLowerCase())) 
 				return true; 
-			if(app.equals(appP)) 
+			if(app.equals(appP) || appP.equals("igrp") || appP.equals("igrp_studio")) 
 				return (new Application().getPermissionApp(app) && new Menu().getPermissionMen(appP, page)); 
 			else { 
-				if(appP.equalsIgnoreCase("tutorial")) // default page purpose 
+				if(appP.equals("tutorial")) // default page purpose 
 					return true; 
 				return new Share().getPermissionPage(app,appP,new Action().findByPage(page, appP).getId()); 
 			}
