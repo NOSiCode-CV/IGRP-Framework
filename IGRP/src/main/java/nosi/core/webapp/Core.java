@@ -40,6 +40,8 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
+import javax.xml.soap.SOAPConstants;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -3327,9 +3329,27 @@ public final class Core {
 		sc.call();
 		return sc;
 	}
-
+	
 	/**
-	 * @param soapEnvelopeName      The custom soap tag name envelope
+	 * @param wsdlUrl     The webservice description language url
+	 * @param namespaces  A Map of all required namespaces
+	 * @param headers     A Map of soap request headers
+	 * @param bodyContent A Map of request content that will be converted to xml
+	 * @param soapProtocolVersion javax.xml.soap.SOAPConstants.(SOAP_1_2_PROTOCOL | SOAPConstants.SOAP_1_1_PROTOCOL) 
+	 * @return SoapClient object
+	 */
+	public static SoapClient soapClient(String wsdlUrl, Map<String, String> namespaces, Map<String, String> headers,
+			Map<String, Object> bodyContent, String soapProtocolVersion) {
+		SoapClient sc = new SoapClient(wsdlUrl);
+		sc.setHeaders(headers);
+		sc.setSoapProtocolVersion(soapProtocolVersion);
+		sc.doRequest(namespaces, bodyContent);
+		sc.call();
+		return sc;
+	}
+	
+	/**
+	 * @param soapNameSpace      The custom soap tag name envelope
 	 * @param soapNamespaceEnvelope custom namespace for custom tag name envelope
 	 * @param wsdlUrl               The webservice description language url
 	 * @param namespaces            A Map of all required namespaces
@@ -3339,16 +3359,16 @@ public final class Core {
 	 * @return SoapClient object
 	 */
 	public static SoapClient soapClient(String wsdlUrl, Map<String, String> namespaces, Map<String, String> headers,
-			Map<String, Object> bodyContent, String soapEnvelopeName, String soapNamespaceEnvelope) {
+			Map<String, Object> bodyContent, String soapNameSpace, String soapProtocolVersion) {
 		SoapClient sc = new SoapClient(wsdlUrl);
-		sc.setPrintInConsole(false);
 		sc.setHeaders(headers);
-		sc.setSoapEnvelopeName(soapEnvelopeName);
-		sc.setSoapNamespaceEnvelope(soapNamespaceEnvelope);
+		sc.setSoapNameSpace(soapNameSpace);
+		sc.setSoapProtocolVersion(soapProtocolVersion);
 		sc.doRequest(namespaces, bodyContent);
 		sc.call();
 		return sc;
 	}
+
 
 	/**
 	 * @param wsdlUrl     The webservice description language url
@@ -4298,19 +4318,19 @@ public final class Core {
 	}
 
 	public static boolean isHttpPost() {
-		return Igrp.getMethod().equals(HttpMethod.POST.toString());
+		return Igrp.getInstance().getRequest().getMethod().equals(HttpMethod.POST.toString());
 	}
 	
 	public static boolean isHttpGet() {
-		return Igrp.getMethod().equals(HttpMethod.GET.toString());
+		return Igrp.getInstance().getRequest().getMethod().equals(HttpMethod.GET.toString());
 	}
 	
 	public static boolean isHttpPut() {
-		return Igrp.getMethod().equals(HttpMethod.PUT.toString());
+		return Igrp.getInstance().getRequest().getMethod().equals(HttpMethod.PUT.toString());
 	}
 	
 	public static boolean isHttpDelete() {
-		return Igrp.getMethod().equals(HttpMethod.DELETE.toString());
+		return Igrp.getInstance().getRequest().getMethod().equals(HttpMethod.DELETE.toString());
 	}
 	
 	public static long calculateYears(String data) {
@@ -4596,4 +4616,19 @@ public final class Core {
 		return url; 
 	}
 	
+	public static String getLastSessionId(String userName) {
+		String sessionId = null; 
+		String host = Igrp.getInstance().getRequest().getRemoteHost(); 
+		String ip = Igrp.getInstance().getRequest().getRemoteAddr(); 
+		nosi.webapps.igrp.dao.Session s = new nosi.webapps.igrp.dao.Session().find()
+				.andWhere("host", "=", host)
+				.andWhere("hostName", "=", host)
+				.andWhere("ipAddress", "=", ip)
+				.andWhere("userName", "=", userName)
+				.orderByDesc("id")
+				.one(); 
+		if(s != null) 
+			sessionId = s.getSessionId(); 
+		return sessionId; 
+	}
 }
