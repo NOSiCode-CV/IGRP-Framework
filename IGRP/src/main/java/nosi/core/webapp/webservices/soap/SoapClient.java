@@ -41,7 +41,7 @@ public class SoapClient {
 	private String rawEnvelopeRequest; 
 	private String rawEnvelopeResponse; 
 	
-	public static final String DEFAULT_SOAP_NAMESPACE = "SOAP-ENV"; 
+	public static final String []DEFAULT_SOAP_NAMESPACES = {"SOAP-ENV", "env"}; 
 	
 	public SoapClient() {
 		errors = new ArrayList<String>(); 
@@ -155,8 +155,8 @@ public class SoapClient {
 			SOAPEnvelope soapEnvelope = soapPart.getEnvelope();
 			SOAPBody soapBody = soapEnvelope.getBody();
 			if(soapNameSpace != null && !soapNameSpace.isEmpty()) {
-				soapEnvelope.removeNamespaceDeclaration(DEFAULT_SOAP_NAMESPACE);
-				soapEnvelope.removeNamespaceDeclaration("env");
+				for(String ns : DEFAULT_SOAP_NAMESPACES) 
+					soapEnvelope.removeNamespaceDeclaration(ns);
 				soapEnvelope.setPrefix(soapNameSpace);
 		   	    request.getSOAPHeader().setPrefix(soapNameSpace);
 				soapBody.setPrefix(soapNameSpace); 
