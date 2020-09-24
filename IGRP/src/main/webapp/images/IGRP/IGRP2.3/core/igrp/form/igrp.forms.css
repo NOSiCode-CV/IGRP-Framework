@@ -19,6 +19,8 @@
 
 .checkbox label, .radio label {
     display: block;
+    min-height: 0px; 
+    padding-left: 3px;
 }
 .form-group > label,
 .form-link {
@@ -167,7 +169,7 @@ form [item-type="plaintext"]{
     color: white;
     padding-left: 3px;
     padding-right: 3px;
-    z-index: 1;
+    z-index: 3;
 }
 
 .input-group .form-validator-label {
@@ -177,8 +179,8 @@ form [item-type="plaintext"]{
 
 *[item-type="checkboxlist"] .form-validator-label,
 *[item-type="radiolist"] .form-validator-label {
-	top:-15px;
-	left:-20px;
+	top:-8px;
+	left:9px;
 }
 
 *[item-type="checkbox"] .form-validator-label,
@@ -214,7 +216,7 @@ form [item-type="plaintext"]{
 
 .checkboxlist .checkbox, .radiolist .radio{
 	margin-top: 0;
-	margin-bottom: 4px;
+	margin-bottom: 2px;
 	padding: 0;
 }
 
@@ -223,7 +225,7 @@ form [item-type="plaintext"]{
 }
 
 .checkboxlist > label, .radiolist > label{
-	margin-bottom: 10px;
+	margin-bottom: 5px;
 }
 
 /*checkbox switch*/
