@@ -366,14 +366,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 				.andWhere("type_fk", ">", 1)
 				.andWhere("organization.application.dad", "=", dad)
 				.all();
-		if(list!=null && !list.isEmpty()) {
-			list=list.stream() 
-				.filter(distinctByKey(p -> p.getType_fk())) 
-				.collect(Collectors.toList());
-			list.sort(Comparator.comparing(Profile::getType_fk));
-			return list;
-		}
-		return null;
+		return list; 
 	}
 	
 	public List<User> getAllUsers(String dad) {
@@ -403,6 +396,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	    Map<Object, Boolean> map = new ConcurrentHashMap<>();
 	    return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
 	}
+	
 	public List<Application> getOtherApp() {
 		List<Application> list = this.find().andWhere("id", "<>", 1).andWhere("status", "=", 1).all();
 
