@@ -19,6 +19,8 @@ function SetupBlockly(){
 		
 			type  = element.attr('type'),
 			
+			
+			
 			coment  = element.attr('coment'),
 			
 			color = element.attr('color') || 180,
