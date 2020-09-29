@@ -2466,8 +2466,9 @@ public final class Core {
 		}
 		return result;
 	}
-	
-	/**
+	@Deprecated 
+	/**Use saveFileNGetUuid
+	 * 
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
 	 * @param content   byte[]
