@@ -9,23 +9,23 @@
 	</xsl:template>
     
     <xsl:template name="imports">
-    	<xsl:text>import java.io.IOException;</xsl:text>
+    	<xsl:text>import java.io.IOException;//</xsl:text>
     	<xsl:value-of select="$newline"/>
-		<xsl:text>import java.util.List;</xsl:text>
+		<xsl:text>import java.util.List;//</xsl:text>
     	<xsl:value-of select="$newline"/>
-		<xsl:text>import nosi.core.webapp.Response;</xsl:text>
+		<xsl:text>import nosi.core.webapp.Response;//</xsl:text>
     	<xsl:value-of select="$newline"/>
-		<xsl:text>import javax.servlet.ServletException;</xsl:text>
+		<xsl:text>import javax.servlet.ServletException;//</xsl:text>
     	<xsl:value-of select="$newline"/>
-		<xsl:text>import nosi.core.webapp.Core;</xsl:text>
+		<xsl:text>import nosi.core.webapp.Core;//</xsl:text>
     	<xsl:value-of select="$newline"/>
-		<xsl:text>import nosi.core.webapp.databse.helpers.ResultSet;</xsl:text>
+		<xsl:text>import nosi.core.webapp.databse.helpers.ResultSet;//</xsl:text>
     	<xsl:value-of select="$newline"/>
-		<xsl:text>import nosi.core.webapp.databse.helpers.QueryInterface;</xsl:text>
+		<xsl:text>import nosi.core.webapp.databse.helpers.QueryInterface;//</xsl:text>
     	<xsl:value-of select="$newline"/>
-		<xsl:text>import nosi.webapps.igrp.dao.TipoDocumentoEtapa;</xsl:text>
+		<xsl:text>import nosi.webapps.igrp.dao.TipoDocumentoEtapa;//</xsl:text>
     	<xsl:value-of select="$newline"/>
-		<xsl:text>import nosi.core.webapp.bpmn.BPMNTaskController;</xsl:text>
+		<xsl:text>import nosi.core.webapp.bpmn.BPMNTaskController;//</xsl:text>
 		<xsl:choose>
 			<xsl:when test="//form_key!=''">
     			<xsl:value-of select="$newline"/>

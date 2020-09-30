@@ -13,6 +13,7 @@ import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -20,6 +21,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 
 import nosi.core.config.ConfigApp;
+import nosi.core.webapp.Core;
 
 /**
  * Iekiny Marcel
@@ -28,6 +30,8 @@ import nosi.core.config.ConfigApp;
 public class EmailMessage { 
 	
 	private String to;
+	private String cc;
+	private String bcc;
 	private String from;
 	private String subject;
 	private String msg;
@@ -75,7 +79,7 @@ public class EmailMessage {
 	}
 	
 	public EmailMessage setTo(String to) {
-		this.to = to;
+		this.to = to.replaceAll(";", ",");
 		return this;
 	}
 
@@ -153,30 +157,46 @@ public class EmailMessage {
 					return new PasswordAuthentication(auth_username, auth_password);
 				}
 		});
+		
+	
+		//Email with error
+		String erroEmails="";
 		// Set response content type 
 		try{
 			// Create a default MimeMessage object. 
 			MimeMessage message = new MimeMessage(session); 
 			if(!validateEmail(this.from)) {
-				System.out.println("Email not sent ... Invalid email: <" + this.from + "> ");
+				System.out.println("Email not sent ... Invalid email (from): <" + this.from + "> ");
 				return false;
 			}
 			// Set From: header field of the header.
 			message.setFrom(new InternetAddress(this.from));
+			//If error occurs in parse, it will be show	
+			erroEmails=this.to; 
+			
 			// Set To: header field of the header. 
 			if(this.multipleRecipients) {
 				if(!validateEmails(this.to)) {
-					System.out.println("Email not sent ... one of email is invalid: <" + this.to + "> ");
+					System.out.println("Email not sent (To)... one of email is invalid: <" + this.to + "> ");
 					return false;
 				}
 				message.addRecipients(Message.RecipientType.CC,InternetAddress.parse(this.to)); // this.to is a string separated by comma 
 			}else {
-				if(!validateEmail(this.to)) {
-					System.out.println("Email not sent ... Invalid email: <" + this.to + "> ");
-					return false;
-				}
-				message.addRecipient(Message.RecipientType.TO,new InternetAddress(this.to));
-			}
+//				if(!validateEmails(this.to)) {
+//					System.out.println("Email not sent (To) ... one of email is invalid: <" + this.to + "> ");
+//					return false;
+//				}					
+					message.addRecipients(Message.RecipientType.TO,InternetAddress.parse(this.to));
+				
+			}			
+		
+				erroEmails=this.cc; //If error occurs in parse, it will be show		
+				message.addRecipients(Message.RecipientType.CC,InternetAddress.parse(this.cc));
+			
+	
+				erroEmails=this.bcc;	//If error occurs in parse, it will be show		
+				message.addRecipients(Message.RecipientType.BCC,InternetAddress.parse(this.bcc));
+			
 			
 			if(this.replyTo != null && !this.replyTo.isEmpty() && validateEmails(this.replyTo)) 
 				message.setReplyTo(InternetAddress.parse(this.replyTo));
@@ -198,7 +218,9 @@ public class EmailMessage {
 					message.setText(this.msg, null, this.subType);
 				else
 					mbp.setText(this.msg);
-		        mbp.setContent(this.msg, this.subType);
+				//if type is text/html and not just one word like html, must use setContent or error will occur
+				if(this.subType != null && !this.subType.isEmpty() && this.subType.contains("/"))
+					mbp.setContent(this.msg, this.subType);
 		        multipart.addBodyPart(mbp);
 		        
 				if(!this.attaches.isEmpty()) 
@@ -215,11 +237,17 @@ public class EmailMessage {
 					message.setText(this.msg, null, this.subType);
 				else
 					message.setText(this.msg);
+				//if type is text/html and not just one word like html, must use setContent or error will occur
+				if(this.subType != null && !this.subType.isEmpty() && this.subType.contains("/"))
+					message.setContent(this.msg, this.subType);
 			}
 			// Send message
 			Transport.send(message);
 		return true;
-		}catch (MessagingException mex) {
+		}catch(AddressException adX) {
+			Core.setMessageError("Erro: "+erroEmails+" - "+adX.getLocalizedMessage());	
+
+		}catch (MessagingException mex)  {
 			System.out.println("Error ... sending email ... ");
 			mex.printStackTrace();
 		}
@@ -274,7 +302,23 @@ public class EmailMessage {
 		// Send the complete message parts 
         message.setContent(multipart); 
 	}
-	
+
+	/**
+	 * @param cc the cc to set
+	 */
+	public EmailMessage setCc(String cc) {
+		this.cc = cc.replaceAll(";", ",");
+		return this;
+	}
+
+	/**
+	 * @param bcc the bcc to set
+	 */
+	public EmailMessage setBcc(String bcc) {
+		this.bcc = bcc.replaceAll(";", ",");
+		return this;
+	}
+
 	public static class Attachment{ 
 		
 		private byte[] content; 

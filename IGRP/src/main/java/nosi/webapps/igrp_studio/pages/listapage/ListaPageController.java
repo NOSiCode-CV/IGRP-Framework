@@ -88,7 +88,8 @@ public class ListaPageController extends Controller {
 				
 			}
 		}else {
-			if(Core.isNotNull(model.getApplication()) && Core.findApplicationById(Core.toInt(model.getApplication())).getExterno()>0) {
+			final Application appExt = Core.findApplicationById(Core.toInt(model.getApplication()));
+			if(Core.isNotNull(appExt) && appExt.getExterno()>0 && !appExt.getUrl().equals("IGRP")) {
 				Core.setMessageError("ESTÁ NA PASTA PRINCIPAL /IGRP/app/. ESTA APLICAÇÃO É DO TIPO CUSTOM HOST. MUDAR DE DAD POR FAVOR!");	
 //				nosi.webapps.igrp.dao.Action ac = Core.findApplicationByDad(dad).getAction();
 //				String page = "tutorial/DefaultPage/index&title=";
