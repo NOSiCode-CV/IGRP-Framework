@@ -1745,6 +1745,17 @@ public final class Core {
 	public static boolean isNull(Object value) {
 		return (value instanceof String) ? value.equals("") : value == null;
 	}
+	
+	/**
+     * Checks if it's empty for string values or null otherwise.
+     * 
+     * @param values The values to be checked
+     * @return  {@code true} if all elements are null, or empty for string values. Otherwise {@code false}
+     * @see #isNull(Object)
+     */
+    public static boolean isNullMultiple(Object... values) {
+        return values == null ? true : Arrays.stream(values).allMatch(Core::isNull);
+    }
 
 	/**
 	 * Checks if it's null or 0
