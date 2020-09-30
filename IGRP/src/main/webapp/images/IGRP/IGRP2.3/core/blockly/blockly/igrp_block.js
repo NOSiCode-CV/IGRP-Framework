@@ -1,6 +1,6 @@
 /**
  * @author rodfelfer@hotmail.com (Rodney Fernandes)
- */ 
+ */
 'use strict';
 
 goog.require('Blockly.Blocks');
@@ -19,13 +19,13 @@ function SetupBlockly(){
 		
 			type  = element.attr('type'),
 			
-			
-			
 			coment  = element.attr('coment'),
 			
 			color = element.attr('color') || 180,
 			
 			title = element.attr('title') || '',
+			
+			visible = element.attr('visible') || '',
 			
 			rtn    = element.attr('return'),
 			
@@ -75,6 +75,10 @@ function SetupBlockly(){
 				
 				IGRPElement = IGRP_BLOCKLY_ELEMENTS.inserir_dao;
 			
+			if( type.indexOf('sttbox_') == 0 )
+				
+				IGRPElement = IGRP_BLOCKLY_ELEMENTS.statbox;
+			
 			if( type == 'checkbox_table')
 				
 				IGRPElement = IGRP_BLOCKLY_ELEMENTS.checkbox_table;
@@ -101,6 +105,8 @@ function SetupBlockly(){
 						var valueName  = $(e).attr('name'),
 						
 							valueTitle = $(e).attr('title'),
+							
+							isVisible  = $(e).attr('visible') == 'false' ? false : true,
 						
 							type 	   = $(e).attr('type'),
 							
@@ -131,6 +137,12 @@ function SetupBlockly(){
 								
 							value.appendField(valueTitle);
 						
+						console.log("Imprimir:"+isVisible);
+
+						if(isVisible)
+							
+							value.setVisible(isVisible);
+						
 						if(fields[0]){
 							
 							fields.each(function(z,f){
@@ -144,8 +156,6 @@ function SetupBlockly(){
 									title = field.attr('title'),
 									
 									editable = field.attr('editable') == 'false' ? false : true;
-								
-					
 								
 								if(title)
 									

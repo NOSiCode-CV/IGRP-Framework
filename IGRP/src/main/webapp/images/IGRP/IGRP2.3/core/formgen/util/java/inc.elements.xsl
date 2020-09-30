@@ -25,7 +25,6 @@
 	
 	<xsl:template name="blockly.element.controller">
 		
-		
 		<xsl:call-template name="blockly.getValue">
 		
 			<xsl:with-param name="value" select="statement"></xsl:with-param>
@@ -34,74 +33,6 @@
 			
 		</xsl:call-template>
 
-	</xsl:template>
-	
-	<xsl:template name="blockly.element.row">
-		
-		<xsl:variable name="rowtypechild" select="substring-before(value[@name='fields_model']/block/field,'::')"/>
-		
-		<xsl:variable name="rowvaluechild" select="substring-after(value[@name='fields_model']/block/field,'::')"/>
-		
-		<xsl:variable name="rowtypeneto" select="substring-before(value[@name='fields_model']/block/value[@name='dao_rela']/block/field,'::')"/>
-		
-		<xsl:variable name="rowType" select="substring-before(@id,'::')"/>
-		
-		<xsl:variable name="rowValue" select="substring-after(@id,'::')"/>
-		
-		<xsl:variable name="nameCap">
-		
-			<xsl:call-template name="InitCap">
-			
-				<xsl:with-param name="text" select="$rowValue"/>
-				
-			</xsl:call-template>
-			
-		</xsl:variable>
-		
-		<xsl:variable name="valorA">
-		
-			<xsl:call-template name="blockly.getValue">
-			
-				<xsl:with-param name="value" select="*[@name='fields_model']"/>
-				
-			</xsl:call-template>
-			
-		</xsl:variable>
-		
-		<xsl:variable name="rowset">
-		
-			<xsl:value-of select="$tab2"></xsl:value-of>
-		
-			<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of><xsl:text>(</xsl:text>
-			
-				<xsl:call-template name="convert_blocks">
-				
-					<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
-					
-					<xsl:with-param name="value" select="$valorA"></xsl:with-param>
-					
-					<xsl:with-param name="valueblock" select="$rowValue"></xsl:with-param>
-					
-					<xsl:with-param name="from" select="$rowtypechild"></xsl:with-param>
-					
-					<xsl:with-param name="to" select="$rowType"></xsl:with-param>
-					
-					<xsl:with-param name="neto" select="$rowtypeneto"></xsl:with-param>
-					
-					<xsl:with-param name="valuechild" select="$rowvaluechild"></xsl:with-param>
-					
-					<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>
-					
-					<xsl:with-param name="block_name" select="block_name"></xsl:with-param>
-					
-				</xsl:call-template>
-				
-			<xsl:text>);</xsl:text>
-			
-		</xsl:variable>
-		
-		<xsl:value-of select="$rowset"></xsl:value-of>
-	
 	</xsl:template>
 	
 	<xsl:template name="blockly.element.core">
@@ -442,6 +373,154 @@
 		
 	</xsl:template>
 	
+	<xsl:template name="blockly.element.statbox" >
+		
+		<xsl:variable name="mutation" select="mutation/@count"/>
+		
+		<xsl:variable name="dao" select="field[@name='dao']"/>
+		
+		<xsl:variable name="statbox" select="substring-after(@type,'statbox_')"/>
+		
+		<xsl:variable name="dao_low">
+		
+	       	<xsl:call-template name="LowerCase">
+	       	
+	       		<xsl:with-param name="text" select="$dao"/>
+	       		
+	       	</xsl:call-template>
+	       	
+	   	</xsl:variable>
+	   	
+	   	<xsl:variable name="daofilter" select="concat($dao_low,'filter')"/>
+		
+		<xsl:variable name="andWheres">
+			
+			<xsl:call-template name="listar.andWheres">
+			
+				<xsl:with-param name="daofilter" select="$daofilter"/>
+			
+				<xsl:with-param name="total" select="$mutation"/>
+				
+				<xsl:with-param name="valueAttrName" select="'ADD'"/>
+				
+				<xsl:with-param name="values" select="value"/>
+			
+			</xsl:call-template>
+			
+		</xsl:variable>
+	   	
+	   	<xsl:variable name="stat_set">
+	   	
+			<xsl:call-template name="blockly.getValue">
+
+				<xsl:with-param name="value" select="*[@name='value2']"/>
+				
+			</xsl:call-template>
+			
+		</xsl:variable>
+			
+		<xsl:variable name="code">
+	
+			<xsl:value-of select="$newlineTab2"/>
+			
+			<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daofilter"/><xsl:text> = new </xsl:text><xsl:value-of select="$dao"/><xsl:text>().find();</xsl:text>
+			
+			<xsl:value-of select="$andWheres"/>
+			
+			<xsl:value-of select="$newlineTab2"/>
+			
+			<xsl:text>long total_</xsl:text><xsl:value-of select="$dao_low"/><xsl:text> = </xsl:text><xsl:value-of select="$daofilter"></xsl:value-of><xsl:text>.getCount();</xsl:text>
+			
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			
+			<xsl:value-of select="$stat_set"></xsl:value-of>
+			
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+		
+		</xsl:variable>
+		
+		<xsl:call-template name="utils.try">
+			
+			<xsl:with-param name="code" select="$code"></xsl:with-param>
+			
+			<xsl:with-param name="exceptionCode">
+				
+				<xsl:text>e.printStackTrace();</xsl:text>
+				
+			</xsl:with-param>
+			
+		</xsl:call-template>
+		
+	</xsl:template>
+	
+	<xsl:template name="blockly.element.statfields" >
+	
+		<xsl:variable name="typechild" select="substring-before(value[@name='fields_model']/block/field,'::')"/>
+		
+		<xsl:variable name="valuechild" select="substring-after(value[@name='fields_model']/block/field,'::')"/>
+		
+		<xsl:variable name="typeneto" select="substring-before(value[@name='fields_model']/block/value[@name='dao_rela']/block/field,'::')"/>
+		
+		<xsl:variable name="statType" select="substring-before(@id,'::')"/>
+		
+		<xsl:variable name="statValue" select="substring-after(@id,'::')"/>
+		
+		<xsl:variable name="nameCap">
+		
+			<xsl:call-template name="InitCap">
+			
+				<xsl:with-param name="text" select="$statValue"/>
+				
+			</xsl:call-template>
+			
+		</xsl:variable>
+		
+		<xsl:variable name="valorA">
+		
+			<xsl:call-template name="blockly.getValue">
+			
+				<xsl:with-param name="value" select="*[@name='fields_model']"/>
+				
+			</xsl:call-template>
+			
+		</xsl:variable>
+		
+		<xsl:variable name="stat_set">
+		
+			<xsl:value-of select="$tab2"></xsl:value-of>
+		
+			<xsl:text>model.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text>
+			
+				<xsl:call-template name="convert_blocks">
+				
+					<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
+					
+					<xsl:with-param name="value" select="$valorA"></xsl:with-param>
+					
+					<xsl:with-param name="valueblock" select="$statValue"></xsl:with-param>
+					
+					<xsl:with-param name="from" select="$typechild"></xsl:with-param>
+					
+					<xsl:with-param name="to" select="$statType"></xsl:with-param>
+					
+					<xsl:with-param name="neto" select="$typeneto"></xsl:with-param>
+					
+					<xsl:with-param name="valuechild" select="$valuechild"></xsl:with-param>
+					
+					<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>
+					
+					<xsl:with-param name="block_name" select="block_name"></xsl:with-param>
+					
+				</xsl:call-template>
+				
+			<xsl:text>);</xsl:text>
+			
+		</xsl:variable>
+		
+		<xsl:value-of select="$stat_set"></xsl:value-of>
+		
+	</xsl:template>
+	
 	<xsl:template name="blockly.element.param_dao" >
 	
 		<xsl:variable name="param" select="field[@name='param']"/>
@@ -533,6 +612,26 @@
 		</xsl:variable>
 
 		<xsl:value-of select="$daolow"/>
+		
+	</xsl:template>
+	
+	<xsl:template name="blockly.element.dao_count" >
+	
+		<xsl:variable name="dao" select="field[@name='dao']"/>
+		
+		<xsl:variable name="daolow">
+		
+	       	<xsl:call-template name="LowerCase">
+	       	
+	       		<xsl:with-param name="text" select="$dao"/>
+	       		
+	       	</xsl:call-template>
+	       	
+		</xsl:variable>
+		
+		<xsl:variable name="double_quotes">"</xsl:variable>
+
+		<xsl:value-of select="$double_quotes"/><xsl:value-of select="$double_quotes"/><xsl:value-of select="concat('+total_',$daolow)"/>
 		
 	</xsl:template>
 	
@@ -1455,6 +1554,24 @@
 			<xsl:when test="$block-type = 'checkss'">
 			
 				<xsl:call-template name="blockly.element.checkss"></xsl:call-template>
+				
+			</xsl:when>
+			
+			<xsl:when test="contains($block-type, 'sttbox_')">
+			
+				<xsl:call-template name="blockly.element.statbox"></xsl:call-template>
+				
+			</xsl:when>
+			
+			<xsl:when test="contains($block-type, 'statfields_')">
+			
+				<xsl:call-template name="blockly.element.statfields"></xsl:call-template>
+				
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'dao_count'">
+			
+				<xsl:call-template name="blockly.element.dao_count"></xsl:call-template>
 				
 			</xsl:when>
 		

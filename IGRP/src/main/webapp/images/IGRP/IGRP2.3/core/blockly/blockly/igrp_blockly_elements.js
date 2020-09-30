@@ -3,7 +3,7 @@
 	var ListMutationSettings = {
 					
 		mutationToDom: function() {
-			  var container = document.createElement('mutation');
+			  var container = document.createElement('mutation');	
 			  var pxchecked = (this.getFieldValue('3D') == 'TRUE'); //para gráfico
 			  container.setAttribute('pxchecked', pxchecked); //para gráfico
 			  container.setAttribute('count', this.itemCount_);
@@ -79,6 +79,7 @@
 				 		_block.getInput("empty_table").setVisible(false);	
 				 	}
 		 		}
+			 	
 			 	var appendMutationFields = function(v,id){
 			 		if(v == 'andWhere' || v == 'orWhere' || v == 'where' || v == 'having'  )	
             		{
@@ -94,7 +95,7 @@
 			 			_block.getInput('ADD'+ id +'STATE2').setVisible(true);
 			 			_block.getInput('ADD'+ id +'STATE3').setVisible(true);
             		}
-			 		if(v == 'andWhereIsNull' || v == 'andWhereIsNotNull' || v == 'orWhereIsNull' || v == 'orWhereIsNotNull' )	
+			 		if(v == 'andWhereIsNull' || v == 'andWhereNotNull' || v == 'orWhereIsNull' || v == 'orWhereNotNull' )	
             		{
 			 			_block.getInput('ADD'+ id).setVisible(true);
 			 			_block.getInput('ADD'+ id +'SIGNAL').setVisible(false);
@@ -141,6 +142,7 @@
 				block.itemCount_ = 0;
 				block.updateShape_();
 				block.updateShape__ = function(){};
+				block.updateShape___ = function(){};
 //				this.onTableSet = function(item){		
 //					var XML = $.parseXML(VARS.getGen().getXML());	
 //					var menus = function(){
@@ -151,8 +153,35 @@
 //						})
 //						return arr
 //					}();
-//				}	
+//				}
+				var options = IGRP_BLOCKLY_DROPS.findList;
+				var dropdown = new Blockly.FieldDropdown(options, function(option) {	
+					this.sourceBlock_.updateShape___(option);    
+			    });	
+			    block.appendDummyInput("find").appendField("list").appendField(dropdown, 'find');
+			    block.moveInputBefore("find", "value2");
+			    
+//				 block.updateShape___ = function(limit) {
+//					 
+//					 if(limit == 'all'){
+//						 
+//						 block.getInput("limit_value").setVisible(false);
+//						 
+//					 }
+//					 else if(limit == 'limit'){
+//						 
+//						 block.getInput("limit_value").setVisible(true);
+//						 
+//					 } 
+//					 else{
+//						 
+//						 block.getInput("limit_value").setVisible(false);
+//						 
+//					 }	 
+//			   
+//				} 
 			}
+		
 		}, ListMutationSettings),
 		
 		
@@ -165,6 +194,14 @@
 		}	
 	  }, ListMutationSettings),
 	  
+	  statbox :$.extend({
+
+			init : function(block){
+				 block.itemCount_ = 0;
+				 block.updateShape_();
+				 block.updateShape__ = function(){};
+			}	
+	   }, ListMutationSettings),
 	  
 	 index_editar :$.extend({
 		  
