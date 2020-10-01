@@ -609,6 +609,8 @@
 		
 		function GetWFST(layerInfo){
 			
+			console.log(layerInfo.namespaceUri);
+			
 			return new L.WFST({
 				 
 	                url: layerInfo.owsURL,
@@ -921,7 +923,11 @@
 			
 			for (var name in Attributes){
 				
-				var type = Attributes[name] == 'string' ? 'text' : 'number';
+				var type = 'number'; 
+				
+				if (Attributes[name] == 'string')  type = 'text' 
+					
+				else if(Attributes[name] == 'dateTime' || Attributes[name] == 'date') type = 'date';
 								
 				html += '<input type="'+type+'" class="form-control" placeholder="'+name+'" name="'+name+'"/>'
 				

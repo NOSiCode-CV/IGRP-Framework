@@ -21,29 +21,7 @@
     height: 16px;    
 }
 
-/*
-.gis-widget-wrapper[widget-type="edition"] .icon-add {
-    background: url(/IGRP-Template/images/IGRP/IGRP2.3/plugins/gis/images/add.png) no-repeat center center / contain;
-    content: url(/IGRP-Template/images/IGRP/IGRP2.3/plugins/gis/images/add.png);
+.gis-widget-wrapper[widget-type="edition"] .attributes {
+	max-height: 248px;
+    overflow: auto;
 }
-
-.gis-widget-wrapper[widget-type="edition"] .icon-edit {
-    background: url(/IGRP-Template/images/IGRP/IGRP2.3/plugins/gis/images/edit.png) no-repeat center center / contain;
-    content: url(/IGRP-Template/images/IGRP/IGRP2.3/plugins/gis/images/edit.png);
-}
-
-.gis-widget-wrapper[widget-type="edition"] .icon-delete {
-    background: url(/IGRP-Template/images/IGRP/IGRP2.3/plugins/gis/images/trash.png) no-repeat center center / contain;
-    content: url(/IGRP-Template/images/IGRP/IGRP2.3/plugins/gis/images/trash.png);
-}
-
-.gis-widget-wrapper[widget-type="edition"] .icon-shapefile{
-    background: url(/IGRP-Template/images/IGRP/IGRP2.3/plugins/gis/images/upshape.png) no-repeat center center / contain;
-    content: url(/IGRP-Template/images/IGRP/IGRP2.3/plugins/gis/images/upshape.png);
-}
-
-.gis-widget-wrapper[widget-type="edition"] .icon-coords {
-    background: url(/IGRP-Template/images/IGRP/IGRP2.3/plugins/gis/images/coords.png) no-repeat center center / contain;
-    content: url(/IGRP-Template/images/IGRP/IGRP2.3/plugins/gis/images/coords.png);
-}
-*/
