@@ -593,10 +593,24 @@
     height: 41px;
 }
 
+.gis-marker{
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: block;
+	text-align: center;
+	margin-left: -15px;
+    margin-top: -35px;
+}
+
 .leaflet-popup-content-wrapper{
 	border-radius: 4px;	
 }
 
 .leaflet-zoom-animated{
 	bottom: 7px !important;
+}
+
+.leaflet-popup-pane{
+	top: 7px;
 }

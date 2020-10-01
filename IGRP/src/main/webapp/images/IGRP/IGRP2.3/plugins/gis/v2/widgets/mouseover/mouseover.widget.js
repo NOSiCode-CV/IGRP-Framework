@@ -38,7 +38,7 @@
 							
 						name : value,
 						
-						value : type === 'DATE' ? new Date(feature.properties[key.toUpperCase()]).toLocaleDateString("pt") : feature.properties[key.toUpperCase()],
+						value : type === 'DATE' && feature.properties[key.toUpperCase()] ? new Date(feature.properties[key.toUpperCase()]).toLocaleDateString("pt") : feature.properties[key.toUpperCase()],
 						
 						isImage  : type === 'IMAGE' ? true : false		
 						
@@ -51,7 +51,7 @@
 							
 						name : value,
 						
-						value : type === 'DATE' ? new Date(feature.properties[key.toUpperCase()]).toLocaleDateString("pt") : feature.properties[key.toUpperCase()],
+						value : type === 'DATE' && feature.properties[key.toUpperCase()] ? new Date(feature.properties[key.toUpperCase()]).toLocaleDateString("pt") : feature.properties[key.toUpperCase()],
 						
 						isImage  : type === 'IMAGE' ? true : false		
 						
