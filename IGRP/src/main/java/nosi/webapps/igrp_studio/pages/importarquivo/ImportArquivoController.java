@@ -14,7 +14,6 @@ import java.util.Map;
 import java.io.File;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-import org.apache.commons.lang3.StringUtils;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.export.app.ImportAppJava;
 import nosi.core.webapp.export.app.ImportJavaPage;
@@ -91,7 +90,7 @@ public class ImportArquivoController extends Controller {
 		/*----#start-code(btm_import_aplicacao)----*/
 		try {
 			
-			if(Igrp.getMethod().equalsIgnoreCase("post")){
+			if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 				boolean result = false;
 				String descricao = "";
 				try {
@@ -171,7 +170,7 @@ public class ImportArquivoController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(importar_jar_file)----*/
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			Collection<Part> parts;
 			try {
 				parts = Igrp.getInstance().getRequest().getParts();
@@ -243,7 +242,7 @@ public class ImportArquivoController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(import_images)----*/
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
            String dad = Core.getCurrentDad();    
           this.addQueryString("p_env_fk",model.getAplicacao_combo_img());
           this.addQueryString("p_tipo",model.getTipo());
@@ -315,7 +314,7 @@ public class ImportArquivoController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(btm_importar_page)----*/
 		
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			boolean result = false;
 			String descricao = "";		
 			if(model.getList_aplicacao() != null){

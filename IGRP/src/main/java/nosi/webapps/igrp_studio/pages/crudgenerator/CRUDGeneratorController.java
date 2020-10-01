@@ -163,7 +163,7 @@ public class CRUDGeneratorController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(gerar)----*/
 
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 	
 			if(Core.isNotNull(model.getData_source()) && Core.isNotNull(model.getAplicacao())) {
 		

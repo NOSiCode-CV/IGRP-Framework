@@ -70,10 +70,7 @@ public final class Igrp{
 		this.baseRoute = this.request.getServletPath();
 		this.homeUrl = EncrypDecrypt.encrypt("igrp"+"/"+"home"+"/"+"index");
 		// init. of others configuration 
-		this.flashMessage = new FlashMessage(); // Flash Message instance
-		
-		// Config. of RDBMS or others DS ...
-		// PersistenceUtils.init();
+		this.flashMessage = new FlashMessage(); // Flash Message instance 
 		
 		// For internacionalization purpose 
 		this.i18nManager = new I18nManager();
@@ -86,7 +83,6 @@ public final class Igrp{
 		// User component (Identity)
 		this.user = new User();
 		this.user.init(request);
-		
 		
 		return this;
 	}
@@ -199,10 +195,6 @@ public final class Igrp{
 	
 	public I18nManager getI18nManager() {	
 		return i18nManager;
-	}
-
-	public static String getMethod() {
-		return Igrp.getInstance().getRequest().getMethod();
 	}
 	
 	public IgrpLog getLog() {

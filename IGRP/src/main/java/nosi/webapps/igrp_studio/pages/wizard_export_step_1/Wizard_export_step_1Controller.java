@@ -30,7 +30,7 @@ public class Wizard_export_step_1Controller extends Controller {
 		/*----#start-code(index)----*/		
 		model.setHelp(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=import"));
 		String nomeApp = Core.findApplicationById(new Integer(model.getApplication_id())).getName();
-		model.setFile_name(nomeApp+"_igrpweb_v."+config.VERSION);
+		model.setFile_name(nomeApp+"_igrpweb_v." + this.getConfig().VERSION);
       	String sql = this.getSql();		
 		if(Core.isNotNull(sql)) {
 			view.selecionar_opcao.setQuery(Core.query(null,sql));

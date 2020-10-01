@@ -152,7 +152,7 @@ public class ConfigDatabaseController extends Controller {
 		 return this.forward("igrp","ConfigDatabase","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		
-      if (Igrp.getMethod().equalsIgnoreCase("post")) {		
+      if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")) {		
 			Config_env config = new Config_env();
 			config.setApplication(Core.findApplicationById(Core.toInt(model.getAplicacao())));
 			config.setCharset("utf-8");
@@ -301,7 +301,7 @@ public class ConfigDatabaseController extends Controller {
 		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp","ConfigDatabase","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
-		if (Igrp.getMethod().equalsIgnoreCase("post")) {		
+		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")) {		
 			Integer id_conn = Core.getParamInt("p_id");
 			Config_env config = new Config_env().findOne(id_conn);
 			config.setApplication(Core.findApplicationById(Integer.parseInt(model.getAplicacao())));

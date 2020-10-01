@@ -50,7 +50,7 @@ public class ChangePasswordController extends Controller {
 	public Response actionGuardar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(GUARDAR)----*/
 		ChangePassword model = new ChangePassword();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 
 			model.load();
 		
