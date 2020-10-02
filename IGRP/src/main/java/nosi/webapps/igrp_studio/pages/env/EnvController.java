@@ -496,7 +496,7 @@ public class EnvController extends Controller {
 	
 	public Response actionRetornarxml() throws IOException, IllegalArgumentException, IllegalAccessException{
 		String app = Core.getParam("app_name");
-		String xml = new EnvController.GetFieldsDAO().GerarXML(this.config, app); 
+		String xml = new EnvController.GetFieldsDAO().GerarXML(this.getConfig(), app); 
 		this.format = Response.FORMAT_XML;
 		return this.renderView(xml);
 	}

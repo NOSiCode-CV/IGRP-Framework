@@ -51,7 +51,6 @@ public class User implements Component{
 	
 	private boolean checkSessionContext(){
 		String aux = (String) Igrp.getInstance().getRequest().getSession(true).getAttribute("_identity-igrp");
-		
 		if(aux == null || aux.isEmpty()) return false;
 		try {
 			JSONArray json = new JSONArray(aux);
@@ -145,7 +144,7 @@ public class User implements Component{
 		
 		if(!this.checkSessionContext() && !isLoginPage){
 			try {
-			//	Route.remember(); // remember the url that was requested by the client ... 
+				//nosi.core.webapp.helpers.Route.remember(); // remember the url that was requested by the client ... 
 				this.checkCookieContext();
 				// Anyway, go to login page 
 				LoginController controller = new LoginController();

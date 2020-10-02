@@ -16,6 +16,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
 import nosi.core.config.ConfigApp;
+import nosi.core.config.ConfigCommonMainConstants;
+
 import java.util.List;
 import java.util.Properties;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
@@ -55,23 +57,22 @@ public class ResetbyemailController extends Controller {
 		link += "&target=_blank&isPublic=1" + "&t=" + token; 
 		
 		String email = model.getForm_1_email_1();
-		String username="";
-		switch(this.getConfig().getAutenticationType()) { 
-			case "db": 
-				if(!db(email, token)) { 
-					Core.setMessageError("Ooops ! O email inserido não foi encontrado."); 
-					return forward("igrp","Resetbyemail","index", this.queryString()); 
-				}else {
-					username= Core.findUserByEmail(email)!=null?Core.findUserByEmail(email).getName():"";
-				}
-			break;
-			case "ldap": 
+		String username = "";
+		
+		String authenticationType = this.getConfig().getAutenticationType(); 
+		if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_DATABASE.value())) {
+			if(!db(email, token)) { 
+				Core.setMessageError("Ooops ! O email inserido não foi encontrado."); 
+				return forward("igrp","Resetbyemail","index", this.queryString()); 
+			}
+			username= Core.findUserByEmail(email)!=null?Core.findUserByEmail(email).getName():""; 
+		}else 
+			if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value())) {
 				if(!ldap(email, token)) {
 					Core.setMessageError("Ooops ! O email inserido não foi encontrado.");
 					return forward("igrp","Resetbyemail","index", this.queryString());
 				}
-			break;
-	}
+			}
 		
 		String msg = "" + "<p>Caro(a) "+username+", foi solicitado o reset de password da sua conta de acesso ... </p>"; 
 		
@@ -102,20 +103,16 @@ public class ResetbyemailController extends Controller {
 	private boolean ldap(String email, String token) {
 		boolean flag = false;
 		try {
-			Properties settings = ConfigApp.getInstance().loadConfig("common", "main.xml");
-			URL url =  new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
+			Properties settings = this.configApp.getMainSettings(); 
+			URL url =  new URL(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value()));
 	        WSO2UserStub.disableSSL();
 	        WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-	        stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"), settings.getProperty("ids.wso2.admin-pwd"), 2);
-
+	        stub.applyHttpBasicAuthentication(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()), settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value()), 2);
 	        List<ClaimDTO> result = stub.getOperations().getUserClaimValues(email, "");
-	        
-	        flag = result != null && result.size() > 0 && db(email, token);
-	        	
+	        flag = result != null && result.size() > 0 && db(email, token);	
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
 		return flag;
 	}
 	

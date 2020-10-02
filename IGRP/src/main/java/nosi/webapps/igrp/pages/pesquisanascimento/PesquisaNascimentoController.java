@@ -24,7 +24,7 @@ public class PesquisaNascimentoController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load();
 		}
 		
@@ -43,7 +43,7 @@ public class PesquisaNascimentoController extends Controller {
 		 return this.forward("igrp","ErrorPage","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(pesquisar)----*/
 
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load();
 //			nosi.core.webapp.webservices.biztalk.dao.PesquisaNascimento p = Core.getBizTalkPesquisaNascimento(new nosi.core.webapp.webservices.biztalk.dao.PesquisaNascimento(model.getNome(), (model.getN_registo()!=null && !model.getN_registo().equals(""))?Integer.parseInt(model.getN_registo()):null, null));
 //			List<PesquisaNascimento.Table_1> data = new ArrayList<>();

@@ -32,7 +32,7 @@ public class Wizard_export_step_1Controller extends Controller {
 		final String fileName = Core.getParam("p_file_name");
 		final String sql = this.getSql();
 		
-		model.setFile_name(Core.isNull(fileName) ? nomeApp + "_igrpweb_v." + config.VERSION : fileName);
+		model.setFile_name(Core.isNull(fileName) ? nomeApp + "_igrpweb_v." + this.configApp.getConfig().VERSION : fileName);
 		model.setHelp(this.getConfig().getResolveUrl("tutorial", "Listar_documentos", "index&p_type=import"));
 		
 		if (Core.isNotNull(sql))

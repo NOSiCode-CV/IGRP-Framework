@@ -37,7 +37,7 @@ public class LdapUserController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		LdapUser model = new LdapUser();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load();
 		}
 		LdapUserView view = new LdapUserView(model);
@@ -49,7 +49,7 @@ public class LdapUserController extends Controller {
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		LdapUser model = new LdapUser();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load();
 			
 			boolean success = false;

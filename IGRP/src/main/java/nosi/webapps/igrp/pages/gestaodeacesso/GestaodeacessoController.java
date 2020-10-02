@@ -50,7 +50,7 @@ public class GestaodeacessoController extends Controller {
           view.aplicacao.propertie().add("disabled","true");
 			//setTable(model, data);
 		}
-		if (Igrp.getMethod().equalsIgnoreCase("post")) {
+		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")) {
 			if (ichange.equalsIgnoreCase("p_aplicacao") && Core.isNotNull(model.getAplicacao())) {
 				setTable(model, data);
 			}

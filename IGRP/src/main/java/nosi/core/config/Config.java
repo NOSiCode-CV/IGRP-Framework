@@ -103,7 +103,6 @@ public class Config {
 	
 	public String getBasePathConfig(){
 		return "config";
-//		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/");
 	}
 	
 	public String getPathLib(){
@@ -154,17 +153,15 @@ public class Config {
 	}
 	
 	public String getWorkspace(){
-		String workSpace = Igrp.getInstance().getServlet().getServletContext().getInitParameter("workspace");
-		return Core.isNotNull(workSpace)?workSpace:null;
+		return ConfigApp.getInstance().getWorkspace(); 
 	}
 	
 	public String getEnvironment() {
-		String env = Igrp.getInstance().getServlet().getInitParameter("env");
-		return env;
+		return ConfigApp.getInstance().getEnvironment(); 
 	}
 	
 	public String getAutenticationType(){
-		return Igrp.getInstance().getServlet().getInitParameter("authentication_type");
+		return ConfigApp.getInstance().getAutenticationType(); 
 	}
 
 	public String getLinkImgBase() {

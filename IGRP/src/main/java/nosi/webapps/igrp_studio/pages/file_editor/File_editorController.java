@@ -70,7 +70,7 @@ public class File_editorController extends Controller {
 		if(type.compareTo("file")==0) {
 			FileHelper.save(path, name, FileJavaType.createFile(this.convertToPackageName(path),name.substring(0, name.indexOf(".")),file_type));
 			dirs.put("name", name);
-			dirs.put("path", this.config.getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ URLEncoder.encode(path+File.separator+name,"UTF-8")));
+			dirs.put("path", this.getConfig().getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ URLEncoder.encode(path+File.separator+name,"UTF-8")));
 			dirs.put("fileName", path+File.separator+name);
 		}
 
@@ -110,7 +110,7 @@ public class File_editorController extends Controller {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		file.setPath(this.config.getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ file.getFileName()));
+		file.setPath(this.getConfig().getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ file.getFileName()));
 		file.setId(null);
 		ArrayList<FileEditor> files = new ArrayList<>();
 		files.add(file);
@@ -164,7 +164,7 @@ public class File_editorController extends Controller {
 		FileEditor file = new FileEditor();
 		file.setName(URLEncoder.encode(f.getName(),"UTF-8"));
 		file.setFileName(URLEncoder.encode(f.getAbsolutePath(), "UTF-8"));
-		file.setPath(this.config.getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ file.getFileName()));
+		file.setPath(this.getConfig().getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ file.getFileName()));
 		file.setId(null);
 		file.setDir_path(URLEncoder.encode(f.getParent(),"UTF-8"));
 		files.add(file);

@@ -13,7 +13,7 @@ public class HomeStudioController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		HomeStudio model = new HomeStudio();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load(); 
 		}
 		HomeStudioView view = new HomeStudioView(model);

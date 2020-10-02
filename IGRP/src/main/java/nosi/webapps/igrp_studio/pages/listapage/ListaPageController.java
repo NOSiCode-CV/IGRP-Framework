@@ -339,7 +339,7 @@ public class ListaPageController extends Controller {
 			Action page = new Action().findOne(id);
 			Wizard_export_step_2 model_w = new Wizard_export_step_2();
 			model_w.setApplication_id(page.getApplication().getId());
-			model_w.setFile_name(page.getApplication().getName()+"-"+page.getPage_descr()+"("+page.getPage()+")_igrpweb_v."+config.VERSION);
+			model_w.setFile_name(page.getApplication().getName()+"-"+page.getPage_descr()+"("+page.getPage()+")_igrpweb_v."+this.configApp.getConfig().VERSION);
 			Core.setAttribute("p_pagina_ids_check_fk",new String[] {""+id});
 			// insert data on import/export table
 			ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), this.getConfig().getUserName(),DateHelper.getCurrentDataTime(), "Export");

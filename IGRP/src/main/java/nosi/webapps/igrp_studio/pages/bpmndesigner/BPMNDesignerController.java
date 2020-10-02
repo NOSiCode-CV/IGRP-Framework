@@ -186,7 +186,7 @@ public class BPMNDesignerController extends Controller {
 
 
 	private String transformXMLToController(String xml) throws TransformerConfigurationException, UnsupportedEncodingException {
-		return XMLTransform.xmlTransformWithXSL(FileHelper.convertStringToInputStream(xml), this.config.getLinkXSLBpmnControllerGenerator());
+		return XMLTransform.xmlTransformWithXSL(FileHelper.convertStringToInputStream(xml), this.getConfig().getLinkXSLBpmnControllerGenerator());
 	}
 	
 	private String getClassPathServer(TaskService task,Application app) {

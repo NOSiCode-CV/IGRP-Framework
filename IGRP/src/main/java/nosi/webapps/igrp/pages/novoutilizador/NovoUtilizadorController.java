@@ -6,6 +6,7 @@ import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+import nosi.core.config.ConfigCommonMainConstants;
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
@@ -41,6 +42,7 @@ import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 		
 public class NovoUtilizadorController extends Controller {
+	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoUtilizador model = new NovoUtilizador();
 		model.load();
@@ -224,18 +226,17 @@ public class NovoUtilizadorController extends Controller {
 		return ok;
 	}
 
-	private User checkGetUserLdap(String email, Properties settings) {
+	private User checkGetUserLdap(String email) {
 		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
 		User userLdap = null;
 		
 		try {
-			URL url = new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
+			URL url = new URL(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value()));
 			
-	
 			WSO2UserStub.disableSSL();
 			WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-			stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"),
-					settings.getProperty("ids.wso2.admin-pwd"), 2);
+			stub.applyHttpBasicAuthentication(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()),
+					settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value()), 2);
 
 			List<ClaimDTO> result;
 			
@@ -258,9 +259,6 @@ public class NovoUtilizadorController extends Controller {
 					}
 				}
 					
-			
-			
-
 			LdapPerson ldapPerson = new LdapPerson();
 
 			result.forEach(user -> {
@@ -316,18 +314,15 @@ public class NovoUtilizadorController extends Controller {
 		return userLdap;
 	}
 
-	private boolean addRoleToUser(Properties settings, User user) {
-
-		if (settings.getProperty("igrp.authentication.govcv.enbaled").equalsIgnoreCase("true")
-				|| settings.getProperty("kriol.addrole.user") != null
-						&& settings.getProperty("kriol.addrole.user").equalsIgnoreCase("false")) {
+	private boolean addRoleToUser(User user) {
+		String govCv = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.toString(), "false"); 
+		String kriolAddRole = settings.getProperty(ConfigCommonMainConstants.KRIOL_ADD_ROLE_USER.value(), "false"); 
+		if (govCv.equals("true") || kriolAddRole.equals("false")) 
 			return true;
-		}
 		try {
-
 			String wsdlUrl = "ids.wso2.RemoteUserStoreManagerService-wsdl-url";
-			String username = settings.getProperty("ids.wso2.admin-usn");
-			String password = settings.getProperty("ids.wso2.admin-pwd");
+			String username = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value());
+			String password = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
 			String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
 
 			String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
@@ -374,12 +369,11 @@ public class NovoUtilizadorController extends Controller {
 			if (Core.isNull(email) && !email.contains("@"))
 				continue;
 			email = email.toLowerCase(Locale.ROOT).trim();
-			Properties settings = this.configApp.getMainSettings();
 //		check & Get User from Ldap 
 			User utiliz = Core.findUserByEmail(email.trim());
 			User userLdap ;
 			if(utiliz == null) 
-				userLdap = checkGetUserLdap(email.trim(), settings);
+				userLdap = checkGetUserLdap(email.trim());
 			else 
 				userLdap=utiliz;
 			
@@ -388,10 +382,9 @@ public class NovoUtilizadorController extends Controller {
 				User u = Core.findUserByEmail(email.trim());
 				if (u == null) {
 
-//				If LDAP is ws02, the role is added to the server
-					if (settings.getProperty("ids.wso2.enabled") != null
-							&& settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")
-							&& !addRoleToUser(settings, userLdap)) {
+//				If LDAP is ws02, the role is added to the server 
+					String idsAutentikaEnabled = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value(), "false"); 
+					if (idsAutentikaEnabled.equals("true") && !addRoleToUser(userLdap)) {
 						Core.setMessageError("Ocorreu um erro ao adicionar role ao " + email.trim());
 						ok = false;
 						continue;
@@ -563,7 +556,7 @@ public class NovoUtilizadorController extends Controller {
 
 	public Response actionEditarProfile(@RParam(rParamName = "p_id") String id)
 			throws IOException, IllegalArgumentException, IllegalAccessException {
-		if (Igrp.getMethod().equalsIgnoreCase("post") && id != null) {
+		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post") && id != null) {
 			NovoUtilizador model = new NovoUtilizador();
 			model.load();
 			Profile p = new Profile().findOne(Integer.parseInt(id));
@@ -588,47 +581,17 @@ public class NovoUtilizadorController extends Controller {
 		return this.redirectError();
 	}
 
-	public static void main(String[] args) {
-
-		String wsdlUrl = "https://autentika.gov.cv/services/RemoteUserStoreManagerService?wsdl";
-
-		// An Map of Soap HTTP Headers
-		Map<String, String> headers = new HashMap<String, String>();
-		headers.put("Content-type", "application/soap+xml;charset=UTF-8;action=\"urn:getUserClaimValues\"");
-
-		// An Map of Soap Envelope namespace
-		Map<String, String> namespaces = new HashMap<String, String>();
-		namespaces.put("soap", "http://www.w3.org/2003/05/soap-envelope");
-		namespaces.put("ser", "http://service.ws.um.carbon.wso2.org");
-
-		Map<String, Object> bodyContent = new HashMap<String, Object>();
-		Map<String, Object> subContent = new HashMap<String, Object>();
-
-		subContent.put("ser:userName", "iekini.fernandes@nosi.cv");
-
-		bodyContent.put("ser:getUserClaimValues", subContent);
-
-		nosi.core.webapp.webservices.soap.SoapClient sc = Core.soapClient(wsdlUrl, namespaces, headers, bodyContent);
-
-		Map<String, Object> map = sc.getResponseBody("soapenv");
-		map = (Map<String, Object>) map.get("ns:getUserClaimValuesResponse");
-
-		System.out.println("size(): " + map.size());
-
-	}
 	public Response actionGetXMLOrganizations() {	
-
 		this.format = Response.FORMAT_XML;
-		return this.renderView(Core.remoteComboBoxXml(new Organization().getListOrganizations(Core.getParamInt("p_aplicacao")),new NovoUtilizadorView().organica,null) );
-
+	return this.renderView(Core.remoteComboBoxXml(new Organization().getListOrganizations(Core.getParamInt("p_aplicacao")),new NovoUtilizadorView().organica,null) );
 	}
 	
 	public Response actionGetXMLProfile() {
-		
 		this.format = Response.FORMAT_XML;
-		return this.renderView( Core.remoteComboBoxXml(new ProfileType().getListProfiles(Core.getParamInt("p_aplicacao"),Core.getParamInt("p_organica")),new NovoUtilizadorView().perfil,null));
-				
+	return this.renderView( Core.remoteComboBoxXml(new ProfileType().getListProfiles(Core.getParamInt("p_aplicacao"),Core.getParamInt("p_organica")),new NovoUtilizadorView().perfil,null));
 	}
+	
+	private Properties settings = this.configApp.getMainSettings(); 
 
 	/*----#end-code----*/
 }

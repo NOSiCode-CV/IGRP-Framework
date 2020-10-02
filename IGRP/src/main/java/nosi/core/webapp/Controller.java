@@ -51,7 +51,6 @@ import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
  */
 public class Controller {
 	
-	protected Config config = new Config();
 	protected ConfigApp configApp = ConfigApp.getInstance();
 	
 	private QueryString<String, Object> queryString = new QueryString<>();
@@ -183,7 +182,7 @@ public class Controller {
 		this.view.addToPage(this.view.addFieldToFormHidden());
 		String content = this.view.getPage().renderContent(false);
 		content = BPMNButton.removeXMLButton(content);
-		XMLWritter xml = new XMLWritter("rows", this.config.getLinkPageXsl(ac), "utf-8");
+		XMLWritter xml = new XMLWritter("rows", this.getConfig().getLinkPageXsl(ac), "utf-8");
 		xml.addXml(this.getConfig().getHeader(null));
 		xml.startElement("content");
 		xml.writeAttribute("type", ""); 
@@ -569,7 +568,7 @@ public class Controller {
 
 		r = SecurtyCallPage.resolvePage(r); 
 		if (r != null) {
-			String auxPattern = this.config.PATTERN_CONTROLLER_NAME;
+			String auxPattern = this.getConfig().PATTERN_CONTROLLER_NAME;
 			if (r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)) {
 				String[] aux = r.split("/");
 				app.setCurrentAppName(aux[0]);
@@ -617,10 +616,10 @@ public class Controller {
 				auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
 			}
 			auxActionName = "action" + auxActionName;
-			auxcontrollerPath = this.config.getPackage(auxAppName, auxPageName, auxActionName);
+			auxcontrollerPath = this.getConfig().getPackage(auxAppName, auxPageName, auxActionName);
 		} else {
 			auxActionName = "actionIndex";
-			auxcontrollerPath = this.config.getPackage("igrp", "Home", auxActionName);
+			auxcontrollerPath = this.getConfig().getPackage("igrp", "Home", auxActionName);
 		}
 		
 		return Page.loadPage(auxcontrollerPath, auxActionName); 
@@ -634,7 +633,7 @@ public class Controller {
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
 		this.setQueryStringToAttributes(queryString);
-		String auxcontrollerPath = this.config.getPackage(app, page, action);
+		String auxcontrollerPath = this.getConfig().getPackage(app, page, action);
 		Igrp.getInstance().setCurrentAppName(app);
 		Igrp.getInstance().setCurrentPageName(page);
 		Igrp.getInstance().setCurrentActionName(action);
@@ -763,13 +762,7 @@ public class Controller {
 	}
 
 	public Config getConfig() {
-		return config;
-	}
-
-	public void setConfig(Config config) {
-		this.config = config;
-	}
-
-	// ... Others methods ...
-
+		return this.configApp.getConfig();
+	} 
+	
 }

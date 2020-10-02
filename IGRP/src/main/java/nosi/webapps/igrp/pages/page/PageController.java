@@ -189,7 +189,7 @@ public class PageController extends Controller {
 				action.setTipo((short)model.getPublico());
 				action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
 				action.setPackage_name("nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".pages");
-				action.setVersion(model.getVersion() == null ? "2.3."+this.config.VERSION : model.getVersion()+"."+this.config.VERSION);
+				action.setVersion(model.getVersion() == null ? "2.3." + this.getConfig().VERSION : model.getVersion()+"."+this.getConfig().VERSION);
 				action.setAction("index");
 				action.setIsComponent((short) model.getComponente());
 				action.setXsl_src(action.getApplication().getDad().toLowerCase() + "/" + action.getPage().toLowerCase()
@@ -781,7 +781,7 @@ public class PageController extends Controller {
 		return this.renderView(json);
 	}
 	
-	final String basePath = this.config.basePathServer()+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"core"+File.separator
+	final String basePath = this.getConfig().basePathServer()+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"core"+File.separator
 			 +"formgen"+File.separator+"types"+File.separator;
 	
 	 public Response actionFileExists() throws IOException {	

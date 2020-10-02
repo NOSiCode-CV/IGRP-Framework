@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.util.Properties;
 import nosi.core.igrp.mingrations.MigrationIGRPInitConfig;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 
 /**
  * Emanuel
@@ -123,7 +124,7 @@ public final class ConfigApp {
 		p.setProperty("version", this.config.VERSION);
 		p.setProperty("data_install", Core.getCurrentDate());
 		p.setProperty("isInstallation", "success");
-		if(Core.isNotNull(this.config.getWorkspace())) {//Save in workspace eclipse
+		if(Core.isNotNull(this.getWorkspace())) {//Save in workspace eclipse
 			this.saveProperties(p, this.config.getPathWorkspaceResources()+File.separator+"config"+File.separator+"install"+File.separator+"install.properties");
 		}
 		this.saveProperties(p, this.config.getBasePathClass()+"config"+File.separator+"install"+File.separator+"install.properties");
@@ -141,7 +142,6 @@ public final class ConfigApp {
 			try {
 				this.load();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -149,11 +149,23 @@ public final class ConfigApp {
 	}
 	
 	public String getAutentikaUrlForSso() {
-		String url = commonMain.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
-		String redirect_uri = commonMain.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
-		String client_id = commonMain.getProperty("ids.wso2.oauth2.client_id"); 
+		String url = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE.value()); 
+		String redirect_uri = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value()); 
+		String client_id = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value()); 
 		url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrp&redirect_uri=" + redirect_uri; 
 		return url;
+	}
+	
+	public String getWorkspace(){
+		return commonMain.getProperty(ConfigCommonMainConstants.IGRP_WORKSPACE.value());
+	}
+	
+	public String getEnvironment() {
+		return commonMain.getProperty(ConfigCommonMainConstants.IGRP_ENV.value()); 
+	}
+	
+	public String getAutenticationType(){
+		return commonMain.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
 	}
 
 	public Properties getMainSettings() {
