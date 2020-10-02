@@ -101,11 +101,26 @@
 			
 			function setStylePoint(feature, latlng) {
 				
-				 var style = Legend.Get(data, feature),
+				 var icon = null,
+				 
+				     style = Legend.Get(data, feature);
+				 
+				 if( style.url && style.mark !== 'x' )
+				 
+				 	icon = L.icon({
+				 		iconUrl: style.url,
+				 	    className: 'gis-marker',
+				 		iconSize: style.size
+			 		});
+				 
+			 	else				 	
 				
-				 	 icon  = GIS.module('Templates').Layers.icon(style);
+			 		icon  =  L.icon({
+				        iconUrl	   : GIS.module('Templates').Layers.svg(style),
+				        className  : "gis-svg-marker"
+				     });
 				 	 
-                 return L.marker(latlng, {icon: icon });
+               return L.marker(latlng, {icon: icon });
          
 			};
 			
@@ -511,7 +526,7 @@
 				
 				workspaceLayer : workSpaceLayer,
 				
-				workspaceLink  : 'https:/www.nosi.cv/'+workSpace,
+				workspaceLink  : 'http://geoserver.org/'+workSpace,
 				
 				geometryField  : layer.geometryField,
 				

@@ -373,7 +373,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		List<Profile> list = this.getAllProfile(dad);
 		List<User> users = null; 
 		if(list != null)
-			 users = list.stream().filter(p->p.getUser() != null && !p.getUser().getUser_name().equals("root")).map(m->m.getUser()).collect(Collectors.toList()); 
+			 users = list.stream().filter(p->p.getUser() != null && !p.getUser().getUser_name().equals("root")).map(m->m.getUser()).distinct().collect(Collectors.toList()); 
 		return users; 
 	}
 	

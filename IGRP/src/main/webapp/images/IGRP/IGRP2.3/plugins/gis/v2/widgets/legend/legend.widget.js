@@ -42,20 +42,28 @@
 				if(!rules) return this;
 												
 				for (var i in rules) {
+										
+					var item = {},
 					
-					var symbolizers = rules[i].symbolizers[0];	
+						symbolizers = rules[i].symbolizers[0];	
 					
-					var label = rules[i].name !== 'rule1' ? rules[i].name : [],
+					if(rules.length > 1)
 						
-						item = {label : label};
-					
+						item.label = rules[i].name;
+										
 					items.push(item);
 					
 					if(symbolizers.Point){
 						
-						var point = symbolizers.Point;
+						var point = symbolizers.Point,
 						
-						item.style = getCSS(point.graphics[0]);
+							style = point.graphics[0],
+							
+							o     = {};
+						
+						o.color = style.fill; 
+						
+						item.icon = point.url && style.mark !== 'x' ? point.url : GIS.module('Templates').Layers.svg(o);
 						
 						item.point = true;
 						
@@ -111,7 +119,7 @@
 		};
 		
 		function SetResults(legends){
-			
+						
 			try{
 
 				widget.setTemplateParam('legends', {
@@ -133,13 +141,7 @@
 		};
 		
 		function SetEvents(){
-			
-			/*clearTimeout(timeout);
-
-			timeout = setTimeout(Load, 600 );
-			
-			widget.loading(true);*/
-			
+						
 			Load();
 			
 			Map.on('removelayer', Load);

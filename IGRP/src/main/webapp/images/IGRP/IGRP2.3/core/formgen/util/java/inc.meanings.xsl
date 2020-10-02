@@ -181,6 +181,14 @@
 					
 			</xsl:when>
 			
+			<xsl:when test="$key = 'limit'">
+			
+				<xsl:variable name="limit_value" select="field[@name='limit']"/>
+				
+				<xsl:text>.limit(</xsl:text><xsl:value-of select="$limit_value"/><xsl:text>).all();</xsl:text>
+					
+			</xsl:when>
+			
 			<xsl:when test="$key = 'UMM'">
 				
 				<xsl:text>.one();</xsl:text>

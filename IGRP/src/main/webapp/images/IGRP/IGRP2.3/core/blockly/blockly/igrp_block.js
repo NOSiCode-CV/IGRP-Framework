@@ -136,8 +136,6 @@ function SetupBlockly(){
 						if(valueTitle)
 								
 							value.appendField(valueTitle);
-						
-						console.log("Imprimir:"+isVisible);
 
 						if(isVisible)
 							

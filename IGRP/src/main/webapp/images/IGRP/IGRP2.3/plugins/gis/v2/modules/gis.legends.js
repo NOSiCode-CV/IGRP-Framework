@@ -21,7 +21,7 @@
 				$.get(data.url+'?service=WMS&request=GetLegendGraphic&layer='+data.options.typeName+'&version=1.0.0&format=application/json').then(function(json){
 					
 					data.Legend = json.Legend[0];
-					
+										
 				});
 
 		},
@@ -42,7 +42,7 @@
 				
 					symbolizers  = rule.symbolizers[0];
 					
-				o.style = symbolizers.Polygon || (symbolizers.Point ? symbolizers.Point.graphics[0] : '') || symbolizers.Line || '';
+				o.style = symbolizers.Polygon || (symbolizers.Point ? symbolizers.Point : '') || symbolizers.Line || '';
 													
 				if(filter)
 					
@@ -78,8 +78,8 @@
 				
 				else if (isValid && type == utils.geometry.point)
 					
-					rtn = {color: rule.style.fill, fillOpacity: rule.style['fill-opacity']};
-			
+					rtn = {size: rule.style.size, url: rule.style.url, color: rule.style.graphics[0].fill || '', mark: rule.style.graphics[0].mark || ''};
+																
 			}	
 			
 			return rtn;

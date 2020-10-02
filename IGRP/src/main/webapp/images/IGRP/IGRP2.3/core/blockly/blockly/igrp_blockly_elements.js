@@ -5,7 +5,9 @@
 		mutationToDom: function() {
 			  var container = document.createElement('mutation');	
 			  var pxchecked = (this.getFieldValue('3D') == 'TRUE'); //para gráfico
+			  var limit = (this.getFieldValue('find') == 'limit'); //para tabela
 			  container.setAttribute('pxchecked', pxchecked); //para gráfico
+			  container.setAttribute('limit', limit); //para tabela
 			  container.setAttribute('count', this.itemCount_);
 			  for(var x=1; x <= this.itemCount_; x++){
 				  var itemInput = this.getFieldValue('ADD'+x+'FILTER');
@@ -16,12 +18,14 @@
 			
 		domToMutation: function(xmlElement) {
 			var pxchecked = (xmlElement.getAttribute('pxchecked') == 'true'); //para gráfico
+			var limit = (xmlElement.getAttribute('limit') == 'true'); //para tabela
 			var arr = [];			
 			this.itemCount_ = parseInt(xmlElement.getAttribute('count'), 10);
 			for(var x = 1; x <= this.itemCount_; x++){
 				arr.push( xmlElement.getAttribute('mutation-'+x) );	
 			}
 			this.updateShape__(pxchecked); //para grafico
+			this.updateShape___(limit); //para tabela
 			this.updateShape_(arr); 
 			},
 				
@@ -159,27 +163,36 @@
 					this.sourceBlock_.updateShape___(option);    
 			    });	
 			    block.appendDummyInput("find").appendField("list").appendField(dropdown, 'find');
+			    block.appendDummyInput("limit_value").appendField("limit value")
+			    	 .appendField(new Blockly.FieldTextInput(''),'limit').setVisible(false);
 			    block.moveInputBefore("find", "value2");
 			    
-//				 block.updateShape___ = function(limit) {
-//					 
-//					 if(limit == 'all'){
-//						 
-//						 block.getInput("limit_value").setVisible(false);
-//						 
-//					 }
-//					 else if(limit == 'limit'){
-//						 
-//						 block.getInput("limit_value").setVisible(true);
-//						 
-//					 } 
-//					 else{
-//						 
-//						 block.getInput("limit_value").setVisible(false);
-//						 
-//					 }	 
-//			   
-//				} 
+				 block.updateShape___ = function(limit) {
+					 
+					 if(limit == 'all'){
+						 
+						 block.getInput("limit_value").setVisible(false);
+						 
+					 }
+					 else if(limit == 'limit'){
+						 
+						 block.getInput("limit_value").setVisible(true);
+						 block.moveInputBefore("limit_value", "value2");
+						 
+					 } 
+					 else if(limit == true){
+						 
+						 block.getInput("limit_value").setVisible(true);
+						 block.moveInputBefore("limit_value", "value2");
+						 
+					 } 
+					 else{
+						 
+						 block.getInput("limit_value").setVisible(false);
+						 
+					 }	 
+			   
+				} 
 			}
 		
 		}, ListMutationSettings),
