@@ -185,18 +185,22 @@ public class EmailMessage {
 //				if(!validateEmails(this.to)) {
 //					System.out.println("Email not sent (To) ... one of email is invalid: <" + this.to + "> ");
 //					return false;
-//				}					
+//				}		
+				if(this.to != null && !this.to.isEmpty()) {
 					message.addRecipients(Message.RecipientType.TO,InternetAddress.parse(this.to));
+				}
 				
 			}			
-		
-				erroEmails=this.cc; //If error occurs in parse, it will be show		
-				message.addRecipients(Message.RecipientType.CC,InternetAddress.parse(this.cc));
+				if(this.cc != null && !this.cc.isEmpty()) {
+					erroEmails=this.cc; //If error occurs in parse, it will be show		
+					message.addRecipients(Message.RecipientType.CC,InternetAddress.parse(this.cc));
+				}
+				
 			
-	
-				erroEmails=this.bcc;	//If error occurs in parse, it will be show		
-				message.addRecipients(Message.RecipientType.BCC,InternetAddress.parse(this.bcc));
-			
+				if(this.bcc != null && !this.bcc.isEmpty()) {
+					erroEmails=this.bcc;	//If error occurs in parse, it will be show		
+					message.addRecipients(Message.RecipientType.BCC,InternetAddress.parse(this.bcc));
+				}
 			
 			if(this.replyTo != null && !this.replyTo.isEmpty() && validateEmails(this.replyTo)) 
 				message.setReplyTo(InternetAddress.parse(this.replyTo));
