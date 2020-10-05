@@ -50,6 +50,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.Map.Entry;
 import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.CheckBoxListField;
@@ -82,6 +83,9 @@ public class IGRPTable extends IGRPComponent{
 	private final List<String> scapeParam = new ArrayList<>(
 				Arrays.asList(new String[] {"p_prm_app","p_prm_page","p_target","p_dad","p_env_frm_url"})
 				);
+	
+	private IGRPTable.Struct [][]rowStruct; 
+	private IGRPTable.Struct []columnStruct; 
 	
 	public IGRPTable(String tag_name,String title) {
 		super(tag_name,title);
@@ -210,30 +214,41 @@ public class IGRPTable extends IGRPComponent{
 	public String toString(){
 		this.xml.startElement(this.tag_name);
 			GenXMLField.writteAttributes(this.xml, properties);
-			if(this.version > (float) 2.1){
-				GenXMLField.toXml(this.xml,this.fields);
+			if(this.version > (float) 2.1){ 
+				if(columnStruct != null && columnStruct.length > 0) 
+					genRawColumns(); 
+				else 
+					GenXMLField.toXml(this.xml,this.fields);
 				this.xml.startElement("table");
-					this.xml.startElement("value");
-					
-						if(this.modelList != null)
-							this.genRowsWithSql(); 
-						else 
-							this.genRows();
-						
-						this.includeRowTotal();	
-						
-					this.xml.endElement();//end tag value 
+				this.xml.startElement("value");
+				if(columnStruct != null && rowStruct != null && rowStruct.length > 0 && rowStruct[0] != null && rowStruct[0].length == columnStruct.length)
+					genRawRows(); 
+				else {
+					if(this.modelList != null)
+						this.genRowsWithSql(); 
+					else 
+						this.genRows();
+				}
+				this.includeRowTotal();		
+				this.xml.endElement();//end tag value 
 				this.genLegendColor();
 				this.contextmenu.setButtons(this.buttons);
 				this.xml.addXml(this.contextmenu.toXmlTools());
 				this.xml.endElement();//end tag table
 			}else if(this.version == (float) 2.1){
-				GenXMLField.toXmlV21(this.xml,this.fields);
+				if(columnStruct != null && columnStruct.length > 0) 
+					genRawColumns(); 
+				else 
+					GenXMLField.toXmlV21(this.xml,this.fields); 
 				this.xml.startElement("value");
+				if(columnStruct != null && rowStruct != null && rowStruct.length > 0 && rowStruct[0] != null && rowStruct[0].length == columnStruct.length)
+					genRawRows(); 
+				else {
 					if(this.modelList != null)
 						this.genRowsWithSql();
 					else
 						this.genRows();
+				}
 				this.xml.endElement();//end tag value
 				this.genLegendColor();
 				this.contextmenu.setButtons(this.buttons);
@@ -450,5 +465,83 @@ public class IGRPTable extends IGRPComponent{
 		xmlWritter.endElement(); 
 		
 		return xmlWritter.toString();
+	}
+	
+	public void setColumnStruct(IGRPTable.Struct columns[]) {
+		columnStruct = columns; 
+	}
+	
+	public void setRowStruct(IGRPTable.Struct [][]data) {
+		rowStruct = data; 
+	}
+	
+	private void genRawColumns() {
+		xml.startElement("fields");
+		for(IGRPTable.Struct column : columnStruct) 
+			genXmlDomStruct(column, 0); 
+		xml.endElement();
+	}
+	
+	private void genRawRows() { 
+		for(IGRPTable.Struct rows[] : rowStruct) {
+			xml.startElement("row"); 
+			for(IGRPTable.Struct data : rows)
+				genXmlDomStruct(data, 0); 
+			xml.endElement(); 
+		}
+	}
+	
+	private void genXmlDomStruct(IGRPTable.Struct data, int i) { 
+		xml.startElement(data.getTagName()); 
+		Properties attrs = data.getTagAttrs(); 
+		Set<String> keys = attrs.stringPropertyNames(); 
+		if(keys != null) {
+			for(String key : keys)
+				xml.writeAttribute(key, attrs.getProperty(key));
+		}
+		if(data.childs != null && !data.childs.isEmpty()) {
+			genXmlDomStruct(data.childs.get(i), i);  
+			i++; 
+		}else
+			xml.text(data.getTagValue()); 
+		xml.endElement();
+	}
+	
+	public static class Struct{
+		
+		private String tagName; 
+		private String tagValue; 
+		private Properties tagAttrs; 
+		List<Struct> childs; 
+		
+		public Struct() {
+			tagAttrs = new Properties(); 
+		}
+		
+		public String getTagName() {
+			return tagName;
+		}
+		public void setTagName(String tagName) {
+			this.tagName = tagName;
+			if(this.tagName != null && !this.tagName.isEmpty()) 
+				tagAttrs.setProperty("name", "p_" + tagName); 
+		}
+		public String getTagValue() {
+			return tagValue;
+		}
+		public void setTagValue(String tagValue) {
+			this.tagValue = tagValue;
+		}
+		public Properties getTagAttrs() {
+			return tagAttrs;
+		}
+
+		public List<Struct> getChilds() {
+			return childs;
+		}
+
+		public void setChilds(List<Struct> childs) {
+			this.childs = childs;
+		}
 	}
 }
