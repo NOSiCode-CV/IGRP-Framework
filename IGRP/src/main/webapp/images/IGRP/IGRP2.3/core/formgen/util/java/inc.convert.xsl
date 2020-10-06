@@ -330,6 +330,18 @@
 					
 				</xsl:when>
 				
+				<xsl:when test="$from = 'String' and contains($to,'_FK#')">
+					
+					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
+					
+				</xsl:when>
+				
+				<xsl:when test="$to = 'String' and contains($from,'_FK#')">
+					
+					<xsl:text>""+</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text></xsl:text>
+					
+				</xsl:when>
+				
 				<xsl:when test="$from = 'Integer' and $to = 'Integer' and contains($block_namechild,'get_row_sep')">
 					
 					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
