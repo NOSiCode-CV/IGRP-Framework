@@ -193,6 +193,74 @@
 		
 	</xsl:template>
 	
+	<xsl:template name="blockly.element.row">
+		
+		<xsl:variable name="rowtypechild" select="substring-before(value[@name='fields_model']/block/field,'::')"/>
+		
+		<xsl:variable name="rowvaluechild" select="substring-after(value[@name='fields_model']/block/field,'::')"/>
+		
+		<xsl:variable name="rowtypeneto" select="substring-before(value[@name='fields_model']/block/value[@name='dao_rela']/block/field,'::')"/>
+		
+		<xsl:variable name="rowType" select="substring-before(@id,'::')"/>
+		
+		<xsl:variable name="rowValue" select="substring-after(@id,'::')"/>
+		
+		<xsl:variable name="nameCap">
+		
+			<xsl:call-template name="InitCap">
+			
+				<xsl:with-param name="text" select="$rowValue"/>
+				
+			</xsl:call-template>
+			
+		</xsl:variable>
+		
+		<xsl:variable name="valorA">
+		
+			<xsl:call-template name="blockly.getValue">
+			
+				<xsl:with-param name="value" select="*[@name='fields_model']"/>
+				
+			</xsl:call-template>
+			
+		</xsl:variable>
+		
+		<xsl:variable name="rowset">
+		
+			<xsl:value-of select="$tab2"></xsl:value-of>
+		
+			<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of><xsl:text>(</xsl:text>
+			
+				<xsl:call-template name="convert_blocks">
+				
+					<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
+					
+					<xsl:with-param name="value" select="$valorA"></xsl:with-param>
+					
+					<xsl:with-param name="valueblock" select="$rowValue"></xsl:with-param>
+					
+					<xsl:with-param name="from" select="$rowtypechild"></xsl:with-param>
+					
+					<xsl:with-param name="to" select="$rowType"></xsl:with-param>
+					
+					<xsl:with-param name="neto" select="$rowtypeneto"></xsl:with-param>
+					
+					<xsl:with-param name="valuechild" select="$rowvaluechild"></xsl:with-param>
+					
+					<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>
+					
+					<xsl:with-param name="block_name" select="block_name"></xsl:with-param>
+					
+				</xsl:call-template>
+				
+			<xsl:text>);</xsl:text>
+			
+		</xsl:variable>
+		
+		<xsl:value-of select="$rowset"></xsl:value-of>
+	
+	</xsl:template>
+	
 	<xsl:template name="listar.andWheres">
 	
 		<xsl:param name="daofilter"/>
@@ -511,4 +579,3 @@
 	
 
 </xsl:stylesheet>
-		
