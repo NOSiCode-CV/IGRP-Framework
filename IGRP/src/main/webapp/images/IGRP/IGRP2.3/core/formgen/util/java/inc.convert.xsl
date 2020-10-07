@@ -59,6 +59,24 @@
 					
 				</xsl:when>
 				
+				<xsl:when test="$from = 'String[]' and $to = 'String'">	
+				
+					<xsl:value-of select="$value"/><xsl:text>!= null? String.join(";",</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>): null</xsl:text>
+					
+				</xsl:when>
+				
+				<xsl:when test="$from = 'Integer' and $to = 'String[]'">	
+				
+					<xsl:text>This field in DAO must be a String field!!</xsl:text>
+					
+				</xsl:when>
+				
+				<xsl:when test="$from = 'String[]' and $to = 'Integer'">	
+				
+					<xsl:text>This field in DAO must be a String field!!</xsl:text>
+					
+				</xsl:when>
+				
 				<xsl:when test="$from = 'String' and $to = 'checkboxlist'">	
 				
 					<xsl:text></xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>.split(";")</xsl:text>
@@ -245,12 +263,6 @@
 					<xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$upvalueblock"/><xsl:text>() == null ? </xsl:text><xsl:value-of select="$valuuid"/><xsl:text> : </xsl:text><xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$upvalueblock"/><xsl:text>()</xsl:text>
 				
 				</xsl:when>  
-
-				<xsl:when test="$from = 'String[]' and $to = 'String'">	
-				
-					<xsl:value-of select="$value"/><xsl:text>!= null? String.join(";",</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>): null</xsl:text>
-					
-				</xsl:when>
 				
 				<xsl:when test="$from = 'checkboxlist' and $to = 'String'">	
 				
