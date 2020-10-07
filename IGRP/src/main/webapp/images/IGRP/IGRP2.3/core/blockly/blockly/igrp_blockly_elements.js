@@ -5,6 +5,7 @@
 		mutationToDom: function() {
 			  var container = document.createElement('mutation');	
 			  var pxchecked = (this.getFieldValue('3D') == 'TRUE'); //para gráfico
+			  
 			  var limit = (this.getFieldValue('find') == 'limit'); //para tabela
 			  container.setAttribute('pxchecked', pxchecked); //para gráfico
 			  container.setAttribute('limit', limit); //para tabela
