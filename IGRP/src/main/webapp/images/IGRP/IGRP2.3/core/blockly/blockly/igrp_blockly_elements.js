@@ -503,6 +503,7 @@
 				
 				block.itemCount_ = 0;
 				block.updateShape_();
+				block.updateShape___ = function(){};
 				
 				 var checkbox = new Blockly.FieldCheckbox("TRUE", function(pxchecked) {
 				      			this.sourceBlock_.updateShape__(pxchecked);			
