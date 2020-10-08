@@ -78,7 +78,7 @@ public class WebReportController extends Controller {
 						if(param.getParameters() != null) 
 							for(RepTemplateSourceParam p:param.getParameters()) 
 								params += ".addParam(\""+p.getParameter().toLowerCase()+"\",\"?\")";
-				String link = "Core.getLinkReport(\""+r.getCode()+"\")"+params+"; //or Core.getLinkReport(\""+r.getCode()+"\",new Report()"+params+");";
+				String link = "Core.getLinkReport(\""+r.getCode()+"\")"+params+"; //or Core.getLinkReport(\""+r.getCode()+"\",new nosi.core.webapp.report.Report()"+params+");";
 				t1.setDescricao(link);
 				t1.setLink("igrp_studio", "web-report", "load-template&id="+r.getId());
 				t1.setLink_desc(r.getCode());
