@@ -614,3 +614,7 @@
 .leaflet-popup-pane{
 	top: 7px;
 }
+
+#gis-context-view {
+	margin-top: 5px;
+}

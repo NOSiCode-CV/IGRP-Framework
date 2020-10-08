@@ -20,10 +20,19 @@
 
 					zoomControl: false
 
-				}
+				},
+				
+			    panelLayers: true,
+			    
+			    panelWidgets: true,
+			    
+			    footer: true,
+			    
+			    expand: true,
+			    
+			    locate: true
 
 			}, o );
-
 
 		map.addLayer = function(layer){
 
@@ -137,6 +146,26 @@
 			if(settings.fullscreen)
 				
 				map.expand();
+			
+			if(!settings.panelLayers)
+				
+				$('.gis-layers-controller', app.dom).hide();
+			
+			if(!settings.panelWidgets)
+				
+				$('.gis-widgets-controller', app.dom).hide();
+			
+			if(!settings.footer)
+				
+				$('.gis-footer-controller', app.dom).hide();
+			
+			if(!settings.locate)
+				
+				$('.gis-locate', app.dom).hide();
+			
+			if(!settings.expand)
+				
+				$('.gis-expand', app.dom).hide();
 			
 			map.view.locateOptions = {disativated: true};
 			
