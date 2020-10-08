@@ -205,6 +205,7 @@
 			 block.itemCount_ = 0;
 			 block.updateShape_();
 			 block.updateShape__ = function(){};
+			 block.updateShape___ = function(){};
 		}	
 	  }, ListMutationSettings),
 	  
@@ -214,6 +215,7 @@
 				 block.itemCount_ = 0;
 				 block.updateShape_();
 				 block.updateShape__ = function(){};
+				 block.updateShape___ = function(){};
 			}	
 	   }, ListMutationSettings),
 	  
@@ -223,6 +225,7 @@
 				block.itemCount_ = 0;
 				block.updateShape_();
 				block.updateShape__ = function(){};
+				block.updateShape___ = function(){};
 			}	
 		  }, ListMutationSettings),
   
@@ -233,6 +236,7 @@
 			block.itemCount_ = 0;
 			block.updateShape_();
 			block.updateShape__ = function(){};
+			block.updateShape___ = function(){};
 		}	
 	  }, ListMutationSettings),
 	  
@@ -243,6 +247,7 @@
 			block.itemCount_ = 0;
 			block.updateShape_();
 			block.updateShape__ = function(){};
+			block.updateShape___ = function(){};
 		}	
 	  }, ListMutationSettings),
 		
