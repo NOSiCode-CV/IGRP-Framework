@@ -82,18 +82,42 @@
 		
 		function Init(){
 			
-			data.forEach(function(l){
+			data.menus.forEach(function(l){
 				
 				Layer = app.layers.get( l.layer );
 				
-				if(Layer)
+				if(Layer){
 					
-					Layer.on('contextmenu', function(e){
+					if(data.display !== 'mouseover')
 						
-						onLayerClick(e, l.menu)
+						Layer.on('contextmenu', function(e){
+							
+							onLayerClick(e, l.menu)
+							
+						});	
+					
+					else
 						
-					});	
-				
+						Layer.on('mouseover', function(e){
+							
+							var feature = e.layer && e.layer.feature ? e.layer.feature : null;
+							
+							Map.on('addMouseover', function(data){
+															
+								var html = $('#gis-context-view')
+								
+								html.empty();
+								
+								if(data.layer == l.layer)
+									
+									html.append(SetWindowContent(l.menu, feature));
+								
+							})
+							
+						});
+					
+				}
+					
 			});
 			
 		}

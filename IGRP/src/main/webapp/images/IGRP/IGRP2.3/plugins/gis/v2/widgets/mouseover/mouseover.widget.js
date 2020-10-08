@@ -68,7 +68,7 @@
 		};
 		
 		function onLayerMouseover(e, data){
-			
+						
 			if(!widget.active) return false;
 			
 			var feature = e.layer && e.layer.feature ? e.layer.feature : null;
@@ -77,6 +77,8 @@
 				
 				pop = L.popup().setLatLng(e.latlng).setContent( SetWindowContent(data, feature) ).openOn(Map);
 			
+				Map.fire('addMouseover', data);
+				
 			}, delay);
 		};
 		
@@ -106,7 +108,9 @@
 												
 						if (_getParent(target, "leaflet-popup")) {
 							
-							L.DomEvent.on(pop._container, "mouseout", _popupMouseOut, this);
+							if(pop)
+								
+								L.DomEvent.on(pop._container, "mouseout", _popupMouseOut, this);
 							
 							return true;
 		 
@@ -148,10 +152,14 @@
               img.removeAttribute('selected');
 
             });
-
+           
         }
 		
 		function _getParent(element, className) {
+			
+			if(!element.parentNode)
+				
+				 return false;
 			
 			var parent = element.parentNode;
 			

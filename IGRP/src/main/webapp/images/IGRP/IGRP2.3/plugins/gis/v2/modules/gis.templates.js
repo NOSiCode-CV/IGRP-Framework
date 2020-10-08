@@ -172,7 +172,7 @@
 					
 					fa     = item.icon ? item.icon : 'fa-angle-right';
 				
-					icon   = '<div class="icon-item-holder"><i class="fa fa-lg ' + fa  + '"></i></div>',
+					icon   = item.icon ? '<div class="icon-item-holder"><i class="fa fa-lg ' + item.icon  + '"></i></div>' : '',
 										
 					url    = item.url ? item.url + (Object.keys(params).length > 0  ? L.Util.getParamString(params, item.url, false) : '') : '#';			
 		

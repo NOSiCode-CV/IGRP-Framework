@@ -83,7 +83,7 @@
 				toHTML : function(props){
 										
 					var title = $('<h3 class="title" />');
-					
+										
 					var html = $('<ul class="gis-feature-properties-view" />');
 					
 					if(props){
@@ -99,10 +99,10 @@
 								name  = props[p].name;
 							} 
 							
-							if(name)
+							if(name || prop)
 								html.append(
 									'<li name="'+name+'">'+
-										'<span class="gis-feature-property-label" text-color="primary">'+name+'</span>'+
+										'<span class="gis-feature-property-label" style="'+ (name == '' ? 'margin-right: 0;' : '') +'" text-color="primary">'+name+'</span>'+
 										 '<span class="gis-feature-property-value">' + prop  +'</span>' +
 									'</li>'
 								);
@@ -110,8 +110,14 @@
 						}
 						
 					}
+					
+					var content = $('<div/>');
+					
+					content.prepend('<div id="gis-context-view" />');
+					
+					content.prepend(html);
 										
-					return html[0];
+					return content[0];
 					
 				}
 

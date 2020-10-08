@@ -77,8 +77,8 @@
 			GetLayers();
 			
 			getCqlFilter();
-							
-			if( (val && val.length >= 1 || cqlFilters ) && Layers.length >= 1){
+										
+			if( (val && val.length >= 1 || cqlFilters ) && Layers[0]){
 				
 				var reqs    = [],
 				
@@ -86,7 +86,7 @@
 				
 				////cql_filter
 				Layers.forEach(function(l){
-										
+					
 					var layer  = l.layer,
 					
 						attributes = l.attributes,
@@ -159,82 +159,83 @@
 		
 		function GetLayers(){
 			
-			var layer_id = $('select#layers-select').val(),
-			
-			    attributes = $('select#layer-atts-select').val();
-			
-			if(data){
-				
-				if(data.layers && data.layers[0]){
-					
-					data.layers.forEach(function(l){
-				
-						var layer = app.layers.get( l.layer );
-			
-						if(layer)
-							
-							Layers.push({
-								
-								layer : layer,
-								
-								attributes : l.attributes ? l.attributes.split(' ') : []
-								
-							});
-						
-					});
-					
-				}
-				
-			}
-			
 			Layers = [];
 			
-			var layer = app.layers.get( layer_id );
-									
-			if(layer && (attributes.length >= 1 || isSearchAdvanced() )){
+			if(data.layers && data.layers[0]){
 				
-				Layers.push({
-					
-					layer : layer,
-					
-					attributes : attributes
-					
+				data.layers.forEach(function(l){
+			
+					var layer = app.layers.get( l.layer );
+		
+					if(layer)
+						
+						Layers.push({
+							
+							layer : layer,
+							
+							attributes : l.fields ? l.fields.split(',') : []
+							
+						});
+										
 				});
 				
+			}else{
+				
+				var layer_id = $('select#layers-select').val(),
+				
+					layer = app.layers.get( layer_id ),
+								
+			    	attributes = $('select#layer-atts-select').val();
+				
+				if(layer && (attributes[0] || isSearchAdvanced() ))
+					
+					Layers.push({
+						
+						layer : layer,
+						
+						attributes : attributes
+						
+					});
 			}
-			
+						
 		};
 		
 		function LoadFields(){
 			
-			var _layers = [],
+			var _layers = [], _grouplayers = app.layers.getLayers();
 			
-				_grouplayers = app.layers.getLayers();
-						
-			_grouplayers.forEach(function(l){
+			if(!data.layers[0] ){
 				
-				var layer  =  l.data();
-				
-				_layers.push({
-					name : layer.name,
-					id   : layer.id
+				_grouplayers.forEach(function(l){
+					
+					var layer  =  l.data();
+					
+					_layers.push({
+						name : layer.name,
+						id   : layer.id
+					});
+					
 				});
-				
-			});
 			
-			try{
-				
-				widget.setTemplateParams( {
+				try{
 					
-					'layers': _layers
+					widget.setTemplateParams( {
+						
+						'layers': _layers
+											
+					} );
 					
-				} );
+				}catch(err){
+					
+					console.log(err)
+					
+				}
 				
-			}catch(err){
+				$('.search-input-layer', widget.html).show();
 				
-				console.log(err)
+			}else
+				$('.search-input-layer', widget.html).hide();		
 				
-			}
 		};
 		
 		function AttributesToSelect(json){
@@ -273,9 +274,7 @@
 		
 		function getCqlFilter(){
 			
-			var teste = '',
-				
-				attrReplaced = [];
+			var attrReplaced = [];
 			
 			cqlFilters = " " + txtCql.val();
 			
@@ -325,8 +324,6 @@
 
 			submitSearch= $('#search-form-submit', widget.html);
 						
-			if(!data.advanced) checkParent.hide();
-			
 			widget.html.on('click', '.search-item', function(){
 				
 				var item    = $(this),
@@ -432,28 +429,34 @@
 								
 			});
 			
-			check.on('change', function(){
+			if(!data.advanced)
 				
-				inputParent.show();
-		    	
-		    	clearSearch();
-		    	
-				if (this.checked) {
-					 					 
-					 inputParent.hide();
-					 
-					 widget.activeFilter = true;
-					 
-					 widget.steps.filter.activate();
-
-			    }else{
+				checkParent.hide();
+			
+			else
+			
+				check.on('change', function(){
+					
+					inputParent.show();
 			    	
-			    	$("#search-form-advanced").removeClass('active');
+			    	clearSearch();
 			    	
-			    	widget.activeFilter = false;
-			    	
-			    }
-			});
+					if (this.checked) {
+						 					 
+						 inputParent.hide();
+						 
+						 widget.activeFilter = true;
+						 
+						 widget.steps.filter.activate();
+	
+				    }else{
+				    	
+				    	$("#search-form-advanced").removeClass('active');
+				    	
+				    	widget.activeFilter = false;
+				    	
+				    }
+				});
 						
 			widget.html.on('click', '#search-grid-operators button',function(){
 								 
@@ -478,7 +481,7 @@
 			widget.on( 'activate', function(){
 								
 				SetEvents();
-				
+												
 				LoadFields();
 								
 			});
