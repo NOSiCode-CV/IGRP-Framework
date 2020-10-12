@@ -139,7 +139,7 @@ public class DateHelper {
 				age =  ChronoUnit.YEARS.between(birthDate, currentDate);
 				break;
 			case CALCULATE_DAYS:
-				age =  ChronoUnit.DAYS.between(birthDate.withDayOfMonth(1), currentDate.withDayOfMonth(1));
+				age =  ChronoUnit.DAYS.between(birthDate, currentDate);
 				break;
 			case CALCULATE_MONTHS:
 				age =  ChronoUnit.MONTHS.between(birthDate.withDayOfMonth(1), currentDate.withDayOfMonth(1));
