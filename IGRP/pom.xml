@@ -22,7 +22,7 @@
 		<arquillian.bom.version>1.0.0.Final</arquillian.bom.version>
 		<arquillian.drone.bom.version>1.0.0.Final</arquillian.drone.bom.version>
 		<version.arquillian>1.2.1.Final</version.arquillian>
-		<junit.version>4.12</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<!-- End Test properties -->
 		<tomee.classifier>plus</tomee.classifier>
 		<hibernate.version>5.4.10.Final</hibernate.version>
