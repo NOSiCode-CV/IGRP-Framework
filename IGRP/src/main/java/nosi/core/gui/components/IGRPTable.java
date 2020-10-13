@@ -221,7 +221,7 @@ public class IGRPTable extends IGRPComponent{
 					GenXMLField.toXml(this.xml,this.fields);
 				this.xml.startElement("table");
 				this.xml.startElement("value");
-				if(columnStruct != null && rowStruct != null && rowStruct.length > 0 && rowStruct[0] != null && rowStruct[0].length == columnStruct.length)
+				if(rowStruct != null && rowStruct.length > 0)
 					genRawRows(); 
 				else {
 					if(this.modelList != null)
