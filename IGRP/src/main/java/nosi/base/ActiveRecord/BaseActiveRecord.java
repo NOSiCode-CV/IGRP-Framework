@@ -145,7 +145,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 	@Override
 	public T where(String name, String operator, String[] values) {
-		return this.whereObject(name, operator, values);
+		if(values!=null) {
+			String[] values_ = this.normalizeStringVlaues(values);
+			String value = this.applyToInCondition(values_);	
+			this.where("");
+			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
+		}
+		return (T) this;
 	}
 
 	@Override
