@@ -363,29 +363,9 @@
 				
 				<xsl:when test="$typedad != 'inserir_dao' and not(contains($typedad,'save_formu_')) ">
 				
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					
-					<xsl:text>Session session = null;</xsl:text>
-					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					
-					<xsl:text>Transaction transaction = null;</xsl:text>
-					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					
-					<xsl:text>try{</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					
-					<xsl:text>session = Core.getSession(Core.defaultConnection());</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					
-					<xsl:text>transaction = session.getTransaction();</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					
-					<xsl:text>transaction.begin();</xsl:text>
+					<xsl:call-template name="utils.session.begin">
+						
+					</xsl:call-template>
 					
 				</xsl:when>
 
@@ -499,55 +479,9 @@
 				
 				<xsl:when test="$typedad != 'inserir_dao' and not(contains($typedad,'save_formu_')) ">
 				
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>	
-					
-					<xsl:text>transaction.commit();</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>	
-					
-					<xsl:text>Core.setMessageSuccess();</xsl:text>
-					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					
-					<xsl:text>}catch ( Exception e ) {</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					
-					<xsl:text>e.printStackTrace();</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					
-					<xsl:text>Core.setMessageError("Error: "+ e.getMessage());</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					
-					<xsl:text>if (transaction != null)</xsl:text>
-					
-					<xsl:value-of select="$newlineTab3"></xsl:value-of>
-					
-					<xsl:text>transaction.rollback();</xsl:text>
-					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					
-					<xsl:text>}finally {</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					
-					<xsl:text>if (session != null &amp;&amp; session.isOpen()) {</xsl:text>
-					
-					<xsl:value-of select="$newlineTab3"></xsl:value-of>	
-						
-					<xsl:text>session.close();</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>	
-					
-					<xsl:text>}</xsl:text>
-					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>	
-					
-					<xsl:text>}</xsl:text>
-					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>	
+					<xsl:call-template name="utils.session.end">
+								
+					</xsl:call-template>
 						
 				</xsl:when>
 
