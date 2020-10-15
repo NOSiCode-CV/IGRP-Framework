@@ -4,8 +4,8 @@
 	<comment>store config igrp database</comment> 
 	<entry key="type_db">postgresql</entry> 
 	<entry key="connectionName">hibernate-igrp-core</entry> 
-	<entry key="urlConnection">jdbc:postgresql://localhost:5432/db_igrp</entry> 
+	<entry key="urlConnection">jdbc:postgresql://localhost:5432/db_igrp_framework</entry> 
 	<entry key="driverConnection">org.postgresql.Driver</entry> 
 	<entry key="username">postgres</entry> 
-	<entry key="password">softwaredeveloper</entry> 
+	<entry key="password">Felisberta17</entry> 
 </properties> 
