@@ -1,11 +1,11 @@
 package nosi.webapps.igrp.pages.dominio;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
@@ -27,8 +27,8 @@ public class DominioController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT 'Officia natus sit sit ipsum' as description,'Officia magna accusantium consectetur omnis' as key,'1' as estado,'hidden-6e0f_93ab' as ordem "));
-		model.loadTable_1(Core.query(null,"SELECT 'Anim voluptatem perspiciatis m' as dominio,'hidden-9145_3054' as id_dom "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Mollit sit lorem laudantium natus' as description,'Sit deserunt iste accusantium elit' as key,'1' as estado,'hidden-f91b_f62b' as ordem "));
+		model.loadTable_1(Core.query(null,"SELECT 'Omnis sed ipsum aperiam mollit' as dominio,'hidden-ee2d_2c4d' as id_dom "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.lst_dominio.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
