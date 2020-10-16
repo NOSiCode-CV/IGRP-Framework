@@ -333,9 +333,7 @@
 		
 		<xsl:variable name="edited_convert">
 		
-			<xsl:call-template name="convert_blocks">
-					
-				<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
+			<xsl:call-template name="utils.edited">
 				
 				<xsl:with-param name="value" select="$edited"></xsl:with-param>
 				
@@ -345,13 +343,7 @@
 				
 				<xsl:with-param name="to" select="'Integer'"></xsl:with-param>
 				
-				<xsl:with-param name="neto" select="neto"></xsl:with-param>
-				
-				<xsl:with-param name="valuechild" select="value_namee"></xsl:with-param>
-				
 				<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>
-				
-				<xsl:with-param name="block_name" select="block_name"></xsl:with-param>
 				
 			</xsl:call-template>
 					

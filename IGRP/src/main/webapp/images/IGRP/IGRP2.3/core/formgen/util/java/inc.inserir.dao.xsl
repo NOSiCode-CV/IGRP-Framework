@@ -73,6 +73,30 @@
 			
 		</xsl:variable>
 		
+		<xsl:variable name="valueblock" select="substring-after(value[@name='param_id']/block/field,'::')"/> 
+		
+		<xsl:variable name="type_childblock" select="substring-before(value[@name='param_id']/block/field,'::')"/>
+		
+		<xsl:variable name="block_namechild" select="value[@name='param_id']/block/@type"/>
+		
+		<xsl:variable name="edited_convert">
+		
+			<xsl:call-template name="utils.edited">
+				
+				<xsl:with-param name="value" select="$param_id"></xsl:with-param>
+				
+				<xsl:with-param name="valueblock" select="$valueblock"></xsl:with-param>
+				
+				<xsl:with-param name="from" select="$type_childblock"></xsl:with-param>
+				
+				<xsl:with-param name="to" select="'Integer'"></xsl:with-param>
+				
+				<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>
+				
+			</xsl:call-template>
+					
+		</xsl:variable>
+		
 		<xsl:variable name="checkbox" select="field[@name='EDIT']"/>
 		
 		<xsl:variable name="hasMutation" select="mutation"></xsl:variable>
@@ -123,7 +147,7 @@
 					
 					<xsl:value-of select="$newlineTab3"></xsl:value-of>
 					
-					<xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text> = session.find(</xsl:text><xsl:value-of select="$dao"></xsl:value-of><xsl:text>.class, </xsl:text><xsl:value-of select="$param_id"></xsl:value-of><xsl:text>);</xsl:text>
+					<xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text> = session.find(</xsl:text><xsl:value-of select="$dao"></xsl:value-of><xsl:text>.class, </xsl:text><xsl:value-of select="$edited_convert"></xsl:value-of><xsl:text>);</xsl:text>
 					
 					<xsl:value-of select="$newlineTab2"></xsl:value-of>
 					

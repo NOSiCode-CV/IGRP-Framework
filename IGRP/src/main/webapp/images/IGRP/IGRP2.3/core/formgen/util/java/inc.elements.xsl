@@ -123,6 +123,30 @@
 			
 		</xsl:variable>
 		
+		<xsl:variable name="valueblock" select="substring-after(value[@name='get_pa']/block/field,'::')"/> 
+		
+		<xsl:variable name="type_childblock" select="substring-before(value[@name='get_pa']/block/field,'::')"/>
+		
+		<xsl:variable name="block_namechild" select="value[@name='get_pa']/block/@type"/>
+		
+		<xsl:variable name="edited_convert">
+		
+			<xsl:call-template name="utils.edited">
+				
+				<xsl:with-param name="value" select="$edit_pa"></xsl:with-param>
+				
+				<xsl:with-param name="valueblock" select="$valueblock"></xsl:with-param>
+				
+				<xsl:with-param name="from" select="$type_childblock"></xsl:with-param>
+				
+				<xsl:with-param name="to" select="'Integer'"></xsl:with-param>
+				
+				<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>
+				
+			</xsl:call-template>
+					
+		</xsl:variable>
+		
 		<xsl:variable name="code_edit">
 		
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
@@ -157,7 +181,7 @@
 				
 					<xsl:value-of select="$newlineTab2"/>
 				
-					<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text> = new </xsl:text><xsl:value-of select="$dao"/><xsl:text>().findOne(</xsl:text><xsl:value-of select="$edit_pa"/><xsl:text>);</xsl:text>
+					<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text> = new </xsl:text><xsl:value-of select="$dao"/><xsl:text>().findOne(</xsl:text><xsl:value-of select="$edited_convert"/><xsl:text>);</xsl:text>
 						
 				</xsl:otherwise>
 				
