@@ -1,11 +1,11 @@
 package nosi.webapps.igrp.pages.gestao_tipo_documento;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
@@ -24,7 +24,7 @@ public class Gestao_tipo_documentoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '2' as t_estado,'Sit adipiscing unde aliqua und' as t_aplicacao,'Natus sit unde magna unde' as t_nome,'Stract accusantium ut deserunt' as t_codigo,'Totam perspiciatis iste aperia' as t_descricao,'hidden-9986_60e8' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as t_estado,'Magna perspiciatis aperiam tot' as t_aplicacao,'Omnis labore sit perspiciatis' as t_nome,'Magna stract adipiscing amet o' as t_codigo,'Consectetur ipsum lorem anim a' as t_descricao,'hidden-7e36_dd25' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
