@@ -148,8 +148,12 @@ public class DataSourceController extends Controller {
 		
   		this.addQueryString("p_id_env",model.getId_env());
 		if(Core.isNotNull(model.getId_env())){
-			Application app = new Application().findOne(Integer.parseInt(model.getId_env()));
+			Application app = Core.findApplicationById(Core.toInt(model.getId_env()));
+			Integer id = Core.getParamInt("p_datasorce_app");
 			RepSource rep = new RepSource();
+			if(Core.isNotNullOrZero(id))
+				rep = rep.findOne(id);
+			
 			rep.setName(model.getNome());
 			rep.setType(model.getTipo());
 			rep.setType_name(model.getTipo());
@@ -191,17 +195,16 @@ public class DataSourceController extends Controller {
 			rep.setApplication(app);
 			rep.setStatus(1);
 			rep.setApplication_source(app);
-			Date dt = new Date(System.currentTimeMillis());
-			rep.setDt_created(dt);
+			Date dt = new Date(System.currentTimeMillis());			
 			rep.setDt_updated(dt);
-			User user = new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
-			rep.setUser_created(user);
+			User user = Core.getCurrentUser();		
 			rep.setUser_updated(user);
-			String id = Core.getParam("p_datasorce_app");
-			if(Core.isNotNull(id)){
-				rep.setId(Integer.parseInt(id));
+			
+			if(Core.isNotNullOrZero(id)){			
 				rep = rep.update();
 			}else{
+				rep.setDt_created(dt);
+				rep.setUser_created(user);
 				rep = rep.insert();
 			}
 			if(rep!=null)
@@ -248,7 +251,7 @@ public class DataSourceController extends Controller {
 			if(rep.getType().equalsIgnoreCase("object") || rep.getType().equalsIgnoreCase("query")){
 				String query = rep.getType_query();
 				query = rep.getType().equalsIgnoreCase("object")?"SELECT * FROM "+query:query;
-				columns = dsh.getColumns(rep.getConfig_env(),template_id,query);
+				columns = dsh.getColumns(rep,template_id,query);
 				return this.transformToXml(rep,columns);
 			}else if(rep.getType().equalsIgnoreCase("page")){
 				Action ac = new Action().findOne(rep.getType_fk());
