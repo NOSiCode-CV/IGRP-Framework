@@ -73,11 +73,13 @@
 				Legend = GIS.module('Legends');			
 			
 			if(data.geomType == utils.geometry.point){
-				
-				layer = L.markerClusterGroup();
 								
-				clusters = true;
+				layer = L.markerClusterGroup();
 				
+				layer.options = $.extend(layer.options, data.options );
+				
+				clusters = true;
+								
 			}else{
 				
 				layer  = L.geoJSON(null,{
@@ -99,7 +101,7 @@
 			    
 			};
 			
-			function setStylePoint(feature, latlng) {
+			layer.setStylePoint = function(feature, latlng) {
 				
 				 var icon = null,
 				 
@@ -108,16 +110,23 @@
 				 if( style.url && style.mark !== 'x' )
 				 
 				 	icon = L.icon({
+				 		
 				 		iconUrl: style.url,
+				 		
 				 	    className: 'gis-marker',
+				 	    
 				 		iconSize: style.size
+				 		
 			 		});
 				 
 			 	else				 	
 				
 			 		icon  =  L.icon({
+			 			
 				        iconUrl	   : GIS.module('Templates').Layers.svg(style),
+				        
 				        className  : "gis-svg-marker"
+				        	
 				     });
 				 	 
                return L.marker(latlng, {icon: icon });
@@ -275,11 +284,11 @@
 
 					request : 'GetFeature',
 
-					outputFormat:'application/json',
+					outputFormat:'application/json'//,
 					
 					//srsName : 'EPSG:4326',
 
-					maxFeatures : 600
+					//maxFeatures : 600
 
 				}, data.options );
 
@@ -296,8 +305,22 @@
 						app.loading(true);
 
 						//options.bbox = map.getBounds().toBBoxString();
+						
+						if(layer.options.cql_filter){
+							
+						    options.cql_filter = layer.options.cql_filter;
 
-						layer.request = $.get( data.url, $.extend({ bbox : map.getBounds().toBBoxString() }, options) );
+							delete options.bbox;
+							
+						}else{
+							
+							options = $.extend({ bbox : map.getBounds().toBBoxString() }, options)
+
+							delete options.cql_filter;
+
+						}				
+													
+						layer.request = $.get( data.url,  options);
 						
 						layer.request.then(function(geo){
 
@@ -309,11 +332,22 @@
 																							
 								var markers = L.geoJson(geo, {
 									 
-									pointToLayer : setStylePoint
+									pointToLayer : layer.setStylePoint
 									
 								});
 								
+								layer.options.maxClusterRadius = 80;
+								
+								if(map.getZoom() > 8 && map.getZoom() <= 11 && layer.options.maxClusterRadius)
+									
+									layer.options.maxClusterRadius = layer.options.maxClusterRadius / 2;
+								
+							    else if(map.getZoom() > 11 && data.options.minClusterRadius)
+							    	
+							    	layer.options.maxClusterRadius = data.options.minClusterRadius || 10;
+								
 								layer.addLayer(markers);
+								
 																
 							}else{
 								
@@ -348,7 +382,7 @@
 
 				map.on('moveend', function(){
 										
-					if(!map.enableEditing && !map.enableTimeSlider)
+					if(!map.enableEditing)
 						
 						GetData();
 					
@@ -415,19 +449,7 @@
 		layer.getGeometryType = function(){
 			
 			var type = data.geomType;
-			
-			/*if(layer.Description.geometryType.indexOf('Polygon') >= 0 )
-				
-				type = 'Polygon';
-			
-			if(layer.Description.geometryType.indexOf('Line') >= 0 )
-				
-				type = 'Line';
-			
-			if(layer.Description.geometryType.indexOf('Point') >= 0 )
-				
-				type = 'Point';*/
-			
+						
 			return type;
 			
 		};
@@ -467,8 +489,17 @@
 			return queryRequest;
 			
 		};
+		
+		layer.checked = function(){
+						
+			$('#'+layer.id+'-visibility').prop("checked", true);
+			
+		};
+		
 
 		layer.show = function(){
+			
+			layer.checked();
 
 			layer.visible = true;
 
@@ -479,7 +510,7 @@
 			layer.bringToFront();
 			
 			map.fire('addlayer', layer);
-			
+						
 		};
 
 		layer.hide = function(){

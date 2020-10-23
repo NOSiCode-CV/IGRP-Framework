@@ -11,6 +11,12 @@
 			Layers  = app.layers.getLayers(),
 			
 			timeout = function(){};
+			
+		function UniqueID(){
+			
+			 return Date.now();
+			 
+		}
 		
 		function getCSS(jsonCSS) {
 			
@@ -25,18 +31,18 @@
 				
 		function Load(){
 			
-			var Results = [];
+			var Results = [], filters = [];
 			
 			Layers.forEach(function(l){
 												
-				var items = [],
+				var items = [],				
 											    
 				    layer = l.data(),
 				    
 				    legend = l.Legend;
 				
 				if(!l.visible) return this;
-								
+												
 				var rules = legend !== undefined ? legend.rules : '';
 				
 				if(!rules) return this;
@@ -50,8 +56,14 @@
 					if(rules.length > 1)
 						
 						item.label = rules[i].name;
+					
+					var id = layer.id + i;
+					
+					filters.push({active: true, id: id, layerid: layer.id, filter: rules[i].filter});
 										
 					items.push(item);
+					
+					item.id = id;
 					
 					if(symbolizers.Point){
 						
@@ -99,15 +111,19 @@
 	                }
 					
 				}
+								
+				widget.filters = filters;
 									
 				Results.push({
 					
 					title : layer.name,
 					
-					items : items
+					items : items,
+					
+					layerId : layer.id
 					
 				});	
-				
+								
 				SetResults( Results );
 				
 				addedLegend = true;
@@ -140,6 +156,30 @@
 			
 		};
 		
+		function getFilter(object, layer, callback){
+			
+			var res = '', allActive = true,
+			
+				filters	= widget.filters.filter(function(b){ return b.layerid == layer.id }) || {};
+
+			for (var key  in filters){
+				
+				if (allActive) allActive = filters[key].active ? true : false;
+					
+				res += filters[key].active ? filters[key].filter : '';
+				
+			}
+					
+			res = res.replace('][',' OR ').replace(']','').replace('[','');
+			
+			layer.options.cql_filter = !allActive ? ( res ? res : '1 = 0' ) : '';
+						
+			if(callback)
+				
+				callback();			
+			
+		}
+		
 		function SetEvents(){
 						
 			Load();
@@ -149,6 +189,40 @@
 			Map.on('addlayer', Load);
 			
 			Map.on('legend-added', Load);
+			
+			widget.html.on('change', '.legend-check', function(){
+								
+				var item    = $(this),				
+				
+					id 	    = item.attr('legend-id'),
+					
+					layerid = item.attr('layer-id'),
+					
+					layer   = app.layers.get(layerid);
+								
+				var	filter	= widget.filters.filter(function(b){ return b.id == id })[0] || {};
+								
+				if (!this.checked) {
+					
+					item.parent().removeClass('active');
+					
+					filter.active = false;
+					
+				}else{
+					
+					item.parent().addClass('active');
+					
+					filter.active = true;
+					
+				}
+				
+				getFilter(widget.filters, layer, function(){
+					
+					layer.updateData();
+					
+				});
+								
+			});
 			
 		};
 		

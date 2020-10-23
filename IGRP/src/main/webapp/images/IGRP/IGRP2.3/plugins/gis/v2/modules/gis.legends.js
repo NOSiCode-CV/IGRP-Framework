@@ -88,8 +88,10 @@
 		
 		replace: function(str){
 			
-			return str.replace('[','').replace(']','').replaceAll(' AND ',' && ').replaceAll(' OR ',' || ').replaceAll(' = ',' == ');
-										
+			var str =  str.replace('[','').replace(']','').replaceAll(' AND ',' && ').replaceAll(' OR ',' || ').replaceAll(' = ',' == ').replaceAll(' IS NULL '," == null  ").replaceAll(' IS NOT NULL '," != null  ");
+		    
+			return str;
+			
 		},
 		
 		isReplaced: function(string, substring){
@@ -116,7 +118,7 @@
 				condition = this.isReplaced(condition, key + space) ? condition.replaceAll(key + space, value + space) : condition;
 				
 			}
-				
+							
 			return eval(condition);
 		},
 		
