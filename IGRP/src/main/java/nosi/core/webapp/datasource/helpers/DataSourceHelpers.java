@@ -62,14 +62,14 @@ public class DataSourceHelpers {
 	 * The columns extracted is: id, name, email
 	 * 
 	 */
-	public Set<Properties> getColumns(Config_env config,Integer template_id,String query_) {
+	public Set<Properties> getColumns(RepSource rs,Integer template_id,String query_) {
 		Set<Properties> columns = new LinkedHashSet<>();
-		Connection con = nosi.core.webapp.databse.helpers.Connection.getConnection(config);
+		Connection con = nosi.core.webapp.databse.helpers.Connection.getConnection(rs.getConfig_env());
 		if(con!=null) {
 			try {
 				
 				Statement s = con.createStatement();
-				Set<String> keys = getParamsQuery(config,template_id,query_);
+				Set<String> keys = getParamsQuery(rs,template_id,query_);
 				String query =query_.replaceAll(":\\w+", "null");
 				ResultSetMetaData rsd =s.executeQuery(query).getMetaData();
 				for(int i=1;i<=rsd.getColumnCount();i++){
@@ -100,24 +100,24 @@ public class DataSourceHelpers {
 	 * 
 	 * The "p_id" is parameter
 	 */
-	public Set<String> getParamsQuery(Config_env config,Integer template_id,String query){
+	public Set<String> getParamsQuery(RepSource rs,Integer template_id,String query){
 		Set<String> params = new HashSet<String>();
 		
-		Session session = HibernateUtils.getSessionFactory(config).getCurrentSession();
-		
-		try{
-			session.beginTransaction();
-			Query q = session.createNativeQuery(query);
-			for(Parameter<?> param:q.getParameters()){
-				params.add(param.getName().contains("p_")?param.getName().substring("p_".length()):param.getName());
-			}
-			session.getTransaction().commit();
-		}catch(Exception e){
-		}finally{
-			session.close();
-		}
+//		Session session = HibernateUtils.getSessionFactory(rs.getConfig_env()).getCurrentSession();
+//		
+//		try{
+//			session.beginTransaction();
+//			Query q = session.createNativeQuery(query);
+//			for(Parameter<?> param:q.getParameters()){
+//				params.add(param.getName().contains("p_")?param.getName().substring("p_".length()):param.getName());
+//			}
+//			session.getTransaction().commit();
+//		}catch(Exception e){
+//		}finally{
+//			session.close();
+//		}
 		if(template_id!=0){
-			Map<String,String> p = this.getParams(template_id,null);
+			Map<String,String> p = this.getParams(template_id,rs.getId());
 			if(p!=null)
 				params.addAll(p.keySet());
 		}
@@ -203,7 +203,7 @@ public class DataSourceHelpers {
 				session.close();	
 			}
 			
-			Set<Properties> columns = this.getColumns(rs.getConfig_env(),rt.getId(), query);
+			Set<Properties> columns = this.getColumns(rs,rt.getId(), query);
 			xml = this.getSqlQueryToXml(columns, list);
 			return xml;
 		}

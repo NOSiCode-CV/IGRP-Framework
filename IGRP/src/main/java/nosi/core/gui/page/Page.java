@@ -8,6 +8,7 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 import nosi.core.exception.NotFoundHttpException;
 import nosi.core.gui.components.IGRPLogBar;
 import nosi.core.gui.components.IGRPMessage;
@@ -222,21 +223,21 @@ public class Page{
 		    PrintWriter pw = new PrintWriter(sw);
 		    e.printStackTrace(pw);
 		    String env = "";
-		    env = Igrp.getInstance().getServlet().getInitParameter("env");
+		    env = ConfigApp.getInstance().getEnvironment();
 			if(e.getCause() instanceof  NullPointerException) {
-				String msg = "Error NullPointerException - "+Igrp.getInstance().getCurrentPageName()+"Controller.java!";
+				String msg = "Error NullPointerException - "+Core.getCurrentDad()+"/"+Igrp.getInstance().getCurrentPageName()+"Controller.java!";
 				
 				
 				if(env.equals("dev") || env.equals("sta")) {
 					msg+=" \nCheck debugger at the bottom of the page.";					
 				}
 				System.err.println("Nullpointer in "+Core.getCurrentDad()+": "+sw.toString());
-				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error",sw.toString());
+				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error","sn: "+sw.toString());
 				throw new NotFoundHttpException(msg);
 			}
 			if(env.equals("dev") || env.equals("sta"))
 				System.err.println("DevError in "+Core.getCurrentDad()+"/"+Igrp.getInstance().getCurrentPageName()+": "+sw.toString());
-			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error", sw.toString());
+			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error","s: "+ sw.toString());
 			if(Core.isNotNull(e.getCause()) && Core.isNotNull(e.getCause().getMessage())) {
 				Core.log("ERRO: "+e.getCause().getMessage()); //dosen't work because error page is not the original
 				throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas. +INFO: \n\n\n\n"+e.getCause().getMessage());
