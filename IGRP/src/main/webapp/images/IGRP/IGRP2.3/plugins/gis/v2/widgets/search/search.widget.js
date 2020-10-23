@@ -78,6 +78,9 @@
 			
 			getCqlFilter();
 										
+			console.log(val)
+			
+			console.log( Layers[0])
 			if( (val && val.length >= 1 || cqlFilters ) && Layers[0]){
 				
 				var reqs    = [],
@@ -355,6 +358,8 @@
 							item.addClass('active');
 							
 						});
+						
+						layer.show();
 
 					}
 					

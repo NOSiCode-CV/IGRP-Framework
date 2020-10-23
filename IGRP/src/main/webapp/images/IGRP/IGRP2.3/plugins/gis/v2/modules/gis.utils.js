@@ -308,7 +308,7 @@
 					
 					this._mouse_position = L.DomUtil.get('gis-mouse-position');
 					
-					this._mouse_position.innerHTML  = L.Util.formatNum(settings.center[0], 6) + ',' + L.Util.formatNum(settings.center[1], 6);;
+					this._mouse_position.innerHTML  = L.Util.formatNum(settings.center[0], 6) + ',' + L.Util.formatNum(settings.center[1], 6);
 					
 				},
 				
