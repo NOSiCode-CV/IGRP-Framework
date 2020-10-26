@@ -1094,6 +1094,8 @@ public final class Core {
 	 * @return
 	 */
 	public static String getLinkFile(String p_id) {
+		if(Core.isNullOrZero(p_id))
+			return "";
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){
 			return Route.getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
 		}else
@@ -1109,6 +1111,10 @@ public final class Core {
 	 * @return link
 	 */
 	public static String getLinkFileByUuid(String uuid) {
+		if(Core.isNull(uuid))
+			return "";
+		if(uuid.startsWith("webapps"))
+			return uuid;	
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){
 			return Route.getResolveUrl("igrp", "File", "get-file&uuid=" + uuid);
 		}else
@@ -1126,7 +1132,9 @@ public final class Core {
 	}
 	
 	public static String getLinkTempFile(String p_uuid) {
-		if(p_uuid!=null && p_uuid.startsWith("webapps")) {
+		if(Core.isNull(p_uuid))
+			return "";
+		if(p_uuid.startsWith("webapps")) {
 			return p_uuid;
 		}
 		return Route.getResolveUrl("igrp", "File", "get-temp-file&p_uuid=" + p_uuid);
