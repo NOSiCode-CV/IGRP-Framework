@@ -268,6 +268,17 @@ table.dataTable th.bs-checkbox{
   padding:10px; 
 }
 
+.form-inline table td.checkbox, .form-inline table tb.radio,
+.form-inline table th.checkbox, .form-inline table th.radio {
+    display: table-cell !important;
+ }
+
+@media (min-width: 768px){
+	.form-inline table td.checkbox, .form-inline table tb.radio,
+	.form-inline table th.checkbox, .form-inline table th.radio {
+	    display: table-cell !important;
+	 }
+}
 
 /* inline ctx menu*/
 .igrp-table-ctx-th{
