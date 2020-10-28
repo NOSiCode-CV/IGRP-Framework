@@ -272,6 +272,18 @@ table.dataTable th.bs-checkbox{
 .form-inline table th.checkbox, .form-inline table th.radio {
     display: table-cell !important;
  }
+ 
+ table td[has-desc="true"].checkbox input[type="checkbox"],
+ table td[has-desc="true"].radio input[type="radio"]{
+ 	position: absolute;
+    left: 0;
+    top: 0;
+ } 
+ 
+ table td[has-desc="true"] .value_desc{
+ 	display: block;
+    padding-left: 40px;
+ } 
 
 @media (min-width: 768px){
 	.form-inline table td.checkbox, .form-inline table tb.radio,
