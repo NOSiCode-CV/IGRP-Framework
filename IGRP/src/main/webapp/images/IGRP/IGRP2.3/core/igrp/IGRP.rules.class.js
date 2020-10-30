@@ -312,7 +312,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 	
 	var ctrlTableFields = function(name,action){
 		
-		action = action === true : 'table-cell' : 'none';
+		action = action === true ? 'table-cell' : 'none';
 		
 		if($('table tr>*[item-name="'+name+'"]')[0])
 			$('table tr>*[item-name="'+name+'"]').css({'display' : action})
