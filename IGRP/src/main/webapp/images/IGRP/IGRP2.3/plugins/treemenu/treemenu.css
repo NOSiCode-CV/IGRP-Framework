@@ -16,7 +16,7 @@
 	padding: 5px 15px;
 	position: relative;
 	cursor: pointer;
-	border-bottom: 1px solid #eaeaea;
+	/*border-bottom: 1px solid #eaeaea;*/
 }
 
 .box-tm .nav-list .tree-toggler > span{
@@ -47,7 +47,7 @@
 }
 
 .box-tm .nav-list .tree-toggler .icon{
-	background: #88a84b;
+	background: #348736;
     color: #fff;
     font-size: 10px;
     padding: 0.5px 3px;
@@ -103,7 +103,7 @@
 
 .box-tm .nav.nav-list.tree > li > a{
 	position: static;
-	border-bottom: 1px solid #eaeaea;
+	/*border-bottom: 1px solid #eaeaea;*/
 }
 
 .box-tm .nav.nav-list.tree > li > a.holder .icon{
@@ -162,7 +162,7 @@
 .box-tm .nav-list .holder, .box-tm .tree-toggler:before,
 .box-tm .nav-list .holder:before,
 .box-tm .nav.nav-list.tree > li > a:before{
-	border-bottom: 1px solid #eaeaea;
+	/*border-bottom: 1px solid #eaeaea;*/
 }
 
 .box-tm .nav.nav-list.tree > li > a:before{
@@ -178,7 +178,7 @@
 .box-tm .list-holder .tree{
 	display: none;
 	position: relative;
-	border-top: 1px solid #eaeaea;
+/*	border-top: 1px solid #eaeaea;*/
 }
 
 /*.box-tm>.nav-list>li:last-child .tree-toggler,
