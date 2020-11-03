@@ -16,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import nosi.core.webapp.webservices.rest.ConsumeJson;
+import nosi.core.webapp.webservices.rest.Geografia;
 
 /*----#end-code----*/
 
@@ -100,6 +101,8 @@ public class Pesquisa_geografiaController extends Controller {
 		String url = setting.getProperty("link.rest.pesquisa_geografia") + "?id=" + id;
 		if (id.equals("0")) {
 			url = url.replace("GeoINGT", "geografia");
+			if(Core.isNullOrZero(this.p_nivel))
+				this.p_nivel=Geografia.Nivel.PAIS;
 		}
 		String authorization = setting.getProperty("authorization.rest.pesquisa_geografia");
 		ConsumeJson json_obj = new ConsumeJson();
@@ -144,6 +147,9 @@ public class Pesquisa_geografiaController extends Controller {
 			tab_geo.setTreemenu_1_child("1"); 
 			int aux = 0; 
 			try {
+//				if its a country with no level, will give it a level 1 ou Country
+				if(Core.isNull(tab_geo.getNivel()))
+					tab_geo.setNivel("1");				
 				aux = Core.toBigDecimal(tab_geo.getNivel()).intValue(); 
 			} catch (Exception e) {} 
 			
