@@ -309,6 +309,14 @@ if($ && $.IGRP && !$.IGRP.rules){
 		
 		return res;
 	};
+	
+	var ctrlTableFields = function(name,action){
+		
+		action = action === true ? 'table-cell' : 'none';
+		
+		if($('table tr>*[item-name="'+name+'"]')[0])
+			$('table tr>*[item-name="'+name+'"]').css({'display' : action})
+	}
 
 	var conditionsList = {
 		equal:{
@@ -581,7 +589,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 				$.each(p.targetFields,function(i,t){
 					var c = $(t).attr('item-type') ? 'no-required-validation' : 'no-validation-required';
 					$(':input[required]',t).removeClass(c);
-
+					
+					ctrlTableFields($(t).attr('item-name'),true);
 				});
 
 				p.targetFields.show();
@@ -597,6 +606,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 				$.each(p.targetFields,function(i,t){
 					var c = $(t).attr('item-type') ? 'no-required-validation' : 'no-validation-required';
 					$(':input[required]',t).addClass(c);
+					
+					ctrlTableFields($(t).attr('item-name'),false);
 
 				});
 

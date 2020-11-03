@@ -215,3 +215,7 @@
 .treemenu-search .igrp-sidebar-menu-search-wrapper input::placeholder{
 	color: #666;
 }
+
+.treemenu  .form-link{
+	margin-bottom:0;
+}

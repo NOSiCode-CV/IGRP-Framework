@@ -692,9 +692,11 @@ var GENTABLE = function(name,params){
 				
 					align  =  f.GET.align ? f.GET.align() : '';
 			
-				rtn+='<xsl:if test="'+fValue+'"><td align="'+align+'" td-name="'+f.GET.tag()+'">';
+				rtn+='<xsl:if test="//'+container.GET.path()+"/fields/"+f.GET.tag()+'">';
 				
-				rtn+='<xsl:value-of select="'+fValue+'"/>';
+					rtn+='<td align="'+align+'" item-name="'+f.GET.tag()+'" td-name="'+f.GET.tag()+'">';
+				
+						rtn+='<xsl:value-of select="'+fValue+'"/>';
 				
 				rtn+='</td></xsl:if>';
 			}

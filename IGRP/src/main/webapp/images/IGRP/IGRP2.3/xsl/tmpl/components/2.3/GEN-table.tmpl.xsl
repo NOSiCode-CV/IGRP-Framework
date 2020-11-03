@@ -149,7 +149,10 @@
 					<input type="hidden" name="{$vname}_fk_desc" value="{$value_desc}"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<td align="{$valign}" class="{$vtype}" item-name="{$tag}" item-type="{$vtype}"  data-title="{$vfilds/label}" data-row="{position()}">	
+					<td align="{$valign}" class="{$vtype} td-{$vtype}" item-name="{$tag}" item-type="{$vtype}"  data-title="{$vfilds/label}" data-row="{position()}">	
+						<xsl:if test="$value_desc != ''">
+							<xsl:attribute name="has-desc">true</xsl:attribute>
+						</xsl:if>
 						<xsl:choose>
 							<xsl:when test="$vtype = 'link' or $vtype='file'">
 								<xsl:choose>
@@ -194,7 +197,7 @@
 											</xsl:otherwise>
 										</xsl:choose>
 										<xsl:if test="$value_desc != ''">
-											<xsl:value-of select="$value_desc"/>
+											<span class="value_desc"><xsl:value-of select="$value_desc"/></span>
 										</xsl:if>
 									</label>
 								</xsl:if>
