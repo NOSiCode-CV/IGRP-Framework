@@ -111,21 +111,17 @@ public class NovoUtilizadorController extends Controller {
 		/*----#start-code(gravar)----*/
 
 		if (Core.isHttpPost()) {
-			Boolean sucess;
-			switch (this.getConfig().getAutenticationType()) {
-			case "ldap":
+			Boolean sucess = false;
+			if(this.getConfig().getAutenticationType().equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value())) 
 				sucess = this.ldap(model);
-				break;
-			case "db":
-			default:
-				sucess = this.db(model);
-			}
+			else 
+				if(this.getConfig().getAutenticationType().equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_DATABASE.value())) 
+					sucess = this.db(model); 
 			this.addQueryString("p_aplicacao", model.getAplicacao());
 			this.addQueryString("p_organica", model.getOrganica());
 			this.addQueryString("p_perfil", model.getPerfil());
-			if (!sucess) {
+			if (!sucess) 
 				this.addQueryString("p_email", model.getEmail());
-			}
 
 		} else
 			throw new ServerErrorHttpException("Unsuported operation ...");
