@@ -8,14 +8,14 @@ import java.util.Locale;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
-import nosi.core.webapp.component.IComponent;
-import nosi.core.webapp.util.Core;
+import nosi.core.webapp.Component;
+import nosi.core.webapp.Core;
 
 /**
  * Marcel Iekiny
  * Oct 29, 2017
  */
-public final class I18nManager implements IComponent{
+public final class I18nManager implements Component{
 	
 	public static final String DEFAULT_CORE_BUNDLE_NAME = "nosi.core.i18n.igrp";
 	public static final String DEFAULT_APP_BUNDLE_NAME = "nosi.webapps.dad.i18n.Resources"; 

@@ -1,7 +1,7 @@
 package nosi.webapps.tutorial.pages.video_gestao_de_aplicacao;
 
-import nosi.core.webapp.annotation.RParam;
-import nosi.core.webapp.mvc.Model;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
 
 
 

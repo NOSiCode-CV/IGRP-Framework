@@ -12,10 +12,10 @@ import java.util.Properties;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-import nosi.core.webapp.ie.import_export_v2.common.Path;
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.dao.SaveMapeamentoDAO;
-import nosi.core.webapp.util.helpers.file.FileHelper;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.dao_helper.SaveMapeamentoDAO;
+import nosi.core.webapp.import_export_v2.common.Path;
 
 /**
  * @author: Emanuel Pereira

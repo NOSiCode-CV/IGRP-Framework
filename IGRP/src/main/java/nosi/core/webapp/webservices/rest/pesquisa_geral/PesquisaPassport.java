@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.google.common.reflect.TypeToken;
 
-import nosi.core.webapp.util.Core;
+import nosi.core.webapp.Core;
 
 /**
  * Isaias.Nunes

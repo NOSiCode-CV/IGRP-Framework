@@ -20,7 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import nosi.core.webapp.util.Core;
+import nosi.core.webapp.Core;
 
 import java.io.Serializable;
 

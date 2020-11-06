@@ -5,11 +5,7 @@ import nosi.core.config.Config;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
-import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
-import nosi.core.webapp.mvc.Controller;
-import nosi.core.webapp.util.Core;
-
+import nosi.core.webapp.Controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,10 +23,12 @@ import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.UpdateCredential;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 
+import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
-
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
 import service.client.WSO2UserStub;
+import nosi.core.webapp.Igrp;
 
 /*----#END-PRESERVED-AREA----*/
 
@@ -82,11 +80,11 @@ public class ChangePasswordController extends Controller {
 	
 	private Response db(String currentPassword, String newPassword) throws IOException {
 		User user = Core.getCurrentUser();
-		if(!user.getPass_hash().equals(nosi.core.webapp.component.User.encryptToHash(user.getUser_name()+currentPassword, "SHA-256"))) {
+		if(!user.getPass_hash().equals(nosi.core.webapp.User.encryptToHash(user.getUser_name()+currentPassword, "SHA-256"))) {
 			Core.setMessageError(gt("Senha atual inválida. Tente de novo !!! "));
 			return this.forward("igrp","ChangePassword","index");
 		} 
-		user.setPass_hash(nosi.core.webapp.component.User.encryptToHash(user.getUser_name()+ "" + newPassword, "SHA-256"));
+		user.setPass_hash(nosi.core.webapp.User.encryptToHash(user.getUser_name()+ "" + newPassword, "SHA-256"));
 		user.setUpdated_at(System.currentTimeMillis());
 		user = user.update();
 		if(user !=null)
@@ -200,7 +198,7 @@ public class ChangePasswordController extends Controller {
 				Core.setMessageError("Ocorreu um erro. LDAP error: " + error);
 				flag = false;
 			}else { 
-				user.setPass_hash(nosi.core.webapp.component.User.encryptToHash(newPassword, "SHA-256"));
+				user.setPass_hash(nosi.core.webapp.User.encryptToHash(newPassword, "SHA-256"));
 				user.setUpdated_at(System.currentTimeMillis());
 				user = user.update();
 				Core.setMessageSuccess(gt("Password alterado com sucesso."));

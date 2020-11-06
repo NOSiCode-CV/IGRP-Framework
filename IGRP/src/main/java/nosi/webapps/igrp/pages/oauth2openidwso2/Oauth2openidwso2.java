@@ -1,7 +1,7 @@
 package nosi.webapps.igrp.pages.oauth2openidwso2;
 
-import nosi.core.webapp.annotation.RParam;
-import nosi.core.webapp.mvc.Model;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
 
 public class Oauth2openidwso2 extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")

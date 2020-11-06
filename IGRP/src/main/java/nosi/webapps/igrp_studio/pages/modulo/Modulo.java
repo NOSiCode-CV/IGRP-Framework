@@ -1,8 +1,8 @@
 package nosi.webapps.igrp_studio.pages.modulo;
 
 
-import nosi.core.webapp.annotation.RParam;
-import nosi.core.webapp.mvc.Model;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
 
 public class Modulo extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")

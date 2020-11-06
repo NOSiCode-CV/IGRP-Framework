@@ -1,7 +1,7 @@
 package nosi.webapps.igrp.pages.novoutilizador;
 
-import nosi.core.webapp.annotation.RParam;
-import nosi.core.webapp.mvc.Model;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
 
 public class NovoUtilizador extends Model{		
 

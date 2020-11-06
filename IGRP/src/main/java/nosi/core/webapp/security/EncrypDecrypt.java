@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
-
 import nosi.core.webapp.Igrp;
 
 public class EncrypDecrypt {

@@ -1,10 +1,9 @@
 package nosi.webapps.igrp.pages.execucaotarefas;
 
+import nosi.core.webapp.Model;
+import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import nosi.core.webapp.mvc.Model;
-import nosi.core.webapp.mvc.View;
-
 import static nosi.core.i18n.Translator.gt;
 import java.util.Map;
 import java.util.LinkedHashMap;

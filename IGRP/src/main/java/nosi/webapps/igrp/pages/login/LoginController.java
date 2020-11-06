@@ -33,13 +33,13 @@ import nosi.core.config.Config;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.security.Permission;
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.FlashMessage;
-import nosi.core.webapp.util.helpers.Route;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -237,7 +237,7 @@ public class LoginController extends Controller {
 	private boolean loginWithDb(String username, String password) { 
 		boolean success = false;
 		User user = (User) new User().findIdentityByUsername(username);
-		if (user != null && user.validate(nosi.core.webapp.component.User.encryptToHash(username + "" + password, "SHA-256")) && userIsAuthenticatedFlag(user)) {
+		if (user != null && user.validate(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256")) && userIsAuthenticatedFlag(user)) {
 			if (user.getStatus() == 1) {
 				Profile profile = new Profile().getByUser(user.getId());
 				if (profile != null && Igrp.getInstance().getUser().login(user, -1)) { 
@@ -305,8 +305,8 @@ public class LoginController extends Controller {
 					newUser.setStatus(1);
 					newUser.setCreated_at(System.currentTimeMillis());
 					newUser.setUpdated_at(System.currentTimeMillis());
-					newUser.setAuth_key(nosi.core.webapp.component.User.generateAuthenticationKey());
-					newUser.setActivation_key(nosi.core.webapp.component.User.generateActivationKey());
+					newUser.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
+					newUser.setActivation_key(nosi.core.webapp.User.generateActivationKey());
 					newUser.setIsAuthenticated(1);
 
 					newUser = newUser.insert();
@@ -645,8 +645,8 @@ public class LoginController extends Controller {
 								newUser.setIsAuthenticated(1);
 								newUser.setCreated_at(System.currentTimeMillis());
 								newUser.setUpdated_at(System.currentTimeMillis());
-								newUser.setAuth_key(nosi.core.webapp.component.User.generateAuthenticationKey());
-								newUser.setActivation_key(nosi.core.webapp.component.User.generateActivationKey());
+								newUser.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
+								newUser.setActivation_key(nosi.core.webapp.User.generateActivationKey());
 			
 								newUser = newUser.insert(); 
 								this.afterLogin(user);

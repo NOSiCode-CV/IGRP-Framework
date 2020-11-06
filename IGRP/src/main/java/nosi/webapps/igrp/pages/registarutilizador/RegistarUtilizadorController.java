@@ -1,13 +1,14 @@
 package nosi.webapps.igrp.pages.registarutilizador;
 
+import nosi.core.webapp.Controller;
 import java.io.IOException;
 import java.util.Locale;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+/*----#start-code(packages_import)----*/
 
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
-import nosi.core.webapp.annotation.RParam;
-import nosi.core.webapp.mvc.Controller;
-import nosi.core.webapp.util.Core;
+import nosi.core.webapp.RParam;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -53,15 +54,15 @@ public class RegistarUtilizadorController extends Controller {
 				User user = new User();
 				user.setName(model.getNome());
 				final String username = model.getUsername().toLowerCase(Locale.ROOT).trim();
-				user.setPass_hash(nosi.core.webapp.component.User.encryptToHash(username+ "" + model.getPassword(), "SHA-256"));
+				user.setPass_hash(nosi.core.webapp.User.encryptToHash(username+ "" + model.getPassword(), "SHA-256"));
 				user.setEmail(model.getEmail().toLowerCase(Locale.ROOT).trim());
 				
 				user.setUser_name(username);
 				user.setStatus(1);
 				user.setCreated_at(System.currentTimeMillis());
 				user.setUpdated_at(System.currentTimeMillis());
-				user.setAuth_key(nosi.core.webapp.component.User.generateAuthenticationKey());
-				user.setActivation_key(nosi.core.webapp.component.User.generateActivationKey());
+				user.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
+				user.setActivation_key(nosi.core.webapp.User.generateActivationKey());
 				//verificar se o email/username existe
 				User ur_email = new User().findIdentityByEmail(model.getEmail());//verificar email
 				User ur_name = new User().findIdentityByUsername(username);//verificar username

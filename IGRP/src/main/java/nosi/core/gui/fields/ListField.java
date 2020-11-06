@@ -6,10 +6,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.persistence.Tuple;
 import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.IgrpHelper;
-import nosi.core.webapp.util.helpers.database.BaseQueryInterface;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import nosi.core.webapp.helpers.IgrpHelper;
 
 /**
  * @author: Emanuel Pereira

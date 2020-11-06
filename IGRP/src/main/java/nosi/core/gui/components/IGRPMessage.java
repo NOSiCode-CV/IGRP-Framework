@@ -1,6 +1,4 @@
 package nosi.core.gui.components;
-import nosi.core.webapp.Igrp;
-import nosi.core.webapp.util.FlashMessage;
 /**
  * @author: Emanuel Pereira
  * 
@@ -17,6 +15,9 @@ import nosi.core.webapp.util.FlashMessage;
 import nosi.core.xml.XMLWritter;
 
 import org.apache.commons.text.StringEscapeUtils;
+
+import nosi.core.webapp.FlashMessage;
+import nosi.core.webapp.Igrp;
 
 public class IGRPMessage {
 	

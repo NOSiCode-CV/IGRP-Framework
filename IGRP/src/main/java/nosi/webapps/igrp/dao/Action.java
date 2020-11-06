@@ -22,9 +22,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import nosi.core.gui.page.Page;
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.StringHelper;
-
+import nosi.core.webapp.Core;
+import nosi.core.webapp.helpers.StringHelper;
 import static nosi.core.i18n.Translator.gt;
 
 @Entity

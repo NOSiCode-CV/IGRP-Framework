@@ -14,8 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import nosi.core.webapp.util.Core;
+import nosi.core.webapp.Core;
 import nosi.core.xml.XMLWritter;
 
 public class GenXMLField {

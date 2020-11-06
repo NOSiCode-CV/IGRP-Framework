@@ -1,19 +1,21 @@
 package nosi.webapps.igrp_studio.pages.webreport;
 
-import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
-import nosi.core.webapp.ie.import_export_v2.common.Path;
-
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.config.ConfigDBIGRP;
 import java.io.File;
-
+import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.gui.page.Page;
-
+import nosi.core.webapp.FlashMessage;
+import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Report;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,18 +24,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import nosi.core.webapp.mvc.Controller;
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.FlashMessage;
-import nosi.core.webapp.util.helpers.database.QueryInterface;
-import nosi.core.webapp.util.helpers.database.ResultSet;
-import nosi.core.webapp.util.helpers.datasource.DataSourceHelpers;
-import nosi.core.webapp.util.helpers.datasource.DataSourceParam;
-import nosi.core.webapp.util.helpers.datasource.Parameters;
-import nosi.core.webapp.util.helpers.file.FileHelper;
-import nosi.core.webapp.util.report.Report;
-import nosi.core.webapp.workflow.bpmn.BPMNConstants;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
@@ -46,6 +38,10 @@ import nosi.webapps.igrp.dao.RepTemplateSource;
 import nosi.webapps.igrp.dao.RepTemplateSourceParam;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.pages.datasource.DataSourceController;
+import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
+import nosi.core.webapp.datasource.helpers.DataSourceParam;
+import nosi.core.webapp.datasource.helpers.Parameters;
+/*----#end-code----*/
 		
 public class WebReportController extends Controller { 
 	

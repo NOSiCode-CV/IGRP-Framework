@@ -1,6 +1,6 @@
 package nosi.webapps.igrp.pages.ldapuser;
-import nosi.core.webapp.annotation.RParam;
-import nosi.core.webapp.mvc.Model;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
 
 public class LdapUser extends Model{		
 	@RParam(rParamName = "p_common_name")

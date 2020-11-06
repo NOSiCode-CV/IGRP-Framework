@@ -9,8 +9,8 @@ package nosi.core.gui.fields;
 import java.util.Map;
 
 import nosi.core.config.ConfigApp;
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.Route;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.helpers.Route;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 

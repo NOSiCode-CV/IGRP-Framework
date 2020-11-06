@@ -7,8 +7,8 @@ import java.util.Map;
 
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.database.BaseQueryInterface;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Domain;
 import nosi.webapps.igrp.dao.DomainType;
