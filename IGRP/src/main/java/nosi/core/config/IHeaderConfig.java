@@ -1,8 +1,8 @@
 package nosi.core.config;
 
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.core.webapp.util.Core;
 import nosi.webapps.igrp.dao.Action;
 
 /**

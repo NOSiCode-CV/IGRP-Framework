@@ -1,20 +1,17 @@
 package nosi.webapps.igrp.pages.lista_terfa_de_processo;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.database.QueryInterface;
+import nosi.core.webapp.util.helpers.database.ResultSet;
+import nosi.core.webapp.workflow.activit.rest.business.TaskServiceIGRP;
+import nosi.core.webapp.workflow.activit.rest.entities.TaskServiceQuery;
+import nosi.core.webapp.workflow.bpmn.BPMNConstants;
 import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import nosi.core.webapp.bpmn.BPMNConstants;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
-import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
-import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
-/*----#end-code----*/
 		
 public class Lista_terfa_de_processoController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

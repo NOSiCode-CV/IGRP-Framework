@@ -1,7 +1,8 @@
 package nosi.core.gui.fields;
 
 import java.util.Map;
-import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+
+import nosi.core.webapp.util.helpers.database.BaseQueryInterface;
 
 /**
  * @author: Emanuel Pereira

@@ -1,8 +1,8 @@
 package nosi.webapps.igrp.pages.migrate;
 
 
-import nosi.core.webapp.Model;
-import nosi.core.webapp.RParam;
+import nosi.core.webapp.annotation.RParam;
+import nosi.core.webapp.mvc.Model;
 
 public class Migrate extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")

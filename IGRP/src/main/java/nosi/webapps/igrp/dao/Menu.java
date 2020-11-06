@@ -22,11 +22,11 @@ import java.util.List;
 import javax.persistence.Column;
 
 import nosi.core.config.ConfigApp;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.database.ResultSet;
+import nosi.core.webapp.util.helpers.database.ResultSet.Record;
 
 import static nosi.core.i18n.Translator.gt;
 

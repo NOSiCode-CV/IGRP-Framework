@@ -22,8 +22,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.databse.helpers.ResultSet;
+
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.database.ResultSet;
 
 import static nosi.core.i18n.Translator.gt;
 

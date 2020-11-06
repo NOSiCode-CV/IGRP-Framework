@@ -1,20 +1,11 @@
 package nosi.webapps.igrp.pages.datasource;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
-import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
-import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.entities.TaskService;
-import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
-import nosi.core.webapp.activit.rest.services.TaskServiceRest;
+
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.TextField;
-import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
@@ -32,8 +23,18 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
-import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
+
+import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 /*----#end-code----*/
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.datasource.DataSourceHelpers;
+import nosi.core.webapp.workflow.activit.rest.business.ProcessDefinitionIGRP;
+import nosi.core.webapp.workflow.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.workflow.activit.rest.entities.TaskService;
+import nosi.core.webapp.workflow.activit.rest.services.ProcessDefinitionServiceRest;
+import nosi.core.webapp.workflow.activit.rest.services.TaskServiceRest;
 		
 public class DataSourceController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

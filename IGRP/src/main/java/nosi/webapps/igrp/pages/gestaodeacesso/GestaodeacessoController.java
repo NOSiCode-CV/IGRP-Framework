@@ -1,17 +1,20 @@
 package nosi.webapps.igrp.pages.gestaodeacesso;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.database.QueryInterface;
+import nosi.core.webapp.util.helpers.database.ResultSet;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+
+import java.io.IOException;
+
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import org.json.JSONException;
 import org.json.JSONObject;
-import nosi.core.webapp.Igrp;
+
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import java.util.List;

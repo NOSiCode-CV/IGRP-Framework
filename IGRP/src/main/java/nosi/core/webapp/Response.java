@@ -5,7 +5,9 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import nosi.core.webapp.webservices.helpers.FileRest;
+
+import nosi.core.webapp.util.constant.HttpStatus;
+import nosi.core.webservices.rest.client.helpers.FileRest;
 
 /**
  * @author: Emanuel Pereira

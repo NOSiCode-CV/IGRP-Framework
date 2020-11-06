@@ -2,8 +2,9 @@ package nosi.base.ActiveRecord;
 
 import java.util.ArrayList;
 import java.util.List;
-import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
-import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
+
+import nosi.core.webapp.util.helpers.database.DatabaseMetadaHelper;
+import nosi.core.webapp.util.helpers.database.DatabaseMetadaHelper.Column;
 
 /**
  * Emanuel

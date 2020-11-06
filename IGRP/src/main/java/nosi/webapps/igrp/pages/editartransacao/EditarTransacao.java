@@ -1,9 +1,8 @@
 package nosi.webapps.igrp.pages.editartransacao;
 
-import nosi.core.webapp.Model;
-import nosi.core.webapp.RParam;
-
 import nosi.core.validator.constraints.*;
+import nosi.core.webapp.annotation.RParam;
+import nosi.core.webapp.mvc.Model;
 
 public class EditarTransacao extends Model{		
 

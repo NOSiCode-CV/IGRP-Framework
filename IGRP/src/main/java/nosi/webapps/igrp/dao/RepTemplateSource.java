@@ -13,7 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import nosi.core.webapp.Core;
+
+import nosi.core.webapp.util.Core;
 
 /**
  * @author: Emanuel Pereira

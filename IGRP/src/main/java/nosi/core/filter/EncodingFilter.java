@@ -7,22 +7,28 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
-import nosi.core.webapp.Core;
+
+import nosi.core.webapp.util.Core;
 
 /**
  * Emanuel
  * 12 Feb 2018
  */
+@WebFilter
 public class EncodingFilter implements Filter{
 
 	private String encoding = "UTF-8";
 	
-	private HttpServletRequest req;
+	private HttpServletRequest req; 
+	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		if(Core.isNotNull(filterConfig))
-			this.encoding = Core.isNotNull(filterConfig.getInitParameter("encoding"))?filterConfig.getInitParameter("encoding"):this.encoding;
+		String customEncoding = filterConfig.getInitParameter("encoding"); 
+		if(customEncoding != null && !customEncoding.isEmpty())
+			encoding = customEncoding; 
 	}
 
 	@Override

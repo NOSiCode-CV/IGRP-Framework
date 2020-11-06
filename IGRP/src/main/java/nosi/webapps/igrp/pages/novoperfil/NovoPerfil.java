@@ -1,7 +1,7 @@
 package nosi.webapps.igrp.pages.novoperfil;
 
-import nosi.core.webapp.Model;
-import nosi.core.webapp.RParam;
+import nosi.core.webapp.annotation.RParam;
+import nosi.core.webapp.mvc.Model;
 
 public class NovoPerfil extends Model{		
 

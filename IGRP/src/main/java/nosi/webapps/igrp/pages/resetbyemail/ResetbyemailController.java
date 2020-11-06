@@ -1,12 +1,13 @@
 package nosi.webapps.igrp.pages.resetbyemail;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.database.QueryInterface;
+import nosi.core.webapp.util.helpers.database.ResultSet;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
+
+import java.io.IOException;
 
 import nosi.core.mail.EmailMessage;
 import nosi.webapps.igrp.dao.User;
@@ -22,7 +23,6 @@ import java.util.List;
 import java.util.Properties;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
-import nosi.core.webapp.Igrp;
 
 /*----#end-code----*/
 		
@@ -51,7 +51,7 @@ public class ResetbyemailController extends Controller {
 		/*----#start-code(enviar)----*/
 		
       
-		String token = nosi.core.webapp.User.generatePasswordResetToken();
+		String token = nosi.core.webapp.component.User.generatePasswordResetToken();
 		
 		String link = Igrp.getInstance().getRequest().getRequestURL() + "?r=" + "igrp" + "/Resetpassword/index"; 
 		link += "&target=_blank&isPublic=1" + "&t=" + token; 

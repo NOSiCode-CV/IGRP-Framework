@@ -3,7 +3,7 @@ package nosi.core.validator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import nosi.core.validator.constraints.NotNull;
-import nosi.core.webapp.Core;
+import nosi.core.webapp.util.Core;
 
 /**
  * @author Emanuel

@@ -1,22 +1,25 @@
 package nosi.webapps.igrp.pages.settings;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+
+import java.io.IOException;
+
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.i18n.I18nManager;
-import nosi.core.webapp.Igrp;
+
 import java.util.HashMap;
 import javax.servlet.http.Cookie;
 import nosi.webapps.igrp.dao.ProfileType;
-import nosi.core.webapp.helpers.ApplicationPermition;
+import nosi.core.webapp.mvc.Controller;
 import nosi.core.webapp.security.Permission;
 /*----#end-code----*/
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.ApplicationPermition;
+import nosi.core.webapp.util.helpers.database.QueryInterface;
+import nosi.core.webapp.util.helpers.database.ResultSet;
 		
 public class SettingsController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

@@ -14,11 +14,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import nosi.core.webapp.Identity;
+
+import nosi.core.webapp.component.IIdentity;
 
 @Entity
 @Table(name="tbl_user")
-public class User extends IGRPBaseActiveRecord<User> implements Serializable, Identity{
+public class User extends IGRPBaseActiveRecord<User> implements Serializable, IIdentity{
 	
 	/**
 	 * 

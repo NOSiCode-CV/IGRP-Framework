@@ -4,10 +4,6 @@
 
 package nosi.webapps.igrp_studio.pages.bpmndesigner;
 
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.FlashMessage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,20 +14,24 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import javax.xml.transform.TransformerConfigurationException;
 import org.apache.commons.text.StringEscapeUtils;
+
 import nosi.core.webapp.Response;
-import nosi.core.webapp.activit.rest.entities.DeploymentService;
-import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.entities.TaskService;
-import nosi.core.webapp.activit.rest.services.DeploymentServiceRest;
-import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
-import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
-import nosi.core.webapp.activit.rest.services.TaskServiceRest;
-import nosi.core.webapp.bpmn.BPMNConstants;
-import nosi.core.webapp.bpmn.BPMNHelper;
-import nosi.core.webapp.bpmn.GenerateInterfacePermission;
 import nosi.core.webapp.compiler.helpers.Compiler;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.helpers.StringHelper;
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.FlashMessage;
+import nosi.core.webapp.util.helpers.StringHelper;
+import nosi.core.webapp.util.helpers.file.FileHelper;
+import nosi.core.webapp.workflow.activit.rest.entities.DeploymentService;
+import nosi.core.webapp.workflow.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.workflow.activit.rest.entities.TaskService;
+import nosi.core.webapp.workflow.activit.rest.services.DeploymentServiceRest;
+import nosi.core.webapp.workflow.activit.rest.services.ProcessDefinitionServiceRest;
+import nosi.core.webapp.workflow.activit.rest.services.ResourceServiceRest;
+import nosi.core.webapp.workflow.activit.rest.services.TaskServiceRest;
+import nosi.core.webapp.workflow.bpmn.BPMNConstants;
+import nosi.core.webapp.workflow.bpmn.BPMNHelper;
+import nosi.core.webapp.workflow.bpmn.GenerateInterfacePermission;
 import nosi.core.xml.XMLTransform;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;

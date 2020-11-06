@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
-import nosi.core.webapp.Core;
+import nosi.core.webapp.util.Core;
 
 
 /**

@@ -1,5 +1,5 @@
 package nosi.webapps.igrp.pages.generator;
-import nosi.core.webapp.Model;
+import nosi.core.webapp.mvc.Model;
 
 public class Generator extends Model{
 	private String gen_elements;

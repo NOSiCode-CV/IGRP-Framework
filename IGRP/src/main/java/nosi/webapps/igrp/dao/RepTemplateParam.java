@@ -14,7 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import nosi.core.webapp.Core;
+
+import nosi.core.webapp.util.Core;
 
 @Entity
 @Table(name="tbl_rep_template_param")

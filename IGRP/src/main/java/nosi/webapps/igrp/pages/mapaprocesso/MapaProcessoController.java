@@ -11,15 +11,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import nosi.core.gui.components.IGRPMenu;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
-import nosi.core.webapp.activit.rest.entities.FormDataService;
-import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.services.FormDataServiceRest;
-import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
-import nosi.core.webapp.bpmn.BPMNConstants;
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.workflow.activit.rest.business.ProcessDefinitionIGRP;
+import nosi.core.webapp.workflow.activit.rest.entities.FormDataService;
+import nosi.core.webapp.workflow.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.workflow.activit.rest.services.FormDataServiceRest;
+import nosi.core.webapp.workflow.activit.rest.services.ProcessDefinitionServiceRest;
+import nosi.core.webapp.workflow.bpmn.BPMNConstants;
 import nosi.webapps.igrp.dao.Application;
 /*----#END-PRESERVED-AREA----*/
 

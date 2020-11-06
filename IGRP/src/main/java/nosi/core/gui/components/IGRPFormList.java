@@ -3,9 +3,9 @@ package nosi.core.gui.components;
 import java.util.List;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.FileField;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.helpers.IgrpHelper;
-import nosi.core.webapp.helpers.TempFileHelper;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.IgrpHelper;
+import nosi.core.webapp.util.helpers.file.TempFileHelper;
 import nosi.webapps.igrp.dao.TempFile;
 
 /**

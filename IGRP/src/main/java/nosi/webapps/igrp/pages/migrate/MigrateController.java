@@ -1,12 +1,13 @@
 package nosi.webapps.igrp.pages.migrate;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+
 /*----#start-code(packages_import)----*/
 import nosi.core.igrp.mingrations.MigrationIGRP;
-import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.database.DatabaseConfigHelper;
 import nosi.core.config.ConfigDBIGRP;
 /*----#end-code----*/
 

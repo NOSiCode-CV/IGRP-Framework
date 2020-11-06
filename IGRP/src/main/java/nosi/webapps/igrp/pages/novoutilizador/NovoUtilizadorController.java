@@ -1,12 +1,17 @@
 package nosi.webapps.igrp.pages.novoutilizador;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.database.QueryInterface;
+import nosi.core.webapp.util.helpers.database.ResultSet;
+import nosi.core.webapp.workflow.activit.rest.entities.UserService;
+import nosi.core.webapp.workflow.activit.rest.services.GroupServiceRest;
+import nosi.core.webapp.workflow.activit.rest.services.UserServiceRest;
+
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+
 import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.exception.HttpException;
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
@@ -14,10 +19,8 @@ import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.mail.EmailMessage.PdexTemplate;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.RParam;
-import nosi.core.webapp.activit.rest.entities.UserService;
-import nosi.core.webapp.activit.rest.services.GroupServiceRest;
-import nosi.core.webapp.activit.rest.services.UserServiceRest;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.annotation.RParam;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -38,6 +41,9 @@ import java.util.Map;
 import java.util.Properties;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
+
+import com.google.gson.Gson;
+
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 		
@@ -123,9 +129,9 @@ public class NovoUtilizadorController extends Controller {
 			if (!sucess) 
 				this.addQueryString("p_email", model.getEmail());
 
-		} else
-			throw new ServerErrorHttpException("Unsuported operation ...");
-
+		} else 
+			throw new HttpException(javax.servlet.http.HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Method Not Allowed");
+		
 		/*----#end-code----*/
 		return this.redirect("igrp","NovoUtilizador","index", this.queryString());	
 	}
@@ -179,7 +185,6 @@ public class NovoUtilizadorController extends Controller {
 					} else
 						ok = false;
 				}
-
 				if (insert) {
 					if (Core.isNotNull(new Profile().find().andWhere("type", "=", "PROF")
 							.andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
@@ -225,7 +230,6 @@ public class NovoUtilizadorController extends Controller {
 	private User checkGetUserLdap(String email) {
 		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
 		User userLdap = null;
-		
 		try {
 			URL url = new URL(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value()));
 			
@@ -301,8 +305,8 @@ public class NovoUtilizadorController extends Controller {
 				userLdap.setStatus(0);
 				userLdap.setCreated_at(System.currentTimeMillis());
 				userLdap.setUpdated_at(System.currentTimeMillis());
-				userLdap.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
-				userLdap.setActivation_key(nosi.core.webapp.User.generateActivationKey());
+				userLdap.setAuth_key(nosi.core.webapp.component.User.generateAuthenticationKey());
+				userLdap.setActivation_key(nosi.core.webapp.component.User.generateActivationKey());
 			}
 		} else
 			Core.setMessageError("Este utilizador não existe.");
@@ -340,7 +344,7 @@ public class NovoUtilizadorController extends Controller {
 			subContent.put("ser:newRoles", roleName);
 			bodyContent.put("ser:updateRoleListOfUser", subContent);
 
-			nosi.core.webapp.webservices.soap.SoapClient sc = Core.soapClient(wsdlUrl, namespaces, headers,
+			nosi.core.webservices.soap.client.SoapClient sc = Core.soapClient(wsdlUrl, namespaces, headers,
 					bodyContent);
 
 			if (sc.hasErrors()) { // Verifica se ocorreu algum erro ...
@@ -587,7 +591,51 @@ public class NovoUtilizadorController extends Controller {
 	return this.renderView( Core.remoteComboBoxXml(new ProfileType().getListProfiles(Core.getParamInt("p_aplicacao"),Core.getParamInt("p_organica")),new NovoUtilizadorView().perfil,null));
 	}
 	
-	private Properties settings = this.configApp.getMainSettings(); 
+	private Properties settings = this.configApp.getMainSettings();  
+	
+	
+	
+	public static void main(String[] args) { 
+	        String wsdlUrl = "https://autentika.gov.cv/services/RemoteUserStoreManagerService?wsdl";
+	        // An Map of Soap HTTP Headers 
+	        Map<String, String> headers = new HashMap<String, String>();
+	       // headers.put("SOAPAction", "\"http://ws.cdyne.com/ResolveIP\""); 
+	        headers.put("Authorization", "Basic YWRtaW4uaWdycEBub3NpLmN2OiFHUlAmYWQhbSFu"); 
+
+	        // An Map of Soap Envelope namespace 
+	        Map<String, String> namespaces = new HashMap<String, String>();
+	        namespaces.put("ser", "http://service.ws.um.carbon.wso2.org");
+	        
+	        Map<String, Object> bodyContent = new LinkedHashMap<String, Object>();
+	        Map<String, Object> subContent = new LinkedHashMap<String, Object>(); 
+	        subContent.put("ser:userName", "gov.cv/iekini.fernandes@nosi.cv"); 
+	        subContent.put("ser:profileName", ""); 
+	        bodyContent.put("ser:getUserClaimValues", subContent); 
+	        
+	        
+	        nosi.core.webservices.soap.client.SoapClient sc = Core.soapClient(
+	                        wsdlUrl, namespaces, headers, bodyContent, "soap", javax.xml.soap.SOAPConstants.SOAP_1_2_PROTOCOL); 
+	        
+	        System.out.println(sc.getRawEnvelopeRequest()); 
+	        
+	        if (sc.hasErrors()) 
+	            sc.getErrors().forEach(System.out::println); 
+	        else {
+	            Map<String, Object> map = sc.getResponseBody("soapenv"); 
+	            Map<String, Object> resp = (Map<String, Object>) map.get("ns:getUserClaimValuesResponse"); 
+	            List<Map<String, Object>> returns = (List<Map<String, Object>>) resp.get("ns:return"); 
+	           
+	            if(returns != null) {
+	            	returns.forEach(claim -> {
+	            		System.out.println(claim.get("ax2730:claimUri") + "");
+	            	});
+	            }
+	            
+	        }
+	        
+	}
+	
+	
 
 	/*----#end-code----*/
 }

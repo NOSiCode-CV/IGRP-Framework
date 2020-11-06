@@ -1,19 +1,18 @@
 package nosi.webapps.igrp.pages.etapaaccess;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.database.QueryInterface;
+import nosi.core.webapp.util.helpers.database.ResultSet;
+import nosi.core.webapp.workflow.activit.rest.business.ProcessDefinitionIGRP;
+import nosi.core.webapp.workflow.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.workflow.activit.rest.entities.TaskService;
+import nosi.core.webapp.workflow.activit.rest.services.ResourceServiceRest;
+import nosi.core.webapp.workflow.activit.rest.services.TaskServiceRest;
 import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
-import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.entities.TaskService;
-import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
-import nosi.core.webapp.activit.rest.services.TaskServiceRest;
+
+import java.io.IOException;
+
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TaskAccess;

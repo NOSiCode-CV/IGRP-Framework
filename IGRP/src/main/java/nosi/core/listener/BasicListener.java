@@ -3,7 +3,7 @@ package nosi.core.listener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import nosi.base.ActiveRecord.HibernateUtils;
+//import nosi.base.ActiveRecord.HibernateUtils;
 /**
  * Marcel Iekiny
  * Nov 23, 2017
@@ -15,10 +15,10 @@ public class BasicListener implements ServletContextListener {
 
     public void contextDestroyed(ServletContextEvent arg0)  {
     	System.out.println("Closig connections......");
-    	HibernateUtils.closeAllConnection();
+    	/*HibernateUtils.closeAllConnection();
     	HibernateUtils.destroy(); 
     	HibernateUtils.unregisterAllDrivers();
-		System.gc();
+		System.gc();*/
     }
     
 	public void contextInitialized(ServletContextEvent arg0)  {}

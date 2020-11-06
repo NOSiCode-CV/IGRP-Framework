@@ -3,8 +3,8 @@ package nosi.core.gui.components;
 import java.util.Iterator;
 import java.util.List;
 
-import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.util.FlashMessage;
 /**
  * Iekiny Marcel
  * Jan 11, 2018

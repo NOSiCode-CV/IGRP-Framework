@@ -1,9 +1,7 @@
 package nosi.webapps.igrp.pages.lookup_list_organica;
-import nosi.core.webapp.Model;
-import nosi.core.webapp.RParam;
-import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-
-
+import nosi.core.webapp.annotation.RParam;
+import nosi.core.webapp.mvc.Model;
+import nosi.core.webapp.util.helpers.database.BaseQueryInterface;
 
 import java.util.ArrayList;
 import java.util.List;

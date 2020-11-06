@@ -1,7 +1,7 @@
 package nosi.webapps.igrp.pages.home;
 
 import nosi.core.gui.components.IGRPHome;
-import nosi.core.webapp.View;
+import nosi.core.webapp.mvc.View;
 
 public class HomeView extends View{
 	public String title;

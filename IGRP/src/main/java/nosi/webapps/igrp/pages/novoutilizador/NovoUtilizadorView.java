@@ -1,11 +1,12 @@
 package nosi.webapps.igrp.pages.novoutilizador;
 
-import nosi.core.webapp.Model;
-import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
+import nosi.core.webapp.mvc.Model;
+import nosi.core.webapp.mvc.View;
+import nosi.core.webapp.util.Core;
+
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.webapp.Core;
 
 public class NovoUtilizadorView extends View {
 

@@ -1,6 +1,6 @@
 package nosi.webapps.igrp_studio.pages.file_editor;
 
-import nosi.core.webapp.Core;
+import nosi.core.webapp.util.Core;
 
 /**
  * Emanuel

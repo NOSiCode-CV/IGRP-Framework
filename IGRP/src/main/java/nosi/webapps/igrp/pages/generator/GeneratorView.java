@@ -11,7 +11,7 @@ import nosi.core.gui.fields.ListField;
 import nosi.core.gui.fields.NumberField;
 import nosi.core.gui.fields.TextField;
 import nosi.core.gui.generator.Generator2_3;
-import nosi.core.webapp.View;
+import nosi.core.webapp.mvc.View;
 
 import static nosi.core.i18n.Translator.gt;
 
