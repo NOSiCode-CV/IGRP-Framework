@@ -10,7 +10,7 @@ import nosi.core.webapp.Igrp;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/IGRP/app")
+@WebServlet
 @MultipartConfig
 public class IgrpServlet extends HttpServlet{
 	
