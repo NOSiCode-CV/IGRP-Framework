@@ -9,7 +9,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import nosi.core.config.Config;
-import nosi.core.webapp.Core;
+import nosi.core.webapp.util.Core;
 
 /**
  * @author Isaias.Nunes

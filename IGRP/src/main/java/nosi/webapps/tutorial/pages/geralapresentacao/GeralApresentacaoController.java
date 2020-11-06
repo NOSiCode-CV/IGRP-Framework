@@ -1,10 +1,10 @@
 package nosi.webapps.tutorial.pages.geralapresentacao;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-
 import java.io.IOException;
+
 import nosi.core.webapp.Response;
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;

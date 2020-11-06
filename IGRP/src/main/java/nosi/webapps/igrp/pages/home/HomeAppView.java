@@ -3,7 +3,7 @@ package nosi.webapps.igrp.pages.home;
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPHome;
 import nosi.core.gui.components.IGRPToolsBar;
-import nosi.core.webapp.View;
+import nosi.core.webapp.mvc.View;
 
 public class HomeAppView extends View{
 	public String title;

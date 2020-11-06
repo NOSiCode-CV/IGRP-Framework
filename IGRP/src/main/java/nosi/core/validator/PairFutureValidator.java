@@ -5,7 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.validator.constraints.PairFuture;
-import nosi.core.webapp.Core;
+import nosi.core.webapp.util.Core;
 
 /**
  * emerson

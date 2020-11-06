@@ -18,9 +18,9 @@ import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.fields.*;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
-import nosi.core.webapp.databse.helpers.SqlJavaType;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.database.DatabaseMetadaHelper;
+import nosi.core.webapp.util.helpers.database.SqlJavaType;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Config_env;
 

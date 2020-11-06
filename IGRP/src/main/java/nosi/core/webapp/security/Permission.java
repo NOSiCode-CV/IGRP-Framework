@@ -10,9 +10,10 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Optional;
 import javax.servlet.http.Cookie;
-import nosi.core.webapp.Core;
+
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.helpers.ApplicationPermition;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.ApplicationPermition;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;

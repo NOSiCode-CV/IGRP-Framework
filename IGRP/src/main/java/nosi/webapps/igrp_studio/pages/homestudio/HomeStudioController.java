@@ -1,12 +1,11 @@
 
 package nosi.webapps.igrp_studio.pages.homestudio;
 
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import nosi.core.webapp.Controller;
 import java.io.IOException;
-import nosi.core.webapp.Response;
+
 import nosi.core.webapp.Igrp;
-/*----#END-PRESERVED-AREA----*/
+import nosi.core.webapp.Response;
+import nosi.core.webapp.mvc.Controller;
 
 public class HomeStudioController extends Controller {		
 

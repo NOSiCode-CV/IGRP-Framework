@@ -1,10 +1,10 @@
 package nosi.webapps.igrp_studio.pages.importarquivo;
 
 import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
-import nosi.core.webapp.Model;
-import nosi.core.webapp.RParam;
+import nosi.core.webapp.annotation.RParam;
+import nosi.core.webapp.mvc.Model;
 import nosi.core.webapp.uploadfile.UploadFile;
+import nosi.core.webapp.util.report.Report;
 
 public class ImportArquivo extends Model{		
 

@@ -5,9 +5,9 @@ package nosi.core.gui.components;
  */
 
 
-import nosi.core.webapp.QueryString;
-import nosi.core.webapp.Report;
-import nosi.core.webapp.helpers.Route;
+import nosi.core.webapp.util.QueryString;
+import nosi.core.webapp.util.helpers.Route;
+import nosi.core.webapp.util.report.Report;
 
 public class IGRPLink {
 

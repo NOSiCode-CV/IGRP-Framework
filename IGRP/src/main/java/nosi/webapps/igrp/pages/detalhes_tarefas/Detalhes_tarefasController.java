@@ -7,12 +7,13 @@ package nosi.webapps.igrp.pages.detalhes_tarefas;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
+
 import nosi.core.webapp.Response;
-import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
-import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
-import nosi.core.webapp.bpmn.BPMNConstants;
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.workflow.activit.rest.business.TaskServiceIGRP;
+import nosi.core.webapp.workflow.activit.rest.entities.TaskServiceQuery;
+import nosi.core.webapp.workflow.bpmn.BPMNConstants;
 
 /*----#end-code----*/
 

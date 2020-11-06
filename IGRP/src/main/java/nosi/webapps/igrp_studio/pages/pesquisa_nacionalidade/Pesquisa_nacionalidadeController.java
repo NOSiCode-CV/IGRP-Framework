@@ -1,11 +1,13 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_nacionalidade;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.database.QueryInterface;
+import nosi.core.webapp.util.helpers.database.ResultSet;
 import nosi.core.webapp.Response;
+
+import java.io.IOException;
+
 /*----#start-code(packages_import)----*/
 import org.json.JSONArray;
 import org.json.JSONObject;

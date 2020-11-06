@@ -1,11 +1,13 @@
 package nosi.webapps.igrp.pages.dominio;
 
-import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.database.BaseQueryInterface;
+import nosi.core.webapp.util.helpers.database.QueryInterface;
+import nosi.core.webapp.util.helpers.database.ResultSet;
+
 import java.io.IOException;//
-import nosi.core.webapp.Core;//
-import nosi.core.webapp.Response;//
+
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
@@ -14,7 +16,7 @@ import nosi.core.config.ConfigDBIGRP;
 import java.util.LinkedHashMap;
 import java.util.List;
 import nosi.webapps.igrp.dao.Domain;
-import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import nosi.core.webapp.Response;
 
 /*----#end-code----*/
 		

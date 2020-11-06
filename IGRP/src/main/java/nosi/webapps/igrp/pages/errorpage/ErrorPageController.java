@@ -1,13 +1,14 @@
 package nosi.webapps.igrp.pages.errorpage;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+
 /*----#start-code(packages_import)----*/
 import javax.servlet.RequestDispatcher;
+
 import nosi.core.webapp.Igrp;
-/*----#end-code----*/
+import nosi.core.webapp.Response;
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
 		
 public class ErrorPageController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

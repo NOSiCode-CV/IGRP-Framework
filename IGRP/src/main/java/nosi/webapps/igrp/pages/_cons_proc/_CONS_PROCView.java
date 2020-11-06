@@ -1,9 +1,10 @@
 package nosi.webapps.igrp.pages._cons_proc;
 
-import nosi.core.webapp.Model;
-import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
+import nosi.core.webapp.mvc.Model;
+import nosi.core.webapp.mvc.View;
+
 import static nosi.core.i18n.Translator.gt;
 import java.util.Map;
 import java.util.LinkedHashMap;
@@ -36,6 +37,7 @@ public class _CONS_PROCView extends View {
 	public IGRPButton btn_pesquisar;
 	public IGRPButton btn_ver_etapa;
 	public IGRPButton btn_ver_processo;
+	public IGRPButton btn_lock;
 
 	public _CONS_PROCView(){
 
@@ -135,6 +137,9 @@ public class _CONS_PROCView extends View {
 		btn_ver_processo = new IGRPButton("Detalhes de Processo","igrp","_CONS_PROC","ver_processo","mpsubmit","primary|fa-sitemap","","");
 		btn_ver_processo.propertie.add("id","button_893d_357f").add("type","specific").add("class","primary").add("rel","ver_processo").add("refresh_components","");
 
+		btn_lock = new IGRPButton("Lock","igrp","_CONS_PROC","lock","mpsubmit","grey|fa-lock","","");
+		btn_lock.propertie.add("id","button_a516_b96e").add("type","specific").add("class","grey").add("rel","lock").add("refresh_components","");
+
 		
 	}
 		
@@ -178,6 +183,7 @@ public class _CONS_PROCView extends View {
 		form.addButton(btn_pesquisar);
 		table_1.addButton(btn_ver_etapa);
 		table_1.addButton(btn_ver_processo);
+		table_1.addButton(btn_lock);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form);
 		this.addToPage(table_1);

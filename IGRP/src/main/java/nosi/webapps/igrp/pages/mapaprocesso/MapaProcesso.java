@@ -1,7 +1,7 @@
 /*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.mapaprocesso;
-import nosi.core.webapp.Model;
-import nosi.core.webapp.RParam;
+import nosi.core.webapp.annotation.RParam;
+import nosi.core.webapp.mvc.Model;
 
 public class MapaProcesso extends Model{		
 	@RParam(rParamName = "p_mapa_processo_text")

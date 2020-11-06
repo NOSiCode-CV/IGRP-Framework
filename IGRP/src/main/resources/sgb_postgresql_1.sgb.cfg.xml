@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd"><hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/db_sgb</property>
+		<property name="hibernate.connection.username">postgres</property>
+		<property name="hibernate.connection.password">softwaredeveloper</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="hibernate.connection.isolation">2</property>
+		<property name="hibernate.connection.autocommit">false</property>
+		<property name="hibernate.connection.pool_size">5</property>
+		<property name="hibernate.hbm2ddl.jdbc_metadata_extraction_strategy">individually</property>
+		<property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
+		<property name="hibernate.transaction.auto_close_session">DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<!-- Hikaricp configuration -->
+		<property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>
+		<property name="hibernate.hikari.connectionTimeout">60000</property>
+		<property name="hibernate.hikari.idleTimeout">10000</property>
+		<property name="hibernate.hikari.minimumIdle">0</property>
+		<property name="hibernate.hikari.maximumPoolSize">10</property>
+		<property name="hibernate.hikari.maxLifetime">30000</property>
+		<property name="hibernate.hikari.leakDetectionThreshold">0</property>
+		<property name="hibernate.hikari.connectionTimeout">120000</property>
+		<property name="hibernate.hikari.idleTimeout">600000</property>
+		<property name="hibernate.hikari.maxLifetime">1800000</property>
+		<property name="hibernate.hikari.connectionTimeout">120000</property>
+		<property name="hibernate.hikari.idleTimeout">600000</property>
+		<property name="hibernate.hikari.maxLifetime">1800000</property>
+        
+       	<mapping class="nosi.webapps.sgb.data.entities.TblBeneficiary"/>  
+        <mapping class="nosi.webapps.sgb.data.entities.TblBeneficiaryConditionBenefit"/>
+        <mapping class="nosi.webapps.sgb.data.entities.TblBenefitCondition"/>
+      	<mapping class="nosi.webapps.sgb.data.entities.TblBeneficiaryCriteria"/>
+        <mapping class="nosi.webapps.sgb.data.entities.TblInvoice"/>    
+  <!--  <mapping class="nosi.webapps.sgb.data.entities.TblInvoiceBeneficiary"/> -->
+
+		<!-- Mapping your class here... 
+		Ex: <mapping class="nosi.webapps.sgb.dao.Employee"/> 		-->
+		
+	</session-factory>  
+</hibernate-configuration>

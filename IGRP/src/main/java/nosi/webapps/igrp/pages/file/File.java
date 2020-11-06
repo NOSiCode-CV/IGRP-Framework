@@ -1,7 +1,7 @@
 package nosi.webapps.igrp.pages.file;
 
 
-import nosi.core.webapp.Model;
+import nosi.core.webapp.mvc.Model;
 
 
 

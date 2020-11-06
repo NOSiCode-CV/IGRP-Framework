@@ -1,20 +1,20 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
 import java.io.StringReader;
 
-import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
-import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.helpers.dao_helper.SaveMapeamentoDAO;
+import nosi.core.webapp.mvc.Controller;
 import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.dao.SaveMapeamentoDAO;
+import nosi.core.webapp.util.helpers.database.DatabaseConfigHelper;
+import nosi.core.webapp.util.helpers.file.FileHelper;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.pages.migrate.Migrate;
-import nosi.core.webapp.Igrp;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;

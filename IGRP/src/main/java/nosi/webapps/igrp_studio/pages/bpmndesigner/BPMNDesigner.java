@@ -1,8 +1,9 @@
 /*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp_studio.pages.bpmndesigner;
 import nosi.core.config.Config;
-import nosi.core.webapp.Model;
-import nosi.core.webapp.RParam;
+import nosi.core.webapp.annotation.RParam;
+import nosi.core.webapp.mvc.Model;
+
 import java.util.ArrayList;
 import java.util.List;
 

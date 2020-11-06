@@ -1,11 +1,16 @@
 package nosi.webapps.igrp_studio.pages.importarquivo;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.ie.export.app.ImportAppJava;
+import nosi.core.webapp.ie.export.app.ImportJavaPage;
+import nosi.core.webapp.ie.import_export.Import;
+import nosi.core.webapp.ie.import_export.ImportAppZip;
+import nosi.core.webapp.ie.import_export.ImportPluginIGRP;
+import nosi.core.webapp.ie.import_export_v2.common.Path;
+import nosi.core.webapp.ie.import_export_v2.imports.ImportHelper;
+
+import java.io.IOException;
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
@@ -14,20 +19,16 @@ import java.util.Map;
 import java.io.File;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-import nosi.core.webapp.FlashMessage;
-import nosi.core.webapp.export.app.ImportAppJava;
-import nosi.core.webapp.export.app.ImportJavaPage;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.import_export.Import;
-import nosi.core.webapp.import_export.ImportAppZip;
-import nosi.core.webapp.import_export.ImportPluginIGRP;
-import nosi.core.webapp.import_export_v2.common.Path;
-import nosi.core.webapp.import_export_v2.imports.ImportHelper;
+
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.FlashMessage;
+import nosi.core.webapp.util.helpers.database.QueryInterface;
+import nosi.core.webapp.util.helpers.database.ResultSet;
+import nosi.core.webapp.util.helpers.file.FileHelper;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
-import nosi.core.webapp.Igrp;
-/*----#end-code----*/
 		
 public class ImportArquivoController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

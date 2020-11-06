@@ -1,12 +1,8 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_geografia;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,6 +11,10 @@ import java.util.Properties;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import nosi.core.webapp.Response;
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
 import nosi.core.webapp.webservices.rest.ConsumeJson;
 import nosi.core.webapp.webservices.rest.Geografia;
 

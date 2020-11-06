@@ -1,0 +1,69 @@
+package nosi.core.webapp.component;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+
+import nosi.core.webapp.Igrp;
+
+/**
+ * Iekiny Marcel
+ * Jan 11, 2018
+ */
+public final class IgrpLog implements IComponent { // Not inherited 
+	
+	private List<String> msgLog; 
+	
+	public IgrpLog() {}
+	
+	public IgrpLog addMessage(String msg) {
+		this.msgLog.add(msg);
+		return this;
+	}
+	
+	public List<String> getMsgLog(){
+		return this.msgLog;
+	}
+
+	public void run() {
+		Set<String> paramNames = Igrp.getInstance().getRequest().getParameterMap().keySet();
+		Iterator<String> i = paramNames.iterator();
+		
+		String qs = Igrp.getInstance().getRequest().getQueryString();
+		
+		while(i.hasNext()) {
+			String key = i.next();
+			String values = "";
+			
+			if(StringUtils.countMatches(qs, key+"=")==1) {
+				values = Igrp.getInstance().getRequest().getParameter(key);
+			}else {
+				String []result = Igrp.getInstance().getRequest().getParameterValues(key); 
+				if(result != null && result.length > 1) {
+					values += "[";
+					for(int j = 0; j < result.length; j++) {
+						values += result[j];
+						if(j < result.length - 1)
+							values += ", ";
+					}		
+					values += "]";
+				}else 
+					values = Igrp.getInstance().getRequest().getParameter(key);
+			}	
+				this.msgLog.add(key + " = " + values + " ");
+		}
+	}
+
+	@Override
+	public void destroy() {}
+
+	@Override
+	public void init(HttpServletRequest request) {
+		this.msgLog = new ArrayList<String>();
+	}
+	
+}

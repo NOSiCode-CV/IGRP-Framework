@@ -1,9 +1,9 @@
 package nosi.webapps.igrp_studio.pages.wizard_export_step_1;
 
 import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
-import nosi.core.webapp.Model;
-import nosi.core.webapp.RParam;
+import nosi.core.webapp.annotation.RParam;
+import nosi.core.webapp.mvc.Model;
+import nosi.core.webapp.util.report.Report;
 
 public class Wizard_export_step_1 extends Model{		
 

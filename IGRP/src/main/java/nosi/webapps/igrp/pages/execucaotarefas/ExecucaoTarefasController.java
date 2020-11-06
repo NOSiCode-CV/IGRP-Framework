@@ -1,16 +1,20 @@
 package nosi.webapps.igrp.pages.execucaotarefas;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
+import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.util.Core;
+import nosi.core.webapp.util.helpers.database.QueryInterface;
+import nosi.core.webapp.util.helpers.database.ResultSet;
+import nosi.core.webapp.workflow.activit.rest.business.ProcessDefinitionIGRP;
+import nosi.core.webapp.workflow.activit.rest.business.TaskServiceIGRP;
+import nosi.core.webapp.workflow.activit.rest.entities.TaskService;
+import nosi.core.webapp.workflow.activit.rest.helpers.DateHelper;
+import nosi.core.webapp.workflow.activit.rest.services.TaskServiceRest;
+import nosi.core.webapp.workflow.bpmn.BPMNConstants;
+import nosi.core.webapp.workflow.bpmn.BPMNExecution;
 import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import nosi.core.webapp.bpmn.BPMNConstants;
-import nosi.core.webapp.bpmn.BPMNExecution;
+
+import java.io.IOException;
+
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.pages.execucaotarefas.ExecucaoTarefas.Table_disponiveis;
 import nosi.webapps.igrp.pages.execucaotarefas.ExecucaoTarefas.Table_gerir_tarefas;
@@ -22,13 +26,6 @@ import javax.servlet.ServletException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-
-import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
-import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
-import nosi.core.webapp.activit.rest.entities.TaskService;
-import nosi.core.webapp.activit.rest.helpers.DateHelper;
-import nosi.core.webapp.activit.rest.services.TaskServiceRest;
-/*----#end-code----*/
 		
 public class ExecucaoTarefasController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

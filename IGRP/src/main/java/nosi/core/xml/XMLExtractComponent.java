@@ -1,6 +1,6 @@
 package nosi.core.xml;
 
-import nosi.core.webapp.Core;
+import nosi.core.webapp.util.Core;
 
 /**
  * Emanuel
