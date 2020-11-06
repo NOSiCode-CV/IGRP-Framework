@@ -3,9 +3,8 @@ package nosi.webapps.igrp.pages.page;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.file.FileHelper;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.helpers.FileHelper;
 
 /**
  * Emanuel

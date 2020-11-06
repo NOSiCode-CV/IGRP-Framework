@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 import org.eclipse.jdt.core.compiler.CompilationProgress;
 import org.eclipse.jdt.core.compiler.batch.BatchCompiler;
 import nosi.core.config.Config;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.compiler.helpers.ErrorCompile;
 import nosi.core.webapp.compiler.helpers.MapErrorCompile;
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.file.FileHelper;
+import nosi.core.webapp.helpers.FileHelper;
 
 
 /**

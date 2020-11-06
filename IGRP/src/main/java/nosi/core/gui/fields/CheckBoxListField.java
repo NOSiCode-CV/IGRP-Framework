@@ -1,6 +1,6 @@
 package nosi.core.gui.fields;
 
-import nosi.core.webapp.util.helpers.IgrpHelper;
+import nosi.core.webapp.helpers.IgrpHelper;
 
 /**
  * @author: Emanuel Pereira

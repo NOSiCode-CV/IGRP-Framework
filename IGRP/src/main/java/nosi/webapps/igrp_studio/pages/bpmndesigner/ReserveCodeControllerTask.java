@@ -1,8 +1,8 @@
 package nosi.webapps.igrp_studio.pages.bpmndesigner;
 
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.ExtractReserveCode;
-import nosi.core.webapp.util.helpers.ExtractReserveCode.ReserveCode;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.helpers.ExtractReserveCode;
+import nosi.core.webapp.helpers.ExtractReserveCode.ReserveCode;
 
 /**
  * Emanuel

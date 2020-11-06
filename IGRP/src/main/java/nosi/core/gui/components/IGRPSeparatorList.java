@@ -11,10 +11,10 @@ import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.RadioField;
 import nosi.core.gui.fields.RadioListField;
-import nosi.core.webapp.mvc.Model;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.uploadfile.UploadFile;
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.IgrpHelper;
 
 /**
  * @author: Emanuel Pereira

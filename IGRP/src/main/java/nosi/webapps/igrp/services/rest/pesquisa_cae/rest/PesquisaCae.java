@@ -7,7 +7,7 @@ import java.util.Properties;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import nosi.core.config.ConfigApp;
-import nosi.core.webapp.util.Core;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.webservices.rest.ConsumeJson;
 import nosi.webapps.igrp.services.rest.pesquisa_cae.pojo.Cae;
 

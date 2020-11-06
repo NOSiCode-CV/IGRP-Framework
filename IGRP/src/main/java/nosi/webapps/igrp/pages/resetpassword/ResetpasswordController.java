@@ -1,13 +1,11 @@
 package nosi.webapps.igrp.pages.resetpassword;
 
-import nosi.core.webapp.mvc.Controller;
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.database.QueryInterface;
-import nosi.core.webapp.util.helpers.database.ResultSet;
-import nosi.core.webapp.Response;
-
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
 import java.io.File;
@@ -139,7 +137,7 @@ public class ResetpasswordController extends Controller {
 		boolean flag = false;
 		User u = Core.findUserByUsername(username);
 		if(u != null) {
-			u.setPass_hash(nosi.core.webapp.component.User.encryptToHash(username + "" + password, "SHA-256"));
+			u.setPass_hash(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256"));
 			u = u.update();
 			if(u != null) {
 				Core.setMessageSuccess("Password alterado com sucesso. Faça o login para continuar.");

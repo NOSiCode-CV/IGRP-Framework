@@ -21,7 +21,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 
 import nosi.core.config.ConfigApp;
-import nosi.core.webapp.util.Core;
+import nosi.core.webapp.Core;
 
 /**
  * Iekiny Marcel

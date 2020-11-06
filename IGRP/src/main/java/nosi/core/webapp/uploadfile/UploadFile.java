@@ -6,7 +6,7 @@ import java.io.InputStream;
 
 import javax.servlet.http.Part;
 
-import nosi.core.webapp.util.Core;
+import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.TempFile;
 
 /**

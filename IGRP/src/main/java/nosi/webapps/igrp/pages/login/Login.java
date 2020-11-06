@@ -1,7 +1,7 @@
 /*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.login;
-import nosi.core.webapp.annotation.RParam;
-import nosi.core.webapp.mvc.Model;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
 
 public class Login extends Model{
 	

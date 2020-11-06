@@ -2,9 +2,8 @@ package nosi.webapps.igrp_studio.pages.defaultpage;
 
 import nosi.webapps.igrp.pages.home.HomeAppView;
 import java.io.IOException;
-
 import nosi.core.webapp.Response;
-import nosi.core.webapp.mvc.Controller;
+import nosi.core.webapp.Controller;
 import nosi.webapps.igrp.dao.Application;
 
 public class DefaultPageController extends Controller {

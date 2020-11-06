@@ -18,8 +18,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.IgrpHelper;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.helpers.IgrpHelper;
 
 @Entity
 @Table(name="tbl_config_env")

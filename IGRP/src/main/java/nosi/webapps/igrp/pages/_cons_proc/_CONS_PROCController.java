@@ -1,22 +1,23 @@
 package nosi.webapps.igrp.pages._cons_proc;
 
-import nosi.core.webapp.mvc.Controller;
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.database.QueryInterface;
-import nosi.core.webapp.util.helpers.database.ResultSet;
-import nosi.core.webapp.workflow.activit.rest.business.ProcessDefinitionIGRP;
-import nosi.core.webapp.workflow.activit.rest.business.TaskServiceIGRP;
-import nosi.core.webapp.workflow.activit.rest.entities.TaskServiceQuery;
-import nosi.core.webapp.workflow.activit.rest.helpers.DateHelper;
-import nosi.core.webapp.workflow.activit.rest.helpers.StatusTask;
-import nosi.core.webapp.workflow.bpmn.BPMNConstants;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import java.io.IOException;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-
-import java.io.IOException;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
+import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
+import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
+import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
+import nosi.core.webapp.activit.rest.helpers.DateHelper;
+import nosi.core.webapp.activit.rest.helpers.StatusTask;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.webapps.igrp.dao.Application;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
@@ -30,7 +31,7 @@ public class _CONS_PROCController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Magna voluptatem omnis elit ad' as num_processo,'Totam accusantium consectetur iste aliqua' as processo,'Sed perspiciatis elit omnis dolor' as eatapa,'Deserunt amet officia aliqua d' as dt_inicio_etapa,'Voluptatem magna unde rem labo' as dt_fim_etapa,'Ut dolor officia aliqua rem' as atribuido_a,'hidden-3bca_c03e' as id_task "));
+		model.loadTable_1(Core.query(null,"SELECT '2' as estado,'Aliqua adipiscing doloremque s' as num_processo,'Consectetur anim elit doloremque sit' as processo,'Anim laudantium totam elit officia' as eatapa,'Aliqua mollit aperiam adipisci' as dt_inicio_etapa,'Dolor officia lorem sed anim' as dt_fim_etapa,'Lorem elit stract magna mollit' as atribuido_a,'hidden-7a2c_7e6a' as id_task "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo_processo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.cbx_utilizador.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -160,24 +161,6 @@ public class _CONS_PROCController extends Controller {
 		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_id_task")).addQueryString("target", "_blank");
 		/*----#end-code----*/
 		return this.redirect("igrp","DetalhesProcesso","index", this.queryString());	
-	}
-	
-	public Response actionLock() throws IOException, IllegalArgumentException, IllegalAccessException{
-		_CONS_PROC model = new _CONS_PROC();
-		model.load();
-		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  this.addQueryString("p_id_task",Core.getParam("p_id_task"));
-		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
-		  Use model.validate() to validate your model
-		  ----#gen-example */
-		/*----#start-code(lock)----*/
-		
-		
-		/*----#end-code----*/
-		return this.redirect("igrp","Dominio","index", this.queryString());	
 	}
 	
 		

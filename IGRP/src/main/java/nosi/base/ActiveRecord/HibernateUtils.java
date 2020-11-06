@@ -19,10 +19,10 @@ import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.service.ServiceRegistry;
 import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigDBIGRP;
-import nosi.core.webapp.ie.import_export_v2.common.Path;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
+import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.webapp.security.EncrypDecrypt;
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.database.DatabaseConfigHelper;
 import nosi.webapps.igrp.dao.Config_env;
 
 

@@ -40,10 +40,9 @@ package nosi.core.gui.components;
 </chart_1>
 */
 import nosi.core.gui.fields.GenXMLField;
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.database.BaseQueryInterface;
-import nosi.core.webapp.util.helpers.database.DatabaseMetadaHelper;
-
+import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import java.util.ArrayList;
 
 import java.util.LinkedHashMap;

@@ -1,25 +1,23 @@
 package nosi.webapps.igrp.pages.detalhes_dashboard_processo;
 
-import nosi.core.webapp.mvc.Controller;
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.database.QueryInterface;
-import nosi.core.webapp.util.helpers.database.ResultSet;
-import nosi.core.webapp.workflow.activit.rest.business.ProcessInstanceIGRP;
-import nosi.core.webapp.workflow.activit.rest.entities.HistoricProcessInstance;
-import nosi.core.webapp.workflow.activit.rest.entities.ProcessDefinitionService;
-import nosi.core.webapp.workflow.activit.rest.entities.ProcessInstancesService;
-import nosi.core.webapp.workflow.activit.rest.services.ProcessDefinitionServiceRest;
-import nosi.core.webapp.workflow.activit.rest.services.ProcessInstanceServiceRest;
-import nosi.core.webapp.workflow.bpmn.BPMNConstants;
-import nosi.core.webapp.Response;
-
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
 import java.util.List;
-
+import nosi.core.webapp.bpmn.BPMNConstants;
+import nosi.core.webapp.activit.rest.business.ProcessInstanceIGRP;
+import nosi.core.webapp.activit.rest.entities.HistoricProcessInstance;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.entities.ProcessInstancesService;
+import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
+import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 		

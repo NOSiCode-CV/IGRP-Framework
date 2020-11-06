@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import nosi.core.config.ConfigApp;
-import nosi.core.webapp.util.Core;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.webservices.rest.pesquisa_geral.PesquisaEmpresa;
 
 /**

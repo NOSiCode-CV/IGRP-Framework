@@ -29,9 +29,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import nosi.core.webapp.util.Core;
-
+import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
 
 @Entity
@@ -298,7 +296,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 			list = p.find()
 					.andWhere("type", "=", "ENV")
 					.andWhere("user", "=", idUser) 
-					//.andWhere("type_fk", ">", 3) // Oculta IGRP Core,IGRP Tutorial,Oculta IGRP Studio 
+					.andWhere("type_fk", ">", 3) // Oculta IGRP Core,IGRP Tutorial,Oculta IGRP Studio 
 					.all();
 		}		
 		if(!list.isEmpty()){

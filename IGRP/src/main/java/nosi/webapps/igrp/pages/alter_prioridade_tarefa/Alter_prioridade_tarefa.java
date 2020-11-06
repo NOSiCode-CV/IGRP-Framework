@@ -1,7 +1,7 @@
 package nosi.webapps.igrp.pages.alter_prioridade_tarefa;
 
-import nosi.core.webapp.annotation.RParam;
-import nosi.core.webapp.mvc.Model;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
 
 public class Alter_prioridade_tarefa extends Model{		
 

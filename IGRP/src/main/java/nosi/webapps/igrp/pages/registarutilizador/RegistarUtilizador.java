@@ -1,8 +1,8 @@
 package nosi.webapps.igrp.pages.registarutilizador;
 
 
-import nosi.core.webapp.annotation.RParam;
-import nosi.core.webapp.mvc.Model;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
 
 public class RegistarUtilizador extends Model{		
 	@RParam(rParamName = "p_titulo_text")

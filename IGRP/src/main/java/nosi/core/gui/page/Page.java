@@ -12,13 +12,13 @@ import nosi.core.config.ConfigApp;
 import nosi.core.exception.NotFoundHttpException;
 import nosi.core.gui.components.IGRPLogBar;
 import nosi.core.gui.components.IGRPMessage;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.annotation.RParam;
-import nosi.core.webapp.mvc.Controller;
-import nosi.core.webapp.mvc.Model;
-import nosi.core.webapp.mvc.View;
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.StringHelper;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
+import nosi.core.webapp.View;
+import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 
@@ -192,7 +192,7 @@ public class Page{
 					if(parameter.getType().getSuperclass().getName().equals("nosi.core.webapp.Model")){
 						// Dependency Injection for models
 						Class<?> c_ = Class.forName(parameter.getType().getName());
-						nosi.core.webapp.mvc.Model model = (Model) c_.newInstance();
+						nosi.core.webapp.Model model = (Model) c_.newInstance();
 						model.load();
 						paramValues.add(model);
 					}else{

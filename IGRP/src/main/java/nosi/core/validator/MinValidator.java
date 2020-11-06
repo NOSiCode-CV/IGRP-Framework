@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import nosi.core.validator.constraints.Min;
-import nosi.core.webapp.util.Core;
+import nosi.core.webapp.Core;
 
 /**
  * emerson

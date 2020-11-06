@@ -1,13 +1,12 @@
 package nosi.webapps.igrp.pages.addfiletask;
 
+import nosi.core.webapp.Controller;
 import java.io.IOException;
-
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.mvc.Controller;
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.workflow.activit.rest.services.TaskServiceRest;
-import nosi.core.webservices.rest.client.helpers.FileRest;
-
+/*----#start-code(packages_import)----*/
+import nosi.core.webapp.webservices.helpers.FileRest;
+import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import org.apache.commons.text.StringEscapeUtils;
 /*----#end-code----*/
 		

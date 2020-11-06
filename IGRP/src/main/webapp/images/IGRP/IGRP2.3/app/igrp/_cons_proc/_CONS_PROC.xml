@@ -120,11 +120,11 @@
                 </referencia_pedido>
                 <requerente name="p_requerente" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Requerente</label>
-                    <value>Anim ipsum omnis rem magna</value>
+                    <value>Unde anim lorem ut mollit</value>
                 </requerente>
                 <num name="p_num" type="text" maxlength="150" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nº Processo</label>
-                    <value>Mollit lorem sit perspiciatis ut</value>
+                    <value>Mollit stract ut voluptatem unde</value>
                 </num>
                 <status name="p_status" type="select" maxlength="30" multiple="false" domain="" required="false" change="false" disabled="false" right="false" java-type="" tags="false">
                     <label>Estado</label>
@@ -153,11 +153,11 @@
                 </intervalo_entrada>
                 <dt_ini name="p_dt_ini" type="date" maxlength="30" range="false" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="success" desclabel="false">
                     <label>Data Inicio</label>
-                    <value>04-05-2010</value>
+                    <value>02-04-2012</value>
                 </dt_ini>
                 <dt_fim name="p_dt_fim" type="date" maxlength="30" range="false" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="danger" desclabel="false">
                     <label>Data Fim</label>
-                    <value>06-06-2011</value>
+                    <value>02-04-2015</value>
                 </dt_fim>
             </fields>
             <tools-bar>
@@ -206,13 +206,27 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <estado name="p_estado">2</estado>
-                        <num_processo name="p_num_processo">Magna officia accusantium anim</num_processo>
-                        <processo name="p_processo">Rem ut omnis aliqua voluptatem</processo>
-                        <eatapa name="p_eatapa">Deserunt stract aliqua ipsum lorem</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Sit perspiciatis sit natus off</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Ut totam ut sed consectetur</dt_fim_etapa>
-                        <atribuido_a name="p_atribuido_a">Anim perspiciatis rem amet per</atribuido_a>
-                        <id_task name="p_id_task" tag="id_task">hidden-eb13_6b02</id_task>
+                        <num_processo name="p_num_processo">Omnis sit magna ut lorem</num_processo>
+                        <processo name="p_processo">Natus stract adipiscing ut consectetur</processo>
+                        <eatapa name="p_eatapa">Aliqua labore aperiam accusantium voluptatem</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Aperiam anim aperiam anim offi</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Ut doloremque consectetur adip</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Voluptatem accusantium rem per</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-5479_8e96</id_task>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">2</estado>
+                        <num_processo name="p_num_processo">Natus doloremque accusantium i</num_processo>
+                        <processo name="p_processo">Sit omnis officia consectetur aperiam</processo>
+                        <eatapa name="p_eatapa">Elit natus anim dolor magna</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Sed officia amet adipiscing st</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Adipiscing stract anim totam l</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Ipsum sed ipsum laudantium off</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-1222_6192</id_task>
                     </row>
                     <row>
                         <context-menu>
@@ -220,13 +234,27 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <estado name="p_estado">1</estado>
-                        <num_processo name="p_num_processo">Omnis deserunt accusantium con</num_processo>
-                        <processo name="p_processo">Adipiscing ut sit ut laudantium</processo>
-                        <eatapa name="p_eatapa">Labore omnis elit unde lorem</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Mollit iste totam deserunt lau</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Adipiscing voluptatem omnis mo</dt_fim_etapa>
-                        <atribuido_a name="p_atribuido_a">Voluptatem doloremque unde dol</atribuido_a>
-                        <id_task name="p_id_task" tag="id_task">hidden-57d5_4903</id_task>
+                        <num_processo name="p_num_processo">Ut aliqua rem adipiscing sit</num_processo>
+                        <processo name="p_processo">Labore magna doloremque anim sit</processo>
+                        <eatapa name="p_eatapa">Anim sit iste natus sit</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Unde sit unde voluptatem magna</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Aperiam anim dolor sit rem</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Labore stract sit omnis dolore</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-6092_2e58</id_task>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">2</estado>
+                        <num_processo name="p_num_processo">Natus stract consectetur lauda</num_processo>
+                        <processo name="p_processo">Amet omnis sit lorem magna</processo>
+                        <eatapa name="p_eatapa">Sed perspiciatis sit accusantium laudantium</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Labore adipiscing sit unde ut</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Iste sed consectetur aliqua om</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Dolor natus voluptatem rem con</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-55f3_05b6</id_task>
                     </row>
                     <row>
                         <context-menu>
@@ -234,41 +262,13 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <estado name="p_estado">1</estado>
-                        <num_processo name="p_num_processo">Amet anim totam dolor sit</num_processo>
-                        <processo name="p_processo">Aperiam magna omnis labore perspiciatis</processo>
-                        <eatapa name="p_eatapa">Rem magna doloremque mollit totam</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Perspiciatis doloremque dolor</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Accusantium sit lorem dolor se</dt_fim_etapa>
-                        <atribuido_a name="p_atribuido_a">Ipsum magna dolor unde sit</atribuido_a>
-                        <id_task name="p_id_task" tag="id_task">hidden-6a23_a0e5</id_task>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <estado name="p_estado">3</estado>
-                        <num_processo name="p_num_processo">Natus doloremque sit omnis ali</num_processo>
-                        <processo name="p_processo">Sit iste sed ipsum deserunt</processo>
-                        <eatapa name="p_eatapa">Mollit accusantium laudantium deserunt ipsum</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Amet natus adipiscing unde mag</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Accusantium mollit totam accus</dt_fim_etapa>
-                        <atribuido_a name="p_atribuido_a">Natus sit sit aperiam sit</atribuido_a>
-                        <id_task name="p_id_task" tag="id_task">hidden-a71b_f25c</id_task>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <estado name="p_estado">1</estado>
-                        <num_processo name="p_num_processo">Ipsum laudantium lorem dolorem</num_processo>
-                        <processo name="p_processo">Iste deserunt accusantium sit aperiam</processo>
-                        <eatapa name="p_eatapa">Sit magna labore mollit amet</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Totam consectetur stract lorem</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Consectetur totam officia magn</dt_fim_etapa>
-                        <atribuido_a name="p_atribuido_a">Consectetur labore officia des</atribuido_a>
-                        <id_task name="p_id_task" tag="id_task">hidden-dbee_21cd</id_task>
+                        <num_processo name="p_num_processo">Ut lorem totam lorem voluptate</num_processo>
+                        <processo name="p_processo">Iste deserunt sed officia aliqua</processo>
+                        <eatapa name="p_eatapa">Stract omnis elit voluptatem voluptatem</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Voluptatem deserunt unde deser</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Stract natus rem doloremque of</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Perspiciatis ipsum sed perspic</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-79d0_8f7c</id_task>
                     </row>
                 </value>
                 <legend_color>
@@ -308,16 +308,6 @@
                         <target>mpsubmit</target>
                         <img>primary|fa-sitemap</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/detalhesprocesso/DetalhesProcesso.xml</preview>
-                    </item>
-                    <item id="button_a516_b96e" type="specific" code="" class="grey" rel="lock" refresh_components="">
-                        <title>Lock</title>
-                        <app>igrp</app>
-                        <page>Dominio</page>
-                        <link>index</link>
-                        <parameter>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
-                        <target>mpsubmit</target>
-                        <img>grey|fa-lock</img>
-                        <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
                     </item>
                 </context-menu>
             </table>

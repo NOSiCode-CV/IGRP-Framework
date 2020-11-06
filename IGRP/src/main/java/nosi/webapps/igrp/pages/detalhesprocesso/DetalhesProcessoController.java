@@ -1,23 +1,27 @@
 package nosi.webapps.igrp.pages.detalhesprocesso;
 
-import nosi.core.webapp.mvc.Controller;
-import nosi.core.webapp.util.Core;
-import nosi.core.webapp.util.helpers.database.QueryInterface;
-import nosi.core.webapp.util.helpers.database.ResultSet;
-import nosi.core.webapp.workflow.activit.rest.business.TaskServiceIGRP;
-import nosi.core.webapp.workflow.activit.rest.entities.DeploymentService;
-import nosi.core.webapp.workflow.activit.rest.entities.ProcessDefinitionService;
-import nosi.core.webapp.workflow.activit.rest.entities.ProcessInstancesService;
-import nosi.core.webapp.workflow.activit.rest.entities.ResourcesService;
-import nosi.core.webapp.workflow.activit.rest.entities.TaskServiceQuery;
-import nosi.core.webapp.workflow.activit.rest.services.DeploymentServiceRest;
-import nosi.core.webapp.workflow.activit.rest.services.ProcessDefinitionServiceRest;
-import nosi.core.webapp.workflow.activit.rest.services.ProcessInstanceServiceRest;
-import nosi.core.webapp.workflow.activit.rest.services.ResourceServiceRest;
-import nosi.core.webapp.workflow.bpmn.BPMNConstants;
-import nosi.core.webapp.Response;
-
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
+
+import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
+import nosi.core.webapp.activit.rest.entities.DeploymentService;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.entities.ProcessInstancesService;
+import nosi.core.webapp.activit.rest.entities.ResourcesService;
+import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
+import nosi.core.webapp.activit.rest.services.DeploymentServiceRest;
+import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
+import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
+import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
+import nosi.core.webapp.bpmn.BPMNConstants;
+/*----#end-code----*/
 		
 public class DetalhesProcessoController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

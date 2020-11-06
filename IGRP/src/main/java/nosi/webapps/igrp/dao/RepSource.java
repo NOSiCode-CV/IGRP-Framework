@@ -20,7 +20,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.Type;
 
-import nosi.core.webapp.util.Core;
+import nosi.core.webapp.Core;
 
 @Entity
 @Table(name = "tbl_rep_source")

@@ -1,11 +1,11 @@
 package nosi.webapps.igrp_studio.pages.wsdl2java;
 
+import nosi.core.webapp.Controller;
 import java.io.IOException;
-
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.mvc.Controller;
-import nosi.core.webapp.util.Core;
-import nosi.core.webservices.soap.client.generator.WSDL2Java;
+/*----#start-code(packages_import)----*/
+import nosi.core.webapp.webservices.wsdl2java.WSDL2Java;
 import nosi.webapps.igrp.dao.Application;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/

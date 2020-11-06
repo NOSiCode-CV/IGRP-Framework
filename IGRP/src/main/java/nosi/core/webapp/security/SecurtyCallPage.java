@@ -3,8 +3,8 @@ package nosi.core.webapp.security;
 import javax.servlet.http.Cookie;
 import nosi.core.exception.NotFoundHttpException;
 import nosi.core.i18n.I18nManager;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.util.Core;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.pages.settings.SettingsController;
 
