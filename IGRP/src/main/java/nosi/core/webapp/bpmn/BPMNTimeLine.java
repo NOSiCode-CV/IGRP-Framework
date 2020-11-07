@@ -16,6 +16,7 @@ import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.SequenceFlow;
 import org.activiti.bpmn.model.StartEvent;
 import org.activiti.bpmn.model.UserTask;
+
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;

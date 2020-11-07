@@ -1,16 +1,8 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import nosi.core.webapp.activit.rest.business.ProcessInstanceIGRP;
-import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,23 +12,27 @@ import java.util.Properties;
 import java.util.Map.Entry;
 import javax.servlet.http.Cookie;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import nosi.core.config.ConfigApp;
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.integration.pdex.service.AppConfig;
 import nosi.core.integration.pdex.service.AppConfig.ExternalMenu;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.activit.rest.business.ProcessInstanceIGRP;
+import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
-import nosi.webapps.igrp.dao.Menu.MenuProfile;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import static nosi.core.i18n.Translator.gt; 
-/*----#end-code----*/
+import nosi.webapps.igrp.dao.Menu.MenuProfile;
 		
 public class PesquisarMenuController extends Controller { 
 	

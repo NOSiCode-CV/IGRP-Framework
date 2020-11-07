@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.Properties;
 import org.hibernate.cfg.AvailableSettings;
+
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigDBIGRP;

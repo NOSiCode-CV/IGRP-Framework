@@ -1,29 +1,11 @@
 package nosi.webapps.igrp.pages.novoutilizador;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-import nosi.core.config.ConfigCommonMainConstants;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import nosi.core.exception.ServerErrorHttpException;
-import nosi.core.ldap.LdapPerson;
-import nosi.core.mail.EmailMessage.PdexTemplate;
-import nosi.core.webapp.Igrp;
-import nosi.core.webapp.RParam;
-import nosi.core.webapp.activit.rest.entities.UserService;
-import nosi.core.webapp.activit.rest.services.GroupServiceRest;
-import nosi.core.webapp.activit.rest.services.UserServiceRest;
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Organization;
-import nosi.webapps.igrp.dao.Profile;
-import nosi.webapps.igrp.dao.ProfileType;
-import nosi.webapps.igrp.dao.User;
+
 import service.client.WSO2UserStub;
+
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,8 +20,26 @@ import java.util.Map;
 import java.util.Properties;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
-import static nosi.core.i18n.Translator.gt;
-/*----#end-code----*/
+
+import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.exception.ServerErrorHttpException;
+import nosi.core.ldap.LdapPerson;
+import nosi.core.mail.EmailMessage.PdexTemplate;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
+import nosi.core.webapp.RParam;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.activit.rest.entities.UserService;
+import nosi.core.webapp.activit.rest.services.GroupServiceRest;
+import nosi.core.webapp.activit.rest.services.UserServiceRest;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Organization;
+import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.User;
 		
 public class NovoUtilizadorController extends Controller {
 	

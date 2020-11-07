@@ -8,8 +8,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.JAXB;
+
 import nosi.core.config.Config;
 import nosi.core.gui.page.Page;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.xml.XMLApplicationReader;
@@ -17,8 +20,6 @@ import nosi.core.xml.XMLPageReader;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.compiler.helpers.Compiler;
 /**
  * @author: Emanuel Pereira
  * 5 Nov 2017

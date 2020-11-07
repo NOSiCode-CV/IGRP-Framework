@@ -3,6 +3,7 @@ package nosi.core.listener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+
 import nosi.base.ActiveRecord.HibernateUtils;
 /**
  * Marcel Iekiny

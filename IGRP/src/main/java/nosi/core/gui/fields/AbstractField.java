@@ -1,5 +1,7 @@
 package nosi.core.gui.fields;
 
+import static nosi.core.i18n.Translator.gt;
+
 /**
  * @author: Emanuel Pereira
  * 
@@ -9,7 +11,7 @@ package nosi.core.gui.fields;
  */
 
 import java.util.Map;
-import static nosi.core.i18n.Translator.gt;
+
 import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;

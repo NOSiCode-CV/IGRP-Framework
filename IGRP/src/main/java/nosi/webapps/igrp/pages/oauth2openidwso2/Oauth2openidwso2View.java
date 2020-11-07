@@ -1,11 +1,12 @@
 package nosi.webapps.igrp.pages.oauth2openidwso2;
 
-import nosi.core.webapp.Model;
-import nosi.core.webapp.View;
+import static nosi.core.i18n.Translator.gt;
+
+import nosi.core.config.Config;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import static nosi.core.i18n.Translator.gt;
-import nosi.core.config.Config;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.View;
 
 public class Oauth2openidwso2View extends View {
 

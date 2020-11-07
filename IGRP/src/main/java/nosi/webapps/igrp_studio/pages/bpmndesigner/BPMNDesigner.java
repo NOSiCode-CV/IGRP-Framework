@@ -1,10 +1,11 @@
 /*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp_studio.pages.bpmndesigner;
+import java.util.ArrayList;
+import java.util.List;
+
 import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BPMNDesigner extends Model{		
 	@RParam(rParamName = "p_page_title_text")

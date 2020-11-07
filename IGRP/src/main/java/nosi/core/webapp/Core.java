@@ -48,6 +48,7 @@ import org.hibernate.SessionFactory;
 import org.modelmapper.ModelMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.ConfigApp;
 import nosi.core.gui.components.IGRPForm;

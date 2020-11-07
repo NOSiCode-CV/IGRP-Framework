@@ -8,11 +8,11 @@
 package nosi.core.gui.components;
 
 import nosi.core.config.Config;
-import nosi.core.xml.XMLWritter;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.HiddenField;
 import nosi.core.webapp.Igrp;
+import nosi.core.xml.XMLWritter;
 
 public class IGRPLogin extends IGRPForm{
 	protected Config config = new Config();

@@ -1,24 +1,14 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
 import java.io.StringReader;
-
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
-import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.helpers.dao_helper.SaveMapeamentoDAO;
-import nosi.core.webapp.security.EncrypDecrypt;
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Config_env;
-import nosi.webapps.igrp.pages.migrate.Migrate;
-import nosi.core.webapp.Igrp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.File;
 
 import org.dom4j.Document;
@@ -29,8 +19,17 @@ import org.json.JSONObject;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.igrp.mingrations.MigrationIGRP;
-import static nosi.core.i18n.Translator.gt;
-/*----#end-code----*/
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.dao_helper.SaveMapeamentoDAO;
+import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Config_env;
+import nosi.webapps.igrp.pages.migrate.Migrate;
 		
 public class ConfigDatabaseController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

@@ -3,10 +3,6 @@
 /*Create View*/
 
 package nosi.webapps.igrp.pages.login;
-import nosi.core.webapp.View;
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
-
 import static nosi.core.i18n.Translator.gt;
 
 import java.io.File;
@@ -16,6 +12,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 import nosi.core.config.Config;
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
+import nosi.core.webapp.View;
 
 public class LoginView extends View {
 	

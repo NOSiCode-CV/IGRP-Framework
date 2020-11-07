@@ -1,12 +1,12 @@
 package nosi.core.webapp.activit.rest.business;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import nosi.core.webapp.activit.rest.entities.HistoricProcessInstance;
 import nosi.core.webapp.activit.rest.entities.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
 import nosi.webapps.igrp.dao.TaskAccess;
-
-import java.util.List;
-import java.util.stream.Collectors;
 /**
  * Emanuel
  * 15 May 2019

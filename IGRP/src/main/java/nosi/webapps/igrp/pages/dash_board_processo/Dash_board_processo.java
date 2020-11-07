@@ -1,11 +1,12 @@
 package nosi.webapps.igrp.pages.dash_board_processo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Dash_board_processo extends Model{		
 

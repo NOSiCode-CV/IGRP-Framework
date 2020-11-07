@@ -1,11 +1,12 @@
 package nosi.webapps.igrp_studio.pages.wizard_export_step_2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Wizard_export_step_2 extends Model{		
 

@@ -2,6 +2,7 @@ package nosi.core.validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
 import nosi.core.validator.constraints.FileNotNull;
 import nosi.core.webapp.uploadfile.UploadFile;
 

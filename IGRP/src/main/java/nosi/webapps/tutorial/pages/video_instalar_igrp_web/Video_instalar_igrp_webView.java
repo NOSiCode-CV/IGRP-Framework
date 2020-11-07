@@ -1,10 +1,11 @@
 
 package nosi.webapps.tutorial.pages.video_instalar_igrp_web;
-import nosi.core.webapp.Model;
-import nosi.core.webapp.View;
+import static nosi.core.i18n.Translator.gt;
+
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.View;
 
 public class Video_instalar_igrp_webView extends View {
 

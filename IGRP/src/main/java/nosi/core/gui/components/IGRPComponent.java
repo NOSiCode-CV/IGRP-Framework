@@ -1,9 +1,10 @@
 package nosi.core.gui.components;
 
+import static nosi.core.i18n.Translator.gt;
+
 import nosi.core.config.ConfigApp;
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.xml.XMLWritter;
-import static nosi.core.i18n.Translator.gt;
 
 /**
  * @author: Emanuel Pereira

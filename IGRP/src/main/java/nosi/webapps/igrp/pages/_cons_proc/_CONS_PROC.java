@@ -1,11 +1,12 @@
 package nosi.webapps.igrp.pages._cons_proc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-import java.util.ArrayList;
-import java.util.List;
 
 public class _CONS_PROC extends Model{		
 

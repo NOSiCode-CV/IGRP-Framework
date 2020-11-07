@@ -27,6 +27,7 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.beanutils.BeanUtils;
 import org.w3c.dom.NodeList;
 import com.google.gson.Gson;
+
 import nosi.core.gui.components.IGRPChart2D;
 import nosi.core.gui.components.IGRPChart3D;
 import nosi.core.gui.components.IGRPSeparatorList;
