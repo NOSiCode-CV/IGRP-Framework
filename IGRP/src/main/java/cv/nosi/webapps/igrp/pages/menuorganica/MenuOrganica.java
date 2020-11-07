@@ -1,0 +1,91 @@
+package cv.nosi.webapps.igrp.pages.menuorganica;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cv.nosi.core.gui.components.IGRPTable;
+import cv.nosi.core.webapp.annotation.RParam;
+import cv.nosi.core.webapp.mvc.Model;
+import cv.nosi.core.webapp.util.helpers.database.BaseQueryInterface;
+
+public class MenuOrganica extends Model{		
+
+	@RParam(rParamName = "p_env_fk")
+	private int env_fk;
+
+	@RParam(rParamName = "p_id")
+	private int id;
+
+	@RParam(rParamName = "p_type")
+	private String type;
+	
+	private List<Table_1> table_1 = new ArrayList<>();	
+	public void setTable_1(List<Table_1> table_1){
+		this.table_1 = table_1;
+	}
+	public List<Table_1> getTable_1(){
+		return this.table_1;
+	}
+
+	
+	public void setEnv_fk(int env_fk){
+		this.env_fk = env_fk;
+	}
+	public int getEnv_fk(){
+		return this.env_fk;
+	}
+	
+	public void setId(int id){
+		this.id = id;
+	}
+	public int getId(){
+		return this.id;
+	}
+	
+	public void setType(String type){
+		this.type = type;
+	}
+	public String getType(){
+		return this.type;
+	}
+
+
+	public static class Table_1 extends IGRPTable.Table{
+		private int menu;
+		private int menu_check;
+		private String descricao;
+		private String app;
+		public void setMenu(int menu){
+			this.menu = menu;
+		}
+		public int getMenu(){
+			return this.menu;
+		}
+		public void setMenu_check(int menu_check){
+			this.menu_check = menu_check;
+		}
+		public int getMenu_check(){
+			return this.menu_check;
+		}
+
+		public void setDescricao(String descricao){
+			this.descricao = descricao;
+		}
+		public String getDescricao(){
+			return this.descricao;
+		}
+
+		public void setApp(String app){
+			this.app = app;
+		}
+		public String getApp(){
+			return this.app;
+		}
+
+	}
+
+	public void loadTable_1(BaseQueryInterface query) {
+		this.setTable_1(this.loadTable(query,Table_1.class));
+	}
+
+}

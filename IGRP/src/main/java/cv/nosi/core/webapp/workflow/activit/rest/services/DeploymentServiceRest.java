@@ -1,0 +1,160 @@
+package cv.nosi.core.webapp.workflow.activit.rest.services;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.Part;
+import javax.ws.rs.core.Response;
+import com.google.gson.reflect.TypeToken;
+
+import cv.nosi.core.webapp.util.helpers.file.FileHelper;
+import cv.nosi.core.webapp.workflow.activit.rest.entities.DeploymentService;
+import cv.nosi.core.webservices.rest.client.helpers.ResponseConverter;
+import cv.nosi.core.webservices.rest.client.helpers.ResponseError;
+
+/**
+ * Emanuel 14 May 2019
+ */
+public class DeploymentServiceRest extends GenericActivitiRest {
+
+	public DeploymentService getDeployment(String id) {
+		DeploymentService d = new DeploymentService();
+		Response response = this.getRestRequest().get("repository/deployments/", id);
+		if (response != null) {
+			String contentResp = "";
+			try {
+				contentResp = FileHelper.convertToString((InputStream)response.getEntity());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (response.getStatus() == 200) {
+				d = (DeploymentService) ResponseConverter.convertJsonToDao(contentResp, DeploymentService.class);
+			} else {
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+			response.close();
+		}
+		return d;
+	}
+
+	@SuppressWarnings("unchecked")
+	public DeploymentService getDeploymentByName(String name) {
+		DeploymentService d = new DeploymentService();
+		Response response = this.getRestRequest().get("repository/deployments?name=" + name);
+		if (response != null) {
+			String contentResp = "";
+			try {
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (response.getStatus() == 200) {
+				List<DeploymentService> list = (List<DeploymentService>) ResponseConverter
+						.convertJsonToListDao(contentResp, "data", new TypeToken<List<DeploymentService>>() {
+						}.getType());
+				if (list != null && list.size() > 0)
+					d = list.get(0);
+			} else {
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+			response.close();
+		}
+		return d;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<DeploymentService> getDeployments(String idApp) {
+		List<DeploymentService> d = new ArrayList<>();
+		Response response = this.getRestRequest().get("repository/deployments?&size=100000000&tenantId=" + idApp);
+		if (response != null) {
+			String contentResp = "";
+			try {
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (response.getStatus() == 200) {
+				d = (List<DeploymentService>) ResponseConverter.convertJsonToListDao(contentResp, "data",
+						new TypeToken<List<DeploymentService>>() {
+						}.getType());
+			} else {
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+			response.close();
+		}
+		return d;
+	}
+
+	public DeploymentService create(Part file, String idApp) throws IOException {
+		DeploymentService d = new DeploymentService();
+		Response response = this.getRestRequest().post("repository/deployments?tenantId=" + idApp, file, ".bpmn20.xml");
+		if (response != null) {
+			String contentResp = "";
+			try {
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (response.getStatus() == 201) {
+				d = (DeploymentService) ResponseConverter.convertJsonToDao(contentResp, DeploymentService.class);
+			} else {
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+			response.close();
+		}
+		file.delete();
+		return d;
+	}
+
+	public DeploymentService create(InputStream file, String idApp, String fileName, String contentType)
+			throws IOException {
+		DeploymentService d = new DeploymentService();
+		Response response = this.getRestRequest().post("repository/deployments?tenantId=" + idApp, file, fileName, contentType);
+		if (response != null) {
+			String contentResp = "";
+			try {
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (response.getStatus() == 201) {
+				d = (DeploymentService) ResponseConverter.convertJsonToDao(contentResp, DeploymentService.class);
+			} else {
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+			response.close();
+		}
+		return d;
+	}
+
+	public DeploymentService update(Part file, String idApp) throws IOException {
+		DeploymentService d = new DeploymentService();
+		Response response = this.getRestRequest().post("repository/deployments?tenantId=" + idApp, file, ".bpmn20.xml");
+		if (response != null) {
+			String contentResp = "";
+			try {
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (response.getStatus() == 200) {
+				d = (DeploymentService) ResponseConverter.convertJsonToDao(contentResp, DeploymentService.class);
+			} else {
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+			response.close();
+		}
+		file.delete();
+		return d;
+	}
+
+	public boolean delete(String id) {
+		Response response = this.getRestRequest().delete("repository/deployments", id);
+		boolean r = response != null && response.getStatus() == 204;
+		if(response!=null) {
+			response.close();
+		}
+		return r;
+	}
+}
