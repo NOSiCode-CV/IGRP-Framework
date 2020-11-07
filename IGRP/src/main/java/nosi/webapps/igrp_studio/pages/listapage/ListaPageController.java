@@ -1,24 +1,6 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import nosi.core.webapp.Igrp;
-import nosi.core.webapp.helpers.DateHelper;
-import nosi.core.webapp.import_export_v2.exports.ExportHelper;
-import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.ImportExportDAO;
-import nosi.webapps.igrp.dao.Modulo;
-import nosi.webapps.igrp.dao.Profile;
-import nosi.webapps.igrp_studio.pages.listapage.ListaPage.Table_2;
-import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,8 +10,23 @@ import java.util.stream.Collectors;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
+
 import nosi.core.config.Config;
-/*----#end-code----*/
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.helpers.DateHelper;
+import nosi.core.webapp.import_export_v2.exports.ExportHelper;
+import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.ImportExportDAO;
+import nosi.webapps.igrp.dao.Modulo;
+import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp_studio.pages.listapage.ListaPage.Table_2;
+import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2;
 		
 public class ListaPageController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

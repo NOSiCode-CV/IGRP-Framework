@@ -3,10 +3,10 @@
 /*Create View*/
 
 package nosi.webapps.igrp.pages.mapaprocesso;
-import nosi.core.webapp.View;
-import nosi.core.gui.components.*;
-
 import static nosi.core.i18n.Translator.gt;
+
+import nosi.core.gui.components.*;
+import nosi.core.webapp.View;
 
 public class MapaProcessoView extends View {
 	

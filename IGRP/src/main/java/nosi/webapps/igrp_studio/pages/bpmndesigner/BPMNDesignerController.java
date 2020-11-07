@@ -4,10 +4,6 @@
 
 package nosi.webapps.igrp_studio.pages.bpmndesigner;
 
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.FlashMessage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +14,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import javax.xml.transform.TransformerConfigurationException;
 import org.apache.commons.text.StringEscapeUtils;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.entities.DeploymentService;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
@@ -35,7 +35,6 @@ import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.xml.XMLTransform;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-/*----#END-PRESERVED-AREA----*/
 
 public class BPMNDesignerController extends Controller {		
 

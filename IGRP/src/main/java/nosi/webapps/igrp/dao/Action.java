@@ -4,6 +4,8 @@ package nosi.webapps.igrp.dao;
  * 29 Jun 2017
  */
 
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +26,6 @@ import javax.persistence.Transient;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.StringHelper;
-import static nosi.core.i18n.Translator.gt;
 
 @Entity
 @Table(name = "tbl_action")

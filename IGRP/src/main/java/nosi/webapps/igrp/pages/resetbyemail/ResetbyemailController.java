@@ -1,28 +1,28 @@
 package nosi.webapps.igrp.pages.resetbyemail;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
 
-import nosi.core.mail.EmailMessage;
-import nosi.webapps.igrp.dao.User;
 import service.client.WSO2UserStub;
-import nosi.core.config.Config;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
-import nosi.core.config.ConfigApp;
-import nosi.core.config.ConfigCommonMainConstants;
-
 import java.util.List;
 import java.util.Properties;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
+
+import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
+import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.mail.EmailMessage;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.webapps.igrp.dao.User;
 
 /*----#end-code----*/
 		

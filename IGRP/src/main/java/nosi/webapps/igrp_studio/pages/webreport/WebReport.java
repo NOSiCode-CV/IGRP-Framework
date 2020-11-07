@@ -1,14 +1,15 @@
 package nosi.webapps.igrp_studio.pages.webreport;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import nosi.core.gui.components.IGRPChart3D;
 import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-import java.util.ArrayList;
-import java.util.List;
-import nosi.core.gui.components.IGRPChart3D;
 
 public class WebReport extends Model{		
 

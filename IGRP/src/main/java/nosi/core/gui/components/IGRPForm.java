@@ -19,6 +19,7 @@ package nosi.core.gui.components;
  */
 import java.util.ArrayList;
 import java.util.List;
+
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.gui.fields.GenXMLField;

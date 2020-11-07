@@ -1,13 +1,9 @@
 package nosi.webapps.igrp.pages.resetpassword;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
+
 import static nosi.core.i18n.Translator.gt;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
@@ -21,10 +17,16 @@ import javax.xml.ws.handler.MessageContext;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.UpdateCredentialByAdmin;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
-import nosi.webapps.igrp.dao.User;
+
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.webapps.igrp.dao.User;
 import service.client.WSO2UserStub;
 
 /*----#end-code----*/

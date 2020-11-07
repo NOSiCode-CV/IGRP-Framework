@@ -1,20 +1,23 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_nif_rest;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import nosi.core.webapp.webservices.rest.ConsumeJson;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.webservices.rest.ConsumeJson;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

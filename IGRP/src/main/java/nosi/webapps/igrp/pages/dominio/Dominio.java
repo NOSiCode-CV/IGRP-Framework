@@ -1,16 +1,17 @@
 package nosi.webapps.igrp.pages.dominio;
 
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
-import nosi.core.gui.components.IGRPTable;
-import nosi.core.webapp.Model;
-import nosi.core.webapp.RParam;
-import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
+
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.gui.components.IGRPTable;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
+import nosi.core.webapp.Report;
+import nosi.core.webapp.SeparatorList;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 public class Dominio extends Model{		
 
 	@RParam(rParamName = "p_sectionheader_1_text")

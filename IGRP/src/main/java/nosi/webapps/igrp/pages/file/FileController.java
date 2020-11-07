@@ -1,28 +1,26 @@
 
 package nosi.webapps.igrp.pages.file;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-
-import nosi.core.webapp.Core;
-import nosi.core.webapp.FlashMessage;
-import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
-import nosi.webapps.igrp.dao.CLob;
-import nosi.webapps.igrp.dao.TempFile;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.helpers.TempFileHelper;
-import nosi.core.webapp.helpers.UrlHelper;
-import nosi.core.webapp.import_export_v2.common.Path;
-
 import java.util.Properties;
 /*----#end-code----*/
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.FlashMessage;
+import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.TempFileHelper;
+import nosi.core.webapp.helpers.UrlHelper;
+import nosi.core.webapp.import_export_v2.common.Path;
+import nosi.webapps.igrp.dao.CLob;
+import nosi.webapps.igrp.dao.TempFile;
 
 
 public class FileController extends Controller {		

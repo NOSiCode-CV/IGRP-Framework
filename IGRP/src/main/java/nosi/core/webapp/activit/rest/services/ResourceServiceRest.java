@@ -1,12 +1,5 @@
 package nosi.core.webapp.activit.rest.services;
 
-import nosi.core.webapp.activit.rest.entities.ResourceService;
-import nosi.core.webapp.activit.rest.entities.ResourcesService;
-import nosi.core.webapp.activit.rest.request.Credentials;
-import nosi.core.webapp.activit.rest.request.RestRequest;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.webservices.helpers.ResponseConverter;
-import nosi.core.webapp.webservices.helpers.ResponseError;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -14,6 +7,14 @@ import java.util.List;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import com.google.common.reflect.TypeToken;
+
+import nosi.core.webapp.activit.rest.entities.ResourceService;
+import nosi.core.webapp.activit.rest.entities.ResourcesService;
+import nosi.core.webapp.activit.rest.request.Credentials;
+import nosi.core.webapp.activit.rest.request.RestRequest;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.webservices.helpers.ResponseConverter;
+import nosi.core.webapp.webservices.helpers.ResponseError;
 
 /**
  * Emanuel

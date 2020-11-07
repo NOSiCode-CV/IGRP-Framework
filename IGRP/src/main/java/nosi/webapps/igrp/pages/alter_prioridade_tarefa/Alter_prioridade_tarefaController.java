@@ -1,30 +1,25 @@
 package nosi.webapps.igrp.pages.alter_prioridade_tarefa;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import nosi.core.webapp.Igrp;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
-import nosi.core.webapp.activit.rest.entities.TaskService;
-import nosi.core.webapp.bpmn.BPMNConstants;
-import nosi.core.webapp.activit.rest.entities.TaskService;
-import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
-import nosi.core.webapp.bpmn.BPMNConstants;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.webapps.igrp.dao.User;
+import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.ProcessInstancesService;
-import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.activit.rest.entities.TaskService;
+import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
+import nosi.core.webapp.bpmn.BPMNConstants;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.webapps.igrp.dao.User;
 
 
 /*----#end-code----*/

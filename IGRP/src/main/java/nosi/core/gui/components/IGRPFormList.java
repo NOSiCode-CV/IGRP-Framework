@@ -1,6 +1,7 @@
 package nosi.core.gui.components;
 
 import java.util.List;
+
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.FileField;
 import nosi.core.webapp.Core;

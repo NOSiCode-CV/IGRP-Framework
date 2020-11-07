@@ -1,48 +1,4 @@
 package nosi.core.gui.components;
-/**
- * @author: Emanuel Pereira
- * 
- * May 10, 2017
- *
- * Description: class to generate xml of chart
- */
-/*
- * 
-<chart_1 type="chart" xml-type="chart" title="Chart" gen-type="container" gen-group="">
-<caption/>
-<chart_type>line</chart_type>
-<xaxys>Eixo de X</xaxys>
-<yaxys>Eixo de Y</yaxys>
-<url>#</url>
-<label>
-    <col>Ano</col>
-    <col>X1</col>
-    <col>X2</col>
-    <col>X3</col>
-    <col>X4</col>
-</label>
-<value>
-    <row>
-        <col>2010</col>
-        <col>265</col>
-        <col>658</col>
-        <col>498</col>
-        <col>698</col>
-    </row>
-    ...
-</value>
-<colors>
-    <col>#bdd2a7</col>
-    <col>#1a49bc</col>
-    <col>#290f60</col>
-    <col>#c4aacf</col>
-</colors>
-</chart_1>
-*/
-import nosi.core.gui.fields.GenXMLField;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import java.util.ArrayList;
 
 import java.util.LinkedHashMap;
@@ -51,6 +7,11 @@ import java.util.List;
 
 import java.util.Set;
 import javax.persistence.Tuple;
+
+import nosi.core.gui.fields.GenXMLField;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 
 
 public class IGRPChart extends IGRPComponent{

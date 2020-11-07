@@ -1,6 +1,7 @@
 package nosi.core.webapp.security;
 
 import javax.servlet.http.Cookie;
+
 import nosi.core.exception.NotFoundHttpException;
 import nosi.core.i18n.I18nManager;
 import nosi.core.webapp.Core;

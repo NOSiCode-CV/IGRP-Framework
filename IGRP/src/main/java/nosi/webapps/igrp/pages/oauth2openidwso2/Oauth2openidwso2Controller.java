@@ -1,15 +1,5 @@
 package nosi.webapps.igrp.pages.oauth2openidwso2;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
-import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Profile;
-import nosi.core.webapp.Igrp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,6 +12,15 @@ import org.json.JSONObject;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Profile;
 
 /*----#end-code----*/
 		

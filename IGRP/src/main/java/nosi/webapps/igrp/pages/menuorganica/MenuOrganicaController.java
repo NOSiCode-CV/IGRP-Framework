@@ -1,27 +1,25 @@
 package nosi.webapps.igrp.pages.menuorganica;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import nosi.core.config.ConfigDBIGRP;
+import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+
 import java.util.Comparator;
-import nosi.core.webapp.helpers.CheckBoxHelper;
-import nosi.core.config.ConfigDBIGRP;
-/*----#end-code----*/
 		
 public class MenuOrganicaController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

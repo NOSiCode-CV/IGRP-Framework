@@ -1,11 +1,8 @@
 package nosi.webapps.igrp.pages.login;
 
 
-/**
- * Marcel Iekiny Oct 4, 2017 
- */
-/*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,6 +26,7 @@ import javax.ws.rs.core.Form;
 import org.json.JSONObject;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
+
 import nosi.core.config.Config;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.ldap.LdapPerson;

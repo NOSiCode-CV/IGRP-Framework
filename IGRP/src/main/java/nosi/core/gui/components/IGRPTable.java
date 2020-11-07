@@ -52,17 +52,19 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.Map.Entry;
+
 import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.ColorField;
 import nosi.core.gui.fields.Field;
+import nosi.core.gui.fields.FieldProperties;
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.HiddenField;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.xml.XMLWritter;
-import nosi.core.gui.fields.FieldProperties;
+
 import java.util.Map;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

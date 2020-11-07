@@ -1,24 +1,25 @@
 package nosi.webapps.igrp_studio.pages.file_editor;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-
-/*----#start-code(packages_import)----*/
-import nosi.core.webapp.bpmn.BPMNConstants;
 import java.io.UnsupportedEncodingException;
-import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Config_env;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.import_export_v2.common.Path;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import org.apache.commons.text.StringEscapeUtils;
 import com.google.gson.Gson;
-import java.io.File;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.compiler.helpers.Compiler;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.import_export_v2.common.Path;
+import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Config_env;
+
+import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;

@@ -1,11 +1,11 @@
 
 package nosi.webapps.igrp.pages.startprocess;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
+
+import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
 import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;

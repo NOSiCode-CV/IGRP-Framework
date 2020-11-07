@@ -1,19 +1,10 @@
 package nosi.webapps.igrp_studio.pages.env;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.io.File;
-import nosi.core.config.Config;
-import nosi.core.integration.pdex.service.AppConfig;
-import nosi.core.integration.pdex.service.AppConfig.App;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.lang.reflect.Field;
@@ -40,8 +31,16 @@ import javax.persistence.OneToOne;
 
 import org.apache.commons.io.IOUtils;
 
+import nosi.core.config.Config;
+import nosi.core.integration.pdex.service.AppConfig;
+import nosi.core.integration.pdex.service.AppConfig.App;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.helpers.ApplicationPermition;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.security.EncrypDecrypt;
@@ -51,8 +50,7 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Profile;
-import nosi.webapps.igrp.dao.ProfileType; 
-/*----#end-code----*/
+import nosi.webapps.igrp.dao.ProfileType;
 		
 public class EnvController extends Controller { 
 	

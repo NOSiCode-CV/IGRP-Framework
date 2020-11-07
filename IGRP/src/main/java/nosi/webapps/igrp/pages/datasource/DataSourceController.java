@@ -1,20 +1,29 @@
 package nosi.webapps.igrp.pages.datasource;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import nosi.core.gui.components.IGRPForm;
+import nosi.core.gui.components.IGRPTable;
+import nosi.core.gui.fields.Field;
+import nosi.core.gui.fields.TextField;
+import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
-import nosi.core.gui.components.IGRPForm;
-import nosi.core.gui.components.IGRPTable;
-import nosi.core.gui.fields.Field;
-import nosi.core.gui.fields.TextField;
-import nosi.core.webapp.Igrp;
+import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
@@ -24,16 +33,6 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.User;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.stream.Collectors;
-import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
-/*----#end-code----*/
 		
 public class DataSourceController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

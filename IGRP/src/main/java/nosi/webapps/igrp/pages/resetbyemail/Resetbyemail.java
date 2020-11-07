@@ -1,9 +1,9 @@
 package nosi.webapps.igrp.pages.resetbyemail;
 
 import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.Report;
 
 public class Resetbyemail extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")

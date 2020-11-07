@@ -1,10 +1,11 @@
 package nosi.webapps.igrp.pages.dash_board_processo;
 
-import nosi.core.webapp.Model;
-import nosi.core.webapp.View;
+import static nosi.core.i18n.Translator.gt;
+
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.View;
 
 public class Dash_board_processoView extends View {
 

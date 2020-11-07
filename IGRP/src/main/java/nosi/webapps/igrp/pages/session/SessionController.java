@@ -1,24 +1,24 @@
 package nosi.webapps.igrp.pages.session;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
-import nosi.webapps.igrp.dao.Application;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
+
 import nosi.core.config.Config;
 import nosi.core.config.ConfigDBIGRP;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.webapps.igrp.dao.Application;
+
+import static nosi.core.i18n.Translator.gt;
 
 import java.io.File;
 import java.io.FileInputStream;
-import static nosi.core.i18n.Translator.gt;
-/*----#end-code----*/
 
 public class SessionController extends Controller {		
 

@@ -1,5 +1,7 @@
 package nosi.webapps.igrp.dao;
 
+import static nosi.core.i18n.Translator.gt;
+
 /**
  * @author: Emanuel Pereira
  * 29 Jun 2017
@@ -29,8 +31,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import nosi.core.webapp.Core;
-import static nosi.core.i18n.Translator.gt;
 
 @Entity
 @Table(name = "tbl_env")
