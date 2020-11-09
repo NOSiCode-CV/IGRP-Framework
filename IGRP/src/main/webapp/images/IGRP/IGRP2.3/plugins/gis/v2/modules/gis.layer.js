@@ -61,9 +61,7 @@
 		WFS : function(data,app){
 			
 			var map     = app.viewer(),
-			
-				clusters = false,
-			
+						
 				layer    = null,
 				
 				queryRequest = null,
@@ -72,14 +70,18 @@
 				
 				Legend = GIS.module('Legends');			
 			
-			if(data.geomType == utils.geometry.point){
+			if(data.geomType == utils.geometry.pointCluster){
 								
 				layer = L.markerClusterGroup();
 				
-				layer.options = $.extend(layer.options, data.options );
-				
-				clusters = true;
+			}else if(data.geomType == utils.geometry.point){
 								
+				layer  = L.geoJSON(null,{
+					
+					pointToLayer : setStylePoint
+					
+				});
+
 			}else{
 				
 				layer  = L.geoJSON(null,{
@@ -91,48 +93,37 @@
 			
 			function setStyle(feature){
 				
-				var style = Legend.Get(data, feature);
+				var style =  Legend.Get(data, feature);
 				
-				style.weight = style.weight || 1;
+				if(style.fillPattern)
+					
+					style.fillPattern.addTo(map);
+
+				return style;
 				
-				style.opacity = style.opacity || 0.5;
-				
-			    return style;
-			    
+											    
 			};
 			
-			layer.setStylePoint = function(feature, latlng) {
+			layer.options = $.extend(layer.options, data.options );			
+
+			function setStylePoint(feature, latlng) {
 				
 				 var icon = null,
 				 
-				     style = Legend.Get(data, feature);
+				     style = Legend.Get(data, feature),
+				     
+				     size = style.size, 
 				 
-				 if( style.url && style.mark !== 'x' )
-				 
-				 	icon = L.icon({
-				 		
-				 		iconUrl: style.url,
-				 		
-				 	    className: 'gis-marker',
-				 	    
-				 		iconSize: style.size
-				 		
-			 		});
-				 
-			 	else				 	
-				
-			 		icon  =  L.icon({
-			 			
-				        iconUrl	   : GIS.module('Templates').Layers.svg(style),
-				        
-				        className  : "gis-svg-marker"
-				        	
-				     });
-				 	 
-               return L.marker(latlng, {icon: icon });
+				     url = ( style.url && style.mark !== 'x' ) ? style.url : GIS.module('Templates').Layers.svg(style);
+							 	 
+                return L.marker(latlng, {
+                	
+                	icon: L.icon({ iconUrl: url, iconSize: size, iconAnchor: [size/2, size/2], className: 'gis-marker'})
+                	
+			    });
          
 			};
-			
+						
 			layer.request = null;
 
 			layer.visible   = data.visible;
@@ -216,7 +207,7 @@
 						featureLayer.bringToFront();
 						
 					}
-					//highlight polygns
+					//highlight polygons
 					if(featureLayer.feature.geometry.type.indexOf('Polygon') >=0 ){
 						
 						featureLayer.setStyle({fillColor: '#3f0', color: '#0f0',fill:true});
@@ -328,11 +319,11 @@
 
 							layer.clear();							
 								
-							if (clusters){
+							if (data.geomType == utils.geometry.pointCluster){
 																							
 								var markers = L.geoJson(geo, {
 									 
-									pointToLayer : layer.setStylePoint
+									pointToLayer : setStylePoint
 									
 								});
 								

@@ -33,12 +33,12 @@
 				    type = attributes[i].type;	
 				
 				if(feature.properties.hasOwnProperty(key.toLowerCase())){
-					
+										
 					properties[key.toLowerCase()] = {
 							
 						name : value,
 						
-						value : type === 'DATE' && feature.properties[key.toUpperCase()] ? new Date(feature.properties[key.toUpperCase()]).toLocaleDateString("pt") : feature.properties[key.toUpperCase()],
+						value : type === 'DATE' && feature.properties[key.toLowerCase()] ? new Date(feature.properties[key.toLowerCase()]).toLocaleDateString("pt") : feature.properties[key.toLowerCase()],
 						
 						isImage  : type === 'IMAGE' ? true : false		
 						
@@ -60,6 +60,8 @@
 				}
 									
 			}		
+			
+			console.log(properties)
 			
 			var content = Utils.feature.properties.toHTML(properties);
 									

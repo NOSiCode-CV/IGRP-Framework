@@ -7,6 +7,10 @@
 	overflow:auto;
 }
 
+.gis-widget-wrapper[widget-type="legend"] .list-group .list-group-item{
+	padding: 2px 4px 10px;
+}
+
 .gis-widget-wrapper[widget-type="legend"] .children{
 	padding: 5px 0 0 15px;
 	display: flex;
@@ -22,6 +26,11 @@
 	margin-left: 5px;
 	vertical-align: top;
 }
+
+.gis-widget-wrapper[widget-type="legend"] .children img{
+    width: 18px; 
+}
+
 
 
 .gis-widget-wrapper[widget-type="legend"] .children.legend-item:not(.active){

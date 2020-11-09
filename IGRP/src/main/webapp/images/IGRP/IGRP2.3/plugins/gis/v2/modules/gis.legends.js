@@ -9,7 +9,7 @@
 		Get: function(data, feature){
 			
 			styles[data.id] = styles[data.id] || this.getRenders(data.Legend);
-			
+						
 			return this.getStyle(feature, styles[data.id], data.geomType);			
 		     		    										
 		},
@@ -38,12 +38,10 @@
 					
 					rule = rules[key],
 					
-					filter = rule.filter || '',
+					filter = rule.filter || '';
+								
+				o.symbolizers  = rule.symbolizers;
 				
-					symbolizers  = rule.symbolizers[0];
-					
-				o.style = symbolizers.Polygon || (symbolizers.Point ? symbolizers.Point : '') || symbolizers.Line || '';
-													
 				if(filter)
 					
 					o.condition = this.replace(filter)
@@ -60,37 +58,130 @@
 			
 			var rtn = {},
 			
-				properties = feature.properties;				
-			
+				properties = feature.properties;	
+						
 			for(var key in styles){
 				
 				var rule = styles[key],
 				
-				    isValid = this.isValid(rule, properties);				
+				    isValid = this.isValid(rule, properties);			
 				
-				if(isValid && type == utils.geometry.line)
-					
-					rtn = {color: rule.style.stroke, fillOpacity: rule.style['stroke-opacity'], stroke:true, weight: rule.style['stroke-width']};
-	
-				else if (isValid && type == utils.geometry.polygon)
-					
-					rtn = {fillColor: rule.style.fill, color: rule.style.stroke, fill: true, fillOpacity: rule.style['fill-opacity'], weight: rule.style['stroke-width']};
+				var symbolizers = rule.symbolizers;			
+								
+			    if (isValid && type == utils.geometry.point || isValid && type == utils.geometry.pointCluster){			   
+			    	
+			    	var symbolize = symbolizers[0].Point;			   
+			 					
+					rtn = {size: symbolize.size, url: symbolize.url, color: symbolize.graphics[0].fill || '', mark: symbolize.graphics[0].mark || ''};
+			  
+			    }else if (isValid && symbolizers.length === 1){
+			    	
+			    	var symbolize = symbolizers[0].Line || symbolizers[0].Polygon;	
+			    	
+			    	rtn = {		
+						stroke: symbolize.stroke ? true : false,
+				        weight: symbolize['stroke-width'] || 1,
+				        opacity: symbolize['stroke-opacity'] || 0.5,
+				        color: symbolize.stroke || '',
+				        lineCap: symbolize['stroke-linecap'] || '',
+				        lineJoin: symbolize['stroke-linejoin'] || '',				        			        
+				        fill: symbolize.fill ? true : false,
+						fillColor: symbolize.fill || '',
+						fillOpacity: symbolize['fill-opacity'] || ''
+				    }
+			    	
+			    }else if (isValid && symbolizers[1]){	
+			    				    	
+				    var stroke = {};
+			    	
+			    	for(var i in symbolizers){
+			    		
+			    		if(symbolizers[i].Polygon){		
+			    			
+			    			var graphicFill = symbolizers[i].Polygon['graphic-fill'];			
+			    			
+			    			if( graphicFill ){
+			    				
+				    			var path, pattern, graphics = graphicFill.graphics[0],
+				    			
+				    				options = {
+				    					stroke: graphics.stroke ? true : false,
+								        opacity: graphics['stroke-opacity'] || 0.5,
+								        color: graphics.stroke || '',
+								        lineCap: graphics['stroke-linecap'] || '',
+								        lineJoin: graphics['stroke-linejoin'] || '',				        			        
+								        fill:true,
+										fillColor: graphics.fill || graphics.stroke || '',
+										fillOpacity: graphics['fill-opacity'] || graphics.opacity || 1,
+										dashArray : graphics['stroke-dasharray'] || '',
+										dashOffset : graphics['stroke-dashoffset'] || ''
+				    				}
+				    			
+				    			if(graphics.mark == 'line'){
+				    				
+				    				options = $.extend(options, {
+				    					d : 'M0 ' + graphicFill.size  / 2 + ' V ' + graphicFill.size,
+				    					weight :  graphics['stroke-width'] &&  graphics['stroke-width'] > 4 ? graphics['stroke-width'] : 4
+				    				});		
+				    				
+					    			path = new L.PatternPath(options);
+					    			
+					    			pattern = new L.Pattern({angle: graphicFill.rotation});
+					    			
+				    			}else{
+				    				
+				    				options = $.extend(options, {
+				    					x : 12,
+					    			    y : 12,
+					    			    radius : 10
+				    				});		
+				    				
+				    				path = new L.PatternCircle(options);
+				    				
+				    				var size = graphicFill.size > 10 ? graphicFill.size : 10;
+				    				
+				    				pattern = new L.Pattern({angle: graphicFill.rotation, width: size, height: size});
+				    				
+				    			}
+				    						   
+							    pattern.addShape(path);
+							    		    			
+				    			stroke.fillPattern = pattern;
+			    				
+			    			}
+			    						    			
+			    		}
+			    		
+			    		if(symbolizers[i].Line){
+			    			
+			    			var symbolize = symbolizers[i].Line;
+			    			
+			    			stroke  = {			    					
+		    					stroke: symbolize.stroke ? true : false,
+    					        weight: symbolize['stroke-width'] || 1,
+    					        opacity: symbolize['stroke-opacity'] || 0.5,
+    					        color: symbolize.stroke || '',
+    					        lineCap: symbolize['stroke-linecap'] || '',
+    					        lineJoin: symbolize['stroke-linejoin'] || ''    					        
+			    			}
+			    						
+			    		}
+			    		
+			    		rtn = $.extend(rtn, stroke );	
+			    		
+			    	}
+			    	
+			    }
 				
-				else if (isValid && type == utils.geometry.point)
-					
-					rtn = {size: rule.style.size, url: rule.style.url, color: rule.style.graphics[0].fill || '', mark: rule.style.graphics[0].mark || ''};
-																
-			}	
-			
+			}
+						
 			return rtn;
 			
 		},
 		
 		replace: function(str){
 			
-			var str =  str.replace('[','').replace(']','').replaceAll(' AND ',' && ').replaceAll(' OR ',' || ').replaceAll(' = ',' == ').replaceAll(' IS NULL '," == null  ").replaceAll(' IS NOT NULL '," != null  ");
-		    
-			return str;
+			return  str.replace('[','').replace(']','').replaceAll(' AND ',' && ').replaceAll(' OR ',' || ').replaceAll(' = ',' == ').replaceAll(' IS NULL'," == null ").replaceAll(' IS NOT NULL'," != null ");
 			
 		},
 		
@@ -107,7 +198,7 @@
 			
 			var condition = r.condition,  quote = '\'', space = ' ';
 			
-			if(!condition && r.style)
+			if(!condition /*&& r.style*/)
 				
 				return true;
 						
