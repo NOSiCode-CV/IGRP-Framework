@@ -21,10 +21,28 @@
 		function getCSS(jsonCSS) {
 			
 		     var style = '';
-		    
-		     for (var prop in jsonCSS) {
-		         style += prop + ":" + jsonCSS[prop] + '; ';
+		     
+		     var propretries = {
+    		      "mark": "circle",
+    		      "fill": "#FFFFFF",
+    		      "fill-opacity": "1.0",
+    		      "stroke": "#000000",
+    		      "stroke-width": "2",
+    		      "stroke-opacity": "1"
 		     }
+		     
+		     if(jsonCSS['graphic-fill'])
+					
+		    	 jsonCSS = jsonCSS['graphic-fill'].graphics[0];		
+				
+			else if(jsonCSS['graphic-stroke'])
+				
+				jsonCSS = jsonCSS['graphic-stroke'].graphics[0];
+		     
+		     propretries = $.extend(propretries, jsonCSS );		
+		    
+		     for (var prop in propretries) 
+		         style += prop + ":" + propretries[prop] + '; ';	
 		     
 			 return style;
 		}
@@ -162,16 +180,18 @@
 			
 				filters	= widget.filters.filter(function(b){ return b.layerid == layer.id }) || {};
 
-			for (var key  in filters){
+			for (var i  in filters){
 				
-				if (allActive) allActive = filters[key].active ? true : false;
+				if (allActive) allActive = filters[i].active ? true : false;
 					
-				res += filters[key].active ? filters[key].filter : '';
-				
-			}
+				var val = ( filters[i].active ? filters[i].filter : '').replace('[','').replace(']','') ;
+								
+				if( val  ) 
 					
-			res = res.replace('][',' OR ').replace(']','').replace('[','');
+					res += res ? ' OR ' + val : val;
 			
+			}
+						
 			layer.options.cql_filter = !allActive ? ( res ? res : '1 = 0' ) : '';
 						
 			if(callback)

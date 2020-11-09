@@ -129,6 +129,8 @@
 			
 			point   : 'Point',
 			
+			pointCluster : 'PointCluster',
+			
 			polygon : 'Polygon',
 			
 			line    : 'Line'

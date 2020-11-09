@@ -85,6 +85,8 @@
 					
 					{ path : '/plugins/handlebars/handlebars-v4.1.1.js' },
 					
+					{ path : '/plugins/leaflet/library/plugins/pattern/leaflet.pattern.js' },
+					
 					{ path : '/plugins/gis/v2/gis.js' },
 					{ path : '/plugins/gis/v2/modules/gis.utils.js' },
 					{ path : '/plugins/gis/v2/modules/gis.config.js' },
