@@ -124,7 +124,7 @@ body.readypdf iframe{
   padding: 60px 10px 0 10px;
 }
 
-#containerQrcode{ 
+#containerQrcode, .containerQrcode{ 
   padding:5px; 
   width: 29mm;
   background-color: #fff;
@@ -133,7 +133,8 @@ body.readypdf iframe{
   /*margin-top: -43px;*/
 }
 
-.isNotIE #containerQrcode{
+.isNotIE #containerQrcode, 
+.isNotIE .containerQrcode{
   margin-bottom:-12px !important;
 }
 
