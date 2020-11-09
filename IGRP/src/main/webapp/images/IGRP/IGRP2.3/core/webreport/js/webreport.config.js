@@ -1,4 +1,5 @@
 var xslpath = '../../',
+	vbst = '3.4.1',
   	WR = {
   		editor   : 'form_1_report_editor',
   		listType : [
@@ -321,9 +322,10 @@ var xslpath = '../../',
 				    '<!ENTITY hearts   "&#9829;" >'+
 				    '<!ENTITY diams    "&#9830;" >]>'+
 				    '<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">'+
-				    '<xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>'+
+				    '<xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>'+
 				    '<xsl:template match="/"><html><head><meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1" ></meta>'+
-				    '<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" ></meta>',
+				    '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" ></meta>'+
+				    '<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></meta>',
 		    	body 	: '<style type="text/css">@page {size:=:WRLS:=;}</style></head><body>',
 		    	endbody : '</body></html></xsl:template>',
 		    	end 	: '</xsl:stylesheet>'
@@ -331,16 +333,18 @@ var xslpath = '../../',
   			includ : {
   				head : '',
   				css  : {
-  					all   : '<link media="all" rel="stylesheet" href="{rows/print_report/link_img}core/webreport/css/webreport-print.css"></link>',
-  					chart : '<link rel="stylesheet" type="text/css" href="{rows/print_report/link_img}plugins/highcharts/igrp.charts.css"></link>',
+  					all   : '<link media="all" rel="stylesheet" href="{rows/print_report/link_img}core/bootstrap/'+vbst+'/css/bootstrap.min.css"></link>'+
+  							'<link media="all" rel="stylesheet" href="{rows/print_report/link_img}core/webreport/css/webreport-print.css"></link>',
+  					chart : '<link media="all" rel="stylesheet" href="{rows/print_report/link_img}plugins/highcharts/igrp.charts.css"></link>',
   				},
   				js   : {
   					all   : '<script type="text/javascript" src="{rows/print_report/link_img}core/jquery/2.1/jquery.min.js"/>'+
+  						'<script type="text/javascript" src="{rows/print_report/link_img}core/bootstrap/'+vbst+'/js/bootstrap.min.js"/>'+
   						'<script type="text/javascript" src="{rows/print_report/link_img}core/qrcode/qrcode.min.js"/>'+
   						'<script type="text/javascript" src="{rows/print_report/link_img}core/webreport/js/jspdf.debug.js"/>'+
   						'<script type="text/javascript">'+ 
   							'var qrcodeResult = '+"'"+'<xsl:value-of select="rows/print_report/link_qrcode"/>'+"'"+';'+
-      						'var containerQrcode = "#containerQrcode";'+
+      						'var containerQrcode = ".containerQrcode";'+
       					'</script>'+
   						'<script type="text/javascript" src="{rows/print_report/link_img}core/webreport/js/webreport.control.js"/>',
 
