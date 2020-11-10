@@ -322,9 +322,9 @@ var xslpath = '../../',
 				    '<!ENTITY hearts   "&#9829;" >'+
 				    '<!ENTITY diams    "&#9830;" >]>'+
 				    '<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">'+
-				    '<xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>'+
+				    '<xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>'+
 				    '<xsl:template match="/"><html><head><meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1" ></meta>'+
-				    '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" ></meta>'+
+				    '<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" ></meta>'+
 				    '<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></meta>',
 		    	body 	: '<style type="text/css">@page {size:=:WRLS:=;}</style></head><body>',
 		    	endbody : '</body></html></xsl:template>',
