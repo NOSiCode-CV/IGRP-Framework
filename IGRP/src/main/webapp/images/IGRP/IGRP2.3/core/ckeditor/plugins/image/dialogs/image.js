@@ -285,6 +285,12 @@
                                                         filename  : name[0],
                                                         format    : name[1]
                                                     }
+                                                ],
+                                                pArrayItem : [
+                                                	{
+                                                		name  : 'id_env',
+                                                		value : $('#form_1_env_fk').val()
+                                                	}
                                                 ]
                                             },
                                             pUrl        : url,
