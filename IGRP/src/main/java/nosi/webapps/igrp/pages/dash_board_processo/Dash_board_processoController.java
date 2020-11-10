@@ -1,23 +1,19 @@
 package nosi.webapps.igrp.pages.dash_board_processo;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
-
-import java.util.ArrayList;
-import java.util.List;
+import nosi.core.webapp.bpmn.BPMNConstants;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.webapps.igrp.pages.dash_board_processo.Dash_board_processo.Table_2;
-/*----#end-code----*/
 		
 public class Dash_board_processoController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

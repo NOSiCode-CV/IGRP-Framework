@@ -1,16 +1,4 @@
 package nosi.core.gui.components;
-/**
- * @author: Emanuel Pereira
- * 
- * Apr 17, 2017
- *
- * Description: class to generate xml of Box
- */
-/*
- * <box_1 type="box" structure="fields">
-        <fields/>
-    </box_1>
- */
 import nosi.core.gui.fields.GenXMLField;
 
 public class IGRPBox extends IGRPComponent{

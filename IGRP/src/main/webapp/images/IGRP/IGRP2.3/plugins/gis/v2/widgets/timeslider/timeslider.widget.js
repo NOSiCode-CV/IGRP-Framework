@@ -14,15 +14,15 @@
 			
 			SliderController, playButton, Times = [], LayerController, attributes  = [],
 			
-			layers = [], modalId = '#slider-modal', modal, defaulTimeSlider = true,
+			layers = [], modalId = '#slider-modal', modal, hasAttributes = false,
 			
 			settings = $.extend({
 
-				delay      : 500, 
+				delay      : 1000, 
 				
-				startDate : '01-01-1900',
+				startDate : '01-01-2000',
 				
-				endDate   : '01-01-2099',	
+				endDate   : moment().format(formatIn),	
 				
 				period	   : 'months',//days,months,years,weeks
 				
@@ -129,11 +129,15 @@
 			
 			var message = '';
 			
+			console.log(settings.attributes.length)
+			
+			console.log(settings.dateAttr)
+			
 			if(!widget.layerId)
 				
 				message = 'Escolha o Layer para continuar.';
 				
-			else if(settings.attributes.length > 1 && !settings.dateAttr)
+			else if(hasAttributes && !settings.dateAttr)
 				
 				message = 'Escolha o Atributo para continuar.';
 				
@@ -471,11 +475,11 @@
 									
 		};
 			
-		function AttributesToSelect(json){
+		function AttributesToSelect(json, onLayer){
 			
 			var attributes = [];
 			
-			if(!defaulTimeSlider){
+			if(!onLayer){
 				
 				for( var key in json )			
 					
@@ -487,22 +491,21 @@
 		            	
 		            });			
 				
-				return attributes;
-			}
+			}else
 			
-			for(var key in json){
-				
-				if(json[key] == 'date' || json[key] == 'dateTime')
-				
-		            attributes.push({
-		            	
-		            	id : key,
-		            	
-		            	name : key
-		            	
-		            });
-	            
-	        }
+				for(var key in json){
+					
+					if(json[key] == 'date' || json[key] == 'dateTime')
+					
+			            attributes.push({
+			            	
+			            	id : key,
+			            	
+			            	name : key
+			            	
+			            });
+		            
+		        }
 			
 			return attributes;
 		};		
@@ -563,68 +566,74 @@
 			if(widget.layerId){
 				
 				widget.layer       = app.layers.get(widget.layerId);
-									
-				if(defaulTimeSlider){
-					
-					var jsonAttr     = widget.layer.Description.attributes;	
-					
-				    attributes = AttributesToSelect(jsonAttr);	
-				    
-				    $('div[item-name=attributes]', widget.html).show();
-					
-				}else{
-					
-					  if(data.layers && data.layers[0]){
-			        	  							
-							data.layers.forEach(function(l){
-								
-								if(l.layer == widget.layerId){	
-									
-									settings           = $.extend(settings, l.slider);
-									
-									settings.startDate = moment(settings.startDate, formatIn);
-									
-									settings.endDate   = moment(settings.endDate, formatIn);
-									
-									RenderModal(settings);
-									
-									widget.slider();	
-											
-									var attributes     = l.dateAttr ? l.dateAttr.split(',') : [];
-																													
-									if(attributes.length > 1 || l.dateAttr == null ){
-										
-										if( l.dateAttr == null )
-											
-											settings.attributes = AttributesToSelect(widget.layer.Description.attributes);
-										
-										else
-											
-											settings.attributes = AttributesToSelect(attributes);
-										
-									    $('div[item-name=attributes]', widget.html).show();
-									    
-									    $("select[name=attributes]", widget.html).select2('destroy');
-										
-										try{
-
-											widget.setTemplateParam('attributes-time', {attributes: settings.attributes});
-											
-											$("select[name=attributes]", widget.html).select2();			
-															
-										}catch(e){}	
-										
-									}else										
-										settings.dateAttr  = l.dateAttr;																					
-								}
-								
-							});
-							
-					  }
-					  						  
-				}
 				
-			}
+				var _layers = data.layers[0] ? data.layers : layers;
+													
+			    if(_layers[0]){
+						
+			    	_layers.forEach(function(l){
+							
+						  if(data.layers[0] && l.layer == widget.layerId){	
+								
+								settings           = $.extend(settings, l.slider);
+								
+								settings.startDate = moment(settings.startDate, formatIn);
+								
+								settings.endDate   = moment(settings.endDate, formatIn);
+								
+								RenderModal(settings);
+								
+								widget.slider();	
+										
+								var attributes     = l.dateAttr ? l.dateAttr.split(',') : [];
+																												
+								if(attributes.length > 1 || l.dateAttr == '' ){
+									
+									if( l.dateAttr == '' )
+										
+										settings.attributes = AttributesToSelect(widget.layer.Description.attributes, true);
+									
+									else
+										
+										settings.attributes = AttributesToSelect(attributes);
+									
+									RenderAttribute();
+									
+									hasAttributes = true;
+									
+								}else										
+									settings.dateAttr  = l.dateAttr;		
+								
+							}else{
+								
+								RenderModal(settings);
+																
+								settings.attributes = AttributesToSelect(widget.layer.Description.attributes, true);
+								
+								RenderAttribute();
+								
+								hasAttributes = true;
+								
+							}
+							
+						});						
+				  }				
+			}			
+		}
+		
+		function RenderAttribute(){
+			
+		    $('div[item-name=attributes]', widget.html).show();
+		    
+		    $("select[name=attributes]", widget.html).select2('destroy');
+			
+			try{
+
+				widget.setTemplateParam('attributes-time', {attributes: settings.attributes});
+				
+				$("select[name=attributes]", widget.html).select2();			
+								
+			}catch(e){}	
 			
 		}
 		
@@ -690,6 +699,8 @@
 					widget.layer.updateData();
 				}
 				
+				settings.dateAttr = null;
+				
 				$('div[item-name=attributes]', widget.html).hide();
 				
 				CreateSlider();
@@ -723,8 +734,6 @@
 			});
 						
 			widget.on('activate', function(){	
-				
-				defaulTimeSlider = false;
 				
 				Init();
 				

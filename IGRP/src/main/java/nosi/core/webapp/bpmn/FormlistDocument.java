@@ -2,6 +2,7 @@ package nosi.core.webapp.bpmn;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.gui.components.IGRPTable.Table;
 import nosi.core.gui.fields.Field;

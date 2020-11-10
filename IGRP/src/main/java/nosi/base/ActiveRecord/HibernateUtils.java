@@ -17,6 +17,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.service.ServiceRegistry;
+
 import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
@@ -53,8 +54,14 @@ public class HibernateUtils {
 		return getSessionFactory(ConfigApp.getInstance().getBaseConnection(), Core.getCurrentDadParam());
 	}
 
-	public static SessionFactory getSessionFactory(String connectionName) {
-		return getSessionFactory(connectionName, Core.getCurrentDadParam());
+	public static SessionFactory getSessionFactory(String connectionName) { 
+		String dad = null; 
+		try {
+			dad = Core.getCurrentDadParam(); 
+		} catch (Exception e) {
+			// For rest api test 
+		}
+		return getSessionFactory(connectionName, dad); 
 	}
 
 	public static SessionFactory getSessionFactory(String connectionName, String dad) {
@@ -64,7 +71,7 @@ public class HibernateUtils {
 		else if (connectionName!=null && connectionName.equalsIgnoreCase(ConfigApp.getInstance().getH2IGRPBaseConnection())) {
 			return SESSION_FACTORY_IGRP_H2;
 		}
-		String fileName = connectionName + "." + dad;
+		String fileName = dad != null && !dad.isEmpty() ? connectionName + "." + dad : connectionName;
 		
 		if (connectionName!=null && connectionName.equalsIgnoreCase(TUTORIAL_DOC_CONECTION_NAME)) {
 			

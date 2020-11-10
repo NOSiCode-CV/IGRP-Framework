@@ -1,11 +1,7 @@
 
 package nosi.webapps.igrp.pages.ldapuser;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import nosi.core.webapp.Controller;
-import nosi.core.config.Config;
-import nosi.core.ldap.LdapInfo;
-import nosi.core.ldap.LdapPerson;
-import nosi.core.ldap.NosiLdapAPI;
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,13 +17,17 @@ import org.wso2.carbon.um.ws.service.AddUser;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.user.mgt.common.xsd.ClaimValue;
 
+import nosi.core.config.Config;
+import nosi.core.ldap.LdapInfo;
+import nosi.core.ldap.LdapPerson;
+import nosi.core.ldap.NosiLdapAPI;
+import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
-import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Igrp;
+import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
 import service.client.WSO2UserStub;
-import nosi.core.webapp.Igrp;
-import nosi.core.webapp.RParam;
 
 /*----#END-PRESERVED-AREA----*/
 

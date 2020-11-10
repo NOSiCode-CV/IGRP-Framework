@@ -1,21 +1,20 @@
 package nosi.webapps.igrp.pages.registarutilizador;
 
-import nosi.core.webapp.Controller;
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.IOException;
 import java.util.Locale;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
 
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
-import static nosi.core.i18n.Translator.gt;
-/*----#end-code----*/
 		
 public class RegistarUtilizadorController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

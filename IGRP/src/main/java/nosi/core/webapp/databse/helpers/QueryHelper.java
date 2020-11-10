@@ -21,6 +21,7 @@ import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.base.ActiveRecord.ResolveColumnNameQuery;
 import nosi.core.webapp.Core;

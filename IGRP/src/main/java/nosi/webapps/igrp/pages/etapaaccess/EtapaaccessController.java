@@ -1,32 +1,27 @@
 package nosi.webapps.igrp.pages.etapaaccess;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import nosi.core.config.ConfigDBIGRP;
+import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TaskAccess;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.pages.etapaaccess.Etapaaccess.Table_1;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors; 
-
-import nosi.core.config.ConfigDBIGRP;
-/*----#end-code----*/
 		
 public class EtapaaccessController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

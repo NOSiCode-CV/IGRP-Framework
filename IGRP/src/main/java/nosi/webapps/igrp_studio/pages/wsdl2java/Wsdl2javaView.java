@@ -1,10 +1,11 @@
 package nosi.webapps.igrp_studio.pages.wsdl2java;
 
-import nosi.core.webapp.Model;
-import nosi.core.webapp.View;
+import static nosi.core.i18n.Translator.gt;
+
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.View;
 public class Wsdl2javaView extends View {
 
 	public Field aplicacao;

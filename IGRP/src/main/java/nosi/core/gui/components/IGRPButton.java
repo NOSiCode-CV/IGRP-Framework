@@ -1,5 +1,9 @@
 package nosi.core.gui.components;
 
+import static nosi.core.i18n.Translator.gt;
+
+import java.util.Map.Entry;
+
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
@@ -9,8 +13,6 @@ import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.security.PagesScapePermission;
 import nosi.core.webapp.security.Permission;
 import nosi.core.xml.XMLWritter;
-import static nosi.core.i18n.Translator.gt;
-import java.util.Map.Entry;
 
 
 

@@ -1,10 +1,11 @@
 package nosi.webapps.igrp.pages.alter_prioridade_tarefa;
 
-import nosi.core.webapp.Model;
-import nosi.core.webapp.View;
+import static nosi.core.i18n.Translator.gt;
+
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.View;
 
 public class Alter_prioridade_tarefaView extends View {
 

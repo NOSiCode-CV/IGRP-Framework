@@ -1,13 +1,5 @@
 package nosi.core.gui.components;
 
-/**
- * @author: Emanuel Pereira
- * 
- * May 19, 2017
- *
- * Description: class to generate xml for home page
- */
-
 import nosi.core.config.Config;
 import nosi.core.config.IHeaderConfig;
 import nosi.core.gui.fields.Field;

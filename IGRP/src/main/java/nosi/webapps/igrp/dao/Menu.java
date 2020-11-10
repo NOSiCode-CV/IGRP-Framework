@@ -14,12 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import javax.persistence.Column;
 
 import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Core;
@@ -29,6 +23,13 @@ import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.core.webapp.security.EncrypDecrypt;
 
 import static nosi.core.i18n.Translator.gt;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
+import javax.persistence.Column;
 
 @Entity
 @Table(name="tbl_menu")

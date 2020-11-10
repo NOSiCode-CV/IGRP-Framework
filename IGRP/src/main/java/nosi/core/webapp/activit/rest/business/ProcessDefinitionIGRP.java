@@ -1,16 +1,19 @@
 package nosi.core.webapp.activit.rest.business;
 
+import static nosi.core.i18n.Translator.gt;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
+
 import java.util.Set;
-import static nosi.core.i18n.Translator.gt;
 /**
  * Emanuel 15 May 2019
  */

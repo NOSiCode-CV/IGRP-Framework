@@ -12,6 +12,7 @@ import javax.xml.bind.JAXB;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.reflect.TypeToken;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.binding.tasks_process.TaskOfProcess;
 import nosi.core.webapp.activit.rest.binding.tasks_process.UserTask;

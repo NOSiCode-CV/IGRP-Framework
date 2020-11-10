@@ -3,6 +3,7 @@ package nosi.core.validator;
 import java.math.BigDecimal;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.validator.constraints.PairMin;
 import nosi.core.webapp.Core;

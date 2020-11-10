@@ -9,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
+
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.PagesScapePermission;
 import nosi.core.webapp.security.Permission;

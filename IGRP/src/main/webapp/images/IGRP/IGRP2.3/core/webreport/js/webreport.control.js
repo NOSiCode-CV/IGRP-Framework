@@ -242,14 +242,19 @@ var WRControl = {
 	    }
 	},
 	qrcode : function(){
-		var options = {
-	    	'size' : 100,
-	    	'color': '#3a3',
-	    	'text' : qrcodeResult
-	  	}; 
+		$('div[size]').each(function(i,e){
+			$(containerQrcode, $(e)).each(function(){
+				
+				var url     = $(this).attr('url'),
+					options = {
+						'size' : $(this).width(),
+						'color': '#3a3',
+						'text' : url ? url : qrcodeResult
+					};
 
-	  	$('div[size] #footer').each(function(i,e){
-    		$(containerQrcode, $(e)).empty().qrcode(options);
+				$(this).empty().qrcode(options);
+
+			});
   		});
 	},
 	init : function(){

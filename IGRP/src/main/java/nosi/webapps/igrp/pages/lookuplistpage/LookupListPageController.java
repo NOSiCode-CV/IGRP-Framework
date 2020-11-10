@@ -1,15 +1,18 @@
 package nosi.webapps.igrp.pages.lookuplistpage;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.util.List;
+
+import nosi.core.config.ConfigDBIGRP;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.RepTemplate;
@@ -17,9 +20,6 @@ import nosi.webapps.igrp.dao.TipoDocumento;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 
 import java.util.ArrayList;
-import nosi.core.config.ConfigDBIGRP;
-
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
 
 /*----#end-code----*/
 		

@@ -1,9 +1,9 @@
 package nosi.webapps.igrp.pages.novaorganica;
 
 import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.Report;
 
 public class NovaOrganica extends Model{		
 

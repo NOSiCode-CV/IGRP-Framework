@@ -9,6 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
+
 import nosi.core.validator.MessageValidator;
 import nosi.core.validator.SizeValidator;
 

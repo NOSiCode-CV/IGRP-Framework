@@ -1,22 +1,20 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_bi_cni_passport;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import nosi.core.webapp.webservices.rest.ConsumeJson;
-import nosi.core.config.ConfigApp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import nosi.core.config.ConfigApp;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.webservices.rest.ConsumeJson;
 
 /*----#end-code----*/
 		

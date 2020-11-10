@@ -1,25 +1,23 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Organization;
-import nosi.webapps.igrp.dao.Profile;
-import nosi.webapps.igrp.dao.ProfileType;
-import nosi.webapps.igrp.dao.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.json.JSONObject;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Organization;
+import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.User;
 
 /*----#end-code----*/
 		

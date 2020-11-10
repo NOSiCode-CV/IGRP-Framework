@@ -1,24 +1,21 @@
 package nosi.webapps.igrp.pages.transferir_tarefas;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
+
+import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import nosi.core.webapp.activit.rest.entities.TaskService;
-import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
-import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.Igrp;
-import nosi.webapps.igrp.dao.User;
+import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.ProcessInstancesService;
-/*----#end-code----*/
+import nosi.core.webapp.activit.rest.entities.TaskService;
+import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
+import nosi.core.webapp.bpmn.BPMNConstants;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.webapps.igrp.dao.User;
 		
 public class Transferir_tarefasController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

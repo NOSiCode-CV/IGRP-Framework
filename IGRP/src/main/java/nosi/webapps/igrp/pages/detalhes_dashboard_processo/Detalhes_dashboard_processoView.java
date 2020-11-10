@@ -1,12 +1,15 @@
 package nosi.webapps.igrp.pages.detalhes_dashboard_processo;
 
-import nosi.core.webapp.Model;
-import nosi.core.webapp.View;
+import java.util.Map;
+
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Core;
-import java.util.Map;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.View;
+
+import static nosi.core.i18n.Translator.gt;
+
 import java.util.LinkedHashMap;
 
 public class Detalhes_dashboard_processoView extends View {

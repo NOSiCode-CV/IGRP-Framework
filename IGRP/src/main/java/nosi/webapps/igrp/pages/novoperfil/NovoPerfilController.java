@@ -1,28 +1,24 @@
 package nosi.webapps.igrp.pages.novoperfil;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Properties;
+
+import nosi.core.config.ConfigApp;
+import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
 import nosi.core.webapp.Igrp;
-import nosi.webapps.igrp.dao.ProfileType;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.activit.rest.entities.GroupService;
+import nosi.core.webapp.activit.rest.services.GroupServiceRest;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
-import nosi.core.webapp.activit.rest.entities.GroupService;
-import nosi.core.webapp.activit.rest.services.GroupServiceRest;
-
-import java.util.HashMap;
-import java.util.Properties;
-import nosi.core.config.ConfigApp;
-/*----#end-code----*/
+import nosi.webapps.igrp.dao.ProfileType;
 		
 public class NovoPerfilController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

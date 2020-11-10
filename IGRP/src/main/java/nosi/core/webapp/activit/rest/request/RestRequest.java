@@ -1,6 +1,7 @@
 package nosi.core.webapp.activit.rest.request;
 
 import javax.ws.rs.core.MediaType;
+
 import nosi.core.webapp.webservices.helpers.ConfigurationRequest;
 
 /**

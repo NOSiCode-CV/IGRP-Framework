@@ -1,19 +1,17 @@
 package nosi.webapps.igrp.pages.gestao_tipo_documento;
 
-import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
-import nosi.core.webapp.Core;//
-import nosi.core.webapp.Response;//
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.TipoDocumento;
 import java.util.ArrayList;
 import java.util.List;
 /*----#end-code----*/
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.TipoDocumento;
 		
 public class Gestao_tipo_documentoController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

@@ -1,25 +1,26 @@
 package nosi.webapps.igrp.pages.detalhes_dashboard_processo;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
 import java.util.List;
-import nosi.core.webapp.bpmn.BPMNConstants;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.business.ProcessInstanceIGRP;
 import nosi.core.webapp.activit.rest.entities.HistoricProcessInstance;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
 import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
-import static nosi.core.i18n.Translator.gt;
-/*----#end-code----*/
+import nosi.core.webapp.bpmn.BPMNConstants;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
 		
 public class Detalhes_dashboard_processoController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

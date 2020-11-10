@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import org.hibernate.Session;
+
 import nosi.base.ActiveRecord.HibernateHintOption;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;

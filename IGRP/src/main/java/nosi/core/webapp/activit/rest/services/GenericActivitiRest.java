@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.entities.TaskVariables;
 import nosi.core.webapp.activit.rest.request.RestRequest;
