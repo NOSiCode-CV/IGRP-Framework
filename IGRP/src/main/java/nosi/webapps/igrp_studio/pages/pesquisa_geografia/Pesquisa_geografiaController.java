@@ -103,6 +103,10 @@ public class Pesquisa_geografiaController extends Controller {
 			url = url.replace("GeoINGT", "geografia");
 			if(Core.isNullOrZero(this.p_nivel))
 				this.p_nivel=Geografia.Nivel.PAIS;
+		}else {
+			//If not specified the level, will use the last one
+			if(Core.isNullOrZero(this.p_nivel))
+				this.p_nivel=Geografia.Nivel.ZONA;
 		}
 		String authorization = setting.getProperty("authorization.rest.pesquisa_geografia");
 		ConsumeJson json_obj = new ConsumeJson();
@@ -147,7 +151,7 @@ public class Pesquisa_geografiaController extends Controller {
 			tab_geo.setTreemenu_1_child("1"); 
 			int aux = 0; 
 			try {
-//				if its a country with no level, will give it a level 1 ou Country
+//				if its a country with no level, will give it a level 1 of Country code
 				if(Core.isNull(tab_geo.getNivel()))
 					tab_geo.setNivel("1");				
 				aux = Core.toBigDecimal(tab_geo.getNivel()).intValue(); 
