@@ -1,11 +1,10 @@
 package nosi.webapps.igrp.pages.novoperfil;
 
-import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
+import static nosi.core.i18n.Translator.gt;
 
 public class NovoPerfilView extends View {
 
@@ -20,6 +19,7 @@ public class NovoPerfilView extends View {
 	public Field perfil_pai;
 	public Field extras;
 	public Field primeira_pagina;
+	public Field igrp_code;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 
@@ -75,6 +75,10 @@ public class NovoPerfilView extends View {
 		primeira_pagina.setLabel(gt("Primeira página"));
 		primeira_pagina.propertie().add("name","p_primeira_pagina").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","int");
 		
+		igrp_code = new TextField(model,"igrp_code");
+		igrp_code.setLabel(gt("IGRP (code)"));
+		igrp_code.propertie().add("name","p_igrp_code").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
@@ -99,6 +103,7 @@ public class NovoPerfilView extends View {
 		form_1.addField(perfil_pai);
 		form_1.addField(extras);
 		form_1.addField(primeira_pagina);
+		form_1.addField(igrp_code);
 
 		toolsbar_1.addButton(btn_gravar);
 		this.addToPage(sectionheader_1);
@@ -117,7 +122,8 @@ public class NovoPerfilView extends View {
 		organica.setValue(model);
 		perfil_pai.setValue(model);
 		extras.setValue(model);
-		primeira_pagina.setValue(model);	
+		primeira_pagina.setValue(model);
+		igrp_code.setValue(model);	
 
 		}
 }
