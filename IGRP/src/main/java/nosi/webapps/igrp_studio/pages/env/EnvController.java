@@ -295,6 +295,7 @@ public class EnvController extends Controller {
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
 		view.flg_old.setVisible(false);
+		view.plsql_codigo.setLabel("IGRP (code)");
 		view.setModel(model);
 		
 		view.flg_external.setValue(new Application().getAtivesEstadoRegisto()); 

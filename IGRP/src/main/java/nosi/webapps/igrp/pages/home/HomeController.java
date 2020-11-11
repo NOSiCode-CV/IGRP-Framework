@@ -63,8 +63,14 @@ public class HomeController extends Controller {
 						break;
 						case "PAGE":
 							Action ac = new Action().findOne(Core.toInt(value)); 
-							if(ac != null && ac.getApplication()!=null) 
+							if(ac != null && ac.getApplication() != null) { 
+								Application envIgrpWeb = new Application().find().andWhere("dad", "=", dad).one(); 
+								if(envIgrpWeb == null) {
+									Application envIgrpPlSql = new Application().find().andWhere("plsql_code", "=", dad).one(); 
+									if(envIgrpPlSql != null) dad = envIgrpPlSql.getDad(); 
+								}
 								page = ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage() + "/index&title="+ac.getAction_descr(); 
+							}
 						break;
 						case "ACTI":
 							//Core.startTask(taskId)
