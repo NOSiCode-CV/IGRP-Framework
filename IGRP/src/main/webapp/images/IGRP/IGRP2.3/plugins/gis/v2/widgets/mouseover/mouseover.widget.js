@@ -107,6 +107,8 @@
 					Layer.on('mouseout', function(e){
 						
 						var target = e.originalEvent.toElement || e.originalEvent.relatedTarget;
+						
+						if(!target) return false;
 												
 						if (_getParent(target, "leaflet-popup")) {
 							

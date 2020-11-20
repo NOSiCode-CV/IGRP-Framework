@@ -294,8 +294,6 @@
 							layer.request.abort();
 
 						app.loading(true);
-
-						//options.bbox = map.getBounds().toBBoxString();
 						
 						if(layer.options.cql_filter){
 							
@@ -305,9 +303,9 @@
 							
 						}else{
 							
-							options = $.extend({ bbox : map.getBounds().toBBoxString() }, options)
+							options.bbox = map.getBounds().toBBoxString();
 
-							delete options.cql_filter;
+							delete options.cql_filter;							
 
 						}				
 													
@@ -453,7 +451,7 @@
 				
 				type = 'Polyline';
 			
-			if(data.geomType == utils.geometry.point)
+			if(data.geomType == utils.geometry.point || data.geomType == utils.geometry.pointCluster)
 				
 				type = 'Marker';
 			
