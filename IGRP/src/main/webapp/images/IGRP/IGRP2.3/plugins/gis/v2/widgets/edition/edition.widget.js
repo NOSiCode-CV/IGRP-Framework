@@ -94,7 +94,7 @@
 			
 			CurrentLayer = {layer: layer, data: layer.data()}
 			
-			widget.actions[CurrentAction]();
+			if (CurrentAction) widget.actions[CurrentAction]();
 						
 		});
 		
@@ -156,7 +156,7 @@
 			
 			CurrentLayer = {layer: layer, data: layer.data()}
 			
-			if(layer.getGeometryType() !=  ShpType() ){
+			if( (layer.getGeometryType() === utils.geometry.pointCluster ? utils.geometry.point : layer.getGeometryType() ) !=  ShpType() ){
 				
 				$.IGRP.notify({
         			
@@ -608,9 +608,7 @@
 		 */
 		
 		function GetWFST(layerInfo){
-			
-			console.log(layerInfo.namespaceUri);
-			
+						
 			return new L.WFST({
 				 
 	                url: layerInfo.owsURL,

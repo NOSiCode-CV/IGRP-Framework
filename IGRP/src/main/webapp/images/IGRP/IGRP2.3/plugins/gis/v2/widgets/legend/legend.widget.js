@@ -18,10 +18,10 @@
 			 
 		}
 		
-		function getCSS(jsonCSS) {
+		function getCSS(symbolizers) {
 			
 		     var style = '';
-		     
+		     		     
 		     var propretries = {
     		      "mark": "circle",
     		      "fill": "#FFFFFF",
@@ -31,15 +31,16 @@
     		      "stroke-opacity": "1"
 		     }
 		     
-		     if(jsonCSS['graphic-fill'])
-					
-		    	 jsonCSS = jsonCSS['graphic-fill'].graphics[0];		
-				
-			else if(jsonCSS['graphic-stroke'])
-				
-				jsonCSS = jsonCSS['graphic-stroke'].graphics[0];
-		     
-		     propretries = $.extend(propretries, jsonCSS );		
+		    if(symbolizers[1]){
+		    	
+		    	if(symbolizers[0].Polygon)
+		    		propretries = $.extend(propretries, symbolizers[0].Polygon['graphic-fill'].graphics[0] );	
+		    	
+		    	if(symbolizers[1].Line)
+		    		propretries = $.extend(propretries, symbolizers[1].Line );	
+		    			    	
+		    }else
+		    	propretries = $.extend(propretries, symbolizers );		
 		    
 		     for (var prop in propretries) 
 		         style += prop + ":" + propretries[prop] + '; ';	
@@ -82,7 +83,7 @@
 					items.push(item);
 					
 					item.id = id;
-					
+										
 					if(symbolizers.Point){
 						
 						var point = symbolizers.Point,
@@ -97,9 +98,9 @@
 						
 						item.point = true;
 						
-	                }else if(symbolizers.Polygon){
+	                }else if( l.getGeometryType() == utils.geometry.polygon ){
 	                	
-	                	item.style = getCSS(symbolizers.Polygon);
+	                	item.style = getCSS(rules[i].symbolizers);
 	                	
 						item.polygon = true;
 						
@@ -184,7 +185,7 @@
 				
 				if (allActive) allActive = filters[i].active ? true : false;
 					
-				var val = ( filters[i].active ? filters[i].filter : '').replace('[','').replace(']','') ;
+				var val = ( filters[i].active && filters[i].filter ? filters[i].filter : '').replace('[','').replace(']','') ;
 								
 				if( val  ) 
 					
