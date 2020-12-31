@@ -12,7 +12,7 @@ import nosi.webapps.igrp.dao.Action;
 public interface IHeaderConfig {
 
 	
-	default public String getLinkHome() {
+	 public default String getLinkHome() {
 		Integer pageId = Core.getParamInt("p_id_page");
 		if(Igrp.getInstance() != null && pageId!=null && "generator".contentEquals(Igrp.getInstance().getCurrentPageName())) {
 			 Action ac = new Action().findOne(pageId);
@@ -22,37 +22,36 @@ public interface IHeaderConfig {
         return "webapps?r="+EncrypDecrypt.encrypt("igrp"+"/"+"home"+"/"+"index");
 	}
 	
-	default public String getLinkMyApps() {
-        String result = "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"env"+"/"+"myApps") + "&dad="+Core.getCurrentDad();
-        return result;
-	}
-	default public String getTitle() {
+	public default String getLinkMyApps() {
+      return "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"env"+"/"+"myApps") + "&dad="+Core.getCurrentDad();
+    }
+	public default String getTitle() {
         return "";
 	}
-	default public String getTarget() {
+	public default String getTarget() {
 	        return "";
     }
-	default public String getTypeHeader() {
+	public default String getTypeHeader() {
         return "normal";
 	}
-	default public String getLinkOpenApp() { 
+	public default String getLinkOpenApp() { 
         return "webapps?r=" + "igrp_studio"+"/"+"env"+"/"+"openApp"+"&dad="+Core.getCurrentDad()+"&app=";
 	}
-	default public String getLinkSileMenu(){
+	public default String getLinkSileMenu(){
 		return "webapps?r="+ EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"myMenu")+"&dad="+Core.getCurrentDad();
 	}
-	default public String getLinkTopMenu(){
+	public default String getLinkTopMenu(){
 		return "webapps?r="+ EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"topMenu") +"&dad=" + Core.getCurrentDad() ;
 	}
 
-	default public String getPackageInstance(){
+	public default String getPackageInstance(){
 		return "";
 	}
 
-	default public String getPackageCopyDb(){
+	public default String getPackageCopyDb(){
 		return "";
 	}
-	default public String getPackageCopyHtml(){
+	public default String getPackageCopyHtml(){
 		return "";
 	}
 }

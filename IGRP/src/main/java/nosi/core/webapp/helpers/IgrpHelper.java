@@ -100,7 +100,7 @@ public final class IgrpHelper {
 		    	if(m.getName().startsWith("get") && m.getName().equals("get"+methodName)){
 			    	try {
 			    		if(m.invoke(model)!=null) {
-			    			if(m.getReturnType().getSimpleName().toString().equalsIgnoreCase("IGRPLink")) {
+			    			if(m.getReturnType().getSimpleName().equalsIgnoreCase("IGRPLink")) {
 			    				IGRPLink link = (IGRPLink) m.invoke(model);
 								value = link.getLink();
 			    			}else {
@@ -191,9 +191,11 @@ public final class IgrpHelper {
 						field.setBoolean(obj,(boolean)value);
 					else if(field.getType().getName().equalsIgnoreCase("java.math.BigDecimal"))
 						field.set(obj,Core.toBigDecimal(value.toString())); 
+					else if(field.getType().getName().equalsIgnoreCase("java.math.BigInteger"))
+						field.set(obj,Core.toBigInteger(value.toString())); 
 					else if(field.getType().getName().equalsIgnoreCase("java.lang.String")) 
 						field.set(obj,value.toString());						
-					 else if(field.getType().getName().equalsIgnoreCase("java.sql.Date"))
+					else if(field.getType().getName().equalsIgnoreCase("java.sql.Date"))
 						field.set(obj,Core.ToDate(value.toString(), "yyyy-MM-dd"));
 				}
 			}catch (IllegalArgumentException | IllegalAccessException e) {

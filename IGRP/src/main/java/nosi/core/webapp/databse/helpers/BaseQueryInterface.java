@@ -3,6 +3,7 @@ package nosi.core.webapp.databse.helpers;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.SQLException;
@@ -27,12 +28,16 @@ public interface BaseQueryInterface {
 	public ResultSet executeTransaction() throws SQLException;
 	
 	public List<Tuple> getResultList();
-	
+	/**
+    * @deprecated (use getSingleResult())
+    */
 	@Deprecated
 	public Tuple getSigleResult();
 	
 	public Record getRecordList();
-	
+	/**
+    * @deprecated (use getSingleRecord())
+    */
 	@Deprecated
 	public Record getSigleRecord();
 	
@@ -122,8 +127,10 @@ public interface BaseQueryInterface {
     
     public QueryInterface addBoolean(String columnName,boolean value);
     
-    public QueryInterface addBigDecimal(String columnName,BigDecimal value);
-    
+	public QueryInterface addBigDecimal(String columnName,BigDecimal value);
+	
+	public QueryInterface addBigInteger(String columnName,BigInteger value);
+
     public QueryInterface addTime(String columnName,Time value);
     
     public List<Column> getParametersMap();
