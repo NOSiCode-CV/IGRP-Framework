@@ -1,20 +1,26 @@
 package nosi.webapps.igrp_studio.pages.crudgenerator;
 
-import java.io.IOException;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 import java.util.LinkedHashMap;
+import static nosi.core.i18n.Translator.gt;
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
+import java.util.List;
+import java.util.Map;
 
+import javax.xml.transform.TransformerConfigurationException;
 import static nosi.core.i18n.Translator.gt;
 
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.transform.TransformerConfigurationException;
-
 import nosi.core.config.Config;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.Controller;
@@ -31,6 +37,8 @@ import nosi.core.xml.XMLTransform;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
+
+/*----#end-code----*/
 		
 public class CRUDGeneratorController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -40,7 +48,7 @@ public class CRUDGeneratorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Magna deserunt lorem magna sit' as table_name "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Anim officia dolor sit mollit' as table_name "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.schema.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -53,77 +61,46 @@ public class CRUDGeneratorController extends Controller {
 	view.form_2_radiolist_1.setValue(form_2_radiolist_1);
 	
 		/*----#start-code(index)----*/	 
-		//model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=crud"));
 		view.btn_add_datasource.setLink("igrp","ConfigDatabase","index");
 		view.aplicacao.setValue(new Application().getListApps());
-		view.btn_gerar_dao.setLink("index&dao_boo=true&dad_id="+model.getAplicacao());
+		//view.btn_gerar_dao.setLink("index&dao_boo=true&dad_id="+model.getAplicacao());
 		view.table_type.setValue(this.preencherTableType());
+		view.schema.setVisible(false);
+	
+		view.documento.setValue("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT&p_type=crud");
+		view.forum.setValue("https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&utm_medium=link&utm_campaign=share-link");
+
 		
-		List<String> list_table = null;
-		
-		if(Core.isNotNull(model.getAplicacao())) {
-			
+		if(Core.isNotNull(model.getAplicacao())) {			
 			final Map<Object, Object> listDSbyEnv = new Config_env().getListDSbyEnv(Core.toInt(model.getAplicacao()));
+			if (listDSbyEnv.size() > 1 && listDSbyEnv.size() == 2)
+				model.setData_source(listDSbyEnv.keySet().toArray()[1].toString());
 			view.data_source.setValue(listDSbyEnv);
 			
 			if(Core.isNotNull(model.getData_source())) {
 				
-				Config_env config = new Config_env().find()
+				 Config_env config = new Config_env().find()
 													.andWhere("id","=",Core.toInt(model.getData_source()))
-													.andWhere("application", "=",Core.toInt(model.getAplicacao()))
+													.andWhere("application.id", "=",Core.toInt(model.getAplicacao()))
 													.one();	
 				Map<String,String> schemasMap = DatabaseMetadaHelper.getSchemas(config);
-				view.schema.setValue(schemasMap);
 				
-				if(Core.isNotNull(model.getSchema())) {
-					
-					
-					
-					list_table = DatabaseMetadaHelper.getTables(config,model.getSchema(),model.getTable_type());
-					
-					
-					List<CRUDGenerator.Table_1> list_tb = new ArrayList<>();
-					int i =1;
-					for(String li : list_table) {
-						CRUDGenerator.Table_1 tb = new CRUDGenerator.Table_1();
-						
-						tb.setTable_name(li);
-						tb.setCheck_table(i);
-						tb.setCheck_table_check(-1);
-						i++;
-						list_tb.add(tb);
+				if(schemasMap.size() > 1){
+					if(schemasMap.size() == 2) {
+						model.setSchema(schemasMap.keySet().toArray()[1].toString());
 					}
-					model.setTable_1(list_tb);
-					
-					//action gerar --- put here to aproveitar a list_table
-					String[] rows_id = Core.getParamArray("p_check_table_fk");
-					String[] p_checkbox_check = Core.getParamArray( "p_check_table_check_fk" );
-					
-
-					if(Core.isNotNull(p_checkbox_check) && Core.isNotNull(rows_id) && Core.getParam("dao_boo").equals("true")) {
-						
-						CheckBoxHelper cbh = Core.extractCheckBox(rows_id, p_checkbox_check); 
-						if(Core.isNotNull(cbh)) {
-							boolean r = false;
-							for(String id_ch : cbh.getChekedIds()) {
-								String tableName = list_table.get(Integer.parseInt(id_ch)-1);
-								String dad_name = Core.findApplicationById(Core.toInt(model.getAplicacao())).getDad();
-								r = this.generateDAO(config,model.getSchema(),tableName, dad_name,false,"","");
-							}
-							
-							if(r) {
-								Core.setMessageSuccess("Classe DAO gerado sucesso!");
-								
-							}
-							else {
-								Core.setMessageError();
-							}
-						}
-					}
-					/* --  FIM ACTION GERAR  --*/
-					
-				}
-			//model.getAdd_datasource_botton().addParam("p_aplicacao",model.getAplicacao());
+					view.schema.setValue(schemasMap);	
+					view.schema.setVisible(true);
+				//	view.table_1.setVisible(Core.isNotNull(model.getSchema()));
+					if(Core.isNotNull(model.getSchema())){
+						fillTable(model, config);
+					}						
+				}else{
+					//if mySQL or other that doesn't have schema
+					fillTable(model, config);	
+				}  	
+		
+	
 			}
 		}
 			
@@ -161,40 +138,34 @@ public class CRUDGeneratorController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(gerar)----*/
 
-		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
-	
-			if(Core.isNotNull(model.getData_source()) && Core.isNotNull(model.getAplicacao())) {
-		
+		if (Core.isNotNull(model.getData_source()) && Core.isNotNull(model.getAplicacao())){
+			
 				Config_env config = new Config_env()
 						.find()
 						.andWhere("id","=",Core.toInt(model.getData_source(),-1))
-						.andWhere("application", "=",Core.toInt(model.getAplicacao(),-1))
+						.andWhere("application.id", "=",Core.toInt(model.getAplicacao(),-1))
 						.one();	
-				List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema(),"TABLE");
+				//List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema(),"TABLE");
 				
-				String[] rows_id = Core.getParamArray("p_check_table_fk");
-				String[] p_checkbox_check = Core.getParamArray( "p_check_table_check_fk" );
+				String[] rowsId = Core.getParamArray("p_check_table_fk");
+				String[] pCheckboxCheck = Core.getParamArray( "p_check_table_check_fk" );
 				
 				boolean r = false;
-				if(Core.isNotNull(p_checkbox_check) && Core.isNotNull(rows_id)) {
-					CheckBoxHelper cbh = Core.extractCheckBox(rows_id, p_checkbox_check);
+				if(Core.isNotNull(pCheckboxCheck) && Core.isNotNull(rowsId)) {
+					CheckBoxHelper cbh = Core.extractCheckBox(rowsId, pCheckboxCheck);
 					if(cbh!=null) {
-						for(String table:cbh.getChekedIds()) {
-							String tableName = list.get(Integer.parseInt(table)-1);		                      
-							try {
+						for(String tableName:cbh.getChekedIds()) {
+					     	try {
 								r = this.generateCRUD(config,model.getSchema(),tableName);
-							} catch (TransformerConfigurationException | URISyntaxException e) {
-								// TODO Auto-generated catch block							
+							} catch (TransformerConfigurationException | URISyntaxException e) {													
 								e.printStackTrace();
 							}
 						}
 						if(r) {
-							Core.setMessageSuccess();
-	                      	return this.forward("igrp_studio","CRUDGenerator","index&p_aplicacao="+model.getAplicacao());
+							Core.setMessageSuccess();	           
 						}
 						else {
-							Core.setMessageError();
-							return this.forward("igrp_studio","CRUDGenerator","index");
+							Core.setMessageError();						
 						}
 						}
 						else
@@ -204,11 +175,13 @@ public class CRUDGeneratorController extends Controller {
 						}
 					}
 				
-			}
+		
 		}
-		this.addQueryString("dao_boo","false");
+	return this.renderView(new CRUDGeneratorView());
+      
+      
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","CRUDGenerator","index", this.queryString());	
+			
 	}
 	
 	public Response actionGerar_dao() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -222,7 +195,36 @@ public class CRUDGeneratorController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(gerar_dao)----*/
-		return this.forward("igrp_studio","Daogenerator","index",this.queryString());
+		Config_env config = new Config_env().find()
+		.andWhere("id","=",Core.toInt(model.getData_source(),-1))
+		.andWhere("application.id", "=",Core.toInt(model.getAplicacao(),-1))
+		.one();	
+		//action gerar --- put here to aproveitar a list_table
+		String[] rowsId = Core.getParamArray("p_check_table_fk");
+		String[] pCheckboxCheck = Core.getParamArray( "p_check_table_check_fk" );
+		
+
+		if(Core.isNotNull(pCheckboxCheck) && Core.isNotNull(rowsId)) {
+			
+			CheckBoxHelper cbh = Core.extractCheckBox(rowsId, pCheckboxCheck); 
+			if (Core.isNotNull(cbh)) {
+				boolean r = false;
+				String dadName = Core.findApplicationById(Core.toInt(model.getAplicacao())).getDad();
+				for (String tb_name_ch : cbh.getChekedIds()) {				
+					r = this.generateDAO(config, model.getSchema(), tb_name_ch, dadName, false, "", "");
+				}
+
+				if (r) {
+					Core.setMessageSuccess("Classe DAO gerado sucesso!");
+
+				} else {
+					Core.setMessageError();
+				}
+			}
+		}
+		/* --  FIM ACTION GERAR  --*/
+	
+		return this.renderView(new CRUDGeneratorView());
 		
 		/*----#end-code----*/
 			
@@ -231,9 +233,56 @@ public class CRUDGeneratorController extends Controller {
 		
 		
 /*----#start-code(custom_actions)----*/
+	/* 	public Response actionSetSchema() throws IOException{
+
+			CRUDGeneratorView view = new CRUDGeneratorView();
+			String appID = Core.getParam(view.aplicacao.getParamTag());
+			String dataSource=Core.getParam(view.data_source.getParamTag());
+			String[] selected= new String[1];
+		if(Core.isNotNullMultiple(appID,dataSource)) {
+						
+			Config_env config = new Config_env().find()
+												.andWhere("id","=",Core.toInt(dataSource))
+												.andWhere("application.id", "=",Core.toInt(appID))
+												.one();	
+			Map<String,String> schemasMap = DatabaseMetadaHelper.getSchemas(config);
+			
+			if(schemasMap.size() > 1 && schemasMap.size() == 2){				
+					selected  = new String[] { schemasMap.keySet().toArray()[1].toString() } ;							
+			}				
+			return this.renderView(Core.remoteComboBoxXml(schemasMap, view.schema, selected));
+		}else
+			return this.renderView(view);
+		} */
 	
-	
-	
+		private void fillTable(CRUDGenerator model, Config_env config) {
+			List<String> listTable;
+			listTable = DatabaseMetadaHelper.getTables(config,model.getSchema(),model.getTable_type());
+						
+			List<CRUDGenerator.Table_1> listTb = new ArrayList<>();
+			int i =1;
+			for(String li : listTable) {
+				CRUDGenerator.Table_1 tb = new CRUDGenerator.Table_1();						
+				tb.setTable_name(li);
+				tb.setCheck_table(li);
+				tb.setCheck_table_check("-1");
+				i++;
+				listTb.add(tb);
+			}
+			model.setTable_1(listTb);
+		}
+		public Response actionDataSource() throws IOException{
+			CRUDGeneratorView view = new CRUDGeneratorView();
+			Integer appID = Core.getParamInt(view.aplicacao.getParamTag());
+			String[] selected= null;
+		final Map<Object, Object> listDSbyEnv = new Config_env().getListDSbyEnv(appID);
+		if(listDSbyEnv.size() > 1 && listDSbyEnv.size() == 2){			
+			selected  = new String[] { listDSbyEnv.keySet().toArray()[1].toString() } ;		
+			}
+		
+		return this.renderView(Core.remoteComboBoxXml(listDSbyEnv, view.data_source, selected));
+		}
+
 	/********************* METODO USADOS PARA GERAR CRUD *********************/
 	private Compiler compiler = new Compiler();
 	private boolean generateCRUD(Config_env config,String schema, String tableName) throws TransformerConfigurationException, IOException, URISyntaxException {
@@ -277,11 +326,12 @@ public class CRUDGeneratorController extends Controller {
 
 	private boolean processGenerate(Config_env config, String tableName, String schema, Action pageForm, Action pageList) throws IOException, TransformerConfigurationException, URISyntaxException {
 		boolean r = false;
+		boolean xmlSave=false;
 		List<DatabaseMetadaHelper.Column> columns = null;
 		try {
-			columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
-		} catch (Exception e) {
-			// TODO: handle exception
+			columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);		
+			columns.replaceAll( e -> {if(e.getName().equals("model")){e.setName("models");} return e;} )	;
+		} catch (Exception e) {	
 			Core.setMessageError(tableName+" error: "+e.getMessage());
 			return false;
 		}
@@ -291,7 +341,7 @@ public class CRUDGeneratorController extends Controller {
 		String listXML = xml.genXML(xml.generateXMLTable(config, pageList, columns,pageForm),pageList,"table",config.getName(),schema,tableName);
 		
 		
-		r = this.saveFiles(pageForm, pageForm.getPage()+".xml",formXML)		
+		xmlSave = this.saveFiles(pageForm, pageForm.getPage()+".xml",formXML)		
 			&& this.saveFiles(pageList, pageList.getPage()+".xml",listXML);		
 		
 		String xslFileNameFrom = this.getConfig().getLinkXSLGeneratorMCVForm();
@@ -315,9 +365,11 @@ public class CRUDGeneratorController extends Controller {
 			&& this.saveFiles(pageForm, pageForm.getPage()+".xsl",xslForm) 
 			&& this.saveFiles(pageList, pageList.getPage()+".xsl",xslList) 
 			&& this.generateClassMVC(pageForm, formMVC)
-			&& this.generateClassMVC(pageList, listMVC)
-			&& this.processCompiler();
-		return r;
+			&& this.generateClassMVC(pageList, listMVC);
+
+		if(!this.processCompiler())
+			Core.setMessageWarning("Errors when compiling. Please compile again.");
+		return r && xmlSave;
 	}
 
 
@@ -326,9 +378,8 @@ public class CRUDGeneratorController extends Controller {
 		return !this.compiler.hasError();
 	}
 
-	private boolean saveFiles(Action page,String fileName,String content_) throws IOException {
-		boolean r = false;
-		String content = content_;
+	private boolean saveFiles(Action page,String fileName,String content) throws IOException {
+		boolean r = false;	
 		if(content!=null) {
 			content = content.replaceAll("<xsl:stylesheet xmlns:xsl=\"dim-red\" version=\"1.0\">", "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">\r\n");
 			String pathXsl = this.getConfig().getCurrentBaseServerPahtXsl(page);
@@ -340,32 +391,32 @@ public class CRUDGeneratorController extends Controller {
 		return r;
 	}
 	
-	private boolean generateClassMVC(Action page,String mvc) throws IOException, URISyntaxException {
+	private boolean generateClassMVC(Action page,String mvc) throws IOException {
 		if(mvc!=null) {
-			String[] partsJavaCode = mvc.toString().split(" END ");
+			String[] partsJavaCode = mvc.split(" END ");
 			if(partsJavaCode.length > 2){
 				String model = partsJavaCode[0]+"*/";
 				String view = "/*"+partsJavaCode[1]+"*/";
 				String controller = "/*"+partsJavaCode[2];
-				String path_class = page.getPackage_name().trim()
+				String pathClass = page.getPackage_name().trim()
 						.replaceAll("(\r\n|\n)", "")
 						.replace(".",File.separator)+File.separator+ page.getPage().toLowerCase().trim();
 				boolean workspace= Core.isNotNull(this.getConfig().getWorkspace());
-				String path_class_work_space = null;
+				String pathClassWorkSpace = null;
 				if(workspace)
-					path_class_work_space = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());
-				path_class = this.getConfig().getBasePathClass()+ path_class;	
+					pathClassWorkSpace = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());
+				pathClass = this.getConfig().getBasePathClass()+ pathClass;	
 			
 				
-				boolean r = FileHelper.saveFilesJava(path_class, page.getPage(), new String[]{model,view,controller});
+				boolean r = FileHelper.saveFilesJava(pathClass, page.getPage(), new String[]{model,view,controller});
 				
 				if(workspace){
-					if(!FileHelper.fileExists(path_class_work_space)){//check directory
-						FileHelper.createDiretory(path_class_work_space);//create directory if not exist
+					if(!FileHelper.fileExists(pathClassWorkSpace)){//check directory
+						FileHelper.createDiretory(pathClassWorkSpace);//create directory if not exist
 					}
-					r = FileHelper.saveFilesJava(path_class_work_space, page.getPage(), new String[]{model,view,controller});
+					r = FileHelper.saveFilesJava(pathClassWorkSpace, page.getPage(), new String[]{model,view,controller});
 				}
-				String fileJava = path_class + File.separator + page.getPage();
+				String fileJava = pathClass + File.separator + page.getPage();
 				this.compiler.addFileName(fileJava+".java");
 				this.compiler.addFileName(fileJava+"View.java");
 				this.compiler.addFileName(fileJava+"Controller.java");
@@ -398,22 +449,18 @@ public class CRUDGeneratorController extends Controller {
 
 	public boolean processGenerate(Config_env config, String dao_name_class, String schema, String tableName, String dad_name, boolean tem_list, String cont_list,String conten_list_set_get) {
 		boolean flag = false;
-		boolean flag_compile = false;
+		boolean flagCompile = false;
 		List<DatabaseMetadaHelper.Column> columns = null;
 		try {
 			
 			//Mas antes temos de vereficar se a classe é nova ou nao
 			if(!Core.fileExists(new  Config().getPathDAO(dad_name)+dao_name_class+".java")) {
 				//Aqui guarda novo configuracao de hibernate
-				String package_name = "nosi.webapps." + config.getApplication().getDad().toLowerCase() + ".dao";
-				SaveMapeamentoDAO.loadCfg(config.getName()+"."+config.getApplication().getDad()+".cfg.xml",package_name,dao_name_class);
+				String packageName = "nosi.webapps." + config.getApplication().getDad().toLowerCase() + ".dao";
+				SaveMapeamentoDAO.loadCfg(config.getName()+"."+config.getApplication().getDad()+".cfg.xml",packageName,dao_name_class);
 			}
 			
 			columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
-			
-
-			//Salvar os files de classe DAO vazio
-			flag = saveFiles(dao_name_class+".java", "", new Config().getPathDAO(dad_name));
 			
 			//Gerar conteudo da classe DAO
 			String content = new GerarClasse().gerarCode(dad_name,tableName,dao_name_class, columns,schema,config, tem_list, cont_list,conten_list_set_get);
@@ -422,14 +469,14 @@ public class CRUDGeneratorController extends Controller {
 			flag = saveFiles(dao_name_class+".java", content, new Config().getPathDAO(dad_name));
 			
 			//compilar as classes DAO
-			Compiler compiler = new Compiler();
-			compiler.addFileName(new Config().getPathDAO(dad_name)+dao_name_class+".java");
-			compiler.compile();
-			flag_compile = compiler.hasError();
-			System.out.println(new Config().getPathDAO(dad_name)+dao_name_class+".java");
-			System.out.println("flag_compile "+flag_compile);
-			if(flag_compile) {
-				Core.setMessageWarning("Ups... Erro na compilção na classe "+dao_name_class);
+			Compiler compilerDAO = new Compiler();
+			compilerDAO.addFileName(new Config().getPathDAO(dad_name)+dao_name_class+".java");
+			compilerDAO.compile();
+			flagCompile = compilerDAO.hasError();
+			//System.out.println(new Config().getPathDAO(dad_name)+dao_name_class+".java");
+			//System.out.println("flag_compile "+flag_compile);
+			if(flagCompile) {
+				Core.setMessageWarning("Ups... Erro na compilação na classe "+dao_name_class);
 			}
 			
 		} catch (Exception e) {
@@ -448,7 +495,7 @@ public class CRUDGeneratorController extends Controller {
 		return flag;
 	}
 	
-	public LinkedHashMap<String, String> preencherTableType() {
+	public Map<String, String> preencherTableType() {
 		LinkedHashMap<String, String> valores = new LinkedHashMap<>();
 		
 		valores.put("table", "TABLE");

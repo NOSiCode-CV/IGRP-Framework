@@ -1,10 +1,12 @@
 package nosi.core.webapp.databse.helpers;
 
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,31 +51,30 @@ public class DatabaseMetadaHelper {
 										}
 			
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;
 	}
 
 	public static List<String> getPrimaryKeys(Config_env config, String schema, String tableName) {
-		try (java.sql.Connection con = Connection.getConnection(config.getName())) {
-			List<String> keys = getPrimaryKeys(con, schema, tableName);
-			return keys;
-		} catch (SQLException e) {
+		try (java.sql.Connection con = Connection.getConnection(config.getName())) {			
+			return getPrimaryKeys(con, schema, tableName);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return Collections.emptyList();
 	}
 
 	// Get primary key of table
 	public static List<String> getPrimaryKeys(java.sql.Connection con, String schema, String tableName) {
 		List<String> keys = new ArrayList<>();
 		if (con != null) {
-			try (ResultSet keysR = con.getMetaData().getPrimaryKeys(null, schema, tableName)) {
+			try (ResultSet keysR = con.getMetaData().getPrimaryKeys(con.getCatalog(), schema, tableName)) {
 				while (keysR.next()) {
 					keys.add(keysR.getString("COLUMN_NAME"));
 				}
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -104,7 +105,7 @@ public class DatabaseMetadaHelper {
 	public static Map<String, String> getForeignKeysTableName(java.sql.Connection con, String schema, String tableName) {
 		Map<String, String> keys = new HashMap<>();
 		if (con != null) {
-			try (ResultSet keysR = con.getMetaData().getImportedKeys(null, schema, tableName)) {
+			try (ResultSet keysR = con.getMetaData().getImportedKeys(con.getCatalog(), schema, tableName)) {
 				while (keysR.next()) {
 					keys.put(keysR.getString("FKCOLUMN_NAME"),
 							keysR.getString("PKTABLE_NAME"));
@@ -119,7 +120,7 @@ public class DatabaseMetadaHelper {
 	public static Map<String, String> getForeignKeysConstrainName(java.sql.Connection con, String schema, String tableName) {
 		Map<String, String> keys = new HashMap<>();
 		if (con != null) {
-			try (ResultSet keysR = con.getMetaData().getImportedKeys(null, schema, tableName)) {
+			try (ResultSet keysR = con.getMetaData().getImportedKeys(con.getCatalog(), schema, tableName)) {
 				while (keysR.next()) {
 					keys.put(keysR.getString("FKCOLUMN_NAME"),
 							keysR.getString("FK_NAME"));
@@ -135,7 +136,7 @@ public class DatabaseMetadaHelper {
 	public static List<String> getExportedKeys(java.sql.Connection con, String schema, String tableName) {
 		List<String> keys = new ArrayList<>();
 		if (con != null) {
-			try (ResultSet keysR = con.getMetaData().getExportedKeys(null, schema, tableName)) {
+			try (ResultSet keysR = con.getMetaData().getExportedKeys(con.getCatalog(), schema, tableName)) {
 				while (keysR.next()) {
 					keys.add(keysR.getString("PKCOLUMN_NAME"));
 				}
@@ -218,12 +219,12 @@ public class DatabaseMetadaHelper {
 					col.setAutoIncrement(metaData.isAutoIncrement(i));
 					col.setColumnTypeName​(metaData.getColumnTypeName(i));
 					col.setName(metaData.getColumnName(i));
-					col.setPrimaryKey(pkeys != null && pkeys.contains(col.getName()));
-					if (fkeys != null && fkeys.containsKey(col.getName())) {
+					col.setPrimaryKey(pkeys.contains(col.getName()));
+					if (fkeys.containsKey(col.getName())) {
 						col.setForeignKey(true);
 						col.setTableRelation(fkeys.get(col.getName()));
 						List<String> colRelaction = getExportedKeys(con, schema, col.getTableRelation());
-						if (colRelaction != null && colRelaction.size() > 0) {
+						if (!colRelaction.isEmpty()) {
 							col.setColumnMap(colRelaction.get(0));
 						}
 					}
@@ -250,27 +251,29 @@ public class DatabaseMetadaHelper {
 					schemasMap.put(s, s);
 				}
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+			Core.setMessageError("Conexão à base de dados sem sucesso.");
 		}
 		return schemasMap;
 	}
 
 	// Not in use
-	public static Map<String, String> getTablesMap(Config_env config, String schema) {
+	/* public static Map<String, String> getTablesMap(Config_env config, String schema) {
 		Map<String, String> list = new HashMap<>();
 		try (java.sql.Connection con = Connection.getConnection(config.getName());
 				ResultSet tables = con.getMetaData().getTables(null, schema, null, new String[] { "TABLE" })) {
 			while (tables.next()) {
 				list.put(tables.getString(3), tables.getString(3));// Get Table Name
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;
-	}
+	} */
 
-	public static class Column {
+	public static class Column{
+	
 		private String schemaName;
 		private String name;
 		private Object type;
@@ -285,7 +288,7 @@ public class DatabaseMetadaHelper {
 		private String columnMap;
 		private String connectionName;
 		private String format = "yyyy-mm-dd";
-		private String ColumnTypeName​;
+		private String columnTypeName​;
 		private boolean afterWhere = false;
 
 		public String getSchemaName() {
@@ -393,11 +396,11 @@ public class DatabaseMetadaHelper {
 		}
 
 		public String getColumnTypeName​() {
-			return ColumnTypeName​;
+			return columnTypeName​;
 		}
 
 		public void setColumnTypeName​(String columnTypeName​) {
-			ColumnTypeName​ = columnTypeName​;
+			this.columnTypeName​ = columnTypeName​;
 		}
 
 		public String getFormat() {
@@ -427,11 +430,11 @@ public class DatabaseMetadaHelper {
 	}
 
 	public static Column getPrimaryKey(Config_env config, String schemaName, String tableName) {
-		List<Column> list = getCollumns(config, schemaName, tableName);
+		List<Column> listCols = getCollumns(config, schemaName, tableName);
 		List<String> keys = getPrimaryKeys(config, schemaName, tableName);
-		if (list != null) {
-			list = list.stream().filter(col -> keys.contains(col.getName())).collect(Collectors.toList());
-			return (list != null && list.size() > 0) ? list.get(0) : null;
+		if (!listCols.isEmpty()) {
+			listCols = listCols.stream().filter(col -> keys.contains(col.getName())).collect(Collectors.toList());
+			return (!listCols.isEmpty()) ? listCols.get(0) : null;
 		}
 		return null;
 	}
@@ -449,6 +452,8 @@ public class DatabaseMetadaHelper {
 					col.setName(metaData.getColumnName(i));
 					list.add(col);
 				}
+			}catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		return list;
