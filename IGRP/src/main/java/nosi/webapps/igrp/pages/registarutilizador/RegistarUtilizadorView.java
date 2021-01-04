@@ -1,11 +1,10 @@
 package nosi.webapps.igrp.pages.registarutilizador;
 
-import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
+import static nosi.core.i18n.Translator.gt;
 
 public class RegistarUtilizadorView extends View {
 
@@ -13,10 +12,14 @@ public class RegistarUtilizadorView extends View {
 	public Field nome;
 	public Field username;
 	public Field email;
+	public Field telefone;
+	public Field telemovel;
 	public Field nada;
 	public Field password;
 	public Field confirmar_password;
-	public IGRPForm titulo;
+	public Field s_ass;
+	public Field form_1_img_1;
+	public IGRPSectionHeader titulo;
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -26,7 +29,7 @@ public class RegistarUtilizadorView extends View {
 
 		this.setPageTitle("Registar Utilizador");
 			
-		titulo = new IGRPForm("titulo","");
+		titulo = new IGRPSectionHeader("titulo","");
 
 		form_1 = new IGRPForm("form_1","");
 
@@ -37,33 +40,50 @@ public class RegistarUtilizadorView extends View {
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false");
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		username = new TextField(model,"username");
 		username.setLabel(gt("Username"));
-		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","true").add("readonly","false").add("disabled","false");
+		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
-		email = new TextField(model,"email");
+		email = new EmailField(model,"email");
 		email.setLabel(gt("Email"));
-		email.propertie().add("name","p_email").add("type","text").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false");
+		email.propertie().add("name","p_email").add("type","email").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		
+		telefone = new TextField(model,"telefone");
+		telefone.setLabel(gt("Telefone"));
+		telefone.propertie().add("name","p_telefone").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		
+		telemovel = new TextField(model,"telemovel");
+		telemovel.setLabel(gt("Telemóvel"));
+		telemovel.propertie().add("name","p_telemovel").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
 		
 		password = new PasswordField(model,"password");
 		password.setLabel(gt("Password"));
-		password.propertie().add("name","p_password").add("type","password").add("maxlength","20").add("required","true").add("readonly","false").add("disabled","false");
+		password.propertie().add("name","p_password").add("type","password").add("maxlength","20").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		confirmar_password = new PasswordField(model,"confirmar_password");
 		confirmar_password.setLabel(gt("Confirmar password"));
-		confirmar_password.propertie().add("name","p_confirmar_password").add("type","password").add("maxlength","20").add("required","true").add("readonly","false").add("disabled","false");
+		confirmar_password.propertie().add("name","p_confirmar_password").add("type","password").add("maxlength","20").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		
+		s_ass = new SeparatorField(model,"s_ass");
+		s_ass.setLabel(gt("Assinatura"));
+		s_ass.propertie().add("name","p_s_ass").add("type","separator").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false");
+		
+		form_1_img_1 = new TextField(model,"form_1_img_1");
+		form_1_img_1.setLabel(gt("Img"));
+		form_1_img_1.setValue(gt("../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png"));
+		form_1_img_1.propertie().add("name","p_form_1_img_1").add("type","img").add("img","../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png").add("width","300").add("height","70").add("croppie","true").add("rounded","false").add("autoupload","true").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_guardar = new IGRPButton("Guardar","igrp","RegistarUtilizador","guardar","submit","primary|fa-save","","");
-		btn_guardar.propertie.add("type","specific").add("rel","guardar");
+		btn_guardar = new IGRPButton("Guardar","igrp","RegistarUtilizador","guardar","submit_ajax","primary|fa-save","","");
+		btn_guardar.propertie.add("type","specific").add("rel","guardar").add("refresh_components","");
 
 		
 	}
@@ -77,9 +97,13 @@ public class RegistarUtilizadorView extends View {
 		form_1.addField(nome);
 		form_1.addField(username);
 		form_1.addField(email);
+		form_1.addField(telefone);
+		form_1.addField(telemovel);
 		form_1.addField(nada);
 		form_1.addField(password);
 		form_1.addField(confirmar_password);
+		form_1.addField(s_ass);
+		form_1.addField(form_1_img_1);
 
 		toolsbar_1.addButton(btn_guardar);
 		this.addToPage(titulo);
@@ -93,9 +117,12 @@ public class RegistarUtilizadorView extends View {
 		nome.setValue(model);
 		username.setValue(model);
 		email.setValue(model);
+		telefone.setValue(model);
+		telemovel.setValue(model);
 		nada.setValue(model);
 		password.setValue(model);
-		confirmar_password.setValue(model);	
+		confirmar_password.setValue(model);
+		s_ass.setValue(model);	
 
 		}
 }

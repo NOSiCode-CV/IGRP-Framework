@@ -44,6 +44,14 @@ public class Settings extends Model{
 	@RParam(rParamName = "p_perfil")
 	private String perfil;
 
+	@RParam(rParamName = "p_s_as")
+	private String s_as;
+
+	@RParam(rParamName = "p_assinatura")
+	private String assinatura;
+	@RParam(rParamName = "p_assinatura_uuid")
+	private String assinatura_uuid;
+
 	@RParam(rParamName = "p_organica")
 	private String organica;
 	
@@ -136,6 +144,26 @@ public class Settings extends Model{
 	}
 	public String getPerfil(){
 		return this.perfil;
+	}
+	
+	public void setS_as(String s_as){
+		this.s_as = s_as;
+	}
+	public String getS_as(){
+		return this.s_as;
+	}
+	
+	public void setAssinatura(String assinatura){
+		this.assinatura = assinatura;
+	}
+	public String getAssinatura(){
+		return this.assinatura;
+	}
+	public void setAssinatura_uuid(String assinatura_uuid){
+		this.assinatura_uuid = assinatura_uuid;
+	}
+	public String getAssinatura_uuid(){
+		return this.assinatura_uuid;
 	}
 	
 	public void setOrganica(String organica){

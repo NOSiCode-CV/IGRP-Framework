@@ -70,35 +70,35 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="100" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Nome</label>
-                    <value>Deserunt aliqua amet laudantium unde</value>
+                    <value>Unde sit stract accusantium magna</value>
                 </nome>
                 <email name="p_email" type="text" maxlength="100" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Email</label>
-                    <value>Consectetur anim unde adipiscing ipsum</value>
+                    <value>Accusantium officia mollit perspiciatis officia</value>
                 </email>
                 <username name="p_username" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Username</label>
-                    <value>Sit totam aliqua sit doloremqu</value>
+                    <value>Deserunt magna omnis ut iste</value>
                 </username>
                 <telefone name="p_telefone" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Telefone</label>
-                    <value>Officia sit rem amet voluptate</value>
+                    <value>Adipiscing amet adipiscing mag</value>
                 </telefone>
                 <telemovel name="p_telemovel" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Telemóvel</label>
-                    <value>Officia consectetur unde lauda</value>
+                    <value>Officia voluptatem amet deseru</value>
                 </telemovel>
                 <ultimo_acesso_igrp name="p_ultimo_acesso_igrp" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Ultimo Acesso IGRP</label>
-                    <value>Adipiscing ut unde natus aperi</value>
+                    <value>Laudantium natus sed ipsum dol</value>
                 </ultimo_acesso_igrp>
                 <ultimo_acesso_rede_estado name="p_ultimo_acesso_rede_estado" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Ultimo Acesso Rede Estado</label>
-                    <value>Rem iste doloremque lorem natu</value>
+                    <value>Sit rem doloremque lorem aliqu</value>
                 </ultimo_acesso_rede_estado>
                 <password_expira_em name="p_password_expira_em" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Password Expira em</label>
-                    <value>Totam doloremque ut laudantium</value>
+                    <value>Adipiscing sit consectetur ut</value>
                 </password_expira_em>
                 <view_1_img type="text" name="p_view_1_img" maxlength="300">
                     <value>../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
@@ -154,6 +154,13 @@
                         </option>
                     </list>
                 </perfil>
+                <s_as name="p_s_as" type="separator" maxlength="250" placeholder="" desclabel="false" right="false">
+                    <label>Assinatura</label>
+                </s_as>
+                <assinatura name="p_assinatura" type="img" persist="true" img="../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" desclabel="false" right="false">
+                    <label>Img</label>
+                    <value>../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png</value>
+                </assinatura>
                 <hidden name="p_organica" type="hidden" maxlength="30" java-type="" tag="organica"/>
             </fields>
         </form_1>

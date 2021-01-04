@@ -1,5 +1,17 @@
 package nosi.webapps.igrp.pages.registarutilizador;
 
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import nosi.webapps.igrp.dao.User;
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
 
 import java.io.IOException;
@@ -15,6 +27,8 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
+
+/*----#end-code----*/
 		
 public class RegistarUtilizadorController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -34,25 +48,58 @@ public class RegistarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","RegistarUtilizador","index", this.queryString()); //if submit, loads the values
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","RegistarUtilizador","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
 		  ----#gen-example */
+	Session session = null;
+	Transaction transaction = null;
+	try{
+	if (model.validate()) {
+		session = Core.getSession(Core.defaultConnection());
+		transaction = session.getTransaction();
+		if(!transaction.isActive())
+			transaction.begin();
+		User user  = new User();
+			user.setSignature_id(user.getSignature_id() == null ? model.getForm_1_img_1_uuid() : user.getSignature_id());
+		session.persist(user);
+		transaction.commit();
+		Core.setMessageSuccess();
+	}
+	else
+		Core.setMessageError();
+	}catch ( Exception e ) {
+		e.printStackTrace();
+		Core.setMessageError("Error: "+ e.getMessage());
+		if (transaction != null)
+			transaction.rollback();
+	}finally {
+		if (session != null && session.isOpen()) {
+			session.close();
+		}
+	}
+	
 		/*----#start-code(guardar)----*/
 
-		boolean isError = false;
+	
 
-		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){			
+		if(Core.isHttpPost()){			
 			
 			if(!model.getPassword().equals(model.getConfirmar_password())){
-				Core.setMessageError("Password inconsistentes ... Tente de novo.");
-				isError = true;
+				Core.setMessageError("Password inconsistentes ... Tente de novo.");				
 				 return this.forward("igrp","RegistarUtilizador","index", this.queryString());
 			}
-				
-			if(!isError){				
+			final String username = model.getUsername().toLowerCase(Locale.ROOT).trim();
+			User usrEmail = Core.findUserByEmail(model.getEmail());//verificar email
+			User usrName = Core.findUserByUsername(username);//verificar username
+			if(usrEmail != null || usrName != null) {
+				Core.setMessageError("Email/Username já existe... por favor escolhe outro!!!");
+				return this.forward("igrp","RegistarUtilizador","index", this.queryString());
+			}				
+						
 				User user = new User();
 				user.setName(model.getNome());
-				final String username = model.getUsername().toLowerCase(Locale.ROOT).trim();
+				
 				user.setPass_hash(nosi.core.webapp.User.encryptToHash(username+ "" + model.getPassword(), "SHA-256"));
 				user.setEmail(model.getEmail().toLowerCase(Locale.ROOT).trim());
 				
@@ -63,13 +110,9 @@ public class RegistarUtilizadorController extends Controller {
 				user.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
 				user.setActivation_key(nosi.core.webapp.User.generateActivationKey());
 				//verificar se o email/username existe
-				User ur_email = new User().findIdentityByEmail(model.getEmail());//verificar email
-				User ur_name = new User().findIdentityByUsername(username);//verificar username
-				if(ur_email != null || ur_name != null) {
-					Core.setMessageError("Email/Username já existe... por favor escolhe outro!!!");
-					return this.forward("igrp","RegistarUtilizador","index", this.queryString());
-				}else 
-					user = user.insert();
+				
+				
+				user = user.insert();
 				
 				if(user.getId()!=null){
 					Application app = new Application().find().andWhere("dad", "=", "tutorial").one();
@@ -93,12 +136,14 @@ public class RegistarUtilizadorController extends Controller {
 				}
 				else
 					Core.setMessageError("Error ao registar uilizador.");
-			}			
+				
 		}	
 		/*----#end-code----*/
 		return this.redirect("igrp","RegistarUtilizador","index", this.queryString());	
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(rParamName = "settings") String sett) throws IOException, IllegalArgumentException, IllegalAccessException{
 		
@@ -110,7 +155,7 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 			view.confirmar_password.setVisible(false);
 	    }
 	    User user = Core.findUserById(Integer.parseInt(idUser));
-		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){			
+		if(Core.isHttpPost()){
 			boolean isError = false;
 			if(!model.getPassword().equals(model.getConfirmar_password())){
 				Core.setMessageError(gt("Password inconsistentes ... Tente de novo."));
@@ -118,7 +163,12 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 			}				
 			if(!isError){
 				user.setName(model.getNome());
+				user.setPhone(model.getTelefone());
+				user.setMobile(model.getTelemovel());
 				user.setUpdated_at(System.currentTimeMillis());
+              	if(Core.isNotNull(model.getForm_1_img_1_uuid()))
+              		user.setSignature_id(model.getForm_1_img_1_uuid());
+              	
 				user = user.update();
 				if(user !=null){
 					Core.setMessageSuccess(gt("Utilizador atualizado com sucesso."));
@@ -132,7 +182,9 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 	        model.setNome(user.getName());
 			model.setUsername(user.getUser_name().toLowerCase().trim());
 			model.setEmail(user.getEmail().toLowerCase(Locale.ROOT));
-			
+			model.setTelefone(user.getPhone());
+			model.setTelemovel(user.getMobile());
+			view.form_1_img_1.setValue( Core.getLinkFileByUuid(user.getSignature_id()));
 		}	
 		
 		view.email.propertie().setProperty("readonly", "true");	
