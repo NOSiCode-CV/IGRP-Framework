@@ -171,7 +171,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 						if (rule.isTable) {
 
-							$.each($('tbody tr',obj.parents('table')),function(i,tr){
+							$.each($('tbody tr',obj.parents('table:first')),function(i,tr){
 								
 								validateAndExecute($('[name="'+fname+'"]',$(tr)),rule);
 								
@@ -283,7 +283,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 		if(fields){
 			var names = fields.split(','),
 			
-				row   = p.isTable ? p.sourceField.parents('tr') : false;
+				row   = p.isTable ? p.sourceField.parents('tr:first') : false;
 			
 			names.forEach(function(n){
 				
