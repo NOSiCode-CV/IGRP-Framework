@@ -42,12 +42,13 @@ import nosi.webapps.igrp.dao.Config_env;
 
 @SuppressWarnings("unchecked")
 public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Serializable {
-
+	
 	/**
-	 * 
+	 *
 	 */
-	private static final long serialVersionUID = 1L;
-	@Expose(serialize = false) @JsonIgnore
+	private static final long serialVersionUID = -2681026559103646326L;
+	@Expose(serialize = false)
+	@JsonIgnore
 	protected String sql="";
 	@Expose(serialize = false) @JsonIgnore
 	protected String alias;
@@ -56,13 +57,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Expose(serialize = false) @JsonIgnore
 	private boolean whereIsCall = false;
 	@Expose(serialize = false) @JsonIgnore
-	private ResolveColumnNameQuery recq;
+	private transient ResolveColumnNameQuery recq;
 	@Expose(serialize = false) @JsonIgnore
 	private int limit = -1;
 	@Expose(serialize = false) @JsonIgnore
 	private int offset = -1;	
 	@Expose(serialize = false) @JsonIgnore
-	private List<DatabaseMetadaHelper.Column> parametersMap;
+	private transient List<DatabaseMetadaHelper.Column> parametersMap;
 	@Expose(serialize = false) @JsonIgnore
 	private String schema = null;
 	@Expose(serialize = false) @JsonIgnore @JsonFormat(shape=JsonFormat.Shape.ARRAY)
@@ -70,17 +71,17 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Expose(serialize = false) @JsonIgnore
 	private boolean isReadOnly = false;
 	@Expose(serialize = false) @JsonIgnore
-	private CriteriaBuilder builder = null;
+	private transient CriteriaBuilder builder = null;
 	@Expose(serialize = false) @JsonIgnore
-	private CriteriaQuery<T> criteria = null;
+	private transient CriteriaQuery<T> criteria = null;
 	@Expose(serialize = false) @JsonIgnore
-	private Root<T> root = null;
+	private transient Root<T> root = null;
 	@Expose(serialize = false) @JsonIgnore
 	private String tableName;
 	@Expose(serialize = false) @JsonIgnore
 	private Class<T> className;
 	@Expose(serialize = false) @JsonIgnore
-	private T classNameCriteria;
+	private transient T classNameCriteria;
 	@Expose(serialize = false) @JsonIgnore
 	private boolean showError = true;
 	@Expose(serialize = false) @JsonIgnore
@@ -93,7 +94,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	private String applicationName;
 	private boolean isShowConsoleSql=false;
 	
-	public BaseActiveRecord() {
+	protected BaseActiveRecord() {
 		this.classNameCriteria = (T) this;
 		this.className = this.getClassType();
 		if(this.className!=null) {
@@ -526,7 +527,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	}
 	
 	private String applyToInCondition(Object[] values) {
-		return String.join(",", Arrays.toString(values)).replaceAll("\\[", "(").replaceAll("\\]", ")");			
+		return String.join(",", Arrays.toString(values)).replace("[", "(").replace("]", ")");			
 	}
 
 	private T whereObject(String name, String operator, Object[] values) {
@@ -739,7 +740,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 	private T orderBy(String[][] orderByNames, String defaultOrder) {
 		if(orderByNames!=null) {
-			String c = " ORDER BY ";
+			StringBuilder c = new StringBuilder(" ORDER BY ");		
     		int i=1;
     		for(String[] names:orderByNames) {
     			String order = names[names.length-1];
@@ -752,10 +753,10 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
     			}
     			for(int j=0;j<newNames.length;j++)
     				newNames[j] = recq.resolveColumnName(this.getAlias(),newNames[j]);
-    			c+= (Arrays.toString(newNames).replaceAll("\\[", "").replaceAll("\\]", "")+" "+order+(i==orderByNames.length?" ":", "));
+    			c.append((Arrays.toString(newNames).replace("[", "").replace("]", "")+" "+order+(i==orderByNames.length?" ":", ")));
     			i++;
     		}
-    		this.filterWhere(c);
+    		this.filterWhere(c.toString());
     	}
 		return (T) this;
 	}
@@ -945,7 +946,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public Map<String, Object> oneColumns(String... columns) {
 		this.limit = 1;
 		List<Map<String, Object>> list = this.allColumns(columns);
-		return (list != null && !list.isEmpty() && list.size() > 0) ? list.get(0) : null;
+		return (list != null && !list.isEmpty()) ? list.get(0) : null;
 	}
 		
 	private boolean beginTransaction(Transaction transaction) {		

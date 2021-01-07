@@ -11,7 +11,7 @@ import java.util.Properties;
 
 import nosi.core.igrp.mingrations.MigrationIGRPInitConfig;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
+
 
 /**
  * Emanuel
@@ -41,18 +41,18 @@ public final class ConfigApp {
 		File file = new File(fileName);
 		Properties props = new Properties();
 		try (FileInputStream fis = new FileInputStream(file)) {
-			props.loadFromXML(fis);
-			fis.close();
+			props.loadFromXML(fis);			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return props;
 	}
-	@Deprecated
+	
 	/**
-	 * Use getMainSettings
+	 * @deprecated (Use getMainSettings)	
 	 * @return loadConfig("common", "main.xml");
 	 */
+	@Deprecated	
 	public Properties loadCommonConfig() {
 		return commonMain;
 }
@@ -69,7 +69,7 @@ public final class ConfigApp {
 	
 	public Properties loadConfig(String filePath, String fileName) {
 		String path = this.config.getBasePathConfig() + File.separator + filePath;
-		return loadConfig(this.getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
+		return loadConfig(this.getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replace("%20", " "));
 	}
 	
 	public String getBaseConnection() {
@@ -85,8 +85,7 @@ public final class ConfigApp {
 			MigrationIGRPInitConfig.start();
 			try {
 				this.save();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} catch (IOException e) {		
 				e.printStackTrace();
 			}
 		}
@@ -112,12 +111,11 @@ public final class ConfigApp {
 	}
 	
 	private void load() throws IOException {
-		Properties p = this.loadProperties("/config/install/install.properties");
-		if(p!=null){
+		Properties p = this.loadProperties("/config/install/install.properties");		
 			this.version = p.getProperty("version");
 			this.data_install = p.getProperty("data_install");
 			this.isInstallation = p.getProperty("isInstallation");
-		}
+		
 	}
 	
 	public void save() throws IOException {
@@ -132,11 +130,12 @@ public final class ConfigApp {
 	}
 	
 	public void saveProperties(Properties p,String fileName) throws IOException {
-		OutputStream out = new FileOutputStream(fileName);	
-		if(out!=null) {
-			p.store(out, "");
-			out.close();
-		}
+		try(OutputStream out = new FileOutputStream(fileName)){			
+			p.store(out, "");			
+		}catch ( IOException e) {
+			e.printStackTrace();
+		  }
+		
 	}
 	public boolean isInstall() {
 		if(Core.isNull(this.isInstallation)) {

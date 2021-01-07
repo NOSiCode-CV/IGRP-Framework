@@ -1,5 +1,6 @@
 
 package cv.nosi.webapps.igrp.pages.changepassword;
+
 import static cv.nosi.core.i18n.Translator.gt;
 
 import java.io.File;
@@ -80,11 +81,12 @@ public class ChangePasswordController extends Controller {
 	
 	private Response db(String currentPassword, String newPassword) throws IOException {
 		User user = Core.getCurrentUser();
-		if(!user.getPass_hash().equals(cv.nosi.core.webapp.component.User.encryptToHash(user.getUser_name()+currentPassword, "SHA-256"))) {
+		String algorithm = "SHA-256";
+		if(!user.getPass_hash().equals(cv.nosi.core.webapp.component.User.encryptToHash(user.getUser_name()+currentPassword, algorithm))) {
 			Core.setMessageError(gt("Senha atual inválida. Tente de novo !!! "));
 			return this.forward("igrp","ChangePassword","index");
 		} 
-		user.setPass_hash(cv.nosi.core.webapp.component.User.encryptToHash(user.getUser_name()+ "" + newPassword, "SHA-256"));
+		user.setPass_hash(cv.nosi.core.webapp.component.User.encryptToHash(user.getUser_name()+ "" + newPassword, algorithm));
 		user.setUpdated_at(System.currentTimeMillis());
 		user = user.update();
 		if(user !=null)

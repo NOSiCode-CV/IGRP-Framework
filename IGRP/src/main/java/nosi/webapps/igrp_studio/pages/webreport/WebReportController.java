@@ -67,19 +67,19 @@ public class WebReportController extends Controller {
 			RepTemplate  rep = new RepTemplate();
 			List<WebReport.Gen_table> data = new ArrayList<>(); 
 			for(RepTemplate r: rep.find().andWhere("status", "=", 1).andWhere("application", "=", env_fk).all()){
-				String params = "";
+				StringBuilder params =new StringBuilder();
 				WebReport.Gen_table t1 = new WebReport.Gen_table();
 				List<RepTemplateSource> listParams = new RepTemplateSource().find().andWhere("repTemplate", "=", r.getId()).all();
-				if(listParams.size() > 0)
+				if(!listParams.isEmpty())
 					for(RepTemplateSource param : listParams)
 						if(param.getParameters() != null) 
 							for(RepTemplateSourceParam p:param.getParameters()) 
-								params += ".addParam(\""+p.getParameter().toLowerCase()+"\",\"?\")";
-				String link = "Core.getLinkReport(\""+r.getCode()+"\")"+params+"; //or Core.getLinkReport(\""+r.getCode()+"\",new nosi.core.webapp.report.Report()"+params+");";
+								params.append(".addParam(\""+p.getParameter().toLowerCase()+"\",\"?\")");
+				String link = "Core.getLinkReport(\""+r.getCode()+"\")"+params.toString()+"; //or Response=> Core.getLinkReport(\""+r.getCode()+"\",new nosi.core.webapp.Report()"+params+");";
 				t1.setDescricao(link);
 				t1.setLink("igrp_studio", "web-report", "load-template&id="+r.getId());
 				t1.setLink_desc(r.getCode());
-				t1.setId(r.getId().intValue());
+				t1.setId(r.getId());
 				t1.setTitle(r.getName());
 				data.add(t1);
 			}
@@ -118,7 +118,7 @@ public class WebReportController extends Controller {
 			String env_fk = Core.getParam("p_env_fk");
 			String id = Core.getParam("p_id");			
 			String [] data_sources = Core.getParamArray("p_datasorce_app");
-			//String [] keys = Igrp.getInstance().getRequest().getParameterValues("p_key");
+			
 			if(fileTxt!=null && fileXsl!=null){
 				CLob clob_xsl = new CLob();
 				CLob clob_html = new CLob();
@@ -202,7 +202,7 @@ public class WebReportController extends Controller {
 				return this.renderView(xml.toString());
 			}
 		}catch(ServletException e){
-          
+			
         }	
 		return this.renderView(FlashMessage.MSG_ERROR);
 		/*----#end-code----*/
@@ -222,7 +222,7 @@ public class WebReportController extends Controller {
 		/*----#start-code(preview)----*/
 		String id = Core.getParam("p_rep_id");
 		String type = Core.getParam("p_type");// se for 0 - preview, se for 1 - registar ocorencia 
-		String xml = "";
+		StringBuilder xml = new StringBuilder();
 		if(Core.isNotNull(id)){
 			RepTemplate rt = new RepTemplate();
 			rt = rt.findOne(Core.toInt(id));
@@ -234,19 +234,17 @@ public class WebReportController extends Controller {
 			
 			//Iterate data source per template
 			for(RepTemplateSource rep : allRepTemplateSource)
-				xml += this.getData(rep,name_array,value_array); 
+				xml.append(this.getData(rep,name_array,value_array)); 
 			
 			String taskId = this.getCurrentTaskId(); 
 			if(taskId != null && !taskId.isEmpty()) {
 				String []allTasksId = taskId.split("-"); 
 				if(allTasksId.length == allRepTemplateSourceTask.size()) 
 					for(int i = 0; i < allRepTemplateSourceTask.size(); i++) 
-						xml += this.getDataForTask(allRepTemplateSourceTask.get(i), allTasksId[i]); 
-			}
-			
-			xml = this.genXml(xml,rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0); 
+						xml.append(this.getDataForTask(allRepTemplateSourceTask.get(i), allTasksId[i])); 
+			}		
 			this.format = Response.FORMAT_XML;
-			return this.renderView(xml);
+			return this.renderView(this.genXml(xml.toString(),rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0));
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
 		/*----#end-code----*/
@@ -257,7 +255,8 @@ public class WebReportController extends Controller {
 		
 /*----#start-code(custom_actions)----*/	
 	public Response actionGetContraprova() throws IOException{
-		String contraprova = Core.getParam("p_contraprova");
+		String contraprova = Core.getParam("ctprov");
+	
 		RepInstance ri = new RepInstance().find().andWhere("contra_prova", "=",contraprova).one();
 		String content = "";
 		if(ri!=null){
@@ -312,21 +311,19 @@ public class WebReportController extends Controller {
 		}*/
 		String []name_array = Core.getParamArray("name_array");
 		String []value_array = Core.getParamArray("value_array");
-		String params = "";
+		StringBuilder params = new StringBuilder();
 		if(name_array!=null && value_array!=null && name_array.length > 0 && value_array.length > 0){
 			for(String n:name_array)
-				params += ("&name_array="+n);
+				params.append(("&name_array="+n));
 			for(String v:value_array)
-				params += ("&value_array="+v);
+				params.append(("&value_array="+v));
 		}
 		this.loadQueryString();
 		this.removeQueryString("name_array");
 		this.removeQueryString("value_array");		
-		/*int isPublic = Core.getParamInt("isPublic"); 
-		if(isPublic == 1)
-			this.addQueryString("isPublic", isPublic); */
+		
 		if(rt!=null)
-			return this.redirect("igrp_studio", "WebReport", "preview&p_rep_id="+rt.getId()+"&p_type=1"+params,this.queryString());
+			return this.redirect("igrp_studio", "WebReport", "preview&p_rep_id="+rt.getId()+"&p_type=1"+params.toString(),this.queryString());
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 	
@@ -492,7 +489,7 @@ public class WebReportController extends Controller {
 		xmlW.startElement("print_report");
 			xmlW.setElement("name_app",rt.getApplication().getDad());
 			xmlW.setElement("img_app",rt.getApplication().getImg_src());
-			xmlW.setElement("link_qrcode",this.getConfig().getResolveUrl("igrp_studio","web-report","contraprova")+ "&p_contraprova="+contra_prova);
+			xmlW.setElement("link_qrcode",Core.getLinkContraProva(contra_prova));
 			xmlW.setElement("img_brasao", "brasao.png");
 			xmlW.emptyTag("name_brasao");
 			xmlW.setElement("data_print",new Date(System.currentTimeMillis()).toString());
@@ -584,7 +581,7 @@ public class WebReportController extends Controller {
 		if(Core.isNotNull(fileName)) {
 			String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
 			// String url2 = Path.getImageServer((Core.isNull(env)?"":env+File.separator)+"reports")+File.separator+fileName;		
-			String url =  baseUrl.toString().replaceAll("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/"+(Core.isNull(env)?"":env+"/")+"reports/"+fileName;
+			String url =  baseUrl.replace("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/"+(Core.isNull(env)?"":env+"/")+"reports/"+fileName;
 			// TODO:  caso nao nada na pasta procurar normal porque pode ser que foi colocado 
 			return this.redirectToUrl(url);
 		}

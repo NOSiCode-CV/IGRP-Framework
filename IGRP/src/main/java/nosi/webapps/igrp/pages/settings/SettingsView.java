@@ -1,11 +1,10 @@
 package nosi.webapps.igrp.pages.settings;
 
-import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
+import static nosi.core.i18n.Translator.gt;
 
 public class SettingsView extends View {
 
@@ -22,6 +21,8 @@ public class SettingsView extends View {
 	public Field idioma;
 	public Field separator_1;
 	public Field perfil;
+	public Field s_as;
+	public Field assinatura;
 	public Field organica;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPView view_1;
@@ -94,6 +95,15 @@ public class SettingsView extends View {
 		perfil.setLabel(gt("Perfil"));
 		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
+		s_as = new SeparatorField(model,"s_as");
+		s_as.setLabel(gt("Assinatura"));
+		s_as.propertie().add("name","p_s_as").add("type","separator").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false");
+		
+		assinatura = new TextField(model,"assinatura");
+		assinatura.setLabel(gt("Img"));
+		assinatura.setValue(gt("../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png"));
+		assinatura.propertie().add("name","p_assinatura").add("type","img").add("img","../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png").add("width","").add("height","").add("croppie","false").add("rounded","false").add("autoupload","false").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false");
+		
 		organica = new HiddenField(model,"organica");
 		organica.setLabel(gt(""));
 		organica.propertie().add("name","p_organica").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","organica");
@@ -129,6 +139,8 @@ public class SettingsView extends View {
 		form_1.addField(idioma);
 		form_1.addField(separator_1);
 		form_1.addField(perfil);
+		form_1.addField(s_as);
+		form_1.addField(assinatura);
 		form_1.addField(organica);
 
 		toolsbar_1.addButton(btn_alterar_senha);
@@ -154,6 +166,7 @@ public class SettingsView extends View {
 		idioma.setValue(model);
 		separator_1.setValue(model);
 		perfil.setValue(model);
+		s_as.setValue(model);
 		organica.setValue(model);	
 
 		}

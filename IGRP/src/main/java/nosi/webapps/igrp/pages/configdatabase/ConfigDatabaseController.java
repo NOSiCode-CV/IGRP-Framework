@@ -360,7 +360,7 @@ public class ConfigDatabaseController extends Controller {
 	}
 	*/
 	private String getHibernateConfig(Config_env config,String package_) {
-		String content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
+		return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
 				"<!DOCTYPE hibernate-configuration PUBLIC\r\n" + 
 				"\"-//Hibernate/Hibernate Configuration DTD 3.0//EN\"\r\n" + 
 				"\"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd\">\n"+ 
@@ -397,7 +397,7 @@ public class ConfigDatabaseController extends Controller {
 				" \t\t-->\n" + 
 				"\t</session-factory>\n"+ 
 				"</hibernate-configuration>";
-		return content;
+		
 	}
 	
 	
