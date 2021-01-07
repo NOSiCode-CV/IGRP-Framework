@@ -2955,6 +2955,16 @@ public final class Core {
 		}
 		return "";
 	}
+	
+	public static String getProcessVariable(String processDefinitionKey, String processInstanceId, String variableName) {
+		List<TaskVariables> vars = Core.getProcessVariables(processDefinitionKey, processInstanceId);
+		if (vars != null) {
+			List<TaskVariables> var = vars.stream().filter(v -> v.getName().equalsIgnoreCase(variableName))
+					.collect(Collectors.toList());
+			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
+		}
+		return "";
+	}
 
 	public static String getProcessVariableId(String processDefinitionKey) {
 		String processInstanceId = Core.getProcessInstaceByTask();
@@ -3143,7 +3153,7 @@ public final class Core {
 	}
 
 	public static void setTaskVariableString(String variableName, String scope, String value) {
-		Core.setTaskVariable(variableName, "global", scope, value);
+		Core.setTaskVariable(variableName, scope, "string", value);
 	}
 
 	public static void setTaskVariableInt(String variableName, String scope, Integer value) {
