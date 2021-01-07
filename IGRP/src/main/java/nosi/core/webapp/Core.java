@@ -1206,7 +1206,9 @@ public final class Core {
 		String url = new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + "" + partial; 
 		return url;
 	}
-
+	public static String getLinkContraProva(String contraProva) {
+		return new Report().getLinkContraProva(contraProva);
+	}
 	
 	/**
 	 * {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}

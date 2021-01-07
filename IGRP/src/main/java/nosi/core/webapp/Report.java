@@ -91,6 +91,10 @@ public class Report extends Controller{
 		}
 		return rep;
 	}
+	
+	public String getLinkContraProva(String contraProva) {
+		return Core.getHostName()+"?r=igrp_studio/web-report/get-contraprova&ctprov="+contraProva;
+	}
 
 	public static String getContraProva(String packageFind) {
 		List<Class<?>> allClasses = ReflectionHelper.findClassesByInterface(ReportKey.class,packageFind);
