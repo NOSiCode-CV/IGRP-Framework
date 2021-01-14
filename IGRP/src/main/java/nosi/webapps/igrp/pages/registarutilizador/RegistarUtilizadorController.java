@@ -184,7 +184,8 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 			model.setEmail(user.getEmail().toLowerCase(Locale.ROOT));
 			model.setTelefone(user.getPhone());
 			model.setTelemovel(user.getMobile());
-			view.form_1_img_1.setValue( Core.getLinkFileByUuid(user.getSignature_id()));
+			if(Core.isNotNull(user.getSignature_id()))
+				view.form_1_img_1.setValue( Core.getLinkFileByUuid(user.getSignature_id()));
 		}	
 		
 		view.email.propertie().setProperty("readonly", "true");	
