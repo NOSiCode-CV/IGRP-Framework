@@ -16,6 +16,8 @@ import java.text.DateFormat;
 import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -770,6 +772,36 @@ public final class Core {
 	 */
 	public static Integer getCurrentYear() {
 		return Core.getCurrentDateCalendar().get(Calendar.YEAR);
+	}
+	
+	/**
+	 * Get Day from a Date 
+	 */
+	public static Integer getDayFromDate(Date date) {
+		
+		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		int day = localDate.getDayOfMonth();
+		return day;
+	}
+	
+	/**
+	 * Get Month from a Date 
+	 */
+	public static Integer getMonthFromDate(Date date) {
+		
+		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		int month = localDate.getMonthValue();
+		return month;
+	}
+	
+	/**
+	 * Get Year from a Date 
+	 */
+	public static Integer getYearFromDate(Date date) {
+		
+		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		int year = localDate.getYear();
+		return year;
 	}
 
 	/**
