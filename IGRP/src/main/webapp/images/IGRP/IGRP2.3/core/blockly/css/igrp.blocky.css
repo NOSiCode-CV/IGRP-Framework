@@ -235,5 +235,16 @@ html[dir=rtl] td.tabmax {
 }
 
 
+.blocklyWidgetDiv .goog-menu{
+	height: 385px;
+	position: fixed !important;
+    top: 125px;
+}
+
+
+.blocklyToolboxDiv{
+	height: 627px !important;
+}
+
 
 
