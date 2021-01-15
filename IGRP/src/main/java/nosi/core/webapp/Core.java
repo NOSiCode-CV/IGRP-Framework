@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.FileNameMap;
 import java.net.URLConnection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.Normalizer;
