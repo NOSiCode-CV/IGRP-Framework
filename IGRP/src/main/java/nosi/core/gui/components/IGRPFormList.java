@@ -60,9 +60,7 @@ public class IGRPFormList extends IGRPSeparatorList {
 	
 	@Override
 	protected void genRows() {
-	
 		int rowIndex = 1; 
-		
 		if(this.data != null && this.data.size() > 0 && this.fields.size() > 0){
 			for(Object obj:this.data){
 				this.xml.startElement("row");
@@ -74,38 +72,40 @@ public class IGRPFormList extends IGRPSeparatorList {
 					}
 					this.xml.endElement();
 				}
-				for(Field field:this.fields){					
-					String val = IgrpHelper.getValue(obj, field.getName());					
-					if(field.getName().equals(this.tag_name + "_id")) {
-						if(val != null && !val.isEmpty()) {
-							this.xml.startElement(this.tag_name + "_id");
-							String []aux = val.split(SPLIT_SEQUENCE);
-							this.xml.text(aux != null && aux.length > 0 ? aux[0] : "");
-							this.xml.endElement();
-						}else {
-							this.xml.startElement(this.tag_name + "_id");
-							this.xml.text((rowIndex++) + "");
-							this.xml.endElement();
-						}						
-						continue;
-					}					
-					if (val != null) {
-						String[] aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved										
-						if (field instanceof FileField) {
-							if(aux.length > 2) {//With temp file
-								TempFile tempFile = TempFileHelper.getTempFile(aux[2]);
-								if(tempFile!=null) {
-									field.propertie().add(TEMP_VALUE, tempFile.getName());
+				for(Field field : this.fields){ 					
+					if(field.isVisible()) {
+						String val = IgrpHelper.getValue(obj, field.getName());					
+						if(field.getName().equals(this.tag_name + "_id")) {
+							if(val != null && !val.isEmpty()) {
+								this.xml.startElement(this.tag_name + "_id");
+								String []aux = val.split(SPLIT_SEQUENCE);
+								this.xml.text(aux != null && aux.length > 0 ? aux[0] : "");
+								this.xml.endElement();
+							}else {
+								this.xml.startElement(this.tag_name + "_id");
+								this.xml.text((rowIndex++) + "");
+								this.xml.endElement();
+							}						
+							continue;
+						}					
+						if (val != null) {
+							String[] aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved										
+							if (field instanceof FileField) {
+								if(aux.length > 2) {//With temp file
+									TempFile tempFile = TempFileHelper.getTempFile(aux[2]);
+									if(tempFile!=null) {
+										field.propertie().add(TEMP_VALUE, tempFile.getName());
+									}else {
+										field.propertie().remove(TEMP_VALUE);
+									}
+									this.genHiddenFieldFile(field, aux[2]);								
+									this.genRowField(field, Core.getLinkTempFile(aux[2]),Core.gt(aux[1]));
 								}else {
-									field.propertie().remove(TEMP_VALUE);
+									this.genRowField(field, aux.length > 0 ? aux[0] : "", aux.length > 1 ? aux[1] : "");
 								}
-								this.genHiddenFieldFile(field, aux[2]);								
-								this.genRowField(field, Core.getLinkTempFile(aux[2]),Core.gt(aux[1]));
 							}else {
 								this.genRowField(field, aux.length > 0 ? aux[0] : "", aux.length > 1 ? aux[1] : "");
 							}
-						}else {
-							this.genRowField(field, aux.length > 0 ? aux[0] : "", aux.length > 1 ? aux[1] : "");
 						}
 					}
 				}
