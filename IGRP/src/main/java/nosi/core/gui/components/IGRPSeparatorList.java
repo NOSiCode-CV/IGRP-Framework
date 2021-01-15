@@ -76,10 +76,8 @@ public class IGRPSeparatorList extends IGRPTable {
 
 	@Override
 	protected void genRows() {
-
 		int rowIndex = 1;
 		this.data = this.modelList;
-
 		if (this.data != null && this.data.size() > 0 && this.fields.size() > 0) {
 			for (Object obj : this.data) {
 				this.xml.startElement("row");//start row
@@ -88,54 +86,48 @@ public class IGRPSeparatorList extends IGRPTable {
 					for (Field field : this.fields) {
 						if (field.isParam())
 							this.xml.setElement("param",
-									field.getName() + "=" + IgrpHelper.getValue(obj, field.getName()));
-
+						field.getName() + "=" + IgrpHelper.getValue(obj, field.getName()));
 					}
 					this.xml.endElement();//end context-menu
 				}
-
 				for (Field field : this.fields) {
-					String val = IgrpHelper.getValue(obj, field.getName());
-
-					if (field.getName().equals(this.tag_name + "_id")) {
-						if (val != null && !val.isEmpty()) {
-							this.xml.startElement(this.tag_name + "_id");
-							String[] aux = val.split(SPLIT_SEQUENCE);
-							this.xml.text(aux != null && aux.length > 0 ? aux[0] : "");
-							this.xml.endElement();
-						} else {
-							this.xml.startElement(this.tag_name + "_id");
-							this.xml.text((rowIndex++) + "");
-							this.xml.endElement();
+					if(field.isVisible()) {
+						String val = IgrpHelper.getValue(obj, field.getName());
+						if (field.getName().equals(this.tag_name + "_id")) {
+							if (val != null && !val.isEmpty()) {
+								this.xml.startElement(this.tag_name + "_id");
+								String[] aux = val.split(SPLIT_SEQUENCE);
+								this.xml.text(aux != null && aux.length > 0 ? aux[0] : "");
+								this.xml.endElement();
+							} else {
+								this.xml.startElement(this.tag_name + "_id");
+								this.xml.text((rowIndex++) + "");
+								this.xml.endElement();
+							}
+							continue;
 						}
-						continue;
-					}
-
-					if ((val == null || val.equals("")) && field.getValue() != null) {
-						val = field.getValue().toString();
-					}
-				
-					if (val != null) {
-						String[] aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved
-										
-						if (field instanceof FileField) {
-							if(aux.length > 2) {//With temp file
-								this.genHiddenFieldFile(field, aux[2]);
-								this.genRowField(field, Core.getLinkTempFile(aux[2]),Core.gt(aux[1]));
+						if ((val == null || val.equals("")) && field.getValue() != null) 
+							val = field.getValue().toString(); 
+						if (val != null) {
+							String[] aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved
+							if (field instanceof FileField) {
+								if(aux.length > 2) {//With temp file
+									this.genHiddenFieldFile(field, aux[2]);
+									this.genRowField(field, Core.getLinkTempFile(aux[2]),Core.gt(aux[1]));
+								}else {
+									this.genRowField(field, aux.length > 0 ? aux[0] : "", aux.length > 1 ? aux[1] : "");
+								}
 							}else {
 								this.genRowField(field, aux.length > 0 ? aux[0] : "", aux.length > 1 ? aux[1] : "");
 							}
-						}else {
-							this.genRowField(field, aux.length > 0 ? aux[0] : "", aux.length > 1 ? aux[1] : "");
 						}
 					}
 				}
 				this.xml.endElement();//end rows
 			}
 		}
-		if (!this.rows.equals("")) {
+		if (!this.rows.equals("")) 
 			this.xml.addXml(this.rows);
-		}
 	}
 
 	protected void genHiddenFieldFile(Field field,String value) {
