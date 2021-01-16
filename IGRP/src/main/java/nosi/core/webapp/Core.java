@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.FileNameMap;
 import java.net.URLConnection;
-import java.util.Date;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.Normalizer;
@@ -42,7 +42,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
-import javax.xml.soap.SOAPConstants;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -101,7 +100,6 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.Domain;
-import nosi.webapps.igrp.dao.Mapping;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumento;
@@ -1211,11 +1209,11 @@ public final class Core {
 	@SuppressWarnings("unchecked")
 	public static Response getLinkReport(String code_report, Object report) {
 		Report rep = new Report();
-		if (report != null && report instanceof QueryString) {
+		if (report instanceof QueryString) {
 			((QueryString<String, Object>) report).getQueryString().entrySet().stream().forEach(q -> {
 				rep.addParam(q.getKey(), q.getValue());
 			});
-		} else if (report != null && report instanceof Report) {
+		} else if (report instanceof Report) {
 			return new Report().invokeReport(code_report, (Report) report);
 		}
 		return new Report().invokeReport(code_report, rep);
@@ -2201,8 +2199,8 @@ public final class Core {
 	}
 	
 
-	@Deprecated
-	/** Deprecated use updateFile with uuid
+	
+	/** @deprecated Deprecated use updateFile with uuid
 	 * 
 	 * @param content
 	 * @param name
@@ -2210,15 +2208,16 @@ public final class Core {
 	 * @param id
 	 * @return
 	 */
+	@Deprecated
 	public static boolean updateFile(byte[] content, String name, String mime_type, Integer id) {
 		try {
 			if(Core.isNotNull(name)) {
 				String extension = name.substring(name.lastIndexOf("."));
 				File file = File.createTempFile(name, extension);
-				FileOutputStream out = new FileOutputStream(file);
+				try(FileOutputStream out = new FileOutputStream(file)){
 				out.write(content);
 				out.flush();
-				out.close();
+				}
 				return updateFile(file, name,mime_type, Core.getCurrentDad(),id);
 			}
 		} catch (Exception e) {
@@ -2241,11 +2240,11 @@ public final class Core {
 			if(Core.isNotNull(name)) {
 				String extension = name.substring(name.lastIndexOf("."));
 				File file = File.createTempFile(name, extension);
-				FileOutputStream out = new FileOutputStream(file);
+				try (FileOutputStream out = new FileOutputStream(file)){
 				out.write(content);
 				out.flush();
-				out.close();
 				return updateFile(file, name,mime_type, Core.getCurrentDad(),uuid);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2254,13 +2253,14 @@ public final class Core {
 	}
 
 
-	@Deprecated
-	/** Deprecated use updateFile with uuid
-	 * 
+	
+	/** 
+	 * @deprecated Deprecated use updateFile with uuid
 	 * @param file
 	 * @param id
 	 * @return
 	 */
+	@Deprecated
 	public static boolean updateFile(File file,Integer id) {
 		return updateFile(file, null, null,id);
 	}
@@ -2275,14 +2275,15 @@ public final class Core {
 	public static boolean updateFile(File file,String uuid) {
 		return updateFile(file, null, null,uuid);
 	}
-	@Deprecated
-	/** Deprecated use updateFile with uuid
-	 * 
+	
+	/** 
+	 * @deprecated Deprecated use updateFile with uuid
 	 * @param parameterName
 	 * @param id
 	 * @return
 	 * @throws Exception
-	 */
+	 */	
+	@Deprecated
 	public static boolean updateFile(String parameterName,Integer id) throws Exception {
 		if (Core.isNotNull(parameterName))
 			return updateFile(Core.getFile(parameterName), Core.getFile(parameterName).getSubmittedFileName(),id);
@@ -2508,7 +2509,6 @@ public final class Core {
 			try {
 				result = updateFile(FileHelper.convertInputStreamToByte(part.getInputStream()),name,part.getContentType(),uuid);
 			} catch (IOException e) {
-				result = false;
 				e.printStackTrace();
 			}finally {
 				try {
@@ -2520,8 +2520,8 @@ public final class Core {
 		}
 		return result;
 	}
-	@Deprecated 
-	/**Use saveFileNGetUuid
+	
+	/**@deprecated Use saveFileNGetUuid
 	 * 
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
@@ -2530,16 +2530,17 @@ public final class Core {
 	 * @param mime_type
 	 * @return in ID
 	 */
+	@Deprecated 
 	public static Integer saveFile(byte[] content, String name, String mime_type) {
 		Integer id = new Integer(0);
 		try {
 			if(Core.isNotNull(name)) {
 				String extension = name.substring(name.lastIndexOf("."));
 				File file = File.createTempFile(name, extension);
-				FileOutputStream out = new FileOutputStream(file);
+				try(FileOutputStream out = new FileOutputStream(file)){
 				out.write(content);
-				out.flush();
-				out.close();				
+				out.flush();				
+				}
 				String uuid = Core.saveFileNGetUuid(file, name,mime_type, Core.getCurrentDad());
 				if(Core.isNull(uuid)) {			
 					Core.setMessageError("Error saving file.");
@@ -2567,10 +2568,10 @@ public final class Core {
 			if(Core.isNotNull(name)) {
 				String extension = name.substring(name.lastIndexOf("."));
 				File file = File.createTempFile(name, extension);
-				FileOutputStream out = new FileOutputStream(file);
+				try(FileOutputStream out = new FileOutputStream(file)){
 				out.write(content);
 				out.flush();
-				out.close();
+				}
 				return Core.saveFileNGetUuid(file, name,mime_type, (Core.isNotNull(Core.getCurrentDad()) && !Core.getCurrentDad().equalsIgnoreCase("igrp")?Core.getCurrentDad():Core.getCurrentDadParam()));
 			}
 		} catch (Exception e) {
@@ -2579,8 +2580,8 @@ public final class Core {
 		return "";
 	}
 
-	@Deprecated
-	/**Use saveFileNGetUuid()
+	
+	/**@deprecated Use saveFileNGetUuid()
 	 * Insert a Part to the Igrp core DataBase and return an Id ...
 	 * 
 	 * {@code  	 
@@ -2597,6 +2598,7 @@ public final class Core {
 	 * @param part
 	 * @return {@code saveFile(part,part.getSubmittedFileName());}
 	 */
+	@Deprecated
 	public static Integer saveFile(Part part) {
 		if(part!=null)
 			return Core.saveFile(part,part.getSubmittedFileName());
@@ -2625,13 +2627,14 @@ public final class Core {
 		return "";
 	}
 	
-	@Deprecated
-	/**Use saveFileNGetUuid()
+	
+	/** @deprecated Use saveFileNGetUuid()
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
 	 * @param file
 	 * @return in ID
 	 */
+	@Deprecated
 	public static Integer saveFile(File file) {
 		return Core.saveFile(file, null, null);
 	}
@@ -2957,7 +2960,7 @@ public final class Core {
 		String taskExecutionId = Core.getParam(BPMNConstants.PRM_TASK_EXECUTION_ID);
 		if (Core.isNull(taskExecutionId)) {
 			List<HistoricTaskService> task = new TaskServiceIGRP().getTaskServiceRest().getHistory(taskId);
-			taskExecutionId = (task != null && task.size() > 0) ? task.get(task.size() - 1).getExecutionId()
+			taskExecutionId = (task != null && !task.isEmpty()) ? task.get(task.size() - 1).getExecutionId()
 					: taskExecutionId;
 		}
 		Core.setAttribute(BPMNConstants.PRM_TASK_EXECUTION_ID, taskExecutionId);
@@ -2985,7 +2988,7 @@ public final class Core {
 		if (vars != null) {
 			List<TaskVariables> var = vars.stream().filter(v -> v.getName().equalsIgnoreCase(variableName))
 					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
+			return (var != null && !var.isEmpty()) ? (String) var.get(var.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -2995,7 +2998,7 @@ public final class Core {
 		if (vars != null) {
 			List<TaskVariables> var = vars.stream().filter(v -> v.getName().equalsIgnoreCase(variableName))
 					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
+			return (var != null && !var.isEmpty()) ? (String) var.get(var.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3006,7 +3009,7 @@ public final class Core {
 		if (vars != null) {
 			List<TaskVariables> var = vars.stream().filter(v -> v.getName().equalsIgnoreCase(BPMNConstants.PRM_PROCESS_ID))
 					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
+			return (var != null && !var.isEmpty()) ? (String) var.get(var.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3036,7 +3039,7 @@ public final class Core {
 	private static List<TaskVariables> getProcessVariables(String processDefinitionKey,String processInstanceId) {
 		List<HistoricProcessInstance> task1 = new ProcessInstanceServiceRest()
 				.getHistoryOfProccessInstanceId(processDefinitionKey,processInstanceId,false);
-		if (task1 != null && task1.size() > 0) {
+		if (task1 != null && !task1.isEmpty()) {
 			return task1.get(task1.size() - 1).getVariables();
 		}
 		return null;
@@ -3049,7 +3052,7 @@ public final class Core {
 	private static List<TaskVariables> getProcessVariables(String processDefinitionKey) {
 		List<HistoricProcessInstance> task1 = new ProcessInstanceServiceRest()
 				.getHistoryOfProccessInstanceId(processDefinitionKey);
-		if (task1 != null && task1.size() > 0) {
+		if (task1 != null && !task1.isEmpty()) {
 			return task1.get(task1.size() - 1).getVariables();
 		}
 		return null;
@@ -3063,7 +3066,7 @@ public final class Core {
 		String id = Core.getExecutionId();
 		if (Core.isNotNull(id)) {
 			List<HistoricTaskService> task1 = new TaskServiceRest().getHistory(taskDefinitionKey, id);
-			if (task1 != null && task1.size() > 0) {
+			if (task1 != null && !task1.isEmpty()) {
 				return task1.get(task1.size() - 1);
 			}
 		}
@@ -3121,7 +3124,7 @@ public final class Core {
 			List<TaskVariables> var = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
 					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? ""+ var.get(var.size() - 1).getValue() : "";
+			return (var != null && !var.isEmpty()) ? ""+ var.get(var.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3137,7 +3140,7 @@ public final class Core {
 			List<TaskVariables> var = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
 					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? ""+var.get(var.size() - 1).getValue() : "";
+			return (var != null && !var.isEmpty()) ? ""+var.get(var.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3320,7 +3323,7 @@ public final class Core {
 			List<TaskVariables> var = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
 					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : null;
+			return (var != null && !var.isEmpty()) ? (String) var.get(var.size() - 1).getValue() : null;
 		}
 		return null;
 	}
@@ -3331,7 +3334,7 @@ public final class Core {
 			List<TaskVariables> var = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
 					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : null;
+			return (var != null && !var.isEmpty()) ? (String) var.get(var.size() - 1).getValue() : null;
 		}
 		return null;
 	}
@@ -3342,7 +3345,7 @@ public final class Core {
 			List<TaskVariables> var = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + "p_task_id"))
 					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
+			return (var != null && !var.isEmpty()) ? (String) var.get(var.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3351,7 +3354,7 @@ public final class Core {
 		String id = Core.getExecutionId();
 		if (Core.isNotNull(id)) {
 			List<HistoricTaskService> task1 = new TaskServiceRest().getHistory(taskDefinitionKey, id);
-			if (task1 != null && task1.size() > 0) {
+			if (task1 != null && !task1.isEmpty()) {
 				return task1.get(task1.size() - 1).getVariables();
 			}
 		}

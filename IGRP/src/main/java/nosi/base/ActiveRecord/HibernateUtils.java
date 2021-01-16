@@ -4,7 +4,6 @@ package nosi.base.ActiveRecord;
  * 29 May 2018
  */
 
-import java.io.File;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -22,7 +21,6 @@ import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
-import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.webapps.igrp.dao.Config_env;
 
@@ -128,9 +126,9 @@ public class HibernateUtils {
 			Map<String, String> configurationValues) {
 		if (configurationValues != null) {
 			Map<Object, Object> user = configurationValues.entrySet().stream()
-					.filter(key -> key.getKey().toString().equals(AvailableSettings.USER)
-							|| key.getKey().toString().equals(AvailableSettings.PASS)
-							|| key.getKey().toString().equals(AvailableSettings.URL))
+					.filter(key -> key.getKey().equals(AvailableSettings.USER)
+							|| key.getKey().equals(AvailableSettings.PASS)
+							|| key.getKey().equals(AvailableSettings.URL))
 					.collect(Collectors.toMap(k -> k, v -> v));
 			/**
 			 * Check if connection configuration in hibernate file
@@ -235,31 +233,30 @@ public class HibernateUtils {
 		return config;
 	}
 
-	public synchronized static void destroy() {
+	public static synchronized  void destroy() {
 		if (registry != null) {
 			StandardServiceRegistryBuilder.destroy(registry);
 			registry = null;
 		}
 	}
 
-	public synchronized static void unregisterAllDrivers() {
+	public static synchronized  void unregisterAllDrivers() {
 		Enumeration<Driver> drivers = DriverManager.getDrivers();
 		while (drivers.hasMoreElements()) {
 			try {
 				DriverManager.deregisterDriver(drivers.nextElement());
 			} catch (SQLException e) {
-				e.printStackTrace();
-				continue;
+				e.printStackTrace();				
 			}
 		}
 	}
 
 	public static void closeAllConnection() {
-		if (SESSION_FACTORY != null) {
-			SESSION_FACTORY.entrySet().stream().forEach(s -> {
-				s.getValue().close();
-			});
-		}
+		
+			SESSION_FACTORY.entrySet().stream().forEach(s -> 
+				s.getValue().close()
+			);
+		
 		if(SESSION_FACTORY_IGRP!=null)
 			SESSION_FACTORY_IGRP.close();
 
@@ -268,9 +265,9 @@ public class HibernateUtils {
 	}
 
 	public static void removeSessionFactory(String connectionName) {
-		if (SESSION_FACTORY != null) {
+		
 			SESSION_FACTORY.remove(connectionName);
-		}
+		
 	}
 
 }
