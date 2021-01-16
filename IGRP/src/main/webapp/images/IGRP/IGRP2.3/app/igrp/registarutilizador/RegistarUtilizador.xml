@@ -61,23 +61,23 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nome</label>
-                    <value>Sed aliqua doloremque lorem stract</value>
+                    <value>Labore elit voluptatem laudantium dolor</value>
                 </nome>
                 <username name="p_username" type="text" maxlength="50" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Username</label>
-                    <value>Dolor totam laudantium consectetur ipsum</value>
+                    <value>Sed adipiscing sed elit officia</value>
                 </username>
                 <email name="p_email" type="email" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
                     <label>Email</label>
-                    <value>faz@example.com</value>
+                    <value>inondo@example.com</value>
                 </email>
                 <telefone name="p_telefone" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
                     <label>Telefone</label>
-                    <value>Dolor consectetur labore dolor iste</value>
+                    <value>Anim lorem ipsum totam deserunt</value>
                 </telefone>
                 <telemovel name="p_telemovel" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
                     <label>Telemóvel</label>
-                    <value>Stract officia accusantium lorem doloremque</value>
+                    <value>Perspiciatis officia sit ut iste</value>
                 </telemovel>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
                     <label></label>
@@ -91,11 +91,11 @@
                     <value>******</value>
                 </confirmar_password>
                 <s_ass name="p_s_ass" type="separator" maxlength="250" placeholder="" desclabel="false" right="false">
-                    <label>Assinatura</label>
+                    <label/>
                 </s_ass>
-                <form_1_img_1 name="p_form_1_img_1" type="img" persist="true" img="../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png" width="300" height="70" croppie="true" rounded="false" autoupload="true" maxlength="250" placeholder="" desclabel="false" right="false">
-                    <label>Img</label>
-                    <value>../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png</value>
+                <form_1_img_1 name="p_form_1_img_1" type="file" accept="image/*" targetrend="" multiple="false" rendvalue="false" maxlength="250" required="false" disabled="false" right="false" class="black">
+                    <label>Assinatura</label>
+                    <value/>
                 </form_1_img_1>
             </fields>
         </form_1>
@@ -106,23 +106,20 @@
             <import type="dao">User</import>
         </imports>
         <xml>
-            <block type="controller" id="controller" x="388" y="13">
-                <statement name="guardar">
-                    <block type="save_formu_form_1" id="5_0yzhXQ|8wgp-vtxSA{" inline="true">
-                        <mutation count="0" pxchecked="false"></mutation>
-                        <field name="dao">User</field>
-                        <field name="EDIT">FALSE</field>
-                        <statement name="value2">
-                            <block type="set-dao-User" id="|?RBG*M}mgC?7OHT6#W2" inline="false">
-                                <mutation hover_type="String::signature_id"></mutation>
-                                <field name="DAO_FIELD">String::signature_id</field>
-                                <value name="value1">
-                                    <block type="mod_formform_1" id="3k9H/J`J:LPzY-QsmIFO">
-                                        <field name="get_model">Image::form_1_img_1</field>
-                                    </block>
-                                </value>
+            <block type="controller" id="controller" x="388" y="13"></block>
+            <block type="save_formu_form_1" id="5_0yzhXQ|8wgp-vtxSA{" inline="true" x="663" y="163">
+                <mutation count="0" pxchecked="false"></mutation>
+                <field name="dao">User</field>
+                <field name="EDIT">FALSE</field>
+                <statement name="value2">
+                    <block type="set-dao-User" id="|?RBG*M}mgC?7OHT6#W2" inline="false">
+                        <mutation hover_type="String::signature_id"></mutation>
+                        <field name="DAO_FIELD">String::signature_id</field>
+                        <value name="value1">
+                            <block type="mod_formform_1" id="3k9H/J`J:LPzY-QsmIFO">
+                                <field name="get_model">Image::form_1_img_1</field>
                             </block>
-                        </statement>
+                        </value>
                     </block>
                 </statement>
             </block>

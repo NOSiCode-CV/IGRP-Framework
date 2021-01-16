@@ -71,13 +71,12 @@ public class RegistarUtilizadorView extends View {
 		confirmar_password.propertie().add("name","p_confirmar_password").add("type","password").add("maxlength","20").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		s_ass = new SeparatorField(model,"s_ass");
-		s_ass.setLabel(gt("Assinatura"));
+		s_ass.setLabel(gt(""));
 		s_ass.propertie().add("name","p_s_ass").add("type","separator").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false");
 		
-		form_1_img_1 = new TextField(model,"form_1_img_1");
-		form_1_img_1.setLabel(gt("Img"));
-		form_1_img_1.setValue(gt("../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png"));
-		form_1_img_1.propertie().add("name","p_form_1_img_1").add("type","img").add("img","../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png").add("width","300").add("height","70").add("croppie","true").add("rounded","false").add("autoupload","true").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false");
+		form_1_img_1 = new FileField(model,"form_1_img_1");
+		form_1_img_1.setLabel(gt("Assinatura"));
+		form_1_img_1.propertie().add("name","p_form_1_img_1").add("type","file").add("accept","image/*").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","250").add("required","false").add("disabled","false").add("class","black");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -122,7 +121,8 @@ public class RegistarUtilizadorView extends View {
 		nada.setValue(model);
 		password.setValue(model);
 		confirmar_password.setValue(model);
-		s_ass.setValue(model);	
+		s_ass.setValue(model);
+		form_1_img_1.setValue(model);	
 
 		}
 }

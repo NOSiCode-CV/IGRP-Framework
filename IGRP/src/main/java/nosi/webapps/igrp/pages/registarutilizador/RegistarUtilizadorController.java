@@ -52,33 +52,6 @@ public class RegistarUtilizadorController extends Controller {
 		  return this.forward("igrp","RegistarUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
-	Session session = null;
-	Transaction transaction = null;
-	try{
-	if (model.validate()) {
-		session = Core.getSession(Core.defaultConnection());
-		transaction = session.getTransaction();
-		if(!transaction.isActive())
-			transaction.begin();
-		User user  = new User();
-			user.setSignature_id(user.getSignature_id() == null ? model.getForm_1_img_1_uuid() : user.getSignature_id());
-		session.persist(user);
-		transaction.commit();
-		Core.setMessageSuccess();
-	}
-	else
-		Core.setMessageError();
-	}catch ( Exception e ) {
-		e.printStackTrace();
-		Core.setMessageError("Error: "+ e.getMessage());
-		if (transaction != null)
-			transaction.rollback();
-	}finally {
-		if (session != null && session.isOpen()) {
-			session.close();
-		}
-	}
-	
 		/*----#start-code(guardar)----*/
 
 	
@@ -109,7 +82,16 @@ public class RegistarUtilizadorController extends Controller {
 				user.setUpdated_at(System.currentTimeMillis());
 				user.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
 				user.setActivation_key(nosi.core.webapp.User.generateActivationKey());
-				//verificar se o email/username existe
+				
+				user.setPhone(model.getTelefone());
+				user.setMobile(model.getTelemovel());
+				user.setUpdated_at(System.currentTimeMillis());              	
+					try {
+						if(Core.isNotNull(model.getForm_1_img_1()))
+							user.setSignature_id(Core.saveFileNGetUuid(model.getForm_1_img_1()));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				
 				
 				user = user.insert();
@@ -165,9 +147,13 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 				user.setName(model.getNome());
 				user.setPhone(model.getTelefone());
 				user.setMobile(model.getTelemovel());
-				user.setUpdated_at(System.currentTimeMillis());
-              	if(Core.isNotNull(model.getForm_1_img_1_uuid()))
-              		user.setSignature_id(model.getForm_1_img_1_uuid());
+				user.setUpdated_at(System.currentTimeMillis());              	
+					try {
+						if(Core.isNotNull(model.getForm_1_img_1()))
+							user.setSignature_id(Core.saveFileNGetUuid(model.getForm_1_img_1()));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
               	
 				user = user.update();
 				if(user !=null){
@@ -184,8 +170,7 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 			model.setEmail(user.getEmail().toLowerCase(Locale.ROOT));
 			model.setTelefone(user.getPhone());
 			model.setTelemovel(user.getMobile());
-			if(Core.isNotNull(user.getSignature_id()))
-				view.form_1_img_1.setValue( Core.getLinkFileByUuid(user.getSignature_id()));
+			
 		}	
 		
 		view.email.propertie().setProperty("readonly", "true");	
