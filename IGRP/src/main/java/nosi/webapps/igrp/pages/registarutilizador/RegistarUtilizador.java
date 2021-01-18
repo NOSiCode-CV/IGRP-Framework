@@ -2,6 +2,7 @@ package nosi.webapps.igrp.pages.registarutilizador;
 
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.uploadfile.UploadFile;
 
 public class RegistarUtilizador extends Model{		
 
@@ -36,9 +37,7 @@ public class RegistarUtilizador extends Model{
 	private String s_ass;
 
 	@RParam(rParamName = "p_form_1_img_1")
-	private String form_1_img_1;
-	@RParam(rParamName = "p_form_1_img_1_uuid")
-	private String form_1_img_1_uuid;
+	private UploadFile form_1_img_1;
 	
 	public void setTitulo_text(String titulo_text){
 		this.titulo_text = titulo_text;
@@ -110,17 +109,11 @@ public class RegistarUtilizador extends Model{
 		return this.s_ass;
 	}
 	
-	public void setForm_1_img_1(String form_1_img_1){
+	public void setForm_1_img_1(UploadFile form_1_img_1){
 		this.form_1_img_1 = form_1_img_1;
 	}
-	public String getForm_1_img_1(){
+	public UploadFile getForm_1_img_1(){
 		return this.form_1_img_1;
-	}
-	public void setForm_1_img_1_uuid(String form_1_img_1_uuid){
-		this.form_1_img_1_uuid = form_1_img_1_uuid;
-	}
-	public String getForm_1_img_1_uuid(){
-		return this.form_1_img_1_uuid;
 	}
 
 
