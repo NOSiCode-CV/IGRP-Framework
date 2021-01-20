@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import nosi.core.webapp.helpers.GUIDGenerator;
 import nosi.core.webapp.helpers.ReflectionHelper;
 import nosi.core.webapp.helpers.Route;
+import nosi.webapps.igrp.dao.RepTemplate;
 
 /**
  * 
@@ -22,11 +23,14 @@ public class Report extends Controller{
 	private Map<String,Object> params = new HashMap<>();
 	private String qs = "";
 	private String link;
-	
+	private String contraProva;
 
 	@SuppressWarnings("unchecked")
 	public Response invokeReport(String code_report,Report rep){
-		qs+="&p_rep_code="+code_report;
+	qs+="&p_rep_code="+code_report;
+	RepTemplate rt = new RepTemplate().find().andWhere("code", "=", code_report).one();
+	String contra_prova = Report.generateContraProva("nosi.webapps."+rt.getApplication().getDad().toLowerCase());
+	qs+="&ctpr="+contra_prova;
 		if(rep!=null) 
 			for(Entry<String, Object> p : rep.getParams().entrySet()) 
 				if(!(p.getValue() instanceof List)) {
@@ -43,7 +47,9 @@ public class Report extends Controller{
 				}
 		
 		try {
-			return this.redirect("igrp_studio", "web-report", "get-link-report"+qs);
+			Response redirect = this.redirect("igrp_studio", "web-report", "get-link-report"+qs);
+			redirect.setContent(contra_prova);
+			return redirect;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -56,9 +62,13 @@ public class Report extends Controller{
 	
 	public Report getLinkReport(String code_report, boolean isPublic){
 		Report rep = new Report(); 
+		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", code_report).one();
+		String contra_prova = Report.generateContraProva("nosi.webapps."+rt.getApplication().getDad().toLowerCase());
 		if(isPublic) 
 			Core.setAttribute("isPublic", "1"); 
-			rep.setLink(Route.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&p_rep_code="+code_report); 
+		
+		rep.setLink(Route.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&p_rep_code="+code_report+"&ctpr="+contra_prova); 
+		rep.setContraProva(contra_prova);
 		return rep;
 	}
 	
@@ -83,12 +93,16 @@ public class Report extends Controller{
 
 	public Report getLinkReport(String code_report, QueryString<String, Object> queryString) {
 		Report rep = new Report();
-		rep.setLink(Route.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&p_rep_code="+code_report);
+		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", code_report).one();
+		String contra_prova = Report.generateContraProva("nosi.webapps."+rt.getApplication().getDad().toLowerCase());
+	
+		rep.setLink(Route.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&p_rep_code="+code_report+"&ctpr="+contra_prova);
 		if(queryString!=null) {
-			queryString.getQueryString().entrySet().stream().forEach(q->{
-				rep.addParam(q.getKey(), q.getValue().get(0));
-			});
+			queryString.getQueryString().entrySet().stream().forEach(q->
+				rep.addParam(q.getKey(), q.getValue().get(0))
+			);
 		}
+		rep.setContraProva(contra_prova);
 		return rep;
 	}
 	
@@ -96,7 +110,7 @@ public class Report extends Controller{
 		return Core.getHostName()+"?r=igrp_studio/web-report/get-contraprova&ctprov="+contraProva;
 	}
 
-	public static String getContraProva(String packageFind) {
+	public static String generateContraProva(String packageFind) {
 		List<Class<?>> allClasses = ReflectionHelper.findClassesByInterface(ReportKey.class,packageFind);
 		if(allClasses != null) {
 			for(Class<?> c:allClasses) {
@@ -109,6 +123,22 @@ public class Report extends Controller{
 			}
 		}
 		return GUIDGenerator.getGUIDUpperCase();
+	}
+
+
+
+	/**
+	 * @return the contraProva
+	 */
+	public String getContraProva() {
+		return contraProva;
+	}
+
+	/**
+	 * @param contraProva the contraProva to set
+	 */
+	public void setContraProva(String contraProva) {
+		this.contraProva = contraProva;
 	}
 	
 }
