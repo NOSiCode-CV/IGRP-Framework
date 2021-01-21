@@ -45,7 +45,7 @@ var xslpath = '../../',
 		  				label : 'Custom Footer',
 		  				name  : 'wr_customfooter',
 		  				value : '<div class="holder-footer">'+
-		  					'<div id="containerQrcode"></div>'+
+		  					'<div class="containerQrcode"></div>'+
 							'<div class="rfooter">'+
 							    '<div class="userprint"><span footer="footer" no="print_report" tag="user_print">Nome Utilizador Logado</span>/'+
 							    '<span no="print_report" footer="footer" tag="data_print">Data da Impressão</span></div>'+
