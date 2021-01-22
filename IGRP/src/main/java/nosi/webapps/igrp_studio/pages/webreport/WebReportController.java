@@ -20,7 +20,6 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Report;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.bpmn.BPMNConstants;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
 import nosi.core.webapp.datasource.helpers.DataSourceParam;
@@ -222,6 +221,7 @@ public class WebReportController extends Controller {
 		/*----#start-code(preview)----*/
 		String id = Core.getParam("p_rep_id");
 		String type = Core.getParam("p_type");// se for 0 - preview, se for 1 - registar ocorencia 
+		String contraProva= Core.getParam("ctpr");
 		StringBuilder xml = new StringBuilder();
 		if(Core.isNotNull(id)){
 			RepTemplate rt = new RepTemplate();
@@ -244,7 +244,7 @@ public class WebReportController extends Controller {
 						xml.append(this.getDataForTask(allRepTemplateSourceTask.get(i), allTasksId[i])); 
 			}		
 			this.format = Response.FORMAT_XML;
-			return this.renderView(this.genXml(xml.toString(),rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0));
+			return this.renderView(this.genXml(xml.toString(),rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0,contraProva));
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
 		/*----#end-code----*/
@@ -303,12 +303,7 @@ public class WebReportController extends Controller {
 	public Response actionGetLinkReport() throws IOException{
 		String p_code = Core.getParam("p_rep_code");
 		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", p_code).one();
-		/*
-		if(!(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()) && rt.getStatus()!=2 ){
-			//User without login
-			Core.setMessageError("Report not public! Status not 2");
-			return this.redirect("igrp", "ErrorPage", "exception");
-		}*/
+
 		String []name_array = Core.getParamArray("name_array");
 		String []value_array = Core.getParamArray("value_array");
 		StringBuilder params = new StringBuilder();
@@ -323,7 +318,7 @@ public class WebReportController extends Controller {
 		this.removeQueryString("value_array");		
 		
 		if(rt!=null)
-			return this.redirect("igrp_studio", "WebReport", "preview&p_rep_id="+rt.getId()+"&p_type=1"+params.toString(),this.queryString());
+			return this.redirect("igrp_studio", "WebReport", "preview&p_rep_id="+rt.getId()+"&p_type=1&ctpr="+Core.getParam("ctpr")+params.toString(),this.queryString());
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 	
@@ -449,31 +444,32 @@ public class WebReportController extends Controller {
 	/*Gen final XML for Web Report
 	 * 
 	 */
-	private String genXml(String contentXml,RepTemplate rt,int type){
+	private String genXml(String contentXml,RepTemplate rt,int type, String contraProva){
 		Core.setAttribute("current_app_conn", rt.getApplication().getDad());
 		String packageFind = "nosi.webapps."+rt.getApplication().getDad().toLowerCase();
-		String contra_prova = Report.getContraProva(packageFind);
+		if(Core.isNull(contraProva))
+			contraProva = Report.generateContraProva(packageFind);
 		User user = null;
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){
 			user = new User();
 			Integer user_id = Core.getCurrentUser().getId();			
 			user = user.findOne(user_id);
 		}		
-		String content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replaceAll("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contra_prova, rt,user);
+		String content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replace("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contraProva, rt,user);
 		if(type==1){
 //			Saves in the clob a report generated in this moment
 			RepInstance ri = new RepInstance();
-			ri.setContra_prova(contra_prova);
+			ri.setContra_prova(contraProva);
 			ri.setApplication(rt.getApplication());
 			ri.setDt_created(new Date(System.currentTimeMillis()));
-			ri.setReference(contra_prova);
+			ri.setReference(contraProva);
 			ri.setTemplate(rt);
 			ri.setUser(user);
 			CLob xsl = new CLob(System.currentTimeMillis()+"_"+rt.getName()+".xsl", "application/xsl", rt.getXsl_content().getC_lob_content(), ri.getDt_created(),rt.getApplication());			
 			xsl = xsl.insert();
 			
 			if(xsl!=null){
-				content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replaceAll("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+xsl.getId(), contra_prova, rt,user);
+				content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replace("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+xsl.getId(), contraProva, rt,user);
 				CLob xml = new CLob(System.currentTimeMillis()+"_"+rt.getName()+".xml", "application/xml", content.getBytes(), ri.getDt_created(),rt.getApplication());
 				xml = xml.insert();
 				ri.setXml_content(xml);
@@ -551,14 +547,14 @@ public class WebReportController extends Controller {
 						
 						String workSpace = Path.getImageWorkSpace((env.equals("")?"":env+File.separator)+"reports");
 						if(Core.isNotNull(workSpace))//Saving in your workspace case exists
-							r = FileHelper.saveImage(workSpace, fileName,extensionName.toLowerCase(), file);
+							FileHelper.saveImage(workSpace, fileName,extensionName.toLowerCase(), file);
 						//Saving into server
 						r = FileHelper.saveImage(Path.getImageServer((env.equals("")?"":env+File.separator)+"reports"), fileName,extensionName.toLowerCase(), file);
 					}
 				}
 			}
 		} catch (ServletException e) {
-			r = false;
+		
 		}
 		String link = "?r=igrp_studio/WebReport/get-image&p_file_name="+fileName+"&env="+env;
 		if(r)
@@ -574,7 +570,7 @@ public class WebReportController extends Controller {
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	public Response actionGetImage()  throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionGetImage()  throws IllegalArgumentException {
 		Response resp = new Response();
 		String fileName = Core.getParam("p_file_name");
 		String env=Core.getParam("env");
