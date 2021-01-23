@@ -240,10 +240,12 @@ html[dir=rtl] td.tabmax {
     top: 125px;
 }
 
-
 .blocklyToolboxDiv{
 	height: 627px !important;
+	top: 99.8594px !important;
 }
 
-
+body.sidebar-off #igrp-contents{
+	    top: 6px !important;
+}
 
