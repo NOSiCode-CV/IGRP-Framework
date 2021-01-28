@@ -110,6 +110,7 @@ public class Report extends Controller{
 	}
 	
 	public String getLinkContraProva(String contraProva) {
+		contraProva=Core.encryptPublicPage(contraProva);
 		return Core.getHostName()+"?r=igrp_studio/web-report/get-contraprova&ctprov="+contraProva;
 	}
 

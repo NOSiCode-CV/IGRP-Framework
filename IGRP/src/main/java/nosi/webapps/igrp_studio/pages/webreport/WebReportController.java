@@ -256,7 +256,7 @@ public class WebReportController extends Controller {
 /*----#start-code(custom_actions)----*/	
 	public Response actionGetContraprova() throws IOException{
 		String contraprova = Core.getParam("ctprov");
-	
+		contraprova=Core.decryptPublicPage(contraprova);
 		RepInstance ri = new RepInstance().find().andWhere("contra_prova", "=",contraprova).one();
 		String content = "";
 		if(ri!=null){
