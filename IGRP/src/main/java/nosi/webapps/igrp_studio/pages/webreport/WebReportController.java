@@ -256,7 +256,7 @@ public class WebReportController extends Controller {
 /*----#start-code(custom_actions)----*/	
 	public Response actionGetContraprova() throws IOException{
 		String contraprova = Core.getParam("ctprov");
-	
+		contraprova=Core.decryptPublicPage(contraprova);
 		RepInstance ri = new RepInstance().find().andWhere("contra_prova", "=",contraprova).one();
 		String content = "";
 		if(ri!=null){
@@ -318,7 +318,7 @@ public class WebReportController extends Controller {
 		this.removeQueryString("value_array");		
 		
 		if(rt!=null)
-			return this.redirect("igrp_studio", "WebReport", "preview&p_rep_id="+rt.getId()+"&p_type=1&ctpr="+Core.getParam("ctpr")+params.toString(),this.queryString());
+			return this.redirect("igrp_studio", "WebReport", "preview&p_rep_id="+rt.getId()+"&p_type=1"+params.toString(),this.queryString());
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 	
@@ -449,6 +449,8 @@ public class WebReportController extends Controller {
 		String packageFind = "nosi.webapps."+rt.getApplication().getDad().toLowerCase();
 		if(Core.isNull(contraProva))
 			contraProva = Report.generateContraProva(packageFind);
+		else
+			contraProva=Core.decrypt(contraProva);
 		User user = null;
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){
 			user = new User();

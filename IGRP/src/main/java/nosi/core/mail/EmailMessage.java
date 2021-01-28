@@ -75,11 +75,12 @@ public class EmailMessage {
 		properties.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
 		properties.put("mail.smtp.auth", "true");
 		properties.put("mail.smtp.port", "465");
+		properties.put("mail.smtp.ssl.checkserveridentity", true); // Compliant
 		this.settings = new Properties(properties);
 	}
 	
 	public EmailMessage setTo(String to) {
-		this.to = to.replaceAll(";", ",");
+		this.to = to.replace(";", ",");
 		return this;
 	}
 
@@ -311,7 +312,7 @@ public class EmailMessage {
 	 * @param cc the cc to set
 	 */
 	public EmailMessage setCc(String cc) {
-		this.cc = cc.replaceAll(";", ",");
+		this.cc = cc.replace(";", ",");
 		return this;
 	}
 
@@ -319,7 +320,7 @@ public class EmailMessage {
 	 * @param bcc the bcc to set
 	 */
 	public EmailMessage setBcc(String bcc) {
-		this.bcc = bcc.replaceAll(";", ",");
+		this.bcc = bcc.replace(";", ",");
 		return this;
 	}
 
