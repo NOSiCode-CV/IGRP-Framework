@@ -66,6 +66,7 @@ import nosi.core.webapp.activit.rest.entities.HistoricProcessInstance;
 import nosi.core.webapp.activit.rest.entities.HistoricTaskService;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.Rows;
+import nosi.core.webapp.activit.rest.entities.StartProcess;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.entities.TaskVariables;
 import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
@@ -4598,6 +4599,18 @@ public final class Core {
 				pDefinitionService = obj.get(); 
 		}
 		return pDefinitionService; 
+	}
+	
+	/**
+	 * @param task The current Task of the Proccess  
+	 * @param parts The input files 
+	 * @param myCustomPermission (Ex: organicaCode) 
+	 * @return startProcess if success or null when failure 
+	 */
+	public static StartProcess nextTask(TaskService task, List<Part> parts, String myCustomPermission) {
+		 BPMNExecution bpmnExecuteValidacao = new BPMNExecution();
+		 StartProcess startProcess = bpmnExecuteValidacao.exeuteTask(task, parts, myCustomPermission);
+		 return startProcess;
 	}
 	
 	/** 
