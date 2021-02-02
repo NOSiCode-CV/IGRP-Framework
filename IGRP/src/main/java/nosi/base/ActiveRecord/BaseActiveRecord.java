@@ -977,9 +977,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 				this.setParameters(query);
 				list = query.getResultList();
-				transaction.commit();
+				if(!this.keepConnection)
+					transaction.commit();
 			}
 		}catch (Exception e) {
+			this.keepConnection = false;
 			if (transaction != null) {
 				transaction.rollback();
 			}
@@ -997,7 +999,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			transaction = this.getSession().getTransaction();
 			if(this.beginTransaction(transaction)) {
 				this.getSession().persist(this);
-				transaction.commit();
+				if(!this.keepConnection)
+					transaction.commit();
 			}
 		}catch (Exception e) {
 			this.keepConnection = false;
@@ -1012,13 +1015,14 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	}
 
 	@Override
-	public T update() {
+	public T update() {		
 		Transaction transaction = null;
 		try {
 			transaction = this.getSession().getTransaction();
 			if(this.beginTransaction(transaction)) {
 				this.getSession().merge(this);
-				transaction.commit();
+				if(!this.keepConnection)
+					transaction.commit();
 			}
 		}catch (Exception e) {
 			this.keepConnection = false;
@@ -1042,7 +1046,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			transaction = this.getSession().getTransaction();
 			if(this.beginTransaction(transaction)) {
 				this.getSession().remove(this.getSession().find(this.className, id));
-				transaction.commit();
+				if(!this.keepConnection)
+					transaction.commit();
 				deleted=true;
 			}
 		}catch (Exception e) {
@@ -1104,6 +1109,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 					transaction.commit();
 			}
 		}catch (Exception e) {
+			this.keepConnection = false;
 			if (transaction != null) {
 				transaction.rollback();
 			}
