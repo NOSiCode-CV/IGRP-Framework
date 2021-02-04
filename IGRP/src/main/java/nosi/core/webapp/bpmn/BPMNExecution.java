@@ -21,7 +21,7 @@ import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.services.FormDataServiceRest;
 import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
-import nosi.webapps.igrp.dao.ActivityEcexuteType;
+import nosi.webapps.igrp.dao.ActivityExecuteType;
 import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.Application;
 
@@ -212,7 +212,7 @@ public class BPMNExecution extends Controller{
 	}
 	
 	public void saveIGRPStartProcess(String proc_id,String proccessKey,String taskKey,String taskId,String processName,String myCustomPermission) {
-		 ActivityExecute activityExecute = new ActivityExecute(proc_id, taskId,Core.getCurrentDad(), Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityEcexuteType.EXECUTE,proccessKey,taskKey,processName);
+		 ActivityExecute activityExecute = new ActivityExecute(proc_id, taskId,Core.getCurrentDad(), Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityExecuteType.EXECUTE,proccessKey,taskKey,processName);
 	     activityExecute.setCustomPermission(myCustomPermission);
 	     activityExecute.insert();
 	}
