@@ -146,6 +146,7 @@ public class PageController extends Controller {
 				// Edit/update page _______
 				action = action.findOne(idPage);
 				action.setPage_descr(model.getPage_descr());
+				action.setNomeModificador(Core.getCurrentUser().getName());
 				action.setAction_descr(model.getPage_descr());
 				action.setStatus(model.getStatus());
 				action.setTipo((short)model.getPublico());
@@ -186,6 +187,7 @@ public class PageController extends Controller {
 				action.setApplication(app.findOne(Integer.parseInt(model.getEnv_fk())));
 				action.setAction_descr(model.getPage_descr());
 				action.setPage_descr(model.getPage_descr());
+				action.setNomeModificador(Core.getCurrentUser().getName());
 				action.setStatus(model.getStatus());
 				action.setTipo((short)model.getPublico());
 				action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));

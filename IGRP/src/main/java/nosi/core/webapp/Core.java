@@ -17,7 +17,9 @@ import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -3608,6 +3610,14 @@ public final class Core {
 		DateFormat df = new SimpleDateFormat(formatOut);
 		return df.format(date);
 	}
+	
+	public static String convertLocalDateTimeToString(LocalDateTime ldt, String outputFormatter) {	
+		if(Core.isNull(ldt))
+			return "";
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(outputFormatter);
+		return ldt.format(formatter);
+	}
+	
 
 	/**
 	 * Receives a date in a default string format dd-MM-yyy and converts it to java.util.Date

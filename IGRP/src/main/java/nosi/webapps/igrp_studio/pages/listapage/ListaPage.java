@@ -1,14 +1,13 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.Report;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ListaPage extends Model{		
 
@@ -402,6 +401,7 @@ public class ListaPage extends Model{
 		private Integer status_page_check;
 		private String modulo_tab;
 		private String descricao_page;
+		private String modificado_por;
 		private String id_page;
 		private String nome_page;
 		public void setStatus_page(Integer status_page){
@@ -429,6 +429,13 @@ public class ListaPage extends Model{
 		}
 		public String getDescricao_page(){
 			return this.descricao_page;
+		}
+
+		public void setModificado_por(String modificado_por){
+			this.modificado_por = modificado_por;
+		}
+		public String getModificado_por(){
+			return this.modificado_por;
 		}
 
 		public void setId_page(String id_page){

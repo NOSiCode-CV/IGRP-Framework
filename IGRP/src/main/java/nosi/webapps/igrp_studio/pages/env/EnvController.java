@@ -1,6 +1,11 @@
 package nosi.webapps.igrp_studio.pages.env;
 
-import java.io.IOException;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
@@ -57,6 +62,40 @@ public class EnvController extends Controller {
 		model.load();
 		EnvView view = new EnvView();
 		/*----#gen-example
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		view.action_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.flg_external.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		  ----#gen-example */
+		/*----#start-code(index)----*/
+		
+		Properties settings = this.configApp.getMainSettings();
+		String igrp_plsql_url = settings.getProperty(this.IGRP_PDEX_APPCONFIG_URL);
+		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
+			view.plsql_codigo.setVisible(false);
+		
+      	model.setGen_auto_code(1); 
+      	model.setImg_src("default.svg");	
+	
+		view.host.setVisible(true);
+		view.apache_dad.setVisible(false); 
+		view.link_menu.setVisible(false);
+		view.link_center.setVisible(false);
+		view.action_fk.setVisible(false);
+		view.flg_old.setVisible(false);
+		//view.flg_external.setValue(0);
+		//view.status.setVisible(false);
+		model.setStatus(1);
+		view.flg_external.setValue(new Application().getAtivesEstadoRegisto()); 
+		
+		/*----#end-code----*/
+		
+public class EnvController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		Env model = new Env();
+		model.load();
+		EnvView view = new EnvView();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		view.action_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.flg_external.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -168,6 +207,7 @@ public class EnvController extends Controller {
 			
 	}
 	
+		
 		
 /*----#start-code(custom_actions)----*/
 	
