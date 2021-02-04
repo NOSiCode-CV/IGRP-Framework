@@ -7,6 +7,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
+import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.TaskAccess;
 
 /**
@@ -40,20 +41,16 @@ public class TaskServiceIGRP extends GenericActivitiIGRP{
 		return taskServiceRest.getTasks();
 	}
 	
-
-
 	public List<TaskService> getAvailableTasks() {
 		taskServiceRest.addFilterUrl("unassigned", "true");
 		taskServiceRest.addFilterUrl("tenantId", Core.getCurrentDad());
 		List<TaskService> tasks =  taskServiceRest.getTasks();
 		List<TaskAccess> myTasAccess = new TaskAccess().getTaskAccess();
-		this.setMyProccessAccess();
 		tasks = tasks.stream().filter(t->this.filterAvailableTaskAccess(t, myTasAccess ))
-							  .filter(t->this.myproccessId.contains(t.getProcessInstanceId()))
+							  .filter(t->checkIfExistsNApplyCustomPermission(t))
 							  .collect(Collectors.toList());
 		return tasks;
 	}
-	
 	
 	public List<TaskService> getMabageTasks() {
 		taskServiceRest.addFilterUrl("tenantId", Core.getCurrentDad());
@@ -107,5 +104,10 @@ public class TaskServiceIGRP extends GenericActivitiIGRP{
 	
 	public TaskService getCurrentTaskByProcessNr(String processNr) {
 		return this.taskServiceRest.getCurrentTaskByProcessNr(processNr);
+	}
+	
+	private boolean checkIfExistsNApplyCustomPermission(TaskService taskService) {
+		ActivityExecute activityExecute = new ActivityExecute().find().andWhere("processid", "=", taskService.getProcessInstanceId()).one();
+		return activityExecute != null && this.allowTask(activityExecute.getProccessKey(), activityExecute);
 	}
 }

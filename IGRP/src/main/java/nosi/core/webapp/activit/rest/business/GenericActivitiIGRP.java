@@ -25,7 +25,7 @@ import nosi.webapps.igrp.dao.TaskAccess;
 public class GenericActivitiIGRP {
 	
 	private ResponseError error;
-	protected List<String> myproccessId = null;
+	protected List<String> myproccessId;
 	protected GenericActivitiRest activitiRest;
 	
 	
@@ -56,6 +56,7 @@ public class GenericActivitiIGRP {
 		if(this.myproccessId==null)
 			this.myproccessId = this.getMyProccessAccess();
 	}
+	
 	private List<String> getMyProccessAccess() {
 		List<ActivityExecute>  myProccessAccess =  this.getMyProccessInstances();
 		List<String> proccess = new ArrayList<>();
@@ -144,6 +145,5 @@ public class GenericActivitiIGRP {
 		}
 		return f;
 	}
-	
 	
 }
