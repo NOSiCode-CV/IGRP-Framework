@@ -61,7 +61,7 @@ public class EnvController extends Controller {
 		Env model = new Env();
 		model.load();
 		EnvView view = new EnvView();
-		/*----#gen-example
+		/*----#gen-example 
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		view.action_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.flg_external.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
