@@ -97,7 +97,7 @@ import nosi.core.webapp.webservices.rest.Geografia;
 import nosi.core.webapp.webservices.soap.SoapClient;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.ActivityEcexuteType;
+import nosi.webapps.igrp.dao.ActivityExecuteType;
 import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
@@ -4377,14 +4377,14 @@ public final class Core {
 		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User().findIdentityByUsername(userName);
 		Organization org = new Organization().findByCode(codeOrg);
 		ProfileType prof = new ProfileType().findByCode(codeProf);
-		ActivityExecute a = new ActivityExecute(procId, taskId, Core.getCurrentApp(),org, prof, user,ActivityEcexuteType.LOCK,null);
+		ActivityExecute a = new ActivityExecute(procId, taskId, Core.getCurrentApp(),org, prof, user,ActivityExecuteType.LOCK,null);
 		a.insert();
 	}
 
 	public static void lockProccess(String codeOrg, String codeProf, String procId, String taskId) {
 		Organization org = new Organization().findByCode(codeOrg);
 		ProfileType prof = new ProfileType().findByCode(codeProf);
-		ActivityExecute a = new ActivityExecute(procId, taskId, Core.getCurrentApp(),org, prof, null,ActivityEcexuteType.LOCK,null);
+		ActivityExecute a = new ActivityExecute(procId, taskId, Core.getCurrentApp(),org, prof, null,ActivityExecuteType.LOCK,null);
 		a.insert();
 	}
 	
