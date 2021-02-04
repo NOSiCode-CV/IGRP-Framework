@@ -434,6 +434,9 @@ public class PageController extends Controller {
 				}else
 					messages += ("<message type=\""+FlashMessage.INFO+"\">" + StringEscapeUtils.escapeXml10(Core.toJson(new MapErrorCompile(Core.gt("Componente registado com sucesso"), null)))+ "</message>");
 			}
+			
+			ac.setNomeModificador(Core.getCurrentUser().getName());	
+			ac.update();
 		}
 		
 		if(compiler!=null && compiler.hasError())
@@ -446,7 +449,7 @@ public class PageController extends Controller {
 		
 //		if(ac != null && pageFile != null) 
 //			saveCommitNPush(ac.getApplication().getDad(), ac.getPage(), pageFile); 
-		
+
 		return this.renderView("<messages>"+messages+"</messages>");
 	}
 
