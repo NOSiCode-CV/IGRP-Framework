@@ -61,7 +61,7 @@ public class ActivityExecute extends IGRPBaseActiveRecord<ActivityExecute> imple
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name="execution_type",nullable=false,length=400)
-	private ActivityEcexuteType execution_type;
+	private ActivityExecuteType execution_type;
 	
 	@Column(name="custom_permission",nullable=true,columnDefinition = "text")
 	private String customPermission;
@@ -83,7 +83,7 @@ public class ActivityExecute extends IGRPBaseActiveRecord<ActivityExecute> imple
 	}
 
 	public ActivityExecute(String processid, String taskid,Application application, Organization organization, ProfileType profile,
-			User user,ActivityEcexuteType execution_type,String processName) {
+			User user,ActivityExecuteType execution_type,String processName) {
 		super();
 		this.processid = processid;
 		this.taskid = taskid;
@@ -95,7 +95,7 @@ public class ActivityExecute extends IGRPBaseActiveRecord<ActivityExecute> imple
 		this.processName = processName;
 	}
 
-	public ActivityExecute(String processid, String taskid,String dad, Integer currentOrganization,Integer currentProfile, User currentUser,ActivityEcexuteType execution_type,String proccessKey,String taskKey,String processName) {
+	public ActivityExecute(String processid, String taskid,String dad, Integer currentOrganization,Integer currentProfile, User currentUser,ActivityExecuteType execution_type,String proccessKey,String taskKey,String processName) {
 		this.processid = processid;
 		this.taskid = taskid;
 		this.application = Core.findApplicationByDad(dad);
@@ -156,11 +156,11 @@ public class ActivityExecute extends IGRPBaseActiveRecord<ActivityExecute> imple
 		this.processid = processid;
 	}
 	
-	public ActivityEcexuteType getExecution_type() {
+	public ActivityExecuteType getExecution_type() {
 		return execution_type;
 	}
 
-	public void setExecution_type(ActivityEcexuteType execution_type) {
+	public void setExecution_type(ActivityExecuteType execution_type) {
 		this.execution_type = execution_type;
 	}
 
