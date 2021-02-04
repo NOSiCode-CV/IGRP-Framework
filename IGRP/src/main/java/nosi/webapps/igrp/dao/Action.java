@@ -22,7 +22,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.StringHelper;
@@ -63,10 +66,13 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 	private String xmlContent;
 	private String xslContent;
 	private String processKey;
-	
-	private short tipo = 0; // 0 = Privado (Authentication); 1 = Publico; ... 
+	private short tipo = 0; // 0 = Privado (Authentication); 1 = Publico; 2 = Oculto 
 	
 	private String nomeModulo;
+    @UpdateTimestamp
+    private LocalDateTime data;
+    
+    private String nomeModificador;
 
 	public Action() {
 		super();
@@ -311,6 +317,19 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 	public void setTipo(short tipo) {
 		this.tipo = tipo;
 	}
+	
+	public LocalDateTime getData() {
+		return this.data;
+	}
+	
+	public String getNomeModificador() {
+		return nomeModificador;
+	}
+
+	public void setNomeModificador(String nomeModificador) {
+		this.nomeModificador = nomeModificador;
+	}
+
 	
 	public boolean isPublicPage(String appDad, String pageId_) {
 		String pageId = pageId_;

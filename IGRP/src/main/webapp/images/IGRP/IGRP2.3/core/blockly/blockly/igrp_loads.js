@@ -2,24 +2,24 @@
 goog.provide('Blockly.Java.selenium');
 goog.require('Blockly.Java');
 
-	// ********************************************** DECLARATE VARIABLES  *************************************************
-	//**********************************************************************************************************************
+	// ***************** DECLARATE VARIABLES **********************
 
 var GEN = null,
 	blockyInit = false,
 	COMPARISON = [["==", "=="],["!=", "!="],[">=", ">="], ["<=", "<="],[">=", ">="], [">", ">"], ["<", "<"]],
 	RETURNS = [["forward", "forward"],["redirect", "redirect"]],
 	PAGES = [],
-	CORE = [["--", "--"],["Atual Date", "data_atual"], ["Atual User Name", "nome_utilizador_atual"],["Atual User Email", "email_utilizador_atual"],["Send Email", "enviar_email"],
-		["Get Parameter Text", "apanhar_parametro_texto"], ["Get Domain", "get_domain"]],
+	CORE = [["--", "--"],["Atual Date", "data_atual"], ["Atual User Name", "nome_utilizador_atual"],["Atual User Email", "email_utilizador_atual"],
+		["Send Email", "enviar_email"], ["Get Parameter Text", "apanhar_parametro_texto"], ["Get Domain", "get_domain"]],
 	FIND = [["--", "--"],["all", "todos"],["one", "um"]],
 	FINDLIST = [["all", "TODOSS"],["one", "UMM"],["limit", "limit"]],
 	CHECK_SELECT = [["checks", "String::checks"],["unchecks", "String::unchecks"]],
 	TIPO = [["Inteiro", "Inteiro"],["Data", "Data"],["Texto", "Texto"]],
-	WHERE = [["=", "WHERE_EQ"],["!=", "WHERE_DIF"],["<", "WHERE_LT"],["<=", "WHERE_LTE"],[">", "WHERE_GT"],[">=", "WHERE_GTE"],["like", "WHERE_LIKE"],["notlike", "WHERE_NOTLIKE"]],
-	FILTER = [["andWhere", "andWhere"],["andWhereIsNull", "andWhereIsNull"],["andWhereNotNull", "andWhereNotNull"],["andWhereBetween", "andWhereBetween"],		  
-				["orWhere", "orWhere"],["orWhereIsNull", "orWhereIsNull"],["orWhereNotNull", "orWhereNotNull"],["orWhereBetween", "orWhereBetween"],	  
-				["having", "having"],["where", "where"],["whereIn", "whereIn"],["whereNotIn", "whereNotIn"]],
+	WHERE = [["=", "WHERE_EQ"],["!=", "WHERE_DIF"],["<", "WHERE_LT"],["<=", "WHERE_LTE"],[">", "WHERE_GT"],[">=", "WHERE_GTE"],
+		["like", "WHERE_LIKE"],["notlike", "WHERE_NOTLIKE"]],
+	FILTER = [["andWhere", "andWhere"],["andWhereIsNull", "andWhereIsNull"],["andWhereNotNull", "andWhereNotNull"],
+		["andWhereBetween", "andWhereBetween"],	["orWhere", "orWhere"],["orWhereIsNull", "orWhereIsNull"],["orWhereNotNull", "orWhereNotNull"],
+		["orWhereBetween", "orWhereBetween"], ["having", "having"],["where", "where"],["whereIn", "whereIn"],["whereNotIn", "whereNotIn"]],
 	ANDOR = [["and", "and"],["or", "or"]],
 	TRU_FAL = [["true", "true"],["false", "false"]],
 	daoClasses = {},
@@ -27,11 +27,12 @@ var GEN = null,
 		daos : {}		
 	},
 	AppTitle, PageTitle, pagetitle,
-	fields_model = [], form_id = [], key_model = [], fields_table = [], fields_separator = [], fields_formlist = [], fields_model_form = [], view_model = [], fields_model_view = [],
-	chart = [], tables_model = [], statbox_model = [], separator_model = [], formlist_model = [], form_model = [], buttons_model = [], all_buttons = [],
-	daos_list = [], bloc_fields = [], imports_insert = [], imports_list = [], fields_esp_row = [], custom_action = [], select = [],
-	checkbox_table = [],
-	addcombo=0, addcheckbox_table=0, addseparator=0, addforeign=0, addchart=0, addtable =0, addbutton=0, addmodel=0, addstatbox=0, addformlist=0, addform=0, addview=0, custombutton=0;
+	fields_model = [], form_id = [], key_model = [], fields_table = [], fields_separator = [], fields_formlist = [], 
+	fields_model_form = [], view_model = [], fields_model_view = [], chart = [], tables_model = [], statbox_model = [], 
+	separator_model = [], formlist_model = [], form_model = [], buttons_model = [], all_buttons = [], daos_list = [], bloc_fields = [], 
+	imports_insert = [], imports_list = [], fields_esp_row = [], custom_action = [], select = [], checkbox_table = [],
+	addcombo=0, addcheckbox_table=0, addseparator=0, addforeign=0, addchart=0, addtable =0, addbutton=0, addmodel=0, 
+	addstatbox=0, addformlist=0, addform=0, addview=0, custombutton=0;
 
 Blockly.Blocks.texts.HUE = 200;
 
@@ -52,8 +53,7 @@ var GetJavaType = {
 	radiolist : 'Integer'
 }
 
-		// ********************************************** PREVIOUS FUNCTIONS  *********************************************
-		//*****************************************************************************************************************
+// ************** PREVIOUS FUNCTIONS************************
 
 var calcHeight = function() {
 	$('#gen-blocky-view').height(function() {
@@ -100,7 +100,7 @@ $('#refresh_bloco').on('click', function() {
 		if (localStorage.data !== null) {	
 		var xml = Blockly.Xml.textToDom(localStorage.getItem(IGRPblockly));
 		Blockly.Xml.domToWorkspace(xml,Blockly.mainWorkspace);
-		var code = ''; //Blockly.Java.workspaceToCode(Code.workspace);
+		var code = ''; // Blockly.Java.workspaceToCode(Code.workspace);
 		content.textContent = code;    
 		console.log("Bloco Atualizado");
 		}
@@ -114,8 +114,7 @@ $('#active_selenium').on('click', function() {
 	
 });
 
-		// ************************************* INIT LOAD XML AND REQUEST  **********************************************
-		//****************************************************************************************************************
+	// ************** INIT LOAD XML AND REQUEST **************************
 
 	window.IGRPBlocklyInit = function(){
 	 fields_model = [], fields_model.push(['--','--']), chart = [], chart.push(['--','--']), form_id = [], view_model=[]; 
@@ -134,7 +133,7 @@ $('#active_selenium').on('click', function() {
 	 pagetitle = PageTitle.toLowerCase();
 	 IGRP_BLOCKLY_DROPS.tablesTest = {};
 	 
-  //***************************************************** FIELDS_MODEL **************************************************
+  // ************** FIELDS_MODEL **************************
 	 
 	 $('rows>content>*[type!=separatorlist][type!=formlist]', BlocklyXML).each(function(i, element) {
 			$(element).find('>fields>*').each(function(x, field) {
@@ -143,14 +142,11 @@ $('#active_selenium').on('click', function() {
 				type = $(field).attr('java-type') || $(field).attr('type'),
 				ChooseType = $(field).attr('type'),
 				key  = $(field).attr('iskey'),
-				domain = $(field).attr('domain'),
-				
+				domain = $(field).attr('domain'),	
 				multiple = $(field).attr('multiple'),
 				persist = $(field).attr('persist'),
 				range = $(field).attr('range'),
 				javaType = GetJavaType[type] || type || 'String';
-			
-			
 			
 			if(multiple =="true")
 			{	
@@ -224,7 +220,7 @@ $('#active_selenium').on('click', function() {
 			);	
 		}
 	 
-	//*********************************************** FILL_COMBO ***********************************************************
+	// ************** FILL_COMBO ********************************
 	 
 		if(addcombo!=0)
 		{	
@@ -266,7 +262,7 @@ $('#active_selenium').on('click', function() {
 			);
 		}
 		
-	    //********************************************** BUTTONS **********************************************************
+	    // ****************** BUTTONS *************************
 	
 	 var str=''; 
 		$('item[rel]', BlocklyXML).each(function(i, element){	
@@ -348,7 +344,7 @@ $('#active_selenium').on('click', function() {
 			);
 		}
 		
-// ********************************************** FORM *********************************************************************
+		// ******************* FORM *************************
 		
 		$('rows>content>*[type="form"]', BlocklyXML).each(function(i, element) {
 			IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];
@@ -406,7 +402,7 @@ $('#active_selenium').on('click', function() {
 								+'<value type="value" name="value1">'
 									+'<field type="text" options="set '+f[0]+'"></field>'
 									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
-									+'</value><next>';''
+									+'</value><next>';
 					});
 						rtn+= '<block type="add_isedit" prev-statement="" next-statement="" color="60" class="blocly-dynamic">'
 									+'<value name="value3" type="dummy">'
@@ -462,7 +458,7 @@ $('#active_selenium').on('click', function() {
 			
 		});
 		
-		// ********************************************** TABLE  ************************************************************
+		// *************** TABLE ********************
 		
 	 $('rows>content>*[type="table"]', BlocklyXML).each(function(i, element){	
 			IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];
@@ -508,7 +504,6 @@ $('#active_selenium').on('click', function() {
 					rtn+= '<block type="rowtable'+f[0]+'" id="'+f[1]+'" prev-statement="Linha" next-statement="Linha" color="300">'
 								+'<value type="value" name="fields_model">'
 									+'<field type="text" options="Set '+f[0]+'"></field>'
-//									+'<field type="dropdown"  name="coluna" options="IGRP_BLOCKLY_DROPS.tablesTest.'+table+'"></field>'
 									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'	
 								+'</value><next>';
 				});
@@ -528,7 +523,6 @@ $('#active_selenium').on('click', function() {
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 								+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-//								+'<field type="dropdown" name="find" title="list" options="IGRP_BLOCKLY_DROPS.findList"></field>'
 							+'</value>'
 							+'<value type="dummy" name= "empty_table">'
 								+'<field type="checkbox" name="FILL" title="empty table?" options="FALSE"></field>'
@@ -542,7 +536,7 @@ $('#active_selenium').on('click', function() {
 			}
 	});
 	
-	//*********************************************** CHECKBOX-TABLE ******************************************************	
+	// ******************* CHECKBOX-TABLE ***********************
 	
 	if(addcheckbox_table != 0)
 	{	
@@ -564,7 +558,7 @@ $('#active_selenium').on('click', function() {
 		);
 	}
 			
-	// ********************************************** SEPARATOR-LIST  ***************************************************
+	// ********************* SEPARATOR-LIST ***************************
 			
 	$('rows>content>*[type="separatorlist"]', BlocklyXML).each(function(i, element){
 		IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];
@@ -605,7 +599,8 @@ $('#active_selenium').on('click', function() {
 					rtn+= '<block type="sep_row_'+f[0]+'" id="'+f[1]+'" prev-statement="" next-statement="" color="300">'
 							+'<value type="value" name="fields_model">'
 								+'<field type="text" options="Set '+f[0]+'"></field>'
-								//+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.tablesTest.'+separator+'"></field>'
+								// +'<field type="dropdown" name="coluna"
+								// options="IGRP_BLOCKLY_DROPS.tablesTest.'+separator+'"></field>'
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
 							+'</value><next>';''
 				});
@@ -651,7 +646,7 @@ $('#active_selenium').on('click', function() {
 			}
 	});
 	
-	// ********************************************** FORM-LIST  *************************************************************
+	// ****************** FORM-LIST ****************************
 
 	$('rows>content>*[type="formlist"]', BlocklyXML).each(function(i, element) {
 		IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];
@@ -695,7 +690,8 @@ $('#active_selenium').on('click', function() {
 					rtn+= '<block type="sep_form_'+f[0]+'" id="'+f[1]+'" prev-statement="" next-statement="" color="300">'
 							+'<value type="value" name="fields_model">'
 								+'<field type="text" options="Set '+f[0]+'"></field>'
-								//+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.tablesTest.'+formlist+'"></field>'
+								// +'<field type="dropdown" name="coluna"
+								// options="IGRP_BLOCKLY_DROPS.tablesTest.'+formlist+'"></field>'
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
 								+'</value><next>';''
 				});
@@ -741,7 +737,7 @@ $('#active_selenium').on('click', function() {
 		}	
 	});
 	
-// ********************************************** VIEW **********************************************************************
+	// ************************ VIEW ****************************
 
 	$('rows>content>*[type="view"]', BlocklyXML).each(function(i, element) {	
 		IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];	
@@ -835,7 +831,7 @@ $('#active_selenium').on('click', function() {
 	});	
 			
 		
-		//*********************************************** GRAFICO ***********************************************************
+		// ***************** GRAFICO **************************
 
 	$('rows>content>*[type="chart"]', BlocklyXML).each(function(i, element){	
 	if($(element).attr('type')== 'chart')
@@ -892,7 +888,7 @@ $('#active_selenium').on('click', function() {
 		}
 	});
 	
-	// ********************************************** STATBOX *********************************************************************
+	// ****************** STATBOX ******************************
 	
 	 $('rows>content>*[type="statbox"]', BlocklyXML).each(function(i, element){	
 			IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];
@@ -974,7 +970,7 @@ $('#active_selenium').on('click', function() {
 		}
 	});
 	
-       // *******************************************GET DAO OBJECTS *******************************************************
+       // ***************** GET DAO OBJECTS ***********************
 	
 	var iurlArr = path.split('/'),
 		iurl   = iurlArr[0] == '' ? iurlArr[1] : 'IGRP';
@@ -990,16 +986,6 @@ $('#active_selenium').on('click', function() {
 		{
 			$('#toolbox').append(
 					'<category id="dao" name="DAO" colour="160" class="blocly-dynamic">'
-//							+'<block type="insert_simple_dao" color ="160" prev-statement="" next-statement="" inline="true">'
-//								+'<value type="dummy" title="insert">'
-//									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/right-arrow.svg"></field>'
-//									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
-//									+'<field type="text" options="DAO"></field>'
-//									+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-//								+'</value>'
-//								+'<value name="value2" type="statement">'
-//								+'</value>'
-//							+'</block>'
 							+'<block type="update_simple_dao" color ="160" prev-statement="" next-statement="" inline="true">'
 								+'<value type="value" name="param_edit" title="update">'
 									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/right-arrow.svg"></field>'
