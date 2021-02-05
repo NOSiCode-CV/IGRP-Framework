@@ -96,21 +96,21 @@ public class ListaPage extends Model{
 	@RParam(rParamName = "p_link_btn_nova_pagina_desc")
 	private String link_btn_nova_pagina_desc;
 	
-	private List<Table_1> table_1 = new ArrayList<>();	
-	public void setTable_1(List<Table_1> table_1){
-		this.table_1 = table_1;
-	}
-	public List<Table_1> getTable_1(){
-		return this.table_1;
-	}
-
-	
 	private List<Table_2> table_2 = new ArrayList<>();	
 	public void setTable_2(List<Table_2> table_2){
 		this.table_2 = table_2;
 	}
 	public List<Table_2> getTable_2(){
 		return this.table_2;
+	}
+
+	
+	private List<Table_1> table_1 = new ArrayList<>();	
+	public void setTable_1(List<Table_1> table_1){
+		this.table_1 = table_1;
+	}
+	public List<Table_1> getTable_1(){
+		return this.table_1;
 	}
 
 	
@@ -396,6 +396,55 @@ public class ListaPage extends Model{
 	}
 
 
+	public static class Table_2 extends IGRPTable.Table{
+		private String my_app_img="/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg";
+		private String my_app_img_uuid;
+		private IGRPLink my_aplicacao;
+		private String my_aplicacao_desc= "Aplicação";
+		private Integer env_fk;
+		public void setMy_app_img(String my_app_img){
+			this.my_app_img = my_app_img;
+		}
+		public String getMy_app_img(){
+			return this.my_app_img;
+		}
+		public void setMy_app_img_uuid(String my_app_img_uuid){
+			this.my_app_img_uuid = my_app_img_uuid;
+		}
+		public String getMy_app_img_uuid(){
+			return this.my_app_img_uuid;
+		}
+
+		public IGRPLink setMy_aplicacao(String app,String page,String action){
+			this.my_aplicacao = new IGRPLink(app,page,action);
+			return this.my_aplicacao;
+		}
+		public IGRPLink getMy_aplicacao(){
+			return this.my_aplicacao;
+		}
+		public void setMy_aplicacao_desc(String my_aplicacao_desc){
+			this.my_aplicacao_desc = my_aplicacao_desc;
+		}
+		public String getMy_aplicacao_desc(){
+			return this.my_aplicacao_desc;
+		}
+	public IGRPLink setMy_aplicacao(String link){
+		this.my_aplicacao = new IGRPLink(link);
+		return this.my_aplicacao;
+	}
+	public IGRPLink setMy_aplicacao(Report link){
+		this.my_aplicacao = new IGRPLink(link);
+		return this.my_aplicacao;
+	}
+
+		public void setEnv_fk(Integer env_fk){
+			this.env_fk = env_fk;
+		}
+		public Integer getEnv_fk(){
+			return this.env_fk;
+		}
+
+	}
 	public static class Table_1 extends IGRPTable.Table{
 		private Integer status_page;
 		private Integer status_page_check;
@@ -453,62 +502,13 @@ public class ListaPage extends Model{
 		}
 
 	}
-	public static class Table_2 extends IGRPTable.Table{
-		private String my_app_img="/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg";
-		private String my_app_img_uuid;
-		private IGRPLink my_aplicacao;
-		private String my_aplicacao_desc= "Aplicação";
-		private Integer env_fk;
-		public void setMy_app_img(String my_app_img){
-			this.my_app_img = my_app_img;
-		}
-		public String getMy_app_img(){
-			return this.my_app_img;
-		}
-		public void setMy_app_img_uuid(String my_app_img_uuid){
-			this.my_app_img_uuid = my_app_img_uuid;
-		}
-		public String getMy_app_img_uuid(){
-			return this.my_app_img_uuid;
-		}
 
-		public IGRPLink setMy_aplicacao(String app,String page,String action){
-			this.my_aplicacao = new IGRPLink(app,page,action);
-			return this.my_aplicacao;
-		}
-		public IGRPLink getMy_aplicacao(){
-			return this.my_aplicacao;
-		}
-		public void setMy_aplicacao_desc(String my_aplicacao_desc){
-			this.my_aplicacao_desc = my_aplicacao_desc;
-		}
-		public String getMy_aplicacao_desc(){
-			return this.my_aplicacao_desc;
-		}
-	public IGRPLink setMy_aplicacao(String link){
-		this.my_aplicacao = new IGRPLink(link);
-		return this.my_aplicacao;
-	}
-	public IGRPLink setMy_aplicacao(Report link){
-		this.my_aplicacao = new IGRPLink(link);
-		return this.my_aplicacao;
-	}
-
-		public void setEnv_fk(Integer env_fk){
-			this.env_fk = env_fk;
-		}
-		public Integer getEnv_fk(){
-			return this.env_fk;
-		}
-
+	public void loadTable_2(BaseQueryInterface query) {
+		this.setTable_2(this.loadTable(query,Table_2.class));
 	}
 
 	public void loadTable_1(BaseQueryInterface query) {
 		this.setTable_1(this.loadTable(query,Table_1.class));
-	}
-
-	public void loadTable_2(BaseQueryInterface query) {
-		this.setTable_2(this.loadTable(query,Table_2.class));
 	}
 
 }
