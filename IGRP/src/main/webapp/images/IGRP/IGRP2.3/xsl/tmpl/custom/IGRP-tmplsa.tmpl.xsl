@@ -391,10 +391,23 @@
                             <ul class="treeview-menu">
                                 <xsl:for-each select="$submenus">
                                     <li class="parent-services" data-icon="{icon_serv}" data-id="{id_servico}" data-menu-type="{tipo_menu_serv}">
-                                        <a href="{link_servico}" class="service-item {$drag-class} btn-services" target="_blank">
-                                        <i class="fa fa-circle-o"></i>
-                                        <span class="card-text"><xsl:value-of select="submenu"/></span>
-                                        <span class="app-info"><xsl:value-of select="info_serv"/></span>
+                                        <a class="service-item {$drag-class} btn-services">
+                                            <xsl:choose>
+                                                <xsl:when test="$drag">
+                                                    <xsl:attribute name="rel">
+                                                        <xsl:value-of select="link_servico"/>
+                                                    </xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:attribute name="href">
+                                                        <xsl:value-of select="link_servico"/>
+                                                    </xsl:attribute>
+                                                    <xsl:attribute name="target">_blank</xsl:attribute>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                            <i class="fa fa-circle-o"></i>
+                                            <span class="card-text"><xsl:value-of select="submenu"/></span>
+                                            <span class="app-info"><xsl:value-of select="info_serv"/></span>
                                         </a>
                                     </li>
                                 </xsl:for-each>
