@@ -1,14 +1,19 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.Report;
 
 public class Page extends Model{		
 
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
+	@RParam(rParamName = "p_help")
+	private IGRPLink help;
+	@RParam(rParamName = "p_help_desc")
+	private String help_desc;
 
 	@RParam(rParamName = "p_page_descr")
 	private String page_descr;
@@ -125,21 +130,33 @@ public class Page extends Model{
 	@RParam(rParamName = "p_id_pagin_hidd")
 	private Integer id_pagin_hidd;
 	
-	@RParam(rParamName = "p_link_doc")
-	private String link_doc;
-	
-	public String getLink_doc() {
-		return link_doc;
-	}
-	public void setLink_doc(String link_doc) {
-		this.link_doc = link_doc;
-	}
-	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
 	}
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
+	}
+	
+	public IGRPLink setHelp(String app,String page,String action){
+		this.help = new IGRPLink(app,page,action);
+		return this.help;
+	}
+	public IGRPLink getHelp(){
+		return this.help;
+	}
+	public void setHelp_desc(String help_desc){
+		this.help_desc = help_desc;
+	}
+	public String getHelp_desc(){
+		return this.help_desc;
+	}
+	public IGRPLink setHelp(String link){
+		this.help = new IGRPLink(link);
+		return this.help;
+	}
+	public IGRPLink setHelp(Report link){
+		this.help = new IGRPLink(link);
+		return this.help;
 	}
 	
 	public void setPage_descr(String page_descr){

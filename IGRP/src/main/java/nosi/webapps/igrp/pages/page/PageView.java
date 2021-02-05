@@ -1,17 +1,16 @@
 package nosi.webapps.igrp.pages.page;
 
-import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.config.Config;
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Core;
 
 public class PageView extends View {
 
 	public Field sectionheader_1_text;
+	public Field help;
 	public Field page_descr;
 	public Field page;
 	public Field status;
@@ -52,11 +51,13 @@ public class PageView extends View {
 	public Field action_descr;
 	public Field id_pagin_hidd;
 	public IGRPSectionHeader sectionheader_1;
+	public IGRPView view_1;
 	public IGRPForm form_1;
-	public Field link_doc;
 
 	public IGRPToolsBar toolsbar_1;
+	public IGRPToolsBar toolsbar_2;
 	public IGRPButton btn_gravar;
+	public IGRPButton btn_eliminar_pagina;
 
 	public PageView(){
 
@@ -64,12 +65,20 @@ public class PageView extends View {
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
+		view_1 = new IGRPView("view_1","");
+
 		form_1 = new IGRPForm("form_1","");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		sectionheader_1_text.setValue(gt("Page builder - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
+		
+		help = new LinkField(model,"help");
+		help.setLabel(gt("Help"));
+		help.setValue(Core.getIGRPLink("igrp","Dominio","index"));
+
+									help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		page_descr = new TextField(model,"page_descr");
 		page_descr.setLabel(gt("Título"));
@@ -131,13 +140,13 @@ public class PageView extends View {
 		novo_modulo.setLabel(gt("Módulo"));
 		novo_modulo.setValue(Core.getIGRPLink("igrp","Page","index"));
 
-									novo_modulo.propertie().add("name","p_novo_modulo").add("type","link").add("target","right_panel").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","");
+									novo_modulo.propertie().add("name","p_novo_modulo").add("type","link").add("target","right_panel").add("class","success").add("img","fa-plus-square").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","").add("adbcli","");
 		
 		editar_modulo = new LinkField(model,"editar_modulo");
 		editar_modulo.setLabel(gt("Módulo"));
 		editar_modulo.setValue(Core.getIGRPLink("igrp","Dominio","index"));
 
-									editar_modulo.propertie().add("name","p_editar_modulo").add("type","link").add("target","right_panel").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","");
+									editar_modulo.propertie().add("name","p_editar_modulo").add("type","link").add("target","right_panel").add("class","warning").add("img","fa-pencil-square-o").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","").add("adbcli","");
 		
 		version = new ListField(model,"version");
 		version.setLabel(gt("Versão de Página"));
@@ -207,15 +216,15 @@ public class PageView extends View {
 		id_pagin_hidd.setLabel(gt(""));
 		id_pagin_hidd.propertie().add("name","p_id_pagin_hidd").add("type","hidden").add("maxlength","250").add("java-type","Integer").add("tag","id_pagin_hidd");
 		
-		link_doc = new LinkField(model,"link_doc");
-		link_doc.setLabel(gt("Help"));
-		link_doc.setValue(new Config().getResolveUrl("tutorial","Listar_documentos","index&p_type=new_page"));
-		link_doc.propertie().add("name","p_link_doc").add("type","link").add("target","modal").add("maxlength","30");
-		
+
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
+		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
 
 		btn_gravar = new IGRPButton("Gravar","igrp","Page","gravar","submit_ajax","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar").add("refresh_components","");
+
+		btn_eliminar_pagina = new IGRPButton("Eliminar Página","igrp","Page","eliminar_pagina","submit","danger|fa-trash","","");
+		btn_eliminar_pagina.propertie.add("type","specific").add("rel","eliminar_pagina").add("refresh_components","");
 
 		
 	}
@@ -224,6 +233,8 @@ public class PageView extends View {
 	public void render(){
 		
 		sectionheader_1.addField(sectionheader_1_text);
+
+		view_1.addField(help);
 
 
 		form_1.addField(page_descr);
@@ -259,17 +270,21 @@ public class PageView extends View {
 		form_1.addField(proc_name);
 		form_1.addField(action_descr);
 		form_1.addField(id_pagin_hidd);
-		form_1.addField(link_doc);
+
 
 		toolsbar_1.addButton(btn_gravar);
+		toolsbar_2.addButton(btn_eliminar_pagina);
 		this.addToPage(sectionheader_1);
+		this.addToPage(view_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);
+		this.addToPage(toolsbar_2);
 	}
 		
 	@Override
 	public void setModel(Model model) {
 		
+		help.setValue(model);
 		page_descr.setValue(model);
 		page.setValue(model);
 		status.setValue(model);
