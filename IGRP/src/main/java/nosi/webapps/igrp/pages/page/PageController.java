@@ -74,7 +74,7 @@ public class PageController extends Controller {
 		Boolean isEdit = false;
 		Integer idPage = Core.getParamInt("p_id_page");
 		view.btn_eliminar_pagina.setVisible(false);
-		
+
 		if (idPage == 0)
 			idPage = model.getId_pagin_hidd();
 
@@ -147,14 +147,17 @@ public class PageController extends Controller {
 
 		Application app = new Application();
 		Action action = new Action();
+
+		/****** EDITANDO UMA PÁGINA ********/
+
 		if (idPage != 0) {
-			// Edit/update page _______
+
 			action = action.findOne(idPage);
 			action.setPage_descr(model.getPage_descr());
 			action.setNomeModificador(Core.getCurrentUser().getName());
 			action.setAction_descr(model.getPage_descr());
 			action.setStatus(model.getStatus());
-			action.setTipo((short) model.getPublico());
+			action.setTipo(model.getPublico());
 			action.setIsComponent((short) model.getComponente());
 
 			if (model.getModulo() != null && !model.getModulo().isEmpty())
@@ -176,14 +179,16 @@ public class PageController extends Controller {
 					app2.setAction(null);
 					app2.update();
 				}
-
 			} else
 				Core.setMessageError();
+
 			this.addQueryString("p_id_page", idPage);
 			return this.redirect("igrp", "page", "index", this.queryString());
-			// ______________________________________««« END »»»» Edit/update page
+
+			/****** ADICIONANDO NOVA PÁGINA ********/
+
 		} else if (checkifexists(model)) {
-			// New page ________
+
 			if (model.getPage().equals("import") || model.getPage().equals("package")
 					|| model.getPage().equals("public") || model.getPage().equals("private")
 					|| model.getPage().equals("abstracts")) {
@@ -196,7 +201,7 @@ public class PageController extends Controller {
 			action.setPage_descr(model.getPage_descr());
 			action.setNomeModificador(Core.getCurrentUser().getName());
 			action.setStatus(model.getStatus());
-			action.setTipo((short) model.getPublico());
+			action.setTipo(model.getPublico());
 			action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
 			action.setPackage_name("nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".pages");
 			action.setVersion(model.getVersion() == null ? "2.3." + this.getConfig().VERSION
@@ -258,11 +263,25 @@ public class PageController extends Controller {
 				Core.setMessageError();
 				return this.forward("igrp", "page", "index");
 			}
-			// _________________________________________# END # New page
-		} else {
-			Core.setMessageWarning("Este code já existe. Por favor editar.");
-			return this.forward("igrp", "page", "index");
 
+		} else {
+
+			/****** RECUPERANDO UMA PÁGINA ********/
+
+			Action recover = new Action().find().where("page", "=", nosi.core.gui.page.Page.getPageName(model.getPage())).andWhere("status", "=", 2).one();
+			
+			if (recover != null) {
+				
+				recover.setNomeModificador(Core.getCurrentUser().getName());
+				recover.setStatus(1);
+				recover.update();
+				Core.setMessageInfo("Página Recuperada Com Sucesso!");
+				return this.forward("igrp", "page", "index");
+			} else {
+				Core.setMessageWarning("Este code já existe. Por favor editar.");
+				return this.forward("igrp", "page", "index");
+
+			}
 		}
 
 		/*----#end-code----*/
@@ -285,7 +304,6 @@ public class PageController extends Controller {
 		eliminar_page.setStatus(2);
 		eliminar_page.update();
 		Core.setMessageSuccess("Página eliminada com Sucesso!");
-		
 
 		/*----#end-code----*/
 		return this.redirect("igrp", "Page", "index", this.queryString());
