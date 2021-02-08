@@ -270,7 +270,7 @@ public class PageController extends Controller {
 
 			Action recover = new Action().find()
 					.where("page", "=", nosi.core.gui.page.Page.getPageName(model.getPage())).andWhere("status", "=", 2)
-					.andWhere("application","=",app.findOne(Integer.parseInt(model.getEnv_fk())))
+					.andWhere("application.id", "=", Core.toInt(model.getEnv_fk()))
 					.one();
 
 			if (recover != null) {
