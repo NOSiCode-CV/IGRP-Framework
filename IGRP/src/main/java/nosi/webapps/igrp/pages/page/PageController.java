@@ -268,10 +268,13 @@ public class PageController extends Controller {
 
 			/****** RECUPERANDO UMA PÁGINA ********/
 
-			Action recover = new Action().find().where("page", "=", nosi.core.gui.page.Page.getPageName(model.getPage())).andWhere("status", "=", 2).one();
-			
+			Action recover = new Action().find()
+					.where("page", "=", nosi.core.gui.page.Page.getPageName(model.getPage())).andWhere("status", "=", 2)
+					.andWhere("application","=",app.findOne(Integer.parseInt(model.getEnv_fk())))
+					.one();
+
 			if (recover != null) {
-				
+
 				recover.setNomeModificador(Core.getCurrentUser().getName());
 				recover.setStatus(1);
 				recover.update();
