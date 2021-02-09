@@ -1,20 +1,15 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_bi_cni_passport;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
 
-import nosi.core.config.ConfigApp;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.webservices.rest.ConsumeJson;
 
 /*----#end-code----*/
 		
@@ -26,7 +21,7 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Anim natus aperiam ipsum sit' as tipo_documento_tab,'Officia iste voluptatem offici' as n_doc_tab,'Sit rem accusantium ut dolor' as nome_tab,'Aliqua amet stract mollit dolo' as sexo_tab,'06-03-2015' as data_nascimento_tab,'Iste omnis aliqua natus dolor' as nome_pai_tab,'Adipiscing voluptatem lorem re' as nome_mae_tab,'Officia adipiscing officia und' as data_emissao_tab,'Anim amet dolor magna rem' as emissor_tab,'Elit laudantium elit omnis rem' as nic_cni_tab,'hidden-3c39_706d' as estado_civil,'hidden-fb8d_0665' as nat_conselho,'hidden-a354_b588' as residencia,'hidden-b363_d6aa' as dt_validade,'hidden-b9d3_7bee' as bi_tab,'hidden-5598_a467' as passaporte_tab "));
+		model.loadTable_1(Core.query(null,"SELECT 'Adipiscing sit sed deserunt om' as tipo_documento_tab,'Doloremque adipiscing elit tot' as n_doc_tab,'Perspiciatis aperiam unde labo' as nome_tab,'Aperiam dolor omnis deserunt l' as sexo_tab,'03-03-2011' as data_nascimento_tab,'Natus magna adipiscing stract' as nome_pai_tab,'Accusantium perspiciatis conse' as nome_mae_tab,'Perspiciatis amet mollit sit s' as data_emissao_tab,'Sit adipiscing unde iste unde' as emissor_tab,'Unde doloremque deserunt aperi' as nic_cni_tab,'hidden-1e04_1657' as estado_civil,'hidden-7cde_afec' as nat_conselho,'hidden-6526_bad5' as residencia,'hidden-16da_1767' as dt_validade,'hidden-ba5c_e597' as bi_tab,'hidden-7475_8fbd' as passaporte_tab "));
 		view.tipo_documento.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/

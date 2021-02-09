@@ -1,29 +1,28 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_bi_cni_passport;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Pesquisa_bi_cni_passport extends Model{		
 
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 
-	@RParam(rParamName = "p_tipo_documento")
-	private String tipo_documento;
-
 	@RParam(rParamName = "p_numero_do_documento")
 	private String numero_do_documento;
 
-	@RParam(rParamName = "p_nome")
-	private String nome;
+	@RParam(rParamName = "p_tipo_documento")
+	private String tipo_documento;
 
 	@RParam(rParamName = "p_data_nascimento")
 	private String data_nascimento;
+
+	@RParam(rParamName = "p_nome")
+	private String nome;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -41,13 +40,6 @@ public class Pesquisa_bi_cni_passport extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setTipo_documento(String tipo_documento){
-		this.tipo_documento = tipo_documento;
-	}
-	public String getTipo_documento(){
-		return this.tipo_documento;
-	}
-	
 	public void setNumero_do_documento(String numero_do_documento){
 		this.numero_do_documento = numero_do_documento;
 	}
@@ -55,11 +47,11 @@ public class Pesquisa_bi_cni_passport extends Model{
 		return this.numero_do_documento;
 	}
 	
-	public void setNome(String nome){
-		this.nome = nome;
+	public void setTipo_documento(String tipo_documento){
+		this.tipo_documento = tipo_documento;
 	}
-	public String getNome(){
-		return this.nome;
+	public String getTipo_documento(){
+		return this.tipo_documento;
 	}
 	
 	public void setData_nascimento(String data_nascimento){
@@ -67,6 +59,13 @@ public class Pesquisa_bi_cni_passport extends Model{
 	}
 	public String getData_nascimento(){
 		return this.data_nascimento;
+	}
+	
+	public void setNome(String nome){
+		this.nome = nome;
+	}
+	public String getNome(){
+		return this.nome;
 	}
 
 
