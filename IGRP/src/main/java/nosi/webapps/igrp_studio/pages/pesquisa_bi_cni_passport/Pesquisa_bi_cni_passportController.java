@@ -9,8 +9,13 @@ import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
-
-
+import nosi.core.webapp.webservices.rest.ConsumeJson;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Properties;
+import org.json.JSONArray;
+import org.json.JSONObject;
 /*----#end-code----*/
 		
 public class Pesquisa_bi_cni_passportController extends Controller {
