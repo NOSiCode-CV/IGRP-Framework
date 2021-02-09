@@ -21,9 +21,9 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config;
 import nosi.webapps.igrp.dao.Menu;
-		
+
 public class NovoMenuController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 		NovoMenu model = new NovoMenu();
 		model.load();
 		NovoMenuView view = new NovoMenuView();
@@ -38,48 +38,37 @@ public class NovoMenuController extends Controller {
 		/*----#start-code(index)----*/
 
 		int id = model.getId();
-      if (Core.isNotNullOrZero(id)) {
+		if (Core.isNotNullOrZero(id)) {
 			// If its a update it will enter here and the value p_id is from the GET url
 			Menu menu = new Menu().findOne(id);
-			
 			if (null != menu.getMenu())
 				model.setSelf_id(menu.getMenu().getId());
 			model.setStatus(menu.getStatus());
 			model.setFlg_base(menu.getFlg_base());
-			// Sets the target, Self_, other page, popup...
 			model.setTarget(menu.getTarget());
+			if (menu.getAction() != null)
+				model.setAction_fk(menu.getAction().getId());
 			model.setOrderby(menu.getOrderby());
 			model.setTitulo(menu.getDescr());
-            model.setEnv_fk(menu.getApplication().getId());
-			if (Core.isNotNullOrZero(model.getAction_fk())){
-				if (menu.getAction().getId() != model.getAction_fk()) 
-					model.setTitulo(getPageTituleByID(model));
+			model.setEnv_fk(menu.getApplication().getId());
+			if (Core.isNotNullOrZero(model.getAction_fk()) && menu.getAction().getId() != model.getAction_fk()) {
+				model.setTitulo(getPageTituleByID(model));
 			}
 
-          	if (menu.getAction() != null){                   
-               model.setAction_fk(menu.getAction().getId());
-            }
-            view.action_fk.setVisible(false);
-
 		} else {
-			int app =model.getApp();
-
+			int app = model.getApp();
 			String dad = Core.getCurrentDad();
 			if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 				app = Core.findApplicationByDad(dad).getId();
 				view.env_fk.propertie().add("disabled", "true");
-
 			}
-			
-			if (Core.isNotNullOrZero(model.getApp())){              
-              model.setEnv_fk(model.getApp());
-            }else{
-               model.setApp(app);
-              model.setEnv_fk(app); 
-            }
-             
-				
-			// New menu by default opens in the same window
+			if (Core.isNotNullOrZero(model.getApp())) {
+				model.setEnv_fk(model.getApp());
+			} else {
+				model.setApp(app);
+				model.setEnv_fk(app);
+			}
+			// New menu by default
 			model.setTarget("_self");
 			model.setOrderby(39);
 			model.setStatus(1);
@@ -99,13 +88,14 @@ public class NovoMenuController extends Controller {
 		targets.put("submit", gt("Submit"));
 		targets.put("confirm", gt("Confirm"));
 		view.env_fk.setValue(new Application().getListApps()); // Prompt
-		if (Core.isNotNull(model.getEnv_fk())) { 
-			if(model.getGlobal_acl() == 1) 
-				view.action_fk.setValue(IgrpHelper.toMap(this.loadPermissionAcl(model.getEnv_fk()), "type_fk", "description")); 
-			else 
-				view.action_fk.setValue(new Action().getListActions(model.getEnv_fk())); 
-			
-			view.self_id.setValue(new Menu().getListPrincipalMenus(model.getEnv_fk())); 
+		if (Core.isNotNull(model.getEnv_fk())) {
+			if (model.getGlobal_acl() == 1)
+				view.action_fk.setValue(
+						IgrpHelper.toMap(this.loadPermissionAcl(model.getEnv_fk()), "type_fk", "description"));
+			else
+				view.action_fk.setValue(new Action().getListActions(model.getEnv_fk()));
+
+			view.self_id.setValue(new Menu().getListPrincipalMenus(model.getEnv_fk()));
 		}
 		view.target.setValue(targets); // prompt
 		view.link.setVisible(false);
@@ -118,10 +108,10 @@ public class NovoMenuController extends Controller {
 
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);	
+		return this.renderView(view);
 	}
-	
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
 		NovoMenu model = new NovoMenu();
 		model.load();
 		/*----#gen-example
@@ -135,17 +125,15 @@ public class NovoMenuController extends Controller {
 		int id = model.getId();
 
 		Menu menu;
-		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
-
+		if (Core.isHttpPost()) {
 			if (Core.isNotNullOrZero(id)) {
-				// UPDATE menu will enter here
+				// UPDATE menu
 				menu = new Menu().findOne(id);
-				
-				if(Core.isNullOrZero(model.getSelf_id())) {
+				if (Core.isNullOrZero(model.getSelf_id()) && Core.isNotNull(menu.getLink()) ) {
 					menu.setMenu(menu);
 				}
 			} else {
-				// NEW menu will enter here
+				// NEW menu 
 				menu = new Menu();
 			}
 			int app = Core.isNotNullOrZero(model.getEnv_fk()) ? model.getEnv_fk() : Core.getParamInt("p_app");
@@ -156,14 +144,14 @@ public class NovoMenuController extends Controller {
 			menu.setStatus(model.getStatus());
 			menu.setTarget(model.getTarget());
 			if (Core.isNotNullOrZero(model.getAction_fk())) {
-				if(model.getGlobal_acl() == 1) { 
-					int action_global_acl_id = model.getAction_fk(); 
-					PermissionAcl acl = getPermissionAclByTypeFk(action_global_acl_id, app); 
-					if(acl != null && acl.getLink() != null && !acl.getLink().isEmpty()) {
-						menu.setLink(acl.getLink()); 
+				if (model.getGlobal_acl() == 1) {
+					int action_global_acl_id = model.getAction_fk();
+					PermissionAcl acl = getPermissionAclByTypeFk(action_global_acl_id, app);
+					if (acl != null && acl.getLink() != null && !acl.getLink().isEmpty()) {
+						menu.setLink(acl.getLink());
 					}
-				}else {
-					menu.setAction(new Action().findOne(model.getAction_fk())); 
+				} else {
+					menu.setAction(new Action().findOne(model.getAction_fk()));
 				}
 			}
 			if (Core.isNotNullOrZero(model.getSelf_id())) {
@@ -172,9 +160,6 @@ public class NovoMenuController extends Controller {
 			} else if (Core.isNotNullOrZero(model.getAction_fk()))
 				menu.setMenu(menu);
 
-			
-				
-			
 			if (Core.isNotNullOrZero(id)) {
 				// UPDATE menu will enter here
 				menu = menu.update();
@@ -186,11 +171,11 @@ public class NovoMenuController extends Controller {
 			} else {
 				// NEW menu will enter here
 				if (Core.isNotNull(menu.getAction())) {
-//					Menu is son or ophan
+					// Menu is son or ophan
 					if (Core.isNotNull(new Menu().find().andWhere("application.id", "=", menu.getApplication().getId())
 							.andWhere("action", "=", menu.getAction().getId()).andWhere("descr", "=", menu.getDescr())
 							.one())) {
-//						Menu already exist
+						// Menu already exist
 						Core.setMessageWarning("NMMSG1");
 						return this.forward("igrp", "NovoMenu", "index");
 					}
@@ -222,12 +207,10 @@ public class NovoMenuController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp","NovoMenu","index", this.queryString());	
+		return this.redirect("igrp", "NovoMenu", "index", this.queryString());
 	}
-	
-		
-		
-/*----#start-code(custom_actions)----*/
+
+	/*----#start-code(custom_actions)----*/
 	private String getPageTituleByID(NovoMenu model) {
 		if (Core.isNotNull(model.getAction_fk())) {
 			final Action actionOne = new Action().find().andWhere("id", "=", model.getAction_fk()).one();
@@ -236,70 +219,69 @@ public class NovoMenuController extends Controller {
 		}
 		return "";
 	}
-	
-	public Response actionIndex_() throws IOException, IllegalArgumentException, IllegalAccessException{
-		String r = "<?xml version = \"1.0\" encoding = \"utf-8\"?>"; 
-		
-		NovoMenuView view = new NovoMenuView(); 
-		
-		String param = Core.getParam("p_global_acl"); 
-		int p_env_fk = Core.getParamInt("p_env_fk"); 
-		int p_global_acl = Core.toInt(param, 0); 
-		
-		if(p_global_acl == 1) { 
+
+	public Response actionIndex_() throws IOException, IllegalArgumentException, IllegalAccessException {
+		String r = "<?xml version = \"1.0\" encoding = \"utf-8\"?>";
+
+		NovoMenuView view = new NovoMenuView();
+
+		String param = Core.getParam("p_global_acl");
+		int p_env_fk = Core.getParamInt("p_env_fk");
+		int p_global_acl = Core.toInt(param, 0);
+
+		if (p_global_acl == 1) {
 			HashMap<Integer, String> targets = new HashMap<>();
 			targets.put(null, gt("-- Selecionar --"));
-			
-			List<PermissionAcl> acls = loadPermissionAcl(p_env_fk); 
-			for(PermissionAcl obj : acls) 
+
+			List<PermissionAcl> acls = loadPermissionAcl(p_env_fk);
+			for (PermissionAcl obj : acls)
 				targets.put(obj.getType_fk(), "" + obj.getDescription());
 
 			r += Core.remoteComboBoxXml(targets, view.action_fk, null);
-		}else 
+		} else
 			r += Core.remoteComboBoxXml(new Action().getListActions(p_env_fk), view.action_fk, null);
-		
-		
+
 		return this.renderView(r);
-	} 
-	
-	public List<PermissionAcl> loadPermissionAcl(int envFk){
-		List<PermissionAcl> acls = new ArrayList<PermissionAcl>(); 
-		
-		Config config = new Config().find().andWhere("name", "=", "" + this.IGRPWEB_INSTANCE_NAME).one(); 
-		Application env = new Application().findOne(envFk); 
-		
-		Properties properties =  this.configApp.getMainSettings(); 
-		String baseUrl = properties.getProperty(IGRP_PDEX_GLOBALACL_URL); 
-		String token = properties.getProperty(IGRP_PDEX_GLOBALACL_TOKEN); 
-		
-		GlobalAcl globalAcl = new GlobalAcl(); 
+	}
+
+	public List<PermissionAcl> loadPermissionAcl(int envFk) {
+		List<PermissionAcl> acls = new ArrayList<PermissionAcl>();
+
+		Config config = new Config().find().andWhere("name", "=", "" + this.IGRPWEB_INSTANCE_NAME).one();
+		Application env = new Application().findOne(envFk);
+
+		Properties properties = this.configApp.getMainSettings();
+		String baseUrl = properties.getProperty(IGRP_PDEX_GLOBALACL_URL);
+		String token = properties.getProperty(IGRP_PDEX_GLOBALACL_TOKEN);
+
+		GlobalAcl globalAcl = new GlobalAcl();
 		globalAcl.setUrl(baseUrl);
 		globalAcl.setToken(token);
 		globalAcl.setInstanceName(config.getValue());
-		if(env != null)
+		if (env != null)
 			globalAcl.setAppCode(env.getDad());
 		globalAcl.setType(GlobalAcl.TYPE.PAGE.name());
-		
-		acls = globalAcl.permissionAcl(); 
-		
+
+		acls = globalAcl.permissionAcl();
+
 		return acls;
 	}
-	
+
 	public PermissionAcl getPermissionAclByTypeFk(int type_fk, int envFk) {
-		PermissionAcl acl = null; 
-		List<PermissionAcl> acls = loadPermissionAcl(envFk); 
-		for(PermissionAcl obj : acls) {
-			if(obj.getType().equals(GlobalAcl.TYPE.PAGE.name()) && obj.getType_fk() == type_fk) {
+		PermissionAcl acl = null;
+		List<PermissionAcl> acls = loadPermissionAcl(envFk);
+		for (PermissionAcl obj : acls) {
+			if (obj.getType().equals(GlobalAcl.TYPE.PAGE.name()) && obj.getType_fk() == type_fk) {
 				acl = obj;
 				break;
 			}
 		}
-		return acl; 
+		return acl;
 	}
-	
-	public final String IGRPWEB_INSTANCE_NAME = "IGRPWEB_INSTANCE_NAME"; 
+
+	public final String IGRPWEB_INSTANCE_NAME = "IGRPWEB_INSTANCE_NAME";
 	private final String IGRP_PDEX_GLOBALACL_URL = "igrp.acl.permissionacl.url";
-	private final String IGRP_PDEX_GLOBALACL_TOKEN = "igrp.acl.permissionacl.token"; 
-	
+	private final String IGRP_PDEX_GLOBALACL_TOKEN = "igrp.acl.permissionacl.token";
+
 	/*----#end-code----*/
 }
