@@ -306,6 +306,11 @@ public class PageController extends Controller {
 		Action eliminar_page = new Action().findOne(Core.toInt(model.getId()));
 		eliminar_page.setStatus(2);
 		eliminar_page.update();
+		
+		List<Menu> menu_delete = new Menu().find().where("action","=",Core.toInt(model.getId())).all();
+		for (Menu menu_del : menu_delete ) {
+			menu_del.delete();
+		}
 		Core.setMessageSuccess("Página eliminada com Sucesso!");
 
 		/*----#end-code----*/
