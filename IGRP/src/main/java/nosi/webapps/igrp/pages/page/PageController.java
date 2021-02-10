@@ -45,6 +45,7 @@ import nosi.core.webapp.helpers.Route;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Historic;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Modulo;
 import nosi.webapps.igrp.dao.Share;
@@ -154,7 +155,6 @@ public class PageController extends Controller {
 
 			action = action.findOne(idPage);
 			action.setPage_descr(model.getPage_descr());
-			action.setNomeModificador(Core.getCurrentUser().getName());
 			action.setAction_descr(model.getPage_descr());
 			action.setStatus(model.getStatus());
 			action.setTipo(model.getPublico());
@@ -169,6 +169,12 @@ public class PageController extends Controller {
 
 			if (action != null) {
 				Core.setMessageSuccess("Página atualizada com sucesso.");
+
+				Historic hitoric_page = new Historic();
+				hitoric_page.setNome(Core.getCurrentUser().getName());
+				hitoric_page.setPage(action);
+				hitoric_page.setDescricao("Informações da Página Alterada");
+				hitoric_page.insert();
 
 				Application app2 = Core.findApplicationById(action.getApplication().getId());
 
@@ -199,7 +205,6 @@ public class PageController extends Controller {
 			action.setApplication(app.findOne(Integer.parseInt(model.getEnv_fk())));
 			action.setAction_descr(model.getPage_descr());
 			action.setPage_descr(model.getPage_descr());
-			action.setNomeModificador(Core.getCurrentUser().getName());
 			action.setStatus(model.getStatus());
 			action.setTipo(model.getPublico());
 			action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
@@ -221,6 +226,12 @@ public class PageController extends Controller {
 				action.setNomeModulo(null);
 
 			action = action.insert();
+
+			Historic hitoric_page = new Historic();
+			hitoric_page.setNome(Core.getCurrentUser().getName());
+			hitoric_page.setDescricao("Criação da página");
+			hitoric_page.setPage(action);
+			hitoric_page.insert();
 
 			if (action != null) {
 
@@ -270,14 +281,19 @@ public class PageController extends Controller {
 
 			Action recover = new Action().find()
 					.where("page", "=", nosi.core.gui.page.Page.getPageName(model.getPage())).andWhere("status", "=", 2)
-					.andWhere("application.id", "=", Core.toInt(model.getEnv_fk()))
-					.one();
+					.andWhere("application.id", "=", Core.toInt(model.getEnv_fk())).one();
 
 			if (recover != null) {
 
-				recover.setNomeModificador(Core.getCurrentUser().getName());
 				recover.setStatus(1);
 				recover.update();
+
+				Historic hitoric_page = new Historic();
+				hitoric_page.setNome(Core.getCurrentUser().getName());
+				hitoric_page.setPage(recover);
+				hitoric_page.setDescricao("Página Recuperada");
+				hitoric_page.insert();
+
 				Core.setMessageInfo("Página Recuperada Com Sucesso!");
 				return this.forward("igrp", "page", "index");
 			} else {
@@ -306,9 +322,9 @@ public class PageController extends Controller {
 		Action eliminar_page = new Action().findOne(Core.toInt(model.getId()));
 		eliminar_page.setStatus(2);
 		eliminar_page.update();
-		
-		List<Menu> menu_delete = new Menu().find().where("action","=",Core.toInt(model.getId())).all();
-		for (Menu menu_del : menu_delete ) {
+
+		List<Menu> menu_delete = new Menu().find().where("action", "=", Core.toInt(model.getId())).all();
+		for (Menu menu_del : menu_delete) {
 			menu_del.delete();
 		}
 		Core.setMessageSuccess("Página eliminada com Sucesso!");
@@ -511,8 +527,11 @@ public class PageController extends Controller {
 							+ "</message>");
 			}
 
-			ac.setNomeModificador(Core.getCurrentUser().getName());
-			ac.update();
+			Historic hitoric_page = new Historic();
+			hitoric_page.setNome(Core.getCurrentUser().getName());
+			hitoric_page.setPage(ac);
+			hitoric_page.setDescricao("Alterações no Gerador.");
+			hitoric_page.insert();
 		}
 
 		if (compiler != null && compiler.hasError())
