@@ -26,7 +26,6 @@ public class TaskServiceIGRP extends GenericActivitiIGRP{
 		return taskServiceRest;
 	}
 	
-	
 	public TaskService getTaskByExecutionId(String id){
 		return taskServiceRest.getTaskByExecutionId(id);
 	}
@@ -107,7 +106,10 @@ public class TaskServiceIGRP extends GenericActivitiIGRP{
 	}
 	
 	private boolean checkIfExistsNApplyCustomPermission(TaskService taskService) {
-		ActivityExecute activityExecute = new ActivityExecute().find().andWhere("processid", "=", taskService.getProcessInstanceId()).one();
+		ActivityExecute activityExecute = new ActivityExecute().find()
+					.andWhere("processid", "=", taskService.getProcessInstanceId())
+					.orderByDesc("id")
+					.one();
 		return activityExecute != null && this.allowTask(activityExecute.getProccessKey(), activityExecute);
 	}
 }
