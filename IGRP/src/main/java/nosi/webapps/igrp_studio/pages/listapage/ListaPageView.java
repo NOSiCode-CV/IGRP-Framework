@@ -36,7 +36,6 @@ public class ListaPageView extends View {
 	public Field status_page_check;
 	public Field modulo_tab;
 	public Field descricao_page;
-	public Field modificado_por;
 	public Field id_page;
 	public Field nome_page;
 	public Field my_app_img;
@@ -55,6 +54,7 @@ public class ListaPageView extends View {
 
 	public IGRPToolsBar toolsbar_2;
 	public IGRPButton btn_nova_aplicacao;
+	public IGRPButton btn_historico;
 	public IGRPButton btn_editar;
 	public IGRPButton btn_visualizar;
 	public IGRPButton btn_gerar_codigo;
@@ -196,10 +196,6 @@ public class ListaPageView extends View {
 		descricao_page.setLabel(gt("Título (Código)"));
 		descricao_page.propertie().add("name","p_descricao_page").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
-		modificado_por = new TextField(model,"modificado_por");
-		modificado_por.setLabel(gt("Modificado "));
-		modificado_por.propertie().add("name","p_modificado_por").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
-		
 		id_page = new HiddenField(model,"id_page");
 		id_page.setLabel(gt(""));
 		id_page.propertie().add("name","p_id_page").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","id_page");
@@ -230,6 +226,9 @@ public class ListaPageView extends View {
 
 		btn_nova_aplicacao = new IGRPButton("Nova Aplicação","igrp_studio","ListaPage","nova_aplicacao","modal|refresh","primary|fa-plus","","");
 		btn_nova_aplicacao.propertie.add("type","specific").add("rel","nova_aplicacao").add("refresh_components","");
+
+		btn_historico = new IGRPButton("Historico","igrp_studio","ListaPage","historico","mpsubmit","link|fa-clock-o","","");
+		btn_historico.propertie.add("id","button_e715_bff0").add("type","specific").add("class","link").add("rel","historico").add("refresh_components","");
 
 		btn_editar = new IGRPButton("Editar","igrp_studio","ListaPage","editar","mpsubmit|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("id","button_2f1f_9a95").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
@@ -286,7 +285,6 @@ public class ListaPageView extends View {
 		table_1.addField(status_page_check);
 		table_1.addField(modulo_tab);
 		table_1.addField(descricao_page);
-		table_1.addField(modificado_por);
 		table_1.addField(id_page);
 		table_1.addField(nome_page);
 
@@ -297,6 +295,7 @@ public class ListaPageView extends View {
 		table_2.addField(env_fk);
 
 		toolsbar_2.addButton(btn_nova_aplicacao);
+		table_1.addButton(btn_historico);
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_visualizar);
 		table_1.addButton(btn_gerar_codigo);
@@ -343,7 +342,6 @@ public class ListaPageView extends View {
 		status_page.setValue(model);
 		modulo_tab.setValue(model);
 		descricao_page.setValue(model);
-		modificado_por.setValue(model);
 		id_page.setValue(model);
 		nome_page.setValue(model);
 		my_aplicacao.setValue(model);

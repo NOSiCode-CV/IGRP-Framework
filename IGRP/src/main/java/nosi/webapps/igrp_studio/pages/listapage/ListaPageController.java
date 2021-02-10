@@ -62,8 +62,8 @@ public class ListaPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Lorem amet' as modulo_tab,'Unde perspiciatis mollit strac' as descricao_page,'Elit sit voluptatem rem ipsum' as modificado_por,'hidden-dad6_bc66' as id_page,'hidden-7b4f_d55a' as nome_page "));
-		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-9602_1d34' as env_fk "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Omnis sit' as modulo_tab,'Voluptatem consectetur omnis o' as descricao_page,'hidden-1998_3482' as id_page,'hidden-790f_ff02' as nome_page "));
+		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-c281_6075' as env_fk "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -166,14 +166,6 @@ public class ListaPageController extends Controller {
 				module = "" + map.get(ac.getNomeModulo());
 			table1.setModulo_tab(module);
 			table1.setDescricao_page(ac.getPage_descr() + " (" + ac.getPage() + ")");
-			if (ac.getData() != null) {
-				String data = Core.convertLocalDateTimeToString(ac.getData(), "dd-MM-yyyy - HH:mm");
-				table1.setModificado_por(
-						ac.getNomeModificador() != null ? ac.getNomeModificador() + " (" + data + ")" : data);
-
-			} else
-				table1.setModificado_por(ac.getNomeModificador());
-
 			int check = ac.getStatus() == 1 ? ac.getStatus() : -1;
 			table1.setStatus_page(ac.getStatus());
 			table1.setStatus_page_check(check);
@@ -242,16 +234,37 @@ public class ListaPageController extends Controller {
 		return this.redirect("igrp_studio","Env","index", this.queryString());	
 	}
 	
+	public Response actionHistorico() throws IOException, IllegalArgumentException, IllegalAccessException{
+		ListaPage model = new ListaPage();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
+		  this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
+		  return this.forward("igrp_studio","Historico_page","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/*----#start-code(historico)----*/
+		
+		this.addQueryString("p_id_page", Core.getParam("p_id_page"));
+		/*----#end-code----*/
+		return this.redirect("igrp_studio","Historico_page","index", this.queryString());	
+	}
+	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ListaPage model = new ListaPage();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
-		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
-		 return this.forward("igrp_studio","listapage","index",this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id_page",Core.getParam("p_id_page"));
+		  this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
+		  return this.forward("igrp_studio","Historico_page","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(editar)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -260,8 +273,7 @@ public class ListaPageController extends Controller {
 
 		
 		/*----#end-code----*/
-		
-		return this.redirect("igrp_studio","listapage","index", this.queryString());	
+		return this.redirect("igrp_studio","Historico_page","index", this.queryString());	
 	}
 	
 	public Response actionVisualizar() throws IOException, IllegalArgumentException, IllegalAccessException{

@@ -207,7 +207,7 @@
                 </crud_generator>
                 <link_btn_nova_pagina name="p_link_btn_nova_pagina" type="link" target="modal" target_fields="" closerefresh="true" action="undefined" page="undefined" app="undefined" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="false" custom_action="" action_type="false" request_fields="" refresh_submit="false" desclabel="false" refresh_components="" adbcli="">
                     <label>Nova página</label>
-                    <value>http://vivopezi.net/jenudca</value>
+                    <value>http://awo.org/mevepfa</value>
                 </link_btn_nova_pagina>
             </fields>
         </form_1>
@@ -231,9 +231,6 @@
                 <descricao_page name="p_descricao_page" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
                     <label>Título (Código)</label>
                 </descricao_page>
-                <modificado_por name="p_modificado_por" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
-                    <label>Modificado </label>
-                </modificado_por>
                 <id_page name="p_id_page" type="hidden" maxlength="30" iskey="true" java-type="" showLabel="true" group_in="" tag="id_page"/>
                 <nome_page name="p_nome_page" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" group_in="" tag="nome_page"/>
             </fields>
@@ -246,11 +243,10 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <modulo_tab name="p_modulo_tab">Consectetu</modulo_tab>
-                        <descricao_page name="p_descricao_page">Adipiscing perspiciatis unde m</descricao_page>
-                        <modificado_por name="p_modificado_por">Omnis rem perspiciatis sed adi</modificado_por>
-                        <id_page name="p_id_page" tag="id_page">hidden-c5b0_0f88</id_page>
-                        <nome_page name="p_nome_page" tag="nome_page">hidden-50c7_d1c6</nome_page>
+                        <modulo_tab name="p_modulo_tab">Omnis sed</modulo_tab>
+                        <descricao_page name="p_descricao_page">Dolor sit omnis laudantium ame</descricao_page>
+                        <id_page name="p_id_page" tag="id_page">hidden-fd04_b910</id_page>
+                        <nome_page name="p_nome_page" tag="nome_page">hidden-578e_6895</nome_page>
                     </row>
                     <row>
                         <context-menu>
@@ -259,11 +255,10 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <modulo_tab name="p_modulo_tab">Omnis ipsu</modulo_tab>
-                        <descricao_page name="p_descricao_page">Officia mollit iste elit aliqu</descricao_page>
-                        <modificado_por name="p_modificado_por">Unde sed omnis doloremque laud</modificado_por>
-                        <id_page name="p_id_page" tag="id_page">hidden-a07e_edaa</id_page>
-                        <nome_page name="p_nome_page" tag="nome_page">hidden-cfa7_8a99</nome_page>
+                        <modulo_tab name="p_modulo_tab">Lorem tota</modulo_tab>
+                        <descricao_page name="p_descricao_page">Labore mollit anim mollit ipsu</descricao_page>
+                        <id_page name="p_id_page" tag="id_page">hidden-8978_e319</id_page>
+                        <nome_page name="p_nome_page" tag="nome_page">hidden-ab53_b74a</nome_page>
                     </row>
                     <row>
                         <context-menu>
@@ -272,11 +267,10 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <modulo_tab name="p_modulo_tab">Ipsum aliq</modulo_tab>
-                        <descricao_page name="p_descricao_page">Sit sit accusantium rem volupt</descricao_page>
-                        <modificado_por name="p_modificado_por">Aperiam perspiciatis rem dolor</modificado_por>
-                        <id_page name="p_id_page" tag="id_page">hidden-84ea_c876</id_page>
-                        <nome_page name="p_nome_page" tag="nome_page">hidden-ba62_2f99</nome_page>
+                        <modulo_tab name="p_modulo_tab">Magna natu</modulo_tab>
+                        <descricao_page name="p_descricao_page">Anim dolor accusantium mollit</descricao_page>
+                        <id_page name="p_id_page" tag="id_page">hidden-09e5_30db</id_page>
+                        <nome_page name="p_nome_page" tag="nome_page">hidden-388d_dc18</nome_page>
                     </row>
                     <row>
                         <context-menu>
@@ -285,11 +279,10 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <modulo_tab name="p_modulo_tab">Unde deser</modulo_tab>
-                        <descricao_page name="p_descricao_page">Omnis unde aperiam aliqua elit</descricao_page>
-                        <modificado_por name="p_modificado_por">Rem sed sit sit natus</modificado_por>
-                        <id_page name="p_id_page" tag="id_page">hidden-9179_2a4f</id_page>
-                        <nome_page name="p_nome_page" tag="nome_page">hidden-7d6e_2934</nome_page>
+                        <modulo_tab name="p_modulo_tab">Lorem aliq</modulo_tab>
+                        <descricao_page name="p_descricao_page">Officia lorem labore consectet</descricao_page>
+                        <id_page name="p_id_page" tag="id_page">hidden-e4fc_b703</id_page>
+                        <nome_page name="p_nome_page" tag="nome_page">hidden-0f2e_c862</nome_page>
                     </row>
                     <row>
                         <context-menu>
@@ -298,23 +291,32 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <modulo_tab name="p_modulo_tab">Consectetu</modulo_tab>
-                        <descricao_page name="p_descricao_page">Dolor unde adipiscing ut volup</descricao_page>
-                        <modificado_por name="p_modificado_por">Iste aliqua deserunt totam des</modificado_por>
-                        <id_page name="p_id_page" tag="id_page">hidden-c5fe_be5d</id_page>
-                        <nome_page name="p_nome_page" tag="nome_page">hidden-aa5c_1ffe</nome_page>
+                        <modulo_tab name="p_modulo_tab">Deserunt c</modulo_tab>
+                        <descricao_page name="p_descricao_page">Iste sed lorem labore dolor</descricao_page>
+                        <id_page name="p_id_page" tag="id_page">hidden-ce50_cc73</id_page>
+                        <nome_page name="p_nome_page" tag="nome_page">hidden-5a95_8185</nome_page>
                     </row>
                 </value>
                 <context-menu>
+                    <item id="button_e715_bff0" type="specific" code="" class="link" rel="historico" refresh_components="">
+                        <title>Historico</title>
+                        <app>igrp_studio</app>
+                        <page>Historico_page</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/historico_page/Historico_page.xml?</parameter>
+                        <target>mpsubmit</target>
+                        <img>link|fa-clock-o</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp_studio/historico_page/Historico_page.xml</preview>
+                    </item>
                     <item id="button_2f1f_9a95" type="specific" code="" class="warning" rel="editar" refresh_components="">
                         <title>Editar</title>
-                        <app/>
-                        <page/>
-                        <link/>
-                        <parameter>?</parameter>
+                        <app>igrp_studio</app>
+                        <page>Historico_page</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/historico_page/Historico_page.xml?</parameter>
                         <target>mpsubmit|refresh</target>
                         <img>warning|fa-pencil</img>
-                        <preview/>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp_studio/historico_page/Historico_page.xml</preview>
                     </item>
                     <item id="button_2b2e_6dcc" type="specific" code="" class="primary" rel="visualizar" refresh_components="">
                         <title>Visualizar</title>
@@ -380,7 +382,7 @@
                         <my_app_img name="p_my_app_img">/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</my_app_img>
                         <my_aplicacao name="p_my_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</my_aplicacao>
                         <my_aplicacao_desc name="p_my_aplicacao_desc">Aplicação</my_aplicacao_desc>
-                        <env_fk name="p_env_fk" tag="env_fk">hidden-9113_cdae</env_fk>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-3658_a12b</env_fk>
                     </row>
                     <row>
                         <context-menu>
@@ -390,7 +392,7 @@
                         <my_app_img name="p_my_app_img">/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</my_app_img>
                         <my_aplicacao name="p_my_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</my_aplicacao>
                         <my_aplicacao_desc name="p_my_aplicacao_desc">Aplicação</my_aplicacao_desc>
-                        <env_fk name="p_env_fk" tag="env_fk">hidden-a661_2a7a</env_fk>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-7bfa_5b54</env_fk>
                     </row>
                     <row>
                         <context-menu>
@@ -400,7 +402,7 @@
                         <my_app_img name="p_my_app_img">/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</my_app_img>
                         <my_aplicacao name="p_my_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</my_aplicacao>
                         <my_aplicacao_desc name="p_my_aplicacao_desc">Aplicação</my_aplicacao_desc>
-                        <env_fk name="p_env_fk" tag="env_fk">hidden-c68e_0256</env_fk>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-e23d_f4c8</env_fk>
                     </row>
                     <row>
                         <context-menu>
@@ -410,7 +412,7 @@
                         <my_app_img name="p_my_app_img">/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</my_app_img>
                         <my_aplicacao name="p_my_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</my_aplicacao>
                         <my_aplicacao_desc name="p_my_aplicacao_desc">Aplicação</my_aplicacao_desc>
-                        <env_fk name="p_env_fk" tag="env_fk">hidden-4c8c_c599</env_fk>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-a48d_415c</env_fk>
                     </row>
                     <row>
                         <context-menu>
@@ -420,7 +422,7 @@
                         <my_app_img name="p_my_app_img">/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</my_app_img>
                         <my_aplicacao name="p_my_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</my_aplicacao>
                         <my_aplicacao_desc name="p_my_aplicacao_desc">Aplicação</my_aplicacao_desc>
-                        <env_fk name="p_env_fk" tag="env_fk">hidden-f865_bae2</env_fk>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-a97d_6b85</env_fk>
                     </row>
                 </value>
                 <context-menu>
