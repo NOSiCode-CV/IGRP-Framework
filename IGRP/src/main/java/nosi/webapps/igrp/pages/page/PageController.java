@@ -322,6 +322,12 @@ public class PageController extends Controller {
 		Action eliminar_page = new Action().findOne(Core.toInt(model.getId()));
 		eliminar_page.setStatus(2);
 		eliminar_page.update();
+		
+		Historic hitoric_page = new Historic();
+		hitoric_page.setNome(Core.getCurrentUser().getName());
+		hitoric_page.setPage(eliminar_page);
+		hitoric_page.setDescricao("Página Eliminada.");
+		hitoric_page.insert();
 
 		List<Menu> menu_delete = new Menu().find().where("action", "=", Core.toInt(model.getId())).all();
 		for (Menu menu_del : menu_delete) {
