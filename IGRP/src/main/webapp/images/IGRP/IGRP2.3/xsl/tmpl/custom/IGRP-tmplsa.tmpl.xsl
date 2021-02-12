@@ -523,7 +523,7 @@
                                             <div class=" btn-list-item">
                                                 <xsl:if test="$isconfi">
                                                     <a class="sa-icon sa-resize-favorite">
-                                                        <i class="fa fa-expand-arrows-alt"></i>
+                                                        <i class="fa fa-arrows"></i>
                                                     </a>
                                                     <a class="sa-icon sa-remove-favorite">
                                                         <i class="fa fa-times"></i>
