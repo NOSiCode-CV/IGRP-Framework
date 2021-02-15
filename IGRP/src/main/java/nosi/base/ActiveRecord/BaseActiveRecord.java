@@ -573,7 +573,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				this.filterWhere("UPPER("+recq.resolveColumnName(this.getAlias(),name)+") "+operator+" :"+paramName_+" ");
 				this.addParamter(name,paramName_,value.toString().toUpperCase(),classType);				
 			}else {
-				this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName_+" ");
+				this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" :"+paramName_+" ");
 				this.addParamter(name,paramName_,value,classType);
 			}
 		}
@@ -1293,12 +1293,12 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			try {
 				Object v = pk.get(value);
 				pk.setAccessible(false);
-				return this.andWhereObject(name, name, operator, v,pk.getType());
+				return this.andWhereObject(name, paramName, operator, v,pk.getType());
 			} catch (IllegalAccessException | IllegalArgumentException e) {
 				e.printStackTrace();
 			}
 		}
-		return this.andWhereObject(name, name, operator, value,Object.class);
+		return this.andWhereObject(name, paramName, operator, value,Object.class);
 	}
 
 	@Override
