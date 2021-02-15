@@ -19,20 +19,20 @@
                     <div class="row holder-header letter-spacing" id="row-4c01a7ae">
                         <xsl:if test="rows/content/controll">
                             <div class="col-sm-7 holder-title-today height-header">
-                                <div class="col-sm-10">
+                                <div class="col-sm-12">
                                     <xsl:if test="rows/content/controll/fields/title">
                                         <div class="holder-title" item-name="title" item-type="plaintext">
                                             <xsl:value-of select="rows/content/controll/fields/title/value"/>
                                         </div>
                                     </xsl:if>
                                 </div>
-                                <div class="col-sm-2">
+                                <!--<div class="col-sm-2">
                                     <xsl:if test="rows/content/controll/fields/today">
                                         <div class="holder-today text-right" item-name="today" item-type="plaintext">
                                             <xsl:value-of select="rows/content/controll/fields/today/value"/>
                                         </div>
                                     </xsl:if>
-                                </div>
+                                </div>-->
                             </div>
                             <div class="col-sm-5 holder-time-stringdate height-header holder-grey-color">
                                 <xsl:if test="rows/content/controll/fields/time">
