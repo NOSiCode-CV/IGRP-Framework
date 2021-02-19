@@ -49,13 +49,13 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="ListaPage" app="igrp_studio" custom_action="//in controller" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true" adbcli="">
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="//in controller" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
                     <label>Help</label>
-                    <value>//in controller</value>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
                 </documento>
-                <forum name="p_forum" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="ListaPage" app="igrp_studio" custom_action="//in controller" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-comments" maxlength="250" showlabel="true" adbcli="">
+                <forum name="p_forum" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="//in controller" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
                     <label>Forum</label>
-                    <value>//in controller</value>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
                 </forum>
             </fields>
         </view_1>
@@ -70,7 +70,7 @@
                 <preview>../images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</preview>
             </item>
         </toolsbar_3>
-        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+        <form_crud_dao_gen type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="" tags="false">
                     <label>Aplicação</label>
@@ -168,7 +168,7 @@
                     </rules>
                 </schema>
             </fields>
-        </form_1>
+        </form_crud_dao_gen>
         <table_1 type="table" xml-type="table" title="Escolha a tabela" gen-type="container" gen-group="true">
             <fields>
                 <check_table name="p_check_table" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" showLabel="true" java-type="String" group_in="" check="true" desc="true">
@@ -183,27 +183,27 @@
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Officia rem iste perspiciatis</table_name>
+                        <table_name name="p_table_name">Rem labore perspiciatis stract</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Officia doloremque accusantium</table_name>
+                        <table_name name="p_table_name">Labore magna accusantium unde</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Elit sit stract perspiciatis t</table_name>
+                        <table_name name="p_table_name">Lorem officia aperiam officia</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Aliqua anim sit lorem rem</table_name>
+                        <table_name name="p_table_name">Aliqua laudantium iste sit mol</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Totam laudantium sit totam des</table_name>
+                        <table_name name="p_table_name">Omnis magna perspiciatis accus</table_name>
                     </row>
                 </value>
             </table>
@@ -267,6 +267,14 @@
                 </form_2_radiolist_1>
             </fields>
         </form_2>
+        <form_3 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <date__calendar_api name="p_date__calendar_api" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="false" java-type="int" switch="false" check="true">
+                    <label>Date / Calendar API</label>
+                    <value>1</value>
+                </date__calendar_api>
+            </fields>
+        </form_3>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gerar" custom_return="true" refresh_components="">
                 <title>CRUD</title>
@@ -291,30 +299,9 @@
         </toolsbar_2>
     </content>
     <blockly>
-        <imports>
-            <import type="fill_combo">Select</import>
-        </imports>
+        <imports></imports>
         <xml>
-            <block type="controller" id="controller" x="388" y="13">
-                <statement name="index">
-                    <block type="fill_combo" id="pmuV/p@`;lOaQD!n7u`?" inline="true">
-                        <field name="selecao">form_2_radiolist_1</field>
-                        <field name="selecionar">FALSE</field>
-                        <statement name="value2">
-                            <block type="option_combo" id="b!qgzG3EpCrHOg_CPwI:" inline="true">
-                                <field name="opcao_val">dao</field>
-                                <field name="opcao_des">DAO</field>
-                                <next>
-                                    <block type="option_combo" id="br;]:5d)Y#Fuzp^?w!};" inline="true">
-                                        <field name="opcao_val">crud</field>
-                                        <field name="opcao_des">CRUD</field>
-                                    </block>
-                                </next>
-                            </block>
-                        </statement>
-                    </block>
-                </statement>
-            </block>
+            <block type="controller" id="controller" x="163" y="38"></block>
         </xml>
     </blockly>
 </rows>

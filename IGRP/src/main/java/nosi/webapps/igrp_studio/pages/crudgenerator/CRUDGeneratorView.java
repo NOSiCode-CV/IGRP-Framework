@@ -20,11 +20,14 @@ public class CRUDGeneratorView extends View {
 	public Field table_name;
 	public Field table_type;
 	public Field form_2_radiolist_1;
+	public Field date__calendar_api;
+	public Field date__calendar_api_check;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPView view_1;
-	public IGRPForm form_1;
+	public IGRPForm form_crud_dao_gen;
 	public IGRPTable table_1;
 	public IGRPForm form_2;
+	public IGRPForm form_3;
 
 	public IGRPToolsBar toolsbar_3;
 	public IGRPToolsBar toolsbar_1;
@@ -41,11 +44,13 @@ public class CRUDGeneratorView extends View {
 
 		view_1 = new IGRPView("view_1","");
 
-		form_1 = new IGRPForm("form_1","");
+		form_crud_dao_gen = new IGRPForm("form_crud_dao_gen","");
 
 		table_1 = new IGRPTable("table_1","Escolha a tabela");
 
 		form_2 = new IGRPForm("form_2","");
+
+		form_3 = new IGRPForm("form_3","");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
@@ -54,13 +59,11 @@ public class CRUDGeneratorView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.setValue(gt("//in controller"));
-		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		forum = new LinkField(model,"forum");
 		forum.setLabel(gt("Forum"));
-		forum.setValue(gt("//in controller"));
-		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-comments").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
@@ -93,6 +96,10 @@ public class CRUDGeneratorView extends View {
 		form_2_radiolist_1.setLabel(gt("Escolha 1º"));
 		form_2_radiolist_1.propertie().add("name","p_form_2_radiolist_1").add("type","radiolist").add("domain","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("child_size","6").add("java-type","");
 		
+		date__calendar_api = new CheckBoxField(model,"date__calendar_api");
+		date__calendar_api.setLabel(gt("Date / Calendar API"));
+		date__calendar_api.propertie().add("name","p_date__calendar_api").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("switch","false").add("check","true");
+		
 
 		toolsbar_3 = new IGRPToolsBar("toolsbar_3");
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -119,9 +126,9 @@ public class CRUDGeneratorView extends View {
 		view_1.addField(forum);
 
 
-		form_1.addField(aplicacao);
-		form_1.addField(data_source);
-		form_1.addField(schema);
+		form_crud_dao_gen.addField(aplicacao);
+		form_crud_dao_gen.addField(data_source);
+		form_crud_dao_gen.addField(schema);
 
 		table_1.addField(check_table);
 		table_1.addField(check_table_check);
@@ -130,6 +137,8 @@ public class CRUDGeneratorView extends View {
 		form_2.addField(table_type);
 		form_2.addField(form_2_radiolist_1);
 
+		form_3.addField(date__calendar_api);
+
 
 
 		toolsbar_3.addButton(btn_add_datasource);
@@ -137,9 +146,10 @@ public class CRUDGeneratorView extends View {
 		toolsbar_2.addButton(btn_gerar_dao);
 		this.addToPage(sectionheader_1);
 		this.addToPage(view_1);
-		this.addToPage(form_1);
+		this.addToPage(form_crud_dao_gen);
 		this.addToPage(table_1);
 		this.addToPage(form_2);
+		this.addToPage(form_3);
 		this.addToPage(toolsbar_3);
 		this.addToPage(toolsbar_1);
 		this.addToPage(toolsbar_2);
@@ -148,13 +158,16 @@ public class CRUDGeneratorView extends View {
 	@Override
 	public void setModel(Model model) {
 		
+		documento.setValue(model);
+		forum.setValue(model);
 		aplicacao.setValue(model);
 		data_source.setValue(model);
 		schema.setValue(model);
 		check_table.setValue(model);
 		table_name.setValue(model);
 		table_type.setValue(model);
-		form_2_radiolist_1.setValue(model);	
+		form_2_radiolist_1.setValue(model);
+		date__calendar_api.setValue(model);	
 
 		table_1.loadModel(((CRUDGenerator) model).getTable_1());
 		}
