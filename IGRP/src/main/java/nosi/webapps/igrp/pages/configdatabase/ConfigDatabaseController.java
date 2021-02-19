@@ -380,18 +380,12 @@ public class ConfigDatabaseController extends Controller {
 				"\t\t<property name=\"hibernate.dialect\">"+DatabaseConfigHelper.getHibernateDialect(Core.decrypt(config.getType_db(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB))+"</property>\n"+
 				"\t\t<!-- Hikaricp configuration -->\r\n" + 
 				"\t\t<property name=\"hibernate.connection.provider_class\">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.connectionTimeout\">60000</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.idleTimeout\">10000</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.connectionTimeout\">120000</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.idleTimeout\">600000</property>\r\n" + 
 				"\t\t<property name=\"hibernate.hikari.minimumIdle\">0</property>\r\n" + 
 				"\t\t<property name=\"hibernate.hikari.maximumPoolSize\">10</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.maxLifetime\">30000</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.leakDetectionThreshold\">0</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.connectionTimeout\">120000</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.idleTimeout\">600000</property>\r\n" + 
 				"\t\t<property name=\"hibernate.hikari.maxLifetime\">1800000</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.connectionTimeout\">120000</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.idleTimeout\">600000</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.maxLifetime\">1800000</property>\n\n\n" + 
+				"\t\t<property name=\"hibernate.hikari.leakDetectionThreshold\">0</property>\r\n" +
 				"\t\t<!-- Mapping your class here... \n" + 
 				"\t\tEx: <mapping class=\""+ package_ + ".Employee\"/>" + 
 				" \t\t-->\n" + 
