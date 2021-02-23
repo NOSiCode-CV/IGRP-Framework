@@ -38,11 +38,6 @@ public class CRUDGenerator extends Model{
 
 	@RParam(rParamName = "p_form_2_radiolist_1")
 	private Integer form_2_radiolist_1;
-
-	@RParam(rParamName = "p_date__calendar_api")
-	private int date__calendar_api;
-	@RParam(rParamName = "p_date__calendar_api_check")
-	private int date__calendar_api_check;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -137,19 +132,6 @@ public class CRUDGenerator extends Model{
 	}
 	public Integer getForm_2_radiolist_1(){
 		return this.form_2_radiolist_1;
-	}
-	
-	public void setDate__calendar_api(int date__calendar_api){
-		this.date__calendar_api = date__calendar_api;
-	}
-	public int getDate__calendar_api(){
-		return this.date__calendar_api;
-	}
-	public void setDate__calendar_api_check(int date__calendar_api_check){
-		this.date__calendar_api_check = date__calendar_api_check;
-	}
-	public int getDate__calendar_api_check(){
-		return this.date__calendar_api_check;
 	}
 
 
