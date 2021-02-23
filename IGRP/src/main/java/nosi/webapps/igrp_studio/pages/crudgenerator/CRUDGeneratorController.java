@@ -38,7 +38,7 @@ public class CRUDGeneratorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Officia sit totam aperiam ut' as table_name "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Magna aliqua voluptatem amet a' as table_name "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.schema.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -188,7 +188,7 @@ public class CRUDGeneratorController extends Controller {
 				daoDto.setContentList("");
 				daoDto.setContentListSetGet("");
 				daoDto.setTableType(model.getTable_type());
-				daoDto.setJavaUtilDate(model.getDate__calendar_api() == 1);
+				//daoDto.setJavaUtilDate(model.getDate__calendar_api() == 1);
 				daoDto.setTableName(tableName);
 				daoDto.setDaoClassName(GerarClasse.convertCase(tableName, true));
 				this.generateDAO(daoDto);

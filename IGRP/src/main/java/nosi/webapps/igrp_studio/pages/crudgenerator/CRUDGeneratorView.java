@@ -20,14 +20,11 @@ public class CRUDGeneratorView extends View {
 	public Field table_name;
 	public Field table_type;
 	public Field form_2_radiolist_1;
-	public Field date__calendar_api;
-	public Field date__calendar_api_check;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPView view_1;
 	public IGRPForm form_crud_dao_gen;
 	public IGRPTable table_1;
 	public IGRPForm form_2;
-	public IGRPForm form_3;
 
 	public IGRPToolsBar toolsbar_3;
 	public IGRPToolsBar toolsbar_1;
@@ -49,8 +46,6 @@ public class CRUDGeneratorView extends View {
 		table_1 = new IGRPTable("table_1","Escolha a tabela");
 
 		form_2 = new IGRPForm("form_2","");
-
-		form_3 = new IGRPForm("form_3","");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
@@ -96,10 +91,6 @@ public class CRUDGeneratorView extends View {
 		form_2_radiolist_1.setLabel(gt("Escolha 1º"));
 		form_2_radiolist_1.propertie().add("name","p_form_2_radiolist_1").add("type","radiolist").add("domain","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("child_size","6").add("java-type","");
 		
-		date__calendar_api = new CheckBoxField(model,"date__calendar_api");
-		date__calendar_api.setLabel(gt("Date / Calendar API"));
-		date__calendar_api.propertie().add("name","p_date__calendar_api").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("switch","false").add("check","true");
-		
 
 		toolsbar_3 = new IGRPToolsBar("toolsbar_3");
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -137,8 +128,6 @@ public class CRUDGeneratorView extends View {
 		form_2.addField(table_type);
 		form_2.addField(form_2_radiolist_1);
 
-		form_3.addField(date__calendar_api);
-
 
 
 		toolsbar_3.addButton(btn_add_datasource);
@@ -149,7 +138,6 @@ public class CRUDGeneratorView extends View {
 		this.addToPage(form_crud_dao_gen);
 		this.addToPage(table_1);
 		this.addToPage(form_2);
-		this.addToPage(form_3);
 		this.addToPage(toolsbar_3);
 		this.addToPage(toolsbar_1);
 		this.addToPage(toolsbar_2);
@@ -166,8 +154,7 @@ public class CRUDGeneratorView extends View {
 		check_table.setValue(model);
 		table_name.setValue(model);
 		table_type.setValue(model);
-		form_2_radiolist_1.setValue(model);
-		date__calendar_api.setValue(model);	
+		form_2_radiolist_1.setValue(model);	
 
 		table_1.loadModel(((CRUDGenerator) model).getTable_1());
 		}
