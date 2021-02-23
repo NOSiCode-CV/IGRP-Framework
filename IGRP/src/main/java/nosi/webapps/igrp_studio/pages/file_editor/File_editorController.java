@@ -42,7 +42,7 @@ public class File_editorController extends Controller {
 		/*----#start-code(index)----*/
 		model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=file_editor"));
 		model.setJson_data("igrp_studio", "File_editor", "get-json-all-folder").addParam("task_id", Core.getParam("p_task_id")).addParam("env_fk", Core.getParam("p_env_fk"));
-		model.setSave_url("igrp_studio", "File_editor", "save-and-compile-file");
+		model.setSave_url("igrp_studio", "File_editor", "save-and-compile-file").addParam("env_fk", Core.getParam("p_env_fk"));
 		String type = Core.getParam("type");
 		String path = Core.getParam("path");
 		String name = Core.getParam("name");
@@ -203,12 +203,13 @@ public class File_editorController extends Controller {
 						String[] code_split = fileName.split("Controller");
 						String code_page = code_split[0].substring(code_split[0].lastIndexOf(File.separator))
 								.replace(File.separator, "");
-						Action page = new Action().find().where("page","=",code_page).one();
-						 Historic hitoric_page = new Historic();
-						 hitoric_page.setNome(Core.getCurrentUser().getName());
-						 hitoric_page.setPage(page);
-						 hitoric_page.setDescricao("Alterações Feitas no File Editor.");
-						 hitoric_page.insert();
+						Action page = new Action().find().where("page", "=", code_page)
+								.andWhere("application", "=", Core.getParamInt("env_fk")).one();
+						Historic hitoric_page = new Historic();
+						hitoric_page.setNome(Core.getCurrentUser().getName());
+						hitoric_page.setPage(page);
+						hitoric_page.setDescricao("Alterações Feitas no File Editor.");
+						hitoric_page.insert();
 					}
 				}
 			}
