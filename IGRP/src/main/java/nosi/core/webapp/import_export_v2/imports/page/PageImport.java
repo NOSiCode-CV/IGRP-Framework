@@ -13,6 +13,7 @@ import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 import nosi.core.webapp.import_export_v2.imports.IImport;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Historic;
 
 /**
  * Emanuel
@@ -103,6 +104,12 @@ public class PageImport extends AbstractImport implements IImport{
 		}
 		if(!ac.hasError()) {
 			this.saveFile(page,ac);
+			
+			Historic hitoric_page = new Historic();
+			hitoric_page.setNome(Core.getCurrentUser().getName());
+			hitoric_page.setPage(ac);
+			hitoric_page.setDescricao("Página Importada.");
+			hitoric_page.insert();
 		}
 	}
 

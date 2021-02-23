@@ -18,6 +18,7 @@ import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
+import nosi.webapps.igrp.dao.Historic;
 
 import java.io.File;
 import java.net.URLDecoder;
@@ -197,6 +198,17 @@ public class File_editorController extends Controller {
 					String erros = compiler.getErrorToJson();
 					if(Core.isNotNull(erros)) {
 						return this.renderView("<messages><message type=\"error\">"+StringEscapeUtils.escapeXml10(erros)+"</message></messages>");
+					}
+					if (fileName.endsWith("Controller.java")) {
+						String[] code_split = fileName.split("Controller");
+						String code_page = code_split[0].substring(code_split[0].lastIndexOf(File.separator))
+								.replace(File.separator, "");
+						Action page = new Action().find().where("page","=",code_page).one();
+						 Historic hitoric_page = new Historic();
+						 hitoric_page.setNome(Core.getCurrentUser().getName());
+						 hitoric_page.setPage(page);
+						 hitoric_page.setDescricao("Alterações Feitas no File Editor.");
+						 hitoric_page.insert();
 					}
 				}
 			}
