@@ -224,6 +224,10 @@ var GENSTRUCTURES = function(GEN){
 					'<label>Default View</label>'+
 					'<value></value>'+
 				'</'+tag+'_date>'+
+				'<'+tag+'_daysoff name="p_'+tag+'_daysoff"  type="text" maxlength="30">'+
+					'<label>Days off</label>'+
+					'<value></value>'+
+				'</'+tag+'_daysoff>'+
 			'</fields>';
 
 			if(container.contextMenu && container.contextMenu.items[0])
