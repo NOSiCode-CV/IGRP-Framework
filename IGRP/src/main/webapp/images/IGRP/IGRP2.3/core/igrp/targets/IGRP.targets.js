@@ -659,18 +659,25 @@
 			}
 		};
 
-		var closerefresh = function(p){;
+		var closerefresh = function(p){
+			
+			var params 	   = $.extend({},p),
+			
+				reloadType = params.type || 'refresh';
 			
 			try{
 
-				var _window = window.parent ? window.parent : window.opener,
-					url 	= null;
+				var popup 	= window.opener || false,
 
-				_window = _window.frames['head_filho'] || _window;
+					_window = popup || window.parent,
+
+					_window = _window.frames['head_filho'] || _window,
+					url 	= null;
 
 				if (mWindow) {
 					_window = mWindow;
-
+					
+					popup 	= false;
 					mWindow = null;
 					
 					if(mUrl){
@@ -679,12 +686,28 @@
 					}
 				}
 				
+				if(popup)
+				
+					close();
+				
+				/*if(reloadType == 'refresh')
+				 
+				 	_window.location.reload();
+					
+				
+				if(reloadType == 'refresh_submit'){
+					
+					submit({
+						url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || _window.location.href
+					});
+				}*/
+				
 				_window.$.IGRP.targets.submit.action({
 					url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || url,
 					validate : false
 				});
 					
-			}catch(e){console.log(e);}
+			}catch(e){null;}
 		};
 		
 		var gisViewCoords = function(p){
