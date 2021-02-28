@@ -145,11 +145,13 @@ public class ListaPageView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=studio"));
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		forum = new LinkField(model,"forum");
 		forum.setLabel(gt("Forum"));
-		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		forum.setValue(gt("https://gitter.im/igrpweb/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link"));
+		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-comments").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		application = new ListField(model,"application");
 		application.setLabel(gt("Aplicação"));
@@ -331,8 +333,6 @@ public class ListaPageView extends View {
 		infopanel_3_url.setValue(model);
 		infopanel_3_bg.setValue(model);
 		infopanel_3_icn.setValue(model);
-		documento.setValue(model);
-		forum.setValue(model);
 		application.setValue(model);
 		modulo.setValue(model);
 		nada.setValue(model);

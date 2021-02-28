@@ -107,6 +107,7 @@ public class PageImport extends AbstractImport implements IImport{
 			
 			Historic hitoric_page = new Historic();
 			hitoric_page.setNome(Core.getCurrentUser().getName());
+			hitoric_page.setIdUtilizador(Core.getCurrentUser().getId());
 			hitoric_page.setPage(ac);
 			hitoric_page.setDescricao("Página Importada.");
 			hitoric_page.insert();

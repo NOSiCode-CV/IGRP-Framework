@@ -27,14 +27,18 @@ public class Historic extends IGRPBaseActiveRecord<Historic> implements Serializ
 	private Integer id;
 	@Column(nullable = false)
 	private String nome;
-    @CreationTimestamp
+	@Column
+	private Integer idUtilizador;
+	@CreationTimestamp
     private LocalDateTime data;
 	@ManyToOne
 	@JoinColumn(name = "page_fk", foreignKey = @ForeignKey(name = "PAGE_FK"), nullable = false)
 	private Action page;
+	@Column
+	private String comentario;
 	@Column(nullable = false)
 	private String descricao;
-		
+	
 	public Integer getId() {
 		return id;
 	}
@@ -57,6 +61,22 @@ public class Historic extends IGRPBaseActiveRecord<Historic> implements Serializ
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	
+	public void setComentario(String comentario) {
+		this.comentario = comentario;
+	}
+	
+	public String getComentario() {
+		return comentario;
+	}
+	
+    public Integer getIdUtilizador() {
+		return idUtilizador;
+	}
+
+	public void setIdUtilizador(Integer idUtilizador) {
+		this.idUtilizador = idUtilizador;
 	}
 
 	public Action getPage() {

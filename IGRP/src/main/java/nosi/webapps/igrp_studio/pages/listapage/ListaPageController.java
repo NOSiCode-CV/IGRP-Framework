@@ -62,14 +62,17 @@ public class ListaPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Omnis sit' as modulo_tab,'Voluptatem consectetur omnis o' as descricao_page,'hidden-1998_3482' as id_page,'hidden-790f_ff02' as nome_page "));
-		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-c281_6075' as env_fk "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Lorem dolo' as modulo_tab,'Voluptatem sed unde totam sit' as descricao_page,'hidden-7a09_e8e3' as id_page,'hidden-e2f7_3fb9' as nome_page "));
+		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-a550_a411' as env_fk "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
 		// model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=studio"));
+		
+		model.setDocumento("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=studio");
+		model.setForum("https://gitter.im/igrpweb/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link");
 
 		Map<Object, Object> listApp = new Application().getListApps();
 		if (listApp != null && listApp.size() == 2) {

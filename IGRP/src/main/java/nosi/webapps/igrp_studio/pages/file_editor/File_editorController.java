@@ -207,8 +207,9 @@ public class File_editorController extends Controller {
 								.andWhere("application", "=", Core.getParamInt("env_fk")).one();
 						Historic hitoric_page = new Historic();
 						hitoric_page.setNome(Core.getCurrentUser().getName());
+						hitoric_page.setIdUtilizador(Core.getCurrentUser().getId());
 						hitoric_page.setPage(page);
-						hitoric_page.setDescricao("Alterações Feitas no File Editor.");
+						hitoric_page.setDescricao("Alterações no File Editor.");
 						hitoric_page.insert();
 					}
 				}
