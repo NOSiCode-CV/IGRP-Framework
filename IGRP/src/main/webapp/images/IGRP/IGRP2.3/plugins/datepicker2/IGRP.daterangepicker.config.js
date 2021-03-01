@@ -52,7 +52,7 @@
 				isInvalidDate: function(date) {
 					var _date = date.format('DD-MM-YYYY');
 
-					if (disableWeekends && ((date.day() === 0 || date.day() === 6) || $.inArray(_date,datesDisabled) !== -1))
+					if ((disableWeekends && (date.day() === 0 || date.day() === 6)) || $.inArray(_date,datesDisabled) !== -1)
 						return true;
 
 					return false;
