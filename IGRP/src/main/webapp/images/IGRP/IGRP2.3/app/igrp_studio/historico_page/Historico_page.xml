@@ -31,12 +31,48 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=103</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=78</preserve_url>
     </plsql>
     <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
-        <title>Histórico Page</title>
+        <title>Historico_page</title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <descricao_form name="p_descricao_form" type="text" maxlength="250" required="true" change="false" readonly="true" disabled="false" placeholder="" desclabel="false" right="false">
+                    <label>Descrição</label>
+                    <value>Doloremque sed natus lorem ut</value>
+                    <validations>
+                        <validation>
+                            <annotation>@NotNull</annotation>
+                        </validation>
+                    </validations>
+                </descricao_form>
+                <comentario name="p_comentario" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                    <label>Comentário</label>
+                    <value>Doloremque totam magna voluptatem unde</value>
+                    <validations>
+                        <validation>
+                            <annotation>@NotNull</annotation>
+                        </validation>
+                    </validations>
+                </comentario>
+                <hidden name="p_id_historico" type="hidden" maxlength="250" java-type="" tag="id_historico"/>
+                <hidden name="p_id_page_form" type="hidden" maxlength="250" java-type="" tag="id_page_form"/>
+            </fields>
+            <tools-bar>
+                <item id="button_7969_322f" type="form" code="" class="primary" rel="salvar" custom_return="true" refresh_components="form_1,table_1">
+                    <title>Salvar</title>
+                    <app>igrp_studio</app>
+                    <page>Historico_page</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/historico_page/Historico_page.xml?</parameter>
+                    <target>submit</target>
+                    <img>primary|fa-save</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp_studio/historico_page/Historico_page.xml</preview>
+                </item>
+            </tools-bar>
+        </form_1>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -54,49 +90,95 @@
                 <descricao name="p_descricao" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
                     <label>Descrição</label>
                 </descricao>
+                <comentario_tbl name="p_comentario_tbl" type="text" maxlength="50" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Comentário</label>
+                </comentario_tbl>
                 <data name="p_data" type="date" range="false" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
                     <label>Data</label>
                 </data>
-                <id_page name="p_id_page" type="hidden" maxlength="30" showLabel="true" iskey="false" group_in="" java-type="" tag="id_page"/>
+                <id_historico_tbl name="p_id_historico_tbl" type="hidden" maxlength="30" showLabel="true" iskey="true" group_in="" java-type="" tag="id_historico_tbl"/>
+                <id_page name="p_id_page" type="hidden" maxlength="30" showLabel="true" iskey="true" group_in="" java-type="" tag="id_page"/>
             </fields>
             <table>
                 <value>
                     <row>
-                        <nome name="p_nome">Sit mollit officia voluptatem</nome>
-                        <descricao name="p_descricao">Ipsum lorem voluptatem rem sit</descricao>
-                        <data name="p_data">03-03-2012</data>
-                        <id_page name="p_id_page" tag="id_page">hidden-a168_d13d</id_page>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome name="p_nome">Consectetur sit rem magna sed</nome>
+                        <descricao name="p_descricao">Magna doloremque totam ipsum c</descricao>
+                        <comentario_tbl name="p_comentario_tbl">Mollit officia adipiscing elit adipiscing</comentario_tbl>
+                        <data name="p_data">06-06-2015</data>
+                        <id_historico_tbl name="p_id_historico_tbl" tag="id_historico_tbl">hidden-7cf9_789f</id_historico_tbl>
+                        <id_page name="p_id_page" tag="id_page">hidden-ecaf_a92f</id_page>
                     </row>
                     <row>
-                        <nome name="p_nome">Laudantium elit aliqua volupta</nome>
-                        <descricao name="p_descricao">Anim ipsum accusantium iste do</descricao>
-                        <data name="p_data">05-05-2012</data>
-                        <id_page name="p_id_page" tag="id_page">hidden-7656_b75d</id_page>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome name="p_nome">Ipsum magna ut dolor accusanti</nome>
+                        <descricao name="p_descricao">Totam accusantium magna aliqua</descricao>
+                        <comentario_tbl name="p_comentario_tbl">Totam dolor rem natus consectetur</comentario_tbl>
+                        <data name="p_data">03-07-2010</data>
+                        <id_historico_tbl name="p_id_historico_tbl" tag="id_historico_tbl">hidden-8a1b_ec9a</id_historico_tbl>
+                        <id_page name="p_id_page" tag="id_page">hidden-ee3b_30fe</id_page>
                     </row>
                     <row>
-                        <nome name="p_nome">Aliqua lorem labore deserunt m</nome>
-                        <descricao name="p_descricao">Sit totam voluptatem laudantiu</descricao>
-                        <data name="p_data">01-04-2013</data>
-                        <id_page name="p_id_page" tag="id_page">hidden-f743_442f</id_page>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome name="p_nome">Voluptatem doloremque aperiam</nome>
+                        <descricao name="p_descricao">Sit mollit adipiscing sit dolo</descricao>
+                        <comentario_tbl name="p_comentario_tbl">Totam magna sit labore officia</comentario_tbl>
+                        <data name="p_data">07-03-2014</data>
+                        <id_historico_tbl name="p_id_historico_tbl" tag="id_historico_tbl">hidden-4ac5_0714</id_historico_tbl>
+                        <id_page name="p_id_page" tag="id_page">hidden-d574_a230</id_page>
                     </row>
                     <row>
-                        <nome name="p_nome">Sed totam adipiscing amet unde</nome>
-                        <descricao name="p_descricao">Sit accusantium unde magna ape</descricao>
-                        <data name="p_data">04-03-2012</data>
-                        <id_page name="p_id_page" tag="id_page">hidden-e357_805b</id_page>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome name="p_nome">Aliqua elit officia stract lau</nome>
+                        <descricao name="p_descricao">Ut ipsum deserunt stract persp</descricao>
+                        <comentario_tbl name="p_comentario_tbl">Ipsum omnis voluptatem accusantium ut</comentario_tbl>
+                        <data name="p_data">06-07-2016</data>
+                        <id_historico_tbl name="p_id_historico_tbl" tag="id_historico_tbl">hidden-29e3_1c05</id_historico_tbl>
+                        <id_page name="p_id_page" tag="id_page">hidden-9a11_354e</id_page>
                     </row>
                     <row>
-                        <nome name="p_nome">Dolor perspiciatis ipsum sit u</nome>
-                        <descricao name="p_descricao">Amet officia lorem stract moll</descricao>
-                        <data name="p_data">08-06-2013</data>
-                        <id_page name="p_id_page" tag="id_page">hidden-3400_681a</id_page>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome name="p_nome">Sed aliqua ipsum labore sed</nome>
+                        <descricao name="p_descricao">Adipiscing doloremque mollit l</descricao>
+                        <comentario_tbl name="p_comentario_tbl">Totam aliqua sit voluptatem sed</comentario_tbl>
+                        <data name="p_data">02-06-2015</data>
+                        <id_historico_tbl name="p_id_historico_tbl" tag="id_historico_tbl">hidden-2be3_d6f5</id_historico_tbl>
+                        <id_page name="p_id_page" tag="id_page">hidden-db42_e9b1</id_page>
                     </row>
                 </value>
+                <context-menu>
+                    <item id="button_20fb_3895" type="specific" code="" class="warning" rel="editar_comentario" custom_return="true" refresh_components="">
+                        <title>Editar Comentário</title>
+                        <app>igrp_studio</app>
+                        <page>Historico_page</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/historico_page/Historico_page.xml?</parameter>
+                        <target>submit</target>
+                        <img>warning|fa-edit</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp_studio/historico_page/Historico_page.xml</preview>
+                    </item>
+                </context-menu>
             </table>
         </table_1>
     </content>
     <blockly>
-        <imports></imports>
+        <imports>undefined</imports>
         <xml>
             <block type="controller" id="controller" x="388" y="13"></block>
         </xml>

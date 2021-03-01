@@ -172,6 +172,7 @@ public class PageController extends Controller {
 
 				Historic hitoric_page = new Historic();
 				hitoric_page.setNome(Core.getCurrentUser().getName());
+				hitoric_page.setIdUtilizador(Core.getCurrentUser().getId());
 				hitoric_page.setPage(action);
 				hitoric_page.setDescricao("Informações da Página Alterada");
 				hitoric_page.insert();
@@ -229,6 +230,7 @@ public class PageController extends Controller {
 
 			Historic hitoric_page = new Historic();
 			hitoric_page.setNome(Core.getCurrentUser().getName());
+			hitoric_page.setIdUtilizador(Core.getCurrentUser().getId());
 			hitoric_page.setDescricao("Criação da página");
 			hitoric_page.setPage(action);
 			hitoric_page.insert();
@@ -290,6 +292,7 @@ public class PageController extends Controller {
 
 				Historic hitoric_page = new Historic();
 				hitoric_page.setNome(Core.getCurrentUser().getName());
+				hitoric_page.setIdUtilizador(Core.getCurrentUser().getId());
 				hitoric_page.setPage(recover);
 				hitoric_page.setDescricao("Página Recuperada");
 				hitoric_page.insert();
@@ -325,6 +328,7 @@ public class PageController extends Controller {
 		
 		Historic hitoric_page = new Historic();
 		hitoric_page.setNome(Core.getCurrentUser().getName());
+		hitoric_page.setIdUtilizador(Core.getCurrentUser().getId());
 		hitoric_page.setPage(eliminar_page);
 		hitoric_page.setDescricao("Página Eliminada.");
 		hitoric_page.insert();
@@ -535,6 +539,7 @@ public class PageController extends Controller {
 
 			Historic hitoric_page = new Historic();
 			hitoric_page.setNome(Core.getCurrentUser().getName());
+			hitoric_page.setIdUtilizador(Core.getCurrentUser().getId());
 			hitoric_page.setPage(ac);
 			hitoric_page.setDescricao("Alterações no Gerador.");
 			hitoric_page.insert();

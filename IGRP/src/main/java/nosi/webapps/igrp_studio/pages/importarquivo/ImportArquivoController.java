@@ -365,7 +365,7 @@ public class ImportArquivoController extends Controller {
 					}
 					FileHelper.deletePartFile(file);
 				} catch (ServletException e) {
-					Core.setMessageError(e.getMessage());;
+					Core.setMessageError(e.getMessage());
 					return this.forward("igrp_studio", "ImportArquivo", "index");
 				}
 				if(result){
