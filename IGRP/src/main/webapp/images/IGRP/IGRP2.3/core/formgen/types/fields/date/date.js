@@ -46,6 +46,12 @@ var DATEFIELD = function(type,params){
 			value : false 
 		});
 
+		field.setPropriety({
+			name  : 'disableWeekends',
+			label : 'Disable Weekends',
+			value : false 
+		});
+
 		field.parent.on('draw-end',function(){
 			initDatePicker();
 		});
