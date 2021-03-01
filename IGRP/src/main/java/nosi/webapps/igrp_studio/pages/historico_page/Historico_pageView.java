@@ -28,9 +28,9 @@ public class Historico_pageView extends View {
 
 	public Historico_pageView(){
 
-		this.setPageTitle("Historico_page");
+		this.setPageTitle("Historico page");
 			
-		form_1 = new IGRPForm("form_1","");
+		form_1 = new IGRPForm("form_1","Editar Comentário");
 
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 

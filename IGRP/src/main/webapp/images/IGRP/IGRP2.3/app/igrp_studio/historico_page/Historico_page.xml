@@ -31,17 +31,17 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=78</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=84</preserve_url>
     </plsql>
     <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
-        <title>Historico_page</title>
-        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+        <title>Historico page</title>
+        <form_1 type="form" xml-type="form" title="Editar Comentário" gen-type="container" gen-group="">
             <fields>
                 <descricao_form name="p_descricao_form" type="text" maxlength="250" required="true" change="false" readonly="true" disabled="false" placeholder="" desclabel="false" right="false">
                     <label>Descrição</label>
-                    <value>Doloremque sed natus lorem ut</value>
+                    <value>Sit ipsum perspiciatis elit omnis</value>
                     <validations>
                         <validation>
                             <annotation>@NotNull</annotation>
@@ -50,14 +50,16 @@
                 </descricao_form>
                 <comentario name="p_comentario" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
                     <label>Comentário</label>
-                    <value>Doloremque totam magna voluptatem unde</value>
+                    <value>Magna dolor totam consectetur rem</value>
                     <validations>
                         <validation>
                             <annotation>@NotNull</annotation>
                         </validation>
                     </validations>
                 </comentario>
-                <hidden name="p_id_historico" type="hidden" maxlength="250" java-type="" tag="id_historico"/>
+                <hidden name="p_id_historico" type="hidden" maxlength="250" java-type="" tag="id_historico">
+                    <rules/>
+                </hidden>
                 <hidden name="p_id_page_form" type="hidden" maxlength="250" java-type="" tag="id_page_form"/>
             </fields>
             <tools-bar>
@@ -106,60 +108,60 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome name="p_nome">Consectetur sit rem magna sed</nome>
-                        <descricao name="p_descricao">Magna doloremque totam ipsum c</descricao>
-                        <comentario_tbl name="p_comentario_tbl">Mollit officia adipiscing elit adipiscing</comentario_tbl>
-                        <data name="p_data">06-06-2015</data>
-                        <id_historico_tbl name="p_id_historico_tbl" tag="id_historico_tbl">hidden-7cf9_789f</id_historico_tbl>
-                        <id_page name="p_id_page" tag="id_page">hidden-ecaf_a92f</id_page>
+                        <nome name="p_nome">Totam sit accusantium rem aper</nome>
+                        <descricao name="p_descricao">Ipsum mollit doloremque omnis</descricao>
+                        <comentario_tbl name="p_comentario_tbl">Voluptatem consectetur ipsum laudantium consectetu</comentario_tbl>
+                        <data name="p_data">04-05-2011</data>
+                        <id_historico_tbl name="p_id_historico_tbl" tag="id_historico_tbl">hidden-8219_49a2</id_historico_tbl>
+                        <id_page name="p_id_page" tag="id_page">hidden-c71f_bb5d</id_page>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome name="p_nome">Ipsum magna ut dolor accusanti</nome>
-                        <descricao name="p_descricao">Totam accusantium magna aliqua</descricao>
-                        <comentario_tbl name="p_comentario_tbl">Totam dolor rem natus consectetur</comentario_tbl>
-                        <data name="p_data">03-07-2010</data>
-                        <id_historico_tbl name="p_id_historico_tbl" tag="id_historico_tbl">hidden-8a1b_ec9a</id_historico_tbl>
-                        <id_page name="p_id_page" tag="id_page">hidden-ee3b_30fe</id_page>
+                        <nome name="p_nome">Ut accusantium dolor totam mol</nome>
+                        <descricao name="p_descricao">Stract ipsum sit elit aperiam</descricao>
+                        <comentario_tbl name="p_comentario_tbl">Laudantium sit elit laudantium doloremque</comentario_tbl>
+                        <data name="p_data">08-01-2015</data>
+                        <id_historico_tbl name="p_id_historico_tbl" tag="id_historico_tbl">hidden-a087_6d52</id_historico_tbl>
+                        <id_page name="p_id_page" tag="id_page">hidden-4f92_4dda</id_page>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome name="p_nome">Voluptatem doloremque aperiam</nome>
-                        <descricao name="p_descricao">Sit mollit adipiscing sit dolo</descricao>
-                        <comentario_tbl name="p_comentario_tbl">Totam magna sit labore officia</comentario_tbl>
-                        <data name="p_data">07-03-2014</data>
-                        <id_historico_tbl name="p_id_historico_tbl" tag="id_historico_tbl">hidden-4ac5_0714</id_historico_tbl>
-                        <id_page name="p_id_page" tag="id_page">hidden-d574_a230</id_page>
+                        <nome name="p_nome">Adipiscing perspiciatis lorem</nome>
+                        <descricao name="p_descricao">Elit unde aperiam voluptatem i</descricao>
+                        <comentario_tbl name="p_comentario_tbl">Anim deserunt adipiscing totam amet</comentario_tbl>
+                        <data name="p_data">07-01-2014</data>
+                        <id_historico_tbl name="p_id_historico_tbl" tag="id_historico_tbl">hidden-fa41_10ae</id_historico_tbl>
+                        <id_page name="p_id_page" tag="id_page">hidden-8317_bae5</id_page>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome name="p_nome">Aliqua elit officia stract lau</nome>
-                        <descricao name="p_descricao">Ut ipsum deserunt stract persp</descricao>
-                        <comentario_tbl name="p_comentario_tbl">Ipsum omnis voluptatem accusantium ut</comentario_tbl>
-                        <data name="p_data">06-07-2016</data>
-                        <id_historico_tbl name="p_id_historico_tbl" tag="id_historico_tbl">hidden-29e3_1c05</id_historico_tbl>
-                        <id_page name="p_id_page" tag="id_page">hidden-9a11_354e</id_page>
+                        <nome name="p_nome">Accusantium labore dolor omnis</nome>
+                        <descricao name="p_descricao">Aliqua rem dolor elit perspici</descricao>
+                        <comentario_tbl name="p_comentario_tbl">Mollit anim unde mollit accusantium</comentario_tbl>
+                        <data name="p_data">01-07-2017</data>
+                        <id_historico_tbl name="p_id_historico_tbl" tag="id_historico_tbl">hidden-ee70_ed25</id_historico_tbl>
+                        <id_page name="p_id_page" tag="id_page">hidden-fa15_1beb</id_page>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome name="p_nome">Sed aliqua ipsum labore sed</nome>
-                        <descricao name="p_descricao">Adipiscing doloremque mollit l</descricao>
-                        <comentario_tbl name="p_comentario_tbl">Totam aliqua sit voluptatem sed</comentario_tbl>
-                        <data name="p_data">02-06-2015</data>
-                        <id_historico_tbl name="p_id_historico_tbl" tag="id_historico_tbl">hidden-2be3_d6f5</id_historico_tbl>
-                        <id_page name="p_id_page" tag="id_page">hidden-db42_e9b1</id_page>
+                        <nome name="p_nome">Voluptatem magna sit lorem ips</nome>
+                        <descricao name="p_descricao">Elit deserunt voluptatem adipi</descricao>
+                        <comentario_tbl name="p_comentario_tbl">Omnis magna adipiscing stract adipiscing</comentario_tbl>
+                        <data name="p_data">08-04-2010</data>
+                        <id_historico_tbl name="p_id_historico_tbl" tag="id_historico_tbl">hidden-b053_bfa1</id_historico_tbl>
+                        <id_page name="p_id_page" tag="id_page">hidden-0bac_2aed</id_page>
                     </row>
                 </value>
                 <context-menu>
@@ -178,7 +180,7 @@
         </table_1>
     </content>
     <blockly>
-        <imports>undefined</imports>
+        <imports></imports>
         <xml>
             <block type="controller" id="controller" x="388" y="13"></block>
         </xml>
