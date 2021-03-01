@@ -27,7 +27,7 @@ public class Historico_pageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Anim natus mollit consectetur' as nome,'Labore omnis rem iste ipsum' as descricao,'Aliqua voluptatem consectetur ipsum unde' as comentario_tbl,'04-02-2016' as data,'hidden-ad17_64d9' as id_historico_tbl,'hidden-439d_a845' as id_page "));
+		model.loadTable_1(Core.query(null,"SELECT 'Dolor stract aperiam elit laud' as nome,'Totam mollit aliqua ut mollit' as descricao,'Dolor totam iste magna lorem' as comentario_tbl,'08-02-2012' as data,'hidden-a04b_b9fa' as id_historico_tbl,'hidden-2b5d_a11d' as id_page "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
