@@ -97,6 +97,9 @@
 
             return data;
         },
+        daysOffEvents : function(daysoff,arr){
+
+        },
         init:function(id,p){
             var options 		= $.extend(_opts,p),
                 cal     		= $('.igrp-calendar#'+id),
@@ -138,7 +141,6 @@
                 defaultView :view,
                 //events: p.loadevents,
                 events: function(start, end, timezone, callback) {
-                	var events = [];
 
                     $.ajax({
                         url		:	p.loadevents ? p.loadevents : $.IGRP.utils.getPageUrl(),
@@ -149,6 +151,8 @@
                         cache 	:	false,
                         success: function(doc) {
                             
+                            var events = [];
+
                             $.each($(doc).find(id+'_events table value row'),function(i,row){
                                 var attrs   = $(row).find('> *:not(context-menu)').toArray(),
                                 eAtrrs      = {};
@@ -178,33 +182,27 @@
                                 events.push(eAtrrs);
                             });
 
+                            if(daysoff[0]){
+                                daysoff.forEach(function(d){
+                                    var startDate   = $.IGRP.components.calendar.dateConvert(d),
+                                        endDate     = moment(startDate,'YYYY-MM-DD').add('days', 1).format('YYYY-MM-DD');
+                                   
+                                    events.push({
+                                        start: startDate,
+                                        end: endDate,
+                                        overlap: false,
+                                        rendering: 'background',
+                                        color: '#d7d7d7'
+                                    });
+                                });
+                            }
+
+                            callback(events);
+
                         },error:function(status){
                             console.log('loading events report error: '+status);
                         }
                     });
-
-                    if(daysoff[0]){
-                        daysoff.forEach(function(d){
-                            var _date = d.split('-'),
-                                day     = _date[0]*1,
-                                nday    = day + 1,
-                                m       = _date[1],
-                                y       = _date[2];
-
-                            day  = day < 10 ? '0'+day : day;
-                            nday = nday < 10 ? '0'+nday : nday;
-                            
-                            events.push({
-                                start: y+'-'+m+'-'+day,
-                                end: y+'-'+m+'-'+nday,
-                                overlap: false,
-                                rendering: 'background',
-                                color: '#d7d7d7'
-                            });
-                        });
-                    }
-
-                    callback(events);
                 },
                 timeFormat: 'H:mm',
                 eventColor: '#008975',
@@ -271,6 +269,11 @@
                         valid = moment().subtract(1, "days").isBefore(moment(date));
 
                     if (p.addevents && valid && $.inArray(xdate, daysoff) === -1) {
+                        
+                        mWindow = mWindow ? mWindow : window;
+			
+				        mUrl = $('#p_env_frm_url').val() || window.location.href;
+
                         $.IGRP.components.iframeNav.set({
                             url     : $.IGRP.utils.getUrl(p.addevents)+'p_date='+xdate,
                             clicked : $('<a close="refresh"/>')
