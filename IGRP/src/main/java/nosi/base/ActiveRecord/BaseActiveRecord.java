@@ -834,8 +834,25 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 	@Override
 	public T findOne(CriteriaQuery<T> criteria) {
-		List<T> list = this.findAll(criteria);
-		return list!=null && !list.isEmpty()?list.get(0):null;
+		T t = null;
+		Session s = this.getSession();
+		try {
+			if(!s.getTransaction().isActive()) {
+				s.beginTransaction();
+			}
+			TypedQuery<T> query = s.createQuery(criteria);
+			query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
+			this.setParameters(query);
+			t = query.getSingleResult();
+		}catch (Exception e) {
+			this.keepConnection = false;
+			this.setError(e);
+		} finally {
+			s.close();
+			this.closeSession();
+		}
+		
+		return t;
 	}
 
 	@Override
