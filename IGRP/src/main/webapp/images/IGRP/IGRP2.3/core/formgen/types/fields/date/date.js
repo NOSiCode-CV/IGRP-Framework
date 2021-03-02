@@ -52,6 +52,13 @@ var DATEFIELD = function(type,params){
 			value : false 
 		});
 
+		field.setPropriety({
+			name  	: 'daysoff',
+			label 	: 'Days Off',
+			value 	: false,
+			xslValue: 'daysoff=""'
+		});
+
 		field.parent.on('draw-end',function(){
 			initDatePicker();
 		});

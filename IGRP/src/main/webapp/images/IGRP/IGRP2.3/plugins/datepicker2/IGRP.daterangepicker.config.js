@@ -26,11 +26,9 @@
 
 				value 			 = element.val() || '',
 				
-				disableWeekends  = element.attr('disableWeekends') && element.attr('disableWeekends') == 'true' ? true : false,
-				
-				$datesDisabled   = $('#p_datesdisabled'),
+				disableWeekends  = element.is('[disableWeekends="true"]') ? true : false,
 
-				datesDisabled    = $datesDisabled[0] && $datesDisabled.val() ? $datesDisabled.val().split(',') : [];
+				datesDisabled    = element.is('[daysoff]') && element.attr('daysoff') != '' ? element.attr('daysoff').split(',') : [];
 
 
 			element.daterangepicker({
