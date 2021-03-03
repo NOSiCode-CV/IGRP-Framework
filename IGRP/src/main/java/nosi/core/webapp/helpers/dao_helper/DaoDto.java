@@ -18,7 +18,6 @@ public class DaoDto {
 	private String tableType;
 	private String packageName;
 	private boolean hasList;
-	private boolean isJavaUtilDate;
 
 	public Config_env getConfigEnv() {
 		return configEnv;
@@ -83,14 +82,6 @@ public class DaoDto {
 
 	public void setTableType(String tableType) {
 		this.tableType = tableType;
-	}
-
-	public void setJavaUtilDate(boolean isJavaUtilDate) {
-		this.isJavaUtilDate = isJavaUtilDate;
-	}
-	
-	public boolean isJavaUtilDate() {
-		return this.isJavaUtilDate;
 	}
 
 	public String getPackageName() {
