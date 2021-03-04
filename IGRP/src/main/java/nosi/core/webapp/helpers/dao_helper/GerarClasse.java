@@ -10,13 +10,12 @@ import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -28,12 +27,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.commons.text.CaseUtils;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Immutable;
 
 import nosi.base.ActiveRecord.BaseActiveRecord;
@@ -52,7 +54,6 @@ import nosi.webapps.igrp_studio.pages.crudgenerator.CRUDGeneratorController;
 public class GerarClasse {
 
 	private DaoDto daoDto;
-	private StringBuilder imports;
 	private StringBuilder variables;
 	private StringBuilder gettersSetters;
 	private String columnType;
@@ -60,20 +61,19 @@ public class GerarClasse {
 	private String camelCaseColumnName;
 	private static final String NEW_LINE = "\n";
 	private static final String TAB = "\t";
+	private Set<Class<?>> importClasses = new HashSet<>();
 
 	public GerarClasse(DaoDto daoDto) {
 		this.daoDto = daoDto;
-		this.imports = new StringBuilder();
 		this.variables = new StringBuilder();
 		this.gettersSetters = new StringBuilder();
+		this.addDefaultImports();
 	}
 
 	public String generate() throws SQLException, IOException {
 
 		List<Column> columns = DatabaseMetadaHelper.getCollumns(this.daoDto.getConfigEnv(), this.daoDto.getSchema(),
 				this.daoDto.getTableName());
-
-		this.addImports(columns::stream);
 
 		for (DatabaseMetadaHelper.Column column : columns) {
 
@@ -86,12 +86,10 @@ public class GerarClasse {
 
 				this.doIfColumnIsForeignKey(column);
 
-				if (!Core.fileExists(new Config().getPathDAO(this.daoDto.getDadName()).concat(columnType)
-						.concat(CRUDGeneratorController.JAVA_EXTENSION))) {
-					this.daoDto.setContentList(
-							this.generateVariableTypeList(this.daoDto.getDaoClassName(), camelCaseColumnName));
-					this.daoDto.setContentListSetGet(
-							this.generateVariableTypeListGetterSetter(this.daoDto.getDaoClassName()));
+				if (!Core.fileExists(new Config().getPathDAO(this.daoDto.getDadName()) + columnType
+						+ CRUDGeneratorController.JAVA_EXTENSION)) {
+					this.daoDto.setContentList(this.generateVariableTypeList(this.daoDto.getDaoClassName(), camelCaseColumnName));
+					this.daoDto.setContentListSetGet(this.generateVariableTypeListGetterSetter(this.daoDto.getDaoClassName()));
 					this.daoDto.setHasList(true);
 
 					DaoDto newDaoDto = new DaoDto();
@@ -103,7 +101,6 @@ public class GerarClasse {
 					newDaoDto.setContentListSetGet(this.daoDto.getContentListSetGet());
 					newDaoDto.setTableName(column.getTableRelation());
 					newDaoDto.setTableType(this.daoDto.getTableType());
-					newDaoDto.setJavaUtilDate(this.daoDto.isJavaUtilDate());
 					newDaoDto.setDaoClassName(columnType);
 					new CRUDGeneratorController().generateDAO(newDaoDto);
 				}
@@ -116,45 +113,33 @@ public class GerarClasse {
 		variables.append(NEW_LINE);
 
 		if (this.daoDto.hasList()) {
-			imports.append(this.buildImportLine(List.class)).append(this.buildImportLine(OneToMany.class))
-					.append(this.buildImportLine(CascadeType.class)).append(this.buildImportLine(XmlTransient.class));
+			
+			this.importClasses.add(List.class);
+			this.importClasses.add(OneToMany.class);
+			this.importClasses.add(CascadeType.class);
+			this.importClasses.add(XmlTransient.class);
+	
 			variables.append(this.daoDto.getContentList());
 			gettersSetters.append(this.daoDto.getContentListSetGet());
 		}
+		
+		final String imports = this.importClasses.stream().map(clazz -> this.buildImportLine(clazz)).collect(Collectors.joining(""));
 		return new StringBuilder().append(this.daoDto.getPackageName()).append(imports)
-				.append(this.addHeaderClassContent()).append(variables).append(gettersSetters)
-				.append("}").toString();
+				.append(this.addHeaderClassContent()).append(variables).append(gettersSetters).append("}").toString();
 	}
 
-	private void addImports(Supplier<Stream<Column>> columnStream) {
-		imports.append(this.buildImportLine(BaseActiveRecord.class))
-				.append(this.buildImportLine(javax.persistence.Column.class)).append(this.buildImportLine(Entity.class))
-				.append(this.buildImportLine(Id.class)).append(this.buildImportLine(NamedQuery.class))
-				.append(this.buildImportLine(Table.class));
+	private void addDefaultImports() {
+		this.importClasses.add(BaseActiveRecord.class);
+		this.importClasses.add(javax.persistence.Column.class);
+		this.importClasses.add(Id.class);
+		this.importClasses.add(NamedQuery.class);
+		this.importClasses.add(Table.class);
+		this.importClasses.add(Entity.class);
+		this.importClasses.add(!"view".equals(this.daoDto.getTableType()) ? GeneratedValue.class : Immutable.class);
+	}
 
-		if (!"view".equals(this.daoDto.getTableType())) {
-			imports.append(this.buildImportLine(GenerationType.class))
-					.append(this.buildImportLine(GeneratedValue.class));
-		} else
-			imports.append(this.buildImportLine(Immutable.class));
-
-		if (this.daoDto.isJavaUtilDate()) {
-			boolean hasDate = columnStream.get().map(column -> resolveColumnClass(column.getTypeSql()))
-					.anyMatch(c -> c.equals(Date.class));
-			if (hasDate)
-				imports.append(this.buildImportLine(Temporal.class)).append(this.buildImportLine(TemporalType.class));
-		}
-
-		Predicate<Class<?>> predicate = c -> c.equals(Byte[].class) || c.equals(Integer.class) || c.equals(Float.class)
-				|| c.equals(String.class) || c.equals(Double.class) || c.equals(Boolean.class);
-
-		columnStream.get().map(column -> resolveColumnClass(column.getTypeSql())).distinct().filter(predicate.negate())
-				.forEach(clazz -> imports.append(this.buildImportLine(clazz)));
-
-		if (columnStream.get().anyMatch(Column::isForeignKey)) {
-			imports.append(this.buildImportLine(ManyToOne.class)).append(this.buildImportLine(JoinColumn.class))
-					.append(this.buildImportLine(ForeignKey.class));
-		}
+	private String buildImportLine(Class<?> clazz) {
+		return "import " + clazz.getCanonicalName() + ";" + NEW_LINE;
 	}
 
 	private void updateColumnsInfos(Column column) {
@@ -170,32 +155,46 @@ public class GerarClasse {
 		variables.append(TAB).append("@Id").append(NEW_LINE);
 
 		if (databaseType.equals(DatabaseConfigHelper.ORACLE)) {
-			imports.append("import javax.persistence.SequenceGenerator;").append(NEW_LINE);
+			
+			this.importClasses.add(GenerationType.class);
+			this.importClasses.add(SequenceGenerator.class);
+
 			variables.append(TAB).append("@SequenceGenerator(name = \"").append(sequence)
 					.append("Gen\", sequenceName = \"").append(sequence)
 					.append("\", initialValue = 1, allocationSize = 1, schema = \"").append(this.daoDto.getSchema())
 					.append("\")").append(NEW_LINE).append(TAB)
 					.append("@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = \"").append(sequence)
 					.append("Gen\")").append(NEW_LINE);
-		} else
-			variables.append(TAB).append("@GeneratedValue(strategy = GenerationType.IDENTITY)").append(NEW_LINE);
 
-		variables.append(TAB).append("@Column(name = \"").append(column.getName())
-				.append("\", updatable = false, nullable = false").append(")\n \tprivate ").append(columnType)
-				.append(" ").append(camelCaseColumnName).append(";").append(NEW_LINE);
+		} else if (columnType.equals(UUID.class.getSimpleName())) {
+			this.importClasses.add(GenericGenerator.class);
+
+			variables.append(TAB).append("@GeneratedValue(generator = \"UUID\")").append(NEW_LINE).append(TAB)
+					.append("@GenericGenerator(name = \"UUID\", strategy = \"org.hibernate.id.UUIDGenerator\")")
+					.append(NEW_LINE);
+		} else {
+			this.importClasses.add(GenerationType.class);
+			variables.append(TAB).append("@GeneratedValue(strategy = GenerationType.IDENTITY)").append(NEW_LINE);
+		}
+
+		variables.append(TAB).append("@Column(name = \"").append(column.getName()).append("\", nullable = false, updatable = false")
+				.append(")\n \tprivate ").append(columnType).append(" ").append(camelCaseColumnName).append(";")
+				.append(NEW_LINE);
 	}
 
 	private void doIfColumnIsForeignKey(DatabaseMetadaHelper.Column column) {
+		
+		this.importClasses.add(ManyToOne.class);
+		this.importClasses.add(JoinColumn.class);
+		this.importClasses.add(ForeignKey.class);
 
-		final Map<String, String> foreignKeysConstraintNamesMap = new DatabaseMetadaHelper()
-				.getForeignKeysConstrainName(this.daoDto.getConfigEnv(), this.daoDto.getSchema(), daoDto.getTableName(),
-						daoDto.getDadName());
+		Map<String, String> foreignKeysConstraintNamesMap = new DatabaseMetadaHelper().getForeignKeysConstrainName(
+				this.daoDto.getConfigEnv(), this.daoDto.getSchema(), daoDto.getTableName(), daoDto.getDadName());
 
 		variables.append(TAB).append("@ManyToOne").append(NEW_LINE).append("\t@JoinColumn(name = \"")
 				.append(column.getName()).append("\", foreignKey = @ForeignKey(name = \"")
-				.append(foreignKeysConstraintNamesMap.get(column.getName())).append("\")")
-				.append(this.addNullablePropertie(column.isNullable())).append(")").append(NEW_LINE).append(TAB)
-				.append("private ").append(columnType).append(" ").append(camelCaseColumnName).append(";")
+				.append(foreignKeysConstraintNamesMap.get(column.getName())).append("\")").append(")").append(NEW_LINE)
+				.append(TAB).append("private ").append(columnType).append(" ").append(camelCaseColumnName).append(";")
 				.append(NEW_LINE);
 	}
 
@@ -205,26 +204,42 @@ public class GerarClasse {
 			variables.append(TAB).append("@javax.persistence.Lob\r").append(NEW_LINE).append(TAB)
 					.append("@org.hibernate.annotations.Type(type=\"org.hibernate.type.BinaryType\")").append(NEW_LINE);
 		}
-		if (clazz.equals(Date.class)) {
-			variables.append("\t@Temporal(TemporalType." + this.getTemporalType(column.getTypeSql()) + ")\n");
-		}
-		variables.append(TAB).append("@Column(name = \"").append(column.getName()).append("\"")
-				.append(this.addNullablePropertie(column.isNullable()))
-				.append(this.addLenghtPropertie(clazz, column.getSize())).append(")").append(NEW_LINE).append(TAB)
-				.append("private ").append(columnType).append(" ").append(camelCaseColumnName).append(";")
+
+		variables.append(this.addNullablePropertie(clazz, column.isNullable()))
+				.append(this.addStringProperties(clazz, column.getSize(), column.isNullable())).append(TAB)
+				.append("@Column(name = \"").append(column.getName()).append("\"").append(")").append(NEW_LINE)
+				.append(TAB).append("private ").append(columnType).append(" ").append(camelCaseColumnName).append(";")
 				.append(NEW_LINE);
 	}
 
-	private String getTemporalType(int typeSql) {
-		if (typeSql == Types.TIMESTAMP || typeSql == Types.TIMESTAMP_WITH_TIMEZONE)
-			return "TIMESTAMP";
-		else if (typeSql == Types.TIME || typeSql == Types.TIME_WITH_TIMEZONE)
-			return "TIME";
-		return "DATE";
+	private String addNullablePropertie(Class<?> clazz, boolean isNullable) {
+		if (clazz.equals(String.class) || isNullable)
+			return "";
+		else {
+			this.importClasses.add(NotNull.class);
+			return TAB + "@NotNull" + NEW_LINE;
+		}
 	}
 
-	public static String convertCase(final String name, final boolean isFirstLetterLowerCase) {
-		return CaseUtils.toCamelCase(name, isFirstLetterLowerCase, '_');
+	private String addStringProperties(Class<?> clazz, Integer size, boolean isNullable) {
+		if (!clazz.equals(String.class))
+			return "";
+		else {
+			StringBuilder properties = new StringBuilder();
+			String min = "";
+			if (!isNullable) {
+				min = "min = 1, ";
+				this.importClasses.add(NotBlank.class);
+				properties.append(TAB).append("@NotBlank").append(NEW_LINE);
+			}
+			this.importClasses.add(Size.class);
+			return properties.append(TAB).append("@Size(").append(min).append("max = ").append(size).append(")")
+					.append(NEW_LINE).toString();
+		}
+	}
+
+	public static String convertCase(String name, boolean firstLetterLowerCase) {
+		return CaseUtils.toCamelCase(name, firstLetterLowerCase, '_');
 	}
 
 	private Class<?> resolveColumnClass(int typeSql) {
@@ -247,9 +262,11 @@ public class GerarClasse {
 			break;
 		case Types.BIGINT:
 			clazz = BigInteger.class;
+			this.importClasses.add(BigInteger.class);
 			break;
 		case Types.DECIMAL:
 			clazz = BigDecimal.class;
+			this.importClasses.add(BigDecimal.class);
 			break;
 		case Types.REAL:
 			clazz = Float.class;
@@ -264,14 +281,17 @@ public class GerarClasse {
 			break;
 		case Types.TIME:
 		case Types.TIME_WITH_TIMEZONE:
-			clazz = this.daoDto.isJavaUtilDate() ? Date.class : LocalTime.class;
+			clazz = LocalTime.class;
+			this.importClasses.add(LocalTime.class);
 			break;
 		case Types.TIMESTAMP:
 		case Types.TIMESTAMP_WITH_TIMEZONE:
-			clazz = this.daoDto.isJavaUtilDate() ? Date.class : LocalDateTime.class;
+			clazz = LocalDateTime.class;
+			this.importClasses.add(LocalDateTime.class);
 			break;
 		case Types.DATE:
-			clazz = this.daoDto.isJavaUtilDate() ? Date.class : LocalDate.class;
+			clazz = LocalDate.class;
+			this.importClasses.add(LocalDate.class);
 			break;
 		case Types.BINARY:
 		case Types.VARBINARY:
@@ -282,15 +302,12 @@ public class GerarClasse {
 			break;
 		case Types.OTHER:
 			clazz = UUID.class;
+			this.importClasses.add(UUID.class);
 			break;
 		default:
 			clazz = Object.class;
 		}
 		return clazz;
-	}
-
-	private String buildImportLine(Class<?> clazz) {
-		return "import " + clazz.getCanonicalName() + ";" + NEW_LINE;
 	}
 
 	private String addHeaderClassContent() {
@@ -300,23 +317,17 @@ public class GerarClasse {
 				.append(this.daoDto.getTableType().equals("view") ? "@Immutable".concat(NEW_LINE) : "")
 				.append("@Table(name = \"").append(this.daoDto.getTableName()).append("\", schema = \"")
 				.append(this.daoDto.getSchema()).append("\")").append(NEW_LINE).append("@NamedQuery(name = \"")
-				.append(this.daoDto.getDaoClassName())
-				.append(".findAll\", query = \"SELECT t FROM ")
+				.append(this.daoDto.getDaoClassName()).append(".findAll\", query = \"SELECT t FROM ")
 				.append(this.daoDto.getDaoClassName()).append(" ").append("t").append("\")").append(NEW_LINE)
 				.append("public class ").append(this.daoDto.getDaoClassName()).append(" extends BaseActiveRecord<")
 				.append(this.daoDto.getDaoClassName()).append("> {").append(NEW_LINE).append(NEW_LINE).append(TAB)
 				.append("private static final long serialVersionUID = 1L;").append(NEW_LINE).append(NEW_LINE)
-				.append(this.daoDto.getTableType().equals("view") ? TAB + "// Consider adding identifier/primary Key(@Id) annotation for your views!" + NEW_LINE + NEW_LINE: "")
-				.append(TAB).append("// Change Integer type to BigDecimal if the number is very large!").append(NEW_LINE)
-				.append(NEW_LINE).toString();
-	}
-
-	private String addNullablePropertie(boolean isNullable) {
-		return isNullable ? "" : ", nullable = false";
-	}
-
-	private String addLenghtPropertie(Class<?> clazz, Integer size) {
-		return clazz.equals(String.class) ? ", length = " + size : "";
+				.append(this.daoDto.getTableType().equals("view")
+						? TAB + "// Consider adding identifier/primary Key(@Id) annotation for your views!" + NEW_LINE
+								+ NEW_LINE
+						: "")
+				.append(TAB).append("// Change Integer type to BigDecimal if the number is very large!")
+				.append(NEW_LINE).append(NEW_LINE).toString();
 	}
 
 	private void appendGettersSetters() {
