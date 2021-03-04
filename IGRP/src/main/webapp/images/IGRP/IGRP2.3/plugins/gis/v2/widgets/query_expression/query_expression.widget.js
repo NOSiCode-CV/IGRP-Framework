@@ -99,7 +99,7 @@
 			var	cqlFilters =  getAttr(widget.attribute.name) + '=' + val, 
 				
 				req = widget.layer.query({cql : cqlFilters });
-			console.log(cqlFilters)
+			
 			req.then(function(f){
 				
 				if(f.totalFeatures) widget.features = f.features;

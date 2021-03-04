@@ -8,7 +8,7 @@
 		
 		<div class="form-group" item-name="layers" style="padding:0 8px; display: none;">
 			<label for="p_layers">Layer</label>
-			<select class="form-control layers-select" widget-template="layers" name="layers" widget-action="layers" action-event="change">
+			<select class="form-control layers-select select2" widget-template="layers" name="layers" widget-action="layers" action-event="change">
 				<option value="" label="--- Selecionar ---">--- Selecionar ---</option>
 				{{#each layers}}
 					<option value="{{id}}" label="{{name}}">{{name}}</option>
@@ -18,7 +18,7 @@
 		
 		<div class="form-group" item-name="attributes" style="padding:0 8px; display: none;">
 			<label for="p_attributes">Atributo</label>
-			<select class="form-control layers-select" widget-template="attributes-time" name="attributes">
+			<select class="form-control select2" widget-template="attributes-time" name="attributes">
 				<option value="" label="--- Selecionar ---">--- Selecionar ---</option>
 				{{#each attributes}}
 					<option value="{{id}}" label="{{name}}">{{name}}</option>
@@ -75,7 +75,7 @@
 			<div class="form-group col-sm-4 gen-date-picker-wrapper">
 			  <label for="p_start_date">Data Inicio</label>
 			  <div class="input-group">
-			      <input type="text" value="{{ this.settings.startDate }}" class="form-control gen-date-picker"  name="start_date"/>
+			      <input type="text" value="{{ this.settings.startDate }}" class="form-control gen-date-picker"  name="start_date"/>			      
 			      <span class="datepicker-clear fa fa-times"></span>
 			      <span class="input-group-btn gen-date-icon">
 			        <a class="btn btn-primary"><i class="fa fa-calendar"></i></a>
@@ -131,7 +131,8 @@
 			
 			<div class="form-group col-sm-4">
 				<label for="p_step"><span>Passo</span></label>
-				<input type="number" value='{{ this.settings.step }}' class="form-control" id="p_step" name="step" placeholder="1">
+				<!-- <input type="number" value="{{ this.settings.step }}" class="form-control" id="p_step" name="step" placeholder="1"> -->
+				{{inputIt this.settings.step "form-control" "step" "1"}}
 			</div>
 			
 			<div class="col-sm-4" item-type="radiolist">
@@ -154,7 +155,8 @@
 			
 			<div class="form-group col-sm-4">
 				<label for="p_delay"><span>Demora</span></label>
-				<input type="number" value="{{ this.settings.delay }}" class="form-control" name="delay" placeholder="500">
+				<!-- <input type="number" value="{{ this.settings.delay }}" class="form-control" name="delay" placeholder="500"> -->
+				{{inputIt this.settings.delay "form-control" "delay" "500"}}
 			</div>
 			
           </div>

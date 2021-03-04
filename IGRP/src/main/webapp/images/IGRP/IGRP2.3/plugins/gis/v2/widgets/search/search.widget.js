@@ -14,7 +14,9 @@
 			
 			timeout = function(){};
 			
-		widget.activeFilter = false;			
+		widget.activeFilter = false;		
+		
+		widget.activeDivAdmin = false;		
 		
 		widget.templateParams = {
 			
@@ -78,9 +80,6 @@
 			
 			getCqlFilter();
 										
-			console.log(val)
-			
-			console.log( Layers[0])
 			if( (val && val.length >= 1 || cqlFilters ) && Layers[0]){
 				
 				var reqs    = [],
@@ -307,14 +306,87 @@
 			
 			input[0].focus();
 			
-			txtCql.val('');
+			txtCql.val('');		
 			
-			//ClearResults();
+			input[0].removeAttribute('disabled');
+			
+			widget.activeDivAdmin =  false;		
+			
+			widget.steps.divAdmin.activate();
+
+			if(widget.request)						
+				widget.request.abort();
+			
+			widget.loading(false);
+			
+			var selects = $('.search-div-admin select', widget.html);
+				   
+			for ( var i = 0; i < selects.length; i++) {			
+				selects[i].value = '';				
+			}
 			
 		};
 		
-		function SetEvents(){
+		function setRemoteComobox(o){
 			
+			try{
+			
+				var cql_filter = '';
+				
+				for(var key in o.tipo_obj){
+					cql_filter += (cql_filter ? " or " : "") + "strToLowerCase(TIPO_OBJ) LIKE '%"+o.tipo_obj[key].toLowerCase()+"%'"
+				}
+				
+				cql_filter = ("(" + cql_filter + ")" ) + (o.id ?  ' and strToLowerCase(UNIDADE_ADMIN_ID) = ' + o.id:  '');
+								
+				options = {
+					cql_filter : cql_filter
+				}
+				
+				if(widget.request)
+					
+					widget.request.abort();
+					
+				widget.request = $.get(widget.divAdminLayer.Info.owsURL+'?service=WFS&request=GetFeature&typeName='+widget.divAdminLayer.Info.workspaceLayer+'&version=1.0.0&outputFormat=application/json', options);
+				
+			    widget.request.then(function(json){
+			    	
+					var data    = json.features,
+					
+						results = [];
+						
+					data.forEach(function(feature){
+						
+						var properties = feature.properties,
+						
+							id = properties['id'] ? properties['id']  : ( feature.id ? feature.id.split('.')[1] : '' );
+									
+						results.push({
+							name    : properties['NOME'] || properties['nome'],
+							id      : id,
+							feature : feature
+						});
+					});				
+					
+					try{
+						widget.setTemplateParam( 'div-admin-'+o.target, {'divData': results} );
+						//$(".select2", widget.html).select2('destroy');
+						$('.select2', widget.html).select2();
+					}catch(e){
+						console.log(e)
+					}
+					
+					widget.loading(false);
+	
+				});
+			}catch(e){
+				console.log(e)
+				widget.loading(false);
+			}
+		}
+		
+		function SetEvents(){
+						
 			input = $('.search-input-wrapper input', widget.html);
 			
 			inputParent = $('.search-input-wrapper', widget.html);
@@ -326,6 +398,8 @@
 			txtCql = $('#search-txt-cql textarea', widget.html);
 
 			submitSearch= $('#search-form-submit', widget.html);
+			
+			$('.select2', widget.html).select2();
 						
 			widget.html.on('click', '.search-item', function(){
 				
@@ -383,7 +457,7 @@
 			
 			
 			widget.action("search", function(){
-				
+								
 				clearTimeout(timeout);
 
 				timeout = setTimeout(Search, 600 );
@@ -478,8 +552,118 @@
 				}
 			});
 			
-		};
-		
+			/*SEARCH LAYERS MENU*/
+			widget.html.on('click', '#search-layers', function(){
+								
+				clearSearch();
+			})
+			
+			/*DIV ADMIN*/
+			widget.html.on('click', '#search-div-admin', function(){
+				
+				input[0].setAttribute('disabled', true);
+								
+				if (!widget.activeDivAdmin){
+					
+					layers = app.layers.getLayers();
+					
+					widget.activeDivAdmin =  true;
+					
+					widget.steps.divAdmin.activate();
+										
+					if(layers && layers[0]){
+						
+						layers.forEach(function(layer, i){
+							
+							var layerData  = layer.data();
+							
+							if( layerData.options.divAdmin ){
+																
+								widget.divAdminLayer = layer;
+								
+								opt = {
+									target   : 'ilh',
+									tipo_obj : ['ILH']
+								}
+								
+								
+								clearTimeout(timeout);
+
+								timeout = setTimeout(setRemoteComobox(opt), 600 );
+								
+								widget.loading(true);																
+
+							}
+							
+						});
+					}
+				}else{
+					
+					clearSearch();
+				}
+			});
+			
+			widget.html.on('change', '.remote-change', function(){
+				
+				var field  = $(this),
+				
+					obj    = $('select[id="'+field.data('target')+'"]').data('value'),
+					
+					bounds = field.find(':selected').attr('bounds'),
+					
+					id 	   = field.find(':selected').attr('feature-id');
+								
+				if(obj)
+					obj = obj.split(',');
+								
+				opt = {
+					target   : field.data('target'),
+					id		 : field.val(),
+					tipo_obj : obj
+				}
+				
+				if(!field.val()) return false,
+				
+				clearTimeout(timeout);
+
+				timeout = setTimeout(setRemoteComobox(opt), 600 );
+				
+				widget.loading(true);	
+				
+				try{
+									
+					if(bounds){
+						
+						bounds = JSON.parse(bounds);
+						
+						var ne = L.latLng([bounds._northEast.lng, bounds._northEast.lat]),//??
+							
+							sw = L.latLng([bounds._southWest.lng, bounds._southWest.lat]);//?? lat lng switched
+						
+						app.viewer().fitBounds( L.latLngBounds(sw, ne) );
+												
+						layer   = app.layers.get(widget.divAdminLayer.id);
+						
+						layer.highlight( id, function(){
+							
+							//item.addClass('active');
+							
+						});
+						
+						layer.show();
+
+					}
+					
+				}catch(err){
+					
+					console.log(err)
+					
+				}
+			})			
+
+			//$('.remote-change', widget.html).trigger("change");
+				
+		};		
 		
 		(function(){
 			
@@ -506,6 +690,21 @@
 	}
 
 	GIS.widgets.register('search', {
+		
+		dependencies : {
+			
+			js  : [ 
+				path + '/plugins/select2/select2.full.min.js',
+				path + '/plugins/select2/select2.init.js'
+			],
+			
+			css  : [
+				path + '/plugins/select2/select2.min.css',
+				path + '/plugins/select2/select2.style.css'
+			]
+		
+		},
+		
 		
 		init : SearchWidget
 		

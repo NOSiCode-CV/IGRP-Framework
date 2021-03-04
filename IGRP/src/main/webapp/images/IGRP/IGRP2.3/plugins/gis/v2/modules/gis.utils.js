@@ -5,7 +5,7 @@
 		feature : {
 			
 			getData : function(feature){
-				
+								
 				var res = {},
 					
 					center,
@@ -498,4 +498,30 @@
 
 	});
 	
+	Handlebars.registerHelper("inputIt", function(v, pclass, name, placeholder){
+				
+		var html = "";
+		
+		 //Generate the Input		  
+		switch (typeof v) {
+			
+			  case "string":
+			    v = Handlebars.Utils.escapeExpression(v);
+			    html = '<input type="text" name="' 
+			          + name + '" class="'+ pclass +'" placeholder="'+ placeholder +'" value="' + v + '" />';
+			    break;
+			  case "number":
+			    html = '<input type="number" name="' 
+			          + name + '" class="'+ pclass +'" placeholder="'+ placeholder +'" value="' + v + '" />';
+			    break;
+			  case "boolean":
+			    var checked = (v) ? "checked" : "";
+			    html = '<input type="checkbox" name="'
+			          + name + '" ' + checked + ' class="'+ pclass +'" placeholder="'+ placeholder +'" />';
+			        break;
+		 }
+		
+		return new Handlebars.SafeString(html);
+			
+	});
 })();

@@ -462,6 +462,12 @@
     left: 10px;
 }
 
+@media screen and (min-width: 730px){
+	.gis-widget-wrapper {
+	    margin-bottom: 10px;
+	    min-width: 408px;
+	}
+}
 /*STEPS*/
 
 .widget-step:not(.active){
