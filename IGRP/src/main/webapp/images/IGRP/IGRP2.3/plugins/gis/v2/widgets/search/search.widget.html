@@ -7,7 +7,7 @@
 	<div class="gis-widget-panel-body">
 		<div id="search-widget-form">
 			<div class="search-input-layer" >
-			    <div class="form-group" id="search-ckeck-advanced">
+			    <div class="form-group form-group-sm" id="search-ckeck-advanced">
 					<input type="checkbox" id="" widget-action="check" action-event="change">
 					<label>Filtro Avançado</label>
 				</div>
@@ -71,9 +71,60 @@
 					<span class="input-group-addon" step-action="search" step-event="click">
 						<i class="fa fa-search"></i>
 					</span>
+					
+					<div class="input-group-btn dropdown" style="display:none">
+				        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Alterar a forma de pesqusia"><i class="fa fa-navicon"></i></button>
+				        <ul class="dropdown-menu">
+				            <li><a href="#" id="search-layers">Pesquisar em layers</a></li>
+				            <li><a href="#" id="search-div-admin">Pesquisar em Divisão Administrativa</a></li>
+			           </ul>
+				    </div>
+				    
 				</div>
 				<div class="search-clear" style="display:none">
 					<i class="fa fa-times"></i>
+				</div>
+			</div>
+			<div class="search-div-admin widget-step" step-id="divAdmin" step-when="widget.activeDivAdmin">
+				<div class="form-group form-group-sm" widget-template="div-admin-ilh">
+					<select class="form-control select2 remote-change" data-target="con" id="ilh">
+						<option value="">--- Selecionar Ilha ---</option>
+						{{#each divData}}
+							<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
+						{{/each}}
+					</select>
+				</div>
+				<div class="form-group form-group-sm" widget-template="div-admin-con">
+					<select class="form-control select2 remote-change" id="con" data-value="CON" data-target="fre">
+						<option value="">--- Selecionar Concelho ---</option>
+						{{#each divData}}
+							<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
+						{{/each}}
+					</select>
+				</div>
+				 <div class="form-group form-group-sm" widget-template="div-admin-fre">
+					<select class="form-control select2 remote-change" id="fre" data-value="FRE" data-target="cid-zon">
+						<option value="">--- Selecionar Frequesia ---</option>
+						{{#each divData}}
+							<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
+						{{/each}}
+					</select>
+				</div>
+				<div class="form-group form-group-sm" widget-template="div-admin-cid-zon">
+					<select class="form-control select2 remote-change" id="cid-zon" data-value="CID,ZON" data-target="bai-lug">
+					<option value="">--- Selecionar Cidade/Zona ---</option>
+					{{#each divData}}
+						<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
+					{{/each}}
+					</select>
+				</div>
+				<div class="form-group form-group-sm" widget-template="div-admin-bai-lug">
+					<select class="form-control select2" id="bai-lug" data-value="BAI,LUG">
+						<option value="">--- Selecionar Bairro/Lugar ---</option>
+						{{#each divData}}
+							<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
+						{{/each}}
+					</select>
 				</div>
 			</div>
 		</div>

@@ -132,11 +132,11 @@
 						
 			//find object in layer
 			layer.find = function(fid){
-			
-				var layers = layer.getLayers();
+							
+				var layers = layer.getLayers(),
 				
-				var res = null;
-				
+					res    = null;
+								
 				for(var i=0; i < layers.length; i++){
 					
 					var flayer = layers[i],
@@ -194,7 +194,7 @@
 			layer.highlight = function(fid, callback){
 				
 				var featureLayer = layer.find( fid );
-				
+								
 				layer.unHighlightAll();
 				
 				if(featureLayer){
@@ -210,7 +210,7 @@
 					//highlight polygons
 					if(featureLayer.feature.geometry.type.indexOf('Polygon') >=0 ){
 						
-						featureLayer.setStyle({fillColor: '#3f0', color: '#0f0',fill:true});
+						featureLayer.setStyle({fillColor: '#3f0', color: '#0f0',fill:true, fillOpacity: 0.2});
 						
 						featureLayer.bringToFront();
 					

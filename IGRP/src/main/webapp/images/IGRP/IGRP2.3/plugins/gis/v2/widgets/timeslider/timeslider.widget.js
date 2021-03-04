@@ -20,9 +20,9 @@
 
 				delay      : 1000, 
 				
-				startDate : '01-01-2000',
+				startDate  : '01-01-2001',
 				
-				endDate   : moment().format(formatIn),	
+				endDate    : moment().format(formatIn),	
 				
 				period	   : 'months',//days,months,years,weeks
 				
@@ -30,7 +30,7 @@
 				
 				animate    : 'fast', //slow,fast
 				
-				range      : false,//true,false
+				range      : false, //true,false
 				
 				increment  : 1,
 				
@@ -426,11 +426,11 @@
         	   			        	    
 				data.layers.forEach(function(l){
 			
-					var layer = app.layers.get( l.layer ),
+					var layer = app.layers.get( l.layer );
 					
-						layer = layer.data();
-		
-					if(layer)
+					if(layer){
+					
+						var layer = layer.data();					
 						
 						layers.push({
 							
@@ -439,6 +439,7 @@
 							id   : layer.id
 							
 						});
+					}
 					
 					if(data.layers.length == 1)
 						
@@ -528,6 +529,58 @@
 									
 		};
 		
+		function CreateSlider(){
+			
+			if(widget.layerId){
+				
+				widget.layer  = app.layers.get(widget.layerId);
+				
+				var _layers   = data.layers[0] ? data.layers : layers;
+																	
+			    if(_layers[0]){
+						
+			    	_layers.forEach(function(l){
+										    		
+			    		  var layerId = l.layer || l.id;		    		
+			    		
+						  if(layerId == widget.layerId){	
+							  								
+								settings           = $.extend(settings, l.slider);
+								
+								settings.startDate = moment(settings.startDate, formatIn);
+								
+								settings.endDate   = moment(settings.endDate, formatIn);
+								
+								RenderModal(settings);
+								
+								widget.slider();	
+										
+								var attributes     = l.dateAttr ? l.dateAttr.split(',') : [];
+								
+								if(l.dateAttr == undefined || l.dateAttr == '' ){
+									
+									settings.attributes = AttributesToSelect(widget.layer.Description.attributes, true);
+									
+									hasAttributes = true;
+
+								}else if( attributes.length > 1 ){
+									
+									settings.attributes = AttributesToSelect(attributes);
+									
+									hasAttributes = true;
+									
+								}else										
+									settings.dateAttr  = l.dateAttr;	
+								
+								if(hasAttributes) RenderAttribute();																	
+								
+							}
+						  
+						});						
+				  }		
+			}			
+		}
+		
 		function RenderModal(o){
 			
 			var modalData =  $.extend({
@@ -537,7 +590,7 @@
 					 'months': 'Mês',
 					 'years' : 'Ano'
 				},
-				"items" : [
+				items : [
 		            {
 		                "label" : "Sim",
 		                "active" : true
@@ -556,69 +609,23 @@
 			try{
 				
 				widget.setTemplateParam('settings', {settings: modalData});
+				
+				$(".select2-modal").select2({
+	         		
+				    dropdownParent: modal
+				    
+				});
+				
+				$('.gen-date-picker').daterangepicker({
+					
+					singleDatePicker: true,
+					
+					locale: $.IGRP.components.daterangepicker.locale
+					
+				});
 												
 			}catch(e){}
 						
-		}
-		
-		function CreateSlider(){
-			
-			if(widget.layerId){
-				
-				widget.layer       = app.layers.get(widget.layerId);
-				
-				var _layers = data.layers[0] ? data.layers : layers;
-													
-			    if(_layers[0]){
-						
-			    	_layers.forEach(function(l){
-							
-						  if(data.layers[0] && l.layer == widget.layerId){	
-								
-								settings           = $.extend(settings, l.slider);
-								
-								settings.startDate = moment(settings.startDate, formatIn);
-								
-								settings.endDate   = moment(settings.endDate, formatIn);
-								
-								RenderModal(settings);
-								
-								widget.slider();	
-										
-								var attributes     = l.dateAttr ? l.dateAttr.split(',') : [];
-																												
-								if(attributes.length > 1 || l.dateAttr == '' ){
-									
-									if( l.dateAttr == '' )
-										
-										settings.attributes = AttributesToSelect(widget.layer.Description.attributes, true);
-									
-									else
-										
-										settings.attributes = AttributesToSelect(attributes);
-									
-									RenderAttribute();
-									
-									hasAttributes = true;
-									
-								}else										
-									settings.dateAttr  = l.dateAttr;		
-								
-							}else{
-								
-								RenderModal(settings);
-																
-								settings.attributes = AttributesToSelect(widget.layer.Description.attributes, true);
-								
-								RenderAttribute();
-								
-								hasAttributes = true;
-								
-							}
-							
-						});						
-				  }				
-			}			
 		}
 		
 		function RenderAttribute(){
@@ -626,7 +633,7 @@
 		    $('div[item-name=attributes]', widget.html).show();
 		    
 		    $("select[name=attributes]", widget.html).select2('destroy');
-			
+		    
 			try{
 
 				widget.setTemplateParam('attributes-time', {attributes: settings.attributes});
@@ -638,24 +645,27 @@
 		}
 		
 		function Render(){
-						
-			RenderModal(settings);
 			
+			RenderModal(settings);
+						
 			if(layers.length > 1)
 				
 			    $('div[item-name=layers]', widget.html).show();
-
 			
+			$(".select2", widget.html).select2();
+			
+			$(".select2", widget.html).select2('destroy');
+						
 			try{
 				
-				widget.setTemplateParams({layers: layers});
-								
+				widget.setTemplateParam('layers', {layers: layers});
+												
 			}catch(e){}
 			
 		}
 		
 		function Init(){
-						
+									
 			modal = $(modalId);
 			
 			SliderController = $(".slider", widget.html);
@@ -663,23 +673,11 @@
 			playButton = $(".run", widget.html);	
 			
 			LayerController = $("select[name=layers]", widget.html);
-											
-			$(".select2-modal").select2({
-         		
-			    dropdownParent: modal
-			    
-			});
 			
-			$(".layers-select").select2();
+			$(".select2", widget.html).select2();
 			
-			$('.gen-date-picker').daterangepicker({
-				
-				singleDatePicker: true,
-				
-				locale: $.IGRP.components.daterangepicker.locale
-				
-			});
-			
+			$('div[item-name=attributes]', widget.html).hide();
+						
 			if(layers.length == 1)
 				
 				CreateSlider();
@@ -727,13 +725,13 @@
 			
 			widget.on('load-html', function(){	
 				
-				widget.getLayers();
-				
-				Render();
+				widget.getLayers();		
 				
 			});
 						
 			widget.on('activate', function(){	
+				
+				Render();
 				
 				Init();
 				

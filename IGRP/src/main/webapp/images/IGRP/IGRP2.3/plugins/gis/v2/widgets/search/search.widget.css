@@ -302,3 +302,10 @@
   -webkit-transform: translate(-20px, -20px) scale(0.2) translate(20px, 20px);
   transform: translate(-20px, -20px) scale(0.2) translate(20px, 20px);
 }
+
+/*dropdown*/
+.gis-widget-wrapper[widget-type="search"] .dropdown-menu{
+	right: 0;
+    left: auto;
+    min-width: 200px;
+}
