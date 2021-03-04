@@ -841,6 +841,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				s.beginTransaction();
 			}
 			TypedQuery<T> query = s.createQuery(criteria);
+			query.setMaxResults(1);
 			query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 			this.setParameters(query);
 			t = query.getSingleResult();
