@@ -73,7 +73,7 @@
         <form_crud_dao_gen type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="" tags="false">
-                    <label>Aplicação</label>
+                    <label>Application</label>
                     <list>
                         <option/>
                         <option>
@@ -95,7 +95,7 @@
                     </list>
                     <rules>
                         <rule type="remote_combobox">
-                            <proc>DataSource</proc>
+                            <proc>index</proc>
                             <requestFields>
                                 <item>p_aplicacao</item>
                             </requestFields>
@@ -183,27 +183,27 @@
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Stract lorem labore natus dolo</table_name>
+                        <table_name name="p_table_name">Iste rem voluptatem laudantium</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Voluptatem lorem ipsum unde an</table_name>
+                        <table_name name="p_table_name">Sit laudantium dolor magna off</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Rem lorem perspiciatis consect</table_name>
+                        <table_name name="p_table_name">Officia perspiciatis aperiam p</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Aperiam dolor anim aliqua accu</table_name>
+                        <table_name name="p_table_name">Lorem sit amet dolor anim</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Ut iste totam stract consectet</table_name>
+                        <table_name name="p_table_name">Unde adipiscing sed sit totam</table_name>
                     </row>
                 </value>
             </table>
