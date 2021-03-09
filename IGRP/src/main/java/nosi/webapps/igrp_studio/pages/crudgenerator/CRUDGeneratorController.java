@@ -38,7 +38,7 @@ public class CRUDGeneratorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Magna aliqua voluptatem amet a' as table_name "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Laudantium sit natus ut aperia' as table_name "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.schema.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -47,43 +47,45 @@ public class CRUDGeneratorController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
-		LinkedHashMap<String, String> daoCrudOptions = new LinkedHashMap<>();
-		daoCrudOptions.put("dao", Core.gt("DAO"));
-		daoCrudOptions.put("crud", Core.gt("CRUD"));
-		view.form_2_radiolist_1.setValue(daoCrudOptions);
+		try {
+			
+			Map<String, String> daoCrudOptions = new LinkedHashMap<>();
+			daoCrudOptions.put("dao", "DAO");
+			daoCrudOptions.put("crud", "CRUD");
+			view.form_2_radiolist_1.setValue(daoCrudOptions);
 
-		view.btn_add_datasource.setLink("igrp", "ConfigDatabase", "index");
-		view.aplicacao.setValue(new Application().getListApps());
-		view.table_type.setValue(this.preencherTableType());
-		view.schema.setVisible(false);
+			view.btn_add_datasource.setLink("igrp", "ConfigDatabase", "index");
+			view.aplicacao.setValue(new Application().getListApps());
+			view.table_type.setValue(DatabaseMetadaHelper.getTableTypeOptions());
 
-		view.documento.setValue("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT&p_type=crud");
-		view.forum.setValue("https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&utm_medium=link&utm_campaign=share-link");
+			view.documento.setValue("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT&p_type=crud");
+			view.forum.setValue("https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&utm_medium=link&utm_campaign=share-link");
+			
+			if (Core.isNotNull(model.getAplicacao())) {
+				
+				final Map<Object, Object> datasourceByEnv = new Config_env().getListDSbyEnv(Core.toInt(model.getAplicacao()));
+				
+				if (datasourceByEnv.size() == 2)
+					datasourceByEnv.remove(null);
+					
+				view.data_source.setValue(datasourceByEnv);
 
-		if (Core.isNotNull(model.getAplicacao())) {
-			final Map<Object, Object> listDSbyEnv = new Config_env().getListDSbyEnv(Core.toInt(model.getAplicacao()));
-			if (listDSbyEnv.size() > 1 && listDSbyEnv.size() == 2)
-				model.setData_source(listDSbyEnv.keySet().toArray()[1].toString());
-			view.data_source.setValue(listDSbyEnv);
+				if (Core.isNotNull(model.getData_source())) {
 
-			if (Core.isNotNull(model.getData_source())) {
+					Config_env config = new Config_env().find().andWhere("id", "=", Core.toInt(model.getData_source()))
+							.andWhere("application.id", "=", Core.toInt(model.getAplicacao())).one();
 
-				Config_env config = new Config_env().find().andWhere("id", "=", Core.toInt(model.getData_source()))
-						.andWhere("application.id", "=", Core.toInt(model.getAplicacao())).one();
-				Map<String, String> schemasMap = DatabaseMetadaHelper.getSchemas(config);
-
-				if (schemasMap.size() > 1) {
-					view.schema.setValue(schemasMap);
-					view.schema.setVisible(true);
+					Map<String, String> schemasMap = DatabaseMetadaHelper.getSchemas(config);
 					if (schemasMap.size() == 2)
-						model.setSchema(schemasMap.keySet().toArray()[1].toString());
-					if (Core.isNotNull(model.getSchema()))
-						fillTable(model, config);
-				} else {
-					// if mySQL or other that doesn't have schema
-					fillTable(model, config);
+						schemasMap.remove(null);
+
+					view.schema.setValue(schemasMap);
+
+					this.fillTable(model, config);
 				}
 			}
+		} catch (Exception e) {
+			//e.printStackTrace();
 		}
 		
 		/*----#end-code----*/
@@ -188,7 +190,6 @@ public class CRUDGeneratorController extends Controller {
 				daoDto.setContentList("");
 				daoDto.setContentListSetGet("");
 				daoDto.setTableType(model.getTable_type());
-				//daoDto.setJavaUtilDate(model.getDate__calendar_api() == 1);
 				daoDto.setTableName(tableName);
 				daoDto.setDaoClassName(GerarClasse.convertCase(tableName, true));
 				this.generateDAO(daoDto);
@@ -210,28 +211,17 @@ public class CRUDGeneratorController extends Controller {
 		
 		
 /*----#start-code(custom_actions)----*/
-
+	
 	private void fillTable(CRUDGenerator model, Config_env config) {
 		List<String> tables = DatabaseMetadaHelper.getTables(config, model.getSchema(), model.getTable_type());
 		model.setTable_1(new ArrayList<>());
-		for (String table : tables) {
+		for (String tableName : tables) {
 			CRUDGenerator.Table_1 row = new CRUDGenerator.Table_1();
-			row.setTable_name(table);
-			row.setCheck_table(table);
+			row.setTable_name(tableName);
+			row.setCheck_table(tableName);
 			row.setCheck_table_check("-1");
 			model.getTable_1().add(row);
 		}
-	}
-
-	public Response actionDataSource() {
-		CRUDGeneratorView view = new CRUDGeneratorView();
-		Integer appID = Core.getParamInt(view.aplicacao.getParamTag());
-		String[] selected = null;
-		final Map<Object, Object> listDSbyEnv = new Config_env().getListDSbyEnv(appID);
-		if (listDSbyEnv.size() > 1 && listDSbyEnv.size() == 2) {
-			selected = new String[] { listDSbyEnv.keySet().toArray()[1].toString() };
-		}
-		return this.renderView(Core.remoteComboBoxXml(listDSbyEnv, view.data_source, selected));
 	}
 
 	/********************* METODO USADOS PARA GERAR CRUD *********************/
@@ -438,18 +428,6 @@ public class CRUDGeneratorController extends Controller {
 
 	public boolean saveFiles(String fileName, String content, String path) throws IOException {
 		return Core.isNull(content) ? Boolean.FALSE : FileHelper.save(path, fileName, content);
-	}
-
-	public Map<String, String> preencherTableType() {
-		Map<String, String> map = new LinkedHashMap<>();
-		map.put("table", "TABLE");
-		map.put("view", "VIEW");
-		map.put("system table", "SYSTEM TABLE");
-		map.put("global temporary", "GLOBAL TEMPORARY");
-		map.put("local temporary", "LOCAL TEMPORARY");
-		map.put("alias", "ALIAS");
-		map.put("synonym", "SYNONYM");
-		return map;
 	}
 	
 	public static final String JAVA_EXTENSION = ".java";
