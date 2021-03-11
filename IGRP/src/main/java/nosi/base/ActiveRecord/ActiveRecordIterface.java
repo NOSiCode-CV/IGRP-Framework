@@ -222,6 +222,8 @@ public interface ActiveRecordIterface<T> extends CommonRestriction<T>{
 	public String getNamePrimaryKey();
 	
 	public Long getCount();
+	
+	public Object getMax(String columnName);
 
 	public T orderByAsc(String...columns);
 	
