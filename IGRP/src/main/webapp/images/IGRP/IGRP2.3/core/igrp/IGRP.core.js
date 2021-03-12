@@ -308,7 +308,10 @@
 						
 						case 'plaintext':
 							
-							$('div[item-name="'+tag+'"]').html($.IGRP.utils.htmlDecode(value));
+							if($('div[item-name="'+tag+'"]')[0])
+								$('div[item-name="'+tag+'"]').html($.IGRP.utils.htmlDecode(value));
+							else
+								formElement.text(value);
 							
 						break;
 						

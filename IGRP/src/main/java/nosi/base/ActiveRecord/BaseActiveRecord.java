@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.Id;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
@@ -829,8 +830,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		}catch (Exception e) {
 			this.keepConnection = false;
 			this.setError(e);
-		} finally {
-			s.close();
+		} finally {			
 			this.closeSession();
 		}
 		return list;
@@ -850,11 +850,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 			this.setParameters(query);
 			t = query.getSingleResult();
-		}catch (Exception e) {
-			this.keepConnection = false;
-			this.setError(e);
-		} finally {
-			s.close();
+		}catch (Exception e) {			
+			if(!(e instanceof NoResultException)) {
+				this.keepConnection = false;
+				this.setError(e);
+			}
+			
+		} finally {			
 			this.closeSession();
 		}
 		
