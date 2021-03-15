@@ -88,8 +88,10 @@ public class GerarClasse {
 
 				if (!Core.fileExists(new Config().getPathDAO(this.daoDto.getDadName()) + columnType
 						+ CRUDGeneratorController.JAVA_EXTENSION)) {
-					this.daoDto.setContentList(this.generateVariableTypeList(this.daoDto.getDaoClassName(), camelCaseColumnName));
-					this.daoDto.setContentListSetGet(this.generateVariableTypeListGetterSetter(this.daoDto.getDaoClassName()));
+					this.daoDto.setContentList(
+							this.generateVariableTypeList(this.daoDto.getDaoClassName(), camelCaseColumnName));
+					this.daoDto.setContentListSetGet(
+							this.generateVariableTypeListGetterSetter(this.daoDto.getDaoClassName()));
 					this.daoDto.setHasList(true);
 
 					DaoDto newDaoDto = new DaoDto();
@@ -113,17 +115,18 @@ public class GerarClasse {
 		variables.append(NEW_LINE);
 
 		if (this.daoDto.hasList()) {
-			
+
 			this.importClasses.add(List.class);
 			this.importClasses.add(OneToMany.class);
 			this.importClasses.add(CascadeType.class);
 			this.importClasses.add(XmlTransient.class);
-	
+
 			variables.append(this.daoDto.getContentList());
 			gettersSetters.append(this.daoDto.getContentListSetGet());
 		}
-		
-		final String imports = this.importClasses.stream().map(clazz -> this.buildImportLine(clazz)).collect(Collectors.joining(""));
+
+		final String imports = this.importClasses.stream().map(clazz -> this.buildImportLine(clazz))
+				.collect(Collectors.joining(""));
 		return new StringBuilder().append(this.daoDto.getPackageName()).append(imports)
 				.append(this.addHeaderClassContent()).append(variables).append(gettersSetters).append("}").toString();
 	}
@@ -135,7 +138,7 @@ public class GerarClasse {
 		this.importClasses.add(NamedQuery.class);
 		this.importClasses.add(Table.class);
 		this.importClasses.add(Entity.class);
-		this.importClasses.add(!"view".equals(this.daoDto.getTableType()) ? GeneratedValue.class : Immutable.class);
+		this.importClasses.add(this.isView() ? Immutable.class : GeneratedValue.class);
 	}
 
 	private String buildImportLine(Class<?> clazz) {
@@ -155,7 +158,7 @@ public class GerarClasse {
 		variables.append(TAB).append("@Id").append(NEW_LINE);
 
 		if (databaseType.equals(DatabaseConfigHelper.ORACLE)) {
-			
+
 			this.importClasses.add(GenerationType.class);
 			this.importClasses.add(SequenceGenerator.class);
 
@@ -177,13 +180,13 @@ public class GerarClasse {
 			variables.append(TAB).append("@GeneratedValue(strategy = GenerationType.IDENTITY)").append(NEW_LINE);
 		}
 
-		variables.append(TAB).append("@Column(name = \"").append(column.getName()).append("\", nullable = false, updatable = false")
-				.append(")\n \tprivate ").append(columnType).append(" ").append(camelCaseColumnName).append(";")
-				.append(NEW_LINE);
+		variables.append(TAB).append("@Column(name = \"").append(column.getName())
+				.append("\", nullable = false, updatable = false").append(")\n \tprivate ").append(columnType)
+				.append(" ").append(camelCaseColumnName).append(";").append(NEW_LINE);
 	}
 
 	private void doIfColumnIsForeignKey(DatabaseMetadaHelper.Column column) {
-		
+
 		this.importClasses.add(ManyToOne.class);
 		this.importClasses.add(JoinColumn.class);
 		this.importClasses.add(ForeignKey.class);
@@ -213,7 +216,7 @@ public class GerarClasse {
 	}
 
 	private String addNullablePropertie(Class<?> clazz, boolean isNullable) {
-		if (clazz.equals(String.class) || isNullable)
+		if (clazz.equals(String.class) || isNullable || this.isView())
 			return "";
 		else {
 			this.importClasses.add(NotNull.class);
@@ -222,7 +225,7 @@ public class GerarClasse {
 	}
 
 	private String addStringProperties(Class<?> clazz, Integer size, boolean isNullable) {
-		if (!clazz.equals(String.class))
+		if (!clazz.equals(String.class) || this.isView())
 			return "";
 		else {
 			StringBuilder properties = new StringBuilder();
@@ -236,6 +239,10 @@ public class GerarClasse {
 			return properties.append(TAB).append("@Size(").append(min).append("max = ").append(size).append(")")
 					.append(NEW_LINE).toString();
 		}
+	}
+
+	private boolean isView() {
+		return this.daoDto.getTableType().equals("view");
 	}
 
 	public static String convertCase(String name, boolean firstLetterLowerCase) {
@@ -314,15 +321,15 @@ public class GerarClasse {
 		return new StringBuilder().append(NEW_LINE).append("/**").append(NEW_LINE).append(" * @author: ")
 				.append(Core.getCurrentUser().getName()).append(" ").append(Core.getCurrentDate()).append(NEW_LINE)
 				.append("*/").append(NEW_LINE).append(NEW_LINE).append("@Entity").append(NEW_LINE)
-				.append(this.daoDto.getTableType().equals("view") ? "@Immutable".concat(NEW_LINE) : "")
-				.append("@Table(name = \"").append(this.daoDto.getTableName()).append("\", schema = \"")
-				.append(this.daoDto.getSchema()).append("\")").append(NEW_LINE).append("@NamedQuery(name = \"")
-				.append(this.daoDto.getDaoClassName()).append(".findAll\", query = \"SELECT t FROM ")
-				.append(this.daoDto.getDaoClassName()).append(" ").append("t").append("\")").append(NEW_LINE)
-				.append("public class ").append(this.daoDto.getDaoClassName()).append(" extends BaseActiveRecord<")
+				.append(this.isView() ? "@Immutable".concat(NEW_LINE) : "").append("@Table(name = \"")
+				.append(this.daoDto.getTableName()).append("\", schema = \"").append(this.daoDto.getSchema())
+				.append("\")").append(NEW_LINE).append("@NamedQuery(name = \"").append(this.daoDto.getDaoClassName())
+				.append(".findAll\", query = \"SELECT t FROM ").append(this.daoDto.getDaoClassName()).append(" ")
+				.append("t").append("\")").append(NEW_LINE).append("public class ")
+				.append(this.daoDto.getDaoClassName()).append(" extends BaseActiveRecord<")
 				.append(this.daoDto.getDaoClassName()).append("> {").append(NEW_LINE).append(NEW_LINE).append(TAB)
 				.append("private static final long serialVersionUID = 1L;").append(NEW_LINE).append(NEW_LINE)
-				.append(this.daoDto.getTableType().equals("view")
+				.append(this.isView()
 						? TAB + "// Consider adding identifier/primary Key(@Id) annotation for your views!" + NEW_LINE
 								+ NEW_LINE
 						: "")
@@ -334,7 +341,7 @@ public class GerarClasse {
 		gettersSetters.append(new StringBuilder().append(TAB).append("public ").append(this.columnType).append(" get")
 				.append(this.pascalCaseColumnName).append("() { \n\t\treturn this.").append(this.camelCaseColumnName)
 				.append(";").append(NEW_LINE).append(TAB).append("}").append(NEW_LINE).append(NEW_LINE).toString());
-		if (!"view".equals(daoDto.getTableType())) {
+		if (!this.isView()) {
 			gettersSetters.append(new StringBuilder().append(TAB).append("public void set")
 					.append(this.pascalCaseColumnName).append("(").append(this.columnType).append(" ")
 					.append(this.camelCaseColumnName).append(") {").append(NEW_LINE).append(TAB).append(TAB)
