@@ -1,12 +1,11 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
-import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Core;
 
 public class PesquisarMenuView extends View {
 
@@ -66,7 +65,7 @@ public class PesquisarMenuView extends View {
 		ativo_check.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
 		ordem = new NumberField(model,"ordem");
-		ordem.setLabel(gt("Ordem"));
+		ordem.setLabel(gt("Posição"));
 		ordem.propertie().add("name","p_ordem").add("type","number").add("min","").add("max","").add("maxlength","30").add("total_footer","false").add("java-type","").add("calculation","false").add("mathcal","").add("numberformat","").add("showLabel","true").add("group_in","");
 		
 		table_titulo = new PlainTextField(model,"table_titulo");
