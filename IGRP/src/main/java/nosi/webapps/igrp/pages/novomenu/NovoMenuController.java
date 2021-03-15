@@ -1,29 +1,33 @@
 package nosi.webapps.igrp.pages.novomenu;
 
-import static nosi.core.i18n.Translator.gt;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
-
-import nosi.core.integration.pdex.service.GlobalAcl;
-import nosi.core.integration.pdex.service.GlobalAcl.PermissionAcl;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config;
 import nosi.webapps.igrp.dao.Menu;
+import nosi.core.webapp.helpers.IgrpHelper;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Properties;
+import static nosi.core.i18n.Translator.gt;
+
+import nosi.core.integration.pdex.service.GlobalAcl;
+import nosi.core.integration.pdex.service.GlobalAcl.PermissionAcl;
+
+/*----#end-code----*/
+		
 public class NovoMenuController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoMenu model = new NovoMenu();
 		model.load();
 		NovoMenuView view = new NovoMenuView();
@@ -33,11 +37,14 @@ public class NovoMenuController extends Controller {
 		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.action_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.self_id.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.orderby.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.target.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
+		
 		int id = model.getId();
+		int app = 0;
 		if (Core.isNotNullOrZero(id)) {
 			// If its a update it will enter here and the value p_id is from the GET url
 			Menu menu = new Menu().findOne(id);
@@ -50,13 +57,15 @@ public class NovoMenuController extends Controller {
 				model.setAction_fk(menu.getAction().getId());
 			model.setOrderby(menu.getOrderby());
 			model.setTitulo(menu.getDescr());
-			model.setEnv_fk(menu.getApplication().getId());
+			app = menu.getApplication().getId();
+			model.setEnv_fk(app);
+			
 			if (Core.isNotNullOrZero(model.getAction_fk()) && menu.getAction().getId() != model.getAction_fk()) {
 				model.setTitulo(getPageTituleByID(model));
 			}
-
+			view.orderby.setValue(this.getOrdem(app, true,menu.getAction() != null ? menu.getAction().getId() : 0));
 		} else {
-			int app = model.getApp();
+			app = model.getApp();
 			String dad = Core.getCurrentDad();
 			if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 				app = Core.findApplicationByDad(dad).getId();
@@ -70,13 +79,14 @@ public class NovoMenuController extends Controller {
 			}
 			// New menu by default
 			model.setTarget("_self");
-			model.setOrderby(39);
 			model.setStatus(1);
 			model.setFlg_base(0);
 			if (Core.isNotNullOrZero(model.getAction_fk())) {
 				model.setTitulo(getPageTituleByID(model));
 			}
+			view.orderby.setValue(this.getOrdem(app,false,0));
 		}
+		
 
 		HashMap<String, String> targets = new HashMap<>();
 		targets.put(null, gt("-- Selecionar --"));
@@ -106,12 +116,14 @@ public class NovoMenuController extends Controller {
 		} else
 			view.status.setValue(1);
 
+		
+		
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);
+		return this.renderView(view);	
 	}
-
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoMenu model = new NovoMenu();
 		model.load();
 		/*----#gen-example
@@ -207,10 +219,12 @@ public class NovoMenuController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp", "NovoMenu", "index", this.queryString());
+		return this.redirect("igrp","NovoMenu","index", this.queryString());	
 	}
-
-	/*----#start-code(custom_actions)----*/
+	
+		
+		
+/*----#start-code(custom_actions)----*/
 	private String getPageTituleByID(NovoMenu model) {
 		if (Core.isNotNull(model.getAction_fk())) {
 			final Action actionOne = new Action().find().andWhere("id", "=", model.getAction_fk()).one();
@@ -278,6 +292,32 @@ public class NovoMenuController extends Controller {
 		}
 		return acl;
 	}
+	
+	
+	
+	private HashMap<Integer, Integer> getOrdem(int app, boolean edit,int action_fk){
+		
+		HashMap<Integer, Integer> ordem = new HashMap<>();
+		List<Menu> ordem_dao = new Menu().find().where("application","=",app).all();
+		
+		for(int i=1; i <= ordem_dao.size(); i++ ) {
+			ordem.put(i, i);
+		}
+		
+		for(Menu m1 : ordem_dao)
+			ordem.remove(m1.getOrderby());
+		
+		if(edit) {
+			Menu m = new Menu().find().where("application","=",app).andWhere("action","=",action_fk).one();
+			ordem.put(m.getOrderby(),m.getOrderby());
+		}else
+			ordem.put(ordem_dao.size()+1, ordem_dao.size()+1);
+		
+		return ordem;
+	}
+	
+	
+	
 
 	public final String IGRPWEB_INSTANCE_NAME = "IGRPWEB_INSTANCE_NAME";
 	private final String IGRP_PDEX_GLOBALACL_URL = "igrp.acl.permissionacl.url";

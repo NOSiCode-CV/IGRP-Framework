@@ -1,12 +1,11 @@
 package nosi.webapps.igrp.pages.novomenu;
 
-import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Core;
 
 public class NovoMenuView extends View {
 
@@ -77,9 +76,9 @@ public class NovoMenuView extends View {
 		self_id.setLabel(gt("Menu pai"));
 		self_id.propertie().add("name","p_self_id").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
-		orderby = new NumberField(model,"orderby");
+		orderby = new ListField(model,"orderby");
 		orderby.setLabel(gt("Posição"));
-		orderby.propertie().add("name","p_orderby").add("type","number").add("min","").add("max","").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("java-type","int").add("desclabel","false").add("calculation","false").add("mathcal","").add("numberformat","");
+		orderby.propertie().add("name","p_orderby").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","int");
 		
 		target = new ListField(model,"target");
 		target.setLabel(gt("Target"));
