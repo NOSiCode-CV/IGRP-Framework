@@ -1,6 +1,11 @@
 package nosi.webapps.igrp_studio.pages.env;
 
-import java.io.IOException;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
@@ -32,13 +37,11 @@ import javax.persistence.OneToOne;
 import org.apache.commons.io.IOUtils;
 
 import nosi.core.config.Config;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.integration.pdex.service.AppConfig;
 import nosi.core.integration.pdex.service.AppConfig.App;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.ApplicationPermition;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.security.EncrypDecrypt;
@@ -49,24 +52,21 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
+
+/*----#end-code----*/
 		
-public class EnvController extends Controller { 
-	
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{ 
+public class EnvController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Env model = new Env();
 		model.load();
 		EnvView view = new EnvView();
 		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		view.action_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.flg_external.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		
-		Properties settings = this.configApp.getMainSettings();
-		String igrp_plsql_url = settings.getProperty(this.IGRP_PDEX_APPCONFIG_URL);
-		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
-			view.plsql_codigo.setVisible(false);
 		
       	model.setGen_auto_code(1); 
       	model.setImg_src("default.svg");	
@@ -77,8 +77,6 @@ public class EnvController extends Controller {
 		view.link_center.setVisible(false);
 		view.action_fk.setVisible(false);
 		view.flg_old.setVisible(false);
-		//view.flg_external.setValue(0);
-		//view.status.setVisible(false);
 		model.setStatus(1);
 		view.flg_external.setValue(new Application().getAtivesEstadoRegisto()); 
 		
@@ -155,9 +153,8 @@ public class EnvController extends Controller {
 			
 				Core.setMessageSuccess();	
 
-				// ... Git control version code here ... 
+				return this.redirect("igrp_studio", "env","index");		
 				
-				return this.redirect("igrp_studio", "env","index");				
 			}else
 				Core.setMessageError(); 
 			
@@ -168,6 +165,7 @@ public class EnvController extends Controller {
 			
 	}
 	
+		
 		
 /*----#start-code(custom_actions)----*/
 	
@@ -209,7 +207,6 @@ public class EnvController extends Controller {
 	}
 
 	public Response actionEditar() throws IllegalArgumentException, IllegalAccessException, IOException{
-		
 		Env model = new Env();		
 		Application aplica_db = new Application();
 		int idAplicacao = Core.getParamInt("p_id");
@@ -268,8 +265,6 @@ public class EnvController extends Controller {
 				
 				Core.setMessageSuccess(); 
 				
-				// ... Git control version code here ...	
-				
 				return redirect("igrp_studio", "env","editar&p_id=" + idAplicacao);
 				
 			}else{
@@ -291,16 +286,13 @@ public class EnvController extends Controller {
 		
 		view.flg_external.setValue(new Application().getAtivesEstadoRegisto()); 
 		
-		return this.renderView(view);
-	
+		return this.renderView(view); 
 	}
 
 	// App list I have access to 
 	public Response actionMyApps() { 
 		String type = Core.getParam("type");
-		
 		Igrp.getInstance().getResponse().setContentType("text/xml");
-	
 		List<Profile> myApp = new Application().getMyApp(); 
 		myApp = myApp.stream()
 				  .filter(profile->profile.getOrganization().getApplication().getStatus()==1).collect(Collectors.toList());
@@ -313,7 +305,6 @@ public class EnvController extends Controller {
 		List<Application> otherApp = new Application().getOtherApp();
 		List<Integer> aux = new ArrayList<>();
 		XMLWritter xml_menu = new XMLWritter();
-
 		xml_menu.startElement("applications");
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
@@ -321,17 +312,13 @@ public class EnvController extends Controller {
 		List<App> denyApps = new ArrayList<>();
 		getAllApps(allowApps,denyApps);
 		/** End **/
-
 		boolean displaySubtitle = false;
 		boolean displayTitle = false;
-		
 		xml_menu.setElement("link_img", this.getConfig().getLinkImg());
 		for(Profile profile:myApp){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "yes");
-			
 			String page = "tutorial/DefaultPage/index&title="+profile.getOrganization().getApplication().getName();
-			
 			if(profile.getOrganization().getApplication().getAction()!=null){
 				Action ac = profile.getOrganization().getApplication().getAction();
 				page = (ac!=null && ac.getPage()!=null)? ac.getApplication().getDad().toLowerCase()+"/" + ac.getPage()+"/"+ac.getAction():page;
@@ -360,7 +347,6 @@ public class EnvController extends Controller {
 				}
 			}
 		}
-		
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
 		for(App obj: allowApps){
@@ -374,7 +360,6 @@ public class EnvController extends Controller {
 			xml_menu.endElement();
 			displayTitle = true;
 		}
-
 		for(App obj: denyApps){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "no");
@@ -387,14 +372,11 @@ public class EnvController extends Controller {
 			displaySubtitle = true; 
 		}
 		/** End **/
-		if(displayTitle){
+		if(displayTitle)
 			xml_menu.setElement("title", Core.gt("Minhas Aplicações"));
-		}
-		if(displaySubtitle){
+		if(displaySubtitle)
 			xml_menu.setElement("subtitle", Core.gt("Outras Aplicações"));
-		}
 		xml_menu.endElement();
-
 		Response response = new Response();
 		response.setCharacterEncoding(Response.CHARSET_UTF_8);
 		response.setContentType(Response.FORMAT_XML);
@@ -405,8 +387,7 @@ public class EnvController extends Controller {
 	}
 	
 	private String getLinkOpenApp() {
-        String result = "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"env"+"/"+"openApp")+"&app="; 
-        return result;
+        return "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"env"+"/"+"openApp")+"&app=";
 	}
 
 
@@ -414,7 +395,6 @@ public class EnvController extends Controller {
 		String[] p = page.split("/");
 		Permission permission = new Permission();
 		if(permission.isPermition(app, p[0], p[1], p[2])) { 
-			
 			Application env = Core.findApplicationByDad(app);
 			// 2 - custom dad 
 			String url = null; 
@@ -470,8 +450,8 @@ public class EnvController extends Controller {
 	// Begin
 	private void getAllApps(List<App> allowApps /*INOUT var*/, List<App> denyApps  /*INOUT var*/) {
 		Properties properties =  this.configApp.getMainSettings(); 
-		String baseUrl = properties.getProperty(IGRP_PDEX_APPCONFIG_URL); 
-		String token = properties.getProperty(IGRP_PDEX_APPCONFIG_TOKEN); 
+		String baseUrl = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.value()); 
+		String token = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_TOKEN.value()); 
 		AppConfig appConfig = new AppConfig(); 
 		appConfig.setUrl(baseUrl);
 		appConfig.setToken(token);
@@ -489,6 +469,21 @@ public class EnvController extends Controller {
 		String xml = new EnvController.GetFieldsDAO().gerarXML(this.getConfig(), app); 
 		this.format = Response.FORMAT_XML;
 		return this.renderView(xml);
+	} 
+	
+	private String buildAppUrlUsingAutentikaForSSO(Application env) { 
+		String url = null;
+		try { 
+			String contextName = Core.getDeployedWarName(); 
+			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !contextName.equalsIgnoreCase(env.getUrl())) {
+				url = this.configApp.getAutentikaUrlForSso(); 
+				url = url.replace("state=igrp", "state=ENV/" + env.getDad()); 
+				url = url.replace("/IGRP/", "/" + env.getUrl() + "/"); 
+			}
+		} catch (Exception e) { 
+		}
+
+		return url;
 	}
 	
 	public static class GetFieldsDAO {
@@ -580,27 +575,8 @@ public class EnvController extends Controller {
 			return xml.toString();
 			
 		}
-
-	}
-	
-	private String buildAppUrlUsingAutentikaForSSO(Application env) { 
-		String url = null;
-		try { 
-			String contextName = Core.getDeployedWarName(); 
-			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !contextName.equalsIgnoreCase(env.getUrl())) {
-				url = this.configApp.getAutentikaUrlForSso(); 
-				url = url.replace("state=igrp", "state=ENV/" + env.getDad()); 
-				url = url.replace("/IGRP/", "/" + env.getUrl() + "/"); 
-			}
-		} catch (Exception e) { 
-		}
 		
-		return url;
 	}
-	
-	
-	private static final String IGRP_PDEX_APPCONFIG_URL = "igrp.pdex.appconfig.url";
-	private static final String IGRP_PDEX_APPCONFIG_TOKEN = "igrp.pdex.appconfig.token"; 
 	
 	/*----#end-code----*/
 }

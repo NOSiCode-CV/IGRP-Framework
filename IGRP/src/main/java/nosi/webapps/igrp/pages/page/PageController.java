@@ -27,17 +27,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigDBIGRP;
-import nosi.core.cversion.GitLab;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.compiler.helpers.MapErrorCompile;
 import nosi.core.webapp.databse.helpers.QueryHelper;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.helpers.ExtractReserveCode;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
@@ -344,11 +338,7 @@ public class PageController extends Controller {
 	}
 
 	/*----#start-code(custom_actions)----*/
-	/*
-	 * "+Core.getIGRPLink("igrp_studio","modulo","index&amp;p_modulo_cod=
-	 * "+model.getModulo())+"
-	 */
-
+	
 	public Response actionSetModuloEditar(Page model) {
 		String xml = "<content>" + "<editar_modulo>"
 				+ StringEscapeUtils.escapeXml11(
@@ -361,118 +351,8 @@ public class PageController extends Controller {
 		// TODO Auto-generated method stub
 		return Core.isNull(new Action().find().andWhere("application.id", "=", Core.toInt(model.getEnv_fk()))
 				.andWhere("page", "=", nosi.core.gui.page.Page.getPageName(model.getPage())).one());
-
 	}
-
-	// private void createSvnRepo(Action page) {
-	// Svn svnapi = new Svn();
-	// String env = "";
-	// env = Igrp.getInstance().getServlet().getInitParameter("env");
-	// switch (env) {
-	// case "dev":
-	// svnapi.setWorkFolder(
-	// "dev/" + page.getApplication().getDad().toLowerCase() + "/pages/" +
-	// page.getPage().toLowerCase());
-	// break;
-	// case "prod":
-	// svnapi.setWorkFolder(
-	// "prod/" + page.getApplication().getDad().toLowerCase() + "/pages/" +
-	// page.getPage().toLowerCase());
-	// break;
-	// case "sta":
-	// svnapi.setWorkFolder(
-	// "sta/" + page.getApplication().getDad().toLowerCase() + "/pages/" +
-	// page.getPage().toLowerCase());
-	// break;
-	// }
-	// svnapi.setMessage("Create Repo. for Application/Page - " +
-	// page.getApplication().getDad() + "/pages/"
-	// + page.getPage().toLowerCase());
-	// boolean flag = false;
-	// try {
-	// flag = svnapi.mkdir();
-	// } catch (IOException | InterruptedException e) {
-	// e.printStackTrace();
-	// }
-	// // System.out.println("Criar Pasta " + flag);
-	// // System.out.println(svnapi.getCmd());
-	// // System.out.println(svnapi.getCmdResult());
-	// }
-
-	// private void addFilesToSvnRepo(String pathClass, Action page) {
-	// Svn svnapi = new Svn();
-	//
-	// final String env = Igrp.getInstance().getServlet().getInitParameter("env");
-	// /*
-	// * try {
-	// svnapi.setLocalUriPath(this.getConfig().getBasePathClass()+"nosi"+"/"+
-	// * "webapps"+"/"+page.getApplication().getDad().toLowerCase()+"/"+"pages");
-	// * svnapi.setSvnUrl("https://subversion.gov.cv:18080/svn/FrontIGRP/trunk/");
-	// * svnapi.setSvnUrl(svnapi.getSvnUrl() + env + "/" +
-	// * page.getApplication().getDad().toLowerCase() + "/pages");
-	// * svnapi.setWorkFolder(""); svnapi.co(); } catch (IOException |
-	// * InterruptedException e) { e.printStackTrace(); }
-	// *
-	// * System.out.println(svnapi.getCmd());
-	// * System.out.println(svnapi.getCmdResult());
-	// *
-	// */
-	//
-	// switch (env) {
-	// case "dev":
-	// svnapi.setWorkFolder(
-	// "dev/" + page.getApplication().getDad().toLowerCase() + "/pages/" +
-	// page.getPage().toLowerCase());
-	// break;
-	// case "prod":
-	// svnapi.setWorkFolder(
-	// "prod/" + page.getApplication().getDad().toLowerCase() + "/pages/" +
-	// page.getPage().toLowerCase());
-	// break;
-	// case "sta":
-	// svnapi.setWorkFolder(
-	// "sta/" + page.getApplication().getDad().toLowerCase() + "/pages/" +
-	// page.getPage().toLowerCase());
-	// break;
-	// }
-	// // svnapi.setMessage("Create Repo. for Application/Page - " +
-	// // page.getApplication().getDad() + "/" + page.getPage());
-	//
-	// List<File> files = Arrays.asList(new File(pathClass).listFiles());
-	//
-	// files = files.stream().filter(f ->
-	// f.getName().contains(".java")).collect(Collectors.toList());
-	//
-	// files.forEach(f -> {
-	// svnapi.setLocalUriPath(pathClass);
-	// svnapi.setWorkFolder(File.separator + f.getName());
-	//
-	// boolean flag = svnapi.add();
-	// System.out.println("Adicionar Pasta " + flag);
-	// System.out.println(svnapi.getCmd());
-	// System.out.println(svnapi.getCmdResult());
-	//
-	// Core.setMessageInfo("Adicionar Pasta " + flag);
-	// Core.setMessageInfo(svnapi.getCmd());
-	// Core.setMessageInfo(svnapi.getCmdResult());
-	//
-	// svnapi.setMessage("Testing send files ...");
-	//
-	// flag = svnapi.commit();
-	// System.out.println("Commit " + flag);
-	// System.out.println(svnapi.getCmd());
-	// System.out.println(svnapi.getCmdResult());
-	//
-	// Core.setMessageInfo("Adicionar Pasta " + flag);
-	// Core.setMessageInfo(svnapi.getCmd());
-	// Core.setMessageInfo(svnapi.getCmdResult());
-	// });
-	//
-	// // System.out.println("Criar Pasta " + flag);
-	// // System.out.println(svnapi.getCmd());
-	// // System.out.println(svnapi.getCmdResult());
-	// }
-
+	
 	// Save page generated
 	public Response actionSaveGenPage() throws IOException, ServletException {
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
@@ -483,7 +363,6 @@ public class PageController extends Controller {
 		String messages = "";
 		if (ac != null) {
 			pageFile = new PageFile();
-
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package").trim();
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
 			path_class = path_class.replace(".", File.separator) + File.separator + ac.getPage().toLowerCase().trim();
@@ -510,10 +389,6 @@ public class PageController extends Controller {
 							new String[] { pageFile.getFileXml(), pageFile.getFileXsl(), pageFile.getFileJson() });
 				boolean r = FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),
 						new String[] { pageFile.getFileXml(), pageFile.getFileXsl(), pageFile.getFileJson() });
-
-				// System.out.println("path_xsl: " + path_xsl);
-				// System.out.println("path_class: " + path_class);
-
 				if (ac.getIsComponent() == 0) {
 					r = FileHelper.saveFilesJava(path_class, ac.getPage(), new String[] { pageFile.getFileModel(),
 							pageFile.getFileView(), pageFile.getFileController() });
@@ -536,7 +411,6 @@ public class PageController extends Controller {
 									Core.toJson(new MapErrorCompile(Core.gt("Componente registado com sucesso"), null)))
 							+ "</message>");
 			}
-
 			Historic hitoric_page = new Historic();
 			hitoric_page.setNome(Core.getCurrentUser().getName());
 			hitoric_page.setIdUtilizador(Core.getCurrentUser().getId());
@@ -558,10 +432,6 @@ public class PageController extends Controller {
 							null)))
 					+ "</message>");
 		}
-
-		// if(ac != null && pageFile != null)
-		// saveCommitNPush(ac.getApplication().getDad(), ac.getPage(), pageFile);
-
 		return this.renderView("<messages>" + messages + "</messages>");
 	}
 
@@ -623,13 +493,9 @@ public class PageController extends Controller {
 			JSONObject p;
 			try {
 				p = fields.getJSONObject(i).getJSONObject("properties");
-				try {
-					if (p.get("transaction") != null && p.get("transaction").toString().equals("true")) {
+				if (p.get("transaction") != null && p.get("transaction").toString().equals("true")) {
 						this.saveTransaction(p.get("name").toString(), p.get("label").toString(),
 								p.get("action").toString(), p.get("tag").toString(), ac);
-
-					}
-				} catch (JSONException e) {
 				}
 			} catch (JSONException e) {
 			}
@@ -649,36 +515,24 @@ public class PageController extends Controller {
 		}
 	}
 
-	public void actionPublishGenPage() throws IOException {
-
-	}
-
 	// list all page of an application
 	public Response actionListPage() throws IOException {
 		final String dad = Core.getParam("p_dad");
 		int app = Core.findApplicationByDad(dad).getId();
 		String json = "[";
-
 		List<Share> shares = new Share().find().andWhere("env.id", "=", app).andWhere("type", "=", "PAGE")
 				.andWhere("status", "=", 1).all();
-
 		List<Action> aux = new ArrayList<Action>();
-
 		if (shares != null)
 			for (Share share : shares) {
 				Action action = new Action().findOne(share.getType_fk());
 				if (action != null)
 					aux.add(action);
 			}
-
 		List<Action> actions = new Action().find().andWhere("isComponent", "<>", (short) 2)
 				.andWhere("application.id", "=", app).andWhere("status", "=", 1).all();
-
 		if (actions != null) {
-
-			if (aux != null)
-				actions.addAll(aux);
-
+			if (aux != null) actions.addAll(aux);
 			for (Action ac : actions) {
 				json += "{";
 				json += "\"action\":\"" + ac.getAction() + "\",";
@@ -746,10 +600,6 @@ public class PageController extends Controller {
 
 	}
 
-	public void actionListService() {
-
-	}
-
 	// View page with xml
 	public Response actionVisualizar() throws IOException {
 		String p_id = Core.getParam("p_id");
@@ -804,7 +654,6 @@ public class PageController extends Controller {
 					}
 					m.put(method.getName(), mm);
 					metodos.add(m);
-
 				}
 			}
 		}
@@ -823,7 +672,6 @@ public class PageController extends Controller {
 		if (ac != null && ac.getApplication() != null) {
 			final String dad = ac.getApplication().getDad();
 			List<String> domains = new ArrayList<>();
-
 			for (Tuple t : Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, DomainHeper.SQL_DOMINIO_PRIVATE)
 					.addInt("env_fk", ac.getApplication().getId()).getResultList()) {
 				try {
@@ -848,13 +696,10 @@ public class PageController extends Controller {
 
 	public Response actionDomainsValues() throws IOException {
 		String p_id = Core.getParam("p_id");
-
 		String[] ids = p_id.split(" « ");
 		List<Properties> list = new ArrayList<>();
 		try {
-
 			List<Tuple> queryDomain;
-
 			if (ids.length > 1)
 				queryDomain = Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, DomainHeper.SQL_ITEM_DOMINIO)
 						.addString("dominio", ids[0]).addInt("env_fk", Core.findApplicationByDad(ids[1]).getId())
@@ -862,17 +707,14 @@ public class PageController extends Controller {
 			else
 				queryDomain = Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, DomainHeper.SQL_ITEM_DOMINIO_PUB)
 						.addString("dominio", ids[0] == null ? p_id : ids[0]).getResultList();
-
 			for (Tuple t : queryDomain) {
-
 				Properties domains = new Properties();
 				domains.put("value", t.get("key").toString());
 				domains.put("text", t.get("description").toString());
 				list.add(domains);
-
 			}
-
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) { 
+			e.printStackTrace();
 		}
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(Core.toJson(list));
@@ -897,15 +739,10 @@ public class PageController extends Controller {
 		return this.renderView(json);
 	}
 
-	final String basePath = this.getConfig().basePathServer() + "images" + File.separator + "IGRP" + File.separator
-			+ "IGRP2.3" + File.separator + "core" + File.separator + "formgen" + File.separator + "types"
-			+ File.separator;
-
 	public Response actionFileExists() throws IOException {
 		final String fileName = Core.getParam("uri").replaceAll("\\\\", File.separator);
 		final Properties p = new Properties();
 		final boolean fileExists = FileHelper.fileExists(basePath + fileName);
-
 		p.put("status", fileExists);
 		p.put("content", fileExists ? FileHelper.readFile(basePath, fileName) : "");
 		p.put("filename", fileName);
@@ -917,7 +754,6 @@ public class PageController extends Controller {
 		int app_id = Core.getParamInt("p_env_fk");
 		String page = Core.getParam("p_page");
 		String link1 = "", link2 = "";
-
 		Application app = Core.findApplicationById(app_id);
 		if (app != null) {
 			String url = Igrp.getInstance().getRequest().getRequestURL().toString();
@@ -935,76 +771,10 @@ public class PageController extends Controller {
 		this.format = Response.FORMAT_XML;
 		return this.renderView(xml.toString());
 	}
-
-	public void saveCommitNPush(String dad, String pageName, PageFile pageFile) {
-		Config conf = new Config();
-		if (conf.getEnvironment() != null && conf.getEnvironment().equalsIgnoreCase("dev")) {
-			String basePath = conf.getPathOfImagesFolder() + File.separator + "tig" + File.separator + dad
-					+ File.separator + "IGRP-Template" + File.separator;
-			String xslPath = basePath + "src/main/webapp/images/IGRP/IGRP2.3/app/" + dad;
-			String javaPath = basePath + "src/main/java/nosi/webapps/" + dad + "/pages";
-			try {
-
-				boolean isJavaOk = FileHelper.saveFilesJava(javaPath, pageName,
-						new String[] { pageFile.getFileModel(), pageFile.getFileView(), pageFile.getFileController() },
-						FileHelper.ENCODE_UTF8, FileHelper.ENCODE_UTF8);
-				boolean isXslOk = FileHelper.saveFilesPageConfig(xslPath, pageName,
-						new String[] { pageFile.getFileXml(), pageFile.getFileXsl(), pageFile.getFileJson() });
-
-				if (isJavaOk && isXslOk) {
-
-					String gitUri = null;
-					String username = null;
-					String password = null;
-					String path = conf.getPathOfImagesFolder() + File.separator + "tig" + File.separator + dad;
-
-					try {
-						gitUri = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", dad + ".git.uri").one()
-								.getValue();
-						username = new nosi.webapps.igrp.dao.Config().find()
-								.andWhere("name", "=", dad + ".git.username").one().getValue();
-						password = new nosi.webapps.igrp.dao.Config().find()
-								.andWhere("name", "=", dad + ".git.password").one().getValue();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-
-					GitLab gitLab = new GitLab();
-					gitLab.setUri(gitUri);
-					gitLab.setUsername(username);
-					gitLab.setPassword(password);
-					gitLab.setDirPath(path);
-
-					if (gitLab.loadFromGitDir()) {
-						String authorName = "";
-						String authorEmail = "";
-						String msg = "";
-
-						File m = new File(javaPath + File.separator + pageName + ".java");
-						File v = new File(javaPath + File.separator + pageName + "View.java");
-						File c = new File(javaPath + File.separator + pageName + "Controller.java");
-
-						File json = new File(xslPath + File.separator + pageName + ".json");
-						File xml = new File(xslPath + File.separator + pageName + ".xml");
-						File xsl = new File(xslPath + File.separator + pageName + ".xsl");
-
-						boolean success = gitLab.addToStagedChanges(m, v, c, json, xml, xsl);
-						if (success) {
-							boolean isCommitSuccess = gitLab.commit(authorName, authorEmail, msg);
-							if (isCommitSuccess) {
-								gitLab.push();
-							}
-						}
-					}
-
-					gitLab.closeGitConnection();
-
-				}
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	
+	final String basePath = this.getConfig().basePathServer() + "images" + File.separator + "IGRP" + File.separator
+			+ "IGRP2.3" + File.separator + "core" + File.separator + "formgen" + File.separator + "types"
+			+ File.separator;
+	
 	/*----#end-code----*/
 }
