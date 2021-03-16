@@ -42,7 +42,6 @@ public class NovoMenuController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
-		
 		int id = model.getId();
 		int app = 0;
 		if (Core.isNotNullOrZero(id)) {
@@ -53,8 +52,10 @@ public class NovoMenuController extends Controller {
 			model.setStatus(menu.getStatus());
 			model.setFlg_base(menu.getFlg_base());
 			model.setTarget(menu.getTarget());
+
 			if (menu.getAction() != null)
 				model.setAction_fk(menu.getAction().getId());
+			
 			model.setOrderby(menu.getOrderby());
 			model.setTitulo(menu.getDescr());
 			app = menu.getApplication().getId();
@@ -63,7 +64,7 @@ public class NovoMenuController extends Controller {
 			if (Core.isNotNullOrZero(model.getAction_fk()) && menu.getAction().getId() != model.getAction_fk()) {
 				model.setTitulo(getPageTituleByID(model));
 			}
-			view.orderby.setValue(this.getOrdem(app, true,menu.getAction() != null ? menu.getAction().getId() : 0));
+			view.orderby.setValue(this.getOrdem(app, true,id));
 		} else {
 			app = model.getApp();
 			String dad = Core.getCurrentDad();
@@ -98,15 +99,7 @@ public class NovoMenuController extends Controller {
 		targets.put("submit", gt("Submit"));
 		targets.put("confirm", gt("Confirm"));
 		view.env_fk.setValue(new Application().getListApps()); // Prompt
-		if (Core.isNotNull(model.getEnv_fk())) {
-			if (model.getGlobal_acl() == 1)
-				view.action_fk.setValue(
-						IgrpHelper.toMap(this.loadPermissionAcl(model.getEnv_fk()), "type_fk", "description"));
-			else
-				view.action_fk.setValue(new Action().getListActions(model.getEnv_fk()));
-
-			view.self_id.setValue(new Menu().getListPrincipalMenus(model.getEnv_fk()));
-		}
+		
 		view.target.setValue(targets); // prompt
 		view.link.setVisible(false);
 
@@ -116,6 +109,15 @@ public class NovoMenuController extends Controller {
 		} else
 			view.status.setValue(1);
 
+		if (Core.isNotNull(model.getEnv_fk())) {
+			if (model.getGlobal_acl() == 1)
+				view.action_fk.setValue(
+						IgrpHelper.toMap(this.loadPermissionAcl(model.getEnv_fk()), "type_fk", "description"));
+			else {
+				view.action_fk.setValue(new Action().getListActions(model.getEnv_fk()));
+			}
+			view.self_id.setValue(new Menu().getListPrincipalMenus(model.getEnv_fk()));
+		}
 		
 		
 		/*----#end-code----*/
@@ -295,7 +297,7 @@ public class NovoMenuController extends Controller {
 	
 	
 	
-	private HashMap<Integer, Integer> getOrdem(int app, boolean edit,int action_fk){
+	private HashMap<Integer, Integer> getOrdem(int app, boolean edit,int id){
 		
 		HashMap<Integer, Integer> ordem = new HashMap<>();
 		List<Menu> ordem_dao = new Menu().find().where("application","=",app).all();
@@ -306,10 +308,10 @@ public class NovoMenuController extends Controller {
 		
 		for(Menu m1 : ordem_dao)
 			ordem.remove(m1.getOrderby());
-		
+		 
 		if(edit) {
-			Menu m = new Menu().find().where("application","=",app).andWhere("action","=",action_fk).one();
-			ordem.put(m.getOrderby(),m.getOrderby());
+			Menu menu = new Menu().findOne(id);
+			ordem.put(menu.getOrderby(),menu.getOrderby());
 		}else
 			ordem.put(ordem_dao.size()+1, ordem_dao.size()+1);
 		
