@@ -179,7 +179,8 @@
 					
 				})
 				
-				if(layer.getGeometryType() !== 'Point')
+				
+				if(layer.getGeometryType() !== 'Point' && layer.getGeometryType() !== 'PointCluster')
 					
 					layer.eachLayer(function(fl) {
 						
@@ -194,9 +195,9 @@
 			layer.highlight = function(fid, callback){
 				
 				var featureLayer = layer.find( fid );
-								
+												
 				layer.unHighlightAll();
-				
+								
 				if(featureLayer){
 					
 					//highlight lines
@@ -240,7 +241,7 @@
 							marginTop : marginTop - 5
 							
 						});
-						
+												
 						elm.addClass('gis-feature-highlighted');
 						
 					}
