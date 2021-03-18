@@ -13,21 +13,26 @@ import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import nosi.core.config.ConfigApp;
-import nosi.core.webapp.Core;
 
 /**
  * Iekiny Marcel
  * Dec 12, 2017
  */
 public class EmailMessage { 
+	
+	private static final Logger LOG = LogManager.getLogger(EmailMessage.class); 
+	
+	public static final String EMAIL_REGEXP = "[a-zA-Z0-9!#$%&\\\\'*+\\\\/=?^_`{|}~-]+(?:\\\\.[a-zA-Z0-9!#$%&\\'*+\\\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"; 
 	
 	private String to;
 	private String cc;
@@ -150,65 +155,46 @@ public class EmailMessage {
 	}
 	
 	public boolean send() throws IOException { 
-		checkNSetupCredencials();
-		// Get the default Session object.
-		Session session = Session.getInstance(this.settings,
-			new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(auth_username, auth_password);
-				}
-		});
-		
-	
-		//Email with error
-		String erroEmails="";
-		// Set response content type 
 		try{
+			checkNSetupCredencials();
+			// Get the default Session object.
+			Session session = Session.getInstance(this.settings,
+				new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(auth_username, auth_password);
+					}
+			});
 			// Create a default MimeMessage object. 
 			MimeMessage message = new MimeMessage(session); 
 			if(!validateEmail(this.from)) {
-				System.out.println("Email not sent ... Invalid email (from): <" + this.from + "> ");
+				LOG.error("Email not sent ... Invalid email (from): <" + this.from + "> ");
 				return false;
 			}
 			// Set From: header field of the header.
 			message.setFrom(new InternetAddress(this.from));
-			//If error occurs in parse, it will be show	
-			erroEmails=this.to; 
-			
 			// Set To: header field of the header. 
 			if(this.multipleRecipients) {
 				if(!validateEmails(this.to)) {
-					System.out.println("Email not sent (To)... one of email is invalid: <" + this.to + "> ");
+					LOG.error("Email not sent (To)... one of email is invalid: <" + this.to + "> ");
 					return false;
 				}
 				message.addRecipients(Message.RecipientType.CC,InternetAddress.parse(this.to)); // this.to is a string separated by comma 
 			}else {
-//				if(!validateEmails(this.to)) {
-//					System.out.println("Email not sent (To) ... one of email is invalid: <" + this.to + "> ");
-//					return false;
-//				}		
-				if(this.to != null && !this.to.isEmpty()) {
-					message.addRecipients(Message.RecipientType.TO,InternetAddress.parse(this.to));
-				}
-				
+				if(!validateEmails(this.to)) {
+					LOG.error("Email not sent (To)... one of email is invalid: <" + this.to + "> ");
+					return false;
+				}		
+				if(this.to != null && !this.to.isEmpty()) 
+					message.addRecipients(Message.RecipientType.TO,InternetAddress.parse(this.to)); 
 			}			
-				if(this.cc != null && !this.cc.isEmpty()) {
-					erroEmails=this.cc; //If error occurs in parse, it will be show		
-					message.addRecipients(Message.RecipientType.CC,InternetAddress.parse(this.cc));
-				}
-				
-			
-				if(this.bcc != null && !this.bcc.isEmpty()) {
-					erroEmails=this.bcc;	//If error occurs in parse, it will be show		
-					message.addRecipients(Message.RecipientType.BCC,InternetAddress.parse(this.bcc));
-				}
-			
+			if(this.cc != null && !this.cc.isEmpty())	
+				message.addRecipients(Message.RecipientType.CC,InternetAddress.parse(this.cc));
+			if(this.bcc != null && !this.bcc.isEmpty()) 
+				message.addRecipients(Message.RecipientType.BCC,InternetAddress.parse(this.bcc));
 			if(this.replyTo != null && !this.replyTo.isEmpty() && validateEmails(this.replyTo)) 
 				message.setReplyTo(InternetAddress.parse(this.replyTo));
-			
 			// Set Subject: header field
 			message.setSubject(this.subject); 
-			
 			// If there is any attach ... 
 			if(!this.attaches.isEmpty() || !this.attachesBytes.isEmpty()) {
 				// Create a multipart message 
@@ -227,10 +213,10 @@ public class EmailMessage {
 				if(this.subType != null && !this.subType.isEmpty() && this.subType.contains("/"))
 					mbp.setContent(this.msg, this.subType);
 		        multipart.addBodyPart(mbp);
-		        
+		        // Add Attachments 
 				if(!this.attaches.isEmpty()) 
 					this.wrapFilesToMultipart(message, multipart);
-				else 
+				if(!this.attachesBytes.isEmpty())  
 					this.wrapBytesToMultipart(message, multipart); 
 			}else {
 				// Otherwise set the actual message 
@@ -248,20 +234,16 @@ public class EmailMessage {
 			}
 			// Send message
 			Transport.send(message);
-		return true;
-		}catch(AddressException adX) {
-			Core.setMessageError("Erro: "+erroEmails+" - "+adX.getLocalizedMessage());	
-
-		}catch (MessagingException mex)  {
-			System.out.println("Error ... sending email ... ");
-			mex.printStackTrace();
+			return true;
+		}catch (MessagingException ex)  {
+			LOG.error("Error ... sending email ... ");
+			ex.printStackTrace();
 		}
 		return false;
 	}
 	
 	public static boolean validateEmail(String email) {
-		String pattern = "[a-zA-Z0-9!#$%&\\'*+\\/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"; 
-		return email != null && !email.isEmpty() && email.matches(pattern);
+		return email != null && !email.isEmpty() && email.matches(EMAIL_REGEXP);
 	}
 	
 	public static boolean validateEmails(String emails) {
@@ -358,8 +340,7 @@ public class EmailMessage {
 		
 		public static String getCorpoFormatado(String boxTitle, String msgBoasVindas, String[] paragrafos, String []textoBtnAcao, String []hrefBtnAcao, String helpLink) {
 			if(paragrafos.length == 0 || msgBoasVindas.isEmpty()) return "";
-				
-	        String body = ""
+			 String body = ""
 	                + "<div style=\"HEIGHT: 100%; width:100%; background-color: rgb(244, 244, 244);\">"
 	                + "<!--[if mso | IE]><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"\" style=\"width:600px;\" width=\"600\" ><tr><td style=\"line-height:0px;font-size:0px;mso-line-height-rule:exactly;\"><![endif]-->"	        		
 	                + "<div style=\" margin: 10px auto; width: 600px;\">"
@@ -384,20 +365,16 @@ public class EmailMessage {
 	                + "                                    <h1 style=\"font-size:20px;margin:0;color:#424242\">" + msgBoasVindas + "</h1>";
 	        // Paragrafos
 	        for (String paragrafo : paragrafos) {
-	        	body += ""
-//	        			+ " <p style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:14px;color:#424242;margin-top:8px;\">" + paragrafo + "</p>"; 
-	        			+ "<p style=\"margin: 10px 0px;\">"
+	        	body += "<p style=\"margin: 10px 0px;\">"
 	        			+ "<span style=\"color: rgb(27, 29, 34);\">"
-	        			+ "<span style=\"font-size: 14px; background-color: rgb(255, 255, 255);\">"
-	        			+ paragrafo+"</span></span></p>";
+	        			+ "<span style=\"font-size: 14px; background-color: rgb(255, 255, 255); \">"
+	        			+ paragrafo + "</span></span></p>";
 	        			 
 			}
-	        body += "</td></tr><tr>";
+	        body += "</td></tr><tr>"; 
 	        if (textoBtnAcao != null && textoBtnAcao.length > 0 && hrefBtnAcao != null && hrefBtnAcao.length > 0 && hrefBtnAcao.length == textoBtnAcao.length) {
-	        	
-	        	for(int i = 0 ; i < hrefBtnAcao.length; i++) {
-	        		 // Botao Accao
-		            body += ""
+	        	for(int i = 0 ; i < hrefBtnAcao.length; i++) { // Botao Accao 
+	        		body += ""
 		                    + "<td align=\"center\" style=\"padding: 20px 5px;\" vertical-align=\"middle\">"
 		                    + "<table role=\"presentation\" style=\"line-height: 100%; border-collapse: separate;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
 		                    + "<tbody>"
@@ -406,11 +383,7 @@ public class EmailMessage {
 		                    + "href=\"" + hrefBtnAcao[i] + "\" target=\"_blank\">"
 		                    + "<b style=\"font-weight: 700;\"><span style=\"color: rgb(255, 255, 255); font-weight: 700;\">"+ textoBtnAcao[i] + "</span></b></a>"
 		                    + "</td></tr></tbody></table></td>";
-//		                    + " <p style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;\">"
-//		                    + "                                    <a href=\"" + hrefBtnAcao[i] + "\" style=\"color:#ffffff;background:#5cb85c; padding: 15px 25px;width:200px;display:block;text-align:center;text-decoration:none;font-weight:700;font-size:16px;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;margin:24px auto 24px;border-radius:3px;line-height:20px\" target=\"_blank\" >" + textoBtnAcao[i] + "</a>"
-//		                    + "                                </p>";
 	        	}
-	        	
 	        } else {
 	            // Funciona tipo uma margem antes do rodape
 	            body += "<td><p style=\"height:30px;\"></p></td>";
