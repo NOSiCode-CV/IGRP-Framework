@@ -45,7 +45,9 @@ public final class Igrp{
 	private I18nManager i18nManager;
 	
 	// For Igrp log toolbar 
-	private IgrpLog log;
+	private IgrpLog log; 
+	
+	public static final String HOME_ROUTE = "igrp/home/index"; 
 	
 	private Igrp(){} // Private and empty default constructor ... allow Singleton class 
 	
@@ -69,18 +71,15 @@ public final class Igrp{
 		this.response = response;
 		this.basePath = this.request.getContextPath();
 		this.baseRoute = this.request.getServletPath();
-		this.homeUrl = EncrypDecrypt.encrypt("igrp"+"/"+"home"+"/"+"index");
+		this.homeUrl = EncrypDecrypt.encrypt(HOME_ROUTE);
 		// init. of others configuration 
 		this.flashMessage = new FlashMessage(); // Flash Message instance 
-		
 		// For internacionalization purpose 
 		this.i18nManager = new I18nManager();
 		this.i18nManager.init(request);
-		
 		// For Igrp log toolbar 
 		this.log = new IgrpLog();
 		this.log.init(request);
-		
 		// User component (Identity)
 		this.user = new User();
 		this.user.init(request);
@@ -97,7 +96,7 @@ public final class Igrp{
 		this.exit();
 	}
 	
-	// Exit and Send the response ... 
+	// Exit and Send the response. 
 	private void exit(){
 		new Controller().sendResponse();
 		this.die = false;

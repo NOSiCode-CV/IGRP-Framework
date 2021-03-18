@@ -2861,7 +2861,6 @@ public final class Core {
 	 * Shows a error flash message "Falha ao tentar efetuar esta operação!"
 	 */
 	public static void setMessageError() {
-		nosi.core.servlet.IgrpServlet.LOGGER.error(FlashMessage.MESSAGE_ERROR);
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(FlashMessage.MESSAGE_ERROR));
 	}
 
@@ -2871,8 +2870,6 @@ public final class Core {
 	 * @param msg Custom message string
 	 */
 	public static void setMessageError(String msg) {
-		nosi.core.servlet.IgrpServlet.LOGGER.error(gt(msg));
-
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(msg));
 	}
 
@@ -2882,7 +2879,6 @@ public final class Core {
 	 * @param msg custom message
 	 */
 	public static void setMessageInfo(String msg) {
-		nosi.core.servlet.IgrpServlet.LOGGER.info(gt(msg));
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, gt(msg));
 	}
 
@@ -2893,7 +2889,6 @@ public final class Core {
 	 * @param link set a link to show
 	 */
 	public static void setMessageInfoLink(String msg, String link) {
-		nosi.core.servlet.IgrpServlet.LOGGER.info(gt(msg) + "/#RESERVE#/" + link);
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, gt(msg) + "/#RESERVE#/" + link);
 	}
 
@@ -2906,10 +2901,7 @@ public final class Core {
 	 * @param action for the created link
 	 */
 	public static void setMessageInfoLink(String msg, String app, String page, String action) {
-		nosi.core.servlet.IgrpServlet.LOGGER
-				.info(gt(msg) + "/#RESERVE#/" + Route.getResolveUrl(app, page, action));
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK,
-				gt(msg) + "/#RESERVE#/" + Route.getResolveUrl(app, page, action));
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, gt(msg) + "/#RESERVE#/" + Route.getResolveUrl(app, page, action));
 	}
 
 	/**
@@ -2951,7 +2943,6 @@ public final class Core {
 	 * @param msg custom message
 	 */
 	public static void setMessageWarning(String msg) {
-		nosi.core.servlet.IgrpServlet.LOGGER.warn(gt(msg));
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, gt(msg));
 	}
 	/**
