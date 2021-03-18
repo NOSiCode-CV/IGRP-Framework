@@ -230,7 +230,7 @@
                     <span class="nav-bar-active" bg-color="2" />
                     <xsl:if test="menu_icon !=''" >
                       <span class="menu-icon">
-                        <i class="fa fa-search" />
+                        <i class="fa {menu_icon}" />
                       </span>
                     </xsl:if> 
                   </a>                
@@ -245,7 +245,7 @@
                     <span class="nav-bar-active" bg-color="2" />
                     <xsl:if test="menu_icon !=''" >
                       <span class="menu-icon">
-                        <i class="fa fa-search" />
+                        <i class="fa {menu_icon}" />
                       </span>
                     </xsl:if> 
                   </a>
@@ -260,7 +260,7 @@
                             </span>
                             <xsl:if test="menu_icon !=''" >
                               <span class="menu-icon">
-                                <i class="fa fa-search" />
+                                <i class="fa {menu_icon}" />
                               </span>
                             </xsl:if>                         
                           </a>
