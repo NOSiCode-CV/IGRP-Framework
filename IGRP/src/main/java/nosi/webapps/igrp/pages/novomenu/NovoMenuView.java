@@ -21,6 +21,7 @@ public class NovoMenuView extends View {
 	public Field orderby;
 	public Field target;
 	public Field link;
+	public Field icon;
 	public Field flg_base;
 	public Field flg_base_check;
 	public Field global_acl;
@@ -88,6 +89,13 @@ public class NovoMenuView extends View {
 		link.setLabel(gt("Link (Procedure)"));
 		link.propertie().add("name","p_link").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
+		icon = new LookupField(model,"icon");
+		icon.setLabel(gt("Ícon"));
+		icon.setLookup("igrp","Icons_list","index");
+		icon.addParam("target","_blank");
+		icon.addLookupParam("p_icon","choose_icon");
+		icon.propertie().add("name","p_icon").add("type","lookup").add("lookup_eraser","false").add("lookup_type","LOOKUP").add("class","primary").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		
 		flg_base = new CheckBoxField(model,"flg_base");
 		flg_base.setLabel(gt("Público?"));
 		flg_base.propertie().add("name","p_flg_base").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","int").add("check","true");
@@ -137,6 +145,7 @@ public class NovoMenuView extends View {
 		form_1.addField(orderby);
 		form_1.addField(target);
 		form_1.addField(link);
+		form_1.addField(icon);
 		form_1.addField(flg_base);
 		form_1.addField(global_acl);
 		form_1.addField(area);
@@ -163,6 +172,7 @@ public class NovoMenuView extends View {
 		orderby.setValue(model);
 		target.setValue(model);
 		link.setValue(model);
+		icon.setValue(model);
 		flg_base.setValue(model);
 		global_acl.setValue(model);
 		area.setValue(model);
