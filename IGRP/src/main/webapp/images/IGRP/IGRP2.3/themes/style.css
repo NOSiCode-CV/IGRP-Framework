@@ -2300,3 +2300,14 @@ body.sidebar-off .IGRP-footer{
   margin-left: 0!important;
   width : 100% !important;
 }
+
+/* MENU ICON*/
+
+.menu-icon {
+  float: left; 
+  margin-right: 7px;
+}
+
+.menu-title {
+  vertical-align: middle;
+}
