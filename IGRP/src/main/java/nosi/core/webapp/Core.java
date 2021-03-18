@@ -889,24 +889,24 @@ public final class Core {
 	/**
 	 * Find Active Domains by domain code name and app
 	 * 
-	 * @param domainsName domain code name
-	 * @param codeApp the dad/code of the application
+	 * @param domainName domain code name
+	 * @param applicationCode dad/code of the application
 	 * @return {@code List< of Domains> }
 	 */
-	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName,String codeApp) {
+	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainName,String applicationCode) {
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
-		if(isNullOrZero(codeApp))
+		if(isNullOrZero(applicationCode))
 			return domain.find().where("valor !=''")
-					.andWhere("dominio", "=", domainsName)
+					.andWhere("dominio", "=", domainName)
 					.andWhere("status", "=", "ATIVE")		
 					.andWhere("application", "isnull")
 					.orderBy("ordem")
 					.all();
 		return domain.find().where("valor !=''")
-				.andWhere("dominio", "=", domainsName)
+				.andWhere("dominio", "=", domainName)
 				.andWhere("status", "=", "ATIVE")		
-				.andWhere("application.dad", "=", codeApp)		
+				.andWhere("application.dad", "=", applicationCode)		
 				.orderBy("ordem")
 				.all();
 	}
@@ -914,21 +914,54 @@ public final class Core {
 	/**
 	 * Find Active Domains by domain code name and app id
 	 * 
-	 * @param domainsName domain code name
-	 * @param idApp the id of the application
+	 * @param domainName domain code name
+	 * @param applicationId id of the application
 	 * @return {@code List< of Domains> }
 	 */
-	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName,Integer idApp) {
+	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainName,Integer applicationId) {
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
 		return domain.find().where("valor !=''")
-				.andWhere("dominio", "=", domainsName)
+				.andWhere("dominio", "=", domainName)
 				.andWhere("status", "=", "ATIVE")		
-				.andWhere("application.id", "=", idApp)		
+				.andWhere("application.id", "=", applicationId)		
 				.orderBy("ordem")
 				.all();
 	}
+	
+	/**
+	 * Returns the domain whose domainName = {@code domainName}, belonging to the application
+	 * with code = {@code applicationCode} and whose state is active, or an empty map if the domain is
+	 * not found.
+	 * 
+	 * @param domainName domain/code name
+	 * @param applicationCode code of the application
+	 * @return a {@code Map<String, String>} of this domain with key as {@code valor} and value as {@code description}
+	 */
+	public static Map<String, String> getDomainByCodeAsMap(String domainName, String applicationCode) {
+		Map<String, String> domainMap = new HashMap<>();
+		List<Domain> domains = findDomainByCode(domainName, applicationCode);
+		if (null != domains && !domains.isEmpty())
+			domains.forEach(domain -> domainMap.put(domain.getValor(), domain.getDescription()));
+		return domainMap;
+	}
 
+	/**
+	 * Returns the domain whose domainName = {@code domainName}, belonging to the application
+	 * with id = {@code applicationId} and whose state is active, or an empty map if the domain is
+	 * not found.
+	 * 
+	 * @param domainName domain/code name
+	 * @param applicationId id of the application
+	 * @return a {@code Map<String, String>} of this domain with key as {@code valor} and value as {@code description}
+	 */
+	public static Map<String, String> getDomainByCodeAsMap(String domainName, Integer applicationId) {
+		Map<String, String> domainMap = new HashMap<>();
+		List<Domain> domains = findDomainByCode(domainName, applicationId);
+		if (null != domains && !domains.isEmpty())
+			domains.forEach(domain -> domainMap.put(domain.getValor(), domain.getDescription()));
+		return domainMap;
+	}
 
 	/**
 	 * Find the Value/Decription ok a domay key
