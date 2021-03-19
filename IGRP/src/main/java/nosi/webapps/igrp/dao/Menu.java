@@ -48,6 +48,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 	private int status;
 	private int flg_base;
 	private String target;
+	private String menu_icon;
 	@ManyToOne
 	@JoinColumn(name="action_fk",foreignKey=@ForeignKey(name="MENU_ACTION_FK"),nullable=true)
 	private Action action;
@@ -101,6 +102,14 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		this.action = action;
 		this.application = application;
 		this.menu = menu;
+	}
+		
+	public String getMenu_icon() {
+		return menu_icon;
+	}
+
+	public void setMenu_icon(String menu_icon) {
+		this.menu_icon = menu_icon;
 	}
 
 	public Integer getId() {
