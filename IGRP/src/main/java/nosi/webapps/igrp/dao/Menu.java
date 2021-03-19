@@ -235,8 +235,8 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				ms.setOrder(r.getInt("orderby"));
 				ms.setTitle(r.getString("descr"));
 				ms.setTarget(r.getString("target"));
-				ms.setStatus(r.getShort("status")); 
-				
+				ms.setStatus(r.getShort("status"));
+				ms.setMenu_icon(r.getString("menu_icon"));
 				String link = r.getString("link"); 
 				if(link != null && !link.isEmpty()) { 
 					ms.setLink(link); 
