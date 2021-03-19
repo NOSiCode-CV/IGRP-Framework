@@ -932,7 +932,7 @@ public final class Core {
 	/**
 	 * Returns the domain whose domainName = {@code domainName}, belonging to the application
 	 * with code = {@code applicationCode} and whose state is active, or an empty map if the domain is
-	 * not found.
+	 * not found. An empty map is returned also if the domain exists and does not have values.
 	 * 
 	 * @param domainName domain/code name
 	 * @param applicationCode code of the application
@@ -948,8 +948,8 @@ public final class Core {
 
 	/**
 	 * Returns the domain whose domainName = {@code domainName}, belonging to the application
-	 * with id = {@code applicationId} and whose state is active, or an empty map if the domain is
-	 * not found.
+	 * with id = {@code applicationId} and whose state is active or an empty map if the domain is
+	 * not found. An empty map is returned also if the domain exists and does not have values.
 	 * 
 	 * @param domainName domain/code name
 	 * @param applicationId id of the application
