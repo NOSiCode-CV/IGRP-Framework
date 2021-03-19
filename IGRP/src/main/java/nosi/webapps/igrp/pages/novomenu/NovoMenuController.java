@@ -298,13 +298,13 @@ public class NovoMenuController extends Controller {
 	
 	
 	
-	private HashMap<Integer, Integer> getOrdem(int app, boolean edit,int id){
+	private HashMap<Integer, String> getOrdem(int app, boolean edit,int id){
 		
-		HashMap<Integer, Integer> ordem = new HashMap<>();
+		HashMap<Integer, String> ordem = new HashMap<>();
 		List<Menu> ordem_dao = new Menu().find().where("application","=",app).all();
-		
+		ordem.put(null, gt("-- Selecionar --"));
 		for(int i=1; i <= ordem_dao.size(); i++ ) {
-			ordem.put(i, i);
+			ordem.put(i, ""+i);
 		}
 		
 		for(Menu m1 : ordem_dao)
@@ -312,9 +312,9 @@ public class NovoMenuController extends Controller {
 		 
 		if(edit) {
 			Menu menu = new Menu().findOne(id);
-			ordem.put(menu.getOrderby(),menu.getOrderby());
+			ordem.put(menu.getOrderby(),""+menu.getOrderby());
 		}else
-			ordem.put(ordem_dao.size()+1, ordem_dao.size()+1);
+			ordem.put(ordem_dao.size()+1, ""+Core.toInt(ordem_dao.size()+1+""));
 		
 		return ordem;
 	}
