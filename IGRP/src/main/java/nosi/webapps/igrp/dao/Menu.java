@@ -406,7 +406,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				ms.setTitle(r.getString("descr"));
 				ms.setTarget(r.getString("target"));
 				ms.setStatus(r.getShort("status"));
-				
+				ms.setMenu_icon(r.getString("menu_icon"));
 				ms.setPage(r.getString("page"));
 				ms.setApp(r.getString("dad_app_page"));
 				ms.setAction(r.getString("action")); 
@@ -426,6 +426,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		private String title;
 		private String link;
 		private short status;
+		private String menu_icon;
 		private String target;
 		private int order;
 		private boolean isSubMenuAndSuperMenu;
@@ -440,6 +441,12 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		private int type; 
 		
 		
+		public String getMenu_icon() {
+			return menu_icon;
+		}
+		public void setMenu_icon(String menu_icon) {
+			this.menu_icon = menu_icon;
+		}
 		public Integer getId() {
 			return id;
 		}

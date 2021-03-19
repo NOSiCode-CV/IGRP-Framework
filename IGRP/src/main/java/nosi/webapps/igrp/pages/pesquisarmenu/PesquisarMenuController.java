@@ -251,6 +251,7 @@ public class PesquisarMenuController extends Controller {
 							xml_menu.setElement("id", "" + main.getId());
 							xml_menu.setElement("status", "" + main.getStatus());
 							xml_menu.setElement("order", "" + main.getOrder());
+							xml_menu.setElement("menu_icon", main.getMenu_icon());
 							xml_menu.endElement();
 						}
 						xml_menu.endElement();
