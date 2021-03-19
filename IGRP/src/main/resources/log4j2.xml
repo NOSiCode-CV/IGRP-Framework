@@ -6,7 +6,10 @@
     </Console>
   </Appenders>
   <Loggers>
-    <Root level="trace">
+  	<Logger name="nosi" level="debug">
+      <AppenderRef ref="Console"/>
+    </Logger>
+    <Root level="info">
       <AppenderRef ref="Console"/>
     </Root>
   </Loggers>
