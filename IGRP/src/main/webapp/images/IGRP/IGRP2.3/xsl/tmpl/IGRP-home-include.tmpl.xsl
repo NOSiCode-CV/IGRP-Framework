@@ -222,32 +222,47 @@
             <li parent-id="{$parentId}">
               <xsl:choose>
                 <xsl:when test="link">
-                  <xsl:attribute name="class">treeview</xsl:attribute>
-                  <a href="{link}" target="{submenu/target}" item-id="{$parentId}-{position()}" text="{title}">
-                    <span>
+                  <xsl:attribute name="class">treeview</xsl:attribute>                  
+                  <a href="{link}" target="{submenu/target}" item-id="{$parentId}-{position()}" text="{title}" style=" align-items: center;">
+                    <xsl:if test="submenu/menu_icon !=''" >
+                      <span class="menu-icon">
+                        <i class="fa {submenu/menu_icon}" />
+                      </span>
+                    </xsl:if> 
+                    <span class="menu-title">
                       <xsl:value-of select="title" />
                     </span>
-                    <span class="nav-bar-active" bg-color="2" />
+                    <span class="nav-bar-active" bg-color="2" />                    
                   </a>                
                 </xsl:when>
                 <xsl:otherwise>
                   <xsl:if test="submenu">
                     <xsl:attribute name="class">treeview</xsl:attribute>
-                  </xsl:if>
-                  <a href="#" text="{title}">
+                  </xsl:if>                  
+                  <a href="#" text="{title}" class="menu-title">
+                    <xsl:if test="menu_icon !=''" >
+                      <span class="menu-icon">
+                        <i class="fa {menu_icon}" />
+                      </span>
+                    </xsl:if> 
                     <xsl:value-of select="title" />
                     <i class="fa fa-angle-right pull-right"></i>
-                    <span class="nav-bar-active" bg-color="2" />
+                    <span class="nav-bar-active" bg-color="2" />                    
                   </a>
                   <xsl:if test="submenu">
                     <ul class="treeview-menu">
                       <xsl:for-each select="submenu">
                        <xsl:sort select="order"/>
-                        <li>                          
+                        <li>
                           <a href="{link}"  target="{target}" item-id="{$parentId}-{position()}" text="{title}">
-                            <span>
+                            <xsl:if test="menu_icon !=''" >
+                              <span class="menu-icon">
+                                <i class="fa {menu_icon}" />
+                              </span>
+                            </xsl:if>   
+                            <span class="menu-title">
                               <xsl:value-of select="title" />
-                            </span>
+                            </span>                                                  
                           </a>
                         </li>
                       </xsl:for-each>

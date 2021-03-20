@@ -10,6 +10,8 @@
 					
 			formatIn = 'DD-MM-YYYY', formatOut = 'DD/MM/YYYY',
 			
+			today = moment().format(formatIn),
+			
 			sliderVal = 0, sliderValues = [0, 1], sliderInterval = {},slideMax = -1, hasSlider = false, moving = false, 
 			
 			SliderController, playButton, Times = [], LayerController, attributes  = [],
@@ -22,7 +24,7 @@
 				
 				startDate  : '01-01-2001',
 				
-				endDate    : moment().format(formatIn),	
+				endDate    : today,
 				
 				period	   : 'months',//days,months,years,weeks
 				
@@ -37,7 +39,7 @@
 				loop       : false
 
 			}, data );
-		
+				
 		settings.startDate = moment(settings.startDate, formatIn);
 		
 		settings.endDate = moment(settings.endDate, formatIn);
@@ -605,7 +607,7 @@
 			modalData.startDate = getFormateDate(o.startDate, formatIn);
 			
 			modalData.endDate = getFormateDate(o.endDate, formatIn);
-			
+						
 			try{
 				
 				widget.setTemplateParam('settings', {settings: modalData});
@@ -620,7 +622,11 @@
 					
 					singleDatePicker: true,
 					
-					locale: $.IGRP.components.daterangepicker.locale
+					locale:{
+						format: 'DD-MM-YYYY'
+					}
+					
+					//locale: $.IGRP.components.daterangepicker.locale
 					
 				});
 												
@@ -765,7 +771,8 @@
 				path + '/plugins/select2/select2.init.js',
 				path + '/plugins/datepicker2/daterangepicker.js',
 				path + '/plugins/datepicker2/IGRP.daterangepicker.config.js',
-				path + '/plugins/datepicker2/locale/dp.locale.pt.js'
+				path + '/plugins/datepicker2/locale/dp.locale.pt.js',
+				path + '/plugins/datepicker2/locale/dp.locale.pt.js',
 			],
 			
 			css  : [

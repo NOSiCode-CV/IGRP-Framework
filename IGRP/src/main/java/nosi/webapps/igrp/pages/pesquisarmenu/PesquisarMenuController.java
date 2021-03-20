@@ -1,8 +1,14 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
-import static nosi.core.i18n.Translator.gt;
-
-import java.io.IOException;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,17 +31,19 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.business.ProcessInstanceIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.webapp.databse.helpers.ResultSet;
+
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Menu.MenuProfile;
+
+import static nosi.core.i18n.Translator.gt;
+
+/*----#end-code----*/
 		
-public class PesquisarMenuController extends Controller { 
-	
+public class PesquisarMenuController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
@@ -44,7 +52,7 @@ public class PesquisarMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Amet dolor laudantium unde aperiam rem elit ut totam accusantium unde magna ut deserunt natus ut ame' as t1_menu_principal,'1' as ativo,'29' as ordem,'Amet officia natus elit stract rem lorem aliqua sed lorem doloremque rem iste voluptatem totam molli' as table_titulo,'Ut labore aperiam totam aliqua adipiscing natus iste anim sed unde labore deserunt mollit sit adipis' as pagina,'1' as checkbox,'hidden-183f_b8d3' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Officia magna elit totam doloremque adipiscing perspiciatis unde aliqua sit sit ut accusantium totam' as t1_menu_principal,'1' as ativo,'15' as ordem,'Ut amet magna anim voluptatem labore ipsum amet mollit elit ut sit iste officia lorem sed ipsum elit' as table_titulo,'Sed ipsum doloremque voluptatem anim voluptatem magna accusantium rem unde aliqua ipsum magna stract' as pagina,'1' as checkbox,'hidden-5293_e522' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -243,6 +251,7 @@ public class PesquisarMenuController extends Controller {
 							xml_menu.setElement("id", "" + main.getId());
 							xml_menu.setElement("status", "" + main.getStatus());
 							xml_menu.setElement("order", "" + main.getOrder());
+							xml_menu.setElement("menu_icon", main.getMenu_icon());
 							xml_menu.endElement();
 						}
 						xml_menu.endElement();

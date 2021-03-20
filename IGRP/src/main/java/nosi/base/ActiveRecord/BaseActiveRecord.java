@@ -496,6 +496,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		return " SELECT count("+this.getAlias()+") FROM "+this.getTableName()+" "+this.getAlias()+" ";
 	}
 	
+	@Transient
+	protected String generateSqlAggregate(String columnName, String aggregate) {
+		return " SELECT "+ aggregate +"("+recq.resolveColumnName(this.getAlias(),columnName)+") FROM " + this.getTableName() + " " + this.getAlias() + " ";
+	}
+	
 	@Transient	 
 	protected Class<T> getClassType(){
 		ParameterizedType genericType = (ParameterizedType) this.getClass().getGenericSuperclass();
@@ -1116,29 +1121,77 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@XmlTransient
 	public Long getCount() {
 		this.sql = this.generateSqlCount()+this.sql;
-		Long count = new Long(0);
+		return (Long)this.getSingleResult();
+	}
+	
+	@Override
+	@Transient
+	@XmlTransient
+	public Object getMax(String columnName) {
+		if(Core.isNull(columnName))
+			return null;
+		this.sql = this.generateSqlAggregate(columnName, "max")+this.sql;
+		return this.getSingleResult();
+	}
+	
+	@Override
+	@Transient
+	@XmlTransient
+	public Object getMin(String columnName) {
+		if(Core.isNull(columnName))
+			return null;
+		this.sql = this.generateSqlAggregate(columnName, "min")+this.sql;
+		return this.getSingleResult();
+	}
+	
+	@Override
+	@Transient
+	@XmlTransient
+	public Double getAvg(String columnName) {
+		if(Core.isNull(columnName))
+			return null;
+		this.sql = this.generateSqlAggregate(columnName, "avg")+this.sql;
+		return (Double)this.getSingleResult();
+	}
+	
+	@Override
+	@Transient
+	@XmlTransient
+	public Object getSum(String columnName) {
+		if(Core.isNull(columnName))
+			return null;
+		this.sql = this.generateSqlAggregate(columnName, "sum")+this.sql;
+		return this.getSingleResult();
+	}
+	
+	@Transient
+	@XmlTransient
+	private Object getSingleResult() {
+		Object result = null;
 		Transaction transaction = null;
 		try {
 			transaction = this.getSession().getTransaction();
 			if(this.beginTransaction(transaction)) {
-				TypedQuery<T> query = (TypedQuery<T>) this.getSession().createQuery(this.getSql(),Long.class);
+				TypedQuery<T> query = this.getSession().createQuery(this.getSql());
 				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 				this.setParameters(query);
-				count = (Long)query.getSingleResult();
+				result = query.getSingleResult();
 				if(!this.keepConnection)
 					transaction.commit();
 			}
 		}catch (Exception e) {
-			this.keepConnection = false;
-			if (transaction != null) {
-				transaction.rollback();
+			if(!(e instanceof NoResultException)) {
+				this.keepConnection = false;
+				if (transaction != null) {
+					transaction.rollback();
+				}
+				this.setError(e);
 			}
-			this.setError(e);
 		} finally {
 			this.closeSession();
 		}
 		
-		return count;
+		return result;
 	}
 	
 	@Transient	 

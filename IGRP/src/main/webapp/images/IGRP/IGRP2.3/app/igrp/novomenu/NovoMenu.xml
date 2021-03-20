@@ -108,8 +108,8 @@
                             <requestFields>
                                 <item>p_form_1</item>
                                 <item>p_env_fk</item>
-                                <item>p_global_acl</item>
                                 <item>p_action_fk</item>
+                                <item>p_global_acl</item>
                                 <item>p_id</item>
                                 <item>p_app</item>
                             </requestFields>
@@ -121,7 +121,7 @@
                 </detalhes>
                 <titulo name="p_titulo" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Título</label>
-                    <value>Iste rem sed omnis sed</value>
+                    <value>Rem unde officia lorem mollit</value>
                 </titulo>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" check="true">
                     <label>Ativo?</label>
@@ -152,9 +152,27 @@
                         </option>
                     </list>
                 </self_id>
-                <orderby name="p_orderby" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="int" desclabel="false" calculation="false" mathcal="" numberformat="">
+                <orderby name="p_orderby" type="select" multiple="false" tags="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="int">
                     <label>Posição</label>
-                    <value>23</value>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
                 </orderby>
                 <target name="p_target" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Target</label>
@@ -180,8 +198,16 @@
                 </target>
                 <link name="p_link" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Link (Procedure)</label>
-                    <value>Sed ipsum mollit iste adipisci</value>
+                    <value>Ipsum deserunt consectetur nat</value>
                 </link>
+                <icon name="p_icon" type="lookup" action="index" page="Icons_list" app="igrp" lookup_eraser="false" lookup_type="LOOKUP" class="primary" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                    <label>Ícon</label>
+                    <value/>
+                    <lookup>../images/IGRP/IGRP2.3/app/igrp/icons_list/Icons_list.xml</lookup>
+                    <lookupParams>
+                        <param field-target="p_icon">choose_icon</param>
+                    </lookupParams>
+                </icon>
                 <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" check="true">
                     <label>Público?</label>
                     <value>1</value>
