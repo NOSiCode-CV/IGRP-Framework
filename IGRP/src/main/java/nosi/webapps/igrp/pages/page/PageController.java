@@ -196,8 +196,8 @@ public class PageController extends Controller {
 				Core.setMessageError("Reserved code: " + model.getPage() + ". Try another!");
 				return this.forward("igrp", "page", "index");
 			}
-
-			action.setApplication(app.findOne(Integer.parseInt(model.getEnv_fk())));
+			app = app.findOne(Integer.parseInt(model.getEnv_fk()));
+			action.setApplication(app);
 			action.setAction_descr(model.getPage_descr());
 			action.setPage_descr(model.getPage_descr());
 			action.setStatus(model.getStatus());
@@ -246,7 +246,8 @@ public class PageController extends Controller {
 							action.getPage() + ".json", json);
 				}
 				if (model.getCriar_menu() != 0 && model.getComponente() == 0) {
-					Menu pageMenu = new Menu(action.getPage_descr(), 39, 1, 0, "_self", action, action.getApplication(),
+					List<Menu> ordem_dao = new Menu().find().where("application","=",app).all();
+					Menu pageMenu = new Menu(action.getPage_descr(), ordem_dao.size()+1, 1, 0, "_self", action, action.getApplication(),
 							null);
 					pageMenu.setMenu(pageMenu);
 					pageMenu.insert();
