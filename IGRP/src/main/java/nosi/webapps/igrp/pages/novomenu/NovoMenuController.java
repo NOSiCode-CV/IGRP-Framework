@@ -312,7 +312,8 @@ public class NovoMenuController extends Controller {
 		 
 		if(edit) {
 			Menu menu = new Menu().findOne(id);
-			ordem.put(menu.getOrderby(),""+menu.getOrderby());
+			if(Core.isNotNullOrZero(menu.getOrderby()))
+				ordem.put(menu.getOrderby(),""+menu.getOrderby());
 		}else
 			ordem.put(ordem_dao.size()+1, ""+Core.toInt(ordem_dao.size()+1+""));
 		
