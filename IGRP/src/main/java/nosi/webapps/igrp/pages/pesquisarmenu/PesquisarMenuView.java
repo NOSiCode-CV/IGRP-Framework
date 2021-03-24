@@ -18,6 +18,7 @@ public class PesquisarMenuView extends View {
 	public Field ordem;
 	public Field table_titulo;
 	public Field pagina;
+	public Field icon;
 	public Field checkbox;
 	public Field checkbox_check;
 	public Field id;
@@ -76,6 +77,10 @@ public class PesquisarMenuView extends View {
 		pagina.setLabel(gt("Página"));
 		pagina.propertie().add("name","p_pagina").add("type","plaintext").add("maxlength","100").add("disable_output_escaping","false").add("html_class","").add("showLabel","true").add("group_in","");
 		
+		icon = new PlainTextField(model,"icon");
+		icon.setLabel(gt("Icon"));
+		icon.propertie().add("name","p_icon").add("type","plaintext").add("disable_output_escaping","true").add("html_class","").add("maxlength","30").add("showLabel","true").add("group_in","");
+		
 		checkbox = new CheckBoxField(model,"checkbox");
 		checkbox.setLabel(gt("Público"));
 		checkbox.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
@@ -117,6 +122,7 @@ public class PesquisarMenuView extends View {
 		table_1.addField(ordem);
 		table_1.addField(table_titulo);
 		table_1.addField(pagina);
+		table_1.addField(icon);
 		table_1.addField(checkbox);
 		table_1.addField(checkbox_check);
 		table_1.addField(id);
@@ -140,6 +146,7 @@ public class PesquisarMenuView extends View {
 		ordem.setValue(model);
 		table_titulo.setValue(model);
 		pagina.setValue(model);
+		icon.setValue(model);
 		checkbox.setValue(model);
 		id.setValue(model);	
 

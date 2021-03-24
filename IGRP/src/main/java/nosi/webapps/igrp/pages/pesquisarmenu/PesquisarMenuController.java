@@ -52,7 +52,7 @@ public class PesquisarMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Officia magna elit totam doloremque adipiscing perspiciatis unde aliqua sit sit ut accusantium totam' as t1_menu_principal,'1' as ativo,'15' as ordem,'Ut amet magna anim voluptatem labore ipsum amet mollit elit ut sit iste officia lorem sed ipsum elit' as table_titulo,'Sed ipsum doloremque voluptatem anim voluptatem magna accusantium rem unde aliqua ipsum magna stract' as pagina,'1' as checkbox,'hidden-5293_e522' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Voluptatem doloremque omnis iste sed omnis natus perspiciatis doloremque elit amet ipsum accusantium' as t1_menu_principal,'1' as ativo,'27' as ordem,'Aperiam sed unde anim ipsum sed consectetur lorem sit iste stract iste officia stract anim officia s' as table_titulo,'Sit totam dolor amet labore elit voluptatem sit officia voluptatem rem iste labore anim omnis dolore' as pagina,'Natus ipsum sit rem totam ut a' as icon,'1' as checkbox,'hidden-84ba_e04f' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -124,6 +124,7 @@ public class PesquisarMenuController extends Controller {
 				table1.setAtivo_check(menu_db1.getStatus() == 1 ? menu_db1.getStatus() : -1);
 				table1.setCheckbox(menu_db1.getId());
 				table1.setId("" + menu_db1.getId());
+				table1.setIcon("<i class=\"fa "+menu_db1.getMenu_icon()+"\"/>");
 				if (menu_db1.getFlg_base() == 1) {
 					table1.setCheckbox_check(menu_db1.getId());
 				}
