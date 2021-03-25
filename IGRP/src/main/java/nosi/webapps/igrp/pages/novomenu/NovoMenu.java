@@ -40,8 +40,8 @@ public class NovoMenu extends Model{
 	@RParam(rParamName = "p_link")
 	private String link;
 
-	@RParam(rParamName = "p_icon")
-	private String icon;
+	@RParam(rParamName = "p_icone")
+	private String icone;
 
 	@RParam(rParamName = "p_flg_base")
 	private int flg_base;
@@ -148,11 +148,11 @@ public class NovoMenu extends Model{
 		return this.link;
 	}
 	
-	public void setIcon(String icon){
-		this.icon = icon;
+	public void setIcone(String icone){
+		this.icone = icone;
 	}
-	public String getIcon(){
-		return this.icon;
+	public String getIcone(){
+		return this.icone;
 	}
 	
 	public void setFlg_base(int flg_base){
