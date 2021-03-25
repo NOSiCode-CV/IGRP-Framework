@@ -52,7 +52,7 @@ public class NovoMenuController extends Controller {
 			model.setStatus(menu.getStatus());
 			model.setFlg_base(menu.getFlg_base());
 			model.setTarget(menu.getTarget());
-			model.setIcon(menu.getMenu_icon());
+			model.setIcone(menu.getMenu_icon());
 			if (menu.getAction() != null)
 				model.setAction_fk(menu.getAction().getId());
 			
@@ -151,7 +151,7 @@ public class NovoMenuController extends Controller {
 				menu = new Menu();
 			}
 			int app = Core.isNotNullOrZero(model.getEnv_fk()) ? model.getEnv_fk() : Core.getParamInt("p_app");
-			menu.setMenu_icon(model.getIcon()); 
+			menu.setMenu_icon(model.getIcone()); 
 			menu.setDescr(model.getTitulo());
 			menu.setApplication(Core.findApplicationById(app));
 			menu.setFlg_base(model.getFlg_base());
