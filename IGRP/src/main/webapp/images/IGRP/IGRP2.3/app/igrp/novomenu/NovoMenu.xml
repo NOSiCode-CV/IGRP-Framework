@@ -121,7 +121,7 @@
                 </detalhes>
                 <titulo name="p_titulo" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Título</label>
-                    <value>Rem unde officia lorem mollit</value>
+                    <value>Aliqua totam voluptatem consectetur officia</value>
                 </titulo>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" check="true">
                     <label>Ativo?</label>
@@ -198,16 +198,16 @@
                 </target>
                 <link name="p_link" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Link (Procedure)</label>
-                    <value>Ipsum deserunt consectetur nat</value>
+                    <value>Mollit voluptatem consectetur</value>
                 </link>
-                <icon name="p_icon" type="lookup" action="index" page="Icons_list" app="igrp" lookup_eraser="false" lookup_type="LOOKUP" class="primary" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
-                    <label>Ícon</label>
+                <icone name="p_icone" type="lookup" action="index" page="Icons_list" app="igrp" lookup_eraser="false" lookup_type="LOOKUP" class="primary" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                    <label>Ícone</label>
                     <value/>
                     <lookup>../images/IGRP/IGRP2.3/app/igrp/icons_list/Icons_list.xml</lookup>
                     <lookupParams>
-                        <param field-target="p_icon">choose_icon</param>
+                        <param field-target="p_icone">choose_icon</param>
                     </lookupParams>
-                </icon>
+                </icone>
                 <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" check="true">
                     <label>Público?</label>
                     <value>1</value>
