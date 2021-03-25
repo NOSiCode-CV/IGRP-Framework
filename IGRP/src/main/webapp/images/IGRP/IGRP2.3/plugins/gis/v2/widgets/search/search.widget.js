@@ -12,7 +12,9 @@
 			
 			data    = widget.data(),
 			
-			timeout = function(){};
+			timeout = function(){},
+			
+			Map = app.viewer();
 			
 		widget.activeFilter = false;		
 		
@@ -31,6 +33,8 @@
  	 		layerAttributes  : []
 				
 		};
+		
+		widget.results = {};
 		
 		function ClearResults(){
 
@@ -331,10 +335,11 @@
 			
 			try{
 			
-				var cql_filter = '';
+				var cql_filter = '', strUrl = '';
 				
 				for(var key in o.tipo_obj){
-					cql_filter += (cql_filter ? " or " : "") + "strToLowerCase(TIPO_OBJ) LIKE '%"+o.tipo_obj[key].toLowerCase()+"%'"
+					cql_filter += (cql_filter ? " or " : "") + "strToLowerCase(TIPO_OBJ) LIKE '%"+o.tipo_obj[key].toLowerCase()+"%'";
+					strUrl += o.tipo_obj[key].toLowerCase() + '_';
 				}
 				
 				cql_filter = ("(" + cql_filter + ")" ) + (o.id ?  ' and strToLowerCase(UNIDADE_ADMIN_ID) = ' + o.id:  '');
@@ -346,39 +351,111 @@
 				if(widget.request)
 					
 					widget.request.abort();
-					
-				widget.request = $.get(widget.divAdminLayer.Info.owsURL+'?service=WFS&request=GetFeature&typeName='+widget.divAdminLayer.Info.workspaceLayer+'&version=1.0.0&outputFormat=application/json', options);
 				
-			    widget.request.then(function(json){
-			    	
-					var data    = json.features,
-					
-						results = [];
+				if ( o.source == 'LOCAL' ){
+				
+					//clear
+					if (!o.parent && o.id == '' ){
 						
-					data.forEach(function(feature){
+						try{
+							
+							widget.setTemplateParam( 'div-admin-'+o.target, {'divData': [] } );			
+																												
+							$('#'+o.target, widget.html).select2();
+							
+							$('#'+o.target, widget.html).trigger("change");
+
+							
+						}catch(e){
+							console.log(e)
+						}
 						
-						var properties = feature.properties,
+						widget.loading(false);
 						
-							id = properties['id'] ? properties['id']  : ( feature.id ? feature.id.split('.')[1] : '' );
-									
-						results.push({
-							name    : properties['NOME'] || properties['nome'],
-							id      : id,
-							feature : feature
-						});
-					});				
-					
-					try{
-						widget.setTemplateParam( 'div-admin-'+o.target, {'divData': results} );
-						//$(".select2", widget.html).select2('destroy');
-						$('.select2', widget.html).select2();
-					}catch(e){
-						console.log(e)
+						return false;
 					}
 					
-					widget.loading(false);
-	
-				});
+					$.getJSON(path+'/plugins/gis/data/'+strUrl+'.json', function(json) {
+						
+						var data    = json.features,
+						
+							results = [];		
+					    
+						data.forEach(function(feature, i){
+														
+							var properties = feature.properties,
+							
+							    id = (properties['id'] || properties['ID']) ? (properties['id'] || properties['ID'])  : ( feature.id ? feature.id.split('.')[1] : '' );
+							    		
+							if( ( o.tipo_obj == 'ILH' && o.tipo_obj.includes(properties['TIPO_OBJ']) ) || ( o.id ==  properties['UNIDADE_ADMIN_ID']  && o.tipo_obj.includes(properties['TIPO_OBJ']) ) ){								
+								
+								results.push({
+									name    : properties['NOME'] || properties['nome'],
+									id      : id,
+									feature : feature
+								});
+							}
+							
+							json.features[i].properties['ID'] = id;
+							
+						});
+						
+						widget.results[o.target] = json
+						
+						try{
+							
+							widget.setTemplateParam( 'div-admin-'+o.target, {'divData': results} );			
+																												
+							$('#'+o.target, widget.html).select2();
+							
+							$('#'+o.target, widget.html).trigger("change");
+
+							
+						}catch(e){
+							console.log(e)
+						}
+						
+						widget.loading(false);
+						
+					});
+					
+				}else{	
+					
+					widget.request = $.get(widget.divAdminLayer.Info.owsURL+'?service=WFS&request=GetFeature&typeName='+widget.divAdminLayer.Info.workspaceLayer+'&version=1.0.0&outputFormat=application/json', options);
+				
+				    widget.request.then(function(json){				    	
+				    		
+			    		var data    = json.features,
+						
+						results = [];
+						
+						data.forEach(function(feature){
+							
+							var properties = feature.properties,
+							
+								id = properties['id'] ? properties['id']  : ( feature.id ? feature.id.split('.')[1] : '' );
+										
+							results.push({
+								name    : properties['NOME'] || properties['nome'],
+								id      : id,
+								feature : feature
+							});
+						});	
+				    							
+						
+						try{
+							widget.setTemplateParam( 'div-admin-'+o.target, {'divData': results} );
+					
+							$('.select2', widget.html).select2();
+						}catch(e){
+							console.log(e)
+						}
+						
+						widget.loading(false);
+		
+					});
+				}
+				
 			}catch(e){
 				console.log(e)
 				widget.loading(false);
@@ -399,7 +476,7 @@
 
 			submitSearch= $('#search-form-submit', widget.html);
 			
-			$('.select2', widget.html).select2();
+			//$('.select2', widget.html).select2();
 						
 			widget.html.on('click', '.search-item', function(){
 				
@@ -428,7 +505,7 @@
 						app.viewer().fitBounds( L.latLngBounds(sw,ne) );
 						
 						layer.highlight( id, function(){
-							
+														
 							item.addClass('active');
 							
 						});
@@ -601,6 +678,24 @@
 					
 					clearSearch();
 				}
+				
+				//static file json 
+				if( widget.divAdminLayer == null && widget.activeDivAdmin){
+					
+					var opt = {
+						target   : 'ilh',
+						tipo_obj : ['ILH'],
+						source   : 'LOCAL',
+						parent   : true
+					}
+					
+					clearTimeout(timeout);
+
+					timeout = setTimeout(setRemoteComobox(opt), 600 );
+					
+					widget.loading(true);	
+					
+				}
 			});
 			
 			widget.html.on('change', '.remote-change', function(){
@@ -611,7 +706,9 @@
 					
 					bounds = field.find(':selected').attr('bounds'),
 					
-					id 	   = field.find(':selected').attr('feature-id');
+					featureId = field.find(':selected').attr('feature-id'),
+					
+					objIn  = field.data('value');
 								
 				if(obj)
 					obj = obj.split(',');
@@ -619,16 +716,18 @@
 				opt = {
 					target   : field.data('target'),
 					id		 : field.val(),
-					tipo_obj : obj
+					tipo_obj : obj,
+					source   : 'LOCAL'
 				}
 				
-				if(!field.val()) return false,
+				//if(!field.val()) return false,
 				
 				clearTimeout(timeout);
 
 				timeout = setTimeout(setRemoteComobox(opt), 600 );
 				
 				widget.loading(true);	
+												
 				
 				try{
 									
@@ -642,15 +741,34 @@
 						
 						app.viewer().fitBounds( L.latLngBounds(sw, ne) );
 												
-						layer   = app.layers.get(widget.divAdminLayer.id);
-						
-						layer.highlight( id, function(){
+						if ( widget.results[objIn.toLowerCase()] &&  opt.id !== '' ){
 							
-							//item.addClass('active');
+							if(widget.highlight)
+								
+								Map.removeLayer(widget.highlight);
 							
-						});
-						
-						layer.show();
+							var jsonObject = widget.results[objIn.toLowerCase()];
+																
+							widget.highlight = L.geoJson(jsonObject, {
+							    filter: function(feature, layer) {
+							        return feature.properties['ID'] === opt.id;
+							    }
+							}).addTo(Map);
+							
+							var strUrl = '';
+							
+							if(objIn)
+								
+								objIn = objIn.split(',');
+							
+							for(var key in objIn)
+								
+								strUrl += objIn[key].toLowerCase() + '_';
+							
+							
+							Map.highlightdivadmin = {'feature-id' : featureId, 'url' : path+'/plugins/gis/data/'+strUrl+'.json'}
+							
+						}
 
 					}
 					
@@ -672,7 +790,7 @@
 				SetEvents();
 												
 				LoadFields();
-								
+							
 			});
 			
 			widget.on( 'deactivate', function(){
