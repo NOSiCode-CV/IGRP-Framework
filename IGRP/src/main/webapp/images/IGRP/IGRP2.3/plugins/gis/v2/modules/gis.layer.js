@@ -192,12 +192,12 @@
 				
 			}
 			
-			layer.highlight = function(fid, callback){
+			layer.highlight = function(fid, callback){				
 				
 				var featureLayer = layer.find( fid );
-												
+																
 				layer.unHighlightAll();
-								
+				
 				if(featureLayer){
 					
 					//highlight lines
