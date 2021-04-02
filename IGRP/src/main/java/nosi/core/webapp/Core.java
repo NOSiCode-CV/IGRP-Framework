@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -3647,6 +3648,23 @@ public final class Core {
 			return "";
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(outputFormatter);
 		return ldt.format(formatter);
+	}
+	
+	public static LocalDate convertStringToLocalDate(String strDate, String outputFormatter) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(outputFormatter);
+		return LocalDate.parse(strDate, formatter);
+	}
+	
+	public static LocalDateTime convertStringToLocalDateTime(String stringDate, String formatter) {
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(formatter);
+		return LocalDateTime.parse(stringDate, dateTimeFormatter);
+	}
+
+	public static LocalTime convertStringToLocalTime(String time) {
+		String[] splitedTime = time.split(":");
+		int hour = Core.toInt(splitedTime[0]);
+		int minute = Core.toInt(splitedTime[1]);
+		return LocalTime.of(hour, minute);
 	}
 	
 
