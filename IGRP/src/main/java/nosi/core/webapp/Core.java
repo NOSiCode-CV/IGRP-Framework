@@ -3642,6 +3642,13 @@ public final class Core {
 		return ldt.format(formatter);
 	}
 	
+	public static String convertLocalDateToString(LocalDate ldt, String outputFormatter) {	
+		if(Core.isNull(ldt))
+			return "";
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(outputFormatter);
+		return ldt.format(formatter);
+	}
+	
 
 	/**
 	 * Receives a date in a default string format dd-MM-yyy and converts it to java.util.Date
