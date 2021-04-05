@@ -82,6 +82,13 @@
 			
 			return false;
 		};
+		
+		map.lock = function(){
+			
+			Utils.control.lock.click(map.view, settings);
+			
+			return false;
+		}
 
 		app.viewer = function(){
 
@@ -143,6 +150,8 @@
 			
 			$('.gis-expand', app.dom).on('click', map.expand);
 			
+			$('.gis-lock-bounds', app.dom).on('click', map.lock);
+			
 			if(settings.fullscreen)
 				
 				map.expand();
@@ -167,6 +176,10 @@
 				
 				$('.gis-expand', app.dom).hide();
 			
+			if(!settings.lock)
+				
+				$('.gis-lock-bounds', app.dom).hide();
+			
 			map.view.locateOptions = {disativated: true};
 			
 			Utils.control.mousePosition.add(map.view, settings);
@@ -174,6 +187,8 @@
 			var scale = Utils.control.scale.add(map.view);
 			
 			map.view.utils = {scale : scale}
+			
+			Utils.control.lock.add(map.view, settings);
 						
 		};
 
