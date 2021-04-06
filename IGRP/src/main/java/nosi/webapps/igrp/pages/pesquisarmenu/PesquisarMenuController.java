@@ -52,7 +52,7 @@ public class PesquisarMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Voluptatem doloremque omnis iste sed omnis natus perspiciatis doloremque elit amet ipsum accusantium' as t1_menu_principal,'1' as ativo,'27' as ordem,'Aperiam sed unde anim ipsum sed consectetur lorem sit iste stract iste officia stract anim officia s' as table_titulo,'Sit totam dolor amet labore elit voluptatem sit officia voluptatem rem iste labore anim omnis dolore' as pagina,'Natus ipsum sit rem totam ut a' as icon,'1' as checkbox,'hidden-84ba_e04f' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Rem aliqua stract magna elit aperiam magna amet ipsum magna ipsum laudantium iste doloremque ipsum a' as t1_menu_principal,'1' as ativo,'2' as ordem,'Omnis ipsum sit rem aliqua sed' as icon,'Doloremque iste amet sit officia aliqua natus voluptatem sit aliqua amet magna dolor natus officia e' as table_titulo,'Lorem dolor magna ipsum adipiscing mollit officia mollit voluptatem sit labore accusantium laudantiu' as pagina,'1' as checkbox,'hidden-2491_46da' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
