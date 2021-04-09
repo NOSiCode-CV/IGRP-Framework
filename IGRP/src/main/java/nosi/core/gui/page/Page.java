@@ -35,7 +35,7 @@ public class Page{
 	private String linkXsl=null; 
 	
 	private boolean showFooter = false; 
-	private String copyright = "&copy; Copyright 2020, Núcleo Operacional da Sociedade de informação - E.P.E. Todos os direitos reservados."; 
+	private String copyright = "&copy; Copyright 2021, Núcleo Operacional da Sociedade de informação - E.P.E. Todos os direitos reservados."; 
 	private String developed = "Design &amp; Concepção"; 
 
 	
@@ -48,16 +48,16 @@ public class Page{
 	}
 
 	public Page(){
-		this.gui = new ArrayList<Object>();
+		this.gui = new ArrayList<>();
 	}
 	
-	private String convertContentToXml(){
-		String xml = "";
+	private String convertContentToXml(){	
+		  StringBuilder xml = new StringBuilder();
 		for(Object obj:this.gui){
-			xml += obj.toString();
+			xml.append(obj.toString());
 		}
 		this.gui = null;
-		return xml;
+		return xml.toString();
 	}
 	
 	public String getLinkXsl() {
@@ -111,7 +111,7 @@ public class Page{
 			xml.setElement("copyright", this.copyright); 
 			xml.setElement("developed", this.developed); 
 			xml.startElement("by"); 
-			xml.writeAttribute("link", "https://www.nosi.cv/index.php/pt/"); 
+			xml.writeAttribute("link", "https://www.nosi.cv"); 
 			xml.text("NOSi"); 
 			xml.endElement(); 
 			xml.endElement(); 
@@ -134,9 +134,9 @@ public class Page{
 		}
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
-		String aux = this.convertContentToXml().replace(":_message_reseved", m);
+		return this.convertContentToXml().replace(":_message_reseved", m);
 		
-		return aux;
+		
 	}
 	
 	public static String getPageName(String page){
@@ -151,7 +151,7 @@ public class Page{
 		String page = page_;
 		page = page.toLowerCase();
 		page = page.replaceAll("\\s+", "");
-		page = page.replaceAll("-", "");
+		page = page.replace("-", "");
 		return page;
 	}
 
@@ -183,13 +183,13 @@ public class Page{
 			Object controller = c.newInstance();
 			Igrp.getInstance().setCurrentController((Controller) controller); // store the requested contoller 
 			Method action = null;
-			ArrayList<Object> paramValues = new ArrayList<Object>();
+			ArrayList<Object> paramValues = new ArrayList<>();
 			for(Method aux : c.getDeclaredMethods())
 				if(aux.getName().equals(actionName))
 					action = aux;
-			if(action !=null)
-			if(action.getParameterCount() > 0){
-				for(Parameter parameter : action.getParameters()){
+			if(action !=null) {
+				if(action.getParameterCount() > 0){
+					for(Parameter parameter : action.getParameters()){
 					if(parameter.getType().getSuperclass().getName().equals("nosi.core.webapp.Model")){
 						// Dependency Injection for models
 						Class<?> c_ = Class.forName(parameter.getType().getName());
@@ -213,10 +213,10 @@ public class Page{
 				}
 				return action.invoke(controller, paramValues.toArray());
 				
-			}else{
-				return  action.invoke(controller);
+				}else{
+					return  action.invoke(controller);
+				}
 			}
-			
 		}catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | 
 				InvocationTargetException | NullPointerException e) {
 			
