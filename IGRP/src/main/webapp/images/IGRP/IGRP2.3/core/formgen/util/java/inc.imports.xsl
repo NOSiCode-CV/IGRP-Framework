@@ -18,12 +18,12 @@
 				
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.ArrayList;</xsl:text>
+					<xsl:text>import java.util.ArrayList; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
 					
-					<xsl:text>import java.util.List;</xsl:text>
+					<xsl:text>import java.util.List; //block import</xsl:text>
 					
 				</xsl:when>
 				
@@ -31,11 +31,11 @@
 				
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.List;</xsl:text>
+					<xsl:text>import java.util.List; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.LinkedHashMap;</xsl:text>
+					<xsl:text>import java.util.LinkedHashMap; //block import</xsl:text>
 					
 				</xsl:when>
 				
@@ -43,11 +43,11 @@
 				
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.LinkedHashMap;</xsl:text>
+					<xsl:text>import java.util.LinkedHashMap; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import static nosi.core.i18n.Translator.gt;</xsl:text>
+					<xsl:text>import static nosi.core.i18n.Translator.gt; //block import</xsl:text>
 				
 				</xsl:when>
 				
@@ -55,23 +55,23 @@
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import nosi.core.gui.components.IGRPSeparatorList.Pair;</xsl:text>
+					<xsl:text>import nosi.core.gui.components.IGRPSeparatorList.Pair; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.List;</xsl:text>
+					<xsl:text>import java.util.List; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.ArrayList;</xsl:text>
+					<xsl:text>import java.util.ArrayList; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.Map;</xsl:text>
+					<xsl:text>import java.util.Map; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.HashMap;</xsl:text>
+					<xsl:text>import java.util.HashMap; //block import</xsl:text>
 							
 				</xsl:when>
 				
@@ -79,15 +79,15 @@
 				
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import nosi.core.gui.components.IGRPSeparatorList.Pair;</xsl:text>
+					<xsl:text>import nosi.core.gui.components.IGRPSeparatorList.Pair; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.List;</xsl:text>
+					<xsl:text>import java.util.List; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.ArrayList;</xsl:text>
+					<xsl:text>import java.util.ArrayList; //block import</xsl:text>
 					
 				</xsl:when>
 				
@@ -95,11 +95,11 @@
 
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import org.hibernate.Session;</xsl:text>
+					<xsl:text>import org.hibernate.Session; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import org.hibernate.Transaction;</xsl:text>
+					<xsl:text>import org.hibernate.Transaction; //block import</xsl:text>
 				
 				</xsl:when>
 				
@@ -107,11 +107,11 @@
 
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import org.hibernate.Session;</xsl:text>
+					<xsl:text>import org.hibernate.Session; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import org.hibernate.Transaction;</xsl:text>
+					<xsl:text>import org.hibernate.Transaction; //block import</xsl:text>
 				
 				</xsl:when>
 				
@@ -119,11 +119,11 @@
 
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import org.hibernate.Session;</xsl:text>
+					<xsl:text>import org.hibernate.Session; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import org.hibernate.Transaction;</xsl:text>
+					<xsl:text>import org.hibernate.Transaction; //block import</xsl:text>
 				
 				</xsl:when>
 				
@@ -151,31 +151,31 @@
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.stream.Collectors;</xsl:text>
+					<xsl:text>import java.util.stream.Collectors; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.ArrayList;</xsl:text>
+					<xsl:text>import java.util.ArrayList; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.Arrays;</xsl:text>
+					<xsl:text>import java.util.Arrays; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.List;</xsl:text>
+					<xsl:text>import java.util.List; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import org.hibernate.Session;</xsl:text>
+					<xsl:text>import org.hibernate.Session; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import org.hibernate.Transaction;</xsl:text>
+					<xsl:text>import org.hibernate.Transaction; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.pages.</xsl:text><xsl:value-of select="$pagelow"/><xsl:text>.</xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$separator"/><xsl:text>;</xsl:text>
+					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.pages.</xsl:text><xsl:value-of select="$pagelow"/><xsl:text>.</xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$separator"/><xsl:text>; //block import</xsl:text>
 									
 				</xsl:when>
 				
@@ -183,11 +183,11 @@
 				
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import org.hibernate.Session;</xsl:text>
+					<xsl:text>import org.hibernate.Session; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import org.hibernate.Transaction;</xsl:text>	
+					<xsl:text>import org.hibernate.Transaction; //block import</xsl:text>	
 							
 				</xsl:when>
 				
@@ -215,23 +215,23 @@
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.ArrayList;</xsl:text>
+					<xsl:text>import java.util.ArrayList; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.List;</xsl:text>
+					<xsl:text>import java.util.List; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.stream.Collectors;</xsl:text>
+					<xsl:text>import java.util.stream.Collectors; //block import</xsl:text>
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.pages.</xsl:text><xsl:value-of select="$pagelow"/><xsl:text>.</xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$grafico"/><xsl:text>;</xsl:text>
+					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.pages.</xsl:text><xsl:value-of select="$pagelow"/><xsl:text>.</xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$grafico"/><xsl:text>; //block import</xsl:text>
 	
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import java.util.Map;</xsl:text>
+					<xsl:text>import java.util.Map; //block import</xsl:text>
 					
 				</xsl:when>
 	
@@ -241,7 +241,7 @@
 					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.dao.</xsl:text><xsl:value-of select="$className"/><xsl:text>;</xsl:text>
+					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.dao.</xsl:text><xsl:value-of select="$className"/><xsl:text>; //block import</xsl:text>
 					
 				</xsl:when>
 				
@@ -254,14 +254,14 @@
 						
 							<xsl:value-of select="$newline"></xsl:value-of>
 							
-							<xsl:text>import nosi.core.webapp.UploadedFile;</xsl:text>
+							<xsl:text>import nosi.core.webapp.UploadedFile; //block import</xsl:text>
 							
 						</xsl:when>
 						
 						<xsl:when test="$fieldType = 'Link'">
 							<xsl:value-of select="$newline"></xsl:value-of>
 							
-							<xsl:text>import nosi.webapps.igrp.dao.CLob;</xsl:text>	
+							<xsl:text>import nosi.webapps.igrp.dao.CLob; //block import</xsl:text>	
 													
 						</xsl:when>
 						
@@ -273,7 +273,7 @@
 				
 					<xsl:value-of select="$newline"></xsl:value-of>
 					
-					<xsl:text>import nosi.core.webapp.helpers.CheckBoxHelper;</xsl:text>
+					<xsl:text>import nosi.core.webapp.helpers.CheckBoxHelper; //block import</xsl:text>
 					
 				</xsl:when>
 			

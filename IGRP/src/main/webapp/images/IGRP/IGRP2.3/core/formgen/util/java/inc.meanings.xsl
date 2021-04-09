@@ -181,6 +181,22 @@
 					
 			</xsl:when>
 			
+			<xsl:when test="$key = 'order_by_asc'">
+			
+				<xsl:variable name="order_value" select="substring-after(value[@name='order_value']/block/field,'::')"/>
+				
+				<xsl:text>.orderByAsc("</xsl:text><xsl:value-of select="$order_value"/><xsl:text>")</xsl:text>
+					
+			</xsl:when>
+			
+			<xsl:when test="$key = 'order_by_desc'">
+			
+				<xsl:variable name="order_value" select="substring-after(value[@name='order_value']/block/field,'::')"/>
+				
+				<xsl:text>.orderByDesc("</xsl:text><xsl:value-of select="$order_value"/><xsl:text>")</xsl:text>
+					
+			</xsl:when>
+			
 			<xsl:when test="$key = 'limit'">
 			
 				<xsl:variable name="limit_value" select="field[@name='limit']"/>

@@ -3657,7 +3657,7 @@ public final class Core {
 	
 	public static LocalDateTime convertStringToLocalDateTime(String stringDate, String formatter) {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(formatter);
-		return LocalDateTime.parse(stringDate, dateTimeFormatter);
+		return LocalDate.parse(stringDate, dateTimeFormatter).atStartOfDay();
 	}
 
 	public static LocalTime convertStringToLocalTime(String time) {

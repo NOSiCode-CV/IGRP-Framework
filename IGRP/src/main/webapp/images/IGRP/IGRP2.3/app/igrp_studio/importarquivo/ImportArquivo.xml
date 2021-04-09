@@ -48,9 +48,9 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=import" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
+                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="ListaPage" app="igrp_studio" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=import" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true" adbcli="">
                     <label>Help</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
+                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=import</value>
                 </help>
             </fields>
         </view_1>
@@ -273,7 +273,7 @@
                 </imagens>
                 <form_5_link_1 name="p_form_5_link_1" type="plaintext" clear="false" disable_output_escaping="false" html_class="" maxlength="250" right="true">
                     <label>Link</label>
-                    <value>Sed sit amet iste labore sit sit accusantium aliqua officia consectetur voluptatem anim adipiscing totam sit natus laudantium perspiciatis officia sit aliqua magna officia mollit</value>
+                    <value>Stract ut adipiscing labore natus amet adipiscing ipsum natus stract lorem perspiciatis adipiscing perspiciatis consectetur aliqua magna totam laudantium magna consectetur officia ut sed ipsum</value>
                 </form_5_link_1>
             </fields>
             <tools-bar>
@@ -345,7 +345,7 @@
         </form_6>
     </content>
     <blockly>
-        <imports></imports>
+        <imports>undefined</imports>
         <xml>
             <block type="controller" id="controller" x="388" y="13"></block>
         </xml>

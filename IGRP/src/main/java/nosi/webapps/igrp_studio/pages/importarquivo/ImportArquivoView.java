@@ -1,12 +1,11 @@
 package nosi.webapps.igrp_studio.pages.importarquivo;
 
-import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Core;
 
 public class ImportArquivoView extends View {
 
@@ -92,7 +91,8 @@ public class ImportArquivoView extends View {
 		
 		help = new LinkField(model,"help");
 		help.setLabel(gt("Help"));
-		help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		help.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=import"));
+		help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		importar_aplicacao = new TextField(model,"importar_aplicacao");
 		importar_aplicacao.setLabel(gt("Importar IGRP"));
@@ -262,7 +262,6 @@ public class ImportArquivoView extends View {
 	@Override
 	public void setModel(Model model) {
 		
-		help.setValue(model);
 		importar_aplicacao.setValue(model);
 		importar_jar_file.setValue(model);
 		importar_sql_script.setValue(model);
