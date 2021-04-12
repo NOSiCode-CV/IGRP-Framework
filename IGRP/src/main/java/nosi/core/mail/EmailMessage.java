@@ -32,8 +32,8 @@ public class EmailMessage {
 	
 	private static final Logger LOG = LogManager.getLogger(EmailMessage.class); 
 	
-	public static final String EMAIL_REGEXP = "[a-zA-Z0-9!#$%&\\\\'*+\\\\/=?^_`{|}~-]+(?:\\\\.[a-zA-Z0-9!#$%&\\'*+\\\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"; 
-	
+	public static final String EMAIL_REGEXP = "[a-zA-Z0-9!#$%&\\'*+\\/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"; 
+
 	private String to;
 	private String cc;
 	private String bcc;
