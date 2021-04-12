@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -412,8 +413,11 @@ public class Controller {
 		return this.redirect_(Route.toUrl("igrp", "error-page", "exception"));
 	}
 
-	protected final Response redirect(String app, String page, String action) throws IOException {
-		return this.redirect_(Route.toUrl(app, page, this.addParamDad(action)));
+	protected final Response redirect(String app, String page, String action) throws IOException { 
+		String ssoUrl = ssoUrl(app, page, action, null, null);
+		if(ssoUrl != null) 
+			return this.redirectToUrl(ssoUrl); 
+		return this.redirect_(Route.toUrl(app, page, this.addParamDad(action))); 
 	}
 
 	protected final Response redirect(String app, String page, String action, Model model) throws IOException {
@@ -422,7 +426,25 @@ public class Controller {
 
 	protected final Response redirect(String app, String page, String action, String[] paramNames, String[] paramValues)
 			throws IOException {
+		String ssoUrl = ssoUrl(app, page, action, paramNames, paramValues);
+		if(ssoUrl != null) 
+			return this.redirectToUrl(ssoUrl); 
 		return this.redirect_(Route.toUrl(app, page, action, paramNames, paramValues));
+	}
+	
+	private String ssoUrl(String app, String page, String action, String[] paramNames, String[] paramValues) {
+		String ssoUrl = null;
+		Map<String, String> params = new LinkedHashMap<String, String>(); 
+		if(paramNames != null && paramValues != null && paramValues.length == paramNames.length)
+			for(int i = 0; i < paramNames.length; i++) 
+				params.put(paramNames[i], paramValues[i]); 
+		String currentDad = Core.getCurrentDad(); 
+		System.out.println("Redirect(Share): " + currentDad + "- " + app);
+		if(currentDad != null && !currentDad.equals(app) && Core.isSharedPage(currentDad, app, page)) { 
+			String stateValue = Core.buildStateValueForSsoAutentikaWhenPage(page, app, null, null, !params.isEmpty() ? params : null); 
+			ssoUrl = Core.buildAppUrlUsingAutentikaForSSO(app, stateValue); 
+		}
+		return ssoUrl; 
 	}
 
 	protected final Response redirectToUrl(String url) {
