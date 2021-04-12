@@ -1,6 +1,11 @@
 package nosi.webapps.igrp_studio.pages.importarquivo;
 
-import java.io.IOException;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
@@ -9,14 +14,8 @@ import java.util.Map;
 import java.io.File;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.export.app.ImportAppJava;
 import nosi.core.webapp.export.app.ImportJavaPage;
 import nosi.core.webapp.helpers.FileHelper;
@@ -28,6 +27,7 @@ import nosi.core.webapp.import_export_v2.imports.ImportHelper;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
+		/*----#end-code----*/
 		
 public class ImportArquivoController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -44,8 +44,7 @@ public class ImportArquivoController extends Controller {
 		view.list_aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		
-      	view.tipo.setQuery(Core.query(null,"SELECT '2' as ID,'Image asset' as NAME union all SELECT '1' as ID,'Icon App' as NAME union all  SELECT '3' as ID,'[Report] Image' as NAME"));
+			view.tipo.setQuery(Core.query(null,"SELECT '2' as ID,'Image asset' as NAME union all SELECT '1' as ID,'Icon App' as NAME union all  SELECT '3' as ID,'[Report] Image' as NAME"));
       	if(Core.isNullOrZero(model.getTipo()))
       		model.setTipo(2);
       	
@@ -88,7 +87,7 @@ public class ImportArquivoController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(btm_import_aplicacao)----*/
-		try {
+			try {
 			
 			if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 				boolean result = false;
@@ -205,7 +204,7 @@ public class ImportArquivoController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(importar_script)----*/
-		try {
+	try {
            String dad = Core.getCurrentDad();        
             this.addQueryString("p_env_fk",model.getAplicacao_script());
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad))     			
@@ -297,7 +296,6 @@ public class ImportArquivoController extends Controller {
 				e.printStackTrace();
 			}
 		}
-		
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
 	}
@@ -314,7 +312,7 @@ public class ImportArquivoController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(btm_importar_page)----*/
 		
-		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
+	if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			boolean result = false;
 			String descricao = "";		
 			if(model.getList_aplicacao() != null){

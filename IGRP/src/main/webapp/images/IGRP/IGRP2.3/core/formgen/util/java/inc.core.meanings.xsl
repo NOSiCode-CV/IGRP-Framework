@@ -24,6 +24,12 @@
 					
 			</xsl:when>
 			
+			<xsl:when test="$key = 'Integer::id_utilizador_atual'">
+				
+				<xsl:text>Core.getCurrentUser().getId()</xsl:text>
+					
+			</xsl:when>
+			
 			<xsl:when test="$key = 'mensagem sucesso'">
 				
 				<xsl:text>Core.setMessageSuccess()</xsl:text>
