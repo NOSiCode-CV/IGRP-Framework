@@ -106,6 +106,7 @@ import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.Domain;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.Share;
 import nosi.webapps.igrp.dao.TipoDocumento;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import nosi.webapps.igrp.dao.Transaction;
@@ -4702,6 +4703,78 @@ public final class Core {
 		}
 		stateValue = stateValue.replaceAll("<[A-Z]*(=[A-Z]+)?>", ""); 
 		return stateValue; 
+	}
+	
+	/**
+	 * @param page
+	 * @param appDad
+	 * @param orgCode
+	 * @param profCode
+	 * @param params
+	 * @return
+	 */
+	public static String buildStateValueForSsoAutentikaWhenPage(String page, String appDad, String orgCode, String profCode, Map<String, String> params) {
+		Action action = Core.loadPageInfo(appDad, page); 
+		if(action != null)
+			return Core.buildStateValueForSsoAutentika("PAGE", action.getId() + "", appDad, orgCode, profCode, params); 
+		return null; 
+	}
+	
+	/**
+	 * @param env The Application 
+	  * @param stateValue A String that will be sent to autentika for sso 
+	 * @return
+	 */
+	public static String buildAppUrlUsingAutentikaForSSO(Application env, String stateValue) { 
+		String url = null;
+		ConfigApp configApp = ConfigApp.getInstance();
+		String contextName = Core.getDeployedWarName(); 
+		if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !contextName.equalsIgnoreCase(env.getUrl())) {
+			url = configApp.getAutentikaUrlForSso(); 
+			if(stateValue != null && !stateValue.isEmpty())
+			url = url.replace("state=igrp", "state=" + stateValue); 
+			url = url.replace("/IGRP/", "/" + env.getUrl() + "/"); 
+		}
+		return url;
+	}
+	
+	/**
+	 * @param dad Application unique code 
+	 * @param stateValue A String that will be sent to autentika for sso 
+	 * @return
+	 */
+	public static String buildAppUrlUsingAutentikaForSSO(String dad, String stateValue) { 
+		return buildAppUrlUsingAutentikaForSSO(Core.findApplicationByDad(dad), stateValue) ;
+	}
+	
+	/**
+	 * @param dad
+	 * @param appOwner
+	 * @param action
+	 * @return
+	 */
+	public static boolean isSharedPage(String dad, String appOwner, Integer action) {
+		return new Share().getPermissionPage(dad, appOwner, action); 
+	}
+	
+	/**
+	 * @param dad
+	 * @param appOwner
+	 * @param action
+	 * @return
+	 */
+	public static boolean isSharedPage(String dad, String appOwner, String page) { 
+		Action action = loadPageInfo(appOwner, page); 
+		return new Share().getPermissionPage(dad, appOwner, action != null ? action.getId() : null); 
+	}
+	
+	/**
+	 * @param app
+	 * @param page
+	 * @return
+	 */
+	public static Action loadPageInfo(String app, String page) {
+		return new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", page).one(); 
 	}
 	
 	/**
