@@ -26,13 +26,15 @@ goog.require('Blockly.Java');
 	// ***************** DECLARATE_VARIABLES **********************
 var GEN = null,
 	blockyInit = false,
+    COMPARISON, RETURNS, CORE, ORDER, FIND, CHECK_SELECT, TIPO, WHERE, FILTER, ANDOR, FINDLIST, TRU_FAL;   
 	COMPARISON = [["==", "=="],["!=", "!="],[">=", ">="], ["<=", "<="],[">=", ">="], [">", ">"], ["<", "<"]],
 	RETURNS = [["forward", "forward"],["redirect", "redirect"]], 
 	CORE = [["--", "--"],["Atual Date", "data_atual"], ["Atual User Name", "nome_utilizador_atual"],["Atual User Email", "email_utilizador_atual"],
 	        ["Atual User Id", "Integer::id_utilizador_atual"], ["Send Email", "enviar_email"], ["Get Parameter Text", "apanhar_parametro_texto"], 
 	        ["Get Domain", "get_domain"]],
 	ORDER = [["id", ""],["Order by Asc", "order_by_asc"],["Order by Desc", "order_by_desc"]],
-	FIND = [["--", "--"],["all", "todos"],["one", "um"]], FINDLIST = [["all", "TODOSS"],["one", "UMM"],["limit", "limit"]],
+	FIND = [["--", "--"],["all", "todos"],["one", "um"]], 
+	FINDLIST = [["all", "TODOSS"],["one", "UMM"],["limit", "limit"]],
 	CHECK_SELECT = [["checks", "String::checks"],["unchecks", "String::unchecks"]],
 	TIPO = [["Inteiro", "Inteiro"],["Data", "Data"],["Texto", "Texto"]],
 	WHERE = [["=", "WHERE_EQ"],["!=", "WHERE_DIF"],["<", "WHERE_LT"],["<=", "WHERE_LTE"],[">", "WHERE_GT"],[">=", "WHERE_GTE"],
@@ -40,7 +42,9 @@ var GEN = null,
 	FILTER = [["andWhere", "andWhere"],["andWhereIsNull", "andWhereIsNull"],["andWhereNotNull", "andWhereNotNull"],
 		["andWhereBetween", "andWhereBetween"],	["orWhere", "orWhere"],["orWhereIsNull", "orWhereIsNull"],["orWhereNotNull", "orWhereNotNull"],
 		["orWhereBetween", "orWhereBetween"], ["having", "having"],["where", "where"],["whereIn", "whereIn"],["whereNotIn", "whereNotIn"]],
-	ANDOR = [["and", "and"],["or", "or"]], TRU_FAL = [["true", "true"],["false", "false"]], daoClasses = {},
+	ANDOR = [["and", "and"],["or", "or"]], 
+	TRU_FAL = [["true", "true"],["false", "false"]]; 
+var	daoClasses = {},
 	IGRP_BLOCKLY_DROPS={ 
 		daos : {}		
 	},
@@ -49,7 +53,8 @@ var GEN = null,
 	separator_model = [],formlist_model = [], form_model = [], buttons_model = [], all_buttons = [], daos_list = [], bloc_fields = [], 
 	imports_insert = [], imports_list = [], fields_esp_row = [], custom_action = [], select = [], checkbox_table = [],
 	addcombo=0, addcheckbox_table=0, addseparator=0, addforeign=0, addchart=0, addtable =0, addbutton=0, addmodel=0, 
-	addstatbox=0, addformlist=0, addform=0, addview=0, custombutton=0;
+	addstatbox=0, addformlist=0, addform=0, addview=0, custombutton=0, helpers = [], addhelpers = 0, but_table = [], add_but_table = 0,
+	read = [], add_read = 0;
 
 Blockly.Blocks.texts.HUE = 200;
 
@@ -69,14 +74,14 @@ var GetJavaType = {
 	hidden: 'String',
 	radiolist : 'Integer',
 	time : 'String'
-}
+};
 
 // ************** PREVIOUS FUNCTIONS************************
 var calcHeight = function() {
 	$('#gen-blocky-view').height(function() {
-		return $(window).height() - 59 - 37
+		return $(window).height() - 59 - 37;
 	});
-}
+};
 
 $(window).resize(function() {
 	calcHeight();
@@ -101,8 +106,8 @@ $('#restore_bloco_igrp').on('click', function() {
 	}
 });
 $('#refresh_bloco').on('click', function() {
-	if (typeof (Storage) !== "undefined") {
-		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+	var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+	if (typeof (Storage) !== "undefined") {		
 		localStorage.setItem(document.getElementById("content_blocks").value,Blockly.Xml.domToText(xml));
 		Blockly.mainWorkspace.clear();
 	}
@@ -131,7 +136,8 @@ $('#active_selenium').on('click', function() {
 	 imports_insert = [], imports_insert.push([ '--', '--' ]), imports_list = [], imports_list.push([ '--', '--' ]), fields_esp_row = [], 
 	 fields_esp_row.push([ '--', '--' ]), custom_action = [], custom_action.push([ '--', '--' ]), select = [], select.push([ '--', '--' ]), 
 	 checkbox_table = [], checkbox_table.push([ '--', '--' ]), addcombo=0, addcheckbox_table=0, addseparator=0, addforeign=0, addchart=0, 
-	 addtable=0, addstatbox=0, addbutton=0, addmodel=0, addformlist=0, addform=0, addview=0, custombutton=0;
+	 addtable=0, addstatbox=0, addbutton=0, addmodel=0, addformlist=0, addform=0, addview=0, custombutton=0, helpers = [], addhelpers = 0,
+	 but_table=[]; add_but_table=0, read = [], add_read = 0;
 	 
 	 var BlocklyXML = $.parseXML(VARS.getGen().getXML());
 	 AppTitle = $('rows>app', BlocklyXML).text();
@@ -141,21 +147,18 @@ $('#active_selenium').on('click', function() {
 	 
 	 // ************** FIELDS_MODEL_GENERAL **************************	 
 	 
-	 $('rows>content>*[type!=separatorlist][type!=formlist]', BlocklyXML).each(function(i, element) {
-		 
-			$(element).find('>fields>*').each(function(x, field) {
-				
-				var tag = $(field).prop('tagName'),
-				tagg = $(field).attr('tag'),
-				type = $(field).attr('java-type') || $(field).attr('type'),
-				multiple = $(field).attr('multiple'),
-				range = $(field).attr('range'),
-				ChooseType = $(field).attr('type'),
-				key  = $(field).attr('iskey'),
-				domain = $(field).attr('domain'),
-				persist = $(field).attr('persist'),
-				javaType = GetJavaType[type] || type || 'String';	
-				
+	 $('rows>content>*[type!=separatorlist][type!=formlist]', BlocklyXML).each(function(i, element) {	 
+		$(element).find('>fields>*').each(function(x, field) {		
+			var tag = $(field).prop('tagName'),
+			tagg = $(field).attr('tag'),
+			type = $(field).attr('java-type') || $(field).attr('type'),
+			multiple = $(field).attr('multiple'),
+			range = $(field).attr('range'),
+			ChooseType = $(field).attr('type'),
+			key  = $(field).attr('iskey'),
+			domain = $(field).attr('domain'),
+			persist = $(field).attr('persist'),
+			javaType = GetJavaType[type] || type || 'String';					
 			if(multiple =="true"){	
 				fields_model.push([ tag, 'String[]'+'::'+tag]);
 				addmodel++;
@@ -165,7 +168,6 @@ $('#active_selenium').on('click', function() {
 				addmodel++;
 			}
 			else if(javaType =="String" && persist =="true"){
-				console.log("fuck")
 				fields_model.push([ tag, 'Section'+'::'+tag]);
 				addmodel++;
 			}
@@ -187,11 +189,9 @@ $('#active_selenium').on('click', function() {
 				select.push([ tag, tag ]);	
 				addcombo++;		
 			}
-			});	
 		});	
-	 
-	 if(addmodel !=0){
-		 
+	});		 
+	 if(addmodel !=0){		 
 		$('#toolbox').append(	
 			'<category id="model" name="Model '+PageTitle+'" colour="300" class="blocly-dynamic">'
 				 +'<block type="set_model" prev-statement="" next-statement="" coment="teste" color="300">'
@@ -222,6 +222,87 @@ $('#active_selenium').on('click', function() {
 				+'<sep class="blocly-dynamic"></sep>'
 			);	
 		}
+	 
+	 // ************** HELPERS **************************	 	 
+	 $('rows>content>*', BlocklyXML).each(function(i, element) {
+	 	$(element).each(function(x, component) {		
+			var tag = $(component).prop('tagName');
+			if(tag != 'title'){
+				helpers.push([ tag, tag]);
+				addhelpers++;
+			}
+		});
+	 	$(element).find('[type!=table]>fields>*').each(function(x, field) {
+			var tag = $(field).prop('tagName');
+			if(tag != 'hidden'){
+				read.push([ tag, tag]);
+				add_read++;
+			}
+		});
+		$(element).find('>fields>*').each(function(x, field) {		
+			var tag = $(field).prop('tagName'),
+				type =$(field).attr('type');
+			if(tag != 'hidden' && type !='hidden'){
+				helpers.push([ tag, tag]);
+				addhelpers++;
+			}
+		});
+		$(element).find('>tools-bar>*').each(function(x, field) {		
+			var buttom = $(field).attr('rel');	
+			helpers.push([ 'btn_'+buttom, 'btn_'+buttom]);
+			addhelpers++;			
+		});
+		$(element).find('>table>context-menu>*').each(function(x, field) {		
+			var but_ta = $(field).attr('rel');	
+			helpers.push([ 'btn_'+but_ta, 'btn_'+but_ta]);
+			addhelpers++;
+			but_table.push([ 'btn_'+but_ta, 'btn_'+but_ta]);
+			add_but_table++;
+		});	
+	});	
+	 
+	 if(addhelpers !=0){	
+		$('#toolbox').append(
+				'<category id="helpers" name="Properties" colour="260" class="blocly-dynamic">'
+				 +'<block type="set_visible" prev-statement="" next-statement="" color="260">'
+			 		+'<value name="value1" type="dummy" title="set visible">'
+			 			+'<field type="dropdown" name="set_visible" options="IGRP_BLOCKLY_DROPS.HELPERS"></field>'
+			 			+'<field type="dropdown" name="tru_fal" options="IGRP_BLOCKLY_DROPS.true_false"></field>'
+			 			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/invisible.svg"></field>'
+					+'</value>'
+				 +'</block>'
+				 +'</category>'
+				+'<sep class="blocly-dynamic"></sep>'	
+		  );
+		}
+	 if(add_but_table !=0){	
+			$('#helpers').append(
+				 '<block type="set_visible_row" prev-statement="" next-statement="" color="260" class="blocly-dynamic">'
+			 		+'<value name="value1" type="dummy" title="hide row button">'
+			 			+'<field type="dropdown" name="set_visible_row" options="IGRP_BLOCKLY_DROPS.BUT_TABLE"></field>'
+			 			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/invisible.svg"></field>'
+					+'</value>'
+				 +'</block class="blocly-dynamic">'
+			  );
+			}
+	 if(add_read !=0){	
+			$('#helpers').append(
+					 '<block type="set_readonly" prev-statement="" next-statement="" color="260">'
+				 		+'<value name="value1" type="dummy" title="set read only">'
+				 			+'<field type="dropdown" name="set_readonly" options="IGRP_BLOCKLY_DROPS.READ"></field>'
+				 			+'<field type="dropdown" name="tru_fal" options="IGRP_BLOCKLY_DROPS.true_false"></field>'
+				 			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/edit.svg"></field>'
+						+'</value>'
+					 +'</block>'
+					 +'<block type="set_disabled" prev-statement="" next-statement="" color="260">'
+				 		+'<value name="value1" type="dummy" title="set disabled">'
+				 			+'<field type="dropdown" name="set_disabled" options="IGRP_BLOCKLY_DROPS.READ"></field>'
+				 			+'<field type="dropdown" name="tru_fal" options="IGRP_BLOCKLY_DROPS.true_false"></field>'
+				 			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/edit.svg"></field>'
+						+'</value>'
+					 +'</block>'
+			  );
+			}
 	 
 	// ******************* BLOCKS_FORM *************************	
 		
@@ -284,10 +365,10 @@ $('#active_selenium').on('click', function() {
 									+'</value>';			
 					IGRP_BLOCKLY_DROPS.tablesTest[form].forEach(function(f, fi){
 						rtn+='</next></block>';	
-					})
+					});
 					rtn+='</next></block>';
 					return rtn;
-				}
+				};
 				
 				$('#form').append(		
 					'<category id="'+form+'" name="'+form+'" colour="180" class="blocly-dynamic">'
@@ -476,7 +557,7 @@ $('#active_selenium').on('click', function() {
 					fields_table.push([ tag, javaType + '::'+tag]);
 					IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push( [ tag, javaType + '::'+tag] );	
 				}		
-			})
+			});
 		});
 	 
 	$('rows>content>*', BlocklyXML).each(function(i, element){	
@@ -500,9 +581,9 @@ $('#active_selenium').on('click', function() {
 				});		
 				IGRP_BLOCKLY_DROPS.tablesTest[table].forEach(function(f, fi){
 					rtn+='</next></block>';	
-				})
+				});
 				return rtn;
-			}
+			};
 			
 			$('#table').append(
 					'<category id="'+table+'" name="'+table+'" colour="140" class="blocly-dynamic">'
@@ -560,7 +641,7 @@ $('#active_selenium').on('click', function() {
 				fields_separator.push([ tag, javaType + '::'+tag]);
 				IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push( [ tag, javaType + '::'+tag] );	
 			}	
-		})		
+		});		
 		if($(element).attr('type')== 'separatorlist'){
 			var separator = $(element).prop('tagName');
 			separator_model.push([ separator, separator ]);
@@ -584,9 +665,9 @@ $('#active_selenium').on('click', function() {
 				});			
 				IGRP_BLOCKLY_DROPS.tablesTest[separator].forEach(function(f, fi){	
 					rtn+='</next></block>';	
-				})
+				});
 				return rtn;
-			}	
+			};	
 			$('#separator').append(	
 					'<category id="'+separator+'" name="'+separator+'" colour="80" class="blocly-dynamic">'
 						+'<block type="separator_'+separator+'" mutator="where" color="80"  prev-statement="" next-statement="" inline="true">'
@@ -640,7 +721,7 @@ $('#active_selenium').on('click', function() {
 				fields_formlist.push([ tag, javaType + '::'+tag]);
 				IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push( [ tag, javaType + '::'+tag] );
 			}
-		})	
+		});	
 		if($(element).attr('type')== 'formlist'){
 			var formlist = $(element).prop('tagName');
 			formlist_model.push([ formlist, formlist ]);
@@ -664,9 +745,9 @@ $('#active_selenium').on('click', function() {
 				});
 				IGRP_BLOCKLY_DROPS.tablesTest[formlist].forEach(function(f, fi){
 					rtn+='</next></block>';
-				})
+				});
 				return rtn;
-			}
+			};
 			$('#formlist').append(	
 				'<category id="'+formlist+'" name="'+formlist+'" colour="200" class="blocly-dynamic">'
 					+'<block type="forrmlist_'+formlist+'" mutator="where" color="200"  prev-statement="" next-statement="" inline="true">'
@@ -728,7 +809,7 @@ $('#active_selenium').on('click', function() {
 				fields_model_view.push([ tag, javaType + '::'+tag]);
 				IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push( [ tag, javaType + '::'+tag] );
 			}	
-		})	
+		});	
 		if($(element).attr('type')== 'view'){
 			var view = $(element).prop('tagName');
 			view_model.push([ view, view ]);
@@ -750,9 +831,9 @@ $('#active_selenium').on('click', function() {
 				});
 				IGRP_BLOCKLY_DROPS.tablesTest[view].forEach(function(f, fi){	
 					rtn+='</next></block>';	
-				})	
+				});	
 				return rtn;
-			}
+			};
 			$('#view').append(		
 				'<category id="'+view+'" name="'+view+'" colour="180" class="blocly-dynamic">'
 					+'<block type="vieww_'+view+'" mutator="where" color="180"  prev-statement="" next-statement="" inline="true">'
@@ -794,8 +875,9 @@ $('#active_selenium').on('click', function() {
 					+'<sep class="blocly-dynamic"></sep>'
 				);
 			}
+			var eixo_z='';
 			if(char_type != 'pie'){
-			var eixo_z = '<next>'
+				eixo_z = '<next>'
 							+'<block type="EixoZ" color ="300" prev-statement="" >'
 								+'<value name="eixo"  title="Eixo Z" type="value"></value>'
 							+'</block>'	
@@ -850,7 +932,7 @@ $('#active_selenium').on('click', function() {
 					IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push( [ tag, javaType + '::'+tag] );	
 				}
 				
-			})
+			});
 		});
 	 
 	$('rows>content>*', BlocklyXML).each(function(i, element){	
@@ -873,9 +955,9 @@ $('#active_selenium').on('click', function() {
 				});	
 				IGRP_BLOCKLY_DROPS.tablesTest[statbox].forEach(function(f, fi){
 					rtn+='</next></block>';	
-				})
+				});
 				return rtn;
-			}
+			};
 			
 			$('#statbox').append(
 					'<category id="'+statbox+'" name="'+statbox+'" colour="70" class="blocly-dynamic">'
@@ -982,7 +1064,7 @@ $('#active_selenium').on('click', function() {
 				var field = $('nome',f).text(),
 					type = $('tipo',f).text();
 					fieldy_list.push([field,type+'::'+field ]);	
-			})
+			});
 			$('#'+daos+'').append(
 				'<block type="set-dao-'+daos+'" igrp="tete" color="160"  prev-statement="" next-statement="" class="blocly-dynamic">'
 					+'<value name="value1" type="value" title="set '+daos+'">'
@@ -1021,7 +1103,11 @@ $('#active_selenium').on('click', function() {
 			fields_TABLE : fields_table,
 			fields_SEP : fields_separator,
 			fields_FORM : fields_formlist,
-			chart_model : chart			
+			chart_model : chart,
+			HELPERS : helpers,
+			BUT_TABLE :but_table,
+			READ :read
+
 		});
 
 		if (!blockyInit) {
@@ -1041,7 +1127,7 @@ $('#active_selenium').on('click', function() {
 		console.log('Error: '+data);
 	}
 	});
-}
+};
 
 var codeBlockStart = '/* Start-Code-Block (',
 	codeBlockEnd   = '/* End-Code-Block */';
@@ -1068,8 +1154,8 @@ function GetBlocklyImports(){
 				'Date' : true,
 				'File' : true,
 				'Link' : true
-			}
-		var rtn;
+			};
+		var rtn='';
 		if(listarImports[0])
 			rtn+='<import type="listar">Listar</import>';
 		if(fillComboImports[0])
@@ -1082,19 +1168,19 @@ function GetBlocklyImports(){
 			saveseparatorImports.each(function(i, sep){
 				var blockType =$.trim($(sep).attr('type').split('save_sepator_').pop());
 				rtn+='<import type="save_separator">'+blockType+'</import>';
-			})
+			});
 		}
 		if(saveformlistImports[0]){
 			saveformlistImports.each(function(i, form){
 				var blockType =$.trim($(form).attr('type').split('save_forlist_').pop());
 				rtn+='<import type="save_formlist">'+blockType+'</import>';
-			})	
+			});	
 		}
 		if(graficoImports[0]){
 			graficoImports.each(function(i, grap){
 				var blockType =$.trim($(grap).attr('type').split('grafico_').pop());
 				rtn+='<import type="grafico">'+blockType+'</import>';
-			})	
+			});	
 		}
 		if(inserirImports[0])
 			rtn+='<import type="inserir_dao">Inserir Daos</import>';
@@ -1234,11 +1320,11 @@ $.IGRP.on('init', function(){
 		PAGES = function(){
 			var arr = [];
 			GEN.DETAILS.linkPageList.forEach(function(item){
-				arr.push( [item.page,item.page] )
-			})
+				arr.push( [item.page,item.page] );
+			});
 			return arr;
 		}();
-	})
+	});
 
 	var pageBlockly = null;
 	GEN.on('ready', function(){
@@ -1248,9 +1334,9 @@ $.IGRP.on('init', function(){
 				setTimeout(function(){
 					Blockly.mainWorkspace.clear();
 					Blockly.Xml.domToWorkspace(pageBlockly, Blockly.mainWorkspace);
-				},400)		
+				},400);		
 			}
-		})
+		});
 	});
 	
 	$(document).on('blockly-widget-div-created', function(e, element){
@@ -1265,10 +1351,10 @@ $.IGRP.on('init', function(){
 				found.show();
 			}
 			else{
-				items.show()
+				items.show();
 			}	
-		})
-	})
+		});
+	});
 	
 	$('li[rel="gen-blocky"]').on('click',function() {
 		$('.blocly-dynamic').remove();
@@ -1276,17 +1362,17 @@ $.IGRP.on('init', function(){
 		$('#tab_blocks').click();
 		setTimeout(function(){
 			$('#refresh_bloco').click();
-		}, 400)
-	})
+		}, 400);
+	});
 	
 	$('#igrp-form-gen').on('on-export', function(e, data){
 		data.blocklyData = GetDefaultBlocklyXML();
-	})
+	});
 	
 	$('#igrp-form-gen').on('on-import', function(e, data){
 		if( data.blocklyData ){
 			var xml = Blockly.Xml.textToDom( data.blocklyData );
 			pageBlockly = xml;
 		}	
-	})
-})
+	});
+});
