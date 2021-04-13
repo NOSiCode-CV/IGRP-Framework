@@ -438,8 +438,7 @@ public class Controller {
 		if(paramNames != null && paramValues != null && paramValues.length == paramNames.length)
 			for(int i = 0; i < paramNames.length; i++) 
 				params.put(paramNames[i], paramValues[i]); 
-		String currentDad = Core.getCurrentDad(); 
-		System.out.println("Redirect(Share): " + currentDad + "- " + app);
+		String currentDad = Core.getCurrentDad();
 		if(currentDad != null && !currentDad.equals(app) && Core.isSharedPage(currentDad, app, page)) { 
 			String stateValue = Core.buildStateValueForSsoAutentikaWhenPage(page, app, null, null, !params.isEmpty() ? params : null); 
 			ssoUrl = Core.buildAppUrlUsingAutentikaForSSO(app, stateValue); 
