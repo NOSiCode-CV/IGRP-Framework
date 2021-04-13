@@ -335,127 +335,72 @@
 			
 			try{
 			
-				var cql_filter = '', strUrl = '';
-				
-				for(var key in o.tipo_obj){
-					cql_filter += (cql_filter ? " or " : "") + "strToLowerCase(TIPO_OBJ) LIKE '%"+o.tipo_obj[key].toLowerCase()+"%'";
-					strUrl += o.tipo_obj[key].toLowerCase() + '_';
-				}
-				
-				cql_filter = ("(" + cql_filter + ")" ) + (o.id ?  ' and strToLowerCase(UNIDADE_ADMIN_ID) = ' + o.id:  '');
-								
-				options = {
-					cql_filter : cql_filter
-				}
-				
-				if(widget.request)
-					
-					widget.request.abort();
-				
-				if ( o.source == 'LOCAL' ){
-				
 					//clear
-					if (!o.parent && o.id == '' ){
+				if (!o.parent && o.id == '' ){
+					
+					try{
 						
-						try{
-							
-							widget.setTemplateParam( 'div-admin-'+o.target, {'divData': [] } );			
-																												
-							$('#'+o.target, widget.html).select2();
-							
-							$('#'+o.target, widget.html).trigger("change");
+						widget.setTemplateParam( 'div-admin-'+o.target, {'divData': [] } );			
+																								
+						$('#'+o.target, widget.html).trigger("change");
 
-							
-						}catch(e){
-							console.log(e)
-						}
 						
-						widget.loading(false);
-						
-						return false;
+					}catch(e){
+						console.log(e)
 					}
 					
-					$.getJSON(path+'/plugins/gis/data/'+strUrl+'.json', function(json) {
-						
-						var data    = json.features,
-						
-							results = [];		
-					    
-						data.forEach(function(feature, i){
-														
-							var properties = feature.properties,
-							
-							    id = (properties['id'] || properties['ID']) ? (properties['id'] || properties['ID'])  : ( feature.id ? feature.id.split('.')[1] : '' );
-							    		
-							if( ( o.tipo_obj == 'ILH' && o.tipo_obj.includes(properties['TIPO_OBJ']) ) || ( o.id ==  properties['UNIDADE_ADMIN_ID']  && o.tipo_obj.includes(properties['TIPO_OBJ']) ) ){								
-								
-								results.push({
-									name    : properties['NOME'] || properties['nome'],
-									id      : id,
-									feature : feature
-								});
-							}
-							
-							json.features[i].properties['ID'] = id;
-							
-						});
-						
-						widget.results[o.target] = json
-						
-						try{
-							
-							widget.setTemplateParam( 'div-admin-'+o.target, {'divData': results} );			
-																												
-							$('#'+o.target, widget.html).select2();
-							
-							$('#'+o.target, widget.html).trigger("change");
-
-							
-						}catch(e){
-							console.log(e)
-						}
-						
-						widget.loading(false);
-						
-					});
+					widget.loading(false);
 					
-				}else{	
-					
-					widget.request = $.get(widget.divAdminLayer.Info.owsURL+'?service=WFS&request=GetFeature&typeName='+widget.divAdminLayer.Info.workspaceLayer+'&version=1.0.0&outputFormat=application/json', options);
-				
-				    widget.request.then(function(json){				    	
-				    		
-			    		var data    = json.features,
-						
-						results = [];
-						
-						data.forEach(function(feature){
-							
-							var properties = feature.properties,
-							
-								id = properties['id'] ? properties['id']  : ( feature.id ? feature.id.split('.')[1] : '' );
-										
-							results.push({
-								name    : properties['NOME'] || properties['nome'],
-								id      : id,
-								feature : feature
-							});
-						});	
-				    							
-						
-						try{
-							widget.setTemplateParam( 'div-admin-'+o.target, {'divData': results} );
-					
-							$('.select2', widget.html).select2();
-						}catch(e){
-							console.log(e)
-						}
-						
-						widget.loading(false);
-		
-					});
+					return false;
 				}
 				
+				$.getJSON(path+'/plugins/gis/data/config.json', function(json){
+										
+					if(json.hasOwnProperty(o.tipo_obj)){
+						
+						widget.pathGeoJson = path+'/plugins/gis/data'+json[o.tipo_obj];
+										
+						$.getJSON(widget.pathGeoJson, function(json) {
+							
+							var data    = json.features,
+							
+								results = [];		
+							
+							data.forEach(function(feature, i){
+																							
+								var properties = feature.properties;
+								    	
+								if( properties['name'] && properties['code'] )
+									results.push({
+										name    : properties['name'],
+										id      : properties['code'],
+										feature : feature
+									});
+								
+							});
+							
+							widget.results[o.target] = json
+							
+							try{
+								
+								widget.setTemplateParam( 'div-admin-'+o.target, {'divData': results} );			
+																													
+								$('#'+o.target, widget.html).select2();
+								
+								$('#'+o.target, widget.html).trigger("change");
+		
+								
+							}catch(e){
+								console.log(e)
+							}
+							
+							widget.loading(false);
+							
+						});
+					}
+					
+				});
+					
 			}catch(e){
 				console.log(e)
 				widget.loading(false);
@@ -475,9 +420,7 @@
 			txtCql = $('#search-txt-cql textarea', widget.html);
 
 			submitSearch= $('#search-form-submit', widget.html);
-			
-			//$('.select2', widget.html).select2();
-						
+									
 			widget.html.on('click', '.search-item', function(){
 				
 				var item    = $(this),
@@ -639,53 +582,25 @@
 			widget.html.on('click', '#search-div-admin', function(){
 				
 				input[0].setAttribute('disabled', true);
-								
+				
 				if (!widget.activeDivAdmin){
-					
-					layers = app.layers.getLayers();
 					
 					widget.activeDivAdmin =  true;
 					
 					widget.steps.divAdmin.activate();
 										
-					if(layers && layers[0]){
-						
-						layers.forEach(function(layer, i){
-							
-							var layerData  = layer.data();
-							
-							if( layerData.options.divAdmin ){
-																
-								widget.divAdminLayer = layer;
-								
-								opt = {
-									target   : 'ilh',
-									tipo_obj : ['ILH']
-								}
-								
-								
-								clearTimeout(timeout);
-
-								timeout = setTimeout(setRemoteComobox(opt), 600 );
-								
-								widget.loading(true);																
-
-							}
-							
-						});
-					}
+					
 				}else{
 					
 					clearSearch();
 				}
 				
 				//static file json 
-				if( widget.divAdminLayer == null && widget.activeDivAdmin){
+				if( widget.activeDivAdmin ){
 					
 					var opt = {
-						target   : 'ilh',
-						tipo_obj : ['ILH'],
-						source   : 'LOCAL',
+						target   : 'nivel-1',
+						tipo_obj : 'global',
 						parent   : true
 					}
 					
@@ -700,33 +615,28 @@
 			
 			widget.html.on('change', '.remote-change', function(){
 				
-				var field  = $(this),
-				
-					obj    = $('select[id="'+field.data('target')+'"]').data('value'),
-					
-					bounds = field.find(':selected').attr('bounds'),
+				var field     = $(this),
+									
+					bounds    = field.find(':selected').attr('bounds'),
 					
 					featureId = field.find(':selected').attr('feature-id'),
 					
-					objIn  = field.data('value');
-								
-				if(obj)
-					obj = obj.split(',');
-								
+					obj       = field.data('value');
+																
 				opt = {
 					target   : field.data('target'),
 					id		 : field.val(),
-					tipo_obj : obj,
-					source   : 'LOCAL'
+					tipo_obj : field.val()
 				}
 				
-				//if(!field.val()) return false,
-				
-				clearTimeout(timeout);
-
-				timeout = setTimeout(setRemoteComobox(opt), 600 );
-				
-				widget.loading(true);	
+				if(opt.target){
+					
+					clearTimeout(timeout);
+	
+					timeout = setTimeout(setRemoteComobox(opt), 600 );
+					
+					widget.loading(true);	
+				}
 												
 				
 				try{
@@ -740,33 +650,22 @@
 							sw = L.latLng([bounds._southWest.lng, bounds._southWest.lat]);//?? lat lng switched
 						
 						app.viewer().fitBounds( L.latLngBounds(sw, ne) );
-												
-						if ( widget.results[objIn.toLowerCase()] &&  opt.id !== '' ){
+							
+						if ( widget.results[obj] &&  opt.id !== '' ){
 							
 							if(widget.highlight)
 								
 								Map.removeLayer(widget.highlight);
 							
-							var jsonObject = widget.results[objIn.toLowerCase()];
+							var jsonObject = widget.results[obj];
 																
 							widget.highlight = L.geoJson(jsonObject, {
 							    filter: function(feature, layer) {
-							        return feature.properties['ID'] === opt.id;
+							        return feature.properties['code'] === opt.id;
 							    }
 							}).addTo(Map);
 							
-							var strUrl = '';
-							
-							if(objIn)
-								
-								objIn = objIn.split(',');
-							
-							for(var key in objIn)
-								
-								strUrl += objIn[key].toLowerCase() + '_';
-							
-							
-							Map.highlightdivadmin = {'feature-id' : featureId, 'url' : path+'/plugins/gis/data/'+strUrl+'.json'}
+							Map.highlightdivadmin = {'code' : opt.id, 'url' : widget.pathGeoJson}
 							
 						}
 

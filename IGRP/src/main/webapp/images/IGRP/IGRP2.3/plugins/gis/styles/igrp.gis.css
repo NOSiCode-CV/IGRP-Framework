@@ -598,15 +598,44 @@
 .leaflet-popup-content-wrapper{
 	border-radius: 4px;	
 }
-
+/*
 .leaflet-zoom-animated{
 	bottom: 7px !important;
 }
-
+*/
 .leaflet-popup-pane{
 	top: 7px;
 }
 
 #gis-context-view {
 	margin-top: 5px;
+}
+ 
+ .marker-cluster-custom.marker-cluster span {
+    color: white !important;
+    font-size: 16px;
+}
+
+.marker-cluster-custom.marker-cluster{
+	border-radius: 50% !important;
+}
+
+.marker-cluster-custom.marker-cluster-medium div{
+	height: 38px;
+    width: 38px;
+    border-radius: 50%;
+}
+
+.marker-cluster-custom.marker-cluster-medium div span{
+	line-height: 38px !important;
+}
+
+.marker-cluster-custom.marker-cluster-large div{
+	height: 48px;
+    width: 48px;
+    border-radius: 50%;
+}
+
+.marker-cluster-custom.marker-cluster-large div span{
+	line-height: 48px !important;
 }

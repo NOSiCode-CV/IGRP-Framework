@@ -467,7 +467,7 @@
 						highlight  = localStorage.getItem("highlightdivadmin-map");
 					
 					    _lock  = L.DomUtil.get('gis-lock-bounds');
-					
+					    					
 					if(bounds){
 						
 						bounds = JSON.parse(bounds);						
@@ -485,12 +485,17 @@
 					if(highlight){
 						
 						highlight  = JSON.parse(highlight);
-						
+												
 						$.getJSON(highlight.url, function(json) {
 							
 							L.geoJson(json, {
 							    filter: function(feature, layer) {
-							        return feature.id === highlight['feature-id'];
+							    	return feature.properties['code'] === highlight['code'];
+							    },
+							    style: function(feature) {
+							    	if(feature.properties['code'] == highlight['code']){
+							    		return {fillColor: '#3f0', color: '#0f0',fill:true, fillOpacity: 0.2}
+							    	}
 							    }
 							}).addTo(map);
 							
