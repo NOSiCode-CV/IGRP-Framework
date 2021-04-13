@@ -68,12 +68,68 @@
 				
 				options = {}, style = {},
 				
-				Legend = GIS.module('Legends');			
+				Legend = GIS.module('Legends');
 			
 			if(data.geomType == utils.geometry.pointCluster){
-								
-				layer = L.markerClusterGroup();
 				
+				map.clusterIndex = map.clusterIndex !== undefined ? -1 : 1;
+																
+				layer = L.markerClusterGroup({
+										
+					showCoverageOnHover: false,
+					
+					iconCreateFunction: function(cluster) {
+
+						var count = cluster.getChildCount(),
+						    
+					     	markersCluster = cluster.getAllChildMarkers(),
+					     	
+				        	size = "small", sizev = 40;
+						
+				        if (count > 10 && count <= 100) {
+				        	size = "medium";
+				        	sizev = 48;
+				        }else if(count > 100){
+				        	size = "large";
+				        	sizev = 58;
+				        }
+				        				        
+				        if (data.options.clusterColor){
+				        
+					        var myCustomColour = '#117da9';				               
+					        
+					        for (var i = 0; i < markersCluster.length; i++) {
+					        	
+					    		var mCluster = markersCluster[i];
+					    		
+					    		style = Legend.Get(data, mCluster.feature);
+					    		
+					    		myCustomColour = style.color;
+					    	}	
+					        					               
+				        	const markerHtmlStyles = `background-color: ${myCustomColour};`;
+				        					        	
+				        	return L.divIcon({
+				        	    html: `<div style="${markerHtmlStyles}"><span>${count}</span></div>`,
+				                className: 'marker-cluster-custom marker-cluster marker-cluster-' + size,
+				                iconSize: [sizev, sizev],
+				                iconAnchor: [sizev/3, layer.clusterIndex*(sizev/3)]
+				        	})
+				        
+				        }
+				        
+			        	return new L.DivIcon({
+				            html: '<div><span>' + count + '</span></div>',
+				            className: 'marker-cluster marker-cluster-' + size,
+				            iconSize: new L.Point(40, 40)
+				        });
+				        
+				    },				
+					
+				});
+				
+				layer.clusterIndex = map.clusterIndex;
+								
 			}else if(data.geomType == utils.geometry.point){
 								
 				layer  = L.geoJSON(null,{
@@ -326,7 +382,7 @@
 									
 								});
 								
-								layer.options.maxClusterRadius = 80;
+								/*layer.options.maxClusterRadius = 80;
 								
 								if(map.getZoom() > 8 && map.getZoom() <= 11 && layer.options.maxClusterRadius)
 									
@@ -334,7 +390,7 @@
 								
 							    else if(map.getZoom() > 11 && data.options.minClusterRadius)
 							    	
-							    	layer.options.maxClusterRadius = data.options.minClusterRadius || 10;
+							    	layer.options.maxClusterRadius = data.options.minClusterRadius || 10;*/
 								
 								layer.addLayer(markers);
 								

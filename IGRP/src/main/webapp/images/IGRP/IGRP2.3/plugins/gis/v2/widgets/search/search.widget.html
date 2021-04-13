@@ -86,46 +86,46 @@
 				</div>
 			</div>
 			<div class="search-div-admin widget-step" step-id="divAdmin" step-when="widget.activeDivAdmin">
-				<div class="form-group form-group-sm" widget-template="div-admin-ilh">
-					<select class="form-control select2 remote-change" data-target="con" data-value="ILH"  id="ilh" style="display:none">
-						<option value="">--- Selecionar Ilha ---</option>
+				<div class="form-group form-group-sm" widget-template="div-admin-nivel-1">
+					<select class="form-control select2 remote-change" data-target="nivel-2" data-value="nivel-1" id="nivel-1">
+						<option value="">--- Selecionar ---</option>
 						{{#each divData}}
 							<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
 						{{/each}}
 					</select>
 				</div>
-				<div class="form-group form-group-sm" widget-template="div-admin-con">
-					<select class="form-control select2 remote-change" id="con" data-value="CON" data-target="fre" style="display:none">
-						<option value="">--- Selecionar Concelho ---</option>
+				<div class="form-group form-group-sm" widget-template="div-admin-nivel-2">
+					<select class="form-control select2 remote-change" id="nivel-2" data-value="nivel-2" data-target="nivel-3">
+						<option value="">--- Selecionar ---</option>
 						{{#each divData}}
 							<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
 						{{/each}}
 					</select>
 				</div>
-				 <div class="form-group form-group-sm" widget-template="div-admin-fre">
-					<select class="form-control select2 remote-change" id="fre" data-value="FRE" data-target="cid-zon" style="display:none">
-						<option value="">--- Selecionar Frequesia ---</option>
+				 <div class="form-group form-group-sm" widget-template="div-admin-nivel-3">
+					<select class="form-control select2 remote-change" id="nivel-3" data-value="nivel-3" data-target="nivel-4">
+						<option value="">--- Selecionar ---</option>
 						{{#each divData}}
 							<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
 						{{/each}}
 					</select>
 				</div>
-				<div class="form-group form-group-sm" widget-template="div-admin-cid-zon">
-					<select class="form-control select2 remote-change" id="cid-zon" data-value="CID,ZON" data-target="bai-lug" style="display:none">
-					<option value="">--- Selecionar Cidade/Zona ---</option>
+				<div class="form-group form-group-sm" widget-template="div-admin-nivel-4">
+					<select class="form-control select2 remote-change" id="nivel-4" data-value="nivel-4">
+					<option value="">--- Selecionar ---</option>
 					{{#each divData}}
 						<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
 					{{/each}}
 					</select>
 				</div>
-				<div class="form-group form-group-sm" widget-template="div-admin-bai-lug">
+				<!-- <div class="form-group form-group-sm" widget-template="div-admin-bai-lug">
 					<select class="form-control select2" id="bai-lug" data-value="BAI,LUG" style="display:none">
-						<option value="">--- Selecionar Bairro/Lugar ---</option>
+						<option value="">--- Selecionar ---</option>
 						{{#each divData}}
 							<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
 						{{/each}}
 					</select>
-				</div>
+				</div> -->
 			</div>
 		</div>
 		
