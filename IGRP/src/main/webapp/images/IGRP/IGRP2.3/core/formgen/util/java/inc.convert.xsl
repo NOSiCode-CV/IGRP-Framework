@@ -20,22 +20,22 @@
 		<xsl:variable name="result">
 			<xsl:choose>
 				<xsl:when test="$from = 'String' and $to = 'LocalTime'">
-					<xsl:text>Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value"/><xsl:text>)?Core.convertStringToLocalTime(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>): null</xsl:text>
+					<xsl:text>Core.convertStringToLocalTime(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
 				</xsl:when>
 				<xsl:when test="$from = 'LocalTime' and $to = 'String'">
-					<xsl:value-of select="$value"/><xsl:text>!= null?</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString() : ""</xsl:text>
+					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
 				</xsl:when>
 				<xsl:when test="$from = 'String' and $to = 'LocalDate'">
-					<xsl:text>Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value"/><xsl:text>)?Core.convertStringToLocalDate(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, "dd-MM-yyyy"): null</xsl:text>
+					<xsl:text>Core.convertStringToLocalDate(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, "dd-MM-yyyy")</xsl:text>
 				</xsl:when>
 				<xsl:when test="$from = 'LocalDate' and $to = 'String'">
-					<xsl:value-of select="$value"/><xsl:text>!=null?</xsl:text><xsl:text>Core.convertLocalDateToString(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, "dd-MM-yyyy"): ""</xsl:text>
+					<xsl:text>Core.convertLocalDateToString(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, "dd-MM-yyyy")</xsl:text>
 				</xsl:when>
 				<xsl:when test="$from = 'String' and $to = 'LocalDateTime'">
-					<xsl:text>Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value"/><xsl:text>)?Core.convertStringToLocalDateTime(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, "dd-MM-yyyy"): null</xsl:text>
+					<xsl:text>Core.convertStringToLocalDateTime(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, "dd-MM-yyyy")</xsl:text>
 				</xsl:when>
 				<xsl:when test="$from = 'LocalDateTime' and $to = 'String'">
-					<xsl:value-of select="$value"/><xsl:text>!=null?</xsl:text><xsl:text>Core.convertLocalDateTimeToString(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, "dd-MM-yyyy - HH:mm"): ""</xsl:text>
+					<xsl:text>Core.convertLocalDateTimeToString(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, "dd-MM-yyyy - HH:mm")</xsl:text>
 				</xsl:when>
 				<xsl:when test="$from = 'String' and $to = 'int'">
 					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
@@ -83,10 +83,10 @@
 					<xsl:text>"Can not fill the upload field form!"</xsl:text>
 				</xsl:when>  
 				<xsl:when test="$from = 'Integer' and $to = 'hidden'">
-					<xsl:value-of select="$value"/><xsl:text>!= null?</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString() : ""</xsl:text>
+					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
 				</xsl:when>
 				<xsl:when test="$from = 'Integer' and $to = 'String'">
-					<xsl:value-of select="$value"/><xsl:text>!= null?</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString() : ""</xsl:text>
+					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
 				</xsl:when>
 				<xsl:when test=" $from = 'Integer' and $to = 'Date' ">
 					<xsl:text>Core.formatDate(</xsl:text><xsl:value-of select="$value"/><xsl:text>, "dd-mm-yyyy", "yyyy-mm-dd")</xsl:text>
@@ -128,16 +128,16 @@
 					<xsl:text>"The type in the DAO Class to save File must be a String"</xsl:text>					
 				</xsl:when>				
 				<xsl:when test="$from = 'BigInteger' and $to = 'String'">				
-					<xsl:value-of select="$value"/><xsl:text>!= null?</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString() : ""</xsl:text>					
+					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
 				</xsl:when>				
 				<xsl:when test="$from = 'BigInteger' and $to = 'hidden'">					
-					<xsl:value-of select="$value"/><xsl:text>!= null?</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString() : ""</xsl:text>				
+					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
 				</xsl:when>			
 				<xsl:when test="$from = 'double' and $to = 'String'">		
-					<xsl:value-of select="$value"/><xsl:text>!= null?</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString() : ""</xsl:text>				
+					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
 				</xsl:when>			
 				<xsl:when test="$from = 'int' and $to = 'String'">		
-					<xsl:value-of select="$value"/><xsl:text>!= null?</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString() : ""</xsl:text>				
+					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
 				</xsl:when>				
 				<xsl:when test=" $from = 'Image' and $to = 'String' ">				
 					<xsl:variable name="valuuid">			
@@ -187,16 +187,16 @@
 					</xsl:choose> 		
 				</xsl:when> 				
 				<xsl:when test="$from = 'Integer' and $to = 'Integer' and contains($block_name,'sep_row')">					
-					<xsl:value-of select="$value"/><xsl:text>!= null?</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString() : ""</xsl:text>					
+					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
 				</xsl:when>			
 				<xsl:when test="$from = 'Integer' and $to = 'Integer' and contains($block_name,'sep_form')">				
-					<xsl:value-of select="$value"/><xsl:text>!= null?</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString() : ""</xsl:text>				
+					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
 				</xsl:when>	
 				<xsl:when test="$from = 'String' and contains($to,'_FK#')">					
 					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>				
 				</xsl:when>				
 				<xsl:when test="$to = 'String' and contains($from,'_FK#')">					
-					<xsl:value-of select="$value"/><xsl:text>!= null?</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString() : ""</xsl:text>					
+					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
 				</xsl:when>				
 				<xsl:when test="$from = 'Integer' and $to = 'Integer' and contains($block_namechild,'get_row_sep')">					
 					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>				
@@ -205,7 +205,7 @@
 					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>					
 				</xsl:when>			
 				<xsl:when test="$to = 'String' and $block_namechild = 'core_get_param'">			
-					<xsl:value-of select="$value"/><xsl:text>!= null?</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString() : ""</xsl:text>				
+					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
 				</xsl:when>				
 				<xsl:otherwise>		
 					<xsl:value-of select="$value"></xsl:value-of>		
