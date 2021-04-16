@@ -170,12 +170,13 @@ public final class Core {
 		Igrp.getInstance().getRequest().getSession().setAttribute(key, value);
 	}
 
-	/**
-	 * return the applications host
+	/**	
+	 * Returns the applications host + /IGRP/app/webapps
+	 * Example: "http://<hostname>/<warName>/app/webapps"
 	 * 
-	 * 
-	 * @return
+	 * @return "http://<hostname>/<warName>/app/webapps"
 	 */
+	
 	public static String getHostName() {
 		HttpServletRequest req = Igrp.getInstance().getRequest();
 		return req.getRequestURL().toString();
