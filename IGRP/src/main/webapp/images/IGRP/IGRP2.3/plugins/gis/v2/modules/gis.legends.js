@@ -70,10 +70,22 @@
 								
 			    if (isValid && type == utils.geometry.point || isValid && type == utils.geometry.pointCluster){			   
 			    	
-			    	var symbolize = symbolizers[0].Point;			   
+			    	var symbolize = symbolizers[0].Point,
+			    	
+			    	    graphics  = symbolize.graphics;
 			 					
-					rtn = {size: symbolize.size, url: symbolize.url, color: symbolize.graphics[0].fill || '', mark: symbolize.graphics[0].mark || ''};
-			  
+					rtn = {size: symbolize.size, url: symbolize.url, color: '', mark: ''};
+										
+					for(var i in graphics){
+						
+						var graphic = graphics[i];
+						
+						rtn.color = rtn.color ? rtn.color : graphic.fill;
+						
+						rtn.mark = rtn.mark ? rtn.mark : graphic.mark;
+						
+					}
+					
 			    }else if (isValid && symbolizers.length === 1){
 			    	
 			    	var symbolize = symbolizers[0].Line || symbolizers[0].Polygon;	

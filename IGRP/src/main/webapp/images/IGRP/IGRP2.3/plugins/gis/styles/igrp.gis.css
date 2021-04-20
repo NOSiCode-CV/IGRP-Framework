@@ -639,3 +639,7 @@
 .marker-cluster-custom.marker-cluster-large div span{
 	line-height: 48px !important;
 }
+
+.marker-cluster-custom.marker-cluster-large, .marker-cluster-custom.marker-cluster-small, .marker-cluster-custom.marker-cluster-medium{
+	background-color: unset !important; /*rgb(187 182 180 / 60%) !important;*/	
+}

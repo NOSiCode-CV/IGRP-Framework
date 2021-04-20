@@ -383,6 +383,9 @@
 							
 							try{
 								
+								if (results.length == 1)
+									results[0].selectedId  = results[0].id;
+																
 								widget.setTemplateParam( 'div-admin-'+o.target, {'divData': results} );			
 																													
 								$('#'+o.target, widget.html).select2();
@@ -397,6 +400,8 @@
 							widget.loading(false);
 							
 						});
+					}else{
+						widget.loading(false);
 					}
 					
 				});
@@ -583,16 +588,14 @@
 				
 				input[0].setAttribute('disabled', true);
 				
+				console.log(widget.activeDivAdmin )
+				
 				if (!widget.activeDivAdmin){
 					
 					widget.activeDivAdmin =  true;
 					
-					widget.steps.divAdmin.activate();
-										
+					widget.steps.divAdmin.activate();										
 					
-				}else{
-					
-					clearSearch();
 				}
 				
 				//static file json 
@@ -666,6 +669,8 @@
 							}).addTo(Map);
 							
 							Map.highlightdivadmin = {'code' : opt.id, 'url' : widget.pathGeoJson}
+							
+							Map.highlightLayer = widget.highlight;
 							
 						}
 

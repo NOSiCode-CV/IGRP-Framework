@@ -72,8 +72,8 @@
 			
 			if(data.geomType == utils.geometry.pointCluster){
 				
-				map.clusterIndex = map.clusterIndex !== undefined ? -1 : 1;
-																
+				map.clusterIndex = map.clusterIndex !== undefined ? ( map.clusterIndex > 0 ? -1*map.clusterIndex : map.clusterIndex-1 )  : 1;
+																				
 				layer = L.markerClusterGroup({
 										
 					showCoverageOnHover: false,
@@ -96,7 +96,7 @@
 				        				        
 				        if (data.options.clusterColor){
 				        
-					        var myCustomColour = '#117da9';				               
+					        var customColour = '#162747';				               
 					        
 					        for (var i = 0; i < markersCluster.length; i++) {
 					        	
@@ -104,16 +104,19 @@
 					    		
 					    		style = Legend.Get(data, mCluster.feature);
 					    		
-					    		myCustomColour = style.color;
+					    		customColour = style.color ? style.color : customColour;
 					    	}	
 					        					               
-				        	const markerHtmlStyles = `background-color: ${myCustomColour};`;
+				        	const markerHtmlStyles = `background-color: ${customColour};`;
+				        	
+				        	var iconAncorX = layer.clusterIndex < -1 ? (sizev*75)/100 : layer.clusterIndex*(sizev/4),
+				        		iconAncorY = layer.clusterIndex < -1 ? (sizev*75)/100 : sizev/3;
 				        					        	
 				        	return L.divIcon({
 				        	    html: `<div style="${markerHtmlStyles}"><span>${count}</span></div>`,
 				                className: 'marker-cluster-custom marker-cluster marker-cluster-' + size,
 				                iconSize: [sizev, sizev],
-				                iconAnchor: [sizev/3, layer.clusterIndex*(sizev/3)]
+				                iconAnchor: [iconAncorX, iconAncorY ]
 				        	})
 				        
 				        }

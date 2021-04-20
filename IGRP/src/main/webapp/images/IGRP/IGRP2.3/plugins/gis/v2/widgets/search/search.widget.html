@@ -106,7 +106,11 @@
 					<select class="form-control select2 remote-change" id="nivel-3" data-value="nivel-3" data-target="nivel-4">
 						<option value="">--- Selecionar ---</option>
 						{{#each divData}}
-							<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
+						    {{#if selectedId}}
+						    	<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}" selected>{{name}}</option>
+						    {{else}}
+						    	<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
+						    {{/if}}							
 						{{/each}}
 					</select>
 				</div>
@@ -118,14 +122,6 @@
 					{{/each}}
 					</select>
 				</div>
-				<!-- <div class="form-group form-group-sm" widget-template="div-admin-bai-lug">
-					<select class="form-control select2" id="bai-lug" data-value="BAI,LUG" style="display:none">
-						<option value="">--- Selecionar ---</option>
-						{{#each divData}}
-							<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
-						{{/each}}
-					</select>
-				</div> -->
 			</div>
 		</div>
 		

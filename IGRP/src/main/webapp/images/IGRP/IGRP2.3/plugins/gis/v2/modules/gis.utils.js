@@ -498,7 +498,7 @@
 							    	}
 							    }
 							}).addTo(map);
-							
+													
 						});
 						
 					}
@@ -520,6 +520,10 @@
 						localStorage.removeItem("bounds-map");	
 						
 						localStorage.removeItem("highlightdivadmin-map");	
+						
+						if(map.highlightLayer)
+							
+							map.removeLayer(map.highlightLayer);
 						
 					}else{
 						
