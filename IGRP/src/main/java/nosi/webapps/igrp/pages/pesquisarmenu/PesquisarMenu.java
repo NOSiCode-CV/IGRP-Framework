@@ -54,6 +54,7 @@ public class PesquisarMenu extends Model{
 		private int ativo;
 		private int ativo_check;
 		private Integer ordem;
+		private String icon;
 		private String table_titulo;
 		private String pagina;
 		private int checkbox;
@@ -84,6 +85,13 @@ public class PesquisarMenu extends Model{
 		}
 		public Integer getOrdem(){
 			return this.ordem;
+		}
+
+		public void setIcon(String icon){
+			this.icon = icon;
+		}
+		public String getIcon(){
+			return this.icon;
 		}
 
 		public void setTable_titulo(String table_titulo){

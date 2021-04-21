@@ -83,6 +83,20 @@
 		    
 				 return encodeURI("data:image/svg+xml," + svg).replace('#','%23');
 			},
+			
+			svgCluster: function(o){
+				
+				 var svg = '<svg xmlns="http://www.w3.org/2000/svg" '+
+							   'width="100" height="100" version="1.1"> '+
+							   '<circle cx="50" cy="50" r="30" stroke="#117da9" fill="#117" stroke-width="4" stroke-opacity="0.5"/>'+
+							   '<text x="50%" y="60%" text-anchor="middle" fill="white" font-size="40px">'+o.value+'</text> '+
+							'</svg>';
+				 
+				 console.log(svg);
+		    
+				 return encodeURI("data:image/svg+xml," + svg).replace('#','%23');
+	
+			},
 
 		},
 

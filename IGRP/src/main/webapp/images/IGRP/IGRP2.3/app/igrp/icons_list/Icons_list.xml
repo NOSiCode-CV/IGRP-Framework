@@ -37,22 +37,12 @@
     <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Icons List</title>
-        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+        <icon_form type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <hidden name="p_fwl_search" type="hidden" maxlength="250" java-type="" tag="fwl_search"/>
                 <hidden name="p_choose_icon" type="hidden" maxlength="250" java-type="" tag="choose_icon"/>
             </fields>
-        </form_1>
-        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
-            <fields>
-                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[<p>Lista de &iacute;cones</p>
-]]>
-                    </value>
-                </sectionheader_1_text>
-            </fields>
-        </sectionheader_1>
+        </icon_form>
     </content>
     <blockly>
         <imports></imports>

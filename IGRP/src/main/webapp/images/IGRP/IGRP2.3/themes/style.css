@@ -642,7 +642,7 @@ border: 4px solid transparent;
 padding-top: 6px;
 padding-right: 5px;
 padding-bottom: 6px;
-padding-left: 25px;
+padding-left: 20px;
 padding-right: 6px;
 }
 
@@ -2304,7 +2304,7 @@ width : 100% !important;
 /* MENU ICON*/
 
 .menu-icon {
-margin-right: 7px;
+margin-right: 7px !important;
 }
 
 .menu-title {

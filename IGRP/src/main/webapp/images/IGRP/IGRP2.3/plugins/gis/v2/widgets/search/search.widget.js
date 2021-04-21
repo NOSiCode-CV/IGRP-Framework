@@ -12,7 +12,9 @@
 			
 			data    = widget.data(),
 			
-			timeout = function(){};
+			timeout = function(){},
+			
+			Map = app.viewer();
 			
 		widget.activeFilter = false;		
 		
@@ -31,6 +33,8 @@
  	 		layerAttributes  : []
 				
 		};
+		
+		widget.results = {};
 		
 		function ClearResults(){
 
@@ -331,54 +335,77 @@
 			
 			try{
 			
-				var cql_filter = '';
-				
-				for(var key in o.tipo_obj){
-					cql_filter += (cql_filter ? " or " : "") + "strToLowerCase(TIPO_OBJ) LIKE '%"+o.tipo_obj[key].toLowerCase()+"%'"
-				}
-				
-				cql_filter = ("(" + cql_filter + ")" ) + (o.id ?  ' and strToLowerCase(UNIDADE_ADMIN_ID) = ' + o.id:  '');
-								
-				options = {
-					cql_filter : cql_filter
-				}
-				
-				if(widget.request)
-					
-					widget.request.abort();
-					
-				widget.request = $.get(widget.divAdminLayer.Info.owsURL+'?service=WFS&request=GetFeature&typeName='+widget.divAdminLayer.Info.workspaceLayer+'&version=1.0.0&outputFormat=application/json', options);
-				
-			    widget.request.then(function(json){
-			    	
-					var data    = json.features,
-					
-						results = [];
-						
-					data.forEach(function(feature){
-						
-						var properties = feature.properties,
-						
-							id = properties['id'] ? properties['id']  : ( feature.id ? feature.id.split('.')[1] : '' );
-									
-						results.push({
-							name    : properties['NOME'] || properties['nome'],
-							id      : id,
-							feature : feature
-						});
-					});				
+					//clear
+				if (!o.parent && o.id == '' ){
 					
 					try{
-						widget.setTemplateParam( 'div-admin-'+o.target, {'divData': results} );
-						//$(".select2", widget.html).select2('destroy');
-						$('.select2', widget.html).select2();
+						
+						widget.setTemplateParam( 'div-admin-'+o.target, {'divData': [] } );			
+																								
+						$('#'+o.target, widget.html).trigger("change");
+
+						
 					}catch(e){
 						console.log(e)
 					}
 					
 					widget.loading(false);
-	
+					
+					return false;
+				}
+				
+				$.getJSON(path+'/plugins/gis/data/config.json', function(json){
+										
+					if(json.hasOwnProperty(o.tipo_obj)){
+						
+						widget.pathGeoJson = path+'/plugins/gis/data'+json[o.tipo_obj];
+										
+						$.getJSON(widget.pathGeoJson, function(json) {
+							
+							var data    = json.features,
+							
+								results = [];		
+							
+							data.forEach(function(feature, i){
+																							
+								var properties = feature.properties;
+								    	
+								if( properties['name'] && properties['code'] )
+									results.push({
+										name    : properties['name'],
+										id      : properties['code'],
+										feature : feature
+									});
+								
+							});
+							
+							widget.results[o.target] = json
+							
+							try{
+								
+								if (results.length == 1)
+									results[0].selectedId  = results[0].id;
+																
+								widget.setTemplateParam( 'div-admin-'+o.target, {'divData': results} );			
+																													
+								$('#'+o.target, widget.html).select2();
+								
+								$('#'+o.target, widget.html).trigger("change");
+		
+								
+							}catch(e){
+								console.log(e)
+							}
+							
+							widget.loading(false);
+							
+						});
+					}else{
+						widget.loading(false);
+					}
+					
 				});
+					
 			}catch(e){
 				console.log(e)
 				widget.loading(false);
@@ -398,9 +425,7 @@
 			txtCql = $('#search-txt-cql textarea', widget.html);
 
 			submitSearch= $('#search-form-submit', widget.html);
-			
-			$('.select2', widget.html).select2();
-						
+									
 			widget.html.on('click', '.search-item', function(){
 				
 				var item    = $(this),
@@ -428,7 +453,7 @@
 						app.viewer().fitBounds( L.latLngBounds(sw,ne) );
 						
 						layer.highlight( id, function(){
-							
+														
 							item.addClass('active');
 							
 						});
@@ -562,73 +587,60 @@
 			widget.html.on('click', '#search-div-admin', function(){
 				
 				input[0].setAttribute('disabled', true);
-								
+				
+				console.log(widget.activeDivAdmin )
+				
 				if (!widget.activeDivAdmin){
-					
-					layers = app.layers.getLayers();
 					
 					widget.activeDivAdmin =  true;
 					
-					widget.steps.divAdmin.activate();
-										
-					if(layers && layers[0]){
-						
-						layers.forEach(function(layer, i){
-							
-							var layerData  = layer.data();
-							
-							if( layerData.options.divAdmin ){
-																
-								widget.divAdminLayer = layer;
-								
-								opt = {
-									target   : 'ilh',
-									tipo_obj : ['ILH']
-								}
-								
-								
-								clearTimeout(timeout);
-
-								timeout = setTimeout(setRemoteComobox(opt), 600 );
-								
-								widget.loading(true);																
-
-							}
-							
-						});
-					}
-				}else{
+					widget.steps.divAdmin.activate();										
 					
-					clearSearch();
+				}
+				
+				//static file json 
+				if( widget.activeDivAdmin ){
+					
+					var opt = {
+						target   : 'nivel-1',
+						tipo_obj : 'global',
+						parent   : true
+					}
+					
+					clearTimeout(timeout);
+
+					timeout = setTimeout(setRemoteComobox(opt), 600 );
+					
+					widget.loading(true);	
+					
 				}
 			});
 			
 			widget.html.on('change', '.remote-change', function(){
 				
-				var field  = $(this),
-				
-					obj    = $('select[id="'+field.data('target')+'"]').data('value'),
+				var field     = $(this),
+									
+					bounds    = field.find(':selected').attr('bounds'),
 					
-					bounds = field.find(':selected').attr('bounds'),
+					featureId = field.find(':selected').attr('feature-id'),
 					
-					id 	   = field.find(':selected').attr('feature-id');
-								
-				if(obj)
-					obj = obj.split(',');
-								
+					obj       = field.data('value');
+																
 				opt = {
 					target   : field.data('target'),
 					id		 : field.val(),
-					tipo_obj : obj
+					tipo_obj : field.val()
 				}
 				
-				if(!field.val()) return false,
-				
-				clearTimeout(timeout);
-
-				timeout = setTimeout(setRemoteComobox(opt), 600 );
-				
-				widget.loading(true);	
+				if(opt.target){
+					
+					clearTimeout(timeout);
+	
+					timeout = setTimeout(setRemoteComobox(opt), 600 );
+					
+					widget.loading(true);	
+				}
+												
 				
 				try{
 									
@@ -641,16 +653,26 @@
 							sw = L.latLng([bounds._southWest.lng, bounds._southWest.lat]);//?? lat lng switched
 						
 						app.viewer().fitBounds( L.latLngBounds(sw, ne) );
-												
-						layer   = app.layers.get(widget.divAdminLayer.id);
-						
-						layer.highlight( id, function(){
 							
-							//item.addClass('active');
+						if ( widget.results[obj] &&  opt.id !== '' ){
 							
-						});
-						
-						layer.show();
+							if(widget.highlight)
+								
+								Map.removeLayer(widget.highlight);
+							
+							var jsonObject = widget.results[obj];
+																
+							widget.highlight = L.geoJson(jsonObject, {
+							    filter: function(feature, layer) {
+							        return feature.properties['code'] === opt.id;
+							    }
+							}).addTo(Map);
+							
+							Map.highlightdivadmin = {'code' : opt.id, 'url' : widget.pathGeoJson}
+							
+							Map.highlightLayer = widget.highlight;
+							
+						}
 
 					}
 					
@@ -672,7 +694,7 @@
 				SetEvents();
 												
 				LoadFields();
-								
+							
 			});
 			
 			widget.on( 'deactivate', function(){

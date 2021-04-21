@@ -59,12 +59,19 @@
           <div class="gis-panel right"></div>
           
           <div class="gis-panel bottom">
+          
+           <div  type="button" class="btn-group-vertical gis-panel-inner" role="group">
+          	  <button class="gis-lock-bounds btn btn-default" id="gis-lock-bounds"  text-color="primary">
+	          	<i class="fa fa-unlock"></i>
+	          </button>
+	       </div>
           	
           	<div  type="button" class="btn-group-vertical gis-panel-inner" role="group">
           	  <button class="gis-locate btn btn-default"  text-color="primary">
 	          	<i class="fa fa-compass"></i>
 	          </button>
 	       </div>
+	       
 	       <div  type="button" class="btn-group-vertical gis-panel-inner" role="group">
               <button class="gis-expand btn btn-default"  text-color="primary">
 	          	<i class="fa fa-expand"></i>

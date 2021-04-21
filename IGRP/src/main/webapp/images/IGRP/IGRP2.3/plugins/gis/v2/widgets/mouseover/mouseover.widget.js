@@ -60,9 +60,7 @@
 				}
 									
 			}		
-			
-			console.log(properties)
-			
+						
 			var content = Utils.feature.properties.toHTML(properties);
 									
 			return content;

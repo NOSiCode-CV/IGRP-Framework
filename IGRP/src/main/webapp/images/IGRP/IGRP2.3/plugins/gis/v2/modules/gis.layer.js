@@ -68,12 +68,71 @@
 				
 				options = {}, style = {},
 				
-				Legend = GIS.module('Legends');			
+				Legend = GIS.module('Legends');
 			
 			if(data.geomType == utils.geometry.pointCluster){
-								
-				layer = L.markerClusterGroup();
 				
+				map.clusterIndex = map.clusterIndex !== undefined ? ( map.clusterIndex > 0 ? -1*map.clusterIndex : map.clusterIndex-1 )  : 1;
+																				
+				layer = L.markerClusterGroup({
+										
+					showCoverageOnHover: false,
+					
+					iconCreateFunction: function(cluster) {
+
+						var count = cluster.getChildCount(),
+						    
+					     	markersCluster = cluster.getAllChildMarkers(),
+					     	
+				        	size = "small", sizev = 40;
+						
+				        if (count > 10 && count <= 100) {
+				        	size = "medium";
+				        	sizev = 48;
+				        }else if(count > 100){
+				        	size = "large";
+				        	sizev = 58;
+				        }
+				        				        
+				        if (data.options.clusterColor){
+				        
+					        var customColour = '#162747';				               
+					        
+					        for (var i = 0; i < markersCluster.length; i++) {
+					        	
+					    		var mCluster = markersCluster[i];
+					    		
+					    		style = Legend.Get(data, mCluster.feature);
+					    		
+					    		customColour = style.color ? style.color : customColour;
+					    	}	
+					        					               
+				        	const markerHtmlStyles = `background-color: ${customColour};`;
+				        	
+				        	var iconAncorX = layer.clusterIndex < -1 ? (sizev*75)/100 : layer.clusterIndex*(sizev/4),
+				        		iconAncorY = layer.clusterIndex < -1 ? (sizev*75)/100 : sizev/3;
+				        					        	
+				        	return L.divIcon({
+				        	    html: `<div style="${markerHtmlStyles}"><span>${count}</span></div>`,
+				                className: 'marker-cluster-custom marker-cluster marker-cluster-' + size,
+				                iconSize: [sizev, sizev],
+				                iconAnchor: [iconAncorX, iconAncorY ]
+				        	})
+				        
+				        }
+				        
+			        	return new L.DivIcon({
+				            html: '<div><span>' + count + '</span></div>',
+				            className: 'marker-cluster marker-cluster-' + size,
+				            iconSize: new L.Point(40, 40)
+				        });
+				        
+				    },				
+					
+				});
+				
+				layer.clusterIndex = map.clusterIndex;
+								
 			}else if(data.geomType == utils.geometry.point){
 								
 				layer  = L.geoJSON(null,{
@@ -192,12 +251,12 @@
 				
 			}
 			
-			layer.highlight = function(fid, callback){
+			layer.highlight = function(fid, callback){				
 				
 				var featureLayer = layer.find( fid );
-												
+																
 				layer.unHighlightAll();
-								
+				
 				if(featureLayer){
 					
 					//highlight lines
@@ -326,7 +385,7 @@
 									
 								});
 								
-								layer.options.maxClusterRadius = 80;
+								/*layer.options.maxClusterRadius = 80;
 								
 								if(map.getZoom() > 8 && map.getZoom() <= 11 && layer.options.maxClusterRadius)
 									
@@ -334,7 +393,7 @@
 								
 							    else if(map.getZoom() > 11 && data.options.minClusterRadius)
 							    	
-							    	layer.options.maxClusterRadius = data.options.minClusterRadius || 10;
+							    	layer.options.maxClusterRadius = data.options.minClusterRadius || 10;*/
 								
 								layer.addLayer(markers);
 								

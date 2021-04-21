@@ -16,6 +16,7 @@ public class PesquisarMenuView extends View {
 	public Field ativo;
 	public Field ativo_check;
 	public Field ordem;
+	public Field icon;
 	public Field table_titulo;
 	public Field pagina;
 	public Field checkbox;
@@ -68,6 +69,10 @@ public class PesquisarMenuView extends View {
 		ordem.setLabel(gt("Posição"));
 		ordem.propertie().add("name","p_ordem").add("type","number").add("min","").add("max","").add("maxlength","30").add("total_footer","false").add("java-type","").add("calculation","false").add("mathcal","").add("numberformat","").add("showLabel","true").add("group_in","");
 		
+		icon = new PlainTextField(model,"icon");
+		icon.setLabel(gt("Icon"));
+		icon.propertie().add("name","p_icon").add("type","plaintext").add("disable_output_escaping","true").add("html_class","").add("maxlength","30").add("showLabel","true").add("group_in","");
+		
 		table_titulo = new PlainTextField(model,"table_titulo");
 		table_titulo.setLabel(gt("Título"));
 		table_titulo.propertie().add("name","p_table_titulo").add("type","plaintext").add("maxlength","100").add("disable_output_escaping","false").add("html_class","").add("showLabel","true").add("group_in","");
@@ -115,6 +120,7 @@ public class PesquisarMenuView extends View {
 		table_1.addField(ativo);
 		table_1.addField(ativo_check);
 		table_1.addField(ordem);
+		table_1.addField(icon);
 		table_1.addField(table_titulo);
 		table_1.addField(pagina);
 		table_1.addField(checkbox);
@@ -138,6 +144,7 @@ public class PesquisarMenuView extends View {
 		t1_menu_principal.setValue(model);
 		ativo.setValue(model);
 		ordem.setValue(model);
+		icon.setValue(model);
 		table_titulo.setValue(model);
 		pagina.setValue(model);
 		checkbox.setValue(model);

@@ -458,6 +458,87 @@
 				
 			},
 			
+			lock: {
+				
+				add: function(map, settings){
+					
+					var bounds = localStorage.getItem("bounds-map"),
+					
+						highlight  = localStorage.getItem("highlightdivadmin-map");
+					
+					    _lock  = L.DomUtil.get('gis-lock-bounds');
+					    					
+					if(bounds){
+						
+						bounds = JSON.parse(bounds);						
+					
+						var ne = L.latLng([ bounds._northEast.lat, bounds._northEast.lng]),
+							
+							sw = L.latLng([ bounds._southWest.lat, bounds._southWest.lng]);
+						
+						map.fitBounds( L.latLngBounds(sw,ne) );		
+						
+						_lock.innerHTML = '<i class="fa fa-lock" aria-hidden="true"></i>';
+						
+					}
+					
+					if(highlight){
+						
+						highlight  = JSON.parse(highlight);
+												
+						$.getJSON(highlight.url, function(json) {
+							
+							L.geoJson(json, {
+							    filter: function(feature, layer) {
+							    	return feature.properties['code'] === highlight['code'];
+							    },
+							    style: function(feature) {
+							    	if(feature.properties['code'] == highlight['code']){
+							    		return {fillColor: '#3f0', color: '#0f0',fill:true, fillOpacity: 0.2}
+							    	}
+							    }
+							}).addTo(map);
+													
+						});
+						
+					}
+					
+					return this;
+								
+				},
+				
+				click: function(map){
+					
+					var bounds = localStorage.getItem("bounds-map"),
+					
+					    _lock  = L.DomUtil.get('gis-lock-bounds');
+					
+					if(bounds){		
+						
+						_lock.innerHTML = '<i class="fa fa-unlock" aria-hidden="true"></i>';
+						
+						localStorage.removeItem("bounds-map");	
+						
+						localStorage.removeItem("highlightdivadmin-map");	
+						
+						if(map.highlightLayer)
+							
+							map.removeLayer(map.highlightLayer);
+						
+					}else{
+						
+						_lock.innerHTML = '<i class="fa fa-lock" aria-hidden="true"></i>';
+						
+						localStorage.setItem("bounds-map", JSON.stringify(map.getBounds()));	
+						
+						if (map.highlightdivadmin !== undefined)
+							
+							localStorage.setItem("highlightdivadmin-map", JSON.stringify(map.highlightdivadmin));	
+						
+					}				
+					
+				}
+			},
 		},
 		
 	});
