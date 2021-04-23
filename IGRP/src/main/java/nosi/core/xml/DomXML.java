@@ -2,9 +2,13 @@ package nosi.core.xml;
 
 import java.io.IOException;
 import java.io.StringReader;
+
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -24,9 +28,12 @@ public class DomXML {
 	
 	public Document extractXml(String xml) {
 		try {
-			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
+			//df.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
+			//df.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); // compliant
+			DocumentBuilder builder = df.newDocumentBuilder();	
 			InputSource src = new InputSource();
-			src.setCharacterStream(new StringReader(xml));
+			src.setCharacterStream(new StringReader(xml.replace("&nbsp;", " ")));
 			return builder.parse(src);
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
