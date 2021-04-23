@@ -3,7 +3,7 @@
         <xsl:value-of select="#path#/label"/>
     </label>
     <div class="input-group">
-        <input type="text" value="{#path#/value}" class="form-control gen-lookup #[change]#" id="#parent.tag#_#tag#" name="{#path#/@name}" #[required]# #[readonly]# maxlength="#[maxlength]#">
+        <input type="text" value="{#path#/value}" class="form-control gen-lookup #[change]# #[desclabel]#" id="#parent.tag#_#tag#" name="{#path#/@name}" #[required]# #[readonly]# maxlength="#[maxlength]#" placeholder="#[placeholder]#">
             <xsl:call-template name="setAttributes">
                 <xsl:with-param name="field" select="#path#"/>
             </xsl:call-template>
