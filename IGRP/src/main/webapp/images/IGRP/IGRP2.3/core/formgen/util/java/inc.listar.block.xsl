@@ -80,8 +80,6 @@
 					<xsl:value-of select="$searchs_tot"></xsl:value-of>
 				</xsl:if>
 			</xsl:if>
-		
-			<xsl:value-of select="$newlineTab1"/>
 			<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daofilter"/><xsl:text> = new </xsl:text><xsl:value-of select="$dao"/><xsl:text>().find();</xsl:text>
 			<xsl:value-of select="$andWheres"/>
 			<xsl:value-of select="$newlineTab1"/>
