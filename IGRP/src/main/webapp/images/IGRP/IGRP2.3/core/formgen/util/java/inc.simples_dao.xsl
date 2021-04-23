@@ -31,6 +31,7 @@
 					select="statement[@name='value2']" />
 			</xsl:call-template>
 		</xsl:variable>	
+		
 		<xsl:variable name="code">
 			<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daofilter"/><xsl:text> = new </xsl:text><xsl:value-of select="$dao"/><xsl:text>().find();</xsl:text>
 			<xsl:value-of select="$andWheres"/>
