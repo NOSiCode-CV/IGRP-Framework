@@ -118,17 +118,13 @@
      	
      	<xsl:variable name="your_code">
 			<!--  <xsl:value-of select="document($url)/your_code"/> -->
-		</xsl:variable>	
-		
-		<xsl:call-template name="newlineTab2"/>
-			
+		</xsl:variable>				
 			<xsl:call-template name="blockly.element.custom.global"></xsl:call-template> 
-			
+			<xsl:text>/* Start-Code-Block (custom-actions)  */</xsl:text>	
 			<xsl:call-template name="blockly.elements">
 				<xsl:with-param name="elements" select="//rows/blockly/xml/block/statement[@name='custom_actions']/block"/>
 			</xsl:call-template> 
-		<xsl:call-template name="newlineTab2"/>
-		
+		<xsl:text>/* End-Code-Block  */</xsl:text>	
      	<xsl:call-template name="start-code">
      		<xsl:with-param name="type" select="'custom_actions'"/>
      		<xsl:with-param name="url" select="$url"/>
@@ -370,12 +366,12 @@
 							<xsl:call-template name="setBoxValue"/>	
 							<xsl:call-template name="end-example"/>
 						</xsl:if>
-						
+						<xsl:value-of select="$newlineTab2"/>		
+						<xsl:text>/* Start-Code-Block (index) */</xsl:text>	
 						<xsl:call-template name="blockly.elements">
 							<xsl:with-param name="elements" select="//rows/blockly/xml/block/statement[@name='index']/block"/>
 						</xsl:call-template> 
-						
-
+						<xsl:text>/* End-Code-Block (index) */</xsl:text>	
 						<xsl:call-template name="start-code">
 				     		<xsl:with-param name="type" select="concat($action,'')"/>
 				     		<xsl:with-param name="url" select="$url"/>				    
@@ -419,12 +415,14 @@
 						<xsl:value-of select="'  Use model.validate() to validate your model'"/>
 						<xsl:call-template name="newlineTab2"/>
 						
-						<xsl:call-template name="end-example"/>					
-						
+						<xsl:call-template name="end-example"/>	
+										
+						<xsl:call-template name="newlineTab2"/>
+						<xsl:text>/* Start-Code-Block (</xsl:text><xsl:value-of select="$action_name_"></xsl:value-of><xsl:text>)  */</xsl:text>	
 						<xsl:call-template name="blockly.elements">
 							<xsl:with-param name="elements" select="//rows/blockly/xml/block/statement[@name=$action_name_]/block"/>
 						</xsl:call-template> 			
-				
+						<xsl:text>/* End-Code-Block  */</xsl:text>	
 						<xsl:call-template name="start-code">
 				     		<xsl:with-param name="type" select="concat($action,'')"/>
 				     		<xsl:with-param name="url" select="$url"/>

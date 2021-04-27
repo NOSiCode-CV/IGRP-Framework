@@ -35,12 +35,12 @@
 				block.getInput('ADD' + id + 'STATE2').setVisible(true);
 				block.getInput('ADD' + id + 'STATE3').setVisible(false);
 			}
-		}
+		};
 		var getDDField = function(idx) {
 			return new Blockly.FieldDropdown(FILTER, function(input_type) {
-				appendMutationFields(input_type, idx)
-			})
-		}
+				appendMutationFields(input_type, idx);
+			});
+		};
 		for (var i = 1; i <= block.itemCount_; i++) {
 			if (!block.getInput('ADD' + i)) {
 				var fdpFilter = new getDDField(i);
@@ -56,7 +56,7 @@
 		if (ar_wheres && ar_wheres[0])
 			ar_wheres.forEach(function(v, x) {
 				appendMutationFields(v, x + 1);
-			})
+			});
 		while (block.getInput('ADD' + i)) {
 			block.removeInput('ADD' + i);
 			block.removeInput('ADD' + i + 'STATE1');
@@ -130,7 +130,7 @@
 	var UpdateShape_inserts = function(block,contador) {
 		for (var i = 1; i <= contador; i++) {
 			if (!block.getInput('SEPARATOR' + i)) {
-				block.appendDummyInput('SEPARATORIL' + i).appendField("add insert");
+				block.appendDummyInput('SEPARATORIL' + i).appendField("add persist");
 				block.appendStatementInput('SEPARATOR' + i);
 			}
 		}
@@ -138,6 +138,23 @@
 			block.removeInput('SEPARATOR' + i);
 			block.removeInput('SEPARATORIL' + i);
 			i++;
+		}
+	};
+	
+	/** ***** Inserts do Crud *************** */
+	var UpdateShape_crud = function(block, crud) {
+		console.log(crud);
+		if (block.getInput("param_value") != null) {
+			if (crud == 'delete') {
+				block.getInput("param_value").setVisible(true);
+				block.getInput("value2").setVisible(false);
+			} else if (crud == 'update') {
+				block.getInput("param_value").setVisible(true);
+				block.getInput("value2").setVisible(true);
+			}else if (crud == 'insert'){
+				block.getInput("param_value").setVisible(false);
+				block.getInput("value2").setVisible(true);
+			}
 		}
 	};
 
@@ -149,10 +166,12 @@
 			container.setAttribute('order', order);
 			var limit = this.getFieldValue('find');
 			container.setAttribute('limit', limit);
+			var crud = this.getFieldValue('cruddrop');
+			container.setAttribute('crud', crud);
 			container.setAttribute('count', this.itemCount_);
 			for (var x = 1; x <= this.itemCount_; x++) {
 				var itemInput = this.getFieldValue('ADD' + x + 'FILTER');
-				container.setAttribute('mutation-' + x, itemInput)
+				container.setAttribute('mutation-' + x, itemInput);
 			}
 			return container;
 		},
@@ -161,6 +180,7 @@
 			var arr = [];
 			var order = xmlElement.getAttribute('order');
 			var limit = xmlElement.getAttribute('limit');
+			var crud = xmlElement.getAttribute('crud');
 			this.itemCount_ = parseInt(xmlElement.getAttribute('count'));
 			for (var x = 1; x <= this.itemCount_; x++) {
 				arr.push(xmlElement.getAttribute('mutation-' + x));
@@ -168,6 +188,7 @@
 			UpdateShape_where(block, arr);
 			UpdateShape_order(block, order);
 			UpdateShape_limit(block, limit);
+			UpdateShape_crud(block, crud);
 			UpdateShape_mut_num(block, this.itemCount_);
 		},
 		decompose : function(workspace) {
@@ -234,34 +255,42 @@
 		}, ListMutationSettings),
 		
 		/***** BLOCO GRÁFICO *******/
-		grafico : $.extend({
+		list_simple_dao : $.extend({
 			init : function(block) {
+			/***** MUTAÇÃO LIMIT ****/
+			var limite = IGRP_BLOCKLY_DROPS.findListDao;
+			var dropdown = new Blockly.FieldDropdown(limite, function(limit) {
+				UpdateShape_limit(block, limit);
+			});
+			block.appendDummyInput("find").appendField(dropdown, 'find');
+			block.appendDummyInput("limit_value").appendField("limit value")
+				 .appendField(new Blockly.FieldTextInput(''), 'limit').setVisible(false);	
+			block.moveInputBefore("find", "value2");
 			}
+		}, ListMutationSettings),
+		
+		update_simple_dao : $.extend({
+		}, ListMutationSettings),
+		
+		apagar : $.extend({
+		}, ListMutationSettings),
+		
+		grafico : $.extend({
 		}, ListMutationSettings),
 
 		combo_dao : $.extend({
-			init : function(block) {
-			}
 		}, ListMutationSettings),
 
 		statbox : $.extend({
-			init : function(block) {
-			}
 		}, ListMutationSettings),
 
 		index_editar : $.extend({
-			init : function(block) {
-			}
 		}, ListMutationSettings),
 
 		separator : $.extend({
-			init : function(block) {
-			}
 		}, ListMutationSettings),
 
 		formlist : $.extend({
-			init : function(block) {
-			}
 		}, ListMutationSettings),
 		
 		/** ******* ELEMENTOS COM FILTRO WHERE (FIM) *************** */
@@ -334,11 +363,11 @@
 				var pxchecked = (this.getFieldValue('UNSEL') == 'TRUE');
 				container.setAttribute('pxchecked', pxchecked);
 				return container;
-				},
+				};
 				block.domToMutation = function(xmlElement) {
 				var pxchecked = (xmlElement.getAttribute('pxchecked') == 'true');
 				UpdateShape_checkbox(block,pxchecked);
-				}
+				};
 			}
 		},
 
@@ -363,7 +392,7 @@
 					var itemInput = this.getFieldValue('CORE_FUNCTION');
 					container.setAttribute('hover_type', itemInput);
 					return container;
-				}, 
+				}; 
 				block.domToMutation = function(xmlElement) {
 					var itemInput = xmlElement.getAttribute('hover_type');
 					this.updateShape_(itemInput);
@@ -383,7 +412,7 @@
 						block.getInput("value4").setVisible(false);
 						block.getInput("value5").setVisible(false);
 					}
-				}
+				};
 			}
 		},
 		/******* BLOCO CORE GET *******/
@@ -440,11 +469,11 @@
 						block.getInput("value4").setVisible(false);
 						block.getInput("value5").setVisible(false);
 					}
-				}
+				};
 			}
 		},
 
-	}
+	};
 	/** ******* FIM IGRP_BLOCKLY_ELEMENTS *************** */
 
 	/******* BLOCO SET DAO *******/
@@ -470,7 +499,7 @@
 		},
 
 		block.updateShape_ = function(input_type) {
-			var strSplit = input_type.split('::'), type = strSplit[0], val = strSplit[1], inputExists = this.getInput('dao_rela');
+			var strSplit = input_type.split('::'), type = strSplit[0], inputExists = this.getInput('dao_rela');
 			if (type.includes("_FK#")) {
 				if (!inputExists) {
 					this.setInputsInline(true);
@@ -481,7 +510,7 @@
 				} catch (err) {
 				}		
 			}			
-		}
+		};
 	});
 
 	/******* BLOCO GET DAO *******/
@@ -502,13 +531,13 @@
 			var itemInput = this.getFieldValue('DAO_FIELD');
 			container.setAttribute('hover_type',itemInput);
 			return container;
-		},
+		};
 		block.domToMutation = function(xmlElement) {
 			var itemInput = xmlElement.getAttribute('hover_type');
 			this.updateShape_(itemInput);
-		},
+		};
 		block.updateShape_ = function(input_type) {
-			var strSplit = input_type.split('::'), type = strSplit[0], val = strSplit[1], inputExists = this.getInput('dao_rela');
+			var strSplit = input_type.split('::'), type = strSplit[0], inputExists = this.getInput('dao_rela');
 			if (type.includes("_FK#")) {
 				if (!inputExists) {
 					this.appendValueInput('dao_rela').setCheck();
@@ -519,7 +548,7 @@
 				} catch (err) {
 				}	
 			}		
-		}
+		};
 	});
 
 })();
