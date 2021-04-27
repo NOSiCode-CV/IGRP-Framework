@@ -29,7 +29,12 @@
 	           className 	   : 'btn btn-success btn-xs',
 	           exportOptions   : {
 	               columns     : ':not(.igrp-table-ctx-th)'
-	           }
+	           },
+			   customize : function(doc){
+					var tcontent = doc.content[1] || doc.content[0];
+
+					console.log(tcontent);
+			   }
 	       }
 
 		};
@@ -136,11 +141,13 @@
 							$(th).addClass('is-grouped');
 							
 							tdInfo.addClass('is-grouped');
+
+							$('tfoot td[td-name="'+thName+'"]',table).addClass('is-grouped');
 							
-							var thFoot = $('tfoot td[td-name="'+thName+'"]',table);
+							/*var thFoot = $('tfoot td[td-name="'+thName+'"]',table);
 							
 							if(thFoot[0])
-								thFoot.remove();
+								thFoot.remove();*/
 							
 						}
 	
@@ -148,7 +155,7 @@
 					
 				});
 				
-				rows.parents('table').find('.is-grouped').remove();
+				//rows.parents('table').find('.is-grouped').remove();
 			}
 		},
 

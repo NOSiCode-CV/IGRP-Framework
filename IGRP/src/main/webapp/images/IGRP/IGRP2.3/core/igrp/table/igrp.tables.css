@@ -556,3 +556,7 @@ table.igrp-right-click-actions>tbody>tr:after{
 	text-align:left;	
 }
 
+table .is-grouped{
+  display: none !important;
+}
+
