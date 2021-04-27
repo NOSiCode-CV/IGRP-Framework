@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 import static nosi.core.i18n.Translator.gt;
 
@@ -31,12 +33,12 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
 
+import javax.jws.WebService;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import org.apache.commons.io.IOUtils;
 
-import nosi.core.config.Config;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.integration.pdex.service.AppConfig;
 import nosi.core.integration.pdex.service.AppConfig.App;
@@ -464,11 +466,16 @@ public class EnvController extends Controller {
 		}
 	}
 	
+	// XML for Blocky's consume 
 	public Response actionRetornarxml() throws IllegalArgumentException{
 		String app = Core.getParam("app_name");
-		String xml = new EnvController.GetFieldsDAO().gerarXML(this.getConfig(), app); 
+		XMLWritter xml = new XMLWritter(); 
+		xml.startElement(app);
+		this.gerarXMLFromDAO(app, xml); 
+		this.gerarXMLFromServices(app, xml);
+		xml.endElement();
 		this.format = Response.FORMAT_XML;
-		return this.renderView(xml);
+		return this.renderView(xml.toString());
 	} 
 	
 	private String buildAppUrlUsingAutentikaForSSO(Application env) { 
@@ -486,96 +493,105 @@ public class EnvController extends Controller {
 		return url;
 	}
 	
-	public static class GetFieldsDAO {
-		
-		public Map<String,String> listFilesDirectory(String path) {
-			Map<String,String> files = new LinkedHashMap<>();
-			if(FileHelper.fileExists(path)){
-			File folder = new File(path);
-			   for (final File fileEntry : folder.listFiles()) {
-			       if (fileEntry.isDirectory()) {
-			           files.putAll(listFilesDirectory(fileEntry.toString()));
-			       } else {
-			       	files.put(fileEntry.getName(), fileEntry.getAbsolutePath());
-			       }
-			   }
-			   return files;
-			}
-			return null;
+	public Map<String,String> listFilesDirectory(String path) {
+		Map<String,String> files = new LinkedHashMap<>();
+		if(FileHelper.fileExists(path)){
+		File folder = new File(path);
+		   for (final File fileEntry : folder.listFiles()) {
+		       if (fileEntry.isDirectory()) {
+		           files.putAll(listFilesDirectory(fileEntry.toString()));
+		       } else {
+		       	files.put(fileEntry.getName(), fileEntry.getAbsolutePath());
+		       }
+		   }
 		}
-		
-		
-		public String gerarXML(Config conf, String dad){
-			
-			StringBuilder xml = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
-			
-			xml.append("<dao>");
-			
-			if(!dad.equals("")) {
-				String x;
-				String workSpace = conf.getRawBasePathClassWorkspace();
-				if(Core.isNotNull(workSpace))
-					x = conf.getBasePahtClassWorkspace(dad)+File.separator+"dao";
-				else
-					x= conf.getPathServerClass(dad)+File.separator+"dao";
-				
-				Map<String,String> dao = listFilesDirectory(x);
-				
-				if( dao != null ) {
-					
-					for (Map.Entry<String, String> entry : dao.entrySet()) {
-						
-						try {
-							 String path=entry.getValue().substring(entry.getValue().indexOf("nosi"+File.separator+"webapps"+File.separator)).replace(".java", "").replace(File.separator, ".");
-							 String nome_classe = entry.getKey().replace(".java", "");
-							 
-							Class<?> obj = Class.forName(path);
-							
-							 xml.append("<" +nome_classe+  ">");
-							
-							 Field[] fields = obj.getDeclaredFields();
-						        
-					         
-					         for (int i = 0; i < fields.length; i++) 
-					         {
-					        	 
-					        	 if(!fields[i].getName().startsWith("pc") && !fields[i].getName().startsWith("class") && !fields[i].getName().startsWith("serialVersion"))
-					        	 {
-					        	 xml.append("<field>"
-					        	 		+ "<nome>" +
-					        	 		fields[i].getName()
-					        	 		+ "</nome>"
-					        	 		
-					        	 		+ "<tipo>");
-					        	 
-							        	 xml.append(fields[i].getType().getSimpleName()); 
-					        	 		if(fields[i].getAnnotation(ManyToOne.class) != null || fields[i].getAnnotation(OneToOne.class) != null) 
-					        	 			xml.append("_FK#");
-							        	 		 
-					        	 		xml.append("</tipo>"); 
-					        	 
-					        	 xml.append("</field>");
-					        	 
-					        	 }
-					         }
-					         
-					         xml.append("</" +nome_classe+ ">");
-					         
-						} catch (Exception e) {	
-							e.printStackTrace();
-						}
+		return files;
+	}
+	
+	public void gerarXMLFromServices(String dad, XMLWritter xml){
+		xml.startElement("services");
+		String x = this.getConfig().getPathServerClass(dad) + File.separator + "services";
+		if(Core.isNotNull(this.getConfig().getRawBasePathClassWorkspace()))
+			x = this.getConfig().getBasePahtClassWorkspace(dad) + File.separator + "services";
+		Map<String,String> services = listFilesDirectory(x);
+		if(!services.isEmpty()) {
+			for (Map.Entry<String, String> entry : services.entrySet()) {
+				try {
+					String fullClassName = entry.getValue().substring(entry.getValue().indexOf("nosi"+File.separator+"webapps"+File.separator)).replace(".java", "").replace(File.separator, ".");
+					Class<?> c = Class.forName(fullClassName); 
+					if(c.isInterface() && c.isAnnotationPresent(WebService.class)) {
+						String className = entry.getKey().replace(".java", "");
+						xml.startElement(className);
+							xml.startElement("operations");
+								Method []methods = c.getMethods(); 
+								if(methods != null) 
+									for(Method m : methods) {
+										xml.startElement(m.getName()); 
+											
+											xml.startElement("params"); 
+												Parameter parameters[] = m.getParameters(); 
+												if(parameters != null) 
+													for(Parameter p : parameters) {
+														xml.startElement(p.getName()); 
+															xml.text(p.getType().getTypeName());
+														xml.endElement();
+													}
+											xml.endElement();
+											
+											xml.startElement("return"); 
+												xml.text(m.getReturnType().getName());
+											xml.endElement();
+											
+										xml.endElement();
+									}
+							xml.endElement();
+						xml.endElement();
 					}
-					
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				
 			}
-			
-			xml.append("</dao>");
-			
-			return xml.toString();
-			
 		}
+		xml.endElement();
+	}
 		
+	public void gerarXMLFromDAO(String dad, XMLWritter xml){
+		xml.startElement("dao");
+		String x = this.getConfig().getPathServerClass(dad) + File.separator + "dao";
+		if(Core.isNotNull(this.getConfig().getRawBasePathClassWorkspace()))
+			x = this.getConfig().getBasePahtClassWorkspace(dad) + File.separator + "dao";
+		Map<String,String> dao = listFilesDirectory(x);
+		if(!dao.isEmpty()) {
+			for (Map.Entry<String, String> entry : dao.entrySet()) {
+				try {
+					String path = entry.getValue().substring(entry.getValue().indexOf("nosi"+File.separator+"webapps"+File.separator)).replace(".java", "").replace(File.separator, ".");
+					String nome_classe = entry.getKey().replace(".java", "");
+					Class<?> obj = Class.forName(path);
+					xml.startElement(nome_classe);
+					Field[] fields = obj.getDeclaredFields();
+			         for (int i = 0; i < fields.length; i++) {
+			        	 if(!fields[i].getName().startsWith("pc") && !fields[i].getName().startsWith("class") && !fields[i].getName().startsWith("serialVersion")){
+			        		 xml.startElement("field");
+				        		 xml.startElement("nome");
+				        		 	xml.text(fields[i].getName());
+				        		 xml.endElement();
+				        		 xml.startElement("tipo");
+					        		 String aux = fields[i].getType().getSimpleName(); 
+					        	 		if(fields[i].getAnnotation(ManyToOne.class) != null || fields[i].getAnnotation(OneToOne.class) != null) 
+					        	 			aux += "_FK#";  
+					        	 	xml.text(aux);
+				        	 	xml.endElement();
+			        	 	xml.endElement();
+			        	 
+			        	 }
+			         }
+			         xml.endElement();
+				} catch (Exception e) {	
+					e.printStackTrace();
+				}
+			}
+		}
+		xml.endElement();
 	}
 	
 	/*----#end-code----*/
