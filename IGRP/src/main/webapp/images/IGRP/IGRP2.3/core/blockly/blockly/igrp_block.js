@@ -63,7 +63,7 @@ function SetupBlockly() {
 						var field = $(f), type = field.attr('type'), name = field.attr('name'), title = field.attr('title'), 
 						editable = field.attr('editable');
 						if (title)
-							value.appendField(title)
+							value.appendField(title);
 						switch (type) {
 							case 'dropdown':
 								var fieldValue = eval(field.attr('options'));
@@ -82,7 +82,7 @@ function SetupBlockly() {
 							break;		
 							case 'field_text':
 								var textfield = field.attr('options'), fieldObject = new Blockly.FieldTextInput(textfield);
-								value.appendField(fieldObject,name)
+								value.appendField(fieldObject,name);
 							break;		
 							case 'image':
 								var fWidth = field.attr('field-width') || 15, fHeight = field.attr('field-height') || 15, src = field.attr('src');
@@ -94,7 +94,7 @@ function SetupBlockly() {
 											if (updateShape) {
 												//script.UpdateShape_checkbox(v,0);
 											}
-										})
+										});
 								value.appendField(Field,name);
 							break;		
 							case 'text':
@@ -102,7 +102,7 @@ function SetupBlockly() {
 								value.appendField(text);
 							break;
 						}
-					})
+					});
 				}
 				});
 				} else {
@@ -145,7 +145,7 @@ function SetupBlockly() {
 		Blockly.Java[type] = function(block) {
 			return '';
 		};
-	})
+	});
 }
 
 Blockly.Blocks['where_t'] = {
@@ -168,7 +168,7 @@ Blockly.Blocks['where'] = {
 
 Blockly.Blocks['insert_t'] = {
 	init : function() {
-		this.appendDummyInput().appendField("add to transaction");
+		this.appendDummyInput().appendField("transaction");
 		this.appendStatementInput("SCRIPT");
 		this.setNextStatement(true);
 		this.setColour(230);
@@ -177,7 +177,7 @@ Blockly.Blocks['insert_t'] = {
 
 Blockly.Blocks['separatori'] = {
 	init : function() {
-		this.appendDummyInput().appendField("insert");
+		this.appendDummyInput().appendField("add persist");
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
 		this.setColour(230);

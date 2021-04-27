@@ -13,7 +13,7 @@ Form-list = BLOCK_FORM-LIST
 View = BLOCK_VIEW
 Chart = BLOCK_GRAFICO
 Stabox = BLOCK_STATBOX
-Get Dao = GET_DAO_OBJECTS
+Dao Blocks = DAO_BLOCKS
 
 */
 /**
@@ -26,7 +26,7 @@ goog.require('Blockly.Java');
 	// ***************** DECLARATE_VARIABLES **********************
 var GEN = null,
 	blockyInit = false,
-    COMPARISON, RETURNS, CORE, ORDER, FIND, CHECK_SELECT, TIPO, WHERE, FILTER, ANDOR, FINDLIST, TRU_FAL;   
+    COMPARISON, RETURNS, CORE, ORDER, FIND, CHECK_SELECT, TIPO, WHERE, FILTER, ANDOR, FINDLIST,FINDLISTDAO, TRU_FAL, CRUD;   
 	COMPARISON = [["==", "=="],["!=", "!="],[">=", ">="], ["<=", "<="],[">=", ">="], [">", ">"], ["<", "<"]],
 	RETURNS = [["forward", "forward"],["redirect", "redirect"]], 
 	CORE = [["--", "--"],["Atual Date", "data_atual"], ["Atual User Name", "nome_utilizador_atual"],["Atual User Email", "email_utilizador_atual"],
@@ -34,7 +34,9 @@ var GEN = null,
 	        ["Get Domain", "get_domain"]],
 	ORDER = [["id", ""],["Order by Asc", "order_by_asc"],["Order by Desc", "order_by_desc"]],
 	FIND = [["--", "--"],["all", "todos"],["one", "um"]], 
-	FINDLIST = [["all", "TODOSS"],["one", "UMM"],["limit", "limit"]],
+	FINDLIST = [["all", "TODOSS"],["limit", "limit"]],
+	FINDLISTDAO = [["one", "UMM"],["limit", "limit"],["all", "TODOSS"]],
+	CRUD = [["insert", "insert"],["update", "update"],["delete", "delete"]],
 	CHECK_SELECT = [["checks", "String::checks"],["unchecks", "String::unchecks"]],
 	TIPO = [["Inteiro", "Inteiro"],["Data", "Data"],["Texto", "Texto"]],
 	WHERE = [["=", "WHERE_EQ"],["!=", "WHERE_DIF"],["<", "WHERE_LT"],["<=", "WHERE_LTE"],[">", "WHERE_GT"],[">=", "WHERE_GTE"],
@@ -984,7 +986,7 @@ $('#active_selenium').on('click', function() {
 		}
 	});
 	
-    // ***************** GET_DAO_OBJECTS ***********************
+    // ***************** DAO_BLOCKS ***********************
 	
 	var iurlArr = path.split('/'),
 		iurl   = iurlArr[0] == '' ? iurlArr[1] : 'IGRP';
@@ -999,23 +1001,57 @@ $('#active_selenium').on('click', function() {
 		if(temdao != ''){
 			$('#toolbox').append(
 					'<category id="dao" name="DAO" colour="160" class="blocly-dynamic">'
-							+'<block type="update_simple_dao" color ="160" prev-statement="" next-statement="" inline="true">'
-								+'<value type="value" name="param_edit" title="update">'
-									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/right-arrow.svg"></field>'
+							+'<block type="list_simple_dao" color ="160" prev-statement="" next-statement="" mutator="where" inline="true">'
+								+'<value type="dummy" name="value1" title="select">'
+									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
 									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 									+'<field type="text" options="DAO"></field>'
 									+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-									+'<field type="text" options="find"></field>'
+									+'<field type="checkbox" name="selecionar" title="keep connection?" options="FALSE"></field>'
 								+'</value>'
 								+'<value name="value2" type="statement">'
 								+'</value>'
 							+'</block>'
 							+'<block type="dao_obj" output="" color="160" class="blocly-dynamic">'
-								+'<value type="dummy" >'
+								+'<value type="dummy">'
 									+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
 									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 								+'</value>'	
 							+'</block>'
+							+'<block type="insert_simple_dao" color ="160" prev-statement="" next-statement="" inline="true">'
+								+'<value type="dummy" name="value1" title="insert">'
+									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/right-arrow.svg"></field>'
+									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
+									+'<field type="text" options="DAO"></field>'
+									+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+								+'</value>'
+								+'<value type="statement" name="value2">'
+								+'</value>'
+							+'</block>'
+							+'<block type="update_simple_dao" color ="160" prev-statement="" next-statement="" mutator="where" inline="true">'
+							+'<value type="dummy" name="value1" title="update">'
+								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/right-arrow.svg"></field>'
+								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
+								+'<field type="text" options="DAO"></field>'
+								+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							+'</value>'
+							+'<value type="value" name="get_pa">'
+								+'<field type="text" options="find"></field>'
+							+'</value>'
+							+'<value type="statement" name="value2">'
+							+'</value>'
+						+'</block>'
+						+'<block type="apagar" color ="160" prev-statement="" next-statement="" mutator="where" inline="true">'
+							+'<value type="dummy" name="value1" title="delete">'
+								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/right-arrow.svg"></field>'
+								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
+								+'<field type="text" options="DAO"></field>'
+								+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							+'</value>'
+							+'<value type="value" name="get_pa">'
+								+'<field type="text" options="find"></field>'
+							+'</value>'
+						+'</block>'
 					+'</category><sep class="blocly-dynamic"></sep>'
 			);
 				if(addforeign!=0){
@@ -1033,19 +1069,7 @@ $('#active_selenium').on('click', function() {
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/send-icon.svg"></field>'
 							+'</value>'
 						+'</block>'
-					);
-				
-					$('#dao').append(
-						'<block type="apagar" color="160" prev-statement="" next-statement="" inline="true">'
-						+'<value name="valor1" type="value">'
-							+'<field type="text" options="delete"></field>'
-							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/delete-icon.svg"></field>'
-							+'<field type="dropdown" name="dao" title="in DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-							+'<field type="dropdown" name="iskey" title="where param" options="IGRP_BLOCKLY_DROPS.keys"></field>'
-							+'<field type="text" options="="></field>'
-						+'</value>'
-						+'</block>'
-					);
+					);		
 				}	
 	}
 		
@@ -1099,6 +1123,7 @@ $('#active_selenium').on('click', function() {
 			checkbox_t : checkbox_table,
 			ID_MODEL : form_id,
 			findList : FINDLIST,
+			findListDao : FINDLISTDAO,
 			keys : key_model,
 			fields_TABLE : fields_table,
 			fields_SEP : fields_separator,
@@ -1106,7 +1131,8 @@ $('#active_selenium').on('click', function() {
 			chart_model : chart,
 			HELPERS : helpers,
 			BUT_TABLE :but_table,
-			READ :read
+			READ :read,
+			crud :CRUD
 
 		});
 
@@ -1150,6 +1176,7 @@ function GetBlocklyImports(){
 			daosImports   = $('block[type*="set-dao-"], block[type*="get-dao-"]',xml),
 			fieldDaos     = $('field[name="dao"]', xml),
 			Fields 		  = $('field', xml),
+			listSimpledao = $('block[type="list_simple_dao"]',xml),
 			fieldsImportsMap = {
 				'Date' : true,
 				'File' : true,
@@ -1192,6 +1219,8 @@ function GetBlocklyImports(){
 			rtn+='<import type="combo_dao">Combo Dao</import>';
 		if(checkImports[0])
 			rtn+='<import type="checkbox_table">Check-box Import</import>';
+		if(listSimpledao[0])
+			rtn+='<import type="list_simple_dao">List Dao Import</import>';
 		if(daosImports[0] || fieldDaos[0]){
 			var incs = {};
 			daosImports.each(function(i, dao){
