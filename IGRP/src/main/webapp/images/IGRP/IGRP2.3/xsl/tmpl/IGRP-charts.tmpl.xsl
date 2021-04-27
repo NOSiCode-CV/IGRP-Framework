@@ -122,7 +122,7 @@
       <div id="id-{$graph-id}" class="IGRP_graph">
         <xsl:if test="$tipo != 'tablecharts'">
           <xsl:attribute name="style">
-            <xsl:value-of select="concat('height:',$height,'px;')"/>
+            <xsl:value-of select="concat('height:',$height,'px;overflow: scroll;')"/>
           </xsl:attribute>   
         </xsl:if>
       </div>

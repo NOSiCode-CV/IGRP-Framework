@@ -81,7 +81,7 @@
         </div>
       </xsl:if>
 
-      <div id="id-{$graph-id}" class="IGRP_graph" style="height:{$height}px;"></div>
+      <div id="id-{$graph-id}" class="IGRP_graph" style="height:{$height}px;overflow: scroll;"></div>
     </div>
   </xsl:template>
   
