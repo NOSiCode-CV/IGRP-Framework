@@ -522,12 +522,12 @@ public class EnvController extends Controller {
 					if(c.isInterface() && c.isAnnotationPresent(WebService.class)) {
 						String className = entry.getKey().replace(".java", "");
 						xml.startElement(className);
+							xml.setElement("full_class_name", c.getName());
 							xml.startElement("operations");
 								Method []methods = c.getMethods(); 
 								if(methods != null) 
 									for(Method m : methods) {
 										xml.startElement(m.getName()); 
-											
 											xml.startElement("params"); 
 												Parameter parameters[] = m.getParameters(); 
 												if(parameters != null) 
@@ -537,11 +537,12 @@ public class EnvController extends Controller {
 														xml.endElement();
 													}
 											xml.endElement();
-											
 											xml.startElement("return"); 
-												xml.text(m.getReturnType().getName());
+												xml.startElement("tipo");
+													xml.text(m.getReturnType().getName());
+												xml.endElement();
+												xml.addXml(generateXMLFieldsStructure(m.getReturnType()));
 											xml.endElement();
-											
 										xml.endElement();
 									}
 							xml.endElement();
@@ -592,6 +593,24 @@ public class EnvController extends Controller {
 			}
 		}
 		xml.endElement();
+	} 
+	
+	private String generateXMLFieldsStructure(Class obj) {
+		XMLWritter xml = new XMLWritter(); 
+		Field[] fields = obj.getDeclaredFields();
+		if(fields != null && fields.length > 0) {
+			xml.startElement("fields");
+				for(Field field : fields) {
+					xml.startElement("field");
+						xml.setElement("nome", field.getName());
+						xml.setElement("tipo", field.getType().getName());
+						if(field.getType().getName().startsWith("nosi.webapps"))
+							return generateXMLFieldsStructure(field.getClass()); 
+					xml.endElement();
+				}
+			xml.endElement();
+		}
+		return xml.toString(); 
 	}
 	
 	/*----#end-code----*/
