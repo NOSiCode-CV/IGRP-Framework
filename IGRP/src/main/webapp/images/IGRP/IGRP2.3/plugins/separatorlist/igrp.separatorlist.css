@@ -117,3 +117,27 @@
     min-width: 1em;
     margin-right: 0.5em;
 }
+
+table tr.row-edited{
+	border: 1px solid #ec971f;
+	border-bottom: 0;
+	border-top: 0;
+}
+
+table tr.row-edited .table-btn{
+	position: relative;
+}
+
+.table-row-undo{
+	display: none;
+    position: absolute;
+    top: 7px;
+    left: -23px;
+	z-index: 5;
+	box-shadow: 0px 4px 7px #7b7b7b;
+	color: #fff;
+}
+
+table tr.row-edited:hover .table-row-undo{
+	display: block;
+}
