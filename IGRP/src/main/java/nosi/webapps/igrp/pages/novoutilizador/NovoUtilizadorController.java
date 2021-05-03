@@ -63,7 +63,7 @@ public class NovoUtilizadorController extends Controller {
 			Integer idApp = Core.findApplicationByDad(dad).getId();
 			model.setAplicacao(idApp);
 			view.aplicacao.propertie().add("disabled", "true");
-			view.btn_gravar.addParameter("p_aplicacao", model.getAplicacao());
+			view.btn_gravar.addParameter(view.aplicacao.getParamTag(),model.getAplicacao());
 		}
 		if (id_prof != 0) {
 			ProfileType prof = Core.findProfileById(id_prof);
@@ -111,7 +111,7 @@ public class NovoUtilizadorController extends Controller {
 		/*----#start-code(gravar)----*/
 
 		if (Core.isHttpPost()) {
-			Boolean sucess = false;
+			boolean sucess = false;
 			if(this.getConfig().getAutenticationType().equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value())) 
 				sucess = this.ldap(model);
 			else 
@@ -153,7 +153,7 @@ public class NovoUtilizadorController extends Controller {
 						.andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
 						.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).all();
 				for (Iterator<Profile> iterator = result.iterator(); iterator.hasNext();) {
-					Profile profile = (Profile) iterator.next();
+					Profile profile = iterator.next();
 //				The profile was deleted before
 					profile.setType("PROF");
 					profile = profile.update();
@@ -223,7 +223,7 @@ public class NovoUtilizadorController extends Controller {
 	}
 
 	private User checkGetUserLdap(String email) {
-		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
+		ArrayList<LdapPerson> personArray = new ArrayList<>();
 		User userLdap = null;
 		
 		try {
@@ -282,7 +282,7 @@ public class NovoUtilizadorController extends Controller {
 			e.printStackTrace();
 		}
 
-		if (personArray != null && personArray.size() > 0) {
+		if (personArray != null && !personArray.isEmpty()) {
 			for (int i = 0; i < personArray.size(); i++) {
 				userLdap = new User();
 				LdapPerson person = personArray.get(i);
@@ -291,11 +291,12 @@ public class NovoUtilizadorController extends Controller {
 					userLdap.setName(person.getName());
 				else if (person.getDisplayName() != null && !person.getDisplayName().isEmpty())
 					userLdap.setName(person.getDisplayName());
-				else
+				else if (person.getFullName() != null && !person.getFullName().isEmpty())
 					userLdap.setName(person.getFullName());
+				else 
+					userLdap.setName(person.getMail().substring(0,person.getMail().indexOf("@")));
 
 				userLdap.setUser_name(person.getMail().toLowerCase().trim());
-
 				userLdap.setEmail(person.getMail().trim().toLowerCase());
 //			The user is not activated because the email send is to activate/confirm the account
 				userLdap.setStatus(0);
