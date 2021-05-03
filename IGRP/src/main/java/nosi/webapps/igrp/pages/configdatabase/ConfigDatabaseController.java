@@ -240,6 +240,7 @@ public class ConfigDatabaseController extends Controller {
 				}
 			}
 			if (obj.delete(obj.getId())) {
+				FileHelper.forceDelete(new Config().getPathConexao()+obj.getName()+"."+obj.getApplication().getDad().toLowerCase() + ".cfg.xml");
 				Core.setMessageSuccess();
 			}else
 				Core.setMessageError();
