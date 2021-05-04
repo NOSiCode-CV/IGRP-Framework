@@ -65,6 +65,9 @@
                     select.append(option);
 
                 });
+                
+                if(select.is('[item-value]'))
+                    select.val(select.attr('item-value').split(','));
 
                 com.select2Init({
                     field : select
