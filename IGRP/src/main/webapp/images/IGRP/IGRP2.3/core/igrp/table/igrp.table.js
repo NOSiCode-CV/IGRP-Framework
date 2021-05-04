@@ -10,7 +10,11 @@
 		var str = tmp.textContent || tmp.innerText || "";
 
 		return $.trim(str);
-	 }
+	};
+
+	var exportOptionsFormat = function(data, node){
+		return $('.table-info-group-main',$(node))[0] ? $('.table-info-group-main',$(node)).text() : stripHtml(data);
+	}
 	
 	var exportOptions = {
 
@@ -20,7 +24,12 @@
 	           titleAttr       : 'Exportar para PDF',
 	           className 	   : 'btn btn-danger btn-xs',
 	           exportOptions   : {
-	               columns     : ':not(.igrp-table-ctx-th)'
+	               columns     : ':not(.igrp-table-ctx-th)',
+				   format	   : {
+						body : function ( data, row, column, node ) {
+							return exportOptionsFormat(data,node);
+						}
+					}
 	           },
 	           customize: function (doc) {
 	        	   var tcontent = doc.content[1] || doc.content[0];
@@ -39,7 +48,7 @@
 	                columns    : ':not(.igrp-table-ctx-th)',
 				    format	   : {
 						body : function ( data, row, column, node ) {
-							return $('.table-info-group-main',$(node))[0] ? $('.table-info-group-main',$(node)).text() : stripHtml(data);
+							return exportOptionsFormat(data,node);
 						}
 					}
 	           }
