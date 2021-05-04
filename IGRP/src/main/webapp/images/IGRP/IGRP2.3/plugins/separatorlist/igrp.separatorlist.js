@@ -325,6 +325,9 @@ $.fn.separatorList = function(o){
 				var genType = $(f).parents('[item-type]').attr('item-type');
 				var rowVal  = val;
 
+				if(rowVal)
+					$(f).attr('item-value',rowVal);
+
 
 				if(ftype != 'file'){
 					
@@ -538,7 +541,7 @@ $.fn.separatorList = function(o){
 
 				storageRows 	  = storageRows[sepName];
 
-				if(storageRows){
+				if(storageRows && $('tbody tr td span.table-row-undo',sl)[0]){
 					$('tbody tr',sl).each(function(i,row){
 						var idx = $(row)[0].rowIndex -1,
 							tag = 'tr-'+idx;
