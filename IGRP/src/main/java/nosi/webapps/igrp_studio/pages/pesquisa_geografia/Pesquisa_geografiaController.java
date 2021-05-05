@@ -142,11 +142,11 @@ public class Pesquisa_geografiaController extends Controller {
 	private void addListget(List<Pesquisa_geografia.Treemenu_1> list_geo, JSONObject local, Pesquisa_geografiaView view) {
 		if (Core.isNotNull(local)) {
 			Pesquisa_geografia.Treemenu_1 tab_geo = new Pesquisa_geografia.Treemenu_1();
-			tab_geo.setTreemenu_1_tmid("" + Core.toBigDecimal(local.getString("id")).toBigInteger());
+			tab_geo.setTreemenu_1_tmid("" + Core.toBigDecimal(local.optString("id")).toBigInteger());
 			tab_geo.setTreemenu_1_link_desc(local.getString("nome"));
 			
 			try {
-				tab_geo.setNivel(local.getString("nivel"));
+				tab_geo.setNivel(local.optString("nivel"));
 				}catch (Exception e) {}
 			tab_geo.setTreemenu_1_child("1"); 
 			int aux = 0; 
