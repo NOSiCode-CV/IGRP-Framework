@@ -53,6 +53,12 @@ var DATEFIELD = function(type,params){
 		});
 
 		field.setPropriety({
+			name  : 'disabledBeforetoday',
+			label : 'Disable Before Today',
+			value : false 
+		});
+
+		field.setPropriety({
 			name  	: 'daysoff',
 			label 	: 'Days Off',
 			value 	: false,
