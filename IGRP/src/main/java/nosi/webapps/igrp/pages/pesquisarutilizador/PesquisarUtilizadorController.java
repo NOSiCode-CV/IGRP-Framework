@@ -1,18 +1,21 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
-import java.io.IOException;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.json.JSONObject;
-
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -32,13 +35,17 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Natus rem mollit anim doloremque sit elit stract i' as nominho,'3' as range_1,'Iste perspiciatis magna amet iste omnis deserunt iste sit doloremque totam magna mollit sed consecte' as nome,'Voluptatem adipiscing unde deserunt aliqua amet laudantium deserunt adipiscing natus mollit unde vol' as tb_email,'Ipsum deserunt dolor accusantium amet mollit aliqu' as perfile,'hidden-f7f5_0270' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Doloremque officia natus anim dolor totam perspici' as nominho,'9' as range_1,'Lorem iste totam deserunt aliqua elit stract ipsum laudantium stract anim sed laudantium ut anim acc' as nome,'Sed consectetur unde voluptatem accusantium labore unde magna natus unde aperiam ut sit iste consect' as tb_email,'Stract amet officia sit dolor anim unde rem adipis' as perfile,'hidden-6aaf_9cca' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 		//model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=utilizador"));
+		
+		
+		view.ativo.setVisible(false); 
 		
       if(!Core.getCurrentUser().getUser_name().equalsIgnoreCase("igrpweb@nosi.cv"))
 			view.btn_editar.setVisible(false);
@@ -94,6 +101,7 @@ public class PesquisarUtilizadorController extends Controller {
 			table1.setPerfile(p.getProfileType().getApplication().getName() + "/"
 					+ p.getProfileType().getOrganization().getName() + "/" + p.getProfileType().getDescr());
 			table1.setId("" + p.getId());
+			
 			lista.add(table1);
 		}	
 
@@ -141,6 +149,7 @@ public class PesquisarUtilizadorController extends Controller {
 		  return this.forward("igrp","NovoUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (convidar)  *//* End-Code-Block  */
 		/*----#start-code(convidar)----*/
    
       // this.addQueryString("p_aplicacao",  model.getAplicacao());
@@ -172,6 +181,7 @@ public class PesquisarUtilizadorController extends Controller {
 		  return this.forward("igrp","RegistarUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (adicionar_utilizador)  *//* End-Code-Block  */
 		/*----#start-code(adicionar_utilizador)----*/
 
 		/*----#end-code----*/
@@ -191,6 +201,7 @@ public class PesquisarUtilizadorController extends Controller {
 		  return this.forward("igrp","PesquisarUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (pesquisar)  *//* End-Code-Block  */
 		/*----#start-code(pesquisar)----*/
 	
 			
@@ -214,6 +225,7 @@ public class PesquisarUtilizadorController extends Controller {
 		  return this.forward("igrp","RegistarUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (editar)  *//* End-Code-Block  */
 		/*----#start-code(editar)----*/
 		 
       if (Core.isNotNull(Core.getParam("p_tb_email"))) {
@@ -238,9 +250,10 @@ public class PesquisarUtilizadorController extends Controller {
 		  this.addQueryString("p_nome",Core.getParam("p_nome"));
 		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
-		  return this.forward("igrp","PesquisarUtilizador","index",this.queryString()); //if submit, loads the values
+		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (assiocar_menu)  *//* End-Code-Block  */
 		/*----#start-code(assiocar_menu)----*/
 		int id=Core.getParamInt("p_id");
 		this.addQueryString("p_id",id)
@@ -263,9 +276,10 @@ public class PesquisarUtilizadorController extends Controller {
 		  this.addQueryString("p_nome",Core.getParam("p_nome"));
 		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
-		  return this.forward("igrp","PesquisarUtilizador","index",this.queryString()); //if submit, loads the values
+		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (assiocar_transacao)  *//* End-Code-Block  */
 		/*----#start-code(assiocar_transacao)----*/
 		this.addQueryString("p_id",Core.getParamInt("p_id"))
 			.addQueryString("userEmail", Core.getParam("p_tb_email"))
@@ -285,9 +299,10 @@ public class PesquisarUtilizadorController extends Controller {
 		  this.addQueryString("p_nome",Core.getParam("p_nome"));
 		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
-		  return this.forward("igrp","PesquisarUtilizador","index",this.queryString()); //if submit, loads the values
+		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (assiocar_etapa)  *//* End-Code-Block  */
 		/*----#start-code(assiocar_etapa)----*/
 		Profile p = new Profile().findOne(Core.getParamInt("p_id"));
       	if(p!=null)
@@ -311,6 +326,7 @@ public class PesquisarUtilizadorController extends Controller {
 		  return this.forward("igrp","NovoUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (convidar_user)  *//* End-Code-Block  */
 		/*----#start-code(convidar_user)----*/
 		Integer id = Core.getParamInt("p_id");		
 		Profile p = new Profile().findOne(id);
@@ -338,6 +354,7 @@ public class PesquisarUtilizadorController extends Controller {
 		  return this.forward("igrp","PesquisarUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (eliminar)  *//* End-Code-Block  */
 		/*----#start-code(eliminar)----*/
 		String id = Core.getParam("p_id");
 		if (id != null) {
@@ -364,116 +381,28 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#end-code----*/
 			
 	}
-	
-		
-		
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
-//	public Response actionListaGeral() throws IOException, IllegalArgumentException, IllegalAccessException {
-//		PesquisarUtilizador model = new PesquisarUtilizador();
-//		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
-//			model.load();
-//		}
-//		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();
-//		// condicao para pesquisar com filtros
-//		List<User> users = new ArrayList<>();
-//
-//		ProfileType pp = new ProfileType().findOne(Core.getCurrentProfile());
-//		if (pp != null && pp.getCode().equalsIgnoreCase("ADMIN")) {
-//			users = Core.findUserByEmail(model.getEmail())
-//					.andWhere("user_name", "=", model.getUsername()).all();
-//		}
-//		// Preenchendo a tabela
-//		for (User p : users) {
-//			PesquisarUtilizador.Table_1 table1 = new PesquisarUtilizador.Table_1();
-//			table1.setTb_email(p.getEmail());
-//			table1.setNome(p.getUser_name());
-//			table1.setNominho(p.getName());
-//			table1.setPerfile(p.getStatus() == 1 ? "ATIVO" : "INATIVO");
-//			table1.setId("" + p.getId());
-//			lista.add(table1);
-//		}
-//		// Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
-//		PesquisarUtilizadorView view = new PesquisarUtilizadorView();
-//		view.aplicacao.setVisible(false);
-//		view.perfil.setVisible(false);
-//		view.organica.setVisible(false);
-//		view.id.setParam(true);
-//		view.email.setParam(true);
-//		view.btn_adicionar_utilizador.setVisible(false);
-//
-//		view.btn_eliminar.setLink("eliminarUser");
-//		view.btn_eliminar.setTitle("Alterar Estado");
-//		view.btn_eliminar.setImg("");
-//
-//		switch (this.getConfig().getAutenticationType()) {
-//		case "ldap":
-//			view.btn_editar.setLink("igrp", "ldap-user", "index_");
-//			view.btn_editar.setTarget("_self");
-//			break;
-//		case "db":
-//		default: {
-//			view.btn_editar.setLink("editarUser");
-//			view.btn_editar.setTarget("submit");
-//		}
-//		}
-//
-//		view.btn_convidar_user.setTarget("submit");
-//		view.perfil.setLabel("Estado");
-//		view.nome.setLabel("Username");
-//		view.nominho.setLabel("Nome");
-//		view.btn_pesquisar.setLink("listaGeral");
-//		view.table_1.addData(lista);
-//		view.table_1.setTitle("Lista Geral de Utilizadores");
-//     view.setModel(model);
-//		return this.renderView(view);
-//	}
-//
-//	public Response actionEditarUser() throws IOException {
-//
-//		if (Igrp.getMethod().equalsIgnoreCase("post")) {
-//			String id = Igrp.getInstance().getRequest().getParameter("p_id");
-//			if (id != null) {
-//				User p = new User().findOne(Integer.parseInt(id));
-//				if (p != null) {
-//					return this.redirect("igrp", "RegistarUtilizador", "editar", "p_id=" + p.getId());
-//				}
-//			}
-//		}
-//		return this.redirectError();
-//
-//	}
-//
-//	public Response actionEliminarUser() throws IOException {
-//
-//		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-//		if (id != null) {
-//			User p = new User().findOne(Integer.parseInt(id));
-//			if (p.getStatus() == 1)
-//				p.setStatus(0);
-//			else
-//				p.setStatus(1);
-//			p = p.update();
-//			if (p != null) {
-//				Core.setMessageSuccess();
-//				return this.forward("igrp", "PesquisarUtilizador", "lista_geral");
-//			}
-//		}
-//		return this.redirectError();
-//
-//	}
-  
+
+
     public Response actionChangeStatus(){
       this.format = Response.FORMAT_JSON;
-      Integer id = Core.getParamInt("p_ativo");
+      String id = Core.getParam("p_id");
       String status = Core.getParam("p_ativo_check");
+      
       boolean response = false;
       try {
-          if(id != null) {
-              User u =Core.findUserById(id);
-              if(u != null) {
-                  u.setStatus(status.equals("true")?1:0);
-                  u = u.update();
-                  if(!u.hasError())
+    	  
+          if(Core.isNotNull(id)) {
+        	  
+        	  Profile p = new Profile().findOne(Core.toInt(id));
+             // System.out.println(p.getUser().getId()+" status");
+              if(p != null) {
+            	  
+                  //p.setStatus(status.equals("true")?1:0);
+                  p = p.update();
+                 
+                  if(!p.hasError())
                       response = true;
               }
           }

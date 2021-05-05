@@ -1,12 +1,11 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
-import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Core;
 
 public class PesquisarUtilizadorView extends View {
 
@@ -61,8 +60,7 @@ public class PesquisarUtilizadorView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=utilizador"));
-		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","primary").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		username = new TextField(model,"username");
 		username.setLabel(gt("Username"));
@@ -195,6 +193,7 @@ public class PesquisarUtilizadorView extends View {
 	@Override
 	public void setModel(Model model) {
 		
+		documento.setValue(model);
 		username.setValue(model);
 		email.setValue(model);
 		nada.setValue(model);
