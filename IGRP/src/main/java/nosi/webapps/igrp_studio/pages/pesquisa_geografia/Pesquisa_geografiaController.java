@@ -99,8 +99,10 @@ public class Pesquisa_geografiaController extends Controller {
 			id = "100";
 		Properties setting = this.configApp.loadConfig("common", "main.xml");
 		String url = setting.getProperty("link.rest.pesquisa_geografia") + "?id=" + id;
+		String authorization = setting.getProperty("authorization.rest.pesquisa_geografia");
 		if (id.equals("0")) {
-			url = url.replace("GeoINGT", "geografia");
+			url = url.replace("t/nosigis.gov/GeoINGT/", "geografia/");
+			authorization = setting.getProperty("authorization.rest.pesquisa_geografia_old");
 			if(Core.isNullOrZero(this.p_nivel))
 				this.p_nivel=Geografia.Nivel.PAIS;
 		}else {
@@ -108,7 +110,7 @@ public class Pesquisa_geografiaController extends Controller {
 			if(Core.isNullOrZero(this.p_nivel))
 				this.p_nivel=Geografia.Nivel.ZONA;
 		}
-		String authorization = setting.getProperty("authorization.rest.pesquisa_geografia");
+		
 		ConsumeJson json_obj = new ConsumeJson();
 		String json = json_obj.getJsonFromUrl(url, authorization);
 		
