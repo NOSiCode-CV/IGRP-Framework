@@ -284,10 +284,10 @@ public final class Core {
 	 */
 	public static String defaultConnection(String dad) {
 		String result = "";
-		Config_env config_env = new Config_env().find().where("isdefault", "=", new Short((short) 1))
+		Config_env configEnv = new Config_env().find().where("isdefault", "=", new Short((short) 1))
 				.andWhere("application.dad", "=", dad).one();
-		if (config_env != null)
-			result = config_env.getName();
+		if (configEnv != null)
+			result = configEnv.getName();
 		return result;
 	}
 
@@ -400,48 +400,38 @@ public final class Core {
 	/**
 	 * List pages By id_application
 	 * 
-	 * @param id_app
+	 * @param appId
 	 * 
 	 */
-	public static HashMap<Integer, String> getListActions(int id_app) {
+	public static HashMap<Integer, String> getListActions(int appId) {
 
-		List<Action> actions = new ArrayList<Action>();
-		actions = new Action().find().andWhere("application", "=", id_app).andWhere("status", "=", 1)
+		List<Action> actions = new Action().find().andWhere("application", "=", appId)
+				.andWhere("status", "=", 1)
 				.andWhere("isComponent", "<>", (short) 2).all();
 
-		HashMap<Integer, String> all_page = new HashMap<>();
+		HashMap<Integer, String> pages = new HashMap<>();
+		pages.put(null, gt("-- Selecionar --"));
 
 		if (Core.isNotNull(actions)) {
-			for (Action ac : actions) {
-				all_page.put(null, gt("-- Selecionar --"));
-				if (Core.isNotNull(ac.getPage_descr()))
-					all_page.put(ac.getId(), ac.getPage_descr());
-				else
-					all_page.put(ac.getId(), ac.getPage());
-			}
-			return all_page;
-		} else {
-			all_page.put(null, gt("-- Selecionar --"));
-			return all_page;
+			for (Action ac : actions)
+				pages.put(ac.getId(), Core.isNotNull(ac.getPage_descr()) ? ac.getPage_descr() : ac.getPage());
 		}
-
+		return pages;
 	}
 
 	/**
 	 * find page By id_page
 	 * 
-	 * @param id_page
+	 * @param pageId
 	 * 
 	 */
-	public static Action getInfoPage(int id_page) {
-		if (Core.isNotNull(id_page)) {
-			Action action = new Action().findOne(id_page);
+	public static Action getInfoPage(int pageId) {
+		if (Core.isNotNull(pageId)) {
+			Action action = new Action().findOne(pageId);
 			action.setReadOnly(true);
 			return action;
-		} else {
-			return null;
 		}
-
+		return null;
 	}
 
 	/**
@@ -609,8 +599,7 @@ public final class Core {
 						|| Igrp.getInstance().getRequest().getAttribute(name) instanceof String[])) {
 			Object[] valueO = (Object[]) Igrp.getInstance().getRequest().getAttribute(name);
 			Igrp.getInstance().getRequest().removeAttribute(name);
-			String[] valueS = Arrays.copyOf(valueO, valueO.length, String[].class);
-			return valueS;
+			return Arrays.copyOf(valueO, valueO.length, String[].class);
 		}
 		return null;
 	}
@@ -660,8 +649,7 @@ public final class Core {
 	 * @return {@code new Permission().getCurrentEnv();}
 	 */
 	public static String getCurrentDad() {
-		String dad = new Permission().getCurrentEnv();
-		return dad;
+		return new Permission().getCurrentEnv();
 	}
 
 	/**
@@ -772,30 +760,24 @@ public final class Core {
 	 * Get Day from a Date
 	 */
 	public static Integer getDayFromDate(Date date) {
-
 		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		int day = localDate.getDayOfMonth();
-		return day;
+		return localDate.getDayOfMonth();
 	}
 
 	/**
 	 * Get Month from a Date
 	 */
 	public static Integer getMonthFromDate(Date date) {
-
 		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		int month = localDate.getMonthValue();
-		return month;
+		return localDate.getMonthValue();
 	}
 
 	/**
 	 * Get Year from a Date
 	 */
 	public static Integer getYearFromDate(Date date) {
-
 		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		int year = localDate.getYear();
-		return year;
+		return localDate.getYear();
 	}
 
 	/**
@@ -949,16 +931,9 @@ public final class Core {
 	 */
 	public static String findDomainDescByKey(String domainsName, String key) {
 
-//		if(Core.isNull(domainsName) && Core.isNull(key))
 		if (!Core.isNotNullMultiple(domainsName, key))
 			return "";
-//		final Domain onedom = Core.query("SELECT obj FROM nosi.webapps.igrp.dao.Domain obj WHERE lower(obj.dominio) =:domainsname "
-//				+ "AND lower(obj.valor) =:key")
-//				.addString("domainsname",domainsName.toLowerCase())
-//				.addString("key",key.toLowerCase())
-//				.getSingleResult(Domain.class);				
-//				
-//		return onedom!=null?onedom.getDescription():"";
+		
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
 		final Domain oneDomain = domain.find().where("valor !=''")
@@ -1022,8 +997,7 @@ public final class Core {
 	 * @return
 	 */
 	public static CLob getFile(int fileId) {
-		CLob cLob = new CLob().findOne(fileId);
-		return cLob;
+		return new CLob().findOne(fileId);
 	}
 
 	/**
@@ -1033,8 +1007,7 @@ public final class Core {
 	 * @return nosi.webapps.igrp.dao.Clob
 	 */
 	public static CLob getFileByUuid(String uuid) {
-		CLob cLob = new CLob().find().andWhere("uuid", "=", uuid).one();
-		return cLob;
+		return new CLob().find().andWhere("uuid", "=", uuid).one();
 	}
 
 	/**
@@ -1095,7 +1068,7 @@ public final class Core {
 	public static boolean isUploadedFiles() {
 		try {
 			return Core.isNotNull(Igrp.getInstance().getRequest().getHeader("content-type"))
-					&& Igrp.getInstance().getRequest().getParts().size() > 0;
+					&& !Igrp.getInstance().getRequest().getParts().isEmpty();
 		} catch (IOException | ServletException e) {
 			return false;
 		}
@@ -1179,17 +1152,17 @@ public final class Core {
 	 * @param p_id
 	 * @return
 	 */
-	public static String getLinkFile(int p_id) {
-		return getLinkFile("" + p_id);
+	public static String getLinkFile(int id) {
+		return getLinkFile("" + id);
 	}
 
-	public static String getLinkTempFile(String p_uuid) {
-		if (Core.isNull(p_uuid))
+	public static String getLinkTempFile(String uuid) {
+		if (Core.isNull(uuid))
 			return "";
-		if (p_uuid.startsWith("webapps")) {
-			return p_uuid;
+		if (uuid.startsWith("webapps")) {
+			return uuid;
 		}
-		return Route.getResolveUrl("igrp", "File", "get-temp-file&p_uuid=" + p_uuid);
+		return Route.getResolveUrl("igrp", "File", "get-temp-file&p_uuid=" + uuid);
 	}
 
 	/**
@@ -1198,11 +1171,11 @@ public final class Core {
 	 * Example with filter id=2:
 	 * {@code model.setLink(Core.getLinkReport("rep_persons").addParam("p_id", 2))}
 	 * 
-	 * @param code_report The unique code that identifies Report
+	 * @param reportCode The unique code that identifies Report
 	 * @return
 	 */
-	public static Report getLinkReport(String code_report) {
-		return new Report().getLinkReport(code_report);
+	public static Report getLinkReport(String reportCode) {
+		return new Report().getLinkReport(reportCode);
 	}
 
 	/**
@@ -1211,33 +1184,33 @@ public final class Core {
 	 * Example with filter id=2:
 	 * {@code model.setLink(Core.getLinkReport("rep_persons").addParam("p_id", 2))}
 	 * 
-	 * @param code_report The unique code that identifies Report
+	 * @param reportCode The unique code that identifies Report
 	 * @param isPublic    For Public Report Link purpose
 	 * @return
 	 */
-	public static Report getLinkReport(String code_report, boolean isPublic) {
-		return new Report().getLinkReport(code_report, isPublic);
+	public static Report getLinkReport(String reportCode, boolean isPublic) {
+		return new Report().getLinkReport(reportCode, isPublic);
 	}
 
 	/**
 	 * Get Report for Response redirect {@code .addParam } for filtering
 	 * 
-	 * @param code_report The unique code that identifies Report
+	 * @param reportCode The unique code that identifies Report
 	 * @param report      use filter {@code new Report().addParam("id",1) } OR
 	 *                    this.loadQueryString()
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static Response getLinkReport(String code_report, Object report) {
+	public static Response getLinkReport(String reportCode, Object report) {
 		Report rep = new Report();
 		if (report instanceof QueryString) {
 			((QueryString<String, Object>) report).getQueryString().entrySet().stream().forEach(q -> {
 				rep.addParam(q.getKey(), q.getValue());
 			});
 		} else if (report instanceof Report) {
-			return new Report().invokeReport(code_report, (Report) report);
+			return new Report().invokeReport(reportCode, (Report) report);
 		}
-		return new Report().invokeReport(code_report, rep);
+		return new Report().invokeReport(reportCode, rep);
 	}
 
 	/**
@@ -1245,9 +1218,8 @@ public final class Core {
 	 * @return A Public or Private URL that point to Report
 	 */
 	public static String getFullUrl(IGRPLink partial) {
-		String url = new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + ""
+		return new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + ""
 				+ partial.getLink();
-		return url;
 	}
 
 	/**
@@ -1255,8 +1227,7 @@ public final class Core {
 	 * @return A Public or Private URL that point to Report
 	 */
 	public static String getFullUrl(String partial) {
-		String url = new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + "" + partial;
-		return url;
+		return new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + "" + partial;
 	}
 
 	public static String getLinkContraProva(String contraProva) {
@@ -4445,12 +4416,20 @@ public final class Core {
 	 * 
 	 * }
 	 * 
-	 * @param array_checks          - list of the id of the checkbox
-	 * @param array__checks_checked - list of the checked checkbox
+	 * @param allValues list of the values of all values
+	 * @param checkedValues list of the checked values
 	 * @return
 	 */
-	public static CheckBoxHelper extractCheckBox(String[] array_checks, String[] array__checks_checked) {
-		return new CheckBoxHelper(array_checks, array__checks_checked);
+	public static CheckBoxHelper extractCheckBox(String[] allValues, String[] checkedValues) {
+		return CheckBoxHelper.of(allValues, checkedValues);
+	}
+	
+	/** This method is intended to get the values checked and unchecked from a checkbox field in a table.
+	 * @param field checkbox field
+	 * @return a CheckBoxHelper object that contains the checked/Unchecked values
+	 */
+	public static CheckBoxHelper extractCheckBox(Field field) {
+		return CheckBoxHelper.of(field);
 	}
 
 	/**
