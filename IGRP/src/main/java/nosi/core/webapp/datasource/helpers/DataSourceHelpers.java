@@ -22,6 +22,7 @@ import javax.persistence.Query;
 import javax.persistence.Tuple;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.gui.components.IGRPForm;
@@ -45,7 +46,7 @@ public class DataSourceHelpers {
 
 	private XMLWritter xmlRows; 
 	
-	public static final int QUERY_TIMEOUT = 5; // 5s 
+	public static final int QUERY_TIMEOUT = 10; // 5s 
 
 	public Map<Integer,String> getListSources(Integer id){
 		HashMap<Integer,String> lista = new HashMap<>();
@@ -176,10 +177,13 @@ public class DataSourceHelpers {
 		Map<String, String> paramsUrl = (value_array!=null && value_array.length > 0)?IntStream.range(0, name_array.length).boxed().collect(Collectors.toMap(i ->name_array[i], i -> value_array[i])):null;
 		query = this.getResolveQuery(query,parameters,paramsUrl);		
 		
-		Session session =  HibernateUtils.getSessionFactory(rs.getConfig_env()).getCurrentSession();
+	
+		Session session = HibernateUtils.getSessionFactory(rs.getConfig_env()).getCurrentSession();
 		if(session!=null) {			
 			try{
-				session.beginTransaction();
+				
+				if(!session.getTransaction().isActive())
+					session.getTransaction().begin();
 				Query q = session.createNativeQuery(query,Tuple.class).setTimeout(QUERY_TIMEOUT);
 				if(value_array!=null && value_array.length>0){
 					for(Parameter<? extends Object> param:q.getParameters()){
@@ -190,7 +194,9 @@ public class DataSourceHelpers {
 			}catch(Exception e){
 				e.printStackTrace();
 			}finally {
-				session.close();	
+				if (session != null && session.isOpen()) {
+					session.close();
+				}	
 			}
 			
 			Set<Properties> columns = this.getColumns(rs,rt.getId(), query);
