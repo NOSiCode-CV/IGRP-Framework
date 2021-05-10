@@ -39,9 +39,9 @@ public class Pesquisa_nacionalidadeController extends Controller {
 		Properties setting = this.configApp.loadConfig("common", "main.xml");
 		String url = setting.getProperty("link.rest.pesquisa_geografia")+"?id="+id;
     	if (id.equals("0")) {
-			url=url.replace("GeoINGT", "geografia");
+			url=url.replace("t/nosigis.gov/GeoINGT", "geografia");
 		}
-		String authorization = setting.getProperty("authorization.rest.pesquisa_geografia");
+		String authorization = setting.getProperty("authorization.rest.pesquisa_geografia_old");
 		ConsumeJson json_obj = new ConsumeJson();
 		String json  = json_obj.getJsonFromUrl(url, authorization);
 		List<Pesquisa_nacionalidade.Treemenu_1> list_nac = new ArrayList<>();
