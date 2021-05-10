@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
@@ -85,9 +84,14 @@ public class DataSourceController extends Controller {
 					model.setProcesso(rep.getProcessid());
 				}
 				if(rep.getType_name().equalsIgnoreCase("page")) {
-					Action ac = new Action().findOne(rep.getType_fk());
-					model.setPagina(ac.getPage_descr());
-					model.setId_pagina(ac.getId());
+					if(Core.isNull(rep.getType_fk()))
+						Core.setMessageError("Page is null in the database.");
+					else {
+						Action ac = new Action().findOne(rep.getType_fk());
+						model.setPagina(ac.getPage_descr());
+						model.setId_pagina(ac.getId());
+					}
+					
 				}
 			}
 			Application app = Core.findApplicationById(Core.toInt(model.getId_env()));		
