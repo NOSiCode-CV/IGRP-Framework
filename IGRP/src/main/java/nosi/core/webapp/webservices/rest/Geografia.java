@@ -14,9 +14,9 @@ import nosi.core.config.ConfigApp;
  * Oct 14, 2019
  */
 public class Geografia {
-	
+	Properties properties =  ConfigApp.getInstance().getMainSettings(); 
 	private String url;
-	private String authorization = "Bearer c50a872a-fb44-34c4-8075-820feffe7de7";
+	private String authorization = properties.getProperty("authorization.rest.pesquisa_geografia");
 	
 	public static final class Nivel{
 		
@@ -31,10 +31,10 @@ public class Geografia {
 	}
 	
 	public Geografia() { 
-		Properties properties =  ConfigApp.getInstance().getMainSettings(); 
+		
 		this.url = properties.getProperty("link.rest.pesquisa_geografia");
 		if(this.url != null) 
-			this.url = this.url.replace("GeoINGT", "t/igrp.cv/geografia").replace("select_geo_by_id", "select_parents_by_id");
+			this.url = this.url.replace("select_geo_by_id", "select_parents_by_id");
 		// this.authorization = properties.getProperty("authorization.rest.pesquisa_geografia");
 	}
 	
