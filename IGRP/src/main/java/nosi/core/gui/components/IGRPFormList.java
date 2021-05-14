@@ -42,68 +42,68 @@ public class IGRPFormList extends IGRPSeparatorList {
 
 	private boolean startRow = true;
 	
-	public IGRPFormList(String tag_name,String title) {
-		super(tag_name,title);
+	public IGRPFormList(String tagName, String title) {
+		super(tagName, title);
 		this.properties.put("type", "formlist");
-		String field_del = (tag_name+"_del").toLowerCase();
-		String[] del_lines_values = Core.getParamArray("p_"+field_del);
-		if(del_lines_values!=null) {
-			for(String value:del_lines_values) {
-				Core.addHiddenField(field_del, value);
+		String fieldDel = (tagName + "_del").toLowerCase();
+		String[] delLinesValues = Core.getParamArray("p_" + fieldDel);
+		if (delLinesValues != null) {
+			for (String value : delLinesValues) {
+				Core.addHiddenField(fieldDel, value);
 			}
 		}
 	}
 	
-	public IGRPFormList(String tag_name) {
-		this(tag_name,"");
+	public IGRPFormList(String tagName) {
+		this(tagName,"");
 	}
 	
 	@Override
 	protected void genRows() {
-		int rowIndex = 1; 
-		if(this.data != null && this.data.size() > 0 && this.fields.size() > 0){
-			for(Object obj:this.data){
+		int rowIndex = 1;
+		if (this.data != null && !this.data.isEmpty() && !this.fields.isEmpty()) {
+			for (Object obj : this.data) {
 				this.xml.startElement("row");
-				if(this.buttons.size() > 0){
+				if (!this.buttons.isEmpty()) {
 					this.xml.startElement("context-menu");
-					for(Field field:this.fields){
-						if(field.isParam())
-							this.xml.setElement("param", field.getName()+"="+IgrpHelper.getValue(obj, field.getName()));
+					for (Field field : this.fields) {
+						if (field.isParam())
+							this.xml.setElement("param",field.getName() + "=" + IgrpHelper.getValue(obj, field.getName()));
 					}
 					this.xml.endElement();
 				}
-				for(Field field : this.fields){ 					
-					if(field.isVisible()) {
-						String val = IgrpHelper.getValue(obj, field.getName());					
-						if(field.getName().equals(this.tag_name + "_id")) {
-							if(val != null && !val.isEmpty()) {
-								this.xml.startElement(this.tag_name + "_id");
-								String []aux = val.split(SPLIT_SEQUENCE);
+				for (Field field : this.fields) {
+					if (field.isVisible()) {
+						String val = IgrpHelper.getValue(obj, field.getName());
+						
+						if (field.getName().equals(this.tag_name + "_id")) {
+							this.xml.startElement(this.tag_name + "_id");
+							if (val != null && !val.isEmpty()) {
+								String[] aux = val.split(SPLIT_SEQUENCE);
 								this.xml.text(aux != null && aux.length > 0 ? aux[0] : "");
-								this.xml.endElement();
-							}else {
-								this.xml.startElement(this.tag_name + "_id");
+							} else {
 								this.xml.text((rowIndex++) + "");
-								this.xml.endElement();
-							}						
+							}
+							this.xml.endElement();
 							continue;
-						}					
+						}
+						
 						if (val != null) {
-							String[] aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved										
+							String[] aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved
 							if (field instanceof FileField) {
-								if(aux.length > 2) {//With temp file
+								if (aux.length > 2) {// With temp file
 									TempFile tempFile = TempFileHelper.getTempFile(aux[2]);
-									if(tempFile!=null) {
+									if (tempFile != null) {
 										field.propertie().add(TEMP_VALUE, tempFile.getName());
-									}else {
+									} else {
 										field.propertie().remove(TEMP_VALUE);
 									}
-									this.genHiddenFieldFile(field, aux[2]);								
-									this.genRowField(field, Core.getLinkTempFile(aux[2]),Core.gt(aux[1]));
-								}else {
+									this.genHiddenFieldFile(field, aux[2]);
+									this.genRowField(field, Core.getLinkTempFile(aux[2]), Core.gt(aux[1]));
+								} else {
 									this.genRowField(field, aux.length > 0 ? aux[0] : "", aux.length > 1 ? aux[1] : "");
 								}
-							}else {
+							} else {
 								this.genRowField(field, aux.length > 0 ? aux[0] : "", aux.length > 1 ? aux[1] : "");
 							}
 						}
@@ -111,17 +111,19 @@ public class IGRPFormList extends IGRPSeparatorList {
 				}
 				this.xml.endElement();
 			}
-		}else if(this.data==null || this.data.size() == 0 && this.startRow){
+		} else if (this.data == null || this.data.isEmpty() && this.startRow) {
 			this.xml.startElement("row");
 			this.xml.writeAttribute("type", "start");
-			for(Field field:this.fields){	
-				String val = IgrpHelper.getValue(null, field.getName());
-				this.genRowField(field,val,val);		
+			for (Field field : this.fields) {
+				if (field.isVisible()) {
+					String val = IgrpHelper.getValue(null, field.getName());
+					this.genRowField(field, val, val);
+				}
 			}
 			this.xml.endElement();
-		}		
-		if(!this.rows.equals(""))
-			this.xml.addXml(this.rows);		
+		}
+		if (!this.rows.equals(""))
+			this.xml.addXml(this.rows);
 	}
 	
 	public void setStartRow(boolean isStartRow) {
