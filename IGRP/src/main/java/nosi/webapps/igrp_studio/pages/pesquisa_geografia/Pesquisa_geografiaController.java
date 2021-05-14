@@ -101,7 +101,7 @@ public class Pesquisa_geografiaController extends Controller {
 		String url = setting.getProperty("link.rest.pesquisa_geografia") + "?id=" + id;
 		String authorization = setting.getProperty("authorization.rest.pesquisa_geografia");
 		if (id.equals("0")) {
-			url = url.replace("t/nosigis.gov/GeoINGT/", "geografia/");
+			url  = setting.getProperty("link.rest.pesquisa_geografia_old") + "?id=" + id;
 			authorization = setting.getProperty("authorization.rest.pesquisa_geografia_old");
 			if(Core.isNullOrZero(this.p_nivel))
 				this.p_nivel=Geografia.Nivel.PAIS;
