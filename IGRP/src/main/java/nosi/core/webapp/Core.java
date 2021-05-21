@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
@@ -37,6 +36,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
 import javax.persistence.Tuple;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -50,6 +50,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.modelmapper.ModelMapper;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -98,8 +99,8 @@ import nosi.core.webapp.webservices.rest.Geografia;
 import nosi.core.webapp.webservices.soap.SoapClient;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.ActivityExecuteType;
 import nosi.webapps.igrp.dao.ActivityExecute;
+import nosi.webapps.igrp.dao.ActivityExecuteType;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.Config_env;
@@ -841,6 +842,8 @@ public final class Core {
 	}
 
 	/**
+	 * @category DOMAIN
+	 * <p>
 	 * Find Active Domains by domain code name and app is null
 	 * 
 	 * @param domainsName domain code name
@@ -854,6 +857,8 @@ public final class Core {
 	}
 
 	/**
+	 * @category DOMAIN
+	 * <p>
 	 * Find Active Domains by domain code name and app
 	 * 
 	 * @param domainName      domain code name
@@ -871,6 +876,8 @@ public final class Core {
 	}
 
 	/**
+	 * @category DOMAIN
+	 * <p>
 	 * Find Active Domains by domain code name and app id
 	 * 
 	 * @param domainName    domain code name
@@ -883,8 +890,26 @@ public final class Core {
 		return domain.find().where("valor !=''").andWhere("dominio", "=", domainName).andWhere("status", "=", "ATIVE")
 				.andWhere("application.id", "=", applicationId).orderBy("ordem").all();
 	}
+	
+	/**
+	 * @category DOMAIN
+	 * <p> 
+	 * Returns the domain whose domainName = {@code domainName}, belonging to the
+	 * current aplication and whose state is active, or
+	 * an empty map if the domain is not found. An empty map is returned also if the
+	 * domain exists and does not have values.
+	 * 
+	 * @param domainName domain/code name
+	 * @return a {@code Map<String, String>} of this domain with key as
+	 *         {@code valor} and value as {@code description}
+	 */
+	public static Map<String, String> getDomainByCodeAsMap(String domainName) {
+		return getDomainByCodeAsMap(domainName, Core.getCurrentDad());
+	}
 
 	/**
+	 * @category DOMAIN
+	 * <p>
 	 * Returns the domain whose domainName = {@code domainName}, belonging to the
 	 * application with code = {@code applicationCode} and whose state is active, or
 	 * an empty map if the domain is not found. An empty map is returned also if the
@@ -895,15 +920,17 @@ public final class Core {
 	 * @return a {@code Map<String, String>} of this domain with key as
 	 *         {@code valor} and value as {@code description}
 	 */
-	public static Map<String, String> getDomainByCodeAsMap(String domainName, String applicationCode) {
+	public static Map<String, String> getDomainByCodeAsMap(String domainName, String dad) {
 		Map<String, String> domainMap = new HashMap<>();
-		List<Domain> domains = findDomainByCode(domainName, applicationCode);
+		List<Domain> domains = findDomainByCode(domainName, dad);
 		if (null != domains && !domains.isEmpty())
 			domains.forEach(domain -> domainMap.put(domain.getValor(), domain.getDescription()));
 		return domainMap;
 	}
 
 	/**
+	 * @category DOMAIN
+	 * <p>
 	 * Returns the domain whose domainName = {@code domainName}, belonging to the
 	 * application with id = {@code applicationId} and whose state is active or an
 	 * empty map if the domain is not found. An empty map is returned also if the
@@ -923,6 +950,8 @@ public final class Core {
 	}
 
 	/**
+	 * @category DOMAIN
+	 * <p>
 	 * Find the Value/Decription ok a domay key
 	 * 
 	 * @param domainsName domain code name
@@ -944,6 +973,8 @@ public final class Core {
 	}
 
 	/**
+	 * @category DOMAIN
+	 * <p>
 	 * Find the Value/Decription ok a domay key
 	 * 
 	 * @param domainsName domain code name
@@ -965,11 +996,13 @@ public final class Core {
 	}
 
 	/**
+	 * @category DOMAIN
+	 * <p>
 	 * Find the Value/Decription ok a domay key
 	 * 
 	 * @param domainsName domain code name
 	 * @param key
-	 * @param idApp       the id of the application
+	 * @param idApp the id of the application
 	 * @return value/description
 	 */
 	public static String findDomainDescByKey(String domainsName, String key, Integer idApp) {
@@ -1790,7 +1823,9 @@ public final class Core {
 	 * @see #isNull(Object)
 	 */
 	public static boolean isNullMultiple(Object... values) {
-		return values == null ? true : Arrays.stream(values).allMatch(Core::isNull);
+		if(values == null)
+			return Boolean.TRUE;
+		return Arrays.stream(values).allMatch(Core::isNull);
 	}
 
 	/**
@@ -4617,41 +4652,69 @@ public final class Core {
 		return String.valueOf(number).length();
 	}
 
-	public static String generateXmlForCalendar(String tagName, List<?> data) {
+	public static String generateXmlForCalendar(String tagName, List<?> data) {		
 		return IGRPTable.generateXmlForCalendar(tagName, data);
 	}
-
+	
 	/**
-	 * @param processKey          (Ex: Processo_pedido_compra)
-	 * @param processDefinitionId (Ex: Processo_pedido_compra:7:30019)
-	 * @return
+	 * @category BPMN
+	 * @param processKey the processKey from the process to start. See the process
+	 *                   information {@code Process Id} from your process at IGRP
+	 *                   BPMN Designer
+	 * @return response
 	 */
-	public static Response startProcess(String processKey, String processDefinitionId) {
-		try {
-			if (Core.isNotNullMultiple(processDefinitionId, processKey)) {
-				BPMNExecution bpmn = new BPMNExecution();
-				return bpmn.startProcess(processKey, processDefinitionId);
-			}
-		} catch (Exception e) {
-		}
-		return null;
+	public static Response startProcess(String processKey) {
+		return startProcess(processKey, new HashMap<>());
 	}
 
 	/**
-	 * @param processKey          (Ex: Processo_pedido_compra)
-	 * @param processDefinitionId (Ex: Processo_pedido_compra:7:30019)
-	 * @param params              For custom params, will be sent as query string
-	 * @return
+	 * @category BPMN
+	 * @param processKey the processKey from the process to start. See the process
+	 *                   information {@code Process Id} from your process at IGRP
+	 *                   BPMN Designer
+	 * @param params the parameters to send to the process. They should start with {@code x_}
+	 * @return response
+	 */
+	public static Response startProcess(String processKey, Map<String, String> params) {
+		ProcessDefinitionService processDefinitionService = Core.getProcessDefinitionByProcessKey(processKey);
+		if(processDefinitionService == null)
+			return null;
+		return startProcess(processKey, processDefinitionService.getId(), params);
+	}
+
+	/** 
+	 * @category BPMN
+	 * @param processKey the processKey from the process to start. See the process
+	 *                   information {@code Process Id} from your process at IGRP
+	 *                   BPMN Designer
+	 * @param processDefinitionId processDefinitionId of the process to start.
+	 * <p>
+	 * Example to get the processDefinitionId:
+	 * <p>
+	 *  {@code ProcessDefinitionService obj = Core.getProcessDefinitionByProcessKey(processKey);
+	 *  String processDefinitionId = obj.getId();}
+	 * @return response
+	 */
+	public static Response startProcess(String processKey, String processDefinitionId) {
+		return new BPMNExecution().startProcess(processKey, processDefinitionId);
+	}
+
+	/** 
+	 * @category BPMN
+	 * @param processKey the processKey from the process to start. See the process
+	 *                   information {@code Process Id} from your process at IGRP
+	 *                   BPMN Designer
+	 * @param processDefinitionId processDefinitionId of the process to start.
+	 * @param params the parameters to send to the process. They should start with {@code x_}
+	 * <p>
+	 * Example to get the processDefinitionId:
+	 * <p>
+	 *  {@code ProcessDefinitionService obj = Core.getProcessDefinitionByProcessKey(processKey);
+	 *  String processDefinitionId = obj.getId();}
+	 * @return response
 	 */
 	public static Response startProcess(String processKey, String processDefinitionId, Map<String, String> params) {
-		if (params != null) {
-			try {
-				BPMNExecution bpmn = new BPMNExecution();
-				return bpmn.startProcess(processKey, processDefinitionId, params);
-			} catch (Exception e) {
-			}
-		}
-		return startProcess(processKey, processDefinitionId);
+		return new BPMNExecution().startProcess(processKey, processDefinitionId, params);
 	}
 
 	/**
@@ -4665,6 +4728,8 @@ public final class Core {
 				return bpmn.openTask(taskId);
 			}
 		} catch (Exception e) {
+			Core.log(e.getMessage());
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -4692,9 +4757,7 @@ public final class Core {
 	 * @return The deployed war name
 	 */
 	public static String getDeployedWarName() {
-		String deployedWarName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/"))
-				.getName();
-		return deployedWarName;
+		return new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName();
 	}
 
 	/**
@@ -4729,7 +4792,7 @@ public final class Core {
 	 */
 	public static StartProcess nextTask(TaskService task, List<Part> parts, String myCustomPermission) {
 		BPMNExecution bpmnExecuteValidacao = new BPMNExecution();
-		StartProcess startProcess = bpmnExecuteValidacao.exeuteTask(task, parts, myCustomPermission);
+		StartProcess startProcess = bpmnExecuteValidacao.executeTask(task, parts, myCustomPermission);
 		return startProcess;
 	}
 
