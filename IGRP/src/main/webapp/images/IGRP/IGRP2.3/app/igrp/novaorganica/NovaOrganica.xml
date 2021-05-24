@@ -69,11 +69,11 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nome</label>
-                    <value>Totam aperiam lorem iste natus</value>
+                    <value>Totam labore rem dolor aliqua</value>
                 </nome>
                 <codigo name="p_codigo" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="ex: org2" right="false" desclabel="false">
                     <label>Código</label>
-                    <value>Dolor magna iste laudantium dolor</value>
+                    <value>Voluptatem iste totam dolor sed</value>
                 </codigo>
                 <ativo name="p_ativo" type="checkbox" maxlength="50" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="int" check="true">
                     <label>Ativo</label>
@@ -126,6 +126,13 @@
                         </option>
                     </list>
                 </organizacao_pai>
+                <sep_igrp_plsql name="p_sep_igrp_plsql" type="separator" maxlength="50" placeholder="" desclabel="false" right="false">
+                    <label></label>
+                </sep_igrp_plsql>
+                <plsql_code name="p_plsql_code" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="Codigo de Organica do IGRP (PLSQL)" desclabel="true" right="false">
+                    <label>IGRP Code</label>
+                    <value>Aperiam natus aperiam ut voluptatem</value>
+                </plsql_code>
             </fields>
         </form_1>
     </content>

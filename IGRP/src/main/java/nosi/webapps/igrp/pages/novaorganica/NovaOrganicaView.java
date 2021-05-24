@@ -1,12 +1,11 @@
 package nosi.webapps.igrp.pages.novaorganica;
 
-import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Core;
 
 public class NovaOrganicaView extends View {
 
@@ -19,6 +18,8 @@ public class NovaOrganicaView extends View {
 	public Field nada;
 	public Field aplicacao;
 	public Field organizacao_pai;
+	public Field sep_igrp_plsql;
+	public Field plsql_code;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPView view_1;
 	public IGRPForm form_1;
@@ -69,6 +70,14 @@ public class NovaOrganicaView extends View {
 		organizacao_pai.setLabel(gt("Organização pai"));
 		organizacao_pai.propertie().add("name","p_organizacao_pai").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
+		sep_igrp_plsql = new SeparatorField(model,"sep_igrp_plsql");
+		sep_igrp_plsql.setLabel(gt(" "));
+		sep_igrp_plsql.propertie().add("name","p_sep_igrp_plsql").add("type","separator").add("maxlength","50").add("placeholder",gt("")).add("desclabel","false");
+		
+		plsql_code = new TextField(model,"plsql_code");
+		plsql_code.setLabel(gt("IGRP Code"));
+		plsql_code.propertie().add("name","p_plsql_code").add("type","text").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("Codigo de Organica do IGRP (PLSQL)")).add("desclabel","true");
+		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
@@ -92,6 +101,8 @@ public class NovaOrganicaView extends View {
 		form_1.addField(nada);
 		form_1.addField(aplicacao);
 		form_1.addField(organizacao_pai);
+		form_1.addField(sep_igrp_plsql);
+		form_1.addField(plsql_code);
 
 		toolsbar_1.addButton(btn_gravar);
 		this.addToPage(sectionheader_1);
@@ -109,7 +120,9 @@ public class NovaOrganicaView extends View {
 		ativo.setValue(model);
 		nada.setValue(model);
 		aplicacao.setValue(model);
-		organizacao_pai.setValue(model);	
+		organizacao_pai.setValue(model);
+		sep_igrp_plsql.setValue(model);
+		plsql_code.setValue(model);	
 
 		}
 }
