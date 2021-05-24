@@ -1,18 +1,25 @@
 package nosi.webapps.igrp.pages.gestao_tipo_documento;
 
-import nosi.core.gui.components.IGRPTable;
-import nosi.core.webapp.Model;
-import nosi.core.webapp.RParam;
-import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import java.util.ArrayList;
 import java.util.List;
 
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.gui.components.IGRPTable;
 import nosi.core.validator.constraints.*;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
+import nosi.core.webapp.Report;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 
 public class Gestao_tipo_documento extends Model{		
 
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
+	@RParam(rParamName = "p_help")
+	private IGRPLink help;
+	@RParam(rParamName = "p_help_desc")
+	private String help_desc;
 
 	@NotNull()
 	@RParam(rParamName = "p_aplicacao")
@@ -46,6 +53,28 @@ public class Gestao_tipo_documento extends Model{
 	}
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
+	}
+	
+	public IGRPLink setHelp(String app,String page,String action){
+		this.help = new IGRPLink(app,page,action);
+		return this.help;
+	}
+	public IGRPLink getHelp(){
+		return this.help;
+	}
+	public void setHelp_desc(String help_desc){
+		this.help_desc = help_desc;
+	}
+	public String getHelp_desc(){
+		return this.help_desc;
+	}
+	public IGRPLink setHelp(String link){
+		this.help = new IGRPLink(link);
+		return this.help;
+	}
+	public IGRPLink setHelp(Report link){
+		this.help = new IGRPLink(link);
+		return this.help;
 	}
 	
 	public void setAplicacao(String aplicacao){

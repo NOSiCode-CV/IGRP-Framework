@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 

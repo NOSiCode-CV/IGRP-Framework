@@ -5,13 +5,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.reflect.TypeToken;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.webapp.import_export_v2.common.serializable.dao.DAOSerializable;
+import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 import nosi.core.webapp.import_export_v2.imports.IImport;
 import nosi.webapps.igrp.dao.Application;
-import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
 /**
  * Emanuel
@@ -54,7 +55,7 @@ public class OthersClassImport extends AbstractImport implements IImport{
 					else
 						this.fileName.add(basePath + File.separator+fileClass.getFileName());
 				} catch (IOException e) {
-					this.addError(e.getMessage());
+					this.addError(fileClass.getFileName()+" - "+e.getMessage());
 				}
 			}
 		}

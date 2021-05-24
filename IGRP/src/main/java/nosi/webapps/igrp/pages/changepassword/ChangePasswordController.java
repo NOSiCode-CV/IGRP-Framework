@@ -1,11 +1,7 @@
 
 package nosi.webapps.igrp.pages.changepassword;
-import nosi.core.config.Config;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import nosi.core.ldap.LdapInfo;
-import nosi.core.ldap.LdapPerson;
-import nosi.core.ldap.NosiLdapAPI;
-import nosi.core.webapp.Controller;
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,12 +19,16 @@ import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.UpdateCredential;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 
+import nosi.core.config.Config;
+import nosi.core.ldap.LdapInfo;
+import nosi.core.ldap.LdapPerson;
+import nosi.core.ldap.NosiLdapAPI;
+import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
-import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
 import service.client.WSO2UserStub;
-import nosi.core.webapp.Igrp;
 
 /*----#END-PRESERVED-AREA----*/
 
@@ -50,7 +50,7 @@ public class ChangePasswordController extends Controller {
 	public Response actionGuardar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(GUARDAR)----*/
 		ChangePassword model = new ChangePassword();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 
 			model.load();
 		

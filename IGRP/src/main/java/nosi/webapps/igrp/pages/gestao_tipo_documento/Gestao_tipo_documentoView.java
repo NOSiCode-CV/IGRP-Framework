@@ -1,17 +1,21 @@
 package nosi.webapps.igrp.pages.gestao_tipo_documento;
 
-import nosi.core.webapp.Model;
-import nosi.core.webapp.View;
+import java.util.Map;
+
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Core;
-import java.util.Map;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.View;
+
+import static nosi.core.i18n.Translator.gt;
+
 import java.util.LinkedHashMap;
 
 public class Gestao_tipo_documentoView extends View {
 
 	public Field sectionheader_1_text;
+	public Field help;
 	public Field aplicacao;
 	public Field ativo;
 	public Field ativo_check;
@@ -25,6 +29,7 @@ public class Gestao_tipo_documentoView extends View {
 	public Field t_descricao;
 	public Field id;
 	public IGRPSectionHeader sectionheader_1;
+	public IGRPView view_1;
 	public IGRPForm form_2;
 	public IGRPForm novo;
 	public IGRPTable table_1;
@@ -39,6 +44,8 @@ public class Gestao_tipo_documentoView extends View {
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
+		view_1 = new IGRPView("view_1","");
+
 		form_2 = new IGRPForm("form_2","");
 
 		novo = new IGRPForm("novo","");
@@ -49,6 +56,11 @@ public class Gestao_tipo_documentoView extends View {
 		sectionheader_1_text.setLabel(gt(""));
 		sectionheader_1_text.setValue(gt("Gestão Tipo de Documento"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
+		
+		help = new LinkField(model,"help");
+		help.setLabel(gt("Help"));
+		help.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=tipo_doc"));
+		help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("adbcli","").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
@@ -113,6 +125,8 @@ public class Gestao_tipo_documentoView extends View {
 		
 		sectionheader_1.addField(sectionheader_1_text);
 
+		view_1.addField(help);
+
 		form_2.addField(aplicacao);
 		form_2.addField(ativo);
 
@@ -140,6 +154,7 @@ public class Gestao_tipo_documentoView extends View {
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_eliminar);
 		this.addToPage(sectionheader_1);
+		this.addToPage(view_1);
 		this.addToPage(form_2);
 		this.addToPage(novo);
 		this.addToPage(table_1);

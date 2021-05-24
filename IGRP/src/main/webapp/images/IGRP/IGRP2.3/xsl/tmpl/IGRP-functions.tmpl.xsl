@@ -195,6 +195,12 @@
         <xsl:value-of select="$field/@numberformat"/>
       </xsl:attribute>
     </xsl:if>
+
+    <xsl:if test="$field/@daysoff and $field/@daysoff != ''">
+      <xsl:attribute name="daysoff">
+        <xsl:value-of select="$field/@daysoff"/>
+      </xsl:attribute>
+    </xsl:if>
     
   </xsl:template>
 

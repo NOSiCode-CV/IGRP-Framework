@@ -10,11 +10,13 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
 import nosi.core.exception.ServerErrorHttpException;
@@ -51,7 +53,6 @@ import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
  */
 public class Controller {
 	
-	protected Config config = new Config();
 	protected ConfigApp configApp = ConfigApp.getInstance();
 	
 	private QueryString<String, Object> queryString = new QueryString<>();
@@ -183,7 +184,7 @@ public class Controller {
 		this.view.addToPage(this.view.addFieldToFormHidden());
 		String content = this.view.getPage().renderContent(false);
 		content = BPMNButton.removeXMLButton(content);
-		XMLWritter xml = new XMLWritter("rows", this.config.getLinkPageXsl(ac), "utf-8");
+		XMLWritter xml = new XMLWritter("rows", this.getConfig().getLinkPageXsl(ac), "utf-8");
 		xml.addXml(this.getConfig().getHeader(null));
 		xml.startElement("content");
 		xml.writeAttribute("type", ""); 
@@ -412,8 +413,11 @@ public class Controller {
 		return this.redirect_(Route.toUrl("igrp", "error-page", "exception"));
 	}
 
-	protected final Response redirect(String app, String page, String action) throws IOException {
-		return this.redirect_(Route.toUrl(app, page, this.addParamDad(action)));
+	protected final Response redirect(String app, String page, String action) throws IOException { 
+		String ssoUrl = ssoUrl(app, page, action, null, null);
+		if(ssoUrl != null) 
+			return this.redirectToUrl(ssoUrl); 
+		return this.redirect_(Route.toUrl(app, page, this.addParamDad(action))); 
 	}
 
 	protected final Response redirect(String app, String page, String action, Model model) throws IOException {
@@ -422,7 +426,24 @@ public class Controller {
 
 	protected final Response redirect(String app, String page, String action, String[] paramNames, String[] paramValues)
 			throws IOException {
+		String ssoUrl = ssoUrl(app, page, action, paramNames, paramValues);
+		if(ssoUrl != null) 
+			return this.redirectToUrl(ssoUrl); 
 		return this.redirect_(Route.toUrl(app, page, action, paramNames, paramValues));
+	}
+	
+	private String ssoUrl(String app, String page, String action, String[] paramNames, String[] paramValues) {
+		String ssoUrl = null;
+		Map<String, String> params = new LinkedHashMap<String, String>(); 
+		if(paramNames != null && paramValues != null && paramValues.length == paramNames.length)
+			for(int i = 0; i < paramNames.length; i++) 
+				params.put(paramNames[i], paramValues[i]); 
+		String currentDad = Core.getCurrentDad();
+		if(currentDad != null && !currentDad.equals(app) && Core.isSharedPage(currentDad, app, page)) { 
+			String stateValue = Core.buildStateValueForSsoAutentikaWhenPage(page, app, null, null, !params.isEmpty() ? params : null); 
+			ssoUrl = Core.buildAppUrlUsingAutentikaForSSO(app, stateValue); 
+		}
+		return ssoUrl; 
 	}
 
 	protected final Response redirectToUrl(String url) {
@@ -569,7 +590,7 @@ public class Controller {
 
 		r = SecurtyCallPage.resolvePage(r); 
 		if (r != null) {
-			String auxPattern = this.config.PATTERN_CONTROLLER_NAME;
+			String auxPattern = this.getConfig().PATTERN_CONTROLLER_NAME;
 			if (r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)) {
 				String[] aux = r.split("/");
 				app.setCurrentAppName(aux[0]);
@@ -617,10 +638,10 @@ public class Controller {
 				auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
 			}
 			auxActionName = "action" + auxActionName;
-			auxcontrollerPath = this.config.getPackage(auxAppName, auxPageName, auxActionName);
+			auxcontrollerPath = this.getConfig().getPackage(auxAppName, auxPageName, auxActionName);
 		} else {
 			auxActionName = "actionIndex";
-			auxcontrollerPath = this.config.getPackage("igrp", "Home", auxActionName);
+			auxcontrollerPath = this.getConfig().getPackage("igrp", "Home", auxActionName);
 		}
 		
 		return Page.loadPage(auxcontrollerPath, auxActionName); 
@@ -634,7 +655,7 @@ public class Controller {
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
 		this.setQueryStringToAttributes(queryString);
-		String auxcontrollerPath = this.config.getPackage(app, page, action);
+		String auxcontrollerPath = this.getConfig().getPackage(app, page, action);
 		Igrp.getInstance().setCurrentAppName(app);
 		Igrp.getInstance().setCurrentPageName(page);
 		Igrp.getInstance().setCurrentActionName(action);
@@ -763,13 +784,7 @@ public class Controller {
 	}
 
 	public Config getConfig() {
-		return config;
-	}
-
-	public void setConfig(Config config) {
-		this.config = config;
-	}
-
-	// ... Others methods ...
-
+		return this.configApp.getConfig();
+	} 
+	
 }

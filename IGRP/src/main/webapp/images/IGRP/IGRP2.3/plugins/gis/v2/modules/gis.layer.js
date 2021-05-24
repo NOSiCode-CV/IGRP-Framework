@@ -61,23 +61,86 @@
 		WFS : function(data,app){
 			
 			var map     = app.viewer(),
-			
-				clusters = false,
-			
+						
 				layer    = null,
 				
 				queryRequest = null,
 				
 				options = {}, style = {},
 				
-				Legend = GIS.module('Legends');			
+				Legend = GIS.module('Legends');
 			
-			if(data.geomType == utils.geometry.point){
+			if(data.geomType == utils.geometry.pointCluster){
 				
-				layer = L.markerClusterGroup();
+				map.clusterIndex = map.clusterIndex !== undefined ? ( map.clusterIndex > 0 ? -1*map.clusterIndex : map.clusterIndex-1 )  : 1;
+																				
+				layer = L.markerClusterGroup({
+										
+					showCoverageOnHover: false,
+					
+					iconCreateFunction: function(cluster) {
+
+						var count = cluster.getChildCount(),
+						    
+					     	markersCluster = cluster.getAllChildMarkers(),
+					     	
+				        	size = "small", sizev = 40;
+						
+				        if (count > 10 && count <= 100) {
+				        	size = "medium";
+				        	sizev = 48;
+				        }else if(count > 100){
+				        	size = "large";
+				        	sizev = 58;
+				        }
+				        				        
+				        if (data.options.clusterColor){
+				        
+					        var customColour = '#162747';				               
+					        
+					        for (var i = 0; i < markersCluster.length; i++) {
+					        	
+					    		var mCluster = markersCluster[i];
+					    		
+					    		style = Legend.Get(data, mCluster.feature);
+					    		
+					    		customColour = style.color ? style.color : customColour;
+					    	}	
+					        					               
+				        	const markerHtmlStyles = `background-color: ${customColour};`;
+				        	
+				        	var iconAncorX = layer.clusterIndex < -1 ? (sizev*75)/100 : layer.clusterIndex*(sizev/4),
+				        		iconAncorY = layer.clusterIndex < -1 ? (sizev*75)/100 : sizev/3;
+				        					        	
+				        	return L.divIcon({
+				        	    html: `<div style="${markerHtmlStyles}"><span>${count}</span></div>`,
+				                className: 'marker-cluster-custom marker-cluster marker-cluster-' + size,
+				                iconSize: [sizev, sizev],
+				                iconAnchor: [iconAncorX, iconAncorY ]
+				        	})
+				        
+				        }
+				        
+			        	return new L.DivIcon({
+				            html: '<div><span>' + count + '</span></div>',
+				            className: 'marker-cluster marker-cluster-' + size,
+				            iconSize: new L.Point(40, 40)
+				        });
+				        
+				    },				
+					
+				});
+				
+				layer.clusterIndex = map.clusterIndex;
 								
-				clusters = true;
-				
+			}else if(data.geomType == utils.geometry.point){
+								
+				layer  = L.geoJSON(null,{
+					
+					pointToLayer : setStylePoint
+					
+				});
+
 			}else{
 				
 				layer  = L.geoJSON(null,{
@@ -89,26 +152,37 @@
 			
 			function setStyle(feature){
 				
-				var style = Legend.Get(data, feature);
+				var style =  Legend.Get(data, feature);
 				
-				style.weight = style.weight || 1;
+				if(style.fillPattern)
+					
+					style.fillPattern.addTo(map);
+
+				return style;
 				
-				style.opacity = style.opacity || 0.5;
-				
-			    return style;
-			    
+											    
 			};
 			
+			layer.options = $.extend(layer.options, data.options );			
+
 			function setStylePoint(feature, latlng) {
 				
-				 var style = Legend.Get(data, feature),
-				
-				 	 icon  = GIS.module('Templates').Layers.icon(style);
-				 	 
-                 return L.marker(latlng, {icon: icon });
+				 var icon = null,
+				 
+				     style = Legend.Get(data, feature),
+				     
+				     size = style.size, 
+				 
+				     url = ( style.url && style.mark !== 'x' ) ? style.url : GIS.module('Templates').Layers.svg(style);
+							 	 
+                return L.marker(latlng, {
+                	
+                	icon: L.icon({ iconUrl: url, iconSize: size, iconAnchor: [size/2, size/2], className: 'gis-marker'})
+                	
+			    });
          
 			};
-			
+						
 			layer.request = null;
 
 			layer.visible   = data.visible;
@@ -117,11 +191,11 @@
 						
 			//find object in layer
 			layer.find = function(fid){
-			
-				var layers = layer.getLayers();
+							
+				var layers = layer.getLayers(),
 				
-				var res = null;
-				
+					res    = null;
+								
 				for(var i=0; i < layers.length; i++){
 					
 					var flayer = layers[i],
@@ -164,7 +238,8 @@
 					
 				})
 				
-				if(layer.getGeometryType() !== 'Point')
+				
+				if(layer.getGeometryType() !== 'Point' && layer.getGeometryType() !== 'PointCluster')
 					
 					layer.eachLayer(function(fl) {
 						
@@ -176,10 +251,10 @@
 				
 			}
 			
-			layer.highlight = function(fid, callback){
+			layer.highlight = function(fid, callback){				
 				
 				var featureLayer = layer.find( fid );
-				
+																
 				layer.unHighlightAll();
 				
 				if(featureLayer){
@@ -192,10 +267,10 @@
 						featureLayer.bringToFront();
 						
 					}
-					//highlight polygns
+					//highlight polygons
 					if(featureLayer.feature.geometry.type.indexOf('Polygon') >=0 ){
 						
-						featureLayer.setStyle({fillColor: '#3f0', color: '#0f0',fill:true});
+						featureLayer.setStyle({fillColor: '#3f0', color: '#0f0',fill:true, fillOpacity: 0.2});
 						
 						featureLayer.bringToFront();
 					
@@ -225,7 +300,7 @@
 							marginTop : marginTop - 5
 							
 						});
-						
+												
 						elm.addClass('gis-feature-highlighted');
 						
 					}
@@ -260,11 +335,11 @@
 
 					request : 'GetFeature',
 
-					outputFormat:'application/json',
+					outputFormat:'application/json'//,
 					
 					//srsName : 'EPSG:4326',
 
-					maxFeatures : 600
+					//maxFeatures : 600
 
 				}, data.options );
 
@@ -279,10 +354,22 @@
 							layer.request.abort();
 
 						app.loading(true);
+						
+						if(layer.options.cql_filter){
+							
+						    options.cql_filter = layer.options.cql_filter;
 
-						//options.bbox = map.getBounds().toBBoxString();
+							delete options.bbox;
+							
+						}else{
+							
+							options.bbox = map.getBounds().toBBoxString();
 
-						layer.request = $.get( data.url, $.extend({ bbox : map.getBounds().toBBoxString() }, options) );
+							delete options.cql_filter;							
+
+						}				
+													
+						layer.request = $.get( data.url,  options);
 						
 						layer.request.then(function(geo){
 
@@ -290,7 +377,7 @@
 
 							layer.clear();							
 								
-							if (clusters){
+							if (data.geomType == utils.geometry.pointCluster){
 																							
 								var markers = L.geoJson(geo, {
 									 
@@ -298,7 +385,18 @@
 									
 								});
 								
+								/*layer.options.maxClusterRadius = 80;
+								
+								if(map.getZoom() > 8 && map.getZoom() <= 11 && layer.options.maxClusterRadius)
+									
+									layer.options.maxClusterRadius = layer.options.maxClusterRadius / 2;
+								
+							    else if(map.getZoom() > 11 && data.options.minClusterRadius)
+							    	
+							    	layer.options.maxClusterRadius = data.options.minClusterRadius || 10;*/
+								
 								layer.addLayer(markers);
+								
 																
 							}else{
 								
@@ -333,7 +431,7 @@
 
 				map.on('moveend', function(){
 										
-					if(!map.enableEditing && !map.enableTimeSlider)
+					if(!map.enableEditing)
 						
 						GetData();
 					
@@ -400,19 +498,7 @@
 		layer.getGeometryType = function(){
 			
 			var type = data.geomType;
-			
-			/*if(layer.Description.geometryType.indexOf('Polygon') >= 0 )
-				
-				type = 'Polygon';
-			
-			if(layer.Description.geometryType.indexOf('Line') >= 0 )
-				
-				type = 'Line';
-			
-			if(layer.Description.geometryType.indexOf('Point') >= 0 )
-				
-				type = 'Point';*/
-			
+						
 			return type;
 			
 		};
@@ -425,7 +511,7 @@
 				
 				type = 'Polyline';
 			
-			if(data.geomType == utils.geometry.point)
+			if(data.geomType == utils.geometry.point || data.geomType == utils.geometry.pointCluster)
 				
 				type = 'Marker';
 			
@@ -452,8 +538,17 @@
 			return queryRequest;
 			
 		};
+		
+		layer.checked = function(){
+						
+			$('#'+layer.id+'-visibility').prop("checked", true);
+			
+		};
+		
 
 		layer.show = function(){
+			
+			layer.checked();
 
 			layer.visible = true;
 
@@ -464,7 +559,7 @@
 			layer.bringToFront();
 			
 			map.fire('addlayer', layer);
-			
+						
 		};
 
 		layer.hide = function(){
@@ -511,7 +606,7 @@
 				
 				workspaceLayer : workSpaceLayer,
 				
-				workspaceLink  : 'https:/www.nosi.cv/'+workSpace,
+				workspaceLink  : 'http://geoserver.org/'+workSpace,
 				
 				geometryField  : layer.geometryField,
 				
@@ -548,7 +643,7 @@
 					
 				};
 			
-			$.get(layer.Info.owsURL+'?service=WFS&request=DescribeFeatureType&typeName='+layer.Info.workspaceLayer+'&version=1.0.0').then(function(xml){
+			layer.requestDescription = $.get(layer.Info.owsURL+'?service=WFS&request=DescribeFeatureType&typeName='+layer.Info.workspaceLayer+'&version=1.0.0').then(function(xml){
 				
 				var attrsElements = $(xml).find('xsd\\:sequence xsd\\:element')
 				
@@ -570,7 +665,7 @@
 						res.attributes[name] = type.split('xsd:')[1]
 
 				});
-				
+								
 			});
 			
 			layer.Description = res;

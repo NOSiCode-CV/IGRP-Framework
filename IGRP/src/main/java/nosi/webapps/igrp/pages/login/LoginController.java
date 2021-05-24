@@ -1,11 +1,8 @@
 package nosi.webapps.igrp.pages.login;
 
 
-/**
- * Marcel Iekiny Oct 4, 2017 
- */
-/*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,12 +23,14 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Form;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
+
 import nosi.core.config.Config;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.ldap.LdapPerson;
+import nosi.core.ldap.NosiLdapAPI;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
@@ -70,10 +69,6 @@ public class LoginController extends Controller {
 		if(r != null) return r; 
 		
 		
-		r = createResponseIfNotAuthenticated_nhaLogin(); 
-		if(r != null) return r; 
-		
-		
 		r = createResponseApplyingActivation(); 
 		if(r != null) return r;  
 		
@@ -81,10 +76,9 @@ public class LoginController extends Controller {
 		r = oAuth2Wso2(); 
 		if(r != null) return r; 
 		
-		
-		r = createResponseOauth2OpenIdWso2(); 
+		r = createResponseOauth2OpenIdIdentityServer();
 		if(r != null) return r; 
-		
+
 		
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) { 
 			
@@ -96,7 +90,7 @@ public class LoginController extends Controller {
 			return redirect("igrp", "login", "login", this.queryString()); 
 		} 
 		
-		String aux = settings.getProperty("igrp.authentication.govcv.enbaled");
+		String aux = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.value());
 		boolean isDb = this.getConfig().getAutenticationType().equals("db");
 		if ((aux != null && !aux.isEmpty() && aux.equals("true")) || isDb) {
 			view.user.setLabel("Username");
@@ -123,15 +117,6 @@ public class LoginController extends Controller {
 		} else
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ocorreu um erro no logout.")); 
 		
-		
-		if (settings.getProperty("igrp.env.isNhaLogin") != null
-				&& !settings.getProperty("igrp.env.isNhaLogin").equals("true")
-				&& settings.getProperty("igrp.env.nhaLogin.url") != null
-				&& !settings.getProperty("igrp.env.nhaLogin.url").isEmpty()) {
-			String _url = settings.getProperty("igrp.env.nhaLogin.url").replace("igrp/login/login", "igrp/login/logout");
-			return redirectToUrl(_url);
-		}
-		
 		// Clear all cookies but lang
 		for (Cookie c : Igrp.getInstance().getRequest().getCookies()) {
 			if (!c.getName().equals("igrp_lang")) {
@@ -141,12 +126,12 @@ public class LoginController extends Controller {
 			}
 		}
 		
-		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
-		if(r != null && r.equalsIgnoreCase("true")) {
-			String oidcLogout = settings.getProperty("ids.wso2.oauth2.endpoint.logout"); 
+		String r = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value()); 
+		if(r != null && r.equalsIgnoreCase(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value())) {
+			String oidcLogout = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_LOGOUT.value()); 
 			if(oidcLogout != null && !oidcLogout.isEmpty()) {
 				String aux = oidcLogout + "?id_token_hint=" + oidcIdToken + "&state=" + oidcState; 
-				String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
+				String redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value()); 
 				aux = redirect_uri != null && !redirect_uri.isEmpty() ? aux + "&post_logout_redirect_uri=" + redirect_uri : aux;
 				
 				return redirectToUrl(aux); 
@@ -164,12 +149,7 @@ public class LoginController extends Controller {
 	}
 	
 	private Response createResponseIfIsAuthenticated() { 
-		
 		if (Igrp.getInstance().getUser().isAuthenticated()) { 
-			
-			Response response = runCustomIgrpOauth2WhenAuthenticated();
-			if(response != null) return response;
-			
 			User u = Core.getCurrentUser();
 			if(u.getIsAuthenticated() == 0) { 
 				try {
@@ -177,22 +157,10 @@ public class LoginController extends Controller {
 				} catch (IOException e) {
 				}
 			}
-
-			if (settings.getProperty("igrp.env.isNhaLogin") != null
-					&& settings.getProperty("igrp.env.isNhaLogin").equals("true")) {
-				String url = Igrp.getInstance().getRequest().getRequestURL().toString();
-				url = url.replace("app/webapps", "mylinks.jsp");
-				return redirectToUrl(url);
-			}
-
-			String destination = Route.previous();
-			if (destination != null) {
-				String qs = URI.create(destination).getQuery();
-				qs = qs.substring(qs.indexOf("r=") + "r=".length());
-				String param[] = qs.split("/");
-				new Permission().changeOrgAndProfile(param[0]);
-				return this.redirectToUrl(destination);
-			}
+			
+			
+			// Previous here 
+			
 			try { 
 				String state = Core.getParam("state"); 
 				if(state != null && !state.isEmpty()) 
@@ -236,63 +204,30 @@ public class LoginController extends Controller {
 		return null;
 	}
 	
-	private Response createResponseIfNotAuthenticated_nhaLogin() {
-		if (!Igrp.getInstance().getUser().isAuthenticated() && settings.getProperty("igrp.env.isNhaLogin") != null
-				&& !settings.getProperty("igrp.env.isNhaLogin").equals("true")
-				&& settings.getProperty("igrp.env.nhaLogin.url") != null
-				&& !settings.getProperty("igrp.env.nhaLogin.url").isEmpty()) {
-			return redirectToUrl(settings.getProperty("igrp.env.nhaLogin.url"));
-		}
-		return null;
-	}
-	
 	private Response mainAuthentication(String username, String password) {
-		switch (this.getConfig().getAutenticationType()) {
-			case "db": 
-				loadQueryStringIgrCustompOauth2();
+		String authenticationType = this.getConfig().getAutenticationType(); 
+		if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_DATABASE.value())) {
 				if (loginWithDb(username, password)) {
 					
-					Response r = runCustomIgrpOauth2WhenSignInDb(); 
-					if(r != null) return r;
+					// Previous here ... 
 					
-					String destination = Route.previous(); 
-					if (destination != null) {
-						String qs = URI.create(destination).getQuery();
-						qs = qs.substring(qs.indexOf("r=") + "r=".length());
-						String param[] = qs.split("/");
-						new Permission().changeOrgAndProfile(param[0]);
-						
-						return this.redirectToUrl(destination);
-					}
-					try {
-						return this.redirect("igrp", "home", "index"); // By default go to home index url 
-					}catch (Exception e) {
-					}
-			}
-			break; 
-			case "ldap": 
-				if (this.loginWithLdap(username, password)) {
-					if (settings.getProperty("igrp.env.isNhaLogin") != null
-							&& settings.getProperty("igrp.env.isNhaLogin").equals("true")) {
-						return checkEnvironments_nhaLogin(username);
-					}
-					
-					String destination = Route.previous(); 
-					if (destination != null) {
-						String qs = URI.create(destination).getQuery();
-						qs.indexOf("r=");
-						qs = qs.substring(qs.indexOf("r=") + "r=".length());
-						String param[] = qs.split("/");
-						new Permission().changeOrgAndProfile(param[0]);
-						return this.redirectToUrl(destination);
-					}
 					try {
 						return this.redirect("igrp", "home", "index"); // By default go to home index url 
 					}catch (Exception e) {
 					}
 				}
-			break; 
-		}
+		}else 
+			if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value())) {
+				if (this.loginWithLdap(username, password)) {
+					
+					// Previous here 
+					
+					try {
+						return this.redirect("igrp", "home", "index"); // By default go to home index url 
+					}catch (Exception e) {
+					}
+				}
+			}
 		
 		return null; 
 	}
@@ -318,51 +253,16 @@ public class LoginController extends Controller {
 		return success;
 	}
 	
-	private Response checkEnvironments_nhaLogin(String uid) {
-		try {
-			User user = new User().find().andWhere("user_name", "=", uid).one();
-			String token = Base64.getEncoder()
-					.encodeToString((user.getUser_name() + ":" + user.getValid_until()).getBytes());
-			URL url = new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
-			WSO2UserStub.disableSSL();
-			WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-			stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"),
-					settings.getProperty("ids.wso2.admin-pwd"), 2);
-
-			List<String> roles = stub.getOperations().getRoleListOfUser(uid);
-
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("token", token);
-			JSONArray jsonArray = new JSONArray();
-			jsonObject.put("myLinks", jsonArray);
-
-			roles.forEach(obj -> {
-				jsonArray.put(obj);
-			});
-
-			Igrp.getInstance().getRequest().getSession().setAttribute("__links", jsonObject.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		String url = Igrp.getInstance().getRequest().getRequestURL().toString();
-		url = url.replace("app/webapps", "mylinks.jsp");
-
-		return redirectToUrl(url);
-	}
-	
-	
-	
-	
 	private boolean loginWithLdap(String username, String password) {
-		
 		boolean success = false;
 		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
-
-		if (settings.getProperty("ids.wso2.enabled") != null && settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")) {
-			success = authenticateThroughWso2(username, password, personArray);
-		} 
-
+		
+		String idsAutentikaEnabled = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value()); 
+		if(idsAutentikaEnabled != null && idsAutentikaEnabled.equalsIgnoreCase("true"))
+			success = authenticateThroughIdentityServerAutentika(username, password, personArray);
+		else 
+			success = authenticateDirectlyToLDAPServer(username, password, personArray); 
+		
 		if (success) {
 			// Verify if this credentials exist in DB
 			User user = (User) new User().findIdentityByUsername(username);
@@ -382,13 +282,7 @@ public class LoginController extends Controller {
 				/** End create user session **/ 
 
 			} else {
-				if (this.getConfig().getEnvironment().equals("dev")
-						|| (settings.getProperty("igrp.env.isNhaLogin") != null
-								&& settings.getProperty("igrp.env.isNhaLogin").equals("true"))) { // Active Directory
-																									// Ldap Server ...
-																									// autoinvite the
-																									// user for
-																									// IgrpStudio 
+				if (this.getConfig().getEnvironment().equals(ConfigCommonMainConstants.IGRP_ENV_DEV.value())) { // auto invite 
 					User newUser = new User();
 					newUser.setUser_name(username.trim().toLowerCase());
 
@@ -435,20 +329,29 @@ public class LoginController extends Controller {
 		return success;
 	}
 	
-	private boolean authenticateThroughWso2(String username, String password, List<LdapPerson> personArray) {
+	private boolean authenticateDirectlyToLDAPServer(String username, String password, ArrayList<LdapPerson> personArray) {
+		NosiLdapAPI ldap = new NosiLdapAPI(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_URL.value()), 
+				settings.getProperty(ConfigCommonMainConstants.LDAP_AD_USERNAME.value()), 
+				settings.getProperty(ConfigCommonMainConstants.LDAP_AD_PASSWORD.value()),
+				settings.getProperty(ConfigCommonMainConstants.LDAP_AD_BASE.value()), 
+				settings.getProperty(ConfigCommonMainConstants.LDAP_AD_AUTHENTICATION_FILTER.value()), 
+				settings.getProperty(ConfigCommonMainConstants.LDAP_AD_ENTRY_DN.value()));
+		return ldap.validateLogin(username, password, personArray); 
+	}
+	
+	private boolean authenticateThroughIdentityServerAutentika(String username, String password, List<LdapPerson> personArray) {
 		boolean flag = false;
 			try {
-				URL url = new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
+				URL url = new URL(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value()));
 				WSO2UserStub.disableSSL();
 				WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-				stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"),
-						settings.getProperty("ids.wso2.admin-pwd"), 2);
+				stub.applyHttpBasicAuthentication(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()),
+						settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value()), 2);
 				
 				flag = stub.getOperations().authenticate(username, password);
 
-				String v = settings.getProperty("igrp.authentication.govcv.enbaled");
-
-				if (v.equalsIgnoreCase("true"))
+				String v = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.value());
+				if (v != null && v.equalsIgnoreCase("true"))
 					username = "gov.cv/" + username;
 
 				// Pesquisar user from Ids
@@ -487,9 +390,9 @@ public class LoginController extends Controller {
 	
 	private boolean sso(String username, String password, User dao) {
 		// boolean flag = true;
-		String client_id = settings.getProperty("ids.wso2.oauth2.client_id");
-		String client_secret = settings.getProperty("ids.wso2.oauth2.client_secret");
-		String endpoint = settings.getProperty("ids.wso2.oauth2.endpoint.token");
+		String client_id = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
+		String client_secret = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_SECRET.value());
+		String endpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_TOKEN.value());
 		String postData = "grant_type=password" + "&username=" + username + "&password=" + password + "&client_id="
 				+ client_id + "&client_secret=" + client_secret + "&scope=openid";
 		try {
@@ -580,11 +483,11 @@ public class LoginController extends Controller {
 			
 			if(authCode == null || authCode.isEmpty()) return null; 
 			
-			String client_id = settings.getProperty("ids.wso2.oauth2.client_id");
-			String client_secret = settings.getProperty("ids.wso2.oauth2.client_secret");
-			String endpoint = settings.getProperty("ids.wso2.oauth2.endpoint.token");
+			String client_id = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
+			String client_secret = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_SECRET.value());
+			String endpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_TOKEN.value());
 			
-			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri");
+			String redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
 			String warName = Core.getDeployedWarName();
 			redirect_uri = redirect_uri.replace("IGRP", warName);
 			
@@ -616,7 +519,7 @@ public class LoginController extends Controller {
 			String refresh_token = (String) jToken.get("refresh_token"); 
 			
 			Map<String, String> m = new HashMap<String, String>(); 
-			m.put("token", token);
+			m.put("access_token", token);
 			m.put("id_token", id_token);
 			m.put("session_state", session_state);
 			m.put("refresh_token", refresh_token);
@@ -634,7 +537,7 @@ public class LoginController extends Controller {
 		Map<String, String> uid = null;
 		try {
 			
-			String endpoint = settings.getProperty("ids.wso2.oauth2.endpoint.user");
+			String endpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_USER.value());
 			
 			Client curl = ClientBuilder.newClient();
 			javax.ws.rs.core.Response r = curl.target(endpoint)
@@ -669,11 +572,11 @@ public class LoginController extends Controller {
 	public Response oAuth2Wso2() {
 		
 		String error = Core.getParam("error"); 
-		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
+		String r = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value()); 
 		String authCode = Core.getParam("code");  
 		String state = Core.getParam("state"); 
 		
-		if(r != null && r.equalsIgnoreCase("true")) {
+		if(r != null && r.equalsIgnoreCase(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value())) {
 			
 			if(error != null && !error.isEmpty() && !error.equalsIgnoreCase("null")) {
 				Core.setMessageError("Ocorreu o seguinte erro: (" + error + ").");
@@ -687,15 +590,15 @@ public class LoginController extends Controller {
 			
 			Map<String, String> m = oAuth2Wso2Swap();
 			if(m != null) {
-				token = m.get("token"); 
+				token = m.get("access_token"); 
 				id_token = m.get("id_token"); 
 				session_state = m.get("session_state"); 
 				refresh_token = m.get("refresh_token"); 
 				
 				Core.addToSession("_oidcIdToken", id_token); 
 				Core.addToSession("_oidcState", session_state); 
+
 			}
-			
 			if(token != null) {
 				Map<String, String> _r = oAuth2Wso2GetUserInfoByToken(token);
 				if(_r != null && _r.containsKey("email") && _r.containsKey("sub")) {
@@ -765,7 +668,6 @@ public class LoginController extends Controller {
 						}
 						
 					}
-					
 				}else {
 						if(authCode != null && !authCode.trim().isEmpty()) {
 							Core.setMessageError("Ocorreu o seguinte erro: (Uid não encontrado).");
@@ -778,12 +680,8 @@ public class LoginController extends Controller {
 					return redirectToUrl(createUrlForOAuth2OpenIdRequest());
 				}
 			}
-			
-			if((error == null || error.isEmpty()) && 
-					(authCode == null || authCode.isEmpty()) && 
-					(r != null && r.equalsIgnoreCase("true"))) {
-				return createResponseOauth2OpenIdWso2();
-			}
+			if((error == null || error.isEmpty()) && (authCode == null || authCode.isEmpty()) && (r != null && r.equalsIgnoreCase("true"))) 
+				return createResponseOauth2OpenIdIdentityServer();
 			
 		}
 		
@@ -807,14 +705,14 @@ public class LoginController extends Controller {
 		}
 	}
 
-	private Response createResponseOauth2OpenIdWso2() {
-		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
-		String url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
-		if(r != null && r.equalsIgnoreCase("true") && url != null && !url.isEmpty()) {
-			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
+	private Response createResponseOauth2OpenIdIdentityServer() {
+		String r = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value()); 
+		String url = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE.value()); 
+		if(r != null && r.equalsIgnoreCase(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value()) && url != null && !url.isEmpty()) {
+			String redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value()); 
 			String warName = Core.getDeployedWarName(); 
 			redirect_uri = redirect_uri.replace("IGRP", warName); 
-			String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
+			String client_id = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value()); 
 			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrp&redirect_uri=" + redirect_uri; 
 			
 			return redirectToUrl(url); 
@@ -858,101 +756,6 @@ public class LoginController extends Controller {
 		u = u.update();
 		return u != null && !u.hasError();
 	} 
-	
-	private Map<String, String> getParamForCustomIgrpOauth2(){
-		Map<String, String> r = new HashMap<String, String>(); 
-		
-		String oauth2 = Igrp.getInstance().getRequest().getParameter("oauth");
-		String response_type = Igrp.getInstance().getRequest().getParameter("response_type");
-		String client_id = Igrp.getInstance().getRequest().getParameter("client_id");
-		String redirect_uri = Igrp.getInstance().getRequest().getParameter("redirect_uri");
-		String scope = Igrp.getInstance().getRequest().getParameter("scope"); 
-		
-		r.put("oauth", oauth2);
-		r.put("response_type", response_type);
-		r.put("client_id", client_id);
-		r.put("redirect_uri", redirect_uri);
-		r.put("scope", scope); 
-		
-		return r;
-	}
-	
-	private Response runCustomIgrpOauth2WhenAuthenticated() { 
-		Map<String, String> r = getParamForCustomIgrpOauth2(); 
-		String oauth2 = r.get("oauth");
-		if (oauth2 != null && oauth2.equalsIgnoreCase("1")) { 
-			StringBuilder oauth2ServerUrl = new StringBuilder();
-			User user = (User) Igrp.getInstance().getUser().getIdentity();
-			if (generateResponseForCustomIgrpOauth2(oauth2ServerUrl, user, r.get("response_type"), r.get("client_id"), r.get("redirect_uri"), r.get("scope")))
-				return this.redirectToUrl(oauth2ServerUrl.toString());
-			else
-				;// Go to error page 
-		}
-		return null;
-	}
-	
-	
-	private boolean generateResponseForCustomIgrpOauth2(StringBuilder oauth2ServerUrl, User user, String response_type, String client_id, String redirect_uri, String scope) { 
-		boolean result = true;
-		
-		String url_ = Igrp.getInstance().getRequest().getRequestURL().toString()
-				.replace(Igrp.getInstance().getRequest().getRequestURI() + "", "");
-		url_ += "/igrp-rest/rs/oauth2/authorization";
-		String queryString = "?";
-		queryString += "authorize=1";
-		queryString += "&response_type=" + response_type.replaceAll(" ", "%20"); 
-		queryString += "&client_id=" + client_id;
-		queryString += (redirect_uri != null && !redirect_uri.trim().isEmpty() ? "&redirect_uri=" + redirect_uri : "");
-		queryString += (scope != null && !scope.trim().isEmpty() ? "&scope=" + scope : "");
-		queryString += "&userId=" + Base64.getEncoder().encodeToString(user.getUser_name().getBytes());
-
-		oauth2ServerUrl.append(url_.concat(queryString));
-
-		return result;
-	}
-	
-	public Response runCustomIgrpOauth2WhenSignInDb() {
-		
-		Map<String, String> r = getParamForCustomIgrpOauth2(); 
-		
-		String oauth = r.get("oauth"); 
-		String response_type = r.get("response_type"); 
-		String client_id = r.get("client_id"); 
-		String redirect_uri = r.get("redirect_uri"); 
-		String scope = r.get("scope"); 
-		
-		
-		if (oauth != null && oauth.equalsIgnoreCase("1")) {
-			StringBuilder oauth2ServerUrl = new StringBuilder();
-			User user = (User) Igrp.getInstance().getUser().getIdentity();
-			if (generateResponseForCustomIgrpOauth2(oauth2ServerUrl, user, response_type, client_id, redirect_uri, scope)) {
-				return this.redirectToUrl(oauth2ServerUrl.toString());
-			} else
-				;// Go to error page
-		}
-		
-		return null;
-		
-	}
-	
-	private void loadQueryStringIgrCustompOauth2() {
-		Map<String, String> r = getParamForCustomIgrpOauth2(); 
-		
-		String oauth = r.get("oauth"); 
-		String response_type = r.get("response_type"); 
-		String client_id = r.get("client_id"); 
-		String redirect_uri = r.get("redirect_uri"); 
-		String scope = r.get("scope"); 
-		
-		if(oauth != null && oauth.equalsIgnoreCase("1")) {
-			this.addQueryString("oauth", oauth);
-			this.addQueryString("response_type", response_type);
-			this.addQueryString("client_id", client_id);
-			this.addQueryString("redirect_uri", redirect_uri);
-			this.addQueryString("scope", scope);
-		}
-		
-	}
 
 	/*----#end-code----*/
 }

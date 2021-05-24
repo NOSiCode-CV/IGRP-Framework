@@ -11,57 +11,96 @@
 			Layers  = app.layers.getLayers(),
 			
 			timeout = function(){};
+			
+		function UniqueID(){
+			
+			 return Date.now();
+			 
+		}
 		
-		function getCSS(jsonCSS) {
+		function getCSS(symbolizers) {
 			
 		     var style = '';
-		    
-		     for (var prop in jsonCSS) {
-		         style += prop + ":" + jsonCSS[prop] + '; ';
+		     		     
+		     var propretries = {
+    		      "mark": "circle",
+    		      "fill": "#FFFFFF",
+    		      "fill-opacity": "1.0",
+    		      "stroke": "#000000",
+    		      "stroke-width": "2",
+    		      "stroke-opacity": "1"
 		     }
+		     
+		    if(symbolizers[1]){
+		    	
+		    	if(symbolizers[0].Polygon)
+		    		propretries = $.extend(propretries, symbolizers[0].Polygon['graphic-fill'].graphics[0] );	
+		    	
+		    	if(symbolizers[1].Line)
+		    		propretries = $.extend(propretries, symbolizers[1].Line );	
+		    			    	
+		    }else
+		    	propretries = $.extend(propretries, symbolizers );		
+		    
+		     for (var prop in propretries) 
+		         style += prop + ":" + propretries[prop] + '; ';	
 		     
 			 return style;
 		}
 				
 		function Load(){
 			
-			var Results = [];
+			var Results = [], filters = [];
 			
 			Layers.forEach(function(l){
 												
-				var items = [],
+				var items = [],				
 											    
 				    layer = l.data(),
 				    
 				    legend = l.Legend;
 				
 				if(!l.visible) return this;
-								
+												
 				var rules = legend !== undefined ? legend.rules : '';
 				
 				if(!rules) return this;
 												
 				for (var i in rules) {
+										
+					var item = {},
 					
-					var symbolizers = rules[i].symbolizers[0];	
+						symbolizers = rules[i].symbolizers[0];	
 					
-					var label = rules[i].name !== 'rule1' ? rules[i].name : [],
+					if(rules.length > 1)
 						
-						item = {label : label};
+						item.label = rules[i].name;
 					
+					var id = layer.id + i;
+					
+					filters.push({active: true, id: id, layerid: layer.id, filter: rules[i].filter});
+										
 					items.push(item);
 					
+					item.id = id;
+										
 					if(symbolizers.Point){
 						
-						var point = symbolizers.Point;
+						var point = symbolizers.Point,
 						
-						item.style = getCSS(point.graphics[0]);
+							style = point.graphics[0],
+							
+							o     = {};
+						
+						o.color = style.fill; 
+						
+						item.icon = point.url && style.mark !== 'x' ? point.url : GIS.module('Templates').Layers.svg(o);
 						
 						item.point = true;
 						
-	                }else if(symbolizers.Polygon){
+	                }else if( l.getGeometryType() == utils.geometry.polygon ){
 	                	
-	                	item.style = getCSS(symbolizers.Polygon);
+	                	item.style = getCSS(rules[i].symbolizers);
 	                	
 						item.polygon = true;
 						
@@ -91,15 +130,19 @@
 	                }
 					
 				}
+								
+				widget.filters = filters;
 									
 				Results.push({
 					
 					title : layer.name,
 					
-					items : items
+					items : items,
+					
+					layerId : layer.id
 					
 				});	
-				
+								
 				SetResults( Results );
 				
 				addedLegend = true;
@@ -111,7 +154,7 @@
 		};
 		
 		function SetResults(legends){
-			
+						
 			try{
 
 				widget.setTemplateParam('legends', {
@@ -132,14 +175,34 @@
 			
 		};
 		
-		function SetEvents(){
+		function getFilter(object, layer, callback){
 			
-			/*clearTimeout(timeout);
+			var res = '', allActive = true,
+			
+				filters	= widget.filters.filter(function(b){ return b.layerid == layer.id }) || {};
 
-			timeout = setTimeout(Load, 600 );
+			for (var i  in filters){
+				
+				if (allActive) allActive = filters[i].active ? true : false;
+					
+				var val = ( filters[i].active && filters[i].filter ? filters[i].filter : '').replace('[','').replace(']','') ;
+								
+				if( val  ) 
+					
+					res += res ? ' OR ' + val : val;
 			
-			widget.loading(true);*/
+			}
+						
+			layer.options.cql_filter = !allActive ? ( res ? res : '1 = 0' ) : '';
+						
+			if(callback)
+				
+				callback();			
 			
+		}
+		
+		function SetEvents(){
+						
 			Load();
 			
 			Map.on('removelayer', Load);
@@ -147,6 +210,40 @@
 			Map.on('addlayer', Load);
 			
 			Map.on('legend-added', Load);
+			
+			widget.html.on('change', '.legend-check', function(){
+								
+				var item    = $(this),				
+				
+					id 	    = item.attr('legend-id'),
+					
+					layerid = item.attr('layer-id'),
+					
+					layer   = app.layers.get(layerid);
+								
+				var	filter	= widget.filters.filter(function(b){ return b.id == id })[0] || {};
+								
+				if (!this.checked) {
+					
+					item.parent().removeClass('active');
+					
+					filter.active = false;
+					
+				}else{
+					
+					item.parent().addClass('active');
+					
+					filter.active = true;
+					
+				}
+				
+				getFilter(widget.filters, layer, function(){
+					
+					layer.updateData();
+					
+				});
+								
+			});
 			
 		};
 		

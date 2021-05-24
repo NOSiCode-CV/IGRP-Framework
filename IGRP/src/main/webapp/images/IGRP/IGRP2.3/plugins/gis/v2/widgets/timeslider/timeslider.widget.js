@@ -10,19 +10,21 @@
 					
 			formatIn = 'DD-MM-YYYY', formatOut = 'DD/MM/YYYY',
 			
+			today = moment().format(formatIn),
+			
 			sliderVal = 0, sliderValues = [0, 1], sliderInterval = {},slideMax = -1, hasSlider = false, moving = false, 
 			
 			SliderController, playButton, Times = [], LayerController, attributes  = [],
 			
-			layers = [], Layer, modalId = '#slider-modal', modal, dateAttr,
+			layers = [], modalId = '#slider-modal', modal, hasAttributes = false,
 			
 			settings = $.extend({
 
-				delay      : 500, 
+				delay      : 1000, 
 				
-				start_date : '01-01-1900',
+				startDate  : '01-01-2001',
 				
-				end_date   : '01-01-2099',	
+				endDate    : today,
 				
 				period	   : 'months',//days,months,years,weeks
 				
@@ -30,17 +32,21 @@
 				
 				animate    : 'fast', //slow,fast
 				
-				range      : false,//true,false
+				range      : false, //true,false
 				
 				increment  : 1,
 				
 				loop       : false
 
 			}, data );
+				
+		settings.startDate = moment(settings.startDate, formatIn);
 		
-		settings.start_date = moment(settings.start_date, formatIn);
+		settings.endDate = moment(settings.endDate, formatIn);
 		
-		settings.end_date = moment(settings.end_date, formatIn);
+		settings.dateAttr = null;
+		
+		settings.attributes = [];
 		
 		widget.templateParams = {
 				
@@ -123,6 +129,36 @@
 		
 		widget.action('run', function(){
 			
+			var message = '';
+			
+			console.log(settings.attributes.length)
+			
+			console.log(settings.dateAttr)
+			
+			if(!widget.layerId)
+				
+				message = 'Escolha o Layer para continuar.';
+				
+			else if(hasAttributes && !settings.dateAttr)
+				
+				message = 'Escolha o Atributo para continuar.';
+				
+			
+			if(message){
+				
+				$.IGRP.notify({
+	    			
+	    			message : message,
+	    			
+	    			type    : 'error'
+	    			
+	    		});
+				
+				return false;
+			}
+					
+			widget.layer.show();
+						
 			if(!moving){
 				
 				widget.getValues();
@@ -211,7 +247,7 @@
 										  
 				  var val   = widget.getValue(1);
 				  				  				  
-				  var start = settings.range ? Times[ui.values[0]].value : settings.start_date,
+				  var start = settings.range ? Times[ui.values[0]].value : settings.startDate,
 				  
 					  end   = settings.range ? Times[ui.values[1]].value : Times[ui.value].value;
 			  	
@@ -238,7 +274,7 @@
 				  }
 					
 			});
-			
+						
 		};
 		
 		function diffDate(pStart, pEnd){
@@ -260,7 +296,7 @@
 			while (i < slideMax) {
 				
 				var date = moment(
-						settings.start_date, formatIn
+						settings.startDate, formatIn
 				).add(
 					i, settings.period
 				);
@@ -323,9 +359,9 @@
 			
 			settings.step  = parseInt($('input[name=step]', modalId).val(), 10);
 			
-			settings.start_date = moment($('input[name=start_date]', modalId).val(), formatIn);
+			settings.startDate = moment($('input[name=start_date]', modalId).val(), formatIn);
 			
-			settings.end_date = moment($('input[name=end_date]', modalId).val(), formatIn);
+			settings.endDate = moment($('input[name=end_date]', modalId).val(), formatIn);
 			
 			settings.period = $('select[name=period]', modalId).val() || settings.period;
 			
@@ -345,15 +381,13 @@
 				
 			}
 			
-			slideMax = diffDate(settings.start_date, settings.end_date);
+			slideMax = diffDate(settings.startDate, settings.endDate);
 			
 			calculatesScaleTime();
 			
 			SliderController.slider({
 				
-				classes: {
-					"ui-slider": "gis-slider"
-			    },
+				classes: {"ui-slider": "gis-slider"},
 				
 			    animate: settings.animate,
 			    
@@ -361,11 +395,13 @@
 			    
 			    step: settings.step, 
 			    
-			    range: settings.range
+			    range: settings.range ? true : 'min',
 			    
+			    orientation: "horizontal"
+			    			    
 		    });
-		
 			
+		
 			if(settings.range)
 				
 				SliderController.slider("values", [0, 1]);
@@ -373,12 +409,12 @@
 			else
 				
 				SliderController.slider("value", 0);
+						
+			showDate(settings.startDate, settings.endDate);
 			
-			showDate(settings.start_date, settings.end_date);
+			$('.slider-min-date span', widget.html).html(getFormateDate(settings.startDate));
 			
-			$('.slider-min-date span', widget.html).html(getFormateDate(settings.start_date));
-			
-			$('.slider-max-date span', widget.html).html(getFormateDate(settings.end_date));
+			$('.slider-max-date span', widget.html).html(getFormateDate(settings.endDate));
 			
 			hasSlider = true;
 				
@@ -388,84 +424,166 @@
 		
 		widget.getLayers = function(){
 			
-			var grouplayers = app.layers.getLayers();
+           if(data.layers && data.layers[0]){
+        	   			        	    
+				data.layers.forEach(function(l){
 			
-			grouplayers.forEach(function(l){
-				
-				var layer  =  l.data();
-				
-				if(layer.type === 'WFS')
+					var layer = app.layers.get( l.layer );
 					
-					layers.push({
-						name : layer.name,
-						id   : layer.id
-					});
-				
-			});
+					if(layer){
+					
+						var layer = layer.data();					
+						
+						layers.push({
+							
+							name : layer.name,
+							
+							id   : layer.id
+							
+						});
+					}
+					
+					if(data.layers.length == 1)
+						
+						widget.layerId = layer.id;
+										
+				});
+								
+           }else{
+        	   
+        	   var grouplayers = app.layers.getLayers();
+   			
+       			grouplayers.forEach(function(l){
+       				
+       				var layer  =  l.data();
+       				
+       				if(layer.type === 'WFS')
+       					
+       					layers.push({
+       						
+       						name : layer.name,
+       						
+       						id   : layer.id
+       						
+       					});
+       				
+       			});
+           }
 			
 		};
 		
 		widget.getDateAttr =  function(){
 			
-			date_attr = $('select[name=attributes]', widget.html).val();
-							
+			settings.dateAttr = $('select[name=attributes]', widget.html).val();
+									
 		};
 			
-		function AttributesToSelect(json){
+		function AttributesToSelect(json, onLayer){
 			
 			var attributes = [];
 			
-			for(var key in json){
+			if(!onLayer){
 				
-				if(json[key] == 'date')
+				for( var key in json )			
+					
+					attributes.push({
+		            	
+		            	id : json[key],
+		            	
+		            	name : json[key]
+		            	
+		            });			
 				
-		            attributes.push({
-		            	
-		            	id : key,
-		            	
-		            	name : key
-		            	
-		            });
-	            
-	        }
+			}else
+			
+				for(var key in json){
+					
+					if(json[key] == 'date' || json[key] == 'dateTime')
+					
+			            attributes.push({
+			            	
+			            	id : key,
+			            	
+			            	name : key
+			            	
+			            });
+		            
+		        }
 			
 			return attributes;
 		};		
 		
 		widget.SetLayerDefinitions = function(pStart, pEnd){
+									
+			if(!widget.layer || !settings.dateAttr || !pStart || !pEnd) return false;	
 			
-			widget.getDateAttr();
-						
-			if(!Layer || !date_attr || !pStart || !pEnd) return false;	
-			
-			Layer.bringToFront();	
+			widget.layer.bringToFront();	
 			
 			pStart = getFormateDate(pStart, moment.defaultFormat);
 			
 			pEnd = getFormateDate(pEnd, moment.defaultFormat);
-			
-			Layer.clearLayers();
-			
-			for (var key in widget.timelayer){
-				
-				var layer = widget.timelayer[key];
-				
-				if(layer.feature.properties[date_attr]){
-					
-					var datelayer = moment(layer.feature.properties[date_attr], moment.defaultFormat).toDate();
-					
-					if(moment(datelayer).isBetween(pStart, pEnd, undefined, '[]'))
 						
-						Layer.addLayer(layer)					
-				}
-					
-			};
+			widget.layer.options.cql_filter = settings.dateAttr +' AFTER ' + pStart + ' AND ' + settings.dateAttr + ' BEFORE ' + pEnd;
 						
+			widget.layer.request = null;
+			
+			widget.layer.updateData();
+									
 		};
 		
-		function LoadHtml(){
+		function CreateSlider(){
 			
-			widget.getLayers();
+			if(widget.layerId){
+				
+				widget.layer  = app.layers.get(widget.layerId);
+				
+				var _layers   = data.layers[0] ? data.layers : layers;
+																	
+			    if(_layers[0]){
+						
+			    	_layers.forEach(function(l){
+										    		
+			    		  var layerId = l.layer || l.id;		    		
+			    		
+						  if(layerId == widget.layerId){	
+							  								
+								settings           = $.extend(settings, l.slider);
+								
+								settings.startDate = moment(settings.startDate, formatIn);
+								
+								settings.endDate   = moment(settings.endDate, formatIn);
+								
+								RenderModal(settings);
+								
+								widget.slider();	
+										
+								var attributes     = l.dateAttr ? l.dateAttr.split(',') : [];
+								
+								if(l.dateAttr == undefined || l.dateAttr == '' ){
+									
+									settings.attributes = AttributesToSelect(widget.layer.Description.attributes, true);
+									
+									hasAttributes = true;
+
+								}else if( attributes.length > 1 ){
+									
+									settings.attributes = AttributesToSelect(attributes);
+									
+									hasAttributes = true;
+									
+								}else										
+									settings.dateAttr  = l.dateAttr;	
+								
+								if(hasAttributes) RenderAttribute();																	
+								
+							}
+						  
+						});						
+				  }		
+			}			
+		}
+		
+		function RenderModal(o){
 			
 			var modalData =  $.extend({
 				periods: {					
@@ -474,7 +592,7 @@
 					 'months': 'Mês',
 					 'years' : 'Ano'
 				},
-				"items" : [
+				items : [
 		            {
 		                "label" : "Sim",
 		                "active" : true
@@ -484,32 +602,76 @@
 		                "active" : false
 		            } 
 	            ]
-			},settings);
+			}, o);
 			
-			modalData.start_date = getFormateDate(settings.start_date, formatIn);
+			modalData.startDate = getFormateDate(o.startDate, formatIn);
 			
-			modalData.end_date = getFormateDate(settings.end_date, formatIn);
-			
+			modalData.endDate = getFormateDate(o.endDate, formatIn);
+						
 			try{
 				
-				widget.setTemplateParams({
+				widget.setTemplateParam('settings', {settings: modalData});
+				
+				$(".select2-modal").select2({
+	         		
+				    dropdownParent: modal
+				    
+				});
+				
+				$('.gen-date-picker').daterangepicker({
 					
-					layers: layers,
+					singleDatePicker: true,
 					
-					settings:  modalData
+					locale:{
+						format: 'DD-MM-YYYY'
+					}
+					
+					//locale: $.IGRP.components.daterangepicker.locale
 					
 				});
+												
+			}catch(e){}
+						
+		}
+		
+		function RenderAttribute(){
+			
+		    $('div[item-name=attributes]', widget.html).show();
+		    
+		    $("select[name=attributes]", widget.html).select2('destroy');
+		    
+			try{
+
+				widget.setTemplateParam('attributes-time', {attributes: settings.attributes});
+				
+				$("select[name=attributes]", widget.html).select2();			
 								
-			}catch(e){
+			}catch(e){}	
+			
+		}
+		
+		function Render(){
+			
+			RenderModal(settings);
+						
+			if(layers.length > 1)
 				
-				console.log('Erro Render Modal:: '+e.message)
+			    $('div[item-name=layers]', widget.html).show();
+			
+			$(".select2", widget.html).select2();
+			
+			$(".select2", widget.html).select2('destroy');
+						
+			try{
 				
-			}
+				widget.setTemplateParam('layers', {layers: layers});
+												
+			}catch(e){}
 			
 		}
 		
 		function Init(){
-						
+									
 			modal = $(modalId);
 			
 			SliderController = $(".slider", widget.html);
@@ -517,59 +679,50 @@
 			playButton = $(".run", widget.html);	
 			
 			LayerController = $("select[name=layers]", widget.html);
-											
-			$(".select2-modal").select2({
-         		
-			    dropdownParent: modal
-			    
-			});
 			
-			$(".layers-select").select2();
+			$(".select2", widget.html).select2();
 			
-			$('.gen-date-picker').daterangepicker({
+			$('div[item-name=attributes]', widget.html).hide();
+						
+			if(layers.length == 1)
 				
-				singleDatePicker: true,
-				
-				locale: $.IGRP.components.daterangepicker.locale
-				
-			});
+				CreateSlider();
 					
 			widget.html.on('change', "select[name=layers]", function(e){	
 				
-				var val = e.target.value;	
+				widget.layerId = e.target.value;
+				
+				widget.actions.stop();
+				
+				widget.slider();
+				
+				if(widget.layer){
+					
+					widget.layer.options.cql_filter = null;
+					
+					widget.layer.updateData();
+				}
+				
+				settings.dateAttr = null;
 				
 				$('div[item-name=attributes]', widget.html).hide();
 				
-				if(val){
-									
-					if(Layer) Layer.updateData();
-					
-					Layer            = app.layers.get(val);
-					
-					widget.timelayer = Layer.getLayers();
-					
-					var jsonAttr     = Layer.Description.attributes;	
-								
-				    attributes = AttributesToSelect(jsonAttr);	
-				    
-				    $('div[item-name=attributes]', widget.html).show();
-					
-				}
-					
-				$("select[name=attributes]", widget.html).select2('destroy');
+				CreateSlider();
+																
+			});
+			
+			widget.html.on('change', "select[name=attributes]", function(e){
+
+				settings.dateAttr = e.target.value;
 				
-				try{
-					
-					widget.setTemplateParam('attributes', {attributes: attributes});
-					
-					$("select[name=attributes]", widget.html).select2();			
-									
-				}catch(e){
-					
-					console.log('Erro Render attributos:: '+e.message)
-					
-				}	
-												
+				widget.actions.stop();
+				
+				widget.slider();
+				
+				widget.layer.options.cql_filter = null;
+				
+				widget.layer.updateData();
+				
 			});
 					
 		}
@@ -578,26 +731,31 @@
 			
 			widget.on('load-html', function(){	
 				
-				LoadHtml();
+				widget.getLayers();		
 				
 			});
 						
 			widget.on('activate', function(){	
 				
+				Render();
+				
 				Init();
 				
 				SetEvents();
-				
-				Map.enableTimeSlider = true;
-				
+								
 			});		
 			
 			widget.on('deactivate', function(){	
 				
-				if(Layer) Layer.updateData();
-				
-				Map.enableTimeSlider = false;
-				
+				if(widget.layer){
+					
+					widget.actions.stop();
+					
+					widget.layer.options.cql_filter = null;
+					
+					widget.layer.updateData();
+				}
+								
 			});
 						
 		})();
@@ -613,7 +771,8 @@
 				path + '/plugins/select2/select2.init.js',
 				path + '/plugins/datepicker2/daterangepicker.js',
 				path + '/plugins/datepicker2/IGRP.daterangepicker.config.js',
-				path + '/plugins/datepicker2/locale/dp.locale.pt.js'
+				path + '/plugins/datepicker2/locale/dp.locale.pt.js',
+				path + '/plugins/datepicker2/locale/dp.locale.pt.js',
 			],
 			
 			css  : [

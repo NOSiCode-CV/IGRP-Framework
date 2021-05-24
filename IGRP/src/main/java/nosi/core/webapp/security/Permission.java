@@ -10,6 +10,7 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Optional;
 import javax.servlet.http.Cookie;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.ApplicationPermition;
@@ -34,12 +35,13 @@ public class Permission {
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){ 
 			if(PagesScapePermission.PAGES_SHAREDS.contains((appP + "/" + page + "/" + action).toLowerCase())) 
 				return true; 
-			if(app.equalsIgnoreCase("igrp_studio") || app.equalsIgnoreCase("tutorial")) 
-				return true; 
-			if(app.equals(appP)) 
+			if(app.equals(appP) || appP.equals("igrp") || appP.equals("igrp_studio")) 
 				return (new Application().getPermissionApp(app) && new Menu().getPermissionMen(appP, page)); 
-			else 
-				new Share().getPermissionPage(app,appP,new Action().findByPage(page, appP).getId()); 
+			else { 
+				if(appP.equals("tutorial")) // default page purpose 
+					return true; 
+				return new Share().getPermissionPage(app,appP,new Action().findByPage(page, appP).getId()); 
+			}
 		}
 		return PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains((appP+"/"+page+"/"+action).toLowerCase());
 	}

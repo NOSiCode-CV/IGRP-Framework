@@ -1,27 +1,26 @@
 package nosi.webapps.igrp.pages.novoperfil;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
+
+import java.util.HashMap;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.webapps.igrp.dao.ProfileType;
+
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
-import nosi.core.webapp.activit.rest.entities.GroupService;
-import nosi.core.webapp.activit.rest.services.GroupServiceRest;
+import nosi.webapps.igrp.dao.ProfileType;
 
-import java.util.HashMap;
-import java.util.Properties;
-import nosi.core.config.ConfigApp;
 /*----#end-code----*/
 		
 public class NovoPerfilController extends Controller {
@@ -59,7 +58,8 @@ public class NovoPerfilController extends Controller {
 			view.primeira_pagina.setValue(new Menu().getListActionByOrg(model.getAplicacao(),model.getOrganica()));
 			view.perfil_pai.setValue(model.getOrganica() != 0 ? new ProfileType().getListProfiles4Pai(model.getAplicacao(), model.getOrganica()): null);
 		}
-			
+		
+		view.igrp_code.setVisible(false); 
 
 		/*----#end-code----*/
 		view.setModel(model);
@@ -173,7 +173,10 @@ public class NovoPerfilController extends Controller {
 			HashMap<String, String> listProfiles4Pai = new ProfileType().getListProfiles4Pai(model.getAplicacao(), model.getOrganica());
 			listProfiles4Pai.remove(idProf);
 			view.perfil_pai.setValue(model.getOrganica() != 0 ? listProfiles4Pai: null);			
-		}	
+		}
+		
+		model.setIgrp_code(p.getPlsql_code());
+		
 		view.setModel(model);
 		return this.renderView(view);
 	}
@@ -191,6 +194,7 @@ public class NovoPerfilController extends Controller {
 			p.setDescr(model.getNome());
 			p.setOrganization(Core.findOrganizationById(model.getOrganica()));
 		
+			p.setPlsql_code(model.getIgrp_code());
 			
 			 if(Core.isNotNullOrZero(model.getPerfil_pai())){
 				 p.setProfiletype(new ProfileType().findOne(model.getPerfil_pai()));

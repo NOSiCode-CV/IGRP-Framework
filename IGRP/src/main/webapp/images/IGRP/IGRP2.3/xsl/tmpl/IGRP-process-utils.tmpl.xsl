@@ -57,7 +57,7 @@
           </xsl:variable>
 
 
-          <a href="{link}" class="f1-step {$itemClss} {$itemSize} col-xs-12 wiz-step" style-listener="true">
+          <a href="{link}" class="f1-step {$itemClss} {$itemSize} col-xs-12 wiz-step" style-listener="true" target="_newtab">
             <div class="f1-step-icon" active-bg-color="primary">
               <span><xsl:value-of select="position() - 1 + $start"/></span>
             </div>

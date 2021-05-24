@@ -3,6 +3,18 @@
 	var com;
 
 	var lang = document.cookie.split(';');
+
+	var stripHtml = function(html){
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = html;
+		var str = tmp.textContent || tmp.innerText || "";
+
+		return $.trim(str);
+	};
+
+	var exportOptionsFormat = function(data, node){
+		return $('.table-info-group-main',$(node))[0] ? $('.table-info-group-main',$(node)).text() : stripHtml(data);
+	}
 	
 	var exportOptions = {
 
@@ -12,7 +24,12 @@
 	           titleAttr       : 'Exportar para PDF',
 	           className 	   : 'btn btn-danger btn-xs',
 	           exportOptions   : {
-	               columns     : ':not(.igrp-table-ctx-th)'
+	               columns     : ':not(.igrp-table-ctx-th)',
+				   format	   : {
+						body : function ( data, row, column, node ) {
+							return exportOptionsFormat(data,node);
+						}
+					}
 	           },
 	           customize: function (doc) {
 	        	   var tcontent = doc.content[1] || doc.content[0];
@@ -28,7 +45,12 @@
 	           titleAttr       : 'Exportar para Excel',
 	           className 	   : 'btn btn-success btn-xs',
 	           exportOptions   : {
-	               columns     : ':not(.igrp-table-ctx-th)'
+	                columns    : ':not(.igrp-table-ctx-th)',
+				    format	   : {
+						body : function ( data, row, column, node ) {
+							return exportOptionsFormat(data,node);
+						}
+					}
 	           }
 	       }
 
@@ -136,11 +158,13 @@
 							$(th).addClass('is-grouped');
 							
 							tdInfo.addClass('is-grouped');
+
+							$('tfoot td[td-name="'+thName+'"]',table).addClass('is-grouped');
 							
-							var thFoot = $('tfoot td[td-name="'+thName+'"]',table);
+							/*var thFoot = $('tfoot td[td-name="'+thName+'"]',table);
 							
 							if(thFoot[0])
-								thFoot.remove();
+								thFoot.remove();*/
 							
 						}
 	
@@ -148,7 +172,7 @@
 					
 				});
 				
-				rows.parents('table').find('.is-grouped').remove();
+				//rows.parents('table').find('.is-grouped').remove();
 			}
 		},
 

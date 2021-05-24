@@ -6,7 +6,9 @@ package nosi.webapps.igrp.dao;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+
 import static nosi.core.i18n.Translator.gt;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;

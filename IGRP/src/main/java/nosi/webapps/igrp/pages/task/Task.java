@@ -1,8 +1,9 @@
 package nosi.webapps.igrp.pages.task;
-import nosi.core.webapp.Model;
-import nosi.core.webapp.RParam;
 import java.util.ArrayList;
 import java.util.List;
+
+import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
 
 public class Task extends Model{		
 	@RParam(rParamName = "p_aplicacao")

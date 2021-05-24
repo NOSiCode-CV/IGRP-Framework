@@ -1,16 +1,14 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
-import nosi.core.webapp.activit.rest.business.ProcessInstanceIGRP;
-import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,26 +18,32 @@ import java.util.Properties;
 import java.util.Map.Entry;
 import javax.servlet.http.Cookie;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import nosi.core.config.ConfigApp;
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.integration.pdex.service.AppConfig;
 import nosi.core.integration.pdex.service.AppConfig.ExternalMenu;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.activit.rest.business.ProcessInstanceIGRP;
+import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
+
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
-import nosi.webapps.igrp.dao.Menu.MenuProfile;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.Menu.MenuProfile;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import static nosi.core.i18n.Translator.gt;
 
-import static nosi.core.i18n.Translator.gt; 
 /*----#end-code----*/
 		
-public class PesquisarMenuController extends Controller { 
-	
+public class PesquisarMenuController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
@@ -48,7 +52,7 @@ public class PesquisarMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Amet dolor laudantium unde aperiam rem elit ut totam accusantium unde magna ut deserunt natus ut ame' as t1_menu_principal,'1' as ativo,'29' as ordem,'Amet officia natus elit stract rem lorem aliqua sed lorem doloremque rem iste voluptatem totam molli' as table_titulo,'Ut labore aperiam totam aliqua adipiscing natus iste anim sed unde labore deserunt mollit sit adipis' as pagina,'1' as checkbox,'hidden-183f_b8d3' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Rem aliqua stract magna elit aperiam magna amet ipsum magna ipsum laudantium iste doloremque ipsum a' as t1_menu_principal,'1' as ativo,'2' as ordem,'Omnis ipsum sit rem aliqua sed' as icon,'Doloremque iste amet sit officia aliqua natus voluptatem sit aliqua amet magna dolor natus officia e' as table_titulo,'Lorem dolor magna ipsum adipiscing mollit officia mollit voluptatem sit labore accusantium laudantiu' as pagina,'1' as checkbox,'hidden-2491_46da' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -112,7 +116,6 @@ public class PesquisarMenuController extends Controller {
 				}else 
 					if(menu_db1.getLink() != null && !menu_db1.getLink().isEmpty()) {
 						table1.setPagina("Página Externa (GlobalAcl)"); 
-						table1.hiddenButton(view.btn_editar); 
 						table1.setCheckbox(1);
 						table1.setCheckbox_check(1);
 					}
@@ -121,6 +124,7 @@ public class PesquisarMenuController extends Controller {
 				table1.setAtivo_check(menu_db1.getStatus() == 1 ? menu_db1.getStatus() : -1);
 				table1.setCheckbox(menu_db1.getId());
 				table1.setId("" + menu_db1.getId());
+				table1.setIcon("<i class=\"fa "+menu_db1.getMenu_icon()+"\"/>");
 				if (menu_db1.getFlg_base() == 1) {
 					table1.setCheckbox_check(menu_db1.getId());
 				}
@@ -248,6 +252,7 @@ public class PesquisarMenuController extends Controller {
 							xml_menu.setElement("id", "" + main.getId());
 							xml_menu.setElement("status", "" + main.getStatus());
 							xml_menu.setElement("order", "" + main.getOrder());
+							xml_menu.setElement("menu_icon", main.getMenu_icon());
 							xml_menu.endElement();
 						}
 						xml_menu.endElement();

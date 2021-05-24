@@ -8,8 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
+
 import nosi.core.igrp.mingrations.MigrationIGRPInitConfig;
 import nosi.core.webapp.Core;
+
 
 /**
  * Emanuel
@@ -39,18 +41,18 @@ public final class ConfigApp {
 		File file = new File(fileName);
 		Properties props = new Properties();
 		try (FileInputStream fis = new FileInputStream(file)) {
-			props.loadFromXML(fis);
-			fis.close();
+			props.loadFromXML(fis);			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return props;
 	}
-	@Deprecated
+	
 	/**
-	 * Use getMainSettings
+	 * @deprecated (Use getMainSettings)	
 	 * @return loadConfig("common", "main.xml");
 	 */
+	@Deprecated	
 	public Properties loadCommonConfig() {
 		return commonMain;
 }
@@ -67,7 +69,7 @@ public final class ConfigApp {
 	
 	public Properties loadConfig(String filePath, String fileName) {
 		String path = this.config.getBasePathConfig() + File.separator + filePath;
-		return loadConfig(this.getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
+		return loadConfig(this.getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replace("%20", " "));
 	}
 	
 	public String getBaseConnection() {
@@ -83,8 +85,7 @@ public final class ConfigApp {
 			MigrationIGRPInitConfig.start();
 			try {
 				this.save();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} catch (IOException e) {		
 				e.printStackTrace();
 			}
 		}
@@ -110,12 +111,11 @@ public final class ConfigApp {
 	}
 	
 	private void load() throws IOException {
-		Properties p = this.loadProperties("/config/install/install.properties");
-		if(p!=null){
+		Properties p = this.loadProperties("/config/install/install.properties");		
 			this.version = p.getProperty("version");
 			this.data_install = p.getProperty("data_install");
 			this.isInstallation = p.getProperty("isInstallation");
-		}
+		
 	}
 	
 	public void save() throws IOException {
@@ -123,25 +123,25 @@ public final class ConfigApp {
 		p.setProperty("version", this.config.VERSION);
 		p.setProperty("data_install", Core.getCurrentDate());
 		p.setProperty("isInstallation", "success");
-		if(Core.isNotNull(this.config.getWorkspace())) {//Save in workspace eclipse
+		if(Core.isNotNull(this.getWorkspace())) {//Save in workspace eclipse
 			this.saveProperties(p, this.config.getPathWorkspaceResources()+File.separator+"config"+File.separator+"install"+File.separator+"install.properties");
 		}
 		this.saveProperties(p, this.config.getBasePathClass()+"config"+File.separator+"install"+File.separator+"install.properties");
 	}
 	
 	public void saveProperties(Properties p,String fileName) throws IOException {
-		OutputStream out = new FileOutputStream(fileName);	
-		if(out!=null) {
-			p.store(out, "");
-			out.close();
-		}
+		try(OutputStream out = new FileOutputStream(fileName)){			
+			p.store(out, "");			
+		}catch ( IOException e) {
+			e.printStackTrace();
+		  }
+		
 	}
 	public boolean isInstall() {
 		if(Core.isNull(this.isInstallation)) {
 			try {
 				this.load();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -149,11 +149,23 @@ public final class ConfigApp {
 	}
 	
 	public String getAutentikaUrlForSso() {
-		String url = commonMain.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
-		String redirect_uri = commonMain.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
-		String client_id = commonMain.getProperty("ids.wso2.oauth2.client_id"); 
+		String url = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE.value()); 
+		String redirect_uri = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value()); 
+		String client_id = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value()); 
 		url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrp&redirect_uri=" + redirect_uri; 
 		return url;
+	}
+	
+	public String getWorkspace(){
+		return commonMain.getProperty(ConfigCommonMainConstants.IGRP_WORKSPACE.value());
+	}
+	
+	public String getEnvironment() {
+		return commonMain.getProperty(ConfigCommonMainConstants.IGRP_ENV.value()); 
+	}
+	
+	public String getAutenticationType(){
+		return commonMain.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
 	}
 
 	public Properties getMainSettings() {

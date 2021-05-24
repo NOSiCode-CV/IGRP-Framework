@@ -16,15 +16,21 @@
 
 		set:function(el){
 			
-			var element 		 = el,
+			var element 		 	= el,
 
-				data 			 = element.data() || {},
+				data 			 	= element.data() || {},
 
-				singleDatePicker = !data.range,
+				singleDatePicker 	= !data.range,
 
-				formlist 	     = element.parents('.IGRP_formlist')[0],
+				formlist 	     	= element.parents('.IGRP_formlist')[0],
 
-				value 			 = element.val() || '';
+				value 			 	= element.val() || '',
+				
+				disableWeekends  	= element.is('[disableWeekends="true"]') ? true : false,
+
+				datesDisabled    	= element.is('[daysoff]') && element.attr('daysoff') != '' ? element.attr('daysoff').split(',') : [],
+				
+				disabledBeforetoday	= element.is('[disabledBeforetoday="true"]') ? true : false;
 
 
 			element.daterangepicker({
@@ -42,6 +48,16 @@
 			    minDate			 : "01/01/1900",
 
 			    maxDate			 : "01/01/2099",
+
+				isInvalidDate: function(date) {
+					var _date = date.format('DD-MM-YYYY'),
+						_day = date.day();
+
+					if ((disableWeekends && (_day === 0 || _day === 6)) || $.inArray(_date,datesDisabled) !== -1 || (disabledBeforetoday && moment().isAfter(date)))
+						return true;
+
+					return false;
+				}
 
 			    //opens	  		 : "left"
 

@@ -1,3 +1,6 @@
+var mWindow = null,
+	mUrl 	= null;
+	
 (function($){
 	if($ && $.IGRP && !$.IGRP.targets){
 		
@@ -513,8 +516,6 @@
 		};
 
 		//blank (popup)
-		var mWindow = null,
-			mUrl 	= null;
 		
 		var modal       = function(p){
 			
@@ -661,23 +662,20 @@
 
 		var closerefresh = function(p){
 			
-			var params 	   = $.extend({},p),
-			
-				reloadType = params.type || 'refresh';
-			
 			try{
+				
+				//var popup 	= window.opener ? true : false,
 
-				var popup 	= window.opener || false,
-
-					_window = popup || window.parent,
-
-					_window = _window.frames['head_filho'] || _window,
+				var _window = window.parent ? window.parent : window.opener,
 					url 	= null;
 
+					_window = _window.frames['head_filho'] || _window;
+
+				console.log(mWindow);
 				if (mWindow) {
 					_window = mWindow;
 					
-					popup 	= false;
+					//popup 	= false;
 					mWindow = null;
 					
 					if(mUrl){
@@ -686,28 +684,15 @@
 					}
 				}
 				
-				if(popup)
-				
-					close();
-				
-				/*if(reloadType == 'refresh')
-				 
-				 	_window.location.reload();
-					
-				
-				if(reloadType == 'refresh_submit'){
-					
-					submit({
-						url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || _window.location.href
-					});
-				}*/
+				/*if(popup)
+					close();*/
 				
 				_window.$.IGRP.targets.submit.action({
 					url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || url,
 					validate : false
 				});
 					
-			}catch(e){null;}
+			}catch(e){console.log(e);}
 		};
 		
 		var gisViewCoords = function(p){

@@ -1,5 +1,10 @@
 package nosi.core.webapp.helpers;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.function.DoubleBinaryOperator;
+import java.util.function.IntToDoubleFunction;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.security.PagesScapePermission;
@@ -7,7 +12,9 @@ import nosi.core.webapp.security.PagesScapePermission;
 /**
  * @author Marcel Iekiny Apr 18, 2017
  */
-public class Route {
+public final class Route { 
+	
+	private Route() {}
 
 	public static String toUrl(String app, String page, String action_, String qs,int isPublic) {
 		String queryString = qs+ getQueryString(action_);
@@ -100,38 +107,6 @@ public class Route {
 			aux = aux + paramNames[i] + "=" + paramValues[i];
 		}
 		return Route.toUrl(app, page, action, aux);
-	}
-
-	public static void remember() { // For back button funcionality purpose ...
-		String qs = Igrp.getInstance().getRequest().getQueryString();
-		//String r = Igrp.getInstance().getRequest().getParameter("r");
-		
-		
-	/*	
-		if(r != null && qs != null && new EncrypDecrypt().getWakandaList(r)) 
-			qs = qs.replace(r, new EncrypDecrypt().encrypt(r));
-		*/
-		
-		
-		String route = new String(Igrp.getInstance().getRequest().getRequestURL() + "?" + qs);
-		Igrp.getInstance().getRequest().getSession().setAttribute("_route", route);
-	}
-
-	public static String previous() { // Catch the previous url in session
-		String result = Igrp.getInstance().getRequest() != null && Igrp.getInstance().getRequest().getSession() != null
-				&& Igrp.getInstance().getRequest().getSession().getAttribute("_route") != null
-						? (String) Igrp.getInstance().getRequest().getSession().getAttribute("_route")
-						: null;
-		return result != null ? result.toString() : null; // For NullPointerException purpose
-	}
-
-	public static String toExternalUrl() { // (Opcional)
-		return "";
-	}
-
-	public static String home() {
-		return "";
-		// return Route.toUrl(Igrp.getInstance().getHomeUrl());
 	}
 
 	public static String urlEncoding(String r) {

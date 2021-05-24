@@ -14,12 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import javax.persistence.Column;
 
 import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Core;
@@ -29,6 +23,13 @@ import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.core.webapp.security.EncrypDecrypt;
 
 import static nosi.core.i18n.Translator.gt;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
+import javax.persistence.Column;
 
 @Entity
 @Table(name="tbl_menu")
@@ -47,6 +48,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 	private int status;
 	private int flg_base;
 	private String target;
+	private String menu_icon;
 	@ManyToOne
 	@JoinColumn(name="action_fk",foreignKey=@ForeignKey(name="MENU_ACTION_FK"),nullable=true)
 	private Action action;
@@ -100,6 +102,14 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		this.action = action;
 		this.application = application;
 		this.menu = menu;
+	}
+		
+	public String getMenu_icon() {
+		return menu_icon;
+	}
+
+	public void setMenu_icon(String menu_icon) {
+		this.menu_icon = menu_icon;
 	}
 
 	public Integer getId() {
@@ -225,8 +235,8 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				ms.setOrder(r.getInt("orderby"));
 				ms.setTitle(r.getString("descr"));
 				ms.setTarget(r.getString("target"));
-				ms.setStatus(r.getShort("status")); 
-				
+				ms.setStatus(r.getShort("status"));
+				ms.setMenu_icon(r.getString("menu_icon"));
 				String link = r.getString("link"); 
 				if(link != null && !link.isEmpty()) { 
 					ms.setLink(link); 
@@ -396,7 +406,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				ms.setTitle(r.getString("descr"));
 				ms.setTarget(r.getString("target"));
 				ms.setStatus(r.getShort("status"));
-				
+				ms.setMenu_icon(r.getString("menu_icon"));
 				ms.setPage(r.getString("page"));
 				ms.setApp(r.getString("dad_app_page"));
 				ms.setAction(r.getString("action")); 
@@ -416,6 +426,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		private String title;
 		private String link;
 		private short status;
+		private String menu_icon;
 		private String target;
 		private int order;
 		private boolean isSubMenuAndSuperMenu;
@@ -430,6 +441,12 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		private int type; 
 		
 		
+		public String getMenu_icon() {
+			return menu_icon;
+		}
+		public void setMenu_icon(String menu_icon) {
+			this.menu_icon = menu_icon;
+		}
 		public Integer getId() {
 			return id;
 		}

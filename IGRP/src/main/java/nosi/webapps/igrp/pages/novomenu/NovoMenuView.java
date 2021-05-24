@@ -21,6 +21,7 @@ public class NovoMenuView extends View {
 	public Field orderby;
 	public Field target;
 	public Field link;
+	public Field icone;
 	public Field flg_base;
 	public Field flg_base_check;
 	public Field global_acl;
@@ -76,9 +77,9 @@ public class NovoMenuView extends View {
 		self_id.setLabel(gt("Menu pai"));
 		self_id.propertie().add("name","p_self_id").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
-		orderby = new NumberField(model,"orderby");
+		orderby = new ListField(model,"orderby");
 		orderby.setLabel(gt("Posição"));
-		orderby.propertie().add("name","p_orderby").add("type","number").add("min","").add("max","").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("java-type","int").add("desclabel","false").add("calculation","false").add("mathcal","").add("numberformat","");
+		orderby.propertie().add("name","p_orderby").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","int");
 		
 		target = new ListField(model,"target");
 		target.setLabel(gt("Target"));
@@ -87,6 +88,13 @@ public class NovoMenuView extends View {
 		link = new TextField(model,"link");
 		link.setLabel(gt("Link (Procedure)"));
 		link.propertie().add("name","p_link").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		
+		icone = new LookupField(model,"icone");
+		icone.setLabel(gt("Ícone"));
+		icone.setLookup("igrp","Icons_list","index");
+		icone.addParam("target","_blank");
+		icone.addLookupParam("p_icone","choose_icon");
+		icone.propertie().add("name","p_icone").add("type","lookup").add("lookup_eraser","false").add("lookup_type","LOOKUP").add("class","primary").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		flg_base = new CheckBoxField(model,"flg_base");
 		flg_base.setLabel(gt("Público?"));
@@ -137,6 +145,7 @@ public class NovoMenuView extends View {
 		form_1.addField(orderby);
 		form_1.addField(target);
 		form_1.addField(link);
+		form_1.addField(icone);
 		form_1.addField(flg_base);
 		form_1.addField(global_acl);
 		form_1.addField(area);
@@ -163,6 +172,7 @@ public class NovoMenuView extends View {
 		orderby.setValue(model);
 		target.setValue(model);
 		link.setValue(model);
+		icone.setValue(model);
 		flg_base.setValue(model);
 		global_acl.setValue(model);
 		area.setValue(model);

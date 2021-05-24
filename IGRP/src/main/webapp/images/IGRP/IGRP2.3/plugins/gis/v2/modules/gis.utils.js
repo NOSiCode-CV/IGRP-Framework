@@ -5,7 +5,7 @@
 		feature : {
 			
 			getData : function(feature){
-				
+								
 				var res = {},
 					
 					center,
@@ -83,7 +83,7 @@
 				toHTML : function(props){
 										
 					var title = $('<h3 class="title" />');
-					
+										
 					var html = $('<ul class="gis-feature-properties-view" />');
 					
 					if(props){
@@ -94,24 +94,30 @@
 							
 							if (props[p] && typeof props[p] != 'string'){
 								
-								prop = props[p].isImage ? '</br><img style="max-width:220px" src="'+prop+'"/>' : props[p].value;
+								prop = props[p].isImage ? '</br><img style="max-width:220px" src="'+props[p].value+'"/>' : (props[p].value ? props[p].value : '');
 								
 								name  = props[p].name;
 							} 
-									
-							if(name)
+							
+							if(name || prop)
 								html.append(
 									'<li name="'+name+'">'+
-										'<span class="gis-feature-property-label" text-color="primary">'+name+'</span>'+
-										 '<span class="gis-feature-property-value">'+prop+'</span>' +
+										'<span class="gis-feature-property-label" style="'+ (name == '' ? 'margin-right: 0;' : '') +'" text-color="primary">'+name+'</span>'+
+										 '<span class="gis-feature-property-value">' + prop  +'</span>' +
 									'</li>'
 								);
 							
 						}
 						
 					}
+					
+					var content = $('<div/>');
+					
+					content.prepend('<div id="gis-context-view" />');
+					
+					content.prepend(html);
 										
-					return html[0];
+					return content[0];
 					
 				}
 
@@ -122,6 +128,8 @@
 		geometry : {
 			
 			point   : 'Point',
+			
+			pointCluster : 'PointCluster',
 			
 			polygon : 'Polygon',
 			
@@ -302,7 +310,7 @@
 					
 					this._mouse_position = L.DomUtil.get('gis-mouse-position');
 					
-					this._mouse_position.innerHTML  = L.Util.formatNum(settings.center[0], 6) + ',' + L.Util.formatNum(settings.center[1], 6);;
+					this._mouse_position.innerHTML  = L.Util.formatNum(settings.center[0], 6) + ',' + L.Util.formatNum(settings.center[1], 6);
 					
 				},
 				
@@ -450,6 +458,87 @@
 				
 			},
 			
+			lock: {
+				
+				add: function(map, settings){
+					
+					var bounds = localStorage.getItem("bounds-map"),
+					
+						highlight  = localStorage.getItem("highlightdivadmin-map");
+					
+					    _lock  = L.DomUtil.get('gis-lock-bounds');
+					    					
+					if(bounds){
+						
+						bounds = JSON.parse(bounds);						
+					
+						var ne = L.latLng([ bounds._northEast.lat, bounds._northEast.lng]),
+							
+							sw = L.latLng([ bounds._southWest.lat, bounds._southWest.lng]);
+						
+						map.fitBounds( L.latLngBounds(sw,ne) );		
+						
+						_lock.innerHTML = '<i class="fa fa-lock" aria-hidden="true"></i>';
+						
+					}
+					
+					if(highlight){
+						
+						highlight  = JSON.parse(highlight);
+												
+						$.getJSON(highlight.url, function(json) {
+							
+							L.geoJson(json, {
+							    filter: function(feature, layer) {
+							    	return feature.properties['code'] === highlight['code'];
+							    },
+							    style: function(feature) {
+							    	if(feature.properties['code'] == highlight['code']){
+							    		return {fillColor: '#3f0', color: '#0f0',fill:true, fillOpacity: 0.2}
+							    	}
+							    }
+							}).addTo(map);
+													
+						});
+						
+					}
+					
+					return this;
+								
+				},
+				
+				click: function(map){
+					
+					var bounds = localStorage.getItem("bounds-map"),
+					
+					    _lock  = L.DomUtil.get('gis-lock-bounds');
+					
+					if(bounds){		
+						
+						_lock.innerHTML = '<i class="fa fa-unlock" aria-hidden="true"></i>';
+						
+						localStorage.removeItem("bounds-map");	
+						
+						localStorage.removeItem("highlightdivadmin-map");	
+						
+						if(map.highlightLayer)
+							
+							map.removeLayer(map.highlightLayer);
+						
+					}else{
+						
+						_lock.innerHTML = '<i class="fa fa-lock" aria-hidden="true"></i>';
+						
+						localStorage.setItem("bounds-map", JSON.stringify(map.getBounds()));	
+						
+						if (map.highlightdivadmin !== undefined)
+							
+							localStorage.setItem("highlightdivadmin-map", JSON.stringify(map.highlightdivadmin));	
+						
+					}				
+					
+				}
+			},
 		},
 		
 	});
@@ -490,4 +579,30 @@
 
 	});
 	
+	Handlebars.registerHelper("inputIt", function(v, pclass, name, placeholder){
+				
+		var html = "";
+		
+		 //Generate the Input		  
+		switch (typeof v) {
+			
+			  case "string":
+			    v = Handlebars.Utils.escapeExpression(v);
+			    html = '<input type="text" name="' 
+			          + name + '" class="'+ pclass +'" placeholder="'+ placeholder +'" value="' + v + '" />';
+			    break;
+			  case "number":
+			    html = '<input type="number" name="' 
+			          + name + '" class="'+ pclass +'" placeholder="'+ placeholder +'" value="' + v + '" />';
+			    break;
+			  case "boolean":
+			    var checked = (v) ? "checked" : "";
+			    html = '<input type="checkbox" name="'
+			          + name + '" ' + checked + ' class="'+ pclass +'" placeholder="'+ placeholder +'" />';
+			        break;
+		 }
+		
+		return new Handlebars.SafeString(html);
+			
+	});
 })();

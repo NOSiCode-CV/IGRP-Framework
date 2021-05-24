@@ -1,7 +1,8 @@
 package nosi.webapps.igrp.pages.pesquisarorganica;
+import java.util.ArrayList;
+
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import java.util.ArrayList;
 
 public class PesquisarOrganica extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")

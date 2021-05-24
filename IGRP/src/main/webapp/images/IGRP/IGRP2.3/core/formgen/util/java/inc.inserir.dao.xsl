@@ -73,6 +73,30 @@
 			
 		</xsl:variable>
 		
+		<xsl:variable name="valueblock" select="substring-after(value[@name='param_id']/block/field,'::')"/> 
+		
+		<xsl:variable name="type_childblock" select="substring-before(value[@name='param_id']/block/field,'::')"/>
+		
+		<xsl:variable name="block_namechild" select="value[@name='param_id']/block/@type"/>
+		
+		<xsl:variable name="edited_convert">
+		
+			<xsl:call-template name="utils.edited">
+				
+				<xsl:with-param name="value" select="$param_id"></xsl:with-param>
+				
+				<xsl:with-param name="valueblock" select="$valueblock"></xsl:with-param>
+				
+				<xsl:with-param name="from" select="$type_childblock"></xsl:with-param>
+				
+				<xsl:with-param name="to" select="'Integer'"></xsl:with-param>
+				
+				<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>
+				
+			</xsl:call-template>
+					
+		</xsl:variable>
+		
 		<xsl:variable name="checkbox" select="field[@name='EDIT']"/>
 		
 		<xsl:variable name="hasMutation" select="mutation"></xsl:variable>
@@ -81,51 +105,29 @@
 		
 			<xsl:choose>
 			
-				<xsl:when test="$typedad != 'inserir_dao' and not(contains($typedad,'save_formu_')) ">
-			
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					
-					<xsl:text>Session session = null;</xsl:text>
-					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					
-					<xsl:text>Transaction transaction = null;</xsl:text>
-					
-					
+				<xsl:when test="$typedad != 'inserir_dao' and not(contains($typedad,'save_formu_')) ">	
 					
 					<xsl:choose>
 		
 						<xsl:when test="$checkbox = 'TRUE'">
 						
-							<xsl:value-of select="$newlineTab1"></xsl:value-of>
-							
-							<xsl:text>String isEdit = Core.getParam("isEdit");</xsl:text>
-							
+							<xsl:call-template name="utils.session.begin">
+				
+								<xsl:with-param name="isedit" select="$checkbox"/>
+								
+							</xsl:call-template>
+									
 						</xsl:when>
+						
+						<xsl:otherwise>
+						
+							<xsl:call-template name="utils.session.begin">
+								
+							</xsl:call-template>
+						
+						</xsl:otherwise>
 					
 					</xsl:choose>					
-					
-					
-					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					
-					<xsl:text>try{</xsl:text>
-					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-				
-					<xsl:text>if (model.validate()) {</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					
-					<xsl:text>session = Core.getSession(Core.defaultConnection());</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					
-					<xsl:text>transaction = session.getTransaction();</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					
-					<xsl:text>transaction.begin();</xsl:text>
 				
 				</xsl:when>
 
@@ -145,7 +147,7 @@
 					
 					<xsl:value-of select="$newlineTab3"></xsl:value-of>
 					
-					<xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text> = session.find(</xsl:text><xsl:value-of select="$dao"></xsl:value-of><xsl:text>.class, </xsl:text><xsl:value-of select="$param_id"></xsl:value-of><xsl:text>);</xsl:text>
+					<xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text> = session.find(</xsl:text><xsl:value-of select="$dao"></xsl:value-of><xsl:text>.class, </xsl:text><xsl:value-of select="$edited_convert"></xsl:value-of><xsl:text>);</xsl:text>
 					
 					<xsl:value-of select="$newlineTab2"></xsl:value-of>
 					
@@ -200,92 +202,28 @@
 			<xsl:choose>
 			
 				<xsl:when test="$typedad != 'inserir_dao' and not(contains($typedad,'save_formu_')) ">
-				
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>	
-					
-					<xsl:text>transaction.commit();</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>	
-					
-					<xsl:text>Core.setMessageSuccess();</xsl:text>
-					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					
-					<xsl:text>}</xsl:text>
-					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					
-					<xsl:text>else</xsl:text>
-							
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					
-					<xsl:text>Core.setMessageError();</xsl:text>
-					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					
-					<xsl:text>}catch ( Exception e ) {</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-		
-					<xsl:text>e.printStackTrace();</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					
-					<xsl:text>Core.setMessageError("Error: "+ e.getMessage());</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					
-					<xsl:text>if (transaction != null)</xsl:text>
-					
-					<xsl:value-of select="$newlineTab3"></xsl:value-of>
-					
-					<xsl:text>transaction.rollback();</xsl:text>
-					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					
-					<xsl:text>}finally {</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					
-					<xsl:text>if (session != null &amp;&amp; session.isOpen()) {</xsl:text>
-					
-					<xsl:value-of select="$newlineTab3"></xsl:value-of>	
-						
-					<xsl:text>session.close();</xsl:text>
-					
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>	
-					
-					<xsl:text>}</xsl:text>
-					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>	
-					
-					<xsl:text>}</xsl:text>
-					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					
+
 					<xsl:choose>
 		
 						<xsl:when test="$checkbox = 'TRUE'">
-							
-							<xsl:value-of select="$newlineTab1"></xsl:value-of>
-							
-							<xsl:text>if(Core.isNotNull(isEdit)) {</xsl:text>
-							
-							<xsl:value-of select="$newlineTab2"></xsl:value-of>
-							
-							<xsl:text>this.addQueryString("isEdit", "true");</xsl:text>
-							
-							<xsl:value-of select="$newlineTab2"></xsl:value-of>
-							
-							<xsl:text>return this.forward("</xsl:text><xsl:value-of select="$app-title"/><xsl:text>","</xsl:text><xsl:value-of select="$page-title"/><xsl:text>","index",this.queryString());</xsl:text>
-							
-							<xsl:value-of select="$newlineTab1"></xsl:value-of>
-							
-							<xsl:text>}</xsl:text>
-							
+						
+							<xsl:call-template name="utils.session.end">
+				
+								<xsl:with-param name="isedit" select="$checkbox"/>
+								
+							</xsl:call-template>
+									
 						</xsl:when>
+						
+						<xsl:otherwise>
+						
+							<xsl:call-template name="utils.session.end">
+								
+							</xsl:call-template>
+						
+						</xsl:otherwise>
 					
-					</xsl:choose>		
+					</xsl:choose>				
 				
 				</xsl:when>
 	

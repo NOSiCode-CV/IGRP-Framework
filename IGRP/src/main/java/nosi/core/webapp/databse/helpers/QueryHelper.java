@@ -1,9 +1,9 @@
 package nosi.core.webapp.databse.helpers;
 
-
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Array;
 import java.sql.Blob;
 import java.sql.Clob;
@@ -21,6 +21,7 @@ import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.base.ActiveRecord.ResolveColumnNameQuery;
 import nosi.core.webapp.Core;
@@ -262,6 +263,13 @@ public abstract class QueryHelper implements QueryInterface{
     @Override
     public QueryInterface addBigDecimal(String columnName,BigDecimal value) {
         this.addColumn(columnName, value, BigDecimal.class);
+        return this;
+	}
+	
+	    
+    @Override
+    public QueryInterface addBigInteger(String columnName,BigInteger value) {
+        this.addColumn(columnName, value, BigInteger.class);
         return this;
     }
     

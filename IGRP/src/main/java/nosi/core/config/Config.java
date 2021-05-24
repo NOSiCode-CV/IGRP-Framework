@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
@@ -40,7 +41,7 @@ public class Config {
 	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";	
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
-	public final String VERSION = "1.0.0";
+	public final String VERSION = "210503";
 	
 	public Config() {}
 	
@@ -103,7 +104,6 @@ public class Config {
 	
 	public String getBasePathConfig(){
 		return "config";
-//		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/");
 	}
 	
 	public String getPathLib(){
@@ -154,17 +154,15 @@ public class Config {
 	}
 	
 	public String getWorkspace(){
-		String workSpace = Igrp.getInstance().getServlet().getServletContext().getInitParameter("workspace");
-		return Core.isNotNull(workSpace)?workSpace:null;
+		return ConfigApp.getInstance().getWorkspace(); 
 	}
 	
 	public String getEnvironment() {
-		String env = Igrp.getInstance().getServlet().getInitParameter("env");
-		return env;
+		return ConfigApp.getInstance().getEnvironment(); 
 	}
 	
 	public String getAutenticationType(){
-		return Igrp.getInstance().getServlet().getInitParameter("authentication_type");
+		return ConfigApp.getInstance().getAutenticationType(); 
 	}
 
 	public String getLinkImgBase() {

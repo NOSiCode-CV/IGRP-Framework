@@ -1,7 +1,10 @@
 package nosi.core.webapp.bpmn;
 
+import static nosi.core.i18n.Translator.gt;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
@@ -11,7 +14,6 @@ import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
-//import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLWritter;
@@ -19,7 +21,6 @@ import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.RepTemplateSource;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import nosi.webapps.igrp_studio.pages.bpmndesigner.ReserveCodeControllerTask;
-import static nosi.core.i18n.Translator.gt;
 /**
  * Emanuel
  * 7 May 2018

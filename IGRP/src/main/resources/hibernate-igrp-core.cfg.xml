@@ -5,7 +5,7 @@
 
 		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
 		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/db_igrp</property>
-		<property name="hibernate.connection.password">softwaredeveloper</property>
+		<property name="hibernate.connection.password">nunes</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<property name="hibernate.connection.username">postgres</property>
 		<property name="hibernate.connection.isolation">2</property>
@@ -57,7 +57,8 @@
 		<mapping class="nosi.webapps.igrp.dao.TaskAccess" />
 		<mapping class="nosi.webapps.igrp.dao.TempFile" />
 		<mapping class="nosi.webapps.igrp.dao.Mapping" />
-	
+		<mapping class="nosi.webapps.igrp.dao.Historic" />
+		
 		<!-- <mapping class="nosi.webapps.igrp.dao.Auditoria" /> --> 
 		
 		<!-- Task Access -->

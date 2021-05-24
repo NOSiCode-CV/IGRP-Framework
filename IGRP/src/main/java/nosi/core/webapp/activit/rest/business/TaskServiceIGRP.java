@@ -2,10 +2,12 @@ package nosi.core.webapp.activit.rest.business;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
+import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.TaskAccess;
 
 /**
@@ -24,7 +26,6 @@ public class TaskServiceIGRP extends GenericActivitiIGRP{
 		return taskServiceRest;
 	}
 	
-	
 	public TaskService getTaskByExecutionId(String id){
 		return taskServiceRest.getTaskByExecutionId(id);
 	}
@@ -39,33 +40,31 @@ public class TaskServiceIGRP extends GenericActivitiIGRP{
 		return taskServiceRest.getTasks();
 	}
 	
-
-
 	public List<TaskService> getAvailableTasks() {
 		taskServiceRest.addFilterUrl("unassigned", "true");
+		taskServiceRest.addFilterUrl("tenantId", Core.getCurrentDad());
 		List<TaskService> tasks =  taskServiceRest.getTasks();
 		List<TaskAccess> myTasAccess = new TaskAccess().getTaskAccess();
-		this.setMyProccessAccess();
 		tasks = tasks.stream().filter(t->this.filterAvailableTaskAccess(t, myTasAccess ))
-							  .filter(t->this.myproccessId.contains(t.getProcessInstanceId()))
+							  .filter(t->checkIfExistsNApplyCustomPermission(t))
 							  .collect(Collectors.toList());
 		return tasks;
 	}
 	
-	
 	public List<TaskService> getMabageTasks() {
+		taskServiceRest.addFilterUrl("tenantId", Core.getCurrentDad());
 		List<TaskService> tasks =  taskServiceRest.getTasks();
-		List<TaskAccess> myTasAccess = new TaskAccess().getTaskAccess();
+		List<TaskAccess> myTaskAccess = new TaskAccess().getTaskAccess();
 		this.setMyProccessAccess();
-		tasks = tasks.stream().filter(t->this.filterAvailableTaskAccess(t, myTasAccess ))
+		tasks = tasks.stream().filter(t->this.filterAvailableTaskAccess(t, myTaskAccess ))
 							 .filter(t->this.myproccessId.contains(t.getProcessInstanceId()))
 							 .collect(Collectors.toList());
 		return tasks;
 	}
 	
 	
-	private boolean filterAvailableTaskAccess(TaskService t,List<TaskAccess> myTasAccess) {
-		return myTasAccess
+	private boolean filterAvailableTaskAccess(TaskService t,List<TaskAccess> myTaskAccess) {
+		return myTaskAccess
 						.stream()
 						.filter(a->Core.isNotNull(t.getProcessDefinitionKey()) && a.getProcessName().compareTo(t.getProcessDefinitionKey())==0)
 						.filter(a->a.getTaskName().compareTo(t.getTaskDefinitionKey())==0)
@@ -104,5 +103,13 @@ public class TaskServiceIGRP extends GenericActivitiIGRP{
 	
 	public TaskService getCurrentTaskByProcessNr(String processNr) {
 		return this.taskServiceRest.getCurrentTaskByProcessNr(processNr);
+	}
+	
+	private boolean checkIfExistsNApplyCustomPermission(TaskService taskService) {
+		ActivityExecute activityExecute = new ActivityExecute().find()
+					.andWhere("processid", "=", taskService.getProcessInstanceId())
+					.orderByDesc("id")
+					.one();
+		return activityExecute != null && this.allowTask(activityExecute.getProccessKey(), activityExecute);
 	}
 }

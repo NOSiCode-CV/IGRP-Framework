@@ -1,18 +1,30 @@
 {
-	"center" : [15.9277964,-24.2861932],
-	"zoom" : 8,
     "baseMaps": [
         {
-            "default": false,
-            "name": "OpenStreetMap"
+            "default": true,
+            "name": "GoogleSatellite"
         },
         {
-            "default": true,
+            "default": false,
+            "name": "Esri.WorldImagery"
+        },
+        {
+            "default": false,
             "name": "OpenStreetMap.BlackAndWhite"
         },
         {
             "default": false,
-            "name": "GoogleSatellite"
+            "name": "OpenStreetMap"
         }
-    ]
+    ],
+    "expand": true,
+    "footer": true,
+    "fullscreen": false,
+    "lock": true,
+    "groupLayers": [],
+    "locate": true,
+    "panelLayers": true,
+    "panelWidgets": true,
+    "widgets": [],
+    "zoom": 8
 }

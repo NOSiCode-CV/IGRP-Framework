@@ -4,12 +4,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.List;
+
+import javax.xml.XMLConstants;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+
 import nosi.core.config.Config;
 import nosi.core.config.IHeaderConfig;
 import nosi.core.gui.components.IGRPButton;
@@ -17,7 +20,19 @@ import nosi.core.gui.components.IGRPComponent;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.components.IGRPToolsBar;
-import nosi.core.gui.fields.*;
+import nosi.core.gui.fields.CheckBoxField;
+import nosi.core.gui.fields.CheckBoxListField;
+import nosi.core.gui.fields.DateField;
+import nosi.core.gui.fields.EmailField;
+import nosi.core.gui.fields.Field;
+import nosi.core.gui.fields.FileField;
+import nosi.core.gui.fields.HiddenField;
+import nosi.core.gui.fields.ListField;
+import nosi.core.gui.fields.NumberField;
+import nosi.core.gui.fields.RadioField;
+import nosi.core.gui.fields.RadioListField;
+import nosi.core.gui.fields.TextAreaField;
+import nosi.core.gui.fields.TextField;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.SqlJavaType;
@@ -34,12 +49,15 @@ public class XMLTransform {
 	public String genXML(String xmlContent,Action page,String typeContent,String conectionName,String schemaName,String tableName) {
 		XMLWritter xml = new XMLWritter("rows", page.getPage()+".xsl", "utf-8");
 		IHeaderConfig config = new IHeaderConfig() {
+			@Override
 			public String getPackageInstance(){
 				return conectionName;
 			}
+			@Override
 			public String getPackageCopyHtml(){
 				return schemaName;
 			}
+			@Override
 			public String getPackageCopyDb(){
 				return tableName;
 			}
@@ -58,7 +76,7 @@ public class XMLTransform {
 	public String generateXMLForm(Config_env config,Action page, List<DatabaseMetadaHelper.Column> columns,Action pageList) {
 		XMLWritter xml = new XMLWritter();	
 
-		IGRPForm form = new IGRPForm("form_1",page.getPage_descr().replaceAll("tbl_", "").replaceAll("TBL_", ""));
+		IGRPForm form = new IGRPForm("form_1",page.getPage_descr().replace("tbl_", "").replace("TBL_", ""));
 		IGRPToolsBar tools = new IGRPToolsBar("toolsbar_1");
 		
 		IGRPButton btn_list = new IGRPButton("List", config.getApplication().getDad().toLowerCase(), pageList.getPage(), "list", "_self", "default|fa-list","","",true);
@@ -77,7 +95,7 @@ public class XMLTransform {
 	public String generateXMLTable(Config_env config,Action page, List<DatabaseMetadaHelper.Column> columns,Action pageForm) {
 		XMLWritter xml = new XMLWritter();		
 
-		IGRPTable table = new IGRPTable("table_1",page.getPage_descr().replaceAll("tbl_", "").replaceAll("TBL_", ""));
+		IGRPTable table = new IGRPTable("table_1",page.getPage_descr().replace("tbl_", "").replace("TBL_", ""));
 		IGRPToolsBar tools = new IGRPToolsBar("toolsbar_1");
 		IGRPButton btn_novo = new IGRPButton("Novo", config.getApplication().getDad().toLowerCase(), pageForm.getPage(), "novo", "modal|refresh", "success|fa-plus","","",true);
 		btn_novo.propertie.add("type","specific").add("code","novo").add("rel","new").add("crud_op", "addNew").add("action-id", pageForm.getId());
@@ -100,7 +118,7 @@ public class XMLTransform {
 		if(component!=null) {
 			columns.stream().forEach(column->{
 				Field f = XMLTransform.getGenFiled(component,column);
-				f.setLabel(f.getLabel().replaceAll("_", " "));
+				f.setLabel(f.getLabel().replace("_", " "));
 				if(component instanceof IGRPForm) {					
 					((IGRPForm) component).addField(f);
 				}else if(component instanceof IGRPTable) {
@@ -229,7 +247,7 @@ public class XMLTransform {
 	}
 
 	private static String getTypePrimitive(String javaType_) {
-		String javaType = javaType_.replaceAll("class ", "");
+		String javaType = javaType_.replace("class ", "");
 		switch (javaType) {
 			case "java.lang.Integer":
 				javaType = "Integer";
@@ -260,16 +278,17 @@ public class XMLTransform {
 	public static String xmlTransformWithXSL(String xmlFileName,String xslFileName) throws TransformerConfigurationException{
 		StreamSource xlsStreamSource = new StreamSource(Paths.get(xslFileName).toAbsolutePath().toFile());
 	    StreamSource xmlStreamSource = new StreamSource(Paths.get(xmlFileName).toAbsolutePath().toFile());
-	    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		try {
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 	    StreamResult result = new StreamResult(new ByteArrayOutputStream());
 	    Transformer transformer;
-		try {
+	
 			transformer = transformerFactory.newTransformer(xlsStreamSource);
 			if(transformer!=null) {
 			    transformer.transform(xmlStreamSource, result);
 			    return result.getOutputStream().toString();
 			}
-		} catch (TransformerException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -278,7 +297,9 @@ public class XMLTransform {
 	public static String xmlTransformWithXSL(InputStream inputStream,String xslFileName) throws TransformerConfigurationException{
 		StreamSource xlsStreamSource = new StreamSource(Paths.get(xslFileName).toAbsolutePath().toFile());
 	    StreamSource xmlStreamSource = new StreamSource(inputStream);
-	    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	//	transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant - mas deu erro conflito ao fazer cRUD
+		//transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, ""); // Compliant
 	    StreamResult result = new StreamResult(new ByteArrayOutputStream());
 	    Transformer transformer;
 		try {
@@ -294,6 +315,7 @@ public class XMLTransform {
 	}
 	
 	
+	/*
 	public static Field getField(String name,String type){
 		switch (type) {
 			case "date":
@@ -309,5 +331,5 @@ public class XMLTransform {
 			default :
 					return new TextField(null, name);
 		}
-	}
+	}*/
 }

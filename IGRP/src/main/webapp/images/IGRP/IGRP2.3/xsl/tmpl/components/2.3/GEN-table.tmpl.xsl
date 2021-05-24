@@ -113,9 +113,11 @@
 			<xsl:choose>
 				<xsl:when test="@type='checkbox'">
 					<th align="{@align}" item-name="{name()}" item-type="{@type}" class="bs-checkbox no-sort {$checkbox1Row}">
-						<label>
+						<label class="container-box">
 	                    	<input type="checkbox" class="IGRP_checkall" check-rel="{name()}" title="{.}" data-toggle="tooltip"/>
 	                    	<span><xsl:value-of select="label"/></span>
+	                    	<span class="slider round"/>
+							<span class="checkmark"/>
 	                	</label>
 	                </th>
 				</xsl:when>
@@ -147,7 +149,10 @@
 					<input type="hidden" name="{$vname}_fk_desc" value="{$value_desc}"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<td align="{$valign}" class="{$vtype}" item-name="{$tag}" item-type="{$vtype}"  data-title="{$vfilds/label}" data-row="{position()}">	
+					<td align="{$valign}" class="{$vtype} td-{$vtype}" item-name="{$tag}" item-type="{$vtype}"  data-title="{$vfilds/label}" data-row="{position()}">	
+						<xsl:if test="$value_desc != ''">
+							<xsl:attribute name="has-desc">true</xsl:attribute>
+						</xsl:if>
 						<xsl:choose>
 							<xsl:when test="$vtype = 'link' or $vtype='file'">
 								<xsl:choose>
@@ -191,6 +196,9 @@
 												<span class="checkmark"/>
 											</xsl:otherwise>
 										</xsl:choose>
+										<xsl:if test="$value_desc != ''">
+											<span class="value_desc"><xsl:value-of select="$value_desc"/></span>
+										</xsl:if>
 									</label>
 								</xsl:if>
 								<input type="hidden" name="{$vname}_check_fk" class="{$tag}_check" value_check="{$value_check}">

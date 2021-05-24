@@ -268,6 +268,29 @@ table.dataTable th.bs-checkbox{
   padding:10px; 
 }
 
+.form-inline table td.checkbox, .form-inline table tb.radio,
+.form-inline table th.checkbox, .form-inline table th.radio {
+    display: table-cell !important;
+ }
+ 
+ table td[has-desc="true"].checkbox input[type="checkbox"],
+ table td[has-desc="true"].radio input[type="radio"]{
+ 	position: absolute;
+    left: 0;
+    top: 0;
+ } 
+ 
+ table td[has-desc="true"] .value_desc{
+ 	display: block;
+    padding-left: 40px;
+ } 
+
+@media (min-width: 768px){
+	.form-inline table td.checkbox, .form-inline table tb.radio,
+	.form-inline table th.checkbox, .form-inline table th.radio {
+	    display: table-cell !important;
+	 }
+}
 
 /* inline ctx menu*/
 .igrp-table-ctx-th{
@@ -531,5 +554,9 @@ table.igrp-right-click-actions>tbody>tr:after{
 
 .igrp-table-dd-ctx li>a{
 	text-align:left;	
+}
+
+table .is-grouped{
+  display: none !important;
 }
 

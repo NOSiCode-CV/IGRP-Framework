@@ -9,6 +9,8 @@ import java.io.StringReader;
 import java.util.Iterator;
 import java.util.Properties;
 
+import javax.xml.XMLConstants;
+
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
@@ -38,7 +40,6 @@ public class ConfigDBIGRP {
 	//Default configuration for h2
 	private ConfigDBIGRP() {
 		this.driverConnection = "";
-		this.driverConnection = "";
 		this.type_db = "h2";
 		this.username = "root";
 		this.password = "root";
@@ -53,11 +54,9 @@ public class ConfigDBIGRP {
 	
 	public boolean save(){
 		boolean r = true;
-		try {
-			File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile().replaceAll("%20", " "));
-			FileOutputStream out = new FileOutputStream(file);
-			this.generateConfig().storeToXML(out, "store config igrp database");
-			out.close();				
+		File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile().replace("%20", " "));
+		try(FileOutputStream out = new FileOutputStream(file);) {
+			this.generateConfig().storeToXML(out, "store config igrp database");							
 			r = this.saveIntoWorkSpace();
 		} catch (IOException e) {
 			r = false;
@@ -71,12 +70,11 @@ public class ConfigDBIGRP {
 		boolean r = true;
 		this.path = new Config().getWorkspace();
 		if(Core.isNotNull(this.path) && FileHelper.fileExists(this.path)){
-			try {				
-				this.path +=File.separator+ new Config().getResourcesConfigDB();			
+			this.path +=File.separator+ new Config().getResourcesConfigDB();			
 				File file = new File(path+fileName);
-				FileOutputStream out = new FileOutputStream(file);
+			try (FileOutputStream out = new FileOutputStream(file);){
 				this.generateConfig().storeToXML(out, "store config igrp database");
-				out.close();			
+							
 			} catch (IOException e) {
 				r = false;
 				e.printStackTrace();
@@ -94,14 +92,14 @@ public class ConfigDBIGRP {
 	}
 	
 	private void load(String fileName) throws Exception {
-		File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile().replaceAll("%20", " "));
+		File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile().replace("%20", " "));
 		FileInputStream fis = null;
-				Properties props = new Properties();
+		Properties props = new Properties();
 		try {
 			fis = new FileInputStream(file);
 		} catch (FileNotFoundException e) {
 			fis = null;
-			throw new Exception("Databse failed");
+			throw new Exception("Database failed");
 		}
 		try {
 			props.loadFromXML(fis);
@@ -114,14 +112,14 @@ public class ConfigDBIGRP {
 				e.printStackTrace();
 			}
 		}
-		if(props!=null){
+		
 			this.type_db = props.getProperty("type_db");
 			this.username = props.getProperty("username");
 			this.password = props.getProperty("password");
 			this.name = props.getProperty("connectionName");
 			this.driverConnection = props.getProperty("driverConnection");
 			this.urlConnection = props.getProperty("urlConnection");
-		}
+		
 	}
 
 	private Properties generateConfig(){
@@ -211,24 +209,28 @@ public class ConfigDBIGRP {
 			return success;
 		}
 		
-		private static String processHibernateConfigFileXml(String xmlInput, String Url) {
+		private static String processHibernateConfigFileXml(String xmlInput, String url) {
 			String xmlOutput = null; 
 			try {
-			//   Document originalDoc = new SAXReader().read(new StringReader("<root><given></given></root>")); 
-				 org.dom4j.Document  doc = new SAXReader().read(new StringReader(xmlInput)); 
+			SAXReader reader= new SAXReader();
+			reader.setFeature( XMLConstants.FEATURE_SECURE_PROCESSING, true ); // Compliant
+			reader.setFeature( "http://xml.org/sax/features/external-general-entities", false );
+			reader.setFeature( "http://xml.org/sax/features/external-parameter-entities", false );
+			reader.setFeature( "http://apache.org/xml/features/nonvalidating/load-external-dtd", false );
+		  
+			org.dom4j.Document  doc =reader.read(new StringReader(xmlInput)); 
 				Element root = doc.getRootElement();
 
 				    // iterate through child elements of root
 				    Iterator<Element> i = root.elementIterator("session-factory"); 
 				    if(i.hasNext()) { 
-				    	Element element = (Element) i.next(); 
+				    	Element element =  i.next(); 
 				    	   Iterator<Element> j = element.elementIterator(); 
 				    	   while(j.hasNext()) { 
-				    		   Element property = (Element) j.next(); 
-				    		   String attr_name = property.attributeValue("name");
-				    		   if(attr_name != null) {
-				    			   if(attr_name.equals("hibernate.connection.url")) 
-				    				   property.setText(Url);
+				    		   Element property = j.next(); 
+				    		   String attrName = property.attributeValue("name");
+				    		   if(attrName != null && attrName.equals("hibernate.connection.url")) {				    			 
+				    				   property.setText(url);
 				    			    }
 				    	   }
 				    }

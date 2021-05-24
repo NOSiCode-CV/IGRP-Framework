@@ -48,9 +48,9 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=utilizador" action_type="true" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true" adbcli="">
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=utilizador" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
                     <label>Help</label>
-                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=utilizador</value>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
                 </documento>
             </fields>
         </view_1>
@@ -58,11 +58,11 @@
             <fields>
                 <username name="p_username" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Username</label>
-                    <value>Accusantium elit labore iste lorem</value>
+                    <value>Aliqua doloremque elit perspiciatis elit</value>
                 </username>
                 <email name="p_email" type="email" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Email</label>
-                    <value>pa@example.com</value>
+                    <value>do@example.com</value>
                 </email>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
                     <label></label>
@@ -237,12 +237,12 @@
                         </context-menu>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Totam ipsum iste unde sit officia anim accusantium</nominho>
-                        <range_1 name="p_range_1">6</range_1>
-                        <nome name="p_nome">Magna accusantium voluptatem iste sit sed sit sed ut adipiscing sit labore aliqua sit elit laudantiu</nome>
-                        <tb_email name="p_tb_email">Dolor omnis magna unde officia stract mollit aperiam consectetur omnis totam rem aliqua elit perspic</tb_email>
-                        <perfile name="p_perfile">Adipiscing iste aperiam magna natus amet unde pers</perfile>
-                        <id name="p_id" tag="id">hidden-c00d_aed3</id>
+                        <nominho name="p_nominho">Voluptatem sit labore consectetur aliqua voluptate</nominho>
+                        <range_1 name="p_range_1">4</range_1>
+                        <nome name="p_nome">Sit ipsum accusantium magna ipsum lorem aliqua mollit ut accusantium stract labore doloremque consec</nome>
+                        <tb_email name="p_tb_email">Totam unde lorem elit rem doloremque natus rem amet accusantium consectetur deserunt ipsum dolor per</tb_email>
+                        <perfile name="p_perfile">Amet mollit accusantium iste sed stract iste labor</perfile>
+                        <id name="p_id" tag="id">hidden-c724_e1fe</id>
                     </row>
                     <row>
                         <context-menu>
@@ -251,12 +251,12 @@
                         </context-menu>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Lorem rem sed aperiam elit magna elit laudantium o</nominho>
-                        <range_1 name="p_range_1">3</range_1>
-                        <nome name="p_nome">Accusantium voluptatem elit sit consectetur iste magna aperiam iste rem adipiscing mollit laudantium</nome>
-                        <tb_email name="p_tb_email">Doloremque rem consectetur aperiam stract anim anim stract unde natus accusantium sit aliqua magna a</tb_email>
-                        <perfile name="p_perfile">Adipiscing elit unde amet officia dolor aliqua ist</perfile>
-                        <id name="p_id" tag="id">hidden-7413_c1f4</id>
+                        <nominho name="p_nominho">Ut omnis totam sit deserunt laudantium voluptatem</nominho>
+                        <range_1 name="p_range_1">0</range_1>
+                        <nome name="p_nome">Magna labore ut deserunt adipiscing laudantium officia mollit consectetur ipsum iste anim sit sit al</nome>
+                        <tb_email name="p_tb_email">Mollit doloremque omnis labore laudantium doloremque sit anim dolor omnis elit unde stract amet offi</tb_email>
+                        <perfile name="p_perfile">Amet totam dolor sit stract sed mollit sit adipisc</perfile>
+                        <id name="p_id" tag="id">hidden-ddc3_deb9</id>
                     </row>
                     <row>
                         <context-menu>
@@ -265,12 +265,12 @@
                         </context-menu>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Doloremque labore consectetur ipsum unde magna und</nominho>
-                        <range_1 name="p_range_1">8</range_1>
-                        <nome name="p_nome">Elit totam natus mollit deserunt officia voluptatem iste sit laudantium aperiam elit anim natus labo</nome>
-                        <tb_email name="p_tb_email">Magna perspiciatis dolor stract amet iste natus elit stract voluptatem magna voluptatem elit perspic</tb_email>
-                        <perfile name="p_perfile">Magna omnis natus omnis totam natus laudantium acc</perfile>
-                        <id name="p_id" tag="id">hidden-ddac_fdfb</id>
+                        <nominho name="p_nominho">Consectetur magna officia ut deserunt aliqua conse</nominho>
+                        <range_1 name="p_range_1">1</range_1>
+                        <nome name="p_nome">Deserunt voluptatem consectetur mollit voluptatem totam ut rem adipiscing aperiam sit lorem sed stra</nome>
+                        <tb_email name="p_tb_email">Sit lorem amet sit lorem ut doloremque labore stract unde accusantium laudantium deserunt rem elit u</tb_email>
+                        <perfile name="p_perfile">Totam accusantium rem stract iste omnis labore des</perfile>
+                        <id name="p_id" tag="id">hidden-48fb_a138</id>
                     </row>
                     <row>
                         <context-menu>
@@ -279,12 +279,12 @@
                         </context-menu>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Rem sit voluptatem dolor lorem labore iste elit om</nominho>
-                        <range_1 name="p_range_1">5</range_1>
-                        <nome name="p_nome">Labore iste stract unde natus officia accusantium labore natus dolor anim unde sit totam iste magna</nome>
-                        <tb_email name="p_tb_email">Unde natus adipiscing omnis aliqua consectetur iste labore officia deserunt magna anim unde rem laud</tb_email>
-                        <perfile name="p_perfile">Amet ipsum mollit rem elit sit voluptatem rem omni</perfile>
-                        <id name="p_id" tag="id">hidden-407f_fe52</id>
+                        <nominho name="p_nominho">Rem ut totam doloremque omnis deserunt rem dolor o</nominho>
+                        <range_1 name="p_range_1">2</range_1>
+                        <nome name="p_nome">Lorem natus lorem unde rem consectetur elit natus officia aperiam ipsum stract aperiam anim officia</nome>
+                        <tb_email name="p_tb_email">Sed laudantium stract lorem officia stract natus laudantium anim amet accusantium lorem ut anim cons</tb_email>
+                        <perfile name="p_perfile">Lorem aperiam amet natus dolor ipsum sit mollit na</perfile>
+                        <id name="p_id" tag="id">hidden-b0ad_1710</id>
                     </row>
                     <row>
                         <context-menu>
@@ -293,12 +293,12 @@
                         </context-menu>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Sit sed consectetur sit officia magna ut dolor acc</nominho>
-                        <range_1 name="p_range_1">7</range_1>
-                        <nome name="p_nome">Mollit amet aliqua laudantium amet officia consectetur ut ipsum ipsum iste unde laudantium mollit si</nome>
-                        <tb_email name="p_tb_email">Doloremque aliqua consectetur omnis ipsum labore totam rem sed totam doloremque aliqua labore volupt</tb_email>
-                        <perfile name="p_perfile">Rem sed omnis aperiam totam ut sed doloremque cons</perfile>
-                        <id name="p_id" tag="id">hidden-b617_a85e</id>
+                        <nominho name="p_nominho">Unde accusantium rem ut deserunt labore sed ipsum</nominho>
+                        <range_1 name="p_range_1">1</range_1>
+                        <nome name="p_nome">Natus rem voluptatem rem totam consectetur sed deserunt lorem elit sed sit consectetur voluptatem si</nome>
+                        <tb_email name="p_tb_email">Aliqua magna officia aperiam ut iste perspiciatis ipsum stract officia deserunt dolor elit aperiam a</tb_email>
+                        <perfile name="p_perfile">Anim dolor iste magna stract labore voluptatem dol</perfile>
+                        <id name="p_id" tag="id">hidden-eecf_f95f</id>
                     </row>
                 </value>
                 <context-menu>

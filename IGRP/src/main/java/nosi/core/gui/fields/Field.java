@@ -1,6 +1,7 @@
 package nosi.core.gui.fields;
 
 import java.util.Map;
+
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 
 /**
@@ -12,6 +13,7 @@ import nosi.core.webapp.databse.helpers.BaseQueryInterface;
  */
 
 public interface Field {
+	public String getParamTag();
 	public String getTagName();
 	public String getName();
 	public void setName(String name);

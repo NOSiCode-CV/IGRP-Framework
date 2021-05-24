@@ -51,7 +51,7 @@ public class DomainHeper {
 				domainfilter = domainfilter.andWhere("application", "=", appId);
 			}
 			
-			List<Domain> domainfilterList = domainfilter.all();
+			List<Domain> domainfilterList = domainfilter.orderByAsc("ordem").all();
 			List <Dominio.Formlist_1>  separatorlistDocs = new ArrayList<>(); 
 			if ( Core.isNotNull(domainfilterList) ) {
 					

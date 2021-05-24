@@ -1,56 +1,17 @@
 package nosi.core.gui.components;
-/**
- * @author: Emanuel Pereira
- * 
- * May 10, 2017
- *
- * Description: class to generate xml of chart
- */
-/*
- * 
-<chart_1 type="chart" xml-type="chart" title="Chart" gen-type="container" gen-group="">
-<caption/>
-<chart_type>line</chart_type>
-<xaxys>Eixo de X</xaxys>
-<yaxys>Eixo de Y</yaxys>
-<url>#</url>
-<label>
-    <col>Ano</col>
-    <col>X1</col>
-    <col>X2</col>
-    <col>X3</col>
-    <col>X4</col>
-</label>
-<value>
-    <row>
-        <col>2010</col>
-        <col>265</col>
-        <col>658</col>
-        <col>498</col>
-        <col>698</col>
-    </row>
-    ...
-</value>
-<colors>
-    <col>#bdd2a7</col>
-    <col>#1a49bc</col>
-    <col>#290f60</col>
-    <col>#c4aacf</col>
-</colors>
-</chart_1>
-*/
+import java.util.ArrayList;
+
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+
+import java.util.Set;
+import javax.persistence.Tuple;
+
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import javax.persistence.Tuple;
 
 
 public class IGRPChart extends IGRPComponent{
@@ -150,8 +111,8 @@ public class IGRPChart extends IGRPComponent{
 			}
 		}
 		this.generateLabels(labels);
-		Map<String, Object> valuesXY = new HashMap<>();
-		Map<String,Map<String,Object>> valuesXYZ = new HashMap<>();		
+		LinkedHashMap<String, Object> valuesXY = new LinkedHashMap<>();
+		LinkedHashMap<String,LinkedHashMap<String,Object>> valuesXYZ = new LinkedHashMap<>();		
 		for(Object o:this.data) {
 			if(o instanceof IGRPChart2D) {
 				IGRPChart2D chart2d = (IGRPChart2D) o;
@@ -159,7 +120,7 @@ public class IGRPChart extends IGRPComponent{
 			}
 			else if(o instanceof IGRPChart3D) {
 				IGRPChart3D chart3d = (IGRPChart3D) o;
-				Map<String, Object> value = new HashMap<>();
+				LinkedHashMap<String, Object> value = new LinkedHashMap<>();
 				value.put(chart3d.getEixoY(), ""+chart3d.getEixoZ());
 				valuesXYZ.put(chart3d.getEixoX(), value );
 			}
@@ -269,7 +230,7 @@ public class IGRPChart extends IGRPComponent{
 		this.xml.endElement();
 	}
 	
-	private void generateRowsValueXY(Map<String,Object> valuesXY) {
+	private void generateRowsValueXY(LinkedHashMap<String,Object> valuesXY) {
 		this.xml.startElement("value");
 		this.xml.startElement("row");
 		this.xml.setElement("col"," ");

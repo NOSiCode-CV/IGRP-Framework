@@ -61,11 +61,11 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nome</label>
-                    <value>Perspiciatis sed aliqua laudantium aperiam</value>
+                    <value>Ipsum amet anim adipiscing consectetur</value>
                 </nome>
                 <codigo name="p_codigo" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Código</label>
-                    <value>Ut laudantium lorem accusantium deserunt</value>
+                    <value>Lorem laudantium labore perspiciatis mollit</value>
                 </codigo>
                 <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="int" check="true">
                     <label>Ativo?</label>
@@ -165,6 +165,10 @@
                         </option>
                     </list>
                 </primeira_pagina>
+                <igrp_code name="p_igrp_code" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                    <label>IGRP (code)</label>
+                    <value>Labore aperiam mollit adipiscing anim</value>
+                </igrp_code>
             </fields>
         </form_1>
     </content>

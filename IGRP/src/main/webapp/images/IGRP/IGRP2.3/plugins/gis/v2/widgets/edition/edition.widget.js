@@ -94,7 +94,7 @@
 			
 			CurrentLayer = {layer: layer, data: layer.data()}
 			
-			widget.actions[CurrentAction]();
+			if (CurrentAction) widget.actions[CurrentAction]();
 						
 		});
 		
@@ -156,7 +156,7 @@
 			
 			CurrentLayer = {layer: layer, data: layer.data()}
 			
-			if(layer.getGeometryType() !=  ShpType() ){
+			if( (layer.getGeometryType() === utils.geometry.pointCluster ? utils.geometry.point : layer.getGeometryType() ) !=  ShpType() ){
 				
 				$.IGRP.notify({
         			
@@ -608,7 +608,7 @@
 		 */
 		
 		function GetWFST(layerInfo){
-			
+						
 			return new L.WFST({
 				 
 	                url: layerInfo.owsURL,
@@ -896,7 +896,7 @@
 				
 				var layerdata = layer.data();
 								
-				if(layerdata.type == 'WFS')
+				if(layerdata.type == 'WFS' && layerdata.editable)
 								
 					Layers[ layer.id ] = {
 							
@@ -921,7 +921,11 @@
 			
 			for (var name in Attributes){
 				
-				var type = Attributes[name] == 'string' ? 'text' : 'number';
+				var type = 'number'; 
+				
+				if (Attributes[name] == 'string')  type = 'text' 
+					
+				else if(Attributes[name] == 'dateTime' || Attributes[name] == 'date') type = 'date';
 								
 				html += '<input type="'+type+'" class="form-control" placeholder="'+name+'" name="'+name+'"/>'
 				

@@ -62,3 +62,6 @@
 	text-transform: capitalize;
 }
 
+.gis-widget-wrapper[widget-type="timeslider"] .gis-slider .ui-slider-range{
+    background-color: #337ab7;
+}

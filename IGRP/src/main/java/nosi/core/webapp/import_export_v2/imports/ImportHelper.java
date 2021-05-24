@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.Part;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.JarUnJarFile;
 import nosi.core.webapp.import_export_v2.common.OptionsImportExport;
@@ -48,17 +49,16 @@ public class ImportHelper {
 		if(contentReads!=null) {
 			Application application = application_id!=null?new Application().findOne(application_id):null;
 			this.contentReads = this.contentReads.entrySet().stream().collect(Collectors.toMap(k->k.getKey().toLowerCase(),v->v.getValue().toString()));
-			ApplicationImport app = new ApplicationImport(application);	
-			if(application==null) {
-				application = app.getApplication();
-			}
+			ApplicationImport app = new ApplicationImport(application);				
 			app.deserialization(this.getJsonContent(OptionsImportExport.APP.getFileName()));
 			app.execute();
 			if(!app.allowPermissionImport()) {
 				imp.addError(Core.gt("Não tem permissão para importar a aplicação"));
 				return;
 			}
-			
+			if(application==null) {
+				application = app.getApplication();
+			}
 			ModuloImport modulo = new ModuloImport(application);
 			modulo.deserialization(this.getJsonContent(OptionsImportExport.MODULO.getFileName()));
 			imp.add(modulo);		

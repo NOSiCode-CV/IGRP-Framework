@@ -1,13 +1,9 @@
 package nosi.webapps.igrp.pages.resetpassword;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
+
 import static nosi.core.i18n.Translator.gt;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
@@ -21,9 +17,16 @@ import javax.xml.ws.handler.MessageContext;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.UpdateCredentialByAdmin;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
-import nosi.webapps.igrp.dao.User;
+
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
+import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.webapps.igrp.dao.User;
 import service.client.WSO2UserStub;
 
 /*----#end-code----*/
@@ -112,29 +115,21 @@ public class ResetpasswordController extends Controller {
 		String pwd = model.getNova_senha();
 		String pwdConfirm = model.getConfirmar_nova_senha();
 		
-		if(!pwd.equals(pwdConfirm)) {
-			Core.setMessageError("Password inconsistentes. Tente novamente !");
-			
-		//	return forward("igrp","Resetpassword","index", this.queryString());
-		}else {
-			switch(this.getConfig().getAutenticationType()) {
-				case "db": 
-					if(db(username, pwd)) {						
+		if(!pwd.equals(pwdConfirm)) 
+			Core.setMessageError("Password inconsistentes. Tente novamente !"); 
+		else {
+			String authenticationType = this.getConfig().getAutenticationType(); 
+			if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_DATABASE.value())) {
+				if(db(username, pwd)) 				
+					return redirectToUrl("webapps?r=igrp/login/login"); 
+			}else 
+				if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value())) {
+					if(ldap(username, pwd)) 	                      
 						return redirectToUrl("webapps?r=igrp/login/login");
-					}
-				break;
-				case "ldap": 
-					if(ldap(username, pwd)) {	                      
-						return redirectToUrl("webapps?r=igrp/login/login");
-					}
-				break;
-			}
+				}
 		}
-		
 		this.addQueryString("t", token);
-
-		
-/*----#end-code----*/
+		/*----#end-code----*/
 		return this.redirect("igrp","Resetpassword","index", this.queryString());	
 	}
 	
@@ -160,11 +155,11 @@ public class ResetpasswordController extends Controller {
 	private boolean ldap(String username, String password) {
 		boolean flag = false;
 		try {
-			Properties settings = ConfigApp.getInstance().loadConfig("common", "main.xml");
-			URL url =  new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
+			Properties settings = this.configApp.getMainSettings(); 
+			URL url =  new URL(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value()));
 	        WSO2UserStub.disableSSL();
 	        WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-	        stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"), settings.getProperty("ids.wso2.admin-pwd"), 2);
+	        stub.applyHttpBasicAuthentication(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()), settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value()), 2);
 	        
 	        flag = stub.getOperations().isExistingUser(username);
 	        
@@ -180,8 +175,8 @@ public class ResetpasswordController extends Controller {
 	        	try {
 	        		
 			        UpdateCredentialByAdmin credential = new UpdateCredentialByAdmin();
-			        credential.setUserName(new JAXBElement<String>(new QName(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"), "userName"), String.class, username));
-			        credential.setNewCredential(new JAXBElement<String>(new QName(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"), "newCredential"), String.class, password));
+			        credential.setUserName(new JAXBElement<String>(new QName(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value()), "userName"), String.class, username));
+			        credential.setNewCredential(new JAXBElement<String>(new QName(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value()), "newCredential"), String.class, password));
 			        
 			        stub.getOperations().updateCredentialByAdmin(credential);
 			        
@@ -212,14 +207,6 @@ public class ResetpasswordController extends Controller {
 			Core.setMessageError("Ocorreu um erro. " + e.getMessage());
 			e.printStackTrace();
 		}
-		
-		return flag;
-	}
-	
-	
-	
-	public boolean validateRequest() {
-		boolean flag = false;
 		
 		return flag;
 	}

@@ -12,9 +12,13 @@
 			
 			data    = widget.data(),
 			
-			timeout = function(){};
+			timeout = function(){},
 			
-		widget.activeFilter = false;			
+			Map = app.viewer();
+			
+		widget.activeFilter = false;		
+		
+		widget.activeDivAdmin = false;		
 		
 		widget.templateParams = {
 			
@@ -29,6 +33,8 @@
  	 		layerAttributes  : []
 				
 		};
+		
+		widget.results = {};
 		
 		function ClearResults(){
 
@@ -77,8 +83,8 @@
 			GetLayers();
 			
 			getCqlFilter();
-							
-			if( (val && val.length >= 1 || cqlFilters ) && Layers.length >= 1){
+										
+			if( (val && val.length >= 1 || cqlFilters ) && Layers[0]){
 				
 				var reqs    = [],
 				
@@ -86,7 +92,7 @@
 				
 				////cql_filter
 				Layers.forEach(function(l){
-										
+					
 					var layer  = l.layer,
 					
 						attributes = l.attributes,
@@ -159,82 +165,83 @@
 		
 		function GetLayers(){
 			
-			var layer_id = $('select#layers-select').val(),
-			
-			    attributes = $('select#layer-atts-select').val();
-			
-			if(data){
-				
-				if(data.layers && data.layers[0]){
-					
-					data.layers.forEach(function(l){
-				
-						var layer = app.layers.get( l.layer );
-			
-						if(layer)
-							
-							Layers.push({
-								
-								layer : layer,
-								
-								attributes : l.attributes ? l.attributes.split(' ') : []
-								
-							});
-						
-					});
-					
-				}
-				
-			}
-			
 			Layers = [];
 			
-			var layer = app.layers.get( layer_id );
-									
-			if(layer && (attributes.length >= 1 || isSearchAdvanced() )){
+			if(data.layers && data.layers[0]){
 				
-				Layers.push({
-					
-					layer : layer,
-					
-					attributes : attributes
-					
+				data.layers.forEach(function(l){
+			
+					var layer = app.layers.get( l.layer );
+		
+					if(layer)
+						
+						Layers.push({
+							
+							layer : layer,
+							
+							attributes : l.fields ? l.fields.split(',') : []
+							
+						});
+										
 				});
 				
+			}else{
+				
+				var layer_id = $('select#layers-select').val(),
+				
+					layer = app.layers.get( layer_id ),
+								
+			    	attributes = $('select#layer-atts-select').val();
+				
+				if(layer && (attributes[0] || isSearchAdvanced() ))
+					
+					Layers.push({
+						
+						layer : layer,
+						
+						attributes : attributes
+						
+					});
 			}
-			
+						
 		};
 		
 		function LoadFields(){
 			
-			var _layers = [],
+			var _layers = [], _grouplayers = app.layers.getLayers();
 			
-				_grouplayers = app.layers.getLayers();
-						
-			_grouplayers.forEach(function(l){
+			if(!data.layers[0] ){
 				
-				var layer  =  l.data();
-				
-				_layers.push({
-					name : layer.name,
-					id   : layer.id
+				_grouplayers.forEach(function(l){
+					
+					var layer  =  l.data();
+					
+					_layers.push({
+						name : layer.name,
+						id   : layer.id
+					});
+					
 				});
-				
-			});
 			
-			try{
-				
-				widget.setTemplateParams( {
+				try{
 					
-					'layers': _layers
+					widget.setTemplateParams( {
+						
+						'layers': _layers
+											
+					} );
 					
-				} );
+				}catch(err){
+					
+					console.log(err)
+					
+				}
 				
-			}catch(err){
+				$('.search-input-layer', widget.html).show();
 				
-				console.log(err)
+			}else
+				$('.search-input-layer', widget.html).hide();		
 				
-			}
 		};
 		
 		function AttributesToSelect(json){
@@ -273,9 +280,7 @@
 		
 		function getCqlFilter(){
 			
-			var teste = '',
-				
-				attrReplaced = [];
+			var attrReplaced = [];
 			
 			cqlFilters = " " + txtCql.val();
 			
@@ -305,14 +310,110 @@
 			
 			input[0].focus();
 			
-			txtCql.val('');
+			txtCql.val('');		
 			
-			//ClearResults();
+			input[0].removeAttribute('disabled');
+			
+			widget.activeDivAdmin =  false;		
+			
+			widget.steps.divAdmin.activate();
+
+			if(widget.request)						
+				widget.request.abort();
+			
+			widget.loading(false);
+			
+			var selects = $('.search-div-admin select', widget.html);
+				   
+			for ( var i = 0; i < selects.length; i++) {			
+				selects[i].value = '';				
+			}
 			
 		};
 		
-		function SetEvents(){
+		function setRemoteComobox(o){
 			
+			try{
+			
+					//clear
+				if (!o.parent && o.id == '' ){
+					
+					try{
+						
+						widget.setTemplateParam( 'div-admin-'+o.target, {'divData': [] } );			
+																								
+						$('#'+o.target, widget.html).trigger("change");
+
+						
+					}catch(e){
+						console.log(e)
+					}
+					
+					widget.loading(false);
+					
+					return false;
+				}
+				
+				$.getJSON(path+'/plugins/gis/data/config.json', function(json){
+										
+					if(json.hasOwnProperty(o.tipo_obj)){
+						
+						widget.pathGeoJson = path+'/plugins/gis/data'+json[o.tipo_obj];
+										
+						$.getJSON(widget.pathGeoJson, function(json) {
+							
+							var data    = json.features,
+							
+								results = [];		
+							
+							data.forEach(function(feature, i){
+																							
+								var properties = feature.properties;
+								    	
+								if( properties['name'] && properties['code'] )
+									results.push({
+										name    : properties['name'],
+										id      : properties['code'],
+										feature : feature
+									});
+								
+							});
+							
+							widget.results[o.target] = json
+							
+							try{
+								
+								if (results.length == 1)
+									results[0].selectedId  = results[0].id;
+																
+								widget.setTemplateParam( 'div-admin-'+o.target, {'divData': results} );			
+																													
+								$('#'+o.target, widget.html).select2();
+								
+								$('#'+o.target, widget.html).trigger("change");
+		
+								
+							}catch(e){
+								console.log(e)
+							}
+							
+							widget.loading(false);
+							
+						});
+					}else{
+						widget.loading(false);
+					}
+					
+				});
+					
+			}catch(e){
+				console.log(e)
+				widget.loading(false);
+			}
+		}
+		
+		function SetEvents(){
+						
 			input = $('.search-input-wrapper input', widget.html);
 			
 			inputParent = $('.search-input-wrapper', widget.html);
@@ -324,9 +425,7 @@
 			txtCql = $('#search-txt-cql textarea', widget.html);
 
 			submitSearch= $('#search-form-submit', widget.html);
-						
-			if(!data.advanced) checkParent.hide();
-			
+									
 			widget.html.on('click', '.search-item', function(){
 				
 				var item    = $(this),
@@ -354,10 +453,12 @@
 						app.viewer().fitBounds( L.latLngBounds(sw,ne) );
 						
 						layer.highlight( id, function(){
-							
+														
 							item.addClass('active');
 							
 						});
+						
+						layer.show();
 
 					}
 					
@@ -381,7 +482,7 @@
 			
 			
 			widget.action("search", function(){
-				
+								
 				clearTimeout(timeout);
 
 				timeout = setTimeout(Search, 600 );
@@ -432,28 +533,34 @@
 								
 			});
 			
-			check.on('change', function(){
+			if(!data.advanced)
 				
-				inputParent.show();
-		    	
-		    	clearSearch();
-		    	
-				if (this.checked) {
-					 					 
-					 inputParent.hide();
-					 
-					 widget.activeFilter = true;
-					 
-					 widget.steps.filter.activate();
-
-			    }else{
+				checkParent.hide();
+			
+			else
+			
+				check.on('change', function(){
+					
+					inputParent.show();
 			    	
-			    	$("#search-form-advanced").removeClass('active');
+			    	clearSearch();
 			    	
-			    	widget.activeFilter = false;
-			    	
-			    }
-			});
+					if (this.checked) {
+						 					 
+						 inputParent.hide();
+						 
+						 widget.activeFilter = true;
+						 
+						 widget.steps.filter.activate();
+	
+				    }else{
+				    	
+				    	$("#search-form-advanced").removeClass('active');
+				    	
+				    	widget.activeFilter = false;
+				    	
+				    }
+				});
 						
 			widget.html.on('click', '#search-grid-operators button',function(){
 								 
@@ -470,17 +577,124 @@
 				}
 			});
 			
-		};
-		
+			/*SEARCH LAYERS MENU*/
+			widget.html.on('click', '#search-layers', function(){
+								
+				clearSearch();
+			})
+			
+			/*DIV ADMIN*/
+			widget.html.on('click', '#search-div-admin', function(){
+				
+				input[0].setAttribute('disabled', true);
+				
+				console.log(widget.activeDivAdmin )
+				
+				if (!widget.activeDivAdmin){
+					
+					widget.activeDivAdmin =  true;
+					
+					widget.steps.divAdmin.activate();										
+					
+				}
+				
+				//static file json 
+				if( widget.activeDivAdmin ){
+					
+					var opt = {
+						target   : 'nivel-1',
+						tipo_obj : 'global',
+						parent   : true
+					}
+					
+					clearTimeout(timeout);
+
+					timeout = setTimeout(setRemoteComobox(opt), 600 );
+					
+					widget.loading(true);	
+					
+				}
+			});
+			
+			widget.html.on('change', '.remote-change', function(){
+				
+				var field     = $(this),
+									
+					bounds    = field.find(':selected').attr('bounds'),
+					
+					featureId = field.find(':selected').attr('feature-id'),
+					
+					obj       = field.data('value');
+																
+				opt = {
+					target   : field.data('target'),
+					id		 : field.val(),
+					tipo_obj : field.val()
+				}
+				
+				if(opt.target){
+					
+					clearTimeout(timeout);
+	
+					timeout = setTimeout(setRemoteComobox(opt), 600 );
+					
+					widget.loading(true);	
+				}
+												
+				
+				try{
+									
+					if(bounds){
+						
+						bounds = JSON.parse(bounds);
+						
+						var ne = L.latLng([bounds._northEast.lng, bounds._northEast.lat]),//??
+							
+							sw = L.latLng([bounds._southWest.lng, bounds._southWest.lat]);//?? lat lng switched
+						
+						app.viewer().fitBounds( L.latLngBounds(sw, ne) );
+							
+						if ( widget.results[obj] &&  opt.id !== '' ){
+							
+							if(widget.highlight)
+								
+								Map.removeLayer(widget.highlight);
+							
+							var jsonObject = widget.results[obj];
+																
+							widget.highlight = L.geoJson(jsonObject, {
+							    filter: function(feature, layer) {
+							        return feature.properties['code'] === opt.id;
+							    }
+							}).addTo(Map);
+							
+							Map.highlightdivadmin = {'code' : opt.id, 'url' : widget.pathGeoJson}
+							
+							Map.highlightLayer = widget.highlight;
+							
+						}
+
+					}
+					
+				}catch(err){
+					
+					console.log(err)
+					
+				}
+			})			
+
+			//$('.remote-change', widget.html).trigger("change");
+				
+		};		
 		
 		(function(){
 			
 			widget.on( 'activate', function(){
 								
 				SetEvents();
-				
+												
 				LoadFields();
-								
+							
 			});
 			
 			widget.on( 'deactivate', function(){
@@ -498,6 +712,21 @@
 	}
 
 	GIS.widgets.register('search', {
+		
+		dependencies : {
+			
+			js  : [ 
+				path + '/plugins/select2/select2.full.min.js',
+				path + '/plugins/select2/select2.init.js'
+			],
+			
+			css  : [
+				path + '/plugins/select2/select2.min.css',
+				path + '/plugins/select2/select2.style.css'
+			]
+		
+		},
+		
 		
 		init : SearchWidget
 		

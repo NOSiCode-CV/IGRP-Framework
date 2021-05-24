@@ -26,7 +26,7 @@
         </head>
 
         <body class="fixed-nav startin" view="gen-design" template="{rows/template}" id="igrp-form-gen">            
-          <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="template">
+          <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="template" style="position: sticky;">
               <a class="navbar-brand col-sm-3 col-md-2" href="{rows/link}" >
                   <img src="{$logo}"/>
                   <span><b>IGRP</b></span>

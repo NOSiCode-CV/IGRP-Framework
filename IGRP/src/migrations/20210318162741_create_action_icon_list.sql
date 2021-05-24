@@ -1,0 +1,2 @@
+INSERT INTO tbl_action(action, action_descr, iscomponent, package_name, page, page_descr,status, versao, xsl_src, env_fk,tipo)
+VALUES ('index', 'Icons List',0, 'nosi.webapps.igrp.pages','Icons_list', 'Icons List',1,2.3,'igrp/icons_list/Icons_list.xsl', 1, 0);

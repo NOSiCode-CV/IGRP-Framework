@@ -9,6 +9,7 @@ import nosi.core.webapp.import_export_v2.common.serializable.report.CLobSerializ
 import nosi.core.webapp.import_export_v2.common.serializable.report.ReportParamsSerializable;
 import nosi.core.webapp.import_export_v2.common.serializable.report.ReportSerializable;
 import nosi.core.webapp.import_export_v2.common.serializable.report.ReportSourcesSerializable;
+import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 import nosi.core.webapp.import_export_v2.imports.IImport;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -18,7 +19,6 @@ import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.RepTemplateSource;
 import nosi.webapps.igrp.dao.RepTemplateSourceParam;
-import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
 /**
  * Emanuel 2 Nov 2018
@@ -79,7 +79,7 @@ public class ReportImport extends AbstractImport implements IImport {
 					repTemplate.setXsl_content(xsl_content);
 					repTemplate = repTemplate.update();
 				}
-				this.addError(repTemplate.hasError() ? repTemplate.getError().get(0) : null);
+				this.addError(repTemplate.hasError() ? report.getName()+" - "+repTemplate.getError().get(0) : null);
 				this.saveDataSource(report);
 				this.saveParamDataSource(report, repTemplate);
 			});

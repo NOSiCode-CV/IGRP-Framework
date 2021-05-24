@@ -25,8 +25,8 @@ public class ImportArquivoView extends View {
 	public Field data_source;
 	public Field sql_script;
 	public Field aplicacao_combo_img;
-	public Field imagens;
 	public Field tipo;
+	public Field imagens;
 	public Field form_5_link_1;
 	public Field sectionheader_3_text;
 	public Field list_aplicacao;
@@ -41,8 +41,8 @@ public class ImportArquivoView extends View {
 	public IGRPForm form_2;
 	public IGRPForm form_3;
 	public IGRPForm form_4;
-	public IGRPBox box_1;
 	public IGRPForm form_5;
+	public IGRPBox box_1;
 	public IGRPSectionHeader sectionheader_3;
 	public IGRPForm form_6;
 
@@ -76,9 +76,9 @@ public class ImportArquivoView extends View {
 
 		form_4 = new IGRPForm("form_4","");
 
-		box_1 = new IGRPBox("box_1","");
-
 		form_5 = new IGRPForm("form_5","");
+
+		box_1 = new IGRPBox("box_1","");
 
 		sectionheader_3 = new IGRPSectionHeader("sectionheader_3","");
 
@@ -91,7 +91,8 @@ public class ImportArquivoView extends View {
 		
 		help = new LinkField(model,"help");
 		help.setLabel(gt("Help"));
-		help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		help.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=import"));
+		help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		importar_aplicacao = new TextField(model,"importar_aplicacao");
 		importar_aplicacao.setLabel(gt("Importar IGRP"));
@@ -153,19 +154,17 @@ public class ImportArquivoView extends View {
 		aplicacao_combo_img.setLabel(gt("Aplicação"));
 		aplicacao_combo_img.propertie().add("name","p_aplicacao_combo_img").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","true").add("disabled","false").add("java-type","");
 		
+		tipo = new RadioListField(model,"tipo");
+		tipo.setLabel(gt("Tipo / Localização"));
+		tipo.propertie().add("name","p_tipo").add("type","radiolist").add("domain","").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false").add("child_size","4").add("java-type","int");
+		
 		imagens = new FileField(model,"imagens");
 		imagens.setLabel(gt("Imagens"));
 		imagens.propertie().add("name","p_imagens").add("type","file").add("accept","image/*").add("targetrend","").add("multiple","true").add("rendvalue","false").add("maxlength","250").add("required","true").add("disabled","false").add("class","purple");
 		
-		tipo = new ListField(model,"tipo");
-		tipo.setLabel(gt("Tipo"));
-		tipo.propertie().add("name","p_tipo").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","true").add("disabled","false").add("java-type","int");
-		
-		form_5_link_1 = new LinkField(model,"form_5_link_1");
+		form_5_link_1 = new PlainTextField(model,"form_5_link_1");
 		form_5_link_1.setLabel(gt("Link"));
-		form_5_link_1.setValue(Core.getIGRPLink("igrp_studio","ListaEnv","index"));
-
-									form_5_link_1.propertie().add("name","p_form_5_link_1").add("type","link").add("target","_self").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","link").add("img","fa-link").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false").add("adbcli","");
+		form_5_link_1.propertie().add("name","p_form_5_link_1").add("type","plaintext").add("clear","false").add("disable_output_escaping","false").add("html_class","").add("maxlength","250");
 		
 		sectionheader_3_text = new TextField(model,"sectionheader_3_text");
 		sectionheader_3_text.setLabel(gt(""));
@@ -228,11 +227,11 @@ public class ImportArquivoView extends View {
 		form_4.addField(data_source);
 		form_4.addField(sql_script);
 
-
 		form_5.addField(aplicacao_combo_img);
-		form_5.addField(imagens);
 		form_5.addField(tipo);
+		form_5.addField(imagens);
 		form_5.addField(form_5_link_1);
+
 
 		sectionheader_3.addField(sectionheader_3_text);
 
@@ -254,8 +253,8 @@ public class ImportArquivoView extends View {
 		this.addToPage(form_2);
 		this.addToPage(form_3);
 		this.addToPage(form_4);
-		this.addToPage(box_1);
 		this.addToPage(form_5);
+		this.addToPage(box_1);
 		this.addToPage(sectionheader_3);
 		this.addToPage(form_6);
 	}
@@ -263,7 +262,6 @@ public class ImportArquivoView extends View {
 	@Override
 	public void setModel(Model model) {
 		
-		help.setValue(model);
 		importar_aplicacao.setValue(model);
 		importar_jar_file.setValue(model);
 		importar_sql_script.setValue(model);
@@ -274,8 +272,8 @@ public class ImportArquivoView extends View {
 		data_source.setValue(model);
 		sql_script.setValue(model);
 		aplicacao_combo_img.setValue(model);
-		imagens.setValue(model);
 		tipo.setValue(model);
+		imagens.setValue(model);
 		form_5_link_1.setValue(model);
 		list_aplicacao.setValue(model);
 		arquivo_pagina.setValue(model);	

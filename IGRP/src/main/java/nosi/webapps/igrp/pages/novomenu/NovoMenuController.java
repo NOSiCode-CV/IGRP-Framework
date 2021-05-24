@@ -1,30 +1,29 @@
 package nosi.webapps.igrp.pages.novomenu;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
-import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config;
-import nosi.webapps.igrp.dao.Menu; 
-
+import nosi.webapps.igrp.dao.Menu;
 import nosi.core.webapp.helpers.IgrpHelper;
-import nosi.core.integration.pdex.service.GlobalAcl;
-import nosi.core.integration.pdex.service.GlobalAcl.PermissionAcl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
-
 import static nosi.core.i18n.Translator.gt;
+
+import nosi.core.integration.pdex.service.GlobalAcl;
+import nosi.core.integration.pdex.service.GlobalAcl.PermissionAcl;
+
 /*----#end-code----*/
 		
 public class NovoMenuController extends Controller {
@@ -38,61 +37,57 @@ public class NovoMenuController extends Controller {
 		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.action_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.self_id.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.orderby.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.target.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
 		int id = model.getId();
-      if (Core.isNotNullOrZero(id)) {
+		int app = 0;
+		if (Core.isNotNullOrZero(id)) {
 			// If its a update it will enter here and the value p_id is from the GET url
 			Menu menu = new Menu().findOne(id);
-			
 			if (null != menu.getMenu())
 				model.setSelf_id(menu.getMenu().getId());
 			model.setStatus(menu.getStatus());
 			model.setFlg_base(menu.getFlg_base());
-			// Sets the target, Self_, other page, popup...
 			model.setTarget(menu.getTarget());
+			model.setIcone(menu.getMenu_icon());
+			if (menu.getAction() != null)
+				model.setAction_fk(menu.getAction().getId());
+			
 			model.setOrderby(menu.getOrderby());
 			model.setTitulo(menu.getDescr());
-            model.setEnv_fk(menu.getApplication().getId());
-			if (Core.isNotNullOrZero(model.getAction_fk())){
-				if (menu.getAction().getId() != model.getAction_fk()) 
-					model.setTitulo(getPageTituleByID(model));
+			app = menu.getApplication().getId();
+			model.setEnv_fk(app);
+			
+			if (Core.isNotNullOrZero(model.getAction_fk()) && menu.getAction().getId() != model.getAction_fk()) {
+				model.setTitulo(getPageTituleByID(model));
 			}
-
-          	if (menu.getAction() != null){                   
-               model.setAction_fk(menu.getAction().getId());
-            }
-            view.action_fk.setVisible(false);
-
+			view.orderby.setValue(this.getOrdem(app, true,id));
 		} else {
-			int app =model.getApp();
-
+			app = model.getApp();
 			String dad = Core.getCurrentDad();
 			if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 				app = Core.findApplicationByDad(dad).getId();
 				view.env_fk.propertie().add("disabled", "true");
-
 			}
-			
-			if (Core.isNotNullOrZero(model.getApp())){              
-              model.setEnv_fk(model.getApp());
-            }else{
-               model.setApp(app);
-              model.setEnv_fk(app); 
-            }
-             
-				
-			// New menu by default opens in the same window
+			if (Core.isNotNullOrZero(model.getApp())) {
+				model.setEnv_fk(model.getApp());
+			} else {
+				model.setApp(app);
+				model.setEnv_fk(app);
+			}
+			// New menu by default
 			model.setTarget("_self");
-			model.setOrderby(39);
 			model.setStatus(1);
 			model.setFlg_base(0);
 			if (Core.isNotNullOrZero(model.getAction_fk())) {
 				model.setTitulo(getPageTituleByID(model));
 			}
+			view.orderby.setValue(this.getOrdem(app,false,0));
 		}
+		
 
 		HashMap<String, String> targets = new HashMap<>();
 		targets.put(null, gt("-- Selecionar --"));
@@ -104,14 +99,7 @@ public class NovoMenuController extends Controller {
 		targets.put("submit", gt("Submit"));
 		targets.put("confirm", gt("Confirm"));
 		view.env_fk.setValue(new Application().getListApps()); // Prompt
-		if (Core.isNotNull(model.getEnv_fk())) { 
-			if(model.getGlobal_acl() == 1) 
-				view.action_fk.setValue(IgrpHelper.toMap(this.loadPermissionAcl(model.getEnv_fk()), "type_fk", "description")); 
-			else 
-				view.action_fk.setValue(new Action().getListActions(model.getEnv_fk())); 
-			
-			view.self_id.setValue(new Menu().getListPrincipalMenus(model.getEnv_fk())); 
-		}
+		
 		view.target.setValue(targets); // prompt
 		view.link.setVisible(false);
 
@@ -121,6 +109,17 @@ public class NovoMenuController extends Controller {
 		} else
 			view.status.setValue(1);
 
+		if (Core.isNotNull(model.getEnv_fk())) {
+			if (model.getGlobal_acl() == 1)
+				view.action_fk.setValue(
+						IgrpHelper.toMap(this.loadPermissionAcl(model.getEnv_fk()), "type_fk", "description"));
+			else {
+				view.action_fk.setValue(new Action().getListActions(model.getEnv_fk()));
+			}
+			view.self_id.setValue(new Menu().getListPrincipalMenus(model.getEnv_fk()));
+		}
+		
+		
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -140,20 +139,19 @@ public class NovoMenuController extends Controller {
 		int id = model.getId();
 
 		Menu menu;
-		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
-
+		if (Core.isHttpPost()) {
 			if (Core.isNotNullOrZero(id)) {
-				// UPDATE menu will enter here
+				// UPDATE menu
 				menu = new Menu().findOne(id);
-				
-				if(Core.isNullOrZero(model.getSelf_id())) {
+				if (Core.isNullOrZero(model.getSelf_id()) && Core.isNotNull(menu.getLink()) ) {
 					menu.setMenu(menu);
 				}
 			} else {
-				// NEW menu will enter here
+				// NEW menu 
 				menu = new Menu();
 			}
 			int app = Core.isNotNullOrZero(model.getEnv_fk()) ? model.getEnv_fk() : Core.getParamInt("p_app");
+			menu.setMenu_icon(model.getIcone()); 
 			menu.setDescr(model.getTitulo());
 			menu.setApplication(Core.findApplicationById(app));
 			menu.setFlg_base(model.getFlg_base());
@@ -161,14 +159,14 @@ public class NovoMenuController extends Controller {
 			menu.setStatus(model.getStatus());
 			menu.setTarget(model.getTarget());
 			if (Core.isNotNullOrZero(model.getAction_fk())) {
-				if(model.getGlobal_acl() == 1) { 
-					int action_global_acl_id = model.getAction_fk(); 
-					PermissionAcl acl = getPermissionAclByTypeFk(action_global_acl_id, app); 
-					if(acl != null && acl.getLink() != null && !acl.getLink().isEmpty()) {
-						menu.setLink(acl.getLink()); 
+				if (model.getGlobal_acl() == 1) {
+					int action_global_acl_id = model.getAction_fk();
+					PermissionAcl acl = getPermissionAclByTypeFk(action_global_acl_id, app);
+					if (acl != null && acl.getLink() != null && !acl.getLink().isEmpty()) {
+						menu.setLink(acl.getLink());
 					}
-				}else {
-					menu.setAction(new Action().findOne(model.getAction_fk())); 
+				} else {
+					menu.setAction(new Action().findOne(model.getAction_fk()));
 				}
 			}
 			if (Core.isNotNullOrZero(model.getSelf_id())) {
@@ -177,9 +175,6 @@ public class NovoMenuController extends Controller {
 			} else if (Core.isNotNullOrZero(model.getAction_fk()))
 				menu.setMenu(menu);
 
-			
-				
-			
 			if (Core.isNotNullOrZero(id)) {
 				// UPDATE menu will enter here
 				menu = menu.update();
@@ -191,11 +186,11 @@ public class NovoMenuController extends Controller {
 			} else {
 				// NEW menu will enter here
 				if (Core.isNotNull(menu.getAction())) {
-//					Menu is son or ophan
+					// Menu is son or ophan
 					if (Core.isNotNull(new Menu().find().andWhere("application.id", "=", menu.getApplication().getId())
 							.andWhere("action", "=", menu.getAction().getId()).andWhere("descr", "=", menu.getDescr())
 							.one())) {
-//						Menu already exist
+						// Menu already exist
 						Core.setMessageWarning("NMMSG1");
 						return this.forward("igrp", "NovoMenu", "index");
 					}
@@ -241,70 +236,96 @@ public class NovoMenuController extends Controller {
 		}
 		return "";
 	}
-	
-	public Response actionIndex_() throws IOException, IllegalArgumentException, IllegalAccessException{
-		String r = "<?xml version = \"1.0\" encoding = \"utf-8\"?>"; 
-		
-		NovoMenuView view = new NovoMenuView(); 
-		
-		String param = Core.getParam("p_global_acl"); 
-		int p_env_fk = Core.getParamInt("p_env_fk"); 
-		int p_global_acl = Core.toInt(param, 0); 
-		
-		if(p_global_acl == 1) { 
+
+	public Response actionIndex_() throws IOException, IllegalArgumentException, IllegalAccessException {
+		String r = "<?xml version = \"1.0\" encoding = \"utf-8\"?>";
+
+		NovoMenuView view = new NovoMenuView();
+
+		String param = Core.getParam("p_global_acl");
+		int p_env_fk = Core.getParamInt("p_env_fk");
+		int p_global_acl = Core.toInt(param, 0);
+
+		if (p_global_acl == 1) {
 			HashMap<Integer, String> targets = new HashMap<>();
 			targets.put(null, gt("-- Selecionar --"));
-			
-			List<PermissionAcl> acls = loadPermissionAcl(p_env_fk); 
-			for(PermissionAcl obj : acls) 
+
+			List<PermissionAcl> acls = loadPermissionAcl(p_env_fk);
+			for (PermissionAcl obj : acls)
 				targets.put(obj.getType_fk(), "" + obj.getDescription());
 
 			r += Core.remoteComboBoxXml(targets, view.action_fk, null);
-		}else 
+		} else
 			r += Core.remoteComboBoxXml(new Action().getListActions(p_env_fk), view.action_fk, null);
-		
-		
+
 		return this.renderView(r);
-	} 
-	
-	public List<PermissionAcl> loadPermissionAcl(int envFk){
-		List<PermissionAcl> acls = new ArrayList<PermissionAcl>(); 
-		
-		Config config = new Config().find().andWhere("name", "=", "" + this.IGRPWEB_INSTANCE_NAME).one(); 
-		Application env = new Application().findOne(envFk); 
-		
-		Properties properties =  this.configApp.getMainSettings(); 
-		String baseUrl = properties.getProperty(IGRP_PDEX_GLOBALACL_URL); 
-		String token = properties.getProperty(IGRP_PDEX_GLOBALACL_TOKEN); 
-		
-		GlobalAcl globalAcl = new GlobalAcl(); 
+	}
+
+	public List<PermissionAcl> loadPermissionAcl(int envFk) {
+		List<PermissionAcl> acls = new ArrayList<PermissionAcl>();
+
+		Config config = new Config().find().andWhere("name", "=", "" + this.IGRPWEB_INSTANCE_NAME).one();
+		Application env = new Application().findOne(envFk);
+
+		Properties properties = this.configApp.getMainSettings();
+		String baseUrl = properties.getProperty(IGRP_PDEX_GLOBALACL_URL);
+		String token = properties.getProperty(IGRP_PDEX_GLOBALACL_TOKEN);
+
+		GlobalAcl globalAcl = new GlobalAcl();
 		globalAcl.setUrl(baseUrl);
 		globalAcl.setToken(token);
 		globalAcl.setInstanceName(config.getValue());
-		if(env != null)
+		if (env != null)
 			globalAcl.setAppCode(env.getDad());
 		globalAcl.setType(GlobalAcl.TYPE.PAGE.name());
-		
-		acls = globalAcl.permissionAcl(); 
-		
+
+		acls = globalAcl.permissionAcl();
+
 		return acls;
 	}
-	
+
 	public PermissionAcl getPermissionAclByTypeFk(int type_fk, int envFk) {
-		PermissionAcl acl = null; 
-		List<PermissionAcl> acls = loadPermissionAcl(envFk); 
-		for(PermissionAcl obj : acls) {
-			if(obj.getType().equals(GlobalAcl.TYPE.PAGE.name()) && obj.getType_fk() == type_fk) {
+		PermissionAcl acl = null;
+		List<PermissionAcl> acls = loadPermissionAcl(envFk);
+		for (PermissionAcl obj : acls) {
+			if (obj.getType().equals(GlobalAcl.TYPE.PAGE.name()) && obj.getType_fk() == type_fk) {
 				acl = obj;
 				break;
 			}
 		}
-		return acl; 
+		return acl;
 	}
 	
-	public final String IGRPWEB_INSTANCE_NAME = "IGRPWEB_INSTANCE_NAME"; 
-	private final String IGRP_PDEX_GLOBALACL_URL = "igrp.acl.permissionacl.url";
-	private final String IGRP_PDEX_GLOBALACL_TOKEN = "igrp.acl.permissionacl.token"; 
 	
+	
+	private HashMap<Integer, String> getOrdem(int app, boolean edit,int id){
+		
+		HashMap<Integer, String> ordem = new HashMap<>();
+		List<Menu> ordem_dao = new Menu().find().where("application","=",app).all();
+		ordem.put(null, gt("-- Selecionar --"));
+		for(int i=1; i <= ordem_dao.size(); i++ ) {
+			ordem.put(i, ""+i);
+		}
+		
+		for(Menu m1 : ordem_dao)
+			ordem.remove(m1.getOrderby());
+		 
+		if(edit) {
+			Menu menu = new Menu().findOne(id);
+			if(Core.isNotNullOrZero(menu.getOrderby()))
+				ordem.put(menu.getOrderby(),""+menu.getOrderby());
+		}else
+			ordem.put(ordem_dao.size()+1, ""+Core.toInt(ordem_dao.size()+1+""));
+		
+		return ordem;
+	}
+	
+	
+	
+
+	public final String IGRPWEB_INSTANCE_NAME = "IGRPWEB_INSTANCE_NAME";
+	private final String IGRP_PDEX_GLOBALACL_URL = "igrp.acl.permissionacl.url";
+	private final String IGRP_PDEX_GLOBALACL_TOKEN = "igrp.acl.permissionacl.token";
+
 	/*----#end-code----*/
 }

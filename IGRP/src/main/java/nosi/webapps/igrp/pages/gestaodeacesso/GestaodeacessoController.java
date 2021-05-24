@@ -1,19 +1,22 @@
 package nosi.webapps.igrp.pages.gestaodeacesso;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
+
 import java.util.List;
 import java.util.Properties;
 import java.util.ArrayList;
@@ -50,7 +53,7 @@ public class GestaodeacessoController extends Controller {
           view.aplicacao.propertie().add("disabled","true");
 			//setTable(model, data);
 		}
-		if (Igrp.getMethod().equalsIgnoreCase("post")) {
+		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")) {
 			if (ichange.equalsIgnoreCase("p_aplicacao") && Core.isNotNull(model.getAplicacao())) {
 				setTable(model, data);
 			}

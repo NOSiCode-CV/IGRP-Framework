@@ -4,6 +4,8 @@ package nosi.webapps.igrp.dao;
  * 29 Jun 2017
  */
 
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,10 +24,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.ResultSet;
-
-import static nosi.core.i18n.Translator.gt;
 
 @Entity
 @Table(name = "tbl_organization")

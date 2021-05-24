@@ -1,6 +1,7 @@
 package nosi.core.webapp.security;
 
 import javax.servlet.http.Cookie;
+
 import nosi.core.exception.NotFoundHttpException;
 import nosi.core.i18n.I18nManager;
 import nosi.core.webapp.Core;
@@ -60,7 +61,7 @@ public class SecurtyCallPage {
 			}
 			if(Core.isNotNull(r)) {
 				String[] c = r.split("/");
-				if(Core.isNotNull(c) && Core.isNotNullMultiple(c[0],c[1])) {
+				if(Core.isNotNull(c) && c.length > 1 && Core.isNotNullMultiple(c[0],c[1])) {
 					final boolean isPublicPage = new Action().isPublicPage(c[0], c[1]);
 					if (!isPublicPage)
 						throw new NotFoundHttpException("Page not public! Página não é pública!");

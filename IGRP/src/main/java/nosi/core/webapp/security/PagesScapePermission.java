@@ -38,6 +38,8 @@ public class PagesScapePermission {
 		PAGES_WIDTHOUT_LOGIN.add("inps_porton/Pagamento_de_servico/index".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("inps_porton/Pagamento_de_servico/pagar".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp_studio/web-report/get-link-report".toLowerCase());
+		PAGES_WIDTHOUT_LOGIN.add("igrp_studio/web-report/get-contraprova".toLowerCase());
+		PAGES_WIDTHOUT_LOGIN.add("igrp_studio/WebReport/get-image".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp_studio/WebReport/preview".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp_studio/web-report/get-xsl".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("portondinosilha/Pagamento_de_donativo/index".toLowerCase());
@@ -62,6 +64,8 @@ public class PagesScapePermission {
 		PAGES_SCAPE_ENCRYPT.add("igrp_studio/env/myApps".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp_studio/env/openApp".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp_studio/WebReport/get-image".toLowerCase());
+		PAGES_SCAPE_ENCRYPT.add("igrp_studio/web-report/get-contraprova".toLowerCase());
+		PAGES_SCAPE_ENCRYPT.add("igrp_studio/web-report/get-xsl".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/File/get-image-txt".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/File/save-image".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/File/get-file".toLowerCase());

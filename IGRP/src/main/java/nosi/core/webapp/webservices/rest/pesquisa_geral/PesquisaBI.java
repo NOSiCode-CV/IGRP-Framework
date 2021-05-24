@@ -7,6 +7,7 @@ package nosi.core.webapp.webservices.rest.pesquisa_geral;
 import java.io.Serializable;
 
 import com.google.common.reflect.TypeToken;
+
 import nosi.core.webapp.Core;
 
 public class PesquisaBI implements Serializable{

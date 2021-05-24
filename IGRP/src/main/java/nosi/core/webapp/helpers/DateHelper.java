@@ -7,7 +7,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
+
 import nosi.core.webapp.Core;
+
 import java.sql.Timestamp;
 
 /**
@@ -139,7 +141,7 @@ public class DateHelper {
 				age =  ChronoUnit.YEARS.between(birthDate, currentDate);
 				break;
 			case CALCULATE_DAYS:
-				age =  ChronoUnit.DAYS.between(birthDate.withDayOfMonth(1), currentDate.withDayOfMonth(1));
+				age =  ChronoUnit.DAYS.between(birthDate, currentDate);
 				break;
 			case CALCULATE_MONTHS:
 				age =  ChronoUnit.MONTHS.between(birthDate.withDayOfMonth(1), currentDate.withDayOfMonth(1));

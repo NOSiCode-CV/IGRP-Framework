@@ -1,21 +1,6 @@
 package nosi.webapps.igrp.pages.proforgmapper;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-
-import nosi.base.ActiveRecord.HibernateUtils;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Mapping;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +10,16 @@ import java.util.stream.Collectors;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
+import nosi.base.ActiveRecord.HibernateUtils;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Mapping;
 
 /*----#end-code----*/
 		

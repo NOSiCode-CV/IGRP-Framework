@@ -1,22 +1,21 @@
 package nosi.webapps.igrp_studio.pages.importarquivo;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-
-import java.io.File;
-import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.util.Collection;
 import java.util.Map;
-
+import java.io.File;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import nosi.core.webapp.FlashMessage;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.export.app.ImportAppJava;
 import nosi.core.webapp.export.app.ImportJavaPage;
 import nosi.core.webapp.helpers.FileHelper;
@@ -28,14 +27,12 @@ import nosi.core.webapp.import_export_v2.imports.ImportHelper;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
-import nosi.core.webapp.Igrp;
-/*----#end-code----*/
+		/*----#end-code----*/
 		
 public class ImportArquivoController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ImportArquivo model = new ImportArquivo();
 		model.load();
-		model.setForm_5_link_1("igrp_studio","ListaEnv","index");
 		ImportArquivoView view = new ImportArquivoView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -47,9 +44,11 @@ public class ImportArquivoController extends Controller {
 		view.list_aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		
-      	view.tipo.setQuery(Core.query(null,"SELECT '1' as ID,'App (Ícone)' as NAME union all SELECT '2' as ID,'App (Imagem)' as NAME union all SELECT '3' as ID,'Report (Imagem)' as NAME"), "--- Selecionar ---");
-      
+			view.tipo.setQuery(Core.query(null,"SELECT '2' as ID,'Image asset' as NAME union all SELECT '1' as ID,'Icon App' as NAME union all  SELECT '3' as ID,'[Report] Image' as NAME"));
+      	if(Core.isNullOrZero(model.getTipo()))
+      		model.setTipo(2);
+      	
+      //	model.getForm_5_link_1_desc()
       	view.list_aplicacao.setValue(new Application().getListApps());	
 		view.aplicacao_script.setValue(new Application().getListApps());
 		view.aplicacao_combo_img.setValue(new Application().getListApps());   
@@ -88,9 +87,9 @@ public class ImportArquivoController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(btm_import_aplicacao)----*/
-		try {
+			try {
 			
-			if(Igrp.getMethod().equalsIgnoreCase("post")){
+			if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 				boolean result = false;
 				String descricao = "";
 				try {
@@ -170,7 +169,7 @@ public class ImportArquivoController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(importar_jar_file)----*/
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			Collection<Part> parts;
 			try {
 				parts = Igrp.getInstance().getRequest().getParts();
@@ -205,7 +204,7 @@ public class ImportArquivoController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(importar_script)----*/
-		try {
+	try {
            String dad = Core.getCurrentDad();        
             this.addQueryString("p_env_fk",model.getAplicacao_script());
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad))     			
@@ -242,12 +241,14 @@ public class ImportArquivoController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(import_images)----*/
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
            String dad = Core.getCurrentDad();    
           this.addQueryString("p_env_fk",model.getAplicacao_combo_img());
+          this.addQueryString("p_tipo",model.getTipo());
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) 
           	model.setAplicacao_combo_img(""+(Core.findApplicationByDad(dad)).getId());  
-			try {
+			
+		try {
 				Collection<Part> parts = Core.getFiles();
 				boolean imported = false;
              
@@ -259,9 +260,9 @@ public class ImportArquivoController extends Controller {
 							int index = fileName.lastIndexOf(".");
 							if(index!=-1) { 
 								String extensionName = fileName.substring(index+1); 
-                              	if(model.getTipo() != 1){ 
+								String appImgPath = application.getDad();
+                              	if(model.getTipo() != 1){                               		
                               		
-                              		String appImgPath = application.getDad();
                               		if(model.getTipo() == 3) 
                               			appImgPath += File.separator + "reports"; 
                               		String imgWorkSapce = Path.getImageWorkSpace(appImgPath);
@@ -270,18 +271,17 @@ public class ImportArquivoController extends Controller {
                                   if(Core.isNotNull(imgWorkSapce)) 
 									imported = FileHelper.saveImage(imgWorkSapce, fileName,extensionName.toLowerCase(), part);
                                   //Saving into server
-								 imported = FileHelper.saveImage(Path.getImageServer(appImgPath), fileName,extensionName.toLowerCase(), part);
-								 this.addQueryString("p_form_5_link_1",imgWorkSapce);
-								 this.addQueryString("p_form_5_link_1_desc",imgWorkSapce);
-									 
+								 imported = FileHelper.saveImage(Path.getImageServer(appImgPath), fileName,extensionName.toLowerCase(), part);								
+								 this.addQueryString("p_form_5_link_1","../images/IGRP/IGRP2.3/assets/img/"+appImgPath.replaceAll("\\\\","/")+"/"+fileName+"\n");		 
                               	}else{
                                   String imgWorkSapce1 = Path.getImageWorkSpace("iconApp");
                                   if(Core.isNotNull(imgWorkSapce1))//Saving in your workspace case exists
 									imported = FileHelper.saveImage(imgWorkSapce1, fileName,extensionName.toLowerCase(), part);
                                   imported = FileHelper.saveImage(Path.getImageServer("iconApp"), fileName,extensionName.toLowerCase(), part);    
-                                }	
-                              	
-                              	
+                               
+                         
+                              	}	                              	
+                 
 							}
 						}
 					}
@@ -296,7 +296,6 @@ public class ImportArquivoController extends Controller {
 				e.printStackTrace();
 			}
 		}
-		
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
 	}
@@ -313,7 +312,7 @@ public class ImportArquivoController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(btm_importar_page)----*/
 		
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+	if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			boolean result = false;
 			String descricao = "";		
 			if(model.getList_aplicacao() != null){
@@ -364,7 +363,7 @@ public class ImportArquivoController extends Controller {
 					}
 					FileHelper.deletePartFile(file);
 				} catch (ServletException e) {
-					Core.setMessageError(e.getMessage());;
+					Core.setMessageError(e.getMessage());
 					return this.forward("igrp_studio", "ImportArquivo", "index");
 				}
 				if(result){

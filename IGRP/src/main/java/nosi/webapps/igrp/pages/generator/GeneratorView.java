@@ -1,5 +1,7 @@
 package nosi.webapps.igrp.pages.generator;
 
+import static nosi.core.i18n.Translator.gt;
+
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPFilter;
 import nosi.core.gui.components.IGRPForm;
@@ -12,8 +14,6 @@ import nosi.core.gui.fields.NumberField;
 import nosi.core.gui.fields.TextField;
 import nosi.core.gui.generator.Generator2_3;
 import nosi.core.webapp.View;
-
-import static nosi.core.i18n.Translator.gt;
 
 public class GeneratorView extends View{
 	public Field package_;

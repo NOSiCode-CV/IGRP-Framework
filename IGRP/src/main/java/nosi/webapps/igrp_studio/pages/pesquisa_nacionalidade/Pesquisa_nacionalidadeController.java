@@ -1,20 +1,22 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_nacionalidade;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+
 /*----#start-code(packages_import)----*/
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.webservices.rest.ConsumeJson;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
-import nosi.core.webapp.webservices.rest.ConsumeJson;
-/*----#end-code----*/
 		
 public class Pesquisa_nacionalidadeController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -35,11 +37,9 @@ public class Pesquisa_nacionalidadeController extends Controller {
 
 	public List<Pesquisa_nacionalidade.Treemenu_1>  chamarServico(String id) throws IOException {
 		Properties setting = this.configApp.loadConfig("common", "main.xml");
-		String url = setting.getProperty("link.rest.pesquisa_geografia")+"?id="+id;
-    	if (id.equals("0")) {
-			url=url.replace("GeoINGT", "geografia");
-		}
-		String authorization = setting.getProperty("authorization.rest.pesquisa_geografia");
+		String url = setting.getProperty("link.rest.pesquisa_geografia_old")+"?id="+id;
+    	
+		String authorization = setting.getProperty("authorization.rest.pesquisa_geografia_old");
 		ConsumeJson json_obj = new ConsumeJson();
 		String json  = json_obj.getJsonFromUrl(url, authorization);
 		List<Pesquisa_nacionalidade.Treemenu_1> list_nac = new ArrayList<>();

@@ -6,6 +6,7 @@ package nosi.core.igrp.mingrations;
  */
 import java.util.ArrayList;
 import java.util.List;
+
 import nosi.webapps.igrp.dao.*;
 import nosi.webapps.igrp.dao.views.CreateViews;
  
@@ -199,8 +200,8 @@ public class MigrationIGRPInitConfig {
 			//get(75)
 			actions.add(new Action("Daogenerator", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/daogenerator/Daogenerator.xsl", "DAOGenerator", "DAOGenerator", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Detalhes_dashboard_processo", "index", "nosi.webapps.igrp.pages", "igrp/detalhes_dashboard_processo/Detalhes_dashboard_processo.xsl", "Detalhes dashboard processo", "Detalhes dashboard processo", "2.3", 1, app_igrp));
-			
-			
+			actions.add(new Action("Historico page", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/historico_page/Historico_page.xsl", "Historico page", "Historico_page", "2.3", 1, app_igrp_studio));
+			actions.add(new Action("Icons_list", "index", "nosi.webapps.igrp.pages", "igrp/icons_list/Icons_list.xsl", "Icons_list", "Icons_list", "2.3", 1, app_igrp));
 			
 			for(Action ac:actions){
 				ac.insert();

@@ -1,14 +1,3 @@
-/*#gen-blocky-view textarea#content_selenium {
-    
-    
-    left: auto!important;
-    right: 0;
-    visibility: visible!important;
-    width: 38.3%!important;
-    height: 88%!important;
-    margin-top: -544px;
-    display: block;
-}*/
 
 #gen-blocky-view textarea#content_selenium {
     right: -42%;
@@ -27,7 +16,8 @@
 }
 
 #gen-blocky-view #content_blocks{
-   margin-top:-60px;
+       /* margin-top: -60px; */
+    top: 42px!important
 }
 
 body:not([view="gen-blocky"]) .blocklyToolboxDiv,
@@ -234,6 +224,27 @@ html[dir=rtl] td.tabmax {
   background-position: -42px 0px;
 }
 
+.blocklyWidgetDiv .goog-menu{
+	max-height: 385px !important;
+}
 
+.blocklyToolboxDiv{  
+    top: 108px!important;
+    position: fixed;
+    bottom: auto;
+    left: 15px!important;
+    height: calc(100% - 110px)!important;
+}
 
+.blocklyFlyout{
+	margin-top: 95px !important;
+}
+
+.blocklyWorkspace{
+	 top :120px !important;
+}
+
+body.sidebar-off #igrp-contents{
+	    top: 6px !important;
+}
 

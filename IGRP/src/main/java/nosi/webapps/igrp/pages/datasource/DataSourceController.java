@@ -1,20 +1,28 @@
 package nosi.webapps.igrp.pages.datasource;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
+import nosi.core.gui.components.IGRPForm;
+import nosi.core.gui.components.IGRPTable;
+import nosi.core.gui.fields.Field;
+import nosi.core.gui.fields.TextField;
+import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
-import nosi.core.gui.components.IGRPForm;
-import nosi.core.gui.components.IGRPTable;
-import nosi.core.gui.fields.Field;
-import nosi.core.gui.fields.TextField;
-import nosi.core.webapp.Igrp;
+import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
@@ -24,16 +32,6 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.User;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.stream.Collectors;
-import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
-/*----#end-code----*/
 		
 public class DataSourceController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -86,9 +84,14 @@ public class DataSourceController extends Controller {
 					model.setProcesso(rep.getProcessid());
 				}
 				if(rep.getType_name().equalsIgnoreCase("page")) {
-					Action ac = new Action().findOne(rep.getType_fk());
-					model.setPagina(ac.getPage_descr());
-					model.setId_pagina(ac.getId());
+					if(Core.isNull(rep.getType_fk()))
+						Core.setMessageError("Page is null in the database.");
+					else {
+						Action ac = new Action().findOne(rep.getType_fk());
+						model.setPagina(ac.getPage_descr());
+						model.setId_pagina(ac.getId());
+					}
+					
 				}
 			}
 			Application app = Core.findApplicationById(Core.toInt(model.getId_env()));		
@@ -148,8 +151,12 @@ public class DataSourceController extends Controller {
 		
   		this.addQueryString("p_id_env",model.getId_env());
 		if(Core.isNotNull(model.getId_env())){
-			Application app = new Application().findOne(Integer.parseInt(model.getId_env()));
+			Application app = Core.findApplicationById(Core.toInt(model.getId_env()));
+			Integer id = Core.getParamInt("p_datasorce_app");
 			RepSource rep = new RepSource();
+			if(Core.isNotNullOrZero(id))
+				rep = rep.findOne(id);
+			
 			rep.setName(model.getNome());
 			rep.setType(model.getTipo());
 			rep.setType_name(model.getTipo());
@@ -191,17 +198,16 @@ public class DataSourceController extends Controller {
 			rep.setApplication(app);
 			rep.setStatus(1);
 			rep.setApplication_source(app);
-			Date dt = new Date(System.currentTimeMillis());
-			rep.setDt_created(dt);
+			Date dt = new Date(System.currentTimeMillis());			
 			rep.setDt_updated(dt);
-			User user = new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
-			rep.setUser_created(user);
+			User user = Core.getCurrentUser();		
 			rep.setUser_updated(user);
-			String id = Core.getParam("p_datasorce_app");
-			if(Core.isNotNull(id)){
-				rep.setId(Integer.parseInt(id));
+			
+			if(Core.isNotNullOrZero(id)){			
 				rep = rep.update();
 			}else{
+				rep.setDt_created(dt);
+				rep.setUser_created(user);
 				rep = rep.insert();
 			}
 			if(rep!=null)
@@ -248,7 +254,7 @@ public class DataSourceController extends Controller {
 			if(rep.getType().equalsIgnoreCase("object") || rep.getType().equalsIgnoreCase("query")){
 				String query = rep.getType_query();
 				query = rep.getType().equalsIgnoreCase("object")?"SELECT * FROM "+query:query;
-				columns = dsh.getColumns(rep.getConfig_env(),template_id,query);
+				columns = dsh.getColumns(rep,template_id,query);
 				return this.transformToXml(rep,columns);
 			}else if(rep.getType().equalsIgnoreCase("page")){
 				Action ac = new Action().findOne(rep.getType_fk());

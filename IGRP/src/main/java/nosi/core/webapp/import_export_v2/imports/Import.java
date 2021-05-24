@@ -2,6 +2,7 @@ package nosi.core.webapp.import_export_v2.imports;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.compiler.helpers.Compiler;
@@ -41,8 +42,10 @@ public class Import{
 	public void execute() {
 		this.imports.stream().forEach(i->{
 			i.execute();
-			this.addError(i.getError());
-			this.addWarning(i.getWarning());
+			if(Core.isNotNull(i.getError()))
+				this.addError(i.getFileName()+" "+i.getError());
+			if(Core.isNotNull(i.getWarning()))
+				this.addWarning(i.getFileName()+" "+i.getWarning());
 		});
 	}
 
@@ -73,7 +76,8 @@ public class Import{
 	public void addError(List<ErrorCompile> errors) {
 		if(errors!=null) {
 			errors.stream().forEach(e->{
-				 this.addError(e.getError());
+				if(Core.isNotNull(e.getError()))
+					this.addError(e.getFileName()+" "+e.getError());
 			 });
 		}
 	}
@@ -81,7 +85,8 @@ public class Import{
 	public void addWarning(List<ErrorCompile> warnings) {
 		if(warnings!=null) {
 			 warnings.stream().forEach(e->{
-				 this.addWarning(e.getWarning());
+				 if(Core.isNotNull(e.getWarning()))
+					 this.addWarning(e.getFileName()+" "+e.getWarning());
 			 });
 		}
 	}

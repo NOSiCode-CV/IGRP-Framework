@@ -1,11 +1,6 @@
 package nosi.webapps.igrp.pages.lookuplistuser;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
@@ -14,14 +9,19 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.ArrayList;
-import java.util.Iterator;
 
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.TaskAccess;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.pages.lookuplistuser.LookupListUser.Table_1;
-/*----#end-code----*/
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class LookupListUserController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
