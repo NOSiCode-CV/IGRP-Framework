@@ -1,9 +1,9 @@
 package nosi.webapps.igrp.pages.novaorganica;
 
 import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.Report;
 
 public class NovaOrganica extends Model{		
 
@@ -34,6 +34,12 @@ public class NovaOrganica extends Model{
 
 	@RParam(rParamName = "p_organizacao_pai")
 	private String organizacao_pai;
+
+	@RParam(rParamName = "p_sep_igrp_plsql")
+	private String sep_igrp_plsql;
+
+	@RParam(rParamName = "p_plsql_code")
+	private String plsql_code;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -110,6 +116,20 @@ public class NovaOrganica extends Model{
 	}
 	public String getOrganizacao_pai(){
 		return this.organizacao_pai;
+	}
+	
+	public void setSep_igrp_plsql(String sep_igrp_plsql){
+		this.sep_igrp_plsql = sep_igrp_plsql;
+	}
+	public String getSep_igrp_plsql(){
+		return this.sep_igrp_plsql;
+	}
+	
+	public void setPlsql_code(String plsql_code){
+		this.plsql_code = plsql_code;
+	}
+	public String getPlsql_code(){
+		return this.plsql_code;
 	}
 
 

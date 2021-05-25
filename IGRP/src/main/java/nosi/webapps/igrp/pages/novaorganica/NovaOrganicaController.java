@@ -1,25 +1,24 @@
 package nosi.webapps.igrp.pages.novaorganica;
 
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
-
-import java.io.IOException;
-import java.util.Properties;
-/*----#end-code----*/
-
-import nosi.core.config.ConfigApp;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.User;
-		
+/*----#end-code----*/
+
 public class NovaOrganicaController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 		NovaOrganica model = new NovaOrganica();
 		model.load();
 		NovaOrganicaView view = new NovaOrganicaView();
@@ -29,32 +28,32 @@ public class NovaOrganicaController extends Controller {
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organizacao_pai.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
-		
-      //model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=organica"));
-      
-		
-	      String dad = Core.getCurrentDad();
-	      if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
-				model.setAplicacao("" + (Core.findApplicationByDad(dad)).getId());
-	          view.aplicacao.propertie().add("disabled","true");
-				//setTable(model, data);
-			}
-	
-		//model.setAplicacao(Core.getParam("id_app"));
-		model.setAtivo(1);	
+
+		// model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=organica"));
+
+		String dad = Core.getCurrentDad();
+		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
+			model.setAplicacao("" + (Core.findApplicationByDad(dad)).getId());
+			view.aplicacao.propertie().add("disabled", "true");
+			// setTable(model, data);
+		}
+
+		// model.setAplicacao(Core.getParam("id_app"));
+		model.setAtivo(1);
 		// Organization organization = new Organization();
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organizacao_pai.setVisible(false);
 		// view.organica_pai.setValue(model.getAplicacao() != 0 ?
 		// organization.getListOrganizations(model.getAplicacao()) : null);
-	
+
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);	
+		return this.renderView(view);
 	}
-	
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
 		NovaOrganica model = new NovaOrganica();
 		model.load();
 		/*----#gen-example
@@ -64,26 +63,29 @@ public class NovaOrganicaController extends Controller {
 		  return this.forward("igrp","NovaOrganica","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gravar) *//* End-Code-Block */
 		/*----#start-code(gravar)----*/
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
-			
-			Organization organization = new Organization();	
-			 String dad = Core.getCurrentDad();
-		      if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
-					model.setAplicacao("" + (Core.findApplicationByDad(dad)).getId());		  
-				}
-			organization.setCode(model.getCodigo()+"."+Core.findApplicationById(Core.toInt(model.getAplicacao())).getDad());
+
+			Organization organization = new Organization();
+			String dad = Core.getCurrentDad();
+			if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
+				model.setAplicacao("" + (Core.findApplicationByDad(dad)).getId());
+			}
+			organization.setCode(
+					model.getCodigo() + "." + Core.findApplicationById(Core.toInt(model.getAplicacao())).getDad());
 			organization.setApplication(new Application().findOne(model.getAplicacao()));
 			/*
 			 * if(model.getOrganica_pai()!=0){ organization.setOrganization(new
 			 * Organization().findOne(model.getOrganica_pai())); }
 			 */
-			User u =  Core.getCurrentUser();              
-             
+			User u = Core.getCurrentUser();
+
 			organization.setUser(u);
 			organization.setStatus(model.getAtivo());
 			organization.setName(model.getNome());
-		
+			organization.setPlsql_code(model.getPlsql_code());
+
 			organization = organization.insert();
 			if (organization != null && !organization.hasError()) {
 				Core.setMessageSuccess(gt("Orgânica registada com sucesso"));
@@ -98,24 +100,22 @@ public class NovaOrganicaController extends Controller {
 		Core.setMessageError("Invalid request ...");
 
 		/*----#end-code----*/
-		return this.redirect("igrp","NovaOrganica","index", this.queryString());	
+		return this.redirect("igrp", "NovaOrganica", "index", this.queryString());
 	}
-	
-		
-		
-/*----#start-code(custom_actions)----*/
+
+	/* Start-Code-Block (custom-actions) *//* End-Code-Block */
+	/*----#start-code(custom_actions)----*/
 	public Response actionEditar(@RParam(rParamName = "p_id") String idOrganica)
 			throws IOException, IllegalArgumentException, IllegalAccessException {
 		NovaOrganica model = new NovaOrganica();
 		NovaOrganicaView view = new NovaOrganicaView();
-        model.load();
-     
-		
-		Organization organization =  Core.findOrganizationById(Integer.parseInt(idOrganica));       
+		model.load();
+
+		Organization organization = Core.findOrganizationById(Integer.parseInt(idOrganica));
 		model.setCodigo(organization.getCode());
 		model.setNome(organization.getName());
 		model.setAplicacao("" + organization.getApplication().getId());
-	
+		model.setPlsql_code(organization.getPlsql_code());
 
 		/*
 		 * if(organization.getOrganization()!=null){
@@ -128,7 +128,7 @@ public class NovaOrganicaController extends Controller {
 		view.sectionheader_1_text.setValue(gt("Gestão de Orgânica - Atualizar"));
 		view.organizacao_pai.setVisible(false);
 		view.btn_gravar.setLink("editar_&p_id=" + idOrganica);
-      	view.setModel(model);
+		view.setModel(model);
 		return this.renderView(view);
 	}
 
@@ -138,21 +138,23 @@ public class NovaOrganicaController extends Controller {
 		if (Igrp.getInstance().getRequest().getMethod().equals("POST")) {
 
 			NovaOrganica model = new NovaOrganica();
-            model.load();
+			model.load();
 			Organization organization = new Organization().findOne(Integer.parseInt(idOrganica));
-			//model.setCodigo(organization.getCode());
-			//model.setNome(organization.getName());
-			//model.setAplicacao("" + organization.getApplication().getId());
+			// model.setCodigo(organization.getCode());
+			// model.setNome(organization.getName());
+			// model.setAplicacao("" + organization.getApplication().getId());
 			/*
 			 * if(organization.getOrganization()!=null){
 			 * model.setOrganica_pai(organization.getOrganization().getId()); }
 			 */
-			//model.setAtivo(organization.getStatus());
-			 
+			// model.setAtivo(organization.getStatus());
+
 			organization.setCode(model.getCodigo());
 			organization.setName(model.getNome());
 			organization.setApplication(new Application().findOne(model.getAplicacao()));
-			
+			organization.setPlsql_code(model.getPlsql_code());
+
+
 			/*
 			 * if(model.getOrganica_pai()!=0){ organization.setOrganization(new
 			 * Organization().findOne(model.getOrganica_pai())); }
