@@ -124,7 +124,29 @@
 					<xsl:variable name="className" select="."></xsl:variable>					
 					<xsl:value-of select="$newline"></xsl:value-of>					
 					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.dao.</xsl:text><xsl:value-of select="$className"/><xsl:text>; //block import</xsl:text>					
-				</xsl:when>			
+				</xsl:when>
+				<xsl:when test="@type = 'service'">					
+					<xsl:variable name="className" select="."></xsl:variable>	
+					<xsl:variable name="packageName" select="@package"></xsl:variable>	
+					<xsl:variable name="classNameRenamed">
+						<xsl:call-template name="replace-all">
+							<xsl:with-param name="text" select="$className"/>
+							<xsl:with-param name="replace" select="'Soap'"/>
+							<xsl:with-param name="by" select="''"/>
+						</xsl:call-template>
+					</xsl:variable>				
+					<xsl:value-of select="$newline"></xsl:value-of>					
+					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.services.</xsl:text><xsl:value-of select="$packageName"/><xsl:text>.</xsl:text>
+					<xsl:choose>
+						<xsl:when test="contains($className,'Soap')">
+							<xsl:value-of select="$classNameRenamed"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$className"/>
+						</xsl:otherwise>						
+					</xsl:choose>
+					<xsl:text>; //block import</xsl:text>					
+				</xsl:when>					
 				<xsl:when test="@type = 'fields'">					
 					<xsl:variable name="fieldType" select="."/>					
 					<xsl:choose>
@@ -135,7 +157,19 @@
 						<xsl:when test="$fieldType = 'Link'">
 							<xsl:value-of select="$newline"></xsl:value-of>							
 							<xsl:text>import nosi.webapps.igrp.dao.CLob; //block import</xsl:text>														
-						</xsl:when>						
+						</xsl:when>
+						<xsl:when test="$fieldType = 'LocalTime'">
+							<xsl:value-of select="$newline"></xsl:value-of>							
+							<xsl:text>import java.time.LocalTime; //block import</xsl:text>														
+						</xsl:when>		
+							<xsl:when test="$fieldType = 'LocalDate'">
+							<xsl:value-of select="$newline"></xsl:value-of>							
+							<xsl:text>import java.time.LocalDate; //block import</xsl:text>														
+						</xsl:when>		
+							<xsl:when test="$fieldType = 'LocalDateTime'">
+							<xsl:value-of select="$newline"></xsl:value-of>							
+							<xsl:text>import java.time.LocalDateTime; //block import</xsl:text>														
+						</xsl:when>								
 					</xsl:choose>				
 				</xsl:when>				
 				<xsl:when test="@type = 'checkbox_table'">				

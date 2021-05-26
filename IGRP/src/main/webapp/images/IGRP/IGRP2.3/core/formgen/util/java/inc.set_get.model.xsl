@@ -34,7 +34,7 @@
 					<xsl:value-of select="substring-before(field,'::')"></xsl:value-of>				
 				</xsl:when>				
 				<xsl:otherwise>				
-					<xsl:value-of select="substring-before(@id,'::')"></xsl:value-of>				
+					<xsl:value-of select="substring-before(substring-after(@type,'model_form_'),'::')"/>			
 				</xsl:otherwise>			
 			</xsl:choose>		
 		</xsl:variable>		
@@ -47,7 +47,7 @@
 					<xsl:value-of select="substring-after(field,'::')"></xsl:value-of>			
 				</xsl:when>				
 				<xsl:otherwise>				
-					<xsl:value-of select="substring-after(@id,'::')"></xsl:value-of>				
+					<xsl:value-of select="substring-after(@type,'::')"/>				
 				</xsl:otherwise>			
 			</xsl:choose>		
 		</xsl:variable>		

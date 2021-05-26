@@ -1,7 +1,6 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:template name="blockly.element.listar" >
-		
+	<xsl:template name="blockly.element.listar" >		
 		<xsl:variable name="mutation" select="mutation/@count"/>
 		<xsl:variable name="order" select="field[@name='orderdrop']"/>
 		<xsl:variable name="find" select="field[@name='find']"/>
@@ -115,16 +114,15 @@
 			<xsl:with-param name="exceptionCode">
 				<xsl:text>e.printStackTrace();</xsl:text>
 			</xsl:with-param>
-		</xsl:call-template>
-		
+		</xsl:call-template>		
 	</xsl:template>
 	
 	<xsl:template name="blockly.element.row">
 		<xsl:variable name="rowtypechild" select="substring-before(value[@name='fields_model']/block/field,'::')"/>
 		<xsl:variable name="rowvaluechild" select="substring-after(value[@name='fields_model']/block/field,'::')"/>
 		<xsl:variable name="rowtypeneto" select="substring-before(value[@name='fields_model']/block/value[@name='dao_rela']/block/field,'::')"/>
-		<xsl:variable name="rowType" select="substring-before(@id,'::')"/>
-		<xsl:variable name="rowValue" select="substring-after(@id,'::')"/>
+		<xsl:variable name="rowType" select="substring-before(substring-after(@type,'rowtable'),'::')"/>
+		<xsl:variable name="rowValue" select="substring-after(@type,'::')"/>
 		
 		<xsl:variable name="nameCap">
 			<xsl:call-template name="InitCap">

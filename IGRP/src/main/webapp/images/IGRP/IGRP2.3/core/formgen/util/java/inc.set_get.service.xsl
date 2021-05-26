@@ -1,6 +1,6 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	<xsl:template name="blockly.element.getDao">
-		<xsl:variable name="dao" select="substring-after(@type,'get-dao-')"/>	
+	<xsl:template name="blockly.element.getService">
+		<xsl:variable name="dao" select="substring-after(@type,'get-service-')"/>	
 		<xsl:variable name="daolow">	
 	       	<xsl:call-template name="LowerCase">	       	
 	       		<xsl:with-param name="text" select="$dao"/>	       		
@@ -46,7 +46,7 @@
 			</xsl:call-template>			
 		</xsl:variable>	
 		<xsl:choose>
-		<xsl:when test="$fieldType_inicial='ObjectDao'">
+		<xsl:when test="$fieldType_inicial='ObjectService'">
 			<xsl:value-of select="$daolow"/>
 		</xsl:when>
 		<xsl:otherwise>
@@ -58,8 +58,8 @@
 	<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	
-	<xsl:template name="blockly.element.setDao">	
-		<xsl:variable name="dao" select="substring-after(@type,'set-dao-')"/>		
+	<xsl:template name="blockly.element.setService">	
+		<xsl:variable name="dao" select="substring-after(@type,'set-service-')"/>		
 		<xsl:variable name="daolow">		
 	       	<xsl:call-template name="LowerCase">	       	
 	       		<xsl:with-param name="text" select="$dao"/>	       		
