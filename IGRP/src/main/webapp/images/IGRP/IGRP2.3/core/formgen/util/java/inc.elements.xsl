@@ -9,8 +9,10 @@
 	<xsl:include href="inc.simples_dao.xsl"/>	
 	<xsl:include href="inc.set_get.model.xsl"/>	
 	<xsl:include href="inc.set_get.dao.xsl"/>	
+	<xsl:include href="inc.set_get.service.xsl"/>
 	<xsl:include href="inc.grafico.xsl"/>
-	<xsl:include href="inc.helpers.xsl"/>			
+	<xsl:include href="inc.helpers.xsl"/>	
+	<xsl:include href="inc.services.xsl"/>			
 	
 	<xsl:template name="blockly.element.controller">	
 		<xsl:call-template name="blockly.getValue">
@@ -194,6 +196,7 @@
 		<xsl:value-of select="$newlineTab1"></xsl:value-of>		
 		<xsl:text>this.addQueryString("p_</xsl:text><xsl:value-of select="$paramkey"/><xsl:text>", Core.getParam("p_</xsl:text><xsl:value-of select="$paramkey"/><xsl:text>"));</xsl:text>		
 	</xsl:template>	
+	
 	<xsl:template name="blockly.element.statbox" >		
 		<xsl:variable name="mutation" select="mutation/@count"/>		
 		<xsl:variable name="dao" select="field[@name='dao']"/>		
@@ -234,12 +237,13 @@
 			</xsl:with-param>			
 		</xsl:call-template>		
 	</xsl:template>	
+	
 	<xsl:template name="blockly.element.statfields" >	
 		<xsl:variable name="typechild" select="substring-before(value[@name='fields_model']/block/field,'::')"/>		
 		<xsl:variable name="valuechild" select="substring-after(value[@name='fields_model']/block/field,'::')"/>		
-		<xsl:variable name="typeneto" select="substring-before(value[@name='fields_model']/block/value[@name='dao_rela']/block/field,'::')"/>
-		<xsl:variable name="statType" select="substring-before(@id,'::')"/>		
-		<xsl:variable name="statValue" select="substring-after(@id,'::')"/>	
+		<xsl:variable name="typeneto" select="substring-before(value[@name='fields_model']/block/value[@name='dao_rela']/block/field,'::')"/>		
+		<xsl:variable name="statType" select="substring-before(substring-after(@type,'statfields_'),'::')"/>		
+		<xsl:variable name="statValue" select="substring-after(@type,'::')"/>	
 		<xsl:variable name="nameCap">		
 			<xsl:call-template name="InitCap">			
 				<xsl:with-param name="text" select="$statValue"/>				
@@ -268,6 +272,7 @@
 		</xsl:variable>		
 		<xsl:value-of select="$stat_set"></xsl:value-of>		
 	</xsl:template>	
+	
 	<xsl:template name="blockly.element.param_dao" >	
 		<xsl:variable name="param" select="field[@name='param']"/>		
 		<xsl:variable name="valor">		
@@ -796,7 +801,13 @@
 			</xsl:when>			
 			<xsl:when test="contains( $block-type,'set-dao-' )">			
 				<xsl:call-template name="blockly.element.setDao"></xsl:call-template>				
+			</xsl:when>	
+			<xsl:when test="contains( $block-type,'get-service-' )">			
+				<xsl:call-template name="blockly.element.getService"></xsl:call-template>				
 			</xsl:when>			
+			<xsl:when test="contains( $block-type,'set-service-' )">			
+				<xsl:call-template name="blockly.element.setService"></xsl:call-template>				
+			</xsl:when>				
 			<xsl:when test="$block-type = 'inserir_dao'">			
 				<xsl:call-template name="blockly.element.inserir_dao"></xsl:call-template>				
 			</xsl:when>			
@@ -832,10 +843,7 @@
 			</xsl:when>			
 			<xsl:when test="contains( $block-type,'core_fun' )">			
 				<xsl:call-template name="blockly.element.core"></xsl:call-template>				
-			</xsl:when>			
-			<xsl:when test="$block-type = 'apagar'">		
-				<xsl:call-template name="blockly.element.apagar"></xsl:call-template>				
-			</xsl:when>			
+			</xsl:when>					
 			<xsl:when test="$block-type = 'enviar_p'">		
 				<xsl:call-template name="blockly.element.enviar_p"></xsl:call-template>				
 			</xsl:when>		
@@ -920,16 +928,25 @@
 			</xsl:when>			
 			<xsl:when test="$block-type = 'comment_code'">			
 				<xsl:call-template name="blockly.element.comment_code"></xsl:call-template>				
+			</xsl:when>
+			<xsl:when test="$block-type = 'list_simple_dao'">			
+				<xsl:call-template name="blockly.element.list_simple_dao"></xsl:call-template>				
 			</xsl:when>	
 			<xsl:when test="$block-type = 'insert_simple_dao'">		
 				<xsl:call-template name="blockly.element.insert_simple_dao"></xsl:call-template>			
 			</xsl:when>					
 			<xsl:when test="$block-type = 'update_simple_dao'">		
 				<xsl:call-template name="blockly.element.update_simple_dao"></xsl:call-template>			
-			</xsl:when>			
+			</xsl:when>
+			<xsl:when test="$block-type = 'apagar'">		
+				<xsl:call-template name="blockly.element.apagar"></xsl:call-template>				
+			</xsl:when>				
 			<xsl:when test="$block-type = 'EixoX'">			
 				<xsl:call-template name="blockly.element.eixo_x"></xsl:call-template>				
-			</xsl:when>		
+			</xsl:when>
+			<xsl:when test="$block-type = 'EixoY_Z'">		
+				<xsl:call-template name="blockly.element.eixo_y"></xsl:call-template>			
+			</xsl:when>			
 			<xsl:when test="$block-type = 'EixoY'">		
 				<xsl:call-template name="blockly.element.eixo_y"></xsl:call-template>			
 			</xsl:when>			
@@ -963,9 +980,21 @@
 			<xsl:when test="$block-type = 'set_disabled'">			
 				<xsl:call-template name="blockly.element.set_disabled"></xsl:call-template>				
 			</xsl:when>
-			<xsl:when test="$block-type = 'list_simple_dao'">			
-				<xsl:call-template name="blockly.element.list_simple_dao"></xsl:call-template>				
-			</xsl:when>						
+			<xsl:when test="contains($block-type, 'lstar_service_')">		
+				<xsl:call-template name="blockly.element.listar_service"></xsl:call-template>				
+			</xsl:when>	
+			<xsl:when test="$block-type = 'list_simple_service'">			
+				<xsl:call-template name="blockly.element.list_simple_service"></xsl:call-template>				
+			</xsl:when>	
+			<xsl:when test="$block-type = 'insert_simple_service'">		
+				<xsl:call-template name="blockly.element.insert_simple_service"></xsl:call-template>			
+			</xsl:when>					
+			<xsl:when test="$block-type = 'update_simple_service'">		
+				<xsl:call-template name="blockly.element.update_simple_service"></xsl:call-template>			
+			</xsl:when>
+			<xsl:when test="$block-type = 'apagar_service'">		
+				<xsl:call-template name="blockly.element.apagar_service"></xsl:call-template>				
+			</xsl:when>											
 			<xsl:otherwise>			
 				<xsl:text>Block not found</xsl:text>				
 			</xsl:otherwise>		

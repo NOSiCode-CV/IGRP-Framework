@@ -9,6 +9,8 @@
     <xsl:variable name="app-title" select="rows/app"></xsl:variable>
     
     <xsl:variable name="page-title" select="rows/page"></xsl:variable>
+    
+    <xsl:variable name="service-package" select="rows/classNameService"></xsl:variable>
 
     <xsl:variable name="newlineTab1">
     

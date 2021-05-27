@@ -17,6 +17,8 @@ function SetupBlockly() {
 		IGRPElement = IGRP_BLOCKLY_ELEMENTS[type] || false;
 		if (type.indexOf('listar_') == 0)
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.listar;
+		if (type.indexOf('lstar_service_') == 0)
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.listar_service;
 		if (type.indexOf('separator_') == 0)
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.separator;
 		if (type.indexOf('forrmlist_') == 0)

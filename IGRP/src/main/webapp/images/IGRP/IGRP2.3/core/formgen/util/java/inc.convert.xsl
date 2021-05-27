@@ -9,14 +9,12 @@
 		<xsl:param name="neto" />	
 		<xsl:param name="valuechild" />		
 		<xsl:param name="block_namechild" />		
-		<xsl:param name="block_name" />	
-		
+		<xsl:param name="block_name" />			
 		<xsl:variable name="upvaluechild">	
 			<xsl:call-template name="InitCap">		
 				<xsl:with-param name="text" select="$valuechild"/>	
 			</xsl:call-template>
-		</xsl:variable>
-		
+		</xsl:variable>		
 		<xsl:variable name="result">
 			<xsl:choose>
 				<xsl:when test="$from = 'String' and $to = 'LocalTime'">
@@ -66,6 +64,9 @@
 				</xsl:when>
 				<xsl:when test="$from = 'String' and $to = 'double'">
 					<xsl:text>Core.toDouble(</xsl:text><xsl:value-of select="$value"/><xsl:text>)</xsl:text>
+				</xsl:when>
+				<xsl:when test="$from = 'double' and $to = 'String'">		
+					<xsl:text>String.valueOf(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
 				</xsl:when>
 				<xsl:when test=" $from = 'String' and $to = 'Date' ">
 					<xsl:text>Core.formatDate(</xsl:text><xsl:value-of select="$value"/><xsl:text>, "dd-mm-yyyy", "yyyy-mm-dd")</xsl:text>
@@ -132,10 +133,7 @@
 				</xsl:when>				
 				<xsl:when test="$from = 'BigInteger' and $to = 'hidden'">					
 					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
-				</xsl:when>			
-				<xsl:when test="$from = 'double' and $to = 'String'">		
-					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
-				</xsl:when>			
+				</xsl:when>						
 				<xsl:when test="$from = 'int' and $to = 'String'">		
 					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
 				</xsl:when>				
@@ -188,7 +186,13 @@
 				</xsl:when> 				
 				<xsl:when test="$from = 'Integer' and $to = 'Integer' and contains($block_name,'sep_row')">					
 					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
-				</xsl:when>			
+				</xsl:when>	
+				<xsl:when test="$from = 'String' and $to = 'Long'">
+					<xsl:text>Core.toLong(</xsl:text><xsl:value-of select="$value"/><xsl:text>)</xsl:text>
+				</xsl:when>
+				<xsl:when test="$from = 'Long' and $to = 'String'">		
+					<xsl:text>String.valueOf(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
+				</xsl:when>		
 				<xsl:when test="$from = 'Integer' and $to = 'Integer' and contains($block_name,'sep_form')">				
 					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
 				</xsl:when>	

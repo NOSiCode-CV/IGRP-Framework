@@ -1,6 +1,4 @@
-<xsl:stylesheet version="1.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">	
 	<xsl:template name="blockly.element.list_simple_dao">		
 		<xsl:variable name="mutation" select="mutation/@count"/>
 		<xsl:variable name="find" select="field[@name='find']"/>

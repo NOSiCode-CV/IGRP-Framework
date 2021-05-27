@@ -234,28 +234,31 @@
 			
 <!-- 			<category id="catVariables" custom="VARIABLE" name="Variables" default="true" colour="230"></category> -->
 			
-			<sep></sep>
-			
-			<category id="core" name="Core Functions" colour="1">
-			
+			<sep></sep>			
+			<category id="core" name="Core Functions" colour="1">			
 				<block type="core_fun_set" prev-statement="" color ="1">
-
 					<value name="CORE" type="dummy" title="Core">
-
 					</value>
-
-				</block>
-			
+					<value name="value_default" type="value">
+					</value>
+				</block>			
 				<block type="core_fun_get" output="" color="1">
-
-					<value name="CORE" type="dummy"  title="Core">
-
+					<value name="CORE" type="dummy" title="Core">
 					</value>
-
+					<value name="value_default" type="value">
+					</value>
 				</block>
-				
+				<block type="core_fun_atual" output="" color="1">
+					<value name="CORE" type="dummy" title="Core">
+					</value>
+				</block>
+				<block type="core_fun_convert" output="" color="1">
+					<value name="value_default" type="value" title="Core">
+						<field type="dropdown" name="CORE_FUNCTION" options="IGRP_BLOCKLY_DROPS.core_convert"></field>
+						<field type="image" name="img" src="{$path}/core/blockly/blockly/media/igrpweb_logo.png" field-width="30" field-height="15"></field>
+					</value>
+				</block>						
 			</category>
-
 			<sep></sep>
 			
 		</xml>
