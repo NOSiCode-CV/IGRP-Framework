@@ -101,21 +101,6 @@
 		}
 		tempParams=atualParams.slice();	
 	};
-	/** ***** Generate Options Operations *************** */
-//	var generateOptions = function(service) {
-//		var Operationlist= [];
-//		 Operationlist.push([ '--', '--' ]);
-//		 if(service!=null){
-//			$(globalAjaxData).find('services>' + service+ '>operations>*').each(function(i, f) {
-//				var operations = $(f).prop('tagName');
-//				var tipoServico = $(f).find('>return>tipo').text().split(".").pop();
-//				var arr = [ operations, operations+'::'+tipoServico ];						
-//				Operationlist.push(arr);			 					 	
-//			});	
-//		 }
-//		return Operationlist;
-//			
-//	};
 	/** ***** Mostrar input Limit *************** */
 	var UpdateShape_limit = function(block, limit) {
 		if (block.getInput("limit_value") != null) {
@@ -147,12 +132,20 @@
 				block.getInput("empty_table").setVisible(false);
 			}
 		}
-		if (block.getInput("get_pa") != null) {
-			if (mutation_num >=1) {
+		if (block.getInput("get_pa") != null && mutation_num >=1 ) {
 				block.getInput("get_pa").setVisible(false);
-			} else {
-				block.getInput("get_pa").setVisible(true);
-			}
+		} else if(block.getInput("get_pa") != null) {
+			block.getInput("get_pa").setVisible(true);
+		}
+		if (block.getInput("keepcon") != null && mutation_num >=1) {
+				block.getInput("keepcon").setVisible(true);
+		} else if(block.getInput("keepcon") != null) {
+			block.getInput("keepcon").setVisible(false);
+		}
+		if (block.getInput("find") != null && mutation_num >=1) {
+			block.getInput("find").setVisible(true);
+		} else if(block.getInput("find") != null) {
+			block.getInput("find").setVisible(false);
 		}
 	};
 	/** ************* Mutações Checkbox ************* */
@@ -187,6 +180,21 @@
 		while (block.getInput('SEPARATOR' + i)) {
 			block.removeInput('SEPARATOR' + i);
 			block.removeInput('SEPARATORIL' + i);
+			i++;
+		}
+	};
+	
+	/** ********** AdicionarParams ********* */
+	var UpdateShape_insertParams = function(block,contador) {
+		for (var i = 1; i <= contador; i++) {
+			if (!block.getInput('PARAM' + i)) {
+				block.appendDummyInput('PARAMIL' + i).appendField("Param "+i).appendField(new Blockly.FieldTextInput('insert param name'), 'paramy'+i);
+				block.appendValueInput('PARAM' + i);
+			}
+		}
+		while (block.getInput('PARAM' + i)) {
+			block.removeInput('PARAM' + i);
+			block.removeInput('PARAMIL' + i);
 			i++;
 		}
 	};
@@ -311,21 +319,47 @@
 			}
 		}, ListMutationSettings),
 		
-		/** ******* TABELA ******* */
+		/** ******* BLOCOS_SIMPLES_DAO ******* */
+		list_simple_dao : $.extend({
+			init : function(block) {
+			/***** MUTAÇÃO LIMIT ****/
+			var limite = IGRP_BLOCKLY_DROPS.findListDao;
+			var dropdown = new Blockly.FieldDropdown(limite, function(limit) {
+				UpdateShape_limit(block, limit);
+			});
+			block.appendDummyInput("keepcon").appendField("keep connection?")
+				.appendField(new Blockly.FieldCheckbox("FALSE"), 'checkbox').setVisible(false);
+			block.moveInputBefore("keepcon", "value2");
+			block.appendDummyInput("find").appendField(dropdown, 'find').setVisible(false);
+			block.appendDummyInput("limit_value").appendField("limit value")
+				 .appendField(new Blockly.FieldTextInput(''), 'limit').setVisible(false);	
+			block.moveInputBefore("find", "value2");
+			}
+		}, ListMutationSettings),
+		
+		update_simple_dao : $.extend({
+			init : function(block) {
+				block.appendDummyInput("keepcon").appendField("keep connection?")
+					.appendField(new Blockly.FieldCheckbox("FALSE"), 'KEEP').setVisible(false);
+				block.moveInputBefore("keepcon", "value2");
+			}			
+		}, ListMutationSettings),
+		
+		apagar : $.extend({
+			init : function(block) {
+				block.appendDummyInput("keepcon").appendField("keep connection?")
+					.appendField(new Blockly.FieldCheckbox("FALSE"), 'KEEP').setVisible(false);
+				block.moveInputBefore("keepcon", "value2");
+			}		
+		}, ListMutationSettings),
+		
+		/** ******* BLOCOS_SERVICE ******* */
 		listar_service: $.extend({
 			init : function(block) {
 				/**** MUTAÇÂO OPERATION *****/
 				var serverlist = IGRP_BLOCKLY_DROPS.service_list;
 				var atualOperationlist = IGRP_BLOCKLY_DROPS.operation_list;
 				var serverdrop = new Blockly.FieldDropdown(serverlist, function(service) {
-//					Object.keys(atualOperationlist).forEach(function(key) {
-	//					 if(!atualOperationlist[key][1].includes(service) && atualOperationlist[key][0] != "--" ){
-	//						 console.log(atualOperationlist[key]);
-	//						 console.log(key);
-	//						delete atualOperationlist[key];
-	//						console.log(atualOperationlist);
-	//					 }
-//					});	
 				});
 				block.appendDummyInput("service").appendField("Service").appendField(serverdrop, 'service');
 				var operdrop = new Blockly.FieldDropdown(atualOperationlist, function(operation) {
@@ -393,26 +427,6 @@
 				});	
 				block.appendDummyInput("enter_operation").appendField("operation").appendField(operdrop, 'operdrop');
 				}
-		}, ListMutationSettings),
-		
-		list_simple_dao : $.extend({
-			init : function(block) {
-			/***** MUTAÇÃO LIMIT ****/
-			var limite = IGRP_BLOCKLY_DROPS.findListDao;
-			var dropdown = new Blockly.FieldDropdown(limite, function(limit) {
-				UpdateShape_limit(block, limit);
-			});
-			block.appendDummyInput("find").appendField(dropdown, 'find');
-			block.appendDummyInput("limit_value").appendField("limit value")
-				 .appendField(new Blockly.FieldTextInput(''), 'limit').setVisible(false);	
-			block.moveInputBefore("find", "value2");
-			}
-		}, ListMutationSettings),
-		
-		update_simple_dao : $.extend({
-		}, ListMutationSettings),
-		
-		apagar : $.extend({
 		}, ListMutationSettings),
 		
 		/***** BLOCO GRÁFICO *******/
@@ -499,6 +513,48 @@
 				}
 			}
 		},
+		
+		/***** BLOCO_CUSTOM_REPORT *******/
+		custombutReport : {
+			mutationToDom : function() {
+				var container = document.createElement('mutation');
+				container.setAttribute('count', this.itemCount_);
+				return container;
+			},
+			domToMutation : function(xmlElement) {
+				var block = this;
+				this.itemCount_ = parseInt(xmlElement.getAttribute('count'));
+				UpdateShape_insertParams(block,this.itemCount_);
+			},
+			decompose : function(workspace) {
+				var containerBlock = workspace.newBlock('param_t');
+				containerBlock.initSvg();
+				var connection = containerBlock.getInput('SCRIPT').connection;
+				for (var i = 0; i < this.itemCount_; i++) {
+					var itemBlock = workspace.newBlock('param');
+					itemBlock.initSvg();
+					connection.connect(itemBlock.previousConnection);
+					connection = itemBlock.nextConnection;
+				}
+				return containerBlock;
+			},
+			compose : function(containerBlock) {
+				var itemBlock = containerBlock.getInputTargetBlock('SCRIPT');
+				var block = this;
+				var connections = [];
+				while (itemBlock) {
+					connections.push(itemBlock.valueConnection_);
+					itemBlock = itemBlock.nextConnection
+							&& itemBlock.nextConnection.targetBlock();
+				}
+				this.itemCount_ = connections.length;
+				var Contador = this.itemCount_;
+				UpdateShape_insertParams(block,Contador);
+				for (var i = 1; i <= this.itemCount_; i++) {
+					Blockly.Mutator.reconnect(connections[i], this, 'PARAM'+ i);
+				}
+			}
+		},
 
 		/***** BLOCO CHECKBOX EM TABELA *******/
 		checkbox_table : {
@@ -529,8 +585,7 @@
 				var dropdown = new Blockly.FieldDropdown(options, function(option) {
 					this.sourceBlock_.updateShape_(option);
 				});
-				block.getInput("CORE").appendField(dropdown, 'CORE_FUNCTION')
-					.appendField(new Blockly.FieldImage(path+ "/core/blockly/blockly/media/igrpweb_logo.png",30, 15, "*"));
+				block.getInput("CORE").appendField(dropdown, 'CORE_FUNCTION');
 				block.setInputsInline(true);
 				block.appendValueInput("value1").setVisible(false);
 				block.appendValueInput("value2").setVisible(false);
@@ -578,16 +633,12 @@
 				});
 				var domains = IGRP_BLOCKLY_DROPS.domains;
 				var domainsOptions = new Blockly.FieldDropdown(domains);
-				block.getInput("CORE").appendField(dropdown, 'CORE_FUNCTION')
-					.appendField(new Blockly.FieldImage(path+ "/core/blockly/blockly/media/igrpweb_logo.png",30, 15, "*"));
+				block.getInput("CORE").appendField(dropdown, 'CORE_FUNCTION');
 				block.setInputsInline(true);
-				block.appendValueInput("value1").setVisible(false);
-				block.appendValueInput("value2").setVisible(false);
-				block.appendValueInput("value3").setVisible(false);
-				block.appendValueInput("value4").setVisible(false);
-				block.appendValueInput("value5").setVisible(false);
-				block.appendDummyInput("domains").appendField("domain").appendField(domainsOptions, 'domaindrop').appendField("value").setVisible(false);
-				block.moveInputBefore("domains", "value_default");
+				block.appendDummyInput("value1").appendField(new Blockly.FieldTextInput(''), 'value1');
+				block.appendDummyInput("domains").appendField("domain").appendField(domainsOptions, 'domaindrop')
+					.appendField("value").setVisible(false);
+				block.appendValueInput("value_default").setVisible(false);
 				block.mutationToDom = function() {
 					var container = document.createElement('mutation');
 					var itemInput = this.getFieldValue('CORE_FUNCTION');
@@ -602,21 +653,14 @@
 					var type = input_type;
 					  if (type == 'String::get_domain') {
 						block.getInput("domains").setVisible(true);
+						block.getInput("value_default").setVisible(true);
+						block.getInput("value1").setVisible(false);
 					} else {
 						block.getInput("domains").setVisible(false);
+						block.getInput("value_default").setVisible(false);
+						block.getInput("value1").setVisible(true);
 					}
 				};
-			}
-		},
-		
-		/******* BLOCO CORE ATUAL *******/
-		core_fun_atual : {
-			init : function(block) {
-				var options = IGRP_BLOCKLY_DROPS.core_atual;
-				var dropdown = new Blockly.FieldDropdown(options);
-				block.getInput("CORE").appendField(dropdown, 'CORE_FUNCTION')
-					.appendField(new Blockly.FieldImage(path+ "/core/blockly/blockly/media/igrpweb_logo.png",30, 15, "*"));
-				block.setInputsInline(true);			
 			}
 		},
 
