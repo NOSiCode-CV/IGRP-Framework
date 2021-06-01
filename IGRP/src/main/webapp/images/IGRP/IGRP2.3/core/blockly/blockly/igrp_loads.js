@@ -7,7 +7,7 @@ Combos = FILL_COMBO
 Paramentros Button = PARAMETERS_BUTTONS
 Form = BLOCKS_FORM
 Table = BLOCKS_TABLE
-Checkbox = CHECKBOX-TABLE
+Checkbox = CHECKBOX_TABLE
 Separador-lista = BLOCK_SEPARATOR-LIST
 Form-list = BLOCK_FORM-LIST
 View = BLOCK_VIEW
@@ -68,7 +68,7 @@ var	daoClasses = {},
 	separator_model = [],formlist_model = [], form_model = [], buttons_model = [], all_buttons = [], daos_list = [], services_list = [], bloc_fields = [],
 	service_fields = [], operations_list = [],
 	imports_insert = [], imports_list = [], fields_esp_row = [], custom_action = [], select = [], checkbox_table = [],
-	addcombo=0, addcheckbox_table=0, addseparator=0, addforeign=0, addchart=0, addtable =0, addbutton=0, addmodel=0, 
+	addcombo=0, addcheckbox=0, addseparator=0, addforeign=0, addchart=0, addtable =0, addbutton=0, addmodel=0, 
 	addstatbox=0, addformlist=0, addform=0, addview=0, custombutton=0, helpers = [], addhelpers = 0, but_table = [], add_but_table = 0,
 	read = [], add_read = 0;
 var temservices = '';
@@ -152,7 +152,7 @@ $('#active_selenium').on('click', function() {
 	 services_list.push([ '--', '--' ]),  operations_list = [],  operations_list.push([ '--', '--' ]),
 	 imports_insert = [], imports_insert.push([ '--', '--' ]), imports_list = [], imports_list.push([ '--', '--' ]), fields_esp_row = [], 
 	 fields_esp_row.push([ '--', '--' ]), custom_action = [], custom_action.push([ '--', '--' ]), select = [], select.push([ '--', '--' ]), 
-	 checkbox_table = [], checkbox_table.push([ '--', '--' ]), addcombo=0, addcheckbox_table=0, addseparator=0, addforeign=0, addchart=0, 
+	 checkbox_table = [], checkbox_table.push([ '--', '--' ]), addcombo=0, addcheckbox=0, addseparator=0, addforeign=0, addchart=0, 
 	 addtable=0, addstatbox=0, addbutton=0, addmodel=0, addformlist=0, addform=0, addview=0, custombutton=0, helpers = [], addhelpers = 0,
 	 but_table=[]; add_but_table=0, read = [], add_read = 0;
 	 
@@ -163,7 +163,6 @@ $('#active_selenium').on('click', function() {
 	 IGRP_BLOCKLY_DROPS.tablesTest = {};
 	 
 	 // ************** FIELDS_MODEL_GENERAL **************************	 
-	 
 	 $('rows>content>*[type!=separatorlist][type!=formlist]', BlocklyXML).each(function(i, element) {	 
 		$(element).find('>fields>*').each(function(x, field) {		
 			var tag = $(field).prop('tagName'),
@@ -204,8 +203,13 @@ $('#active_selenium').on('click', function() {
 			}	
 			if(ChooseType == "select" && domain== "" || ChooseType == "checkboxlist" && domain== "" || ChooseType == "radiolist" && domain== ""){
 				select.push([ tag, tag ]);	
-				addcombo++;		
+				addcombo++;	
+				if(ChooseType == "checkboxlist" ){
+					checkbox_table.push([ tag, tag ]);	
+					addcheckbox++;		
+				}
 			}
+			
 		});	
 	});		 
 	 if(addmodel !=0){		 
@@ -565,7 +569,7 @@ $('#active_selenium').on('click', function() {
 					javaType = GetJavaType[type] || type || 'String';
 				if(ChooseType == "checkbox"){
 					checkbox_table.push([ tag, tag ]);	
-					addcheckbox_table++;		
+					addcheckbox++;		
 				}
 				if(tag == 'hidden'){	
 					fields_table.push([ tag_hidden, javaType + '::'+tag_hidden]);
@@ -634,10 +638,10 @@ $('#active_selenium').on('click', function() {
 			}
 	});
 	
-	// ******************* CHECKBOX-TABLE ***********************	
-	if(addcheckbox_table != 0){	
+	// ******************* CHECKBOX_TABLE ***********************	
+	if(addcheckbox != 0){	
 	$('#toolbox').append(
-		'<category id="checkbox_tab" name="Check-box Table" colour="100" class="blocly-dynamic">'	
+		'<category id="checkbox" name="Check-box" colour="100" class="blocly-dynamic">'	
 			+'<block type="checkbox_table" color="100" prev-statement="" next-statement="" inline="true">'
 				+'<value type="dummy" title="check-box selecteds">'
 					+'<field type="dropdown" name="checkbox" options="IGRP_BLOCKLY_DROPS.checkbox_t"></field>'
@@ -963,7 +967,7 @@ $('#active_selenium').on('click', function() {
 					javaType = GetJavaType[type] || type || 'String';
 				if(ChooseType == "checkbox"){
 					checkbox_table.push([ tag, tag ]);	
-					addcheckbox_table++;		
+					addcheckbox++;		
 				}
 				if(tag == 'hidden'){	
 					fields_table.push([ tag_hidden, javaType + '::'+tag_hidden]);
