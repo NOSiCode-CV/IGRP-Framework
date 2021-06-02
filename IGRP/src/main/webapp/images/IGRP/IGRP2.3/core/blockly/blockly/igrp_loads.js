@@ -7,7 +7,7 @@ Combos = FILL_COMBO
 Paramentros Button = PARAMETERS_BUTTONS
 Form = BLOCKS_FORM
 Table = BLOCKS_TABLE
-Checkbox = CHECKBOX-TABLE
+Checkbox = CHECKBOX_TABLE
 Separador-lista = BLOCK_SEPARATOR-LIST
 Form-list = BLOCK_FORM-LIST
 View = BLOCK_VIEW
@@ -34,12 +34,13 @@ var GEN = null,
 	COLLECTORS = [["Count", "counting"],["Sum", "summingLong"],["Average", "averagingInt"], ["Max", "maxBy"],["Min", "minBy"]],
 	COMPARISON = [["==", "=="],["!=", "!="],[">=", ">="], ["<=", "<="],[">=", ">="], [">", ">"], ["<", "<"]],
 	RETURNS = [["forward", "forward"],["redirect", "redirect"]], 
-    CORE_SET = [["Set Sending Email", "enviar_email"], ["Set Message Sucess", "messageSucess"], ["Set Message Error", "messageError"], 
-                ["Set Message Warning", "messageWarning"],["Set Message Info", "messageInfo"],["Set Message Info Link", "messageInfoLink"]],
-    CORE_GET = [["Get Parameter Int", "Integer::apanhar_parametro_inteiro"], ["Get Parameter Text", "String::apanhar_parametro_texto"],["Get Report Param", "String::apanhar_parametro_report"],["Get Domain by Name", "String::get_domain"]],
-    CORE_ATUAL = [["Atual Date", "LocalDate::data_atual"], ["Atual User Name", "String::nome_utilizador_atual"],["Atual User Email", "String::email_utilizador_atual"],
-	        ["Atual User Id", "Integer::id_utilizador_atual"]],
-    CORE_CONVERT = [["Convert To Int", "Integer::toInt"],["Convert To String", "String::toString"], ["Convert To Double", "double::toDouble"],["Convert To Long", "Long::toLong"]],
+    CORE_SET = [["set Sending Email", "enviar_email"], ["set Message Sucess", "messageSucess"], ["set Message Error", "messageError"], 
+                ["set Message Warning", "messageWarning"],["set Message Info", "messageInfo"],["set Message Info Link", "messageInfoLink"]],
+    CORE_GET = [["get Parameter Int", "Integer::apanhar_parametro_inteiro"], ["get Parameter Text", "String::apanhar_parametro_texto"],["get Report Param", "String::apanhar_parametro_report"],["get Domain by Name", "String::get_domain"]],
+    CORE_ATUAL = [["get atual Date", "LocalDate::data_atual"], ["get atual User Name", "String::nome_utilizador_atual"],["get atual User Email", "String::email_utilizador_atual"],
+	        ["get atual User Id", "Integer::id_utilizador_atual"],  ["get atual Profile Id", "Integer::id_perfil_atual"],  ["get atual Profile Code", "String::code_perfil_atual"], 
+    		["get atual Organization Id", "Integer::id_organi_atual"],  ["get atual Organization Code", "String::code_organi_atual"]],
+    CORE_CONVERT = [["convert to Int", "Integer::toInt"],["convert to String", "String::toString"], ["convert to Double", "double::toDouble"],["convert to Long", "Long::toLong"]],
 	ORDER = [["id", ""],["Order by Asc", "order_by_asc"],["Order by Desc", "order_by_desc"]],
 	FIND = [["--", "--"],["all", "todos"],["one", "um"]], 
 	FINDLIST = [["all", "TODOSS"],["limit", "limit"],["one", "UMM"]],
@@ -68,7 +69,7 @@ var	daoClasses = {},
 	separator_model = [],formlist_model = [], form_model = [], buttons_model = [], all_buttons = [], daos_list = [], services_list = [], bloc_fields = [],
 	service_fields = [], operations_list = [],
 	imports_insert = [], imports_list = [], fields_esp_row = [], custom_action = [], select = [], checkbox_table = [],
-	addcombo=0, addcheckbox_table=0, addseparator=0, addforeign=0, addchart=0, addtable =0, addbutton=0, addmodel=0, 
+	addcombo=0, addcheckbox=0, addseparator=0, addforeign=0, addchart=0, addtable =0, addbutton=0, addmodel=0, 
 	addstatbox=0, addformlist=0, addform=0, addview=0, custombutton=0, helpers = [], addhelpers = 0, but_table = [], add_but_table = 0,
 	read = [], add_read = 0;
 var temservices = '';
@@ -152,7 +153,7 @@ $('#active_selenium').on('click', function() {
 	 services_list.push([ '--', '--' ]),  operations_list = [],  operations_list.push([ '--', '--' ]),
 	 imports_insert = [], imports_insert.push([ '--', '--' ]), imports_list = [], imports_list.push([ '--', '--' ]), fields_esp_row = [], 
 	 fields_esp_row.push([ '--', '--' ]), custom_action = [], custom_action.push([ '--', '--' ]), select = [], select.push([ '--', '--' ]), 
-	 checkbox_table = [], checkbox_table.push([ '--', '--' ]), addcombo=0, addcheckbox_table=0, addseparator=0, addforeign=0, addchart=0, 
+	 checkbox_table = [], checkbox_table.push([ '--', '--' ]), addcombo=0, addcheckbox=0, addseparator=0, addforeign=0, addchart=0, 
 	 addtable=0, addstatbox=0, addbutton=0, addmodel=0, addformlist=0, addform=0, addview=0, custombutton=0, helpers = [], addhelpers = 0,
 	 but_table=[]; add_but_table=0, read = [], add_read = 0;
 	 
@@ -163,7 +164,6 @@ $('#active_selenium').on('click', function() {
 	 IGRP_BLOCKLY_DROPS.tablesTest = {};
 	 
 	 // ************** FIELDS_MODEL_GENERAL **************************	 
-	 
 	 $('rows>content>*[type!=separatorlist][type!=formlist]', BlocklyXML).each(function(i, element) {	 
 		$(element).find('>fields>*').each(function(x, field) {		
 			var tag = $(field).prop('tagName'),
@@ -204,8 +204,13 @@ $('#active_selenium').on('click', function() {
 			}	
 			if(ChooseType == "select" && domain== "" || ChooseType == "checkboxlist" && domain== "" || ChooseType == "radiolist" && domain== ""){
 				select.push([ tag, tag ]);	
-				addcombo++;		
+				addcombo++;	
+				if(ChooseType == "checkboxlist" ){
+					checkbox_table.push([ tag, tag ]);	
+					addcheckbox++;		
+				}
 			}
+			
 		});	
 	});		 
 	 if(addmodel !=0){		 
@@ -228,13 +233,13 @@ $('#active_selenium').on('click', function() {
 		  );
 		
 		$('#toolbox').append(
-				'<category id="parameters" name="Parameters" colour="60" class="blocly-dynamic">'	
-				+'<block type="core_get_param" output="" color="60">' 
-				+'<value name="value1" type="dummy"  title="get parameter">'
-					+'<field type="field_text" name="param" options=""></field>'
-					+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/get-icon.svg"></field>'
-				+'</value>'
-				+'</block>'
+				'<category id="parameters" name="Parameters" colour="60" class="blocly-dynamic">'
+					+'<block type="core_get_param" output="" color="60">' 
+					+'<value name="value1" type="dummy"  title="get parameter">'
+						+'<field type="field_text" name="param" options=""></field>'
+						+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/get-icon.svg"></field>'
+					+'</value>'
+					+'</block>'
 				+'</category>'
 				+'<sep class="blocly-dynamic"></sep>'
 			);	
@@ -539,14 +544,21 @@ $('#active_selenium').on('click', function() {
 		if(custombutton!=0)	{	
 		$('#toolbox').append(
 				'<category id="custombutton" name="Custom Return" colour="40" class="blocly-dynamic">'	
-				+'<block type="custombutton" color="40" prev-statement="" next-statement="" inline="true" class="blocly-dynamic">'
-					+'<value name="value1" type="dummy" >'
-						+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/custom-icon.svg"></field>'
-						+'<field type="dropdown" name="return" title ="return" options="IGRP_BLOCKLY_DROPS.returns"></field>'
-						+'<field type="text" name="param" options="page:"></field>'
-						+'<field type="dropdown" name="page" options="IGRP_BLOCKLY_DROPS.pages"></field>'
-					+'</value>'
+					+'<block type="custombutton" color="40" prev-statement="" next-statement="" inline="true" class="blocly-dynamic">'
+						+'<value name="value1" type="dummy" >'
+							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/custom-icon.svg"></field>'
+							+'<field type="dropdown" name="return" title ="return" options="IGRP_BLOCKLY_DROPS.returns"></field>'
+							+'<field type="text" name="param" options="page:"></field>'
+							+'<field type="dropdown" name="page" options="IGRP_BLOCKLY_DROPS.pages"></field>'
+						+'</value>'
+					+'</block>'
+					+'<block type="custombutReport" color="40" prev-statement="" mutator="param" next-statement="" inline="true" class="blocly-dynamic">'
+						+'<value name="value1" type="dummy" >'
+							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/custom-icon.svg"></field>'
+							+'<field type="field_text" title="return report" name="codeReport" options="insert code report"></field>'
+						+'</value>'
 				+'</block>'
+
 				+'</category>'
 				+'<sep class="blocly-dynamic"></sep>'
 			);
@@ -565,7 +577,7 @@ $('#active_selenium').on('click', function() {
 					javaType = GetJavaType[type] || type || 'String';
 				if(ChooseType == "checkbox"){
 					checkbox_table.push([ tag, tag ]);	
-					addcheckbox_table++;		
+					addcheckbox++;		
 				}
 				if(tag == 'hidden'){	
 					fields_table.push([ tag_hidden, javaType + '::'+tag_hidden]);
@@ -634,10 +646,10 @@ $('#active_selenium').on('click', function() {
 			}
 	});
 	
-	// ******************* CHECKBOX-TABLE ***********************	
-	if(addcheckbox_table != 0){	
+	// ******************* CHECKBOX_TABLE ***********************	
+	if(addcheckbox != 0){	
 	$('#toolbox').append(
-		'<category id="checkbox_tab" name="Check-box Table" colour="100" class="blocly-dynamic">'	
+		'<category id="checkbox" name="Check-box" colour="100" class="blocly-dynamic">'	
 			+'<block type="checkbox_table" color="100" prev-statement="" next-statement="" inline="true">'
 				+'<value type="dummy" title="check-box selecteds">'
 					+'<field type="dropdown" name="checkbox" options="IGRP_BLOCKLY_DROPS.checkbox_t"></field>'
@@ -963,7 +975,7 @@ $('#active_selenium').on('click', function() {
 					javaType = GetJavaType[type] || type || 'String';
 				if(ChooseType == "checkbox"){
 					checkbox_table.push([ tag, tag ]);	
-					addcheckbox_table++;		
+					addcheckbox++;		
 				}
 				if(tag == 'hidden'){	
 					fields_table.push([ tag_hidden, javaType + '::'+tag_hidden]);
@@ -1048,9 +1060,14 @@ $('#active_selenium').on('click', function() {
 									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 									+'<field type="text" options="DAO"></field>'
 									+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-									+'<field type="checkbox" name="selecionar" title="keep connection?" options="FALSE"></field>'
+								+'</value>'
+								+'<value type="value" name="get_pa">'
+									+'<field type="text" options="find"></field>'
 								+'</value>'
 								+'<value name="value2" type="statement">'
+								+'</value>'
+								+'<value name="value3" type="dummy">'
+									+'<field type="checkbox" name="removeTry" title="remove try/catch?" options="FALSE"></field>'
 								+'</value>'
 							+'</block>'
 							+'<block type="insert_simple_dao" color ="160" prev-statement="" next-statement="" inline="true">'
@@ -1319,6 +1336,7 @@ function GetBlocklyImports(){
 			fieldServices     = $('field[name="service"]', xml),
 			Fields 		  = $('field', xml),
 			listSimpledao = $('block[type="list_simple_dao"]',xml),
+			custombutReport = $('block[type="custombutReport"]',xml),
 			fieldsImportsMap = {
 				'Date' : true,
 				'File' : true,
@@ -1336,6 +1354,8 @@ function GetBlocklyImports(){
 			rtn+='<import type="separator">Separator</import>';
 		if(formlistImports[0])
 			rtn+='<import type="formlist">Formlist</import>';
+		if(custombutReport[0])
+			rtn+='<import type="report">Report</import>';
 		if(saveseparatorImports[0]){
 			saveseparatorImports.each(function(i, sep){
 				var blockType =$.trim($(sep).attr('type').split('save_sepator_').pop());

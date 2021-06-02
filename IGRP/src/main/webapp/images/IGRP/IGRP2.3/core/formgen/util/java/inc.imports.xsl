@@ -12,6 +12,10 @@
 					<xsl:value-of select="$newline"></xsl:value-of>				
 					<xsl:text>import java.util.List; //block import</xsl:text>		
 				</xsl:when>
+				<xsl:when test="@type = 'report'">			
+					<xsl:value-of select="$newline"></xsl:value-of>					
+					<xsl:text>import nosi.core.webapp.Report; //block import</xsl:text>		
+				</xsl:when>
 				<xsl:when test="@type = 'list_simple_dao'">				
 					<xsl:value-of select="$newline"></xsl:value-of>				
 					<xsl:text>import java.util.List; //block import</xsl:text>		
@@ -174,7 +178,9 @@
 				</xsl:when>				
 				<xsl:when test="@type = 'checkbox_table'">				
 					<xsl:value-of select="$newline"></xsl:value-of>					
-					<xsl:text>import nosi.core.webapp.helpers.CheckBoxHelper; //block import</xsl:text>				
+					<xsl:text>import nosi.core.webapp.helpers.CheckBoxHelper; //block import</xsl:text>	
+					<xsl:value-of select="$newline"></xsl:value-of>	
+					<xsl:text>import java.util.List; //block import</xsl:text>			
 				</xsl:when>			
 			</xsl:choose>			
 		</xsl:for-each>		

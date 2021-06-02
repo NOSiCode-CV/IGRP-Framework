@@ -51,28 +51,16 @@
 				<xsl:text>Core.setMessageInfoLink(</xsl:text><xsl:value-of select="$valor1"/><xsl:text>, </xsl:text><xsl:value-of select="$valor2"/><xsl:text>);</xsl:text>					
 			</xsl:when>	
 			 <xsl:when test="$key = 'Integer::apanhar_parametro_inteiro'">	
-			 	<xsl:variable name="valor1">		
-					<xsl:call-template name="blockly.getValue">					
-						<xsl:with-param name="value" select="*[@name='value_default']"/>						
-					</xsl:call-template>					
-				</xsl:variable>		
-				<xsl:text>Core.getParamInt(</xsl:text><xsl:value-of select="$valor1"/><xsl:text>)</xsl:text>					
+			 	<xsl:variable name="valor" select="field[@name='value1']"/>					
+				<xsl:text>Core.getParamInt("</xsl:text><xsl:value-of select="$valor"/><xsl:text>")</xsl:text>					
 			</xsl:when>	
 			 <xsl:when test="$key = 'String::apanhar_parametro_texto'">	
-			 	<xsl:variable name="valor1">		
-					<xsl:call-template name="blockly.getValue">					
-						<xsl:with-param name="value" select="*[@name='value_default']"/>						
-					</xsl:call-template>					
-				</xsl:variable>		
-				<xsl:text>Core.getParam(</xsl:text><xsl:value-of select="$valor1"/><xsl:text>)</xsl:text>					
+			 	<xsl:variable name="valor" select="field[@name='value1']"/>	
+				<xsl:text>Core.getParam("</xsl:text><xsl:value-of select="$valor"/><xsl:text>")</xsl:text>					
 			</xsl:when>
 			<xsl:when test="$key = 'String::apanhar_parametro_report'">	
-			 	<xsl:variable name="valor1">		
-					<xsl:call-template name="blockly.getValue">					
-						<xsl:with-param name="value" select="*[@name='value_default']"/>						
-					</xsl:call-template>					
-				</xsl:variable>		
-				<xsl:text>Core.getReportParam(</xsl:text><xsl:value-of select="$valor1"/><xsl:text>)</xsl:text>					
+			 	<xsl:variable name="valor" select="field[@name='value1']"/>
+				<xsl:text>Core.getReportParam("</xsl:text><xsl:value-of select="$valor"/><xsl:text>")</xsl:text>					
 			</xsl:when>												
 			<xsl:when test="$key = 'String::nome_utilizador_atual'">				
 				<xsl:text>Core.getCurrentUser().getName()</xsl:text>					
@@ -82,7 +70,19 @@
 			</xsl:when>			
 			<xsl:when test="$key = 'Integer::id_utilizador_atual'">				
 				<xsl:text>Core.getCurrentUser().getId()</xsl:text>					
-			</xsl:when>				
+			</xsl:when>	
+			<xsl:when test="$key = 'Integer::id_perfil_atual'">				
+				<xsl:text>Core.getCurrentProfile()</xsl:text>					
+			</xsl:when>
+			<xsl:when test="$key = 'String::code_perfil_atual'">				
+				<xsl:text>Core.getCurrentProfileCode()</xsl:text>					
+			</xsl:when>
+			<xsl:when test="$key = 'Integer::id_organi_atual'">				
+				<xsl:text>Core.getCurrentOrganization()</xsl:text>					
+			</xsl:when>
+			<xsl:when test="$key = 'String::code_organi_atual'">				
+				<xsl:text>Core.getCurrentOrganizationCode()</xsl:text>					
+			</xsl:when>			
 			<xsl:when test="$key = 'Integer::toInt'">
 				<xsl:variable name="valor1">		
 					<xsl:call-template name="blockly.getValue">					

@@ -39,6 +39,8 @@ function SetupBlockly() {
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.core_fun_set;
 		if (type == 'core_fun_get')
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.core_fun_get;
+		if (type == 'custombutReport')
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.custombutReport;
 		
 		Blockly.Blocks[type] = {
 			init : function() {
@@ -152,7 +154,7 @@ function SetupBlockly() {
 
 Blockly.Blocks['where_t'] = {
 	init : function() {
-		this.appendDummyInput().appendField("where");
+		this.appendDummyInput().appendField("add where");
 		this.appendStatementInput("SCRIPT");
 		this.setNextStatement(true);
 		this.setColour(230);
@@ -185,3 +187,21 @@ Blockly.Blocks['separatori'] = {
 		this.setColour(230);
 	},
 };
+
+Blockly.Blocks['param_t'] = {
+		init : function() {
+			this.appendDummyInput().appendField("add param");
+			this.appendStatementInput("SCRIPT");
+			this.setNextStatement(true);
+			this.setColour(230);
+		},
+	};
+
+	Blockly.Blocks['param'] = {
+		init : function() {
+			this.appendDummyInput().appendField("param");
+			this.setPreviousStatement(true);
+			this.setNextStatement(true);
+			this.setColour(230);
+		},
+	};

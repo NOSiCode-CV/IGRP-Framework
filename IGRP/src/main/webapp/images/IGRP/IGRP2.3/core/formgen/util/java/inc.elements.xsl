@@ -12,7 +12,8 @@
 	<xsl:include href="inc.set_get.service.xsl"/>
 	<xsl:include href="inc.grafico.xsl"/>
 	<xsl:include href="inc.helpers.xsl"/>	
-	<xsl:include href="inc.services.xsl"/>			
+	<xsl:include href="inc.services.xsl"/>	
+	<xsl:include href="inc.return.report.xsl"/>		
 	
 	<xsl:template name="blockly.element.controller">	
 		<xsl:call-template name="blockly.getValue">
@@ -994,7 +995,10 @@
 			</xsl:when>
 			<xsl:when test="$block-type = 'apagar_service'">		
 				<xsl:call-template name="blockly.element.apagar_service"></xsl:call-template>				
-			</xsl:when>											
+			</xsl:when>	
+			<xsl:when test="$block-type = 'custombutReport'">		
+				<xsl:call-template name="blockly.element.custombutReport"></xsl:call-template>				
+			</xsl:when>													
 			<xsl:otherwise>			
 				<xsl:text>Block not found</xsl:text>				
 			</xsl:otherwise>		
