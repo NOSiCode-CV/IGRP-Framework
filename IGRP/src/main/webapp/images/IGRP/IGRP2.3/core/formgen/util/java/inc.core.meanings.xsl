@@ -5,6 +5,9 @@
 		    <xsl:when test="$key = 'LocalDate::data_atual'">				
 				<xsl:text>LocalDate.now()</xsl:text>					
 			</xsl:when>	
+			<xsl:when test="$key = 'LocalDateTime::data_atual_hora'">				
+				<xsl:text>LocalDateTime.now()</xsl:text>					
+			</xsl:when>	
 			 <xsl:when test="$key = 'messageSucess'">	
 			 	<xsl:variable name="valor1">		
 					<xsl:call-template name="blockly.getValue">					

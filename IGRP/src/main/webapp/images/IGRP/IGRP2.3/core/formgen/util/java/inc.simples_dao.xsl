@@ -49,7 +49,7 @@
 		</xsl:variable>	
 		<xsl:variable name="code">
 			<xsl:choose>		
-				<xsl:when test="$mutation > 0">				
+				<xsl:when test="$mutation > 0 or $find='limit' or $find='TODOSS'">				
 					<xsl:value-of select="$newlineTab2"/>					
 					<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daofilter"/><xsl:text> = new </xsl:text><xsl:value-of select="$dao"/><xsl:text>().find();</xsl:text>					
 					<xsl:value-of select="$andWheres"/>					
@@ -95,15 +95,15 @@
 		</xsl:variable>
 		<xsl:choose>
 			<xsl:when test="$removeTry = 'TRUE'">
-			<xsl:call-template name="utils.try">
+				<xsl:value-of select="$code"/>							
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="utils.try">
 					<xsl:with-param name="code" select="$code"></xsl:with-param>
 					<xsl:with-param name="exceptionCode">
 						<xsl:text>e.printStackTrace();</xsl:text>
 					</xsl:with-param>
-				</xsl:call-template>						
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="$code"/>
+				</xsl:call-template>				
 			</xsl:otherwise>
 		</xsl:choose>	
 		

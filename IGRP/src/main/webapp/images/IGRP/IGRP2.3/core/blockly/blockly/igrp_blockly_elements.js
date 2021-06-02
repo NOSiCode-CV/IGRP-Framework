@@ -101,17 +101,7 @@
 		}
 		tempParams=atualParams.slice();	
 	};
-	/** ***** Mostrar input Limit *************** */
-	var UpdateShape_limit = function(block, limit) {
-		if (block.getInput("limit_value") != null) {
-			if (limit == 'limit') {
-				block.getInput("limit_value").setVisible(true);
-				block.moveInputBefore("limit_value", "value2");
-			} else {
-				block.getInput("limit_value").setVisible(false);
-			}
-		}
-	};
+
 	/** ***** Mostrar input Collector *************** */
 	var UpdateShape_collectors = function(block, collectors) {
 		if (block.getInput("collector_value") != null) {
@@ -124,17 +114,21 @@
 		}
 	};
 	/** ************* Mutação Mutation Number ************* */
-	var UpdateShape_mut_num = function(block, mutation_num) {
-		if (block.getInput("empty_table") != null) {
-			if (mutation_num >=1) {
+	var UpdateShape_mut_num = function(block, mutation_num, limit) {
+		if (block.getInput("empty_table") != null && mutation_num >=1) {
 				block.getInput("empty_table").setVisible(true);
-			} else {
-				block.getInput("empty_table").setVisible(false);
-			}
+		} else if(block.getInput("empty_table") != null) {
+			block.getInput("empty_table").setVisible(false);
 		}
 		if (block.getInput("get_pa") != null && mutation_num >=1 ) {
 				block.getInput("get_pa").setVisible(false);
-		} else if(block.getInput("get_pa") != null) {
+		} else if(block.getInput("get_pa") != null && limit == 'UMM') {
+			block.getInput("get_pa").setVisible(true);
+		}else if(block.getInput("get_pa") != null && limit == 'limit') {
+			block.getInput("get_pa").setVisible(false);
+		}else if(block.getInput("get_pa") != null  && limit == 'TODOSS') {
+			block.getInput("get_pa").setVisible(false);
+		}else if(block.getInput("get_pa") != null ) {
 			block.getInput("get_pa").setVisible(true);
 		}
 		if (block.getInput("keepcon") != null && mutation_num >=1) {
@@ -142,10 +136,11 @@
 		} else if(block.getInput("keepcon") != null) {
 			block.getInput("keepcon").setVisible(false);
 		}
-		if (block.getInput("find") != null && mutation_num >=1) {
-			block.getInput("find").setVisible(true);
-		} else if(block.getInput("find") != null) {
-			block.getInput("find").setVisible(false);
+		if (block.getInput("limit_value") != null && limit == 'limit') {
+			block.getInput("limit_value").setVisible(true);
+			block.moveInputBefore("limit_value", "value2");
+		} else if(block.getInput("limit_value") != null) {
+				block.getInput("limit_value").setVisible(false);
 		}
 	};
 	/** ************* Mutações Checkbox ************* */
@@ -251,10 +246,9 @@
 			UpdateShape_where(block, arr);
 			UpdateShape_order(block, order);
 			UpdateShape_operation(block, operation);
-			UpdateShape_limit(block, limit);
 			UpdateShape_crud(block, crud);
-			UpdateShape_collectors(block, collectors)
-			UpdateShape_mut_num(block, this.itemCount_);
+			UpdateShape_collectors(block, collectors);
+			UpdateShape_mut_num(block, this.itemCount_, limit);
 		},
 		decompose : function(workspace) {
 			var containerBlock = workspace.newBlock('where_t');
@@ -279,7 +273,7 @@
 			this.itemCount_ = connections.length;
 			var block = this;
 			UpdateShape_where(block, connections);
-			UpdateShape_mut_num(block, this.itemCount_);
+			UpdateShape_mut_num(block, this.itemCount_, '');
 			for (var i = 1; i <= this.itemCount_; i++) {
 				Blockly.Mutator.reconnect(connections[i], this, 'ADD' + i);
 			}
@@ -306,7 +300,7 @@
 				/***** MUTAÇÃO LIMIT ****/
 				var limite = IGRP_BLOCKLY_DROPS.findList;
 				var dropdown = new Blockly.FieldDropdown(limite, function(limit) {
-					UpdateShape_limit(block, limit);
+					UpdateShape_mut_num (block, '', limit);				
 				});
 				block.appendDummyInput("find").appendField("list").appendField(dropdown, 'find');
 				block.appendDummyInput("limit_value").appendField("limit value")
@@ -320,20 +314,23 @@
 		}, ListMutationSettings),
 		
 		/** ******* BLOCOS_SIMPLES_DAO ******* */
+		
 		list_simple_dao : $.extend({
 			init : function(block) {
 			/***** MUTAÇÃO LIMIT ****/
 			var limite = IGRP_BLOCKLY_DROPS.findListDao;
 			var dropdown = new Blockly.FieldDropdown(limite, function(limit) {
-				UpdateShape_limit(block, limit);
+				UpdateShape_mut_num(block,'', limit);
 			});
 			block.appendDummyInput("keepcon").appendField("keep connection?")
 				.appendField(new Blockly.FieldCheckbox("FALSE"), 'checkbox').setVisible(false);
 			block.moveInputBefore("keepcon", "value2");
-			block.appendDummyInput("find").appendField(dropdown, 'find').setVisible(false);
+			block.appendDummyInput("find").appendField(dropdown, 'find');
 			block.appendDummyInput("limit_value").appendField("limit value")
 				 .appendField(new Blockly.FieldTextInput(''), 'limit').setVisible(false);	
 			block.moveInputBefore("find", "value2");
+			block.appendValueInput("get_pa").appendField("find").setVisible(false);
+			block.moveInputBefore("get_pa", "value2");
 			}
 		}, ListMutationSettings),
 		
@@ -353,7 +350,10 @@
 			}		
 		}, ListMutationSettings),
 		
+		
+		
 		/** ******* BLOCOS_SERVICE ******* */
+		
 		listar_service: $.extend({
 			init : function(block) {
 				/**** MUTAÇÂO OPERATION *****/
@@ -371,7 +371,7 @@
 				/***** MUTAÇÃO LIMIT ****/
 				var limite = IGRP_BLOCKLY_DROPS.findList;
 				var dropdown = new Blockly.FieldDropdown(limite, function(limit) {
-					UpdateShape_limit(block, limit);
+					UpdateShape_mut_num(block, '', limit);
 				});
 				block.appendDummyInput("find").appendField("list").appendField(dropdown, 'find');
 				block.appendDummyInput("limit_value").appendField("limit value")
@@ -390,7 +390,7 @@
 			block.moveInputBefore("enter_operation", "value2");
 			var limite = IGRP_BLOCKLY_DROPS.findList;
 			var dropdown = new Blockly.FieldDropdown(limite, function(limit) {
-				UpdateShape_limit(block, limit);
+				UpdateShape_mut_num(block, '', limit);
 			});
 			block.appendDummyInput("find").appendField("list").appendField(dropdown, 'find');
 			block.moveInputBefore("find", "value2");
