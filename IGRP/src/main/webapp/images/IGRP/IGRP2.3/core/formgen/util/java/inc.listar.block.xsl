@@ -82,13 +82,30 @@
 			<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daofilter"/><xsl:text> = new </xsl:text><xsl:value-of select="$dao"/><xsl:text>().find();</xsl:text>
 			<xsl:value-of select="$andWheres"/>
 			<xsl:value-of select="$newlineTab1"/>
-			<xsl:text>List&lt;</xsl:text><xsl:value-of select="$dao"/><xsl:text>&gt; </xsl:text><xsl:value-of select="$dao_low"/><xsl:text>List = </xsl:text><xsl:value-of select="$daofilter"/><xsl:value-of select="$orderValue"/><xsl:value-of select="$findValue"/>
+			<xsl:if test="$find != 'UMM'">
+				<xsl:text>List&lt;</xsl:text>
+			</xsl:if>
+			<xsl:value-of select="$dao"/>
+			<xsl:if test="$find != 'UMM'">
+				<xsl:text>&gt;</xsl:text>
+			</xsl:if>	
+			<xsl:text> </xsl:text><xsl:value-of select="$dao_low"/>			
+			<xsl:if test="$find != 'UMM'">
+				<xsl:text>List</xsl:text>
+			</xsl:if>	
+			<xsl:text> = </xsl:text><xsl:value-of select="$daofilter"/><xsl:value-of select="$orderValue"/><xsl:value-of select="$findValue"/>
 			<xsl:value-of select="$newlineTab1"/>
 			<xsl:text>List&lt;</xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$table_up"/><xsl:text>&gt; </xsl:text><xsl:value-of select="$dao_low"/><xsl:text>Table = new ArrayList&lt;&gt;</xsl:text><xsl:text>();</xsl:text>
 			<xsl:value-of select="$newlineTab1"/> 
-			<xsl:text>if(</xsl:text><xsl:value-of select="$dao_low"/><xsl:text>List != null){</xsl:text>
+			<xsl:text>if(</xsl:text><xsl:value-of select="$dao_low"/>
+			<xsl:if test="$find != 'UMM'">
+				<xsl:text>List</xsl:text>
+			</xsl:if>	
+			<xsl:text> != null){</xsl:text>
 			<xsl:value-of select="$newlineTab2"/>
-			<xsl:text>for(</xsl:text><xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$dao_low"/><xsl:text> : </xsl:text><xsl:value-of select="$dao_low"/><xsl:text>List){</xsl:text>		
+			<xsl:if test="$find != 'UMM'">
+				<xsl:text>for(</xsl:text><xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$dao_low"/><xsl:text> : </xsl:text><xsl:value-of select="$dao_low"/><xsl:text>List){</xsl:text>		
+			</xsl:if>
 			<xsl:value-of select="$newlineTab3"/>	
 			<xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$table_up"/><xsl:text> row = new </xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$table_up"/><xsl:text>();</xsl:text> 
 			<xsl:value-of select="$newlineTab1"/>
@@ -96,9 +113,11 @@
 			<xsl:value-of select="$newlineTab3"/>
 			<xsl:value-of select="$dao_low"/><xsl:text>Table.add(row);</xsl:text>
 			<xsl:value-of select="$newlineTab2"/>
-			<xsl:text>}</xsl:text>
+			<xsl:if test="$find != 'UMM'">
+				<xsl:text>}</xsl:text>
+			</xsl:if>
 			<xsl:value-of select="$newlineTab1"/>
-			<xsl:text>}</xsl:text>
+			<xsl:text>}</xsl:text>	
 			<xsl:value-of select="$newlineTab1"/>
 			<xsl:text>model.set</xsl:text><xsl:value-of select="$table_up"/><xsl:text>(</xsl:text><xsl:value-of select="$dao_low"/><xsl:text>Table);</xsl:text>
 			
