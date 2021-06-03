@@ -4696,7 +4696,14 @@ public final class Core {
 	 * @return response
 	 */
 	public static Response startProcess(String processKey, String processDefinitionId) {
-		return new BPMNExecution().startProcess(processKey, processDefinitionId);
+		try {
+			if (Core.isNotNullMultiple(processDefinitionId, processKey)) {
+				BPMNExecution bpmn = new BPMNExecution();
+				return bpmn.startProcess(processKey, processDefinitionId);
+			}
+		} catch (Exception e) {
+		}
+		return null;
 	}
 
 	/** 
@@ -4714,7 +4721,14 @@ public final class Core {
 	 * @return response
 	 */
 	public static Response startProcess(String processKey, String processDefinitionId, Map<String, String> params) {
-		return new BPMNExecution().startProcess(processKey, processDefinitionId, params);
+		if (params != null) {
+			try {
+				BPMNExecution bpmn = new BPMNExecution();
+				return bpmn.startProcess(processKey, processDefinitionId, params);
+			} catch (Exception e) {
+			}
+		}
+		return startProcess(processKey, processDefinitionId);
 	}
 
 	/**
@@ -4792,7 +4806,7 @@ public final class Core {
 	 */
 	public static StartProcess nextTask(TaskService task, List<Part> parts, String myCustomPermission) {
 		BPMNExecution bpmnExecuteValidacao = new BPMNExecution();
-		StartProcess startProcess = bpmnExecuteValidacao.executeTask(task, parts, myCustomPermission);
+		StartProcess startProcess = bpmnExecuteValidacao.exeuteTask(task, parts, myCustomPermission);
 		return startProcess;
 	}
 
