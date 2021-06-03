@@ -157,7 +157,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	
 	private Response saveTask(TaskService task,String taskId,List<Part> parts) throws IOException, ServletException {
 		TaskServiceIGRP taskServiceRest = new TaskServiceIGRP();
-		StartProcess st = this.bpmnExecute.executeTask(task, parts,this.myCustomPermission);
+		StartProcess st = this.bpmnExecute.exeuteTask(task, parts,this.myCustomPermission);
 		if(Core.isNull(st)) {
 			return this.redirect("igrp", "ErrorPage", "exception");
 		}else {
