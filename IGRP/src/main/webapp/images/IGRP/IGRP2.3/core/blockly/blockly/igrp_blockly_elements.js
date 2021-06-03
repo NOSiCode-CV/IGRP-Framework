@@ -429,18 +429,7 @@
 				}
 		}, ListMutationSettings),
 		
-		/***** BLOCO GRÁFICO *******/
 		grafico : $.extend({
-			init : function(block) {
-				/***** MUTAÇÃO COLLECTORS ****/
-			var collectors = IGRP_BLOCKLY_DROPS.collectors;
-			var dropdown = new Blockly.FieldDropdown(collectors, function(collector) {
-				UpdateShape_collectors(block, collector);
-			});
-			block.appendDummyInput("collectors").appendField(dropdown, 'collectors');
-			block.appendValueInput("collector_value").setVisible(false);	
-			block.moveInputBefore("collectors", "value2");
-			}
 		}, ListMutationSettings),
 
 		combo_dao : $.extend({
