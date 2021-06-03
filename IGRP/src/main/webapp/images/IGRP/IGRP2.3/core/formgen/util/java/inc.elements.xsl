@@ -946,7 +946,7 @@
 				<xsl:call-template name="blockly.element.eixo_x"></xsl:call-template>				
 			</xsl:when>
 			<xsl:when test="$block-type = 'EixoY_Z'">		
-				<xsl:call-template name="blockly.element.eixo_y"></xsl:call-template>			
+				<xsl:call-template name="blockly.element.eixo_y_z"></xsl:call-template>			
 			</xsl:when>			
 			<xsl:when test="$block-type = 'EixoY'">		
 				<xsl:call-template name="blockly.element.eixo_y"></xsl:call-template>			

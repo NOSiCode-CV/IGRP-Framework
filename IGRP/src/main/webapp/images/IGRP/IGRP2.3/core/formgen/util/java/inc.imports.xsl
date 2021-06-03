@@ -103,7 +103,7 @@
 					<xsl:text>import org.hibernate.Transaction; //block import</xsl:text>								
 				</xsl:when>				
 				<xsl:when test="@type = 'grafico'">				
-				<xsl:variable name="grafico">				
+					<xsl:variable name="grafico">				
 						<xsl:call-template name="InitCap">						
 							<xsl:with-param name="text" select="."/>							
 						</xsl:call-template>						
@@ -118,8 +118,10 @@
 					<xsl:value-of select="$newline"></xsl:value-of>					
 					<xsl:text>import java.util.List; //block import</xsl:text>					
 					<xsl:value-of select="$newline"></xsl:value-of>					
-					<xsl:text>import java.util.stream.Collectors; //block import</xsl:text>					
-					<xsl:value-of select="$newline"></xsl:value-of>					
+					<xsl:text>import java.util.stream.Collectors; //block import</xsl:text>						
+					<xsl:value-of select="$newline"></xsl:value-of>	
+					<xsl:text>import java.util.LongSummaryStatistics; //block import</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>				
 					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.pages.</xsl:text><xsl:value-of select="$pagelow"/><xsl:text>.</xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$grafico"/><xsl:text>; //block import</xsl:text>	
 					<xsl:value-of select="$newline"></xsl:value-of>					
 					<xsl:text>import java.util.Map; //block import</xsl:text>					

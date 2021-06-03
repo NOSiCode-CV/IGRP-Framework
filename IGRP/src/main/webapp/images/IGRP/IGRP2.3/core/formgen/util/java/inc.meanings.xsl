@@ -150,19 +150,19 @@
 				<xsl:text>^</xsl:text>					
 			</xsl:when>	
 			<xsl:when test="$key = 'counting'">				
-				<xsl:text>counting</xsl:text>					
+				<xsl:text>.getCount()</xsl:text>					
 			</xsl:when>	
 			<xsl:when test="$key = 'summingLong'">				
-				<xsl:text>summingLong</xsl:text>					
+				<xsl:text>.getSum()</xsl:text>					
 			</xsl:when>	
 			<xsl:when test="$key = 'averagingInt'">				
-				<xsl:text>averagingInt</xsl:text>					
+				<xsl:text>.getAverage()</xsl:text>					
 			</xsl:when>	
 			<xsl:when test="$key = 'maxBy'">				
-				<xsl:text>maxBy</xsl:text>					
+				<xsl:text>.getMax()</xsl:text>					
 			</xsl:when>	
 			<xsl:when test="$key = 'minBy'">				
-				<xsl:text>minBy</xsl:text>					
+				<xsl:text>.getMin()</xsl:text>					
 			</xsl:when>		
 		</xsl:choose>		
 	</xsl:template>	

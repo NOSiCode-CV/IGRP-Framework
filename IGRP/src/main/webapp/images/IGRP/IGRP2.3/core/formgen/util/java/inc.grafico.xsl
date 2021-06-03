@@ -4,8 +4,7 @@
 		<xsl:variable name="mutation" select="mutation/@count"/>
 		<xsl:variable name="grafico" select="substring-after(@type,'grafico_')"/>		
 		<xsl:variable name="dao" select="field[@name='dao']"/>
-		<xsl:variable name="collector" select="field[@name='collectors']"/>	
-		<xsl:variable name="collecto_type" select="substring-before(value[@name='collector_value']/block/field,'::')"/>		
+		<xsl:variable name="collecto_type" select="substring-before(value[@name='statistics']/block/field,'::')"/>		
 		<xsl:variable name="graficoup">		
 			<xsl:call-template name="InitCap">		
 				<xsl:with-param name="text" select="$grafico"/>		
@@ -16,12 +15,7 @@
 	       		<xsl:with-param name="text" select="$dao"/>     		
 	       	</xsl:call-template>	       	
 		</xsl:variable>	
-		<xsl:variable name="collectorValue">
-			<xsl:call-template name="utils.meaning">
-				<xsl:with-param name="key" select="$collector"/>
-			</xsl:call-template>
-		</xsl:variable>
-		<xsl:variable name="collectorField_1" select="substring-after(*[@name='collector_value']/block/field,'::')"/>		
+		<xsl:variable name="collectorField_1" select="substring-after(value[@name='statistics']/block/field,'::')"/>		
 		<xsl:variable name="collectorField_2">		
 			<xsl:call-template name="InitCap">			
 				<xsl:with-param name="text" select="$collectorField_1"/>				
@@ -29,7 +23,7 @@
 		</xsl:variable>
 		<xsl:variable name="collecto">		
 			<xsl:call-template name="blockly.getValue">				
-				<xsl:with-param name="value" select="*[@name='collector_value']"/>				
+				<xsl:with-param name="value" select="value[@name='statistics']"/>				
 			</xsl:call-template>			
 		</xsl:variable>	
 		<xsl:variable name="collecto_convert">
@@ -46,7 +40,7 @@
 			</xsl:call-template>	
 		</xsl:variable>	
 		<xsl:variable name="collectorField" select="concat('get',$collectorField_2)"/>
-		<xsl:variable name="collectorFilho" select="*[@name='collector_value']/block/value/block/field"/>		
+		<xsl:variable name="collectorFilho" select="value[@name='statistics']/block/value/block/field"/>		
 		<xsl:variable name="col_type_filho" select="substring-before($collectorFilho,'::')"/>	
 		<xsl:variable name="collectorFilho_low" select="substring-after($collectorFilho,'::')"/>		
 		<xsl:variable name="collector_Filho">		
@@ -63,7 +57,7 @@
 				<xsl:with-param name="values" select="value"/>		
 			</xsl:call-template>			
 		</xsl:variable>			
-		<xsl:variable name="eixo_filho" select="*[@name='groupby']/block/value/block/field"/>		
+		<xsl:variable name="eixo_filho" select="value[@name='groupby']/block/value/block/field"/>		
 		<xsl:variable name="type_filho" select="substring-before($eixo_filho,'::')"/>	
 		<xsl:variable name="value_filho_low" select="substring-after($eixo_filho,'::')"/>		
 		<xsl:variable name="value_filho">		
@@ -71,8 +65,8 @@
 				<xsl:with-param name="text" select="$value_filho_low"/>				
 			</xsl:call-template>			
 		</xsl:variable>		
-		<xsl:variable name="typegroup" select="substring-before(*[@name='groupby']/block/field,'::')"/>		
-		<xsl:variable name="groupby_1" select="substring-after(*[@name='groupby']/block/field,'::')"/>		
+		<xsl:variable name="typegroup" select="substring-before(value[@name='groupby']/block/field,'::')"/>		
+		<xsl:variable name="groupby_1" select="substring-after(value[@name='groupby']/block/field,'::')"/>		
 		<xsl:variable name="groupby_2">		
 			<xsl:call-template name="InitCap">			
 				<xsl:with-param name="text" select="$groupby_1"/>				
@@ -111,17 +105,13 @@
 		</xsl:variable>				
 		<xsl:choose>				
 			<xsl:when test="$eixo_filho != ''">					
-				<xsl:text>Map&lt;</xsl:text><xsl:value-of select="$type_filho"/><xsl:text>, Long&gt; value = </xsl:text><xsl:value-of select="$daolow"/><xsl:text>List.stream().collect(Collectors.groupingBy(e -> e.</xsl:text><xsl:value-of select="$groupby"/><xsl:text>().get</xsl:text><xsl:value-of select="$value_filho"/><xsl:text>(), Collectors.</xsl:text><xsl:value-of select="$collectorValue"/><xsl:text>(</xsl:text>
-				<xsl:if test="$collector != 'counting'">
-					<xsl:value-of select="$daolow"/><xsl:text> -> </xsl:text><xsl:value-of select="$collecto_convert"/>
-				</xsl:if>		
+				<xsl:text>Map&lt;</xsl:text><xsl:value-of select="$type_filho"/><xsl:text>, LongSummaryStatistics&gt; value = </xsl:text><xsl:value-of select="$daolow"/><xsl:text>List.stream().collect(Collectors.groupingBy(e -> e.</xsl:text>
+				<xsl:value-of select="$groupby"/><xsl:text>().get</xsl:text><xsl:value-of select="$value_filho"/><xsl:text>(), Collectors.summarizingLong(</xsl:text><xsl:value-of select="$daolow"/><xsl:text> -> </xsl:text><xsl:value-of select="$collecto_convert"/>	
 				<xsl:text>)));</xsl:text>					
 			</xsl:when>					
 			<xsl:otherwise>					
-				<xsl:text>Map&lt;</xsl:text><xsl:value-of select="$rowtypemap"/><xsl:text>, Long&gt; value = </xsl:text><xsl:value-of select="$daolow"/><xsl:text>List.stream().collect(Collectors.groupingBy(</xsl:text><xsl:value-of select="$dao"/><xsl:text>::</xsl:text><xsl:value-of select="$groupby"/><xsl:text>, Collectors.</xsl:text><xsl:value-of select="$collectorValue"/><xsl:text>(</xsl:text>
-				<xsl:if test="$collector != 'counting'">
-					<xsl:value-of select="$daolow"/><xsl:text> -> </xsl:text><xsl:value-of select="$collecto_convert"/>
-				</xsl:if>		
+				<xsl:text>Map&lt;</xsl:text><xsl:value-of select="$rowtypemap"/><xsl:text>, LongSummaryStatistics&gt; value = </xsl:text><xsl:value-of select="$daolow"/><xsl:text>List.stream().collect(Collectors.groupingBy(</xsl:text><xsl:value-of select="$dao"/>
+				<xsl:text>::</xsl:text><xsl:value-of select="$groupby"/><xsl:text>, Collectors.summarizingLong(</xsl:text><xsl:value-of select="$daolow"/><xsl:text> -> </xsl:text><xsl:value-of select="$collecto_convert"/>	
 				<xsl:text>)));</xsl:text>				
 			</xsl:otherwise>				
 		</xsl:choose>				
@@ -185,42 +175,59 @@
 			<xsl:call-template name="blockly.getValue">			
 				<xsl:with-param name="value" select="*[@name='eixo']"/>				
 			</xsl:call-template>			
-		</xsl:variable>		
-		<xsl:choose>		
-			<xsl:when test="$z_exist != ''">			
-				<xsl:variable name="eixo_convert">		
-					<xsl:call-template name="convert_blocks">							
-						<xsl:with-param name="daolow" select="daolow"></xsl:with-param>						
-						<xsl:with-param name="value" select="$eixo"></xsl:with-param>						
-						<xsl:with-param name="valueblock" select="valueblock"></xsl:with-param>					
-						<xsl:with-param name="from" select="$rowtypechild"></xsl:with-param>						
-						<xsl:with-param name="to" select="'String'"></xsl:with-param>						
-						<xsl:with-param name="neto" select="neto"></xsl:with-param>						
-						<xsl:with-param name="valuechild" select="value_namee"></xsl:with-param>						
-						<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>						
-						<xsl:with-param name="block_name" select="block_name"></xsl:with-param>						
-					</xsl:call-template>							
-				</xsl:variable>				
-				<xsl:value-of select="$newlineTab3"></xsl:value-of>	
-				<xsl:text>c.setEixoY(</xsl:text><xsl:value-of select="$eixo_convert"/><xsl:text>);</xsl:text>			
-			</xsl:when>		
-			<xsl:otherwise>					
-				<xsl:value-of select="$newlineTab3"></xsl:value-of>				
-				<xsl:text>c.setEixoY(value.get(</xsl:text><xsl:value-of select="$eixo"/><xsl:text>));</xsl:text>				
-			</xsl:otherwise>
-		</xsl:choose>			
+		</xsl:variable>					
+		<xsl:variable name="eixo_convert">		
+			<xsl:call-template name="convert_blocks">							
+				<xsl:with-param name="daolow" select="daolow"></xsl:with-param>						
+				<xsl:with-param name="value" select="$eixo"></xsl:with-param>						
+				<xsl:with-param name="valueblock" select="valueblock"></xsl:with-param>					
+				<xsl:with-param name="from" select="$rowtypechild"></xsl:with-param>						
+				<xsl:with-param name="to" select="'String'"></xsl:with-param>						
+				<xsl:with-param name="neto" select="neto"></xsl:with-param>						
+				<xsl:with-param name="valuechild" select="value_namee"></xsl:with-param>						
+				<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>						
+				<xsl:with-param name="block_name" select="block_name"></xsl:with-param>						
+			</xsl:call-template>							
+		</xsl:variable>				
+		<xsl:value-of select="$newlineTab3"></xsl:value-of>	
+		<xsl:text>c.setEixoY(</xsl:text><xsl:value-of select="$eixo_convert"/><xsl:text>);</xsl:text>				
+
 	</xsl:template>
 	
-	<!-- //////////////////////////////////////// EIXO Z /////////////////////////////////////////////////////////////////// -->
+	<!-- //////////////////////////////////////// EIXO Y_Z /////////////////////////////////////////////////////////////////// -->
 	
-	<xsl:template name="blockly.element.eixo_z" >	
+	<xsl:template name="blockly.element.eixo_y_z" >
+		<xsl:variable name="collector" select="field[@name='collectors']"/>	
+		<xsl:variable name="collectorValue">
+			<xsl:call-template name="utils.meaning">
+				<xsl:with-param name="key" select="$collector"/>
+			</xsl:call-template>
+		</xsl:variable>	
 		<xsl:variable name="eixo">		
 			<xsl:call-template name="blockly.getValue">			
 				<xsl:with-param name="value" select="*[@name='eixo']"/>				
 			</xsl:call-template>			
 		</xsl:variable>				
 		<xsl:value-of select="$newlineTab3"></xsl:value-of>		
-		<xsl:text>c.setEixoZ(value.get(</xsl:text><xsl:value-of select="$eixo"/><xsl:text>));</xsl:text>		
+		<xsl:text>c.setEixoY(value.get(</xsl:text><xsl:value-of select="$eixo"/><xsl:text>)</xsl:text><xsl:value-of select="$collectorValue"/><xsl:text>);</xsl:text>		
+	</xsl:template>
+	
+	<!-- //////////////////////////////////////// EIXO Z /////////////////////////////////////////////////////////////////// -->
+	
+	<xsl:template name="blockly.element.eixo_z" >
+		<xsl:variable name="collector" select="field[@name='collectors']"/>	
+		<xsl:variable name="collectorValue">
+			<xsl:call-template name="utils.meaning">
+				<xsl:with-param name="key" select="$collector"/>
+			</xsl:call-template>
+		</xsl:variable>	
+		<xsl:variable name="eixo">		
+			<xsl:call-template name="blockly.getValue">			
+				<xsl:with-param name="value" select="*[@name='eixo']"/>				
+			</xsl:call-template>			
+		</xsl:variable>				
+		<xsl:value-of select="$newlineTab3"></xsl:value-of>		
+		<xsl:text>c.setEixoZ(value.get(</xsl:text><xsl:value-of select="$eixo"/><xsl:text>)</xsl:text><xsl:value-of select="$collectorValue"/><xsl:text>);</xsl:text>		
 	</xsl:template>
 		
 </xsl:stylesheet>
