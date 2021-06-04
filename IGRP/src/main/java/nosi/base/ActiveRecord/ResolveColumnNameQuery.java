@@ -55,6 +55,8 @@ public class ResolveColumnNameQuery {
 	}
 
 	public String removeAlias(String columnName) {
+		if(columnName.contains("("))
+			columnName = columnName.substring(columnName.indexOf("(")+1, columnName.indexOf(")"));
 		if(columnName.contains(".")) {
 			return columnName.replace(".", "_");
 		}
