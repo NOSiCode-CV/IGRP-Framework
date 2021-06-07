@@ -126,6 +126,16 @@
 					<xsl:value-of select="$newline"></xsl:value-of>					
 					<xsl:text>import java.util.Map; //block import</xsl:text>					
 				</xsl:when>	
+				<xsl:when test="@type = 'statbox'">	
+					<xsl:value-of select="$newline"></xsl:value-of>					
+					<xsl:text>import java.util.List; //block import</xsl:text>										
+					<xsl:value-of select="$newline"></xsl:value-of>					
+					<xsl:text>import java.util.stream.Collectors; //block import</xsl:text>						
+					<xsl:value-of select="$newline"></xsl:value-of>	
+					<xsl:text>import java.util.LongSummaryStatistics; //block import</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>					
+					<xsl:text>import java.util.Map; //block import</xsl:text>					
+				</xsl:when>	
 				<xsl:when test="@type = 'dao'">					
 					<xsl:variable name="className" select="."></xsl:variable>					
 					<xsl:value-of select="$newline"></xsl:value-of>					
