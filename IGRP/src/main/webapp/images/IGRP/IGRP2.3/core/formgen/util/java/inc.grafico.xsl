@@ -191,7 +191,6 @@
 		</xsl:variable>				
 		<xsl:value-of select="$newlineTab3"></xsl:value-of>	
 		<xsl:text>c.setEixoY(</xsl:text><xsl:value-of select="$eixo_convert"/><xsl:text>);</xsl:text>				
-
 	</xsl:template>
 	
 	<!-- //////////////////////////////////////// EIXO Y_Z /////////////////////////////////////////////////////////////////// -->
