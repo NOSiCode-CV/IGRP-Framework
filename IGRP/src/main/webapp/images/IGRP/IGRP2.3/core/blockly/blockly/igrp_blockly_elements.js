@@ -194,6 +194,19 @@
 		}
 	};
 	
+	/** ********** AdicionarConcats ********* */
+	var UpdateShape_insertConcats = function(block,contador) {
+		for (var i = 1; i <= contador; i++) {
+			if (!block.getInput('CONCAT' + i)) {
+				block.appendValueInput('CONCAT' + i);
+			}
+		}
+		while (block.getInput('CONCAT' + i)) {
+			block.removeInput('CONCAT' + i);
+			i++;
+		}
+	};
+	
 	/** ***** Inserts do Crud *************** */
 	var UpdateShape_crud = function(block, crud) {
 		if (block.getInput("param_value") != null) {
@@ -541,6 +554,48 @@
 				UpdateShape_insertParams(block,Contador);
 				for (var i = 1; i <= this.itemCount_; i++) {
 					Blockly.Mutator.reconnect(connections[i], this, 'PARAM'+ i);
+				}
+			}
+		},
+		
+		/***** BLOCO_CONCAT *******/
+		concat : {
+			mutationToDom : function() {
+				var container = document.createElement('mutation');
+				container.setAttribute('count', this.itemCount_);
+				return container;
+			},
+			domToMutation : function(xmlElement) {
+				var block = this;
+				this.itemCount_ = parseInt(xmlElement.getAttribute('count'));
+				UpdateShape_insertConcats(block,this.itemCount_);
+			},
+			decompose : function(workspace) {
+				var containerBlock = workspace.newBlock('concat_t');
+				containerBlock.initSvg();
+				var connection = containerBlock.getInput('SCRIPT').connection;
+				for (var i = 0; i < this.itemCount_; i++) {
+					var itemBlock = workspace.newBlock('concat');
+					itemBlock.initSvg();
+					connection.connect(itemBlock.previousConnection);
+					connection = itemBlock.nextConnection;
+				}
+				return containerBlock;
+			},
+			compose : function(containerBlock) {
+				var itemBlock = containerBlock.getInputTargetBlock('SCRIPT');
+				var block = this;
+				var connections = [];
+				while (itemBlock) {
+					connections.push(itemBlock.valueConnection_);
+					itemBlock = itemBlock.nextConnection
+							&& itemBlock.nextConnection.targetBlock();
+				}
+				this.itemCount_ = connections.length;
+				var Contador = this.itemCount_;
+				UpdateShape_insertConcats(block,Contador);
+				for (var i = 1; i <= this.itemCount_; i++) {
+					Blockly.Mutator.reconnect(connections[i], this, 'CONCAT'+ i);
 				}
 			}
 		},

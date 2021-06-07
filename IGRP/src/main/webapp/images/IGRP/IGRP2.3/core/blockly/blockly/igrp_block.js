@@ -41,6 +41,8 @@ function SetupBlockly() {
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.core_fun_get;
 		if (type == 'custombutReport')
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.custombutReport;
+		if (type == 'concaty')
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.concat;
 		
 		Blockly.Blocks[type] = {
 			init : function() {
@@ -205,3 +207,20 @@ Blockly.Blocks['param_t'] = {
 			this.setColour(230);
 		},
 	};
+	Blockly.Blocks['concat_t'] = {
+			init : function() {
+				this.appendDummyInput().appendField("add concat");
+				this.appendStatementInput("SCRIPT");
+				this.setNextStatement(true);
+				this.setColour(230);
+			},
+		};
+
+		Blockly.Blocks['concat'] = {
+			init : function() {
+				this.appendDummyInput().appendField("concat");
+				this.setPreviousStatement(true);
+				this.setNextStatement(true);
+				this.setColour(230);
+			},
+		};
