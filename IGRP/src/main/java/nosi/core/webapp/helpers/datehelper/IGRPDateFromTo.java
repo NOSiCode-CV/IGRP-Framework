@@ -58,7 +58,7 @@ public class IGRPDateFromTo {
 
 		this.dateFromTo = dateFromTo.trim();
 
-		if (this.dateFromTo.isBlank())
+		if (this.dateFromTo.isEmpty())
 			return true;
 
 		final Pattern pattern = Pattern.compile(DATE_FROM_TO_PATTERN);
