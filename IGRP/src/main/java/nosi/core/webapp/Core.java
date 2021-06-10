@@ -16,11 +16,15 @@ import java.text.DateFormat;
 import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
@@ -30,6 +34,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.function.Function;
@@ -92,6 +97,8 @@ import nosi.core.webapp.helpers.GUIDGenerator;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.RemoteXML;
 import nosi.core.webapp.helpers.Route;
+import nosi.core.webapp.helpers.datehelper.IGRPDateFromTo;
+import nosi.core.webapp.helpers.datehelper.IGRPDaysOff;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.Permission;
 import nosi.core.webapp.uploadfile.UploadFile;
@@ -3694,6 +3701,86 @@ public final class Core {
 	public static String dateToString(java.util.Date date, String formatOut) {
 		DateFormat df = new SimpleDateFormat(formatOut);
 		return df.format(date);
+	}
+	
+	/**
+	 * 
+	 * Generic method intended to use with The Date Time API from java 8. 
+	 * Please ensure the correct {@link DateTimeFormatter} is provided for the date type passes as argument.
+	 * <p> Types Suported:
+     * <ul>
+     * <li>{@link LocalDate}
+     * <li>{@link LocalDateTime}
+     * <li>{@link OffsetDateTime}
+     * <li>{@link ZonedDateTime}
+     * <li>{@link Instant}
+     * </ul>
+     * 
+	 * @param <T>
+	 * @param date the date object to parse as a string
+	 * @param formatter the formatter to parse the date object
+	 * @return string representation of the date or an empty string if the date is null or of an unsupported type.
+	 * @category DateUtils
+	 */
+	public static <T extends Temporal> String parseDateToString(T date, DateTimeFormatter formatter) {
+		if (Objects.isNull(date))
+			return "";
+		if (date instanceof LocalDate)
+			return LocalDate.from(date).format(formatter);
+		else if (date instanceof LocalDateTime)
+			return LocalDateTime.from(date).format(formatter);
+		else if (date instanceof ZonedDateTime)
+			return ZonedDateTime.from(date).format(formatter);
+		else if (date instanceof OffsetDateTime)
+			return OffsetDateTime.from(date).format(formatter);
+		else if (date instanceof Instant) {
+			final LocalDateTime dateTime = LocalDateTime.ofInstant((Instant) date, ZoneId.systemDefault());
+			return dateTime.format(formatter);
+		}
+		return "";
+	}
+	
+	/**
+	 * Obtains an instance of {@code IGRPDaysOff}. Provide methods to add dates and
+	 * build a string from those dates.
+	 * 
+	 * @return {@code IGRPDaysOff}, not null
+	 * @category DateUtils
+	 */
+	public static IGRPDaysOff buildDaysOffString() {
+		return new IGRPDaysOff();
+	}
+	
+	/**
+	 * Obtains an instance of {@code IGRPDateFromTo} from a text string such as
+	 * {@code 02-06-2021 / 30-06-2021}.
+	 * <p>
+	 * Intended to use with the Igrp field Date when property fromTo is active, to
+	 * get the start and end dates.
+	 * <p>
+	 * Use case example:
+	 * 
+	 * <pre>
+	 * IGRPDateFromTo dateFromTo = Core.dateFromTo("02-06-2021 / 30-06-2021");
+	 * 
+	 * {@link Optional}<{@link LocalDateTime}> from = dateFromTo.from();
+	 * {@link Optional}<{@link LocalDateTime}> to = dateFromTo.to();
+	 * 	
+	 * if(from.isPresent()) 
+	 *	{@link LocalDateTime} from = from.get();
+	 *	
+	 * if(to.isPresent()) 
+	 *	{@link LocalDateTime} to = to.get();
+	 * </pre>
+	 * 
+	 * @param dateFromTo the string representation from which the start and end
+	 *                   dates are obtained.
+	 * 
+	 * @return {@code IGRPDateFromTo}, not null
+	 * @category DateUtils
+	 */
+	public static IGRPDateFromTo dateFromTo(String dateFromTo) {
+		return IGRPDateFromTo.of(dateFromTo);
 	}
 
 	public static String convertLocalDateTimeToString(LocalDateTime ldt, String outputFormatter) {
