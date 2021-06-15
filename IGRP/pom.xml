@@ -56,11 +56,48 @@
 		<jdt.core.compiler.version>4.6.1</jdt.core.compiler.version> 
 		
 		<!-- JGit -->
-		<jgit.version>4.7.0.201704051617-r</jgit.version>
-		
+		<jgit.version>4.7.0.201704051617-r</jgit.version>		
+		<!-- OPEN HTML TO PDF -->
+		<openhtml.version>1.0.8</openhtml.version>
 	</properties>
 
 	<dependencies>
+	<!-- OPEN HTML TO PDF https://github.com/danfickle/openhtmltopdf -->
+	
+	
+	<dependency>
+  		<!-- ALWAYS required, usually included transitively. -->
+  		<groupId>com.openhtmltopdf</groupId>
+  		<artifactId>openhtmltopdf-core</artifactId>
+  		<version>${openhtml.version}</version>
+  	</dependency>
+  	<dependency>
+  		<!-- Required for PDF output. -->
+  		<groupId>com.openhtmltopdf</groupId>
+  		<artifactId>openhtmltopdf-pdfbox</artifactId>
+  		<version>${openhtml.version}</version>
+  	</dependency>
+  	
+	<dependency>
+  		<!-- Objects support plugin. -->
+  		<groupId>com.openhtmltopdf</groupId>
+  		<artifactId>openhtmltopdf-objects</artifactId>
+  		<version>${openhtml.version}</version>
+  	</dependency>
+	<dependency>
+  		<groupId>com.google.zxing</groupId>
+  		<artifactId>javase</artifactId>
+  		<version>3.4.1</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+	<dependency>
+    	<groupId>org.jsoup</groupId>
+    	<artifactId>jsoup</artifactId>
+    	<version>1.13.1</version>
+	</dependency>
+	
+	
+	<!-- /END OPEN HTML TO PDF https://github.com/danfickle/openhtmltopdf -->
 
 <!-- https://mvnrepository.com/artifact/xalan/xalan -->
 <dependency>

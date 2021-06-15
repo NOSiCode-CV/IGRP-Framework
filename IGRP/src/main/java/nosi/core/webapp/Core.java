@@ -1252,6 +1252,21 @@ public final class Core {
 		}
 		return new Report().invokeReport(reportCode, rep);
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public static Response getLinkReportPDF(String reportCode, Object report) {
+		Report rep = new Report();
+		if (report instanceof QueryString) {
+			((QueryString<String, Object>) report).getQueryString().entrySet().stream().forEach(q -> {
+				rep.addParam(q.getKey(), q.getValue());
+			});
+		} else if (report instanceof Report) {
+			return new Report().invokeReportPDF(reportCode, (Report) report);
+		}
+		return new Report().invokeReportPDF(reportCode, rep);
+		
+	}
 
 	/**
 	 * @param partial nosi.core.gui.components.IGRPLink object

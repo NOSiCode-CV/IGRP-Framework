@@ -74,7 +74,7 @@ public class WebReportController extends Controller {
 						if(param.getParameters() != null) 
 							for(RepTemplateSourceParam p:param.getParameters()) 
 								params.append(".addParam(\""+p.getParameter().toLowerCase()+"\",\"?\")");
-				String link = "Core.getLinkReport(\""+r.getCode()+"\")"+params.toString()+"; //or Response=> Core.getLinkReport(\""+r.getCode()+"\",new nosi.core.webapp.Report()"+params+");";
+				String link = "Core.getLinkReport(\""+r.getCode()+"\")"+params.toString()+"; //or Response=> Core.getLinkReport(\""+r.getCode()+"\",new nosi.core.webapp.Report()"+params+");"+"or Beta PDF report - Response=> Core.getLinkReportPDF(\""+r.getCode()+"\",new nosi.core.webapp.Report()"+params+");";
 				t1.setDescricao(link);
 				t1.setLink("igrp_studio", "web-report", "load-template&id="+r.getId());
 				t1.setLink_desc(r.getCode());
@@ -219,41 +219,68 @@ public class WebReportController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(preview)----*/
-		String id = Core.getParam("p_rep_id");
-		String type = Core.getParam("p_type");// se for 0 - preview, se for 1 - registar ocorencia 
-		String contraProva= Core.getParam("ctpr");
-		StringBuilder xml = new StringBuilder();
+		Integer id = Core.getParamInt("p_rep_id");
+		String type = Core.getParam("p_type");// se for 0 - preview, se for 1 - registar ocorencia , 2 - retornar PDF
+		
+		String contraProva= Core.getParam("ctpr");		
 		if(Core.isNotNull(id)){
-			RepTemplate rt = new RepTemplate();
-			rt = rt.findOne(Core.toInt(id));
 			String []name_array = Core.getParamArray("name_array");
 			String []value_array = Core.getParamArray("value_array");
-			List<RepTemplateSource> allRepTemplateSource = new RepTemplateSource().getAllDataSources(rt.getId()); 
-			List<RepTemplateSource> allRepTemplateSourceTask  = allRepTemplateSource.stream().filter(p -> p.getRepSource().getType().equalsIgnoreCase("task")).collect(Collectors.toList()); 
-			allRepTemplateSource.removeIf(p -> p.getRepSource().getType().equalsIgnoreCase("task")); 
+			RepTemplate rt = new RepTemplate();
+			rt = rt.findOne(id);
+			String genXml = genRenderXml(rt, type.equals("2")?"1":type, contraProva, name_array, value_array);	
 			
-			//Iterate data source per template
-			for(RepTemplateSource rep : allRepTemplateSource)
-				xml.append(this.getData(rep,name_array,value_array)); 
+			if(type.equals("2"))
+				return new Report().processPDF(rt.getName(),rt.getXsl_content(), genXml);
 			
-			String taskId = this.getCurrentTaskId(); 
-			if(taskId != null && !taskId.isEmpty()) {
-				String []allTasksId = taskId.split("-"); 
-				if(allTasksId.length == allRepTemplateSourceTask.size()) 
-					for(int i = 0; i < allRepTemplateSourceTask.size(); i++) 
-						xml.append(this.getDataForTask(allRepTemplateSourceTask.get(i), allTasksId[i])); 
-			}		
-			this.format = Response.FORMAT_XML;
-			return this.renderView(this.genXml(xml.toString(),rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0,contraProva));
+			this.format = Response.FORMAT_XML;			
+			return this.renderView(genXml);
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
 		/*----#end-code----*/
 			
 	}
+
+	
 	
 		
 		
 /*----#start-code(custom_actions)----*/	
+	
+	
+	
+	
+	/**
+	 * @param id
+	 * @param type save the report or not? 0 not save; 1 save the report to clob
+	 * @param contraProva
+	 * @param name_array
+	 * @param value_array
+	 * @return
+	 */
+	public String genRenderXml(RepTemplate rt, String type, String contraProva, String[] name_array, String[] value_array) {
+		StringBuilder xml = new StringBuilder();
+		
+		
+		List<RepTemplateSource> allRepTemplateSource = new RepTemplateSource().getAllDataSources(rt.getId()); 
+		List<RepTemplateSource> allRepTemplateSourceTask  = allRepTemplateSource.stream().filter(p -> p.getRepSource().getType().equalsIgnoreCase("task")).collect(Collectors.toList()); 
+		allRepTemplateSource.removeIf(p -> p.getRepSource().getType().equalsIgnoreCase("task")); 
+		
+		//Iterate data source per template
+		for(RepTemplateSource rep : allRepTemplateSource)
+			xml.append(this.getData(rep,name_array,value_array)); 
+		
+		String taskId = this.getCurrentTaskId(); 
+		if(taskId != null && !taskId.isEmpty()) {
+			String []allTasksId = taskId.split("-"); 
+			if(allTasksId.length == allRepTemplateSourceTask.size()) 
+				for(int i = 0; i < allRepTemplateSourceTask.size(); i++) 
+					xml.append(this.getDataForTask(allRepTemplateSourceTask.get(i), allTasksId[i])); 
+		}	
+		final String genXml = this.genXml(xml.toString(),rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0,contraProva);
+		return genXml;
+	}
+	
 	public Response actionGetContraprova() throws IOException{
 		String contraprova = Core.getParam("ctprov");
 		contraprova=Core.decryptPublicPage(contraprova);
@@ -370,7 +397,7 @@ public class WebReportController extends Controller {
 				for(String aux : ac.getAction().split("-"))
 					actionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
 				actionName = "action" + actionName;
-				Core.setAttribute("current_app_conn", ac.getApplication().getDad());			
+				Core.setAttribute("current_app_conn", ac.getApplication().getDad());	
 				String controllerPath = this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction());			
 				Object ob = Page.loadPage(controllerPath,actionName);
 				Core.removeAttribute("current_app_conn");
