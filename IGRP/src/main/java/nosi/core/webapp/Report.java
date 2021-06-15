@@ -43,12 +43,18 @@ public class Report extends Controller{
 	private Map<String,Object> params = new HashMap<>();
 	private String qs = "";
 	private String link;
-	private String contraProva;
+	private String contraProva;	
 
-	@SuppressWarnings("unchecked")
 	public Response invokeReport(String code_report,Report rep){
+		return invokeReport(code_report,rep,"1");
+	}	
+	public Response invokeReportPDF(String code_report,Report rep){		
+		return invokeReport(code_report,rep,"2");		
+	}
+	@SuppressWarnings("unchecked")
+	public Response invokeReport(String code_report,Report rep,String type){
 		
-	qs+="&p_type=1"; // se for 0 - preview, se for 1 - registar ocorencia , 2 - retornar PDF
+	qs+="&p_type="+type; // se for 0 - preview, se for 1 - registar ocorencia , 2 - retornar PDF
 	RepTemplate rt = new RepTemplate().find().andWhere("code", "=", code_report).one();
 	qs+="&p_rep_id="+rt.getId();
 	String contra_prova=rep.getContraProva();
@@ -80,43 +86,8 @@ public class Report extends Controller{
 			e.printStackTrace();
 		}
 		return null;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public Response invokeReportPDF(String code_report,Report rep){		
-		qs+="&p_type=2"; // se for 0 - preview, se for 1 - registar ocorencia , 2 - retornar PDF
-		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", code_report).one();
-		qs+="&p_rep_id="+rt.getId();
-		String contra_prova=rep.getContraProva();
-		if(Core.isNull(contra_prova))
-			 contra_prova = Report.generateContraProva("nosi.webapps."+rt.getApplication().getDad().toLowerCase());
-		qs+="&ctpr="+Core.encrypt(contra_prova);
-		if(rep!=null) 
-			for(Entry<String, Object> p : rep.getParams().entrySet()) 
-				if(!(p.getValue() instanceof List)) {
-					if(p.getValue() != null && !p.getValue().toString().equals("?")) { 
-						if (p.getKey().equals("isPublic") && p.getValue().equals("1")) 
-							qs += "&" + p.getKey() + "=" + p.getValue(); // isPublic=1 :-) 
-						else 
-							qs += ("&name_array="+p.getKey() + "&value_array="+p.getValue()); 
-					}
-				}else {
-					List<Object> parms = (List<Object>) p.getValue(); 
-					for(Object v : parms) 
-						qs += ("&name_array="+p.getKey() + "&value_array="+v.toString());
-				}
-		
-		try {
-			
-			Response redirect = this.redirect("igrp_studio", "web-report", "preview"+qs,this.queryString());
-			redirect.setContent(contra_prova);
-			return redirect;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-		
-	}
+	}	
+
 	
 	public Report getLinkReport(String code_report){
 		return getLinkReport(code_report, false); 
