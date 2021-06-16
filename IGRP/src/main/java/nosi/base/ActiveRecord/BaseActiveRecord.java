@@ -1172,6 +1172,10 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		try {
 			transaction = this.getSession().getTransaction();
 			if(this.beginTransaction(transaction)) {
+				if(this.isShowConsoleSql) {
+					Core.log(this.getSql());
+					System.out.println(this.getSql());
+				}
 				TypedQuery<T> query = this.getSession().createQuery(this.getSql());
 				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 				this.setParameters(query);
