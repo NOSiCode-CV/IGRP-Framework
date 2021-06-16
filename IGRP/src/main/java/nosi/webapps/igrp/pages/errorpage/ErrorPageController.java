@@ -5,10 +5,12 @@ import java.io.IOException;
 /*----#start-code(packages_import)----*/
 import javax.servlet.RequestDispatcher;
 
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.webapps.igrp.dao.Config;
 		
 public class ErrorPageController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -66,7 +68,14 @@ public class ErrorPageController extends Controller {
 				Core.log("TryCatch: "+e1.toString());
 				e1.printStackTrace();
 			}
-			Core.setMessageInfo(Core.gt("Por favor contactar o serviço de HELPDESK para mais informações.(helpdesk@nosi.cv - Tel:2607973)"));
+			
+			Config tblconfigfilter = new Config().find().where("name","=","ERROR_MSG").one();
+			
+			if(Core.isNotNull(tblconfigfilter))
+				Core.setMessageInfo(Core.gt(tblconfigfilter.getValue()));
+			else			
+				Core.setMessageInfo(Core.gt("Por favor contactar o serviço de HELPDESK para mais informações.(helpdesk@nosi.cv - Tel:2607973)"));
+						
 			view.setModel(model);
 			return this.renderView(view);
 //		}
