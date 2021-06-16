@@ -30,6 +30,7 @@ import nosi.core.webapp.helpers.TransformHelper;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.pages.file.File;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 
@@ -143,6 +144,16 @@ public class Report extends Controller{
 		contraProva=Core.encryptPublicPage(contraProva);
 		return Core.getHostName()+"?r=igrp_studio/web-report/get-contraprova&ctprov="+contraProva;
 	}
+//	
+//	public String getLinkContraProva(String contraProva,String appCodeDAD, Boolean inPDF,Boolean pdfToDownload) {
+//		contraProva=Core.encryptPublicPage(contraProva);
+//		return Core.getHostName()+"?r=igrp_studio/web-report/get-contraprova&ctprov="+contraProva;
+//	}
+//	
+//	public String getContraProva(String contraProva) {
+//		contraProva=Core.encryptPublicPage(contraProva);
+//		return Core.getHostName()+"?r=igrp_studio/web-report/get-contraprova&ctprov="+contraProva;
+//	}
 
 	public static String generateContraProva(String packageFind) {
 		List<Class<?>> allClasses = ReflectionHelper.findClassesByInterface(ReportKey.class,packageFind);
@@ -268,20 +279,20 @@ public class Report extends Controller{
 		
 		public Document html5ParseDocument(String inputHTML, String baseUri) throws IOException{
 		    org.jsoup.nodes.Document doc;
-		    System.out.println("parsing ...");
+		   // System.out.println("parsing ...");
 		  //  doc = Jsoup.parse(new File(inputHTML), "UTF-8",baseUri); // se link para um ficheiro
 		   //doc = Jsoup.parse(new ByteArrayInputStream(inputHTML.getBytes("utf-8")), "UTF-8",baseUri);
 		   doc = Jsoup.parse(inputHTML,baseUri);
 			
 		    
 		   
-		   Elements imgs= doc.select("img");
+		   Elements imgs= doc.select("img");		 
 			  imgs.forEach(i -> {
 				  if(i.attr("src").contains("?r=")) {
-					  System.err.println("src imagem ds "+i.attr("src"));
-					  //webapps?r=igrp/File/get-file&uuid=821ccc01f84143b68df9ecc6fa2bb9d4&dad=sistema_de_avaliacao_igrpweb
-					  
-					  String uuid= "821ccc01f84143b68df9ecc6fa2bb9d4";		
+					//  System.err.println("src imagem ds "+i.attr("src"));
+					  //webapps?r=igrp/File/get-file&uuid=821ccc01f84143b68df9ecc6fa2bb9d4&dad=sistema_de_avaliacao_igrpweb					  
+		
+					  String uuid= StringUtils.substringBetween(i.attr("src"), "&uuid=", "&");;		
 						CLob file;
 						if(Core.isNotNull(uuid))
 							 file = Core.getFileByUuid(uuid);
@@ -334,13 +345,13 @@ public class Report extends Controller{
 		   }
 //		  	
 			if(styleD!=null) {
-				System.out.print("style \n"+styleD+"\n");
+				//System.out.print("style \n"+styleD+"\n");
 				styleD.remove();
 			}
 				
 			
 		    final Document fromJsoup = new W3CDom().fromJsoup(doc);
-		    System.out.println("parsing done ..." + doc+"");
+		   // System.out.println("parsing done ..." + doc+"");
 			return fromJsoup;
 		  }
 
