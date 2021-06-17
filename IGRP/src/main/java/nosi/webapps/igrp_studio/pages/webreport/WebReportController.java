@@ -231,7 +231,7 @@ public class WebReportController extends Controller {
 			String genXml = genRenderXml(rt, type.equals("2")?"1":type, contraProva, name_array, value_array);	
 			
 			if(type.equals("2"))
-				return new Report().processPDF(rt.getName(),rt.getXsl_content(), genXml);
+				return new Report().processPDF(System.currentTimeMillis()+"_"+rt.getName(),rt.getXsl_content(), genXml,"false");
 			
 			this.format = Response.FORMAT_XML;			
 			return this.renderView(genXml);
@@ -283,12 +283,21 @@ public class WebReportController extends Controller {
 	
 	public Response actionGetContraprova() throws IOException{
 		String contraprova = Core.getParam("ctprov");
+		String dad = Core.getParam("codad");
+		String outInPDF = Core.getParam("outpdf");
+		String toDownload = Core.getParam("todownld");
+		
 		contraprova=Core.decryptPublicPage(contraprova);
-		RepInstance ri = new RepInstance().find().andWhere("contra_prova", "=",contraprova).one();
+		RepInstance ri = new RepInstance().find().where("contra_prova", "=",contraprova).andWhere("application.dad", "=",dad).orderByDesc("id").one();
 		String content = "";
-		if(ri!=null){
-			content = new String(ri.getXml_content().getC_lob_content());
-			return this.renderView(content);
+		if(ri!=null && ri.getTemplate()!=null && !ri.hasError()){			
+			if(outInPDF.equals("true")) {
+				return new Report().processPDF(ri.getXsl_content().getName().replace(".xsl",""),ri.getXsl_content(), new String(ri.getXml_content().getC_lob_content()),toDownload);				
+			}else {
+				content = new String(ri.getXml_content().getC_lob_content());
+				return this.renderView(content);
+			}
+			
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
