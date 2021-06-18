@@ -307,10 +307,16 @@ public class EmailMessage {
 	}
 
 	public static class Attachment{ 
-		
+				
 		private byte[] content; 
 		private String name; 
 		private String type;
+		
+		public Attachment(byte[] content,String name, String type) {			
+			this.content = content;
+			this.name = name;
+			this.type = type;
+		}
 		
 		public byte[] getContent() {
 			return content;
