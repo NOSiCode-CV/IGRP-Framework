@@ -1284,10 +1284,24 @@ public final class Core {
 	public static String getFullUrl(String partial) {
 		return new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + "" + partial;
 	}
-
+		/**
+		 * 
+		 * @param contraProva - code of proof of the document report
+		 * @return link with hostname to see the document report
+		 */
 	public static String getLinkContraProva(String contraProva) {
 		return new Report().getLinkContraProva(contraProva);
-	}
+	}	
+	/**
+	 * 
+	 * @param contraProva - code of proof of the document report
+	 * @param appCodeDAD - code of the application (dad)
+	 * @param pdfToDownload - if you want a preview or direct download. Default is false
+	 * @return link with hostname to see the document report
+	 */
+	public static String getLinkContraProvaPDF(String contraProva,String appCodeDAD,Boolean pdfToDownload ) {
+		return new Report().getLinkContraProva(contraProva,appCodeDAD, true,pdfToDownload);
+		}		
 
 	/**
 	 * {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
@@ -1299,7 +1313,7 @@ public final class Core {
 		Object v = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameter(name) : null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, true);
-		return v != null ? v + "" : "";
+		return (v != null && !v.equals("null")) ? v+"" : "";
 	}
 
 	/**
@@ -1313,7 +1327,7 @@ public final class Core {
 		Object v = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameter(name) : null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, isRemoved);
-		return v != null ? v.toString() : "";
+		return v != null && !v.equals("null")? v.toString() : "";
 	}
 
 	/**
