@@ -62,8 +62,8 @@ $.fn.separatorList = function(o){
 				sle      = sle ? JSON.parse(sle.replace(/'/g, '"')) : {};
 
 				return {
-					rowIndex : sle.indexRow ? sle.indexRow*1 : $(sl).attr('row-index') ? $(sl).attr('row-index')*1 : '',
-					rowId 	 : sle.rowId ? sle.rowId*1 : $(sl).attr('row-id') ? $(sl).attr('row-id') : '',
+					rowIndex : sle.indexRow ? sle.indexRow : $(sl).attr('row-index') ? $(sl).attr('row-index') : '',
+					rowId 	 : sle.rowId ? sle.rowId : $(sl).attr('row-id') ? $(sl).attr('row-id') : '',
 					action   : sle.action ? sle.action : $(sl).attr('row-action') ? $(sl).attr('row-action') : ''
 				};
 			},
