@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -228,7 +230,7 @@ public class WebReportController extends Controller {
 			String []value_array = Core.getParamArray("value_array");
 			RepTemplate rt = new RepTemplate();
 			rt = rt.findOne(id);
-			String genXml = genRenderXml(rt, type.equals("2")?"1":type, contraProva, name_array, value_array);	
+			String genXml = genRenderXml(rt, type, contraProva, name_array, value_array);	
 			
 			if(type.equals("2"))
 				return new Report().processPDF(System.currentTimeMillis()+"_"+rt.getName(),rt.getXsl_content(), genXml,"false");
@@ -288,19 +290,10 @@ public class WebReportController extends Controller {
 		String toDownload = Core.getParam("todownld");
 		
 		contraprova=Core.decryptPublicPage(contraprova);
-		RepInstance ri = new RepInstance().find().where("contra_prova", "=",contraprova).andWhere("application.dad", "=",dad).orderByDesc("id").one();
-		String content = "";
-		if(ri!=null && ri.getTemplate()!=null && !ri.hasError()){			
-			if(outInPDF.equals("true")) {
-				return new Report().processPDF(ri.getXsl_content().getName().replace(".xsl",""),ri.getXsl_content(), new String(ri.getXml_content().getC_lob_content()),toDownload);				
-			}else {
-				content = new String(ri.getXml_content().getC_lob_content());
-				return this.renderView(content);
-			}
-			
-		}
-		return this.redirect("igrp", "ErrorPage", "exception");
+		return new Report().processRepContraProva(contraprova, dad, outInPDF, toDownload);
 	}
+
+	
 	
 	public Response actionSaveEditTemplate(){
 	
@@ -493,8 +486,8 @@ public class WebReportController extends Controller {
 			Integer user_id = Core.getCurrentUser().getId();			
 			user = user.findOne(user_id);
 		}		
-		String content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replace("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contraProva, rt,user);
-		if(type==1){
+		String content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replace("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contraProva, rt,user,type);
+		if(type==1 || type==2){
 //			Saves in the clob a report generated in this moment
 			RepInstance ri = new RepInstance();
 			ri.setContra_prova(contraProva);
@@ -507,7 +500,7 @@ public class WebReportController extends Controller {
 			xsl = xsl.insert();
 			
 			if(xsl!=null){
-				content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replace("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+xsl.getId(), contraProva, rt,user);
+				content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replace("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+xsl.getId(), contraProva, rt,user,type);
 				CLob xml = new CLob(System.currentTimeMillis()+"_"+rt.getName()+".xml", "application/xml", content.getBytes(), ri.getDt_created(),rt.getApplication());
 				xml = xml.insert();
 				ri.setXml_content(xml);
@@ -518,12 +511,15 @@ public class WebReportController extends Controller {
 		return content;
 	}
 	
-	private String getReport(String contentXml,String xslPath,String contra_prova,RepTemplate rt,User user){
+	private String getReport(String contentXml,String xslPath,String contra_prova,RepTemplate rt,User user, int type){
 		XMLWritter xmlW = new XMLWritter("rows", xslPath, "");
 		xmlW.startElement("print_report");
 			xmlW.setElement("name_app",rt.getApplication().getDad());
 			xmlW.setElement("img_app",rt.getApplication().getImg_src());
-			xmlW.setElement("link_qrcode",Core.getLinkContraProva(contra_prova));
+			if(type==2)
+				xmlW.setElement("link_qrcode",Core.getLinkContraProvaPDF(contra_prova,rt.getApplication().getDad(),false));
+			else
+				xmlW.setElement("link_qrcode",Core.getLinkContraProva(contra_prova));
 			xmlW.setElement("img_brasao", "brasao.png");
 			xmlW.emptyTag("name_brasao");
 			xmlW.setElement("data_print",new Date(System.currentTimeMillis()).toString());
@@ -615,8 +611,7 @@ public class WebReportController extends Controller {
 		if(Core.isNotNull(fileName)) {
 			String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
 			// String url2 = Path.getImageServer((Core.isNull(env)?"":env+File.separator)+"reports")+File.separator+fileName;		
-			String url =  baseUrl.replace("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/"+(Core.isNull(env)?"":env+"/")+"reports/"+fileName;
-			// TODO:  caso nao nada na pasta procurar normal porque pode ser que foi colocado 
+			String url =  baseUrl.replace("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/"+(Core.isNull(env)?"":env+"/")+"reports/"+fileName;			
 			return this.redirectToUrl(url);
 		}
 		resp.setContent(FlashMessage.MSG_ERROR);	

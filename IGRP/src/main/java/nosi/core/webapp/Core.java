@@ -50,6 +50,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
+import javax.xml.transform.TransformerFactoryConfigurationError;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -1302,6 +1303,10 @@ public final class Core {
 	public static String getLinkContraProvaPDF(String contraProva,String appCodeDAD,Boolean pdfToDownload ) {
 		return new Report().getLinkContraProva(contraProva,appCodeDAD, true,pdfToDownload);
 		}		
+	
+	public static Response getRepContraProvaPDF(String contraProva,String appCodeDAD,Boolean pdfToDownload) throws TransformerFactoryConfigurationError, IOException {
+		return new Report().getRepContraProvaPDF(contraProva, appCodeDAD, pdfToDownload);
+	}
 
 	/**
 	 * {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
@@ -1941,8 +1946,8 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset
-	 * @param mimetype
+	 * @param charset  UTF-8,
+	 * @param mimetype text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @return
@@ -1960,8 +1965,8 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset
-	 * @param mimetype
+	 * @param charset  UTF-8,
+	 * @param mimetype text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @return
@@ -1978,8 +1983,8 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset
-	 * @param mimetype
+	 * @param charset  UTF-8,
+	 * @param mimetype text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @param multiplerecepients
@@ -2015,8 +2020,8 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset
-	 * @param mimetype
+	 * @param charset  UTF-8,
+	 * @param mimetype text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @param multiplerecepients
@@ -2052,8 +2057,8 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset
-	 * @param mimetype
+	 * @param charset  UTF-8,
+	 * @param mimetype text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @param customConfig
@@ -2087,8 +2092,8 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset
-	 * @param mimetype
+	 * @param charset  UTF-8,
+	 * @param mimetype text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @param customConfig
