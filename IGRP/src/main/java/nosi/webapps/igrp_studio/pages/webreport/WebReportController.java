@@ -1,6 +1,15 @@
 package nosi.webapps.igrp_studio.pages.webreport;
 
-import java.io.IOException;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
+
 import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -8,21 +17,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.gui.page.Page;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Report;
-import nosi.core.webapp.Response;
 import nosi.core.webapp.bpmn.BPMNConstants;
-import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
 import nosi.core.webapp.datasource.helpers.DataSourceParam;
 import nosi.core.webapp.datasource.helpers.Parameters;
@@ -40,18 +42,20 @@ import nosi.webapps.igrp.dao.RepTemplateSource;
 import nosi.webapps.igrp.dao.RepTemplateSourceParam;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.pages.datasource.DataSourceController;
+
+/*----#end-code----*/
 		
-public class WebReportController extends Controller { 
-	
+public class WebReportController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		WebReport model = new WebReport();
 		model.load();
 		model.setLink_add_source("igrp_studio","WebReport","index");
+		 //model.setLink_upload_img(this.getConfig().getResolveUrl("igrp","file","save-image-txt&p_page_name="+Core.getCurrentPage()));
 		WebReportView view = new WebReportView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadGen_table(Core.query(null,"SELECT 'Doloremque aliqua ut doloremqu' as title,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/webreport/WebReport.xml' as link,'Deserunt sit laudantium accusa' as descricao,'13' as id "));
+		model.loadGen_table(Core.query(null,"SELECT 'Perspiciatis sit unde adipisci' as title,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/webreport/WebReport.xml' as link,'Officia sit labore voluptatem' as descricao,'6' as id "));
 		view.chart_1.loadQuery(Core.query(null,"SELECT 'X1' as EixoX, 'Y1' as EixoY, 15 as EixoZ"
                                       +" UNION SELECT 'X2' as EixoX, 'Y2' as EixoY, 10 as EixoZ"
                                       +" UNION SELECT 'X2' as EixoX, 'Y2' as EixoY, 23 as EixoZ"
@@ -59,6 +63,7 @@ public class WebReportController extends Controller {
 		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.datasorce_app.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
  		model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=report"));
  		
@@ -110,6 +115,7 @@ public class WebReportController extends Controller {
 		  return this.forward("igrp_studio","WebReport","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gravar)  *//* End-Code-Block  */
 		/*----#start-code(gravar)----*/
 		try{
 			Part fileXsl = Core.getFile("p_xslreport");
@@ -220,6 +226,7 @@ public class WebReportController extends Controller {
 		  return this.forward("igrp_studio","WebReport","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (preview)  *//* End-Code-Block  */
 		/*----#start-code(preview)----*/
 		Integer id = Core.getParamInt("p_rep_id");
 		String type = Core.getParam("p_type");// se for 0 - preview, se for 1 - registar ocorencia , 2 - retornar PDF
@@ -242,11 +249,38 @@ public class WebReportController extends Controller {
 		/*----#end-code----*/
 			
 	}
-
 	
-	
+	public Response actionPreview_pdf() throws IOException, IllegalArgumentException, IllegalAccessException{
+		WebReport model = new WebReport();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp_studio","ListaEnv","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/* Start-Code-Block (preview_pdf)  *//* End-Code-Block  */
+		/*----#start-code(preview_pdf)----*/
+		Integer id = Core.getParamInt("p_rep_id");
+		String type = "3";// se for 0 - preview, se for 1 - registar ocorencia , 2 - retornar PDF, 3 - preview PDF with no save
 		
+		String contraProva= Core.getParam("ctpr");		
+		if(Core.isNotNull(id)){
+			String []name_array = Core.getParamArray("name_array");
+			String []value_array = Core.getParamArray("value_array");
+			RepTemplate rt = new RepTemplate();
+			rt = rt.findOne(id);
+			String genXml = genRenderXml(rt, type, contraProva, name_array, value_array);				
 		
+			return new Report().processPDF(System.currentTimeMillis()+"_"+rt.getName(),rt.getXsl_content(), genXml,"false");
+		}
+		return this.redirect("igrp", "ErrorPage", "exception");
+		
+		/*----#end-code----*/
+			
+	}
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/	
 	
 	
@@ -516,7 +550,7 @@ public class WebReportController extends Controller {
 		xmlW.startElement("print_report");
 			xmlW.setElement("name_app",rt.getApplication().getDad());
 			xmlW.setElement("img_app",rt.getApplication().getImg_src());
-			if(type==2)
+			if(type==2 || type==3)
 				xmlW.setElement("link_qrcode",Core.getLinkContraProvaPDF(contra_prova,rt.getApplication().getDad(),false));
 			else
 				xmlW.setElement("link_qrcode",Core.getLinkContraProva(contra_prova));
