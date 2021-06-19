@@ -42,21 +42,26 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Report extends Controller{
 
+	public final static String XSLXML_PRV = "0" ;
+	public final static String XSLXML_SAVE = "1" ;
+	public final static String PDF_PRV = "2"; //PDF Preview
+	public final static String PDF_SAVE = "3"; //PDF Save to Clob
+	
 	private Map<String,Object> params = new HashMap<>();
 	private String qs = "";
 	private String link;
 	private String contraProva;	
 
 	public Response invokeReport(String code_report,Report rep){
-		return invokeReport(code_report,rep,"1");
+		return invokeReport(code_report,rep,XSLXML_SAVE);
 	}	
 	public Response invokeReportPDF(String code_report,Report rep){		
-		return invokeReport(code_report,rep,"2");		
+		return invokeReport(code_report,rep,PDF_SAVE);		
 	}
 	@SuppressWarnings("unchecked")
 	public Response invokeReport(String code_report,Report rep,String type){
 		
-	qs+="&p_type="+type; // se for 0 - preview, se for 1 - registar ocorencia , 2 - retornar PDF
+	qs+="&p_type="+type; // se for 0 - preview, se for 1 - registar ocorencia ,2-retornar PDF preview 3 - retornar PDF e save clob
 	RepTemplate rt = new RepTemplate().find().andWhere("code", "=", code_report).one();
 	qs+="&p_rep_id="+rt.getId();
 	String contra_prova=rep.getContraProva();
@@ -102,7 +107,7 @@ public class Report extends Controller{
 		if(isPublic) 
 			Core.setAttribute("isPublic", "1"); 	
 		
-		rep.setLink(Route.getResolveUrl("igrp_studio", "WebReport", "preview&ctpr="+Core.encrypt(contra_prova)+"&p_rep_id="+rt.getId()+"&p_type=1")); 
+		rep.setLink(Route.getResolveUrl("igrp_studio", "WebReport", "preview&ctpr="+Core.encrypt(contra_prova)+"&p_rep_id="+rt.getId()+"&p_type="+XSLXML_SAVE)); 
 		rep.setContraProva(contra_prova);
 		return rep;
 	}
@@ -131,7 +136,7 @@ public class Report extends Controller{
 		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", code_report).one();
 		String contra_prova = Report.generateContraProva("nosi.webapps."+rt.getApplication().getDad().toLowerCase());
 		
-		rep.setLink(Route.getResolveUrl("igrp_studio", "WebReport", "preview&ctpr="+Core.encrypt(contra_prova)+"&p_rep_id="+rt.getId()+"&p_type=1")); 
+		rep.setLink(Route.getResolveUrl("igrp_studio", "WebReport", "preview&ctpr="+Core.encrypt(contra_prova)+"&p_rep_id="+rt.getId()+"&p_type="+XSLXML_SAVE)); 
 		if(queryString!=null) {
 			queryString.getQueryString().entrySet().stream().forEach(q->
 				rep.addParam(q.getKey(), q.getValue().get(0))
@@ -142,16 +147,16 @@ public class Report extends Controller{
 	}
 	
 	public String getLinkContraProva(String contraProva) {		
-		return getLinkContraProva(contraProva,null, false,null);
+		return getLinkContraProva(contraProva,null, XSLXML_SAVE,null);
 	}
 	
-	public String getLinkContraProva(String contraProva,String appCodeDAD, Boolean outPDF,Boolean pdfToDownload) {
+	public String getLinkContraProva(String contraProva,String appCodeDAD, String outType,Boolean pdfToDownload) {
 		contraProva=Core.encryptPublicPage(contraProva);
 		StringBuilder qs = new StringBuilder("&ctprov="+contraProva);
 		if(Core.isNotNull(appCodeDAD))
 			qs.append("&codad="+appCodeDAD);
-		if(Boolean.TRUE.equals(outPDF)) {
-			qs.append("&outpdf="+outPDF);
+		if(outType.equals(PDF_PRV)) {
+			qs.append("&outtype="+PDF_PRV);
 			if(Core.isNotNull(pdfToDownload))
 				qs.append("&todownld="+pdfToDownload);
 		}		
@@ -159,7 +164,7 @@ public class Report extends Controller{
 	}
 	
 	public Response getRepContraProvaPDF(String contraProva,String appCodeDAD,Boolean pdfToDownload) throws TransformerFactoryConfigurationError, IOException {
-		return processRepContraProva(contraProva, appCodeDAD, "true", pdfToDownload+"");
+		return processRepContraProva(contraProva, appCodeDAD, PDF_PRV, pdfToDownload+"");
 	}
 
 	public static String generateContraProva(String packageFind) {
@@ -349,20 +354,22 @@ public class Report extends Controller{
 	/**
 	 * @param contraprova
 	 * @param dad
-	 * @param outInPDF
+	 * @param outType PDF_SAVE, XSLXML_SAVE
 	 * @param toDownload
 	 * @return
 	 * @throws TransformerFactoryConfigurationError
 	 * @throws IOException
 	 */
-	public Response processRepContraProva(String contraprova, String dad, String outInPDF, String toDownload)
+	public Response processRepContraProva(String contraprova, String dad, String outType, String toDownload)
 			throws TransformerFactoryConfigurationError, IOException {
 		RepInstance ri = new RepInstance().find().where("contra_prova", "=",contraprova).andWhere("application.dad", "=",dad).orderByDesc("id").one();
 		String content = "";
 		if(ri!=null && ri.getTemplate()!=null && !ri.hasError()){			
-			if(outInPDF.equals("true")) {
-				return new Report().processPDF(ri.getXsl_content().getName().replace(".xsl",""),ri.getXsl_content(), new String(ri.getXml_content().getC_lob_content()),toDownload);				
-			}else {
+			switch (outType) {
+			case PDF_PRV:
+			case PDF_SAVE:
+				return new Report().processPDF(ri.getXsl_content().getName().replace(".xsl",""),ri.getXsl_content(), new String(ri.getXml_content().getC_lob_content()),toDownload);
+			default:
 				content = new String(ri.getXml_content().getC_lob_content());
 				return this.renderView(content);
 			}

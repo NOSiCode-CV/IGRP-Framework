@@ -1301,7 +1301,7 @@ public final class Core {
 	 * @return link with hostname to see the document report
 	 */
 	public static String getLinkContraProvaPDF(String contraProva,String appCodeDAD,Boolean pdfToDownload ) {
-		return new Report().getLinkContraProva(contraProva,appCodeDAD, true,pdfToDownload);
+		return new Report().getLinkContraProva(contraProva,appCodeDAD, Report.PDF_PRV,pdfToDownload);
 		}		
 	
 	public static Response getRepContraProvaPDF(String contraProva,String appCodeDAD,Boolean pdfToDownload) throws TransformerFactoryConfigurationError, IOException {

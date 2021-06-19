@@ -20,10 +20,10 @@ import javax.servlet.http.Part;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.config.ConfigDBIGRP;
+import nosi.core.webapp.Report;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Report;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
 import nosi.core.webapp.datasource.helpers.DataSourceParam;
@@ -228,9 +228,9 @@ public class WebReportController extends Controller {
 		  ----#gen-example */
 		/* Start-Code-Block (preview)  *//* End-Code-Block  */
 		/*----#start-code(preview)----*/
-		Integer id = Core.getParamInt("p_rep_id");
-		String type = Core.getParam("p_type");// se for 0 - preview, se for 1 - registar ocorencia , 2 - retornar PDF
 		
+		String type = Core.getParam("p_type");// se for 0 - preview, se for 1 - registar ocorencia , 3 - retornar PDF e gravar
+		Integer id = Core.getParamInt("p_rep_id");
 		String contraProva= Core.getParam("ctpr");		
 		if(Core.isNotNull(id)){
 			String []name_array = Core.getParamArray("name_array");
@@ -239,7 +239,7 @@ public class WebReportController extends Controller {
 			rt = rt.findOne(id);
 			String genXml = genRenderXml(rt, type, contraProva, name_array, value_array);	
 			
-			if(type.equals("2"))
+			if(type.equals(Report.PDF_SAVE))
 				return new Report().processPDF(System.currentTimeMillis()+"_"+rt.getName(),rt.getXsl_content(), genXml,"false");
 			
 			this.format = Response.FORMAT_XML;			
@@ -262,9 +262,9 @@ public class WebReportController extends Controller {
 		  ----#gen-example */
 		/* Start-Code-Block (preview_pdf)  *//* End-Code-Block  */
 		/*----#start-code(preview_pdf)----*/
-		Integer id = Core.getParamInt("p_rep_id");
-		String type = "3";// se for 0 - preview, se for 1 - registar ocorencia , 2 - retornar PDF, 3 - preview PDF with no save
 		
+		String type = Report.PDF_PRV;// se for 0 - preview, se for 1 - registar ocorencia , 2 - retornar PDF, 3 - preview PDF with no save
+		Integer id = Core.getParamInt("p_rep_id");
 		String contraProva= Core.getParam("ctpr");		
 		if(Core.isNotNull(id)){
 			String []name_array = Core.getParamArray("name_array");
@@ -313,18 +313,18 @@ public class WebReportController extends Controller {
 				for(int i = 0; i < allRepTemplateSourceTask.size(); i++) 
 					xml.append(this.getDataForTask(allRepTemplateSourceTask.get(i), allTasksId[i])); 
 		}	
-		final String genXml = this.genXml(xml.toString(),rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0,contraProva);
-		return genXml;
+		
+		return this.genXml(xml.toString(),rt,type,contraProva);
 	}
 	
 	public Response actionGetContraprova() throws IOException{
 		String contraprova = Core.getParam("ctprov");
 		String dad = Core.getParam("codad");
-		String outInPDF = Core.getParam("outpdf");
+		String outtype = Core.getParam("outtype");
 		String toDownload = Core.getParam("todownld");
 		
 		contraprova=Core.decryptPublicPage(contraprova);
-		return new Report().processRepContraProva(contraprova, dad, outInPDF, toDownload);
+		return new Report().processRepContraProva(contraprova, dad, outtype, toDownload);
 	}
 
 	
@@ -381,7 +381,7 @@ public class WebReportController extends Controller {
 		this.removeQueryString("value_array");		
 		
 		if(rt!=null)
-			return this.redirect("igrp_studio", "WebReport", "preview&p_rep_id="+rt.getId()+"&p_type=1"+params.toString(),this.queryString());
+			return this.redirect("igrp_studio", "WebReport", "preview&p_rep_id="+rt.getId()+"&p_type="+Report.XSLXML_SAVE+params.toString(),this.queryString());
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 	
@@ -507,7 +507,7 @@ public class WebReportController extends Controller {
 	/*Gen final XML for Web Report
 	 * 
 	 */
-	private String genXml(String contentXml,RepTemplate rt,int type, String contraProva){
+	private String genXml(String contentXml,RepTemplate rt,String type, String contraProva){
 		Core.setAttribute("current_app_conn", rt.getApplication().getDad());
 		String packageFind = "nosi.webapps."+rt.getApplication().getDad().toLowerCase();
 		if(Core.isNull(contraProva))
@@ -521,7 +521,7 @@ public class WebReportController extends Controller {
 			user = user.findOne(user_id);
 		}		
 		String content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replace("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contraProva, rt,user,type);
-		if(type==1 || type==2){
+		if(type.equals(Report.XSLXML_SAVE) || type.equals(Report.PDF_SAVE)){
 //			Saves in the clob a report generated in this moment
 			RepInstance ri = new RepInstance();
 			ri.setContra_prova(contraProva);
@@ -545,15 +545,20 @@ public class WebReportController extends Controller {
 		return content;
 	}
 	
-	private String getReport(String contentXml,String xslPath,String contra_prova,RepTemplate rt,User user, int type){
+	private String getReport(String contentXml,String xslPath,String contra_prova,RepTemplate rt,User user, String type){
 		XMLWritter xmlW = new XMLWritter("rows", xslPath, "");
 		xmlW.startElement("print_report");
 			xmlW.setElement("name_app",rt.getApplication().getDad());
 			xmlW.setElement("img_app",rt.getApplication().getImg_src());
-			if(type==2 || type==3)
+			switch (type) {
+			case Report.PDF_PRV:
+			case Report.PDF_SAVE:
 				xmlW.setElement("link_qrcode",Core.getLinkContraProvaPDF(contra_prova,rt.getApplication().getDad(),false));
-			else
+				break;
+			default:
 				xmlW.setElement("link_qrcode",Core.getLinkContraProva(contra_prova));
+				break;
+			}
 			xmlW.setElement("img_brasao", "brasao.png");
 			xmlW.emptyTag("name_brasao");
 			xmlW.setElement("data_print",new Date(System.currentTimeMillis()).toString());
