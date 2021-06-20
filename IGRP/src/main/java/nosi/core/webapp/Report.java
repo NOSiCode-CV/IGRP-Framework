@@ -30,8 +30,8 @@ import nosi.core.webapp.helpers.TransformHelper;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.RepInstance;
 import nosi.webapps.igrp.dao.RepTemplate;
-import nosi.webapps.igrp.pages.file.File;
 import org.apache.commons.lang3.StringUtils;
+
 
 /**
  * 
@@ -154,11 +154,11 @@ public class Report extends Controller{
 		contraProva=Core.encryptPublicPage(contraProva);
 		StringBuilder qs = new StringBuilder("&ctprov="+contraProva);
 		if(Core.isNotNull(appCodeDAD))
-			qs.append("&codad="+appCodeDAD);
+			qs.append("&cdad="+appCodeDAD);
 		if(outType.equals(PDF_PRV)) {
-			qs.append("&outtype="+PDF_PRV);
-			if(Core.isNotNull(pdfToDownload))
-				qs.append("&todownld="+pdfToDownload);
+			qs.append("&out="+PDF_PRV);
+			if(Core.isNotNull(pdfToDownload) && pdfToDownload)
+				qs.append("&todwn="+pdfToDownload);
 		}		
 		return Core.getHostName()+"?r=igrp_studio/web-report/get-contraprova"+qs;
 	}
@@ -318,34 +318,46 @@ public class Report extends Controller{
 			if (styleD != null)
 				doc.getElementsByTag("head").append(styleD + "");
 
-			content.attr("style", "padding: 10mm 0mm");
 			Elements qrcode = content.select("div.containerQrcode").tagName("object").attr("type", "image/barcode")
 					.attr("style", "width:100px;height:100px;");
 			qrcode.attr("value", Core.isNotNull(qrcode.attr("url")) ? qrcode.attr("url") : "Nothing/Nada");
 			qrcode.removeAttr("url");
+			
+			if (styleD != null) {
+				// System.out.print("style \n"+styleD+"\n");
+				styleD.remove();
+			}
 		}
 
 		Element footer = doc.getElementById("footer");
 		if (footer != null) {
-			footer.attr("style", "" + "  bottom: 0;" + "  background-color: #267199;");
+
 			// footer.getElementsByClass("holder-footer").attr("style", "width: 100%;"+
 			// "background-color: #ccc;"+ "display: block;"+ "height: 55px;");
-
-			footer.getElementsByClass("containerQrcode")
-
-			// .append("<object
-			// value=\"http://localhost:8080/IGRP-Template/app/webapps?r=igrp_studio/web-report/get-contraprova&amp;ctprov=L6ReshXo2HDpvDfyuWwE8Q==\"
-			// url=\"\" type=\"image/barcode\"
-			// style=\"width:100px;height:100px;margin:0;padding:0;\" ></object>\n")
-			;
+					
 //			   footer.getElementsByClass("rfooter").attr("style", ""+ "float: left;"+ "    padding: 60px 10px 0 10px;");
+			
 
+			;
+		// source : https://jsoup.org/apidocs/org/jsoup/select/Selector.html
+			Elements scriptVar = doc.select("script");
+			scriptVar.forEach(s -> {
+				if(s.html().startsWith("var qrcodeResult =") ) {
+					//String qrlink= "http://localhost:8080/IGRP-Template/app/webapps?r=igrp_studio/web-report/get-contraprova&amp;ctprov=L6ReshXo2HDpvDfyuWwE8Q==&amp;ctprov=L6ReshXo2HDpvDfyuWwE8Q==&amp;ctprov=L6ReshXo2HDpvDfyuWwE8Q==";
+					
+					//  String qrlink= "http://localhost:8080/IGRP/app/webapps?r=igrp_studio/web-report/get-contraprova&amp;ctprov=yPvRcKFwgysYRwhNYnSrim3AdvGDE1PRP6l2bJNjfLktnjnY3OjvNiLb6UnRqjlk&amp;codad=cv_investement_forum&amp;ctprov=fdddsadsadds==";
+						String qrlink= StringUtils.substringBetween(s.html(), "var qrcodeResult = '", "';"); 
+					//System.out.println("s.hrml "+qrlink);
+					doc.select("div.containerQrcode").attr("style", "background-color: #267199; ").append("<object value=\""+qrlink+"\" url=\"\" type=\"image/barcode\"style=\"width:100px;height:100px;padding:0px; margin:0px;\" ></object>\n")
+					;
+				return;
+				}
+					
+				
+			});
 		}
 //		  	
-		if (styleD != null) {
-			// System.out.print("style \n"+styleD+"\n");
-			styleD.remove();
-		}
+		
 
 		final Document fromJsoup = new W3CDom().fromJsoup(doc);
 		 System.out.println("parsing done ..." + doc+"");

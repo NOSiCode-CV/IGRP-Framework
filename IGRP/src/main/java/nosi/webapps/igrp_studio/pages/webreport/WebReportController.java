@@ -319,9 +319,9 @@ public class WebReportController extends Controller {
 	
 	public Response actionGetContraprova() throws IOException{
 		String contraprova = Core.getParam("ctprov");
-		String dad = Core.getParam("codad");
-		String outtype = Core.getParam("outtype");
-		String toDownload = Core.getParam("todownld");
+		String dad = Core.getParam("cdad");
+		String outtype = Core.getParam("out");
+		String toDownload = Core.getParam("todwn");
 		
 		contraprova=Core.decryptPublicPage(contraprova);
 		return new Report().processRepContraProva(contraprova, dad, outtype, toDownload);
