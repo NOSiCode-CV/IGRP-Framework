@@ -1,25 +1,19 @@
 package nosi.webapps.igrp_studio.pages.webreport;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import nosi.core.gui.components.IGRPChart3D;
 import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.Report;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import java.util.ArrayList;
+import java.util.List;
+import nosi.core.gui.components.IGRPChart3D;
 
 public class WebReport extends Model{		
 
 	@RParam(rParamName = "p_page_title_text")
 	private String page_title_text;
-
-	@RParam(rParamName = "p_documento")
-	private IGRPLink documento;
-	@RParam(rParamName = "p_documento_desc")
-	private String documento_desc;
 
 	@RParam(rParamName = "p_reports")
 	private String reports;
@@ -61,12 +55,12 @@ public class WebReport extends Model{
 
 	@RParam(rParamName = "p_link_config")
 	private String link_config;
-	
-	@RParam(rParamName = "p_link_doc")
-	private String link_doc;
 
 	@RParam(rParamName = "p_link_upload_img")
 	private String link_upload_img;
+
+	@RParam(rParamName = "p_link_doc")
+	private String link_doc;
 	
 	private List<Gen_table> gen_table = new ArrayList<>();	
 	public void setGen_table(List<Gen_table> gen_table){
@@ -91,28 +85,6 @@ public class WebReport extends Model{
 	}
 	public String getPage_title_text(){
 		return this.page_title_text;
-	}
-	
-	public IGRPLink setDocumento(String app,String page,String action){
-		this.documento = new IGRPLink(app,page,action);
-		return this.documento;
-	}
-	public IGRPLink getDocumento(){
-		return this.documento;
-	}
-	public void setDocumento_desc(String documento_desc){
-		this.documento_desc = documento_desc;
-	}
-	public String getDocumento_desc(){
-		return this.documento_desc;
-	}
-	public IGRPLink setDocumento(String link){
-		this.documento = new IGRPLink(link);
-		return this.documento;
-	}
-	public IGRPLink setDocumento(Report link){
-		this.documento = new IGRPLink(link);
-		return this.documento;
 	}
 	
 	public void setReports(String reports){
@@ -200,14 +172,6 @@ public class WebReport extends Model{
 		return this.title_report;
 	}
 	
-	public String getLink_doc() {
-		return link_doc;
-	}
-	public void setLink_doc(String link_doc) {
-		this.link_doc = link_doc;
-	}
-
-	
 	public void setLink_source(String link_source){
 		this.link_source = link_source;
 	}
@@ -234,6 +198,13 @@ public class WebReport extends Model{
 	}
 	public String getLink_upload_img(){
 		return this.link_upload_img;
+	}
+	
+	public void setLink_doc(String link_doc){
+		this.link_doc = link_doc;
+	}
+	public String getLink_doc(){
+		return this.link_doc;
 	}
 
 

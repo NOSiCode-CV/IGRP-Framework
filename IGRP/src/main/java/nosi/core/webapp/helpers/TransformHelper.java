@@ -91,7 +91,7 @@ public class TransformHelper {
 			//try (OutputStream os = new FileOutputStream(outputPdf)) {
 
 				//builder.withUri(outputPdf);
-				//builderP.useFastMode();	 
+				builderP.useFastMode();	 
 				builderP.withW3cDocument(doc, baseUri);
 				//builderP.withHtmlContent(result.getWriter().toString(), baseUri4);
 				builderP.toStream(actual);			

@@ -1,198 +1,206 @@
 body {
-  -webkit-print-color-adjust: exact;
-  /*background: rgb(204,204,204);*/
-  background:#525659;
-  text-align: justify;
+    -webkit-print-color-adjust: exact;
+    /*background: rgb(204,204,204);*/
+    background: #525659;
+    text-align: justify;
 }
 
-*{
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
 }
 
-div[size="A3"]{
-  width: 297mm;
-  min-height: 420mm;
+div[size="A3"] {
+    width: 297mm;
+    min-height: 420mm;
 }
-div[size="A3L"]{
-  width: 420mm;
-  min-height:297mm;
+
+div[size="A3L"] {
+    width: 420mm;
+    min-height: 297mm;
 }
+
 /*------------------------------------------*/
-div[size="A4"]{
-  width: 210mm; 
-  min-height: 297mm;
+div[size="A4"] {
+    width: 210mm;
+    min-height: 297mm;
 }
-div[size="A4L"]{
-  width: 297mm; 
-  min-height: 210mm;
+
+div[size="A4L"] {
+    width: 297mm;
+    min-height: 210mm;
 }
+
 /*------------------------------------------*/
-div[size="A5"]{
-  width: 148mm;
-  min-height: 210mm; 
+div[size="A5"] {
+    width: 148mm;
+    min-height: 210mm;
 }
-div[size="A5L"]{
-  width: 210mm;
-  min-height:148mm; 
+
+div[size="A5L"] {
+    width: 210mm;
+    min-height: 148mm;
 }
+
 /*------------------------------------------*/
-div[size="A6"]{
-  width: 105mm;
-  min-height: 148mm; 
+div[size="A6"] {
+    width: 105mm;
+    min-height: 148mm;
 }
-div[size="A6L"]{
-  width: 148mm;
-  min-height: 105mm; 
+
+div[size="A6L"] {
+    width: 148mm;
+    min-height: 105mm;
 }
+
 /*------------------------------------------*/
-div[size="A7"]{
-  width: 74mm;
-  min-height: 105mm; 
+div[size="A7"] {
+    width: 74mm;
+    min-height: 105mm;
 }
-div[size="A7L"]{
-  width: 105mm;
-  min-height: 74mm; 
+
+div[size="A7L"] {
+    width: 105mm;
+    min-height: 74mm;
 }
+
 /*--------------------------------------*/
-div[size] #footer{
-  width: 100%; 
+div[size] #footer {
+    width: 100%;
 }
 
-div[size] #footer .rfooter{
-  width:calc(100% - 135px); 
+div[size] #footer .rfooter {
+    width: calc(100% - 135px);
 }
 
-div[size] #footer .holder-footer{
-  width: 100%;
-  background-color: #fff;
-  display: block;
-  height: 55px;
+div[size] #footer .holder-footer {
+    width: 100%;
+    background-color: #fff;
+    display: block;
+    height: 55px;
 }
 
-.page{
-  background: white;
-  display: block;
-  margin: 5mm auto;
-  box-shadow:0 0 1mm rgba(0,0,0,0.5);
-  position: relative;
-  font-size: 12px;
-  font-family:"Times New Roman";
+.page {
+    background: white;
+    display: block;
+    margin: 5mm auto;
+    box-shadow: 0 0 1mm rgba(0,0,0,0.5);
+    position: relative;
+    font-size: 12px;
+    font-family: "Times New Roman";
 }
 
-body.isNotIE .page{
-  margin: 0 0 20px -8px;
+body.isNotIE .page {
+    margin: 0 0 20px -8px;
 }
 
-body.readypdf{
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
+body.readypdf {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
 }
 
-body.readypdf iframe{
-  width: 100%;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  outline: none;
-  border: none;
+body.readypdf iframe {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: none;
 }
 
-.page #header{
-  padding: 10px 20px;
+.page #header {
+    padding: 10px 20px;
 }
 
-.page #content{
-  padding: 20px 20px 130px 20px;
-  display: block;
-  margin-bottom: 10px;
+.page #content {
+    padding: 20px 20px 120px 20px;
+    display: block;
+    /* margin-bottom: 10px; */
 }
 
-.page[hasfooter="N"] #content{
-  padding: 20px;
+.page[hasfooter="N"] #content {
+    padding: 20px;
 }
 
-#footer{
-  position: absolute;
-  bottom: 0;
-  background-color: #267199;
+#footer {
+    position: absolute;
+    bottom: 0;
+    background-color: #267199;
 }
 
-.rfooter{
-  float: left;
-  padding: 60px 10px 0 10px;
+.rfooter {
+    float: left;
+    padding: 60px 10px 0 10px;
 }
 
-#containerQrcode, .containerQrcode{ 
-  padding:5px; 
-  width: 29mm;
-  background-color: #fff;
-  float: left;
-  margin-left: 15px;
-  /*margin-top: -43px;*/
+#containerQrcode, .containerQrcode {
+    padding: 5px;
+    width: 29mm;
+    background-color: #fff;
+    float: left;
+    margin-left: 15px;
+    /*margin-top: -43px;*/
 }
 
-.isNotIE #containerQrcode, 
-.isNotIE .containerQrcode{
-  margin-bottom:-12px !important;
+.isNotIE #containerQrcode, .isNotIE .containerQrcode {
+    margin-bottom: -12px !important;
 }
 
-.contraProva{
-  font-size: 14px;
+.contraProva {
+    font-size: 14px;
 }
 
-.contraProva .clabel{
-  text-transform:uppercase; 
-  text-align: left; 
-  color: #faf7f7;
-}
-.contraProva .val{
-  color: #000; 
-  font-size: 18px;
+.contraProva .clabel {
+    text-transform: uppercase;
+    text-align: left;
+    color: #faf7f7;
 }
 
-.userprint{
-  font-size: 11px; 
-  color: #faf7f7;
-  text-align: right;
+.contraProva .val {
+    color: #000;
+    font-size: 18px;
 }
 
-canvas{
-  border: none;
-  padding: 0;
-  margin: 0;
-  outline: 0;
-  line-height: 0;
+.userprint {
+    font-size: 11px;
+    color: #faf7f7;
+    text-align: right;
+  
 }
 
-table{
-  width: 100%;
-  border-top:1px solid #ddd;
-  border-right:1px solid #ddd;
-  border-spacing: 0;
+canvas {
+    border: none;
+    padding: 0;
+    margin: 0;
+    outline: 0;
+    line-height: 0;
+}
+
+table {
+    width: 100%;
+    border-top: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-spacing: 0;
 }
 
 table:not('.clean') tbody tr:nth-of-type(odd) {
     background-color: #fbfcfc;
 }
 
-table th, table td{
-  padding: 8px 5px;
-  vertical-align: middle;
-  border-bottom: 1px solid #ddd;
-  border-left: 1px solid #ddd;
-  border-spacing: 0;
-  width: auto;
-  word-break: break-all;
+table th, table td {
+    padding: 8px 5px;
+    vertical-align: middle;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-spacing: 0;
+    width: auto;
+    word-break: break-all;
 }
 
-table.clean, 
-table.clean thead tr th, 
-table.clean tbody tr td{
-  border:none;
+table.clean, table.clean thead tr th, table.clean tbody tr td {
+    border: none;
 }
-
 
 /*
 
@@ -227,118 +235,136 @@ div[size="A4"]:before{
 #footer{
   bottom: 1cm;
 }*/
-
-p{
-  line-height: 18px;
-  margin: 3px 0;
+p {
+    line-height: 18px;
+    margin: 3px 0;
 }
 
 @media print {
-  html, body {
-    -webkit-print-color-adjust:exact;
-    background: #fff; 
-    margin: 0;
-    padding: 0; 
-    font: 12px "Times New Roman";     
-  }
+    html, body {
+        -webkit-print-color-adjust: exact;
+        background: #fff;
+        margin: 0;
+        padding: 0;
+      
+    }
 
-  @top-left, @top-right, @top-center { display: none; }
-  @bottom-center, @bottom-left, @bottom-right { display: none; }
+/*     @top-left, @top-right, @top-center { */
+/*         display: none; */
+/*     } */
 
-  table{
-    width: 100%;
-  }
-  table thead, table tfoot, table tbody{
-    display: table-header-group;
-  }
+/*     @bottom-center, @bottom-left, @bottom-right { */
+/*         display: none; */
+/*     } */
 
-  .page{
-    background: white;
-    margin: 0;
-    padding: 0;
-    border: initial;
-    border-radius: initial;
-    box-shadow: 0 0 0 #fff;
-    background: initial;
-    font-size: 12px;
-    font-family:"Times New Roman";
-    page-break-after: always;
-  }
+    table {
+        width: 100%;
+    }
 
-  .page #header {
-    display: table-header-group\9;
-    padding:0;
-  }
+    table thead, table tfoot, table tbody {
+        display: table-header-group;
+    }
 
+    .page {
+     /*   background: white;
+      
+        font-size: 12px;
+        font-family: "Times New Roman";
+        page-break-after: always;
+        */
+        border: initial;
+        border-radius: initial;
+        box-shadow: 0 0 0 #fff;
+        background: initial;
+        margin: 0;
+        padding: 0;
+        
+    }
 
-  .page #content {
-    display: table-row-group\9;
-    margin-bottom:0;
-    padding:0;
-  }
+    .page #header {
+      
+       /* padding: 0;*/
+    }
 
+    .page #content {
+    
+         /*   margin-bottom:0;
+    padding:0;*/
+    }
 
-  .page footer {
-    display: table-footer-group\9;
-    height: 400px;
-    width: 420mm\9;
-  }
+    .page footer {
+       
+          break-before: page;
+        /*  height: 400px;
+        width: 420mm\9;*/
+    }
 
-  .page #footer{
-    position: fixed;
-    bottom: 0;
-    page-break-after:always;
-    page-break-inside:avoid;
-  }
+    .page #footer {       
+    	position:absolute;
+  		bottom: 0;
+        page-break-after: always;
+        page-break-inside: auto;
+    }
 
-  div[size="A3"] #content .holder{
-    width: 297mm\9;
-  }
-  div[size="A3L"] #content .holder{
-    width: 420mm\9;
-  }
-  /*------------------------------------------*/
-  div[size="A4"] #content .holder{
-    width: 210mm\9;
-  }
-  div[size="A4L"] #content .holder{
-    width: 297mm\9;
-  }
-  /*------------------------------------------*/
-  div[size="A5"] #content .holder{
-    width: 148mm\9; 
-  }
-  div[size="A5L"] #content .holder{
-    width: 210mm\9; 
-  }
-  /*------------------------------------------*/
-  div[size="A6"] #content .holder{
-    width: 105mm\9;
-  }
-  div[size="A6L"] #content .holder{
-    width: 148mm\9; 
-  }
-  /*------------------------------------------*/
-  div[size="A7"] #content .holder{
-    width: 74mm\9;
-  }
-  div[size="A7L"] #content .holder{
-    width: 105mm\9;
-  }
-  
+    /* div[size="A3"] #content .holder {
+        width: 297mm\9;
+    }
+
+    div[size="A3L"] #content .holder {
+        width: 420mm\9;
+    }
+
+    ------------------------------------------
+    div[size="A4"] #content .holder {
+        width: 210mm\9;
+    }
+
+    div[size="A4L"] #content .holder {
+        width: 297mm\9;
+    }
+
+    ------------------------------------------
+    div[size="A5"] #content .holder {
+        width: 148mm\9;
+    }
+
+    div[size="A5L"] #content .holder {
+        width: 210mm\9;
+    }
+
+    ------------------------------------------
+    div[size="A6"] #content .holder {
+        width: 105mm\9;
+    }
+
+    div[size="A6L"] #content .holder {
+        width: 148mm\9;
+    } 
+
+    /*------------------------------------------
+    div[size="A7"] #content .holder {
+        width: 74mm\9;
+    }
+
+    div[size="A7L"] #content .holder {
+        width: 105mm\9;
+    }
+    
+    */
   p{
   	line-height: 18px;
   	margin:0;
-}
+	}
+   
+    p a {
+        word-wrap: break-word;
+    }
 
-  p a {
-    word-wrap: break-word;
-  }
-  a:link:after, a:visited:after { 
-    content: "(" attr(href) ") ";
-  }
-  a:after, a[href^="javascript:"]:after, a[href^="#"]:after { 
-    content: ""; 
-  }
-}
+    a:link:after, a:visited:after {
+        content: "(" attr(href) ") ";
+    }
 
+    a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+        content: "";
+    }
+}

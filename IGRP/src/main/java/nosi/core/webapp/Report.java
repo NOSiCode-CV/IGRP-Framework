@@ -30,8 +30,8 @@ import nosi.core.webapp.helpers.TransformHelper;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.RepInstance;
 import nosi.webapps.igrp.dao.RepTemplate;
-import nosi.webapps.igrp.pages.file.File;
 import org.apache.commons.lang3.StringUtils;
+
 
 /**
  * 
@@ -42,21 +42,26 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Report extends Controller{
 
+	public final static String XSLXML_PRV = "0" ;
+	public final static String XSLXML_SAVE = "1" ;
+	public final static String PDF_PRV = "2"; //PDF Preview
+	public final static String PDF_SAVE = "3"; //PDF Save to Clob
+	
 	private Map<String,Object> params = new HashMap<>();
 	private String qs = "";
 	private String link;
 	private String contraProva;	
 
 	public Response invokeReport(String code_report,Report rep){
-		return invokeReport(code_report,rep,"1");
+		return invokeReport(code_report,rep,XSLXML_SAVE);
 	}	
 	public Response invokeReportPDF(String code_report,Report rep){		
-		return invokeReport(code_report,rep,"2");		
+		return invokeReport(code_report,rep,PDF_SAVE);		
 	}
 	@SuppressWarnings("unchecked")
 	public Response invokeReport(String code_report,Report rep,String type){
 		
-	qs+="&p_type="+type; // se for 0 - preview, se for 1 - registar ocorencia , 2 - retornar PDF
+	qs+="&p_type="+type; // se for 0 - preview, se for 1 - registar ocorencia ,2-retornar PDF preview 3 - retornar PDF e save clob
 	RepTemplate rt = new RepTemplate().find().andWhere("code", "=", code_report).one();
 	qs+="&p_rep_id="+rt.getId();
 	String contra_prova=rep.getContraProva();
@@ -102,7 +107,7 @@ public class Report extends Controller{
 		if(isPublic) 
 			Core.setAttribute("isPublic", "1"); 	
 		
-		rep.setLink(Route.getResolveUrl("igrp_studio", "WebReport", "preview&ctpr="+Core.encrypt(contra_prova)+"&p_rep_id="+rt.getId()+"&p_type=1")); 
+		rep.setLink(Route.getResolveUrl("igrp_studio", "WebReport", "preview&ctpr="+Core.encrypt(contra_prova)+"&p_rep_id="+rt.getId()+"&p_type="+XSLXML_SAVE)); 
 		rep.setContraProva(contra_prova);
 		return rep;
 	}
@@ -131,7 +136,7 @@ public class Report extends Controller{
 		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", code_report).one();
 		String contra_prova = Report.generateContraProva("nosi.webapps."+rt.getApplication().getDad().toLowerCase());
 		
-		rep.setLink(Route.getResolveUrl("igrp_studio", "WebReport", "preview&ctpr="+Core.encrypt(contra_prova)+"&p_rep_id="+rt.getId()+"&p_type=1")); 
+		rep.setLink(Route.getResolveUrl("igrp_studio", "WebReport", "preview&ctpr="+Core.encrypt(contra_prova)+"&p_rep_id="+rt.getId()+"&p_type="+XSLXML_SAVE)); 
 		if(queryString!=null) {
 			queryString.getQueryString().entrySet().stream().forEach(q->
 				rep.addParam(q.getKey(), q.getValue().get(0))
@@ -142,24 +147,24 @@ public class Report extends Controller{
 	}
 	
 	public String getLinkContraProva(String contraProva) {		
-		return getLinkContraProva(contraProva,null, false,null);
+		return getLinkContraProva(contraProva,null, XSLXML_SAVE,null);
 	}
 	
-	public String getLinkContraProva(String contraProva,String appCodeDAD, Boolean outPDF,Boolean pdfToDownload) {
+	public String getLinkContraProva(String contraProva,String appCodeDAD, String outType,Boolean pdfToDownload) {
 		contraProva=Core.encryptPublicPage(contraProva);
 		StringBuilder qs = new StringBuilder("&ctprov="+contraProva);
 		if(Core.isNotNull(appCodeDAD))
-			qs.append("&codad="+appCodeDAD);
-		if(Boolean.TRUE.equals(outPDF)) {
-			qs.append("&outpdf="+outPDF);
-			if(Core.isNotNull(pdfToDownload))
-				qs.append("&todownld="+pdfToDownload);
+			qs.append("&cdad="+appCodeDAD);
+		if(outType.equals(PDF_PRV)) {
+			qs.append("&out="+PDF_PRV);
+			if(Core.isNotNull(pdfToDownload) && pdfToDownload)
+				qs.append("&todwn="+pdfToDownload);
 		}		
 		return Core.getHostName()+"?r=igrp_studio/web-report/get-contraprova"+qs;
 	}
 	
 	public Response getRepContraProvaPDF(String contraProva,String appCodeDAD,Boolean pdfToDownload) throws TransformerFactoryConfigurationError, IOException {
-		return processRepContraProva(contraProva, appCodeDAD, "true", pdfToDownload+"");
+		return processRepContraProva(contraProva, appCodeDAD, PDF_PRV, pdfToDownload+"");
 	}
 
 	public static String generateContraProva(String packageFind) {
@@ -208,14 +213,11 @@ public class Report extends Controller{
 			xml = xml.replace("<link_img>/", "<link_img>");
 			xml = xml.replace("../images/", dadBase + "images/");			
 			String xsl = new String(cLobXSL.getC_lob_content());
-			xsl = xsl.replace(
-					"?r=igrp_studio/WebReport/get-image&amp;p_file_name=logo.PNG&amp;env=sistema_protecao_social",
-					dadBase + "images/IGRP/IGRP2.3/assets/img/sistema_protecao_social/reports/logo.PNG")
-					.replace("3.4.1/css/", "4.0/css/")		
-				//	.replace("<div class=\"page\" hasfooter=\"Y\" size=\"A4\" height=\"297\" layout=\"P\">", "<div class=\"page\" hasfooter=\"N\" size=\"A4L\" height=\"210\" layout=\"L\"> ")		
+			xsl = xsl.replaceFirst("3.4.1/css/", "4.0/css/")			
 					.replace("../images/", dadBase + "images/")
-					.replace("/IGRP/images/IGRP/IGRP2.3/", "IGRP/images/IGRP/IGRP2.3/")						
-					.replace("@page {", "@page {margin:0;")
+					.replace("/IGRP/images/IGRP/IGRP2.3/", dadBase + "images/IGRP/IGRP2.3/")	
+					.replace("/IGRP-Template/images/IGRP/IGRP2.3/", dadBase + "images/IGRP/IGRP2.3/")	
+					.replaceFirst("@page \\{", "@page {margin:0;")
 					;
 			
 		//	System.err.println("xsl "+xsl+"\n\n\n\n");
@@ -289,92 +291,87 @@ public class Report extends Controller{
 	   doc = Jsoup.parse(inputHTML,baseUri);
 		
 	    
-	   
-	   Elements imgs= doc.select("img");		 
-		  imgs.forEach(i -> {
-			  if(i.attr("src").contains("?r=")) {
-				//  System.err.println("src imagem ds "+i.attr("src"));
-				  //webapps?r=igrp/File/get-file&uuid=821ccc01f84143b68df9ecc6fa2bb9d4&dad=sistema_de_avaliacao_igrpweb					  
-	
-				  String uuid= StringUtils.substringBetween(i.attr("src"), "&uuid=", "&");		
-					CLob file;
-					if(Core.isNotNull(uuid))
-						 file = Core.getFileByUuid(uuid);
-					else
-						 file = Core.getFile(Core.getParamInt("p_id").intValue());
-			
-					//	file.getC_lob_content(), file.getName(), file.getMime_type(), false);
-					if(file!=null) {	
-						i.attr("src","data:"+file.getMime_type()+";base64, "+Base64.getEncoder().encodeToString(file.getC_lob_content()));
-						//i.attr("src","IGRP/images/IGRP/IGRP2.3/assets/img/sistema_protecao_social/reports/logo.PNG");
-				 
+		Elements imgs = doc.select("img");
+		imgs.forEach(i -> {
+			if (i.attr("src").contains("?r=")) {
+				// System.err.println("src imagem ds "+i.attr("src"));
+				// webapps?r=igrp/File/get-file&uuid=821ccc01f84143b68df9ecc6fa2bb9d4&dad=sistema_de_avaliacao_igrpweb
+				String uuid = StringUtils.substringBetween(i.attr("src"), "get-file&uuid=", "&");
+				if (Core.isNotNull(uuid)) {
+					CLob file = Core.getFileByUuid(uuid);				
+					if (file != null) {
+						i.attr("src", "data:" + file.getMime_type() + ";base64, "+ Base64.getEncoder().encodeToString(file.getC_lob_content()));
 					}
-			  }
-				 
-			  
-		  
-		  });
-		  
-		  Element content = doc.getElementById("content");
+				}else {
+					String foto = StringUtils.substringBetween(i.attr("src"), "p_file_name=", "&");
+					if (Core.isNotNull(foto)) {
+						String dadBase = new Config().getLinkImgBase().replaceFirst("/", "");
+						String dad = StringUtils.substringAfter(i.attr("src"), "dad=");
+						if(Core.isNull(dad))
+							dad = StringUtils.substringAfter(i.attr("src"), "env=");
+						i.attr("src", dadBase + "images/IGRP/IGRP2.3/assets/img/"+dad+"/reports/"+foto);					
+					}
+				}
+			}
+		});
+		Element content = doc.getElementById("content");
+		Elements styleD = null;
+		if (content != null) {
+			styleD = content.getElementsByTag("style");
+			if (styleD != null)
+				doc.getElementsByTag("head").append(styleD + "");
+
+			Elements qrcode = content.select("div.containerQrcode").tagName("object").attr("type", "image/barcode")
+					.attr("style", "width:100px;height:100px;");
+			qrcode.attr("value", Core.isNotNull(qrcode.attr("url")) ? qrcode.attr("url") : "Nothing/Nada");
+			qrcode.removeAttr("url");
 			
-	   Elements styleD = null;
-	   if(content!=null) {
-		    styleD = content.getElementsByTag("style");
-		    if(styleD!=null)
-		    	doc.getElementsByTag("head").append(styleD+"");
-		    
-		    content.attr("style", "padding: 10mm 0mm");
-		    
-		  Elements qrcode= content.select("div.containerQrcode").tagName("object")
-				  .attr("type", "image/barcode")
-				  .attr("style", "width:100px;height:100px;")
-				  ;			  
-		  qrcode.attr("value", qrcode.attr("url"));
-		  qrcode.removeAttr("url");
-	   }
-		  
-	   Element footer = doc.getElementById("footer");
-	   if(footer!=null) {
-		   footer.attr("style", ""
-		   		+ "  bottom: 0;"
-		   		+ "  background-color: #267199;");
-		   //footer.getElementsByClass("holder-footer").attr("style", "width: 100%;"+ "background-color: #ccc;"+ "display: block;"+ "height: 55px;");
-		    
-		   footer.getElementsByClass("containerQrcode")
-		  
-		 //  .append("<object value=\"http://localhost:8080/IGRP-Template/app/webapps?r=igrp_studio/web-report/get-contraprova&amp;ctprov=L6ReshXo2HDpvDfyuWwE8Q==\" url=\"\" type=\"image/barcode\" style=\"width:100px;height:100px;margin:0;padding:0;\" ></object>\n")
-		   ;
-//			   footer.getElementsByClass("rfooter").attr("style", ""+ "float: left;"+ "    padding: 60px 10px 0 10px;");
-		   
-	   }
-//		  	
-		if(styleD!=null) {
-			//System.out.print("style \n"+styleD+"\n");
-			styleD.remove();
+			if (styleD != null) {
+				// System.out.print("style \n"+styleD+"\n");
+				styleD.remove();
+			}
 		}
-			
+
+		Element footer = doc.getElementById("footer");
+		if (footer != null) {				
 		
-	    final Document fromJsoup = new W3CDom().fromJsoup(doc);
-	   // System.out.println("parsing done ..." + doc+"");
+		// source : https://jsoup.org/apidocs/org/jsoup/select/Selector.html
+			Elements scriptVar = doc.select("script");
+			scriptVar.forEach(s -> {
+				if(s.html().startsWith("var qrcodeResult =") ) {
+					//String qrlink= "http://localhost:8080/IGRP-Template/app/webapps?r=igrp_studio/web-report/get-contraprova&amp;ctprov=L6ReshXo2HDpvDfyuWwE8Q==&amp;ctprov=L6ReshXo2HDpvDfyuWwE8Q==&amp;ctprov=L6ReshXo2HDpvDfyuWwE8Q==";
+						//  String qrlink= "http://localhost:8080/IGRP/app/webapps?r=igrp_studio/web-report/get-contraprova&amp;ctprov=yPvRcKFwgysYRwhNYnSrim3AdvGDE1PRP6l2bJNjfLktnjnY3OjvNiLb6UnRqjlk&amp;codad=cv_investement_forum&amp;ctprov=fdddsadsadds==";
+						String qrlink= StringUtils.substringBetween(s.html(), "var qrcodeResult = '", "';"); 
+					//System.out.println("s.hrml "+qrlink);
+					doc.select("div.containerQrcode").attr("style", "background-color: #267199; ").append("<object value=\""+qrlink+"\" url=\"\" type=\"image/barcode\"style=\"width:100px;height:100px;padding:0px; margin:0px;\" ></object>\n")
+					;
+				return;
+				}		
+			});
+		}
+		final Document fromJsoup = new W3CDom().fromJsoup(doc);
+		// System.out.println("parsing done ..." + doc+"");
 		return fromJsoup;
 	  }
 	/**
 	 * @param contraprova
 	 * @param dad
-	 * @param outInPDF
+	 * @param outType PDF_SAVE, XSLXML_SAVE
 	 * @param toDownload
 	 * @return
 	 * @throws TransformerFactoryConfigurationError
 	 * @throws IOException
 	 */
-	public Response processRepContraProva(String contraprova, String dad, String outInPDF, String toDownload)
+	public Response processRepContraProva(String contraprova, String dad, String outType, String toDownload)
 			throws TransformerFactoryConfigurationError, IOException {
 		RepInstance ri = new RepInstance().find().where("contra_prova", "=",contraprova).andWhere("application.dad", "=",dad).orderByDesc("id").one();
 		String content = "";
 		if(ri!=null && ri.getTemplate()!=null && !ri.hasError()){			
-			if(outInPDF.equals("true")) {
-				return new Report().processPDF(ri.getXsl_content().getName().replace(".xsl",""),ri.getXsl_content(), new String(ri.getXml_content().getC_lob_content()),toDownload);				
-			}else {
+			switch (outType) {
+			case PDF_PRV:
+			case PDF_SAVE:
+				return new Report().processPDF(ri.getXsl_content().getName().replace(".xsl",""),ri.getXsl_content(), new String(ri.getXml_content().getC_lob_content()),toDownload);
+			default:
 				content = new String(ri.getXml_content().getC_lob_content());
 				return this.renderView(content);
 			}
