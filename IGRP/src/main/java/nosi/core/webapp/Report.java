@@ -213,14 +213,10 @@ public class Report extends Controller{
 			xml = xml.replace("<link_img>/", "<link_img>");
 			xml = xml.replace("../images/", dadBase + "images/");			
 			String xsl = new String(cLobXSL.getC_lob_content());
-//			TODO: mudar para regex para sempre apanhar o nome
-			xsl = xsl.replace(
-					"?r=igrp_studio/WebReport/get-image&amp;p_file_name=logo.PNG&amp;env=sistema_protecao_social",
-					dadBase + "images/IGRP/IGRP2.3/assets/img/sistema_protecao_social/reports/logo.PNG")
-					.replaceFirst("3.4.1/css/", "4.0/css/")		
-				//	.replace("<div class=\"page\" hasfooter=\"Y\" size=\"A4\" height=\"297\" layout=\"P\">", "<div class=\"page\" hasfooter=\"N\" size=\"A4L\" height=\"210\" layout=\"L\"> ")		
+			xsl = xsl.replaceFirst("3.4.1/css/", "4.0/css/")			
 					.replace("../images/", dadBase + "images/")
-					.replace("/IGRP/images/IGRP/IGRP2.3/", "IGRP/images/IGRP/IGRP2.3/")						
+					.replace("/IGRP/images/IGRP/IGRP2.3/", dadBase + "images/IGRP/IGRP2.3/")	
+					.replace("/IGRP-Template/images/IGRP/IGRP2.3/", dadBase + "images/IGRP/IGRP2.3/")	
 					.replaceFirst("@page \\{", "@page {margin:0;")
 					;
 			
@@ -300,14 +296,21 @@ public class Report extends Controller{
 			if (i.attr("src").contains("?r=")) {
 				// System.err.println("src imagem ds "+i.attr("src"));
 				// webapps?r=igrp/File/get-file&uuid=821ccc01f84143b68df9ecc6fa2bb9d4&dad=sistema_de_avaliacao_igrpweb
-				String uuid = StringUtils.substringBetween(i.attr("src"), "&uuid=", "&");
-				CLob file;
-				if (Core.isNotNull(uuid))
-					file = Core.getFileByUuid(uuid);
-				else
-					file = Core.getFile(Core.getParamInt("p_id").intValue());
-				if (file != null) {
-					i.attr("src", "data:" + file.getMime_type() + ";base64, "+ Base64.getEncoder().encodeToString(file.getC_lob_content()));
+				String uuid = StringUtils.substringBetween(i.attr("src"), "get-file&uuid=", "&");
+				if (Core.isNotNull(uuid)) {
+					CLob file = Core.getFileByUuid(uuid);				
+					if (file != null) {
+						i.attr("src", "data:" + file.getMime_type() + ";base64, "+ Base64.getEncoder().encodeToString(file.getC_lob_content()));
+					}
+				}else {
+					String foto = StringUtils.substringBetween(i.attr("src"), "p_file_name=", "&");
+					if (Core.isNotNull(foto)) {
+						String dadBase = new Config().getLinkImgBase().replaceFirst("/", "");
+						String dad = StringUtils.substringAfter(i.attr("src"), "dad=");
+						if(Core.isNull(dad))
+							dad = StringUtils.substringAfter(i.attr("src"), "env=");
+						i.attr("src", dadBase + "images/IGRP/IGRP2.3/assets/img/"+dad+"/reports/"+foto);					
+					}
 				}
 			}
 		});
@@ -330,37 +333,24 @@ public class Report extends Controller{
 		}
 
 		Element footer = doc.getElementById("footer");
-		if (footer != null) {
-
-			// footer.getElementsByClass("holder-footer").attr("style", "width: 100%;"+
-			// "background-color: #ccc;"+ "display: block;"+ "height: 55px;");
-					
-//			   footer.getElementsByClass("rfooter").attr("style", ""+ "float: left;"+ "    padding: 60px 10px 0 10px;");
-			
-
-			;
+		if (footer != null) {				
+		
 		// source : https://jsoup.org/apidocs/org/jsoup/select/Selector.html
 			Elements scriptVar = doc.select("script");
 			scriptVar.forEach(s -> {
 				if(s.html().startsWith("var qrcodeResult =") ) {
 					//String qrlink= "http://localhost:8080/IGRP-Template/app/webapps?r=igrp_studio/web-report/get-contraprova&amp;ctprov=L6ReshXo2HDpvDfyuWwE8Q==&amp;ctprov=L6ReshXo2HDpvDfyuWwE8Q==&amp;ctprov=L6ReshXo2HDpvDfyuWwE8Q==";
-					
-					//  String qrlink= "http://localhost:8080/IGRP/app/webapps?r=igrp_studio/web-report/get-contraprova&amp;ctprov=yPvRcKFwgysYRwhNYnSrim3AdvGDE1PRP6l2bJNjfLktnjnY3OjvNiLb6UnRqjlk&amp;codad=cv_investement_forum&amp;ctprov=fdddsadsadds==";
+						//  String qrlink= "http://localhost:8080/IGRP/app/webapps?r=igrp_studio/web-report/get-contraprova&amp;ctprov=yPvRcKFwgysYRwhNYnSrim3AdvGDE1PRP6l2bJNjfLktnjnY3OjvNiLb6UnRqjlk&amp;codad=cv_investement_forum&amp;ctprov=fdddsadsadds==";
 						String qrlink= StringUtils.substringBetween(s.html(), "var qrcodeResult = '", "';"); 
 					//System.out.println("s.hrml "+qrlink);
 					doc.select("div.containerQrcode").attr("style", "background-color: #267199; ").append("<object value=\""+qrlink+"\" url=\"\" type=\"image/barcode\"style=\"width:100px;height:100px;padding:0px; margin:0px;\" ></object>\n")
 					;
 				return;
-				}
-					
-				
+				}		
 			});
 		}
-//		  	
-		
-
 		final Document fromJsoup = new W3CDom().fromJsoup(doc);
-		 System.out.println("parsing done ..." + doc+"");
+		// System.out.println("parsing done ..." + doc+"");
 		return fromJsoup;
 	  }
 	/**
