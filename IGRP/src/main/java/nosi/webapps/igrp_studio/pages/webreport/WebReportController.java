@@ -319,12 +319,12 @@ public class WebReportController extends Controller {
 	
 	public Response actionGetContraprova() throws IOException{
 		String contraprova = Core.getParam("ctprov");
-		String dad = Core.getParam("cdad");
+		String did = Core.getParam("did");
 		String outtype = Core.getParam("out");
 		String toDownload = Core.getParam("todwn");
 		
 		contraprova=Core.decryptPublicPage(contraprova);
-		return new Report().processRepContraProva(contraprova, dad, outtype, toDownload);
+		return new Report().processRepContraProva(contraprova, did, outtype, toDownload);
 	}
 
 	
@@ -553,7 +553,7 @@ public class WebReportController extends Controller {
 			switch (type) {
 			case Report.PDF_PRV:
 			case Report.PDF_SAVE:
-				xmlW.setElement("link_qrcode",Core.getLinkContraProvaPDF(contra_prova,rt.getApplication().getDad(),false));
+				xmlW.setElement("link_qrcode",Core.getLinkContraProvaPDF(contra_prova,""+rt.getApplication().getId(),false));
 				break;
 			default:
 				xmlW.setElement("link_qrcode",Core.getLinkContraProva(contra_prova));

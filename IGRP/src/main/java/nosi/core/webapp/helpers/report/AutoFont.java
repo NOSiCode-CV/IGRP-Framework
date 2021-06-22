@@ -179,7 +179,7 @@ public class AutoFont {
         }
 
         protected void onValidFont(CSSFont font) {
-            System.out.format("Adding font with path = '%s', name = '%s', weight = %d, style = %s%n", font.path, font.family, font.weight, font.style.name());
+           // System.out.format("Adding font with path = '%s', name = '%s', weight = %d, style = %s%n", font.path, font.family, font.weight, font.style.name());
         }
 
         protected void onInvalidFont(Path font, FontFormatException ffe) {
