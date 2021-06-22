@@ -1296,16 +1296,16 @@ public final class Core {
 	/**
 	 * 
 	 * @param contraProva - code of proof of the document report
-	 * @param appCodeDAD - code of the application (dad)
+	 * @param appID - id of the application (id) o null
 	 * @param pdfToDownload - if you want a preview or direct download. Default is false
 	 * @return link with hostname to see the document report
 	 */
-	public static String getLinkContraProvaPDF(String contraProva,String appCodeDAD,Boolean pdfToDownload ) {
-		return new Report().getLinkContraProva(contraProva,appCodeDAD, Report.PDF_PRV,pdfToDownload);
+	public static String getLinkContraProvaPDF(String contraProva,String appID,Boolean pdfToDownload ) {
+		return new Report().getLinkContraProva(contraProva,appID, Report.PDF_PRV,pdfToDownload);
 		}		
 	
-	public static Response getRepContraProvaPDF(String contraProva,String appCodeDAD,Boolean pdfToDownload) throws TransformerFactoryConfigurationError, IOException {
-		return new Report().getRepContraProvaPDF(contraProva, appCodeDAD, pdfToDownload);
+	public static Response getRepContraProvaPDF(String contraProva,String appID,Boolean pdfToDownload) throws TransformerFactoryConfigurationError, IOException {
+		return new Report().getRepContraProvaPDF(contraProva, appID, pdfToDownload);
 	}
 
 	/**

@@ -60,14 +60,13 @@ public class EmailMessage {
 	private EmailMessage() { 
 		if(!this.load()) 
 			this.loadDefaultConfig();
-		this.attaches = new ArrayList<File>();
-		this.attachesBytes = new ArrayList<Attachment>();
+		this.attaches = new ArrayList<>();
+		this.attachesBytes = new ArrayList<>();
 		this.multipleRecipients = false;
 	}
 	
-	public static EmailMessage newInstance() {
-		EmailMessage msg = new EmailMessage();
-		return msg;
+	public static EmailMessage newInstance() {	
+		return new EmailMessage();
 	}
 	
 	public void loadDefaultConfig() {
@@ -318,6 +317,10 @@ public class EmailMessage {
 			this.type = type;
 		}
 		
+		public Attachment() {
+		
+		}
+
 		public byte[] getContent() {
 			return content;
 		}

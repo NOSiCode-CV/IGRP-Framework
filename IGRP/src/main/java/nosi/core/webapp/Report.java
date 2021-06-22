@@ -150,11 +150,11 @@ public class Report extends Controller{
 		return getLinkContraProva(contraProva,null, XSLXML_SAVE,null);
 	}
 	
-	public String getLinkContraProva(String contraProva,String appCodeDAD, String outType,Boolean pdfToDownload) {
+	public String getLinkContraProva(String contraProva,String appCodeId, String outType,Boolean pdfToDownload) {
 		contraProva=Core.encryptPublicPage(contraProva);
 		StringBuilder qs = new StringBuilder("&ctprov="+contraProva);
-		if(Core.isNotNull(appCodeDAD))
-			qs.append("&cdad="+appCodeDAD);
+		if(Core.isNotNull(appCodeId))
+			qs.append("&did="+appCodeId);
 		if(outType.equals(PDF_PRV)) {
 			qs.append("&out="+PDF_PRV);
 			if(Core.isNotNull(pdfToDownload) && pdfToDownload)
@@ -163,8 +163,8 @@ public class Report extends Controller{
 		return Core.getHostName()+"?r=igrp_studio/web-report/get-contraprova"+qs;
 	}
 	
-	public Response getRepContraProvaPDF(String contraProva,String appCodeDAD,Boolean pdfToDownload) throws TransformerFactoryConfigurationError, IOException {
-		return processRepContraProva(contraProva, appCodeDAD, PDF_PRV, pdfToDownload+"");
+	public Response getRepContraProvaPDF(String contraProva,String appCodeID,Boolean pdfToDownload) throws TransformerFactoryConfigurationError, IOException {
+		return processRepContraProva(contraProva, appCodeID, PDF_PRV, pdfToDownload+"");
 	}
 
 	public static String generateContraProva(String packageFind) {
@@ -343,7 +343,7 @@ public class Report extends Controller{
 						//  String qrlink= "http://localhost:8080/IGRP/app/webapps?r=igrp_studio/web-report/get-contraprova&amp;ctprov=yPvRcKFwgysYRwhNYnSrim3AdvGDE1PRP6l2bJNjfLktnjnY3OjvNiLb6UnRqjlk&amp;codad=cv_investement_forum&amp;ctprov=fdddsadsadds==";
 						String qrlink= StringUtils.substringBetween(s.html(), "var qrcodeResult = '", "';"); 
 					//System.out.println("s.hrml "+qrlink);
-					doc.select("div.containerQrcode").attr("style", "background-color: #267199; ").append("<object value=\""+qrlink+"\" url=\"\" type=\"image/barcode\"style=\"width:100px;height:100px;padding:0px; margin:0px;\" ></object>\n")
+					doc.select("div.containerQrcode").attr("style", "background-color: #267199; ").append("<object value=\""+qrlink+"\" url=\"\" type=\"image/barcode\"style=\"width:100px;height:100px;\" ></object>\n")
 					;
 				return;
 				}		
@@ -362,9 +362,9 @@ public class Report extends Controller{
 	 * @throws TransformerFactoryConfigurationError
 	 * @throws IOException
 	 */
-	public Response processRepContraProva(String contraprova, String dad, String outType, String toDownload)
+	public Response processRepContraProva(String contraprova, String id, String outType, String toDownload)
 			throws TransformerFactoryConfigurationError, IOException {
-		RepInstance ri = new RepInstance().find().where("contra_prova", "=",contraprova).andWhere("application.dad", "=",dad).orderByDesc("id").one();
+		RepInstance ri = new RepInstance().find().where("contra_prova", "=",contraprova).andWhere("application.id", "=",Core.toInt(id)).orderByDesc("id").one();
 		String content = "";
 		if(ri!=null && ri.getTemplate()!=null && !ri.hasError()){			
 			switch (outType) {

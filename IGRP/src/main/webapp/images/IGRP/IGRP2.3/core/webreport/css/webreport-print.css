@@ -302,7 +302,7 @@ p {
     .page #footer {       
     	position:fixed;
   		bottom: 0;
-        page-break-after: always;
+        page-break-before: always;
         page-break-inside: auto;
     }
 
