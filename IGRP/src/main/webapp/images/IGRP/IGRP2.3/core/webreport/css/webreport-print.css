@@ -135,11 +135,12 @@ body.readypdf iframe {
 }
 
 #containerQrcode, .containerQrcode {
-    padding: 5px;
+    padding: 1px;
     width: 29mm;
     background-color: #fff;
     float: left;
     margin-left: 15px;
+    margin-bottom:8px;
     /*margin-top: -43px;*/
 }
 
@@ -203,7 +204,7 @@ table.clean, table.clean thead tr th, table.clean tbody tr td {
 }
 
 /*
-
+https://github.com/danfickle/openhtmltopdf/wiki/Page-features
 div[size="A4"]:before{
     content: url('');
     position: absolute;
@@ -287,10 +288,16 @@ p {
     }
 
     .page #content {
-    
-         /*   margin-bottom:0;
-    padding:0;*/
+    /*   break-after: page;
+           margin-bottom:20px;
+    padding:0;*/    
+   -fs-page-break-min-height: 50px;
     }
+    
+    .page[hasfooter="Y"] #content {
+	/*openhtml2pdf css propertie*/
+    -fs-page-break-min-height: 170px;
+	}
 
     .page footer {
        
