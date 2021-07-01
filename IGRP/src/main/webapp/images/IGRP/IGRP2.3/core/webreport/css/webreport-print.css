@@ -135,11 +135,12 @@ body.readypdf iframe {
 }
 
 #containerQrcode, .containerQrcode {
-    padding: 5px;
+    padding: 1px;
     width: 29mm;
     background-color: #fff;
     float: left;
     margin-left: 15px;
+    margin-bottom:8px;
     /*margin-top: -43px;*/
 }
 
