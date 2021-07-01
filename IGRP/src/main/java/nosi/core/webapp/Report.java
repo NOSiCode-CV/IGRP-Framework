@@ -42,10 +42,10 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Report extends Controller{
 
-	public final static String XSLXML_PRV = "0" ;
-	public final static String XSLXML_SAVE = "1" ;
-	public final static String PDF_PRV = "2"; //PDF Preview
-	public final static String PDF_SAVE = "3"; //PDF Save to Clob
+	public static final String XSLXML_PRV = "0" ;
+	public static final String XSLXML_SAVE = "1" ;
+	public static final String PDF_PRV = "2"; //PDF Preview
+	public static final String PDF_SAVE = "3"; //PDF Save to Clob
 	
 	private Map<String,Object> params = new HashMap<>();
 	private String qs = "";
