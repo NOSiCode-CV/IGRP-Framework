@@ -34,6 +34,7 @@ import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
 
 import javax.jws.WebService;
+import javax.persistence.GeneratedValue;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
@@ -580,6 +581,8 @@ public class EnvController extends Controller {
 					        		 String aux = fields[i].getType().getSimpleName(); 
 					        	 		if(fields[i].getAnnotation(ManyToOne.class) != null || fields[i].getAnnotation(OneToOne.class) != null) 
 					        	 			aux += "_FK#";  
+					        	 		else if(fields[i].getAnnotation(GeneratedValue.class) != null)
+					        	 			aux += "_PK#";
 					        	 	xml.text(aux);
 				        	 	xml.endElement();
 			        	 	xml.endElement();
