@@ -31,8 +31,8 @@ import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.RepInstance;
 import nosi.webapps.igrp.dao.RepTemplate;
 import org.apache.commons.lang3.StringUtils;
-
-
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 /**
  * 
  * Use the functions getLinkReport and other to manage and invoke reports.
@@ -59,7 +59,7 @@ public class Report extends Controller{
 		return invokeReport(code_report,rep,PDF_SAVE);		
 	}
 	@SuppressWarnings("unchecked")
-	public Response invokeReport(String code_report,Report rep,String type){
+	public Response invokeReport(String code_report,Report rep,String type) {
 		
 	qs+="&p_type="+type; // se for 0 - preview, se for 1 - registar ocorencia ,2-retornar PDF preview 3 - retornar PDF e save clob
 	RepTemplate rt = new RepTemplate().find().andWhere("code", "=", code_report).one();
@@ -69,6 +69,7 @@ public class Report extends Controller{
 		 contra_prova = Report.generateContraProva("nosi.webapps."+rt.getApplication().getDad().toLowerCase());
 	
 	qs+="&ctpr="+Core.encrypt(contra_prova);
+	try {
 		if(rep!=null) 
 			for(Entry<String, Object> p : rep.getParams().entrySet()) 
 				if(!(p.getValue() instanceof List)) {
@@ -76,16 +77,15 @@ public class Report extends Controller{
 						if (p.getKey().equals("isPublic") && p.getValue().equals("1")) 
 							qs += "&" + p.getKey() + "=" + p.getValue(); // isPublic=1 :-) 
 						else 
-							qs += ("&name_array="+p.getKey() + "&value_array="+p.getValue()); 
+							qs += ("&name_array="+p.getKey() + "&value_array="+URLEncoder.encode(""+p.getValue(),StandardCharsets.UTF_8.toString())); 
 					}
 				}else {
 					List<Object> parms = (List<Object>) p.getValue(); 
 					for(Object v : parms) 
-						qs += ("&name_array="+p.getKey() + "&value_array="+v.toString());
+						qs += ("&name_array="+p.getKey() + "&value_array="+URLEncoder.encode(v.toString(),StandardCharsets.UTF_8.toString()));
 				}
 		
-		try {
-			
+		
 			Response redirect = this.redirect("igrp_studio", "WebReport", "preview"+qs,this.queryString());
 			redirect.setContent(contra_prova);
 			return redirect;
@@ -343,13 +343,14 @@ public class Report extends Controller{
 						//  String qrlink= "http://localhost:8080/IGRP/app/webapps?r=igrp_studio/web-report/get-contraprova&amp;ctprov=yPvRcKFwgysYRwhNYnSrim3AdvGDE1PRP6l2bJNjfLktnjnY3OjvNiLb6UnRqjlk&amp;codad=cv_investement_forum&amp;ctprov=fdddsadsadds==";
 						String qrlink= StringUtils.substringBetween(s.html(), "var qrcodeResult = '", "';"); 
 					//System.out.println("s.hrml "+qrlink);
-						doc.select("div.containerQrcode, div#containerQrcode").attr("style", "padding:0;width:26mm;margin-bottom:5px;").append("<object value=\""+qrlink+"\" url=\"\" type=\"image/barcode\"style=\"width:100px;height:100px;\" ></object>\n")		;
+					doc.select("div.containerQrcode, div#containerQrcode").attr("style", "padding:0;width:26mm;margin-bottom:5px;").append("<object value=\""+qrlink+"\" url=\"\" type=\"image/barcode\"style=\"width:100px;height:100px;\" ></object>\n")
+					;
 				return;
 				}		
 			});
 		}
 		final Document fromJsoup = new W3CDom().fromJsoup(doc);
-		// System.out.println("parsing done ..." + doc+"");
+		 System.out.println("parsing done ..." + doc+"");
 		return fromJsoup;
 	  }
 	/**
@@ -364,7 +365,7 @@ public class Report extends Controller{
 	public Response processRepContraProva(String contraprova, String id, String outType, String toDownload)
 			throws TransformerFactoryConfigurationError, IOException {
 		RepInstance ri = new RepInstance().find().andWhere("contra_prova", "=",contraprova)
-				.andWhere("application.id", "=",Integer.getInteger(id, null)).orderByDesc("id").one();
+				.andWhere("application.id", "=",Integer.getInteger(id, null)).orderByDesc("id").one();			
 		String content = "";
 		if(ri!=null && ri.getTemplate()!=null && !ri.hasError()){			
 			switch (outType) {
@@ -374,7 +375,8 @@ public class Report extends Controller{
 			default:
 				content = new String(ri.getXml_content().getC_lob_content());
 				return this.renderView(content);
-			}			
+			}
+			
 		}
 		Core.setMessageError("[ EN ] - The document #("+contraprova+") has not been found. <br>[ PT ] - O documento #("+contraprova+") não foi encontrado.");
 		return this.redirect("igrp", "ErrorPage", "exception");
