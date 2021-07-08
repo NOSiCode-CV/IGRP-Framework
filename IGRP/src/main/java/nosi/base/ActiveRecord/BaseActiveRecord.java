@@ -1274,9 +1274,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	public void showMessage(String error) {
 		if(this.isShowError()) {
-			Core.setMessageError(error);
+			Core.setMessageError("DAO "+this.getTableName()+": "+error);
 		}
-		Core.log(error);
+		Core.log("DAO "+this.getTableName()+": "+error);
 	}
 	
 	public void showMessage() {
