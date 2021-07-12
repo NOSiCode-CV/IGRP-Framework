@@ -1,7 +1,5 @@
 package nosi.webapps.igrp_studio.pages.get_coordinates;
 
-
-import nosi.core.geographic.MapViewer;
 import nosi.core.webapp.Controller;//
 import nosi.core.webapp.databse.helpers.ResultSet;//
 import nosi.core.webapp.databse.helpers.QueryInterface;//
@@ -15,6 +13,7 @@ import com.google.gson.*;
 import java.util.Map;
 import java.util.Arrays;
 import nosi.core.geographic.GetCoordinates;
+import nosi.core.geographic.MapViewer;
 /*----#end-code----*/
 		
 public class Get_coordinatesController extends Controller {
@@ -49,7 +48,7 @@ public class Get_coordinatesController extends Controller {
 	      }
         String params = "&p_fwl_fieldName="+ keyValue + "&p_fwl_latLng=" + latLng,
       
-		       url = Core.getIGRPLink("gis", "Getcoordinantes", "map")+params;
+		       url = Core.getIGRPLink("igrp_studio", "get_coordinates", "map")+params;
 		
 		view.map_os_1_data.setValue(url);
 		
