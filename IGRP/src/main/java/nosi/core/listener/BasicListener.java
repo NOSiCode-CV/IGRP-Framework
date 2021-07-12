@@ -5,6 +5,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 import nosi.base.ActiveRecord.HibernateUtils;
+import nosi.core.igrp.mingrations.MigrationIGRPInitConfig;
 /**
  * Marcel Iekiny
  * Nov 23, 2017
@@ -20,6 +21,8 @@ public class BasicListener implements ServletContextListener {
 		System.gc();
     }
     
-	public void contextInitialized(ServletContextEvent arg0)  {}
+	public void contextInitialized(ServletContextEvent arg0)  {
+		MigrationIGRPInitConfig.start();
+	}
 	
 }

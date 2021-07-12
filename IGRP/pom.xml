@@ -87,7 +87,7 @@
 		<igrp.db.user>postgres</igrp.db.user>
 		<igrp.db.password>softwaredeveloper</igrp.db.password>
 		<igrp.db.dsn>jdbc:postgresql://localhost:5432/db_igrp</igrp.db.dsn>
-		<igrp.migration.location>classpath:/db/migration/igrp</igrp.migration.location>
+		<igrp.migration.location>classpath:nosi/core/db/migration/igrp</igrp.migration.location>
 		
 	</properties>
 
