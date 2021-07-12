@@ -53,8 +53,12 @@ public class IgrpMigrationAPI {
 		if(migrationEngine == null) throw new IllegalStateException();
 		MigrateResult migrateResult = null;
 		MigrationInfo []info = migrationEngine.info().pending(); 
-	    if(info != null && info.length > 0)
-	    	migrateResult = migrationEngine.migrate(); 
+	    try {
+	    	if(info != null && info.length > 0)
+		    	migrateResult = migrationEngine.migrate(); 
+		} catch (org.flywaydb.core.internal.command.DbMigrate.FlywayMigrateException e) { // if schema already exist does not execute <baseline> command 
+			e.printStackTrace();
+		}
 	    return migrateResult;
 	}
 	
