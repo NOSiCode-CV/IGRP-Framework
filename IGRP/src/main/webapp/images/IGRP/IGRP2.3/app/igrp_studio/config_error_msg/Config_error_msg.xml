@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/config_error_msg/Config_error_msg.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Config_error_msg</page>
+    <app>igrp_studio</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp_studio.pages</package_db>
+        <package_html>Config_error_msg</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=105</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Config error msg</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[<p><strong>Error Msg</strong></p>
+]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <msg name="p_msg" type="textarea" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                    <label>Msg</label>
+                    <value>Mollit laudantium mollit ut totam lorem consectetur voluptatem iste stract lorem sit doloremque sed lorem</value>
+                    <validations>
+                        <validation>
+                            <annotation>@NotNull</annotation>
+                        </validation>
+                    </validations>
+                </msg>
+            </fields>
+            <tools-bar>
+                <item id="button_4835_df78" type="form" code="" class="primary" rel="salvar" refresh_components="form_1,table_1">
+                    <title>Salvar</title>
+                    <app>igrp_studio</app>
+                    <page>Config_error_msg</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/config_error_msg/Config_error_msg.xml?</parameter>
+                    <target>submit_ajax</target>
+                    <img>primary|fa-save</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp_studio/config_error_msg/Config_error_msg.xml</preview>
+                </item>
+            </tools-bar>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <msg_table name="p_msg_table" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Msg</label>
+                    <validations>
+                        <validation>
+                            <annotation>@NotNull</annotation>
+                        </validation>
+                    </validations>
+                </msg_table>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <msg_table name="p_msg_table">Dolor doloremque dolor ipsum m</msg_table>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <msg_table name="p_msg_table">Omnis deserunt sit omnis deser</msg_table>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <msg_table name="p_msg_table">Doloremque sed labore voluptat</msg_table>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <msg_table name="p_msg_table">Mollit laudantium adipiscing c</msg_table>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <msg_table name="p_msg_table">Amet magna amet anim sit</msg_table>
+                    </row>
+                </value>
+                <context-menu>
+                    <item id="button_c8b6_bc55" type="specific" code="" class="warning" rel="edit" refresh_components="form_1">
+                        <title>Edit</title>
+                        <app>igrp_studio</app>
+                        <page>Config_error_msg</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/config_error_msg/Config_error_msg.xml?</parameter>
+                        <target>submit</target>
+                        <img>warning|fa-pencil</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp_studio/config_error_msg/Config_error_msg.xml</preview>
+                    </item>
+                    <item id="button_4769_2e10" type="specific" code="" class="danger" rel="delete" refresh_components="">
+                        <title>Delete</title>
+                        <app>igrp_studio</app>
+                        <page>Config_error_msg</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/config_error_msg/Config_error_msg.xml?</parameter>
+                        <target>confirm</target>
+                        <img>danger|fa-times-circle</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp_studio/config_error_msg/Config_error_msg.xml</preview>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>
