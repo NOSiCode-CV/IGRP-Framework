@@ -1666,8 +1666,8 @@ INSERT INTO tbl_action VALUES (77, 'index', 'Detalhes dashboard processo', 0, NU
 INSERT INTO tbl_action VALUES (78, 'index', 'Historico_page', 0, NULL, 'nosi.webapps.igrp_studio.pages', 'Historico_page', 'Historico page', NULL, 1, 0, '2.3', NULL, NULL, 'igrp_studio/historico_page/Historico_page.xsl', 3);
 INSERT INTO tbl_action VALUES (79, 'index', 'Icons_list', 0, NULL, 'nosi.webapps.igrp.pages', 'Icons_list', 'Icons_list', NULL, 1, 0, '2.3', NULL, NULL, 'igrp/icons_list/Icons_list.xsl', 1);
 INSERT INTO tbl_action VALUES (80, 'index', 'Migration File Generator', 0, NULL, 'nosi.webapps.igrp_studio.pages', 'Migration', 'Migration File Generator', NULL, 1, 0, '2.3', NULL, NULL, 'igrp_studio/migration/Migration.xsl', 3);
-INSERT INTO tbl_action VALUES (80, 'index', 'Get coordinates', 0, NULL, 'nosi.webapps.igrp_studio.pages', 'Get_coordinates', 'Get coordinates', NULL, 1, 0, '2.3', NULL, NULL, 'igrp_studio/get_coordinates/Get_coordinates.xsl', 3);
-INSERT INTO tbl_action VALUES (80, 'index', 'Config error msg', 0, NULL, 'nosi.webapps.igrp_studio.pages', 'Config_error_msg', 'Config error msg', NULL, 1, 0, '2.3', NULL, NULL, 'igrp_studio/config_error_msg/Config_error_msg.xsl', 3);
+INSERT INTO tbl_action VALUES (81, 'index', 'Get coordinates', 0, NULL, 'nosi.webapps.igrp_studio.pages', 'Get_coordinates', 'Get coordinates', NULL, 1, 0, '2.3', NULL, NULL, 'igrp_studio/get_coordinates/Get_coordinates.xsl', 3);
+INSERT INTO tbl_action VALUES (82, 'index', 'Config error msg', 0, NULL, 'nosi.webapps.igrp_studio.pages', 'Config_error_msg', 'Config error msg', NULL, 1, 0, '2.3', NULL, NULL, 'igrp_studio/config_error_msg/Config_error_msg.xsl', 3);
 --
 -- TOC entry 3175 (class 0 OID 551611)
 -- Dependencies: 200
