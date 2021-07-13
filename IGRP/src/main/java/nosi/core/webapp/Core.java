@@ -25,6 +25,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
@@ -115,6 +116,7 @@ import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.Domain;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.Share;
 import nosi.webapps.igrp.dao.TipoDocumento;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
@@ -179,13 +181,13 @@ public final class Core {
 		Igrp.getInstance().getRequest().getSession().setAttribute(key, value);
 	}
 
-	/**	
-	 * Returns the applications host + /IGRP/app/webapps
-	 * Example: "http://<hostname>/<warName>/app/webapps"
+	/**
+	 * Returns the applications host + /IGRP/app/webapps Example:
+	 * "http://<hostname>/<warName>/app/webapps"
 	 * 
 	 * @return "http://<hostname>/<warName>/app/webapps"
 	 */
-	
+
 	public static String getHostName() {
 		HttpServletRequest req = Igrp.getInstance().getRequest();
 		return req.getRequestURL().toString();
@@ -414,8 +416,7 @@ public final class Core {
 	 */
 	public static HashMap<Integer, String> getListActions(int appId) {
 
-		List<Action> actions = new Action().find().andWhere("application", "=", appId)
-				.andWhere("status", "=", 1)
+		List<Action> actions = new Action().find().andWhere("application", "=", appId).andWhere("status", "=", 1)
 				.andWhere("isComponent", "<>", (short) 2).all();
 
 		HashMap<Integer, String> pages = new HashMap<>();
@@ -851,8 +852,8 @@ public final class Core {
 
 	/**
 	 * @category DOMAIN
-	 * <p>
-	 * Find Active Domains by domain code name and app is null
+	 *           <p>
+	 *           Find Active Domains by domain code name and app is null
 	 * 
 	 * @param domainsName domain code name
 	 * @return {@code List< of Domains> }
@@ -866,8 +867,8 @@ public final class Core {
 
 	/**
 	 * @category DOMAIN
-	 * <p>
-	 * Find Active Domains by domain code name and app
+	 *           <p>
+	 *           Find Active Domains by domain code name and app
 	 * 
 	 * @param domainName      domain code name
 	 * @param applicationCode dad/code of the application
@@ -885,8 +886,8 @@ public final class Core {
 
 	/**
 	 * @category DOMAIN
-	 * <p>
-	 * Find Active Domains by domain code name and app id
+	 *           <p>
+	 *           Find Active Domains by domain code name and app id
 	 * 
 	 * @param domainName    domain code name
 	 * @param applicationId id of the application
@@ -898,14 +899,14 @@ public final class Core {
 		return domain.find().where("valor !=''").andWhere("dominio", "=", domainName).andWhere("status", "=", "ATIVE")
 				.andWhere("application.id", "=", applicationId).orderBy("ordem").all();
 	}
-	
+
 	/**
 	 * @category DOMAIN
-	 * <p> 
-	 * Returns the domain whose domainName = {@code domainName}, belonging to the
-	 * current aplication and whose state is active, or
-	 * an empty map if the domain is not found. An empty map is returned also if the
-	 * domain exists and does not have values.
+	 *           <p>
+	 *           Returns the domain whose domainName = {@code domainName}, belonging
+	 *           to the current aplication and whose state is active, or an empty
+	 *           map if the domain is not found. An empty map is returned also if
+	 *           the domain exists and does not have values.
 	 * 
 	 * @param domainName domain/code name
 	 * @return a {@code Map<String, String>} of this domain with key as
@@ -917,11 +918,12 @@ public final class Core {
 
 	/**
 	 * @category DOMAIN
-	 * <p>
-	 * Returns the domain whose domainName = {@code domainName}, belonging to the
-	 * application with code = {@code applicationCode} and whose state is active, or
-	 * an empty map if the domain is not found. An empty map is returned also if the
-	 * domain exists and does not have values.
+	 *           <p>
+	 *           Returns the domain whose domainName = {@code domainName}, belonging
+	 *           to the application with code = {@code applicationCode} and whose
+	 *           state is active, or an empty map if the domain is not found. An
+	 *           empty map is returned also if the domain exists and does not have
+	 *           values.
 	 * 
 	 * @param domainName      domain/code name
 	 * @param applicationCode code of the application
@@ -938,11 +940,11 @@ public final class Core {
 
 	/**
 	 * @category DOMAIN
-	 * <p>
-	 * Returns the domain whose domainName = {@code domainName}, belonging to the
-	 * application with id = {@code applicationId} and whose state is active or an
-	 * empty map if the domain is not found. An empty map is returned also if the
-	 * domain exists and does not have values.
+	 *           <p>
+	 *           Returns the domain whose domainName = {@code domainName}, belonging
+	 *           to the application with id = {@code applicationId} and whose state
+	 *           is active or an empty map if the domain is not found. An empty map
+	 *           is returned also if the domain exists and does not have values.
 	 * 
 	 * @param domainName    domain/code name
 	 * @param applicationId id of the application
@@ -959,8 +961,8 @@ public final class Core {
 
 	/**
 	 * @category DOMAIN
-	 * <p>
-	 * Find the Value/Decription ok a domay key
+	 *           <p>
+	 *           Find the Value/Decription ok a domay key
 	 * 
 	 * @param domainsName domain code name
 	 * @param key
@@ -970,7 +972,7 @@ public final class Core {
 
 		if (!Core.isNotNullMultiple(domainsName, key))
 			return "";
-		
+
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
 		final Domain oneDomain = domain.find().where("valor !=''")
@@ -982,8 +984,8 @@ public final class Core {
 
 	/**
 	 * @category DOMAIN
-	 * <p>
-	 * Find the Value/Decription ok a domay key
+	 *           <p>
+	 *           Find the Value/Decription ok a domay key
 	 * 
 	 * @param domainsName domain code name
 	 * @param key
@@ -1005,12 +1007,12 @@ public final class Core {
 
 	/**
 	 * @category DOMAIN
-	 * <p>
-	 * Find the Value/Decription ok a domay key
+	 *           <p>
+	 *           Find the Value/Decription ok a domay key
 	 * 
 	 * @param domainsName domain code name
 	 * @param key
-	 * @param idApp the id of the application
+	 * @param idApp       the id of the application
 	 * @return value/description
 	 */
 	public static String findDomainDescByKey(String domainsName, String key, Integer idApp) {
@@ -1226,7 +1228,7 @@ public final class Core {
 	 * {@code model.setLink(Core.getLinkReport("rep_persons").addParam("p_id", 2))}
 	 * 
 	 * @param reportCode The unique code that identifies Report
-	 * @param isPublic    For Public Report Link purpose
+	 * @param isPublic   For Public Report Link purpose
 	 * @return
 	 */
 	public static Report getLinkReport(String reportCode, boolean isPublic) {
@@ -1237,8 +1239,8 @@ public final class Core {
 	 * Get Report for Response redirect {@code .addParam } for filtering
 	 * 
 	 * @param reportCode The unique code that identifies Report
-	 * @param report      use filter {@code new Report().addParam("id",1) } OR
-	 *                    this.loadQueryString()
+	 * @param report     use filter {@code new Report().addParam("id",1) } OR
+	 *                   this.loadQueryString()
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -1253,8 +1255,7 @@ public final class Core {
 		}
 		return new Report().invokeReport(reportCode, rep);
 	}
-	
-	
+
 	@SuppressWarnings("unchecked")
 	public static Response getLinkReportPDF(String reportCode, Object report) {
 		Report rep = new Report();
@@ -1266,7 +1267,7 @@ public final class Core {
 			return new Report().invokeReportPDF(reportCode, (Report) report);
 		}
 		return new Report().invokeReportPDF(reportCode, rep);
-		
+
 	}
 
 	/**
@@ -1285,26 +1286,30 @@ public final class Core {
 	public static String getFullUrl(String partial) {
 		return new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + "" + partial;
 	}
-		/**
-		 * 
-		 * @param contraProva - code of proof of the document report
-		 * @return link with hostname to see the document report
-		 */
-	public static String getLinkContraProva(String contraProva) {
-		return new Report().getLinkContraProva(contraProva);
-	}	
+
 	/**
 	 * 
 	 * @param contraProva - code of proof of the document report
-	 * @param appID - id of the application (id) o null
-	 * @param pdfToDownload - if you want a preview or direct download. Default is false
 	 * @return link with hostname to see the document report
 	 */
-	public static String getLinkContraProvaPDF(String contraProva,String appID,Boolean pdfToDownload ) {
-		return new Report().getLinkContraProva(contraProva,appID, Report.PDF_PRV,pdfToDownload);
-		}		
-	
-	public static Response getRepContraProvaPDF(String contraProva,String appID,Boolean pdfToDownload) throws TransformerFactoryConfigurationError, IOException {
+	public static String getLinkContraProva(String contraProva) {
+		return new Report().getLinkContraProva(contraProva);
+	}
+
+	/**
+	 * 
+	 * @param contraProva   - code of proof of the document report
+	 * @param appID         - id of the application (id) o null
+	 * @param pdfToDownload - if you want a preview or direct download. Default is
+	 *                      false
+	 * @return link with hostname to see the document report
+	 */
+	public static String getLinkContraProvaPDF(String contraProva, String appID, Boolean pdfToDownload) {
+		return new Report().getLinkContraProva(contraProva, appID, Report.PDF_PRV, pdfToDownload);
+	}
+
+	public static Response getRepContraProvaPDF(String contraProva, String appID, Boolean pdfToDownload)
+			throws TransformerFactoryConfigurationError, IOException {
 		return new Report().getRepContraProvaPDF(contraProva, appID, pdfToDownload);
 	}
 
@@ -1318,7 +1323,7 @@ public final class Core {
 		Object v = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameter(name) : null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, true);
-		return (v != null && !v.equals("null")) ? v+"" : "";
+		return (v != null && !v.equals("null")) ? v + "" : "";
 	}
 
 	/**
@@ -1332,7 +1337,7 @@ public final class Core {
 		Object v = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameter(name) : null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, isRemoved);
-		return v != null && !v.equals("null")? v.toString() : "";
+		return v != null && !v.equals("null") ? v.toString() : "";
 	}
 
 	/**
@@ -1864,7 +1869,7 @@ public final class Core {
 	 * @see #isNull(Object)
 	 */
 	public static boolean isNullMultiple(Object... values) {
-		if(values == null)
+		if (values == null)
 			return Boolean.TRUE;
 		return Arrays.stream(values).allMatch(Core::isNull);
 	}
@@ -1983,8 +1988,8 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset  UTF-8,
-	 * @param mimetype text/html, plaintext
+	 * @param charset            UTF-8,
+	 * @param mimetype           text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @param multiplerecepients
@@ -2020,8 +2025,8 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset  UTF-8,
-	 * @param mimetype text/html, plaintext
+	 * @param charset            UTF-8,
+	 * @param mimetype           text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @param multiplerecepients
@@ -2057,8 +2062,8 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset  UTF-8,
-	 * @param mimetype text/html, plaintext
+	 * @param charset      UTF-8,
+	 * @param mimetype     text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @param customConfig
@@ -2092,8 +2097,8 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset  UTF-8,
-	 * @param mimetype text/html, plaintext
+	 * @param charset      UTF-8,
+	 * @param mimetype     text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @param customConfig
@@ -2692,9 +2697,8 @@ public final class Core {
 				try {
 				List<Part> parts = Core.getFiles();
 				for(int i=0;i<parts.size();i++) {
-				String desription = "";
-				int fileId = Core.saveFile(parts.get(i)); } } catch
-	 *             (ServletException e) { e.printStackTrace(); }}
+				String desription = ""; int fileId = Core.saveFile(parts.get(i)); }
+	 *             } catch (ServletException e) { e.printStackTrace(); }}
 	 * 
 	 * @param part
 	 * @return {@code saveFile(part,part.getSubmittedFileName());}
@@ -2713,9 +2717,8 @@ public final class Core {
 				try {
 				List<Part> parts = Core.getFiles();
 				for(int i=0;i<parts.size();i++) {
-				String desription = "";
-				int fileId = Core.saveFile(parts.get(i)); } } catch
-	 * (ServletException e) { e.printStackTrace(); }}
+				String desription = ""; int fileId = Core.saveFile(parts.get(i)); }
+	 * } catch (ServletException e) { e.printStackTrace(); }}
 	 * 
 	 * @param part
 	 * @return {@code saveFile(part,part.getSubmittedFileName());}
@@ -3736,24 +3739,27 @@ public final class Core {
 		DateFormat df = new SimpleDateFormat(formatOut);
 		return df.format(date);
 	}
-	
+
 	/**
 	 * 
-	 * Generic method intended to use with The Date Time API from java 8. 
-	 * Please ensure the correct {@link DateTimeFormatter} is provided for the date type passes as argument.
-	 * <p> Types Suported:
-     * <ul>
-     * <li>{@link LocalDate}
-     * <li>{@link LocalDateTime}
-     * <li>{@link OffsetDateTime}
-     * <li>{@link ZonedDateTime}
-     * <li>{@link Instant}
-     * </ul>
-     * 
+	 * Generic method intended to use with The Date Time API from java 8. Please
+	 * ensure the correct {@link DateTimeFormatter} is provided for the date type
+	 * passes as argument.
+	 * <p>
+	 * Types Suported:
+	 * <ul>
+	 * <li>{@link LocalDate}
+	 * <li>{@link LocalDateTime}
+	 * <li>{@link OffsetDateTime}
+	 * <li>{@link ZonedDateTime}
+	 * <li>{@link Instant}
+	 * </ul>
+	 * 
 	 * @param <T>
-	 * @param date the date object to parse as a string
+	 * @param date      the date object to parse as a string
 	 * @param formatter the formatter to parse the date object
-	 * @return string representation of the date or an empty string if the date is null or of an unsupported type.
+	 * @return string representation of the date or an empty string if the date is
+	 *         null or of an unsupported type.
 	 * @category DateUtils
 	 */
 	public static <T extends Temporal> String parseDateToString(T date, DateTimeFormatter formatter) {
@@ -3773,7 +3779,7 @@ public final class Core {
 		}
 		return "";
 	}
-	
+
 	/**
 	 * Obtains an instance of {@code IGRPDaysOff}. Provide methods to add dates and
 	 * build a string from those dates.
@@ -3784,7 +3790,7 @@ public final class Core {
 	public static IGRPDaysOff buildDaysOffString() {
 		return new IGRPDaysOff();
 	}
-	
+
 	/**
 	 * Obtains an instance of {@code IGRPDateFromTo} from a text string such as
 	 * {@code 02-06-2021 / 30-06-2021}.
@@ -3820,19 +3826,19 @@ public final class Core {
 	public static String convertLocalDateTimeToString(LocalDateTime ldt, String outputFormatter) {
 		if (Core.isNull(ldt)) {
 			return "";
-		}else{
+		} else {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(outputFormatter);
 			return ldt.format(formatter);
 		}
-		
+
 	}
 
 	public static String convertLocalDateToString(LocalDate ldt, String outputFormatter) {
 		if (Core.isNull(ldt)) {
 			return "";
-		}else {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(outputFormatter);
-		return ldt.format(formatter);
+		} else {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(outputFormatter);
+			return ldt.format(formatter);
 		}
 	}
 
@@ -4572,15 +4578,18 @@ public final class Core {
 	 * 
 	 * }
 	 * 
-	 * @param allValues list of the values of all values
+	 * @param allValues     list of the values of all values
 	 * @param checkedValues list of the checked values
 	 * @return
 	 */
 	public static CheckBoxHelper extractCheckBox(String[] allValues, String[] checkedValues) {
 		return CheckBoxHelper.of(allValues, checkedValues);
 	}
-	
-	/** This method is intended to get the values checked and unchecked from a checkbox field in a table.
+
+	/**
+	 * This method is intended to get the values checked and unchecked from a
+	 * checkbox field in a table.
+	 * 
 	 * @param field checkbox field
 	 * @return a CheckBoxHelper object that contains the checked/Unchecked values
 	 */
@@ -4773,10 +4782,10 @@ public final class Core {
 		return String.valueOf(number).length();
 	}
 
-	public static String generateXmlForCalendar(String tagName, List<?> data) {		
+	public static String generateXmlForCalendar(String tagName, List<?> data) {
 		return IGRPTable.generateXmlForCalendar(tagName, data);
 	}
-	
+
 	/**
 	 * @category BPMN
 	 * @param processKey the processKey from the process to start. See the process
@@ -4793,26 +4802,27 @@ public final class Core {
 	 * @param processKey the processKey from the process to start. See the process
 	 *                   information {@code Process Id} from your process at IGRP
 	 *                   BPMN Designer
-	 * @param params the parameters to send to the process. They should start with {@code x_}
+	 * @param params     the parameters to send to the process. They should start
+	 *                   with {@code x_}
 	 * @return response
 	 */
 	public static Response startProcess(String processKey, Map<String, String> params) {
 		ProcessDefinitionService processDefinitionService = Core.getProcessDefinitionByProcessKey(processKey);
-		if(processDefinitionService == null)
+		if (processDefinitionService == null)
 			return null;
 		return startProcess(processKey, processDefinitionService.getId(), params);
 	}
 
-	/** 
+	/**
 	 * @category BPMN
-	 * @param processKey the processKey from the process to start. See the process
-	 *                   information {@code Process Id} from your process at IGRP
-	 *                   BPMN Designer
+	 * @param processKey          the processKey from the process to start. See the
+	 *                            process information {@code Process Id} from your
+	 *                            process at IGRP BPMN Designer
 	 * @param processDefinitionId processDefinitionId of the process to start.
-	 * <p>
-	 * Example to get the processDefinitionId:
-	 * <p>
-	 *  {@code ProcessDefinitionService obj = Core.getProcessDefinitionByProcessKey(processKey);
+	 *                            <p>
+	 *                            Example to get the processDefinitionId:
+	 *                            <p>
+	 *                            {@code ProcessDefinitionService obj = Core.getProcessDefinitionByProcessKey(processKey);
 	 *  String processDefinitionId = obj.getId();}
 	 * @return response
 	 */
@@ -4827,17 +4837,18 @@ public final class Core {
 		return null;
 	}
 
-	/** 
+	/**
 	 * @category BPMN
-	 * @param processKey the processKey from the process to start. See the process
-	 *                   information {@code Process Id} from your process at IGRP
-	 *                   BPMN Designer
+	 * @param processKey          the processKey from the process to start. See the
+	 *                            process information {@code Process Id} from your
+	 *                            process at IGRP BPMN Designer
 	 * @param processDefinitionId processDefinitionId of the process to start.
-	 * @param params the parameters to send to the process. They should start with {@code x_}
-	 * <p>
-	 * Example to get the processDefinitionId:
-	 * <p>
-	 *  {@code ProcessDefinitionService obj = Core.getProcessDefinitionByProcessKey(processKey);
+	 * @param params              the parameters to send to the process. They should
+	 *                            start with {@code x_}
+	 *                            <p>
+	 *                            Example to get the processDefinitionId:
+	 *                            <p>
+	 *                            {@code ProcessDefinitionService obj = Core.getProcessDefinitionByProcessKey(processKey);
 	 *  String processDefinitionId = obj.getId();}
 	 * @return response
 	 */
@@ -5055,6 +5066,22 @@ public final class Core {
 	 */
 	public static List<User> getUsersByApplicationAndIds(String appDad, Integer[] ids) {
 		return new Application().getUsersByIds(appDad, ids);
+	}
+
+	public static Integer getProfileIdByCode(String codeProfile) {
+		ProfileType idProfile = null;
+		if (codeProfile != null) {
+			idProfile = new ProfileType().find().where("code", "=", codeProfile).one();
+		}
+		return idProfile != null ? idProfile.getId() : null;
+	}
+
+	public static List<Profile> getUsersByProfileId(Integer idProfile) {
+		List<Profile> users = null;
+		if (idProfile != null) {
+			users = new Profile().find().where("type_fk", "=", idProfile).all();
+		}
+		return users != null && !users.isEmpty() ? users : null;
 	}
 
 	/**
