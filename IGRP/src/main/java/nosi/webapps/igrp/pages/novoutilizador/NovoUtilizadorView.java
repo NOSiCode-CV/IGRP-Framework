@@ -1,12 +1,11 @@
 package nosi.webapps.igrp.pages.novoutilizador;
 
-import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Core;
 
 public class NovoUtilizadorView extends View {
 
@@ -35,9 +34,9 @@ public class NovoUtilizadorView extends View {
 		sectionheader_1_text.setValue(gt("Convite - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
-		email = new TextAreaField(model,"email");
+		email = new ListField(model,"email");
 		email.setLabel(gt("E-mail(s)"));
-		email.propertie().add("name","p_email").add("type","textarea").add("maxlength","4000").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("user@nosi.cv; maria.rosario@nosi.cv; steve.jobs@nosi.cv ; ...")).add("desclabel","false");
+		email.propertie().add("name","p_email").add("type","select").add("multiple","true").add("tags","true").add("domain","").add("maxlength","4000").add("required","true").add("disabled","false").add("java-type","");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
