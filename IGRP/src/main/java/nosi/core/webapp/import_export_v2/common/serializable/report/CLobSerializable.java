@@ -17,23 +17,8 @@ public class CLobSerializable implements Serializable{
 	private String mime_type;
 	private byte[] c_lob_content;
 	private Date dt_created;
-	private String uuid;
 	
-	public CLobSerializable() {super();}
 	
-	public CLobSerializable(String name, String mime_type, byte[] c_lob_content, Date dt_created) {
-		this();
-		this.name = name;
-		this.mime_type = mime_type;
-		this.c_lob_content = c_lob_content;
-		this.dt_created = dt_created;
-	}
-	
-	public CLobSerializable(String name, String mime_type, byte[] c_lob_content, Date dt_created, String uuid) {
-		this(name, mime_type, c_lob_content, dt_created); 
-		this.uuid = uuid; 
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -58,13 +43,4 @@ public class CLobSerializable implements Serializable{
 	public void setDt_created(Date dt_created) {
 		this.dt_created = dt_created;
 	}
-
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
-	
 }

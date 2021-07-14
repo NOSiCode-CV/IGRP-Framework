@@ -94,30 +94,7 @@ public class RepSource extends IGRPBaseActiveRecord<RepSource> implements Serial
 		this.user_updated = user_updated;
 		this.config_env = config_env;
 	}
-	
-	public RepSource(String name, String type, Integer type_fk, String type_name, String type_query,
-			int status, Date dt_created, Date dt_updated, User user_created, User user_updated,
-			Config_env configEnv, Application env, String source_identify, String taskid, String processid,
-			String formkey) {
-		this();
-		this.name = name;
-		this.type = type;
-		this.type_fk = type_fk;
-		this.type_name = type_name;
-		this.type_query = type_query;
-		this.status = status;
-		this.dt_created = dt_created;
-		this.dt_updated = dt_updated;
-		this.user_created = user_created;
-		this.user_updated = user_updated;
-		this.config_env = configEnv;
-		this.application = env;
-		this.source_identify = source_identify;
-		this.taskid = taskid;
-		this.processid = processid;
-		this.formkey = formkey;
-	}
-	
+
 	public Integer getId() {
 		return id;
 	}

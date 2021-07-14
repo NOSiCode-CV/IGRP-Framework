@@ -27,10 +27,6 @@ public class ReportExport implements IExport{
 		this.reports = new ArrayList<>();
 	}
 	
-	public List<ReportSerializable> getReports() {
-		return reports;
-	}
-
 	@Override
 	public String getFileName() {
 		return OptionsImportExport.REPORT.getFileName();

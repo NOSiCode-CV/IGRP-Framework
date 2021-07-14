@@ -12,14 +12,6 @@ public class ReportParamsSerializable implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	public ReportParamsSerializable() {super();}
-	
-	public ReportParamsSerializable(String parameter, String parameter_type) {
-		super();
-		this.parameter = parameter;
-		this.parameter_type = parameter_type;
-	}
 
 	private String parameter;
 	private String parameter_type;
