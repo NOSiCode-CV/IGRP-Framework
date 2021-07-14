@@ -1,11 +1,9 @@
 package nosi.webapps.igrp.dao;
-import java.util.ArrayList;
 /**
  * @author: Emanuel Pereira
  * 29 Jun 2017
  */
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,7 +21,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import nosi.core.webapp.Core;
-import nosi.core.webapp.import_export_v2.common.serializable.report.CLobSerializable;
 
 import java.io.Serializable;
 
@@ -76,12 +73,11 @@ public class RepTemplate extends IGRPBaseActiveRecord<RepTemplate> implements Se
 	private String report_identify = Core.getUUID();//Unique data source identify
 	
 	public RepTemplate(){
-		reptemplatesources = new HashSet<>();
 	}
 	
 	public RepTemplate(String code, String name, Date dt_created, Date dt_updated, int status,User user_created, User user_updated, Application application,
 			CLob xml_content, CLob xsl_content) {
-		this();
+		super();
 		this.code = code;
 		this.name = name;
 		this.dt_created = dt_created;
@@ -93,23 +89,7 @@ public class RepTemplate extends IGRPBaseActiveRecord<RepTemplate> implements Se
 		this.xml_content = xml_content;
 		this.xsl_content = xsl_content;
 	}
-	
-	public RepTemplate(String code, String name, Date dt_created, Date dt_updated, int status,User user_created, User user_updated, Application application,
-			CLob xml_content, CLob xsl_content, String report_identify) {
-		this();
-		this.code = code;
-		this.name = name;
-		this.dt_created = dt_created;
-		this.dt_updated = dt_updated;
-		this.status = status;
-		this.user_created = user_created;
-		this.user_updated = user_updated;
-		this.application = application;
-		this.xml_content = xml_content;
-		this.xsl_content = xsl_content;
-		this.report_identify = report_identify;
-	}
-	
+
 	public Integer getId() {
 		return id;
 	}

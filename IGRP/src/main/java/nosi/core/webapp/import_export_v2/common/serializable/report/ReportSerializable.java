@@ -1,7 +1,6 @@
 package nosi.core.webapp.import_export_v2.common.serializable.report;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,32 +29,6 @@ public class ReportSerializable implements Serializable{
 	private List<ReportSourcesSerializable> sources;
 	private String report_identify;
 	
-	
-	public ReportSerializable() {
-		super();
-	}
-	
-	public ReportSerializable(String code, String name, Date dt_created, Date dt_updated, int status,
-			String username_created, String username_updated, String dad, CLobSerializable xml_content,
-			CLobSerializable xsl_content, String report_identify) {
-		super();
-		this.code = code;
-		this.name = name;
-		this.dt_created = dt_created;
-		this.dt_updated = dt_updated;
-		this.status = status;
-		this.username_created = username_created;
-		this.username_updated = username_updated;
-		this.dad = dad;
-		this.xml_content = xml_content;
-		this.xsl_content = xsl_content;
-		this.report_identify = report_identify;
-		this.sourcesReportAssoc = new ArrayList<>(); 
-		this.sources = new ArrayList<>(); 
-	}
-
-
-
 	public String getCode() {
 		return code;
 	}

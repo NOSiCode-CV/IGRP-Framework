@@ -86,25 +86,7 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 		this.status = status;
 		this.application = application;
 	}
-	
-	public Action(String page, String action, String package_name, String xsl_src, String page_descr,
-			String action_descr, String version, int status, Application application, short isComponent, String nomeModulo, String processKey, short tipo) {	
-		this();	
-		this.page = StringHelper.removeSpecialCharaterAndSpace(page);
-		this.action = action;
-		this.package_name = (package_name != null) ? package_name.toLowerCase() : package_name;
-		this.xsl_src = xsl_src;
-		this.page_descr = page_descr;
-		this.action_descr = action_descr;
-		this.versao = version;
-		this.status = status;
-		this.application = application;
-		this.isComponent = isComponent; 
-		this.nomeModulo = nomeModulo;
-		this.processKey = processKey;
-		this.tipo = tipo; 
-	}
-	
+
 	public Integer getId() {
 		return id;
 	}

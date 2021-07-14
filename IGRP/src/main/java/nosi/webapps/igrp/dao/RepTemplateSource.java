@@ -1,7 +1,6 @@
 package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -41,13 +40,10 @@ public class RepTemplateSource extends IGRPBaseActiveRecord<RepTemplateSource> i
 	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="repTemplateSource",fetch=FetchType.EAGER)
 	private List<RepTemplateSourceParam> parameters;
 	
-	public RepTemplateSource(){	
-		super();
-		parameters = new ArrayList<>();
+	public RepTemplateSource(){		
 	}
-	
 	public RepTemplateSource(RepTemplate repTemplate, RepSource repSource) {
-		this();
+		super();
 		this.repTemplate = repTemplate;
 		this.repSource = repSource;
 	}

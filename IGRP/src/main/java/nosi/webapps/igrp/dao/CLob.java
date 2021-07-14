@@ -79,20 +79,15 @@ public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 	
 	private String uuid;
 	
-	public CLob(){super();}
+	public CLob(){}
 	
 	public CLob(String name, String mime_type, byte[] c_lob_content, Date dt_created,Application application) {
-		this();
+		super();
 		this.name = name;
 		this.mime_type = mime_type;
 		this.c_lob_content = c_lob_content;
 		this.dt_created = dt_created;
 		this.application = application;
-	}
-	
-	public CLob(String name, String mime_type, byte[] c_lob_content, Date dt_created, Application application, String uuid) {
-		this(name, mime_type, c_lob_content, dt_created, application); 
-		this.uuid = uuid; 
 	}
 
 	public Integer getId() {
