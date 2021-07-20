@@ -1,5 +1,7 @@
 package nosi.webapps.igrp_studio.pages.get_coordinates;
 
+import nosi.core.gui.geographic.GetCoordinates;
+import nosi.core.gui.geographic.MapViewer;
 import nosi.core.webapp.Controller;//
 import nosi.core.webapp.databse.helpers.ResultSet;//
 import nosi.core.webapp.databse.helpers.QueryInterface;//
@@ -12,9 +14,6 @@ import nosi.core.webapp.Response;//
 import com.google.gson.*;
 import java.util.Map;
 import java.util.Arrays;
-import nosi.core.geographic.GetCoordinates;
-import nosi.core.geographic.MapViewer;
-/*----#end-code----*/
 		
 public class Get_coordinatesController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
