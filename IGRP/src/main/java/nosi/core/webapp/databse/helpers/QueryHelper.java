@@ -835,7 +835,6 @@ public abstract class QueryHelper implements QueryInterface{
 				if(r!=null) {
 					r.setError(e.getMessage());
 				}
-				Core.setMessageError(e.getMessage());
 				Core.log(e.getMessage());
 			}
 		}

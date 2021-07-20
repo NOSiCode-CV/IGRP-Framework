@@ -4,45 +4,61 @@ import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
 public class DataSource extends Model{		
-	@RParam(rParamName = "p_data_source")
-	private String data_source;
+
 	@RParam(rParamName = "p_tipo")
 	private String tipo;
+
+	@RParam(rParamName = "p_data_source")
+	private String data_source;
+
 	@RParam(rParamName = "p_nome")
 	private String nome;
+
 	@RParam(rParamName = "p_processo")
 	private String processo;
+
 	@RParam(rParamName = "p_etapa")
 	private String etapa;
+
 	@RParam(rParamName = "p_objecto")
 	private String objecto;
+
 	@RParam(rParamName = "p_pagina")
 	private String pagina;
+
 	@RParam(rParamName = "p_query")
 	private String query;
+
 	@RParam(rParamName = "p_servico")
 	private String servico;
+
 	@RParam(rParamName = "p_id_pagina")
 	private int id_pagina;
+
 	@RParam(rParamName = "p_id_servico")
 	private String id_servico;
+
 	@RParam(rParamName = "p_id")
 	private String id;
+
 	@RParam(rParamName = "p_id_env")
 	private String id_env;
-	
-	public void setData_source(String data_source){
-		this.data_source = data_source;
-	}
-	public String getData_source(){
-		return this.data_source;
-	}
+
+	@RParam(rParamName = "p_datasorce_app")
+	private String datasorce_app;
 	
 	public void setTipo(String tipo){
 		this.tipo = tipo;
 	}
 	public String getTipo(){
 		return this.tipo;
+	}
+	
+	public void setData_source(String data_source){
+		this.data_source = data_source;
+	}
+	public String getData_source(){
+		return this.data_source;
 	}
 	
 	public void setNome(String nome){
@@ -120,6 +136,13 @@ public class DataSource extends Model{
 	}
 	public String getId_env(){
 		return this.id_env;
+	}
+	
+	public void setDatasorce_app(String datasorce_app){
+		this.datasorce_app = datasorce_app;
+	}
+	public String getDatasorce_app(){
+		return this.datasorce_app;
 	}
 
 
