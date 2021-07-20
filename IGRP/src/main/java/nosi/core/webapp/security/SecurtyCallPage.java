@@ -64,7 +64,7 @@ public class SecurtyCallPage {
 				if(Core.isNotNull(c) && c.length > 1 && Core.isNotNullMultiple(c[0],c[1])) {
 					final boolean isPublicPage = new Action().isPublicPage(c[0], c[1]);
 					if (!isPublicPage)
-						throw new NotFoundHttpException("Page not public! Página não é pública!");
+						throw new NotFoundHttpException("Page not public! Página não é pública! - ("+r+")");
 					changeLanguage();//Change language in case page is public
 					return isPublicPage;
 				}
