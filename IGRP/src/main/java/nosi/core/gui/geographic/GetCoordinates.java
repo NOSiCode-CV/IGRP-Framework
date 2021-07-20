@@ -1,4 +1,4 @@
-package nosi.core.geographic;
+package nosi.core.gui.geographic;
 
 /**
  * CarlosA.Graca
