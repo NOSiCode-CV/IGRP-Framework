@@ -140,80 +140,80 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <t1_menu_principal name="p_t1_menu_principal">Aliqua labore iste anim mollit magna doloremque adipiscing aliqua sed magna voluptatem magna amet el</t1_menu_principal>
+                        <t1_menu_principal name="p_t1_menu_principal">Anim laudantium adipiscing labore lorem amet adipiscing aperiam adipiscing doloremque dolor aliqua r</t1_menu_principal>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <ordem name="p_ordem">23</ordem>
-                        <icon name="p_icon">Lorem iste ut lorem rem anim a</icon>
-                        <table_titulo name="p_table_titulo">Totam elit mollit sit aperiam ut elit consectetur perspiciatis stract perspiciatis unde voluptatem o</table_titulo>
-                        <pagina name="p_pagina">Unde lorem unde ipsum amet lorem adipiscing aperiam sed sit mollit sit deserunt stract natus officia</pagina>
+                        <ordem name="p_ordem">14</ordem>
+                        <icon name="p_icon">Elit stract totam perspiciatis</icon>
+                        <table_titulo name="p_table_titulo">Deserunt voluptatem sit sit doloremque sed mollit iste sit amet laudantium totam omnis sit doloremqu</table_titulo>
+                        <pagina name="p_pagina">Magna iste aperiam ipsum laudantium aliqua anim totam consectetur omnis aperiam sit doloremque amet</pagina>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
-                        <id name="p_id" tag="id">hidden-d9dc_10bc</id>
+                        <id name="p_id" tag="id">hidden-67cf_74c7</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <t1_menu_principal name="p_t1_menu_principal">Consectetur totam natus sit aperiam sed rem unde natus aperiam voluptatem dolor ipsum omnis natus si</t1_menu_principal>
+                        <t1_menu_principal name="p_t1_menu_principal">Anim sed anim ut unde sed omnis amet natus ut laudantium omnis ipsum totam adipiscing ut aliqua aper</t1_menu_principal>
+                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
+                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
+                        <ordem name="p_ordem">3</ordem>
+                        <icon name="p_icon">Doloremque totam officia aperi</icon>
+                        <table_titulo name="p_table_titulo">Sit magna sed ut laudantium ut magna mollit voluptatem unde elit omnis dolor deserunt amet anim adip</table_titulo>
+                        <pagina name="p_pagina">Unde labore perspiciatis natus labore sit unde totam doloremque consectetur natus voluptatem aliqua</pagina>
+                        <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
+                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <id name="p_id" tag="id">hidden-93af_03a7</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <t1_menu_principal name="p_t1_menu_principal">Mollit anim dolor totam stract officia rem ut mollit doloremque iste aliqua adipiscing unde officia</t1_menu_principal>
+                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
+                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
+                        <ordem name="p_ordem">25</ordem>
+                        <icon name="p_icon">Sit perspiciatis deserunt ut a</icon>
+                        <table_titulo name="p_table_titulo">Sed unde anim mollit omnis stract adipiscing ut unde ut mollit ipsum officia ipsum sit omnis mollit</table_titulo>
+                        <pagina name="p_pagina">Sit perspiciatis amet sit lorem deserunt sed voluptatem sed laudantium sit ut natus omnis perspiciat</pagina>
+                        <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
+                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <id name="p_id" tag="id">hidden-ff72_ddc1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <t1_menu_principal name="p_t1_menu_principal">Sit lorem dolor officia lorem stract ipsum anim iste magna voluptatem sed aliqua omnis stract dolor</t1_menu_principal>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
                         <ordem name="p_ordem">22</ordem>
-                        <icon name="p_icon">Mollit lorem doloremque perspi</icon>
-                        <table_titulo name="p_table_titulo">Officia laudantium sit officia sed consectetur magna ipsum stract accusantium labore omnis adipiscin</table_titulo>
-                        <pagina name="p_pagina">Mollit natus elit sed dolor sit lorem voluptatem deserunt aliqua amet consectetur ipsum deserunt sit</pagina>
+                        <icon name="p_icon">Officia amet rem labore omnis</icon>
+                        <table_titulo name="p_table_titulo">Sit deserunt dolor officia aliqua accusantium ipsum unde ut iste dolor lorem totam consectetur ipsum</table_titulo>
+                        <pagina name="p_pagina">Sit anim stract perspiciatis doloremque omnis mollit aperiam mollit dolor magna mollit amet stract d</pagina>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
-                        <id name="p_id" tag="id">hidden-7ce5_cb04</id>
+                        <id name="p_id" tag="id">hidden-99f6_ddab</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <t1_menu_principal name="p_t1_menu_principal">Sed lorem elit officia sed stract natus totam elit magna totam iste laudantium lorem aperiam lorem t</t1_menu_principal>
+                        <t1_menu_principal name="p_t1_menu_principal">Doloremque natus voluptatem amet sit adipiscing magna iste voluptatem stract perspiciatis sit perspi</t1_menu_principal>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <ordem name="p_ordem">8</ordem>
-                        <icon name="p_icon">Deserunt ipsum deserunt rem ip</icon>
-                        <table_titulo name="p_table_titulo">Stract accusantium adipiscing sed omnis natus unde perspiciatis adipiscing doloremque sit accusantiu</table_titulo>
-                        <pagina name="p_pagina">Sit accusantium dolor laudantium magna consectetur accusantium elit anim deserunt accusantium omnis</pagina>
+                        <ordem name="p_ordem">18</ordem>
+                        <icon name="p_icon">Stract mollit ipsum accusantiu</icon>
+                        <table_titulo name="p_table_titulo">Amet unde laudantium deserunt accusantium laudantium magna omnis rem unde elit rem dolor sit accusan</table_titulo>
+                        <pagina name="p_pagina">Aliqua aperiam doloremque sit labore magna sit dolor omnis doloremque adipiscing ipsum laudantium ut</pagina>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
-                        <id name="p_id" tag="id">hidden-edc2_2393</id>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <t1_menu_principal name="p_t1_menu_principal">Aperiam consectetur doloremque sed lorem deserunt laudantium iste natus sed sit totam omnis aperiam</t1_menu_principal>
-                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
-                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <ordem name="p_ordem">9</ordem>
-                        <icon name="p_icon">Sed mollit aperiam mollit ut a</icon>
-                        <table_titulo name="p_table_titulo">Iste ipsum consectetur ut labore totam adipiscing sit amet voluptatem iste aperiam totam rem mollit</table_titulo>
-                        <pagina name="p_pagina">Ipsum elit amet iste officia lorem voluptatem amet officia natus sed totam voluptatem elit aperiam d</pagina>
-                        <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
-                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
-                        <id name="p_id" tag="id">hidden-212d_f98f</id>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <t1_menu_principal name="p_t1_menu_principal">Accusantium totam sit ipsum adipiscing unde labore unde accusantium amet magna sit natus stract elit</t1_menu_principal>
-                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
-                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <ordem name="p_ordem">23</ordem>
-                        <icon name="p_icon">Iste laudantium anim stract re</icon>
-                        <table_titulo name="p_table_titulo">Consectetur totam labore sed iste lorem rem sed iste ipsum mollit magna perspiciatis elit sit offici</table_titulo>
-                        <pagina name="p_pagina">Lorem stract consectetur totam mollit rem mollit totam ut sit accusantium sit natus laudantium molli</pagina>
-                        <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
-                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
-                        <id name="p_id" tag="id">hidden-6ae6_2788</id>
+                        <id name="p_id" tag="id">hidden-e2d2_ad30</id>
                     </row>
                 </value>
                 <context-menu>
@@ -240,6 +240,84 @@
                 </context-menu>
             </table>
         </table_1>
+        <box_1 type="box" xml-type="form" title="Ordenar Menú" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
+        <formlist_1 type="formlist" xml-type="formlist" gen-clean="true" gen-type="container" gen-group="true">
+            <fields>
+                <pagina_order name="p_pagina_order" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desc="true">
+                    <label>Página</label>
+                </pagina_order>
+                <id_page_ord name="p_id_page_ord" type="hidden" maxlength="250" java-type="" tag="id_page_ord" desc="true"/>
+                <id_pai name="p_id_pai" type="hidden" maxlength="250" java-type="" tag="id_pai" desc="true"/>
+                <id_do_pai name="p_id_do_pai" type="hidden" maxlength="250" java-type="" tag="id_do_pai" desc="true"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <pagina_order name="p_pagina_order" desc="true">Aperiam doloremque mollit natus lorem</pagina_order>
+                        <pagina_order_desc name="p_pagina_order_desc">Aperiam doloremque mollit natus lorem</pagina_order_desc>
+                        <id_page_ord name="p_id_page_ord" tag="id_page_ord" desc="true">hidden-618c_f0da</id_page_ord>
+                        <id_page_ord_desc name="p_id_page_ord_desc">hidden-618c_f0da</id_page_ord_desc>
+                        <id_pai name="p_id_pai" tag="id_pai" desc="true">hidden-51fb_cf9b</id_pai>
+                        <id_pai_desc name="p_id_pai_desc">hidden-51fb_cf9b</id_pai_desc>
+                        <id_do_pai name="p_id_do_pai" tag="id_do_pai" desc="true">hidden-be0c_c5a4</id_do_pai>
+                        <id_do_pai_desc name="p_id_do_pai_desc">hidden-be0c_c5a4</id_do_pai_desc>
+                    </row>
+                    <row>
+                        <pagina_order name="p_pagina_order" desc="true">Perspiciatis ipsum voluptatem magna stract</pagina_order>
+                        <pagina_order_desc name="p_pagina_order_desc">Perspiciatis ipsum voluptatem magna stract</pagina_order_desc>
+                        <id_page_ord name="p_id_page_ord" tag="id_page_ord" desc="true">hidden-8a80_c19c</id_page_ord>
+                        <id_page_ord_desc name="p_id_page_ord_desc">hidden-8a80_c19c</id_page_ord_desc>
+                        <id_pai name="p_id_pai" tag="id_pai" desc="true">hidden-59db_0740</id_pai>
+                        <id_pai_desc name="p_id_pai_desc">hidden-59db_0740</id_pai_desc>
+                        <id_do_pai name="p_id_do_pai" tag="id_do_pai" desc="true">hidden-3f7d_dadc</id_do_pai>
+                        <id_do_pai_desc name="p_id_do_pai_desc">hidden-3f7d_dadc</id_do_pai_desc>
+                    </row>
+                    <row>
+                        <pagina_order name="p_pagina_order" desc="true">Omnis lorem accusantium anim perspiciatis</pagina_order>
+                        <pagina_order_desc name="p_pagina_order_desc">Omnis lorem accusantium anim perspiciatis</pagina_order_desc>
+                        <id_page_ord name="p_id_page_ord" tag="id_page_ord" desc="true">hidden-2693_bf9e</id_page_ord>
+                        <id_page_ord_desc name="p_id_page_ord_desc">hidden-2693_bf9e</id_page_ord_desc>
+                        <id_pai name="p_id_pai" tag="id_pai" desc="true">hidden-ad25_ae6c</id_pai>
+                        <id_pai_desc name="p_id_pai_desc">hidden-ad25_ae6c</id_pai_desc>
+                        <id_do_pai name="p_id_do_pai" tag="id_do_pai" desc="true">hidden-bf03_4848</id_do_pai>
+                        <id_do_pai_desc name="p_id_do_pai_desc">hidden-bf03_4848</id_do_pai_desc>
+                    </row>
+                    <row>
+                        <pagina_order name="p_pagina_order" desc="true">Laudantium elit mollit magna amet</pagina_order>
+                        <pagina_order_desc name="p_pagina_order_desc">Laudantium elit mollit magna amet</pagina_order_desc>
+                        <id_page_ord name="p_id_page_ord" tag="id_page_ord" desc="true">hidden-2a0a_8a68</id_page_ord>
+                        <id_page_ord_desc name="p_id_page_ord_desc">hidden-2a0a_8a68</id_page_ord_desc>
+                        <id_pai name="p_id_pai" tag="id_pai" desc="true">hidden-9d94_a1ba</id_pai>
+                        <id_pai_desc name="p_id_pai_desc">hidden-9d94_a1ba</id_pai_desc>
+                        <id_do_pai name="p_id_do_pai" tag="id_do_pai" desc="true">hidden-05eb_c5c7</id_do_pai>
+                        <id_do_pai_desc name="p_id_do_pai_desc">hidden-05eb_c5c7</id_do_pai_desc>
+                    </row>
+                    <row>
+                        <pagina_order name="p_pagina_order" desc="true">Sed unde totam laudantium elit</pagina_order>
+                        <pagina_order_desc name="p_pagina_order_desc">Sed unde totam laudantium elit</pagina_order_desc>
+                        <id_page_ord name="p_id_page_ord" tag="id_page_ord" desc="true">hidden-a88d_34d9</id_page_ord>
+                        <id_page_ord_desc name="p_id_page_ord_desc">hidden-a88d_34d9</id_page_ord_desc>
+                        <id_pai name="p_id_pai" tag="id_pai" desc="true">hidden-c0e8_0033</id_pai>
+                        <id_pai_desc name="p_id_pai_desc">hidden-c0e8_0033</id_pai_desc>
+                        <id_do_pai name="p_id_do_pai" tag="id_do_pai" desc="true">hidden-d2b1_8374</id_do_pai>
+                        <id_do_pai_desc name="p_id_do_pai_desc">hidden-d2b1_8374</id_do_pai_desc>
+                    </row>
+                </value>
+            </table>
+        </formlist_1>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar_ordenacao" custom_return="true" refresh_components="table_1,formlist_1">
+                <title>Gravar Ordenação</title>
+                <app>igrp</app>
+                <page>PesquisarMenu</page>
+                <link>index</link>
+                <target>submit_ajax</target>
+                <img>primary|fa-sort-numeric-asc</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xml</preview>
+            </item>
+        </toolsbar_2>
     </content>
     <blockly>
         <imports></imports>

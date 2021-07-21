@@ -716,7 +716,7 @@
 	/******* BLOCO SET DAO *******/
 
 	$(document).on('set-dao-block-init',function(e, block, dao) {
-		var options = IGRP_BLOCKLY_DROPS.daos[dao];
+		var options = IGRP_BLOCKLY_DROPS.daos_set[dao];
 		var dropdown = new Blockly.FieldDropdown(options,function(option) {
 			this.sourceBlock_.updateShape_(option);
 		});
@@ -746,7 +746,7 @@
 					this.setInputsInline(false);
 				} catch (err) {
 				}		
-			}			
+			}
 		};
 	});
 
