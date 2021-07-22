@@ -29,8 +29,15 @@ public class ImportArquivoView extends View {
 	public Field imagens;
 	public Field form_5_link_1;
 	public Field sectionheader_3_text;
+	public Field carousel_1_label;
+	public Field carousel_1_img;
 	public Field list_aplicacao;
 	public Field arquivo_pagina;
+	public Field imagem;
+	public Field imagem_tbl;
+	public Field imagem_tbl_desc;
+	public Field id_img_desc;
+	public Field id_img;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPView view_1;
 	public IGRPTabContent tabcontent_1;
@@ -43,14 +50,21 @@ public class ImportArquivoView extends View {
 	public IGRPForm form_4;
 	public IGRPForm form_5;
 	public IGRPBox box_1;
+	public IGRPBox box_2;
 	public IGRPSectionHeader sectionheader_3;
+	public IGRPTable carousel_1;
 	public IGRPForm form_6;
+	public IGRPForm form_1;
+	public IGRPFormList formlist_1;
 
+	public IGRPToolsBar toolsbar_2;
+	public IGRPButton btn_ordenar;
 	public IGRPButton btn_btm_import_aplicacao;
 	public IGRPButton btn_importar_jar_file;
 	public IGRPButton btn_importar_script;
 	public IGRPButton btn_import_images;
 	public IGRPButton btn_btm_importar_page;
+	public IGRPButton btn_upload;
 
 	public ImportArquivoView(){
 
@@ -80,9 +94,17 @@ public class ImportArquivoView extends View {
 
 		box_1 = new IGRPBox("box_1","");
 
+		box_2 = new IGRPBox("box_2","Importar Imagens para Página Login");
+
 		sectionheader_3 = new IGRPSectionHeader("sectionheader_3","");
 
+		carousel_1 = new IGRPTable("carousel_1","");
+
 		form_6 = new IGRPForm("form_6","");
+
+		form_1 = new IGRPForm("form_1","");
+
+		formlist_1 = new IGRPFormList("formlist_1","");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
@@ -91,8 +113,7 @@ public class ImportArquivoView extends View {
 		
 		help = new LinkField(model,"help");
 		help.setLabel(gt("Help"));
-		help.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=import"));
-		help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		importar_aplicacao = new TextField(model,"importar_aplicacao");
 		importar_aplicacao.setLabel(gt("Importar IGRP"));
@@ -171,6 +192,14 @@ public class ImportArquivoView extends View {
 		sectionheader_3_text.setValue(gt("Importar página IGRP antiga (.zip)"));
 		sectionheader_3_text.propertie().add("type","text").add("name","p_sectionheader_3_text").add("maxlength","4000");
 		
+		carousel_1_label = new TextField(model,"carousel_1_label");
+		carousel_1_label.setLabel(gt("Title"));
+		carousel_1_label.propertie().add("name","p_carousel_1_label").add("type","text").add("maxlength","200");
+		
+		carousel_1_img = new TextField(model,"carousel_1_img");
+		carousel_1_img.setLabel(gt("Image"));
+		carousel_1_img.propertie().add("name","p_carousel_1_img").add("type","text").add("maxlength","200");
+		
 		list_aplicacao = new ListField(model,"list_aplicacao");
 		list_aplicacao.setLabel(gt("Aplicação"));
 		list_aplicacao.propertie().add("name","p_list_aplicacao").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
@@ -179,7 +208,27 @@ public class ImportArquivoView extends View {
 		arquivo_pagina.setLabel(gt("Página"));
 		arquivo_pagina.propertie().add("name","p_arquivo_pagina").add("type","file").add("accept","application/java-archive,.jar,application/zip").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","250").add("required","false").add("disabled","false").add("class","primary");
 		
+		imagem = new FileField(model,"imagem");
+		imagem.setLabel(gt("Imagem"));
+		imagem.propertie().add("name","p_imagem").add("type","file").add("accept","image/*").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","250").add("required","true").add("disabled","false").add("class","grey");
+		
+		imagem_tbl = new LinkField(model,"imagem_tbl");
+		imagem_tbl.setLabel(gt("Imagem"));
+		imagem_tbl.setValue(Core.getIGRPLink("igrp_studio","ListaPage","index"));
 
+									imagem_tbl_desc = new LinkField(model,"imagem_tbl_desc");
+		imagem_tbl_desc.setLabel(gt("Imagem"));
+		imagem_tbl.propertie().add("name","p_imagem_tbl").add("type","link").add("target","modal").add("request_fields","").add("list_source","").add("refresh_components","").add("refresh_submit","false").add("adbcli","").add("class","link").add("img","fa-link").add("maxlength","250").add("placeholder",gt("")).add("desc","true");
+		
+		id_img = new HiddenField(model,"id_img");
+		id_img.setLabel(gt(""));
+		id_img.propertie().add("name","p_id_img").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","id_img").add("desc","true");
+		
+
+		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
+
+		btn_ordenar = new IGRPButton("Gravar Ordenação","igrp_studio","ImportArquivo","ordenar","submit_notvalidate","grey|fa-sort-numeric-asc","","");
+		btn_ordenar.propertie.add("type","specific").add("rel","ordenar").add("refresh_components","");
 
 		btn_btm_import_aplicacao = new IGRPButton("Importar","igrp_studio","ImportArquivo","btm_import_aplicacao","submit_form","primary|fa-upload","","");
 		btn_btm_import_aplicacao.propertie.add("id","button_94f6_cdb4").add("type","form").add("class","primary").add("rel","btm_import_aplicacao").add("refresh_components","");
@@ -195,6 +244,9 @@ public class ImportArquivoView extends View {
 
 		btn_btm_importar_page = new IGRPButton("Importar","igrp_studio","ImportArquivo","btm_importar_page","submit_form","primary|fa-upload","","");
 		btn_btm_importar_page.propertie.add("id","button_6e68_d5a9").add("type","form").add("class","primary").add("rel","btm_importar_page").add("refresh_components","");
+
+		btn_upload = new IGRPButton("Upload","igrp_studio","ImportArquivo","upload","submit_form","grey|fa-upload","","");
+		btn_upload.propertie.add("id","button_0498_24b9").add("type","form").add("class","grey").add("rel","upload").add("refresh_components","carousel_1,table_1");
 
 		
 	}
@@ -233,16 +285,29 @@ public class ImportArquivoView extends View {
 		form_5.addField(form_5_link_1);
 
 
+
 		sectionheader_3.addField(sectionheader_3_text);
+
+		carousel_1.addField(carousel_1_label);
+		carousel_1.addField(carousel_1_img);
 
 		form_6.addField(list_aplicacao);
 		form_6.addField(arquivo_pagina);
 
+		form_1.addField(imagem);
+
+		formlist_1.addField(imagem_tbl);
+		formlist_1.addField(imagem_tbl_desc);
+		formlist_1.addField(id_img);
+
+
+		toolsbar_2.addButton(btn_ordenar);
 		form_2.addButton(btn_btm_import_aplicacao);
 		form_3.addButton(btn_importar_jar_file);
 		form_4.addButton(btn_importar_script);
 		form_5.addButton(btn_import_images);
 		form_6.addButton(btn_btm_importar_page);
+		form_1.addButton(btn_upload);
 		this.addToPage(sectionheader_1);
 		this.addToPage(view_1);
 		this.addToPage(tabcontent_1);
@@ -255,13 +320,19 @@ public class ImportArquivoView extends View {
 		this.addToPage(form_4);
 		this.addToPage(form_5);
 		this.addToPage(box_1);
+		this.addToPage(box_2);
 		this.addToPage(sectionheader_3);
+		this.addToPage(carousel_1);
 		this.addToPage(form_6);
+		this.addToPage(form_1);
+		this.addToPage(formlist_1);
+		this.addToPage(toolsbar_2);
 	}
 		
 	@Override
 	public void setModel(Model model) {
 		
+		help.setValue(model);
 		importar_aplicacao.setValue(model);
 		importar_jar_file.setValue(model);
 		importar_sql_script.setValue(model);
@@ -275,8 +346,16 @@ public class ImportArquivoView extends View {
 		tipo.setValue(model);
 		imagens.setValue(model);
 		form_5_link_1.setValue(model);
+		carousel_1_label.setValue(model);
+		carousel_1_img.setValue(model);
 		list_aplicacao.setValue(model);
-		arquivo_pagina.setValue(model);	
+		arquivo_pagina.setValue(model);
+		imagem.setValue(model);
+		imagem_tbl.setValue(model);
+		imagem_tbl_desc.setValue(model);
+		id_img.setValue(model);	
 
+		carousel_1.loadModel(((ImportArquivo) model).getCarousel_1());
+		formlist_1.loadModel(((ImportArquivo) model).getFormlist_1());
 		}
 }

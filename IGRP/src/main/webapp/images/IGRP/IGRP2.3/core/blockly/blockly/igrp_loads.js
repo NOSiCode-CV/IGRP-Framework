@@ -60,12 +60,13 @@ var	daoClasses = {},
 	serviceClasses = {},
 	IGRP_BLOCKLY_DROPS={ 
 		daos : {},
+		daos_set : {},
 		services : {}
 		
 	},
 
 	AppTitle, PageTitle, fullClassService, packageService, pagetitle, fields_model = [], form_id = [], key_model = [], fields_table = [],
-	fields_separator = [], PAGES = [], DOMAINS = [],
+	fields_separator = [], PAGES = [], DOMAINS = [],  Paramyters = [],
 	fields_formlist = [], fields_model_form = [], view_model = [], fields_model_view = [], chart = [], tables_model = [], statbox_model =[], smallbox_model =[],
 	separator_model = [],formlist_model = [], form_model = [], buttons_model = [], all_buttons = [], daos_list = [], services_list = [], bloc_fields = [],
 	service_fields = [], operations_list = [],
@@ -200,7 +201,7 @@ $('#active_selenium').on('click', function() {
 			}
 			
 			if(key == "true"){
-				key_model.push([ tag, tag]);
+				key_model.push([ tagg, tagg]);	
 				addforeign++;	
 			}	
 			if(ChooseType == "select" && domain== "" || ChooseType == "checkboxlist" && domain== "" || ChooseType == "radiolist" && domain== ""){
@@ -213,7 +214,8 @@ $('#active_selenium').on('click', function() {
 			}
 			
 		});	
-	});		 
+	});	
+	 console.log(Paramyters)
 	 if(addmodel !=0){		 
 		$('#toolbox').append(	
 			'<category id="model" name="Model '+PageTitle+'" colour="300" class="blocly-dynamic">'
@@ -1223,22 +1225,25 @@ $('#active_selenium').on('click', function() {
 				});
 				bloc_fields.forEach(function(daos) { 
 					var fieldy_list = [];
+					var fieldy_list_set = [];
 					fieldy_list.push(['', 'ObjectDao'+'::'+daos]);
+					fieldy_list_set.push(['', 'ObjectDao'+'::'+daos]);
 					IGRP_BLOCKLY_DROPS.daos[daos] = fieldy_list;
+					IGRP_BLOCKLY_DROPS.daos_set[daos] = fieldy_list_set;
 					$(data).find('dao>' + daos+ '>*').each(function(i, f) {
 						var field = $('nome',f).text(),
 							type = $('tipo',f).text();
 							fieldy_list.push([field,type+'::'+field ]);	
+							if(!type.includes("_PK#"))
+								fieldy_list_set.push([field,type+'::'+field ]);
+								
 					});
 					$('#'+daos+'').append(
 						'<block type="set-dao-'+daos+'" igrp="tete" color="160"  prev-statement="" next-statement="" class="blocly-dynamic">'
-							+'<value name="value1" type="value" title="set '+daos+'">'
-							+'</value>'
+							+'<value name="value1" type="value" title="set '+daos+'"></value>'
 						+'</block>\n');
 					$('#'+daos+'').append(
-							'<block type="get-dao-'+daos+'" color="160" output="" class="blocly-dynamic">'
-							+'</block>'
-							);
+							'<block type="get-dao-'+daos+'" color="160" output="" class="blocly-dynamic"></block>');
 				});
 		}
 		
@@ -1533,7 +1538,6 @@ function GetBlocklyImports(){
 			if(text.indexOf('::') >=0 ){
 				var types = text.split('::')[0];
 				if(fieldsImportsMap[types] && !fieldsInc[types]){
-					console.log(types)
 					fieldsInc[types] = true;
 				}
 				if(daoClasses[types]){
