@@ -12,7 +12,6 @@ import javax.xml.bind.JAXB;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.reflect.TypeToken;
-
 import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.binding.tasks_process.TaskOfProcess;
 import nosi.core.webapp.activit.rest.binding.tasks_process.UserTask;
@@ -290,7 +289,8 @@ public class TaskServiceRest extends GenericActivitiRest {
 
 	// Transferir Tarefa
 	public boolean delegateTask(String taskId, String assignee) {
-		return this.taskAction(taskId, "delegate", assignee);
+		//return this.taskAction(taskId, "delegate", assignee); // Does not work when the new assignee executes the task
+		return this.freeTask(taskId) && this.claimTask(taskId, assignee);
 	}
 
 	// Devolve a tarefa de volta para o proprietario, se houver
@@ -515,8 +515,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 				 t = (List<TaskService>) ResponseConverter.convertJsonToListDao(contentResp, "data", 
 							new TypeToken<List<TaskService>>() {
 							}.getType());
-			 else
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			 else this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			
 			response.close();
 		}

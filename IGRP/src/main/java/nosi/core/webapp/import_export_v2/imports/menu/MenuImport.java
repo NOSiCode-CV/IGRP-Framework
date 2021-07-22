@@ -71,9 +71,13 @@ public class MenuImport extends AbstractImport implements IImport{
 		new_menu.setAction(action);
 		if (Core.isNotNull(action)) {
 //			Menu is son or orphan
-			if (Core.isNull(new Menu().find().andWhere("application.id", "=", new_menu.getApplication().getId())
+			Menu menu_update = new Menu().find()
+					.andWhere("application.id", "=", new_menu.getApplication().getId())
 					.andWhere("action", "=", new_menu.getAction().getId())
-					.andWhere("descr", "=", new_menu.getDescr()).one())){
+					.andWhere("descr", "=", new_menu.getDescr()).one();
+					
+			
+			if (Core.isNull(menu_update)){
 //				The item is realy new, so insert it
 				if(Core.isNotNull(m.getMenu().getPage_name())){
 //					Orphan has itself parent
@@ -85,14 +89,21 @@ public class MenuImport extends AbstractImport implements IImport{
 				}				
 				new_menu = new_menu.insert();
 				this.addError(new_menu.hasError()?new_menu.getError().get(0):null);
+			}else {
+				menu_update.setMenu_icon(m.getMenu_icon());
+				menu_update = menu_update.update();
 			}
 		} else {
 			//Menu is Parent
-			if (Core.isNull(new Menu().find().andWhere("application.id", "=", new_menu.getApplication().getId())
-					.andWhere("descr", "=", new_menu.getDescr()).one())) {
+			Menu menu_pai_update = new Menu().find().andWhere("application.id", "=", new_menu.getApplication().getId())
+					.andWhere("descr", "=", new_menu.getDescr()).one();
+			if (Core.isNull(menu_pai_update)) {
 //				The item parent is realy new, so insert it
 				new_menu = new_menu.insert();
 				this.addError(new_menu.hasError()?new_menu.getError().get(0):null);
+			}else {
+				menu_pai_update.setMenu_icon(m.getMenu_icon());
+				menu_pai_update = menu_pai_update.update();
 			}
 		}			
 	}
