@@ -2696,9 +2696,9 @@ public final class Core {
 	 *             {@code  	 
 				try {
 				List<Part> parts = Core.getFiles();
-				for(int i=0;i<parts.size();i++) {
-				String desription = ""; int fileId = Core.saveFile(parts.get(i)); }
-	 *             } catch (ServletException e) { e.printStackTrace(); }}
+				for(int i=0;i<parts.size();i++) { String desription = ""; int fileId
+	 *             = Core.saveFile(parts.get(i)); } } catch (ServletException e) {
+	 *             e.printStackTrace(); }}
 	 * 
 	 * @param part
 	 * @return {@code saveFile(part,part.getSubmittedFileName());}
@@ -2716,9 +2716,9 @@ public final class Core {
 	 * {@code  	 
 				try {
 				List<Part> parts = Core.getFiles();
-				for(int i=0;i<parts.size();i++) {
-				String desription = ""; int fileId = Core.saveFile(parts.get(i)); }
-	 * } catch (ServletException e) { e.printStackTrace(); }}
+				for(int i=0;i<parts.size();i++) { String desription = ""; int fileId
+	 * = Core.saveFile(parts.get(i)); } } catch (ServletException e) {
+	 * e.printStackTrace(); }}
 	 * 
 	 * @param part
 	 * @return {@code saveFile(part,part.getSubmittedFileName());}
@@ -5079,7 +5079,7 @@ public final class Core {
 	public static List<Profile> getUsersByProfileId(Integer idProfile) {
 		List<Profile> users = null;
 		if (idProfile != null) {
-			users = new Profile().find().where("type_fk", "=", idProfile).all();
+			users = new Profile().find().where("type_fk", "=", idProfile).andWhere("type", "=", "PROF").all();
 		}
 		return users != null && !users.isEmpty() ? users : null;
 	}

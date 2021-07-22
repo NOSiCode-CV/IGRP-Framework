@@ -22,6 +22,7 @@ public class MenuSerializable implements Serializable{
 	private String page_name;
 	private String dad_page;
 	private String dad_menu;
+	private String menu_icon;
 	private MenuSerializable menu;
 	
 	public Integer getId() {
@@ -29,6 +30,12 @@ public class MenuSerializable implements Serializable{
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	public String getMenu_icon() {
+		return menu_icon;
+	}
+	public void setMenu_icon(String menu_icon) {
+		this.menu_icon = menu_icon;
 	}
 	public String getDescr() {
 		return descr;

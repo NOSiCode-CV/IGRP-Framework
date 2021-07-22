@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Config_env;
 
@@ -55,6 +56,22 @@ public class DatabaseMetadaHelper {
 			e.printStackTrace();
 		}
 		return tableNames;
+	}	
+	
+	public static boolean tableOrViewExists(Config_env config, String schema, String tableViewName) {
+		if (Core.isNotNull(tableViewName)) {
+			try (java.sql.Connection connection = Connection.getConnection(config);
+					ResultSet tables = connection.getMetaData().getTables(null, schema, null, new String[] { TABLE, VIEW });) {
+				while (tables.next()) {
+					final String table = tables.getString(TABLE_NAME);
+					if (tableViewName.equalsIgnoreCase(table))
+						return true;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
 	}
 
 	private static String[] getTypesAsArray() {
@@ -274,20 +291,6 @@ public class DatabaseMetadaHelper {
 		}
 		return schemasMap;
 	}
-
-	// Not in use
-	/* public static Map<String, String> getTablesMap(Config_env config, String schema) {
-		Map<String, String> list = new HashMap<>();
-		try (java.sql.Connection con = Connection.getConnection(config.getName());
-				ResultSet tables = con.getMetaData().getTables(null, schema, null, new String[] { "TABLE" })) {
-			while (tables.next()) {
-				list.put(tables.getString(3), tables.getString(3));// Get Table Name
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return list;
-	} */
 
 	public static class Column{
 	
