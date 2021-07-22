@@ -2129,10 +2129,23 @@ public final class Core {
 		return result;
 	}
 	
+	/**
+	 * @param endpoint PDEX Email Gateway URL 
+	 * @param httpAuthorizationHeaderValue PDEX Email Gateway "Bearer TOKEN" 
+	 * @param payload The Message 
+	 * @return boolean success true|false
+	 */
 	public static boolean mailGatewayPdex(String endpoint, String httpAuthorizationHeaderValue, PdexEmailGatewayPayloadDTO payload) {
 		return new PdexEmailGateway(endpoint, httpAuthorizationHeaderValue, payload).send();
 	}
 	
+	/**
+	 * @param endpoint PDEX Email Gateway URL 
+	 * @param httpAuthorizationHeaderValue PDEX Email Gateway "Bearer TOKEN" 
+	 * @param payload The Message 
+	 * @param errors A List of errors if occurs 
+	 * @return boolean success true|false
+	 */
 	public static boolean mailGatewayPdex(String endpoint, String httpAuthorizationHeaderValue, PdexEmailGatewayPayloadDTO payload, List<String> errors) {
 		boolean success = false;
 		PdexEmailGateway sender = new PdexEmailGateway(endpoint, httpAuthorizationHeaderValue); 
