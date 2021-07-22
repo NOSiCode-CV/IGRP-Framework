@@ -92,7 +92,11 @@
 			</category>			
 			<category id="catText" name="Text" colour="230">			
 					<block type="text" default="true"></block>					
-					<block type="text_print" default="true"></block>					
+					<block type="text_print" default="true"></block>
+					<block type="concaty" mutator="concat" output="" colour="200" inline="true">
+						<value name="concat_value" type="value" title="concat">				 						 				 			
+						</value>	
+					</block>					
 			</category>			
 			<sep></sep>			
 			<category id="customcode" name="Custom Code" colour="280" >				

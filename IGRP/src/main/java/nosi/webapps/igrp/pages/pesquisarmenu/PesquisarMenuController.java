@@ -18,11 +18,14 @@ import java.util.Properties;
 import java.util.Map.Entry;
 import javax.servlet.http.Cookie;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import nosi.core.config.ConfigApp;
 import nosi.core.gui.components.IGRPTopMenu;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.integration.pdex.service.AppConfig;
 import nosi.core.integration.pdex.service.AppConfig.ExternalMenu;
 import nosi.core.webapp.Controller;
@@ -38,13 +41,15 @@ import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Menu.MenuProfile;
+import nosi.webapps.igrp_studio.dao.TblImageLogin;
+import nosi.webapps.igrp_studio.pages.importarquivo.ImportArquivo;
 
 import static nosi.core.i18n.Translator.gt;
 
 /*----#end-code----*/
-		
+
 public class PesquisarMenuController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		PesquisarMenuView view = new PesquisarMenuView();
@@ -52,18 +57,20 @@ public class PesquisarMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Rem aliqua stract magna elit aperiam magna amet ipsum magna ipsum laudantium iste doloremque ipsum a' as t1_menu_principal,'1' as ativo,'2' as ordem,'Omnis ipsum sit rem aliqua sed' as icon,'Doloremque iste amet sit officia aliqua natus voluptatem sit aliqua amet magna dolor natus officia e' as table_titulo,'Lorem dolor magna ipsum adipiscing mollit officia mollit voluptatem sit labore accusantium laudantiu' as pagina,'1' as checkbox,'hidden-2491_46da' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Sit iste deserunt ipsum iste mollit aperiam aliqua ipsum unde rem sit stract omnis totam perspiciati' as t1_menu_principal,'1' as ativo,'27' as ordem,'Iste officia consectetur molli' as icon,'Ut omnis ut perspiciatis stract natus elit voluptatem dolor rem elit sed voluptatem deserunt lorem e' as table_titulo,'Doloremque stract totam officia consectetur stract aperiam stract perspiciatis aperiam stract laudan' as pagina,'1' as checkbox,'hidden-911e_c41f' as id "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Accusantium rem adipiscing accusantium deserunt' as pagina_order,'hidden-a970_cfe9' as id_page_ord,'hidden-8563_12be' as id_pai,'hidden-1669_913e' as id_do_pai "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 
-		//model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=menu"));
-		
+		// model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=menu"));
+
 		Menu menu = new Menu();
 		int idApp = Core.getParamInt("p_id_app");
 		int idOrg = 0;
-		// int idMen = 0; 
-		// If in a app, choose automatically the app in the combobox 
+		// int idMen = 0;
+		// If in a app, choose automatically the app in the combobox
 		String dad = Core.getCurrentDad();
 
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
@@ -85,21 +92,23 @@ public class PesquisarMenuController extends Controller {
 
 		if (idOrg == 0 && idApp != 0) {
 			if (Core.getCurrentUser().getEmail().compareTo("igrpweb@nosi.cv") == 0) {// User master
-				menus = menu.find().andWhere("application.id", "=", idApp).all();
+				menus = menu.find().andWhere("application.id", "=", idApp).orderByAsc("orderby").all();
 			} else {
 				menus = menu.find().andWhere("application.id", "=", idApp).andWhere("application", "<>", 1)// Oculta
 																											// IGRP Core
 						.andWhere("application", "<>", 2)// Oculta IGRP Tutorial
 						.andWhere("application", "<>", 3)// Oculta IGRP Studio
-						.all();
+						.orderByAsc("orderby").all();
 			}
 
 			Collections.sort(menus, new SortbyStatus());
 
 			ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
+			List<PesquisarMenu.Formlist_1> separatorlistDocs = new ArrayList<>();
 			// Preenchendo a tabela
 			for (Menu menu_db1 : menus) {
 				PesquisarMenu.Table_1 table1 = new PesquisarMenu.Table_1();
+				PesquisarMenu.Formlist_1 row = new PesquisarMenu.Formlist_1();
 				table1.setT1_menu_principal("-");
 				if (Core.isNull(menu_db1.getMenu())) {
 					table1.setT1_menu_principal(menu_db1.getDescr());
@@ -107,42 +116,52 @@ public class PesquisarMenuController extends Controller {
 					table1.setT1_menu_principal(menu_db1.getMenu().getDescr());
 				}
 				table1.setTable_titulo(gt(menu_db1.getDescr()));
+				row.setPagina_order(new Pair(menu_db1.getDescr(), menu_db1.getDescr()));
 				if (menu_db1.getAction() != null) {
 					String mdad = "";
 					if (menu_db1.getAction().getApplication().getId() != idApp)
 						mdad = menu_db1.getAction().getApplication().getDad() + " / ";
-					table1.setPagina(mdad+gt(menu_db1.getAction().getPage_descr()) + " (" + menu_db1.getAction().getPage()
-							+ ")" ); 
-				}else 
-					if(menu_db1.getLink() != null && !menu_db1.getLink().isEmpty()) {
-						table1.setPagina("Página Externa (GlobalAcl)"); 
-						table1.setCheckbox(1);
-						table1.setCheckbox_check(1);
-					}
+					table1.setPagina(mdad + gt(menu_db1.getAction().getPage_descr()) + " ("
+							+ menu_db1.getAction().getPage() + ")");
+				} else if (menu_db1.getLink() != null && !menu_db1.getLink().isEmpty()) {
+					table1.setPagina("Página Externa (GlobalAcl)");
+					table1.setCheckbox(1);
+					table1.setCheckbox_check(1);
+				}
+				row.setId_page_ord(new Pair(menu_db1.getId() + "", menu_db1.getId() + ""));
+				row.setFormlist_1_id(new Pair(menu_db1.getId() + "", menu_db1.getId() + ""));
+				if (Core.isNotNullOrZero(menu_db1.getMenu()) && !menu_db1.getMenu().getId().equals(menu_db1.getId()) )
+					row.setId_do_pai(new Pair(menu_db1.getMenu().getId() + "", menu_db1.getMenu().getId() + ""));
+				else
+					row.setId_pai(new Pair(menu_db1.getId() + "", menu_db1.getId() + ""));
 				table1.setOrdem(menu_db1.getOrderby());
 				table1.setAtivo(menu_db1.getStatus());
 				table1.setAtivo_check(menu_db1.getStatus() == 1 ? menu_db1.getStatus() : -1);
 				table1.setCheckbox(menu_db1.getId());
 				table1.setId("" + menu_db1.getId());
-				table1.setIcon("<i class=\"fa "+menu_db1.getMenu_icon()+"\"/>");
+				table1.setIcon("<i class=\"fa " + menu_db1.getMenu_icon() + "\"/>");
 				if (menu_db1.getFlg_base() == 1) {
 					table1.setCheckbox_check(menu_db1.getId());
 				}
 				lista.add(table1);
+				separatorlistDocs.add(row);
 			}
+			model.setFormlist_1(separatorlistDocs);
+
 			if (!lista.isEmpty())
 				lista.sort(Comparator.comparing(PesquisarMenu.Table_1::getT1_menu_principal));
 			view.table_1.addData(lista);
 		}
-		
+
 		// Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		view.aplicacao.setValue(new Application().getListApps());
+
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);	
+		return this.renderView(view);
 	}
-	
-	public Response actionBtn_novo() throws IOException, IllegalArgumentException, IllegalAccessException{
+
+	public Response actionBtn_novo() throws IOException, IllegalArgumentException, IllegalAccessException {
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
@@ -153,14 +172,15 @@ public class PesquisarMenuController extends Controller {
 		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (btn_novo) *//* End-Code-Block */
 		/*----#start-code(btn_novo)----*/
 		this.addQueryString("p_app", Core.getParam("p_aplicacao"));
 		return this.redirect("igrp", "NovoMenu", "index", this.queryString());
 		/*----#end-code----*/
-			
+
 	}
-	
-	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
+
+	public Response actionGravar_ordenacao() throws IOException, IllegalArgumentException, IllegalAccessException {
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
@@ -171,6 +191,56 @@ public class PesquisarMenuController extends Controller {
 		  return this.forward("igrp","PesquisarMenu","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gravar_ordenacao) *//* End-Code-Block */
+		/*----#start-code(gravar_ordenacao)----*/
+		try {
+			int i = 100;
+			for (PesquisarMenu.Formlist_1 row : model.getFormlist_1()) {
+				if (Core.isNotNull(row.getId_pai().getKey()) || Core.isNull(row.getId_do_pai().getKey())) {
+					Menu tblimagelogin = new Menu().findOne(Core.toInt(row.getId_page_ord().getKey()));
+					if (tblimagelogin != null) {
+						tblimagelogin.setOrderby(i);
+						tblimagelogin.update();
+						i++;
+					}
+				}
+			}
+			int j = 1;
+			for (PesquisarMenu.Formlist_1 row : model.getFormlist_1()) {
+				if (Core.isNotNull(row.getId_do_pai().getKey())) {
+					Menu tblimagelogin = new Menu().findOne(Core.toInt(row.getId_page_ord().getKey()));
+					if (tblimagelogin != null) {
+						String ordemPai = tblimagelogin.getMenu().getOrderby() + "";
+						String ordem = ordemPai.concat(j + "");
+						tblimagelogin.setOrderby(Core.toInt(ordem));
+						tblimagelogin.update();
+						j++;
+					}
+				}
+			}
+			Core.setMessageSuccess();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			Core.setMessageError("Error: " + e.getMessage());
+		}
+		return this.forward("igrp", "PesquisarMenu", "index", this.queryString());
+		/*----#end-code----*/
+
+	}
+
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException {
+		PesquisarMenu model = new PesquisarMenu();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  return this.forward("igrp","PesquisarMenu","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/* Start-Code-Block (editar) *//* End-Code-Block */
 		/*----#start-code(editar)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
@@ -179,10 +249,10 @@ public class PesquisarMenuController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp","PesquisarMenu","index", this.queryString());	
+		return this.redirect("igrp", "PesquisarMenu", "index", this.queryString());
 	}
-	
-	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
+
+	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException {
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
@@ -193,6 +263,7 @@ public class PesquisarMenuController extends Controller {
 		  return this.forward("igrp","PesquisarMenu","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (eliminar) *//* End-Code-Block */
 		/*----#start-code(eliminar)----*/
 		int id = Core.getParamInt("p_id");
 		Menu menu_db = new Menu();
@@ -204,18 +275,16 @@ public class PesquisarMenuController extends Controller {
 		}
 		return this.redirect("igrp", "PesquisarMenu", "index", model, this.queryString());
 		/*----#end-code----*/
-			
-	}
-	
-		
-		
-/*----#start-code(custom_actions)----*/
 
-	// Menu list I have access to 
-	public Response actionMyMenu() throws IOException { 
+	}
+	/* Start-Code-Block (custom-actions) *//* End-Code-Block */
+	/*----#start-code(custom_actions)----*/
+
+	// Menu list I have access to
+	public Response actionMyMenu() throws IOException {
 		XMLWritter xml_menu = new XMLWritter();
 		xml_menu.startElement("menus");
-		
+
 		try {
 			if (Igrp.getInstance().getUser().isAuthenticated()) {
 				Menu x = new Menu();
@@ -224,29 +293,29 @@ public class PesquisarMenuController extends Controller {
 					for (Entry<String, List<MenuProfile>> m : menu.entrySet()) {
 						xml_menu.startElement("menu");
 						xml_menu.setElement("title", gt(m.getKey()));
-						
+
 						for (MenuProfile main : m.getValue()) {
 							if (main.isSubMenuAndSuperMenu()) {
-								
-								if(main.getType() == 2) { // Fazer sso obrigatorio 
-									xml_menu.setElement("link", main.getLink()); 
-								}else {
-									xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
+
+								if (main.getType() == 2) { // Fazer sso obrigatorio
+									xml_menu.setElement("link", main.getLink());
+								} else {
+									xml_menu.setElement("link", "webapps?r=" + main.getLink());
 								}
-								
+
 								xml_menu.setElement("target", main.getTarget());
 							}
 							xml_menu.setElement("order", "" + main.getOrder());
 							xml_menu.startElement("submenu");
 							xml_menu.writeAttribute("title", gt(main.getTitle()));
 							xml_menu.writeAttribute("id", "" + main.getId());
-							
-							if(main.getType() == 2) { // Fazer sso obrigatorio 
-								xml_menu.setElement("link", main.getLink()); 
-							}else {
-								xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
+
+							if (main.getType() == 2) { // Fazer sso obrigatorio
+								xml_menu.setElement("link", main.getLink());
+							} else {
+								xml_menu.setElement("link", "webapps?r=" + main.getLink());
 							}
-							
+
 							xml_menu.setElement("title", gt(main.getTitle()));
 							xml_menu.setElement("target", main.getTarget());
 							xml_menu.setElement("id", "" + main.getId());
@@ -262,26 +331,26 @@ public class PesquisarMenuController extends Controller {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		displayMenusPlSql(xml_menu); 
-		
+
+		displayMenusPlSql(xml_menu);
+
 		xml_menu.endElement();
 		this.format = Response.FORMAT_XML;
 		return this.renderView(xml_menu.toString());
 	}
-	
+
 	private void displayMenusPlSql(XMLWritter xml_menu) {
 		List<ExternalMenu> menus = getAllMyMenusFromPlSql();
-		if(menus != null && !menus.isEmpty()) {
-			
+		if (menus != null && !menus.isEmpty()) {
+
 			xml_menu.startElement("menu");
 			xml_menu.setElement("title", "IGRP-PLSQL SSO");
 			xml_menu.setElement("order", "99");
 			xml_menu.setElement("id", "2020");
 			xml_menu.setElement("status", "1");
-			
-			for(ExternalMenu m : menus) {
-				if(m.getSelf_id() == null || m.getSelf_id().isEmpty()) {
+
+			for (ExternalMenu m : menus) {
+				if (m.getSelf_id() == null || m.getSelf_id().isEmpty()) {
 					boolean hasChild = false;
 					xml_menu.startElement("submenu");
 					xml_menu.setElement("title", gt(m.getTitle()));
@@ -289,8 +358,9 @@ public class PesquisarMenuController extends Controller {
 					xml_menu.setElement("id", "" + m.getId());
 					xml_menu.setElement("status", "" + m.getEstado());
 					xml_menu.setElement("order", "99");
-					for(ExternalMenu submenu : menus) {
-						if(submenu.getSelf_id() != null && m.getId() != null && submenu.getSelf_id().equalsIgnoreCase(m.getId())) {
+					for (ExternalMenu submenu : menus) {
+						if (submenu.getSelf_id() != null && m.getId() != null
+								&& submenu.getSelf_id().equalsIgnoreCase(m.getId())) {
 							xml_menu.startElement("submenu");
 							xml_menu.writeAttribute("title", gt(submenu.getTitle()));
 							xml_menu.writeAttribute("id", "" + submenu.getId());
@@ -299,23 +369,23 @@ public class PesquisarMenuController extends Controller {
 							xml_menu.setElement("id", "" + submenu.getId());
 							xml_menu.setElement("status", "" + submenu.getEstado());
 							xml_menu.setElement("order", "99");
-							xml_menu.setElement("link", "" + submenu.getUrl()); 
+							xml_menu.setElement("link", "" + submenu.getUrl());
 							xml_menu.endElement();
 							hasChild = true;
 						}
 					}
-					if(!hasChild)
-						xml_menu.setElement("link", "" + m.getUrl()); 
+					if (!hasChild)
+						xml_menu.setElement("link", "" + m.getUrl());
 					xml_menu.endElement();
 				}
 			}
-			
+
 			xml_menu.endElement();
-			
+
 		}
 	}
 
-	// Get Top Menu 
+	// Get Top Menu
 	public Response actionTopMenu() throws IOException {
 		boolean isStartProc = ProcessInstanceIGRP.isStartPermission();
 		boolean isTask = TaskServiceIGRP.isTaskPermission();
@@ -361,8 +431,7 @@ public class PesquisarMenuController extends Controller {
 		this.format = Response.FORMAT_XML;
 		return this.renderView(topMenu.toString());
 	}
-	
-	  
+
 	public Response actionChangeStatus()
 			throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
 
@@ -373,8 +442,8 @@ public class PesquisarMenuController extends Controller {
 		if (Core.isNotNullOrZero(id)) {
 			Menu menu = new Menu().findOne(id);
 			if (menu != null) {
-				menu.setStatus(status.equals("true")?1:0);
-				menu=menu.update();
+				menu.setStatus(status.equals("true") ? 1 : 0);
+				menu = menu.update();
 				if (!menu.hasError())
 					response = true;
 			}
@@ -388,34 +457,35 @@ public class PesquisarMenuController extends Controller {
 		public int compare(Menu a, Menu b) {
 			return b.getStatus() - a.getStatus();
 		}
-	} 
-	
-	/** Integration with IGRP-PLSQL Apps **
-	 * */ 
-	private List<ExternalMenu> getAllMyMenusFromPlSql() { 
-		String appCode = ""; 
-		String profCode = ""; 
-		String orgCode = ""; 
+	}
+
+	/**
+	 * Integration with IGRP-PLSQL Apps **
+	 */
+	private List<ExternalMenu> getAllMyMenusFromPlSql() {
+		String appCode = "";
+		String profCode = "";
+		String orgCode = "";
 		try {
-			appCode = Core.getCurrentApp().getPlsql_code(); 
-			profCode = new ProfileType().findOne(Core.getCurrentProfile()).getPlsql_code(); 
-			orgCode = new Organization().findOne(Core.getCurrentOrganization()).getPlsql_code(); 
-		} catch (Exception e) { 
+			appCode = Core.getCurrentApp().getPlsql_code();
+			profCode = new ProfileType().findOne(Core.getCurrentProfile()).getPlsql_code();
+			orgCode = new Organization().findOne(Core.getCurrentOrganization()).getPlsql_code();
+		} catch (Exception e) {
 		}
-		Properties properties =  ConfigApp.getInstance().loadConfig("common", "main.xml"); 
-		String baseUrl = properties.getProperty(IGRP_PDEX_APPCONFIG_URL); 
-		String token = properties.getProperty(IGRP_PDEX_APPCONFIG_TOKEN); 
-		AppConfig appConfig = new AppConfig(); 
+		Properties properties = ConfigApp.getInstance().loadConfig("common", "main.xml");
+		String baseUrl = properties.getProperty(IGRP_PDEX_APPCONFIG_URL);
+		String token = properties.getProperty(IGRP_PDEX_APPCONFIG_TOKEN);
+		AppConfig appConfig = new AppConfig();
 		appConfig.setUrl(baseUrl);
-		appConfig.setToken(token); 
-		
-		List<ExternalMenu> menus = appConfig.profAppMenus(appCode, orgCode, profCode); 
-		
+		appConfig.setToken(token);
+
+		List<ExternalMenu> menus = appConfig.profAppMenus(appCode, orgCode, profCode);
+
 		return menus;
-	} 
-	
+	}
+
 	private final String IGRP_PDEX_APPCONFIG_URL = "igrp.pdex.appconfig.url";
 	private final String IGRP_PDEX_APPCONFIG_TOKEN = "igrp.pdex.appconfig.token";
-	
+
 	/*----#end-code----*/
 }
