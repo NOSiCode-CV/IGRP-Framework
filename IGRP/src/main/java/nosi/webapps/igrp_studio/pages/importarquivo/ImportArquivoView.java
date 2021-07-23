@@ -246,7 +246,7 @@ public class ImportArquivoView extends View {
 		btn_btm_importar_page.propertie.add("id","button_6e68_d5a9").add("type","form").add("class","primary").add("rel","btm_importar_page").add("refresh_components","");
 
 		btn_upload = new IGRPButton("Upload","igrp_studio","ImportArquivo","upload","submit_form","grey|fa-upload","","");
-		btn_upload.propertie.add("id","button_0498_24b9").add("type","form").add("class","grey").add("rel","upload").add("refresh_components","carousel_1,table_1");
+		btn_upload.propertie.add("id","button_0498_24b9").add("type","form").add("class","grey").add("rel","upload").add("refresh_components","carousel_1");
 
 		
 	}
