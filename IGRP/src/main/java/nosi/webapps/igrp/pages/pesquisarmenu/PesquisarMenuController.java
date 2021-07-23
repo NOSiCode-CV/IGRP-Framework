@@ -41,7 +41,6 @@ import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Menu.MenuProfile;
-import nosi.webapps.igrp_studio.dao.TblImageLogin;
 import nosi.webapps.igrp_studio.pages.importarquivo.ImportArquivo;
 
 import static nosi.core.i18n.Translator.gt;
