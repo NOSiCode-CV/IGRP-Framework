@@ -17,32 +17,22 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Map.Entry;
 import javax.servlet.http.Cookie;
-
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import nosi.core.config.ConfigApp;
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.integration.pdex.service.AppConfig;
 import nosi.core.integration.pdex.service.AppConfig.ExternalMenu;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.business.ProcessInstanceIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
-
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Menu.MenuProfile;
-import nosi.webapps.igrp_studio.pages.importarquivo.ImportArquivo;
-
 import static nosi.core.i18n.Translator.gt;
 
 /*----#end-code----*/
