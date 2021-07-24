@@ -648,8 +648,7 @@ public class WebReportController extends Controller {
 		String fileName = Core.getParam("p_file_name");
 		String env=Core.getParam("env");
 		if(Core.isNotNull(fileName)) {
-			String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
-			// String url2 = Path.getImageServer((Core.isNull(env)?"":env+File.separator)+"reports")+File.separator+fileName;		
+			String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();	
 			String url =  baseUrl.replace("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/"+(Core.isNull(env)?"":env+"/")+"reports/"+fileName;			
 			return this.redirectToUrl(url);
 		}

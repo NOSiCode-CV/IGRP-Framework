@@ -34,6 +34,9 @@ public class ImportArquivo extends Model{
 	@RParam(rParamName = "p_importar_imagem")
 	private String importar_imagem;
 
+	@RParam(rParamName = "p_personalizar_login")
+	private String personalizar_login;
+
 	@RParam(rParamName = "p_sectionheader_2_text")
 	private String sectionheader_2_text;
 
@@ -73,23 +76,23 @@ public class ImportArquivo extends Model{
 	@RParam(rParamName = "p_form_5_link_1")
 	private String form_5_link_1;
 
-	@RParam(rParamName = "p_sectionheader_3_text")
-	private String sectionheader_3_text;
-
 	@RParam(rParamName = "p_carousel_1_label")
 	private String carousel_1_label;
 
 	@RParam(rParamName = "p_carousel_1_img")
 	private String carousel_1_img;
 
+	@RParam(rParamName = "p_imagem")
+	private UploadFile imagem;
+
+	@RParam(rParamName = "p_sectionheader_3_text")
+	private String sectionheader_3_text;
+
 	@RParam(rParamName = "p_list_aplicacao")
 	private String list_aplicacao;
 
 	@RParam(rParamName = "p_arquivo_pagina")
 	private UploadFile arquivo_pagina;
-
-	@RParam(rParamName = "p_imagem")
-	private UploadFile imagem;
 	
 	private List<Carousel_1> carousel_1 = new ArrayList<>();	
 	public void setCarousel_1(List<Carousel_1> carousel_1){
@@ -194,6 +197,13 @@ public class ImportArquivo extends Model{
 		return this.importar_imagem;
 	}
 	
+	public void setPersonalizar_login(String personalizar_login){
+		this.personalizar_login = personalizar_login;
+	}
+	public String getPersonalizar_login(){
+		return this.personalizar_login;
+	}
+	
 	public void setSectionheader_2_text(String sectionheader_2_text){
 		this.sectionheader_2_text = sectionheader_2_text;
 	}
@@ -285,13 +295,6 @@ public class ImportArquivo extends Model{
 		return this.form_5_link_1;
 	}
 	
-	public void setSectionheader_3_text(String sectionheader_3_text){
-		this.sectionheader_3_text = sectionheader_3_text;
-	}
-	public String getSectionheader_3_text(){
-		return this.sectionheader_3_text;
-	}
-	
 	public void setCarousel_1_label(String carousel_1_label){
 		this.carousel_1_label = carousel_1_label;
 	}
@@ -306,6 +309,20 @@ public class ImportArquivo extends Model{
 		return this.carousel_1_img;
 	}
 	
+	public void setImagem(UploadFile imagem){
+		this.imagem = imagem;
+	}
+	public UploadFile getImagem(){
+		return this.imagem;
+	}
+	
+	public void setSectionheader_3_text(String sectionheader_3_text){
+		this.sectionheader_3_text = sectionheader_3_text;
+	}
+	public String getSectionheader_3_text(){
+		return this.sectionheader_3_text;
+	}
+	
 	public void setList_aplicacao(String list_aplicacao){
 		this.list_aplicacao = list_aplicacao;
 	}
@@ -318,13 +335,6 @@ public class ImportArquivo extends Model{
 	}
 	public UploadFile getArquivo_pagina(){
 		return this.arquivo_pagina;
-	}
-	
-	public void setImagem(UploadFile imagem){
-		this.imagem = imagem;
-	}
-	public UploadFile getImagem(){
-		return this.imagem;
 	}
 
 
