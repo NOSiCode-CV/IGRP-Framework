@@ -25,6 +25,7 @@ import nosi.core.webapp.import_export.ImportAppZip;
 import nosi.core.webapp.import_export.ImportPluginIGRP;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.webapp.import_export_v2.imports.ImportHelper;
+import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
@@ -34,18 +35,19 @@ import java.util.ArrayList;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 /*----#end-code----*/
-
+		
 public class ImportArquivoController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ImportArquivo model = new ImportArquivo();
 		model.load();
-		model.loadCarousel_1(Core.query(null,
-				"SELECT 'Img' as carousel_1_label,'../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as carousel_1_img"));
+		model.loadCarousel_1(
+				Core.query(null,"SELECT 'Img' as carousel_1_label,'../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as carousel_1_img")
+		 );
 		ImportArquivoView view = new ImportArquivoView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as imagem_tbl,'hidden-3e4a_67af' as id_img "));
+		model.loadFormlist_1(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as imagem_tbl,'hidden-8a50_78c9' as id_img "));
 		view.aplicacao_script.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.aplicacao_combo_img.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -95,7 +97,8 @@ public class ImportArquivoController extends Controller {
 					String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
 					String url = baseUrl.replace("app/webapps", "images") + "/IGRP/IGRP2.3/assets/img/login/" + key;
 					row.setCarousel_1_img(url);
-					row2.setImagem_tbl(new Pair(key, key));
+					row2.setImagem_tbl(new Pair(url, key));
+					row2.setFormlist_1_id(new Pair(key, key));
 					tblimageloginCar.add(row);
 					separatorlistDocs.add(row2);
 				});
@@ -105,12 +108,16 @@ public class ImportArquivoController extends Controller {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		if(!Core.getCurrentUser().getUserProfile().equals("ADMIN"))
+			view.personalizar_login.setVisible(false);
+			
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);
+		return this.renderView(view);	
 	}
-
-	public Response actionOrdenar() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ImportArquivo model = new ImportArquivo();
 		model.load();
 		/*----#gen-example
@@ -120,49 +127,51 @@ public class ImportArquivoController extends Controller {
 		  return this.forward("igrp_studio","ImportArquivo","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
-		/* Start-Code-Block (ordenar) *//* End-Code-Block */
-		/*----#start-code(ordenar)----*/
+		/* Start-Code-Block (gravar)  *//* End-Code-Block  */
+		/*----#start-code(gravar)----*/
 
-		Session session = null;
-		Transaction transaction = null;
+		XMLWritter xml = new XMLWritter();
 		try {
-			if (model.validate()) {
-				session = Core.getSession(Core.defaultConnection());
-				transaction = session.getTransaction();
-				if (!transaction.isActive())
-					transaction.begin();
-				int i = 1;
 
-				String[] tblimagelogindeletedIdsArray = model.getP_formlist_1_del();
-				if (Core.isNotNull(tblimagelogindeletedIdsArray)) {
-					for (String docId : tblimagelogindeletedIdsArray) {
-						if (Core.isNotNull(docId) && !docId.isEmpty()) {
-//							TblImageLogin tblimagelogin = session.find(TblImageLogin.class, Core.toInt(docId));
-//							session.delete(tblimagelogin);
-						}
-					}
+			for (ImportArquivo.Formlist_1 row : model.getFormlist_1()) {
+				if (Core.isNotNull(row.getImagem_tbl().getValue())) {
+					xml.startElement("row");
+					xml.setElement("image", row.getImagem_tbl().getValue());
+					xml.startElement("caption");
+					xml.endElement();
+					xml.startElement("link");
+					xml.endElement();
+					xml.setElement("flag", "0");
+					xml.endElement();
 				}
+			}
 
-				transaction.commit();
-				Core.setMessageSuccess();
-			} else
-				Core.setMessageError();
+			String[] tblimagelogindeletedIdsArray = model.getP_formlist_1_del();
+			if (Core.isNotNull(tblimagelogindeletedIdsArray)) {
+				for (String docId : tblimagelogindeletedIdsArray) {
+					if (Core.isNotNull(docId)) {
+						FileHelper.forceDelete(Path.getImageServer("login") + File.separator + docId);
+
+						String workSpace = Path.getImageWorkSpace("login") + File.separator + docId;
+						if (Core.isNotNull(workSpace))// Deleting in your workspace case exists
+							FileHelper.forceDelete(workSpace);
+					}
+				}			
+			}
+			String novoLoginBanner = gerarXmlBanner(xml.toString());
+			FileHelper.save(Path.getLoginBanner(), "IGRP-login-banner.xml", novoLoginBanner);
+			Core.setMessageSuccess();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			Core.setMessageError("Error: " + e.getMessage());
-			if (transaction != null)
-				transaction.rollback();
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio", "ImportArquivo", "index", this.queryString());
+		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
 	}
-
-	public Response actionBtm_import_aplicacao() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionBtm_import_aplicacao() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ImportArquivo model = new ImportArquivo();
 		model.load();
 		/*----#gen-example
@@ -172,7 +181,7 @@ public class ImportArquivoController extends Controller {
 		  return this.forward("igrp_studio","ImportArquivo","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
-		/* Start-Code-Block (btm_import_aplicacao) *//* End-Code-Block */
+		/* Start-Code-Block (btm_import_aplicacao)  *//* End-Code-Block  */
 		/*----#start-code(btm_import_aplicacao)----*/
 		try {
 
@@ -244,10 +253,10 @@ public class ImportArquivoController extends Controller {
 			Core.setMessageError();
 		}
 		/*----#end-code----*/
-		return this.redirect("igrp_studio", "ImportArquivo", "index", this.queryString());
+		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
 	}
-
-	public Response actionImportar_jar_file() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionImportar_jar_file() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ImportArquivo model = new ImportArquivo();
 		model.load();
 		/*----#gen-example
@@ -257,7 +266,7 @@ public class ImportArquivoController extends Controller {
 		  return this.forward("igrp_studio","ImportArquivo","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
-		/* Start-Code-Block (importar_jar_file) *//* End-Code-Block */
+		/* Start-Code-Block (importar_jar_file)  *//* End-Code-Block  */
 		/*----#start-code(importar_jar_file)----*/
 		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")) {
 			Collection<Part> parts;
@@ -280,10 +289,10 @@ public class ImportArquivoController extends Controller {
 			}
 		}
 		/*----#end-code----*/
-		return this.redirect("igrp_studio", "ImportArquivo", "index", this.queryString());
+		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
 	}
-
-	public Response actionImportar_script() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionImportar_script() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ImportArquivo model = new ImportArquivo();
 		model.load();
 		/*----#gen-example
@@ -293,7 +302,7 @@ public class ImportArquivoController extends Controller {
 		  return this.forward("igrp_studio","ImportArquivo","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
-		/* Start-Code-Block (importar_script) *//* End-Code-Block */
+		/* Start-Code-Block (importar_script)  *//* End-Code-Block  */
 		/*----#start-code(importar_script)----*/
 		try {
 			String dad = Core.getCurrentDad();
@@ -321,10 +330,10 @@ public class ImportArquivoController extends Controller {
 			e.printStackTrace();
 		}
 		/*----#end-code----*/
-		return this.redirect("igrp_studio", "ImportArquivo", "index", this.queryString());
+		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
 	}
-
-	public Response actionImport_images() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionImport_images() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ImportArquivo model = new ImportArquivo();
 		model.load();
 		/*----#gen-example
@@ -334,7 +343,7 @@ public class ImportArquivoController extends Controller {
 		  return this.forward("igrp_studio","ImportArquivo","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
-		/* Start-Code-Block (import_images) *//* End-Code-Block */
+		/* Start-Code-Block (import_images)  *//* End-Code-Block  */
 		/*----#start-code(import_images)----*/
 		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")) {
 			String dad = Core.getCurrentDad();
@@ -396,10 +405,10 @@ public class ImportArquivoController extends Controller {
 			}
 		}
 		/*----#end-code----*/
-		return this.redirect("igrp_studio", "ImportArquivo", "index", this.queryString());
+		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
 	}
-
-	public Response actionBtm_importar_page() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionUpload() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ImportArquivo model = new ImportArquivo();
 		model.load();
 		/*----#gen-example
@@ -409,7 +418,65 @@ public class ImportArquivoController extends Controller {
 		  return this.forward("igrp_studio","ImportArquivo","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
-		/* Start-Code-Block (btm_importar_page) *//* End-Code-Block */
+		/* Start-Code-Block (upload)  *//* End-Code-Block  */
+		/*----#start-code(upload)----*/
+
+		boolean r = false;
+
+		try {
+
+			Collection<Part> parts = Core.getFiles();
+			for (Part part : parts) {
+				if (part != null) {
+					String fileName = model.getImagem().getSubmittedFileName();
+					if (Core.isNotNull(fileName)) {
+						fileName = fileName.replaceAll("\\s+", "_").replaceAll("\'", "");
+						int index = fileName.lastIndexOf(".");
+						if (index != -1) {
+							String extensionName = fileName.substring(index + 1);
+
+							String workSpace = Path.getImageWorkSpace("login");
+							if (Core.isNotNull(workSpace))// Saving in your workspace case exists
+								FileHelper.saveImage(workSpace, fileName, extensionName.toLowerCase(), part);
+
+							// Saving into server
+							r = FileHelper.saveImage(Path.getImageServer("login"), fileName,
+									extensionName.toLowerCase(), part);
+
+						}
+					}
+				} else
+					Core.setMessageError("Não foi possível carregar imagem");
+			}
+
+			if (r) {
+				Core.setMessageSuccess();
+				String novoLoginBanner = gerarXmlBanner("");
+				FileHelper.save(Path.getLoginBanner(), "IGRP-login-banner.xml", novoLoginBanner);
+			} else
+				Core.setMessageError();
+
+		} catch (ServletException e) {
+			e.printStackTrace();
+		}
+
+		return this.redirect("igrp_studio", "ImportArquivo", "index", this.queryString());
+
+		/*----#end-code----*/
+			
+	}
+	
+	public Response actionBtm_importar_page() throws IOException, IllegalArgumentException, IllegalAccessException{
+		ImportArquivo model = new ImportArquivo();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp_studio","ImportArquivo","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/* Start-Code-Block (btm_importar_page)  *//* End-Code-Block  */
 		/*----#start-code(btm_importar_page)----*/
 
 		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")) {
@@ -480,75 +547,48 @@ public class ImportArquivoController extends Controller {
 			}
 		}
 		/*----#end-code----*/
-		return this.redirect("igrp_studio", "ImportArquivo", "index", this.queryString());
+		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
 	}
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
+/*----#start-code(custom_actions)----*/
 
-	public Response actionUpload() throws IOException, IllegalArgumentException, IllegalAccessException {
-		ImportArquivo model = new ImportArquivo();
-		model.load();
-		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  return this.forward("igrp_studio","ImportArquivo","index",this.queryString()); //if submit, loads the values
-		  Use model.validate() to validate your model
-		  ----#gen-example */
-		/* Start-Code-Block (upload) *//* End-Code-Block */
-		/*----#start-code(upload)----*/
-
-		boolean r = false;
-
-		try {
-
-			Collection<Part> parts = Core.getFiles();
-			for (Part part : parts) {
-				if (part != null) {
-					String fileName = model.getImagem().getSubmittedFileName();
-					if (Core.isNotNull(fileName)) {
-						fileName = fileName.replaceAll("\\s+", "_").replaceAll("\'", "");
-						int index = fileName.lastIndexOf(".");
-						if (index != -1) {
-							String extensionName = fileName.substring(index + 1);
-
-							String workSpace = Path.getImageWorkSpace("login");
-							if (Core.isNotNull(workSpace))// Saving in your workspace case exists
-								FileHelper.saveImage(workSpace, fileName, extensionName.toLowerCase(), part);
-
-							// Saving into server
-							r = FileHelper.saveImage(Path.getImageServer("login"), fileName,
-									extensionName.toLowerCase(), part);
-
-						}
-					}
-				} else
-					Core.setMessageError("Não foi possível carregar imagem");
-			}
-
-			if (r)
-				Core.setMessageSuccess();
-			else
-				Core.setMessageError();
-
-		} catch (ServletException e) {
-			e.printStackTrace();
+	private String gerarXmlBanner(String ordenado) {
+		XMLWritter xml = new XMLWritter();
+		xml.startElement("rows");
+		xml.setElement("version", "1");
+		xml.startElement("content");
+		xml.startElement("table");
+		xml.setElement("title", "TABELA SIMPLES");
+		xml.startElement("label");
+		xml.setElement("image", "Banner");
+		xml.setElement("caption", "Descrição");
+		xml.setElement("link", "Link");
+		xml.setElement("flag", "active");
+		xml.endElement();
+		xml.startElement("value");
+		if (ordenado.isEmpty()) {
+			Map<String, String> filesLogin = new FileHelper().readAllFileDirectory(Path.getImageServer("login"));
+			filesLogin.forEach((key, value) -> {
+				xml.startElement("row");
+				xml.setElement("image", key);
+				xml.startElement("caption");
+				xml.endElement();
+				xml.startElement("link");
+				xml.endElement();
+				xml.setElement("flag", "0");
+				xml.endElement();
+			});
+		}else {
+			xml.addXml(ordenado);
 		}
+		xml.endElement();
+		xml.endElement();
+		xml.endElement();
+		xml.endElement();
+		String xml2 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 
-		return this.redirect("igrp_studio", "ImportArquivo", "index", this.queryString());
+		return xml2.concat(xml.toString());
 
-		/*----#end-code----*/
-
-	}
-	/* Start-Code-Block (custom-actions) *//* End-Code-Block */
-	/*----#start-code(custom_actions)----*/
-
-	private String gerarXmlBanner() {
-		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n" + "<rows>\r\n" + "  <version>1</version>\r\n"
-				+ "  <content>\r\n" + "    <table>\r\n" + "      <title>TABELA SIMPLES</title>\r\n"
-				+ "      <label>\r\n" + "        <image>Banner</image>\r\n" + "        <caption>Descrição</caption>\r\n"
-				+ "        <link>Link</link>\r\n" + "        <flag>active</flag>\r\n" + "      </label>\r\n"
-				+ "      <value>";
-
-		return xml;
 	}
 	/*----#end-code----*/
 }

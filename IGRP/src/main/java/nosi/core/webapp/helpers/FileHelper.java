@@ -239,7 +239,7 @@ public class FileHelper {
 	
 	//Read file and return your content
 	public static String readFile(String basePath,String fileName){
-		String  code = new String();
+		String  code="";
 		String file = fileName;
 		if(Core.isNotNull(file))
 			file = basePath+File.separator+fileName;
@@ -252,7 +252,7 @@ public class FileHelper {
 				e.printStackTrace();
 			}
 		}
-		return code.toString();
+		return code;
 	}
 	
 	
