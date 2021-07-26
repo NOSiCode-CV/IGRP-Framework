@@ -61,6 +61,15 @@ public class Path {
 		return null;
 	}
 	
+	public static String getLoginBanner() {
+		Config config = new Config();
+		String basePath = config.getWorkspace();
+		if(Core.isNotNull(basePath) && FileHelper.dirExists(basePath)) {
+			return config.getWorkspace()+File.separator+"src"+File.separator+"main"+File.separator+"webapp"+File.separator+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"xml"; 			
+		}
+		return null;
+	}
+	
 	public static String getImageWorkSpaceTxt(String nameApp, String pageApp ) {
 		Config config = new Config();
 		String basePath = config.getWorkspace();
