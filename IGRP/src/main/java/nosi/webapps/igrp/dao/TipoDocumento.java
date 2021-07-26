@@ -43,7 +43,7 @@ public class TipoDocumento extends IGRPBaseActiveRecord<TipoDocumento> implement
 	
 	public TipoDocumento(String nome, int status, String descricao, String codigo,
 			Application application) {
-		super();
+		this();
 		this.nome = nome;
 		this.status = status;
 		this.descricao = descricao;
@@ -52,7 +52,7 @@ public class TipoDocumento extends IGRPBaseActiveRecord<TipoDocumento> implement
 	}
 
 	public TipoDocumento() {
-		
+		super();
 	}
 	
 	public Integer getId() {
