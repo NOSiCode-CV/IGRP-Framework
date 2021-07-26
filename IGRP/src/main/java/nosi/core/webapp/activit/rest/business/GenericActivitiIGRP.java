@@ -52,13 +52,19 @@ public class GenericActivitiIGRP {
 		this.error = error;
 	}
 
-	protected void setMyProccessAccess() {
-		if(this.myproccessId==null)
-			this.myproccessId = this.getMyProccessAccess();
+	protected void setMyProccessAccess(String[] filterProcessIDs) {
+		if(this.myproccessId==null) {
+			if(filterProcessIDs.length>0)
+				this.myproccessId = this.getMyProccessAccess(filterProcessIDs);
+			else
+				this.myproccessId =new ArrayList<>();
+		}
+			
+		
 	}
 	
-	private List<String> getMyProccessAccess() {
-		List<ActivityExecute>  myProccessAccess =  this.getMyProccessInstances();
+	private List<String> getMyProccessAccess(String[] filterProcessIDs) {
+		List<ActivityExecute>  myProccessAccess =  this.getMyProccessInstances(filterProcessIDs);
 		List<String> proccess = new ArrayList<>();
 		if(myProccessAccess!=null) {
 			myProccessAccess = myProccessAccess.stream()
@@ -93,12 +99,13 @@ public class GenericActivitiIGRP {
 	 * Get proccess instance that i have access
 	 * @return
 	 */
-	public List<ActivityExecute> getMyProccessInstances(){
+	public List<ActivityExecute> getMyProccessInstances(String[] filterProcessIDs){
 		String [] proccess = this.getMyProccessKey();
 		if(proccess!=null && proccess.length > 0)
-			return new ActivityExecute().find()
+			return new ActivityExecute().find().keepConnection()
 					.where("organization","=",Core.getCurrentOrganization())
 					.andWhere("proccessKey","in",proccess)
+					.andWhere("processid","in",filterProcessIDs)
 					.andWhere("application.dad","=",Core.getCurrentDad())
 					.all();
 		return null;
@@ -109,9 +116,10 @@ public class GenericActivitiIGRP {
 				.where("organization","=",Core.getCurrentOrganization())
 				.andWhere("profileType","=",Core.getCurrentProfile())
 				.andWhere("profileType.application.dad","=",Core.getCurrentDad())
+				.keepConnection()
 				.all();
 		if(ta!=null) {
-			return Core.convertArrayObjectToArrayString(ta.stream().map(TaskAccess::getProcessName).collect(Collectors.toList()).toArray());
+			return Core.convertArrayObjectToArrayString(ta.stream().map(TaskAccess::getProcessName).distinct().collect(Collectors.toList()).toArray());
 		}
 		return null;
 	}
