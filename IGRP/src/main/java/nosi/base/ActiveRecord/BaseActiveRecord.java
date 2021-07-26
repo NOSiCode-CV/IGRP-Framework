@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.persistence.Id;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import org.hibernate.jpa.QueryHints;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -824,7 +825,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				s.beginTransaction();
 			}
 			TypedQuery<T> query = s.createQuery(criteria);
-			query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
+			query.setHint(QueryHints.HINT_READONLY, true);
 			this.setParameters(query);
 			list = query.getResultList();
 		}catch (Exception e) {
@@ -847,7 +848,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			}
 			TypedQuery<T> query = s.createQuery(criteria);
 			query.setMaxResults(1);
-			query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
+			query.setHint(QueryHints.HINT_READONLY, true);
 			this.setParameters(query);
 			t = query.getSingleResult();
 		}catch (Exception e) {			
@@ -907,7 +908,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			if(this.limit > -1) {
 				query.setMaxResults(limit);
 			}
-			query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
+			query.setHint(QueryHints.HINT_READONLY, true);
 			this.setParameters(query);
 			list = query.getResultList();
 		}catch (Exception e) {
@@ -943,7 +944,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				if (this.limit > -1) {
 					query.setMaxResults(limit);
 				}
-				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
+				query.setHint(QueryHints.HINT_READONLY, true);
 				if (this.parametersMap != null && !this.parametersMap.isEmpty()) {
 					for (Iterator<DatabaseMetadaHelper.Column> i = parametersMap.iterator(); i.hasNext();) {
 						Column col = i.next();
@@ -999,7 +1000,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 					query.setFirstResult(offset);
 				if(limit > -1)
 					query.setMaxResults(limit);
-				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
+				query.setHint(QueryHints.HINT_READONLY, true);
 				this.setParameters(query);
 				list = query.getResultList();
 				if(!this.keepConnection)
@@ -1177,7 +1178,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 					System.out.println(this.getSql());
 				}
 				TypedQuery<T> query = this.getSession().createQuery(this.getSql());
-				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
+				query.setHint(QueryHints.HINT_READONLY, true);
 				this.setParameters(query);
 				result = query.getSingleResult();
 				if(!this.keepConnection)

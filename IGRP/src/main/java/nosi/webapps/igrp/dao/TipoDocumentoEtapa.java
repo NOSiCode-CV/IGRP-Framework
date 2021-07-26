@@ -52,7 +52,7 @@ public class TipoDocumentoEtapa extends IGRPBaseActiveRecord<TipoDocumentoEtapa>
 	private Integer fileId;
 	
 	public TipoDocumentoEtapa(String processId, String taskId,String tipo, int status, int required, TipoDocumento tipoDocumento) {
-		super();
+		this();
 		this.tipo = tipo;
 		this.processId = processId;
 		this.taskId = taskId;
@@ -60,9 +60,15 @@ public class TipoDocumentoEtapa extends IGRPBaseActiveRecord<TipoDocumentoEtapa>
 		this.required = required;
 		this.tipoDocumento = tipoDocumento;
 	}
+	
+	public TipoDocumentoEtapa(String processId, String taskId,String tipo, int status, int required, TipoDocumento tipoDocumento, RepTemplate repTemplate) {
+		this(processId, taskId, tipo, status, required, tipoDocumento);
+		this.repTemplate =  repTemplate; 
+	}
+
 
 	public TipoDocumentoEtapa() {
-		
+		super();
 	}
 	
 	public Integer getId() {

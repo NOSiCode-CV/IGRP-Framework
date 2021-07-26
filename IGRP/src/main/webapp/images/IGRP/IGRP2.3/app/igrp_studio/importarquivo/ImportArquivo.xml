@@ -48,9 +48,9 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="ListaPage" app="igrp_studio" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=import" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true" adbcli="">
+                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=import" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
                     <label>Help</label>
-                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=import</value>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
                 </help>
             </fields>
         </view_1>
@@ -72,6 +72,10 @@
                     <label>Importar Imagens</label>
                     <value/>
                 </importar_imagem>
+                <personalizar_login name="p_personalizar_login" type="button" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" adbcli="" custom_return="false" iconColor="#333" iconClass="" img="fa-photo" maxlength="50">
+                    <label>Personalizar Login</label>
+                    <value/>
+                </personalizar_login>
             </fields>
         </tabcontent_1>
         <sectionheader_2 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -110,6 +114,9 @@
                 </sectionheader_6_text>
             </fields>
         </sectionheader_6>
+        <box_2 type="box" xml-type="form" title="Importar Imagens para Página Login" gen-type="container" gen-group="">
+            <fields/>
+        </box_2>
         <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" accept="application/java-archive,.jar,application/zip" targetrend="" multiple="false" rendvalue="false" maxlength="1000" required="true" disabled="false" right="false" class="primary">
@@ -273,7 +280,7 @@
                 </imagens>
                 <form_5_link_1 name="p_form_5_link_1" type="plaintext" clear="false" disable_output_escaping="false" html_class="" maxlength="250" right="true">
                     <label>Link</label>
-                    <value>Stract ut adipiscing labore natus amet adipiscing ipsum natus stract lorem perspiciatis adipiscing perspiciatis consectetur aliqua magna totam laudantium magna consectetur officia ut sed ipsum</value>
+                    <value>Sit anim labore elit adipiscing sit aliqua sit aperiam dolor rem lorem totam doloremque ut sit sed stract voluptatem natus ipsum magna unde officia lorem</value>
                 </form_5_link_1>
             </fields>
             <tools-bar>
@@ -289,9 +296,100 @@
                 </item>
             </tools-bar>
         </form_5>
+        <carousel_1 type="carousel" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <carousel_1_label name="p_carousel_1_label" type="text" maxlength="200">
+                    <label>Title</label>
+                </carousel_1_label>
+                <carousel_1_img name="p_carousel_1_img" type="text" maxlength="200">
+                    <label>Image</label>
+                </carousel_1_img>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <carousel_1_label name="p_carousel_1_label">Img</carousel_1_label>
+                        <carousel_1_img name="p_carousel_1_img">../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</carousel_1_img>
+                    </row>
+                </value>
+            </table>
+        </carousel_1>
+        <form_1 type="form" xml-type="form" title="Inserir uma nova Imagem " gen-type="container" gen-group="">
+            <fields>
+                <imagem name="p_imagem" type="file" accept="image/*" targetrend="" multiple="false" rendvalue="false" maxlength="250" required="true" disabled="false" right="false" class="grey">
+                    <label>Imagem</label>
+                    <value/>
+                </imagem>
+            </fields>
+            <tools-bar>
+                <item id="button_0498_24b9" type="form" code="" class="grey" rel="upload" custom_return="true" refresh_components="carousel_1">
+                    <title>Upload</title>
+                    <app>igrp_studio</app>
+                    <page>ImportArquivo</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
+                    <target>submit_form</target>
+                    <img>grey|fa-upload</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
+                </item>
+            </tools-bar>
+        </form_1>
         <box_1 type="box" xml-type="form" title="" gen-type="container" gen-group="">
             <fields/>
         </box_1>
+        <formlist_1 type="formlist" xml-type="formlist" title="Ordenar e/ou Apagar Imagens" gen-clean="true" gen-type="container" gen-group="true">
+            <fields>
+                <imagem_tbl name="p_imagem_tbl" type="link" target="modal" request_fields="" target_fields="" list_source="" closerefresh="false" refresh_components="" refresh_submit="false" adbcli="" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="true" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="250" placeholder="" right="false" desc="true">
+                    <label>Imagem</label>
+                </imagem_tbl>
+                <id_img name="p_id_img" type="hidden" maxlength="250" java-type="" tag="id_img" desc="true"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <imagem_tbl name="p_imagem_tbl" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</imagem_tbl>
+                        <imagem_tbl_desc name="p_imagem_tbl_desc">Imagem</imagem_tbl_desc>
+                        <id_img name="p_id_img" tag="id_img" desc="true">hidden-ed13_8775</id_img>
+                        <id_img_desc name="p_id_img_desc">hidden-ed13_8775</id_img_desc>
+                    </row>
+                    <row>
+                        <imagem_tbl name="p_imagem_tbl" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</imagem_tbl>
+                        <imagem_tbl_desc name="p_imagem_tbl_desc">Imagem</imagem_tbl_desc>
+                        <id_img name="p_id_img" tag="id_img" desc="true">hidden-65cc_de30</id_img>
+                        <id_img_desc name="p_id_img_desc">hidden-65cc_de30</id_img_desc>
+                    </row>
+                    <row>
+                        <imagem_tbl name="p_imagem_tbl" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</imagem_tbl>
+                        <imagem_tbl_desc name="p_imagem_tbl_desc">Imagem</imagem_tbl_desc>
+                        <id_img name="p_id_img" tag="id_img" desc="true">hidden-1a27_2320</id_img>
+                        <id_img_desc name="p_id_img_desc">hidden-1a27_2320</id_img_desc>
+                    </row>
+                    <row>
+                        <imagem_tbl name="p_imagem_tbl" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</imagem_tbl>
+                        <imagem_tbl_desc name="p_imagem_tbl_desc">Imagem</imagem_tbl_desc>
+                        <id_img name="p_id_img" tag="id_img" desc="true">hidden-5895_3ec0</id_img>
+                        <id_img_desc name="p_id_img_desc">hidden-5895_3ec0</id_img_desc>
+                    </row>
+                    <row>
+                        <imagem_tbl name="p_imagem_tbl" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</imagem_tbl>
+                        <imagem_tbl_desc name="p_imagem_tbl_desc">Imagem</imagem_tbl_desc>
+                        <id_img name="p_id_img" tag="id_img" desc="true">hidden-0226_c953</id_img>
+                        <id_img_desc name="p_id_img_desc">hidden-0226_c953</id_img_desc>
+                    </row>
+                </value>
+            </table>
+        </formlist_1>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar" refresh_components="">
+                <title>Gravar</title>
+                <app>igrp_studio</app>
+                <page>ImportArquivo</page>
+                <link>index</link>
+                <target>submit_notvalidate</target>
+                <img>danger|fa-trash</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
+            </item>
+        </toolsbar_2>
         <sectionheader_3 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_3_text type="text" name="p_sectionheader_3_text" persist="true" maxlength="4000">
@@ -345,7 +443,7 @@
         </form_6>
     </content>
     <blockly>
-        <imports>undefined</imports>
+        <imports></imports>
         <xml>
             <block type="controller" id="controller" x="388" y="13"></block>
         </xml>

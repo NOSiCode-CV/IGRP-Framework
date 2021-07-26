@@ -22,12 +22,23 @@ public class PesquisarMenuView extends View {
 	public Field checkbox;
 	public Field checkbox_check;
 	public Field id;
+	public Field pagina_order;
+	public Field id_page_ord_desc;
+	public Field id_page_ord;
+	public Field id_pai_desc;
+	public Field id_pai;
+	public Field id_do_pai_desc;
+	public Field id_do_pai;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
+	public IGRPBox box_1;
+	public IGRPFormList formlist_1;
 
 	public IGRPToolsBar toolsbar_1;
+	public IGRPToolsBar toolsbar_2;
 	public IGRPButton btn_btn_novo;
+	public IGRPButton btn_gravar_ordenacao;
 	public IGRPButton btn_editar;
 	public IGRPButton btn_eliminar;
 
@@ -40,6 +51,10 @@ public class PesquisarMenuView extends View {
 		form_1 = new IGRPForm("form_1","");
 
 		table_1 = new IGRPTable("table_1","");
+
+		box_1 = new IGRPBox("box_1","Ordenar Menú");
+
+		formlist_1 = new IGRPFormList("formlist_1","");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
@@ -92,11 +107,31 @@ public class PesquisarMenuView extends View {
 		id.setLabel(gt(""));
 		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","id");
 		
+		pagina_order = new TextField(model,"pagina_order");
+		pagina_order.setLabel(gt("Página"));
+		pagina_order.propertie().add("name","p_pagina_order").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desc","true");
+		
+		id_page_ord = new HiddenField(model,"id_page_ord");
+		id_page_ord.setLabel(gt(""));
+		id_page_ord.propertie().add("name","p_id_page_ord").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","id_page_ord").add("desc","true");
+		
+		id_pai = new HiddenField(model,"id_pai");
+		id_pai.setLabel(gt(""));
+		id_pai.propertie().add("name","p_id_pai").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","id_pai").add("desc","true");
+		
+		id_do_pai = new HiddenField(model,"id_do_pai");
+		id_do_pai.setLabel(gt(""));
+		id_do_pai.propertie().add("name","p_id_do_pai").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","id_do_pai").add("desc","true");
+		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
+		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
 
 		btn_btn_novo = new IGRPButton("Novo","igrp","PesquisarMenu","btn_novo","right_panel_submit|refresh","success|fa-plus-square","","");
 		btn_btn_novo.propertie.add("type","specific").add("rel","btn_novo").add("refresh_components","");
+
+		btn_gravar_ordenacao = new IGRPButton("Gravar Ordenação","igrp","PesquisarMenu","gravar_ordenacao","submit_ajax","primary|fa-sort-numeric-asc","","");
+		btn_gravar_ordenacao.propertie.add("type","specific").add("rel","gravar_ordenacao").add("refresh_components","table_1,formlist_1");
 
 		btn_editar = new IGRPButton("Editar","igrp","PesquisarMenu","editar","right_panel_submit|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("id","button_edcd_6e25").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
@@ -127,13 +162,24 @@ public class PesquisarMenuView extends View {
 		table_1.addField(checkbox_check);
 		table_1.addField(id);
 
+
+		formlist_1.addField(pagina_order);
+		formlist_1.addField(id_page_ord);
+		formlist_1.addField(id_pai);
+		formlist_1.addField(id_do_pai);
+
+
 		toolsbar_1.addButton(btn_btn_novo);
+		toolsbar_2.addButton(btn_gravar_ordenacao);
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_eliminar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
+		this.addToPage(box_1);
+		this.addToPage(formlist_1);
 		this.addToPage(toolsbar_1);
+		this.addToPage(toolsbar_2);
 	}
 		
 	@Override
@@ -148,8 +194,13 @@ public class PesquisarMenuView extends View {
 		table_titulo.setValue(model);
 		pagina.setValue(model);
 		checkbox.setValue(model);
-		id.setValue(model);	
+		id.setValue(model);
+		pagina_order.setValue(model);
+		id_page_ord.setValue(model);
+		id_pai.setValue(model);
+		id_do_pai.setValue(model);	
 
 		table_1.loadModel(((PesquisarMenu) model).getTable_1());
+		formlist_1.loadModel(((PesquisarMenu) model).getFormlist_1());
 		}
 }

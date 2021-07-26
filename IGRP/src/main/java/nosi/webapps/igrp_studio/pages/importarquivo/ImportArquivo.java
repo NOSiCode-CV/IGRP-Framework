@@ -2,10 +2,16 @@ package nosi.webapps.igrp_studio.pages.importarquivo;
 
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
+import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
+import java.util.ArrayList;
+import java.util.List;
 import nosi.core.webapp.uploadfile.UploadFile;
-
+import javax.validation.Valid;
 public class ImportArquivo extends Model{		
 
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -27,6 +33,9 @@ public class ImportArquivo extends Model{
 
 	@RParam(rParamName = "p_importar_imagem")
 	private String importar_imagem;
+
+	@RParam(rParamName = "p_personalizar_login")
+	private String personalizar_login;
 
 	@RParam(rParamName = "p_sectionheader_2_text")
 	private String sectionheader_2_text;
@@ -67,6 +76,15 @@ public class ImportArquivo extends Model{
 	@RParam(rParamName = "p_form_5_link_1")
 	private String form_5_link_1;
 
+	@RParam(rParamName = "p_carousel_1_label")
+	private String carousel_1_label;
+
+	@RParam(rParamName = "p_carousel_1_img")
+	private String carousel_1_img;
+
+	@RParam(rParamName = "p_imagem")
+	private UploadFile imagem;
+
 	@RParam(rParamName = "p_sectionheader_3_text")
 	private String sectionheader_3_text;
 
@@ -75,6 +93,52 @@ public class ImportArquivo extends Model{
 
 	@RParam(rParamName = "p_arquivo_pagina")
 	private UploadFile arquivo_pagina;
+	
+	private List<Carousel_1> carousel_1 = new ArrayList<>();	
+	public void setCarousel_1(List<Carousel_1> carousel_1){
+		this.carousel_1 = carousel_1;
+	}
+	public List<Carousel_1> getCarousel_1(){
+		return this.carousel_1;
+	}
+
+	
+	@SeparatorList(name = Formlist_1.class)
+	@Valid
+	private List<Formlist_1> formlist_1 = new ArrayList<>();	
+	public void setFormlist_1(List<Formlist_1> formlist_1){
+		this.formlist_1 = formlist_1;
+	}
+	public List<Formlist_1> getFormlist_1(){
+		return this.formlist_1;
+	}
+	@RParam(rParamName = "p_formlist_1_id")
+	private String[] p_formlist_1_id;
+	@RParam(rParamName = "p_formlist_1_del")
+	private String[] p_formlist_1_del;
+	@RParam(rParamName = "p_formlist_1_edit")
+	private String[] p_formlist_1_edit;
+	
+	public void setP_formlist_1_id(String[] p_formlist_1_id){
+		this.p_formlist_1_id = p_formlist_1_id;
+	}
+	public String[] getP_formlist_1_id(){
+		return this.p_formlist_1_id;
+	}
+	
+	public void setP_formlist_1_del(String[] p_formlist_1_del){
+		this.p_formlist_1_del = p_formlist_1_del;
+	}
+	public String[] getP_formlist_1_del(){
+		return this.p_formlist_1_del;
+	}
+	
+	public void setP_formlist_1_edit(String[] p_formlist_1_edit){
+		this.p_formlist_1_edit = p_formlist_1_edit;
+	}
+	public String[] getP_formlist_1_edit(){
+		return this.p_formlist_1_edit;
+	}
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -131,6 +195,13 @@ public class ImportArquivo extends Model{
 	}
 	public String getImportar_imagem(){
 		return this.importar_imagem;
+	}
+	
+	public void setPersonalizar_login(String personalizar_login){
+		this.personalizar_login = personalizar_login;
+	}
+	public String getPersonalizar_login(){
+		return this.personalizar_login;
 	}
 	
 	public void setSectionheader_2_text(String sectionheader_2_text){
@@ -224,6 +295,27 @@ public class ImportArquivo extends Model{
 		return this.form_5_link_1;
 	}
 	
+	public void setCarousel_1_label(String carousel_1_label){
+		this.carousel_1_label = carousel_1_label;
+	}
+	public String getCarousel_1_label(){
+		return this.carousel_1_label;
+	}
+	
+	public void setCarousel_1_img(String carousel_1_img){
+		this.carousel_1_img = carousel_1_img;
+	}
+	public String getCarousel_1_img(){
+		return this.carousel_1_img;
+	}
+	
+	public void setImagem(UploadFile imagem){
+		this.imagem = imagem;
+	}
+	public UploadFile getImagem(){
+		return this.imagem;
+	}
+	
 	public void setSectionheader_3_text(String sectionheader_3_text){
 		this.sectionheader_3_text = sectionheader_3_text;
 	}
@@ -246,5 +338,56 @@ public class ImportArquivo extends Model{
 	}
 
 
+	public static class Carousel_1 extends IGRPTable.Table{
+		private String carousel_1_label;
+		private String carousel_1_img;
+		public void setCarousel_1_label(String carousel_1_label){
+			this.carousel_1_label = carousel_1_label;
+		}
+		public String getCarousel_1_label(){
+			return this.carousel_1_label;
+		}
+
+		public void setCarousel_1_img(String carousel_1_img){
+			this.carousel_1_img = carousel_1_img;
+		}
+		public String getCarousel_1_img(){
+			return this.carousel_1_img;
+		}
+
+	}
+	public static class Formlist_1{
+		private Pair formlist_1_id;
+private Pair imagem_tbl;
+private Pair id_img;
+		public void setFormlist_1_id(Pair formlist_1_id){
+			this.formlist_1_id = formlist_1_id;
+		}
+		public Pair getFormlist_1_id(){
+			return this.formlist_1_id;
+		}
+		public void setImagem_tbl(Pair imagem_tbl){
+			this.imagem_tbl = imagem_tbl;
+		}
+		public Pair getImagem_tbl(){
+			return this.imagem_tbl;
+		}
+
+		public void setId_img(Pair id_img){
+			this.id_img = id_img;
+		}
+		public Pair getId_img(){
+			return this.id_img;
+		}
+
+	}
+
+	public void loadCarousel_1(BaseQueryInterface query) {
+		this.setCarousel_1(this.loadTable(query,Carousel_1.class));
+	}
+
+	public void loadFormlist_1(BaseQueryInterface query) {
+		this.setFormlist_1(this.loadFormList(query,Formlist_1.class));
+	}
 
 }
