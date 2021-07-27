@@ -82,11 +82,11 @@ public class ImportArquivo extends Model{
 	@RParam(rParamName = "p_carousel_1_img")
 	private String carousel_1_img;
 
-	@RParam(rParamName = "p_imagem")
-	private UploadFile imagem;
-
 	@RParam(rParamName = "p_sectionheader_3_text")
 	private String sectionheader_3_text;
+
+	@RParam(rParamName = "p_imagem")
+	private UploadFile imagem;
 
 	@RParam(rParamName = "p_list_aplicacao")
 	private String list_aplicacao;
@@ -309,18 +309,18 @@ public class ImportArquivo extends Model{
 		return this.carousel_1_img;
 	}
 	
-	public void setImagem(UploadFile imagem){
-		this.imagem = imagem;
-	}
-	public UploadFile getImagem(){
-		return this.imagem;
-	}
-	
 	public void setSectionheader_3_text(String sectionheader_3_text){
 		this.sectionheader_3_text = sectionheader_3_text;
 	}
 	public String getSectionheader_3_text(){
 		return this.sectionheader_3_text;
+	}
+	
+	public void setImagem(UploadFile imagem){
+		this.imagem = imagem;
+	}
+	public UploadFile getImagem(){
+		return this.imagem;
 	}
 	
 	public void setList_aplicacao(String list_aplicacao){
