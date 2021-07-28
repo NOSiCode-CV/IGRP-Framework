@@ -68,7 +68,7 @@ public class Report extends Controller{
 	if(Core.isNull(contra_prova))
 		 contra_prova = Report.generateContraProva("nosi.webapps."+rt.getApplication().getDad().toLowerCase());
 	
-	qs+="&ctpr="+Core.encrypt(contra_prova);
+	qs+="&ctpr="+Core.encryptPublicPage(contra_prova);
 	try {
 		if(rep!=null) 
 			for(Entry<String, Object> p : rep.getParams().entrySet()) 
@@ -107,7 +107,7 @@ public class Report extends Controller{
 		if(isPublic) 
 			Core.setAttribute("isPublic", "1"); 	
 		
-		rep.setLink(Route.getResolveUrl("igrp_studio", "WebReport", "preview&ctpr="+Core.encrypt(contra_prova)+"&p_rep_id="+rt.getId()+"&p_type="+XSLXML_SAVE)); 
+		rep.setLink(Route.getResolveUrl("igrp_studio", "WebReport", "preview&ctpr="+Core.encryptPublicPage(contra_prova)+"&p_rep_id="+rt.getId()+"&p_type="+XSLXML_SAVE)); 
 		rep.setContraProva(contra_prova);
 		return rep;
 	}
@@ -136,7 +136,7 @@ public class Report extends Controller{
 		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", code_report).one();
 		String contra_prova = Report.generateContraProva("nosi.webapps."+rt.getApplication().getDad().toLowerCase());
 		
-		rep.setLink(Route.getResolveUrl("igrp_studio", "WebReport", "preview&ctpr="+Core.encrypt(contra_prova)+"&p_rep_id="+rt.getId()+"&p_type="+XSLXML_SAVE)); 
+		rep.setLink(Route.getResolveUrl("igrp_studio", "WebReport", "preview&ctpr="+Core.encryptPublicPage(contra_prova)+"&p_rep_id="+rt.getId()+"&p_type="+XSLXML_SAVE)); 
 		if(queryString!=null) {
 			queryString.getQueryString().entrySet().stream().forEach(q->
 				rep.addParam(q.getKey(), q.getValue().get(0))

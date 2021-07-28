@@ -513,7 +513,7 @@ public class WebReportController extends Controller {
 		if(Core.isNull(contraProva))
 			contraProva = Report.generateContraProva(packageFind);
 		else
-			contraProva=Core.decrypt(contraProva);
+			contraProva=Core.decryptPublicPage(contraProva);
 		User user = null;
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){
 			user = new User();
