@@ -50,7 +50,7 @@ var GEN = null,
 	CHECK_SELECT = [["checks", "String::checks"],["unchecks", "String::unchecks"]],
 	TIPO = [["Inteiro", "Inteiro"],["Data", "Data"],["Texto", "Texto"]],
 	WHERE = [["=", "WHERE_EQ"],["!=", "WHERE_DIF"],["<", "WHERE_LT"],["<=", "WHERE_LTE"],[">", "WHERE_GT"],[">=", "WHERE_GTE"],
-		["like", "WHERE_LIKE"],["notlike", "WHERE_NOTLIKE"]],
+		["like", "WHERE_LIKE"],["notlike", "WHERE_NOTLIKE"],["in", "IN"]],
 	FILTER = [["andWhere", "andWhere"],["andWhereIsNull", "andWhereIsNull"],["andWhereNotNull", "andWhereNotNull"],
 		["andWhereBetween", "andWhereBetween"],	["orWhere", "orWhere"],["orWhereIsNull", "orWhereIsNull"],["orWhereNotNull", "orWhereNotNull"],
 		["orWhereBetween", "orWhereBetween"], ["having", "having"],["where", "where"],["whereIn", "whereIn"],["whereNotIn", "whereNotIn"]],
@@ -213,6 +213,28 @@ $('#active_selenium').on('click', function() {
 				}
 			}
 			
+		});	
+	});	
+	 $('rows>content>*[type=separatorlist]', BlocklyXML).each(function(i, element) {	 
+		$(element).find('>fields>*').each(function(x, field) {	
+			var tag = $(field).prop('tagName'),
+				ChooseType = $(field).attr('type'),
+				domain = $(field).attr('domain');	
+			if(ChooseType == "select" && domain== "" || ChooseType == "checkboxlist" && domain== "" || ChooseType == "radiolist" && domain== ""){
+				select.push([ tag, tag ]);	
+				addcombo++;	
+			}		
+		});	
+	});
+	$('rows>content>*[type=formlist]', BlocklyXML).each(function(i, element) {	 
+		$(element).find('>fields>*').each(function(x, field) {	
+			var tag = $(field).prop('tagName'),
+				ChooseType = $(field).attr('type'),
+				domain = $(field).attr('domain');	
+			if(ChooseType == "select" && domain== "" || ChooseType == "checkboxlist" && domain== "" || ChooseType == "radiolist" && domain== ""){
+				select.push([ tag, tag ]);	
+				addcombo++;	
+			}		
 		});	
 	});	
 	 console.log(Paramyters)

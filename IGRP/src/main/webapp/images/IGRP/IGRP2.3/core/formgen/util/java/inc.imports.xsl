@@ -93,8 +93,8 @@
 					<xsl:text>import org.hibernate.Session; //block import</xsl:text>					
 					<xsl:value-of select="$newline"></xsl:value-of>					
 					<xsl:text>import org.hibernate.Transaction; //block import</xsl:text>					
-					<xsl:value-of select="$newline"></xsl:value-of>					
-					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.pages.</xsl:text><xsl:value-of select="$pagelow"/><xsl:text>.</xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$separator"/><xsl:text>; //block import</xsl:text>									
+<!-- 					<xsl:value-of select="$newline"></xsl:value-of>					 -->
+<!-- 					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.pages.</xsl:text><xsl:value-of select="$pagelow"/><xsl:text>.</xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$separator"/><xsl:text>; //block import</xsl:text>									 -->
 				</xsl:when>				
 				<xsl:when test="@type = 'save_formlist'">				
 					<xsl:value-of select="$newline"></xsl:value-of>					
