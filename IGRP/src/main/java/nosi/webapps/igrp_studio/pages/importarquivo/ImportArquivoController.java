@@ -159,7 +159,10 @@ public class ImportArquivoController extends Controller {
 				}			
 			}
 			String novoLoginBanner = gerarXmlBanner(xml.toString());
-			FileHelper.save(Path.getLoginBanner(), "IGRP-login-banner.xml", novoLoginBanner);
+			String workSpaceBa = Path.getLoginBannerWorkspace();
+			if (Core.isNotNull(workSpaceBa))
+				FileHelper.save(Path.getLoginBannerWorkspace(), "IGRP-login-banner.xml", novoLoginBanner);
+			FileHelper.save(Path.getLoginBannerServer(), "IGRP-login-banner.xml", novoLoginBanner);
 			Core.setMessageSuccess();
 
 		} catch (Exception e) {
@@ -452,7 +455,10 @@ public class ImportArquivoController extends Controller {
 			if (r) {
 				Core.setMessageSuccess();
 				String novoLoginBanner = gerarXmlBanner("");
-				FileHelper.save(Path.getLoginBanner(), "IGRP-login-banner.xml", novoLoginBanner);
+				String workSpaceBa = Path.getLoginBannerWorkspace();
+				if (Core.isNotNull(workSpaceBa))
+					FileHelper.save(Path.getLoginBannerWorkspace(), "IGRP-login-banner.xml", novoLoginBanner);
+				FileHelper.save(Path.getLoginBannerServer(), "IGRP-login-banner.xml", novoLoginBanner);
 			} else
 				Core.setMessageError();
 
