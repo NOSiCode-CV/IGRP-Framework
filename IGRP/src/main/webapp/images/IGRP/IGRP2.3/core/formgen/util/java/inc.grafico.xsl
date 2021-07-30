@@ -116,7 +116,7 @@
 			</xsl:otherwise>				
 		</xsl:choose>				
 		<xsl:value-of select="$newlineTab1"/>		
-		<xsl:text>if(!</xsl:text><xsl:value-of select="$daolow"/><xsl:text>List.isEmpty()){</xsl:text>		
+		<xsl:text>if(Core.isNotNull(</xsl:text><xsl:value-of select="$daolow"/><xsl:text>List)){</xsl:text>		
 		<xsl:value-of select="$newlineTab2"/>
 		<xsl:text>model.set</xsl:text><xsl:value-of select="$graficoup"/><xsl:text>(new ArrayList&lt;&gt;());</xsl:text>		
 		<xsl:value-of select="$newlineTab2"/>		

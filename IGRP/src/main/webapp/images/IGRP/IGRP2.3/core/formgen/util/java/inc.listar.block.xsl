@@ -191,7 +191,18 @@
 			<xsl:variable name="valueDao" select = "substring-after(value[@name=$value1Name]/block[contains(@type,'et-dao-')]/field,'::')"></xsl:variable>
 			<xsl:variable name="wheretypechild" select="substring-before(value[@name=$value2Name]/block/field,'::')"/>
 			<xsl:variable name="block_namechild" select="value[@name=$value2Name]/block/@type"/>
-			<xsl:variable name="wheretype" select="substring-before(value[@name=$value1Name]/block/field,'::')"/>
+<!-- 			<xsl:variable name="wheretype" select="substring-before(value[@name=$value1Name]/block/field,'::')"/> -->
+			<xsl:variable name="value_otherDao" select = "substring-after(value[@name=$value1Name]/block/value/block/field,'::')"/>
+			<xsl:variable name="wheretype">
+				<xsl:choose>
+					<xsl:when test="$value_otherDao != ''">
+						<xsl:value-of select="substring-before(value[@name=$value1Name]/block/value/block/field,'::')"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="substring-before(value[@name=$value1Name]/block/field,'::')"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
 			<xsl:variable name="wherevalue" select="substring-after(substring-before(value[@name=$value2Name]/block/field,'//'),'::')"/>
 			<xsl:variable name="wherevalue3" select="substring-after(substring-before(value[@name=$value3Name]/block/field,'//'),'::')"/>
 			<xsl:variable name="whererange" select="substring-after(value[@name=$value2Name]/block/field,'//')"/>
@@ -205,7 +216,6 @@
 			<xsl:variable name="value1">
 				<xsl:choose>
 					<xsl:when test="$valueDao != ''">
-						<xsl:variable name="value_otherDao" select = "substring-after(value[@name=$value1Name]/block/value/block/field,'::')"/>
 						<xsl:choose>
 							<xsl:when test="$value_otherDao != ''">
 								<xsl:text>"</xsl:text><xsl:value-of select="$valueDao"/><xsl:text>.</xsl:text><xsl:value-of select="$value_otherDao"/><xsl:text>"</xsl:text>
@@ -272,16 +282,15 @@
 					<xsl:choose>
 						<xsl:when test="contains($operator,'like')">
 							<xsl:value-of select="$newlineTab1"/>
-							<xsl:text>if(Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value2"/><xsl:text>)){</xsl:text>
+							<xsl:text>if(Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$valor2_"/><xsl:text>)){</xsl:text>
 							<xsl:value-of select="$newlineTab2"/>
 							<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="$value1"/><xsl:value-of select="$operator"/><xsl:text>"%"+</xsl:text><xsl:value-of select="$value2"/><xsl:text>.trim()+"%");</xsl:text>
 							<xsl:value-of select="$newlineTab1"/>
 							<xsl:text>}</xsl:text>
-						</xsl:when>
-					
+						</xsl:when>			
 						<xsl:otherwise>
 							<xsl:value-of select="$newlineTab1"/>
-							<xsl:text>if(Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value2"/><xsl:text>)){</xsl:text>
+							<xsl:text>if(Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$valor2_"/><xsl:text>)){</xsl:text>
 							<xsl:value-of select="$newlineTab2"/>
 							<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="$value1"/><xsl:value-of select="$operator"/><xsl:value-of select="$value2"/><xsl:text>);</xsl:text>
 							<xsl:value-of select="$newlineTab1"/>
@@ -292,7 +301,7 @@
 				
 				<xsl:when test="$filter ='.whereIn' or $filter ='.whereNotIn'">
 					<xsl:value-of select="$newlineTab1"/>
-					<xsl:text>if(Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value2"/><xsl:text>)){</xsl:text>
+					<xsl:text>if(Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$valor2_"/><xsl:text>)){</xsl:text>
 					<xsl:value-of select="$newlineTab2"/>
 					<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="$value1"/><xsl:text>,</xsl:text><xsl:value-of select="$value2"/><xsl:text>);</xsl:text>
 					<xsl:value-of select="$newlineTab1"/>

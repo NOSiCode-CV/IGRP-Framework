@@ -49,6 +49,9 @@
 			</xsl:when>			
 			<xsl:when test="$key = 'WHERE_LT'">				
 				<xsl:text>," &lt; ",</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'IN'">				
+				<xsl:text>,"IN",</xsl:text>					
 			</xsl:when>			
 			<xsl:when test="$key = 'WHERE_LTE'">				
 				<xsl:text>," &lt;= ",</xsl:text>					

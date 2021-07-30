@@ -24,13 +24,13 @@
 					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
 				</xsl:when>
 				<xsl:when test="$from = 'String' and $to = 'LocalDate'">
-					<xsl:text>Core.convertStringToLocalDate(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, "dd-MM-yyyy")</xsl:text>
+					<xsl:text>Core.convertStringToLocalDate(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, Core.DD_MM_YYYY)</xsl:text>
 				</xsl:when>
 				<xsl:when test="$from = 'LocalDate' and $to = 'String'">
-					<xsl:text>Core.convertLocalDateToString(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, "dd-MM-yyyy")</xsl:text>
+					<xsl:text>Core.convertLocalDateToString(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, Core.DD_MM_YYYY)</xsl:text>
 				</xsl:when>
 				<xsl:when test="$from = 'String' and $to = 'LocalDateTime'">
-					<xsl:text>Core.convertStringToLocalDateTime(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, "dd-MM-yyyy")</xsl:text>
+					<xsl:text>Core.convertStringToLocalDateTime(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, Core.DD_MM_YYYY)</xsl:text>
 				</xsl:when>
 				<xsl:when test="$from = 'LocalDateTime' and $to = 'String'">
 					<xsl:text>Core.convertLocalDateTimeToString(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, "dd-MM-yyyy - HH:mm")</xsl:text>
@@ -69,7 +69,7 @@
 					<xsl:text>String.valueOf(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
 				</xsl:when>
 				<xsl:when test=" $from = 'String' and $to = 'Date' ">
-					<xsl:text>Core.formatDate(</xsl:text><xsl:value-of select="$value"/><xsl:text>, "dd-mm-yyyy", "yyyy-mm-dd")</xsl:text>
+					<xsl:text>Core.formatDate(</xsl:text><xsl:value-of select="$value"/><xsl:text>, Core.DD_MM_YYYY, Core.YYYY_MM_DD)</xsl:text>
 				</xsl:when>
 				<xsl:when test="$from = 'String' and $to = 'Link'">	
 					<xsl:text>Core.getLinkFileByUuid(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
@@ -90,16 +90,16 @@
 					<xsl:value-of select="$value"></xsl:value-of><xsl:text>.toString()</xsl:text>
 				</xsl:when>
 				<xsl:when test=" $from = 'Integer' and $to = 'Date' ">
-					<xsl:text>Core.formatDate(</xsl:text><xsl:value-of select="$value"/><xsl:text>, "dd-mm-yyyy", "yyyy-mm-dd")</xsl:text>
+					<xsl:text>Core.formatDate(</xsl:text><xsl:value-of select="$value"/><xsl:text>, Core.DD_MM_YYYY, Core.YYYY_MM_DD)</xsl:text>
 				</xsl:when> 
 				<xsl:when test="$from = 'Date' and $to = 'Integer'">
 					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>				
 				</xsl:when>
 				<xsl:when test=" $from = 'Date' and $to = 'hidden' ">			
-					<xsl:value-of select="$value"/><xsl:text>!=null?</xsl:text><xsl:text>Core.dateToString(</xsl:text><xsl:value-of select="$value"/><xsl:text>,"dd-MM-yyyy"):null</xsl:text>			
+					<xsl:value-of select="$value"/><xsl:text>!=null?</xsl:text><xsl:text>Core.dateToString(</xsl:text><xsl:value-of select="$value"/><xsl:text>,Core.DD_MM_YYYY):null</xsl:text>			
 				</xsl:when>				
 				<xsl:when test=" $from = 'Date' and $to = 'String' ">				
-					<xsl:value-of select="$value"/><xsl:text>!=null?</xsl:text><xsl:text>Core.dateToString(</xsl:text><xsl:value-of select="$value"/><xsl:text>,"dd-MM-yyyy"):null</xsl:text>			
+					<xsl:value-of select="$value"/><xsl:text>!=null?</xsl:text><xsl:text>Core.dateToString(</xsl:text><xsl:value-of select="$value"/><xsl:text>,Core.DD_MM_YYYY):null</xsl:text>			
 				</xsl:when>   		
 				<xsl:when test="$from = 'hidden' and $to = 'Integer'">		
 					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>	
@@ -108,7 +108,7 @@
 					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>	
 				</xsl:when>
 				<xsl:when test=" $from = 'hidden' and $to = 'Date' ">
-					<xsl:text>Core.formatDate(</xsl:text><xsl:value-of select="$value"/><xsl:text>, "dd-mm-yyyy", "yyyy-mm-dd")</xsl:text>
+					<xsl:text>Core.formatDate(</xsl:text><xsl:value-of select="$value"/><xsl:text>, Core.DD_MM_YYYY, Core.YYYY_MM_DD)</xsl:text>
 				</xsl:when>
 				<xsl:when test=" $from = 'File' and $to = 'String' ">
 					<xsl:variable name="upvalueblock">		
