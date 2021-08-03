@@ -25,6 +25,8 @@
 					<xsl:text>import java.util.List; //block import</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.LinkedHashMap; //block import</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:text>import static nosi.core.i18n.Translator.gt; //block import</xsl:text>
 				</xsl:when>
 				<xsl:when test="@type = 'fill_combo'">
 					<xsl:value-of select="$newline"></xsl:value-of>

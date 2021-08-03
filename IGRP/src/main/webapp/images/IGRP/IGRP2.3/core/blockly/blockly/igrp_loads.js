@@ -8,8 +8,8 @@ Paramentros Button = PARAMETERS_BUTTONS
 Form = BLOCKS_FORM
 Table = BLOCKS_TABLE
 Checkbox = CHECKBOX_TABLE
-Separador-lista = BLOCK_SEPARATOR-LIST
-Form-list = BLOCK_FORM-LIST
+Separador-lista = BLOCK_SEPARATOR_LIST
+Form-list = BLOCK_FORM_LIST
 View = BLOCK_VIEW
 Grafico = BLOCK_GRAFICO
 Stabox = BLOCK_STATBOX
@@ -17,6 +17,7 @@ Smallbox = BLOCK_SMALLBOX
 Dao Blocks = DAO_BLOCKS
 Service Blocks = SERVICE_BLOCKS
 Imports = BLOCK_IMPORTS
+Helpers = HELPERS
 
 */
 /**
@@ -31,18 +32,21 @@ var GEN = null,
 	blockyInit = false,
 	globalAjaxData ="",
     COMPARISON, RETURNS, CORE_SET, CORE_GET, CORE_ATUAL, CORE_CONVERT, ORDER, FIND, CHECK_SELECT, TIPO, WHERE, FILTER, ANDOR, FINDLIST,FINDLISTDAO, TRU_FAL, CRUD,
-    COLLECTORS;   
-	COLLECTORS = [["Count", "counting"],["Sum", "summingLong"],["Average", "averagingInt"], ["Max", "maxBy"],["Min", "minBy"]],
+    CORE_VERIFY, COLLECTORS, NOADD;   
+	COLLECTORS = [["Count", "counting"],["Sum", "summingLong"],["Average", "averagingInt"], ["Max", ""],["Min", "minBy"]],
 	COMPARISON = [["==", "=="],["!=", "!="],[">=", ">="], ["<=", "<="],[">=", ">="], [">", ">"], ["<", "<"]],
 	RETURNS = [["forward", "forward"],["redirect", "redirect"]], 
     CORE_SET = [["set Sending Email", "enviar_email"], ["set Message Sucess", "messageSucess"], ["set Message Error", "messageError"], 
                 ["set Message Warning", "messageWarning"],["set Message Info", "messageInfo"],["set Message Info Link", "messageInfoLink"]],
-    CORE_GET = [["get Parameter Int", "Integer::apanhar_parametro_inteiro"], ["get Parameter Text", "String::apanhar_parametro_texto"],["get Report Param", "String::apanhar_parametro_report"],["get Domain by Name", "String::get_domain"]],
+    CORE_GET = [["get Parameter Int", "Integer::apanhar_parametro_inteiro"], ["get Parameter Text", "String::apanhar_parametro_texto"],["get Report Param",
+				 "String::apanhar_parametro_report"],["get Domain by Name", "String::get_domain"],  ["get IGRP Link", "get_igrp_link"]],
     CORE_ATUAL = [["get atual Date", "LocalDate::data_atual"], ["get atual Date Time", "LocalDateTime::data_atual_hora"], ["get atual User Name", "String::nome_utilizador_atual"],["get atual User Email", "String::email_utilizador_atual"],
 	        ["get atual User Id", "Integer::id_utilizador_atual"],  ["get atual Profile Id", "Integer::id_perfil_atual"],  ["get atual Profile Code", "String::code_perfil_atual"], 
     		["get atual Organization Id", "Integer::id_organi_atual"],  ["get atual Organization Code", "String::code_organi_atual"]],
     CORE_CONVERT = [["convert to Int", "Integer::toInt"],["convert to String", "String::toString"], ["convert to Double", "double::toDouble"],["convert to Long", "Long::toLong"]],
+  	CORE_VERIFY = [["verify is Null", "verify_is_null"], ["verify is Null or Zero", "verify_is_null_or_zero"], ["verify is Not Null", "verify_is_not_null"], ["verify is Not Null or Zero", "verify_is_not_null_or_zero"]],
 	ORDER = [["id", ""],["Order by Asc", "order_by_asc"],["Order by Desc", "order_by_desc"]],
+	NOADD = [["no Add", "no_add"],["no Edit", "no_edit"],["no Delete", "no_delete"]],
 	FIND = [["--", "--"],["all", "todos"],["one", "um"]], 
 	FINDLIST = [["all", "TODOSS"],["limit", "limit"],["one", "UMM"]],
 	FINDLISTDAO = [["one", "UMM"],["limit", "limit"],["all", "TODOSS"]],
@@ -72,8 +76,8 @@ var	daoClasses = {},
 	service_fields = [], operations_list = [],
 	imports_insert = [], imports_list = [], fields_esp_row = [], custom_action = [], select = [], checkbox_table = [],
 	addcombo=0, addcheckbox=0, addseparator=0, addforeign=0, addchart=0, addtable =0, addbutton=0, addmodel=0, 
-	addstatbox=0, addsmallbox=0, addformlist=0, addform=0, addview=0, custombutton=0, helpers = [], addhelpers = 0, but_table = [], add_but_table = 0,
-	read = [], add_read = 0;
+	addstatbox=0, addsmallbox=0, addformlist=0, addform=0, addview=0, custombutton=0, helpers = [], components =[], addhelpers = 0, but_table = [],
+	add_but_table = 0, read = [], add_read = 0, add_title = 0, separators = [], add_separ = 0;
 var temservices = '';
 Blockly.Blocks.texts.HUE = 200;
 
@@ -156,8 +160,9 @@ $('#active_selenium').on('click', function() {
 	 imports_insert = [], imports_insert.push([ '--', '--' ]), imports_list = [], imports_list.push([ '--', '--' ]), fields_esp_row = [], 
 	 fields_esp_row.push([ '--', '--' ]), custom_action = [], custom_action.push([ '--', '--' ]), select = [], select.push([ '--', '--' ]), 
 	 checkbox_table = [], checkbox_table.push([ '--', '--' ]), addcombo=0, addcheckbox=0, addseparator=0, addforeign=0, addchart=0, 
-	 addtable=0, addstatbox=0, addsmallbox=0, addbutton=0, addmodel=0, addformlist=0, addform=0, addview=0, custombutton=0, helpers = [], addhelpers = 0,
-	 but_table=[]; add_but_table=0, read = [], add_read = 0;
+	 addtable=0, addstatbox=0, addsmallbox=0, addbutton=0, addmodel=0, addformlist=0, addform=0, addview=0, custombutton=0, helpers = [], 
+     components =[], separators = [], addhelpers = 0,
+	 but_table=[], add_but_table=0, read = [], add_read = 0, add_separ = 0, add_title = 0;
 	 
 	 var BlocklyXML = $.parseXML(VARS.getGen().getXML());
 	 AppTitle = $('rows>app', BlocklyXML).text();
@@ -223,7 +228,7 @@ $('#active_selenium').on('click', function() {
 			if(ChooseType == "select" && domain== "" || ChooseType == "checkboxlist" && domain== "" || ChooseType == "radiolist" && domain== ""){
 				select.push([ tag, tag ]);	
 				addcombo++;	
-			}		
+			}
 		});	
 	});
 	$('rows>content>*[type=formlist]', BlocklyXML).each(function(i, element) {	 
@@ -237,7 +242,6 @@ $('#active_selenium').on('click', function() {
 			}		
 		});	
 	});	
-	 console.log(Paramyters)
 	 if(addmodel !=0){		 
 		$('#toolbox').append(	
 			'<category id="model" name="Model '+PageTitle+'" colour="300" class="blocly-dynamic">'
@@ -273,10 +277,17 @@ $('#active_selenium').on('click', function() {
 	 // ************** HELPERS **************************	 	 
 	 $('rows>content>*', BlocklyXML).each(function(i, element) {
 	 	$(element).each(function(x, component) {		
-			var tag = $(component).prop('tagName');
+			var tag = $(component).prop('tagName'),
+				type = $(element).attr('type');
 			if(tag != 'title'){
 				helpers.push([ tag, tag]);
+				components.push([ tag, tag]);
 				addhelpers++;
+			}
+			if(type == 'separatorlist'){
+				separators.push([ tag, tag]);	
+				add_separ++;
+				console.log(separators)	
 			}
 		});
 	 	$(element).find('[type!=table]>fields>*').each(function(x, field) {
@@ -348,7 +359,30 @@ $('#active_selenium').on('click', function() {
 				 			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/edit.svg"></field>'
 						+'</value>'
 					 +'</block>'
+					 +'<block type="set_label" prev-statement="" next-statement="" color="260">'
+				 		+'<value name="opcao_label" type="value" title="set label">'
+				 			+'<field type="dropdown" name="set_label" options="IGRP_BLOCKLY_DROPS.READ"></field>'
+				 			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/edit.svg"></field>'
+						+'</value>'
+					 +'</block>'
+					 +'<block type="set_title" prev-statement="" next-statement="" color="260">'
+				 		+'<value name="opcao_title" type="value" title="set title">'
+				 			+'<field type="dropdown" name="set_title" options="IGRP_BLOCKLY_DROPS.COMPONENTS"></field>'
+				 			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/edit.svg"></field>'
+						+'</value>'
+					 +'</block>'
 			  );
+			}
+			if(add_separ !=0){
+				$('#helpers').append(
+				 '<block type="set_sepator" prev-statement="" next-statement="" color="260">'
+				 		+'<value name="opcao_add" type="dummy" title="set ">'
+				 			+'<field type="dropdown" name="set_separ" options="IGRP_BLOCKLY_DROPS.SEPARATORS"></field>'
+							+'<field type="dropdown" name="set_noadd" options="IGRP_BLOCKLY_DROPS.no_add"></field>'
+				 			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/edit.svg"></field>'
+						+'</value>'
+					 +'</block>'
+				);
 			}
 	 
 	// ******************* BLOCKS_FORM *************************	
@@ -690,7 +724,7 @@ $('#active_selenium').on('click', function() {
 		+'<sep class="blocly-dynamic"></sep>'
 		);
 	}		
-	// ********************* BLOCK_SEPARATOR-LIST ***************************			
+	// ********************* BLOCK_SEPARATOR_LIST ***************************			
 	$('rows>content>*[type="separatorlist"]', BlocklyXML).each(function(i, element){
 		
 		IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];
@@ -770,7 +804,7 @@ $('#active_selenium').on('click', function() {
 			}
 	});
 	
-	// ****************** BLOCK_FORM-LIST ****************************
+	// ****************** BLOCK_FORM_LIST ****************************
 	
 	$('rows>content>*[type="formlist"]', BlocklyXML).each(function(i, element) {
 		IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];
@@ -804,7 +838,7 @@ $('#active_selenium').on('click', function() {
 			var getFormlistBlock = function(){
 				var rtn = '';
 				IGRP_BLOCKLY_DROPS.tablesTest[formlist].forEach(function(f, fi){
-					rtn+= '<block type="sep_form_'+f[0]+'$$'+f[1]+'"  prev-statement="" next-statement="" color="300">'
+					rtn+= '<block type="sep_row_'+f[0]+'$$'+f[1]+'"  prev-statement="" next-statement="" color="300">'
 							+'<value type="value" name="fields_model">'
 								+'<field type="text" options="set '+f[0]+'"></field>'
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
@@ -1372,6 +1406,7 @@ $('#active_selenium').on('click', function() {
 			core_get : CORE_GET,
 			core_atual : CORE_ATUAL,
 			core_convert : CORE_CONVERT,
+			core_verify: CORE_VERIFY,
 			find : FIND,
 			tipo : TIPO,
 			where : WHERE,
@@ -1383,6 +1418,8 @@ $('#active_selenium').on('click', function() {
 			collectors : COLLECTORS,
 			and_or : ANDOR,
 			true_false : TRU_FAL,
+			no_add : NOADD,
+			SEPARATORS : separators,
 			dao_list : daos_list,
 			service_list : services_list,
 			operation_list : operations_list,
@@ -1403,6 +1440,7 @@ $('#active_selenium').on('click', function() {
 			fields_FORM : fields_formlist,
 			chart_model : chart,
 			HELPERS : helpers,
+			COMPONENTS : components,
 			BUT_TABLE :but_table,
 			READ :read,
 			crud :CRUD

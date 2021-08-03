@@ -166,6 +166,15 @@
 			</xsl:when>	
 			<xsl:when test="$key = 'minBy'">				
 				<xsl:text>.getMin()</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'no_add'">				
+				<xsl:text>.noAdd()</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'no_edit'">				
+				<xsl:text>.noEdit()</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'no_delete'">				
+				<xsl:text>.noDelete()</xsl:text>					
 			</xsl:when>		
 		</xsl:choose>		
 	</xsl:template>	

@@ -127,63 +127,6 @@
 
 	</xsl:template>
 	
-	<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-
-	<xsl:template name="blockly.element.form_row">
-	
-		<xsl:variable name="rowType" select="substring-before(field,'::')"/>
-		
-		<xsl:variable name="rowValue" select="substring-after(field,'::')"/>
-		
-		<xsl:variable name="rowtypechild" select="substring-before(value[@name='fields_model']/block/field,'::')"/>
-		
-		<xsl:variable name="rowvaluechild" select="substring-after(value[@name='fields_model']/block/field,'::')"/>
-		
-		<xsl:variable name="ValueChild">
-		
-			<xsl:call-template name="InitCap">
-			
-				<xsl:with-param name="text" select="$rowvaluechild"/>
-				
-			</xsl:call-template>
-			
-		</xsl:variable>
-		
-		<xsl:variable name="nameCap">
-		
-			<xsl:call-template name="InitCap">
-			
-				<xsl:with-param name="text" select="$rowValue"/>
-				
-			</xsl:call-template>
-			
-		</xsl:variable>
-		
-		<xsl:variable name="rowset">
-		
-			<xsl:choose>
-			
-				<xsl:when test="$rowtypechild = 'Date'">
-				
-					<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>( new Pair(""+</xsl:text><xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$ValueChild"/><xsl:text>(),""+</xsl:text><xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$ValueChild"/><xsl:text>()) );</xsl:text>
-					
-				</xsl:when>
-
-				<xsl:otherwise>
-				
-					<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>( new Pair(</xsl:text><xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$ValueChild"/><xsl:text>(),</xsl:text><xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$ValueChild"/><xsl:text>()) );</xsl:text>
-				
-				</xsl:otherwise>
-			
-			</xsl:choose>
-			
-		</xsl:variable>
-		
-		<xsl:value-of select="$rowset"></xsl:value-of>
-	
-	</xsl:template>	
-	
 	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	
