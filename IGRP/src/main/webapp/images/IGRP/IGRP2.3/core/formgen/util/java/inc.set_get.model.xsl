@@ -42,6 +42,9 @@
 			<xsl:choose>			
 				<xsl:when test="substring-after(field,'//') != '' ">				
 					<xsl:value-of select="substring-after(substring-before(field,'//'),'::')"></xsl:value-of>				
+				</xsl:when>	
+				<xsl:when test="substring-after(@type,'//') != '' ">				
+					<xsl:value-of select="substring-after(substring-before(@type,'//'),'::')"></xsl:value-of>				
 				</xsl:when>			
 				<xsl:when test="substring-after(field,'::') != ''">				
 					<xsl:value-of select="substring-after(field,'::')"></xsl:value-of>			
@@ -51,13 +54,16 @@
 				</xsl:otherwise>			
 			</xsl:choose>		
 		</xsl:variable>		
-	  	<xsl:variable name="modeltypechild">		
-			<xsl:choose>			
-				<xsl:when test="value[@name='value1']/block/value/block/field != ''">				
-					<xsl:value-of select="substring-before(value[@name='value1']/block/value[@name='dao_rela']/block/field,'::')"/>				
+		<xsl:variable name="modeltypechild">		
+			<xsl:choose>
+				<xsl:when test="value/block/value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
 				</xsl:when>				
+				<xsl:when test="value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/field,'::')"/>				
+				</xsl:when>					
 				<xsl:otherwise>				
-					<xsl:value-of select="substring-before(value[@name='value1']/block/field,'::')"/>				
+					<xsl:value-of select="substring-before(value/block/field,'::')"/>				
 				</xsl:otherwise>				
 			</xsl:choose>		
 		</xsl:variable>		
@@ -80,9 +86,7 @@
 						<xsl:with-param name="value" select="$setting"></xsl:with-param>						
 						<xsl:with-param name="valueblock" select="$modelValue"></xsl:with-param>						
 						<xsl:with-param name="from" select="$modeltypechild"></xsl:with-param>						
-						<xsl:with-param name="to" select="$modelType"></xsl:with-param>						
-						<xsl:with-param name="neto" select="neto"></xsl:with-param>						
-						<xsl:with-param name="valuechild" select="$modelValue"></xsl:with-param>						
+						<xsl:with-param name="to" select="$modelType"></xsl:with-param>												
 						<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>						
 						<xsl:with-param name="block_name" select="$block_name"></xsl:with-param>						
 					</xsl:call-template>					
@@ -96,9 +100,7 @@
 						<xsl:with-param name="value" select="$setting"></xsl:with-param>						
 						<xsl:with-param name="valueblock" select="$modelValue"></xsl:with-param>						
 						<xsl:with-param name="from" select="$modeltypechild"></xsl:with-param>						
-						<xsl:with-param name="to" select="$modelType"></xsl:with-param>						
-						<xsl:with-param name="neto" select="neto"></xsl:with-param>					
-						<xsl:with-param name="valuechild" select="$modelValue"></xsl:with-param>					
+						<xsl:with-param name="to" select="$modelType"></xsl:with-param>										
 						<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>						
 						<xsl:with-param name="block_name" select="$block_name"></xsl:with-param>						
 					</xsl:call-template>					

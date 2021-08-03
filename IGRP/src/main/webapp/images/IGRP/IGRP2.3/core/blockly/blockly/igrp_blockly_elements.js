@@ -683,6 +683,9 @@
 				block.appendDummyInput("domains").appendField("domain").appendField(domainsOptions, 'domaindrop')
 					.appendField("value").setVisible(false);
 				block.appendValueInput("value_default").setVisible(false);
+				block.appendDummyInput("valueLink").appendField(new Blockly.FieldTextInput('name app'), 'value2')
+				.appendField(new Blockly.FieldTextInput('name page'), 'value3').appendField(new Blockly.FieldTextInput('name action'), 'value4')
+				.setVisible(false);
 				block.mutationToDom = function() {
 					var container = document.createElement('mutation');
 					var itemInput = this.getFieldValue('CORE_FUNCTION');
@@ -699,6 +702,11 @@
 						block.getInput("domains").setVisible(true);
 						block.getInput("value_default").setVisible(true);
 						block.getInput("value1").setVisible(false);
+					} else if (type == 'get_igrp_link') {
+						block.getInput("domains").setVisible(false);
+						block.getInput("value_default").setVisible(false);
+						block.getInput("value1").setVisible(false);
+						block.getInput("valueLink").setVisible(true);
 					} else {
 						block.getInput("domains").setVisible(false);
 						block.getInput("value_default").setVisible(false);

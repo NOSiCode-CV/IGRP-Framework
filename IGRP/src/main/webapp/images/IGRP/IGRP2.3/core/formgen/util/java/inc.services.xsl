@@ -103,9 +103,7 @@
 					<xsl:with-param name="value" select="$valor"></xsl:with-param>				
 					<xsl:with-param name="valueblock" select="valueblock"></xsl:with-param>			
 					<xsl:with-param name="from" select="$modeltype"></xsl:with-param>				
-					<xsl:with-param name="to" select="$paramType"></xsl:with-param>				
-					<xsl:with-param name="neto" select="neto"></xsl:with-param>				
-					<xsl:with-param name="valuechild" select="value_namee"></xsl:with-param>				
+					<xsl:with-param name="to" select="$paramType"></xsl:with-param>								
 					<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>				
 					<xsl:with-param name="block_name" select="block_name"></xsl:with-param>				
 				</xsl:call-template>					

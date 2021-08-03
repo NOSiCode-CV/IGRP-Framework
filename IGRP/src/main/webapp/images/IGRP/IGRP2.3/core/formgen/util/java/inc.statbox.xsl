@@ -26,8 +26,6 @@
 				<xsl:with-param name="valueblock" select="wherevalue"></xsl:with-param>
 				<xsl:with-param name="from" select="$collecto_type"></xsl:with-param>
 				<xsl:with-param name="to" select="'Long'"></xsl:with-param>
-				<xsl:with-param name="neto" select="neto"></xsl:with-param>
-				<xsl:with-param name="valuechild" select="valuechild"></xsl:with-param>
 				<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>
 				<xsl:with-param name="block_name" select="block_name"></xsl:with-param>
 			</xsl:call-template>	
@@ -105,9 +103,7 @@
 						<xsl:with-param name="value" select="$valorA"></xsl:with-param>					
 						<xsl:with-param name="valueblock" select="$statValue"></xsl:with-param>					
 						<xsl:with-param name="from" select="$typechild"></xsl:with-param>					
-						<xsl:with-param name="to" select="$statType"></xsl:with-param>					
-						<xsl:with-param name="neto" select="$typeneto"></xsl:with-param>					
-						<xsl:with-param name="valuechild" select="$valuechild"></xsl:with-param>					
+						<xsl:with-param name="to" select="$statType"></xsl:with-param>									
 						<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>					
 						<xsl:with-param name="block_name" select="block_name"></xsl:with-param>					
 					</xsl:call-template>						

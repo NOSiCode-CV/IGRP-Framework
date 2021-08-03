@@ -71,71 +71,6 @@
 		
 	</xsl:template>
 	
-	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-
-	<xsl:template name="blockly.element.sep_row">
-		<xsl:variable name="block_name" select="substring-before(@type,'$$')"/>	
-		<xsl:variable name="rowType" select="substring-before(substring-after(@type,'$$'),'::')"/>
-		<xsl:variable name="rowValue_inicial" select="substring-after(@type,'::')"/>			
-		<xsl:variable name="rowValue">		
-			<xsl:choose>			
-				<xsl:when test="contains($rowValue_inicial,'id_rrow_')">				
-					<xsl:variable name="replaced_field">			
-						<xsl:call-template name="replace-all">						
-							<xsl:with-param name="text" select="$rowValue_inicial"/>							
-							<xsl:with-param name="replace" select="'id_rrow_'"/>							
-							<xsl:with-param name="by" select="''"/>							
-						</xsl:call-template>						
-					</xsl:variable>					
-					<xsl:value-of select="concat($replaced_field,'_id')"></xsl:value-of>				
-				</xsl:when>				
-				<xsl:otherwise>					
-					<xsl:value-of select="$rowValue_inicial"></xsl:value-of>				
-				</xsl:otherwise>				
-			</xsl:choose>	
-		</xsl:variable>		
-		<xsl:variable name="rowtypechild" select="substring-before(value[@name='fields_model']/block/field,'::')"/>	
-		<xsl:variable name="rowvaluechild" select="substring-after(value[@name='fields_model']/block/field,'::')"/>	
-		<xsl:variable name="ValueChild">		
-			<xsl:call-template name="blockly.getValue">			
-				<xsl:with-param name="value" select="value[@name='fields_model']"/>				
-			</xsl:call-template>			
-		</xsl:variable>		
-		<xsl:variable name="nameCap">		
-			<xsl:call-template name="InitCap">			
-				<xsl:with-param name="text" select="$rowValue"/>				
-			</xsl:call-template>			
-		</xsl:variable>		
-		<xsl:variable name="valorpair">		
-			<xsl:call-template name="convert_blocks">			
-					<xsl:with-param name="daolow" select="daolow"></xsl:with-param>					
-					<xsl:with-param name="value" select="$ValueChild"></xsl:with-param>					
-					<xsl:with-param name="valueblock" select="$rowValue"></xsl:with-param>					
-					<xsl:with-param name="from" select="$rowtypechild"></xsl:with-param>					
-					<xsl:with-param name="to" select="$rowType"></xsl:with-param>					
-					<xsl:with-param name="neto" select="rowtypeneto"></xsl:with-param>					
-					<xsl:with-param name="valuechild" select="$rowvaluechild"></xsl:with-param>					
-					<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>					
-					<xsl:with-param name="block_name" select="$block_name"></xsl:with-param>					
-			</xsl:call-template>			
-		</xsl:variable>		
-		<xsl:variable name="rowset">	
-		<xsl:choose>	
-			<xsl:when test="contains($valorpair,'findDomain')">			
-				<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>( new Pair(</xsl:text><xsl:value-of select="$ValueChild"/><xsl:text>,</xsl:text><xsl:value-of select="$valorpair"/><xsl:text>) );</xsl:text>			
-			</xsl:when>			
-			<xsl:when test="$rowType = 'File'">					
-				<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>( new Pair(Core.getLinkFileByUuid(</xsl:text><xsl:value-of select="$ValueChild"/><xsl:text>),</xsl:text><xsl:value-of select="$ValueChild"/><xsl:text>!=null? Core.getFileNameByUuid(</xsl:text><xsl:value-of select="$ValueChild"/><xsl:text>):""));</xsl:text>			
-			</xsl:when>			
-			<xsl:otherwise>			
-				<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>( new Pair(</xsl:text><xsl:value-of select="$valorpair"/><xsl:text>,</xsl:text><xsl:value-of select="$valorpair"/><xsl:text>) );</xsl:text>			
-			</xsl:otherwise>		
-		</xsl:choose>			
-		</xsl:variable>		
-		<xsl:value-of select="$rowset"></xsl:value-of>	
-	</xsl:template>	
-	
 	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	
@@ -355,6 +290,81 @@
 		
 		<xsl:value-of select="$code"></xsl:value-of>
 		
+	</xsl:template>	
+	
+	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+	<xsl:template name="blockly.element.sep_row">
+		<xsl:variable name="block_name" select="substring-before(@type,'$$')"/>	
+		<xsl:variable name="rowType" select="substring-before(substring-after(@type,'$$'),'::')"/>
+		<xsl:variable name="rowValue_inicial" select="substring-after(@type,'::')"/>			
+		<xsl:variable name="rowValue">		
+			<xsl:choose>			
+				<xsl:when test="contains($rowValue_inicial,'id_rrow_')">				
+					<xsl:variable name="replaced_field">			
+						<xsl:call-template name="replace-all">						
+							<xsl:with-param name="text" select="$rowValue_inicial"/>							
+							<xsl:with-param name="replace" select="'id_rrow_'"/>							
+							<xsl:with-param name="by" select="''"/>							
+						</xsl:call-template>						
+					</xsl:variable>					
+					<xsl:value-of select="concat($replaced_field,'_id')"></xsl:value-of>				
+				</xsl:when>				
+				<xsl:otherwise>					
+					<xsl:value-of select="$rowValue_inicial"></xsl:value-of>				
+				</xsl:otherwise>				
+			</xsl:choose>	
+		</xsl:variable>		
+		<xsl:variable name="rowtypechild">		
+			<xsl:choose>
+				<xsl:when test="value/block/value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
+				</xsl:when>				
+				<xsl:when test="value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/field,'::')"/>				
+				</xsl:when>					
+				<xsl:otherwise>				
+					<xsl:value-of select="substring-before(value/block/field,'::')"/>				
+				</xsl:otherwise>				
+			</xsl:choose>		
+		</xsl:variable>	
+		<xsl:variable name="rowvaluechild" select="substring-after(value[@name='fields_model']/block/field,'::')"/>	
+		<xsl:variable name="ValueChild">		
+			<xsl:call-template name="blockly.getValue">			
+				<xsl:with-param name="value" select="value[@name='fields_model']"/>				
+			</xsl:call-template>			
+		</xsl:variable>		
+		<xsl:variable name="nameCap">		
+			<xsl:call-template name="InitCap">			
+				<xsl:with-param name="text" select="$rowValue"/>				
+			</xsl:call-template>			
+		</xsl:variable>		
+		<xsl:variable name="valorpair">		
+			<xsl:call-template name="convert_blocks">			
+					<xsl:with-param name="daolow" select="daolow"></xsl:with-param>					
+					<xsl:with-param name="value" select="$ValueChild"></xsl:with-param>					
+					<xsl:with-param name="valueblock" select="$rowValue"></xsl:with-param>					
+					<xsl:with-param name="from" select="$rowtypechild"></xsl:with-param>					
+					<xsl:with-param name="to" select="$rowType"></xsl:with-param>									
+					<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>					
+					<xsl:with-param name="block_name" select="$block_name"></xsl:with-param>					
+			</xsl:call-template>			
+		</xsl:variable>		
+		<xsl:variable name="rowset">	
+		<xsl:choose>	
+			<xsl:when test="contains($valorpair,'findDomain')">			
+				<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>( new Pair(</xsl:text><xsl:value-of select="$ValueChild"/><xsl:text>,</xsl:text><xsl:value-of select="$valorpair"/><xsl:text>) );</xsl:text>			
+			</xsl:when>			
+			<xsl:when test="$rowType = 'File'">					
+				<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>( new Pair(Core.getLinkFileByUuid(</xsl:text><xsl:value-of select="$ValueChild"/><xsl:text>),</xsl:text><xsl:value-of select="$ValueChild"/><xsl:text>!=null? Core.getFileNameByUuid(</xsl:text><xsl:value-of select="$ValueChild"/><xsl:text>):""));</xsl:text>			
+			</xsl:when>			
+			<xsl:otherwise>			
+				<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>( new Pair(</xsl:text><xsl:value-of select="$valorpair"/><xsl:text>,</xsl:text><xsl:value-of select="$valorpair"/><xsl:text>) );</xsl:text>			
+			</xsl:otherwise>		
+		</xsl:choose>			
+		</xsl:variable>		
+		<xsl:value-of select="$rowset"></xsl:value-of>	
 	</xsl:template>	
 	
 	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

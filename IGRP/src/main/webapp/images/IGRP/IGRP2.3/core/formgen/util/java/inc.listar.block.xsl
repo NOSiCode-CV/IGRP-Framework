@@ -97,11 +97,11 @@
 			<xsl:value-of select="$newlineTab1"/>
 			<xsl:text>List&lt;</xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$table_up"/><xsl:text>&gt; </xsl:text><xsl:value-of select="$dao_low"/><xsl:text>Table = new ArrayList&lt;&gt;</xsl:text><xsl:text>();</xsl:text>
 			<xsl:value-of select="$newlineTab1"/> 
-			<xsl:text>if(</xsl:text><xsl:value-of select="$dao_low"/>
+			<xsl:text>if(Core.isNotNull(</xsl:text><xsl:value-of select="$dao_low"/>
 			<xsl:if test="$find != 'UMM'">
 				<xsl:text>List</xsl:text>
 			</xsl:if>	
-			<xsl:text> != null){</xsl:text>
+			<xsl:text>)){</xsl:text>
 			<xsl:value-of select="$newlineTab2"/>
 			<xsl:if test="$find != 'UMM'">
 				<xsl:text>for(</xsl:text><xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$dao_low"/><xsl:text> : </xsl:text><xsl:value-of select="$dao_low"/><xsl:text>List){</xsl:text>		
@@ -115,12 +115,12 @@
 			<xsl:value-of select="$newlineTab2"/>
 			<xsl:if test="$find != 'UMM'">
 				<xsl:text>}</xsl:text>
+				<xsl:value-of select="$newlineTab2"/>
 			</xsl:if>
+			<xsl:text>model.set</xsl:text><xsl:value-of select="$table_up"/><xsl:text>(</xsl:text><xsl:value-of select="$dao_low"/><xsl:text>Table);</xsl:text>	
 			<xsl:value-of select="$newlineTab1"/>
 			<xsl:text>}</xsl:text>	
 			<xsl:value-of select="$newlineTab1"/>
-			<xsl:text>model.set</xsl:text><xsl:value-of select="$table_up"/><xsl:text>(</xsl:text><xsl:value-of select="$dao_low"/><xsl:text>Table);</xsl:text>
-			
 			<xsl:if test="$fill = 'TRUE' and $mutation &gt;= '1' ">
 				<xsl:value-of select="$newlineTab1"/>
 				<xsl:text>}</xsl:text>
@@ -137,7 +137,19 @@
 	</xsl:template>
 	
 	<xsl:template name="blockly.element.row">
-		<xsl:variable name="rowtypechild" select="substring-before(value[@name='fields_model']/block/field,'::')"/>
+		<xsl:variable name="rowtypechild">		
+			<xsl:choose>
+				<xsl:when test="value/block/value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
+				</xsl:when>				
+				<xsl:when test="value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/field,'::')"/>				
+				</xsl:when>					
+				<xsl:otherwise>				
+					<xsl:value-of select="substring-before(value/block/field,'::')"/>				
+				</xsl:otherwise>				
+			</xsl:choose>		
+		</xsl:variable>	
 		<xsl:variable name="rowvaluechild" select="substring-after(value[@name='fields_model']/block/field,'::')"/>
 		<xsl:variable name="rowtypeneto" select="substring-before(value[@name='fields_model']/block/value[@name='dao_rela']/block/field,'::')"/>
 		<xsl:variable name="rowType" select="substring-before(substring-after(@type,'rowtable'),'::')"/>
@@ -164,8 +176,6 @@
 					<xsl:with-param name="valueblock" select="$rowValue"></xsl:with-param>
 					<xsl:with-param name="from" select="$rowtypechild"></xsl:with-param>
 					<xsl:with-param name="to" select="$rowType"></xsl:with-param>
-					<xsl:with-param name="neto" select="$rowtypeneto"></xsl:with-param>
-					<xsl:with-param name="valuechild" select="$rowvaluechild"></xsl:with-param>
 					<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>
 					<xsl:with-param name="block_name" select="block_name"></xsl:with-param>
 				</xsl:call-template>
@@ -250,8 +260,6 @@
 					<xsl:with-param name="valueblock" select="$wherevalue"></xsl:with-param>
 					<xsl:with-param name="from" select="$wheretypechild"></xsl:with-param>
 					<xsl:with-param name="to" select="$wheretype"></xsl:with-param>
-					<xsl:with-param name="neto" select="neto"></xsl:with-param>
-					<xsl:with-param name="valuechild" select="valuechild"></xsl:with-param>
 					<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>
 					<xsl:with-param name="block_name" select="block_name"></xsl:with-param>
 				</xsl:call-template>	
@@ -270,8 +278,6 @@
 					<xsl:with-param name="valueblock" select="$wherevalue"></xsl:with-param>
 					<xsl:with-param name="from" select="$wheretypechild"></xsl:with-param>
 					<xsl:with-param name="to" select="$wheretype"></xsl:with-param>
-					<xsl:with-param name="neto" select="neto"></xsl:with-param>
-					<xsl:with-param name="valuechild" select="valuechild"></xsl:with-param>
 					<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>
 					<xsl:with-param name="block_name" select="block_name"></xsl:with-param>
 				</xsl:call-template>		
@@ -332,7 +338,7 @@
 							<xsl:value-of select="$newlineTab1"/>
 							<xsl:text>if(Core.isNotNullOrZero(model.get</xsl:text><xsl:value-of select="$upvaluefield1"/><xsl:text>())){</xsl:text>
 							<xsl:value-of select="$newlineTab2"/>
-							<xsl:text>String datas[]= model.get</xsl:text><xsl:value-of select="$upvaluefield1"/><xsl:text>().trim().split("/");</xsl:text>
+							<xsl:text>String datas[]= model.get</xsl:text><xsl:value-of select="$upvaluefield1"/><xsl:text>().trim().split(" / ");</xsl:text>
 							<xsl:value-of select="$newlineTab2"/>
 							<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="$value1"/><xsl:text>, Core.formatDate(datas[0], "dd-mm-yyyy", "yyyy-mm-dd"),Core.formatDate(datas[1], "dd-mm-yyyy", "yyyy-mm-dd"));</xsl:text>
 							<xsl:value-of select="$newlineTab1"/>

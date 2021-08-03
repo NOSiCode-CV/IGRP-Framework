@@ -126,9 +126,7 @@
 							<xsl:with-param name="value" select="$valorparam"></xsl:with-param>							
 							<xsl:with-param name="valueblock" select="$value_param"></xsl:with-param>							
 							<xsl:with-param name="from" select="$type_param"></xsl:with-param>							
-							<xsl:with-param name="to" select="'Integer'"></xsl:with-param>							
-							<xsl:with-param name="neto" select="neto"></xsl:with-param>							
-							<xsl:with-param name="valuechild" select="value_namee"></xsl:with-param>							
+							<xsl:with-param name="to" select="'Integer'"></xsl:with-param>														
 							<xsl:with-param name="block_namechild" select="$foreign_name_block"></xsl:with-param>							
 							<xsl:with-param name="block_name" select="block_name"></xsl:with-param>							
 						</xsl:call-template>								
@@ -152,9 +150,7 @@
 								<xsl:with-param name="value" select="$valorA"></xsl:with-param>								
 								<xsl:with-param name="valueblock" select="$fieldValue"></xsl:with-param>								
 								<xsl:with-param name="from" select="$fieldTypechild"></xsl:with-param>								
-								<xsl:with-param name="to" select="$fieldType"></xsl:with-param>								
-								<xsl:with-param name="neto" select="neto"></xsl:with-param>								
-								<xsl:with-param name="valuechild" select="$fieldvaluechild"></xsl:with-param>								
+								<xsl:with-param name="to" select="$fieldType"></xsl:with-param>																
 								<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>								
 								<xsl:with-param name="block_name" select="$block_name"></xsl:with-param>								
 							</xsl:call-template>							
