@@ -47,6 +47,53 @@
 			</xsl:call-template>			
 		</xsl:variable>							
 		<xsl:text>view.</xsl:text><xsl:value-of select="$field"/><xsl:value-of select="$noadd"/><xsl:text>;</xsl:text>								
-	</xsl:template> 			
+	</xsl:template> 
+	
+	<xsl:template name="blockly.element.set_remote">	
+		<xsl:variable name="action"  select="field[@name='name_action']"/>	
+	  	<xsl:variable name="value">	   	
+		<xsl:call-template name="blockly.getValue">			
+				<xsl:with-param name="value" select="*[@name='value1']"/>				
+			</xsl:call-template>			
+		</xsl:variable>															
+		<xsl:value-of select="$newlineTab1"/>
+		<xsl:text>public Response action</xsl:text><xsl:value-of select="$action"/><xsl:text>() throws IllegalArgumentException{</xsl:text>
+		<xsl:value-of select="$newlineTab2"/>
+		<xsl:text>nosi.core.webapp.helpers.RemoteXML remoteXml = Core.remoteXml();</xsl:text>
+		<xsl:value-of select="$newlineTab2"/>
+		<xsl:value-of select="$value"/>
+		<xsl:value-of select="$newlineTab2"/>
+		<xsl:text>String xml = remoteXml.build();</xsl:text>
+		<xsl:value-of select="$newlineTab2"/>
+	    <xsl:text>this.format = Response.FORMAT_XML;</xsl:text>
+	    <xsl:value-of select="$newlineTab2"/>
+		<xsl:text>return this.renderView( xml );</xsl:text>
+		<xsl:value-of select="$newlineTab1"/>		
+		<xsl:text>}</xsl:text> 	
+	</xsl:template>
+	
+	<xsl:template name="blockly.element.set_properties">	
+		<xsl:variable name="prop">	   	
+			<xsl:call-template name="utils.meaning">			
+				<xsl:with-param name="key" select="field[@name='set_prop']"/>				
+			</xsl:call-template>			
+		</xsl:variable>	
+		<xsl:variable name="name"  select="field[@name='name']"/>
+		<xsl:variable name="message"  select="field[@name='messagedrop']"/>			
+	  	<xsl:variable name="value">	   	
+		<xsl:call-template name="blockly.getValue">			
+				<xsl:with-param name="value" select="*[@name='value1']"/>				
+			</xsl:call-template>			
+		</xsl:variable>															
+		<xsl:text>remoteXml</xsl:text><xsl:value-of select="$prop"/><xsl:text>("</xsl:text>
+		<xsl:if test="$prop = '.addMessage'">
+			<xsl:value-of select="$message"/>
+		</xsl:if>
+		<xsl:if test="$prop = '.addPropertie'">
+			<xsl:value-of select="$name"/>
+		</xsl:if>
+		<xsl:text>", </xsl:text><xsl:value-of select="$value"/><xsl:text>);</xsl:text> 	
+	</xsl:template>	
+			
 </xsl:stylesheet>
 		
