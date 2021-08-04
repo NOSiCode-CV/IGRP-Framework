@@ -184,20 +184,13 @@
 		
 		<xsl:variable name="block_namechild" select="value[@name='edited']/block/@type"/>
 		
-		<xsl:variable name="edited_convert">
-		
-			<xsl:call-template name="utils.edited">
-				
-				<xsl:with-param name="value" select="$edited"></xsl:with-param>
-				
-				<xsl:with-param name="valueblock" select="$valueblock"></xsl:with-param>
-				
-				<xsl:with-param name="from" select="$type_childblock"></xsl:with-param>
-				
-				<xsl:with-param name="to" select="'Integer'"></xsl:with-param>
-				
-				<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>
-				
+		<xsl:variable name="edited_convert">		
+			<xsl:call-template name="utils.edited">				
+				<xsl:with-param name="value" select="$edited"></xsl:with-param>				
+				<xsl:with-param name="valueblock" select="$valueblock"></xsl:with-param>				
+				<xsl:with-param name="from" select="$type_childblock"></xsl:with-param>				
+				<xsl:with-param name="to" select="'Integer'"></xsl:with-param>			
+				<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>				
 			</xsl:call-template>
 					
 		</xsl:variable>

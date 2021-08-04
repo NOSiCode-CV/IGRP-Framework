@@ -121,14 +121,12 @@
 						</xsl:call-template>						
 					</xsl:variable>				   	
 				   	<xsl:variable name="valorparam_convert">	
-						<xsl:call-template name="convert_blocks">								
-							<xsl:with-param name="daolow" select="daolow"></xsl:with-param>							
+						<xsl:call-template name="convert_blocks">														
 							<xsl:with-param name="value" select="$valorparam"></xsl:with-param>							
 							<xsl:with-param name="valueblock" select="$value_param"></xsl:with-param>							
 							<xsl:with-param name="from" select="$type_param"></xsl:with-param>							
 							<xsl:with-param name="to" select="'Integer'"></xsl:with-param>														
-							<xsl:with-param name="block_namechild" select="$foreign_name_block"></xsl:with-param>							
-							<xsl:with-param name="block_name" select="block_name"></xsl:with-param>							
+							<xsl:with-param name="block_namechild" select="$foreign_name_block"></xsl:with-param>													
 						</xsl:call-template>								
 					</xsl:variable>				   	
 				   	<xsl:choose>				   	

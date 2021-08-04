@@ -140,25 +140,17 @@
 			</xsl:choose>		
 		</xsl:variable>		
 		<xsl:variable name="valor1convert">		
-			<xsl:call-template name="convert_blocks">					
-				<xsl:with-param name="daolow" select="daolow"></xsl:with-param>				
-				<xsl:with-param name="value" select="$valor1"></xsl:with-param>				
-				<xsl:with-param name="valueblock" select="valueblock"></xsl:with-param>			
+			<xsl:call-template name="convert_blocks">								
+				<xsl:with-param name="value" select="$valor1"></xsl:with-param>						
 				<xsl:with-param name="from" select="$valor1type"></xsl:with-param>				
-				<xsl:with-param name="to" select="'String'"></xsl:with-param>								
-				<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>				
-				<xsl:with-param name="block_name" select="block_name"></xsl:with-param>				
+				<xsl:with-param name="to" select="'String'"></xsl:with-param>											
 			</xsl:call-template>					
 		</xsl:variable>		
 		<xsl:variable name="valor2convert">		
-			<xsl:call-template name="convert_blocks">					
-				<xsl:with-param name="daolow" select="daolow"></xsl:with-param>				
-				<xsl:with-param name="value" select="$valor2"></xsl:with-param>				
-				<xsl:with-param name="valueblock" select="valueblock"></xsl:with-param>			
+			<xsl:call-template name="convert_blocks">								
+				<xsl:with-param name="value" select="$valor2"></xsl:with-param>							
 				<xsl:with-param name="from" select="$valor2type"></xsl:with-param>				
-				<xsl:with-param name="to" select="'String'"></xsl:with-param>								
-				<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>				
-				<xsl:with-param name="block_name" select="block_name"></xsl:with-param>				
+				<xsl:with-param name="to" select="'String'"></xsl:with-param>											
 			</xsl:call-template>					
 		</xsl:variable>				
 		<xsl:value-of select="$combo"/><xsl:text>.put(</xsl:text><xsl:value-of select="$valor1convert"/><xsl:text>, gt(</xsl:text><xsl:value-of select="$valor2convert"/><xsl:text>));</xsl:text>

@@ -146,14 +146,10 @@
 		</xsl:variable>		
 		<xsl:variable name="param_id_type" select="substring-before(value[@name='get_pa']/block/field,'::')"/>		
 		<xsl:variable name="param_convert">		
-			<xsl:call-template name="convert_blocks">					
-				<xsl:with-param name="daolow" select="daolow"></xsl:with-param>				
-				<xsl:with-param name="value" select="$edit_pa"></xsl:with-param>				
-				<xsl:with-param name="valueblock" select="valueblock"></xsl:with-param>			
+			<xsl:call-template name="convert_blocks">									
+				<xsl:with-param name="value" select="$edit_pa"></xsl:with-param>						
 				<xsl:with-param name="from" select="$param_id_type"></xsl:with-param>				
-				<xsl:with-param name="to" select="'Integer'"></xsl:with-param>								
-				<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>				
-				<xsl:with-param name="block_name" select="block_name"></xsl:with-param>				
+				<xsl:with-param name="to" select="'Integer'"></xsl:with-param>															
 			</xsl:call-template>					
 		</xsl:variable>		
 		<xsl:variable name="code_edit">		

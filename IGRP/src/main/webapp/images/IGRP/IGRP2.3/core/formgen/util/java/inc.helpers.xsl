@@ -84,7 +84,27 @@
 		<xsl:call-template name="blockly.getValue">			
 				<xsl:with-param name="value" select="*[@name='value1']"/>				
 			</xsl:call-template>			
-		</xsl:variable>															
+		</xsl:variable>	
+		<xsl:variable name="valuetype">		
+			<xsl:choose>
+				<xsl:when test="value/block/value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
+				</xsl:when>				
+				<xsl:when test="value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/field,'::')"/>				
+				</xsl:when>					
+				<xsl:otherwise>				
+					<xsl:value-of select="substring-before(value/block/field,'::')"/>				
+				</xsl:otherwise>				
+			</xsl:choose>		
+		</xsl:variable>		
+		<xsl:variable name="value_convert">	
+			<xsl:call-template name="utils.edited">				
+				<xsl:with-param name="value" select="$value"></xsl:with-param>							
+				<xsl:with-param name="from" select="$valuetype"></xsl:with-param>				
+				<xsl:with-param name="to" select="'String'"></xsl:with-param>							
+			</xsl:call-template>					
+		</xsl:variable>																
 		<xsl:text>remoteXml</xsl:text><xsl:value-of select="$prop"/><xsl:text>("</xsl:text>
 		<xsl:if test="$prop = '.addMessage'">
 			<xsl:value-of select="$message"/>
@@ -92,7 +112,7 @@
 		<xsl:if test="$prop = '.addPropertie'">
 			<xsl:value-of select="$name"/>
 		</xsl:if>
-		<xsl:text>", </xsl:text><xsl:value-of select="$value"/><xsl:text>);</xsl:text> 	
+		<xsl:text>", </xsl:text><xsl:value-of select="$value_convert"/><xsl:text>);</xsl:text> 	
 	</xsl:template>	
 			
 </xsl:stylesheet>
