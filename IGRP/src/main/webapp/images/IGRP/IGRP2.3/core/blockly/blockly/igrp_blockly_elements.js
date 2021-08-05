@@ -163,6 +163,17 @@
 			}
 		}
 	};
+	
+	/** ************* Mutações Checkbox AJAX ************* */
+	var UpdateShape_ajax = function(block, pxchecked) {
+		if (block.getInput("ajaxcomponents") != null) {
+			if (pxchecked) {
+				block.getInput("ajaxcomponents").setVisible(true);
+			} else {
+				block.getInput("ajaxcomponents").setVisible(false);
+			}
+		}
+	};
 
 	/** ********** Adicionar Inserts ********* */
 	var UpdateShape_inserts = function(block,contador) {
@@ -237,6 +248,8 @@
 			container.setAttribute('collectors', collectors);
 			var crud = this.getFieldValue('cruddrop');
 			container.setAttribute('crud', crud);
+			var ajax = this.getFieldValue('AJAX');
+			container.setAttribute('ajax', ajax);
 			container.setAttribute('count', this.itemCount_);
 			for (var x = 1; x <= this.itemCount_; x++) {
 				var itemInput = this.getFieldValue('ADD' + x + 'FILTER');
@@ -252,6 +265,7 @@
 			var limit = xmlElement.getAttribute('limit');
 			var crud = xmlElement.getAttribute('crud');
 			var collectors = xmlElement.getAttribute('collectors');
+			var ajax = xmlElement.getAttribute('ajax');
 			this.itemCount_ = parseInt(xmlElement.getAttribute('count'));
 			for (var x = 1; x <= this.itemCount_; x++) {
 				arr.push(xmlElement.getAttribute('mutation-' + x));
@@ -262,6 +276,7 @@
 			UpdateShape_crud(block, crud);
 			UpdateShape_collectors(block, collectors);
 			UpdateShape_mut_num(block, this.itemCount_, limit);
+			UpdateShape_ajax(block, ajax);
 		},
 		decompose : function(workspace) {
 			var containerBlock = workspace.newBlock('where_t');
@@ -293,11 +308,53 @@
 		}
 	};
 	
+	/** ************ COMPOSIÇÃO DO FILTRO PARAMS **************************** */
+	var ParamsMutationSettings = {
+			mutationToDom : function() {
+				var container = document.createElement('mutation');
+				container.setAttribute('count', this.itemCount_);
+				return container;
+			},
+			domToMutation : function(xmlElement) {
+				var block = this;
+				this.itemCount_ = parseInt(xmlElement.getAttribute('count'));
+				UpdateShape_insertParams(block,this.itemCount_);
+			},
+			decompose : function(workspace) {
+				var containerBlock = workspace.newBlock('param_t');
+				containerBlock.initSvg();
+				var connection = containerBlock.getInput('SCRIPT').connection;
+				for (var i = 0; i < this.itemCount_; i++) {
+					var itemBlock = workspace.newBlock('param');
+					itemBlock.initSvg();
+					connection.connect(itemBlock.previousConnection);
+					connection = itemBlock.nextConnection;
+				}
+				return containerBlock;
+			},
+			compose : function(containerBlock) {
+				var itemBlock = containerBlock.getInputTargetBlock('SCRIPT');
+				var block = this;
+				var connections = [];
+				while (itemBlock) {
+					connections.push(itemBlock.valueConnection_);
+					itemBlock = itemBlock.nextConnection
+							&& itemBlock.nextConnection.targetBlock();
+				}
+				this.itemCount_ = connections.length;
+				var Contador = this.itemCount_;
+				UpdateShape_insertParams(block,Contador);
+				for (var i = 1; i <= this.itemCount_; i++) {
+					Blockly.Mutator.reconnect(connections[i], this, 'PARAM'+ i);
+				}
+			}
+		};
+	
 	window.IGRP_BLOCKLY_ELEMENTS = {
 			
 		/** ******* ÍNICIO IGRP_BLOCKLY_ELEMENTS *************** */
 			
-		/** ******* ELEMENTOS COM FILTRO WHERE (COMEÇO) *************** */
+		/** ******* COMEÇO ELEMENTOS COM FILTRO WHERE *************** */
 			
 		/** ******* TABELA ******* */
 		listar : $.extend({
@@ -372,8 +429,7 @@
 				/**** MUTAÇÂO OPERATION *****/
 				var serverlist = IGRP_BLOCKLY_DROPS.service_list;
 				var atualOperationlist = IGRP_BLOCKLY_DROPS.operation_list;
-				var serverdrop = new Blockly.FieldDropdown(serverlist, function(service) {
-				});
+				var serverdrop = new Blockly.FieldDropdown(serverlist);
 				block.appendDummyInput("service").appendField("Service").appendField(serverdrop, 'service');
 				var operdrop = new Blockly.FieldDropdown(atualOperationlist, function(operation) {
 					UpdateShape_operation(block, operation);				  
@@ -444,6 +500,20 @@
 		
 		grafico : $.extend({
 		}, ListMutationSettings),
+		
+			/***** BLOCO VERTICAL MENU *******/
+		verticalmenu : $.extend({		
+			init : function(block) {
+				/**** MUTAÇÂO CHECK SUBMIT AJAX *****/
+				var checkbox = new Blockly.FieldCheckbox('TRUE', function(pxchecked) {
+					UpdateShape_ajax(block, pxchecked);
+				});
+				block.appendDummyInput("ajax").appendField("refresh components?").appendField(checkbox,'AJAX');
+				block.appendDummyInput("ajaxcomponents").appendField(new Blockly.FieldTextInput('insert name components'), 'namecompo').setVisible(false);
+				block.moveInputBefore("ajax", "value2");
+				block.moveInputBefore("ajaxcomponents", "value2");
+			},
+		}, ListMutationSettings),
 
 		combo_dao : $.extend({
 		}, ListMutationSettings),
@@ -460,7 +530,17 @@
 		formlist : $.extend({
 		}, ListMutationSettings),
 		
-		/** ******* ELEMENTOS COM FILTRO WHERE (FIM) *************** */
+		/** ******* FIM ELEMENTOS COM FILTRO WHERE *************** */
+		
+		/** ******* COMEÇO ELEMENTOS COM FILTRO PARAMS *************** */
+		
+		/***** BLOCO_CUSTOM_REPORT *******/
+		
+		custombutReport : $.extend({			
+		}, ParamsMutationSettings),
+		
+		paramsVertical : $.extend({			
+		}, ParamsMutationSettings),
 		
 		/***** BLOCO SAVE FORM *******/
 		inserir_dao : {
@@ -512,48 +592,6 @@
 				UpdateShape_inserts(block,Contador);
 				for (var i = 1; i <= this.itemCount_; i++) {
 					Blockly.Mutator.reconnect(connections[i], this, 'SEPARATOR'+ i);
-				}
-			}
-		},
-		
-		/***** BLOCO_CUSTOM_REPORT *******/
-		custombutReport : {
-			mutationToDom : function() {
-				var container = document.createElement('mutation');
-				container.setAttribute('count', this.itemCount_);
-				return container;
-			},
-			domToMutation : function(xmlElement) {
-				var block = this;
-				this.itemCount_ = parseInt(xmlElement.getAttribute('count'));
-				UpdateShape_insertParams(block,this.itemCount_);
-			},
-			decompose : function(workspace) {
-				var containerBlock = workspace.newBlock('param_t');
-				containerBlock.initSvg();
-				var connection = containerBlock.getInput('SCRIPT').connection;
-				for (var i = 0; i < this.itemCount_; i++) {
-					var itemBlock = workspace.newBlock('param');
-					itemBlock.initSvg();
-					connection.connect(itemBlock.previousConnection);
-					connection = itemBlock.nextConnection;
-				}
-				return containerBlock;
-			},
-			compose : function(containerBlock) {
-				var itemBlock = containerBlock.getInputTargetBlock('SCRIPT');
-				var block = this;
-				var connections = [];
-				while (itemBlock) {
-					connections.push(itemBlock.valueConnection_);
-					itemBlock = itemBlock.nextConnection
-							&& itemBlock.nextConnection.targetBlock();
-				}
-				this.itemCount_ = connections.length;
-				var Contador = this.itemCount_;
-				UpdateShape_insertParams(block,Contador);
-				for (var i = 1; i <= this.itemCount_; i++) {
-					Blockly.Mutator.reconnect(connections[i], this, 'PARAM'+ i);
 				}
 			}
 		},
