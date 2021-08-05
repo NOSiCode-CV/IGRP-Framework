@@ -162,25 +162,19 @@
 		<xsl:variable name="block1_namechild" select="value[@name='A']/block/@type"/> 		
 		<xsl:variable name="block2_namechild" select="value[@name='B']/block/@type"/> 		
 		<xsl:variable name="valor1_convert">		
-			<xsl:call-template name="convert_blocks">					
-				<xsl:with-param name="daolow" select="daolow"></xsl:with-param>				
-				<xsl:with-param name="value" select="$valor1"></xsl:with-param>				
-				<xsl:with-param name="valueblock" select="valueblock"></xsl:with-param>				
+			<xsl:call-template name="convert_blocks">								
+				<xsl:with-param name="value" select="$valor1"></xsl:with-param>							
 				<xsl:with-param name="from" select="$valor1_type"></xsl:with-param>				
 				<xsl:with-param name="to" select="'Integer'"></xsl:with-param>									
-				<xsl:with-param name="block_namechild" select="$block1_namechild"></xsl:with-param>				
-				<xsl:with-param name="block_name" select="block_name"></xsl:with-param>				
+				<xsl:with-param name="block_namechild" select="$block1_namechild"></xsl:with-param>							
 			</xsl:call-template>					
 		</xsl:variable>		
 		<xsl:variable name="valor2_convert">		
-			<xsl:call-template name="convert_blocks">					
-				<xsl:with-param name="daolow" select="daolow"></xsl:with-param>				
-				<xsl:with-param name="value" select="$valor2"></xsl:with-param>				
-				<xsl:with-param name="valueblock" select="valueblock"></xsl:with-param>				
+			<xsl:call-template name="convert_blocks">									
+				<xsl:with-param name="value" select="$valor2"></xsl:with-param>							
 				<xsl:with-param name="from" select="$valor2_type"></xsl:with-param>				
 				<xsl:with-param name="to" select="'Integer'"></xsl:with-param>										
-				<xsl:with-param name="block_namechild" select="$block2_namechild"></xsl:with-param>				
-				<xsl:with-param name="block_name" select="block_name"></xsl:with-param>				
+				<xsl:with-param name="block_namechild" select="$block2_namechild"></xsl:with-param>							
 			</xsl:call-template>				
 		</xsl:variable>	
 		<xsl:value-of select="concat($valor1_convert,$signal,$valor2_convert)"></xsl:value-of>

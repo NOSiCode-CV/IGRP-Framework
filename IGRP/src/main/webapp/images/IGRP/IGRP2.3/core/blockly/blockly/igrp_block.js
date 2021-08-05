@@ -43,6 +43,8 @@ function SetupBlockly() {
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.custombutReport;
 		if (type == 'concaty')
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.concat;
+		if (type == 'set_properties')
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.set_properties;
 		
 		Blockly.Blocks[type] = {
 			init : function() {

@@ -675,11 +675,10 @@
 						option) {
 					this.sourceBlock_.updateShape_(option);
 				});
-				var domains = IGRP_BLOCKLY_DROPS.domains;
-				var domainsOptions = new Blockly.FieldDropdown(domains);
+				var domainsOptions = new Blockly.FieldDropdown(IGRP_BLOCKLY_DROPS.domains);
 				block.getInput("CORE").appendField(dropdown, 'CORE_FUNCTION');
 				block.setInputsInline(true);
-				block.appendDummyInput("value1").appendField(new Blockly.FieldTextInput(''), 'value1');
+				block.appendDummyInput("value1").appendField(new Blockly.FieldTextInput('insert name param'), 'value1');
 				block.appendDummyInput("domains").appendField("domain").appendField(domainsOptions, 'domaindrop')
 					.appendField("value").setVisible(false);
 				block.appendValueInput("value_default").setVisible(false);
@@ -702,6 +701,7 @@
 						block.getInput("domains").setVisible(true);
 						block.getInput("value_default").setVisible(true);
 						block.getInput("value1").setVisible(false);
+						block.getInput("valueLink").setVisible(false);
 					} else if (type == 'get_igrp_link') {
 						block.getInput("domains").setVisible(false);
 						block.getInput("value_default").setVisible(false);
@@ -711,6 +711,44 @@
 						block.getInput("domains").setVisible(false);
 						block.getInput("value_default").setVisible(false);
 						block.getInput("value1").setVisible(true);
+						block.getInput("valueLink").setVisible(false);
+					}
+				};
+			}
+		},
+		
+		/******* BLOCO MESSAGES REMOTE *******/
+		set_properties : {
+			init : function(block) {
+				var options = IGRP_BLOCKLY_DROPS.prop;
+				var dropdown = new Blockly.FieldDropdown(options, function(
+						option) {
+					this.sourceBlock_.updateShape_(option);
+				});
+				var messagesOptions = new Blockly.FieldDropdown(IGRP_BLOCKLY_DROPS.messages);
+				block.getInput("set_proper").appendField(dropdown, 'set_prop');
+				block.setInputsInline(true);
+				block.appendDummyInput("name").appendField(new Blockly.FieldTextInput('insert name'), 'name').setVisible(false);
+				block.appendDummyInput("messages").appendField(messagesOptions, 'messagedrop').setVisible(false);
+				block.appendValueInput("value1");
+				block.mutationToDom = function() {
+					var container = document.createElement('mutation');
+					var itemInput = this.getFieldValue('set_prop');
+					container.setAttribute('hover_type', itemInput);
+					return container;
+				},
+				block.domToMutation = function(xmlElement) {
+					var itemInput = xmlElement.getAttribute('hover_type');
+					this.updateShape_(itemInput);
+				},
+				block.updateShape_ = function(input_type) {
+					var type = input_type;
+					  if (type == 'add_message') {
+						block.getInput("messages").setVisible(true);
+						block.getInput("name").setVisible(false);
+					}  else {
+						block.getInput("messages").setVisible(false);
+						block.getInput("name").setVisible(true);
 					}
 				};
 			}

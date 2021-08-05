@@ -95,11 +95,8 @@
 			<xsl:call-template name="convert_blocks">
 				<xsl:with-param name="daolow" select="$daolow"></xsl:with-param>
 				<xsl:with-param name="value" select="$statistics"></xsl:with-param>
-				<xsl:with-param name="valueblock" select="wherevalue"></xsl:with-param>
 				<xsl:with-param name="from" select="$stat_type"></xsl:with-param>
 				<xsl:with-param name="to" select="'Long'"></xsl:with-param>
-				<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>
-				<xsl:with-param name="block_name" select="block_name"></xsl:with-param>
 			</xsl:call-template>	
 		</xsl:variable>					
 	

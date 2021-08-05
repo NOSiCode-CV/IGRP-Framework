@@ -32,7 +32,7 @@ var GEN = null,
 	blockyInit = false,
 	globalAjaxData ="",
     COMPARISON, RETURNS, CORE_SET, CORE_GET, CORE_ATUAL, CORE_CONVERT, ORDER, FIND, CHECK_SELECT, TIPO, WHERE, FILTER, ANDOR, FINDLIST,FINDLISTDAO, TRU_FAL, CRUD,
-    CORE_VERIFY, COLLECTORS, NOADD;   
+    CORE_VERIFY, COLLECTORS, NOADD, PROP, MESSAGES; 
 	COLLECTORS = [["Count", "counting"],["Sum", "summingLong"],["Average", "averagingInt"], ["Max", ""],["Min", "minBy"]],
 	COMPARISON = [["==", "=="],["!=", "!="],[">=", ">="], ["<=", "<="],[">=", ">="], [">", ">"], ["<", "<"]],
 	RETURNS = [["forward", "forward"],["redirect", "redirect"]], 
@@ -49,9 +49,11 @@ var GEN = null,
 	NOADD = [["no Add", "no_add"],["no Edit", "no_edit"],["no Delete", "no_delete"]],
 	FIND = [["--", "--"],["all", "todos"],["one", "um"]], 
 	FINDLIST = [["all", "TODOSS"],["limit", "limit"],["one", "UMM"]],
+	MESSAGES = [["Success", "success"],["Info Link", "info_link"],["Error", "error"],["Debug", "debug"],["Info", "info"]],
 	FINDLISTDAO = [["one", "UMM"],["limit", "limit"],["all", "TODOSS"]],
 	CRUD = [["insert", "insert"],["update", "update"],["delete", "delete"]],
 	CHECK_SELECT = [["checks", "String::checks"],["unchecks", "String::unchecks"]],
+	PROP = [["add Propertie", "add_propertie"],["add Message", "add_message"]],
 	TIPO = [["Inteiro", "Inteiro"],["Data", "Data"],["Texto", "Texto"]],
 	WHERE = [["=", "WHERE_EQ"],["!=", "WHERE_DIF"],["<", "WHERE_LT"],["<=", "WHERE_LTE"],[">", "WHERE_GT"],[">=", "WHERE_GTE"],
 		["like", "WHERE_LIKE"],["notlike", "WHERE_NOTLIKE"],["in", "IN"]],
@@ -327,6 +329,22 @@ $('#active_selenium').on('click', function() {
 			 			+'<field type="dropdown" name="set_visible" options="IGRP_BLOCKLY_DROPS.HELPERS"></field>'
 			 			+'<field type="dropdown" name="tru_fal" options="IGRP_BLOCKLY_DROPS.true_false"></field>'
 			 			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/invisible.svg"></field>'
+					+'</value>'
+				 +'</block>'
+				 +'</category>'
+				+'<sep class="blocly-dynamic"></sep>'	
+				
+				+'<category id="helpers" name="Remote" colour="330" class="blocly-dynamic">'
+				 +'<block type="set_remote" prev-statement="" next-statement="" color="330" inline="true">'
+			 		+'<value name="value1" type="dummy" title="action">'
+			 			+'<field type="field_text" name="name_action" options="insert name action"></field>'
+			 			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/edit.svg"></field>'
+					+'</value>'
+					+'<value name="value1" type="statement"></value>'
+				 +'</block>'
+			 	+'<block type="set_properties" prev-statement="" next-statement="" color="330">'
+			 		+'<value name="set_proper" type="dummy">'
+			 			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/edit.svg"></field>'
 					+'</value>'
 				 +'</block>'
 				 +'</category>'
@@ -1419,6 +1437,8 @@ $('#active_selenium').on('click', function() {
 			and_or : ANDOR,
 			true_false : TRU_FAL,
 			no_add : NOADD,
+			prop : PROP,
+			messages : MESSAGES,
 			SEPARATORS : separators,
 			dao_list : daos_list,
 			service_list : services_list,

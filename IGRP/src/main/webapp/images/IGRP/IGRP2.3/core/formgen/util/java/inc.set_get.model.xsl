@@ -81,8 +81,7 @@
 			<xsl:when test="$modelType = 'Image' or $modelType = 'Section' or $modelType = 'File'">			
 				<xsl:value-of select="$tab2"></xsl:value-of>				
 				<xsl:text>view.</xsl:text><xsl:value-of select="$modelValue"></xsl:value-of><xsl:text>.setValue(</xsl:text>				
-					<xsl:call-template name="convert_blocks">					
-						<xsl:with-param name="daolow" select="daolow"></xsl:with-param>						
+					<xsl:call-template name="convert_blocks">										
 						<xsl:with-param name="value" select="$setting"></xsl:with-param>						
 						<xsl:with-param name="valueblock" select="$modelValue"></xsl:with-param>						
 						<xsl:with-param name="from" select="$modeltypechild"></xsl:with-param>						
@@ -95,8 +94,7 @@
 			<xsl:otherwise>			
 				<xsl:value-of select="$tab2"></xsl:value-of>			
 				<xsl:text>model.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of><xsl:text>(</xsl:text>				
-					<xsl:call-template name="convert_blocks">					
-						<xsl:with-param name="daolow" select="daolow"></xsl:with-param>						
+					<xsl:call-template name="convert_blocks">											
 						<xsl:with-param name="value" select="$setting"></xsl:with-param>						
 						<xsl:with-param name="valueblock" select="$modelValue"></xsl:with-param>						
 						<xsl:with-param name="from" select="$modeltypechild"></xsl:with-param>						

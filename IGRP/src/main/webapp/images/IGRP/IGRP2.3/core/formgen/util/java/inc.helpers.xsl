@@ -47,6 +47,73 @@
 			</xsl:call-template>			
 		</xsl:variable>							
 		<xsl:text>view.</xsl:text><xsl:value-of select="$field"/><xsl:value-of select="$noadd"/><xsl:text>;</xsl:text>								
-	</xsl:template> 			
+	</xsl:template> 
+	
+	<xsl:template name="blockly.element.set_remote">	
+		<xsl:variable name="action"  select="field[@name='name_action']"/>	
+	  	<xsl:variable name="value">	   	
+		<xsl:call-template name="blockly.getValue">			
+				<xsl:with-param name="value" select="*[@name='value1']"/>				
+			</xsl:call-template>			
+		</xsl:variable>															
+		<xsl:value-of select="$newlineTab1"/>
+		<xsl:text>public Response action</xsl:text><xsl:value-of select="$action"/><xsl:text>() throws IllegalArgumentException{</xsl:text>
+		<xsl:value-of select="$newlineTab2"/>
+		<xsl:text>nosi.core.webapp.helpers.RemoteXML remoteXml = Core.remoteXml();</xsl:text>
+		<xsl:value-of select="$newlineTab2"/>
+		<xsl:value-of select="$value"/>
+		<xsl:value-of select="$newlineTab2"/>
+		<xsl:text>String xml = remoteXml.build();</xsl:text>
+		<xsl:value-of select="$newlineTab2"/>
+	    <xsl:text>this.format = Response.FORMAT_XML;</xsl:text>
+	    <xsl:value-of select="$newlineTab2"/>
+		<xsl:text>return this.renderView( xml );</xsl:text>
+		<xsl:value-of select="$newlineTab1"/>		
+		<xsl:text>}</xsl:text> 	
+	</xsl:template>
+	
+	<xsl:template name="blockly.element.set_properties">	
+		<xsl:variable name="prop">	   	
+			<xsl:call-template name="utils.meaning">			
+				<xsl:with-param name="key" select="field[@name='set_prop']"/>				
+			</xsl:call-template>			
+		</xsl:variable>	
+		<xsl:variable name="name"  select="field[@name='name']"/>
+		<xsl:variable name="message"  select="field[@name='messagedrop']"/>			
+	  	<xsl:variable name="value">	   	
+		<xsl:call-template name="blockly.getValue">			
+				<xsl:with-param name="value" select="*[@name='value1']"/>				
+			</xsl:call-template>			
+		</xsl:variable>	
+		<xsl:variable name="valuetype">		
+			<xsl:choose>
+				<xsl:when test="value/block/value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
+				</xsl:when>				
+				<xsl:when test="value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/field,'::')"/>				
+				</xsl:when>					
+				<xsl:otherwise>				
+					<xsl:value-of select="substring-before(value/block/field,'::')"/>				
+				</xsl:otherwise>				
+			</xsl:choose>		
+		</xsl:variable>		
+		<xsl:variable name="value_convert">	
+			<xsl:call-template name="utils.edited">				
+				<xsl:with-param name="value" select="$value"></xsl:with-param>							
+				<xsl:with-param name="from" select="$valuetype"></xsl:with-param>				
+				<xsl:with-param name="to" select="'String'"></xsl:with-param>							
+			</xsl:call-template>					
+		</xsl:variable>																
+		<xsl:text>remoteXml</xsl:text><xsl:value-of select="$prop"/><xsl:text>("</xsl:text>
+		<xsl:if test="$prop = '.addMessage'">
+			<xsl:value-of select="$message"/>
+		</xsl:if>
+		<xsl:if test="$prop = '.addPropertie'">
+			<xsl:value-of select="$name"/>
+		</xsl:if>
+		<xsl:text>", </xsl:text><xsl:value-of select="$value_convert"/><xsl:text>);</xsl:text> 	
+	</xsl:template>	
+			
 </xsl:stylesheet>
 		

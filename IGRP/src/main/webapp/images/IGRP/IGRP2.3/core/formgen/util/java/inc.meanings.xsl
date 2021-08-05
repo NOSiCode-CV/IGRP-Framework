@@ -175,7 +175,13 @@
 			</xsl:when>	
 			<xsl:when test="$key = 'no_delete'">				
 				<xsl:text>.noDelete()</xsl:text>					
-			</xsl:when>		
+			</xsl:when>
+			<xsl:when test="$key = 'add_propertie'">				
+				<xsl:text>.addPropertie</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'add_message'">				
+				<xsl:text>.addMessage</xsl:text>					
+			</xsl:when>				
 		</xsl:choose>		
 	</xsl:template>	
 </xsl:stylesheet>

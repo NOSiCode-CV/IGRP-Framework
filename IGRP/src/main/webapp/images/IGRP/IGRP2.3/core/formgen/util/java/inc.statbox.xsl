@@ -23,11 +23,8 @@
 			<xsl:call-template name="convert_blocks">
 				<xsl:with-param name="daolow" select="$daolow"></xsl:with-param>
 				<xsl:with-param name="value" select="$collecto"></xsl:with-param>
-				<xsl:with-param name="valueblock" select="wherevalue"></xsl:with-param>
 				<xsl:with-param name="from" select="$collecto_type"></xsl:with-param>
 				<xsl:with-param name="to" select="'Long'"></xsl:with-param>
-				<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>
-				<xsl:with-param name="block_name" select="block_name"></xsl:with-param>
 			</xsl:call-template>	
 		</xsl:variable>	
 		<xsl:variable name="daofilter" select="concat($daolow,'filter')"/>		
@@ -103,9 +100,7 @@
 						<xsl:with-param name="value" select="$valorA"></xsl:with-param>					
 						<xsl:with-param name="valueblock" select="$statValue"></xsl:with-param>					
 						<xsl:with-param name="from" select="$typechild"></xsl:with-param>					
-						<xsl:with-param name="to" select="$statType"></xsl:with-param>									
-						<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>					
-						<xsl:with-param name="block_name" select="block_name"></xsl:with-param>					
+						<xsl:with-param name="to" select="$statType"></xsl:with-param>													
 					</xsl:call-template>						
 					</xsl:otherwise>
 				</xsl:choose>						
