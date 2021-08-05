@@ -12,9 +12,23 @@
 		<xsl:value-of select="$Params"/><xsl:text>);</xsl:text>			
 	</xsl:template>
 	
+	<xsl:template name="blockly.element.set_app_params" >		
+		<xsl:variable name="mutation" select="mutation/@count"/>
+		<xsl:variable name="codeReport" select="field[@name='codeReport']"/>
+		<xsl:variable name="Params">	
+			<xsl:call-template name="listar.ParamsReport">
+				<xsl:with-param name="total" select="$mutation"/>
+			</xsl:call-template>
+		</xsl:variable>				
+		<xsl:value-of select="$Params"/>			
+	</xsl:template>
+	
 	<xsl:template name="listar.ParamsReport">
 		<xsl:param name="total"/>
-		<xsl:param name="index" select="1"/>		
+		<xsl:param name="index" select="1"/>
+		
+		<xsl:variable name="tipoBloco" select="@type"></xsl:variable>
+				
 		<xsl:if test="$index &lt;= $total">
 			<xsl:variable name="valueName" select="field[@name=concat('paramy',$index)]"/>
 			<xsl:variable name="valueValue">		
@@ -22,13 +36,26 @@
 					<xsl:with-param name="value" select="value[@name=concat('PARAM',$index)]"/>				
 				</xsl:call-template>			
 			</xsl:variable>	
-			<xsl:text>.addParam("</xsl:text><xsl:value-of select="$valueName"/><xsl:text>", </xsl:text>
-			<xsl:value-of select="$valueValue"/><xsl:text>)</xsl:text>	
+			
+			<xsl:variable name="code">
+				<xsl:choose>
+					<xsl:when test="$tipoBloco = 'set_app_params'">
+						<xsl:text>+"&amp;</xsl:text><xsl:value-of select="$valueName"/><xsl:text>=" +</xsl:text><xsl:value-of select="$valueValue"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:text>.addParam("</xsl:text><xsl:value-of select="$valueName"/><xsl:text>", </xsl:text>
+						<xsl:value-of select="$valueValue"/><xsl:text>)</xsl:text>
+					</xsl:otherwise>	
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:value-of select="$code"/>
+			
 			<xsl:call-template name="listar.ParamsReport">
 				<xsl:with-param name="total" select="$total"/>
 				<xsl:with-param name="index" select="$index + 1"/>
 			</xsl:call-template>		
-		</xsl:if>		
+		</xsl:if>
+				
 	</xsl:template>
 	
 	<xsl:template name="blockly.element.concaty" >		

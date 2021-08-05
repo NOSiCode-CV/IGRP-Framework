@@ -15,7 +15,8 @@
 	<xsl:include href="inc.services.xsl"/>	
 	<xsl:include href="inc.return.report.xsl"/>	
 	<xsl:include href="inc.statbox.xsl"/>	
-	<xsl:include href="inc.select.xsl"/>		
+	<xsl:include href="inc.select.xsl"/>
+	<xsl:include href="inc.vertical.tree.menu.xsl"/>		
 	
 	<xsl:template name="blockly.element.controller">	
 		<xsl:call-template name="blockly.getValue">
@@ -651,7 +652,25 @@
 			</xsl:when>	
 			<xsl:when test="$block-type = 'set_properties'">		
 				<xsl:call-template name="blockly.element.set_properties"></xsl:call-template>				
-			</xsl:when>															
+			</xsl:when>
+			<xsl:when test="contains($block-type, 'verticalmenu_')">		
+				<xsl:call-template name="blockly.element.verticalmenu"></xsl:call-template>				
+			</xsl:when>	
+			<xsl:when test="contains($block-type, 'set_title_vertical')">		
+				<xsl:call-template name="blockly.element.set_title_vertical"></xsl:call-template>				
+			</xsl:when>	
+			<xsl:when test="contains($block-type, 'set_app_page')">		
+				<xsl:call-template name="blockly.element.set_app_page"></xsl:call-template>				
+			</xsl:when>	
+			<xsl:when test="contains($block-type, 'set_app_params')">		
+				<xsl:call-template name="blockly.element.set_app_params"></xsl:call-template>				
+			</xsl:when>
+			<xsl:when test="contains($block-type, 'set_app_target')">		
+				<xsl:call-template name="blockly.element.set_app_target"></xsl:call-template>				
+			</xsl:when>
+			<xsl:when test="contains($block-type, 'set_app_icon')">		
+				<xsl:call-template name="blockly.element.set_app_icon"></xsl:call-template>				
+			</xsl:when>																	
 			<xsl:otherwise>			
 				<xsl:text>Block not found</xsl:text>				
 			</xsl:otherwise>		
