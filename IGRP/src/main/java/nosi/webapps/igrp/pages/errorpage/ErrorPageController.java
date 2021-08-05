@@ -69,7 +69,7 @@ public class ErrorPageController extends Controller {
 				e1.printStackTrace();
 			}
 			
-			Config tblconfigfilter = new Config().find().where("name","=","ERROR_MSG").one();
+			Config tblconfigfilter = new Config().find().where("name","=","ERROR_MSG_"+Core.getCurrentDad()).one();
 			
 			if(Core.isNotNull(tblconfigfilter))
 				Core.setMessageInfo(Core.gt(tblconfigfilter.getValue()));

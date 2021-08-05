@@ -41,7 +41,7 @@
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
                     <value>
-                        <![CDATA[<p><strong>Error Msg</strong></p>
+                        <![CDATA[<p><span style='font-size:28px;'>Configure your error message by application</span></p>
 ]]>
                     </value>
                 </sectionheader_1_text>
@@ -49,9 +49,36 @@
         </sectionheader_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
+                <application name="p_application" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
+                    <label>Application</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <validations>
+                        <validation>
+                            <annotation>@NotNull</annotation>
+                        </validation>
+                    </validations>
+                </application>
                 <msg name="p_msg" type="textarea" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
-                    <label>Msg</label>
-                    <value>Mollit laudantium mollit ut totam lorem consectetur voluptatem iste stract lorem sit doloremque sed lorem</value>
+                    <label>Message</label>
+                    <value>Sit omnis sed dolor aperiam omnis iste voluptatem totam aperiam dolor accusantium unde doloremque ipsum</value>
                     <validations>
                         <validation>
                             <annotation>@NotNull</annotation>
@@ -60,13 +87,13 @@
                 </msg>
             </fields>
             <tools-bar>
-                <item id="button_4835_df78" type="form" code="" class="primary" rel="salvar" refresh_components="form_1,table_1">
+                <item id="button_4835_df78" type="form" code="" class="primary" rel="salvar" refresh_components="">
                     <title>Salvar</title>
                     <app>igrp_studio</app>
                     <page>Config_error_msg</page>
                     <link>index</link>
                     <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/config_error_msg/Config_error_msg.xml?</parameter>
-                    <target>submit_ajax</target>
+                    <target>submit</target>
                     <img>primary|fa-save</img>
                     <preview>../images/IGRP/IGRP2.3/app/igrp_studio/config_error_msg/Config_error_msg.xml</preview>
                 </item>
@@ -74,14 +101,13 @@
         </form_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
+                <application_tab name="p_application_tab" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Application</label>
+                </application_tab>
                 <msg_table name="p_msg_table" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
-                    <label>Msg</label>
-                    <validations>
-                        <validation>
-                            <annotation>@NotNull</annotation>
-                        </validation>
-                    </validations>
+                    <label>Message</label>
                 </msg_table>
+                <id_config name="p_id_config" type="hidden" maxlength="30" showLabel="true" iskey="true" group_in="" java-type="" tag="id_config"/>
             </fields>
             <table>
                 <value>
@@ -90,35 +116,45 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <msg_table name="p_msg_table">Dolor doloremque dolor ipsum m</msg_table>
+                        <application_tab name="p_application_tab">Accusantium mollit sed volupta</application_tab>
+                        <msg_table name="p_msg_table">Ipsum deserunt ut anim labore</msg_table>
+                        <id_config name="p_id_config" tag="id_config">hidden-9efa_bb08</id_config>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <msg_table name="p_msg_table">Omnis deserunt sit omnis deser</msg_table>
+                        <application_tab name="p_application_tab">Magna mollit laudantium totam</application_tab>
+                        <msg_table name="p_msg_table">Adipiscing iste sit totam ut</msg_table>
+                        <id_config name="p_id_config" tag="id_config">hidden-4d40_655b</id_config>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <msg_table name="p_msg_table">Doloremque sed labore voluptat</msg_table>
+                        <application_tab name="p_application_tab">Ipsum consectetur aperiam iste</application_tab>
+                        <msg_table name="p_msg_table">Perspiciatis ipsum ut doloremq</msg_table>
+                        <id_config name="p_id_config" tag="id_config">hidden-bb20_d776</id_config>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <msg_table name="p_msg_table">Mollit laudantium adipiscing c</msg_table>
+                        <application_tab name="p_application_tab">Ipsum anim elit stract natus</application_tab>
+                        <msg_table name="p_msg_table">Lorem dolor sit sed rem</msg_table>
+                        <id_config name="p_id_config" tag="id_config">hidden-adda_251f</id_config>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <msg_table name="p_msg_table">Amet magna amet anim sit</msg_table>
+                        <application_tab name="p_application_tab">Iste sit sit totam unde</application_tab>
+                        <msg_table name="p_msg_table">Aperiam natus perspiciatis mag</msg_table>
+                        <id_config name="p_id_config" tag="id_config">hidden-550c_7c25</id_config>
                     </row>
                 </value>
                 <context-menu>
