@@ -849,6 +849,14 @@ public final class Core {
 			user.setReadOnly(true);
 		return user;
 	}
+	
+	public static String getUsernameById(Integer id) {
+		User user = new User().findOne(id);
+		if (user != null)
+			return user.getName();
+		else
+			return "";
+	}
 
 	/**
 	 * @category DOMAIN
