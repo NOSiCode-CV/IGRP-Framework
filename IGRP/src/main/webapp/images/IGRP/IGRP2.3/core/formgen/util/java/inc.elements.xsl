@@ -670,7 +670,10 @@
 			</xsl:when>
 			<xsl:when test="contains($block-type, 'set_app_icon')">		
 				<xsl:call-template name="blockly.element.set_app_icon"></xsl:call-template>				
-			</xsl:when>																	
+			</xsl:when>	
+			<xsl:when test="contains($block-type, 'get_row_tree_')">		
+				<xsl:call-template name="blockly.element.get_row_tree"></xsl:call-template>				
+			</xsl:when>																		
 			<xsl:otherwise>			
 				<xsl:text>Block not found</xsl:text>				
 			</xsl:otherwise>		

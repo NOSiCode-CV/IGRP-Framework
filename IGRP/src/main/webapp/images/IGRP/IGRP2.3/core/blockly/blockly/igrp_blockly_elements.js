@@ -745,6 +745,11 @@
 						block.getInput("value_default").setVisible(false);
 						block.getInput("value1").setVisible(false);
 						block.getInput("valueLink").setVisible(true);
+					}else if (type == 'String::get_username_by_id') {
+						block.getInput("domains").setVisible(false);
+						block.getInput("value_default").setVisible(true);
+						block.getInput("value1").setVisible(false);
+						block.getInput("valueLink").setVisible(false);
 					} else {
 						block.getInput("domains").setVisible(false);
 						block.getInput("value_default").setVisible(false);

@@ -114,6 +114,17 @@
 		</xsl:if>
 		<xsl:text>", </xsl:text><xsl:value-of select="$value_convert"/><xsl:text>);</xsl:text> 	
 	</xsl:template>	
+	
+	<xsl:template name="blockly.element.get_row_tree">
+		<xsl:variable name="treeme" select="substring-after(field[@name='get_row_sep'],'::')"/>	
+		<xsl:variable name="rowNum" select="field[@name='row_num']"/>				
+		<xsl:variable name="nameCap">		
+			<xsl:call-template name="InitCap">			
+				<xsl:with-param name="text" select="$treeme"/>				
+			</xsl:call-template>			
+		</xsl:variable>		
+		<xsl:text>row</xsl:text><xsl:value-of select="$rowNum"/><xsl:text>.get</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>()</xsl:text>						
+	</xsl:template>
 			
 </xsl:stylesheet>
 		
