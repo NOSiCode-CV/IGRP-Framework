@@ -17,10 +17,14 @@ function SetupBlockly() {
 		IGRPElement = IGRP_BLOCKLY_ELEMENTS[type] || false;
 		if (type.indexOf('listar_') == 0)
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.listar;
+		if (type.indexOf('lstar_service_') == 0)
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.listar_service;
 		if (type.indexOf('separator_') == 0)
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.separator;
 		if (type.indexOf('forrmlist_') == 0)
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.formlist;
+		if (type.indexOf('verticalmenu_') == 0)
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.verticalmenu;	
 		if (type.indexOf('grafico_') == 0)
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.grafico;
 		if (type.indexOf('formuu_') == 0)
@@ -37,6 +41,14 @@ function SetupBlockly() {
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.core_fun_set;
 		if (type == 'core_fun_get')
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.core_fun_get;
+		if (type == 'custombutReport')
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.custombutReport;
+		if (type == 'concaty')
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.concat;
+		if (type == 'set_properties')
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.set_properties;
+		if (type == 'set_app_params')
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.paramsVertical;
 		
 		Blockly.Blocks[type] = {
 			init : function() {
@@ -150,7 +162,7 @@ function SetupBlockly() {
 
 Blockly.Blocks['where_t'] = {
 	init : function() {
-		this.appendDummyInput().appendField("where");
+		this.appendDummyInput().appendField("add where");
 		this.appendStatementInput("SCRIPT");
 		this.setNextStatement(true);
 		this.setColour(230);
@@ -183,3 +195,38 @@ Blockly.Blocks['separatori'] = {
 		this.setColour(230);
 	},
 };
+
+Blockly.Blocks['param_t'] = {
+		init : function() {
+			this.appendDummyInput().appendField("add param");
+			this.appendStatementInput("SCRIPT");
+			this.setNextStatement(true);
+			this.setColour(230);
+		},
+	};
+
+	Blockly.Blocks['param'] = {
+		init : function() {
+			this.appendDummyInput().appendField("param");
+			this.setPreviousStatement(true);
+			this.setNextStatement(true);
+			this.setColour(230);
+		},
+	};
+	Blockly.Blocks['concat_t'] = {
+			init : function() {
+				this.appendDummyInput().appendField("add concat");
+				this.appendStatementInput("SCRIPT");
+				this.setNextStatement(true);
+				this.setColour(230);
+			},
+		};
+
+		Blockly.Blocks['concat'] = {
+			init : function() {
+				this.appendDummyInput().appendField("concat");
+				this.setPreviousStatement(true);
+				this.setNextStatement(true);
+				this.setColour(230);
+			},
+		};

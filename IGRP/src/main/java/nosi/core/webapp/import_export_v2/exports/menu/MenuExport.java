@@ -42,6 +42,7 @@ public class MenuExport implements IExport{
 		m.setOrderby(menu.getOrderby());
 		m.setStatus(menu.getStatus());
 		m.setTarget(menu.getTarget());
+		m.setMenu_icon(menu.getMenu_icon());
 		
 		if(menu.getAction()!=null) {
 			m.setPage_name(menu.getAction().getPage());
@@ -55,6 +56,8 @@ public class MenuExport implements IExport{
 			submenu.setOrderby(menu.getMenu().getOrderby());
 			submenu.setStatus(menu.getMenu().getStatus());
 			submenu.setTarget(menu.getMenu().getTarget());
+			submenu.setMenu_icon(menu.getMenu().getMenu_icon());
+			
 			if(menu.getMenu().getAction()!=null) {
 				submenu.setPage_name(menu.getMenu().getAction().getPage());
 				submenu.setDad_page(menu.getMenu().getAction().getApplication().getDad());

@@ -231,8 +231,7 @@ public class DataSourceHelpers {
 		value = value==null?paramsUrl.get("p_"+param.getName().toLowerCase()):value;
 		String type = parameters.get(param.getName());
 		String column_name = param.getName().contains("p_")?param.getName().substring(2, param.getName().length()):param.getName();
-		type = Core.isNull(type)?parameters.get(column_name):type;
-		
+		type = Core.isNull(type)?parameters.get(column_name) : type; 
 		if(type.equals("java.math.BigDecimal")) {
 			query.setParameter(param.getName(),value!=null?new BigDecimal(value.toString()):null);
 		}else if(type.equals("java.lang.Integer")) {
@@ -249,10 +248,15 @@ public class DataSourceHelpers {
 			query.setParameter(param.getName(), value!=null?Core.toShort(value.toString()):null);
 		}else if(type.equals("java.sql.Date")){
 			if((value instanceof String) && Core.isNotNull(value))
-				query.setParameter(param.getName(),Core.ToDate(value.toString(),"yyyy-mm-dd"));
+				query.setParameter(param.getName(),Core.ToDate(value.toString(),"yyyy-MM-dd"));
 			else
 				query.setParameter(param.getName(),"");
-		}else {
+		}else if(type.equals("java.sql.Timestamp")){
+			if((value instanceof String) && Core.isNotNull(value))
+				query.setParameter(param.getName(),Core.ToTimestamp(value.toString(), "yyyy-MM-dd HH:mm:ss"));
+			else
+				query.setParameter(param.getName(),"");
+		}else{
 			query.setParameter(param.getName(),Core.isNotNull(value)?value.toString():"");
 		}
 	}
@@ -299,24 +303,32 @@ public class DataSourceHelpers {
 				Iterator<Properties> listColumns = columns.iterator();
 				while(listColumns.hasNext()){
 					Properties p = listColumns.next();
-					this.xmlRows.startElement(p.getProperty("tag"));
-					this.xmlRows.writeAttribute("name",p.getProperty("name"));
-						String name = p.getProperty("name");
-						String value = t.getString(name);
-						if(Core.isNull(value)) {
-							name = name.startsWith("p_")?name.substring(2, name.length()):name;
-							value = t.getString(name);
-						}
-						value = value!=null?value:"";
-						mapping.put(p,value);
-						this.xmlRows.text(value);
-					this.xmlRows.endElement();
+					String name = p.getProperty("name");
+					String value = t.getString(name);
+					String tag = p.getProperty("tag"); 
+					if(Core.isNull(value)) {
+						name = name.startsWith("p_") ? name.substring(2, name.length()) : name;
+						value = t.getString(name);
+					}
+					mapping.put(p, value !=  null ? value : "");
+					this.appendTag(tag, name, value !=  null ? value : ""); 
 				}
 				this.xmlRows.endElement();
 			});
 			return mapping;
 		}
 		return null;
+	}
+	
+	private void appendTag(String tag, String name, String value) {
+		this.xmlRows.startElement(tag);
+			this.xmlRows.writeAttribute("name", name);
+			this.xmlRows.text(value);
+		this.xmlRows.endElement();
+		this.xmlRows.startElement(tag + "_desc");
+			this.xmlRows.writeAttribute("name", name + "_desc");
+			this.xmlRows.text(value);
+		this.xmlRows.endElement();
 	}
 
 }

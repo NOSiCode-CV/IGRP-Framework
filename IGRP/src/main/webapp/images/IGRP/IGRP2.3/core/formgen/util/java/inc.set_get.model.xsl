@@ -34,7 +34,7 @@
 					<xsl:value-of select="substring-before(field,'::')"></xsl:value-of>				
 				</xsl:when>				
 				<xsl:otherwise>				
-					<xsl:value-of select="substring-before(@id,'::')"></xsl:value-of>				
+					<xsl:value-of select="substring-before(substring-after(@type,'model_form_'),'::')"/>			
 				</xsl:otherwise>			
 			</xsl:choose>		
 		</xsl:variable>		
@@ -42,22 +42,28 @@
 			<xsl:choose>			
 				<xsl:when test="substring-after(field,'//') != '' ">				
 					<xsl:value-of select="substring-after(substring-before(field,'//'),'::')"></xsl:value-of>				
+				</xsl:when>	
+				<xsl:when test="substring-after(@type,'//') != '' ">				
+					<xsl:value-of select="substring-after(substring-before(@type,'//'),'::')"></xsl:value-of>				
 				</xsl:when>			
 				<xsl:when test="substring-after(field,'::') != ''">				
 					<xsl:value-of select="substring-after(field,'::')"></xsl:value-of>			
 				</xsl:when>				
 				<xsl:otherwise>				
-					<xsl:value-of select="substring-after(@id,'::')"></xsl:value-of>				
+					<xsl:value-of select="substring-after(@type,'::')"/>				
 				</xsl:otherwise>			
 			</xsl:choose>		
 		</xsl:variable>		
-	  	<xsl:variable name="modeltypechild">		
-			<xsl:choose>			
-				<xsl:when test="value[@name='value1']/block/value/block/field != ''">				
-					<xsl:value-of select="substring-before(value[@name='value1']/block/value[@name='dao_rela']/block/field,'::')"/>				
+		<xsl:variable name="modeltypechild">		
+			<xsl:choose>
+				<xsl:when test="value/block/value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
 				</xsl:when>				
+				<xsl:when test="value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/field,'::')"/>				
+				</xsl:when>					
 				<xsl:otherwise>				
-					<xsl:value-of select="substring-before(value[@name='value1']/block/field,'::')"/>				
+					<xsl:value-of select="substring-before(value/block/field,'::')"/>				
 				</xsl:otherwise>				
 			</xsl:choose>		
 		</xsl:variable>		
@@ -75,14 +81,11 @@
 			<xsl:when test="$modelType = 'Image' or $modelType = 'Section' or $modelType = 'File'">			
 				<xsl:value-of select="$tab2"></xsl:value-of>				
 				<xsl:text>view.</xsl:text><xsl:value-of select="$modelValue"></xsl:value-of><xsl:text>.setValue(</xsl:text>				
-					<xsl:call-template name="convert_blocks">					
-						<xsl:with-param name="daolow" select="daolow"></xsl:with-param>						
+					<xsl:call-template name="convert_blocks">										
 						<xsl:with-param name="value" select="$setting"></xsl:with-param>						
 						<xsl:with-param name="valueblock" select="$modelValue"></xsl:with-param>						
 						<xsl:with-param name="from" select="$modeltypechild"></xsl:with-param>						
-						<xsl:with-param name="to" select="$modelType"></xsl:with-param>						
-						<xsl:with-param name="neto" select="neto"></xsl:with-param>						
-						<xsl:with-param name="valuechild" select="$modelValue"></xsl:with-param>						
+						<xsl:with-param name="to" select="$modelType"></xsl:with-param>												
 						<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>						
 						<xsl:with-param name="block_name" select="$block_name"></xsl:with-param>						
 					</xsl:call-template>					
@@ -91,14 +94,11 @@
 			<xsl:otherwise>			
 				<xsl:value-of select="$tab2"></xsl:value-of>			
 				<xsl:text>model.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of><xsl:text>(</xsl:text>				
-					<xsl:call-template name="convert_blocks">					
-						<xsl:with-param name="daolow" select="daolow"></xsl:with-param>						
+					<xsl:call-template name="convert_blocks">											
 						<xsl:with-param name="value" select="$setting"></xsl:with-param>						
 						<xsl:with-param name="valueblock" select="$modelValue"></xsl:with-param>						
 						<xsl:with-param name="from" select="$modeltypechild"></xsl:with-param>						
-						<xsl:with-param name="to" select="$modelType"></xsl:with-param>						
-						<xsl:with-param name="neto" select="neto"></xsl:with-param>					
-						<xsl:with-param name="valuechild" select="$modelValue"></xsl:with-param>					
+						<xsl:with-param name="to" select="$modelType"></xsl:with-param>										
 						<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>						
 						<xsl:with-param name="block_name" select="$block_name"></xsl:with-param>						
 					</xsl:call-template>					

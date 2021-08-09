@@ -12,6 +12,10 @@
 					<xsl:value-of select="$newline"></xsl:value-of>				
 					<xsl:text>import java.util.List; //block import</xsl:text>		
 				</xsl:when>
+				<xsl:when test="@type = 'report'">			
+					<xsl:value-of select="$newline"></xsl:value-of>					
+					<xsl:text>import nosi.core.webapp.Report; //block import</xsl:text>		
+				</xsl:when>
 				<xsl:when test="@type = 'list_simple_dao'">				
 					<xsl:value-of select="$newline"></xsl:value-of>				
 					<xsl:text>import java.util.List; //block import</xsl:text>		
@@ -21,6 +25,8 @@
 					<xsl:text>import java.util.List; //block import</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.LinkedHashMap; //block import</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:text>import static nosi.core.i18n.Translator.gt; //block import</xsl:text>
 				</xsl:when>
 				<xsl:when test="@type = 'fill_combo'">
 					<xsl:value-of select="$newline"></xsl:value-of>
@@ -89,8 +95,8 @@
 					<xsl:text>import org.hibernate.Session; //block import</xsl:text>					
 					<xsl:value-of select="$newline"></xsl:value-of>					
 					<xsl:text>import org.hibernate.Transaction; //block import</xsl:text>					
-					<xsl:value-of select="$newline"></xsl:value-of>					
-					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.pages.</xsl:text><xsl:value-of select="$pagelow"/><xsl:text>.</xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$separator"/><xsl:text>; //block import</xsl:text>									
+<!-- 					<xsl:value-of select="$newline"></xsl:value-of>					 -->
+<!-- 					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.pages.</xsl:text><xsl:value-of select="$pagelow"/><xsl:text>.</xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$separator"/><xsl:text>; //block import</xsl:text>									 -->
 				</xsl:when>				
 				<xsl:when test="@type = 'save_formlist'">				
 					<xsl:value-of select="$newline"></xsl:value-of>					
@@ -99,7 +105,7 @@
 					<xsl:text>import org.hibernate.Transaction; //block import</xsl:text>								
 				</xsl:when>				
 				<xsl:when test="@type = 'grafico'">				
-				<xsl:variable name="grafico">				
+					<xsl:variable name="grafico">				
 						<xsl:call-template name="InitCap">						
 							<xsl:with-param name="text" select="."/>							
 						</xsl:call-template>						
@@ -114,9 +120,21 @@
 					<xsl:value-of select="$newline"></xsl:value-of>					
 					<xsl:text>import java.util.List; //block import</xsl:text>					
 					<xsl:value-of select="$newline"></xsl:value-of>					
-					<xsl:text>import java.util.stream.Collectors; //block import</xsl:text>					
-					<xsl:value-of select="$newline"></xsl:value-of>					
+					<xsl:text>import java.util.stream.Collectors; //block import</xsl:text>						
+					<xsl:value-of select="$newline"></xsl:value-of>	
+					<xsl:text>import java.util.LongSummaryStatistics; //block import</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>				
 					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.pages.</xsl:text><xsl:value-of select="$pagelow"/><xsl:text>.</xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$grafico"/><xsl:text>; //block import</xsl:text>	
+					<xsl:value-of select="$newline"></xsl:value-of>					
+					<xsl:text>import java.util.Map; //block import</xsl:text>					
+				</xsl:when>	
+				<xsl:when test="@type = 'statbox'">	
+					<xsl:value-of select="$newline"></xsl:value-of>					
+					<xsl:text>import java.util.List; //block import</xsl:text>										
+					<xsl:value-of select="$newline"></xsl:value-of>					
+					<xsl:text>import java.util.stream.Collectors; //block import</xsl:text>						
+					<xsl:value-of select="$newline"></xsl:value-of>	
+					<xsl:text>import java.util.LongSummaryStatistics; //block import</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>					
 					<xsl:text>import java.util.Map; //block import</xsl:text>					
 				</xsl:when>	
@@ -124,7 +142,29 @@
 					<xsl:variable name="className" select="."></xsl:variable>					
 					<xsl:value-of select="$newline"></xsl:value-of>					
 					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.dao.</xsl:text><xsl:value-of select="$className"/><xsl:text>; //block import</xsl:text>					
-				</xsl:when>			
+				</xsl:when>
+				<xsl:when test="@type = 'service'">					
+					<xsl:variable name="className" select="."></xsl:variable>	
+					<xsl:variable name="packageName" select="@package"></xsl:variable>	
+					<xsl:variable name="classNameRenamed">
+						<xsl:call-template name="replace-all">
+							<xsl:with-param name="text" select="$className"/>
+							<xsl:with-param name="replace" select="'Soap'"/>
+							<xsl:with-param name="by" select="''"/>
+						</xsl:call-template>
+					</xsl:variable>				
+					<xsl:value-of select="$newline"></xsl:value-of>					
+					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"/><xsl:text>.services.</xsl:text><xsl:value-of select="$packageName"/><xsl:text>.</xsl:text>
+					<xsl:choose>
+						<xsl:when test="contains($className,'Soap')">
+							<xsl:value-of select="$classNameRenamed"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$className"/>
+						</xsl:otherwise>						
+					</xsl:choose>
+					<xsl:text>; //block import</xsl:text>					
+				</xsl:when>					
 				<xsl:when test="@type = 'fields'">					
 					<xsl:variable name="fieldType" select="."/>					
 					<xsl:choose>
@@ -135,12 +175,26 @@
 						<xsl:when test="$fieldType = 'Link'">
 							<xsl:value-of select="$newline"></xsl:value-of>							
 							<xsl:text>import nosi.webapps.igrp.dao.CLob; //block import</xsl:text>														
-						</xsl:when>						
+						</xsl:when>
+						<xsl:when test="$fieldType = 'LocalTime'">
+							<xsl:value-of select="$newline"></xsl:value-of>							
+							<xsl:text>import java.time.LocalTime; //block import</xsl:text>														
+						</xsl:when>		
+							<xsl:when test="$fieldType = 'LocalDate'">
+							<xsl:value-of select="$newline"></xsl:value-of>							
+							<xsl:text>import java.time.LocalDate; //block import</xsl:text>														
+						</xsl:when>		
+							<xsl:when test="$fieldType = 'LocalDateTime'">
+							<xsl:value-of select="$newline"></xsl:value-of>							
+							<xsl:text>import java.time.LocalDateTime; //block import</xsl:text>														
+						</xsl:when>								
 					</xsl:choose>				
 				</xsl:when>				
 				<xsl:when test="@type = 'checkbox_table'">				
 					<xsl:value-of select="$newline"></xsl:value-of>					
-					<xsl:text>import nosi.core.webapp.helpers.CheckBoxHelper; //block import</xsl:text>				
+					<xsl:text>import nosi.core.webapp.helpers.CheckBoxHelper; //block import</xsl:text>	
+					<xsl:value-of select="$newline"></xsl:value-of>	
+					<xsl:text>import java.util.List; //block import</xsl:text>			
 				</xsl:when>			
 			</xsl:choose>			
 		</xsl:for-each>		

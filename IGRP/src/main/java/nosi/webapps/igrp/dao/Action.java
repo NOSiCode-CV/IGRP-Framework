@@ -276,7 +276,7 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 		if (actions != null)
 			for (Action ac : actions) {
 				if (Core.isNotNull(ac.getPage_descr()))
-					lista.put(ac.getId(), ac.getPage_descr());
+					lista.put(ac.getId(), ac.getPage_descr() +" ("+ac.getPage()+")");
 				else
 					lista.put(ac.getId(), ac.getPage());
 

@@ -2,6 +2,9 @@ package nosi.core.gui.components;
 
 import static nosi.core.i18n.Translator.gt;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map.Entry;
 
 import nosi.core.gui.fields.FieldProperties;
@@ -121,7 +124,12 @@ public class IGRPButton {
 		if(this.report!=null) {
 			link = this.report.getLink();
 			this.report.getParams().entrySet().stream().forEach(p->{
-				link += ("&name_array="+p.getKey() + "&value_array="+p.getValue());
+				try {
+					link += ("&name_array="+p.getKey() + "&value_array="+URLEncoder.encode(""+p.getValue(),StandardCharsets.UTF_8.toString()));
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			});
 			link = link.replaceAll("webapps\\?r=", "");
 			return link;

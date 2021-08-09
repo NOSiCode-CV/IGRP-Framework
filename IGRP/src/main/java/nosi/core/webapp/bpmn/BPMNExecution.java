@@ -1,7 +1,6 @@
 package nosi.core.webapp.bpmn;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -32,25 +31,25 @@ import nosi.webapps.igrp.dao.Application;
  */
 public class BPMNExecution extends Controller{
 	
-	public Response startProcess(String processKey, String processDefinitionId) {
-		return startProcess(processKey, processDefinitionId, new HashMap<>());
+	public Response startProcess(String processKey,String processDefinitionId) {
+		if(Core.isNotNullMultiple(processKey,processDefinitionId)) {
+			this.restartQueryString();
+			this.addQueryString(BPMNConstants.PRM_DEFINITION_ID,processDefinitionId);
+			return this.call(Core.getParam("dad"), BPMNConstants.PREFIX_START_PROCESS+processKey, "save", this.queryString());
+		}
+		return null;
 	}
 	
 	public Response startProcess(String processKey, String processDefinitionId, Map<String, String> params) {
-		try {
-			if(Core.isNotNullMultiple(processKey,processDefinitionId)) {
-				this.restartQueryString();
-				if(params != null && !params.isEmpty()) { 
-					for(Entry<String, String> param : params.entrySet())  
-						if(param.getKey().startsWith(BPMNConstants.CUSTOM_PARAM_PREFIX)) 
-							this.addQueryString(param.getKey(), param.getValue()); 
-				}
-				this.addQueryString(BPMNConstants.PRM_DEFINITION_ID,processDefinitionId);
-				return this.call(Core.getParam("dad"), BPMNConstants.PREFIX_START_PROCESS+processKey, "save", this.queryString());
+		if(Core.isNotNullMultiple(processKey,processDefinitionId)) {
+			this.restartQueryString();
+			if(params != null && !params.isEmpty()) { 
+				for(Entry<String, String> param : params.entrySet())  
+					if(param.getKey().startsWith(BPMNConstants.CUSTOM_PARAM_PREFIX)) 
+						this.addQueryString(param.getKey(), param.getValue()); 
 			}
-		} catch(Exception e) {
-			Core.log(e.getMessage());
-			e.printStackTrace();
+			this.addQueryString(BPMNConstants.PRM_DEFINITION_ID,processDefinitionId);
+			return this.call(Core.getParam("dad"), BPMNConstants.PREFIX_START_PROCESS+processKey, "save", this.queryString());
 		}
 		return null;
 	}
@@ -93,7 +92,7 @@ public class BPMNExecution extends Controller{
 		return this.executeStartProcess(processDefinitionId, null);
 	}
 
-	public StartProcess executeTask(TaskService task, List<Part> parts, String myCustomPermission) {
+	public StartProcess exeuteTask(TaskService task, List<Part> parts, String myCustomPermission) {
 		FormDataServiceRest formData = new FormDataServiceRest();
 		ProcessInstanceServiceRest processServiceRest = new ProcessInstanceServiceRest();	
 		TaskServiceIGRP taskServiceRest = new TaskServiceIGRP();
@@ -121,11 +120,12 @@ public class BPMNExecution extends Controller{
 		formData.addVariable("profile", Core.getCurrentProfile());
 		formData.addVariable("organization", Core.getCurrentOrganization());
 		
+		StartProcess st = formData.submitFormByTask(task);
 		if (Core.isNotNull(formData.getError())) {
 			Core.setMessageError(formData.getError().getException());
 			return null;
 		}
-		StartProcess st = new StartProcess();
+		st = new StartProcess();
 		st.setId(task.getProcessInstanceId());
 		st.setProcessDefinitionKey(task.getProcessDefinitionKey());
 		this.saveIGRPActivitiTask(task.getProcessInstanceId(),task.getProcessDefinitionKey(),task.getId(),task.getTaskDefinitionKey(),
@@ -134,7 +134,7 @@ public class BPMNExecution extends Controller{
 	}
 	
 	public StartProcess exeuteTask(TaskService task,List<Part> parts) {
-		return this.executeTask(task, parts,null);
+		return this.exeuteTask(task, parts,null);
 	}
 	
 	
@@ -177,13 +177,12 @@ public class BPMNExecution extends Controller{
 					.getHistoryOfProccessInstanceId(task.getProcessInstanceId());
 			hts = hts.stream().filter(h -> !h.getTaskDefinitionKey().equals(task.getTaskDefinitionKey()))
 					.collect(Collectors.toList());
-			
-			final boolean hasHistoric = hts != null && !hts.isEmpty();
-			String previewTask = hasHistoric ? hts.get(hts.size() - 1).getTaskDefinitionKey() : "";
-			String preiviewProcessDefinition = hasHistoric ? hts.get(hts.size() - 1).getProcessDefinitionId() : "";
-			String preiviewApp = hasHistoric ? hts.get(hts.size() - 1).getTenantId() : "";
-			String previewTaskId = hasHistoric ? hts.get(hts.size() - 1).getId() : "";
-			
+			String previewTask = (hts != null && hts.size() > 0) ? hts.get(hts.size() - 1).getTaskDefinitionKey() : "";
+			String preiviewProcessDefinition = (hts != null && hts.size() > 0)
+					? hts.get(hts.size() - 1).getProcessDefinitionId()
+					: "";
+			String preiviewApp = (hts != null && hts.size() > 0) ? hts.get(hts.size() - 1).getTenantId() : "";
+			String previewTaskId = (hts != null && hts.size() > 0) ? hts.get(hts.size() - 1).getId() : "";
 			Application app = new Application().findByDad(task.getTenantId());
 			if (app != null) {
 				RuntimeTask runtimeTask = new RuntimeTask(task, app.getId(), previewTask, preiviewApp,
@@ -195,23 +194,25 @@ public class BPMNExecution extends Controller{
 		return null;
 	}
 	
-	public void saveIGRPActivitiTask(String processId,String proccessKey,String taskId,String taskKey,String processName,String myCustomPermission) {
+	public void saveIGRPActivitiTask(String proc_id,String proccessKey,String taskId,String taskKey,String processName,String myCustomPermission) {
 		ActivityExecute activityExecute = new ActivityExecute().find()
-				 .where("processid","=",processId)
+				 .where("processid","=",proc_id)
 				 .andWhere("proccessKey","=",proccessKey)
 				 .andWhere("taskid","=","start")
 				 .andWhere("taskKey","=","start")
 				 .andWhere("organization","=",Core.getCurrentOrganization())
 				 .one();
-		if (activityExecute != null && Core.isNotNull(myCustomPermission)) {
-			activityExecute.setCustomPermission(myCustomPermission);
-			activityExecute.update();
+		if(activityExecute!=null) {
+			if(Core.isNotNull(myCustomPermission)) { 
+			 activityExecute.setCustomPermission(myCustomPermission);
+		     activityExecute.update();
+			}
 		}
-		this.saveIGRPStartProcess(processId, proccessKey, taskKey, taskId,processName,myCustomPermission);
+		this.saveIGRPStartProcess(proc_id, proccessKey, taskKey, taskId,processName,myCustomPermission);
 	}
 	
-	public void saveIGRPStartProcess(String processId,String proccessKey,String taskKey,String taskId,String processName,String myCustomPermission) {
-		 ActivityExecute activityExecute = new ActivityExecute(processId, taskId,Core.getCurrentDad(), Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityExecuteType.EXECUTE,proccessKey,taskKey,processName);
+	public void saveIGRPStartProcess(String proc_id,String proccessKey,String taskKey,String taskId,String processName,String myCustomPermission) {
+		 ActivityExecute activityExecute = new ActivityExecute(proc_id, taskId,Core.getCurrentDad(), Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityExecuteType.EXECUTE,proccessKey,taskKey,processName);
 	     activityExecute.setCustomPermission(myCustomPermission);
 	     activityExecute.insert();
 	}

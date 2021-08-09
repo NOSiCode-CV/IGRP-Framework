@@ -224,22 +224,14 @@
 		
 		<xsl:param name="block_namechild"/>
 	
-		<xsl:variable name="edited_convert">
-		
-			<xsl:call-template name="convert_blocks">
-				
-				<xsl:with-param name="value" select="$value"></xsl:with-param>
-				
-				<xsl:with-param name="valueblock" select="$valueblock"></xsl:with-param>
-				
-				<xsl:with-param name="from" select="$from"></xsl:with-param>
-				
-				<xsl:with-param name="to" select="$to"></xsl:with-param>
-				
-				<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>
-				
-			</xsl:call-template>
-					
+		<xsl:variable name="edited_convert">		
+			<xsl:call-template name="convert_blocks">				
+				<xsl:with-param name="value" select="$value"></xsl:with-param>				
+				<xsl:with-param name="valueblock" select="$valueblock"></xsl:with-param>				
+				<xsl:with-param name="from" select="$from"></xsl:with-param>				
+				<xsl:with-param name="to" select="$to"></xsl:with-param>				
+				<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>				
+			</xsl:call-template>					
 		</xsl:variable>
 		
 		<xsl:value-of select="$edited_convert"/>		

@@ -77,32 +77,70 @@
 			}
 		}
 	};
-	/** ***** Mostrar input Limit *************** */
-	var UpdateShape_limit = function(block, limit) {
-		if (block.getInput("limit_value") != null) {
-			if (limit == 'limit') {
-				block.getInput("limit_value").setVisible(true);
-				block.moveInputBefore("limit_value", "value2");
+	
+	/** ***** Mostrar Input Operation *************** */
+	var tempParams=[];
+	var UpdateShape_operation = function(block, operation) {
+		var operationName = operation.split('::').pop().split('//')[0],
+		 	serviceName = operation.split('$$')[0];
+		var atualParams=[];
+		var numParams =0;
+		
+		$(globalAjaxData).find('services>'+serviceName+'>operations>'+operationName+'>params>*').each(function(i, f) {
+			var tipo = $(f).text().split(".").pop();
+			if (!block.getInput(tipo+"%%param"+i)){
+				var valueShow = i+1;
+				block.appendValueInput(tipo+"%%param"+i).appendField("input "+valueShow);
+			}					
+			atualParams.push(tipo+"%%param"+i);
+			numParams++;	
+		});	
+		while(numParams<=tempParams.length){
+			block.removeInput(tempParams[numParams]);
+			numParams++;
+		}
+		tempParams=atualParams.slice();	
+	};
+
+	/** ***** Mostrar input Collector *************** */
+	var UpdateShape_collectors = function(block, collectors) {
+		if (block.getInput("collector_value") != null) {
+			if (collectors != 'counting') {
+				block.getInput("collector_value").setVisible(true);
+				block.moveInputBefore("collector_value", "value2");
 			} else {
-				block.getInput("limit_value").setVisible(false);
+				block.getInput("collector_value").setVisible(false);
 			}
 		}
 	};
 	/** ************* Mutação Mutation Number ************* */
-	var UpdateShape_mut_num = function(block, mutation_num) {
-		if (block.getInput("empty_table") != null) {
-			if (mutation_num >=1) {
+	var UpdateShape_mut_num = function(block, mutation_num, limit) {
+		if (block.getInput("empty_table") != null && mutation_num >=1) {
 				block.getInput("empty_table").setVisible(true);
-			} else {
-				block.getInput("empty_table").setVisible(false);
-			}
+		} else if(block.getInput("empty_table") != null) {
+			block.getInput("empty_table").setVisible(false);
 		}
-		if (block.getInput("get_pa") != null) {
-			if (mutation_num >=1) {
+		if (block.getInput("get_pa") != null && mutation_num >=1 ) {
 				block.getInput("get_pa").setVisible(false);
-			} else {
-				block.getInput("get_pa").setVisible(true);
-			}
+		} else if(block.getInput("get_pa") != null && limit == 'UMM') {
+			block.getInput("get_pa").setVisible(true);
+		}else if(block.getInput("get_pa") != null && limit == 'limit') {
+			block.getInput("get_pa").setVisible(false);
+		}else if(block.getInput("get_pa") != null  && limit == 'TODOSS') {
+			block.getInput("get_pa").setVisible(false);
+		}else if(block.getInput("get_pa") != null ) {
+			block.getInput("get_pa").setVisible(true);
+		}
+		if (block.getInput("keepcon") != null && mutation_num >=1) {
+				block.getInput("keepcon").setVisible(true);
+		} else if(block.getInput("keepcon") != null) {
+			block.getInput("keepcon").setVisible(false);
+		}
+		if (block.getInput("limit_value") != null && limit == 'limit') {
+			block.getInput("limit_value").setVisible(true);
+			block.moveInputBefore("limit_value", "value2");
+		} else if(block.getInput("limit_value") != null) {
+				block.getInput("limit_value").setVisible(false);
 		}
 	};
 	/** ************* Mutações Checkbox ************* */
@@ -125,6 +163,17 @@
 			}
 		}
 	};
+	
+	/** ************* Mutações Checkbox AJAX ************* */
+	var UpdateShape_ajax = function(block, pxchecked) {
+		if (block.getInput("ajaxcomponents") != null) {
+			if (pxchecked) {
+				block.getInput("ajaxcomponents").setVisible(true);
+			} else {
+				block.getInput("ajaxcomponents").setVisible(false);
+			}
+		}
+	};
 
 	/** ********** Adicionar Inserts ********* */
 	var UpdateShape_inserts = function(block,contador) {
@@ -141,9 +190,36 @@
 		}
 	};
 	
+	/** ********** AdicionarParams ********* */
+	var UpdateShape_insertParams = function(block,contador) {
+		for (var i = 1; i <= contador; i++) {
+			if (!block.getInput('PARAM' + i)) {
+				block.appendDummyInput('PARAMIL' + i).appendField("Param "+i).appendField(new Blockly.FieldTextInput('insert param name'), 'paramy'+i);
+				block.appendValueInput('PARAM' + i);
+			}
+		}
+		while (block.getInput('PARAM' + i)) {
+			block.removeInput('PARAM' + i);
+			block.removeInput('PARAMIL' + i);
+			i++;
+		}
+	};
+	
+	/** ********** AdicionarConcats ********* */
+	var UpdateShape_insertConcats = function(block,contador) {
+		for (var i = 1; i <= contador; i++) {
+			if (!block.getInput('CONCAT' + i)) {
+				block.appendValueInput('CONCAT' + i);
+			}
+		}
+		while (block.getInput('CONCAT' + i)) {
+			block.removeInput('CONCAT' + i);
+			i++;
+		}
+	};
+	
 	/** ***** Inserts do Crud *************** */
 	var UpdateShape_crud = function(block, crud) {
-		console.log(crud);
 		if (block.getInput("param_value") != null) {
 			if (crud == 'delete') {
 				block.getInput("param_value").setVisible(true);
@@ -164,10 +240,16 @@
 			var container = document.createElement('mutation');
 			var order = this.getFieldValue('orderdrop');
 			container.setAttribute('order', order);
+			var operation = this.getFieldValue('operdrop');
+			container.setAttribute('operation', operation);
 			var limit = this.getFieldValue('find');
 			container.setAttribute('limit', limit);
+			var collectors = this.getFieldValue('collectors');
+			container.setAttribute('collectors', collectors);
 			var crud = this.getFieldValue('cruddrop');
 			container.setAttribute('crud', crud);
+			var ajax = this.getFieldValue('AJAX');
+			container.setAttribute('ajax', ajax);
 			container.setAttribute('count', this.itemCount_);
 			for (var x = 1; x <= this.itemCount_; x++) {
 				var itemInput = this.getFieldValue('ADD' + x + 'FILTER');
@@ -179,17 +261,22 @@
 			var block = this;
 			var arr = [];
 			var order = xmlElement.getAttribute('order');
+			var operation = xmlElement.getAttribute('operation');
 			var limit = xmlElement.getAttribute('limit');
 			var crud = xmlElement.getAttribute('crud');
+			var collectors = xmlElement.getAttribute('collectors');
+			var ajax = xmlElement.getAttribute('ajax');
 			this.itemCount_ = parseInt(xmlElement.getAttribute('count'));
 			for (var x = 1; x <= this.itemCount_; x++) {
 				arr.push(xmlElement.getAttribute('mutation-' + x));
 			}
 			UpdateShape_where(block, arr);
 			UpdateShape_order(block, order);
-			UpdateShape_limit(block, limit);
+			UpdateShape_operation(block, operation);
 			UpdateShape_crud(block, crud);
-			UpdateShape_mut_num(block, this.itemCount_);
+			UpdateShape_collectors(block, collectors);
+			UpdateShape_mut_num(block, this.itemCount_, limit);
+			UpdateShape_ajax(block, ajax);
 		},
 		decompose : function(workspace) {
 			var containerBlock = workspace.newBlock('where_t');
@@ -214,18 +301,60 @@
 			this.itemCount_ = connections.length;
 			var block = this;
 			UpdateShape_where(block, connections);
-			UpdateShape_mut_num(block, this.itemCount_);
+			UpdateShape_mut_num(block, this.itemCount_, '');
 			for (var i = 1; i <= this.itemCount_; i++) {
 				Blockly.Mutator.reconnect(connections[i], this, 'ADD' + i);
 			}
 		}
 	};
 	
+	/** ************ COMPOSIÇÃO DO FILTRO PARAMS **************************** */
+	var ParamsMutationSettings = {
+			mutationToDom : function() {
+				var container = document.createElement('mutation');
+				container.setAttribute('count', this.itemCount_);
+				return container;
+			},
+			domToMutation : function(xmlElement) {
+				var block = this;
+				this.itemCount_ = parseInt(xmlElement.getAttribute('count'));
+				UpdateShape_insertParams(block,this.itemCount_);
+			},
+			decompose : function(workspace) {
+				var containerBlock = workspace.newBlock('param_t');
+				containerBlock.initSvg();
+				var connection = containerBlock.getInput('SCRIPT').connection;
+				for (var i = 0; i < this.itemCount_; i++) {
+					var itemBlock = workspace.newBlock('param');
+					itemBlock.initSvg();
+					connection.connect(itemBlock.previousConnection);
+					connection = itemBlock.nextConnection;
+				}
+				return containerBlock;
+			},
+			compose : function(containerBlock) {
+				var itemBlock = containerBlock.getInputTargetBlock('SCRIPT');
+				var block = this;
+				var connections = [];
+				while (itemBlock) {
+					connections.push(itemBlock.valueConnection_);
+					itemBlock = itemBlock.nextConnection
+							&& itemBlock.nextConnection.targetBlock();
+				}
+				this.itemCount_ = connections.length;
+				var Contador = this.itemCount_;
+				UpdateShape_insertParams(block,Contador);
+				for (var i = 1; i <= this.itemCount_; i++) {
+					Blockly.Mutator.reconnect(connections[i], this, 'PARAM'+ i);
+				}
+			}
+		};
+	
 	window.IGRP_BLOCKLY_ELEMENTS = {
 			
 		/** ******* ÍNICIO IGRP_BLOCKLY_ELEMENTS *************** */
 			
-		/** ******* ELEMENTOS COM FILTRO WHERE (COMEÇO) *************** */
+		/** ******* COMEÇO ELEMENTOS COM FILTRO WHERE *************** */
 			
 		/** ******* TABELA ******* */
 		listar : $.extend({
@@ -241,7 +370,7 @@
 				/***** MUTAÇÃO LIMIT ****/
 				var limite = IGRP_BLOCKLY_DROPS.findList;
 				var dropdown = new Blockly.FieldDropdown(limite, function(limit) {
-					UpdateShape_limit(block, limit);
+					UpdateShape_mut_num (block, '', limit);				
 				});
 				block.appendDummyInput("find").appendField("list").appendField(dropdown, 'find');
 				block.appendDummyInput("limit_value").appendField("limit value")
@@ -254,28 +383,136 @@
 			}
 		}, ListMutationSettings),
 		
-		/***** BLOCO GRÁFICO *******/
+		/** ******* BLOCOS_SIMPLES_DAO ******* */
+		
 		list_simple_dao : $.extend({
 			init : function(block) {
 			/***** MUTAÇÃO LIMIT ****/
 			var limite = IGRP_BLOCKLY_DROPS.findListDao;
 			var dropdown = new Blockly.FieldDropdown(limite, function(limit) {
-				UpdateShape_limit(block, limit);
+				UpdateShape_mut_num(block,'', limit);
 			});
+			block.appendDummyInput("keepcon").appendField("keep connection?")
+				.appendField(new Blockly.FieldCheckbox("FALSE"), 'checkbox').setVisible(false);
+			block.moveInputBefore("keepcon", "value2");
 			block.appendDummyInput("find").appendField(dropdown, 'find');
 			block.appendDummyInput("limit_value").appendField("limit value")
 				 .appendField(new Blockly.FieldTextInput(''), 'limit').setVisible(false);	
 			block.moveInputBefore("find", "value2");
+			block.appendValueInput("get_pa").appendField("find").setVisible(false);
+			block.moveInputBefore("get_pa", "value2");
 			}
 		}, ListMutationSettings),
 		
 		update_simple_dao : $.extend({
+			init : function(block) {
+				block.appendDummyInput("keepcon").appendField("keep connection?")
+					.appendField(new Blockly.FieldCheckbox("FALSE"), 'KEEP').setVisible(false);
+				block.moveInputBefore("keepcon", "value2");
+			}			
 		}, ListMutationSettings),
 		
 		apagar : $.extend({
+			init : function(block) {
+				block.appendDummyInput("keepcon").appendField("keep connection?")
+					.appendField(new Blockly.FieldCheckbox("FALSE"), 'KEEP').setVisible(false);
+				block.moveInputBefore("keepcon", "value2");
+			}		
+		}, ListMutationSettings),
+		
+		
+		
+		/** ******* BLOCOS_SERVICE ******* */
+		
+		listar_service: $.extend({
+			init : function(block) {
+				/**** MUTAÇÂO OPERATION *****/
+				var serverlist = IGRP_BLOCKLY_DROPS.service_list;
+				var atualOperationlist = IGRP_BLOCKLY_DROPS.operation_list;
+				var serverdrop = new Blockly.FieldDropdown(serverlist);
+				block.appendDummyInput("service").appendField("Service").appendField(serverdrop, 'service');
+				var operdrop = new Blockly.FieldDropdown(atualOperationlist, function(operation) {
+					UpdateShape_operation(block, operation);				  
+				});			
+				block.appendDummyInput("enter_operation").appendField("operation").appendField(operdrop, 'operdrop');
+				block.moveInputBefore("service", "value2");
+				block.moveInputBefore("enter_operation", "value2");
+				/***** MUTAÇÃO LIMIT ****/
+				var limite = IGRP_BLOCKLY_DROPS.findList;
+				var dropdown = new Blockly.FieldDropdown(limite, function(limit) {
+					UpdateShape_mut_num(block, '', limit);
+				});
+				block.appendDummyInput("find").appendField("list").appendField(dropdown, 'find');
+				block.appendDummyInput("limit_value").appendField("limit value")
+					 .appendField(new Blockly.FieldTextInput(''), 'limit').setVisible(false);	
+				block.moveInputBefore("find", "value2");
+			}
+		}, ListMutationSettings),
+		
+		list_simple_service : $.extend({
+			init : function(block) {
+			var atualOperationlist = IGRP_BLOCKLY_DROPS.operation_list;
+			var operdrop = new Blockly.FieldDropdown(atualOperationlist, function(operation) {
+				UpdateShape_operation(block, operation);				  
+			});
+			block.appendDummyInput("enter_operation").appendField("operation").appendField(operdrop, 'operdrop');
+			block.moveInputBefore("enter_operation", "value2");
+			var limite = IGRP_BLOCKLY_DROPS.findList;
+			var dropdown = new Blockly.FieldDropdown(limite, function(limit) {
+				UpdateShape_mut_num(block, '', limit);
+			});
+			block.appendDummyInput("find").appendField("list").appendField(dropdown, 'find');
+			block.moveInputBefore("find", "value2");
+			}
+		}, ListMutationSettings),
+		
+		insert_simple_service : $.extend({
+			init : function(block) {
+				var atualOperationlist = IGRP_BLOCKLY_DROPS.operation_list;
+				var operdrop = new Blockly.FieldDropdown(atualOperationlist, function(operation) {
+					UpdateShape_operation(block, operation);				  
+				});	
+				block.appendDummyInput("enter_operation").appendField("operation").appendField(operdrop, 'operdrop');
+				block.moveInputBefore("enter_operation", "value2");
+				}
+		}, ListMutationSettings),
+		
+		update_simple_service : $.extend({
+			init : function(block) {
+				var atualOperationlist = IGRP_BLOCKLY_DROPS.operation_list;
+				var operdrop = new Blockly.FieldDropdown(atualOperationlist, function(operation) {
+					UpdateShape_operation(block, operation);				  
+				});	
+				block.appendDummyInput("enter_operation").appendField("operation").appendField(operdrop, 'operdrop');
+				block.moveInputBefore("enter_operation", "value2");
+				}
+		}, ListMutationSettings),
+		
+		apagar_service : $.extend({
+			init : function(block) {
+				var atualOperationlist = IGRP_BLOCKLY_DROPS.operation_list;
+				var operdrop = new Blockly.FieldDropdown(atualOperationlist, function(operation) {
+					UpdateShape_operation(block, operation);				  
+				});	
+				block.appendDummyInput("enter_operation").appendField("operation").appendField(operdrop, 'operdrop');
+				}
 		}, ListMutationSettings),
 		
 		grafico : $.extend({
+		}, ListMutationSettings),
+		
+			/***** BLOCO VERTICAL MENU *******/
+		verticalmenu : $.extend({		
+			init : function(block) {
+				/**** MUTAÇÂO CHECK SUBMIT AJAX *****/
+				var checkbox = new Blockly.FieldCheckbox('TRUE', function(pxchecked) {
+					UpdateShape_ajax(block, pxchecked);
+				});
+				block.appendDummyInput("ajax").appendField("refresh components?").appendField(checkbox,'AJAX');
+				block.appendDummyInput("ajaxcomponents").appendField(new Blockly.FieldTextInput('insert name components'), 'namecompo').setVisible(false);
+				block.moveInputBefore("ajax", "value2");
+				block.moveInputBefore("ajaxcomponents", "value2");
+			},
 		}, ListMutationSettings),
 
 		combo_dao : $.extend({
@@ -293,7 +530,17 @@
 		formlist : $.extend({
 		}, ListMutationSettings),
 		
-		/** ******* ELEMENTOS COM FILTRO WHERE (FIM) *************** */
+		/** ******* FIM ELEMENTOS COM FILTRO WHERE *************** */
+		
+		/** ******* COMEÇO ELEMENTOS COM FILTRO PARAMS *************** */
+		
+		/***** BLOCO_CUSTOM_REPORT *******/
+		
+		custombutReport : $.extend({			
+		}, ParamsMutationSettings),
+		
+		paramsVertical : $.extend({			
+		}, ParamsMutationSettings),
 		
 		/***** BLOCO SAVE FORM *******/
 		inserir_dao : {
@@ -348,6 +595,48 @@
 				}
 			}
 		},
+		
+		/***** BLOCO_CONCAT *******/
+		concat : {
+			mutationToDom : function() {
+				var container = document.createElement('mutation');
+				container.setAttribute('count', this.itemCount_);
+				return container;
+			},
+			domToMutation : function(xmlElement) {
+				var block = this;
+				this.itemCount_ = parseInt(xmlElement.getAttribute('count'));
+				UpdateShape_insertConcats(block,this.itemCount_);
+			},
+			decompose : function(workspace) {
+				var containerBlock = workspace.newBlock('concat_t');
+				containerBlock.initSvg();
+				var connection = containerBlock.getInput('SCRIPT').connection;
+				for (var i = 0; i < this.itemCount_; i++) {
+					var itemBlock = workspace.newBlock('concat');
+					itemBlock.initSvg();
+					connection.connect(itemBlock.previousConnection);
+					connection = itemBlock.nextConnection;
+				}
+				return containerBlock;
+			},
+			compose : function(containerBlock) {
+				var itemBlock = containerBlock.getInputTargetBlock('SCRIPT');
+				var block = this;
+				var connections = [];
+				while (itemBlock) {
+					connections.push(itemBlock.valueConnection_);
+					itemBlock = itemBlock.nextConnection
+							&& itemBlock.nextConnection.targetBlock();
+				}
+				this.itemCount_ = connections.length;
+				var Contador = this.itemCount_;
+				UpdateShape_insertConcats(block,Contador);
+				for (var i = 1; i <= this.itemCount_; i++) {
+					Blockly.Mutator.reconnect(connections[i], this, 'CONCAT'+ i);
+				}
+			}
+		},
 
 		/***** BLOCO CHECKBOX EM TABELA *******/
 		checkbox_table : {
@@ -374,18 +663,16 @@
 		/***** BLOCO CORE SET *******/
 		core_fun_set : {
 			init : function(block) {
-				var options = IGRP_BLOCKLY_DROPS.core;
+				var options = IGRP_BLOCKLY_DROPS.core_set;
 				var dropdown = new Blockly.FieldDropdown(options, function(option) {
 					this.sourceBlock_.updateShape_(option);
 				});
-				block.getInput("CORE").appendField(dropdown, 'CORE_FUNCTION')
-					.appendField(new Blockly.FieldImage(path+ "/core/blockly/blockly/media/igrpweb_logo.png",40, 20, "*"));
+				block.getInput("CORE").appendField(dropdown, 'CORE_FUNCTION');
 				block.setInputsInline(true);
 				block.appendValueInput("value1").setVisible(false);
 				block.appendValueInput("value2").setVisible(false);
 				block.appendValueInput("value3").setVisible(false);
 				block.appendValueInput("value4").setVisible(false);
-				block.appendValueInput("value5").setVisible(false);
 				
 				block.mutationToDom = function() {
 					var container = document.createElement('mutation');
@@ -404,13 +691,16 @@
 						block.getInput("value2").setVisible(true);
 						block.getInput("value3").setVisible(true);
 						block.getInput("value4").setVisible(true);
-						block.getInput("value5").setVisible(true);
-					} else {
+					} else if(type == 'messageInfoLink') {
+						block.getInput("value1").setVisible(true);
+						block.getInput("value2").setVisible(false);
+						block.getInput("value3").setVisible(false);
+						block.getInput("value4").setVisible(false);
+					}else {
 						block.getInput("value1").setVisible(false);
 						block.getInput("value2").setVisible(false);
 						block.getInput("value3").setVisible(false);
 						block.getInput("value4").setVisible(false);
-						block.getInput("value5").setVisible(false);
 					}
 				};
 			}
@@ -418,20 +708,21 @@
 		/******* BLOCO CORE GET *******/
 		core_fun_get : {
 			init : function(block) {
-				var options = IGRP_BLOCKLY_DROPS.core;
+				var options = IGRP_BLOCKLY_DROPS.core_get;
 				var dropdown = new Blockly.FieldDropdown(options, function(
 						option) {
 					this.sourceBlock_.updateShape_(option);
 				});
-				block.getInput("CORE").appendField(dropdown, 'CORE_FUNCTION')
-					.appendField(new Blockly.FieldImage(path+ "/core/blockly/blockly/media/igrpweb_logo.png",40, 20, "*"));
+				var domainsOptions = new Blockly.FieldDropdown(IGRP_BLOCKLY_DROPS.domains);
+				block.getInput("CORE").appendField(dropdown, 'CORE_FUNCTION');
 				block.setInputsInline(true);
-				block.appendValueInput("value1").setVisible(false);
-				block.appendValueInput("value2").setVisible(false);
-				block.appendValueInput("value3").setVisible(false);
-				block.appendValueInput("value4").setVisible(false);
-				block.appendValueInput("value5").setVisible(false);
-
+				block.appendDummyInput("value1").appendField(new Blockly.FieldTextInput('insert name param'), 'value1');
+				block.appendDummyInput("domains").appendField("domain").appendField(domainsOptions, 'domaindrop')
+					.appendField("value").setVisible(false);
+				block.appendValueInput("value_default").setVisible(false);
+				block.appendDummyInput("valueLink").appendField(new Blockly.FieldTextInput('name app'), 'value2')
+				.appendField(new Blockly.FieldTextInput('name page'), 'value3').appendField(new Blockly.FieldTextInput('name action'), 'value4')
+				.setVisible(false);
 				block.mutationToDom = function() {
 					var container = document.createElement('mutation');
 					var itemInput = this.getFieldValue('CORE_FUNCTION');
@@ -444,42 +735,72 @@
 				},
 				block.updateShape_ = function(input_type) {
 					var type = input_type;
-					if (type == 'enviar_email') {
-						block.getInput("value1").setVisible(true);
-						block.getInput("value2").setVisible(true);
-						block.getInput("value3").setVisible(true);
-						block.getInput("value4").setVisible(true);
-						block.getInput("value5").setVisible(true);
-					} else if (type == 'apanhar_parametro_texto') {
-						block.getInput("value1").setVisible(true);
-						block.getInput("value2").setVisible(false);
-						block.getInput("value3").setVisible(false);
-						block.getInput("value4").setVisible(false);
-						block.getInput("value5").setVisible(false);
-					} else if (type == 'get_domain') {
-						block.getInput("value1").setVisible(true);
-						block.getInput("value2").setVisible(true);
-						block.getInput("value3").setVisible(false);
-						block.getInput("value4").setVisible(false);
-						block.getInput("value5").setVisible(false);
-					} else {
+					  if (type == 'String::get_domain') {
+						block.getInput("domains").setVisible(true);
+						block.getInput("value_default").setVisible(true);
 						block.getInput("value1").setVisible(false);
-						block.getInput("value2").setVisible(false);
-						block.getInput("value3").setVisible(false);
-						block.getInput("value4").setVisible(false);
-						block.getInput("value5").setVisible(false);
+						block.getInput("valueLink").setVisible(false);
+					} else if (type == 'get_igrp_link') {
+						block.getInput("domains").setVisible(false);
+						block.getInput("value_default").setVisible(false);
+						block.getInput("value1").setVisible(false);
+						block.getInput("valueLink").setVisible(true);
+					} else {
+						block.getInput("domains").setVisible(false);
+						block.getInput("value_default").setVisible(false);
+						block.getInput("value1").setVisible(true);
+						block.getInput("valueLink").setVisible(false);
+					}
+				};
+			}
+		},
+		
+		/******* BLOCO MESSAGES REMOTE *******/
+		set_properties : {
+			init : function(block) {
+				var options = IGRP_BLOCKLY_DROPS.prop;
+				var dropdown = new Blockly.FieldDropdown(options, function(
+						option) {
+					this.sourceBlock_.updateShape_(option);
+				});
+				var messagesOptions = new Blockly.FieldDropdown(IGRP_BLOCKLY_DROPS.messages);
+				block.getInput("set_proper").appendField(dropdown, 'set_prop');
+				block.setInputsInline(true);
+				block.appendDummyInput("name").appendField(new Blockly.FieldTextInput('insert name'), 'name').setVisible(false);
+				block.appendDummyInput("messages").appendField(messagesOptions, 'messagedrop').setVisible(false);
+				block.appendValueInput("value1");
+				block.mutationToDom = function() {
+					var container = document.createElement('mutation');
+					var itemInput = this.getFieldValue('set_prop');
+					container.setAttribute('hover_type', itemInput);
+					return container;
+				},
+				block.domToMutation = function(xmlElement) {
+					var itemInput = xmlElement.getAttribute('hover_type');
+					this.updateShape_(itemInput);
+				},
+				block.updateShape_ = function(input_type) {
+					var type = input_type;
+					  if (type == 'add_message') {
+						block.getInput("messages").setVisible(true);
+						block.getInput("name").setVisible(false);
+					}  else {
+						block.getInput("messages").setVisible(false);
+						block.getInput("name").setVisible(true);
 					}
 				};
 			}
 		},
 
 	};
+	
+	
 	/** ******* FIM IGRP_BLOCKLY_ELEMENTS *************** */
 
 	/******* BLOCO SET DAO *******/
 
 	$(document).on('set-dao-block-init',function(e, block, dao) {
-		var options = IGRP_BLOCKLY_DROPS.daos[dao];
+		var options = IGRP_BLOCKLY_DROPS.daos_set[dao];
 		var dropdown = new Blockly.FieldDropdown(options,function(option) {
 			this.sourceBlock_.updateShape_(option);
 		});
@@ -509,7 +830,7 @@
 					this.setInputsInline(false);
 				} catch (err) {
 				}		
-			}			
+			}
 		};
 	});
 

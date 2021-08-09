@@ -63,14 +63,13 @@ public class BPMNExport implements IExport{
 	}
 
 	private void addPages(BPMNSerializable bpmn, String processKey) {	
-		List<Action> actions = new Action().find().where("application.dad","=",this.application.getDad()).andWhere("processKey","=",processKey.toLowerCase()).all();
+		List<Action> actions = new Action().find().where("application.dad","=",this.application.getDad()).andWhere("processKey", "=", processKey.toLowerCase()).all();
 		if(actions!=null) {
 			List<BPMNPages> pages = new ArrayList<>();
 			actions.stream().forEach(ac->{
 				BPMNPages p = new BPMNPages();
 				Core.mapper(ac,p);		
 				p.setDad(ac.getApplication().getDad());
-				p.setProcessKey(processKey);
 				pages.add(p);
 			});
 			bpmn.setPages(pages);
@@ -79,7 +78,7 @@ public class BPMNExport implements IExport{
 
 	private void addClassesBPMN(BPMNSerializable bpmn,String processKey) {
 		String basePath = Path.getPath(this.application);
-		basePath += "process" + File.separator + processKey + File.separator;
+		basePath += "process" + File.separator + processKey.toLowerCase() + File.separator;
 		Map<String, String> files = new FileHelper().readAllFileDirectory(basePath);
 		if(files!=null) {
 			List<BPMNPageFiles> pageFiles = new ArrayList<>();

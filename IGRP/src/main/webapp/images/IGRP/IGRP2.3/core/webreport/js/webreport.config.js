@@ -1,5 +1,5 @@
 var xslpath = '../../',
-	vbst = '3.4.1',
+	vbst = '4.0',
   	WR = {
   		editor   : 'form_1_report_editor',
   		listType : [

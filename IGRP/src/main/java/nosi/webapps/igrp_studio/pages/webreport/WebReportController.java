@@ -1,6 +1,15 @@
 package nosi.webapps.igrp_studio.pages.webreport;
 
-import java.io.IOException;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
+
 import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -10,17 +19,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import nosi.core.config.ConfigDBIGRP;
+import nosi.core.webapp.Report;
 import nosi.core.gui.page.Page;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Report;
-import nosi.core.webapp.Response;
 import nosi.core.webapp.bpmn.BPMNConstants;
-import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
 import nosi.core.webapp.datasource.helpers.DataSourceParam;
 import nosi.core.webapp.datasource.helpers.Parameters;
@@ -38,18 +42,20 @@ import nosi.webapps.igrp.dao.RepTemplateSource;
 import nosi.webapps.igrp.dao.RepTemplateSourceParam;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.pages.datasource.DataSourceController;
+
+/*----#end-code----*/
 		
-public class WebReportController extends Controller { 
-	
+public class WebReportController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		WebReport model = new WebReport();
 		model.load();
 		model.setLink_add_source("igrp_studio","WebReport","index");
+		 //model.setLink_upload_img(this.getConfig().getResolveUrl("igrp","file","save-image-txt&p_page_name="+Core.getCurrentPage()));
 		WebReportView view = new WebReportView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadGen_table(Core.query(null,"SELECT 'Doloremque aliqua ut doloremqu' as title,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/webreport/WebReport.xml' as link,'Deserunt sit laudantium accusa' as descricao,'13' as id "));
+		model.loadGen_table(Core.query(null,"SELECT 'Perspiciatis sit unde adipisci' as title,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/webreport/WebReport.xml' as link,'Officia sit labore voluptatem' as descricao,'6' as id "));
 		view.chart_1.loadQuery(Core.query(null,"SELECT 'X1' as EixoX, 'Y1' as EixoY, 15 as EixoZ"
                                       +" UNION SELECT 'X2' as EixoX, 'Y2' as EixoY, 10 as EixoZ"
                                       +" UNION SELECT 'X2' as EixoX, 'Y2' as EixoY, 23 as EixoZ"
@@ -57,6 +63,7 @@ public class WebReportController extends Controller {
 		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.datasorce_app.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
  		model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=report"));
  		
@@ -74,7 +81,7 @@ public class WebReportController extends Controller {
 						if(param.getParameters() != null) 
 							for(RepTemplateSourceParam p:param.getParameters()) 
 								params.append(".addParam(\""+p.getParameter().toLowerCase()+"\",\"?\")");
-				String link = "Core.getLinkReport(\""+r.getCode()+"\")"+params.toString()+"; //or Response=> Core.getLinkReport(\""+r.getCode()+"\",new nosi.core.webapp.Report()"+params+");";
+				String link = "Core.getLinkReport(\""+r.getCode()+"\")"+params.toString()+"; //or Response=> Core.getLinkReport(\""+r.getCode()+"\",new nosi.core.webapp.Report()"+params+");"+"or Beta PDF report - Response=> Core.getLinkReportPDF(\""+r.getCode()+"\",new nosi.core.webapp.Report()"+params+");";
 				t1.setDescricao(link);
 				t1.setLink("igrp_studio", "web-report", "load-template&id="+r.getId());
 				t1.setLink_desc(r.getCode());
@@ -108,6 +115,7 @@ public class WebReportController extends Controller {
 		  return this.forward("igrp_studio","WebReport","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gravar)  *//* End-Code-Block  */
 		/*----#start-code(gravar)----*/
 		try{
 			Part fileXsl = Core.getFile("p_xslreport");
@@ -218,53 +226,108 @@ public class WebReportController extends Controller {
 		  return this.forward("igrp_studio","WebReport","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (preview)  *//* End-Code-Block  */
 		/*----#start-code(preview)----*/
-		String id = Core.getParam("p_rep_id");
-		String type = Core.getParam("p_type");// se for 0 - preview, se for 1 - registar ocorencia 
-		String contraProva= Core.getParam("ctpr");
-		StringBuilder xml = new StringBuilder();
+		
+		String type = Core.getParam("p_type");// se for 0 - preview, se for 1 - registar ocorencia , 3 - retornar PDF e gravar
+		Integer id = Core.getParamInt("p_rep_id");
+		String contraProva= Core.getParam("ctpr");		
 		if(Core.isNotNull(id)){
-			RepTemplate rt = new RepTemplate();
-			rt = rt.findOne(Core.toInt(id));
 			String []name_array = Core.getParamArray("name_array");
 			String []value_array = Core.getParamArray("value_array");
-			List<RepTemplateSource> allRepTemplateSource = new RepTemplateSource().getAllDataSources(rt.getId()); 
-			List<RepTemplateSource> allRepTemplateSourceTask  = allRepTemplateSource.stream().filter(p -> p.getRepSource().getType().equalsIgnoreCase("task")).collect(Collectors.toList()); 
-			allRepTemplateSource.removeIf(p -> p.getRepSource().getType().equalsIgnoreCase("task")); 
+			RepTemplate rt = new RepTemplate();
+			rt = rt.findOne(id);
+			String genXml = genRenderXml(rt, type, contraProva, name_array, value_array);	
 			
-			//Iterate data source per template
-			for(RepTemplateSource rep : allRepTemplateSource)
-				xml.append(this.getData(rep,name_array,value_array)); 
+			if(type.equals(Report.PDF_SAVE))
+				return new Report().processPDF(System.currentTimeMillis()+"_"+rt.getName(),rt.getXsl_content(), genXml,"false");
 			
-			String taskId = this.getCurrentTaskId(); 
-			if(taskId != null && !taskId.isEmpty()) {
-				String []allTasksId = taskId.split("-"); 
-				if(allTasksId.length == allRepTemplateSourceTask.size()) 
-					for(int i = 0; i < allRepTemplateSourceTask.size(); i++) 
-						xml.append(this.getDataForTask(allRepTemplateSourceTask.get(i), allTasksId[i])); 
-			}		
-			this.format = Response.FORMAT_XML;
-			return this.renderView(this.genXml(xml.toString(),rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0,contraProva));
+			this.format = Response.FORMAT_XML;			
+			return this.renderView(genXml);
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
 		/*----#end-code----*/
 			
 	}
 	
+	public Response actionPreview_pdf() throws IOException, IllegalArgumentException, IllegalAccessException{
+		WebReport model = new WebReport();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp_studio","ListaEnv","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/* Start-Code-Block (preview_pdf)  *//* End-Code-Block  */
+		/*----#start-code(preview_pdf)----*/
 		
+		String type = Report.PDF_PRV;// se for 0 - preview, se for 1 - registar ocorencia , 2 - retornar PDF, 3 - preview PDF with no save
+		Integer id = Core.getParamInt("p_rep_id");
+		String contraProva= Core.getParam("ctpr");		
+		if(Core.isNotNull(id)){
+			String []name_array = Core.getParamArray("name_array");
+			String []value_array = Core.getParamArray("value_array");
+			RepTemplate rt = new RepTemplate();
+			rt = rt.findOne(id);
+			String genXml = genRenderXml(rt, type, contraProva, name_array, value_array);				
 		
-/*----#start-code(custom_actions)----*/	
-	public Response actionGetContraprova() throws IOException{
-		String contraprova = Core.getParam("ctprov");
-		contraprova=Core.decryptPublicPage(contraprova);
-		RepInstance ri = new RepInstance().find().andWhere("contra_prova", "=",contraprova).one();
-		String content = "";
-		if(ri!=null){
-			content = new String(ri.getXml_content().getC_lob_content());
-			return this.renderView(content);
+			return new Report().processPDF(System.currentTimeMillis()+"_"+rt.getName(),rt.getXsl_content(), genXml,"false");
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
+		
+		/*----#end-code----*/
+			
 	}
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
+/*----#start-code(custom_actions)----*/	
+	
+	
+	
+	
+	/**
+	 * @param id
+	 * @param type save the report or not? 0 not save; 1 save the report to clob
+	 * @param contraProva
+	 * @param name_array
+	 * @param value_array
+	 * @return
+	 */
+	public String genRenderXml(RepTemplate rt, String type, String contraProva, String[] name_array, String[] value_array) {
+		StringBuilder xml = new StringBuilder();
+		
+		
+		List<RepTemplateSource> allRepTemplateSource = new RepTemplateSource().getAllDataSources(rt.getId()); 
+		List<RepTemplateSource> allRepTemplateSourceTask  = allRepTemplateSource.stream().filter(p -> p.getRepSource().getType().equalsIgnoreCase("task")).collect(Collectors.toList()); 
+		allRepTemplateSource.removeIf(p -> p.getRepSource().getType().equalsIgnoreCase("task")); 
+		
+		//Iterate data source per template
+		for(RepTemplateSource rep : allRepTemplateSource)
+			xml.append(this.getData(rep,name_array,value_array)); 
+		
+		String taskId = this.getCurrentTaskId(); 
+		if(taskId != null && !taskId.isEmpty()) {
+			String []allTasksId = taskId.split("-"); 
+			if(allTasksId.length == allRepTemplateSourceTask.size()) 
+				for(int i = 0; i < allRepTemplateSourceTask.size(); i++) 
+					xml.append(this.getDataForTask(allRepTemplateSourceTask.get(i), allTasksId[i])); 
+		}	
+		
+		return this.genXml(xml.toString(),rt,type,contraProva);
+	}
+	
+	public Response actionGetContraprova() throws IOException{
+		String contraprova = Core.getParam("ctprov");
+		String did = Core.getParam("did");
+		String outtype = Core.getParam("out");
+		String toDownload = Core.getParam("todwn");
+		
+		contraprova=Core.decryptPublicPage(contraprova);
+		return new Report().processRepContraProva(contraprova, did, outtype, toDownload);
+	}
+
+	
 	
 	public Response actionSaveEditTemplate(){
 	
@@ -318,7 +381,7 @@ public class WebReportController extends Controller {
 		this.removeQueryString("value_array");		
 		
 		if(rt!=null)
-			return this.redirect("igrp_studio", "WebReport", "preview&p_rep_id="+rt.getId()+"&p_type=1"+params.toString(),this.queryString());
+			return this.redirect("igrp_studio", "WebReport", "preview&p_rep_id="+rt.getId()+"&p_type="+Report.XSLXML_SAVE+params.toString(),this.queryString());
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 	
@@ -370,7 +433,7 @@ public class WebReportController extends Controller {
 				for(String aux : ac.getAction().split("-"))
 					actionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
 				actionName = "action" + actionName;
-				Core.setAttribute("current_app_conn", ac.getApplication().getDad());			
+				Core.setAttribute("current_app_conn", ac.getApplication().getDad());	
 				String controllerPath = this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction());			
 				Object ob = Page.loadPage(controllerPath,actionName);
 				Core.removeAttribute("current_app_conn");
@@ -444,21 +507,21 @@ public class WebReportController extends Controller {
 	/*Gen final XML for Web Report
 	 * 
 	 */
-	private String genXml(String contentXml,RepTemplate rt,int type, String contraProva){
+	private String genXml(String contentXml,RepTemplate rt,String type, String contraProva){
 		Core.setAttribute("current_app_conn", rt.getApplication().getDad());
 		String packageFind = "nosi.webapps."+rt.getApplication().getDad().toLowerCase();
 		if(Core.isNull(contraProva))
 			contraProva = Report.generateContraProva(packageFind);
 		else
-			contraProva=Core.decrypt(contraProva);
+			contraProva=Core.decryptPublicPage(contraProva);
 		User user = null;
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){
 			user = new User();
 			Integer user_id = Core.getCurrentUser().getId();			
 			user = user.findOne(user_id);
 		}		
-		String content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replace("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contraProva, rt,user);
-		if(type==1){
+		String content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replace("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contraProva, rt,user,type);
+		if(type.equals(Report.XSLXML_SAVE) || type.equals(Report.PDF_SAVE)){
 //			Saves in the clob a report generated in this moment
 			RepInstance ri = new RepInstance();
 			ri.setContra_prova(contraProva);
@@ -471,7 +534,7 @@ public class WebReportController extends Controller {
 			xsl = xsl.insert();
 			
 			if(xsl!=null){
-				content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replace("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+xsl.getId(), contraProva, rt,user);
+				content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replace("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+xsl.getId(), contraProva, rt,user,type);
 				CLob xml = new CLob(System.currentTimeMillis()+"_"+rt.getName()+".xml", "application/xml", content.getBytes(), ri.getDt_created(),rt.getApplication());
 				xml = xml.insert();
 				ri.setXml_content(xml);
@@ -482,12 +545,20 @@ public class WebReportController extends Controller {
 		return content;
 	}
 	
-	private String getReport(String contentXml,String xslPath,String contra_prova,RepTemplate rt,User user){
+	private String getReport(String contentXml,String xslPath,String contra_prova,RepTemplate rt,User user, String type){
 		XMLWritter xmlW = new XMLWritter("rows", xslPath, "");
 		xmlW.startElement("print_report");
 			xmlW.setElement("name_app",rt.getApplication().getDad());
 			xmlW.setElement("img_app",rt.getApplication().getImg_src());
-			xmlW.setElement("link_qrcode",Core.getLinkContraProva(contra_prova));
+			switch (type) {
+			case Report.PDF_PRV:
+			case Report.PDF_SAVE:
+				xmlW.setElement("link_qrcode",Core.getLinkContraProvaPDF(contra_prova,""+rt.getApplication().getId(),false));
+				break;
+			default:
+				xmlW.setElement("link_qrcode",Core.getLinkContraProva(contra_prova));
+				break;
+			}
 			xmlW.setElement("img_brasao", "brasao.png");
 			xmlW.emptyTag("name_brasao");
 			xmlW.setElement("data_print",new Date(System.currentTimeMillis()).toString());
@@ -577,10 +648,8 @@ public class WebReportController extends Controller {
 		String fileName = Core.getParam("p_file_name");
 		String env=Core.getParam("env");
 		if(Core.isNotNull(fileName)) {
-			String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
-			// String url2 = Path.getImageServer((Core.isNull(env)?"":env+File.separator)+"reports")+File.separator+fileName;		
-			String url =  baseUrl.replace("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/"+(Core.isNull(env)?"":env+"/")+"reports/"+fileName;
-			// TODO:  caso nao nada na pasta procurar normal porque pode ser que foi colocado 
+			String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();	
+			String url =  baseUrl.replace("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/"+(Core.isNull(env)?"":env+"/")+"reports/"+fileName;			
 			return this.redirectToUrl(url);
 		}
 		resp.setContent(FlashMessage.MSG_ERROR);	
