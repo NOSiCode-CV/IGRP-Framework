@@ -31,7 +31,35 @@
 					</xsl:call-template>					
 				</xsl:variable>		
 				<xsl:text>Core.setMessageWarning(</xsl:text><xsl:value-of select="$valor1"/><xsl:text>);</xsl:text>					
-			</xsl:when>		
+			</xsl:when>
+			<xsl:when test="$key = 'String::get_username_by_id'">	
+			 	<xsl:variable name="valor1">		
+					<xsl:call-template name="blockly.getValue">					
+						<xsl:with-param name="value" select="*[@name='value_default']"/>						
+					</xsl:call-template>					
+				</xsl:variable>
+				<xsl:variable name="valortype">		
+					<xsl:choose>
+						<xsl:when test="value/block/value/block/value/block/field != ''">				
+							<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
+						</xsl:when>				
+						<xsl:when test="value/block/value/block/field != ''">				
+							<xsl:value-of select="substring-before(value/block/value/block/field,'::')"/>				
+						</xsl:when>					
+						<xsl:otherwise>				
+							<xsl:value-of select="substring-before(value/block/field,'::')"/>				
+						</xsl:otherwise>				
+					</xsl:choose>		
+				</xsl:variable>	
+				<xsl:variable name="valor_convert">		
+					<xsl:call-template name="convert_blocks">									
+						<xsl:with-param name="value" select="$valor1"></xsl:with-param>						
+						<xsl:with-param name="from" select="$valortype"></xsl:with-param>				
+						<xsl:with-param name="to" select="'Integer'"></xsl:with-param>															
+					</xsl:call-template>					
+				</xsl:variable>				
+				<xsl:text>Core.getUsernameById(</xsl:text><xsl:value-of select="$valor_convert"/><xsl:text>)</xsl:text>					
+			</xsl:when>			
 			 <xsl:when test="$key = 'verify_is_null'">	
 			 	<xsl:variable name="valor1">		
 					<xsl:call-template name="blockly.getValue">					
@@ -88,7 +116,7 @@
 						<xsl:with-param name="value" select="*[@name='value4']"/>						
 					</xsl:call-template>					
 				</xsl:variable>			
-				<xsl:text>Core.getIGRPLink("</xsl:text><xsl:value-of select="$valor2"/><xsl:text>", "</xsl:text><xsl:value-of select="$valor3"/><xsl:text>", "</xsl:text><xsl:value-of select="$valor4"/><xsl:text>");</xsl:text>					
+				<xsl:text>Core.getIGRPLink("</xsl:text><xsl:value-of select="$valor2"/><xsl:text>", "</xsl:text><xsl:value-of select="$valor3"/><xsl:text>", "</xsl:text><xsl:value-of select="$valor4"/><xsl:text>")</xsl:text>					
 			</xsl:when>	
 			<xsl:when test="$key = 'messageInfoLink'">	
 			 	<xsl:variable name="valor1">		
@@ -212,8 +240,28 @@
 					<xsl:call-template name="blockly.getValue">					
 						<xsl:with-param name="value" select="*[@name='value_default']"/>						
 					</xsl:call-template>					
-				</xsl:variable>			
-				<xsl:text>Core.findDomainDescByKey("</xsl:text><xsl:value-of select="$valor1"/><xsl:text>", </xsl:text><xsl:value-of select="$valor2"/><xsl:text>)</xsl:text>					
+				</xsl:variable>
+				<xsl:variable name="valortype">		
+					<xsl:choose>
+						<xsl:when test="value/block/value/block/value/block/field != ''">				
+							<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
+						</xsl:when>				
+						<xsl:when test="value/block/value/block/field != ''">				
+							<xsl:value-of select="substring-before(value/block/value/block/field,'::')"/>				
+						</xsl:when>					
+						<xsl:otherwise>				
+							<xsl:value-of select="substring-before(value/block/field,'::')"/>				
+						</xsl:otherwise>				
+					</xsl:choose>		
+				</xsl:variable>	
+				<xsl:variable name="valor_convert">		
+					<xsl:call-template name="convert_blocks">									
+						<xsl:with-param name="value" select="$valor2"></xsl:with-param>						
+						<xsl:with-param name="from" select="$valortype"></xsl:with-param>				
+						<xsl:with-param name="to" select="'String'"></xsl:with-param>															
+					</xsl:call-template>					
+				</xsl:variable>		
+				<xsl:text>Core.findDomainDescByKey("</xsl:text><xsl:value-of select="$valor1"/><xsl:text>", </xsl:text><xsl:value-of select="$valor_convert"/><xsl:text>)</xsl:text>					
 			</xsl:when>		
 		</xsl:choose>		
 	</xsl:template>	
