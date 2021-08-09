@@ -939,7 +939,7 @@ public final class Core {
 	 *         {@code valor} and value as {@code description}
 	 */
 	public static Map<String, String> getDomainByCodeAsMap(String domainName, String dad) {
-		Map<String, String> domainMap = new HashMap<>();
+		Map<String, String> domainMap = new LinkedHashMap<>();
 		List<Domain> domains = findDomainByCode(domainName, dad);
 		if (null != domains && !domains.isEmpty())
 			domains.forEach(domain -> domainMap.put(domain.getValor(), domain.getDescription()));
@@ -960,7 +960,7 @@ public final class Core {
 	 *         {@code valor} and value as {@code description}
 	 */
 	public static Map<String, String> getDomainByCodeAsMap(String domainName, Integer applicationId) {
-		Map<String, String> domainMap = new HashMap<>();
+		Map<String, String> domainMap = new LinkedHashMap<>();
 		List<Domain> domains = findDomainByCode(domainName, applicationId);
 		if (null != domains && !domains.isEmpty())
 			domains.forEach(domain -> domainMap.put(domain.getValor(), domain.getDescription()));
