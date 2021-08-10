@@ -125,6 +125,40 @@
 		</xsl:variable>		
 		<xsl:text>row</xsl:text><xsl:value-of select="$rowNum"/><xsl:text>.get</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>()</xsl:text>						
 	</xsl:template>
+	
+	<xsl:template name="blockly.element.getrowStartEnd">
+		<xsl:variable name="valuedata">	   	
+			<xsl:call-template name="blockly.getValue">			
+				<xsl:with-param name="value" select="value[@name='data']"/>				
+			</xsl:call-template>			
+		</xsl:variable>	
+		<xsl:variable name="valueHora">	   	
+			<xsl:call-template name="blockly.getValue">			
+				<xsl:with-param name="value" select="value[@name='hora']"/>				
+			</xsl:call-template>			
+		</xsl:variable>	
+		<xsl:variable name="datatype">		
+			<xsl:choose>
+				<xsl:when test="value[@name='data']/block/value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
+				</xsl:when>				
+				<xsl:when test="value[@name='data']/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/field,'::')"/>				
+				</xsl:when>					
+				<xsl:otherwise>				
+					<xsl:value-of select="substring-before(value[@name='data']/block/field,'::')"/>				
+				</xsl:otherwise>				
+			</xsl:choose>		
+		</xsl:variable>		
+		<xsl:variable name="data_convert">	
+			<xsl:call-template name="convert_blocks">				
+				<xsl:with-param name="value" select="$valuedata"></xsl:with-param>							
+				<xsl:with-param name="from" select="$datatype"></xsl:with-param>				
+				<xsl:with-param name="to" select="'String'"></xsl:with-param>							
+			</xsl:call-template>					
+		</xsl:variable>			
+		<xsl:value-of select="$data_convert"/><xsl:text>+"T"+</xsl:text><xsl:value-of select="$valueHora"/>						
+	</xsl:template>
 			
 </xsl:stylesheet>
 		

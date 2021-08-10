@@ -21,7 +21,7 @@ Imports = BLOCK_IMPORTS
 Helpers = HELPERS
 Vertical Menu = BLOCK_VERTICAL_MENU
 Tree Menu = BLOCKS_TREE_MENU
-
+Calendar = BLOCKS_CALENDAR
 */
 /**
  * @author Rodney Fernandes
@@ -87,7 +87,7 @@ var	daoClasses = {},
 	separator_model = [],formlist_model = [], form_model = [], buttons_model = [], all_buttons = [], daos_list = [], services_list = [], bloc_fields = [],
 	service_fields = [], operations_list = [],
 	imports_insert = [], imports_list = [], fields_esp_row = [], custom_action = [], select = [], checkbox_table = [],
-	addcombo=0, addcheckbox=0, addseparator=0, addforeign=0, addchart=0, addtable =0, addbutton=0, addmodel=0, 
+	addcombo=0, addcheckbox=0, addseparator=0, addforeign=0, addchart=0, addtable =0, addbutton=0, addmodel=0, addcalendar = 0, 
 	addstatbox=0, addsmallbox=0, addformlist=0, addform=0, addview=0, custombutton=0, helpers = [], components =[], addhelpers = 0, but_table = [],
 	add_but_table = 0, read = [], add_read = 0, add_title = 0, separators = [], add_separ = 0, addverticalmenu = 0, addcarousel = 0, addtreemenu = 0;
 var temservices = '';
@@ -173,7 +173,7 @@ $('#active_selenium').on('click', function() {
 	 fields_esp_row.push([ '--', '--' ]), custom_action = [], custom_action.push([ '--', '--' ]), select = [], select.push([ '--', '--' ]), 
 	 checkbox_table = [], checkbox_table.push([ '--', '--' ]), addcombo=0, addcheckbox=0, addseparator=0, addforeign=0, addchart=0, 
 	 addtable=0, addstatbox=0, addsmallbox=0, addbutton=0, addmodel=0, addformlist=0, addform=0, addview=0, custombutton=0, helpers = [], 
-     components =[], separators = [], addhelpers = 0, addcarousel = 0, addtreemenu = 0;
+     components =[], separators = [], addhelpers = 0, addcarousel = 0, addtreemenu = 0, addcalendar = 0,
 	 but_table=[], add_but_table=0, read = [], add_read = 0, add_separ = 0, add_title = 0, addverticalmenu = 0;
 	 
 	 var BlocklyXML = $.parseXML(VARS.getGen().getXML());
@@ -778,6 +778,67 @@ $('#active_selenium').on('click', function() {
 						+'</value>'
 						+'<value name="value2" type="statement" check="Linha" >'
 							+getColumnsBlock()
+						+'</value>'
+					+'</block>'
+				+'</category>');	
+			});
+			
+			// *************** BLOCKS_CALENDAR ********************
+		
+	 $('rows>content>*[type="calendar"]', BlocklyXML).each(function(i, element){	 
+			IGRP_BLOCKLY_DROPS.tablesTest[element.tagName] = [];
+			$(element).find('>fields>*').each(function(x, field) {
+				var	tag = $(field).prop('tagName'),
+					type = $(field).attr('java-type') || $(field).attr('type'),
+					javaType = GetJavaType[type] || type || 'String';
+					fields_table.push([ tag, javaType + '::'+tag]);
+					IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push( [ tag, javaType + '::'+tag] );					
+			});		
+	
+			var	 calendar = $(element).prop('tagName');
+			addcalendar++;
+			if(addcalendar == 1){
+			$('#toolbox').append('<category id="calendar" name="Calendar" colour="160" class="blocly-dynamic"></category>'	
+					+'<sep class="blocly-dynamic"></sep>');
+			}	
+			var getColumnsBlock = function(){
+				var rtn = '';
+				IGRP_BLOCKLY_DROPS.tablesTest[calendar].forEach(function(f, fi){
+					rtn+= '<block type="rowtable'+f[1]+'" prev-statement="Linha" next-statement="Linha" color="300">'
+								+'<value type="value" name="fields_model">'
+									+'<field type="text" options="Set '+f[0]+'"></field>'
+									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'	
+								+'</value><next>';
+				});		
+				IGRP_BLOCKLY_DROPS.tablesTest[calendar].forEach(function(f, fi){
+					rtn+='</next></block>';	
+				});
+				return rtn;
+			};
+			
+			$('#calendar').append(
+				'<category id="'+calendar+'" name="'+calendar+'" colour="160" class="blocly-dynamic">'
+					+'<block type="listar_'+calendar+'" color="160" mutator="where" prev-statement="" next-statement="" inline="true">'
+						+'<value name="value1" type="dummy">'
+							+'<field type="dropdown" name="table" title="'+calendar+'"></field>'
+							+'<field type="comment" options="This block is used to list datas from a DAO class in one table."></field>'
+							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
+							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
+							+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+						+'</value>'
+						+'<value name="value2" type="statement" check="Linha" >'
+							+getColumnsBlock()
+						+'</value>'
+					+'</block>'
+					+'<block type="getrowStartEnd" color="160" output="" inline="true">'
+						+'<value name="data" type="value">'
+							+'<field type="text" options="Date:"></field>'
+						+'</value>'
+						+'<value name="hora" type="value" >'
+							+'<field type="text" options="Hour:"></field>'
+						+'</value>'
+						+'<value type="dummy" >'
+							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 						+'</value>'
 					+'</block>'
 				+'</category>');	
