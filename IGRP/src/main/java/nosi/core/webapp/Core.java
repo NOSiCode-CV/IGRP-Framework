@@ -152,7 +152,7 @@ public final class Core {
 		}
 	}
 
-	public static final String NO_PERMITION_MSG = "No permision";
+	public static final String NO_PERMITION_MSG = "No permission";
 	public static final String DD_MM_YYYY = "dd-MM-yyyy";
 	public static final String YYYY_MM_DD = "yyyy-MM-dd";
 
@@ -1040,13 +1040,14 @@ public final class Core {
 		return "9";
 	}
 
-	@Deprecated
-	/**
+
+	/**@deprecated
 	 * Use getFileByUuid(
 	 * 
 	 * @param fileId
 	 * @return
-	 */
+	 */	
+	@Deprecated
 	public static CLob getFile(int fileId) {
 		return new CLob().findOne(fileId);
 	}
@@ -1069,9 +1070,9 @@ public final class Core {
 	 */
 	public static String getFileNameByUuid(String uuid) {
 		String fileName = "";
-		CLob file = new CLob().find().andWhere("uuid", "=", uuid).one();
+		Map<String, Object> file = new CLob().find().andWhere("uuid", "=", uuid).oneColumns("name");
 		if (file != null) {
-			fileName = file.getName();
+			fileName = ""+file.get("name");
 		}
 		return fileName;
 	}
