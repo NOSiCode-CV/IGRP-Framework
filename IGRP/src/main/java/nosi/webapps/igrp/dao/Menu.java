@@ -211,7 +211,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		return menus_App;
 	}
 	
-	public Map<String,List<MenuProfile>> getMyMenu() {
+	public LinkedHashMap<String,List<MenuProfile>> getMyMenu() {
 		LinkedHashMap<String,List<MenuProfile>> list = new LinkedHashMap<>();
 		String currentDad = Core.getCurrentDad(); 
 		Record row = Core.query(this.getConnectionName(),sqlMenuByProfile)
