@@ -15,6 +15,7 @@ View = BLOCK_VIEW
 Grafico = BLOCK_GRAFICO
 Stabox = BLOCK_STATBOX
 Smallbox = BLOCK_SMALLBOX
+Circle Stat Box = BLOCK_CIRCLE_STAT_BOX
 Dao Blocks = DAO_BLOCKS
 Service Blocks = SERVICE_BLOCKS
 Imports = BLOCK_IMPORTS
@@ -855,8 +856,8 @@ $('#active_selenium').on('click', function() {
 					fields_table.push([ tag, javaType + '::'+tag]);
 					IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push( [ tag, javaType + '::'+tag] );
 					if(type == "link"){
-						fields_table.push([ tag+'_desc', javaType + '::'+tag+'_desc']);
-						IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push( [ tag+'_desc', javaType + '::'+tag+'_desc'] );
+						fields_table.push([ tag+'_desc',  'String::'+tag+'_desc']);
+						IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push( [ tag+'_desc',  'String::'+tag+'_desc'] );
 					}
 			});		
 	
@@ -1749,6 +1750,7 @@ function GetBlocklyImports(){
 		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace),
 			listarImports = $('block[type*="listar_"], block[type*="lstar_service_"] ',xml),	
 			inserirImports = $('block[type="inserir_dao"]',xml),
+			verticalImports = $('block[type*="verticalmenu_"]',xml),
 			checkImports = $('block[type="checkbox_table"]',xml),
 			inserirImports2 = $('block[type*="save_formu_"]',xml),
 			inserirImports3 = $('block[type="insert_simple_dao"], block[type="insert_simple_service"]',xml),
@@ -1778,6 +1780,8 @@ function GetBlocklyImports(){
 		var rtn='';
 		if(listarImports[0])
 			rtn+='<import type="listar">Listar</import>';
+		if(verticalImports[0])
+			rtn+='<import type="verticalmenu">VerticalMenu</import>';
 		if(fillComboImports[0])
 			rtn+='<import type="fill_combo">Select</import>';
 		if(separatorImports[0])
