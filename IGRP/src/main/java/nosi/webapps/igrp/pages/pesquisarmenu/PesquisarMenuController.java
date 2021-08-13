@@ -36,9 +36,9 @@ import nosi.webapps.igrp.dao.Menu.MenuProfile;
 import static nosi.core.i18n.Translator.gt;
 
 /*----#end-code----*/
-
+		
 public class PesquisarMenuController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		PesquisarMenuView view = new PesquisarMenuView();
@@ -46,8 +46,8 @@ public class PesquisarMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Sit iste deserunt ipsum iste mollit aperiam aliqua ipsum unde rem sit stract omnis totam perspiciati' as t1_menu_principal,'1' as ativo,'27' as ordem,'Iste officia consectetur molli' as icon,'Ut omnis ut perspiciatis stract natus elit voluptatem dolor rem elit sed voluptatem deserunt lorem e' as table_titulo,'Doloremque stract totam officia consectetur stract aperiam stract perspiciatis aperiam stract laudan' as pagina,'1' as checkbox,'hidden-911e_c41f' as id "));
-		model.loadFormlist_1(Core.query(null,"SELECT 'Accusantium rem adipiscing accusantium deserunt' as pagina_order,'hidden-a970_cfe9' as id_page_ord,'hidden-8563_12be' as id_pai,'hidden-1669_913e' as id_do_pai "));
+		model.loadTable_1(Core.query(null,"SELECT 'Aliqua lorem sit anim deserunt lorem laudantium anim consectetur magna voluptatem iste laudantium st' as t1_menu_principal,'1' as ativo,'9' as ordem,'Dolor aperiam ipsum stract rem' as icon,'Dolor doloremque anim perspiciatis sed rem laudantium aperiam consectetur sed natus ut sed elit lore' as table_titulo,'Aperiam ipsum sit accusantium sed rem officia deserunt sit aperiam omnis adipiscing sed deserunt und' as pagina,'1' as checkbox,'hidden-210f_7058' as id "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Accusantium consectetur sed doloremque laudantium' as pagina_order,'hidden-5f9d_bac0' as id_page_ord,'hidden-afa9_0179' as id_pai,'hidden-0f01_c330' as id_do_pai "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/* Start-Code-Block (index) *//* End-Code-Block (index) */
@@ -147,10 +147,10 @@ public class PesquisarMenuController extends Controller {
 
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);
+		return this.renderView(view);	
 	}
-
-	public Response actionBtn_novo() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionBtn_novo() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
@@ -161,15 +161,15 @@ public class PesquisarMenuController extends Controller {
 		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
-		/* Start-Code-Block (btn_novo) *//* End-Code-Block */
+		/* Start-Code-Block (btn_novo)  *//* End-Code-Block  */
 		/*----#start-code(btn_novo)----*/
-		this.addQueryString("p_app", Core.getParam("p_aplicacao"));
-		return this.redirect("igrp", "NovoMenu", "index", this.queryString());
+		//this.addQueryString("p_app", Core.getParam("p_aplicacao"));
+		return this.redirect("igrp", "NovoMenu", "index&p_app="+Core.getParam("p_aplicacao"), this.queryString());
 		/*----#end-code----*/
-
+			
 	}
-
-	public Response actionGravar_ordenacao() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionGravar_ordenacao() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
@@ -180,7 +180,7 @@ public class PesquisarMenuController extends Controller {
 		  return this.forward("igrp","PesquisarMenu","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
-		/* Start-Code-Block (gravar_ordenacao) *//* End-Code-Block */
+		/* Start-Code-Block (gravar_ordenacao)  *//* End-Code-Block  */
 		/*----#start-code(gravar_ordenacao)----*/
 		try {
 			int i = 100;
@@ -215,10 +215,10 @@ public class PesquisarMenuController extends Controller {
 		}
 		return this.forward("igrp", "PesquisarMenu", "index", this.queryString());
 		/*----#end-code----*/
-
+			
 	}
-
-	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
@@ -229,7 +229,7 @@ public class PesquisarMenuController extends Controller {
 		  return this.forward("igrp","PesquisarMenu","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
-		/* Start-Code-Block (editar) *//* End-Code-Block */
+		/* Start-Code-Block (editar)  *//* End-Code-Block  */
 		/*----#start-code(editar)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
@@ -238,10 +238,10 @@ public class PesquisarMenuController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp", "PesquisarMenu", "index", this.queryString());
+		return this.redirect("igrp","PesquisarMenu","index", this.queryString());	
 	}
-
-	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
@@ -252,7 +252,7 @@ public class PesquisarMenuController extends Controller {
 		  return this.forward("igrp","PesquisarMenu","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
-		/* Start-Code-Block (eliminar) *//* End-Code-Block */
+		/* Start-Code-Block (eliminar)  *//* End-Code-Block  */
 		/*----#start-code(eliminar)----*/
 		int id = Core.getParamInt("p_id");
 		Menu menu_db = new Menu();
@@ -264,10 +264,10 @@ public class PesquisarMenuController extends Controller {
 		}
 		return this.redirect("igrp", "PesquisarMenu", "index", model, this.queryString());
 		/*----#end-code----*/
-
+			
 	}
-	/* Start-Code-Block (custom-actions) *//* End-Code-Block */
-	/*----#start-code(custom_actions)----*/
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
+/*----#start-code(custom_actions)----*/
 
 	// Menu list I have access to
 	public Response actionMyMenu() throws IOException {
