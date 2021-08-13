@@ -312,7 +312,8 @@ public class Report extends Controller{
 						i.attr("src", dadBase + "images/IGRP/IGRP2.3/assets/img/"+dad+"/reports/"+foto);					
 					}
 				}
-			}
+			}else
+				i.attr("src",i.attr("src").replace("%0A", ""));
 		});
 		Element content = doc.getElementById("content");
 		Elements styleD = null;
