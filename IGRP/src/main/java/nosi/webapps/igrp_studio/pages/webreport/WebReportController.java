@@ -180,23 +180,26 @@ public class WebReportController extends Controller {
 					Gson g = new Gson();
 					@SuppressWarnings("unchecked")
 					List<DataSourceParam> datasources = (List<DataSourceParam>) g.fromJson(p_datasourcekeys, new TypeToken<List<DataSourceParam>>(){}.getType());
-					if(datasources!=null) {
-						for(DataSourceParam p:datasources) {
-							for(Parameters param:p.getParameters()) {
-								ResultSet.Record record = Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, "SELECT id FROM tbl_rep_template_source")
-														.where("rep_source_fk=:rep_source_fk AND rep_template_fk=:rep_template_fk")
-														.addInt("rep_source_fk", Core.toInt(p.getId()))
-														.addInt("rep_template_fk", rt.getId())
-														.getSingleRecord();			
-								int idRepTempSource = record.getInt("id"); 
-								RepTemplateSourceParam rTsp = new RepTemplateSourceParam().find().andWhere("parameter", "=", param.getName()).andWhere("repTemplateSource.id", "=", idRepTempSource).one(); 
-								if(rTsp == null)
-									Core.insert(this.configApp.getBaseConnection(),"tbl_rep_template_source_param")
-										.addString("parameter", param.getName())
-										.addString("parameter_type", param.getType())
-										.addInt("rep_template_source_fk", idRepTempSource)
-										.execute();
-							}
+					if (datasources != null) {
+						for (DataSourceParam p : datasources) {
+							if (Core.isNotNull(p.getId()))
+								for (Parameters param : p.getParameters()) {
+									ResultSet.Record recorde = Core
+											.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,
+													"SELECT id FROM tbl_rep_template_source")
+											.where("rep_source_fk=:rep_source_fk AND rep_template_fk=:rep_template_fk")
+											.addInt("rep_source_fk", Core.toInt(p.getId()))
+											.addInt("rep_template_fk", rt.getId()).getSingleRecord();
+									int idRepTempSource = recorde.getInt("id");
+									RepTemplateSourceParam rTsp = new RepTemplateSourceParam().find()
+											.andWhere("parameter", "=", param.getName())
+											.andWhere("repTemplateSource.id", "=", idRepTempSource).one();
+									if (rTsp == null)
+										Core.insert(this.configApp.getBaseConnection(), "tbl_rep_template_source_param")
+												.addString("parameter", param.getName())
+												.addString("parameter_type", param.getType())
+												.addInt("rep_template_source_fk", idRepTempSource).execute();
+								}
 						}
 					}
 				}
