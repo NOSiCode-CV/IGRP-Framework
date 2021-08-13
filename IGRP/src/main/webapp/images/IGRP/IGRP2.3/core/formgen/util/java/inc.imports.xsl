@@ -12,6 +12,10 @@
 					<xsl:value-of select="$newline"></xsl:value-of>				
 					<xsl:text>import java.util.List; //block import</xsl:text>		
 				</xsl:when>
+				<xsl:when test="@type = 'verticalmenu'">			
+					<xsl:value-of select="$newline"></xsl:value-of>		
+					<xsl:text>import nosi.core.gui.components.IGRPButton; //block import</xsl:text>				
+				</xsl:when>
 				<xsl:when test="@type = 'report'">			
 					<xsl:value-of select="$newline"></xsl:value-of>					
 					<xsl:text>import nosi.core.webapp.Report; //block import</xsl:text>		
