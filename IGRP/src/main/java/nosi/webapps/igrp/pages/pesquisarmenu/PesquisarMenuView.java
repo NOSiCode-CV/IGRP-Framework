@@ -127,7 +127,7 @@ public class PesquisarMenuView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
 
-		btn_btn_novo = new IGRPButton("Novo","igrp","PesquisarMenu","btn_novo","right_panel_submit|refresh","success|fa-plus-square","","");
+		btn_btn_novo = new IGRPButton("Novo","igrp","PesquisarMenu","btn_novo","right_panel|refresh","success|fa-plus-square","","");
 		btn_btn_novo.propertie.add("type","specific").add("rel","btn_novo").add("refresh_components","");
 
 		btn_gravar_ordenacao = new IGRPButton("Gravar Ordenação","igrp","PesquisarMenu","gravar_ordenacao","submit_ajax","primary|fa-sort-numeric-asc","","");
