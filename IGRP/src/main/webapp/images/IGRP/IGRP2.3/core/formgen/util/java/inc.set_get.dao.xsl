@@ -108,7 +108,7 @@
 				</xsl:when>				
 				<xsl:when test= "$inline='true'" >					
 					<xsl:variable name="type_param" select="substring-before(value/block/field,'::')"/>					
-					<xsl:variable name="foreign_name_block" select="value/block/@type"/>					
+					<xsl:variable name="foreign_name_block" select="value/block/field"/>					
 					<xsl:variable name="value_param" select="substring-after(value[@name='value1']/block/field,'::')"/> 					
 					<xsl:variable name="paramlow">					
 				       	<xsl:call-template name="LowerCase">				       	
@@ -121,26 +121,22 @@
 						</xsl:call-template>						
 					</xsl:variable>				   	
 				   	<xsl:variable name="valorparam_convert">	
-						<xsl:call-template name="convert_blocks">								
-							<xsl:with-param name="daolow" select="daolow"></xsl:with-param>							
+						<xsl:call-template name="convert_blocks">														
 							<xsl:with-param name="value" select="$valorparam"></xsl:with-param>							
 							<xsl:with-param name="valueblock" select="$value_param"></xsl:with-param>							
 							<xsl:with-param name="from" select="$type_param"></xsl:with-param>							
-							<xsl:with-param name="to" select="'Integer'"></xsl:with-param>							
-							<xsl:with-param name="neto" select="neto"></xsl:with-param>							
-							<xsl:with-param name="valuechild" select="value_namee"></xsl:with-param>							
-							<xsl:with-param name="block_namechild" select="$foreign_name_block"></xsl:with-param>							
-							<xsl:with-param name="block_name" select="block_name"></xsl:with-param>							
+							<xsl:with-param name="to" select="'Integer'"></xsl:with-param>														
+							<xsl:with-param name="block_namechild" select="$foreign_name_block"></xsl:with-param>													
 						</xsl:call-template>								
 					</xsl:variable>				   	
 				   	<xsl:choose>				   	
-				   		<xsl:when test="$foreign_name_block = 'dao_obj'">							
+				   		<xsl:when test="contains($foreign_name_block,'ObjectDao')">							
 							<xsl:value-of select="$daolow"/><xsl:text>.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text><xsl:value-of select="$valorparam"/><xsl:text>);</xsl:text>						
 						</xsl:when>						
 						<xsl:otherwise>		
-							<xsl:value-of select="$fieldType"/><xsl:text> </xsl:text><xsl:value-of select="$paramlow"/><xsl:text>_foreign = session.find(</xsl:text><xsl:value-of select="$fieldType"/><xsl:text>.class, </xsl:text><xsl:value-of select="$valorparam_convert"/><xsl:text>);</xsl:text>							
+							<xsl:value-of select="$fieldType"/><xsl:text> </xsl:text><xsl:value-of select="$paramlow"/><xsl:text>Foreign = session.find(</xsl:text><xsl:value-of select="$fieldType"/><xsl:text>.class, </xsl:text><xsl:value-of select="$valorparam_convert"/><xsl:text>);</xsl:text>							
 							<xsl:value-of select="$newlineTab1"></xsl:value-of>							
-							<xsl:value-of select="$daolow"/><xsl:text>.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text><xsl:value-of select="$paramlow"/><xsl:text>_foreign);</xsl:text>						
+							<xsl:value-of select="$daolow"/><xsl:text>.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text><xsl:value-of select="$paramlow"/><xsl:text>Foreign);</xsl:text>						
 						</xsl:otherwise>				   	
 				   	</xsl:choose>		
 				</xsl:when>					
@@ -152,9 +148,7 @@
 								<xsl:with-param name="value" select="$valorA"></xsl:with-param>								
 								<xsl:with-param name="valueblock" select="$fieldValue"></xsl:with-param>								
 								<xsl:with-param name="from" select="$fieldTypechild"></xsl:with-param>								
-								<xsl:with-param name="to" select="$fieldType"></xsl:with-param>								
-								<xsl:with-param name="neto" select="neto"></xsl:with-param>								
-								<xsl:with-param name="valuechild" select="$fieldvaluechild"></xsl:with-param>								
+								<xsl:with-param name="to" select="$fieldType"></xsl:with-param>																
 								<xsl:with-param name="block_namechild" select="$block_namechild"></xsl:with-param>								
 								<xsl:with-param name="block_name" select="$block_name"></xsl:with-param>								
 							</xsl:call-template>							

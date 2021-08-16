@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -160,8 +161,8 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 		return "Organization [id=" + id + ", code=" + code + ", name=" + name + ", status=" + status + "]";
 	}
 
-	public HashMap<String, String> getListMyOrganizations() {
-		HashMap<String, String> lista = new HashMap<>();
+	public Map<String, String> getListMyOrganizations() {
+		Map<String, String> lista = new HashMap<>();
 		lista.put("", "-- Selecionar --");
 		for (Profile p : new Profile().getMyPerfile()) {
 			if(p.getOrganization().getStatus()==1)
@@ -170,20 +171,25 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 		return lista;
 	}
 
-	public HashMap<String, String> getListOrganizations() {
-		HashMap<String, String> lista = new HashMap<>();
+	public Map<String, String> getListOrganizations() {
+		Map<String, String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		for (Organization o : this.find().where("status","=",1).all()) {
-			lista.put(o.getId() + "", o.getName());
+		for (Map<String, Object> o : this.find()
+				.where("status","=",1)				
+				.allColumns("id","name")) {
+			lista.put(o.get("id")+"",""+ o.get("name"));
 		}
 		return lista;
 	}
 
-	public HashMap<String, String> getListOrganizations(Integer app) {
-		HashMap<String, String> lista = new HashMap<>();
+	public  Map<String, String> getListOrganizations(Integer app) {
+		 Map<String, String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		for (Organization o : this.find().where("status","=",1).andWhere("application.id", "=", app).all()) {
-			lista.put(o.getId() + "", o.getName());
+		for (Map<String, Object> o : this.find()
+				.where("status","=",1)
+				.andWhere("application.id", "=", app)				
+				.allColumns("id","name")) {
+			lista.put(o.get("id")+"",""+ o.get("name"));
 		}
 		return lista;
 	}
@@ -193,7 +199,7 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 			//First shows all the app pages than all the public pages in the menu
 			String sqlMenuByApp = "SELECT m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND type_fk=m.id) then 1 else 0 END) as isInserted  FROM tbl_menu m WHERE (m.action_fk is not null or link is not null) AND m.status=1 AND m.env_fk=:env_fk";
 			String sqlPublicMenu = "SELECT m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND type_fk=m.id) then 1 else 0 END) as isInserted FROM tbl_menu m WHERE (m.action_fk is not null or link is not null) AND m.status=1 AND m.env_fk<>:env_fk AND m.flg_base=1";
-			ResultSet.Record record = Core.query(this.getConnectionName(),sqlMenuByApp)
+			ResultSet.Record recorde = Core.query(this.getConnectionName(),sqlMenuByApp)
 										  .union()
 										  .select(sqlPublicMenu)
 										  .addInt("org_fk", orgId)
@@ -201,7 +207,7 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 										  .addInt("env_fk", appId)
 										  .addInt("env_fk", appId)
 										  .getRecordList();
-			record.RowList.forEach(row->{
+			recorde.RowList.forEach(row->{
 				Menu m = new Menu();					
 				m.setDescr(row.getString("descr"));
 				m.setId(row.getInt("id"));
@@ -241,11 +247,11 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 		String sqlTransationByApp = " SELECT t.id,t.code,t.descr, t.env_fk, (CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='TRANS' AND org_fk=:org_fk AND type_fk=t.id) then 1 else 0 END) as isInserted  "
 				+ " FROM tbl_transaction t"
 				+ " WHERE t.env_fk=:env_fk AND t.status=1";
-		ResultSet.Record record = Core.query(this.getConnectionName(),sqlTransationByApp)
+		ResultSet.Record recorde = Core.query(this.getConnectionName(),sqlTransationByApp)
 								  .addInt("org_fk", orgId)
 								  .addInt("env_fk", appId)
 								  .getRecordList();
-		record.RowList.forEach(row->{
+		recorde.RowList.forEach(row->{
 			Transaction t = new Transaction();
 			t.setId(row.getInt("id"));
 			t.setCode(row.getString("code"));
@@ -264,13 +270,13 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 								+ " FROM tbl_transaction t INNER JOIN tbl_profile p ON p.type_fk=t.id AND p.type='TRANS' AND p.org_fk=:org_fk"
 								+ " RIGHT JOIN tbl_profile_type pt ON pt.id=p.prof_type_fk AND pt.code='ALL' AND pt.descr='ALL PROFILE' "
 								+ " WHERE t.status=1";
-		ResultSet.Record record = Core.query(this.getConnectionName(),sqlTransationByOrg)
+		ResultSet.Record recorde = Core.query(this.getConnectionName(),sqlTransationByOrg)
 				  .addInt("org_fk", orgId)
 				  .addInt("prof_fk", profId)
 				  .addInt("org_fk", orgId)
 				  .getRecordList();
 		List<Transaction> transactions = new ArrayList<>();
-		record.RowList.forEach(row->{
+		recorde.RowList.forEach(row->{
 			Transaction t = new Transaction();
 			t.setId(row.getInt("id"));
 			t.setCode(row.getString("code"));
@@ -296,12 +302,12 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 							+ " FROM tbl_menu m INNER JOIN tbl_profile p ON p.type_fk=m.id AND p.type='MEN' AND p.org_fk=:org_fk"
 							+ " RIGHT JOIN tbl_profile_type pt ON pt.id=p.prof_type_fk AND pt.code='ALL' AND pt.descr='ALL PROFILE' "
 							+ " WHERE (m.action_fk is not null or link is not null) AND m.status=1";
-		ResultSet.Record record = Core.query(this.getConnectionName(),sqlMenuByOrg)
+		ResultSet.Record recorde = Core.query(this.getConnectionName(),sqlMenuByOrg)
 									  .addInt("org_fk", orgId)
 									  .addInt("user_fk", userId)
 									  .addInt("org_fk", orgId)
 									  .getRecordList();
-		record.RowList.forEach(row->{
+		recorde.RowList.forEach(row->{
 			Menu m = new Menu();					
 			m.setDescr(row.getString("descr"));
 			m.setId(row.getInt("id"));
@@ -318,12 +324,12 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 				+ " FROM tbl_transaction t INNER JOIN tbl_profile p ON p.type_fk=t.id AND p.type='TRANS' AND p.org_fk=:org_fk"
 				+ " RIGHT JOIN tbl_profile_type pt ON pt.id=p.prof_type_fk AND pt.code='ALL' AND pt.descr='ALL PROFILE' "
 				+ " WHERE t.status=1";
-		ResultSet.Record record = Core.query(this.getConnectionName(),sqlTransationByOrg)
+		ResultSet.Record recorde = Core.query(this.getConnectionName(),sqlTransationByOrg)
 								  .addInt("org_fk", orgId)
 								  .addInt("user_fk", userId)
 								  .addInt("org_fk", orgId)
 								  .getRecordList();
-		record.RowList.forEach(row->{
+		recorde.RowList.forEach(row->{
 			Transaction t = new Transaction();
 			t.setId(row.getInt("id"));
 			t.setCode(row.getString("code"));

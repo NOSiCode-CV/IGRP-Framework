@@ -15,6 +15,10 @@ public class Config_error_msg extends Model{
 	private String sectionheader_1_text;
 
 	@NotNull()
+	@RParam(rParamName = "p_application")
+	private String application;
+
+	@NotNull()
 	@RParam(rParamName = "p_msg")
 	private String msg;
 	
@@ -34,6 +38,13 @@ public class Config_error_msg extends Model{
 		return this.sectionheader_1_text;
 	}
 	
+	public void setApplication(String application){
+		this.application = application;
+	}
+	public String getApplication(){
+		return this.application;
+	}
+	
 	public void setMsg(String msg){
 		this.msg = msg;
 	}
@@ -43,12 +54,28 @@ public class Config_error_msg extends Model{
 
 
 	public static class Table_1 extends IGRPTable.Table{
+		private String application_tab;
 		private String msg_table;
+		private String id_config;
+		public void setApplication_tab(String application_tab){
+			this.application_tab = application_tab;
+		}
+		public String getApplication_tab(){
+			return this.application_tab;
+		}
+
 		public void setMsg_table(String msg_table){
 			this.msg_table = msg_table;
 		}
 		public String getMsg_table(){
 			return this.msg_table;
+		}
+
+		public void setId_config(String id_config){
+			this.id_config = id_config;
+		}
+		public String getId_config(){
+			return this.id_config;
 		}
 
 	}

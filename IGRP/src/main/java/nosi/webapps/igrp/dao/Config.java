@@ -5,9 +5,13 @@ package nosi.webapps.igrp.dao;
  */
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 
@@ -26,6 +30,9 @@ public class Config extends IGRPBaseActiveRecord<Config> implements Serializable
 	private String name;
 	@Column(nullable=false)
 	private String value;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="CONFIG_FK"),nullable=true)
+	private Application application;
 	
 	public Config(){}
 	
@@ -33,6 +40,14 @@ public class Config extends IGRPBaseActiveRecord<Config> implements Serializable
 		super();
 		this.name = name;
 		this.value = value;
+	}
+
+	public Application getApplication() {
+		return application;
+	}
+
+	public void setApplication(Application application) {
+		this.application = application;
 	}
 
 	public String getName() {

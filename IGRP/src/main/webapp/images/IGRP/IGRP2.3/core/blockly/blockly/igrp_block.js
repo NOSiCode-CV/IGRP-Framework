@@ -23,6 +23,8 @@ function SetupBlockly() {
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.separator;
 		if (type.indexOf('forrmlist_') == 0)
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.formlist;
+		if (type.indexOf('verticalmenu_') == 0)
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.verticalmenu;	
 		if (type.indexOf('grafico_') == 0)
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.grafico;
 		if (type.indexOf('formuu_') == 0)
@@ -43,6 +45,10 @@ function SetupBlockly() {
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.custombutReport;
 		if (type == 'concaty')
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.concat;
+		if (type == 'set_properties')
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.set_properties;
+		if (type == 'set_app_params')
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.paramsVertical;
 		
 		Blockly.Blocks[type] = {
 			init : function() {
