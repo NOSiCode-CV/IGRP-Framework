@@ -113,7 +113,10 @@ public class ImportArquivoController extends Controller {
 		Profile custumizer = new Profile().find().where("user","=", Core.getCurrentUser().getId())
 				.andWhere("profileType.code","=", "customizer."+ Core.findApplicationById(id_dad)).one();
 		
-		if(Core.isNotNull(custumizer))
+		Profile adminApp = new Profile().find().where("user","=", Core.getCurrentUser().getId())
+				.andWhere("profileType.code","=", "admin."+ Core.findApplicationById(id_dad)).one();
+		
+		if(Core.isNotNull(custumizer) || Core.isNotNull(adminApp))
 			view.personalizar_login.setVisible(true);
 		else if(Core.isNull(Core.getCurrentUser().getUserProfile()) || !Core.getCurrentUser().getUserProfile().equals("ADMIN"))
 			view.personalizar_login.setVisible(false);
