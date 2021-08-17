@@ -11,6 +11,9 @@ import nosi.core.webapp.Response;//
 /*----#start-code(packages_import)----*/
 
 import java.util.HashMap;
+
+import org.apache.commons.lang3.StringUtils;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 
@@ -20,7 +23,7 @@ import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
-
+import java.text.Normalizer;
 /*----#end-code----*/
 		
 public class NovoPerfilController extends Controller {
@@ -60,7 +63,9 @@ public class NovoPerfilController extends Controller {
 		}
 		
 		view.igrp_code.setVisible(false); 
-
+		
+		if(Core.isNull(Core.getParam("isEdit")))
+			view.codigo.setVisible(false);;
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -78,9 +83,11 @@ public class NovoPerfilController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		ProfileType pt = new ProfileType();
-
-		pt.setCode(model.getCodigo() + "." + Core.findApplicationById(model.getAplicacao()).getDad());
+				
 		pt.setDescr(model.getNome());
+		String codigo = model.getNome().replace(" ", "_").toLowerCase();
+		String codigoNormalized = StringUtils.stripAccents(codigo);
+		pt.setCode(codigoNormalized + "." + Core.findApplicationById(model.getAplicacao()).getDad());
 		pt.setOrganization(Core.findOrganizationById(model.getOrganica()));
 
 		
@@ -95,7 +102,6 @@ public class NovoPerfilController extends Controller {
 		pt.setFirstPage(new Action().findOne(model.getPrimeira_pagina()));
 		if(Core.findProfileByCode(pt.getCode()) !=null) {
 			Core.setMessageError("Código perfil duplicado");
-			System.out.println("Código perfil duplicado");
 			return this.forward("igrp", "NovoPerfil", "index", this.queryString());
 		}
 		else 
@@ -147,9 +153,9 @@ public class NovoPerfilController extends Controller {
 		model.load();
 		NovoPerfilView view = new NovoPerfilView();		
 				
-		ProfileType p = new ProfileType().findOne(Integer.parseInt(idProf));
-		model.setCodigo(p.getCode());
+		ProfileType p = new ProfileType().findOne(Integer.parseInt(idProf));	
 		view.codigo.propertie().add("disabled", "true");
+		model.setCodigo(p.getCode());
 		model.setNome(p.getDescr());
 		model.setAplicacao(p.getApplication().getId());
 	
@@ -191,7 +197,7 @@ public class NovoPerfilController extends Controller {
 //			GroupServiceRest groupRest = new GroupServiceRest();
 //			GroupService group = new GroupService();
 //			groupRest.delete(p.getOrganization().getCode() + "." + p.getCode());
-			p.setCode(model.getCodigo());
+			//p.setCode(model.getCodigo());
 			p.setDescr(model.getNome());
 			p.setOrganization(Core.findOrganizationById(model.getOrganica()));
 		
