@@ -46,8 +46,8 @@ public class PesquisarMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Aliqua lorem sit anim deserunt lorem laudantium anim consectetur magna voluptatem iste laudantium st' as t1_menu_principal,'1' as ativo,'9' as ordem,'Dolor aperiam ipsum stract rem' as icon,'Dolor doloremque anim perspiciatis sed rem laudantium aperiam consectetur sed natus ut sed elit lore' as table_titulo,'Aperiam ipsum sit accusantium sed rem officia deserunt sit aperiam omnis adipiscing sed deserunt und' as pagina,'1' as checkbox,'hidden-210f_7058' as id "));
-		model.loadFormlist_1(Core.query(null,"SELECT 'Accusantium consectetur sed doloremque laudantium' as pagina_order,'hidden-5f9d_bac0' as id_page_ord,'hidden-afa9_0179' as id_pai,'hidden-0f01_c330' as id_do_pai "));
+		model.loadTable_1(Core.query(null,"SELECT 'Totam officia iste ut ipsum accusantium iste sit omnis rem laudantium deserunt accusantium natus des' as t1_menu_principal,'1' as ativo,'25' as ordem,'Aliqua anim totam natus volupt' as icon,'Rem adipiscing sed deserunt adipiscing omnis labore lorem sed totam voluptatem totam ipsum aliqua la' as table_titulo,'Lorem unde anim perspiciatis aperiam consectetur rem laudantium officia laudantium adipiscing labore' as pagina,'1' as checkbox,'hidden-a3f7_7e27' as id "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Consectetur stract laudantium ipsum mollit' as pagina_order,'hidden-c12f_2540' as id_page_ord,'hidden-7901_8043' as id_pai,'hidden-b089_7b47' as id_do_pai "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/* Start-Code-Block (index) *//* End-Code-Block (index) */
@@ -163,7 +163,6 @@ public class PesquisarMenuController extends Controller {
 		  ----#gen-example */
 		/* Start-Code-Block (btn_novo)  *//* End-Code-Block  */
 		/*----#start-code(btn_novo)----*/
-		//this.addQueryString("p_app", Core.getParam("p_aplicacao"));
 		return this.redirect("igrp", "NovoMenu", "index&p_app="+Core.getParam("p_aplicacao"), this.queryString());
 		/*----#end-code----*/
 			
@@ -226,19 +225,14 @@ public class PesquisarMenuController extends Controller {
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
 		  this.addQueryString("p_id",Core.getParam("p_id"));
-		  return this.forward("igrp","PesquisarMenu","index",this.queryString()); //if submit, loads the values
+		  return this.forward("igrp","NovoMenu","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/* Start-Code-Block (editar)  *//* End-Code-Block  */
 		/*----#start-code(editar)----*/
-		String id = Core.getParam("p_id");
-		if (Core.isNotNull(id)) {
-			this.addQueryString("p_id", id);
-			return this.redirect("igrp", "NovoMenu", "index", this.queryString());
-		}
-
+		return this.redirect("igrp","NovoMenu","index&p_id="+Core.getParam("p_id"), this.queryString());
 		/*----#end-code----*/
-		return this.redirect("igrp","PesquisarMenu","index", this.queryString());	
+			
 	}
 	
 	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{

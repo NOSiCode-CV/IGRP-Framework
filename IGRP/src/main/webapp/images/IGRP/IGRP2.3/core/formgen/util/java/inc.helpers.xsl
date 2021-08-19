@@ -55,9 +55,14 @@
 		<xsl:call-template name="blockly.getValue">			
 				<xsl:with-param name="value" select="*[@name='value1']"/>				
 			</xsl:call-template>			
-		</xsl:variable>															
+		</xsl:variable>	
+		<xsl:variable name="nameCap">
+			<xsl:call-template name="InitCap">
+				<xsl:with-param name="text" select="$action"/>
+			</xsl:call-template>
+		</xsl:variable>														
 		<xsl:value-of select="$newlineTab1"/>
-		<xsl:text>public Response action</xsl:text><xsl:value-of select="$action"/><xsl:text>() throws IllegalArgumentException{</xsl:text>
+		<xsl:text>public Response action</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>() throws IllegalArgumentException{</xsl:text>
 		<xsl:value-of select="$newlineTab2"/>
 		<xsl:text>nosi.core.webapp.helpers.RemoteXML remoteXml = Core.remoteXml();</xsl:text>
 		<xsl:value-of select="$newlineTab2"/>

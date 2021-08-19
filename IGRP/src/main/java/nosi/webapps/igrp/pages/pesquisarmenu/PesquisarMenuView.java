@@ -133,7 +133,7 @@ public class PesquisarMenuView extends View {
 		btn_gravar_ordenacao = new IGRPButton("Gravar Ordenação","igrp","PesquisarMenu","gravar_ordenacao","submit_ajax","primary|fa-sort-numeric-asc","","");
 		btn_gravar_ordenacao.propertie.add("type","specific").add("rel","gravar_ordenacao").add("refresh_components","table_1,formlist_1");
 
-		btn_editar = new IGRPButton("Editar","igrp","PesquisarMenu","editar","right_panel_submit|refresh","warning|fa-pencil","","");
+		btn_editar = new IGRPButton("Editar","igrp","PesquisarMenu","editar","right_panel|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("id","button_edcd_6e25").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarMenu","eliminar","alert_submit","danger|fa-trash","","");
