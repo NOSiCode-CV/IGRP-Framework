@@ -164,7 +164,6 @@ public class NovoPerfilController extends Controller {
 		NovoPerfilView view = new NovoPerfilView();		
 				
 		ProfileType p = new ProfileType().findOne(Integer.parseInt(idProf));	
-		view.codigo.propertie().add("disabled", "true");
 		model.setCodigo(p.getCode());
 		model.setNome(p.getDescr());
 		model.setAplicacao(p.getApplication().getId());
