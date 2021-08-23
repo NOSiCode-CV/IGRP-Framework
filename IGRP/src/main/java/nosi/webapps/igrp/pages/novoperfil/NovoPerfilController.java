@@ -39,6 +39,7 @@ public class NovoPerfilController extends Controller {
 		view.perfil_pai.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.primeira_pagina.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 
 		String dad = Core.getCurrentDad();
@@ -64,8 +65,6 @@ public class NovoPerfilController extends Controller {
 		
 		view.igrp_code.setVisible(false); 
 		
-		if(Core.isNull(Core.getParam("isEdit")))
-			view.codigo.setVisible(false);;
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -81,13 +80,12 @@ public class NovoPerfilController extends Controller {
 		  return this.forward("igrp","NovoPerfil","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gravar)  *//* End-Code-Block  */
 		/*----#start-code(gravar)----*/
 		ProfileType pt = new ProfileType();
 				
 		pt.setDescr(model.getNome());
-		String codigo = model.getNome().replace(" ", "_").toLowerCase();
-		String codigoNormalized = StringUtils.stripAccents(codigo);
-		pt.setCode(codigoNormalized + "." + Core.findApplicationById(model.getAplicacao()).getDad());
+		pt.setCode(model.getCodigo());
 		pt.setOrganization(Core.findOrganizationById(model.getOrganica()));
 
 		
@@ -130,11 +128,23 @@ public class NovoPerfilController extends Controller {
 		/*----#end-code----*/
 			
 	}
-	
-		
-		
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 
+  		public Response actionFillCodigo() throws IllegalArgumentException{
+		nosi.core.webapp.helpers.RemoteXML remoteXml = Core.remoteXml();
+		
+		String nome = Core.getParam("p_nome");
+		Integer idApp = Core.getParamInt("p_aplicacao");
+		String codigo =	nome.replace(" ", "_").toLowerCase();
+		String codigoNormalized = StringUtils.stripAccents(codigo);
+		String codigoFinal = codigoNormalized + "." + Core.findApplicationById(idApp).getDad();
+		remoteXml.addPropertie("codigo", codigoFinal);
+		String xml = remoteXml.build();
+		this.format = Response.FORMAT_XML;
+		return this.renderView( xml );
+	}
+  	
 	private Boolean insertProfile(ProfileType pt) throws IOException {
 		Profile prof = new Profile();
 		prof.setUser(Core.getCurrentUser());
@@ -197,7 +207,7 @@ public class NovoPerfilController extends Controller {
 //			GroupServiceRest groupRest = new GroupServiceRest();
 //			GroupService group = new GroupService();
 //			groupRest.delete(p.getOrganization().getCode() + "." + p.getCode());
-			//p.setCode(model.getCodigo());
+			p.setCode(model.getCodigo());
 			p.setDescr(model.getNome());
 			p.setOrganization(Core.findOrganizationById(model.getOrganica()));
 		
