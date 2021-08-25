@@ -38,7 +38,7 @@ var GEN = null,
 	blockyInit = false,
 	globalAjaxData ="",
     COMPARISON, RETURNS, CORE_SET, CORE_GET, CORE_ATUAL, CORE_CONVERT, ORDER, FIND, CHECK_SELECT, TIPO, WHERE, FILTER, ANDOR, FINDLIST,FINDLISTDAO, 
-	TRU_FAL, CRUD, CORE_VERIFY, COLLECTORS, NOADD, PROP, MESSAGES, TARGET, STYLE, CHILD;
+	TRU_FAL, CRUD, CORE_VERIFY, COLLECTORS, NOADD, PROP, MESSAGES, TARGET, STYLE, CHILD, WHERE_FIL, PERCENT;
 	COLLECTORS = [["Count", "counting"],["Sum", "summingLong"],["Average", "averagingInt"], ["Max", ""],["Min", "minBy"]],
 	COMPARISON = [["==", "=="],["!=", "!="],[">=", ">="], ["<=", "<="],[">=", ">="], [">", ">"], ["<", "<"]],
 	RETURNS = [["forward", "forward"],["redirect", "redirect"]], 
@@ -68,12 +68,15 @@ var GEN = null,
 	TIPO = [["Inteiro", "Inteiro"],["Data", "Data"],["Texto", "Texto"]],
 	WHERE = [["=", "WHERE_EQ"],["!=", "WHERE_DIF"],["<", "WHERE_LT"],["<=", "WHERE_LTE"],[">", "WHERE_GT"],[">=", "WHERE_GTE"],
 		["like", "WHERE_LIKE"],["notlike", "WHERE_NOTLIKE"],["in", "IN"]],
+	WHERE_FIL = [["=", "WHERE_EQQ"],["!=", "WHERE_DIFF"],["<", "WHERE_LTT"],["<=", "WHERE_LTEE"],[">", "WHERE_GTT"],[">=", "WHERE_GTEE"],
+		["equals", "par_equall"],["not equals", "par_not_equall"], ["contains", "par_contains"], ["equals Ignore Case", "par_equalsIgnoreCase"]],
 	FILTER = [["andWhere", "andWhere"],["andWhereIsNull", "andWhereIsNull"],["andWhereNotNull", "andWhereNotNull"],
 		["andWhereBetween", "andWhereBetween"],	["orWhere", "orWhere"],["orWhereIsNull", "orWhereIsNull"],["orWhereNotNull", "orWhereNotNull"],
 		["orWhereBetween", "orWhereBetween"], ["having", "having"],["where", "where"],["whereIn", "whereIn"],["whereNotIn", "whereNotIn"]],
 	ANDOR = [["and", "and"],["or", "or"]], 
 	TRU_FAL = [["true", "true"],["false", "false"]], 
-	CHILD = [["1", "1"], ["2", "2"], ["3", "3"]], 
+	CHILD = [["1", "1"], ["2", "2"], ["3", "3"]],
+	PERCENT = [["percent", "percent"]], 
 	STYLE = [["Link", "link"],["Primary", "primary"], ["Success", "success"], ["Info", "info"], ["Warning", "warning"], ["Danger", "danger"],
 	["Purple", "purple"], ["Grey", "grey"], ["Black", "black"], ["Default", "default"]],
 	TARGET = [["Submit Ajax", "submit_ajax"], ["Alert Submit", "alert_submit"],["Back", "_back"], ["Change Source", "changesrc"], ["Close", "_close"],
@@ -731,7 +734,7 @@ $('#active_selenium').on('click', function() {
 			var	 carousel = $(element).prop('tagName');
 			addcarousel++;
 			if(addcarousel == 1){
-			$('#toolbox').append('<category id="carousel" name="Carousel" colour="160" class="blocly-dynamic"></category>'	
+			$('#toolbox').append('<category id="carousel" name="Carousel" colour="140" class="blocly-dynamic"></category>'	
 					+'<sep class="blocly-dynamic"></sep>');
 			}	
 			var getColumnsBlock = function(){
@@ -750,8 +753,8 @@ $('#active_selenium').on('click', function() {
 			};
 			
 			$('#carousel').append(
-				'<category id="'+carousel+'" name="'+carousel+'" colour="160" class="blocly-dynamic">'
-					+'<block type="listar_'+carousel+'" color="160" mutator="where" prev-statement="" next-statement="" inline="true">'
+				'<category id="'+carousel+'" name="'+carousel+'" colour="140" class="blocly-dynamic">'
+					+'<block type="listar_'+carousel+'" color="140" mutator="where" prev-statement="" next-statement="" inline="true">'
 						+'<value name="value1" type="dummy">'
 							+'<field type="dropdown" name="table" title="'+carousel+'"></field>'
 							+'<field type="comment" options="This block is used to list datas from a DAO class in one table."></field>'
@@ -1434,7 +1437,7 @@ $('#active_selenium').on('click', function() {
 						rtn+= '<block type="statfields_'+f[1]+'" prev-statement="" next-statement="" color="300">'
 						+'<value type="dummy" name="fields_model">'
 							+'<field type="text" options="set '+f[0]+'"></field>'
-							+'<field type="dropdown" name="collectors" options="IGRP_BLOCKLY_DROPS.collectors"></field>'
+							+'<field type="dropdown" name="collectors" options="IGRP_BLOCKLY_DROPS.percent"></field>'
 							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'	
 						+'</value><next>';	
 						
@@ -1454,14 +1457,19 @@ $('#active_selenium').on('click', function() {
 			
 			$('#circlestatbox').append(
 					'<category id="'+circlestatbox+'" name="'+circlestatbox+'" colour="70" class="blocly-dynamic">'
-						+'<block type="sttbox_'+circlestatbox+'" color="70" mutator="where" prev-statement="" next-statement="" inline="true">'
+						+'<block type="circle_statbox_'+circlestatbox+'" color="70" mutator="where" prev-statement="" next-statement="" inline="true">'
 							+'<value name="value1" type="dummy">'
 								+'<field type="dropdown" name="table" title="fill '+circlestatbox+'"></field>'
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 								+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
 							+'</value>'
-							+'<value name="statistics"  title="statistics" type="value">'
+							+'<value name="filter" type="value">'
+								+'<block type="filterr" mutator="filter" output="" color="70" inline="true">'
+									+'<value type="dummy" title="filter" name="fields_model">'
+										+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/filter.svg"></field>'
+									+'</value>'
+								+'</block>'
 							+'</value>'
 							+'<value name="value2" type="statement" check="Linha" >'
 								+getColumnsBlock()
@@ -1833,6 +1841,7 @@ $('#active_selenium').on('click', function() {
 			target : TARGET,
 			style : STYLE,
 			child : CHILD,
+			percent : PERCENT,
 			SEPARATORS : separators,
 			dao_list : daos_list,
 			service_list : services_list,
@@ -1901,6 +1910,7 @@ function GetBlocklyImports(){
 			saveformlistImports = $('block[type*="save_forlist"]',xml),
 			graficoImports = $('block[type*="grafico_"]',xml),
 			statboxImports = $('block[type*="sttbox_"]',xml),
+			circleStatboxImports = $('block[type*="circle_statbox_"]',xml),
 			combodaoImports = $('block[type="combo_dao"]',xml),
 			daosImports   = $('block[type*="set-dao-"], block[type*="get-dao-"]',xml),
 			serviceImports   = $('block[type*="get-service-"] , block[type*="get-service-"]',xml),
@@ -1954,6 +1964,8 @@ function GetBlocklyImports(){
 				rtn+='<import type="statbox">'+blockType+'</import>';
 			});	
 		}
+		if(circleStatboxImports[0])
+			rtn+='<import type="circlestatbox">Circle Stat Box</import>';
 		if(inserirImports[0])
 			rtn+='<import type="inserir_dao">Inserir Daos</import>';
 		if(inserirImports2[0])
