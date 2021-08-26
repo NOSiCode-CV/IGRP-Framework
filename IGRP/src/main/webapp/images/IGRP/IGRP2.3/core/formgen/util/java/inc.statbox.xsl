@@ -51,7 +51,7 @@
 		<xsl:value-of select="$newlineTab1"/>					
 		<xsl:text>LongSummaryStatistics value = </xsl:text><xsl:value-of select="$daolow"/><xsl:text>List.stream().collect(Collectors.summarizingLong(</xsl:text><xsl:value-of select="$daolow"/><xsl:text> -> </xsl:text><xsl:value-of select="$collecto_convert"/><xsl:text>));</xsl:text>								
 		<xsl:value-of select="$newlineTab1"/>		
-		<xsl:text>if(!</xsl:text><xsl:value-of select="$daolow"/><xsl:text>List.isEmpty()){</xsl:text>		
+		<xsl:text>if(Core.isNotNull(</xsl:text><xsl:value-of select="$daolow"/><xsl:text>List)){</xsl:text>		
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$options"/>			
 		<xsl:value-of select="$newlineTab1"></xsl:value-of>		
@@ -91,6 +91,9 @@
 			<xsl:value-of select="$tab2"></xsl:value-of>		
 			<xsl:text>model.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text>
 				<xsl:choose>
+					<xsl:when test="$collector = 'percent' ">
+						<xsl:text>String.valueOf(</xsl:text><xsl:value-of select="$collectorValue"/><xsl:text>)</xsl:text>
+					</xsl:when>
 					<xsl:when test="$collector != '' ">
 						<xsl:text>String.valueOf(value</xsl:text><xsl:value-of select="$collectorValue"/><xsl:text>)</xsl:text>
 					</xsl:when>
