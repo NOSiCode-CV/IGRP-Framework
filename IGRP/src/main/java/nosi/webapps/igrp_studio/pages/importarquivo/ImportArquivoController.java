@@ -380,8 +380,11 @@ public class ImportArquivoController extends Controller {
 								String appImgPath = application.getDad();
 								if (model.getTipo() != 1) {
 
-									if (model.getTipo() == 3)
+									if (model.getTipo() == 3) {
+										fileName= fileName.replaceAll("\\s+", "_").replaceAll("\'", "");	
 										appImgPath += File.separator + "reports";
+									}
+										
 									String imgWorkSapce = Path.getImageWorkSpace(appImgPath);
 
 									// Saving in your workspace case exists
