@@ -16,7 +16,8 @@
 	<xsl:include href="inc.return.report.xsl"/>	
 	<xsl:include href="inc.statbox.xsl"/>	
 	<xsl:include href="inc.select.xsl"/>
-	<xsl:include href="inc.vertical.tree.menu.xsl"/>		
+	<xsl:include href="inc.vertical.tree.menu.xsl"/>
+	<xsl:include href="inc.circle.statbox.xsl"/>		
 	
 	<xsl:template name="blockly.element.controller">	
 		<xsl:call-template name="blockly.getValue">
@@ -676,7 +677,13 @@
 			</xsl:when>	
 			<xsl:when test="$block-type = 'getrowStartEnd'">	
 				<xsl:call-template name="blockly.element.getrowStartEnd"></xsl:call-template>				
-			</xsl:when>																				
+			</xsl:when>	
+			<xsl:when test="contains($block-type, 'circle_statbox_')">	
+				<xsl:call-template name="blockly.element.circle_stat_box"></xsl:call-template>				
+			</xsl:when>	
+			<xsl:when test="$block-type = 'filterr'">	
+				<xsl:call-template name="blockly.element.filterr"></xsl:call-template>				
+			</xsl:when>																						
 			<xsl:otherwise>			
 				<xsl:text>Block not found</xsl:text>				
 			</xsl:otherwise>		
