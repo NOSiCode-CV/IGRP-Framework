@@ -61,7 +61,7 @@ public class Path {
 		return null;
 	}
 	
-	public static String getLoginBanner() {
+	public static String getLoginBannerWorkspace() {
 		Config config = new Config();
 		String basePath = config.getWorkspace();
 		if(Core.isNotNull(basePath) && FileHelper.dirExists(basePath)) {
@@ -81,6 +81,10 @@ public class Path {
 	
 	public static String getImageServer(String nameApp) {
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/")+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"assets"+File.separator+"img"+File.separator+nameApp;
+	}
+	
+	public static String getLoginBannerServer() {
+		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/")+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"xml"; 			
 	}
 	
 	public static String getImageServerTxt(String nameApp, String pageApp ) {

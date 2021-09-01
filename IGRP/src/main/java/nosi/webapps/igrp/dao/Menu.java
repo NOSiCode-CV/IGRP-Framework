@@ -28,6 +28,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 
@@ -67,7 +68,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 	@Transient
 	private boolean isInserted;
 	@Transient
-	private final String sqlMenuByProfile = " SELECT prof.org_fk,prof.prof_type_fk,m_sub.*,"
+	private static final  String sqlMenuByProfile = " SELECT prof.org_fk,prof.prof_type_fk,m_sub.*,"
 								 + " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai," 
 								 + " ac.page,ac.action,ac.versao,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile, "
 								 + " case WHEN (m_super.self_fk is not null AND m_super.self_fk=m_super.id) then 1 else 0 END as isSubMenuAndSuperMenu " 
@@ -79,7 +80,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 								 + " LEFT JOIN tbl_env env_prof ON env_prof.id=prof_type.env_fk "
 								 + " WHERE prof.org_fk=:org_fk AND prof.prof_type_fk=:prof_type_fk AND env_prof.dad=:dad AND m_sub.status=:status";
 	@Transient
-	private final String sqlMenuByUser = " SELECT prof.org_fk,prof.prof_type_fk,m_sub.*,"
+	private static final String sqlMenuByUser = " SELECT prof.org_fk,prof.prof_type_fk,m_sub.*,"
 								 + " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai," 
 								 + " ac.page,ac.action,ac.versao,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile, "
 								 + " case WHEN (m_super.self_fk is not null AND m_super.self_fk=m_super.id) then 1 else 0 END as isSubMenuAndSuperMenu " 
@@ -187,13 +188,13 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 
 	public boolean getPermissionMen(String app,String page) {
 		
-		Menu m = new Menu().find()
+		Long m = new Menu().find()
 				.andWhere("application", "=",Core.findApplicationByDad(app).getId())
 				.andWhere("action", "=",new Action().findByPage(page, app).getId())				
 				.andWhere("status", "=", 1)
 				.orWhere("flg_base","=",1)
-				.one();
-		return m!=null; 
+				.getCount();
+		return m>0; 
 	}
 	
 	public List<Menu> getMyMen_de_env(int env_fk) {
@@ -237,9 +238,9 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				ms.setTarget(r.getString("target"));
 				ms.setStatus(r.getShort("status"));
 				ms.setMenu_icon(r.getString("menu_icon"));
-				String link = r.getString("link"); 
-				if(link != null && !link.isEmpty()) { 
-					ms.setLink(link); 
+				String linky = r.getString("link"); 
+				if(linky != null && !linky.isEmpty()) { 
+					ms.setLink(linky); 
 					ms.setType(2);
 				}else {
 					Action pagina = new Action().find().andWhere("page", "=", r.getString("page")).andWhere("application.dad", "=", r.getString("dad_app_page")).one();
@@ -298,7 +299,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		return list;
 	}
 
-	public LinkedHashMap<Integer, String> getListPrincipalMenus() {
+	public Map<Integer, String> getListPrincipalMenus() {
 		LinkedHashMap<Integer,String> lista = new LinkedHashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
 		for(Menu m:this.findAll(this.getCriteria().where(this.getBuilder().isNull(this.getRoot().get("menu"))))){
@@ -307,17 +308,17 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		return lista;
 	}	
 	
-	public LinkedHashMap<Integer, String> getListPrincipalMenus(int app) {
+	public Map<Integer, String> getListPrincipalMenus(int app) {
 		LinkedHashMap<Integer,String> lista = new LinkedHashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		List<Menu> aux = this.find().andWhere("application", "=",app).andWhere("menu", "isnull").all();
-		for(Menu m : aux){
-			lista.put(m.getId(),m.getDescr());
+		List<Map<String,Object>> aux = this.find().andWhere("application", "=",app).andWhere("menu", "isnull").allColumns("id","descr");
+		for(Map<String,Object> m : aux){
+			lista.put((Integer) m.get("id"),m.get("descr")+"");
 		}
 		return lista;
 	}
 	//Returns the actions/Pages of all the items of the menu of a app 
-	public LinkedHashMap<Integer, String> getListAction(int app) {
+	public Map<Integer, String> getListAction(int app) {
 		LinkedHashMap<Integer,String> lista = new LinkedHashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
 		List<Menu> aux = this.find()				
@@ -337,7 +338,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 	}	
 	
 	//Returns the actions/Pages of all the items of the menu of a app of a Org
-	public LinkedHashMap<Integer, String> getListActionByOrg(int appID, int orgID) {
+	public Map<Integer, String> getListActionByOrg(int appID, int orgID) {
 		LinkedHashMap<Integer,String> lista = new LinkedHashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
 	

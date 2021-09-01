@@ -587,9 +587,7 @@
 			widget.html.on('click', '#search-div-admin', function(){
 				
 				input[0].setAttribute('disabled', true);
-				
-				console.log(widget.activeDivAdmin )
-				
+								
 				if (!widget.activeDivAdmin){
 					
 					widget.activeDivAdmin =  true;

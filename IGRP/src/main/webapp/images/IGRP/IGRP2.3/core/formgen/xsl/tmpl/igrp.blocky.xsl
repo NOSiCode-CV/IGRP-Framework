@@ -8,9 +8,9 @@
 						<tr id="tabRow" height="1em">						
 							<td id="tab_blocks" class="tabon">Blocks</td>							
 							<td class="tabmax">							
- 								<button id="refresh_bloco" type="button">Refresh Workspace</button>  								
-								<button id="save_bloco_igrp" type="button">Save Blocks</button>								
-								<button id="restore_bloco_igrp" type="button">Restore Blocks</button>								
+<!--  								<button id="refresh_bloco" type="button">Refresh Workspace</button>  								 -->
+<!-- 								<button id="save_bloco_igrp" type="button">Save Blocks</button>								 -->
+<!-- 								<button id="restore_bloco_igrp" type="button">Restore Blocks</button>								 -->
 <!-- 								<button onclick="saveCode()">Salvar Java Code</button> -->
 								<input type="file" id="load" style="display: none;" />								
 								<button id="trashButton" class="notext" title="...">								
@@ -145,7 +145,13 @@
 						<field type="image" name="img" src="{$path}/core/blockly/blockly/media/igrpweb_logo.png" field-width="30" field-height="15"></field>
 						<field type="dropdown" name="CORE_FUNCTION" options="IGRP_BLOCKLY_DROPS.core_convert"></field>						
 					</value>
-				</block>						
+				</block>
+				<block type="core_fun_verify" output="" color="1">
+					<value name="value_default" type="value" title="Core">
+						<field type="image" name="img" src="{$path}/core/blockly/blockly/media/igrpweb_logo.png" field-width="30" field-height="15"></field>
+						<field type="dropdown" name="CORE_FUNCTION" options="IGRP_BLOCKLY_DROPS.core_verify"></field>						
+					</value>
+				</block>							
 			</category>
 			<sep></sep>			
 		</xml>		

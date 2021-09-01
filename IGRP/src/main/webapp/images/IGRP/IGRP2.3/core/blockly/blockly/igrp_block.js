@@ -23,6 +23,8 @@ function SetupBlockly() {
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.separator;
 		if (type.indexOf('forrmlist_') == 0)
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.formlist;
+		if (type.indexOf('verticalmenu_') == 0)
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.verticalmenu;	
 		if (type.indexOf('grafico_') == 0)
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.grafico;
 		if (type.indexOf('formuu_') == 0)
@@ -33,6 +35,8 @@ function SetupBlockly() {
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.inserir_dao;
 		if (type.indexOf('sttbox_') == 0)
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.statbox;
+		if (type.indexOf('circle_statbox_') == 0)
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.circle_statbox;
 		if (type == 'checkbox_table')
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.checkbox_table;
 		if (type == 'core_fun_set')
@@ -43,6 +47,12 @@ function SetupBlockly() {
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.custombutReport;
 		if (type == 'concaty')
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.concat;
+		if (type == 'set_properties')
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.set_properties;
+		if (type == 'set_app_params')
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.paramsVertical;
+		if (type == 'filterr')
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.filterr;
 		
 		Blockly.Blocks[type] = {
 			init : function() {
@@ -121,7 +131,7 @@ function SetupBlockly() {
 				if (nextStatement)
 					block.setNextStatement(true, element.attr('next-statement'));
 				if (mutateValue)
-					block.setMutator(new Blockly.Mutator(mutateValue.split(',')));
+					block.setMutator(new Blockly.Mutator(mutateValue.split(',')));	
 				if (color)
 					block.setColour(color);
 				if (coment)
@@ -166,6 +176,24 @@ Blockly.Blocks['where_t'] = {
 Blockly.Blocks['where'] = {
 	init : function() {
 		this.appendDummyInput().appendField("where");
+		this.setPreviousStatement(true);
+		this.setNextStatement(true);
+		this.setColour(230);
+	},
+};
+
+Blockly.Blocks['filter_t'] = {
+	init : function() {
+		this.appendDummyInput().appendField("add filter");
+		this.appendStatementInput("SCRIPT");
+		this.setNextStatement(true);
+		this.setColour(230);
+	},
+};
+
+Blockly.Blocks['filter'] = {
+	init : function() {
+		this.appendDummyInput().appendField("filter");
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
 		this.setColour(230);

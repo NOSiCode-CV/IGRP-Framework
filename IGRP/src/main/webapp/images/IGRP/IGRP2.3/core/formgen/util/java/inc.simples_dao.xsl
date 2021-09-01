@@ -105,8 +105,7 @@
 					</xsl:with-param>
 				</xsl:call-template>				
 			</xsl:otherwise>
-		</xsl:choose>	
-		
+		</xsl:choose>			
 	</xsl:template>
 	
 	<xsl:template name="blockly.element.insert_simple_dao">

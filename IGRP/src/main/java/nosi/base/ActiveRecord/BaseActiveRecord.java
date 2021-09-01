@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 
+import jd.core.model.instruction.bytecode.instruction.InstanceOf;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.ORDERBY;
@@ -266,8 +267,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Override
 	public T andWhere(String name, String operator, String[] values) {
 		if(values!=null) {
-			String[] values_ = this.normalizeStringVlaues(values);
-			String value = this.applyToInCondition(values_);
+			String value="('')";
+			if(values.length>0){
+				String[] values_ = this.normalizeStringVlaues(values);
+				value = this.applyToInCondition(values_);
+			}			
 			this.and();
 			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
 		}
@@ -938,6 +942,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 					System.out.println(this.getSql());
 				}
 				Query query = s.createQuery(this.getSql());
+			
 				if (this.offset > -1) {
 					query.setFirstResult(offset);
 				}
@@ -948,15 +953,23 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				if (this.parametersMap != null && !this.parametersMap.isEmpty()) {
 					for (Iterator<DatabaseMetadaHelper.Column> i = parametersMap.iterator(); i.hasNext();) {
 						Column col = i.next();
-						ParametersHelper.setParameter(query, col.getDefaultValue(), col);
+						ParametersHelper.setParameter(query,col.getColumnMap(), col.getDefaultValue(), col);
+						
 					}
 				}
-				List<Object> list = query.getResultList();
-				for (Iterator<Object> iter = list.iterator(); iter.hasNext();) {
-					Map<String, Object> mapObject = new HashMap<>();
-					Object[] teste = (Object[]) iter.next();
-					for (int i = 0; teste.length > i; i++)
-						mapObject.put(columns[i], teste[i]);
+
+				List<T> list = query.getResultList();
+				for (Iterator<Object> iter = (Iterator<Object>) list.iterator(); iter.hasNext();) {
+					Map<String, Object> mapObject = new HashMap<>();					
+					final Object obj = iter.next();
+					if(obj instanceof Object[]) {
+						Object[] teste = (Object[]) obj;
+						for(int i = 0; teste.length > i; i++)
+							mapObject.put(columns[i], teste[i]);
+					}else {
+						mapObject.put(columns[0], obj);						
+					}
+					
 					lista.add(mapObject);
 				}
 			} catch (Exception e) {

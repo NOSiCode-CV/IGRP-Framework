@@ -11,6 +11,9 @@ import nosi.core.webapp.Response;//
 /*----#start-code(packages_import)----*/
 
 import java.util.HashMap;
+
+import org.apache.commons.lang3.StringUtils;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 
@@ -20,7 +23,7 @@ import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
-
+import java.text.Normalizer;
 /*----#end-code----*/
 		
 public class NovoPerfilController extends Controller {
@@ -36,6 +39,7 @@ public class NovoPerfilController extends Controller {
 		view.perfil_pai.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.primeira_pagina.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 
 		String dad = Core.getCurrentDad();
@@ -60,7 +64,7 @@ public class NovoPerfilController extends Controller {
 		}
 		
 		view.igrp_code.setVisible(false); 
-
+		
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -76,11 +80,12 @@ public class NovoPerfilController extends Controller {
 		  return this.forward("igrp","NovoPerfil","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gravar)  *//* End-Code-Block  */
 		/*----#start-code(gravar)----*/
 		ProfileType pt = new ProfileType();
-
-		pt.setCode(model.getCodigo() + "." + Core.findApplicationById(model.getAplicacao()).getDad());
+				
 		pt.setDescr(model.getNome());
+		pt.setCode(model.getCodigo());
 		pt.setOrganization(Core.findOrganizationById(model.getOrganica()));
 
 		
@@ -95,7 +100,6 @@ public class NovoPerfilController extends Controller {
 		pt.setFirstPage(new Action().findOne(model.getPrimeira_pagina()));
 		if(Core.findProfileByCode(pt.getCode()) !=null) {
 			Core.setMessageError("Código perfil duplicado");
-			System.out.println("Código perfil duplicado");
 			return this.forward("igrp", "NovoPerfil", "index", this.queryString());
 		}
 		else 
@@ -124,11 +128,23 @@ public class NovoPerfilController extends Controller {
 		/*----#end-code----*/
 			
 	}
-	
-		
-		
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 
+  		public Response actionFillCodigo() throws IllegalArgumentException{
+		nosi.core.webapp.helpers.RemoteXML remoteXml = Core.remoteXml();
+		
+		String nome = Core.getParam("p_nome");
+		Integer idApp = Core.getParamInt("p_aplicacao");
+		String codigo =	nome.replace(" ", "_").toLowerCase();
+		String codigoNormalized = StringUtils.stripAccents(codigo);
+		String codigoFinal = codigoNormalized + "." + Core.findApplicationById(idApp).getDad();
+		remoteXml.addPropertie("codigo", codigoFinal);
+		String xml = remoteXml.build();
+		this.format = Response.FORMAT_XML;
+		return this.renderView( xml );
+	}
+  	
 	private Boolean insertProfile(ProfileType pt) throws IOException {
 		Profile prof = new Profile();
 		prof.setUser(Core.getCurrentUser());
@@ -147,9 +163,8 @@ public class NovoPerfilController extends Controller {
 		model.load();
 		NovoPerfilView view = new NovoPerfilView();		
 				
-		ProfileType p = new ProfileType().findOne(Integer.parseInt(idProf));
+		ProfileType p = new ProfileType().findOne(Integer.parseInt(idProf));	
 		model.setCodigo(p.getCode());
-		view.codigo.propertie().add("disabled", "true");
 		model.setNome(p.getDescr());
 		model.setAplicacao(p.getApplication().getId());
 	

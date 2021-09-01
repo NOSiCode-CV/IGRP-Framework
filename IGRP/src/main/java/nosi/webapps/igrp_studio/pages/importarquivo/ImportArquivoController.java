@@ -29,6 +29,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
+import nosi.webapps.igrp.dao.Profile;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import java.util.List;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class ImportArquivoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as imagem_tbl,'hidden-8a50_78c9' as id_img "));
+		model.loadFormlist_1(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as imagem_tbl,'hidden-681d_3cb8' as id_img "));
 		view.aplicacao_script.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.aplicacao_combo_img.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -109,7 +110,15 @@ public class ImportArquivoController extends Controller {
 			e.printStackTrace();
 		}
 		
-		if(!Core.getCurrentUser().getUserProfile().equals("ADMIN"))
+		Profile custumizer = new Profile().find().where("user","=", Core.getCurrentUser().getId())
+				.andWhere("profileType.code","=", "customizer."+ Core.findApplicationById(id_dad)).one();
+		
+		Profile adminApp = new Profile().find().where("user","=", Core.getCurrentUser().getId())
+				.andWhere("profileType.code","=", "admin."+ Core.findApplicationById(id_dad)).one();
+		
+		if(Core.isNotNull(custumizer) || Core.isNotNull(adminApp))
+			view.personalizar_login.setVisible(true);
+		else if(Core.isNull(Core.getCurrentUser().getUserProfile()) || !Core.getCurrentUser().getUserProfile().equals("ADMIN"))
 			view.personalizar_login.setVisible(false);
 			
 		/*----#end-code----*/
@@ -131,6 +140,7 @@ public class ImportArquivoController extends Controller {
 		/*----#start-code(gravar)----*/
 
 		XMLWritter xml = new XMLWritter();
+		
 		try {
 
 			for (ImportArquivo.Formlist_1 row : model.getFormlist_1()) {
@@ -159,7 +169,10 @@ public class ImportArquivoController extends Controller {
 				}			
 			}
 			String novoLoginBanner = gerarXmlBanner(xml.toString());
-			FileHelper.save(Path.getLoginBanner(), "IGRP-login-banner.xml", novoLoginBanner);
+			String workSpaceBa = Path.getLoginBannerWorkspace();
+			if (Core.isNotNull(workSpaceBa))
+				FileHelper.save(Path.getLoginBannerWorkspace(), "IGRP-login-banner.xml", novoLoginBanner);
+			FileHelper.save(Path.getLoginBannerServer(), "IGRP-login-banner.xml", novoLoginBanner);
 			Core.setMessageSuccess();
 
 		} catch (Exception e) {
@@ -452,7 +465,10 @@ public class ImportArquivoController extends Controller {
 			if (r) {
 				Core.setMessageSuccess();
 				String novoLoginBanner = gerarXmlBanner("");
-				FileHelper.save(Path.getLoginBanner(), "IGRP-login-banner.xml", novoLoginBanner);
+				String workSpaceBa = Path.getLoginBannerWorkspace();
+				if (Core.isNotNull(workSpaceBa))
+					FileHelper.save(Path.getLoginBannerWorkspace(), "IGRP-login-banner.xml", novoLoginBanner);
+				FileHelper.save(Path.getLoginBannerServer(), "IGRP-login-banner.xml", novoLoginBanner);
 			} else
 				Core.setMessageError();
 

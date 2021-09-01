@@ -23,13 +23,8 @@
 			<xsl:call-template name="convert_blocks">
 				<xsl:with-param name="daolow" select="$daolow"></xsl:with-param>
 				<xsl:with-param name="value" select="$collecto"></xsl:with-param>
-				<xsl:with-param name="valueblock" select="wherevalue"></xsl:with-param>
 				<xsl:with-param name="from" select="$collecto_type"></xsl:with-param>
 				<xsl:with-param name="to" select="'Long'"></xsl:with-param>
-				<xsl:with-param name="neto" select="neto"></xsl:with-param>
-				<xsl:with-param name="valuechild" select="valuechild"></xsl:with-param>
-				<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>
-				<xsl:with-param name="block_name" select="block_name"></xsl:with-param>
 			</xsl:call-template>	
 		</xsl:variable>	
 		<xsl:variable name="daofilter" select="concat($daolow,'filter')"/>		
@@ -56,7 +51,7 @@
 		<xsl:value-of select="$newlineTab1"/>					
 		<xsl:text>LongSummaryStatistics value = </xsl:text><xsl:value-of select="$daolow"/><xsl:text>List.stream().collect(Collectors.summarizingLong(</xsl:text><xsl:value-of select="$daolow"/><xsl:text> -> </xsl:text><xsl:value-of select="$collecto_convert"/><xsl:text>));</xsl:text>								
 		<xsl:value-of select="$newlineTab1"/>		
-		<xsl:text>if(!</xsl:text><xsl:value-of select="$daolow"/><xsl:text>List.isEmpty()){</xsl:text>		
+		<xsl:text>if(Core.isNotNull(</xsl:text><xsl:value-of select="$daolow"/><xsl:text>List)){</xsl:text>		
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$options"/>			
 		<xsl:value-of select="$newlineTab1"></xsl:value-of>		
@@ -96,6 +91,9 @@
 			<xsl:value-of select="$tab2"></xsl:value-of>		
 			<xsl:text>model.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text>
 				<xsl:choose>
+					<xsl:when test="$collector = 'percent' ">
+						<xsl:text>String.valueOf(</xsl:text><xsl:value-of select="$collectorValue"/><xsl:text>)</xsl:text>
+					</xsl:when>
 					<xsl:when test="$collector != '' ">
 						<xsl:text>String.valueOf(value</xsl:text><xsl:value-of select="$collectorValue"/><xsl:text>)</xsl:text>
 					</xsl:when>
@@ -105,11 +103,7 @@
 						<xsl:with-param name="value" select="$valorA"></xsl:with-param>					
 						<xsl:with-param name="valueblock" select="$statValue"></xsl:with-param>					
 						<xsl:with-param name="from" select="$typechild"></xsl:with-param>					
-						<xsl:with-param name="to" select="$statType"></xsl:with-param>					
-						<xsl:with-param name="neto" select="$typeneto"></xsl:with-param>					
-						<xsl:with-param name="valuechild" select="$valuechild"></xsl:with-param>					
-						<xsl:with-param name="block_namechild" select="block_namechild"></xsl:with-param>					
-						<xsl:with-param name="block_name" select="block_name"></xsl:with-param>					
+						<xsl:with-param name="to" select="$statType"></xsl:with-param>													
 					</xsl:call-template>						
 					</xsl:otherwise>
 				</xsl:choose>						
