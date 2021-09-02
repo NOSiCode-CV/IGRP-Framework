@@ -75,6 +75,18 @@
 		}
 	};
 	
+	/** ***** Mostrar Input Estatistica *************** */
+	var UpdateShape_statistics = function(block, operation) {
+		if (block.getInput("statisValue") != null) {
+			if (operation != 'get_counting') {
+				block.getInput("statisValue").setVisible(true);
+				block.moveInputBefore("statisValue", "value2");
+			} else {
+				block.getInput("statisValue").setVisible(false);
+			}
+		}
+	};
+	
 	/** ***** Mostrar Input Operation *************** */
 	var tempParams=[];
 	var UpdateShape_operation = function(block, operation) {
@@ -262,6 +274,8 @@
 			container.setAttribute('collectors', collectors);
 			var crud = this.getFieldValue('cruddrop');
 			container.setAttribute('crud', crud);
+			var statistDrop = this.getFieldValue('statistDrop');
+			container.setAttribute('statistDrop', statistDrop);
 			var ajax = this.getFieldValue('AJAX');
 			container.setAttribute('ajax', ajax);
 			container.setAttribute('count', this.itemCount_);
@@ -280,6 +294,7 @@
 			var crud = xmlElement.getAttribute('crud');
 			var collectors = xmlElement.getAttribute('collectors');
 			var ajax = xmlElement.getAttribute('ajax');
+			var statistDrop = xmlElement.getAttribute('statistDrop');
 			this.itemCount_ = parseInt(xmlElement.getAttribute('count'));
 			for (var x = 1; x <= this.itemCount_; x++) {
 				arr.push(xmlElement.getAttribute('mutation-' + x));
@@ -291,6 +306,7 @@
 			UpdateShape_collectors(block, collectors);
 			UpdateShape_mut_num(block, this.itemCount_, limit);
 			UpdateShape_ajax(block, ajax);
+			UpdateShape_statistics(block, statistDrop);
 		},
 		decompose : function(workspace) {
 			var containerBlock = workspace.newBlock('where_t');
@@ -568,6 +584,16 @@
 		}, ListMutationSettings),
 
 		statbox : $.extend({
+			init : function(block) {
+				/**** MUTAÇÂO CHECK SUBMIT AJAX *****/
+				var statistDbList = IGRP_BLOCKLY_DROPS.stat_db;
+				var statistDrop = new Blockly.FieldDropdown(statistDbList, function(operation) {
+					UpdateShape_statistics(block, operation);				  
+				});	
+				block.appendDummyInput("enter_statistics").appendField(statistDrop, 'statistDrop');
+				block.appendValueInput("statisValue").setVisible(false);
+				block.moveInputBefore("enter_statistics", "value2");
+			},
 		}, ListMutationSettings),
 
 		index_editar : $.extend({
