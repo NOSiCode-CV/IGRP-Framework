@@ -38,8 +38,9 @@ var GEN = null,
 	blockyInit = false,
 	globalAjaxData ="",
     COMPARISON, RETURNS, CORE_SET, CORE_GET, CORE_ATUAL, CORE_CONVERT, ORDER, FIND, CHECK_SELECT, TIPO, WHERE, FILTER, ANDOR, FINDLIST,FINDLISTDAO, 
-	TRU_FAL, CRUD, CORE_VERIFY, COLLECTORS, NOADD, PROP, MESSAGES, TARGET, STYLE, CHILD, WHERE_FIL, PERCENT;
-	COLLECTORS = [["Count", "counting"],["Sum", "summingLong"],["Average", "averagingInt"], ["Max", ""],["Min", "minBy"]],
+	TRU_FAL, CRUD, CORE_VERIFY, COLLECTORS, NOADD, PROP, MESSAGES, TARGET, STYLE, CHILD, WHERE_FIL, PERCENT, STAT_DB, VALUE;
+	COLLECTORS = [["Count", "counting"],["Sum", "summingLong"],["Average", "averagingInt"], ["Max", "maxBy"],["Min", "minBy"]],
+	STAT_DB = [["get Count", "get_counting"],["get Sum", "get_summingLong"],["get Average", "get_averagingInt"], ["get Max", "get_maxBy"],["get Min", "get_minBy"]],
 	COMPARISON = [["==", "=="],["!=", "!="],[">=", ">="], ["<=", "<="],[">=", ">="], [">", ">"], ["<", "<"]],
 	RETURNS = [["forward", "forward"],["redirect", "redirect"]], 
     CORE_SET = [["set Sending Email", "enviar_email"], ["set Message Sucess", "messageSucess"], ["set Message Error", "messageError"], 
@@ -77,6 +78,7 @@ var GEN = null,
 	TRU_FAL = [["true", "true"],["false", "false"]], 
 	CHILD = [["1", "1"], ["2", "2"], ["3", "3"]],
 	PERCENT = [["percent", "percent"]], 
+	VALUE = [["value", "value"]], 
 	STYLE = [["Link", "link"],["Primary", "primary"], ["Success", "success"], ["Info", "info"], ["Warning", "warning"], ["Danger", "danger"],
 	["Purple", "purple"], ["Grey", "grey"], ["Black", "black"], ["Default", "default"]],
 	TARGET = [["Submit Ajax", "submit_ajax"], ["Alert Submit", "alert_submit"],["Back", "_back"], ["Change Source", "changesrc"], ["Close", "_close"],
@@ -98,7 +100,7 @@ var	daoClasses = {},
 	AppTitle, PageTitle, fullClassService, packageService, pagetitle, fields_model = [], form_id = [], key_model = [], fields_table = [],
 	fields_separator = [], PAGES = [], DOMAINS = [],  Paramyters = [], fields_formlist = [], fields_model_form = [], view_model = [], fields_model_view = [], 
 	chart = [], tables_model = [], separator_model = [],formlist_model = [], form_model = [], buttons_model = [], all_buttons = [], daos_list = [], 
-	services_list = [], bloc_fields = [], smallbox_model = [], addinfopanel= 0, addtimeline = 0,
+	services_list = [], bloc_fields = [], smallbox_model = [], addinfopanel= 0, addtimeline = 0, statbox_model =[],
 	service_fields = [], operations_list = [], imports_insert = [], imports_list = [], fields_esp_row = [], custom_action = [], select = [], checkbox_table = [],
 	addcombo=0, addcheckbox=0, addseparator=0, addforeign=0, addchart=0, addtable =0, addbutton=0, addmodel=0, addcalendar = 0, addcirclestat = 0,
 	addstatbox=0, addsmallbox=0, addformlist=0, addform=0, addview=0, custombutton=0, helpers = [], components =[], addhelpers = 0, but_table = [],
@@ -179,7 +181,7 @@ $('#active_selenium').on('click', function() {
 	 form_id.push(['--','--']), key_model= [], key_model.push(['--','--']), fields_table = [], fields_table.push(['--','--']),
 	 fields_separator = [], fields_separator.push(['--','--']), fields_formlist = [], fields_model_form = [], fields_model_view = [], 
 	 fields_formlist.push(['--','--']), tables_model = [], bloc_fields = [], service_fields = [], separator_model = [], tables_model.push(['--','--']), 
-	 separator_model.push(['--','--']), formlist_model = [], formlist_model.push(['--','--']),  form_model.push(['--','--']), 
+	 separator_model.push(['--','--']), formlist_model = [], formlist_model.push(['--','--']),  form_model.push(['--','--']), statbox_model =[],
 	 buttons_model = [], buttons_model.push([ '--', '--' ]), all_buttons = [], daos_list = [], services_list = [], daos_list.push([ '--', '--' ]),
 	 services_list.push([ '--', '--' ]),  operations_list = [],  operations_list.push([ '--', '--' ]), smallbox_model.push([ '--', '--' ]),
 	 imports_insert = [], imports_insert.push([ '--', '--' ]), imports_list = [], imports_list.push([ '--', '--' ]), fields_esp_row = [], 
@@ -1301,7 +1303,7 @@ $('#active_selenium').on('click', function() {
 						rtn+= '<block type="statfields_'+f[1]+'" prev-statement="" next-statement="" color="300">'
 						+'<value type="dummy" name="fields_model">'
 							+'<field type="text" options="set '+f[0]+'"></field>'
-							+'<field type="dropdown" name="collectors" options="IGRP_BLOCKLY_DROPS.collectors"></field>'
+							+'<field type="dropdown" name="collectors" options="IGRP_BLOCKLY_DROPS.value"></field>'
 							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'	
 						+'</value><next>';							
 					}else{
@@ -1326,8 +1328,6 @@ $('#active_selenium').on('click', function() {
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 								+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-							+'</value>'
-							+'<value name="statistics"  title="statistics" type="value">'
 							+'</value>'
 							+'<value name="value2" type="statement" check="Linha" >'
 								+getColumnsBlock()
@@ -1842,6 +1842,8 @@ $('#active_selenium').on('click', function() {
 			style : STYLE,
 			child : CHILD,
 			percent : PERCENT,
+			stat_db : STAT_DB,
+			value : VALUE,
 			SEPARATORS : separators,
 			dao_list : daos_list,
 			service_list : services_list,

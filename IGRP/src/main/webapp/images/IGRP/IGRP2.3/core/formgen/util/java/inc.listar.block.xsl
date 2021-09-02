@@ -208,10 +208,9 @@
 			<xsl:variable name="operatorName" select="concat('ADD',$index,'WHERE')"/>
 			<xsl:variable name="value2Name" select="concat($value1Name,'STATE2')"/>
 			<xsl:variable name="value3Name" select="concat($value1Name,'STATE3')"/>
-			<xsl:variable name="valueDao" select = "substring-after(value[@name=$value1Name]/block[contains(@type,'et-dao-')]/field,'::')"></xsl:variable>
+			<xsl:variable name="valueDao" select = "substring-after(value[@name=$value1Name]/block[contains(@type,'et-dao-')]/field,'::')"/>
 			<xsl:variable name="wheretypechild" select="substring-before(value[@name=$value2Name]/block/field,'::')"/>
 			<xsl:variable name="block_namechild" select="value[@name=$value2Name]/block/@type"/>
-<!-- 			<xsl:variable name="wheretype" select="substring-before(value[@name=$value1Name]/block/field,'::')"/> -->
 			<xsl:variable name="value_otherDao" select = "substring-after(value[@name=$value1Name]/block/value/block/field,'::')"/>
 			<xsl:variable name="wheretype">
 				<xsl:choose>
