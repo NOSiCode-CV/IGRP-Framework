@@ -21,7 +21,6 @@ import javax.mail.util.ByteArrayDataSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import nosi.core.config.ConfigApp;
 
 /**
