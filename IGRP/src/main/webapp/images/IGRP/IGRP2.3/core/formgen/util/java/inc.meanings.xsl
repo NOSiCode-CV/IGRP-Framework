@@ -182,6 +182,9 @@
 			<xsl:when test="$key = 'POWER'">				
 				<xsl:text>^</xsl:text>					
 			</xsl:when>	
+			<xsl:when test="$key = 'percent'">				
+				<xsl:text>percent</xsl:text>					
+			</xsl:when>
 			<xsl:when test="$key = 'counting'">				
 				<xsl:text>.getCount()</xsl:text>					
 			</xsl:when>	
@@ -190,15 +193,27 @@
 			</xsl:when>	
 			<xsl:when test="$key = 'averagingInt'">				
 				<xsl:text>.getAverage()</xsl:text>					
-			</xsl:when>	
-			<xsl:when test="$key = 'percent'">				
-				<xsl:text>percent</xsl:text>					
-			</xsl:when>	
+			</xsl:when>		
 			<xsl:when test="$key = 'maxBy'">				
 				<xsl:text>.getMax()</xsl:text>					
 			</xsl:when>	
 			<xsl:when test="$key = 'minBy'">				
 				<xsl:text>.getMin()</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'get_counting'">				
+				<xsl:text>.getCount(</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'get_summingLong'">				
+				<xsl:text>.getSum(</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'get_averagingInt'">				
+				<xsl:text>.getAvg(</xsl:text>					
+			</xsl:when>		
+			<xsl:when test="$key = 'get_maxBy'">				
+				<xsl:text>.getMax(</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'get_minBy'">				
+				<xsl:text>.getMin(</xsl:text>					
 			</xsl:when>	
 			<xsl:when test="$key = 'no_add'">				
 				<xsl:text>.noAdd()</xsl:text>					
