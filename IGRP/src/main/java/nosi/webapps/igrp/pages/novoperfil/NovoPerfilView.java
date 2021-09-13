@@ -21,6 +21,7 @@ public class NovoPerfilView extends View {
 	public Field extras;
 	public Field primeira_pagina;
 	public Field igrp_code;
+	public Field id_perfil;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 
@@ -80,6 +81,10 @@ public class NovoPerfilView extends View {
 		igrp_code.setLabel(gt("IGRP (code)"));
 		igrp_code.propertie().add("name","p_igrp_code").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
+		id_perfil = new HiddenField(model,"id_perfil");
+		id_perfil.setLabel(gt(""));
+		id_perfil.propertie().add("name","p_id_perfil").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","id_perfil");
+		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
@@ -105,6 +110,7 @@ public class NovoPerfilView extends View {
 		form_1.addField(extras);
 		form_1.addField(primeira_pagina);
 		form_1.addField(igrp_code);
+		form_1.addField(id_perfil);
 
 		toolsbar_1.addButton(btn_gravar);
 		this.addToPage(sectionheader_1);
@@ -124,7 +130,8 @@ public class NovoPerfilView extends View {
 		perfil_pai.setValue(model);
 		extras.setValue(model);
 		primeira_pagina.setValue(model);
-		igrp_code.setValue(model);	
+		igrp_code.setValue(model);
+		id_perfil.setValue(model);	
 
 		}
 }
