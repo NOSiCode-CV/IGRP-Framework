@@ -39,7 +39,7 @@
 			
 			<xsl:variable name="code">
 				<xsl:choose>
-					<xsl:when test="$tipoBloco = 'set_app_params'">
+					<xsl:when test="$tipoBloco = 'set_app_params' or $tipoBloco = 'core_fn_link'">
 						<xsl:text>+"&amp;</xsl:text><xsl:value-of select="$valueName"/><xsl:text>=" +</xsl:text><xsl:value-of select="$valueValue"/>
 					</xsl:when>
 					<xsl:otherwise>

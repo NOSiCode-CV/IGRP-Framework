@@ -164,6 +164,31 @@
 		</xsl:variable>			
 		<xsl:value-of select="$data_convert"/><xsl:text>+"T"+</xsl:text><xsl:value-of select="$valueHora"/>						
 	</xsl:template>
+	
+	<xsl:template name="blockly.element.core_fn_link">
+	 	<xsl:variable name="valor2">		
+			<xsl:call-template name="blockly.getValue">					
+				<xsl:with-param name="value" select="*[@name='value2']"/>						
+			</xsl:call-template>					
+		</xsl:variable>	
+		<xsl:variable name="valor3">		
+			<xsl:call-template name="blockly.getValue">					
+				<xsl:with-param name="value" select="*[@name='value3']"/>						
+			</xsl:call-template>					
+		</xsl:variable>		
+		<xsl:variable name="valor4">		
+			<xsl:call-template name="blockly.getValue">					
+				<xsl:with-param name="value" select="*[@name='value4']"/>						
+			</xsl:call-template>					
+		</xsl:variable>
+		<xsl:variable name="mutation" select="mutation/@count"/>
+		<xsl:variable name="Params">	
+			<xsl:call-template name="listar.ParamsReport">
+				<xsl:with-param name="total" select="$mutation"/>
+			</xsl:call-template>
+		</xsl:variable>								
+		<xsl:text>Core.getIGRPLink("</xsl:text><xsl:value-of select="$valor2"/><xsl:text>", "</xsl:text><xsl:value-of select="$valor3"/><xsl:text>", "</xsl:text><xsl:value-of select="$valor4"/><xsl:text>"</xsl:text><xsl:value-of select="$Params"/><xsl:text>)</xsl:text>							
+	</xsl:template>
 			
 </xsl:stylesheet>
 		

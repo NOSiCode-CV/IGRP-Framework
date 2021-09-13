@@ -140,6 +140,15 @@
 						<field type="dropdown" name="CORE_FUNCTION" options="IGRP_BLOCKLY_DROPS.core_atual"></field>	
 					</value>
 				</block>
+				<block type="core_fn_link" mutator="param" output="" color="1" inline="true">
+					<value name="CORE" type="dummy" title="Core">
+						<field type="image" name="img" src="{$path}/core/blockly/blockly/media/igrpweb_logo.png" field-width="30" field-height="15"></field>
+						<field type="text" options="get IGRP Link"></field>
+						<field type="dropdown" name="value2" options="IGRP_BLOCKLY_DROPS.app"></field>
+						<field type="dropdown" name="value3" options="IGRP_BLOCKLY_DROPS.pages"></field>
+						<field type="field_text" name="value4" options="index"></field>	
+					</value>
+				</block>
 				<block type="core_fun_convert" output="" color="1">
 					<value name="value_default" type="value" title="Core">
 						<field type="image" name="img" src="{$path}/core/blockly/blockly/media/igrpweb_logo.png" field-width="30" field-height="15"></field>

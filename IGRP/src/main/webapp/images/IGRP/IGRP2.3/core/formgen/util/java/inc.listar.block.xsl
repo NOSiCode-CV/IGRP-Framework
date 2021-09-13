@@ -49,13 +49,18 @@
 				<xsl:with-param name="value" select="*[@name='value2']"/>	
 			</xsl:call-template>
 		</xsl:variable>
-		
-		<xsl:if test="$rowNum = '' or $rowNum = '1'">
-			<xsl:value-of select="$newlineTab1"/>
-			<xsl:text>try{</xsl:text>
-			<xsl:value-of select="$newlineTab2"/>
-		</xsl:if>
-		
+
+		<xsl:choose>
+			<xsl:when test="$rowNum = '2' or $rowNum = '3'">
+				<xsl:text></xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$newlineTab1"/>
+				<xsl:text>try{</xsl:text>
+				<xsl:value-of select="$newlineTab2"/>
+			</xsl:otherwise>
+		</xsl:choose>
+					
 		<xsl:if test="$fill = 'TRUE'">
 			<xsl:variable name="searchs_total">
 				<xsl:for-each select="*[contains(@name,'STATE2')]">
@@ -131,13 +136,18 @@
 			<xsl:text>}</xsl:text>
 		</xsl:if>
 		
-		<xsl:if test="$rowNum = '' or $rowNum = '1'">
-			<xsl:text>}catch(Exception e){</xsl:text>
-			<xsl:value-of select="$newlineTab2"/>
-			<xsl:text>e.printStackTrace();</xsl:text>
-			<xsl:value-of select="$newlineTab1"/>
-			<xsl:text>}</xsl:text>
-		</xsl:if>
+		<xsl:choose>
+			<xsl:when test="$rowNum = '2' or $rowNum = '3'">
+				<xsl:text></xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>}catch(Exception e){</xsl:text>
+				<xsl:value-of select="$newlineTab2"/>
+				<xsl:text>e.printStackTrace();</xsl:text>
+				<xsl:value-of select="$newlineTab1"/>
+				<xsl:text>}</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
 		
 	</xsl:template>
 	
@@ -297,7 +307,11 @@
 							<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="$value1"/><xsl:value-of select="$operator"/><xsl:text>"%"+</xsl:text><xsl:value-of select="$value2"/><xsl:text>.trim()+"%");</xsl:text>
 							<xsl:value-of select="$newlineTab1"/>
 							<xsl:text>}</xsl:text>
-						</xsl:when>			
+						</xsl:when>	
+						<xsl:when test="$block_namechild = 'text' ">
+							<xsl:value-of select="$newlineTab1"/>
+							<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="$value1"/><xsl:value-of select="$operator"/><xsl:value-of select="$value2"/><xsl:text>);</xsl:text>
+						</xsl:when>		
 						<xsl:otherwise>
 							<xsl:value-of select="$newlineTab1"/>
 							<xsl:text>if(Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$valor2_"/><xsl:text>)){</xsl:text>
