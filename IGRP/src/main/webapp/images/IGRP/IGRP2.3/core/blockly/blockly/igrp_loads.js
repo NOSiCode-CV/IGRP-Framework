@@ -39,48 +39,48 @@ var GEN = null,
 	globalAjaxData ="",
     COMPARISON, RETURNS, CORE_SET, CORE_GET, CORE_ATUAL, CORE_CONVERT, ORDER, FIND, CHECK_SELECT, TIPO, WHERE, FILTER, ANDOR, FINDLIST,FINDLISTDAO, 
 	TRU_FAL, CRUD, CORE_VERIFY, COLLECTORS, NOADD, PROP, MESSAGES, TARGET, STYLE, CHILD, WHERE_FIL, PERCENT, STAT_DB, VALUE;
-	COLLECTORS = [["Count", "counting"],["Sum", "summingLong"],["Average", "averagingInt"], ["Max", "maxBy"],["Min", "minBy"]],
-	STAT_DB = [["get Count", "get_counting"],["get Sum", "get_summingLong"],["get Average", "get_averagingInt"], ["get Max", "get_maxBy"],["get Min", "get_minBy"]],
-	COMPARISON = [["==", "=="],["!=", "!="],[">=", ">="], ["<=", "<="],[">=", ">="], [">", ">"], ["<", "<"]],
-	RETURNS = [["forward", "forward"],["redirect", "redirect"]], 
+	COLLECTORS = [["Count", "counting"],["Sum", "summingLong"],["Average", "averagingInt"], ["Max", "maxBy"],["Min", "minBy"]];
+	STAT_DB = [["get Count", "get_counting"],["get Sum", "get_summingLong"],["get Average", "get_averagingInt"], ["get Max", "get_maxBy"],["get Min", "get_minBy"]];
+	COMPARISON = [["==", "=="],["!=", "!="],[">=", ">="], ["<=", "<="],[">=", ">="], [">", ">"], ["<", "<"]];
+	RETURNS = [["forward", "forward"],["redirect", "redirect"]]; 
     CORE_SET = [["set Sending Email", "enviar_email"], ["set Message Sucess", "messageSucess"], ["set Message Error", "messageError"], 
-                ["set Message Warning", "messageWarning"],["set Message Info", "messageInfo"],["set Message Info Link", "messageInfoLink"]],
+                ["set Message Warning", "messageWarning"],["set Message Info", "messageInfo"],["set Message Info Link", "messageInfoLink"]];
     CORE_GET = [["get Parameter Int", "Integer::apanhar_parametro_inteiro"], ["get Parameter Text", "String::apanhar_parametro_texto"],
-				["get Report Param", "String::apanhar_parametro_report"],["get Domain by Name", "String::get_domain"],  
-				["get IGRP Link", "get_igrp_link"], ["get Username by Id", "String::get_username_by_id"]],
+				["get Report Param", "String::apanhar_parametro_report"],["get Domain by Name", "String::get_domain"],
+				["get Username by Id", "String::get_username_by_id"]];
     CORE_ATUAL = [["get atual Date", "LocalDate::data_atual"], ["get atual Date Time", "LocalDateTime::data_atual_hora"], 
 				["get atual User Name", "String::nome_utilizador_atual"],["get atual User Email", "String::email_utilizador_atual"],
 	        	["get atual User Id", "Integer::id_utilizador_atual"],  ["get atual Profile Id", "Integer::id_perfil_atual"],  
 				["get atual Profile Code", "String::code_perfil_atual"], ["get atual Organization Id", "Integer::id_organi_atual"],  
-				["get atual Organization Code", "String::code_organi_atual"]],
+				["get atual Organization Code", "String::code_organi_atual"]];
     CORE_CONVERT = [["convert to Int", "Integer::toInt"],["convert to String", "String::toString"], ["convert to Double", "double::toDouble"],
-				["convert to Long", "Long::toLong"]],
+				["convert to Long", "Long::toLong"]];
   	CORE_VERIFY = [["verify is Null", "verify_is_null"], ["verify is Null or Zero", "verify_is_null_or_zero"], ["verify is Not Null", "verify_is_not_null"], 
-				["verify is Not Null or Zero", "verify_is_not_null_or_zero"]],
-	ORDER = [["id", ""],["Order by Asc", "order_by_asc"],["Order by Desc", "order_by_desc"]],
-	NOADD = [["no Add", "no_add"],["no Edit", "no_edit"],["no Delete", "no_delete"]],
-	FIND = [["--", "--"],["all", "todos"],["one", "um"]], 
-	FINDLIST = [["all", "TODOSS"],["limit", "limit"],["one", "UMM"]],
-	MESSAGES = [["Success", "success"],["Info Link", "info_link"],["Error", "error"],["Debug", "debug"],["Info", "info"]],
-	FINDLISTDAO = [["one", "UMM"],["limit", "limit"],["all", "TODOSS"]],
-	CRUD = [["insert", "insert"],["update", "update"],["delete", "delete"]],
-	CHECK_SELECT = [["checks", "String::checks"],["unchecks", "String::unchecks"]],
-	PROP = [["add Propertie", "add_propertie"],["add Message", "add_message"]],
-	TIPO = [["Inteiro", "Inteiro"],["Data", "Data"],["Texto", "Texto"]],
+				["verify is Not Null or Zero", "verify_is_not_null_or_zero"]];
+	ORDER = [["id", ""],["Order by Asc", "order_by_asc"],["Order by Desc", "order_by_desc"]];
+	NOADD = [["no Add", "no_add"],["no Edit", "no_edit"],["no Delete", "no_delete"]];
+	FIND = [["--", "--"],["all", "todos"],["one", "um"]]; 
+	FINDLIST = [["all", "TODOSS"],["limit", "limit"],["one", "UMM"]];
+	MESSAGES = [["Success", "success"],["Info Link", "info_link"],["Error", "error"],["Debug", "debug"],["Info", "info"]];
+	FINDLISTDAO = [["one", "UMM"],["limit", "limit"],["all", "TODOSS"]];
+	CRUD = [["insert", "insert"],["update", "update"],["delete", "delete"]];
+	CHECK_SELECT = [["checks", "String::checks"],["unchecks", "String::unchecks"]];
+	PROP = [["add Propertie", "add_propertie"],["add Message", "add_message"]];
+	TIPO = [["Inteiro", "Inteiro"],["Data", "Data"],["Texto", "Texto"]];
 	WHERE = [["=", "WHERE_EQ"],["!=", "WHERE_DIF"],["<", "WHERE_LT"],["<=", "WHERE_LTE"],[">", "WHERE_GT"],[">=", "WHERE_GTE"],
-		["like", "WHERE_LIKE"],["notlike", "WHERE_NOTLIKE"],["in", "IN"]],
+		["like", "WHERE_LIKE"],["notlike", "WHERE_NOTLIKE"],["in", "IN"]];
 	WHERE_FIL = [["=", "WHERE_EQQ"],["!=", "WHERE_DIFF"],["<", "WHERE_LTT"],["<=", "WHERE_LTEE"],[">", "WHERE_GTT"],[">=", "WHERE_GTEE"],
-		["equals", "par_equall"],["not equals", "par_not_equall"], ["contains", "par_contains"], ["equals Ignore Case", "par_equalsIgnoreCase"]],
+		["equals", "par_equall"],["not equals", "par_not_equall"], ["contains", "par_contains"], ["equals Ignore Case", "par_equalsIgnoreCase"]];
 	FILTER = [["andWhere", "andWhere"],["andWhereIsNull", "andWhereIsNull"],["andWhereNotNull", "andWhereNotNull"],
 		["andWhereBetween", "andWhereBetween"],	["orWhere", "orWhere"],["orWhereIsNull", "orWhereIsNull"],["orWhereNotNull", "orWhereNotNull"],
-		["orWhereBetween", "orWhereBetween"], ["having", "having"],["where", "where"],["whereIn", "whereIn"],["whereNotIn", "whereNotIn"]],
-	ANDOR = [["and", "and"],["or", "or"]], 
-	TRU_FAL = [["true", "true"],["false", "false"]], 
-	CHILD = [["1", "1"], ["2", "2"], ["3", "3"]],
-	PERCENT = [["percent", "percent"]], 
-	VALUE = [["value", "value"]], 
+		["orWhereBetween", "orWhereBetween"], ["having", "having"],["where", "where"],["whereIn", "whereIn"],["whereNotIn", "whereNotIn"]];
+	ANDOR = [["and", "and"],["or", "or"]];
+	TRU_FAL = [["true", "true"],["false", "false"]];
+	CHILD = [["1", "1"], ["2", "2"], ["3", "3"]];
+	PERCENT = [["percent", "percent"]];
+	VALUE = [["value", "value"]];
 	STYLE = [["Link", "link"],["Primary", "primary"], ["Success", "success"], ["Info", "info"], ["Warning", "warning"], ["Danger", "danger"],
-	["Purple", "purple"], ["Grey", "grey"], ["Black", "black"], ["Default", "default"]],
+	["Purple", "purple"], ["Grey", "grey"], ["Black", "black"], ["Default", "default"]];
 	TARGET = [["Submit Ajax", "submit_ajax"], ["Alert Submit", "alert_submit"],["Back", "_back"], ["Change Source", "changesrc"], ["Close", "_close"],
 		["Close and Refresh Parent", "closerefresh"], ["Confirmar", "confirm"],["Download", "download"], ["Get Coordenates", "gis:getCoordinates"], 
 		["List Association", "listAssociation"],["Modal", "modal"], ["New Tab", "_newtab"],["Popup", "_blank"], ["Popup Open Close", "_openclose"], 
@@ -98,7 +98,7 @@ var	daoClasses = {},
 	},
 
 	AppTitle, PageTitle, fullClassService, packageService, pagetitle, fields_model = [], form_id = [], key_model = [], fields_table = [],
-	fields_separator = [], PAGES = [], DOMAINS = [],  Paramyters = [], fields_formlist = [], fields_model_form = [], view_model = [], fields_model_view = [], 
+	fields_separator = [], APP = [], PAGES = [], DOMAINS = [],  Paramyters = [], fields_formlist = [], fields_model_form = [], view_model = [], fields_model_view = [], 
 	chart = [], tables_model = [], separator_model = [],formlist_model = [], form_model = [], buttons_model = [], all_buttons = [], daos_list = [], 
 	services_list = [], bloc_fields = [], smallbox_model = [], addinfopanel= 0, addtimeline = 0, statbox_model =[],
 	service_fields = [], operations_list = [], imports_insert = [], imports_list = [], fields_esp_row = [], custom_action = [], select = [], checkbox_table = [],
@@ -177,26 +177,26 @@ $('#active_selenium').on('click', function() {
 });
 	// ************** INIT LOAD XML AND REQUEST **************************
 	window.IGRPBlocklyInit = function(){
-	 fields_model = [], fields_model.push(['--','--']), chart = [], chart.push(['--','--']), form_id = [], view_model=[], 
-	 form_id.push(['--','--']), key_model= [], key_model.push(['--','--']), fields_table = [], fields_table.push(['--','--']),
-	 fields_separator = [], fields_separator.push(['--','--']), fields_formlist = [], fields_model_form = [], fields_model_view = [], 
-	 fields_formlist.push(['--','--']), tables_model = [], bloc_fields = [], service_fields = [], separator_model = [], tables_model.push(['--','--']), 
-	 separator_model.push(['--','--']), formlist_model = [], formlist_model.push(['--','--']),  form_model.push(['--','--']), statbox_model =[],
-	 buttons_model = [], buttons_model.push([ '--', '--' ]), all_buttons = [], daos_list = [], services_list = [], daos_list.push([ '--', '--' ]),
-	 services_list.push([ '--', '--' ]),  operations_list = [],  operations_list.push([ '--', '--' ]), smallbox_model.push([ '--', '--' ]),
-	 imports_insert = [], imports_insert.push([ '--', '--' ]), imports_list = [], imports_list.push([ '--', '--' ]), fields_esp_row = [], 
-	 fields_esp_row.push([ '--', '--' ]), custom_action = [], custom_action.push([ '--', '--' ]), select = [], select.push([ '--', '--' ]), 
-	 checkbox_table = [], checkbox_table.push([ '--', '--' ]), addcombo=0, addcheckbox=0, addseparator=0, addforeign=0, addchart=0, 
-	 addtable=0, addstatbox=0, addsmallbox=0, addbutton=0, addmodel=0, addformlist=0, addform=0, addview=0, custombutton=0, helpers = [], 
-     components =[], separators = [], addhelpers = 0, addcarousel = 0, addtreemenu = 0, addcalendar = 0, addcirclestat = 0, addtimeline = 0,
-	 but_table=[], add_but_table=0, read = [], add_read = 0, add_separ = 0, add_title = 0, addverticalmenu = 0, addinfopanel = 0;
+	 fields_model = []; fields_model.push(['--','--']); chart = []; chart.push(['--','--']); form_id = []; view_model=[]; 
+	 form_id.push(['--','--']); key_model= []; key_model.push(['--','--']); fields_table = []; fields_table.push(['--','--']);
+	 fields_separator = []; fields_separator.push(['--','--']); fields_formlist = []; fields_model_form = []; fields_model_view = []; 
+	 fields_formlist.push(['--','--']); tables_model = []; bloc_fields = []; service_fields = []; separator_model = []; tables_model.push(['--','--']); 
+	 separator_model.push(['--','--']); formlist_model = []; formlist_model.push(['--','--']);  form_model.push(['--','--']); statbox_model =[];
+	 buttons_model = []; buttons_model.push([ '--', '--' ]); all_buttons = []; daos_list = []; services_list = []; daos_list.push([ '--', '--' ]);
+	 services_list.push([ '--', '--' ]);  operations_list = [];  operations_list.push([ '--', '--' ]); smallbox_model.push([ '--', '--' ]);
+	 imports_insert = []; imports_insert.push([ '--', '--' ]); imports_list = []; imports_list.push([ '--', '--' ]); fields_esp_row = []; 
+	 fields_esp_row.push([ '--', '--' ]); custom_action = []; custom_action.push([ '--', '--' ]); select = []; select.push([ '--', '--' ]); 
+	 checkbox_table = [], checkbox_table.push([ '--', '--' ]), addcombo=0, addcheckbox=0, addseparator=0, addforeign=0, addchart=0, APP = [];
+	 addtable=0; addstatbox=0; addsmallbox=0; addbutton=0; addmodel=0; addformlist=0; addform=0; addview=0; custombutton=0; helpers = [];
+     components =[]; separators = []; addhelpers = 0; addcarousel = 0; addtreemenu = 0; addcalendar = 0; addcirclestat = 0; addtimeline = 0;
+	 but_table=[]; add_but_table=0; read = []; add_read = 0; add_separ = 0; add_title = 0; addverticalmenu = 0; addinfopanel = 0;
 	 
 	 var BlocklyXML = $.parseXML(VARS.getGen().getXML());
 	 AppTitle = $('rows>app', BlocklyXML).text();
+	 APP.push([ AppTitle, AppTitle ]);
 	 PageTitle = $('rows>page', BlocklyXML).text();
 	 pagetitle = PageTitle.toLowerCase();
 	 IGRP_BLOCKLY_DROPS.tablesTest = {};
-	 
 	 // ************** FIELDS_MODEL_GENERAL **************************	 
 	 $('rows>content>*[type!=separatorlist][type!=formlist]', BlocklyXML).each(function(i, element) {	 
 		$(element).find('>fields>*').each(function(x, field) {		
@@ -780,6 +780,10 @@ $('#active_selenium').on('click', function() {
 					javaType = GetJavaType[type] || type || 'String';
 					fields_table.push([ tag, javaType + '::'+tag]);
 					IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push( [ tag, javaType + '::'+tag] );
+					if(type == "link"){
+						fields_table.push([ tag+'_desc',  'String::'+tag+'_desc']);
+						IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push( [ tag+'_desc',  'String::'+tag+'_desc'] );
+					}
 			});		
 			var	 timeline = $(element).prop('tagName');
 			addtimeline++;
@@ -1375,7 +1379,7 @@ $('#active_selenium').on('click', function() {
 						rtn+= '<block type="statfields_'+f[1]+'" prev-statement="" next-statement="" color="300">'
 						+'<value type="dummy" name="fields_model">'
 							+'<field type="text" options="set '+f[0]+'"></field>'
-							+'<field type="dropdown" name="collectors" options="IGRP_BLOCKLY_DROPS.collectors"></field>'
+							+'<field type="dropdown" name="collectors" options="IGRP_BLOCKLY_DROPS.value"></field>'
 							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'	
 						+'</value><next>';	
 						
@@ -1401,8 +1405,6 @@ $('#active_selenium').on('click', function() {
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 								+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-							+'</value>'
-							+'<value name="statistics"  title="statistics" type="value">'
 							+'</value>'
 							+'<value name="value2" type="statement" check="Linha" >'
 								+getColumnsBlock()
@@ -1844,6 +1846,7 @@ $('#active_selenium').on('click', function() {
 			percent : PERCENT,
 			stat_db : STAT_DB,
 			value : VALUE,
+			app : APP,
 			SEPARATORS : separators,
 			dao_list : daos_list,
 			service_list : services_list,

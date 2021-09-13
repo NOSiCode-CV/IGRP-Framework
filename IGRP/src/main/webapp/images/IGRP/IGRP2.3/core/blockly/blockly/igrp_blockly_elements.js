@@ -621,6 +621,9 @@
 		paramsVertical : $.extend({			
 		}, ParamsMutationSettings),
 		
+		core_fn_link : $.extend({			
+		}, ParamsMutationSettings),
+		
 		/***** BLOCO SAVE FORM *******/
 		inserir_dao : {
 			init : function(block) {
@@ -785,7 +788,7 @@
 			}
 		},
 		/******* BLOCO CORE GET *******/
-		core_fun_get : {
+		core_fun_get : $.extend({
 			init : function(block) {
 				var options = IGRP_BLOCKLY_DROPS.core_get;
 				var dropdown = new Blockly.FieldDropdown(options, function(
@@ -799,9 +802,11 @@
 				block.appendDummyInput("domains").appendField("domain").appendField(domainsOptions, 'domaindrop')
 					.appendField("value").setVisible(false);
 				block.appendValueInput("value_default").setVisible(false);
-				block.appendDummyInput("valueLink").appendField(new Blockly.FieldTextInput('name app'), 'value2')
-				.appendField(new Blockly.FieldTextInput('name page'), 'value3').appendField(new Blockly.FieldTextInput('name action'), 'value4')
+				block.appendDummyInput("valueLink").appendField(new Blockly.FieldDropdown(IGRP_BLOCKLY_DROPS.app), 'value2')
+				.appendField(new Blockly.FieldDropdown(IGRP_BLOCKLY_DROPS.pages), 'value3')
+				.appendField(new Blockly.FieldTextInput('name action'), 'value4')
 				.setVisible(false);
+				//block.setMutator(new Blockly.Mutator(['param']));
 				block.mutationToDom = function() {
 					var container = document.createElement('mutation');
 					var itemInput = this.getFieldValue('CORE_FUNCTION');
@@ -824,6 +829,7 @@
 						block.getInput("value_default").setVisible(false);
 						block.getInput("value1").setVisible(false);
 						block.getInput("valueLink").setVisible(true);
+						block.getInput("mutateParam").setVisible(true);
 					}else if (type == 'String::get_username_by_id') {
 						block.getInput("domains").setVisible(false);
 						block.getInput("value_default").setVisible(true);
@@ -837,7 +843,7 @@
 					}
 				};
 			}
-		},
+		}, ParamsMutationSettings),
 		
 		/******* BLOCO MESSAGES REMOTE *******/
 		set_properties : {

@@ -53,6 +53,8 @@ function SetupBlockly() {
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.paramsVertical;
 		if (type == 'filterr')
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS.filterr;
+		if (type == 'core_fn_link')
+			IGRPElement = IGRP_BLOCKLY_ELEMENTS.core_fn_link;
 		
 		Blockly.Blocks[type] = {
 			init : function() {

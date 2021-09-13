@@ -1395,8 +1395,8 @@ $(function ($) {
 			    					if(node.name == 'td' && notTfoot){
 			    						//table.element.value = node.getHtml().replace(/&nbsp;/g, " ").replace(/\s+/g," ");
 			    						var tag   = node.attributes.tag || node.attributes.rel;
-			    						
-			    						if($.inArray(element.attributes.parentNoType,['separatorlist','formlist'])){
+
+										if($.inArray(element.attributes.parentNoType,['separatorlist','formlist']) !==-1){
 											tag += '_desc';
 										}
 
