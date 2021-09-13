@@ -39,6 +39,9 @@ public class NovoPerfil extends Model{
 
 	@RParam(rParamName = "p_igrp_code")
 	private String igrp_code;
+
+	@RParam(rParamName = "p_id_perfil")
+	private String id_perfil;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -121,6 +124,13 @@ public class NovoPerfil extends Model{
 	}
 	public String getIgrp_code(){
 		return this.igrp_code;
+	}
+	
+	public void setId_perfil(String id_perfil){
+		this.id_perfil = id_perfil;
+	}
+	public String getId_perfil(){
+		return this.id_perfil;
 	}
 
 
