@@ -6,8 +6,8 @@ import java.lang.reflect.ParameterizedType;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.Id;
@@ -960,7 +960,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 				List<T> list = query.getResultList();
 				for (Iterator<Object> iter = (Iterator<Object>) list.iterator(); iter.hasNext();) {
-					Map<String, Object> mapObject = new HashMap<>();					
+					Map<String, Object> mapObject = new LinkedHashMap<>();					
 					final Object obj = iter.next();
 					if(obj instanceof Object[]) {
 						Object[] teste = (Object[]) obj;
