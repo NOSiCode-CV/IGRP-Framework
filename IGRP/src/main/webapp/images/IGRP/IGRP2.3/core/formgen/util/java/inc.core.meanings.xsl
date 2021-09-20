@@ -100,24 +100,6 @@
 				</xsl:variable>		
 				<xsl:text>Core.setMessageInfo(</xsl:text><xsl:value-of select="$valor1"/><xsl:text>)</xsl:text>					
 			</xsl:when>
-			 <xsl:when test="$key = 'get_igrp_link'">	
-			 	<xsl:variable name="valor2">		
-					<xsl:call-template name="blockly.getValue">					
-						<xsl:with-param name="value" select="*[@name='value2']"/>						
-					</xsl:call-template>					
-				</xsl:variable>	
-				<xsl:variable name="valor3">		
-					<xsl:call-template name="blockly.getValue">					
-						<xsl:with-param name="value" select="*[@name='value3']"/>						
-					</xsl:call-template>					
-				</xsl:variable>		
-				<xsl:variable name="valor4">		
-					<xsl:call-template name="blockly.getValue">					
-						<xsl:with-param name="value" select="*[@name='value4']"/>						
-					</xsl:call-template>					
-				</xsl:variable>			
-				<xsl:text>Core.getIGRPLink("</xsl:text><xsl:value-of select="$valor2"/><xsl:text>", "</xsl:text><xsl:value-of select="$valor3"/><xsl:text>", "</xsl:text><xsl:value-of select="$valor4"/><xsl:text>")</xsl:text>					
-			</xsl:when>	
 			<xsl:when test="$key = 'messageInfoLink'">	
 			 	<xsl:variable name="valor1">		
 					<xsl:call-template name="blockly.getValue">					

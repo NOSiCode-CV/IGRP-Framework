@@ -61,20 +61,21 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nome</label>
-                    <value>Omnis magna dolor iste sit</value>
+                    <value>Consectetur iste omnis ut omnis</value>
                     <rules>
                         <rule type="remote">
                             <proc>fillCodigo</proc>
                             <requestFields>
                                 <item>p_nome</item>
                                 <item>p_aplicacao</item>
+                                <item>p_id_perfil</item>
                             </requestFields>
                         </rule>
                     </rules>
                 </nome>
                 <codigo name="p_codigo" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Código</label>
-                    <value>Laudantium stract laudantium sed natus</value>
+                    <value>Elit deserunt stract sit sit</value>
                 </codigo>
                 <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="int" check="true">
                     <label>Ativo?</label>
@@ -176,8 +177,9 @@
                 </primeira_pagina>
                 <igrp_code name="p_igrp_code" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
                     <label>IGRP (code)</label>
-                    <value>Rem perspiciatis omnis sit deserunt</value>
+                    <value>Elit ipsum magna deserunt consectetur</value>
                 </igrp_code>
+                <hidden name="p_id_perfil" type="hidden" maxlength="250" java-type="" tag="id_perfil"/>
             </fields>
         </form_1>
     </content>

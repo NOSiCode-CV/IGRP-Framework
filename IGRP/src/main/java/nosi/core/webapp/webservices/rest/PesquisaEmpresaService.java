@@ -115,7 +115,7 @@ public class PesquisaEmpresaService {
 		}
 		
 		try {
-			empresa.setTipo_entidade(local.getString("natureza_juridica_desc"));
+			empresa.setTipo_entidade(local.getString("tipo_entidade"));
 		}catch (org.json.JSONException e) {
 			empresa.setTipo_entidade(null);
 		}

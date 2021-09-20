@@ -683,7 +683,10 @@
 			</xsl:when>	
 			<xsl:when test="$block-type = 'filterr'">	
 				<xsl:call-template name="blockly.element.filterr"></xsl:call-template>				
-			</xsl:when>																						
+			</xsl:when>
+			<xsl:when test="$block-type = 'core_fn_link'">	
+				<xsl:call-template name="blockly.element.core_fn_link"></xsl:call-template>				
+			</xsl:when>																							
 			<xsl:otherwise>			
 				<xsl:text>Block not found</xsl:text>				
 			</xsl:otherwise>		
