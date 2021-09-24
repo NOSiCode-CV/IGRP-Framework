@@ -6,8 +6,19 @@
 		<xsl:variable name="find" select="field[@name='find']"/>
 		<xsl:variable name="dao" select="field[@name='dao']"/>
 		<xsl:variable name="fill" select="field[@name='FILL']"/>	
-		<xsl:variable name="table" select="substring-after(@type,'listar_')"/>
-		<xsl:variable name="rowNum" select="field[@name='row_num']"/>	
+		<xsl:variable name="rowNum" select="field[@name='row_num']"/>
+		<xsl:variable name="blockTipe" select="@type"/>	
+		
+		<xsl:variable name="table">
+			<xsl:choose>
+				<xsl:when test="contains($blockTipe,'listartre_')">
+					<xsl:value-of select="substring-after(@type,'listartre_')"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="substring-after(@type,'listar_')"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		
 		<xsl:variable name="dao_low">	
 	       	<xsl:call-template name="LowerCase">    	
@@ -75,6 +86,7 @@
 			
 			<xsl:variable name="ifs">
 				<xsl:text>if(</xsl:text><xsl:value-of select="$searchs_total"/><xsl:text>){</xsl:text>
+				<xsl:value-of select="$newlineTab1"/>
 			</xsl:variable>	
 			
 			<xsl:variable name="searchs_tot">
@@ -103,9 +115,25 @@
 		<xsl:if test="$find != 'UMM'">
 			<xsl:text>List</xsl:text>
 		</xsl:if>	
-		<xsl:text> = </xsl:text><xsl:value-of select="$daofilter"/><xsl:value-of select="$orderValue"/><xsl:value-of select="$findValue"/>
-		<xsl:value-of select="$newlineTab1"/>
-		<xsl:text>List&lt;</xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$table_up"/><xsl:text>&gt; </xsl:text><xsl:value-of select="$dao_low"/><xsl:text>Table = new ArrayList&lt;&gt;</xsl:text><xsl:text>();</xsl:text>
+		<xsl:text> = </xsl:text><xsl:value-of select="$daofilter"/><xsl:value-of select="$orderValue"/><xsl:value-of select="$findValue"/>		
+		<xsl:choose>
+			<xsl:when test="$rowNum = '2' or $rowNum = '3'">
+				<xsl:text></xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$newlineTab1"/>
+				<xsl:text>List&lt;</xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$table_up"/><xsl:text>&gt; </xsl:text>
+				<xsl:choose>
+					<xsl:when test="contains($blockTipe,'listartre_')">
+						<xsl:text>treeMenu</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$dao_low"/>
+					</xsl:otherwise>
+				</xsl:choose>	
+				<xsl:text>Table = new ArrayList&lt;&gt;</xsl:text><xsl:text>();</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
 		<xsl:value-of select="$newlineTab1"/> 
 		<xsl:text>if(Core.isNotNull(</xsl:text><xsl:value-of select="$dao_low"/>
 		<xsl:if test="$find != 'UMM'">
@@ -120,27 +148,51 @@
 		<xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$table_up"/><xsl:text> row</xsl:text><xsl:value-of select="$rowNum"/><xsl:text>  = new </xsl:text><xsl:value-of select="$page-title"/><xsl:text>.</xsl:text><xsl:value-of select="$table_up"/><xsl:text>();</xsl:text> 
 		<xsl:value-of select="$newlineTab1"/>
 		<xsl:value-of select="$row"/>
-		<xsl:value-of select="$newlineTab3"/>
-		<xsl:value-of select="$dao_low"/><xsl:text>Table.add(row</xsl:text><xsl:value-of select="$rowNum"/><xsl:text>);</xsl:text>
-		<xsl:value-of select="$newlineTab2"/>
+		<xsl:choose>
+			<xsl:when test="contains($blockTipe,'listartre_')">
+				<xsl:value-of select="$newlineTab3"/>
+				<xsl:text>treeMenu</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$newlineTab3"/>
+				<xsl:value-of select="$dao_low"/>
+			</xsl:otherwise>
+		</xsl:choose>
+		<xsl:text>Table.add(row</xsl:text><xsl:value-of select="$rowNum"/><xsl:text>);</xsl:text>	
 		<xsl:if test="$find != 'UMM'">
-			<xsl:text>}</xsl:text>
 			<xsl:value-of select="$newlineTab2"/>
-		</xsl:if>
-		<xsl:text>model.set</xsl:text><xsl:value-of select="$table_up"/><xsl:text>(</xsl:text><xsl:value-of select="$dao_low"/><xsl:text>Table);</xsl:text>	
-		<xsl:value-of select="$newlineTab1"/>
-		<xsl:text>}</xsl:text>	
-		<xsl:value-of select="$newlineTab1"/>
-		<xsl:if test="$fill = 'TRUE' and $mutation &gt;= '1' ">
-			<xsl:value-of select="$newlineTab1"/>
 			<xsl:text>}</xsl:text>
-		</xsl:if>
-		
+		</xsl:if>		
 		<xsl:choose>
 			<xsl:when test="$rowNum = '2' or $rowNum = '3'">
 				<xsl:text></xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
+				<xsl:value-of select="$newlineTab2"/>
+				<xsl:text>model.set</xsl:text><xsl:value-of select="$table_up"/><xsl:text>(</xsl:text>
+				<xsl:choose>
+					<xsl:when test="contains($blockTipe,'listartre_')">
+						<xsl:text>treeMenu</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$dao_low"/>
+					</xsl:otherwise>
+				</xsl:choose>
+				<xsl:text>Table);</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>	
+		<xsl:value-of select="$newlineTab1"/>
+		<xsl:text>}</xsl:text>	
+		<xsl:if test="$fill = 'TRUE' and $mutation &gt;= '1' ">
+			<xsl:value-of select="$newlineTab1"/>
+			<xsl:text>}</xsl:text>
+		</xsl:if>		
+		<xsl:choose>
+			<xsl:when test="$rowNum = '2' or $rowNum = '3'">
+				<xsl:text></xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$newlineTab1"/>
 				<xsl:text>}catch(Exception e){</xsl:text>
 				<xsl:value-of select="$newlineTab2"/>
 				<xsl:text>e.printStackTrace();</xsl:text>
