@@ -209,6 +209,9 @@
 				<xsl:when test="value/block[@type='getrowStartEnd'] != ''">							
 					<xsl:value-of select="'String'"/>				
 				</xsl:when>	
+				<xsl:when test="value/block/value/block/value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/block/value/value/block/value/block/field,'::')"/>				
+				</xsl:when>	
 				<xsl:when test="value/block/value/block/value/block/field != ''">				
 					<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
 				</xsl:when>				

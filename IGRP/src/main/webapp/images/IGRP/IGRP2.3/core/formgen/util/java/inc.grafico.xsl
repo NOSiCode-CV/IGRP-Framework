@@ -24,6 +24,9 @@
 		</xsl:variable>	
 		<xsl:variable name="group_type">		
 			<xsl:choose>
+				<xsl:when test="value[@name='groupby']/block/value/block/value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value[@name='groupby']/block/value/block/value/block/value/block/field,'::')"/>				
+				</xsl:when>	
 				<xsl:when test="value[@name='groupby']/block/value/block/value/block/field != ''">				
 					<xsl:value-of select="substring-before(value[@name='groupby']/block/value/block/value/block/field,'::')"/>				
 				</xsl:when>				
@@ -65,6 +68,9 @@
 								
 		<xsl:variable name="stat_type">		
 			<xsl:choose>
+				<xsl:when test="value[@name='statistics']/block/value/block/value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value[@name='statistics']/block/value/block/value/block/value/block/field,'::')"/>				
+				</xsl:when>	
 				<xsl:when test="value[@name='statistics']/block/value/block/value/block/field != ''">				
 					<xsl:value-of select="substring-before(value[@name='statistics']/block/value/block/value/block/field,'::')"/>				
 				</xsl:when>				
@@ -140,6 +146,9 @@
 	<xsl:template name="blockly.element.eixo_x" >		
 		<xsl:variable name="rowtypechild">		
 			<xsl:choose>
+				<xsl:when test="value/block/value/block/value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/value/block/value/block/field,'::')"/>				
+				</xsl:when>	
 				<xsl:when test="value/block/value/block/value/block/field != ''">				
 					<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
 				</xsl:when>				
@@ -176,6 +185,9 @@
 	<xsl:template name="blockly.element.eixo_y" >		
 		<xsl:variable name="rowtypechild">		
 			<xsl:choose>
+				<xsl:when test="value/block/value/block/value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/value/block/value/block/field,'::')"/>				
+				</xsl:when>
 				<xsl:when test="value/block/value/block/value/block/field != ''">				
 					<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
 				</xsl:when>				

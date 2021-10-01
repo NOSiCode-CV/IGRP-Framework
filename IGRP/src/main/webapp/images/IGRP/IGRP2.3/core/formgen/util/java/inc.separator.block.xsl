@@ -1,4 +1,4 @@
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+l<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<xsl:template name="blockly.element.separator" >	
 	<xsl:variable name="table" select="substring-after(@type,'separator_')"/>	
@@ -311,6 +311,9 @@
 		</xsl:variable>		
 		<xsl:variable name="rowtypechild">		
 			<xsl:choose>
+				<xsl:when test="value/block/value/block/value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/value/block/value/block/field,'::')"/>				
+				</xsl:when>	
 				<xsl:when test="value/block/value/block/value/block/field != ''">				
 					<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
 				</xsl:when>				
