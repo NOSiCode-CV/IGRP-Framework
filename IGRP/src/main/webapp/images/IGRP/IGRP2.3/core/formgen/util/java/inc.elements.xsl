@@ -502,6 +502,9 @@
 			</xsl:when>			
 			<xsl:when test="contains($block-type, 'listar_')">			
 				<xsl:call-template name="blockly.element.listar"></xsl:call-template>				
+			</xsl:when>	
+			<xsl:when test="contains($block-type, 'listartre_')">			
+				<xsl:call-template name="blockly.element.listar"></xsl:call-template>				
 			</xsl:when>			
 			<xsl:when test="contains( $block-type,'rowtable' )">			
 				<xsl:call-template name="blockly.element.row"></xsl:call-template>				

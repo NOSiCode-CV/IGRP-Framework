@@ -922,7 +922,7 @@ $('#active_selenium').on('click', function() {
 			
 			$('#treemenu').append(
 				'<category id="'+treemenu+'" name="'+treemenu+'" colour="160" class="blocly-dynamic">'
-					+'<block type="listar_'+treemenu+'" color="160" mutator="where" prev-statement="" next-statement="" inline="true">'
+					+'<block type="listartre_'+treemenu+'" color="160" mutator="where" prev-statement="" next-statement="" inline="true">'
 						+'<value name="value1" type="dummy">'
 							+'<field type="dropdown" name="table" title="'+treemenu+'"></field>'
 							+'<field type="comment" options="This block is used to list datas from a DAO class in one table."></field>'
@@ -1902,7 +1902,7 @@ var codeBlockStart = '/* Start-Code-Block (',
 function GetBlocklyImports(){
 	try{
 		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace),
-			listarImports = $('block[type*="listar_"], block[type*="lstar_service_"] ',xml),	
+			listarImports = $('block[type*="listar_"], block[type*="lstar_service_"], block[type*="listartre_"]',xml),	
 			inserirImports = $('block[type="inserir_dao"]',xml),
 			verticalImports = $('block[type*="verticalmenu_"]',xml),
 			checkImports = $('block[type="checkbox_table"]',xml),
