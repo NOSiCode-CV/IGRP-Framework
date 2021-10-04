@@ -113,6 +113,9 @@
 			
 			<xsl:variable name="typevalue1">		
 				<xsl:choose>
+					<xsl:when test="value[@name=$value1Name]/block/value/block/value/block/value/block/field != ''">				
+						<xsl:value-of select="substring-before(value/block/value/block/value/block/value/block/field,'::')"/>				
+					</xsl:when>
 					<xsl:when test="value[@name=$value1Name]/block/value/block/value/block/field != ''">				
 						<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
 					</xsl:when>				

@@ -296,7 +296,7 @@ a, button {
 }
 
 .row.ui-sortable-helper{
-	opacity: .4
+	opacity: .4;
 	height:15px!important;
 	overflow: hidden;
 	max-width: 100%!important;

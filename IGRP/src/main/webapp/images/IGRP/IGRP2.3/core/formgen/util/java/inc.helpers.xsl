@@ -92,6 +92,9 @@
 		</xsl:variable>	
 		<xsl:variable name="valuetype">		
 			<xsl:choose>
+				<xsl:when test="value/block/value/block/value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/value/block/value/block/field,'::')"/>				
+				</xsl:when>	
 				<xsl:when test="value/block/value/block/value/block/field != ''">				
 					<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
 				</xsl:when>				
@@ -144,6 +147,9 @@
 		</xsl:variable>	
 		<xsl:variable name="datatype">		
 			<xsl:choose>
+				<xsl:when test="value[@name='data']/block/value/block/value/block/value/block/field != ''">				
+					<xsl:value-of select="substring-before(value/block/value/block/value/block/value/block/field,'::')"/>				
+				</xsl:when>	
 				<xsl:when test="value[@name='data']/block/value/block/value/block/field != ''">				
 					<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
 				</xsl:when>				
