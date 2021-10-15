@@ -37,12 +37,14 @@ import nosi.core.webapp.bpmn.DisplayDocmentType;
 import nosi.core.webapp.bpmn.InterfaceBPMNTask;
 import nosi.core.webapp.bpmn.RuntimeTask;
 import nosi.core.webapp.bpmn.ViewTaskDetails;
+import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.webapp.security.SecurtyCallPage;
 import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 
@@ -434,7 +436,7 @@ public class Controller {
 	
 	private String ssoUrl(String app, String page, String action, String[] paramNames, String[] paramValues) {
 		String ssoUrl = null;
-		Map<String, String> params = new LinkedHashMap<String, String>(); 
+		Map<String, String> params = new LinkedHashMap<>(); 
 		if(paramNames != null && paramValues != null && paramValues.length == paramNames.length)
 			for(int i = 0; i < paramNames.length; i++) 
 				params.put(paramNames[i], paramValues[i]); 
@@ -471,12 +473,8 @@ public class Controller {
 
 	protected final Response sendFile(File file, String name, String contentType, boolean download) {
 		byte[] content = null;
-		try {
-			content = new byte[(int) file.length()];
-			FileInputStream is = new FileInputStream(file);
-			is.read(content);
-			is.close();
-			return this.xSend(content, name, contentType, download);
+		try (FileInputStream in = new FileInputStream(file)) {		
+			return this.xSend(FileHelper.convertInputStreamToByte(in), name, contentType, download);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -497,7 +495,7 @@ public class Controller {
 			try {
 				String extension = "." + contentType_.split("/")[1];
 				name_ = (name_ == null || name_.isEmpty()) ? "igrp-file" + extension
-						: !name_.contains(".") ? name_ + extension : name_;
+						: (!name_.contains(".") ? name_ + extension : name_);
 
 			} catch (Exception e) {
 				contentType_ = "application/octet-stream";
@@ -530,7 +528,7 @@ public class Controller {
 			try {
 				String extension = "." + contentType_.split("/")[1];
 				if (!name_.contains("."))
-					name_ = (name_ == null || name_.isEmpty() ? "igrp-file" + extension : name_ + extension);
+					name_ = (name_.isEmpty() ? "igrp-file" + extension : name_ + extension);
 			} catch (Exception e) {
 				contentType_ = "application/octet-stream";
 				e.printStackTrace();
@@ -562,7 +560,7 @@ public class Controller {
 
 	private void prepareResponse() throws IOException {
 		Object obj = this.run();
-		if (obj != null && obj instanceof Response) {
+		if (obj instanceof Response) {
 			Igrp app = Igrp.getInstance();
 
 			String appDad = app.getCurrentAppName();
@@ -589,10 +587,9 @@ public class Controller {
 				: "igrp/login/login";
 
 		r = SecurtyCallPage.resolvePage(r); 
-		if (r != null) {
-			String auxPattern = this.getConfig().PATTERN_CONTROLLER_NAME;
-			if (r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)) {
-				String[] aux = r.split("/");
+		if (r != null) {			
+			String[] aux = r.split("/");
+			if(aux.length==3) {
 				app.setCurrentAppName(aux[0]);
 				app.setCurrentPageName(aux[1]);
 				app.setCurrentActionName(aux[2]);
@@ -664,16 +661,30 @@ public class Controller {
 		if (resp != null) {
 			String content = resp.getContent();
 			if (m != null) {
-				content = Core.isNotNull(content) ? content.replaceAll("<messages></messages>", m) : content;
+				content = Core.isNotNull(content) ? content.replace("<messages></messages>", m) : content;
 			}
 			resp.setContent(content);
 		}
 		return resp;
 	}
 	@Deprecated
+	/**
+	 * @deprecated
+	 * @param app
+	 * @param page
+	 * @param action
+	 * @param model
+	 * @return
+	 */
 	protected Response forward(String app, String page, String action, Model model) {
 		return this.forward(app, page, action, model, new QueryString<>());
 	}
+	
+	
+	/**@deprecated
+	 * 
+	 * 	
+	 */
 	@Deprecated
 	protected Response forward(String app, String page, String action, Model model,
 			QueryString<String, Object> queryString) {
@@ -701,27 +712,27 @@ public class Controller {
 	}
 
 	public void sendResponse() {
-		Response responseWrapper = Igrp.getInstance().getCurrentController().getResponseWrapper();
-		if (responseWrapper != null) {
+		Response responseWrapper2 = Igrp.getInstance().getCurrentController().getResponseWrapper();
+		if (responseWrapper2 != null) {
 			try {
-				switch (responseWrapper.getType()) {
+				switch (responseWrapper2.getType()) {
 				case 1: // render it
 					try {
-						if (responseWrapper.getStream() != null && responseWrapper.getStream().length > 0) {
-							Igrp.getInstance().getResponse().getOutputStream().write(responseWrapper.getStream());
+						if (responseWrapper2.getStream() != null && responseWrapper2.getStream().length > 0) {
+							Igrp.getInstance().getResponse().getOutputStream().write(responseWrapper2.getStream());
 							Igrp.getInstance().getResponse().getOutputStream().flush();
 							Igrp.getInstance().getResponse().getOutputStream().close();
 							Igrp.getInstance().getResponse().flushBuffer();
-						} else if (responseWrapper.getFile() != null) {
+						} else if (responseWrapper2.getFile() != null) {
 							HttpServletResponse response = Igrp.getInstance().getResponse();
-							String name = responseWrapper.getFile().getFileName();
-							response.setContentType(responseWrapper.getFile().getContentType());
+							String name = responseWrapper2.getFile().getFileName();
+							response.setContentType(responseWrapper2.getFile().getContentType());
 							response.setHeader("Content-Disposition", "attachment; filename=\"" + name + "\";");
 							response.setHeader("Cache-Control", "no-cache");
-							response.setContentLength(responseWrapper.getFile().getSize());
+							response.setContentLength(responseWrapper2.getFile().getSize());
 							try (ServletOutputStream sos = response.getOutputStream();
 									BufferedInputStream bis = new BufferedInputStream(
-											responseWrapper.getFile().getContent())) {
+											responseWrapper2.getFile().getContent())) {
 								int data;
 								while ((data = bis.read()) != -1) {
 									sos.write(data);
@@ -729,9 +740,9 @@ public class Controller {
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
-							responseWrapper.getFile().getContent().close();
+							responseWrapper2.getFile().getContent().close();
 						} else {
-							Igrp.getInstance().getResponse().getWriter().append(responseWrapper.getContent());
+							Igrp.getInstance().getResponse().getWriter().append(responseWrapper2.getContent());
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -740,7 +751,7 @@ public class Controller {
 				case 2: // redirect
 					boolean isAbsolute = false;
 					try {
-						String url = responseWrapper.getUrl();
+						String url = responseWrapper2.getUrl();
 						try {
 							java.net.URI uri = java.net.URI.create(url);
 							isAbsolute = uri.isAbsolute() && uri.toURL().getProtocol().matches("(?i)(http|https)");
@@ -749,14 +760,14 @@ public class Controller {
 						}
 						if (!Igrp.getInstance().getResponse().isCommitted()) {
 							Igrp.getInstance().getResponse().sendRedirect(
-									isAbsolute == true ? url : (url.startsWith("webapps") ? url : ("webapps" + url)));
+									isAbsolute? url : (url.startsWith("webapps") ? url : ("webapps" + url)));
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 					break;
 				case 3: // forward
-					String url = responseWrapper.getUrl().replaceAll("&&", "&");
+					String url = responseWrapper2.getUrl().replace("&&", "&");
 					url = url.startsWith("webapps") ? ("app/" + url) : ("app/webapps" + url);
 					try {
 						Igrp.getInstance().getRequest().getRequestDispatcher(url)
@@ -771,7 +782,6 @@ public class Controller {
 //							Igrp.getInstance().getRequest().getRequestDispatcher("pg_studio.jsp").forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
 						Igrp.getInstance().getResponse().getOutputStream().close();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					break;

@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
 import javax.persistence.Id;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -1535,6 +1537,51 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	/**
 	 * 
 	 * <p>Extension of where clause</p>
+	 * <p>Example: find().whereNotIn("status",{"closed","canceled"}).all()</p>
+	 * <p>HQL Code{@code: WHERE 'columnName' NOT IN (UUID[]) }</p>
+	 * @param columnName - Column's name
+	 * @param uuIds - Array of uuIds
+	 * 
+	 */
+	@Override
+	public T whereNotIn(String columnName, UUID... uuIds) {
+		if(Core.isNotNull(columnName)&&uuIds!=null&&uuIds.length>0) {
+			this.where("");
+			String list = "";
+			for(UUID u : uuIds) {
+				list = list + ",'" + u + "'";
+			}
+			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " NOT IN (" + list.substring(1) + ") ");
+		}
+		return (T)this;
+	}
+	
+	/**
+	 * 
+	 * <p>Extension of where clause</p>
+	 * <p>Example: find().whereIn("id",{1,2,3,4}).all()</p>
+	 * <p>HQL Code{@code: WHERE 'columnName' IN (UUID[]) }</p>
+	 * @param columnName - Column's name
+	 * @param uuIds - Array of uuIds
+	 * 
+	 */
+	@Override
+	public T whereIn(String columnName, UUID... uuIds) {
+		if(Core.isNotNull(columnName)&&uuIds!=null&&uuIds.length>0) {
+			this.where("");
+			String list = "";
+			for(UUID u : uuIds) {
+				list = list + ",'" + u + "'";
+			}
+			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " IN (" + list.substring(1) + ") ");
+		}
+		return (T)this;
+	}
+	
+	
+	/**
+	 * 
+	 * <p>Extension of where clause</p>
 	 * <p>Example: find().whereIn("id",{1,2,3,4}).all()</p>
 	 * <p>HQL Code{@code: WHERE 'columnName' IN (Number[]) }</p>
 	 * @param columnName - Column's name
@@ -1576,6 +1623,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		}
 		return (T)this;
 	}
+	
 	
 	/**
 	 * 

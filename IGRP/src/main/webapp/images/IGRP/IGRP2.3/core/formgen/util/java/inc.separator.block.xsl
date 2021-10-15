@@ -1,6 +1,6 @@
-l<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:template name="blockly.element.separator" >	
+	<xsl:template name="blockly.element.separator">	
 	<xsl:variable name="table" select="substring-after(@type,'separator_')"/>	
 		<xsl:variable name="mutation" select="mutation/@count"/>		
 		<xsl:variable name="dao_sep" select="field[@name='dao']"/>		
