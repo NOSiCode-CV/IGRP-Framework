@@ -258,37 +258,43 @@ public final class Core {
 
 	public static boolean inviteUserInProfile(User user, Organization organization, ProfileType profiletype) {
 		boolean ok = true;
-		if (Core.isNotNull(new Profile().find().andWhere("type", "=", "PROF").andWhere("type_fk", "=", profiletype)
-				.andWhere("organization.id", "=", organization.getId()).andWhere("profileType.id", "=", profiletype)
-				.andWhere("user.id", "=", user.getId()).one())) {
-			// Already invited
-			Core.setMessageWarning(user.getUser_name() + " está convidado para este perfil.");
-			ok = false;
-		} else {
-			// Will insert profile
-			Profile p = new Profile(profiletype.getId(), "PROF", profiletype, user, organization).insert();
-			if (!p.hasError()) {
-				// Check if exists already a ENV
-				if (Core.isNull(new Profile().find().andWhere("type", "=", "ENV")
-						.andWhere("type_fk", "=", profiletype.getApplication().getId())
-						.andWhere("organization.id", "=", organization.getId())
-						.andWhere("profileType.id", "=", profiletype.getId()).andWhere("user.id", "=", user.getId())
-						.one())) {
-					// ENV not added, so must be inserted the application
-					p = new Profile(profiletype.getApplication().getId(), "ENV", profiletype, user, organization)
-							.insert();
-					if (p.hasError()) {
-						Core.setMessageError();
-						ok = false;
-					}
-				}
-				if (ok)
-					Core.setMessageSuccess(user.getEmail() + " convidado para o perfil " + profiletype.getDescr());
-			} else {
-				Core.setMessageError(user.getUser_name() + " está convidado para este perfil.");
+		if (Core.getCurrentDad().equals(profiletype.getApplication().getDad())) {
+			if (Core.isNotNull(new Profile().find().andWhere("type", "=", "PROF").andWhere("type_fk", "=", profiletype)
+					.andWhere("organization.id", "=", organization.getId()).andWhere("profileType.id", "=", profiletype)
+					.andWhere("user.id", "=", user.getId()).one())) {
+				// Already invited
+				Core.setMessageWarning(user.getUser_name() + " está convidado para este perfil.");
 				ok = false;
+			} else {
+				// Will insert profile
+				Profile p = new Profile(profiletype.getId(), "PROF", profiletype, user, organization).insert();
+				if (!p.hasError()) {
+					// Check if exists already a ENV
+					if (Core.isNull(new Profile().find().andWhere("type", "=", "ENV")
+							.andWhere("type_fk", "=", profiletype.getApplication().getId())
+							.andWhere("organization.id", "=", organization.getId())
+							.andWhere("profileType.id", "=", profiletype.getId()).andWhere("user.id", "=", user.getId())
+							.one())) {
+						// ENV not added, so must be inserted the application
+						p = new Profile(profiletype.getApplication().getId(), "ENV", profiletype, user, organization)
+								.insert();
+						if (p.hasError()) {
+							Core.setMessageError();
+							ok = false;
+						}
+					}
+					if (ok)
+						Core.setMessageSuccess(user.getEmail() + " convidado para o perfil " + profiletype.getDescr());
+				} else {
+					Core.setMessageError(user.getUser_name() + " está convidado para este perfil.");
+					ok = false;
+				}
 			}
+		} else {
+			Core.setMessageError("Não pode convidar para a aplicação " + profiletype.getApplication().getDad());
+			ok = false;
 		}
+
 		return ok;
 	}
 
