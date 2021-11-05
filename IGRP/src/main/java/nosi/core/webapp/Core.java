@@ -256,9 +256,9 @@ public final class Core {
 		}
 	}
 
-	public static boolean inviteUserInProfile(User user, Organization organization, ProfileType profiletype) {
+	public static boolean inviteUserInProfile(User user, Organization organization, ProfileType profiletype, Application app) {
 		boolean ok = true;
-		if (Core.getCurrentDad().equals(profiletype.getApplication().getDad())) {
+		if (app.getDad().equals(profiletype.getApplication().getDad())) {
 			if (Core.isNotNull(new Profile().find().andWhere("type", "=", "PROF").andWhere("type_fk", "=", profiletype)
 					.andWhere("organization.id", "=", organization.getId()).andWhere("profileType.id", "=", profiletype)
 					.andWhere("user.id", "=", user.getId()).one())) {
@@ -294,7 +294,6 @@ public final class Core {
 			Core.setMessageError("Não pode convidar para a aplicação " + profiletype.getApplication().getDad());
 			ok = false;
 		}
-
 		return ok;
 	}
 
