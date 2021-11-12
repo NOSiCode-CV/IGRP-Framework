@@ -766,7 +766,17 @@ public final class Core {
 		}
 		Integer isPublic = Core.getParamInt("isPublic", false);
 		String r = Core.getParam("r");
-		r = isPublic.intValue() == 1 ? r : Core.decrypt(r);
+		
+		switch (isPublic.intValue()) {
+			case 1:			
+				break;
+			case 2:
+				r = Core.decryptPublicPage(r);
+				break;
+			default:
+				r = Core.decrypt(r);
+				break;		
+		}
 		String[] r_split = Core.isNotNull(r) ? r.split("/") : null;
 		return r_split != null ? r_split[0] : "igrp";
 	}
@@ -778,7 +788,18 @@ public final class Core {
 		}
 		Integer isPublic = Core.getParamInt("isPublic", false);
 		String r = Core.getParam("r");
-		r = isPublic.intValue() == 1 ? r : Core.decrypt(r);
+		
+		switch (isPublic.intValue()) {
+			case 1:			
+				break;
+			case 2:
+				r = Core.decryptPublicPage(r);
+				break;
+			default:
+				r = Core.decrypt(r);
+				break;		
+		}
+			
 		String[] r_split = Core.isNotNull(r) ? r.split("/") : null;
 		return r_split != null ? r_split[1] : "igrp";
 	}

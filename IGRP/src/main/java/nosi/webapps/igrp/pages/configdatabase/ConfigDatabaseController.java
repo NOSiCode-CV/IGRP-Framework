@@ -360,6 +360,9 @@ public class ConfigDatabaseController extends Controller {
 		}
 	}
 	*/
+	
+	//https://stackoverflow.com/questions/16162357/transaction-isolation-levels-relation-with-locks-on-table isolation is 2
+	
 	private String getHibernateConfig(Config_env config,String package_) {
 		return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
 				"<!DOCTYPE hibernate-configuration PUBLIC\r\n" + 
@@ -374,7 +377,6 @@ public class ConfigDatabaseController extends Controller {
 				"\t\t<property name=\"hibernate.hbm2ddl.auto\">update</property>\r\n" + 
 				"\t\t<property name=\"hibernate.connection.isolation\">2</property>\r\n" + 
 				"\t\t<property name=\"hibernate.connection.autocommit\">false</property>\r\n" + 
-				"\t\t<property name=\"hibernate.connection.pool_size\">5</property>\r\n" + 
 				"\t\t<property name=\"hibernate.hbm2ddl.jdbc_metadata_extraction_strategy\">individually</property>\r\n" + 
 				"\t\t<property name=\"hibernate.current_session_context_class\">org.hibernate.context.internal.ThreadLocalSessionContext</property>\r\n" + 
 				"\t\t<property name=\"hibernate.transaction.auto_close_session\">DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION</property>\r\n" + 
