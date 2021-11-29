@@ -39,7 +39,7 @@
 			
 			<xsl:variable name="code">
 				<xsl:choose>
-					<xsl:when test="$tipoBloco = 'set_app_params'">
+					<xsl:when test="$tipoBloco = 'set_app_params' or $tipoBloco = 'core_fn_link'">
 						<xsl:text>+"&amp;</xsl:text><xsl:value-of select="$valueName"/><xsl:text>=" +</xsl:text><xsl:value-of select="$valueValue"/>
 					</xsl:when>
 					<xsl:otherwise>
@@ -64,7 +64,7 @@
 			<xsl:call-template name="blockly.getValue">			
 				<xsl:with-param name="value" select="value[@name='concat_value']"/>				
 			</xsl:call-template>			
-		</xsl:variable>	
+		</xsl:variable>			
 		<xsl:variable name="concats">	
 			<xsl:call-template name="listar.paramsConcat">
 				<xsl:with-param name="total" select="$mutation"/>
@@ -82,7 +82,30 @@
 					<xsl:with-param name="value" select="value[@name=concat('CONCAT',$index)]"/>				
 				</xsl:call-template>			
 			</xsl:variable>	
-			<xsl:text>.concat(</xsl:text><xsl:value-of select="$valueValue"/><xsl:text>)</xsl:text>		
+			<xsl:variable name="concatType">		
+				<xsl:choose>
+					<xsl:when test="value[@name=concat('CONCAT',$index)]/block/value/block/value/block/value/block/field != ''">				
+						<xsl:value-of select="substring-before(value/block/value/block/value/block/value/block/field,'::')"/>				
+					</xsl:when>
+					<xsl:when test="value[@name=concat('CONCAT',$index)]/block/value/block/value/block/field != ''">				
+						<xsl:value-of select="substring-before(value/block/value/block/value/block/field,'::')"/>				
+					</xsl:when>				
+					<xsl:when test="value[@name=concat('CONCAT',$index)]/block/value/block/field != ''">				
+						<xsl:value-of select="substring-before(value/block/value/block/field,'::')"/>				
+					</xsl:when>					
+					<xsl:otherwise>				
+						<xsl:value-of select="substring-before(value[@name=concat('CONCAT',$index)]/block/field,'::')"/>				
+					</xsl:otherwise>				
+				</xsl:choose>		
+			</xsl:variable>	
+			<xsl:variable name="concatValue_convert">		
+				<xsl:call-template name="convert_blocks">									
+					<xsl:with-param name="value" select="$valueValue"></xsl:with-param>						
+					<xsl:with-param name="from" select="$concatType"></xsl:with-param>				
+					<xsl:with-param name="to" select="'String'"></xsl:with-param>															
+				</xsl:call-template>					
+			</xsl:variable>		
+			<xsl:text>.concat(</xsl:text><xsl:value-of select="$concatValue_convert"/><xsl:text>)</xsl:text>		
 			<xsl:call-template name="listar.paramsConcat">
 				<xsl:with-param name="total" select="$total"/>
 				<xsl:with-param name="index" select="$index + 1"/>

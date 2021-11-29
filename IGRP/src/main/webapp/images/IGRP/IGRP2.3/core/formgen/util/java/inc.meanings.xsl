@@ -43,22 +43,64 @@
 			</xsl:when>			
 			<xsl:when test="$key = 'WHERE_GT'">				
 				<xsl:text>," &gt; ",</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'WHERE_GTT'">				
+				<xsl:text> &gt; </xsl:text>					
 			</xsl:when>			
 			<xsl:when test="$key = 'WHERE_GTE'">				
 				<xsl:text>," &gt;= ",</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'WHERE_GTEE'">				
+				<xsl:text> &gt;= </xsl:text>					
 			</xsl:when>			
 			<xsl:when test="$key = 'WHERE_LT'">				
 				<xsl:text>," &lt; ",</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'WHERE_LTT'">				
+				<xsl:text> &lt; </xsl:text>					
 			</xsl:when>	
 			<xsl:when test="$key = 'IN'">				
 				<xsl:text>,"IN",</xsl:text>					
 			</xsl:when>			
 			<xsl:when test="$key = 'WHERE_LTE'">				
 				<xsl:text>," &lt;= ",</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'WHERE_LTEE'">				
+				<xsl:text> &lt;= </xsl:text>					
 			</xsl:when>			
 			<xsl:when test="$key = 'WHERE_DIF'">				
 				<xsl:text>, " &lt;&gt; ", </xsl:text>					
+			</xsl:when>
+			<xsl:when test="$key = 'WHERE_EQ'">				
+				<xsl:text>,"=",</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'WHERE_EQQ'">				
+				<xsl:text> = </xsl:text>					
+			</xsl:when>		
+			<xsl:when test="$key = 'WHERE_DIF'">				
+				<xsl:text>,"&lt;&gt;",</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'WHERE_DIFF'">				
+				<xsl:text> != </xsl:text>					
+			</xsl:when>		
+			<xsl:when test="$key = 'WHERE_LIKE'">				
+				<xsl:text>,"like",</xsl:text>					
 			</xsl:when>			
+			<xsl:when test="$key = 'WHERE_NOTLIKE'">				
+				<xsl:text>,"notlike",</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'par_equall'">				
+				<xsl:text>.equals(</xsl:text>					
+			</xsl:when>		
+			<xsl:when test="$key = 'par_not_equall'">				
+				<xsl:text>.equals(</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'par_contains'">				
+				<xsl:text>.contains(</xsl:text>					
+			</xsl:when>		
+			<xsl:when test="$key = 'par_equalsIgnoreCase'">				
+				<xsl:text>.equalsIgnoreCase(</xsl:text>					
+			</xsl:when>							
 			<xsl:when test="$key = 'AND'">				
 				<xsl:text> &amp;&amp; </xsl:text>					
 			</xsl:when>			
@@ -110,18 +152,6 @@
 			<xsl:when test="$key = 'TRUE'">				
 				<xsl:text> true </xsl:text>					
 			</xsl:when>			
-			<xsl:when test="$key = 'WHERE_EQ'">				
-				<xsl:text>,"=",</xsl:text>					
-			</xsl:when>			
-			<xsl:when test="$key = 'WHERE_DIF'">				
-				<xsl:text>,"&lt;&gt;",</xsl:text>					
-			</xsl:when>			
-			<xsl:when test="$key = 'WHERE_LIKE'">				
-				<xsl:text>,"like",</xsl:text>					
-			</xsl:when>			
-			<xsl:when test="$key = 'WHERE_NOTLIKE'">				
-				<xsl:text>,"notlike",</xsl:text>					
-			</xsl:when>			
 			<xsl:when test="$key = 'FALSE'">				
 				<xsl:text> false </xsl:text>					
 			</xsl:when>			
@@ -152,6 +182,9 @@
 			<xsl:when test="$key = 'POWER'">				
 				<xsl:text>^</xsl:text>					
 			</xsl:when>	
+			<xsl:when test="$key = 'percent'">				
+				<xsl:text>percent</xsl:text>					
+			</xsl:when>
 			<xsl:when test="$key = 'counting'">				
 				<xsl:text>.getCount()</xsl:text>					
 			</xsl:when>	
@@ -160,12 +193,27 @@
 			</xsl:when>	
 			<xsl:when test="$key = 'averagingInt'">				
 				<xsl:text>.getAverage()</xsl:text>					
-			</xsl:when>	
+			</xsl:when>		
 			<xsl:when test="$key = 'maxBy'">				
 				<xsl:text>.getMax()</xsl:text>					
 			</xsl:when>	
 			<xsl:when test="$key = 'minBy'">				
 				<xsl:text>.getMin()</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'get_counting'">				
+				<xsl:text>.getCount(</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'get_summingLong'">				
+				<xsl:text>.getSum(</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'get_averagingInt'">				
+				<xsl:text>.getAvg(</xsl:text>					
+			</xsl:when>		
+			<xsl:when test="$key = 'get_maxBy'">				
+				<xsl:text>.getMax(</xsl:text>					
+			</xsl:when>	
+			<xsl:when test="$key = 'get_minBy'">				
+				<xsl:text>.getMin(</xsl:text>					
 			</xsl:when>	
 			<xsl:when test="$key = 'no_add'">				
 				<xsl:text>.noAdd()</xsl:text>					

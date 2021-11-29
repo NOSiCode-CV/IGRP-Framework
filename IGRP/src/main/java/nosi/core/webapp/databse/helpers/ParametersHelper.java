@@ -22,7 +22,7 @@ public class ParametersHelper {
 		setParameter(query, col.getColumnMap(), value, col);
 	}
 	
-	private static void setParameter(Query query,String columnName,Object value,Column col) {
+	public static void setParameter(Query query,String columnName,Object value,Column col) {
 		if(col.getType().equals(java.lang.Integer.class)) {
 			query.setParameter(columnName,value!=null?Core.toInt(value.toString()):null);
 		}else if(col.getType().equals(java.lang.Double.class)){

@@ -45,7 +45,7 @@ public class PesquisarUtilizadorController extends Controller {
 		//model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=utilizador"));
 		
 		
-		view.ativo.setVisible(false); 
+		
 		
       if(!Core.getCurrentUser().getUser_name().equalsIgnoreCase("igrpweb@nosi.cv"))
 			view.btn_editar.setVisible(false);
@@ -384,7 +384,7 @@ public class PesquisarUtilizadorController extends Controller {
 	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 
-
+/*
     public Response actionChangeStatus(){
       this.format = Response.FORMAT_JSON;
       String id = Core.getParam("p_id");
@@ -398,8 +398,8 @@ public class PesquisarUtilizadorController extends Controller {
         	  Profile p = new Profile().findOne(Core.toInt(id));
              // System.out.println(p.getUser().getId()+" status");
               if(p != null) {
-            	  
-                  //p.setStatus(status.equals("true")?1:0);
+            	  p.getUser().getStatus()
+                  p.setStatus(status.equals("true")?1:0);
                   p = p.update();
                  
                   if(!p.hasError())
@@ -415,5 +415,36 @@ public class PesquisarUtilizadorController extends Controller {
 
       return this.renderView(json.toString());
     }	
+    
+    
+    */
+    
+    public Response actionChangeStatus(){
+    	      this.format = Response.FORMAT_JSON;
+    	      Integer id = Core.getParamInt("p_ativo");
+    	      String status = Core.getParam("p_ativo_check");
+    	      boolean response = false;
+    	      try {
+    	          if(id != null) {
+    	              User u =Core.findUserById(id);
+    	              if(u != null) {
+    	                  u.setStatus(status.equals("true")?1:0);
+    	                  u = u.update();
+    	                  if(!u.hasError())
+    	                      response = true;
+    	              }
+    	          }
+    	      }catch(Exception e) {
+    
+    	      }
+    	
+    	      JSONObject json = new JSONObject();
+    	      json.put("status", response);     
+    	
+    	      return this.renderView(json.toString());
+    	    }	
+    
+    
+    
 	/*----#end-code----*/
 }

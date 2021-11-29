@@ -16,7 +16,8 @@
 	<xsl:include href="inc.return.report.xsl"/>	
 	<xsl:include href="inc.statbox.xsl"/>	
 	<xsl:include href="inc.select.xsl"/>
-	<xsl:include href="inc.vertical.tree.menu.xsl"/>		
+	<xsl:include href="inc.vertical.tree.menu.xsl"/>
+	<xsl:include href="inc.circle.statbox.xsl"/>		
 	
 	<xsl:template name="blockly.element.controller">	
 		<xsl:call-template name="blockly.getValue">
@@ -501,6 +502,9 @@
 			</xsl:when>			
 			<xsl:when test="contains($block-type, 'listar_')">			
 				<xsl:call-template name="blockly.element.listar"></xsl:call-template>				
+			</xsl:when>	
+			<xsl:when test="contains($block-type, 'listartre_')">			
+				<xsl:call-template name="blockly.element.listar"></xsl:call-template>				
 			</xsl:when>			
 			<xsl:when test="contains( $block-type,'rowtable' )">			
 				<xsl:call-template name="blockly.element.row"></xsl:call-template>				
@@ -670,7 +674,22 @@
 			</xsl:when>
 			<xsl:when test="contains($block-type, 'set_app_icon')">		
 				<xsl:call-template name="blockly.element.set_app_icon"></xsl:call-template>				
-			</xsl:when>																	
+			</xsl:when>	
+			<xsl:when test="contains($block-type, 'get_row_tree_')">		
+				<xsl:call-template name="blockly.element.get_row_tree"></xsl:call-template>				
+			</xsl:when>	
+			<xsl:when test="$block-type = 'getrowStartEnd'">	
+				<xsl:call-template name="blockly.element.getrowStartEnd"></xsl:call-template>				
+			</xsl:when>	
+			<xsl:when test="contains($block-type, 'circle_statbox_')">	
+				<xsl:call-template name="blockly.element.circle_stat_box"></xsl:call-template>				
+			</xsl:when>	
+			<xsl:when test="$block-type = 'filterr'">	
+				<xsl:call-template name="blockly.element.filterr"></xsl:call-template>				
+			</xsl:when>
+			<xsl:when test="$block-type = 'core_fn_link'">	
+				<xsl:call-template name="blockly.element.core_fn_link"></xsl:call-template>				
+			</xsl:when>																							
 			<xsl:otherwise>			
 				<xsl:text>Block not found</xsl:text>				
 			</xsl:otherwise>		

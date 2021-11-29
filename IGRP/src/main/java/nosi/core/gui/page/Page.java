@@ -226,13 +226,13 @@ public class Page{
 		    String env = "";
 		    env = ConfigApp.getInstance().getEnvironment();
 			if(e.getCause() instanceof  NullPointerException) {
-				String msg = "Error NullPointerException - "+Core.getCurrentDad()+"/"+Igrp.getInstance().getCurrentPageName()+"Controller.java!";
+				String msg = "ERROR: NullPointerException - "+Core.getCurrentDad()+"/"+Igrp.getInstance().getCurrentPageName()+"Controller.java!";
 				
 				
 				if(env.equals("dev") || env.equals("sta")) {
 					msg+=" \nCheck debugger at the bottom of the page.";					
 				}
-				System.err.println("Nullpointer in "+Core.getCurrentDad()+": "+sw.toString());
+				System.err.println("ERROR: Nullpointer in "+Core.getCurrentDad()+": "+sw.toString());
 				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error","sn: "+sw.toString());
 				throw new NotFoundHttpException(msg);
 			}
@@ -240,10 +240,10 @@ public class Page{
 				System.err.println("DevError in "+Core.getCurrentDad()+"/"+Igrp.getInstance().getCurrentPageName()+": "+sw.toString());
 			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error","s: "+ sw.toString());
 			if(Core.isNotNull(e.getCause()) && Core.isNotNull(e.getCause().getMessage())) {
-				Core.log("ERRO: "+e.getCause().getMessage()); //dosen't work because error page is not the original
-				throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas. +INFO: \n\n\n\n"+e.getCause().getMessage());
+				Core.log("ERRO: "+e.getCause().getMessage()); //doesen't work because error page is not the original
+				throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas. +INFO: \n\n\n\n["+Core.getCurrentDad()+"] /"+Igrp.getInstance().getCurrentPageName()+" - "+e.getCause().getMessage());
 			}
-			throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas.");
+			throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas. \n\n\n\n["+Core.getCurrentDad()+"] /"+Igrp.getInstance().getCurrentPageName());
 		}
 		throw new NotFoundHttpException("Nenhum metodo "+actionName+" encontrado!");
 		

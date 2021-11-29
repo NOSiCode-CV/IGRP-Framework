@@ -2,30 +2,40 @@
 	<xsl:template name="blockly.element.statbox" >		
 		<xsl:variable name="mutation" select="mutation/@count"/>	
 		<xsl:variable name="dao" select="field[@name='dao']"/>
-		<xsl:variable name="collecto_type" select="substring-before(value[@name='statistics']/block/field,'::')"/>		
+		<xsl:variable name="statistDrop" select="field[@name='statistDrop']"/>
+		<xsl:variable name="valueDao" select = "substring-after(value[@name='statisValue']/block[contains(@type,'et-dao-')]/field,'::')"/>
+		<xsl:variable name="value_otherDao" select = "substring-after(value[@name='statisValue']/block/value/block/field,'::')"/>			
 		<xsl:variable name="daolow">
 	       	<xsl:call-template name="LowerCase">       	
 	       		<xsl:with-param name="text" select="$dao"/>     		
 	       	</xsl:call-template>	       	
 		</xsl:variable>	
-		<xsl:variable name="collectorField_1" select="substring-after(value[@name='statistics']/block/field,'::')"/>		
-		<xsl:variable name="collectorField_2">		
-			<xsl:call-template name="InitCap">			
-				<xsl:with-param name="text" select="$collectorField_1"/>				
-			</xsl:call-template>			
-		</xsl:variable>
+		<xsl:variable name="statValue">
+			<xsl:call-template name="utils.meaning">
+				<xsl:with-param name="key" select="$statistDrop"/>
+			</xsl:call-template>
+		</xsl:variable>	
 		<xsl:variable name="collecto">		
 			<xsl:call-template name="blockly.getValue">				
-				<xsl:with-param name="value" select="value[@name='statistics']"/>				
+				<xsl:with-param name="value" select="value[@name='statisValue']"/>				
 			</xsl:call-template>			
-		</xsl:variable>	
-		<xsl:variable name="collecto_convert">
-			<xsl:call-template name="convert_blocks">
-				<xsl:with-param name="daolow" select="$daolow"></xsl:with-param>
-				<xsl:with-param name="value" select="$collecto"></xsl:with-param>
-				<xsl:with-param name="from" select="$collecto_type"></xsl:with-param>
-				<xsl:with-param name="to" select="'Long'"></xsl:with-param>
-			</xsl:call-template>	
+		</xsl:variable>
+		<xsl:variable name="value1">
+			<xsl:choose>
+				<xsl:when test="$valueDao != ''">
+					<xsl:choose>
+						<xsl:when test="$value_otherDao != ''">
+							<xsl:text>"</xsl:text><xsl:value-of select="$valueDao"/><xsl:text>.</xsl:text><xsl:value-of select="$value_otherDao"/><xsl:text>"</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>"</xsl:text><xsl:value-of select="$valueDao"></xsl:value-of><xsl:text>"</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>This field must be a DAO Field!</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>	
 		</xsl:variable>	
 		<xsl:variable name="daofilter" select="concat($daolow,'filter')"/>		
 		<xsl:variable name="andWheres">		
@@ -47,11 +57,13 @@
 		<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daofilter"/><xsl:text> = new </xsl:text><xsl:value-of select="$dao"/><xsl:text>().find();</xsl:text>			
 		<xsl:value-of select="$andWheres"/>		
 		<xsl:value-of select="$newlineTab1"/>		
-		<xsl:text>List&lt;</xsl:text><xsl:value-of select="$dao"/><xsl:text>&gt; </xsl:text><xsl:value-of select="$daolow"/><xsl:text>List  = </xsl:text><xsl:value-of select="$daofilter"/><xsl:text>.all();</xsl:text>		
-		<xsl:value-of select="$newlineTab1"/>					
-		<xsl:text>LongSummaryStatistics value = </xsl:text><xsl:value-of select="$daolow"/><xsl:text>List.stream().collect(Collectors.summarizingLong(</xsl:text><xsl:value-of select="$daolow"/><xsl:text> -> </xsl:text><xsl:value-of select="$collecto_convert"/><xsl:text>));</xsl:text>								
+		<xsl:text>Object value  = </xsl:text><xsl:value-of select="$daofilter"/><xsl:value-of select="$statValue"/>
+		<xsl:if test="$statistDrop != 'get_counting' ">
+			<xsl:value-of select="$value1"/>
+		</xsl:if>			
+		<xsl:text>);</xsl:text>						
 		<xsl:value-of select="$newlineTab1"/>		
-		<xsl:text>if(!</xsl:text><xsl:value-of select="$daolow"/><xsl:text>List.isEmpty()){</xsl:text>		
+		<xsl:text>if(Core.isNotNull(value)){</xsl:text>		
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$options"/>			
 		<xsl:value-of select="$newlineTab1"></xsl:value-of>		
@@ -91,6 +103,12 @@
 			<xsl:value-of select="$tab2"></xsl:value-of>		
 			<xsl:text>model.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text>
 				<xsl:choose>
+					<xsl:when test="$collector = 'percent' ">
+						<xsl:text>String.valueOf(</xsl:text><xsl:value-of select="$collectorValue"/><xsl:text>)</xsl:text>
+					</xsl:when>
+					<xsl:when test="$collector = 'value' ">
+						<xsl:text>String.valueOf(value)</xsl:text>
+					</xsl:when>
 					<xsl:when test="$collector != '' ">
 						<xsl:text>String.valueOf(value</xsl:text><xsl:value-of select="$collectorValue"/><xsl:text>)</xsl:text>
 					</xsl:when>

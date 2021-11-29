@@ -127,13 +127,13 @@ public class PesquisarMenuView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
 
-		btn_btn_novo = new IGRPButton("Novo","igrp","PesquisarMenu","btn_novo","right_panel_submit|refresh","success|fa-plus-square","","");
+		btn_btn_novo = new IGRPButton("Novo","igrp","PesquisarMenu","btn_novo","right_panel|refresh","success|fa-plus-square","","");
 		btn_btn_novo.propertie.add("type","specific").add("rel","btn_novo").add("refresh_components","");
 
 		btn_gravar_ordenacao = new IGRPButton("Gravar Ordenação","igrp","PesquisarMenu","gravar_ordenacao","submit_ajax","primary|fa-sort-numeric-asc","","");
 		btn_gravar_ordenacao.propertie.add("type","specific").add("rel","gravar_ordenacao").add("refresh_components","table_1,formlist_1");
 
-		btn_editar = new IGRPButton("Editar","igrp","PesquisarMenu","editar","right_panel_submit|refresh","warning|fa-pencil","","");
+		btn_editar = new IGRPButton("Editar","igrp","PesquisarMenu","editar","right_panel|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("id","button_edcd_6e25").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarMenu","eliminar","alert_submit","danger|fa-trash","","");

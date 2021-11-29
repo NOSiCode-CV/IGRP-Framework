@@ -29,6 +29,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
+import nosi.webapps.igrp.dao.Profile;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import java.util.List;
 import java.util.ArrayList;
@@ -109,7 +110,15 @@ public class ImportArquivoController extends Controller {
 			e.printStackTrace();
 		}
 		
-		if(Core.isNull(Core.getCurrentUser().getUserProfile()) || !Core.getCurrentUser().getUserProfile().equals("ADMIN"))
+		Profile custumizer = new Profile().find().where("user","=", Core.getCurrentUser().getId())
+				.andWhere("profileType.code","=", "customizer."+ Core.findApplicationById(id_dad)).one();
+		
+		Profile adminApp = new Profile().find().where("user","=", Core.getCurrentUser().getId())
+				.andWhere("profileType.code","=", "admin."+ Core.findApplicationById(id_dad)).one();
+		
+		if(Core.isNotNull(custumizer) || Core.isNotNull(adminApp))
+			view.personalizar_login.setVisible(true);
+		else if(Core.isNull(Core.getCurrentUser().getUserProfile()) || !Core.getCurrentUser().getUserProfile().equals("ADMIN"))
 			view.personalizar_login.setVisible(false);
 			
 		/*----#end-code----*/
@@ -371,8 +380,11 @@ public class ImportArquivoController extends Controller {
 								String appImgPath = application.getDad();
 								if (model.getTipo() != 1) {
 
-									if (model.getTipo() == 3)
+									if (model.getTipo() == 3) {
+										fileName= fileName.replaceAll("\\s+", "_").replaceAll("\'", "");	
 										appImgPath += File.separator + "reports";
+									}
+										
 									String imgWorkSapce = Path.getImageWorkSpace(appImgPath);
 
 									// Saving in your workspace case exists

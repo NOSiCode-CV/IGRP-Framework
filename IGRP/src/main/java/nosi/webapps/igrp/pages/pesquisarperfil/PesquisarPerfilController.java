@@ -93,7 +93,7 @@ public class PesquisarPerfilController extends Controller {
 		/*----#start-code(editar)----*/
  			
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		
+		 this.addQueryString("isEdit","true");
 		return this.redirect("igrp","NovoPerfil","editar", this.queryString());
 
 		/*----#end-code----*/

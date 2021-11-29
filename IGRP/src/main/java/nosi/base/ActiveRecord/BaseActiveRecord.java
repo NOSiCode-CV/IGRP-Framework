@@ -6,10 +6,12 @@ import java.lang.reflect.ParameterizedType;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
 import javax.persistence.Id;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -28,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 
+import jd.core.model.instruction.bytecode.instruction.InstanceOf;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.ORDERBY;
@@ -941,6 +944,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 					System.out.println(this.getSql());
 				}
 				Query query = s.createQuery(this.getSql());
+			
 				if (this.offset > -1) {
 					query.setFirstResult(offset);
 				}
@@ -951,15 +955,23 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				if (this.parametersMap != null && !this.parametersMap.isEmpty()) {
 					for (Iterator<DatabaseMetadaHelper.Column> i = parametersMap.iterator(); i.hasNext();) {
 						Column col = i.next();
-						ParametersHelper.setParameter(query, col.getDefaultValue(), col);
+						ParametersHelper.setParameter(query,col.getColumnMap(), col.getDefaultValue(), col);
+						
 					}
 				}
-				List<Object> list = query.getResultList();
-				for (Iterator<Object> iter = list.iterator(); iter.hasNext();) {
-					Map<String, Object> mapObject = new HashMap<>();
-					Object[] teste = (Object[]) iter.next();
-					for (int i = 0; teste.length > i; i++)
-						mapObject.put(columns[i], teste[i]);
+
+				List<T> list = query.getResultList();
+				for (Iterator<Object> iter = (Iterator<Object>) list.iterator(); iter.hasNext();) {
+					Map<String, Object> mapObject = new LinkedHashMap<>();					
+					final Object obj = iter.next();
+					if(obj instanceof Object[]) {
+						Object[] teste = (Object[]) obj;
+						for(int i = 0; teste.length > i; i++)
+							mapObject.put(columns[i], teste[i]);
+					}else {
+						mapObject.put(columns[0], obj);						
+					}
+					
 					lista.add(mapObject);
 				}
 			} catch (Exception e) {
@@ -1525,6 +1537,51 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	/**
 	 * 
 	 * <p>Extension of where clause</p>
+	 * <p>Example: find().whereNotIn("status",{"closed","canceled"}).all()</p>
+	 * <p>HQL Code{@code: WHERE 'columnName' NOT IN (UUID[]) }</p>
+	 * @param columnName - Column's name
+	 * @param uuIds - Array of uuIds
+	 * 
+	 */
+	@Override
+	public T whereNotIn(String columnName, UUID... uuIds) {
+		if(Core.isNotNull(columnName)&&uuIds!=null&&uuIds.length>0) {
+			this.where("");
+			String list = "";
+			for(UUID u : uuIds) {
+				list = list + ",'" + u + "'";
+			}
+			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " NOT IN (" + list.substring(1) + ") ");
+		}
+		return (T)this;
+	}
+	
+	/**
+	 * 
+	 * <p>Extension of where clause</p>
+	 * <p>Example: find().whereIn("id",{1,2,3,4}).all()</p>
+	 * <p>HQL Code{@code: WHERE 'columnName' IN (UUID[]) }</p>
+	 * @param columnName - Column's name
+	 * @param uuIds - Array of uuIds
+	 * 
+	 */
+	@Override
+	public T whereIn(String columnName, UUID... uuIds) {
+		if(Core.isNotNull(columnName)&&uuIds!=null&&uuIds.length>0) {
+			this.where("");
+			String list = "";
+			for(UUID u : uuIds) {
+				list = list + ",'" + u + "'";
+			}
+			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " IN (" + list.substring(1) + ") ");
+		}
+		return (T)this;
+	}
+	
+	
+	/**
+	 * 
+	 * <p>Extension of where clause</p>
 	 * <p>Example: find().whereIn("id",{1,2,3,4}).all()</p>
 	 * <p>HQL Code{@code: WHERE 'columnName' IN (Number[]) }</p>
 	 * @param columnName - Column's name
@@ -1566,6 +1623,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		}
 		return (T)this;
 	}
+	
 	
 	/**
 	 * 
