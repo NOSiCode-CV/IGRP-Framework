@@ -137,7 +137,7 @@
 				 
 				if(vCtxMenu.hasClass('lavel-menu')){
 					
-					vTop = vTable.hasClass('dataTable') ? vTop + addTop : vTop - vBoxHeight;	
+					vTop = vTable.hasClass('dataTable') ? vTop - (addTop + 6) : vTop - vBoxHeight;	
 					
 				}else{
 					vTop += addTop;

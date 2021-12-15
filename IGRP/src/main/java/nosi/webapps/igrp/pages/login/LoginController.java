@@ -489,7 +489,7 @@ public class LoginController extends Controller {
 			
 			String redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
 			String warName = Core.getDeployedWarName();
-			redirect_uri = redirect_uri.replace("IGRP", warName);
+			redirect_uri = redirect_uri.replace("IGRP/", warName);
 			
 			Form postData = new Form(); 
 			postData.param("grant_type", "authorization_code"); 
@@ -711,7 +711,7 @@ public class LoginController extends Controller {
 		if(r != null && r.equalsIgnoreCase(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value()) && url != null && !url.isEmpty()) {
 			String redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value()); 
 			String warName = Core.getDeployedWarName(); 
-			redirect_uri = redirect_uri.replace("IGRP", warName); 
+			redirect_uri = redirect_uri.replace("IGRP/", warName); 
 			String client_id = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value()); 
 			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrp&redirect_uri=" + redirect_uri; 
 			

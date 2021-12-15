@@ -93,7 +93,7 @@
 									}
 
 									if($(forminput[(formIdx)]).prop('tagName').toLowerCase() == 'select'){
-										window.parent.$.IGRP.components.select2.init();
+										window.parent.$.IGRP.components.select2.init($(forminput[(formIdx)]).parents('.gen-fields-holder:first'));
 						 				//$(forminput[(formIdx)]).trigger('change.select2');
 									}
 
