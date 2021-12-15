@@ -15,7 +15,7 @@ public abstract class PdexServiceTemplate {
 	protected String appCode;
 	
 	public static final String IGRPWEB_INSTANCE_NAME = "IGRPWEB_INSTANCE_NAME";
-	public static final int DEFAULT_TIMEOUT = 2000; 
+	public static final int DEFAULT_TIMEOUT = 500; 
 
 	public String getUrl() {
 		return url;
