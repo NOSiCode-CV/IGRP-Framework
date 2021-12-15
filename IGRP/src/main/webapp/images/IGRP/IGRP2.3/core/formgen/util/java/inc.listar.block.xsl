@@ -277,11 +277,19 @@
 			<xsl:variable name="wheretypechild" select="substring-before(value[@name=$value2Name]/block/field,'::')"/>
 			<xsl:variable name="block_namechild" select="value[@name=$value2Name]/block/@type"/>
 			<xsl:variable name="value_otherDao" select = "substring-after(value[@name=$value1Name]/block/value/block/field,'::')"/>
+			<xsl:variable name="value_otherDao3" select = "substring-after(value[@name=$value1Name]/block/value/block/value/block/field,'::')"/>
+			<xsl:variable name="value_otherDao4" select = "substring-after(value[@name=$value1Name]/block/value/block/value/block/value/block/field,'::')"/>
 			<xsl:variable name="wheretype">
 				<xsl:choose>
+					<xsl:when test="$value_otherDao4 != ''">
+						<xsl:value-of select="substring-before(value[@name=$value1Name]/block/value/block/value/block/value/block/field,'::')"/>
+					</xsl:when>
+					<xsl:when test="$value_otherDao3 != ''">
+						<xsl:value-of select="substring-before(value[@name=$value1Name]/block/value/block/value/block/field,'::')"/>
+					</xsl:when>
 					<xsl:when test="$value_otherDao != ''">
 						<xsl:value-of select="substring-before(value[@name=$value1Name]/block/value/block/field,'::')"/>
-					</xsl:when>
+					</xsl:when>					
 					<xsl:otherwise>
 						<xsl:value-of select="substring-before(value[@name=$value1Name]/block/field,'::')"/>
 					</xsl:otherwise>
@@ -338,9 +346,15 @@
 				<xsl:choose>
 					<xsl:when test="$valueDao != ''">
 						<xsl:choose>
+						<xsl:when test="$value_otherDao4 != ''">
+								<xsl:text>"</xsl:text><xsl:value-of select="$valueDao"/><xsl:text>.</xsl:text><xsl:value-of select="$value_otherDao"/><xsl:text>.</xsl:text><xsl:value-of select="$value_otherDao3"/><xsl:text>.</xsl:text><xsl:value-of select="$value_otherDao4"/><xsl:text>"</xsl:text>
+							</xsl:when>
+							<xsl:when test="$value_otherDao3 != ''">
+								<xsl:text>"</xsl:text><xsl:value-of select="$valueDao"/><xsl:text>.</xsl:text><xsl:value-of select="$value_otherDao"/><xsl:text>.</xsl:text><xsl:value-of select="$value_otherDao3"/><xsl:text>"</xsl:text>
+							</xsl:when>
 							<xsl:when test="$value_otherDao != ''">
 								<xsl:text>"</xsl:text><xsl:value-of select="$valueDao"/><xsl:text>.</xsl:text><xsl:value-of select="$value_otherDao"/><xsl:text>"</xsl:text>
-							</xsl:when>
+							</xsl:when>											
 							<xsl:otherwise>
 								<xsl:text>"</xsl:text><xsl:value-of select="$valueDao"></xsl:value-of><xsl:text>"</xsl:text>
 							</xsl:otherwise>

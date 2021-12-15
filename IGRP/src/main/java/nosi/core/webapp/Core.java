@@ -31,8 +31,10 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -161,8 +163,10 @@ public final class Core {
 	/**
 	 * Add Hidden field to form
 	 * 
-	 * @param name  parameter name
-	 * @param value value of parameter
+	 * @param name
+	 *            parameter name
+	 * @param value
+	 *            value of parameter
 	 */
 	public static void addHiddenField(String name, Object value) {
 		Field f = new HiddenField(null, name);
@@ -230,6 +234,71 @@ public final class Core {
 		return DateHelper.convertStringToTimestamp(date, formatIn);
 	}
 
+	public static User addUser(String name, String password, String email, String username) {
+
+		User usrEmail = Core.findUserByEmail(email);// verificar email
+		User usrName = Core.findUserByUsername(username);// verificar username
+		if (usrEmail != null || usrName != null) {
+			Core.setMessageWarning("Email/Username já existe!");
+			return usrEmail;
+		} else {
+			User user = new User();
+			user.setName(name);
+			user.setPass_hash(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256"));
+			user.setEmail(email.toLowerCase().trim());
+			user.setUser_name(username);
+			user.setStatus(1);
+			user.setCreated_at(System.currentTimeMillis());
+			user.setUpdated_at(System.currentTimeMillis());
+			user.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
+			user.setActivation_key(nosi.core.webapp.User.generateActivationKey());
+			user.setUpdated_at(System.currentTimeMillis());
+			user.insert();
+			return user;
+		}
+	}
+
+	public static boolean inviteUserInProfile(User user, Organization organization, ProfileType profiletype, Application app) {
+		boolean ok = true;
+		if (app.getDad().equals(profiletype.getApplication().getDad())) {
+			if (Core.isNotNull(new Profile().find().andWhere("type", "=", "PROF").andWhere("type_fk", "=", profiletype)
+					.andWhere("organization.id", "=", organization.getId()).andWhere("profileType.id", "=", profiletype)
+					.andWhere("user.id", "=", user.getId()).one())) {
+				// Already invited
+				Core.setMessageWarning(user.getUser_name() + " está convidado para este perfil.");
+				ok = false;
+			} else {
+				// Will insert profile
+				Profile p = new Profile(profiletype.getId(), "PROF", profiletype, user, organization).insert();
+				if (!p.hasError()) {
+					// Check if exists already a ENV
+					if (Core.isNull(new Profile().find().andWhere("type", "=", "ENV")
+							.andWhere("type_fk", "=", profiletype.getApplication().getId())
+							.andWhere("organization.id", "=", organization.getId())
+							.andWhere("profileType.id", "=", profiletype.getId()).andWhere("user.id", "=", user.getId())
+							.one())) {
+						// ENV not added, so must be inserted the application
+						p = new Profile(profiletype.getApplication().getId(), "ENV", profiletype, user, organization)
+								.insert();
+						if (p.hasError()) {
+							Core.setMessageError();
+							ok = false;
+						}
+					}
+					if (ok)
+						Core.setMessageSuccess(user.getEmail() + " convidado para o perfil " + profiletype.getDescr());
+				} else {
+					Core.setMessageError(user.getUser_name() + " está convidado para este perfil.");
+					ok = false;
+				}
+			}
+		} else {
+			Core.setMessageError("Não pode convidar para a aplicação " + profiletype.getApplication().getDad());
+			ok = false;
+		}
+		return ok;
+	}
+
 	/**
 	 * @deprecated Use ToTimestamp Convert string date into Timestamp
 	 * 
@@ -249,8 +318,10 @@ public final class Core {
 	/**
 	 * Decrypt string based on secret key
 	 * 
-	 * @param content   content of string to decrypt
-	 * @param secretKey secret key used to decrypt
+	 * @param content
+	 *            content of string to decrypt
+	 * @param secretKey
+	 *            secret key used to decrypt
 	 */
 	public static String decrypt(String content, String secretKey) {
 		return EncrypDecrypt.decrypt(content, secretKey);
@@ -276,8 +347,10 @@ public final class Core {
 	/**
 	 * Encrypt a string with a secret key
 	 * 
-	 * @param content   string content
-	 * @param secretKey string secret key
+	 * @param content
+	 *            string content
+	 * @param secretKey
+	 *            string secret key
 	 */
 	public static String encrypt(String content, String secretKey) {
 		return EncrypDecrypt.encrypt(content, secretKey);
@@ -293,7 +366,8 @@ public final class Core {
 	/**
 	 * Return default connection string related to dad
 	 * 
-	 * @param dad application code
+	 * @param dad
+	 *            application code
 	 */
 	public static String defaultConnection(String dad) {
 		String result = "";
@@ -317,8 +391,10 @@ public final class Core {
 	/**
 	 * Return Query of type BaseQueryInterface from a specific connection
 	 * 
-	 * @param connectionName connection name
-	 * @param tableName      table name
+	 * @param connectionName
+	 *            connection name
+	 * @param tableName
+	 *            table name
 	 * @return BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
 	 */
 	public static BaseQueryInterface delete(String connectionName, String tableName) {
@@ -328,9 +404,12 @@ public final class Core {
 	/**
 	 * Return Query of type BaseQueryInterface from a specific connection and schema
 	 * 
-	 * @param connectionName connection name
-	 * @param schemaName     schema name
-	 * @param tableName      table name
+	 * @param connectionName
+	 *            connection name
+	 * @param schemaName
+	 *            schema name
+	 * @param tableName
+	 *            table name
 	 * @return BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
 	 */
 	public static BaseQueryInterface delete(String connectionName, String schemaName, String tableName) {
@@ -341,8 +420,10 @@ public final class Core {
 	 * Return Query of type BaseQueryInterface
 	 * 
 	 * @param tableName
-	 * @param displayError display error if true
-	 * @param tracingError tracing error if true
+	 * @param displayError
+	 *            display error if true
+	 * @param tracingError
+	 *            tracing error if true
 	 * @return BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
 	 */
 	public static BaseQueryInterface delete(String tableName, boolean displayError, boolean tracingError) {
@@ -352,10 +433,14 @@ public final class Core {
 	/**
 	 * Return Query of type BaseQueryInterface from a specific connection
 	 * 
-	 * @param connectionName connection name
-	 * @param tableName      table name
-	 * @param displayError   display error if true
-	 * @param tracingError   tracing error if true
+	 * @param connectionName
+	 *            connection name
+	 * @param tableName
+	 *            table name
+	 * @param displayError
+	 *            display error if true
+	 * @param tracingError
+	 *            tracing error if true
 	 * @return BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
 	 */
 	public static BaseQueryInterface delete(String connectionName, String tableName, boolean displayError,
@@ -366,11 +451,16 @@ public final class Core {
 	/**
 	 * Return Query of type BaseQueryInterface from a specific connection and schema
 	 * 
-	 * @param connectionName connection name
-	 * @param schemaName     schema name
-	 * @param tableName      table name
-	 * @param displayError   display error if true
-	 * @param tracingError   tracing error if true
+	 * @param connectionName
+	 *            connection name
+	 * @param schemaName
+	 *            schema name
+	 * @param tableName
+	 *            table name
+	 * @param displayError
+	 *            display error if true
+	 * @param tracingError
+	 *            tracing error if true
 	 * @return BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
 	 */
 	public static BaseQueryInterface delete(String connectionName, String schemaName, String tableName,
@@ -588,7 +678,8 @@ public final class Core {
 	/**
 	 * 
 	 * @param name
-	 * @param isRemoved - true removesAttribute after requested
+	 * @param isRemoved
+	 *            - true removesAttribute after requested
 	 * @return
 	 */
 	public static String getAttribute(String name, boolean isRemoved) {
@@ -638,7 +729,8 @@ public final class Core {
 	/**
 	 * Get Config Property
 	 * 
-	 * @param name of the config property
+	 * @param name
+	 *            of the config property
 	 * @return
 	 */
 	public static String getConfig(String name) {
@@ -676,7 +768,17 @@ public final class Core {
 		}
 		Integer isPublic = Core.getParamInt("isPublic", false);
 		String r = Core.getParam("r");
-		r = isPublic.intValue() == 1 ? r : Core.decrypt(r);
+		
+		switch (isPublic.intValue()) {
+			case 1:			
+				break;
+			case 2:
+				r = Core.decryptPublicPage(r);
+				break;
+			default:
+				r = Core.decrypt(r);
+				break;		
+		}
 		String[] r_split = Core.isNotNull(r) ? r.split("/") : null;
 		return r_split != null ? r_split[0] : "igrp";
 	}
@@ -688,7 +790,18 @@ public final class Core {
 		}
 		Integer isPublic = Core.getParamInt("isPublic", false);
 		String r = Core.getParam("r");
-		r = isPublic.intValue() == 1 ? r : Core.decrypt(r);
+		
+		switch (isPublic.intValue()) {
+			case 1:			
+				break;
+			case 2:
+				r = Core.decryptPublicPage(r);
+				break;
+			default:
+				r = Core.decrypt(r);
+				break;		
+		}
+			
 		String[] r_split = Core.isNotNull(r) ? r.split("/") : null;
 		return r_split != null ? r_split[1] : "igrp";
 	}
@@ -851,7 +964,7 @@ public final class Core {
 			user.setReadOnly(true);
 		return user;
 	}
-	
+
 	public static String getUsernameById(Integer id) {
 		User user = new User().findOne(id);
 		if (user != null)
@@ -865,7 +978,8 @@ public final class Core {
 	 *           <p>
 	 *           Find Active Domains by domain code name and app is null
 	 * 
-	 * @param domainsName domain code name
+	 * @param domainsName
+	 *            domain code name
 	 * @return {@code List< of Domains> }
 	 */
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName) {
@@ -880,8 +994,10 @@ public final class Core {
 	 *           <p>
 	 *           Find Active Domains by domain code name and app
 	 * 
-	 * @param domainName      domain code name
-	 * @param applicationCode dad/code of the application
+	 * @param domainName
+	 *            domain code name
+	 * @param applicationCode
+	 *            dad/code of the application
 	 * @return {@code List< of Domains> }
 	 */
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainName, String applicationCode) {
@@ -899,8 +1015,10 @@ public final class Core {
 	 *           <p>
 	 *           Find Active Domains by domain code name and app id
 	 * 
-	 * @param domainName    domain code name
-	 * @param applicationId id of the application
+	 * @param domainName
+	 *            domain code name
+	 * @param applicationId
+	 *            id of the application
 	 * @return {@code List< of Domains> }
 	 */
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainName, Integer applicationId) {
@@ -918,7 +1036,8 @@ public final class Core {
 	 *           map if the domain is not found. An empty map is returned also if
 	 *           the domain exists and does not have values.
 	 * 
-	 * @param domainName domain/code name
+	 * @param domainName
+	 *            domain/code name
 	 * @return a {@code Map<String, String>} of this domain with key as
 	 *         {@code valor} and value as {@code description}
 	 */
@@ -935,8 +1054,10 @@ public final class Core {
 	 *           empty map is returned also if the domain exists and does not have
 	 *           values.
 	 * 
-	 * @param domainName      domain/code name
-	 * @param applicationCode code of the application
+	 * @param domainName
+	 *            domain/code name
+	 * @param applicationCode
+	 *            code of the application
 	 * @return a {@code Map<String, String>} of this domain with key as
 	 *         {@code valor} and value as {@code description}
 	 */
@@ -956,8 +1077,10 @@ public final class Core {
 	 *           is active or an empty map if the domain is not found. An empty map
 	 *           is returned also if the domain exists and does not have values.
 	 * 
-	 * @param domainName    domain/code name
-	 * @param applicationId id of the application
+	 * @param domainName
+	 *            domain/code name
+	 * @param applicationId
+	 *            id of the application
 	 * @return a {@code Map<String, String>} of this domain with key as
 	 *         {@code valor} and value as {@code description}
 	 */
@@ -974,7 +1097,8 @@ public final class Core {
 	 *           <p>
 	 *           Find the Value/Decription ok a domay key
 	 * 
-	 * @param domainsName domain code name
+	 * @param domainsName
+	 *            domain code name
 	 * @param key
 	 * @return value/description
 	 */
@@ -997,9 +1121,11 @@ public final class Core {
 	 *           <p>
 	 *           Find the Value/Decription ok a domay key
 	 * 
-	 * @param domainsName domain code name
+	 * @param domainsName
+	 *            domain code name
 	 * @param key
-	 * @param codeApp     the dad/code of the application
+	 * @param codeApp
+	 *            the dad/code of the application
 	 * @return value/description
 	 */
 	public static String findDomainDescByKey(String domainsName, String key, String codeApp) {
@@ -1020,9 +1146,11 @@ public final class Core {
 	 *           <p>
 	 *           Find the Value/Decription ok a domay key
 	 * 
-	 * @param domainsName domain code name
+	 * @param domainsName
+	 *            domain code name
 	 * @param key
-	 * @param idApp       the id of the application
+	 * @param idApp
+	 *            the id of the application
 	 * @return value/description
 	 */
 	public static String findDomainDescByKey(String domainsName, String key, Integer idApp) {
@@ -1042,13 +1170,12 @@ public final class Core {
 		return "9";
 	}
 
-
-	/**@deprecated
-	 * Use getFileByUuid(
+	/**
+	 * @deprecated Use getFileByUuid(
 	 * 
 	 * @param fileId
 	 * @return
-	 */	
+	 */
 	@Deprecated
 	public static CLob getFile(int fileId) {
 		return new CLob().findOne(fileId);
@@ -1057,7 +1184,8 @@ public final class Core {
 	/**
 	 * Retrieve the file
 	 * 
-	 * @param uuid Uuid
+	 * @param uuid
+	 *            Uuid
 	 * @return nosi.webapps.igrp.dao.Clob
 	 */
 	public static CLob getFileByUuid(String uuid) {
@@ -1067,20 +1195,22 @@ public final class Core {
 	/**
 	 * Returns the filename saved
 	 * 
-	 * @param uuid Uuid
+	 * @param uuid
+	 *            Uuid
 	 * @return FileName
 	 */
 	public static String getFileNameByUuid(String uuid) {
 		String fileName = "";
 		Map<String, Object> file = new CLob().find().andWhere("uuid", "=", uuid).oneColumns("name");
 		if (file != null) {
-			fileName = ""+file.get("name");
+			fileName = "" + file.get("name");
 		}
 		return fileName;
 	}
 
 	/**
-	 * @param fileId Id do ficheiro a ser descartado
+	 * @param fileId
+	 *            Id do ficheiro a ser descartado
 	 * @return boolean {@code true -> Success | false -> Failure  }
 	 */
 	public static boolean invalidateFile(Integer fileId) {
@@ -1095,7 +1225,8 @@ public final class Core {
 	}
 
 	/**
-	 * @param uuid Uuid do ficheiro a ser descartado
+	 * @param uuid
+	 *            Uuid do ficheiro a ser descartado
 	 * @return boolean {@code true -> Success | false -> Failure  }
 	 */
 	public static boolean invalidateFile(String uuid) {
@@ -1167,7 +1298,8 @@ public final class Core {
 	 * Use getLinkFileByUuid() Link to get file
 	 * 
 	 * 
-	 * @param p_id Unique file id
+	 * @param p_id
+	 *            Unique file id
 	 * @return
 	 */
 	public static String getLinkFile(String p_id) {
@@ -1184,7 +1316,8 @@ public final class Core {
 	 * Link to a get file
 	 * 
 	 * 
-	 * @param uuid Unique file id
+	 * @param uuid
+	 *            Unique file id
 	 * @return link
 	 */
 	public static String getLinkFileByUuid(String uuid) {
@@ -1225,7 +1358,8 @@ public final class Core {
 	 * Example with filter id=2:
 	 * {@code model.setLink(Core.getLinkReport("rep_persons").addParam("p_id", 2))}
 	 * 
-	 * @param reportCode The unique code that identifies Report
+	 * @param reportCode
+	 *            The unique code that identifies Report
 	 * @return
 	 */
 	public static Report getLinkReport(String reportCode) {
@@ -1238,8 +1372,10 @@ public final class Core {
 	 * Example with filter id=2:
 	 * {@code model.setLink(Core.getLinkReport("rep_persons").addParam("p_id", 2))}
 	 * 
-	 * @param reportCode The unique code that identifies Report
-	 * @param isPublic   For Public Report Link purpose
+	 * @param reportCode
+	 *            The unique code that identifies Report
+	 * @param isPublic
+	 *            For Public Report Link purpose
 	 * @return
 	 */
 	public static Report getLinkReport(String reportCode, boolean isPublic) {
@@ -1249,9 +1385,11 @@ public final class Core {
 	/**
 	 * Get Report for Response redirect {@code .addParam } for filtering
 	 * 
-	 * @param reportCode The unique code that identifies Report
-	 * @param report     use filter {@code new Report().addParam("id",1) } OR
-	 *                   this.loadQueryString()
+	 * @param reportCode
+	 *            The unique code that identifies Report
+	 * @param report
+	 *            use filter {@code new Report().addParam("id",1) } OR
+	 *            this.loadQueryString()
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -1282,7 +1420,8 @@ public final class Core {
 	}
 
 	/**
-	 * @param partial nosi.core.gui.components.IGRPLink object
+	 * @param partial
+	 *            nosi.core.gui.components.IGRPLink object
 	 * @return A Public or Private URL that point to Report
 	 */
 	public static String getFullUrl(IGRPLink partial) {
@@ -1291,7 +1430,8 @@ public final class Core {
 	}
 
 	/**
-	 * @param partial String
+	 * @param partial
+	 *            String
 	 * @return A Public or Private URL that point to Report
 	 */
 	public static String getFullUrl(String partial) {
@@ -1300,7 +1440,8 @@ public final class Core {
 
 	/**
 	 * 
-	 * @param contraProva - code of proof of the document report
+	 * @param contraProva
+	 *            - code of proof of the document report
 	 * @return link with hostname to see the document report
 	 */
 	public static String getLinkContraProva(String contraProva) {
@@ -1309,10 +1450,12 @@ public final class Core {
 
 	/**
 	 * 
-	 * @param contraProva   - code of proof of the document report
-	 * @param appID         - id of the application (id) o null
-	 * @param pdfToDownload - if you want a preview or direct download. Default is
-	 *                      false
+	 * @param contraProva
+	 *            - code of proof of the document report
+	 * @param appID
+	 *            - id of the application (id) o null
+	 * @param pdfToDownload
+	 *            - if you want a preview or direct download. Default is false
 	 * @return link with hostname to see the document report
 	 */
 	public static String getLinkContraProvaPDF(String contraProva, String appID, Boolean pdfToDownload) {
@@ -1327,7 +1470,8 @@ public final class Core {
 	/**
 	 * {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
 	 * 
-	 * @param name of the string name remove the attribute after get it
+	 * @param name
+	 *            of the string name remove the attribute after get it
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name) {
@@ -1340,8 +1484,10 @@ public final class Core {
 	/**
 	 * {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
 	 * 
-	 * @param name      of the string name
-	 * @param isRemoved - (default) true removesAttribute after requested
+	 * @param name
+	 *            of the string name
+	 * @param isRemoved
+	 *            - (default) true removesAttribute after requested
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name, boolean isRemoved) {
@@ -1352,7 +1498,8 @@ public final class Core {
 	}
 
 	/**
-	 * @param name The name of parameter in queryString
+	 * @param name
+	 *            The name of parameter in queryString
 	 * @return The value of parameter as String
 	 */
 	public static String getReportParam(String name) {
@@ -1370,7 +1517,8 @@ public final class Core {
 	/**
 	 * {@code String[] value = Igrp.getInstance().getRequest().getParameterValues(name);}
 	 * 
-	 * @param name of the string label
+	 * @param name
+	 *            of the string label
 	 * @return value
 	 */
 	public static String[] getParamArray(String name) {
@@ -1384,8 +1532,10 @@ public final class Core {
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name      of the string label
-	 * @param isRemoved - (default) if true, removesAttribute after requested
+	 * @param name
+	 *            of the string label
+	 * @param isRemoved
+	 *            - (default) if true, removesAttribute after requested
 	 * @return {@code Core.isNotNull(x)?Core.toDouble(x):0;}
 	 */
 	public static Double getParamDouble(String name, boolean isRemoved) {
@@ -1398,7 +1548,8 @@ public final class Core {
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name of the string label
+	 * @param name
+	 *            of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toDouble(x):0;}
 	 */
 	public static Double getParamDouble(String name) {
@@ -1416,8 +1567,10 @@ public final class Core {
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name      of the string label
-	 * @param isRemoved - (default) if true, removesAttribute after requested
+	 * @param name
+	 *            of the string label
+	 * @param isRemoved
+	 *            - (default) if true, removesAttribute after requested
 	 * @return {@code Core.isNotNull(x)?Core.toFloat(x):0;}
 	 */
 	public static Float getParamFloat(String name, boolean isRemoved) {
@@ -1430,7 +1583,8 @@ public final class Core {
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name of the string label
+	 * @param name
+	 *            of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toFloat(x):0;}
 	 */
 	public static Float getParamFloat(String name) {
@@ -1440,8 +1594,10 @@ public final class Core {
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name      of the string label
-	 * @param isRemoved - (default) if true, removesAttribute after requested
+	 * @param name
+	 *            of the string label
+	 * @param isRemoved
+	 *            - (default) if true, removesAttribute after requested
 	 * @return {@code Core.isNotNull(x)?Core.toInt(x):0;}
 	 */
 	public static Integer getParamInt(String name, boolean isRemoved) {
@@ -1454,7 +1610,8 @@ public final class Core {
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name of the string label
+	 * @param name
+	 *            of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toInt(x):0;}
 	 */
 	public static Integer getParamInt(String name) {
@@ -1464,8 +1621,10 @@ public final class Core {
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name      of the string label
-	 * @param isRemoved - (default) if true, removesAttribute after requested
+	 * @param name
+	 *            of the string label
+	 * @param isRemoved
+	 *            - (default) if true, removesAttribute after requested
 	 * @return {@code  Core.isNotNull(x)?Core.toLong(x):0;}
 	 */
 	public static Long getParamLong(String name, boolean isRemoved) {
@@ -1478,7 +1637,8 @@ public final class Core {
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name of the string label
+	 * @param name
+	 *            of the string label
 	 * @return {@code  Core.isNotNull(x)?Core.toLong(x):0;}
 	 */
 	public static Long getParamLong(String name) {
@@ -1487,8 +1647,10 @@ public final class Core {
 
 	/**
 	 * 
-	 * @param name      of the string label
-	 * @param isRemoved - (default) if true, removesAttribute after requested
+	 * @param name
+	 *            of the string label
+	 * @param isRemoved
+	 *            - (default) if true, removesAttribute after requested
 	 * @return {@code Core.getAttribute(name, true);}
 	 */
 	public static Object getParamObject(String name, boolean isRemoved) {
@@ -1498,7 +1660,8 @@ public final class Core {
 
 	/**
 	 * 
-	 * @param name of the string label
+	 * @param name
+	 *            of the string label
 	 * @return {@code Core.getAttribute(name, true);}
 	 */
 	public static Object getParamObject(String name) {
@@ -1509,8 +1672,10 @@ public final class Core {
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name      of the string label
-	 * @param isRemoved - (default) if true, removesAttribute after requested
+	 * @param name
+	 *            of the string label
+	 * @param isRemoved
+	 *            - (default) if true, removesAttribute after requested
 	 * @return {@code Core.isNotNull(x)?Core.toShort(x):0;}
 	 */
 	public static Short getParamShort(String name, boolean isRemoved) {
@@ -1523,7 +1688,8 @@ public final class Core {
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name of the string label
+	 * @param name
+	 *            of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toShort(x):0;}
 	 */
 	public static Short getParamShort(String name) {
@@ -1533,8 +1699,10 @@ public final class Core {
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name      of the string label
-	 * @param isRemoved - (default) if true, removes Attribute after requested
+	 * @param name
+	 *            of the string label
+	 * @param isRemoved
+	 *            - (default) if true, removes Attribute after requested
 	 * @return {@code Core.isNotNull(x)?Core.toBigDecimal(x):BigDecimal.ZERO;}
 	 */
 	public static BigDecimal getParamBigDecimal(String name, boolean isRemoved) {
@@ -1547,7 +1715,8 @@ public final class Core {
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name of the string label
+	 * @param name
+	 *            of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toBigDecimal(x):BigDecimal.ZERO;}
 	 */
 	public static BigDecimal getParamBigDecimal(String name) {
@@ -1557,8 +1726,10 @@ public final class Core {
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name      of the string label
-	 * @param isRemoved - (default) if true, removes Attribute after requested
+	 * @param name
+	 *            of the string label
+	 * @param isRemoved
+	 *            - (default) if true, removes Attribute after requested
 	 * @return {@code Core.isNotNull(x)?Core.toBigInteger(x):BigInteger.ZERO;}
 	 */
 	public static BigInteger getParamBigInteger(String name, boolean isRemoved) {
@@ -1571,7 +1742,8 @@ public final class Core {
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name of the string label
+	 * @param name
+	 *            of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toBigInteger(x):BigInteger.ZERO;}
 	 */
 	public static BigInteger getParamBigInteger(String name) {
@@ -1874,7 +2046,8 @@ public final class Core {
 	/**
 	 * Checks if it's empty for string values or null otherwise.
 	 * 
-	 * @param values The values to be checked
+	 * @param values
+	 *            The values to be checked
 	 * @return {@code true} if all elements are null, or empty for string values.
 	 *         Otherwise {@code false}
 	 * @see #isNull(Object)
@@ -1900,7 +2073,8 @@ public final class Core {
 	/**
 	 * This method is used to add a message log
 	 * 
-	 * @param msg This is the message
+	 * @param msg
+	 *            This is the message
 	 * 
 	 */
 	public static void log(String msg) {
@@ -1929,8 +2103,10 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset  UTF-8,
-	 * @param mimetype text/html, plaintext
+	 * @param charset
+	 *            UTF-8,
+	 * @param mimetype
+	 *            text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @return true or false
@@ -1945,8 +2121,10 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset  UTF-8,
-	 * @param mimetype text/html, plaintext
+	 * @param charset
+	 *            UTF-8,
+	 * @param mimetype
+	 *            text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @return
@@ -1962,8 +2140,10 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset  UTF-8,
-	 * @param mimetype text/html, plaintext
+	 * @param charset
+	 *            UTF-8,
+	 * @param mimetype
+	 *            text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @return
@@ -1981,8 +2161,10 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset  UTF-8,
-	 * @param mimetype text/html, plaintext
+	 * @param charset
+	 *            UTF-8,
+	 * @param mimetype
+	 *            text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @return
@@ -1999,8 +2181,10 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset            UTF-8,
-	 * @param mimetype           text/html, plaintext
+	 * @param charset
+	 *            UTF-8,
+	 * @param mimetype
+	 *            text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @param multiplerecepients
@@ -2036,8 +2220,10 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset            UTF-8,
-	 * @param mimetype           text/html, plaintext
+	 * @param charset
+	 *            UTF-8,
+	 * @param mimetype
+	 *            text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @param multiplerecepients
@@ -2073,8 +2259,10 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset      UTF-8,
-	 * @param mimetype     text/html, plaintext
+	 * @param charset
+	 *            UTF-8,
+	 * @param mimetype
+	 *            text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @param customConfig
@@ -2108,8 +2296,10 @@ public final class Core {
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset      UTF-8,
-	 * @param mimetype     text/html, plaintext
+	 * @param charset
+	 *            UTF-8,
+	 * @param mimetype
+	 *            text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @param customConfig
@@ -2234,10 +2424,13 @@ public final class Core {
 	}
 
 	/**
-	 * @param query    Usually the result of Core.query(null,"(SELECT 'id' as
-	 *                 ID,'name' as NAME) ")
-	 * @param selected A list selected values
-	 * @param prompt   The comboBox prompt
+	 * @param query
+	 *            Usually the result of Core.query(null,"(SELECT 'id' as ID,'name'
+	 *            as NAME) ")
+	 * @param selected
+	 *            A list selected values
+	 * @param prompt
+	 *            The comboBox prompt
 	 * @return A xml result
 	 */
 	public static String remoteComboBoxXml(BaseQueryInterface query, String tag_name, String[] selected,
@@ -2425,7 +2618,8 @@ public final class Core {
 	 * by UUID - update a file to the Igrp core DataBase and return true or false
 	 * ...
 	 * 
-	 * @param upFile UploadFile
+	 * @param upFile
+	 *            UploadFile
 	 * @param uuid
 	 * @return
 	 * @throws Exception
@@ -2668,7 +2862,8 @@ public final class Core {
 	 * 
 	 *             Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
-	 * @param content   byte[]
+	 * @param content
+	 *            byte[]
 	 * @param name
 	 * @param mime_type
 	 * @return in ID
@@ -2701,7 +2896,8 @@ public final class Core {
 	/**
 	 * Insert a file to the Igrp core DataBase and return an UUId ...
 	 * 
-	 * @param content   byte[]
+	 * @param content
+	 *            byte[]
 	 * @param name
 	 * @param mime_type
 	 * @return String UUID
@@ -3016,7 +3212,8 @@ public final class Core {
 	/**
 	 * Shows a custom error flash message
 	 * 
-	 * @param msg Custom message string
+	 * @param msg
+	 *            Custom message string
 	 */
 	public static void setMessageError(String msg) {
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(msg));
@@ -3025,7 +3222,8 @@ public final class Core {
 	/**
 	 * Add Message Info
 	 * 
-	 * @param msg custom message
+	 * @param msg
+	 *            custom message
 	 */
 	public static void setMessageInfo(String msg) {
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, gt(msg));
@@ -3034,8 +3232,10 @@ public final class Core {
 	/**
 	 * Add Message Info With Link
 	 * 
-	 * @param msg  custom message
-	 * @param link set a link to show
+	 * @param msg
+	 *            custom message
+	 * @param link
+	 *            set a link to show
 	 */
 	public static void setMessageInfoLink(String msg, String link) {
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, gt(msg) + "/#RESERVE#/" + link);
@@ -3044,10 +3244,14 @@ public final class Core {
 	/**
 	 * Add Message Info With Link
 	 * 
-	 * @param msg    custom message
-	 * @param app    for the created link
-	 * @param page   for the created link
-	 * @param action for the created link
+	 * @param msg
+	 *            custom message
+	 * @param app
+	 *            for the created link
+	 * @param page
+	 *            for the created link
+	 * @param action
+	 *            for the created link
 	 */
 	public static void setMessageInfoLink(String msg, String app, String page, String action) {
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK,
@@ -3064,7 +3268,8 @@ public final class Core {
 	/**
 	 * Shows a custom success flash message
 	 * 
-	 * @param msg Custom message string
+	 * @param msg
+	 *            Custom message string
 	 */
 	public static void setMessageSuccess(String msg) {
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt(msg));
@@ -3073,7 +3278,8 @@ public final class Core {
 	/**
 	 * Shows a custom confirm flash message
 	 * 
-	 * @param msg Custom message string
+	 * @param msg
+	 *            Custom message string
 	 */
 	public static void setMessageConfirm(String msg) {
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.CONFIRM, gt(msg));
@@ -3090,7 +3296,8 @@ public final class Core {
 	/**
 	 * Add Message Warning
 	 * 
-	 * @param msg custom message
+	 * @param msg
+	 *            custom message
 	 */
 	public static void setMessageWarning(String msg) {
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, gt(msg));
@@ -3529,9 +3736,12 @@ public final class Core {
 	/**
 	 * Add variable of type long to the process task
 	 * 
-	 * @param taskDefinitionKey identification of task
-	 * @param variableName      name of parameter
-	 * @param value             value of parameter
+	 * @param taskDefinitionKey
+	 *            identification of task
+	 * @param variableName
+	 *            name of parameter
+	 * @param value
+	 *            value of parameter
 	 */
 	public static void addTaskVariableLong(String taskDefinitionKey, String variableName, Object value) {
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
@@ -3549,10 +3759,14 @@ public final class Core {
 	}
 
 	/**
-	 * @param wsdlUrl     The webservice description language url
-	 * @param namespaces  A Map of all required namespaces
-	 * @param headers     A Map of soap request headers
-	 * @param bodyContent A Map of request content that will be converted to xml
+	 * @param wsdlUrl
+	 *            The webservice description language url
+	 * @param namespaces
+	 *            A Map of all required namespaces
+	 * @param headers
+	 *            A Map of soap request headers
+	 * @param bodyContent
+	 *            A Map of request content that will be converted to xml
 	 * @return SoapClient object
 	 */
 	public static SoapClient soapClient(String wsdlUrl, Map<String, String> namespaces, Map<String, String> headers,
@@ -3565,13 +3779,17 @@ public final class Core {
 	}
 
 	/**
-	 * @param wsdlUrl             The webservice description language url
-	 * @param namespaces          A Map of all required namespaces
-	 * @param headers             A Map of soap request headers
-	 * @param bodyContent         A Map of request content that will be converted to
-	 *                            xml
-	 * @param soapProtocolVersion javax.xml.soap.SOAPConstants.(SOAP_1_2_PROTOCOL |
-	 *                            SOAPConstants.SOAP_1_1_PROTOCOL)
+	 * @param wsdlUrl
+	 *            The webservice description language url
+	 * @param namespaces
+	 *            A Map of all required namespaces
+	 * @param headers
+	 *            A Map of soap request headers
+	 * @param bodyContent
+	 *            A Map of request content that will be converted to xml
+	 * @param soapProtocolVersion
+	 *            javax.xml.soap.SOAPConstants.(SOAP_1_2_PROTOCOL |
+	 *            SOAPConstants.SOAP_1_1_PROTOCOL)
 	 * @return SoapClient object
 	 */
 	public static SoapClient soapClient(String wsdlUrl, Map<String, String> namespaces, Map<String, String> headers,
@@ -3585,13 +3803,18 @@ public final class Core {
 	}
 
 	/**
-	 * @param soapNameSpace         The custom soap tag name envelope
-	 * @param soapNamespaceEnvelope custom namespace for custom tag name envelope
-	 * @param wsdlUrl               The webservice description language url
-	 * @param namespaces            A Map of all required namespaces
-	 * @param headers               A Map of soap request headers
-	 * @param bodyContent           A Map of request content that will be converted
-	 *                              to xml
+	 * @param soapNameSpace
+	 *            The custom soap tag name envelope
+	 * @param soapNamespaceEnvelope
+	 *            custom namespace for custom tag name envelope
+	 * @param wsdlUrl
+	 *            The webservice description language url
+	 * @param namespaces
+	 *            A Map of all required namespaces
+	 * @param headers
+	 *            A Map of soap request headers
+	 * @param bodyContent
+	 *            A Map of request content that will be converted to xml
 	 * @return SoapClient object
 	 */
 	public static SoapClient soapClient(String wsdlUrl, Map<String, String> namespaces, Map<String, String> headers,
@@ -3606,9 +3829,12 @@ public final class Core {
 	}
 
 	/**
-	 * @param wsdlUrl     The webservice description language url
-	 * @param headers     A Map of soap request headers
-	 * @param rawEnvelope String of raw request envelope
+	 * @param wsdlUrl
+	 *            The webservice description language url
+	 * @param headers
+	 *            A Map of soap request headers
+	 * @param rawEnvelope
+	 *            String of raw request envelope
 	 * 
 	 * @return SoapClient object
 	 */
@@ -3731,8 +3957,8 @@ public final class Core {
 		return DateHelper.convertTimeStampToDate(timeStampDate, formatOut);
 	}
 
-//	DATES Functions by Ivone Tavares and Venceslau:
-//	_____________________________________________________________________
+	// DATES Functions by Ivone Tavares and Venceslau:
+	// _____________________________________________________________________
 	/**
 	 * Receives java.sql.Date and returns it as utilDate
 	 * 
@@ -3793,8 +4019,10 @@ public final class Core {
 	 * </ul>
 	 * 
 	 * @param <T>
-	 * @param date      the date object to parse as a string
-	 * @param formatter the formatter to parse the date object
+	 * @param date
+	 *            the date object to parse as a string
+	 * @param formatter
+	 *            the formatter to parse the date object
 	 * @return string representation of the date or an empty string if the date is
 	 *         null or of an unsupported type.
 	 * @category DateUtils
@@ -3850,8 +4078,9 @@ public final class Core {
 	 *	{@link LocalDateTime} to = to.get();
 	 * </pre>
 	 * 
-	 * @param dateFromTo the string representation from which the start and end
-	 *                   dates are obtained.
+	 * @param dateFromTo
+	 *            the string representation from which the start and end dates are
+	 *            obtained.
 	 * 
 	 * @return {@code IGRPDateFromTo}, not null
 	 * @category DateUtils
@@ -4071,9 +4300,9 @@ public final class Core {
 		return (Core.normalizeText(string).replaceAll("[^-a-zA-Z0-9\\s]", ""));
 	}
 
-//	------------------------------------------------------------
-//	END### DATES Funciotn by Ivone Tavares and Venceslau:
-//	__________________________________________________-----------------
+	// ------------------------------------------------------------
+	// END### DATES Funciotn by Ivone Tavares and Venceslau:
+	// __________________________________________________-----------------
 
 	/**
 	 * Verifies if the Core.isBigDecimal and if true, than returns BigDecimal parse
@@ -4248,7 +4477,8 @@ public final class Core {
 	 * @param values
 	 * @param keyField
 	 * @param valueField
-	 * @param prompt     - use -- Selecionar --
+	 * @param prompt
+	 *            - use -- Selecionar --
 	 * @return {@code Map<Object, Object>}
 	 */
 	public static Map<Object, Object> toMap(List<?> values, String keyField, String valueField, String prompt) {
@@ -4294,7 +4524,8 @@ public final class Core {
 	/**
 	 * Upload a file from a upload field with the tag given
 	 * 
-	 * @param tag p_file
+	 * @param tag
+	 *            p_file
 	 * @return class UploadedFile
 	 */
 	public static UploadedFile upload(String tag) {
@@ -4316,7 +4547,8 @@ public final class Core {
 	/**
 	 * Upload multiple files from a multiple upload field with the tag given
 	 * 
-	 * @param tag p_file
+	 * @param tag
+	 *            p_file
 	 * @return {@code List<UploadedFile>}
 	 */
 	public static List<UploadedFile> uploadMultiple(String tag) {
@@ -4615,8 +4847,10 @@ public final class Core {
 	 * 
 	 * }
 	 * 
-	 * @param allValues     list of the values of all values
-	 * @param checkedValues list of the checked values
+	 * @param allValues
+	 *            list of the values of all values
+	 * @param checkedValues
+	 *            list of the checked values
 	 * @return
 	 */
 	public static CheckBoxHelper extractCheckBox(String[] allValues, String[] checkedValues) {
@@ -4627,7 +4861,8 @@ public final class Core {
 	 * This method is intended to get the values checked and unchecked from a
 	 * checkbox field in a table.
 	 * 
-	 * @param field checkbox field
+	 * @param field
+	 *            checkbox field
 	 * @return a CheckBoxHelper object that contains the checked/Unchecked values
 	 */
 	public static CheckBoxHelper extractCheckBox(Field field) {
@@ -4636,7 +4871,8 @@ public final class Core {
 
 	/**
 	 * @param id
-	 * @param level {@code level (6 -> zona, 5 -> cidade, 4 -> freguesia, 3 -> concelho, 2 -> ilha, 1 -> pais)}
+	 * @param level
+	 *            {@code level (6 -> zona, 5 -> cidade, 4 -> freguesia, 3 -> concelho, 2 -> ilha, 1 -> pais)}
 	 * @return keys: zona_id, zona, freguesia_id, freguesia, cidade, cidade_id,
 	 *         concelho, concelho_id, pais, pais_id, ...
 	 */
@@ -4825,9 +5061,10 @@ public final class Core {
 
 	/**
 	 * @category BPMN
-	 * @param processKey the processKey from the process to start. See the process
-	 *                   information {@code Process Id} from your process at IGRP
-	 *                   BPMN Designer
+	 * @param processKey
+	 *            the processKey from the process to start. See the process
+	 *            information {@code Process Id} from your process at IGRP BPMN
+	 *            Designer
 	 * @return response
 	 */
 	public static Response startProcess(String processKey) {
@@ -4836,11 +5073,13 @@ public final class Core {
 
 	/**
 	 * @category BPMN
-	 * @param processKey the processKey from the process to start. See the process
-	 *                   information {@code Process Id} from your process at IGRP
-	 *                   BPMN Designer
-	 * @param params     the parameters to send to the process. They should start
-	 *                   with {@code x_}
+	 * @param processKey
+	 *            the processKey from the process to start. See the process
+	 *            information {@code Process Id} from your process at IGRP BPMN
+	 *            Designer
+	 * @param params
+	 *            the parameters to send to the process. They should start with
+	 *            {@code x_}
 	 * @return response
 	 */
 	public static Response startProcess(String processKey, Map<String, String> params) {
@@ -4852,14 +5091,16 @@ public final class Core {
 
 	/**
 	 * @category BPMN
-	 * @param processKey          the processKey from the process to start. See the
-	 *                            process information {@code Process Id} from your
-	 *                            process at IGRP BPMN Designer
-	 * @param processDefinitionId processDefinitionId of the process to start.
-	 *                            <p>
-	 *                            Example to get the processDefinitionId:
-	 *                            <p>
-	 *                            {@code ProcessDefinitionService obj = Core.getProcessDefinitionByProcessKey(processKey);
+	 * @param processKey
+	 *            the processKey from the process to start. See the process
+	 *            information {@code Process Id} from your process at IGRP BPMN
+	 *            Designer
+	 * @param processDefinitionId
+	 *            processDefinitionId of the process to start.
+	 *            <p>
+	 *            Example to get the processDefinitionId:
+	 *            <p>
+	 *            {@code ProcessDefinitionService obj = Core.getProcessDefinitionByProcessKey(processKey);
 	 *  String processDefinitionId = obj.getId();}
 	 * @return response
 	 */
@@ -4876,16 +5117,19 @@ public final class Core {
 
 	/**
 	 * @category BPMN
-	 * @param processKey          the processKey from the process to start. See the
-	 *                            process information {@code Process Id} from your
-	 *                            process at IGRP BPMN Designer
-	 * @param processDefinitionId processDefinitionId of the process to start.
-	 * @param params              the parameters to send to the process. They should
-	 *                            start with {@code x_}
-	 *                            <p>
-	 *                            Example to get the processDefinitionId:
-	 *                            <p>
-	 *                            {@code ProcessDefinitionService obj = Core.getProcessDefinitionByProcessKey(processKey);
+	 * @param processKey
+	 *            the processKey from the process to start. See the process
+	 *            information {@code Process Id} from your process at IGRP BPMN
+	 *            Designer
+	 * @param processDefinitionId
+	 *            processDefinitionId of the process to start.
+	 * @param params
+	 *            the parameters to send to the process. They should start with
+	 *            {@code x_}
+	 *            <p>
+	 *            Example to get the processDefinitionId:
+	 *            <p>
+	 *            {@code ProcessDefinitionService obj = Core.getProcessDefinitionByProcessKey(processKey);
 	 *  String processDefinitionId = obj.getId();}
 	 * @return response
 	 */
@@ -4901,7 +5145,8 @@ public final class Core {
 	}
 
 	/**
-	 * @param taskId (Ex: 35834)
+	 * @param taskId
+	 *            (Ex: 35834)
 	 * @return
 	 */
 	public static Response startTask(String taskId) {
@@ -4918,8 +5163,10 @@ public final class Core {
 	}
 
 	/**
-	 * @param appDad    (Ex: igrp)
-	 * @param processId (Ex: Processo_pedido_compra)
+	 * @param appDad
+	 *            (Ex: igrp)
+	 * @param processId
+	 *            (Ex: Processo_pedido_compra)
 	 * @return List<TipoDocumentoEtapa> package nosi.webapps.igrp.dao
 	 */
 	public static List<TipoDocumentoEtapa> getOutputFilesByProcessId(String appDad, String processId) {
@@ -4927,9 +5174,12 @@ public final class Core {
 	}
 
 	/**
-	 * @param appDad    (Ex: igrp)
-	 * @param processId (Ex: Processo_pedido_compra)
-	 * @param taskId    (Ex: Pedido)
+	 * @param appDad
+	 *            (Ex: igrp)
+	 * @param processId
+	 *            (Ex: Processo_pedido_compra)
+	 * @param taskId
+	 *            (Ex: Pedido)
 	 * @return List<TipoDocumentoEtapa> package nosi.webapps.igrp.dao
 	 */
 	public static List<TipoDocumentoEtapa> getFilesByProcessIdNTaskId(String appDad, String processId, String taskId) {
@@ -4968,9 +5218,12 @@ public final class Core {
 	}
 
 	/**
-	 * @param task               The current Task of the Proccess
-	 * @param parts              The input files
-	 * @param myCustomPermission (Ex: organicaCode)
+	 * @param task
+	 *            The current Task of the Proccess
+	 * @param parts
+	 *            The input files
+	 * @param myCustomPermission
+	 *            (Ex: organicaCode)
 	 * @return startProcess if success or null when failure
 	 */
 	public static StartProcess nextTask(TaskService task, List<Part> parts, String myCustomPermission) {
@@ -4980,8 +5233,10 @@ public final class Core {
 	}
 
 	/**
-	 * @param tipo     ENV|PAGE|ACTI
-	 * @param id       The identifier of tipo parameter
+	 * @param tipo
+	 *            ENV|PAGE|ACTI
+	 * @param id
+	 *            The identifier of tipo parameter
 	 * @param appDad
 	 * @param orgCode
 	 * @param profCode
@@ -5030,8 +5285,10 @@ public final class Core {
 	}
 
 	/**
-	 * @param env        The Application
-	 * @param stateValue A String that will be sent to autentika for sso
+	 * @param env
+	 *            The Application
+	 * @param stateValue
+	 *            A String that will be sent to autentika for sso
 	 * @return
 	 */
 	public static String buildAppUrlUsingAutentikaForSSO(Application env, String stateValue) {
@@ -5049,8 +5306,10 @@ public final class Core {
 	}
 
 	/**
-	 * @param dad        Application unique code
-	 * @param stateValue A String that will be sent to autentika for sso
+	 * @param dad
+	 *            Application unique code
+	 * @param stateValue
+	 *            A String that will be sent to autentika for sso
 	 * @return
 	 */
 	public static String buildAppUrlUsingAutentikaForSSO(String dad, String stateValue) {
@@ -5141,8 +5400,9 @@ public final class Core {
 	}
 
 	/**
-	 * @param url      Usually url = this.configApp.getAutentikaUrlForSso() where
-	 *                 this = Controller
+	 * @param url
+	 *            Usually url = this.configApp.getAutentikaUrlForSso() where this =
+	 *            Controller
 	 * @param tipo
 	 * @param tipoId
 	 * @param dad
