@@ -40,7 +40,7 @@
 		<apache.commons.lang3.version>3.12.0</apache.commons.lang3.version>
 		<apache.commons.text.version>1.7</apache.commons.text.version>
 		<apache.commons.io.version>2.6</apache.commons.io.version>
-		<apache.logging.log4j.version>2.13.2</apache.logging.log4j.version>
+		<apache.logging.log4j.version>2.16.0</apache.logging.log4j.version>
 		<apache.poi.version>4.1.1</apache.poi.version>
 		<apache.httpcomponents.httpmime.version>4.5.10</apache.httpcomponents.httpmime.version>
 		<apache.httpcomponents.httpcore.version>4.4.12</apache.httpcomponents.httpcore.version>				
@@ -430,6 +430,16 @@
             <scope>test</scope>
         </dependency>
         <!-- (End) Unit & Integration Test Dependencies -->
+
+		
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.tess4j/tess4j -->
+		<dependency>
+		    <groupId>net.sourceforge.tess4j</groupId>
+		    <artifactId>tess4j</artifactId>
+		    <version>4.5.5</version>
+		</dependency>
+
+
 
 	</dependencies>
 
