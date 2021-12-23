@@ -40,7 +40,7 @@
 		<apache.commons.lang3.version>3.12.0</apache.commons.lang3.version>
 		<apache.commons.text.version>1.7</apache.commons.text.version>
 		<apache.commons.io.version>2.6</apache.commons.io.version>
-		<apache.logging.log4j.version>2.13.2</apache.logging.log4j.version>
+		<apache.logging.log4j.version>2.16.0</apache.logging.log4j.version>
 		<apache.poi.version>4.1.1</apache.poi.version>
 		<apache.httpcomponents.httpmime.version>4.5.10</apache.httpcomponents.httpmime.version>
 		<apache.httpcomponents.httpcore.version>4.4.12</apache.httpcomponents.httpcore.version>				
@@ -96,6 +96,9 @@
 		<igrp.db.password>softwaredeveloper</igrp.db.password>
 		<igrp.db.dsn>jdbc:postgresql://localhost:5432/db_igrp</igrp.db.dsn>
 		<igrp.migration.location>classpath:nosi/core/db/migration/igrp</igrp.migration.location>
+		
+		<!-- JavaDev Underscore Version: Transform JSON To XML Preserving the order of the elements -->
+		<javadev.underscore.version>1.68</javadev.underscore.version>
 		
 	</properties>
 
@@ -395,6 +398,14 @@
 		    <version>${jgit.version}</version>
 		</dependency>
 		
+		<!-- Javadev Undersocre API for jsonToXml transformation purpose -->
+		<!-- https://mvnrepository.com/artifact/com.github.javadev/underscore -->
+		<dependency>
+		    <groupId>com.github.javadev</groupId>
+		    <artifactId>underscore</artifactId>
+		    <version>${javadev.underscore.version}</version>
+		</dependency>
+		
 		
 		<!-- Database Migration API -->
 		<!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-core -->
@@ -424,6 +435,7 @@
         <!-- (End) Unit & Integration Test Dependencies -->
 		
 		
+		<!-- Provided Dependencies -->
 		<!-- For jax-rs client dependencies. (Ex: ContentDisposition.class) -->
         <!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-bundle-jaxrs -->
 		<dependency>
@@ -432,7 +444,6 @@
 		    <version>${cxf.rt.frontend.jaxrs.version}</version>
 		    <scope>provided</scope>
 		</dependency>
-		
 		<!-- https://mvnrepository.com/artifact/org.apache.tomee/tomee-jaxrs -->
 		<dependency>
 		    <groupId>org.apache.tomee</groupId>
@@ -440,15 +451,24 @@
 		    <version>${tomee.jaxrs.version}</version>
 		    <scope>provided</scope>
 		</dependency>
-		
-		
 		<!-- https://mvnrepository.com/artifact/org.apache.tomee/javaee-api -->
 		<dependency>
 		    <groupId>org.apache.tomee</groupId>
 		    <artifactId>javaee-api</artifactId>
 		    <version>${javaee.api.version}</version>
 		    <scope>provided</scope>
-		</dependency>		
+		</dependency>
+		
+		
+		<!-- System Dependencies -->
+		<!-- <dependency>
+			<artifactId>IGRP</artifactId>
+			<groupId>nosi</groupId>
+			<version>1.0</version>
+			<scope>system</scope>
+    		<systemPath>${pom.basedir}/src/main/webapp/WEB-INF/lib/IGRP.jar</systemPath>
+		</dependency> -->
+			
 		
 	</dependencies>
 
