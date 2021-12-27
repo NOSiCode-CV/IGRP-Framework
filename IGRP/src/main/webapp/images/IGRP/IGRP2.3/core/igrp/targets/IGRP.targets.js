@@ -1,3 +1,6 @@
+var mWindow = null,
+	mUrl 	= null;
+	
 (function($){
 	if($ && $.IGRP && !$.IGRP.targets){
 		
@@ -513,37 +516,38 @@
 		};
 
 		//blank (popup)
-		var mWindow = null,
-			mUrl 	= null;
 		
 		var modal       = function(p){
 			
-			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)
-				
-				mWindow = mWindow ? mWindow : window;
-		
 			var url = setTargetParameter(p.url);
 			
-			mUrl = url;
+			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0){
+				
+				mWindow = mWindow ? mWindow : window;
+			
+				mUrl = url;
+			}
 			
 			$.IGRP.components.iframeNav.set({
 				url    :url,
 				clicked:p.clicked
 			});
+			
 			return false;
+			
 		};
 
 		var right_panel       = function(p){
-
-			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)
-				
-				mWindow = window;
 			
 			var url = setTargetParameter(p.url);
 			
 			p.url = url;
+
+			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0){
 			
-			mUrl = url;
+				mWindow = window;
+			    mUrl = url;
+			}
 
 			$.IGRP.components.rightPanel.set(p);
 			
@@ -573,7 +577,7 @@
 			if(valid){
 			
 				if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)				
-					mWindow = window;
+						mWindow = window;
 				
 				$.IGRP.components.iframeNav.set({
 					url    : setTargetParameter($.IGRP.utils.getUrl(p.url)+formData),
@@ -658,22 +662,20 @@
 
 		var closerefresh = function(p){
 			
-			var params 	   = $.extend({},p),
-			
-				reloadType = params.type || 'refresh';
-			
 			try{
+				
+				//var popup 	= window.opener ? true : false,
 
-				var popup 	= window.opener || false,
-
-					_window = popup || window.parent,
-
-					_window = _window.frames['head_filho'] || _window,
+				var _window = window.parent ? window.parent : window.opener,
 					url 	= null;
 
+					_window = _window.frames['head_filho'] || _window;
+
+				console.log(mWindow);
 				if (mWindow) {
 					_window = mWindow;
-					popup 	= false;
+					
+					//popup 	= false;
 					mWindow = null;
 					
 					if(mUrl){
@@ -682,28 +684,15 @@
 					}
 				}
 				
-				if(popup)
-				
-					close();
-				
-				/*if(reloadType == 'refresh')
-				 
-				 	_window.location.reload();
-					
-				
-				if(reloadType == 'refresh_submit'){
-					
-					submit({
-						url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || _window.location.href
-					});
-				}*/
+				/*if(popup)
+					close();*/
 				
 				_window.$.IGRP.targets.submit.action({
 					url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || url,
 					validate : false
 				});
 					
-			}catch(e){null;}
+			}catch(e){console.log(e);}
 		};
 		
 		var gisViewCoords = function(p){
@@ -883,6 +872,11 @@
 				$.IGRP.utils.loading.hide(holder);
 
 			},300);
+		};
+		
+		var sharpadbclient = function(p){
+			if($.IGRP.components.sharpadbclient.run)
+				$.IGRP.components.sharpadbclient.run(p);
 		};
 		
 		var handleXMLMessages = function(xml){
@@ -1233,6 +1227,12 @@
 				action : _self
 
 			},
+			
+			sharpadbclient: {
+				label: 'Sharp Adb Client',
+
+				action: sharpadbclient
+			},
 
 			specific     : {
 
@@ -1306,11 +1306,15 @@
 
 		$.IGRP.on('init',function(){
 			
-			form        = $.IGRP.utils.getForm(),
+			form    = $.IGRP.utils.getForm();
 
-			doc 	    = $(document),
-
+			doc 	    = $(document);
+			
 			confirmText = $('#confirm-text').text();
+			
+			var target = '_blank',
+			
+				_this  = null;
 
 			configTargetsEvents();
 
@@ -1319,16 +1323,18 @@
 				
 				e.preventDefault();
 				
-				var target       = $(this).attr('target')  ? $(this).attr('target'): '_blank';
+				target       = $(this).attr('target')  ? $(this).attr('target'): '_blank';
 				
 				var url          = $(this).attr('fw_href') ? $(this).attr('fw_href') : $(this).attr('href');			
 				
 				var targetAction = $.IGRP.targets[target] && $.IGRP.targets[target].action ? $.IGRP.targets[target].action : _blank;
+					
+				_this 	     = $(this);
 
 				ev.execute('target-click',{
 					target  : target,
 					url     : url,
-					clicked : this
+					clicked : _this
 				});
 
 				$.IGRP.store.set({
@@ -1339,14 +1345,14 @@
 				return targetAction({
 					url     : url,
 					target  : target,
-					clicked : $(this)
+					clicked : _this
 				});
 
 			});
 
 			/*form submit controller */
 			form.on('submit',function(e){ 
-
+				
 				var validate  = form.attr('validateCtrl'),
 					fields    = $.IGRP.utils.getFieldsValidate(),
 					vfields   = fields.filter('.submittable'),//form.find('.submittable'),//$.IGRP.utils.getFieldsValidate(),
@@ -1358,11 +1364,14 @@
  					}) == 1 ? true : false;
 
  				
- 				var eventCB  = $.IGRP.events.execute('submit',{
- 					valid  : canSubmit,
- 					fields :  fields
+ 				var eventCB = $.IGRP.events.execute('submit',{
+ 					valid   : canSubmit,
+ 					fields  : fields,
+ 					event   : e,
+ 					clicked : _this,
+ 					target  : target
  				});
-
+ 				
  				canSubmit = eventCB == false ? false : canSubmit;
 
  				if (canSubmit){

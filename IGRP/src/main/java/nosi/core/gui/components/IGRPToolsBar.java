@@ -9,6 +9,7 @@ package nosi.core.gui.components;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.xml.XMLWritter;
 

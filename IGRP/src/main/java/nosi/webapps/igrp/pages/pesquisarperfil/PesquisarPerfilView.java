@@ -1,11 +1,12 @@
 package nosi.webapps.igrp.pages.pesquisarperfil;
 
-import nosi.core.webapp.Model;
-import nosi.core.webapp.View;
+import static nosi.core.i18n.Translator.gt;
+
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.View;
 
 public class PesquisarPerfilView extends View {
 
@@ -54,11 +55,11 @@ public class PesquisarPerfilView extends View {
 		help.setLabel(gt("Help"));
 		help.setValue(Core.getIGRPLink("igrp","Dominio","index"));
 
-									help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
+									help.propertie().add("name","p_help").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		organica = new TextField(model,"organica");
 		organica.setLabel(gt("Organização"));
-		organica.propertie().add("name","p_organica").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
+		organica.propertie().add("name","p_organica").add("type","text").add("maxlength","255").add("showLabel","true").add("group_in","");
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Estado"));
@@ -69,11 +70,11 @@ public class PesquisarPerfilView extends View {
 		
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Nome"));
-		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
+		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","255").add("showLabel","true").add("group_in","");
 		
 		codigo = new TextField(model,"codigo");
 		codigo.setLabel(gt("Código"));
-		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
+		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","255").add("showLabel","true").add("group_in","");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
@@ -94,22 +95,22 @@ public class PesquisarPerfilView extends View {
 		btn_novo.propertie.add("type","specific").add("rel","novo").add("refresh_components","");
 
 		btn_editar = new IGRPButton("Editar","igrp","PesquisarPerfil","editar","right_panel|refresh","warning|fa-pencil","","");
-		btn_editar.propertie.add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
+		btn_editar.propertie.add("id","button_40d9_9edf").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
 
 		btn_menu = new IGRPButton("Menu","igrp","PesquisarPerfil","menu","right_panel","info|fa-bars","","");
-		btn_menu.propertie.add("type","specific").add("class","info").add("rel","menu").add("refresh_components","");
+		btn_menu.propertie.add("id","button_2d77_a624").add("type","specific").add("class","info").add("rel","menu").add("refresh_components","");
 
 		btn_transacao = new IGRPButton("Transacao","igrp","PesquisarPerfil","transacao","right_panel","black|fa-exchange","","");
-		btn_transacao.propertie.add("type","specific").add("class","black").add("rel","transacao").add("refresh_components","");
+		btn_transacao.propertie.add("id","button_6e1b_72ce").add("type","specific").add("class","black").add("rel","transacao").add("refresh_components","");
 
 		btn_associar_etapa = new IGRPButton("Associar Etapa","igrp","PesquisarPerfil","associar_etapa","right_panel","primary|fa-sitemap","","");
-		btn_associar_etapa.propertie.add("type","specific").add("class","primary").add("rel","associar_etapa").add("refresh_components","");
+		btn_associar_etapa.propertie.add("id","button_0636_8fae").add("type","specific").add("class","primary").add("rel","associar_etapa").add("refresh_components","");
 
 		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarPerfil","convidar","right_panel","warning|fa-send","","");
-		btn_convidar.propertie.add("type","specific").add("class","warning").add("rel","convidar").add("refresh_components","");
+		btn_convidar.propertie.add("id","button_a1c1_3c29").add("type","specific").add("class","warning").add("rel","convidar").add("refresh_components","");
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarPerfil","eliminar","alert_submit","danger|fa-trash","","");
-		btn_eliminar.propertie.add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
+		btn_eliminar.propertie.add("id","button_aa26_9fae").add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
 
 		
 	}

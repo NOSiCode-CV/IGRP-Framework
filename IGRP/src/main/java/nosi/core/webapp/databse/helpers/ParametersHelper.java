@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 
@@ -21,7 +22,7 @@ public class ParametersHelper {
 		setParameter(query, col.getColumnMap(), value, col);
 	}
 	
-	private static void setParameter(Query query,String columnName,Object value,Column col) {
+	public static void setParameter(Query query,String columnName,Object value,Column col) {
 		if(col.getType().equals(java.lang.Integer.class)) {
 			query.setParameter(columnName,value!=null?Core.toInt(value.toString()):null);
 		}else if(col.getType().equals(java.lang.Double.class)){

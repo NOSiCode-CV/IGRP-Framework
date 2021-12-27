@@ -1,11 +1,12 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_nif_rest;
 
-import nosi.core.webapp.Model;
-import nosi.core.webapp.View;
+import static nosi.core.i18n.Translator.gt;
+
+import nosi.core.config.Config;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import static nosi.core.i18n.Translator.gt;
-import nosi.core.config.Config;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.View;
 
 public class Pesquisa_nif_restView extends View {
 

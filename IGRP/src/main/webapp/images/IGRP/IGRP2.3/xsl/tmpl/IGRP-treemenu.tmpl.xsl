@@ -55,7 +55,7 @@
                     type="text" 
                     class="form-control igrp-search-list" 
                     placeholder="Pesquisar ..." 
-                    search-list="#tm_{$name} ul.nav-list li .nav-header a"
+                    search-list="#tm_{$name} ul.nav-list li a"
                     search-attr="text"
                     search-item-parent=".nav-header"
                     search-item-wrapper=".box-tm" />
@@ -415,7 +415,7 @@
                                 </span>
                                 <xsl:choose>
                                     <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                        <a>
+                                        <a text="{../*[name() = concat($name,'_link_desc')]}">
                                             <xsl:call-template name="setTarget">
                                                 <xsl:with-param name="parser" select="$parser"/>
                                                 <xsl:with-param name="target" select="$target"/>
@@ -432,7 +432,7 @@
                                         </a>
                                     </xsl:when>
                                     <xsl:otherwise>
-                                        <a class="form-link">
+                                        <a class="form-link" text="{../*[name() = concat($name,'_link_desc')]}">
                                             <xsl:call-template name="setTarget">
                                                 <xsl:with-param name="parser" select="$parser"/>
                                     			<xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
@@ -465,7 +465,7 @@
                             </div>
                         </xsl:when>
                         <xsl:otherwise>
-                            <a>
+                            <a text="{../*[name() = concat($name,'_link_desc')]}">
                                 <xsl:call-template name="setTarget">
                                     <xsl:with-param name="parser" select="$parser"/>
                                     <xsl:with-param name="target" select="$target"/>

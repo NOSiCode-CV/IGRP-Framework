@@ -1,14 +1,14 @@
 package nosi.webapps.igrp.pages.pesquisabi;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
 import java.util.List;
-//import nosi.core.webapp.webservices.biztalk.dao.PesquisaBI.RowList;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 
 /*----#end-code----*/
 		
@@ -24,7 +24,7 @@ public class PesquisaBIController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load();
 		}
 		
@@ -43,7 +43,7 @@ public class PesquisaBIController extends Controller {
 		 return this.forward("igrp","PesquisaBI","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(pesquisar)----*/
 		
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load();
 //			List<PesquisaBI.Table_1> data = new ArrayList<>();
 //			if(model.getBi() != 0 && Core.isNotNull(model.getNome())) {

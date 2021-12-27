@@ -39,9 +39,9 @@
         <title>Associar Transacao a Organica</title>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=transacao" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=transacao" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
                     <label>Help</label>
-                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=transacao</value>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
                 </help>
             </fields>
         </view_1>
@@ -70,40 +70,49 @@
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Ipsum magna omnis ipsum offici</nome>
+                        <nome name="p_nome">Lorem iste aliqua amet accusan</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Stract aperiam natus aliqua la</nome>
+                        <nome name="p_nome">Aperiam omnis dolor iste dolor</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Omnis voluptatem omnis amet al</nome>
+                        <nome name="p_nome">Elit rem ut sit aliqua</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Labore stract voluptatem ut do</nome>
+                        <nome name="p_nome">Omnis dolor laudantium ut dese</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Aperiam aliqua perspiciatis la</nome>
+                        <nome name="p_nome">Amet rem mollit ipsum doloremq</nome>
                     </row>
                 </value>
             </table>
         </table_1>
         <toolsbar_3 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gestao_de_transacoes" refresh_components="">
-                <title>Gestão de transações</title>
+                <title>Gestão transações</title>
                 <app>igrp</app>
                 <page>Transaccao</page>
                 <link>index</link>
-                <target>submit_popup</target>
+                <target>mpsubmit|refresh</target>
                 <img>black|fa-exchange</img>
                 <preview>../images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml</preview>
+            </item>
+            <item type="specific" code="" rel="novo_transacao" refresh_components="">
+                <title>Nova Transação</title>
+                <app>igrp</app>
+                <page>EditarTransacao</page>
+                <link>index</link>
+                <target>right_panel|refresh</target>
+                <img>success|fa-plus-square</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/editartransacao/EditarTransacao.xml</preview>
             </item>
         </toolsbar_3>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">

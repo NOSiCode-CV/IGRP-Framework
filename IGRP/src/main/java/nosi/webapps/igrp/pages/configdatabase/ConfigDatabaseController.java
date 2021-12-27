@@ -1,24 +1,14 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
 import java.io.StringReader;
-
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
-import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.helpers.dao_helper.SaveMapeamentoDAO;
-import nosi.core.webapp.security.EncrypDecrypt;
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Config_env;
-import nosi.webapps.igrp.pages.migrate.Migrate;
-import nosi.core.webapp.Igrp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.File;
 
 import org.dom4j.Document;
@@ -29,8 +19,17 @@ import org.json.JSONObject;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.igrp.mingrations.MigrationIGRP;
-import static nosi.core.i18n.Translator.gt;
-/*----#end-code----*/
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.dao_helper.SaveMapeamentoDAO;
+import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Config_env;
+import nosi.webapps.igrp.pages.migrate.Migrate;
 		
 public class ConfigDatabaseController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -152,7 +151,7 @@ public class ConfigDatabaseController extends Controller {
 		 return this.forward("igrp","ConfigDatabase","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		
-      if (Igrp.getMethod().equalsIgnoreCase("post")) {		
+      if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")) {		
 			Config_env config = new Config_env();
 			config.setApplication(Core.findApplicationById(Core.toInt(model.getAplicacao())));
 			config.setCharset("utf-8");
@@ -241,6 +240,7 @@ public class ConfigDatabaseController extends Controller {
 				}
 			}
 			if (obj.delete(obj.getId())) {
+				FileHelper.forceDelete(new Config().getPathConexao()+obj.getName()+"."+obj.getApplication().getDad().toLowerCase() + ".cfg.xml");
 				Core.setMessageSuccess();
 			}else
 				Core.setMessageError();
@@ -301,7 +301,7 @@ public class ConfigDatabaseController extends Controller {
 		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp","ConfigDatabase","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
-		if (Igrp.getMethod().equalsIgnoreCase("post")) {		
+		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")) {		
 			Integer id_conn = Core.getParamInt("p_id");
 			Config_env config = new Config_env().findOne(id_conn);
 			config.setApplication(Core.findApplicationById(Integer.parseInt(model.getAplicacao())));
@@ -360,8 +360,11 @@ public class ConfigDatabaseController extends Controller {
 		}
 	}
 	*/
+	
+	//https://stackoverflow.com/questions/16162357/transaction-isolation-levels-relation-with-locks-on-table isolation is 2
+	
 	private String getHibernateConfig(Config_env config,String package_) {
-		String content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
+		return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
 				"<!DOCTYPE hibernate-configuration PUBLIC\r\n" + 
 				"\"-//Hibernate/Hibernate Configuration DTD 3.0//EN\"\r\n" + 
 				"\"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd\">\n"+ 
@@ -374,31 +377,24 @@ public class ConfigDatabaseController extends Controller {
 				"\t\t<property name=\"hibernate.hbm2ddl.auto\">update</property>\r\n" + 
 				"\t\t<property name=\"hibernate.connection.isolation\">2</property>\r\n" + 
 				"\t\t<property name=\"hibernate.connection.autocommit\">false</property>\r\n" + 
-				"\t\t<property name=\"hibernate.connection.pool_size\">5</property>\r\n" + 
 				"\t\t<property name=\"hibernate.hbm2ddl.jdbc_metadata_extraction_strategy\">individually</property>\r\n" + 
 				"\t\t<property name=\"hibernate.current_session_context_class\">org.hibernate.context.internal.ThreadLocalSessionContext</property>\r\n" + 
 				"\t\t<property name=\"hibernate.transaction.auto_close_session\">DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION</property>\r\n" + 
 				"\t\t<property name=\"hibernate.dialect\">"+DatabaseConfigHelper.getHibernateDialect(Core.decrypt(config.getType_db(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB))+"</property>\n"+
 				"\t\t<!-- Hikaricp configuration -->\r\n" + 
 				"\t\t<property name=\"hibernate.connection.provider_class\">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.connectionTimeout\">60000</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.idleTimeout\">10000</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.connectionTimeout\">120000</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.idleTimeout\">600000</property>\r\n" + 
 				"\t\t<property name=\"hibernate.hikari.minimumIdle\">0</property>\r\n" + 
 				"\t\t<property name=\"hibernate.hikari.maximumPoolSize\">10</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.maxLifetime\">30000</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.leakDetectionThreshold\">0</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.connectionTimeout\">120000</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.idleTimeout\">600000</property>\r\n" + 
 				"\t\t<property name=\"hibernate.hikari.maxLifetime\">1800000</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.connectionTimeout\">120000</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.idleTimeout\">600000</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.maxLifetime\">1800000</property>\n\n\n" + 
+				"\t\t<property name=\"hibernate.hikari.leakDetectionThreshold\">0</property>\r\n" +
 				"\t\t<!-- Mapping your class here... \n" + 
 				"\t\tEx: <mapping class=\""+ package_ + ".Employee\"/>" + 
 				" \t\t-->\n" + 
 				"\t</session-factory>\n"+ 
 				"</hibernate-configuration>";
-		return content;
+		
 	}
 	
 	

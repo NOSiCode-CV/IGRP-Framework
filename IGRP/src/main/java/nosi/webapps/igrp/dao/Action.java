@@ -4,6 +4,8 @@ package nosi.webapps.igrp.dao;
  * 29 Jun 2017
  */
 
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,11 +22,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import java.time.LocalDateTime;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.StringHelper;
-import static nosi.core.i18n.Translator.gt;
 
 @Entity
 @Table(name = "tbl_action")
@@ -62,8 +65,7 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 	private String xmlContent;
 	private String xslContent;
 	private String processKey;
-	
-	private short tipo = 0; // 0 = Privado (Authentication); 1 = Publico; ... 
+	private short tipo = 0; // 0 = Privado (Authentication); 1 = Publico; 2 = Oculto 
 	
 	private String nomeModulo;
 
@@ -274,7 +276,7 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 		if (actions != null)
 			for (Action ac : actions) {
 				if (Core.isNotNull(ac.getPage_descr()))
-					lista.put(ac.getId(), ac.getPage_descr());
+					lista.put(ac.getId(), ac.getPage_descr() +" ("+ac.getPage()+")");
 				else
 					lista.put(ac.getId(), ac.getPage());
 
@@ -310,6 +312,7 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 	public void setTipo(short tipo) {
 		this.tipo = tipo;
 	}
+
 	
 	public boolean isPublicPage(String appDad, String pageId_) {
 		String pageId = pageId_;

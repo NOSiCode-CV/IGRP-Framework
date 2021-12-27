@@ -1,20 +1,20 @@
 package nosi.core.webapp.import_export_v2.imports.bpmn;
 
-import nosi.core.webapp.Core;
-import nosi.core.webapp.activit.rest.services.DeploymentServiceRest;
-//import nosi.core.webapp.activit.rest.DeploymentService;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.helpers.mime_type.MimeType;
-import nosi.core.webapp.import_export_v2.common.Path;
-import nosi.core.webapp.import_export_v2.common.serializable.bpmn.BPMNSerializable;
-import nosi.core.webapp.import_export_v2.imports.IImport;
-import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.Application;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import com.google.gson.reflect.TypeToken;
+
+import nosi.core.webapp.Core;
+import nosi.core.webapp.activit.rest.services.DeploymentServiceRest;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.mime_type.MimeType;
+import nosi.core.webapp.import_export_v2.common.Path;
+import nosi.core.webapp.import_export_v2.common.serializable.bpmn.BPMNSerializable;
 import nosi.core.webapp.import_export_v2.imports.AbstractImport;
+import nosi.core.webapp.import_export_v2.imports.IImport;
+import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
 
 /**
  * Emanuel
@@ -43,7 +43,7 @@ public class BpmnImport extends AbstractImport implements IImport {
 		if(this.bpmns!=null) {
 			this.bpmns.stream().forEach(bpmn->{
 				if(this.application==null) {
-					 this.application = new Application().findByDad(bpmn.getDad());
+					 this.application = Core.findApplicationByDad(bpmn.getDad());
 				}
 				this.saveBPMN(bpmn);
 				this.savePagesBPMN(bpmn);
@@ -59,8 +59,10 @@ public class BpmnImport extends AbstractImport implements IImport {
 					String basePath = Path.getPath(this.application);
 					basePath += "process" + File.separator + bpmn.getKey().toLowerCase() + File.separator;
 					try {
-						FileHelper.save(basePath, page.getFileName(), page.getFileContent());
-						this.fileName.add(basePath+page.getFileName());
+						if(!FileHelper.save(basePath, page.getFileName(), page.getFileContent()))
+							this.addError( page.getFileName()+" has error saving");
+						else
+							this.fileName.add(basePath+page.getFileName());
 					} catch (IOException e) {
 						this.addError(e.getMessage());
 					}

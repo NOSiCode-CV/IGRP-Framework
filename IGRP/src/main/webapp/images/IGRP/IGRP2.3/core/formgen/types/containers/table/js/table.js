@@ -686,15 +686,17 @@ var GENTABLE = function(name,params){
 
 		container.GET.fields().forEach(function(f){
 			
-			if($.inArray(f.type,container.reject) === -1 && f.GET.tag() != container.GET.tag()+'_filter'){
+			if($.inArray(f.type,container.reject) === -1 && f.GET.tag() != container.GET.tag()+'_filter' && f.type != 'hidden'){
 				
 				var fValue = container.GET.path()+"/table/value/row[@total='yes']/"+f.GET.tag(),
 				
 					align  =  f.GET.align ? f.GET.align() : '';
 			
-				rtn+='<xsl:if test="'+fValue+'"><td align="'+align+'">';
+				rtn+='<xsl:if test="//'+container.GET.path()+"/fields/"+f.GET.tag()+'">';
 				
-				rtn+='<xsl:value-of select="'+fValue+'"/>';
+					rtn+='<td align="'+align+'" item-name="'+f.GET.tag()+'" td-name="'+f.GET.tag()+'">';
+				
+						rtn+='<xsl:value-of select="'+fValue+'"/>';
 				
 				rtn+='</td></xsl:if>';
 			}

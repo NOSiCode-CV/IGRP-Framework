@@ -1,37 +1,33 @@
 package nosi.webapps.igrp_studio.pages.crudgenerator;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
-import java.util.LinkedHashMap;
-import static nosi.core.i18n.Translator.gt;
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
-import nosi.core.gui.page.Page;
-import java.io.File;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import nosi.core.config.Config;
 import javax.xml.transform.TransformerConfigurationException;
-
+import java.io.File;
+import java.util.ArrayList;
+import nosi.core.config.Config;
+import nosi.core.gui.page.Page;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.databse.helpers.*;
 import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.dao_helper.DaoDto;
 import nosi.core.webapp.helpers.dao_helper.GerarClasse;
 import nosi.core.webapp.helpers.dao_helper.SaveMapeamentoDAO;
 import nosi.core.xml.XMLTransform;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
-import nosi.core.webapp.Igrp;
+import java.util.LinkedHashMap;
 /*----#end-code----*/
 		
 public class CRUDGeneratorController extends Controller {
@@ -42,93 +38,56 @@ public class CRUDGeneratorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Magna deserunt lorem magna sit' as table_name "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Laudantium sit natus ut aperia' as table_name "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.schema.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.table_type.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.form_2_radiolist_1.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
-	LinkedHashMap<String, String> form_2_radiolist_1 = new LinkedHashMap<>();
-	form_2_radiolist_1.put("dao",gt("DAO"));
-	form_2_radiolist_1.put("crud",gt("CRUD"));
-	view.form_2_radiolist_1.setValue(form_2_radiolist_1);
-	
-		/*----#start-code(index)----*/	 
-		//model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=crud"));
-		view.btn_add_datasource.setLink("igrp","ConfigDatabase","index");
-		view.aplicacao.setValue(new Application().getListApps());
-		view.btn_gerar_dao.setLink("index&dao_boo=true&dad_id="+model.getAplicacao());
-		view.table_type.setValue(this.preencherTableType());
+		/*----#start-code(index)----*/
 		
-		List<String> list_table = null;
-		
-		if(Core.isNotNull(model.getAplicacao())) {
+		try {
 			
-			final Map<Object, Object> listDSbyEnv = new Config_env().getListDSbyEnv(Core.toInt(model.getAplicacao()));
-			view.data_source.setValue(listDSbyEnv);
-			
-			if(Core.isNotNull(model.getData_source())) {
-				
-				Config_env config = new Config_env().find()
-													.andWhere("id","=",Core.toInt(model.getData_source()))
-													.andWhere("application", "=",Core.toInt(model.getAplicacao()))
-													.one();	
-				Map<String,String> schemasMap = DatabaseMetadaHelper.getSchemas(config);
-				view.schema.setValue(schemasMap);
-				
-				if(Core.isNotNull(model.getSchema())) {
-					
-					
-					
-					list_table = DatabaseMetadaHelper.getTables(config,model.getSchema(),model.getTable_type());
-					
-					
-					List<CRUDGenerator.Table_1> list_tb = new ArrayList<>();
-					int i =1;
-					for(String li : list_table) {
-						CRUDGenerator.Table_1 tb = new CRUDGenerator.Table_1();
-						
-						tb.setTable_name(li);
-						tb.setCheck_table(i);
-						tb.setCheck_table_check(-1);
-						i++;
-						list_tb.add(tb);
-					}
-					model.setTable_1(list_tb);
-					
-					//action gerar --- put here to aproveitar a list_table
-					String[] rows_id = Core.getParamArray("p_check_table_fk");
-					String[] p_checkbox_check = Core.getParamArray( "p_check_table_check_fk" );
-					
+			Map<String, String> daoCrudOptions = new LinkedHashMap<>();
+			daoCrudOptions.put("dao", "DAO");
+			daoCrudOptions.put("crud", "CRUD");
+			view.form_2_radiolist_1.setValue(daoCrudOptions);
 
-					if(Core.isNotNull(p_checkbox_check) && Core.isNotNull(rows_id) && Core.getParam("dao_boo").equals("true")) {
-						
-						CheckBoxHelper cbh = Core.extractCheckBox(rows_id, p_checkbox_check); 
-						if(Core.isNotNull(cbh)) {
-							boolean r = false;
-							for(String id_ch : cbh.getChekedIds()) {
-								String tableName = list_table.get(Integer.parseInt(id_ch)-1);
-								String dad_name = Core.findApplicationById(Core.toInt(model.getAplicacao())).getDad();
-								r = this.generateDAO(config,model.getSchema(),tableName, dad_name,false,"","");
-							}
-							
-							if(r) {
-								Core.setMessageSuccess("Classe DAO gerado sucesso!");
-								
-							}
-							else {
-								Core.setMessageError();
-							}
-						}
-					}
-					/* --  FIM ACTION GERAR  --*/
-					
-				}
-			//model.getAdd_datasource_botton().addParam("p_aplicacao",model.getAplicacao());
-			}
-		}
+			view.btn_add_datasource.setLink("igrp", "ConfigDatabase", "index");
+			view.aplicacao.setValue(new Application().getListApps());
+			view.table_type.setValue(DatabaseMetadaHelper.getTableTypeOptions());
+
+			view.documento.setValue("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT&p_type=crud");
+			view.forum.setValue("https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&utm_medium=link&utm_campaign=share-link");
 			
+			if (Core.isNotNull(model.getAplicacao())) {
+				
+				final Map<Object, Object> datasourceByEnv = new Config_env().getListDSbyEnv(Core.toInt(model.getAplicacao()));
+				
+				if (datasourceByEnv.size() == 2)
+					datasourceByEnv.remove(null);
+					
+				view.data_source.setValue(datasourceByEnv);
+
+				if (Core.isNotNull(model.getData_source())) {
+
+					Config_env config = new Config_env().find().andWhere("id", "=", Core.toInt(model.getData_source()))
+							.andWhere("application.id", "=", Core.toInt(model.getAplicacao())).one();
+
+					Map<String, String> schemasMap = DatabaseMetadaHelper.getSchemas(config);
+					if (schemasMap.size() == 2)
+						schemasMap.remove(null);
+
+					view.schema.setValue(schemasMap);
+
+					this.fillTable(model, config);
+				}
+			}
+		} catch (Exception e) {
+			//e.printStackTrace();
+		}
+		
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -145,8 +104,7 @@ public class CRUDGeneratorController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(add_datasource)----*/
-		
-		
+
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
 	}
@@ -163,54 +121,39 @@ public class CRUDGeneratorController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(gerar)----*/
 
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-	
-			if(Core.isNotNull(model.getData_source()) && Core.isNotNull(model.getAplicacao())) {
-		
-				Config_env config = new Config_env()
-						.find()
-						.andWhere("id","=",Core.toInt(model.getData_source(),-1))
-						.andWhere("application", "=",Core.toInt(model.getAplicacao(),-1))
-						.one();	
-				List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema(),"TABLE");
-				
-				String[] rows_id = Core.getParamArray("p_check_table_fk");
-				String[] p_checkbox_check = Core.getParamArray( "p_check_table_check_fk" );
-				
-				boolean r = false;
-				if(Core.isNotNull(p_checkbox_check) && Core.isNotNull(rows_id)) {
-					CheckBoxHelper cbh = Core.extractCheckBox(rows_id, p_checkbox_check);
-					if(cbh!=null) {
-						for(String table:cbh.getChekedIds()) {
-							String tableName = list.get(Integer.parseInt(table)-1);		                      
-							try {
-								r = this.generateCRUD(config,model.getSchema(),tableName);
-							} catch (TransformerConfigurationException | URISyntaxException e) {
-								// TODO Auto-generated catch block							
-								e.printStackTrace();
-							}
-						}
-						if(r) {
-							Core.setMessageSuccess();
-	                      	return this.forward("igrp_studio","CRUDGenerator","index&p_aplicacao="+model.getAplicacao());
-						}
-						else {
-							Core.setMessageError();
-							return this.forward("igrp_studio","CRUDGenerator","index");
-						}
-						}
-						else
-						{
-							Core.setMessageWarning("Escolha uma tabela.");
-							
-						}
+		if (Core.isNotNullMultiple(model.getData_source(), model.getAplicacao())) {
+
+			Config_env config = new Config_env().find().andWhere("id", "=", Core.toInt(model.getData_source(), -1))
+					.andWhere("application.id", "=", Core.toInt(model.getAplicacao(), -1)).one();
+
+			String[] rowsId = Core.getParamArray("p_check_table_fk");
+			String[] pCheckboxCheck = Core.getParamArray("p_check_table_check_fk");
+
+			boolean r = false;
+			if (Core.isNotNull(pCheckboxCheck) && Core.isNotNull(rowsId)) {
+				CheckBoxHelper cbh = Core.extractCheckBox(rowsId, pCheckboxCheck);
+				if (cbh.getChekedIds().isEmpty()) {
+					Core.setMessageWarning("<strong> Deve escolher pelo menos uma tabela! </strong>");
+					return this.renderView(new CRUDGeneratorView());
+				}
+				for (String tableName : cbh.getChekedIds()) {
+					try {
+						r = this.generateCRUD(config, model.getSchema(), tableName);
+					} catch (TransformerConfigurationException e) {
+						e.printStackTrace();
 					}
-				
+				}
+				if (r) {
+					Core.setMessageSuccess();
+				} else {
+					Core.setMessageError();
+				}
 			}
 		}
-		this.addQueryString("dao_boo","false");
+		return this.renderView(new CRUDGeneratorView());
+
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","CRUDGenerator","index", this.queryString());	
+			
 	}
 	
 	public Response actionGerar_dao() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -224,8 +167,43 @@ public class CRUDGeneratorController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(gerar_dao)----*/
-		return this.forward("igrp_studio","Daogenerator","index",this.queryString());
-		
+
+		String[] rowsId = Core.getParamArray("p_check_table_fk");
+		String[] pCheckboxCheck = Core.getParamArray("p_check_table_check_fk");
+
+		if (Core.isNotNullMultiple(pCheckboxCheck, rowsId)) {
+			CheckBoxHelper checkBoxHelper = Core.extractCheckBox(rowsId, pCheckboxCheck);
+			if (checkBoxHelper.getChekedIds().isEmpty()) {
+				Core.setMessageWarning("<strong> Deve escolher pelo menos uma tabela! </strong>");
+				return this.renderView(new CRUDGeneratorView());
+			}
+			final String dadName = Core.findApplicationById(Core.toInt(model.getAplicacao())).getDad();
+			Config_env configEnv = new Config_env().find().andWhere("id", "=", Core.toInt(model.getData_source(), -1))
+					.andWhere("application.id", "=", Core.toInt(model.getAplicacao(), -1)).one();
+			
+			for (String tableName : checkBoxHelper.getChekedIds()) {
+				DaoDto daoDto = new DaoDto();
+				daoDto.setConfigEnv(configEnv);
+				daoDto.setSchema(model.getSchema());
+				daoDto.setDadName(dadName);
+				daoDto.setHasList(false);
+				daoDto.setContentList("");
+				daoDto.setContentListSetGet("");
+				daoDto.setTableType(model.getTable_type());
+				daoDto.setTableName(tableName);
+				daoDto.setDaoClassName(GerarClasse.convertCase(tableName, true));
+				this.generateDAO(daoDto);
+			}
+
+			Core.setMessageSuccess();
+			if (model.getTable_type().equals("view"))
+				Core.setMessageWarning("Consider adding identifier/primary key(@Id) annotation for your views!");
+			
+		}
+		/* -- FIM ACTION GERAR -- */
+
+		return this.renderView(new CRUDGeneratorView());
+
 		/*----#end-code----*/
 			
 	}
@@ -234,237 +212,229 @@ public class CRUDGeneratorController extends Controller {
 		
 /*----#start-code(custom_actions)----*/
 	
-	
-	
+	private void fillTable(CRUDGenerator model, Config_env config) {
+		List<String> tables = DatabaseMetadaHelper.getTables(config, model.getSchema(), model.getTable_type());
+		model.setTable_1(new ArrayList<>());
+		for (String tableName : tables) {
+			CRUDGenerator.Table_1 row = new CRUDGenerator.Table_1();
+			row.setTable_name(tableName);
+			row.setCheck_table(tableName);
+			row.setCheck_table_check("-1");
+			model.getTable_1().add(row);
+		}
+	}
+
 	/********************* METODO USADOS PARA GERAR CRUD *********************/
 	private Compiler compiler = new Compiler();
-	private boolean generateCRUD(Config_env config,String schema, String tableName) throws TransformerConfigurationException, IOException, URISyntaxException {
-		String pageNameForm = Page.resolvePageName(tableName)+"Form";
-		String pageNameList = Page.resolvePageName(tableName)+"List";
 
-		Action pageForm = new Action().find().andWhere("page", "=",pageNameForm).andWhere("application", "=",config.getApplication().getId()).one();
-		Action pageList = new Action().find().andWhere("page", "=",pageNameList).andWhere("application", "=",config.getApplication().getId()).one();		
-		
-		if(pageForm==null) {
-			pageForm = new Action(pageNameForm, "index", ("nosi.webapps."+config.getApplication().getDad()+".pages").toLowerCase(), (config.getApplication().getDad()+"/"+pageNameForm).toLowerCase()+"/"+pageNameForm+".xsl", "Registar "+tableName, "Registar "+tableName, "2.3", 1, config.getApplication());
+	private boolean generateCRUD(Config_env config, String schema, String tableName)
+			throws TransformerConfigurationException, IOException {
+		String pageNameForm = Page.resolvePageName(tableName) + "Form";
+		String pageNameList = Page.resolvePageName(tableName) + "List";
+
+		Action pageForm = new Action().find().andWhere("page", "=", pageNameForm)
+				.andWhere("application", "=", config.getApplication().getId()).one();
+		Action pageList = new Action().find().andWhere("page", "=", pageNameList)
+				.andWhere("application", "=", config.getApplication().getId()).one();
+
+		if (pageForm == null) {
+			pageForm = new Action(pageNameForm, "index",
+					(NOSI_WEBAPPS + config.getApplication().getDad() + PAGES).toLowerCase(),
+					(config.getApplication().getDad() + "/" + pageNameForm).toLowerCase() + "/" + pageNameForm + ".xsl",
+					"Registar " + tableName, "Registar " + tableName, "2.3", 1, config.getApplication());
 			pageForm = pageForm.insert();
 
-		}else {
-			if(!pageForm.getPackage_name().endsWith(".pages")) {
-				pageForm.setPackage_name(("nosi.webapps."+config.getApplication().getDad()+".pages").toLowerCase());
+		} else {
+			if (!pageForm.getPackage_name().endsWith(PAGES)) {
+				pageForm.setPackage_name((NOSI_WEBAPPS + config.getApplication().getDad() + PAGES).toLowerCase());
 				pageForm = pageForm.update();
 			}
 		}
-		if(pageList==null) {
-			pageList = new Action(pageNameList, "index", ("nosi.webapps."+config.getApplication().getDad()+".pages").toLowerCase(), (config.getApplication().getDad()+"/"+pageNameList).toLowerCase()+"/"+pageNameList+".xsl", "Listar "+tableName, "Listar "+tableName, "2.3", 1, config.getApplication());
+		if (pageList == null) {
+			pageList = new Action(pageNameList, "index",
+					(NOSI_WEBAPPS + config.getApplication().getDad() + PAGES).toLowerCase(),
+					(config.getApplication().getDad() + "/" + pageNameList).toLowerCase() + "/" + pageNameList + ".xsl",
+					"Listar " + tableName, "Listar " + tableName, "2.3", 1, config.getApplication());
 			pageList = pageList.insert();
 
-		}else {
-			if(!pageList.getPackage_name().endsWith(".pages")) {
-				pageList.setPackage_name(("nosi.webapps."+config.getApplication().getDad()+".pages").toLowerCase());
+		} else {
+			if (!pageList.getPackage_name().endsWith(PAGES)) {
+				pageList.setPackage_name((NOSI_WEBAPPS + config.getApplication().getDad() + PAGES).toLowerCase());
 				pageList = pageList.update();
 			}
-		}	
+		}
 		boolean flag = false;
-		
+
 		try {
-			 flag = this.processGenerate(config, tableName, schema, pageForm, pageList);
-		}catch(Exception e) {
-			pageList.delete(pageList.getId());	
+			flag = this.processGenerate(config, tableName, schema, pageForm, pageList);
+		} catch (Exception e) {
+			pageList.delete(pageList.getId());
 			pageForm.delete(pageForm.getId());
 			return false;
-		} 					
+		}
 		return flag;
 	}
 
-	private boolean processGenerate(Config_env config, String tableName, String schema, Action pageForm, Action pageList) throws IOException, TransformerConfigurationException, URISyntaxException {
+	private boolean processGenerate(Config_env config, String tableName, String schema, Action pageForm,
+			Action pageList) throws IOException, TransformerConfigurationException {
 		boolean r = false;
+		boolean xmlSave = false;
 		List<DatabaseMetadaHelper.Column> columns = null;
 		try {
 			columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
+			columns.replaceAll(e -> {
+				if (e.getName().equals("model")) {
+					e.setName("models");
+				}
+				return e;
+			});
 		} catch (Exception e) {
-			// TODO: handle exception
-			Core.setMessageError(tableName+" error: "+e.getMessage());
+			Core.setMessageError(tableName + " error: " + e.getMessage());
 			return false;
 		}
-		
+
 		XMLTransform xml = new XMLTransform();
-		String formXML = xml.genXML(xml.generateXMLForm(config, pageForm, columns,pageList),pageForm,"form",config.getName(),schema,tableName);
-		String listXML = xml.genXML(xml.generateXMLTable(config, pageList, columns,pageForm),pageList,"table",config.getName(),schema,tableName);
-		
-		
-		r = this.saveFiles(pageForm, pageForm.getPage()+".xml",formXML)		
-			&& this.saveFiles(pageList, pageList.getPage()+".xml",listXML);		
-		
+		String formXML = xml.genXML(xml.generateXMLForm(config, pageForm, columns, pageList), pageForm, "form",
+				config.getName(), schema, tableName);
+		String listXML = xml.genXML(xml.generateXMLTable(config, pageList, columns, pageForm), pageList, "table",
+				config.getName(), schema, tableName);
+
+		xmlSave = this.saveFiles(pageForm, pageForm.getPage() + ".xml", formXML)
+				&& this.saveFiles(pageList, pageList.getPage() + ".xml", listXML);
+
 		String xslFileNameFrom = this.getConfig().getLinkXSLGeneratorMCVForm();
 		String xslFileNameList = this.getConfig().getLinkXSLGeneratorMCVList();
 		String xslFileNameGen = this.getConfig().getLinkXSLGenerator_CRUD();
 		String jsonFileName = this.getConfig().getLinkXSLJsonGenerator();
-		String pathXslForm = this.getConfig().getCurrentBaseServerPahtXsl(pageForm)+File.separator+pageForm.getPage()+".xml";
-		String pathXslList = this.getConfig().getCurrentBaseServerPahtXsl(pageList)+File.separator+pageList.getPage()+".xml";
-		
+		String pathXslForm = this.getConfig().getCurrentBaseServerPahtXsl(pageForm) + File.separator
+				+ pageForm.getPage() + ".xml";
+		String pathXslList = this.getConfig().getCurrentBaseServerPahtXsl(pageList) + File.separator
+				+ pageList.getPage() + ".xml";
+
 		String formJson = XMLTransform.xmlTransformWithXSL(pathXslForm, jsonFileName);
 		String listJson = XMLTransform.xmlTransformWithXSL(pathXslList, jsonFileName);
-		
+
 		String formMVC = XMLTransform.xmlTransformWithXSL(pathXslForm, xslFileNameFrom);
 		String listMVC = XMLTransform.xmlTransformWithXSL(pathXslList, xslFileNameList);
-		
+
 		String xslForm = XMLTransform.xmlTransformWithXSL(pathXslForm, xslFileNameGen);
 		String xslList = XMLTransform.xmlTransformWithXSL(pathXslList, xslFileNameGen);
-		
-		r = this.saveFiles(pageForm, pageForm.getPage()+".json",formJson)	
-			&& this.saveFiles(pageList, pageList.getPage()+".json",listJson)
-			&& this.saveFiles(pageForm, pageForm.getPage()+".xsl",xslForm) 
-			&& this.saveFiles(pageList, pageList.getPage()+".xsl",xslList) 
-			&& this.generateClassMVC(pageForm, formMVC)
-			&& this.generateClassMVC(pageList, listMVC)
-			&& this.processCompiler();
-		return r;
-	}
 
+		r = this.saveFiles(pageForm, pageForm.getPage() + ".json", formJson)
+				&& this.saveFiles(pageList, pageList.getPage() + ".json", listJson)
+				&& this.saveFiles(pageForm, pageForm.getPage() + ".xsl", xslForm)
+				&& this.saveFiles(pageList, pageList.getPage() + ".xsl", xslList)
+				&& this.generateClassMVC(pageForm, formMVC) && this.generateClassMVC(pageList, listMVC);
+
+		if (!this.processCompiler())
+			Core.setMessageWarning("Errors when compiling. Please compile again.");
+		return r && xmlSave;
+	}
 
 	private boolean processCompiler() {
 		this.compiler.compile();
 		return !this.compiler.hasError();
 	}
 
-	private boolean saveFiles(Action page,String fileName,String content_) throws IOException {
+	private boolean saveFiles(Action page, String fileName, String content) throws IOException {
 		boolean r = false;
-		String content = content_;
-		if(content!=null) {
-			content = content.replaceAll("<xsl:stylesheet xmlns:xsl=\"dim-red\" version=\"1.0\">", "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">\r\n");
+		if (content != null) {
+			content = content.replaceAll("<xsl:stylesheet xmlns:xsl=\"dim-red\" version=\"1.0\">",
+					"<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">\r\n");
 			String pathXsl = this.getConfig().getCurrentBaseServerPahtXsl(page);
 			r = FileHelper.save(pathXsl, fileName, content);
-			if(Core.isNotNull(this.getConfig().getWorkspace()) && FileHelper.fileExists(this.getConfig().getWorkspace())){
+			if (Core.isNotNull(this.getConfig().getWorkspace())
+					&& FileHelper.fileExists(this.getConfig().getWorkspace())) {
 				r = FileHelper.save(this.getConfig().getBasePahtXslWorkspace(page), fileName, content);
 			}
 		}
 		return r;
 	}
-	
-	private boolean generateClassMVC(Action page,String mvc) throws IOException, URISyntaxException {
-		if(mvc!=null) {
-			String[] partsJavaCode = mvc.toString().split(" END ");
-			if(partsJavaCode.length > 2){
-				String model = partsJavaCode[0]+"*/";
-				String view = "/*"+partsJavaCode[1]+"*/";
-				String controller = "/*"+partsJavaCode[2];
-				String path_class = page.getPackage_name().trim()
-						.replaceAll("(\r\n|\n)", "")
-						.replace(".",File.separator)+File.separator+ page.getPage().toLowerCase().trim();
-				boolean workspace= Core.isNotNull(this.getConfig().getWorkspace());
-				String path_class_work_space = null;
-				if(workspace)
-					path_class_work_space = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());
-				path_class = this.getConfig().getBasePathClass()+ path_class;	
-			
-				
-				boolean r = FileHelper.saveFilesJava(path_class, page.getPage(), new String[]{model,view,controller});
-				
-				if(workspace){
-					if(!FileHelper.fileExists(path_class_work_space)){//check directory
-						FileHelper.createDiretory(path_class_work_space);//create directory if not exist
+
+	private boolean generateClassMVC(Action page, String mvc) throws IOException {
+		if (mvc != null) {
+			String[] partsJavaCode = mvc.split(" END ");
+			if (partsJavaCode.length > 2) {
+				String model = partsJavaCode[0] + "*/";
+				String view = "/*" + partsJavaCode[1] + "*/";
+				String controller = "/*" + partsJavaCode[2];
+				String pathClass = page.getPackage_name().trim().replaceAll("(\r\n|\n)", "").replace(".",
+						File.separator) + File.separator + page.getPage().toLowerCase().trim();
+				boolean workspace = Core.isNotNull(this.getConfig().getWorkspace());
+				String pathClassWorkSpace = null;
+				if (workspace)
+					pathClassWorkSpace = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad(),
+							page.getPage());
+				pathClass = this.getConfig().getBasePathClass() + pathClass;
+
+				boolean r = FileHelper.saveFilesJava(pathClass, page.getPage(),
+						new String[] { model, view, controller });
+
+				if (workspace) {
+					if (!FileHelper.fileExists(pathClassWorkSpace)) {// check directory
+						FileHelper.createDiretory(pathClassWorkSpace);// create directory if not exist
 					}
-					r = FileHelper.saveFilesJava(path_class_work_space, page.getPage(), new String[]{model,view,controller});
+					r = FileHelper.saveFilesJava(pathClassWorkSpace, page.getPage(),
+							new String[] { model, view, controller });
 				}
-				String fileJava = path_class + File.separator + page.getPage();
-				this.compiler.addFileName(fileJava+".java");
-				this.compiler.addFileName(fileJava+"View.java");
-				this.compiler.addFileName(fileJava+"Controller.java");
+				String fileJava = pathClass + File.separator + page.getPage();
+				this.compiler.addFileName(fileJava + JAVA_EXTENSION);
+				this.compiler.addFileName(fileJava + "View.java");
+				this.compiler.addFileName(fileJava + "Controller.java");
 				return r;
 			}
 		}
 		return false;
 	}
-	/********************* FIM METODO USADOS PARA GERAR CRUD *********************/	
+
+	/********************* FIM METODO USADOS PARA GERAR CRUD *********************/
 	/********************* METODO USADOS PARA GERAR DAO *********************/
-	
 
-	//resolver o problema do nome da tabela
-	public String resolveDAOName(String tabela_name) {
-		String dao_name_class = "";
-		for(String aux : tabela_name.split("_")){
-			dao_name_class += aux.substring(0, 1).toUpperCase() + aux.substring(1).toLowerCase();
-		}
-		return dao_name_class;
-	}
-	
-	
-	public boolean  generateDAO(Config_env config,String schema, String tableName, String dad_name, boolean tem_list, String cont_list, String conten_list_set_get) throws IOException{ 
+	public boolean generateDAO(DaoDto daoDto) {
 		boolean flag = false;
-		String dao_name_class = resolveDAOName(tableName);
-		flag = processGenerate(config, dao_name_class, schema,tableName, dad_name, tem_list, cont_list,conten_list_set_get);
-		return flag;
-	}
-	
-
-	public boolean processGenerate(Config_env config, String dao_name_class, String schema, String tableName, String dad_name, boolean tem_list, String cont_list,String conten_list_set_get) {
-		boolean flag = false;
-		boolean flag_compile = false;
-		List<DatabaseMetadaHelper.Column> columns = null;
 		try {
-			
-			//Mas antes temos de vereficar se a classe é nova ou nao
-			if(!Core.fileExists(new  Config().getPathDAO(dad_name)+dao_name_class+".java")) {
-				//Aqui guarda novo configuracao de hibernate
-				String package_name = "nosi.webapps." + config.getApplication().getDad().toLowerCase() + ".dao";
-				SaveMapeamentoDAO.loadCfg(config.getName()+"."+config.getApplication().getDad()+".cfg.xml",package_name,dao_name_class);
+			// Mas antes temos de vereficar se a classe é nova ou nao
+			String pathDao = new Config().getPathDAO(daoDto.getDadName());
+			String daoClassPathName = String.format("%s%s%s", pathDao, daoDto.getDaoClassName(), JAVA_EXTENSION);
+			if (!Core.fileExists(daoClassPathName)) {
+				// Aqui guarda novo configuracao de hibernate
+				String dad = daoDto.getConfigEnv().getApplication().getDad();
+				String packageName = NOSI_WEBAPPS + dad.toLowerCase() + ".dao";
+				SaveMapeamentoDAO.loadCfg(daoDto.getConfigEnv().getName() + "." + dad + ".cfg.xml", packageName, daoDto.getDaoClassName());
 			}
-			
-			columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
-			
 
-			//Salvar os files de classe DAO vazio
-			flag = saveFiles(dao_name_class+".java", "", new Config().getPathDAO(dad_name));
-			
-			//Gerar conteudo da classe DAO
-			String content = new GerarClasse().gerarCode(dad_name,tableName,dao_name_class, columns,schema,config, tem_list, cont_list,conten_list_set_get);
-			
-			//Salvar os files de classe DAO
-			flag = saveFiles(dao_name_class+".java", content, new Config().getPathDAO(dad_name));
-			
-			//compilar as classes DAO
-			Compiler compiler = new Compiler();
-			compiler.addFileName(new Config().getPathDAO(dad_name)+dao_name_class+".java");
-			compiler.compile();
-			flag_compile = compiler.hasError();
-			System.out.println(new Config().getPathDAO(dad_name)+dao_name_class+".java");
-			System.out.println("flag_compile "+flag_compile);
-			if(flag_compile) {
-				Core.setMessageWarning("Ups... Erro na compilção na classe "+dao_name_class);
-			}
-			
+			// Gerar conteudo da classe DAO
+			String content = new GerarClasse(daoDto).generate();
+
+			// Salvar os files de classe DAO
+			flag = saveFiles(daoDto.getDaoClassName().concat(JAVA_EXTENSION), content, pathDao);
+
+			if (this.daoClassHasWarning(daoClassPathName))
+				Core.setMessageWarning("Erro de compilação na classe <strong>" + daoDto.getDaoClassName() + "</strong>");
+
 		} catch (Exception e) {
-			Core.setMessageError(tableName+" error: "+e.getMessage());
-			return false;
-		}
-		
-		return flag;
-	}
-	
-	public boolean saveFiles(String fileName,String content,String path) throws IOException {
-		boolean flag = false;
-		if(Core.isNotNull(content)) {
-			flag = FileHelper.save(path, fileName, content);
+			Core.setMessageError("<strong>"+daoDto.getTableName() + "</strong> error: " + e.getMessage());
+			flag = false;
 		}
 		return flag;
 	}
-	
-	public LinkedHashMap<String, String> preencherTableType() {
-		LinkedHashMap<String, String> valores = new LinkedHashMap<>();
-		
-		valores.put("table", "TABLE");
-		valores.put("view", "VIEW");
-		valores.put("system table", "SYSTEM TABLE");
-		valores.put("global temporary", "GLOBAL TEMPORARY");
-		valores.put("local temporary", "LOCAL TEMPORARY");
-		valores.put("alias", "ALIAS");
-		valores.put("synonym", "SYNONYM");
-		
-		return valores;
+
+	private boolean daoClassHasWarning(String daoClassPathName) {
+		Compiler compilerDAO = new Compiler();
+		compilerDAO.addFileName(daoClassPathName);
+		compilerDAO.compile();
+		return compilerDAO.hasWarning();
+	}
+
+	public boolean saveFiles(String fileName, String content, String path) throws IOException {
+		return Core.isNull(content) ? Boolean.FALSE : FileHelper.save(path, fileName, content);
 	}
 	
-	/******************** FIM METODO USADOS PARA GERAR DAO *******************/ 
-	
+	public static final String JAVA_EXTENSION = ".java";
+	private static final String NOSI_WEBAPPS = "nosi.webapps.";
+	private static final String PAGES = ".pages";
+
+	/******************** FIM METODO USADOS PARA GERAR DAO *******************/
+
 	/*----#end-code----*/
 }

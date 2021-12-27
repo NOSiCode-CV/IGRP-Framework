@@ -2,6 +2,7 @@ package nosi.webapps.igrp.dao.views;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import nosi.core.config.ConfigApp;
 import nosi.core.webapp.databse.helpers.QuerySelect;
 

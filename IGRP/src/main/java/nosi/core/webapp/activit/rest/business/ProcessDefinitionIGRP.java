@@ -1,16 +1,19 @@
 package nosi.core.webapp.activit.rest.business;
 
+import static nosi.core.i18n.Translator.gt;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
+
 import java.util.Set;
-import static nosi.core.i18n.Translator.gt;
 /**
  * Emanuel 15 May 2019
  */
@@ -47,8 +50,7 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 		List<ProcessDefinitionService> list = this.getMyProcessDefinitions(dadApp);
 		Map<String, String> map = new HashMap<>();		
 		map.put(null,gt("-- Selecionar --"));
-		map.putAll(list.stream()
-				.collect(Collectors.toMap(ProcessDefinitionService::getKey, ProcessDefinitionService::getName)));
+		map.putAll(list.stream().collect(HashMap::new, (m,v)->m.put(v.getKey(), v.getName()), HashMap::putAll));
 		return map;
 	}
 
@@ -67,7 +69,7 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 			Map<String, String> map = new HashMap<>();	
 			map.put(null, gt("-- Selecionar --"));
 			map.putAll(listDistint.stream()
-					.collect(Collectors.toMap(TaskService::getTaskDefinitionKey, TaskService::getName)));
+					.collect(HashMap::new, (m,v)->m.put(v.getTaskDefinitionKey(), v.getName()), HashMap::putAll));
 			return map;
 		}
 		return null;

@@ -12,6 +12,7 @@
         <xsl:param name="ebeforetoday"/>
         <xsl:param name="weekends"/>
         <xsl:param name="firstday"/>
+        <xsl:param name="daysoff"/>
         <xsl:param name="views"/>
         <xsl:param name="header"/>
         <xsl:param name="refreshonedit"/>
@@ -70,13 +71,14 @@
                         editevents      : '<xsl:value-of select="$editevents"/>',
                         alleditevents   : '<xsl:value-of select="$alleditevents"/>',
                         addevents       : '<xsl:value-of select="$addevents"/>',
-                        loadevents 		: '<xsl:value-of select="$loadevents"/>',
+                        loadevents 		  : '<xsl:value-of select="$loadevents"/>',
                         defaultview     : '<xsl:value-of select="$defaultview"/>',
                         defaultdate     : '<xsl:value-of select="$defaultdate"/>',
                         ebeforetoday    : '<xsl:value-of select="$ebeforetoday"/>',
                         weekends        : '<xsl:value-of select="$weekends"/>',
                         firstday        : '<xsl:value-of select="$firstday"/>',
                         views           : '<xsl:value-of select="$views"/>',
+                        daysoff         : '<xsl:value-of select="$daysoff"/>',
                         header          : '<xsl:value-of select="$header"/>',
                         refreshonedit   : '<xsl:value-of select="$refreshonedit"/>'
                     });

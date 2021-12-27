@@ -1,14 +1,19 @@
 package nosi.webapps.igrp.pages.transacaoorganica;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import nosi.core.config.ConfigDBIGRP;
+import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.helpers.CheckBoxHelper;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -16,13 +21,6 @@ import nosi.webapps.igrp.dao.Share;
 import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp_studio.pages.partilhageral.TipoPartilha;
-import nosi.webapps.igrp.dao.Application;
-import java.util.ArrayList;
-import java.util.Comparator;
-import nosi.core.webapp.helpers.CheckBoxHelper;
-import java.util.List;
-import java.util.stream.Collectors;
-import nosi.core.config.ConfigDBIGRP;
 
 /*----#end-code----*/
 		
@@ -34,12 +32,13 @@ public class TransacaoOrganicaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as transacao,'Totam accusantium sed lorem re' as nome "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as transacao,'Officia consectetur mollit nat' as nome "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		int id=model.getId();
         String type= model.getType();
-	model.setHelp(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=transacao"));
+        
+        model.setHelp(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=transacao"));
 		if(Core.isInt(id) && Core.isNotNull(type)){		
 			
 			ArrayList<TransacaoOrganica.Table_1> data = new ArrayList<>();
@@ -139,6 +138,24 @@ public class TransacaoOrganicaController extends Controller {
 		
 		/*----#end-code----*/
 		return this.redirect("igrp","Transaccao","index", this.queryString());	
+	}
+	
+	public Response actionNovo_transacao() throws IOException, IllegalArgumentException, IllegalAccessException{
+		TransacaoOrganica model = new TransacaoOrganica();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","EditarTransacao","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/*----#start-code(novo_transacao)----*/
+		
+		this.addQueryString("novo_transa","novo_transa");
+		
+		/*----#end-code----*/
+		return this.redirect("igrp","EditarTransacao","index", this.queryString());	
 	}
 	
 		
@@ -408,12 +425,6 @@ public class TransacaoOrganicaController extends Controller {
 			
 		}
 		
-	}
-	
-	private boolean isSharedTransaction(Transaction transaction) {
-		boolean flag = false;
-		
-		return flag;
 	}
 	
 	

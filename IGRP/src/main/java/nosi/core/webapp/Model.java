@@ -27,6 +27,7 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.beanutils.BeanUtils;
 import org.w3c.dom.NodeList;
 import com.google.gson.Gson;
+
 import nosi.core.gui.components.IGRPChart2D;
 import nosi.core.gui.components.IGRPChart3D;
 import nosi.core.gui.components.IGRPSeparatorList;
@@ -55,10 +56,6 @@ public abstract class Model { // IGRP super model
 	private static final String PAIR_TYPE = "nosi.core.gui.components.IGRPSeparatorList$Pair";
 	private static final String FILE_TYPE = "nosi.core.webapp.uploadfile.UploadFile";
 	public static final String SUFIX_UPLOADED_FILE_ID = "file_uploaded_id";
-
-	public Model() {
-		
-	}
 
 	public void load(BaseQueryInterface query) throws IllegalArgumentException, IllegalAccessException {
 		if (query != null) {
@@ -164,10 +161,9 @@ public abstract class Model { // IGRP super model
 						t = className.newInstance();
 						for (Field field : className.getDeclaredFields()) {
 							try {
-								Object value = tuple.get(field.getName());
-								if (value != null)
-									BeanUtils.setProperty(t, field.getName(),
-											new Pair(value.toString(), value.toString()));
+								Object value = tuple.get(field.getName()); 
+								if (value != null) 
+									BeanUtils.setProperty(t, field.getName(),new Pair(value.toString(), value.toString())); 
 							} catch (java.lang.IllegalArgumentException | IllegalAccessException
 									| InvocationTargetException e) {
 								e.printStackTrace();
@@ -258,21 +254,13 @@ public abstract class Model { // IGRP super model
 						values1 = aux_;
 					}
 					String[] values2 = values1;
-
 					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
 					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
-
 				} else {
 					String param = "p_" + m.getName() + "_fk";
 					String[] values1 = Core.getParamArray(param);
-					if((values1!=null && values1.length==0) || values1==null) {
-//						values1 =  Core.getParamArray("p_" + m.getName());
-//					}
-//					if((values1!=null && values1.length==0) || values1==null) {
-						if(allFiles!=null && allFiles.containsKey(param)) {
-							values1 = allFiles.get(param).stream().map(f->f.getName()).toArray(String[]::new);
-						}
-					}
+					if(((values1!=null && values1.length==0) || values1==null) && (allFiles!=null && allFiles.containsKey(param))) 
+						values1 = allFiles.get(param).stream().map(f->f.getName()).toArray(String[]::new); 
 					String[] values2 = Core.getParamArray(param+ "_desc");
 					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
 					// If the field is checkbox, we don't have _check_desc with value2=null so
@@ -328,11 +316,10 @@ public abstract class Model { // IGRP super model
 							}
 						} else {
 							try {
-								if(fileId!=null && fileId.size() > row && Core.isNotNull(fileId.get(row))) {
+								if(fileId!=null && fileId.size() > row && Core.isNotNull(fileId.get(row))) 
 									BeanUtils.setProperty(obj2, m.getName(),new IGRPSeparatorList.Pair(fileId.get(row), key,value));
-								}else {
+								else  
 									BeanUtils.setProperty(obj2, m.getName(), new IGRPSeparatorList.Pair(key,key, value));
-								}
 							} catch (Exception e) {
 								e.printStackTrace();
 								m.setAccessible(false);
@@ -591,7 +578,7 @@ public abstract class Model { // IGRP super model
 		Validator validator = factory.getValidator();		
 		Set<ConstraintViolation<Model>> constraintViolations = validator.validate(this);
 		constraintViolations.stream().forEach(e->{
-			Core.setMessageError(Core.gt(e.getMessage()));
+			Core.setMessageError(Core.gt(e.getMessage())+" ("+e.getPropertyPath().toString()+")");
 		});
 		return constraintViolations.size()==0;
 	}

@@ -10,10 +10,10 @@ import nosi.core.webapp.Core;
 public class Pesquisa_bi_cni_passportView extends View {
 
 	public Field sectionheader_1_text;
-	public Field tipo_documento;
 	public Field numero_do_documento;
-	public Field nome;
+	public Field tipo_documento;
 	public Field data_nascimento;
+	public Field nome;
 	public Field tipo_documento_tab;
 	public Field n_doc_tab;
 	public Field nome_tab;
@@ -51,21 +51,21 @@ public class Pesquisa_bi_cni_passportView extends View {
 		sectionheader_1_text.setValue(gt("<p>Pesquisa BI / NIC (CNI) / Passaporte novo</p>"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
-		tipo_documento = new ListField(model,"tipo_documento");
-		tipo_documento.setLabel(gt("Tipo documento"));
-		tipo_documento.propertie().add("name","p_tipo_documento").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","true").add("disabled","false").add("java-type","");
-		
 		numero_do_documento = new TextField(model,"numero_do_documento");
 		numero_do_documento.setLabel(gt("Número do documento"));
 		numero_do_documento.propertie().add("remote",Core.getIGRPLink("igrp_studio","Pesquisa_bi_cni_passport","index")).add("name","p_numero_do_documento").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("BI/NIC/Passaporte. Ex: 1234567 / 19801002M001Q / PA123456")).add("desclabel","true");
 		
-		nome = new TextField(model,"nome");
-		nome.setLabel(gt("Nome"));
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		tipo_documento = new ListField(model,"tipo_documento");
+		tipo_documento.setLabel(gt("Tipo documento"));
+		tipo_documento.propertie().add("name","p_tipo_documento").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","true").add("disabled","false").add("java-type","");
 		
 		data_nascimento = new DateField(model,"data_nascimento");
 		data_nascimento.setLabel(gt("Data nascimento"));
 		data_nascimento.propertie().add("name","p_data_nascimento").add("type","date").add("range","false").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("class","primary").add("desclabel","false");
+		
+		nome = new TextField(model,"nome");
+		nome.setLabel(gt("Nome"));
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		tipo_documento_tab = new TextField(model,"tipo_documento_tab");
 		tipo_documento_tab.setLabel(gt("Doc."));
@@ -134,7 +134,7 @@ public class Pesquisa_bi_cni_passportView extends View {
 
 
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp_studio","Pesquisa_bi_cni_passport","pesquisar","submit_ajax","primary|fa-search","","");
-		btn_pesquisar.propertie.add("type","form").add("class","primary").add("rel","pesquisar").add("refresh_components","");
+		btn_pesquisar.propertie.add("id","button_57fe_d801").add("type","form").add("class","primary").add("rel","pesquisar").add("refresh_components","");
 
 		
 	}
@@ -144,10 +144,10 @@ public class Pesquisa_bi_cni_passportView extends View {
 		
 		sectionheader_1.addField(sectionheader_1_text);
 
-		form_1.addField(tipo_documento);
 		form_1.addField(numero_do_documento);
-		form_1.addField(nome);
+		form_1.addField(tipo_documento);
 		form_1.addField(data_nascimento);
+		form_1.addField(nome);
 
 		table_1.addField(tipo_documento_tab);
 		table_1.addField(n_doc_tab);
@@ -175,10 +175,10 @@ public class Pesquisa_bi_cni_passportView extends View {
 	@Override
 	public void setModel(Model model) {
 		
-		tipo_documento.setValue(model);
 		numero_do_documento.setValue(model);
-		nome.setValue(model);
+		tipo_documento.setValue(model);
 		data_nascimento.setValue(model);
+		nome.setValue(model);
 		tipo_documento_tab.setValue(model);
 		n_doc_tab.setValue(model);
 		nome_tab.setValue(model);

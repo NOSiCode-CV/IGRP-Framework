@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/config_error_msg/Config_error_msg.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Config_error_msg</page>
+    <app>igrp_studio</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp_studio.pages</package_db>
+        <package_html>Config_error_msg</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=105</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Config error msg</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[<p><span style='font-size:28px;'>Configure your error message by application</span></p>
+]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <application name="p_application" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
+                    <label>Application</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <validations>
+                        <validation>
+                            <annotation>@NotNull</annotation>
+                        </validation>
+                    </validations>
+                </application>
+                <msg name="p_msg" type="textarea" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                    <label>Message</label>
+                    <value>Sit omnis sed dolor aperiam omnis iste voluptatem totam aperiam dolor accusantium unde doloremque ipsum</value>
+                    <validations>
+                        <validation>
+                            <annotation>@NotNull</annotation>
+                        </validation>
+                    </validations>
+                </msg>
+            </fields>
+            <tools-bar>
+                <item id="button_4835_df78" type="form" code="" class="primary" rel="salvar" refresh_components="">
+                    <title>Salvar</title>
+                    <app>igrp_studio</app>
+                    <page>Config_error_msg</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/config_error_msg/Config_error_msg.xml?</parameter>
+                    <target>submit</target>
+                    <img>primary|fa-save</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp_studio/config_error_msg/Config_error_msg.xml</preview>
+                </item>
+            </tools-bar>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <application_tab name="p_application_tab" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Application</label>
+                </application_tab>
+                <msg_table name="p_msg_table" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Message</label>
+                </msg_table>
+                <id_config name="p_id_config" type="hidden" maxlength="30" showLabel="true" iskey="true" group_in="" java-type="" tag="id_config"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <application_tab name="p_application_tab">Accusantium mollit sed volupta</application_tab>
+                        <msg_table name="p_msg_table">Ipsum deserunt ut anim labore</msg_table>
+                        <id_config name="p_id_config" tag="id_config">hidden-9efa_bb08</id_config>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <application_tab name="p_application_tab">Magna mollit laudantium totam</application_tab>
+                        <msg_table name="p_msg_table">Adipiscing iste sit totam ut</msg_table>
+                        <id_config name="p_id_config" tag="id_config">hidden-4d40_655b</id_config>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <application_tab name="p_application_tab">Ipsum consectetur aperiam iste</application_tab>
+                        <msg_table name="p_msg_table">Perspiciatis ipsum ut doloremq</msg_table>
+                        <id_config name="p_id_config" tag="id_config">hidden-bb20_d776</id_config>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <application_tab name="p_application_tab">Ipsum anim elit stract natus</application_tab>
+                        <msg_table name="p_msg_table">Lorem dolor sit sed rem</msg_table>
+                        <id_config name="p_id_config" tag="id_config">hidden-adda_251f</id_config>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <application_tab name="p_application_tab">Iste sit sit totam unde</application_tab>
+                        <msg_table name="p_msg_table">Aperiam natus perspiciatis mag</msg_table>
+                        <id_config name="p_id_config" tag="id_config">hidden-550c_7c25</id_config>
+                    </row>
+                </value>
+                <context-menu>
+                    <item id="button_c8b6_bc55" type="specific" code="" class="warning" rel="edit" refresh_components="form_1">
+                        <title>Edit</title>
+                        <app>igrp_studio</app>
+                        <page>Config_error_msg</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/config_error_msg/Config_error_msg.xml?</parameter>
+                        <target>submit</target>
+                        <img>warning|fa-pencil</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp_studio/config_error_msg/Config_error_msg.xml</preview>
+                    </item>
+                    <item id="button_4769_2e10" type="specific" code="" class="danger" rel="delete" refresh_components="">
+                        <title>Delete</title>
+                        <app>igrp_studio</app>
+                        <page>Config_error_msg</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/config_error_msg/Config_error_msg.xml?</parameter>
+                        <target>confirm</target>
+                        <img>danger|fa-times-circle</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp_studio/config_error_msg/Config_error_msg.xml</preview>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

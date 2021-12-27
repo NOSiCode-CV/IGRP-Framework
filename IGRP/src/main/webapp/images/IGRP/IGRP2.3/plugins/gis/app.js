@@ -14,7 +14,7 @@
 				
 				var map = new GIS.class.map( id, JSON.parse(json) );
 
-			}
+			} 
 
 		};
 

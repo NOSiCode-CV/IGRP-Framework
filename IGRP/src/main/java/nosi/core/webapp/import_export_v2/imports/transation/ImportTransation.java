@@ -2,12 +2,13 @@ package nosi.core.webapp.import_export_v2.imports.transation;
 
 import java.util.List;
 import com.google.gson.reflect.TypeToken;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.import_export_v2.common.serializable.transation.TransationSerializable;
+import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 import nosi.core.webapp.import_export_v2.imports.IImport;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
-import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
 /**
  * Emanuel
@@ -41,7 +42,7 @@ public class ImportTransation extends AbstractImport implements IImport{
 				if(tran==null) {
 					tran = new Transaction(t.getCode(), t.getDescr(), 1, this.application).insert();
 					if(tran!=null && tran.hasError()) {
-						this.addError(tran.getError().get(0));
+						this.addError(t.getCode()+" - "+tran.getError().get(0));
 					}
 				}
 			});

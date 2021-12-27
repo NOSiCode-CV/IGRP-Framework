@@ -1,14 +1,32 @@
 package nosi.webapps.igrp.pages.novoutilizador;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
+import java.util.List; //block import
+import java.util.LinkedHashMap; //block import
+import nosi.webapps.igrp.dao.User; //block import
+import service.client.WSO2UserStub;
+import static nosi.core.i18n.Translator.gt;
+import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
+import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.mail.EmailMessage.PdexTemplate;
@@ -21,47 +39,41 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
-import nosi.webapps.igrp.dao.User;
-import service.client.WSO2UserStub;
-import java.io.File;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
-import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
-import static nosi.core.i18n.Translator.gt;
+
 /*----#end-code----*/
-		
+
 public class NovoUtilizadorController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 		NovoUtilizador model = new NovoUtilizador();
 		model.load();
 		NovoUtilizadorView view = new NovoUtilizadorView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		view.email.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 
 		Integer id_prof = Core.getParamInt("p_id");
 		String id = Core.getParam("id");
 		String dad = Core.getCurrentDad();
+		try {
+			User userfilter = new User().find();
+
+			List<User> userList = userfilter.all();
+			view.email.setValue(Core.toMap(userList, "email", "email"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 			Integer idApp = Core.findApplicationByDad(dad).getId();
 			model.setAplicacao(idApp);
 			view.aplicacao.propertie().add("disabled", "true");
-			view.btn_gravar.addParameter("p_aplicacao", model.getAplicacao());
+			view.btn_gravar.addParameter(view.aplicacao.getParamTag(), model.getAplicacao());
 		}
 		if (id_prof != 0) {
 			ProfileType prof = Core.findProfileById(id_prof);
@@ -76,14 +88,13 @@ public class NovoUtilizadorController extends Controller {
 		final Map<Object, Object> listApps = new Application().getListApps();
 //		Adds IGRP studio to the list if user has the app to allow invites do the app
 		final Integer idSDAD = Core.findApplicationByDad("igrp_studio").getId();
-		if (new Profile().find().andWhere("type", "=", "ENV").andWhere("user", "=", Core.getCurrentUser().getId()).andWhere("type_fk", "=", idSDAD).one() != null)
+		if (new Profile().find().andWhere("type", "=", "ENV").andWhere("user", "=", Core.getCurrentUser().getId())
+				.andWhere("type_fk", "=", idSDAD).one() != null)
 			listApps.put(idSDAD, "IGRP Studio");
 		view.aplicacao.setValue(listApps);
 		view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
 		view.perfil.setValue(new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()));
 
-		
-			
 		if (Core.isNotNullOrZero(id) && !id.trim().isEmpty()) {
 //			Edit invite mode
 			User u = Core.findUserById((Integer.parseInt(id)));
@@ -93,10 +104,10 @@ public class NovoUtilizadorController extends Controller {
 
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);	
+		return this.renderView(view);
 	}
-	
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
 		NovoUtilizador model = new NovoUtilizador();
 		model.load();
 		/*----#gen-example
@@ -106,40 +117,36 @@ public class NovoUtilizadorController extends Controller {
 		  return this.forward("igrp","NovoUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gravar) *//* End-Code-Block */
 		/*----#start-code(gravar)----*/
 
 		if (Core.isHttpPost()) {
-			Boolean sucess;
-			switch (this.getConfig().getAutenticationType()) {
-			case "ldap":
+			boolean sucess = false;
+			if (this.getConfig().getAutenticationType()
+					.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value()))
 				sucess = this.ldap(model);
-				break;
-			case "db":
-			default:
+			else if (this.getConfig().getAutenticationType()
+					.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_DATABASE.value()))
 				sucess = this.db(model);
-			}
 			this.addQueryString("p_aplicacao", model.getAplicacao());
 			this.addQueryString("p_organica", model.getOrganica());
 			this.addQueryString("p_perfil", model.getPerfil());
-			if (!sucess) {
+			if (!sucess)
 				this.addQueryString("p_email", model.getEmail());
-			}
 
 		} else
 			throw new ServerErrorHttpException("Unsuported operation ...");
 
 		/*----#end-code----*/
-		return this.redirect("igrp","NovoUtilizador","index", this.queryString());	
+		return this.redirect("igrp", "NovoUtilizador", "index", this.queryString());
 	}
-	
-		
-		
-/*----#start-code(custom_actions)----*/
+	/* Start-Code-Block (custom-actions) *//* End-Code-Block */
+	/*----#start-code(custom_actions)----*/
 
 	private Boolean db(NovoUtilizador model) throws IllegalArgumentException, IllegalAccessException {
 
 		Boolean ok = true;
-		String[] arrayEmails = model.getEmail().split(";");
+		String[] arrayEmails = model.getEmail();
 		for (int i = 0; i < arrayEmails.length; i++) {
 			String email = arrayEmails[i];
 			if (Core.isNull(email) && !email.contains("@"))
@@ -155,7 +162,7 @@ public class NovoUtilizadorController extends Controller {
 						.andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
 						.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).all();
 				for (Iterator<Profile> iterator = result.iterator(); iterator.hasNext();) {
-					Profile profile = (Profile) iterator.next();
+					Profile profile = iterator.next();
 //				The profile was deleted before
 					profile.setType("PROF");
 					profile = profile.update();
@@ -224,42 +231,40 @@ public class NovoUtilizadorController extends Controller {
 		return ok;
 	}
 
-	private User checkGetUserLdap(String email, Properties settings) {
-		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
+	private User checkGetUserLdap(String email) {
+		ArrayList<LdapPerson> personArray = new ArrayList<>();
 		User userLdap = null;
-		
+
 		try {
-			URL url = new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
-			
-	
+			URL url = new URL(settings.getProperty(
+					ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value()));
+
 			WSO2UserStub.disableSSL();
 			WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-			stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"),
-					settings.getProperty("ids.wso2.admin-pwd"), 2);
+			stub.applyHttpBasicAuthentication(
+					settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()),
+					settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value()), 2);
 
 			List<ClaimDTO> result;
-			
-				// TODO Auto-generated catch block				
-				if(email.endsWith("cv")) {
-					try {
-						result = stub.getOperations().getUserClaimValues("gov.cv/"+email, "");
-					} catch (Exception e1) {						
-						try {
-							result = stub.getOperations().getUserClaimValues(email, "");
-						} catch (Exception e) {
-							result = stub.getOperations().getUserClaimValues("porton.gov/"+email, "");
-						}
-					}
-				}else {
+
+			// TODO Auto-generated catch block
+			if (email.endsWith("cv")) {
+				try {
+					result = stub.getOperations().getUserClaimValues("gov.cv/" + email, "");
+				} catch (Exception e1) {
 					try {
 						result = stub.getOperations().getUserClaimValues(email, "");
 					} catch (Exception e) {
-					result = stub.getOperations().getUserClaimValues("porton.gov/"+email, "");
+						result = stub.getOperations().getUserClaimValues("porton.gov/" + email, "");
 					}
 				}
-					
-			
-			
+			} else {
+				try {
+					result = stub.getOperations().getUserClaimValues(email, "");
+				} catch (Exception e) {
+					result = stub.getOperations().getUserClaimValues("porton.gov/" + email, "");
+				}
+			}
 
 			LdapPerson ldapPerson = new LdapPerson();
 
@@ -288,7 +293,7 @@ public class NovoUtilizadorController extends Controller {
 			e.printStackTrace();
 		}
 
-		if (personArray != null && personArray.size() > 0) {
+		if (personArray != null && !personArray.isEmpty()) {
 			for (int i = 0; i < personArray.size(); i++) {
 				userLdap = new User();
 				LdapPerson person = personArray.get(i);
@@ -297,11 +302,12 @@ public class NovoUtilizadorController extends Controller {
 					userLdap.setName(person.getName());
 				else if (person.getDisplayName() != null && !person.getDisplayName().isEmpty())
 					userLdap.setName(person.getDisplayName());
-				else
+				else if (person.getFullName() != null && !person.getFullName().isEmpty())
 					userLdap.setName(person.getFullName());
+				else
+					userLdap.setName(person.getMail().substring(0, person.getMail().indexOf("@")));
 
 				userLdap.setUser_name(person.getMail().toLowerCase().trim());
-
 				userLdap.setEmail(person.getMail().trim().toLowerCase());
 //			The user is not activated because the email send is to activate/confirm the account
 				userLdap.setStatus(0);
@@ -316,18 +322,16 @@ public class NovoUtilizadorController extends Controller {
 		return userLdap;
 	}
 
-	private boolean addRoleToUser(Properties settings, User user) {
-
-		if (settings.getProperty("igrp.authentication.govcv.enbaled").equalsIgnoreCase("true")
-				|| settings.getProperty("kriol.addrole.user") != null
-						&& settings.getProperty("kriol.addrole.user").equalsIgnoreCase("false")) {
+	private boolean addRoleToUser(User user) {
+		String govCv = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.toString(),
+				"false");
+		String kriolAddRole = settings.getProperty(ConfigCommonMainConstants.KRIOL_ADD_ROLE_USER.value(), "false");
+		if (govCv.equals("true") || kriolAddRole.equals("false"))
 			return true;
-		}
 		try {
-
 			String wsdlUrl = "ids.wso2.RemoteUserStoreManagerService-wsdl-url";
-			String username = settings.getProperty("ids.wso2.admin-usn");
-			String password = settings.getProperty("ids.wso2.admin-pwd");
+			String username = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value());
+			String password = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
 			String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
 
 			String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
@@ -368,30 +372,29 @@ public class NovoUtilizadorController extends Controller {
 	private Boolean ldap(NovoUtilizador model) throws IllegalArgumentException, IllegalAccessException {
 
 		Boolean ok = true;
-		String[] arrayEmails = model.getEmail().split(";");
+		String[] arrayEmails = model.getEmail();
 		for (int i = 0; i < arrayEmails.length; i++) {
 			String email = arrayEmails[i];
 			if (Core.isNull(email) && !email.contains("@"))
 				continue;
 			email = email.toLowerCase(Locale.ROOT).trim();
-			Properties settings = loadIdentityServerSettings();
 //		check & Get User from Ldap 
 			User utiliz = Core.findUserByEmail(email.trim());
-			User userLdap ;
-			if(utiliz == null) 
-				userLdap = checkGetUserLdap(email.trim(), settings);
-			else 
-				userLdap=utiliz;
-			
+			User userLdap;
+			if (utiliz == null)
+				userLdap = checkGetUserLdap(email.trim());
+			else
+				userLdap = utiliz;
+
 			if (userLdap != null) {
 //			Find user in the IGRP db too
 				User u = Core.findUserByEmail(email.trim());
 				if (u == null) {
 
-//				If LDAP is ws02, the role is added to the server
-					if (settings.getProperty("ids.wso2.enabled") != null
-							&& settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")
-							&& !addRoleToUser(settings, userLdap)) {
+//				If LDAP is ws02, the role is added to the server 
+					String idsAutentikaEnabled = settings
+							.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value(), "false");
+					if (idsAutentikaEnabled.equals("true") && !addRoleToUser(userLdap)) {
 						Core.setMessageError("Ocorreu um erro ao adicionar role ao " + email.trim());
 						ok = false;
 						continue;
@@ -409,8 +412,7 @@ public class NovoUtilizadorController extends Controller {
 					}
 
 				}
-			
-			
+
 //			Checks if the u is not null and in the case if the user was recently added so NOT to use else
 				if (Core.isNotNull(u)) {
 					Boolean insert = true;
@@ -510,15 +512,12 @@ public class NovoUtilizadorController extends Controller {
 
 				} else {
 					Core.setMessageError("Este utilizador não existe no LDAP para convidar.");
-					ok = false;
+
 				}
-			}
+			} else
+				ok = false;
 		}
 		return ok;
-	}
-
-	private Properties loadIdentityServerSettings() {
-		return this.configApp.loadCommonConfig();
 	}
 
 	private void sendEmailToInvitedUser(User u, NovoUtilizador model) {
@@ -531,8 +530,9 @@ public class NovoUtilizadorController extends Controller {
 				+ "			 <p><b>Organização:</b> " + orgEmail.getName() + "</p>" + "			 <p><b>Utilizador:</b> "
 				+ u.getEmail() + "</p>";
 
-		msg = PdexTemplate.getCorpoFormatado("Ativação igrpweb", "Caro(a) Sr(a). " + u.getName() + ", seja bem-vindo(a) !!!",
-				new String[] { msg }, new String[] { "Ativar" }, new String[] { url_ }, "https://www.igrp.cv");
+		msg = PdexTemplate.getCorpoFormatado("Ativação igrpweb",
+				"Caro(a) Sr(a). " + u.getName() + ", seja bem-vindo(a) !!!", new String[] { msg },
+				new String[] { "Ativar" }, new String[] { url_ }, "https://www.igrp.cv");
 
 		if (Core.mail("no-reply@nosi.cv", u.getEmail(), "igrpweb - User activation", msg, "utf-8", "html", null, ""))
 			Core.setMessageInfo("Activation e-mail sent to: " + u.getEmail());
@@ -565,7 +565,7 @@ public class NovoUtilizadorController extends Controller {
 
 	public Response actionEditarProfile(@RParam(rParamName = "p_id") String id)
 			throws IOException, IllegalArgumentException, IllegalAccessException {
-		if (Igrp.getMethod().equalsIgnoreCase("post") && id != null) {
+		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post") && id != null) {
 			NovoUtilizador model = new NovoUtilizador();
 			model.load();
 			Profile p = new Profile().findOne(Integer.parseInt(id));
@@ -590,47 +590,21 @@ public class NovoUtilizadorController extends Controller {
 		return this.redirectError();
 	}
 
-	public static void main(String[] args) {
-
-		String wsdlUrl = "https://autentika.gov.cv/services/RemoteUserStoreManagerService?wsdl";
-
-		// An Map of Soap HTTP Headers
-		Map<String, String> headers = new HashMap<String, String>();
-		headers.put("Content-type", "application/soap+xml;charset=UTF-8;action=\"urn:getUserClaimValues\"");
-
-		// An Map of Soap Envelope namespace
-		Map<String, String> namespaces = new HashMap<String, String>();
-		namespaces.put("soap", "http://www.w3.org/2003/05/soap-envelope");
-		namespaces.put("ser", "http://service.ws.um.carbon.wso2.org");
-
-		Map<String, Object> bodyContent = new HashMap<String, Object>();
-		Map<String, Object> subContent = new HashMap<String, Object>();
-
-		subContent.put("ser:userName", "iekini.fernandes@nosi.cv");
-
-		bodyContent.put("ser:getUserClaimValues", subContent);
-
-		nosi.core.webapp.webservices.soap.SoapClient sc = Core.soapClient(wsdlUrl, namespaces, headers, bodyContent);
-
-		Map<String, Object> map = sc.getResponseBody("soapenv");
-		map = (Map<String, Object>) map.get("ns:getUserClaimValuesResponse");
-
-		System.out.println("size(): " + map.size());
-
-	}
-	public Response actionGetXMLOrganizations() {	
-
+	public Response actionGetXMLOrganizations() {
 		this.format = Response.FORMAT_XML;
-		return this.renderView(Core.remoteComboBoxXml(new Organization().getListOrganizations(Core.getParamInt("p_aplicacao")),new NovoUtilizadorView().organica,null) );
-
+		return this.renderView(
+				Core.remoteComboBoxXml(new Organization().getListOrganizations(Core.getParamInt("p_aplicacao")),
+						new NovoUtilizadorView().organica, null));
 	}
-	
+
 	public Response actionGetXMLProfile() {
-		
 		this.format = Response.FORMAT_XML;
-		return this.renderView( Core.remoteComboBoxXml(new ProfileType().getListProfiles(Core.getParamInt("p_aplicacao"),Core.getParamInt("p_organica")),new NovoUtilizadorView().perfil,null));
-				
+		return this.renderView(Core.remoteComboBoxXml(
+				new ProfileType().getListProfiles(Core.getParamInt("p_aplicacao"), Core.getParamInt("p_organica")),
+				new NovoUtilizadorView().perfil, null));
 	}
+
+	private Properties settings = this.configApp.getMainSettings();
 
 	/*----#end-code----*/
 }

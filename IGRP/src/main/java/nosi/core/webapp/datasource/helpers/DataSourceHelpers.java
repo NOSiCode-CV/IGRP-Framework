@@ -1,5 +1,6 @@
 package nosi.core.webapp.datasource.helpers;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -16,14 +17,12 @@ import java.util.Set;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Parameter;
 import javax.persistence.Query;
 import javax.persistence.Tuple;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.gui.components.IGRPForm;
@@ -45,19 +44,20 @@ import nosi.webapps.igrp.dao.RepTemplateSource;
  */
 public class DataSourceHelpers {
 
-	private XMLWritter xmlRows;
+	private XMLWritter xmlRows; 
+	
+	public static final int QUERY_TIMEOUT = 10; // 5s 
 
-	public HashMap<Integer,String> getListSources(Integer id){
+	public Map<Integer,String> getListSources(Integer id){
 		HashMap<Integer,String> lista = new HashMap<>();
-		//lista.put(null, "--- Selecionar Aplicação ---");
-		for(RepSource rep:new RepSource().find().andWhere("application", "=",id).all()){
+		for(RepSource rep:new RepSource().find()
+				.andWhere("application", "=",id)
+				.andWhere("status", "=", 1).all()){
 			lista.put(rep.getId(), rep.getName());
 		}
 		return lista;
 	}
 	
-
-
 	/*Extract columns in Query Select and Check if the column is a parameter
 	 * 
 	 * Example: SELECT ID, NAME, EMAIL from tbl_user
@@ -65,14 +65,14 @@ public class DataSourceHelpers {
 	 * The columns extracted is: id, name, email
 	 * 
 	 */
-	public Set<Properties> getColumns(Config_env config,Integer template_id,String query_) {
+	public Set<Properties> getColumns(RepSource rs,Integer template_id,String query_) {
 		Set<Properties> columns = new LinkedHashSet<>();
-		Connection con = nosi.core.webapp.databse.helpers.Connection.getConnection(config);
+		Connection con = nosi.core.webapp.databse.helpers.Connection.getConnection(rs.getConfig_env());
 		if(con!=null) {
 			try {
 				
-				Statement s = con.createStatement();
-				Set<String> keys = getParamsQuery(config,template_id,query_);
+				try(Statement s = con.createStatement()){
+				Set<String> keys = getParamsQuery(rs,template_id,query_);
 				String query =query_.replaceAll(":\\w+", "null");
 				ResultSetMetaData rsd =s.executeQuery(query).getMetaData();
 				for(int i=1;i<=rsd.getColumnCount();i++){
@@ -81,18 +81,20 @@ public class DataSourceHelpers {
 					p.put("key", keys.contains(rsd.getColumnName(i).toLowerCase())?"true":"false");
 					p.put("name","p_"+rsd.getColumnName(i).toLowerCase());
 					p.put("tag",rsd.getColumnName(i).toLowerCase());
-					p.put("type",SqlJavaType.sqlToJava(rsd.getColumnType(i)).toString().replaceAll("class ", ""));
+					p.put("type",SqlJavaType.sqlToJava(rsd.getColumnType(i)).toString().replace("class ", ""));
 					columns.add(p);
 				}
-				s.close();
+				
+				}
 				} catch (SQLException e) {
 				e.printStackTrace();
-				}finally{
-				try {
-					if(con!=null){con.close();}
-				} catch (SQLException e) {
-				}
-			}
+				}finally{				
+					try {
+						con.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}			
 		}
 		return columns;
 	}
@@ -103,26 +105,12 @@ public class DataSourceHelpers {
 	 * 
 	 * The "p_id" is parameter
 	 */
-	public Set<String> getParamsQuery(Config_env config,Integer template_id,String query){
-		Set<String> params = new HashSet<String>();
+	public Set<String> getParamsQuery(RepSource rs,Integer template_id,String query){
+		Set<String> params = new HashSet<>();
 		
-		Session session = HibernateUtils.getSessionFactory(config).getCurrentSession();
-		
-		try{
-			session.beginTransaction();
-			Query q = session.createNativeQuery(query);
-			for(Parameter<?> param:q.getParameters()){
-				params.add(param.getName().contains("p_")?param.getName().substring("p_".length()):param.getName());
-			}
-			session.getTransaction().commit();
-		}catch(Exception e){
-		}finally{
-			session.close();
-		}
 		if(template_id!=0){
-			Map<String,String> p = this.getParams(template_id,null);
-			if(p!=null)
-				params.addAll(p.keySet());
+			Map<String,String> p = this.getParams(template_id,rs.getId());
+			params.addAll(p.keySet());
 		}
 		return params;
 	}
@@ -130,7 +118,7 @@ public class DataSourceHelpers {
 	private Map<String,String> getParams(Integer template_id,Integer idreportSoruce) {
 		Map<String,String> params = new HashMap<>();
 		RepTemplateSource rtp = new RepTemplateSource();
-		List<RepTemplateSource> list = new ArrayList<>();
+		List<RepTemplateSource> list;
 		if(idreportSoruce!=null) {
 			list = rtp.find().andWhere("repTemplate", "=",template_id).andWhere("repSource", "=",idreportSoruce).all();
 		}else {
@@ -186,16 +174,17 @@ public class DataSourceHelpers {
 			query =rs.getType().equalsIgnoreCase("query")?this.replaceParameters(query):query;
 		}
 		//Aplica filtro caso existir
-		Map<String, String> paramsUrl = (value_array!=null && value_array.length > 0)?(Map<String, String>) IntStream.range(0, name_array.length).boxed().collect(Collectors.toMap(i ->name_array[i], i -> value_array[i])):null;
+		Map<String, String> paramsUrl = (value_array!=null && value_array.length > 0)?IntStream.range(0, name_array.length).boxed().collect(Collectors.toMap(i ->name_array[i], i -> value_array[i])):null;
 		query = this.getResolveQuery(query,parameters,paramsUrl);		
 		
-		
 	
-		Session session =  HibernateUtils.getSessionFactory(rs.getConfig_env()).getCurrentSession();
+		Session session = HibernateUtils.getSessionFactory(rs.getConfig_env()).getCurrentSession();
 		if(session!=null) {			
 			try{
-				session.beginTransaction();
-				Query q = session.createNativeQuery(query,Tuple.class);
+				
+				if(!session.getTransaction().isActive())
+					session.getTransaction().begin();
+				Query q = session.createNativeQuery(query,Tuple.class).setTimeout(QUERY_TIMEOUT);
 				if(value_array!=null && value_array.length>0){
 					for(Parameter<? extends Object> param:q.getParameters()){
 						this.setMapParameterQuery(q,param,parameters,paramsUrl);
@@ -205,10 +194,12 @@ public class DataSourceHelpers {
 			}catch(Exception e){
 				e.printStackTrace();
 			}finally {
-				session.close();	
+				if (session != null && session.isOpen()) {
+					session.close();
+				}	
 			}
 			
-			Set<Properties> columns = this.getColumns(rs.getConfig_env(),rt.getId(), query);
+			Set<Properties> columns = this.getColumns(rs,rt.getId(), query);
 			xml = this.getSqlQueryToXml(columns, list);
 			return xml;
 		}
@@ -240,9 +231,10 @@ public class DataSourceHelpers {
 		value = value==null?paramsUrl.get("p_"+param.getName().toLowerCase()):value;
 		String type = parameters.get(param.getName());
 		String column_name = param.getName().contains("p_")?param.getName().substring(2, param.getName().length()):param.getName();
-		type = Core.isNull(type)?parameters.get(column_name):type;
-		
-		if(type.equals("java.lang.Integer")) {
+		type = Core.isNull(type)?parameters.get(column_name) : type; 
+		if(type.equals("java.math.BigDecimal")) {
+			query.setParameter(param.getName(),value!=null?new BigDecimal(value.toString()):null);
+		}else if(type.equals("java.lang.Integer")) {
 			query.setParameter(param.getName(),value!=null?Core.toInt(value.toString()):null);
 		}else if(type.equals("java.lang.Double")){
 			query.setParameter(param.getName(),value!=null? Core.toDouble(value.toString()):null);
@@ -256,10 +248,15 @@ public class DataSourceHelpers {
 			query.setParameter(param.getName(), value!=null?Core.toShort(value.toString()):null);
 		}else if(type.equals("java.sql.Date")){
 			if((value instanceof String) && Core.isNotNull(value))
-				query.setParameter(param.getName(),Core.ToDate(value.toString(),"yyyy-mm-dd"));
+				query.setParameter(param.getName(),Core.ToDate(value.toString(),"yyyy-MM-dd"));
 			else
 				query.setParameter(param.getName(),"");
-		}else {
+		}else if(type.equals("java.sql.Timestamp")){
+			if((value instanceof String) && Core.isNotNull(value))
+				query.setParameter(param.getName(),Core.ToTimestamp(value.toString(), "yyyy-MM-dd HH:mm:ss"));
+			else
+				query.setParameter(param.getName(),"");
+		}else{
 			query.setParameter(param.getName(),Core.isNotNull(value)?value.toString():"");
 		}
 	}
@@ -306,24 +303,32 @@ public class DataSourceHelpers {
 				Iterator<Properties> listColumns = columns.iterator();
 				while(listColumns.hasNext()){
 					Properties p = listColumns.next();
-					this.xmlRows.startElement(p.getProperty("tag"));
-					this.xmlRows.writeAttribute("name",p.getProperty("name"));
-						String name = p.getProperty("name");
-						String value = t.getString(name);
-						if(Core.isNull(value)) {
-							name = name.startsWith("p_")?name.substring(2, name.length()):name;
-							value = t.getString(name);
-						}
-						value = value!=null?value:"";
-						mapping.put(p,value);
-						this.xmlRows.text(value);
-					this.xmlRows.endElement();
+					String name = p.getProperty("name");
+					String value = t.getString(name);
+					String tag = p.getProperty("tag"); 
+					if(Core.isNull(value)) {
+						name = name.startsWith("p_") ? name.substring(2, name.length()) : name;
+						value = t.getString(name);
+					}
+					mapping.put(p, value !=  null ? value : "");
+					this.appendTag(tag, name, value !=  null ? value : ""); 
 				}
 				this.xmlRows.endElement();
 			});
 			return mapping;
 		}
 		return null;
+	}
+	
+	private void appendTag(String tag, String name, String value) {
+		this.xmlRows.startElement(tag);
+			this.xmlRows.writeAttribute("name", name);
+			this.xmlRows.text(value);
+		this.xmlRows.endElement();
+		this.xmlRows.startElement(tag + "_desc");
+			this.xmlRows.writeAttribute("name", name + "_desc");
+			this.xmlRows.text(value);
+		this.xmlRows.endElement();
 	}
 
 }

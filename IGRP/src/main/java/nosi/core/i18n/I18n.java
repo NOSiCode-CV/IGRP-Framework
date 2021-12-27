@@ -4,7 +4,6 @@ package nosi.core.i18n;
  * Marcel Iekiny
  * Oct 27, 2017
  */
-import java.util.Locale;
 import java.util.ResourceBundle;
 import gnu.gettext.GettextResource;
 import org.apache.commons.lang3.StringUtils;
@@ -13,19 +12,12 @@ import java.text.MessageFormat;
 
 public final class I18n implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1788683894002641641L;
+	
 	private ResourceBundle bundle;
-	private Locale locale;
 
-	private String name;
-
-	public I18n(String name, ResourceBundle bundle) {
-		this.name = name;
+	public I18n(ResourceBundle bundle) {
 		this.bundle = bundle;
-		this.locale = bundle.getLocale();
 	}
 
 	public final String t(String text) {
@@ -56,11 +48,8 @@ public final class I18n implements Serializable {
 		return result;
 	}
 
-	public Locale getLocale() {
-		return locale;
+	public ResourceBundle getBundle() {
+		return this.bundle;
 	}
 
-	public String getName() {
-		return this.name;
-	}
 }

@@ -1,20 +1,19 @@
 package nosi.webapps.igrp.pages.pesquisa_cae;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
-
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.util.List;
 import java.util.Properties;
-import java.util.ArrayList;
-import java.util.Comparator;
 
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.pages.pesquisa_cae.Pesquisa_cae.Treemenu_1;
 import nosi.webapps.igrp.services.rest.pesquisa_cae.pojo.Cae;
 import nosi.webapps.igrp.services.rest.pesquisa_cae.rest.PesquisaCae;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.net.URLDecoder;
 import java.io.UnsupportedEncodingException;
 

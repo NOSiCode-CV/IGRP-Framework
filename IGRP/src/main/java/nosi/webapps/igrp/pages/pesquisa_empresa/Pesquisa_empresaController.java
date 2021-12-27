@@ -1,21 +1,19 @@
 package nosi.webapps.igrp.pages.pesquisa_empresa;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.net.URLEncoder;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.webservices.rest.PesquisaEmpresaService;
 import nosi.core.webapp.webservices.rest.pesquisa_geral.PesquisaEmpresa;
+
+import java.net.URLEncoder;
 
 
 /*----#end-code----*/

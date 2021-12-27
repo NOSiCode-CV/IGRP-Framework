@@ -47,6 +47,9 @@
 							#[countRow]#
 							<td data-row="{position()}" class="table-btn" gen-preserve="last">
 								<xsl:if test="not(//#path#/@noedit) or //#path#/@noedit != 'true'">
+									<span class="table-row-undo btn btn-info d-none" rel="#tag#" title="Undo" data-toggle="tooltip" data-placement="left">
+										<i class="fa fa-undo"></i>
+								  	</span>	
 									<span class="table-row-edit btn btn-warning " rel="#tag#" title="Edit" data-toggle="tooltip" data-placement="left">
 										<i class="fa fa-pencil"></i>
 									</span>

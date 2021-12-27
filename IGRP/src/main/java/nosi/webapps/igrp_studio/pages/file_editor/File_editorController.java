@@ -1,24 +1,26 @@
 package nosi.webapps.igrp_studio.pages.file_editor;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-
-/*----#start-code(packages_import)----*/
-import nosi.core.webapp.bpmn.BPMNConstants;
 import java.io.UnsupportedEncodingException;
-import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Config_env;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.import_export_v2.common.Path;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import org.apache.commons.text.StringEscapeUtils;
 import com.google.gson.Gson;
-import java.io.File;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.compiler.helpers.Compiler;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.import_export_v2.common.Path;
+import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Config_env;
+import nosi.webapps.igrp.dao.Historic;
+
+import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ public class File_editorController extends Controller {
 		/*----#start-code(index)----*/
 		model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=file_editor"));
 		model.setJson_data("igrp_studio", "File_editor", "get-json-all-folder").addParam("task_id", Core.getParam("p_task_id")).addParam("env_fk", Core.getParam("p_env_fk"));
-		model.setSave_url("igrp_studio", "File_editor", "save-and-compile-file");
+		model.setSave_url("igrp_studio", "File_editor", "save-and-compile-file").addParam("env_fk", Core.getParam("p_env_fk"));
 		String type = Core.getParam("type");
 		String path = Core.getParam("path");
 		String name = Core.getParam("name");
@@ -70,7 +72,7 @@ public class File_editorController extends Controller {
 		if(type.compareTo("file")==0) {
 			FileHelper.save(path, name, FileJavaType.createFile(this.convertToPackageName(path),name.substring(0, name.indexOf(".")),file_type));
 			dirs.put("name", name);
-			dirs.put("path", this.config.getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ URLEncoder.encode(path+File.separator+name,"UTF-8")));
+			dirs.put("path", this.getConfig().getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ URLEncoder.encode(path+File.separator+name,"UTF-8")));
 			dirs.put("fileName", path+File.separator+name);
 		}
 
@@ -110,7 +112,7 @@ public class File_editorController extends Controller {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		file.setPath(this.config.getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ file.getFileName()));
+		file.setPath(this.getConfig().getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ file.getFileName()));
 		file.setId(null);
 		ArrayList<FileEditor> files = new ArrayList<>();
 		files.add(file);
@@ -164,7 +166,7 @@ public class File_editorController extends Controller {
 		FileEditor file = new FileEditor();
 		file.setName(URLEncoder.encode(f.getName(),"UTF-8"));
 		file.setFileName(URLEncoder.encode(f.getAbsolutePath(), "UTF-8"));
-		file.setPath(this.config.getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ file.getFileName()));
+		file.setPath(this.getConfig().getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ file.getFileName()));
 		file.setId(null);
 		file.setDir_path(URLEncoder.encode(f.getParent(),"UTF-8"));
 		files.add(file);
@@ -196,6 +198,19 @@ public class File_editorController extends Controller {
 					String erros = compiler.getErrorToJson();
 					if(Core.isNotNull(erros)) {
 						return this.renderView("<messages><message type=\"error\">"+StringEscapeUtils.escapeXml10(erros)+"</message></messages>");
+					}
+					if (fileName.endsWith("Controller.java")) {
+						String[] code_split = fileName.split("Controller");
+						String code_page = code_split[0].substring(code_split[0].lastIndexOf(File.separator))
+								.replace(File.separator, "");
+						Action page = new Action().find().where("page", "=", code_page)
+								.andWhere("application", "=", Core.getParamInt("env_fk")).one();
+						Historic hitoric_page = new Historic();
+						hitoric_page.setNome(Core.getCurrentUser().getName());
+						hitoric_page.setIdUtilizador(Core.getCurrentUser().getId());
+						hitoric_page.setPage(page);
+						hitoric_page.setDescricao("Alterações no File Editor.");
+						hitoric_page.insert();
 					}
 				}
 			}

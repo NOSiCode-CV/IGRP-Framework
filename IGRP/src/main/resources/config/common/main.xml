@@ -4,47 +4,45 @@
 
 	<comment>All basic and advanced IGRP configuration parameters</comment>
 	
-	<!--  -->
+	<!-- igrpweb environment parameter (dev|test|sta|prod) -->
 	<entry key="igrp.env">dev</entry>
 	
-	<!--  --> 
-	<entry key="ids.wso2.enabled">false</entry> 
-	<entry key="ids.wso2.RemoteUserStoreManagerService-wsdl-url">https://autentika.gov.cv/services/RemoteUserStoreManagerService?wsdl</entry>
-	<entry key="ids.wso2.admin-usn">admin.igrp@nosi.cv</entry> 
-	<entry key="ids.wso2.admin-pwd">!GRP&amp;ad!m!n</entry>
+	<!-- igrpweb workspace parameter (absolute path) -->
+	<entry key="igrp.workspace">C:\Users\isaias.nunes\git\IGRP-Framework\IGRP</entry> 
 	
-	<entry key="ids.wso2.oauth2-openid.enabled">false</entry> 
-	<entry key="ids.wso2.oauth2.client_id">gbgQyskjFPtacL1aa9qMwFCjMtsa</entry>
-	<entry key="ids.wso2.oauth2.client_secret">breLyEU4kgD66Fd7v9PfccR3cbUa</entry> 
-	<entry key="ids.wso2.oauth2.endpoint.token">https://nhais1.gov.cv/oauth2/token</entry>
-	<entry key="ids.wso2.oauth2.endpoint.user">https://nhais1.gov.cv/oauth2/userinfo?schema=openid</entry>
-	<entry key="ids.wso2.oauth2.endpoint.authorize">https://nhais1.gov.cv/oauth2/authorize</entry>
-	<entry key="ids.wso2.oauth2.endpoint.redirect_uri">http://localhost:8080/IGRP/index.jsp</entry> 
-	<entry key="ids.wso2.oauth2.endpoint.logout">https://nhais1.gov.cv/oidc/logout</entry>
+	<!-- igrpweb authentication type parameter (db|ldap|oauth2-openid) -->
+	<entry key="igrp.authentication_type">db</entry> 
 	
-	
-	<!-- IGRPoauth2openid --> 
-	<entry key="igrp.env.dev.url">http://localhost:8080/IGRP/igrpoauth2sso</entry>
-	<entry key="igrp.env.prod.url">http://localhost:8080/IGRP/igrpoauth2sso</entry> 
-	<entry key="igrp.env.stage.url">http://localhost:8080/IGRP/igrpoauth2sso</entry>
-	
-	<!-- https://nosiappsdev.gov.cv/redglobal/restapi/userapps/ -->
-	<entry key="igrp.plsql.url">https://nosiappsdev.gov.cv/redglobal/restapi/userapps/</entry>
+	<!-- igrpweb password recovery parameter: enable or not the password recovery funcionality -->
+	<entry key="igrp.pwdRecover">true</entry>
 	
 	<!--  -->
 	<entry key="igrp.authentication.govcv.enbaled">false</entry>
 	
-	<!-- Decides in new user (novoutilizador) if addsRolesToUser -->
-	<entry key="kriol.addrole.user">false</entry>
+	<!-- igrpweb identity server (autentika.gov.cv) service --> 
+	<entry key="ids.autentika.enabled">true</entry> 
+	<entry key="ids.autentika.RemoteUserStoreManagerService-wsdl-url">https://autentika.gov.cv/services/RemoteUserStoreManagerService?wsdl</entry>
+	<entry key="ids.autentika.admin-usn">admin.igrp@nosi.cv</entry> 
+	<entry key="ids.autentika.admin-pwd">!GRP&amp;ad!m!n</entry>
 	
-	<!--  -->
-	<entry key="igrp.env.isNhaLogin">false</entry>
-	<entry key="igrp.env.nhaLogin.url"></entry>
+	<!-- Identity server parameters --> 
+	<entry key="ids.oauth2-openid.client_id">rxiDBENFgTS7GE7PWIL5QiG0TRUa</entry>
+	<entry key="ids.oauth2-openid.client_secret">KgYkhxxjp9fLy5tuL8iWPKHjMfca</entry>
+	<entry key="ids.oauth2-openid.endpoint.token">https://autentika.gov.cv/oauth2/token</entry>
+	<entry key="ids.oauth2-openid.endpoint.user">https://autentika.gov.cv/oauth2/userinfo?schema=openid</entry>
+	<entry key="ids.oauth2-openid.endpoint.authorize">https://autentika.gov.cv/oauth2/authorize</entry>
+	<entry key="ids.oauth2-openid.endpoint.redirect_uri">http://localhost:8080/IGRP/index.jsp</entry> 
+	<entry key="ids.oauth2-openid.endpoint.logout">https://autentika.gov.cv/oidc/logout</entry> 
 	
-	<!--  -->
-	<entry key="igrp.pwdRecover">true</entry>
+	<!-- Ldap configuration parameters -->
+	<entry key="ldap.ad.url"></entry>
+	<entry key="ldap.ad.username"></entry>
+	<entry key="ldap.ad.password"></entry>
+	<entry key="ldap.ad.base"></entry>
+	<entry key="ldap.ad.authentication_filter"></entry>
+	<entry key="ldap.ad.entryDN"></entry>
 	
-	<!--  -->
+	<!-- Default configuration parameters of server smtp (gmail) -->
 	<entry key="java.net.preferIPv4Stack">true</entry>
 	<entry key="mail.smtp.host">smtp.gmail.com</entry>
 	<entry key="mail.smtp.socketFactory.port">465</entry>
@@ -54,28 +52,43 @@
 	<entry key="mail.user">igrpframeworkjava@gmail.com</entry>
 	<entry key="mail.password">Pa$$w0rd10</entry>
 	
-	<!--  -->
-	<entry key="ldap.ad.url"></entry>
-	<entry key="ldap.ad.username"></entry>
-	<entry key="ldap.ad.password"></entry>
-	<entry key="ldap.ad.base"></entry>
-	<entry key="ldap.ad.authentication_filter"></entry>
-	<entry key="ldap.ad.entryDN"></entry>
+	 
 	
-		<!-- links rest pesquisas gerais -->
+	<!-- igrpweb as a kriol platform --> 
+	<!--  -->
+	<!-- Allows to addrole to user when register a new one through identity server (autentika.gov.cv) service -->
+	<entry key="kriol.addrole.user">false</entry>
+	
+	
+	
+	<!-- PDEX Integration --> 
+	<!--  -->
+	<!-- Integrate with PDEX PlSql Apps & Global Acl --> 
+	<entry key="igrp.pdex.appconfig.url">https://api-dev-pdex.gov.cv:8242/t/igrpdev.gov/appConfig2/1.0.0</entry> 
+	<entry key="igrp.pdex.appconfig.token">Bearer 1309859e-28e8-30f4-8af8-79466b14331f</entry> 
+	<entry key="igrp.pdex.permissionacl.url">https://api-dev-pdex.gov.cv:8242/t/igrpdev.gov/new_acl_global/1.0.0</entry>
+	<entry key="igrp.pdex.permissionacl.token">Bearer 1309859e-28e8-30f4-8af8-79466b14331f</entry>
+	
+	<!-- links rest pesquisas gerais -->
 	<entry key="link.rest.pesquisa_bi_cni_pass">https://api-stage-pdex.gov.cv:8242/bi/1.0.0/bi_service_op</entry>
 	<entry key="link.rest.pesquisa_nif">https://api-stage-pdex.gov.cv:8242/api_nif/1.0.0/nif</entry>
-	<entry key="link.rest.pesquisa_geografia">https://api-stage-pdex.gov.cv:8242/GeoINGT/1.0.0/select_geo_by_id</entry>
+	<entry key="link.rest.pesquisa_geografia">https://api-stage-pdex.gov.cv:8242/t/nosigis.gov/GeoINGT/1.0.0/select_geo_by_id</entry>
 	<entry key="link.rest.pesquisa_cae">https://api-stage-pdex.gov.cv:8242/pesquisa_cae/1.0.0/pesquisa_cae</entry>
 	<entry key="link.rest.pesquisa_empresa">https://api-stage-pdex.gov.cv:8242/t/igrp.cv/pesquisa_empresa/1.0.0/operation_name_pesqu_empresa</entry>
 	<entry key="link.rest.pesquisa_cni">https://api-stage-pdex.gov.cv:8242/cni/1.0.0/pesquisa_cni</entry>
 	
+
 	<!-- authorization rest pesquisas gerais -->
 	<entry key="authorization.link.rest.pesquisa_bi_cni_pass">Bearer ffed23b6-eee3-392e-a5c6-4856a4720a30</entry>
 	<entry key="authorization.rest.pesquisa_nif">Bearer ffed23b6-eee3-392e-a5c6-4856a4720a30</entry>
-	<entry key="authorization.rest.pesquisa_geografia">Bearer ffed23b6-eee3-392e-a5c6-4856a4720a30</entry>
+	<entry key="authorization.rest.pesquisa_geografia">Bearer 369fc782-4686-39a1-bfb2-a79ab3383595</entry>
 	<entry key="authorization.rest.pesquisa_cae">Bearer ffed23b6-eee3-392e-a5c6-4856a4720a30</entry>
 	<entry key="authorization.rest.pesquisa_empresa">Bearer a7080c71-1cf4-31bb-bf43-9f375265582e</entry>
 	<entry key="authorization.link.rest.pesquisa_cni">Bearer 849a3725-9d68-3633-b64b-9cb8ca377d47</entry>
+	
+	
+	<entry key="link.rest.pesquisa_geografia_old">https://api-stage-pdex.gov.cv:8242/geografia/1.0.0/select_geo_by_id</entry>
+	<entry key="authorization.rest.pesquisa_geografia_old">Bearer ffed23b6-eee3-392e-a5c6-4856a4720a30</entry>
+
 	
 </properties>

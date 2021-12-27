@@ -4,7 +4,9 @@
 
     var _opts     = {
         locale:'pt'
-    }
+    },
+
+    afterLoading = false;
 
     var calendarComponent = new IGRP.component('calendar',{
         get:function(id){
@@ -95,11 +97,15 @@
 
             return data;
         },
+        daysOffEvents : function(daysoff,arr){
+
+        },
         init:function(id,p){
             var options 		= $.extend(_opts,p),
                 cal     		= $('.igrp-calendar#'+id),
                 view    		= p.defaultview ? p.defaultview : 'month',
                 ebeforetoday    = p.ebeforetoday && p.ebeforetoday == 'false' ? true : false,
+                daysoff         = p.daysoff ? p.daysoff.split(',') : [],
                 date    		= p.defaultdate ? p.defaultdate : new Date().toJSON().slice(0,10).replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1');
            
             cal.on('contextmenu', function (e) {
@@ -135,7 +141,7 @@
                 defaultView :view,
                 //events: p.loadevents,
                 events: function(start, end, timezone, callback) {
-                	
+
                     $.ajax({
                         url		:	p.loadevents ? p.loadevents : $.IGRP.utils.getPageUrl(),
                         data  	:	$.IGRP.utils.getForm().serializeArray(),
@@ -144,6 +150,7 @@
                         dataType: 	'xml',
                         cache 	:	false,
                         success: function(doc) {
+                            
                             var events = [];
 
                             $.each($(doc).find(id+'_events table value row'),function(i,row){
@@ -174,7 +181,24 @@
 
                                 events.push(eAtrrs);
                             });
+
+                            if(daysoff[0]){
+                                daysoff.forEach(function(d){
+                                    var startDate   = $.IGRP.components.calendar.dateConvert(d),
+                                        endDate     = moment(startDate,'YYYY-MM-DD').add('days', 1).format('YYYY-MM-DD');
+                                   
+                                    events.push({
+                                        start: startDate,
+                                        end: endDate,
+                                        overlap: false,
+                                        rendering: 'background',
+                                        color: '#d7d7d7'
+                                    });
+                                });
+                            }
+
                             callback(events);
+
                         },error:function(status){
                             console.log('loading events report error: '+status);
                         }
@@ -186,7 +210,7 @@
                     if(isLoading)
                         $.IGRP.utils.loading.show(holder);
                     else{
-                        $.IGRP.components.calendar.getViewParam(id);
+                        afterLoading = true;
                         $.IGRP.utils.loading.hide(holder);
                     }
                 },
@@ -197,7 +221,7 @@
 
                     var ctxParams = event["context-param"];
 
-                    if(ctxParams[0]){
+                    if(ctxParams && ctxParams[0]){
                         element.attr('CTX_PARAM_COUNT',ctxParams.length);
                         
                         ctxParams.forEach(function(c,i){
@@ -238,18 +262,24 @@
                     });
                 },
                 dayClick : function(date, allDay ,jsEvent, view) {
-                    var param = 'p_date='+date.format().igrpDateFormat(),
+                    var xdate = date.format().igrpDateFormat(),
                         valid = true;
 
                     if(ebeforetoday)
                         valid = moment().subtract(1, "days").isBefore(moment(date));
 
-                    if (p.addevents && valid) {
+                    if (p.addevents && valid && $.inArray(xdate, daysoff) === -1) {
+                        
+                        mWindow = mWindow ? mWindow : window;
+			
+				        mUrl = $('#p_env_frm_url').val() || window.location.href;
+
                         $.IGRP.components.iframeNav.set({
-                            url     : $.IGRP.utils.getUrl(p.addevents)+param,
+                            url     : $.IGRP.utils.getUrl(p.addevents)+'p_date='+xdate,
                             clicked : $('<a close="refresh"/>')
                         });
                     }
+                    
                 },
                 eventClick : function(event, jsEvent, view) {
                     /*var table = $(jsEvent.target).parents('.fc-content-skeleton'),
@@ -291,9 +321,14 @@
                 }
             });
 
-            calendars[id] = calendar;
+            if(afterLoading){
+                calendars[id] = calendar;
 
-            $.IGRP.components.calendar.nextOrPrevButtom(holder);
+                $.IGRP.components.calendar.nextOrPrevButtom(holder);
+
+                $.IGRP.components.calendar.getViewParam(id);
+            }
+            
         }
     });
 })($.IGRP);

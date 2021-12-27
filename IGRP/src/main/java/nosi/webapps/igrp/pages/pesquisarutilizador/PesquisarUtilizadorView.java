@@ -60,8 +60,7 @@ public class PesquisarUtilizadorView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=utilizador"));
-		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		username = new TextField(model,"username");
 		username.setLabel(gt("Username"));
@@ -133,13 +132,13 @@ public class PesquisarUtilizadorView extends View {
 		btn_editar = new IGRPButton("Editar","igrp","PesquisarUtilizador","editar","mpsubmit|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("id","button_8625_a0d4").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
 
-		btn_assiocar_menu = new IGRPButton("Assiocar Menu","igrp","PesquisarUtilizador","assiocar_menu","right_panel_submit","info|fa-bars","","");
+		btn_assiocar_menu = new IGRPButton("Associar Menu","igrp","PesquisarUtilizador","assiocar_menu","right_panel_submit","info|fa-bars","","");
 		btn_assiocar_menu.propertie.add("id","button_f39b_61a7").add("type","specific").add("class","info").add("rel","assiocar_menu").add("refresh_components","");
 
-		btn_assiocar_transacao = new IGRPButton("Assiocar Transacao","igrp","PesquisarUtilizador","assiocar_transacao","right_panel","black|fa-exchange","","");
+		btn_assiocar_transacao = new IGRPButton("Associar Transacao","igrp","PesquisarUtilizador","assiocar_transacao","right_panel","black|fa-exchange","","");
 		btn_assiocar_transacao.propertie.add("id","button_ead4_9d21").add("type","specific").add("class","black").add("rel","assiocar_transacao").add("refresh_components","");
 
-		btn_assiocar_etapa = new IGRPButton("Assiocar Etapa","igrp","PesquisarUtilizador","assiocar_etapa","right_panel","primary|fa-sitemap","","");
+		btn_assiocar_etapa = new IGRPButton("Associar Etapa","igrp","PesquisarUtilizador","assiocar_etapa","right_panel","primary|fa-sitemap","","");
 		btn_assiocar_etapa.propertie.add("id","button_ac82_afbd").add("type","specific").add("class","primary").add("rel","assiocar_etapa").add("refresh_components","");
 
 		btn_convidar_user = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar_user","right_panel|refresh","warning|fa-send","","");
@@ -194,6 +193,7 @@ public class PesquisarUtilizadorView extends View {
 	@Override
 	public void setModel(Model model) {
 		
+		documento.setValue(model);
 		username.setValue(model);
 		email.setValue(model);
 		nada.setValue(model);

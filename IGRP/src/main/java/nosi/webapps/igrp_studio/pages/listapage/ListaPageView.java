@@ -54,9 +54,9 @@ public class ListaPageView extends View {
 
 	public IGRPToolsBar toolsbar_2;
 	public IGRPButton btn_nova_aplicacao;
+	public IGRPButton btn_historico;
 	public IGRPButton btn_editar;
 	public IGRPButton btn_visualizar;
-	public IGRPButton btn_eliminar;
 	public IGRPButton btn_gerar_codigo;
 	public IGRPButton btn_download;
 	public IGRPButton btn_file_editor;
@@ -146,12 +146,12 @@ public class ListaPageView extends View {
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
 		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=studio"));
-		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true");
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		forum = new LinkField(model,"forum");
 		forum.setLabel(gt("Forum"));
 		forum.setValue(gt("https://gitter.im/igrpweb/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link"));
-		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-comments").add("maxlength","250").add("showlabel","true");
+		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-comments").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		application = new ListField(model,"application");
 		application.setLabel(gt("Aplicação"));
@@ -159,7 +159,7 @@ public class ListaPageView extends View {
 		
 		modulo = new ListField(model,"modulo");
 		modulo.setLabel(gt("Módulo"));
-		modulo.propertie().add("name","p_modulo").add("type","select").add("multiple","true").add("domain","").add("maxlength","50").add("required","false").add("disabled","false").add("java-type","").add("tags","false");
+		modulo.propertie().add("remote",Core.getIGRPLink("igrp_studio","ListaPage","index")).add("name","p_modulo").add("type","select").add("multiple","true").add("domain","").add("maxlength","50").add("required","false").add("disabled","false").add("java-type","").add("tags","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt("  "));
@@ -169,19 +169,19 @@ public class ListaPageView extends View {
 		btn_import.setLabel(gt("Importar"));
 		btn_import.setValue(Core.getIGRPLink("igrp_studio","ImportArquivo","index"));
 
-									btn_import.propertie().add("name","p_btn_import").add("type","link").add("target","modal").add("class","danger").add("img","fa-upload").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","");
+									btn_import.propertie().add("name","p_btn_import").add("type","link").add("target","modal").add("class","danger").add("img","fa-upload").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","").add("adbcli","");
 		
 		crud_generator = new LinkField(model,"crud_generator");
 		crud_generator.setLabel(gt("CRUD/DAO generator"));
 		crud_generator.setValue(Core.getIGRPLink("igrp_studio","CRUDGenerator","index"));
 
-									crud_generator.propertie().add("name","p_crud_generator").add("type","link").add("target","modal").add("class","warning").add("img","fa-gears").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","");
+									crud_generator.propertie().add("name","p_crud_generator").add("type","link").add("target","modal").add("class","warning").add("img","fa-gears").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","").add("adbcli","");
 		
 		link_btn_nova_pagina = new LinkField(model,"link_btn_nova_pagina");
 		link_btn_nova_pagina.setLabel(gt("Nova página"));
 		link_btn_nova_pagina.setValue(Core.getIGRPLink("undefined","undefined","undefined"));
 
-									link_btn_nova_pagina.propertie().add("name","p_link_btn_nova_pagina").add("type","link").add("target","modal").add("class","success").add("img","fa-plus-square").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","");
+									link_btn_nova_pagina.propertie().add("name","p_link_btn_nova_pagina").add("type","link").add("target","modal").add("class","success").add("img","fa-plus-square").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","").add("adbcli","");
 		
 		status_page = new CheckBoxField(model,"status_page");
 		status_page.setLabel(gt("Estado"));
@@ -192,10 +192,10 @@ public class ListaPageView extends View {
 		
 		modulo_tab = new TextField(model,"modulo_tab");
 		modulo_tab.setLabel(gt("Módulo"));
-		modulo_tab.propertie().add("name","p_modulo_tab").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
+		modulo_tab.propertie().add("name","p_modulo_tab").add("type","text").add("maxlength","10").add("showLabel","true").add("group_in","");
 		
 		descricao_page = new TextField(model,"descricao_page");
-		descricao_page.setLabel(gt("Título (código)"));
+		descricao_page.setLabel(gt("Título (Código)"));
 		descricao_page.propertie().add("name","p_descricao_page").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		id_page = new HiddenField(model,"id_page");
@@ -217,7 +217,7 @@ public class ListaPageView extends View {
 
 									my_aplicacao_desc = new LinkField(model,"my_aplicacao_desc");
 		my_aplicacao_desc.setLabel(gt("Aplicação"));
-		my_aplicacao.propertie().add("name","p_my_aplicacao").add("type","link").add("target","_self").add("request_fields","").add("class","link").add("img","fa-link").add("maxlength","30").add("show_header","true").add("refresh_submit","false").add("showLabel","true").add("list_source","").add("refresh_components","").add("group_in","").add("desc","true");
+		my_aplicacao.propertie().add("name","p_my_aplicacao").add("type","link").add("target","_self").add("request_fields","").add("class","link").add("img","fa-link").add("maxlength","30").add("show_header","true").add("refresh_submit","false").add("showLabel","true").add("list_source","").add("refresh_components","").add("group_in","").add("adbcli","").add("desc","true");
 		
 		env_fk = new HiddenField(model,"env_fk");
 		env_fk.setLabel(gt(""));
@@ -229,16 +229,16 @@ public class ListaPageView extends View {
 		btn_nova_aplicacao = new IGRPButton("Nova Aplicação","igrp_studio","ListaPage","nova_aplicacao","modal|refresh","primary|fa-plus","","");
 		btn_nova_aplicacao.propertie.add("type","specific").add("rel","nova_aplicacao").add("refresh_components","");
 
+		btn_historico = new IGRPButton("Historico","igrp_studio","ListaPage","historico","mpsubmit","link|fa-clock-o","","");
+		btn_historico.propertie.add("id","button_e715_bff0").add("type","specific").add("class","link").add("rel","historico").add("refresh_components","");
+
 		btn_editar = new IGRPButton("Editar","igrp_studio","ListaPage","editar","mpsubmit|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("id","button_2f1f_9a95").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
 
 		btn_visualizar = new IGRPButton("Visualizar","igrp_studio","ListaPage","visualizar","_blank","primary|fa-eye","","");
 		btn_visualizar.propertie.add("id","button_2b2e_6dcc").add("type","specific").add("class","primary").add("rel","visualizar").add("refresh_components","");
 
-		btn_eliminar = new IGRPButton("Eliminar","igrp_studio","ListaPage","eliminar","confirm","danger|fa-trash","","");
-		btn_eliminar.propertie.add("id","button_1a04_e42f").add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
-
-		btn_gerar_codigo = new IGRPButton("Gerar Código","igrp_studio","ListaPage","gerar_codigo","_newtab","info|fa-gears","","");
+		btn_gerar_codigo = new IGRPButton("Gerador","igrp_studio","ListaPage","gerar_codigo","_newtab","info|fa-gears","","");
 		btn_gerar_codigo.propertie.add("id","button_6ec4_439f").add("type","specific").add("class","info").add("rel","gerar_codigo").add("refresh_components","");
 
 		btn_download = new IGRPButton("Download","igrp_studio","ListaPage","download","download","grey|fa-download","","");
@@ -283,7 +283,6 @@ public class ListaPageView extends View {
 		form_1.addField(crud_generator);
 		form_1.addField(link_btn_nova_pagina);
 
-
 		table_1.addField(status_page);
 		table_1.addField(status_page_check);
 		table_1.addField(modulo_tab);
@@ -291,15 +290,16 @@ public class ListaPageView extends View {
 		table_1.addField(id_page);
 		table_1.addField(nome_page);
 
+
 		table_2.addField(my_app_img);
 		table_2.addField(my_aplicacao);
 		table_2.addField(my_aplicacao_desc);
 		table_2.addField(env_fk);
 
 		toolsbar_2.addButton(btn_nova_aplicacao);
+		table_1.addButton(btn_historico);
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_visualizar);
-		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_gerar_codigo);
 		table_1.addButton(btn_download);
 		table_2.addButton(btn_file_editor);

@@ -5252,6 +5252,75 @@ var GENERATOR = function(genparams){
 
 		});
 		
+		var jsIncludes = [
+				{ path: '/plugins/sharpadbclient/sharpadbclient.js' }
+			],
+			removeIncluds = function (arr, t) {
+				
+				arr.forEach(function (e) {
+	
+					if (field.includes[t]){
+	
+						for (var i = 0; i < field.includes[t].length; i++) {
+							var inc = field.includes[t][i];
+	
+							if (inc.path == e.path) {
+								var index = field.includes[t].indexOf(inc);
+	
+								if (index > -1)
+									field.includes[t].splice(index, 1);
+	
+								break;
+							}
+						}
+					}
+				});
+			}
+		;
+	
+		field.setPropriety({
+			label: 'Sharp Adb Client Action',
+			name: 'adbcli',
+			order: 6,
+			value: {
+				value: '',
+				options: $.IGRP.defaults.buttons.sharpadbclient
+			}, 
+			onEditionStart: function (o) {
+	
+				var checkTarget = function (v) {
+					var target = v ? v : field.GET.target ? field.GET.target() : null;
+	
+					if (target == 'sharpadbclient') {
+	
+						o.input.show();
+	
+						jsIncludes.forEach(function (e) {
+							field.includes.js.unshift(e);
+						});
+					}
+	
+					else {
+						if ($.IGRP.components.select2) {
+							$.IGRP.components.select2.select2Init({
+								field: $('select', o.input)
+							});
+						}
+	
+						o.input.hide();
+	
+						removeIncluds(jsIncludes, 'js');
+					}
+				}
+	
+				$('select[name="edit-target"]').on('change', function () {
+					checkTarget($(this).val());
+				});
+	
+				checkTarget();
+			}
+		});
+		
 		if(!targetRulesSet){
 			$.IGRP.rules.set({"edit-target":[
 				{"name":"","event":"change","condition":"equal","value":"changesrc","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-target_fields","procedure":"","msg_type":"","msg":"","opposite":"1","isTable":false},

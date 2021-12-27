@@ -1,14 +1,14 @@
 package nosi.webapps.igrp.pages.pesquisanif;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
 import java.util.List;
-//import nosi.core.webapp.webservices.biztalk.dao.PesquisaNIF.RowList;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 
 /*----#end-code----*/
 		
@@ -25,7 +25,7 @@ public class PesquisaNIFController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load();
 		}
 		
@@ -44,7 +44,7 @@ public class PesquisaNIFController extends Controller {
 		 return this.forward("igrp","Resetbyemail","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(pesquisar)----*/
 		
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load();
 ////			nosi.core.webapp.webservices.biztalk.dao.PesquisaNIF p = Core.getBizTalkPesquisaNIF(new nosi.core.webapp.webservices.biztalk.dao.PesquisaNIF(model.getNif(), model.getNome()));
 //

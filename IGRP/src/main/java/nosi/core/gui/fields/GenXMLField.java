@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import nosi.core.webapp.Core;
 import nosi.core.xml.XMLWritter;
 
@@ -46,29 +47,55 @@ public class GenXMLField {
 						if(!(field instanceof HiddenField)){//Hidden field not contain tag label
 							xml.setElement("label", field.getLabel());
 						}
-						if(!(field instanceof SeparatorField)){//Seprator field not contain tag value
+						if(!(field instanceof SeparatorField)){//Separator field not contain tag value
 							getXmlValue(xml,field);
 						}
 						if(field instanceof LookupField){
-							if(field.vertionLookup()==1) {
-								String link = field.getLookup()+"&forLookup=true";
-								
-								for(Entry<String, Object> param:((LookupField) field).getParams().entrySet()){
-									link+= "&"+param.getKey()+"="+param.getValue();
+							LookupField lookupField = (LookupField) field; 
+							String link = field.getLookup();
+							if(field.vertionLookup() == 1) {
+								if(lookupField.isSso()) {
+									
+									String params = "forLookup=true"; 
+									for(Entry<String, Object> param : lookupField.getParams().entrySet())
+										params += ";" + param.getKey() + "=" + param.getValue(); 
+									link += params; 
+									
+								}else {
+									link += "&forLookup=true"; 
+									for(Entry<String, Object> param : lookupField.getParams().entrySet())
+										link += "&"+param.getKey() + "=" + param.getValue();
 								}
-								xml.setElement("lookup", link);
-							}
-							else if(field.vertionLookup()==2){
-								String link = field.getLookup()+"&jsonLookup=";
-								try {
-									link += URLEncoder.encode(Core.toJson(((LookupField) field).getLookupParams()),"UTF-8");
-								} catch (UnsupportedEncodingException e) {
-									e.printStackTrace();
-								}
-								for(Entry<String, Object> param:((LookupField) field).getParams().entrySet()){
-									link+= "&"+param.getKey()+"="+param.getValue();
-								}
-								xml.setElement("lookup", link);
+								xml.setElement("lookup", link); 
+							}else 
+								if(field.vertionLookup() == 2){
+									
+									if(lookupField.isSso()) {
+										
+										String params = "jsonLookup="; 
+										try {
+											params += URLEncoder.encode(Core.toJson(lookupField.getLookupParams()),"UTF-8");
+										} catch (UnsupportedEncodingException e) {
+											e.printStackTrace();
+										}
+										for(Entry<String, Object> param:((LookupField) field).getParams().entrySet())
+											params += ";" + param.getKey() + "=" + param.getValue(); 
+										
+										link += params; 
+										
+									}else {
+										link += "&jsonLookup=";
+										try {
+											link += URLEncoder.encode(Core.toJson(lookupField.getLookupParams()),"UTF-8");
+										} catch (UnsupportedEncodingException e) {
+											e.printStackTrace();
+										}
+										for(Entry<String, Object> param:((LookupField) field).getParams().entrySet()){
+											link+= "&"+param.getKey()+"="+param.getValue();
+										}
+									}
+									
+									xml.setElement("lookup", link); 
 							}
 						}
 						xml.endElement();
@@ -134,13 +161,6 @@ public class GenXMLField {
 							xml.text(""+field.getValue());
 							if(field instanceof LookupField){
 								xml.setElement("lookup", field.getLookup());
-								/*
-								 * <lookup_1 name="p_lookup_1" type="lookup" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false">
-					                    <label>Lookup</label>
-					                    <value/>
-					                    <lookup>http://xpto/file.xml</lookup>
-					                </lookup_1>
-								 */
 							}
 							xml.endElement();
 						}

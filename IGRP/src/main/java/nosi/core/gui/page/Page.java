@@ -7,7 +7,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
+
 import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 import nosi.core.exception.NotFoundHttpException;
 import nosi.core.gui.components.IGRPLogBar;
 import nosi.core.gui.components.IGRPMessage;
@@ -33,7 +35,7 @@ public class Page{
 	private String linkXsl=null; 
 	
 	private boolean showFooter = false; 
-	private String copyright = "&copy; Copyright 2020, Núcleo Operacional da Sociedade de informação - E.P.E. Todos os direitos reservados."; 
+	private String copyright = "&copy; Copyright 2021, Núcleo Operacional da Sociedade de informação - E.P.E. Todos os direitos reservados."; 
 	private String developed = "Design &amp; Concepção"; 
 
 	
@@ -46,16 +48,16 @@ public class Page{
 	}
 
 	public Page(){
-		this.gui = new ArrayList<Object>();
+		this.gui = new ArrayList<>();
 	}
 	
-	private String convertContentToXml(){
-		String xml = "";
+	private String convertContentToXml(){	
+		  StringBuilder xml = new StringBuilder();
 		for(Object obj:this.gui){
-			xml += obj.toString();
+			xml.append(obj.toString());
 		}
 		this.gui = null;
-		return xml;
+		return xml.toString();
 	}
 	
 	public String getLinkXsl() {
@@ -109,7 +111,7 @@ public class Page{
 			xml.setElement("copyright", this.copyright); 
 			xml.setElement("developed", this.developed); 
 			xml.startElement("by"); 
-			xml.writeAttribute("link", "https://www.nosi.cv/index.php/pt/"); 
+			xml.writeAttribute("link", "https://www.nosi.cv"); 
 			xml.text("NOSi"); 
 			xml.endElement(); 
 			xml.endElement(); 
@@ -132,9 +134,9 @@ public class Page{
 		}
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
-		String aux = this.convertContentToXml().replace(":_message_reseved", m);
+		return this.convertContentToXml().replace(":_message_reseved", m);
 		
-		return aux;
+		
 	}
 	
 	public static String getPageName(String page){
@@ -149,7 +151,7 @@ public class Page{
 		String page = page_;
 		page = page.toLowerCase();
 		page = page.replaceAll("\\s+", "");
-		page = page.replaceAll("-", "");
+		page = page.replace("-", "");
 		return page;
 	}
 
@@ -181,13 +183,13 @@ public class Page{
 			Object controller = c.newInstance();
 			Igrp.getInstance().setCurrentController((Controller) controller); // store the requested contoller 
 			Method action = null;
-			ArrayList<Object> paramValues = new ArrayList<Object>();
+			ArrayList<Object> paramValues = new ArrayList<>();
 			for(Method aux : c.getDeclaredMethods())
 				if(aux.getName().equals(actionName))
 					action = aux;
-			if(action !=null)
-			if(action.getParameterCount() > 0){
-				for(Parameter parameter : action.getParameters()){
+			if(action !=null) {
+				if(action.getParameterCount() > 0){
+					for(Parameter parameter : action.getParameters()){
 					if(parameter.getType().getSuperclass().getName().equals("nosi.core.webapp.Model")){
 						// Dependency Injection for models
 						Class<?> c_ = Class.forName(parameter.getType().getName());
@@ -211,34 +213,37 @@ public class Page{
 				}
 				return action.invoke(controller, paramValues.toArray());
 				
-			}else{
-				return  action.invoke(controller);
+				}else{
+					return  action.invoke(controller);
+				}
 			}
-			
 		}catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | 
 				InvocationTargetException | NullPointerException e) {
 			
 			StringWriter sw = new StringWriter();
 		    PrintWriter pw = new PrintWriter(sw);
 		    e.printStackTrace(pw);
-
+		    String env = "";
+		    env = ConfigApp.getInstance().getEnvironment();
 			if(e.getCause() instanceof  NullPointerException) {
-				String msg = "Error NullPointerException - "+Igrp.getInstance().getCurrentPageName()+"Controller.java!";
-				String env = "";
-				env = Igrp.getInstance().getServlet().getInitParameter("env");
+				String msg = "ERROR: NullPointerException - "+Core.getCurrentDad()+"/"+Igrp.getInstance().getCurrentPageName()+"Controller.java!";
+				
+				
 				if(env.equals("dev") || env.equals("sta")) {
-					msg+=" \nCheck debugger at the bottom of the page.";
+					msg+=" \nCheck debugger at the bottom of the page.";					
 				}
-				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error",sw.toString());
+				System.err.println("ERROR: Nullpointer in "+Core.getCurrentDad()+": "+sw.toString());
+				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error","sn: "+sw.toString());
 				throw new NotFoundHttpException(msg);
 			}
-			
-			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error", sw.toString());
+			if(env.equals("dev") || env.equals("sta"))
+				System.err.println("DevError in "+Core.getCurrentDad()+"/"+Igrp.getInstance().getCurrentPageName()+": "+sw.toString());
+			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error","s: "+ sw.toString());
 			if(Core.isNotNull(e.getCause()) && Core.isNotNull(e.getCause().getMessage())) {
-				Core.log("ERRO: "+e.getCause().getMessage()); //dosen't work because error page is not the original
-				throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas. +INFO: \n\n\n\n"+e.getCause().getMessage());
+				Core.log("ERRO: "+e.getCause().getMessage()); //doesen't work because error page is not the original
+				throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas. +INFO: \n\n\n\n["+Core.getCurrentDad()+"] /"+Igrp.getInstance().getCurrentPageName()+" - "+e.getCause().getMessage());
 			}
-			throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas.");
+			throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas. \n\n\n\n["+Core.getCurrentDad()+"] /"+Igrp.getInstance().getCurrentPageName());
 		}
 		throw new NotFoundHttpException("Nenhum metodo "+actionName+" encontrado!");
 		

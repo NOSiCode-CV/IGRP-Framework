@@ -1,6 +1,6 @@
 (function(){
 	
-	GIS.module('Map', function(app, o){
+	GIS.module('Map', function(app, o ){
 
 		var Utils    = GIS.module('Utils'),
 		
@@ -20,9 +20,19 @@
 
 					zoomControl: false
 
-				}
+				},
+				
+			    panelLayers: true,
+			    
+			    panelWidgets: true,
+			    
+			    footer: true,
+			    
+			    expand: true,
+			    
+			    locate: true
 
-			},o);
+			}, o );
 
 		map.addLayer = function(layer){
 
@@ -30,9 +40,7 @@
 
 		};
 
-		map.setCenter = function(center){
-
-		};
+		map.setCenter = function(center){};
 
 		map.zoomIn = function(){
 
@@ -50,6 +58,22 @@
 
 		};
 		
+		map.zoomHome = function(){
+			
+			map.view.flyTo(settings.center, settings.zoom);
+			
+			return false;
+
+		};
+		
+		map.locate = function(){
+			
+			Utils.control.locate.init(map.view);
+						
+			return false;
+		};
+
+		
 		map.expand = function(){
 			
 			$(app.dom).toggleClass('expand');
@@ -58,6 +82,13 @@
 			
 			return false;
 		};
+		
+		map.lock = function(){
+			
+			Utils.control.lock.click(map.view, settings);
+			
+			return false;
+		}
 
 		app.viewer = function(){
 
@@ -105,19 +136,60 @@
 			}
 
 		}
-
+		
+		
 		function SetControllers(){
 
 			$('.gis-zoom-in', app.dom).on('click', map.zoomIn);
 
-			$('.gis-zoom-out', app.dom).on('click',map.zoomOut);
+			$('.gis-zoom-out', app.dom).on('click', map.zoomOut);
 			
-			$('.gis-expand', app.dom).on('click',map.expand);
+			$('.gis-zoom-home', app.dom).on('click', map.zoomHome);
+			
+			$('.gis-locate', app.dom).on('click', map.locate);
+			
+			$('.gis-expand', app.dom).on('click', map.expand);
+			
+			$('.gis-lock-bounds', app.dom).on('click', map.lock);
 			
 			if(settings.fullscreen)
 				
 				map.expand();
-
+			
+			if(!settings.panelLayers)
+				
+				$('.gis-layers-controller', app.dom).hide();
+			
+			if(!settings.panelWidgets)
+				
+				$('.gis-widgets-controller', app.dom).hide();
+			
+			if(!settings.footer)
+				
+				$('.gis-footer-controller', app.dom).hide();
+			
+			if(!settings.locate)
+				
+				$('.gis-locate', app.dom).hide();
+			
+			if(!settings.expand)
+				
+				$('.gis-expand', app.dom).hide();
+			
+			if(!settings.lock)
+				
+				$('.gis-lock-bounds', app.dom).hide();
+			
+			map.view.locateOptions = {disativated: true};
+			
+			Utils.control.mousePosition.add(map.view, settings);
+			
+			var scale = Utils.control.scale.add(map.view);
+			
+			map.view.utils = {scale : scale}
+			
+			Utils.control.lock.add(map.view, settings);
+						
 		};
 
 		(function(){
@@ -126,10 +198,9 @@
 
 				zoomControl : false,
 				
-				//crs: proj4.defs("EPSG:4826","+proj=lcc +lat_1=15 +lat_2=16.66666666666667 +lat_0=15.83333333333333 +lon_0=-24 +x_0=161587.83 +y_0=128511.202 +datum=WGS84 +units=m +no_defs")
-
-			}).setView(settings.center, settings.zoom);
-			
+				editable: true,
+				
+			}).setView(settings.center, settings.zoom);			
 			
 			SetControllers();
 

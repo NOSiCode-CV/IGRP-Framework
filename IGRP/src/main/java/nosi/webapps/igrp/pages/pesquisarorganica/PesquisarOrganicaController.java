@@ -4,14 +4,14 @@
 
 package nosi.webapps.igrp.pages.pesquisarorganica;
 
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+import java.io.IOException;
+import java.util.ArrayList;
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
-import java.io.IOException;
-import java.util.ArrayList;
 /*----#END-PRESERVED-AREA----*/
 public class PesquisarOrganicaController extends Controller {		
 

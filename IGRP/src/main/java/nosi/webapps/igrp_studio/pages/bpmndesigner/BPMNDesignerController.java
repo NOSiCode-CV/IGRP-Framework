@@ -4,10 +4,6 @@
 
 package nosi.webapps.igrp_studio.pages.bpmndesigner;
 
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.FlashMessage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +14,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import javax.xml.transform.TransformerConfigurationException;
 import org.apache.commons.text.StringEscapeUtils;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.entities.DeploymentService;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
@@ -35,7 +35,6 @@ import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.xml.XMLTransform;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-/*----#END-PRESERVED-AREA----*/
 
 public class BPMNDesignerController extends Controller {		
 
@@ -50,15 +49,16 @@ public class BPMNDesignerController extends Controller {
 		Application app = Core.findApplicationById(Core.toInt(model.getEnv_fk()));		
 		if(app!=null) {
 			List<BPMNDesigner.Gen_table> data = new ArrayList<>();
-			for(ProcessDefinitionService process: new ProcessDefinitionServiceRest().getProcessDefinitionsAtivos(app.getDad())){
-				BPMNDesigner.Gen_table processo = new BPMNDesigner.Gen_table();
-				processo.setId(process.getId());
-				processo.setTitle(process.getName());
-				processo.setLink("igrp_studio", "BPMNDesigner", "get-bpmn-design&p_id="+process.getId());
-				processo.setId(process.getId());
-				processo.setId_objeto(process.getId().split(":")[0]);
-				data.add(processo);
-			}
+			for(ProcessDefinitionService process: new ProcessDefinitionServiceRest().getProcessDefinitionsAtivos(app.getDad()))
+				if(process.getId() != null && !process.getId().isEmpty()) {
+					BPMNDesigner.Gen_table processo = new BPMNDesigner.Gen_table();
+					processo.setId(process.getId());
+					processo.setTitle(process.getName() != null && !process.getName().isEmpty() ? process.getName() : "Name Not set");
+					processo.setLink("igrp_studio", "BPMNDesigner", "get-bpmn-design&p_id="+process.getId());
+					processo.setId(process.getId());
+					processo.setId_objeto(process.getId().split(":")[0]);
+					data.add(processo);
+				}
 			view.gen_table.addData(data);
 		}
 		view.formkey.setLookup("igrp","LookupListPage","index");
@@ -185,7 +185,7 @@ public class BPMNDesignerController extends Controller {
 
 
 	private String transformXMLToController(String xml) throws TransformerConfigurationException, UnsupportedEncodingException {
-		return XMLTransform.xmlTransformWithXSL(FileHelper.convertStringToInputStream(xml), this.config.getLinkXSLBpmnControllerGenerator());
+		return XMLTransform.xmlTransformWithXSL(FileHelper.convertStringToInputStream(xml), this.getConfig().getLinkXSLBpmnControllerGenerator());
 	}
 	
 	private String getClassPathServer(TaskService task,Application app) {

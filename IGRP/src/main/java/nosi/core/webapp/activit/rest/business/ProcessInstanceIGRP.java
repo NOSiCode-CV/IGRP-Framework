@@ -1,12 +1,13 @@
 package nosi.core.webapp.activit.rest.business;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.entities.HistoricProcessInstance;
 import nosi.core.webapp.activit.rest.entities.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
 import nosi.webapps.igrp.dao.TaskAccess;
-
-import java.util.List;
-import java.util.stream.Collectors;
 /**
  * Emanuel
  * 15 May 2019
@@ -25,14 +26,16 @@ public class ProcessInstanceIGRP extends GenericActivitiIGRP {
 
 	public List<ProcessInstancesService> getRuntimeProcessIntances(String processKey) {
 		List<ProcessInstancesService> list = this.processInstanceServiceRest.getRuntimeProcessIntances(processKey);
-		this.setMyProccessAccess();
+		String[] filterThisProcessIDs = Core.convertArrayObjectToArrayString(list.stream().map(ProcessInstancesService::getId).distinct().collect(Collectors.toList()).toArray());		
+		this.setMyProccessAccess(filterThisProcessIDs);
 		list = list.stream().filter(p -> this.myproccessId.contains(p.getId())).collect(Collectors.toList());
 		return list;
 	}
 
 	public List<HistoricProcessInstance> getHistoryOfProccessInstanceIdFinished(String processKey) {
 		List<HistoricProcessInstance> list = this.processInstanceServiceRest.getHistoryOfProccessInstanceIdFinished(processKey);
-		this.setMyProccessAccess();
+		String[] filterThisProcessIDs = Core.convertArrayObjectToArrayString(list.stream().map(HistoricProcessInstance::getId).distinct().collect(Collectors.toList()).toArray());		
+		this.setMyProccessAccess(filterThisProcessIDs);
 		list = list.stream().filter(p -> this.myproccessId.contains(p.getId())).collect(Collectors.toList());
 		return list;
 	}
@@ -52,7 +55,7 @@ public class ProcessInstanceIGRP extends GenericActivitiIGRP {
 		List<TaskAccess> listStartProc = listTask.stream()
 				.filter(t -> t.getTaskName().equalsIgnoreCase("Start" + t.getProcessName()))
 				.collect(Collectors.toList());
-		return  listStartProc != null && listStartProc.size() > 0;
+		return  listStartProc != null && !listStartProc.isEmpty();
 	}
 	
 
@@ -61,6 +64,6 @@ public class ProcessInstanceIGRP extends GenericActivitiIGRP {
 		List<TaskAccess> listStartProc = listTask.stream()
 				.filter(t -> t.getTaskName().equalsIgnoreCase("Start" + t.getProcessName()))
 				.collect(Collectors.toList());
-		return  listStartProc != null && listStartProc.size() > 0;
+		return  listStartProc != null && !listStartProc.isEmpty();
 	}
 }

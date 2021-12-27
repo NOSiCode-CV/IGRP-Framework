@@ -7,7 +7,8 @@ public enum OptionsImportExport {
 
 	APP(0,"APP","app"),PAGE(1,"Páginas","pages"),BPMN(2,"BPMN","process"),REPORT(3,"Report","reports"),DOMAIN(4,"Domínios","domains")
 	,MENU(5,"Menús","maims"),CONNECTION(6,"Conexões de Base Dados","connections"),DAO(7,"Classes DAO","dao"),MODULO(8,"Módulos","modulos"),
-	OTHERS_CLASS(9,"Outras classes","others_class"),TRANSATION(10,"Transations","transations"),DOCUMENT_TYPE(11,"Tipo Documento","documentType"),SERVICE(12,"Serviços","services");
+	OTHERS_CLASS(9,"Outras classes","others_class"),TRANSATION(10,"Transations","transations"),DOCUMENT_TYPE(11,"Tipo Documento","documentType"),
+	SERVICE(12,"Serviços","services"),BPMN_DOCUMENT_TYPE(13,"BPMN Tipo Documento","processDocumentType");
 	
 	private final int valor;
 	private final String fileName;

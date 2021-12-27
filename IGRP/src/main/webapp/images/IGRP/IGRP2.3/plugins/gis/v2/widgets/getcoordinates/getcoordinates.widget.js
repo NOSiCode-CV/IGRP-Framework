@@ -1,14 +1,16 @@
 (function(){
 	
-	var utils = GIS.module('utils');
+	var utils = GIS.module('Utils');
 	
 	function GetCoordinatesWidget( widget, app ){
 		
 		var Map = app.map.view,
 		
+		    data   = widget.data(),
+		
 			DrawLayer, DrawControl, DrawTool, EditTool;
-
-		widget.action('activate', function(){
+		
+		widget.action('start', function(){
 			
 			if(!widget.addedMarker)
 				
@@ -22,7 +24,9 @@
 				
 				widget.addedMarker = marker;
 				
-				widget.addedMarker.addTo(DrawLayer);
+				if(DrawLayer)
+				
+					widget.addedMarker.addTo(DrawLayer);
 				
 				if( widget.data().editable != false )
 				
@@ -40,9 +44,7 @@
 		
 		widget.action('confirm', function(){
 			
-			var data   = widget.data(),
-			
-				latLng = widget.addedMarker.getLatLng();
+			var latLng = widget.addedMarker.getLatLng();
 			
 			if(data){
 				
@@ -53,6 +55,8 @@
 						parentField = $('[name="'+data.parent_field_name+'"]',parent.document);
 					
 					parentField.val( latLng.lat+','+latLng.lng );
+					
+					data.latLng = [ latLng.lat, latLng.lng ];
 					
 					try{
 						
@@ -65,7 +69,9 @@
 						console.log(error);
 						
 					}
-
+					
+					Disable();
+					
 				}
 				
 			}
@@ -76,7 +82,7 @@
 			
 			Clear();
 			
-			widget.actions.activate();
+			widget.actions.start();
 			
 		});
 
@@ -93,7 +99,39 @@
 			
 			DrawLayer.clearLayers();
 			
-			widget.addedMarker = null;
+			widget.addedMarker = null;			
+						
+		}
+		
+		function Disable(){
+			
+			//DrawTool.disable();
+					
+		}
+		
+		function LoadData(){
+			
+			if(data && data.latLng){
+				
+				var marker  	  = L.marker( data.latLng ),
+				
+					latLngs 	  = [ marker.getLatLng() ],
+				 
+				 	markerBounds  = L.latLngBounds(latLngs),
+				 	
+				 	maxZoom       = data.zoom || null;			
+				 
+				 Map.fitBounds(markerBounds, {maxZoom : maxZoom});
+				 
+				 widget.actions.drawend( marker );
+				
+				 widget.on('load-html', function(){
+					 
+					 widget.actions.drawend( marker );
+					
+				 });		
+				 
+			}		
 			
 		}
 		
@@ -123,43 +161,33 @@
 				
 			});
 			
-			if(widget.options.data && widget.options.data.latLng){
-				
-				var marker  	  = L.marker( widget.options.data.latLng ),
-				
-					latLngs 	  = [ marker.getLatLng() ],
-				 
-				 	markerBounds  = L.latLngBounds(latLngs);
-				 
-				 Map.fitBounds(markerBounds);
-				
-				 widget.on('load-html', function(){
-				 	
-					 widget.actions.drawend( marker );
-					
-				 });
-				
-			}
-
-			widget.on('activate', widget.actions.activate );
-			
-			widget.on('deactivate', Clear );
-
+			LoadData();
+						
 		}
 		
-		Init();
+		(function(){
+			
+			Init();
+						
+			widget.on('activate', function(){
+				
+				widget.actions.start()
+							
+			});
+			
+			widget.on('deactivate', function(){				
+				
+				Clear();
+				
+				LoadData();
+				
+			});			
+			
+		})();
 		
 	};
 
 	GIS.widgets.register('getcoordinates', {
-		
-		dependencies : {
-				
-			js  : [ 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js' ],
-			
-			css : [ 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css' ]
-				
-		},
 		
 		init : GetCoordinatesWidget
 		

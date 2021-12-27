@@ -6,7 +6,7 @@ package nosi.core.igrp.mingrations;
  */
 import java.util.ArrayList;
 import java.util.List;
-import nosi.core.webapp.Igrp;
+
 import nosi.webapps.igrp.dao.*;
 import nosi.webapps.igrp.dao.views.CreateViews;
  
@@ -74,13 +74,6 @@ public class MigrationIGRPInitConfig {
 			user0_IGRP = user0_IGRP.insert();
 			User user1demo = new User("Nositeste", "demo@nosi.cv", nosi.core.webapp.User.encryptToHash("demo@nosi.cvdemo", "SHA-256"), "ADMIN", null, 1, null, "123456789", "demo@nosi.cv",null, null, null, null, null,"123456", 2017, 2017);
 			user1demo = user1demo.insert();
-			/** For SSO tomcat realm  **/
-			UserRole role = new UserRole();
-			String role_name = Igrp.getInstance().getServlet().getInitParameter("role_name");
-			role.setRole_name(role_name != null && !role_name.trim().isEmpty() ? role_name : "IGRP_ADMIN");
-			role.setUser(user1demo);
-			role.insert();
-			/** **/
 			
 			Organization org_IGRP = new Organization("01.03", "IGRP", 1, app_igrp, user0_IGRP, null);
 			org_IGRP = org_IGRP.insert();	
@@ -207,8 +200,11 @@ public class MigrationIGRPInitConfig {
 			//get(75)
 			actions.add(new Action("Daogenerator", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/daogenerator/Daogenerator.xsl", "DAOGenerator", "DAOGenerator", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Detalhes_dashboard_processo", "index", "nosi.webapps.igrp.pages", "igrp/detalhes_dashboard_processo/Detalhes_dashboard_processo.xsl", "Detalhes dashboard processo", "Detalhes dashboard processo", "2.3", 1, app_igrp));
+			actions.add(new Action("Historico page", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/historico_page/Historico_page.xsl", "Historico page", "Historico_page", "2.3", 1, app_igrp_studio));
+			actions.add(new Action("Icons_list", "index", "nosi.webapps.igrp.pages", "igrp/icons_list/Icons_list.xsl", "Icons_list", "Icons_list", "2.3", 1, app_igrp));
 			
-			
+			actions.add(new Action("Config_error_msg", "index", "nosi.webapps.igrp.pages", "igrp/config_error_msg/Config_error_msg.xsl", "Config_error_msg", "Config_error_msg", "2.3", 1, app_igrp));
+			actions.add(new Action("Get_coordinates", "index", "nosi.webapps.igrp.pages", "igrp/get_coordinates/Get_coordinates.xsl", "Get_coordinates", "Get_coordinates", "2.3", 1, app_igrp));
 			
 			for(Action ac:actions){
 				ac.insert();
@@ -399,18 +395,7 @@ public class MigrationIGRPInitConfig {
 			menus = null;
 			actions = null;
 			new CreateViews();
-			
-			
 		}
-		
-		//inserindo dados by default na tabela Scope
-		OAuthScope objScope = new OAuthScope("login", 0);
-		objScope.insert();
-		OAuthScope objScope_session = new OAuthScope("session:read", 0);
-		objScope_session.insert();
-		OAuthScope objScope_user = new OAuthScope("user:read", 0);
-		objScope_user.insert();
-		
 		
 		User aux = new User();
 		aux.setAuth_key("123456");
@@ -421,14 +406,5 @@ public class MigrationIGRPInitConfig {
 		aux.setUser_name("root");
 		aux.setActivation_key("123456789");
 		aux = aux.insert();
-		
-		if(aux != null)
-			for(String r : new String[] {"admin", "admin-script", "manager-gui", "manager-script", "manager-xml", "manager-status", "admin-gui"}) {
-				UserRole role = new UserRole();
-				role.setRole_name(r);
-				role.setUser(aux);
-				role.insert();
-			}
-		
 	}
 }

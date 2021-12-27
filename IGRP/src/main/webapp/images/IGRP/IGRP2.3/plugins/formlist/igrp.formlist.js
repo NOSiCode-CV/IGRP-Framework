@@ -565,6 +565,10 @@
             
             if($('.IGRP_formlist',p.content).hasClass('ordertable'))
             	$.IGRP.components.tableCtrl.ordertable('#'+$('.IGRP_formlist',p.content).attr('id'));
+            
+            
+            if ($('*[mathcal]', p.control)[0])
+                $.IGRP.utils.mathcal(p.control);
             	
         }
     });

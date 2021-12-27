@@ -409,6 +409,16 @@
 	</xsl:template>
 	
 	
+	<!-- Example of config-chart generated code
+	
+		chart_1.setCaption("");
+		chart_1.setChart_type("pie");
+		chart_1.setXaxys("Eixo de X");
+		chart_1.setYaxys("Eixo de Y");
+		chart_1.setUrl("#");
+		//ex: chart_1.addColor("#1fab32").addColor("#6cd4f4").addColor("#4aace7").addColor("#348277");	
+	 -->
+	
 	<xsl:template name="config-chart">
 		<xsl:for-each select="//content/*[@type='chart' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
 		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
@@ -430,6 +440,7 @@
 		
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="'//ex: '"/>
 			<xsl:value-of select="$instance_name"/>
 			<xsl:for-each select="colors/*">
 	 			<xsl:value-of select="concat('.addColor(',$double_quotes,.,$double_quotes,')')"></xsl:value-of>

@@ -24,7 +24,19 @@ public class RemoteXML {
 		this.messages = new ArrayList<>();
 		this.startXml();
 	}
-
+/**
+ * nosi.core.webapp.FlashMessage
+ * SUCCESS = "success";
+	 INFO_LINK = "info_link";
+	 ERROR = "error";
+	WARNING = "warning";
+	DEBUG = "debug";
+	INFO = "info";
+ * 
+ * @param msgType nosi.core.webapp.FlashMessage.SUCCESS
+ * @param msgText
+ * @return
+ */
 	public RemoteXML addMessage(String msgType, String msgText) {
 		messages.add("<message type=\"" + msgType + "\">"+msgText + "</message>");
 		return this;

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.regex.Pattern;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.uploadfile.UploadFile;
 
@@ -104,11 +105,11 @@ public class Validation {
 	}
 	
 	public static boolean validateMax(String value,BigDecimal maxValue) {
-		return Core.toBigDecimal(value).compareTo(maxValue) < 0;
+		return Core.toBigDecimal(value).compareTo(maxValue) <= 0;
 	}
 
 	public static boolean validateMin(String value, BigDecimal minValue) {
-		return Core.toBigDecimal(value).compareTo(minValue) > 0;
+		return Core.toBigDecimal(value).compareTo(minValue) >= 0;
 	}
 	
 	public static boolean validateFileNotNull(UploadFile file) {

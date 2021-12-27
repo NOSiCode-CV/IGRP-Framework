@@ -1,11 +1,14 @@
 package nosi.webapps.igrp.pages.pesquisa_empresa;
 
-import nosi.core.webapp.Model;
-import nosi.core.webapp.View;
+import java.util.Map;
+
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.View;
+
 import static nosi.core.i18n.Translator.gt;
-import java.util.Map;
+
 import java.util.HashMap;
 
 public class Pesquisa_empresaView extends View {

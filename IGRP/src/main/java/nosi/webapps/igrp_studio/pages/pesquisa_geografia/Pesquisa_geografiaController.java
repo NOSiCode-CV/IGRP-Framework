@@ -1,12 +1,8 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_geografia;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,7 +11,12 @@ import java.util.Properties;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
 import nosi.core.webapp.webservices.rest.ConsumeJson;
+import nosi.core.webapp.webservices.rest.Geografia;
 
 /*----#end-code----*/
 
@@ -98,10 +99,18 @@ public class Pesquisa_geografiaController extends Controller {
 			id = "100";
 		Properties setting = this.configApp.loadConfig("common", "main.xml");
 		String url = setting.getProperty("link.rest.pesquisa_geografia") + "?id=" + id;
-		if (id.equals("0")) {
-			url = url.replace("GeoINGT", "geografia");
-		}
 		String authorization = setting.getProperty("authorization.rest.pesquisa_geografia");
+		if (id.equals("0")) {
+			url  = setting.getProperty("link.rest.pesquisa_geografia_old") + "?id=" + id;
+			authorization = setting.getProperty("authorization.rest.pesquisa_geografia_old");
+			if(Core.isNullOrZero(this.p_nivel))
+				this.p_nivel=Geografia.Nivel.PAIS;
+		}else {
+			//If not specified the level, will use the last one
+			if(Core.isNullOrZero(this.p_nivel))
+				this.p_nivel=Geografia.Nivel.ZONA;
+		}
+		
 		ConsumeJson json_obj = new ConsumeJson();
 		String json = json_obj.getJsonFromUrl(url, authorization);
 		
@@ -135,15 +144,18 @@ public class Pesquisa_geografiaController extends Controller {
 	private void addListget(List<Pesquisa_geografia.Treemenu_1> list_geo, JSONObject local, Pesquisa_geografiaView view) {
 		if (Core.isNotNull(local)) {
 			Pesquisa_geografia.Treemenu_1 tab_geo = new Pesquisa_geografia.Treemenu_1();
-			tab_geo.setTreemenu_1_tmid("" + Core.toBigDecimal(local.getString("id")).toBigInteger());
+			tab_geo.setTreemenu_1_tmid("" + Core.toBigDecimal(local.optString("id")).toBigInteger());
 			tab_geo.setTreemenu_1_link_desc(local.getString("nome"));
 			
 			try {
-				tab_geo.setNivel(local.getString("nivel"));
+				tab_geo.setNivel(local.optString("nivel"));
 				}catch (Exception e) {}
 			tab_geo.setTreemenu_1_child("1"); 
 			int aux = 0; 
 			try {
+//				if its a country with no level, will give it a level 1 of Country code
+				if(Core.isNull(tab_geo.getNivel()))
+					tab_geo.setNivel("1");				
 				aux = Core.toBigDecimal(tab_geo.getNivel()).intValue(); 
 			} catch (Exception e) {} 
 			

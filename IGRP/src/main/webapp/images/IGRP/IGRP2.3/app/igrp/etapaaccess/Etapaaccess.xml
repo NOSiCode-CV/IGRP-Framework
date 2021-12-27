@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -33,8 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=54</preserve_url>
     </plsql>
-    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>EtapaAccess</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -47,66 +47,72 @@
             </fields>
         </sectionheader_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gravar" custom_return="true">
+            <item type="specific" code="" rel="gravar" custom_return="true" refresh_components="">
                 <title>Gravar</title>
                 <app/>
                 <page/>
                 <link/>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <preview>undefined</preview>
+                <preview/>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <id name="p_id" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" check="true" desc="true">
+                <id name="p_id" type="checkbox" maxlength="255" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" showLabel="true" group_in="" check="true" desc="true">
                     <label/>
                 </id>
-                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
                     <label>Descricao</label>
                 </descricao>
-                <processid name="p_processId" type="hidden" maxlength="30" iskey="false" java-type="" tag="processid"/>
-                <task_description name="p_task_description" type="hidden" maxlength="30" iskey="false" java-type="" tag="task_description"/>
+                <processid name="p_processId" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" group_in="" tag="processid"/>
+                <task_description name="p_task_description" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" group_in="" tag="task_description"/>
             </fields>
             <table>
                 <value>
                     <row>
                         <id name="p_id" check="true" desc="true">1</id>
                         <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Consectetur natus omnis aperia</descricao>
-                        <processid name="p_processId" tag="processid">hidden-5d84_d131</processid>
-                        <task_description name="p_task_description" tag="task_description">hidden-8164_1f7e</task_description>
+                        <descricao name="p_descricao">Laudantium dolor doloremque la</descricao>
+                        <processid name="p_processId" tag="processid">hidden-d5eb_61c6</processid>
+                        <task_description name="p_task_description" tag="task_description">hidden-ebf8_9525</task_description>
                     </row>
                     <row>
                         <id name="p_id" check="true" desc="true">1</id>
                         <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Ipsum sit amet perspiciatis si</descricao>
-                        <processid name="p_processId" tag="processid">hidden-a7b2_8469</processid>
-                        <task_description name="p_task_description" tag="task_description">hidden-43a3_333f</task_description>
+                        <descricao name="p_descricao">Ut perspiciatis rem accusantiu</descricao>
+                        <processid name="p_processId" tag="processid">hidden-e7f0_23a6</processid>
+                        <task_description name="p_task_description" tag="task_description">hidden-c760_9118</task_description>
                     </row>
                     <row>
                         <id name="p_id" check="true" desc="true">1</id>
                         <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Unde magna sed amet natus</descricao>
-                        <processid name="p_processId" tag="processid">hidden-9875_9a7d</processid>
-                        <task_description name="p_task_description" tag="task_description">hidden-3944_f443</task_description>
+                        <descricao name="p_descricao">Omnis mollit natus doloremque</descricao>
+                        <processid name="p_processId" tag="processid">hidden-41d7_222f</processid>
+                        <task_description name="p_task_description" tag="task_description">hidden-3293_de88</task_description>
                     </row>
                     <row>
                         <id name="p_id" check="true" desc="true">1</id>
                         <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Consectetur laudantium totam d</descricao>
-                        <processid name="p_processId" tag="processid">hidden-6f6e_58a3</processid>
-                        <task_description name="p_task_description" tag="task_description">hidden-3bea_b2ff</task_description>
+                        <descricao name="p_descricao">Sit doloremque stract anim sit</descricao>
+                        <processid name="p_processId" tag="processid">hidden-036b_9560</processid>
+                        <task_description name="p_task_description" tag="task_description">hidden-8122_90a8</task_description>
                     </row>
                     <row>
                         <id name="p_id" check="true" desc="true">1</id>
                         <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Aperiam aliqua doloremque accu</descricao>
-                        <processid name="p_processId" tag="processid">hidden-5d5c_87a3</processid>
-                        <task_description name="p_task_description" tag="task_description">hidden-aa07_0621</task_description>
+                        <descricao name="p_descricao">Ipsum dolor labore anim rem</descricao>
+                        <processid name="p_processId" tag="processid">hidden-fad0_6d81</processid>
+                        <task_description name="p_task_description" tag="task_description">hidden-a56e_fb36</task_description>
                     </row>
                 </value>
             </table>
         </table_1>
     </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
 </rows>

@@ -21,6 +21,8 @@ import java.util.function.Predicate;
 import javax.imageio.ImageIO;
 import javax.servlet.http.Part;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+
 import nosi.core.webapp.Core;
 
 
@@ -47,17 +49,8 @@ public class FileHelper {
 		return null;
 	}
 
-	public static byte[] convertInputStreamToByte(InputStream inputStream) throws IOException {
-		 ByteArrayOutputStream output = new ByteArrayOutputStream();
-		 int length;
-		 byte[] imageBytes = new byte[inputStream.available()];
-	     while ((length = inputStream.read(imageBytes)) != -1){
-	        output.write(imageBytes, 0, length);
-	     }
-		 byte[] b = output.toByteArray();
-		 inputStream.close();
-	     output.close();
-		return b ;
+	public static byte[] convertInputStreamToByte(InputStream inputStream) throws IOException {		
+		return IOUtils.toByteArray(inputStream);		
 	}
 	
 	public static String convertInputStreamToBase64(InputStream inputStream) throws IOException {
@@ -238,7 +231,7 @@ public class FileHelper {
 	
 	//Read file and return your content
 	public static String readFile(String basePath,String fileName){
-		String  code = new String();
+		String  code="";
 		String file = fileName;
 		if(Core.isNotNull(file))
 			file = basePath+File.separator+fileName;
@@ -251,7 +244,7 @@ public class FileHelper {
 				e.printStackTrace();
 			}
 		}
-		return code.toString();
+		return code;
 	}
 	
 	

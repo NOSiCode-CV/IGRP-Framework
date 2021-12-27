@@ -1,0 +1,57 @@
+.widget-selection-menu .leaflet-popup-content-wrapper{
+	border-radius: unset;
+}
+
+.widget-selection-menu .list-group{
+	margin-bottom: 0;
+}
+
+.widget-selection-menu .leaflet-popup-content {
+    margin: 0;
+}
+
+.widget-selection-menu .list-group-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top: unset;
+}
+
+.widget-selection-menu .list-group-item:last-child {
+    border-bottom: unset;
+}
+
+.widget-selection-menu .list-group-item {
+    border-left: unset;
+    border-right: unset;
+}
+
+#gis-context-view .leaflet-popup-content-wrapper{
+	border-radius: unset;
+}
+
+#gis-context-view .list-group{
+	margin-bottom: 0;
+}
+
+#gis-context-view .leaflet-popup-content {
+    margin: 0;
+}
+
+#gis-context-view .list-group-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top: unset;
+}
+
+#gis-context-view .list-group-item:last-child {
+    border-bottom: unset;
+}
+
+#gis-context-view .list-group-item {
+    border-left: unset;
+    border-right: unset;
+}
+
+#gis-context-view a.list-group-item{
+    padding-left: 0;
+}

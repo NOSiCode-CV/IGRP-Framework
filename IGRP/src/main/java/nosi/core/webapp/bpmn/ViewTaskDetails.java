@@ -5,6 +5,7 @@ package nosi.core.webapp.bpmn;
  */
 
 import static nosi.core.i18n.Translator.gt;
+
 import nosi.core.gui.components.IGRPView;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.TextField;

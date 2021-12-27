@@ -9,11 +9,11 @@
 		<xsl:param name="startEndCode" select="false()"/>
 		
 		<xsl:variable name="valueElements" select="$value/block|$value/shadow"/>
-		
+			
 		<xsl:choose>
 		
 			<xsl:when test="$valueElements">
-			
+				
 				<xsl:call-template name="blockly.elements">
 				
 					<xsl:with-param name="elements" select="$valueElements"></xsl:with-param>

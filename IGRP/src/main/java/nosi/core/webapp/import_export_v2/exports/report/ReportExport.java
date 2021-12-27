@@ -2,6 +2,7 @@ package nosi.core.webapp.import_export_v2.exports.report;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.import_export_v2.common.OptionsImportExport;
 import nosi.core.webapp.import_export_v2.common.serializable.report.ReportParamsSerializable;
@@ -97,7 +98,7 @@ public class ReportExport implements IExport{
 				}
 					
 				e.setDad(s.getRepSource().getApplication().getDad());
-				e.setConnection_name_identify(s.getRepSource().getConfig_env()!=null?s.getRepSource().getConfig_env().getConnection_identify():"");
+				e.setConnection_name_identify(s.getRepSource().getConfig_env()!=null?s.getRepSource().getConfig_env().getName():"");
 				list.add(e);
 			});
 		}
