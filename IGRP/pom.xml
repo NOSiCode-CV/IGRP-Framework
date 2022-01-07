@@ -29,7 +29,7 @@
 		<jersey.version>2.29</jersey.version>
 		<mysql.version>8.0.16</mysql.version>
 		<postgres.version>42.2.8</postgres.version>
-		<h2.version>1.4.199</h2.version>
+		<h2.version>2.0.206</h2.version>
 		<oracle.version></oracle.version>
 		<sqlserver.version>7.2.2.jre8</sqlserver.version>
 		<jersey.version>2.29</jersey.version>
