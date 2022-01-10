@@ -201,10 +201,12 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Daogenerator", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/daogenerator/Daogenerator.xsl", "DAOGenerator", "DAOGenerator", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Detalhes_dashboard_processo", "index", "nosi.webapps.igrp.pages", "igrp/detalhes_dashboard_processo/Detalhes_dashboard_processo.xsl", "Detalhes dashboard processo", "Detalhes dashboard processo", "2.3", 1, app_igrp));
 			actions.add(new Action("Historico page", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/historico_page/Historico_page.xsl", "Historico page", "Historico_page", "2.3", 1, app_igrp_studio));
-			actions.add(new Action("Icons_list", "index", "nosi.webapps.igrp.pages", "igrp/icons_list/Icons_list.xsl", "Icons_list", "Icons_list", "2.3", 1, app_igrp));
-			
-			actions.add(new Action("Config_error_msg", "index", "nosi.webapps.igrp.pages", "igrp/config_error_msg/Config_error_msg.xsl", "Config_error_msg", "Config_error_msg", "2.3", 1, app_igrp));
+			actions.add(new Action("Icons_list", "index", "nosi.webapps.igrp.pages", "igrp/icons_list/Icons_list.xsl", "Icons list", "Icons list", "2.3", 1, app_igrp));
+			actions.add(new Action("Config_error_msg", "index", "nosi.webapps.igrp.pages", "igrp/config_error_msg/Config_error_msg.xsl", "Config Error Msg", "Config Error Msg", "2.3", 1, app_igrp));
+			//get(80)
 			actions.add(new Action("Get_coordinates", "index", "nosi.webapps.igrp.pages", "igrp/get_coordinates/Get_coordinates.xsl", "Get_coordinates", "Get_coordinates", "2.3", 1, app_igrp));
+			actions.add(new Action("Pesquisa_cae", "index", "nosi.webapps.igrp.pages", "igrp/pesquisa_cae/Pesquisa_cae.xsl", "Pesquisa CAE", "Pesquisa CAE", "2.3", 1, app_igrp));
+		
 			
 			for(Action ac:actions){
 				ac.insert();
