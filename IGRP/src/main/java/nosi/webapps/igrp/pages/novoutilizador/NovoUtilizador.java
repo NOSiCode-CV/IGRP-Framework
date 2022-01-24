@@ -9,7 +9,7 @@ public class NovoUtilizador extends Model{
 	private String sectionheader_1_text;
 
 	@RParam(rParamName = "p_email")
-	private String email;
+	private String[] email;
 
 	@RParam(rParamName = "p_nada")
 	private String nada;
@@ -30,10 +30,10 @@ public class NovoUtilizador extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setEmail(String email){
+	public void setEmail(String[] email){
 		this.email = email;
 	}
-	public String getEmail(){
+	public String[] getEmail(){
 		return this.email;
 	}
 	

@@ -1227,8 +1227,17 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Transient	 
 	protected Session getSession() {	
 		SessionFactory sessionFactory = getSessionFactory();
-		if(sessionFactory!=null) {
-			Session s = sessionFactory.getCurrentSession();
+		Session s = null;
+		if (sessionFactory.isOpen() && sessionFactory.getCurrentSession() != null
+				&& sessionFactory.getCurrentSession().isOpen()) {
+			s = sessionFactory.getCurrentSession();
+			return s;
+		}
+		sessionFactory.close();
+		HibernateUtils.removeSessionFactory(connectionName);
+		sessionFactory = HibernateUtils.getSessionFactory(connectionName);
+		if (sessionFactory != null) {
+			s = sessionFactory.getCurrentSession();
 			return s;
 		}
 		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));

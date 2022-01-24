@@ -72,12 +72,13 @@ public final class ConfigApp {
 		return loadConfig(this.getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replace("%20", " "));
 	}
 	
-	public String getBaseConnection() {
-		return "hibernate-igrp-core";
+	public String getBaseConnection() { 
+		String baseConnection = commonMain.getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value(), getDefaultBaseConnectionName()); 
+		return baseConnection;
 	}
 
-	public String getH2IGRPBaseConnection() {
-		return "hibernate-igrp-core-h2";
+	public String getDefaultBaseConnectionName() {
+		return "hibernate-igrp-core";
 	}
 	
 	public void configurationApp(){

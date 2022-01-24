@@ -1,3 +1,6 @@
+
+
+
 package nosi.core.webapp.datasource.helpers;
 
 import java.math.BigDecimal;
@@ -22,7 +25,6 @@ import javax.persistence.Query;
 import javax.persistence.Tuple;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.gui.components.IGRPForm;
@@ -33,7 +35,6 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.SqlJavaType;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.core.xml.XMLWritter;
-import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.RepTemplateSource;
@@ -177,11 +178,9 @@ public class DataSourceHelpers {
 		Map<String, String> paramsUrl = (value_array!=null && value_array.length > 0)?IntStream.range(0, name_array.length).boxed().collect(Collectors.toMap(i ->name_array[i], i -> value_array[i])):null;
 		query = this.getResolveQuery(query,parameters,paramsUrl);		
 		
-	
-		Session session = HibernateUtils.getSessionFactory(rs.getConfig_env()).getCurrentSession();
+		Session session =  HibernateUtils.getSessionFactory(rs.getConfig_env().getName(), rs.getConfig_env().getApplication() != null ? rs.getConfig_env().getApplication().getDad() : "").getCurrentSession();
 		if(session!=null) {			
 			try{
-				
 				if(!session.getTransaction().isActive())
 					session.getTransaction().begin();
 				Query q = session.createNativeQuery(query,Tuple.class).setTimeout(QUERY_TIMEOUT);

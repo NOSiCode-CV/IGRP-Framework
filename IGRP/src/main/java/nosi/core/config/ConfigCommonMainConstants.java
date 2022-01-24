@@ -57,6 +57,8 @@ public enum ConfigCommonMainConstants {
 	IGRP_PDEX_PERMISSION_ACL_URL("igrp.pdex.permissionacl.url"),
 	IGRP_PDEX_PERMISSION_ACL_TOKEN("igrp.pdex.permissionacl.token"),
 	
+	IGRP_DATASOURCE_CONNECTION_NAME("igrp.datasource.connection-name"),
+	
 	; 
 	
 	private String value; 
