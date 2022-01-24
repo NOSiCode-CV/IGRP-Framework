@@ -469,7 +469,6 @@
     		<systemPath>${pom.basedir}/src/main/webapp/WEB-INF/lib/IGRP.jar</systemPath>
 		</dependency> -->
 			
-		
 	</dependencies>
 
 	<build>
@@ -500,7 +499,7 @@
 					<version>${maven.compiler.plugin.version}</version>
 					<configuration>
 		                <includes>
-		                    <include>lib/*.jar</include>
+		                	<include>**/*.java</include>
 		                </includes>
 		            </configuration>
 				</plugin>

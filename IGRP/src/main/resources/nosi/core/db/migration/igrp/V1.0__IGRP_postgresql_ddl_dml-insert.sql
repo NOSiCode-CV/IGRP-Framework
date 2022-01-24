@@ -225,7 +225,8 @@ ALTER SEQUENCE tbl_clob_id_seq OWNED BY tbl_clob.id;
 CREATE TABLE tbl_config (
     id integer NOT NULL,
     name character varying(255) NOT NULL,
-    value character varying(255) NOT NULL
+    value character varying(255) NOT NULL,
+    env_fk integer
 );
 
 
@@ -1664,10 +1665,12 @@ INSERT INTO tbl_action VALUES (75, 'index', 'Pesquisa Empresa', 0, NULL, 'nosi.w
 INSERT INTO tbl_action VALUES (76, 'index', 'DAOGenerator', 0, NULL, 'nosi.webapps.igrp_studio.pages', 'Daogenerator', 'DAOGenerator', NULL, 1, 0, '2.3', NULL, NULL, 'igrp_studio/daogenerator/Daogenerator.xsl', 3);
 INSERT INTO tbl_action VALUES (77, 'index', 'Detalhes dashboard processo', 0, NULL, 'nosi.webapps.igrp.pages', 'Detalhes_dashboard_processo', 'Detalhes dashboard processo', NULL, 1, 0, '2.3', NULL, NULL, 'igrp/detalhes_dashboard_processo/Detalhes_dashboard_processo.xsl', 1);
 INSERT INTO tbl_action VALUES (78, 'index', 'Historico_page', 0, NULL, 'nosi.webapps.igrp_studio.pages', 'Historico_page', 'Historico page', NULL, 1, 0, '2.3', NULL, NULL, 'igrp_studio/historico_page/Historico_page.xsl', 3);
-INSERT INTO tbl_action VALUES (79, 'index', 'Icons_list', 0, NULL, 'nosi.webapps.igrp.pages', 'Icons_list', 'Icons_list', NULL, 1, 0, '2.3', NULL, NULL, 'igrp/icons_list/Icons_list.xsl', 1);
+INSERT INTO tbl_action VALUES (79, 'index', 'Icons list', 0, NULL, 'nosi.webapps.igrp.pages', 'Icons_list', 'Icons list', NULL, 1, 0, '2.3', NULL, NULL, 'igrp/icons_list/Icons_list.xsl', 1);
 INSERT INTO tbl_action VALUES (80, 'index', 'Migration File Generator', 0, NULL, 'nosi.webapps.igrp_studio.pages', 'Migration', 'Migration File Generator', NULL, 1, 0, '2.3', NULL, NULL, 'igrp_studio/migration/Migration.xsl', 3);
 INSERT INTO tbl_action VALUES (81, 'index', 'Get coordinates', 0, NULL, 'nosi.webapps.igrp_studio.pages', 'Get_coordinates', 'Get coordinates', NULL, 1, 0, '2.3', NULL, NULL, 'igrp_studio/get_coordinates/Get_coordinates.xsl', 3);
 INSERT INTO tbl_action VALUES (82, 'index', 'Config error msg', 0, NULL, 'nosi.webapps.igrp_studio.pages', 'Config_error_msg', 'Config error msg', NULL, 1, 0, '2.3', NULL, NULL, 'igrp_studio/config_error_msg/Config_error_msg.xsl', 3);
+INSERT INTO tbl_action VALUES (83, 'index', 'Pesquisa CAE', 0, NULL, 'nosi.webapps.igrp.pages', 'Pesquisa_cae', 'Pesquisa CAE', NULL, 1, 0, '2.3', NULL, NULL, 'igrp/pesquisa_cae/Pesquisa_cae.xsl', 1);
+
 --
 -- TOC entry 3175 (class 0 OID 551611)
 -- Dependencies: 200
@@ -2039,7 +2042,7 @@ SELECT pg_catalog.setval('glb_t_acl_id_seq', 1, false);
 -- Name: tbl_action_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('tbl_action_id_seq', 83, true);
+SELECT pg_catalog.setval('tbl_action_id_seq', 84, true);
 
 
 --
@@ -2364,8 +2367,6 @@ ALTER TABLE ONLY tbl_config_env
 
 ALTER TABLE ONLY tbl_config
     ADD CONSTRAINT tbl_config_pkey PRIMARY KEY (id);
-
-
 --
 -- TOC entry 2926 (class 2606 OID 551877)
 -- Name: tbl_domain tbl_domain_pkey; Type: CONSTRAINT; Schema: public; Owner: -
@@ -2382,6 +2383,14 @@ ALTER TABLE ONLY tbl_domain
 
 ALTER TABLE ONLY tbl_env
     ADD CONSTRAINT tbl_env_pkey PRIMARY KEY (id);
+    
+--
+-- TOC entry 3068 (class 2606 OID 592600)
+-- Name: tbl_config config_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tbl_config
+    ADD CONSTRAINT config_fk FOREIGN KEY (env_fk) REFERENCES tbl_env(id);
 
 
 --
