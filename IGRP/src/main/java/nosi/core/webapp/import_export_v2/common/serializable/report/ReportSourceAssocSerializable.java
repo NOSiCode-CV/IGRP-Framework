@@ -1,6 +1,7 @@
 package nosi.core.webapp.import_export_v2.common.serializable.report;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,8 +18,19 @@ public class ReportSourceAssocSerializable implements Serializable{
 
 	private String report;
 	private String source;
-	private List<ReportParamsSerializable> params;
+	private List<ReportParamsSerializable> params; 
 	
+	public ReportSourceAssocSerializable() {super();}
+	
+	
+	
+	public ReportSourceAssocSerializable(String report, String source) {
+		super();
+		this.report = report;
+		this.source = source;
+		this.params = new ArrayList<>();
+	}
+
 	public String getReport() {
 		return report;
 	}

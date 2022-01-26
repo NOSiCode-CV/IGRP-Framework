@@ -73,7 +73,24 @@ public class Config_env extends IGRPBaseActiveRecord<Config_env> implements Seri
 		this.application = application;
 	}
 
-
+	public Config_env(String port, String host, String name_db, String charset, String type_db, String username,
+			String password, String name, String url_connection, String driver_connection, Application application,
+			short isdefault, String connection_identify) {
+		super();
+		this.port = port;
+		this.host = host;
+		this.name_db = name_db;
+		this.charset = charset;
+		this.type_db = type_db;
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.url_connection = url_connection;
+		this.driver_connection = driver_connection;
+		this.application = application;
+		this.isdefault = isdefault;
+		this.connection_identify = connection_identify;
+	}
 
 	public Integer getId() {
 		return id;

@@ -1,23 +1,13 @@
-
 package nosi.webapps.igrp.pages.ldapuser;
+
 import static nosi.core.i18n.Translator.gt;
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Arrays;
 import java.util.Properties;
-
-import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-
-import org.wso2.carbon.um.ws.service.AddUser;
-import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
-import org.wso2.carbon.user.mgt.common.xsd.ClaimValue;
-
-import nosi.core.config.Config;
+import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.integration.autentika.RemoteUserStoreManagerServiceSoapClient;
+import nosi.core.integration.autentika.dto.ClaimDTO;
+import nosi.core.integration.autentika.dto.RemoteUserStoreManagerServiceConstants;
+import nosi.core.integration.autentika.dto.UserRequestDTO;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
@@ -27,7 +17,6 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
-import service.client.WSO2UserStub;
 
 /*----#END-PRESERVED-AREA----*/
 
@@ -37,9 +26,8 @@ public class LdapUserController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		LdapUser model = new LdapUser();
-		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post"))
 			model.load();
-		}
 		LdapUserView view = new LdapUserView(model);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
@@ -51,19 +39,14 @@ public class LdapUserController extends Controller {
 		LdapUser model = new LdapUser();
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load();
-			
 			boolean success = false;
-			
-			Properties settings = loadIdentityServerSettings();
-			if(settings.getProperty("ids.wso2.enabled") != null && settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")) {
-				success = addThroughIds(model, settings);
-			}else {
+			Properties settings = this.configApp.getMainSettings();
+			if(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value()) != null && settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value()).equalsIgnoreCase("true")) 
+				success = addThroughIds(model);
+			else 
 				success = addThroughLdap(model);
-			}
 			if(!success)
 				return this.forward("igrp","LdapUser","index");
-			
-			/** End **/
 		}
 		return this.redirect("igrp","LdapUser","index");
 		/*----#END-PRESERVED-AREA----*/
@@ -73,10 +56,14 @@ public class LdapUserController extends Controller {
 	
 	private boolean addThroughLdap(LdapUser model) {
 		boolean flag = false;
-		
-		File file = new File(getClass().getClassLoader().getResource(new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml").getPath());
-		
-		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
+		Properties settings = this.configApp.getMainSettings(); 
+		LdapInfo ldapinfo = new LdapInfo();
+		ldapinfo.setUrl(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_URL.value()));
+		ldapinfo.setUsername(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_USERNAME.value()));
+		ldapinfo.setPassword(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_PASSWORD.value()));
+		ldapinfo.setBase(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_BASE.value()));
+		ldapinfo.setAuthenticationFilter(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_AUTHENTICATION_FILTER.value()));
+		ldapinfo.setEntryDN(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_ENTRY_DN.value()));
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
 		LdapPerson person = new LdapPerson(); 
 		person.setCn(model.getCommon_name().trim()); 
@@ -101,104 +88,67 @@ public class LdapUserController extends Controller {
 		return flag;
 	}
 	
-	private boolean addThroughIds(LdapUser model, Object ...obj) {
-		boolean flag = false;
-		
-		Properties settings = (Properties) obj[0];
-		
-		try {
-			String uri = settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url");
-			URL url =  new URL(uri);
-	        WSO2UserStub.disableSSL();
-	        WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-	        stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"), settings.getProperty("ids.wso2.admin-pwd"), 2);
-	        
-	        AddUser addUser = new AddUser();
-            
-           addUser.setRequirePasswordChange(false);
-           
-           // aux = model.getEmail_1().trim().split("@")[0];
-           addUser.setUserName(new JAXBElement<String>(new QName(uri, "userName"), String.class, model.getEmail_1().trim()));
-           
-           addUser.setCredential(new JAXBElement<String>(new QName(uri, "credential"), String.class, "Pa$$w0rd"));
-           addUser.setProfileName(new JAXBElement<String>(new QName(uri, "profileName"), String.class, "default"));
-         
-           ClaimValue email = new ClaimValue();
-           email.setClaimURI(new JAXBElement<String>(new QName(uri, "claimURI"), String.class, "http://wso2.org/claims/emailaddress"));
-           
-           email.setValue(new JAXBElement<String>(new QName(uri, "value"), String.class, model.getEmail_1().trim()));
-           
-           ClaimValue cn = new ClaimValue();
-           cn.setClaimURI(new JAXBElement<String>(new QName(uri, "claimURI"), String.class, "http://wso2.org/claims/fullname"));
-           cn.setValue(new JAXBElement<String>(new QName(uri, "value"), String.class, model.getCommon_name().trim()));
-           
-           ClaimValue sn = new ClaimValue();
-           sn.setClaimURI(new JAXBElement<String>(new QName(uri, "claimURI"), String.class, "http://wso2.org/claims/lastname"));
-           sn.setValue(new JAXBElement<String>(new QName(uri, "value"), String.class, model.getSurname().trim()));
-           
-           addUser.getClaims().addAll(Arrays.asList(cn, email, sn));
-          
-          try {
-        	  stub.getOperations().addUser(addUser);
-          }catch(Exception e) {
-        	  e.printStackTrace();
-          }
-          
-         int httpStatusCode = -1;
-         try {
-        	 httpStatusCode = stub.getHttpResponseStatusCode(); // bug due version of jax-ws client TomEE 
-         }catch (NullPointerException e) {
-        	 httpStatusCode = 200;
-         }
-           
-          if(httpStatusCode == 202 || httpStatusCode == 200) {
-        	  Core.setMessageSuccess(gt("Utilizador registado com sucesso."));
-        	  flag = true;
-          }else 
-        	  Core.setMessageError();
-		}catch(Exception e) {
-			e.printStackTrace();
-			 Core.setMessageError();
+	private boolean addThroughIds(LdapUser model) {
+		Properties settings = this.configApp.getMainSettings();
+		String wsdlUrl = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value());
+		String uid = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()); 
+		String pwd = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
+		RemoteUserStoreManagerServiceSoapClient client = new RemoteUserStoreManagerServiceSoapClient(wsdlUrl, uid, pwd);
+		UserRequestDTO request = new UserRequestDTO();
+		request.setRequirePasswordChange(false);
+		request.setUserName(model.getEmail_1().trim());
+		request.setCredential(RemoteUserStoreManagerServiceConstants.DEFAULT_PASSWORD);
+		request.setProfileName(RemoteUserStoreManagerServiceConstants.DEFAULT_PROFILE);
+		// User emailaddress claim
+		ClaimDTO emailClaimDTO = new ClaimDTO();
+		emailClaimDTO.setClaimUri(RemoteUserStoreManagerServiceConstants.EMAIL_CLAIM_URI);
+		emailClaimDTO.setValue(model.getEmail_1().trim());
+		request.getClaims().add(emailClaimDTO);
+		// User fullname claim
+		ClaimDTO fullNameClaimDTO = new ClaimDTO();
+		fullNameClaimDTO.setClaimUri(RemoteUserStoreManagerServiceConstants.FULLNAME_CLAIM_URI);
+		fullNameClaimDTO.setValue(model.getCommon_name().trim());
+		request.getClaims().add(fullNameClaimDTO);
+		// User lastname claim
+		ClaimDTO lastNameClaimDTO = new ClaimDTO();
+		lastNameClaimDTO.setClaimUri(RemoteUserStoreManagerServiceConstants.LASTNAME_CLAIM_URI);
+		lastNameClaimDTO.setValue(model.getSurname().trim());
+		request.getClaims().add(lastNameClaimDTO);
+		if(!client.addUser(request)) 
+			Core.setMessageError();
+		else {
+			Core.setMessageSuccess(gt("Utilizador registado com sucesso.")); 
+			return true;
 		}
-		
-		return flag;
+		return false; 	
 	}
 	
 	public Response actionIndex_(@RParam(rParamName = "email") String email) throws IOException, IllegalArgumentException, IllegalAccessException{
-	
 		LdapUser model = new LdapUser();
-		
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load();
-			
-			boolean success = updateNUsingIds(model, email);
-			
-			if(success) return redirect("igrp", "ldap-user", "index_&email=" + email.trim());	
+			if(updateNUsingIds(model, email)) 
+				return redirect("igrp", "ldap-user", "index_&email=" + email.trim());	
 		}
-		
 		LdapUserView view = new LdapUserView(model);
 		view.btn_gravar.setLink("igrp", "ldap-user", "index_&email=" + email);
 		
 		return this.renderView(view);
 	}
 	
-//	private boolean updateUsingIds() {
-//		boolean flag = false;
-//		
-//		return flag;
-//	}
-	
 	private boolean updateNUsingIds(LdapUser model, String email) {
 		boolean flag = false;
-		
-		File file = new File(getClass().getClassLoader().getResource(new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml").getPath());
-		
-		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
+		Properties settings = this.configApp.getMainSettings(); 
+		LdapInfo ldapinfo = new LdapInfo();
+		ldapinfo.setUrl(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_URL.value()));
+		ldapinfo.setUsername(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_USERNAME.value()));
+		ldapinfo.setPassword(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_PASSWORD.value()));
+		ldapinfo.setBase(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_BASE.value()));
+		ldapinfo.setAuthenticationFilter(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_AUTHENTICATION_FILTER.value()));
+		ldapinfo.setEntryDN(settings.getProperty(ConfigCommonMainConstants.LDAP_AD_ENTRY_DN.value()));
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
-		
 		LdapPerson person = ldap.getUserLastInfo(email.trim());
 		String uid = "";
-		
 		if(person != null) {
 			model.setCommon_name(person.getCn());
 			model.setSurname(person.getSn());
@@ -208,13 +158,11 @@ public class LdapUserController extends Controller {
 			Core.setMessageError(gt("Ocorreu um erro. O utilizador pode não existir."));
 			return false;
 		}
-		
 		person.setCn(model.getCommon_name().trim());
 		person.setSn(model.getSurname().trim());
 		person.setMail(model.getEmail_1().trim());
 		person.setDisplayName(person.getCn() + " " + person.getSn());
 		person.setGivenName(person.getCn() + " " + person.getSn());
-		
 		try {
 			person.setUid(model.getEmail_1().trim().split("@")[0]);
 		}catch(Exception e) {
@@ -227,10 +175,8 @@ public class LdapUserController extends Controller {
 		}else {
 			String oldName = ldapinfo.getEntryDN().replaceAll(":_placeholder", uid);
 			String newName = ldapinfo.getEntryDN().replaceAll(":_placeholder", person.getUid());
-			
 			ldap.renameEntry(oldName, newName);
 			error = ldap.getError();
-			
 			if(error != null) {
 				Core.setMessageSuccess(gt("Ocorreu um erro. LDAP error: " ) + error);
 			}else{
@@ -253,21 +199,5 @@ public class LdapUserController extends Controller {
 		}
 		return flag;
 	}
-	
-	private Properties loadIdentityServerSettings() {
-		
-		String path = new Config().getBasePathConfig() + File.separator + "common";
-		String fileName = "main.xml";
-		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
-		
-		Properties props = new Properties();
-		try (FileInputStream fis = new FileInputStream(file)) {
-			props.loadFromXML(fis);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return props;
-	}
-	
 	/*----#END-PRESERVED-AREA----*/
 }

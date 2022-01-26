@@ -68,7 +68,7 @@ public abstract class QueryHelper implements QueryInterface{
 
 	protected SessionFactory getSessionFactory() {
 		if(this.config_env!=null) {
-			return HibernateUtils.getSessionFactory(config_env);
+			return HibernateUtils.getSessionFactory(config_env.getName(),  config_env.getApplication().getDad());
 		}
 		return HibernateUtils.getSessionFactory(this.getConnectionName());
 	}

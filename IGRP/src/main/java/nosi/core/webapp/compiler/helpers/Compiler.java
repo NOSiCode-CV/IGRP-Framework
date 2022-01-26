@@ -63,12 +63,15 @@ public class Compiler {
 			}
 			listFilesDirectory(this.config.getPathLib());
 			CompilationProgress progress = null;
-			final String buildArgs = " -encoding UTF-8 " + files + " -cp " + System.getProperty("path.separator") + jars
-					+ this.config.getBasePathClass() + System.getProperty("path.separator") + " -classpath "
-					+ this.config.getBasePathClass() + " -d " + this.config.getBasePathClass() // lugar onde é colocado
+			final String buildArgs = " -encoding UTF-8 " + files + " -cp " + "lombok.jar" /*+ System.getProperty("path.separator") + jars
+					+ this.config.getBasePathClass() + System.getProperty("path.separator")*/ + " -classpath " + jars 
+					+ System.getProperty("path.separator") + this.config.getBasePathClass() + " -d " + this.config.getBasePathClass() // lugar onde é colocado
 																								// os arquivos
 																								// compilados
-					+ " -warn:none" + " -1.8" + " -Xemacs";
+					+ " -warn:none" + " -1.8" + " -Xemacs"; 
+			
+			System.out.println(buildArgs);
+			
 			StringWriter swS = new StringWriter();
 			StringWriter swE = new StringWriter();
 			PrintWriter outSuccess = new PrintWriter(swS);

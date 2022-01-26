@@ -70,6 +70,8 @@ import nosi.core.gui.components.IGRPLink;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
+import nosi.core.integration.pdex.email.PdexEmailGateway;
+import nosi.core.integration.pdex.email.PdexEmailGatewayPayloadDTO;
 import nosi.core.mail.EmailMessage;
 import nosi.core.mail.EmailMessage.Attachment;
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
@@ -2324,6 +2326,32 @@ public final class Core {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	/**
+	 * @param endpoint PDEX Email Gateway URL 
+	 * @param httpAuthorizationHeaderValue PDEX Email Gateway "Bearer TOKEN" 
+	 * @param payload The Message 
+	 * @return boolean success true|false
+	 */
+	public static boolean mailGatewayPdex(String endpoint, String httpAuthorizationHeaderValue, PdexEmailGatewayPayloadDTO payload) {
+		return new PdexEmailGateway(endpoint, httpAuthorizationHeaderValue, payload).send();
+	}
+	
+	/**
+	 * @param endpoint PDEX Email Gateway URL 
+	 * @param httpAuthorizationHeaderValue PDEX Email Gateway "Bearer TOKEN" 
+	 * @param payload The Message 
+	 * @param errors A List of errors if occurs 
+	 * @return boolean success true|false
+	 */
+	public static boolean mailGatewayPdex(String endpoint, String httpAuthorizationHeaderValue, PdexEmailGatewayPayloadDTO payload, List<String> errors) {
+		boolean success = false;
+		PdexEmailGateway sender = new PdexEmailGateway(endpoint, httpAuthorizationHeaderValue); 
+		sender.setPayload(payload); 
+		if(!(success = sender.send()) && errors != null) 
+			errors.addAll(sender.getErrors()); 
+		return success;
 	}
 
 	public static Map<Object, Object> mapArray(Object[] array1, Object[] array2) {

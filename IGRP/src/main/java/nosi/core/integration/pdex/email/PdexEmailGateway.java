@@ -1,8 +1,9 @@
 package nosi.core.integration.pdex.email;
 
+import java.net.InetAddress;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -10,7 +11,6 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,15 +25,17 @@ public class PdexEmailGateway {
 	private PdexEmailGatewayPayloadDTO payload; 
 	private List<String> errors; 
 	
+	public static final int DEFAULT_TIMEOUT = 1000; 
+	
 	public PdexEmailGateway(String endpoint, String httpAuthorizationHeaderValue, PdexEmailGatewayPayloadDTO payload) {
 		this(endpoint, httpAuthorizationHeaderValue); 
 		this.payload = payload; 
-		errors = new ArrayList<String>(); 
 	} 
 	
 	public PdexEmailGateway(String endpoint, String httpAuthorizationHeaderValue) {
 		this.endpoint = endpoint;
 		this.httpAuthorizationHeaderValue = httpAuthorizationHeaderValue;
+		errors = new ArrayList<String>(); 
 	}
 	
 	public void setPayload(PdexEmailGatewayPayloadDTO payload) {
@@ -42,24 +44,34 @@ public class PdexEmailGateway {
 	
 	public boolean send() { 
 		validate(); 
+		if(!ping(this.endpoint, DEFAULT_TIMEOUT))
+			errors.add("Connection Timeout. The EmailGateway is not Available. Please check your network connection.");
 		if(errors.isEmpty()) {
 			Client client = ClientBuilder.newClient(); 
 			try {
 				WebTarget webTarget = client.target(endpoint); 
 				Invocation.Builder invocationBuilder  = webTarget.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, httpAuthorizationHeaderValue); 
 				javax.ws.rs.core.Response response  = invocationBuilder.post(Entity.json(convertPayloadToJson()));
-				if(response.getStatus() == 200) {
-					/*JSONObject jsonResult = new JSONObject(response.readEntity(String.class)); 
-					JSONObject apps_t = jsonResult.optJSONObject("Entries"); 
-					if(apps_t != null && apps_t.has("Entry"))
-						;*/
-					System.out.println("success ...");
-				}else {
-					// error here ... 
-					errors.add("An error has occurred"); 
+				switch (response.getStatus()) {
+				case 200:
+					JSONObject jsonResult = new JSONObject(response.readEntity(String.class)); 
+					JSONObject result = jsonResult.optJSONObject("result"); 
+					if(result != null && result.optBoolean("success") == false)
+						errors.add("The email was not sent. An error has occurred."); 
+				break;
+				case 401:
+				case 403:
+					errors.add("The email was not sent. An Unauthorized or Forbidden error has occurred. Please check the credencials."); 
+				break;
+				case 500:
+					errors.add("The email was not sent. An Internal Server Error has occurred. ResponseBody: " + response.readEntity(String.class)); 
+				break;
+				default:
+					break;
 				}
 			} catch (Exception e) {
 				e.printStackTrace(); 
+				errors.add(e.getMessage());
 			}finally {
 				client.close();
 			}
@@ -94,7 +106,7 @@ public class PdexEmailGateway {
 		}
 	}
 	
-	protected String convertPayloadToJson() {
+	private String convertPayloadToJson() {
 		JSONObject jsonObject = new JSONObject(); 
 		jsonObject.put(PdexEmailGatewayConstants.CODE.value(), payload.getCode()); 
 		jsonObject.put(PdexEmailGatewayConstants.FROM.value(), payload.getFrom()); 
@@ -119,9 +131,7 @@ public class PdexEmailGateway {
 			}
 			jsonObject.put(PdexEmailGatewayConstants.ATTACHMENTS.value(), jsonArray); 
 		}
-		String r = jsonObject.toString(); 
-		System.out.println("result: " + r);
-		return r; 
+		return jsonObject.toString();  
 	}
 	
 	public List<String> getErrors() {
@@ -130,5 +140,15 @@ public class PdexEmailGateway {
 	
 	public boolean hasErrors() {
 		return !errors.isEmpty();
+	}
+	
+	public static boolean ping(final String hostUrl, final int timeout) {
+		boolean success = false; 
+		try {
+			success = InetAddress.getByName(new URL(hostUrl).getHost()).isReachable(DEFAULT_TIMEOUT);
+		} catch (Exception e) {
+			e.printStackTrace(); 
+		}
+		return success; 
 	}
 }
