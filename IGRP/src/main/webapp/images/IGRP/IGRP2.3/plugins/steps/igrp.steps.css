@@ -1,0 +1,130 @@
+.step-app > .step-steps {
+  margin: 0 0 40px 0;
+  padding: 0;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.step-app > .step-steps::before{
+	content: '';
+	height: 3px;
+	width: 100%;
+	left: 0;
+	right: 0;
+	top: 17px;
+	background: #C0C0C0;
+	position:absolute;
+}
+
+.step-app > .step-steps > li {
+  list-style: none;
+  flex: 1;
+  z-index: 1;
+  cursor: pointer;
+  display: block;
+  padding: 10px;
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+}
+
+.step-app > .step-steps > li::after{
+	content: '';
+    width: 20px;
+    height: 20px;
+    margin: auto;
+    border-radius: 100%;
+    position: absolute;
+    top: -21px;
+    left: 50%;
+    margin-left: -8px;
+    background: #FFFFFF;
+    box-shadow: 5.31138px 21.2455px 26.5569px rgb(229 233 246 / 40%);
+}
+
+.step-app > .step-steps > li::before{
+	content: '';
+    width: 24px;
+    height: 24px;
+    margin: auto;
+    border-radius: 100%;
+    position: absolute;
+    top: -23px;
+    left: 50%;
+    margin-left: -10px;
+    background: #C0C0C0;
+    box-shadow: 5.31138px 21.2455px 26.5569px rgb(229 233 246 / 40%);
+}
+
+.step-app > .step-steps > li:hover::before {
+  background-color: #ddd;
+}
+
+.step-app > .step-steps > li:last-child a {
+  border: none;
+}
+
+.step-app > .step-steps > li.active::before {
+  background-color: #F4A100;
+}
+
+.step-app > .step-steps > li.error::before {
+  background-color: #e7505a;
+}
+
+.step-app > .step-steps > li.done::before {
+  background-color: #3cb371;
+}
+
+.step-app > .step-steps > li.active a{
+	color: #F4A100 !important;
+}
+
+.step-app > .step-steps > li.error a{
+	color: #e7505a;
+}
+
+.step-app > .step-steps > li.done a{
+	color: #3cb371;
+}
+
+
+.step-app > .step-content {
+  border: 1px solid #e5e5e5;
+  border-top: 0;
+}
+
+body[app] .step-app > .step-content {
+	border: 0;
+}
+
+.step-app > .step-content > .step-tab-panel {
+  display: none;
+}
+
+.step-app > .step-content > .step-tab-panel.active {
+  display: block;
+}
+
+.step-app > .step-footer {
+  margin: 15px 0;
+  display: none;
+}
+
+body[app] .step-app > .step-footer {
+	display: block;
+}
+
+.step-app > .step-footer > .step-btn {
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.step-app > .step-footer > .step-btn.prev,
+.step-app > .step-footer > .step-btn.next{
+	margin-right: 10px;
+}
