@@ -88,8 +88,8 @@ public class LoginView extends View {
 	
 	private Properties loadConfig(String filePath, String fileName) {
 		
-		String path = new Config().getBasePathConfig() + File.separator + filePath;
-		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
+		String path = new Config().getBasePathConfig() + "/" + filePath;
+		File file = new File(getClass().getClassLoader().getResource(path + "/" + fileName).getPath().replaceAll("%20", " "));
 		
 		Properties props = new Properties();
 		try (FileInputStream fis = new FileInputStream(file)) {

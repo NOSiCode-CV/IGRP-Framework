@@ -68,13 +68,12 @@ public final class ConfigApp {
 	
 	
 	public Properties loadConfig(String filePath, String fileName) {
-		String path = this.config.getBasePathConfig() + File.separator + filePath;
-		return loadConfig(this.getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replace("%20", " "));
+		String path = this.config.getBasePathConfig() + "/" + filePath;
+		return loadConfig(this.getClass().getClassLoader().getResource(path + "/" + fileName).getPath().replace("%20", " "));
 	}
 	
 	public String getBaseConnection() { 
-		String baseConnection = commonMain.getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value(), getDefaultBaseConnectionName()); 
-		return baseConnection;
+		return commonMain.getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value(), getDefaultBaseConnectionName());
 	}
 
 	public String getDefaultBaseConnectionName() {
