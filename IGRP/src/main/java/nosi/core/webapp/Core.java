@@ -131,7 +131,7 @@ import nosi.webapps.igrp.dao.User;
  * The core of the IGRP, here you can find all the main functions and helper
  * function useful like toInt, parceInt, isNotNull...
  * 
- * @author: Emanuel Pereira 13 Nov 2017
+ * @author: Emanuel Pereira 13 Nov 2017 
  */
 public final class Core {
 
@@ -370,8 +370,13 @@ public final class Core {
 	 *            application code
 	 */
 	public static String defaultConnection(String dad) {
+		//To make BDD work, this is a forcing bd connection to change for mock use
+		final String connectionTestName = Core.getParam("igrp.test.bdd",false);
+		if (Core.isNotNull(connectionTestName)) {
+			return connectionTestName;
+		}
 		String result = "";
-		Config_env configEnv = new Config_env().find().where("isdefault", "=", new Short((short) 1))
+		Config_env configEnv = new Config_env().find().setKeepConnection(true).where("isdefault", "=", (short) 1)
 				.andWhere("application.dad", "=", dad).one();
 		if (configEnv != null)
 			result = configEnv.getName();
