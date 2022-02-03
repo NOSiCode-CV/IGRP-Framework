@@ -1222,6 +1222,11 @@
 				$.IGRP.components.tabcontent.on('tabActive',function(target){
 					com.utils.resizeAllCharts( $(target) ); 
 			});
+
+			if($.IGRP.components.stepcontent && $.IGRP.components.stepcontent.on)
+				$.IGRP.components.stepcontent.on('stepActive',function(target){
+					com.utils.resizeAllCharts( $(target) ); 
+			});
 			
 			$.IGRP.events.on('element-transform',function(p){
 				if($('.IGRP-highcharts',p.content)[0])

@@ -52,25 +52,9 @@ var GENTABCONTENT = function(name,tparams){
 						label:'Default'
 					},
 					{
-						value:'accordion',
-						label:'Accordion'
-					},
-					{
-						value:'clean',
-						label:'Clean'
-					},
-					{
-						value:'boxed',
-						label:'Boxed'
-					},
-					{
-						value:'navbar',
-						label:'Navbar'
+						value:'tabs',
+						label:'Tabs'
 					}
-					/*{
-						value:'buttons',
-						label:'Buttons'
-					}*/
 				]
 			},
 			transform : false,
@@ -84,27 +68,12 @@ var GENTABCONTENT = function(name,tparams){
 			xslValue : 'nav-justified',
 			onChange : function(v){
 				var operation = v ? 'addClass' : 'removeClass';
-				container.holder.find('.nav-tabs')[operation]('nav-justified');
+				container.holder.find('.step-steps')[operation]('nav-justified');
 			} 
-		});
-
-		container.setProperty({
-			name     : 'autoctrl',
-			label    : 'Control Active',
-			value    : false,
-			xslValue : 'auto-control'
-		});
-		
-		container.setProperty({
-			name     : 'setpagetitle',
-			label    : 'Set Page Title',
-			value    : false,
-			xslValue : 'setpagetitle'
 		});
 
 
 	}
-
 
 	container.setTemplate = function(template){
 
@@ -230,6 +199,7 @@ var GENTABCONTENT = function(name,tparams){
 			container.addMenu();*/
 	}
 
+
 	var clearContents = function(){
 		$.each(container.HTML.menu.find('li'),function(i,li){
 			container.removeMenu( $(li).attr('rel'),false);
@@ -314,7 +284,7 @@ var GENTABCONTENT = function(name,tparams){
 
 			$(container.holder.find('> .container-contents > .gen-step-holder > .'+classes.contentsHolder)[0]).append(contentItem);
 
-			btn.rel    = 'tab-'+rel;
+			btn.rel    = 'step-'+rel;
 			
 			btn.holder = li;
 
@@ -487,29 +457,24 @@ var GENTABCONTENT = function(name,tparams){
 
 	var getMenuItem = function(title,idx,_class,btn,xsl){
 
-		var activetabTmpl = xsl ? '<xsl:call-template name="get-active-tab">'+
-			                    	'<xsl:with-param name="value" select="'+container.GET.path()+'/fields/'+btn.GET.tag()+'/value"/>'+
-			                  	  '</xsl:call-template>' : '';
-
 		var genID         = !xsl ? 'gen-field-id="'+btn.GET.id()+'"' : '';
 
 
 		var icon = btn.GET.img() ? btn.GET.img() :'fa-dot-circle-o';
+		
 		var iconHtml = '<i class="fa '+icon+'"></i>';
-		return '<li item-name="'+btn.GET.tag()+'" '+genID+' data-step-target="'+btn.GET.tag()+'" class="'+_class+' gen-fields-holder" rel="tab-'+idx+'">'+
-					activetabTmpl+
-					'<a data-toggle="tab" aria-expanded="true" href="#tab-'+idx+'">'+
+
+		return '<li item-name="'+btn.GET.tag()+'" '+genID+' data-step-target="'+btn.GET.tag()+'" class="'+_class+' gen-fields-holder" rel="step-'+idx+'">'+
+					'<a data-toggle="tab" aria-expanded="true" href="#step-'+idx+'">'+
 						'<span gen-lbl-setter="true">'+title+'</span>'+
 					'</a>'+
 				'</li>';
 	}
 
 	var getContentItem = function(idx,_class,contents,content,xsl){
-		var activetabTmpl = xsl ? '<xsl:call-template name="get-active-tab">'+
-				                    '<xsl:with-param name="value" select="'+container.GET.path()+'/fields/'+content.GET.tag()+'/value"/>'+
-				                  	'<xsl:with-param name="class" select="\'step-tab-panel\'"/>'+
-				                  '</xsl:call-template>' : '';
-		var rtn = '<div class="'+classes.contentItem+' gen-rows-holder '+_class+'" data-step="'+content.GET.tag()+'" id="tab-'+idx+'" rel="tab-'+idx+'" item-name="'+content.GET.tag()+'">'+activetabTmpl;
+		
+
+		var rtn = '<div class="'+classes.contentItem+' gen-rows-holder '+_class+'" data-step="'+content.GET.tag()+'" id="step-'+idx+'" rel="step-'+idx+'" item-name="'+content.GET.tag()+'">';
 					if(contents) rtn+=contents;
 			rtn+='</div>';
 
