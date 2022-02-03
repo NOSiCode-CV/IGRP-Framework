@@ -79,7 +79,7 @@
 					return valid;
 				},
 				onFinish: function () {
-					alert('Wizard Completed');
+					
 				}
 			});
 		},
