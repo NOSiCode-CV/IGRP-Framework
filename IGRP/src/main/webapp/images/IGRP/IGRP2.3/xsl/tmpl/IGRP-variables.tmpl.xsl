@@ -50,6 +50,21 @@
   </xsl:variable>
   <!-- /version -->
 
+
+  <!-- version -->
+  <xsl:variable name="keyrecaptcha">
+      <xsl:choose>
+        <xsl:when test="rows/keyrecaptcha">
+          <xsl:value-of select="rows/keyrecaptcha"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="'6Le4FBkaAAAAAD-mFUvQjntM75J6_b1SyrxAXAPk'"/>
+        </xsl:otherwise>
+      </xsl:choose>
+  </xsl:variable>
+  <!-- /version -->
+
+
   <!-- fixed labels -->
   <xsl:variable name="labels" select="document(concat($path,'/core/igrp/labels/igrp.labels.pt.xml'))/labels"/>
   <!-- /fixed labels -->

@@ -670,8 +670,7 @@ var mWindow = null,
 					url 	= null;
 
 					_window = _window.frames['head_filho'] || _window;
-
-				console.log(mWindow);
+					
 				if (mWindow) {
 					_window = mWindow;
 					
@@ -1352,39 +1351,49 @@ var mWindow = null,
 
 			/*form submit controller */
 			form.on('submit',function(e){ 
-				
-				var validate  = form.attr('validateCtrl'),
-					fields    = $.IGRP.utils.getFieldsValidate(),
-					vfields   = fields.filter('.submittable'),//form.find('.submittable'),//$.IGRP.utils.getFieldsValidate(),
-					canSubmit = true;
-				
-				if(validate != 'false')
- 					canSubmit = vfields.valid({
- 						exclude : '.no-validation, .IGRP_checkall' //hack for separator list on submit fields from form. 
- 					}) == 1 ? true : false;
 
- 				
- 				var eventCB = $.IGRP.events.execute('submit',{
- 					valid   : canSubmit,
- 					fields  : fields,
- 					event   : e,
- 					clicked : _this,
- 					target  : target
- 				});
- 				
- 				canSubmit = eventCB == false ? false : canSubmit;
+				e.preventDefault();
 
- 				if (canSubmit){
- 					
- 					if(!form.attr('target') && !form.hasClass('download'))
- 						
- 						$.IGRP.utils.loading.show();
- 				}	
- 				else
- 					$.IGRP.components.form.hasFieldsError();
- 				
- 				//return false;
-				return canSubmit;		
+				grecaptcha.ready(function() {
+
+					grecaptcha.execute(rekey, {action: 'submit'}).then(function(token) {
+						// Add your logic to submit to your backend server here.
+							
+						var validate  = form.attr('validateCtrl'),
+							fields    = $.IGRP.utils.getFieldsValidate(),
+							vfields   = fields.filter('.submittable'),//form.find('.submittable'),//$.IGRP.utils.getFieldsValidate(),
+							canSubmit = true;
+						
+						if(validate != 'false')
+							canSubmit = vfields.valid({
+								exclude : '.no-validation, .IGRP_checkall' //hack for separator list on submit fields from form. 
+							}) == 1 ? true : false;
+
+						
+						var eventCB = $.IGRP.events.execute('submit',{
+							valid   : canSubmit,
+							fields  : fields,
+							event   : e,
+							clicked : _this,
+							target  : target
+						});
+						
+						canSubmit = eventCB == false ? false : canSubmit;
+
+						if (canSubmit){
+							
+							if(!form.attr('target') && !form.hasClass('download'))
+								
+								$.IGRP.utils.loading.show();
+						}	
+						else
+							$.IGRP.components.form.hasFieldsError();
+						
+						//return false;
+						return canSubmit;
+						
+					});
+				});
 
 			});
 
