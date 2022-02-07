@@ -29,7 +29,7 @@ public class Connection {
 	}
 	
 	public static java.sql.Connection getConnection(String connectionName, String dad){
-		Config_env config = new Config_env().find()
+		Config_env config = new Config_env().find().setKeepConnection(true)
 				.andWhere("name", "=", connectionName)
 				.andWhere("application.dad", "=",dad)
 				.one();
@@ -63,7 +63,7 @@ public class Connection {
 			}
 		}else {
 			String dad = Core.getCurrentDadParam();
-			Config_env config = new Config_env().find()
+			Config_env config = new Config_env().find().setKeepConnection(true)
 					.andWhere("name", "=", connectionName)
 					.andWhere("application.dad", "=",dad)
 					.one();
