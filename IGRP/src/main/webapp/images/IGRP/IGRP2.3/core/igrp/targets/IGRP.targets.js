@@ -592,7 +592,8 @@ var mWindow = null,
 
 		var setConfirmModal = function(onClick,p){
 			
-			var holder = $(p.clicked).parents('tr:first');
+			var holder 		= $(p.clicked).parents('tr:first'),
+				confirmText = '';
 
 			if(holder[0]){
 				confirmText = $('#confirm-text').text();
@@ -605,6 +606,14 @@ var mWindow = null,
 					}
 				});
 			}
+
+			if($(p.clicked).is('[label-confirm]')){
+
+				var labelConfirm = $(p.clicked).attr('label-confirm');
+
+				confirmText = labelConfirm && labelConfirm != undefined ? labelConfirm : confirmText;
+			}
+			 
 
 			$.IGRP.components.globalModal.set({
 				rel    : 'confirm-target',
