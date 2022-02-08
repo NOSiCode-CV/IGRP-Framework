@@ -1354,9 +1354,9 @@ var mWindow = null,
 
 				e.preventDefault();
 
-				grecaptcha.ready(function() {
+				/*grecaptcha.ready(function() {
 
-					grecaptcha.execute(rekey, {action: 'submit'}).then(function(token) {
+					grecaptcha.execute(rekey, {action: 'submit'}).then(function(token) {*/
 						// Add your logic to submit to your backend server here.
 							
 						var validate  = form.attr('validateCtrl'),
@@ -1380,6 +1380,8 @@ var mWindow = null,
 						
 						canSubmit = eventCB == false ? false : canSubmit;
 
+						console.log(canSubmit);
+
 						if (canSubmit){
 							
 							if(!form.attr('target') && !form.hasClass('download'))
@@ -1392,8 +1394,8 @@ var mWindow = null,
 						//return false;
 						return canSubmit;
 						
-					});
-				});
+					/*});
+				});*/
 
 			});
 
