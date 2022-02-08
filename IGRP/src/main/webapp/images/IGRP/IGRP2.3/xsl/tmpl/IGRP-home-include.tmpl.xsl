@@ -27,8 +27,8 @@
       var rekey = '<xsl:value-of select="$keyrecaptcha"/>'; 
     </script>
 
-    <!-- reCAPTCHA -->
-    <script src="https://www.google.com/recaptcha/api.js?render={$keyrecaptcha}"></script>
+    <!-- reCAPTCHA 
+    <script src="https://www.google.com/recaptcha/api.js?render={$keyrecaptcha}"></script>-->
     
     <!-- BS CSS -->    
    
