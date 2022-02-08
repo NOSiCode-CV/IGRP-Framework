@@ -23,12 +23,13 @@
     </xsl:if> 
     
     <script>
-   		var path  = '<xsl:value-of select="$path"/>';
-      var rekey = '<xsl:value-of select="$keyrecaptcha"/>'; 
+   		var path        = '<xsl:value-of select="$path"/>';
+      var rekey       = '<xsl:value-of select="$recaptchakey"/>'; 
+      var secretrekey = '<xsl:value-of select="$secretrecaptchakey"/>'; 
     </script>
 
-    <!-- reCAPTCHA 
-    <script src="https://www.google.com/recaptcha/api.js?render={$keyrecaptcha}"></script>-->
+    <!-- reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js?render={$recaptchakey}"></script>
     
     <!-- BS CSS -->    
    
