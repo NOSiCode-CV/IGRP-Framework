@@ -62,6 +62,10 @@
         	<xsl:value-of select="$refresh_components"></xsl:value-of>
         </xsl:attribute>
       </xsl:if>
+
+      <xsl:if test="@labelConfirm">
+        <xsl:attribute name="label-confirm"><xsl:value-of select="@labelConfirm"/></xsl:attribute>
+      </xsl:if>
       
       <xsl:if test="target = 'sharpadbclient'"> 
         <xsl:attribute name="sharpadbclient">
