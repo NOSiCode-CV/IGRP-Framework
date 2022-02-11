@@ -26,12 +26,19 @@
 
 	$.fn.countdown.begin = function (parent, settings) {
 
+		var getRenderHour = (function () {
+		
+			let timestamp = settings.start ? new Date(settings.start).getTime() : new Date().getTime();
+			setInterval(() => { timestamp += 1000; }, 1000);
+			return function () { return new Date(timestamp) }
+		})();
+
 		// Define Variables
 		var timespan, start, end;
 
 		// Define Target Date/time
 		end = new Date(settings.year, settings.month - 1, settings.day, settings.hour, settings.minute, settings.second);
-		
+		console.log(settings.start);
 		// Converts Local Timezone to Target Timezone
 		start = settings.start != null ? settings.start : $.fn.countdown.convertTimezone(settings.timezone);
 
@@ -89,8 +96,8 @@
 
 			// Updates the time every second for the visitor
 			setTimeout(function () {
-
-				if(settings.start !== null){
+				console.log(settings.start);
+				if(settings.start){
 					/*var nStart = new Date(settings.start);
 					nStart = nStart.getTime() + 1000;
 					settings.start = new Date(nStart)*/
@@ -108,12 +115,6 @@
 		//lng[str.substr(0, str.length - 1)]
 		return lng[str];
 	};
-
-	var getRenderHour = (function (d) {
-		let timestamp = d ? new Date(d).getTime() : new Date().getTime();
-		setInterval(() => { timestamp += 1000; }, 1000);
-		return function () { return new Date(timestamp) }
-	})();
 
 	// Converts local timezone to target timezone
 	$.fn.countdown.convertTimezone = function (timezone) {
