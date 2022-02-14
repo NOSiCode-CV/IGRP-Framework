@@ -5,8 +5,8 @@
 
 		<property name="hibernate.connection.driver_class">org.h2.Driver</property>
 		<property name="hibernate.connection.url">jdbc:h2:~/db_igrp</property>
-		<property name="hibernate.connection.username">igrpweb</property>
-		<property name="hibernate.connection.password">igrpweb</property>
+		<property name="hibernate.connection.username">sa</property>
+		<property name="hibernate.connection.password"></property>
 		<property name="hibernate.hbm2ddl.auto">none</property>
 		<property name="hibernate.connection.isolation">2</property>
 		<property name="hibernate.connection.autocommit">false</property>
