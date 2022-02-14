@@ -33,6 +33,7 @@
 				case 'attribute_render':
 				case 'query_expression':
 				case 'mouseover':
+				case 'video':
 				
 					config.js = true;
 					
