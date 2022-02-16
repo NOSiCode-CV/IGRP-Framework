@@ -12,7 +12,7 @@
             port = $.IGRP.components.sharpadbclient.serviceport[port];
            
             $.ajax({
-                url         : 'https://sac-brig.nosi.cv:'+ port + '/api/' + p.task,
+                url         : 'https://sac-brig.gov.cv:'+ port + '/api/' + p.task,
                 method      : 'POST',
                 data        : JSON.stringify(p.data),
                 contentType : "application/json",
