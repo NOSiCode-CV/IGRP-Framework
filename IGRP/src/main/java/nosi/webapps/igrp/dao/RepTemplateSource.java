@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import nosi.core.webapp.Core;
 
 /**
@@ -33,7 +34,7 @@ public class RepTemplateSource extends IGRPBaseActiveRecord<RepTemplateSource> i
 	@ManyToOne(cascade=CascadeType.REMOVE)
 	@JoinColumn(name="rep_template_fk",foreignKey=@ForeignKey(name="REP_TEMPLATE_SOURCE_REP_TEMPLATE_FK"),nullable=false)
 	private RepTemplate repTemplate;
-	@ManyToOne(cascade=CascadeType.REMOVE)
+	@ManyToOne(cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
 	@JoinColumn(name="rep_source_fk",foreignKey=@ForeignKey(name="REP_TEMPLATE_SOURCE_REP_SOURCE_FK"),nullable=false)
 	private RepSource repSource;
 	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="repTemplateSource",fetch=FetchType.EAGER)

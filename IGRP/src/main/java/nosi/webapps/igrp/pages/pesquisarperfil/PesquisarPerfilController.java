@@ -1,17 +1,15 @@
 package nosi.webapps.igrp.pages.pesquisarperfil;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import nosi.webapps.igrp.dao.ProfileType;
 import java.util.ArrayList;
 /*----#end-code----*/
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.webapps.igrp.dao.ProfileType;
 		
 public class PesquisarPerfilController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -23,7 +21,7 @@ public class PesquisarPerfilController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Totam deserunt voluptatem elit' as organica,'1' as estado,'Perspiciatis elit magna lorem' as descricao,'Dolor rem lorem anim perspicia' as codigo,'hidden-e786_bc62' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Mollit officia dolor perspiciatis adipiscing' as organica,'1' as estado,'Laudantium amet laudantium perspiciatis iste' as descricao,'Doloremque stract doloremque iste officia' as codigo,'hidden-dd96_da7b' as id "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		model.setHelp(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=perfil"));
@@ -95,7 +93,7 @@ public class PesquisarPerfilController extends Controller {
 		/*----#start-code(editar)----*/
  			
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		
+		 this.addQueryString("isEdit","true");
 		return this.redirect("igrp","NovoPerfil","editar", this.queryString());
 
 		/*----#end-code----*/

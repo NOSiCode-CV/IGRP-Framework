@@ -108,7 +108,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 	}
 
 	public List<HistoricProcessInstance> getHistoryOfProccessInstanceId(String processDefinitionKey) {
-		return this.getHistoryOfProccessInstanceId(processDefinitionKey,null, false);
+		return this.getHistoryOfProccessInstanceId(processDefinitionKey, null, false);
 	}
 
 
@@ -162,7 +162,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 	public List<ProcessInstancesService> getRuntimeProcessIntances(String processKey) {
 		List<ProcessInstancesService> list = new ArrayList<>();
 		Response response = this.getRestRequest()
-				.get("runtime/process-instances?processDefinitionKey=" + processKey + "&suspended=false");
+				.get("runtime/process-instances?processDefinitionKey=" + processKey + "&suspended=false&size=" + ActivitiConstants.SIZE_QUERY );
 		if (response != null) {
 			String contentResp = "";
 			try (InputStream is = (InputStream) response.getEntity()){

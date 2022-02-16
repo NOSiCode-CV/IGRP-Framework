@@ -1,6 +1,9 @@
 package nosi.core.webapp.bpmn;
 
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +11,7 @@ import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import com.google.gson.Gson;
+
 import nosi.core.gui.components.IGRPMessage;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -29,7 +33,6 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
-import static nosi.core.i18n.Translator.gt;
 
 /**
  * Emanuel
@@ -39,12 +42,16 @@ import static nosi.core.i18n.Translator.gt;
 public abstract class BPMNTaskController extends Controller implements InterfaceBPMNTask{
 	private String page;
 	private String myCustomPermission;
-	private RuntimeTask runtimeTask;
+	protected RuntimeTask runtimeTask;
 	private BPMNExecution bpmnExecute;
+	
+	private List<String> inputDocsErrors; 
+	private boolean inputDocsAlreadyValidate; 
 	
 	public BPMNTaskController() {
 		this.runtimeTask = RuntimeTask.getRuntimeTask();
 		this.bpmnExecute = new BPMNExecution();
+		inputDocsErrors = new ArrayList<String>(); 
 	}
 	@Override
 	public Response index(String app,Model model,View view) throws IOException {
@@ -78,7 +85,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			}
 			if(Core.isNotNull(this.runtimeTask.getTask().getId())) {
 				xml.addXml(BPMNButton.generateButtonTask(this.runtimeTask.getTask().getTenantId(),action.getApplication().getId(),
-						BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(),"save", this.runtimeTask.getTask().getTenantId()).toString());
+						BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(),"save", this.runtimeTask.getTask().getTenantId(), this.queryString()).toString());
 			}
 			xml.addXml(content);
 			xml.addXml(BPMNHelper.addFileSeparator(this.runtimeTask.getTask().getTenantId(),this.runtimeTask.getTask().getProcessDefinitionId(),this.runtimeTask.getTask().getTaskDefinitionKey(),null));
@@ -101,7 +108,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		String taskId = Core.getParamTaskId();
 		if(Core.isNotNullMultiple(this.runtimeTask,taskId)){
 			List<Part> parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
-			if(parts!=null && !ValidateInputDocument.validateRequiredDocument(this,parts,this.runtimeTask)) {
+			if(!inputDocsAlreadyValidate && parts !=null && !ValidateInputDocument.validateRequiredDocument(this,parts,this.runtimeTask, this.inputDocsErrors)) { 
+				if(!this.inputDocsErrors.isEmpty()) 
+					this.inputDocsErrors.forEach(Core::setMessageError); 
 				Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, this.runtimeTask);
 				return this.forward(this.runtimeTask.getTask().getTenantId(), BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(), "index",this.queryString());
 			}
@@ -111,6 +120,19 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			return this.startProcess(processDefinitionId);
 		}		
 		return this.redirect("igrp", "ErrorPage", "exception");
+	} 
+	
+	protected Response inputDocsHasErrors() throws IOException, ServletException {
+		Response response = null; 
+		inputDocsAlreadyValidate = true; 
+		List<Part> parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
+		if(parts!=null && !ValidateInputDocument.validateRequiredDocument(this, parts, this.runtimeTask, this.inputDocsErrors)) { 
+			if(!this.inputDocsErrors.isEmpty()) 
+				this.inputDocsErrors.forEach(Core::setMessageError); 
+			Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, this.runtimeTask); 
+			response = this.forward(this.runtimeTask.getTask().getTenantId(), BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(), "index",this.queryString());
+		}
+		return response; 
 	}
 
 	private Response startProcess(String processDefinitionId) throws IOException, ServletException {
@@ -234,9 +256,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			this.runtimeTask.setPreviewTask(task.getTaskDefinitionKey());
 			this.runtimeTask.setPreviewTaskId(task.getId());
 		}
-		this.runtimeTask.setShowTimeLine("true");
+		this.runtimeTask.setShowTimeLine(true);
 		this.runtimeTask.setSaveButton(true);
-		this.addQueryString("p_id", nextTask.getId());
+		this.addQueryString(BPMNConstants.PRM_TASK_ID, nextTask.getId());
 		return this.redirect("igrp","ExecucaoTarefas","executar_button_minha_tarefas",this.queryString());
 	}
 
@@ -299,7 +321,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		Action action = new Action().find()
 									.andWhere("page", "=",this.page)
 									.andWhere("application.dad", "=",task.getTenantId())
-									 .andWhere("processKey", "=", task.getProcessDefinitionKey().toLowerCase())
+									 .andWhere("processKey", "=", task.getProcessDefinitionKey())
 									.one();
 		String json = "";
 		if(task.getVariables()!=null) {
@@ -321,7 +343,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			}
 		}	
 		this.runtimeTask = new RuntimeTask(task, action.getApplication().getId(), task.getTaskDefinitionKey(), task.getTenantId(),
-				task.getProcessDefinitionKey(), "false", task.getId());
+				task.getProcessDefinitionKey(), false, task.getId());
 		this.runtimeTask.setSaveButton(false);
 		this.runtimeTask.setDetails(true);
 		
@@ -337,5 +359,5 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	protected void setCustomPermission(String customPermission) {
 		this.myCustomPermission = customPermission;
 	}
-
+	
 }

@@ -1,11 +1,12 @@
 package nosi.webapps.igrp.pages.lista_terfa_de_processo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Lista_terfa_de_processo extends Model{		
 	
@@ -20,19 +21,20 @@ public class Lista_terfa_de_processo extends Model{
 
 
 	public static class Table_1 extends IGRPTable.Table{
-		private String n_tarefa;
+		private String estado;
 		private String descricao_tarefa;
 		private String data_inicio;
 		private String data_fim;
-		private String estado;
+		private String n_tarefa;
+		private String atribuido_a;
 		private String processdefinitionkey;
 		private String taskdefinitionkey;
 		private String prm_taskid;
-		public void setN_tarefa(String n_tarefa){
-			this.n_tarefa = n_tarefa;
+		public void setEstado(String estado){
+			this.estado = estado;
 		}
-		public String getN_tarefa(){
-			return this.n_tarefa;
+		public String getEstado(){
+			return this.estado;
 		}
 
 		public void setDescricao_tarefa(String descricao_tarefa){
@@ -56,11 +58,18 @@ public class Lista_terfa_de_processo extends Model{
 			return this.data_fim;
 		}
 
-		public void setEstado(String estado){
-			this.estado = estado;
+		public void setN_tarefa(String n_tarefa){
+			this.n_tarefa = n_tarefa;
 		}
-		public String getEstado(){
-			return this.estado;
+		public String getN_tarefa(){
+			return this.n_tarefa;
+		}
+
+		public void setAtribuido_a(String atribuido_a){
+			this.atribuido_a = atribuido_a;
+		}
+		public String getAtribuido_a(){
+			return this.atribuido_a;
 		}
 
 		public void setProcessdefinitionkey(String processdefinitionkey){

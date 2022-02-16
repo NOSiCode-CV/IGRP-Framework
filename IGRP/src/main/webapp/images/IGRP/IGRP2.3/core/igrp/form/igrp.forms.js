@@ -93,7 +93,7 @@
 									}
 
 									if($(forminput[(formIdx)]).prop('tagName').toLowerCase() == 'select'){
-										window.parent.$.IGRP.components.select2.init();
+										window.parent.$.IGRP.components.select2.init($(forminput[(formIdx)]).parents('.gen-fields-holder:first'));
 						 				//$(forminput[(formIdx)]).trigger('change.select2');
 									}
 
@@ -223,7 +223,11 @@
   			
   			hasFieldsError : function(){
   				if($(':input.error')[0]){
-					var tab = $(':input[required].error:first').parents('.panel-collapse, .tab-pane');
+  					
+  					if($.IGRP.components.tabcontent)
+  						$.IGRP.components.tabcontent.activeTabHasFieldsError($(':input[required].error:first'));
+						
+					/*var tab = $(':input[required].error:first').parents('.panel-collapse, .tab-pane');
 					
 					if(tab[0]){
 						var pre   = tab.hasClass('panel-collapse') ? 'pnl-' : '',
@@ -236,7 +240,7 @@
 
 							if(click)
 								$('[rel="'+pre+tab.attr('id')+'"] a[data-toggle]:first').click();
-					}
+					}*/
 					
 					$.IGRP.scrollTo($(':input.error:first'));
 				}
@@ -386,8 +390,10 @@
 					if($('[role="form"]',p.content)[0] && p.content.hasClass('igrp-forms')){
 						
 						if($('.form-control.select2',p.content)[0])
-							
 							$.IGRP.components.select2.init(p.content);
+						
+						if ($('*[mathcal]', p.control)[0])
+							$.IGRP.utils.mathcal(p.control);
 					}
 				});
 				

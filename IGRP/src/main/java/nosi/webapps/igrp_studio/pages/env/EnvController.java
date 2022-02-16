@@ -1,21 +1,20 @@
 package nosi.webapps.igrp_studio.pages.env;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.io.File;
-import nosi.core.config.Config;
-import nosi.core.config.ConfigApp;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 import static nosi.core.i18n.Translator.gt;
 
@@ -34,19 +33,16 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.HttpHeaders;
+import javax.jws.WebService;
+import javax.persistence.GeneratedValue;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.apache.commons.io.IOUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
+import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.integration.pdex.service.AppConfig;
+import nosi.core.integration.pdex.service.AppConfig.App;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.helpers.ApplicationPermition;
@@ -58,12 +54,12 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Profile;
-import nosi.webapps.igrp.dao.ProfileType; 
+import nosi.webapps.igrp.dao.ProfileType;
+
 /*----#end-code----*/
 		
-public class EnvController extends Controller { 
-	
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{ 
+public class EnvController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Env model = new Env();
 		model.load();
 		EnvView view = new EnvView();
@@ -75,11 +71,6 @@ public class EnvController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
-		Properties settings = ConfigApp.getInstance().loadCommonConfig();
-		String igrp_plsql_url = settings.getProperty("igrp.plsql.myapps.url");
-		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
-			view.plsql_codigo.setVisible(false);
-		
       	model.setGen_auto_code(1); 
       	model.setImg_src("default.svg");	
 	
@@ -89,8 +80,6 @@ public class EnvController extends Controller {
 		view.link_center.setVisible(false);
 		view.action_fk.setVisible(false);
 		view.flg_old.setVisible(false);
-		//view.flg_external.setValue(0);
-		//view.status.setVisible(false);
 		model.setStatus(1);
 		view.flg_external.setValue(new Application().getAtivesEstadoRegisto()); 
 		
@@ -111,7 +100,7 @@ public class EnvController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(gravar)----*/ 
 		
-		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+		if(Core.isHttpPost()){
 			if(!Character.isJavaIdentifierStart(model.getDad().charAt(0))) {
 				Core.setMessageError("Code error! First char is a number: "+model.getDad()+". Change please!");					
 				return this.forward("igrp_studio", "env", "index");
@@ -167,12 +156,11 @@ public class EnvController extends Controller {
 			
 				Core.setMessageSuccess();	
 
-				// ... Git control version code here ... 
+				return this.redirect("igrp_studio", "env","index");		
 				
-				return this.redirect("igrp_studio", "env","index");				
-			}else{
-				Core.setMessageError();
-			}
+			}else
+				Core.setMessageError(); 
+			
 		}
 		
 		return this.forward("igrp_studio", "env", "index");
@@ -181,27 +169,26 @@ public class EnvController extends Controller {
 	}
 	
 		
+		
 /*----#start-code(custom_actions)----*/
 	
 	private boolean appAutoDeploy(String appDad) {
 		boolean flag = true;
 		try {
-			/*String result = this.config.getPathOfImagesFolder().replace("IGRP", "FrontIGRP")
-					.replace("webapps", "..")
-					.replace("images", "IGRP-Template.war"); */		
+		
 			String result = System.getProperty("catalina.base");
-			if(result != null)
+			if(result != null) {
 				result += File.separator + "FrontIGRP" + File.separator + "IGRP-Template.war";
 			File file = new File(result); 	
 			
 			File destinationFile = new File(result.replace("IGRP-Template", appDad.toLowerCase()));
 			
-			FileOutputStream fos = new FileOutputStream(destinationFile.getAbsolutePath());			
-			CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());			
-			JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos));				
-			FileInputStream fis = new FileInputStream(file);			
-			CheckedInputStream cis = new CheckedInputStream(fis, new Adler32());			
-			JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));			
+			try(FileOutputStream fos = new FileOutputStream(destinationFile.getAbsolutePath())){	
+			try(CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32())){			
+			try(JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos))){					
+			try(FileInputStream fis = new FileInputStream(file)){				
+			try(CheckedInputStream cis = new CheckedInputStream(fis, new Adler32())){				
+			try(JarInputStream jis = new JarInputStream(new BufferedInputStream(cis))){				
 			JarEntry entry = null;
 			
 			while((entry=jis.getNextJarEntry()) != null){					
@@ -210,16 +197,11 @@ public class EnvController extends Controller {
 				jos.write(IOUtils.toByteArray(jis));				
 				jos.closeEntry();
 				jis.closeEntry();
-			}
-			jis.close();
-			
-			jos.close();
-			cos.close();
-			fos.close();
+			}			
 			
 			File newWarFile =  new File(result.replace("FrontIGRP", "webapps").replace("IGRP-Template", appDad.toLowerCase()));
 			flag = destinationFile.renameTo(newWarFile) && newWarFile.exists();
-			
+			}}}}}}}
 		}catch(Exception e) {
 			e.printStackTrace();
 			flag = false;
@@ -228,7 +210,6 @@ public class EnvController extends Controller {
 	}
 
 	public Response actionEditar() throws IllegalArgumentException, IllegalAccessException, IOException{
-		
 		Env model = new Env();		
 		Application aplica_db = new Application();
 		int idAplicacao = Core.getParamInt("p_id");
@@ -246,7 +227,7 @@ public class EnvController extends Controller {
 		model.setTemplates(aplica_db.getTemplate());
 		model.setPlsql_codigo(aplica_db.getPlsql_code());
 		
-		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
+		if(Core.isHttpPost()){
 			model.load();			
 			aplica_db.setName(model.getName());
 			aplica_db.setImg_src(model.getImg_src());	
@@ -287,8 +268,6 @@ public class EnvController extends Controller {
 				
 				Core.setMessageSuccess(); 
 				
-				// ... Git control version code here ...	
-				
 				return redirect("igrp_studio", "env","editar&p_id=" + idAplicacao);
 				
 			}else{
@@ -305,51 +284,44 @@ public class EnvController extends Controller {
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
 		view.flg_old.setVisible(false);
+		view.plsql_codigo.setLabel("IGRP (code)");
 		view.setModel(model);
 		
 		view.flg_external.setValue(new Application().getAtivesEstadoRegisto()); 
 		
-		return this.renderView(view);
-	
+		return this.renderView(view); 
 	}
 
 	// App list I have access to 
-	public Response actionMyApps() throws IOException{ 
+	public Response actionMyApps() { 
 		String type = Core.getParam("type");
-		
 		Igrp.getInstance().getResponse().setContentType("text/xml");
-	
 		List<Profile> myApp = new Application().getMyApp(); 
 		myApp = myApp.stream()
 				  .filter(profile->profile.getOrganization().getApplication().getStatus()==1).collect(Collectors.toList());
 		if(type!=null && type.equalsIgnoreCase("dev")) {
 			myApp = myApp.stream()					 
-					.filter(profile->!profile.getOrganization().getApplication().getDad().toLowerCase().equals("tutorial"))
-					.filter(profile->!profile.getOrganization().getApplication().getDad().toLowerCase().equals("igrp_studio"))
+					.filter(profile->!profile.getOrganization().getApplication().getDad().equalsIgnoreCase("tutorial"))
+					.filter(profile->!profile.getOrganization().getApplication().getDad().equalsIgnoreCase("igrp_studio"))
 					.collect(Collectors.toList());
 		}
 		List<Application> otherApp = new Application().getOtherApp();
 		List<Integer> aux = new ArrayList<>();
 		XMLWritter xml_menu = new XMLWritter();
-
 		xml_menu.startElement("applications");
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
-		List<IgrpPLSQLApp> allowApps = new ArrayList<IgrpPLSQLApp>();
-		List<IgrpPLSQLApp> denyApps = new ArrayList<IgrpPLSQLApp>();
+		List<App> allowApps = new ArrayList<>();
+		List<App> denyApps = new ArrayList<>();
 		getAllApps(allowApps,denyApps);
 		/** End **/
-
 		boolean displaySubtitle = false;
 		boolean displayTitle = false;
-		
 		xml_menu.setElement("link_img", this.getConfig().getLinkImg());
 		for(Profile profile:myApp){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "yes");
-			
 			String page = "tutorial/DefaultPage/index&title="+profile.getOrganization().getApplication().getName();
-			
 			if(profile.getOrganization().getApplication().getAction()!=null){
 				Action ac = profile.getOrganization().getApplication().getAction();
 				page = (ac!=null && ac.getPage()!=null)? ac.getApplication().getDad().toLowerCase()+"/" + ac.getPage()+"/"+ac.getAction():page;
@@ -361,7 +333,7 @@ public class EnvController extends Controller {
 			xml_menu.setElement("num_alert", ""+profile.getOrganization().getApplication().getId());
 			xml_menu.endElement();
 			aux.add(profile.getOrganization().getApplication().getId());
-			displayTitle = (type==null || type.equalsIgnoreCase(""))?true:false;
+			displayTitle = (type==null || type.equalsIgnoreCase(""));
 		}
 		if(type==null || type.equals("")) {
 			for(Application app:otherApp){
@@ -374,14 +346,13 @@ public class EnvController extends Controller {
 					xml_menu.setElement("num_alert", "");
 					xml_menu.setElement("description", app.getDescription());
 					xml_menu.endElement();
-					displaySubtitle = (type==null || type.equalsIgnoreCase(""))?true:false;
+					displaySubtitle = (type==null || type.equalsIgnoreCase(""));
 				}
 			}
 		}
-		
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
-		for(IgrpPLSQLApp obj: allowApps){
+		for(App obj: allowApps){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "yes");
 			xml_menu.setElement("link", obj.getLink());
@@ -392,8 +363,7 @@ public class EnvController extends Controller {
 			xml_menu.endElement();
 			displayTitle = true;
 		}
-
-		for(IgrpPLSQLApp obj: denyApps){
+		for(App obj: denyApps){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "no");
 			xml_menu.setElement("link", obj.getLink());
@@ -405,14 +375,11 @@ public class EnvController extends Controller {
 			displaySubtitle = true; 
 		}
 		/** End **/
-		if(displayTitle){
+		if(displayTitle)
 			xml_menu.setElement("title", Core.gt("Minhas Aplicações"));
-		}
-		if(displaySubtitle){
+		if(displaySubtitle)
 			xml_menu.setElement("subtitle", Core.gt("Outras Aplicações"));
-		}
 		xml_menu.endElement();
-
 		Response response = new Response();
 		response.setCharacterEncoding(Response.CHARSET_UTF_8);
 		response.setContentType(Response.FORMAT_XML);
@@ -423,39 +390,26 @@ public class EnvController extends Controller {
 	}
 	
 	private String getLinkOpenApp() {
-        String result = "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"env"+"/"+"openApp")+"&app="; 
-        return result;
+        return "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"env"+"/"+"openApp")+"&app=";
 	}
 
 
 	public Response actionOpenApp(@RParam(rParamName = "app") String app, @RParam(rParamName = "page") String page) throws Exception{ 
-		
 		String[] p = page.split("/");
 		Permission permission = new Permission();
-		
-		if(permission.isPermition(app,p[0], p[1], p[2])) {
-			permission.changeOrgAndProfile(app); // Muda perfil e organica de acordo com aplicacao aberta 
-			
+		if(permission.isPermition(app, p[0], p[1], p[2])) { 
 			Application env = Core.findApplicationByDad(app);
+			// 2 - custom dad 
+			String url = null; 
+			if(env.getExternal() == 2)  
+				url = buildAppUrlUsingAutentikaForSSO(env); 
+			// 1 External 
+			if(env.getExternal() == 1) 
+				url = env.getUrl(); 
+			if(url != null) 
+				return redirectToUrl(url); 
 			
-			Properties properties = ConfigApp.getInstance().loadCommonConfig();
-			String currentEnv = new Config().getEnvironment();
-			String devUrl = properties.getProperty("igrp.env.dev.url"); 
-			
-			// If you try to open igrp_studio in a not igrp_studio enviroment 
-			if(env != null && env.getDad().equalsIgnoreCase("igrp_studio") && currentEnv != null && !currentEnv.equalsIgnoreCase("dev") && devUrl != null && !devUrl.isEmpty()) { 				
-				String qs = "?app=" + env.getDad();
-				devUrl += qs;
-			return redirectToUrl(devUrl); 
-			}
-			
-			//1 External ; 2 custom dad 
-			if(env.getExternal() == 1 || env.getExternal() == 2) { 
-				String url = buildAppUrlUsingAutentikaForSSO(env); 
-				if(url != null) 
-					return redirectToUrl(url); 
-			} 
-			
+			permission.changeOrgAndProfile(app); // Muda perfil e organica de acordo com aplicacao aberta 
 			try {
 				final ApplicationPermition applicationPermition = permission.getApplicationPermitionBeforeCookie();
 				Integer idPerfil = applicationPermition!=null?applicationPermition.getProfId():null;				
@@ -469,7 +423,7 @@ public class EnvController extends Controller {
 						if(!permission.isPermition(app,p[0], p[1], p[2])) {
 							p[0]="tutorial";
 							p[1]="DefaultPage";
-							p[1]="index";
+							p[2]="index";
 						}
 					}
 				}
@@ -477,244 +431,189 @@ public class EnvController extends Controller {
 				System.err.println("EnvController line535:"+e.getLocalizedMessage());
 				e.printStackTrace();
 			}
-			
-			this.addQueryString("dad", app); 		
+			this.addQueryString("dad", app); 
+			String params = Core.getParam("p_params"); 
+			if(params != null) {
+				String allParams[] = params.split(";"); 
+				for(String param : allParams) {
+					String param_[] = param.split("="); 
+					if(param_.length == 2)
+						this.addQueryString(param_[0].trim(), param_[1].trim()); 
+				}
+			}
 			return this.redirect(p[0], p[1], p[2],this.queryString());
 		}		
-		Core.setMessageError(gt("Não tem permissão! No permission! Page: ")+page);		
-		Core.setAttribute("javax.servlet.error.message", gt("Não tem permissão! No permission! Page: ")+page);		
+		Core.setMessageError(gt("Não tem permissão! No permission! Page: ") + page);		
+		Core.setAttribute("javax.servlet.error.message", gt("Não tem permissão! No permission! Page: ") + page);		
 		return this.redirectError();
 	}
 	
 	/** Integration with IGRP-PLSQL Apps **
 	 * */
 	// Begin
-	private void getAllApps(List<IgrpPLSQLApp> allowApps /*INOUT var*/, List<IgrpPLSQLApp> denyApps  /*INOUT var*/) {
-		try {
-			
-			Properties properties =  ConfigApp.getInstance().loadConfig("common", "main.xml"); 
-			String baseUrl = properties.getProperty("igrp.plsql.myapps.url"); 
-			String token = properties.getProperty("igrp.plsql.myapps.token"); 
-			if(baseUrl == null || baseUrl.isEmpty() || token == null || token.isEmpty()) 
-				throw new Exception("Invalid url ..."); 
-			
-			String endpoint = baseUrl + "?p_email=" + "iekini.fernandes@nosi.cv"; 
-			
-			Client client = ClientBuilder.newClient(); 
-			WebTarget webTarget = client.target(endpoint); 
-			Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
-			javax.ws.rs.core.Response response  = invocationBuilder.get(); 
-			
-			String json = response.readEntity(String.class); 
-			
-			client.close(); 
-			
-			JSONObject obj = new JSONObject(json); 
-			JSONObject apps_t = obj.getJSONObject("apps_t"); 
-			if(apps_t != null && apps_t.has("apps_o")) {
-				JSONArray apps_o = apps_t.getJSONArray("apps_o"); 
-				if(apps_o != null) {
-					List<IgrpPLSQLApp> allApps = new Gson().fromJson(apps_o.toString(), new TypeToken<List<IgrpPLSQLApp>>() {}.getType()); 
-					for(IgrpPLSQLApp app : allApps) { 
-						if(app.getAvailable().equals("yes")) 
-							allowApps.add(app);
-						else 
-							denyApps.add(app);
-					}
-				}
-			}
-			
-		}catch(Exception e) {
-			//e.printStackTrace(); 
+	private void getAllApps(List<App> allowApps /*INOUT var*/, List<App> denyApps  /*INOUT var*/) {
+		Properties properties =  this.configApp.getMainSettings(); 
+		String baseUrl = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.value()); 
+		String token = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_TOKEN.value()); 
+		AppConfig appConfig = new AppConfig(); 
+		appConfig.setUrl(baseUrl);
+		appConfig.setToken(token);
+		List<App> allApps = appConfig.userApps(Core.getCurrentUser().getEmail()); 
+		for(App app : allApps) { 
+			if(app.getAvailable().equals("yes")) 
+				allowApps.add(app);
+			else 
+				denyApps.add(app);
 		}
 	}
 	
-	public static class IgrpPLSQLApp {
-		private String id;
-		private String name;
-		private String dad;
-		private String description;
-		private String img_src;
-		private String link;
-		private String available;
-		
-		public String getAvailable() {
-			return available;
-		}
-		public void setAvailable(String available) {
-			this.available = available;
-		}
-		public String getId() {
-			return id;
-		}
-		public void setId(String id) {
-			this.id = id;
-		}
-		public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
-		public String getDad() {
-			return dad;
-		}
-		public void setDad(String dad) {
-			this.dad = dad;
-		}
-		public String getDescription() {
-			return description;
-		}
-		public void setDescription(String description) {
-			this.description = description;
-		}
-		public String getImg_src() {
-			return img_src;
-		}
-		public void setImg_src(String img_src) {
-			this.img_src = img_src;
-		}
-		public String getLink() {
-			return link;
-		}
-		public void setLink(String link) {
-			this.link = link;
-		}
-		
-		@Override
-		public String toString() {
-			return "IgrpPLSQLApp [id=" + id + ", name=" + name + ", dad=" + dad + ", description=" + description
-					+ ", img_src=" + img_src + ", link=" + link + ", available=" + available + "]";
-		}
-	}
-	
-	public Response actionRetornarxml() throws IOException, IllegalArgumentException, IllegalAccessException{
+	// XML for Blocky's consume 
+	public Response actionRetornarxml() throws IllegalArgumentException{
 		String app = Core.getParam("app_name");
-		String xml = new EnvController.GetFieldsDAO().GerarXML(this.config, app); 
+		XMLWritter xml = new XMLWritter(); 
+		xml.startElement(app);
+		this.gerarXMLFromDAO(app, xml); 
+		this.gerarXMLFromServices(app, xml);
+		xml.endElement();
 		this.format = Response.FORMAT_XML;
-		return this.renderView(xml);
-	}
-	
-	public static class GetFieldsDAO {
-		
-		public Map<String,String> listFilesDirectory(String path) {
-			Map<String,String> files = new LinkedHashMap<String,String>();
-			if(FileHelper.fileExists(path)){
-			File folder = new File(path);
-			   for (final File fileEntry : folder.listFiles()) {
-			       if (fileEntry.isDirectory()) {
-			           files.putAll(listFilesDirectory(fileEntry.toString()));
-			       } else {
-			       	files.put(fileEntry.getName(), fileEntry.getAbsolutePath());
-			       }
-			   }
-			   return files;
-			}
-			return null;
-		}
-		
-		
-		public String GerarXML(Config conf, String dad){
-			
-			String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
-			
-			xml += "<dao>";
-			
-			if(dad != "") {
-				String x;
-				String workSpace = conf.getRawBasePathClassWorkspace();
-				if(Core.isNotNull(workSpace))
-					x = conf.getBasePahtClassWorkspace(dad)+File.separator+"dao";
-				else
-					x= conf.getPathServerClass(dad)+File.separator+"dao";
-				
-				Map<String,String> dao = listFilesDirectory(x);
-				
-				if( dao != null ) {
-					
-					for (Map.Entry<String, String> entry : dao.entrySet()) {
-						
-						try {
-							 String path=entry.getValue().substring(entry.getValue().indexOf("nosi"+File.separator+"webapps"+File.separator)).replace(".java", "").replace(File.separator, ".");
-							 String nome_classe = entry.getKey().replace(".java", "");
-							 
-							Class<?> obj = Class.forName(path);
-							
-							 xml += "<" +nome_classe+  ">";
-							
-							 Field[] fields = obj.getDeclaredFields();
-						        
-					         
-					         for (int i = 0; i < fields.length; i++) 
-					         {
-					        	 
-					        	 if(!fields[i].getName().startsWith("pc") && !fields[i].getName().startsWith("class") && !fields[i].getName().startsWith("serialVersion"))
-					        	 {
-					        	 xml += "<field>"
-					        	 		+ "<nome>" +
-					        	 		fields[i].getName()
-					        	 		+ "</nome>"
-					        	 		
-					        	 		+ "<tipo>";
-					        	 
-					        	 		try {
-					        	 			String aux[] = fields[i].getType().getTypeName().split("\\."); 
-						        	 		
-						        	 		xml += aux[aux.length - 1];
-										} catch (Exception e) {
-											xml += fields[i].getType().getTypeName();
-										}
-					        	 		 
-					        	 		xml += "</tipo>"
-					        	 		+ ""; 
-					        	 
-					        	 xml += "</field>";
-					        	 
-					        	 }
-					         }
-					         
-					         xml += "</" +nome_classe+ ">";
-					         
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					
-				}
-				
-			}
-			
-			xml += "</dao>";
-			
-			return xml;
-			
-		}
-
-	}
+		return this.renderView(xml.toString());
+	} 
 	
 	private String buildAppUrlUsingAutentikaForSSO(Application env) { 
 		String url = null;
 		try { 
-			String contextName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName(); 
-			if(env != null && !contextName.equalsIgnoreCase(env.getUrl())) { 
-				
-				Properties settings =  ConfigApp.getInstance().loadConfig("common", "main.xml"); 
-				url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
-				String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
-				String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
-				
-				url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrpweb&redirect_uri=" + redirect_uri; 
-				
-				url = url.replace("state=igrpweb", "state=" + env.getDad()); 
-				
+			String contextName = Core.getDeployedWarName(); 
+			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !contextName.equalsIgnoreCase(env.getUrl())) {
+				url = this.configApp.getAutentikaUrlForSso(); 
+				url = url.replace("state=igrp", "state=ENV/" + env.getDad()); 
 				url = url.replace("/IGRP/", "/" + env.getUrl() + "/"); 
 			}
-			
 		} catch (Exception e) { 
 		}
-		
+
 		return url;
+	}
+	
+	public Map<String,String> listFilesDirectory(String path) {
+		Map<String,String> files = new LinkedHashMap<>();
+		if(FileHelper.fileExists(path)){
+		File folder = new File(path);
+		   for (final File fileEntry : folder.listFiles()) {
+		       if (fileEntry.isDirectory()) {
+		           files.putAll(listFilesDirectory(fileEntry.toString()));
+		       } else {
+		       	files.put(fileEntry.getName(), fileEntry.getAbsolutePath());
+		       }
+		   }
+		}
+		return files;
+	}
+	
+	public void gerarXMLFromServices(String dad, XMLWritter xml){
+		xml.startElement("services");
+		String x = this.getConfig().getPathServerClass(dad) + File.separator + "services";
+		if(Core.isNotNull(this.getConfig().getRawBasePathClassWorkspace()))
+			x = this.getConfig().getBasePahtClassWorkspace(dad) + File.separator + "services";
+		Map<String,String> services = listFilesDirectory(x);
+		if(!services.isEmpty()) {
+			for (Map.Entry<String, String> entry : services.entrySet()) {
+				try {
+					String fullClassName = entry.getValue().substring(entry.getValue().indexOf("nosi"+File.separator+"webapps"+File.separator)).replace(".java", "").replace(File.separator, ".");
+					Class<?> c = Class.forName(fullClassName); 
+					if(c.isInterface() && c.isAnnotationPresent(WebService.class)) {
+						String className = entry.getKey().replace(".java", "");
+						xml.startElement(className);
+							xml.setElement("full_class_name", c.getName());
+							xml.startElement("operations");
+								Method []methods = c.getMethods(); 
+								if(methods != null) 
+									for(Method m : methods) {
+										xml.startElement(m.getName()); 
+											xml.startElement("params"); 
+												Parameter parameters[] = m.getParameters(); 
+												if(parameters != null) 
+													for(Parameter p : parameters) {
+														xml.startElement(p.getName()); 
+															xml.text(p.getType().getTypeName());
+														xml.endElement();
+													}
+											xml.endElement();
+											xml.startElement("return"); 
+												xml.startElement("tipo");
+													xml.text(m.getReturnType().getName());
+												xml.endElement();
+												xml.addXml(generateXMLFieldsStructure(m.getReturnType()));
+											xml.endElement();
+										xml.endElement();
+									}
+							xml.endElement();
+						xml.endElement();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		xml.endElement();
+	}
+		
+	public void gerarXMLFromDAO(String dad, XMLWritter xml){
+		xml.startElement("dao");
+		String x = this.getConfig().getPathServerClass(dad) + File.separator + "dao";
+		if(Core.isNotNull(this.getConfig().getRawBasePathClassWorkspace()))
+			x = this.getConfig().getBasePahtClassWorkspace(dad) + File.separator + "dao";
+		Map<String,String> dao = listFilesDirectory(x);
+		if(!dao.isEmpty()) {
+			for (Map.Entry<String, String> entry : dao.entrySet()) {
+				try {
+					String path = entry.getValue().substring(entry.getValue().indexOf("nosi"+File.separator+"webapps"+File.separator)).replace(".java", "").replace(File.separator, ".");
+					String nome_classe = entry.getKey().replace(".java", "");
+					Class<?> obj = Class.forName(path);
+					xml.startElement(nome_classe);
+					Field[] fields = obj.getDeclaredFields();
+			         for (int i = 0; i < fields.length; i++) {
+			        	 if(!fields[i].getName().startsWith("pc") && !fields[i].getName().startsWith("class") && !fields[i].getName().startsWith("serialVersion")){
+			        		 xml.startElement("field");
+				        		 xml.startElement("nome");
+				        		 	xml.text(fields[i].getName());
+				        		 xml.endElement();
+				        		 xml.startElement("tipo");
+					        		 String aux = fields[i].getType().getSimpleName(); 
+					        	 		if(fields[i].getAnnotation(ManyToOne.class) != null || fields[i].getAnnotation(OneToOne.class) != null) 
+					        	 			aux += "_FK#";  
+					        	 		else if(fields[i].getAnnotation(GeneratedValue.class) != null)
+					        	 			aux += "_PK#";
+					        	 	xml.text(aux);
+				        	 	xml.endElement();
+			        	 	xml.endElement();
+			        	 
+			        	 }
+			         }
+			         xml.endElement();
+				} catch (Exception e) {	
+					e.printStackTrace();
+				}
+			}
+		}
+		xml.endElement();
+	} 
+	
+	private String generateXMLFieldsStructure(Class obj) {
+		XMLWritter xml = new XMLWritter(); 
+		Field[] fields = obj.getDeclaredFields();
+		if(fields != null && fields.length > 0) {
+			xml.startElement("fields");
+				for(Field field : fields) {
+					xml.startElement("field");
+						xml.setElement("nome", field.getName());
+						xml.setElement("tipo", field.getType().getName());
+						if(field.getType().getName().startsWith("nosi.webapps"))
+							return generateXMLFieldsStructure(field.getClass()); 
+					xml.endElement();
+				}
+			xml.endElement();
+		}
+		return xml.toString(); 
 	}
 	
 	/*----#end-code----*/

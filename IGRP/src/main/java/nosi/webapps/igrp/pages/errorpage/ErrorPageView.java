@@ -1,8 +1,8 @@
 package nosi.webapps.igrp.pages.errorpage;
 
+import nosi.core.gui.components.*;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
-import nosi.core.gui.components.*;
 
 public class ErrorPageView extends View {
 

@@ -1,23 +1,9 @@
 package nosi.core.gui.components;
-/**
- * @author: Emanuel Pereira
- * 
- * Apr 17, 2017
- *
- * Description: class to generate xml of Messages
- */
-/*
- * <messages>
- * 		<message type="success">Sucess</message>
- * 		...
- * </messages>
- */
-import nosi.core.xml.XMLWritter;
-
 import org.apache.commons.text.StringEscapeUtils;
 
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.xml.XMLWritter;
 
 public class IGRPMessage {
 	

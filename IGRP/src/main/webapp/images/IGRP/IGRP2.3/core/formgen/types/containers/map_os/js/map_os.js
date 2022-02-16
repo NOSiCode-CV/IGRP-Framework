@@ -59,22 +59,37 @@
 
 				css : [ 
 					{ path : '/plugins/leaflet/library/css/leaflet.css' },
-					{ path : '/plugins/gis/styles/igrp.gis.css' } 
+					{ path : '/plugins/leaflet/library/plugins/markercluster/MarkerCluster.css' }, 
+					{ path : '/plugins/leaflet/library/plugins/markercluster/MarkerCluster.Default.css' }, 
+					{ path : '/plugins/gis/styles/igrp.gis.css' }, 
+					
+					{ path : 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css' },
+					
 				],
 				
 				js  : [ 
 					{ path : '/plugins/leaflet/library/js/leaflet.js' },
-					//{ path : '/plugins/leaflet/classes/TileLayer.WMS.js' },
 					{ path : '/plugins/leaflet/library/plugins/basemap-provider/leaflet-providers.js' },
 					{ path : '/plugins/leaflet/library/plugins/ajax/leaflet.ajax.min.js' },
 					
 					{ path : '/plugins/leaflet/library/plugins/proj4leaflet/proj4.js' },
 					{ path : '/plugins/leaflet/library/plugins/proj4leaflet/proj4leaflet.js' },
 					
+					{ path : '/plugins/leaflet/library/plugins/markercluster/leaflet.markercluster-src.js' },
+					
+					{ path : '/plugins/leaflet/library/plugins/draw/leaflet.draw.js' },
+					
+					{ path : '/plugins/leaflet/library/plugins/draw/Leaflet.Editable.js' },
+					
+					{ path : 'https://npmcdn.com/leaflet-geometryutil@0.9.3/src/leaflet.geometryutil.js'},
+					
 					{ path : '/plugins/handlebars/handlebars-v4.1.1.js' },
+					
+					{ path : '/plugins/leaflet/library/plugins/pattern/leaflet.pattern.js' },
 					
 					{ path : '/plugins/gis/v2/gis.js' },
 					{ path : '/plugins/gis/v2/modules/gis.utils.js' },
+					{ path : '/plugins/gis/v2/modules/gis.config.js' },
 					{ path : '/plugins/gis/v2/modules/gis.templates.js' },
 					{ path : '/plugins/gis/v2/modules/gis.map.js' },
 					{ path : '/plugins/gis/v2/modules/gis.basemaps.js' },
@@ -84,8 +99,9 @@
 					{ path : '/plugins/gis/v2/modules/gis.widgets.js' },
 					{ path : '/plugins/gis/v2/modules/gis.widget.js' },
 					{ path : '/plugins/gis/v2/modules/gis.panels.js' },
-					{ path : '/plugins/gis/v2/modules/gis.graphics.js' }
-
+					{ path : '/plugins/gis/v2/modules/gis.graphics.js' },
+					{ path : '/plugins/gis/v2/modules/gis.legends.js' },
+				
 				],
 				xsl : [ 'gis.map' ]
 			};
@@ -192,15 +208,16 @@
 
 			container.xml.getStructure = function(o){
 
-				var xml    = '',
+				var xml    = '';
 
-					data   = JSON.stringify(GetMapData());
+					//data   = JSON.stringify(GetMapData());
 
 				xml+='<fields>'+
 
 						'<'+container.GET.tag()+'_data type="text" name="p_'+container.GET.tag()+'_data" maxlength="8000" persist="true">'+
 							'<label>Map Data</label>'+
-							'<value>'+data.replace(/"/g, '\\"')+'</value>'+
+							'<value>'+path+'/core/formgen/types/containers/map_os/config.example.json</value>'+
+							//'<value>'+data.replace(/"/g, '\\"')+'</value>'+
 						'</'+container.GET.tag()+'_data>'+
 
 					 '</fields>'

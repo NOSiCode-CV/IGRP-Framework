@@ -1,0 +1,30 @@
+{
+    "baseMaps": [
+        {
+            "default": true,
+            "name": "GoogleSatellite"
+        },
+        {
+            "default": false,
+            "name": "Esri.WorldImagery"
+        },
+        {
+            "default": false,
+            "name": "OpenStreetMap.BlackAndWhite"
+        },
+        {
+            "default": false,
+            "name": "OpenStreetMap"
+        }
+    ],
+    "expand": true,
+    "footer": true,
+    "fullscreen": false,
+    "lock": true,
+    "groupLayers": [],
+    "locate": true,
+    "panelLayers": true,
+    "panelWidgets": true,
+    "widgets": [],
+    "zoom": 8
+}

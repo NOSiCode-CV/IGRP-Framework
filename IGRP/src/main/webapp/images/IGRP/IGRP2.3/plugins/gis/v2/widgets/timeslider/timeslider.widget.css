@@ -1,0 +1,67 @@
+.gis-widget-wrapper[widget-type="timeslider"] .gis-widget-panel-body{
+    font-size: 12px;
+}
+
+.gis-widget-wrapper[widget-type="timeslider"] .slider-time-extent{
+    text-align: center;
+}
+
+.gis-widget-wrapper[widget-type="timeslider"] .slider-time-extent span.divider{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
+.gis-widget-wrapper[widget-type="timeslider"] .p8{	
+	padding: 8px;
+}
+
+.gis-widget-wrapper[widget-type="timeslider"] .slider-control{
+    display: flex;
+    align-items: baseline;
+}
+
+.gis-widget-wrapper[widget-type="timeslider"] .slider-control .run{
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.gis-widget-wrapper[widget-type="timeslider"] .slider-control .slider-min-date{
+    flex: auto;
+    align-items: flex-start;
+    font-weight: 500;
+}
+
+.gis-widget-wrapper[widget-type="timeslider"] .slider-control .slider-max-date{
+    flex: auto;
+    align-items: flex-end;
+    font-weight: 500;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.gis-widget-wrapper[widget-type="timeslider"] .gis-slider{
+    border-radius: 4px;
+    height: 8px;
+}
+
+.gis-widget-wrapper[widget-type="timeslider"] .gis-slider .ui-slider-handle{
+    border-radius: 50%;
+    width: 17px;
+    height: 17px;
+    top: -6px;
+    border: 2px solid #337ab7;
+}
+
+.gis-widget-wrapper[widget-type="timeslider"] .slider-settings{
+    text-align: right;
+}
+
+
+.gis-widget-wrapper[widget-type="timeslider"] .form-group[item-name=attributes]{
+	text-transform: capitalize;
+}
+
+.gis-widget-wrapper[widget-type="timeslider"] .gis-slider .ui-slider-range{
+    background-color: #337ab7;
+}

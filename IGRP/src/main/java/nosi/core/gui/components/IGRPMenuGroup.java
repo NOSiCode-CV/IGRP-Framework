@@ -3,8 +3,10 @@ package nosi.core.gui.components;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.Set;
+
 import nosi.core.gui.fields.GenXMLField;
+
+import java.util.Set;
 
 /**
  * @author: Emanuel Pereira

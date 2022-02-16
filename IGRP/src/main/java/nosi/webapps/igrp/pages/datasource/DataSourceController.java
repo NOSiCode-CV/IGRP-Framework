@@ -1,20 +1,34 @@
 package nosi.webapps.igrp.pages.datasource;
 
-import nosi.core.webapp.Controller;
-import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
-import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
-import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.entities.TaskService;
-import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
-import nosi.core.webapp.activit.rest.services.TaskServiceRest;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.TextField;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.entities.TaskService;
+import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
+import nosi.core.webapp.activit.rest.services.TaskServiceRest;
+import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
@@ -24,15 +38,7 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.User;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.stream.Collectors;
-import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
+import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 /*----#end-code----*/
 		
 public class DataSourceController extends Controller {
@@ -43,92 +49,99 @@ public class DataSourceController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.processo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.etapa.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/	
-	
-		
-		view.tipo.setQuery(Core.query(null,"SELECT 'Task' as ID,'Etapa' as NAME UNION "
-				+ "SELECT 'Object' as ID,'Objeto' as NAME UNION "
-				+ "SELECT 'Page' as ID,'Pagina' as NAME UNION "
-				+ "SELECT 'Query' as ID,'Query' as NAME"),"--- Selecionar Tipo Data Source ---");
-		
+				
+		view.tipo.setValue(this.getDatasourceType());
+		view.servico.setVisible(false);
+		view.btn_fechar.setVisible(false);
 		view.processo.setVisible(false);
 		view.query.setVisible(false);
-		view.servico.setVisible(false);
 		view.etapa.setVisible(false);
 		view.pagina.setVisible(false);
 		view.objecto.setVisible(false);
-		model.setId_env(Core.isNotNull(model.getId_env())?model.getId_env():Core.getParam("id_env"));
-		ProcessDefinitionIGRP processRest =new ProcessDefinitionIGRP();
-		if(Core.isNotNull(model.getId_env())) {		
-			//			If just one data source exist, will be choosed
-			final Map<Object, Object> listDSbyEnv = new Config_env().getListDSbyEnv(Integer.parseInt(model.getId_env()));
-			if(listDSbyEnv!=null && listDSbyEnv.size()==2) {				
-				model.setData_source(listDSbyEnv.keySet().stream().filter(a->a!=null).findFirst().get().toString());
-			}
-			String id = Core.getParam("p_datasorce_app");
-			String ichange = Core.getParam("ichange");
-			if(Core.isNotNull(id)){
-				RepSource rep = new RepSource().findOne(Integer.parseInt(id));
-				model.setNome(rep.getName());
-				model.setObjecto(rep.getType_name().equalsIgnoreCase("object")?rep.getType_query():"");
-				model.setQuery(rep.getType_name().equalsIgnoreCase("query")?rep.getType_query():"");
-				model.setTipo(rep.getType_name());
-				if(rep.getConfig_env()!=null) {
-					model.setData_source(""+rep.getConfig_env().getId());
-				}
-				if(Core.isNull(ichange)) {
-					model.setEtapa(rep.getTaskid());
-					model.setProcesso(rep.getProcessid());
-				}
-				if(rep.getType_name().equalsIgnoreCase("page")) {
-					Action ac = new Action().findOne(rep.getType_fk());
+		view.data_source.setVisible(false);
+
+		model.setId_env(Core.isNotNull(model.getId_env()) ? model.getId_env() : Core.getParam("id_env"));
+		model.setDatasorce_app(Core.isNotNull(model.getDatasorce_app()) ? model.getDatasorce_app() : Core.getParam("p_datasorce_app"));
+
+		final Integer envId = Core.toInt(model.getId_env());
+		final Integer dataSourceId = Core.toInt(model.getDatasorce_app());
+		final boolean notHasError = Core.isNull(Core.getParam("p_forward_error"));
+
+		if (Core.isNullOrZero(envId)) {
+			Core.setMessageError("Invalid data!");
+			view.btn_gravar.setVisible(false);
+			return this.renderView(view);
+		}
+		
+		final Application application = Core.findApplicationById(envId);
+
+		
+		if (Core.isNotNullOrZero(dataSourceId) && notHasError) {
+
+			final RepSource repSource = new RepSource().findOne(dataSourceId);
+
+			model.setNome(repSource.getName());
+			model.setObjecto(this.isTypeObject(repSource.getType_name()) ? repSource.getType_query() : "");
+			model.setQuery(this.isTypeQuery(repSource.getType_name()) ? repSource.getType_query() : "");
+			model.setEtapa(repSource.getTaskid());
+
+			if (Core.isNull(Core.getParam("ichange"))) {
+				model.setProcesso(repSource.getProcessid());
+				model.setTipo(repSource.getType_name());
+			}	
+
+			if (Objects.nonNull(repSource.getConfig_env()))
+				model.setData_source(repSource.getConfig_env().getId().toString());
+
+			if (this.isTypePage(repSource.getType_name())) {
+				if (Core.isNull(repSource.getType_fk()))
+					Core.setMessageError("Page not found!");
+				else {
+					final Action ac = new Action().findOne(repSource.getType_fk());
 					model.setPagina(ac.getPage_descr());
 					model.setId_pagina(ac.getId());
 				}
 			}
-			Application app = Core.findApplicationById(Core.toInt(model.getId_env()));		
-			
-			view.data_source.setValue(listDSbyEnv);
-			
-			//habilita botao de acordo com tipo de objeto
-			if(Core.isNotNull(model.getTipo())){
-				if(model.getTipo().equalsIgnoreCase("object")){
-					view.objecto.setVisible(true);
-				}else if(model.getTipo().equalsIgnoreCase("page")){
-					view.pagina.setVisible(true);
-					view.pagina.setLookup("igrp","LookupListPage","index");
-					view.pagina.addParam("p_prm_target","_blank");
-					view.pagina.addParam("p_id_pagina", "id");
-					view.pagina.addParam("p_pagina", "descricao");
-					view.pagina.addParam("p_env_fk", model.getId_env());
-				}else if(model.getTipo().equalsIgnoreCase("query")){
-					view.query.setVisible(true);
-				}else
-					if(model.getTipo().equalsIgnoreCase("task")){
-					view.etapa.setVisible(true);
-					view.processo.setVisible(true);
-					if(app!=null) {
-						//Get Process Type
-						view.processo.setValue(processRest.mapToComboBoxByKey(app.getDad()));
-					}
-				}
-			}
-			
-			if(Core.isNotNull(id)){
-				view.btn_gravar.setLink("gravar&p_datasorce_app="+id);
-			}
-			view.btn_fechar.setVisible(false);
-			if(Core.isNotNull(model.getProcesso()) && app!=null) {
-				view.etapa.setValue(processRest.mapToComboBoxByProcessKey(model.getProcesso(),app.getDad()));
-			}
 		}
 		
-		view.nome.setVisible(true);
+		// habilita campos de acordo com tipo de datasource
+		if (Core.isNotNull(model.getTipo())) {
+			
+			if (this.isTypeObject(model.getTipo())) {
+				view.objecto.setVisible(true);
+				view.data_source.setVisible(true);
+
+			} else if (this.isTypeQuery(model.getTipo())) {
+				view.query.setVisible(true);
+				view.data_source.setVisible(true);
+
+			} else if (this.isTypePage(model.getTipo())) {
+				view.pagina.setVisible(true);
+				view.pagina.setLookup("igrp", "LookupListPage", "index");
+				view.pagina.addParam("p_prm_target", "_blank");
+				view.pagina.addParam("p_id_pagina", "id");
+				view.pagina.addParam("p_pagina", "descricao");
+				view.pagina.addParam("p_env_fk", envId.toString());
+
+			} else if (this.isTypeTask(model.getTipo())) {
+				final ProcessDefinitionIGRP processRest = new ProcessDefinitionIGRP();
+				view.etapa.setVisible(true);
+				view.processo.setVisible(true);
+				view.processo.setValue(processRest.mapToComboBoxByKey(application.getDad()));
+				
+				if (Core.isNotNull(model.getProcesso()))
+					view.etapa.setValue(processRest.mapToComboBoxByProcessKey(model.getProcesso(), application.getDad()));
+			}
+		}	
+		
+		view.data_source.setValue(this.getDataSourceMap(envId));
 		
 		/*----#end-code----*/
 		view.setModel(model);
@@ -141,136 +154,171 @@ public class DataSourceController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","DataSource","index", this.queryString()); //if submit, loads the values
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","DataSource","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gravar)  *//* End-Code-Block  */
 		/*----#start-code(gravar)----*/		
 		
-  		this.addQueryString("p_id_env",model.getId_env());
-		if(Core.isNotNull(model.getId_env())){
-			Application app = new Application().findOne(Integer.parseInt(model.getId_env()));
-			RepSource rep = new RepSource();
-			rep.setName(model.getNome());
-			rep.setType(model.getTipo());
-			rep.setType_name(model.getTipo());
-			rep.setType_query(model.getQuery());
-			if((model.getTipo().equalsIgnoreCase("object") || model.getTipo().equalsIgnoreCase("query")) && Core.isNull(model.getData_source())) {
-				Core.setMessageError("Por favor selecione uma data source");
-				return this.forward("igrp","DataSource","index", this.queryString());
+		final Integer dataSourceId = Core.toInt(model.getDatasorce_app());
+		final Integer envId = Core.toInt(model.getId_env());
+		final boolean hasDataSource = Core.isNotNull(model.getData_source());
+		final boolean isTypeObject = this.isTypeObject(model.getTipo());
+		final boolean isTypePage =  this.isTypePage(model.getTipo());
+		final boolean isTypeQuery =  this.isTypeQuery(model.getTipo());
+		final boolean isTypeTask =  this.isTypeTask(model.getTipo());
+		final Application application = Core.findApplicationById(envId);
+		final User currentUser = Core.getCurrentUser();
+		final Date currentDate = Core.getCurrentDateUtil();
+		final Config_env configEnv = hasDataSource ? new Config_env().findOne(Core.toInt(model.getData_source())) : null;		
+		this.addQueryString("id_env", envId);
+
+		if (isTypeObject || isTypeQuery) {
+			if (!hasDataSource) {
+				Core.setMessageError("Por favor selecione um  <strong>Data Source</strong>!");
+				this.addQueryString("p_forward_error", "true");
+				return this.forward("igrp", "DataSource", "index", this.queryString());
 			}
-			if(Core.isNotNull(model.getData_source()))
-				rep.setConfig_env(new Config_env().findOne(Integer.parseInt(model.getData_source())));
-			if(model.getTipo().equalsIgnoreCase("object")){
-				rep.setType_query(model.getObjecto());
+
+			if (isTypeObject && !DatabaseMetadaHelper.tableOrViewExists(configEnv, null, model.getObjecto().trim())) {
+				Core.setMessageError("Objecto <strong>" + model.getObjecto().trim() + "</strong> não encontrado na base de dados!");
+				this.addQueryString("p_forward_error", "true");
+				return this.forward("igrp", "DataSource", "index", this.queryString());
 			}
-			if(model.getTipo().equalsIgnoreCase("page")){				
-				rep.setType_fk(model.getId_pagina());
+
+			if (isTypeQuery && !Core.validateQuery(configEnv, model.getQuery().trim())) {
+				Core.setMessageError("Query Inválido!");
+				this.addQueryString("p_forward_error", "true");
+				return this.forward("igrp", "DataSource", "index", this.queryString());
 			}
-			if(model.getTipo().equalsIgnoreCase("object") || model.getTipo().equalsIgnoreCase("query")){
-				String query = rep.getType_query();
-				query = rep.getType().equalsIgnoreCase("object")?"SELECT * FROM "+query:query;
-				if(!Core.validateQuery(rep.getConfig_env(),query)){
-					Igrp.getInstance().getFlashMessage().addMessage("error","Query Invalido");
-					return this.forward("igrp","DataSource","index&id_env="+model.getId_env());
-				}
-			}
-		
-			if(model.getTipo().equalsIgnoreCase("task")) {
-				ProcessDefinitionService p = new ProcessDefinitionServiceRest().getLatestProcessDefinitionByKey(model.getProcesso(),app.getDad());				
-				//if(p.filterAccess(p)) {
-					rep.setProcessid(p.getKey());
-					rep.setTaskid(model.getEtapa());
-					rep.setApplication_source(new Application().findOne(Core.toInt(p.getTenantId())));
-					List<TaskService> task = new TaskServiceRest().getTasksByProcessKey(model.getProcesso(),app.getDad()).stream().filter(n->n.getTaskDefinitionKey().equalsIgnoreCase(model.getEtapa())).collect(Collectors.toList());
-					rep.setFormkey((task!=null && !task.isEmpty())?task.get(0).getFormKey():"");
-				/*}else {
-					throw new IOException(Core.NO_PERMITION_MSG);
-				}*/
-			}
-			
-			rep.setApplication(app);
-			rep.setStatus(1);
-			rep.setApplication_source(app);
-			Date dt = new Date(System.currentTimeMillis());
-			rep.setDt_created(dt);
-			rep.setDt_updated(dt);
-			User user = new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
-			rep.setUser_created(user);
-			rep.setUser_updated(user);
-			String id = Core.getParam("p_datasorce_app");
-			if(Core.isNotNull(id)){
-				rep.setId(Integer.parseInt(id));
-				rep = rep.update();
-			}else{
-				rep = rep.insert();
-			}
-			if(rep!=null)
-				Core.setMessageSuccess();
-		}else{
-			Core.setMessageError();
-			return this.forward("igrp","DataSource","index", this.queryString());
 		}
+
+		RepSource repSource = Core.isNullOrZero(dataSourceId) ? new RepSource() : new RepSource().findOne(dataSourceId);
+
+		repSource.setName(model.getNome());
+		repSource.setType(model.getTipo());
+		repSource.setType_name(model.getTipo());
+		repSource.setType_fk(isTypePage ? model.getId_pagina() : null);
+		repSource.setApplication(application);
+		repSource.setApplication_source(application);
+		repSource.setConfig_env(configEnv);
+		
+		if (isTypeQuery)
+			repSource.setType_query(model.getQuery().trim());
+		else if (isTypeObject)
+			repSource.setType_query(model.getObjecto().trim());
+		else
+			repSource.setType_query(null);
+
+		if (isTypeTask) {
+			final ProcessDefinitionService processDefService = this.getProcessDefinitionService(model.getProcesso(), application.getDad());
+			repSource.setProcessid(processDefService.getKey());
+			repSource.setApplication_source(Core.findApplicationByDad(processDefService.getTenantId()));
+			repSource.setTaskid(model.getEtapa());
+			repSource.setFormkey(this.getTaskKey(model, application));
+		} else {
+			repSource.setProcessid(null);
+			repSource.setApplication_source(null);
+			repSource.setTaskid(null);
+			repSource.setFormkey(null);
+		}		
+		
+		repSource.setUser_updated(currentUser);
+		repSource.setDt_updated(currentDate);
+		if (Core.isNotNullOrZero(dataSourceId))
+			repSource = repSource.update();
+		else {
+			repSource.setStatus(1);
+			repSource.setDt_created(currentDate);
+			repSource.setUser_created(currentUser);
+			repSource = repSource.insert();
+		}
+		
+		if (Objects.nonNull(repSource)) {
+			this.addQueryString("p_datasorce_app", repSource.getId().toString());
+			
+			if (Core.isNotNullOrZero(dataSourceId))
+				Core.setMessageSuccess("DataSource atualizado com sucesso.");
+			else
+				Core.setMessageSuccess();
+			
+			return this.forward("igrp", "DataSource", "index", this.queryString());
+		}
+		
 		/*----#end-code----*/
 		return this.redirect("igrp","DataSource","index", this.queryString());	
 	}
 	
 	public Response actionFechar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		DataSource model = new DataSource();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","datasource","index",this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(fechar)----*/		
 		
 		/*----#end-code----*/
 		
-		return this.redirect("igrp","datasource","index");	
+		return this.redirect("igrp","datasource","index", this.queryString());	
 	}
-	
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 	
 	//Print data source in xml format
-	public Response actionGetDataSource() throws IOException{
-		String [] p_id = Igrp.getInstance().getRequest().getParameterValues("p_id");
-		String p_template_id = Igrp.getInstance().getRequest().getParameter("p_template_id");
-		XMLWritter xml = new XMLWritter();
+	public Response actionGetDataSource() {
+		final String [] ids = Igrp.getInstance().getRequest().getParameterValues("p_id");
+		final String templateId = Igrp.getInstance().getRequest().getParameter("p_template_id");
+		final XMLWritter xml = new XMLWritter();
 		xml.startElement("rows");
-		if(p_id!=null && p_id.length > 0){
-			for(String id:p_id){
-				xml.addXml(this.loadDataSource((int)Float.parseFloat(id),(p_template_id!=null && !p_template_id.equals(""))?(int)Float.parseFloat(p_template_id):0));
+		
+		if (Objects.nonNull(ids) && ids.length > 0) {
+			for (String id : ids) {
+				xml.addXml(this.loadDataSource((int) Float.parseFloat(id),
+						(templateId != null && !templateId.equals("")) ? (int) Float.parseFloat(templateId) : 0));
 			}
 		}
 		xml.endElement();
 		return this.renderView(xml.toString());
 	}
 
-	//Load data source
-	private String loadDataSource(int id,int template_id) {
-		DataSourceHelpers dsh = new DataSourceHelpers();
-		RepSource rep = new RepSource().findOne(id);
-		if(rep!=null){
-			Set<Properties> columns = new HashSet<>();
-			if(rep.getType().equalsIgnoreCase("object") || rep.getType().equalsIgnoreCase("query")){
-				String query = rep.getType_query();
-				query = rep.getType().equalsIgnoreCase("object")?"SELECT * FROM "+query:query;
-				columns = dsh.getColumns(rep.getConfig_env(),template_id,query);
-				return this.transformToXml(rep,columns);
-			}else if(rep.getType().equalsIgnoreCase("page")){
+	// Load data source
+	private String loadDataSource(int id, int templateId) {
+		
+		final RepSource rep = new RepSource().findOne(id);
+		
+		if (Objects.nonNull(rep)) {
+			if (this.isTypeObject(rep.getType()) || this.isTypeQuery(rep.getType())) {
+				final String query = this.isTypeObject(rep.getType()) ? "SELECT * FROM " + rep.getType_query() : rep.getType_query();
+				final Set<Properties> columns = new DataSourceHelpers().getColumns(rep, templateId, query);
+				return this.transformToXml(rep, columns);
+				
+			} else if (this.isTypePage(rep.getType())) {
 				Action ac = new Action().findOne(rep.getType_fk());
-				return this.getDSPageOrTask(rep,ac.getApplication().getDad(), ac.getPage(), "index",ac.getPage_descr());
-			}else if(rep.getType().equalsIgnoreCase("task")) {
-				return this.getDSPageOrTask(rep,rep.getApplication_source().getDad(), rep.getFormkey(), "index","Task: "+rep.getTaskid());
+				return this.getDSPageOrTask(rep, ac.getApplication().getDad(), ac.getPage(), "index",
+						ac.getPage_descr());
+				
+			} else if (this.isTypeTask(rep.getType())) {				
+				return this.getDSPageOrTask(rep, rep.getApplication_source().getDad(), rep.getFormkey(), "index",
+						"Task: " + rep.getTaskid());
 			}
 		}
 		return null;
 	}
 	
-	public String getDSPageOrTask(RepSource rep,String app,String page,String action,String title) {
+	public String getDSPageOrTask(RepSource rep, String app, String page, String action, String title) {
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
 		xml.writeAttribute("uuid", rep.getSource_identify());
 		xml.setElement("title", title);
 		this.addQueryString("current_app_conn", app);
-		String content = this.call(app,page,action,this.queryString()).getContent();
+		String content = this.call(app, page, action, this.queryString()).getContent();
 		Core.removeAttribute("current_app_conn");
 		content = XMLExtractComponent.extractXML(content);
 		List<Field> list = this.getDefaultFields();
-		if(rep.getType().equalsIgnoreCase("task")) {
+		if (rep.getType().equalsIgnoreCase("task")) {
 			list = getDefaultFieldsWithProc();
 		}
 		xml.addXml(this.getDefaultForm(list));
@@ -279,49 +327,53 @@ public class DataSourceController extends Controller {
 		return xml.toString();
 	}
 	
-	public List<Field> getDefaultFieldsWithProc(){
-		
-		List<Field> list = this.getDefaultFields();
-		Field p_prm_definitionid = new TextField(null, "p_prm_definitionid");
-		p_prm_definitionid.setLabel(Core.gt("id processo"));
-		p_prm_definitionid.setValue(Core.getParam("report_p_prm_definitionid"));
-		list.add(p_prm_definitionid);
+	public List<Field> getDefaultFieldsWithProc() {
+		final List<Field> list = this.getDefaultFields();
+		final Field definitionId = new TextField(null, "p_prm_definitionid");
+		definitionId.setLabel(Core.gt("id processo"));
+		definitionId.setValue(Core.getParam("report_p_prm_definitionid"));
+		list.add(definitionId);
 		return list;
 	}
 	
 	public List<Field> getDefaultFields(){
+		User currentUser = Core.getCurrentUser(); 
+		Application currentApp = Core.getCurrentApp(); 
+		Integer currentOrgId = Core.getCurrentOrganization(); 
+		Integer currentProf = Core.getCurrentProfile(); 
+		
 		List<Field> fields = new ArrayList<>();
-		Field data_atual = new TextField(null, "p_data_atual");
-		data_atual.setLabel(Core.gt("data atual"));
-		data_atual.setValue(Core.getCurrentDate());
+		Field dataAtual = new TextField(null, "p_data_atual");
+		dataAtual.setLabel(Core.gt("data atual"));
+		dataAtual.setValue(Core.getCurrentDate());
 		
-		Field user_atual = new TextField(null,"p_user_atual");
-		user_atual.setLabel(Core.gt("user atual"));
-		user_atual.setValue(Core.getCurrentUser().getName());
+		Field userAtual = new TextField(null,"p_user_atual");
+		userAtual.setLabel(Core.gt("user atual"));
+		userAtual.setValue(currentUser != null ? currentUser.getName() : "");
 		
-		Field email_atual = new TextField(null,"p_email_atual");
-		email_atual.setLabel(Core.gt("email atual"));
-		email_atual.setValue(Core.getCurrentUser().getEmail());
+		Field emailAtual = new TextField(null,"p_email_atual");
+		emailAtual.setLabel(Core.gt("email atual"));
+		emailAtual.setValue(currentUser != null ? currentUser.getEmail() : "");
 		
 		Field application = new TextField(null,"p_application");
 		application.setLabel(Core.gt("aplicação atual"));
-		application.setValue(Core.getCurrentApp().getName());
+		application.setValue(currentApp != null ? currentApp.getName() : "");
 
 		Field organization = new TextField(null,"p_organization");
 		organization.setLabel(Core.gt("orgânica atual"));
-		Organization org = new Organization().findOne(Core.getCurrentOrganization());
+		Organization org = new Organization().findOne(currentOrgId != null ? currentOrgId : -1);
 		if(org!=null)
 			organization.setValue(org.getName());
 
 		Field profile = new TextField(null,"p_profile");
 		profile.setLabel(Core.gt("perfil atual"));
-		ProfileType prof = new ProfileType().findOne(Core.getCurrentProfile()); 
+		ProfileType prof = new ProfileType().findOne(currentProf != null ? currentProf : -1); 
 		if(prof!=null)
 			profile.setValue(prof.getDescr());
 		
-		fields.add(user_atual);
-		fields.add(data_atual);
-		fields.add(email_atual);
+		fields.add(userAtual);
+		fields.add(dataAtual);
+		fields.add(emailAtual);
 		fields.add(organization);
 		fields.add(profile);
 		fields.add(application);
@@ -356,6 +408,50 @@ public class DataSourceController extends Controller {
 			xml.addXml(table.toString());			
 		xml.endElement();
 		return xml.toString();
+	}
+	
+	private boolean isTypeTask(String type) {
+		return "task".equalsIgnoreCase(type);
+	}
+
+	private boolean isTypeObject(String type) {
+		return "object".equalsIgnoreCase(type);
+	}
+
+	private boolean isTypePage(String type) {
+		return "page".equalsIgnoreCase(type);
+	}
+
+	private boolean isTypeQuery(String type) {
+		return "query".equalsIgnoreCase(type);
+	}
+	
+	private Map<String, String> getDatasourceType() {
+		final Map<String, String> datasourceType = new HashMap<>();
+		datasourceType.put(null, "-- Selecionar --");
+		datasourceType.put("Task", "Etapa");
+		datasourceType.put("Object", "Objeto");
+		datasourceType.put("Page", "Página");
+		datasourceType.put("Query", "Query");
+		return datasourceType;
+	}
+	
+	private Map<Object, Object> getDataSourceMap(final Integer envId) {
+		final Map<Object, Object> dataSourceMap = new Config_env().getListDSbyEnv(envId);
+		if (Objects.nonNull(dataSourceMap) && dataSourceMap.size() == 2)
+			dataSourceMap.remove(null);
+		return dataSourceMap;
+	}
+	
+	private ProcessDefinitionService getProcessDefinitionService(final String process, final String dad) {
+		return new ProcessDefinitionServiceRest().getLatestProcessDefinitionByKey(process, dad);
+	}
+	
+	private String getTaskKey(DataSource model, final Application app) {
+		final List<TaskService> task = new TaskServiceRest().getTasksByProcessKey(model.getProcesso(), app.getDad())
+				.stream().filter(n -> n.getTaskDefinitionKey().equalsIgnoreCase(model.getEtapa()))
+				.collect(Collectors.toList());
+		return Objects.nonNull(task) && !task.isEmpty() ? task.get(0).getFormKey() : "";
 	}
 	
 	/*----#end-code----*/

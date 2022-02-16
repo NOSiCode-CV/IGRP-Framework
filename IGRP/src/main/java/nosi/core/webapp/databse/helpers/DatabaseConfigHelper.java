@@ -154,7 +154,7 @@ public class DatabaseConfigHelper {
 	public  static String getDatabaseDriversExamples(String dbType) {
 		switch (dbType.toLowerCase()) {
 			case MYSQL:
-				return "com.mysql.jdbc.Driver";
+				return "com.mysql.cj.jdbc.Driver";
 			case POSTGRESQL:
 				return "org.postgresql.Driver";
 			case H2:

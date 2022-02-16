@@ -14,14 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.io.File;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Properties;
-
-import javax.persistence.Column;
 
 import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Core;
@@ -31,6 +23,14 @@ import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.core.webapp.security.EncrypDecrypt;
 
 import static nosi.core.i18n.Translator.gt;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.Column;
 
 @Entity
 @Table(name="tbl_menu")
@@ -49,6 +49,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 	private int status;
 	private int flg_base;
 	private String target;
+	private String menu_icon;
 	@ManyToOne
 	@JoinColumn(name="action_fk",foreignKey=@ForeignKey(name="MENU_ACTION_FK"),nullable=true)
 	private Action action;
@@ -61,12 +62,13 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 	@Transient
 	private Organization organization;
 	
+	@Column(length = 2000)
 	private String link; 
 	
 	@Transient
 	private boolean isInserted;
 	@Transient
-	private final String sqlMenuByProfile = " SELECT prof.org_fk,prof.prof_type_fk,m_sub.*,"
+	private static final  String sqlMenuByProfile = " SELECT prof.org_fk,prof.prof_type_fk,m_sub.*,"
 								 + " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai," 
 								 + " ac.page,ac.action,ac.versao,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile, "
 								 + " case WHEN (m_super.self_fk is not null AND m_super.self_fk=m_super.id) then 1 else 0 END as isSubMenuAndSuperMenu " 
@@ -78,7 +80,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 								 + " LEFT JOIN tbl_env env_prof ON env_prof.id=prof_type.env_fk "
 								 + " WHERE prof.org_fk=:org_fk AND prof.prof_type_fk=:prof_type_fk AND env_prof.dad=:dad AND m_sub.status=:status";
 	@Transient
-	private final String sqlMenuByUser = " SELECT prof.org_fk,prof.prof_type_fk,m_sub.*,"
+	private static final String sqlMenuByUser = " SELECT prof.org_fk,prof.prof_type_fk,m_sub.*,"
 								 + " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai," 
 								 + " ac.page,ac.action,ac.versao,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile, "
 								 + " case WHEN (m_super.self_fk is not null AND m_super.self_fk=m_super.id) then 1 else 0 END as isSubMenuAndSuperMenu " 
@@ -101,6 +103,14 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		this.action = action;
 		this.application = application;
 		this.menu = menu;
+	}
+		
+	public String getMenu_icon() {
+		return menu_icon;
+	}
+
+	public void setMenu_icon(String menu_icon) {
+		this.menu_icon = menu_icon;
 	}
 
 	public Integer getId() {
@@ -178,13 +188,13 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 
 	public boolean getPermissionMen(String app,String page) {
 		
-		Menu m = new Menu().find()
+		Long m = new Menu().find()
 				.andWhere("application", "=",Core.findApplicationByDad(app).getId())
 				.andWhere("action", "=",new Action().findByPage(page, app).getId())				
 				.andWhere("status", "=", 1)
 				.orWhere("flg_base","=",1)
-				.one();
-		return m!=null; 
+				.getCount();
+		return m>0; 
 	}
 	
 	public List<Menu> getMyMen_de_env(int env_fk) {
@@ -209,7 +219,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 						 .select(sqlMenuByUser)
 						 .addInt("org_fk", Core.getCurrentOrganization())
 						 .addInt("prof_type_fk", Core.getCurrentProfile())
-						 .addString("dad", currentDad )
+						 .addString("dad", currentDad ) 
 						 .addInt("status", 1)
 						 .addInt("org_fk", Core.getCurrentOrganization())
 						 .addInt("prof_type_fk", Core.getCurrentProfile())
@@ -226,56 +236,54 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				ms.setOrder(r.getInt("orderby"));
 				ms.setTitle(r.getString("descr"));
 				ms.setTarget(r.getString("target"));
-				ms.setStatus(r.getShort("status")); 
-				
-				String link = r.getString("link"); 
-				if(link != null) 
-					ms.setLink(link); 
-				System.out.println("link: " + link);
-				
-				Action pagina = new Action().find().andWhere("page", "=", r.getString("page")).andWhere("application.dad", "=", r.getString("dad_app_page")).one();
-				if(pagina != null) {
-					if(pagina.getTipo() == 1) { // If it is a public page ... 
-						ms.setType(1);
-						String aux=Igrp.getInstance().getServlet().getInitParameter("default_language");					
-						ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action") + "&dad=" + currentDad + "&isPublic=1&lang="+(Core.isNull(aux) ? "pt_PT" : aux) /*+ "&target=_blank"*/);
-					}else {
-						
-						if(!r.getString("dad_app_page").equals("tutorial") && !r.getString("dad_app_page").equals("igrp_studio") && !r.getString("dad_app_page").equals("igrp") && !r.getString("dad_app_page").equals(currentDad) 
-								&& pagina.getApplication().getExternal() != 0) { 
-							
-								ms.setType(2); 
-								
-								String deployedWarName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
-								
-								//Externo 
-								if(pagina.getApplication().getExternal() == 1) {
-									if(deployedWarName.equals(pagina.getApplication().getUrl())) { 
-										ms.setType(3);
-										ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + currentDad); 
-									}else {								
-										String _u = buildMenuUrlByDadUsingAutentika(r.getString("dad_app_page"), r.getString("dad_app_page"), r.getString("page"),  r.getString("action"));
-										ms.setLink(_u);
-									} 
-								}
-								
-								//Custom host folder 
-								if(pagina.getApplication().getExternal() == 2) {
-									if(deployedWarName.equals(pagina.getApplication().getUrl())) { 
-										ms.setType(3);
-										ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + currentDad); 
-									
-									}else {
-										String _u = buildMenuUrlByDadUsingAutentika(pagina.getApplication().getUrl(), r.getString("dad_app_page"), r.getString("page"), r.getString("action")); // Custom Dad 
-										ms.setLink(_u);
-									}
-								}
-							
+				ms.setStatus(r.getShort("status"));
+				ms.setMenu_icon(r.getString("menu_icon"));
+				String linky = r.getString("link"); 
+				if(linky != null && !linky.isEmpty()) { 
+					ms.setLink(linky); 
+					ms.setType(2);
+				}else {
+					Action pagina = new Action().find().andWhere("page", "=", r.getString("page")).andWhere("application.dad", "=", r.getString("dad_app_page")).one();
+					if(pagina != null) {
+						if(pagina.getTipo() == 1) { // If it is a public page ... 
+							ms.setType(1);
+							String aux=Igrp.getInstance().getServlet().getInitParameter("default_language");					
+							ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action") + "&dad=" + currentDad + "&isPublic=1&lang="+(Core.isNull(aux) ? "pt_PT" : aux) /*+ "&target=_blank"*/);
 						}else {
-							ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
+							
+							if(!r.getString("dad_app_page").equals("tutorial") && !r.getString("dad_app_page").equals("igrp_studio") && !r.getString("dad_app_page").equals("igrp") && !r.getString("dad_app_page").equals(currentDad) 
+									&& pagina.getApplication().getExternal() != 0) { 
+								
+									ms.setType(2); 
+									
+									String deployedWarName = Core.getDeployedWarName();
+									//Externo 
+									if(pagina.getApplication().getExternal() == 1) {
+										if(deployedWarName.equals(pagina.getApplication().getUrl())) { 
+											ms.setType(3);
+											ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + currentDad); 
+										}else {								
+											String _u = buildMenuUrlByDadUsingAutentika(r.getString("dad_app_page"), r.getString("dad_app_page"), r.getString("page"));
+											ms.setLink(_u);
+										} 
+									}
+									//Custom host folder 
+									if(pagina.getApplication().getExternal() == 2) {
+										if(deployedWarName.equals(pagina.getApplication().getUrl())) { 
+											ms.setType(3);
+											ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + currentDad); 
+										}else {
+											String _u = buildMenuUrlByDadUsingAutentika(pagina.getApplication().getUrl(), r.getString("dad_app_page"), r.getString("page")); // Custom Dad 
+											ms.setLink(_u);
+										}
+									}
+							}else 
+								ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
 						}
 					}
 				}
+				
+				
 				
 				ms.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
 				
@@ -291,7 +299,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		return list;
 	}
 
-	public LinkedHashMap<Integer, String> getListPrincipalMenus() {
+	public Map<Integer, String> getListPrincipalMenus() {
 		LinkedHashMap<Integer,String> lista = new LinkedHashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
 		for(Menu m:this.findAll(this.getCriteria().where(this.getBuilder().isNull(this.getRoot().get("menu"))))){
@@ -300,17 +308,17 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		return lista;
 	}	
 	
-	public LinkedHashMap<Integer, String> getListPrincipalMenus(int app) {
+	public Map<Integer, String> getListPrincipalMenus(int app) {
 		LinkedHashMap<Integer,String> lista = new LinkedHashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		List<Menu> aux = this.find().andWhere("application", "=",app).andWhere("menu", "isnull").all();
-		for(Menu m : aux){
-			lista.put(m.getId(),m.getDescr());
+		List<Map<String,Object>> aux = this.find().andWhere("application", "=",app).andWhere("menu", "isnull").allColumns("id","descr");
+		for(Map<String,Object> m : aux){
+			lista.put((Integer) m.get("id"),m.get("descr")+"");
 		}
 		return lista;
 	}
 	//Returns the actions/Pages of all the items of the menu of a app 
-	public LinkedHashMap<Integer, String> getListAction(int app) {
+	public Map<Integer, String> getListAction(int app) {
 		LinkedHashMap<Integer,String> lista = new LinkedHashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
 		List<Menu> aux = this.find()				
@@ -330,7 +338,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 	}	
 	
 	//Returns the actions/Pages of all the items of the menu of a app of a Org
-	public LinkedHashMap<Integer, String> getListActionByOrg(int appID, int orgID) {
+	public Map<Integer, String> getListActionByOrg(int appID, int orgID) {
 		LinkedHashMap<Integer,String> lista = new LinkedHashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
 	
@@ -357,15 +365,17 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				+ menu + ", organization=" + organization + "]";
 	}
 	
-	private String buildMenuUrlByDadUsingAutentika(String dad, String app, String page, String action) {
+	private String buildMenuUrlByDadUsingAutentika(String dad, String app, String page) {
 		String url = "#";
 		try {
-			Properties settings =  ConfigApp.getInstance().loadConfig("common", "main.xml"); 
-			url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
-			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
-			String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
-			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrpweb&redirect_uri=" + redirect_uri; 
-			url = url.replace("/IGRP/", "/" + dad + "/").replace("state=igrpweb", "state=" + app + "/" + page + "/" + action + "/" + dad); 
+			Action pagina = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", page).one(); 
+			if(pagina != null) { 
+				String orgCode = Core.getCurrentOrganizationCode();
+				String profCode = Core.getCurrentProfileCode(); 
+				String stateValue = Core.buildStateValueForSsoAutentika("PAGE", pagina.getId() + "", app, orgCode, profCode, null); 
+				url =  ConfigApp.getInstance().getAutentikaUrlForSso(); 
+				url = url.replace("/IGRP/", "/" + dad + "/").replace("state=igrp", "state=" + stateValue); 
+			}
 		} catch (Exception e) {
 		}
 		return url;
@@ -397,7 +407,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				ms.setTitle(r.getString("descr"));
 				ms.setTarget(r.getString("target"));
 				ms.setStatus(r.getShort("status"));
-				
+				ms.setMenu_icon(r.getString("menu_icon"));
 				ms.setPage(r.getString("page"));
 				ms.setApp(r.getString("dad_app_page"));
 				ms.setAction(r.getString("action")); 
@@ -417,6 +427,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		private String title;
 		private String link;
 		private short status;
+		private String menu_icon;
 		private String target;
 		private int order;
 		private boolean isSubMenuAndSuperMenu;
@@ -431,6 +442,12 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		private int type; 
 		
 		
+		public String getMenu_icon() {
+			return menu_icon;
+		}
+		public void setMenu_icon(String menu_icon) {
+			this.menu_icon = menu_icon;
+		}
 		public Integer getId() {
 			return id;
 		}

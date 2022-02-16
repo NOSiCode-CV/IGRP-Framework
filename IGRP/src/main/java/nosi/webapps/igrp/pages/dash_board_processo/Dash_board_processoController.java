@@ -1,21 +1,19 @@
 package nosi.webapps.igrp.pages.dash_board_processo;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import nosi.core.webapp.bpmn.BPMNConstants;
-import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
-import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import java.util.ArrayList;
 import java.util.List;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
+import nosi.core.webapp.bpmn.BPMNConstants;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.webapps.igrp.pages.dash_board_processo.Dash_board_processo.Table_2;
-/*----#end-code----*/
 		
 public class Dash_board_processoController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -27,7 +25,7 @@ public class Dash_board_processoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_2(Core.query(null,"SELECT 'Sit deserunt voluptatem sed ac' as nome_processo,'hidden-b439_59bf' as process_id,'hidden-b5b2_02b5' as process_key "));
+		model.loadTable_2(Core.query(null,"SELECT 'Ut laudantium iste anim offici' as nome_processo,'hidden-adf6_d79a' as process_id,'hidden-eb9d_1045' as process_key "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/	
 		view.btn_iniciar_processo.setPage("ExecucaoTarefas");
@@ -47,7 +45,7 @@ public class Dash_board_processoController extends Controller {
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
 		  this.addQueryString("p_process_id",Core.getParam("p_process_id"));
 		  this.addQueryString("p_process_key",Core.getParam("p_process_key"));
-		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
+		  return this.forward("igrp","ExecucaoTarefas","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(iniciar_processo)----*/
@@ -55,7 +53,7 @@ public class Dash_board_processoController extends Controller {
 		 this.addQueryString(BPMNConstants.PRM_DEFINITION_ID,Core.getParam(BPMNConstants.PRM_PROCESS_ID));
 		 this.addQueryString(BPMNConstants.PRM_PROCESS_KEY,Core.getParam(BPMNConstants.PRM_PROCESS_KEY));
 		/*----#end-code----*/
-		return this.redirect("igrp","Dominio","index", this.queryString());	
+		return this.redirect("igrp","ExecucaoTarefas","index", this.queryString());	
 	}
 	
 	public Response actionDetalhes_processo() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -71,11 +69,41 @@ public class Dash_board_processoController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(detalhes_processo)----*/
-		 this.addQueryString(BPMNConstants.PRM_PROCESS_ID,Core.getParam("p_process_id"));
+	 this.addQueryString("target", "_blank");
+      this.addQueryString(BPMNConstants.PRM_PROCESS_ID,Core.getParam("p_process_id"));
 		 this.addQueryString(BPMNConstants.PRM_PROCESS_KEY,Core.getParam("p_process_key"));
 		
 		/*----#end-code----*/
 		return this.redirect("igrp","Detalhes_dashboard_processo","index", this.queryString());	
+	}
+	
+	public Response actionEliminar_processo() throws IOException, IllegalArgumentException, IllegalAccessException{
+		Dash_board_processo model = new Dash_board_processo();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_process_id",Core.getParam("p_process_id"));
+		  this.addQueryString("p_process_key",Core.getParam("p_process_key"));
+		  return this.forward("igrp","Dash_board_processo","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/*----#start-code(eliminar_processo)----*/
+	
+		try {
+			String processId = Core.getParam("p_process_id"); 
+			ProcessDefinitionService process = new ProcessDefinitionServiceRest().getProcessDefinition(processId); 
+			if(new ProcessDefinitionServiceRest().delete(process.getDeploymentId())) 
+				Core.setMessageSuccess(); 
+			else 
+				Core.setMessageError(); 
+		} catch (Exception e) {
+			Core.setMessageError(); 
+		}
+		
+		/*----#end-code----*/
+		return this.redirect("igrp","Dash_board_processo","index", this.queryString());	
 	}
 	
 		

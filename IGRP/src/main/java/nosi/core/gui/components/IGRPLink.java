@@ -5,6 +5,10 @@ package nosi.core.gui.components;
  */
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import nosi.core.webapp.QueryString;
 import nosi.core.webapp.Report;
 import nosi.core.webapp.helpers.Route;
@@ -62,7 +66,6 @@ public class IGRPLink {
 		return this;
 	}
 
-	
 	public Report getReport() {
 		return report;
 	}
@@ -86,8 +89,13 @@ public class IGRPLink {
 	public String getLink() {
 		if(this.report!=null) {
 			this.link = this.report.getLink();
-			this.report.getParams().entrySet().stream().forEach(p->{
-				link += ("&name_array="+p.getKey() + "&value_array="+p.getValue());
+			this.report.getParams().entrySet().stream().forEach(p->{ 
+				try {
+					link += ("&name_array="+p.getKey() + "&value_array="+URLEncoder.encode(""+p.getValue(),StandardCharsets.UTF_8.toString()));
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
 			});
 			return link;
 		}
@@ -101,11 +109,8 @@ public class IGRPLink {
 		return this.link.replace("&&", "&");
 	}
 	
-
 	@Override
 	public String toString() {
 		return "IGRPLink [app=" + app + ", page=" + page + ", action=" + action + ", queryString=" + queryString + "]";
 	}
-	
-	
 }

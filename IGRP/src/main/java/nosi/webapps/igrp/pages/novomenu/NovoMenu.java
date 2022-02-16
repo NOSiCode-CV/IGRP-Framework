@@ -11,11 +11,6 @@ public class NovoMenu extends Model{
 	@RParam(rParamName = "p_env_fk")
 	private int env_fk;
 
-	@RParam(rParamName = "p_global_acl")
-	private int global_acl;
-	@RParam(rParamName = "p_global_acl_check")
-	private int global_acl_check;
-
 	@RParam(rParamName = "p_action_fk")
 	private int action_fk;
 
@@ -45,10 +40,18 @@ public class NovoMenu extends Model{
 	@RParam(rParamName = "p_link")
 	private String link;
 
+	@RParam(rParamName = "p_icone")
+	private String icone;
+
 	@RParam(rParamName = "p_flg_base")
 	private int flg_base;
 	@RParam(rParamName = "p_flg_base_check")
 	private int flg_base_check;
+
+	@RParam(rParamName = "p_global_acl")
+	private int global_acl;
+	@RParam(rParamName = "p_global_acl_check")
+	private int global_acl_check;
 
 	@RParam(rParamName = "p_area")
 	private String area;
@@ -74,19 +77,6 @@ public class NovoMenu extends Model{
 	}
 	public int getEnv_fk(){
 		return this.env_fk;
-	}
-	
-	public void setGlobal_acl(int global_acl){
-		this.global_acl = global_acl;
-	}
-	public int getGlobal_acl(){
-		return this.global_acl;
-	}
-	public void setGlobal_acl_check(int global_acl_check){
-		this.global_acl_check = global_acl_check;
-	}
-	public int getGlobal_acl_check(){
-		return this.global_acl_check;
 	}
 	
 	public void setAction_fk(int action_fk){
@@ -158,6 +148,13 @@ public class NovoMenu extends Model{
 		return this.link;
 	}
 	
+	public void setIcone(String icone){
+		this.icone = icone;
+	}
+	public String getIcone(){
+		return this.icone;
+	}
+	
 	public void setFlg_base(int flg_base){
 		this.flg_base = flg_base;
 	}
@@ -169,6 +166,19 @@ public class NovoMenu extends Model{
 	}
 	public int getFlg_base_check(){
 		return this.flg_base_check;
+	}
+	
+	public void setGlobal_acl(int global_acl){
+		this.global_acl = global_acl;
+	}
+	public int getGlobal_acl(){
+		return this.global_acl;
+	}
+	public void setGlobal_acl_check(int global_acl_check){
+		this.global_acl_check = global_acl_check;
+	}
+	public int getGlobal_acl_check(){
+		return this.global_acl_check;
 	}
 	
 	public void setArea(String area){

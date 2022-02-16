@@ -1,0 +1,271 @@
+<div class="gis-widget-panel">
+
+	<div class="gis-widget-panel-title">
+		<span>{{title}}</span>
+	</div>
+	
+	<div class="gis-widget-panel-body">
+
+		<div class="widget-steps-container">
+		
+			<div class="widget-step bg-white" step-id="tools" step-trigger="activate">
+				<div class="btn-group btn-group-justified" role="group">
+					  <div class="btn-group btn-group-sm" role="group">
+					  		<button type="button" class="btn btn-primary" widget-action="tool-create" action-event="click" title="Desenhar"><span class="icon" widget-template="icon-add" style="background: url('{{add}}') no-repeat center center / contain; content:url('{{add}}');"></span></button>
+					  </div>
+					  <div class="btn-group btn-group-sm" role="group">
+					    	<button type="button" class="btn btn-primary" widget-action="tool-edit" action-event="click" title="Modificar"><span class="icon" widget-template="icon-edit" style="background: url('{{edit}}') no-repeat center center / contain; content:url('{{edit}}');"></span></button>
+					  </div>
+					  <div class="btn-group btn-group-sm" role="group">
+					    	<button type="button" class="btn btn-primary" widget-action="tool-shp" action-event="click" title="Upload Shapefile"><span class="icon" widget-template="icon-shp" style="background: url('{{shp}}') no-repeat center center / contain; content:url('{{shp}}');"></span></button>
+					  </div>
+					  <div class="btn-group btn-group-sm" role="group">
+					    	<button type="button" class="btn btn-primary" widget-action="tool-editor" action-event="click" title="Inserir Coordenadas"><span class="icon" widget-template="icon-coords" style="background: url('{{coords}}') no-repeat center center / contain; content:url('{{coords}}');"></span></button>
+					  </div>
+					  <div class="btn-group btn-group-sm" role="group">
+					    	<button type="button" class="btn btn-primary" widget-action="tool-delete" action-event="click" title="Eliminar"><span class="icon" widget-template="icon-trash" style="background: url('{{trash}}') no-repeat center center / contain; content:url('{{trash}}');"></span></button>
+					  </div>
+				</div>
+			</div>
+			
+			<div class="widget-step" step-id="select" step-trigger="action-tool-create action-tool-edit action-tool-delete action-tool-editor action-confirm-delete" style="padding:0">
+				<div class="clearfix bg-white" style="padding: 8px; border-bottom: 2px solid whitesmoke">
+					<a href="#" class="btn btn-grey btn-sm" widget-action="back-tools">
+						<i class="fa fa-arrow-left"></i>
+					</a>
+					
+					{{#if title}}
+						<h3 class="title" widget-template="tool-title">{{ this.title }}</h3>
+					{{/if}}
+					
+				</div>
+				
+				<select class="form-control border-0 layers" widget-action="select-layer" action-event="change" >
+					<option value="">--- Escolha o Layer ---</option>
+					{{#each this.data.layers}}
+						<option value="{{@key}}">{{data.name}}</option>
+					{{/each}}
+				</select>
+				
+			</div>
+			
+			<!-- draw-end -->
+			<div class="widget-step bg-white" step-id="confirmation" step-trigger="action-confirm-edition action-cancel-edition action-cancel-deleting">
+				<div class="clearfix">
+					<a href="#" class="btn btn-grey btn-sm" widget-action="cancel">
+							<i class="fa fa-arrow-left"></i>
+						</a>
+					<a href="#" class="btn btn-default btn-sm" widget-action="save">
+						<i class="fa fa-save"></i>
+						<span>Gravar</span>
+					</a>
+					<a  widget-action="edit" class="btn btn-default btn-sm" href="#">
+						<i class="fa fa-edit"></i>
+						<span>Editar</span>
+					</a> 
+					
+					<div class="pull-right">
+						<a widget-action="delete" class="btn btn-danger btn-sm" href="#">
+							<i class="fa fa-trash-o"></i>
+							<span>Eliminar</span>
+						</a>
+						
+					</div>
+				</div>
+			</div>
+			
+			<div class="widget-step bg-white clearfix" step-id="edition" step-trigger="action-edit">
+				<a widget-action="cancel-edition" class="btn btn-grey btn-sm" href="#">
+					<i class="fa fa-arrow-left"></i>
+				</a>
+				<div class="pull-right">
+					
+					<a widget-action="confirm-edition" class="btn btn-success btn-sm" href="#">
+						<i class="fa fa-check"></i>
+						<span>Confirmar Edição</span>
+					</a> 
+					
+				</div>
+			</div>
+			
+			<div class="widget-step bg-white clearfix" step-id="deleting" step-trigger="action-delete">
+				
+				<a widget-action="cancel-deleting" class="btn btn-grey btn-sm" href="#">
+					<i class="fa fa-arrow-left"></i>
+				</a>
+
+				<div class="pull-right">
+					
+					<a widget-action="confirm-delete" class="btn btn-danger btn-sm" href="#">
+					<i class="fa fa-trash-o"></i>
+					<span>Confirmar Eliminação</span>
+				</a>
+					
+				</div>
+			</div>
+			
+			<div class="widget-step bg-white" step-id="div-shp" step-trigger="action-tool-shp" style="padding: 0 0 8px;">
+				
+				<div class="clearfix bg-white" style="padding: 8px; border-bottom: 2px solid whitesmoke;">
+					
+					<a href="#" class="btn btn-grey btn-sm" widget-action="back-tools">
+						<i class="fa fa-arrow-left"></i>
+					</a>
+					
+					{{#if title}}
+						<h3 class="title" widget-template="tool-title">{{ this.title }}</h3>
+					{{/if}}
+									
+				</div>
+				
+				<form>
+					<input class="form-control border-0" type="file" id="file" name="file" accept=".zip" widget-action="upload-shp-file" action-event="change"/>
+				</form>
+				
+			</div>
+			
+			<div class="widget-step bg-white" step-id="finish-shp"  style="padding: 0 0 8px;">
+				
+				<div class="clearfix bg-white" style="padding: 8px; border-bottom: 2px solid whitesmoke;">
+					
+					<a href="#" class="btn btn-grey btn-sm" widget-action="cancel-finish-shp">
+						<i class="fa fa-arrow-left"></i>
+					</a>
+					
+					<a href="#" class="btn btn-default btn-sm" widget-action="save-shp">
+							<i class="fa fa-save"></i>
+							<span>Gravar</span>
+						</a>
+						
+					<div class="pull-right">
+						
+						<a widget-action="cancel-finish-shp" class="btn btn-danger btn-sm" href="#">
+							<i class="fa fa-trash-o"></i>
+							<span>Eliminar</span>
+						</a>
+						
+					</div> 
+				
+				</div>
+				
+				<select class="form-control border-0 layers-shp" widget-action="select-layer-shp" action-event="change">
+					<option value="">--- Escolha o Layer ---</option>
+					{{#each this.data.layers}}
+						<option value="{{@key}}">{{data.name}}</option>
+					{{/each}}
+				</select>
+				
+			</div>
+			
+			<div class="widget-step bg-white" step-id="div-delete" step-trigger="action-init-delete">
+				
+				<div class="clearfix">
+				
+					<a href="#" class="btn btn-grey btn-sm" widget-action="cancel" step-trigger="action-cancel-delete">
+						<i class="fa fa-arrow-left"></i>
+					</a>
+					
+				    <a href="#" class="btn btn-default btn-sm" widget-action="save">
+							<i class="fa fa-save"></i>
+							<span>Gravar</span>
+					</a>
+						
+					<div class="pull-right">
+						<a widget-action="cancel-delete" class="btn btn-danger btn-sm" href="#">
+							<i class="fa fa-trash-o"></i>
+							<span>Cancelar</span>
+						</a>
+						
+					</div> 
+				
+				</div>
+				
+			</div>
+			
+			<div class="widget-step bg-white" step-id="div-editor" step-trigger="action-init-editor" style="padding: 0 0 8px;">
+				
+				<div class="clearfix bg-white" style="padding: 8px; border-bottom: 2px solid whitesmoke;">
+					<a href="#" class="btn btn-grey btn-sm" widget-action="cancel">
+						<i class="fa fa-arrow-left"></i>
+					</a>
+					
+					<a href="#" class="btn btn-default btn-sm" widget-action="add-editor">
+						<i class="fa fa-upload"></i>
+						<span>Adicionar</span>
+				    </a>
+						
+					<div class="pull-right">
+						<a widget-action="delete-editor" class="btn btn-danger btn-sm" href="#">
+							<i class="fa fa-trash-o"></i>
+							<span>Eliminar</span>
+						</a>
+						
+					</div> 
+				
+				</div>
+				
+				<form style="padding: 8px 8px 0;">
+					<textarea class="form-control" rows="4" style="width: 100%" placeholder="[14.900772, -23.510917]"></textarea>
+				</form>
+				
+			</div>
+			
+			<div class="widget-step" step-id="editor-finish" style="padding: 0;" >
+				
+				<div class="clearfix bg-white" style="padding: 8px; border-bottom: 2px solid whitesmoke;">
+					<a href="#" class="btn btn-grey btn-sm" widget-action="cancel-editor-finish">
+						<i class="fa fa-arrow-left"></i>
+					</a>
+					
+					<a href="#" class="btn btn-default btn-sm" widget-action="save-editor">
+						<i class="fa fa-upload"></i>
+						<span>Gravar</span>
+				    </a>
+				    
+				    <div class="pull-right">
+						<a widget-action="cancel-editor-finish" class="btn btn-danger btn-sm" href="#">
+							<i class="fa fa-trash-o"></i>
+							<span>Cancelar</span>
+						</a>
+						
+					</div> 
+										
+				</div>
+								
+			</div>
+			
+			<div class="widget-step" step-id="div-edit" style="padding: 0;" step-trigger="action-start-editing">
+				
+				<div class="clearfix bg-white" style="padding: 8px; border-bottom: 2px solid whitesmoke;">
+					<a href="#" class="btn btn-grey btn-sm" widget-action="back-tools">
+						<i class="fa fa-arrow-left"></i>
+					</a>
+										
+					<a href="#" class="btn btn-default btn-sm" widget-action="save-editing">
+						<i class="fa fa-save"></i>
+						<span>Gravar</span>
+				    </a>
+				    
+				    <div class="pull-right">
+						<a href="#" class="btn btn-danger btn-sm"  widget-action="stop-editing" >
+							<i class="fa fa-trash-o"></i>
+							<span>Cancelar</span>
+						</a>						
+					</div> 
+										
+				</div>
+								
+			</div>
+			
+			<div class="widget-step clearfix" step-id="attributes" step-when="widget.addedObject" style="border-top:2px solid whitesmoke">
+				
+				<form class="attributes" id="edition-widget-attributes-form"></form>
+				
+			</div>
+					
+		</div>
+		
+	</div>
+	
+</div>
+

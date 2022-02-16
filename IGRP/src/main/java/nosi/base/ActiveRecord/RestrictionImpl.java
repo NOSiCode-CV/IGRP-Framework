@@ -2,6 +2,7 @@ package nosi.base.ActiveRecord;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 
@@ -42,7 +43,7 @@ public final class RestrictionImpl implements Restriction<RestrictionImpl> {
 	@Override
 	public RestrictionImpl equals(String name, Object value) {
 		String paramName = this.recq.removeAlias(name);
-		this.restriction+=this.recq.resolveColumnName(this.alias,name)+" =: "+paramName;
+		this.restriction+=this.recq.resolveColumnName(this.alias,name)+" = :"+paramName;
 		this.addParamter(paramName, paramName, value, Object.class);
 		return this;
 	}
@@ -50,7 +51,7 @@ public final class RestrictionImpl implements Restriction<RestrictionImpl> {
 	@Override
 	public RestrictionImpl like(String name, Object value) {
 		String paramName = this.recq.removeAlias(name);
-		this.restriction+=this.recq.resolveColumnName(this.alias,name)+" LIKE : "+paramName;
+		this.restriction+=this.recq.resolveColumnName(this.alias,name)+" LIKE :"+paramName;
 		this.addParamter(paramName, paramName, value, Object.class);
 		return this;
 	}
@@ -58,7 +59,7 @@ public final class RestrictionImpl implements Restriction<RestrictionImpl> {
 	@Override
 	public RestrictionImpl notLike(String name, Object value) {
 		String paramName = this.recq.removeAlias(name);
-		this.restriction+=this.recq.resolveColumnName(this.alias,name)+" NOT LIKE : "+paramName;
+		this.restriction+=this.recq.resolveColumnName(this.alias,name)+" NOT LIKE: "+paramName;
 		this.addParamter(paramName, paramName, value, Object.class);
 		return this;
 	}
@@ -66,7 +67,7 @@ public final class RestrictionImpl implements Restriction<RestrictionImpl> {
 	@Override
 	public RestrictionImpl gt(String name, Object value) {
 		String paramName = this.recq.removeAlias(name);
-		this.restriction+=this.recq.resolveColumnName(this.alias,name)+" >: "+paramName;
+		this.restriction+=this.recq.resolveColumnName(this.alias,name)+" > :"+paramName;
 		this.addParamter(paramName, paramName, value, Object.class);
 		return this;
 	}
@@ -74,7 +75,7 @@ public final class RestrictionImpl implements Restriction<RestrictionImpl> {
 	@Override
 	public RestrictionImpl lt(String name, Object value) {
 		String paramName = this.recq.removeAlias(name);
-		this.restriction+=this.recq.resolveColumnName(this.alias,name)+" <: "+paramName;
+		this.restriction+=this.recq.resolveColumnName(this.alias,name)+" < :"+paramName;
 		this.addParamter(paramName, paramName, value, Object.class);
 		return this;
 	}

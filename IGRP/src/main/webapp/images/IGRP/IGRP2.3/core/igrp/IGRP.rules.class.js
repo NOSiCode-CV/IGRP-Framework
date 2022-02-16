@@ -2,34 +2,33 @@
 if($ && $.IGRP && !$.IGRP.rules){
 
 	$.IGRP.rules = {
+			
+		getFieldValue : function(field){
+			var type  		= field.attr('type') || field.parents('[item-type]').attr('item-type'),
+				fieldValue  = field.val(),
+				arrType 	= ['radio','radiolist','checkbox','checkboxlist'];
+			
+			if ($.inArray(type,arrType) !== -1) {
+					
+					fieldValue = [];
+					
+					$('input[name="'+field.attr('name')+'"]:checked').each(function(){
+						
+						fieldValue.push($(this).val());
+						
+					});
+					
+			}
+			
+			return fieldValue;
+		},
 		
 		satisfy:function(p){
 
 			var rtn 		= false,
-				field 		= $(p.field),
-				type  		= field.attr('type') || field.parents('[item-type]').attr('item-type'),
-				fieldValue  = field.val(),
-				condition   = typeof p.condition == 'string' ? conditionsList[p.condition] : p.condition,
-				arrType 	= ['radio','radiolist','checkbox','checkboxlist'];
+				condition   = typeof p.condition == 'string' ? conditionsList[p.condition] : p.condition;
 
-			
-			if ($.inArray(type,arrType) !== -1) {
-				
-				fieldValue = [];
-				
-				$('input[name="'+field.attr('name')+'"]:checked').each(function(){
-					
-					fieldValue.push($(this).val());
-					
-				});
-				
-				//fieldValue = fieldValue.join(',');
-				
-				//fieldValue = $('input[name="'+field.attr('name')+'"]:checked').val();
-				
-			}
-
-			p.fieldValue = fieldValue;
+			p.fieldValue = $.IGRP.rules.getFieldValue($(p.field));
 
 			try{
 
@@ -172,7 +171,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 						if (rule.isTable) {
 
-							$.each($('tbody tr',obj.parents('table')),function(i,tr){
+							$.each($('tbody tr',obj.parents('table:first')),function(i,tr){
 								
 								validateAndExecute($('[name="'+fname+'"]',$(tr)),rule);
 								
@@ -284,7 +283,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 		if(fields){
 			var names = fields.split(','),
 			
-				row   = p.isTable ? p.sourceField.parents('tr') : false;
+				row   = p.isTable ? p.sourceField.parents('tr:first') : false ;
 			
 			names.forEach(function(n){
 				
@@ -310,6 +309,14 @@ if($ && $.IGRP && !$.IGRP.rules){
 		
 		return res;
 	};
+	
+	var ctrlTableFields = function(name,action){
+		
+		action = action === true ? 'table-cell' : 'none';
+		
+		if($('table tr>*[item-name="'+name+'"]')[0])
+			$('table tr>*[item-name="'+name+'"]').css({'display' : action})
+	}
 
 	var conditionsList = {
 		equal:{
@@ -496,9 +503,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 					var ro     = replaceObj[o],
 
-						tfield = ro.field,
-
-						val    = tfield.val(),
+						val    = $.IGRP.rules.getFieldValue($(ro.field)),
 
 						xval   = $(r.field).attr('type') == 'number' ? val : "'"+val+"'";
 
@@ -511,8 +516,6 @@ if($ && $.IGRP && !$.IGRP.rules){
 				conditionStr = conditionStr.replaceAll('&gt;','>');
 
 				conditionStr = conditionStr.replaceAll('&amp;','&');
-
-				console.log(conditionStr);
 
 				return eval(conditionStr);
 			},
@@ -559,9 +562,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 					var ro     = replaceObj[o],
 
-						tfield = ro.field,
-
-						val    = tfield.val(),
+						val    = $.IGRP.rules.getFieldValue($(ro.field)),
 
 						xval   = $(r.field).attr('type') == 'number' ? val : "'"+val+"'";
 
@@ -588,7 +589,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 				$.each(p.targetFields,function(i,t){
 					var c = $(t).attr('item-type') ? 'no-required-validation' : 'no-validation-required';
 					$(':input[required]',t).removeClass(c);
-
+					
+					ctrlTableFields($(t).attr('item-name'),true);
 				});
 
 				p.targetFields.show();
@@ -604,6 +606,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 				$.each(p.targetFields,function(i,t){
 					var c = $(t).attr('item-type') ? 'no-required-validation' : 'no-validation-required';
 					$(':input[required]',t).addClass(c);
+					
+					ctrlTableFields($(t).attr('item-name'),false);
 
 				});
 
@@ -851,25 +855,50 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 						if (wrapper) {
 							
-							$.each($('option', wrapper), function(z, o) {
-								
-								var selected = $(o).attr('selected') ? true : false;
-								
-								options.push({
-									text: $('text', o).text(),
-									value: $('value', o).text(),
-									selected: selected
+							var elementType = $.IGRP.utils.getType($(':input',f));
+							
+							if(elementType == 'select'){
+							
+								$.each($('option', wrapper), function(z, o) {
+									
+									var selected = $(o).attr('selected') ? true : false;
+									
+									options.push({
+										text: $('text', o).text(),
+										value: $('value', o).text(),
+										selected: selected
+									});
+									
 								});
 								
-							});
-							
-							$.IGRP.components.select2.setOptions({
-								select : $('select', f),
-								options: options,
-								isRules: true
-							});
+								$.IGRP.components.select2.setOptions({
+									select : $('select', f),
+									options: options,
+									isRules: true
+								});
+								
+							}else{
+								
+								var holderGroup = $('.form-group',f),
+									cloneGroup 	= $('.'+elementType,holderGroup).first().clone(!0);
+
+								$('.'+elementType,holderGroup).remove();
+								
+								$.each($('option',wrapper),function(z,o){
+									var group = cloneGroup.clone(!0),
+									 	label = $('text',o).text();
+									
+									$('input',$(group)).attr({
+										value: $('value',o).text(),
+										label: label
+									});
+
+									$('span:not(.radiomark)',$(group)).html(label);
+
+									holderGroup.append($(group));
+								});							
+							}
 						}
-						
 					});
 					
 					if($(list).find('messages message')[0])
@@ -1042,8 +1071,6 @@ if($ && $.IGRP && !$.IGRP.rules){
 			if(response){
 
 				var a = o.conditions.actions;
-				
-				console.log(a)
 				
 				if(a && a[0])
 					

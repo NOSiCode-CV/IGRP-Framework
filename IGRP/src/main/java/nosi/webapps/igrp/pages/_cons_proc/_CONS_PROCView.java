@@ -1,15 +1,19 @@
 package nosi.webapps.igrp.pages._cons_proc;
 
-import nosi.core.webapp.Model;
-import nosi.core.webapp.View;
+import java.util.Map;
+
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.View;
+
 import static nosi.core.i18n.Translator.gt;
-import java.util.Map;
+
 import java.util.LinkedHashMap;
 
 public class _CONS_PROCView extends View {
 
+	public Field sectionheader_1_text;
 	public Field aplicacao;
 	public Field tipo_processo;
 	public Field cbx_utilizador;
@@ -28,10 +32,9 @@ public class _CONS_PROCView extends View {
 	public Field dt_fim_etapa;
 	public Field atribuido_a;
 	public Field id_task;
-	public Field sectionheader_1_text;
+	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form;
 	public IGRPTable table_1;
-	public IGRPSectionHeader sectionheader_1;
 
 	public IGRPButton btn_pesquisar;
 	public IGRPButton btn_ver_etapa;
@@ -41,12 +44,17 @@ public class _CONS_PROCView extends View {
 
 		this.setPageTitle("Consulta Processo");
 			
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
+
 		form = new IGRPForm("form","");
 
 		table_1 = new IGRPTable("table_1","");
 
-		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
-
+		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
+		sectionheader_1_text.setLabel(gt(""));
+		sectionheader_1_text.setValue(gt("<p>Consultar Processo</p>"));
+		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
+		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
@@ -119,21 +127,16 @@ public class _CONS_PROCView extends View {
 		id_task.setLabel(gt(""));
 		id_task.propertie().add("name","p_id_task").add("type","hidden").add("maxlength","100").add("showLabel","true").add("java-type","").add("group_in","").add("tag","id_task");
 		
-		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
-		sectionheader_1_text.setLabel(gt(""));
-		sectionheader_1_text.setValue(gt("<p>Consultar Processo</p>"));
-		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
-		
 
 
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","_CONS_PROC","pesquisar","submit_ajax","primary|fa-search","","");
-		btn_pesquisar.propertie.add("type","form").add("class","primary").add("rel","pesquisar").add("refresh_components","table_1");
+		btn_pesquisar.propertie.add("id","button_433f_034e").add("type","form").add("class","primary").add("rel","pesquisar").add("refresh_components","table_1");
 
-		btn_ver_etapa = new IGRPButton("Ver Etapa","igrp","_CONS_PROC","ver_etapa","mpsubmit","warning|fa-file-text","","");
-		btn_ver_etapa.propertie.add("type","specific").add("class","warning").add("rel","ver_etapa").add("refresh_components","");
+		btn_ver_etapa = new IGRPButton("Detalhes da Tarefa","igrp","_CONS_PROC","ver_etapa","mpsubmit","warning|fa-file-text","","");
+		btn_ver_etapa.propertie.add("id","button_8d65_c46a").add("type","specific").add("class","warning").add("rel","ver_etapa").add("refresh_components","");
 
-		btn_ver_processo = new IGRPButton("Ver Processo","igrp","_CONS_PROC","ver_processo","mpsubmit","primary|fa-sitemap","","");
-		btn_ver_processo.propertie.add("type","specific").add("class","primary").add("rel","ver_processo").add("refresh_components","");
+		btn_ver_processo = new IGRPButton("Detalhes de Processo","igrp","_CONS_PROC","ver_processo","mpsubmit","primary|fa-sitemap","","");
+		btn_ver_processo.propertie.add("id","button_893d_357f").add("type","specific").add("class","primary").add("rel","ver_processo").add("refresh_components","");
 
 		
 	}
@@ -141,6 +144,8 @@ public class _CONS_PROCView extends View {
 	@Override
 	public void render(){
 		
+		sectionheader_1.addField(sectionheader_1_text);
+
 		form.addField(aplicacao);
 		form.addField(tipo_processo);
 		form.addField(cbx_utilizador);
@@ -162,25 +167,23 @@ public class _CONS_PROCView extends View {
 		table_1.addField(id_task);
 		/* start table_1 legend colors*/
 		Map<Object, Map<String, String>> table_1_colors= new LinkedHashMap<>();
-		Map<String, String> color_1_table_1 = new LinkedHashMap<>();
-		color_1_table_1.put("#ea263e","Terminado");
-		table_1_colors.put("1",color_1_table_1);
-		Map<String, String> color_2_table_1 = new LinkedHashMap<>();
-		color_2_table_1.put("#2652ea","Não Atribuido");
-		table_1_colors.put("2",color_2_table_1);
-		Map<String, String> color_3_table_1 = new LinkedHashMap<>();
-		color_3_table_1.put("#95c11f","Em Execução");
-		table_1_colors.put("3",color_3_table_1);
+		Map<String, String> color_ea263e_table_1 = new LinkedHashMap<>();
+		color_ea263e_table_1.put("#ea263e","Terminado");
+		table_1_colors.put("1",color_ea263e_table_1);
+		Map<String, String> color_2652ea_table_1 = new LinkedHashMap<>();
+		color_2652ea_table_1.put("#2652ea","Não Atribuido");
+		table_1_colors.put("2",color_2652ea_table_1);
+		Map<String, String> color_95c11f_table_1 = new LinkedHashMap<>();
+		color_95c11f_table_1.put("#95c11f","Em Execução");
+		table_1_colors.put("3",color_95c11f_table_1);
 		this.table_1.setLegendColors(table_1_colors);
 		/* end table_1 legend colors*/
-		sectionheader_1.addField(sectionheader_1_text);
-
 		form.addButton(btn_pesquisar);
 		table_1.addButton(btn_ver_etapa);
 		table_1.addButton(btn_ver_processo);
+		this.addToPage(sectionheader_1);
 		this.addToPage(form);
 		this.addToPage(table_1);
-		this.addToPage(sectionheader_1);
 	}
 		
 	@Override

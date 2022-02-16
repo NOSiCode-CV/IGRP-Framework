@@ -1,14 +1,15 @@
 package nosi.core.i18n;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import nosi.core.webapp.Component;
-import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Core;
 
 /**
  * Marcel Iekiny
@@ -16,81 +17,54 @@ import nosi.core.webapp.Igrp;
  */
 public final class I18nManager implements Component{
 	
-	public static final String defaultPath = "nosi.core.i18n.igrp";
+	public static final String DEFAULT_CORE_BUNDLE_NAME = "nosi.core.i18n.igrp";
+	public static final String DEFAULT_APP_BUNDLE_NAME = "nosi.webapps.dad.i18n.Resources"; 
 	
-	public static final int cookieExpire = 60*60*24*30; // 1 months 
+	public static final List<String> SKIP_DADS = new ArrayList<String>(Arrays.asList("igrp", "igrp_studio", "tutorial")); 
 	
-	private Map<String, I18n> laguages;
+	public static final int COOKIE_EXPIRE = 60*60*24*30; // 1 months 
 	
+	private I18n coreLanguage; // igrp language 
+	private I18n appLanguage; 
 	
-	public I18nManager() {}
-
+	HttpServletRequest request; 
 	
 	private void newConfiguration() {
 		String v = "";
-		Cookie cookies[] = Igrp.getInstance().getRequest().getCookies();
+		Cookie cookies[] = request.getCookies();
 		if(cookies != null)
 			for(Cookie cookie : cookies)
 				if(cookie!=null && cookie.getName()!=null && cookie.getName().equals("igrp_lang")) {
 					v = cookie.getValue();
 					break;
 				}
-		if(v != null && !v.isEmpty()) {// cookie ok 
-			this.laguages = new HashMap<String, I18n>();
-			//String aux =  I18nManager.defaultPath.replaceAll("en_us", v);	
-			I18n igrpCore = I18nFactory.createI18n("igrp", v);
-			try {
-				this.laguages.put(igrpCore.getName(), igrpCore);
-			}catch(Exception e) {}
-			//Igrp.getInstance().getRequest().getSession().setAttribute("i18n", this.laguages);
+		String currentApp = Core.getCurrentDad(); 
+		String defaultAppBundleName = DEFAULT_APP_BUNDLE_NAME.replace("dad", currentApp); 
+		String []aux = null;  
+		if(v != null && !v.isEmpty() && (aux = v.split("_")).length == 2) {// cookie ok 
+			this.coreLanguage = I18nFactory.createI18n(DEFAULT_CORE_BUNDLE_NAME, new Locale(aux[0], aux[1])); 
+			this.appLanguage = !SKIP_DADS.contains(currentApp) ? I18nFactory.createI18n(defaultAppBundleName, new Locale(aux[0], aux[1])) : this.coreLanguage; 
 		}else {
-			this.laguages = new HashMap<String, I18n>();
-			String aux = Igrp.getInstance().getServlet().getInitParameter("default_language");
-			I18n igrpCore = I18nFactory.createI18n("igrp", (aux == null || aux.isEmpty() ? "en_US" : aux)); // default locale
-			try {
-				this.laguages.put(igrpCore.getName(), igrpCore);
-			}catch(Exception e) {}
-			//Igrp.getInstance().getRequest().getSession().setAttribute("i18n", this.laguages);
+			this.coreLanguage = I18nFactory.createI18n(DEFAULT_CORE_BUNDLE_NAME, request.getLocale()); 
+			this.appLanguage = !SKIP_DADS.contains(currentApp) ? I18nFactory.createI18n(defaultAppBundleName, request.getLocale()) : this.coreLanguage; 
 		}
 	}
 	
-	public void newIgrpCoreLanguage(String path) {
-		newLanguageForApp("igrp", path);
+	public I18n getAppLanguage() {
+		return appLanguage; 
 	}
 	
-	public void newLanguageForApp(String name, String path) {
-		I18n i18n = I18nFactory.createI18n(name, path);
-		this.laguages.replace(name, i18n);
-	}
-	
-	public I18n getAppLanguage(String name) {
-		return this.laguages.get(name);
-	}
-	
-	public I18n getIgrpCore(String name) {
-		I18n igrpCore = this.laguages.get(name);
-		return igrpCore;
-	}
-	
-	public Locale getCurrentLocale() {
-		return this.getAppLanguage("igrp").getLocale();
-	}
-	
-	@Override
-	public void destroy() {
+	public I18n getCoreLanguage() {
+		return coreLanguage;
 	}
 
 	@Override
-	public void init(HttpServletRequest request) {
+	public void init(HttpServletRequest request) { 
+		this.request = request; 
 		this.newConfiguration();
-		/*if(Igrp.getInstance().getRequest().getSession().getAttribute("i18n") == null) {
-			this.newConfiguration(); 
-		}else {
-			try {
-				this.laguages = (Map<String, I18n>) Igrp.getInstance().getRequest().getSession().getAttribute("i18n");
-			}catch(Exception e) {
-				this.newConfiguration();
-			}
-		}*/
+	}
+
+	@Override
+	public void destroy() {
 	}
 }

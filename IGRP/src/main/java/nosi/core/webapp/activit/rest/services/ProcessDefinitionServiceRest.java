@@ -112,7 +112,7 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity()); 
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -234,12 +234,11 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		}
 		return d;
 	}
-	public boolean delete(String id) {
-		Response response = this.getRestRequest().delete("repository/process-definitions", id);
+	public boolean delete(String deploymentId) { 
+		Response response = this.getRestRequest().delete("repository/deployments", deploymentId); 
 		boolean r= response != null && response.getStatus() == 204;
-		if(response!=null) {
+		if(response != null) 
 			response.close();
-		}
 		return r;
 	}
 
@@ -251,5 +250,5 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 			response.close();
 		}
 		return r;
-	}
+	} 
 }

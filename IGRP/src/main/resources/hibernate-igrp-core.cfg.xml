@@ -4,13 +4,12 @@
 	<session-factory>
 
 		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/db_igrp1</property>
-		<property name="hibernate.connection.password">Felisberta17</property>
-		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/db_igrp</property>
 		<property name="hibernate.connection.username">postgres</property>
+		<property name="hibernate.connection.password"></property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
 		<property name="hibernate.connection.isolation">2</property>
 		<property name="hibernate.connection.autocommit">false</property>
-		<property name="hibernate.connection.pool_size">5</property>
 		<property name="hibernate.hbm2ddl.jdbc_metadata_extraction_strategy">individually</property>
 		<property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
 		<property name="hibernate.transaction.auto_close_session">DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION</property>
@@ -24,9 +23,6 @@
 		<property name="hibernate.hikari.maximumPoolSize">10</property>
 		<property name="hibernate.hikari.maxLifetime">30000</property>
 		<property name="hibernate.hikari.leakDetectionThreshold">0</property>
-	    <property name="hibernate.hikari.connectionTimeout">120000</property>
-		<property name="hibernate.hikari.idleTimeout">600000</property>
-		<property name="hibernate.hikari.maxLifetime">1800000</property>
 		
 		<!-- IGRP Core -->
 		<mapping class="nosi.webapps.igrp.dao.Domain" />
@@ -56,17 +52,11 @@
 		<mapping class="nosi.webapps.igrp.dao.Modulo" />
 		<mapping class="nosi.webapps.igrp.dao.TaskAccess" />
 		<mapping class="nosi.webapps.igrp.dao.TempFile" />
-	
-		<!-- <mapping class="nosi.webapps.igrp.dao.Auditoria" /> -->
-
-		<!-- OAuth -->
-		<mapping class="nosi.webapps.igrp.dao.OAuthAccessToken" />
-		<mapping class="nosi.webapps.igrp.dao.OAuthClient" />
-		<mapping class="nosi.webapps.igrp.dao.OAuthorizationCode" />
-		<mapping class="nosi.webapps.igrp.dao.OAuthScope" />
-		<mapping class="nosi.webapps.igrp.dao.OAuthRefreshToken" />
-		<mapping class="nosi.webapps.igrp.dao.UserRole" />
-
+		<mapping class="nosi.webapps.igrp.dao.Mapping" />
+		<mapping class="nosi.webapps.igrp.dao.Historic" />
+		
+		<!-- <mapping class="nosi.webapps.igrp.dao.Auditoria" /> --> 
+		
 		<!-- Task Access -->
 		<mapping class="nosi.webapps.igrp.dao.TaskUnassigned" />
 		<mapping class="nosi.webapps.igrp.dao.TaskFile" />

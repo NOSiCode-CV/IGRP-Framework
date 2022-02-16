@@ -33,8 +33,6 @@ import nosi.core.webapp.webservices.helpers.ResponseError;
  */
 public class TaskServiceRest extends GenericActivitiRest {
 
-
-
 	public TaskService getTaskByExecutionId(String id) {
 		this.clearFilterUrl();
 		this.addFilterUrl("executionId", id);
@@ -70,6 +68,28 @@ public class TaskServiceRest extends GenericActivitiRest {
 		TaskService t = new TaskService();
 		Response response = new RestRequest().put("runtime/tasks", ResponseConverter.convertDaoToJson(task),
 				task.getId());
+		if (response != null) {
+			String contentResp = "";
+			try {
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (response.getStatus() == 200) {
+				t = (TaskService) ResponseConverter.convertJsonToDao(contentResp, TaskService.class);
+			} else {
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+			response.close();
+		}
+		return t;
+	}
+	
+	public TaskService changePriority(TaskService task) {
+		JSONObject json = new JSONObject();
+		json.put("priority", task.getPriority()); 
+		TaskService t = new TaskService();
+		Response response = new RestRequest().put("runtime/tasks", json.toString(), task.getId()); 
 		if (response != null) {
 			String contentResp = "";
 			try {
@@ -269,7 +289,8 @@ public class TaskServiceRest extends GenericActivitiRest {
 
 	// Transferir Tarefa
 	public boolean delegateTask(String taskId, String assignee) {
-		return this.taskAction(taskId, "delegate", assignee);
+		//return this.taskAction(taskId, "delegate", assignee); // Does not work when the new assignee executes the task
+		return this.freeTask(taskId) && this.claimTask(taskId, assignee);
 	}
 
 	// Devolve a tarefa de volta para o proprietario, se houver
@@ -357,13 +378,12 @@ public class TaskServiceRest extends GenericActivitiRest {
 		this.variables.add(new TaskVariables(name, "local", type, value, null));
 	}
 
-	public boolean submitVariables(String taskId) {
+	public boolean submitVariables(String taskId) {		
 		Response response = this.getRestRequest().post("runtime/tasks/" + taskId + "/variables",
-				ResponseConverter.convertDaoToJson(this.variables));
-		boolean r = response!=null && response.getStatus() == 201;
-		if(response!=null) {
+				ResponseConverter.convertDaoToJson(this.variables)); 
+		boolean r = response != null && response.getStatus() == 201;
+		if(response != null) 
 			response.close();
-		}
 		return r;
 	}
 
@@ -406,7 +426,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		return list;
 	}
 
-	public List<TaskService> extractTasks(String xml, boolean includeStartProcess) {
+	public List<TaskService> extractTasks(String xml, boolean includeStartProcess) { 
 		List<TaskService> list = new ArrayList<>();
 		String xml_ = xml.replace("xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"", "").replaceAll("activiti:formKey",
 				"formKey");
@@ -419,6 +439,8 @@ public class TaskServiceRest extends GenericActivitiRest {
 							&& listTasks.getProcess().get(0).getStartEventObject().get(0) != null) {
 						TaskService t = new TaskService();
 						t.setProcessDefinitionId(listTasks.getProcess().get(0).getId());
+						if(Core.isNotNull(listTasks.getProcess().get(0).getName()))
+							t.setProcessDefinifionKey(listTasks.getProcess().get(0).getName());
 						t.setId("Start" + t.getProcessDefinitionId());
 						t.setTaskDefinitionKey("Start" + t.getProcessDefinitionId());
 						t.setName("Start");
@@ -433,6 +455,8 @@ public class TaskServiceRest extends GenericActivitiRest {
 							t.setName(task.getName());
 							t.setFormKey(task.getFormKey());
 							t.setProcessDefinitionId(listTasks.getProcess().get(0).getId());
+							if(Core.isNotNull(listTasks.getProcess().get(0).getName()))
+								t.setProcessDefinifionKey(listTasks.getProcess().get(0).getName());
 							list.add(t);
 						}
 					}
@@ -443,7 +467,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 							t.setName(task.getName());
 							t.setTaskDefinitionKey(task.getId());
 							t.setFormKey(task.getFormKey());
-							t.setProcessDefinitionId(listTasks.getProcess().get(0).getSubProcess().getId());
+							t.setProcessDefinitionId(listTasks.getProcess().get(0).getSubProcess().getId());							
 							list.add(t);
 						}
 					}
@@ -474,6 +498,28 @@ public class TaskServiceRest extends GenericActivitiRest {
 			response.close();
 		}
 		return d;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public TaskService getCurrentTaskByProcessNr(String processNr) {
+		List<TaskService> t = new ArrayList<TaskService>();
+		Response response = this.getRestRequest().get("runtime/tasks?processInstanceId=" + processNr);
+		if (response != null) {
+			String contentResp = "";
+			try {
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (response.getStatus() == 200) 
+				 t = (List<TaskService>) ResponseConverter.convertJsonToListDao(contentResp, "data", 
+							new TypeToken<List<TaskService>>() {
+							}.getType());
+			 else this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			
+			response.close();
+		}
+		return !t.isEmpty() ? t.get(0) : null;
 	}
 
 }

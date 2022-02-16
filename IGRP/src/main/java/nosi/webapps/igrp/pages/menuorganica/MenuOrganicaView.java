@@ -1,10 +1,11 @@
 package nosi.webapps.igrp.pages.menuorganica;
 
-import nosi.core.webapp.Model;
-import nosi.core.webapp.View;
+import static nosi.core.i18n.Translator.gt;
+
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.View;
 
 public class MenuOrganicaView extends View {
 
@@ -43,7 +44,7 @@ public class MenuOrganicaView extends View {
 		
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Nome"));
-		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
+		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","255").add("showLabel","true").add("group_in","");
 		
 		app = new HiddenField(model,"app");
 		app.setLabel(gt(""));
@@ -66,10 +67,10 @@ public class MenuOrganicaView extends View {
 		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
 
 		btn_gravar = new IGRPButton("Gravar","igrp","MenuOrganica","gravar","submit_ajax","primary|fa-save","","");
-		btn_gravar.propertie.add("type","specific").add("rel","gravar");
+		btn_gravar.propertie.add("type","specific").add("rel","gravar").add("refresh_components","");
 
 		btn_novo = new IGRPButton("Novo","igrp","MenuOrganica","novo","modal|refresh","success|fa-plus-square-o","","");
-		btn_novo.propertie.add("type","specific").add("rel","novo");
+		btn_novo.propertie.add("type","specific").add("rel","novo").add("refresh_components","");
 
 		
 	}

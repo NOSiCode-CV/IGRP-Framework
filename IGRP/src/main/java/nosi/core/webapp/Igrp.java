@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
+
 import nosi.core.config.ConfigApp;
 import nosi.core.i18n.I18nManager;
 import nosi.core.servlet.IgrpServlet;
@@ -44,7 +45,9 @@ public final class Igrp{
 	private I18nManager i18nManager;
 	
 	// For Igrp log toolbar 
-	private IgrpLog log;
+	private IgrpLog log; 
+	
+	public static final String HOME_ROUTE = "igrp/home/index"; 
 	
 	private Igrp(){} // Private and empty default constructor ... allow Singleton class 
 	
@@ -68,25 +71,18 @@ public final class Igrp{
 		this.response = response;
 		this.basePath = this.request.getContextPath();
 		this.baseRoute = this.request.getServletPath();
-		this.homeUrl = EncrypDecrypt.encrypt("igrp"+"/"+"home"+"/"+"index");
+		this.homeUrl = EncrypDecrypt.encrypt(HOME_ROUTE);
 		// init. of others configuration 
-		this.flashMessage = new FlashMessage(); // Flash Message instance
-		
-		// Config. of RDBMS or others DS ...
-		// PersistenceUtils.init();
-		
+		this.flashMessage = new FlashMessage(); // Flash Message instance 
 		// For internacionalization purpose 
 		this.i18nManager = new I18nManager();
 		this.i18nManager.init(request);
-		
 		// For Igrp log toolbar 
 		this.log = new IgrpLog();
 		this.log.init(request);
-		
 		// User component (Identity)
 		this.user = new User();
 		this.user.init(request);
-		
 		
 		return this;
 	}
@@ -100,7 +96,7 @@ public final class Igrp{
 		this.exit();
 	}
 	
-	// Exit and Send the response ... 
+	// Exit and Send the response. 
 	private void exit(){
 		new Controller().sendResponse();
 		this.die = false;
@@ -199,10 +195,6 @@ public final class Igrp{
 	
 	public I18nManager getI18nManager() {	
 		return i18nManager;
-	}
-
-	public static String getMethod() {
-		return Igrp.getInstance().getRequest().getMethod();
 	}
 	
 	public IgrpLog getLog() {

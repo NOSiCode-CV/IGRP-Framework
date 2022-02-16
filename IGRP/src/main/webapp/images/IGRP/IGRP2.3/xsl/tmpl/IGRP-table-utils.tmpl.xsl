@@ -14,7 +14,7 @@
     
     <xsl:param name="color" select="''"/>
     
-    <xsl:variable name="table-colors" select="../../legend_color/item"/>
+    <xsl:param name="table-colors" select="../../legend_color/item"/>
    	
    	<xsl:attribute name="class">tdcolor</xsl:attribute>
    	

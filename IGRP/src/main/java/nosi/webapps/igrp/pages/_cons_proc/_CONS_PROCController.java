@@ -1,26 +1,24 @@
 package nosi.webapps.igrp.pages._cons_proc;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
 import nosi.core.webapp.activit.rest.helpers.DateHelper;
 import nosi.core.webapp.activit.rest.helpers.StatusTask;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import nosi.core.webapp.bpmn.BPMNConstants;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.webapps.igrp.dao.Application;
-import static nosi.core.i18n.Translator.gt;
-/*----#end-code----*/
 		
 public class _CONS_PROCController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

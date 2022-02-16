@@ -1,16 +1,17 @@
 package nosi.webapps.igrp.pages.transaccao;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Transaction;
 import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Transaction;
+
 import java.util.List;
 /*----#end-code----*/
 		

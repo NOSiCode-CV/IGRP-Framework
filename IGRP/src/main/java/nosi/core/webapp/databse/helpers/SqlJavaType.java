@@ -1,6 +1,7 @@
 package nosi.core.webapp.databse.helpers;
 
 import java.sql.Types;
+
 import nosi.core.xml.TypesXML;
 
 /**
@@ -8,7 +9,9 @@ import nosi.core.xml.TypesXML;
  * 10 Dec 2017
  */
 public class SqlJavaType {
-
+	private SqlJavaType() {
+		throw new IllegalStateException("Utility class");
+	  }
 	//Receive Sql Type and Return Java Type
 	public static Object sqlToJava(int type) {
         Object result = Object.class;
@@ -80,7 +83,8 @@ public class SqlJavaType {
             	break;
             case Types.REF:
             	result = java.sql.Ref.class;
-            	break;
+				break;	
+			default:		
         }
         return result;
     }
@@ -138,7 +142,8 @@ public class SqlJavaType {
 	            	break;
 	            case Types.REF:
 	            	result = TypesXML.COMBOBOX;
-	            	break;
+					break;
+				default:	
 	        }
 	        return result;
 	}

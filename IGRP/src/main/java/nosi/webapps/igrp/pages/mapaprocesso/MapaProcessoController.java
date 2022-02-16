@@ -5,11 +5,12 @@
 package nosi.webapps.igrp.pages.mapaprocesso;
 
 
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import static nosi.core.i18n.Translator.gt;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import nosi.core.gui.components.IGRPMenu;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -21,7 +22,6 @@ import nosi.core.webapp.activit.rest.services.FormDataServiceRest;
 import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.webapps.igrp.dao.Application;
-/*----#END-PRESERVED-AREA----*/
 
 public class MapaProcessoController extends Controller{		
 

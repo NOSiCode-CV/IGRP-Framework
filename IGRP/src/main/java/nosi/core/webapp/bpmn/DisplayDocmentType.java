@@ -1,15 +1,19 @@
 package nosi.core.webapp.bpmn;
 
 import static nosi.core.i18n.Translator.gt;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import nosi.core.gui.components.IGRPFormList;
+import nosi.core.gui.components.IGRPLink;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.FileField;
 import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.LinkField;
 import nosi.core.gui.fields.TextField;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.bpmn.FormlistDocument.Formlist_documento_task;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 
@@ -166,8 +170,6 @@ public class DisplayDocmentType{
 			});
 		}
 		
-		System.out.println("Docs out: " + data.size()); 
-		
 		return data;
 	}
 
@@ -249,8 +251,6 @@ public class DisplayDocmentType{
 		return required==1?"Sim":"Nao";
 	}
 	
-	
-
 	public void setUserName(String userName) {
 		this.userName= userName;
 	}

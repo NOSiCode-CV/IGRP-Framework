@@ -1,27 +1,29 @@
 package nosi.webapps.igrp.pages.novoperfil;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
+
+import java.util.HashMap;
+
+import org.apache.commons.lang3.StringUtils;
+
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.webapps.igrp.dao.ProfileType;
+
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
-import nosi.core.webapp.activit.rest.entities.GroupService;
-import nosi.core.webapp.activit.rest.services.GroupServiceRest;
-
-import java.util.HashMap;
-import java.util.Properties;
-import nosi.core.config.ConfigApp;
+import nosi.webapps.igrp.dao.ProfileType;
+import java.text.Normalizer;
 /*----#end-code----*/
 		
 public class NovoPerfilController extends Controller {
@@ -37,13 +39,9 @@ public class NovoPerfilController extends Controller {
 		view.perfil_pai.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.primeira_pagina.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 
-		Properties settings = ConfigApp.getInstance().loadCommonConfig();
-		String igrp_plsql_url = settings.getProperty("igrp.plsql.url");
-		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
-			view.plsql_codigo.setVisible(false);
-		
 		String dad = Core.getCurrentDad();
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 			model.setAplicacao(Core.findApplicationByDad(dad).getId());
@@ -56,15 +54,18 @@ public class NovoPerfilController extends Controller {
 				? new Organization().getListOrganizations(model.getAplicacao())
 				: null);
 		// Perfil pai/Parent profile ocult (not in use)
-		//view.perfil_pai.setVisible(false);
+		// view.perfil_pai.setVisible(false);
 		view.btn_gravar.setTitle("Adicionar");
 		view.btn_gravar.addParameter("p_aplicacao", model.getAplicacao());
 
 		if (Core.isNotNullOrZero(model.getAplicacao())) {
-			view.primeira_pagina.setValue(new Menu().getListActionByOrg(model.getAplicacao(),model.getOrganica()));
-			view.perfil_pai.setValue(model.getOrganica() != 0 ? new ProfileType().getListProfiles4Pai(model.getAplicacao(), model.getOrganica()): null);
+			view.primeira_pagina.setValue(new Menu().getListActionByOrg(model.getAplicacao(), model.getOrganica()));
+			view.perfil_pai.setValue(model.getOrganica() != 0
+					? new ProfileType().getListProfiles4Pai(model.getAplicacao(), model.getOrganica())
+					: null);
 		}
-			
+
+		view.igrp_code.setVisible(false);
 
 		/*----#end-code----*/
 		view.setModel(model);
@@ -81,29 +82,29 @@ public class NovoPerfilController extends Controller {
 		  return this.forward("igrp","NovoPerfil","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gravar)  *//* End-Code-Block  */
 		/*----#start-code(gravar)----*/
 		ProfileType pt = new ProfileType();
 
-		pt.setCode(model.getCodigo() + "." + Core.findApplicationById(model.getAplicacao()).getDad());
 		pt.setDescr(model.getNome());
+		pt.setCode(model.getCodigo());
 		pt.setOrganization(Core.findOrganizationById(model.getOrganica()));
-		pt.setPlsql_code(model.getPlsql_codigo());
-		
-		 if(Core.isNotNullOrZero(model.getPerfil_pai())){
-			 pt.setProfiletype(new ProfileType().findOne(model.getPerfil_pai()));
-		 }
-		
+
+		if (Core.isNotNull(model.getPerfil_pai())) {
+			pt.setProfiletype(new ProfileType().findOne(model.getPerfil_pai()));
+		} else {
+			pt.setProfiletype(null);
+		}
+
 		pt.setStatus(model.getActivo());
 		pt.setApplication(Core.findApplicationById(model.getAplicacao()));
 		pt.setFirstPage(new Action().findOne(model.getPrimeira_pagina()));
-		if(Core.findProfileByCode(pt.getCode()) !=null) {
+		if (Core.findProfileByCode(pt.getCode()) != null) {
 			Core.setMessageError("Código perfil duplicado");
-			System.out.println("Código perfil duplicado");
 			return this.forward("igrp", "NovoPerfil", "index", this.queryString());
-		}
-		else 
-			pt = pt.insert();	
-	
+		} else
+			pt = pt.insert();
+
 		if (pt != null && !pt.hasError()) {
 			/*
 			 * // Cria grupo e utilizadores no Activiti GroupService group = new
@@ -127,10 +128,25 @@ public class NovoPerfilController extends Controller {
 		/*----#end-code----*/
 			
 	}
-	
-		
-		
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
+
+	public Response actionFillCodigo() throws IllegalArgumentException {
+		nosi.core.webapp.helpers.RemoteXML remoteXml = Core.remoteXml();
+
+		String nome = Core.getParam("p_nome");
+		Integer idApp = Core.getParamInt("p_aplicacao");
+		String idPerfil = Core.getParam("p_id_perfil");
+		if (Core.isNull(idPerfil)) {
+			String codigo = nome.replace(" ", "_").toLowerCase();
+			String codigoNormalized = StringUtils.stripAccents(codigo);
+			String codigoFinal = codigoNormalized + "." + Core.findApplicationById(idApp).getDad();
+			remoteXml.addPropertie("codigo", codigoFinal);
+		}
+		String xml = remoteXml.build();
+		this.format = Response.FORMAT_XML;
+		return this.renderView(xml);
+	}
 
 	private Boolean insertProfile(ProfileType pt) throws IOException {
 		Profile prof = new Profile();
@@ -149,23 +165,19 @@ public class NovoPerfilController extends Controller {
 		NovoPerfil model = new NovoPerfil();
 		model.load();
 		NovoPerfilView view = new NovoPerfilView();
-		
-		Properties settings = ConfigApp.getInstance().loadCommonConfig();
-		String igrp_plsql_url = settings.getProperty("igrp.plsql.url");
-		if(igrp_plsql_url == null || igrp_plsql_url.isEmpty()) 
-			view.plsql_codigo.setVisible(false);
-		
+
 		ProfileType p = new ProfileType().findOne(Integer.parseInt(idProf));
 		model.setCodigo(p.getCode());
 		model.setNome(p.getDescr());
 		model.setAplicacao(p.getApplication().getId());
-		model.setPlsql_codigo(p.getPlsql_code()); 
+		model.setId_perfil(p.getId()+"");
+
 		if (p.getOrganization() != null) {
 			model.setOrganica(p.getOrganization().getId());
 		}
 		model.setActivo(p.getStatus());
 		if (Core.isNotNull(p.getProfiletype())) {
-			 model.setPerfil_pai(p.getProfiletype().getId());
+			model.setPerfil_pai(p.getProfiletype().getId());
 		}
 		if (p.getFirstPage() != null)
 			model.setPrimeira_pagina(p.getFirstPage().getId());
@@ -176,12 +188,16 @@ public class NovoPerfilController extends Controller {
 		view.aplicacao.setValue(new Application().getListApps());
 
 		if (Core.isNotNullOrZero(model.getAplicacao())) {
-			view.primeira_pagina.setValue(new Menu().getListActionByOrg(model.getAplicacao(),model.getOrganica()));
+			view.primeira_pagina.setValue(new Menu().getListActionByOrg(model.getAplicacao(), model.getOrganica()));
 			view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
-			HashMap<String, String> listProfiles4Pai = new ProfileType().getListProfiles4Pai(model.getAplicacao(), model.getOrganica());
+			HashMap<String, String> listProfiles4Pai = new ProfileType().getListProfiles4Pai(model.getAplicacao(),
+					model.getOrganica());
 			listProfiles4Pai.remove(idProf);
-			view.perfil_pai.setValue(model.getOrganica() != 0 ? listProfiles4Pai: null);			
-		}	
+			view.perfil_pai.setValue(model.getOrganica() != 0 ? listProfiles4Pai : null);
+		}
+
+		model.setIgrp_code(p.getPlsql_code());
+
 		view.setModel(model);
 		return this.renderView(view);
 	}
@@ -198,12 +214,15 @@ public class NovoPerfilController extends Controller {
 			p.setCode(model.getCodigo());
 			p.setDescr(model.getNome());
 			p.setOrganization(Core.findOrganizationById(model.getOrganica()));
-			p.setPlsql_code(model.getPlsql_codigo()); 
-			
-			 if(Core.isNotNullOrZero(model.getPerfil_pai())){
-				 p.setProfiletype(new ProfileType().findOne(model.getPerfil_pai()));
+
+			p.setPlsql_code(model.getIgrp_code());
+
+			if (Core.isNotNullOrZero(model.getPerfil_pai())) {
+				p.setProfiletype(new ProfileType().findOne(model.getPerfil_pai()));
+			} else {
+				p.setProfiletype(null);
 			}
-			 
+
 			p.setStatus(model.getActivo());
 			p.setApplication(Core.findApplicationById(model.getAplicacao()));
 			p.setFirstPage(new Action().findOne(model.getPrimeira_pagina()));

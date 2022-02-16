@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
 import nosi.core.gui.components.IGRPLink;
 
 /**
@@ -146,6 +147,7 @@ public class TipoDocumentoEtapa extends IGRPBaseActiveRecord<TipoDocumentoEtapa>
 				+ ", status=" + status + ", required=" + required + ", tipoDocumento=" + tipoDocumento
 				+ ", repTemplate=" + repTemplate + ", link=" + link + ", fileId=" + fileId + "]";
 	}
-
+	
+	
 
 }

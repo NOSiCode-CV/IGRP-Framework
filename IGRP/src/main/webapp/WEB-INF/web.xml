@@ -1,35 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" metadata-complete="true" version="3.1">
-  <display-name>IGRP</display-name>
-  <context-param>
-    <param-name>workspace</param-name>
-    <param-value>C:\git\IGRP-Framework\IGRP</param-value>
-  </context-param>
+  <display-name>IGRP-Template</display-name>
   <servlet>
     <servlet-name>IGRP</servlet-name>
     <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
-    <init-param>
-      <param-name>authentication_type</param-name>
-      <param-value>db</param-value>
-    </init-param>
-    <init-param>
-      <param-name>env</param-name>
-      <param-value>dev</param-value>
-    </init-param>
     <multipart-config>
       <max-file-size>52428800</max-file-size>
       <max-request-size>52428800</max-request-size>
       <file-size-threshold>0</file-size-threshold>
     </multipart-config>
   </servlet>
-  <servlet>
-    <servlet-name>igrpoauth2sso</servlet-name>
-    <servlet-class>nosi.core.servlet.IgrpOAuth2SSO</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>igrpoauth2sso</servlet-name>
-    <url-pattern>/igrpoauth2sso</url-pattern>
-  </servlet-mapping>
   <filter>
     <filter-name>ThreadLocalFilter</filter-name>
     <filter-class>nosi.core.filter.ThreadLocalFilter</filter-class>
@@ -50,16 +30,6 @@
     <filter-name>EncodingFilter</filter-name>
     <servlet-name>IGRP</servlet-name>
   </filter-mapping>
-  <!-- 
-   <filter>
-    <filter-name>DetectAppDadWhenSSO</filter-name>
-    <filter-class>nosi.core.filter.DetectAppDadWhenSSO</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>DetectAppDadWhenSSO</filter-name>
-    <servlet-name>IGRP</servlet-name>
-  </filter-mapping>
-   --> 
   <servlet-mapping>
     <servlet-name>IGRP</servlet-name>
     <url-pattern>/app/*</url-pattern>
@@ -68,10 +38,6 @@
     <servlet-name>default</servlet-name>
     <url-pattern>/images/*</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <servlet-name>testesso</servlet-name>
-    <servlet-class>nosi.core.servlet.TesteSso</servlet-class>
-  </servlet>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
@@ -80,9 +46,9 @@
     <location>/app/webapps?r=igrp/error-page/exception</location>
   </error-page>
   <session-config>
-    <session-timeout>30</session-timeout>
+    <session-timeout>16</session-timeout>
   </session-config>
   <listener>
     <listener-class>nosi.core.listener.BasicListener</listener-class>
   </listener>
-</web-app>
+</web-app> 

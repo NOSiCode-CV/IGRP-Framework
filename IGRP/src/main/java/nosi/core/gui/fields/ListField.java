@@ -1,11 +1,13 @@
 package nosi.core.gui.fields;
 
+import static nosi.core.i18n.Translator.gt;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.persistence.Tuple;
-import static nosi.core.i18n.Translator.gt;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.IgrpHelper;

@@ -6,15 +6,19 @@ $.fn.separatorList = function(o){
 		addBtn    : 'table-row-add',
 		editBtn   : 'table-row-edit',
 		removeBtn : 'table-row-remove',
+		undoBtn   : 'table-row-undo',
 		templates : {
 			rowOptions: '<td data-row="" class="table-btn">'+
-		            		'<span class="table-row-edit btn btn-warning" title="Edit" data-toggle="tooltip" data-placement="left">'+
-                            	'<i class="fa fa-pencil"></i>'+
-                        	'</span>'+
-							'<span class="table-row-remove btn btn-danger" title="Remove" data-toggle="tooltip" data-placement="right">'+
-                            	'<i class="fa fa-times"></i>'+
-                        	'</span>'+
-						'</td>'
+			'<span class="table-row-undo btn btn-warning d-none" title="Undo" data-toggle="tooltip" data-placement="left">'+
+				'<i class="fa fa-undo"></i>'+
+			'</span>'+
+			'<span class="table-row-edit btn btn-warning" title="Edit" data-toggle="tooltip" data-placement="left">'+
+				'<i class="fa fa-pencil"></i>'+
+			'</span>'+
+			'<span class="table-row-remove btn btn-danger" title="Remove" data-toggle="tooltip" data-placement="right">'+
+				'<i class="fa fa-times"></i>'+
+			'</span>'+
+		'</td>'
 		}
 	},o);
 
@@ -40,8 +44,8 @@ $.fn.separatorList = function(o){
 					value:JSON.stringify(slEstorage).replace(/"/g, "'"),
 					class:'submittable'
 				});
-
-				//localStorage.setItem(p.name, JSON.stringify(slEstorage));
+				
+				$(p.sl).parents('form').attr('target','editseparator');
 			},
 			reset : function(sl){
 				$(sl).removeAttr('row-action');
@@ -49,19 +53,33 @@ $.fn.separatorList = function(o){
 				$(sl).removeAttr('row-id');
 
 				$('input[name="p_fwl_'+sl.name+'trc"]').remove();
-				//localStorage.removeItem(sl.name);
+				$('.splist-form-holder .dynamic-alert',$(sl)).remove();
+				$(sl).parents('form').removeAttr('target');
 			},
 			get : function(sl){
-				//var sle = localStorage.getItem(sl.name);
 
 				var sle  = $('input[name="p_fwl_'+sl.name+'trc"]').val();
 				sle      = sle ? JSON.parse(sle.replace(/'/g, '"')) : {};
 
 				return {
-					rowIndex : sle.indexRow ? sle.indexRow*1 : $(sl).attr('row-index') ? $(sl).attr('row-index')*1 : '',
-					rowId 	 : sle.rowId ? sle.rowId*1 : $(sl).attr('row-id') ? $(sl).attr('row-id') : '',
+					rowIndex : sle.indexRow ? sle.indexRow : $(sl).attr('row-index') ? $(sl).attr('row-index') : '',
+					rowId 	 : sle.rowId ? sle.rowId : $(sl).attr('row-id') ? $(sl).attr('row-id') : '',
 					action   : sle.action ? sle.action : $(sl).attr('row-action') ? $(sl).attr('row-action') : ''
 				};
+			},
+			getValues : {},
+			getHtmlRow : function(p){
+
+				var strNode = 'tr-'+p.rowIndex,
+					values  = p.html.replace(/"/g, "'");
+
+
+				if(!rowEdit.getValues.hasOwnProperty(p.sepName))
+					rowEdit.getValues[p.sepName] = {};
+	
+				rowEdit.getValues[p.sepName][strNode] = values;
+
+				localStorage.setItem("rowEditSeparatorlist", JSON.stringify(rowEdit.getValues));
 			}
 		};
 
@@ -86,7 +104,7 @@ $.fn.separatorList = function(o){
 		var appendToTable = function(values,sl){
 			
 			var	sle 	   = rowEdit.get(sl),
-				rowIndex   = sle.rowIndex ? sle.rowIndex : null,
+				rowIndex   = sle.rowIndex ? sle.rowIndex : 0,
 				rowId 	   = sle.rowId,
 				isDialog   = sl.isDialog ? true : false,
 				fieldsH    = isDialog ? $('.splist-form-holder',sl)[0] : sl,
@@ -264,6 +282,14 @@ $.fn.separatorList = function(o){
 					var dynamicHiddens = $('.igrp-dynamic-hiddens',oldrow);
 					
 					row.prepend(dynamicHiddens);
+
+					row.addClass('row-edited').data('row-edit-id','tr-'+rowIndex);
+
+					rowEdit.getHtmlRow({
+						html    : $('tbody tr',table).eq(rowIndex).clone(true).html(),
+						sepName : sl.name,
+						rowIndex: rowIndex
+					});
 					
 					$('tbody tr',table).eq(rowIndex).replaceWith(row);
 					
@@ -298,6 +324,9 @@ $.fn.separatorList = function(o){
 				var ftype   = ftag == 'select' || ftag == 'textarea' ? ftag : $(f).attr('type');
 				var genType = $(f).parents('[item-type]').attr('item-type');
 				var rowVal  = val;
+
+				if(rowVal)
+					$(f).attr('item-value',rowVal);
 
 
 				if(ftype != 'file'){
@@ -354,6 +383,10 @@ $.fn.separatorList = function(o){
 			return rtn;
 		};
 
+		var getCurrentFieldValues = function(values){
+			console.log(values);
+		}
+
 		var editRow = function(sl,row){
 			var isDialog = sl.isDialog;
 			var fieldsH  = isDialog ? $('.splist-form-holder',sl)[0] : sl;
@@ -386,6 +419,8 @@ $.fn.separatorList = function(o){
 
 					var rowVal  = $.IGRP.utils.htmlEncode(rowFk.val());
 					
+					values[$(f).attr('item-name')] = rowVal;
+
 					setFormFieldValue(f,rowVal);
 					
 					if($(f).hasClass('IGRP_change')){
@@ -402,6 +437,8 @@ $.fn.separatorList = function(o){
 
 				}
 			});
+
+			getCurrentFieldValues(values);
 
 			if (arrField[0]) {
 				$.each(arrField,function(i,f){
@@ -459,6 +496,65 @@ $.fn.separatorList = function(o){
 				
 			}
 		};
+
+		var undoRow = function(sl,row){
+			if(!$(row).hasClass('row-active') && $(row).hasClass('row-edited')){
+				var sepName     = sl.name,
+					rowEditId   = $(row).data('row-edit-id'),
+					storageRows = localStorage.getItem('rowEditSeparatorlist'),
+					rowValues   = '';
+
+				storageRows = storageRows ? JSON.parse(storageRows) : {};
+
+				storageRows = storageRows[sepName];
+
+				rowValues = storageRows[rowEditId];
+
+				if(rowValues !== ''){
+
+					delete storageRows[rowEditId];
+
+					$(row).removeClass('row-edited').removeData('row-edit-id').html(rowValues);
+					
+					if(typeof storageRows === 'object' && storageRows !== null){
+
+						rowEdit.getValues[sepName] = storageRows;
+
+						localStorage.setItem("rowEditSeparatorlist", JSON.stringify(rowEdit.getValues));
+					}
+					else{
+						localStorage.removeItem("rowEditSeparatorlist");
+						rowEdit.getValues = {};
+					}
+				}
+			}
+		}
+
+		var checkEditedRow = function(sl){
+			var sepName     = sl.name,
+				storageRows = localStorage.getItem('rowEditSeparatorlist');
+
+			if(storageRows){
+				storageRows 	  = JSON.parse(storageRows);
+
+				rowEdit.getValues = storageRows;
+
+				storageRows 	  = storageRows[sepName];
+
+				if(storageRows && $('tbody tr td span.table-row-undo',sl)[0]){
+					$('tbody tr',sl).each(function(i,row){
+						var idx = $(row)[0].rowIndex -1,
+							tag = 'tr-'+idx;
+
+						if(storageRows[tag]){
+							
+							$(row).addClass('row-edited').data('row-edit-id',tag);
+						}
+					});
+				}
+
+			}
+		}
 
 		var openDialog = function(sl,edit,reset){
 			
@@ -815,6 +911,33 @@ $.fn.separatorList = function(o){
             	}
           	},true);
 		};
+		
+		var onSubmitIsEdited = function(sl,e){
+			var $obj = $('input[name="p_fwl_'+sl.name+'trc"]'),
+				valid = true;
+			
+			if($obj[0] && $obj.val()){
+				
+				if($(e.target).attr('target') == 'editseparator')
+					e.preventDefault();
+				
+				if(!$('.splist-form-holder .dynamic-alert',$(sl))[0]){
+					
+					$('.splist-form-holder',$(sl)).append($.IGRP.utils.message.alert({
+						type : 'warning',
+						text : 'Para opcões de insersão mutliplas e necessario clicar em Adicionar.'
+					}));
+					
+				}
+				
+				if($.IGRP.components.tabcontent)
+					$.IGRP.components.tabcontent.activeTabHasFieldsError($('.splist-form-holder',$(sl)));
+	
+				valid = false;
+			}
+	
+			return valid;
+		};
 
 		var setEvents = function(sl){
 			
@@ -854,6 +977,12 @@ $.fn.separatorList = function(o){
 				return false;
 			});
 
+
+			$(sl).on('click','.'+options.undoBtn,function(e){
+				var row = $(e.target).parents('tr')[0];
+				undoRow(sl,row);
+				return false;
+			});
 			
 
 			sl.toJSON = function(p){
@@ -939,7 +1068,21 @@ $.fn.separatorList = function(o){
 				resetForm(getFormFields(sl),sl);
 				$('tbody tr',sl).remove();
 				sl.events.execute('reset-all');
-			}
+			};
+			
+			
+			$.IGRP.events.on('submit',function(o){
+				if(o.valid){
+					onSubmitIsEdited(sl,o.event);
+				}
+			});
+		
+			$.IGRP.events.on('submit-ajax',function(o){
+				if(o.valid){
+					onSubmitIsEdited(sl,o.event);
+				}
+			});
+			
 			
 			$(sl).on('row-add', function(e, data){
 				
@@ -969,6 +1112,8 @@ $.fn.separatorList = function(o){
 
 			checkOpenDialog(sl);
 
+			checkEditedRow(sl);
+
 		});
 	}
 }
@@ -980,5 +1125,10 @@ $.IGRP.on('init',function(){
         if($('.IGRP-separatorlist',p.content)[0])
             $('.IGRP-separatorlist',p.content).separatorList();
     });
+
+	$.IGRP.events.on('target-click',function(p){
+        localStorage.removeItem('rowEditSeparatorlist');
+    });
+
 });
 	

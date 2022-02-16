@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/proforgmapper/Proforgmapper.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Proforgmapper</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Proforgmapper</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=200</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>ProfOrgMapper</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[<p>Mapeamento Perfil/Org&acirc;nica</p>
+]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao_origem name="p_aplicacao_origem" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
+                    <label>Aplicação origem</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <rules>
+                        <rule type="remote_combobox">
+                            <proc>AppOrigemDestino</proc>
+                            <requestFields>
+                                <item>p_aplicacao_origem</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
+                    <validations>
+                        <validation>
+                            <annotation>@NotNull</annotation>
+                        </validation>
+                    </validations>
+                </aplicacao_origem>
+                <aplicacao_destino name="p_aplicacao_destino" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
+                    <label>Aplicação destino</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <validations>
+                        <validation>
+                            <annotation>@NotNull</annotation>
+                        </validation>
+                    </validations>
+                </aplicacao_destino>
+                <tipo name="p_tipo" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
+                    <label>Tipo</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <validations>
+                        <validation>
+                            <annotation>@NotNull</annotation>
+                        </validation>
+                    </validations>
+                </tipo>
+            </fields>
+            <tools-bar>
+                <item id="button_e2d6_5950" type="form" code="" class="primary" rel="pesquisar" custom_return="true" refresh_components="">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>Dominio</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
+                    <target>submit</target>
+                    <img>primary|fa-search</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
+                </item>
+            </tools-bar>
+        </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="guardar" custom_return="true" refresh_components="">
+                <title>Guardar</title>
+                <app>igrp</app>
+                <page>Proforgmapper</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>success|fa-save</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/proforgmapper/Proforgmapper.xml</preview>
+            </item>
+        </toolsbar_1>
+        <formlist_1 type="formlist" xml-type="formlist" gen-clean="true" gen-type="container" gen-group="true">
+            <fields>
+                <perfilorganica_origem name="p_perfilorganica_origem" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desc="true">
+                    <label>Código (Origem)</label>
+                </perfilorganica_origem>
+                <perfilorganica_destino name="p_perfilorganica_destino" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desc="true">
+                    <label>Código (Destino)</label>
+                </perfilorganica_destino>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <perfilorganica_origem name="p_perfilorganica_origem" desc="true">Sit laudantium ut amet sit</perfilorganica_origem>
+                        <perfilorganica_origem_desc name="p_perfilorganica_origem_desc">Sit laudantium ut amet sit</perfilorganica_origem_desc>
+                        <perfilorganica_destino name="p_perfilorganica_destino" desc="true">Sit amet lorem aperiam doloremque</perfilorganica_destino>
+                        <perfilorganica_destino_desc name="p_perfilorganica_destino_desc">Sit amet lorem aperiam doloremque</perfilorganica_destino_desc>
+                    </row>
+                    <row>
+                        <perfilorganica_origem name="p_perfilorganica_origem" desc="true">Anim sed dolor aliqua adipiscing</perfilorganica_origem>
+                        <perfilorganica_origem_desc name="p_perfilorganica_origem_desc">Anim sed dolor aliqua adipiscing</perfilorganica_origem_desc>
+                        <perfilorganica_destino name="p_perfilorganica_destino" desc="true">Iste lorem iste ut amet</perfilorganica_destino>
+                        <perfilorganica_destino_desc name="p_perfilorganica_destino_desc">Iste lorem iste ut amet</perfilorganica_destino_desc>
+                    </row>
+                    <row>
+                        <perfilorganica_origem name="p_perfilorganica_origem" desc="true">Aperiam omnis sit doloremque deserunt</perfilorganica_origem>
+                        <perfilorganica_origem_desc name="p_perfilorganica_origem_desc">Aperiam omnis sit doloremque deserunt</perfilorganica_origem_desc>
+                        <perfilorganica_destino name="p_perfilorganica_destino" desc="true">Sit totam laudantium adipiscing omnis</perfilorganica_destino>
+                        <perfilorganica_destino_desc name="p_perfilorganica_destino_desc">Sit totam laudantium adipiscing omnis</perfilorganica_destino_desc>
+                    </row>
+                    <row>
+                        <perfilorganica_origem name="p_perfilorganica_origem" desc="true">Rem aperiam officia aliqua laudantium</perfilorganica_origem>
+                        <perfilorganica_origem_desc name="p_perfilorganica_origem_desc">Rem aperiam officia aliqua laudantium</perfilorganica_origem_desc>
+                        <perfilorganica_destino name="p_perfilorganica_destino" desc="true">Natus anim ut lorem accusantium</perfilorganica_destino>
+                        <perfilorganica_destino_desc name="p_perfilorganica_destino_desc">Natus anim ut lorem accusantium</perfilorganica_destino_desc>
+                    </row>
+                    <row>
+                        <perfilorganica_origem name="p_perfilorganica_origem" desc="true">Aperiam elit doloremque consectetur voluptatem</perfilorganica_origem>
+                        <perfilorganica_origem_desc name="p_perfilorganica_origem_desc">Aperiam elit doloremque consectetur voluptatem</perfilorganica_origem_desc>
+                        <perfilorganica_destino name="p_perfilorganica_destino" desc="true">Sit amet officia iste dolor</perfilorganica_destino>
+                        <perfilorganica_destino_desc name="p_perfilorganica_destino_desc">Sit amet officia iste dolor</perfilorganica_destino_desc>
+                    </row>
+                </value>
+            </table>
+        </formlist_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

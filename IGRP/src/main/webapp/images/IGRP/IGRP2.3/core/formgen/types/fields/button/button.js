@@ -48,6 +48,7 @@ var BTNFIELD = function(type,params){
 				
 			}
 		});
+		
 /*
 		field.setPropriety({
 			name     :'outline',

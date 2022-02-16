@@ -140,7 +140,7 @@ public class RepSource extends IGRPBaseActiveRecord<RepSource> implements Serial
 	}
 
 	public void setType_query(String type_query) {
-		this.type_query = type_query.replaceAll(";", "");
+		this.type_query = type_query; 
 	}
 
 	public int getStatus() {

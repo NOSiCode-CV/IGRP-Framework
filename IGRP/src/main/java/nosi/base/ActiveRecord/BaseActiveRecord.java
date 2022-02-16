@@ -6,12 +6,16 @@ import java.lang.reflect.ParameterizedType;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
 import javax.persistence.Id;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import org.hibernate.jpa.QueryHints;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -25,11 +29,13 @@ import org.hibernate.Transaction;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
+
+import jd.core.model.instruction.bytecode.instruction.InstanceOf;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
-import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.databse.helpers.ORDERBY;
 import nosi.core.webapp.databse.helpers.ParametersHelper;
+import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
@@ -41,12 +47,13 @@ import nosi.webapps.igrp.dao.Config_env;
 
 @SuppressWarnings("unchecked")
 public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Serializable {
-
+	
 	/**
-	 * 
+	 *
 	 */
-	private static final long serialVersionUID = 1L;
-	@Expose(serialize = false) @JsonIgnore
+	private static final long serialVersionUID = -2681026559103646326L;
+	@Expose(serialize = false)
+	@JsonIgnore
 	protected String sql="";
 	@Expose(serialize = false) @JsonIgnore
 	protected String alias;
@@ -55,13 +62,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Expose(serialize = false) @JsonIgnore
 	private boolean whereIsCall = false;
 	@Expose(serialize = false) @JsonIgnore
-	private ResolveColumnNameQuery recq;
+	private transient ResolveColumnNameQuery recq;
 	@Expose(serialize = false) @JsonIgnore
 	private int limit = -1;
 	@Expose(serialize = false) @JsonIgnore
 	private int offset = -1;	
 	@Expose(serialize = false) @JsonIgnore
-	private List<DatabaseMetadaHelper.Column> parametersMap;
+	private transient List<DatabaseMetadaHelper.Column> parametersMap;
 	@Expose(serialize = false) @JsonIgnore
 	private String schema = null;
 	@Expose(serialize = false) @JsonIgnore @JsonFormat(shape=JsonFormat.Shape.ARRAY)
@@ -69,17 +76,17 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Expose(serialize = false) @JsonIgnore
 	private boolean isReadOnly = false;
 	@Expose(serialize = false) @JsonIgnore
-	private CriteriaBuilder builder = null;
+	private transient CriteriaBuilder builder = null;
 	@Expose(serialize = false) @JsonIgnore
-	private CriteriaQuery<T> criteria = null;
+	private transient CriteriaQuery<T> criteria = null;
 	@Expose(serialize = false) @JsonIgnore
-	private Root<T> root = null;
+	private transient Root<T> root = null;
 	@Expose(serialize = false) @JsonIgnore
 	private String tableName;
 	@Expose(serialize = false) @JsonIgnore
 	private Class<T> className;
 	@Expose(serialize = false) @JsonIgnore
-	private T classNameCriteria;
+	private transient T classNameCriteria;
 	@Expose(serialize = false) @JsonIgnore
 	private boolean showError = true;
 	@Expose(serialize = false) @JsonIgnore
@@ -92,7 +99,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	private String applicationName;
 	private boolean isShowConsoleSql=false;
 	
-	public BaseActiveRecord() {
+	protected BaseActiveRecord() {
 		this.classNameCriteria = (T) this;
 		this.className = this.getClassType();
 		if(this.className!=null) {
@@ -145,7 +152,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 	@Override
 	public T where(String name, String operator, String[] values) {
-		return this.whereObject(name, operator, values);
+		if(values!=null) {
+			String[] values_ = this.normalizeStringVlaues(values);
+			String value = this.applyToInCondition(values_);	
+			this.where("");
+			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
+		}
+		return (T) this;
 	}
 
 	@Override
@@ -256,8 +269,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Override
 	public T andWhere(String name, String operator, String[] values) {
 		if(values!=null) {
-			String[] values_ = this.normalizeStringVlaues(values);
-			String value = this.applyToInCondition(values_);
+			String value="('')";
+			if(values.length>0){
+				String[] values_ = this.normalizeStringVlaues(values);
+				value = this.applyToInCondition(values_);
+			}			
 			this.and();
 			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
 		}
@@ -487,6 +503,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		return " SELECT count("+this.getAlias()+") FROM "+this.getTableName()+" "+this.getAlias()+" ";
 	}
 	
+	@Transient
+	protected String generateSqlAggregate(String columnName, String aggregate) {
+		return " SELECT "+ aggregate +"("+recq.resolveColumnName(this.getAlias(),columnName)+") FROM " + this.getTableName() + " " + this.getAlias() + " ";
+	}
+	
 	@Transient	 
 	protected Class<T> getClassType(){
 		ParameterizedType genericType = (ParameterizedType) this.getClass().getGenericSuperclass();
@@ -519,7 +540,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	}
 	
 	private String applyToInCondition(Object[] values) {
-		return String.join(",", Arrays.toString(values)).replaceAll("\\[", "(").replaceAll("\\]", ")");			
+		return String.join(",", Arrays.toString(values)).replace("[", "(").replace("]", ")");			
 	}
 
 	private T whereObject(String name, String operator, Object[] values) {
@@ -565,7 +586,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				this.filterWhere("UPPER("+recq.resolveColumnName(this.getAlias(),name)+") "+operator+" :"+paramName_+" ");
 				this.addParamter(name,paramName_,value.toString().toUpperCase(),classType);				
 			}else {
-				this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName_+" ");
+				this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" :"+paramName_+" ");
 				this.addParamter(name,paramName_,value,classType);
 			}
 		}
@@ -732,7 +753,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 	private T orderBy(String[][] orderByNames, String defaultOrder) {
 		if(orderByNames!=null) {
-			String c = " ORDER BY ";
+			StringBuilder c = new StringBuilder(" ORDER BY ");		
     		int i=1;
     		for(String[] names:orderByNames) {
     			String order = names[names.length-1];
@@ -745,10 +766,10 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
     			}
     			for(int j=0;j<newNames.length;j++)
     				newNames[j] = recq.resolveColumnName(this.getAlias(),newNames[j]);
-    			c+= (Arrays.toString(newNames).replaceAll("\\[", "").replaceAll("\\]", "")+" "+order+(i==orderByNames.length?" ":", "));
+    			c.append((Arrays.toString(newNames).replace("[", "").replace("]", "")+" "+order+(i==orderByNames.length?" ":", ")));
     			i++;
     		}
-    		this.filterWhere(c);
+    		this.filterWhere(c.toString());
     	}
 		return (T) this;
 	}
@@ -810,14 +831,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				s.beginTransaction();
 			}
 			TypedQuery<T> query = s.createQuery(criteria);
-			query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
+			query.setHint(QueryHints.HINT_READONLY, true);
 			this.setParameters(query);
 			list = query.getResultList();
 		}catch (Exception e) {
 			this.keepConnection = false;
 			this.setError(e);
-		} finally {
-			s.close();
+		} finally {			
 			this.closeSession();
 		}
 		return list;
@@ -826,8 +846,28 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 	@Override
 	public T findOne(CriteriaQuery<T> criteria) {
-		List<T> list = this.findAll(criteria);
-		return list!=null && !list.isEmpty()?list.get(0):null;
+		T t = null;
+		Session s = this.getSession();
+		try {
+			if(!s.getTransaction().isActive()) {
+				s.beginTransaction();
+			}
+			TypedQuery<T> query = s.createQuery(criteria);
+			query.setMaxResults(1);
+			query.setHint(QueryHints.HINT_READONLY, true);
+			this.setParameters(query);
+			t = query.getSingleResult();
+		}catch (Exception e) {			
+			if(!(e instanceof NoResultException)) {
+				this.keepConnection = false;
+				this.setError(e);
+			}
+			
+		} finally {			
+			this.closeSession();
+		}
+		
+		return t;
 	}
 
 	@Override
@@ -874,7 +914,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			if(this.limit > -1) {
 				query.setMaxResults(limit);
 			}
-			query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
+			query.setHint(QueryHints.HINT_READONLY, true);
 			this.setParameters(query);
 			list = query.getResultList();
 		}catch (Exception e) {
@@ -904,25 +944,34 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 					System.out.println(this.getSql());
 				}
 				Query query = s.createQuery(this.getSql());
+			
 				if (this.offset > -1) {
 					query.setFirstResult(offset);
 				}
 				if (this.limit > -1) {
 					query.setMaxResults(limit);
 				}
-				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
+				query.setHint(QueryHints.HINT_READONLY, true);
 				if (this.parametersMap != null && !this.parametersMap.isEmpty()) {
 					for (Iterator<DatabaseMetadaHelper.Column> i = parametersMap.iterator(); i.hasNext();) {
 						Column col = i.next();
-						ParametersHelper.setParameter(query, col.getDefaultValue(), col);
+						ParametersHelper.setParameter(query,col.getColumnMap(), col.getDefaultValue(), col);
+						
 					}
 				}
-				List<Object> list = query.getResultList();
-				for (Iterator<Object> iter = list.iterator(); iter.hasNext();) {
-					Map<String, Object> mapObject = new HashMap<>();
-					Object[] teste = (Object[]) iter.next();
-					for (int i = 0; teste.length > i; i++)
-						mapObject.put(columns[i], teste[i]);
+
+				List<T> list = query.getResultList();
+				for (Iterator<Object> iter = (Iterator<Object>) list.iterator(); iter.hasNext();) {
+					Map<String, Object> mapObject = new LinkedHashMap<>();					
+					final Object obj = iter.next();
+					if(obj instanceof Object[]) {
+						Object[] teste = (Object[]) obj;
+						for(int i = 0; teste.length > i; i++)
+							mapObject.put(columns[i], teste[i]);
+					}else {
+						mapObject.put(columns[0], obj);						
+					}
+					
 					lista.add(mapObject);
 				}
 			} catch (Exception e) {
@@ -938,7 +987,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public Map<String, Object> oneColumns(String... columns) {
 		this.limit = 1;
 		List<Map<String, Object>> list = this.allColumns(columns);
-		return (list != null && !list.isEmpty() && list.size() > 0) ? list.get(0) : null;
+		return (list != null && !list.isEmpty()) ? list.get(0) : null;
 	}
 		
 	private boolean beginTransaction(Transaction transaction) {		
@@ -966,12 +1015,14 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 					query.setFirstResult(offset);
 				if(limit > -1)
 					query.setMaxResults(limit);
-				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
+				query.setHint(QueryHints.HINT_READONLY, true);
 				this.setParameters(query);
 				list = query.getResultList();
-				transaction.commit();
+				if(!this.keepConnection)
+					transaction.commit();
 			}
 		}catch (Exception e) {
+			this.keepConnection = false;
 			if (transaction != null) {
 				transaction.rollback();
 			}
@@ -989,7 +1040,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			transaction = this.getSession().getTransaction();
 			if(this.beginTransaction(transaction)) {
 				this.getSession().persist(this);
-				transaction.commit();
+				if(!this.keepConnection)
+					transaction.commit();
 			}
 		}catch (Exception e) {
 			this.keepConnection = false;
@@ -1004,13 +1056,14 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	}
 
 	@Override
-	public T update() {
+	public T update() {		
 		Transaction transaction = null;
 		try {
 			transaction = this.getSession().getTransaction();
 			if(this.beginTransaction(transaction)) {
 				this.getSession().merge(this);
-				transaction.commit();
+				if(!this.keepConnection)
+					transaction.commit();
 			}
 		}catch (Exception e) {
 			this.keepConnection = false;
@@ -1034,7 +1087,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			transaction = this.getSession().getTransaction();
 			if(this.beginTransaction(transaction)) {
 				this.getSession().remove(this.getSession().find(this.className, id));
-				transaction.commit();
+				if(!this.keepConnection)
+					transaction.commit();
 				deleted=true;
 			}
 		}catch (Exception e) {
@@ -1083,28 +1137,81 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@XmlTransient
 	public Long getCount() {
 		this.sql = this.generateSqlCount()+this.sql;
-		Long count = new Long(0);
+		return (Long)this.getSingleResult();
+	}
+	
+	@Override
+	@Transient
+	@XmlTransient
+	public Object getMax(String columnName) {
+		if(Core.isNull(columnName))
+			return null;
+		this.sql = this.generateSqlAggregate(columnName, "max")+this.sql;
+		return this.getSingleResult();
+	}
+	
+	@Override
+	@Transient
+	@XmlTransient
+	public Object getMin(String columnName) {
+		if(Core.isNull(columnName))
+			return null;
+		this.sql = this.generateSqlAggregate(columnName, "min")+this.sql;
+		return this.getSingleResult();
+	}
+	
+	@Override
+	@Transient
+	@XmlTransient
+	public Double getAvg(String columnName) {
+		if(Core.isNull(columnName))
+			return null;
+		this.sql = this.generateSqlAggregate(columnName, "avg")+this.sql;
+		return (Double)this.getSingleResult();
+	}
+	
+	@Override
+	@Transient
+	@XmlTransient
+	public Object getSum(String columnName) {
+		if(Core.isNull(columnName))
+			return null;
+		this.sql = this.generateSqlAggregate(columnName, "sum")+this.sql;
+		return this.getSingleResult();
+	}
+	
+	@Transient
+	@XmlTransient
+	private Object getSingleResult() {
+		Object result = null;
 		Transaction transaction = null;
 		try {
 			transaction = this.getSession().getTransaction();
 			if(this.beginTransaction(transaction)) {
-				TypedQuery<T> query = (TypedQuery<T>) this.getSession().createQuery(this.getSql(),Long.class);
-				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
+				if(this.isShowConsoleSql) {
+					Core.log(this.getSql());
+					System.out.println(this.getSql());
+				}
+				TypedQuery<T> query = this.getSession().createQuery(this.getSql());
+				query.setHint(QueryHints.HINT_READONLY, true);
 				this.setParameters(query);
-				count = (Long)query.getSingleResult();
+				result = query.getSingleResult();
 				if(!this.keepConnection)
 					transaction.commit();
 			}
 		}catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
+			if(!(e instanceof NoResultException)) {
+				this.keepConnection = false;
+				if (transaction != null) {
+					transaction.rollback();
+				}
+				this.setError(e);
 			}
-			this.setError(e);
 		} finally {
 			this.closeSession();
 		}
 		
-		return count;
+		return result;
 	}
 	
 	@Transient	 
@@ -1120,8 +1227,17 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Transient	 
 	protected Session getSession() {	
 		SessionFactory sessionFactory = getSessionFactory();
-		if(sessionFactory!=null) {
-			Session s = sessionFactory.getCurrentSession();
+		Session s = null;
+		if (sessionFactory.isOpen() && sessionFactory.getCurrentSession() != null
+				&& sessionFactory.getCurrentSession().isOpen()) {
+			s = sessionFactory.getCurrentSession();
+			return s;
+		}
+		sessionFactory.close();
+		HibernateUtils.removeSessionFactory(connectionName);
+		sessionFactory = HibernateUtils.getSessionFactory(connectionName);
+		if (sessionFactory != null) {
+			s = sessionFactory.getCurrentSession();
 			return s;
 		}
 		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
@@ -1183,9 +1299,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	public void showMessage(String error) {
 		if(this.isShowError()) {
-			Core.setMessageError(error);
+			Core.setMessageError("DAO "+this.getTableName()+": "+error);
 		}
-		Core.log(error);
+		Core.log("DAO "+this.getTableName()+": "+error);
 	}
 	
 	public void showMessage() {
@@ -1279,12 +1395,12 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			try {
 				Object v = pk.get(value);
 				pk.setAccessible(false);
-				return this.andWhereObject(name, name, operator, v,pk.getType());
+				return this.andWhereObject(name, paramName, operator, v,pk.getType());
 			} catch (IllegalAccessException | IllegalArgumentException e) {
 				e.printStackTrace();
 			}
 		}
-		return this.andWhereObject(name, name, operator, value,Object.class);
+		return this.andWhereObject(name, paramName, operator, value,Object.class);
 	}
 
 	@Override
@@ -1430,6 +1546,51 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	/**
 	 * 
 	 * <p>Extension of where clause</p>
+	 * <p>Example: find().whereNotIn("status",{"closed","canceled"}).all()</p>
+	 * <p>HQL Code{@code: WHERE 'columnName' NOT IN (UUID[]) }</p>
+	 * @param columnName - Column's name
+	 * @param uuIds - Array of uuIds
+	 * 
+	 */
+	@Override
+	public T whereNotIn(String columnName, UUID... uuIds) {
+		if(Core.isNotNull(columnName)&&uuIds!=null&&uuIds.length>0) {
+			this.where("");
+			String list = "";
+			for(UUID u : uuIds) {
+				list = list + ",'" + u + "'";
+			}
+			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " NOT IN (" + list.substring(1) + ") ");
+		}
+		return (T)this;
+	}
+	
+	/**
+	 * 
+	 * <p>Extension of where clause</p>
+	 * <p>Example: find().whereIn("id",{1,2,3,4}).all()</p>
+	 * <p>HQL Code{@code: WHERE 'columnName' IN (UUID[]) }</p>
+	 * @param columnName - Column's name
+	 * @param uuIds - Array of uuIds
+	 * 
+	 */
+	@Override
+	public T whereIn(String columnName, UUID... uuIds) {
+		if(Core.isNotNull(columnName)&&uuIds!=null&&uuIds.length>0) {
+			this.where("");
+			String list = "";
+			for(UUID u : uuIds) {
+				list = list + ",'" + u + "'";
+			}
+			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " IN (" + list.substring(1) + ") ");
+		}
+		return (T)this;
+	}
+	
+	
+	/**
+	 * 
+	 * <p>Extension of where clause</p>
 	 * <p>Example: find().whereIn("id",{1,2,3,4}).all()</p>
 	 * <p>HQL Code{@code: WHERE 'columnName' IN (Number[]) }</p>
 	 * @param columnName - Column's name
@@ -1471,6 +1632,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		}
 		return (T)this;
 	}
+	
 	
 	/**
 	 * 

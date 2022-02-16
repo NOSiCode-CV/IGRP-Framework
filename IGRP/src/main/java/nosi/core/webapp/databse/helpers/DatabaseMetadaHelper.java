@@ -5,7 +5,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -18,62 +20,95 @@ import nosi.webapps.igrp.dao.Config_env;
  */
 public class DatabaseMetadaHelper {
 	
-	private static String TABLE_TYPE_TABLE = "TABLE";
-	private static String TABLE_TYPE_VIEW = "VIEW";
-	private static String TABLE_TYPE_SYSTEM_TABLE = "SYSTEM TABLE";
-	private static String TABLE_TYPE_GLOBAL_TEMPORARY = "GLOBAL TEMPORARY";
-	private static String TABLE_TYPE_LOCAL_TEMPORARY = "LOCAL TEMPORARY";
-	private static String TABLE_TYPE_ALIAS = "ALIAS";
-	private static String TABLE_TYPE_SYNONYM = "SYNONYM";
+	private static final String TABLE_TYPE = "TABLE_TYPE";
+	private static final String TABLE_NAME = "TABLE_NAME";
+	private static final String TABLE = "TABLE"; 
+	private static final String VIEW = "VIEW";
+	private static final String SYSTEM_TABLE = "SYSTEM TABLE";
+	private static final String GLOBAL_TEMPORARY = "GLOBAL TEMPORARY";
+	private static final String LOCAL_TEMPORARY = "LOCAL TEMPORARY";
+	private static final String ALIAS = "ALIAS";
+	private static final String SYNONYM = "SYNONYM";
 	
-	public static List<String> getTables(Config_env config, String schema, String type_table) {
-		List<String> list = new ArrayList<>();
+	public static List<String> getTables(Config_env config, String schema, String tableType) {
+		List<String> tableNames = new ArrayList<>();
 		try (java.sql.Connection con = Connection.getConnection(config);
-				ResultSet tables = con.getMetaData().getTables(null, schema, null, new String[] { "TABLE","VIEW", "SYSTEM TABLE", "GLOBAL TEMPORARY","LOCAL TEMPORARY", "ALIAS", "SYNONYM" });) {
+				ResultSet tables = con.getMetaData().getTables(null, schema, null, getTypesAsArray());) {
 			// Get All Tables on the schema database
 			while (tables.next()) {
-				if(TABLE_TYPE_TABLE.equalsIgnoreCase(type_table) && tables.getString("TABLE_TYPE").equalsIgnoreCase(TABLE_TYPE_TABLE)) {
-					list.add(tables.getString("TABLE_NAME"));// Get Table Name
-					}else if(TABLE_TYPE_VIEW.equalsIgnoreCase(type_table) && tables.getString("TABLE_TYPE").equalsIgnoreCase(TABLE_TYPE_VIEW)) {
-						list.add(tables.getString("TABLE_NAME"));// Get view Name
-						}else if(TABLE_TYPE_SYSTEM_TABLE.equalsIgnoreCase(type_table) && tables.getString("TABLE_TYPE").equalsIgnoreCase(TABLE_TYPE_SYSTEM_TABLE)) {
-							list.add(tables.getString("TABLE_NAME"));// Get SYSTEM TABLE Name
-							}else if(TABLE_TYPE_GLOBAL_TEMPORARY.equalsIgnoreCase(type_table) && tables.getString("TABLE_TYPE").equalsIgnoreCase(TABLE_TYPE_GLOBAL_TEMPORARY)) {
-								list.add(tables.getString("TABLE_NAME"));// Get GLOBAL TEMPORARY Name
-								}else if(TABLE_TYPE_LOCAL_TEMPORARY.equalsIgnoreCase(type_table) && tables.getString("TABLE_TYPE").equalsIgnoreCase(TABLE_TYPE_LOCAL_TEMPORARY)) {
-									list.add(tables.getString("TABLE_NAME"));// Get LOCAL TEMPORARY Name
-									}else if(TABLE_TYPE_ALIAS.equalsIgnoreCase(type_table) && tables.getString("TABLE_TYPE").equalsIgnoreCase(TABLE_TYPE_ALIAS))
-										list.add(tables.getString("TABLE_NAME"));// Get ALIAS Name
-										else if(TABLE_TYPE_SYNONYM.equalsIgnoreCase(type_table) && tables.getString("TABLE_TYPE").equalsIgnoreCase(TABLE_TYPE_SYNONYM)) {
-											list.add(tables.getString("TABLE_NAME"));// Get SYNONYM Name
-										}
-			
+				if (TABLE.equalsIgnoreCase(tableType) && tables.getString(TABLE_TYPE).equalsIgnoreCase(TABLE)) {
+					tableNames.add(tables.getString(TABLE_NAME));// Get Table Name
+				} else if (VIEW.equalsIgnoreCase(tableType) && tables.getString(TABLE_TYPE).equalsIgnoreCase(VIEW)) {
+					tableNames.add(tables.getString(TABLE_NAME));// Get view Name
+				} else if (SYSTEM_TABLE.equalsIgnoreCase(tableType) && tables.getString(TABLE_TYPE).equalsIgnoreCase(SYSTEM_TABLE)) {
+					tableNames.add(tables.getString(TABLE_NAME));// Get SYSTEM TABLE Name
+				} else if (GLOBAL_TEMPORARY.equalsIgnoreCase(tableType) && tables.getString(TABLE_TYPE).equalsIgnoreCase(GLOBAL_TEMPORARY)) {
+					tableNames.add(tables.getString(TABLE_NAME));// Get GLOBAL TEMPORARY Name
+				} else if (LOCAL_TEMPORARY.equalsIgnoreCase(tableType) && tables.getString(TABLE_TYPE).equalsIgnoreCase(LOCAL_TEMPORARY)) {
+					tableNames.add(tables.getString(TABLE_NAME));// Get LOCAL TEMPORARY Name
+				} else if (ALIAS.equalsIgnoreCase(tableType) && tables.getString(TABLE_TYPE).equalsIgnoreCase(ALIAS))
+					tableNames.add(tables.getString(TABLE_NAME));// Get ALIAS Name
+				else if (SYNONYM.equalsIgnoreCase(tableType) && tables.getString(TABLE_TYPE).equalsIgnoreCase(SYNONYM)) {
+					tableNames.add(tables.getString(TABLE_NAME));// Get SYNONYM Name
+				}
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return list;
+		return tableNames;
+	}	
+	
+	public static boolean tableOrViewExists(Config_env config, String schema, String tableViewName) {
+		if (Core.isNotNull(tableViewName)) {
+			try (java.sql.Connection connection = Connection.getConnection(config);
+					ResultSet tables = connection.getMetaData().getTables(null, schema, null, new String[] { TABLE, VIEW });) {
+				while (tables.next()) {
+					final String table = tables.getString(TABLE_NAME);
+					if (tableViewName.equalsIgnoreCase(table))
+						return true;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	private static String[] getTypesAsArray() {
+		return new String[] { TABLE, VIEW, SYSTEM_TABLE, GLOBAL_TEMPORARY,
+				LOCAL_TEMPORARY, ALIAS, SYNONYM };
+	}
+	
+	public static Map<String, String> getTableTypeOptions() {
+		Map<String, String> tableTypeOptions = new LinkedHashMap<>();
+		tableTypeOptions.put(TABLE.toLowerCase(), TABLE);
+		tableTypeOptions.put(VIEW.toLowerCase(), VIEW);
+		tableTypeOptions.put(SYSTEM_TABLE.toLowerCase(), SYSTEM_TABLE);
+		tableTypeOptions.put(GLOBAL_TEMPORARY.toLowerCase(), GLOBAL_TEMPORARY);
+		tableTypeOptions.put(LOCAL_TEMPORARY.toLowerCase(), LOCAL_TEMPORARY);
+		tableTypeOptions.put(ALIAS.toLowerCase(), ALIAS);
+		tableTypeOptions.put(SYNONYM.toLowerCase(), SYNONYM);
+		return tableTypeOptions;
 	}
 
 	public static List<String> getPrimaryKeys(Config_env config, String schema, String tableName) {
-		try (java.sql.Connection con = Connection.getConnection(config.getName())) {
-			List<String> keys = getPrimaryKeys(con, schema, tableName);
-			return keys;
-		} catch (SQLException e) {
+		try (java.sql.Connection con = Connection.getConnection(config.getName())) {			
+			return getPrimaryKeys(con, schema, tableName);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return Collections.emptyList();
 	}
 
 	// Get primary key of table
-	public static List<String> getPrimaryKeys(java.sql.Connection con, String schema, String tableName) {
+	public static List<String> getPrimaryKeys(java.sql.Connection connection, String schema, String tableName) {
 		List<String> keys = new ArrayList<>();
-		if (con != null) {
-			try (ResultSet keysR = con.getMetaData().getPrimaryKeys(null, schema, tableName)) {
+		if (connection != null) {
+			try (ResultSet keysR = connection.getMetaData().getPrimaryKeys(connection.getCatalog(), schema, tableName)) {
 				while (keysR.next()) {
 					keys.add(keysR.getString("COLUMN_NAME"));
 				}
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -104,7 +139,7 @@ public class DatabaseMetadaHelper {
 	public static Map<String, String> getForeignKeysTableName(java.sql.Connection con, String schema, String tableName) {
 		Map<String, String> keys = new HashMap<>();
 		if (con != null) {
-			try (ResultSet keysR = con.getMetaData().getImportedKeys(null, schema, tableName)) {
+			try (ResultSet keysR = con.getMetaData().getImportedKeys(con.getCatalog(), schema, tableName)) {
 				while (keysR.next()) {
 					keys.put(keysR.getString("FKCOLUMN_NAME"),
 							keysR.getString("PKTABLE_NAME"));
@@ -119,7 +154,7 @@ public class DatabaseMetadaHelper {
 	public static Map<String, String> getForeignKeysConstrainName(java.sql.Connection con, String schema, String tableName) {
 		Map<String, String> keys = new HashMap<>();
 		if (con != null) {
-			try (ResultSet keysR = con.getMetaData().getImportedKeys(null, schema, tableName)) {
+			try (ResultSet keysR = con.getMetaData().getImportedKeys(con.getCatalog(), schema, tableName)) {
 				while (keysR.next()) {
 					keys.put(keysR.getString("FKCOLUMN_NAME"),
 							keysR.getString("FK_NAME"));
@@ -135,7 +170,7 @@ public class DatabaseMetadaHelper {
 	public static List<String> getExportedKeys(java.sql.Connection con, String schema, String tableName) {
 		List<String> keys = new ArrayList<>();
 		if (con != null) {
-			try (ResultSet keysR = con.getMetaData().getExportedKeys(null, schema, tableName)) {
+			try (ResultSet keysR = con.getMetaData().getExportedKeys(con.getCatalog(), schema, tableName)) {
 				while (keysR.next()) {
 					keys.add(keysR.getString("PKCOLUMN_NAME"));
 				}
@@ -218,12 +253,12 @@ public class DatabaseMetadaHelper {
 					col.setAutoIncrement(metaData.isAutoIncrement(i));
 					col.setColumnTypeName​(metaData.getColumnTypeName(i));
 					col.setName(metaData.getColumnName(i));
-					col.setPrimaryKey(pkeys != null && pkeys.contains(col.getName()));
-					if (fkeys != null && fkeys.containsKey(col.getName())) {
+					col.setPrimaryKey(pkeys.contains(col.getName()));
+					if (fkeys.containsKey(col.getName())) {
 						col.setForeignKey(true);
 						col.setTableRelation(fkeys.get(col.getName()));
 						List<String> colRelaction = getExportedKeys(con, schema, col.getTableRelation());
-						if (colRelaction != null && colRelaction.size() > 0) {
+						if (!colRelaction.isEmpty()) {
 							col.setColumnMap(colRelaction.get(0));
 						}
 					}
@@ -250,27 +285,15 @@ public class DatabaseMetadaHelper {
 					schemasMap.put(s, s);
 				}
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+			Core.setMessageError("Conexão à base de dados sem sucesso.");
 		}
 		return schemasMap;
 	}
 
-	// Not in use
-	public static Map<String, String> getTablesMap(Config_env config, String schema) {
-		Map<String, String> list = new HashMap<>();
-		try (java.sql.Connection con = Connection.getConnection(config.getName());
-				ResultSet tables = con.getMetaData().getTables(null, schema, null, new String[] { "TABLE" })) {
-			while (tables.next()) {
-				list.put(tables.getString(3), tables.getString(3));// Get Table Name
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-
-	public static class Column {
+	public static class Column{
+	
 		private String schemaName;
 		private String name;
 		private Object type;
@@ -285,7 +308,7 @@ public class DatabaseMetadaHelper {
 		private String columnMap;
 		private String connectionName;
 		private String format = "yyyy-mm-dd";
-		private String ColumnTypeName​;
+		private String columnTypeName​;
 		private boolean afterWhere = false;
 
 		public String getSchemaName() {
@@ -393,11 +416,11 @@ public class DatabaseMetadaHelper {
 		}
 
 		public String getColumnTypeName​() {
-			return ColumnTypeName​;
+			return columnTypeName​;
 		}
 
 		public void setColumnTypeName​(String columnTypeName​) {
-			ColumnTypeName​ = columnTypeName​;
+			this.columnTypeName​ = columnTypeName​;
 		}
 
 		public String getFormat() {
@@ -427,19 +450,19 @@ public class DatabaseMetadaHelper {
 	}
 
 	public static Column getPrimaryKey(Config_env config, String schemaName, String tableName) {
-		List<Column> list = getCollumns(config, schemaName, tableName);
+		List<Column> listCols = getCollumns(config, schemaName, tableName);
 		List<String> keys = getPrimaryKeys(config, schemaName, tableName);
-		if (list != null) {
-			list = list.stream().filter(col -> keys.contains(col.getName())).collect(Collectors.toList());
-			return (list != null && list.size() > 0) ? list.get(0) : null;
+		if (!listCols.isEmpty()) {
+			listCols = listCols.stream().filter(col -> keys.contains(col.getName())).collect(Collectors.toList());
+			return (!listCols.isEmpty()) ? listCols.get(0) : null;
 		}
 		return null;
 	}
 
-	public static List<Column> getCollumns(Config_env config_env, String sql) throws SQLException {
+	public static List<Column> getCollumns(Config_env configEnv, String sql) throws SQLException {
 		List<Column> list = new ArrayList<>();
 		if (Core.isNotNull(sql)) {
-			try (java.sql.Connection con = Connection.getConnection(config_env);
+			try (java.sql.Connection con = Connection.getConnection(configEnv);
 					PreparedStatement st = con.prepareStatement(sql);
 					ResultSet rs = st.executeQuery()) {
 				ResultSetMetaData metaData = rs.getMetaData();
@@ -449,6 +472,8 @@ public class DatabaseMetadaHelper {
 					col.setName(metaData.getColumnName(i));
 					list.add(col);
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		return list;

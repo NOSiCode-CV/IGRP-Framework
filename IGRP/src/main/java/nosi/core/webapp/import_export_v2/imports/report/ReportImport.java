@@ -2,11 +2,14 @@ package nosi.core.webapp.import_export_v2.imports.report;
 
 import java.util.List;
 import com.google.gson.reflect.TypeToken;
+
+import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.import_export_v2.common.serializable.report.CLobSerializable;
 import nosi.core.webapp.import_export_v2.common.serializable.report.ReportParamsSerializable;
 import nosi.core.webapp.import_export_v2.common.serializable.report.ReportSerializable;
 import nosi.core.webapp.import_export_v2.common.serializable.report.ReportSourcesSerializable;
+import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 import nosi.core.webapp.import_export_v2.imports.IImport;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -16,7 +19,6 @@ import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.RepTemplateSource;
 import nosi.webapps.igrp.dao.RepTemplateSourceParam;
-import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
 /**
  * Emanuel 2 Nov 2018
@@ -63,38 +65,50 @@ public class ReportImport extends AbstractImport implements IImport {
 					repTemplate.setXml_content(xml_content);
 					repTemplate.setXsl_content(xsl_content);
 					repTemplate = repTemplate.insert();
-//					this.addError(repTemplate.hasError() ? repTemplate.getError().get(0) : null);
-//					this.saveDataSource(report);
-//					this.saveParamDataSource(report, repTemplate);
 				} else {
 					repTemplate.setCode(report.getCode());
 					repTemplate.setDt_created(report.getDt_created());
 					repTemplate.setDt_updated(report.getDt_updated());
 					repTemplate.setName(report.getName());
-					//repTemplate.setReport_identify(report.getReport_identify());
 					repTemplate.setApplication(
 							this.application != null ? this.application : new Application().findByDad(report.getDad()));
-					repTemplate.setUser_created(Core.getCurrentUser());
+					
 					repTemplate.setUser_updated(Core.getCurrentUser());
 					repTemplate.setStatus(report.getStatus());
 					repTemplate.setXml_content(xml_content);
 					repTemplate.setXsl_content(xsl_content);
 					repTemplate = repTemplate.update();
 				}
-				this.addError(repTemplate.hasError() ? repTemplate.getError().get(0) : null);
+				this.addError(repTemplate.hasError() ? report.getName()+" - "+repTemplate.getError().get(0) : null);
 				this.saveDataSource(report);
 				this.saveParamDataSource(report, repTemplate);
 			});
 		}
 	}
+	
+	private void deleteTemplateSource(RepTemplate repTemplate) { 
+		List<RepTemplateSource> repTS = new RepTemplateSource().find().andWhere("repTemplate", "=", repTemplate).all();
+		if(repTS != null) { 
+			repTS.forEach(obj->{
+				Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG ,"public", "tbl_rep_template_source_param").where("rep_template_source_fk=:rep_template_source_fk")
+				.addInt("rep_template_source_fk", obj.getId())
+				.execute();
+			}); 
+		}
+		Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG ,"public", "tbl_rep_template_source").where("rep_template_fk=:rep_template_fk")
+		.addInt("rep_template_fk", repTemplate.getId())
+		.execute();
+	}
 
 	private void saveParamDataSource(ReportSerializable report, RepTemplate repTemplate) {
 		if (report.getSourcesReportAssoc() != null) {
+			deleteTemplateSource(repTemplate); 
 			report.getSourcesReportAssoc().stream().forEach(pds -> {
 				RepSource repSource = new RepSource().find().andWhere("source_identify", "=", pds.getSource()).one();
 				RepTemplateSource repTS = new RepTemplateSource().find().andWhere("repSource", "=", repSource)
 						.andWhere("repTemplate", "=", repTemplate)
 						.one();
+				if(repSource!=null) {
 				if(repTS==null) {
 					repTS = new RepTemplateSource();
 					repTS.setRepSource(repSource);
@@ -116,6 +130,7 @@ public class ReportImport extends AbstractImport implements IImport {
 						}
 					}
 				}
+				}
 			});
 		}
 	}
@@ -123,14 +138,18 @@ public class ReportImport extends AbstractImport implements IImport {
 	private void saveDataSource(ReportSerializable report) {
 		if (report.getSources() != null) {
 			report.getSources().stream().forEach(source -> {
-				Config_env config = new Config_env().find()
-						.andWhere("connection_identify", "=", source.getConnection_name_identify()).one();
-
-				RepSource repSource = new RepSource().find()
-						.andWhere("source_identify", "=", source.getSource_identify()).one();
+				Config_env config = null;
+				if(Core.isNotNull(source.getConnection_name_identify())) {
+					config = new Config_env().find().where("name", "=", source.getConnection_name_identify())
+							.andWhere("application.dad","=",source.getDad()).one();
+					if(config == null) {
+						this.addError("Data source invalido: "+source.getConnection_name_identify());
+						return;
+					}
+				}
+				RepSource repSource = new RepSource().find().where("source_identify", "=", source.getSource_identify()).one();
 				Application app = new Application().findByDad(source.getDad());
 				if (repSource == null) {
-					
 					repSource = new RepSource();
 					repSource.setDt_created(source.getDt_created());
 					repSource.setSource_identify(source.getSource_identify());
@@ -143,7 +162,6 @@ public class ReportImport extends AbstractImport implements IImport {
 					repSource = repSource.update();
 					this.addError(repSource.hasError() ? repSource.getError().get(0) : null);
 				}
-
 			});
 		}
 	}
@@ -157,9 +175,13 @@ public class ReportImport extends AbstractImport implements IImport {
 		repSource.setType_query(source.getType_query());
 		if(source.getType_name().equals("Page") && source.getType_query()!=null) {
 			String[] appPage = source.getType_query().split("::");
-			repSource.setType_fk(new Action().findByPage(appPage[1],appPage[0]).getId());
-		}else
+			Action ac = new Action().findByPage(appPage[1],appPage[0]);
+			if(ac != null) {
+				repSource.setType_fk(ac.getId());
+			}
+		}else {
 			repSource.setType_fk(source.getType_fk());
+		}
 		repSource.setType_name(source.getType_name());
 		repSource.setType(source.getType());
 		repSource.setTaskid(source.getTaskid());

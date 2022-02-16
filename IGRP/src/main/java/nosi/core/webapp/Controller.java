@@ -10,16 +10,20 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
 import nosi.core.exception.ServerErrorHttpException;
+import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPMessage;
 import nosi.core.gui.components.IGRPView;
+import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
@@ -28,16 +32,19 @@ import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import nosi.core.webapp.bpmn.BPMNButton;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.bpmn.BPMNHelper;
+import nosi.core.webapp.bpmn.BPMNTimeLine;
 import nosi.core.webapp.bpmn.DisplayDocmentType;
 import nosi.core.webapp.bpmn.InterfaceBPMNTask;
 import nosi.core.webapp.bpmn.RuntimeTask;
 import nosi.core.webapp.bpmn.ViewTaskDetails;
+import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.webapp.security.SecurtyCallPage;
 import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 
@@ -47,8 +54,9 @@ import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
  * @author Marcel Iekiny Apr 15, 2017
  */
 public class Controller {
-	protected Config config = new Config();
+	
 	protected ConfigApp configApp = ConfigApp.getInstance();
+	
 	private QueryString<String, Object> queryString = new QueryString<>();
 	private View view;
 
@@ -128,13 +136,9 @@ public class Controller {
 		return Core.getParamDouble(name);
 	}
 
-	public Controller() {
-		this.view = null;
-	}
+	public Controller() {}
 
-	protected final Response renderView(View view, boolean isRenderPartial) throws IOException { // renderiza a view e
-																									// aplica ou nao um
-																									// layout
+	protected final Response renderView(View view, boolean isRenderPartial) throws IOException { 
 		Response resp = new Response();
 		this.view = view;
 		view.setContext(this); // associa controller ao view
@@ -178,30 +182,40 @@ public class Controller {
 			resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 			resp.setDateHeader("Expires", 0); // Proxies.
 		}
-
+		
+		this.view.addToPage(this.view.addFieldToFormHidden());
 		String content = this.view.getPage().renderContent(false);
 		content = BPMNButton.removeXMLButton(content);
-		XMLWritter xml = new XMLWritter("rows", this.config.getLinkPageXsl(ac), "utf-8");
+		XMLWritter xml = new XMLWritter("rows", this.getConfig().getLinkPageXsl(ac), "utf-8");
 		xml.addXml(this.getConfig().getHeader(null));
 		xml.startElement("content");
-		xml.writeAttribute("type", "");
+		xml.writeAttribute("type", ""); 
 		if (Core.isNotNull(runtimeTask)) {
 			TaskServiceRest taskService = new TaskServiceRest();
 			String taskId = runtimeTask.getTask().getId();
 			if (runtimeTask.isSaveButton()) {
 				xml.addXml(BPMNButton.generateButtonBack().toString());
 				xml.addXml(BPMNButton.generateButtonTask("igrp", ac.getApplication().getId(), "ExecucaoTarefas",
-						"process-task", taskId).toString());
+						"process-task", taskId, this.queryString).toString());
 			}
 			ViewTaskDetails details = this.getTaskDetails(taskService, taskId);
+			BPMNTimeLine bpmnTimeLine = new BPMNTimeLine();
+			xml.addXml(bpmnTimeLine.get().toString());
 			xml.addXml(this.getTaskViewDetails(details));
 			xml.addXml(content);
-			
 			xml.addXml(this.getDocument(runtimeTask, bpmn, ac, details.getUserName())); 
 			
 			if (m != null) {
 				xml.addXml(m);
 			}
+			IGRPForm formHidden = new IGRPForm("hidden_form_igrp");
+			HiddenField field = new HiddenField("env_frm_url");
+			String pageTask = "ExecucaoTarefas";
+			String value = Route.getResolveUrl("igrp",pageTask, "executar_button_minha_tarefas&prm_app=igrp&prm_page="+pageTask+"&p_id="+runtimeTask.getTask().getId());
+			field.propertie().add("value", value).add("name","p_env_frm_url").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","env_frm_url");
+			field.setValue(value);
+			formHidden.addField(field);
+			xml.addXml(formHidden.toString());
 		}
 		xml.endElement();
 		resp.setContent(xml.toString());
@@ -254,7 +268,6 @@ public class Controller {
 		display.setUserName(userName);
 		display.setListDocmentType(bpmn.getInputDocumentType()); 
 		
-		String previewTask = runtimeTak.getPreviewTask();
 		boolean isDetails = runtimeTak.isDetails();
 		if (isDetails)
 			display.setShowInputFile(false);
@@ -274,7 +287,8 @@ public class Controller {
 				e.printStackTrace();
 			}
 			
-		String xml = display.displayInputNOutputDocsInDistinctFormList(); 		
+		String xml = display.displayInputNOutputDocsInDistinctFormList(); 	
+		
 		return xml;
 	}
 	
@@ -372,7 +386,6 @@ public class Controller {
 						try {
 							qs += "&" + q.getKey() + "=" +  (Core.isNotNull(q1) && q1 instanceof String? URLEncoder.encode((String) q1, StandardCharsets.UTF_8.toString()):q1);
 						} catch (UnsupportedEncodingException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}));
@@ -402,8 +415,11 @@ public class Controller {
 		return this.redirect_(Route.toUrl("igrp", "error-page", "exception"));
 	}
 
-	protected final Response redirect(String app, String page, String action) throws IOException {
-		return this.redirect_(Route.toUrl(app, page, this.addParamDad(action)));
+	protected final Response redirect(String app, String page, String action) throws IOException { 
+		String ssoUrl = ssoUrl(app, page, action, null, null);
+		if(ssoUrl != null) 
+			return this.redirectToUrl(ssoUrl); 
+		return this.redirect_(Route.toUrl(app, page, this.addParamDad(action))); 
 	}
 
 	protected final Response redirect(String app, String page, String action, Model model) throws IOException {
@@ -412,7 +428,24 @@ public class Controller {
 
 	protected final Response redirect(String app, String page, String action, String[] paramNames, String[] paramValues)
 			throws IOException {
+		String ssoUrl = ssoUrl(app, page, action, paramNames, paramValues);
+		if(ssoUrl != null) 
+			return this.redirectToUrl(ssoUrl); 
 		return this.redirect_(Route.toUrl(app, page, action, paramNames, paramValues));
+	}
+	
+	private String ssoUrl(String app, String page, String action, String[] paramNames, String[] paramValues) {
+		String ssoUrl = null;
+		Map<String, String> params = new LinkedHashMap<>(); 
+		if(paramNames != null && paramValues != null && paramValues.length == paramNames.length)
+			for(int i = 0; i < paramNames.length; i++) 
+				params.put(paramNames[i], paramValues[i]); 
+		String currentDad = Core.getCurrentDad();
+		if(currentDad != null && !currentDad.equals(app) && Core.isSharedPage(currentDad, app, page)) { 
+			String stateValue = Core.buildStateValueForSsoAutentikaWhenPage(page, app, null, null, !params.isEmpty() ? params : null); 
+			ssoUrl = Core.buildAppUrlUsingAutentikaForSSO(app, stateValue); 
+		}
+		return ssoUrl; 
 	}
 
 	protected final Response redirectToUrl(String url) {
@@ -440,12 +473,8 @@ public class Controller {
 
 	protected final Response sendFile(File file, String name, String contentType, boolean download) {
 		byte[] content = null;
-		try {
-			content = new byte[(int) file.length()];
-			FileInputStream is = new FileInputStream(file);
-			is.read(content);
-			is.close();
-			return this.xSend(content, name, contentType, download);
+		try (FileInputStream in = new FileInputStream(file)) {		
+			return this.xSend(FileHelper.convertInputStreamToByte(in), name, contentType, download);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -466,7 +495,7 @@ public class Controller {
 			try {
 				String extension = "." + contentType_.split("/")[1];
 				name_ = (name_ == null || name_.isEmpty()) ? "igrp-file" + extension
-						: !name_.contains(".") ? name_ + extension : name_;
+						: (!name_.contains(".") ? name_ + extension : name_);
 
 			} catch (Exception e) {
 				contentType_ = "application/octet-stream";
@@ -499,7 +528,7 @@ public class Controller {
 			try {
 				String extension = "." + contentType_.split("/")[1];
 				if (!name_.contains("."))
-					name_ = (name_ == null || name_.isEmpty() ? "igrp-file" + extension : name_ + extension);
+					name_ = (name_.isEmpty() ? "igrp-file" + extension : name_ + extension);
 			} catch (Exception e) {
 				contentType_ = "application/octet-stream";
 				e.printStackTrace();
@@ -531,7 +560,7 @@ public class Controller {
 
 	private void prepareResponse() throws IOException {
 		Object obj = this.run();
-		if (obj != null && obj instanceof Response) {
+		if (obj instanceof Response) {
 			Igrp app = Igrp.getInstance();
 
 			String appDad = app.getCurrentAppName();
@@ -558,10 +587,9 @@ public class Controller {
 				: "igrp/login/login";
 
 		r = SecurtyCallPage.resolvePage(r); 
-		if (r != null) {
-			String auxPattern = this.config.PATTERN_CONTROLLER_NAME;
-			if (r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)) {
-				String[] aux = r.split("/");
+		if (r != null) {			
+			String[] aux = r.split("/");
+			if(aux.length==3) {
 				app.setCurrentAppName(aux[0]);
 				app.setCurrentPageName(aux[1]);
 				app.setCurrentActionName(aux[2]);
@@ -607,13 +635,13 @@ public class Controller {
 				auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
 			}
 			auxActionName = "action" + auxActionName;
-			auxcontrollerPath = this.config.getPackage(auxAppName, auxPageName, auxActionName);
+			auxcontrollerPath = this.getConfig().getPackage(auxAppName, auxPageName, auxActionName);
 		} else {
 			auxActionName = "actionIndex";
-			auxcontrollerPath = this.config.getPackage("igrp", "Home", auxActionName);
+			auxcontrollerPath = this.getConfig().getPackage("igrp", "Home", auxActionName);
 		}
-
-		return Page.loadPage(auxcontrollerPath, auxActionName); // :-)
+		
+		return Page.loadPage(auxcontrollerPath, auxActionName); 
 	}
 
 	protected Response call(String app, String page, String action) {
@@ -624,7 +652,7 @@ public class Controller {
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
 		this.setQueryStringToAttributes(queryString);
-		String auxcontrollerPath = this.config.getPackage(app, page, action);
+		String auxcontrollerPath = this.getConfig().getPackage(app, page, action);
 		Igrp.getInstance().setCurrentAppName(app);
 		Igrp.getInstance().setCurrentPageName(page);
 		Igrp.getInstance().setCurrentActionName(action);
@@ -633,16 +661,30 @@ public class Controller {
 		if (resp != null) {
 			String content = resp.getContent();
 			if (m != null) {
-				content = Core.isNotNull(content) ? content.replaceAll("<messages></messages>", m) : content;
+				content = Core.isNotNull(content) ? content.replace("<messages></messages>", m) : content;
 			}
 			resp.setContent(content);
 		}
 		return resp;
 	}
 	@Deprecated
+	/**
+	 * @deprecated
+	 * @param app
+	 * @param page
+	 * @param action
+	 * @param model
+	 * @return
+	 */
 	protected Response forward(String app, String page, String action, Model model) {
 		return this.forward(app, page, action, model, new QueryString<>());
 	}
+	
+	
+	/**@deprecated
+	 * 
+	 * 	
+	 */
 	@Deprecated
 	protected Response forward(String app, String page, String action, Model model,
 			QueryString<String, Object> queryString) {
@@ -670,27 +712,27 @@ public class Controller {
 	}
 
 	public void sendResponse() {
-		Response responseWrapper = Igrp.getInstance().getCurrentController().getResponseWrapper();
-		if (responseWrapper != null) {
+		Response responseWrapper2 = Igrp.getInstance().getCurrentController().getResponseWrapper();
+		if (responseWrapper2 != null) {
 			try {
-				switch (responseWrapper.getType()) {
+				switch (responseWrapper2.getType()) {
 				case 1: // render it
 					try {
-						if (responseWrapper.getStream() != null && responseWrapper.getStream().length > 0) {
-							Igrp.getInstance().getResponse().getOutputStream().write(responseWrapper.getStream());
+						if (responseWrapper2.getStream() != null && responseWrapper2.getStream().length > 0) {
+							Igrp.getInstance().getResponse().getOutputStream().write(responseWrapper2.getStream());
 							Igrp.getInstance().getResponse().getOutputStream().flush();
 							Igrp.getInstance().getResponse().getOutputStream().close();
 							Igrp.getInstance().getResponse().flushBuffer();
-						} else if (responseWrapper.getFile() != null) {
+						} else if (responseWrapper2.getFile() != null) {
 							HttpServletResponse response = Igrp.getInstance().getResponse();
-							String name = responseWrapper.getFile().getFileName();
-							response.setContentType(responseWrapper.getFile().getContentType());
+							String name = responseWrapper2.getFile().getFileName();
+							response.setContentType(responseWrapper2.getFile().getContentType());
 							response.setHeader("Content-Disposition", "attachment; filename=\"" + name + "\";");
 							response.setHeader("Cache-Control", "no-cache");
-							response.setContentLength(responseWrapper.getFile().getSize());
+							response.setContentLength(responseWrapper2.getFile().getSize());
 							try (ServletOutputStream sos = response.getOutputStream();
 									BufferedInputStream bis = new BufferedInputStream(
-											responseWrapper.getFile().getContent())) {
+											responseWrapper2.getFile().getContent())) {
 								int data;
 								while ((data = bis.read()) != -1) {
 									sos.write(data);
@@ -698,9 +740,9 @@ public class Controller {
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
-							responseWrapper.getFile().getContent().close();
+							responseWrapper2.getFile().getContent().close();
 						} else {
-							Igrp.getInstance().getResponse().getWriter().append(responseWrapper.getContent());
+							Igrp.getInstance().getResponse().getWriter().append(responseWrapper2.getContent());
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -709,7 +751,7 @@ public class Controller {
 				case 2: // redirect
 					boolean isAbsolute = false;
 					try {
-						String url = responseWrapper.getUrl();
+						String url = responseWrapper2.getUrl();
 						try {
 							java.net.URI uri = java.net.URI.create(url);
 							isAbsolute = uri.isAbsolute() && uri.toURL().getProtocol().matches("(?i)(http|https)");
@@ -718,14 +760,14 @@ public class Controller {
 						}
 						if (!Igrp.getInstance().getResponse().isCommitted()) {
 							Igrp.getInstance().getResponse().sendRedirect(
-									isAbsolute == true ? url : (url.startsWith("webapps") ? url : ("webapps" + url)));
+									isAbsolute? url : (url.startsWith("webapps") ? url : ("webapps" + url)));
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 					break;
 				case 3: // forward
-					String url = responseWrapper.getUrl().replaceAll("&&", "&");
+					String url = responseWrapper2.getUrl().replace("&&", "&");
 					url = url.startsWith("webapps") ? ("app/" + url) : ("app/webapps" + url);
 					try {
 						Igrp.getInstance().getRequest().getRequestDispatcher(url)
@@ -740,7 +782,6 @@ public class Controller {
 //							Igrp.getInstance().getRequest().getRequestDispatcher("pg_studio.jsp").forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
 						Igrp.getInstance().getResponse().getOutputStream().close();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					break;
@@ -753,13 +794,7 @@ public class Controller {
 	}
 
 	public Config getConfig() {
-		return config;
-	}
-
-	public void setConfig(Config config) {
-		this.config = config;
-	}
-
-	// ... Others methods ...
-
+		return this.configApp.getConfig();
+	} 
+	
 }

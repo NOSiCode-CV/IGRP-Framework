@@ -1,75 +1,146 @@
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
+	
 	<groupId>IGRP</groupId>
 	<artifactId>IGRP</artifactId>
-	<version>2.0.7 13-11-19</version>
+	<version>v.210304</version>
 	<packaging>war</packaging>
 	<name>IGRP-Framework</name>
+	
 	<properties>
-		<!-- Database migrations properties -->
-		<activejdbc.version>1.4.13</activejdbc.version>
-		<environments>igrp.lab,igrp.dev, igrp.tst</environments>
+		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		
+		<maven.compiler.source>1.8</maven.compiler.source>	
+		<maven.compiler.target>1.8</maven.compiler.target>
 
-		<tomee.version>8.0.0</tomee.version>
+		<tomee.version>8.0.5</tomee.version>
 		<javadoc.plugin.version>3.0.1</javadoc.plugin.version>
-		<!-- Test properties -->
-		<arquillian.bom.version>1.0.0.Final</arquillian.bom.version>
-		<arquillian.drone.bom.version>1.0.0.Final</arquillian.drone.bom.version>
-		<version.arquillian>1.2.1.Final</version.arquillian>
-		<junit.version>4.12</junit.version>
-		<!-- End Test properties -->
 		<tomee.classifier>plus</tomee.classifier>
-		<hibernate.version>5.4.10.Final</hibernate.version>
+		<hibernate.version>5.4.29.Final</hibernate.version>
+		<hibernate.jpa_2_1_api.version>1.0.2.Final</hibernate.jpa_2_1_api.version>
 		<jersey.version>2.29</jersey.version>
 		<mysql.version>8.0.16</mysql.version>
-		<postgres.version>42.2.8</postgres.version>
-		<h2.version>1.4.199</h2.version>
+		<postgres.version>42.2.19</postgres.version>
+		<h2.version>1.4.200</h2.version>
 		<oracle.version></oracle.version>
-		<sqlserver.version>7.2.2.jre8</sqlserver.version>
+		<sqlserver.version>9.2.1.jre8</sqlserver.version>
 		<jersey.version>2.29</jersey.version>
 		<model.mapper.version>2.3.2</model.mapper.version>
 		<gson.version>2.8.4</gson.version>
-		<json.version>20190722</json.version>
-
+		<json.version>20210307</json.version>
+		<org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
 		<!-- Apache properties -->
 		<apache.libintl.version>0.18.3</apache.libintl.version>
-		<apache.commons.beanutils.version>1.9.3</apache.commons.beanutils.version>
-		<apache.commons.lang3.version>3.9</apache.commons.lang3.version>
+		<apache.commons.beanutils.version>1.9.4</apache.commons.beanutils.version>
+		<apache.commons.lang3.version>3.12.0</apache.commons.lang3.version>
 		<apache.commons.text.version>1.7</apache.commons.text.version>
 		<apache.commons.io.version>2.6</apache.commons.io.version>
-		<apache.logging.log4j.version>2.12.1</apache.logging.log4j.version>
+		<apache.logging.log4j.version>2.16.0</apache.logging.log4j.version>
 		<apache.poi.version>4.1.1</apache.poi.version>
 		<apache.httpcomponents.httpmime.version>4.5.10</apache.httpcomponents.httpmime.version>
 		<apache.httpcomponents.httpcore.version>4.4.12</apache.httpcomponents.httpcore.version>				
 		
-		<!-- -->
-
 		<reflections.version>0.9.11</reflections.version>
 		<apache.axis.version>1.7.9</apache.axis.version>
 		<jdt.core.compiler.version>4.6.1</jdt.core.compiler.version> 
 		
 		<!-- JGit -->
-		<jgit.version>4.7.0.201704051617-r</jgit.version>
+		<jgit.version>4.7.0.201704051617-r</jgit.version>	
+			
+		<!-- Servlet API -->
+		<servlet.api.version>3.1.0</servlet.api.version>	
+		
+		<!-- OPEN HTML TO PDF -->
+		<openhtml.version>1.0.8</openhtml.version>
+		
+		<jsoup.version>1.13.1</jsoup.version>
+		
+		<!-- Barcode ... -->
+		<google.zxing.version>3.4.1</google.zxing.version>
+		
+		<!-- For XSLT and XPATH handling ... -->
+		<xalan.version>2.7.2</xalan.version>
+		
+		<!-- Java API for email (SMTP) -->
+		<javax.mail.version>1.6.2</javax.mail.version>
+		
+		<!-- For Java Beans validation -->
+		<javax.validation.version>2.0.1.Final</javax.validation.version>
+		
+		<!-- Maven compiler plugin -->
+		<maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
+		
+		<!-- Maven surefire plugin -->
+		<maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>
+		
+		<!-- Unit Test and Integration Test Properties -->
+		<junit.jupiter.version>5.7.2</junit.jupiter.version>
+		<junit.vintage.version>5.7.2</junit.vintage.version>
+		
+		<!-- Flyway Migration API -->
+		<flyway.version>7.10.0</flyway.version>
+		<igrp.db.user>postgres</igrp.db.user>
+		<igrp.db.password>softwaredeveloper</igrp.db.password>
+		<igrp.db.dsn>jdbc:postgresql://localhost:5432/db_igrp</igrp.db.dsn>
+		<igrp.migration.location>classpath:nosi/core/db/migration/igrp</igrp.migration.location>
 		
 	</properties>
 
 	<dependencies>
-
-		<!-- Unit Test Dependencies -->
+	
+		<!-- OPEN HTML TO PDF https://github.com/danfickle/openhtmltopdf -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
+	  		<!-- ALWAYS required, usually included transitively. -->
+	  		<groupId>com.openhtmltopdf</groupId>
+	  		<artifactId>openhtmltopdf-core</artifactId>
+	  		<version>${openhtml.version}</version>
+	  	</dependency>
+	  	<!-- Required for PDF output. -->
+	  	<dependency>
+	  		<groupId>com.openhtmltopdf</groupId>
+	  		<artifactId>openhtmltopdf-pdfbox</artifactId>
+	  		<version>${openhtml.version}</version>
+	  	</dependency>
+	  	<!-- Objects support plugin. -->
+		<dependency>
+	  		<groupId>com.openhtmltopdf</groupId>
+	  		<artifactId>openhtmltopdf-objects</artifactId>
+	  		<version>${openhtml.version}</version>
+	  	</dependency>
+	  	<!-- Barcode... -->
+		<dependency>
+	  		<groupId>com.google.zxing</groupId>
+	  		<artifactId>javase</artifactId>
+	  		<version>${google.zxing.version}</version>
 		</dependency>
-		<!-- END Unit Test Dependencies -->
-
+		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup --> 
+		<dependency>
+	    	<groupId>org.jsoup</groupId>
+	    	<artifactId>jsoup</artifactId>
+	    	<version>${jsoup.version}</version>
+		</dependency>
+		<!-- /END OPEN HTML TO PDF https://github.com/danfickle/openhtmltopdf -->
+	
+		<!-- For XSLT and XPATH handling -->
+		<!-- https://mvnrepository.com/artifact/xalan/xalan -->
+		<dependency>
+		    <groupId>xalan</groupId>
+		    <artifactId>xalan</artifactId>
+		    <version>${xalan.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/xalan/serializer -->
+		<dependency>
+		    <groupId>xalan</groupId>
+		    <artifactId>serializer</artifactId>
+		    <version>${xalan.version}</version>
+		</dependency>
+ 
+		<!-- Microsoft Office docs. -->
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
@@ -83,56 +154,44 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.hibernate</groupId> -->
-<!-- 			<artifactId>hibernate-c3p0</artifactId> -->
-<!-- 			<version>${hibernate.version}</version> -->
-<!-- 		</dependency> -->
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-hikaricp</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.1-api</artifactId>
-			<version>1.0.2.Final</version>
+			<version>${hibernate.jpa_2_1_api.version}</version>
 		</dependency>
 		<!--END Hibernate Dependencies -->
 
-		<!-- Database Dependencies -->
 
+		<!-- Database Dependencies -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>${postgres.version}</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
 			<version>${sqlserver.version}</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>${h2.version}</version>
 		</dependency>
-
 		<!-- END Database Dependencies -->
 
 
@@ -142,43 +201,38 @@
 			<artifactId>jersey-client</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-server -->
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-server</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.inject/jersey-hk2 -->
 		<dependency>
 			<groupId>org.glassfish.jersey.inject</groupId>
 			<artifactId>jersey-hk2</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-servlet -->
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<artifactId>jersey-container-servlet</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-jackson -->
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-multipart -->
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-multipart</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
-
 		<!-- End Jersey Dependencies -->
+		
 
 		<!-- Mapp Class -->
 		<dependency>
@@ -186,18 +240,22 @@
 			<artifactId>modelmapper</artifactId>
 			<version>${model.mapper.version}</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
+		<dependency>
+		    <groupId>org.mapstruct</groupId>
+		    <artifactId>mapstruct</artifactId>
+		    <version>${org.mapstruct.version}</version>
+		</dependency>
 		<!--END Mapp Class -->
 
-		<!-- JSON Dependencies -->
 
+		<!-- JSON Dependencies -->
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>${gson.version}</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/org.json/json -->
 		<dependency>
 			<groupId>org.json</groupId>
@@ -206,55 +264,55 @@
 		</dependency>
 		<!-- END JSON Dependencies -->
 
-		<!-- Apache dependencies -->
 
+
+		<!-- For accessing GNU Gettext Java bundles -->
 		<!-- https://mvnrepository.com/artifact/org.gnu.gettext/libintl -->
 		<dependency>
 			<groupId>org.gnu.gettext</groupId>
 			<artifactId>libintl</artifactId>
 			<version>${apache.libintl.version}</version>
 		</dependency>
-
+		
+		
+		<!-- Apache dependencies -->
 		<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 			<version>${apache.commons.beanutils.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${apache.commons.lang3.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-text</artifactId>
 			<version>${apache.commons.text.version}</version>
 		</dependency>
-
-	<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>${apache.commons.io.version}</version>
 		</dependency>
 
-
+		
+		
+		<!-- Log4j framework -->
 		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
 			<version>${apache.logging.log4j.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
 			<version>${apache.logging.log4j.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-bom</artifactId>
@@ -262,7 +320,9 @@
 			<scope>provided</scope>
 			<type>pom</type>
 		</dependency>
-	
+		
+		
+		<!-- Web, XML, SOAP ... -->
 		<!-- https://mvnrepository.com/artifact/org.apache.axis2/axis2 -->
 		<dependency>
 			<groupId>org.apache.axis2</groupId>
@@ -270,14 +330,12 @@
 			<version>${apache.axis.version}</version>
 			<type>pom</type>
 		</dependency>
-		
 		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime -->
 		<dependency>
 		    <groupId>org.apache.httpcomponents</groupId>
 		    <artifactId>httpmime</artifactId>
 		    <version>${apache.httpcomponents.httpmime.version}</version>
 		</dependency>
-		
 		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
 		<dependency>
 		    <groupId>org.apache.httpcomponents</groupId>
@@ -285,30 +343,31 @@
 		    <version>${apache.httpcomponents.httpcore.version}</version>
 		</dependency>
 		
-		
-		
-		
 		<!--END Apache dependencies -->
+		
+		
+		
 
 		<!-- Java Mail - SMTP -->
 		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>javax.mail-api</artifactId>
-			<version>1.6.2</version>
+			<version>${javax.mail.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
-			<version>1.6.2</version>
+			<version>${javax.mail.version}</version>
 		</dependency>
 		<!-- Java Mail - SMTP -->
 		
+		<!-- For Java Beans Validation -->
 		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
 		<dependency>
 		    <groupId>javax.validation</groupId>
 		    <artifactId>validation-api</artifactId>
-		    <version>2.0.1.Final</version>
+		    <version>${javax.validation.version}</version>
 		</dependency>
 
 
@@ -326,12 +385,61 @@
 			<version>${jdt.core.compiler.version}</version>
 		</dependency>
 		
+		<!-- For integration with git protocol/repositories -->
 		<!-- https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit --> 
 		<dependency>
 		    <groupId>org.eclipse.jgit</groupId>
 		    <artifactId>org.eclipse.jgit</artifactId>
 		    <version>${jgit.version}</version>
 		</dependency>
+		
+		
+		
+		<!-- Database Migration API -->
+		<!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-core -->
+		<dependency>
+		    <groupId>org.flywaydb</groupId>
+		    <artifactId>flyway-core</artifactId>
+		    <version>${flyway.version}</version>
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>${servlet.api.version}</version>
+		    <scope>provided</scope>
+		</dependency>
+		
+		<!-- (Start) Unit & Integration Test Dependencies -->
+		<!--JUnit 5 Platform Test Engine & JUnit 5 API -->
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
+		<dependency>
+		    <groupId>org.junit.jupiter</groupId>
+		    <artifactId>junit-jupiter-engine</artifactId>
+		    <version>${junit.jupiter.version}</version>
+		    <scope>test</scope>
+		</dependency>
+        <!-- JUnit Vintage For Backward Compatibility (JUnit 3 or JUnit 4 tests) -->
+        <!-- https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine -->
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>${junit.vintage.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- (End) Unit & Integration Test Dependencies -->
+
+		
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.tess4j/tess4j -->
+		<dependency>
+		    <groupId>net.sourceforge.tess4j</groupId>
+		    <artifactId>tess4j</artifactId>
+		    <version>4.5.5</version>
+		</dependency>
+
+
 
 	</dependencies>
 
@@ -355,31 +463,53 @@
 		</testResources>
 
 		<pluginManagement>
+		
 			<plugins>
+				
+				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.7.0</version>
+					<version>${maven.compiler.plugin.version}</version>
 					<configuration>
-						<source>1.8</source>
-						<target>1.8</target>
-					</configuration>
+		                <includes>
+		                    <include>lib/*.jar</include>
+		                </includes>
+		            </configuration>
 				</plugin>
 
 				<plugin>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.12</version>
+					<version>${maven.surefire.plugin.version}</version>
 				</plugin>
-				 <!-- Database migrations plugin -->
+				
+				<!-- Database migrations plugin -->
                 <plugin>
-                    <groupId>org.javalite</groupId>
-                    <artifactId>db-migrator-maven-plugin</artifactId>
-                    <version>1.4.13</version>
-                </plugin>
+					<groupId>org.flywaydb</groupId>
+					<artifactId>flyway-maven-plugin</artifactId>
+					<version>${flyway.version}</version>
+					<configuration>
+						<url>${igrp.db.dsn}</url>
+						<user>${igrp.db.user}</user>
+						<password>${igrp.db.password}</password>
+  						<baselineOnMigrate>true</baselineOnMigrate> 
+  						<locations>
+  							<location>${igrp.migration.location}</location>
+  						</locations>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.postgresql</groupId>
+							<artifactId>postgresql</artifactId>
+							<version>${postgres.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
                 <!-- FIM Database migrations plugin -->
+                
 			</plugins>
+			
 		</pluginManagement>
+		
 	</build>
+	
 </project>
-    
- 
-

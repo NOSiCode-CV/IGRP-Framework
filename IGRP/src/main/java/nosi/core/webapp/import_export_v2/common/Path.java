@@ -1,6 +1,7 @@
 package nosi.core.webapp.import_export_v2.common;
 
 import java.io.File;
+
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
@@ -60,6 +61,15 @@ public class Path {
 		return null;
 	}
 	
+	public static String getLoginBannerWorkspace() {
+		Config config = new Config();
+		String basePath = config.getWorkspace();
+		if(Core.isNotNull(basePath) && FileHelper.dirExists(basePath)) {
+			return config.getWorkspace()+File.separator+"src"+File.separator+"main"+File.separator+"webapp"+File.separator+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"xml"; 			
+		}
+		return null;
+	}
+	
 	public static String getImageWorkSpaceTxt(String nameApp, String pageApp ) {
 		Config config = new Config();
 		String basePath = config.getWorkspace();
@@ -71,6 +81,10 @@ public class Path {
 	
 	public static String getImageServer(String nameApp) {
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/")+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"assets"+File.separator+"img"+File.separator+nameApp;
+	}
+	
+	public static String getLoginBannerServer() {
+		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/")+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"xml"; 			
 	}
 	
 	public static String getImageServerTxt(String nameApp, String pageApp ) {

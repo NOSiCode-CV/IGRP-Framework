@@ -1,15 +1,19 @@
 package nosi.webapps.igrp.dao;
 
+import static nosi.core.i18n.Translator.gt;
+
 /**
  * @author: Emanuel Pereira
  * 29 Jun 2017
  */
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -27,8 +31,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import nosi.core.webapp.Core;
-import static nosi.core.i18n.Translator.gt;
 
 @Entity
 @Table(name = "tbl_env")
@@ -312,7 +316,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 			}
 			
 			
-			listApp.sort(Comparator.comparing(Application::getId));
+			listApp.sort(Comparator.comparing(Application::getId).reversed());
 		}
 		
 		return listApp;
@@ -344,14 +348,10 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 	
 	public List<Profile> getMyAppByEmail(String email) {
-		System.out.println("p_uid(email): " + email); 
 		List<Profile> list = new Profile().find()
 				.andWhere("type", "=", "ENV")
 				.andWhere("user.email", "=", email)
 				.andWhere("type_fk", ">", 1).all();
-		
-		System.out.println("p.size(): " + list.size()); 
-		
 		if(list!=null && !list.isEmpty()) {
 			list=list.stream() 
 				.filter(distinctByKey(p -> p.getType_fk())) 
@@ -362,11 +362,43 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		return null;
 	}
 	
+	public List<Profile> getAllProfile(String dad) {
+		List<Profile> list = new Profile().find()
+				.andWhere("type", "=", "ENV")
+				.andWhere("type_fk", ">", 1)
+				.andWhere("organization.application.dad", "=", dad)
+				.all();
+		return list; 
+	}
+	
+	public List<User> getAllUsers(String dad) {
+		List<Profile> list = this.getAllProfile(dad);
+		List<User> users = null; 
+		if(list != null)
+			 users = list.stream().filter(p->p.getUser() != null && !p.getUser().getUser_name().equals("root")).map(m->m.getUser()).distinct().collect(Collectors.toList()); 
+		return users; 
+	}
+	
+	
+	public List<User> getUsersByIds(String dad, Integer[] ids) {
+		List<User> users = null;
+		if (ids != null && ids.length > 0) {
+			Predicate<? super User> predicate = u -> Arrays.stream(ids).anyMatch(e -> e.equals(u.getId()));
+			users = Optional.ofNullable(this.getAllUsers(dad))
+					.orElse(new ArrayList<User>())
+					.stream()
+					.filter(predicate)
+					.collect(Collectors.toList());
+		}
+		return users != null && !users.isEmpty() ? users : null;
+	}
+	
 	public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor)
 	{
 	    Map<Object, Boolean> map = new ConcurrentHashMap<>();
 	    return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
 	}
+	
 	public List<Application> getOtherApp() {
 		List<Application> list = this.find().andWhere("id", "<>", 1).andWhere("status", "=", 1).all();
 

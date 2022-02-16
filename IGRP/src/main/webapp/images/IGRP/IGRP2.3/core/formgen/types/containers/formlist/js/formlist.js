@@ -312,15 +312,20 @@
 			if(f.type != 'hidden' && $.inArray(f.type,container.reject) === -1){
 				
 				var fValue = table+"[@total='yes']/"+f.GET.tag(),
-					align  =  f.GET.align ? f.GET.align() : 'right';
+					align  =  f.GET.align ? f.GET.align() : 'right',
+					id 	   = 'total-col-'+f.GET.tag();
 				
-				rtn+=' <xsl:if test="'+fValue+'"><td class="total-col" align="'+align+'" id="total-col-'+f.GET.tag()+'">';
+				rtn+=' <xsl:if test="'+fValue+'"><td class="total-col" align="'+align+'" id="'+id+'">';
 				
-				if(f.GET.total_col && f.GET.total_col())
-					rtn+='<xsl:if test="not('+fValue+'/@visible)"><p><xsl:value-of select="'+fValue+'"/></p></xsl:if>';
+				if(f.GET.total_col && f.GET.total_col()){
+					rtn+='<xsl:if test="not('+fValue+'/@visible)">'+
+						'<p><xsl:value-of select="'+fValue+'"/></p>'+
+						'<input type="hidden" name="p_' + id + '" value="{' + fValue + '}"/>'+
+					'</xsl:if>';
+				}
 	
-				rtn+='<input type="hidden" name="{'+fValue+'/@name}_fk_desc" value="{'+fValue+'}"/>'+
-					'<input type="hidden" name="{'+fValue+'/@name}_fk" value="{'+fValue+'_desc}"/>'
+				/*rtn+='<input type="hidden" name="{'+fValue+'/@name}_fk_desc" value="{'+fValue+'}"/>'+
+					'<input type="hidden" name="{'+fValue+'/@name}_fk" value="{'+fValue+'_desc}"/>'*/
 				rtn+='</td></xsl:if>';
 			}
 		});

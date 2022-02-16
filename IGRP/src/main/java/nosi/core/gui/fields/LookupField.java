@@ -8,8 +8,11 @@ package nosi.core.gui.fields;
  */
 import java.util.Map;
 
+import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.Route;
+import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
 
 import java.util.LinkedHashMap;
 
@@ -18,6 +21,7 @@ public class LookupField extends TextField {
 	private Map<String,Object> params;
 	private Map<String,Object> lookupParams;
 	private int versionLookup = 1;
+	private boolean isSso; 
 	
 	public LookupField(Object model,String name) {
 		super(model,name);
@@ -51,11 +55,33 @@ public class LookupField extends TextField {
 	}
 
 	@Override
-	public void setLookup(String app,String page,String action) {
+	public void setLookup(String app, String page, String action) { 
 		int isPublic = Core.getParamInt("isPublic").intValue();
-		if(isPublic==1)
-			this.lookup = Route.getResolveUrl(app, page, action, Core.getCurrentDad(),1).replace("?", "").replace("webapps", "");
-		else
-			this.lookup = Route.getResolveUrl(app, page, action).replace("?", "").replace("webapps", "");
+		String currentDad = Core.getCurrentDad(); 
+		if(isPublic == 1)
+			this.lookup = Route.getResolveUrl(app, page, action, currentDad, 1).replace("?", "").replace("webapps", "");
+		else { 
+			this.lookup = Route.getResolveUrl(app, page, action).replace("?", "").replace("webapps", ""); 
+			Application application = Core.findApplicationByDad(app); 
+			if(application != null && application.getExterno() == 2) {
+				String deployedWarName = Core.getDeployedWarName(); 
+				Action pagina = new Action().findByPage(page, app); 
+				if(!deployedWarName.equals(application.getUrl()) && pagina != null) {
+					this.isSso = true; 
+					String orgCode = Core.getCurrentOrganizationCode();
+					String profCode = Core.getCurrentProfileCode();
+					String stateValue = Core.buildStateValueForSsoAutentika("PAGE", pagina.getId() + "", app, orgCode, profCode, null); 
+					this.lookup = ConfigApp.getInstance().getAutentikaUrlForSso();
+					this.lookup = this.lookup.replace("&state=igrp", ""); 
+					this.lookup = this.lookup.replace("/IGRP/", "/" + application.getUrl() + "/"); 
+					this.lookup += "state=" + stateValue; 
+				}
+			}
+		}
 	}
+
+	public boolean isSso() {
+		return isSso;
+	}
+	
 }

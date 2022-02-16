@@ -22,7 +22,7 @@ public class PesquisaEmpresaService {
 	private static final String AUTHORIZATION;
 	
 	static {
-		SETTINGS = ConfigApp.getInstance().loadCommonConfig();
+		SETTINGS = ConfigApp.getInstance().getMainSettings();
 		BASE_URL = SETTINGS.getProperty("link.rest.pesquisa_empresa");
 		AUTHORIZATION = SETTINGS.getProperty("authorization.rest.pesquisa_empresa");
 	}
@@ -115,7 +115,7 @@ public class PesquisaEmpresaService {
 		}
 		
 		try {
-			empresa.setTipo_entidade(local.getString("natureza_juridica_desc"));
+			empresa.setTipo_entidade(local.getString("tipo_entidade"));
 		}catch (org.json.JSONException e) {
 			empresa.setTipo_entidade(null);
 		}

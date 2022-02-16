@@ -1,9 +1,10 @@
 
 package nosi.webapps.igrp.pages.lookup_list_organica;
-import nosi.core.webapp.View;
+import static nosi.core.i18n.Translator.gt;
+
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.View;
 
 
 public class Lookup_list_organicaView extends View {

@@ -5,6 +5,8 @@ import java.sql.Date;
  * 29 Jun 2017
  */
 import java.util.List;
+import java.util.UUID;
+
 import javax.persistence.criteria.CriteriaQuery;
 
 public interface ActiveRecordIterface<T> extends CommonRestriction<T>{
@@ -88,6 +90,10 @@ public interface ActiveRecordIterface<T> extends CommonRestriction<T>{
 	public T whereIn(String columnName, Number... numbers);
 	
 	public T whereIn(String columnName, String... strings);
+	
+	public T whereIn(String columnName, UUID... uuIds);
+	
+	public T whereNotIn(String columnName, UUID... uuIds);
 	
 	public T whereNotIn(String columnName, String... strings);
 	
@@ -222,6 +228,14 @@ public interface ActiveRecordIterface<T> extends CommonRestriction<T>{
 	public String getNamePrimaryKey();
 	
 	public Long getCount();
+	
+	public Object getMax(String columnName);
+
+	public Object getMin(String columnName);
+
+	public Double getAvg(String columnName);
+	
+	public Object getSum(String columnName);
 
 	public T orderByAsc(String...columns);
 	

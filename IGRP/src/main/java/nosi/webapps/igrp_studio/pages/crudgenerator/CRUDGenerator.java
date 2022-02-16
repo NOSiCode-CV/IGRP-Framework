@@ -11,6 +11,19 @@ import java.util.List;
 
 public class CRUDGenerator extends Model{		
 
+	@RParam(rParamName = "p_sectionheader_1_text")
+	private String sectionheader_1_text;
+
+	@RParam(rParamName = "p_documento")
+	private IGRPLink documento;
+	@RParam(rParamName = "p_documento_desc")
+	private String documento_desc;
+
+	@RParam(rParamName = "p_forum")
+	private IGRPLink forum;
+	@RParam(rParamName = "p_forum_desc")
+	private String forum_desc;
+
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
 
@@ -22,16 +35,6 @@ public class CRUDGenerator extends Model{
 
 	@RParam(rParamName = "p_table_type")
 	private String table_type;
-
-	@RParam(rParamName = "p_documento")
-	private IGRPLink documento;
-	@RParam(rParamName = "p_documento_desc")
-	private String documento_desc;
-
-	@RParam(rParamName = "p_forum")
-	private IGRPLink forum;
-	@RParam(rParamName = "p_forum_desc")
-	private String forum_desc;
 
 	@RParam(rParamName = "p_form_2_radiolist_1")
 	private Integer form_2_radiolist_1;
@@ -45,32 +48,11 @@ public class CRUDGenerator extends Model{
 	}
 
 	
-	public void setAplicacao(String aplicacao){
-		this.aplicacao = aplicacao;
+	public void setSectionheader_1_text(String sectionheader_1_text){
+		this.sectionheader_1_text = sectionheader_1_text;
 	}
-	public String getAplicacao(){
-		return this.aplicacao;
-	}
-	
-	public void setData_source(String data_source){
-		this.data_source = data_source;
-	}
-	public String getData_source(){
-		return this.data_source;
-	}
-	
-	public void setSchema(String schema){
-		this.schema = schema;
-	}
-	public String getSchema(){
-		return this.schema;
-	}
-	
-	public void setTable_type(String table_type){
-		this.table_type = table_type;
-	}
-	public String getTable_type(){
-		return this.table_type;
+	public String getSectionheader_1_text(){
+		return this.sectionheader_1_text;
 	}
 	
 	public IGRPLink setDocumento(String app,String page,String action){
@@ -117,6 +99,34 @@ public class CRUDGenerator extends Model{
 		return this.forum;
 	}
 	
+	public void setAplicacao(String aplicacao){
+		this.aplicacao = aplicacao;
+	}
+	public String getAplicacao(){
+		return this.aplicacao;
+	}
+	
+	public void setData_source(String data_source){
+		this.data_source = data_source;
+	}
+	public String getData_source(){
+		return this.data_source;
+	}
+	
+	public void setSchema(String schema){
+		this.schema = schema;
+	}
+	public String getSchema(){
+		return this.schema;
+	}
+	
+	public void setTable_type(String table_type){
+		this.table_type = table_type;
+	}
+	public String getTable_type(){
+		return this.table_type;
+	}
+	
 	public void setForm_2_radiolist_1(Integer form_2_radiolist_1){
 		this.form_2_radiolist_1 = form_2_radiolist_1;
 	}
@@ -126,19 +136,19 @@ public class CRUDGenerator extends Model{
 
 
 	public static class Table_1 extends IGRPTable.Table{
-		private int check_table;
-		private int check_table_check;
+		private String check_table;
+		private String check_table_check;
 		private String table_name;
-		public void setCheck_table(int check_table){
+		public void setCheck_table(String check_table){
 			this.check_table = check_table;
 		}
-		public int getCheck_table(){
+		public String getCheck_table(){
 			return this.check_table;
 		}
-		public void setCheck_table_check(int check_table_check){
+		public void setCheck_table_check(String check_table_check){
 			this.check_table_check = check_table_check;
 		}
-		public int getCheck_table_check(){
+		public String getCheck_table_check(){
 			return this.check_table_check;
 		}
 

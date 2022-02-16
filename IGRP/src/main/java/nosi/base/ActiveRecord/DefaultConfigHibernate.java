@@ -2,6 +2,7 @@ package nosi.base.ActiveRecord;
 
 import java.util.Optional;
 import java.util.Properties;
+
 import nosi.core.config.ConfigApp;
 
 /**

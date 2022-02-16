@@ -32,57 +32,103 @@
 
 	};
 
+	function NormalizeExport(opts, callback){
+
+		try{
+
+			for(var n in opts.plotOptions){
+
+	    		var type = opts.plotOptions[n];
+
+	    		if(type.animation)
+
+	    			delete type.animation;
+
+	    	}
+
+	    	if(callback)
+				
+	    		setTimeout(function(){
+
+	    			callback(opts);
+
+	    		},100)
+
+		}catch(err){
+
+			if(callback)
+
+				callback(opts);
+
+		}
+
+	};
+
 	function _export(chart,type){
 
     	var name  = $(chart.container).parents('.gen-container-item').attr('item-name')+'.'+$.IGRP.getPageInfo(),
 
     		title = $(chart.container).parents('.gen-container-item').find('>.box-header>.box-title').text(),
 
-    		opts  = $.extend(true,{},chart.options);
+			opts  = $.extend(true,{},chart.options);
+		
 
-    	var data = {	
-		    options: JSON.stringify(opts),
-		    filename: title || name,
-		    type: type,
-		    async: true
-		};
+    	NormalizeExport(opts, function(res){
 
-		var exportUrl = '//export.highcharts.com/';
+	
+			var svg = chart.getChartHTML();
 
-		$.post(exportUrl, data, function(d) {
-		    
-		    var url = exportUrl + d,
+			var svg_ = chart.getSVG();
 
-		    	moz = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-		 
-			if( $('html').hasClass('ie') || moz )
-				
-				window.open(url,'_blank');
+  			svg_ = chart.sanitizeSVG(svg_);
 
-			else{
+    		var data = {	
+				//options: JSON.stringify(res),
+				svg: svg_,
+			    filename: title || name,
+			    type: type,
+				async: true,
+				scale : 2
+			};
 
-				var file_path = url,
+			var exportUrl = '//export.highcharts.com/';
 
-					a 		  = document.createElement('A'),
+			$.post(exportUrl, data, function(d) {
+			    
+			    var url = exportUrl + d,
 
-					extension = type ? type.split('/')[1] : null;
-
-				extension = extension || 'pdf';
-
-				a.href = file_path;
+			    	moz = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+			 
+				if( $('html').hasClass('ie') || moz )
 					
-				a.download = (title || name)+'.'+extension ;
+					window.open(url,'_blank');
 
-				a.target = '_newtab';
-				
-				document.body.appendChild(a);
-				
-				a.click();
-				
+				else{
 
-			}
+					var file_path = url,
 
-		});
+						a 		  = document.createElement('A'),
+
+						extension = type ? type.split('/')[1] : null;
+
+					extension = extension || 'pdf';
+
+					a.href = file_path;
+						
+					a.download = (title || name)+'.'+extension ;
+
+					a.target = '_newtab';
+					
+					document.body.appendChild(a);
+					
+					a.click();
+					
+
+				}
+
+			});
+
+    	});
 
     };
 
@@ -821,8 +867,13 @@
 				filterType  = o.attr('filter-type') ? o.attr('filter-type').split(',') : [],
 				colors  	= o.attr('chart-colors') ? o.attr('chart-colors').split('|') : [],
 				view3d 		= o.attr('chart-3d') && o.attr('chart-3d') == 'true' ? true : false,
-				showData 	= o.attr('chart-datalabels') && o.attr('chart-datalabels') == 'true' ? true : false;
-	
+				showData 	= o.attr('chart-datalabels') && o.attr('chart-datalabels') == 'true' ? true : false,
+				credits     = false;
+				
+			if(o.data('credits')){
+				credits = o.data('credits');
+			}
+				
 			if (data[0]) {
 
 				if(p.type){
@@ -887,7 +938,7 @@
 
 				                	if (type == 'HEATMAP') {
 				                		pointX = categories[this.x];
-				                		pointY = name[this.y],
+				                		pointY = name[this.y];
 				                		pointZ = this.value;
 				                	}
 
@@ -977,7 +1028,7 @@
 				                    text: null
 				                },
 				                credits: {
-				                    enabled: false
+				                    enabled: ''
 				                }
 				            }
 				        }]
@@ -1019,6 +1070,21 @@
 				    		}
 				    	}				    	
 				    };
+				    
+				    chart.structure.chart.events = {
+						load : function(){
+							var _self = this;
+							var holder = $('#'+id).parents('.IGRP-highcharts').first();
+							var name = holder.attr('item-name');
+							
+							holder.trigger('igrp-highcharts-load', {
+								name : name,
+								chart : _self
+							});
+						}
+					}
+				    
+				    chart.structure.credits = credits;
 				 	
 
 				 	var renderChart = Highcharts.chart(id,chart.structure);
