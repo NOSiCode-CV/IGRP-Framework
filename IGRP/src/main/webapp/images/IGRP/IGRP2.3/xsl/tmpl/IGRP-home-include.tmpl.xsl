@@ -23,8 +23,13 @@
     </xsl:if> 
     
     <script>
-   		var path = '<xsl:value-of select="$path"/>';
+   		var path        = '<xsl:value-of select="$path"/>';
+      var rekey       = '<xsl:value-of select="$recaptchakey"/>'; 
+      var secretrekey = '<xsl:value-of select="$secretrecaptchakey"/>'; 
     </script>
+
+    <!-- reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js?render={$recaptchakey}"></script>
     
     <!-- BS CSS -->    
    
@@ -33,8 +38,8 @@
     <script src="{$path}/core/jquery/{$jq-v}/jquery.min.js" ></script>  
     <script src="{$path}/core/jquery/2.1/jquery-migrate.min.js" ></script>     
     <script src="{$path}/core/bootstrap/plugins/toolkit/bootstrap-toolkit.min.js"></script>  
-        									 <!-- VERIFIED /NOT ASYNC JS-->  
- 	<script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js" ></script>    
+    <!-- VERIFIED /NOT ASYNC JS-->  
+ 	  <script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js" ></script>    
     <script src="{$path}/core/moment/moment.min.js" ></script>  
     
     <script src="{$path}/core/bootstrap/plugins/notify/bootstrap-notify.min.js" ></script>    
@@ -45,6 +50,9 @@
     <xsl:if test="not($themeConfigData/css/@default) or $themeConfigData/css/@default != 'false'">
        <link rel="stylesheet" href="{$path}/themes/style.css" />
     </xsl:if>
+    <style>
+      .grecaptcha-badge{display:none!important;}
+    </style>
     <!--/DEFAULT CSS --> 
  
 
@@ -97,12 +105,8 @@
     <script>
       
       $(document).ready( function(){
-      
-      	console.log('ready');
       	
       	$.IGRP.init( );
-      	
-      
       
       });
     </script>

@@ -50,6 +50,32 @@
   </xsl:variable>
   <!-- /version -->
 
+
+  <!-- recaptcha -->
+  <xsl:variable name="recaptchakey">
+      <xsl:choose>
+        <xsl:when test="rows/recaptchakey">
+          <xsl:value-of select="rows/recaptchakey"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="'6Le4FBkaAAAAAD-mFUvQjntM75J6_b1SyrxAXAPk'"/>
+        </xsl:otherwise>
+      </xsl:choose>
+  </xsl:variable>
+
+  <xsl:variable name="secretrecaptchakey">
+      <xsl:choose>
+        <xsl:when test="rows/secretrecaptchakey">
+          <xsl:value-of select="rows/secretrecaptchakey"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="'6Le4FBkaAAAAAPkh7IsPExeSEvIpfBGWbfOhJSOn'"/>
+        </xsl:otherwise>
+      </xsl:choose>
+  </xsl:variable>
+  <!-- /recaptcha -->
+
+
   <!-- fixed labels -->
   <xsl:variable name="labels" select="document(concat($path,'/core/igrp/labels/igrp.labels.pt.xml'))/labels"/>
   <!-- /fixed labels -->

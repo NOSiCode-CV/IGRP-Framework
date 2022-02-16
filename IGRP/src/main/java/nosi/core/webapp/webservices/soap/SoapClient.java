@@ -23,6 +23,9 @@ import javax.xml.soap.SOAPPart;
 import org.json.JSONObject;
 import org.json.XML;
 
+import com.github.underscore.lodash.U;
+import com.google.gson.Gson;
+
 /**
  * Iekiny Marcel
  * May 22, 2018
@@ -46,6 +49,10 @@ public class SoapClient {
 	public SoapClient() {
 		errors = new ArrayList<String>(); 
 		soapProtocolVersion = SOAPConstants.SOAP_1_2_PROTOCOL; 
+		//To make the below warning goes away 
+		//WARNING: Using deprecated META-INF/services mechanism with non-standard property: javax.xml.soap.MetaFactory. Property javax.xml.soap.SAAJMetaFactory should be used instead.
+		if(System.getProperty("javax.xml.soap.SAAJMetaFactory") == null)
+			System.setProperty("javax.xml.soap.SAAJMetaFactory", "com.sun.xml.messaging.saaj.soap.SAAJMetaFactoryImpl");
 	}
 	
 	public SoapClient(String wsdl) {
@@ -169,19 +176,29 @@ public class SoapClient {
 						e.printStackTrace();
 					}
 	   	    	});
-			JSONObject json = new JSONObject(JSONObject.valueToString(bodyContent));
-			this.rawEnvelopeRequest = XML.toString(json); 
 			soapBody.addTextNode(":_r"); 
 			request.saveChanges();
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			request.writeTo(out);
 			String rawEnvelope = new String(out.toByteArray());
+			convertMapBodyContentToSoapRequestBodyXmlConntent(bodyContent);
 			this.rawEnvelopeRequest = rawEnvelope.replace(":_r", this.rawEnvelopeRequest);
 			this.doRequest(this.rawEnvelopeRequest);
 		}catch(Exception e) {
 			errors.add(e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	private void convertMapBodyContentToSoapRequestBodyXmlConntent(Map<String, Object> mapBodyContent) {
+		String json = new Gson().toJson(mapBodyContent);
+		this.rawEnvelopeRequest = U.jsonToXml(json);
+		this.rawEnvelopeRequest = this.rawEnvelopeRequest.replaceAll("__HI__", ":"); 
+		this.rawEnvelopeRequest = this.rawEnvelopeRequest.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""); 
+		this.rawEnvelopeRequest = this.rawEnvelopeRequest.replaceAll(" number=\"true\"", "")
+										.replaceAll(" array=\"true\"", "")
+										.replaceAll(" boolean=\"true\"", ""); 
+		this.rawEnvelopeRequest = this.rawEnvelopeRequest.trim();
 	}
 	
 	public SOAPMessage getResponse() {

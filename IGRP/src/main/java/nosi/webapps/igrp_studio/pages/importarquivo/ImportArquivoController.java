@@ -75,9 +75,12 @@ public class ImportArquivoController extends Controller {
 			view.aplicacao_combo_img.propertie().add("disabled", "true");
 
 		}
-		model.setList_aplicacao("" + id_dad);
-		model.setAplicacao_script("" + id_dad);
-		model.setAplicacao_combo_img("" + id_dad);
+		if(Core.isNotNullOrZero(id_dad)){
+			model.setList_aplicacao("" + id_dad);
+			model.setAplicacao_script("" + id_dad);
+			model.setAplicacao_combo_img("" + id_dad);
+		}
+		
 		if (Core.isNotNull(model.getAplicacao_script())) {
 			final Map<Object, Object> listDSbyEnv = new Config_env()
 					.getListDSbyEnv(Core.toInt(model.getAplicacao_script()));

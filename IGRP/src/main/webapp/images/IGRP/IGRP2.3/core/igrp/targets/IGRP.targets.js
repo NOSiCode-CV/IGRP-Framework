@@ -592,7 +592,8 @@ var mWindow = null,
 
 		var setConfirmModal = function(onClick,p){
 			
-			var holder = $(p.clicked).parents('tr:first');
+			var holder 		= $(p.clicked).parents('tr:first'),
+				confirmText = '';
 
 			if(holder[0]){
 				confirmText = $('#confirm-text').text();
@@ -605,6 +606,14 @@ var mWindow = null,
 					}
 				});
 			}
+
+			if($(p.clicked).is('[label-confirm]')){
+
+				var labelConfirm = $(p.clicked).attr('label-confirm');
+
+				confirmText = labelConfirm && labelConfirm != undefined ? labelConfirm : confirmText;
+			}
+			 
 
 			$.IGRP.components.globalModal.set({
 				rel    : 'confirm-target',
@@ -670,8 +679,7 @@ var mWindow = null,
 					url 	= null;
 
 					_window = _window.frames['head_filho'] || _window;
-
-				console.log(mWindow);
+					
 				if (mWindow) {
 					_window = mWindow;
 					
@@ -1044,6 +1052,8 @@ var mWindow = null,
 			
 			return symb;
 		}
+
+		var submitTargets = ['submit','submit_ajax','submit_notvalidate', 'submitpage2file'];
 		
 		
 
@@ -1322,70 +1332,95 @@ var mWindow = null,
 			doc.on('click','a[target], button[target], [href][target]',function(e){
 				
 				e.preventDefault();
-				
-				target       = $(this).attr('target')  ? $(this).attr('target'): '_blank';
-				
+
+				target       	= $(this).attr('target')  ? $(this).attr('target'): '_blank';
+						
 				var url          = $(this).attr('fw_href') ? $(this).attr('fw_href') : $(this).attr('href');			
 				
 				var targetAction = $.IGRP.targets[target] && $.IGRP.targets[target].action ? $.IGRP.targets[target].action : _blank;
 					
-				_this 	     = $(this);
+				_this 	     	= $(this);
 
-				ev.execute('target-click',{
-					target  : target,
-					url     : url,
-					clicked : _this
-				});
+				grecaptcha.ready(function() {
 
-				$.IGRP.store.set({
-					name : 'target-clicked',
-					value: target
-				});
-				
-				return targetAction({
-					url     : url,
-					target  : target,
-					clicked : _this
+					grecaptcha.execute(rekey, {action: target}).then(function(token) {
+						// Add your logic to submit to your backend server here.
+
+						if(submitTargets.includes(target)){
+
+							$.IGRP.utils.createHidden({
+								name  : 'recaptcha-token',
+								value : token,
+								class : 'submittable'
+							});
+
+							$.IGRP.utils.createHidden({
+								name  : 'secret-recaptcha-key',
+								value : secretrekey,
+								class : 'submittable'
+							});
+						}
+
+
+						ev.execute('target-click',{
+							target  : target,
+							url     : url,
+							clicked : _this
+						});
+
+						$.IGRP.store.set({
+							name : 'target-clicked',
+							value: target
+						});
+
+						return targetAction({
+							url     : url,
+							target  : target,
+							clicked : _this
+						});
+
+
+					});
 				});
 
 			});
 
 			/*form submit controller */
 			form.on('submit',function(e){ 
-				
+
 				var validate  = form.attr('validateCtrl'),
 					fields    = $.IGRP.utils.getFieldsValidate(),
 					vfields   = fields.filter('.submittable'),//form.find('.submittable'),//$.IGRP.utils.getFieldsValidate(),
 					canSubmit = true;
 				
 				if(validate != 'false')
- 					canSubmit = vfields.valid({
- 						exclude : '.no-validation, .IGRP_checkall' //hack for separator list on submit fields from form. 
- 					}) == 1 ? true : false;
+					canSubmit = vfields.valid({
+						exclude : '.no-validation, .IGRP_checkall' //hack for separator list on submit fields from form. 
+					}) == 1 ? true : false;
 
- 				
- 				var eventCB = $.IGRP.events.execute('submit',{
- 					valid   : canSubmit,
- 					fields  : fields,
- 					event   : e,
- 					clicked : _this,
- 					target  : target
- 				});
- 				
- 				canSubmit = eventCB == false ? false : canSubmit;
+				
+				var eventCB = $.IGRP.events.execute('submit',{
+					valid   : canSubmit,
+					fields  : fields,
+					event   : e,
+					clicked : _this,
+					target  : target
+				});
+				
+				canSubmit = eventCB == false ? false : canSubmit;
 
- 				if (canSubmit){
- 					
- 					if(!form.attr('target') && !form.hasClass('download'))
- 						
- 						$.IGRP.utils.loading.show();
- 				}	
- 				else
- 					$.IGRP.components.form.hasFieldsError();
- 				
- 				//return false;
-				return canSubmit;		
-
+				if (canSubmit){
+					
+					if(!form.attr('target') && !form.hasClass('download'))
+						
+						$.IGRP.utils.loading.show();
+				}	
+				else
+					$.IGRP.components.form.hasFieldsError();
+				
+				//return false;
+				return canSubmit;
+					
 			});
 
 			//set targets on IGRP defaults

@@ -68,16 +68,16 @@ public final class ConfigApp {
 	
 	
 	public Properties loadConfig(String filePath, String fileName) {
-		String path = this.config.getBasePathConfig() + File.separator + filePath;
-		return loadConfig(this.getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replace("%20", " "));
+		String path = this.config.getBasePathConfig() + "/" + filePath;
+		return loadConfig(this.getClass().getClassLoader().getResource(path + "/" + fileName).getPath().replace("%20", " "));
 	}
 	
-	public String getBaseConnection() {
-		return "hibernate-igrp-core";
+	public String getBaseConnection() { 
+		return commonMain.getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value(), getDefaultBaseConnectionName());
 	}
 
-	public String getH2IGRPBaseConnection() {
-		return "hibernate-igrp-core-h2";
+	public String getDefaultBaseConnectionName() {
+		return "hibernate-igrp-core";
 	}
 	
 	public void configurationApp(){

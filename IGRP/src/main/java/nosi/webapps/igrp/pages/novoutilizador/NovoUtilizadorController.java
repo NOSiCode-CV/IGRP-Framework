@@ -12,7 +12,6 @@ import nosi.core.webapp.Response;//
 import java.util.List; //block import
 import java.util.LinkedHashMap; //block import
 import nosi.webapps.igrp.dao.User; //block import
-import service.client.WSO2UserStub;
 import static nosi.core.i18n.Translator.gt;
 import java.io.File;
 import java.net.URL;
@@ -24,8 +23,6 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
-import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapPerson;
@@ -39,6 +36,10 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.core.integration.autentika.RemoteUserStoreManagerServiceSoapClient;
+import nosi.core.integration.autentika.dto.RemoteUserStoreManagerServiceConstants;
+import nosi.core.integration.autentika.dto.UserClaimValuesRequestDTO;
+import nosi.core.integration.autentika.dto.UserClaimValuesResponseDTO;
 
 /*----#end-code----*/
 
@@ -234,66 +235,57 @@ public class NovoUtilizadorController extends Controller {
 	private User checkGetUserLdap(String email) {
 		ArrayList<LdapPerson> personArray = new ArrayList<>();
 		User userLdap = null;
-
-		try {
-			URL url = new URL(settings.getProperty(
-					ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value()));
-
-			WSO2UserStub.disableSSL();
-			WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-			stub.applyHttpBasicAuthentication(
-					settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()),
-					settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value()), 2);
-
-			List<ClaimDTO> result;
-
-			// TODO Auto-generated catch block
-			if (email.endsWith("cv")) {
-				try {
-					result = stub.getOperations().getUserClaimValues("gov.cv/" + email, "");
-				} catch (Exception e1) {
-					try {
-						result = stub.getOperations().getUserClaimValues(email, "");
-					} catch (Exception e) {
-						result = stub.getOperations().getUserClaimValues("porton.gov/" + email, "");
-					}
-				}
-			} else {
-				try {
-					result = stub.getOperations().getUserClaimValues(email, "");
-				} catch (Exception e) {
-					result = stub.getOperations().getUserClaimValues("porton.gov/" + email, "");
+		String wsdlUrl = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value());
+		String uid = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()); 
+		String pwd = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
+		RemoteUserStoreManagerServiceSoapClient client = new RemoteUserStoreManagerServiceSoapClient(wsdlUrl, uid, pwd);
+		UserClaimValuesResponseDTO result = null; 
+		if(email.endsWith("cv")) {
+			UserClaimValuesRequestDTO request = new UserClaimValuesRequestDTO();
+			request.setUserName(RemoteUserStoreManagerServiceConstants.GOVCV_TENANT + "/" + email);
+			result = client.getUserClaimValues(request);
+			if(result == null || result.getClaimDTOs().isEmpty()) {
+				request.setUserName(email);
+				result = client.getUserClaimValues(request);
+				if(result == null || result.getClaimDTOs().isEmpty()) {
+					request.setUserName(RemoteUserStoreManagerServiceConstants.PORTONGOV_TENANT + "/" + email);
+					result = client.getUserClaimValues(request);
 				}
 			}
-
+		}else {
+			UserClaimValuesRequestDTO request = new UserClaimValuesRequestDTO();
+			request.setUserName(email);
+			result = client.getUserClaimValues(request);
+			if(result == null || result.getClaimDTOs().isEmpty()) {
+				request.setUserName(RemoteUserStoreManagerServiceConstants.PORTONGOV_TENANT + "/" + email);
+				result = client.getUserClaimValues(request);
+			}
+		}
+		if(result != null && !result.getClaimDTOs().isEmpty()) {
 			LdapPerson ldapPerson = new LdapPerson();
-
-			result.forEach(user -> {
-				switch (user.getClaimUri().getValue()) {
-				case "http://wso2.org/claims/displayName":
-					ldapPerson.setDisplayName(user.getValue().getValue());
+			result.getClaimDTOs().forEach(user -> {
+				switch (user.getClaimUri()) {
+				case RemoteUserStoreManagerServiceConstants.DISPLAYNAME_CLAIM_URI:
+					ldapPerson.setDisplayName(user.getValue());
 					break;
-				case "http://wso2.org/claims/givenname":
-					ldapPerson.setGivenName(user.getValue().getValue());
+				case RemoteUserStoreManagerServiceConstants.GIVENNAME_CLAIM_URI:
+					ldapPerson.setGivenName(user.getValue());
 					break;
-				case "http://wso2.org/claims/emailaddress":
-					ldapPerson.setUid(user.getValue().getValue());
-					ldapPerson.setMail(user.getValue().getValue());
+				case RemoteUserStoreManagerServiceConstants.EMAIL_CLAIM_URI:
+					ldapPerson.setUid(user.getValue());
+					ldapPerson.setMail(user.getValue());
 					break;
-				case "http://wso2.org/claims/fullname":
-					ldapPerson.setFullName(user.getValue().getValue());
+				case RemoteUserStoreManagerServiceConstants.FULLNAME_CLAIM_URI:
+					ldapPerson.setFullName(user.getValue());
 					break;
-				case "http://wso2.org/claims/lastname":
-					ldapPerson.setLastName(user.getValue().getValue());
+				case RemoteUserStoreManagerServiceConstants.LASTNAME_CLAIM_URI:
+					ldapPerson.setLastName(user.getValue());
 					break;
 				}
 			});
 			personArray.add(ldapPerson);
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-
-		if (personArray != null && !personArray.isEmpty()) {
+		if (!personArray.isEmpty()) {
 			for (int i = 0; i < personArray.size(); i++) {
 				userLdap = new User();
 				LdapPerson person = personArray.get(i);
@@ -304,9 +296,8 @@ public class NovoUtilizadorController extends Controller {
 					userLdap.setName(person.getDisplayName());
 				else if (person.getFullName() != null && !person.getFullName().isEmpty())
 					userLdap.setName(person.getFullName());
-				else
-					userLdap.setName(person.getMail().substring(0, person.getMail().indexOf("@")));
-
+				else 
+					userLdap.setName(person.getMail().substring(0,person.getMail().indexOf("@")));
 				userLdap.setUser_name(person.getMail().toLowerCase().trim());
 				userLdap.setEmail(person.getMail().trim().toLowerCase());
 //			The user is not activated because the email send is to activate/confirm the account
