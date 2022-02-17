@@ -24,6 +24,7 @@
     
     <script>
    		var path        = '<xsl:value-of select="$path"/>';
+   		var ispublic    = '<xsl:value-of select="$ispublic"/>';
       var rekey       = '<xsl:value-of select="$recaptchakey"/>'; 
       var secretrekey = '<xsl:value-of select="$secretrecaptchakey"/>'; 
     </script>
