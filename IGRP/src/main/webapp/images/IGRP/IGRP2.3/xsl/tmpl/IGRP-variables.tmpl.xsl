@@ -50,11 +50,24 @@
   </xsl:variable>
   <!-- /version -->
 
+  <!-- version -->
+  <xsl:variable name="ispublic">
+      <xsl:choose>
+        <xsl:when test="rows/ispublic">
+          <xsl:value-of select="rows/ispublic"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="0"/>
+        </xsl:otherwise>
+      </xsl:choose>
+  </xsl:variable>
+  <!-- /version -->
+
 
   <!-- recaptcha -->
   <xsl:variable name="recaptchakey">
       <xsl:choose>
-        <xsl:when test="rows/recaptchakey">
+        <xsl:when test="rows/recaptchakey != ''">
           <xsl:value-of select="rows/recaptchakey"/>
         </xsl:when>
         <xsl:otherwise>
@@ -65,7 +78,7 @@
 
   <xsl:variable name="secretrecaptchakey">
       <xsl:choose>
-        <xsl:when test="rows/secretrecaptchakey">
+        <xsl:when test="rows/secretrecaptchakey != ''">
           <xsl:value-of select="rows/secretrecaptchakey"/>
         </xsl:when>
         <xsl:otherwise>

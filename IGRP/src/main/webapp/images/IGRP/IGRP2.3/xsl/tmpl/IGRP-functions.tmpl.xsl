@@ -201,6 +201,12 @@
         <xsl:value-of select="$field/@daysoff"/>
       </xsl:attribute>
     </xsl:if>
+
+    <xsl:if test="$field/@load_service_data and $field/@load_service_data != ''">
+      <xsl:attribute name="load_service_data">
+        <xsl:value-of select="$field/@load_service_data"/>
+      </xsl:attribute>
+    </xsl:if>
     
   </xsl:template>
 
