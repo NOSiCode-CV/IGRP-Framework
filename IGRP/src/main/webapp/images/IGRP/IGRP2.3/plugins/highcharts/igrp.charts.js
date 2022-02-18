@@ -64,38 +64,44 @@
 
 	};
 
-	function _export(chart,type){
+	function _export(chart,downlodtype){
 
     	var name  = $(chart.container).parents('.gen-container-item').attr('item-name')+'.'+$.IGRP.getPageInfo(),
 
     		title = $(chart.container).parents('.gen-container-item').find('>.box-header>.box-title').text(),
 
-			opts  = $.extend(true,{},chart.options);
+			opts  = $.extend(true,{},chart.options),
+
+			exportUrl = 'https://export.highcharts.com/';
 		
+		const {series,xAxis} = chart.userOptions;
 
-    	NormalizeExport(opts, function(res){
+		var optionsStr = JSON.stringify({
+				infile: {
+					"xAxis" : xAxis,
+					"series": series,
+					"title" : title || '',
+					"chart" : {
+						"type"  : chart.userOptions.chart.type,
+					}
+					
+				},
+				width: $(chart.renderTo).width() || 400,
+				b64: true
+			}
 
-	
-			var svg = chart.getChartHTML();
+		);
 
-			var svg_ = chart.getSVG();
+		$.ajax({
+			type: 'POST',
+			data: optionsStr,
+			url: exportUrl,
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			success: function(data) {
 
-  			svg_ = chart.sanitizeSVG(svg_);
-
-    		var data = {	
-				//options: JSON.stringify(res),
-				svg: svg_,
-			    filename: title || name,
-			    type: type,
-				async: true,
-				scale : 2
-			};
-
-			var exportUrl = '//export.highcharts.com/';
-
-			$.post(exportUrl, data, function(d) {
-			    
-			    var url = exportUrl + d,
+				var url = `data:${downlodtype};base64,${data}`,
 
 			    	moz = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 			 
@@ -104,31 +110,28 @@
 					window.open(url,'_blank');
 
 				else{
+					var extension = downlodtype ? downlodtype.split('/')[1] : null,
 
-					var file_path = url,
-
-						a 		  = document.createElement('A'),
-
-						extension = type ? type.split('/')[1] : null;
+						a 		  = document.createElement('a');
 
 					extension = extension || 'pdf';
 
-					a.href = file_path;
-						
+					a.href = url;
+							
 					a.download = (title || name)+'.'+extension ;
 
-					a.target = '_newtab';
-					
 					document.body.appendChild(a);
 					
 					a.click();
-					
+
+					a.remove();
 
 				}
-
-			});
-
-    	});
+			},
+			error: function(err) {
+				console.log('error', err.statusText)
+			}
+		});
 
     };
 
@@ -1051,7 +1054,7 @@
 				    				
 				    						_export(this,'image/jpeg')
 				    					}
-				    				},
+				    				}/*,
 				    				{
 				    					textKey:"downloadPDF",
 				    					onclick : function(e){
@@ -1059,7 +1062,7 @@
 				    						_export(this,'application/pdf')
 				    					}
 				    				},
-				    				/*{
+				    				{
 				    					textKey:"downloadSVG",
 				    					onclick : function(e){
 				    				
