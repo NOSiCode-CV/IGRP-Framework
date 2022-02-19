@@ -1339,15 +1339,15 @@ var mWindow = null,
 				
 				var targetAction = $.IGRP.targets[target] && $.IGRP.targets[target].action ? $.IGRP.targets[target].action : _blank;
 					
-				_this 	     	= $(this);
+				_this 	     	 = $(this);
 
-				grecaptcha.ready(function() {
+				if(submitTargets.includes(target) && $.IGRP.info.isPublic){
 
-					grecaptcha.execute(rekey, {action: target}).then(function(token) {
-						// Add your logic to submit to your backend server here.
+					grecaptcha.ready(function() {
 
-						if(submitTargets.includes(target)){
-
+						grecaptcha.execute(rekey, {action: target}).then(function(token) {
+							// Add your logic to submit to your backend server here.
+							
 							$.IGRP.utils.createHidden({
 								name  : 'recaptcha-token',
 								value : token,
@@ -1355,35 +1355,52 @@ var mWindow = null,
 							});
 
 							$.IGRP.utils.createHidden({
-								name  : 'secret-recaptcha-key',
+								name  : 'recaptcha-secret-key',
 								value : secretrekey,
 								class : 'submittable'
 							});
-						}
 
+							ev.execute('target-click',{
+								target  : target,
+								url     : url,
+								clicked : _this
+							});
+			
+							$.IGRP.store.set({
+								name : 'target-clicked',
+								value: target
+							});
+							
+							return targetAction({
+								url     : url,
+								target  : target,
+								clicked : _this
+							});
 
-						ev.execute('target-click',{
-							target  : target,
-							url     : url,
-							clicked : _this
 						});
-
-						$.IGRP.store.set({
-							name : 'target-clicked',
-							value: target
-						});
-
-						return targetAction({
-							url     : url,
-							target  : target,
-							clicked : _this
-						});
-
-
 					});
-				});
+					
+				}else{
 
+					ev.execute('target-click',{
+						target  : target,
+						url     : url,
+						clicked : _this
+					});
+	
+					$.IGRP.store.set({
+						name : 'target-clicked',
+						value: target
+					});
+	
+					return targetAction({
+						url     : url,
+						target  : target,
+						clicked : _this
+					});
+				}
 			});
+		
 
 			/*form submit controller */
 			form.on('submit',function(e){ 
