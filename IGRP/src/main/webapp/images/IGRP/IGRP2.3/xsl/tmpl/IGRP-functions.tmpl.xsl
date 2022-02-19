@@ -202,7 +202,7 @@
       </xsl:attribute>
     </xsl:if>
 
-    <xsl:if test="$field/@load_service_data and $field/@load_service_data != ''">
+    <xsl:if test="$field/@load_service_data and $field/@load_service_data != '' and $field/@load_service_data != 'true' and $field/@load_service_data != 'false'">
       <xsl:attribute name="load_service_data">
         <xsl:value-of select="$field/@load_service_data"/>
       </xsl:attribute>
