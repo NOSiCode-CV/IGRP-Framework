@@ -5200,7 +5200,7 @@ var GENERATOR = function(genparams){
 					//var _target = v || ( field.GET.target ?  field.GET.target : null),
 					var _target = v || ( field.GET.target ?  field.GET.target() : null),
 					
-						action  = _target == 'submit_ajax' ? 'show' : 'hide'; 
+						action  = (_target == 'submit_ajax' || _target == 'submit_notvalidate'  || _target == 'submitpage2file') ? 'show' : 'hide'; 
 					
 					o.input[action]();
 					
