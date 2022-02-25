@@ -63,7 +63,9 @@
 
 					if (stepDirection === 'forward' && isNav && $(':input', currentObj)[0]) {
 
-						valid = $(':input', currentObj).valid();
+						var fields = $.IGRP.utils.getFieldsValidate(currentObj);
+
+						valid = fields.valid();
 					}
 
 					if (currentIndex < newIndex) {
