@@ -4,7 +4,7 @@ Need help getting started or using a project? Here's how.
 
 ## How to get help
 
-Generally, we do not use GitHub as a support forum. For any usage questions that are not specific to the project itself, please ask on [Stack Overflow](https://stackoverflow.com) instead. By doing so, you are more likely to quickly solve your problem, and you will allow anyone else with the same question to find the answer. This also allows maintainers to focus on improving the project for others.
+Generally, we do not use Git as a support forum. For any usage questions that are not specific to the project itself, please ask on [Stack Overflow](https://stackoverflow.com) instead. By doing so, you are more likely to quickly solve your problem, and you will allow anyone else with the same question to find the answer. This also allows maintainers to focus on improving the project for others.
 
 Please seek support in the following ways:
 
