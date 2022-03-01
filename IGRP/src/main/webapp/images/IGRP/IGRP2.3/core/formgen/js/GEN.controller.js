@@ -5168,6 +5168,7 @@ var GENERATOR = function(genparams){
 
 		});
 		
+		
 		field.setPropriety({
 			name    :'refresh_components',
 			label   :'Reload Components',
