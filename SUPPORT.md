@@ -26,6 +26,3 @@ Please **do not** do any the following:
 
 These are not appropriate avenues for seeking help or support with an open-source project. Please follow the guidelines in the previous section. Public questions get public answers, which benefits everyone in the community. ✌️
 
-## Customer Support
-
-I do not provide any sort of "customer support" for open-source projects. However, I am available for hire. For details on contracting and consulting, visit [jessesquires.com/hire-me](https://www.jessesquires.com/hire-me/).
