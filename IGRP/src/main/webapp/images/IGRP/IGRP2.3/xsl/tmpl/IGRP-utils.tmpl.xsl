@@ -57,7 +57,7 @@
         <xsl:if test="$outline = 'true'"><xsl:value-of select="' btn-outline'"/></xsl:if>
       </xsl:variable>
       
-      <xsl:if test="$refresh_components"> 
+      <xsl:if test="$refresh_components != ''"> 
         <xsl:attribute name="refresh-components">
         	<xsl:value-of select="$refresh_components"></xsl:value-of>
         </xsl:attribute>
@@ -65,6 +65,10 @@
 
       <xsl:if test="@labelConfirm">
         <xsl:attribute name="label-confirm"><xsl:value-of select="@labelConfirm"/></xsl:attribute>
+      </xsl:if>
+
+      <xsl:if test="@notvalidatefields = 'true'">
+        <xsl:attribute name="notvalidatefields"><xsl:value-of select="@notvalidatefields"/></xsl:attribute>
       </xsl:if>
       
       <xsl:if test="target = 'sharpadbclient'"> 

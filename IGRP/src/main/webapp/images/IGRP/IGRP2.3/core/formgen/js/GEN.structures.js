@@ -453,7 +453,8 @@ var GENSTRUCTURES = function(GEN){
 					map    = item.GET.service && item.GET.service().code ? GEN.getFieldServiceMap(item.GET.service()) : '',
 					_class = item.GET.class && item.GET.class() ? item.GET.class() : 'default',
 					customReturn = item.GET.custom_return ? item.GET.custom_return() : false,
-					customReturnAttr = customReturn ? 'custom_return="true"' : '';
+					customReturnAttr  = customReturn ? 'custom_return="true"' : '';
+					notvalidatefields = (item.GET.notvalidatefields && item.GET.notvalidatefields()) ? 'notvalidatefields="true"' : '',
 					target = item.GET.target(),
 					refresh_components = '',
 					id     = item.GET.id ? item.GET.id() : '',
@@ -482,7 +483,7 @@ var GENSTRUCTURES = function(GEN){
 				}
 
 				var linkAction= (item.action && item.action.link) ? '..'+item.action.link.substring(1).substring(item.action.link.substring(1).indexOf('/')) : '';
-				rtn+='<item id="'+id+'" type="'+itemType+'" ' + adbcli +' code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+' refresh_components="'+refresh_components+'" '+labelConfirm+'>'+
+				rtn+='<item id="'+id+'" '+notvalidatefields+' type="'+itemType+'" ' + adbcli +' code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+' refresh_components="'+refresh_components+'" '+labelConfirm+'>'+
 	                    '<title>'+item.GET.label()+'</title>'+
 	                    '<app>'+app+'</app>'+
 	                    '<page>'+page+'</page>'+
@@ -506,6 +507,7 @@ var GENSTRUCTURES = function(GEN){
 			targetConfirm = ['confirm','alert_submit'];
 		
 		fields.forEach(function(f){
+			console.log(f);
 			var tag    = f.GET.tag(),
 				title  = f.GET.label(),
 				target = f.GET.target ? f.GET.target() : "",
@@ -518,6 +520,7 @@ var GENSTRUCTURES = function(GEN){
 				map    = f.GET.service && f.GET.service().code ? GEN.getFieldServiceMap(f.GET.service()) : '',
 				_class = f.GET.class && f.GET.class() ? f.GET.class()+'|' : '',
 				parent = f.GET.parent && f.GET.parent() ? 'parent="'+f.GET.parent()+'"':'',
+				notvalidatefields = (item.GET.notvalidatefields && item.GET.notvalidatefields()) ? 'notvalidatefields="true"' : '',
 				params = '',
 				actionLINK = (f.action && f.action.link) ? '..'+f.action.link.substring(1).substring(f.action.link.substring(1).indexOf('/')) : '',		
 				customReturn = f.GET.custom_return ? f.GET.custom_return() : false,
@@ -541,7 +544,7 @@ var GENSTRUCTURES = function(GEN){
 			}
 
 				//console.log(params);
-			rtn+='<item  type="specific" code="" rel="'+tag+'" '+tran+' '+parent+' '+customReturnAttr+' refresh_components="'+refresh_components+'" ' + adbcli +' '+labelConfirm+'>'+
+			rtn+='<item  type="specific"  '+notvalidatefields+'  code="" rel="'+tag+'" '+tran+' '+parent+' '+customReturnAttr+' refresh_components="'+refresh_components+'" ' + adbcli +' '+labelConfirm+'>'+
 		            '<title>'+title+'</title>'+
 		            '<app>'+app+'</app>'+
 		            '<page>'+page+'</page>'+
