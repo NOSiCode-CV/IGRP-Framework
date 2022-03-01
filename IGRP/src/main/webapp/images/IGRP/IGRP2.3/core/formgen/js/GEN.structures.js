@@ -520,7 +520,7 @@ var GENSTRUCTURES = function(GEN){
 				map    = f.GET.service && f.GET.service().code ? GEN.getFieldServiceMap(f.GET.service()) : '',
 				_class = f.GET.class && f.GET.class() ? f.GET.class()+'|' : '',
 				parent = f.GET.parent && f.GET.parent() ? 'parent="'+f.GET.parent()+'"':'',
-				notvalidatefields = (item.GET.notvalidatefields && item.GET.notvalidatefields()) ? 'notvalidatefields="true"' : '',
+				notvalidatefields = (f.GET.notvalidatefields && f.GET.notvalidatefields()) ? 'notvalidatefields="true"' : '',
 				params = '',
 				actionLINK = (f.action && f.action.link) ? '..'+f.action.link.substring(1).substring(f.action.link.substring(1).indexOf('/')) : '',		
 				customReturn = f.GET.custom_return ? f.GET.custom_return() : false,
