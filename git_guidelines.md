@@ -1,6 +1,7 @@
 # Contributing to the Code Base
 
 Anyone (not just committers) can share contributions to IGRPWeb Framework open-source. Your work will be recognized: if your contribution - feature enhancement, bug fix, or other improvements - is accepted, your name will be included as an author in the official commit logs. Read on for details on how you can contribute.
+
 Note: When you contribute a feature, be sure to include proper documentation as described in [documentation_guidelines](../documentation_guidelines)
 
 # IGRPWeb Git guidelines
