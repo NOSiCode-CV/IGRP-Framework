@@ -15,8 +15,9 @@ Allows you to build unlimited number of e-government applications by yourself en
 ## Architecture 
 IGRP**Web** is provide as platform-as-a-service (PaaS), the entire management of infrastructure and other technical details are transparent to the user, allowing the client to focus only on the business flow. With an architecture independent of Databases allows the use of any database by the customer on the market. 
 
-## You can try it now:
-Demo cloud https://cloud.nosi.cv/IGRP:
+## Getting Started with Demo:
+
+There’s available a free demo cloud on how to create and run your own e-government apps on cloud https://cloud.nosi.cv/IGRP:
 •	User: demo@nosi.cv 
 •	Pass: demo
 
@@ -30,12 +31,24 @@ Demo cloud https://cloud.nosi.cv/IGRP:
 - DAO Generator
 - CRUD Generator
 
-## System Requirement
+## Prerequisites
 
 Minimum memory - 2GB
 Processor - Pentium 800MHz or equivalent at minimum
 Java 1.8 
 To build IGRPWeb from the source distribution, it is necessary that you have JDK 1.8 and Maven 3.0.4 or later, IDE java web development compatible.
+
+
+## Community and Contributing
+
+Pull requests, bug fixes and new applications development are always encouraged.  
+Please read [CONTRIBUTING.md ](https://github.com/NOSiCode-CV/IGRP-Java-Template-Eclipse/blob/master/CONTRIBUTING.md)for details on how to contribute in the community, and the process for submitting pull requests, bug fixing, patches to us. 
+
+
+## Developer Guide
+
+Documentation related to developer is available online, and embeded in the framework as Help link. 
+[Docs IGRP (PT)](https://docs.igrp.cv)
 
 ## Installation
 
@@ -43,22 +56,16 @@ To build IGRPWeb from the source distribution, it is necessary that you have JDK
 
     install project
 
-## Contribute
-
-- Issue Tracker: 
-- Source Code: 
-
-## Developer Guide
-
-for developer is available online, and embeded in the framework as Help link. 
-[Docs IGRP (PT)](https://docs.igrp.cv)
-
 ## Support
 
-If you are having issues, please let us know.
+If you are having issues, please let us know through igrpweb@nosi.cv
+
+## Authors
+
+List of contributors who participated in this project. 
 
 
 ## License
 -------
 
-The project is licensed under the Apache 2.0 license.
+The project is licensed under the Apache 2.0 license - see the [LICENSE.txt](https://github.com/NOSiCode-CV/IGRP-Java-Template-Eclipse/blob/master/LICENSE.txt) file for more details
