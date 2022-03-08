@@ -11,8 +11,8 @@ import nosi.core.webapp.Igrp;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet
-@MultipartConfig
+@WebServlet(name = "IGRP", urlPatterns = "/app/*")
+@MultipartConfig(maxFileSize = 52428800, maxRequestSize = 52428800, fileSizeThreshold = 0)
 public class IgrpServlet extends HttpServlet{
 	
 	private static final long serialVersionUID = 1L;
