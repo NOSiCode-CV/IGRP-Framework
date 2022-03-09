@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
@@ -69,6 +70,8 @@ public class GerarClasse {
 		this.gettersSetters = new StringBuilder();
 		this.addDefaultImports();
 	}
+
+	private Function<Class<?>, String> buildImportLine = clazz -> "import " + clazz.getCanonicalName() + ";" + NEW_LINE;
 
 	public String generate() throws SQLException, IOException {
 
@@ -125,8 +128,7 @@ public class GerarClasse {
 			gettersSetters.append(this.daoDto.getContentListSetGet());
 		}
 
-		final String imports = this.importClasses.stream().map(clazz -> this.buildImportLine(clazz))
-				.collect(Collectors.joining(""));
+		final String imports = this.importClasses.stream().map(buildImportLine).collect(Collectors.joining(""));
 		return new StringBuilder().append(this.daoDto.getPackageName()).append(imports)
 				.append(this.addHeaderClassContent()).append(variables).append(gettersSetters).append("}").toString();
 	}
@@ -139,10 +141,6 @@ public class GerarClasse {
 		this.importClasses.add(Table.class);
 		this.importClasses.add(Entity.class);
 		this.importClasses.add(this.isView() ? Immutable.class : GeneratedValue.class);
-	}
-
-	private String buildImportLine(Class<?> clazz) {
-		return "import " + clazz.getCanonicalName() + ";" + NEW_LINE;
 	}
 
 	private void updateColumnsInfos(Column column) {
@@ -225,24 +223,37 @@ public class GerarClasse {
 	}
 
 	private String addStringProperties(Class<?> clazz, Integer size, boolean isNullable) {
+
 		if (!clazz.equals(String.class) || this.isView())
 			return "";
-		else {
-			StringBuilder properties = new StringBuilder();
-			String min = "";
-			if (!isNullable) {
-				min = "min = 1, ";
-				this.importClasses.add(NotBlank.class);
-				properties.append(TAB).append("@NotBlank").append(NEW_LINE);
+
+		final StringBuilder annotationsProps = new StringBuilder();
+		final boolean isDefaultMaxSize = size == Integer.MAX_VALUE;
+
+		if (isNullable) {
+
+			if (!isDefaultMaxSize) {
+				this.importClasses.add(Size.class);
+				annotationsProps.append(TAB).append("@Size(").append("max = ").append(size).append(")")
+						.append(NEW_LINE);
 			}
+
+		} else {
+
 			this.importClasses.add(Size.class);
-			return properties.append(TAB).append("@Size(").append(min).append("max = ").append(size).append(")")
-					.append(NEW_LINE).toString();
+			this.importClasses.add(NotBlank.class);
+
+			final String maxProperty = isDefaultMaxSize ? ")" : ", max = " + size + ")";
+
+			annotationsProps.append(TAB).append("@NotBlank").append(NEW_LINE);
+			annotationsProps.append(TAB).append("@Size(").append("min = 1").append(maxProperty).append(NEW_LINE);
+
 		}
+		return annotationsProps.toString();
 	}
 
 	private boolean isView() {
-		return this.daoDto.getTableType().equals("view");
+		return "view".equals(this.daoDto.getTableType());
 	}
 
 	public static String convertCase(String name, boolean firstLetterLowerCase) {
