@@ -2,7 +2,6 @@ package nosi.core.webapp.helpers.dao_helper;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -273,16 +272,17 @@ public class GerarClasse {
 			clazz = String.class;
 			break;
 		case Types.SMALLINT:
-		case Types.INTEGER:
 		case Types.TINYINT:
-		case Types.NUMERIC:
+			clazz = Short.class;
+			break;
+		case Types.INTEGER:
 			clazz = Integer.class;
 			break;
 		case Types.BIGINT:
-			clazz = BigInteger.class;
-			this.importClasses.add(BigInteger.class);
+			clazz = Long.class;
 			break;
 		case Types.DECIMAL:
+		case Types.NUMERIC:
 			clazz = BigDecimal.class;
 			this.importClasses.add(BigDecimal.class);
 			break;
