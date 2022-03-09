@@ -1075,7 +1075,13 @@ var mWindow = null,
 		var setTargetParameter = function(url){
 			
 			if(url){
-				if(url.indexOf('target=_blank') == -1){
+				var localHostName = location.hostname,
+					urlHostName   = $.IGRP.utils.url.getHostName(url);
+
+					console.log('localHostName => '+localHostName);
+					console.log('urlHostName => '+urlHostName);
+
+				if(url.indexOf('target=_blank') == -1 && localHostName === urlHostName){
 					var symb = getParameterSymbol(url);
 					url+=symb+'target=_blank';
 				}
