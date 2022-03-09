@@ -15,7 +15,7 @@ import nosi.core.webapp.Igrp;
  * @author Marcel Iekiny 
  * 05 Oct 2018
  */
-@WebFilter
+@WebFilter(filterName = "ThreadLocalFilter", servletNames = "IGRP")
 public class ThreadLocalFilter implements Filter {
 
     public ThreadLocalFilter() {}
