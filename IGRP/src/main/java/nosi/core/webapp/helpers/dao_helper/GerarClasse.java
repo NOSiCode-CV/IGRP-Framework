@@ -279,10 +279,10 @@ public class GerarClasse {
 			clazz = Integer.class;
 			break;
 		case Types.BIGINT:
+		case Types.NUMERIC:
 			clazz = Long.class;
 			break;
 		case Types.DECIMAL:
-		case Types.NUMERIC:
 			clazz = BigDecimal.class;
 			this.importClasses.add(BigDecimal.class);
 			break;
