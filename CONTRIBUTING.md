@@ -1,17 +1,34 @@
 # Contributing
 
-When contributing to this repository, please first discuss the change you wish to make via issue,
-email, or any other method with the owners of this repository before making a change. 
+## Welcome to IGRP**Web**
 
-Please note we have a code of conduct, please follow it in all your interactions with the project.
+It is your first time? 
+If this is your first time contributing, we have guides to help contribute, report bugs or submit patches.
 
-## Pull Request Process
+When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change. 
 
-1. Ensure any install or build dependencies are removed before the end of the layer when doing a 
-   build.
-2. Update the README.md with details of changes to the interface, this includes new environment 
-   variables, exposed ports, useful file locations and container parameters.
-3. Increase the version numbers in any examples files and the README.md to the new version that this
-   Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org/).
-4. You may merge the Pull Request in once you have the sign-off of two other developers, or if you 
-   do not have permission to do that, you may request the second reviewer to merge it for you.
+ 
+#Contributions using GitHub 
+ 
+To help you contribute we have guidelines to help you. Please visit Guit guidelines for instructions on how to contribute. 
+Patches can be submitted in …   
+Report bugs can be submitted in …  
+ 
+#Getting help 
+
+Having trouble? We’d like to help! 
+
+Try the FAQ – Got answers to many common questions. 
+
+Looking for specific information? Try the … 
+
+Not found anything? Get help for information and support by asking questions to the community. 
+ 
+*FAQs* for New Contributors: (link de acesso as questões e respostas acerca do projeto) 
+**Contributing with Code Guide:** (link) 
+**IGRPWeb Coding Standards:** (link de acesso as normas de codificação) 
+
+
+
+Please note we have a [code of conduct](https://github.com/NOSiCode-CV/IGRP-Java-Template-Eclipse/blob/master/CODE_OF_CONDUCT.md), please follow it in all your interactions with the project.
+
