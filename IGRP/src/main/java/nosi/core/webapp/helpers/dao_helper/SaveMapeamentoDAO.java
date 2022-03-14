@@ -2,39 +2,90 @@ package nosi.core.webapp.helpers.dao_helper;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Set;
+
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
 
 import nosi.core.config.Config;
-import nosi.webapps.igrp_studio.pages.crudgenerator.CRUDGeneratorController;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.helpers.FileHelper;
 
 /**
- * Isaias.Nunes
- * Aug 27, 2019
+ * Isaias.Nunes Aug 27, 2019
  */
 public class SaveMapeamentoDAO {
-	
-	public static String getHibernateConfig(String path_file) {
-			String data="";
-			try {
-				data = new String(Files.readAllBytes(Paths.get(path_file)));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return data;
+
+	private SaveMapeamentoDAO() {}
+
+	public static String getHibernateConfig(final String path) {
+		try {
+			return new String(Files.readAllBytes(Paths.get(path)));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "";
+		}
 	}
 
-	
-	public static boolean SaveNewHibernateConfig(String path_file, String fileName, String packageName,String dao_name_class ) throws IOException {
-		boolean flag = false;
-		String nv_config = SaveMapeamentoDAO.getHibernateConfig(path_file+File.separator+fileName);
-		nv_config = nv_config.replaceAll("<!-- Mapping your class here... ", "<mapping class=\""+packageName+"."+dao_name_class+"\"/>\n"
-																			+ "\t\t<!-- Mapping your class here... ");
-		flag = new CRUDGeneratorController().saveFiles(fileName, nv_config, path_file);
-		return flag;
+	public static void saveMappings(final String hibernateConfigFileName, final Set<String> newMappings) {
+
+		try {
+			
+			if (newMappings.isEmpty())
+				return;
+
+			final String hibernateConfigDirectoryPath = new Config().getPathConexao();
+			final String hibernateConfigFilePath = hibernateConfigDirectoryPath + File.separator + hibernateConfigFileName;
+			final String xml = getHibernateConfig(hibernateConfigFilePath);
+			
+			if (xml.isEmpty())
+				return;
+			
+			final Document document = new SAXReader().read(new StringReader(xml));
+			
+			final Element root = document.getRootElement();
+
+			final Element sessionFactory = root.element("session-factory");
+
+			// Remove mappings that already exist
+			sessionFactory.elements("mapping").forEach(obj -> newMappings.remove(obj.attributeValue("class")));
+
+			if (newMappings.isEmpty())
+				return;
+
+			// Add new mappings
+			newMappings.forEach(value -> sessionFactory.addElement("mapping").addAttribute("class", value));
+
+			final StringWriter sw = new StringWriter();
+			final XMLWriter xmlWriter = new XMLWriter(sw, getXmlOutputFormatter());
+			xmlWriter.write(document);
+
+			final String newXml = sw.toString();
+
+			if (Core.isNotNull(newXml))
+				FileHelper.save(hibernateConfigDirectoryPath, hibernateConfigFileName, newXml);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			Core.setMessageError("Ocorreu um erro ao salvar o mapeamento das classes. Tente manualmente.");
+		}
 	}
 	
-	public static boolean loadCfg(String fileName, String packageName, String dao_name_class ) throws IOException {
-		return SaveMapeamentoDAO.SaveNewHibernateConfig(new Config().getPathConexao(), fileName,packageName, dao_name_class);
+	private static OutputFormat getXmlOutputFormatter() {
+		final OutputFormat outputFormat = OutputFormat.createPrettyPrint();
+		outputFormat.setIndentSize(4);
+		outputFormat.setSuppressDeclaration(false);
+		outputFormat.setEncoding(StandardCharsets.UTF_8.name());
+		outputFormat.setNewlines(true);
+		return outputFormat;
 	}
+
 }
