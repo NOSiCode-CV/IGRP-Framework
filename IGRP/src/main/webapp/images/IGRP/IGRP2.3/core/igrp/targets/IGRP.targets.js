@@ -49,6 +49,7 @@ var mWindow = null,
 
 			return false;
  		};
+
  		//submit page
  		var submit = function(p){
  		
@@ -68,9 +69,20 @@ var mWindow = null,
 	 			
 	 			fields.addClass('submittable');
  			
- 				if(p.clicked && p.clicked.parents('li.operationTable')[0])
- 					
- 					validate = false;
+ 				if(p.clicked && p.clicked[0]){
+
+					if(p.clicked.parents('li.operationTable')[0]){
+						validate = false;
+					}
+					else if(!p.clicked.is('[notvalidatefields]') || ( p.clicked.is('[notvalidatefields]') && p.clicked.attr('notvalidatefields') !== 'true') ){
+						
+						validate = true;
+
+					}else if (p.clicked.is('[notvalidatefields]') && p.clicked.attr('notvalidatefields') === 'true'){
+
+						validate = false;
+					}
+				}
 
  				form.attr('validateCtrl',validate);
 
@@ -99,9 +111,12 @@ var mWindow = null,
  				
  				action    = $.IGRP.utils.getSubmitParams(actionURL,p.form,p.scrollTo);
 
- 				console.log(fields);
-
  				fields.addClass('submittable');
+
+				if( p.clicked && p.clicked[0] && p.clicked.is('[notvalidatefields]') && p.clicked.attr('notvalidatefields') === 'true')
+					validate = false;
+				else
+					validate = true;
 
  				if(parent.parents('.gen-tab-holder')[0]){
  					var tab     = parent.parents('.gen-tab-holder').first(),
@@ -124,8 +139,12 @@ var mWindow = null,
  		};
  		
  		var _submit_popup = function(p){
+
+			var valid = p?.validate ? p.validate :  p.fields.valid();
  			
- 			if(p.fields.valid()){
+ 			if(valid){
+
+				clearErrors(form);
  				
  				form.attr({'target' : 'winIGRP', 'action' : p.url});
 
@@ -149,6 +168,53 @@ var mWindow = null,
 
 			return false;
 		};
+
+		var afterSubmitAjax = function (p) {
+			var xml = p.xml,
+							
+				hasRefreshAttr = p.clicked[0].hasAttribute("refresh-components"),
+				
+				refresh_components = hasRefreshAttr ? p.clicked.attr("refresh-components") : null;
+
+				nodes 	 = hasRefreshAttr && refresh_components != '' ? refresh_components.split(',') : [];
+			
+			if( !hasRefreshAttr ){
+			
+				$('.table, .IGRP-highcharts',p.sform).each(function(id,el){
+					
+					nodes.push($(el).parents('.gen-container-item').attr('item-name'));
+					
+				});
+			}
+
+			if(nodes[0]){
+				
+				$.IGRP.utils.xsl.transform({
+					xsl     : $.IGRP.utils.getXMLStylesheet(xml),
+					xml     : xml,
+					nodes   : nodes,
+					clicked : p.clicked,
+					complete: function(res){
+
+						$.IGRP.events.execute('submit-complete',{})
+
+						p.clicked.removeAttr("disabled");
+						
+					}
+				});
+				
+			}else{
+				p.clicked.removeAttr("disabled");
+				$.IGRP.events.execute('submit-complete',{})
+			}
+
+			$.IGRP.utils.message.handleXML(xml);
+		};
+
+		var clearErrors = function (f) {
+			$("label.error",f).hide();
+  			$(".error",f).removeClass("error");
+		}
 		
 		//submit ajax
 		var submit_ajax = function(p){
@@ -159,12 +225,12 @@ var mWindow = null,
 				fields    	= $.IGRP.utils.getFieldsValidate(sform),
 				action    	= $.IGRP.utils.getSubmitParams(p.url,sform,p.scrollTo),
 				events 		= p.clicked[0].events,
-				valid		= fields.valid();
+				valid 		= p?.validate ? p.validate :  fields.valid();
 				
 			if (valid) {
-				
-				//$.IGRP.utils.loading.show();
-				//console.log(p)
+
+				clearErrors(sform);
+
 				ev.execute('submit-ajax',{
 					clicked    : p.clicked,
 					url  	   : action,
@@ -195,48 +261,13 @@ var mWindow = null,
 
 						try{
 
-							var xml = resp.responseXML || $($.parseXML(resp.response)),
-							
-							alert = '',
+							var xml = resp.responseXML || $($.parseXML(resp.response));
 
-							debug = '',
-							
-							hasRefreshAttr = p.clicked[0].hasAttribute("refresh-components"),
-							
-							refresh_components = hasRefreshAttr ? p.clicked.attr("refresh-components") : null;
-
-							nodes 	 = hasRefreshAttr && refresh_components != '' ? refresh_components.split(',') : [];
-							
-							if( !hasRefreshAttr )
-							
-								$('.table, .IGRP-highcharts',sform).each(function(id,el){
-									
-									nodes.push($(el).parents('.gen-container-item').attr('item-name'));
-									
-								});
-
-							if(nodes[0]){
-								
-								$.IGRP.utils.xsl.transform({
-									xsl     : $.IGRP.utils.getXMLStylesheet(xml),
-									xml     : xml,
-									nodes   : nodes,
-									clicked : p.clicked,
-									complete: function(res){
-
-										$.IGRP.events.execute('submit-complete',{})
-										
-									}
-								});
-								
-							}else{
-								
-								p.clicked.removeAttr("disabled");
-								
-								$.IGRP.utils.message.handleXML(xml);
-								
-								$.IGRP.events.execute('submit-complete',{})
-							}
+							afterSubmitAjax({
+								xml 	: xml,
+								clicked : p.clicked,
+								sform   : sform
+							});
 
 						}catch(e){
 							var str = resp.response;
@@ -266,10 +297,10 @@ var mWindow = null,
 					}
 				});
 			}else{
-					$.IGRP.components.form.hasFieldsError();
-					
-					p.clicked.removeAttr("disabled");
-				}
+				$.IGRP.components.form.hasFieldsError();
+				
+				p.clicked.removeAttr("disabled");
+			}
 		};
 		
 		var listAssociation = function(p){
@@ -305,7 +336,7 @@ var mWindow = null,
 		//submit not validate
 		var submit_notvalidate = function(p){
 			
-			p.valid = true;
+			p.validate = true;
 			
 			submitpage2file(p);
 
@@ -321,11 +352,13 @@ var mWindow = null,
 			var sform     	= $.IGRP.utils.getForm(),
 				fields    	= $.IGRP.utils.getFieldsValidate(sform),
 				events 		= p.clicked[0].events,
-				valid   	= p.valid ? p.valid : fields.valid();
+				valid   	= p?.validate ? p.validate :  fields.valid();;
 
 			if (valid) {
 				
 				$.IGRP.utils.loading.show();
+
+				clearErrors(sform);
 
 				if(events){
 					events.execute('before-submitpage2file',{
@@ -338,20 +371,25 @@ var mWindow = null,
 				$.IGRP.utils.submitPage2File.onSubmit({
 					url 			: p.url,
 					serialize   	: sform,
-					//fileName    	: 'p_igrpfile',
-					//contentType 	: 'plain/xml',
-					//format		: 'xml',
 					notify 			: false,
 					complete    	: function(resp){
-						console.log(resp);
+						
 						if(resp){
-							$.IGRP.utils.message.handleXML(resp.responseXML);
+							//$.IGRP.utils.message.handleXML(resp.responseXML);
+
+							var xml = resp.responseXML || $($.parseXML(resp.response));
+
+							afterSubmitAjax({
+								xml 	: xml,
+								clicked : p.clicked,
+								sform   : sform
+							});
 							
-								if(events){
-									events.execute('success-submitpage2file',{
-										resp 	: resp
-									});
-								}
+							if(events){
+								events.execute('success-submitpage2file',{
+									resp 	: resp
+								});
+							}
 						}
 						
 						p.clicked.removeAttr('disabled');
@@ -572,9 +610,11 @@ var mWindow = null,
 			
 				fields = $.IGRP.utils.getFieldsValidate(),
 				
-				valid  = formData != '' ? fields.valid() : true;
+				valid  = formData != '' ? (p?.validate ? p.validate : fields.valid()) : true;
 
 			if(valid){
+
+				clearErrors(form);
 			
 				if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)				
 						mWindow = window;
@@ -1035,7 +1075,13 @@ var mWindow = null,
 		var setTargetParameter = function(url){
 			
 			if(url){
-				if(url.indexOf('target=_blank') == -1){
+				var localHostName = location.hostname,
+					urlHostName   = $.IGRP.utils.url.getHostName(url);
+
+					console.log('localHostName => '+localHostName);
+					console.log('urlHostName => '+urlHostName);
+
+				if(url.indexOf('target=_blank') == -1 && localHostName === urlHostName){
 					var symb = getParameterSymbol(url);
 					url+=symb+'target=_blank';
 				}
@@ -1051,10 +1097,7 @@ var mWindow = null,
 				symb = '?';
 			
 			return symb;
-		}
-
-		var submitTargets = ['submit','submit_ajax','submit_notvalidate', 'submitpage2file'];
-		
+		}		
 		
 
 		$.IGRP.targets = {
@@ -1081,7 +1124,7 @@ var mWindow = null,
 
 				label  : 'Confirmar',
 
-				action : confirm 
+				action : confirm
 
 			},
 			
@@ -1089,7 +1132,9 @@ var mWindow = null,
 
 				label : 'Submit',
 
-				action : submit
+				action : submit,
+				
+				type  : 'submit'
 
 			},
 			modal 	     : {
@@ -1104,7 +1149,9 @@ var mWindow = null,
 
 				label : 'Submit Modal',
 
-				action : mpsubmit
+				action : mpsubmit,
+				
+				type  : 'submit'
 
 			},
 			right_panel 	     : {
@@ -1149,14 +1196,18 @@ var mWindow = null,
 
 				label : 'Submit Popup',
 
-				action : submit_popup
+				action : submit_popup,
+				
+				type  : 'submit'
 
 			},
 			submit_form  : {
 
 				label : 'Submit Form',
 
-				action : submit_form
+				action : submit_form,
+				
+				type  : 'submit'
 
 			},
 
@@ -1164,7 +1215,9 @@ var mWindow = null,
 
 				label : 'Submit Ajax',
 
-				action : submit_ajax
+				action : submit_ajax,
+				
+				type  : 'submit'
 
 			},
 			
@@ -1177,14 +1230,18 @@ var mWindow = null,
 			submitpage2file : {
 				label : 'Submit Page to File',
 
-				action : submitpage2file
+				action : submitpage2file,
+				
+				type  : 'submit'
 			},
 
 			alert_submit : {
 
 				label : 'Alert Submit',
 
-				action : alert_submit
+				action : alert_submit,
+				
+				type  : 'submit'
 
 			},	
 			_link       : {
@@ -1337,11 +1394,17 @@ var mWindow = null,
 						
 				var url          = $(this).attr('fw_href') ? $(this).attr('fw_href') : $(this).attr('href');			
 				
-				var targetAction = $.IGRP.targets[target] && $.IGRP.targets[target].action ? $.IGRP.targets[target].action : _blank;
+				var objTarget 	 = $.IGRP.targets[target];
+
+				var targetAction = objTarget?.action ? objTarget.action : _blank,
+				
+				validate 		 = $(this).is('[notvalidatefields]') && $(this).attr('notvalidatefields') === 'true' ? true : false;
 					
 				_this 	     	 = $(this);
 
-				if(submitTargets.includes(target) && $.IGRP.info.isPublic){
+				console.log(validate);
+
+				if(objTarget?.type === 'submit' && $.IGRP.info.isPublic){
 
 					grecaptcha.ready(function() {
 
@@ -1372,9 +1435,10 @@ var mWindow = null,
 							});
 							
 							return targetAction({
-								url     : url,
-								target  : target,
-								clicked : _this
+								url      : url,
+								target   : target,
+								clicked  : _this,
+								validate : validate
 							});
 
 						});
@@ -1385,7 +1449,8 @@ var mWindow = null,
 					ev.execute('target-click',{
 						target  : target,
 						url     : url,
-						clicked : _this
+						clicked : _this,
+						validate : validate
 					});
 	
 					$.IGRP.store.set({
@@ -1396,7 +1461,8 @@ var mWindow = null,
 					return targetAction({
 						url     : url,
 						target  : target,
-						clicked : _this
+						clicked : _this,
+						validate : validate
 					});
 				}
 			});
