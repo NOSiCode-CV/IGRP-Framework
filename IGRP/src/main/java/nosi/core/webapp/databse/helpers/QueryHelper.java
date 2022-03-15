@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
+
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -52,7 +54,7 @@ public abstract class QueryHelper implements QueryInterface{
 	protected EntityManager em = null;
 	protected OperationType operationType;
 	
-	public QueryHelper(Object connectionName) {
+	protected QueryHelper(Object connectionName) {
 		this();
 		if(Core.isNotNull(connectionName) && connectionName instanceof Config_env) {
 			this.config_env = (Config_env) connectionName;			
@@ -60,27 +62,45 @@ public abstract class QueryHelper implements QueryInterface{
 		this.connectionName = nosi.core.webapp.databse.helpers.Connection.getMyConnectionName(connectionName);
 	}	
 
-	public QueryHelper() {
+	protected QueryHelper() {
 		this.columnsValue = new ArrayList<>();
 		this.recq = new ResolveColumnNameQuery(this.getClass());
 	}
 
 
 	protected SessionFactory getSessionFactory() {
+		SessionFactory sessionFactory = null;
 		if(this.config_env!=null) {
-			return HibernateUtils.getSessionFactory(config_env);
+			sessionFactory= HibernateUtils.getSessionFactory(config_env.getName(),  config_env.getApplication().getDad());
+		}else
+			sessionFactory= HibernateUtils.getSessionFactory(this.getConnectionName());
+		if(sessionFactory!=null) {
+			return sessionFactory;
 		}
-		return HibernateUtils.getSessionFactory(this.getConnectionName());
+		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
 	
 	@SuppressWarnings("resource")
 	protected Session getSession() {
 		SessionFactory sessionFactory = this.getSessionFactory();
-		if(sessionFactory!=null && sessionFactory.isOpen()) {
-			return sessionFactory.getCurrentSession();
+		if (sessionFactory != null) {
+			Session s = null;
+			if (sessionFactory.isOpen() && sessionFactory.getCurrentSession() != null
+					&& sessionFactory.getCurrentSession().isOpen()) {
+				s = sessionFactory.getCurrentSession();
+				return s;
+			}
+			sessionFactory.close();
+			HibernateUtils.removeSessionFactory(this.config_env != null?this.config_env.getName():this.getConnectionName());
+			sessionFactory = HibernateUtils.getSessionFactory(connectionName);
+			if (sessionFactory != null) {
+				s = sessionFactory.getCurrentSession();
+				return s;
+			}
 		}
-		return null;
+		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
+	
 	
 	public boolean isShowError() {
 		return showError;
@@ -250,13 +270,13 @@ public abstract class QueryHelper implements QueryInterface{
     
 	@Override
     public QueryInterface addByte(String columnName,byte value) {
-        this.addColumn(columnName, new Byte(value), Byte.class);
+        this.addColumn(columnName, Byte.valueOf(value), Byte.class);
         return this;
     }  
     
     @Override
     public QueryInterface addBoolean(String columnName,boolean value) {
-        this.addColumn(columnName, new Boolean(value), Boolean.class);
+        this.addColumn(columnName, Boolean.valueOf(value), Boolean.class);
         return this;
     }  
     
@@ -304,7 +324,7 @@ public abstract class QueryHelper implements QueryInterface{
 		if((this instanceof QueryUpdate|| (this.operationType!=null && this.operationType.compareTo(OperationType.UPDATE)==0)) && this.columnsValue!=null) {
 			String n = name;
 			List<Column> cols = this.columnsValue.stream().filter(col->col.getName()!=null && col.getName().equalsIgnoreCase(n)).collect(Collectors.toList());
-			if(cols!=null && cols.size()>0) {
+			if(cols!=null && !cols.isEmpty()) {
 				name_ = name+"_"+cols.size();
 			}
 		}
@@ -433,12 +453,12 @@ public abstract class QueryHelper implements QueryInterface{
 				}
 			}else {
 				try {
-					String sql = this.getSqlExecute();
-					q = new NamedParameterStatement(conn, sql);
+					String sqlEx = this.getSqlExecute();
+					q = new NamedParameterStatement(conn, sqlEx);
 					this.setParameters(q);
 					r.setSql(q.getSql());
 					Core.log("SQL:"+q.getSql());
-					r.setKeyValue(new Integer(q.executeUpdate()));
+					r.setKeyValue(Integer.valueOf(q.executeUpdate()));
 				} catch (SQLException e) {
 					this.setError(r,e);
 				}
@@ -830,16 +850,14 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 
 	protected void setError(ResultSet r, Exception e) {
-		if(this.isShowError()) {
-			if(e!=null) {
+		if(this.isShowError() && e!=null) {
 				if(r!=null) {
 					r.setError(e.getMessage());
 				}
 				Core.log(e.getMessage());
-			}
+			
 		}
-		if(this.isShowTracing()) {
-			if(e!=null)
+		if(this.isShowTracing() && e!=null) {
 				e.printStackTrace();
 		}
 		

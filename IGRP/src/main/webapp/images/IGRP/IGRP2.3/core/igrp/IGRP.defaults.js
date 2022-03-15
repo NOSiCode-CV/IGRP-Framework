@@ -126,6 +126,26 @@
 					
 				},
 
+				submitTargets : function(){
+					
+					var r = [];
+					
+					for(var t in $.IGRP.targets){
+
+						var targ = $.IGRP.targets[t];
+						
+						if(targ?.type === 'submit'){
+
+							r.push(t);
+
+						}
+						
+					}
+
+					return r;
+						
+				},
+
 				sharpadbclient: [
 					{
 						value: '',

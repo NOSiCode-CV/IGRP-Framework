@@ -25,11 +25,11 @@ public class Connection {
 	public static String getMyConnectionName(Object connectionName) {
 		if(Core.isNotNull(connectionName))
 			return connectionName.toString();
-		return ConfigApp.getInstance().getH2IGRPBaseConnection();
+		return ConfigApp.getInstance().getBaseConnection();
 	}
 	
 	public static java.sql.Connection getConnection(String connectionName, String dad){
-		Config_env config = new Config_env().find()
+		Config_env config = new Config_env().find().setKeepConnection(true)
 				.andWhere("name", "=", connectionName)
 				.andWhere("application.dad", "=",dad)
 				.one();
@@ -42,12 +42,9 @@ public class Connection {
 		String user = "";
 		String driver ="";
 		ConfigApp configApp = ConfigApp.getInstance();
-		if(connectionName.equalsIgnoreCase(configApp.getBaseConnection()) || connectionName.equalsIgnoreCase(configApp.getH2IGRPBaseConnection())) {
-			
+		if(connectionName.equalsIgnoreCase(configApp.getBaseConnection())) {
 			@SuppressWarnings("unchecked")
-			Map<String, Object> settings = connectionName.equalsIgnoreCase(configApp.getBaseConnection())?
-					HibernateUtils.REGISTRY_BUILDER_IGRP.getAggregatedCfgXml().getConfigurationValues()
-					:HibernateUtils.REGISTRY_BUILDER_IGRP_H2.getAggregatedCfgXml().getConfigurationValues();
+			Map<String, Object> settings = HibernateUtils.REGISTRY_BUILDER_IGRP.getAggregatedCfgXml().getConfigurationValues();
 			if(settings!=null) {
 				for(java.util.Map.Entry<String, Object> s:settings.entrySet()) {
 					if(s.getKey().equals(AvailableSettings.USER)) {
@@ -63,25 +60,10 @@ public class Connection {
 						driver = s.getValue().toString();
 					}
 				}
-			}else {
-				ConfigDBIGRP config =  ConfigDBIGRP.getInstance();
-				try {
-					if(connectionName.equalsIgnoreCase(configApp.getBaseConnection())) {
-						config.loadIGRPConnectionConfig();
-					}else if(connectionName.equalsIgnoreCase(configApp.getH2IGRPBaseConnection())) {
-						config.loadIGRPConnectionConfigH2();
-					}
-					url = config.getUrlConnection();
-					password = config.getPassword();
-					user = config.getUsername();
-					driver = DatabaseConfigHelper.getDatabaseDriversExamples(config.getType_db());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
 			}
 		}else {
 			String dad = Core.getCurrentDadParam();
-			Config_env config = new Config_env().find()
+			Config_env config = new Config_env().find().setKeepConnection(true)
 					.andWhere("name", "=", connectionName)
 					.andWhere("application.dad", "=",dad)
 					.one();

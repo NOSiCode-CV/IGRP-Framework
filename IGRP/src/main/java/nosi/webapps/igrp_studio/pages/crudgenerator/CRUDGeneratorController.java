@@ -11,13 +11,15 @@ import nosi.core.webapp.Response;//
 /*----#start-code(packages_import)----*/
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 import javax.xml.transform.TransformerConfigurationException;
 import java.io.File;
 import java.util.ArrayList;
 import nosi.core.config.Config;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.compiler.helpers.Compiler;
-import nosi.core.webapp.databse.helpers.*;
+import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.dao_helper.DaoDto;
@@ -49,7 +51,7 @@ public class CRUDGeneratorController extends Controller {
 		
 		try {
 			
-			Map<String, String> daoCrudOptions = new LinkedHashMap<>();
+			final Map<String, String> daoCrudOptions = new LinkedHashMap<>();
 			daoCrudOptions.put("dao", "DAO");
 			daoCrudOptions.put("crud", "CRUD");
 			view.form_2_radiolist_1.setValue(daoCrudOptions);
@@ -168,21 +170,29 @@ public class CRUDGeneratorController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(gerar_dao)----*/
 
-		String[] rowsId = Core.getParamArray("p_check_table_fk");
-		String[] pCheckboxCheck = Core.getParamArray("p_check_table_check_fk");
+		final String[] rowsId = Core.getParamArray("p_check_table_fk");
+		final String[] pCheckboxCheck = Core.getParamArray("p_check_table_check_fk");
 
 		if (Core.isNotNullMultiple(pCheckboxCheck, rowsId)) {
-			CheckBoxHelper checkBoxHelper = Core.extractCheckBox(rowsId, pCheckboxCheck);
+			
+			final CheckBoxHelper checkBoxHelper = Core.extractCheckBox(rowsId, pCheckboxCheck);
+			
 			if (checkBoxHelper.getChekedIds().isEmpty()) {
 				Core.setMessageWarning("<strong> Deve escolher pelo menos uma tabela! </strong>");
 				return this.renderView(new CRUDGeneratorView());
 			}
-			final String dadName = Core.findApplicationById(Core.toInt(model.getAplicacao())).getDad();
-			Config_env configEnv = new Config_env().find().andWhere("id", "=", Core.toInt(model.getData_source(), -1))
+			
+			final Config_env configEnv = new Config_env().find().andWhere("id", "=", Core.toInt(model.getData_source(), -1))
 					.andWhere("application.id", "=", Core.toInt(model.getAplicacao(), -1)).one();
 			
+			final String dadName = configEnv.getApplication().getDad();
+						
+			final String daoPackageName = NOSI_WEBAPPS + dadName.toLowerCase() + ".dao";
+			
+			final Set<String> daoMappings = new HashSet<>();
+			
 			for (String tableName : checkBoxHelper.getChekedIds()) {
-				DaoDto daoDto = new DaoDto();
+				final DaoDto daoDto = new DaoDto();
 				daoDto.setConfigEnv(configEnv);
 				daoDto.setSchema(model.getSchema());
 				daoDto.setDadName(dadName);
@@ -192,11 +202,17 @@ public class CRUDGeneratorController extends Controller {
 				daoDto.setTableType(model.getTable_type());
 				daoDto.setTableName(tableName);
 				daoDto.setDaoClassName(GerarClasse.convertCase(tableName, true));
-				this.generateDAO(daoDto);
+				
+				if (this.generateDAO(daoDto)) 
+					daoMappings.add(daoPackageName + "." + daoDto.getDaoClassName());
 			}
+			
+			final String hibernateConfigFileName = configEnv.getName() + "." + dadName + ".cfg.xml";
+					
+			SaveMapeamentoDAO.saveMappings(hibernateConfigFileName, daoMappings);
 
 			Core.setMessageSuccess();
-			if (model.getTable_type().equals("view"))
+			if ("view".equals(model.getTable_type()))
 				Core.setMessageWarning("Consider adding identifier/primary key(@Id) annotation for your views!");
 			
 		}
@@ -393,20 +409,14 @@ public class CRUDGeneratorController extends Controller {
 	public boolean generateDAO(DaoDto daoDto) {
 		boolean flag = false;
 		try {
-			// Mas antes temos de vereficar se a classe é nova ou nao
-			String pathDao = new Config().getPathDAO(daoDto.getDadName());
-			String daoClassPathName = String.format("%s%s%s", pathDao, daoDto.getDaoClassName(), JAVA_EXTENSION);
-			if (!Core.fileExists(daoClassPathName)) {
-				// Aqui guarda novo configuracao de hibernate
-				String dad = daoDto.getConfigEnv().getApplication().getDad();
-				String packageName = NOSI_WEBAPPS + dad.toLowerCase() + ".dao";
-				SaveMapeamentoDAO.loadCfg(daoDto.getConfigEnv().getName() + "." + dad + ".cfg.xml", packageName, daoDto.getDaoClassName());
-			}
+			
+			final String pathDao = new Config().getPathDAO(daoDto.getDadName());
+			final String daoClassPathName = String.format("%s%s%s", pathDao, daoDto.getDaoClassName(), JAVA_EXTENSION);
+			 
+			// Generate dao class files content
+			final String content = new GerarClasse(daoDto).generate();
 
-			// Gerar conteudo da classe DAO
-			String content = new GerarClasse(daoDto).generate();
-
-			// Salvar os files de classe DAO
+			// Save dao class files
 			flag = saveFiles(daoDto.getDaoClassName().concat(JAVA_EXTENSION), content, pathDao);
 
 			if (this.daoClassHasWarning(daoClassPathName))

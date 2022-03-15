@@ -47,9 +47,17 @@ public class Modulo extends IGRPBaseActiveRecord<Modulo> implements Serializable
 	}
 
 	public Modulo(String name, Application application) {
-		super();
+		this();
 		this.name = name;
 		this.application = application;
+	}
+	
+	public Modulo(Integer id, String name, Application application, String descricao) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.application = application;
+		this.descricao = descricao;
 	}
 
 	public Integer getId() {

@@ -1,37 +1,20 @@
 package nosi.webapps.igrp.pages.resetpassword;
 
 import java.io.IOException;
-
 import static nosi.core.i18n.Translator.gt;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.net.URL;
 import java.util.Base64;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-import javax.xml.ws.handler.MessageContext;
-import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
-import org.wso2.carbon.um.ws.service.UpdateCredentialByAdmin;
-import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
-
-import nosi.core.config.Config;
-import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.integration.autentika.RemoteUserStoreManagerServiceSoapClient;
+import nosi.core.integration.autentika.dto.UpdateCredentialByAdminRequestDTO;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.webapps.igrp.dao.User;
-import service.client.WSO2UserStub;
-
 /*----#end-code----*/
 		
 public class ResetpasswordController extends Controller {
+	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Resetpassword model = new Resetpassword();
 		model.load();
@@ -39,18 +22,11 @@ public class ResetpasswordController extends Controller {
 		ResetpasswordView view = new ResetpasswordView();
 		/*----#start-code(index)----*/
 		model.setSign_in("webapps?r=igrp/login/login");
-		
 		String token = Core.getParam("t");
-		
-		
-		
 		try {
-			
 			if(token == null || token.isEmpty()) 
 				throw new RuntimeException("Invalid or expired token.");
-			
 			User user = new User().find().andWhere("password_reset_token", "=", token).one();
-			
 			if(user != null) {
 				model.setUsername(user.getEmail());
 				String aux = new String(Base64.getUrlDecoder().decode(user.getPassword_reset_token()));
@@ -59,16 +35,13 @@ public class ResetpasswordController extends Controller {
 					throw new Exception("Invalid or expired token.");
 			}else
 				throw new Exception("Invalid or expired token."); 
-		
 		}catch(Exception e) {
 			Core.setMessageError(gt("Token inválido ou expirado."));
 			Core.setMessageInfo(gt("Favor solicitar um novo reset."));
 			return redirect("igrp","Resetbyemail","index", this.queryString());
 		}
-		
 		view.btn_guardar.setLink("guardar&t=" + token); 
-		
-/*----#end-code----*/
+		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
 	}
@@ -82,19 +55,12 @@ public class ResetpasswordController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","Resetpassword","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(guardar)----*/
-		
-    
-      
 		String token = Core.getParam("t");
 		User user = null;
-		
 		try {
-			
 			if(token == null || token.isEmpty()) 
 				throw new Exception("Invalid or expired token.");
-			
 			user = new User().find().andWhere("password_reset_token", "=", token).one();
-			
 			if(user != null) {
 				String aux = new String(Base64.getUrlDecoder().decode(user.getPassword_reset_token()));
 				String arr[] = aux.split("_");
@@ -103,18 +69,15 @@ public class ResetpasswordController extends Controller {
 					throw new Exception("Invalid or expired token.");
 			}else
 				throw new Exception("Invalid or expired token."); 
-			
 		}catch(Exception e) {
 			this.addQueryString("t", token);		
 			Core.setMessageError(gt("Token inválido ou expirado."));
 			Core.setMessageInfo(gt("Favor solicitar um novo reset."));
 			return forward("igrp","Resetbyemail","index", this.queryString());
 		}
-		
 		String username = user.getUser_name();
 		String pwd = model.getNova_senha();
 		String pwdConfirm = model.getConfirmar_nova_senha();
-		
 		if(!pwd.equals(pwdConfirm)) 
 			Core.setMessageError("Password inconsistentes. Tente novamente !"); 
 		else {
@@ -146,71 +109,33 @@ public class ResetpasswordController extends Controller {
 				flag = true;
 			}else
 				Core.setMessageError();
-		}else {
+		}else 
 			Core.setMessageError();
-		}
 		return flag;
 	}
 	
 	private boolean ldap(String username, String password) {
-		boolean flag = false;
-		try {
-			Properties settings = this.configApp.getMainSettings(); 
-			URL url =  new URL(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value()));
-	        WSO2UserStub.disableSSL();
-	        WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-	        stub.applyHttpBasicAuthentication(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()), settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value()), 2);
-	        
-	        flag = stub.getOperations().isExistingUser(username);
-	        
-	        if(!flag) { 
-	        	Core.setMessageError(gt("Ooops! Email e senha inconsistentes.")); 
-	        	return flag;
-	        }
-	        
-	        flag = false;
-	        
-	        List<ClaimDTO> result = stub.getOperations().getUserClaimValues(username, "");
-	        if(result != null && result.size() > 0) {
-	        	try {
-	        		
-			        UpdateCredentialByAdmin credential = new UpdateCredentialByAdmin();
-			        credential.setUserName(new JAXBElement<String>(new QName(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value()), "userName"), String.class, username));
-			        credential.setNewCredential(new JAXBElement<String>(new QName(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value()), "newCredential"), String.class, password));
-			        
-			        stub.getOperations().updateCredentialByAdmin(credential);
-			        
-			        javax.xml.ws.BindingProvider bp =  (javax.xml.ws.BindingProvider)stub.getOperations();
-			        
-			        Map<String, Object> m = bp.getResponseContext();
-			      
-			        
-			        int responseCode = -1;
-			        
-			        try {
-			        	responseCode = (Integer)m.get(MessageContext.HTTP_RESPONSE_CODE); // bug due version of jax-ws client TomEE 
-			        }catch (NullPointerException e) {
-			        	responseCode = 200;
-					}
-			        if(responseCode == 202 || responseCode == 200) { 
-			        	Core.setMessageSuccess(gt("Password alterado com sucesso. Faça o login para continuar."));
-			        	flag = true;
-			        }
-	        	}catch(Exception e) {
-	        		e.printStackTrace();
-	        		Core.setMessageError("Ocorreu um erro. " + e.getMessage());
-	        	}
-	        }else {
-	        	Core.setMessageError(gt("Ocorreu um erro. Utilizador inválido."));
-	        }
-		}catch(Exception e) {
-			Core.setMessageError("Ocorreu um erro. " + e.getMessage());
-			e.printStackTrace();
+		Properties settings = this.configApp.getMainSettings();
+		String wsdlUrl = settings.getProperty(
+				ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value());
+		String uid = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value());
+		String pwd = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
+		RemoteUserStoreManagerServiceSoapClient client = new RemoteUserStoreManagerServiceSoapClient(wsdlUrl, uid, pwd);
+		if (!client.isExistingUser(username)) {
+			Core.setMessageError(gt("Ocorreu um erro. Utilizador inválido."));
+			return false;
 		}
-		
-		return flag;
+		UpdateCredentialByAdminRequestDTO updateCredentialByAdminRequestDTO = new UpdateCredentialByAdminRequestDTO();
+		updateCredentialByAdminRequestDTO.setUserName(username);
+		updateCredentialByAdminRequestDTO.setNewCredential(password);
+		if (!client.updateCredentialByAdmin(updateCredentialByAdminRequestDTO))
+			Core.setMessageError();
+		else {
+			Core.setMessageSuccess(gt("Password alterado com sucesso. Faça o login para continuar."));
+			return true;
+		}
+		return false;
 	}
-	
 	
 /*----#end-code----*/
 }

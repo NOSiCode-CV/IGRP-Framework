@@ -70,6 +70,8 @@ import nosi.core.gui.components.IGRPLink;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
+import nosi.core.integration.pdex.email.PdexEmailGateway;
+import nosi.core.integration.pdex.email.PdexEmailGatewayPayloadDTO;
 import nosi.core.mail.EmailMessage;
 import nosi.core.mail.EmailMessage.Attachment;
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
@@ -129,7 +131,7 @@ import nosi.webapps.igrp.dao.User;
  * The core of the IGRP, here you can find all the main functions and helper
  * function useful like toInt, parceInt, isNotNull...
  * 
- * @author: Emanuel Pereira 13 Nov 2017
+ * @author: Emanuel Pereira 13 Nov 2017 
  */
 public final class Core {
 
@@ -368,8 +370,13 @@ public final class Core {
 	 *            application code
 	 */
 	public static String defaultConnection(String dad) {
+		//To make BDD work, this is a forcing bd connection to change for mock use
+		final String connectionTestName = Core.getParam("igrp.test.bdd",false);
+		if (Core.isNotNull(connectionTestName)) {
+			return connectionTestName;
+		}
 		String result = "";
-		Config_env configEnv = new Config_env().find().where("isdefault", "=", new Short((short) 1))
+		Config_env configEnv = new Config_env().find().setKeepConnection(true).where("isdefault", "=", (short) 1)
 				.andWhere("application.dad", "=", dad).one();
 		if (configEnv != null)
 			result = configEnv.getName();
@@ -2324,6 +2331,32 @@ public final class Core {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	/**
+	 * @param endpoint PDEX Email Gateway URL 
+	 * @param httpAuthorizationHeaderValue PDEX Email Gateway "Bearer TOKEN" 
+	 * @param payload The Message 
+	 * @return boolean success true|false
+	 */
+	public static boolean mailGatewayPdex(String endpoint, String httpAuthorizationHeaderValue, PdexEmailGatewayPayloadDTO payload) {
+		return new PdexEmailGateway(endpoint, httpAuthorizationHeaderValue, payload).send();
+	}
+	
+	/**
+	 * @param endpoint PDEX Email Gateway URL 
+	 * @param httpAuthorizationHeaderValue PDEX Email Gateway "Bearer TOKEN" 
+	 * @param payload The Message 
+	 * @param errors A List of errors if occurs 
+	 * @return boolean success true|false
+	 */
+	public static boolean mailGatewayPdex(String endpoint, String httpAuthorizationHeaderValue, PdexEmailGatewayPayloadDTO payload, List<String> errors) {
+		boolean success = false;
+		PdexEmailGateway sender = new PdexEmailGateway(endpoint, httpAuthorizationHeaderValue); 
+		sender.setPayload(payload); 
+		if(!(success = sender.send()) && errors != null) 
+			errors.addAll(sender.getErrors()); 
+		return success;
 	}
 
 	public static Map<Object, Object> mapArray(Object[] array1, Object[] array2) {

@@ -201,6 +201,30 @@
             	
             }
 
+            if(p.field.is('[load_service_data]')){
+               
+                var url = p.field.attr('load_service_data');
+                
+                if(url && url !== undefined){
+                    properties.ajax = {
+                        url: url,
+                        dataType: 'json',
+                        type: 'GET',
+                        data: function (params) {
+                            return {
+                                p_search_data: params.term,
+                            };
+                        },
+                        processResults: function (response) {
+                            return {
+                                results: response
+                            }
+                        },
+                        cache: true
+                    }
+                }
+            }
+
 
             p.field.select2(properties);
 

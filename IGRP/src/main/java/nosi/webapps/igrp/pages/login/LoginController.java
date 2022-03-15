@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
@@ -24,11 +23,14 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Form;
 import org.json.JSONObject;
-import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
-import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
-
 import nosi.core.config.Config;
 import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.integration.autentika.RemoteUserStoreManagerServiceSoapClient;
+import nosi.core.integration.autentika.dto.AuthenticateRequestDTO;
+import nosi.core.integration.autentika.dto.ClaimDTO;
+import nosi.core.integration.autentika.dto.RemoteUserStoreManagerServiceConstants;
+import nosi.core.integration.autentika.dto.UserClaimValuesRequestDTO;
+import nosi.core.integration.autentika.dto.UserClaimValuesResponseDTO;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
 import nosi.core.webapp.Controller;
@@ -36,14 +38,11 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.helpers.Route;
-import nosi.core.webapp.security.Permission;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Session;
 import nosi.webapps.igrp.dao.User;
-import service.client.WSO2UserStub;
 /*----#end-code----*/
 
 public class LoginController extends Controller {
@@ -341,49 +340,47 @@ public class LoginController extends Controller {
 	
 	private boolean authenticateThroughIdentityServerAutentika(String username, String password, List<LdapPerson> personArray) {
 		boolean flag = false;
-			try {
-				URL url = new URL(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value()));
-				WSO2UserStub.disableSSL();
-				WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-				stub.applyHttpBasicAuthentication(settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()),
-						settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value()), 2);
-				
-				flag = stub.getOperations().authenticate(username, password);
-
-				String v = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.value());
-				if (v != null && v.equalsIgnoreCase("true"))
-					username = "gov.cv/" + username;
-
+		String wsdlUrl = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value());
+		String uid = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()); 
+		String pwd = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
+		String v = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_GOVCV_ENABLED.value());
+		username = v != null && v.equalsIgnoreCase("true") ? RemoteUserStoreManagerServiceConstants.GOVCV_TENANT + "/" + username : username;
+		RemoteUserStoreManagerServiceSoapClient client = new RemoteUserStoreManagerServiceSoapClient(wsdlUrl, uid, pwd);
+		AuthenticateRequestDTO authenticateRequestDTO = new AuthenticateRequestDTO(); 
+		authenticateRequestDTO.setUserName(username);
+		authenticateRequestDTO.setCredential(password);
+		if(client.authenticate(authenticateRequestDTO)) {
+			UserClaimValuesRequestDTO userClaimValuesRequestDTO = new UserClaimValuesRequestDTO();
+			userClaimValuesRequestDTO.setUserName(username);
+			UserClaimValuesResponseDTO userClaimValuesResponseDTO = client.getUserClaimValues(userClaimValuesRequestDTO);
+			if(userClaimValuesResponseDTO != null) {
 				// Pesquisar user from Ids
-				List<ClaimDTO> result = stub.getOperations().getUserClaimValues(username, "");
-				LdapPerson ldapPerson = new LdapPerson();
-				result.forEach(obj -> {
-					switch (obj.getClaimUri().getValue()) {
-					case "http://wso2.org/claims/displayName":
-						ldapPerson.setDisplayName(obj.getValue().getValue());
-						break;
-					case "http://wso2.org/claims/givenname":
-						ldapPerson.setGivenName(obj.getValue().getValue());
-						break;
-					case "http://wso2.org/claims/emailaddress":
-						ldapPerson.setUid(obj.getValue().getValue());
-						ldapPerson.setMail(obj.getValue().getValue());
-						break;
-					case "http://wso2.org/claims/fullname":
-						ldapPerson.setFullName(obj.getValue().getValue());
-						break;
-					case "http://wso2.org/claims/lastname":
-						ldapPerson.setLastName(obj.getValue().getValue());
-						break;
-
+				List<ClaimDTO> claimDTOs = userClaimValuesResponseDTO.getClaimDTOs();
+				claimDTOs.forEach(obj -> {
+					LdapPerson ldapPerson = new LdapPerson();
+					switch (obj.getClaimUri()) {
+						case RemoteUserStoreManagerServiceConstants.DISPLAYNAME_CLAIM_URI:
+							ldapPerson.setDisplayName(obj.getValue());
+							break;
+						case RemoteUserStoreManagerServiceConstants.GIVENNAME_CLAIM_URI:
+							ldapPerson.setGivenName(obj.getValue());
+							break;
+						case RemoteUserStoreManagerServiceConstants.EMAIL_CLAIM_URI:
+							ldapPerson.setUid(obj.getValue());
+							ldapPerson.setMail(obj.getValue());
+							break;
+						case RemoteUserStoreManagerServiceConstants.FULLNAME_CLAIM_URI:
+							ldapPerson.setFullName(obj.getValue());
+							break;
+						case RemoteUserStoreManagerServiceConstants.LASTNAME_CLAIM_URI:
+							ldapPerson.setLastName(obj.getValue());
+							break;
 					}
+					personArray.add(ldapPerson);
 				});
-				personArray.add(ldapPerson);
-
-			} catch (Exception ex) {
-				ex.printStackTrace();
+				flag = !claimDTOs.isEmpty();
 			}
-			
+		}
 		return flag;
 	}
 	
@@ -396,7 +393,6 @@ public class LoginController extends Controller {
 		String postData = "grant_type=password" + "&username=" + username + "&password=" + password + "&client_id="
 				+ client_id + "&client_secret=" + client_secret + "&scope=openid";
 		try {
-
 			HttpURLConnection curl = (HttpURLConnection) URI.create(endpoint).toURL().openConnection();
 			curl.setDoOutput(true);
 			curl.setDoInput(true);
@@ -407,29 +403,17 @@ public class LoginController extends Controller {
 			curl.setRequestProperty("Content-Length", (postData.length()) + "");
 			curl.setUseCaches(false);                           
 			curl.getOutputStream().write(postData.getBytes());
-
 			curl.connect(); 
-
 			int code = curl.getResponseCode();
-
-			if (code != 200) {
-				return false;
-			}
-
+			if (code != 200) return false;
 			BufferedReader br = new BufferedReader(new InputStreamReader(curl.getInputStream(), "UTF-8"));
-
 			String result = "";
 			String token = "";
-
 			result = br.lines().collect(Collectors.joining());
-
 			JSONObject jToken = new JSONObject(result);
-
 			token = (String) jToken.get("access_token");
-
 			dao.setValid_until(token);
 			dao = dao.update();
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -489,7 +473,7 @@ public class LoginController extends Controller {
 			
 			String redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
 			String warName = Core.getDeployedWarName();
-			redirect_uri = redirect_uri.replace("IGRP/", warName);
+			redirect_uri = redirect_uri.replace("IGRP", warName);
 			
 			Form postData = new Form(); 
 			postData.param("grant_type", "authorization_code"); 
@@ -711,7 +695,7 @@ public class LoginController extends Controller {
 		if(r != null && r.equalsIgnoreCase(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value()) && url != null && !url.isEmpty()) {
 			String redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value()); 
 			String warName = Core.getDeployedWarName(); 
-			redirect_uri = redirect_uri.replace("IGRP/", warName); 
+			redirect_uri = redirect_uri.replace("IGRP", warName); 
 			String client_id = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value()); 
 			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=igrp&redirect_uri=" + redirect_uri; 
 			

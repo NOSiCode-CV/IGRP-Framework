@@ -1,28 +1,38 @@
+WELCOME TO IGRP**Web** 
+
+It is your first Time? 
+If this is your first time contributing, we have guides to help you to contribute, report bugs or submit patches.
+
+> **This guide serves to set clear expectations for everyone involved with the project so that we can improve it together while also creating a welcoming space for everyone to participate. Following these guidelines will help ensure a positive experience for contributors and maintainers.**
+
 # Contributing Guidelines
 
-*Pull requests, bug reports, and all other forms of contribution are welcomed and highly encouraged!* :octocat:
+*Pull requests, bug reports, and all other forms of contribution are welcomed and highly encouraged!* 
 
 ### Contents
 
 - [Code of Conduct](#book-code-of-conduct)
 - [Asking Questions](#bulb-asking-questions)
 - [Opening an Issue](#inbox_tray-opening-an-issue)
+- [Reporting Security Issues](#lock-Reporting-Security-Issues)
+- [Bug Reports and Other Issues](#beetle-Bug-Reports-and-Other-Issues)
 - [Feature Requests](#love_letter-feature-requests)
-- [Triaging Issues](#mag-triaging-issues)
 - [Submitting Pull Requests](#repeat-submitting-pull-requests)
 - [Writing Commit Messages](#memo-writing-commit-messages)
 - [Code Review](#white_check_mark-code-review)
-- [Coding Style](#nail_care-coding-style)
-- [Certificate of Origin](#medal_sports-certificate-of-origin)
 - [Credits](#pray-credits)
 
-> **This guide serves to set clear expectations for everyone involved with the project so that we can improve it together while also creating a welcoming space for everyone to participate. Following these guidelines will help ensure a positive experience for contributors and maintainers.**
+
 
 ## :book: Code of Conduct
 
-Please review our [Code of Conduct](../CODE_OF_CONDUCT.md). It is in effect at all times. We expect it to be honored by everyone who contributes to this project. Acting like an asshole will not be tolerated.
+Please review our [Code of Conduct](../CODE_OF_CONDUCT.md). It is in effect at all times. We expect it to be honored by everyone who contributes to this project.
 
 ## :bulb: Asking Questions
+
+Having trouble? We’d like to help! 
+
+Try the FAQ – Got answers to many common questions. 
 
 See our [Support Guide](../SUPPORT.md). In short, GitHub issues are not the appropriate place to debug your specific project, but should be reserved for filing bugs and feature requests.
 
@@ -36,7 +46,7 @@ Review our [Security Policy](../SECURITY.md). **Do not** file a public issue for
 
 ### :beetle: Bug Reports and Other Issues
 
-A great way to contribute to the project is to send a detailed issue when you encounter a problem. We always appreciate a well-written, thorough bug report. :v:
+A great way to contribute to the project is to send a detailed issue when you encounter a problem. We always appreciate a well-written, thorough bug report.
 
 In short, since you are most likely a developer, **provide a ticket that you would like to receive**.
 
@@ -44,7 +54,7 @@ In short, since you are most likely a developer, **provide a ticket that you wou
 
 - **Do not open a duplicate issue!** Search through existing issues to see if your issue has previously been reported. If your issue exists, comment with any additional information you have. You may simply note "I have this problem too", which helps prioritize the most common problems and requests. 
 
-- **Prefer using [reactions](https://github.blog/2016-03-10-add-reactions-to-pull-requests-issues-and-comments/)**, not comments, if you simply want to "+1" an existing issue.
+- **Prefer using reactions**, not comments, if you simply want to "+1" an existing issue.
 
 - **Fully complete the provided issue template.** The bug report template requests all the information we need to quickly and efficiently address your issue. Be clear, concise, and descriptive. Provide as much information as you can, including steps to reproduce, stack traces, compiler errors, library versions, OS versions, and screenshots (if applicable).
 
@@ -52,7 +62,7 @@ In short, since you are most likely a developer, **provide a ticket that you wou
 
 ## :love_letter: Feature Requests
 
-Feature requests are welcome! While we will consider all requests, we cannot guarantee your request will be accepted. We want to avoid [feature creep](https://en.wikipedia.org/wiki/Feature_creep). Your idea may be great, but also out-of-scope for the project. If accepted, we cannot make any commitments regarding the timeline for implementation and release. However, you are welcome to submit a pull request to help!
+Feature requests are welcome! While we will consider all requests, we cannot guarantee your request will be accepted. We want to avoid excessive ongoing features in our project. Your idea may be great, but also out-of-scope for the project. If accepted, we cannot make any commitments regarding the timeline for implementation and release. However, you are welcome to submit a pull request to help!
 
 - **Do not open a duplicate feature request.** Search for existing feature requests first. If you find your feature (or one very similar) previously requested, comment on that issue.
 
@@ -60,15 +70,12 @@ Feature requests are welcome! While we will consider all requests, we cannot gua
 
 - Be precise about the proposed outcome of the feature and how it relates to existing features. Include implementation details if possible.
 
-## :mag: Triaging Issues
-
-You can triage issues which may include reproducing bug reports or asking for additional information, such as version numbers or reproduction instructions. Any help you can provide to quickly resolve an issue is very much appreciated!
 
 ## :repeat: Submitting Pull Requests
 
-We **love** pull requests! Before [forking the repo](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) and [creating a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/proposing-changes-to-your-work-with-pull-requests) for non-trivial changes, it is usually best to first open an issue to discuss the changes, or discuss your intended approach for solving the problem in the comments for an existing issue.
+We **love** pull requests! Before forking the repo and [creating a pull request](../pull_request_template.md) for non-trivial changes, it is usually best to first open an issue to discuss the changes, or discuss your intended approach for solving the problem in the comments for an existing issue.
 
-For most contributions, after your first pull request is accepted and merged, you will be [invited to the project](https://help.github.com/en/github/setting-up-and-managing-your-github-user-account/inviting-collaborators-to-a-personal-repository) and given **push access**. :tada:
+For most contributions, after your first pull request is accepted and merged, you will be **invited to the project** and given **push access**. :tada:
 
 *Note: All contributions will be licensed under the project's license.*
 
@@ -88,9 +95,7 @@ For most contributions, after your first pull request is accepted and merged, yo
 
 - **Update the CHANGELOG** for all enhancements and bug fixes. Include the corresponding issue number if one exists, and your GitHub username. (example: "- Fixed crash in profile view. #123 @jessesquires")
 
-- **Use the repo's default branch.** Branch from and [submit your pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork) to the repo's default branch. Usually this is `main`, but it could be `dev`, `develop`, or `master`.
-
-- **[Resolve any merge conflicts](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/resolving-a-merge-conflict-on-github)** that occur.
+- **Use the repo's default branch.** Branch from and [submit your pull request](../pull_request_template.md) to the repo's default branch. Usually this is `main`, but it could be `dev`, `develop`, or `master`.
 
 - **Promptly address any CI failures**. If your pull request fails to build or pass tests, please push another commit to fix it. 
 
@@ -100,7 +105,7 @@ For most contributions, after your first pull request is accepted and merged, yo
 
 ## :memo: Writing Commit Messages
 
-Please [write a great commit message](https://chris.beams.io/posts/git-commit/).
+Please write a great commit message with the following characteristics:
 
 1. Separate subject from body with a blank line
 1. Limit the subject line to 50 characters
@@ -112,7 +117,9 @@ Please [write a great commit message](https://chris.beams.io/posts/git-commit/).
 1. If applicable, prefix the title with the relevant component name. (examples: "[Docs] Fix typo", "[Profile] Fix missing avatar")
 
 ```
-[TAG] Short summary of changes in 50 chars or less
+Example of a commit message following the characteristics above:
+
+*Short summary of changes in 50 chars or less
 
 Add a more detailed explanation here, if necessary. Possibly give 
 some background about the issue being fixed, etc. The body of the 
@@ -141,7 +148,8 @@ change? Here's the place to explain them.
 Note the fixed or relevant GitHub issues at the end:
 
 Resolves: #123
-See also: #456, #789
+See also: #456, #789*
+
 ```
 
 ## :white_check_mark: Code Review
@@ -152,44 +160,11 @@ See also: #456, #789
 
 - **Always do your best.** No one writes bugs on purpose. Do your best, and learn from your mistakes.
 
-- Kindly note any violations to the guidelines specified in this document. 
+- **Kindly note** any violations to the guidelines specified in this document. 
 
-## :nail_care: Coding Style
 
-Consistency is the most important. Following the existing style, formatting, and naming conventions of the file you are modifying and of the overall project. Failure to do so will result in a prolonged review process that has to focus on updating the superficial aspects of your code, rather than improving its functionality and performance.
 
-For example, if all private properties are prefixed with an underscore `_`, then new ones you add should be prefixed in the same way. Or, if methods are named using camelcase, like `thisIsMyNewMethod`, then do not diverge from that by writing `this_is_my_new_method`. You get the idea. If in doubt, please ask or search the codebase for something similar.
+## Credits
 
-When possible, style and format will be enforced with a linter.
+Written by Francisco Lopes Horta.
 
-## :medal_sports: Certificate of Origin
-
-*Developer's Certificate of Origin 1.1*
-
-By making a contribution to this project, I certify that:
-
-> 1. The contribution was created in whole or in part by me and I have the right to submit it under the open source license indicated in the file; or
-> 1. The contribution is based upon previous work that, to the best of my knowledge, is covered under an appropriate open source license and I have the right under that license to submit that work with modifications, whether created in whole or in part by me, under the same open source license (unless I am permitted to submit under a different license), as indicated in the file; or
-> 1. The contribution was provided directly to me by some other person who certified (1), (2) or (3) and I have not modified it.
-> 1. I understand and agree that this project and the contribution are public and that a record of the contribution (including all personal information I submit with it, including my sign-off) is maintained indefinitely and may be redistributed consistent with this project or the open source license(s) involved.
-
-## [No Brown M&M's](https://en.wikipedia.org/wiki/Van_Halen#Contract_riders)
-
-If you are reading this, bravo dear user and (hopefully) contributor for making it this far! You are awesome. :100: 
-
-To confirm that you have read this guide and are following it as best as possible, **include this emoji at the top** of your issue or pull request: :black_heart: `:black_heart:`
-
-## :pray: Credits
-
-Written by [@jessesquires](https://github.com/jessesquires). 
-
-**Please feel free to adopt this guide in your own projects. Fork it wholesale or remix it for your needs.**
-
-*Many of the ideas and prose for the statements in this document were based on or inspired by work from the following communities:*
-
-- [Alamofire](https://github.com/Alamofire/Alamofire/blob/master/CONTRIBUTING.md)
-- [CocoaPods](https://github.com/CocoaPods/CocoaPods/blob/master/CONTRIBUTING.md)
-- [Docker](https://github.com/moby/moby/blob/master/CONTRIBUTING.md)
-- [Linux](https://elinux.org/Developer_Certificate_Of_Origin)
-
-*We commend them for their efforts to facilitate collaboration in their projects.*

@@ -14,7 +14,7 @@ Allows you to build unlimited number of e-government applications by yourself en
 
 ## Architecture 
 
-![IGRPWeb Arquitetura](root-images/Arquitetura%20IGRPWeb.png)
+![IGRPWeb Architecture](root-images/Arquitetura%20IGRPWeb.png)
 
 IGRP**Web** is provide as platform-as-a-service (PaaS), the entire management of infrastructure and other technical details are transparent to the user, allowing the client to focus only on the business flow. With an architecture independent of Databases allows the use of any database by the customer on the market. 
 
@@ -45,7 +45,7 @@ To build IGRPWeb from the source distribution, it is necessary that you have JDK
 ## Community and Contributing
 
 Pull requests, bug fixes and new applications development are always encouraged.  
-Please read [CONTRIBUTING.md ](https://github.com/NOSiCode-CV/IGRP-Java-Template-Eclipse/blob/master/CONTRIBUTING.md)for details on how to contribute in the community, and the process for submitting pull requests, bug fixing, patches to us. 
+Please read [CONTRIBUTING.md ](../CONTRIBUTING.md)for details on how to contribute in the community, and the process for submitting pull requests, bug fixing, patches to us. 
 
 
 ## Developer Guide

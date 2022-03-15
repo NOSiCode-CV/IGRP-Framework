@@ -4,7 +4,7 @@ var BTNFIELD = function(type,params){
 	var GEN = VARS.getGen();
 	var field = this;
 	var proprieties = params && params.properties;
-
+	var submitTargets = $.IGRP.defaults.buttons.submitTargets();
 
 	field.ready = function(){
 
@@ -47,6 +47,33 @@ var BTNFIELD = function(type,params){
 				check(); 	
 				
 			}
+		});
+
+		field.setPropriety({
+			name    :'notvalidatefields',
+			label   :'Not Validate Form Fields',
+			value   : false,
+			onEditionStart : function(o){
+
+				var toggle = function(v) {
+
+					var _target = v || ( field.GET.target ?  field.GET.target() : '_blank'),
+					
+						action  = submitTargets.includes(_target) ? 'show' : 'hide'; 
+					
+					o.input[action]();
+				};
+
+				$('#gen-edition-modal select[name="edit-target"]').on('change', function(){
+					
+					toggle( $(this).val() );
+					
+				});
+
+				toggle();
+
+			}
+
 		});
 		
 /*

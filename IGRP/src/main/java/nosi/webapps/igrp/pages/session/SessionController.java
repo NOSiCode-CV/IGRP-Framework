@@ -195,8 +195,8 @@ public class SessionController extends Controller {
 
 	private Properties loadDbConfig(String filePath, String fileName) {
 		
-		String path = new Config().getBasePathConfig() + File.separator + filePath;
-		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
+		String path = new Config().getBasePathConfig() + "/" + filePath;
+		File file = new File(getClass().getClassLoader().getResource(path + "/" + fileName).getPath());
 		
 		Properties props = new Properties();
 		try (FileInputStream fis = new FileInputStream(file)) {

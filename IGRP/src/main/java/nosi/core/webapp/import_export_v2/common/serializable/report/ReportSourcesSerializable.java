@@ -30,6 +30,32 @@ public class ReportSourcesSerializable implements Serializable{
 	private String processid;
 	private String formkey;
 	
+	
+	public ReportSourcesSerializable() {super();}
+	
+	public ReportSourcesSerializable(String name, String type, Integer type_fk, String type_name, String type_query,
+			int status, Date dt_created, Date dt_updated, String username_created, String username_updated,
+			String connection_name_identify, String dad, String source_identify, String taskid, String processid,
+			String formkey) {
+		this();
+		this.name = name;
+		this.type = type;
+		this.type_fk = type_fk;
+		this.type_name = type_name;
+		this.type_query = type_query;
+		this.status = status;
+		this.dt_created = dt_created;
+		this.dt_updated = dt_updated;
+		this.username_created = username_created;
+		this.username_updated = username_updated;
+		this.connection_name_identify = connection_name_identify;
+		this.dad = dad;
+		this.source_identify = source_identify;
+		this.taskid = taskid;
+		this.processid = processid;
+		this.formkey = formkey;
+	}
+	
 	public String getName() {
 		return name;
 	}

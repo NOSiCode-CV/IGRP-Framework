@@ -7,8 +7,10 @@
 	<!-- igrpweb environment parameter (dev|test|sta|prod) -->
 	<entry key="igrp.env">dev</entry>
 	
+	<entry key="igrp.datasource.connection-name">hibernate-igrp-core</entry>
+	
 	<!-- igrpweb workspace parameter (absolute path) -->
-	<entry key="igrp.workspace">C:\Users\isaias.nunes\git\IGRP-Framework\IGRP</entry> 
+	<entry key="igrp.workspace">C:\git\IGRP-Framework\IGRP</entry> 
 	
 	<!-- igrpweb authentication type parameter (db|ldap|oauth2-openid) -->
 	<entry key="igrp.authentication_type">db</entry> 
