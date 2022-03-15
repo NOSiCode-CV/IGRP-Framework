@@ -13,6 +13,9 @@ Allows you to build unlimited number of e-government applications by yourself en
 
 
 ## Architecture 
+
+![IGRPWeb Arquitetura](root-images/Arquitetura%20IGRPWeb.png)
+
 IGRP**Web** is provide as platform-as-a-service (PaaS), the entire management of infrastructure and other technical details are transparent to the user, allowing the client to focus only on the business flow. With an architecture independent of Databases allows the use of any database by the customer on the market. 
 
 ## Getting Started with Demo:
@@ -68,4 +71,4 @@ List of contributors who participated in this project.
 ## License
 -------
 
-The project is licensed under the Apache 2.0 license - see the [LICENSE.txt](https://github.com/NOSiCode-CV/IGRP-Java-Template-Eclipse/blob/master/LICENSE.txt) file for more details
+The project is licensed under the Apache 2.0 license - see the [LICENSE](../LICENSE) file for more details
