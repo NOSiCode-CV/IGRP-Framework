@@ -1,14 +1,37 @@
 (function () {
 
-	var com;
+	var com,
+		startAt = 0,
+		isNav   = $('body[app]')[0];
 
 	$.IGRP.component('stepcontent', {
+		stepStartAt : function(obj){
+			var rel 		  = obj.attr("item-name"),
+				name 		  = "p_fwl_"+rel,
+				inputControll = $("#"+name);
+
+			if(obj.is("[control-start]") && obj.attr("control-start") == "true" && isNav){
+
+				if(inputControll[0]){
+					startAt = inputControll.val();
+
+					startAt = isNaN(startAt) ? 0 : startAt - 1;
+				}
+				else{
+					$.IGRP.utils.createHidden({
+						name 	: name,
+						id 		: name,
+						class 	: "menuCtrl submittable",
+						value   : 1
+					});
+				}
+			}
+		},
 		start: function (obj) {
 
 			obj.steps({
+				startAt : startAt,
 				onInit: function () {
-
-					const isNav = $('body[app]')[0];
 
 					if($(':input', obj)[0] && isNav){
 
@@ -28,7 +51,6 @@
 						$('ul.step-steps > li > a',obj).each(function(i,a){
 							
 							$(a).parents('li:first').html($(a).html());
-
 							//$(a).removeAttr(Object.values(a.attributes).map(attr => attr.name).join(' '));
 							
 						});
@@ -78,6 +100,11 @@
 						$('.step-footer .finish',obj).addClass('step-finish-btns');
 					}
 
+					if(obj.is("[control-start]") && obj.attr("control-start") == "true" && valid && isNav){
+						
+						$("#p_fwl_"+obj.attr("item-name")).val((newIndex + 1));
+					}
+
 					return valid;
 				},
 				onFinish: function () {
@@ -95,6 +122,7 @@
 
 			$('.step-holder').each(function () {
 				com.start($(this));
+				com.stepStartAt($(this));
 			});
 
 		}
