@@ -27,7 +27,6 @@
 		<mysql.version>8.0.16</mysql.version>
 		<postgres.version>42.2.19</postgres.version>
 		<h2.version>1.4.200</h2.version>
-		<oracle.version></oracle.version>
 		<sqlserver.version>9.2.1.jre8</sqlserver.version>
 		<jersey.version>2.29</jersey.version>
 		<model.mapper.version>2.3.2</model.mapper.version>
@@ -90,15 +89,22 @@
 		<cxf.rt.frontend.jaxrs.version>3.3.6</cxf.rt.frontend.jaxrs.version>
 		<tomee.jaxrs.version>8.0.4</tomee.jaxrs.version>
 		
+		<!-- JavaDev Underscore Version: Transform JSON To XML Preserving the order of the elements -->
+		<javadev.underscore.version>1.68</javadev.underscore.version>
+		
+		<!-- Activiti BPMN -->
+		<activiti.bpmn.model.version>6.0.0</activiti.bpmn.model.version>
+		<activiti.bpmn.converter.version>6.0.0</activiti.bpmn.converter.version>
+		
+		<!-- TomEE Embedded Maven Plugin -->
+		<tomee.maven.plugin.version>8.0.10</tomee.maven.plugin.version>
+		
 		<!-- Flyway Migration API -->
 		<flyway.version>7.11.2</flyway.version>
 		<igrp.db.user>postgres</igrp.db.user>
 		<igrp.db.password>softwaredeveloper</igrp.db.password>
 		<igrp.db.dsn>jdbc:postgresql://localhost:5432/db_igrp</igrp.db.dsn>
 		<igrp.migration.location>classpath:nosi/core/db/migration/igrp</igrp.migration.location>
-		
-		<!-- JavaDev Underscore Version: Transform JSON To XML Preserving the order of the elements -->
-		<javadev.underscore.version>1.68</javadev.underscore.version>
 		
 	</properties>
 
@@ -460,6 +466,25 @@
 		</dependency>
 		
 		
+		<!-- Activiti BPMN -->
+		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-converter -->
+		<dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-bpmn-converter</artifactId>
+		    <version>${activiti.bpmn.converter.version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-model -->
+		<dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-bpmn-model</artifactId>
+		    <version>${activiti.bpmn.model.version}</version>
+		</dependency>
+		
+		
+		
+
+		
 		<!-- System Dependencies -->
 		<!-- <dependency>
 			<artifactId>IGRP</artifactId>
@@ -468,11 +493,13 @@
 			<scope>system</scope>
     		<systemPath>${pom.basedir}/src/main/webapp/WEB-INF/lib/IGRP.jar</systemPath>
 		</dependency> -->
+		
+		
 			
 	</dependencies>
 
 	<build>
-		<finalName>${project.artifactId}-${project.version}</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<directory>${project.basedir}/target</directory>
 		<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
 		<testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
@@ -540,6 +567,34 @@
 					</dependencies>
 				</plugin>
                 <!-- FIM Database migrations plugin -->
+                
+                <!-- Embedded TomEE plugin -->
+				<plugin>
+					<groupId>org.apache.tomee.maven</groupId>
+					<artifactId>tomee-maven-plugin</artifactId>
+					<version>${tomee.maven.plugin.version}</version>
+					<configuration>
+						<encoding>UTF-8</encoding>
+						<tomeeClassifier>plus</tomeeClassifier>
+						<reloadOnUpdate>true</reloadOnUpdate>
+<!-- 						<deployOpenEjbApplication>true</deployOpenEjbApplication> -->
+						<args>-Dfile.encoding=UTF-8</args>
+						<synchronization>
+					      <extensions>
+					        <extension>.class</extension> <!-- if you want to update each time you build with mvn compile -->
+					        <extension>.properties</extension>
+					        <extension>.xml</extension>
+					      </extensions>
+					    </synchronization>
+					    <systemVariables>
+							<tomee.serialization.class.whitelist />
+							<tomee.serialization.class.blacklist>-</tomee.serialization.class.blacklist>
+							<openejb.system.apps>true</openejb.system.apps>
+							<tomee.remote.support>true</tomee.remote.support>
+						</systemVariables>
+					</configuration>
+				</plugin>
+                
                 
 			</plugins>
 			
