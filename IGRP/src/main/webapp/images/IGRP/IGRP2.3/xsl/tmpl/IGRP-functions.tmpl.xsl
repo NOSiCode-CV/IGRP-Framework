@@ -215,7 +215,7 @@
 
     <xsl:if test="$field/@tooltip and $field/@tooltip != '' and $field/@tooltip != 'true' and $field/@tooltip != 'false'">
       <span class="box-label-tooltip">
-        <i class="fa fa-info-circle" data-toggle="tooltip" title="{$field/@tooltip}"></i>
+        <i class="fa fa-question-circle" data-toggle="tooltip" title="{$field/@tooltip}"></i>
       </span>
     </xsl:if>
     
