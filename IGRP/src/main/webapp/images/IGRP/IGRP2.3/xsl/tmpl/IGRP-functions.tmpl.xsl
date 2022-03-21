@@ -210,4 +210,15 @@
     
   </xsl:template>
 
+  <xsl:template name="setTooltip">
+    <xsl:param name="field"/>
+
+    <xsl:if test="$field/@tooltip and $field/@tooltip != '' and $field/@tooltip != 'true' and $field/@tooltip != 'false'">
+      <span class="box-label-tooltip">
+        <i class="fa fa-info-circle" data-toggle="tooltip" title="{$field/@tooltip}"></i>
+      </span>
+    </xsl:if>
+    
+  </xsl:template>
+
 </xsl:stylesheet>

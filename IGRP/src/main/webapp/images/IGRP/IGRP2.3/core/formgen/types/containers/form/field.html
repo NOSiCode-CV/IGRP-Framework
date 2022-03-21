@@ -1,6 +1,7 @@
 <div class="form-group col-sm-#[size]# #[right]# " item-name="#tag#" item-type="#type#" #[required]#>
   <label for="{#path#/@name}">
     #label.val#
+    #[tooltip]#
   </label>
   <input type="#type#" value="{#path#/value}" class="form-control #[change]# #[desclabel]#" id="{#path#/@name}" name="{#path#/@name}" #[readonly]# #[disabled]# #[required]#   #[disable_copy_paste]#  maxlength="#[maxlength]#" placeholder="{#path#/@placeholder}"  >
     <xsl:call-template name="setAttributes">
