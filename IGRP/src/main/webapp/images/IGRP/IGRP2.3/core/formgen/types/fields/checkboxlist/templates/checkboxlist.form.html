@@ -1,6 +1,9 @@
 <div class="col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#">
   <div class="form-group checkboxlist clear" #[required]#>
-     <label><xsl:value-of select="#path#/label"/></label>
+     <label>
+        <xsl:value-of select="#path#/label"/>
+        #[tooltip]#
+    </label>
         <xsl:for-each select="#list.path#/option">
             <div class="checkbox checkboxlist col-md-#[child_size]#">
                 <label style="font-weight: normal !important;" class="container-box"><xsl:value-of select="text"/>

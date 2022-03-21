@@ -118,6 +118,13 @@
 					return false;
 				}
 			},
+			toolTip   : function(){
+				if($.fn.tooltip){
+					$('body').tooltip({
+						selector: '[data-toggle="tooltip"]'
+					});
+				}
+			},
 			getForm:function(){
 				return $('form.IGRP-form');
 			},
@@ -1417,6 +1424,8 @@
         	$.IGRP.utils.adjustableRows();
         	
         	$.IGRP.utils.mathcal();
+			
+			$.IGRP.utils.toolTip();
         	
         	$.IGRP.events.on('submit-complete',function(){
         		

@@ -1,5 +1,8 @@
 <div class="col-sm-#[size]# form-group #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
-    <label for="{#path#/@name}"><xsl:value-of select="#path#/label"/></label>
+    <label for="{#path#/@name}">
+      <xsl:value-of select="#path#/label"/>
+      #[tooltip]#
+    </label>
     <select class="form-control select2 #[change]# #[desclabel]#" #[disabled]# #[load_service_data]# id="#parent.tag#_#tag#" name="{#path#/@name}" #[required]# #[multiple]# #[tags]# placeholder="#[placeholder]#">
       <xsl:call-template name="setAttributes">
         <xsl:with-param name="field" select="#path#"/>
