@@ -2314,28 +2314,28 @@ vertical-align: middle;
 .box-label-tooltip{
   margin-left: 5px;
   border-radius: 5px;
-  color:#31b0d5
 }
 
 
 .tooltip-inner { 
-  background-color: #31b0d5;
+  background-color: #E2E2E2;
   background-image: none;
-  border-color: #269abc;
-  color: #fff;
-  text-align: left;
+  border-color: #E2E2E2;
+  color: #000;
+  text-align: justify;
   width: 220px;
+  padding: 10px;
 }
 
 .box-label-tooltip .tooltip.top .tooltip-arrow { 
   background:transparent !important;
-  z-index: 99;
+  z-index: 100;
   width: 0; 
   height: 0; 
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
-  border-top: 7px solid #31b0d5;
-  border-top-color: #31b0d5;
+  border-top: 7px solid #E2E2E2;
+  border-top-color: #E2E2E2;
   bottom: 0px;
 }
 
