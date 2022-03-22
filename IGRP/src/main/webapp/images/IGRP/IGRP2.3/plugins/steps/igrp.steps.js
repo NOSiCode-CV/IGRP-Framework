@@ -121,8 +121,8 @@
 			com.on = com.events.on;
 
 			$('.step-holder').each(function () {
-				com.start($(this));
 				com.stepStartAt($(this));
+				com.start($(this));
 			});
 
 		}
