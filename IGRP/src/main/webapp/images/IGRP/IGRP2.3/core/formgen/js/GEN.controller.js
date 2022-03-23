@@ -730,6 +730,7 @@ var GENERATOR = function(genparams){
 					
 					if(dropped.params.copy){
 						//copy fields from given page
+
 						GEN.getPageJSON(dropped.params.copy.id,function(containers,data){
 							
 							var rtn = true;
@@ -951,7 +952,7 @@ var GENERATOR = function(genparams){
 		var req  = null;
 		var action = $.grep(GEN.DETAILS.linkPageList,function(p,e){
 			
-			return p.page == id
+			return p.page == id;
 			
 		})[0];
 		
@@ -998,7 +999,7 @@ var GENERATOR = function(genparams){
 		pageSelect.append('<option value=""></option>');
 		
 		GEN.DETAILS.linkPageList.forEach(function(page){
-			var option = '<option value="'+page.id+'">'+page.description+'</option>';
+			var option = '<option value="'+page.page+'">'+page.description+'</option>';
 			pageSelect.append(option);
 		});
 
