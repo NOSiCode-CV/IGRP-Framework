@@ -99,6 +99,9 @@
 		<!-- TomEE Embedded Maven Plugin -->
 		<tomee.maven.plugin.version>8.0.10</tomee.maven.plugin.version>
 		
+		<!-- TomEE Embedded -->
+		<tomee.embedded.version>8.0.7</tomee.embedded.version>
+		
 		<!-- Flyway Migration API -->
 		<flyway.version>7.11.2</flyway.version>
 		<igrp.db.user>postgres</igrp.db.user>
@@ -482,7 +485,13 @@
 		</dependency>
 		
 		
-		
+		<!-- https://mvnrepository.com/artifact/org.apache.tomee/tomee-embedded -->
+		<dependency>
+		    <groupId>org.apache.tomee</groupId>
+		    <artifactId>tomee-embedded</artifactId>
+		    <version>${tomee.embedded.version}</version>
+		    <scope>provided</scope>
+		</dependency>
 
 		
 		<!-- System Dependencies -->
@@ -568,6 +577,7 @@
 				</plugin>
                 <!-- FIM Database migrations plugin -->
                 
+                
                 <!-- Embedded TomEE plugin -->
 				<plugin>
 					<groupId>org.apache.tomee.maven</groupId>
@@ -594,7 +604,6 @@
 						</systemVariables>
 					</configuration>
 				</plugin>
-                
                 
 			</plugins>
 			

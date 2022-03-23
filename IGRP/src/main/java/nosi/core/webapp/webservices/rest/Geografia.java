@@ -14,9 +14,9 @@ import nosi.core.config.ConfigApp;
  * Oct 14, 2019
  */
 public class Geografia {
-	Properties properties =  ConfigApp.getInstance().getMainSettings(); 
+	
 	private String url;
-	private String authorization = properties.getProperty("authorization.rest.pesquisa_geografia");
+	private String authorization;
 	
 	public static final class Nivel{
 		
@@ -31,13 +31,19 @@ public class Geografia {
 	}
 	
 	public Geografia() { 
-		
-		this.url = properties.getProperty("link.rest.pesquisa_geografia");
+		Properties properties = ConfigApp.getInstance().getMainSettings(); 
+		authorization = properties.getProperty("authorization.rest.pesquisa_geografia");
+		url = properties.getProperty("link.rest.pesquisa_geografia");
 		if(this.url != null) 
 			this.url = this.url.replace("select_geo_by_id", "select_parents_by_id");
-		// this.authorization = properties.getProperty("authorization.rest.pesquisa_geografia");
 	}
 	
+	public Geografia(String url, String authorization) {
+		super();
+		this.url = url;
+		this.authorization = authorization;
+	}
+
 	public Map<String, Object> geoGetParentsById(String id, String level){
 		Map<String, Object> r = new LinkedHashMap<String, Object>(); 
 		r.put("zona_id", null);r.put("zona", null);

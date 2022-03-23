@@ -166,9 +166,16 @@ public class Config {
 	}
 
 	public String getLinkImgBase() {
-		String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
-		warName = "/" + warName + "/";
-		return warName;
+		Properties properties = ConfigApp.getInstance().getMainSettings();
+		StringBuilder path = new StringBuilder();
+		if(Boolean.parseBoolean(properties.getProperty(ConfigCommonMainConstants.IGRP_MODE_STANDALONE_ENABLED.value(), "false")))
+			path.append(properties.getProperty(ConfigCommonMainConstants.IGRP_EMBEDDED_SERVER_SERVLET_CONTEXT_PATH.value(), "/IGRP"));
+		else {
+			path.append("/");
+			path.append(new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName());
+		}
+		path.append("/");
+		return path.toString();
 	}
 	
 	public String getLinkImg(){
