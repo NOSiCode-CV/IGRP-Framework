@@ -1,0 +1,31 @@
+#googlestreetview.on {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	z-index: 1002
+}
+
+#googlestreetview.on .gis-map-view {
+	min-height: 300px !important;
+	height: auto;
+}
+
+#googlestreetview.on #panorama {
+	height: calc(100vh - 300px);
+	width: 100%;
+}
+
+#googlestreetview.on #panorama div{
+	position: absolute;
+}
+
+#googlestreetview.on .gen-container-item {
+	margin-bottom: unset !important;
+}
+
+#googlestreetview.on .box-body {
+	padding: 0 !important;
+}
