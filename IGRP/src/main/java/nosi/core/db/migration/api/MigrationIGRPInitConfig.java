@@ -1,4 +1,4 @@
-package nosi.core.igrp.mingrations;
+package nosi.core.db.migration.api;
 
 /**
  * @author: Emanuel Pereira
@@ -7,7 +7,6 @@ package nosi.core.igrp.mingrations;
 
 import java.util.Map;
 import nosi.base.ActiveRecord.HibernateUtils;
-import nosi.core.db.migration.igrp.IgrpMigrationAPI;
 
 import org.hibernate.cfg.Environment;
 

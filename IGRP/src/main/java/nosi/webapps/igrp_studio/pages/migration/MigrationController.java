@@ -1,8 +1,9 @@
 package nosi.webapps.igrp_studio.pages.migration;
 
+import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.db.migration.api.IgrpMigrationAPI;
 import nosi.core.webapp.Controller;//
 import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.import_export_v2.common.OptionsImportExport;
 import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
@@ -17,7 +18,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.CRC32;
 
-import nosi.core.config.ConfigDBIGRP;
+import org.hibernate.cfg.Environment;
+
+import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
@@ -106,6 +109,8 @@ public class MigrationController extends Controller {
 		/* Start-Code-Block (migrar)  *//* End-Code-Block  */
 		/*----#start-code(migrar)----*/
 		
+		this.prepareMigrationLocation();
+		
 		String[] report_ids = Core.getParamArray("p_report_ids_check_fk");
 		String[] domain_ids = Core.getParamArray("p_domain_ids_check_fk");
 		String[] page_ids = Core.getParamArray("p_pagina_ids_check_fk");
@@ -150,7 +155,7 @@ public class MigrationController extends Controller {
 			}
 			sql+= ")";
 		}*/
-		model.loadTable_pagina(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", Core.toInt(model.getAplicacao())));
+		model.loadTable_pagina(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), sql).addInt("application_id", Core.toInt(model.getAplicacao())));
 	
 	}
 	
@@ -158,26 +163,26 @@ public class MigrationController extends Controller {
 		String sql = "SELECT id as transation_ids,0 as transation_ids_check, concat(descr,' (',code,')') as descricao_transation "
 				   + "FROM tbl_transaction "
 				   + "WHERE status=1 AND env_fk=:application_id";
-		model.loadTbl_transation(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", Core.toInt(model.getAplicacao())));
+		model.loadTbl_transation(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), sql).addInt("application_id", Core.toInt(model.getAplicacao())));
 	}
 	
 	private void loadConections(Migration model) {
 		String sql = "SELECT id as conexao_ids,0 as conexao_ids_check, name as descricao_conexao "
 				   + "FROM tbl_config_env "
 				   + "WHERE env_fk=:application_id";
-		model.loadTable_connections(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", Core.toInt(model.getAplicacao())));
+		model.loadTable_connections(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), sql).addInt("application_id", Core.toInt(model.getAplicacao())));
 	}
 	
 	private void loadReports(Migration model) {
 		String sql = "SELECT id as report_ids,0 as report_ids_check, concat(name,' (',code,')') as descricao_report "
 				   + "FROM tbl_rep_template "
 				   + "WHERE env_fk=:application_id AND status=1 ";
-		model.loadTable_report(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", Core.toInt(model.getAplicacao())));
+		model.loadTable_report(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), sql).addInt("application_id", Core.toInt(model.getAplicacao())));
 	}
 	
 	private void loadDomains(Migration model) {
 		String sql = "SELECT id as domain_ids,0 as domain_ids_check, dominio as descricao_domain FROM tbl_domain WHERE status='ATIVE' AND env_fk=" + model.getAplicacao(); 
-		model.loadTable_domain_info(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql));
+		model.loadTable_domain_info(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), sql));
 		if(model.getTable_domain_info() != null && !model.getTable_domain_info().isEmpty())
 			model.setTable_domain_info(model.getTable_domain_info().stream().collect(Collectors.groupingBy(Migration.Table_domain_info::getDescricao_domain)).values().stream().map(m->m.get(0)).collect(Collectors.toList()));
 	}
@@ -200,7 +205,7 @@ public class MigrationController extends Controller {
 		String sql = "SELECT id as tipo_doc_ids,0 as tipo_doc_ids_check, concat(codigo,' - ',descricao) as descricao_tipo_doc "
 				   + "FROM tbl_tipo_documento "
 				   + "WHERE status=1 AND env_fk=:application_id";
-		model.loadTable_tipo_documento(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, sql).addInt("application_id",Core.toInt( model.getAplicacao())));
+		model.loadTable_tipo_documento(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), sql).addInt("application_id",Core.toInt( model.getAplicacao())));
 	}
 	
 	private String generateContent(Application app, String[] page_ids, String[] conexao_ids, String[] transation_ids, String[] domain_ids, String[] report_ids, String []tipo_doc_ids, String []bpmn_ids) {
@@ -241,7 +246,7 @@ public class MigrationController extends Controller {
 	
 	
 	private void generatePackageName(StringBuilder content) {
-		content.append("package " + FILE_PATH_NAME.replaceAll(Pattern.quote(File.separator), ".")  + ";\n\n"); 
+		content.append("package " + migrationLocation.replaceAll(Pattern.quote(File.separator), ".")  + ";\n\n"); 
 	}
 	
 	private String generateImports(String content) {
@@ -601,7 +606,7 @@ public class MigrationController extends Controller {
 	}
 	
 	private boolean saveContent(String appDad, String content) {
-		Path path = Paths.get(this.configApp.getConfig().getRawBasePathClassWorkspace() + FILE_PATH_NAME, FILE_NAME_PREFIX + appDad + FILE_NAME_SUFIX); 
+		Path path = Paths.get(this.configApp.getConfig().getRawBasePathClassWorkspace() + migrationLocation, FILE_NAME_PREFIX + appDad + FILE_NAME_SUFIX); 
 		Path parent = path.getParent(); 
 		boolean success = true;
 		try {
@@ -616,7 +621,7 @@ public class MigrationController extends Controller {
 	}
 	
 	private boolean saveBpmnOrReportFilesContent(String appDad, String content, String filename) {
-		Path path = Paths.get(this.configApp.getConfig().getPathWorkspaceResources() + File.separator + FILE_PATH_NAME + File.separator + appDad, filename); 
+		Path path = Paths.get(this.configApp.getConfig().getPathWorkspaceResources() + File.separator + migrationLocation + File.separator + appDad, filename); 
 		Path parent = path.getParent(); 
 		boolean success = true;
 		try {
@@ -639,7 +644,18 @@ public class MigrationController extends Controller {
 		return idsWithoutBlank.toArray(new String[idsWithoutBlank.size()]);
 	}
 	
-	private final String FILE_PATH_NAME = "nosi" + File.separator + "core" + File.separator + "db" + File.separator + "migration" + File.separator + "igrp"; 
+	private void prepareMigrationLocation() {
+		Map<String, Object> configs = HibernateUtils.REGISTRY_BUILDER_IGRP.getAggregatedCfgXml().getConfigurationValues();
+		StringBuilder location = new StringBuilder(migrationLocation);
+		String folder = IgrpMigrationAPI.getDbEngineNameFromDsn((String) configs.get(Environment.URL));
+		if(folder != null) {
+			location.append(File.separator);
+			location.append(folder);
+		}
+		migrationLocation = location.toString();
+	}
+	
+	private String migrationLocation = "nosi" + File.separator + "core" + File.separator + "db" + File.separator + "migration" + File.separator + "igrp"; 
 	private final String FILE_NAME_PREFIX = "R__"; 
 	private final String FILE_NAME_SUFIX = ".java"; 
 	

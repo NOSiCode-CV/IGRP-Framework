@@ -17,6 +17,7 @@ import org.dom4j.io.SAXReader;
 import org.json.JSONObject;
 
 import nosi.core.config.Config;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.igrp.mingrations.MigrationIGRP;
 import nosi.core.webapp.Controller;
@@ -82,7 +83,7 @@ public class ConfigDatabaseController extends Controller {
 			lista_tabela.add(tabela);
 		}
 		if (Core.isInt(model.getAplicacao()) ) {
-			view.aplicacao.setQuery(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));		 	
+			view.aplicacao.setQuery(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));		 	
 			view.tipo_base_dados.setValue(DatabaseConfigHelper.getDatabaseTypes());
 			view.table_1.addData(lista_tabela);
 			//if EDIT

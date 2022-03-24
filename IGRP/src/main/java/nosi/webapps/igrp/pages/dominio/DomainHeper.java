@@ -4,8 +4,10 @@ package nosi.webapps.igrp.pages.dominio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
-import nosi.core.config.ConfigDBIGRP;
+import nosi.core.config.ConfigApp;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
@@ -20,7 +22,6 @@ import nosi.webapps.igrp.pages.dominio.Dominio.Formlist_1;
  */
 public class DomainHeper {
 
-	// private static final String SQL_SIM_NAO = "SELECT 'ATIVE' as ID,'Ativo' as NAME UNION SELECT 'INATIVE' as ID,'Inativo' as NAME ";
 	 public static final String SQL_DOMINIO_PRIVATE = "SELECT DISTINCT dominio as id, dominio FROM tbl_domain WHERE env_fk=:env_fk";  //"AND domain_type='"+DomainType.PRIVATE+"'";
 	 public static final String SQL_DOMINIO_PUB = "SELECT DISTINCT dominio as id, dominio FROM tbl_domain WHERE env_fk is null"; // AND domain_type='"+DomainType.PUBLIC+"' OR domain_type is null ";		 		
 	 public static final String SQL_ITEM_DOMINIO = "SELECT id as formlist_1_id,description,valor as key, case WHEN (status='ATIVE' OR status='') then '1' else '-1' END as estado, '1' as estado_check, ordem FROM tbl_domain "
@@ -31,30 +32,14 @@ public class DomainHeper {
 		return new Application().getListApps();
 	}
 
-	public static List <Dominio.Formlist_1> getDomainItemQuery(String dominio,Integer appId) {		
-		/*
-		if(Core.isNullOrZero(appId)) {
-			return Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,SQL_ITEM_DOMINIO_PUB)
-		   .addString("dominio", dominio)			 
-		   .orderByAsc("ordem");	
-		}else {
-			return Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,SQL_ITEM_DOMINIO)
-				   .addString("dominio", dominio)
-				   .addInt("env_fk", appId)
-				   .orderByAsc("ordem");
-		}
-			*/
-		
+	public static List <Dominio.Formlist_1> getDomainItemQuery(String dominio,Integer appId) {
 		try{
 			Domain domainfilter = new Domain().find().where("dominio", "=", dominio);
-			if(Core.isNotNullOrZero(appId)) {
+			if(Core.isNotNullOrZero(appId))
 				domainfilter = domainfilter.andWhere("application", "=", appId);
-			}
-			
 			List<Domain> domainfilterList = domainfilter.orderByAsc("ordem").all();
 			List <Dominio.Formlist_1>  separatorlistDocs = new ArrayList<>(); 
 			if ( Core.isNotNull(domainfilterList) ) {
-					
 					domainfilterList.forEach(domain -> {
 						Dominio.Formlist_1 row = new Dominio.Formlist_1();
 						row.setFormlist_1_id(new Pair( ""+domain.getId(), ""+domain.getId()));
@@ -65,27 +50,20 @@ public class DomainHeper {
 						row.setEstado_check(new Pair("ATIVE","ATIVE"));
 						separatorlistDocs.add(row);
 					});
-					
 				}
 			return separatorlistDocs;
 			}catch ( Exception e ) {
 				e.printStackTrace();
 				return null;
 			}
-		
 	}
 	
 	public static BaseQueryInterface getDomainQuery(Integer appId) {
+		Properties properties = ConfigApp.getInstance().getMainSettings();
 		if(Core.isNullOrZero(appId))
-			return Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,DomainHeper.SQL_DOMINIO_PUB);
-		return Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,DomainHeper.SQL_DOMINIO_PRIVATE).addInt("env_fk", appId);
+			return Core.query(properties.getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), DomainHeper.SQL_DOMINIO_PUB);
+		return Core.query(properties.getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), DomainHeper.SQL_DOMINIO_PRIVATE).addInt("env_fk", appId);
 	}
-	
-	
-	
-//	public static BaseQueryInterface getEstadoQuery() {
-//		return Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,DomainHeper.SQL_SIM_NAO);
-//	}
 
 	public static boolean saveDomain(Dominio model) {
 		if (Core.isNotNull(model.getNovo_dominio())) {
@@ -93,6 +71,7 @@ public class DomainHeper {
 		}
 		return false;
 	}
+	
 	private static DomainType getDomainType(int type) {
 		DomainType domainType = DomainType.PRIVATE;
 		if(type==1) {
@@ -128,7 +107,6 @@ public class DomainHeper {
 		Domain d = new Domain(model.getLst_dominio(),
 				formlist.getKey().getKey(),
 				formlist.getDescription().getKey(),
-//				formlist.getEstado()!=null?formlist.getEstado().getKey().equals(formlist.getEstado_check()!=null?formlist.getEstado_check().getKey():null) ?"ATIVE":"INATIVE":
 				formlist.getEstado().getKey().equals(formlist.getEstado_check().getKey())?"ATIVE":"INATIVE",
 						order,
 						getDomainType(model.getAplicacao()==null?1:0),
@@ -161,12 +139,8 @@ public class DomainHeper {
 		if(formlistDel!=null) {
 			for(String id:formlistDel) {
 				Domain del = new Domain();
-				if(del.findOne(id)!=null)
-					{if (!del.delete(Core.toInt(id))) {
-						Core.setMessageError("Delete error id=" + id);
-					}}
-				
-				
+				if(del.findOne(id)!=null && !del.delete(Core.toInt(id)))
+					Core.setMessageError("Delete error id=" + id);
 			}
 		}
 	}

@@ -31,9 +31,12 @@ import javax.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.ContentDisposition;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.flywaydb.core.api.migration.BaseJavaMigration;
 import org.flywaydb.core.api.migration.Context;
 
+import nosi.core.db.migration.api.IgrpMigrationAPI;
 import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -53,7 +56,9 @@ import nosi.webapps.igrp.dao.Transaction;
  * Iekiny Marcel
  * Jun 20, 2021
  */
-public abstract class IgrpMigrationTemplate extends BaseJavaMigration{ 
+public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
+	
+	private static final Logger LOGGER = LogManager.getLogger(IgrpMigrationTemplate.class); 
 	
 	protected Application app; 
 	protected List<Action> actions = new ArrayList<>();
@@ -71,6 +76,8 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 	private final String ACTIVITI_ENDPOINT_NAME = "url_ativiti_connection";
 	private final String ACTIVITI_USERNAME_PARAM_NAME = "ativiti_user";
 	private final String ACTIVITI_PASSWORD_PARAM_NAME = "ativiti_password";
+	
+	protected String dbEngineName;
 	
 	protected abstract void app();
 	protected abstract void pages();
@@ -95,6 +102,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 	
 	@Override
 	public void migrate(Context context) throws Exception {
+		this.setDbEngineName(context);
 		this.migrateApp(context);
 		this.migrateModules(context);
 		this.migratePages(context);
@@ -105,7 +113,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 		this.migrateBPMN(context);
 	}
 	
-	// bug here externo ??
+	// app externo ??
 	private void migrateApp(Context context) throws SQLException {
 		PreparedStatement psQuery = null;
 		PreparedStatement psInsertOrUpdate = null;
@@ -147,7 +155,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 				if(psInsertOrUpdate != null)
 					psInsertOrUpdate.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage(), e);
 			}
 		}
 	}
@@ -182,7 +190,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 					if(psInsertOrUpdate != null)
 						psInsertOrUpdate.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOGGER.error(e.getMessage(), e);
 				}
 			}
 		}
@@ -238,7 +246,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 					if(psInsertOrUpdate != null)
 						psInsertOrUpdate.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOGGER.error(e.getMessage(), e);
 				}
 			}
 		}
@@ -277,7 +285,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 					if(psInsertOrUpdate != null)
 						psInsertOrUpdate.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOGGER.error(e.getMessage(), e);
 				}
 			}
 		}
@@ -321,7 +329,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 					if(psInsertOrUpdate != null)
 						psInsertOrUpdate.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOGGER.error(e.getMessage(), e);
 				}
 			}
 		}
@@ -370,7 +378,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 					if(psInsertOrUpdate != null)
 						psInsertOrUpdate.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOGGER.error(e.getMessage(), e);
 				}
 			}
 		}
@@ -428,7 +436,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 					if(psInsertOrUpdate != null)
 						psInsertOrUpdate.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOGGER.error(e.getMessage(), e);
 				}
 			}
 		}
@@ -490,7 +498,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 					if(psInsertOrUpdate != null)
 						psInsertOrUpdate.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOGGER.error(e.getMessage(), e);
 				}
 			}
 		}
@@ -526,7 +534,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 					if(psInsert != null)
 						psInsert.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOGGER.error(e.getMessage(), e);
 				}
 			}
 		}
@@ -562,7 +570,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 					if(psInsertOrUpdate != null)
 						psInsertOrUpdate.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOGGER.error(e.getMessage(), e);
 				}
 			}
 		}
@@ -613,7 +621,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 				if(psInsertOrUpdate != null)
 					psInsertOrUpdate.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage(), e);
 			}
 		}
 		return id;
@@ -684,7 +692,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 					if(psInsertOrUpdate != null)
 						psInsertOrUpdate.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOGGER.error(e.getMessage(), e);
 				}
 			}
 		}
@@ -724,7 +732,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 					if(psInsertOrUpdate != null)
 						psInsertOrUpdate.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					LOGGER.error(e.getMessage(), e);
 				}
 			}
 		}
@@ -764,7 +772,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 				if(psQuery != null)
 					psQuery.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage(), e);
 			}
 		}
 		return userId;
@@ -786,7 +794,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 				if(psQuery != null)
 					psQuery.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage(), e);
 			}
 		}
 		return id;
@@ -808,7 +816,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 				if(psQuery != null)
 					psQuery.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage(), e);
 			}
 		} 
 		return id;
@@ -830,7 +838,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 				if(psQuery != null)
 					psQuery.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage(), e);
 			}
 		} 
 		return id;
@@ -853,7 +861,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 				if(psQuery != null)
 					psQuery.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage(), e);
 			}
 		} 
 		return id;
@@ -876,17 +884,24 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 				if(psQuery != null)
 					psQuery.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage(), e);
 			}
 		} 
 		return id;
 	}
 	
+	private void setDbEngineName(Context context) {
+		try {
+			dbEngineName = IgrpMigrationAPI.getDbEngineNameFromDsn(context.getConnection().getMetaData().getURL());
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+	}
 	
 	private InputStream loadReportOrBpmnFile(String appDad, String filename) { 
 		InputStream inStream = null;
 		try {
-			Path path = Paths.get(this.REPORT_BPMN_FILE_PATH_NAME + File.separator  + appDad, filename);
+			Path path = Paths.get(this.REPORT_BPMN_FILE_PATH_NAME, dbEngineName, appDad, filename);
 			if(Files.exists(path)) 
 				inStream = Files.newInputStream(path);
 		} catch (Exception e) {}
@@ -913,9 +928,10 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 				if(psQuery != null)
 					psQuery.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage(), e);
 			}
 		} 
 		return settings;
 	}
+	
 }
