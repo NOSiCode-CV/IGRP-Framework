@@ -11,7 +11,7 @@
 	<name>IGRP-Framework</name>
 	
 	<properties>
-		
+	
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		
@@ -107,8 +107,8 @@
 		<igrp.db.user>postgres</igrp.db.user>
 		<igrp.db.password>softwaredeveloper</igrp.db.password>
 		<igrp.db.dsn>jdbc:postgresql://localhost:5432/db_igrp</igrp.db.dsn>
-		<igrp.migration.location>classpath:nosi/core/db/migration/igrp</igrp.migration.location>
-		
+		<igrp.migration.location>classpath:nosi/core/db/migration/igrp/postgres</igrp.migration.location>
+	
 	</properties>
 
 	<dependencies>
@@ -562,18 +562,12 @@
 						<url>${igrp.db.dsn}</url>
 						<user>${igrp.db.user}</user>
 						<password>${igrp.db.password}</password>
-  						<baselineOnMigrate>true</baselineOnMigrate> 
+  						<baselineOnMigrate>true</baselineOnMigrate>
   						<locations>
   							<location>${igrp.migration.location}</location>
   						</locations>
 					</configuration>
-					<dependencies>
-						<dependency>
-							<groupId>org.postgresql</groupId>
-							<artifactId>postgresql</artifactId>
-							<version>${postgres.version}</version>
-						</dependency>
-					</dependencies>
+					
 				</plugin>
                 <!-- FIM Database migrations plugin -->
                 
