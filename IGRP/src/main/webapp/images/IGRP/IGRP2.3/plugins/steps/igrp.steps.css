@@ -8,7 +8,7 @@
 
 .step-holder > .step-steps::before{
 	content: '';
-	height: 3px;
+	height: 4.5px;
 	width: 100%;
 	left: 0;
 	right: 0;
@@ -101,12 +101,13 @@ body[app] .step-holder > .step-content {
 	border: 0;
 }
 
-.step-holder > .step-content > .step-tab-panel {
-  display: none;
+.step-holder > .step-content > .step-tab-panel,
+.step-holder > .step-content > .step-tab-panel.active.hiddenrules {
+  display: none !important;
 }
 
 .step-holder > .step-content > .step-tab-panel.active {
-  display: block;
+  display: block !important;
 }
 
 .step-holder > .step-footer {
