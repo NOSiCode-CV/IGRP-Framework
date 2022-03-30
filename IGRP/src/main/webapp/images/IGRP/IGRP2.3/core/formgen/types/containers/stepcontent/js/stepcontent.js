@@ -42,7 +42,7 @@ var GENTABCONTENT = function(name,tparams){
 
 		container.unsetProprieties(['title']);
 
-		container.setPropriety({
+		/*container.setPropriety({
 			name:'template',
 			value:{
 				value  : 'default',
@@ -70,12 +70,19 @@ var GENTABCONTENT = function(name,tparams){
 				var operation = v ? 'addClass' : 'removeClass';
 				container.holder.find('.step-steps')[operation]('nav-justified');
 			} 
+		});*/
+
+		container.setProperty({
+			name     : 'controlstart',
+			label    : 'Control start of step',
+			value    : false
 		});
+
 
 
 	}
 
-	container.setTemplate = function(template){
+	/*container.setTemplate = function(template){
 
 		var tabHolder    = $(container.holder.find('.gen-tab-holder')[0]),
 
@@ -85,7 +92,7 @@ var GENTABCONTENT = function(name,tparams){
 
 		tabHolder[dclickAction]('dont-click');
 
-	}
+	}*/
 
 	container.XSLToString = function(ee){
 		
@@ -136,7 +143,7 @@ var GENTABCONTENT = function(name,tparams){
 
 	container.onDrawEnd = function(c){
 		var adder = $('<button class="btn btn-box-tool '+classes.adder+'"><i style="color:green" class="fa fa-plus"></i></button>');
-		var template = container.GET.template();
+		//var template = container.GET.template();
 
 		//html controllers
 		container.HTML = {
@@ -146,7 +153,7 @@ var GENTABCONTENT = function(name,tparams){
 			adder 		   : adder
 		}
 
-		container.setTemplate(template)
+		//container.setTemplate(template)
 
 		//append adder
 		container.holder.find('.gen-container-setts').prepend(adder)

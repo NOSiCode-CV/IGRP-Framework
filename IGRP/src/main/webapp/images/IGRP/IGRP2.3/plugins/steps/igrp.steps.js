@@ -1,14 +1,103 @@
 (function () {
 
-	var com;
+	var com,
+		startAt 	 = 0,
+		isNav   	 = $('body[app]')[0],
+		btnDirection = 0,
+		firstIsHide  = false,
+		lastIsHide   = false,
+		totalStep    = 1;
 
 	$.IGRP.component('stepcontent', {
+		stepStartAt : function(obj){
+			totalStep = $('.step-tab-panel', obj).length - 1;
+
+			var rel 		  = obj.attr("item-name"),
+				name 		  = "p_fwl_"+rel,
+				inputControll = $("#"+name),
+				firstElement  = $('div.step-tab-panel:eq(0)', obj),
+				lastElement   = $('div.step-tab-panel:eq('+totalStep+')', obj);
+			
+
+			if(obj.is("[control-start]") && obj.attr("control-start") == "true" && isNav){
+
+				if(inputControll[0]){
+					startAt = inputControll.val();
+
+					startAt = isNaN(startAt) ? 0 : startAt - 1;
+				}
+				else{
+					$.IGRP.utils.createHidden({
+						name 	: name,
+						id 		: name,
+						class 	: "menuCtrl submittable",
+						value   : 1
+					});
+				}
+			}
+
+			if(firstElement[0] && firstElement.hasClass('hiddenrules')){
+				firstIsHide = true;
+				startAt = startAt === 0 ? 1 : startAt;
+			}
+
+			if(lastElement[0] && lastElement.hasClass('hiddenrules')){
+				lastIsHide = true;
+				totalStep = totalStep > 1 ? totalStep - 1 : totalStep;
+			}
+		},
+
+		controllBtn : function (obj) {
+
+			var HolderBtns = $('.box-footer.gen-form-footer .gen-form-btns',obj);
+
+			if(HolderBtns[0]){
+
+				$('>*',HolderBtns).addClass('step-btn finish step-finish-btns');
+
+				var getBtns 	= $('>*',HolderBtns).clone(true),
+					parentForm 	= HolderBtns.parents('.box.igrp-forms');
+
+				HolderBtns.remove();
+
+				if(!$(":input",parentForm)[0]){
+					parentForm.remove();
+				}
+
+				HolderBtns.parents('.box-footer.gen-form-footer').remove();
+
+				$('.step-footer',obj).append(getBtns);
+			}
+		},
+
+		hideOrShowBtn : function (idx, obj) {
+			console.log(firstIsHide,idx);
+			if(totalStep === idx){
+				$('.step-footer .step-finish-btns',obj).removeClass('step-finish-btns');
+
+				if(lastIsHide){
+					$('.step-footer button.next',obj).addClass('hidden');
+				}
+
+			}else{
+				$('.step-footer .finish',obj).addClass('step-finish-btns');
+				$('.step-footer button.next',obj).removeClass('hidden');
+			}
+
+			if(firstIsHide && idx === 1){
+				$('.step-footer button.prev',obj).addClass('hidden');
+			}else{
+				$('.step-footer button.prev',obj).removeClass('hidden');
+			}
+		},
+
 		start: function (obj) {
 
 			obj.steps({
+				startAt : startAt,
 				onInit: function () {
-
-					const isNav = $('body[app]')[0];
+					
+					console.log(startAt);
 
 					if($(':input', obj)[0] && isNav){
 
@@ -28,54 +117,60 @@
 						$('ul.step-steps > li > a',obj).each(function(i,a){
 							
 							$(a).parents('li:first').html($(a).html());
-
 							//$(a).removeAttr(Object.values(a.attributes).map(attr => attr.name).join(' '));
 							
 						});
 
-						var HolderBtns = $('.box-footer.gen-form-footer .gen-form-btns',obj);
-
-						if(HolderBtns[0]){
-
-							$('>*',HolderBtns).addClass('step-btn finish step-finish-btns');
-
-							var getBtns = $('>*',HolderBtns).clone(true);
-
-							HolderBtns.remove();
-
-							HolderBtns.parents('.box-footer.gen-form-footer').remove();
-
-							$('.step-footer',obj).append(getBtns);
-						}
+						com.controllBtn(obj);
 					}
 				},
 				onChange: function (currentIndex, newIndex, stepDirection) {
 
-					let valid = currentIndex >= 0 ? true : false;
+					var valid		= currentIndex >= 0 ? true : false,
+						currentObj  = $('.step-tab-panel.active', obj),
+						nextObj     = currentObj.next('div.step-tab-panel.hiddenrules'),
+						prevObj     = currentObj.prev('div.step-tab-panel.hiddenrules');
+					
+					if(stepDirection != 'none'){
 
-					const isNav = $('body[app]')[0];
+						if(nextObj[0] && currentIndex < totalStep){
+							btnDirection = newIndex + 1;
 
-					const currentObj = $('.step-tab-panel.active', obj);
+						}else if(prevObj[0]){
 
-					const totalStep = $('.step-tab-panel', obj).length - 1;
-
-					$.IGRP.components.stepcontent.events.execute('stepActive', currentObj);//execute event
-
-					if (stepDirection === 'forward' && isNav && $(':input', currentObj)[0]) {
-
-						var fields = $.IGRP.utils.getFieldsValidate(currentObj);
-
-						valid = fields.valid();
+							btnDirection = newIndex > 0 ? newIndex - 1 : 0;
+						}
 					}
 
-					if (currentIndex < newIndex) {
-						$('label.error.form-validator-label', $(`.step-tab-panel:eq(${newIndex})`, obj)).remove();
-					}
+					if(currentObj.hasClass("hiddenrules") && (currentIndex > 0 && currentIndex < totalStep)){
 
-					if(totalStep === currentIndex){
-						$('.step-footer .step-finish-btns',obj).removeClass('step-finish-btns');
+						$('ul.step-steps li:eq('+btnDirection+')').click();	
+
+						$('ul.step-steps li:eq('+totalStep+')').removeClass('active error')
+
+						valid = true;
+
 					}else{
-						$('.step-footer .finish',obj).addClass('step-finish-btns');
+
+						$.IGRP.components.stepcontent.events.execute('stepActive', currentObj);//execute event
+
+						if (stepDirection === 'forward' && isNav && $(':input', currentObj)[0]) {
+
+							var fields = $.IGRP.utils.getFieldsValidate(currentObj);
+
+							valid = fields.valid();
+						}
+
+						if (currentIndex < newIndex) {
+							$('label.error.form-validator-label', $(`.step-tab-panel:eq(${newIndex})`, obj)).remove();
+						}
+
+						com.hideOrShowBtn(currentIndex,obj);
+
+						if(obj.is("[control-start]") && obj.attr("control-start") == "true" && valid && isNav){
+							
+							$("#p_fwl_"+obj.attr("item-name")).val((newIndex + 1));
+						}
 					}
 
 					return valid;
@@ -94,9 +189,50 @@
 			com.on = com.events.on;
 
 			$('.step-holder').each(function () {
+				com.stepStartAt($(this));
 				com.start($(this));
+			});
+
+			$.IGRP.events.on('element-transform',function(p){
+					
+				if($('.step-holder',p.content)[0]){
+					
+					com.controllBtn($('.step-holder',p.content));
+				}
 			});
 
 		}
 	}, true);
+
+	$(document).on('igrp:rules', function (i, p) {
+		
+		$.each(p.field,function(x,e){
+			if($(e).hasClass('step-tab-panel')){
+
+				var step  = $(e).parents('.step-holder'),
+					index = $('.step-tab-panel.active', step).index();
+
+				if($(e).hasClass('active')){
+					console.log(index,totalStep);	
+					if((index === 0 || index === totalStep)){
+						index = index === 0 ? index + 1 : index - 1;
+
+						$('ul.step-steps li:eq('+index+')').click();
+					}
+				}else{
+					index = (index === 1 && p.action == 'show') ? 0 : index;
+				}
+
+				$.IGRP.components.stepcontent.stepStartAt(step);
+
+				$.IGRP.components.stepcontent.controllBtn(step);
+				
+				$.IGRP.components.stepcontent.hideOrShowBtn(index,step);
+
+			}
+
+		});
+			
+	});
+
 })();

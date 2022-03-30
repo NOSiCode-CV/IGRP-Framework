@@ -2,6 +2,7 @@ package nosi.webapps.igrp.pages.migrate;
 
 import java.io.IOException;
 
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.igrp.mingrations.MigrationIGRP;
 import nosi.core.webapp.Controller;
@@ -35,7 +36,7 @@ public class MigrateController extends Controller {
 			}
 		}
 		view.tipo_base_dados.setValue(DatabaseConfigHelper.getDatabaseTypes());
-		view.aplicacao.setQuery(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"SELECT id as ID, name as NAME FROM tbl_env WHERE id=:id").addInt("id", 1));
+		view.aplicacao.setQuery(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=:id").addInt("id", 1));
 		
 		//return this.renderView(view);
 		/*----#end-code----*/

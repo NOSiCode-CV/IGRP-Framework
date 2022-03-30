@@ -1,6 +1,7 @@
 <div class="form-group col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
     <label for="{#path#/@name}">
         <xsl:value-of select="#path#/label"/>
+        #[tooltip]#
     </label>
     <div class="input-group" >
         <input type="text" value="{#path#/value}" class="form-control gen-lookup #[change]#" id="#parent.tag#_#tag#" name="{#path#/@name}" #[required]# #[readonly]# maxlength="#[maxlength]#">

@@ -24,7 +24,8 @@
 					break;
 
 				case 'selection_menu':
-				case 'infowindow':
+				case 'infowindow':				
+				case 'googlestreetview':
 
 					config.css = true; config.js = true;
 

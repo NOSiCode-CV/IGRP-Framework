@@ -2310,3 +2310,36 @@ margin-right: 7px !important;
 .menu-title {
 vertical-align: middle;
 }
+
+.box-label-tooltip{
+  margin-left: 5px;
+  border-radius: 5px;
+}
+
+
+.tooltip-inner { 
+  background-color: #E2E2E2;
+  background-image: none;
+  border-color: #E2E2E2;
+  color: #000;
+  text-align: justify;
+  width: 220px;
+  padding: 10px;
+}
+
+.box-label-tooltip .tooltip.top .tooltip-arrow { 
+  background:transparent !important;
+  z-index: 100;
+  width: 0; 
+  height: 0; 
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 7px solid #E2E2E2;
+  border-top-color: #E2E2E2;
+  bottom: 0px;
+}
+
+.tooltip-text{
+  width: 200px;
+  text-align: left;
+}

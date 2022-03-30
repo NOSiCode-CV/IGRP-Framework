@@ -30,7 +30,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 
-import jd.core.model.instruction.bytecode.instruction.InstanceOf;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.ORDERBY;

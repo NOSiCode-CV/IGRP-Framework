@@ -26,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import nosi.core.config.Config;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -673,14 +674,14 @@ public class PageController extends Controller {
 		if (ac != null && ac.getApplication() != null) {
 			final String dad = ac.getApplication().getDad();
 			List<String> domains = new ArrayList<>();
-			for (Tuple t : Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, DomainHeper.SQL_DOMINIO_PRIVATE)
+			for (Tuple t : Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), DomainHeper.SQL_DOMINIO_PRIVATE)
 					.addInt("env_fk", ac.getApplication().getId()).getResultList()) {
 				try {
 					domains.add(t.get("dominio") + " « " + dad);
 				} catch (IllegalArgumentException e) {
 				}
 			}
-			for (Tuple t : Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, DomainHeper.SQL_DOMINIO_PUB)
+			for (Tuple t : Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), DomainHeper.SQL_DOMINIO_PUB)
 					.getResultList()) {
 				try {
 					domains.add(t.get("dominio") + "");
@@ -702,11 +703,11 @@ public class PageController extends Controller {
 		try {
 			List<Tuple> queryDomain;
 			if (ids.length > 1)
-				queryDomain = Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, DomainHeper.SQL_ITEM_DOMINIO)
+				queryDomain = Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), DomainHeper.SQL_ITEM_DOMINIO)
 						.addString("dominio", ids[0]).addInt("env_fk", Core.findApplicationByDad(ids[1]).getId())
 						.getResultList();
 			else
-				queryDomain = Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, DomainHeper.SQL_ITEM_DOMINIO_PUB)
+				queryDomain = Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), DomainHeper.SQL_ITEM_DOMINIO_PUB)
 						.addString("dominio", ids[0] == null ? p_id : ids[0]).getResultList();
 			for (Tuple t : queryDomain) {
 				Properties domains = new Properties();

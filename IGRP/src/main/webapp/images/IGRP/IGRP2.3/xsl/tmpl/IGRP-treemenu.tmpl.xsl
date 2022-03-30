@@ -108,7 +108,7 @@
                                                         <xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
                                                     </xsl:call-template>
                                                     
-                                                    <xsl:call-template name="setTooltip">
+                                                    <xsl:call-template name="setTooltipTreemenu">
                                                         <xsl:with-param name="tooltip" select="$tooltip"/>
                                                         <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
                                                     </xsl:call-template>
@@ -122,7 +122,7 @@
                                                         <xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
                                                     </xsl:call-template>
 
-                                                    <xsl:call-template name="setTooltip">
+                                                    <xsl:call-template name="setTooltipTreemenu">
                                                         <xsl:with-param name="tooltip" select="$tooltip"/>
                                                         <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
                                                     </xsl:call-template>
@@ -163,7 +163,7 @@
                                                                                 	<xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
                                                                                 </xsl:call-template>
                                                                                 
-                                                                                <xsl:call-template name="setTooltip">
+                                                                                <xsl:call-template name="setTooltipTreemenu">
                                                                                     <xsl:with-param name="tooltip" select="$tooltip"/>
                                                                                     <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
                                                                                 </xsl:call-template>
@@ -178,7 +178,7 @@
                                                                                     <xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
                                                                                 </xsl:call-template>
 
-                                                                                <xsl:call-template name="setTooltip">
+                                                                                <xsl:call-template name="setTooltipTreemenu">
                                                                                     <xsl:with-param name="tooltip" select="$tooltip"/>
                                                                                     <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
                                                                                 </xsl:call-template>
@@ -215,7 +215,7 @@
                                                                     	<xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
                                                                     </xsl:call-template>
                                                                     
-                                                                    <xsl:call-template name="setTooltip">
+                                                                    <xsl:call-template name="setTooltipTreemenu">
                                                                         <xsl:with-param name="tooltip" select="$tooltip"/>
                                                                         <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
                                                                     </xsl:call-template>
@@ -254,7 +254,7 @@
                                                                 <xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
                                                             </xsl:call-template>
 
-                                                            <xsl:call-template name="setTooltip">
+                                                            <xsl:call-template name="setTooltipTreemenu">
                                                                 <xsl:with-param name="tooltip" select="$tooltip"/>
                                                                 <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
                                                             </xsl:call-template>
@@ -263,7 +263,7 @@
                                                     </xsl:when>
                                                     <xsl:otherwise>
                                                         <a class="form-link" text="{../*[name() = concat($name,'_link_desc')]}">
-                                                            <xsl:call-template name="setTooltip">
+                                                            <xsl:call-template name="setTooltipTreemenu">
                                                                 <xsl:with-param name="tooltip" select="$tooltip"/>
                                                                 <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
                                                             </xsl:call-template>
@@ -285,7 +285,7 @@
                                                     <xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
                                                 </xsl:call-template>
 
-                                                <xsl:call-template name="setTooltip">
+                                                <xsl:call-template name="setTooltipTreemenu">
                                                     <xsl:with-param name="tooltip" select="$tooltip"/>
                                                     <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
                                                 </xsl:call-template>
@@ -324,7 +324,7 @@
         </xsl:if>
     </xsl:template>
 
-    <xsl:template name="setTooltip">
+    <xsl:template name="setTooltipTreemenu">
         <xsl:param name="tooltip"  select="'false'"/>
         <xsl:param name="text"/>
         <xsl:if test="$tooltip = 'true'">
@@ -424,7 +424,7 @@
                                     			<xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
                                             </xsl:call-template>
 
-                                            <xsl:call-template name="setTooltip">
+                                            <xsl:call-template name="setTooltipTreemenu">
                                                 <xsl:with-param name="tooltip" select="$tooltip"/>
                                                 <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
                                             </xsl:call-template>
@@ -438,7 +438,7 @@
                                     			<xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
                                             </xsl:call-template>
 
-                                            <xsl:call-template name="setTooltip">
+                                            <xsl:call-template name="setTooltipTreemenu">
                                                 <xsl:with-param name="tooltip" select="$tooltip"/>
                                                 <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
                                             </xsl:call-template>
@@ -475,7 +475,7 @@
                                     <xsl:with-param name="haslink" select="not(../*[name() = concat($name,'_link')])"/>
                                 </xsl:call-template>
 
-                                <xsl:call-template name="setTooltip">
+                                <xsl:call-template name="setTooltipTreemenu">
                                     <xsl:with-param name="tooltip" select="$tooltip"/>
                                     <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
                                 </xsl:call-template>
