@@ -54,6 +54,21 @@ var GENFORM = function(name,params){
 
 	container.onFieldSet = function(field){
 		GEN.setFormFieldAttr(field);
+
+		field.setPropriety({
+
+            name:'tooltip',
+
+            label:'Show Tooltip',
+
+            value : false,
+
+            xslValue : '<xsl:call-template name="setTooltip">'+
+				'<xsl:with-param name="field" select="'+container.GET.path()+'/fields/'+field.GET.tag()+'"/>'+
+			'</xsl:call-template>'
+
+        });
+
 		field.setPropriety({
 
             name:'disable_copy_paste',

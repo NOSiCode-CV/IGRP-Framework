@@ -593,9 +593,14 @@ if($ && $.IGRP && !$.IGRP.rules){
 					ctrlTableFields($(t).attr('item-name'),true);
 				});
 
-				p.targetFields.show();
+				p.targetFields.removeClass('hiddenrules').show();
 
 				p.targetFields.trigger('igrp.rules.show');
+
+				$(document).trigger('igrp:rules',[{
+					action : 'show',
+					field  : p.targetFields
+				}]);
 			
 			},
 			opposite:'hide'
@@ -611,9 +616,14 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 				});
 
-				p.targetFields.hide();
+				p.targetFields.addClass('hiddenrules').hide();
 
 				p.targetFields.trigger('igrp.rules.hide');
+
+				$(document).trigger('igrp:rules',[{
+					action : 'hide',
+					field  : p.targetFields
+				}]);
 
 
 			},

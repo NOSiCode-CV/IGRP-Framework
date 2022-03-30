@@ -6,6 +6,7 @@ import java.io.IOException;//
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -34,8 +35,6 @@ public class DominioController extends Controller {
 		/*----#start-code(index)----*/			
 		model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=dominio"));
         view.aplicacao.setValue(DomainHeper.getApplications());
-		
-		
 		String dad = Core.getCurrentDad();		
   		 if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {	
            	model.setApp(Core.findApplicationByDad(dad).getId());
@@ -45,8 +44,6 @@ public class DominioController extends Controller {
   		Integer app=model.getAplicacao();
 //  		Mudar para value para mostrar escolhido logo
      	 final BaseQueryInterface domainQuery = DomainHeper.getDomainQuery(app);
-		
-     	
 		if(domainQuery.getSingleResult()==null) {
 			LinkedHashMap<Object,Object> mapDom=new LinkedHashMap<>();
 	     	mapDom.put(null,gt("++ Adicione um domínio ++"));
@@ -64,33 +61,13 @@ public class DominioController extends Controller {
 		}
         view.btn_gravar_domain.setVisible(Core.isNull(model.getLst_dominio()));           
      	view.btn_guardar_item_domain.setVisible(Core.isNotNull(model.getLst_dominio()));
-     // view.formlist_1.setVisible(Core.isNotNull(model.getLst_dominio()));
-     		 
-     	
-     	
-     	
-     	
      	//cod pa table de lista de dominio
      	if(Core.isNotNull(model.getAplicacao())) {
      		view.table_1.setVisible(true);
-     		
-     		model.loadTable_1(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"SELECT DISTINCT dominio as id_dom, dominio  as dominio FROM tbl_domain WHERE env_fk=:env_fk").addInt("env_fk", model.getAplicacao()));
-     		
-     		/*
-     		List<Domain> list_domain = new Domain().find().andWhere("application","=",model.getAplicacao()).all();
-     		List<Dominio.Table_1> tabe = new ArrayList<>();
-     		
-     		for(Domain d : list_domain) {
-     			Dominio.Table_1 row = new Dominio.Table_1();
-     			row.setDominio(d.getDominio());
-     			tabe.add(row);
-     		}
-     		model.setTable_1(tabe);*/
+     		model.loadTable_1(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), "SELECT DISTINCT dominio as id_dom, dominio  as dominio FROM tbl_domain WHERE env_fk=:env_fk").addInt("env_fk", model.getAplicacao()));
      	}else {
      		view.table_1.setVisible(false);
      	}
-     	
-     	
      	
 		/*----#end-code----*/
 		view.setModel(model);
@@ -109,7 +86,6 @@ public class DominioController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(guardar_item_domain)----*/
-		
 		if(DomainHeper.saveItemDomain(model)) {
 			Core.setMessageSuccess();
 			this.addQueryString("p_aplicacao", model.getAplicacao());
@@ -181,8 +157,6 @@ public class DominioController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(delete)----*/
-		
-		
 		boolean dom = false;
 		List<Domain> list_domain = new Domain().find().andWhere("dominio","=",Core.getParam("p_id_dom")).all();
  		for(Domain d : list_domain) {
@@ -191,17 +165,11 @@ public class DominioController extends Controller {
 				dom = true;
 			}
  		}
-
 		if(dom) {
 			Core.setMessageSuccess();
 		}else {
 			Core.setMessageError();
 		}
-		
-		
-		
-		
-		
 		/*----#end-code----*/
 		return this.redirect("igrp","Dominio","index", this.queryString());	
 	}
