@@ -48,7 +48,7 @@
 		},
 
 		controllBtn : function (obj) {
-
+			
 			var HolderBtns = $('.box-footer.gen-form-footer .gen-form-btns',obj);
 
 			if(HolderBtns[0]){
@@ -71,7 +71,7 @@
 		},
 
 		hideOrShowBtn : function (idx, obj) {
-			console.log(firstIsHide,idx);
+			
 			if(totalStep === idx){
 				$('.step-footer .step-finish-btns',obj).removeClass('step-finish-btns');
 
@@ -154,9 +154,10 @@
 
 						$.IGRP.components.stepcontent.events.execute('stepActive', currentObj);//execute event
 
-						if (stepDirection === 'forward' && isNav && $(':input', currentObj)[0]) {
+						var fields = $.IGRP.utils.getFieldsValidate(currentObj);
 
-							var fields = $.IGRP.utils.getFieldsValidate(currentObj);
+						if (stepDirection === 'forward' && isNav && fields[0]) {
+						
 
 							valid = fields.valid();
 						}
@@ -194,10 +195,11 @@
 			});
 
 			$.IGRP.events.on('element-transform',function(p){
+				var step = p.content.parents('.step-holder');
+
+				if(step[0]){
 					
-				if($('.step-holder',p.content)[0]){
-					
-					com.controllBtn($('.step-holder',p.content));
+					com.controllBtn(step);
 				}
 			});
 
