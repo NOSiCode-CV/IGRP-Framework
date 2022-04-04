@@ -3,9 +3,9 @@
     #label.val#
     #[tooltip]#
   </label>
-  <input type="#type#" value="{#path#/value}" class="form-control #[change]# #[desclabel]#" id="{#path#/@name}" name="{#path#/@name}" #[readonly]# #[disabled]# #[required]#   #[disable_copy_paste]#  maxlength="#[maxlength]#" placeholder="{#path#/@placeholder}"  >
+  <input type="#type#" value="{#path#/value}" class="form-control #[change]# #[desclabel]#" inputmask="#[inputmask]#" id="{#path#/@name}" name="{#path#/@name}" #[readonly]# #[disabled]# #[required]#   #[disable_copy_paste]#  maxlength="#[maxlength]#" placeholder="{#path#/@placeholder}"  >
     <xsl:call-template name="setAttributes">
       <xsl:with-param name="field" select="#path#"/>
-  </xsl:call-template>
+    </xsl:call-template>
   </input>
 </div>

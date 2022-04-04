@@ -9,42 +9,51 @@
 		totalStep    = 1;
 
 	$.IGRP.component('stepcontent', {
+
 		stepStartAt : function(obj){
-			totalStep = $('.step-tab-panel', obj).length - 1;
+			var lengthStep = $('.step-tab-panel', obj).length;
 
-			var rel 		  = obj.attr("item-name"),
-				name 		  = "p_fwl_"+rel,
-				inputControll = $("#"+name),
-				firstElement  = $('div.step-tab-panel:eq(0)', obj),
-				lastElement   = $('div.step-tab-panel:eq('+totalStep+')', obj);
-			
+			if(lengthStep > 0){
+				$('.step-footer',obj).removeClass('hidden');
 
-			if(obj.is("[control-start]") && obj.attr("control-start") == "true" && isNav){
+				totalStep =  lengthStep - 1;
 
-				if(inputControll[0]){
-					startAt = inputControll.val();
+				var rel 		  = obj.attr("item-name"),
+					name 		  = "p_fwl_"+rel,
+					inputControll = $("#"+name),
+					firstElement  = $('div.step-tab-panel:eq(0)', obj),
+					lastElement   = $('div.step-tab-panel:eq('+totalStep+')', obj);
+				
 
-					startAt = isNaN(startAt) ? 0 : startAt - 1;
+				if(obj.is("[control-start]") && obj.attr("control-start") == "true" && isNav){
+
+					if(inputControll[0]){
+						startAt = inputControll.val();
+
+						startAt = isNaN(startAt) ? 0 : startAt - 1;
+					}
+					else{
+						$.IGRP.utils.createHidden({
+							name 	: name,
+							id 		: name,
+							class 	: "menuCtrl submittable",
+							value   : 1
+						});
+					}
 				}
-				else{
-					$.IGRP.utils.createHidden({
-						name 	: name,
-						id 		: name,
-						class 	: "menuCtrl submittable",
-						value   : 1
-					});
+
+				if(firstElement[0] && firstElement.hasClass('hiddenrules')){
+					firstIsHide = true;
+					startAt = startAt === 0 ? 1 : startAt;
 				}
-			}
 
-			if(firstElement[0] && firstElement.hasClass('hiddenrules')){
-				firstIsHide = true;
-				startAt = startAt === 0 ? 1 : startAt;
-			}
+				if(lastElement[0] && lastElement.hasClass('hiddenrules')){
+					lastIsHide = true;
+					totalStep = totalStep > 1 ? totalStep - 1 : totalStep;
+				}
 
-			if(lastElement[0] && lastElement.hasClass('hiddenrules')){
-				lastIsHide = true;
-				totalStep = totalStep > 1 ? totalStep - 1 : totalStep;
-			}
+			}else	
+				$('.step-footer',obj).addClass('hidden');
 		},
 
 		controllBtn : function (obj) {
@@ -65,6 +74,8 @@
 				}
 
 				HolderBtns.parents('.box-footer.gen-form-footer').remove();
+
+				$('.step-footer',obj).find('.step-btn.finish.step-finish-btns').remove();
 
 				$('.step-footer',obj).append(getBtns);
 			}
@@ -96,8 +107,6 @@
 			obj.steps({
 				startAt : startAt,
 				onInit: function () {
-					
-					console.log(startAt);
 
 					if($(':input', obj)[0] && isNav){
 
@@ -110,7 +119,6 @@
 							}
 						});
 					}
-
 
 					if(isNav){
 
@@ -215,7 +223,7 @@
 					index = $('.step-tab-panel.active', step).index();
 
 				if($(e).hasClass('active')){
-					console.log(index,totalStep);	
+					
 					if((index === 0 || index === totalStep)){
 						index = index === 0 ? index + 1 : index - 1;
 

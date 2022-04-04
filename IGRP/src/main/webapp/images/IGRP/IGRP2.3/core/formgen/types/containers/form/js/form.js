@@ -31,6 +31,26 @@ var GENFORM = function(name,params){
 		
 	}
 
+	var inputMaskIncludes 	= [
+			{path : '/plugins/inputmask/jquery.inputmask.min.js'},
+			{path : '/plugins/inputmask/igrp.inputmask.js'},
+		],
+		removeIncludesJs 	= function(arr){
+			arr.forEach(function(e){
+				for( var i = 0; i < container.includes.js.length; i++){
+					var inc = container.includes.js[i];
+					if(inc.path == e.path){
+						var index = container.includes.js.indexOf(inc);
+						if (index > -1) 
+							container.includes.js.splice(index, 1);
+						break;
+					}
+				}
+			});
+		},
+		inputMaskInc = false
+	;
+
 	container.onFileFieldSet = function(field){
 		GEN.setBTNClass(field);
 	}
@@ -80,6 +100,37 @@ var GENFORM = function(name,params){
             xslValue : 'onselectstart="return false" oncut="return false" oncopy="return false" onpaste="return false" ondrag="return false" ondrop="return false"'
 
         });
+
+		if(field.GET.type && field.GET.type() == 'text'){
+
+			field.setPropriety({
+				name:'inputmask',
+				label:'Input Mask',
+				value:{
+					value:'',
+					options:[
+						{value:'',label:'-- Select Mask --'},
+						{value:'currency',label:'Currency Mask (#.##0)'},
+						{value:'date',label:'Date Mask (DD-MM-YYYY)'},
+						{value:'monthYear',label:'Date Mask (MM-YYYY)'}
+					]
+				},
+				onChange:function(v){
+					if(v !== undefined && v !== ''){
+
+						if(!inputMaskInc){
+							inputMaskIncludes.forEach(function(e){
+								container.includes.js.unshift(e);
+							});
+							inputMaskInc = true;
+						}					
+					}else{
+						removeIncludesJs(inputMaskIncludes);
+						inputMaskInc = false;
+					}
+				}
+			});
+		}
 	}
 	
 	container.onDrawEnd = function(){
