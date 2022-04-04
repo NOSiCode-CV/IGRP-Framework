@@ -116,7 +116,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			if (response.getStatus() == 200) {
 				f.setContent((InputStream) response.getEntity());
-				f.setSize(new Integer(response.getLength()));
+				f.setSize(Integer.valueOf(response.getLength()));
 				f.setContentType(response.getMediaType().toString());
 			}
 			response.close();
@@ -363,6 +363,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 	}
 
 	// Adiciona variaveis para completar tarefa
+	
 	public void addVariable(String name, String scope, String type, Object value, String valueUrl) {
 		this.variables.add(new TaskVariables(name, scope, type, value, null));
 	}
@@ -417,7 +418,6 @@ public class TaskServiceRest extends GenericActivitiRest {
 					String xml = FileHelper.convertToString((InputStream) response.getEntity());
 					list = this.extractTasks(xml, false);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				response.close();
@@ -428,7 +428,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 
 	public List<TaskService> extractTasks(String xml, boolean includeStartProcess) { 
 		List<TaskService> list = new ArrayList<>();
-		String xml_ = xml.replace("xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"", "").replaceAll("activiti:formKey",
+		String xml_ = xml.replace("xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"", "").replace("activiti:formKey",
 				"formKey");
 			if (Core.isNotNull(xml_)) { 
 				StringReader r = new StringReader(xml_); 
@@ -502,7 +502,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 	
 	@SuppressWarnings("unchecked")
 	public TaskService getCurrentTaskByProcessNr(String processNr) {
-		List<TaskService> t = new ArrayList<TaskService>();
+		List<TaskService> t = new ArrayList<>();
 		Response response = this.getRestRequest().get("runtime/tasks?processInstanceId=" + processNr);
 		if (response != null) {
 			String contentResp = "";
