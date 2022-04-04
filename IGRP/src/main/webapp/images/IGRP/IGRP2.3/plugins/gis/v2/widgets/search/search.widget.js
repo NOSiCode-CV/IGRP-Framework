@@ -228,39 +228,47 @@
 
 		function LoadFields() {
 
+
 			var _layers = [], _grouplayers = app.layers.getLayers();
 
-			if (!data.layers[0]) {
+			if (!data.layers || !data.layers[0]) {
 
-				_grouplayers.forEach(function(l) {
+				if (widget.activeLayers) {
 
-					var layer = l.data();
+					_grouplayers.forEach(function(l) {
 
-					_layers.push({
-						name: layer.name,
-						id: layer.id
-					});
+						var layer = l.data();
 
-				});
-
-				try {
-
-					widget.setTemplateParams({
-
-						'layers': _layers
+						_layers.push({
+							name: layer.name,
+							id: layer.id
+						});
 
 					});
 
-				} catch (err) {
+					try {
 
-					console.log(err)
+						widget.setTemplateParams({
 
-				}
+							'layers': _layers
 
-				$('.search-input-layer', widget.html).show();
+						});
+
+					} catch (err) {
+
+						console.log(err)
+
+					}
+
+					$('.search-input-layer', widget.html).show();
+
+				} else
+					$('select#layers-select', widget.html).hide();
 
 			} else
 				$('.search-input-layer', widget.html).hide();
+
+
 
 		};
 
@@ -437,7 +445,7 @@
 		}
 
 		function DivAdmin() {
-			
+
 			ClearSearch();
 
 			ClearResults();
@@ -480,10 +488,10 @@
 		function NominatimAPI(val) {
 
 			var results = [];
-			
-			var paramCountrycodes = data.countryCodes ? 'countrycodes='+data.countryCodes : '';
 
-			var req = $.get('https://nominatim.openstreetmap.org/search?'+paramCountrycodes+'&polygon_geojson=1&format=geojson&q=' + val);
+			var paramCountrycodes = data.countryCodes ? 'countrycodes=' + data.countryCodes : '';
+
+			var req = $.get('https://nominatim.openstreetmap.org/search?' + paramCountrycodes + '&polygon_geojson=1&format=geojson&q=' + val);
 
 			req.then(function(data) {
 
@@ -528,9 +536,9 @@
 			txtCql = $('#search-txt-cql textarea', widget.html);
 
 			submitSearch = $('#search-form-submit', widget.html);
-			
-			if(!data.btnOptions)		
-				
+
+			if (!data.btnOptions)
+
 				widget.html.find('#btnOptions').hide();
 
 			widget.html.on('click', '.search-item', function() {
@@ -546,7 +554,7 @@
 					layer = app.layers.get(layerid);
 
 				widget.html.find('.search-item').removeClass('active');
-				
+
 				UnHighLightFeatures();
 
 				try {
@@ -678,7 +686,7 @@
 
 					} else {
 
-						$("#search-form-advanced",  widget.html).removeClass('active');
+						$("#search-form-advanced", widget.html).removeClass('active');
 
 						widget.activeFilter = false;
 
@@ -712,12 +720,16 @@
 
 				widget.activeLayers = true;
 
+				LoadFields();
+
 			})
 
 			/*DIV ADMIN*/
 			widget.html.on('click', '#search-div-admin', function() {
 
 				DivAdmin();
+
+				LoadFields();
 
 			});
 
@@ -731,6 +743,8 @@
 				widget.activeNominatimAPI = true;
 
 				widget.activeLayers = false;
+
+				LoadFields();
 
 			})
 
@@ -800,8 +814,8 @@
 			widget.activeDivAdmin = data.defaultDivAdmin;
 
 			widget.activeLayers = data.defaultLayers;
-			
-			if(widget.activeDivAdmin){
+
+			if (widget.activeDivAdmin) {
 				DivAdmin();
 			}
 		};
