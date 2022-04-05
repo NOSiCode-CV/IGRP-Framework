@@ -112,7 +112,7 @@
 
 			viewer = new PANOLENS.Viewer({ output: 'console', container: container });
 
-			viewer.add(panorama,panorama2);
+			viewer.add(panorama, panorama2);
 		}
 
 		function processStreetViewServiceData(lat, lng) {
@@ -132,7 +132,7 @@
 		}
 
 		function SetResult() {
-			
+
 			$(".igrp-map-os-wrapper").removeClass("expand");
 
 			$("#googlestreetview").addClass("on");
@@ -195,10 +195,7 @@
 		dependencies: {
 
 			js: [path + '/plugins/leaflet/library/plugins/panolens/three.min.js',
-			path + '/plugins/leaflet/library/plugins/panolens/panolens.min.js',
-				'https://polyfill.io/v3/polyfill.min.js?features=default',
-				'https://maps.googleapis.com/maps/api/js?key=AIzaSyDl3EJ7ATAxkbdq9z84CgFZppWaCqNIefI&libraries=place&sensor=false'
-			]
+			path + '/plugins/leaflet/library/plugins/panolens/panolens.min.js']
 
 		},
 

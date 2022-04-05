@@ -9,46 +9,55 @@
 		totalStep    = 1;
 
 	$.IGRP.component('stepcontent', {
+
 		stepStartAt : function(obj){
-			totalStep = $('.step-tab-panel', obj).length - 1;
+			var lengthStep = $('.step-tab-panel', obj).length;
 
-			var rel 		  = obj.attr("item-name"),
-				name 		  = "p_fwl_"+rel,
-				inputControll = $("#"+name),
-				firstElement  = $('div.step-tab-panel:eq(0)', obj),
-				lastElement   = $('div.step-tab-panel:eq('+totalStep+')', obj);
-			
+			if(lengthStep > 0){
+				$('.step-footer',obj).removeClass('hidden');
 
-			if(obj.is("[control-start]") && obj.attr("control-start") == "true" && isNav){
+				totalStep =  lengthStep - 1;
 
-				if(inputControll[0]){
-					startAt = inputControll.val();
+				var rel 		  = obj.attr("item-name"),
+					name 		  = "p_fwl_"+rel,
+					inputControll = $("#"+name),
+					firstElement  = $('div.step-tab-panel:eq(0)', obj),
+					lastElement   = $('div.step-tab-panel:eq('+totalStep+')', obj);
+				
 
-					startAt = isNaN(startAt) ? 0 : startAt - 1;
+				if(obj.is("[control-start]") && obj.attr("control-start") == "true" && isNav){
+
+					if(inputControll[0]){
+						startAt = inputControll.val();
+
+						startAt = isNaN(startAt) ? 0 : startAt - 1;
+					}
+					else{
+						$.IGRP.utils.createHidden({
+							name 	: name,
+							id 		: name,
+							class 	: "menuCtrl submittable",
+							value   : 1
+						});
+					}
 				}
-				else{
-					$.IGRP.utils.createHidden({
-						name 	: name,
-						id 		: name,
-						class 	: "menuCtrl submittable",
-						value   : 1
-					});
+
+				if(firstElement[0] && firstElement.hasClass('hiddenrules')){
+					firstIsHide = true;
+					startAt = startAt === 0 ? 1 : startAt;
 				}
-			}
 
-			if(firstElement[0] && firstElement.hasClass('hiddenrules')){
-				firstIsHide = true;
-				startAt = startAt === 0 ? 1 : startAt;
-			}
+				if(lastElement[0] && lastElement.hasClass('hiddenrules')){
+					lastIsHide = true;
+					totalStep = totalStep > 1 ? totalStep - 1 : totalStep;
+				}
 
-			if(lastElement[0] && lastElement.hasClass('hiddenrules')){
-				lastIsHide = true;
-				totalStep = totalStep > 1 ? totalStep - 1 : totalStep;
-			}
+			}else	
+				$('.step-footer',obj).addClass('hidden');
 		},
 
 		controllBtn : function (obj) {
-
+			
 			var HolderBtns = $('.box-footer.gen-form-footer .gen-form-btns',obj);
 
 			if(HolderBtns[0]){
@@ -66,12 +75,14 @@
 
 				HolderBtns.parents('.box-footer.gen-form-footer').remove();
 
+				$('.step-footer',obj).find('.step-btn.finish.step-finish-btns').remove();
+
 				$('.step-footer',obj).append(getBtns);
 			}
 		},
 
 		hideOrShowBtn : function (idx, obj) {
-			console.log(firstIsHide,idx);
+			
 			if(totalStep === idx){
 				$('.step-footer .step-finish-btns',obj).removeClass('step-finish-btns');
 
@@ -96,8 +107,6 @@
 			obj.steps({
 				startAt : startAt,
 				onInit: function () {
-					
-					console.log(startAt);
 
 					if($(':input', obj)[0] && isNav){
 
@@ -110,7 +119,6 @@
 							}
 						});
 					}
-
 
 					if(isNav){
 
@@ -154,9 +162,10 @@
 
 						$.IGRP.components.stepcontent.events.execute('stepActive', currentObj);//execute event
 
-						if (stepDirection === 'forward' && isNav && $(':input', currentObj)[0]) {
+						var fields = $.IGRP.utils.getFieldsValidate(currentObj);
 
-							var fields = $.IGRP.utils.getFieldsValidate(currentObj);
+						if (stepDirection === 'forward' && isNav && fields[0]) {
+						
 
 							valid = fields.valid();
 						}
@@ -194,10 +203,11 @@
 			});
 
 			$.IGRP.events.on('element-transform',function(p){
+				var step = p.content.parents('.step-holder');
+
+				if(step[0]){
 					
-				if($('.step-holder',p.content)[0]){
-					
-					com.controllBtn($('.step-holder',p.content));
+					com.controllBtn(step);
 				}
 			});
 
@@ -213,7 +223,7 @@
 					index = $('.step-tab-panel.active', step).index();
 
 				if($(e).hasClass('active')){
-					console.log(index,totalStep);	
+					
 					if((index === 0 || index === totalStep)){
 						index = index === 0 ? index + 1 : index - 1;
 
