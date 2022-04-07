@@ -899,6 +899,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 									 	label = $('text',o).text();
 									
 									$('input',$(group)).attr({
+										checked:$(o).attr('selected') === 'selected',
 										value: $('value',o).text(),
 										label: label
 									});
