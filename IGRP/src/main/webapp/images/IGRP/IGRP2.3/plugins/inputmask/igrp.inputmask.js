@@ -29,7 +29,7 @@
 
                 if(v && v!= undefined){
 
-                    valid = eval(/^(0?[1-9]|[1-2][0-9]|3[01])[-](0?[1-9]|1[0-2])[-]\d{4}$/).test(v);
+                    valid = eval(/^(0?[1-9]|[1-2][0-9]|3[01])[-](0?[1-9]|1[0-2])[-][1-9]\d{3}$/).test(v);
 
                     if(valid){
                         let ListofDays  = [31,28,31,30,31,30,31,31,30,31,30,31]; 
@@ -58,7 +58,7 @@
 
         message : {
             monthYear   : 'Data inv&aacute;lida. Formato deve ser MM-YYYY ex: (01-2022)',
-            date        : "Data inv&aacute;lida."
+            date        : "Data inv&aacute;lida. Formato deve ser DD-MM-YYYY ex: (01-01-2022)"
         },
 
 		mask : {
@@ -87,7 +87,7 @@
             monthYear : function(field){
 
                 field.mask('MM-YYYY', {
-                    placeholder: "__-____",
+                    placeholder: "MM-YYYY",
                     translation: {
                         M: {pattern: /[0-9]/},
                         Y: {pattern: /[0-9]/}
@@ -98,7 +98,7 @@
 
             date : function (field) {
                 field.mask("DD-MM-YYYY", {
-                    placeholder: "__-__-____",
+                    placeholder: "DD-MM-YYYY",
                     translation: {
                         D: {pattern: /[0-9]/},
                         M: {pattern: /[0-9]/},
@@ -108,12 +108,14 @@
             },
 
             time : function (field) {
-                field.mask('00:00:00');
+                field.mask('00:00:00',{
+                    placeholder: "hh:mm:ss"
+                });
             },
 
             datetime : function(field) {
                 field.mask('DD-MM-YYYY hh:mm:ss', {
-                    placeholder: "__-__-____ __:__:__",
+                    placeholder: "DD-MM-YYYY hh:mm:ss"
                 });
             },
 
