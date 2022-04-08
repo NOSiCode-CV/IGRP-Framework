@@ -1,0 +1,1 @@
+package nosi.webapps.hackathon1.core.steriotype;
