@@ -849,18 +849,18 @@ public abstract class QueryHelper implements QueryInterface{
 		throw new UnsupportedOperationException();
 	}
 
-	protected void setError(ResultSet r, Exception e) {
-		if(this.isShowError() && e!=null) {
-				if(r!=null) {
-					r.setError(e.getMessage());
-				}
-				Core.log(e.getMessage());
-			
+	protected void setError(ResultSet resultSet, Exception e) {
+		if (this.isShowError() && e != null) {
+
+			Core.setMessageError(e.getMessage());
+			Core.log(e.getMessage());
+
+			if (resultSet != null)
+				resultSet.setError(e.getMessage());
+
 		}
-		if(this.isShowTracing() && e!=null) {
-				e.printStackTrace();
-		}
-		
+		if (this.isShowTracing() && e != null)
+			e.printStackTrace();
 	}
 
 	@Override
