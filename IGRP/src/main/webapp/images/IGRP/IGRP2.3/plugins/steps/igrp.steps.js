@@ -69,7 +69,7 @@
 
 				HolderBtns.remove();
 
-				if(!$(":input",parentForm)[0]){
+				if(!$(":input",parentForm)[0] && !$(".form-group",parentForm)[0]){
 					parentForm.remove();
 				}
 
