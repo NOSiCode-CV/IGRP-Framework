@@ -39,7 +39,7 @@ public abstract class AbstractField implements Field {
 		return this.propertie;
 	}
 
-	public AbstractField() {
+	protected AbstractField() {
 		this.propertie = new FieldProperties();
 	}
 
@@ -90,17 +90,17 @@ public abstract class AbstractField implements Field {
 
 	@Override
 	public void setValue(int value) {
-		this.value = new Integer(value);
+		this.value = Integer.valueOf(value);
 	}
 
 	@Override
 	public void setValue(float value) {
-		this.value = new Float(value);
+		this.value = Float.valueOf(value);
 	}
 
 	@Override
 	public void setValue(double value) {
-		this.value = new Double(value);
+		this.value = Double.valueOf(value);
 	}
 
 	@Override
@@ -158,12 +158,12 @@ public abstract class AbstractField implements Field {
 
 	@Override
 	public void setSqlQuery(String connectionName, String tableName, String key, String value) {
-		String sql = "";
+		String sqlQ = "";
 		if (connectionName != null && !connectionName.equals("") && tableName != null && key != null && value != null) {
 			this.connectionName = connectionName;
-			sql = "SELECT " + key + ", " + value + " FROM " + tableName;
+			sqlQ = "SELECT " + key + ", " + value + " FROM " + tableName;
 		}
-		this.setSqlQuery(sql);
+		this.setSqlQuery(sqlQ);
 	}
 
 	@Override
