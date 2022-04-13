@@ -251,6 +251,7 @@ public class MigrationController extends Controller {
 	
 	private String generateImports(String content) {
 		StringBuilder stringBuilder = new StringBuilder(); 
+		stringBuilder.append("import nosi.core.db.migration.igrp.IgrpMigrationTemplate;\n");
 		if(content.contains("Core."))
 			stringBuilder.append("import nosi.core.webapp.Core;\n"); 
 		if(content.contains("new Action"))
