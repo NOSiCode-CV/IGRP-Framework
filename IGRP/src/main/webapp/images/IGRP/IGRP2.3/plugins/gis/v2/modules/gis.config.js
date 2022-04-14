@@ -25,7 +25,7 @@
 
 				case 'selection_menu':
 				case 'infowindow':				
-				case 'googlestreetview':
+				case 'streetview':
 
 					config.css = true; config.js = true;
 
