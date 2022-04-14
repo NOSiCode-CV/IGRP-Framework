@@ -700,20 +700,23 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 	// Get all available task
 	private List<Table_disponiveis> getAvailableTask(ExecucaoTarefas model, ExecucaoTarefasView view) {
 		List<Table_disponiveis> tasksDisponiveis = new ArrayList<>();
-		List<TaskService> tasks = this.applyFiler(model,AVAILABLE); // apply new filter
-		for (TaskService task : tasks) {
-			ExecucaoTarefas.Table_disponiveis t = new ExecucaoTarefas.Table_disponiveis();
-			t.setCategorias_processo_tabela_disponiveis(task.getProcessName()+getVersion(task));
-			t.setData_entrada_tabela_disponiveis(Core.isNotNull(task.getCreateTime())
-					? Core.dateToString(task.getCreateTime(), "yyyy-MM-dd HH:mm:ss"): "");
-			t.setP_id_d(task.getId());
-			t.setN_tarefa_d(task.getProcessInstanceId());
-			t.setData_fim_d(Core.isNotNull(task.getDueDate())
-					? Core.dateToString(task.getDueDate(), "yyyy-MM-dd HH:mm:ss"): "");
-			t.setTarefas_tabela_disponiveis(task.getDescription() != null ? task.getDescription() : task.getName());
-			t.setPrioridade(""+task.getPriority());
-			tasksDisponiveis.add(t);
+		if(view.disponiveis.isVisible()) {
+			List<TaskService> tasks = this.applyFiler(model,AVAILABLE); // apply new filter
+			for (TaskService task : tasks) {
+				ExecucaoTarefas.Table_disponiveis t = new ExecucaoTarefas.Table_disponiveis();
+				t.setCategorias_processo_tabela_disponiveis(task.getProcessName()+getVersion(task));
+				t.setData_entrada_tabela_disponiveis(Core.isNotNull(task.getCreateTime())
+						? Core.dateToString(task.getCreateTime(), "yyyy-MM-dd HH:mm:ss"): "");
+				t.setP_id_d(task.getId());
+				t.setN_tarefa_d(task.getProcessInstanceId());
+				t.setData_fim_d(Core.isNotNull(task.getDueDate())
+						? Core.dateToString(task.getDueDate(), "yyyy-MM-dd HH:mm:ss"): "");
+				t.setTarefas_tabela_disponiveis(task.getDescription() != null ? task.getDescription() : task.getName());
+				t.setPrioridade(""+task.getPriority());
+				tasksDisponiveis.add(t);
+			}
 		}
+		
 		return tasksDisponiveis;
 	}
 	
