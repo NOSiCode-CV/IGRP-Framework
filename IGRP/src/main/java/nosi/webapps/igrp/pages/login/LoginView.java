@@ -88,7 +88,7 @@ public class LoginView extends View {
 	
 	private Properties loadConfig(String filePath, String fileName) {
 		
-		String path = new Config().getBasePathConfig() + "/" + filePath;
+		String path = Config.BASE_PATH_CONFIGURATION + "/" + filePath;
 		File file = new File(getClass().getClassLoader().getResource(path + "/" + fileName).getPath().replaceAll("%20", " "));
 		
 		Properties props = new Properties();
