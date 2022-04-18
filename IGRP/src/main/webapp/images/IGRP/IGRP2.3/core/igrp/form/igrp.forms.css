@@ -317,4 +317,8 @@ div[item-type*="lookup"]:hover .lookup-eraser{
   display: block;
 }
 
+table tbody tr td input[inputmask="currency"]{
+  text-align: right;
+}
+
 
