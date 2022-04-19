@@ -202,7 +202,7 @@ public final class Igrp{
 		byte[] buffer = new byte[50];
 		new SecureRandom().nextBytes(buffer);
 	    String result = DatatypeConverter.printHexBinary(buffer);
-	    String cookieName = this.request.getParameter("r").replaceAll("/", "-");
+	    String cookieName = this.request.getParameter("r").replace("/", "-");
 	    Cookie cookie = new Cookie(cookieName, result);
 	    this.response.addCookie(cookie);
 		return result;

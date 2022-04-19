@@ -35,7 +35,7 @@ public abstract class View  implements IHeaderConfig{
 	private Map<String, Object> currentModels;
 	
 	public View(){
-		this.currentModels = new HashMap<String, Object>();
+		this.currentModels = new HashMap<>();
 		this.pageTitle = "IGRP"; // Default page title
 		this.page = new Page();
 		this.page.setView(this);
@@ -43,7 +43,7 @@ public abstract class View  implements IHeaderConfig{
 
 	protected IGRPForm addFieldToFormHidden() {
 		IGRPForm formHidden = new IGRPForm("hidden_form_igrp");			
-		if(IGRPForm.hiddenFields.size() >0) {
+		if(!IGRPForm.hiddenFields.isEmpty()) {
 			for(Field f:IGRPForm.hiddenFields) {
 				formHidden.addField(f);
 			}
