@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import com.google.common.reflect.TypeToken;
+import com.google.gson.reflect.TypeToken;
 
 import nosi.core.webapp.activit.rest.entities.ResourceService;
 import nosi.core.webapp.activit.rest.entities.ResourcesService;
