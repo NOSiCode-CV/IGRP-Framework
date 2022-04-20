@@ -49,15 +49,30 @@
 
                     let name        = field.attr('name') || field.attr('field-name'),
                         val         = field.val() || '',
-                        hasAuxField = field.parents('table')[0] ? $(`.currency-control[name="${name}"]`,field.parents('td:first')) : $(`.currency-control[name="${name}"]`);
+                        hasAuxField = field.parents('table')[0] ? $(`.currency-control[name="${name}"]`,field.parents('td:first')) : $(`.currency-control[name="${name}"]`),
+                        decimal     = '';
 
+                    if(val.indexOf('.')){
+                        const v = val.split('.');
+    
+                        if(v[1] && v[1].length > 0){
+    
+                            decimal = ',';
+    
+                            for (let i = 0; i < v[1].length; i++) {
+                                decimal += '0';
+                            }
+                        }
+                    }
+                    
+                    
                     if(!hasAuxField[0]){
                         field.parents('*:first').append(`<input type="hidden" name="${name}" class="currency-control" value="${val}"/>`);
 
                         field.removeAttr('name').attr('field-name',name);
                     }
 
-                    field.mask("#.##0", {
+                    field.mask(`#.##0${decimal}`, {
                         reverse: true,
                         translation: {
                             '#': {
@@ -67,7 +82,7 @@
                         },
                         onKeyPress: function(value, event, currentField){
 
-                            value = (value.replaceAll('.', '').replaceAll(',', '')*1);
+                            value = (value.replaceAll('.', '').replaceAll(',', '.')*1);
                             currentField.attr('data-value',value).val();
         
                             let objfield = currentField.parents('table')[0] ? $('input[name="'+currentField.attr('field-name')+'"]',currentField.parents('td:first')) : $('input[name="'+currentField.attr('field-name')+'"]');
