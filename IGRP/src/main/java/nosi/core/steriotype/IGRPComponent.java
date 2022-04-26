@@ -1,4 +1,4 @@
-package nosi.webapps.hackathon1.core.steriotype;
+package nosi.core.steriotype;
 
 /**
  * Indicates that an annotated class is a "component".
