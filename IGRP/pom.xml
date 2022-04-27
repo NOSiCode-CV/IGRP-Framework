@@ -26,7 +26,7 @@
 		<jersey.version>2.29</jersey.version>
 		<mysql.version>8.0.28</mysql.version>
 		<postgres.version>42.3.3</postgres.version>
-		<h2.version>2.1.212</h2.version>
+		<h2.version>2.1.210</h2.version>
 		<sqlserver.version>10.2.0.jre8</sqlserver.version>
 		<model.mapper.version>3.1.0</model.mapper.version>
 		<gson.version>2.9.0</gson.version>
@@ -101,11 +101,12 @@
 		<!-- TomEE Embedded -->
 		<tomee.embedded.version>8.0.7</tomee.embedded.version>
 		
-		<!-- Flyway Migration API -->
-		<flyway.version>8.5.5</flyway.version>
+		<!-- Flyway Migration API & Docker PostgreSQL -->
+		<flyway.version>8.5.8</flyway.version>
 		<igrp.db.user>postgres</igrp.db.user>
 		<igrp.db.password>softwaredeveloper</igrp.db.password>
-		<igrp.db.dsn>jdbc:postgresql://localhost:5432/db_igrp</igrp.db.dsn>
+		<igrp.db.dsn>jdbc:postgresql://localhost:5432/db_igrp</igrp.db.dsn> <!-- Comment this line when run IGRPWEB+Postgres+Docker -->
+		<!--<igrp.db.dsn>jdbc:postgresql://postgres:5432/db_igrp</igrp.db.dsn>--> <!-- Uncomment this line when run IGRPWEB+Postgres+Docker -->
 		<igrp.migration.location>classpath:nosi/core/db/migration/igrp/postgres</igrp.migration.location>
 	
 	</properties>
@@ -597,6 +598,70 @@
 						</systemVariables>
 					</configuration>
 				</plugin>
+				
+				
+				<plugin>
+			        <groupId>io.fabric8</groupId>
+			        <artifactId>docker-maven-plugin</artifactId>
+			        <configuration>
+			          
+			          <images>
+			          
+			            <image>
+			              <name>igrpweb/igrpweb:${project.version}</name>
+			              <alias>igrpweb</alias>
+			              <build>
+			                <!-- filter>@</filter-->
+			                <contextDir>${project.basedir}/src/main/docker</contextDir>
+			                <assembly>
+			                  <descriptorRef>artifact</descriptorRef> 
+			                </assembly>
+			              </build>
+			              <run>
+			                <ports>
+			                  <port>8080:8080</port>
+			                </ports>
+			                <!-- <autoRemove>true</autoRemove> -->
+			                <!--
+			                <links> 
+					          <link>postgres</link>
+					        </links>
+					        -->
+			              </run>
+			            </image>
+			            
+			            <!--
+			            <image>
+					      <alias>postgres</alias> 
+					      <name>postgres:latest</name>
+					      <run>
+					      	<env>
+							    <POSTGRES_USER>${igrp.db.user}</POSTGRES_USER>
+							    <POSTGRES_PASSWORD>${igrp.db.password}</POSTGRES_PASSWORD>
+							    <POSTGRES_DB>db_igrp</POSTGRES_DB>
+							</env>
+					      	<ports>
+							    <port>5432:5432</port>
+							</ports>
+					      	<log>
+							    <prefix>postgres</prefix>
+							    <enabled>true</enabled>
+							    <color>yellow</color>
+							</log>
+					        <wait> 
+					          <log>(?s)PostgreSQL init process complete.*database system is ready to accept connections</log>
+					          <time>20000</time>
+					        </wait>
+					      </run>
+					    </image>
+			            -->
+			            
+			          </images>
+			          
+			        </configuration>
+			        
+			      </plugin>
+				
                 
 			</plugins>
 			
