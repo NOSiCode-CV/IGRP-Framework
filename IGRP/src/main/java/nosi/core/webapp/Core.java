@@ -25,16 +25,13 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -70,6 +67,8 @@ import nosi.core.gui.components.IGRPLink;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
+import nosi.core.integration.pdex.email.PdexEmailGateway;
+import nosi.core.integration.pdex.email.PdexEmailGatewayPayloadDTO;
 import nosi.core.mail.EmailMessage;
 import nosi.core.mail.EmailMessage.Attachment;
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
@@ -117,8 +116,8 @@ import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.Domain;
 import nosi.webapps.igrp.dao.Organization;
-import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Share;
 import nosi.webapps.igrp.dao.TipoDocumento;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
@@ -129,7 +128,7 @@ import nosi.webapps.igrp.dao.User;
  * The core of the IGRP, here you can find all the main functions and helper
  * function useful like toInt, parceInt, isNotNull...
  * 
- * @author: Emanuel Pereira 13 Nov 2017
+ * @author: Emanuel Pereira 13 Nov 2017 
  */
 public final class Core {
 
@@ -368,8 +367,13 @@ public final class Core {
 	 *            application code
 	 */
 	public static String defaultConnection(String dad) {
+		//To make BDD work, this is a forcing bd connection to change for mock use
+		final String connectionTestName = Core.getParam("igrp.test.bdd",false);
+		if (Core.isNotNull(connectionTestName)) {
+			return connectionTestName;
+		}
 		String result = "";
-		Config_env configEnv = new Config_env().find().where("isdefault", "=", new Short((short) 1))
+		Config_env configEnv = new Config_env().find().setKeepConnection(true).where("isdefault", "=", (short) 1)
 				.andWhere("application.dad", "=", dad).one();
 		if (configEnv != null)
 			result = configEnv.getName();
@@ -1540,7 +1544,7 @@ public final class Core {
 		String x = Core.getParam(name, isRemoved);
 		if (Core.isNull(x))
 			x = Core.getAttribute(name, isRemoved);
-		return Core.isNotNull(x) ? Core.toDouble(x) : new Double(0);
+		return Core.isNotNull(x) ? Core.toDouble(x) : Double.valueOf(0);
 	}
 
 	/**
@@ -1575,7 +1579,7 @@ public final class Core {
 		String x = Core.getParam(name, isRemoved);
 		if (Core.isNull(x))
 			x = Core.getAttribute(name, isRemoved);
-		return Core.isNotNull(x) ? Core.toFloat(x) : new Float(0);
+		return Core.isNotNull(x) ? Core.toFloat(x) : Float.valueOf(0);
 	}
 
 	/**
@@ -1602,7 +1606,7 @@ public final class Core {
 		String x = Core.getParam(name, isRemoved);
 		if (Core.isNull(x))
 			x = Core.getAttribute(name, isRemoved);
-		return Core.isNotNull(x) ? Core.toInt(x) : new Integer(0);
+		return Core.isNotNull(x) ? Core.toInt(x) : Integer.valueOf(0);
 	}
 
 	/**
@@ -1629,7 +1633,7 @@ public final class Core {
 		String x = Core.getParam(name, isRemoved);
 		if (Core.isNull(x))
 			x = Core.getAttribute(name, isRemoved);
-		return Core.isNotNull(x) ? Core.toLong(x) : new Long(0);
+		return Core.isNotNull(x) ? Core.toLong(x) : Long.valueOf(0);
 	}
 
 	/**
@@ -1680,7 +1684,7 @@ public final class Core {
 		String x = Core.getParam(name, isRemoved);
 		if (Core.isNull(x))
 			x = Core.getAttribute(name, isRemoved);
-		return Core.isNotNull(x) ? Core.toShort(x) : new Short((short) 0);
+		return Core.isNotNull(x) ? Core.toShort(x) : Short.valueOf((short) 0);
 	}
 
 	/**
@@ -1775,8 +1779,7 @@ public final class Core {
 			String[] newStrings = new String[strings.length - 1];
 			System.arraycopy(strings, 1, newStrings, 0, newStrings.length);
 			return getSwitchNotNullValue(newStrings);
-		} else if (strings.length == 1) {
-			if (Core.isNotNull(strings[0]))
+		} else if (strings.length == 1 && Core.isNotNull(strings[0])){
 				return strings[0];
 		}
 		return "";
@@ -2025,7 +2028,7 @@ public final class Core {
 	 * Checks if it's not null or not 0 First {@code Core.isNotNull(value)}
 	 * 
 	 * @param value
-	 * @return {@code new Integer(value.toString())!=0;}
+	 * @return {@code Integer.valueOf(value.toString())!=0;}
 	 */
 	public static boolean isNotNullOrZero(Object value) {
 		return !isNullOrZero(value);
@@ -2324,6 +2327,32 @@ public final class Core {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	/**
+	 * @param endpoint PDEX Email Gateway URL 
+	 * @param httpAuthorizationHeaderValue PDEX Email Gateway "Bearer TOKEN" 
+	 * @param payload The Message 
+	 * @return boolean success true|false
+	 */
+	public static boolean mailGatewayPdex(String endpoint, String httpAuthorizationHeaderValue, PdexEmailGatewayPayloadDTO payload) {
+		return new PdexEmailGateway(endpoint, httpAuthorizationHeaderValue, payload).send();
+	}
+	
+	/**
+	 * @param endpoint PDEX Email Gateway URL 
+	 * @param httpAuthorizationHeaderValue PDEX Email Gateway "Bearer TOKEN" 
+	 * @param payload The Message 
+	 * @param errors A List of errors if occurs 
+	 * @return boolean success true|false
+	 */
+	public static boolean mailGatewayPdex(String endpoint, String httpAuthorizationHeaderValue, PdexEmailGatewayPayloadDTO payload, List<String> errors) {
+		boolean success = false;
+		PdexEmailGateway sender = new PdexEmailGateway(endpoint, httpAuthorizationHeaderValue); 
+		sender.setPayload(payload); 
+		if(!(success = sender.send()) && errors != null) 
+			errors.addAll(sender.getErrors()); 
+		return success;
 	}
 
 	public static Map<Object, Object> mapArray(Object[] array1, Object[] array2) {
@@ -2842,7 +2871,7 @@ public final class Core {
 	 */
 	@Deprecated
 	public static Integer saveFile(byte[] content, String name, String mime_type) {
-		Integer id = new Integer(0);
+		Integer id = Integer.valueOf(0);
 		try {
 			if (Core.isNotNull(name)) {
 				String extension = name.substring(name.lastIndexOf("."));
@@ -2912,7 +2941,7 @@ public final class Core {
 	public static Integer saveFile(Part part) {
 		if (part != null)
 			return Core.saveFile(part, part.getSubmittedFileName());
-		return new Integer(0);
+		return Integer.valueOf(0);
 	}
 
 	/**
@@ -3047,7 +3076,7 @@ public final class Core {
 			}
 
 		}
-		return new Integer(0);
+		return Integer.valueOf(0);
 	}
 
 	public static String saveFileNGetUuid(byte[] bytes, String name, String mime_type, String dad) {
@@ -3057,11 +3086,10 @@ public final class Core {
 			clob.generateUid();
 			clob = clob.insert();
 			clob.showMessage();
-			if (!clob.hasError()) {
-				if (!(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated())) {
+			if (!clob.hasError() && !(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated())) {
 					clob.setEstado("AP");
 					clob.update();
-				}
+				
 			}
 			return clob.getUuid();
 		}
@@ -3090,7 +3118,7 @@ public final class Core {
 				e.printStackTrace();
 			}
 		}
-		return new Integer(0);
+		return Integer.valueOf(0);
 	}
 
 	/**
@@ -3126,7 +3154,7 @@ public final class Core {
 	 * @return in ID
 	 */
 	public static Integer saveFile(Part part, String name) {
-		Integer result = new Integer(0);
+		Integer result = Integer.valueOf(0);
 		if (Core.isNotNullMultiple(part, name)) {
 			try {
 				result = Core.saveFile(FileHelper.convertInputStreamToByte(part.getInputStream()), name,
@@ -3310,9 +3338,9 @@ public final class Core {
 	public static String getProcessVariable(String processDefinitionKey, String variableName) {
 		List<TaskVariables> vars = Core.getProcessVariables(processDefinitionKey);
 		if (vars != null) {
-			List<TaskVariables> var = vars.stream().filter(v -> v.getName().equalsIgnoreCase(variableName))
+			List<TaskVariables> variav = vars.stream().filter(v -> v.getName().equalsIgnoreCase(variableName))
 					.collect(Collectors.toList());
-			return (var != null && !var.isEmpty()) ? (String) var.get(var.size() - 1).getValue() : "";
+			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3321,9 +3349,9 @@ public final class Core {
 			String variableName) {
 		List<TaskVariables> vars = Core.getProcessVariables(processDefinitionKey, processInstanceId);
 		if (vars != null) {
-			List<TaskVariables> var = vars.stream().filter(v -> v.getName().equalsIgnoreCase(variableName))
+			List<TaskVariables> variav = vars.stream().filter(v -> v.getName().equalsIgnoreCase(variableName))
 					.collect(Collectors.toList());
-			return (var != null && !var.isEmpty()) ? (String) var.get(var.size() - 1).getValue() : "";
+			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3332,10 +3360,10 @@ public final class Core {
 		String processInstanceId = Core.getProcessInstaceByTask();
 		List<TaskVariables> vars = Core.getProcessVariables(processDefinitionKey, processInstanceId);
 		if (vars != null) {
-			List<TaskVariables> var = vars.stream()
+			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(BPMNConstants.PRM_PROCESS_ID))
 					.collect(Collectors.toList());
-			return (var != null && !var.isEmpty()) ? (String) var.get(var.size() - 1).getValue() : "";
+			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3457,10 +3485,10 @@ public final class Core {
 		TaskService task = new TaskServiceRest().getTask(id);
 		List<TaskVariables> vars = Core.getTaskVariables(task.getTaskDefinitionKey());
 		if (vars != null) {
-			List<TaskVariables> var = vars.stream()
+			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
 					.collect(Collectors.toList());
-			return (var != null && !var.isEmpty()) ? "" + var.get(var.size() - 1).getValue() : "";
+			return (variav != null && !variav.isEmpty()) ? "" + variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3475,10 +3503,10 @@ public final class Core {
 	public static String getTaskVariable(String taskDefinitionKey, String variableName) {
 		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
 		if (vars != null) {
-			List<TaskVariables> var = vars.stream()
+			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
 					.collect(Collectors.toList());
-			return (var != null && !var.isEmpty()) ? "" + var.get(var.size() - 1).getValue() : "";
+			return (variav != null && !variav.isEmpty()) ? "" + variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3516,7 +3544,7 @@ public final class Core {
 	}
 
 	public static void setTaskVariableBoolean(String variableName, boolean value) {
-		Core.setTaskVariable(variableName, "global", "boolean", new Boolean(value));
+		Core.setTaskVariable(variableName, "global", "boolean", Boolean.valueOf(value));
 	}
 
 	public static void setTaskVariableDate(String variableName, java.util.Date value) {
@@ -3552,7 +3580,7 @@ public final class Core {
 	}
 
 	public static void setTaskVariableBoolean(String variableName, String scope, boolean value) {
-		Core.setTaskVariable(variableName, scope, "boolean", new Boolean(value));
+		Core.setTaskVariable(variableName, scope, "boolean", Boolean.valueOf(value));
 	}
 
 	public static void setTaskVariableDate(String variableName, String scope, java.util.Date value) {
@@ -3584,52 +3612,52 @@ public final class Core {
 
 	public static Boolean getTaskVariableBoolean(String variableName) {
 		String v = Core.getTaskVariable(variableName);
-		return Core.isNotNull(v) ? new Boolean(true) : new Boolean(false);
+		return Core.isNotNull(v) ? Boolean.valueOf(true) : Boolean.valueOf(false);
 	}
 
 	public static Boolean getTaskVariableBoolean(String taskDefinitionKey, String variableName) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? new Boolean(true) : new Boolean(false);
+		return Core.isNotNull(v) ? Boolean.valueOf(true) : Boolean.valueOf(false);
 	}
 
 	public static Double getTaskVariableDouble(String variableName) {
 		String v = Core.getTaskVariable(variableName);
-		return Core.isNotNull(v) ? Core.toDouble(v) : new Double(0);
+		return Core.isNotNull(v) ? Core.toDouble(v) : Double.valueOf(0);
 	}
 
 	public static Double getTaskVariableDouble(String taskDefinitionKey, String variableName) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? Core.toDouble(v) : new Double(0);
+		return Core.isNotNull(v) ? Core.toDouble(v) : Double.valueOf(0);
 	}
 
 	public static Integer getTaskVariableInt(String variableName) {
 		String v = Core.getTaskVariable(variableName);
-		return Core.isNotNull(v) ? Core.toInt(v) : new Integer(0);
+		return Core.isNotNull(v) ? Core.toInt(v) : Integer.valueOf(0);
 	}
 
 	public static Integer getTaskVariableInt(String taskDefinitionKey, String variableName) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? Core.toInt(v) : new Integer(0);
+		return Core.isNotNull(v) ? Core.toInt(v) : Integer.valueOf(0);
 	}
 
 	public static Short getTaskVariableShort(String variableName) {
 		String v = Core.getTaskVariable(variableName);
-		return Core.isNotNull(v) ? Core.toShort(v) : new Short((short) 0);
+		return Core.isNotNull(v) ? Core.toShort(v) : Short.valueOf((short) 0);
 	}
 
 	public static Short getTaskVariableShort(String taskDefinitionKey, String variableName) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? Core.toShort(v) : new Short((short) 0);
+		return Core.isNotNull(v) ? Core.toShort(v) : Short.valueOf((short) 0);
 	}
 
 	public static Long getTaskVariableLong(String variableName) {
 		String v = Core.getTaskVariable(variableName);
-		return Core.isNotNull(v) ? Core.toLong(v) : new Long(0);
+		return Core.isNotNull(v) ? Core.toLong(v) : Long.valueOf(0);
 	}
 
 	public static Long getTaskVariableLong(String taskDefinitionKey, String variableName) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? Core.toLong(v) : new Long(0);
+		return Core.isNotNull(v) ? Core.toLong(v) : Long.valueOf(0);
 	}
 
 	public static java.util.Date getTaskVariableDate(String taskDefinitionKey, String variableName) {
@@ -3664,10 +3692,10 @@ public final class Core {
 		TaskService task = new TaskServiceRest().getTask(id);
 		List<TaskVariables> vars = Core.getTaskVariables(task.getTaskDefinitionKey());
 		if (vars != null) {
-			List<TaskVariables> var = vars.stream()
+			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
 					.collect(Collectors.toList());
-			return (var != null && !var.isEmpty()) ? (String) var.get(var.size() - 1).getValue() : null;
+			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : null;
 		}
 		return null;
 	}
@@ -3675,10 +3703,10 @@ public final class Core {
 	public static Object getTaskVariableSerializable(String taskDefinitionKey, String variableName) {
 		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
 		if (vars != null) {
-			List<TaskVariables> var = vars.stream()
+			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
 					.collect(Collectors.toList());
-			return (var != null && !var.isEmpty()) ? (String) var.get(var.size() - 1).getValue() : null;
+			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : null;
 		}
 		return null;
 	}
@@ -3686,10 +3714,10 @@ public final class Core {
 	public static String getTaskVariableId(String taskDefinitionKey) {
 		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
 		if (vars != null) {
-			List<TaskVariables> var = vars.stream()
+			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + "p_task_id"))
 					.collect(Collectors.toList());
-			return (var != null && !var.isEmpty()) ? (String) var.get(var.size() - 1).getValue() : "";
+			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -4337,12 +4365,12 @@ public final class Core {
 	public static Double toDouble(String value, double defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
-				return new Double(Double.parseDouble(value));
+				return Double.valueOf(Double.parseDouble(value));
 			} catch (NumberFormatException e) {
-
+				
 			}
 		}
-		return new Double(defaultValue);
+		return Double.valueOf(defaultValue);
 	}
 
 	/**
@@ -4360,12 +4388,12 @@ public final class Core {
 	public static Float toFloat(String value, float defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
-				return new Float(Float.parseFloat(value));
+				return Float.valueOf(Float.parseFloat(value));
 			} catch (NumberFormatException e) {
 
 			}
 		}
-		return new Float(defaultValue);
+		return Float.valueOf(defaultValue);
 	}
 
 	/**
@@ -4392,12 +4420,12 @@ public final class Core {
 	public static Integer toInt(String value, int defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
-				return new Integer(Integer.parseInt(value));
+				return Integer.valueOf(Integer.parseInt(value));
 			} catch (NumberFormatException e) {
 
 			}
 		}
-		return new Integer(defaultValue);
+		return Integer.valueOf(defaultValue);
 	}
 
 	public static String toJson(Object appP) {
@@ -4419,12 +4447,12 @@ public final class Core {
 	public static Long toLong(String value, long defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
-				return new Long(Long.parseLong(value));
+				return Long.parseLong(value);
 			} catch (NumberFormatException e) {
-
+				
 			}
 		}
-		return new Long(defaultValue);
+		return Long.valueOf(defaultValue);
 	}
 
 	/**
@@ -4463,8 +4491,8 @@ public final class Core {
 
 	public static Short toShort(String value, short defaultValue) {
 		if (Core.isInt(value))
-			return new Short(Short.parseShort(value));
-		return new Short(defaultValue);
+			return Short.valueOf(Short.parseShort(value));
+		return Short.valueOf(defaultValue);
 	}
 
 	public static BaseQueryInterface update(String tableName) {

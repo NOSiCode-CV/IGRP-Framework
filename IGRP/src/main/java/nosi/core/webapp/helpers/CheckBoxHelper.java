@@ -32,7 +32,10 @@ public class CheckBoxHelper {
 	}
 
 	private void extract(String[] allValues, String[] checkedValues) {
-
+		if (!Core.isNotNullMultiple(allValues, checkedValues)) 
+			throw new NullPointerException("The values are null...");
+			
+		
 		if (!Core.isArraySameSize(allValues, checkedValues))
 			throw new IllegalArgumentException("The arrays provided are not the same...");
 

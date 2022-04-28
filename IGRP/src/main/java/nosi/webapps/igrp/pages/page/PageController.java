@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -20,13 +18,11 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import javax.persistence.Tuple;
-import javax.servlet.ServletException;
 import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import nosi.core.config.Config;
-import nosi.core.config.ConfigDBIGRP;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.compiler.helpers.Compiler;
@@ -59,12 +55,11 @@ public class PageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.version.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		// model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=new_page"));
+
 
 		Boolean isEdit = false;
 		Integer idPage = Core.getParamInt("p_id_page");
@@ -116,7 +111,7 @@ public class PageController extends Controller {
 		model.setNovo_modulo("igrp_studio", "modulo", "index").addParam("p_aplicacao", model.getEnv_fk());
 		model.setEditar_modulo("igrp_studio", "modulo", "index").addParam("p_aplicacao", model.getEnv_fk());
 
-		if (isEdit) {
+		if (Boolean.TRUE.equals(isEdit)) {
 			view.sectionheader_1_text.setValue("Page builder - Atualizar");
 			view.page.propertie().setProperty("disabled", "true");
 			view.btn_eliminar_pagina.setVisible(true);
@@ -252,7 +247,7 @@ public class PageController extends Controller {
 					pageMenu.setMenu(pageMenu);
 					pageMenu.insert();
 
-					if (pageMenu != null) {
+					if (!pageMenu.hasError()) {
 						Core.setMessageInfo("Página adicionada ao gestor de menu.");
 					}
 
@@ -349,26 +344,27 @@ public class PageController extends Controller {
 	}
 
 	private boolean checkifexists(Page model) {
-		// TODO Auto-generated method stub
+
 		return Core.isNull(new Action().find().andWhere("application.id", "=", Core.toInt(model.getEnv_fk()))
 				.andWhere("page", "=", nosi.core.gui.page.Page.getPageName(model.getPage())).one());
 	}
 	
 	// Save page generated
-	public Response actionSaveGenPage() throws IOException, ServletException {
+	public Response actionSaveGenPage() throws IOException {
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
 		Action ac = new Action().findOne(Integer.parseInt(p_id));
 		Compiler compiler = null;
 		PageFile pageFile = null;
 		Boolean workspace = false;
 		String messages = "";
-		if (ac != null) {
+		if (null!=ac) {
 			pageFile = new PageFile();
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package").trim();
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
 			path_class = path_class.replace(".", File.separator) + File.separator + ac.getPage().toLowerCase().trim();
 			String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(ac);
-			String path_xsl_work_space = null, path_class_work_space = null;
+			String path_xsl_work_space = null;
+			String path_class_work_space = null;
 
 			if (Core.isNotNull(this.getConfig().getWorkspace())) {
 				workspace = true;
@@ -385,17 +381,19 @@ public class PageController extends Controller {
 					&& !path_class.equals("")) {
 				this.processJson(pageFile.getFileJson(), ac);
 
-				if (workspace)
+				if (Boolean.TRUE.equals(workspace))
 					FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(),
 							new String[] { pageFile.getFileXml(), pageFile.getFileXsl(), pageFile.getFileJson() });
-				boolean r = FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),
+				
+				 FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),
 						new String[] { pageFile.getFileXml(), pageFile.getFileXsl(), pageFile.getFileJson() });
+				 boolean r;
 				if (ac.getIsComponent() == 0) {
 					r = FileHelper.saveFilesJava(path_class, ac.getPage(), new String[] { pageFile.getFileModel(),
 							pageFile.getFileView(), pageFile.getFileController() });
 					compiler = this.processCompile(path_class, ac.getPage());
-					if (r && !compiler.hasError()) {// Check if not error on the compilation class
-						if (workspace) {
+					if (r && !compiler.hasError() && Boolean.TRUE.equals(workspace)) {// Check if not error on the compilation class
+						
 							if (!FileHelper.fileExists(path_class_work_space)) {// check directory
 								FileHelper.createDiretory(path_class_work_space);// create directory if not exist
 							}
@@ -404,7 +402,7 @@ public class PageController extends Controller {
 											pageFile.getFileController() },
 									FileHelper.ENCODE_UTF8, FileHelper.ENCODE_UTF8);// ENCODE_UTF8 for default encode
 																					// eclipse
-						}
+						
 					}
 				} else
 					messages += ("<message type=\"" + FlashMessage.INFO + "\">"
@@ -456,6 +454,7 @@ public class PageController extends Controller {
 
 				this.processBoxContent(objJson, ac);
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -499,6 +498,7 @@ public class PageController extends Controller {
 								p.get("action").toString(), p.get("tag").toString(), ac);
 				}
 			} catch (JSONException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -517,7 +517,7 @@ public class PageController extends Controller {
 	}
 
 	// list all page of an application
-	public Response actionListPage() throws IOException {
+	public Response actionListPage()  {
 		final String dad = Core.getParam("p_dad");
 		int app = Core.findApplicationByDad(dad).getId();
 		String json = "[";
@@ -539,7 +539,7 @@ public class PageController extends Controller {
 				json += "\"action\":\"" + ac.getAction() + "\",";
 				final String dad2 = ac.getApplication().getDad();
 				json += "\"app\":\"" + dad2 + "\",";
-				json += "\"page\":\"" + ac.getPage() + "\",";
+				json += "\"page\":\"" +(dad.equalsIgnoreCase(dad2) ? "" : dad2+"@")+ ac.getPage() + "\",";
 				json += "\"id\":\"" + ac.getId() + "\",";
 				json += "\"description\":\"" + (dad.equalsIgnoreCase(dad2) ? "" : dad2 + "/")
 						+ (ac.getPage_descr() != null ? ac.getPage_descr() + " (" + ac.getPage() + ")" : ac.getPage())
@@ -556,7 +556,7 @@ public class PageController extends Controller {
 	}
 
 	// get detail page
-	public Response actionDetailPage() throws IOException {
+	public Response actionDetailPage() {
 		int p_id = Core.getParamInt("p_id");
 		Action ac = new Action().findOne(p_id);
 		String json = "{";
@@ -575,7 +575,7 @@ public class PageController extends Controller {
 		return this.renderView(json);
 	}
 
-	public Response actionImageList() throws IOException {
+	public Response actionImageList()  {
 		String param = Core.getParam("name");
 		String menu = "";
 		if (param.equals("menu")) {
@@ -588,8 +588,8 @@ public class PageController extends Controller {
 	}
 
 	// Extracting reserve code inserted by programmer
-	public Response actionPreserveUrl() throws IOException {
-		// String type = Igrp.getInstance().getRequest().getParameter("type");
+	public Response actionPreserveUrl() {
+
 		String page = Core.getParam("page");
 		String app = Core.getParam("app");
 
@@ -602,7 +602,7 @@ public class PageController extends Controller {
 	}
 
 	// View page with xml
-	public Response actionVisualizar() throws IOException {
+	public Response actionVisualizar()  {
 		String p_id = Core.getParam("p_id");
 		if (Core.isNotNull(p_id)) {
 			Action ac = new Action().findOne(Integer.parseInt(p_id));
@@ -640,7 +640,7 @@ public class PageController extends Controller {
 	// For Editor
 
 	private Set<Map<String, Set<String>>> getMethod(Class<?>... params) {
-		Set<Map<String, Set<String>>> metodos = new HashSet<Map<String, Set<String>>>();
+		Set<Map<String, Set<String>>> metodos = new HashSet<>();
 		for (Class<?> c : params) {
 			for (Method method : c.getDeclaredMethods()) {
 				if (!method.getName().contains("lambda")) {
@@ -667,20 +667,20 @@ public class PageController extends Controller {
 		return this.renderView(Core.toJson(metodos));
 	}
 
-	public Response actionListDomains() throws IOException {
+	public Response actionListDomains() {
 		int p_id = Core.getParamInt("p_id");
 		Action ac = new Action().findOne(p_id);
 		if (ac != null && ac.getApplication() != null) {
 			final String dad = ac.getApplication().getDad();
 			List<String> domains = new ArrayList<>();
-			for (Tuple t : Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, DomainHeper.SQL_DOMINIO_PRIVATE)
+			for (Tuple t : Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), DomainHeper.SQL_DOMINIO_PRIVATE)
 					.addInt("env_fk", ac.getApplication().getId()).getResultList()) {
 				try {
 					domains.add(t.get("dominio") + " « " + dad);
 				} catch (IllegalArgumentException e) {
 				}
 			}
-			for (Tuple t : Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, DomainHeper.SQL_DOMINIO_PUB)
+			for (Tuple t : Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), DomainHeper.SQL_DOMINIO_PUB)
 					.getResultList()) {
 				try {
 					domains.add(t.get("dominio") + "");
@@ -695,18 +695,18 @@ public class PageController extends Controller {
 		return null;
 	}
 
-	public Response actionDomainsValues() throws IOException {
+	public Response actionDomainsValues() {
 		String p_id = Core.getParam("p_id");
 		String[] ids = p_id.split(" « ");
 		List<Properties> list = new ArrayList<>();
 		try {
 			List<Tuple> queryDomain;
 			if (ids.length > 1)
-				queryDomain = Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, DomainHeper.SQL_ITEM_DOMINIO)
+				queryDomain = Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), DomainHeper.SQL_ITEM_DOMINIO)
 						.addString("dominio", ids[0]).addInt("env_fk", Core.findApplicationByDad(ids[1]).getId())
 						.getResultList();
 			else
-				queryDomain = Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, DomainHeper.SQL_ITEM_DOMINIO_PUB)
+				queryDomain = Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), DomainHeper.SQL_ITEM_DOMINIO_PUB)
 						.addString("dominio", ids[0] == null ? p_id : ids[0]).getResultList();
 			for (Tuple t : queryDomain) {
 				Properties domains = new Properties();
@@ -721,7 +721,7 @@ public class PageController extends Controller {
 		return this.renderView(Core.toJson(list));
 	}
 
-	public Response actionGetPageJson() throws IOException {
+	public Response actionGetPageJson() {
 		String p_id = Core.getParam("p_id");
 		String p_app = Core.getParam("p_app");
 		String json = "";
@@ -730,6 +730,11 @@ public class PageController extends Controller {
 			if (Core.isInt(p_id)) {
 				ac = new Action().findOne(Core.toInt(p_id));
 			} else {
+				if(p_id.contains("@")) {
+					p_app=p_id.split("@")[0];
+					p_id=p_id.split("@")[1];
+				}
+					
 				ac = new Action().find().where("page", "=", p_id).andWhere("application.dad", "=", p_app).one();
 			}
 			if (ac != null)
@@ -740,8 +745,8 @@ public class PageController extends Controller {
 		return this.renderView(json);
 	}
 
-	public Response actionFileExists() throws IOException {
-		final String fileName = Core.getParam("uri").replaceAll("\\\\", File.separator);
+	public Response actionFileExists() {
+		final String fileName = Core.getParam("uri").replace("\\", File.separator);
 		final Properties p = new Properties();
 		final boolean fileExists = FileHelper.fileExists(basePath + fileName);
 		p.put("status", fileExists);
@@ -751,10 +756,11 @@ public class PageController extends Controller {
 		return this.renderView(Core.toJson(p));
 	}
 
-	public Response actionGenerateLink() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionGenerateLink() throws IllegalArgumentException {
 		int app_id = Core.getParamInt("p_env_fk");
 		String page = Core.getParam("p_page");
-		String link1 = "", link2 = "";
+		String link1 = "";
+		String link2 = "";
 		Application app = Core.findApplicationById(app_id);
 		if (app != null) {
 			String url = Igrp.getInstance().getRequest().getRequestURL().toString();

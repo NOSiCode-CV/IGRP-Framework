@@ -48,7 +48,7 @@ public class Report extends Controller{
 	public static final String PDF_SAVE = "3"; //PDF Save to Clob
 	
 	private Map<String,Object> params = new HashMap<>();
-	private String qs = "";
+	private StringBuilder qStr = new StringBuilder();
 	private String link;
 	private String contraProva;	
 
@@ -61,32 +61,32 @@ public class Report extends Controller{
 	@SuppressWarnings("unchecked")
 	public Response invokeReport(String code_report,Report rep,String type) {
 		
-	qs+="&p_type="+type; // se for 0 - preview, se for 1 - registar ocorencia ,2-retornar PDF preview 3 - retornar PDF e save clob
+	qStr.append("&p_type="+type); // se for 0 - preview, se for 1 - registar ocorencia ,2-retornar PDF preview 3 - retornar PDF e save clob
 	RepTemplate rt = new RepTemplate().find().andWhere("code", "=", code_report).one();
-	qs+="&p_rep_id="+rt.getId();
+	qStr.append("&p_rep_id="+rt.getId());
 	String contra_prova=rep.getContraProva();
 	if(Core.isNull(contra_prova))
 		 contra_prova = Report.generateContraProva("nosi.webapps."+rt.getApplication().getDad().toLowerCase());
 	
-	qs+="&ctpr="+Core.encryptPublicPage(contra_prova);
+	qStr.append("&ctpr="+Core.encryptPublicPage(contra_prova));
 	try {
 		if(rep!=null) 
 			for(Entry<String, Object> p : rep.getParams().entrySet()) 
 				if(!(p.getValue() instanceof List)) {
 					if(p.getValue() != null && !p.getValue().toString().equals("?")) { 
 						if (p.getKey().equals("isPublic") && p.getValue().equals("1")) 
-							qs += "&" + p.getKey() + "=" + p.getValue(); // isPublic=1 :-) 
+							qStr.append( "&" + p.getKey() + "=" + p.getValue()); // isPublic=1 :-) 
 						else 
-							qs += ("&name_array="+p.getKey() + "&value_array="+URLEncoder.encode(""+p.getValue(),StandardCharsets.UTF_8.toString())); 
+							qStr.append(("&name_array="+p.getKey() + "&value_array="+URLEncoder.encode(""+p.getValue(),StandardCharsets.UTF_8.toString()))); 
 					}
 				}else {
 					List<Object> parms = (List<Object>) p.getValue(); 
 					for(Object v : parms) 
-						qs += ("&name_array="+p.getKey() + "&value_array="+URLEncoder.encode(v.toString(),StandardCharsets.UTF_8.toString()));
+						qStr.append( ("&name_array="+p.getKey() + "&value_array="+URLEncoder.encode(v.toString(),StandardCharsets.UTF_8.toString())));
 				}
 		
 		
-			Response redirect = this.redirect("igrp_studio", "WebReport", "preview"+qs,this.queryString());
+			Response redirect = this.redirect("igrp_studio", "WebReport", "preview"+qStr.toString(),this.queryString());
 			redirect.setContent(contra_prova);
 			return redirect;
 		} catch (IOException e) {
@@ -152,15 +152,15 @@ public class Report extends Controller{
 	
 	public String getLinkContraProva(String contraProva,String appCodeId, String outType,Boolean pdfToDownload) {
 		contraProva=Core.encryptPublicPage(contraProva);
-		StringBuilder qs = new StringBuilder("&ctprov="+contraProva);
+		StringBuilder querys = new StringBuilder("&ctprov="+contraProva);
 		if(Core.isNotNull(appCodeId))
-			qs.append("&did="+appCodeId);
+			querys.append("&did="+appCodeId);
 		if(outType.equals(PDF_PRV)) {
-			qs.append("&out="+PDF_PRV);
-			if(Core.isNotNull(pdfToDownload) && pdfToDownload)
-				qs.append("&todwn="+pdfToDownload);
+			querys.append("&out="+PDF_PRV);
+			if(Core.isNotNull(pdfToDownload) && Boolean.TRUE.equals(pdfToDownload))
+				querys.append("&todwn="+pdfToDownload);
 		}		
-		return Core.getHostName()+"?r=igrp_studio/web-report/get-contraprova"+qs;
+		return Core.getHostName()+"?r=igrp_studio/web-report/get-contraprova"+querys;
 	}
 	
 	public Response getRepContraProvaPDF(String contraProva,String appCodeID,Boolean pdfToDownload) throws TransformerFactoryConfigurationError, IOException {
@@ -172,7 +172,7 @@ public class Report extends Controller{
 		if(allClasses != null) {
 			for(Class<?> c:allClasses) {
 				try {
-					ReportKey key = (ReportKey) c.newInstance(); 
+					ReportKey key = (ReportKey) c.getDeclaredConstructor().newInstance(); 
 					return key.getKeyGenerate();
 				} catch (Exception e) {
 					return  GUIDGenerator.getGUIDUpperCase();
@@ -220,7 +220,6 @@ public class Report extends Controller{
 					.replaceFirst("@page \\{", "@page {margin:0;")
 					;
 			
-		//	System.err.println("xsl "+xsl+"\n\n\n\n");
 		//XML + XSL >> HTML
 			StreamResult result = new TransformHelper().transformXMLXSL2HTML(xml, xsl);
 			String baseUri4 = FileSystems.getDefault().getPath(new Config().basePathServer()).toUri().toString();
@@ -230,8 +229,6 @@ public class Report extends Controller{
 			//HTML >> PDF
 			actual = new TransformHelper().transformHTML2PDF(doc, baseUri4);
 			
-//				if(true)	this.format = Response.FORMAT_HTML;	
-//					return this.renderView(doc.toString());
 			
 		//Ver PDF ou Download direto
 		
@@ -283,18 +280,14 @@ public class Report extends Controller{
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 	
-	public Document html5ParseDocument(String inputHTML, String baseUri) throws IOException{
+	public Document html5ParseDocument(String inputHTML, String baseUri){
 	    org.jsoup.nodes.Document doc;
-	   // System.out.println("parsing ...");
-	  //  doc = Jsoup.parse(new File(inputHTML), "UTF-8",baseUri); // se link para um ficheiro
-	   //doc = Jsoup.parse(new ByteArrayInputStream(inputHTML.getBytes("utf-8")), "UTF-8",baseUri);
 	   doc = Jsoup.parse(inputHTML,baseUri);
 		
 	    
 		Elements imgs = doc.select("img");
 		imgs.forEach(i -> {
 			if (i.attr("src").contains("?r=")) {
-				// System.err.println("src imagem ds "+i.attr("src"));
 				// webapps?r=igrp/File/get-file&uuid=821ccc01f84143b68df9ecc6fa2bb9d4&dad=sistema_de_avaliacao_igrpweb
 				String uuid = StringUtils.substringBetween(i.attr("src"), "get-file&uuid=", "&");
 				if (Core.isNotNull(uuid)) {
@@ -328,7 +321,6 @@ public class Report extends Controller{
 			qrcode.removeAttr("url");
 			
 			if (styleD != null) {
-				// System.out.print("style \n"+styleD+"\n");
 				styleD.remove();
 			}
 		}
@@ -340,19 +332,14 @@ public class Report extends Controller{
 			Elements scriptVar = doc.select("script");
 			scriptVar.forEach(s -> {
 				if(s.html().startsWith("var qrcodeResult =") ) {
-					//String qrlink= "http://localhost:8080/IGRP-Template/app/webapps?r=igrp_studio/web-report/get-contraprova&amp;ctprov=L6ReshXo2HDpvDfyuWwE8Q==&amp;ctprov=L6ReshXo2HDpvDfyuWwE8Q==&amp;ctprov=L6ReshXo2HDpvDfyuWwE8Q==";
-						//  String qrlink= "http://localhost:8080/IGRP/app/webapps?r=igrp_studio/web-report/get-contraprova&amp;ctprov=yPvRcKFwgysYRwhNYnSrim3AdvGDE1PRP6l2bJNjfLktnjnY3OjvNiLb6UnRqjlk&amp;codad=cv_investement_forum&amp;ctprov=fdddsadsadds==";
 						String qrlink= StringUtils.substringBetween(s.html(), "var qrcodeResult = '", "';"); 
-					//System.out.println("s.hrml "+qrlink);
 					doc.select("div.containerQrcode, div#containerQrcode").attr("style", "padding:0;width:26mm;margin-bottom:5px;").append("<object value=\""+qrlink+"\" url=\"\" type=\"image/barcode\"style=\"width:100px;height:100px;\" ></object>\n")
 					;
 				return;
 				}		
 			});
 		}
-		final Document fromJsoup = new W3CDom().fromJsoup(doc);
-		// System.out.println("parsing done ..." + doc+"");
-		return fromJsoup;
+		return new W3CDom().fromJsoup(doc);
 	  }
 	/**
 	 * @param contraprova

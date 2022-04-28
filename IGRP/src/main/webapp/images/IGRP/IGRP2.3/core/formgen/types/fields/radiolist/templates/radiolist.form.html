@@ -1,6 +1,9 @@
 <div class="col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
   <div class="form-group radiolist clear" #[required]#>
-     <label>#label.val#</label>
+     <label>
+        #label.val#
+        #[tooltip]#
+     </label>
         <xsl:for-each select="#list.path#/option">
             <div class="radio radiolist col-md-#[child_size]#">
                 <label style="font-weight: normal !important;" class="container-box"> <span><xsl:value-of select="text"/></span>

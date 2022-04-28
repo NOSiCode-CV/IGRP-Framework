@@ -2,10 +2,7 @@ package nosi.webapps.igrp.pages.session;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import nosi.core.config.Config;
@@ -52,7 +49,7 @@ public class SessionController extends Controller {
 		
 		if(startDate != null) {
 			String aux[] = startDate.split("/");
-			if(aux != null && aux.length > 1) {
+			if(aux.length > 1) {
 				startDate = aux[0].trim();
 				endDate = aux[1].trim();
 			}
@@ -195,8 +192,8 @@ public class SessionController extends Controller {
 
 	private Properties loadDbConfig(String filePath, String fileName) {
 		
-		String path = new Config().getBasePathConfig() + File.separator + filePath;
-		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
+		String path = Config.BASE_PATH_CONFIGURATION + "/" + filePath;
+		File file = new File(Objects.requireNonNull(getClass().getClassLoader().getResource(path + "/" + fileName)).getPath());
 		
 		Properties props = new Properties();
 		try (FileInputStream fis = new FileInputStream(file)) {

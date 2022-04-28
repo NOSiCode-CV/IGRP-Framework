@@ -208,8 +208,12 @@ public class DataSourceController extends Controller {
 			repSource.setType_query(model.getQuery().trim());
 		else if (isTypeObject)
 			repSource.setType_query(model.getObjecto().trim());
-		else
+		else if (isTypePage) {
+			Action page = new Action().findOne(model.getId_pagina());
+			repSource.setType_query(application.getDad()+"::"+page.getPage());
+		}else
 			repSource.setType_query(null);
+			
 
 		if (isTypeTask) {
 			final ProcessDefinitionService processDefService = this.getProcessDefinitionService(model.getProcesso(), application.getDad());

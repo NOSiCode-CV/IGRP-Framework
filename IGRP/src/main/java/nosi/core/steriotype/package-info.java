@@ -1,0 +1,1 @@
+package nosi.core.steriotype;

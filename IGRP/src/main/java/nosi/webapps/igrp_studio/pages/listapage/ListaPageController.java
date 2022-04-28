@@ -9,7 +9,7 @@ import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
-import nosi.core.config.Config;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.import_export_v2.exports.ExportHelper;
@@ -30,7 +29,6 @@ import nosi.webapps.igrp.dao.Modulo;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp_studio.pages.listapage.ListaPage.Table_2;
 import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2;
-import oracle.net.aso.m;
 
 /*----#end-code----*/
 		

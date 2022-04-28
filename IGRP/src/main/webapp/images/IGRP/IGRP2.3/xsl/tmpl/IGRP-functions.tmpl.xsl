@@ -201,6 +201,23 @@
         <xsl:value-of select="$field/@daysoff"/>
       </xsl:attribute>
     </xsl:if>
+
+    <xsl:if test="$field/@load_service_data and $field/@load_service_data != '' and $field/@load_service_data != 'true' and $field/@load_service_data != 'false'">
+      <xsl:attribute name="load_service_data">
+        <xsl:value-of select="$field/@load_service_data"/>
+      </xsl:attribute>
+    </xsl:if>
+    
+  </xsl:template>
+
+  <xsl:template name="setTooltip">
+    <xsl:param name="field"/>
+
+    <xsl:if test="$field/@tooltip and $field/@tooltip != '' and $field/@tooltip != 'true' and $field/@tooltip != 'false'">
+      <span class="box-label-tooltip">
+        <i class="fa fa-question-circle" data-toggle="tooltip" title="{$field/@tooltip}"></i>
+      </span>
+    </xsl:if>
     
   </xsl:template>
 

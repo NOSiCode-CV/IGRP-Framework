@@ -396,6 +396,12 @@
 .gis-widget-wrapper{
 	margin-bottom:10px;
 	max-width:310px;
+	margin-left: auto; 
+	margin-right: 0;	
+}
+
+.gis-widget-wrapper[widget-type="video"]{
+	max-width:unset !important;
 }
 
 .gis-widgets-controller >.gen-ctx-menu-holder{

@@ -17,6 +17,7 @@ import org.dom4j.io.SAXReader;
 import org.json.JSONObject;
 
 import nosi.core.config.Config;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.igrp.mingrations.MigrationIGRP;
 import nosi.core.webapp.Controller;
@@ -82,7 +83,7 @@ public class ConfigDatabaseController extends Controller {
 			lista_tabela.add(tabela);
 		}
 		if (Core.isInt(model.getAplicacao()) ) {
-			view.aplicacao.setQuery(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));		 	
+			view.aplicacao.setQuery(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));		 	
 			view.tipo_base_dados.setValue(DatabaseConfigHelper.getDatabaseTypes());
 			view.table_1.addData(lista_tabela);
 			//if EDIT
@@ -171,8 +172,7 @@ public class ConfigDatabaseController extends Controller {
 											.andWhere("name", "=", config.getName())
 											.andWhere("application", "=",Integer.parseInt(model.getAplicacao()))
 											.one() == null;
-			if (check && !config.getName().equalsIgnoreCase(this.configApp.getBaseConnection()) && !config.getName().equalsIgnoreCase(this.configApp.getH2IGRPBaseConnection())) {
-				
+			if (check && !config.getName().equalsIgnoreCase(this.configApp.getBaseConnection())) {
 				java.util.List<Config_env> all = new Config_env().find().andWhere("application", "=", Integer.parseInt(model.getAplicacao())).all();
 				if(all == null || all.isEmpty())
 					config.setIsDefault((short)1); 
@@ -240,7 +240,6 @@ public class ConfigDatabaseController extends Controller {
 				}
 			}
 			if (obj.delete(obj.getId())) {
-				FileHelper.forceDelete(new Config().getPathConexao()+obj.getName()+"."+obj.getApplication().getDad().toLowerCase() + ".cfg.xml");
 				Core.setMessageSuccess();
 			}else
 				Core.setMessageError();
@@ -315,9 +314,8 @@ public class ConfigDatabaseController extends Controller {
 			Migrate m = new Migrate();
 			m.load();
 
-			if (!(new MigrationIGRP().validate(m)) || config.getName().equalsIgnoreCase(this.configApp.getBaseConnection()) || config.getName().equalsIgnoreCase(this.configApp.getH2IGRPBaseConnection())) {
+			if (!(new MigrationIGRP().validate(m)) || config.getName().equalsIgnoreCase(this.configApp.getBaseConnection())) {
 				Core.setMessageError(gt("Falha na conexão com a base de dados"));
-				
 				return this.forward("igrp", "ConfigDatabase", "index&failed_conn=" + true + "&p_id_connection=" + id_conn);
 			}
 			boolean check = false;
@@ -360,9 +358,6 @@ public class ConfigDatabaseController extends Controller {
 		}
 	}
 	*/
-	
-	//https://stackoverflow.com/questions/16162357/transaction-isolation-levels-relation-with-locks-on-table isolation is 2
-	
 	private String getHibernateConfig(Config_env config,String package_) {
 		return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
 				"<!DOCTYPE hibernate-configuration PUBLIC\r\n" + 

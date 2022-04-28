@@ -18,6 +18,9 @@ public class RegistarUtilizador extends Model{
 	@RParam(rParamName = "p_email")
 	private String email;
 
+	@RParam(rParamName = "p_cni")
+	private String cni;
+
 	@RParam(rParamName = "p_telefone")
 	private String telefone;
 
@@ -65,6 +68,13 @@ public class RegistarUtilizador extends Model{
 	}
 	public String getEmail(){
 		return this.email;
+	}
+	
+	public void setCni(String cni){
+		this.cni = cni;
+	}
+	public String getCni(){
+		return this.cni;
 	}
 	
 	public void setTelefone(String telefone){

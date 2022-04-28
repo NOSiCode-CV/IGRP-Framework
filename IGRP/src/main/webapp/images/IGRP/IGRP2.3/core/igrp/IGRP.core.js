@@ -79,6 +79,11 @@
 
 					return all[name.toLowerCase()] || null;
 
+				},
+				getHostName : function (url) {
+					var a = document.createElement('a');
+					a.href = url;
+					return a.hostname;
 				}
 
 			},
@@ -113,12 +118,19 @@
 					return false;
 				}
 			},
+			toolTip   : function(){
+				if($.fn.tooltip){
+					$('body').tooltip({
+						selector: '[data-toggle="tooltip"]'
+					});
+				}
+			},
 			getForm:function(){
 				return $('form.IGRP-form');
 			},
 			getFieldsValidate:function(f){
 				var form = f && f[0] ? f : $.IGRP.utils.getForm();
-				var fields = $(':input',form).not('.no-validation, .no-required-validation, .no-validation-required, .not-form').not('.IGRP_checkall');
+				var fields = $(':input[name!=""]',form).not('.no-validation, .no-required-validation, .no-validation-required, .not-form').not('.IGRP_checkall');
 				
 				return fields;
 			},
@@ -1412,6 +1424,8 @@
         	$.IGRP.utils.adjustableRows();
         	
         	$.IGRP.utils.mathcal();
+			
+			$.IGRP.utils.toolTip();
         	
         	$.IGRP.events.on('submit-complete',function(){
         		

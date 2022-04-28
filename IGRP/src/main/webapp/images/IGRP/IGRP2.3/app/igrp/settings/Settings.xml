@@ -70,35 +70,39 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="100" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Nome</label>
-                    <value>Unde sit stract accusantium magna</value>
+                    <value>Iste officia perspiciatis mollit sit</value>
                 </nome>
                 <email name="p_email" type="text" maxlength="100" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Email</label>
-                    <value>Accusantium officia mollit perspiciatis officia</value>
+                    <value>Natus amet ut rem iste</value>
                 </email>
                 <username name="p_username" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Username</label>
-                    <value>Deserunt magna omnis ut iste</value>
+                    <value>Amet elit iste sed sit</value>
                 </username>
+                <cni name="p_cni" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>CNI</label>
+                    <value>Iste perspiciatis sit accusantium adipiscing</value>
+                </cni>
                 <telefone name="p_telefone" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Telefone</label>
-                    <value>Adipiscing amet adipiscing mag</value>
+                    <value>Anim deserunt lorem magna natu</value>
                 </telefone>
                 <telemovel name="p_telemovel" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Telemóvel</label>
-                    <value>Officia voluptatem amet deseru</value>
+                    <value>Lorem officia labore sit rem</value>
                 </telemovel>
                 <ultimo_acesso_igrp name="p_ultimo_acesso_igrp" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Ultimo Acesso IGRP</label>
-                    <value>Laudantium natus sed ipsum dol</value>
+                    <value>Omnis adipiscing stract magna</value>
                 </ultimo_acesso_igrp>
                 <ultimo_acesso_rede_estado name="p_ultimo_acesso_rede_estado" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Ultimo Acesso Rede Estado</label>
-                    <value>Sit rem doloremque lorem aliqu</value>
+                    <value>Sed rem deserunt ipsum stract</value>
                 </ultimo_acesso_rede_estado>
                 <password_expira_em name="p_password_expira_em" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
                     <label>Password Expira em</label>
-                    <value>Adipiscing sit consectetur ut</value>
+                    <value>Adipiscing amet rem dolor dese</value>
                 </password_expira_em>
                 <view_1_img type="text" name="p_view_1_img" maxlength="300">
                     <value>../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
@@ -107,7 +111,7 @@
         </view_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <idioma name="p_idioma" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
+                <idioma name="p_idioma" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="" tags="false" load_service_data="false" tooltip="false" disable_copy_paste="false">
                     <label> Idioma</label>
                     <list>
                         <option/>
@@ -129,10 +133,10 @@
                         </option>
                     </list>
                 </idioma>
-                <separator_1 name="p_separator_1" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
+                <separator_1 name="p_separator_1" type="separator" maxlength="30" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
                     <label>Acesso</label>
                 </separator_1>
-                <perfil name="p_perfil" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
+                <perfil name="p_perfil" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="" tags="false" load_service_data="false" tooltip="false" disable_copy_paste="false">
                     <label>Perfil</label>
                     <list>
                         <option/>
@@ -154,14 +158,14 @@
                         </option>
                     </list>
                 </perfil>
-                <s_as name="p_s_as" type="separator" maxlength="250" placeholder="" desclabel="false" right="false">
+                <s_as name="p_s_as" type="separator" maxlength="250" placeholder="" desclabel="false" right="false" tooltip="false" disable_copy_paste="false">
                     <label>Assinatura</label>
                 </s_as>
-                <assinatura name="p_assinatura" type="img" persist="true" img="../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" desclabel="false" right="false">
+                <assinatura name="p_assinatura" type="img" persist="true" img="../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" desclabel="false" right="false" tooltip="false" disable_copy_paste="false">
                     <label>Img</label>
                     <value>../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png</value>
                 </assinatura>
-                <hidden name="p_organica" type="hidden" maxlength="30" java-type="" tag="organica"/>
+                <hidden name="p_organica" type="hidden" maxlength="30" java-type="" tooltip="false" disable_copy_paste="false" tag="organica"/>
             </fields>
         </form_1>
     </content>

@@ -46,6 +46,13 @@ var SELECTFIELD = function(type,params){
 			xslValue : 'tags="true"'
 		});
 
+		field.setPropriety({
+			label:'Load service data',
+			name:'load_service_data',
+			propriety:false,
+			xslValue : 'load_service_data=""'
+		});
+
 		GEN.setDomainAttr(field,{
 			value: proprieties && proprieties.domain ? proprieties.domain : '',
 			selected : proprieties && proprieties.domain_value ? proprieties.domain_value : false

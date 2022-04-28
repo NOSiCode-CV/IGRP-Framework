@@ -730,6 +730,7 @@ var GENERATOR = function(genparams){
 					
 					if(dropped.params.copy){
 						//copy fields from given page
+
 						GEN.getPageJSON(dropped.params.copy.id,function(containers,data){
 							
 							var rtn = true;
@@ -951,7 +952,7 @@ var GENERATOR = function(genparams){
 		var req  = null;
 		var action = $.grep(GEN.DETAILS.linkPageList,function(p,e){
 			
-			return p.page == id
+			return p.page == id;
 			
 		})[0];
 		
@@ -998,7 +999,7 @@ var GENERATOR = function(genparams){
 		pageSelect.append('<option value=""></option>');
 		
 		GEN.DETAILS.linkPageList.forEach(function(page){
-			var option = '<option value="'+page.id+'">'+page.description+'</option>';
+			var option = '<option value="'+page.page+'">'+page.description+'</option>';
 			pageSelect.append(option);
 		});
 
@@ -5168,6 +5169,7 @@ var GENERATOR = function(genparams){
 
 		});
 		
+		
 		field.setPropriety({
 			name    :'refresh_components',
 			label   :'Reload Components',
@@ -5200,7 +5202,7 @@ var GENERATOR = function(genparams){
 					//var _target = v || ( field.GET.target ?  field.GET.target : null),
 					var _target = v || ( field.GET.target ?  field.GET.target() : null),
 					
-						action  = _target == 'submit_ajax' ? 'show' : 'hide'; 
+						action  = (_target == 'submit_ajax' || _target == 'submit_notvalidate'  || _target == 'submitpage2file') ? 'show' : 'hide'; 
 					
 					o.input[action]();
 					
@@ -5473,6 +5475,56 @@ var GENERATOR = function(genparams){
 							xslValue : 'desclabel'
 						});
 					}
+				}
+
+				if(field.GET.type && field.GET.type() == 'text'){
+
+					let inputMaskIncludes 	= [
+						{path : '/plugins/inputmask/igrp.inputmask.js'},
+						{path : '/plugins/inputmask/jquery.inputmask.min.js'}
+					],
+					removeIncludesJs 	= function(arr){
+						arr.forEach(function(e){
+							for( var i = 0; i < container.includes.js.length; i++){
+								var inc = container.includes.js[i];
+								if(inc.path == e.path){
+									var index = container.includes.js.indexOf(inc);
+									if (index > -1) 
+										container.includes.js.splice(index, 1);
+									break;
+								}
+							}
+						});
+					},
+					inputMaskInc = false;
+
+					field.setPropriety({
+						name:'inputmask',
+						label:'Input Mask',
+						value:{
+							value:'',
+							options:[
+								{value:'',label:'-- Select Mask --'},
+								{value:'currency',label:'Currency Mask (#.##0)'},
+								{value:'date',label:'Date Mask (DD-MM-YYYY)'},
+								{value:'monthYear',label:'Date Mask (MM-YYYY)'}
+							]
+						},
+						onChange:function(v){
+							if(v !== undefined && v !== ''){
+		
+								if(!inputMaskInc){
+									inputMaskIncludes.forEach(function(e){
+										container.includes.js.unshift(e);
+									});
+									inputMaskInc = true;
+								}					
+							}else{
+								removeIncludesJs(inputMaskIncludes);
+								inputMaskInc = false;
+							}
+						}
+					});
 				}
 			//}
 			

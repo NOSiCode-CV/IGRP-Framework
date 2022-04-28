@@ -57,9 +57,15 @@ public enum ConfigCommonMainConstants {
 	IGRP_PDEX_PERMISSION_ACL_URL("igrp.pdex.permissionacl.url"),
 	IGRP_PDEX_PERMISSION_ACL_TOKEN("igrp.pdex.permissionacl.token"),
 	
+	IGRP_DATASOURCE_CONNECTION_NAME("igrp.datasource.connection-name"),
+	
+	IGRP_MODE_STANDALONE_ENABLED("igrp.mode.standalone.enabled"),
+	IGRP_EMBEDDED_SERVER_SERVLET_CONTEXT_PATH("igrp.embedded.server.servlet.context-path"),
+	IGRP_EMBEDDED_SERVER_HTTP_PORT("igrp.embedded.server.http.port"),
+	
 	; 
 	
-	private String value; 
+	private final String value; 
 	
 	ConfigCommonMainConstants(String value){
 		this.value = value; 

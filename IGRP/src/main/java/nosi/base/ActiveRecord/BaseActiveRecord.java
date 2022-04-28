@@ -30,7 +30,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 
-import jd.core.model.instruction.bytecode.instruction.InstanceOf;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.ORDERBY;
@@ -1714,10 +1713,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	}
 	
 	public String defaultConnection(String dad) {
+		//To make BDD work, this is a forcing bd connection to change for mock use
+		final String connectionTestName = Core.getParam("igrp.test.bdd",false);
+		if (Core.isNotNull(connectionTestName)) {
+			return connectionTestName;
+		}
 		String result = "";
-		Application app = new Application().setKeepConnection(this.keepConnection).find().andWhere("dad", "=", dad).one();
+		Application app = new Application().setKeepConnection(true).find().andWhere("dad", "=", dad).one();
 		if (app != null) {
-			Config_env config_env = new Config_env().setKeepConnection(this.keepConnection).find().andWhere("isdefault", "=", new Short((short) 1))
+			Config_env config_env = new Config_env().setKeepConnection(true).find().andWhere("isdefault", "=", (short) 1)
 					.andWhere("application", "=", app.getId()).one();
 			if (config_env != null)
 				result = config_env.getName();

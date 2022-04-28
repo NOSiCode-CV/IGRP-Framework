@@ -255,6 +255,10 @@
           </xsl:attribute>
         </xsl:otherwise>
       </xsl:choose>
+
+      <xsl:if test="@labelConfirm">
+        <xsl:attribute name="label-confirm"><xsl:value-of select="@labelConfirm"/></xsl:attribute>
+      </xsl:if>
       
       <xsl:if test="$view = 'lavel-menu'">
         <xsl:attribute name="title"><xsl:value-of select="title"/></xsl:attribute>

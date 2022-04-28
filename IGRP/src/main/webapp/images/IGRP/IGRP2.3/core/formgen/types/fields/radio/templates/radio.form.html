@@ -2,6 +2,7 @@
   <div class="form-group"  #[required]#> 
       <div class="radio form-check-offset">
         <label class="container-box"> #label.val#
+            #[tooltip]#
             <input type="radio" name="#name.attr#" value="1" class="checkbox #[change]#" label="#label.attr#">
               <xsl:call-template name="setAttributes">
                 <xsl:with-param name="field" select="#path#"/>

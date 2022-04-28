@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
 
-import nosi.core.config.ConfigApp;
 import nosi.core.i18n.I18nManager;
 import nosi.core.servlet.IgrpServlet;
 import nosi.core.webapp.security.EncrypDecrypt;
@@ -88,11 +87,9 @@ public final class Igrp{
 	}
 	
 	public void run() throws IOException{ // run the web app 
-		ConfigApp.getInstance().configurationApp();
 		this.log.run();
-		if(!this.die){
+		if(!this.die)
 			this.runController();
-		}
 		this.exit();
 	}
 	
@@ -205,7 +202,7 @@ public final class Igrp{
 		byte[] buffer = new byte[50];
 		new SecureRandom().nextBytes(buffer);
 	    String result = DatatypeConverter.printHexBinary(buffer);
-	    String cookieName = this.request.getParameter("r").replaceAll("/", "-");
+	    String cookieName = this.request.getParameter("r").replace("/", "-");
 	    Cookie cookie = new Cookie(cookieName, result);
 	    this.response.addCookie(cookie);
 		return result;

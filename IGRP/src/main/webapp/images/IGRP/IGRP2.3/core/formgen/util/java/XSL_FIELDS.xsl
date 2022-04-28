@@ -119,9 +119,27 @@
 							<xsl:variable name="lookupName" select="name()"/>
 							
 							<xsl:variable name="lu_app" select="@app"/>
-							<xsl:variable name="lu_page" select="@page"/>
+						
 							<xsl:variable name="lu_act" select="@action"/>
-							
+							<xsl:variable name="lu_page">
+
+                                <xsl:choose>
+
+                                    <xsl:when test="contains(@page, '@')">
+
+                                        <xsl:value-of select="substring-after(@page, '@')"/>
+
+                                    </xsl:when>
+
+                                    <xsl:otherwise>
+
+                                        <xsl:value-of select="@page"/>
+
+                                    </xsl:otherwise>
+
+                                </xsl:choose>
+
+                            </xsl:variable>
 							<xsl:variable name="lookup_action">
 								<xsl:value-of select="concat($double_quotes,$lu_app,$double_quotes)"/><xsl:text>,</xsl:text>
 								<xsl:value-of select="concat($double_quotes,$lu_page,$double_quotes)"/><xsl:text>,</xsl:text>
@@ -371,7 +389,7 @@
     		 			
 	    	<xsl:choose>
 	    		<xsl:when test="$javaType !=''">
-	    			<xsl:value-of select="$javaType" />
+	    			<xsl:value-of select="concat($javaType,$addArray)" />
 	    		</xsl:when>
 	    		<xsl:otherwise>
 	    			<xsl:choose>

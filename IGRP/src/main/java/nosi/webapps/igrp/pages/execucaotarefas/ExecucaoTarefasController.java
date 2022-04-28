@@ -64,13 +64,29 @@ public class ExecucaoTarefasController extends Controller {
 		
 		
 		this.showTabManage(view, false);// hide tab when user is not manager
-
-		List<ExecucaoTarefas.Table_gerir_tarefas> taskManage = this.getTaskManage(model, view);
-
-		List<ExecucaoTarefas.Table_minhas_tarefas> myTasks = this.getMyTasks(model, view);
-
-		List<ExecucaoTarefas.Table_disponiveis> tasksDisponiveis = this.getAvailableTask(model, view); 
+		List<ExecucaoTarefas.Table_gerir_tarefas> taskManage =  new ArrayList<>();
+		List<ExecucaoTarefas.Table_minhas_tarefas> myTasks =  new ArrayList<>();
+		List<ExecucaoTarefas.Table_disponiveis> tasksDisponiveis =  new ArrayList<>(); 
+		int btn_search = Core.getParamInt("btn_search");
 		
+		switch (btn_search) {
+		case AVAILABLE:
+			tasksDisponiveis = this.getAvailableTask(model, view);
+			break;
+		case MANAGE_TASK:
+			taskManage = this.getTaskManage(model, view);
+			break;
+		case MY_TASK:
+			myTasks = this.getMyTasks(model, view);
+			break;
+		default:
+			taskManage = this.getTaskManage(model, view);
+			myTasks = this.getMyTasks(model, view);
+			tasksDisponiveis = this.getAvailableTask(model, view);
+
+		}
+		
+	
 		myTasks.sort(Comparator.comparing(ExecucaoTarefas.Table_minhas_tarefas::getPrioridade_m));
 		tasksDisponiveis.sort(Comparator.comparing(ExecucaoTarefas.Table_disponiveis::getPrioridade));
 		taskManage.sort(Comparator.comparing(ExecucaoTarefas.Table_gerir_tarefas::getPrioridade_g));
@@ -94,7 +110,6 @@ public class ExecucaoTarefasController extends Controller {
 		view.btn_pesquisar_colaborador.addParameter("btn_search", CONTRIBUTOR).setLink("index");
 		view.btn_pesquisar_estatistica.addParameter("btn_search", STATISTIC).setLink("index");
 		view.btn_pesquisar_tarefa.addParameter("btn_search", MANAGE_TASK).setLink("index");
-		view.btn_pesquisar_tarefa.setTarget("submit_ajax");
 
 		view.btn_detalhes_minha_tarefa.setVisible(false);
 		view.btn_detalhes_tarefa.setVisible(false);
@@ -362,6 +377,7 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(alterar_prioridade_tarefa)----*/
+		
 		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_p_id_g"));
 		/*----#end-code----*/
 		return this.redirect("igrp","Alter_prioridade_tarefa","index", this.queryString());	
@@ -588,7 +604,7 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		if (Core.isNotNull(prioridade)) {
 			taskServiceBO.addFilterUrl("priority", prioridade);
 		}
-		List<TaskService> tasks = null;
+		List<TaskService> tasks = new ArrayList<>();
 		switch (type) {
 			case AVAILABLE:
 				tasks = taskServiceBO.getAvailableTasks();
@@ -638,7 +654,7 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 		view.estatistica.setVisible(false);
 	}
 
-	private static Map<String, String> listPrioridade = new HashMap<String, String>();
+	private static Map<String, String> listPrioridade = new HashMap<>();
 	static {
 		listPrioridade.put(null, Core.gt("-- Escolher Prioridade --"));
 		listPrioridade.put("100", "Urgente");
@@ -691,7 +707,7 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 			t.setData_fim_m(Core.isNotNull(task.getDueDate())
 					? Core.dateToString(task.getDueDate(), "yyyy-MM-dd HH:mm:ss"): "");
 			t.setPrioridade_m(""+task.getPriority());
-			t.setEspera_tabela_minhas_tarefas(task.getSuspended()?"Sim":"");
+			t.setEspera_tabela_minhas_tarefas(Boolean.TRUE.equals(task.getSuspended())?"Sim":"");
 			myTasks.add(t);
 		}
 		return myTasks;
@@ -700,20 +716,23 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 	// Get all available task
 	private List<Table_disponiveis> getAvailableTask(ExecucaoTarefas model, ExecucaoTarefasView view) {
 		List<Table_disponiveis> tasksDisponiveis = new ArrayList<>();
-		List<TaskService> tasks = this.applyFiler(model,AVAILABLE); // apply new filter
-		for (TaskService task : tasks) {
-			ExecucaoTarefas.Table_disponiveis t = new ExecucaoTarefas.Table_disponiveis();
-			t.setCategorias_processo_tabela_disponiveis(task.getProcessName()+getVersion(task));
-			t.setData_entrada_tabela_disponiveis(Core.isNotNull(task.getCreateTime())
-					? Core.dateToString(task.getCreateTime(), "yyyy-MM-dd HH:mm:ss"): "");
-			t.setP_id_d(task.getId());
-			t.setN_tarefa_d(task.getProcessInstanceId());
-			t.setData_fim_d(Core.isNotNull(task.getDueDate())
-					? Core.dateToString(task.getDueDate(), "yyyy-MM-dd HH:mm:ss"): "");
-			t.setTarefas_tabela_disponiveis(task.getDescription() != null ? task.getDescription() : task.getName());
-			t.setPrioridade(""+task.getPriority());
-			tasksDisponiveis.add(t);
+		if(view.disponiveis.isVisible()) {
+			List<TaskService> tasks = this.applyFiler(model,AVAILABLE); // apply new filter
+			for (TaskService task : tasks) {
+				ExecucaoTarefas.Table_disponiveis t = new ExecucaoTarefas.Table_disponiveis();
+				t.setCategorias_processo_tabela_disponiveis(task.getProcessName()+getVersion(task));
+				t.setData_entrada_tabela_disponiveis(Core.isNotNull(task.getCreateTime())
+						? Core.dateToString(task.getCreateTime(), "yyyy-MM-dd HH:mm:ss"): "");
+				t.setP_id_d(task.getId());
+				t.setN_tarefa_d(task.getProcessInstanceId());
+				t.setData_fim_d(Core.isNotNull(task.getDueDate())
+						? Core.dateToString(task.getDueDate(), "yyyy-MM-dd HH:mm:ss"): "");
+				t.setTarefas_tabela_disponiveis(task.getDescription() != null ? task.getDescription() : task.getName());
+				t.setPrioridade(""+task.getPriority());
+				tasksDisponiveis.add(t);
+			}
 		}
+		
 		return tasksDisponiveis;
 	}
 	
@@ -726,12 +745,12 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 	}
 
 	private Map<String, String> listProc = new ProcessDefinitionIGRP().mapToComboBoxByKey(Core.getCurrentDad());
-	private static final int MANAGE_TASK = 0;
+
 	private static final int CONTRIBUTOR = 1;
 	private static final int STATISTIC = 2;
 	private static final int MY_TASK = 3;
 	private static final int AVAILABLE = 4;
-	
+	private static final int MANAGE_TASK = 5;
 
 	/*----#end-code----*/
 }

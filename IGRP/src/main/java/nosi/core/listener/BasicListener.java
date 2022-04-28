@@ -20,6 +20,8 @@ public class BasicListener implements ServletContextListener {
 		System.gc();
     }
     
-	public void contextInitialized(ServletContextEvent arg0)  {}
+	public void contextInitialized(ServletContextEvent arg0)  {
+		nosi.core.db.migration.api.MigrationIGRPInitConfig.start();
+	}
 	
 }
