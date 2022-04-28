@@ -35,6 +35,7 @@ public class SettingsController extends Controller {
 		view.idioma.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 		
      
@@ -93,6 +94,7 @@ public class SettingsController extends Controller {
 		view.sectionheader_1_text.setValue(Core.gt("Área Pessoal") + ": " + currentUser.getName());
 		model.setTelefone(currentUser.getPhone());
 		model.setTelemovel(currentUser.getMobile());
+		model.setCni(currentUser.getCni());
 		model.setPassword_expira_em(currentUser.getValid_until());
 		if(Core.isNotNull(currentUser.getSignature_id()))
 			view.assinatura.setValue( Core.getLinkFileByUuid(currentUser.getSignature_id()));
@@ -127,6 +129,7 @@ public class SettingsController extends Controller {
 		  return this.forward("igrp","ChangePassword","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (alterar_senha)  *//* End-Code-Block  */
 		/*----#start-code(alterar_senha)----*/
 		this.addQueryString("settings","true"); 
 		/*----#end-code----*/
@@ -143,6 +146,7 @@ public class SettingsController extends Controller {
 		  return this.forward("igrp","RegistarUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (editar_perfil)  *//* End-Code-Block  */
 		/*----#start-code(editar_perfil)----*/
 		this.addQueryString("p_id",Core.getCurrentUser().getId());
 		this.addQueryString("settings","settings");
@@ -150,9 +154,7 @@ public class SettingsController extends Controller {
 		/*----#end-code----*/
 			
 	}
-	
-		
-		
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 	public Map<String, String> getIdiomaMap() {
 		HashMap<String, String> idioma = new HashMap<>();

@@ -59,41 +59,45 @@
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <nome name="p_nome" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                <nome name="p_nome" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>Nome</label>
-                    <value>Labore elit voluptatem laudantium dolor</value>
+                    <value>Aperiam anim lorem anim sed</value>
                 </nome>
-                <username name="p_username" type="text" maxlength="50" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                <username name="p_username" type="text" maxlength="50" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>Username</label>
-                    <value>Sed adipiscing sed elit officia</value>
+                    <value>Dolor deserunt stract ut aperiam</value>
                 </username>
-                <email name="p_email" type="email" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                <email name="p_email" type="email" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" tooltip="false" disable_copy_paste="false">
                     <label>Email</label>
-                    <value>inondo@example.com</value>
+                    <value>sihil@example.com</value>
                 </email>
-                <telefone name="p_telefone" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                <cni name="p_cni" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" inputmask="" right="false" tooltip="false" disable_copy_paste="false">
+                    <label>CNI</label>
+                    <value>Officia amet aperiam voluptatem natus</value>
+                </cni>
+                <telefone name="p_telefone" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>Telefone</label>
-                    <value>Anim lorem ipsum totam deserunt</value>
+                    <value>Mollit perspiciatis sed deserunt ut</value>
                 </telefone>
-                <telemovel name="p_telemovel" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                <telemovel name="p_telemovel" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>Telemóvel</label>
-                    <value>Perspiciatis officia sit ut iste</value>
+                    <value>Stract iste ipsum mollit sit</value>
                 </telemovel>
-                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
+                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
                     <label></label>
                 </nada>
-                <password name="p_password" type="password" maxlength="20" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                <password name="p_password" type="password" maxlength="20" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
                     <label>Password</label>
                     <value>******</value>
                 </password>
-                <confirmar_password name="p_confirmar_password" type="password" maxlength="20" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                <confirmar_password name="p_confirmar_password" type="password" maxlength="20" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
                     <label>Confirmar password</label>
                     <value>******</value>
                 </confirmar_password>
-                <s_ass name="p_s_ass" type="separator" maxlength="250" placeholder="" desclabel="false" right="false">
+                <s_ass name="p_s_ass" type="separator" maxlength="250" placeholder="" desclabel="false" right="false" tooltip="false" disable_copy_paste="false">
                     <label/>
                 </s_ass>
-                <form_1_img_1 name="p_form_1_img_1" type="file" accept="image/*" targetrend="" multiple="false" rendvalue="false" maxlength="250" required="false" disabled="false" right="false" class="black">
+                <form_1_img_1 name="p_form_1_img_1" type="file" accept="image/*" targetrend="" multiple="false" rendvalue="false" maxlength="250" required="false" disabled="false" right="false" class="black" tooltip="false" disable_copy_paste="false">
                     <label>Assinatura</label>
                     <value/>
                 </form_1_img_1>

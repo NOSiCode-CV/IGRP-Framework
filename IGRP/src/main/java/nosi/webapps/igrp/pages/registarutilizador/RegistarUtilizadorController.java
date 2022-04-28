@@ -1,33 +1,20 @@
 package nosi.webapps.igrp.pages.registarutilizador;
 
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import nosi.webapps.igrp.dao.User;
+import nosi.webapps.igrp.dao.User; //block import
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
-
-import java.io.IOException;
 import java.util.Locale;
-
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
-import nosi.webapps.igrp.dao.User;
-
 /*----#end-code----*/
 		
 public class RegistarUtilizadorController extends Controller {
@@ -35,6 +22,7 @@ public class RegistarUtilizadorController extends Controller {
 		RegistarUtilizador model = new RegistarUtilizador();
 		model.load();
 		RegistarUtilizadorView view = new RegistarUtilizadorView();
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 		
 		/*----#end-code----*/
@@ -52,6 +40,7 @@ public class RegistarUtilizadorController extends Controller {
 		  return this.forward("igrp","RegistarUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (guardar)  *//* End-Code-Block  */
 		/*----#start-code(guardar)----*/
 
 	
@@ -83,6 +72,7 @@ public class RegistarUtilizadorController extends Controller {
 				user.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
 				user.setActivation_key(nosi.core.webapp.User.generateActivationKey());
 				
+				user.setCni(model.getCni());
 				user.setPhone(model.getTelefone());
 				user.setMobile(model.getTelemovel());
 				user.setUpdated_at(System.currentTimeMillis());              	
@@ -123,9 +113,7 @@ public class RegistarUtilizadorController extends Controller {
 		/*----#end-code----*/
 		return this.redirect("igrp","RegistarUtilizador","index", this.queryString());	
 	}
-	
-		
-		
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(rParamName = "settings") String sett) throws IOException, IllegalArgumentException, IllegalAccessException{
 		
@@ -147,6 +135,7 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 				user.setName(model.getNome());
 				user.setPhone(model.getTelefone());
 				user.setMobile(model.getTelemovel());
+				user.setCni(model.getCni());
 				user.setUpdated_at(System.currentTimeMillis());              	
 					try {
 						if(Core.isNotNull(model.getForm_1_img_1()))
@@ -170,7 +159,7 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 			model.setEmail(user.getEmail().toLowerCase(Locale.ROOT));
 			model.setTelefone(user.getPhone());
 			model.setTelemovel(user.getMobile());
-			
+			model.setCni(user.getCni());
 		}	
 		
 		view.email.propertie().setProperty("readonly", "true");	

@@ -17,6 +17,9 @@ public class Settings extends Model{
 	@RParam(rParamName = "p_username")
 	private String username;
 
+	@RParam(rParamName = "p_cni")
+	private String cni;
+
 	@RParam(rParamName = "p_telefone")
 	private String telefone;
 
@@ -81,6 +84,13 @@ public class Settings extends Model{
 	}
 	public String getUsername(){
 		return this.username;
+	}
+	
+	public void setCni(String cni){
+		this.cni = cni;
+	}
+	public String getCni(){
+		return this.cni;
 	}
 	
 	public void setTelefone(String telefone){
