@@ -46,6 +46,7 @@ public class User extends IGRPBaseActiveRecord<User> implements Serializable, Id
 	private String phone;
 	private String password_reset_token;
 	private String auth_key;
+	private String cni;
 	private long created_at;
 	private long updated_at;
 	
@@ -99,6 +100,15 @@ public class User extends IGRPBaseActiveRecord<User> implements Serializable, Id
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
+	public String getCni() {
+		return cni;
+	}
+
+	public void setCni(String cni) {
+		this.cni = cni;
+	}
+
 	public String getName() {
 		return name;
 	}

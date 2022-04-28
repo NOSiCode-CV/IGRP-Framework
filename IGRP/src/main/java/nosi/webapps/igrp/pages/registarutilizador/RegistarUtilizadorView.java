@@ -12,6 +12,7 @@ public class RegistarUtilizadorView extends View {
 	public Field nome;
 	public Field username;
 	public Field email;
+	public Field cni;
 	public Field telefone;
 	public Field telemovel;
 	public Field nada;
@@ -40,43 +41,47 @@ public class RegistarUtilizadorView extends View {
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		username = new TextField(model,"username");
 		username.setLabel(gt("Username"));
-		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		email = new EmailField(model,"email");
 		email.setLabel(gt("Email"));
-		email.propertie().add("name","p_email").add("type","email").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		email.propertie().add("name","p_email").add("type","email").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
+		
+		cni = new TextField(model,"cni");
+		cni.setLabel(gt("CNI"));
+		cni.propertie().add("name","p_cni").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		telefone = new TextField(model,"telefone");
 		telefone.setLabel(gt("Telefone"));
-		telefone.propertie().add("name","p_telefone").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		telefone.propertie().add("name","p_telefone").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		telemovel = new TextField(model,"telemovel");
 		telemovel.setLabel(gt("Telemóvel"));
-		telemovel.propertie().add("name","p_telemovel").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		telemovel.propertie().add("name","p_telemovel").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		password = new PasswordField(model,"password");
 		password.setLabel(gt("Password"));
-		password.propertie().add("name","p_password").add("type","password").add("maxlength","20").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		password.propertie().add("name","p_password").add("type","password").add("maxlength","20").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		confirmar_password = new PasswordField(model,"confirmar_password");
 		confirmar_password.setLabel(gt("Confirmar password"));
-		confirmar_password.propertie().add("name","p_confirmar_password").add("type","password").add("maxlength","20").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		confirmar_password.propertie().add("name","p_confirmar_password").add("type","password").add("maxlength","20").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		s_ass = new SeparatorField(model,"s_ass");
 		s_ass.setLabel(gt(""));
-		s_ass.propertie().add("name","p_s_ass").add("type","separator").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false");
+		s_ass.propertie().add("name","p_s_ass").add("type","separator").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		form_1_img_1 = new FileField(model,"form_1_img_1");
 		form_1_img_1.setLabel(gt("Assinatura"));
-		form_1_img_1.propertie().add("name","p_form_1_img_1").add("type","file").add("accept","image/*").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","250").add("required","false").add("disabled","false").add("class","black");
+		form_1_img_1.propertie().add("name","p_form_1_img_1").add("type","file").add("accept","image/*").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","250").add("required","false").add("disabled","false").add("class","black").add("tooltip","false").add("disable_copy_paste","false");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -96,6 +101,7 @@ public class RegistarUtilizadorView extends View {
 		form_1.addField(nome);
 		form_1.addField(username);
 		form_1.addField(email);
+		form_1.addField(cni);
 		form_1.addField(telefone);
 		form_1.addField(telemovel);
 		form_1.addField(nada);
@@ -116,6 +122,7 @@ public class RegistarUtilizadorView extends View {
 		nome.setValue(model);
 		username.setValue(model);
 		email.setValue(model);
+		cni.setValue(model);
 		telefone.setValue(model);
 		telemovel.setValue(model);
 		nada.setValue(model);

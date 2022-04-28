@@ -12,6 +12,7 @@ public class SettingsView extends View {
 	public Field nome;
 	public Field email;
 	public Field username;
+	public Field cni;
 	public Field telefone;
 	public Field telemovel;
 	public Field ultimo_acesso_igrp;
@@ -59,6 +60,10 @@ public class SettingsView extends View {
 		username.setLabel(gt("Username"));
 		username.propertie().add("name","p_username").add("type","text").add("maxlength","30").add("class","default").add("img","").add("showlabel","true");
 		
+		cni = new TextField(model,"cni");
+		cni.setLabel(gt("CNI"));
+		cni.propertie().add("name","p_cni").add("type","text").add("maxlength","250").add("class","default").add("img","").add("showlabel","true");
+		
 		telefone = new TextField(model,"telefone");
 		telefone.setLabel(gt("Telefone"));
 		telefone.propertie().add("name","p_telefone").add("type","text").add("maxlength","30").add("class","default").add("img","").add("showlabel","true");
@@ -85,28 +90,28 @@ public class SettingsView extends View {
 		
 		idioma = new ListField(model,"idioma");
 		idioma.setLabel(gt(" Idioma"));
-		idioma.propertie().add("name","p_idioma").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		idioma.propertie().add("name","p_idioma").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		separator_1 = new SeparatorField(model,"separator_1");
 		separator_1.setLabel(gt("Acesso"));
-		separator_1.propertie().add("name","p_separator_1").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
+		separator_1.propertie().add("name","p_separator_1").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel(gt("Perfil"));
-		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		s_as = new SeparatorField(model,"s_as");
 		s_as.setLabel(gt("Assinatura"));
-		s_as.propertie().add("name","p_s_as").add("type","separator").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false");
+		s_as.propertie().add("name","p_s_as").add("type","separator").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		assinatura = new TextField(model,"assinatura");
 		assinatura.setLabel(gt("Img"));
 		assinatura.setValue(gt("../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png"));
-		assinatura.propertie().add("name","p_assinatura").add("type","img").add("img","../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png").add("width","").add("height","").add("croppie","false").add("rounded","false").add("autoupload","false").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false");
+		assinatura.propertie().add("name","p_assinatura").add("type","img").add("img","../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png").add("width","").add("height","").add("croppie","false").add("rounded","false").add("autoupload","false").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		organica = new HiddenField(model,"organica");
 		organica.setLabel(gt(""));
-		organica.propertie().add("name","p_organica").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","organica");
+		organica.propertie().add("name","p_organica").add("type","hidden").add("maxlength","30").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","organica");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -129,6 +134,7 @@ public class SettingsView extends View {
 		view_1.addField(nome);
 		view_1.addField(email);
 		view_1.addField(username);
+		view_1.addField(cni);
 		view_1.addField(telefone);
 		view_1.addField(telemovel);
 		view_1.addField(ultimo_acesso_igrp);
@@ -157,6 +163,7 @@ public class SettingsView extends View {
 		nome.setValue(model);
 		email.setValue(model);
 		username.setValue(model);
+		cni.setValue(model);
 		telefone.setValue(model);
 		telemovel.setValue(model);
 		ultimo_acesso_igrp.setValue(model);
