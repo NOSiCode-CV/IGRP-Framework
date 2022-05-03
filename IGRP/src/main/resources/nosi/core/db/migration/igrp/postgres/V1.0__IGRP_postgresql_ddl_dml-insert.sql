@@ -1298,6 +1298,7 @@ CREATE TABLE tbl_user (
     updated_at bigint NOT NULL,
     userprofile character varying(255),
     user_name character varying(255),
+    cni character varying(255),
     valid_until character varying(255)
 );
 
