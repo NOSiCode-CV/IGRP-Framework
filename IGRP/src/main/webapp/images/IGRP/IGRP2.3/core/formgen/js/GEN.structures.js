@@ -115,6 +115,10 @@ var GENSTRUCTURES = function(GEN){
 						rtn+=genTreeMenu(container);
 					}
 
+					if(container.GET.type() == 'workflow'){
+						rtn+=genWorkflow(container);
+					}
+
 					if(container.xml.type == 'text' || container.xml.type == 'texteditor'){
 						
 						var value   = container.GET.text ? container.GET.text() : '',
@@ -631,6 +635,34 @@ var GENSTRUCTURES = function(GEN){
 			row += '<'+tag+'_icon></'+tag+'_icon>';
 			row += '<'+tag+'_child></'+tag+'_child>';
 			row += '<'+tag+'_active></'+tag+'_active>';
+			row += '</row>';
+		}
+
+		rtn +=row+'</value></table>';
+
+		return rtn;
+	};
+
+
+	var genWorkflow = function(container){
+		let rtn = '',
+			row = '',
+			tag = container.GET.tag();
+		
+		rtn += '<fields><link_lst type="link" maxlength="4000" target="_self" desc="true"><label>Link</label></link_lst>';
+		rtn += '<'+tag+'_id type="text"><label>ID</label></'+tag+'_id>';
+		rtn += '<etapa_lst type="text"><label>etapa</label></etapa_lst>';
+		rtn += '<estado_lst type="text"><label>estado</label></estado_lst>';
+		rtn += '</fields><table><value>';
+
+		for (let i = 0; i < 7; i++) {
+			let aux    = i+1;  
+			row += '<row>';
+			row += '<link_lst>#</link_lst>';
+			row += '<link_lst_desc> Menu '+aux+'</link_lst_desc>';
+			row += '<'+tag+'_id>'+aux+'</'+tag+'_id>';
+			row += '<etapa_lst>Etapa'+aux+'</etapa_lst>';
+			row += '<estado_lst>'+(aux < 5 ? 'D' : ( aux === 5 ? 'A' : 'W'))+'</estado_lst>';
 			row += '</row>';
 		}
 
