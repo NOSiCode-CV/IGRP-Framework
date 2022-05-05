@@ -108,7 +108,12 @@
 		<igrp.db.dsn>jdbc:postgresql://localhost:5432/db_igrp</igrp.db.dsn> <!-- Comment this line when run IGRPWEB+Postgres+Docker -->
 		<!--<igrp.db.dsn>jdbc:postgresql://postgres:5432/db_igrp</igrp.db.dsn>--> <!-- Uncomment this line when run IGRPWEB+Postgres+Docker -->
 		<igrp.migration.location>classpath:nosi/core/db/migration/igrp/postgres</igrp.migration.location>
-	
+		
+		<!-- K8s & Docker -->
+		<jkube.version>1.7.0</jkube.version>
+		<docker.registry>localhost:5000</docker.registry>
+		
+		
 	</properties>
 
 	<dependencies>
@@ -599,7 +604,7 @@
 					</configuration>
 				</plugin>
 				
-				
+				<!-- Docker -->
 				<plugin>
 			        <groupId>io.fabric8</groupId>
 			        <artifactId>docker-maven-plugin</artifactId>
@@ -608,7 +613,7 @@
 			          <images>
 			          
 			            <image>
-			              <name>igrpweb/igrpweb:${project.version}</name>
+			              <name>igrpweb:${project.version}</name>
 			              <alias>igrpweb</alias>
 			              <build>
 			                <!-- filter>@</filter-->
@@ -621,8 +626,13 @@
 			                <ports>
 			                  <port>8080:8080</port>
 			                </ports>
+			                <volumes>
+							  <bind>
+							    <volume>igrpweb_data:/local/tomee</volume>
+							  </bind>
+							</volumes>
 			                <!-- <autoRemove>true</autoRemove> -->
-			                <!--
+			                <!-- 
 			                <links> 
 					          <link>postgres</link>
 					        </links>
@@ -655,12 +665,29 @@
 					      </run>
 					    </image>
 			            -->
-			            
 			          </images>
 			          
 			        </configuration>
 			        
 			      </plugin>
+			      
+			      <!-- K8s -->
+			      <plugin>
+					    <groupId>org.eclipse.jkube</groupId>
+					    <artifactId>kubernetes-maven-plugin</artifactId>
+					    <version>${jkube.version}</version>
+					    <configuration>
+					    	<images>
+						    	<image>
+					              <name>${docker.registry}/imarcelf/igrpweb:${project.version}</name>
+					              <alias>igrpweb</alias>
+					              <build>
+					                <contextDir>${project.basedir}/src/main/docker</contextDir>
+					              </build>
+					            </image>
+					    	</images>
+					    </configuration>
+				  </plugin>
 				
                 
 			</plugins>
