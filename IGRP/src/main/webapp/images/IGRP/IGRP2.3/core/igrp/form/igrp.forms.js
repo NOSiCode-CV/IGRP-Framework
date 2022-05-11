@@ -394,6 +394,9 @@
 						
 						if ($('*[mathcal]', p.control)[0])
 							$.IGRP.utils.mathcal(p.control);
+						
+						$.IGRP.rules.setRulesInField(p.control);
+						
 					}
 				});
 				
