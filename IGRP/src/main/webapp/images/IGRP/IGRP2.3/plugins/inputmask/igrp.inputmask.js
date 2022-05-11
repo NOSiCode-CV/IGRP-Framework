@@ -52,8 +52,8 @@
                         hasAuxField = field.parents('table')[0] ? $(`.currency-control[name="${name}"]`,field.parents('td:first')) : $(`.currency-control[name="${name}"]`),
                         decimal     = '';
 
-                    if(val.indexOf('.')){
-                        const v = val.split('.');
+                    if(val.indexOf('.') || val.indexOf(',')){
+                        const v = val.indexOf('.') ? val.split('.') : val.split(',');
     
                         if(v[1] && v[1].length > 0){
     
@@ -76,14 +76,15 @@
                         reverse: true,
                         translation: {
                             '#': {
-                            pattern: /-|\d/,
-                            recursive: true
+                                pattern: /-|\d/,
+                                recursive: true
                             }
                         },
                         onKeyPress: function(value, event, currentField){
 
                             value = (value.replaceAll('.', '').replaceAll(',', '.')*1);
-                            currentField.attr('data-value',value).val();
+
+                            currentField.attr('data-value',value);
         
                             let objfield = currentField.parents('table')[0] ? $('input[name="'+currentField.attr('field-name')+'"]',currentField.parents('td:first')) : $('input[name="'+currentField.attr('field-name')+'"]');
                             objfield.val(value);

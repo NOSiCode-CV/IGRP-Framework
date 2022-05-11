@@ -22,11 +22,13 @@ $(function () {
 		                o.append('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
 		            }).fadeIn("slow");
 				},
-				field : function(o){
-					if($('input[name="'+o.name+'"]')[0])
-						$('input[name="'+o.name+'"]').val(o.value);
-					else
-						$.IGRP.utils.createHidden({name : o.name, value : o.value});
+				field : function(p){
+					p.map((o) => {
+						if($('input[name="'+o.name+'"]')[0])
+							$('input[name="'+o.name+'"]').val(o.value);
+						else
+							$.IGRP.utils.createHidden({name : o.name, value : o.value});
+					});
 				},
 				types : {
 					FINGER : function(xml){
@@ -109,7 +111,7 @@ $(function () {
 								
 								try{
 									var xml = $(data).find(namefp+'[type="fingerprint"] fields');
-									var np  = $.IGRP.utils.isNotNaN($(this).find(namefp+'_process value').text());
+									var np  = $.IGRP.utils.isNotNaN(xml.find(namefp+'_process value').text());
 									np      = np > 0 ? np : '';
 
 									$("input.fp_process",holderfp).val(np);
@@ -117,7 +119,7 @@ $(function () {
 									xml.find('hidden').each(function() {
 										$.IGRP.components.fp.set.field([{
 											name  : $(this).attr('name'),
-											value : $(this).text()
+											value : $(this).find('value').text()
 										}]);
 			                        });
 

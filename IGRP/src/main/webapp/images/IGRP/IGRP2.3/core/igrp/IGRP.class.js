@@ -23,6 +23,10 @@
 		
 		components: {},
 
+		configRules: '', 
+		
+		typeRules : 'actionsList',
+
 		store:{
 
 			list : function(){
