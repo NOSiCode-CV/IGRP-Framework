@@ -567,11 +567,11 @@
             	$.IGRP.components.tableCtrl.ordertable('#'+$('.IGRP_formlist',p.content).attr('id'));
             
             
-            if ($('*[mathcal]', p.control)[0])
-                $.IGRP.utils.mathcal(p.control);
+            if ($('*[mathcal]', p.content)[0])
+                $.IGRP.utils.mathcal(p.content);
 
             
-            $.IGRP.rules.setRulesInField(p.control);
+            $.IGRP.rules.setRulesInField(p.content);
             	
         }
     });

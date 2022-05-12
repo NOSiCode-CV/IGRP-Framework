@@ -392,10 +392,10 @@
 						if($('.form-control.select2',p.content)[0])
 							$.IGRP.components.select2.init(p.content);
 						
-						if ($('*[mathcal]', p.control)[0])
-							$.IGRP.utils.mathcal(p.control);
+						if ($('*[mathcal]', p.content)[0])
+							$.IGRP.utils.mathcal(p.content);
 						
-						$.IGRP.rules.setRulesInField(p.control);
+						$.IGRP.rules.setRulesInField(p.content);
 						
 					}
 				});
