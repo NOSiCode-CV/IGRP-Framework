@@ -46,48 +46,56 @@
             mask : {
 
                 currency : function(field) {
-
                     let name        = field.attr('name') || field.attr('field-name'),
                         val         = field.val() || '',
-                        hasAuxField = field.parents('table')[0] ? $(`.currency-control[name="${name}"]`,field.parents('td:first')) : $(`.currency-control[name="${name}"]`),
-                        decimal     = '';
-
-                    if(val.indexOf('.') || val.indexOf(',')){
-                        const v = val.indexOf('.') ? val.split('.') : val.split(',');
-    
+                        decimal     = '',
+                        hasAuxField = function(){
+                            return field.parents('table')[0] ? $(`.currency-control[name="${name}"]`,field.parents('td:first')) : $(`.currency-control[name="${name}"]`)
+                        };
+                    
+                    if(val.indexOf('.')){
+                        const v = val.split('.');
+                    
                         if(v[1] && v[1].length > 0){
-    
-                            decimal = ',';
-    
+                            decimal = '';
                             for (let i = 0; i < v[1].length; i++) {
                                 decimal += '0';
                             }
+
+                            field.val(val.replaceAll('.', ',')).attr('data-value',val);
                         }
                     }
-                    
-                    
-                    if(!hasAuxField[0]){
+
+                    if(!hasAuxField()[0]){
                         field.parents('*:first').append(`<input type="hidden" name="${name}" class="currency-control" value="${val}"/>`);
 
-                        field.removeAttr('name').attr('field-name',name);
+                        field.removeAttr('name').attr('field-name',name).attr('data-value',val);
                     }
 
-                    field.mask(`#.##0${decimal}`, {
-                        reverse: true,
-                        translation: {
-                            '#': {
-                                pattern: /-|\d/,
-                                recursive: true
-                            }
+                    const controlValue = function(value){
+                        value = value ? (value.replaceAll('.', '').replaceAll(',', '.')*1) : '';
+
+                        field.attr('data-value',value);
+
+                        hasAuxField().val(value);
+                    }
+
+                    field.inputmask({
+                        alias:'numeric',
+                        inputmode:'decimal',
+                        positionCaretOnClick: "radixFocus",
+                        radixPoint: ",",
+                        groupSeparator:'.',
+                        digits:decimal.length,
+                        digitsOptional:false,
+                        onBeforePaste: function (pastedValue, opts) {
+                            controlValue(pastedValue);
+                        }, 
+                        oncomplete : function(f){
+                            controlValue($(f.currentTarget).val());
                         },
-                        onKeyPress: function(value, event, currentField){
-
-                            value = (value.replaceAll('.', '').replaceAll(',', '.')*1);
-
-                            currentField.attr('data-value',value);
-        
-                            let objfield = currentField.parents('table')[0] ? $('input[name="'+currentField.attr('field-name')+'"]',currentField.parents('td:first')) : $('input[name="'+currentField.attr('field-name')+'"]');
-                            objfield.val(value);
+                        oncleared : function(f){
+                            controlValue($(f.currentTarget).val());
                         }
                     });
 
@@ -95,50 +103,60 @@
 
                 monthYear : function(field){
 
-                    field.mask('MM-YYYY', {
+                    field.inputmask('MM-YYYY', {
                         placeholder: "MM-YYYY",
-                        translation: {
-                            M: {pattern: /[0-9]/},
-                            Y: {pattern: /[0-9]/}
+                        definitions: {
+                            M: {validator: "[0-9]"},
+                            Y: {validator: "[0-9]"}
                         }
                     });
 
                 },
 
                 date : function (field) {
-                    field.mask("DD-MM-YYYY", {
+                    field.inputmask("DD-MM-YYYY", {
                         placeholder: "DD-MM-YYYY",
-                        translation: {
-                            D: {pattern: /[0-9]/},
-                            M: {pattern: /[0-9]/},
-                            Y: {pattern: /[0-9]/}
+                        definitions: {
+                            D: {validator: "[0-9]"},
+                            M: {validator: "[0-9]"},
+                            Y: {validator: "[0-9]"}
                         }
                     });
                 },
 
                 time : function (field) {
-                    field.mask('00:00:00',{
-                        placeholder: "hh:mm:ss"
+                    field.inputmask('00:00:00',{
+                        placeholder: "hh:mm:ss",
+                        definitions: {
+                            h: {validator: "[0-9]"},
+                            m: {validator: "[0-9]"},
+                            s: {validator: "[0-9]"}
+                        }
                     });
                 },
 
                 datetime : function(field) {
-                    field.mask('DD-MM-YYYY hh:mm:ss', {
-                        placeholder: "DD-MM-YYYY hh:mm:ss"
+                    field.inputmask('DD-MM-YYYY hh:mm:ss', {
+                        placeholder: "DD-MM-YYYY hh:mm:ss",
+                        definitions: {
+                            D: {validator: "[0-9]"},
+                            M: {validator: "[0-9]"},
+                            Y: {validator: "[0-9]"},
+                            h: {validator: "[0-9]"},
+                            m: {validator: "[0-9]"},
+                            s: {validator: "[0-9]"}
+                        }
                     });
                 },
 
                 percent : function (field) {
-                    field.mask('##0,00%', {reverse: true});
+                    field.inputmask('##0,00%');
                 },
 
                 ipaddress : function (field) {
-                    field.mask('0ZZ.0ZZ.0ZZ.0ZZ', {
-                        translation: {
-                        'Z': {
-                            pattern: /[0-9]/, 
-                            optional: true
-                        }
+                    field.inputmask('0ZZ.0ZZ.0ZZ.0ZZ', {
+                        definitions: {
+                            Z: {validator: "[0-9]"}
                         }
                     });
                 }
@@ -146,14 +164,14 @@
             },
             start : function(obj){
                 
-                if($.fn.mask  && isNav){
+                if($.fn.inputmask  && isNav){
                     obj = obj ? $('[inputmask]:not([inputmask=""])',obj) : $('form [inputmask]:not([inputmask=""])');
 
                     if(obj[0]){
                         obj.each(function(){
                             
                             var actions = $(this).attr('inputmask');
-
+                            console.log(actions);
                             com.mask[actions]($(this));
 
                         });
@@ -165,8 +183,6 @@
                 com = this;
                 
                 com.start();
-
-            
                 
             }
         }, true);
