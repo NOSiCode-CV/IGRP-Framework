@@ -91,8 +91,6 @@ $(function () {
 				namefp 	 = holderfp.attr('item-name'),
 				paramfp  = holderfp.parents('.fingerprint.box').attr('param');
 
-				console.log(paramfp);
-
 				let url = holderfp.attr('href') || window.location.href;
 					
 				if(type != ''){

@@ -35,69 +35,92 @@
                     }
 
                     return valid;
+                },
+
+                currency : function (v) {
+                    let valid = true;
+
+                    if(v && v !== undefined){
+                        v       = v.toString().replaceAll(',', '.');
+                        valid   = eval(/^([-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))?$/).test(v);
+                    }
+
+                    return valid;
                 }
             },
 
             message : {
                 monthYear   : 'Data inv&aacute;lida. Formato deve ser MM-YYYY ex: (01-2022)',
-                date        : "Data inv&aacute;lida. Formato deve ser DD-MM-YYYY ex: (01-01-2022)"
+                date        : "Data inv&aacute;lida. Formato deve ser DD-MM-YYYY ex: (01-01-2022)",
+                currency    : "Valor inv&aacute;lido."
             },
 
-            mask : {
+            mask : function(x) {
+                return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : 0;
+            },
+
+            formatValue : function(val) {
+                let auxVal = com.mask(val);
+
+                val = val.toString().replaceAll('.', ',');
+
+                if(val && val.indexOf(',')){
+                    const v = val.split(',');
+                    auxVal  = com.mask(v[0]);
+
+                    if(v[1] && v[1].length > 0)
+                    auxVal +=','+v[1];
+                }
+
+                return auxVal;
+            },
+
+            isFormat : function() {
+                $('.isFormat').each(function(){
+                    $(this).removeClass('isFormat');
+                    com.method.currency($(this));
+                });
+            },
+
+            getControlField : function (field) {
+                const name = field.attr('name') || field.attr('field-name')
+                return field.parents('table')[0] ? $(`.currency-control[name="${name}"]`,field.parents('td:first')) : $(`.currency-control[name="${name}"]`);
+            },
+
+            getControlValue : function(field) {
+                let val = field.attr('data-value')*1;
+
+                val = val > 0 ? val.toString().replaceAll('.', ',') : '';
+
+                return val;
+            },
+
+            method : {
 
                 currency : function(field) {
                     let name        = field.attr('name') || field.attr('field-name'),
                         val         = field.val() || '',
-                        decimal     = '',
-                        hasAuxField = function(){
-                            return field.parents('table')[0] ? $(`.currency-control[name="${name}"]`,field.parents('td:first')) : $(`.currency-control[name="${name}"]`)
-                        };
+                        auxVal      = '',
+                        hasAuxField = com.getControlField(field);
                     
-                    if(val.indexOf('.')){
-                        const v = val.split('.');
-                    
-                        if(v[1] && v[1].length > 0){
-                            decimal = '';
-                            for (let i = 0; i < v[1].length; i++) {
-                                decimal += '0';
-                            }
+                    if(val && val !== undefined){
+                        auxVal  = val;
+                        field.val(com.formatValue(val));
 
-                            field.val(val.replaceAll('.', ',')).attr('data-value',val);
+                        auxVal = auxVal.toString().replaceAll(',', '.');
+                    }
+
+                    if(com.valid.currency(auxVal)){
+
+                        if(!hasAuxField[0]){
+                            field.parents('*:first').append(`<input type="hidden" name="${name}" class="currency-control" value="${auxVal}"/>`);
+                            field.removeAttr('name').attr('field-name',name);
                         }
+                        else
+                            hasAuxField.val(auxVal);
+
+                        field.attr('data-value',auxVal);
                     }
-
-                    if(!hasAuxField()[0]){
-                        field.parents('*:first').append(`<input type="hidden" name="${name}" class="currency-control" value="${val}"/>`);
-
-                        field.removeAttr('name').attr('field-name',name).attr('data-value',val);
-                    }
-
-                    const controlValue = function(value){
-                        value = value ? (value.replaceAll('.', '').replaceAll(',', '.')*1) : '';
-
-                        field.attr('data-value',value);
-
-                        hasAuxField().val(value);
-                    }
-
-                    field.inputmask({
-                        alias:'numeric',
-                        inputmode:'decimal',
-                        positionCaretOnClick: "radixFocus",
-                        radixPoint: ",",
-                        groupSeparator:'.',
-                        digits:decimal.length,
-                        digitsOptional:false,
-                        onBeforePaste: function (pastedValue, opts) {
-                            controlValue(pastedValue);
-                        }, 
-                        oncomplete : function(f){
-                            controlValue($(f.currentTarget).val());
-                        },
-                        oncleared : function(f){
-                            controlValue($(f.currentTarget).val());
-                        }
-                    });
 
                 },
 
@@ -167,19 +190,50 @@
                 if($.fn.inputmask  && isNav){
                     obj = obj ? $('[inputmask]:not([inputmask=""])',obj) : $('form [inputmask]:not([inputmask=""])');
 
+                    $(document).on('click','[inputmask="currency"]:not([readonly])',function(){
+                        com.isFormat();
+
+                        const val = com.getControlValue($(this));
+
+                        $(this).addClass('isFormat').val(val);
+                    });
+
+                    $(document).on('input','[inputmask="currency"]',function(){
+                        let val     = $(this).val();
+                
+                        if(com.valid.currency(val)){
+                            val = val ? val.replaceAll(',', '.') : '';
+
+                            $(this).attr('data-value',val);
+
+                            com.getControlField($(this)).val(val);
+
+                        }else{
+                            val = com.getControlValue($(this));
+                            $(this).val(val);
+                        }
+
+                    });
+    
+                    $(document).click(function(e){
+                        if(!$(e.target).is('[inputmask="currency"]'))
+                            com.isFormat();
+                    });
+
+
                     if(obj[0]){
                         obj.each(function(){
                             
                             var actions = $(this).attr('inputmask');
-                            console.log(actions);
-                            com.mask[actions]($(this));
+
+                            com.method[actions]($(this));
 
                         });
                     }
+
                 }
             },
             init: function () {
-
                 com = this;
                 
                 com.start();
