@@ -18,6 +18,35 @@ var FINGERPRINT = function(name,params){
 	container.ready = function(){
 		container.SET.hasTitle(true);
 
+
+		container.setPropriety({
+			name : 'field_param',
+			label : 'Field Param',
+			value:{
+				value : '',
+				options : function(){
+					var rtn =  [];
+
+					GEN.getContainers().forEach(function(c){
+				
+						c.GET.fields().forEach(function(f){
+							if(f.type !== 'img')
+								rtn.push({ value : 'p_'+f.GET.tag(), label: f.GET.tag() });
+						});
+				
+					  });
+
+					return rtn;
+				}(),
+				multiple:true,
+			},
+			onChange:function(v){
+				
+				console.log(v);
+
+			}
+		});
+
 		container.setPropriety({
 			name 	 :'view',
 			label 	 : 'View Only',
