@@ -49,6 +49,7 @@ import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
 /*----#end-code----*/
 		
 public class MigrationController extends Controller {
+	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Migration model = new Migration();
 		model.load();

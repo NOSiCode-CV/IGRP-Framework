@@ -1,11 +1,8 @@
 package nosi.core.db.migration.igrp;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -72,11 +69,12 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 	protected List<TipoDocumento> tipoDocumentos = new ArrayList<>(); 
 	protected List<String> bpmns = new ArrayList<>();
 	
-	private final String REPORT_BPMN_FILE_PATH_NAME = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "nosi" + File.separator + "core" + File.separator + "db" + File.separator + "migration" + File.separator + "igrp"; 
+	private static final String REPORT_BPMN_FILE_PATH_NAME = "nosi/core/db/migration/igrp";
 	private final String ACTIVITI_ENDPOINT_NAME = "url_ativiti_connection";
 	private final String ACTIVITI_USERNAME_PARAM_NAME = "ativiti_user";
 	private final String ACTIVITI_PASSWORD_PARAM_NAME = "ativiti_password";
 	
+	private boolean isAppExists = true;
 	protected String dbEngineName;
 	
 	protected abstract void app();
@@ -104,6 +102,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 	public void migrate(Context context) throws Exception {
 		this.setDbEngineName(context);
 		this.migrateApp(context);
+		this.createDefaultAccessRights(context);
 		this.migrateModules(context);
 		this.migratePages(context);
 		this.migrateTransactions(context);
@@ -134,6 +133,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 				psInsertOrUpdate.setString(7, this.app.getDad());
 				psInsertOrUpdate.executeUpdate(); 
 			}else {
+				isAppExists = false;
 				psInsertOrUpdate = context.getConnection().prepareStatement("INSERT INTO public.tbl_env(description, externo, img_src, name, status, template, dad) VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS); 
 				psInsertOrUpdate.setString(1,this.app.getDescription());
 				psInsertOrUpdate.setInt(2, 0);
@@ -782,7 +782,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 		PreparedStatement psQuery = null;
 		Integer id = null;  
 		try {
-			psQuery = context.getConnection().prepareStatement("SELECT id FROM public.tbl_config_env WHERE name = ?"); 
+			psQuery = context.getConnection().prepareStatement("SELECT id FROM public.tbl_config_env WHERE connection_identify = ?"); 
 			psQuery.setString(1, identifier);
 			ResultSet rs = psQuery.executeQuery(); 
 			if(rs.next()) {
@@ -899,13 +899,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 	}
 	
 	private InputStream loadReportOrBpmnFile(String appDad, String filename) { 
-		InputStream inStream = null;
-		try {
-			Path path = Paths.get(this.REPORT_BPMN_FILE_PATH_NAME, dbEngineName, appDad, filename);
-			if(Files.exists(path)) 
-				inStream = Files.newInputStream(path);
-		} catch (Exception e) {}
-		return inStream;
+		return this.getClass().getClassLoader().getResourceAsStream(Paths.get(REPORT_BPMN_FILE_PATH_NAME, dbEngineName, appDad, filename).toString());
 	}
 	
 	private Properties loadActivitiSettings(Context context) throws SQLException { 
@@ -932,6 +926,124 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 			}
 		} 
 		return settings;
+	}
+	
+	private int createDefaultOrganica(Context context) throws SQLException {
+		int id = 0;
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = context.getConnection().prepareStatement("INSERT INTO public.tbl_organization(code, name, status, env_fk, user_created_fk) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS); 
+			preparedStatement.setString(1, String.format("%s.%s", "org", this.app.getDad()));
+			preparedStatement.setString(2, "IGRP");
+			preparedStatement.setInt(3, 1);
+			preparedStatement.setInt(4, this.app.getId());
+			preparedStatement.setInt(5, 1);
+			preparedStatement.executeUpdate();
+			ResultSet resultSetPk = preparedStatement.getGeneratedKeys(); 
+			while(resultSetPk.next()) 
+				id = resultSetPk.getInt(1);
+			resultSetPk.close();
+		}finally {
+			try {
+				if(preparedStatement != null)
+					preparedStatement.close();
+			} catch (SQLException e) {
+				LOGGER.error(e.getMessage(), e);
+			}
+		}
+		return id;
+	}
+	
+	private int[] createDefaultProfileTypes(Context context, int organicaId) throws SQLException{
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = context.getConnection().prepareStatement("INSERT INTO public.tbl_profile_type(code, descr, status, env_fk, org_fk) VALUES (?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS); 
+			// First record 
+			preparedStatement.setString(1, String.format("%s.%s", "admin", this.app.getDad()));
+			preparedStatement.setString(2, "Admin");
+			preparedStatement.setInt(3, 1);
+			preparedStatement.setInt(4, this.app.getId());
+			preparedStatement.setInt(5, organicaId);
+			preparedStatement.addBatch();
+			// Second record 
+			preparedStatement.setString(1, String.format("%s.%s", "user", this.app.getDad()));
+			preparedStatement.setString(2, "User");
+			preparedStatement.setInt(3, 1);
+			preparedStatement.setInt(4, this.app.getId());
+			preparedStatement.setInt(5, organicaId);
+			preparedStatement.addBatch();
+			// Execute batch 
+			preparedStatement.executeBatch();
+			ResultSet resultSetPk = preparedStatement.getGeneratedKeys(); 
+			if(resultSetPk.isBeforeFirst()) {
+				int[] ids = new int[2];
+				for(int i=0; i<ids.length; i++) {
+					resultSetPk.next();
+					ids[i] = resultSetPk.getInt(1);
+				}
+				resultSetPk.close();
+				return ids;
+			}
+		}finally {
+			try {
+				if(preparedStatement != null)
+					preparedStatement.close();
+			} catch (SQLException e) {
+				LOGGER.error(e.getMessage(), e);
+			}
+		}
+		return null;
+	}
+	
+	private void createDefaultProfiles(Context context, int organicaId, int[] profileTypeIds) throws SQLException {
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = context.getConnection().prepareStatement("INSERT INTO public.tbl_profile(type, type_fk, org_fk, prof_type_fk, user_fk) VALUES (?, ?, ?, ?, ?)"); 
+			// First record 
+			preparedStatement.setString(1, "ENV");
+			preparedStatement.setInt(2, this.app.getId());
+			preparedStatement.setInt(3, organicaId);
+			preparedStatement.setInt(4, profileTypeIds[0]);
+			preparedStatement.setInt(5, 1);
+			preparedStatement.addBatch();
+			// Second record 
+			preparedStatement.setString(1, "PROF");
+			preparedStatement.setInt(2, profileTypeIds[0]);
+			preparedStatement.setInt(3, organicaId);
+			preparedStatement.setInt(4, profileTypeIds[0]);
+			preparedStatement.setInt(5, 1);
+			preparedStatement.addBatch();
+			// Third record 
+			preparedStatement.setString(1, "PROF");
+			preparedStatement.setInt(2, profileTypeIds[1]);
+			preparedStatement.setInt(3, organicaId);
+			preparedStatement.setInt(4, profileTypeIds[1]);
+			preparedStatement.setInt(5, 1);
+			preparedStatement.addBatch();
+			// Fourth record 
+			preparedStatement.setString(1, "MEN");
+			preparedStatement.setInt(2, 10);
+			preparedStatement.setInt(3, organicaId);
+			preparedStatement.setInt(4, 1);
+			preparedStatement.setInt(5, 1);
+			preparedStatement.addBatch();
+			// Execute batch 
+			preparedStatement.executeBatch();
+		}finally {
+			try {
+				if(preparedStatement != null)
+					preparedStatement.close();
+			} catch (SQLException e) {
+				LOGGER.error(e.getMessage(), e);
+			}
+		}
+	}
+	
+	private void createDefaultAccessRights(Context context) throws SQLException {
+		if(!isAppExists) {
+			int organicaId = createDefaultOrganica(context);
+			createDefaultProfiles(context, organicaId, createDefaultProfileTypes(context, organicaId));
+		}
 	}
 	
 }
