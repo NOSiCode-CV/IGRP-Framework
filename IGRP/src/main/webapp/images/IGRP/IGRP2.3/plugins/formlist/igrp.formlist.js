@@ -101,15 +101,12 @@
             }
 
             function ROW_id(pRel,pObj){
-                return  $("input[name='p_"+pRel+"_id']", pObj)[0]?$("input[name='p_"+pRel+"_id']", pObj).val():null;
+                return  $("input[name='p_"+pRel+"_id']", pObj)[0] ? $("input[name='p_"+pRel+"_id']", pObj).val() : null;
             }
 
             function IGRP_delRowForm(pObj){ 
 
                 var vVal = ROW_id(pObj.pRel,pObj.pObjt);
-                
-                if(vVal != null && vVal != "")//{
-                    $("form").append('<input type="hidden" name="p_'+pObj.pRel+'_del" value="'+vVal+'"/>');
                   
                 if(_this.getLength() > 1 && settings.btnDelete){
                 	
@@ -129,15 +126,13 @@
           
                     resetFildsRow(pObj.pObjt);
                 }
+
+                if(vVal != null && vVal != "")
+                    $("form").append('<input type="hidden" name="p_'+pObj.pRel+'_del" value="'+vVal+'"/>');
                 
                 if(TABLE.hasClass('totalcol')){
                     $('[type="number"][total-col="true"]',TABLE).change();
                 }
-
-
-              /*}else
-                    IGRP_message({pObjt:$("table[rel='T_"+pObj.pRel+"']").parents(".box-table:first"),pType:"warning",
-                        pMessage:JSMSG_WARNING_DELETE_ITEM_TABLE,pPos:"before"});*/
             }
 
             var getObjTable = function(rel){
@@ -312,7 +307,7 @@
                 if(settings.beforeDelete)
                     settings.beforeDelete(TABLE,_this.getLength(),pObj);
 
-                settings.onDelete?settings.onDelete(TABLE,_this.getLength(),pObj):_delete(pObj);
+                settings.onDelete ? settings.onDelete(TABLE,_this.getLength(),pObj) : _delete(pObj);
 
                 if(settings.afterDelete)
                     settings.afterDelete(TABLE,_this.getLength(),pObj);
@@ -410,20 +405,6 @@
 
                         });
 
-                       /* $(tr).find('td').each(function(x,td){
-  
-                            var name = $(td).attr('item-name') || $(td).find('>.form-group').attr('item-name');
-                            
-                            if(name){
-
-                                var val = $('[name="p_'+name+'_fk"]',tr).val();
-
-                                cols[name] = val;
-
-                            }
-
-                        });*/
-
 
                        arr.push(cols);
 
@@ -476,14 +457,6 @@
 
                         }
 
-                        /*if(tdLength == Object.keys(d).length){
-
-                            for(var name in d)
-
-                                tr.find('[name="p_'+name+'_fk"], [input-rel="p_'+name+'_fk"]').val(d[name]).trigger('change');
-
-                        }  */
-
                         TABLE[0].events.execute("row-add",tr);
 
                         rows.push(tr[0]);
@@ -505,6 +478,19 @@
                     return rows;
 
                 };
+
+                TABLE.on('change','tbody tr :input', function(){
+
+                    const rel = $(this).parents('table:first').attr('rel').split('T_')[1];
+
+                    const val = ROW_id(rel,$(this).parents('tr:first'));
+
+                    if(val && val !== undefined){
+                        if(!$(`input[name="p_${rel}_edit"]`)[0])
+                            $("form").prepend(`<input type="hidden" name="p_${rel}_edit" value="${val}"/>`);
+                    }
+
+                });
 
                 var onInit = function(){
                     $(obj,e).each(function(i,tr){
