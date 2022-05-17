@@ -62,12 +62,10 @@
 
 			if(HolderBtns[0]){
 
-				$('>*',HolderBtns).addClass('step-btn finish step-finish-btns');
-
 				var getBtns 	= $('>*',HolderBtns).clone(true),
 					parentForm 	= HolderBtns.parents('.box.igrp-forms');
 
-				HolderBtns.remove();
+				getBtns.addClass('step-btn finish step-finish-btns');
 
 				if(!$(":input",parentForm)[0] && !$(".form-group",parentForm)[0]){
 					parentForm.remove();
