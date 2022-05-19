@@ -108,7 +108,7 @@ public class Transaction extends QuerySelect{
 					this.setParameters(q);
 					r.setSql(q.getSql());
 					Core.log("SQL:"+q.getSql());
-					r.setKeyValue(new Integer(q.executeUpdate()));
+					r.setKeyValue(Integer.valueOf(q.executeUpdate()));
 				} catch (SQLException e) {
 					this.setError(r,e);
 				}
@@ -140,7 +140,7 @@ public class Transaction extends QuerySelect{
 					this.setParameters(q);
 					r.setSql(q.getSql());
 					Core.log("SQL:"+q.getSql());
-					r.setKeyValue(new Integer(q.executeUpdate()));
+					r.setKeyValue(Integer.valueOf(q.executeUpdate()));
 			}
 		}
 		this.resetQuery();
