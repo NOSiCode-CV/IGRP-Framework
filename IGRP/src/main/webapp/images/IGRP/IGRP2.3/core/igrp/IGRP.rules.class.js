@@ -198,30 +198,22 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 
 		setRulesInField : function (obj){
-			try {
-
-				let objRules = {},
-					has		 = false;
+						try {
 
 				$(':input',obj).each(function(){
 					let name = $(this).attr('name') || $(this).attr('field-name');
 
 					if(name && typeof $.IGRP.configRules === 'object'){
-
 						let hasRules = $.IGRP.configRules[name];
 
 						if(typeof hasRules === 'object'){
-							has = true;
-							objRules[name] = hasRules;
+							$.IGRP.rules.set(hasRules, $.IGRP.typeRules);
 						}
 					}
 				});
-
-				if(has)
-					$.IGRP.rules.set(objRules, $.IGRP.typeRules);
 				
 			} catch (error) {
-				console.log(error);
+				null;
 			}
 		},
 
