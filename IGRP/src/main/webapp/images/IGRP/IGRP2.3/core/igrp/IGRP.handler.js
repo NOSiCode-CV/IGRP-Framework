@@ -63,6 +63,7 @@
 			    email: "E-mail inv&aacute;lido.",
 			    url: "URL inv&aacute;lido.",
 			    date: "Data inv&aacute;lida.",
+				datefield:"Data inv&aacute;lida. Formato deve ser DD-MM-YYYY ex: (31-12-2022)",
 			    dateISO: "Data (ISO) inv&aacute;lida.",
 			    number: "N&uacute;mero inv&aacute;lido.",
 			    digits: "Introduza apenas d&iacute;gitos.",
@@ -82,6 +83,11 @@
 			$.validator.addMethod("disablehtml", function(value, element) {
 		
 				return this.optional(element) || !eval(/(\<\w*)((\s\/\>)|(.*\<\/\w*\>))/gm).test(value);
+			});
+
+			$.validator.addMethod("datefield", function(value, element) {
+		
+				return this.optional(element) || value.igrpValidateDateFormat();
 			});
 		};
 
