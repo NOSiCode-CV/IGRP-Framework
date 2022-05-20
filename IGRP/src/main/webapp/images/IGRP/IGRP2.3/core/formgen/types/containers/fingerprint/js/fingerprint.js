@@ -39,11 +39,6 @@ var FINGERPRINT = function(name,params){
 					return rtn;
 				}(),
 				multiple:true,
-			},
-			onChange:function(v){
-				
-				console.log(v);
-
 			}
 		});
 
