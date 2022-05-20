@@ -480,7 +480,7 @@
                 };
 
                 TABLE.bind().on('change','tbody tr :input[type!="hidden"]', function(){
-                    console.log($(this));
+                    
                     const rel = $(this).parents('table:first').attr('rel').split('T_')[1];
 
                     const val = ROW_id(rel,$(this).parents('tr:first'));
