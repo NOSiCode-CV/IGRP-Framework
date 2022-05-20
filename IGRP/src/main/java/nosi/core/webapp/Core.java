@@ -373,8 +373,11 @@ public final class Core {
 			return connectionTestName;
 		}
 		String result = "";
-		Config_env configEnv = new Config_env().find().setKeepConnection(true).where("isdefault", "=", (short) 1)
-				.andWhere("application.dad", "=", dad).one();
+		Config_env configEnv = new Config_env().find().setKeepConnection(true)
+				.where("isdefault", "=", (short) 1)
+				.andWhere("application.dad", "=", dad);
+		configEnv.setApplicationName("igrp");
+		configEnv=configEnv.one();
 		if (configEnv != null)
 			result = configEnv.getName();
 		return result;
