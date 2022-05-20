@@ -67,6 +67,7 @@
 			    number: "N&uacute;mero inv&aacute;lido.",
 			    digits: "Introduza apenas d&iacute;gitos.",
 			    creditcard: "Cart&atilde;o de cr&eacute;dito inv&aacute;lido.",
+				disablehtml:"Corrija este campo. Não é permitido tags HTML.",
 			    equalTo: "Introduza o mesmo valor novamente.",
 			    accept: "Introduza Extens&atilde;o valido do tipo: {0}.",
 			    maxlength: jQuery.validator.format("Introduza n&atilde;o mais do que {0} caracteres."),
@@ -76,6 +77,12 @@
 			    max: jQuery.validator.format("Introduza um valor menor ou igual a {0}."),
 			    min: jQuery.validator.format("Introduza um valor maior ou igual a {0}.")
 			});	
+
+
+			$.validator.addMethod("disablehtml", function(value, element) {
+		
+				return this.optional(element) || !eval(/(\<\w*)((\s\/\>)|(.*\<\/\w*\>))/gm).test(value);
+			});
 		};
 
 		var checkActiveToolsBarItem = function(){
