@@ -557,7 +557,7 @@
                 $.IGRP.utils.mathcal(p.content);
 
             
-            $.IGRP.rules.setRulesInField(p.content);
+            //$.IGRP.rules.setRulesInField(p.content);
             	
         }
     });
