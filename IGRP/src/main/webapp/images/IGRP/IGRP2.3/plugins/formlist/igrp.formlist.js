@@ -479,15 +479,17 @@
 
                 };
 
-                TABLE.on('change','tbody tr :input', function(){
-
+                TABLE.bind().on('change','tbody tr :input[type!="hidden"]', function(){
+                    console.log($(this));
                     const rel = $(this).parents('table:first').attr('rel').split('T_')[1];
 
                     const val = ROW_id(rel,$(this).parents('tr:first'));
 
                     if(val && val !== undefined){
-                        if(!$(`input[name="p_${rel}_edit"]`)[0])
+
+                        if(!$(`:input[name="p_${rel}_edit"][value="${val}"]`)[0])
                             $("form").prepend(`<input type="hidden" name="p_${rel}_edit" value="${val}"/>`);
+                        
                     }
 
                 });
@@ -557,7 +559,7 @@
                 $.IGRP.utils.mathcal(p.content);
 
             
-            $.IGRP.rules.setRulesInField(p.content);
+            //$.IGRP.rules.setRulesInField(p.content);
             	
         }
     });
