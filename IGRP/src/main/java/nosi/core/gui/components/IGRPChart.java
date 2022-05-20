@@ -135,7 +135,8 @@ public class IGRPChart extends IGRPComponent{
 
 	private void generateRowsValueXYZ() {
 		LinkedHashMap<LinkedHashMap<String,String>,Object> result = new LinkedHashMap<>();
-		Set<String> values1 = new LinkedHashSet<>(),values2 = new LinkedHashSet<>();
+		Set<String> values1 = new LinkedHashSet<>();
+		Set<String> values2 = new LinkedHashSet<>();
 		this.data.stream().forEach(o->{
 			IGRPChart3D chart3d = (IGRPChart3D)o;
 			values1.add(chart3d.getEixoX()!=null?chart3d.getEixoX():"");
@@ -210,7 +211,7 @@ public class IGRPChart extends IGRPComponent{
 			if(result.containsKey(key)) {
 				v +=result.remove(key).doubleValue();
 			}
-			result.put(key,new Double(v));
+			result.put(key,Double.valueOf(v));
 		});
 		this.xml.startElement("value");
 		values2.stream().forEach(v2->{
@@ -255,7 +256,7 @@ public class IGRPChart extends IGRPComponent{
 	}
 	
 	private void generateColors(int countlabels) {
-		if(colors.size()>0 && countlabels>0) {
+		if(!colors.isEmpty() && countlabels>0) {
 			this.xml.startElement("colors");			
 			for(int i=0;i<countlabels/colors.size()+1;i++) {
 				this.colors.stream().forEach(l->{
