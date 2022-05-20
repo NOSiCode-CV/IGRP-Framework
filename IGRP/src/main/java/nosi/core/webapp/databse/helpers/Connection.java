@@ -35,6 +35,7 @@ public class Connection {
 		Config_env config = new Config_env().find().setKeepConnection(true)
 				.andWhere("name", "=", connectionName)
 				.andWhere("application.dad", "=",dad)
+				.setApplicationName("igrp")
 				.one();
 		return Connection.getConnectionWithConfig(config);
 	}
@@ -181,7 +182,9 @@ public class Connection {
 		String result = "";
 		Config_env configEnv = new Config_env().find().setKeepConnection(true)
 				.where("isdefault", "=", (short) 1)
-				.andWhere("application.dad", "=", dad).setApplicationName("igrp").one();
+				.andWhere("application.dad", "=", dad)
+				.setApplicationName("igrp")
+				.one();
 	
 		if (configEnv != null)
 			result = configEnv.getName();
