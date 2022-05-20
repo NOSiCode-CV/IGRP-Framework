@@ -23,7 +23,6 @@
 					inputControll = $("#"+name),
 					firstElement  = $('div.step-tab-panel:eq(0)', obj),
 					lastElement   = $('div.step-tab-panel:eq('+totalStep+')', obj);
-				
 
 				if(obj.is("[control-start]") && obj.attr("control-start") == "true" && isNav){
 
@@ -54,6 +53,8 @@
 
 			}else	
 				$('.step-footer',obj).addClass('hidden');
+
+			obj.data('total-step',totalStep);
 		},
 
 		controllBtn : function (obj) {
@@ -65,17 +66,27 @@
 				var getBtns 	= $('>*',HolderBtns).clone(true),
 					parentForm 	= HolderBtns.parents('.box.igrp-forms');
 
-				getBtns.addClass('step-btn finish step-finish-btns');
-
 				if(!$(":input",parentForm)[0] && !$(".form-group",parentForm)[0]){
 					parentForm.remove();
 				}
 
 				HolderBtns.parents('.box-footer.gen-form-footer').remove();
 
-				$('.step-footer',obj).find('.step-btn.finish.step-finish-btns').remove();
+				console.log(getBtns);
 
-				$('.step-footer',obj).append(getBtns);
+				if(getBtns[0]){
+
+					getBtns.addClass('step-btn finish step-finish-btns');
+
+					$('.step-footer .step-btn.finish',obj).remove();
+
+					console.log(obj.data('total-step'),obj.data('corrent-step'));
+
+					if(obj.data('total-step') === obj.data('corrent-step'))
+						getBtns.removeClass('step-finish-btns');
+
+					$('.step-footer',obj).append(getBtns);
+				}
 			}
 		},
 
@@ -178,6 +189,8 @@
 							
 							$("#p_fwl_"+obj.attr("item-name")).val((newIndex + 1));
 						}
+
+						obj.data('corrent-step',newIndex);
 					}
 
 					return valid;
