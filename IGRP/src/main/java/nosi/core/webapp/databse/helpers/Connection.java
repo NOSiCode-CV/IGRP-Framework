@@ -13,6 +13,7 @@ import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 
 /**
@@ -34,6 +35,7 @@ public class Connection {
 		Config_env config = new Config_env().find().setKeepConnection(true)
 				.andWhere("name", "=", connectionName)
 				.andWhere("application.dad", "=",dad)
+				.setApplicationName("igrp")
 				.one();
 		return Connection.getConnectionWithConfig(config);
 	}
@@ -169,5 +171,23 @@ public class Connection {
 	
 	public static java.sql.Connection getConnection(Config_env config_env){
 		return Connection.getConnectionWithConfig(config_env);
+	}
+	
+	public String defaultConnection(String dad) {
+		//To make BDD work, this is a forcing bd connection to change for mock use
+		final String connectionTestName = Core.getParam("igrp.test.bdd",false);
+		if (Core.isNotNull(connectionTestName)) {
+			return connectionTestName;
+		}
+		String result = "";
+		Config_env configEnv = new Config_env().find().setKeepConnection(true)
+				.where("isdefault", "=", (short) 1)
+				.andWhere("application.dad", "=", dad)
+				.setApplicationName("igrp")
+				.one();
+	
+		if (configEnv != null)
+			result = configEnv.getName();
+		return result;
 	}
 }

@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 
 import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.Connection;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.ORDERBY;
 import nosi.core.webapp.databse.helpers.ParametersHelper;
@@ -620,8 +621,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	}
 
 	@Override
-	public void setConnectionName(String connectionName) {
+	public T setConnectionName(String connectionName) {
 		this.connectionName = connectionName;
+		return (T) this;
 	}
 
 	@Transient	
@@ -1454,8 +1456,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		return this.orderBy(new String[][] {columns},ORDERBY.DESC);
 	}
 	
-	public void setApplicationName(String applicationName) {
+	public T setApplicationName(String applicationName) {
 		this.applicationName = applicationName;
+		return (T) this;
 	}
 	
 	
@@ -1713,19 +1716,6 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	}
 	
 	public String defaultConnection(String dad) {
-		//To make BDD work, this is a forcing bd connection to change for mock use
-		final String connectionTestName = Core.getParam("igrp.test.bdd",false);
-		if (Core.isNotNull(connectionTestName)) {
-			return connectionTestName;
-		}
-		String result = "";
-		Application app = new Application().setKeepConnection(true).find().andWhere("dad", "=", dad).one();
-		if (app != null) {
-			Config_env config_env = new Config_env().setKeepConnection(true).find().andWhere("isdefault", "=", (short) 1)
-					.andWhere("application", "=", app.getId()).one();
-			if (config_env != null)
-				result = config_env.getName();
-		}
-		return result;
+		return new Connection().defaultConnection(dad);
 	}
 }

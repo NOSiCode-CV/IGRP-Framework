@@ -367,20 +367,7 @@ public final class Core {
 	 *            application code
 	 */
 	public static String defaultConnection(String dad) {
-		//To make BDD work, this is a forcing bd connection to change for mock use
-		final String connectionTestName = Core.getParam("igrp.test.bdd",false);
-		if (Core.isNotNull(connectionTestName)) {
-			return connectionTestName;
-		}
-		String result = "";
-		Config_env configEnv = new Config_env().find().setKeepConnection(true)
-				.where("isdefault", "=", (short) 1)
-				.andWhere("application.dad", "=", dad);
-		configEnv.setApplicationName("igrp");
-		configEnv=configEnv.one();
-		if (configEnv != null)
-			result = configEnv.getName();
-		return result;
+		return new Connection().defaultConnection(dad);
 	}
 
 	/**
