@@ -5457,6 +5457,15 @@ var GENERATOR = function(genparams){
 						propriety:false,
 						xslValue : 'disabled="disabled"' //XSL VALUE WHEN PROPRIETY IS TRUE
 					});
+
+					if(field.GET.type() === 'text' || field.GET.type() === 'textarea'){
+						field.setPropriety({
+							label	 :'Disable HTML',
+							name	 :'disablehtml',
+							propriety:true,
+							xslValue : 'disablehtml="true"' //XSL VALUE WHEN PROPRIETY IS TRUE
+						});
+					}
 				}
 
 				if(field.GET.type() != "button" && field.GET.type() != "plaintext" && field.GET.type() != "select" && field.GET.type() != "file" && field.GET.type() != "radio" && field.GET.type() != "checkbox" && field.GET.type() != "checkboxlist" && field.GET.type() != "radiolist"){
@@ -5477,7 +5486,7 @@ var GENERATOR = function(genparams){
 					}
 				}
 
-				if(field.GET.type && field.GET.type() == 'text'){
+				if((field.GET.type && field.GET.type() == 'text') && (container.GET.type() == 'formlist' || container.GET.type() == 'form')){
 
 					let inputMaskIncludes 	= [
 						{path : '/plugins/inputmask/igrp.inputmask.js'},
@@ -5485,18 +5494,25 @@ var GENERATOR = function(genparams){
 					],
 					removeIncludesJs 	= function(arr){
 						arr.forEach(function(e){
-							for( var i = 0; i < container.includes.js.length; i++){
-								var inc = container.includes.js[i];
+							for( var i = 0; i < field.includes.js.length; i++){
+								var inc = field.includes.js[i];
 								if(inc.path == e.path){
-									var index = container.includes.js.indexOf(inc);
+									var index = field.includes.js.indexOf(inc);
 									if (index > -1) 
-										container.includes.js.splice(index, 1);
+										field.includes.js.splice(index, 1);
 									break;
 								}
 							}
 						});
 					},
 					inputMaskInc = false;
+
+					if(!inputMaskInc && field?.proprieties?.inputmask !== undefined){
+						inputMaskIncludes.forEach(function(e){
+							field.includes.js.unshift(e);
+						});
+						inputMaskInc = true;
+					}
 
 					field.setPropriety({
 						name:'inputmask',
@@ -5511,11 +5527,12 @@ var GENERATOR = function(genparams){
 							]
 						},
 						onChange:function(v){
+							
 							if(v !== undefined && v !== ''){
 		
 								if(!inputMaskInc){
 									inputMaskIncludes.forEach(function(e){
-										container.includes.js.unshift(e);
+										field.includes.js.unshift(e);
 									});
 									inputMaskInc = true;
 								}					
@@ -5523,6 +5540,7 @@ var GENERATOR = function(genparams){
 								removeIncludesJs(inputMaskIncludes);
 								inputMaskInc = false;
 							}
+
 						}
 					});
 				}

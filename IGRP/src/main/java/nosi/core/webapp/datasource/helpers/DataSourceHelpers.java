@@ -73,7 +73,7 @@ public class DataSourceHelpers {
 			try {
 				
 				try(Statement s = con.createStatement()){
-				Set<String> keys = getParamsQuery(rs,template_id,query_);
+				Set<String> keys = getParamsName(rs,template_id);
 				String query =query_.replaceAll(":\\w+", "null");
 				ResultSetMetaData rsd =s.executeQuery(query).getMetaData();
 				for(int i=1;i<=rsd.getColumnCount();i++){
@@ -101,12 +101,8 @@ public class DataSourceHelpers {
 	}
 	
 	
-	/*Extract parameters in query select
-	 * Example: SELECT * FROM tbl_user WHERE id=:p_id
-	 * 
-	 * The "p_id" is parameter
-	 */
-	public Set<String> getParamsQuery(RepSource rs,Integer template_id,String query){
+
+	public Set<String> getParamsName(RepSource rs,Integer template_id){
 		Set<String> params = new HashSet<>();
 		
 		if(template_id!=0){

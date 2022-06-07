@@ -191,10 +191,13 @@ public class GerarClasse {
 		Map<String, String> foreignKeysConstraintNamesMap = new DatabaseMetadaHelper().getForeignKeysConstrainName(
 				this.daoDto.getConfigEnv(), this.daoDto.getSchema(), daoDto.getTableName(), daoDto.getDadName());
 
-		variables.append(TAB).append("@ManyToOne").append(NEW_LINE).append("\t@JoinColumn(name = \"")
-				.append(column.getName()).append("\", foreignKey = @ForeignKey(name = \"")
-				.append(foreignKeysConstraintNamesMap.get(column.getName())).append("\")").append(")").append(NEW_LINE)
-				.append(TAB).append("private ").append(columnType).append(" ").append(camelCaseColumnName).append(";")
+		String foreignKeyName = foreignKeysConstraintNamesMap.get(column.getName());
+		String referencedColumnName=foreignKeysConstraintNamesMap.get(foreignKeyName);
+		variables.append(TAB).append("@ManyToOne")
+				.append(NEW_LINE).append("\t@JoinColumn(name = \"")
+				.append(column.getName()).append("\", foreignKey = @ForeignKey(name = \"").append(foreignKeyName).append("\")")
+				.append(referencedColumnName.equals("id")?"":",referencedColumnName=\""+referencedColumnName+"\"").append(")")
+				.append(NEW_LINE).append(TAB).append("private ").append(columnType).append(" ").append(camelCaseColumnName).append(";")
 				.append(NEW_LINE);
 	}
 
