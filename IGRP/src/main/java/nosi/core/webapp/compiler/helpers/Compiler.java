@@ -70,7 +70,7 @@ public class Compiler {
 																								// compilados
 					+ " -warn:none" + " -1.8" + " -Xemacs"; 
 			
-			System.out.println(buildArgs);
+		//	System.out.println(buildArgs);
 			
 			StringWriter swS = new StringWriter();
 			StringWriter swE = new StringWriter();

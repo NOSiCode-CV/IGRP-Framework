@@ -196,7 +196,7 @@ var mWindow = null,
 					clicked : p.clicked,
 					complete: function(res){
 
-						$.IGRP.events.execute('submit-complete',{})
+						$.IGRP.events.execute('submit-complete',p);
 
 						p.clicked.removeAttr("disabled");
 						
@@ -205,7 +205,7 @@ var mWindow = null,
 				
 			}else{
 				p.clicked.removeAttr("disabled");
-				$.IGRP.events.execute('submit-complete',{})
+				$.IGRP.events.execute('submit-complete',p);
 			}
 
 			$.IGRP.utils.message.handleXML(xml);

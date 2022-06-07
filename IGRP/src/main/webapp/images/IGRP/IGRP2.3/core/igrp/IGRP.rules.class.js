@@ -79,8 +79,12 @@ if($ && $.IGRP && !$.IGRP.rules){
 		set:function(data,t){
 			
 			var type = t || false;
+
+			$.IGRP.configRules = data;
 			
-			if(!type)
+			if(!type){
+
+				$.IGRP.typeRules = type;
 
 				for(var fname in data){
 					
@@ -144,7 +148,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 					});
 				}
-
+			}
 			else
 
 				$.IGRP.rules.set2(data);
@@ -190,6 +194,34 @@ if($ && $.IGRP && !$.IGRP.rules){
 					});
 
 				});
+			}
+		},
+
+		setRulesInField : function (obj){
+			try {
+
+				let objRules = {},
+					has		 = false;
+
+				$(':input',obj).each(function(){
+					let name = $(this).attr('name') || $(this).attr('field-name');
+
+					if(name && typeof $.IGRP.configRules === 'object'){
+
+						let hasRules = $.IGRP.configRules[name];
+
+						if(typeof hasRules === 'object'){
+							has = true;
+							objRules[name] = hasRules;
+						}
+					}
+				});
+
+				if(has)
+					$.IGRP.rules.set(objRules, $.IGRP.typeRules);
+				
+			} catch (error) {
+				console.log(error);
 			}
 		},
 
