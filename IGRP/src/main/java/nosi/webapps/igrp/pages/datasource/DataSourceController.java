@@ -317,6 +317,7 @@ public class DataSourceController extends Controller {
 		xml.startElement("content");
 		xml.writeAttribute("uuid", rep.getSource_identify());
 		xml.setElement("title", title);
+		xml.setElement("data_source_id", rep.getId());
 		this.addQueryString("current_app_conn", app);
 		String content = this.call(app, page, action, this.queryString()).getContent();
 		Core.removeAttribute("current_app_conn");
