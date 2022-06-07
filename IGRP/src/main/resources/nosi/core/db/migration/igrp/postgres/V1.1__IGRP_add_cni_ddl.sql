@@ -1,0 +1,1 @@
+alter table tbl_user add cni character varying(255);
