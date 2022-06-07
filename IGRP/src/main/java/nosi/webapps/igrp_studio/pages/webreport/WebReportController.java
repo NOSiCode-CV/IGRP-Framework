@@ -197,7 +197,7 @@ public class WebReportController extends Controller {
 									if (rTsp == null)
 										Core.insert(this.configApp.getBaseConnection(), "tbl_rep_template_source_param")
 												.addString("parameter", param.getName())
-												.addString("parameter_type", param.getType())
+												.addString("parameter_type", param.getType()!=null?param.getType():"")
 												.addInt("rep_template_source_fk", idRepTempSource).execute();
 								}
 						}
