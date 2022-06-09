@@ -22,9 +22,9 @@ public class BPMNButton {
 	private static final String BUTTON_TARGET_SAVE_PROCESS = "submit";
 	private static final String BUTTON_IMG_SAVE_PROCESS = "success|fa-play";
 	private static final String BUTTON_BACK = "back_processo";
-	private static final String TITLE_BUTTON_BACK = "Voltar";
+	private static final String TITLE_BUTTON_BACK = "Tarefas";
 	private static final String BUTTON_TARGET_BACK_PROCESS = "_self";
-	private static final String BUTTON_IMG_BACK_PROCESS = "primary|fa-backward";
+	private static final String BUTTON_IMG_BACK_PROCESS = "primary|fa-list-ol";
 	private static final String TITLE_BUTTON_NEXT = "Seguinte";
 	private static final Object BUTTON_NEXT = "next_process";
 	private static final String BUTTON_IMG_EDIT_PROCESS = "success|fa-backward";
