@@ -42,7 +42,7 @@ import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 public abstract class BPMNTaskController extends Controller implements InterfaceBPMNTask{
 	private String page;
 	private String myCustomPermission;
-	private String usernameNextTask=Core.getCurrentUser().getUser_name();
+	private String usernameNextTask;
 	protected RuntimeTask runtimeTask;
 	private BPMNExecution bpmnExecute;
 	
@@ -246,7 +246,8 @@ public abstract class BPMNTaskController extends Controller implements Interface
 
 	private Response renderNextTask(TaskService task,List<TaskService> tasks) throws IOException {
 		TaskService nextTask = tasks.get(tasks.size()-1);
-		
+		if(Core.isNull(this.usernameNextTask))
+			this.usernameNextTask=Core.getCurrentUser().getUser_name();
 		new TaskServiceRest().claimTask(nextTask.getId(), this.usernameNextTask);
 		if(!Core.getCurrentUser().getUser_name().equalsIgnoreCase(this.usernameNextTask))		
 			return this.redirect("igrp","ExecucaoTarefas","index");
