@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -75,6 +76,7 @@ public class GenericActivitiIGRP {
 		return proccess;
 	}
 
+	@SuppressWarnings("deprecation")
 	public boolean allowTask(String proccessKey,ActivityExecute task) {
 		boolean r = true;//allow all task by default
     	try {
@@ -124,18 +126,17 @@ public class GenericActivitiIGRP {
 		return null;
 	}
 
+	
 	public boolean filterAccess(ProcessDefinitionService p) {
-		if (Core.getCurrentApp().getDad().equalsIgnoreCase("igrp_studio"))
-			return true;
-		boolean x = new TaskAccess().getTaskAccess().stream().filter(a -> {
-			try {
-				return a.getProcessName().compareTo(p.getKey()) == 0 ||  a.getTaskName().compareTo("Start" + p.getKey()) == 0;
-			} catch (Exception e) {
-				return false;
-			}
-		}).collect(Collectors.toList()).size() > 0;
-		return x;
-	}
+        if (null == p || p.getKey() == null)
+            return false;
+        if (Core.getCurrentApp().getDad().equalsIgnoreCase("igrp_studio"))
+            return true;
+        return new TaskAccess().getTaskAccess().stream().filter(Objects::nonNull).anyMatch(a ->
+                p.getKey().equals(a.getProcessName()) || ("Start" + p.getKey()).equals(a.getTaskName())
+        );
+    
+    }
 
 	
 	public FileRest getFile(String url){
@@ -146,7 +147,7 @@ public class GenericActivitiIGRP {
 		if(response!=null){
 			if(response.getStatus()==200) {
 				f.setContent((InputStream) response.getEntity());
-				f.setSize(new Integer(response.getLength()));
+				f.setSize(Integer.valueOf(response.getLength()));
 				f.setContentType(response.getMediaType().toString());
 			}
 			response.close();
