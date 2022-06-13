@@ -41,15 +41,15 @@
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
                     <value>
-                        <![CDATA[<p>Consultar Processo</p>
+                        <![CDATA[<p>Consultar Etapas de Processos</p>
 ]]>
                     </value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <form type="form" xml-type="form" gen-type="container" gen-group="">
+        <form type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
             <fields>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="true" disabled="false" right="false" java-type="">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="true" disabled="false" right="false" java-type="" load_service_data="false" tooltip="false" disable_copy_paste="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -71,8 +71,8 @@
                         </option>
                     </list>
                 </aplicacao>
-                <tipo_processo name="p_tipo_processo" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="true" disabled="false" right="false" java-type="">
-                    <label>Processo</label>
+                <tipo_processo name="p_tipo_processo" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="" load_service_data="false" tooltip="false" disable_copy_paste="false">
+                    <label>Nome do Processo</label>
                     <list>
                         <option/>
                         <option>
@@ -93,8 +93,8 @@
                         </option>
                     </list>
                 </tipo_processo>
-                <cbx_utilizador name="p_cbx_utilizador" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
-                    <label>Utilizador</label>
+                <cbx_utilizador name="p_cbx_utilizador" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="" load_service_data="false" tooltip="false" disable_copy_paste="false">
+                    <label>Atribuído a</label>
                     <list>
                         <option/>
                         <option>
@@ -115,21 +115,20 @@
                         </option>
                     </list>
                 </cbx_utilizador>
-                <referencia_pedido type="separator" name="p_referencia_pedido" maxlength="30" placeholder="" right="false" desclabel="false">
+                <referencia_pedido type="separator" name="p_referencia_pedido" maxlength="30" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
                     <label>Referencia Pedido</label>
                 </referencia_pedido>
-                <requerente name="p_requerente" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                <requerente name="p_requerente" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" inputmask="" tooltip="false" disable_copy_paste="false" disablehtml="true">
                     <label>Requerente</label>
-                    <value>Unde anim lorem ut mollit</value>
+                    <value>Labore anim voluptatem omnis aliqua</value>
                 </requerente>
-                <num name="p_num" type="text" maxlength="150" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                <num name="p_num" type="text" maxlength="150" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" inputmask="" tooltip="false" disable_copy_paste="false" disablehtml="true">
                     <label>Nº Processo</label>
-                    <value>Mollit stract ut voluptatem unde</value>
+                    <value>Elit lorem sit consectetur lorem</value>
                 </num>
-                <status name="p_status" type="select" maxlength="30" multiple="false" domain="" required="false" change="false" disabled="false" right="false" java-type="" tags="false">
+                <status name="p_status" type="radiolist" domain="" maxlength="30" required="false" change="false" readonly="false" disabled="false" child_size="4" right="false" java-type="String" tooltip="false" disable_copy_paste="false">
                     <label>Estado</label>
                     <list>
-                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -148,17 +147,38 @@
                         </option>
                     </list>
                 </status>
-                <intervalo_entrada type="separator" name="p_intervalo_entrada" maxlength="30" placeholder="" right="false" desclabel="false">
-                    <label>Intervalo Entrada</label>
+                <intervalo_entrada type="separator" name="p_intervalo_entrada" maxlength="30" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
+                    <label>Intervalo de datas</label>
                 </intervalo_entrada>
-                <dt_ini name="p_dt_ini" type="date" maxlength="30" range="false" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="success" desclabel="false">
-                    <label>Data Inicio</label>
-                    <value>02-04-2012</value>
+                <dt_ini name="p_dt_ini" type="date" maxlength="30" range="false" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="success" desclabel="false" disableWeekends="false" disabledBeforetoday="false" daysoff="false" tooltip="false" disable_copy_paste="false">
+                    <label>De</label>
+                    <value>08-01-2014</value>
                 </dt_ini>
-                <dt_fim name="p_dt_fim" type="date" maxlength="30" range="false" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="danger" desclabel="false">
-                    <label>Data Fim</label>
-                    <value>02-04-2015</value>
+                <dt_fim name="p_dt_fim" type="date" maxlength="30" range="false" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="danger" desclabel="false" disableWeekends="false" disabledBeforetoday="false" daysoff="false" tooltip="false" disable_copy_paste="false">
+                    <label>Até</label>
+                    <value>07-07-2013</value>
                 </dt_fim>
+                <data_de name="p_data_de" type="radiolist" domain="" maxlength="250" required="false" change="false" readonly="false" disabled="false" child_size="3" right="false" java-type="String" tooltip="false" disable_copy_paste="false">
+                    <label>Da data:</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </data_de>
             </fields>
             <tools-bar>
                 <item id="button_433f_034e" type="form" code="" class="primary" rel="pesquisar" custom_return="true" refresh_components="table_1">
@@ -179,10 +199,10 @@
                     <label>Estado</label>
                 </estado>
                 <num_processo name="p_num_processo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
-                    <label>Nº</label>
+                    <label>Nº Processo</label>
                 </num_processo>
                 <processo name="p_processo" type="text" maxlength="100" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
-                    <label>Processo</label>
+                    <label>Nome do Processo</label>
                 </processo>
                 <eatapa name="p_eatapa" type="text" maxlength="100" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
                     <label>Etapa</label>
@@ -194,7 +214,7 @@
                     <label>Dt. Fim Etapa</label>
                 </dt_fim_etapa>
                 <atribuido_a name="p_atribuido_a" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
-                    <label>Atribuido a</label>
+                    <label>Atribuído a</label>
                 </atribuido_a>
                 <id_task name="p_id_task" type="hidden" maxlength="100" iskey="true" showLabel="true" java-type="" group_in="" tag="id_task"/>
             </fields>
@@ -205,14 +225,14 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">2</estado>
-                        <num_processo name="p_num_processo">Omnis sit magna ut lorem</num_processo>
-                        <processo name="p_processo">Natus stract adipiscing ut consectetur</processo>
-                        <eatapa name="p_eatapa">Aliqua labore aperiam accusantium voluptatem</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Aperiam anim aperiam anim offi</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Ut doloremque consectetur adip</dt_fim_etapa>
-                        <atribuido_a name="p_atribuido_a">Voluptatem accusantium rem per</atribuido_a>
-                        <id_task name="p_id_task" tag="id_task">hidden-5479_8e96</id_task>
+                        <estado name="p_estado">3</estado>
+                        <num_processo name="p_num_processo">Deserunt elit labore anim sed</num_processo>
+                        <processo name="p_processo">Labore amet aperiam deserunt lorem</processo>
+                        <eatapa name="p_eatapa">Amet omnis natus perspiciatis sit</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Sit consectetur dolor totam of</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Unde sit natus sit anim</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Stract adipiscing elit unde lo</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-70eb_52d5</id_task>
                     </row>
                     <row>
                         <context-menu>
@@ -220,13 +240,27 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <estado name="p_estado">2</estado>
-                        <num_processo name="p_num_processo">Natus doloremque accusantium i</num_processo>
-                        <processo name="p_processo">Sit omnis officia consectetur aperiam</processo>
-                        <eatapa name="p_eatapa">Elit natus anim dolor magna</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Sed officia amet adipiscing st</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Adipiscing stract anim totam l</dt_fim_etapa>
-                        <atribuido_a name="p_atribuido_a">Ipsum sed ipsum laudantium off</atribuido_a>
-                        <id_task name="p_id_task" tag="id_task">hidden-1222_6192</id_task>
+                        <num_processo name="p_num_processo">Consectetur omnis doloremque c</num_processo>
+                        <processo name="p_processo">Labore officia mollit consectetur magna</processo>
+                        <eatapa name="p_eatapa">Elit dolor elit adipiscing ipsum</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Iste natus anim amet labore</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Dolor rem totam unde amet</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Consectetur stract omnis elit</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-705f_0696</id_task>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">3</estado>
+                        <num_processo name="p_num_processo">Perspiciatis sit dolor consect</num_processo>
+                        <processo name="p_processo">Sit mollit ipsum natus labore</processo>
+                        <eatapa name="p_eatapa">Anim dolor omnis sit stract</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Iste consectetur dolor perspic</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Doloremque sed unde ipsum unde</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Sit stract sed laudantium unde</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-b8ec_89cb</id_task>
                     </row>
                     <row>
                         <context-menu>
@@ -234,27 +268,13 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <estado name="p_estado">1</estado>
-                        <num_processo name="p_num_processo">Ut aliqua rem adipiscing sit</num_processo>
-                        <processo name="p_processo">Labore magna doloremque anim sit</processo>
-                        <eatapa name="p_eatapa">Anim sit iste natus sit</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Unde sit unde voluptatem magna</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Aperiam anim dolor sit rem</dt_fim_etapa>
-                        <atribuido_a name="p_atribuido_a">Labore stract sit omnis dolore</atribuido_a>
-                        <id_task name="p_id_task" tag="id_task">hidden-6092_2e58</id_task>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <estado name="p_estado">2</estado>
-                        <num_processo name="p_num_processo">Natus stract consectetur lauda</num_processo>
-                        <processo name="p_processo">Amet omnis sit lorem magna</processo>
-                        <eatapa name="p_eatapa">Sed perspiciatis sit accusantium laudantium</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Labore adipiscing sit unde ut</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Iste sed consectetur aliqua om</dt_fim_etapa>
-                        <atribuido_a name="p_atribuido_a">Dolor natus voluptatem rem con</atribuido_a>
-                        <id_task name="p_id_task" tag="id_task">hidden-55f3_05b6</id_task>
+                        <num_processo name="p_num_processo">Adipiscing unde consectetur am</num_processo>
+                        <processo name="p_processo">Anim stract adipiscing elit stract</processo>
+                        <eatapa name="p_eatapa">Laudantium mollit anim aperiam laudantium</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Anim omnis lorem elit dolor</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Natus adipiscing mollit adipis</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Elit aliqua consectetur ipsum</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-b511_a0d6</id_task>
                     </row>
                     <row>
                         <context-menu>
@@ -262,13 +282,13 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <estado name="p_estado">1</estado>
-                        <num_processo name="p_num_processo">Ut lorem totam lorem voluptate</num_processo>
-                        <processo name="p_processo">Iste deserunt sed officia aliqua</processo>
-                        <eatapa name="p_eatapa">Stract omnis elit voluptatem voluptatem</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Voluptatem deserunt unde deser</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Stract natus rem doloremque of</dt_fim_etapa>
-                        <atribuido_a name="p_atribuido_a">Perspiciatis ipsum sed perspic</atribuido_a>
-                        <id_task name="p_id_task" tag="id_task">hidden-79d0_8f7c</id_task>
+                        <num_processo name="p_num_processo">Natus aliqua adipiscing deseru</num_processo>
+                        <processo name="p_processo">Perspiciatis natus sit elit natus</processo>
+                        <eatapa name="p_eatapa">Natus dolor amet voluptatem mollit</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Labore elit totam iste aliqua</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Amet adipiscing voluptatem ips</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Labore mollit magna adipiscing</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-aaf0_d14f</id_task>
                     </row>
                 </value>
                 <legend_color>
@@ -313,10 +333,5 @@
             </table>
         </table_1>
     </content>
-    <blockly>
-        <imports></imports>
-        <xml>
-            <block type="controller" id="controller" x="388" y="13"></block>
-        </xml>
-    </blockly>
+    <blockly></blockly>
 </rows>
