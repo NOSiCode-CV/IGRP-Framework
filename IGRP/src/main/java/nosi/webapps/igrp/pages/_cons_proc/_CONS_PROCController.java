@@ -125,7 +125,7 @@ public class _CONS_PROCController extends Controller {
 		view.data_de.setValue(DateHelper.getDateFilter());
 		view.btn_pesquisar.addParameter("btnPesq", "true").setLink("index");
 		view.table_1.addData(data);
-    	view.sectionheader_1_text.setValue("<p>"+gt("Consultar Processo")+"</p>");
+    
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
