@@ -75,6 +75,7 @@ public class GenericActivitiIGRP {
 		return proccess;
 	}
 
+	@SuppressWarnings("deprecation")
 	public boolean allowTask(String proccessKey,ActivityExecute task) {
 		boolean r = true;//allow all task by default
     	try {
@@ -127,13 +128,13 @@ public class GenericActivitiIGRP {
 	public boolean filterAccess(ProcessDefinitionService p) {
 		if (Core.getCurrentApp().getDad().equalsIgnoreCase("igrp_studio"))
 			return true;
-		boolean x = new TaskAccess().getTaskAccess().stream().filter(a -> {
+		boolean x = !new TaskAccess().getTaskAccess().stream().filter(a -> {
 			try {
 				return a.getProcessName().compareTo(p.getKey()) == 0 ||  a.getTaskName().compareTo("Start" + p.getKey()) == 0;
 			} catch (Exception e) {
 				return false;
 			}
-		}).collect(Collectors.toList()).size() > 0;
+		}).collect(Collectors.toList()).isEmpty();
 		return x;
 	}
 
@@ -146,7 +147,7 @@ public class GenericActivitiIGRP {
 		if(response!=null){
 			if(response.getStatus()==200) {
 				f.setContent((InputStream) response.getEntity());
-				f.setSize(new Integer(response.getLength()));
+				f.setSize(Integer.valueOf(response.getLength()));
 				f.setContentType(response.getMediaType().toString());
 			}
 			response.close();
