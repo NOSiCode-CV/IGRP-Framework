@@ -28,4 +28,8 @@ public class IGRPBaseActiveRecord<T> extends BaseActiveRecord<T> {
 	public String getConnectionName() {
 		return ConfigApp.getInstance().getBaseConnection();
     }
+	@Override
+	public String getApplicationName() {
+		return "igrp";
+	}
 }
