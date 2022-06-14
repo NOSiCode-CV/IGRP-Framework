@@ -23,9 +23,13 @@ import nosi.core.webapp.Core;
 
 public class HibernateUtils { 
 	
+	private HibernateUtils() {
+		 throw new IllegalStateException("Utility class");
+	}
+
 	private static final Logger LOG = LogManager.getLogger(HibernateUtils.class); 
 
-	private static final Map<String, SessionFactory> SESSION_FACTORY = new HashMap<String, SessionFactory>();
+	private static final Map<String, SessionFactory> SESSION_FACTORY = new HashMap<>();
 	private static final SessionFactory SESSION_FACTORY_IGRP;
 	public static final StandardServiceRegistryBuilder REGISTRY_BUILDER_IGRP;
 	
@@ -45,8 +49,8 @@ public class HibernateUtils {
 		if (connectionName!=null && connectionName.equalsIgnoreCase(ConfigApp.getInstance().getBaseConnection())) 
 			return SESSION_FACTORY_IGRP;
 		String fileName = dad != null && !dad.isEmpty() ? connectionName + "." + dad : connectionName;
-		if (!SESSION_FACTORY.containsKey(connectionName)) 
-			SESSION_FACTORY.put(connectionName, buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG));
+		
+		SESSION_FACTORY.putIfAbsent(connectionName, buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG));
 		SessionFactory sessionFactory = SESSION_FACTORY.get(connectionName);
 		if(sessionFactory != null && sessionFactory.isOpen())
 			return sessionFactory;
@@ -70,7 +74,7 @@ public class HibernateUtils {
 		}
 	}
 
-	public synchronized static void unregisterAllDrivers() {
+	public static synchronized  void unregisterAllDrivers() {
 		Enumeration<Driver> drivers = DriverManager.getDrivers();
 		while (drivers.hasMoreElements()) {
 			try {
@@ -82,18 +86,12 @@ public class HibernateUtils {
 	}
 
 	public static void closeAllConnection() {
-		if (SESSION_FACTORY != null) {
-			SESSION_FACTORY.entrySet().stream().forEach(s -> {
-				s.getValue().close();
-			});
-		}
+		SESSION_FACTORY.entrySet().stream().forEach(s ->s.getValue().close());
 		if(SESSION_FACTORY_IGRP!=null)
 			SESSION_FACTORY_IGRP.close();
 	}
 
-	public static void removeSessionFactory(String connectionName) {
-		if (SESSION_FACTORY != null) {
-			SESSION_FACTORY.remove(connectionName);
-		}
+	public static void removeSessionFactory(String connectionName) {	
+			SESSION_FACTORY.remove(connectionName);		
 	}
 }

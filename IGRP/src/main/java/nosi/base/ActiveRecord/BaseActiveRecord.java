@@ -630,9 +630,17 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@XmlTransient
 	@Override
 	public String getConnectionName() {	
-		if(Core.isNotNullOrZero(this.applicationName) && Core.isNull(this.connectionName))
-			return this.defaultConnection(this.applicationName);
+		if(Core.isNotNullOrZero(getApplicationName()) && Core.isNull(this.connectionName)) {
+			this.connectionName=this.defaultConnection(getApplicationName());
+			return this.connectionName;
+		}			
 		return Core.isNotNull(this.connectionName) ? this.connectionName:this.defaultConnection();
+	}
+	
+	@Transient	
+	@XmlTransient
+	public String getApplicationName() {					
+		return this.applicationName;
 	}
 
 	protected void setParameters(TypedQuery<T> query) {
@@ -1247,11 +1255,10 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Transient	 
 	protected SessionFactory getSessionFactory() {		
 		SessionFactory sessionFactory = null;
-		if(Core.isNotNull(this.applicationName)) {
-			sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.applicationName);
-		}else {
-			sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
-		}
+		if(Core.isNull(getApplicationName())) 
+			this.applicationName=Core.getCurrentDadParam();
+		sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),getApplicationName());
+		
 		if(sessionFactory!=null) {
 			return sessionFactory;
 		}
@@ -1259,8 +1266,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	}
 	
 	protected void closeSession() {
-		if(!this.keepConnection && this.getSession()!=null && this.getSession().isOpen()) {
-			this.getSession().close();
+		Session session = this.getSession();
+		if(!this.keepConnection && session!=null && session.isOpen()) {
+			session.close();
 		}
 	}
 
@@ -1712,7 +1720,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	}
 	
 	public String defaultConnection() {
-		return this.defaultConnection(Core.getCurrentDadParam());
+		this.connectionName=this.defaultConnection(Core.getCurrentDadParam());
+		return this.connectionName;
 	}
 	
 	public String defaultConnection(String dad) {
