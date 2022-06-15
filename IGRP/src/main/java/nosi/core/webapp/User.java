@@ -31,12 +31,12 @@ public class User implements Component{
 			return false;
 		try {
 			this.identity = identity;
-			new Permission().changeOrgAndProfile("tutorial");
+			//new Permission().changeOrgAndProfile("tutorial");
 			// Create the session context
 			JSONArray json =  new JSONArray();
 			json.put(this.identity.getIdentityId());
 			json.put(this.identity.getAuthenticationKey() + "");
-			Igrp.getInstance().getRequest().getSession(true).setAttribute(IDENTITY_PARAM_NAME, json.toString()); 
+			Igrp.getInstance().getRequest().getSession().setAttribute(IDENTITY_PARAM_NAME, json.toString()); 
 			if(expire > 0) { 
 				this.expire = expire;
 				this.sendCookie(Base64.getEncoder().encodeToString(json.toString().getBytes())); //  send a cookie to the end user 
@@ -49,16 +49,20 @@ public class User implements Component{
 	}
 	
 	private boolean checkSessionContext(){
-		String aux = (String) Igrp.getInstance().getRequest().getSession(true).getAttribute(IDENTITY_PARAM_NAME);
-		if(aux == null || aux.isEmpty()) return false;
+		HttpSession session = Igrp.getInstance().getRequest().getSession(false);
+		if(session == null)
+			return false;
 		try {
-			JSONArray json = new JSONArray(aux);
+			String sessionData = (String) session.getAttribute(IDENTITY_PARAM_NAME);
+			if(sessionData == null || sessionData.isEmpty())
+				return false;
+			JSONArray json = new JSONArray(sessionData);
 			int identityId = json.getInt(0);
 			String authenticationKey = json.getString(1);
 			nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User().findIdentityById(identityId);
 			if(user!=null && authenticationKey.equals(user.getAuth_key())) {
 				this.identity = (Identity) user;
-			return true;
+				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -104,15 +108,10 @@ public class User implements Component{
 	
 	public boolean logout(){ // Reset all login session/cookies information
 		try {
-			  HttpSession theSession = Igrp.getInstance().getRequest().getSession(true);
-			    // print out the session id
-			    if( theSession != null ) {
-			      synchronized( theSession ) {
-			        // invalidating a session destroys it
-			        theSession.invalidate();
-			      }
-			    }
-			// destroy the cookie ... make sure this.expire == 0 
+			HttpSession theSession = Igrp.getInstance().getRequest().getSession(false);
+		    if( theSession != null )
+		    	theSession.invalidate();
+			// destroy the cookie
 			sendCookie("");
 			return true;
 		}catch(Exception e) {

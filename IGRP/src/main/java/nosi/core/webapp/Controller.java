@@ -44,12 +44,10 @@ import nosi.core.webapp.security.SecurtyCallPage;
 import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 
 /**
- * Useful functions like addQueryString
  *
  * @author Marcel Iekiny Apr 15, 2017
  */
@@ -165,13 +163,11 @@ public class Controller {
 
 	public Response renderView(String app, String page, View v, InterfaceBPMNTask bpmn, RuntimeTask runtimeTask)
 			throws IOException {
-		IGRPMessage msg = new IGRPMessage();
-		String m = msg.toString();
+		String m = new IGRPMessage().toString();
 		this.view = v;
-		Action ac = new Action().find().andWhere("application.dad", "=", app)
-				.andWhere("page", "=", Page.resolvePageName(page)).one();
+		Action ac = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", Page.resolvePageName(page)).one();
 		Response resp = new Response();
-		this.view.setContext(this); // associa controller ao view
+		this.view.setContext(this);
 		this.view.render();
 		resp.setType(1);
 		resp.setCharacterEncoding(Response.CHARSET_UTF_8);
@@ -182,7 +178,6 @@ public class Controller {
 			resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 			resp.setDateHeader("Expires", 0); // Proxies.
 		}
-		
 		this.view.addToPage(this.view.addFieldToFormHidden());
 		String content = this.view.getPage().renderContent(false);
 		content = BPMNButton.removeXMLButton(content);
@@ -204,10 +199,8 @@ public class Controller {
 			xml.addXml(this.getTaskViewDetails(details));
 			xml.addXml(content);
 			xml.addXml(this.getDocument(runtimeTask, bpmn, ac, details.getUserName())); 
-			
-			if (m != null) {
+			if (m != null) 
 				xml.addXml(m);
-			}
 			IGRPForm formHidden = new IGRPForm("hidden_form_igrp");
 			HiddenField field = new HiddenField("env_frm_url");
 			String pageTask = "ExecucaoTarefas";
@@ -263,36 +256,28 @@ public class Controller {
 		if (bpmn == null)
 			return BPMNHelper.addFileSeparator(action.getApplication().getDad(),
 					runtimeTak.getTask().getProcessDefinitionKey(), runtimeTak.getTask().getTaskDefinitionKey(), null);
-
+		
 		DisplayDocmentType display = new DisplayDocmentType();
 		display.setUserName(userName);
-		display.setListDocmentType(bpmn.getInputDocumentType()); 
+		display.setListDocmentType(bpmn.getInputDocumentType());
 		
-		boolean isDetails = runtimeTak.isDetails();
-		if (isDetails)
+		if (runtimeTak.isDetails())
 			display.setShowInputFile(false);
-
-			try {
-				Core.setAttribute(BPMNConstants.PRM_TASK_DEFINITION, runtimeTak.getTask().getTaskDefinitionKey());
-				String packageName = "nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".process."
-						+ runtimeTak.getTask().getProcessDefinitionKey().toLowerCase();
-				Class<?> c = Class.forName(packageName + "." + BPMNConstants.PREFIX_TASK + runtimeTak.getTask().getTaskDefinitionKey() + "Controller");
-				Method method = c.getMethod("getOutputDocumentType");
-				@SuppressWarnings("unchecked")
-				List<TipoDocumentoEtapa> listDocOutput = (List<TipoDocumentoEtapa>) method.invoke(c.newInstance()); 
-				display.addListDocumentType(listDocOutput); 
-				
-			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException
-					| IllegalArgumentException | InvocationTargetException | InstantiationException e) {
-				e.printStackTrace();
-			}
-			
-		String xml = display.displayInputNOutputDocsInDistinctFormList(); 	
-		
-		return xml;
+		try {
+			Core.setAttribute(BPMNConstants.PRM_TASK_DEFINITION, runtimeTak.getTask().getTaskDefinitionKey());
+			String packageName = "nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".process." + runtimeTak.getTask().getProcessDefinitionKey().toLowerCase();
+			Class<?> c = Class.forName(packageName + "." + BPMNConstants.PREFIX_TASK + runtimeTak.getTask().getTaskDefinitionKey() + "Controller");
+			Method method = c.getMethod("getOutputDocumentType");
+			@SuppressWarnings("unchecked")
+			List<TipoDocumentoEtapa> listDocOutput = (List<TipoDocumentoEtapa>) method.invoke(c.newInstance());
+			display.addListDocumentType(listDocOutput);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return display.displayInputNOutputDocsInDistinctFormList();
 	}
 	
-	protected final Response renderView(View view) throws IOException { // Overload ...
+	protected final Response renderView(View view) throws IOException {
 		return this.renderView(view, false);
 	}
 
@@ -463,11 +448,9 @@ public class Controller {
 		return resp;
 	}
 
-	private String addParamDad(String action_) {
-		String action = action_;
-		if (!action.contains("dad")) {
+	private String addParamDad(String action) {
+		if (!action.contains("dad")) 
 			action += "&dad=" + Core.getParam("dad");
-		}
 		return action;
 	}
 
@@ -483,67 +466,39 @@ public class Controller {
 
 	// send it as stream ... binary file
 	public final Response xSend(byte[] file, String name, String contentType, boolean download) {
-		String contentType_ = contentType;
-		String name_ = name;
-		if (file == null)
-			throw new ServerErrorHttpException();
-//		if(/*name.contains(".") && */contentType != null && !contentType.isEmpty()) throw new IllegalArgumentException("Please verify your fileName and contentType.");
-		Response response = new Response();
-		if (contentType_ == null || contentType_.isEmpty()) {
-			contentType_ = "application/octet-stream"; // default
-		} else {
-			try {
-				String extension = "." + contentType_.split("/")[1];
-				name_ = (name_ == null || name_.isEmpty()) ? "igrp-file" + extension
-						: (!name_.contains(".") ? name_ + extension : name_);
-
-			} catch (Exception e) {
-				contentType_ = "application/octet-stream";
-				e.printStackTrace();
-			}
-		}
-		Igrp.getInstance().getResponse().addHeader("Content-Description", "File Transfer");
-		if (download)
-			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name_ + "\"");
-		else
-			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name_ + "\"");
-		response.setType(1);
-		response.setContentLength(file.length);
-		response.setContentType(contentType_);
-		response.setStream(file);
-
-		return response;
+		return xSend(file, name, contentType, download, null);
 	}
 
 	public final Response xSend(byte[] file, String name, String contentType, boolean download, String url) {
-		String contentType_ = contentType;
-		String name_ = name;
+		Igrp igrpApp = Igrp.getInstance();
 		if (file == null)
 			throw new ServerErrorHttpException();
-//		if(/*name.contains(".") && */contentType != null && !contentType.isEmpty()) throw new IllegalArgumentException("Please verify your fileName and contentType.");
 		Response response = new Response();
-		if (contentType_ == null || contentType_.isEmpty()) {
-			contentType_ = "application/octet-stream"; // default
-		} else {
+		if (contentType == null || contentType.isEmpty()) 
+			contentType = "application/octet-stream";
+		else {
 			try {
-				String extension = "." + contentType_.split("/")[1];
-				if (!name_.contains("."))
-					name_ = (name_.isEmpty() ? "igrp-file" + extension : name_ + extension);
+				String extension = "." + contentType.split("/")[1];
+				if(name == null || name.trim().isEmpty())
+					name = String.format("igrp-file%s", extension);
+				if (!name.contains("."))
+					name = String.format("%s%s", name, extension);
 			} catch (Exception e) {
-				contentType_ = "application/octet-stream";
+				contentType = "application/octet-stream";
 				e.printStackTrace();
 			}
 		}
-		Igrp.getInstance().getResponse().addHeader("Content-Description", "File Transfer");
+		igrpApp.getResponse().addHeader("Content-Description", "File Transfer");
 		if (download)
-			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name_ + "\"");
+			igrpApp.getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
 		else
-			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name_ + "\"");
+			igrpApp.getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
 		response.setType(1);
 		response.setContentLength(file.length);
-		response.setContentType(contentType_);
+		response.setContentType(contentType);
 		response.setStream(file);
-		response.setUrl(url);
+		if(url != null && !url.trim().isEmpty())
+			response.setUrl(url);
 		return response;
 	}
 
@@ -551,41 +506,20 @@ public class Controller {
 		return this.view;
 	}
 
-	// ... main statics methods ...
-
 	public void initControllerNRunAction() throws IOException {
-		this.resolveRoute(); // (1)
-		this.prepareResponse(); // (2)
+		this.resolveRoute();
+		this.prepareResponse();
 	}
 
 	private void prepareResponse() throws IOException {
 		Object obj = this.run();
-		if (obj instanceof Response) {
-			Igrp app = Igrp.getInstance();
-
-			String appDad = app.getCurrentAppName();
-			String pageName = app.getCurrentPageName();
-
-			if (app.getCurrentActionName() != null && appDad != null && pageName != null) {
-//				 if(!new Action().isPublicPage(appDad, pageName)) {
-//					 if(new Permission().isPermition(appDad, pageName, app.getCurrentActionName())) {
-//						 Response resp = (Response) obj;
-//						 Igrp.getInstance().getCurrentController().setResponseWrapper(resp);
-//					 }
-//				 }else {
-				Response resp = (Response) obj;
-				Igrp.getInstance().getCurrentController().setResponseWrapper(resp);
-//				 }
-			}
-
-		}
+		if (obj instanceof Response)
+			Igrp.getInstance().getCurrentController().setResponseWrapper((Response) obj);
 	}
 
 	private void resolveRoute() throws IOException {
 		Igrp app = Igrp.getInstance(); 
-		String r = Core.isNotNull(app.getRequest().getParameter("r")) ? app.getRequest().getParameter("r")
-				: "igrp/login/login";
-
+		String r = Core.isNotNull(app.getRequest().getParameter("r")) ? app.getRequest().getParameter("r") : "igrp/login/login";
 		r = SecurtyCallPage.resolvePage(r); 
 		if (r != null) {			
 			String[] aux = r.split("/");
@@ -596,7 +530,6 @@ public class Controller {
 			} else
 				throw new ServerErrorHttpException("The route format is invalid");
 		}
-		
 		String application = "Application: " + app.getCurrentAppName();
 		String page = "Page: " + app.getCurrentPageName();
 		String action = "Action: " + app.getCurrentActionName();
@@ -629,18 +562,16 @@ public class Controller {
 				&& app.getCurrentPageName() != null) {
 			for (String aux : app.getCurrentAppName().split("-"))
 				auxAppName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+			for (String aux : app.getCurrentPageName().split("-")) 
+				auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
 			for (String aux : app.getCurrentActionName().split("-"))
 				auxActionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-			for (String aux : app.getCurrentPageName().split("-")) {
-				auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-			}
 			auxActionName = "action" + auxActionName;
 			auxcontrollerPath = this.getConfig().getPackage(auxAppName, auxPageName, auxActionName);
 		} else {
 			auxActionName = "actionIndex";
 			auxcontrollerPath = this.getConfig().getPackage("igrp", "Home", auxActionName);
 		}
-		
 		return Page.loadPage(auxcontrollerPath, auxActionName); 
 	}
 
@@ -650,23 +581,24 @@ public class Controller {
 
 	public Response call(String app, String page, String action, QueryString<String, Object> queryString) {
 		IGRPMessage msg = new IGRPMessage();
+		Igrp igrpApp = Igrp.getInstance();
 		String m = msg.toString();
 		this.setQueryStringToAttributes(queryString);
 		String auxcontrollerPath = this.getConfig().getPackage(app, page, action);
-		Igrp.getInstance().setCurrentAppName(app);
-		Igrp.getInstance().setCurrentPageName(page);
-		Igrp.getInstance().setCurrentActionName(action);
+		igrpApp.setCurrentAppName(app);
+		igrpApp.setCurrentPageName(page);
+		igrpApp.setCurrentActionName(action);
 		Object obj = Page.loadPage(auxcontrollerPath, "action" + StringHelper.camelCaseFirst(action));
 		Response resp = (Response) obj;
 		if (resp != null) {
 			String content = resp.getContent();
-			if (m != null) {
+			if (m != null) 
 				content = Core.isNotNull(content) ? content.replace("<messages></messages>", m) : content;
-			}
 			resp.setContent(content);
 		}
 		return resp;
 	}
+	
 	@Deprecated
 	/**
 	 * @deprecated
@@ -679,7 +611,6 @@ public class Controller {
 	protected Response forward(String app, String page, String action, Model model) {
 		return this.forward(app, page, action, model, new QueryString<>());
 	}
-	
 	
 	/**@deprecated
 	 * 
