@@ -7,6 +7,7 @@ package nosi.webapps.igrp.pages.detalhes_tarefas;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -37,10 +38,11 @@ public class Detalhes_tarefasController extends Controller {
 		}
 		taskQuery.addFilterBody("includeProcessVariables", "true");
 		String content = ""; 
-		for(TaskServiceQuery task : taskQuery.queryHistoryTask()) {
-			content = generateCustomFormTask(task);
-			break;//because for unique task
-		}
+		
+		List<TaskServiceQuery> queryHistoryTask = taskQuery.queryHistoryTask();
+		if(!queryHistoryTask.isEmpty())
+			content = generateCustomFormTask(queryHistoryTask.get(0));//because for unique task
+		
 		
 		/*----#end-code----*/
 		return this.renderView(content);

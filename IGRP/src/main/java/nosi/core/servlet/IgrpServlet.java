@@ -20,13 +20,7 @@ public class IgrpServlet extends HttpServlet{
 	public IgrpServlet() { super(); }
     
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-    	Igrp igrp = Igrp.getInstance();
-    	if(igrp==null) {
-    		Igrp.set();
-    		igrp = Igrp.getInstance();
-    	}
-    	igrp.init(this, request, response);
-    	igrp.run();
+    	Igrp.getInstance().init(this, request, response).run();
     }
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
