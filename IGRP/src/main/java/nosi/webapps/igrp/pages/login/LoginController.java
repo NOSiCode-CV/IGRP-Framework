@@ -569,7 +569,6 @@ public class LoginController extends Controller {
 			_value = null;
 		}
 		
-		
 		return _value;
 	}
 	
