@@ -50,34 +50,63 @@ String.prototype.igrpDateFormat = function(){
 	return s.join(' ');
 };
 
+String.prototype.igrpIsDate = function(){
+	return eval(/^(0?[1-9]|[1-2][0-9]|3[01])[-](0?[1-9]|1[0-2])[-][1-9]\d{3}$/).test(this.trim());
+}
+
+String.prototype.igrpValidDissexto = function(){
+
+	const v = this.trim();
+
+	let valid = true;
+
+	if(v && v!= undefined){
+		let ListofDays  = [31,28,31,30,31,30,31,31,30,31,30,31]; 
+		let datepart    = v.split('-'); 
+		let month       = parseInt(datepart[1]);      
+		let day         = parseInt(datepart[0]);      
+		let year        = parseInt(datepart[2]); 
+
+		if (month === 1 || month > 2){ 
+
+			valid = (day <= ListofDays[month-1]);
+
+		}else if (month === 2){ 
+
+			let leapYear = ( (!(year % 4) && year % 100) || !(year % 400));
+
+			valid = !leapYear ? day <= ListofDays[1] : day <= 29;
+		}
+	}
+
+	return valid;
+}
+
 
 String.prototype.igrpValidateDateFormat = function(){
-	let v 	  = this,
-		valid = true;
+	const v = this.trim();
+
+	let valid = true;
+	
 	try{
 
 		if(v && v!= undefined){
 
-			valid = eval(/^(0?[1-9]|[1-2][0-9]|3[01])[-](0?[1-9]|1[0-2])[-][1-9]\d{3}$/).test(v);
+			let date = v;
 
-			if(valid){
-				let ListofDays  = [31,28,31,30,31,30,31,31,30,31,30,31]; 
-				let datepart    = v.split('-'); 
-				let month       = parseInt(datepart[1]);      
-				let day         = parseInt(datepart[0]);      
-				let year        = parseInt(datepart[2]); 
+			if(date.indexOf('/')){
+				date = v.split('/');
 
-				if (month === 1 || month > 2){ 
+				valid = date[0].igrpIsDate() && date[1].igrpIsDate();
 
-					valid = (day <= ListofDays[month-1]);
+				if(valid)
+					valid = date[0].igrpValidDissexto() && date[1].igrpValidDissexto();
 
-				}else if (month === 2){ 
+			}else{
+				valid = v.igrpIsDate();
 
-					let leapYear = ( (!(year % 4) && year % 100) || !(year % 400));
-
-					valid = !leapYear ? day <= ListofDays[1] : day <= 29;
-				}
-
+				if(valid)
+					v.igrpValidDissexto();
 			}
 		}
 		
