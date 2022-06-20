@@ -23,9 +23,7 @@ import nosi.core.webapp.Core;
 
 public class HibernateUtils { 
 	
-	private HibernateUtils() {
-		 throw new IllegalStateException("Utility class");
-	}
+ 
 
 	private static final Logger LOG = LogManager.getLogger(HibernateUtils.class); 
 
@@ -50,7 +48,8 @@ public class HibernateUtils {
 			return SESSION_FACTORY_IGRP;
 		String fileName = dad != null && !dad.isEmpty() ? connectionName + "." + dad : connectionName;
 		
-		SESSION_FACTORY.putIfAbsent(connectionName, buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG));
+		if (!SESSION_FACTORY.containsKey(connectionName)) 
+			SESSION_FACTORY.put(connectionName, buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG));
 		SessionFactory sessionFactory = SESSION_FACTORY.get(connectionName);
 		if(sessionFactory != null && sessionFactory.isOpen())
 			return sessionFactory;
