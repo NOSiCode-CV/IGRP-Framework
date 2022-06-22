@@ -6,18 +6,19 @@
 
     <xsl:template name="workflow" match="*" mode="workflow">
         <xsl:if test=".">
-            <div class="igrp-simple-workflow gen-container-item " item-name="{local-name(.)}">
+            <xsl:variable name="tag" select="local-name(.)"></xsl:variable>
+            <div class="igrp-simple-workflow gen-container-item " item-name="{$tag}">
                 <div class="simple-wf-items">
                     <xsl:variable name="qtd" select="count(./table/value/row[not(@total='yes')])" />
                     <div class="simple-wf-before" style="min-width: { 125 * $qtd }px" />
                     <xsl:for-each select="./table/value/row[not(@total='yes')]">
-                        <a class="text-reset simple-wf-item" state="{estado_lst}">
-                            <xsl:if test="link_lst != ''">
+                        <a class="text-reset simple-wf-item" state="{*[name() = concat($tag,'_state')]}" data-workflow-id="{*[name() = concat($tag,'_step_id')]}">
+                            <xsl:if test="*[name() = concat($tag,'_link')] != ''">
                                 <xsl:attribute name="href">
-                                    <xsl:value-of select="link_lst" />
+                                    <xsl:value-of select="*[name() = concat($tag,'_link')]" />
                                 </xsl:attribute>
                             </xsl:if>
-                            <xsl:if test="link_lst = ''">
+                            <xsl:if test="*[name() = concat($tag,'_link')] = ''">
                                 <xsl:attribute name="disabled">
                                     <xsl:value-of select="true" />
                                 </xsl:attribute>
@@ -26,7 +27,7 @@
                             <div class="simple-wf-bar" />
                             <div class="text-truncate">
                                 <b>
-                                    <xsl:value-of select="etapa_lst" />
+                                    <xsl:value-of select="*[name() = concat($tag,'_step')]" />
                                 </b>
                             </div>
                         </a>
