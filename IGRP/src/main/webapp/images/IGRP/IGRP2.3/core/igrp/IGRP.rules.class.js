@@ -123,6 +123,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 								rule      : r
 							});
 
+							$.IGRP.lastActionRules = source;
+
 
 							if(satisfyRule) 
 								$.IGRP.rules.execute(r,this);
@@ -204,9 +206,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 					has		 = false;
 
 				$(':input',obj).each(function(){
-					let name = $(this).attr('name') || $(this).attr('field-name');
+					let name = $(this).attr('name') || 'p_'+$(this).attr('field-name');
 
-					if(name && typeof $.IGRP.configRules === 'object'){
+					if(name && name !== $.IGRP.lastActionRules && typeof $.IGRP.configRules === 'object'){
 
 						let hasRules = $.IGRP.configRules[name];
 

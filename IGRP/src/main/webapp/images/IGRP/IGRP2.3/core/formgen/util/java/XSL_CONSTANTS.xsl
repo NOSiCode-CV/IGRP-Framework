@@ -148,21 +148,21 @@
     </xsl:variable>
     
     <xsl:variable name="import_table">
-    	<xsl:if test="count(/rows/content/*[@type='table' or @type='treemenu' or @type='carousel' or @type='timeline']) &gt; 0">
+    	<xsl:if test="count(/rows/content/*[@type='table' or @type='workflow' or @type='treemenu' or @type='carousel' or @type='timeline']) &gt; 0">
         	<xsl:text>import nosi.core.gui.components.IGRPTable;</xsl:text>
         	<xsl:value-of select="$newline"/>        	
         </xsl:if>
     </xsl:variable>
     
     <xsl:variable name="import_array_list">
-    	<xsl:if test="count(/rows/content/*[@type='chart' or @type='separatorlist' or @type='formlist' or @type='table' or @type='carousel' or @type='timeline' or @type='treemenu']) &gt; 0">
+    	<xsl:if test="count(/rows/content/*[@type='chart' or @type='separatorlist' or @type='formlist' or @type='table'  or @type='workflow' or @type='carousel' or @type='timeline' or @type='treemenu']) &gt; 0">
         	<xsl:text>import java.util.ArrayList;</xsl:text> 
        		<xsl:value-of select="$newline"/>
         </xsl:if>
     </xsl:variable>
 
     <xsl:variable name="import_list"> 
-    	<xsl:if test="count(/rows/content/*[@type='chart' or @type='separatorlist' or @type='formlist' or @type='table' or @type='carousel' or @type='timeline' or @type='treemenu']) &gt; 0">
+    	<xsl:if test="count(/rows/content/*[@type='chart' or @type='separatorlist' or @type='formlist' or @type='table'  or @type='workflow' or @type='carousel' or @type='timeline' or @type='treemenu']) &gt; 0">
         	<xsl:text>import java.util.List;</xsl:text>
         	<xsl:value-of select="$newline"/>
         </xsl:if>
@@ -176,7 +176,7 @@
     </xsl:variable>
     
     <xsl:variable name="import_query_helper">
-    	<xsl:if test="count(/rows/content/*[@type='chart' or @type='separatorlist' or @type='formlist' or @type='table' or @type='carousel'  or @type='timeline' or @type='treemenu']) &gt; 0">
+    	<xsl:if test="count(/rows/content/*[@type='chart' or @type='separatorlist' or @type='formlist' or @type='table' or @type='workflow' or @type='carousel'  or @type='timeline' or @type='treemenu']) &gt; 0">
         	<xsl:text>import nosi.core.webapp.databse.helpers.BaseQueryInterface;</xsl:text>
        		<xsl:value-of select="$newline"/>
         </xsl:if>
@@ -311,7 +311,7 @@
             <xsl:when test="$type='form'">
                 <xsl:value-of select="'IGRPForm'" />
             </xsl:when>
-            <xsl:when test="$type='table'">
+            <xsl:when test="$type='table' or $type='workflow'">
                 <xsl:value-of select="'IGRPTable'" />
             </xsl:when>
             <xsl:when test="$type='timeline'">
