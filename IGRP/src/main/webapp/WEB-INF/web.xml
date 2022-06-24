@@ -53,4 +53,7 @@
 	<listener>
 		<listener-class>nosi.core.listener.BasicListener</listener-class>
 	</listener>
+	<error-page>
+		<location>/error.jsp</location>
+	</error-page>
 </web-app> 
