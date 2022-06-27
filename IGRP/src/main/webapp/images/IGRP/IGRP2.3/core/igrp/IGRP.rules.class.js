@@ -186,11 +186,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 						}else
 							validateAndExecute($('[name="'+fname+'"]'),rule);
 					}
-					
-					
 
 					$(document).on(events.join(' '), '[name="'+fname+'"]',function(){
-						
+						$.IGRP.lastActionRules = fname;
 						validateAndExecute($(this),rule);
 						
 					});
@@ -219,8 +217,11 @@ if($ && $.IGRP && !$.IGRP.rules){
 					}
 				});
 
-				if(has)
+				if(has){
 					$.IGRP.rules.set(objRules, $.IGRP.typeRules);
+
+					console.log("objRules:: ",objRules);
+				}
 				
 			} catch (error) {
 				console.log(error);
@@ -893,7 +894,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 						
 							itemName = $(f).attr('item-name'),
 							
-							responseElement = isString ? list : ( list.documentElement || false ),
+							responseElement = isString ? list : ( list?.documentElement || false ),
 							
 							wrapper  = $(responseElement).is(itemName) ? list : $(list).find('rows content '+itemName)[0];
 
