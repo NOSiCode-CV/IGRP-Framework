@@ -72,15 +72,11 @@
 
 				HolderBtns.parents('.box-footer.gen-form-footer').remove();
 
-				console.log(getBtns);
-
 				if(getBtns[0]){
 
 					getBtns.addClass('step-btn finish step-finish-btns');
 
 					$('.step-footer .step-btn.finish',obj).remove();
-
-					console.log(obj.data('total-step'),obj.data('corrent-step'));
 
 					if(obj.data('total-step') === obj.data('corrent-step'))
 						getBtns.removeClass('step-finish-btns');
