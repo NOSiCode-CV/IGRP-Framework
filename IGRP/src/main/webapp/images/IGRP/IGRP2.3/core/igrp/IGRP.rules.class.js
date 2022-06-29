@@ -123,6 +123,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 								rule      : r
 							});
 
+							$.IGRP.lastActionRules = source;
+
 
 							if(satisfyRule) 
 								$.IGRP.rules.execute(r,this);
@@ -184,11 +186,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 						}else
 							validateAndExecute($('[name="'+fname+'"]'),rule);
 					}
-					
-					
 
 					$(document).on(events.join(' '), '[name="'+fname+'"]',function(){
-						
+						$.IGRP.lastActionRules = fname;
 						validateAndExecute($(this),rule);
 						
 					});
@@ -204,9 +204,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 					has		 = false;
 
 				$(':input',obj).each(function(){
-					let name = $(this).attr('name') || $(this).attr('field-name');
+					let name = $(this).attr('name') || 'p_'+$(this).attr('field-name');
 
-					if(name && typeof $.IGRP.configRules === 'object'){
+					if(name && name !== $.IGRP.lastActionRules && typeof $.IGRP.configRules === 'object'){
 
 						let hasRules = $.IGRP.configRules[name];
 
@@ -217,8 +217,11 @@ if($ && $.IGRP && !$.IGRP.rules){
 					}
 				});
 
-				if(has)
+				if(has){
 					$.IGRP.rules.set(objRules, $.IGRP.typeRules);
+
+					console.log("objRules:: ",objRules);
+				}
 				
 			} catch (error) {
 				console.log(error);
@@ -891,7 +894,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 						
 							itemName = $(f).attr('item-name'),
 							
-							responseElement = isString ? list : ( list.documentElement || false ),
+							responseElement = isString ? list : ( list?.documentElement || false ),
 							
 							wrapper  = $(responseElement).is(itemName) ? list : $(list).find('rows content '+itemName)[0];
 

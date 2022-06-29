@@ -278,7 +278,7 @@
 						<xsl:call-template name="newlineTab2"/>						
 						<xsl:value-of select="'model.load();'"/>
 						<xsl:call-template name="setBoxUrl"/>
-						<xsl:for-each select="//rows/content/*[@type!='table']/fields/*">  
+						<xsl:for-each select="//rows/content/*[@type!='table' and @type!='workflow']/fields/*">  
 							<xsl:if test="@action and @app and @page and @custom_action='' and ../../@type != 'formlist' and ../../@type != 'separatorlist'"> 
 								<xsl:variable name="name_">
 				    			<xsl:call-template name="CamelCaseWord">
@@ -347,7 +347,7 @@
 							</xsl:if>
 						</xsl:for-each>
 						
-						<xsl:if test="//rows/content/*[@type!='table']/fields/*[@type='texteditor']">
+						<xsl:if test="//rows/content/*[@type!='table' and @type!='workflow']/fields/*[@type='texteditor']">
 								<xsl:text> //model.setLink_upload_img(this.getConfig().getResolveUrl("igrp","file","save-image-txt&amp;p_page_name="+Core.getCurrentPage()));</xsl:text>
 								<xsl:value-of select="$newlineTab2"/>	
 						</xsl:if>	
@@ -358,7 +358,7 @@
 						<xsl:call-template name="setSqlCombobox_">						
 							<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>						
 		     	       </xsl:call-template> 
-						<xsl:if test="//content/*[@type='statbox' or @type='smallbox' or @type='circlestatbox' or @type='quickbuttonbox'] or //rows/content/*[@type='chart']  or //rows/content/*[@type='separatorlist'] or //rows/content/*[@type='formlist']  or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select'] or //rows/content/*/fields/*[@type='radiolist'] or //rows/content/*/fields/*[@type='checkboxlist']">
+						<xsl:if test="//content/*[@type='statbox' or @type='smallbox' or @type='circlestatbox' or @type='quickbuttonbox'] or //rows/content/*[@type='chart']  or //rows/content/*[@type='separatorlist'] or //rows/content/*[@type='formlist']  or //rows/content/*[@type='table' or @type='workflow'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select'] or //rows/content/*/fields/*[@type='radiolist'] or //rows/content/*/fields/*[@type='checkboxlist']">
 							<xsl:call-template name="start-example"/>				    					    		
 							<xsl:call-template name="setSqlTable"/>					
 							<xsl:call-template name="setSqlChart"/>						
@@ -395,7 +395,7 @@
 						<xsl:value-of select="concat(' ',' this.addQueryString(',$double_quotes,'p_id',$double_quotes,',',$double_quotes,'12',$double_quotes,'); //to send a query string in the URL')"/>							
 						<xsl:call-template name="newlineTab2"/>	
 										
-						<xsl:for-each select="//content/*[@type='table']">
+						<xsl:for-each select="//content/*[@type='table' or @type='workflow']">
 		 					<xsl:for-each select="fields/*[@iskey='true']">	
 		 					<xsl:choose>
 		 						<xsl:when test="@type='hidden'">
@@ -472,7 +472,7 @@
 						<xsl:value-of select="concat(' ','this.addQueryString(',$double_quotes,'p_id',$double_quotes,',',$double_quotes,'12',$double_quotes,'); //to send a query string in the URL')"/>							
 						<xsl:call-template name="newlineTab2"/>	
 										
-						<xsl:for-each select="//content/*[@type='table']">
+						<xsl:for-each select="//content/*[@type='table' or @type='workflow']">
 		 					<xsl:for-each select="fields/*[@iskey='true']">	
 		 					<xsl:choose>
 		 						<xsl:when test="@type='hidden'">
@@ -625,7 +625,7 @@
  	</xsl:template>
  	
  	<xsl:template name="addLegendColor">
- 		<xsl:for-each select="//content/*[@type='table']">
+ 		<xsl:for-each select="//content/*[@type='table' or @type='workflow']">
  			<xsl:if test="fields/*[@type='color']">
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>
@@ -653,7 +653,7 @@
  	
  	<!-- view.table_1.setSqlQuery("select 'name' name, 1 id FROM dual"); -->
  	<xsl:template name="setSqlTable"> 	
- 		<xsl:for-each select="//content/*[@type='table' or @type='formlist' or @type='separatorlist' ]">
+ 		<xsl:for-each select="//content/*[@type='table' or @type='workflow' or @type='formlist' or @type='separatorlist' ]">
 	 		<xsl:variable name="instance_name">
 	 			<xsl:value-of select="local-name()"/>
 	 		</xsl:variable>
@@ -677,7 +677,7 @@
  	
  	<!-- view.pd_id.setParam(true); -->
  	<xsl:template name="setParam">
- 		<xsl:for-each select="//content/*[@type='table']">
+ 		<xsl:for-each select="//content/*[@type='table' or @type='workflow']">
 	 		<xsl:for-each select="fields/*[@iskey='true']">	
 	 		<xsl:call-template name="newlineTab2"/>	
 	 			<xsl:choose>

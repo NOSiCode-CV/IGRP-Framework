@@ -2343,3 +2343,7 @@ vertical-align: middle;
   width: 200px;
   text-align: left;
 }
+
+input[type="email"]{
+  text-transform: lowercase !important;
+}

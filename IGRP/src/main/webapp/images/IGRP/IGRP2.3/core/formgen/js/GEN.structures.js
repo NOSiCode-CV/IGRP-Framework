@@ -649,20 +649,20 @@ var GENSTRUCTURES = function(GEN){
 			row = '',
 			tag = container.GET.tag();
 		
-		rtn += '<fields><link_lst type="link" maxlength="4000" target="_self" desc="true"><label>Link</label></link_lst>';
-		rtn += '<'+tag+'_id type="text"><label>ID</label></'+tag+'_id>';
-		rtn += '<etapa_lst type="text"><label>etapa</label></etapa_lst>';
-		rtn += '<estado_lst type="text"><label>estado</label></estado_lst>';
+		rtn += '<fields><'+tag+'_link type="link" maxlength="4000" target="_self" desc="true"><label>Link</label></'+tag+'_link>';
+		rtn += '<'+tag+'_step_id type="text"><label>ID</label></'+tag+'_step_id>';
+		rtn += '<'+tag+'_step type="text"><label>etapa</label></'+tag+'_step>';
+		rtn += '<'+tag+'_state type="text"><label>estado</label></'+tag+'_state>';
 		rtn += '</fields><table><value>';
 
 		for (let i = 0; i < 7; i++) {
 			let aux    = i+1;  
 			row += '<row>';
-			row += '<link_lst>#</link_lst>';
-			row += '<link_lst_desc> Menu '+aux+'</link_lst_desc>';
-			row += '<'+tag+'_id>'+aux+'</'+tag+'_id>';
-			row += '<etapa_lst>Etapa'+aux+'</etapa_lst>';
-			row += '<estado_lst>'+(aux < 5 ? 'D' : ( aux === 5 ? 'A' : 'W'))+'</estado_lst>';
+			row += '<'+tag+'_link>#</'+tag+'_link>';
+			row += '<'+tag+'_link_desc> Menu '+aux+'</'+tag+'_link_desc>';
+			row += '<'+tag+'_step_id>'+aux+'</'+tag+'_step_id>';
+			row += '<'+tag+'_step>Etapa'+aux+'</'+tag+'_step>';
+			row += '<'+tag+'_state>'+(aux < 5 ? 'D' : ( aux === 5 ? 'A' : 'W'))+'</'+tag+'_state>';
 			row += '</row>';
 		}
 
