@@ -37,8 +37,6 @@ import nosi.core.webapp.databse.helpers.ORDERBY;
 import nosi.core.webapp.databse.helpers.ParametersHelper;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.helpers.StringHelper;
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Config_env;
 
 /**
  * @author: Emanuel Pereira
@@ -840,14 +838,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				s.beginTransaction();
 			}
 			TypedQuery<T> query = s.createQuery(criteria);
-			query.setHint(QueryHints.HINT_READONLY, true);
+			if(!this.keepConnection)
+				query.setHint(QueryHints.HINT_READONLY, true);
 			this.setParameters(query);
 			list = query.getResultList();
 		}catch (Exception e) {
 			this.keepConnection = false;
 			this.setError(e);
 		} finally {			
-			this.closeSession();
+			this.closeSession(s);
 		}
 		return list;
 	}
@@ -863,7 +862,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			}
 			TypedQuery<T> query = s.createQuery(criteria);
 			query.setMaxResults(1);
-			query.setHint(QueryHints.HINT_READONLY, true);
+			if(!this.keepConnection)
+				query.setHint(QueryHints.HINT_READONLY, true);
 			this.setParameters(query);
 			t = query.getSingleResult();
 		}catch (Exception e) {			
@@ -873,7 +873,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			}
 			
 		} finally {			
-			this.closeSession();
+			this.closeSession(s);
 		}
 		
 		return t;
@@ -923,14 +923,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			if(this.limit > -1) {
 				query.setMaxResults(limit);
 			}
-			query.setHint(QueryHints.HINT_READONLY, true);
+			if(!this.keepConnection)
+				query.setHint(QueryHints.HINT_READONLY, true);
 			this.setParameters(query);
 			list = query.getResultList();
 		}catch (Exception e) {
 			this.keepConnection = false;
 			this.setError(e);
 		} finally {
-			this.closeSession();
+			this.closeSession(s);
 		}
 		return list;
 	}
@@ -960,7 +961,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				if (this.limit > -1) {
 					query.setMaxResults(limit);
 				}
-				query.setHint(QueryHints.HINT_READONLY, true);
+				if(!this.keepConnection)
+					query.setHint(QueryHints.HINT_READONLY, true);
 				if (this.parametersMap != null && !this.parametersMap.isEmpty()) {
 					for (Iterator<DatabaseMetadaHelper.Column> i = parametersMap.iterator(); i.hasNext();) {
 						Column col = i.next();
@@ -987,7 +989,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				this.keepConnection = false;
 				this.setError(e);
 			} finally {
-				this.closeSession();
+				this.closeSession(s);
 			}
 		}
 		return lista;
@@ -1016,15 +1018,17 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public List<T> query(String querySql,Class<T> className,int limit,int offset) {
 		Transaction transaction = null;
 		List<T> list = null;
+		Session s = this.getSession();
 		try {
-			transaction = this.getSession().getTransaction();
+			transaction = s.getTransaction();
 			if(this.beginTransaction(transaction)) {
-				TypedQuery<T> query = this.getSession().createQuery(querySql, className);
+				TypedQuery<T> query = s.createQuery(querySql, className);
 				if(offset > -1)
 					query.setFirstResult(offset);
 				if(limit > -1)
 					query.setMaxResults(limit);
-				query.setHint(QueryHints.HINT_READONLY, true);
+				if(!this.keepConnection)
+					query.setHint(QueryHints.HINT_READONLY, true);
 				this.setParameters(query);
 				list = query.getResultList();
 				if(!this.keepConnection)
@@ -1045,8 +1049,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Override
 	public T insert() {
 		Transaction transaction = null;
+		Session s = this.getSession();
 		try {
-			transaction = this.getSession().getTransaction();
+			transaction = s.getTransaction();
 			if(this.beginTransaction(transaction)) {
 				this.getSession().persist(this);
 				if(!this.keepConnection)
@@ -1059,7 +1064,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			}
 			this.setError(e);
 		} finally {
-			this.closeSession();
+			this.closeSession(s);
 		}
 		return (T) this;
 	}
@@ -1067,10 +1072,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Override
 	public T update() {		
 		Transaction transaction = null;
+		Session s = this.getSession();
 		try {
-			transaction = this.getSession().getTransaction();
+			transaction = s.getTransaction();
 			if(this.beginTransaction(transaction)) {
-				this.getSession().merge(this);
+				s.merge(this);
 				if(!this.keepConnection)
 					transaction.commit();
 			}
@@ -1081,7 +1087,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			}
 			this.setError(e);
 		} finally {
-			this.closeSession();
+			this.closeSession(s);
 		}
 		return (T) this;
 	}
@@ -1092,10 +1098,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		if(this.isReadOnly())
 			return false;
 		Transaction transaction = null;
+		Session s = this.getSession();
 		try {
-			transaction = this.getSession().getTransaction();
+			transaction = s.getTransaction();
 			if(this.beginTransaction(transaction)) {
-				this.getSession().remove(this.getSession().find(this.className, id));
+				s.remove(this.getSession().find(this.className, id));
 				if(!this.keepConnection)
 					transaction.commit();
 				deleted=true;
@@ -1107,7 +1114,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			}
 			this.setError(e);
 		} finally {
-			this.closeSession();
+			this.closeSession(s);
 		}
 		return deleted;
 	}
@@ -1202,7 +1209,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 					System.out.println(this.getSql());
 				}
 				TypedQuery<T> query = this.getSession().createQuery(this.getSql());
-				query.setHint(QueryHints.HINT_READONLY, true);
+				if(!this.keepConnection)
+					query.setHint(QueryHints.HINT_READONLY, true);
 				this.setParameters(query);
 				result = query.getSingleResult();
 				if(!this.keepConnection)
@@ -1267,6 +1275,12 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	protected void closeSession() {
 		Session session = this.getSession();
+		if(!this.keepConnection && session!=null && session.isOpen()) {
+			session.close();
+		}
+	}
+	
+	protected void closeSession(Session session) {
 		if(!this.keepConnection && session!=null && session.isOpen()) {
 			session.close();
 		}
