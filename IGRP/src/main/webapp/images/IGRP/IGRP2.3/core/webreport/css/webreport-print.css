@@ -131,7 +131,7 @@ body.readypdf iframe {
 
 .rfooter {
     float: left;
-    padding: 60px 10px 0 10px;
+    padding: 68px 10px 0 10px;
 }
 
 #containerQrcode, .containerQrcode {
@@ -149,7 +149,8 @@ body.readypdf iframe {
 }
 
 .contraProva {
-    font-size: 14px;
+    font-size: 12px;
+    float: left;
 }
 
 .contraProva .clabel {
@@ -160,13 +161,14 @@ body.readypdf iframe {
 
 .contraProva .val {
     color: #000;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .userprint {
     font-size: 11px;
     color: #faf7f7;
     text-align: right;
+    float:right;
   
 }
 

@@ -13,7 +13,7 @@ String.prototype.convertToDate = function(){
 	var s = this;
 	try{
 		s = this.split(' ');
-		if(s[0].indexOf('-') != -1){
+		if(s[0].indexOf('-') !== -1){
 			var ds = s[0].split('-');
 			var da = [];
 			var c  = 0;
@@ -34,7 +34,7 @@ String.prototype.igrpDateFormat = function(){
 	var s = this;
 	try{
 		s = this.split(' ');
-		if(s[0].indexOf('-') != -1){
+		if(s[0].indexOf('-') !== -1){
 			var ds = s[0].split('-');
 			var da = [];
 			var c  = 0;
@@ -54,7 +54,7 @@ String.prototype.igrpIsDate = function(){
 	return eval(/^(0?[1-9]|[1-2][0-9]|3[01])[-](0?[1-9]|1[0-2])[-][1-9]\d{3}$/).test(this.trim());
 }
 
-String.prototype.igrpValidDissexto = function(){
+String.prototype.igrpValideteDissextoDate = function(){
 
 	const v = this.trim();
 
@@ -94,19 +94,19 @@ String.prototype.igrpValidateDateFormat = function(){
 
 			let date = v;
 
-			if(date.indexOf('/')){
+			if(date.indexOf('/') !== -1){
 				date = v.split('/');
 
 				valid = date[0].igrpIsDate() && date[1].igrpIsDate();
 
 				if(valid)
-					valid = date[0].igrpValidDissexto() && date[1].igrpValidDissexto();
+					valid = date[0].igrpValideteDissextoDate() && date[1].igrpValideteDissextoDate();
 
 			}else{
 				valid = v.igrpIsDate();
 
 				if(valid)
-					v.igrpValidDissexto();
+					v.igrpValideteDissextoDate();
 			}
 		}
 		
