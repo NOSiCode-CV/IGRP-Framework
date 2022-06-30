@@ -472,7 +472,8 @@ public class MigrationController extends Controller {
 					auxContent.append("\t	User userUpdated" + i + "_" + j  + " = new User();" + "\n");
 					auxContent.append("\t	userUpdated" + i + "_" + j  + ".setUser_name(\"" + dataSource.getUser_updated().getUser_name() +  "\");" + "\n");
 					auxContent.append("\t	Config_env configEnv" + i + "_" + j  + " = new Config_env();" + "\n");
-					auxContent.append("\t	configEnv" + i + "_" + j  + ".setConnection_identify(\"" + dataSource.getConfig_env().getConnection_identify() +  "\");" + "\n");
+					if(dataSource.getConfig_env()!=null)
+						auxContent.append("\t	configEnv" + i + "_" + j  + ".setConnection_identify(\"" + dataSource.getConfig_env().getConnection_identify() +  "\");" + "\n");
 					auxContent.append("\t	this.repDataSources.add(" + 
 							"new RepSource(\"" + dataSource.getName() + "\", \"" + dataSource.getType() + "\", "
 							+ dataSource.getType_fk() + ", \"" + dataSource.getType_name() + "\", \"" + dataSource.getType_query().replaceAll("[\\n\\r]", "") + "\", " + dataSource.getStatus() + ","
