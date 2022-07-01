@@ -68,15 +68,17 @@
       <%
       		String href = String.format("%s?%s", request.getRequestURI().replace("/error.jsp", "/app/webapps"), "r=igrp/home/index");
       %>
-      <% if(isPublic != "1" && target == "self"){  %>
-      <div class="btn-toolbar">
-      	<a href="<%= href %>" class="btn btn-primary px-3 mt-4 mr-2" role="button" aria-pressed="true">IGRP Home</a>
-      	<% if(errorCode.intValue() == 500){
-      		
-      	%>
-      		<a href="" class="btn btn-secondary px-3 mt-4 mr-2" role="button" aria-pressed="true">APP Home</a>
-      	<% } %>
-      </div>
+      <% if(!isPublic.equals("1") && target.equals("self")){  %>
+	      <div class="btn-toolbar">
+	      	<a href="<%= href %>" class="btn btn-primary px-3 mt-4 mr-2" role="button" aria-pressed="true">IGRP Home</a>
+	      	<% if(errorCode.intValue() == 500){
+	      		String dad = (String) igrpErrorParam.get("dad");
+	      		if(dad != null && !dad.trim().isEmpty())
+	      			href = String.format("%s&dad=%s", href, dad);
+	      	%>
+      			<a href="<%= href %>" class="btn btn-secondary px-3 mt-4 mr-2" role="button" aria-pressed="true">APP Home</a>
+	      	<% } %>
+	      </div>
      <% } %>
     </article>
     
