@@ -11,10 +11,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IGRPWEB - Error Page</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-
+  <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
   <style>
     body { background-color: #f5f5f5; }
     a { color: #5bc0de}
+    code {
+	  color: crimson;
+	  background-color: #f1f1f1;
+	  padding: 2px;
+	  font-family: monospace;
+	}
   </style>
 
 </head>
@@ -22,6 +28,10 @@
 <body>
 
 	<%
+		String isPublic = request.getParameter("isPublic");
+		isPublic = isPublic == null ? "0" : isPublic;
+		String target = request.getParameter("target");
+		target = target == null ? "self" : target;
 		Integer errorCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
 		errorCode = errorCode == null ? 500 : errorCode;
 		
@@ -58,14 +68,16 @@
       <%
       		String href = String.format("%s?%s", request.getRequestURI().replace("/error.jsp", "/app/webapps"), "r=igrp/home/index");
       %>
+      <% if(isPublic != "1" && target == "self"){  %>
       <div class="btn-toolbar">
       	<a href="<%= href %>" class="btn btn-primary px-3 mt-4 mr-2" role="button" aria-pressed="true">IGRP Home</a>
       	<% if(errorCode.intValue() == 500){
       		
       	%>
-      		<a href="#" class="btn btn-secondary px-3 mt-4 mr-2" role="button" aria-pressed="true">APP Home</a>
+      		<a href="" class="btn btn-secondary px-3 mt-4 mr-2" role="button" aria-pressed="true">APP Home</a>
       	<% } %>
       </div>
+     <% } %>
     </article>
     
     <% 
@@ -90,6 +102,8 @@
 		      
 		          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionErrorPage">          
 		            <div class="card-body">
+		            	<code>
+		            	<pre class="prettyprint lang-java linenums">		            	
 		            	<%  
 		            		PrintWriter pw = new PrintWriter(out);
 		            		exception.printStackTrace(pw);
@@ -97,7 +111,9 @@
 		            			out.append("<br/><br/>");
 		            			exception.getCause().printStackTrace(pw);
 		            		}
-		            	%>
+		            	%>		            	
+		            	</pre>
+		            	</code>
 		            </div>
 		          </div>
 		        </div>
