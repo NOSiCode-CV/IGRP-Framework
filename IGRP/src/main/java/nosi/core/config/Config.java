@@ -459,7 +459,8 @@ public class Config {
         String description = app.getDescription();
         String linkHome = headerConfig.getLinkHome();
         XMLWritter xml = new XMLWritter();
-
+        xml.setElement("ispublic", page != null ?page.getTipo():0); // 0 = Privado (Authentication); 1 = Publico; 2 = Publico e Link Encryptado 
+        
         xml.setElement("template", app.getTemplate());
         xml.setElement("title", Core.getSwitchNotNullValue(title, headerConfig.getTitle()));
         xml.setElement("description", Core.getSwitchNotNullValue(description, ""));
