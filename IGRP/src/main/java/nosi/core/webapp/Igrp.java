@@ -4,7 +4,7 @@ package nosi.core.webapp;
  * Apr 14, 2017
  */
 import java.io.IOException;
-import java.security.SecureRandom;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +14,7 @@ import javax.xml.bind.DatatypeConverter;
 import nosi.core.i18n.I18nManager;
 import nosi.core.servlet.IgrpServlet;
 import nosi.core.webapp.security.EncrypDecrypt;
+
 
 public final class Igrp{
 	
@@ -51,8 +52,7 @@ public final class Igrp{
 	private Igrp(){} // Private and empty default constructor ... allow Singleton class 
 	
 	public static Igrp getInstance() {
-		Igrp app = appInstance.getCurrentInstance();
-	    return app;
+	    return appInstance.getCurrentInstance();
 	 }
 	
 	 public static void set() {
@@ -200,11 +200,12 @@ public final class Igrp{
 	
 	public String generateCsrfToken() {
 		byte[] buffer = new byte[50];
-		new SecureRandom().nextBytes(buffer);
+		new java.security.SecureRandom().nextBytes(buffer);
 	    String result = DatatypeConverter.printHexBinary(buffer);
 	    String cookieName = this.request.getParameter("r").replace("/", "-");
 	    Cookie cookie = new Cookie(cookieName, result);
 	    this.response.addCookie(cookie);
 		return result;
 	}
+	
 }

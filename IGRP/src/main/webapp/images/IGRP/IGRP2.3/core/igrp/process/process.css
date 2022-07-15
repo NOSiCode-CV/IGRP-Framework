@@ -237,3 +237,7 @@
 	.f1-buttons button { margin-bottom: 5px; }
 
 }
+
+a[href^="?r="]  [active-bg-color="primary"]{
+  background-color:#2fa6cd;
+}

@@ -1,12 +1,11 @@
 package nosi.webapps.igrp.pages._cons_proc;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import java.util.ArrayList;
+import java.util.List;
 
 public class _CONS_PROC extends Model{		
 
@@ -42,6 +41,9 @@ public class _CONS_PROC extends Model{
 
 	@RParam(rParamName = "p_dt_fim")
 	private String dt_fim;
+
+	@RParam(rParamName = "p_data_de")
+	private String data_de;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -127,6 +129,13 @@ public class _CONS_PROC extends Model{
 	}
 	public String getDt_fim(){
 		return this.dt_fim;
+	}
+	
+	public void setData_de(String data_de){
+		this.data_de = data_de;
+	}
+	public String getData_de(){
+		return this.data_de;
 	}
 
 

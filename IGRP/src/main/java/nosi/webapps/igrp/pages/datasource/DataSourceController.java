@@ -12,6 +12,7 @@ import nosi.core.webapp.Response;//
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -301,22 +302,23 @@ public class DataSourceController extends Controller {
 				
 			} else if (this.isTypePage(rep.getType())) {
 				Action ac = new Action().findOne(rep.getType_fk());
-				return this.getDSPageOrTask(rep, ac.getApplication().getDad(), ac.getPage(), "index",
-						ac.getPage_descr());
+				return this.getDSPageOrTask(rep, ac.getApplication().getDad(), ac.getPage(), "index",ac.getPage_descr(),templateId);
 				
 			} else if (this.isTypeTask(rep.getType())) {				
 				return this.getDSPageOrTask(rep, rep.getApplication_source().getDad(), rep.getFormkey(), "index",
-						"Task: " + rep.getTaskid());
+						"Task: " + rep.getTaskid(),templateId);
 			}
 		}
 		return null;
 	}
 	
-	public String getDSPageOrTask(RepSource rep, String app, String page, String action, String title) {
+	public String getDSPageOrTask(RepSource rep, String app, String page, String action, String title, int templateId) {
 		XMLWritter xml = new XMLWritter();
+		Set<String> keys = new DataSourceHelpers().getParamsName(rep, templateId);
 		xml.startElement("content");
 		xml.writeAttribute("uuid", rep.getSource_identify());
 		xml.setElement("title", title);
+		xml.setElement("data_source_id", rep.getId());
 		this.addQueryString("current_app_conn", app);
 		String content = this.call(app, page, action, this.queryString()).getContent();
 		Core.removeAttribute("current_app_conn");
@@ -324,7 +326,12 @@ public class DataSourceController extends Controller {
 		List<Field> list = this.getDefaultFields();
 		if (rep.getType().equalsIgnoreCase("task")) {
 			list = getDefaultFieldsWithProc();
-		}
+		}	
+		//To check if the field is a param
+		for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
+			String keyParam = iterator.next();			
+			content=content.replace("<"+keyParam, "<"+keyParam+" key=\"true\"");
+		}		
 		xml.addXml(this.getDefaultForm(list));
 		xml.addXml(content);
 		xml.endElement();

@@ -253,7 +253,9 @@
             });
             
             $(document).on('formlist:init', function(o,e){
-                com.init( $(e) );
+                if($('body[app]')[0]){
+                	com.init( $(e) );
+		        }
             });
         }
 

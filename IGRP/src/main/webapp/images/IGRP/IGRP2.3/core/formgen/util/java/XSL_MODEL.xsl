@@ -9,7 +9,7 @@
     	...
 	-->
     <xsl:template name="gen-get-set-model">
-    	<xsl:for-each select="/rows/content/*[@type != 'treemenu'  and @type != 'table' and @type != 'formlist' and @type !='separatorlist']">
+    	<xsl:for-each select="/rows/content/*[@xml-type != 'table' and @type != 'formlist' and @type !='separatorlist']">
     		<xsl:for-each select="fields/*">
     			<xsl:variable name="tag_name">
 					<xsl:choose>
@@ -65,7 +65,7 @@
     	...
 	-->
     <xsl:template name="declare-variables-model">
-    	<xsl:for-each select="/rows/content/*[@type != 'treemenu' and @type != 'table' and @type != 'formlist' and @type !='separatorlist']">
+    	<xsl:for-each select="/rows/content/*[@xml-type != 'table' and @type != 'formlist' and @type !='separatorlist']">
     		<xsl:for-each select="fields/*">
     			<xsl:variable name="tag_name">
 					<xsl:choose>
@@ -137,7 +137,7 @@
 			</xsl:for-each>
     	</xsl:for-each> 
 
-    	<xsl:for-each select="/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'chart' or @type = 'formlist' or @type = 'separatorlist' or @type='timeline' or @type='carousel']">
+    	<xsl:for-each select="/rows/content/*[@xml-type = 'table' or @type = 'chart' or @type = 'formlist' or @type = 'separatorlist' or @type='carousel']">
     		<xsl:value-of select="$tab"/>
 			<xsl:variable name="tableName">
     			<xsl:call-template name="gen-className">
@@ -525,14 +525,11 @@
  	
  	<!-- Gen subclass -->
  	<xsl:template name="gen-subclass">
- 		<xsl:for-each select="/rows/content/*[@type='table' or @type='timeline' or @type='carousel']">
+ 		<xsl:for-each select="/rows/content/*[@xml-type='table' or @type='carousel']">
  			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>
  		</xsl:for-each> 
  		<xsl:for-each select="/rows/content/*[@type='chart']">
  			<xsl:call-template name="gen-chart-subclass"></xsl:call-template>
- 		</xsl:for-each> 
- 		<xsl:for-each select="/rows/content/*[@type='treemenu']">
- 			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>
  		</xsl:for-each> 		
  		<xsl:for-each select="/rows/content/*[@type='separatorlist']">
  			<xsl:call-template name="gen-ttributes-subclass-separatorList"></xsl:call-template>

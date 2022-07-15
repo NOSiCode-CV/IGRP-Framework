@@ -183,7 +183,7 @@ public class GerarClasse {
 	}
 
 	private void doIfColumnIsForeignKey(DatabaseMetadaHelper.Column column) {
-
+		Class<?> clazz = this.resolveColumnClass(column.getTypeSql());
 		this.importClasses.add(ManyToOne.class);
 		this.importClasses.add(JoinColumn.class);
 		this.importClasses.add(ForeignKey.class);
@@ -191,10 +191,15 @@ public class GerarClasse {
 		Map<String, String> foreignKeysConstraintNamesMap = new DatabaseMetadaHelper().getForeignKeysConstrainName(
 				this.daoDto.getConfigEnv(), this.daoDto.getSchema(), daoDto.getTableName(), daoDto.getDadName());
 
-		variables.append(TAB).append("@ManyToOne").append(NEW_LINE).append("\t@JoinColumn(name = \"")
-				.append(column.getName()).append("\", foreignKey = @ForeignKey(name = \"")
-				.append(foreignKeysConstraintNamesMap.get(column.getName())).append("\")").append(")").append(NEW_LINE)
-				.append(TAB).append("private ").append(columnType).append(" ").append(camelCaseColumnName).append(";")
+		String foreignKeyName = foreignKeysConstraintNamesMap.get(column.getName());
+		String referencedColumnName=foreignKeysConstraintNamesMap.get(foreignKeyName);
+		variables.append(this.addNullablePropertie(clazz, column.isNullable()))
+				.append(this.addStringProperties(clazz, column.getSize(), column.isNullable()))
+				.append(TAB).append("@ManyToOne")
+				.append(NEW_LINE).append("\t@JoinColumn(name = \"")
+				.append(column.getName()).append("\", foreignKey = @ForeignKey(name = \"").append(foreignKeyName).append("\")")
+				.append(referencedColumnName.equals("id")?"":", referencedColumnName=\""+referencedColumnName+"\"").append(")")
+				.append(NEW_LINE).append(TAB).append("private ").append(columnType).append(" ").append(camelCaseColumnName).append(";")
 				.append(NEW_LINE);
 	}
 
@@ -279,10 +284,10 @@ public class GerarClasse {
 			clazz = Integer.class;
 			break;
 		case Types.BIGINT:
-		case Types.NUMERIC:
 			clazz = Long.class;
 			break;
 		case Types.DECIMAL:
+		case Types.NUMERIC:	
 			clazz = BigDecimal.class;
 			this.importClasses.add(BigDecimal.class);
 			break;
