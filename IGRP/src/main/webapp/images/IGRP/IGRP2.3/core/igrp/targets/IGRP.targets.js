@@ -1078,9 +1078,6 @@ var mWindow = null,
 				var localHostName = location.hostname,
 					urlHostName   = $.IGRP.utils.url.getHostName(url);
 
-					console.log('localHostName => '+localHostName);
-					console.log('urlHostName => '+urlHostName);
-
 				if(url.indexOf('target=_blank') == -1 && localHostName === urlHostName){
 					var symb = getParameterSymbol(url);
 					url+=symb+'target=_blank';
@@ -1401,8 +1398,6 @@ var mWindow = null,
 				validate 		 = $(this).is('[notvalidatefields]') && $(this).attr('notvalidatefields') === 'true' ? true : false;
 					
 				_this 	     	 = $(this);
-
-				console.log(validate);
 
 				if(objTarget?.type === 'submit' && $.IGRP.info.isPublic){
 

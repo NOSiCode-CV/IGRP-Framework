@@ -1682,7 +1682,6 @@ $(function ($) {
 
 		$.WR.utils = {
 			getContentPositon : function(pos){
-				console.log(pos);
 				return isNaN(pos+1) ? "@uuid='"+pos+"'" : 'position()='+pos;
 			}
 		};
