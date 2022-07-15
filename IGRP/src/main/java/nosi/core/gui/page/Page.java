@@ -4,13 +4,16 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import nosi.core.config.Config;
-import nosi.core.exception.NotFoundHttpException;
+import nosi.core.config.ConfigApp;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.gui.components.IGRPLogBar;
 import nosi.core.gui.components.IGRPMessage;
 import nosi.core.webapp.Controller;
@@ -153,8 +156,8 @@ public class Page{
 	}
 	
 	public static Object loadPage(String controllerPath, String actionName){
+		Igrp igrpApp = Igrp.getInstance();
 		try {
-			Igrp igrpApp = Igrp.getInstance();
 			Class<?> classController = Class.forName(controllerPath);
 			Object controller = classController.newInstance();
 			igrpApp.setCurrentController((Controller) controller);
@@ -163,9 +166,9 @@ public class Page{
 				return  action.invoke(controller);
 			return action.invoke(controller, formalParameters(action, igrpApp).toArray());
 		}catch (Exception e) {
+			addParametersToErrorPage(igrpApp);
 			LOGGER.fatal(e.getMessage(), e);
-			String errorMsg = String.format("Click <a href=\"%s\">here</a> to go back.", "https://www.google.com/");
-			throw new RuntimeException(errorMsg, e);
+			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
 	
@@ -188,6 +191,14 @@ public class Page{
 				paramValues.add(null);
 		}
 		return paramValues;
+	}
+	
+	private static void addParametersToErrorPage(Igrp igrpApp) {
+		ConfigApp configApp = ConfigApp.getInstance();
+		Map<String, Object> errorParam = new HashMap<String, Object>();
+		errorParam.put("dad", igrpApp.getCurrentAppName());
+		errorParam.put(ConfigCommonMainConstants.IGRP_ENV.value(), configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_ENV.value()));
+		igrpApp.getRequest().setAttribute("igrp.error", errorParam);
 	}
 
 }

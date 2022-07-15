@@ -24,7 +24,7 @@ public class Config {
     private static final String SEPARATOR_FOR_HTTP = "/";
     private static final String SEPARATOR_FOR_FILESYSTEM = File.separator;
     public static final String BASE_PATH_CONFIGURATION = "config";
-    public static final String VERSION = "1.3.0.220619";
+    public static final String VERSION = "1.3.0.220702";
 
     public String getLinkXSLLogin() {
         String linkXslLogin = "images/IGRP/IGRP2.3/xsl/IGRP-login.xsl";
@@ -459,7 +459,8 @@ public class Config {
         String description = app.getDescription();
         String linkHome = headerConfig.getLinkHome();
         XMLWritter xml = new XMLWritter();
-
+        xml.setElement("ispublic", page != null ?page.getTipo():0); // 0 = Privado (Authentication); 1 = Publico; 2 = Publico e Link Encryptado 
+        
         xml.setElement("template", app.getTemplate());
         xml.setElement("title", Core.getSwitchNotNullValue(title, headerConfig.getTitle()));
         xml.setElement("description", Core.getSwitchNotNullValue(description, ""));
