@@ -264,6 +264,14 @@
 			<reject>map_layer,map_widget</reject>
 			<hasField>false</hasField>
 		</item>
+		<item>
+			<icon type='fa'>sitemap</icon>
+			<type>container</type>
+			<name>workflow</name>
+			<label>Workflow Step</label>
+			<reject>map_layer,map_widget</reject>
+			<hasField>false</hasField>
+		</item>
 	</containers>
 	<fields>
 		<item>

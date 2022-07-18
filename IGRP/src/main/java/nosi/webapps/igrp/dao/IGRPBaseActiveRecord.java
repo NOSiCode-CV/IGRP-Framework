@@ -13,7 +13,7 @@ public class IGRPBaseActiveRecord<T> extends BaseActiveRecord<T> {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void setConnectionName(String connectionName) {
+	public T setConnectionName(String connectionName) {
 		throw new UnsupportedOperationException();
 	}
 	
@@ -28,4 +28,8 @@ public class IGRPBaseActiveRecord<T> extends BaseActiveRecord<T> {
 	public String getConnectionName() {
 		return ConfigApp.getInstance().getBaseConnection();
     }
+	@Override
+	public String getApplicationName() {
+		return "igrp";
+	}
 }

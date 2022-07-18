@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import javax.persistence.Tuple;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -608,10 +610,11 @@ public class PageController extends Controller {
 			Action ac = new Action().findOne(Integer.parseInt(p_id));
 			if (ac != null) {
 				String content = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac),
-						ac.getPage() + ".xml");
+						ac.getPage() + ".xml");			
 				int index1 = content.indexOf("<rows>");
 				if (index1 > 0) {
-					String c = content.substring(0, index1 + "<rows>".length());
+					String c= "<?xml version=\"1.0\" encoding=\"UTF-8\"?><?xml-stylesheet href=\"../";
+					c += content.substring(content.indexOf("images/IGRP/"), index1 + "<rows>".length());
 					c += "<link_img>" + this.getConfig().getLinkImg() + "</link_img>";
 					c += content.substring(content.indexOf("</link_img>") + "</link_img>".length());
 					return this.renderView(c);

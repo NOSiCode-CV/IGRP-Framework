@@ -9,9 +9,9 @@ import nosi.webapps.igrp.dao.Config;
 public class Credentials {
 
 	private static Credentials CREDENCIALS;
-	private String url;
-	private String userName;
-	private String password;
+	private final String url;
+	private final String userName;
+	private final String password;
 	
 	
 	private Credentials() {

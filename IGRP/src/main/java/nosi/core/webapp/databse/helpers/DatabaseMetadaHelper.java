@@ -156,8 +156,8 @@ public class DatabaseMetadaHelper {
 		if (con != null) {
 			try (ResultSet keysR = con.getMetaData().getImportedKeys(con.getCatalog(), schema, tableName)) {
 				while (keysR.next()) {
-					keys.put(keysR.getString("FKCOLUMN_NAME"),
-							keysR.getString("FK_NAME"));
+					keys.put(keysR.getString("FKCOLUMN_NAME"),keysR.getString("FK_NAME"));
+					keys.put(keysR.getString("FK_NAME"), keysR.getString("PKCOLUMN_NAME"));	
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

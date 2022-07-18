@@ -1,20 +1,22 @@
 package nosi.core.gui.page;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
-import nosi.core.exception.NotFoundHttpException;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.gui.components.IGRPLogBar;
 import nosi.core.gui.components.IGRPMessage;
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -29,15 +31,16 @@ import nosi.webapps.igrp.dao.Action;
  */
 public class Page{
 	
+	private static final Logger LOGGER = LogManager.getLogger(Page.class);
+	
 	private String template;
 	private View view;
 	List<Object> gui;
-	private String linkXsl=null; 
+	private String linkXsl; 
 	
-	private boolean showFooter = false; 
-	private String copyright = "&copy; Copyright 2021, Núcleo Operacional da Sociedade de informação - E.P.E. Todos os direitos reservados."; 
-	private String developed = "Design &amp; Concepção"; 
-
+	private boolean showFooter; 
+	private String copyright; 
+	private String developed; 
 	
 	public View getView() {
 		return view;
@@ -49,13 +52,14 @@ public class Page{
 
 	public Page(){
 		this.gui = new ArrayList<>();
+		this.copyright = "&copy; Copyright 2021, Núcleo Operacional da Sociedade de informação - E.P.E. Todos os direitos reservados."; 
+		this.developed = "Design &amp; Concepção"; 
 	}
 	
-	private String convertContentToXml(){	
-		  StringBuilder xml = new StringBuilder();
-		for(Object obj:this.gui){
+	private String convertContentToXml(){
+		StringBuilder xml = new StringBuilder();
+		for(Object obj : this.gui)
 			xml.append(obj.toString());
-		}
 		this.gui = null;
 		return xml.toString();
 	}
@@ -73,39 +77,28 @@ public class Page{
 	}
 	
 	public void removeContent(Object c) {
-		if(this.gui!=null) {
+		if(this.gui != null) 
 			this.gui.remove(c);
-		}
 	}
+	
 	private void createTemplate(){
+		Igrp igrpApp = Igrp.getInstance();
 		String path_xsl = "teste";
-		String app = Igrp.getInstance().getCurrentAppName();
-		String page = Igrp.getInstance().getCurrentPageName();
-		String action = Igrp.getInstance().getCurrentActionName();
-		if(Core.isNotNull(this.getLinkXsl())) {
+		String app = igrpApp.getCurrentAppName();
+		String page = igrpApp.getCurrentPageName();
+		String action = igrpApp.getCurrentActionName();
+		if (this.getLinkXsl() != null && !this.getLinkXsl().isEmpty())
 			path_xsl = this.getLinkXsl();
-		}else {
-			if(!app.equals("") && !page.equals("") && !action.equals("")){
-				Action ac = new Action();
-				ac = ac.find().andWhere("application.dad", "=",app).andWhere("page", "=",Page.resolvePageName(page)).one();
-				path_xsl = new Config().getLinkPageXsl(ac);
-			}
-		}
-    
+		else
+			if (!app.equals("") && !page.equals("") && !action.equals(""))
+				path_xsl = new Config().getLinkPageXsl(new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", Page.resolvePageName(page)).one());
 		XMLWritter xml = new XMLWritter("rows", path_xsl, "utf-8");
-
 		xml.addXml(new Config().getHeader(this.getView()));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
 		xml.setElement("title", "");
 		xml.text(":_content");
-		
-		IGRPMessage msg = new IGRPMessage();
-		String m = msg.toString();
-		if(m!=null){
-			xml.addXml(m);
-		} 
-		
+		xml.addXml(new IGRPMessage().toString());
 		if(this.showFooter) { 
 			xml.startElement("igrpfooter"); 
 			xml.setElement("copyright", this.copyright); 
@@ -116,27 +109,19 @@ public class Page{
 			xml.endElement(); 
 			xml.endElement(); 
 		}
-		
 		xml.endElement();		
-		
-		this.template = xml + "";
+		this.template = String.valueOf(xml);
 	}
 	
 	public String renderContent(boolean layout){
 		if(layout){
-			
 			if(new Config().getEnvironment().equalsIgnoreCase("dev") || new Config().getEnvironment().equalsIgnoreCase("sta"))
 				new IGRPLogBar().displayLogs();
 			// Create a standard template of IGRP 
-			this.createTemplate();	
-			
+			this.createTemplate();
 			return this.template.replace(":_content", this.convertContentToXml());
 		}
-		IGRPMessage msg = new IGRPMessage();
-		String m = msg.toString();
-		return this.convertContentToXml().replace(":_message_reseved", m);
-		
-		
+		return this.convertContentToXml().replace(":_message_reseved", new IGRPMessage().toString());
 	}
 	
 	public static String getPageName(String page){
@@ -147,12 +132,8 @@ public class Page{
 		return StringHelper.validateClassName(page);
 	}
 	
-	public static String getPageFolder(String page_){
-		String page = page_;
-		page = page.toLowerCase();
-		page = page.replaceAll("\\s+", "");
-		page = page.replace("-", "");
-		return page;
+	public static String getPageFolder(String page){
+		return page.toLowerCase().replaceAll("\\s+", "").replace("-", "");
 	}
 
 	public void setCopyright(String copyright) {
@@ -169,85 +150,55 @@ public class Page{
 
 	public static String resolvePageName(String page){
 		String page_name = "";
-		for(String aux : page.split("-")){
+		for(String aux : page.split("-"))
 			page_name += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-		}
 		return page_name;
 	}
 	
-	public static Object loadPage(String ...params){ // load and apply some dependency injection ...
-		String controllerPath = params[0];
-		String actionName = params[1];
+	public static Object loadPage(String controllerPath, String actionName){
+		Igrp igrpApp = Igrp.getInstance();
 		try {
-			Class<?> c = Class.forName(controllerPath);
-			Object controller = c.newInstance();
-			Igrp.getInstance().setCurrentController((Controller) controller); // store the requested contoller 
-			Method action = null;
-			ArrayList<Object> paramValues = new ArrayList<>();
-			for(Method aux : c.getDeclaredMethods())
-				if(aux.getName().equals(actionName))
-					action = aux;
-			if(action !=null) {
-				if(action.getParameterCount() > 0){
-					for(Parameter parameter : action.getParameters()){
-					if(parameter.getType().getSuperclass().getName().equals("nosi.core.webapp.Model")){
-						// Dependency Injection for models
-						Class<?> c_ = Class.forName(parameter.getType().getName());
-						nosi.core.webapp.Model model = (Model) c_.newInstance();
-						model.load();
-						paramValues.add(model);
-					}else{
-					if(parameter.getType().getName().equals("java.lang.String") && parameter.getAnnotation(RParam.class) != null){
-							// Dependency Injection for simple vars ...
-							if(parameter.getType().isArray()){
-								String []result = Igrp.getInstance().getRequest().getParameterValues(parameter.getAnnotation(RParam.class).rParamName());
-								paramValues.add(result);
-							}else{
-								String result = Igrp.getInstance().getRequest().getParameter(parameter.getAnnotation(RParam.class).rParamName());
-								paramValues.add(result);
-							}
-						
-						}else
-							paramValues.add(null);
-					}
-				}
-				return action.invoke(controller, paramValues.toArray());
-				
-				}else{
-					return  action.invoke(controller);
-				}
-			}
-		}catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | 
-				InvocationTargetException | NullPointerException e) {
-			
-			StringWriter sw = new StringWriter();
-		    PrintWriter pw = new PrintWriter(sw);
-		    e.printStackTrace(pw);
-		    String env = "";
-		    env = ConfigApp.getInstance().getEnvironment();
-			if(e.getCause() instanceof  NullPointerException) {
-				String msg = "ERROR: NullPointerException - "+Core.getCurrentDad()+"/"+Igrp.getInstance().getCurrentPageName()+"Controller.java!";
-				
-				
-				if(env.equals("dev") || env.equals("sta")) {
-					msg+=" \nCheck debugger at the bottom of the page.";					
-				}
-				System.err.println("ERROR: Nullpointer in "+Core.getCurrentDad()+": "+sw.toString());
-				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error","sn: "+sw.toString());
-				throw new NotFoundHttpException(msg);
-			}
-			if(env.equals("dev") || env.equals("sta"))
-				System.err.println("DevError in "+Core.getCurrentDad()+"/"+Igrp.getInstance().getCurrentPageName()+": "+sw.toString());
-			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error","s: "+ sw.toString());
-			if(Core.isNotNull(e.getCause()) && Core.isNotNull(e.getCause().getMessage())) {
-				Core.log("ERRO: "+e.getCause().getMessage()); //doesen't work because error page is not the original
-				throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas. +INFO: \n\n\n\n["+Core.getCurrentDad()+"] /"+Igrp.getInstance().getCurrentPageName()+" - "+e.getCause().getMessage());
-			}
-			throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas. \n\n\n\n["+Core.getCurrentDad()+"] /"+Igrp.getInstance().getCurrentPageName());
+			Class<?> classController = Class.forName(controllerPath);
+			Object controller = classController.newInstance();
+			igrpApp.setCurrentController((Controller) controller);
+			Method action = Arrays.stream(classController.getDeclaredMethods()).filter(p -> p.getName().equals(actionName)).findFirst().orElseThrow(NoSuchMethodException::new);
+			if(action.getParameterCount() == 0)
+				return  action.invoke(controller);
+			return action.invoke(controller, formalParameters(action, igrpApp).toArray());
+		}catch (Exception e) {
+			addParametersToErrorPage(igrpApp);
+			LOGGER.fatal(e.getMessage(), e);
+			throw new RuntimeException(e.getMessage(), e);
 		}
-		throw new NotFoundHttpException("Nenhum metodo "+actionName+" encontrado!");
-		
+	}
+	
+	private static List<Object> formalParameters(Method action, Igrp igrpApp) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		List<Object> paramValues = new ArrayList<>();
+		for (Parameter parameter : action.getParameters()) {
+			if (parameter.getType().getSuperclass().getName().equals("nosi.core.webapp.Model")) {
+				// Dependency Injection for models
+				Class<?> classModel = Class.forName(parameter.getType().getName());
+				nosi.core.webapp.Model model = (Model) classModel.newInstance();
+				model.load();
+				paramValues.add(model);
+			} else // Dependency Injection for simple vars ... 
+				if (parameter.getType().getName().equals("java.lang.String") && parameter.getAnnotation(RParam.class) != null) {
+					if (parameter.getType().isArray())
+						paramValues.add(igrpApp.getRequest().getParameterValues(parameter.getAnnotation(RParam.class).rParamName()));
+					else
+						paramValues.add(igrpApp.getRequest().getParameter(parameter.getAnnotation(RParam.class).rParamName()));
+			} else
+				paramValues.add(null);
+		}
+		return paramValues;
+	}
+	
+	private static void addParametersToErrorPage(Igrp igrpApp) {
+		ConfigApp configApp = ConfigApp.getInstance();
+		Map<String, Object> errorParam = new HashMap<String, Object>();
+		errorParam.put("dad", igrpApp.getCurrentAppName());
+		errorParam.put(ConfigCommonMainConstants.IGRP_ENV.value(), configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_ENV.value()));
+		igrpApp.getRequest().setAttribute("igrp.error", errorParam);
 	}
 
 }
-

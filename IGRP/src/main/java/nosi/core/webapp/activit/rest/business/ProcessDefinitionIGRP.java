@@ -26,13 +26,13 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 	}
 
 	public List<ProcessDefinitionService> getMyProcessDefinitions() {
-		return this.getMyProcessDefinitions(Core.getCurrentApp().getDad());
+		return this.getMyProcessDefinitions(Core.getCurrentDad());
 	}
 	
 	public List<ProcessDefinitionService> getMyProcessDefinitions(String dadApp) {
 		List<ProcessDefinitionService> list = processDefinitionServiceRest
 				.getProcessDefinitionsAtivos(dadApp);		
-		list = list.stream().filter(p -> this.filterAccess(p)).collect(Collectors.toList());
+		list = list.stream().filter(this::filterAccess).collect(Collectors.toList());
 		return list;
 	}
 

@@ -6,14 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nosi.core.gui.components.IGRPFormList;
-import nosi.core.gui.components.IGRPLink;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.FileField;
 import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.LinkField;
 import nosi.core.gui.fields.TextField;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.bpmn.FormlistDocument.Formlist_documento_task;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 
