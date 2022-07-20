@@ -79,8 +79,12 @@ if($ && $.IGRP && !$.IGRP.rules){
 		set:function(data,t){
 			
 			var type = t || false;
+
+			$.IGRP.configRules = data;
 			
-			if(!type)
+			if(!type){
+
+				$.IGRP.typeRules = type;
 
 				for(var fname in data){
 					
@@ -119,6 +123,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 								rule      : r
 							});
 
+							$.IGRP.lastActionRules = source;
+
 
 							if(satisfyRule) 
 								$.IGRP.rules.execute(r,this);
@@ -144,7 +150,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 					});
 				}
-
+			}
 			else
 
 				$.IGRP.rules.set2(data);
@@ -180,16 +186,45 @@ if($ && $.IGRP && !$.IGRP.rules){
 						}else
 							validateAndExecute($('[name="'+fname+'"]'),rule);
 					}
-					
-					
 
 					$(document).on(events.join(' '), '[name="'+fname+'"]',function(){
-						
+						$.IGRP.lastActionRules = fname;
 						validateAndExecute($(this),rule);
 						
 					});
 
 				});
+			}
+		},
+
+		setRulesInField : function (obj){
+			try {
+
+				let objRules = {},
+					has		 = false;
+
+				$(':input',obj).each(function(){
+					let name = $(this).attr('name') || 'p_'+$(this).attr('field-name');
+
+					if(name && name !== $.IGRP.lastActionRules && typeof $.IGRP.configRules === 'object'){
+
+						let hasRules = $.IGRP.configRules[name];
+
+						if(typeof hasRules === 'object'){
+							has = true;
+							objRules[name] = hasRules;
+						}
+					}
+				});
+
+				if(has){
+					$.IGRP.rules.set(objRules, $.IGRP.typeRules);
+
+					console.log("objRules:: ",objRules);
+				}
+				
+			} catch (error) {
+				console.log(error);
 			}
 		},
 
@@ -859,7 +894,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 						
 							itemName = $(f).attr('item-name'),
 							
-							responseElement = isString ? list : ( list.documentElement || false ),
+							responseElement = isString ? list : ( list?.documentElement || false ),
 							
 							wrapper  = $(responseElement).is(itemName) ? list : $(list).find('rows content '+itemName)[0];
 

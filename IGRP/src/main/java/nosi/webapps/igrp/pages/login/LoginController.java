@@ -22,6 +22,10 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Form;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
 import org.json.JSONObject;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigCommonMainConstants;
@@ -540,17 +544,34 @@ public class LoginController extends Controller {
 
 			JSONObject jToken = new JSONObject(result); 
 			
+			
 			uid = new HashMap<String, String>();
 			
-			uid.put("sub", jToken.getString("sub")); 
-			uid.put("email", jToken.getString("email")); 
+			uid.put("sub", getAttributeStringValue(jToken,"sub"));			
+			uid.put("email", getAttributeStringValue(jToken, "email") ); 			
+			uid.put("birthdate", getAttributeStringValue(jToken, "birthdate"));
+			uid.put("name", getAttributeStringValue(jToken, "name"));
+			uid.put("phone_number", getAttributeStringValue(jToken, "phone_number"));
 			
-
 		} catch (Exception e) {
 			e.printStackTrace(); 
 		}
 		
 		return uid;
+	}
+	
+	private String getAttributeStringValue(JSONObject obj, String attibute) {		
+		log.info("[obj]="+obj);
+		
+		String _value = null;
+		try {
+			_value = obj.getString(attibute);
+		}catch(JSONException je) {
+			log.warn(je);
+			_value = null;
+		}
+		
+		return _value;
 	}
 	
 	public Response oAuth2Wso2() {
@@ -587,12 +608,19 @@ public class LoginController extends Controller {
 				Map<String, String> _r = oAuth2Wso2GetUserInfoByToken(token);
 				if(_r != null && _r.containsKey("email") && _r.containsKey("sub")) {
 					
-					String email = _r.get("email") != null ? _r.get("email").trim().toLowerCase() : _r.get("email"); 
-					String uid = _r.get("sub"); 
+					String email = _r.get("email") != null ? _r.get("email").trim().toLowerCase() : _r.get("sub"); 
+					String uid = _r.get("sub");
+					String name = _r.get("name");
+					String phone_number = _r.get("phone_number");
 					
 					this.addQueryString("dad", state); 
 					
-					User user = new User().find().andWhere("email", "=", email).one(); 
+					User user = new User();
+					
+					if (email != null)
+						user = new User().find().andWhere("email", "=", email).one(); 
+					else if (uid != null & _r.containsKey("birthdate"))
+						user = new User().find().andWhere("cni", "=", uid).one(); 
 					
 					if (user != null) {
 						if(user.getStatus() != 1) {
@@ -620,9 +648,10 @@ public class LoginController extends Controller {
 							
 							try {
 								User newUser = new User();
-								newUser.setUser_name(email);
+								newUser.setUser_name(uid);
 								newUser.setEmail(email); 
-								newUser.setName(uid);
+								newUser.setName(name);
+								newUser.setPhone(phone_number);
 								newUser.setStatus(1); 
 								newUser.setIsAuthenticated(1);
 								newUser.setCreated_at(System.currentTimeMillis());
@@ -741,5 +770,7 @@ public class LoginController extends Controller {
 		return u != null && !u.hasError();
 	} 
 
+	
+	private static Logger log = LogManager.getLogger(LoginController.class);
 	/*----#end-code----*/
 }

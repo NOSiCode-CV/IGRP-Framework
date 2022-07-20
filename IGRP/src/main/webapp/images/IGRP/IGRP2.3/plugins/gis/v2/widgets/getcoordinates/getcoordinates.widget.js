@@ -55,6 +55,15 @@
 						parentField = $('[name="'+data.parent_field_name+'"]',parent.document);
 					
 					parentField.val( latLng.lat+','+latLng.lng );
+
+					if(parentField.hasClass('IGRP_change') || parentField.attr('change') == 'true' || parentField.is('[igrp-remote]')){
+
+						if( parentField[0].events ){
+							parentField[0].events.execute('lookup-change',{
+								o : parentField
+							});
+						}
+					}
 					
 					data.latLng = [ latLng.lat, latLng.lng ];
 					

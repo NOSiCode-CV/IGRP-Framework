@@ -35,109 +35,151 @@
                     }
 
                     return valid;
+                },
+
+                currency : function (v) {
+                    let valid = true;
+
+                    if(v && v !== undefined){
+                        v       = v.toString().replaceAll(',', '.');
+                        valid   = eval(/^([-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))?$/).test(v);
+                    }
+
+                    return valid;
                 }
             },
 
             message : {
                 monthYear   : 'Data inv&aacute;lida. Formato deve ser MM-YYYY ex: (01-2022)',
-                date        : "Data inv&aacute;lida. Formato deve ser DD-MM-YYYY ex: (01-01-2022)"
+                date        : "Data inv&aacute;lida. Formato deve ser DD-MM-YYYY ex: (01-01-2022)",
+                currency    : "Valor inv&aacute;lido."
             },
 
-            mask : {
+            mask : function(x) {
+                return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : 0;
+            },
+
+            formatValue : function(val) {
+                let auxVal = com.mask(val);
+
+                val = val.toString().replaceAll('.', ',');
+
+                if(val && val.indexOf(',')){
+                    const v = val.split(',');
+                    auxVal  = com.mask(v[0]);
+
+                    if(v[1] && v[1].length > 0)
+                    auxVal +=','+v[1];
+                }
+
+                return auxVal;
+            },
+
+            isFormat : function() {
+                $('.isFormat').each(function(){
+                    $(this).removeClass('isFormat');
+                    com.method.currency($(this));
+                });
+            },
+
+            getControlField : function (field) {
+                const name = field.attr('name') || field.attr('field-name')
+                return field.parents('table')[0] ? $(`.currency-control[name="${name}"]`,field.parents('td:first')) : $(`.currency-control[name="${name}"]`);
+            },
+
+            getControlValue : function(field) {
+                let val = field.attr('data-value')*1;
+
+                val = val > 0 ? val.toString().replaceAll('.', ',') : '';
+
+                return val;
+            },
+
+            method : {
 
                 currency : function(field) {
-
                     let name        = field.attr('name') || field.attr('field-name'),
                         val         = field.val() || '',
-                        hasAuxField = field.parents('table')[0] ? $(`.currency-control[name="${name}"]`,field.parents('td:first')) : $(`.currency-control[name="${name}"]`),
-                        decimal     = '';
-
-                    if(val.indexOf('.')){
-                        const v = val.split('.');
-    
-                        if(v[1] && v[1].length > 0){
-    
-                            decimal = ',';
-    
-                            for (let i = 0; i < v[1].length; i++) {
-                                decimal += '0';
-                            }
-                        }
-                    }
+                        auxVal      = '',
+                        hasAuxField = com.getControlField(field);
                     
-                    
-                    if(!hasAuxField[0]){
-                        field.parents('*:first').append(`<input type="hidden" name="${name}" class="currency-control" value="${val}"/>`);
+                    if(val && val !== undefined){
+                        auxVal  = val;
+                        field.val(com.formatValue(val));
 
-                        field.removeAttr('name').attr('field-name',name);
+                        auxVal = auxVal.toString().replaceAll(',', '.');
                     }
 
-                    field.mask(`#.##0${decimal}`, {
-                        reverse: true,
-                        translation: {
-                            '#': {
-                            pattern: /-|\d/,
-                            recursive: true
-                            }
-                        },
-                        onKeyPress: function(value, event, currentField){
+                    if(com.valid.currency(auxVal)){
 
-                            value = (value.replaceAll('.', '').replaceAll(',', '.')*1);
-                            currentField.attr('data-value',value).val();
-        
-                            let objfield = currentField.parents('table')[0] ? $('input[name="'+currentField.attr('field-name')+'"]',currentField.parents('td:first')) : $('input[name="'+currentField.attr('field-name')+'"]');
-                            objfield.val(value);
+                        if(!hasAuxField[0]){
+                            field.parents('*:first').append(`<input type="hidden" name="${name}" class="currency-control" value="${auxVal}"/>`);
+                            field.removeAttr('name').attr('field-name',name);
                         }
-                    });
+                        else
+                            hasAuxField.val(auxVal);
+
+                        field.attr('data-value',auxVal);
+                    }
 
                 },
 
                 monthYear : function(field){
 
-                    field.mask('MM-YYYY', {
+                    field.inputmask('MM-YYYY', {
                         placeholder: "MM-YYYY",
-                        translation: {
-                            M: {pattern: /[0-9]/},
-                            Y: {pattern: /[0-9]/}
+                        definitions: {
+                            M: {validator: "[0-9]"},
+                            Y: {validator: "[0-9]"}
                         }
                     });
 
                 },
 
                 date : function (field) {
-                    field.mask("DD-MM-YYYY", {
+                    field.inputmask("DD-MM-YYYY", {
                         placeholder: "DD-MM-YYYY",
-                        translation: {
-                            D: {pattern: /[0-9]/},
-                            M: {pattern: /[0-9]/},
-                            Y: {pattern: /[0-9]/}
+                        definitions: {
+                            D: {validator: "[0-9]"},
+                            M: {validator: "[0-9]"},
+                            Y: {validator: "[0-9]"}
                         }
                     });
                 },
 
                 time : function (field) {
-                    field.mask('00:00:00',{
-                        placeholder: "hh:mm:ss"
+                    field.inputmask('00:00:00',{
+                        placeholder: "hh:mm:ss",
+                        definitions: {
+                            h: {validator: "[0-9]"},
+                            m: {validator: "[0-9]"},
+                            s: {validator: "[0-9]"}
+                        }
                     });
                 },
 
                 datetime : function(field) {
-                    field.mask('DD-MM-YYYY hh:mm:ss', {
-                        placeholder: "DD-MM-YYYY hh:mm:ss"
+                    field.inputmask('DD-MM-YYYY hh:mm:ss', {
+                        placeholder: "DD-MM-YYYY hh:mm:ss",
+                        definitions: {
+                            D: {validator: "[0-9]"},
+                            M: {validator: "[0-9]"},
+                            Y: {validator: "[0-9]"},
+                            h: {validator: "[0-9]"},
+                            m: {validator: "[0-9]"},
+                            s: {validator: "[0-9]"}
+                        }
                     });
                 },
 
                 percent : function (field) {
-                    field.mask('##0,00%', {reverse: true});
+                    field.inputmask('##0,00%');
                 },
 
                 ipaddress : function (field) {
-                    field.mask('0ZZ.0ZZ.0ZZ.0ZZ', {
-                        translation: {
-                        'Z': {
-                            pattern: /[0-9]/, 
-                            optional: true
-                        }
+                    field.inputmask('0ZZ.0ZZ.0ZZ.0ZZ', {
+                        definitions: {
+                            Z: {validator: "[0-9]"}
                         }
                     });
                 }
@@ -145,27 +187,56 @@
             },
             start : function(obj){
                 
-                if($.fn.mask  && isNav){
+                if($.fn.inputmask  && isNav){
                     obj = obj ? $('[inputmask]:not([inputmask=""])',obj) : $('form [inputmask]:not([inputmask=""])');
+
+                    $(document).on('click','[inputmask="currency"]:not([readonly])',function(){
+                        com.isFormat();
+
+                        const val = com.getControlValue($(this));
+
+                        $(this).addClass('isFormat').val(val);
+                    });
+
+                    $(document).on('input','[inputmask="currency"]',function(){
+                        let val     = $(this).val();
+                
+                        if(com.valid.currency(val)){
+                            val = val ? val.replaceAll(',', '.') : '';
+
+                            $(this).attr('data-value',val);
+
+                            com.getControlField($(this)).val(val);
+
+                        }else{
+                            val = com.getControlValue($(this));
+                            $(this).val(val);
+                        }
+
+                    });
+    
+                    $(document).click(function(e){
+                        if(!$(e.target).is('[inputmask="currency"]'))
+                            com.isFormat();
+                    });
+
 
                     if(obj[0]){
                         obj.each(function(){
                             
                             var actions = $(this).attr('inputmask');
 
-                            com.mask[actions]($(this));
+                            com.method[actions]($(this));
 
                         });
                     }
+
                 }
             },
             init: function () {
-
                 com = this;
                 
                 com.start();
-
-            
                 
             }
         }, true);

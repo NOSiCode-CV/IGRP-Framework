@@ -27,9 +27,9 @@ public class StatusTask {
 	}
 
 	public static Map<String, String> getStatus() {
-		Map<String, String> status = new HashMap<String, String>();
-		status.put(null, "--- Selecionar Estado ---");
-		status.put("false", "Ativo");
+		Map<String, String> status = new HashMap<>();
+		status.put("", "Todos");
+		status.put("false", "Em execução / Não atribuído");
 		status.put("true", "Terminado");
 		return status;
 	}

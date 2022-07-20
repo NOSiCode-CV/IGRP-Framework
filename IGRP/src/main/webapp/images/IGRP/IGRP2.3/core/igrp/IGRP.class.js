@@ -23,6 +23,12 @@
 		
 		components: {},
 
+		configRules		: '', 
+		
+		typeRules 		: 'actionsList',
+
+		lastActionRules : '',
+
 		store:{
 
 			list : function(){

@@ -1,7 +1,6 @@
 package nosi.webapps.igrp_studio.pages.migration;
 
-import nosi.core.config.ConfigCommonMainConstants;
-import nosi.core.db.migration.api.IgrpMigrationAPI;
+
 import nosi.core.webapp.Controller;//
 import nosi.core.webapp.databse.helpers.ResultSet;//
 import nosi.core.webapp.databse.helpers.QueryInterface;//
@@ -18,8 +17,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.CRC32;
 
-import org.hibernate.cfg.Environment;
-
+import org.hibernate.cfg.AvailableSettings;
+import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.db.migration.api.IgrpMigrationAPI;
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -35,6 +35,7 @@ import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import nosi.webapps.igrp.dao.Transaction;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,6 +50,7 @@ import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
 /*----#end-code----*/
 		
 public class MigrationController extends Controller {
+	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Migration model = new Migration();
 		model.load();
@@ -338,15 +340,15 @@ public class MigrationController extends Controller {
 	}
 	
 	private String replaceAllPlaceholders(String content) {
-		return content.replaceAll(IMPORTS_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
-				.replaceAll(APP_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
-				.replaceAll(PAGES_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
-				.replaceAll(TRANSACTIONS_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
-				.replaceAll(DOMAINS_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
-				.replaceAll(DBCONNECTIONS_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
-				.replaceAll(REPORTS_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
-				.replaceAll(BPMNS_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
-				.replaceAll(DOCUMENT_TYPES_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
+		return content.replace(IMPORTS_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
+				.replace(APP_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
+				.replace(PAGES_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
+				.replace(TRANSACTIONS_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
+				.replace(DOMAINS_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
+				.replace(DBCONNECTIONS_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
+				.replace(REPORTS_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
+				.replace(BPMNS_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
+				.replace(DOCUMENT_TYPES_PLACEHOLDER, "\t	// Not implemented yet... Put your code here!\n")
 				;
 	}
 	
@@ -354,7 +356,7 @@ public class MigrationController extends Controller {
 		StringBuilder auxContent = new StringBuilder();
 		auxContent.append("\t  this.app = new Application(\"" + app.getDad() + "\", \"" + app.getName() + "\", \"" + app.getImg_src() 
 		+ "\", \"" + app.getDescription() + "\", " + app.getStatus() + ", null,\"" + app.getTemplate() + "\");\n"); 
-		return new StringBuilder(content.toString().replaceAll(APP_PLACEHOLDER, auxContent.toString()));
+		return new StringBuilder(content.toString().replace(APP_PLACEHOLDER, auxContent.toString()));
 	}
 	
 	private StringBuilder generatePagesContent(StringBuilder content, String[] page_ids) {
@@ -381,7 +383,7 @@ public class MigrationController extends Controller {
 				for(Modulo module : modules) 
 					auxContent.append("\t  this.modules.add(new Modulo(" + module.getId() + ", \"" + module.getName() + "\", this.app, \"" + module.getDescricao() + "\"));\n");
 			}
-			content = new StringBuilder(content.toString().replaceAll(PAGES_PLACEHOLDER, auxContent.toString()));
+			content = new StringBuilder(content.toString().replace(PAGES_PLACEHOLDER, auxContent.toString()));
 		}
 		return content;
 	}
@@ -398,7 +400,7 @@ public class MigrationController extends Controller {
 					}
 				}
 			}
-			content = new StringBuilder(content.toString().replaceAll(TRANSACTIONS_PLACEHOLDER, auxContent.toString()));
+			content = new StringBuilder(content.toString().replace(TRANSACTIONS_PLACEHOLDER, auxContent.toString()));
 		}
 		return content;
 	}
@@ -415,7 +417,7 @@ public class MigrationController extends Controller {
 					}
 				}
 			}
-			content = new StringBuilder(content.toString().replaceAll(DOMAINS_PLACEHOLDER, auxContent.toString()));
+			content = new StringBuilder(content.toString().replace(DOMAINS_PLACEHOLDER, auxContent.toString()));
 		}
 		return content;
 	}
@@ -431,7 +433,7 @@ public class MigrationController extends Controller {
 						+ "\", \"" + conf.getName() + "\", \"" + conf.getUrl_connection() + "\", \"" + conf.getDriver_connection() + "\", this.app, (short)" + conf.getIsDefault() 
 						+ "," + (conf.getConnection_identify() != null ? " \"" + conf.getConnection_identify() + "\"" : null) + "));\r");
 			} 
-			content = new StringBuilder(content.toString().replaceAll(DBCONNECTIONS_PLACEHOLDER, auxContent.toString())); 
+			content = new StringBuilder(content.toString().replace(DBCONNECTIONS_PLACEHOLDER, auxContent.toString())); 
 		}
 		return content;
 	}
@@ -443,9 +445,9 @@ public class MigrationController extends Controller {
 			for(int i = 0; i < reports.size(); i++) { 
 				RepTemplate aux = reports.get(i); 
 				if(aux.getXml_content().getC_lob_content() != null) 
-					saveBpmnOrReportFilesContent(app.getDad(), new String(aux.getXml_content().getC_lob_content(), Charset.forName("utf-8")), aux.getCode() + ".json"); 
+					saveBpmnOrReportFilesContent(app.getDad(), new String(aux.getXml_content().getC_lob_content(), StandardCharsets.UTF_8), aux.getCode() + ".json"); 
 				if(aux.getXsl_content().getC_lob_content() != null) 
-					saveBpmnOrReportFilesContent(app.getDad(), new String(aux.getXsl_content().getC_lob_content(), Charset.forName("utf-8")), aux.getCode() + ".xsl"); 
+					saveBpmnOrReportFilesContent(app.getDad(), new String(aux.getXsl_content().getC_lob_content(), StandardCharsets.UTF_8), aux.getCode() + ".xsl"); 
 				// RepTemplate & CLOB 
 				auxContent.append("\t	User userCreated" + i + " = new User();" + "\n");
 				auxContent.append("\t	userCreated" + i + ".setUser_name(\"" + aux.getUser_created().getUser_name() +  "\");" + "\n");
@@ -470,7 +472,8 @@ public class MigrationController extends Controller {
 					auxContent.append("\t	User userUpdated" + i + "_" + j  + " = new User();" + "\n");
 					auxContent.append("\t	userUpdated" + i + "_" + j  + ".setUser_name(\"" + dataSource.getUser_updated().getUser_name() +  "\");" + "\n");
 					auxContent.append("\t	Config_env configEnv" + i + "_" + j  + " = new Config_env();" + "\n");
-					auxContent.append("\t	configEnv" + i + "_" + j  + ".setConnection_identify(\"" + dataSource.getConfig_env().getConnection_identify() +  "\");" + "\n");
+					if(dataSource.getConfig_env()!=null)
+						auxContent.append("\t	configEnv" + i + "_" + j  + ".setConnection_identify(\"" + dataSource.getConfig_env().getConnection_identify() +  "\");" + "\n");
 					auxContent.append("\t	this.repDataSources.add(" + 
 							"new RepSource(\"" + dataSource.getName() + "\", \"" + dataSource.getType() + "\", "
 							+ dataSource.getType_fk() + ", \"" + dataSource.getType_name() + "\", \"" + dataSource.getType_query().replaceAll("[\\n\\r]", "") + "\", " + dataSource.getStatus() + ","
@@ -497,7 +500,7 @@ public class MigrationController extends Controller {
 				}
 				auxContent.append("\t	this.reports.add(report" + i + ");\n"); 
 			}
-			content = new StringBuilder(content.toString().replaceAll(REPORTS_PLACEHOLDER, auxContent.toString()));
+			content = new StringBuilder(content.toString().replace(REPORTS_PLACEHOLDER, auxContent.toString()));
 		}
 		return content;
 	}
@@ -544,7 +547,7 @@ public class MigrationController extends Controller {
 				for(String bpmn : bpmns) 
 					auxContent.append("\t	this.bpmns.add(\"" + bpmn + "\");\n"); 
 				auxContent.append(auxCode);
-				content = new StringBuilder(content.toString().replaceAll(BPMNS_PLACEHOLDER, auxContent.toString())); 
+				content = new StringBuilder(content.toString().replace(BPMNS_PLACEHOLDER, auxContent.toString())); 
 			}
 		}
 		return content;
@@ -556,9 +559,9 @@ public class MigrationController extends Controller {
 			for(String id : tipo_doc_ids) {
 				TipoDocumento documento = new TipoDocumento().findOne(Core.toInt(id)); 
 				if(documento != null)
-					auxContent.append("\t	this.tipoDocumentos.add(new TipoDocumento(\"" + documento.getNome() + "\", " + documento.getStatus() +  ", \"" + documento.getDescricao() + "\", \"" + documento.getCodigo() + "\", this.app));\n"); 
+					auxContent.append("\t\tthis.tipoDocumentos.add(new TipoDocumento(\"" + documento.getNome() + "\", " + documento.getStatus() +  ", \"" + documento.getDescricao() + "\", \"" + documento.getCodigo() + "\", this.app));\n"); 
 			}
-			content = new StringBuilder(content.toString().replaceAll(DOCUMENT_TYPES_PLACEHOLDER, auxContent.toString()));
+			content = new StringBuilder(content.toString().replace(DOCUMENT_TYPES_PLACEHOLDER, auxContent.toString()));
 		}
 		return content;
 	}
@@ -579,7 +582,7 @@ public class MigrationController extends Controller {
 		List<RepSource> repSources = new ArrayList<>(); 
 		List<RepTemplateSource> sources = loadRepTemplateDataSources(report);
 		if(sources != null && !sources.isEmpty()) 
-			repSources = sources.stream().map(obj->obj.getRepSource()).collect(Collectors.toList());
+			repSources = sources.stream().map(RepTemplateSource::getRepSource).collect(Collectors.toList());
 		return repSources; 
 	}
 	
@@ -594,13 +597,13 @@ public class MigrationController extends Controller {
 		content.append("\n\n"); 
 		content.append("\t@Override\n"); 
 		content.append("\tpublic Integer getChecksum() {\n"); 
-		content.append("\t	return " + CHECKSUM_PLACEHOLDER + ";\n"); 
+		content.append("\t\treturn " + CHECKSUM_PLACEHOLDER + ";\n"); 
 		content.append("\t}\n\n"); 
 	}
 	
 	private String generateCheckSumNReturn(String content) {
 		CRC32 crc32 = new CRC32(); 
-		crc32.update(content.toString().getBytes());
+		crc32.update(content.getBytes());
 		int checkSum = (int)crc32.getValue(); 
 		checkSum = Math.abs(checkSum); 
 		return content.replace(CHECKSUM_PLACEHOLDER, checkSum + ""); 
@@ -613,7 +616,7 @@ public class MigrationController extends Controller {
 		try {
 			if(Files.notExists(parent)) 
 				parent = Files.createDirectories(parent); 
-			Files.write(path, content.getBytes(Charset.forName("utf-8")), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING); 
+			Files.write(path, content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING); 
 		} catch (Exception e) {
 			e.printStackTrace();
 			success = false;
@@ -622,13 +625,13 @@ public class MigrationController extends Controller {
 	}
 	
 	private boolean saveBpmnOrReportFilesContent(String appDad, String content, String filename) {
-		Path path = Paths.get(this.configApp.getConfig().getPathWorkspaceResources() + File.separator + migrationLocation + File.separator + appDad, filename); 
+		Path path = Paths.get(this.configApp.getConfig().getPathConexao()+ migrationLocation + File.separator + appDad, filename); 
 		Path parent = path.getParent(); 
 		boolean success = true;
 		try {
 			if(Files.notExists(parent)) 
 				parent = Files.createDirectories(parent); 
-			Files.write(path, content.getBytes(Charset.forName("utf-8")), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING); 
+			Files.write(path, content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING); 
 		} catch (Exception e) {
 			e.printStackTrace();
 			success = false;
@@ -646,9 +649,10 @@ public class MigrationController extends Controller {
 	}
 	
 	private void prepareMigrationLocation() {
+		@SuppressWarnings("unchecked")
 		Map<String, Object> configs = HibernateUtils.REGISTRY_BUILDER_IGRP.getAggregatedCfgXml().getConfigurationValues();
 		StringBuilder location = new StringBuilder(migrationLocation);
-		String folder = IgrpMigrationAPI.getDbEngineNameFromDsn((String) configs.get(Environment.URL));
+		String folder = IgrpMigrationAPI.getDbEngineNameFromDsn((String) configs.get(AvailableSettings.URL));
 		if(folder != null) {
 			location.append(File.separator);
 			location.append(folder);
@@ -657,19 +661,19 @@ public class MigrationController extends Controller {
 	}
 	
 	private String migrationLocation = "nosi" + File.separator + "core" + File.separator + "db" + File.separator + "migration" + File.separator + "igrp"; 
-	private final String FILE_NAME_PREFIX = "R__"; 
-	private final String FILE_NAME_SUFIX = ".java"; 
+	private static final String FILE_NAME_PREFIX = "R__"; 
+	private static final String FILE_NAME_SUFIX = ".java"; 
 	
-	private final String IMPORTS_PLACEHOLDER = ":igrpweb_imports"; 
-	private final String APP_PLACEHOLDER = ":igrpweb_app"; 
-	private final String PAGES_PLACEHOLDER = ":igrpweb_pages"; 
-	private final String TRANSACTIONS_PLACEHOLDER = ":igrpweb_transactions"; 
-	private final String DOMAINS_PLACEHOLDER = ":igrpweb_domains"; 
-	private final String DBCONNECTIONS_PLACEHOLDER = ":igrpweb_dbConnections"; 
-	private final String REPORTS_PLACEHOLDER = ":igrpweb_reports"; 
-	private final String BPMNS_PLACEHOLDER = ":igrpweb_bpmns"; 
-	private final String DOCUMENT_TYPES_PLACEHOLDER = ":igrpweb_documentTypes"; 
-	private final String CHECKSUM_PLACEHOLDER = ":igrpweb_checksum"; 
+	private static final String IMPORTS_PLACEHOLDER = ":igrpweb_imports"; 
+	private static final String APP_PLACEHOLDER = ":igrpweb_app"; 
+	private static final String PAGES_PLACEHOLDER = ":igrpweb_pages"; 
+	private static final String TRANSACTIONS_PLACEHOLDER = ":igrpweb_transactions"; 
+	private static final String DOMAINS_PLACEHOLDER = ":igrpweb_domains"; 
+	private static final String DBCONNECTIONS_PLACEHOLDER = ":igrpweb_dbConnections"; 
+	private static final String REPORTS_PLACEHOLDER = ":igrpweb_reports"; 
+	private static final String BPMNS_PLACEHOLDER = ":igrpweb_bpmns"; 
+	private static final String DOCUMENT_TYPES_PLACEHOLDER = ":igrpweb_documentTypes"; 
+	private static final String CHECKSUM_PLACEHOLDER = ":igrpweb_checksum"; 
 	
 	
 /*----#end-code----*/

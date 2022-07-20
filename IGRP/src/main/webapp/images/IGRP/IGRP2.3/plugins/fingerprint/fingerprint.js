@@ -1,5 +1,5 @@
 $(function () {
-	var namefp   = '',
+	let namefp   = '',
 		holderfp = '';
 	if ($.IGRP && !$.IGRP.components.fp) {
 		$.IGRP.components.fp = {
@@ -22,15 +22,17 @@ $(function () {
 		                o.append('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
 		            }).fadeIn("slow");
 				},
-				field : function(o){
-					if($('input[name="'+o.name+'"]')[0])
-						$('input[name="'+o.name+'"]').val(o.value);
-					else
-						$.IGRP.utils.createHidden({name : o.name, value : o.value});
+				field : function(p){
+					p.map((o) => {
+						if($('input[name="'+o.name+'"]')[0])
+							$('input[name="'+o.name+'"]').val(o.value);
+						else
+							$.IGRP.utils.createHidden({name : o.name, value : o.value});
+					});
 				},
 				types : {
 					FINGER : function(xml){
-						var fl = xml.find(namefp+'_fingerleft value'),
+						let fl = xml.find(namefp+'_fingerleft value'),
 							fr = xml.find(namefp+'_fingerright value');
 
 						$.IGRP.components.fp.set.img($('.fp-left .fp-box',holderfp),fl.text().toString());
@@ -52,7 +54,7 @@ $(function () {
 						]);
 					},
 					FACE : function(xml){
-						var fp = xml.find(namefp+'_photo value');
+						let fp = xml.find(namefp+'_photo value');
 						$.IGRP.components.fp.set.img($('.fp-photo .fp-box',holderfp),fp.text().toString());
 
 						$.IGRP.components.fp.set.field([{
@@ -66,7 +68,7 @@ $(function () {
 						]);
 					},
 					SIG : function(xml){
-						var fs = xml.find(namefp+'_signature value');
+						let fs = xml.find(namefp+'_signature value');
 						$.IGRP.components.fp.set.img($('.fp-signature .fp-box',holderfp),fs.text().toString());
 
 						$.IGRP.components.fp.set.field([{
@@ -83,15 +85,16 @@ $(function () {
 				}
 			},
 			getData  : function(o){
-				var type = o.attr('type') && o.attr('type') != undefined ? o.attr('type').toUpperCase() : '';
+				let type = o.attr('type') && o.attr('type') != undefined ? o.attr('type').toUpperCase() : '';
 				
 				holderfp = o.parents('.fp');
-				namefp 	 = holderfp.attr('item-name');
+				namefp 	 = holderfp.attr('item-name'),
+				paramfp  = holderfp.parents('.fingerprint.box').attr('param');
 
-				var url = holderfp.attr('href') || window.location.href;
+				let url = holderfp.attr('href') || window.location.href;
 					
 				if(type != ''){
-					var param = 'p_type='+type,
+					let param = 'p_type='+type,
 						types = type == 'SELF' || type == 'START' ? 'ALL' : type,
 						rel   = type.toLowerCase(),
 						obj   = $('div[rel="'+rel+'"]',holderfp)[0] ? $('div[rel="'+rel+'"] .fp-box',holderfp) : $('.fingerprint .fp-box',holderfp);
@@ -100,6 +103,22 @@ $(function () {
 					$.IGRP.components.fp.set.img(obj,'');
 
 					if(type == 'SELF') param +='&p_number_process='+$('input.fp_process',holderfp).val();
+
+					if(paramfp){
+						paramfp = paramfp.split(',');
+
+						paramfp.map(fp => {
+							let field = $(`:input[name="${fp}"]`);
+
+							field = field[0] ? field : $(`:input[name="${fp}_fk"]`);
+							
+							if(field[0]){
+								const val = field.val();
+								if(val && val !== undefined)
+									param += `&${field.attr('name')}=${val}`;
+							}
+						});
+					}
 					
 					$.ajax({
 						url : $.IGRP.utils.getUrl(url)+param,
@@ -108,8 +127,8 @@ $(function () {
 							if(data){
 								
 								try{
-									var xml = $(data).find(namefp+'[type="fingerprint"] fields');
-									var np  = $.IGRP.utils.isNotNaN($(this).find(namefp+'_process value').text());
+									let xml = $(data).find(namefp+'[type="fingerprint"] fields');
+									let np  = $.IGRP.utils.isNotNaN(xml.find(namefp+'_process value').text());
 									np      = np > 0 ? np : '';
 
 									$("input.fp_process",holderfp).val(np);
@@ -117,7 +136,7 @@ $(function () {
 									xml.find('hidden').each(function() {
 										$.IGRP.components.fp.set.field([{
 											name  : $(this).attr('name'),
-											value : $(this).text()
+											value : $(this).find('value').text()
 										}]);
 			                        });
 
@@ -160,11 +179,11 @@ $(function () {
 			},
 			fieldNp : {//NP NUMERO PROCESSO
 				get : function(f){
-					var rt 	   = true,
+					let rt 	   = true,
 						type   = f.attr('type') ? f.attr('type').toLowerCase() : '',
 						field  = $('.fp_process',f.parents('.fp'));
 					if (type == 'self') {
-						var np = $.IGRP.utils.isNotNaN(field.val());
+						let np = $.IGRP.utils.isNotNaN(field.val());
 
 						$.IGRP.utils.loading.hide($('.fp-box',field));
 

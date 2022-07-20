@@ -1,14 +1,11 @@
 package nosi.webapps.igrp.pages._cons_proc;
 
-import java.util.Map;
-
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
-
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-
+import java.util.Map;
 import java.util.LinkedHashMap;
 
 public class _CONS_PROCView extends View {
@@ -24,6 +21,7 @@ public class _CONS_PROCView extends View {
 	public Field intervalo_entrada;
 	public Field dt_ini;
 	public Field dt_fim;
+	public Field data_de;
 	public Field estado;
 	public Field num_processo;
 	public Field processo;
@@ -46,65 +44,69 @@ public class _CONS_PROCView extends View {
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
-		form = new IGRPForm("form","");
+		form = new IGRPForm("form","Filtro");
 
 		table_1 = new IGRPTable("table_1","");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
-		sectionheader_1_text.setValue(gt("<p>Consultar Processo</p>"));
+		sectionheader_1_text.setValue(gt("<p>Consultar Etapas de Processos</p>"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		tipo_processo = new ListField(model,"tipo_processo");
-		tipo_processo.setLabel(gt("Processo"));
-		tipo_processo.propertie().add("name","p_tipo_processo").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
+		tipo_processo.setLabel(gt("Nome do Processo"));
+		tipo_processo.propertie().add("name","p_tipo_processo").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		cbx_utilizador = new ListField(model,"cbx_utilizador");
-		cbx_utilizador.setLabel(gt("Utilizador"));
-		cbx_utilizador.propertie().add("name","p_cbx_utilizador").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
+		cbx_utilizador.setLabel(gt("Atribuído a"));
+		cbx_utilizador.propertie().add("name","p_cbx_utilizador").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		referencia_pedido = new SeparatorField(model,"referencia_pedido");
 		referencia_pedido.setLabel(gt("Referencia Pedido"));
-		referencia_pedido.propertie().add("type","separator").add("name","p_referencia_pedido").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
+		referencia_pedido.propertie().add("type","separator").add("name","p_referencia_pedido").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		requerente = new TextField(model,"requerente");
 		requerente.setLabel(gt("Requerente"));
-		requerente.propertie().add("name","p_requerente").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		requerente.propertie().add("name","p_requerente").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false").add("disablehtml","true");
 		
 		num = new TextField(model,"num");
 		num.setLabel(gt("Nº Processo"));
-		num.propertie().add("name","p_num").add("type","text").add("maxlength","150").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		num.propertie().add("name","p_num").add("type","text").add("maxlength","150").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false").add("disablehtml","true");
 		
-		status = new ListField(model,"status");
+		status = new RadioListField(model,"status");
 		status.setLabel(gt("Estado"));
-		status.propertie().add("name","p_status").add("type","select").add("maxlength","30").add("multiple","false").add("domain","").add("required","false").add("disabled","false").add("java-type","").add("tags","false");
+		status.propertie().add("name","p_status").add("type","radiolist").add("domain","").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("child_size","4").add("java-type","String").add("tooltip","false").add("disable_copy_paste","false");
 		
 		intervalo_entrada = new SeparatorField(model,"intervalo_entrada");
-		intervalo_entrada.setLabel(gt("Intervalo Entrada"));
-		intervalo_entrada.propertie().add("type","separator").add("name","p_intervalo_entrada").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
+		intervalo_entrada.setLabel(gt("Intervalo de datas"));
+		intervalo_entrada.propertie().add("type","separator").add("name","p_intervalo_entrada").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		dt_ini = new DateField(model,"dt_ini");
-		dt_ini.setLabel(gt("Data Inicio"));
-		dt_ini.propertie().add("name","p_dt_ini").add("type","date").add("maxlength","30").add("range","false").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("class","success").add("desclabel","false");
+		dt_ini.setLabel(gt("De"));
+		dt_ini.propertie().add("name","p_dt_ini").add("type","date").add("maxlength","30").add("range","false").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("class","success").add("desclabel","false").add("disableWeekends","false").add("disabledBeforetoday","false").add("daysoff","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		dt_fim = new DateField(model,"dt_fim");
-		dt_fim.setLabel(gt("Data Fim"));
-		dt_fim.propertie().add("name","p_dt_fim").add("type","date").add("maxlength","30").add("range","false").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("class","danger").add("desclabel","false");
+		dt_fim.setLabel(gt("Até"));
+		dt_fim.propertie().add("name","p_dt_fim").add("type","date").add("maxlength","30").add("range","false").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("class","danger").add("desclabel","false").add("disableWeekends","false").add("disabledBeforetoday","false").add("daysoff","false").add("tooltip","false").add("disable_copy_paste","false");
+		
+		data_de = new RadioListField(model,"data_de");
+		data_de.setLabel(gt("Da data:"));
+		data_de.propertie().add("name","p_data_de").add("type","radiolist").add("domain","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("child_size","3").add("java-type","String").add("tooltip","false").add("disable_copy_paste","false");
 		
 		estado = new ColorField(model,"estado");
 		estado.setLabel(gt("Estado"));
 		estado.propertie().add("name","p_estado").add("type","color").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		num_processo = new TextField(model,"num_processo");
-		num_processo.setLabel(gt("Nº"));
+		num_processo.setLabel(gt("Nº Processo"));
 		num_processo.propertie().add("name","p_num_processo").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		processo = new TextField(model,"processo");
-		processo.setLabel(gt("Processo"));
+		processo.setLabel(gt("Nome do Processo"));
 		processo.propertie().add("name","p_processo").add("type","text").add("maxlength","100").add("showLabel","true").add("group_in","");
 		
 		eatapa = new TextField(model,"eatapa");
@@ -120,7 +122,7 @@ public class _CONS_PROCView extends View {
 		dt_fim_etapa.propertie().add("name","p_dt_fim_etapa").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		atribuido_a = new TextField(model,"atribuido_a");
-		atribuido_a.setLabel(gt("Atribuido a"));
+		atribuido_a.setLabel(gt("Atribuído a"));
 		atribuido_a.propertie().add("name","p_atribuido_a").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		id_task = new HiddenField(model,"id_task");
@@ -156,6 +158,7 @@ public class _CONS_PROCView extends View {
 		form.addField(intervalo_entrada);
 		form.addField(dt_ini);
 		form.addField(dt_fim);
+		form.addField(data_de);
 
 		table_1.addField(estado);
 		table_1.addField(num_processo);
@@ -199,6 +202,7 @@ public class _CONS_PROCView extends View {
 		intervalo_entrada.setValue(model);
 		dt_ini.setValue(model);
 		dt_fim.setValue(model);
+		data_de.setValue(model);
 		estado.setValue(model);
 		num_processo.setValue(model);
 		processo.setValue(model);

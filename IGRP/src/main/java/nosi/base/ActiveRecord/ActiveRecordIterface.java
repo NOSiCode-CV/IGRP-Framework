@@ -219,7 +219,7 @@ public interface ActiveRecordIterface<T> extends CommonRestriction<T>{
 	
 	public boolean delete();
 	
-	public void setConnectionName(String connectionName);
+	public T setConnectionName(String connectionName);
 	
 	public String getConnectionName();
 	
