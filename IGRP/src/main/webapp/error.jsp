@@ -68,8 +68,11 @@
       <%
       		String href = String.format("%s?%s", request.getRequestURI().replace("/error.jsp", "/app/webapps"), "r=igrp/home/index");
       %>
+       <div class="btn-toolbar">
+    	   <a href="javascript:history.back()" class="btn btn-secondary px-3 mt-4 mr-2" role="button" aria-pressed="true">◁ Back</a>
       <% if(!isPublic.equals("1") && target.equals("self")){  %>
-	      <div class="btn-toolbar">
+	     
+	      
 	      	<a href="<%= href %>" class="btn btn-primary px-3 mt-4 mr-2" role="button" aria-pressed="true">IGRP Home</a>
 	      	<% if(errorCode.intValue() == 500){
 	      		String dad = (String) igrpErrorParam.get("dad");
@@ -78,8 +81,9 @@
 	      	%>
       			<a href="<%= href %>" class="btn btn-secondary px-3 mt-4 mr-2" role="button" aria-pressed="true">APP Home</a>
 	      	<% } %>
-	      </div>
+	     
      <% } %>
+      </div>
     </article>
     
     <% 
@@ -88,10 +92,10 @@
     %>
     
 		    <div class="d-flex justify-content-center mt-4">
-		      <div class="accordion mt-4 shadow flex-fill" id="accordionErrorPage">
+		      <div class="accordion mt-4 shadow flex-fill" id="accordionErrorPage" style="width: 100%;">
 		      
 		        <div class="card">
-		          <div class="card-header btn text-left text-muted mb-0 px-4 border-bottom-0" 
+		          <div class="card-header btn text-muted mb-0 px-4 border-bottom-0" 
 		            id="headingOne" 
 		            type="button"
 		            data-toggle="collapse"
@@ -99,7 +103,7 @@
 		            aria-expanded="false"
 		            aria-controls="collapseOne"
 		          > 
-		            Detalhes de Erro
+		            Detalhes do Erro
 		          </div>
 		      
 		          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionErrorPage">          
@@ -110,7 +114,6 @@
 		            		PrintWriter pw = new PrintWriter(out);
 		            		exception.printStackTrace(pw);
 		            		if(exception.getCause() != null){
-		            			out.append("<br/><br/>");
 		            			exception.getCause().printStackTrace(pw);
 		            		}
 		            	%>		            	
