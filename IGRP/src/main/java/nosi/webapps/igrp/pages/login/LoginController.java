@@ -550,6 +550,8 @@ public class LoginController extends Controller {
 			uid.put("sub", getAttributeStringValue(jToken,"sub"));			
 			uid.put("email", getAttributeStringValue(jToken, "email") ); 			
 			uid.put("birthdate", getAttributeStringValue(jToken, "birthdate"));
+			uid.put("name", getAttributeStringValue(jToken, "name"));
+			uid.put("phone_number", getAttributeStringValue(jToken, "phone_number"));
 			
 		} catch (Exception e) {
 			e.printStackTrace(); 
@@ -606,8 +608,10 @@ public class LoginController extends Controller {
 				Map<String, String> _r = oAuth2Wso2GetUserInfoByToken(token);
 				if(_r != null && _r.containsKey("email") && _r.containsKey("sub")) {
 					
-					String email = _r.get("email") != null ? _r.get("email").trim().toLowerCase() : _r.get("email"); 
+					String email = _r.get("email") != null ? _r.get("email").trim().toLowerCase() : _r.get("sub"); 
 					String uid = _r.get("sub");
+					String name = _r.get("name");
+					String phone_number = _r.get("phone_number");
 					
 					this.addQueryString("dad", state); 
 					
@@ -644,9 +648,10 @@ public class LoginController extends Controller {
 							
 							try {
 								User newUser = new User();
-								newUser.setUser_name(email);
+								newUser.setUser_name(uid);
 								newUser.setEmail(email); 
-								newUser.setName(uid);
+								newUser.setName(name);
+								newUser.setPhone(phone_number);
 								newUser.setStatus(1); 
 								newUser.setIsAuthenticated(1);
 								newUser.setCreated_at(System.currentTimeMillis());
