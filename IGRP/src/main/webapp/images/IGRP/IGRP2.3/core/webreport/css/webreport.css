@@ -107,9 +107,9 @@
 	z-index: 10;
 }
 
-#datasorce.nav-sidebar li .tree-menu-options{
+/*#datasorce.nav-sidebar li .tree-menu-options{
 	top: 0;
-}
+}*/
 
 #datasorce.nav-sidebar li .tree-menu-options input[type=checkbox]{
 	margin: 0;
