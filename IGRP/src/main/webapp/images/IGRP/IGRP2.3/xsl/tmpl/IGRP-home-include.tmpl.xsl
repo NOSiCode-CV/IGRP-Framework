@@ -21,6 +21,59 @@
       <link rel="stylesheet" href="{$path}/themes/bs.columns.css" media="none" onload="if(media!='all')media='all'"/>
       <link rel="stylesheet" href="{$path}/themes/bs.class.css" media="none" onload="if(media!='all')media='all'"/>
     </xsl:if> 
+
+    <xsl:if test="$themeConfigData/@version = '4'">
+      <link href="{$path}/core/bootstrap/bootstrap-iso.css?v={$version}" rel="stylesheet"/>
+    </xsl:if>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'"/>
+     <!-- COLOR PALETTES -->
+    <link rel="stylesheet" type="text/css" href="{$path}/core/colorpalettes/old-palettes.css"  media="none" onload="if(media!='all')media='all'"  />
+    <xsl:call-template name="colorpalettes-css"/>    
+    <!-- /COLOR PALETTES -->
+
+	  <link rel="stylesheet" href="{$path}/core/igrp/rightpanel/rightpanel.css" media="none" onload="if(media!='all')media='all'"/>
+  
+   	<link href="{$path}/themes/robotofont.css" rel='stylesheet' type='text/css'  media="none" onload="if(media!='all')media='all'" />
+    
+   <xsl:if test="$themeConfigData">
+     <xsl:apply-templates mode="theme-colors-config" select="$themeConfigData"/>
+   </xsl:if>
+   <!-- /THEME CSS -->
+
+    <!-- form -->
+    <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css" media="none" onload="if(media!='all')media='all'" />	  
+    
+    <!-- DEFAULT CSS -->
+    <xsl:choose>
+      <xsl:when test="not($themeConfigData/css/@default) or $themeConfigData/css/@default != 'false'">
+        <link rel="stylesheet" href="{$path}/themes/style.css" />
+      </xsl:when>
+      <xsl:when test="$themeConfigData/css/@custom">
+        <link rel="stylesheet" href="{$themePath}/{$themeConfigData/css/@custom}" />
+      </xsl:when>
+    </xsl:choose>
+
+    <!-- THEME CSS -->
+    <xsl:for-each select="$themeConfigData/css/file">
+      <xsl:choose>
+        <xsl:when test="@external = 'true'">
+          <link href="{.}" rel="stylesheet"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <link href="{$themePath}/{.}" rel="stylesheet" media="none" onload="if(media!='all')media='all'"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
+    <!-- /THEME CSS -->
+
+    <style>
+      .grecaptcha-badge{display:none!important;}
+    </style>
+    <!--/DEFAULT CSS --> 
+
+    
     
     <script>
    		var path        = '<xsl:value-of select="$path"/>';
@@ -28,12 +81,9 @@
       var rekey       = '<xsl:value-of select="$recaptchakey"/>'; 
       var secretrekey = '<xsl:value-of select="$secretrecaptchakey"/>'; 
     </script>
-
     <!-- reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js?render={$recaptchakey}"></script>
-    
     <!-- BS CSS -->    
-   
    <!-- NOT ASYNC JS-->   
     <script src="{$path}/core/promise/promise.min.js" ></script>    
     <script src="{$path}/core/jquery/{$jq-v}/jquery.min.js" ></script>  
@@ -42,28 +92,8 @@
     <!-- VERIFIED /NOT ASYNC JS-->  
  	  <script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js" ></script>    
     <script src="{$path}/core/moment/moment.min.js" ></script>  
-    
     <script src="{$path}/core/bootstrap/plugins/notify/bootstrap-notify.min.js" ></script>    
-    <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css" media="none" onload="if(media!='all')media='all'" />	  
-	
-
-    <!-- DEFAULT CSS -->
-    <xsl:if test="not($themeConfigData/css/@default) or $themeConfigData/css/@default != 'false'">
-       <link rel="stylesheet" href="{$path}/themes/style.css" />
-    </xsl:if>
-    <style>
-      .grecaptcha-badge{display:none!important;}
-    </style>
-    <!--/DEFAULT CSS --> 
- 
-
-    <!-- THEME JS -->
-    <xsl:for-each select="$themeConfigData/js/file">
-      <script src="{$themePath}/{.}"></script>
-    </xsl:for-each>
-    <!-- /THEME JS -->
     
-   
     <!-- EVENTS class -->
     <script src="{$path}/core/igrp/IGRP.events.class.js?v={$version}"></script>
     <!-- UTILS class -->
@@ -103,14 +133,22 @@
 
     <xsl:call-template name="colorpalettes-js"/>
 
+    <!-- THEME JS -->
+    <xsl:for-each select="$themeConfigData/js/file">
+      <script src="{$themePath}/{.}"></script>
+    </xsl:for-each>
+    <!-- /THEME JS -->
+
     <script>
-      
+      $(window).on('load', function(){
+        $.IGRP.onLoad ? $.IGRP.onLoad() : null;
+      });
       $(document).ready( function(){
-      	
       	$.IGRP.init( );
-      
       });
     </script>
+
+    
   </xsl:template>
   <!-- TOPMENU -->
   <xsl:template name="IGRP-topmenu">
@@ -119,81 +157,92 @@
     <xsl:attribute name="page"><xsl:value-of select="rows/page"/></xsl:attribute>
     <xsl:attribute name="app"><xsl:value-of select="rows/app"/></xsl:attribute>
     <xsl:if test="$hasMenu = 'true'">
-      
-      <xsl:variable name="logo">
-        <xsl:choose>
-          <xsl:when test="$themeConfigData/logo">
-            <xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:value-of select="concat($path,'/themes/default/img/logo2.svg')"/>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:variable>
-
-      <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
-        <a class="navbar-brand col-sm-3 col-md-2" href="{rows/link}" >
-         <img src="{$logo}"/>
-         <span class=""><b><xsl:value-of select="rows/title"/></b></span>
-        </a>
-
-        <div id="side-bar-ctrl">
-          <i class="fa fa-navicon"></i>
-        </div>
-
-        <div id="igrp-app-title" class=""><xsl:value-of select="rows/description"/></div>
-
-        <xsl:variable name="topMenus" select="document(rows/top_menu/@file)/top_menu/button"/>
-
-        <xsl:variable name="settingsURL" select="$topMenus[title = 'Settings']"/>
-
-        <ul id="igrp-top-menu" class="nav navbar-nav navbar-right">
-          
-          <xsl:for-each select="$topMenus[not(title = 'Settings')]">
-            
-            <xsl:variable name="fa-icon">
-              <xsl:call-template name="topMenuIconsMap"/>
-            </xsl:variable>
-
+      <xsl:choose>
+        <xsl:when test="$themeConfigData/@version = '4' ">
+          <div class="" id="">
+            <xsl:call-template name="header-v4"/>
+          </div>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:variable name="logo">
             <xsl:choose>
-              <xsl:when test="@type='mytask' or @type='availtask'">
-                <li alt="Tasks" title="Tasks">
-                  <a href="{link}" target="{target}">
-                    <i class="fa {$fa-icon}"></i>
-                    <xsl:if test="title and title!=''">
-                      <small class="badge" bg-color="2"><xsl:value-of select="title"/></small>
-                    </xsl:if>
-                  </a>
-                </li>
+              <xsl:when test="$themeConfigData/logo">
+                <xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
               </xsl:when>
               <xsl:otherwise>
-                <li alt="{title}" title="{title}">
-                  <a href="{link}" target="{target}">
-                    <i class="fa {$fa-icon}"></i>
-                  </a>
-                </li>
+                <xsl:value-of select="concat($path,'/themes/default/img/logo2.svg')"/>
               </xsl:otherwise>
             </xsl:choose>
+          </xsl:variable>
 
-          </xsl:for-each>
-			<li alt="{$settingsURL/title}" title="{$settingsURL/title}">       
-            <a href="{$settingsURL/link}" target="{$settingsURL/target}" close="refresh">
-             <xsl:if test="$settingsURL/img != ''">             
-              <img src="{$path}/assets/img/{$settingsURL/img}" style="width: 26px;"></img>
-               </xsl:if>
-               <span class=""><b><xsl:value-of select="rows/site/user_name"/></b></span>         
+          <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
+            <a class="navbar-brand col-sm-3 col-md-2" href="{rows/link}" >
+            <img src="{$logo}"/>
+            <span class=""><b><xsl:value-of select="rows/title"/></b></span>
             </a>
-          </li>
 
-          <li alt="{rows/site/button/title}" title="{rows/site/button/title}">
-            <a href="{rows/site/button/link}" target="{rows/site/button/target}">
-              <i class="fa fa-sign-out"></i>
-            </a>
-          </li>
+            <div id="side-bar-ctrl">
+              <i class="fa fa-navicon"></i>
+            </div>
 
-        </ul>
+            <div id="igrp-app-title" class=""><xsl:value-of select="rows/description"/></div>
 
-      </nav>
+            <xsl:variable name="topMenus" select="document(rows/top_menu/@file)/top_menu/button"/>
+
+            <xsl:variable name="settingsURL" select="$topMenus[title = 'Settings']"/>
+
+            <ul id="igrp-top-menu" class="nav navbar-nav navbar-right">
+              
+              <xsl:for-each select="$topMenus[not(title = 'Settings')]">
+                
+                <xsl:variable name="fa-icon">
+                  <xsl:call-template name="topMenuIconsMap"/>
+                </xsl:variable>
+
+                <xsl:choose>
+                  <xsl:when test="@type='mytask' or @type='availtask'">
+                    <li alt="Tasks" title="Tasks">
+                      <a href="{link}" target="{target}">
+                        <i class="fa {$fa-icon}"></i>
+                        <xsl:if test="title and title!=''">
+                          <small class="badge" bg-color="2"><xsl:value-of select="title"/></small>
+                        </xsl:if>
+                      </a>
+                    </li>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <li alt="{title}" title="{title}">
+                      <a href="{link}" target="{target}">
+                        <i class="fa {$fa-icon}"></i>
+                      </a>
+                    </li>
+                  </xsl:otherwise>
+                </xsl:choose>
+
+              </xsl:for-each>
+              <li alt="{$settingsURL/title}" title="{$settingsURL/title}">       
+                <a href="{$settingsURL/link}" target="{$settingsURL/target}" close="refresh">
+                <xsl:if test="$settingsURL/img != ''">             
+                  <img src="{$path}/assets/img/{$settingsURL/img}" style="width: 26px;"></img>
+                  </xsl:if>
+                  <span class=""><b><xsl:value-of select="rows/site/user_name"/></b></span>         
+                </a>
+              </li>
+
+              <li alt="{rows/site/button/title}" title="{rows/site/button/title}">
+                <a href="{rows/site/button/link}" target="{rows/site/button/target}">
+                  <i class="fa fa-sign-out"></i>
+                </a>
+              </li>
+
+            </ul>
+
+          </nav>
+        </xsl:otherwise>
+      </xsl:choose> 
+      
+    
+    
     </xsl:if>
   </xsl:template>
   <!-- SIDERBAR -->
@@ -201,91 +250,100 @@
     <xsl:if test="$hasMenu = 'true'">
       <xsl:variable name="APP" select="rows/app" />
       <xsl:variable name="menus" select="document(rows/slide-menu/@file)/menus" />
-      <div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar">
-        
-        <div class="side-bar-ctrl visible-xs clearfix" >
-         	 <i class="fa fa-navicon pull-right"></i>
-        </div>
-     
-        <div class="igrp-sidebar-menu-search-wrapper">
-          <input 
-            type="text" 
-            class="form-control igrp-search-list" 
-            placeholder="Pesquisar Menu" 
-            search-list="#igrp-sidebar .treeview>a, #igrp-sidebar ul.treeview-menu>li>a"
-            search-attr="text"
-            search-item-parent=".treeview"
-            search-item-wrapper=".treeview-menu" />
-        </div>
-        
-        <i class="fa fa-search pull-left igrp-sidebar-menu-search-wrapper-icon" ></i>
 
-        <ul class="nav nav-sidebar">
-          <xsl:for-each select="$menus/menu">
+      <xsl:choose>
+        <xsl:when test="$themeConfigData/@version = '4' ">
+          <xsl:call-template name="sidebar-v4"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar">
+        
+            <div class="side-bar-ctrl visible-xs clearfix" >
+                <i class="fa fa-navicon pull-right"></i>
+            </div>
          
-            <xsl:variable name="parentId" select="concat($APP,'-',position())" />
-            <li parent-id="{$parentId}">
-              <xsl:choose>
-                <xsl:when test="link">
-                  <xsl:attribute name="class">treeview</xsl:attribute>                  
-                  <a href="{link}" target="{submenu/target}" item-id="{$parentId}-{position()}" text="{title}" style=" align-items: center;">
-                    <xsl:if test="submenu/menu_icon !=''" >
-                      <span class="menu-icon">
-                        <i class="fa {submenu/menu_icon}" />
-                      </span>
-                    </xsl:if> 
-                    <span class="menu-title">
-                      <xsl:value-of select="title" />
-                    </span>
-                    <span class="nav-bar-active" bg-color="2" />                    
-                  </a>                
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:if test="submenu">
-                    <xsl:attribute name="class">treeview</xsl:attribute>
-                  </xsl:if>                  
-                  <a href="#" text="{title}" class="menu-title">
-                    <xsl:if test="menu_icon !=''" >
-                      <span class="menu-icon">
-                        <i class="fa {menu_icon}" />
-                      </span>
-                    </xsl:if> 
-                    <xsl:value-of select="title" />
-                    <i class="fa fa-angle-right pull-right"></i>
-                    <span class="nav-bar-active" bg-color="2" />                    
-                  </a>
-                  <xsl:if test="submenu">
-                    <ul class="treeview-menu">
-                      <xsl:for-each select="submenu">
-                       <xsl:sort select="order"/>
-                        <li>
-                          <a href="{link}"  target="{target}" item-id="{$parentId}-{position()}" text="{title}">
-                            <xsl:if test="menu_icon !=''" >
-                              <span class="menu-icon">
-                                <i class="fa {menu_icon}" />
-                              </span>
-                            </xsl:if>   
-                            <span class="menu-title">
-                              <xsl:value-of select="title" />
-                            </span>                                                  
-                          </a>
-                        </li>
-                      </xsl:for-each>
-                    </ul>
-                  </xsl:if>
-                </xsl:otherwise>
-              </xsl:choose>
-            </li>
-          </xsl:for-each>
-        </ul>
-
-      </div>
+            <div class="igrp-sidebar-menu-search-wrapper">
+              <input 
+                type="text" 
+                class="form-control igrp-search-list" 
+                placeholder="Pesquisar Menu" 
+                search-list="#igrp-sidebar .treeview>a, #igrp-sidebar ul.treeview-menu>li>a"
+                search-attr="text"
+                search-item-parent=".treeview"
+                search-item-wrapper=".treeview-menu" />
+            </div>
+            
+            <i class="fa fa-search pull-left igrp-sidebar-menu-search-wrapper-icon" ></i>
+    
+            <ul class="nav nav-sidebar">
+              <xsl:for-each select="$menus/menu">
+             
+                <xsl:variable name="parentId" select="concat($APP,'-',position())" />
+                <li parent-id="{$parentId}">
+                  <xsl:choose>
+                    <xsl:when test="link">
+                      <xsl:attribute name="class">treeview</xsl:attribute>                  
+                      <a href="{link}" target="{submenu/target}" item-id="{$parentId}-{position()}" text="{title}" style=" align-items: center;">
+                        <xsl:if test="submenu/menu_icon !=''" >
+                          <span class="menu-icon">
+                            <i class="fa {submenu/menu_icon}" />
+                          </span>
+                        </xsl:if> 
+                        <span class="menu-title">
+                          <xsl:value-of select="title" />
+                        </span>
+                        <span class="nav-bar-active" bg-color="2" />                    
+                      </a>                
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:if test="submenu">
+                        <xsl:attribute name="class">treeview</xsl:attribute>
+                      </xsl:if>                  
+                      <a href="#" text="{title}" class="menu-title">
+                        <xsl:if test="menu_icon !=''" >
+                          <span class="menu-icon">
+                            <i class="fa {menu_icon}" />
+                          </span>
+                        </xsl:if> 
+                        <xsl:value-of select="title" />
+                        <i class="fa fa-angle-right pull-right"></i>
+                        <span class="nav-bar-active" bg-color="2" />                    
+                      </a>
+                      <xsl:if test="submenu">
+                        <ul class="treeview-menu">
+                          <xsl:for-each select="submenu">
+                           <xsl:sort select="order"/>
+                            <li>
+                              <a href="{link}"  target="{target}" item-id="{$parentId}-{position()}" text="{title}">
+                                <xsl:if test="menu_icon !=''" >
+                                  <span class="menu-icon">
+                                    <i class="fa {menu_icon}" />
+                                  </span>
+                                </xsl:if>   
+                                <span class="menu-title">
+                                  <xsl:value-of select="title" />
+                                </span>                                                  
+                              </a>
+                            </li>
+                          </xsl:for-each>
+                        </ul>
+                      </xsl:if>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </li>
+              </xsl:for-each>
+            </ul>
+    
+          </div>
+        </xsl:otherwise>
+      </xsl:choose>
+      
     </xsl:if>
   </xsl:template>
   <!-- BOTTOM -->
   <xsl:template name="IGRP-bottom">
   
-  <xsl:apply-templates mode="form-hidden-fields" select="rows/content/hidden_form_igrp/fields"/>
+    <xsl:apply-templates mode="form-hidden-fields" select="rows/content/hidden_form_igrp/fields"/>
   
     <!-- GLOBAL MODAL -->
     <div id="igrp-global-modal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
@@ -350,40 +408,12 @@
   	
      <!-- JS -->
     <script src="{$path}/core/bootstrap/{$bs-v}/js/bootstrap.min.js"></script>
-    
- 
-     
-   <!-- FontAwesome -->
-    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'"/>
-     
-	
-     <!-- THEME CSS -->
-    <xsl:for-each select="$themeConfigData/css/file">
-      <xsl:choose>
-        <xsl:when test="@external = 'true'">
-          <link href="{.}" rel="stylesheet"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <link href="{$themePath}/{.}" rel="stylesheet" media="none" onload="if(media!='all')media='all'"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:for-each>
 
-    <xsl:if test="$themeConfigData">
-      <xsl:apply-templates mode="theme-colors-config" select="$themeConfigData"/>
+    <xsl:if test="$themeConfigData/@version = '4'">
+      <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+      <script nomodule="" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     </xsl:if>
-    <!-- /THEME CSS -->
-
-    <!-- COLOR PALETTES -->
-    <link rel="stylesheet" type="text/css" href="{$path}/core/colorpalettes/old-palettes.css"  media="none" onload="if(media!='all')media='all'"  />
-    <xsl:call-template name="colorpalettes-css"/>    
-    <!-- /COLOR PALETTES -->
-
-	  <link rel="stylesheet" href="{$path}/core/igrp/rightpanel/rightpanel.css" media="none" onload="if(media!='all')media='all'"/>
-  
-     
-   	<link href="{$path}/themes/robotofont.css" rel='stylesheet' type='text/css'  media="none" onload="if(media!='all')media='all'" />
-  
+    
   </xsl:template>
   <!-- DEBUG -->
   <xsl:template name="IGRP-debug">
@@ -446,7 +476,7 @@
                 <span aria-hidden="true"><i class="fa fa-times"></i></span>
               </a>
             </xsl:if>
-            <span class="disable-output-escaping"><xsl:value-of select="." disable-output-escaping="yes"/></span>
+            <span class="disable-output-escaping px-4"><xsl:value-of select="." disable-output-escaping="yes"/></span>
           </div>
 
         </xsl:for-each>
@@ -583,8 +613,17 @@
           .btn-link:hover{
             color:<xsl:value-of select="$link-hover-color"/>;
           }
+
           
           <xsl:for-each select="colors/color">
+
+            * .bg-<xsl:value-of select="@name"/>{
+              background-color:<xsl:value-of select="."/>!important;
+            }
+
+            * .text-<xsl:value-of select="@name"/>{
+              color:<xsl:value-of select="."/>!important;
+            }
             
             [bg-color="<xsl:value-of select="@name"/>"]{
               background-color:<xsl:value-of select="."/>!important;
@@ -628,7 +667,8 @@
             }
 
             <!-- BUTTONS -->
-            .btn-<xsl:value-of select="@name"/>{
+            .btn-<xsl:value-of select="@name"/>,
+            .bootstrap-iso .btn-<xsl:value-of select="@name"/>{
               <xsl:if test="@text-color">
                 color:<xsl:value-of select="@text-color"/>;
               </xsl:if>
@@ -644,10 +684,34 @@
 
             }
 
+            <xsl:if test="@border-hover">
+              .btn-<xsl:value-of select="@name"/>:hover,
+              .btn-<xsl:value-of select="@name"/>.focus, 
+              .btn-<xsl:value-of select="@name"/>:focus,
+              .btn-<xsl:value-of select="@name"/>:active,
+              .btn-<xsl:value-of select="@name"/>:active:hover,
+              
+              .bootsrap-iso .btn-<xsl:value-of select="@name"/>:hover,
+              .bootsrap-iso .btn-<xsl:value-of select="@name"/>.focus, 
+              .bootsrap-iso .btn-<xsl:value-of select="@name"/>:focus,
+              .bootsrap-iso .btn-<xsl:value-of select="@name"/>:active,
+              .bootsrap-iso .btn-<xsl:value-of select="@name"/>:active:hover{
+                border-color:<xsl:value-of select="@border-hover"/>
+              }
+            </xsl:if>
+
             <xsl:if test="@bg-hover">
               .btn-<xsl:value-of select="@name"/>:hover,
               .btn-<xsl:value-of select="@name"/>.focus, 
-              .btn-<xsl:value-of select="@name"/>:focus{
+              .btn-<xsl:value-of select="@name"/>:focus,
+              .btn-<xsl:value-of select="@name"/>:active,
+              .btn-<xsl:value-of select="@name"/>:active:hover,
+              
+              .bootstrap-iso .btn-<xsl:value-of select="@name"/>:hover,
+              .bootstrap-iso .btn-<xsl:value-of select="@name"/>.focus, 
+              .bootstrap-iso .btn-<xsl:value-of select="@name"/>:focus,
+              .bootstrap-iso .btn-<xsl:value-of select="@name"/>:active,
+              .bootstrap-iso .btn-<xsl:value-of select="@name"/>:active:hover{
                 background-color:<xsl:value-of select="@bg-hover"/>
               }
             </xsl:if>
@@ -655,7 +719,15 @@
             <xsl:if test="@text-hover">
               .btn-<xsl:value-of select="@name"/>:hover,
               .btn-<xsl:value-of select="@name"/>.focus, 
-              .btn-<xsl:value-of select="@name"/>:focus{
+              .btn-<xsl:value-of select="@name"/>:focus,
+              .btn-<xsl:value-of select="@name"/>:active,
+              .btn-<xsl:value-of select="@name"/>:active:hover,
+              
+              .bootstrap-iso .btn-<xsl:value-of select="@name"/>:hover,
+              .bootstrap-iso .btn-<xsl:value-of select="@name"/>.focus, 
+              .bootstrap-iso .btn-<xsl:value-of select="@name"/>:focus,
+              .bootstrap-iso .btn-<xsl:value-of select="@name"/>:active,
+              .bootstrap-iso .btn-<xsl:value-of select="@name"/>:active:hover{
                 color:<xsl:value-of select="@text-hover"/>
               }
             </xsl:if>
@@ -693,6 +765,17 @@
           </xsl:choose>
 
         </xsl:variable>
+
+
+        .bg-primary,
+        .bootstrap-iso .bg-primary{
+          background-color:<xsl:value-of select="$mainColor"/>!important;
+        }
+
+        .text-primary,
+        .bootstrap-iso  .text-primary{
+          color:<xsl:value-of select="$mainColor"/>!important;
+        }
 
         [active-text-color="primary"].active,
         .active [active-text-color="primary"]{
@@ -755,18 +838,7 @@
 
         </xsl:if>
 
-        /*formgen*/
-        /*#igrp-form-gen #gen-views-ctrl ul li.active,
-        #igrp-form-gen #igrp-sidebar .nav-tabs > li.active > a, 
-        #igrp-form-gen #igrp-sidebar .nav-tabs > li > a:hover,
-        #igrp-form-gen .gen-viewers-toolbar .btn,
-        #igrp-form-gen .treeview-menu>li>a{
-          color:<xsl:value-of select="$mainColor"/>!important;
-        }
-        #igrp-form-gen #igrp-sidebar .nav-tabs > li.active > a:after{
-          background:<xsl:value-of select="$mainColor"/>!important;
-        }*/
-	
+
 		body.white-sidebar #igrp-sidebar.sidebar{
 			background:white!important;
 		}
@@ -853,5 +925,7 @@
   
   <!--TEMPLATE FOR  NAVIGATION-->
   <xsl:include href="IGRP-navigation.tmpl.xsl?v=1"/>
+
+  <xsl:include href="IGRP-v4-components.xsl?v=1"/>
 
 </xsl:stylesheet>
