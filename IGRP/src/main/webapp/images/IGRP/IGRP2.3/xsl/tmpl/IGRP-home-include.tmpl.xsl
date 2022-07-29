@@ -2,11 +2,10 @@
   <!-- HEAD -->
   <xsl:template name="IGRP-head">
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    
     <link REL="SHORTCUT ICON" HREF="{$path}/assets/img/favicon.ico" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
     <link rel="mask-icon" href="{$path}/assets/img/safari-pinned-tab.svg" color="#5bbad5"/>
     
@@ -14,37 +13,40 @@
     
     <!-- Normalize -->
     <link rel="stylesheet" href="{$path}/core/normalize/normalize.css" media="none" onload="if(media!='all')media='all'"/>
-    
-       <!-- BS CSS -->
+    <!-- /Normalize -->
+
+    <!-- Bootstrap Include CSS -->
     <xsl:if test="not($themeConfigData/css/@bootstrap) or $themeConfigData/css/@bootstrap!='false'">
       <link rel="stylesheet" href="{$path}/core/bootstrap/{$bs-v}/css/bootstrap.min.css" media="none" onload="if(media!='all')media='all'"/>
       <link rel="stylesheet" href="{$path}/themes/bs.columns.css" media="none" onload="if(media!='all')media='all'"/>
       <link rel="stylesheet" href="{$path}/themes/bs.class.css" media="none" onload="if(media!='all')media='all'"/>
     </xsl:if> 
-
     <xsl:if test="$themeConfigData/@version = '4'">
       <link href="{$path}/core/bootstrap/bootstrap-iso.css?v={$version}" rel="stylesheet"/>
     </xsl:if>
+    <!-- /Bootstrap Include CSS -->
 
     <!-- FontAwesome -->
     <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'"/>
-     <!-- COLOR PALETTES -->
+    <!-- /FontAwesome -->
+
+    <!-- COLOR PALETTES -->
     <link rel="stylesheet" type="text/css" href="{$path}/core/colorpalettes/old-palettes.css"  media="none" onload="if(media!='all')media='all'"  />
     <xsl:call-template name="colorpalettes-css"/>    
     <!-- /COLOR PALETTES -->
 
-	  <link rel="stylesheet" href="{$path}/core/igrp/rightpanel/rightpanel.css" media="none" onload="if(media!='all')media='all'"/>
-  
-   	<link href="{$path}/themes/robotofont.css" rel='stylesheet' type='text/css'  media="none" onload="if(media!='all')media='all'" />
-    
-   <xsl:if test="$themeConfigData">
-     <xsl:apply-templates mode="theme-colors-config" select="$themeConfigData"/>
-   </xsl:if>
-   <!-- /THEME CSS -->
+	  <!--right panel-->
+    <link rel="stylesheet" href="{$path}/core/igrp/rightpanel/rightpanel.css" media="none" onload="if(media!='all')media='all'"/>
+    <!--/right panel-->
 
-    <!-- form -->
+    <!--roboto font-->
+   	<link href="{$path}/themes/robotofont.css" rel='stylesheet' type='text/css'  media="none" onload="if(media!='all')media='all'" />
+    <!--/roboto font-->
+
+    <!-- allways include forms.css -->
     <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css" media="none" onload="if(media!='all')media='all'" />	  
-    
+    <!-- /allways include forms.css -->
+
     <!-- DEFAULT CSS -->
     <xsl:choose>
       <xsl:when test="not($themeConfigData/css/@default) or $themeConfigData/css/@default != 'false'">
@@ -54,7 +56,8 @@
         <link rel="stylesheet" href="{$themePath}/{$themeConfigData/css/@custom}" />
       </xsl:when>
     </xsl:choose>
-
+    <!-- /DEFAULT CSS-->
+    
     <!-- THEME CSS -->
     <xsl:for-each select="$themeConfigData/css/file">
       <xsl:choose>
@@ -68,12 +71,16 @@
     </xsl:for-each>
     <!-- /THEME CSS -->
 
+    <!--theme configuration generator-->
+    <xsl:if test="$themeConfigData">
+      <xsl:apply-templates mode="theme-colors-config" select="$themeConfigData"/>
+    </xsl:if>
+   <!--/theme configuration generator-->
+
     <style>
       .grecaptcha-badge{display:none!important;}
     </style>
     <!--/DEFAULT CSS --> 
-
-    
     
     <script>
    		var path        = '<xsl:value-of select="$path"/>';
