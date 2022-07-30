@@ -7,7 +7,11 @@
  */
 package nosi.core.gui.components;
 
+import java.util.Properties;
+
 import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.HiddenField;
@@ -21,6 +25,7 @@ public class IGRPLogin extends IGRPForm{
 		super(tag_name,title);
 		this.properties = null;//No properties
 		this.xml = new XMLWritter("rows",this.config.getLinkXSLLogin(), "");
+		this.xml.setElement("template", "ds-beta");
 		this.xml.setElement("link_img", this.config.getLinkImg());
 		this.xml.startElement("content");
 		this.xml.text(":_message_reseved");
@@ -42,6 +47,8 @@ public class IGRPLogin extends IGRPForm{
 	}
 	
 	private void genForm(){
+		Properties settings = ConfigApp.getInstance().getMainSettings();
+		String authType = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
 		//Mensagem de informacao para login de demo
 		/*this.xml.startElement("messages");
 			this.xml.startElement("message");
@@ -50,6 +57,7 @@ public class IGRPLogin extends IGRPForm{
 			this.xml.endElement();
 		this.xml.endElement();*/
 		this.xml.startElement("form");
+			this.xml.setElement("login-type", authType);
 			this.xml.startElement("label");
 			if(this.fields.size() > 0){
 				for(Field field:this.fields){
