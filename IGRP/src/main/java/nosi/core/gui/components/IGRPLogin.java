@@ -35,6 +35,7 @@ public class IGRPLogin extends IGRPForm{
 		this(tag_name,"");
 	}
 	public String toString(){
+		
 		this.xml.setElement("link_img", this.config.getLinkImg());
 		this.xml.setElement("title", "Login");
 		this.xml.setElement("version","");
@@ -47,8 +48,10 @@ public class IGRPLogin extends IGRPForm{
 	}
 	
 	private void genForm(){
+		
 		Properties settings = ConfigApp.getInstance().getMainSettings();
 		String authType = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+		
 		//Mensagem de informacao para login de demo
 		/*this.xml.startElement("messages");
 			this.xml.startElement("message");
@@ -57,8 +60,12 @@ public class IGRPLogin extends IGRPForm{
 			this.xml.endElement();
 		this.xml.endElement();*/
 		this.xml.startElement("form");
+			
 			this.xml.setElement("login-type", authType);
+
+			
 			this.xml.startElement("label");
+
 			if(this.fields.size() > 0){
 				for(Field field:this.fields){
 					this.xml.setElement(field.getTagName(), field.getLabel());
@@ -80,6 +87,7 @@ public class IGRPLogin extends IGRPForm{
 				}
 			}
 			this.xml.endElement();
+
 		this.xml.endElement();
 	}
 }
