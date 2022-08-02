@@ -107,9 +107,9 @@
 	z-index: 10;
 }
 
-#datasorce.nav-sidebar li .tree-menu-options{
+/*#datasorce.nav-sidebar li .tree-menu-options{
 	top: 0;
-}
+}*/
 
 #datasorce.nav-sidebar li .tree-menu-options input[type=checkbox]{
 	margin: 0;
@@ -236,7 +236,7 @@ div[data-notify="container"].alert{
     width:calc(100% - 90px);
     z-index: 2;
     right: 80px;
-    opacity: 0;
+	display: none;
     -webkit-transition: .4s;
     -moz-transition: .4s;
     -o-transition: .4s;
@@ -263,7 +263,7 @@ div[data-notify="container"].alert{
 }
 
 #wr-list-document .info.active{
-	opacity: 1;
+	display: block;
 }
 
 

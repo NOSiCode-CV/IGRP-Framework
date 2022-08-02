@@ -1082,13 +1082,6 @@ $.fn.separatorList = function(o){
 					onSubmitIsEdited(sl,o.event);
 				}
 			});
-			
-			
-			$(sl).on('row-add', function(e, data){
-				
-				console.log(data);
-				
-			})
 		};
 		
 		$.each(this,function(i,sl){

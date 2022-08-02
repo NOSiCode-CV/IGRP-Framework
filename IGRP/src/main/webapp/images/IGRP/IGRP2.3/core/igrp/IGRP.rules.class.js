@@ -964,49 +964,52 @@ if($ && $.IGRP && !$.IGRP.rules){
 		remote_list:{
 			do : function(p){
 				var actionURL	 = $.IGRP.rules.getRemoteUrl(p) || $.IGRP.utils.getPageUrl(),
-					form		 = $.IGRP.utils.getForm();
+					form		 = $.IGRP.utils.getForm(),
+					nodeNames    = [];
 				
 				$.each( p.targetFields ,function(i,f){
-					
-					var tableName = $(f).attr('item-name');
-					
-					$.IGRP.utils.transformXMLNodes({
-					
-						nodes : [tableName],
-
-						url   : $.IGRP.utils.getSubmitParams(actionURL,form,false),
-
-						data  : form.serialize(),
-						
-						headers : {
-					       	'X-IGRP-REMOTE' : 1
-					   	},
-
-						success:function(c){
-							console.log(c);
-							
-							if ($.IGRP.components.tableCtrl.resetTableConfigurations)
-								$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
-							
-							/*$.IGRP.utils.refreshComponents({
-								
-								wrapper : c.itemHTML,
-								
-								itemName : tableName
-								
-							});*/
-
-						},
-
-						error:function(){
-							
-							$.IGRP.utils.loading.hide();
-							
-							console.log('dsa')
-						}
-
-					});
+					nodeNames.push($(f).attr('item-name'));
 				});
+
+
+				$.IGRP.utils.transformXMLNodes({
+				
+					nodes : nodeNames,
+
+					url   : $.IGRP.utils.getSubmitParams(actionURL,form,false),
+
+					data  : form.serialize(),
+					
+					headers : {
+						'X-IGRP-REMOTE' : 1
+					},
+
+					success:function(c){
+						console.log(c);
+						
+						if ($.IGRP.components.tableCtrl.resetTableConfigurations)
+							$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
+						
+						/*$.IGRP.utils.refreshComponents({
+							
+							wrapper : c.itemHTML,
+							
+							itemName : tableName
+							
+						});*/
+
+					},
+
+					error:function(){
+						
+						$.IGRP.utils.loading.hide();
+						
+						console.log('dsa')
+					}
+
+				});
+
+				
 			}
 		},
 		cleanValue:{
