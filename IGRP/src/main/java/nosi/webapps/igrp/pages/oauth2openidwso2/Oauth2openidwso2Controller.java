@@ -66,7 +66,7 @@ public class Oauth2openidwso2Controller extends Controller {
 					String aux = oidcLogout + "?id_token_hint=" + oidcIdToken + "&state=" + oidcState; 
 					String redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value()); 
 					String warName = Core.getDeployedWarName(); 
-					aux = redirect_uri != null && !redirect_uri.isEmpty() ? aux + "&post_logout_redirect_uri=" + redirect_uri.replace("IGRP/", warName) : aux;
+					aux = redirect_uri != null && !redirect_uri.isEmpty() ? aux + "&post_logout_redirect_uri=" + redirect_uri.replace("/IGRP/", "/"+warName+"/") : aux;
 					
 					return redirectToUrl(aux); 
 				}
@@ -95,7 +95,7 @@ public class Oauth2openidwso2Controller extends Controller {
 		String redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value()); 
 		String client_id = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value()); 
 		String warName = Core.getDeployedWarName(); 
-		redirect_uri = redirect_uri.replace("IGRP/", warName); 
+		redirect_uri = redirect_uri.replace("/IGRP/", "/"+warName+"/"); 
 		url += "?response_type=code&client_id=" + client_id + "&scope=openid&state=igrpweb&redirect_uri=" + redirect_uri;
 		
 		return redirectToUrl(url);
