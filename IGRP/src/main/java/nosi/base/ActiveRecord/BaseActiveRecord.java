@@ -1252,7 +1252,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		}
 		sessionFactory.close();
 		HibernateUtils.removeSessionFactory(connectionName);
-		sessionFactory = HibernateUtils.getSessionFactory(connectionName);
+		sessionFactory = getSessionFactory();
 		if (sessionFactory != null) {
 			s = sessionFactory.getCurrentSession();
 			return s;
