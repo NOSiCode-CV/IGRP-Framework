@@ -186,6 +186,8 @@ public class FileHelper {
 	}
 	
 	public static boolean saveImage(String path,String filename,String formatName,Part filePart,String encode_in,String encode_out) throws IOException{
+		if(formatName.equals("svg"))
+			saveFile(path, filename, filePart, ENCODE_UTF8,ENCODE_UTF8);
 		FileHelper.createDiretory(path);
 		boolean isSaved = true;
 		BufferedImage bImage = null;
