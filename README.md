@@ -1,8 +1,6 @@
-[![Join us on Gitter](https://badges.gitter.im/igrpweb/template.svg)](https://gitter.im/igrpweb/template?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![ASL 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/NOSiCode-CV/IGRP-Java-Template-Eclipse/blob/master/README.md)
 
-<img src="docs/root-images/logo_igrpweb_2.png" title="" alt="" data-align="left">
-[www.igrp.cv](http://www.igrp.cv)
+[<img src="docs/root-images/logo_igrpweb_2.png">](http://www.igrp.cv)
 
 ## :loudspeaker: About
 
