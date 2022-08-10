@@ -476,7 +476,7 @@ public class MigrationController extends Controller {
 						auxContent.append("\t	configEnv" + i + "_" + j  + ".setConnection_identify(\"" + dataSource.getConfig_env().getConnection_identify() +  "\");" + "\n");
 					auxContent.append("\t	this.repDataSources.add(" + 
 							"new RepSource(\"" + dataSource.getName() + "\", \"" + dataSource.getType() + "\", "
-							+ dataSource.getType_fk() + ", \"" + dataSource.getType_name() + "\", \"" + dataSource.getType_query().replaceAll("[\\n\\r]", "") + "\", " + dataSource.getStatus() + ","
+							+ dataSource.getType_fk() + ", \"" + dataSource.getType_name() + "\", \"" + dataSource.getType_query().replaceAll("[\\n\\r]", " ") + "\", " + dataSource.getStatus() + ","
 							+ " Core.ToDate(\"" + Core.dateToString(dataSource.getDt_created(), "yyyy-MM-dd") + "\", \"yyyy-MM-dd\"), "
 							+ " Core.ToDate(\"" + Core.dateToString(dataSource.getDt_updated(), "yyyy-MM-dd") + "\", \"yyyy-MM-dd\"), "
 							+ "userCreated" + i + "_" + j  + ", userUpdated" + i + "_" + j  + ", configEnv" + i + "_" + j  + ", env" + i + ", "

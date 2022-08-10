@@ -32,7 +32,7 @@ public class Get_coordinatesController extends Controller {
 
 		if (Core.isNotNull(json)) {
 
-			JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+			JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
 
 			if (jsonObject.isJsonObject()) {
 				for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
@@ -49,7 +49,7 @@ public class Get_coordinatesController extends Controller {
 		String params = "&p_fwl_fieldName=".concat(keyValue).concat("&p_fwl_latLng=").concat(latLng)
 				.concat("&p_fwl_center=").concat(center),
 
-				url = Core.getIGRPLink("igrp_studio", "get_coordinates", "map") + params;
+				url = Core.getIGRPLink("igrp_studio", "Get_coordinates", "map") + params;
 
 		view.map_os_1_data.setValue(url);
 
