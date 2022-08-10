@@ -10,19 +10,17 @@ Allows you to build unlimited number of e-government applications by yourself en
 
 ### Home Page: www.igrp.cv
 
+## Architecture
 
-
-## Architecture 
-
-![IGRPWeb Architecture](root-images/Arquitetura%20IGRPWeb.png)
+![IGRPWeb Architecture](docs/root-images/Arquitetura%20IGRPWeb.png)
 
 IGRP**Web** is provide as platform-as-a-service (PaaS), the entire management of infrastructure and other technical details are transparent to the user, allowing the client to focus only on the business flow. With an architecture independent of Databases allows the use of any database by the customer on the market. 
 
 ## Getting Started with Demo:
 
 There’s available a free demo cloud on how to create and run your own e-government apps on cloud https://cloud.nosi.cv/IGRP:
-•	User: demo@nosi.cv 
-•	Pass: demo
+•    User: demo@nosi.cv 
+•    Pass: demo
 
 ## Features
 
@@ -41,12 +39,10 @@ Processor - Pentium 800MHz or equivalent at minimum
 Java 1.8 
 To build IGRPWeb from the source distribution, it is necessary that you have JDK 1.8 and Maven 3.0.4 or later, IDE java web development compatible.
 
-
 ## Community and Contributing
 
 Pull requests, bug fixes and new applications development are always encouraged.  
 Please read [CONTRIBUTING.md ](../CONTRIBUTING.md)for details on how to contribute in the community, and the process for submitting pull requests, bug fixing, patches to us. 
-
 
 ## Developer Guide
 
@@ -67,8 +63,8 @@ If you are having issues, please let us know through igrpweb@nosi.cv
 
 List of contributors who participated in this project. 
 
-
 ## License
+
 -------
 
 The project is licensed under the Apache 2.0 license - see the [LICENSE](../LICENSE) file for more details
