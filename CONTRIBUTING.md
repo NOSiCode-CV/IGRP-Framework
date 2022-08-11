@@ -22,11 +22,9 @@ If this is your first time contributing, we have guides to help you to contribut
 - [Code Review](#white_check_mark-code-review)
 - [Credits](#pray-credits)
 
-
-
 ## :book: Code of Conduct
 
-Please review our [Code of Conduct](../CODE_OF_CONDUCT.md). It is in effect at all times. We expect it to be honored by everyone who contributes to this project.
+Please review our [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) . It is in effect at all times. We expect it to be honored by everyone who contributes to this project.
 
 ## :bulb: Asking Questions
 
@@ -34,7 +32,7 @@ Having trouble? We’d like to help!
 
 Try the FAQ – Got answers to many common questions. 
 
-See our [Support Guide](../SUPPORT.md). In short, GitHub issues are not the appropriate place to debug your specific project, but should be reserved for filing bugs and feature requests.
+See our [Suport Guide](docs/SUPPORT.md). In short, GitHub issues are not the appropriate place to debug your specific project, but should be reserved for filing bugs and feature requests.
 
 ## :inbox_tray: Opening an Issue
 
@@ -42,7 +40,7 @@ Before [creating an issue](https://help.github.com/en/github/managing-your-work-
 
 ### :lock: Reporting Security Issues
 
-Review our [Security Policy](../SECURITY.md). **Do not** file a public issue for security vulnerabilities.
+Review our [Security Policy](docs/SECURITY.md). **Do not** file a public issue for security vulnerabilities.
 
 ### :beetle: Bug Reports and Other Issues
 
@@ -50,7 +48,7 @@ A great way to contribute to the project is to send a detailed issue when you en
 
 In short, since you are most likely a developer, **provide a ticket that you would like to receive**.
 
-- **Review the documentation and [Support Guide](../SUPPORT.md)** before opening a new issue.
+- **Review the documentation and [Support Guide](docs/SUPPORT.md)** before opening a new issue.
 
 - **Do not open a duplicate issue!** Search through existing issues to see if your issue has previously been reported. If your issue exists, comment with any additional information you have. You may simply note "I have this problem too", which helps prioritize the most common problems and requests. 
 
@@ -70,10 +68,9 @@ Feature requests are welcome! While we will consider all requests, we cannot gua
 
 - Be precise about the proposed outcome of the feature and how it relates to existing features. Include implementation details if possible.
 
-
 ## :repeat: Submitting Pull Requests
 
-We **love** pull requests! Before forking the repo and [creating a pull request](../pull_request_template.md) for non-trivial changes, it is usually best to first open an issue to discuss the changes, or discuss your intended approach for solving the problem in the comments for an existing issue.
+We **love** pull requests! Before forking the repo and [creating a pull request](docs/pull_request_template.md) for non-trivial changes, it is usually best to first open an issue to discuss the changes, or discuss your intended approach for solving the problem in the comments for an existing issue.
 
 For most contributions, after your first pull request is accepted and merged, you will be **invited to the project** and given **push access**. :tada:
 
@@ -95,7 +92,7 @@ For most contributions, after your first pull request is accepted and merged, yo
 
 - **Update the CHANGELOG** for all enhancements and bug fixes. Include the corresponding issue number if one exists, and your GitHub username. (example: "- Fixed crash in profile view. #123 @jessesquires")
 
-- **Use the repo's default branch.** Branch from and [submit your pull request](../pull_request_template.md) to the repo's default branch. Usually this is `main`, but it could be `dev`, `develop`, or `master`.
+- **Use the repo's default branch.** Branch from and [submit your pull request](docs/pull_request_template.md) to the repo's default branch. 
 
 - **Promptly address any CI failures**. If your pull request fails to build or pass tests, please push another commit to fix it. 
 
@@ -108,13 +105,13 @@ For most contributions, after your first pull request is accepted and merged, yo
 Please write a great commit message with the following characteristics:
 
 1. Separate subject from body with a blank line
-1. Limit the subject line to 50 characters
-1. Capitalize the subject line
-1. Do not end the subject line with a period
-1. Use the imperative mood in the subject line (example: "Fix networking issue")
-1. Wrap the body at about 72 characters
-1. Use the body to explain **why**, *not what and how* (the code shows that!)
-1. If applicable, prefix the title with the relevant component name. (examples: "[Docs] Fix typo", "[Profile] Fix missing avatar")
+2. Limit the subject line to 50 characters
+3. Capitalize the subject line
+4. Do not end the subject line with a period
+5. Use the imperative mood in the subject line (example: "Fix networking issue")
+6. Wrap the body at about 72 characters
+7. Use the body to explain **why**, *not what and how* (the code shows that!)
+8. If applicable, prefix the title with the relevant component name. (examples: "[Docs] Fix typo", "[Profile] Fix missing avatar")
 
 ```
 Example of a commit message following the characteristics above:
@@ -149,7 +146,6 @@ Note the fixed or relevant GitHub issues at the end:
 
 Resolves: #123
 See also: #456, #789*
-
 ```
 
 ## :white_check_mark: Code Review
@@ -162,9 +158,6 @@ See also: #456, #789*
 
 - **Kindly note** any violations to the guidelines specified in this document. 
 
-
-
 ## Credits
 
 Written by Francisco Lopes Horta.
-
