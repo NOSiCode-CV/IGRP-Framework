@@ -1,74 +1,82 @@
-[![Join us on Gitter](https://badges.gitter.im/igrpweb/template.svg)](https://gitter.im/igrpweb/template?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![ASL 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/NOSiCode-CV/IGRP-Java-Template-Eclipse/blob/master/README.md)
 
-# IGRPWeb Framework
+[<img src="docs/root-images/logo_igrpweb_2.png">](http://www.igrp.cv)
 
-IGRP**Web** is a tool developed by the Operational Nucleus for the Information Society (NOSi) to create electronic governance applications, based on business steps, processes, automatic code generation and incorporation of the Once-Only-Principle, written in Java.
+## :loudspeaker: About
 
-The IGRP**Web** core is extremely lightweight and based on simple concepts. It's open-source and distributed under the Apache license, runs in java web application, provided on cloud.
-Allows you to build unlimited number of e-government applications by yourself ensuring sustainability with an affordable and scalable solution on your own data.
+IIGRP**Web** is a platform developed by the Operational Nucleus for the Information Society (NOSi) to create electronic governance applications, based on business steps, processes, automatic code generation and incorporation of the Once-Only-Principle, written in Java.
 
-### Home Page: www.igrp.cv
+The IGRP**Web** core is extremely lightweight and based on simple concepts. It's open-source and distributed under the Apache license, runs in java web application, provided on cloud. Allows you to build unlimited number of e-government applications by yourself ensuring sustainability with an affordable and scalable solution on your own data.
 
+## :key: Why use IGRP**Web?**
 
+IGRPWeb allows to:
 
-## Architecture 
+- Independently create an unlimited number of applications;
 
-![IGRPWeb Architecture](root-images/Arquitetura%20IGRPWeb.png)
+- Automatically generate 80% of the code so the customer can focus the other 20% on customizing the application to the organization's needs;
 
-IGRP**Web** is provide as platform-as-a-service (PaaS), the entire management of infrastructure and other technical details are transparent to the user, allowing the client to focus only on the business flow. With an architecture independent of Databases allows the use of any database by the customer on the market. 
+- Control your data and applications;
 
-## Getting Started with Demo:
+- Running tests;
+
+- Work with different databases. You can choose the database you prefer: Oracle, Sqlserver, h2, PostgreSQL, MySQL.
+
+- General Sharing between Applications;
+
+- Integrate and interoperate with all native applications as well as third-party applications.
+
+- Use of SQL tools;
+
+- CRUD/DAO Generator;
+
+- Domain Management;
+
+- Document Type Management
+
+- Open-source: released under the Apache 2.0 license, so you can customize every aspect of the system to match your needs.
+
+## :muscle: Studio
+
+IGRP Studio is the environment used to develop applications within igrpweb, it includes the following components:
+
+- **Page Builder** - interface generator;
+- **BPMN Designer** - process flow generator;
+- **Report Designer** - report generator;
+- **Application Builder** - application management.
+
+## :computer: Supported operating systems:
+
+- Windows x64
+- MacOS
+- Linux
+- Docker
+
+## :beginner: Get Start
 
 There’s available a free demo cloud on how to create and run your own e-government apps on cloud https://cloud.nosi.cv/IGRP:
-•	User: demo@nosi.cv 
-•	Pass: demo
 
-## Features
+- User: demo@nosi.cv
+- Password: demo
 
-- Application Builder
-- Page Builder
-- Workflow Designer (BPMN)
-- Report Designer
-- SQL Tools
-- DAO Generator
-- CRUD Generator
+Also, there is a documentation that is going to help you develop and to understand the framework: [Docs IGRP (PT)](https://docs.igrp.cv)
 
-## Prerequisites
+## :triangular_flag_on_post: Prerequisites
 
-Minimum memory - 2GB
-Processor - Pentium 800MHz or equivalent at minimum
-Java 1.8 
-To build IGRPWeb from the source distribution, it is necessary that you have JDK 1.8 and Maven 3.0.4 or later, IDE java web development compatible.
+To build IGRPWeb from the source distribution, it is necessary that you have JDK 1.8 and Maven 3.0.4 or later, IDE java web development compatible. Also:
 
+- Minimum memory - 3GB
+- Processor 2000 MHZ or equivalent at minimum
+- Java 1.8
 
-## Community and Contributing
+## :ballot_box_with_check: Contributing to IGRPWeb
 
-Pull requests, bug fixes and new applications development are always encouraged.  
-Please read [CONTRIBUTING.md ](../CONTRIBUTING.md)for details on how to contribute in the community, and the process for submitting pull requests, bug fixing, patches to us. 
+Follow [Contributing guidelines](CONTRIBUTING.md) for more details on how to contribute in the community and how to is the process of submitting pull requests, bugs fixing, patches.
 
+Remember pull requests, bug fixes and new applications development are always encouraged.
 
-## Developer Guide
+## :memo: License
 
-Documentation related to developer is available online, and embeded in the framework as Help link. 
-[Docs IGRP (PT)](https://docs.igrp.cv)
-
-## Installation
-
-### Install & running:
-
-    install project
-
-## Support
-
-If you are having issues, please let us know through igrpweb@nosi.cv
-
-## Authors
-
-List of contributors who participated in this project. 
-
-
-## License
 -------
 
-The project is licensed under the Apache 2.0 license - see the [LICENSE](../LICENSE) file for more details
+The project is licensed under the Apache 2.0 license - see the [LICENSE](LICENSE) file for more details

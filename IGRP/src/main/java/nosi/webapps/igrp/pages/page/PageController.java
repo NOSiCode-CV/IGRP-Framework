@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -18,9 +20,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import javax.persistence.Tuple;
-
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
+import org.apache.logging.log4j.util.Strings;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,25 +46,26 @@ import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.pages.dominio.DomainHeper;
 
 /*----#end-code----*/
-
+		
 public class PageController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Page model = new Page();
 		model.load();
-		model.setHelp("igrp", "Dominio", "index");
-		model.setNovo_modulo("igrp", "Page", "index");
-		model.setEditar_modulo("igrp", "Dominio", "index");
+		model.setHelp("igrp","Dominio","index");
+		model.setNovo_modulo("igrp","Page","index");
+		model.setEditar_modulo("igrp","Dominio","index");
 		PageView view = new PageView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.version.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 
-
-		Boolean isEdit = false;
+		boolean isEdit = false;
 		Integer idPage = Core.getParamInt("p_id_page");
 		view.btn_eliminar_pagina.setVisible(false);
 
@@ -72,8 +74,7 @@ public class PageController extends Controller {
 
 		if (Core.isNotNull(idPage)) {
 			// EDIT/UPDATE PAGE
-			Action a = new Action();
-			a = a.findOne(idPage);
+			Action a = new Action().findOne(idPage);
 			if (a != null) {
 				model.setAction_descr(a.getAction_descr());
 				model.setEnv_fk("" + a.getApplication().getId());
@@ -121,10 +122,10 @@ public class PageController extends Controller {
 
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);
+		return this.renderView(view);	
 	}
-
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Page model = new Page();
 		model.load();
 		/*----#gen-example
@@ -134,6 +135,7 @@ public class PageController extends Controller {
 		  return this.forward("igrp","Page","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gravar)  *//* End-Code-Block  */
 		/*----#start-code(gravar)----*/
 		int idPage = Core.getParamInt("p_id");
 
@@ -299,10 +301,10 @@ public class PageController extends Controller {
 		}
 
 		/*----#end-code----*/
-
+			
 	}
-
-	public Response actionEliminar_pagina() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionEliminar_pagina() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Page model = new Page();
 		model.load();
 		/*----#gen-example
@@ -312,6 +314,7 @@ public class PageController extends Controller {
 		  return this.forward("igrp","Page","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (eliminar_pagina)  *//* End-Code-Block  */
 		/*----#start-code(eliminar_pagina)----*/
 
 		Action eliminar_page = new Action().findOne(Core.toInt(model.getId()));
@@ -332,10 +335,10 @@ public class PageController extends Controller {
 		Core.setMessageSuccess("Página eliminada com Sucesso!");
 
 		/*----#end-code----*/
-		return this.redirect("igrp", "Page", "index", this.queryString());
+		return this.redirect("igrp","Page","index", this.queryString());	
 	}
-
-	/*----#start-code(custom_actions)----*/
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
+/*----#start-code(custom_actions)----*/
 	
 	public Response actionSetModuloEditar(Page model) {
 		String xml = "<content>" + "<editar_modulo>"
@@ -760,24 +763,24 @@ public class PageController extends Controller {
 	}
 
 	public Response actionGenerateLink() throws IllegalArgumentException {
-		int app_id = Core.getParamInt("p_env_fk");
-		String page = Core.getParam("p_page");
-		String link1 = "";
-		String link2 = "";
-		Application app = Core.findApplicationById(app_id);
-		if (app != null) {
-			String url = Igrp.getInstance().getRequest().getRequestURL().toString();
-			link1 = url + "?r=" + app.getDad() + "/" + page + "/index&dad=" + app.getDad()
-					+ "&target=_blank&isPublic=1&lang=pt_PT";
-			link2 = url + Route.getResolveUrl(app.getDad(), page, "index", app.getDad(), 2).replace(" ", "+");
-		}
-		XMLWritter xml = new XMLWritter();
+
+		final int app_id = Core.getParamInt("p_env_fk");
+		final String page = Core.getParam("p_page");
+		final Application app = Core.findApplicationById(app_id);
+		final String dad = Core.isNotNull(app) ? app.getDad() : Strings.EMPTY;
+		final String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
+
+		final String publicLink = Core.isNotNull(app) ? baseUrl + "?r=" + dad + "/" + page + "/index&dad=" + dad + "&target=_blank&isPublic=1&lang=pt_PT" : Strings.EMPTY;
+		final String encryptedLink = Core.isNotNull(app) ? baseUrl.replace("webapps", "") + Route.getResolveUrl(dad, page, "index", dad, 2).replace(" ", "+") : Strings.EMPTY;
+
+		final XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
-		xml.setElement("public_link", link1);
-		xml.setElement("public_link_desc", link1);
-		xml.setElement("public_link_2", link2);
-		xml.setElement("public_link_desc_2", link2);
+		xml.setElement("public_link", publicLink);
+		xml.setElement("public_link_desc", publicLink);
+		xml.setElement("public_link_2", encryptedLink);
+		xml.setElement("public_link_desc_2", encryptedLink);
 		xml.endElement();
+
 		this.format = Response.FORMAT_XML;
 		return this.renderView(xml.toString());
 	}
