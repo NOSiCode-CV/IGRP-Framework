@@ -77,7 +77,7 @@
                                         <xsl:if test="rows/content/tabcontent_1/fields/reports">
                                             <li item-name="reports" class="active gen-fields-holder" rel="tab-tabcontent_1-reports">
                                                 <a data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-reports">
-                                                    <i class="fa fa-file-text-o"/>
+                                                    <i class="fa fa-folder-o"/>
                                                     <span>
                                                         <xsl:value-of select="rows/content/tabcontent_1/fields/reports/label"/>
                                                     </span>
