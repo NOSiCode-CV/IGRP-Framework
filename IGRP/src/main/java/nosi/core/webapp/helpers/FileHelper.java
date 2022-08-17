@@ -186,19 +186,24 @@ public class FileHelper {
 	}
 	
 	public static boolean saveImage(String path,String filename,String formatName,Part filePart,String encode_in,String encode_out) throws IOException{
-		FileHelper.createDiretory(path);
 		boolean isSaved = true;
-		BufferedImage bImage = null;
-		try {
-			 String fileName = path+(filename!=null?(File.separator+filename):"");
-			 File file = new File(fileName);
-			 bImage = ImageIO.read(filePart.getInputStream());
-			 ImageIO.write(bImage, formatName,file);
-			 bImage.flush();
-		}catch(IOException e) {
-			isSaved = false;
-			e.printStackTrace();
+		if(formatName.equals("svg"))
+			isSaved=saveFile(path, filename, filePart, ENCODE_UTF8,ENCODE_UTF8);
+		else {
+			FileHelper.createDiretory(path);			
+			BufferedImage bImage = null;
+			try {
+				 String fileName = path+(filename!=null?(File.separator+filename):"");
+				 File file = new File(fileName);
+				 bImage = ImageIO.read(filePart.getInputStream());
+				 ImageIO.write(bImage, formatName,file);
+				 bImage.flush();
+			}catch(IOException e) {
+				isSaved = false;
+				e.printStackTrace();
+			}
 		}
+		
 		return isSaved;
 	}
 		
