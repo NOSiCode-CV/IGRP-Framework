@@ -8,7 +8,7 @@
       <xsl:for-each select="//rows/content/gen_table/table/value/row">
        <li class="treeview" id="{id}" rel="{link}" code="{link_desc}"  info="{descricao}">
         <a class="linkReports">
-          <i class="fa fa-angle-right"/>
+          <i class="fa fa-file-text-o"/>
           <span><xsl:value-of select="title"/></span>
         </a>
         <div class="tree-menu-options">
