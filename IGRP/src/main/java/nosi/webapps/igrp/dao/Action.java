@@ -22,6 +22,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
@@ -336,7 +338,8 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 		String pageId = pageId_;
 		if(pageId.contains("-")) {
 			pageId = Page.resolvePageName(pageId);
-		}
+		}else
+			pageId=StringUtils.capitalize(pageId);
 		boolean flag = false;
 		try {
 			Action action = new Action().find().where("page", "=", pageId).andWhere("application.dad", "=", appDad).one();

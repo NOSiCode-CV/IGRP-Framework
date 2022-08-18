@@ -551,7 +551,12 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 	}
 
 	private List<TaskService> applyFiler(ExecucaoTarefas model,int type) {
-		String proc_tp = null, num_proc = null, status = null, data_inicio = null, data_fim = null, prioridade = null;
+		String proc_tp = null,
+				num_proc = null, 
+				status = null, 
+				data_inicio = null,
+				data_fim = null, 
+				prioridade = null;
 		int btn_search = Core.getParamInt("btn_search");
 		TaskServiceIGRP taskServiceBO = new TaskServiceIGRP();
 		switch (btn_search) {
@@ -591,6 +596,46 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 				data_fim = model.getData_fim_estatistica();
 				prioridade = model.getPrioridade_estatistica();
 				break;
+			default:
+				//In load, without the press of the search button
+			if(type==AVAILABLE){
+				proc_tp = model.getTipo_processo_form_disponiveis();
+				num_proc = model.getNumero_processo_form_disponiveis();
+				data_inicio = model.getData_inicio_form_disponiveis();
+				data_fim = model.getData_fim_form_disponiveis();
+				prioridade = model.getPrioridade_form_disponiveis();
+				}else
+			if(type==CONTRIBUTOR){
+				proc_tp = model.getTipo_processo_colaborador();
+				num_proc = model.getNumero_processo_colaborador();
+				data_inicio = model.getData_inicio_colaborador();
+				data_fim = model.getData_fim_colaborador();
+				prioridade = model.getPrioridade_colaborador();
+				}else
+			if(type==MANAGE_TASK){
+				proc_tp = model.getTipo_processo_gerir_tarefa();
+				num_proc = model.getNumero_processo_gerir_tarefa();
+				data_inicio = model.getData_inicio_gerir_tarefa();
+				data_fim = model.getData_fim_gerir_tarefa();
+				prioridade = model.getPrioridade_gerir_tarefa();
+				}else
+			if(type==MY_TASK){
+				proc_tp = model.getTipo_processo_minhas_tarefas();
+				num_proc = model.getNumero_processo_minhas_tarefas();
+				data_inicio = model.getData_inicio_minhas_tarefas();
+				data_fim = model.getData_fim_minhas_tarefas();
+				prioridade = model.getPrioridade_minhas_tarefas();
+				}else
+			if(type==STATISTIC){
+				status = model.getEstado_estatistica();
+				proc_tp = model.getTipo_processo_estatistica();
+				num_proc = model.getNumero_processo_estatistica();
+				data_inicio = model.getData_inicio_estatistica();
+				data_fim = model.getData_fim_estatistica();
+				prioridade = model.getPrioridade_estatistica();
+				}
+				
+				
 		}
 		if (Core.isNotNull(proc_tp)) {
 			taskServiceBO.addFilterUrl("processDefinitionKey", proc_tp);

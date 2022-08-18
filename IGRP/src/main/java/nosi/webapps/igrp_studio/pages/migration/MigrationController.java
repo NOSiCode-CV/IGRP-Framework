@@ -476,7 +476,7 @@ public class MigrationController extends Controller {
 						auxContent.append("\t	configEnv" + i + "_" + j  + ".setConnection_identify(\"" + dataSource.getConfig_env().getConnection_identify() +  "\");" + "\n");
 					auxContent.append("\t	this.repDataSources.add(" + 
 							"new RepSource(\"" + dataSource.getName() + "\", \"" + dataSource.getType() + "\", "
-							+ dataSource.getType_fk() + ", \"" + dataSource.getType_name() + "\", \"" + dataSource.getType_query().replaceAll("[\\n\\r]", "") + "\", " + dataSource.getStatus() + ","
+							+ dataSource.getType_fk() + ", \"" + dataSource.getType_name() + "\", \"" + dataSource.getType_query().replaceAll("[\\n\\r]", " ") + "\", " + dataSource.getStatus() + ","
 							+ " Core.ToDate(\"" + Core.dateToString(dataSource.getDt_created(), "yyyy-MM-dd") + "\", \"yyyy-MM-dd\"), "
 							+ " Core.ToDate(\"" + Core.dateToString(dataSource.getDt_updated(), "yyyy-MM-dd") + "\", \"yyyy-MM-dd\"), "
 							+ "userCreated" + i + "_" + j  + ", userUpdated" + i + "_" + j  + ", configEnv" + i + "_" + j  + ", env" + i + ", "
@@ -523,19 +523,19 @@ public class MigrationController extends Controller {
 								for(int i = 0; i < tipoDocumentoEtapas.size(); i++) {
 									TipoDocumentoEtapa tipoDocumentoEtapa = tipoDocumentoEtapas.get(i); 
 									if(tipoDocumentoEtapa.getTipoDocumento() != null) {
-										auxCode.append("\t	TipoDocumento tipoDocumento" + i + " = new TipoDocumento();\n"); 
-										auxCode.append("\t	tipoDocumento" + i + ".setCodigo(\"" + tipoDocumentoEtapa.getTipoDocumento().getCodigo() + "\");\n");
-										auxCode.append("\t	tipoDocumento" + i + ".setApplication(this.app);\n");
-										auxCode.append("\t	RepTemplate repTemplate" + i + " = null;\n"); 
+										auxCode.append("\t	TipoDocumento tipoDocumento" +tipoDocumentoEtapa.getId()+"_"+ i + " = new TipoDocumento();\n"); 
+										auxCode.append("\t	tipoDocumento" +tipoDocumentoEtapa.getId()+"_"+ i + ".setCodigo(\"" + tipoDocumentoEtapa.getTipoDocumento().getCodigo() + "\");\n");
+										auxCode.append("\t	tipoDocumento" +tipoDocumentoEtapa.getId()+"_"+ i + ".setApplication(this.app);\n");
+										auxCode.append("\t	RepTemplate repTemplate" +tipoDocumentoEtapa.getId()+"_"+ i + " = null;\n"); 
 									}else {
-										auxCode.append("\t	RepTemplate repTemplate" + i + " = new RepTemplate();\n"); 
-										auxCode.append("\t	repTemplate" + i + ".setCode(\"" + tipoDocumentoEtapa.getRepTemplate().getCode()+ "\");\n");
-										auxCode.append("\t	repTemplate" + i + ".setApplication(this.app);\n");
-										auxCode.append("\t	TipoDocumento tipoDocumento" + i + " = null;\n"); 
+										auxCode.append("\t	RepTemplate repTemplate" +tipoDocumentoEtapa.getId()+"_"+ i + " = new RepTemplate();\n"); 
+										auxCode.append("\t	repTemplate"+tipoDocumentoEtapa.getId()+"_"+ i + ".setCode(\"" + tipoDocumentoEtapa.getRepTemplate().getCode()+ "\");\n");
+										auxCode.append("\t	repTemplate"+tipoDocumentoEtapa.getId()+"_" + i + ".setApplication(this.app);\n");
+										auxCode.append("\t	TipoDocumento tipoDocumento"+ tipoDocumentoEtapa.getId()+"_"+ i + " = null;\n"); 
 									}
 									auxCode.append("\t	this.tipoDocumentoEtapas.add(" + "new TipoDocumentoEtapa(\"" + tipoDocumentoEtapa.getProcessId() + "\","
 											+ " \"" + tipoDocumentoEtapa.getTaskId() + "\", \"" + tipoDocumentoEtapa.getTipo() + "\", " + tipoDocumentoEtapa.getStatus() 
-											+ ", " + tipoDocumentoEtapa.getRequired() + ", tipoDocumento" + i + ", repTemplate" + i + ")" + ");\n"); 
+											+ ", " + tipoDocumentoEtapa.getRequired() + ", tipoDocumento" +tipoDocumentoEtapa.getId()+"_"+ i + ", repTemplate"+tipoDocumentoEtapa.getId()+"_" + i + ")" + ");\n"); 
 								}
 							
 						}
