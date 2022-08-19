@@ -29,8 +29,12 @@
       <xsl:param name="input-id" select="$name"/>
       <xsl:param name="btnClass" select="'default'"/>
       <xsl:param name="lookupClass" select="''"/>
+      <xsl:param name="getparams" select="''"/>
       
       <span href="#" input-rel="{$input-id}" class="input-group-btn gen-date-icon IGRP_lookupPopup {$lookupClass}" ctx_param="{$name}">
+        <xsl:if test="$getparams != ''">
+          <xsl:attribute name="getparams"><xsl:value-of select="$getparams"/></xsl:attribute>
+        </xsl:if>
         <xsl:call-template name="page-nav">
            <xsl:with-param name="action" select="$action" />
            <xsl:with-param name="page" select="$page" />

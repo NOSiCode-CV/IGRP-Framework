@@ -23,11 +23,39 @@ var LOOKUPFIELD = function(type,params){
 				return 'action="'+action+'" page="'+page+'" app="'+app+'"';
 			}
 		});
+
+		var pageFields = function(){
+			var rtn = [];
+			GEN.getAllFields().forEach(function(f){
+			
+				var val = f.GET.name ? f.GET.name() : 'p_'+f.GET.tag();
+		
+				if(f.formField || f.hidden)
+					rtn.push({
+						value : val,
+						label : f.GET.tag()
+					});
+			});
+			
+			return rtn;
+		}
+
+		field.setPropriety({
+			name : 'field_param',
+			label : 'Lookup Params',
+			order : 3,
+			value:{
+				value : '',
+				options : pageFields(),
+				multiple:true,
+			}
+		});
 		
 		field.setProperty({
 			name : 'lookupParams',
+			label: 'Field mapping to set values',
 			type : 'formlist',
-			order : 3,
+			order : 4,
 			size : 12,
 			value : {
 				
@@ -39,22 +67,7 @@ var LOOKUPFIELD = function(type,params){
 					
 					var holder = $('<div class="box clean box-table-contents loading" item-name="lookupParams"><div class="box-body table-box"></div></div>');
 
-					var pageFields = function(){
-						var rtn = [];
-						GEN.getAllFields().forEach(function(f){
-						
-							var val = f.GET.name ? f.GET.name() : 'p_'+f.GET.tag();
-					
-							if(f.formField || f.hidden)
-								rtn.push({
-									value : val,
-									label : f.GET.tag()
-								});
-						});
-						
-						return rtn;
-					}
-					
+				
 					var setFormlist = function(){
 						
 						GEN.getPageJSON(actionID,function(containers,data){
@@ -131,9 +144,11 @@ var LOOKUPFIELD = function(type,params){
 				}
 			}
 		});
+
+		
 		
 		field.setProperty({
-			label 	: 'Clear Params',
+			label 	: 'Clear mapped field value',
 			name  	:'lookup_eraser',
 			value 	:false,
 			xslValue:function(){
