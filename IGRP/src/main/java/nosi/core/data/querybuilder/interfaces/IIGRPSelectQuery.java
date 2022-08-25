@@ -8,13 +8,15 @@ import java.util.List;
  */
 public interface IIGRPSelectQuery<E> extends IIGRPQuery<E> {
 
-		public String sql();
-	
-		public List<E> all();
-		
-		public E one();
-		
-		//public Long count();
-		
-		
+    String sql();
+
+    List<E> all();
+
+    List<E> all(int maxResults);
+
+    List<E> all(int maxResults, int offSet);
+
+    E one();
+
+    long count();
 }

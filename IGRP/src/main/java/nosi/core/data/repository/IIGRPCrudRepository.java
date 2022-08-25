@@ -1,9 +1,9 @@
 package nosi.core.data.repository;
 
+import nosi.core.data.querybuilder.IGRPQuery;
+
 import java.io.Serializable;
 import java.util.Optional;
-import org.hibernate.Transaction;
-import nosi.core.data.querybuilder.IGRPQuery;
 
 /**
  * Interface for generic CRUD operations on a repository for a specific type.
