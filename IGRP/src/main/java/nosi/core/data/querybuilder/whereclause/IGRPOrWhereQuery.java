@@ -8,15 +8,17 @@ import javax.persistence.criteria.Predicate;
  */
 public class IGRPOrWhereQuery<E> extends IGRPSubWhereQuery<E> {
 
-	public IGRPOrWhereQuery(IGRPWhereQuery<E> parent) {
-		super(parent);
-	}
+    public IGRPOrWhereQuery(IGRPWhereQuery<E> parent) {
+        super(parent);
+    }
 
-	@Override
-	public IGRPWhereQuery<E> end() {
-		Predicate[] predicates = this.getPredicates().stream().toArray(Predicate[]::new);
-		Predicate or = this.parent.getCriteriaBuilder().or(predicates);
-		this.parent.addPredicate(or);
-		return this.parent;
-	}
+    @Override
+    public IGRPWhereQuery<E> end() {
+        final Predicate[] predicates = this.getPredicates().toArray(new Predicate[0]);
+        if (predicates.length > 0) {
+            final Predicate or = this.parent.getCriteriaBuilder().or(predicates);
+            this.parent.addPredicate(or);
+        }
+        return this.parent;
+    }
 }
