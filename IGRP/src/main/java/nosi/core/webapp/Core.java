@@ -3210,7 +3210,7 @@ public final class Core {
 		if(Igrp.getInstance() != null)
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(msg));
 		else
-			System.err.print("[ERROR] "+ gt(msg));
+			System.out.print("[ERROR] "+ gt(msg));
 	}
 
 	/**
