@@ -11,8 +11,12 @@ import nosi.core.webapp.Response;//
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.CRC32;
@@ -34,7 +38,6 @@ import nosi.webapps.igrp.dao.TipoDocumento;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import nosi.webapps.igrp.dao.Transaction;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -183,7 +186,7 @@ public class MigrationController extends Controller {
 	}
 	
 	private void loadDomains(Migration model) {
-		String sql = "SELECT id as domain_ids,0 as domain_ids_check, dominio as descricao_domain FROM tbl_domain WHERE status='ATIVE' AND env_fk=" + model.getAplicacao(); 
+		String sql = "SELECT dominio as domain_ids,0 as domain_ids_check, dominio as descricao_domain FROM tbl_domain WHERE status='ATIVE' AND env_fk=" + model.getAplicacao(); 
 		model.loadTable_domain_info(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), sql));
 		if(model.getTable_domain_info() != null && !model.getTable_domain_info().isEmpty())
 			model.setTable_domain_info(model.getTable_domain_info().stream().collect(Collectors.groupingBy(Migration.Table_domain_info::getDescricao_domain)).values().stream().map(m->m.get(0)).collect(Collectors.toList()));
@@ -218,7 +221,7 @@ public class MigrationController extends Controller {
 		content.append(" * " + Core.getCurrentUser().getName() + "\n"); 
 		content.append(" * " + Core.getCurrentDate("MMM dd, yyyy") + "\n"); 
 		content.append(" */\n"); 
-		content.append("public class " + this.FILE_NAME_PREFIX + app.getDad() + " extends IgrpMigrationTemplate{\n\n"); 
+		content.append("public class " + FILE_NAME_PREFIX + app.getDad() + " extends IgrpMigrationTemplate{\n\n"); 
 		
 		this.generateTemplateMethods(content);
 		
@@ -410,16 +413,26 @@ public class MigrationController extends Controller {
 			StringBuilder auxContent = new StringBuilder();  
 			for(String domainId: domain_ids) {
 				if(domainId != null && !domainId.trim().isEmpty()) {
-					Domain domain = new Domain().findOne(domainId); 
-					if(domain != null) {
-						auxContent.append("\t  this.domains.add(new Domain(\"" + domain.getDominio() + "\", \"" + domain.getValor() 
-							+ "\", \"" + domain.getDescription() + "\", \"" + domain.getStatus() + "\", " + domain.getordem() + ", DomainType." + domain.getDomainType() + ", this.app));\n"); 
-					}
+					List<Domain> domains = new Domain().find().where("dominio","=",domainId).all().stream().filter(distinctByKey(Domain::getValor)).toList(); 
+					for (Iterator<Domain> iterator = domains.iterator(); iterator.hasNext();) {
+						Domain domain = (Domain) iterator.next();
+						if(domain != null) {
+							auxContent.append("\t  this.domains.add(new Domain(\"" + domain.getDominio() + "\", \"" + domain.getValor() 
+								+ "\", \"" + domain.getDescription() + "\", \"" + domain.getStatus() + "\", " + domain.getordem() + ", DomainType." + domain.getDomainType() + ", this.app));\n"); 
+						}
+					} 
+					
 				}
 			}
 			content = new StringBuilder(content.toString().replace(DOMAINS_PLACEHOLDER, auxContent.toString()));
 		}
 		return content;
+	}
+	
+	public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) 
+	{
+	    Map<Object, Boolean> map = new ConcurrentHashMap<>();
+	    return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
 	}
 	
 	private StringBuilder generateDbConnectionContent(StringBuilder content, String[] conexao_ids) {
