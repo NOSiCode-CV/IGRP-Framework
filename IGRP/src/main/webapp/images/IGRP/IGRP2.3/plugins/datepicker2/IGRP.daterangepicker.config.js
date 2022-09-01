@@ -53,9 +53,6 @@
 					var _date = date.format('DD-MM-YYYY'),
 						_day = date.day();
 
-						console.log("date :: ",date);
-						console.log("day -1:: ",moment(date).day(-1));
-
 					if ((disableWeekends && (_day === 0 || _day === 6)) || $.inArray(_date,datesDisabled) !== -1 || (disabledBeforetoday && moment().isAfter(moment(date).add(1, 'day'))))
 						return true;
 
@@ -74,9 +71,7 @@
 
 					locale = com.locale,
 
-					value  = singleDatePicker ? date.format(locale.format) : 
-
-											   date.format(locale.format)+locale.separator+date2.format(locale.format)
+					value  = singleDatePicker ? date.format(locale.format) : date.format(locale.format)+locale.separator+date2.format(locale.format)
 
 				el.val( value ).change();
 				

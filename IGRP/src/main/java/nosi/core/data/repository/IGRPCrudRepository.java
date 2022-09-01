@@ -1,180 +1,123 @@
 package nosi.core.data.repository;
 
-import java.beans.Transient;
-import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import nosi.core.data.querybuilder.IGRPQuery;
+import org.hibernate.Session;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import nosi.core.data.querybuilder.IGRPQuery;
+import java.beans.Transient;
+import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.util.Optional;
 
 /**
  * Augusto Correia 30/09/2020
  */
 public abstract class IGRPCrudRepository<T, ID extends Serializable> implements IIGRPCrudRepository<T, ID> {
 
-	private Class<T> clazz;
-	public Session session;
+    private final Class<T> clazz;
+    private final Session session;
 
-	public IGRPCrudRepository(Session session) {
-		super();
-		this.session = session;
-		this.clazz = this.getClassType();
-	}
+    protected IGRPCrudRepository(Session session) {
+        super();
+        this.session = session;
+        this.clazz = this.getClassType();
+    }
 
-	@Override
-	public Iterable<T> findAll() {
+    @Override
+    public long count() {
+        final CriteriaBuilder criteriaBuilder = this.session.getCriteriaBuilder();
+        final CriteriaQuery<Long> count = criteriaBuilder.createQuery(Long.class);
+        final Root<T> root = count.from(this.clazz);
+        count.select(criteriaBuilder.count(root));
+        return this.session.createQuery(count).getSingleResult();
+    }
 
-		Transaction transaction = this.session.getTransaction();
+    @Override
+    public void delete(T entity) {
+        this.session.delete(entity);
+    }
 
-		List<T> list = new ArrayList<>();
+    @Override
+    public void deleteAll() {
+        final CriteriaBuilder criteriaBuilder = this.session.getCriteriaBuilder();
+        final CriteriaDelete<T> deleteAll = criteriaBuilder.createCriteriaDelete(this.clazz);
+        deleteAll.from(this.clazz);
+        this.session.createQuery(deleteAll).executeUpdate();
+    }
 
-		if (!transaction.isActive())
-			transaction.begin();
+    @Override
+    public void deleteAll(Iterable<? extends T> entities) {
+        final CriteriaBuilder criteriaBuilder = this.session.getCriteriaBuilder();
+        final CriteriaDelete<T> deleteAll = criteriaBuilder.createCriteriaDelete(this.clazz);
+        final Root<T> root = deleteAll.from(this.clazz);
+        deleteAll.where(root.in(entities));
+        this.session.createQuery(deleteAll).executeUpdate();
+    }
 
-		CriteriaBuilder cb = this.session.getCriteriaBuilder();
-		CriteriaQuery<T> cq = cb.createQuery(this.clazz);
-		Root<T> rootEntry = cq.from(this.clazz);
-		CriteriaQuery<T> all = cq.select(rootEntry);
+    @Override
+    public void deleteById(ID id) {
 
-		TypedQuery<T> allQuery = this.session.createQuery(all);
-		list = allQuery.getResultList();
+        final Optional<T> entityOp = this.findById(id);
+        if (!entityOp.isPresent())
+            return;
 
-		return list;
-	}
+        this.delete(entityOp.get());
+    }
 
-	@Override
-	public Optional<T> findById(ID id) {
-		Transaction transaction = this.session.getTransaction();
+    @Override
+    public void deleteById(Iterable<ID> ids) {
+        for (ID id : ids)
+            this.deleteById(id);
+    }
 
-		T entity = null;
+    @Override
+    public boolean existsById(ID id) {
+        return this.findById(id).isPresent();
+    }
 
-		if (!transaction.isActive())
-			transaction.begin();
+    @Override
+    public Iterable<T> findAll() {
+        CriteriaBuilder criteriaBuilder = this.session.getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(this.clazz);
+        Root<T> root = criteriaQuery.from(this.clazz);
+        criteriaQuery.select(root);
+        TypedQuery<T> query = this.session.createQuery(criteriaQuery);
+        return query.getResultList();
+    }
 
-		entity = this.session.get(this.clazz, id);
+    @Override
+    public Optional<T> findById(ID id) {
+        final T entity = this.session.get(this.clazz, id);
+        return Optional.ofNullable(entity);
+    }
 
-		return Optional.ofNullable(entity);
-	}
+    @SuppressWarnings("unchecked")
+    @Transient
+    protected Class<T> getClassType() {
+        final ParameterizedType genericType = (ParameterizedType) this.getClass().getGenericSuperclass();
+        return (Class<T>) genericType.getActualTypeArguments()[0];
+    }
 
-	@Override
-	public IGRPQuery<T> query() {
-		CriteriaQuery<T> criteriaQuery = this.session.getCriteriaBuilder().createQuery(this.clazz);
-		Root<T> root = criteriaQuery.from(this.clazz);
-		return new IGRPQuery<T>(this.session, this.clazz, criteriaQuery, root);
-	}
+    @Override
+    public IGRPQuery<T> query() {
+        final CriteriaQuery<T> criteriaQuery = this.session.getCriteriaBuilder().createQuery(this.clazz);
+        final Root<T> root = criteriaQuery.from(this.clazz);
+        return new IGRPQuery<>(this.session, this.clazz, criteriaQuery, root);
+    }
 
-	@Override
-	public boolean existsById(ID id) {
+    @Override
+    public <S extends T> S save(S entity) {
+        this.session.persist(entity);
+        return entity;
+    }
 
-		return false;
-	}
-
-	@Override
-	public long count() {
-		return 0;
-	}
-
-	@Override
-	public <S extends T> S save(S entity) {
-		Transaction transaction = this.session.getTransaction();
-
-		if (!transaction.isActive())
-			transaction.begin();
-
-		this.session.persist(entity);
-
-		return entity;
-	}
-
-	@Override
-	public <S extends T> Iterable<S> saveAll(Iterable<S> entities) {
-		Transaction transaction = this.session.getTransaction();
-
-		if (!transaction.isActive())
-			transaction.begin();
-
-		for (T o : entities)
-			this.save(o);
-
-		return entities;
-
-	}
-
-	@Override // -------------------
-	public void deleteById(ID id) {
-
-		Transaction transaction = this.session.getTransaction();
-
-		if (!transaction.isActive())
-			transaction.begin();
-
-		Optional<T> entityOp = this.findById(id);
-		if (!entityOp.isPresent())
-			return;
-
-		this.delete(entityOp.get());
-
-	}
-
-	@Override
-	public void deleteById(Iterable<ID> ids) {
-
-		Transaction transaction = this.session.getTransaction();
-
-		if (!transaction.isActive())
-			transaction.begin();
-
-		for (ID id : ids) {
-			this.deleteById(id);
-		}
-	}
-
-	@Override
-	public void delete(T entity) {
-
-		Transaction transaction = this.session.getTransaction();
-
-		if (!transaction.isActive())
-			transaction.begin();
-
-		this.session.delete(entity);
-
-	}
-
-	@Override // -----------------
-	public void deleteAll(Iterable<? extends T> entities) {
-
-		Transaction transaction = this.session.getTransaction();
-
-		if (!transaction.isActive())
-			transaction.begin();
-
-		for (T entity : entities)
-			this.session.delete(entity);
-
-	}
-
-	@Override // --------------------------
-	public void deleteAll() {
-		// EntityManager entityManager = null;
-		// CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Transient
-	protected Class<T> getClassType() {
-		ParameterizedType genericType = (ParameterizedType) this.getClass().getGenericSuperclass();
-		return (Class<T>) genericType.getActualTypeArguments()[0];
-	}
-
+    @Override
+    public <S extends T> Iterable<S> saveAll(Iterable<S> entities) {
+        entities.forEach(this::save);
+        return entities;
+    }
 }

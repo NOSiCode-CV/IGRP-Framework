@@ -1,38 +1,30 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
-import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
-import java.io.IOException;//
-import nosi.core.webapp.Core;//
-import nosi.core.webapp.Response;//
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Properties;
-import java.util.Map.Entry;
-import javax.servlet.http.Cookie;
-import org.json.JSONException;
-import org.json.JSONObject;
 import nosi.core.config.ConfigApp;
-import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.integration.pdex.service.AppConfig;
 import nosi.core.integration.pdex.service.AppConfig.ExternalMenu;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.business.ProcessInstanceIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
+import nosi.webapps.igrp.dao.Menu.MenuProfile;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
-import nosi.webapps.igrp.dao.Menu.MenuProfile;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import javax.servlet.http.Cookie;
+import java.io.IOException;
+import java.util.*;
+import java.util.Map.Entry;
+
 import static nosi.core.i18n.Translator.gt;
 
 /*----#end-code----*/
@@ -53,13 +45,9 @@ public class PesquisarMenuController extends Controller {
 		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 
-		// model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=menu"));
+		int idApp;
 
-		Menu menu = new Menu();
-		int idApp = Core.getParamInt("p_id_app");
-		int idOrg = 0;
-		// int idMen = 0;
-		// If in a app, choose automatically the app in the combobox
+		// If in an app, choose automatically the app in the combo-box
 		String dad = Core.getCurrentDad();
 
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
@@ -76,36 +64,43 @@ public class PesquisarMenuController extends Controller {
 		}
 
 		model.setId_app(idApp);
-		menu.setApplication(idApp != 0 ? new Application().findOne(idApp) : null);
-		List<Menu> menus = null;
 
-		if (idOrg == 0 && idApp != 0) {
+		Menu menu = new Menu();
+		menu.setApplication(idApp != 0 ? new Application().findOne(idApp) : null);
+		List<Menu> menus;
+
+		if (idApp != 0) {
 			if (Core.getCurrentUser().getEmail().compareTo("igrpweb@nosi.cv") == 0) {// User master
 				menus = menu.find().andWhere("application.id", "=", idApp).orderByAsc("orderby").all();
 			} else {
-				menus = menu.find().andWhere("application.id", "=", idApp).andWhere("application", "<>", 1)// Oculta
-																											// IGRP Core
-						.andWhere("application", "<>", 2)// Oculta IGRP Tutorial
-						.andWhere("application", "<>", 3)// Oculta IGRP Studio
+				menus = menu.find().andWhere("application.id", "=", idApp)
+						.andWhere("application", "<>", 1) // Oculta IGRP Core
+						.andWhere("application", "<>", 2) // Oculta IGRP Tutorial
+						.andWhere("application", "<>", 3) // Oculta IGRP Studio
 						.orderByAsc("orderby").all();
 			}
 
-			Collections.sort(menus, new SortbyStatus());
+			menus.sort((a, b) -> b.getStatus() - a.getStatus());
 
-			ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
-			List<PesquisarMenu.Formlist_1> separatorlistDocs = new ArrayList<>();
+			final ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
+
+			final List<PesquisarMenu.Formlist_1> separatorlistDocs = new ArrayList<>();
+
 			// Preenchendo a tabela
 			for (Menu menu_db1 : menus) {
-				PesquisarMenu.Table_1 table1 = new PesquisarMenu.Table_1();
-				PesquisarMenu.Formlist_1 row = new PesquisarMenu.Formlist_1();
+
+				final PesquisarMenu.Table_1 table1 = new PesquisarMenu.Table_1();
+				final PesquisarMenu.Formlist_1 row = new PesquisarMenu.Formlist_1();
+
 				table1.setT1_menu_principal("-");
 				if (Core.isNull(menu_db1.getMenu())) {
 					table1.setT1_menu_principal(menu_db1.getDescr());
-				} else if (menu_db1.getMenu().getId() != menu_db1.getId()) {
+				} else if (!Objects.equals(menu_db1.getMenu().getId(), menu_db1.getId())) {
 					table1.setT1_menu_principal(menu_db1.getMenu().getDescr());
 				}
 				table1.setTable_titulo(gt(menu_db1.getDescr()));
 				row.setPagina_order(new Pair(menu_db1.getDescr(), menu_db1.getDescr()));
+
 				if (menu_db1.getAction() != null) {
 					String mdad = "";
 					if (menu_db1.getAction().getApplication().getId() != idApp)
@@ -119,10 +114,12 @@ public class PesquisarMenuController extends Controller {
 				}
 				row.setId_page_ord(new Pair(menu_db1.getId() + "", menu_db1.getId() + ""));
 				row.setFormlist_1_id(new Pair(menu_db1.getId() + "", menu_db1.getId() + ""));
+
 				if (Core.isNotNullOrZero(menu_db1.getMenu()) && !menu_db1.getMenu().getId().equals(menu_db1.getId()) )
 					row.setId_do_pai(new Pair(menu_db1.getMenu().getId() + "", menu_db1.getMenu().getId() + ""));
 				else
 					row.setId_pai(new Pair(menu_db1.getId() + "", menu_db1.getId() + ""));
+
 				table1.setOrdem(menu_db1.getOrderby());
 				table1.setAtivo(menu_db1.getStatus());
 				table1.setAtivo_check(menu_db1.getStatus() == 1 ? menu_db1.getStatus() : -1);
@@ -139,10 +136,10 @@ public class PesquisarMenuController extends Controller {
 
 			if (!lista.isEmpty())
 				lista.sort(Comparator.comparing(PesquisarMenu.Table_1::getT1_menu_principal));
+
 			view.table_1.addData(lista);
 		}
 
-		// Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		view.aplicacao.setValue(new Application().getListApps());
 
 		/*----#end-code----*/
@@ -248,14 +245,24 @@ public class PesquisarMenuController extends Controller {
 		  ----#gen-example */
 		/* Start-Code-Block (eliminar)  *//* End-Code-Block  */
 		/*----#start-code(eliminar)----*/
-		int id = Core.getParamInt("p_id");
-		Menu menu_db = new Menu();
-		if (Core.isNotNullOrZero(id)) {
-			if (menu_db.delete(id))
+
+		final Menu menu = new Menu().findOne(Core.getParamInt("p_id"));
+
+		if (menu != null) {
+
+			final Long numberOfChildMenus = new Menu().find()
+					.andWhere("menu.id", "=", menu.getId())
+					.andWhere("id", "!=", menu.getId())
+					.getCount();
+
+			if (numberOfChildMenus > 0)
+				Core.setMessageError("Este menu possui dependências. Não pode ser eliminado.");
+			else if (menu.delete())
 				Core.setMessageSuccess();
 			else
 				Core.setMessageError();
 		}
+
 		return this.redirect("igrp", "PesquisarMenu", "index", model, this.queryString());
 		/*----#end-code----*/
 			
@@ -264,50 +271,45 @@ public class PesquisarMenuController extends Controller {
 /*----#start-code(custom_actions)----*/
 
 	// Menu list I have access to
-	public Response actionMyMenu() throws IOException {
-		XMLWritter xml_menu = new XMLWritter();
-		xml_menu.startElement("menus");
+	public Response actionMyMenu() {
+
+		final XMLWritter xmlWritter = new XMLWritter();
+		xmlWritter.startElement("menus");
 
 		try {
 			if (Igrp.getInstance().getUser().isAuthenticated()) {
-				Menu x = new Menu();
-				LinkedHashMap<String, List<MenuProfile>> menu = x.getMyMenu();
+
+				final LinkedHashMap<String, List<MenuProfile>> menu = new Menu().getMyMenu();
+
 				if (menu != null) {
+
 					for (Entry<String, List<MenuProfile>> m : menu.entrySet()) {
-						xml_menu.startElement("menu");
-						xml_menu.setElement("title", gt(m.getKey()));
+						xmlWritter.startElement("menu");
+						xmlWritter.setElement("title", gt(m.getKey()));
 
-						for (MenuProfile main : m.getValue()) {
-							if (main.isSubMenuAndSuperMenu()) {
+						for (MenuProfile menuProfile : m.getValue()) {
 
-								if (main.getType() == 2) { // Fazer sso obrigatorio
-									xml_menu.setElement("link", main.getLink());
-								} else {
-									xml_menu.setElement("link", "webapps?r=" + main.getLink());
-								}
-
-								xml_menu.setElement("target", main.getTarget());
-							}
-							xml_menu.setElement("order", "" + main.getOrder());
-							xml_menu.startElement("submenu");
-							xml_menu.writeAttribute("title", gt(main.getTitle()));
-							xml_menu.writeAttribute("id", "" + main.getId());
-
-							if (main.getType() == 2) { // Fazer sso obrigatorio
-								xml_menu.setElement("link", main.getLink());
-							} else {
-								xml_menu.setElement("link", "webapps?r=" + main.getLink());
+							if (menuProfile.isSubMenuAndSuperMenu()) {
+								xmlWritter.setElement("link", menuProfile.getType() == 2 ? menuProfile.getLink() : "webapps?r=" + menuProfile.getLink());
+								xmlWritter.setElement("target", menuProfile.getTarget());
 							}
 
-							xml_menu.setElement("title", gt(main.getTitle()));
-							xml_menu.setElement("target", main.getTarget());
-							xml_menu.setElement("id", "" + main.getId());
-							xml_menu.setElement("status", "" + main.getStatus());
-							xml_menu.setElement("order", "" + main.getOrder());
-							xml_menu.setElement("menu_icon", main.getMenu_icon());
-							xml_menu.endElement();
+							xmlWritter.setElement("order", "" + menuProfile.getOrder());
+							xmlWritter.startElement("submenu");
+							xmlWritter.writeAttribute("title", gt(menuProfile.getTitle()));
+							xmlWritter.writeAttribute("id", "" + menuProfile.getId());
+
+							xmlWritter.setElement("link", menuProfile.getType() == 2 ? menuProfile.getLink() : "webapps?r=" + menuProfile.getLink());
+
+							xmlWritter.setElement("title", gt(menuProfile.getTitle()));
+							xmlWritter.setElement("target", menuProfile.getTarget());
+							xmlWritter.setElement("id", "" + menuProfile.getId());
+							xmlWritter.setElement("status", "" + menuProfile.getStatus());
+							xmlWritter.setElement("order", "" + menuProfile.getOrder());
+							xmlWritter.setElement("menu_icon", menuProfile.getMenu_icon());
+							xmlWritter.endElement();
 						}
-						xml_menu.endElement();
+						xmlWritter.endElement();
 					}
 				}
 			}
@@ -315,66 +317,69 @@ public class PesquisarMenuController extends Controller {
 			e.printStackTrace();
 		}
 
-		displayMenusPlSql(xml_menu);
+		displayMenusPlSql(xmlWritter);
 
-		xml_menu.endElement();
+		xmlWritter.endElement();
 		this.format = Response.FORMAT_XML;
-		return this.renderView(xml_menu.toString());
+		return this.renderView(xmlWritter.toString());
 	}
 
-	private void displayMenusPlSql(XMLWritter xml_menu) {
-		List<ExternalMenu> menus = getAllMyMenusFromPlSql();
-		if (menus != null && !menus.isEmpty()) {
+	private void displayMenusPlSql(XMLWritter xmlWritter) {
 
-			xml_menu.startElement("menu");
-			xml_menu.setElement("title", "IGRP-PLSQL SSO");
-			xml_menu.setElement("order", "99");
-			xml_menu.setElement("id", "2020");
-			xml_menu.setElement("status", "1");
+		final List<ExternalMenu> menus = getAllMyMenusFromPlSql();
 
-			for (ExternalMenu m : menus) {
-				if (m.getSelf_id() == null || m.getSelf_id().isEmpty()) {
-					boolean hasChild = false;
-					xml_menu.startElement("submenu");
-					xml_menu.setElement("title", gt(m.getTitle()));
-					xml_menu.setElement("target", m.getArea());
-					xml_menu.setElement("id", "" + m.getId());
-					xml_menu.setElement("status", "" + m.getEstado());
-					xml_menu.setElement("order", "99");
-					for (ExternalMenu submenu : menus) {
-						if (submenu.getSelf_id() != null && m.getId() != null
-								&& submenu.getSelf_id().equalsIgnoreCase(m.getId())) {
-							xml_menu.startElement("submenu");
-							xml_menu.writeAttribute("title", gt(submenu.getTitle()));
-							xml_menu.writeAttribute("id", "" + submenu.getId());
-							xml_menu.setElement("title", gt(submenu.getTitle()));
-							xml_menu.setElement("target", submenu.getArea());
-							xml_menu.setElement("id", "" + submenu.getId());
-							xml_menu.setElement("status", "" + submenu.getEstado());
-							xml_menu.setElement("order", "99");
-							xml_menu.setElement("link", "" + submenu.getUrl());
-							xml_menu.endElement();
-							hasChild = true;
-						}
+		if (menus == null || menus.isEmpty())
+			return;
+
+		xmlWritter.startElement("menu");
+		xmlWritter.setElement("title", "IGRP-PLSQL SSO");
+		xmlWritter.setElement("order", "99");
+		xmlWritter.setElement("id", "2020");
+		xmlWritter.setElement("status", "1");
+
+		for (ExternalMenu m : menus) {
+
+			if (m.getSelf_id() == null || m.getSelf_id().isEmpty()) {
+				boolean hasChild = false;
+				xmlWritter.startElement("submenu");
+				xmlWritter.setElement("title", gt(m.getTitle()));
+				xmlWritter.setElement("target", m.getArea());
+				xmlWritter.setElement("id", "" + m.getId());
+				xmlWritter.setElement("status", "" + m.getEstado());
+				xmlWritter.setElement("order", "99");
+				for (ExternalMenu submenu : menus) {
+					if (submenu.getSelf_id() != null && m.getId() != null
+							&& submenu.getSelf_id().equalsIgnoreCase(m.getId())) {
+						xmlWritter.startElement("submenu");
+						xmlWritter.writeAttribute("title", gt(submenu.getTitle()));
+						xmlWritter.writeAttribute("id", "" + submenu.getId());
+						xmlWritter.setElement("title", gt(submenu.getTitle()));
+						xmlWritter.setElement("target", submenu.getArea());
+						xmlWritter.setElement("id", "" + submenu.getId());
+						xmlWritter.setElement("status", "" + submenu.getEstado());
+						xmlWritter.setElement("order", "99");
+						xmlWritter.setElement("link", "" + submenu.getUrl());
+						xmlWritter.endElement();
+						hasChild = true;
 					}
-					if (!hasChild)
-						xml_menu.setElement("link", "" + m.getUrl());
-					xml_menu.endElement();
 				}
+				if (!hasChild)
+					xmlWritter.setElement("link", "" + m.getUrl());
+
+				xmlWritter.endElement();
 			}
-
-			xml_menu.endElement();
-
 		}
+		xmlWritter.endElement();
 	}
 
 	// Get Top Menu
-	public Response actionTopMenu() throws IOException {
+	public Response actionTopMenu() {
 		boolean isStartProc = ProcessInstanceIGRP.isStartPermission();
 		boolean isTask = TaskServiceIGRP.isTaskPermission();
 		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");
 		String dad = Core.getParam("dad");
-		if (!(dad.compareTo("igrp") == 0)) {
+
+		if (!"igrp".equals(dad)) {
 			Application app = Core.getCurrentApp();
 			String page = "tutorial/DefaultPage/index&title=" + app.getName();
 			if (app.getAction() != null) {
@@ -386,6 +391,7 @@ public class PesquisarMenuController extends Controller {
 		} else {
 			topMenu.addItem("Home", "igrp", "DefaultPage", "index", "_self", "home.png", "webapps?r=");
 		}
+
 		String flag = "english_flag.png";
 		for (Cookie cookie : Igrp.getInstance().getRequest().getCookies()) {
 			if (cookie.getName().equals("igrp_lang")) {
@@ -415,13 +421,13 @@ public class PesquisarMenuController extends Controller {
 		return this.renderView(topMenu.toString());
 	}
 
-	public Response actionChangeStatus()
-			throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
+	public Response actionChangeStatus() throws IllegalArgumentException, JSONException {
 
 		this.format = Response.FORMAT_JSON;
 		Integer id = Core.getParamInt("p_id");
 		String status = Core.getParam("p_ativo_check");
 		boolean response = false;
+
 		if (Core.isNotNullOrZero(id)) {
 			Menu menu = new Menu().findOne(id);
 			if (menu != null) {
@@ -436,12 +442,6 @@ public class PesquisarMenuController extends Controller {
 		return this.renderView(json.toString());
 	}
 
-	class SortbyStatus implements Comparator<Menu> {
-		public int compare(Menu a, Menu b) {
-			return b.getStatus() - a.getStatus();
-		}
-	}
-
 	/**
 	 * Integration with IGRP-PLSQL Apps **
 	 */
@@ -453,22 +453,22 @@ public class PesquisarMenuController extends Controller {
 			appCode = Core.getCurrentApp().getPlsql_code();
 			profCode = new ProfileType().findOne(Core.getCurrentProfile()).getPlsql_code();
 			orgCode = new Organization().findOne(Core.getCurrentOrganization()).getPlsql_code();
-		} catch (Exception e) {
+		} catch (Exception ignored) {
+			// Ignored
 		}
-		Properties properties = ConfigApp.getInstance().loadConfig("common", "main.xml");
-		String baseUrl = properties.getProperty(IGRP_PDEX_APPCONFIG_URL);
-		String token = properties.getProperty(IGRP_PDEX_APPCONFIG_TOKEN);
+		final Properties properties = ConfigApp.getInstance().loadConfig("common", "main.xml");
+
+		final String IGRP_PDEX_APPCONFIG_URL = "igrp.pdex.appconfig.url";
+		final String baseUrl = properties.getProperty(IGRP_PDEX_APPCONFIG_URL);
+		final String IGRP_PDEX_APPCONFIG_TOKEN = "igrp.pdex.appconfig.token";
+		final String token = properties.getProperty(IGRP_PDEX_APPCONFIG_TOKEN);
+
 		AppConfig appConfig = new AppConfig();
 		appConfig.setUrl(baseUrl);
 		appConfig.setToken(token);
 
-		List<ExternalMenu> menus = appConfig.profAppMenus(appCode, orgCode, profCode);
-
-		return menus;
+		return appConfig.profAppMenus(appCode, orgCode, profCode);
 	}
-
-	private final String IGRP_PDEX_APPCONFIG_URL = "igrp.pdex.appconfig.url";
-	private final String IGRP_PDEX_APPCONFIG_TOKEN = "igrp.pdex.appconfig.token";
 
 	/*----#end-code----*/
 }
