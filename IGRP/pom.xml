@@ -56,7 +56,7 @@
 		<!-- OPEN HTML TO PDF -->
 		<openhtml.version>1.0.10</openhtml.version>
 
-		<jsoup.version>1.14.3</jsoup.version>
+		<jsoup.version>1.15.3</jsoup.version>
 
 		<!-- Barcode ... -->
 		<google.zxing.version>3.4.1</google.zxing.version>
