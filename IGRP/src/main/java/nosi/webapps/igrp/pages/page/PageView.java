@@ -82,139 +82,139 @@ public class PageView extends View {
 		
 		page_descr = new TextField(model,"page_descr");
 		page_descr.setLabel(gt("Título"));
-		page_descr.propertie().add("remote",Core.getIGRPLink("igrp","Page","generate-link")).add("name","p_page_descr").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		page_descr.propertie().add("remote",Core.getIGRPLink("igrp","Page","generate-link")).add("name","p_page_descr").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("disablehtml","true").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		page = new TextField(model,"page");
 		page.setLabel(gt("Código"));
-		page.propertie().add("remote",Core.getIGRPLink("igrp","Page","generate-link")).add("name","p_page").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		page.propertie().add("remote",Core.getIGRPLink("igrp","Page","generate-link")).add("name","p_page").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("disablehtml","true").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo"));
-		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","int").add("check","true");
+		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","int").add("tooltip","false").add("disable_copy_paste","false").add("check","true");
 		
 		gen_auto_code = new CheckBoxField(model,"gen_auto_code");
 		gen_auto_code.setLabel(gt("Gen Auto Code"));
-		gen_auto_code.propertie().add("name","p_gen_auto_code").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","int").add("check","true");
+		gen_auto_code.propertie().add("name","p_gen_auto_code").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","int").add("tooltip","false").add("disable_copy_paste","false").add("check","true");
 		
 		publico = new CheckBoxField(model,"publico");
 		publico.setLabel(gt("Publico"));
-		publico.propertie().add("name","p_publico").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","short").add("check","true");
+		publico.propertie().add("name","p_publico").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","short").add("tooltip","false").add("disable_copy_paste","false").add("check","true");
 		
 		public_link = new TextField(model,"public_link");
 		public_link.setLabel(gt("Public Link"));
-		public_link.propertie().add("name","p_public_link").add("type","text").add("maxlength","250").add("required","false").add("readonly","true").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		public_link.propertie().add("name","p_public_link").add("type","text").add("maxlength","250").add("required","false").add("readonly","true").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("disablehtml","true").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		public_link_2 = new TextField(model,"public_link_2");
-		public_link_2.setLabel(gt("Public Link"));
-		public_link_2.propertie().add("name","p_public_link_2").add("type","text").add("maxlength","250").add("required","false").add("readonly","true").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		public_link_2.setLabel(gt("Public Encrypted Link"));
+		public_link_2.propertie().add("name","p_public_link_2").add("type","text").add("maxlength","250").add("required","false").add("readonly","true").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("disablehtml","true").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt("  "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicação"));
-		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		componente = new CheckBoxField(model,"componente");
 		componente.setLabel(gt("Componente?"));
-		componente.propertie().add("name","p_componente").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","int").add("check","true");
+		componente.propertie().add("name","p_componente").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","int").add("tooltip","false").add("disable_copy_paste","false").add("check","true");
 		
 		extras = new SeparatorField(model,"extras");
 		extras.setLabel(gt("Extras"));
-		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
+		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		primeira_pagina = new CheckBoxField(model,"primeira_pagina");
 		primeira_pagina.setLabel(gt("Primeira Página"));
-		primeira_pagina.propertie().add("name","p_primeira_pagina").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","int").add("check","true");
+		primeira_pagina.propertie().add("name","p_primeira_pagina").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","int").add("tooltip","false").add("disable_copy_paste","false").add("check","true");
 		
 		criar_menu = new CheckBoxField(model,"criar_menu");
 		criar_menu.setLabel(gt("Criar menu?"));
-		criar_menu.propertie().add("name","p_criar_menu").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","int").add("check","true");
+		criar_menu.propertie().add("name","p_criar_menu").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","int").add("tooltip","false").add("disable_copy_paste","false").add("check","true");
 		
 		modulo = new ListField(model,"modulo");
 		modulo.setLabel(gt("Módulo"));
-		modulo.propertie().add("remote",Core.getIGRPLink("igrp","Page","setModuloEditar")).add("name","p_modulo").add("type","select").add("multiple","false").add("domain","").add("maxlength","50").add("required","false").add("disabled","false").add("java-type","").add("tags","false");
+		modulo.propertie().add("remote",Core.getIGRPLink("igrp","Page","setModuloEditar")).add("name","p_modulo").add("type","select").add("multiple","false").add("domain","").add("maxlength","50").add("required","false").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		novo_modulo = new LinkField(model,"novo_modulo");
 		novo_modulo.setLabel(gt("Módulo"));
 		novo_modulo.setValue(Core.getIGRPLink("igrp","Page","index"));
 
-									novo_modulo.propertie().add("name","p_novo_modulo").add("type","link").add("target","right_panel").add("class","success").add("img","fa-plus-square").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","").add("adbcli","");
+									novo_modulo.propertie().add("name","p_novo_modulo").add("type","link").add("target","right_panel").add("class","success").add("img","fa-plus-square").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","").add("adbcli","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		editar_modulo = new LinkField(model,"editar_modulo");
 		editar_modulo.setLabel(gt("Módulo"));
 		editar_modulo.setValue(Core.getIGRPLink("igrp","Dominio","index"));
 
-									editar_modulo.propertie().add("name","p_editar_modulo").add("type","link").add("target","right_panel").add("class","warning").add("img","fa-pencil-square-o").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","").add("adbcli","");
+									editar_modulo.propertie().add("name","p_editar_modulo").add("type","link").add("target","right_panel").add("class","warning").add("img","fa-pencil-square-o").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false").add("refresh_components","").add("adbcli","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		version = new ListField(model,"version");
 		version.setLabel(gt("Versão de Página"));
-		version.propertie().add("name","p_version").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		version.propertie().add("name","p_version").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","id");
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","id");
 		
 		table_name = new HiddenField(model,"table_name");
 		table_name.setLabel(gt(""));
-		table_name.propertie().add("name","p_table_name").add("type","hidden").add("maxlength","80").add("java-type","").add("tag","table_name");
+		table_name.propertie().add("name","p_table_name").add("type","hidden").add("maxlength","80").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","table_name");
 		
 		xsl_src = new HiddenField(model,"xsl_src");
 		xsl_src.setLabel(gt(""));
-		xsl_src.propertie().add("name","p_xsl_src").add("type","hidden").add("maxlength","2000").add("java-type","").add("tag","xsl_src");
+		xsl_src.propertie().add("name","p_xsl_src").add("type","hidden").add("maxlength","2000").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","xsl_src");
 		
 		img_src = new HiddenField(model,"img_src");
 		img_src.setLabel(gt(""));
-		img_src.propertie().add("name","p_img_src").add("type","hidden").add("maxlength","2000").add("java-type","").add("tag","img_src");
+		img_src.propertie().add("name","p_img_src").add("type","hidden").add("maxlength","2000").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","img_src");
 		
 		action = new HiddenField(model,"action");
 		action.setLabel(gt(""));
-		action.propertie().add("name","p_action").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","action");
+		action.propertie().add("name","p_action").add("type","hidden").add("maxlength","30").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","action");
 		
 		page_type = new HiddenField(model,"page_type");
 		page_type.setLabel(gt(""));
-		page_type.propertie().add("name","p_page_type").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","page_type");
+		page_type.propertie().add("name","p_page_type").add("type","hidden").add("maxlength","30").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","page_type");
 		
 		flg_menu = new HiddenField(model,"flg_menu");
 		flg_menu.setLabel(gt(""));
-		flg_menu.propertie().add("name","p_flg_menu").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","flg_menu");
+		flg_menu.propertie().add("name","p_flg_menu").add("type","hidden").add("maxlength","30").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","flg_menu");
 		
 		flg_transaction = new HiddenField(model,"flg_transaction");
 		flg_transaction.setLabel(gt(""));
-		flg_transaction.propertie().add("name","p_flg_transaction").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","flg_transaction");
+		flg_transaction.propertie().add("name","p_flg_transaction").add("type","hidden").add("maxlength","30").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","flg_transaction");
 		
 		self_id = new HiddenField(model,"self_id");
 		self_id.setLabel(gt(""));
-		self_id.propertie().add("name","p_self_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","self_id");
+		self_id.propertie().add("name","p_self_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","self_id");
 		
 		self_fw_id = new HiddenField(model,"self_fw_id");
 		self_fw_id.setLabel(gt(""));
-		self_fw_id.propertie().add("name","p_self_fw_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","self_fw_id");
+		self_fw_id.propertie().add("name","p_self_fw_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","self_fw_id");
 		
 		db_connection = new HiddenField(model,"db_connection");
 		db_connection.setLabel(gt(""));
-		db_connection.propertie().add("name","p_db_connection").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","db_connection");
+		db_connection.propertie().add("name","p_db_connection").add("type","hidden").add("maxlength","30").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","db_connection");
 		
 		flg_offline = new HiddenField(model,"flg_offline");
 		flg_offline.setLabel(gt(""));
-		flg_offline.propertie().add("name","p_flg_offline").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","flg_offline");
+		flg_offline.propertie().add("name","p_flg_offline").add("type","hidden").add("maxlength","30").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","flg_offline");
 		
 		flg_internet = new HiddenField(model,"flg_internet");
 		flg_internet.setLabel(gt(""));
-		flg_internet.propertie().add("name","p_flg_internet").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","flg_internet");
+		flg_internet.propertie().add("name","p_flg_internet").add("type","hidden").add("maxlength","30").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","flg_internet");
 		
 		proc_name = new HiddenField(model,"proc_name");
 		proc_name.setLabel(gt(""));
-		proc_name.propertie().add("name","p_proc_name").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","proc_name");
+		proc_name.propertie().add("name","p_proc_name").add("type","hidden").add("maxlength","30").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","proc_name");
 		
 		action_descr = new HiddenField(model,"action_descr");
 		action_descr.setLabel(gt(""));
-		action_descr.propertie().add("name","p_action_descr").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","action_descr");
+		action_descr.propertie().add("name","p_action_descr").add("type","hidden").add("maxlength","30").add("java-type","").add("tooltip","false").add("disable_copy_paste","false").add("tag","action_descr");
 		
 		id_pagin_hidd = new HiddenField(model,"id_pagin_hidd");
 		id_pagin_hidd.setLabel(gt(""));
-		id_pagin_hidd.propertie().add("name","p_id_pagin_hidd").add("type","hidden").add("maxlength","250").add("java-type","Integer").add("tag","id_pagin_hidd");
+		id_pagin_hidd.propertie().add("name","p_id_pagin_hidd").add("type","hidden").add("maxlength","250").add("java-type","Integer").add("tooltip","false").add("disable_copy_paste","false").add("tag","id_pagin_hidd");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");

@@ -17,6 +17,7 @@
             <xsl:with-param name="js_lookup" select="#path#/lookup"/>
             <xsl:with-param name="input-id" select="'#parent.tag#_#tag#'"/>
             <xsl:with-param name="btnClass" select="'#[class]#'"/>
+            <xsl:with-param name="getparams" select="'#[field_param]#'"/>
         </xsl:call-template>
         #[lookup_eraser]#
     </div>

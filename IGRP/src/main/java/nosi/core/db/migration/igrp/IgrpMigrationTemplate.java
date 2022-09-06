@@ -35,6 +35,7 @@ import org.flywaydb.core.api.migration.Context;
 
 import nosi.core.db.migration.api.IgrpMigrationAPI;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.activit.rest.request.RestRequest;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
@@ -296,22 +297,13 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 			PreparedStatement psQuery = null;
 			PreparedStatement psInsertOrUpdate = null;
 			try {
-				psQuery = context.getConnection().prepareStatement("SELECT * FROM public.tbl_domain WHERE env_fk=? and dominio=?"); 
+				psQuery = context.getConnection().prepareStatement("SELECT * FROM public.tbl_domain WHERE env_fk=? and dominio=? and valor=?"); 
 				psQuery.setInt(1, this.app.getId());
 				psQuery.setString(2, domain.getDominio());
+				psQuery.setString(3, domain.getValor());
 				ResultSet rs = psQuery.executeQuery(); 
-				if(rs.next()) {
-					rs.close();
-					psInsertOrUpdate = context.getConnection().prepareStatement("UPDATE public.tbl_domain SET description=?, domain_type=?, ordem=?, status=?, valor=? WHERE env_fk=? and dominio=?"); 
-					psInsertOrUpdate.setString(1, domain.getDescription());
-					psInsertOrUpdate.setString(2, domain.getDomainType().name());
-					psInsertOrUpdate.setInt(3, domain.getordem());
-					psInsertOrUpdate.setString(4, domain.getStatus());
-					psInsertOrUpdate.setString(5, domain.getValor());
-					psInsertOrUpdate.setInt(6, this.app.getId());
-					psInsertOrUpdate.setString(7, domain.getDominio());
-					psInsertOrUpdate.executeUpdate(); 
-				}else {
+				//Only If not exist, that will insert. Because the user can have changed the description locally
+				if(!rs.next()) {				
 					psInsertOrUpdate = context.getConnection().prepareStatement("INSERT INTO public.tbl_domain(description, domain_type, ordem, status, valor, env_fk, dominio) VALUES (?, ?, ?, ?, ?, ?, ?)"); 
 					psInsertOrUpdate.setString(1, domain.getDescription());
 					psInsertOrUpdate.setString(2, domain.getDomainType().name());
@@ -633,12 +625,18 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 			Properties activitiSettings = loadActivitiSettings(context);
 			String endpoint = activitiSettings.getProperty(ACTIVITI_ENDPOINT_NAME);
 			String httpAuthorizationHeaderValue = "Basic " + Base64.getEncoder().encodeToString((activitiSettings.getProperty(ACTIVITI_USERNAME_PARAM_NAME) + ":" + activitiSettings.getProperty(ACTIVITI_PASSWORD_PARAM_NAME)).getBytes());  
-			for(String bpmn : this.bpmns) {
-				InputStream inputStream = loadReportOrBpmnFile(this.app.getDad(), bpmn);
-				if(inputStream == null) throw new FileNotFoundException("The deployment file " + bpmn + "was not found."); 
-				if(this.deployBPMNToEngine(endpoint, httpAuthorizationHeaderValue, bpmn, inputStream)) 
-					this.migrateTipoDocumentoEtapas(context);
-			}
+			
+			//If activiti server is not running, will only give one timeout and not x rows of BPM migrations in the for condition
+			Response response =  new RestRequest().get("repository/deployments");
+			if (response != null && response.getStatus()==200) {
+				for(String bpmn : this.bpmns) {
+					InputStream inputStream = loadReportOrBpmnFile(this.app.getDad(), bpmn);
+					if(inputStream == null) throw new FileNotFoundException("The deployment file " + bpmn + "was not found."); 
+					if(this.deployBPMNToEngine(endpoint, httpAuthorizationHeaderValue, bpmn, inputStream)) 
+						this.migrateTipoDocumentoEtapas(context);
+				}
+			}else
+				System.out.print("\n[ERROR] >>>>>>> BPM Activiti server not responding so migration BPM was skipped. <<<<<<<\n\n");
 		}
 	}
 	
