@@ -413,7 +413,7 @@ public class MigrationController extends Controller {
 			StringBuilder auxContent = new StringBuilder();  
 			for(String domainId: domain_ids) {
 				if(domainId != null && !domainId.trim().isEmpty()) {
-					List<Domain> domains = new Domain().find().where("dominio","=",domainId).all().stream().filter(distinctByKey(Domain::getValor)).toList(); 
+					List<Domain> domains = new Domain().find().where("dominio","=",domainId).all().stream().filter(distinctByKey(Domain::getValor)).collect(Collectors.toList()); 
 					for (Iterator<Domain> iterator = domains.iterator(); iterator.hasNext();) {
 						Domain domain = (Domain) iterator.next();
 						if(domain != null) {
