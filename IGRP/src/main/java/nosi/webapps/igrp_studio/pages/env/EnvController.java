@@ -1,30 +1,28 @@
 package nosi.webapps.igrp_studio.pages.env;
 
-import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
-import java.io.IOException;//
-import nosi.core.webapp.Core;//
-import nosi.core.webapp.Response;//
-/* Start-Code-Block (import) */
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import nosi.core.config.Config;
+import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.integration.pdex.service.AppConfig;
+import nosi.core.integration.pdex.service.AppConfig.App;
+import nosi.core.webapp.*;
+import nosi.core.webapp.helpers.ApplicationPermition;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.core.webapp.security.Permission;
+import nosi.core.xml.XMLWritter;
+import nosi.webapps.igrp.dao.*;
+import org.apache.commons.io.IOUtils;
+
+import javax.jws.WebService;
+import javax.persistence.GeneratedValue;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-
-import static nosi.core.i18n.Translator.gt;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
+import java.util.function.Function;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.jar.JarOutputStream;
@@ -33,29 +31,7 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
 
-import javax.jws.WebService;
-import javax.persistence.GeneratedValue;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-
-import org.apache.commons.io.IOUtils;
-
-import nosi.core.config.ConfigCommonMainConstants;
-import nosi.core.integration.pdex.service.AppConfig;
-import nosi.core.integration.pdex.service.AppConfig.App;
-import nosi.core.webapp.Igrp;
-import nosi.core.webapp.RParam;
-import nosi.core.webapp.helpers.ApplicationPermition;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.security.EncrypDecrypt;
-import nosi.core.webapp.security.Permission;
-import nosi.core.xml.XMLWritter;
-import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Menu;
-import nosi.webapps.igrp.dao.Profile;
-import nosi.webapps.igrp.dao.ProfileType;
-
+import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 		
 public class EnvController extends Controller {
@@ -66,22 +42,29 @@ public class EnvController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		view.img_src.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.templates.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.action_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.flg_external.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
-		
-      	model.setGen_auto_code(1); 
-      	model.setImg_src("default.svg");	
-	
+
+		view.img_src.setValue(this.getIcons());
+		view.templates.setValue(this.getThemes());
+
+		final Application application = new Application().findOne(Core.getParam("p_id"));
+		model.setImg_src(application != null && Core.isNotNull(application.getImg_src()) ? application.getImg_src() : "default.svg");
+		model.setGen_auto_code(1);
+		model.setStatus(1);
+
 		view.host.setVisible(true);
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
 		view.action_fk.setVisible(false);
 		view.flg_old.setVisible(false);
-		model.setStatus(1);
-		view.flg_external.setValue(new Application().getAtivesEstadoRegisto()); 
+		view.flg_external.setValue(new Application().getAtivesEstadoRegisto());
 		
 		/*----#end-code----*/
 		view.setModel(model);
@@ -98,6 +81,7 @@ public class EnvController extends Controller {
 		  return this.forward("igrp_studio","ListaPage","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gravar)  *//* End-Code-Block  */
 		/*----#start-code(gravar)----*/ 
 		
 		if(Core.isHttpPost()){
@@ -112,7 +96,7 @@ public class EnvController extends Controller {
 			}
 			app.setDad(model.getDad());
 			app.setDescription(model.getDescription());	
-			app.setExternal(Core.toInt(model.getFlg_external()).intValue());
+			app.setExternal(Core.toInt(model.getFlg_external()));
 			app.setPlsql_code(model.getPlsql_codigo());
 			
 			boolean autoDeploy = false;
@@ -130,7 +114,7 @@ public class EnvController extends Controller {
 			app.setImg_src(model.getImg_src());
 			app.setName(model.getName());
 			app.setStatus(model.getStatus());
-			app.setTemplate(model.getTemplates()); 
+			app.setTemplate(model.getTemplates());
 			
 			Application tutorial = new Application().find().andWhere("dad", "=", "tutorial").one();
 			if(tutorial != null && app.getExternal() != 1) {
@@ -167,9 +151,7 @@ public class EnvController extends Controller {
 		/*----#end-code----*/
 			
 	}
-	
-		
-		
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 	
 	private boolean appAutoDeploy(String appDad) {
@@ -210,61 +192,63 @@ public class EnvController extends Controller {
 	}
 
 	public Response actionEditar() throws IllegalArgumentException, IllegalAccessException, IOException{
-		Env model = new Env();		
-		Application aplica_db = new Application();
-		int idAplicacao = Core.getParamInt("p_id");
-		aplica_db = aplica_db.findOne(idAplicacao);
-		model.setDad(aplica_db.getDad()); 
-		model.setName(aplica_db.getName());
-		model.setDescription(aplica_db.getDescription());
-		model.setFlg_external(aplica_db.getExternal() + "");
-		model.setHost(aplica_db.getUrl());
-		if(Core.isNotNull(aplica_db.getAction())){
-			model.setAction_fk(aplica_db.getAction().getId().toString());
+
+		Env model = new Env();
+
+		final Integer idAplicacao = Core.getParamInt("p_id");
+		Application application = new Application().findOne(idAplicacao);
+
+		model.setDad(application.getDad());
+		model.setName(application.getName());
+		model.setDescription(application.getDescription());
+		model.setFlg_external(application.getExternal() + "");
+		model.setHost(application.getUrl());
+		if(Core.isNotNull(application.getAction())){
+			model.setAction_fk(application.getAction().getId().toString());
 		}
-		model.setImg_src(aplica_db.getImg_src());
-		model.setStatus(aplica_db.getStatus());
-		model.setTemplates(aplica_db.getTemplate());
-		model.setPlsql_codigo(aplica_db.getPlsql_code());
+		model.setImg_src(application.getImg_src());
+		model.setStatus(application.getStatus());
+		model.setTemplates(application.getTemplate());
+		model.setPlsql_codigo(application.getPlsql_code());
 		
 		if(Core.isHttpPost()){
 			model.load();			
-			aplica_db.setName(model.getName());
-			aplica_db.setImg_src(model.getImg_src());	
-			aplica_db.setExternal(Core.toInt(model.getFlg_external()).intValue());
-			aplica_db.setPlsql_code(model.getPlsql_codigo());
+			application.setName(model.getName());
+			application.setImg_src(model.getImg_src());
+			application.setExternal(Core.toInt(model.getFlg_external()));
+			application.setPlsql_code(model.getPlsql_codigo());
 			
-			if(aplica_db.getExternal() == 2) {
-				aplica_db.setUrl(model.getHost().trim());
+			if(application.getExternal() == 2) {
+				application.setUrl(model.getHost().trim());
 			}
 			
-			if(aplica_db.getExternal() == 1) {
+			if(application.getExternal() == 1) {
 				if(Core.isNotNull(model.getHost()))
-					aplica_db.setUrl(model.getHost().trim());
+					application.setUrl(model.getHost().trim());
 				else
-					aplica_db.setUrl(null);
+					application.setUrl(null);
 			}
 		
-			aplica_db.setDescription(model.getDescription());
+			application.setDescription(model.getDescription());
 			if(Core.isInt(model.getAction_fk())){
 				Action ac = new Action().findOne(Integer.parseInt(model.getAction_fk()));
-				aplica_db.setAction(ac);
+				application.setAction(ac);
 			}else {
 				
 				Application tutorial = new Application().find().andWhere("dad", "=", "tutorial").one();
 				if(tutorial != null) {
 					Action hp = new Action().find().andWhere("page", "=", "DefaultPage").andWhere("application.id", "=", tutorial.getId()).one();
-					if(hp != null && aplica_db.getExternal() != 1)
-						aplica_db.setAction(hp);  
+					if(hp != null && application.getExternal() != 1)
+						application.setAction(hp);
 					else 
-						aplica_db.setAction(null); 
+						application.setAction(null);
 				}
 				
 			}
-			aplica_db.setStatus(model.getStatus());
-			aplica_db.setTemplate(model.getTemplates());	
-			aplica_db = aplica_db.update();
-			if(aplica_db != null){
+			application.setStatus(model.getStatus());
+			application.setTemplate(model.getTemplates());
+			application = application.update();
+			if(application != null){
 				
 				Core.setMessageSuccess(); 
 				
@@ -285,10 +269,10 @@ public class EnvController extends Controller {
 		view.link_center.setVisible(false);
 		view.flg_old.setVisible(false);
 		view.plsql_codigo.setLabel("IGRP (code)");
+		view.img_src.setValue(this.getIcons());
+		view.templates.setValue(this.getThemes());
+		view.flg_external.setValue(new Application().getAtivesEstadoRegisto());
 		view.setModel(model);
-		
-		view.flg_external.setValue(new Application().getAtivesEstadoRegisto()); 
-		
 		return this.renderView(view); 
 	}
 
@@ -299,7 +283,7 @@ public class EnvController extends Controller {
 		List<Profile> myApp = new Application().getMyApp(); 
 		myApp = myApp.stream()
 				  .filter(profile->profile.getOrganization().getApplication().getStatus()==1).collect(Collectors.toList());
-		if(type!=null && type.equalsIgnoreCase("dev")) {
+		if(type.equalsIgnoreCase("dev")) {
 			myApp = myApp.stream()					 
 					.filter(profile->!profile.getOrganization().getApplication().getDad().equalsIgnoreCase("tutorial"))
 					.filter(profile->!profile.getOrganization().getApplication().getDad().equalsIgnoreCase("igrp_studio"))
@@ -307,8 +291,8 @@ public class EnvController extends Controller {
 		}
 		List<Application> otherApp = new Application().getOtherApp();
 		List<Integer> aux = new ArrayList<>();
-		XMLWritter xml_menu = new XMLWritter();
-		xml_menu.startElement("applications");
+		XMLWritter xmlMenu = new XMLWritter();
+		xmlMenu.startElement("applications");
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
 		List<App> allowApps = new ArrayList<>();
@@ -317,35 +301,35 @@ public class EnvController extends Controller {
 		/** End **/
 		boolean displaySubtitle = false;
 		boolean displayTitle = false;
-		xml_menu.setElement("link_img", this.getConfig().getLinkImg());
+		xmlMenu.setElement("link_img", this.getConfig().getLinkImg());
 		for(Profile profile:myApp){
-			xml_menu.startElement("application");
-			xml_menu.writeAttribute("available", "yes");
+			xmlMenu.startElement("application");
+			xmlMenu.writeAttribute("available", "yes");
 			String page = "tutorial/DefaultPage/index&title="+profile.getOrganization().getApplication().getName();
 			if(profile.getOrganization().getApplication().getAction()!=null){
 				Action ac = profile.getOrganization().getApplication().getAction();
 				page = (ac!=null && ac.getPage()!=null)? ac.getApplication().getDad().toLowerCase()+"/" + ac.getPage()+"/"+ac.getAction():page;
 			}
-			xml_menu.setElement("link", this.getLinkOpenApp() + profile.getOrganization().getApplication().getDad().toLowerCase()+"&page="+page);
-			xml_menu.setElement("img", Core.isNotNull(profile.getOrganization().getApplication().getImg_src())?profile.getOrganization().getApplication().getImg_src():"default.svg");
-			xml_menu.setElement("title", profile.getOrganization().getApplication().getName());
-			xml_menu.setElement("description", profile.getOrganization().getApplication().getDescription());
-			xml_menu.setElement("num_alert", ""+profile.getOrganization().getApplication().getId());
-			xml_menu.endElement();
+			xmlMenu.setElement("link", this.getLinkOpenApp() + profile.getOrganization().getApplication().getDad().toLowerCase()+"&page="+page);
+			xmlMenu.setElement("img", Core.isNotNull(profile.getOrganization().getApplication().getImg_src())?profile.getOrganization().getApplication().getImg_src():"default.svg");
+			xmlMenu.setElement("title", profile.getOrganization().getApplication().getName());
+			xmlMenu.setElement("description", profile.getOrganization().getApplication().getDescription());
+			xmlMenu.setElement("num_alert", ""+profile.getOrganization().getApplication().getId());
+			xmlMenu.endElement();
 			aux.add(profile.getOrganization().getApplication().getId());
 			displayTitle = (type==null || type.equalsIgnoreCase(""));
 		}
 		if(type==null || type.equals("")) {
 			for(Application app:otherApp){
 				if(!aux.contains(app.getId())){ // :-)
-					xml_menu.startElement("application");
-					xml_menu.writeAttribute("available", "no");
-					xml_menu.setElement("link", "");
-					xml_menu.setElement("img", Core.isNotNull(app.getImg_src())?app.getImg_src():"default.svg");
-					xml_menu.setElement("title",app.getName());
-					xml_menu.setElement("num_alert", "");
-					xml_menu.setElement("description", app.getDescription());
-					xml_menu.endElement();
+					xmlMenu.startElement("application");
+					xmlMenu.writeAttribute("available", "no");
+					xmlMenu.setElement("link", "");
+					xmlMenu.setElement("img", Core.isNotNull(app.getImg_src())?app.getImg_src():"default.svg");
+					xmlMenu.setElement("title",app.getName());
+					xmlMenu.setElement("num_alert", "");
+					xmlMenu.setElement("description", app.getDescription());
+					xmlMenu.endElement();
 					displaySubtitle = (type==null || type.equalsIgnoreCase(""));
 				}
 			}
@@ -353,37 +337,37 @@ public class EnvController extends Controller {
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
 		for(App obj: allowApps){
-			xml_menu.startElement("application");
-			xml_menu.writeAttribute("available", "yes");
-			xml_menu.setElement("link", obj.getLink());
-			xml_menu.setElement("img", obj.getImg_src());
-			xml_menu.setElement("title", obj.getName());
-			xml_menu.setElement("num_alert", "");
-			xml_menu.setElement("description", obj.getDescription());
-			xml_menu.endElement();
+			xmlMenu.startElement("application");
+			xmlMenu.writeAttribute("available", "yes");
+			xmlMenu.setElement("link", obj.getLink());
+			xmlMenu.setElement("img", obj.getImg_src());
+			xmlMenu.setElement("title", obj.getName());
+			xmlMenu.setElement("num_alert", "");
+			xmlMenu.setElement("description", obj.getDescription());
+			xmlMenu.endElement();
 			displayTitle = true;
 		}
 		for(App obj: denyApps){
-			xml_menu.startElement("application");
-			xml_menu.writeAttribute("available", "no");
-			xml_menu.setElement("link", obj.getLink());
-			xml_menu.setElement("img", obj.getImg_src());
-			xml_menu.setElement("title", obj.getName());
-			xml_menu.setElement("num_alert", "");
-			xml_menu.setElement("description", obj.getDescription());
-			xml_menu.endElement();
+			xmlMenu.startElement("application");
+			xmlMenu.writeAttribute("available", "no");
+			xmlMenu.setElement("link", obj.getLink());
+			xmlMenu.setElement("img", obj.getImg_src());
+			xmlMenu.setElement("title", obj.getName());
+			xmlMenu.setElement("num_alert", "");
+			xmlMenu.setElement("description", obj.getDescription());
+			xmlMenu.endElement();
 			displaySubtitle = true; 
 		}
 		/** End **/
 		if(displayTitle)
-			xml_menu.setElement("title", Core.gt("Minhas Aplicações"));
+			xmlMenu.setElement("title", Core.gt("Minhas Aplicações"));
 		if(displaySubtitle)
-			xml_menu.setElement("subtitle", Core.gt("Outras Aplicações"));
-		xml_menu.endElement();
+			xmlMenu.setElement("subtitle", Core.gt("Outras Aplicações"));
+		xmlMenu.endElement();
 		Response response = new Response();
 		response.setCharacterEncoding(Response.CHARSET_UTF_8);
 		response.setContentType(Response.FORMAT_XML);
-		response.setContent(xml_menu + "");
+		response.setContent(xmlMenu + "");
 		response.setType(1);
 
 		return response;
@@ -394,7 +378,7 @@ public class EnvController extends Controller {
 	}
 
 
-	public Response actionOpenApp(@RParam(rParamName = "app") String app, @RParam(rParamName = "page") String page) throws Exception{ 
+	public Response actionOpenApp(@RParam(rParamName = "app") String app, @RParam(rParamName = "page") String page) throws Exception {
 		String[] p = page.split("/");
 		Permission permission = new Permission();
 		if(permission.isPermition(app, p[0], p[1], p[2])) { 
@@ -432,15 +416,15 @@ public class EnvController extends Controller {
 				e.printStackTrace();
 			}
 			this.addQueryString("dad", app); 
-			String params = Core.getParam("p_params"); 
-			if(params != null) {
-				String allParams[] = params.split(";"); 
-				for(String param : allParams) {
-					String param_[] = param.split("="); 
-					if(param_.length == 2)
-						this.addQueryString(param_[0].trim(), param_[1].trim()); 
-				}
+			String params = Core.getParam("p_params");
+
+			String[] allParams = params.split(";");
+			for (String param : allParams) {
+				String[] splitedParam = param.split("=");
+				if (splitedParam.length == 2)
+					this.addQueryString(splitedParam[0].trim(), splitedParam[1].trim());
 			}
+
 			return this.redirect(p[0], p[1], p[2],this.queryString());
 		}		
 		Core.setMessageError(gt("Não tem permissão! No permission! Page: ") + page);		
@@ -488,9 +472,9 @@ public class EnvController extends Controller {
 				url = url.replace("state=igrp", "state=ENV/" + env.getDad()); 
 				url = url.replace("/IGRP/", "/" + env.getUrl() + "/"); 
 			}
-		} catch (Exception e) { 
+		} catch (Exception ignored) {
+			// Ignored
 		}
-
 		return url;
 	}
 	
@@ -525,20 +509,20 @@ public class EnvController extends Controller {
 						xml.startElement(className);
 							xml.setElement("full_class_name", c.getName());
 							xml.startElement("operations");
-								Method []methods = c.getMethods(); 
-								if(methods != null) 
+								Method []methods = c.getMethods();
+								if(methods != null)
 									for(Method m : methods) {
-										xml.startElement(m.getName()); 
-											xml.startElement("params"); 
-												Parameter parameters[] = m.getParameters(); 
-												if(parameters != null) 
+										xml.startElement(m.getName());
+											xml.startElement("params");
+												Parameter[] parameters = m.getParameters();
+												if(parameters != null)
 													for(Parameter p : parameters) {
-														xml.startElement(p.getName()); 
+														xml.startElement(p.getName());
 															xml.text(p.getType().getTypeName());
 														xml.endElement();
 													}
 											xml.endElement();
-											xml.startElement("return"); 
+											xml.startElement("return");
 												xml.startElement("tipo");
 													xml.text(m.getReturnType().getName());
 												xml.endElement();
@@ -567,28 +551,28 @@ public class EnvController extends Controller {
 			for (Map.Entry<String, String> entry : dao.entrySet()) {
 				try {
 					String path = entry.getValue().substring(entry.getValue().indexOf("nosi"+File.separator+"webapps"+File.separator)).replace(".java", "").replace(File.separator, ".");
-					String nome_classe = entry.getKey().replace(".java", "");
+					String className = entry.getKey().replace(".java", "");
 					Class<?> obj = Class.forName(path);
-					xml.startElement(nome_classe);
+					xml.startElement(className);
 					Field[] fields = obj.getDeclaredFields();
-			         for (int i = 0; i < fields.length; i++) {
-			        	 if(!fields[i].getName().startsWith("pc") && !fields[i].getName().startsWith("class") && !fields[i].getName().startsWith("serialVersion")){
-			        		 xml.startElement("field");
-				        		 xml.startElement("nome");
-				        		 	xml.text(fields[i].getName());
-				        		 xml.endElement();
-				        		 xml.startElement("tipo");
-					        		 String aux = fields[i].getType().getSimpleName(); 
-					        	 		if(fields[i].getAnnotation(ManyToOne.class) != null || fields[i].getAnnotation(OneToOne.class) != null) 
-					        	 			aux += "_FK#";  
-					        	 		else if(fields[i].getAnnotation(GeneratedValue.class) != null)
-					        	 			aux += "_PK#";
-					        	 	xml.text(aux);
-				        	 	xml.endElement();
-			        	 	xml.endElement();
-			        	 
-			        	 }
-			         }
+					for (Field field : fields) {
+						if (!field.getName().startsWith("pc") && !field.getName().startsWith("class") && !field.getName().startsWith("serialVersion")) {
+							xml.startElement("field");
+							xml.startElement("nome");
+							xml.text(field.getName());
+							xml.endElement();
+							xml.startElement("tipo");
+							String aux = field.getType().getSimpleName();
+							if (field.getAnnotation(ManyToOne.class) != null || field.getAnnotation(OneToOne.class) != null)
+								aux += "_FK#";
+							else if (field.getAnnotation(GeneratedValue.class) != null)
+								aux += "_PK#";
+							xml.text(aux);
+							xml.endElement();
+							xml.endElement();
+
+						}
+					}
 			         xml.endElement();
 				} catch (Exception e) {	
 					e.printStackTrace();
@@ -598,10 +582,10 @@ public class EnvController extends Controller {
 		xml.endElement();
 	} 
 	
-	private String generateXMLFieldsStructure(Class obj) {
+	private String generateXMLFieldsStructure(Class<?> obj) {
 		XMLWritter xml = new XMLWritter(); 
 		Field[] fields = obj.getDeclaredFields();
-		if(fields != null && fields.length > 0) {
+		if(fields.length > 0) {
 			xml.startElement("fields");
 				for(Field field : fields) {
 					xml.startElement("field");
@@ -614,6 +598,43 @@ public class EnvController extends Controller {
 			xml.endElement();
 		}
 		return xml.toString(); 
+	}
+
+	private Map<String, String> getIcons() {
+		try {
+
+			final String iconAppPath = new Config().getPathOfImagesFolder() + "/IGRP/IGRP2.3/assets/img/iconApp";
+
+			final Map<String, String> files = new FileHelper().readAllFileDirectory(iconAppPath);
+
+			if (null != files)
+				return files.keySet()
+						.stream()
+						.collect(Collectors.toMap(Function.identity(), Function.identity(), (x, y) -> x, LinkedHashMap::new));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new HashMap<>();
+	}
+
+	private Map<String, String> getThemes() {
+
+		final Map<String, String> themes = new LinkedHashMap<>();
+
+		try {
+
+			final String iconAppPath = new Config().getPathOfImagesFolder() + "/IGRP/IGRP2.3/themes";
+
+			themes.put(null, "-- Seleccionar --");
+
+			new FileHelper().getDirectoriesFromPath(iconAppPath)
+					.forEach(obj -> themes.put(obj, obj));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return themes;
 	}
 	
 	/*----#end-code----*/

@@ -57,10 +57,10 @@ $(function(){
 			if(v_fwl_search_copy=="" || v_fwl_search_copy==null)
 				v_fwl_search_copy = p.ctxParam;
 
-			var vObj 	= (vParent == "TD") ? $("input[name='"+v_fwl_search_copy+"']",p.lookUp.parents('tr:first')):$("input[name='"+v_fwl_search_copy+"']");
+			var vObj 	= (vParent == "TD") ? $("input[name='"+v_fwl_search_copy+"']",p.lookUp.parents('tr:first')) : $("input[name='"+v_fwl_search_copy+"']");
 			var vParam 	= $.IGRP.utils.sanitize( vObj.val() ) ;	
 
-			vNewLink 	= (vParam != undefined) ? $.IGRP.utils.getUrl(vNewLink)+"p_fwl_search="+vParam:vNewLink;
+			vNewLink 	= (vParam && vParam != undefined) ? $.IGRP.utils.getUrl(vNewLink)+"p_fwl_search="+vParam : vNewLink;
 
 			if(p.target)
 				vNewLink = vNewLink+'&'+p.target+'='+vParam;
@@ -69,17 +69,42 @@ $(function(){
 			
 			try{
 				vNparam = $.IGRP.utils.getParam(vNewLink, "p_fwl_copy_id");
-				vNparam = (vNparam!=null && vNparam!="XXX") ? "p_id="+$("*[name='"+vNparam+"']").val():"";
+				vNparam = (vNparam!=null && vNparam!="XXX") ? "p_id="+$("*[name='"+vNparam+"']").val() : "";
+			
+
+				if(p.lookUp.is('[getparams]')){
+					const getParam = p.lookUp.attr('getparams');
+
+					if(getParam){
+
+						getParam.split(',').map((fp, id) => {
+							let field = $(`:input[name="${fp}"]`);
+
+							if(!field[0])
+								field = vParent == "TD" ? $(`:input[name="${fp}_fk"]`,p.lookUp.parents('tr:first')) : $(`:input[name="${fp}_fk"]:first`);
+							
+							if(field[0]){
+
+								const val = field.val();
+
+								if(val && val !== undefined){
+									vNparam += id > 0 ? '&': '';
+
+									vNparam += `${fp}=${val}`;
+								}
+							}
+						});
+					}
+				}
 			}
-			catch(e) {
-				console.log(e);
+			catch(e) { 
 				null;
 			}
 
-			vNewLink = (vNparam != "") ? $.IGRP.utils.getUrl(vNewLink)+vNparam:vNewLink;
+			vNewLink = vNparam != "" ? $.IGRP.utils.getUrl(vNewLink)+vNparam : vNewLink;
 			
 			try{
-				vNewLink = (vParent == "TD") ? $.IGRP.utils.getUrl(vNewLink)+"p_fwl_form_idx="+vParentId:vNewLink;
+				vNewLink = vParent == "TD" ? $.IGRP.utils.getUrl(vNewLink)+"p_fwl_form_idx="+vParentId : vNewLink;
 			}catch(e){
 				null;
 			}
