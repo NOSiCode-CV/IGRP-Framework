@@ -76,6 +76,7 @@ var TIMELINE = function(name,params){
 		rtn += '<'+tag+'_hd type="text" maxlength="40"><label>Header</label></'+tag+'_hd>';
 		rtn += '<'+tag+'_date type="date" maxlength="40"><label>Date</label></'+tag+'_date>';
 		rtn += '<'+tag+'_text type="text" maxlength="4000"><label>Content</label></'+tag+'_text>';
+		rtn += '<'+tag+'_btn_desc type="text" maxlength="40"><label>Label link</label></'+tag+'_btn_desc>';
 		rtn += '<'+tag+'_btn type="link" target="'+target+'" maxlength="4000"><label>Button</label></'+tag+'_btn>';
 		rtn += '</fields><table><value>';
 		for (var i = 0; i < 3; i++) {
