@@ -1085,6 +1085,18 @@ var mWindow = null,
 			}
 			return url;
 		}
+
+		var signerBeforeSubmit = function(p){
+			if($.IGRP.components?.nosicaSigner){
+				$.IGRP.components.nosicaSigner.signerBeforeSubmit(p);
+			}
+		}
+
+		var signerBeforeDownload = function(p){
+			if($.IGRP.components?.nosicaSigner){
+				$.IGRP.components.nosicaSigner.signerBeforeDownload(p);
+			}
+		}
 		
 		var getParameterSymbol = function(url){
 		
@@ -1241,6 +1253,21 @@ var mWindow = null,
 				type  : 'submit'
 
 			},	
+
+			signer_before_submit : {
+				label : 'Signer Before Submit',
+
+				action : signerBeforeSubmit,
+
+				type   : 'submit'
+			},
+
+			signer_before_download : {
+				label : 'Signer Before Download',
+
+				action : signerBeforeDownload
+			},
+
 			_link       : {
 
 				label : 'Link',

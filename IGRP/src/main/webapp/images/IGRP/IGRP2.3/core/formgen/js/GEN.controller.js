@@ -4888,6 +4888,61 @@ var GENERATOR = function(genparams){
 					
 					field.SET.list_source('');
 					
+			},
+			onEditionStart : function(){
+				const flIncludes = {
+					css :[ 
+						{ path:'/plugins/select2/select2.min.css' }, 
+						{ path:'/plugins/select2/select2.style.css' } 
+					],
+					js  : [ 
+						{ path :'/core/igrp/form/igrp.forms.js'},
+						{ path:'/plugins/select2/select2.full.min.js'}, 
+						{ path:'/plugins/select2/select2.init.js'},
+						{ path:'/plugins/nosicaSigner/nosicaSigner.js'}
+					]
+				},
+				removeIncluds = function (arr, t) {
+						
+					arr.forEach(function (e) {
+		
+						if (field.includes[t]){
+		
+							for (var i = 0; i < field.includes[t].length; i++) {
+								var inc = field.includes[t][i];
+		
+								if (inc.path == e.path) {
+									var index = field.includes[t].indexOf(inc);
+		
+									if (index > -1)
+										field.includes[t].splice(index, 1);
+		
+									break;
+								}
+							}
+						}
+					});
+				};
+
+				const target = field.GET.target ? field.GET.target() : null;
+
+				console.log("target",target);
+
+				if(target.includes('signer')){
+					flIncludes.js.forEach(function (e) {
+						console.log('js :: ',e);
+						field.includes.js.unshift(e);
+					});
+
+					flIncludes.css.forEach(function (e) {
+						console.log('css :: ',e);
+						field.includes.css.unshift(e);
+					});
+
+				}else{
+					removeIncluds(flIncludes,'js');
+					removeIncluds(flIncludes,'css');
+				}
 			}
 			
 		});

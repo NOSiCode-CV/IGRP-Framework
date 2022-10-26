@@ -32,7 +32,7 @@
 
                 <xsl:if test="./fields/nosicasigner_available_tokens">
 
-                    <div class="col-sm-3 form-group holder_select hidden" id="holder_nosicasigner_available_tokens" item-name="nosicasigner_available_tokens" item-type="select">
+                    <div class="col-sm-3 form-group holder_select hidden nosicasigner_available_tokens" id="holder_nosicasigner_available_tokens" item-name="nosicasigner_available_tokens" item-type="select">
                         <label for="{./fields/nosicasigner_available_tokens/@name}">
                             <xsl:value-of select="./fields/nosicasigner_available_tokens/label" />
                         </label>
@@ -58,7 +58,7 @@
 
                 <xsl:if test="./fields/nosicasigner_available_certificates">
 
-                    <div class="col-sm-3 form-group holder_select hidden" id="holder_nosicasigner_available_certificates" item-name="nosicasigner_available_certificates" item-type="select">
+                    <div class="col-sm-3 form-group holder_select hidden nosicasigner_available_certificates" id="holder_nosicasigner_available_certificates" item-name="nosicasigner_available_certificates" item-type="select">
                         <label for="{./fields/nosicasigner_available_certificates/@name}">
                             <xsl:value-of select="./fields/nosicasigner_available_certificates/label" />
                         </label>

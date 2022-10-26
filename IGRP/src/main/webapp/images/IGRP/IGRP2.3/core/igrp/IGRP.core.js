@@ -738,6 +738,9 @@
 				    console.log('Error: ', error);
 				};
 			},
+			str2base64 : function(str){
+				return window.btoa(encodeURIComponent(str));
+			},
 			base64toBlob : function(p) {
 		        var sliceSize 		= p.sliceSize || 512,
 		        	base64 			= p.base64Data.split(';'),
