@@ -4874,6 +4874,57 @@ var GENERATOR = function(genparams){
 
 	var targetRulesSet = false;
 
+	GEN.removeIncluds = function (arr, t, obj) {
+		arr.forEach(function (e) {
+
+			if (obj.includes[t]){
+
+				for (var i = 0; i < obj.includes[t].length; i++) {
+					var inc = obj.includes[t][i];
+
+					if (inc.path == e.path) {
+						var index = obj.includes[t].indexOf(inc);
+
+						if (index > -1)
+							obj.includes[t].splice(index, 1);
+
+						break;
+					}
+				}
+			}
+		});
+	};
+
+	const nosicaSignerIncludesFiles = function(field,v){
+
+		const flIncludes = {
+			css :[
+				{ path:'/plugins/select2/select2.style.css' },
+				{ path:'/plugins/select2/select2.min.css' } 
+			],
+			js  : [
+				{ path:'/plugins/nosicaSigner/nosicaSigner.js'},
+				{ path:'/plugins/select2/select2.init.js'},
+				{ path:'/plugins/select2/select2.full.min.js'}
+				
+			]
+		};
+
+		if(v.includes('signer')){
+			flIncludes.js.forEach(function (e) {
+				field.includes.js.unshift(e);
+			});
+
+			flIncludes.css.forEach(function (e) {
+				field.includes.css.unshift(e);
+			});
+
+		}else{
+			GEN.removeIncluds(flIncludes.js,'js',field);
+			GEN.removeIncluds(flIncludes.css,'css',field);
+		}
+	}
+
 	GEN.setTargetAttr = function(field,p){
 
 		field.setPropriety({
@@ -4887,62 +4938,16 @@ var GENERATOR = function(genparams){
 				if(field.SET.list_source && v != 'listAssociation')
 					
 					field.SET.list_source('');
+
+				nosicaSignerIncludesFiles(field,v);
 					
 			},
-			onEditionStart : function(){
-				const flIncludes = {
-					css :[ 
-						{ path:'/plugins/select2/select2.min.css' }, 
-						{ path:'/plugins/select2/select2.style.css' } 
-					],
-					js  : [ 
-						{ path :'/core/igrp/form/igrp.forms.js'},
-						{ path:'/plugins/select2/select2.full.min.js'}, 
-						{ path:'/plugins/select2/select2.init.js'},
-						{ path:'/plugins/nosicaSigner/nosicaSigner.js'}
-					]
-				},
-				removeIncluds = function (arr, t) {
-						
-					arr.forEach(function (e) {
-		
-						if (field.includes[t]){
-		
-							for (var i = 0; i < field.includes[t].length; i++) {
-								var inc = field.includes[t][i];
-		
-								if (inc.path == e.path) {
-									var index = field.includes[t].indexOf(inc);
-		
-									if (index > -1)
-										field.includes[t].splice(index, 1);
-		
-									break;
-								}
-							}
-						}
-					});
-				};
+			onEditionStart : function(o){
 
 				const target = field.GET.target ? field.GET.target() : null;
 
-				console.log("target",target);
-
-				if(target.includes('signer')){
-					flIncludes.js.forEach(function (e) {
-						console.log('js :: ',e);
-						field.includes.js.unshift(e);
-					});
-
-					flIncludes.css.forEach(function (e) {
-						console.log('css :: ',e);
-						field.includes.css.unshift(e);
-					});
-
-				}else{
-					removeIncluds(flIncludes,'js');
-					removeIncluds(flIncludes,'css');
-				}
+				nosicaSignerIncludesFiles(field,target);
+				
 			}
 			
 		});
@@ -5310,30 +5315,8 @@ var GENERATOR = function(genparams){
 		});
 		
 		var jsIncludes = [
-				{ path: '/plugins/sharpadbclient/sharpadbclient.js' }
-			],
-			removeIncluds = function (arr, t) {
-				
-				arr.forEach(function (e) {
-	
-					if (field.includes[t]){
-	
-						for (var i = 0; i < field.includes[t].length; i++) {
-							var inc = field.includes[t][i];
-	
-							if (inc.path == e.path) {
-								var index = field.includes[t].indexOf(inc);
-	
-								if (index > -1)
-									field.includes[t].splice(index, 1);
-	
-								break;
-							}
-						}
-					}
-				});
-			}
-		;
+			{ path: '/plugins/sharpadbclient/sharpadbclient.js' }
+		];
 	
 		field.setPropriety({
 			label: 'Sharp Adb Client Action',
@@ -5366,7 +5349,7 @@ var GENERATOR = function(genparams){
 	
 						o.input.hide();
 	
-						removeIncluds(jsIncludes, 'js');
+						GEN.removeIncluds(jsIncludes, 'js',field);
 					}
 				}
 	

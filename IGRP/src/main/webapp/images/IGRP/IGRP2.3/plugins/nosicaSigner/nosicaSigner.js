@@ -97,23 +97,23 @@
 
         htmlFields : function(){
             return `<div class="box-modal-signer row">
-                <div class="col-sm-12 form-group holder_select" id="holder_modal_signer_available_tokens" item-name="modal_signer_available_tokens" item-type="select">
+                <div class="col-sm-12 form-group holder_select mb-3" id="holder_modal_signer_available_tokens" item-name="modal_signer_available_tokens" item-type="select">
                     <label>Tokens Disponíveis</label>
                     <select class="form-control select2" id="modal_signer_available_tokens"></select>
                     <span class="desc_label text-muted">Escolher uns dos tokens para poder assinar.</span>
                 </div>
 
-                <div class="col-sm-12 form-group holder_select hidden nosicasigner_available_certificates" id="holder_modal_signer_available_certificates" item-name="modal_signer_available_certificates" item-type="select">
+                <div class="col-sm-12 mb-3 form-group holder_select hidden nosicasigner_available_certificates" id="holder_modal_signer_available_certificates" item-name="modal_signer_available_certificates" item-type="select">
                     <label>Certificados Disponíveis</label>
                     <select class="form-control select2" id="modal_signer_available_certificates"></select>
                     <span class="desc_label text-muted">Escolher uns dos certificates para poder assinar.</span>
                 </div>
 
-                <div class="form-group col-sm-12 hidden" id="holder_modal_signer_pin_token">
+                <div class="form-group mb-3 col-sm-12 hidden" id="holder_modal_signer_pin_token">
                     <div class="input-group">
                         <label>Inserir Pin</label>
                         <input type="password" class="form-control" id="modal_signer_pin_token"/>
-                        <span class="input-group-btn"><a class="btn btn-primary">OK</a></span>
+                        <span class="input-group-btn" style="padding-top: 23px;"><a class="btn btn-primary">OK</a></span>
                     </div>
                 </div>
             </div>`;
