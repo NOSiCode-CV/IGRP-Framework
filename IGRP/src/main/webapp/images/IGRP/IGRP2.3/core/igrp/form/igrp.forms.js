@@ -367,8 +367,13 @@
 				  		txtInput.val(log);
 
 				  	if (input.hasClass('file2base64')) {
+						
+						const target = $('[item-name="'+input.attr('target-rend')+'"]');
+
+						$.IGRP.utils.loading.show(target);
+
 				  		$.IGRP.utils.file2base64({
-				  			target: $('[item-name="'+input.attr('target-rend')+'"]'),
+				  			target: target,
 				  			field : input
 				  		});
 				  	}

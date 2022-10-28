@@ -713,17 +713,33 @@
 				});
 			},
 			file2base64 : function(p){
-				$.IGRP.utils.loading.show(p.target);
+				
 				var fileB64 = new FileReader();
+
 				fileB64.readAsDataURL(p.field[0].files[0]);
+
 				fileB64.onload = function () {
-					$('[src]',p.target).attr('src',fileB64.result);
+
+					const result = fileB64.result;
+
+					$('[src]',p.target).attr('src',result);
+
+					$(document).trigger('document:file2base64',[{
+						field  : p.field,
+						target : p.target,
+						result : result
+					}]);
+
 					$.IGRP.utils.loading.hide(p.target);
 				};
+
 				fileB64.onerror = function (error) {
 					$.IGRP.utils.loading.hide(p.target);
 				    console.log('Error: ', error);
 				};
+			},
+			str2base64 : function(str){
+				return window.btoa(encodeURIComponent(str));
 			},
 			base64toBlob : function(p) {
 		        var sliceSize 		= p.sliceSize || 512,
@@ -1061,9 +1077,12 @@
 		    vRequest.send(vData);
 		};
 		$.IGRP.utils.submitPage2File = {
-			getFiles : function(){
+			getFiles : function(holder){
 				var array = [];
-				$('input[type="file"]').each(function(){
+				
+				holder = holder && holder[0] ? holder : $('body');
+
+				$('input[type="file"]', holder).each(function(){
 					var files  	= $(this)[0].files,
 						obj 	= {};
 
