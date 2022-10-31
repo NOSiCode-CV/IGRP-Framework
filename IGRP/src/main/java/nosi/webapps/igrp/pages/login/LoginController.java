@@ -644,7 +644,7 @@ public class LoginController extends Controller {
 						
 					}else { 
 						// Caso o utilizador não existir na base de dados fazer auto-invite no quando env=dev ... 
-						if(new Config().getEnvironment().equalsIgnoreCase("dev")) {
+						if(new Config().getEnvironment().equalsIgnoreCase(ConfigCommonMainConstants.IGRP_ENV_DEV.value())) {
 							
 							try {
 								User newUser = new User();
