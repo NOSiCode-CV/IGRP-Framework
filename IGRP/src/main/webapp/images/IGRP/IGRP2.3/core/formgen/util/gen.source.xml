@@ -106,6 +106,13 @@
 			<reject>map_layer,map_widget,radio</reject>
 		</item>
 		<item>
+			<icon type='fa'>file-pdf-o</icon>
+			<type>container</type>
+			<name>nosicasigner</name>
+			<label>PDF Signer</label>
+			<reject>map_layer,map_widget,radio</reject>
+		</item>
+		<item>
 			<icon type='fa'>list-alt</icon>
 			<type>container</type>
 			<name>formlist</name>

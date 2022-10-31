@@ -16,11 +16,13 @@ var GENFORM = function(name,params){
 		xmlTag:'tools-bar'
 	}
 
-	container.includes = {
+	const filesIncludes = {
 		xsl : [ 'form-utils'],
 		//css : [ { path :'/core/igrp/form/igrp.forms.css' } ],
 		js  : [ { path :'/core/igrp/form/igrp.forms.js'} ]
-	}
+	};
+
+	container.includes = filesIncludes;
 
 	container.onLinkFieldSet = function(field){
 		/*field.setPropriety({
@@ -82,9 +84,73 @@ var GENFORM = function(name,params){
         });
 
 	}
+
+	const inlcudesFilesNosiCaSigner = function(){
+		let hasSelect    = false,
+			hasBtnSigner = false;
+
+		container.GET.fields().forEach( f => {
+			if(f.GET.type() === 'select'){
+				hasSelect = true;
+
+				return false;
+			}
+		});
+
+		container.contextMenu.items.forEach(f => {
+			const target = f.GET.target ? f.GET.target() : null;
+
+			if(target.includes('signer')){
+				hasBtnSigner = true;
+				return false;
+			}
+		});
+
+		const includeJsFile = [
+			{ path:'/plugins/select2/select2.full.min.js'}, 
+			{ path:'/plugins/select2/select2.init.js'}
+		],
+		includeCssFile = [
+			{ path:'/plugins/select2/select2.min.css' }, 
+			{ path:'/plugins/select2/select2.style.css' } 
+		];
+
+		let includJs = [{ path:'/plugins/nosicaSigner/nosicaSigner.js'}];
+
+		if(hasBtnSigner){
+
+			if(!hasSelect){
+				includJs = [
+					...includeJsFile,
+					...includJs
+				];
+
+				container.includes['css'] = includeCssFile;
+
+			}else{
+				GEN.removeIncluds(includeCssFile,'css',container);
+				GEN.removeIncluds(includeJsFile,'js',container);
+			}
+
+			container.includes.js = [
+				...container.includes.js,
+				...includJs
+			];
+
+		}else{
+			includJs = [
+				...includeJsFile,
+				...includJs
+			]
+			removeIncluds(includeCssFile,'css');
+			removeIncluds(includJs,'js');
+		}
+	}
 	
 	container.onDrawEnd = function(){
-		
+
+		inlcudesFilesNosiCaSigner();
+
 		//$.IGRP.components.form.placeholder2desc();
 		
 	}
