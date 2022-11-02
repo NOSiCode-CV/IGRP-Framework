@@ -169,48 +169,6 @@ var mWindow = null,
 			return false;
 		};
 
-		var afterSubmitAjax = function (p) {
-			var xml = p.xml,
-							
-				hasRefreshAttr = p.clicked[0].hasAttribute("refresh-components"),
-				
-				refresh_components = hasRefreshAttr ? p.clicked.attr("refresh-components") : null;
-
-				nodes 	 = hasRefreshAttr && refresh_components != '' ? refresh_components.split(',') : [];
-			
-			if( !hasRefreshAttr ){
-			
-				$('.table, .IGRP-highcharts',p.sform).each(function(id,el){
-					
-					nodes.push($(el).parents('.gen-container-item').attr('item-name'));
-					
-				});
-			}
-
-			if(nodes[0]){
-				
-				$.IGRP.utils.xsl.transform({
-					xsl     : $.IGRP.utils.getXMLStylesheet(xml),
-					xml     : xml,
-					nodes   : nodes,
-					clicked : p.clicked,
-					complete: function(res){
-
-						$.IGRP.events.execute('submit-complete',p);
-
-						p.clicked.removeAttr("disabled");
-						
-					}
-				});
-				
-			}else{
-				p.clicked.removeAttr("disabled");
-				$.IGRP.events.execute('submit-complete',p);
-			}
-
-			$.IGRP.utils.message.handleXML(xml);
-		};
-
 		var clearErrors = function (f) {
 			$("label.error",f).hide();
   			$(".error",f).removeClass("error");
@@ -263,7 +221,7 @@ var mWindow = null,
 
 							var xml = resp.responseXML || $($.parseXML(resp.response));
 
-							afterSubmitAjax({
+							$.IGRP.utils.afterSubmitAjax({
 								xml 	: xml,
 								clicked : p.clicked,
 								sform   : sform
@@ -379,7 +337,7 @@ var mWindow = null,
 
 							var xml = resp.responseXML || $($.parseXML(resp.response));
 
-							afterSubmitAjax({
+							$.IGRP.utils.afterSubmitAjax({
 								xml 	: xml,
 								clicked : p.clicked,
 								sform   : sform

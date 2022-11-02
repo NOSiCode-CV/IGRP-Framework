@@ -712,6 +712,49 @@
 					}
 				});
 			},
+
+			afterSubmitAjax : function (p) {
+				var xml = p.xml,
+								
+					hasRefreshAttr = p.clicked[0].hasAttribute("refresh-components"),
+					
+					refresh_components = hasRefreshAttr ? p.clicked.attr("refresh-components") : null;
+	
+					nodes 	 = hasRefreshAttr && refresh_components != '' ? refresh_components.split(',') : [];
+				
+				if( !hasRefreshAttr ){
+				
+					$('.table, .IGRP-highcharts',p.sform).each(function(id,el){
+						
+						nodes.push($(el).parents('.gen-container-item').attr('item-name'));
+						
+					});
+				}
+	
+				if(nodes[0]){
+					
+					$.IGRP.utils.xsl.transform({
+						xsl     : $.IGRP.utils.getXMLStylesheet(xml),
+						xml     : xml,
+						nodes   : nodes,
+						clicked : p.clicked,
+						complete: function(res){
+	
+							$.IGRP.events.execute('submit-complete',p);
+	
+							p.clicked.removeAttr("disabled");
+							
+						}
+					});
+					
+				}else{
+					p.clicked.removeAttr("disabled");
+					$.IGRP.events.execute('submit-complete',p);
+				}
+	
+				$.IGRP.utils.message.handleXML(xml);
+			},
+
 			file2base64 : function(p){
 				
 				var fileB64 = new FileReader();
@@ -1076,6 +1119,9 @@
 
 		    vRequest.send(vData);
 		};
+
+		
+
 		$.IGRP.utils.submitPage2File = {
 			getFiles : function(holder){
 				var array = [];
@@ -1474,7 +1520,3 @@
 	});
 
 }($));
-
-
-
-
