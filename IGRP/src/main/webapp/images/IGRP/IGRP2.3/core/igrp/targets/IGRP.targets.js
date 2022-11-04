@@ -1045,8 +1045,25 @@ var mWindow = null,
 		}
 
 		var signerBeforeSubmit = function(p){
-			if($.IGRP.components?.nosicaSigner){
-				$.IGRP.components.nosicaSigner.signerBeforeSubmit(p);
+			let sform     	= $.IGRP.utils.getForm(),
+				fields    	= $.IGRP.utils.getFieldsValidate(sform),
+				action    	= $.IGRP.utils.getSubmitParams(p.url,sform,p.scrollTo),
+				events 		= p.clicked[0].events,
+				valid 		= p?.validate ? p.validate :  fields.valid();
+
+			if(valid){
+				if($.IGRP.components?.nosicaSigner){
+
+					events.execute('before-signer_before_submit',{
+						pArrayItem : fields,
+						clicked    : p.clicked,
+						url  	   : action
+					});
+
+					p.url = action;
+
+					$.IGRP.components.nosicaSigner.signerBeforeSubmit(p);
+				}
 			}
 		}
 

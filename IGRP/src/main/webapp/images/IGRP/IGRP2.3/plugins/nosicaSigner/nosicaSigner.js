@@ -37,7 +37,8 @@
 					url      : options.url,
 					data     : options.data,
 					headers	 : options.headers,
-					method	 : options.method
+					method	 : options.method,
+                    timeout  : 0
 				})
 				.done(options.success)
 				.fail(options.fail)
@@ -365,13 +366,15 @@
                 if(typeSigner === 'SignPdf'){ //signerBeforeDownload
 
                     const a = document.createElement('a');
+                    
                     a.setAttribute('href', `data:application/pdf;base64,${p.result}`);
                     a.setAttribute('download', 'signerfiledownload');
 
-                    const aj = $(a);
-                    aj.appendTo('body');
-                    aj[0].click();
-                    aj.remove();
+                    const download = $(a);
+
+                    download.appendTo('body');
+                    download[0].click();
+                    download.remove();
 
                 }else{ // signerBeforeSubmit
 
@@ -379,11 +382,15 @@
 
                     if(objclicked?.url){
                         const xmlSignerResult = `<?xml version="1.0" encoding="UTF-8"?>
-                            <content><signerdata>${p.result}</signerdata><signerkey>${p.verify}</signerkey>`
+                            <content><signerdata>${p.result}</signerdata><signerkey>${p.verify}</signerkey>`;
+
+                        let arrayFiles 	= $.IGRP.utils.submitPage2File.getFiles();
+
+                        arrayFiles.push({name : 'p_fwl_sinedresult', value : xmlSignerResult});
 
                         $.IGRP.utils.submitStringAsFile({
                             pParam 		: {
-                                pArrayFiles : [{name : 'p_fwl_sinedresult', value : xmlSignerResult}],
+                                pArrayFiles : arrayFiles,
                                 pArrayItem 	: $.IGRP.utils.submitPage2File.getUrlParam(objclicked.url),
                                 pContentType: 'plain/xml',
                                 pFormat     : 'xml',
@@ -393,13 +400,21 @@
                             pComplete 	: function(resp){
 
                                 try{
-                                    var xml = resp.responseXML || $($.parseXML(resp.response));
+                                    const xml = resp.responseXML || $($.parseXML(resp.response));
                                     
                                     $.IGRP.utils.afterSubmitAjax({
                                         xml 	: xml,
                                         clicked : _clicked.clicked,
                                         sform   : $.IGRP.utils.getForm()
                                     });
+                                    
+
+                                    if(_clicked.clicked[0].events){
+
+                                        _clicked.clicked[0].events.execute('success-signer_before_submit',{
+                                            xml : xml
+                                        });
+                                    }
 
                                 }catch(e){ console.log(e)}
                             }
@@ -496,101 +511,25 @@
         signerBeforeDownload : function(p) {
             objclicked = p;
 
-            $.ajax({
-                type: 'GET',
-                url: p.url,
-                headers	    : {
-                    'Accept'      : 'application/pdf',
-                    'Content-Type': 'application/pdf'
-                },
-                beforeSend: function (xhr) {
-                  xhr.overrideMimeType('application/pdf; charset=UTF-8');
-                },
-                success: function (result, textStatus, jqXHR) {       
-                    if(jqXHR.status === 200){
 
-                        console.log(jqXHR);
-    
-                        const responseText = jqXHR.responseText,
-                            responseTextLen = responseText.length;
-    
-                        let binary = "";
-    
-                        for ( i = 0; i < responseTextLen; i++ ) {
-                            binary += String.fromCharCode(responseText.charCodeAt(i) & 255)
-                        }
+            fetch(p.url).then( response => response.blob() )
+            .then( blob =>{
 
-                        window.open('data:application/pdf;base64,'+$.IGRP.utils.str2base64(btoa(binary)))
-    
-                        /*if(binary !== ''){
-    
-                            com.getAvailableTokens();
-    
-                            com.setBase64Result({
-                                id    : 'nosicasigner_base64',
-                                data  : btoa(binary)
-                            });
-                        }*/
-                    
-                    }else{
-                        
-                        console.log('error get binary');
-    
-                        $.IGRP.notify({
-                            message: defaultError,
-                            type   : 'danger'
-                        });
-                    }
-                },
-                error: function(xhr, textStatus, errorThrown){
-                  alert("Error in getting document "+textStatus);
-                } 
-              });
+                var reader = new FileReader() ;
 
-            /*com.request({
-                url    : p.url,
-                method : 'GET'
-
-            }).done(function(result, textStatus, jqXHR){
-
-                if(jqXHR.status === 200){
-
-                    console.log(jqXHR);
-
-                    const responseText = jqXHR.responseText,
-                        responseTextLen = responseText.length;
-
-                    let binary = "";
-
-                    for ( i = 0; i < responseTextLen; i++ ) {
-                        binary += String.fromCharCode(responseText.charCodeAt(i) & 255)
-                    }
-
-                    if(binary !== ''){
-
-                        com.getAvailableTokens();
-
-                        com.setBase64Result({
-                            id    : 'nosicasigner_base64',
-                            data  : btoa(binary)
-                        });
-                    }
-                
-                }else{
-                    
-                    console.log('error get binary');
-
-                    $.IGRP.notify({
-                        message: defaultError,
-                        type   : 'danger'
+                reader.onload = function(){ 
+        
+                    com.setBase64Result({
+                        id    : 'nosicasigner_base64',
+                        data  : this.result
                     });
-                }
 
-            }).fail(function(e){
+                    com.getAvailableTokens();
 
-                console.log("error : ",e);
+                };
+
+                reader.readAsDataURL(blob) ;
             });
-            */
         },
 
         events : function() {
