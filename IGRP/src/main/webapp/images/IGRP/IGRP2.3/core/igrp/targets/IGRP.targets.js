@@ -1060,7 +1060,7 @@ var mWindow = null,
 						url  	   : action
 					});
 
-					p.url = action;
+					//p.url = action;
 
 					$.IGRP.components.nosicaSigner.signerBeforeSubmit(p);
 				}

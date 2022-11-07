@@ -2347,3 +2347,17 @@ vertical-align: middle;
 input[type="email"]{
   text-transform: lowercase !important;
 }
+
+.mb-5{
+  margin-bottom: 3rem;
+}
+
+#igrp-global-modal.modal{
+  z-index: 1051;
+}
+
+@media (min-width: 992px){
+#igrp-global-modal-asigner .modal-lg {
+		width: 80%;
+  	}
+}

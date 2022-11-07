@@ -85,26 +85,23 @@ var GENFORM = function(name,params){
 
 	}
 
-	const inlcudesFilesNosiCaSigner = function(){
-		let hasSelect    = false,
-			hasBtnSigner = false;
+	const getElementsByType = function(t){
+		let hasElement = false;
 
 		container.GET.fields().forEach( f => {
-			if(f.GET.type() === 'select'){
-				hasSelect = true;
+			if(f.GET.type() === t){
+				hasElement = true;
 
 				return false;
 			}
 		});
 
-		container.contextMenu.items.forEach(f => {
-			const target = f.GET.target ? f.GET.target() : null;
+		return hasElement;
+	}
 
-			if(target.includes('signer')){
-				hasBtnSigner = true;
-				return false;
-			}
-		});
+	const inlcudesFilesNosiCaSigner = function(){
+		const hasSelect   = getElementsByType('select'),
+			hasFileSigner = getElementsByType('filesigner');
 
 		const includeJsFile = [
 			{ path:'/plugins/select2/select2.full.min.js'}, 
@@ -115,15 +112,9 @@ var GENFORM = function(name,params){
 			{ path:'/plugins/select2/select2.style.css' } 
 		];
 
-		let includJs = [{ path:'/plugins/nosicaSigner/nosicaSigner.js'}];
-
-		if(hasBtnSigner){
+		if(hasFileSigner){
 
 			if(!hasSelect){
-				includJs = [
-					...includeJsFile,
-					...includJs
-				];
 
 				container.includes['css'] = includeCssFile;
 
@@ -134,16 +125,12 @@ var GENFORM = function(name,params){
 
 			container.includes.js = [
 				...container.includes.js,
-				...includJs
+				...includeJsFile
 			];
 
 		}else{
-			includJs = [
-				...includeJsFile,
-				...includJs
-			]
-			removeIncluds(includeCssFile,'css');
-			removeIncluds(includJs,'js');
+			GEN.removeIncluds(includeCssFile,'css');
+			GEN.removeIncluds(includeJsFile,'js');
 		}
 	}
 	

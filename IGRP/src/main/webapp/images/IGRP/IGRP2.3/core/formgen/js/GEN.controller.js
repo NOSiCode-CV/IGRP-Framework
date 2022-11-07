@@ -4877,7 +4877,7 @@ var GENERATOR = function(genparams){
 	GEN.removeIncluds = function (arr, t, obj) {
 		arr.forEach(function (e) {
 
-			if (obj.includes[t]){
+			if (obj && obj.includes[t]){
 
 				for (var i = 0; i < obj.includes[t].length; i++) {
 					var inc = obj.includes[t][i];
