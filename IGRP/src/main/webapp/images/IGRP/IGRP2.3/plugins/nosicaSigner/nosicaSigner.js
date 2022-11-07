@@ -389,7 +389,8 @@
                         options : availableCertes
                     });
 
-                    $.IGRP.components.globalModal.hide();
+                    if(objclicked === null)
+                        $.IGRP.components.globalModal.hide();
 
                 }else{
 
