@@ -695,6 +695,10 @@ public abstract class IGRPSubWhereQuery<E> extends IGRPQueryBase<E> implements I
         return this.internalNotEqualToIf(column, value, validateExpression);
     }
 
+    @Override
+    public IGRPSubWhereQuery<E> notEqualToIf(String column, Long value, Predicate<Long> validateExpression) {
+        return this.internalNotEqualToIf(column, value, validateExpression);
+    }
 
     @Override
     public IGRPSubWhereQuery<E> notEqualToIf(String column, byte[] value, Predicate<byte[]> validateExpression) {

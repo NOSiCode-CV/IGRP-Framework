@@ -1,20 +1,16 @@
 package nosi.webapps.igrp.pages.registarutilizador;
 
-import nosi.core.webapp.Controller;//
-import java.io.IOException;//
-import nosi.core.webapp.Core;//
-import nosi.core.webapp.Response;//
-/* Start-Code-Block (import) */
-import nosi.webapps.igrp.dao.User; //block import
-/* End-Code-Block */
-/*----#start-code(packages_import)----*/
-import static nosi.core.i18n.Translator.gt;
-import java.util.Locale;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.RParam;
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Organization;
-import nosi.webapps.igrp.dao.Profile;
-import nosi.webapps.igrp.dao.ProfileType;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.uploadfile.UploadFile;
+import nosi.webapps.igrp.dao.*;
+
+import java.io.IOException;
+import java.util.Locale;
+
+import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 		
 public class RegistarUtilizadorController extends Controller {
@@ -42,8 +38,6 @@ public class RegistarUtilizadorController extends Controller {
 		  ----#gen-example */
 		/* Start-Code-Block (guardar)  *//* End-Code-Block  */
 		/*----#start-code(guardar)----*/
-
-	
 
 		if(Core.isHttpPost()){			
 			
@@ -77,13 +71,15 @@ public class RegistarUtilizadorController extends Controller {
 				user.setMobile(model.getTelemovel());
 				user.setUpdated_at(System.currentTimeMillis());              	
 					try {
-						if(Core.isNotNull(model.getForm_1_img_1()))
-							user.setSignature_id(Core.saveFileNGetUuid(model.getForm_1_img_1()));
+						final UploadFile uploadFile = model.getForm_1_img_1();
+
+						if(Core.isNotNull(uploadFile) && uploadFile.isUploaded())
+							user.setSignature_id(Core.saveFileNGetUuid(uploadFile));
+
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				
-				
+
 				user = user.insert();
 				
 				if(user.getId()!=null){
@@ -138,13 +134,18 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 				user.setCni(model.getCni());
 				user.setUpdated_at(System.currentTimeMillis());              	
 					try {
-						if(Core.isNotNull(model.getForm_1_img_1()))
-							user.setSignature_id(Core.saveFileNGetUuid(model.getForm_1_img_1()));
+
+						final UploadFile uploadFile = model.getForm_1_img_1();
+
+						if (Core.isNotNull(uploadFile) && uploadFile.isUploaded())
+							user.setSignature_id(Core.saveFileNGetUuid(uploadFile));
+
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
               	
 				user = user.update();
+
 				if(user !=null){
 					Core.setMessageSuccess(gt("Utilizador atualizado com sucesso."));
 					this.addQueryString("p_id", user.getId());
@@ -170,7 +171,6 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 		view.btn_guardar.setLink("editar&p_id=" + idUser);
  		view.setModel(model);
 		return this.renderView(view);
-	
 	}
 
 	/*----#end-code----*/
