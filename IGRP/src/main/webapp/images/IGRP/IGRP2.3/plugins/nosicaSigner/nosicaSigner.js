@@ -154,7 +154,7 @@
                         </a>
                     </div>
                     <div class="form-group col-sm-2 hidden btn_nosica" id="btn_nosica_save" item-name="btn_nosica_save" item-type="link">
-                        <a href="#" class="link btn btn-success form-link">
+                        <a href="?r=igrp/DigitalSignature/saveSignature" class="link btn btn-success form-link">
                             <i class="fa fa-send"></i><span>Enviar</span>
                         </a>
                     </div>
@@ -332,7 +332,7 @@
                 }else{
 
                     $.IGRP.notify({
-                        message: 'Não há token(s) disponívei(s)',
+                        message: 'Não há token(s) disponívei(s).',
                         type   : 'danger'
                     });
                 }
@@ -340,6 +340,11 @@
             }).fail(function(e){
 
                 console.log("error : ",e);
+
+                $.IGRP.notify({
+                    message: 'Não foi possível identificar token.',
+                    type   : 'danger'
+                });
             });
 
         },
@@ -467,10 +472,10 @@
             $('#btn_nosica_signer').addClass('hidden');
             $('#btn_nosica_save').removeClass('hidden');
 
-            $('body').on('click','#btn_nosica_save', function(e){
+            $('body').on('click','#btn_nosica_save a', function(e){
                 e.preventDefault();
 
-                const url = $(this).attr('url');
+                const url = $(this).attr('href');
 
                 if(url){
 
@@ -478,16 +483,35 @@
 
                     com.subimtData({
                         getFiles : false,
-                        url      : $(this).attr('url'),
+                        url      : url,
                         clicked  : $(this),
                         result   : p.result,
                         verify   : p.verify,
                         complete : function(xml){
 
-                            console.log(objModal.attr('input-rel'));
+                            console.log('xml response :: ',xml);
+                            
+                            if(objModal.is('[input-rel]')){
+                                let objInput    = $(`#${objModal.attr('input-rel')}`),
+                                    objUuid     = $(xml).find('signedUuid');
 
-                            objModal.modal('hide');
-                            com.resetNosicasigner();
+                                if(objInput[0] && objUuid[0]){
+
+                                    objInput.val(objUuid.text());
+
+                                    objModal.modal('hide');
+                                    com.resetNosicasigner();
+
+                                }else{
+
+                                    $.IGRP.notify({
+                                        message: defaultError,
+                                        type   : 'danger'
+                                    });
+
+                                    console.log('input :: ',objInput, 'uuid :: ',objUuid);
+                                }
+                            }
 
                             $.IGRP.utils.loading.hide();
                         }
@@ -771,7 +795,7 @@
                 }
             });
 
-            $('body').on('click','#btn_nosica_signer',function(e){
+            $('body').on('click','#btn_nosica_signer a',function(e){
                 e.preventDefault();
 
                 $.IGRP.utils.loading.show();
