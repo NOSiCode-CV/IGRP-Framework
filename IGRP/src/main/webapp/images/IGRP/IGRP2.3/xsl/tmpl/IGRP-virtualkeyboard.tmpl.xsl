@@ -8,34 +8,30 @@
         <xsl:param name="id"/>
         <xsl:param name="placeholder" select="''" />
         <xsl:param name="vRequired"/>
-        <div class="VKB_geral input-group" id="{$id}" rel="{$rel}" vkbtype="{$type}">
-            <input type="{$input_type}" name="{$input_name}" class="VKB_input form-control {$vRequired}" id="INP_{$rel}" readonly="readonly" rel="{$rel}" post="{$type}" placeholder="{$placeholder}"/>
+        <div class="vkb_geral input-group IGRP-vkb" id="{$id}" rel="{$rel}" vkbtype="{$type}" vkbonload="false">
+            <input type="{$input_type}" name="{$input_name}" class="vkb_input form-control {$vRequired}" id="inp_{$rel}" readonly="readonly" rel="{$rel}" post="{$type}" placeholder="{$placeholder}"/>
             <xsl:if test="$vkimg = 'true'">
-                <span class="input-group-addon VKB_ctrl" rel="{$rel}">
+                <span class="input-group-addon vkb_ctrl" rel="{$rel}">
                     <i class="fa fa-keyboard-o"></i>
                 </span>
             </xsl:if>
-            <div class="VKB_main {$type}" id="VKB_{$rel}">
-                <div class="VKB_num" id="VKBnum_{$rel}">
+            <div class="vkb_main {$type}" id="vkb_{$rel}">
+                <div class="vkb_num" id="vkbnum_{$rel}">
                     <div class="_clear"/>
                 </div>
-                <div class="VKB_az" id="VKBaz_{$rel}">
+                <div class="vkb_az" id="vkbaz_{$rel}">
                     <div class="_clear"/>
                 </div>
                 <div class="_clear"/>
-                <div class="VKB_but">
-                    <input type="button" id="VKBOK_{$rel}" class="VKBOK_but" value="OK"/>
-                    <input type="button" id="SHIFT_{$rel}" class="SHIFT_but but" value="SHIFT" rel="{$rel}"/>
-                    <input type="button" id="VKBCAN_{$rel}" class="VKBCAN_but but hideItem" value="Cancelar"/>
-                    <input type="button" id="VKBLP_{$rel}" class="VKBLP_but but" value="Limpar"/>
+                <div class="vkb_btn">
+                    <input type="button" id="vkbCan_{$rel}" class="vkbCan_btn btn-sm hidden" value="Cancelar"/>
+                    <input type="button" id="vkbLp_{$rel}" class="vkbLp_btn btn-sm btn-danger" value="Limpar"/>
+                    
+                    <input type="button" id="shift_{$rel}" class="shift_btn btn-sm btn-primary" value="SHIFT" rel="{$rel}"/>
+                    <input type="button" id="vkbOk_{$rel}" class="vkbOk_btn btn-sm btn-success" value="OK"/>
                 <div class="_cliar"/>
                 </div>
             </div>
         </div>
-        <script>
-            $(function(){
-                $('#<xsl:value-of select="$id"/>').IGRP_vkboard();
-            });
-        </script>
    </xsl:template>
 </xsl:stylesheet>
