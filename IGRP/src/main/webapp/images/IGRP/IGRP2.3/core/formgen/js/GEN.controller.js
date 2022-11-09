@@ -4879,18 +4879,7 @@ var GENERATOR = function(genparams){
 
 			if (obj && obj.includes[t]){
 
-				for (var i = 0; i < obj.includes[t].length; i++) {
-					var inc = obj.includes[t][i];
-
-					if (inc.path == e.path) {
-						var index = obj.includes[t].indexOf(inc);
-
-						if (index > -1)
-							obj.includes[t].splice(index, 1);
-
-						break;
-					}
-				}
+				obj.includes[t] = obj.includes[t].filter(item => item.path != e.path);
 			}
 		});
 	};
@@ -4900,12 +4889,14 @@ var GENERATOR = function(genparams){
 		const flIncludes = {
 			css :[
 				{ path:'/plugins/select2/select2.style.css' },
-				{ path:'/plugins/select2/select2.min.css' } 
+				{ path:'/plugins/select2/select2.min.css' },
+				{ path:'/plugins/virtualkeyboard/vkb.css' }
 			],
 			js  : [
 				{ path:'/plugins/nosicaSigner/nosicaSigner.js'},
 				{ path:'/plugins/select2/select2.init.js'},
-				{ path:'/plugins/select2/select2.full.min.js'}
+				{ path:'/plugins/select2/select2.full.min.js'},
+				{ path:'/plugins/virtualkeyboard/IGRP.virtualkeyBoard.init.js'}
 				
 			]
 		};

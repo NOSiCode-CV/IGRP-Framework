@@ -85,8 +85,7 @@
 					$('.modal-footer',modal).hide();
 				
 				
-				if(o.beforeShow)
-					
+				if(o?.beforeShow && typeof o.beforeShow === 'function')
 					o.beforeShow();
 				
 				$.IGRP.components.globalModal.beforeHide = function(){
@@ -102,6 +101,9 @@
 				};
 
 				$.IGRP.components.globalModal.show();
+
+				if(o?.afterShow && typeof o.afterShow === 'function')
+					o.afterShow();
 			},
 			show:function(){
 				var modal = $.IGRP.components.globalModal.get();
