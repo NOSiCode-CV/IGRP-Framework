@@ -7,12 +7,11 @@
         idToken         = null,
         idCert          = null,
         typeSigner      = 'SignPdf',
-        objclicked         = null,
+        objclicked      = null,
+        successProcesso = false,
         defaultError    = 'Ocorreu um erro inesperado! Por favor recarregue o seu ecrã e tenta novamente.';
 
-    //const baseUrl = 'https://nosica-signer.gov.cv:4444/api/Signer';
-
-    const baseUrl = 'http://nosica-signer.gov.cv:5000/api/Signer';
+    const baseUrl = 'https://nosica-signer.gov.cv:4444/api/Signer';
 
     const objModal = $('#igrp-global-modal-asigner');
 
@@ -197,6 +196,8 @@
                 options: []
             });
 
+            successProcesso = false;
+
             $.IGRP.utils.loading.hide();
         },
 
@@ -206,14 +207,11 @@
                 rel    : 'confirm-target',
                 title  : p.title,
                 content: p.content,
-                beforeHide : function(){
-                    console.log($('.IGRP-vkb_pin_token'));
-                },
                 afterShow : function(){
                     if($.fn.IGRP_vkboard && pinToken === null){
 
                         $('.IGRP-vkb_pin_token').IGRP_vkboard({
-                            onOk : function(val){
+                            onOk : function(val, vkb){
 
                                 if(val){
         
@@ -225,6 +223,8 @@
                                             pin   : pinToken,
                                             token : p.token
                                         });
+
+                                        $('.vkb_input', vkb).val('');
         
                                     }catch(err){ 
                                         console.log(err); 
@@ -239,44 +239,7 @@
                             }
                         });
                     }
-                }/**,
-                buttons: [
-                    {
-                        class :'danger',
-                        icon  :'times',
-                        text  :'Cancelar',
-                        attr  :{ "data-dismiss":"modal" }
-                    },
-                    {
-                        class   :'success',
-                        icon    :'check',
-                        text    :'OK',
-                        onClick :function(e){
-                            pinToken = $('#inp_virtualkeyboard_pin_token').val();
-                            if(pinToken){
-
-                                try{ 
-
-                                    p.onConfirm({
-                                        pin   : pinToken,
-                                        token : p.token
-                                    });
-
-                                }catch(err){ 
-                                    console.log(err); 
-                                }
-                                
-                            }else{
-                                $.IGRP.notify({
-                                    message: 'PIN é obrigatorio',
-                                    type   : 'info'
-                                });
-                            }
-
-                            return false;
-                        }
-                    }
-                ] */
+                }
             });
 
         },
@@ -299,8 +262,6 @@
                         text    :'OK',
                         onClick :function(e){
                             
-                            console.log(idToken);
-
                             if(idToken){
 
                                 com.toSign({
@@ -329,8 +290,8 @@
                     if($.fn.IGRP_vkboard && pinToken === null){
 
                         $('.IGRP-vkb_pin_token_signer').IGRP_vkboard({
-                            onOk : function(val){
-                                console.log('modal 2', val);
+                            onOk : function(val, vkb){
+                                
                                 if(val){
         
                                     pinToken = val;
@@ -341,8 +302,8 @@
                                             pin    : pinToken,
                                             token : idToken
                                         });
-        
-                                        $('#holder_vkb_pin_token_signer').addClass('hidden');
+
+                                        $('.vkb_input', vkb).val('');
         
                                     }catch(err){ 
                                         console.log(err); 
@@ -368,9 +329,7 @@
                 method : 'GET'
 
             }).done(function(resp){
-
-                console.log("availabletokens", resp);
-
+                
                 if(resp[0]){
 
                     let holderTokens = 'holder_nosicasigner';
@@ -427,7 +386,6 @@
         },
 
         getAvailableCertificates : function(p){
-            console.log(p);
 
             const data = {
                 "tokenId"       : ((p.token*1) -1),
@@ -440,8 +398,6 @@
                 data : JSON.stringify(data)
 
             }).done(function(resp){
-
-                console.log('cert :: ',resp);
 
                 if(resp){
 
@@ -473,6 +429,8 @@
 
                     if(objclicked === null)
                         $.IGRP.components.globalModal.hide();
+                    else
+                        $('#holder_vkb_pin_token_signer').addClass('hidden');
 
                 }else{
 
@@ -510,8 +468,6 @@
                 arrayFiles = $.IGRP.utils.submitPage2File.getFiles();
 
             arrayFiles.push({name : 'p_fwl_signedresult', value : xmlSignerResult});
-
-            console.log(arrayFiles);
 
             $.IGRP.utils.submitStringAsFile({
                 pParam 		: {
@@ -578,8 +534,6 @@
                         contentName : contentName,
                         contentType : 'application/pdf',
                         complete : function(xml){
-
-                            console.log('xml response :: ',xml);
                             
                             if(objModal.is('[input-rel]')){
                                 let objInput    = $(`#${objModal.attr('input-rel')}`),
@@ -597,12 +551,8 @@
                                         message: defaultError,
                                         type   : 'danger'
                                     });
-
-                                    console.log('input :: ',objInput, 'uuid :: ',objUuid);
                                 }
                             }
-
-                            $.IGRP.utils.loading.hide();
                         }
                     });
 
@@ -619,7 +569,6 @@
         },
 
         responseToSign : function(p){
-            console.log(p, objclicked);
 
             if(objclicked !== null){ 
 
@@ -637,6 +586,8 @@
                     download.remove();
 
                     $.IGRP.utils.loading.hide();
+
+                    com.resetNosicasigner();
 
                 }else{ // signerBeforeSubmit
 
@@ -664,6 +615,8 @@
 
                 $.IGRP.utils.loading.hide();
 
+                successProcesso = true;
+
                 com.signerPdfSave(p);
             }
         },
@@ -679,41 +632,6 @@
                     "pin"                    : p.pin,
                     "data"                   : base64
                 };
-
-                /**fetch(`${baseUrl}/${typeSigner}`,{
-                    method: "POST",
-                    body  : JSON.stringify(data),
-                    headers	    : {
-                        'Accept'      : 'application/json',
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin' : '*'
-                    }
-                    
-                }).then(function(res){ return res.json(); })
-                .then(function(data){ 
-                    
-                    if(resp){
-                        com.responseToSign(resp);
-                    }
-                    else{
-                        $.IGRP.notify({
-                            message: 'Não foi possível obter resposta.',
-                            type   : 'danger'
-                        });
-                    }
-
-                    $.IGRP.utils.loading.hide();
-
-                }).catch (function (error) {
-                    console.log("error : ",error);
-
-                    $.IGRP.notify({
-                        message: defaultError,
-                        type   : 'danger'
-                    });
-
-                    $.IGRP.utils.loading.hide();
-                });*/
 
                 $.IGRP.utils.loading.show();
 
@@ -744,8 +662,8 @@
 
                     $.IGRP.utils.loading.hide();
 
-                }).always(function(){
-                    //com.resetNosicasigner();
+                    com.resetNosicasigner();
+
                 });
 
             }else{
@@ -767,8 +685,6 @@
 
             xmlPage = `<?xml version="1.0" encoding="UTF-8"?><content>${xmlPage}</content>`;
 
-            console.log("xmlPage :: ",xmlPage);
-
             xmlPage = $.IGRP.utils.str2base64(xmlPage);
 
             if(xmlPage){
@@ -781,13 +697,10 @@
                 com.getAvailableTokens();
 
             }
-
-            console.log("base64 :: ",xmlPage);
         },
 
         signerBeforeDownload : function(p) {
             objclicked = p;
-
 
             fetch(p.url).then( response => response.blob() )
             .then( blob =>{
@@ -847,38 +760,11 @@
                 }
            });
 
-           /**$('body').on('click','#vkb_pin_token_signer a',function(e){
-                e.preventDefault();
-
-                pinToken = $('#modal_signer_pin_token').val();
-
-                if(pinToken){
-
-                    $('#holder_vkb_pin_token_signer').addClass('hidden');
-
-                    com.getAvailableCertificates({
-                        pin    : pinToken,
-                        token : idToken
-                    });
-
-                }else{
-                    
-                    $.IGRP.notify({
-                        message: 'PIN é obrigatorio',
-                        type   : 'info'
-                    });
-                }
-
-                return false;
-           })*/
-
            $('body').on('change','.nosicasigner_available_certificates select',function(){
 
                 idCert = $(this).val();
 
                 const obj = objclicked !== null ? $('.modal_signer_ok') : $('#btn_nosica_signer');
-
-                console.log(idCert, obj);
 
                 if(idCert){
                     obj.removeClass('hidden');
@@ -893,8 +779,6 @@
 
                 $.IGRP.utils.loading.show();
 
-                console.log(idToken);
-
                 com.toSign({
                     tokenId     : idToken,
                     certSerNum  : idCert,
@@ -903,6 +787,45 @@
 
                 return false;
                 
+            });
+
+            $('.close',objModal).on("click", function(){
+
+                if(successProcesso){
+
+                    $.IGRP.components.globalModal.set({
+                        rel    : 'confirm-target',
+                        title  : 'Atenção',
+                        content: 'Tens processo de assinatura iniciada, deseja continuar com essa ação?',
+                        buttons: [
+                            {
+                                class :'danger',
+                                icon  :'times',
+                                text  :'Não',
+                                attr  :{ "data-dismiss":"modal" }
+                            },
+                            {
+                                class   :'success',
+                                icon    :'check',
+                                text    :'Sim',
+                                onClick :function(e){
+
+                                    com.resetNosicasigner();
+
+                                    objModal.modal('hide');
+
+                                    $.IGRP.components.globalModal.hide();
+
+                                    return false;
+                                }
+                            }
+                        ] 
+                    });
+
+                }else{   
+                    com.resetNosicasigner();
+                    objModal.modal('hide');
+                }
             });
         },
 

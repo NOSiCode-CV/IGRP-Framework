@@ -2433,6 +2433,10 @@ input[type="email"] {
 	z-index: 1051;
 }
 
+.modal-backdrop.fade.in+.modal-backdrop.fade.in{
+  z-index: 1050;
+}
+
 @media (min-width: 992px) {
 	#igrp-global-modal-asigner .modal-lg {
 		width: 80%;
