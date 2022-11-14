@@ -92,7 +92,7 @@ public abstract class QueryHelper implements QueryInterface{
 			}
 			sessionFactory.close();
 			HibernateUtils.removeSessionFactory(this.config_env != null?this.config_env.getName():this.getConnectionName());
-			sessionFactory = HibernateUtils.getSessionFactory(connectionName);
+			sessionFactory =  this.getSessionFactory();
 			if (sessionFactory != null) {
 				s = sessionFactory.getCurrentSession();
 				return s;

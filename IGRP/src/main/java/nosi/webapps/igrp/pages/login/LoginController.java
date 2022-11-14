@@ -624,7 +624,7 @@ public class LoginController extends Controller {
 					
 					if (user != null) {
 						if(user.getStatus() != 1) {
-							Core.setMessageWarning("Este utilizador encontra-se desativado."); 
+							Core.setMessageWarning("Este utilizador "+user.getName()+" encontra-se desativado."); 
 							return redirectToUrl(createUrlForOAuth2OpenIdRequest());
 						}
 						this.afterLogin(user);
@@ -676,7 +676,7 @@ public class LoginController extends Controller {
 								return redirectToUrl(createUrlForOAuth2OpenIdRequest());
 							}
 						}else {
-							Core.setMessageWarning("Utilizador não convidado nesse ambiente."); 
+							Core.setMessageWarning("Utilizador com o e-mail: "+email+", não está convidado."); 
 							return redirectToUrl(createUrlForOAuth2OpenIdRequest());
 						}
 						
