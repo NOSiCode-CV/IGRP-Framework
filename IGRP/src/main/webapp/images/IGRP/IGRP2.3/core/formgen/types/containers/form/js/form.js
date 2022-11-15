@@ -85,65 +85,101 @@ var GENFORM = function(name,params){
 
 	}
 
-	const inlcudesFilesNosiCaSigner = function(){
-		let hasSelect    = false,
-			hasBtnSigner = false;
+	const getElementsByType = function(t){
+		let hasElement = false;
 
 		container.GET.fields().forEach( f => {
-			if(f.GET.type() === 'select'){
-				hasSelect = true;
+			if(f.GET.type() === t){
+				hasElement = true;
 
 				return false;
 			}
 		});
 
+		return hasElement;
+	}
+
+	const getBtnByTarget = function(type){
+		let hasBtnSigner = false;
+
 		container.contextMenu.items.forEach(f => {
 			const target = f.GET.target ? f.GET.target() : null;
 
-			if(target.includes('signer')){
+			if(target.includes(type)){
 				hasBtnSigner = true;
 				return false;
 			}
 		});
 
-		const includeJsFile = [
+		return hasBtnSigner;
+	}
+
+	const mergeArrayUniqueKey = function(arr, type){
+
+		return [...new Set([...container.includes[type], ...arr])];
+	}
+
+	const includeFiles = function(has, arrJs, arrCss){
+		
+		if(!has){
+
+			if(Array.isArray(arrCss))
+				container.includes.css = mergeArrayUniqueKey(arrCss, 'css');
+			
+			if(Array.isArray(arrJs))
+				container.includes.js  = mergeArrayUniqueKey(arrJs, 'js');
+
+		}else{
+			if(Array.isArray(arrCss))
+				GEN.removeIncluds(arrCss,'css',container);
+
+			if(Array.isArray(arrJs))
+				GEN.removeIncluds(arrJs,'js',container);
+		}
+
+	}
+
+	const inlcudesFilesNosiCaSigner = function(){
+		const hasSelect   = getElementsByType('select'),
+			hasFileSigner = getElementsByType('filesigner'),
+			hasVkb 		  = getElementsByType('virtualkeyboard'),
+			hasBtnSigner  = getBtnByTarget('signer');
+
+		const jsSelectFile = [
 			{ path:'/plugins/select2/select2.full.min.js'}, 
 			{ path:'/plugins/select2/select2.init.js'}
 		],
-		includeCssFile = [
+		cssSelectFile = [
 			{ path:'/plugins/select2/select2.min.css' }, 
 			{ path:'/plugins/select2/select2.style.css' } 
-		];
+		],
+		jsVkbFile = [
+			{ path:'/plugins/virtualkeyboard/IGRP.virtualkeyBoard.init.js'}
+		],
+		cssVkbFile = [
+			{ path:'/plugins/virtualkeyboard/vkb.css' }
+		],
+		includJs = [{ path:'/plugins/nosicaSigner/nosicaSigner.js'}];
 
-		let includJs = [{ path:'/plugins/nosicaSigner/nosicaSigner.js'}];
+		if(hasFileSigner || hasBtnSigner){
 
-		if(hasBtnSigner){
+			if(!container.includes?.css)
+				container.includes['css'] = [];
 
-			if(!hasSelect){
-				includJs = [
-					...includeJsFile,
-					...includJs
-				];
+			includeFiles(hasSelect, jsSelectFile, cssSelectFile);
+			includeFiles(hasVkb, jsVkbFile, cssVkbFile);
 
-				container.includes['css'] = includeCssFile;
-
-			}else{
-				GEN.removeIncluds(includeCssFile,'css',container);
-				GEN.removeIncluds(includeJsFile,'js',container);
+			if(hasBtnSigner){
+				includeFiles(!hasBtnSigner, includJs, '');
 			}
 
-			container.includes.js = [
-				...container.includes.js,
-				...includJs
-			];
-
 		}else{
-			includJs = [
-				...includeJsFile,
-				...includJs
-			]
-			removeIncluds(includeCssFile,'css');
-			removeIncluds(includJs,'js');
+
+			const jsArr = [...jsSelectFile, ...jsVkbFile, ...includJs],
+				cssArr  = [...cssSelectFile, ...cssVkbFile];
+
+			GEN.removeIncluds(cssArr,'css',container);
+			GEN.removeIncluds(jsArr,'js',container);
 		}
 	}
 	

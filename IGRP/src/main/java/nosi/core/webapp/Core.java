@@ -5439,4 +5439,36 @@ public final class Core {
 			sessionId = s.getSessionId();
 		return sessionId;
 	}
+	
+	/**
+	 * Link to a Certificate file
+	 * 
+	 * 
+	 * @param uuid
+	 *            Unique signature id
+	 * @return link
+	 */
+	public static String getLinkCertificateByUuid(String uuid) {
+		if (Core.isNullOrZero(uuid))
+			return "";
+		else
+			return Route.getResolveUrl("igrp", "DigitalSignature", "downloadCertificate&uuid=" + uuid);
+
+	}
+
+	/**
+	 * Link to a Signed data file
+	 * 
+	 * 
+	 * @param uuid
+	 *            Unique signature id
+	 * @return link
+	 */
+	public static String getLinkSignedDataByUuid(String uuid) {
+		if (Core.isNullOrZero(uuid))
+			return "";
+		else
+			return Route.getResolveUrl("igrp", "DigitalSignature", "downloadData&uuid=" + uuid);
+
+	}
 }

@@ -76,7 +76,6 @@ var TIMELINE = function(name,params){
 		rtn += '<'+tag+'_hd type="text" maxlength="40"><label>Header</label></'+tag+'_hd>';
 		rtn += '<'+tag+'_date type="date" maxlength="40"><label>Date</label></'+tag+'_date>';
 		rtn += '<'+tag+'_text type="text" maxlength="4000"><label>Content</label></'+tag+'_text>';
-		rtn += '<'+tag+'_btn_desc type="text" maxlength="40"><label>Label link</label></'+tag+'_btn_desc>';
 		rtn += '<'+tag+'_btn type="link" target="'+target+'" maxlength="4000"><label>Button</label></'+tag+'_btn>';
 		rtn += '</fields><table><value>';
 		for (var i = 0; i < 3; i++) {
@@ -87,8 +86,7 @@ var TIMELINE = function(name,params){
 			row += '<'+tag+'_hd>'+DATA.get( { type : 'text'} )+'</'+tag+'_hd>';
 			row += '<'+tag+'_date>'+(i+1)+' de Out de 201'+(3-i)+'</'+tag+'_date>';
 			row += '<'+tag+'_text>'+DATA.get( { type : 'plaintext', maxLength:150  } )+'</'+tag+'_text>';
-			row += '<'+tag+'_btn>button</'+tag+'_btn>';
-			row += '<'+tag+'_btn_desc>Link</'+tag+'_btn_desc>';			
+			row += '<'+tag+'_btn>button</'+tag+'_btn>';		
 			row += '</row>';
 		}
 		rtn +=row+'</value></table>';
