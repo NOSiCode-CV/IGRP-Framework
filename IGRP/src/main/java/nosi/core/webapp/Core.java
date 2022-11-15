@@ -776,10 +776,6 @@ public final class Core {
 	}
 
 	public static String getCurrentPage() {
-		String current_app_conn = Core.getParam("current_app_conn", false);
-		if (Core.isNotNull(current_app_conn)) {
-			return current_app_conn;
-		}
 		Integer isPublic = Core.getParamInt("isPublic", false);
 		String r = Core.getParam("r");
 		
