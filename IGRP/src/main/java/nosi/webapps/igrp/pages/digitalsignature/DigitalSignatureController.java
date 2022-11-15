@@ -55,9 +55,11 @@ public class DigitalSignatureController extends Controller {
 			CertificatedSignatures cs = new CertificatedSignatures();
 
 			cs = ds.getSignedByUuid(uuid);
+			
+			log.info("[Certificate=]"+cs.getCertificate());
 
 			if (Core.isNotNullOrZero(cs))
-				return this.xSend(Base64.getDecoder().decode(cs.getCertificate()), "certificate.txt", "text/plain",
+				return this.xSend(Base64.getDecoder().decode(cs.getCertificate()), cs.getName(), cs.getMime_type(),
 						false);
 			else
 				throw new Exception("Certificate not found.");
@@ -75,28 +77,14 @@ public class DigitalSignatureController extends Controller {
 			cs = ds.getSignedByUuid(uuid);
 
 			if (Core.isNotNullOrZero(cs))
-				return this.xSend(Base64.getDecoder().decode(cs.getData()), "content.xml", "text/plain", false);
+				return this.xSend(Base64.getDecoder().decode(cs.getData()),  cs.getName(), cs.getMime_type(), false);
 			else
 				throw new Exception("Page not found.");
 		} else
 			throw new Exception("Page identifier not present.");
 	}
 
-	public static String getLinkCertificateByUuid(String uuid) {
-		if (Core.isNullOrZero(uuid))
-			return "";
-		else
-			return Route.getResolveUrl("igrp", "DigitalSignature", "downloadCertificate&uuid=" + uuid);
-
-	}
-
-	public static String getLinkSignedDataByUuid(String uuid) {
-		if (Core.isNullOrZero(uuid))
-			return "";
-		else
-			return Route.getResolveUrl("igrp", "DigitalSignature", "downloadData&uuid=" + uuid);
-
-	}
+	
 
 	private static Logger log = LogManager.getLogger(DigitalSignatureController.class);
 	/*----#end-code----*/
