@@ -69,10 +69,10 @@
       		String href = String.format("%s?%s", request.getRequestURI().replace("/error.jsp", "/app/webapps"), "r=igrp/home/index");
       %>
        <div class="btn-toolbar">
-    	   <a href="javascript:history.back()" class="btn btn-secondary px-3 mt-4 mr-2" role="button" aria-pressed="true">◁ Back</a>
+    	   
       <% if(!isPublic.equals("1") && target.equals("self")){  %>
 	     
-	      
+	      	<a href="javascript:history.back()" class="btn btn-secondary px-3 mt-4 mr-2" role="button" aria-pressed="true">◁ Back</a>
 	      	<a href="<%= href %>" class="btn btn-primary px-3 mt-4 mr-2" role="button" aria-pressed="true">IGRP Home</a>
 	      	<% if(errorCode.intValue() == 500){
 	      		String dad = (String) igrpErrorParam.get("dad");
@@ -109,15 +109,17 @@
 		          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionErrorPage">          
 		            <div class="card-body">
 		            	<code>
-		            	<pre class="prettyprint lang-java linenums">		            	
-		            	<%  
-		            		PrintWriter pw = new PrintWriter(out);
-		            		exception.printStackTrace(pw);
-		            		if(exception.getCause() != null){
-		            			exception.getCause().printStackTrace(pw);
-		            		}
-		            	%>		            	
-		            	</pre>
+			            	<pre class="prettyprint lang-java linenums">		            	
+			            	<%  
+			            	if(exception != null){
+			            		PrintWriter pw = new PrintWriter(out);
+			            		exception.printStackTrace(pw);
+			            		if(exception.getCause() != null){
+			            			exception.getCause().printStackTrace(pw);
+			            		}
+			            	}
+			            	%>		            	
+			            	</pre>
 		            	</code>
 		            </div>
 		          </div>

@@ -4,9 +4,9 @@
 	<session-factory>
 
 		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/db_igrp</property>
-		<property name="hibernate.connection.username">postgres</property>
-		<property name="hibernate.connection.password"></property>
+		<property name="hibernate.connection.url">jdbc:postgresql://[DB_HOST]:[DB_PORT]/[DB_IGRP_NAME]</property><!-- Eg: jdbc:postgresql://localhost:5432/db_igrp  -->
+		<property name="hibernate.connection.username">[DB_USER]</property><!-- Eg: postgres -->
+		<property name="hibernate.connection.password">[DB_PASSWORD]</property><!-- Eg: Password -->
 		<property name="hibernate.hbm2ddl.auto">none</property>
 		<property name="hibernate.connection.isolation">2</property>
 		<property name="hibernate.connection.autocommit">false</property>
@@ -21,7 +21,7 @@
 		<property name="hibernate.hikari.connectionTimeout">60000</property>
 		<property name="hibernate.hikari.idleTimeout">10000</property>
 		<property name="hibernate.hikari.minimumIdle">0</property>
-		<property name="hibernate.hikari.maximumPoolSize">10</property>
+		<property name="hibernate.hikari.maximumPoolSize">100</property>
 		<property name="hibernate.hikari.maxLifetime">30000</property>
 		<property name="hibernate.hikari.leakDetectionThreshold">0</property>
 		
@@ -63,6 +63,8 @@
 		<mapping class="nosi.webapps.igrp.dao.TaskFile" />
 		<mapping class="nosi.webapps.igrp.dao.ActivityExecute" />
 		<!-- <mapping class="nosi.webapps.igrp.dao.CustomPermssionTask"/> -->
+		
+		<mapping class="nosi.webapps.igrp.dao.CertificatedSignatures" />
 
 	</session-factory>
 </hibernate-configuration>

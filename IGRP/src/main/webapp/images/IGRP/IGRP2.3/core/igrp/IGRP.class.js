@@ -122,7 +122,8 @@
 
 					com.init();
 
-					com.events.execute('init');
+					if(com.events?.execute)
+						com.events.execute('init');
 					
 				});
 				

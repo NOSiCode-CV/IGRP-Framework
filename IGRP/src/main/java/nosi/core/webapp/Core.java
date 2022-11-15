@@ -776,10 +776,6 @@ public final class Core {
 	}
 
 	public static String getCurrentPage() {
-		String current_app_conn = Core.getParam("current_app_conn", false);
-		if (Core.isNotNull(current_app_conn)) {
-			return current_app_conn;
-		}
 		Integer isPublic = Core.getParamInt("isPublic", false);
 		String r = Core.getParam("r");
 		
@@ -3196,7 +3192,8 @@ public final class Core {
 	 * Shows a error flash message "Falha ao tentar efetuar esta operação!"
 	 */
 	public static void setMessageError() {
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(FlashMessage.MESSAGE_ERROR));
+		if(Igrp.getInstance() != null)
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(FlashMessage.MESSAGE_ERROR));
 	}
 
 	/**
@@ -3206,7 +3203,10 @@ public final class Core {
 	 *            Custom message string
 	 */
 	public static void setMessageError(String msg) {
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(msg));
+		if(Igrp.getInstance() != null)
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(msg));
+		else
+			System.out.print("[ERROR] "+ gt(msg));
 	}
 
 	/**
@@ -3216,7 +3216,10 @@ public final class Core {
 	 *            custom message
 	 */
 	public static void setMessageInfo(String msg) {
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, gt(msg));
+		if(Igrp.getInstance() != null)
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, gt(msg));
+		else
+			System.out.print("[INFO] "+ gt(msg));
 	}
 
 	/**
@@ -3228,7 +3231,8 @@ public final class Core {
 	 *            set a link to show
 	 */
 	public static void setMessageInfoLink(String msg, String link) {
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, gt(msg) + "/#RESERVE#/" + link);
+		if(Igrp.getInstance() != null)
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, gt(msg) + "/#RESERVE#/" + link);
 	}
 
 	/**
@@ -3244,7 +3248,8 @@ public final class Core {
 	 *            for the created link
 	 */
 	public static void setMessageInfoLink(String msg, String app, String page, String action) {
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK,
+		if(Igrp.getInstance() != null)
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK,
 				gt(msg) + "/#RESERVE#/" + Route.getResolveUrl(app, page, action));
 	}
 
@@ -3262,7 +3267,10 @@ public final class Core {
 	 *            Custom message string
 	 */
 	public static void setMessageSuccess(String msg) {
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt(msg));
+		if(Igrp.getInstance() != null)
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt(msg));
+		else
+			System.out.print("[SUCCESS] "+ gt(msg));
 	}
 
 	/**
@@ -3272,7 +3280,10 @@ public final class Core {
 	 *            Custom message string
 	 */
 	public static void setMessageConfirm(String msg) {
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.CONFIRM, gt(msg));
+		if(Igrp.getInstance() != null)
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.CONFIRM, gt(msg));
+		else
+			System.out.print("[CONFIRM] "+ gt(msg));
 	}
 
 	/**
@@ -3290,7 +3301,10 @@ public final class Core {
 	 *            custom message
 	 */
 	public static void setMessageWarning(String msg) {
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, gt(msg));
+		if(Igrp.getInstance() != null)
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, gt(msg));
+		else
+			System.out.print("[WARNING] "+ gt(msg));
 	}
 
 	/**
@@ -5420,5 +5434,37 @@ public final class Core {
 		if (s != null)
 			sessionId = s.getSessionId();
 		return sessionId;
+	}
+	
+	/**
+	 * Link to a Certificate file
+	 * 
+	 * 
+	 * @param uuid
+	 *            Unique signature id
+	 * @return link
+	 */
+	public static String getLinkCertificateByUuid(String uuid) {
+		if (Core.isNullOrZero(uuid))
+			return "";
+		else
+			return Route.getResolveUrl("igrp", "DigitalSignature", "downloadCertificate&uuid=" + uuid);
+
+	}
+
+	/**
+	 * Link to a Signed data file
+	 * 
+	 * 
+	 * @param uuid
+	 *            Unique signature id
+	 * @return link
+	 */
+	public static String getLinkSignedDataByUuid(String uuid) {
+		if (Core.isNullOrZero(uuid))
+			return "";
+		else
+			return Route.getResolveUrl("igrp", "DigitalSignature", "downloadData&uuid=" + uuid);
+
 	}
 }

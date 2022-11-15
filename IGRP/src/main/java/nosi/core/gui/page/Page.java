@@ -96,7 +96,7 @@ public class Page{
 		xml.addXml(new Config().getHeader(this.getView()));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
-		xml.setElement("title", "");
+		xml.setElement("title", this.getView().getPageTitle());
 		xml.text(":_content");
 		xml.addXml(new IGRPMessage().toString());
 		if(this.showFooter) { 
@@ -115,7 +115,7 @@ public class Page{
 	
 	public String renderContent(boolean layout){
 		if(layout){
-			if(new Config().getEnvironment().equalsIgnoreCase("dev") || new Config().getEnvironment().equalsIgnoreCase("sta"))
+			if(new Config().getEnvironment().equalsIgnoreCase(ConfigCommonMainConstants.IGRP_ENV_DEV.value()) || new Config().getEnvironment().equalsIgnoreCase(ConfigCommonMainConstants.IGRP_ENV_STA.value()))
 				new IGRPLogBar().displayLogs();
 			// Create a standard template of IGRP 
 			this.createTemplate();

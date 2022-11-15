@@ -373,6 +373,24 @@
       </div>
     </div>
     <!--/GLOBAL MODAL -->
+
+
+    <!-- GLOBAL MODAL ASIGNER -->
+    <div id="igrp-global-modal-asigner" class="modal fade bd-example-modal-lg" data-backdrop="static" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="title"></span>
+            <button type="button" class="close">×</button>
+          </div>
+          <div class="modal-body">
+           
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/GLOBAL MODAL ASIGNER-->
+
     
     <!-- RIGHT PANEL MODAL -->
     <div class="modal fade right" id="igrp-right-panel">

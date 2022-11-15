@@ -16,11 +16,13 @@ var GENFORM = function(name,params){
 		xmlTag:'tools-bar'
 	}
 
-	container.includes = {
+	const filesIncludes = {
 		xsl : [ 'form-utils'],
 		//css : [ { path :'/core/igrp/form/igrp.forms.css' } ],
 		js  : [ { path :'/core/igrp/form/igrp.forms.js'} ]
-	}
+	};
+
+	container.includes = filesIncludes;
 
 	container.onLinkFieldSet = function(field){
 		/*field.setPropriety({
@@ -82,9 +84,109 @@ var GENFORM = function(name,params){
         });
 
 	}
+
+	const getElementsByType = function(t){
+		let hasElement = false;
+
+		container.GET.fields().forEach( f => {
+			if(f.GET.type() === t){
+				hasElement = true;
+
+				return false;
+			}
+		});
+
+		return hasElement;
+	}
+
+	const getBtnByTarget = function(type){
+		let hasBtnSigner = false;
+
+		container.contextMenu.items.forEach(f => {
+			const target = f.GET.target ? f.GET.target() : null;
+
+			if(target.includes(type)){
+				hasBtnSigner = true;
+				return false;
+			}
+		});
+
+		return hasBtnSigner;
+	}
+
+	const mergeArrayUniqueKey = function(arr, type){
+
+		return [...new Set([...container.includes[type], ...arr])];
+	}
+
+	const includeFiles = function(has, arrJs, arrCss){
+		
+		if(!has){
+
+			if(Array.isArray(arrCss))
+				container.includes.css = mergeArrayUniqueKey(arrCss, 'css');
+			
+			if(Array.isArray(arrJs))
+				container.includes.js  = mergeArrayUniqueKey(arrJs, 'js');
+
+		}else{
+			if(Array.isArray(arrCss))
+				GEN.removeIncluds(arrCss,'css',container);
+
+			if(Array.isArray(arrJs))
+				GEN.removeIncluds(arrJs,'js',container);
+		}
+
+	}
+
+	const inlcudesFilesNosiCaSigner = function(){
+		const hasSelect   = getElementsByType('select'),
+			hasFileSigner = getElementsByType('filesigner'),
+			hasVkb 		  = getElementsByType('virtualkeyboard'),
+			hasBtnSigner  = getBtnByTarget('signer');
+
+		const jsSelectFile = [
+			{ path:'/plugins/select2/select2.full.min.js'}, 
+			{ path:'/plugins/select2/select2.init.js'}
+		],
+		cssSelectFile = [
+			{ path:'/plugins/select2/select2.min.css' }, 
+			{ path:'/plugins/select2/select2.style.css' } 
+		],
+		jsVkbFile = [
+			{ path:'/plugins/virtualkeyboard/IGRP.virtualkeyBoard.init.js'}
+		],
+		cssVkbFile = [
+			{ path:'/plugins/virtualkeyboard/vkb.css' }
+		],
+		includJs = [{ path:'/plugins/nosicaSigner/nosicaSigner.js'}];
+
+		if(hasFileSigner || hasBtnSigner){
+
+			if(!container.includes?.css)
+				container.includes['css'] = [];
+
+			includeFiles(hasSelect, jsSelectFile, cssSelectFile);
+			includeFiles(hasVkb, jsVkbFile, cssVkbFile);
+
+			if(hasBtnSigner){
+				includeFiles(!hasBtnSigner, includJs, '');
+			}
+
+		}else{
+
+			const jsArr = [...jsSelectFile, ...jsVkbFile, ...includJs],
+				cssArr  = [...cssSelectFile, ...cssVkbFile];
+
+			GEN.removeIncluds(cssArr,'css',container);
+			GEN.removeIncluds(jsArr,'js',container);
+		}
+	}
 	
 	container.onDrawEnd = function(){
-		
+
+		inlcudesFilesNosiCaSigner();
+
 		//$.IGRP.components.form.placeholder2desc();
 		
 	}

@@ -169,48 +169,6 @@ var mWindow = null,
 			return false;
 		};
 
-		var afterSubmitAjax = function (p) {
-			var xml = p.xml,
-							
-				hasRefreshAttr = p.clicked[0].hasAttribute("refresh-components"),
-				
-				refresh_components = hasRefreshAttr ? p.clicked.attr("refresh-components") : null;
-
-				nodes 	 = hasRefreshAttr && refresh_components != '' ? refresh_components.split(',') : [];
-			
-			if( !hasRefreshAttr ){
-			
-				$('.table, .IGRP-highcharts',p.sform).each(function(id,el){
-					
-					nodes.push($(el).parents('.gen-container-item').attr('item-name'));
-					
-				});
-			}
-
-			if(nodes[0]){
-				
-				$.IGRP.utils.xsl.transform({
-					xsl     : $.IGRP.utils.getXMLStylesheet(xml),
-					xml     : xml,
-					nodes   : nodes,
-					clicked : p.clicked,
-					complete: function(res){
-
-						$.IGRP.events.execute('submit-complete',p);
-
-						p.clicked.removeAttr("disabled");
-						
-					}
-				});
-				
-			}else{
-				p.clicked.removeAttr("disabled");
-				$.IGRP.events.execute('submit-complete',p);
-			}
-
-			$.IGRP.utils.message.handleXML(xml);
-		};
-
 		var clearErrors = function (f) {
 			$("label.error",f).hide();
   			$(".error",f).removeClass("error");
@@ -263,7 +221,7 @@ var mWindow = null,
 
 							var xml = resp.responseXML || $($.parseXML(resp.response));
 
-							afterSubmitAjax({
+							$.IGRP.utils.afterSubmitAjax({
 								xml 	: xml,
 								clicked : p.clicked,
 								sform   : sform
@@ -379,7 +337,7 @@ var mWindow = null,
 
 							var xml = resp.responseXML || $($.parseXML(resp.response));
 
-							afterSubmitAjax({
+							$.IGRP.utils.afterSubmitAjax({
 								xml 	: xml,
 								clicked : p.clicked,
 								sform   : sform
@@ -1085,6 +1043,36 @@ var mWindow = null,
 			}
 			return url;
 		}
+
+		var signerBeforeSubmit = function(p){
+			let sform     	= $.IGRP.utils.getForm(),
+				fields    	= $.IGRP.utils.getFieldsValidate(sform),
+				action    	= $.IGRP.utils.getSubmitParams(p.url,sform,p.scrollTo),
+				events 		= p.clicked[0].events,
+				valid 		= p?.validate ? p.validate :  fields.valid();
+
+			if(valid){
+				if($.IGRP.components?.nosicaSigner){
+
+					events.execute('before-signer_before_submit',{
+						pArrayItem : fields,
+						clicked    : p.clicked,
+						url  	   : action
+					});
+
+					//p.url = action;
+
+					$.IGRP.components.nosicaSigner.signerBeforeSubmit(p);
+				}
+			}
+		}
+
+		var signerBeforeDownload = function(p){
+			console.log(p, $.IGRP.components?.nosicaSigner);
+			if($.IGRP.components?.nosicaSigner){
+				$.IGRP.components.nosicaSigner.signerBeforeDownload(p);
+			}
+		}
 		
 		var getParameterSymbol = function(url){
 		
@@ -1241,6 +1229,21 @@ var mWindow = null,
 				type  : 'submit'
 
 			},	
+
+			signer_before_submit : {
+				label : 'Signer Before Submit',
+
+				action : signerBeforeSubmit,
+
+				type   : 'submit'
+			},
+
+			signer_before_download : {
+				label : 'Signer Before Download',
+
+				action : signerBeforeDownload
+			},
+
 			_link       : {
 
 				label : 'Link',

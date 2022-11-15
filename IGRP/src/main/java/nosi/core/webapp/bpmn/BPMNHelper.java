@@ -311,7 +311,7 @@ public final class BPMNHelper {
 					 
 				 }
 				 if(doc.getRepTemplate() != null && doc.getRepTemplate().getApplication() != null && doc.getRepTemplate().getApplication().getDad().equals(appDad)) { 
-					 doc.setFileId(new Integer(-1));
+					 doc.setFileId(Integer.valueOf(-1));
 					 IGRPLink link = new IGRPLink(Core.getLinkReport(doc.getRepTemplate().getCode()));
 		 			 link.setLink_desc(gt("Mostrar"));
 					 doc.setLink(link);

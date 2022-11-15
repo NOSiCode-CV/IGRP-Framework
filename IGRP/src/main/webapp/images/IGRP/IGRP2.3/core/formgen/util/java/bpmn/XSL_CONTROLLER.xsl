@@ -29,9 +29,9 @@
 		<xsl:choose>
 			<xsl:when test="//form_key!=''">
     			<xsl:value-of select="$newline"/>
-				<xsl:value-of select="concat('import nosi.webapps.',//app,'.pages.',//page,'.',//form_key,';')"/>
+				<xsl:value-of select="concat('import nosi.webapps.',//app,'.pages.',//page,'.',//form_key,';','//')"/>
     			<xsl:value-of select="$newline"/>
-				<xsl:value-of select="concat('import nosi.webapps.',//app,'.pages.',//page,'.',//form_key,'View;')"/>
+				<xsl:value-of select="concat('import nosi.webapps.',//app,'.pages.',//page,'.',//form_key,'View;','//')"/>
 			</xsl:when>
 			<xsl:otherwise/>
 		</xsl:choose>

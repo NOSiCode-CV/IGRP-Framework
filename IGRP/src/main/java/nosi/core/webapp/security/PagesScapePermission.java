@@ -26,6 +26,9 @@ public class PagesScapePermission {
 		PAGES_WIDTHOUT_LOGIN.add("igrp/ErrorPage/notFound".toLowerCase());	
 		PAGES_WIDTHOUT_LOGIN.add("igrp/File/get-image-txt".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/File/save-image".toLowerCase());
+		PAGES_WIDTHOUT_LOGIN.add("igrp/DigitalSignature/saveSignature".toLowerCase());
+		PAGES_WIDTHOUT_LOGIN.add("igrp/DigitalSignature/downloadCertificate".toLowerCase());
+		PAGES_WIDTHOUT_LOGIN.add("igrp/DigitalSignature/downloadData".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/File/getPublicFile".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/Page/detailPage".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/Page/listPage".toLowerCase());
@@ -69,6 +72,9 @@ public class PagesScapePermission {
 		PAGES_SCAPE_ENCRYPT.add("igrp/File/get-image-txt".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/File/save-image".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/File/get-file".toLowerCase());
+		PAGES_SCAPE_ENCRYPT.add("igrp/DigitalSignature/saveSignature".toLowerCase());
+		PAGES_SCAPE_ENCRYPT.add("igrp/DigitalSignature/downloadCertificate".toLowerCase());
+		PAGES_SCAPE_ENCRYPT.add("igrp/DigitalSignature/downloadData".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/Page/fileExists".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/Page/metodos-core".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/Page/detailPage".toLowerCase());
