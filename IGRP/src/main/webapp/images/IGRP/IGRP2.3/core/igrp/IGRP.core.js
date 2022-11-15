@@ -191,6 +191,10 @@
 
                         break;
 
+						case 'texteditor':
+							CKEDITOR?.instances[formElement.attr('id')]?.setData( value );
+						break;
+
                         default:
 
                             $(e).val('');
