@@ -1,5 +1,5 @@
 // JavaScript Document
-// NOSi 2014 - Edson Tavares UPDATE 15/10/2015
+// NOSi 2014 - Edson Tavares UPDATE 11/11/2022
 
 /* vkboard*/
 (function($){
@@ -68,11 +68,6 @@
 				i+=1;
 				$(e).val(array[qtd-i]);
 			});
-
-			/*for (i = 1; i <= qtd; i++) {
-				var btn = $("#btn"+array[i-1]+"."+vRel);
-				btn.val(array[qtd-i]);
-			}*/
 		}
 
 		function IGRP_listKeyBval(div,alpha){
@@ -147,6 +142,10 @@
 
 			const value = $("#inp_"+vRel).val();
 
+			$(document).trigger('vkb:beforeOk', [{
+				vkb : VKB
+			}]);
+
 			if (typeof settings.beforeOk === 'function') {
 				settings.beforeok(value, VKB, vRel);
 			}
@@ -168,6 +167,11 @@
 			if (typeof settings.afterOk === 'function') {
 				settings.afterok(value, VKB, vRel);
 			}
+
+			$(document).trigger('vkb:afterOk', [{
+				vkb  : VKB,
+				value: value
+			}]);
 		}
 
 
@@ -188,7 +192,14 @@
 
 		function IGRP_vkbReset(){
 			$(".vkbLp_btn",VKB).on("click",function(){
+				const val = $("#inp_"+vRel).val();
+
 				$("#inp_"+vRel).val('');
+
+				$(document).trigger('vkb:afterReset', [{
+					vkb   : VKB,
+					value : val
+				}]);
 			});
 		}
 
@@ -227,8 +238,12 @@
 			VKB.addClass('init');
 			
         	var onInit = function(){
+
+				$(document).trigger('vkb:beforeInit', [{
+					vkb : VKB
+				}]);
+				
 				if(!$('.vkb_main',VKB)[0]){
-					console.log(VKB);
 					VKB.append(IGRP_setVkb_main(vKbtype,vRel));
 				}
 
@@ -245,6 +260,7 @@
 					VKB.addClass('show_vbk_onloadd');
 
         		}else{
+
         			$(".vkb_input",VKB).keypress(function(inp){
         				vRel = $(this).attr('rel');
         				vKbtype = $(this).parents('.vkb_geral').attr('vKbtype');
@@ -259,6 +275,10 @@
 						IGRP_toggleVkb();
 					});
         		}
+
+				$(document).trigger('vkb:afterInit', [{
+					vkb : VKB
+				}]);
         	};
 
         	onInit();
