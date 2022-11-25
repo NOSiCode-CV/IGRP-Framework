@@ -1139,7 +1139,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 	@Override
 	@Transient	 
-	//@XmlTransient
+	@XmlTransient
 	public String getNamePrimaryKey() {
 		for(Field field:this.className.getClass().getDeclaredFields()){
 			if(field.isAnnotationPresent(Id.class))
@@ -1150,7 +1150,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 	@Override
 	@Transient
-	//@XmlTransient
+	@XmlTransient
 	public Long getCount() {
 		this.sql = this.generateSqlCount()+this.sql;
 		return (Long)this.getSingleResult();
