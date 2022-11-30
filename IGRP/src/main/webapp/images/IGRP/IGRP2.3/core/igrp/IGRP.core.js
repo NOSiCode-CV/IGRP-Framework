@@ -226,11 +226,14 @@
 					
 				}
 
-				var formElement = p.row ? $('[name="p_'+tag+'_fk"]',p.row) : $('[name="p_'+tag+'"]'),
+				var formElement = p.row ? $('[name="p_'+tag+'_fk"]',p.row) : $('[name="p_'+tag+'"]');
 
-					parent  	= $(formElement.parents('[item-name]')[0]);
+				if(!formElement[0])
+					formElement = $('[name="p_'+tag+'"]');
+
+				var parent  = $(formElement.parents('[item-name]')[0]);
 				
-					parent 	    = parent[0] ? parent : $('*[item-name="'+tag+'"]');
+				parent 	    = parent[0] ? parent : $('*[item-name="'+tag+'"]');
 				
 				if( parent[0] ){
 
