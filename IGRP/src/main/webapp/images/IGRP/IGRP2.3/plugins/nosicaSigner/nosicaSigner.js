@@ -7,6 +7,7 @@
         idToken         = null,
         idCert          = null,
         typeSigner      = 'SignPdf',
+        signerbeforsave = false,
         objclicked      = null,
         successProcesso = false,
         defaultError    = 'Ocorreu um erro inesperado! Por favor recarregue o seu ecrã e tenta novamente.';
@@ -81,8 +82,8 @@
             },
 
             filesigner : function(){
-                return `<div class="row mb-5">
-                    <div class="form-group col-sm-3" item-name="nosicasigner_file" item-type="file">
+                return `<div class="row mb-5" id="holder-fields-nosicasigner">
+                    <div class="form-group col-sm-3" id="nosicasigner_file" item-name="nosicasigner_file" item-type="file">
                         <label for="p_nosicasigner_file">Document</label>
                         <div class="input-group">
                             <input type="text" class="form-control not-form" readonly="readonly"/>
@@ -180,6 +181,7 @@
             $('.btn_nosica').addClass('hidden');
 
             $('#nosicasigner_base64').remove();
+            $('#nosicasigner_file').removeClass('hidden');
 
             pinToken = null;
             idToken  = null;
@@ -197,6 +199,8 @@
             });
 
             successProcesso = false;
+
+            signerbeforsave = false;
 
             $.IGRP.utils.loading.hide();
         },
@@ -536,7 +540,20 @@
                         complete : function(xml){
                             
                             if(objModal.is('[input-rel]')){
-                                let objInput    = $(`#${objModal.attr('input-rel')}`),
+                                let objholder   =  $('body');
+
+                                if(objModal.is('[idTabel]')){
+                                    const parentTable = $(`table#${objModal.attr('idTabel')}`);
+
+                                    if(parentTable[0]){
+
+                                        const trIdx = objModal.attr('trIdx') * 1;
+
+                                        objholder = $(`tbody tr:eq(${trIdx})`, parentTable);
+                                    }
+                                }
+
+                                let objInput    = $(`#${objModal.attr('input-rel')}`,objholder),
                                     objUuid     = $(xml).find('signedUuid');
 
                                 if(objInput[0] && objUuid[0]){
@@ -662,6 +679,9 @@
 
                     $.IGRP.utils.loading.hide();
 
+                    if(signerbeforsave)
+                        objModal.modal('hide');
+
                     com.resetNosicasigner();
 
                 });
@@ -699,27 +719,95 @@
             }
         },
 
-        signerBeforeDownload : function(p) {
-            objclicked = p;
+        fetchFileToBlod : function(p){
 
             fetch(p.url).then( response => response.blob() )
             .then( blob =>{
 
-                var reader = new FileReader() ;
+                var reader = new FileReader();
+
+                const message = 'Certifique que o url é de um ficheiro formato PDF.';
 
                 reader.onload = function(){ 
-        
-                    com.setBase64Result({
-                        id    : 'nosicasigner_base64',
-                        data  : this.result
-                    });
 
-                    com.getAvailableTokens();
+                    const result = this.result;
 
+                    if(result.indexOf('data:text/html;base64') === -1){
+                    
+                        com.setBase64Result({
+                            id    : 'nosicasigner_base64',
+                            data  : this.result
+                        });
+
+                        if(typeof p.complete === 'function')
+                            p.complete();
+
+                        else
+                            com.getAvailableTokens();
+
+                    }else{
+                        $.IGRP.notify({
+                            message: message,
+                            type   : 'danger'
+                        });
+                    }
                 };
+
+                reader.onerror = function (error) {
+					$.IGRP.notify({
+                        message: message,
+                        type   : 'danger'
+                    });
+				};
 
                 reader.readAsDataURL(blob) ;
             });
+
+        },
+
+        signerBeforeDownload : function(p) {
+            objclicked = p;
+
+            com.fetchFileToBlod(p);
+        },
+
+        signerFileBeforSave : function(p){
+            $('#nosicasigner_file').addClass('hidden');
+
+            if(p.url){
+
+                const iframeSigner = $('.nosicasigner_iframe');
+
+                iframeSigner.removeClass('hidden');
+
+                $('iframe',iframeSigner).attr('src',p.url);
+
+                com.fetchFileToBlod({
+                    url      : p.url,
+                    clicked  : p.clicked,
+                    complete : function(){
+                        com.controllModalAsigner(p.clicked);
+                        com.getAvailableTokens();
+                    }
+                });
+                
+            }
+        },
+
+        controllModalAsigner : function(obj){
+
+            $('.modal-body',objModal).html(com.html.filesigner());
+
+            const trParent = obj.parents('tr:first');
+
+            objModal.attr('input-rel',obj.attr('rel'));
+
+            if(trParent[0]){
+                const idTabel = trParent.parents('table').attr('id');
+                objModal.attr('trIdx',(trParent[0].rowIndex -1)).attr('idtable',idTabel);
+            }
+
+            objModal.modal('show');
         },
 
         events : function() {
@@ -727,9 +815,30 @@
             $('body').on('click','.btn-filesigner', function(e){
                 e.preventDefault();
 
-                objModal.modal("show").attr('input-rel',$(this).attr('rel'));
+                com.resetNosicasigner();
 
-                $('.modal-body',objModal).html(com.html.filesigner());
+                signerbeforsave = $(this).hasClass('signerbeforsave');
+
+                if(signerbeforsave){
+
+                    const href = $(this).attr('href');
+
+                    if(href){
+                        com.signerFileBeforSave({
+                            url     : href,
+                            clicked : $(this)
+                        });
+
+                    }else{
+                        $.IGRP.notify({
+                            message: 'URL n&atilde;o definido.',
+                            type   : 'danger'
+                        });
+                    }
+
+                }else
+                    com.controllModalAsigner($(this));
+
 
                 return false;
             });
