@@ -1097,8 +1097,7 @@ var CONTAINER = function(name,params){
 								var hiddenFieldsArr    = [];
 
 								$.each(container.holder.find('.gen-fields-holder'),function(pos,fieldHolder){
-									console.log(pos);
-									console.log(fieldHolder)
+									
 									var field_id = $(fieldHolder).attr('gen-field-id');
 									var field    = container.GET.field(field_id);
 									if(field && !field.hidden){
@@ -2884,42 +2883,53 @@ var CONTAINER = function(name,params){
 
 				fieldID   = fieldHtml.attr('gen-field-id');
 
-			//console.log(fieldID)
-
 			if(fieldID){
 
 				var fieldSrc  = isCtx ? container.contextMenu.getField(fieldID) : container.GET.field(fieldID);
+
+				//console.log(fieldSrc)
 				
 				if(fieldSrc){
 
-				 	var fType  = fieldSrc.type,
-
-				 		dfield = GEN.getDeclaredField(fType),
-
-				 		params = fieldSrc.export();
-
-				 	params.properties.tag = container.incrementTag('fields',params.properties.type);
-
-				 	var field 	    = new dfield.field(fType,params),
-
-				 		fake  	    = fieldSrc.holder.parent().find('>.gen-fields-holder').clone(),
-
-				 		fakerHolder = $('<div class="hidden invisible"/>'),
-
-				 		indx 		= 0;
-
-				 	fakerHolder.append(fake);
-
-				 	$('body').append(fakerHolder);
-
-				 	indx = fake.filter( '[gen-field-id="'+fieldSrc.holder.attr('gen-field-id')+'"]' ).index()+1;
-
-				 	fakerHolder.remove();
-
-				 	field.position = indx;
-
-				 	container.SET.fields([field]);
-
+					var fType  = fieldSrc.type,
+				
+						dfield = GEN.getDeclaredField(fType),
+				
+						params = fieldSrc.export(),
+					   
+					   fname  = fieldSrc.GET.tag(),
+					   
+					   fid   = fType+'_'+$.IGRP.utils.unique();
+				
+				   
+				    fname = container.incrementTag('fields',fname);
+				
+					params.properties.tag  = fname;
+				
+				    params.properties.name = `p_${params.properties.tag}`;
+				
+				    params.properties._id   = fid;
+				
+					var field 	    = new dfield.field(fType,params),
+				
+						fake  	    = fieldSrc.holder.parent().find('>.gen-fields-holder').clone(),
+				
+						fakerHolder = $('<div class="hidden invisible"/>'),
+				
+						indx 		= 0;
+				
+					fakerHolder.append(fake);
+				
+					$('body').append(fakerHolder);
+				
+					indx = fake.filter( '[gen-field-id="'+fieldSrc.holder.attr('gen-field-id')+'"]' ).index()+1;
+				
+					fakerHolder.remove();
+				
+					field.position = indx;
+				
+					container.SET.fields([field]);
+				
 				}
 
 			}

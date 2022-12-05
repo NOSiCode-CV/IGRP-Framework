@@ -54,7 +54,7 @@
 						$('.modal-body',modal).append(content);
 				}
 
-				if(o.buttons && o.buttons[0])
+				if(o.buttons && o.buttons[0]){
 					o.buttons.forEach(function(b){
 						/*
 							class:
@@ -81,6 +81,9 @@
 
 						$('.modal-footer',modal).append(btn).show();
 					});
+
+					$('.modal-footer',modal).show();
+				}
 				else
 					$('.modal-footer',modal).hide();
 				
