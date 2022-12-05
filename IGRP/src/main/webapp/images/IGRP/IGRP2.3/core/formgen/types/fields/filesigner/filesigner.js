@@ -15,6 +15,29 @@ var FILESIGNER = function(type,params){
 
 	field.ready = function(){
 		console.log('read');
+
+		field.setPropriety({
+			name:'setSignerUrlHooks',
+			value:false,
+			editable:false,
+			xslValue: function(){
+				return `<xsl:if test="${field.GET.valuePath()}/value != ''">
+					<xsl:attribute name="href">
+						<xsl:value-of select="${field.GET.valuePath()}/value"/>
+					</xsl:attribute>
+				</xsl:if>`;
+			}
+		});
+
+		field.setPropriety({
+			name:'signerbeforsave',
+			label:'Signer File From URL',
+			value: false,
+			onChange:function(v){
+				field.SET.setSignerUrlHooks(v)
+			},
+			xslValue:'signerbeforsave'
+		});
 	}
 }
 
