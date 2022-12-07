@@ -19,4 +19,6 @@ public interface IIGRPSelectQuery<E> extends IIGRPQuery<E> {
     E one();
 
     long count();
+
+    boolean anyMatch();
 }
