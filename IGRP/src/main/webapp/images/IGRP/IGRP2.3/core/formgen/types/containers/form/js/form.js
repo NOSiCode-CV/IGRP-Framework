@@ -57,31 +57,34 @@ var GENFORM = function(name,params){
 	container.onFieldSet = function(field){
 		GEN.setFormFieldAttr(field);
 
-		field.setPropriety({
+		if(field.type != 'filesigner'){
 
-            name:'tooltip',
+			field.setPropriety({
 
-            label:'Show Tooltip',
+				name:'tooltip',
 
-            value : false,
+				label:'Show Tooltip',
 
-            xslValue : '<xsl:call-template name="setTooltip">'+
-				'<xsl:with-param name="field" select="'+container.GET.path()+'/fields/'+field.GET.tag()+'"/>'+
-			'</xsl:call-template>'
+				value : false,
 
-        });
+				xslValue : '<xsl:call-template name="setTooltip">'+
+					'<xsl:with-param name="field" select="'+container.GET.path()+'/fields/'+field.GET.tag()+'"/>'+
+				'</xsl:call-template>'
 
-		field.setPropriety({
+			});
 
-            name:'disable_copy_paste',
+			field.setPropriety({
 
-            label:'Disable Copy/Paste',
+				name:'disable_copy_paste',
 
-            value : false,
+				label:'Disable Copy/Paste',
 
-            xslValue : 'onselectstart="return false" oncut="return false" oncopy="return false" onpaste="return false" ondrag="return false" ondrop="return false"'
+				value : false,
 
-        });
+				xslValue : 'onselectstart="return false" oncut="return false" oncopy="return false" onpaste="return false" ondrag="return false" ondrop="return false"'
+
+			});
+		}
 
 	}
 

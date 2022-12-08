@@ -5473,7 +5473,7 @@ var GENERATOR = function(genparams){
 						});
 					}
 
-					if(field.GET.type() != "select" && field.GET.type() != "file"){
+					if(field.GET.type() != "select" && field.GET.type() != "file" && field.type != 'filesigner'){
 						field.setPropriety({
 							name:'readonly',
 							propriety:false,
@@ -5481,11 +5481,13 @@ var GENERATOR = function(genparams){
 						});
 					}
 
-					field.setPropriety({
-						name:'disabled',
-						propriety:false,
-						xslValue : 'disabled="disabled"' //XSL VALUE WHEN PROPRIETY IS TRUE
-					});
+					if(field.type != 'filesigner'){
+						field.setPropriety({
+							name:'disabled',
+							propriety:false,
+							xslValue : 'disabled="disabled"' //XSL VALUE WHEN PROPRIETY IS TRUE
+						});
+					}
 
 					if(field.GET.type() === 'text' || field.GET.type() === 'textarea'){
 						field.setPropriety({
@@ -5497,7 +5499,7 @@ var GENERATOR = function(genparams){
 					}
 				}
 
-				if(field.GET.type() != "button" && field.GET.type() != "plaintext" && field.GET.type() != "select" && field.GET.type() != "file" && field.GET.type() != "radio" && field.GET.type() != "checkbox" && field.GET.type() != "checkboxlist" && field.GET.type() != "radiolist"){
+				if(field.type != 'filesigner' && field.GET.type() != "button" && field.GET.type() != "plaintext" && field.GET.type() != "select" && field.GET.type() != "file" && field.GET.type() != "radio" && field.GET.type() != "checkbox" && field.GET.type() != "checkboxlist" && field.GET.type() != "radiolist"){
 
 					field.setPropriety({
 						name:'placeholder',
@@ -5594,12 +5596,14 @@ var GENERATOR = function(genparams){
 					}
 				});
 			}
-
-			field.setPropriety({
-				name      :'right',
-				value     :false,
-				xslValue  :'pull-right'
-			});
+			
+			if(field.type != 'filesigner'){
+				field.setPropriety({
+					name      :'right',
+					value     :false,
+					xslValue  :'pull-right'
+				});
+			}
 
 			if(type != 'separator' && type !='link' && type !='plaintext' && type !='button' && type!='img')
 				field.formField = true;
