@@ -1,43 +1,5 @@
 package nosi.core.webapp.helpers.dao_helper;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlTransient;
-
-import org.apache.commons.text.CaseUtils;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Immutable;
-
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
@@ -47,6 +9,27 @@ import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.webapps.igrp_studio.pages.crudgenerator.CRUDGeneratorController;
+import org.apache.commons.text.CaseUtils;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Immutable;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Isaias.Nunes Aug 22, 2019
@@ -161,7 +144,7 @@ public class GerarClasse {
 
 			variables.append(TAB).append("@SequenceGenerator(name = \"").append(sequence)
 					.append("Gen\", sequenceName = \"").append(sequence)
-					.append("\", initialValue = 1, allocationSize = 1, schema = \"").append(this.daoDto.getSchema())
+					.append("\", allocationSize = 1, schema = \"").append(this.daoDto.getSchema())
 					.append("\")").append(NEW_LINE).append(TAB)
 					.append("@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = \"").append(sequence)
 					.append("Gen\")").append(NEW_LINE);
@@ -238,21 +221,20 @@ public class GerarClasse {
 		final boolean isDefaultMaxSize = size == Integer.MAX_VALUE;
 
 		if (!isDefaultMaxSize) { //If it is default size is because it is a text or something BIG, so no need to put size
-			if (isNullable) {				
-					this.importClasses.add(Size.class);
-					annotationsProps.append(TAB).append("@Size(").append("max = ").append(size).append(")")
-							.append(NEW_LINE);			
-	
-			} else  {
-	
-				this.importClasses.add(Size.class);
+
+			this.importClasses.add(Size.class);
+
+			if (isNullable)
+				annotationsProps.append(TAB).append("@Size(").append("max = ").append(size).append(")").append(NEW_LINE);
+			else {
+
 				this.importClasses.add(NotBlank.class);
-	
+
 				final String maxProperty = isDefaultMaxSize ? ")" : ", max = " + size + ")";
-	
+
 				annotationsProps.append(TAB).append("@NotBlank").append(NEW_LINE);
 				annotationsProps.append(TAB).append("@Size(").append("min = 1").append(maxProperty).append(NEW_LINE);
-	
+
 			}
 		}
 		return annotationsProps.toString();

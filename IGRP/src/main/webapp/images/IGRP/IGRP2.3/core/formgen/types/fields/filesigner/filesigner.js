@@ -12,7 +12,7 @@ var FILESIGNER = function(type,params){
 	field.includes = {
 		js  :[ { path:'/plugins/nosicaSigner/nosicaSigner.js'}]
 	}
-
+	
 	field.ready = function(){
 		console.log('read');
 
