@@ -422,7 +422,6 @@ public class MigrationController extends Controller {
 						}
 					} 
 					
-					
 				}
 			}
 			content = new StringBuilder(content.toString().replace(DOMAINS_PLACEHOLDER, auxContent.toString()));

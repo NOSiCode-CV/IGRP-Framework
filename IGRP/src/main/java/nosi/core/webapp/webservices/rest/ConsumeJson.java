@@ -9,7 +9,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import nosi.core.config.Config;
-import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Core;
 
 /**
@@ -65,7 +64,7 @@ public class ConsumeJson {
 			return response.toString();
 		} catch (Exception e) {
 			String eString = e.toString();
-			if(!new Config().getEnvironment().equals(ConfigCommonMainConstants.IGRP_ENV_DEV.value()))
+			if(!new Config().getEnvironment().equals("dev"))
 				System.out.println("Erro getJsonFromUrl: "+eString);
 			else {				
 				Core.setMessageError("Erro: " + eString);
