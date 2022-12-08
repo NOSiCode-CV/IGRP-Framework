@@ -37,6 +37,11 @@ public class IGRPSelectQuery<E> extends IGRPQueryBase<E> implements IIGRPSelectQ
     }
 
     @Override
+    public boolean anyMatch() {
+        return !this.all(1).isEmpty();
+    }
+
+    @Override
     public E one() {
         return this.getQuery().getSingleResult();
     }
