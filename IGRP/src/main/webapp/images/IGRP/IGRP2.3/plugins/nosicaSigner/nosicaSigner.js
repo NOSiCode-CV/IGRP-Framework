@@ -804,7 +804,7 @@
 
             if(trParent[0]){
                 const idTabel = trParent.parents('table').attr('id');
-                objModal.attr('trIdx',(trParent[0].rowIndex -1)).attr('idtable',idTabel);
+                objModal.attr('trIdx',(trParent[0].rowIndex -1)).attr('idTable',idTabel);
             }
 
             objModal.modal('show');
