@@ -67,11 +67,6 @@ public class IGRPWhereQuery<E> extends IGRPSelectQuery<E> implements IIGRPWhereQ
         return new IGRPOrderByQuery<>(this, order, column);
     }
 
-    public <V> IGRPOrderByQuery<E> orderBy(IGRPOrderByQuery.Order order, SingularAttribute<E, V> attribute) {
-        this.applyWhereClause();
-        return new IGRPOrderByQuery<>(this, order, attribute);
-    }
-
     public IGRPOrderByQuery<E> orderBy(IGRPOrderByQuery.Order order, String... columns) {
         this.applyWhereClause();
         return new IGRPOrderByQuery<>(this, order, columns);
@@ -734,11 +729,6 @@ public class IGRPWhereQuery<E> extends IGRPSelectQuery<E> implements IIGRPWhereQ
 
     @Override
     public IGRPWhereQuery<E> notEqualToIf(String column, String value, Predicate<String> validateExpression) {
-        return this.internalNotEqualToIf(column, value, validateExpression);
-    }
-
-    @Override
-    public IGRPWhereQuery<E> notEqualToIf(String column, Long value, Predicate<Long> validateExpression) {
         return this.internalNotEqualToIf(column, value, validateExpression);
     }
 

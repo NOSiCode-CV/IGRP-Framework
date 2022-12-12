@@ -776,6 +776,10 @@ public final class Core {
 	}
 
 	public static String getCurrentPage() {
+		String current_app_conn = Core.getParam("current_app_conn", false);
+		if (Core.isNotNull(current_app_conn)) {
+			return current_app_conn;
+		}
 		Integer isPublic = Core.getParamInt("isPublic", false);
 		String r = Core.getParam("r");
 		
@@ -5434,37 +5438,5 @@ public final class Core {
 		if (s != null)
 			sessionId = s.getSessionId();
 		return sessionId;
-	}
-	
-	/**
-	 * Link to a Certificate file
-	 * 
-	 * 
-	 * @param uuid
-	 *            Unique signature id
-	 * @return link
-	 */
-	public static String getLinkCertificateByUuid(String uuid) {
-		if (Core.isNullOrZero(uuid))
-			return "";
-		else
-			return Route.getResolveUrl("igrp", "DigitalSignature", "downloadCertificate&uuid=" + uuid);
-
-	}
-
-	/**
-	 * Link to a Signed data file
-	 * 
-	 * 
-	 * @param uuid
-	 *            Unique signature id
-	 * @return link
-	 */
-	public static String getLinkSignedDataByUuid(String uuid) {
-		if (Core.isNullOrZero(uuid))
-			return "";
-		else
-			return Route.getResolveUrl("igrp", "DigitalSignature", "downloadData&uuid=" + uuid);
-
 	}
 }
