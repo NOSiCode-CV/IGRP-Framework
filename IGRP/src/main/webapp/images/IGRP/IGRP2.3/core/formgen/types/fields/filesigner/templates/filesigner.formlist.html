@@ -1,0 +1,15 @@
+<xsl:if test="not(#tag#/@visible)">
+	<td align="#[align]#" data-row="{position()}" data-title="{../../../fields/#tag#/label}" class="#type#" item-name="#[tag]#" item-type="#type#">
+		<a class="link btn btn-primary form-link btn-filesigner #[signerbeforsave]#" rel="#tag#-{position()}">
+			#[setSignerUrlHooks]#
+			<i class="fa fa-pencil"></i>
+			<span>#label.val#</span>
+		</a>
+		<input type="text" class="d-none hidden #[change]#" id="#tag#-{position()}" name="{#path#/@name}" #[required]#>
+			<xsl:call-template name="setAttributes">
+				<xsl:with-param name="field" select="#path#"/>
+			</xsl:call-template>
+	   </input>
+	  	
+	</td>
+</xsl:if>

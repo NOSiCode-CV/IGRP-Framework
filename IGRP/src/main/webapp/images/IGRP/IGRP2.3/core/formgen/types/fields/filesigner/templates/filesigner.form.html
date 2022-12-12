@@ -1,0 +1,12 @@
+<div class="form-group col-sm-#[size]#" item-name="#tag#" item-type="#type#">
+	<a class="link btn btn-primary form-link btn-filesigner #[signerbeforsave]#" rel="#tag#">
+		#[setSignerUrlHooks]#
+		<i class="fa fa-pencil"></i>
+		#label.val#
+	</a>
+	<input type="text" class="d-none hidden #[change]#" id="#tag#" name="{#path#/@name}" #[required]#>
+		<xsl:call-template name="setAttributes">
+			<xsl:with-param name="field" select="#path#"/>
+		</xsl:call-template>
+   </input>
+</div>
