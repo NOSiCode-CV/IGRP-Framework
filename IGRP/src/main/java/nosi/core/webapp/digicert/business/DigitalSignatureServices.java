@@ -14,7 +14,6 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.xml.DomXML;
 import nosi.webapps.igrp.dao.CertificatedSignatures;
-import nosi.webapps.igrp_digisign.pages.signform.SignFormController.SignedResult;
 
 /**
  * frant 03/11/2022
