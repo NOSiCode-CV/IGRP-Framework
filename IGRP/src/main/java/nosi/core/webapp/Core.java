@@ -1,65 +1,7 @@
 package nosi.core.webapp;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.net.FileNameMap;
-import java.net.URLConnection;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.Normalizer;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.Temporal;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import javax.persistence.Tuple;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.modelmapper.ModelMapper;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.ConfigApp;
 import nosi.core.gui.components.IGRPForm;
@@ -73,33 +15,14 @@ import nosi.core.mail.EmailMessage;
 import nosi.core.mail.EmailMessage.Attachment;
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
-import nosi.core.webapp.activit.rest.entities.CustomVariableIGRP;
-import nosi.core.webapp.activit.rest.entities.HistoricProcessInstance;
-import nosi.core.webapp.activit.rest.entities.HistoricTaskService;
-import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.entities.Rows;
-import nosi.core.webapp.activit.rest.entities.StartProcess;
-import nosi.core.webapp.activit.rest.entities.TaskService;
-import nosi.core.webapp.activit.rest.entities.TaskVariables;
+import nosi.core.webapp.activit.rest.entities.*;
 import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.bpmn.BPMNExecution;
 import nosi.core.webapp.bpmn.BPMNHelper;
-import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-import nosi.core.webapp.databse.helpers.Connection;
-import nosi.core.webapp.databse.helpers.QueryDelete;
-import nosi.core.webapp.databse.helpers.QueryInsert;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.webapp.databse.helpers.QuerySelect;
-import nosi.core.webapp.databse.helpers.QueryUpdate;
-import nosi.core.webapp.helpers.CheckBoxHelper;
-import nosi.core.webapp.helpers.DateHelper;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.helpers.GUIDGenerator;
-import nosi.core.webapp.helpers.IgrpHelper;
-import nosi.core.webapp.helpers.RemoteXML;
-import nosi.core.webapp.helpers.Route;
+import nosi.core.webapp.databse.helpers.*;
+import nosi.core.webapp.helpers.*;
 import nosi.core.webapp.helpers.datehelper.IGRPDateFromTo;
 import nosi.core.webapp.helpers.datehelper.IGRPDaysOff;
 import nosi.core.webapp.security.EncrypDecrypt;
@@ -108,21 +31,44 @@ import nosi.core.webapp.uploadfile.UploadFile;
 import nosi.core.webapp.webservices.rest.Geografia;
 import nosi.core.webapp.webservices.soap.SoapClient;
 import nosi.core.xml.XMLWritter;
-import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.ActivityExecute;
-import nosi.webapps.igrp.dao.ActivityExecuteType;
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.CLob;
-import nosi.webapps.igrp.dao.Config_env;
-import nosi.webapps.igrp.dao.Domain;
-import nosi.webapps.igrp.dao.Organization;
-import nosi.webapps.igrp.dao.Profile;
-import nosi.webapps.igrp.dao.ProfileType;
-import nosi.webapps.igrp.dao.Share;
-import nosi.webapps.igrp.dao.TipoDocumento;
-import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.dao.User;
+import nosi.webapps.igrp.dao.*;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.modelmapper.ModelMapper;
+
+import javax.persistence.Tuple;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import java.io.*;
+import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.net.FileNameMap;
+import java.net.URLConnection;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.Normalizer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * The core of the IGRP, here you can find all the main functions and helper
@@ -689,10 +635,9 @@ public final class Core {
 	}
 
 	public static String[] getAttributeArray(String name) {
-		if (Igrp.getInstance().getRequest().getAttribute(name) != null
-				&& (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[]
-						|| Igrp.getInstance().getRequest().getAttribute(name) instanceof String[])) {
-			Object[] valueO = (Object[]) Igrp.getInstance().getRequest().getAttribute(name);
+		final Object attribute = Igrp.getInstance().getRequest().getAttribute(name);
+		if (attribute instanceof Object[]) {
+			Object[] valueO = (Object[]) attribute;
 			Igrp.getInstance().getRequest().removeAttribute(name);
 			return Arrays.copyOf(valueO, valueO.length, String[].class);
 		}
@@ -1511,10 +1456,10 @@ public final class Core {
 	 */
 	public static String[] getParamArray(String name) {
 		String[] value = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameterValues(name) : null;
-		if (value == null) {
+		if (value == null)
 			value = Core.getAttributeArray(name);
-		}
-		return value;
+
+		return value != null ? Arrays.stream(value).filter(Core::isNotNull).distinct().toArray(String[]::new) : null;
 	}
 
 	/**
