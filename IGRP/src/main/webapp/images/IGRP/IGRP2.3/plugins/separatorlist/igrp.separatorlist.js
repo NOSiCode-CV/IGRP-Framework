@@ -317,13 +317,12 @@ $.fn.separatorList = function(o){
 			}			
 		};
 
-		var setFormFieldValue = function(f,val){
+		var setFormFieldValue = function(f,val, desc){
 
 			if(f){
-				var ftag    = $(f).prop('tagName').toLowerCase();
-				var ftype   = ftag == 'select' || ftag == 'textarea' ? ftag : $(f).attr('type');
-				var genType = $(f).parents('[item-type]').attr('item-type');
-				var rowVal  = val;
+				const ftag    = $(f).prop('tagName').toLowerCase(),
+				 	ftype     = ftag == 'select' || ftag == 'textarea' ? ftag : $(f).attr('type'),
+				 	rowVal    = val;
 
 				if(rowVal)
 					$(f).attr('item-value',rowVal);
@@ -333,7 +332,18 @@ $.fn.separatorList = function(o){
 					
 					if(ftype == 'select'){
 						$(f).val(rowVal.split(','));
-						$(f).trigger('change.select2');
+
+						if($(f).is('[load_service_data]')){
+							
+							if(desc)
+								$(f).attr('item-value-desc',desc);
+
+							$.IGRP.components.select2.select2Init({
+							   field : $(f)
+						   });
+
+					   }else
+						   $(f).trigger('change.select2');
 
 					}
 					
@@ -342,18 +352,11 @@ $.fn.separatorList = function(o){
 							rowVal.split(',').forEach(function(v){
 								if( $(f).val() == v ){
 									$(f).prop('checked',true);
-									//$(f).trigger('change');
 								}
 							});
 						else
 							$(f).val(rowVal);
-						
-						
-					//if(ftype == 'select' || ftype == 'checkbox' || ftype == 'radio')
-						//$(f).trigger("change");
 				}
-
-				//$(f).trigger('change');
 			}
 		};
 
@@ -383,17 +386,12 @@ $.fn.separatorList = function(o){
 			return rtn;
 		};
 
-		var getCurrentFieldValues = function(values){
-			console.log(values);
-		}
-
 		var editRow = function(sl,row){
 			var isDialog = sl.isDialog;
 			var fieldsH  = isDialog ? $('.splist-form-holder',sl)[0] : sl;
 			var fields   = getFormFields(fieldsH);
 			var tds      = $('td:not(.table-btn)',row);
-			var values   = {},
-				isChange = false,
+			var isChange = false,
 				fChange  = null,
 				arrField = [];  
 
@@ -412,6 +410,8 @@ $.fn.separatorList = function(o){
 				var fname  = $(f).attr('name');
 
 				var rowFk    =  $('[name="'+fname+'_fk"]',row);
+
+				var rowFkDesc =  $('[name="'+fname+'_fk_desc"]',row);
 	
 				if(rowFk[0]){
 
@@ -419,9 +419,9 @@ $.fn.separatorList = function(o){
 
 					var rowVal  = $.IGRP.utils.htmlEncode(rowFk.val());
 					
-					values[$(f).attr('item-name')] = rowVal;
+					rowFkDesc   = $.IGRP.utils.htmlEncode(rowFkDesc.val());
 
-					setFormFieldValue(f,rowVal);
+					setFormFieldValue(f,rowVal, rowFkDesc);
 					
 					if($(f).hasClass('IGRP_change')){
 						isChange = true;
@@ -437,8 +437,6 @@ $.fn.separatorList = function(o){
 
 				}
 			});
-
-			getCurrentFieldValues(values);
 
 			if (arrField[0]) {
 				$.each(arrField,function(i,f){
