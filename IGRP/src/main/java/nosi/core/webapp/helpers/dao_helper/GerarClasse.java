@@ -212,10 +212,7 @@ public class GerarClasse {
 
 		variables.append(this.addNullablePropertie(clazz, column.isNullable()))
 				.append(this.addStringProperties(clazz, column.getSize(), column.isNullable())).append(TAB)
-				.append("@Column(name = \"").append(column.getName()).append("\"");
-		if(columnType.equals(Object.class.getSimpleName()) || (columnType.equals(String.class.getSimpleName()) && !column.getColumnTypeName​().equalsIgnoreCase("varchar")))
-			variables.append(", columnDefinition = \"").append(column.getColumnTypeName​()).append("\"");
-		variables.append(")").append(NEW_LINE)
+				.append("@Column(name = \"").append(column.getName()).append("\"").append(")").append(NEW_LINE)
 				.append(TAB).append("private ").append(columnType).append(" ").append(camelCaseColumnName).append(";")
 				.append(NEW_LINE);
 	}
@@ -237,23 +234,24 @@ public class GerarClasse {
 		final StringBuilder annotationsProps = new StringBuilder();
 		final boolean isDefaultMaxSize = size == Integer.MAX_VALUE;
 
-		if (!isDefaultMaxSize) { //If it is default size is because it is a text or something BIG, so no need to put size
-			if (isNullable) {				
-					this.importClasses.add(Size.class);
-					annotationsProps.append(TAB).append("@Size(").append("max = ").append(size).append(")")
-							.append(NEW_LINE);			
-	
-			} else  {
-	
+		if (isNullable) {
+
+			if (!isDefaultMaxSize) {
 				this.importClasses.add(Size.class);
-				this.importClasses.add(NotBlank.class);
-	
-				final String maxProperty = isDefaultMaxSize ? ")" : ", max = " + size + ")";
-	
-				annotationsProps.append(TAB).append("@NotBlank").append(NEW_LINE);
-				annotationsProps.append(TAB).append("@Size(").append("min = 1").append(maxProperty).append(NEW_LINE);
-	
+				annotationsProps.append(TAB).append("@Size(").append("max = ").append(size).append(")")
+						.append(NEW_LINE);
 			}
+
+		} else {
+
+			this.importClasses.add(Size.class);
+			this.importClasses.add(NotBlank.class);
+
+			final String maxProperty = isDefaultMaxSize ? ")" : ", max = " + size + ")";
+
+			annotationsProps.append(TAB).append("@NotBlank").append(NEW_LINE);
+			annotationsProps.append(TAB).append("@Size(").append("min = 1").append(maxProperty).append(NEW_LINE);
+
 		}
 		return annotationsProps.toString();
 	}

@@ -392,7 +392,7 @@
 				
 				$.IGRP.events.on('element-transform',function(p){
 					
-					if($('[role="form"]',p.content)[0] && p.content.hasClass('igrp-forms')){
+					if($('[role="form"]',p.content)[0]){
 						
 						if($('.form-control.select2',p.content)[0])
 							$.IGRP.components.select2.init(p.content);

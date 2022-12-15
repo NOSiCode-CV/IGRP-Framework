@@ -1,12 +1,5 @@
 package nosi.core.gui.components;
 
-import static nosi.core.i18n.Translator.gt;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Map.Entry;
-
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
@@ -17,8 +10,14 @@ import nosi.core.webapp.security.PagesScapePermission;
 import nosi.core.webapp.security.Permission;
 import nosi.core.xml.XMLWritter;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Map.Entry;
+import java.util.function.BiConsumer;
 
-
+import static nosi.core.i18n.Translator.gt;
 
 public class IGRPButton {
 
@@ -123,37 +122,36 @@ public class IGRPButton {
 	public String getLink() {	
 		if(this.report!=null) {
 			link = this.report.getLink();
-			this.report.getParams().entrySet().stream().forEach(p->{
+			this.report.getParams().forEach((key, value) -> {
 				try {
-					link += ("&name_array="+p.getKey() + "&value_array="+URLEncoder.encode(""+p.getValue(),StandardCharsets.UTF_8.toString()));
+					link += ("&name_array=" + key + "&value_array=" + URLEncoder.encode("" + value, StandardCharsets.UTF_8.toString()));
 				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			});
-			link = link.replaceAll("webapps\\?r=", "");
+			link = link.replace("webapps\\?r=", "");
 			return link;
 		}
 		String target_ = "";		
 		
-		if (Igrp.getInstance().getRequest().getParameter("target") != null) {
+		if (Igrp.getInstance().getRequest().getParameter("target") != null)
 			target_ += "&target=" + Igrp.getInstance().getRequest().getParameter("target");
-		}
-		//String targetQuerysString = target_;
+
 		target_ += Route.getQueryString(link);//Get Query String
+
 		link = Route.resolveAction(link);
-		String result = null;
-		int isPublic = Core.getParamInt("isPublic").intValue();
-		if(PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains((app + "/" + page + "/"+link).toLowerCase())) {
-			result = app + "/" + page + "/" + (link+target_);					
-		}else if(isPublic==1) {
-			result = app + "/" + page + "/" + (link+target_)+"&isPublic=1";
-		}else if(isPublic==2) {
-			result = Core.encryptPublicPage(app + "/" + page + "/" + link) +target_+"&isPublic=2";
-		}else {
-			result = !isGenReverse() ? Core.encrypt(app + "/" + page + "/" + link)+target_ : Core.encrypt(link)+target_; 
+
+		final int isPublic = Core.getParamInt("isPublic");
+
+		if (PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains((app + "/" + page + "/" + link).toLowerCase())) {
+			return app + "/" + page + "/" + (link + target_);
+		} else if (isPublic == 1) {
+			return app + "/" + page + "/" + (link + target_) + "&isPublic=1";
+		} else if (isPublic == 2) {
+			return Core.encryptPublicPage(app + "/" + page + "/" + link) + target_ + "&isPublic=2";
+		} else {
+			return !isGenReverse() ? Core.encrypt(app + "/" + page + "/" + link) + target_ : Core.encrypt(link) + target_;
 		}
-		return result;
 	}
 
 	public boolean isGenReverse() {
@@ -211,67 +209,85 @@ public class IGRPButton {
 	}
 	
 
-	public IGRPButton addParameter(String parameter,Object valor) {
-		
-		if(valor instanceof String[])
-			for(String oneVal:(String[])valor) {
-				this.parameter += "&"+parameter+"="+oneVal;
-			}
-		else 
-			this.parameter += "&"+parameter+"="+(Core.isNotNull(valor)?valor.toString():"");
-		return this;
-	}
-	
-	
-	public FieldProperties getProperties() {
-		return this.propertie;
-	}
-	
-	public String toString() {
-		if(this.isVisible()) {
-			//Check the transaction permission
-			if(this.getProperties().getProperty("flg_transaction")!=null && this.getProperties().getProperty("flg_transaction").equals("true")){
-				if(new Permission().isPermission(this.getApp().toLowerCase()+"_"+this.getPage()+"_"+this.getProperties().getProperty("rel"))){
-					return this.genItem();
-				}
-			}else {
-				return this.genItem();
-			}		
-		}
-		return "";
-	}
+    public IGRPButton addParameter(String name, Object value) {
 
-	private String genItem() {
-		XMLWritter xml = new XMLWritter();
-		xml.startElement(this.getTag());
-		if(this.report!=null) {
-			this.propertie.remove("type");
-			this.propertie.put("type", "report");
-		}
-		for(Entry<Object, Object> prop : this.getProperties().entrySet()) {
-			xml.writeAttribute(prop.getKey().toString(), prop.getValue().toString());
-		}
-		xml.setElement("title",this.getTitle());
-		xml.setElement("app",this.getApp());
-		xml.setElement("page",this.getPage());
-		xml.setElement("link",this.getPrefix()+this.getLink()+this.getParameter()+"&dad="+Core.getCurrentDad());
-		xml.setElement("target",this.getTarget());
-		xml.setElement("img", this.getImg());
-		if(Core.isNotNull(this.getParams())){
-			xml.setElement("params", this.getParams());
-		}
-		if(Core.isNotNull(this.getParams())){
-			xml.setElement("parameter", this.getParameter());
-		}
-		xml.endElement();
-		return xml.toString();
-	}
-	
-	public void setMessage(String msg) {
-		if(this.getTarget().equalsIgnoreCase(FlashMessage.CONFIRM) || this.target.equalsIgnoreCase("alert_submit")) {
-			FlashMessage flashMessage = Igrp.getInstance().getFlashMessage();
-			flashMessage.removeMsg(FlashMessage.CONFIRM);
-			Core.setMessageConfirm(msg);
-		}
-	}
+        final BiConsumer<String, Object> parameterProcessor = (n, v) -> {
+            final String param = "&" + n + "=" + (Core.isNotNull(v) ? v.toString().trim() : "");
+			if (!this.parameter.contains(param))
+				this.parameter += param;
+        };
+
+        final boolean isArray = value instanceof String[];
+
+        if (!isArray) {
+            parameterProcessor.accept(name, value);
+            return this;
+        }
+
+        final String[] values = (String[]) value;
+
+        Arrays.stream(values)
+				.distinct()
+				.forEach(obj ->
+                parameterProcessor.accept(name, obj)
+        );
+
+        return this;
+    }
+
+    public FieldProperties getProperties() {
+        return this.propertie;
+    }
+
+    public String toString() {
+        if (this.isVisible()) {
+            //Check the transaction permission
+            if (this.getProperties().getProperty("flg_transaction") != null && this.getProperties().getProperty("flg_transaction").equals("true")) {
+                if (new Permission().isPermission(this.getApp().toLowerCase() + "_" + this.getPage() + "_" + this.getProperties().getProperty("rel"))) {
+                    return this.genItem();
+                }
+            } else {
+                return this.genItem();
+            }
+        }
+        return "";
+    }
+
+    private String genItem() {
+
+        final XMLWritter xml = new XMLWritter();
+        xml.startElement(this.getTag());
+
+        if (this.report != null) {
+            this.propertie.remove("type");
+            this.propertie.put("type", "report");
+        }
+
+        for (Entry<Object, Object> prop : this.getProperties().entrySet())
+            xml.writeAttribute(prop.getKey().toString(), prop.getValue().toString());
+
+        xml.setElement("title", this.getTitle());
+        xml.setElement("app", this.getApp());
+        xml.setElement("page", this.getPage());
+        xml.setElement("link", this.getPrefix() + this.getLink() + this.getParameter() + "&dad=" + Core.getCurrentDad());
+        xml.setElement("target", this.getTarget());
+        xml.setElement("img", this.getImg());
+
+        if (Core.isNotNull(this.getParams()))
+            xml.setElement("params", this.getParams());
+
+        if (Core.isNotNull(this.getParams()))
+            xml.setElement("parameter", this.getParameter());
+
+        xml.endElement();
+        return xml.toString();
+    }
+
+    public void setMessage(String msg) {
+        if (this.getTarget().equalsIgnoreCase(FlashMessage.CONFIRM) || this.target.equalsIgnoreCase("alert_submit")) {
+            FlashMessage flashMessage = Igrp.getInstance().getFlashMessage();
+            flashMessage.removeMsg(FlashMessage.CONFIRM);
+            Core.setMessageConfirm(msg);
+        }
+    }
 }

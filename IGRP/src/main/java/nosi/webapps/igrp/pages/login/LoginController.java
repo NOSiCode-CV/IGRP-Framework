@@ -624,7 +624,7 @@ public class LoginController extends Controller {
 					
 					if (user != null) {
 						if(user.getStatus() != 1) {
-							Core.setMessageWarning("Este utilizador "+user.getName()+" encontra-se desativado."); 
+							Core.setMessageWarning("Este utilizador encontra-se desativado."); 
 							return redirectToUrl(createUrlForOAuth2OpenIdRequest());
 						}
 						this.afterLogin(user);
@@ -644,7 +644,7 @@ public class LoginController extends Controller {
 						
 					}else { 
 						// Caso o utilizador não existir na base de dados fazer auto-invite no quando env=dev ... 
-						if(new Config().getEnvironment().equalsIgnoreCase(ConfigCommonMainConstants.IGRP_ENV_DEV.value())) {
+						if(new Config().getEnvironment().equalsIgnoreCase("dev")) {
 							
 							try {
 								User newUser = new User();
@@ -676,7 +676,7 @@ public class LoginController extends Controller {
 								return redirectToUrl(createUrlForOAuth2OpenIdRequest());
 							}
 						}else {
-							Core.setMessageWarning("Utilizador com o e-mail: "+email+", não está convidado."); 
+							Core.setMessageWarning("Utilizador não convidado nesse ambiente."); 
 							return redirectToUrl(createUrlForOAuth2OpenIdRequest());
 						}
 						

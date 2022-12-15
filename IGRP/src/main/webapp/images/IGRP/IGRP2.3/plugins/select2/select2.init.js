@@ -201,18 +201,21 @@
             	
             }
 
-            if(p.field.is('[load_service_data]')){
+            if(field.is('[load_service_data]')){
                
-                var url = p.field.attr('load_service_data');
-                
+                const url       = field.attr('load_service_data');
+                    
+                let initValue   = field.attr('item-value');
+
                 if(url && url !== undefined){
                     properties.ajax = {
                         url: url,
                         dataType: 'json',
                         type: 'GET',
                         data: function (params) {
+                            console.log(params)
                             return {
-                                p_search_data: params.term,
+                                p_search_data: params.term || field.attr('item-value'),
                             };
                         },
                         processResults: function (response) {
@@ -223,12 +226,36 @@
                         cache: true
                     }
                 }
+
+                if(initValue && initValue !== undefined){
+
+                    let descInitValue = field.attr('item-value-desc');
+
+                    properties.initSelection = function (element, callback) {
+
+                        initValue = initValue.split(',');
+
+                        descInitValue = descInitValue.split(',');
+                        
+                        let data = [];//Array
+
+                        initValue.forEach(function(op,idx){
+                            const text = descInitValue[idx],
+                                option = new Option(op,text);
+        
+                            element.append(option);
+
+                            data.push({id: op, text: text});//Push values to data array
+        
+                        });                
+                
+                        callback(data); //Fill'em
+                    }
+                }
             }
 
 
             p.field.select2(properties);
-
-           
 
         },
         init:function(parent){
