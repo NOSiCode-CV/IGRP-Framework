@@ -22,8 +22,8 @@ var FILESIGNER = function(type,params){
 			value:false,
 			editable:false,
 			xslValue: function(){
-				
-				const pathValue = typeParent === 'formlist' ? field.GET.tag() : `${field.GET.valuePath()}/value`;
+				console.log(field)
+				const pathValue = typeParent === 'formlist' ? field.GET.tag() : `row/content/${field.parent.GET.tag()}/fields/${field.GET.tag()}/value`;
 
 				return `<xsl:if test=" ${pathValue} != ''">
 					<xsl:attribute name="href">

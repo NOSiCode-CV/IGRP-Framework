@@ -486,12 +486,15 @@
 
                     try{
                         const xml = resp.responseXML || $($.parseXML(resp.response));
-                        
-                        $.IGRP.utils.afterSubmitAjax({
-                            xml 	: xml,
-                            clicked : p.clicked,
-                            sform   : $.IGRP.utils.getForm()
-                        });
+
+                        if(p.transform){
+
+                            $.IGRP.utils.afterSubmitAjax({
+                                xml 	: xml,
+                                clicked : p.clicked,
+                                sform   : $.IGRP.utils.getForm()
+                            });
+                        }
 
                         if(typeof p?.complete === 'function'){
                             p.complete(xml);
@@ -531,6 +534,7 @@
 
                     com.subimtData({
                         getFiles    : false,
+                        transform   : false,
                         url         : url,
                         clicked     : $(this),
                         result      : p.result,
@@ -540,7 +544,7 @@
                         complete : function(xml){
                             
                             if(objModal.is('[input-rel]')){
-                                let objholder   =  $('body');
+                                let objholder = $('body');
 
                                 if(objModal.is('[idTabel]')){
                                     const parentTable = $(`table#${objModal.attr('idTabel')}`);
@@ -553,8 +557,8 @@
                                     }
                                 }
 
-                                let objInput    = $(`#${objModal.attr('input-rel')}`,objholder),
-                                    objUuid     = $(xml).find('signedUuid');
+                                let objInput = $(`#${objModal.attr('input-rel')}`,objholder),
+                                    objUuid  = $(xml).find('signedUuid');
 
                                 if(objInput[0] && objUuid[0]){
 
@@ -614,6 +618,7 @@
 
                         com.subimtData({
                             getFiles : true,
+                            transform: true,
                             url      : objclicked.url,
                             clicked  : _clicked.clicked,
                             result   : p.result,
