@@ -3,11 +3,11 @@
 		<a class="link btn btn-primary form-link btn-filesigner #[signerbeforsave]#" rel="#tag#-{position()}">
 			#[setSignerUrlHooks]#
 			<i class="fa fa-pencil"></i>
-			<span>#label.val#</span>
+			<span><xsl:value-of select="../../../fields/#tag#/label"/></span>
 		</a>
-		<input type="text" class="d-none hidden #[change]#" id="#tag#-{position()}" name="{#path#/@name}" #[required]#>
+		<input type="text" class="d-none hidden #[change]#" id="#tag#-{position()}" name="//{#path#/@name}" #[required]#>
 			<xsl:call-template name="setAttributes">
-				<xsl:with-param name="field" select="#path#"/>
+				<xsl:with-param name="field" select="//#path#"/>
 			</xsl:call-template>
 	   </input>
 	  	
