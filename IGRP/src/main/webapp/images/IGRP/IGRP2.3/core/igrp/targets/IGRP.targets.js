@@ -451,13 +451,13 @@ var mWindow = null,
 			_self(p);
 			return true;
 		};
-		//new tab
-		var _newtab      = function(p){
+
+		var getClickedName = function(clicked){
 			var name = '_blank';
 
-			if($(p.clicked)[0]){
+			if($(clicked)[0]){
 
-				var element = $(p.clicked).parents('li');
+				var element = $(clicked).parents('li');
 
 				if(element[0]){
 					var col = $('td:first',element.parents('tr:first'));
@@ -467,13 +467,41 @@ var mWindow = null,
 					name = col[0] ? name+col.attr('data-row') : name;
 				}
 				else
-					name = $(p.clicked).attr('position');
+					name = $(clicked).attr('position');
 			}
+
+			return name;
+		}
+
+		//new tab
+		var _newtab      = function(p){
+			const name = getClickedName(p.clicked);
 				
 			window.open(p.url,name);
 			
 			return false;
 		};
+
+		var submitNewtab = function(p){
+			const name = getClickedName(p.clicked);
+
+			const fields = $.IGRP.utils.getFieldsValidate(); 
+
+			const valid = p?.validate ? p.validate :  fields.valid();
+ 			
+ 			if(valid){
+
+				fields.addClass('submittable');
+ 			
+				form.attr({'target' : name, 'action' : p.url});
+
+				form.submit().removeAttr('target action');
+
+			}
+
+			return false;
+		}
+
 		//blank (popup)
 		var _blank       = function(p){
 			var d = new Date();
@@ -1316,6 +1344,14 @@ var mWindow = null,
 				label : 'New Tab',
 
 				action : _newtab
+
+			},
+
+			submitNewtab : {
+
+				label : 'Submit New Tab',
+
+				action : submitNewtab
 
 			},
 
