@@ -5,6 +5,9 @@
 	            <xsl:if test="#tag#_check=#tag#">
 	                <xsl:attribute name="checked">checked</xsl:attribute>
 	            </xsl:if>
+				<xsl:call-template name="setAttributes">
+					<xsl:with-param name="field" select="//#path#"/>
+				</xsl:call-template>
 	        </input>
 	        <span class="slider round"></span>
 	        <span class="checkmark"></span>
