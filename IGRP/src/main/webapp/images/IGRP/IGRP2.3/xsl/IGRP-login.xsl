@@ -1,154 +1,133 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes"
-		doctype-system="about:legacy-compat" />
+   <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes" doctype-system="about:legacy-compat" />
 
-	<xsl:template match="/">
+   <xsl:variable name="login-slides" select="document(concat($path,'/xml/IGRP-login-banner.xml'))/rows/content/table/value"/>
+   <xsl:variable name="slides-total" select="count($login-slides/images/row)"/>
+ 
+  <xsl:template match="/">
+   
+ 
+    <html id="igrp-login">
+      <head>
+        <TITLE>IGRP - Login</TITLE>
+        <xsl:call-template name="IGRP-head"/>
+        <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
+        <style>
+          
+        </style>
+      </head>
+      <body class="fluid" has-menu="false">
+        
+        <form action="{rows/content/action}" method="post">
+          
+          <xsl:for-each select="rows/content/form/value/hidden">
+              <input type="hidden" name="{@name}" value="{.}"/>
+          </xsl:for-each>
 
-		<html id="igrp-login">
+          <div id="app-login-slider" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <xsl:for-each select="$login-slides/row">
+                <xsl:variable name="active">
+                  <xsl:if test="position() = 1">active</xsl:if>
+                </xsl:variable>
+                <li data-target="#app-login-slider" data-slide-to="{position()-1}" class="{$active}"></li>
+              </xsl:for-each>
+            </ol>
+            <div class="carousel-inner">
+              <xsl:for-each select="$login-slides/row">
+                <xsl:variable name="active">
+                  <xsl:if test="position() = 1">active</xsl:if>
+                </xsl:variable>
+                <div class="item {$active}" style="background-image:url({$path}/assets/img/login/{image})">
 
-		<head>
-			<title>IGRP - Login</title>
-			<xsl:call-template name="IGRP-head" />
-			<link href="{$path}/themes/ds-beta/css/login.css" rel="stylesheet" />
-			<style></style>
-		</head>
+                </div>
+              </xsl:for-each>
+              
+            </div>
+          </div>
+          
+          <div id="igrp-login-wrapper" class="main-centered col-xs-10 col-sm-3">
+            
+            <div class="box igrp-forms gen-container-item">
+              <div class="box-body clearfix">
 
-		<body class="fluid igrp-bg-gradient" has-menu="false">
-			<div class="bootstrap-iso">
-				<form action="{rows/content/action}" method="post">
+                <section id="igrp-login-logo" class="content-header gen-container-item text-center">
+                  <img src="{$path}/assets/img/loginLogo.svg"/>
+                </section>
+      
+                <div class="">
+                  <div role="form" class="clearfix">
+                    <xsl:apply-templates select="rows/content/messages" mode="igrp-messages"/>
+                    <xsl:if test="rows/content/form/label/user">
+                      <div class="input-group col-md-12" item-name="user" item-type="text">
+                        <input placeholder="{rows/content/form/label/user}" type="{rows/content/form/value/user/@type}" value="{rows/content/form/value/user}" class="form-control" id="{rows/content/form/value/user/@name}" name="{rows/content/form/value/user/@name}"/>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                      </div>
+                    </xsl:if>
+                    <xsl:if test="rows/content/form/label/password">
+                      <div class="input-group col-md-12" item-name="password" item-type="password">
+                        <input placeholder="{rows/content/form/label/password}" type="password" value="{rows/content/form/value/password}" class="form-control" id="{rows/content/form/value/password/@name}" name="{rows/content/form/value/password/@name}"/>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                      </div>
+                    </xsl:if>
+                    
+                    <xsl:if test="rows/content/form/label/key1">
+                      <div class="form-group col-xs-6" item-name="key1" item-type="number">
+                        <input type="number" name="{rows/content/form/value/key_value1/@name}" placeholder="{rows/content/form/label/key1}º" autocomplete="off" class="form-control"/>
+                        <input type="hidden" name="{rows/content/form/value/key1/@name}" value="{rows/content/form/value/key1}"/>
+                      </div>
+                    </xsl:if>
 
-					<xsl:for-each select="rows/content/form/value/hidden">
-						<input type="hidden" name="{@name}" value="{.}" />
-					</xsl:for-each>
+                    <xsl:if test="rows/content/form/label/key2">
+                      <div class="form-group col-xs-6" item-name="key2" item-type="number">
+                        <input type="number" name="{rows/content/form/value/key_value2/@name}" placeholder="{rows/content/form/label/key2}º" autocomplete="off" class="form-control"/>
+                        <input type="hidden" name="{rows/content/form/value/key2/@name}" value="{rows/content/form/value/key2}"/>
+                      </div>
+                    </xsl:if>
 
-					<div id="app-login" class="container py-5 align-items-center justify-content-md-center d-flex flex-column position-relative" style="min-height:100vh">
-						<div class="row position-relative" style="padding-bottom:50px;" >
-							<div class="col-md-6 justify-content-center d-flex flex-column">
-								<div class="box-left-login pr-lg-5 d-flex d-md-block align-items-center flex-column text-white">
-									<div class="login-logo d-none">
-										<img class="img-fluid" src="{$path}/themes/ds-beta/media/logo-white.svg"/>
-									</div>
-									<div class="login-title position-relative text-uppercase font-weight-bold text-center text-md-left mt-md-5 mb-5 mb-md-0">
-										<span class="d-block">CREATE AND RUN </span>
-										<span class="d-block">E-GOV APLICATTIONS</span>
-										<a target="_newtab" href="https://igrp.cv/" class="mb-igrp-info d-md-none text-white" title="Saiba mais" data-toggle="tooltip">
-											<ion-icon name="help-circle-outline"></ion-icon>
-										</a>
-									</div>
+                    <xsl:if test="rows/content/form/label/button">
+                      <div class="form-group col-xs-12" item-name="button" item-type="button">
+                          
+                        <button name="p_button" value="p_button" type="submit" class="btn btn-primary form-control" id="{rows/content/form/value/button/@name}" >
+                          <span><xsl:value-of select="rows/content/form/label/button"/> <i class="fa fa-sign-in"/></span>
+                        </button>
 
-									<div class="login-desc py-5 d-none d-md-block">
-										Uma plataforma tecnológica única e robusta que permite criar e correr aplicações de governação eletrónica de forma simples, segura, integrada e sustentável.
-									</div>
-									<a href="https://igrp.cv/" target="_newtab" class="login-more-info text-white d-none d-md-flex my-5 my-md-0 w-auto align-items-center">
-										Saiba mais <ion-icon class="ml-4" name="arrow-forward-outline"></ion-icon>
-									</a>
-								</div>
-							</div>
-							<div class="col-md-6 pl-lg-5 justify-content-center d-flex flex-column">
-								<div class="box-right-login  d-flex align-items-center flex-column justify-content-center">
-									
-									<div class="login-app">
-										<img class="" src="{$path}/assets/img/instances/igrpweb/logo.png" style="height:100%;width:auto;"/>
-									</div>
+                      </div>
+                    </xsl:if>
+                    
+                    <xsl:if test="rows/content/form/label/button2">
+                      <div class="form-group col-xs-12" item-name="button2" item-type="link">
+                      
+                      	<button style="margin: 0 auto;text-transform:none;" name="p_button2" value="p_button2" type="submit" class="link btn btn-link form-link" id="{rows/content/form/value/button2/@name}" >
+                         	<span><xsl:value-of select="rows/content/form/label/button2"/></span>
+                        </button>
+                        
+                      </div>
+                    </xsl:if>
 
-									<span class="font-weight-bold box-login-title text-center mt-3 d-block">
-										<xsl:value-of select="rows/content/title"></xsl:value-of>
-									</span>
-									
-									<div role="form" class="form-row w-100">
-										<div class="col">
-											<xsl:apply-templates select="rows/content/messages" mode="igrp-messages"/>
-											<xsl:choose>
-												<xsl:when test="not(rows/content/form/login-type) or rows/content/form/login-type = 'db' ">
-													<div class="pt-5">
-														<xsl:if test="rows/content/form/label/user">
-															<div class="mb-4 px-0 form-group">
-																<label class="d-none"  for="{rows/content/form/value/user/@name}"><xsl:value-of select="rows/content/form/label/user"></xsl:value-of></label>
-																<div class="input-group" item-name="user" item-type="text">
-																	
-																	<input  placeholder="{rows/content/form/label/user}" type="{rows/content/form/value/user/@type}" value="{rows/content/form/value/user}" class="h-auto py-3 form-control" id="{rows/content/form/value/user/@name}"  name="{rows/content/form/value/user/@name}"/>
-																	<div class="input-group-btn">
-																		<span class="btn py-3 px-4" >
-																			<ion-icon name="person-outline"></ion-icon>
-																		</span>
-																	</div>
-																</div>
-															</div>
-														</xsl:if>
+                  </div>
+                </div>
+                <br/>
+                <p id="igrp-login-footer" class="text-primary clear text-right">
+                  <xsl:value-of select="rows/content/footer_note"/>
+                </p>
 
-														<xsl:if test="rows/content/form/label/password">
+              </div>
+            </div>
 
-															<div class="mb-5 px-0">
-																<label class="d-none" for="{rows/content/form/value/password/@name}"><xsl:value-of select="rows/content/form/label/password"></xsl:value-of></label>
-																<div class="input-group" item-name="password" item-type="password">
-																	
-																	<input  placeholder="{rows/content/form/label/password}" type="{rows/content/form/value/password/@type}" value="{rows/content/form/value/password}" class="form-control" id="{rows/content/form/value/password/@name}" style="" name="{rows/content/form/value/password/@name}"/>
-																	<div class="input-group-btn">
-																		<span class="btn py-3 px-4" >
-																			<ion-icon name="medical-outline"></ion-icon>
-																		</span>
-																	</div>
-																</div>
-															</div>
+          </div>
 
-														</xsl:if>
-
-														<xsl:if test="rows/content/form/label/button">
-															<button name="p_button" value="p_button" type="submit" class="btn btn-primary shadow d-block p-3 w-100" id="{rows/content/form/value/button/@name}" >
-																<span class="font-weight-bold"><xsl:value-of select="rows/content/form/label/button"/> <i class="fa fa-sign-in pl-2"/></span>
-															</button>
-														</xsl:if>
-														<xsl:if test="rows/content/form/label/button2">
-															<div class="form-group text-center mt-3 mb-0" item-name="button2" item-type="link">
-															
-																<button style="margin: 0 auto;text-transform:none;" name="p_button2" value="p_button2" type="submit" class="link btn btn-link form-link" id="{rows/content/form/value/button2/@name}" >
-																	<span><xsl:value-of select="rows/content/form/label/button2"/></span>
-																</button>
-																
-															</div>
-														</xsl:if>
-
-													</div>
-												</xsl:when>
-												<xsl:otherwise>
-													<span class="box-login-subtitle text-center my-3 d-block mb-4">
-														Aceda com a sua conta Autentika, com a Chave Móvel Digital ou utilizando o seu CNI
-													</span>
-
-													<xsl:if test="rows/content/form/label/button">
-														<button type="submit" class="login-autentika justify-content-center btn btn-primary shadow py-3 align-items-center w-100 mt-5 d-flex">
-															<img  src="{$path}/themes/ds-beta/media/autentika_negativo.svg"/>
-														</button>
-														
-													</xsl:if>
-
-												</xsl:otherwise>
-											</xsl:choose>
-										</div>
-									</div>
-								
-								</div>
-								<div class="text-white text-center small mt-5 position-absolute w-100 " style="bottom:-45px;left:0;">
-									<xsl:value-of select="rows/content/footer_note"/>
-								</div>
-							</div>
-						</div>
-					</div>
-				</form>
-
-				<xsl:call-template name="IGRP-bottom" />
-			</div>
-
-			<script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js" />
-			
-		</body>
-
-		</html>
-	</xsl:template>
-	<xsl:include href="../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=20150615" />
-	<xsl:include href="../xsl/tmpl/IGRP-variables.tmpl.xsl?v=20150615" />
-	<xsl:include href="../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1463090556311" />
-	<xsl:include href="../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1463090556312" />
-	<xsl:include href="../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1463090556312" />
-	<xsl:include href="../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1463090556312" />
+          <xsl:call-template name="IGRP-bottom"/>
+          
+        </form>
+        <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
+      </body>
+    </html>
+  </xsl:template>
+  <xsl:include href="../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=20150615"/>
+  <xsl:include href="../xsl/tmpl/IGRP-variables.tmpl.xsl?v=20150615"/>
+  <xsl:include href="../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1463090556311"/>
+  <xsl:include href="../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1463090556312"/>
+  <xsl:include href="../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1463090556312"/>
+  <xsl:include href="../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1463090556312"/>
 </xsl:stylesheet>

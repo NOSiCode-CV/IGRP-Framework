@@ -38,7 +38,7 @@ public class IGRPLogin extends IGRPForm{
 		
 		this.xml.setElement("link_img", this.config.getLinkImg());
 		this.xml.setElement("title", "Login");
-		this.xml.setElement("version","");
+		this.xml.setElement("version",Config.VERSION);
 		
 		this.xml.setElement("action", "webapps" + "?" + Igrp.getInstance().getRequest().getQueryString()); 
 		
@@ -66,14 +66,14 @@ public class IGRPLogin extends IGRPForm{
 			
 			this.xml.startElement("label");
 
-			if(this.fields.size() > 0){
+			if(!this.fields.isEmpty()){
 				for(Field field:this.fields){
 					this.xml.setElement(field.getTagName(), field.getLabel());
 				}
 			}
 			this.xml.endElement();
 			this.xml.startElement("value");
-			if(this.fields.size() > 0){
+			if(!this.fields.isEmpty()){
 				for(Field field:this.fields){	
 					if(field instanceof HiddenField){
 						field.propertie().remove("maxlength");
