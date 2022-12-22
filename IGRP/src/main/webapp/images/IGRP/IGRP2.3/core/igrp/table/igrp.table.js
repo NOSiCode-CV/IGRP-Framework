@@ -345,13 +345,11 @@
 		},
 			
 		checkdControl : function(p){
-			console.log(p);
+			
 			var inp     = $('input[type="hidden"].'+p.rel,p.o),
 				table   = p.o.parents('table'),
 				hidden  = '<input type="hidden" class="'+p.rel+'" value="'+p.value+'" name="p_'+p.rel+'_fk"/>',
 				inpcheck = p.o.find( '.'+p.rel+'_check');
-			
-			console.log(inpcheck);
 	
 			if(p.check){
 	
