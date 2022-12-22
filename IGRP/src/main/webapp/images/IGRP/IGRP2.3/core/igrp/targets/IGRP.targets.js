@@ -1438,7 +1438,7 @@ var mWindow = null,
 					
 				_this 	     	 = $(this);
 
-				if(objTarget?.type === 'submit' && $.IGRP.info.isPublic){
+				if(objTarget?.type === 'submit' && $.IGRP.info.isPublic && grecaptcha){
 
 					grecaptcha.ready(function() {
 
