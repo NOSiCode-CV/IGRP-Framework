@@ -89,9 +89,8 @@
       	var secretrekey = '<xsl:value-of select="$secretrecaptchakey"/>'; 
     </script>
     <!-- reCAPTCHA -->  
-    <xsl:if test="$ispublic = 1">
       	<script src="https://www.google.com/recaptcha/api.js?render={$recaptchakey}"></script>
-    </xsl:if>
+
     <!-- BS CSS -->    
    <!-- NOT ASYNC JS-->   
     <script src="{$path}/core/promise/promise.min.js" ></script>    
