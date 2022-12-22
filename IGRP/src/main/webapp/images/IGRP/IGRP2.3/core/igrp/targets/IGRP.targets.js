@@ -243,13 +243,19 @@ var mWindow = null,
 						}
 
 						ev.execute('submit-ajax-complete',{
-							xml : xml
+							xml 	: xml,
+							clicked	: p.clicked,
+							url  	: action,
+							valid 	: valid
 						});
 
 						if(events){
 
 							events.execute('success-submit_ajax',{
-								xml : xml
+								xml 	: xml,
+								clicked	: p.clicked,
+								url  	: action,
+								valid 	: valid
 							});
 						}
 					}
