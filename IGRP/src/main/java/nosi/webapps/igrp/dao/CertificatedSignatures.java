@@ -65,6 +65,21 @@ public class CertificatedSignatures extends IGRPBaseActiveRecord<CertificatedSig
 	private String name;
 	
 	private String mime_type;
+	
+	@Column(name = "env_id")
+	private String envId;
+	
+	@Column(name = "user_id")
+	private String userId;
+	
+	@Column(name = "user_ip")
+	private String userIp;
+		
+	@Column(name = "user_context")
+	private String userContext;
+	
+	@Column(name = "cert_sn")
+	private String certSn;
 
 	public UUID getUuid() {
 		return uuid;
@@ -148,5 +163,55 @@ public class CertificatedSignatures extends IGRPBaseActiveRecord<CertificatedSig
 
 	public void setMime_type(String mime_type) {
 		this.mime_type = mime_type;
+	}
+
+	public String getEnvId() {
+		return envId;
+	}
+
+	public void setEnvId(String envId) {
+		this.envId = envId;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getUserIp() {
+		return userIp;
+	}
+
+
+	public void setUserIp(String userIp) {
+		this.userIp = userIp;
+	}
+
+	public String getUserContext() {
+		return userContext;
+	}
+
+	public void setUserContext(String userContext) {
+		this.userContext = userContext;
+	}
+
+	public String getCertSn() {
+		return certSn;
+	}
+
+	public void setCertSn(String certSn) {
+		this.certSn = certSn;
+	}
+	
+
+	@Override
+	public String toString() {
+		return "CertificatedSignatures [uuid=" + uuid +  ", status=" + status + ", fileId=" + fileId + ", createdAt=" + createdAt
+				+ ", updatedAt=" + updatedAt + ", name=" + name + ", mime_type=" + mime_type + ", envId=" + envId
+				+ ", userId=" + userId + ", userIp=" + userIp + ", userContext=" + userContext + ", certSn=" + certSn
+				+ "]";
 	}
 }
