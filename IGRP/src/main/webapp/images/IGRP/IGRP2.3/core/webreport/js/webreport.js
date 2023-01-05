@@ -180,7 +180,7 @@ $(function ($) {
 							});
 						});
 
-						content = '<div class="row rw_datasorce_edit">'+content+'</div>';
+						content = '<div class="rw_datasorce_edit">'+content+'</div>';
 
 						$.IGRP.components.globalModal.set({
 							size 		: 'xs',
@@ -967,7 +967,7 @@ $(function ($) {
 
 		$.WR.element = {
 			modal : function(p){
-				var content = '<div class="row">';
+				var content = '<div class="rowcol">';
 
 				WR.listType.forEach(function(e,i){
 					content += WR.html.input({
@@ -981,7 +981,7 @@ $(function ($) {
 				content +='</div><div class="row hidden" id="table-group">'+
 					'<div class="col-md-12">'+
 						WR.html.separator('Agrupar por')+
-						'<div class="row" id="list-group">';
+						'<div class="rowcol" id="list-group">';
 
 				WR.listGroup.forEach(function(e,i){
 					content += WR.html.input({
@@ -993,10 +993,10 @@ $(function ($) {
 				});
 
 				content +='</div>'+WR.html.separator('Definir Chaves')+
-					'<div class="row" id="listcol"></div>'+
+					'<div id="listcol"></div>'+
 					'<div class="hidden" id="html-group">'+
 						WR.html.separator('Html Groupo')+
-					'<div class="row">';
+					'<div class="rowcol">';
 
 				WR.listType.forEach(function(e,i){
 					content += WR.html.input({
@@ -1319,7 +1319,7 @@ $(function ($) {
 			    				if (element.attributes.footer) 
 			    					path = 'rows/'+span.no+'/'+span.tag;
 
-			    				span.element = '<span class="brl" '+$.WR.element.getStyle(element)+'><xsl:value-of select="'+path+'"/></span>';
+			    				span.element = '<span class="brl" '+$.WR.element.getStyle(element)+'><xsl:value-of  disable-output-escaping="yes" select="'+path+'"/></span>';
 			    				
 			    				if(span.type == 'chart'){
 
@@ -1336,7 +1336,7 @@ $(function ($) {
 			    				}*/ else if ($.inArray(span.type,arrType) !== -1){
 									span.element = '<span class="brl" '+$.WR.element.getStyle(element)+'>'+
 														'<xsl:for-each select="rows/content'+pos+'/'+span.no+'/fields/'+span.tag+'/list/option[@selected='+"'"+'true'+"'"+']">'+
-															'<xsl:value-of select="text"></xsl:value-of>'+
+															'<xsl:value-of disable-output-escaping="yes" select="text"></xsl:value-of>'+
 															'<xsl:if test="position() != last()"><xsl:text>; &nbsp;</xsl:text>'+
 														'</xsl:if></xsl:for-each>'+
 													'</span>';
@@ -1475,7 +1475,7 @@ $(function ($) {
 											tag += '_desc';
 										}
 			    						
-			    						ul.element += '<li '+$.WR.element.getStyle(node)+'><xsl:value-of select="'+tag+'"/></li>';
+			    						ul.element += '<li '+$.WR.element.getStyle(node)+'><xsl:value-of  disable-output-escaping="yes" select="'+tag+'"/></li>';
 			    					}
 			    				});
 
@@ -1503,7 +1503,7 @@ $(function ($) {
 											tag += '_desc';
 										}
 			    						
-			    						ol.element += '<li '+$.WR.element.getStyle(node)+'><xsl:value-of select="'+tag+'"/></li>';
+			    						ol.element += '<li '+$.WR.element.getStyle(node)+'><xsl:value-of disable-output-escaping="yes" select="'+tag+'"/></li>';
 			    					}
 			    				});
 
