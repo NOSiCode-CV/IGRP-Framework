@@ -23,16 +23,14 @@
     </xsl:if> 
     
     <script>
-   		var path        = '<xsl:value-of select="$path"/>';
-   		var ispublic    = '<xsl:value-of select="$ispublic"/>';
+   		  var path        = '<xsl:value-of select="$path"/>';
+   		  var ispublic    = '<xsl:value-of select="$ispublic"/>';
       	var rekey       = '<xsl:value-of select="$recaptchakey"/>'; 
       	var secretrekey = '<xsl:value-of select="$secretrecaptchakey"/>'; 
     </script>
 
-    <xsl:if test="$ispublic = 1">
-      	<!-- reCAPTCHA -->
-      	<script src="https://www.google.com/recaptcha/api.js?render={$recaptchakey}"></script>
-    </xsl:if>
+    <!-- reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js?render={$recaptchakey}"></script>
     <!-- BS CSS -->    
    
    <!-- NOT ASYNC JS-->   

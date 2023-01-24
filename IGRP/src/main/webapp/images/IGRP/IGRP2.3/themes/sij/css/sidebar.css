@@ -1,0 +1,28 @@
+/* sidebar */
+.igrp-sidebar-menu-search-wrapper input{
+    background:#3f4348;
+    color: #fff;
+}
+
+
+.igrp-sidebar-menu-search-wrapper input::placeholder {
+	/* Chrome, Firefox, Opera, Safari 10.1+ */
+	color: #fff;
+	opacity: 1;
+	/* Firefox */
+}
+
+.igrp-sidebar-menu-search-wrapper input:-ms-input-placeholder {
+	/* Internet Explorer 10-11 */
+	color: #fff;
+}
+
+.igrp-sidebar-menu-search-wrapper input::-ms-input-placeholder {
+	/* Microsoft Edge */
+	color: #fff;
+}
+
+.igrp-sidebar-menu-search-wrapper-icon,
+#igrp-sidebar .nav-sidebar>li>a{
+    opacity: 1;
+}
