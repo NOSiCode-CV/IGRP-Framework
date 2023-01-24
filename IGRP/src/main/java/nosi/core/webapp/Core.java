@@ -1462,8 +1462,7 @@ public final class Core {
 		String[] value = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameterValues(name) : null;
 		if (value == null)
 			value = Core.getAttributeArray(name);
-
-		return value != null ? Arrays.stream(value).filter(Core::isNotNull).distinct().toArray(String[]::new) : null;
+		return value;
 	}
 
 	/**
