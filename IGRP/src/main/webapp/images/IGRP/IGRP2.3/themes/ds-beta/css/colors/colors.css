@@ -1,0 +1,48 @@
+@import url(./background-color.css);
+@import url(./border-color.css);
+@import url(./text-color.css);
+
+:root {
+  --neutral-200: #F3F5F7;
+  --neutral-300: #E7EBF0;
+  --neutral-400: #DBE1E8;
+  --neutral-500: #CFD7E1;
+  --neutral-600: #C4CCD4;
+  --neutral-700: #9CA4AE;
+  --neutral-800: #757B82;
+  --neutral-900: #3A3A3A;
+  --primary    : #88C6E8;
+  --primary-200: #D7ECF7;;
+  --primary-300: #B0D9EF;
+  --primary-400: #88C6E8;
+  --primary-500: #61B3E0;
+  --primary-600: #3AA0D9;
+  --primary-700: #4E94B9;
+  --primary-800: #2C7CA7;
+  --primary-900: #086CA2;
+  --primary-1000: #06537D;
+  --primary-1100: #044162;
+
+  --secondary-100: #EAF5FF;
+  --secondary-500: #66B7F1;
+
+
+  --warning-200: #FFD663;
+  --warning-300: #FFCA39;
+  --warning-400: #FFBB00;
+  --warning-500: #C59000;
+  --warning-600: #9B7200;
+
+  --success-100: #DAF0F0;
+  --success-200: #46B2B2;
+  --success-300: #249F9F;
+  --success-400: #009999;
+  --success-500: #007676;
+  --success-600: #005D5D;
+
+  --danger-200: #FF8463;
+  --danger-300: #FF6239;
+  --danger-400: #FF3500;
+  --danger-500: #C52900;
+  --danger-600: #9B2000;  
+}

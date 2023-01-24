@@ -1,0 +1,73 @@
+<style  version="4" >
+    
+    <logo>/media/logo.svg</logo>
+    
+    <css default="false" custom="/css/app.css"/>
+    
+    <js>
+      <file>/js/bootstrap.js</file>
+      <file>/js/app.js</file>
+      <file>/js/theme.js</file>
+      <file>/js/sidebar.js</file>
+    </js>
+ 
+    <colors>
+     
+      
+    
+      <color name="info" border-hover="var(--primary-400)" bg-hover="var(--primary-500)" text-color="white">var(--primary-400)</color>
+      
+      <color name="secondary" border-hover="var(--primary-300)" bg-hover="transparent" text-color="#006096!important" >var(--primary-200)</color>
+
+      
+      <color main="true" name="primary" text-hover="white" bg-hover="var(--primary-800)" border-hover="var(--primary-800)">var(--primary-900)</color>
+      <color name="primary-200" bg-hover="#B0D9EF">#D7ECF7</color>
+      <color name="primary-300" bg-hover="#DBE1E8">#B0D9EF</color>
+      <color name="primary-400" bg-hover="#61B3E0">#DBE1E8</color>
+      <color name="primary-500" bg-hover="#3AA0D9">#61B3E0</color>
+      <color name="primary-600" text-hover="white" bg-hover="#4E94B9">#3AA0D9</color>
+      <color name="primary-700" text-hover="white" bg-hover="#2C7CA7">#4E94B9</color>
+      <color name="primary-800" text-hover="white" bg-hover="#086CA2">#2C7CA7</color>
+      <color name="primary-900" text-hover="white" bg-hover="#06537D">#086CA2</color>
+      <color name="primary-1000" text-hover="white" bg-hover="#044162">#06537D</color>
+      <color name="primary-1100" text-hover="white" bg-hover="#022d45">#044162</color>
+
+      <color name="danger" bg-hover="var(--danger-600)">var(--danger-500)</color>
+      <color name="danger-200" bg-hover="#FF6239" text-color="white" text-hover="white">#FF8463</color>
+      <color name="danger-300" bg-hover="#FF3500" text-color="white" text-hover="white">#FF6239</color>
+      <color name="danger-400" bg-hover="#C52900" text-color="white" text-hover="white">#FF3500</color>
+      <color name="danger-500" bg-hover="#9B2000" text-color="white" text-hover="white">#C52900</color>
+      <color name="danger-600" text-hover="white" text-color="white" bg-hover="#9B2000">#9B2000</color>
+      
+      <color name="success" border-hover="var(--success-300)"  bg-hover="var(--success-300)">var(--success-400)</color>
+      <color name="success-100" bg-hover="var(--success-200)" text-color="var(--neutral-900)" text-hover="white">var(--success-100)</color>
+      <color name="success-200" bg-hover="var(--success-300)" text-color="white" text-hover="white">var(--success-200)</color>
+      <color name="success-300" bg-hover="var(--success-400)" text-color="white" text-hover="white">var(--success-300)</color>
+      <color name="success-400" bg-hover="var(--success-500)" text-color="white" text-hover="white">var(--success-400)</color>
+      <color name="success-500" bg-hover="var(--success-600)" text-color="white" text-hover="white">var(--success-500)</color>
+      <color name="success-600" bg-hover="var(--success-600)" text-color="white" text-hover="white">var(--success-600)</color>
+
+      <color name="warning" border-hover="var(--warning-500)"  bg-hover="var(--warning-500)">var(--warning-400)</color>
+
+      <color name="warning-200" bg-hover="var(--warning-300)" text-color="white" text-hover="white">var(--warning-200)</color>
+      <color name="warning-300" bg-hover="var(--warning-400)" text-color="white" text-hover="white">var(--warning-300)</color>
+      <color name="warning-400" bg-hover="var(--warning-500)" text-color="white" text-hover="white">var(--warning-400)</color>
+      <color name="warning-500" bg-hover="var(--warning-600)" text-color="white" text-hover="white">var(--warning-500)</color>
+      <color name="warning-600" bg-hover="var(--warning-600)" text-color="white" text-hover="white">var(--warning-600)</color>
+      
+      <color name="neutral-200" bg-hover="#E7EBF0">#F3F5F7</color>
+      <color name="neutral-300" bg-hover="#DBE1E8">#E7EBF0</color>
+      <color name="neutral-400" bg-hover="#CFD7E1">#DBE1E8</color>
+      <color name="neutral-500" bg-hover="#C4CCD4">#CFD7E1</color>
+      <color name="neutral-600" text-hover="white" bg-hover="#9CA4AE">#C4CCD4</color>
+      <color name="neutral-700" text-hover="white" bg-hover="#757B82">#9CA4AE</color>
+      <color name="neutral-800" text-hover="white" bg-hover="#3A3A3A">#757B82</color>
+      <color name="neutral-900" text-hover="white" bg-hover="#2d2b2b">#3A3A3A</color>
+
+      
+
+
+
+    </colors> 
+
+</style>

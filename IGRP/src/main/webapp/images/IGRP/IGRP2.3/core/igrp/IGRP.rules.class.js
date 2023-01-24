@@ -985,26 +985,13 @@ if($ && $.IGRP && !$.IGRP.rules){
 					},
 
 					success:function(c){
-						console.log(c);
-						
 						if ($.IGRP.components.tableCtrl.resetTableConfigurations)
 							$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
-						
-						/*$.IGRP.utils.refreshComponents({
-							
-							wrapper : c.itemHTML,
-							
-							itemName : tableName
-							
-						});*/
-
 					},
 
 					error:function(){
 						
 						$.IGRP.utils.loading.hide();
-						
-						console.log('dsa')
 					}
 
 				});
