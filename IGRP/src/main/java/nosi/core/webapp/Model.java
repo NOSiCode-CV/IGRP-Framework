@@ -34,7 +34,6 @@ import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -571,23 +570,8 @@ public abstract class Model { // IGRP super model
 	 * @return Returns <tt>true</tt> if this model has no constraint violations, otherwise returns <tt>false</tt>.
 	 */
 	public boolean validate() {
-		return validate(new ArrayList<>());
-	}
-
-	private final Function<ConstraintViolation<Model>, String> messageBuilder =
-			cvm -> Core.gt(cvm.getMessage()) + " [" + cvm.getPropertyPath().toString() + "]";
-
-	/**
-	 * Validates all constraints on this Model Instance and prints the error validations on screen.
-	 * This method is intended to be used in cases where the validation depends on any business rule.
-	 * If the {@code fieldsToSkip} is {@code null} or {@code empty}, then is assumed that all validations are to be executed.
-	 *
-	 * @param fieldsToSkip fields that should be skipped from validation
-	 * @return Returns <tt>true</tt> if this model has no constraint violations, otherwise returns <tt>false</tt>.
-	 */
-	public boolean validate(List<nosi.core.gui.fields.Field> fieldsToSkip) {
-		final Set<ConstraintViolation<Model>> constraintViolations = processConstraintViolations(fieldsToSkip);
-		constraintViolations.forEach(cv -> Core.setMessageError(messageBuilder.apply(cv)));
+		final List<String> constraintViolations = getConstraintViolations(new ArrayList<>(), true);
+		constraintViolations.forEach(Core::setMessageError);
 		return constraintViolations.isEmpty();
 	}
 
@@ -599,10 +583,23 @@ public abstract class Model { // IGRP super model
 	 * @param fieldsToSkip fields that should be skipped from validation
 	 * @return Returns <a list of constraint violated, otherwise returns an empty list if none
 	 */
-
 	public List<String> getConstraintViolations(List<nosi.core.gui.fields.Field> fieldsToSkip) {
+		return getConstraintViolations(fieldsToSkip, true);
+	}
+
+	/**
+	 * Validates all constraints on this Model Instance and colects it into a list.
+	 * This method is intended to be used in cases where the validation depends on any business rule.
+	 * If the {@code fieldsToSkip} is {@code null} or {@code empty}, then is assumed that all validations are to be executed.
+	 *
+	 * @param fieldsToSkip fields that should be skipped from validation
+	 * @param  appendFieldTagToMessage if the tag should be appended to the message
+	 * @return Returns <a list of constraint violated, otherwise returns an empty list if none
+	 */
+
+	public List<String> getConstraintViolations(List<nosi.core.gui.fields.Field> fieldsToSkip, boolean appendFieldTagToMessage) {
 		return processConstraintViolations(fieldsToSkip).stream()
-				.map(messageBuilder)
+				.map(cvm -> Core.gt(cvm.getMessage()) + (appendFieldTagToMessage ? " [" + cvm.getPropertyPath().toString() + "]" : ""))
 				.collect(Collectors.toList());
 	}
 
