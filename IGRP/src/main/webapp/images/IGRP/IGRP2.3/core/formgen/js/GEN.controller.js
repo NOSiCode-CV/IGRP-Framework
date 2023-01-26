@@ -5444,7 +5444,7 @@ var GENERATOR = function(genparams){
 
 		if(!field.hidden){
 			//var defaultSize = field.GET.type() == 'radiolist' || field.GET.type() == 'checkboxlist' ? 12 : container.formOptions.lastSize;
-			var sizeOptions = field.GET.type() == 'texteditor' || field.GET.type() == 'separator' ? 
+			var sizeOptions = type == 'texteditor' || type == 'separator' ? 
 			  {
 			  	value: 12,
 			  	options:[{value:12,label:'col-sm-12 (100%)'}]
@@ -5455,17 +5455,18 @@ var GENERATOR = function(genparams){
 			  	//options:[{value:'12',label:'100%'},{value:'9',label:'75%'},{value:'8',label:'66.66%'},{value:'6',label:'50%'},{value:'4',label:'33%'},{value:'3',label:'25%'},{value:'2',label:'16.6%'},{value:'1',label:'8.33%'}]
 			  }
 
-			//if(){
+			//if(){	
+			  const setFieldAttr = ['digitalsignature','button', 'img', 'plaintext', 'separator', 'link'];
 
-				if(field.GET.type() != 'button' && field.GET.type() != 'img' && field.GET.type() != 'link' && field.GET.type() != 'separator' && field.GET.type()!='plaintext'){
-					
+				if(!setFieldAttr.includes(type)){
+
 					field.setPropriety({
 						name:'required',
 						value    : false,
 						xslValue : 'required="required"' //XSL VALUE WHEN PROPRIETY IS TRUE
 					});
 
-					if(field.GET.type() != "file"){
+					if(type != "file"){
 						field.setPropriety({
 							name:'change',
 							propriety:false,
@@ -5473,7 +5474,9 @@ var GENERATOR = function(genparams){
 						});
 					}
 
-					if(field.GET.type() != "select" && field.GET.type() != "file" && field.type != 'filesigner'){
+					const setReadonly = ["select", "file", 'filesigner'];
+
+					if(!setReadonly.includes(type)){
 						field.setPropriety({
 							name:'readonly',
 							propriety:false,
@@ -5489,7 +5492,9 @@ var GENERATOR = function(genparams){
 						});
 					}
 
-					if(field.GET.type() === 'text' || field.GET.type() === 'textarea'){
+					const setDisablehtml = ['text', 'textarea']
+
+					if(setDisablehtml.includes(type)){
 						field.setPropriety({
 							label	 :'Disable HTML',
 							name	 :'disablehtml',
@@ -5499,7 +5504,9 @@ var GENERATOR = function(genparams){
 					}
 				}
 
-				if(field.type != 'filesigner' && field.GET.type() != "button" && field.GET.type() != "plaintext" && field.GET.type() != "select" && field.GET.type() != "file" && field.GET.type() != "radio" && field.GET.type() != "checkbox" && field.GET.type() != "checkboxlist" && field.GET.type() != "radiolist"){
+				const setPlaceholder = ['digitalsignature', 'filesigner',"button", "plaintext", "select", "file", "radio", "checkbox", "radiolist", "checkboxlist"];
+
+				if(!setPlaceholder.includes(type)){
 
 					field.setPropriety({
 						name:'placeholder',
@@ -5517,7 +5524,7 @@ var GENERATOR = function(genparams){
 					}
 				}
 
-				if((field.GET.type && field.GET.type() == 'text') && (container.GET.type() == 'formlist' || container.GET.type() == 'form')){
+				if((type && type == 'text') && (container.GET.type() == 'formlist' || container.GET.type() == 'form')){
 
 					let inputMaskIncludes 	= [
 						{path : '/plugins/inputmask/igrp.inputmask.js'},
@@ -5586,7 +5593,7 @@ var GENERATOR = function(genparams){
 				}
 			});
 
-			if(field.GET.type() == 'checkboxlist' || field.GET.type() == 'radiolist'){
+			if(type == 'checkboxlist' || type == 'radiolist'){
 				field.setPropriety({
 					label      : 'Child Size',
 					name       : 'child_size',
@@ -5596,8 +5603,10 @@ var GENERATOR = function(genparams){
 					}
 				});
 			}
+
+			const hideRightProprietys = ['filesigner', 'digitalsignature'];
 			
-			if(field.type != 'filesigner'){
+			if(!hideRightProprietys.includes(type)){
 				field.setPropriety({
 					name      :'right',
 					value     :false,
@@ -5605,7 +5614,9 @@ var GENERATOR = function(genparams){
 				});
 			}
 
-			if(type != 'separator' && type !='link' && type !='plaintext' && type !='button' && type!='img')
+			const hideFormField = ['separator','link','plaintext','button','img']
+
+			if(!hideFormField.includes(type))
 				field.formField = true;
 
 		}else{

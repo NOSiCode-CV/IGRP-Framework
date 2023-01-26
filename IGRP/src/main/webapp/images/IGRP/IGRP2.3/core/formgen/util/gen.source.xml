@@ -405,6 +405,12 @@
 			<label>File Signer</label>
 		</item>
 		<item>
+			<icon type='fa'>pencil-square-o</icon>
+			<type>digitalsignature</type>
+			<name>digitalsignature</name>
+			<label>Digital Signature</label>
+		</item>
+		<item>
 			<icon type='fa'>eye-slash</icon>
 			<type>hidden</type>
 			<name>hidden</name>

@@ -1,0 +1,8 @@
+<div class="form-group col-sm-#[size]#" item-name="#tag#" item-type="#type#">
+	<xsl:call-template name="digitalsignature">
+		<xsl:with-param name="name" select="#path#/@name"/>
+		<xsl:with-param name="value" select="#path#/value"/>
+		<xsl:with-param name="label" select="#path#/label"/>
+		<xsl:with-param name="maxheight" select="'#[height]#px'"/>
+	</xsl:call-template>
+</div>
