@@ -5,6 +5,8 @@ import nosi.core.data.querybuilder.interfaces.IIGRPSelectQuery;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
@@ -36,9 +38,19 @@ public class IGRPSelectQuery<E> extends IGRPQueryBase<E> implements IIGRPSelectQ
         return query.getResultList();
     }
 
+    /**
+     * @return {@code true} if finds one or more results, {@code false} otherwise
+     * */
     @Override
     public boolean anyMatch() {
-        return !this.all(1).isEmpty();
+        try {
+            this.one();
+            return true;
+        } catch (NoResultException e) {
+            return false;
+        } catch (NonUniqueResultException e) {
+            return true;
+        }
     }
 
     @Override
@@ -48,7 +60,6 @@ public class IGRPSelectQuery<E> extends IGRPQueryBase<E> implements IIGRPSelectQ
 
     @Override
     public long count() {
-        // TODO Try to improve this to count using criteria API directly
         return this.getQuery().getResultList().size();
     }
 
