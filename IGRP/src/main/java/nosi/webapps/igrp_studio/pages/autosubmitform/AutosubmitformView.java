@@ -1,5 +1,7 @@
 package nosi.webapps.igrp_studio.pages.autosubmitform;
 
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 
@@ -41,6 +43,7 @@ public class AutosubmitformView extends View {
 			posturl.setValue(v);
 			form_1.addField(posturl);
 		});
-		this.getPage().setLinkXsl("/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/autosubmitform/Autosubmitform.xsl");
+		String warName = Core.getDeployedWarName();
+		this.getPage().setLinkXsl(String.format("/%s/images/IGRP/IGRP2.3/app/igrp_studio/autosubmitform/Autosubmitform.xsl", warName));
 	}
 }
