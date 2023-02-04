@@ -112,7 +112,7 @@ public class ImportHelper {
 			imp.add(bpmnTipoDocEtapaImport);
 			
 			imp.execute();
-			imp.compile(app.getApplication());			
+			imp.compile();			
 		}else {
 			imp.addError(Core.gt("Ocorreu um erro ao ler o ficheiro"));
 		}

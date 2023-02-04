@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nosi.core.config.Config;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.compiler.helpers.ErrorCompile;
@@ -49,13 +50,9 @@ public class Import{
 		});
 	}
 
-	public void compile(Application app) {
+	public void compile() {
 		Compiler compiler = new Compiler();
-		this.imports.stream().forEach(i->{
-			i.getFileName().forEach(f->{
-				compiler.addFileName(f);
-			});
-		});
+		this.imports.stream().forEach(i->i.getFileName().forEach(compiler::addFileName));
 		compiler.compile();
 		this.addError(compiler.getErrors());
 		this.addWarning(compiler.getWarnings());
@@ -64,12 +61,8 @@ public class Import{
 	
 	private void removeJavaClass() {
 		String env = new Config().getEnvironment();
-		if(env.equalsIgnoreCase("prod") || env.equalsIgnoreCase("prd") ) {
-			this.imports.stream().forEach(i->{
-				i.getFileName().forEach(f->{
-					Core.forceDelete(f);
-				});
-			});
+		if(env.equalsIgnoreCase(ConfigCommonMainConstants.IGRP_ENV_PROD.value()) || env.equalsIgnoreCase("prd") ) {
+			this.imports.stream().forEach(i->i.getFileName().forEach(Core::forceDelete));
 		}
 	}
 
