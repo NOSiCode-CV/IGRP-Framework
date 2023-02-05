@@ -1,14 +1,13 @@
 package nosi.webapps.igrp.pages.pesquisarperfil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.Report;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PesquisarPerfil extends Model{		
 
@@ -81,6 +80,7 @@ public class PesquisarPerfil extends Model{
 
 	public static class Table_1 extends IGRPTable.Table{
 		private String organica;
+		private String perfil_pai;
 		private int estado;
 		private int estado_check;
 		private String descricao;
@@ -91,6 +91,13 @@ public class PesquisarPerfil extends Model{
 		}
 		public String getOrganica(){
 			return this.organica;
+		}
+
+		public void setPerfil_pai(String perfil_pai){
+			this.perfil_pai = perfil_pai;
+		}
+		public String getPerfil_pai(){
+			return this.perfil_pai;
 		}
 
 		public void setEstado(int estado){

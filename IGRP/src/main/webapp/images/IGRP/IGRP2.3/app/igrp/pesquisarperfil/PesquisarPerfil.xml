@@ -70,6 +70,9 @@
                 <organica name="p_organica" type="text" maxlength="255" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
                     <label>Organização</label>
                 </organica>
+                <perfil_pai name="p_perfil_pai" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Perfil Pai</label>
+                </perfil_pai>
                 <estado name="p_estado" type="checkbox" maxlength="30" align="center" lookup_parser="false" iskey="false" switch="false" java-type="int" showLabel="true" group_in="" check="true" desc="true">
                     <label>Estado</label>
                 </estado>
@@ -88,60 +91,65 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Labore accusantium consectetur iste natus</organica>
+                        <organica name="p_organica">Aliqua sed iste omnis perspiciatis</organica>
+                        <perfil_pai name="p_perfil_pai">Perspiciatis sit iste aperiam</perfil_pai>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Mollit perspiciatis consectetur laudantium consectetur</descricao>
-                        <codigo name="p_codigo">Dolor accusantium anim magna unde</codigo>
-                        <id name="p_id" tag="id">hidden-a4aa_f361</id>
+                        <descricao name="p_descricao">Unde consectetur aperiam unde officia</descricao>
+                        <codigo name="p_codigo">Aliqua ut totam consectetur adipiscing</codigo>
+                        <id name="p_id" tag="id">hidden-3cef_fae4</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Elit iste perspiciatis anim mollit</organica>
+                        <organica name="p_organica">Amet voluptatem ipsum omnis lorem</organica>
+                        <perfil_pai name="p_perfil_pai">Rem amet unde ut voluptatem</perfil_pai>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Perspiciatis iste consectetur mollit omnis</descricao>
-                        <codigo name="p_codigo">Mollit iste natus voluptatem labore</codigo>
-                        <id name="p_id" tag="id">hidden-58b9_cc1e</id>
+                        <descricao name="p_descricao">Aperiam unde ut ipsum rem</descricao>
+                        <codigo name="p_codigo">Sed consectetur voluptatem consectetur aperiam</codigo>
+                        <id name="p_id" tag="id">hidden-3a48_fb42</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Mollit dolor doloremque perspiciatis accusantium</organica>
+                        <organica name="p_organica">Lorem perspiciatis sit stract unde</organica>
+                        <perfil_pai name="p_perfil_pai">Labore aperiam elit officia an</perfil_pai>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Sit labore consectetur sit anim</descricao>
-                        <codigo name="p_codigo">Amet magna unde labore anim</codigo>
-                        <id name="p_id" tag="id">hidden-56f9_2ff1</id>
+                        <descricao name="p_descricao">Lorem sit labore doloremque aperiam</descricao>
+                        <codigo name="p_codigo">Consectetur voluptatem unde doloremque sed</codigo>
+                        <id name="p_id" tag="id">hidden-58a4_1fef</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Accusantium aperiam labore doloremque laudantium</organica>
+                        <organica name="p_organica">Magna rem perspiciatis voluptatem doloremque</organica>
+                        <perfil_pai name="p_perfil_pai">Ipsum natus laudantium aperiam</perfil_pai>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Anim laudantium magna natus stract</descricao>
-                        <codigo name="p_codigo">Stract laudantium totam perspiciatis amet</codigo>
-                        <id name="p_id" tag="id">hidden-8555_bcb6</id>
+                        <descricao name="p_descricao">Elit aliqua rem sit totam</descricao>
+                        <codigo name="p_codigo">Magna natus laudantium officia omnis</codigo>
+                        <id name="p_id" tag="id">hidden-7922_e9e6</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Officia voluptatem elit adipiscing iste</organica>
+                        <organica name="p_organica">Doloremque elit aperiam doloremque dolor</organica>
+                        <perfil_pai name="p_perfil_pai">Accusantium lorem ut mollit pe</perfil_pai>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Doloremque sit perspiciatis mollit laudantium</descricao>
-                        <codigo name="p_codigo">Deserunt iste unde aperiam amet</codigo>
-                        <id name="p_id" tag="id">hidden-c57f_a5b2</id>
+                        <descricao name="p_descricao">Ut totam iste lorem unde</descricao>
+                        <codigo name="p_codigo">Dolor mollit ipsum totam rem</codigo>
+                        <id name="p_id" tag="id">hidden-1f48_85a0</id>
                     </row>
                 </value>
                 <context-menu>
@@ -195,7 +203,7 @@
                         <img>warning|fa-send</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xml</preview>
                     </item>
-                    <item id="button_aa26_9fae" type="specific" code="" class="danger" rel="eliminar" refresh_components="">
+                    <item id="button_aa26_9fae" type="specific" code="" class="danger" rel="eliminar" refresh_components="" labelConfirm="Deseja realmente realizar esta operação?">
                         <title>Eliminar</title>
                         <app>igrp</app>
                         <page>PesquisarPerfil</page>
@@ -210,8 +218,8 @@
         </table_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <hidden name="p_id_app" type="hidden" maxlength="250" java-type="int" tag="id_app"/>
-                <hidden name="p_id_org" type="hidden" maxlength="250" java-type="int" tag="id_org"/>
+                <hidden name="p_id_app" type="hidden" maxlength="250" java-type="int" tooltip="false" disable_copy_paste="false" tag="id_app"/>
+                <hidden name="p_id_org" type="hidden" maxlength="250" java-type="int" tooltip="false" disable_copy_paste="false" tag="id_org"/>
             </fields>
         </form_1>
     </content>
