@@ -608,7 +608,9 @@ public class LoginController extends Controller {
 				Map<String, String> _r = oAuth2Wso2GetUserInfoByToken(token);
 				if(_r != null && _r.containsKey("email") && _r.containsKey("sub")) {
 					
-					String email = _r.get("email") != null ? _r.get("email").trim().toLowerCase() : _r.get("sub"); 
+					String email = _r.get("email") != null ? _r.get("email").trim().toLowerCase() : ""; 
+					
+					log.info("email="+email);
 					String uid = _r.get("sub");
 					String name = _r.get("name");
 					String phone_number = _r.get("phone_number");
@@ -617,10 +619,21 @@ public class LoginController extends Controller {
 					
 					User user = new User();
 					
-					if (email != null)
+					if (uid != null /*& _r.containsKey("birthdate")*/) {
+						try {
+							log.info("GET USER BY cni");
+							user = new User().find().andWhere("cni", "=", uid).one(); 
+							log.info("USER BY id="+user.getId());
+						} catch(Exception e) {
+							log.warn(e);
+							if (email != null) {
+								user = new User().find().andWhere("email", "=", email).one(); 
+							}
+						}
+						
+					}else if (email != null) {
 						user = new User().find().andWhere("email", "=", email).one(); 
-					else if (uid != null & _r.containsKey("birthdate"))
-						user = new User().find().andWhere("cni", "=", uid).one(); 
+					}
 					
 					if (user != null) {
 						if(user.getStatus() != 1) {
