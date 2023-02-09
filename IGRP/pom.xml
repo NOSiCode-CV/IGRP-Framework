@@ -35,7 +35,7 @@
 		<apache.libintl.version>0.18.3</apache.libintl.version>
 		<apache.commons.beanutils.version>1.9.4</apache.commons.beanutils.version>
 		<apache.commons.lang3.version>3.12.0</apache.commons.lang3.version>
-		<apache.commons.text.version>1.10.1</apache.commons.text.version>
+		<apache.commons.text.version>1.10.0</apache.commons.text.version>
 		<apache.commons.io.version>2.11.0</apache.commons.io.version>
 		<apache.logging.log4j.version>2.17.2</apache.logging.log4j.version>
 		<apache.poi.version>5.2.2</apache.poi.version>
