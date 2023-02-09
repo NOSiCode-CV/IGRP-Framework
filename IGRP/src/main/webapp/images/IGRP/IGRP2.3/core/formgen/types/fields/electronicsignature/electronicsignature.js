@@ -1,4 +1,4 @@
-var DIGITALSIGNATUREFIELD = function(type,params){
+var ELECTRONICSIGNATURE = function(type,params){
 	Field.call(this,type,params);
 
 	var GEN 		= VARS.getGen(),
@@ -12,9 +12,9 @@ var DIGITALSIGNATUREFIELD = function(type,params){
 	//field.xml.type = 'link';
 
 	field.includes = {
-		xsl : ['digital-signature'],
-		js  : [ { path:'/plugins/digitalsignature/digitalsignature.js'}],
-		css : [ { path:'/plugins/digitalsignature/digitalsignature.css'}]
+		xsl : ['electronic-signature'],
+		js  : [ { path:'/plugins/electronicsignature/electronicsignature.js'}],
+		css : [ { path:'/plugins/electronicsignature/electronicsignature.css'}]
 	}
 	
 	field.ready = function(){
@@ -28,6 +28,6 @@ var DIGITALSIGNATUREFIELD = function(type,params){
 }
 
 VARS.getGen().declareField({
-	type : 'digitalsignature',
-	field: DIGITALSIGNATUREFIELD
+	type : 'electronicsignature',
+	field: ELECTRONICSIGNATURE
 });

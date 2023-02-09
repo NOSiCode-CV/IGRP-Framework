@@ -5456,7 +5456,7 @@ var GENERATOR = function(genparams){
 			  }
 
 			//if(){	
-			  const setFieldAttr = ['digitalsignature','button', 'img', 'plaintext', 'separator', 'link'];
+			  const setFieldAttr = ['electronicsignature','button', 'img', 'plaintext', 'separator', 'link'];
 
 				if(!setFieldAttr.includes(type)){
 
@@ -5504,7 +5504,7 @@ var GENERATOR = function(genparams){
 					}
 				}
 
-				const setPlaceholder = ['digitalsignature', 'filesigner',"button", "plaintext", "select", "file", "radio", "checkbox", "radiolist", "checkboxlist"];
+				const setPlaceholder = ['electronicsignature', 'filesigner',"button", "plaintext", "select", "file", "radio", "checkbox", "radiolist", "checkboxlist"];
 
 				if(!setPlaceholder.includes(type)){
 
@@ -5604,7 +5604,7 @@ var GENERATOR = function(genparams){
 				});
 			}
 
-			const hideRightProprietys = ['filesigner', 'digitalsignature'];
+			const hideRightProprietys = ['filesigner', 'electronicsignature'];
 			
 			if(!hideRightProprietys.includes(type)){
 				field.setPropriety({
