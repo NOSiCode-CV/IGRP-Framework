@@ -8,7 +8,7 @@
     holderSigCatureWeb  = null,
     canvasObj           = null;
 
-    $.IGRP.component('digitalsignature', {
+    $.IGRP.component('electronicsignature', {
 
         startVars : function(){
             

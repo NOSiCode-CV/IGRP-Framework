@@ -1,5 +1,5 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-    <xsl:template name="digitalsignature">
+    <xsl:template name="electronicsignature">
         <xsl:param name="name" select="'signature'"/>
         <xsl:param name="value"/>
         <xsl:param name="label"/>
