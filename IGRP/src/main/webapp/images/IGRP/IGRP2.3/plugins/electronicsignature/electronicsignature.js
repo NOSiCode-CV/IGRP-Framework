@@ -109,7 +109,89 @@
                     const inputSigCaptureWeb = $(`input#${relSigCaptureWeb}`, holderSigCatureWeb);
 
                     if(inputSigCaptureWeb[0]){
-                        inputSigCaptureWeb.val(base64Img);
+
+                        if(holderSigCatureWeb.is('[autoupload]')){
+
+                            const autoupload = holderSigCatureWeb.attr('autoupload');
+
+                            if(autoupload === 'true'){
+
+                                let urlAutoUpload = holderSigCatureWeb.attr('url-autoupload');
+
+                                const uploadType = 'image/png';
+
+                                urlAutoUpload = urlAutoUpload !== 'true' ? urlAutoUpload : 'webapps?r=igrp/File/save-image';
+
+                                $.IGRP.utils.submitStringAsFile({
+                                    pUrl    : urlAutoUpload,
+                                    pNotify : false,
+                                    pParam : {
+                                        pArrayFiles : [
+                                            {
+                                                name    : 'p_file_name',
+                                                value   : $.IGRP.utils.base64toBlob({
+                                                    base64Data  : base64Img,
+                                                    sliceSize   : holderSigCatureWeb.attr('width')*1,
+                                                    contentType : uploadType
+                                                }),
+                                                type    : uploadType,
+                                                filename: relSigCaptureWeb,
+                                                format  : 'png'
+                                            }
+                                        ],
+                                        pArrayItem : [
+                                            {
+                                                name  : 'dad',
+                                                value : $('body').attr('app')
+                                            }
+                                        ]
+                                    },
+                                    pComplete   : function(respdata){
+                                        try{
+                                            var resp = respdata?.response ? $.parseJSON(respdata.response) : null;
+                                        
+                                            if(resp){
+                                                const {id, uuid, msg} = resp;
+
+                                                if(id === -1 && msg){
+            
+                                                    $.IGRP.notify({
+                                                        message : $.IGRP.utils.htmlDecode(msg),
+                                                        type    : 'danger'
+                                                    });
+            
+                                                }else{
+                                                    
+                                                    inputSigCaptureWeb.val(id);
+
+                                                    const uuidField = $(`#${relSigCaptureWeb}_uuid`);
+
+                                                    uuid = uuid || id;
+                                                    
+                                                    if(uuidField[0]){
+                                                        uuidField.val(uuid);
+                                                    }else{
+
+                                                        $.IGRP.utils.createHidden({
+                                                            name  : relSigCaptureWeb+'_uuid',
+                                                            value : uuid,
+                                                            class :'submittable'
+                                                        });
+                                                    }
+                                                }
+                                            }
+                                        }catch(e){
+                                            console.log(e);
+                                            null;
+                                        }
+                                        
+                                    }
+                                });
+
+                            }
+
+                        }else
+                            inputSigCaptureWeb.val(base64Img);
 
                         $('.control-cancel',holderSigCatureWeb).removeClass('hidden');
                     }
