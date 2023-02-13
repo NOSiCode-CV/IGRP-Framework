@@ -183,7 +183,8 @@
 
 						if(obj.is("[control-start]") && obj.attr("control-start") == "true" && valid && isNav){
 							
-							$("#p_fwl_"+obj.attr("item-name")).val((newIndex + 1));
+							const fwlIndex = (newIndex + 1) < totalStep ? (newIndex + 1) : newIndex;
+							$("#p_fwl_"+obj.attr("item-name")).val(fwlIndex);
 						}
 
 						obj.data('corrent-step',newIndex);
