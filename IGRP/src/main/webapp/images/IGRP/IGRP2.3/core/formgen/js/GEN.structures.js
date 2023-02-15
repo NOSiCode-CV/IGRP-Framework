@@ -225,7 +225,7 @@ var GENSTRUCTURES = function(GEN){
 					'<value></value>'+
 				'</'+tag+'_view>'+
 				'<'+tag+'_date name="p_'+tag+'_date"  type="date" maxlength="30">'+
-					'<label>Default View</label>'+
+					'<label>Default Date</label>'+
 					'<value></value>'+
 				'</'+tag+'_date>'+
 				'<'+tag+'_daysoff name="p_'+tag+'_daysoff"  type="text" maxlength="30">'+
@@ -233,9 +233,6 @@ var GENSTRUCTURES = function(GEN){
 					'<value></value>'+
 				'</'+tag+'_daysoff>'+
 			'</fields>';
-
-			if(container.contextMenu && container.contextMenu.items[0])
-				rtn+=GEN.genContextMenu(container);
 			
 		return rtn;
 	}
