@@ -566,7 +566,18 @@ var GENSTRUCTURES = function(GEN){
 		
 		contents.forEach(function(c){
 
-			rtn+='<'+c.GET.tag()+' '+getAttrsArr(c)+' maxlength="50" >'+
+			let actionStep 		  = '',
+				refreshComponents = '';
+
+			if(c.parent.type === "stepcontent"){
+				if(c.GET.submitbeforenext && c.GET.submitbeforenext()){
+					console.log(c);
+					actionStep 		  = `actionstep="${c.action.link}"`;
+					refreshComponents = `refreshComponents="${c.refresh_components}"`
+				}
+			}
+
+			rtn+='<'+c.GET.tag()+' '+getAttrsArr(c)+' ' +actionStep+' maxlength="50" >'+
 				 	'<label>'+c.GET.label()+'</label>'+
 				 	'<value/>'+
 				 '</'+c.GET.tag()+'>';
