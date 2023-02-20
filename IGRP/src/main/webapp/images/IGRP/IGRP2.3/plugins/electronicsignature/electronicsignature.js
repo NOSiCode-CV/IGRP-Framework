@@ -151,7 +151,7 @@
                                             var resp = respdata?.response ? $.parseJSON(respdata.response) : null;
                                         
                                             if(resp){
-                                                const {id, uuid, msg} = resp;
+                                                let {id, uuid, msg} = resp;
 
                                                 if(id === -1 && msg){
             
