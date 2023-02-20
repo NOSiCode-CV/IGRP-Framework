@@ -118,7 +118,7 @@
 			com.hideOrShowBtn(currentIndex,obj);
 
 			if(obj.is("[control-start]") && obj.attr("control-start") == "true" && valid && isNav){
-				const fwlIndex = (newIndex + 1) < totalStep ? (newIndex + 1) : newIndex;
+				const fwlIndex = (newIndex + 1) <= (totalStep + 1) ? (newIndex + 1) : newIndex;
 				$("#p_fwl_"+obj.attr("item-name")).val(fwlIndex);
 			}
 
