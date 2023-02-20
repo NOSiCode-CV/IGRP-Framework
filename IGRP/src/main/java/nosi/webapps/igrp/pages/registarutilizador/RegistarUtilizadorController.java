@@ -135,6 +135,8 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 				user.setName(model.getNome());
 				user.setPhone(model.getTelefone());
 				user.setMobile(model.getTelemovel());
+				if(Core.isNull(sett) && Core.isNotNull(model.getPassword()))
+					user.setPass_hash(nosi.core.webapp.User.encryptToHash(model.getUsername() + "" + model.getPassword(), "SHA-256"));			
 				user.setCni(model.getCni());
 				user.setUpdated_at(System.currentTimeMillis());              	
 					try {
