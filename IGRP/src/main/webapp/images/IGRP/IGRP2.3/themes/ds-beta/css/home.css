@@ -1,0 +1,266 @@
+.igrp-home{
+  margin:auto!important;
+}
+
+.igrp-home-wrapper .sidebar-collapse-wrapper:not(.is-sticky) .igrp-sidebar-collapse ion-icon{
+  filter: brightness(0) invert(1);
+}
+
+@media( max-width: 767.9px){
+.igrp-welcome{
+  width:calc(100% );
+  top: -58px;
+  left: 0;
+  z-index: 99;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  padding: 0 25px;
+  background: linear-gradient(-45deg, var(--primary-300), var(--primary-400), var(--primary-600), var(--primary-900));
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  position: absolute;
+  color:white;
+  overflow: hidden;
+}
+.igrp-welcome>*{
+  position: relative;
+  z-index: 2;
+}
+.igrp-welcome h1{
+  color: white !important;
+  font-size: 24px!important;
+}
+
+.igrp-home {
+  padding-top:124px;
+}
+
+.igrp-welcome::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 50%;
+    top: 0;
+    bottom: 25%;
+    background: #03FFE0;
+    opacity: 0.5;
+    filter: blur(160.333px);
+}
+
+  
+  .igrp-apps .nav-tabs{
+    margin-top: 25px;
+    margin-bottom:25px!important;
+  }
+
+  .igrp-apps .nav-tabs>li>a{
+
+    padding-top:10px!important;
+    padding-bottom:10px!important;
+   
+  }
+}
+
+.igrp-apps .nav-tabs>li>a{
+  border:0!important;
+  background:transparent; 
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  padding-left:0;
+  padding-top:15px;
+  padding-bottom:30px;
+  color:var(--neutral-700);
+  transition: all .35s;
+  margin-right:0!important;
+  padding-right:0;
+}
+.igrp-apps .nav-tabs>li>a.active{
+  color:var(--primary);
+  font-size: 18px;
+}
+.igrp-apps .nav-tabs>li:not(:last-child)>a{
+  padding-right:15px
+}
+
+.igrp-card-app.not-available{
+  opacity: .5;
+}
+.igrp-apps .igrp-search-app .form-group, 
+.igrp-apps .igrp-card-app a,
+.igrp-apps .igrp-community {
+  border: 1px solid #EAEAEF;
+  box-shadow: 0px 1px 4px rgba(33, 33, 52, 0.1);
+}
+
+.igrp-apps .igrp-app-header {
+  font-size: 20px;
+}
+
+.igrp-apps .igrp-card-app a:hover {
+  background-color: var(--neutral-300)!important;
+}
+
+.igrp-apps .igrp-card-app a .igrp-card-app-logo {
+  padding: 12px;
+}
+
+.igrp-apps .igrp-card-app a .igrp-card-app-logo .igrp-app-icon {
+  padding: 7px 8px;
+}
+
+.igrp-apps .igrp-app-name {
+  font-size: 16px;
+}
+
+.igrp-apps .igrp-app-name~.fa.position-absolute {
+  right: 20px;
+}
+
+@media(min-width:768px){
+  .igrp-home .igrp-community{
+    margin-top:64px;
+  } 
+}
+
+@media(max-width:575.9px){
+  .igrp-apps .nav-tabs>li>a.active{
+    font-size:14px;
+  }
+  .igrp-apps .nav-tabs>li>a{
+    font-size:12px;
+  }
+}
+/*
+.igrp-home {
+ position: relative;
+}
+
+.igrp-home .igrp-welcome .igrp-welcome-text {
+  font-size: 32px;
+}
+
+.igrp-home .igrp-welcome .igrp-welcome-desc {
+  max-width: 670px;
+  line-height: 1.5;
+}
+
+.igrp-home .igrp-search-app .search-clean i.fa-times {
+  z-index: 2;
+  cursor: pointer;
+}
+
+.igrp-home .igrp-search-app .form-group input:focus-visible {
+  outline: 0;
+}
+
+.igrp-home .igrp-search-app input::placeholder {
+  color: var(--neutral-700)
+}
+
+.igrp-home .igrp-search-app .form-group, 
+.igrp-home .igrp-apps .igrp-card-app a,
+.igrp-home .igrp-community {
+  border: 1px solid #EAEAEF;
+  box-shadow: 0px 1px 4px rgba(33, 33, 52, 0.1);
+}
+
+.igrp-home .igrp-apps .igrp-app-header {
+  font-size: 20px;
+}
+
+.igrp-home .igrp-apps .igrp-card-app a:hover {
+  background-color: var(--neutral-300)!important;
+}
+
+.igrp-home .igrp-apps .igrp-card-app a .igrp-card-app-logo {
+  padding: 12px;
+}
+
+.igrp-home .igrp-apps .igrp-card-app a .igrp-card-app-logo .igrp-app-icon {
+  padding: 7px 8px;
+}
+
+.igrp-home .igrp-apps .igrp-app-name {
+  font-size: 16px;
+}
+
+.igrp-home .igrp-apps .igrp-app-name~.fa.position-absolute {
+  right: 20px;
+}
+
+.igrp-home .igrp-community .igrp-community-name {
+  font-size: 16px;
+}
+
+.igrp-home .igrp-community .igrp-community-desc {
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.igrp-home .igrp-community .igrp-community-desc~div {
+  font-size: 12px;
+}
+
+.igrp-home .igrp-community .igrp-community-platform a {
+  flex: 0 0 45%;
+  font-size: 14px;
+}
+
+.igrp-home .igrp-community .igrp-community-platform a:hover {
+  background-color: var(--neutral-300);  
+}
+
+.igrp-home .igrp-community .igrp-community-platform a i {
+  font-size: 24px;
+}
+
+@media (max-width: 767.98px) {
+
+  .igrp-home .igrp-welcome {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200px;    
+  }
+
+  .igrp-home .igrp-welcome .igrp-welcome-text {
+    font-size: 18px;
+    color: #FFFFFF !important;
+  }
+
+  .igrp-home .igrp-home-sep {
+    margin-top: 200px;
+  }
+
+  .igrp-home .igrp-search-app .form-group input {
+    width: 100%;
+  }  
+}
+
+@media (min-width: 768px) {
+  .igrp-home .igrp-welcome {
+    margin-bottom: 80px;
+  }   
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) { 
+  .igrp-home .igrp-search-app .form-group input {
+    width: 330px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) { 
+  .igrp-home .igrp-search-app .form-group input {
+    width: 287px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .igrp-home .igrp-search-app .form-group input {
+    width: 350px;
+  }
+}
+*/

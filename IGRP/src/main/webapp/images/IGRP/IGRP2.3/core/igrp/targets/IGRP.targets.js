@@ -169,48 +169,6 @@ var mWindow = null,
 			return false;
 		};
 
-		var afterSubmitAjax = function (p) {
-			var xml = p.xml,
-							
-				hasRefreshAttr = p.clicked[0].hasAttribute("refresh-components"),
-				
-				refresh_components = hasRefreshAttr ? p.clicked.attr("refresh-components") : null;
-
-				nodes 	 = hasRefreshAttr && refresh_components != '' ? refresh_components.split(',') : [];
-			
-			if( !hasRefreshAttr ){
-			
-				$('.table, .IGRP-highcharts',p.sform).each(function(id,el){
-					
-					nodes.push($(el).parents('.gen-container-item').attr('item-name'));
-					
-				});
-			}
-
-			if(nodes[0]){
-				
-				$.IGRP.utils.xsl.transform({
-					xsl     : $.IGRP.utils.getXMLStylesheet(xml),
-					xml     : xml,
-					nodes   : nodes,
-					clicked : p.clicked,
-					complete: function(res){
-
-						$.IGRP.events.execute('submit-complete',p);
-
-						p.clicked.removeAttr("disabled");
-						
-					}
-				});
-				
-			}else{
-				p.clicked.removeAttr("disabled");
-				$.IGRP.events.execute('submit-complete',p);
-			}
-
-			$.IGRP.utils.message.handleXML(xml);
-		};
-
 		var clearErrors = function (f) {
 			$("label.error",f).hide();
   			$(".error",f).removeClass("error");
@@ -263,7 +221,7 @@ var mWindow = null,
 
 							var xml = resp.responseXML || $($.parseXML(resp.response));
 
-							afterSubmitAjax({
+							$.IGRP.utils.afterSubmitAjax({
 								xml 	: xml,
 								clicked : p.clicked,
 								sform   : sform
@@ -285,13 +243,19 @@ var mWindow = null,
 						}
 
 						ev.execute('submit-ajax-complete',{
-							xml : xml
+							xml 	: xml,
+							clicked	: p.clicked,
+							url  	: action,
+							valid 	: valid
 						});
 
 						if(events){
 
 							events.execute('success-submit_ajax',{
-								xml : xml
+								xml 	: xml,
+								clicked	: p.clicked,
+								url  	: action,
+								valid 	: valid
 							});
 						}
 					}
@@ -379,7 +343,7 @@ var mWindow = null,
 
 							var xml = resp.responseXML || $($.parseXML(resp.response));
 
-							afterSubmitAjax({
+							$.IGRP.utils.afterSubmitAjax({
 								xml 	: xml,
 								clicked : p.clicked,
 								sform   : sform
@@ -493,13 +457,13 @@ var mWindow = null,
 			_self(p);
 			return true;
 		};
-		//new tab
-		var _newtab      = function(p){
+
+		var getClickedName = function(clicked){
 			var name = '_blank';
 
-			if($(p.clicked)[0]){
+			if($(clicked)[0]){
 
-				var element = $(p.clicked).parents('li');
+				var element = $(clicked).parents('li');
 
 				if(element[0]){
 					var col = $('td:first',element.parents('tr:first'));
@@ -509,13 +473,41 @@ var mWindow = null,
 					name = col[0] ? name+col.attr('data-row') : name;
 				}
 				else
-					name = $(p.clicked).attr('position');
+					name = $(clicked).attr('position');
 			}
+
+			return name;
+		}
+
+		//new tab
+		var _newtab      = function(p){
+			const name = getClickedName(p.clicked);
 				
 			window.open(p.url,name);
 			
 			return false;
 		};
+
+		var submitNewtab = function(p){
+			const name = getClickedName(p.clicked);
+
+			const fields = $.IGRP.utils.getFieldsValidate(); 
+
+			const valid = p?.validate ? p.validate :  fields.valid();
+ 			
+ 			if(valid){
+
+				fields.addClass('submittable');
+ 			
+				form.attr({'target' : name, 'action' : p.url});
+
+				form.submit().removeAttr('target action');
+
+			}
+
+			return false;
+		}
+
 		//blank (popup)
 		var _blank       = function(p){
 			var d = new Date();
@@ -1085,6 +1077,36 @@ var mWindow = null,
 			}
 			return url;
 		}
+
+		var signerBeforeSubmit = function(p){
+			let sform     	= $.IGRP.utils.getForm(),
+				fields    	= $.IGRP.utils.getFieldsValidate(sform),
+				action    	= $.IGRP.utils.getSubmitParams(p.url,sform,p.scrollTo),
+				events 		= p.clicked[0].events,
+				valid 		= p?.validate ? p.validate :  fields.valid();
+
+			if(valid){
+				if($.IGRP.components?.nosicaSigner){
+
+					events.execute('before-signer_before_submit',{
+						pArrayItem : fields,
+						clicked    : p.clicked,
+						url  	   : action
+					});
+
+					//p.url = action;
+
+					$.IGRP.components.nosicaSigner.signerBeforeSubmit(p);
+				}
+			}
+		}
+
+		var signerBeforeDownload = function(p){
+			console.log(p, $.IGRP.components?.nosicaSigner);
+			if($.IGRP.components?.nosicaSigner){
+				$.IGRP.components.nosicaSigner.signerBeforeDownload(p);
+			}
+		}
 		
 		var getParameterSymbol = function(url){
 		
@@ -1241,6 +1263,21 @@ var mWindow = null,
 				type  : 'submit'
 
 			},	
+
+			signer_before_submit : {
+				label : 'Signer Before Submit',
+
+				action : signerBeforeSubmit,
+
+				type   : 'submit'
+			},
+
+			signer_before_download : {
+				label : 'Signer Before Download',
+
+				action : signerBeforeDownload
+			},
+
 			_link       : {
 
 				label : 'Link',
@@ -1313,6 +1350,14 @@ var mWindow = null,
 				label : 'New Tab',
 
 				action : _newtab
+
+			},
+
+			submitNewtab : {
+
+				label : 'Submit New Tab',
+
+				action : submitNewtab
 
 			},
 
@@ -1399,7 +1444,7 @@ var mWindow = null,
 					
 				_this 	     	 = $(this);
 
-				if(objTarget?.type === 'submit' && $.IGRP.info.isPublic){
+				if(objTarget?.type === 'submit' && $.IGRP.info.isPublic && grecaptcha){
 
 					grecaptcha.ready(function() {
 

@@ -74,7 +74,7 @@
     </xsl:variable>
     
     <xsl:variable name="import_file_upload">    
-    	<xsl:if test="count(/rows/content/*[@type='form']/fields/*[@type='file']) &gt; 0">
+    	<xsl:if test="count(/rows/content/*[@type='form' or @type='nosicasigner']/fields/*[@type='file']) &gt; 0">
         	<xsl:text>import nosi.core.webapp.uploadfile.UploadFile;</xsl:text>
         	<xsl:value-of select="$newline"/>
         </xsl:if>

@@ -272,35 +272,25 @@ public class PesquisarMenuController extends Controller {
 
 	// Menu list I have access to
 	public Response actionMyMenu() {
-
 		final XMLWritter xmlWritter = new XMLWritter();
 		xmlWritter.startElement("menus");
-
 		try {
 			if (Igrp.getInstance().getUser().isAuthenticated()) {
-
 				final LinkedHashMap<String, List<MenuProfile>> menu = new Menu().getMyMenu();
-
-				if (menu != null) {
-
+				if (menu != null)
 					for (Entry<String, List<MenuProfile>> m : menu.entrySet()) {
 						xmlWritter.startElement("menu");
 						xmlWritter.setElement("title", gt(m.getKey()));
-
 						for (MenuProfile menuProfile : m.getValue()) {
-
 							if (menuProfile.isSubMenuAndSuperMenu()) {
 								xmlWritter.setElement("link", menuProfile.getType() == 2 ? menuProfile.getLink() : "webapps?r=" + menuProfile.getLink());
 								xmlWritter.setElement("target", menuProfile.getTarget());
 							}
-
 							xmlWritter.setElement("order", "" + menuProfile.getOrder());
 							xmlWritter.startElement("submenu");
 							xmlWritter.writeAttribute("title", gt(menuProfile.getTitle()));
 							xmlWritter.writeAttribute("id", "" + menuProfile.getId());
-
 							xmlWritter.setElement("link", menuProfile.getType() == 2 ? menuProfile.getLink() : "webapps?r=" + menuProfile.getLink());
-
 							xmlWritter.setElement("title", gt(menuProfile.getTitle()));
 							xmlWritter.setElement("target", menuProfile.getTarget());
 							xmlWritter.setElement("id", "" + menuProfile.getId());
@@ -311,7 +301,6 @@ public class PesquisarMenuController extends Controller {
 						}
 						xmlWritter.endElement();
 					}
-				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -321,7 +310,8 @@ public class PesquisarMenuController extends Controller {
 
 		xmlWritter.endElement();
 		this.format = Response.FORMAT_XML;
-		return this.renderView(xmlWritter.toString());
+		String tempResult = xmlWritter.toString();
+		return this.renderView(tempResult);
 	}
 
 	private void displayMenusPlSql(XMLWritter xmlWritter) {

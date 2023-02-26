@@ -96,18 +96,20 @@ public class DataSourceController extends Controller {
 			if (Core.isNull(Core.getParam("ichange"))) {
 				model.setProcesso(repSource.getProcessid());
 				model.setTipo(repSource.getType_name());
-			}	
+			}
 
 			if (Objects.nonNull(repSource.getConfig_env()))
 				model.setData_source(repSource.getConfig_env().getId().toString());
 
 			if (this.isTypePage(repSource.getType_name())) {
-				if (Core.isNull(repSource.getType_fk()))
-					Core.setMessageError("Page not found!");
-				else {
-					final Action ac = new Action().findOne(repSource.getType_fk());
+				Action ac = getActionReport(repSource);
+				
+
+				if (ac != null) {
 					model.setPagina(ac.getPage_descr());
 					model.setId_pagina(ac.getId());
+				} else {
+					Core.setMessageError("Page not found!");
 				}
 			}
 		}
@@ -301,7 +303,10 @@ public class DataSourceController extends Controller {
 				return this.transformToXml(rep, columns);
 				
 			} else if (this.isTypePage(rep.getType())) {
-				Action ac = new Action().findOne(rep.getType_fk());
+				
+				Action ac = getActionReport(rep);
+				if(ac==null)
+				    return "";
 				return this.getDSPageOrTask(rep, ac.getApplication().getDad(), ac.getPage(), "index",ac.getPage_descr(),templateId);
 				
 			} else if (this.isTypeTask(rep.getType())) {				
@@ -310,6 +315,21 @@ public class DataSourceController extends Controller {
 			}
 		}
 		return null;
+	}
+
+	public Action getActionReport(final RepSource repSource) {
+		Action ac = null;
+		// First will check if you the app::page is valid
+		if (repSource.getType_query() != null) {
+			String[] appPage = repSource.getType_query().split("::");
+			if (appPage.length >= 2)
+				ac = new Action().findByPage(appPage[1], appPage[0]);
+		} else if (Core.isNotNull(repSource.getType_fk())) {
+			ac = new Action().findOne(repSource.getType_fk());
+		}
+		if(ac==null)
+		    System.out.print("DataSourceController - Action/Page for report is null.");
+		return ac;
 	}
 	
 	public String getDSPageOrTask(RepSource rep, String app, String page, String action, String title, int templateId) {

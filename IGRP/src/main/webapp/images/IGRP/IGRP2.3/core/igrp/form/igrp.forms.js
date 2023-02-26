@@ -367,8 +367,13 @@
 				  		txtInput.val(log);
 
 				  	if (input.hasClass('file2base64')) {
+						
+						const target = $('[item-name="'+input.attr('target-rend')+'"]');
+
+						$.IGRP.utils.loading.show(target);
+
 				  		$.IGRP.utils.file2base64({
-				  			target: $('[item-name="'+input.attr('target-rend')+'"]'),
+				  			target: target,
 				  			field : input
 				  		});
 				  	}
@@ -387,7 +392,7 @@
 				
 				$.IGRP.events.on('element-transform',function(p){
 					
-					if($('[role="form"]',p.content)[0] && p.content.hasClass('igrp-forms')){
+					if($('[role="form"]',p.content)[0]){
 						
 						if($('.form-control.select2',p.content)[0])
 							$.IGRP.components.select2.init(p.content);

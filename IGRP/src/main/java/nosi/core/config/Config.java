@@ -24,10 +24,12 @@ public class Config {
     private static final String SEPARATOR_FOR_HTTP = "/";
     private static final String SEPARATOR_FOR_FILESYSTEM = File.separator;
     public static final String BASE_PATH_CONFIGURATION = "config";
-    public static final String VERSION = "1.3.0.220702";
+    public static final String VERSION = "1.5.1.230104";
 
     public String getLinkXSLLogin() {
         String linkXslLogin = "images/IGRP/IGRP2.3/xsl/IGRP-login.xsl";
+        //For Design System Login
+       // String linkXslLogin = "images/IGRP/IGRP2.3/xsl/IGRP-login-ds.xsl";
         return this.getLinkImgBase().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslLogin;
     }
 

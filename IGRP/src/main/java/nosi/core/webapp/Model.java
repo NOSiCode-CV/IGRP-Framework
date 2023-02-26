@@ -1,33 +1,6 @@
 package nosi.core.webapp;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.persistence.Tuple;
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import org.apache.commons.beanutils.BeanUtils;
-import org.w3c.dom.NodeList;
 import com.google.gson.Gson;
-
 import nosi.core.gui.components.IGRPChart2D;
 import nosi.core.gui.components.IGRPChart3D;
 import nosi.core.gui.components.IGRPSeparatorList;
@@ -43,6 +16,25 @@ import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.TempFileHelper;
 import nosi.core.webapp.uploadfile.UploadFile;
 import nosi.core.xml.DomXML;
+import org.apache.commons.beanutils.BeanUtils;
+import org.w3c.dom.NodeList;
+
+import javax.persistence.Tuple;
+import javax.servlet.ServletException;
+import javax.servlet.http.Part;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * We have function like loadFromlist for separatorlist and formlist, loadTable
@@ -572,17 +564,68 @@ public abstract class Model { // IGRP super model
 		return list;
 	}
 
-	@SuppressWarnings("resource")
+	/**
+	 * Validates all constraints on this Model Instance and prints the error validations on screen.
+	 *
+	 * @return Returns <tt>true</tt> if this model has no constraint violations, otherwise returns <tt>false</tt>.
+	 */
 	public boolean validate() {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();		
-		Set<ConstraintViolation<Model>> constraintViolations = validator.validate(this);
-		constraintViolations.stream().forEach(e->{
-			Core.setMessageError(Core.gt(e.getMessage())+" ("+e.getPropertyPath().toString()+")");
-		});
-		return constraintViolations.size()==0;
+		final List<String> constraintViolations = getConstraintViolations(new ArrayList<>(), true);
+		constraintViolations.forEach(Core::setMessageError);
+		return constraintViolations.isEmpty();
 	}
 
+	/**
+	 * Validates all constraints on this Model Instance and colects it into a list.
+	 * This method is intended to be used in cases where the validation depends on any business rule.
+	 * If the {@code fieldsToSkip} is {@code null} or {@code empty}, then is assumed that all validations are to be executed.
+	 *
+	 * @param fieldsToSkip fields that should be skipped from validation
+	 * @return Returns <a list of constraint violated, otherwise returns an empty list if none
+	 */
+	public List<String> getConstraintViolations(List<nosi.core.gui.fields.Field> fieldsToSkip) {
+		return getConstraintViolations(fieldsToSkip, true);
+	}
+
+	/**
+	 * Validates all constraints on this Model Instance and colects it into a list.
+	 * This method is intended to be used in cases where the validation depends on any business rule.
+	 * If the {@code fieldsToSkip} is {@code null} or {@code empty}, then is assumed that all validations are to be executed.
+	 *
+	 * @param fieldsToSkip fields that should be skipped from validation
+	 * @param  appendFieldTagToMessage if the tag should be appended to the message
+	 * @return Returns <a list of constraint violated, otherwise returns an empty list if none
+	 */
+
+	public List<String> getConstraintViolations(List<nosi.core.gui.fields.Field> fieldsToSkip, boolean appendFieldTagToMessage) {
+		return processConstraintViolations(fieldsToSkip).stream()
+				.map(cvm -> Core.gt(cvm.getMessage()) + (appendFieldTagToMessage ? " [" + cvm.getPropertyPath().toString() + "]" : ""))
+				.collect(Collectors.toList());
+	}
+
+	private Set<ConstraintViolation<Model>> processConstraintViolations(List<nosi.core.gui.fields.Field> fieldsToSkip) {
+		try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
+
+			final Set<ConstraintViolation<Model>> allConstraintViolations = factory.getValidator().validate(this);
+
+			if (null == fieldsToSkip || fieldsToSkip.isEmpty())
+				return allConstraintViolations;
+
+			final Set<String> tags = fieldsToSkip.stream()
+					.map(nosi.core.gui.fields.Field::getName)
+					.collect(Collectors.toSet());
+
+			return allConstraintViolations.stream()
+					.filter(cv -> {
+						final String propertyPath = cv.getPropertyPath().toString();
+						final int index = propertyPath.indexOf(".");
+						// Check if field is from a component
+						final String propertyPathProcessed = index == -1 ? propertyPath : propertyPath.substring(index + 1);
+						return !tags.contains(propertyPathProcessed);
+					})
+					.collect(Collectors.toSet());
+		}
+	}
 
 	public void saveTempFile() {
 		if(Core.isUploadedFiles()) {

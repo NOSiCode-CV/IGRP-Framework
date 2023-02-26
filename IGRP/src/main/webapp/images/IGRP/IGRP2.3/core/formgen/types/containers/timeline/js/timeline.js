@@ -86,8 +86,7 @@ var TIMELINE = function(name,params){
 			row += '<'+tag+'_hd>'+DATA.get( { type : 'text'} )+'</'+tag+'_hd>';
 			row += '<'+tag+'_date>'+(i+1)+' de Out de 201'+(3-i)+'</'+tag+'_date>';
 			row += '<'+tag+'_text>'+DATA.get( { type : 'plaintext', maxLength:150  } )+'</'+tag+'_text>';
-			row += '<'+tag+'_btn>button</'+tag+'_btn>';
-			row += '<'+tag+'_btn_desc>Link</'+tag+'_btn_desc>';			
+			row += '<'+tag+'_btn>button</'+tag+'_btn>';		
 			row += '</row>';
 		}
 		rtn +=row+'</value></table>';

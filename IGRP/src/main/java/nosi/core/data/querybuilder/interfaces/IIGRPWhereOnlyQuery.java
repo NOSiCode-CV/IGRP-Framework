@@ -391,4 +391,6 @@ public interface IIGRPWhereOnlyQuery<E> extends IIGRPQuery<E> {
 
 	IIGRPWhereOnlyQuery<E> notEqualToIf(String column, String value, Predicate<String> validateExpression);
 
+	IIGRPWhereOnlyQuery<E> notEqualToIf(String column, Long value, Predicate<Long> validateExpression);
+
 }

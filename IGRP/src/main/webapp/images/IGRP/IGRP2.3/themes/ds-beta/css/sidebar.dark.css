@@ -1,0 +1,68 @@
+.dark-mode #igrp-sidebar.sidebar,
+.dark-mode #igrp-sidebar.sidebar .logo-wrapper,
+.dark-mode .sidebar-footer{
+    background:var(--primary-900)
+}
+
+.dark-mode #igrp-sidebar.sidebar .app-name{
+    color:White;
+}
+
+.dark-mode .sidebar .sidebar-search{
+    background-color: rgba(0,0,0,.07)!important;
+    border-color: rgba(0,0,0,0.1)!important;
+}
+.dark-mode .sidebar .sidebar-search .form-control{
+    background-color: transparent!important;
+    color:White;
+}
+.dark-mode .sidebar .sidebar-search .input-group-text {
+    box-shadow:none;
+}
+
+.dark-mode .sidebar .sidebar-search ion-icon{
+    color:white;
+}
+.dark-mode #sidebar-menu-wrapper>.menu-item>a{
+    color: white !important;
+}
+
+.dark-mode #sidebar-menu-wrapper>.menu-item>a[aria-expanded="true"]{
+    background: white !important;
+}
+
+.dark-mode #sidebar-menu-wrapper>.menu-item>a+.sidebar-menu{
+    background: rgba(255, 255, 255, 0.25)!important;
+}
+
+
+.dark-mode #sidebar-menu-wrapper>.menu-item .sidebar-menu a{
+    color:white!important;
+}
+
+.dark-mode .sidebar .sidebar-footer,
+.dark-mode .sidebar .user-name,
+.dark-mode .sidebar .user-profile{
+    color:white!important;
+}
+
+.dark-mode .sidebar .checkbox-switch input:checked + .slider{
+    background-color: white!important;
+}
+
+.dark-mode .sidebar .form-group .checkbox-switch .slider:before{
+    background: var(--primary-900)!important
+}
+
+.dark-mode .sidebar-footer .logout{
+    color: white!important;
+}
+
+.dark-mode #igrp-sidebar.sidebar .logo-wrapper,
+.dark-mode .sidebar-footer .border-top{
+    border-color: rgba(0,0,0,0.1)!important
+}
+
+.dark-mode .app-context-menu>.dropdown.show>a {
+    color: white!important;
+}

@@ -177,23 +177,25 @@
                     placeholder: ""
                 }*/
             };
-            
-            if(p.field.is('[multiple]'))
-                $('option[value=""]:first',p.field).remove();
 
-            if (p.field.is('[tags="true"]')){
+            const field = p.field;
+            
+            if(field.is('[multiple]'))
+                $('option[value=""]:first',field).remove();
+
+            if (field.is('[tags="true"]')){
             	
             	properties.tags = true;
 
-            	p.field.on('select2:select', function(e,d){
+            	field.on('select2:select', function(e,d){
             		
             		if(e.params && e.params.data && !e.params.data.element){
             			
             			var o = new Option(e.params.data.id, e.params.data.text, true, true );
             			
-            			p.field.find('option[value="'+e.params.data.id+'"]').remove();
+            			field.find('option[value="'+e.params.data.id+'"]').remove();
             			
-            			p.field.append(o).trigger('change');
+            			field.append(o).trigger('change');
             			
             		}
             		
@@ -201,18 +203,21 @@
             	
             }
 
-            if(p.field.is('[load_service_data]')){
+            if(field.is('[load_service_data]')){
                
-                var url = p.field.attr('load_service_data');
-                
+                const url       = field.attr('load_service_data');
+                    
+                let initValue   = field.attr('item-value');
+
                 if(url && url !== undefined){
                     properties.ajax = {
                         url: url,
                         dataType: 'json',
                         type: 'GET',
                         data: function (params) {
+                            console.log(params)
                             return {
-                                p_search_data: params.term,
+                                p_search_data: params.term || field.attr('item-value'),
                             };
                         },
                         processResults: function (response) {
@@ -223,12 +228,36 @@
                         cache: true
                     }
                 }
+
+                if(initValue && initValue !== undefined){
+
+                    let descInitValue = field.attr('item-value-desc');
+
+                    properties.initSelection = function (element, callback) {
+
+                        initValue = initValue.split(',');
+
+                        descInitValue = descInitValue.split(',');
+                        
+                        let data = [];//Array
+
+                        initValue.forEach(function(op,idx){
+                            const text = descInitValue[idx],
+                                option = new Option(op,text);
+        
+                            element.append(option);
+
+                            data.push({id: op, text: text});//Push values to data array
+        
+                        });                
+                
+                        callback(data); //Fill'em
+                    }
+                }
             }
 
 
             p.field.select2(properties);
-
-           
 
         },
         init:function(parent){

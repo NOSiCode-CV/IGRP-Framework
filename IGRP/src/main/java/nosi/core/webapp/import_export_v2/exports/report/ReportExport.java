@@ -14,6 +14,7 @@ import nosi.core.webapp.import_export_v2.exports.IExport;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.RepTemplateSource;
+import nosi.webapps.igrp.pages.datasource.DataSourceController;
 
 /**
  * Emanuel
@@ -97,7 +98,8 @@ public class ReportExport implements IExport{
 				e.setUsername_created(s.getRepSource().getUser_created()!=null?s.getRepSource().getUser_created().getUser_name():"");
 				e.setUsername_updated(s.getRepSource().getUser_updated()!=null?s.getRepSource().getUser_updated().getUser_name():"");
 				if(s.getRepSource().getType_name().equals("Page") && s.getRepSource().getType_query()!=null) {
-					final Action findAction = new Action().findOne(s.getRepSource().getType_fk());
+									
+					final Action findAction = new DataSourceController().getActionReport(s.getRepSource());
 					e.setType_query(findAction.getApplication().getDad()+"::"+findAction.getPage());
 				}
 					

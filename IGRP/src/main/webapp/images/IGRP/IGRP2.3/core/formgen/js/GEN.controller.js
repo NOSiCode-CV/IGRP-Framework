@@ -4874,6 +4874,48 @@ var GENERATOR = function(genparams){
 
 	var targetRulesSet = false;
 
+	GEN.removeIncluds = function (arr, t, obj) {
+		arr.forEach(function (e) {
+
+			if (obj && obj.includes[t]){
+
+				obj.includes[t] = obj.includes[t].filter(item => item.path != e.path);
+			}
+		});
+	};
+
+	const nosicaSignerIncludesFiles = function(field,v){
+
+		const flIncludes = {
+			css :[
+				{ path:'/plugins/select2/select2.style.css' },
+				{ path:'/plugins/select2/select2.min.css' },
+				{ path:'/plugins/virtualkeyboard/vkb.css' }
+			],
+			js  : [
+				{ path:'/plugins/nosicaSigner/nosicaSigner.js'},
+				{ path:'/plugins/select2/select2.init.js'},
+				{ path:'/plugins/select2/select2.full.min.js'},
+				{ path:'/plugins/virtualkeyboard/IGRP.virtualkeyBoard.init.js'}
+				
+			]
+		};
+
+		if(v.includes('signer')){
+			flIncludes.js.forEach(function (e) {
+				field.includes.js.unshift(e);
+			});
+
+			flIncludes.css.forEach(function (e) {
+				field.includes.css.unshift(e);
+			});
+
+		}else{
+			GEN.removeIncluds(flIncludes.js,'js',field);
+			GEN.removeIncluds(flIncludes.css,'css',field);
+		}
+	}
+
 	GEN.setTargetAttr = function(field,p){
 
 		field.setPropriety({
@@ -4887,7 +4929,16 @@ var GENERATOR = function(genparams){
 				if(field.SET.list_source && v != 'listAssociation')
 					
 					field.SET.list_source('');
+
+				nosicaSignerIncludesFiles(field,v);
 					
+			},
+			onEditionStart : function(o){
+
+				const target = field.GET.target ? field.GET.target() : null;
+
+				nosicaSignerIncludesFiles(field,target);
+				
 			}
 			
 		});
@@ -5255,30 +5306,8 @@ var GENERATOR = function(genparams){
 		});
 		
 		var jsIncludes = [
-				{ path: '/plugins/sharpadbclient/sharpadbclient.js' }
-			],
-			removeIncluds = function (arr, t) {
-				
-				arr.forEach(function (e) {
-	
-					if (field.includes[t]){
-	
-						for (var i = 0; i < field.includes[t].length; i++) {
-							var inc = field.includes[t][i];
-	
-							if (inc.path == e.path) {
-								var index = field.includes[t].indexOf(inc);
-	
-								if (index > -1)
-									field.includes[t].splice(index, 1);
-	
-								break;
-							}
-						}
-					}
-				});
-			}
-		;
+			{ path: '/plugins/sharpadbclient/sharpadbclient.js' }
+		];
 	
 		field.setPropriety({
 			label: 'Sharp Adb Client Action',
@@ -5311,7 +5340,7 @@ var GENERATOR = function(genparams){
 	
 						o.input.hide();
 	
-						removeIncluds(jsIncludes, 'js');
+						GEN.removeIncluds(jsIncludes, 'js',field);
 					}
 				}
 	
@@ -5415,7 +5444,7 @@ var GENERATOR = function(genparams){
 
 		if(!field.hidden){
 			//var defaultSize = field.GET.type() == 'radiolist' || field.GET.type() == 'checkboxlist' ? 12 : container.formOptions.lastSize;
-			var sizeOptions = field.GET.type() == 'texteditor' || field.GET.type() == 'separator' ? 
+			var sizeOptions = type == 'texteditor' || type == 'separator' ? 
 			  {
 			  	value: 12,
 			  	options:[{value:12,label:'col-sm-12 (100%)'}]
@@ -5426,17 +5455,18 @@ var GENERATOR = function(genparams){
 			  	//options:[{value:'12',label:'100%'},{value:'9',label:'75%'},{value:'8',label:'66.66%'},{value:'6',label:'50%'},{value:'4',label:'33%'},{value:'3',label:'25%'},{value:'2',label:'16.6%'},{value:'1',label:'8.33%'}]
 			  }
 
-			//if(){
+			//if(){	
+			  const setFieldAttr = ['digitalsignature','button', 'img', 'plaintext', 'separator', 'link'];
 
-				if(field.GET.type() != 'button' && field.GET.type() != 'img' && field.GET.type() != 'link' && field.GET.type() != 'separator' && field.GET.type()!='plaintext'){
-					
+				if(!setFieldAttr.includes(type)){
+
 					field.setPropriety({
 						name:'required',
 						value    : false,
 						xslValue : 'required="required"' //XSL VALUE WHEN PROPRIETY IS TRUE
 					});
 
-					if(field.GET.type() != "file"){
+					if(type != "file"){
 						field.setPropriety({
 							name:'change',
 							propriety:false,
@@ -5444,7 +5474,9 @@ var GENERATOR = function(genparams){
 						});
 					}
 
-					if(field.GET.type() != "select" && field.GET.type() != "file"){
+					const setReadonly = ["select", "file", 'filesigner'];
+
+					if(!setReadonly.includes(type)){
 						field.setPropriety({
 							name:'readonly',
 							propriety:false,
@@ -5452,13 +5484,17 @@ var GENERATOR = function(genparams){
 						});
 					}
 
-					field.setPropriety({
-						name:'disabled',
-						propriety:false,
-						xslValue : 'disabled="disabled"' //XSL VALUE WHEN PROPRIETY IS TRUE
-					});
+					if(field.type != 'filesigner'){
+						field.setPropriety({
+							name:'disabled',
+							propriety:false,
+							xslValue : 'disabled="disabled"' //XSL VALUE WHEN PROPRIETY IS TRUE
+						});
+					}
 
-					if(field.GET.type() === 'text' || field.GET.type() === 'textarea'){
+					const setDisablehtml = ['text', 'textarea']
+
+					if(setDisablehtml.includes(type)){
 						field.setPropriety({
 							label	 :'Disable HTML',
 							name	 :'disablehtml',
@@ -5468,7 +5504,9 @@ var GENERATOR = function(genparams){
 					}
 				}
 
-				if(field.GET.type() != "button" && field.GET.type() != "plaintext" && field.GET.type() != "select" && field.GET.type() != "file" && field.GET.type() != "radio" && field.GET.type() != "checkbox" && field.GET.type() != "checkboxlist" && field.GET.type() != "radiolist"){
+				const setPlaceholder = ['digitalsignature', 'filesigner',"button", "plaintext", "select", "file", "radio", "checkbox", "radiolist", "checkboxlist"];
+
+				if(!setPlaceholder.includes(type)){
 
 					field.setPropriety({
 						name:'placeholder',
@@ -5486,7 +5524,7 @@ var GENERATOR = function(genparams){
 					}
 				}
 
-				if((field.GET.type && field.GET.type() == 'text') && (container.GET.type() == 'formlist' || container.GET.type() == 'form')){
+				if((type && type == 'text') && (container.GET.type() == 'formlist' || container.GET.type() == 'form')){
 
 					let inputMaskIncludes 	= [
 						{path : '/plugins/inputmask/igrp.inputmask.js'},
@@ -5555,7 +5593,7 @@ var GENERATOR = function(genparams){
 				}
 			});
 
-			if(field.GET.type() == 'checkboxlist' || field.GET.type() == 'radiolist'){
+			if(type == 'checkboxlist' || type == 'radiolist'){
 				field.setPropriety({
 					label      : 'Child Size',
 					name       : 'child_size',
@@ -5566,13 +5604,19 @@ var GENERATOR = function(genparams){
 				});
 			}
 
-			field.setPropriety({
-				name      :'right',
-				value     :false,
-				xslValue  :'pull-right'
-			});
+			const hideRightProprietys = ['filesigner', 'digitalsignature'];
+			
+			if(!hideRightProprietys.includes(type)){
+				field.setPropriety({
+					name      :'right',
+					value     :false,
+					xslValue  :'pull-right'
+				});
+			}
 
-			if(type != 'separator' && type !='link' && type !='plaintext' && type !='button' && type!='img')
+			const hideFormField = ['separator','link','plaintext','button','img']
+
+			if(!hideFormField.includes(type))
 				field.formField = true;
 
 		}else{

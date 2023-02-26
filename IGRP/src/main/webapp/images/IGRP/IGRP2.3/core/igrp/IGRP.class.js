@@ -122,7 +122,8 @@
 
 					com.init();
 
-					com.events.execute('init');
+					if(com.events?.execute)
+						com.events.execute('init');
 					
 				});
 				
@@ -329,7 +330,9 @@
 
 			$.IGRP.info.params = $.IGRP.utils.url.getParams();
 
-			$.IGRP.info.isPublic = !isNaN($.IGRP.info.params?.ispublic * 1) ? $.IGRP.info.params.ispublic * 1 : 0;
+			const _isPublic = $.IGRP.info.params?.ispublic * 1;
+
+			$.IGRP.info.isPublic = !isNaN(ispublic * 1) ? ispublic * 1 : (!isNaN(_isPublic) ? _isPublic * 1 : 0);
 
 			$(window).resize(function(){
 

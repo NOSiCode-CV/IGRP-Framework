@@ -698,6 +698,11 @@ public class IGRPWhereQuery<E> extends IGRPSelectQuery<E> implements IIGRPWhereQ
     }
 
     @Override
+    public IGRPWhereQuery<E> notEqualToIf(String column, Long value, Predicate<Long> validateExpression) {
+        return this.internalNotEqualToIf(column, value, validateExpression);
+    }
+
+    @Override
     public IGRPWhereQuery<E> notEqualToIf(String column, Byte value, Predicate<Byte> validateExpression) {
         return this.internalNotEqualToIf(column, value, validateExpression);
     }

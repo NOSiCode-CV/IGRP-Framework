@@ -54,7 +54,7 @@
 						$('.modal-body',modal).append(content);
 				}
 
-				if(o.buttons && o.buttons[0])
+				if(o.buttons && o.buttons[0]){
 					o.buttons.forEach(function(b){
 						/*
 							class:
@@ -81,12 +81,14 @@
 
 						$('.modal-footer',modal).append(btn).show();
 					});
+
+					$('.modal-footer',modal).show();
+				}
 				else
 					$('.modal-footer',modal).hide();
 				
 				
-				if(o.beforeShow)
-					
+				if(o?.beforeShow && typeof o.beforeShow === 'function')
 					o.beforeShow();
 				
 				$.IGRP.components.globalModal.beforeHide = function(){
@@ -102,6 +104,9 @@
 				};
 
 				$.IGRP.components.globalModal.show();
+
+				if(o?.afterShow && typeof o.afterShow === 'function')
+					o.afterShow();
 			},
 			show:function(){
 				var modal = $.IGRP.components.globalModal.get();
