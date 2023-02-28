@@ -681,7 +681,7 @@ public class LoginController extends Controller {
 							try {
 								User newUser = new User();
 								newUser.setUser_name(uid);
-								newUser.setEmail(email);
+								newUser.setEmail(Core.isNotNullOrZero(email)?email:Pattern.matches(NIC_PATTERN, uid)? uid.toUpperCase() : null);
 								newUser.setName(name);
 								newUser.setPhone(phone_number);
 								newUser.setStatus(1);
@@ -690,7 +690,7 @@ public class LoginController extends Controller {
 								newUser.setUpdated_at(System.currentTimeMillis());
 								newUser.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
 								newUser.setActivation_key(nosi.core.webapp.User.generateActivationKey());
-								newUser.setCni(Pattern.matches(NIC_PATTERN, uid)? uid.toLowerCase() : null);
+								newUser.setCni(Pattern.matches(NIC_PATTERN, uid)? uid.toUpperCase() : null);
 
 								newUser = newUser.insert();
 								this.afterLogin(user);
