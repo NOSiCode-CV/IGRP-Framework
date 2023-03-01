@@ -340,6 +340,12 @@
 						
 						break;
 
+						case 'images':
+							
+							formElement.attr('src',value);
+						
+						break;
+
 						default:
 							if (lookup)
 								$('.IGRP_lookupPopup',parent).attr('href',lookup);
