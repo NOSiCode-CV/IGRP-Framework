@@ -1,6 +1,6 @@
 package nosi.core.webapp.export.app;
 
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Part;
 import javax.ws.rs.core.MediaType;
 import com.google.gson.reflect.TypeToken;
 

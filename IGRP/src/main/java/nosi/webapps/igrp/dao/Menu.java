@@ -226,6 +226,13 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 		}
 		return menus_App;
 	}
+	
+	public static void main(String[] args) {
+		String linky = "https://autentika.gov.cv/oauth2/authorize?response_type=code&client_id=MnHX3jYI2WHUwuk2owdTCEZU5Ioa&scope=openid+email+profile&state=PAGE/36228/$CONTEXT$/$PARAMS$&redirect_uri=https://nosiapps.gov.cv/redglobal/redglobal.igrp_portal.autentika_cv";
+		if (linky.contains("$CONTEXT$"))
+			linky = linky.replace("$CONTEXT$", String.format("%s:%s:%s", "sac", "CC.sac", "ADMIN.sac")).replace("$PARAMS$", "");
+		System.out.println(linky);
+	}
 
 	public LinkedHashMap<String, List<MenuProfile>> getMyMenu() {
 		LinkedHashMap<String, List<MenuProfile>> list = new LinkedHashMap<>();

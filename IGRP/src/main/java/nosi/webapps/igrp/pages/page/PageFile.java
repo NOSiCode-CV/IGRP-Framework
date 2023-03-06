@@ -1,8 +1,8 @@
 package nosi.webapps.igrp.pages.page;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Part;
 
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;

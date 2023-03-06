@@ -13,7 +13,7 @@ import nosi.core.webapp.Response;//
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 import nosi.core.i18n.I18nManager;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.ApplicationPermition;
