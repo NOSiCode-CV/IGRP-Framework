@@ -2,7 +2,7 @@ package nosi.core.gui.components;
 
 import java.io.IOException;
 import java.util.List;
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Part;
 
 import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.CheckBoxListField;

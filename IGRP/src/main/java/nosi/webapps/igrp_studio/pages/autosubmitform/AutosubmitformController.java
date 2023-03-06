@@ -22,6 +22,7 @@ public class AutosubmitformController extends Controller {
 		/*----#start-code(index)----*/
 		
 		
+		
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	

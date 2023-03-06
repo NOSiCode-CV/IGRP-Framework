@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Part;
 
 /**
  * Marcel Iekiny

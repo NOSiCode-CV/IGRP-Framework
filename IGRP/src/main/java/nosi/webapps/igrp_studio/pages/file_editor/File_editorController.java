@@ -3,8 +3,8 @@ package nosi.webapps.igrp_studio.pages.file_editor;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Part;
 import org.apache.commons.text.StringEscapeUtils;
 import com.google.gson.Gson;
 

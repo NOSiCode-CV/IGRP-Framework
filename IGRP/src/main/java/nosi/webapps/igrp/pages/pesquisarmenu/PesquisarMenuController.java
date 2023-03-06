@@ -20,7 +20,7 @@ import nosi.webapps.igrp.dao.ProfileType;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;

@@ -20,8 +20,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.w3c.dom.NodeList;
 
 import javax.persistence.Tuple;
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Part;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;

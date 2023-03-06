@@ -23,9 +23,9 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;

@@ -40,9 +40,9 @@ import org.hibernate.SessionFactory;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.Tuple;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Part;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -1208,7 +1208,7 @@ public final class Core {
 					return parts.stream().filter(file -> Core.isNotNull(file.getSubmittedFileName()))
 							.filter(file -> Core.isNotNull(file.getName())).collect(Collectors.toList());
 				}
-			} catch (javax.servlet.ServletException e) {
+			} catch (jakarta.servlet.ServletException e) {
 				e.printStackTrace();
 			}
 		}

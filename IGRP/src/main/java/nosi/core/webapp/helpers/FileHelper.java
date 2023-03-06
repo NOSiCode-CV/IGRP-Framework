@@ -5,7 +5,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Part;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;

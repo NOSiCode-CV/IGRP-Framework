@@ -12,8 +12,8 @@ import nosi.core.webapp.Response;//
 import java.util.Collection;
 import java.util.Map;
 import java.io.File;
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Part;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.export.app.ImportAppJava;

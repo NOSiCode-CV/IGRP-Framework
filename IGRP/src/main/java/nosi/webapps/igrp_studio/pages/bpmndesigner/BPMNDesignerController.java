@@ -10,8 +10,8 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Part;
 import javax.xml.transform.TransformerConfigurationException;
 import org.apache.commons.text.StringEscapeUtils;
 

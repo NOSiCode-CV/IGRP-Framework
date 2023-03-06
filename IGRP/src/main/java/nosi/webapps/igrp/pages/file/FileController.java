@@ -7,8 +7,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 /*----#end-code----*/
 
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Part;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
