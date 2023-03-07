@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
