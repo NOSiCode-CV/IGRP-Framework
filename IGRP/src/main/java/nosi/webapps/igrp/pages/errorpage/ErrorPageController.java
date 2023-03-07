@@ -3,7 +3,7 @@ package nosi.webapps.igrp.pages.errorpage;
 import java.io.IOException;
 
 /*----#start-code(packages_import)----*/
-import javax.servlet.RequestDispatcher;
+import jakarta.servlet.RequestDispatcher;
 
 
 import nosi.core.webapp.Controller;

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import jakarta.xml.soap.SOAPConstants;
 import nosi.core.integration.autentika.dto.UserRequestDTO;
 import nosi.core.integration.autentika.dto.AuthenticateRequestDTO;
 import nosi.core.integration.autentika.dto.ClaimDTO;
@@ -71,7 +73,7 @@ public class RemoteUserStoreManagerServiceSoapClient {
 		subContent.put("ser:profileName", userClaimValuesRequestDTO.getProfileName() != null ? userClaimValuesRequestDTO.getProfileName() : "");
 		bodyContent.put("ser:getUserClaimValues", subContent);
 		// Makes request to the soap endpoint 
-		SoapClient sc = soapClient(namespaces, headers, bodyContent,"soap", javax.xml.soap.SOAPConstants.SOAP_1_2_PROTOCOL);
+		SoapClient sc = soapClient(namespaces, headers, bodyContent,"soap", SOAPConstants.SOAP_1_2_PROTOCOL);
 		// check if success 
 		if (!sc.hasErrors()) {
 			Map<String, Object> map = sc.getResponseBody("soapenv");
@@ -115,7 +117,7 @@ public class RemoteUserStoreManagerServiceSoapClient {
 		subContent.put("ser:credential", userClaimValuesRequestDTO.getCredential());
 		bodyContent.put("ser:authenticate", subContent);
 		// Makes request to the soap endpoint
-		SoapClient sc = soapClient(namespaces, headers, bodyContent, "soap", javax.xml.soap.SOAPConstants.SOAP_1_2_PROTOCOL);
+		SoapClient sc = soapClient(namespaces, headers, bodyContent, "soap", jakarta.xml.soap.SOAPConstants.SOAP_1_2_PROTOCOL);
 		Map<String, Object> map = sc.getResponseBody("soapenv");
 		// check if success
 		if (!sc.hasErrors()) {
@@ -138,7 +140,7 @@ public class RemoteUserStoreManagerServiceSoapClient {
 		subContent.put("ser:userName", userName != null ? userName : "");
 		bodyContent.put("ser:isExistingUser", subContent);
 		// Makes request to the soap endpoint
-		SoapClient sc = soapClient(namespaces, headers, bodyContent, "soap", javax.xml.soap.SOAPConstants.SOAP_1_2_PROTOCOL);
+		SoapClient sc = soapClient(namespaces, headers, bodyContent, "soap", SOAPConstants.SOAP_1_2_PROTOCOL);
 		// check if success
 		if (!sc.hasErrors()) {
 			Map<String, Object> map = sc.getResponseBody("soapenv");
@@ -162,7 +164,7 @@ public class RemoteUserStoreManagerServiceSoapClient {
 		subContent.put("ser:oldCredential", updateCredentialRequestDTO.getOldCredential());
 		bodyContent.put("ser:updateCredential", subContent);
 		// Makes request to the soap endpoint and return 
-		return !soapClient(namespaces, headers, bodyContent, "soap", javax.xml.soap.SOAPConstants.SOAP_1_2_PROTOCOL).hasErrors();
+		return !soapClient(namespaces, headers, bodyContent, "soap", SOAPConstants.SOAP_1_2_PROTOCOL).hasErrors();
 	}
 	
 	public boolean updateCredentialByAdmin(UpdateCredentialByAdminRequestDTO updateCredentialByAdminRequestDTO) {
@@ -178,7 +180,7 @@ public class RemoteUserStoreManagerServiceSoapClient {
 		subContent.put("ser:newCredential", updateCredentialByAdminRequestDTO.getNewCredential());
 		bodyContent.put("ser:updateCredentialByAdmin", subContent);
 		// Makes request to the soap endpoint and return 
-		return !soapClient(namespaces, headers, bodyContent, "soap", javax.xml.soap.SOAPConstants.SOAP_1_2_PROTOCOL).hasErrors();
+		return !soapClient(namespaces, headers, bodyContent, "soap", SOAPConstants.SOAP_1_2_PROTOCOL).hasErrors();
 	}
 	
 	public boolean addUser(UserRequestDTO userRequestDTO) {
@@ -206,6 +208,6 @@ public class RemoteUserStoreManagerServiceSoapClient {
 		subContent.put("ser:requirePasswordChange", userRequestDTO.isRequirePasswordChange());
 		bodyContent.put("ser:addUser", subContent);
 		// Makes request to the soap endpoint and return 
-		return !soapClient(namespaces, headers, bodyContent, "soap", javax.xml.soap.SOAPConstants.SOAP_1_2_PROTOCOL).hasErrors(); 
+		return !soapClient(namespaces, headers, bodyContent, "soap", SOAPConstants.SOAP_1_2_PROTOCOL).hasErrors(); 
 	}
 }
