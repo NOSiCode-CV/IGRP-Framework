@@ -8,8 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import nosi.core.webapp.Igrp;
 
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
 
 @WebServlet(name = "IGRP", urlPatterns = "/app/*")
 @MultipartConfig(maxFileSize = 52428800, maxRequestSize = 52428800, fileSizeThreshold = 0)

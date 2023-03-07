@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.SequenceFlow;
 import org.activiti.bpmn.model.StartEvent;
@@ -153,7 +152,7 @@ public class BPMNTimeLine {
 				}
 			});
 			Collections.sort(taskTimeline);
-		} catch (XMLStreamException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return taskTimeline ;
