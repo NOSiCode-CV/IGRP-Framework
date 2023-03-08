@@ -15,8 +15,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		
-		<maven.compiler.source>1.8</maven.compiler.source>	
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>	
+		<maven.compiler.target>17</maven.compiler.target>
 
 		<tomee.version>8.0.5</tomee.version>
 		<javadoc.plugin.version>3.0.1</javadoc.plugin.version>
@@ -84,7 +84,7 @@
 		<junit.vintage.version>5.8.2</junit.vintage.version>
 
 		<!-- JavaEE API & jax-rs version -->
-		<javaee.api.version>8.0-5</javaee.api.version>
+		<javaee.api.version>8.0-4</javaee.api.version>
 		<cxf.rt.frontend.jaxrs.version>3.3.6</cxf.rt.frontend.jaxrs.version>
 		<tomee.jaxrs.version>8.0.4</tomee.jaxrs.version>
 		
@@ -99,7 +99,7 @@
 		<tomee.maven.plugin.version>8.0.10</tomee.maven.plugin.version>
 		
 		<!-- TomEE Embedded -->
-		<tomee.embedded.version>8.0.7</tomee.embedded.version>
+		<tomee.embedded.version>9.0.0</tomee.embedded.version>
 		
 		<!-- Flyway Migration API & Docker PostgreSQL -->
 		<flyway.version>8.5.8</flyway.version>
@@ -164,6 +164,12 @@
 		    <groupId>xalan</groupId>
 		    <artifactId>serializer</artifactId>
 		    <version>${xalan.version}</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<groupId>xml-apis</groupId>
+		    		<artifactId>xml-apis</artifactId>
+		    	</exclusion>
+		    </exclusions>
 		</dependency>
  
 		<!-- Microsoft Office docs. -->
@@ -460,9 +466,9 @@
             <scope>test</scope>
         </dependency>
         <!-- (End) Unit & Integration Test Dependencies -->
-		
-		
-		<!-- Provided Dependencies -->
+        
+        
+        <!-- Provided Dependencies -->
 		<!-- For jax-rs client dependencies. (Ex: ContentDisposition.class) -->
         <!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-bundle-jaxrs -->
 		<dependency>
@@ -471,23 +477,9 @@
 		    <version>${cxf.rt.frontend.jaxrs.version}</version>
 		    <scope>provided</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomee/tomee-jaxrs -->
-		<dependency>
-		    <groupId>org.apache.tomee</groupId>
-		    <artifactId>tomee-jaxrs</artifactId>
-		    <version>${tomee.jaxrs.version}</version>
-		    <scope>provided</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomee/javaee-api -->
-		<dependency>
-		    <groupId>org.apache.tomee</groupId>
-		    <artifactId>javaee-api</artifactId>
-		    <version>${javaee.api.version}</version>
-		    <scope>provided</scope>
-		</dependency>
-		
-		
-		<!-- Activiti BPMN -->
+        
+        
+        <!-- Activiti BPMN -->
 		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-converter -->
 		<dependency>
 		    <groupId>org.activiti</groupId>
@@ -510,6 +502,13 @@
 		    <version>${tomee.embedded.version}</version>
 		    <scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+		   <groupId>jakarta.servlet</groupId>
+		   <artifactId>jakarta.servlet-api</artifactId>
+		   <version>5.0.0</version>
+		   <scope>provided</scope>
+		</dependency>
 
 		
 		<!-- System Dependencies -->
@@ -520,7 +519,6 @@
 			<scope>system</scope>
     		<systemPath>${pom.basedir}/src/main/webapp/WEB-INF/lib/IGRP.jar</systemPath>
 		</dependency> -->
-		
 		
 			
 	</dependencies>
