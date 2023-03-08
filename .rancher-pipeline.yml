@@ -1,0 +1,16 @@
+stages:
+- name: compile & war generate
+  steps:
+  - runScriptConfig:
+      image: maven:eclipse-temurin
+      shellScript: mvn clean package
+- name: container
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile
+      buildContext: .
+      tag: registry.nosi.cv/igrpweb-modelo/igrpweb:1.0.0
+      pushRemote: true
+      registry: registry.nosi.cv
+timeout: 10
+notification: {}
