@@ -6,7 +6,7 @@
  
   <role rolename="manager-gui"/>
   <role rolename="manager-script"/>
-  <user username="${env.tomcat_user}" password="${env.tomcat_password}" roles="manager-gui,manager-script"/>
+  <user username="admin" password="Pa$$w0rd2023" roles="manager-gui,manager-script"/>
 
   
  </tomcat-users>
