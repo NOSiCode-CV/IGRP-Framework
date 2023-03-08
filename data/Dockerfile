@@ -22,6 +22,6 @@ ADD data/index.jsp /usr/local/tomcat/webapps/ROOT/
 
 COPY /IGRP/target/*.war /usr/local/tomcat/webapps/
 
-COPY /activiti/*.war /usr/local/tomcat/webapps/
+##COPY /activiti/*.war /usr/local/tomcat/webapps/
 
 CMD ["catalina.sh", "run"]
