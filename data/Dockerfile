@@ -2,7 +2,7 @@
 
 FROM tomcat:jre17
 
-COPY date/apache-tomee-9.0.0-plus.tar.gz .
+COPY data/apache-tomee-9.0.0-plus.tar.gz .
 RUN tar -xvf apache-tomee-9.0.0-plus.tar.gz --strip-components=1 
 RUN rm bin/*.bat 
 RUN  rm apache-tomee-9.0.0-plus.tar.gz
