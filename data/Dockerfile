@@ -1,6 +1,6 @@
 #### RUN TOMCAT TO DEPLOY WAR FILE
 
-FROM tomcat:jre17
+FROM tomcat8:jre8
 
 COPY apache-tomee-9.0.0-plus.tar.gz .
 RUN tar -xvf apache-tomee-9.0.0-plus.tar.gz --strip-components=1 
