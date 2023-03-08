@@ -7,7 +7,7 @@ stages:
 - name: container
   steps:
   - publishImageConfig:
-      dockerfilePath: ./Dockerfile
+      dockerfilePath: ./data/Dockerfile
       buildContext: .
       tag: registry.nosi.cv/igrpweb-mhorizon/igrpweb:1.0
       pushRemote: true
