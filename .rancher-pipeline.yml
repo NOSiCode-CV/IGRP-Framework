@@ -9,7 +9,7 @@ stages:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .
-      tag: registry.nosi.cv/igrpweb-modelo/igrpweb:1.0.0
+      tag: registry.nosi.cv/igrpweb-mhorizon/igrpweb:1.0
       pushRemote: true
       registry: registry.nosi.cv
 timeout: 10
