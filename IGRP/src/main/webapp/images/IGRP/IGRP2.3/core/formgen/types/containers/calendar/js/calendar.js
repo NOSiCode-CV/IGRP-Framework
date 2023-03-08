@@ -18,13 +18,14 @@ var GENCALENDAR = function(name,params){
 		}
 	};
 
-	var date = new Date().toJSON().slice(0,10);
+	let date = new Date().toJSON().slice(0,10);
 
 	/*GEN.setBtnActionAttr(container,{
 		value:''
 	});*/
 
 	container.onXMLGenerate = function(xmlStr){
+		const xdate = date.replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1');
 		var tag  = $.trim(container.GET.tag()),
 			rtn  = '<'+tag+'_events type="table" xml-type="table" gen-type="container" gen-group="true">'+
 			'<fields>'+
@@ -39,22 +40,22 @@ var GENCALENDAR = function(name,params){
 			'<table><value>'+
 				'<row> <context-menu></context-menu>'+
 			        '<'+tag+'_title name="p_'+tag+'_title">Birthday</'+tag+'_title>'+
-			        '<'+tag+'_start name="p_'+tag+'_start" >'+date.replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1')+'T10:00:00</'+tag+'_start>'+
+			        '<'+tag+'_start name="p_'+tag+'_start" >'+xdate+'T10:00:00</'+tag+'_start>'+
 			        '<'+tag+'_id name="p_'+tag+'_id">1</'+tag+'_id>'+
-			        '<'+tag+'_end name="p_'+tag+'_end">'+date.replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1')+'T12:00:00</'+tag+'_end>'+
+			        '<'+tag+'_end name="p_'+tag+'_end">'+xdate+'T12:00:00</'+tag+'_end>'+
 			        '<'+tag+'_color name="p_'+tag+'_color">red</'+tag+'_color>'+
 					'<'+tag+'_allday>false</'+tag+'_allday>'+
-					'<'+tag+'_description name="p_'+tag+'_description">Marcos fez anos</'+tag+'_description>'+
+					'<'+tag+'_description name="p_'+tag+'_description">Testes Event</'+tag+'_description>'+
 				'</row>'+
 				'<row> <context-menu></context-menu>'+
-		        '<'+tag+'_title name="p_'+tag+'_title">Meeting</'+tag+'_title>'+
-		        '<'+tag+'_start name="p_'+tag+'_start" >'+date.replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1')+'T10:00:00</'+tag+'_start>'+
-		        '<'+tag+'_id name="p_'+tag+'_id">1</'+tag+'_id>'+
-		        '<'+tag+'_end name="p_'+tag+'_end">'+date.replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1')+'T12:00:00</'+tag+'_end>'+
-		        '<'+tag+'_color name="p_'+tag+'_color">green</'+tag+'_color>'+
-				'<'+tag+'_allday>true</'+tag+'_allday>'+
-				'<'+tag+'_description name="p_'+tag+'_description">With Jose</'+tag+'_description>'+
-			'</row>'+
+					'<'+tag+'_title name="p_'+tag+'_title">Meeting</'+tag+'_title>'+
+					'<'+tag+'_start name="p_'+tag+'_start" >'+xdate+'T10:00:00</'+tag+'_start>'+
+					'<'+tag+'_id name="p_'+tag+'_id">1</'+tag+'_id>'+
+					'<'+tag+'_end name="p_'+tag+'_end">'+xdate+'T12:00:00</'+tag+'_end>'+
+					'<'+tag+'_color name="p_'+tag+'_color">green</'+tag+'_color>'+
+					'<'+tag+'_allday>true</'+tag+'_allday>'+
+					'<'+tag+'_description name="p_'+tag+'_description">With Jose</'+tag+'_description>'+
+				'</row>'+
 			'</value>';
 
 
@@ -173,10 +174,35 @@ var GENCALENDAR = function(name,params){
 	});
 
 	container.onDrawEnd = function(){
-		var c  = $.IGRP.components.calendar.get( container.GET.tag() );
+		var c  = $.IGRP.components.calendar.get( container.GET.tag());
 		if(c){
 			c.fullCalendar('render');
-   	 		c.fullCalendar('addEventSource',path+'/core/calendar/3.0.1/data/calendar.json');
+   	 		c.fullCalendar('addEventSource',[
+				{
+					"title"  : "event1",
+					"start"  : `${date}T10:00:00`,
+					"end"	 : `${date}T12:00:00`,
+					"context-param":[],
+					"color"  : "#acca57",
+					"id"     : 1
+				},
+				{
+					"title"  : "event3",
+					"start"  : `${date}T15:00:00`,
+					"end"	 : `${date}T17:00:00`,
+					"context-param":[],
+					"color"  : "#acca69",
+					"id"     : 3
+				},
+				{
+					"title"  : "event2",
+					"start"  : `${date}T11:00:00`,
+					"end"	 : `${date}T15:00:00`,
+					"context-param":["p1=linha1","p2=linha1"],
+					"color"  : "#aaaB69",
+					"id"     : 2
+				}
+			]);
 		}
    	 	
 	}

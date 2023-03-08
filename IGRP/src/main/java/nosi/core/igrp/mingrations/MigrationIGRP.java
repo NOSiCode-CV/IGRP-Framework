@@ -61,15 +61,16 @@ public final class MigrationIGRP {
 				Core.setMessageError("Não foi possivel efetuar migração do IGRP");
 				return;
 			}
+			this.connetionName = model.getNome_de_conexao();
 		}
-		this.connetionName = model.getNome_de_conexao();
+		
 		this.saveData();
 		new CreateViews();
 	}
 	
 	public boolean validate(Migrate model){
 		if(model!=null){
-			return new Connection().validate(model.getUrl_connection(),model.getDriver_connection(),model.getUsername(),model.getPassword());
+			return Connection.validate(model.getUrl_connection(),model.getDriver_connection(),model.getUsername(),model.getPassword());
 		}
 		return false;
 	}
@@ -103,14 +104,14 @@ public final class MigrationIGRP {
 	}
 
 	private void saveData() {
-		if(configs.size() > 0){
+		if(!configs.isEmpty()){
 			configs.stream().forEach(c->{
 				c.setId(null);
 				c.insert();
 			});
 		}
 		
-		if(applications.size() > 0){
+		if(!applications.isEmpty()){
 			applications.stream().forEach(app->{
 				Core.insert(this.connetionName,"tbl_env")
 					.addInt("id", app.getId())
@@ -131,7 +132,7 @@ public final class MigrationIGRP {
 			});
 		}
 		
-		if(modulos.size() > 0 ) {
+		if(!modulos.isEmpty() ) {
 			modulos.stream().forEach(m->{
 				Core.insert(this.connetionName,"tbl_modulo")
 					.addInt("id", m.getId())
@@ -141,7 +142,7 @@ public final class MigrationIGRP {
 				new Modulo().insert();//Using to increment value for last id
 			});
 		}
-		if(domains.size() > 0 ) {
+		if(!domains.isEmpty() ) {
 			domains.stream().forEach(d->{
 				Core.insert(this.connetionName,"tbl_domain")
 					.addInt("id", d.getId())
@@ -155,7 +156,7 @@ public final class MigrationIGRP {
 			});
 		}
 		
-		if(actions.size() > 0){
+		if(!actions.isEmpty()){
 			actions.stream().forEach(a->{
 				Core.insert(this.connetionName,"tbl_action")
 					.addInt("id", a.getId())
@@ -186,7 +187,7 @@ public final class MigrationIGRP {
 			});
 		}
 		
-		if(shares.size() > 0 ) {
+		if(!shares.isEmpty() ) {
 			shares.stream().forEach(s->{
 				Core.insert(this.connetionName,"glb_t_acl")
 					.addInt("id",s.getId())
@@ -201,7 +202,7 @@ public final class MigrationIGRP {
 		}
 		
 		
-		if(clobs.size() > 0){
+		if(!clobs.isEmpty()){
 			clobs.stream().forEach(cl->{
 				Core.insert(this.connetionName,"tbl_clob")
 					.addInt("id", cl.getId())
@@ -214,7 +215,7 @@ public final class MigrationIGRP {
 			});
 		}
 		
-		if(config_envs.size() > 0){
+		if(!config_envs.isEmpty()){
 			config_envs.stream().forEach(c->{
 				Core.insert(this.connetionName,"tbl_config_env")
 					.addInt("id", c.getId())
@@ -233,7 +234,7 @@ public final class MigrationIGRP {
 				new Config_env().insert();//Using to increment value for last id
 			});
 		}
-		if(users.size() > 0){
+		if(!users.isEmpty()){
 			users.stream().forEach(u->{
 				Core.insert(this.connetionName,"tbl_user")
 					.addInt("id", u.getId())
@@ -258,7 +259,7 @@ public final class MigrationIGRP {
 				new User().insert();//Using to increment value for last id
 			});
 		}
-		if(organizations.size() > 0){
+		if(!organizations.isEmpty()){
 			organizations.stream().forEach(o->{
 				Core.insert(this.connetionName,"tbl_organization")
 					.addInt("id", o.getId())
@@ -272,7 +273,7 @@ public final class MigrationIGRP {
 				new Organization().insert();//Using to increment value for last id
 			});
 		}
-		if(profile_types.size() > 0){
+		if(!profile_types.isEmpty()){
 			profile_types.stream().forEach(p->{
 				Core.insert(this.connetionName,"tbl_profile_type")
 					.addInt("id", p.getId())
@@ -287,7 +288,7 @@ public final class MigrationIGRP {
 			});
 		}		
 
-		if(menus.size() > 0){
+		if(!menus.isEmpty()){
 			menus.stream().forEach(m->{
 				Core.insert(this.connetionName,"tbl_menu")
 					.addInt("id", m.getId())
@@ -304,7 +305,7 @@ public final class MigrationIGRP {
 			});
 		}
 		
-		if(transactions.size() > 0){
+		if(!transactions.isEmpty()){
 			transactions.stream().forEach(t->{
 				Core.insert(this.connetionName,"tbl_transaction")
 					.addInt("id", t.getId())
@@ -317,7 +318,7 @@ public final class MigrationIGRP {
 			});
 		}
 		
-		if(profiles.size() > 0){
+		if(!profiles.isEmpty()){
 			profiles.stream().forEach(p->{
 				Core.insert(this.connetionName,"tbl_profile")
 					.addInt("id", p.getId())
@@ -331,7 +332,7 @@ public final class MigrationIGRP {
 			});
 		}
 		
-		if(rep_templates.size() > 0){
+		if(!rep_templates.isEmpty()){
 			rep_templates.stream().forEach(rt->{
 				Core.insert(this.connetionName,"tbl_rep_template")
 					.addInt("id", rt.getId())
@@ -349,7 +350,7 @@ public final class MigrationIGRP {
 				new RepTemplate().insert();//Using to increment value for last id
 			});
 		}
-		if(rep_template_parmas.size() > 0){
+		if(!rep_template_parmas.isEmpty()){
 			rep_template_parmas.stream().forEach(rt->{
 				Core.insert(this.connetionName,"tbl_rep_template_param")
 					.addInt("id", rt.getId())
@@ -359,7 +360,7 @@ public final class MigrationIGRP {
 				new RepTemplateParam().insert();//Using to increment value for last id
 			});
 		}
-		if(rep_instances.size() > 0){
+		if(!rep_instances.isEmpty()){
 			rep_instances.stream().forEach(ri->{
 				Core.insert(this.connetionName,"tbl_rep_instance")
 					.addInt("id", ri.getId())
@@ -376,7 +377,7 @@ public final class MigrationIGRP {
 				new RepInstance().insert();//Using to increment value for last id
 			});
 		}
-		if(rep_sources.size() > 0){
+		if(!rep_sources.isEmpty()){
 			rep_sources.stream().forEach(rs->{
 				Core.insert(this.connetionName,"tbl_rep_source")
 					.addInt("id", rs.getId())
@@ -400,7 +401,7 @@ public final class MigrationIGRP {
 				new RepSource().insert();//Using to increment value for last id
 			});
 		}
-		if(rep_template_sources.size() > 0){
+		if(!rep_template_sources.isEmpty()){
 			rep_template_sources.stream().forEach(rt->{
 				Core.insert(this.connetionName,"tbl_rep_template_source")
 					.addInt("id", rt.getId())
@@ -411,7 +412,7 @@ public final class MigrationIGRP {
 			});
 		}
 		
-		if(taskComponents.size() > 0) {
+		if(!taskComponents.isEmpty()) {
 			taskComponents.stream().forEach(tc->{
 				Core.insert(this.connetionName,"tbl_task_component")
 					.addInt("id", tc.getId())
@@ -426,7 +427,7 @@ public final class MigrationIGRP {
 			});
 		}
 		
-		if(taskAccess.size() > 0 ) {
+		if(!taskAccess.isEmpty() ) {
 			taskAccess.stream().forEach(ta->{
 				Core.insert(this.connetionName,"tbl_task_access")
 					.addInt("id", ta.getId())
@@ -440,7 +441,7 @@ public final class MigrationIGRP {
 			});
 		}
 		
-		if(tipoDocumentos.size() > 0 ) {
+		if(!tipoDocumentos.isEmpty() ) {
 			tipoDocumentos.stream().forEach(td->{
 				Core.insert(this.connetionName,"tbl_tipo_documento")
 					.addInt("id", td.getId())
@@ -454,7 +455,7 @@ public final class MigrationIGRP {
 			});
 		}
 		
-		if(tipoDocumentoEtapas.size() > 0 ) {
+		if(!tipoDocumentoEtapas.isEmpty() ) {
 			tipoDocumentoEtapas.stream().forEach(td->{
 				Core.insert(this.connetionName,"tbl_tipo_documento_etapa")
 					.addInt("id", td.getId())
@@ -470,7 +471,7 @@ public final class MigrationIGRP {
 			});
 		}
 		
-		if(sessions.size() > 0){
+		if(!sessions.isEmpty()){
 			sessions.stream().forEach(s->{
 				Core.insert(this.connetionName,"tbl_session")
 					.addInt("id", s.getId())

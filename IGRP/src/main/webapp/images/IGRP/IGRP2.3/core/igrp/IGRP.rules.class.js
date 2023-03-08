@@ -870,10 +870,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 		remote_combobox:{
 			do:function(p){
-				
-				//var param = p.sourceName+'='+$(p.sourceField).val();
 
-				//var url = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
+				const row = p.isTable == true ? p.sourceField.parents('tr:first') : null;
 				
 				$.ajax({
 					url 	: $.IGRP.rules.getRemoteUrl(p),
@@ -889,11 +887,17 @@ if($ && $.IGRP && !$.IGRP.rules){
 					var isString = typeof list === 'string';
 					
 					$.each( p.targetFields ,function(i,f){
+
+						f = $(f);
+
+						const itemName = f.attr('item-name');
+
+						if(row){
+							f = $(`div[item-name=${itemName}]`,row);
+						}
 					
-						var options  = [],
+						let options  = [],
 						
-							itemName = $(f).attr('item-name'),
-							
 							responseElement = isString ? list : ( list?.documentElement || false ),
 							
 							wrapper  = $(responseElement).is(itemName) ? list : $(list).find('rows content '+itemName)[0];
@@ -906,7 +910,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 							
 								$.each($('option', wrapper), function(z, o) {
 									
-									var selected = $(o).attr('selected') ? true : false;
+									const selected = $(o).attr('selected') ? true : false;
 									
 									options.push({
 										text: $('text', o).text(),
@@ -924,13 +928,13 @@ if($ && $.IGRP && !$.IGRP.rules){
 								
 							}else{
 								
-								var holderGroup = $('.form-group',f),
-									cloneGroup 	= $('.'+elementType,holderGroup).first().clone(!0);
+								const holderGroup 	= $('.form-group',f),
+									cloneGroup 		= $('.'+elementType,holderGroup).first().clone(!0);
 
 								$('.'+elementType,holderGroup).remove();
 								
 								$.each($('option',wrapper),function(z,o){
-									var group = cloneGroup.clone(!0),
+									const group = cloneGroup.clone(!0),
 									 	label = $('text',o).text();
 									
 									$('input',$(group)).attr({
@@ -985,26 +989,13 @@ if($ && $.IGRP && !$.IGRP.rules){
 					},
 
 					success:function(c){
-						console.log(c);
-						
 						if ($.IGRP.components.tableCtrl.resetTableConfigurations)
 							$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
-						
-						/*$.IGRP.utils.refreshComponents({
-							
-							wrapper : c.itemHTML,
-							
-							itemName : tableName
-							
-						});*/
-
 					},
 
 					error:function(){
 						
 						$.IGRP.utils.loading.hide();
-						
-						console.log('dsa')
 					}
 
 				});

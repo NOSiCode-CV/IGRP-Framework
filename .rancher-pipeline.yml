@@ -1,0 +1,16 @@
+stages:
+- name: compile & war generate
+  steps:
+  - runScriptConfig:
+      image: maven:3.8.6-jdk-11
+      shellScript: mvn clean package
+- name: container
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./data/Dockerfile
+      buildContext: .
+      tag: registry.nosi.cv/igrpweb-mhorizon/igrpweb:1.0
+      pushRemote: true
+      registry: registry.nosi.cv
+timeout: 10
+notification: {}

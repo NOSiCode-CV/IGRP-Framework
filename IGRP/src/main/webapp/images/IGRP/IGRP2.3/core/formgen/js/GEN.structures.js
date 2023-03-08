@@ -225,7 +225,7 @@ var GENSTRUCTURES = function(GEN){
 					'<value></value>'+
 				'</'+tag+'_view>'+
 				'<'+tag+'_date name="p_'+tag+'_date"  type="date" maxlength="30">'+
-					'<label>Default View</label>'+
+					'<label>Default Date</label>'+
 					'<value></value>'+
 				'</'+tag+'_date>'+
 				'<'+tag+'_daysoff name="p_'+tag+'_daysoff"  type="text" maxlength="30">'+
@@ -233,9 +233,6 @@ var GENSTRUCTURES = function(GEN){
 					'<value></value>'+
 				'</'+tag+'_daysoff>'+
 			'</fields>';
-
-			if(container.contextMenu && container.contextMenu.items[0])
-				rtn+=GEN.genContextMenu(container);
 			
 		return rtn;
 	}
@@ -569,7 +566,18 @@ var GENSTRUCTURES = function(GEN){
 		
 		contents.forEach(function(c){
 
-			rtn+='<'+c.GET.tag()+' '+getAttrsArr(c)+' maxlength="50" >'+
+			let actionStep 		  = '',
+				refreshComponents = '';
+
+			if(c.parent.type === "stepcontent"){
+				if(c.GET.submitbeforenext && c.GET.submitbeforenext()){
+					console.log(c);
+					actionStep 		  = `actionstep="${c.action.link}"`;
+					refreshComponents = `refreshComponents="${c.refresh_components}"`
+				}
+			}
+
+			rtn+='<'+c.GET.tag()+' '+getAttrsArr(c)+' ' +actionStep+' maxlength="50" >'+
 				 	'<label>'+c.GET.label()+'</label>'+
 				 	'<value/>'+
 				 '</'+c.GET.tag()+'>';

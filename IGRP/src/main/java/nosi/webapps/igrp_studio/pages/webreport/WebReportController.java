@@ -429,8 +429,7 @@ public class WebReportController extends Controller {
 	}
 
 	private String getDataForPage(RepTemplateSource rep) {
-		if(rep.getRepSource().getType_fk() != null) {
-			Action ac = new Action().findOne(rep.getRepSource().getType_fk());
+		Action ac= new DataSourceController().getActionReport(rep.getRepSource());
 			if(ac!=null){
 				String actionName = "";
 				for(String aux : ac.getAction().split("-"))
@@ -447,10 +446,11 @@ public class WebReportController extends Controller {
 					int end = content.indexOf("</rows>");
 					content = (start!=-1 && end!=-1)?content.substring(start,end):"";
 					content = content.replace("<content", "<content uuid=\""+rep.getRepSource().getSource_identify()+"\"");
+					content = content.replace("</content>", ds.getDefaultForm(ds.getDefaultFieldsWithProc())+"</content>");
 					return content;
 				}
 			}
-		}
+		
 		return "";
 	}
 

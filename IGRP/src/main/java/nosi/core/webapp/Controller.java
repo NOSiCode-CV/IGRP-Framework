@@ -168,7 +168,7 @@ public class Controller {
         String content = this.view.getPage().renderContent(false);
         content = BPMNButton.removeXMLButton(content);
         XMLWritter xml = new XMLWritter("rows", this.getConfig().getLinkPageXsl(ac), "utf-8");
-        xml.addXml(this.getConfig().getHeader(null));
+        xml.addXml(this.getConfig().getHeader(v,ac));
         xml.startElement("content");
         xml.writeAttribute("type", "");
         if (Core.isNotNull(runtimeTask)) {
