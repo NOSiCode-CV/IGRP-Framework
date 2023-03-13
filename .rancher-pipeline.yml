@@ -14,9 +14,7 @@ stages:
           -Dsonar.host.url=https://code-sec.nosi.cv \
           -Dsonar.login=sqp_8dd11356fe614f5314b36d5f70d1b1fe9b9f7fad
     when:
-      branch:
-        include:
-        - dani
+      branch: {}
 - name: container
   steps:
   - publishImageConfig:
