@@ -7,12 +7,12 @@ stages:
 - name: code check
   steps:
   - runScriptConfig:
-      image: maven:3.8.5-openjdk-17
+      image: maven:3.3-jdk-8
       shellScript: |-
         mvn clean verify sonar:sonar \
           -Dsonar.projectKey=igrp-web_igrp-web-framework_AYba8-gdltjb8mcsAUNz \
           -Dsonar.host.url=https://code-sec.nosi.cv \
-          -Dsonar.login=sqp_8dd11356fe614f5314b36d5f70d1b1fe9b9f7fad
+          -Dsonar.login=sqp_65bb30f282521dc82590c397a994d5403fc0ef58
     when:
       branch: {}
 - name: container
