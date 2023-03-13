@@ -154,6 +154,10 @@
 			return valid;
 		},
 
+		getInputToSerializeArray : function(obj){
+
+		},
+
 		start: function (obj) {
 
 			obj.steps({
@@ -235,7 +239,7 @@
 
 											currentObj.addClass('done');
 
-											const objSubmit = $('.step-tab-panel.done');
+											const objSubmit = $.IGRP.utils.getForm();
 
 											$.IGRP.utils.loading.show();
 
