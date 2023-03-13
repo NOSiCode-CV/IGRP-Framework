@@ -35,5 +35,12 @@ stages:
         -H 'Accept: application/json' \
         -H 'Content-Type: application/json' \
         --insecure 'https://manager.nosi.cv/v3/project/c-cpx7p:p-mkpb6/workloads/statefulset:igrpweb-horizon-dev:igrp?action=redeploy'
+    envFrom:
+    - sourceName: api-redeploy
+      sourceKey: access
+      targetKey: user
+    - sourceName: api-redeploy
+      sourceKey: secret
+      targetKey: password
 timeout: 10
 notification: {}
