@@ -7,7 +7,7 @@ stages:
 - name: code check
   steps:
   - runScriptConfig:
-      image: maven:3.3-jdk-8
+      image: maven:3.8.5-openjdk-17
       shellScript: |-
         mvn clean verify sonar:sonar \
           -Dsonar.projectKey=igrp-web_igrp-web-framework_AYbb4piKltjb8mcsAUON \
