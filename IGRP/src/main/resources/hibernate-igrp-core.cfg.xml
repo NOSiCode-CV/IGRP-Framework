@@ -4,7 +4,7 @@
 	<session-factory>
 
 		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-		<property name="hibernate.connection.url">jdbc:postgresql://postgres:31847/db_igrp</property><!-- Eg: jdbc:postgresql://localhost:5432/db_igrp  -->
+		<property name="hibernate.connection.url">jdbc:postgresql://postgres:7782/db_igrp</property>
 		<property name="hibernate.connection.username">postgres</property><!-- Eg: postgres -->
 		<property name="hibernate.connection.password">k}x}TNkm#qcB4",</property><!-- Eg: Password -->
 		<property name="hibernate.hbm2ddl.auto">none</property>
