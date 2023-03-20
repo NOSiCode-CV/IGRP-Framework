@@ -1,4 +1,4 @@
-package nosi.core.steriotype;
+package nosi.core.stereotype;
 
 /**
  * Indicates that an annotated class is a "component".
@@ -19,10 +19,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.inject.Stereotype;
+
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Stereotype
+@RequestScoped
 public @interface IGRPComponent {
 
 	/**
