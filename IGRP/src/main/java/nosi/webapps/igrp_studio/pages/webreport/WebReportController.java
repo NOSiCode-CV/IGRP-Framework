@@ -438,7 +438,7 @@ public class WebReportController extends Controller {
 				actionName = "action" + actionName;
 				Core.setAttribute("current_app_conn", ac.getApplication().getDad());	
 				String controllerPath = this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction());			
-				Object ob = Page.loadPage(controllerPath,actionName);
+				Object ob = Controller.loadPage(controllerPath,actionName);
 				Core.removeAttribute("current_app_conn");
 				if(ob!=null){
 					Response resp = (Response) ob;
