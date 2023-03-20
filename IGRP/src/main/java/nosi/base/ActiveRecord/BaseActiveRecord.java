@@ -1158,7 +1158,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	@Override
 	@Transient
-	@XmlTransient
+	//@XmlTransient
 	public Object getMax(String columnName) {
 		if(Core.isNull(columnName))
 			return null;
@@ -1168,7 +1168,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	@Override
 	@Transient
-	@XmlTransient
+	//@XmlTransient
 	public Object getMin(String columnName) {
 		if(Core.isNull(columnName))
 			return null;
@@ -1178,7 +1178,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	@Override
 	@Transient
-	@XmlTransient
+	//@XmlTransient
 	public Double getAvg(String columnName) {
 		if(Core.isNull(columnName))
 			return null;
@@ -1188,7 +1188,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	@Override
 	@Transient
-	@XmlTransient
+	//@XmlTransient
 	public Object getSum(String columnName) {
 		if(Core.isNull(columnName))
 			return null;

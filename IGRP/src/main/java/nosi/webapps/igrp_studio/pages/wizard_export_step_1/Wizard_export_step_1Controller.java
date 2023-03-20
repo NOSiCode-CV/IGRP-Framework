@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 /*----#end-code----*/
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -26,11 +27,11 @@ public class Wizard_export_step_1Controller extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/	
 		
-		final String nomeApp = Core.findApplicationById(new Integer(model.getApplication_id())).getName();
+		final String nomeApp = Core.findApplicationById(Integer.valueOf(model.getApplication_id())).getName();
 		final String fileName = Core.getParam("p_file_name");
 		final String sql = this.getSql();
 		
-		model.setFile_name(Core.isNull(fileName) ? nomeApp + "_igrpweb_v." + this.configApp.getConfig().VERSION : fileName);
+		model.setFile_name(Core.isNull(fileName) ? nomeApp + "_igrpweb_v." + Config.VERSION : fileName);
 		model.setHelp(this.getConfig().getResolveUrl("tutorial", "Listar_documentos", "index&p_type=import"));
 		
 		if (Core.isNotNull(sql))

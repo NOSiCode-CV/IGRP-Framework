@@ -56,6 +56,7 @@ public class GerarClasse {
 	private DaoDto daoDto;
 	private StringBuilder variables;
 	private StringBuilder gettersSetters;
+	private StringBuilder fieldsStatic;
 	private String columnType;
 	private String pascalCaseColumnName;
 	private String camelCaseColumnName;
@@ -67,6 +68,7 @@ public class GerarClasse {
 		this.daoDto = daoDto;
 		this.variables = new StringBuilder();
 		this.gettersSetters = new StringBuilder();
+		this.fieldsStatic = new StringBuilder("public static final class Field {");
 		this.addDefaultImports();
 	}
 
@@ -113,6 +115,8 @@ public class GerarClasse {
 				this.doIfColumnIsNotPrimaryNorForeignKey(column);
 
 			this.appendGettersSetters();
+			
+			this.appendFieldsStatic(column.getName());
 		}
 		variables.append(NEW_LINE);
 
@@ -128,8 +132,20 @@ public class GerarClasse {
 		}
 
 		final String imports = this.importClasses.stream().map(buildImportLine).collect(Collectors.joining(""));
-		return new StringBuilder().append(this.daoDto.getPackageName()).append(imports)
-				.append(this.addHeaderClassContent()).append(variables).append(gettersSetters).append("}").toString();
+		
+		fieldsStatic.append(NEW_LINE).append(NEW_LINE).append(TAB).append("private Field() {}");
+				fieldsStatic.append(NEW_LINE).append(TAB)
+				.append("}");
+		
+		return new StringBuilder()
+				.append(this.daoDto.getPackageName())
+				.append(imports)
+				.append(this.addHeaderClassContent())
+				.append(variables)
+				.append(gettersSetters)
+				.append(fieldsStatic)
+				.append(NEW_LINE)
+				.append("}").toString();
 	}
 
 	private void addDefaultImports() {
@@ -161,7 +177,7 @@ public class GerarClasse {
 
 			variables.append(TAB).append("@SequenceGenerator(name = \"").append(sequence)
 					.append("Gen\", sequenceName = \"").append(sequence)
-					.append("\", initialValue = 1, allocationSize = 1, schema = \"").append(this.daoDto.getSchema())
+					.append("\", allocationSize = 1, schema = \"").append(this.daoDto.getSchema())
 					.append("\")").append(NEW_LINE).append(TAB)
 					.append("@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = \"").append(sequence)
 					.append("Gen\")").append(NEW_LINE);
@@ -209,12 +225,15 @@ public class GerarClasse {
 			variables.append(TAB).append("@javax.persistence.Lob\r").append(NEW_LINE).append(TAB)
 					.append("@org.hibernate.annotations.Type(type=\"org.hibernate.type.BinaryType\")").append(NEW_LINE);
 		}
-
+				
 		variables.append(this.addNullablePropertie(clazz, column.isNullable()))
-				.append(this.addStringProperties(clazz, column.getSize(), column.isNullable())).append(TAB)
-				.append("@Column(name = \"").append(column.getName()).append("\"").append(")").append(NEW_LINE)
-				.append(TAB).append("private ").append(columnType).append(" ").append(camelCaseColumnName).append(";")
-				.append(NEW_LINE);
+			.append(this.addStringProperties(clazz, column.getSize(), column.isNullable())).append(TAB)
+			.append("@Column(name = \"").append(column.getName()).append("\"");
+		if(columnType.equals(Object.class.getSimpleName()) || (columnType.equals(String.class.getSimpleName()) && !column.getColumnTypeName​().equalsIgnoreCase("varchar")))
+			variables.append(", columnDefinition = \"").append(column.getColumnTypeName​()).append("\"");
+		variables.append(")").append(NEW_LINE)
+			.append(TAB).append("private ").append(columnType).append(" ").append(camelCaseColumnName).append(";")
+			.append(NEW_LINE);			
 	}
 
 	private String addNullablePropertie(Class<?> clazz, boolean isNullable) {
@@ -232,26 +251,17 @@ public class GerarClasse {
 			return "";
 
 		final StringBuilder annotationsProps = new StringBuilder();
-		final boolean isDefaultMaxSize = size == Integer.MAX_VALUE;
+		final boolean isDefaultMaxSize = size == Integer.MAX_VALUE;	
 
-		if (isNullable) {
-
-			if (!isDefaultMaxSize) {
-				this.importClasses.add(Size.class);
-				annotationsProps.append(TAB).append("@Size(").append("max = ").append(size).append(")")
-						.append(NEW_LINE);
-			}
-
-		} else {
-
-			this.importClasses.add(Size.class);
+		//Não pode ser Null -  NotNull
+		if (!isNullable) {				
 			this.importClasses.add(NotBlank.class);
-
-			final String maxProperty = isDefaultMaxSize ? ")" : ", max = " + size + ")";
-
-			annotationsProps.append(TAB).append("@NotBlank").append(NEW_LINE);
-			annotationsProps.append(TAB).append("@Size(").append("min = 1").append(maxProperty).append(NEW_LINE);
-
+			annotationsProps.append(TAB).append("@NotBlank").append(NEW_LINE);	
+		}		
+		if(!isDefaultMaxSize) {
+			this.importClasses.add(Size.class);
+			annotationsProps.append(TAB).append("@Size(").append("max = ").append(size).append(")")
+					.append(NEW_LINE);
 		}
 		return annotationsProps.toString();
 	}
@@ -334,21 +344,27 @@ public class GerarClasse {
 	}
 
 	private String addHeaderClassContent() {
-		return new StringBuilder().append(NEW_LINE).append("/**").append(NEW_LINE).append(" * @author: ")
-				.append(Core.getCurrentUser().getName()).append(" ").append(Core.getCurrentDate()).append(NEW_LINE)
-				.append("*/").append(NEW_LINE).append(NEW_LINE).append("@Entity").append(NEW_LINE)
+		return new StringBuilder().append(NEW_LINE)
+				.append("/**").append(NEW_LINE)
+				.append(" * @author: ").append(Core.getCurrentUser().getName()).append(" ").append(Core.getCurrentDate()).append(NEW_LINE)
+				.append("*/").append(NEW_LINE)
+				.append("//@XmlRootElement // Can be used for REST / XML API").append(NEW_LINE)
+				.append(NEW_LINE)
+				.append("@Entity").append(NEW_LINE)
 				.append(this.isView() ? "@Immutable".concat(NEW_LINE) : "").append("@Table(name = \"")
 				.append(this.daoDto.getTableName()).append("\", schema = \"").append(this.daoDto.getSchema())
 				.append("\")").append(NEW_LINE).append("@NamedQuery(name = \"").append(this.daoDto.getDaoClassName())
 				.append(".findAll\", query = \"SELECT t FROM ").append(this.daoDto.getDaoClassName()).append(" ")
 				.append("t").append("\")").append(NEW_LINE).append("public class ")
 				.append(this.daoDto.getDaoClassName()).append(" extends BaseActiveRecord<")
-				.append(this.daoDto.getDaoClassName()).append("> {").append(NEW_LINE).append(NEW_LINE).append(TAB)
-				.append("private static final long serialVersionUID = 1L;").append(NEW_LINE).append(NEW_LINE)
+				.append(this.daoDto.getDaoClassName()).append("> {").append(NEW_LINE)
+				.append(NEW_LINE)
+				.append(TAB).append("private static final long serialVersionUID = 1L;").append(NEW_LINE)
+				.append(NEW_LINE)
+				.append(TAB).append("public static final String TABLE_NAME = \""+this.daoDto.getTableName().toUpperCase()+"\";").append(NEW_LINE)
+				.append(NEW_LINE)
 				.append(this.isView()
-						? TAB + "// Consider adding identifier/primary Key(@Id) annotation for your views!" + NEW_LINE
-								+ NEW_LINE
-						: "")
+						? TAB + "// Consider adding identifier/primary Key(@Id) annotation for your views!" + NEW_LINE+ NEW_LINE: "")
 				.append(TAB).append("// Change Integer type to BigDecimal if the number is very large!")
 				.append(NEW_LINE).append(NEW_LINE).toString();
 	}
@@ -364,6 +380,13 @@ public class GerarClasse {
 					.append(" this.").append(this.camelCaseColumnName).append(" = ").append(this.camelCaseColumnName)
 					.append(";").append(NEW_LINE).append(TAB).append("}").append(NEW_LINE).append(NEW_LINE).toString());
 		}
+	}
+	
+	private void appendFieldsStatic(String columnName) {
+		fieldsStatic.append(NEW_LINE).append(new StringBuilder().append(TAB).append("public static final String ")
+				.append(columnName.toUpperCase()).append(" = ").append("\""+this.camelCaseColumnName+"\"")
+				.append(";").toString());
+		
 	}
 
 	private String decreptyDatabaseCode(String type) {

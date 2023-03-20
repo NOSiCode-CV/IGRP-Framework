@@ -1,0 +1,217 @@
+
+.igrp-bg-gradient::after{
+    content: "";
+    background-image: url(../media/arco.svg);
+    position: fixed;
+    top: 10%;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: -1;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+.login-logo{
+    Width:180px;
+    Height:96px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.login-title{
+    font-size: 43px;
+    line-height: 59px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.login-desc{
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 27px;
+}
+
+.login-more-info{
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 20px;
+    /*border: 3px solid #FFFFFF;*/
+    box-sizing: border-box;
+    border-radius: 4px;
+    /*Width:200px;*/
+    /*Height:63px;*/
+}
+
+.box-right-login{
+    background: #FFFFFF;
+    border-radius: 10px;
+    padding: 80px 50px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.box-login-title{
+    font-size: 20px;
+    line-height: 22px;
+    color: #3A3A3A;
+}
+
+.box-login-subtitle{
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    color: #9CA4AE;
+}
+
+.login-app{
+ 
+    height: 80px;
+}
+
+.bootstrap-iso a.login-autentika{
+    background-color: #086CA2;
+    border-radius: 8px;
+    padding: 18px;
+}
+
+@media (max-width: 767.9px) {
+    .login-logo{
+        width: 100px;
+        height: 85px;
+    }
+    .login-title{
+        font-size: 20px;
+        line-height: 27px;
+    }
+}
+
+/*Extra small devices (portrait phones, less than 576px)*/
+@media (max-width: 575.98px) {
+
+
+    .box-right-login{
+        border-radius: 8px;
+        padding:50px 25px;
+       
+    }
+    
+    .box-login-title{
+        font-size: 18px;
+        line-height: 25px;
+    }
+    
+    .box-login-subtitle{
+        font-size: 14px;
+        line-height: 19px;
+    }
+    
+    .login-app{
+      
+        height: 50px;
+    }
+    
+    .bootstrap-iso a.login-autentika{
+        border-radius: 4px;
+        padding: 8px;
+    }
+
+    .igrp-bg-gradient::after{
+        background-size: cover;
+        background-position: right;
+    }
+}
+
+
+
+/*Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) and (max-width: 767.98px) {
+   
+
+    .igrp-bg-gradient::after{
+        background-size: cover;
+        background-position: right;
+    }
+
+}
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) and (max-width: 1024.98px) {
+    .login-title{
+        font-size: 30px;
+        line-height: 50px;
+    }
+
+    .box-right-login{
+        border-radius: 8px;
+        
+    }
+
+    .bootstrap-iso a.login-autentika{
+        border-radius: 6px;
+        padding: 10px;
+    }
+
+    .box-login-subtitle {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .login-app {
+      
+        height: 82px;
+    }
+
+    /*.login-more-info {
+        Width: 100%;
+        Height: 53px;
+    }*/
+
+    .login-desc{
+        font-size: 18px;
+    }
+
+    .igrp-bg-gradient::after{
+        width: 50%;
+        background-size: cover;
+        background-position: right;
+    }
+
+}
+
+.form-control{
+    height:auto!important;
+    border:1px solid #dcdce4!important;
+    border-top-left-radius: 10px!important;
+    border-bottom-left-radius: 10px!important;
+    padding-left: 15px!important;
+    
+}
+.bootstrap-iso .form-control:focus{
+    border-right:0!important;
+    background:whitesmoke;
+}
+.input-group-btn{
+    width:45px;
+}
+.input-group-btn .btn{
+    height: 43px;
+    width:45px;
+    border-radius:10px;
+    background-color: transparent;
+
+}
+
+button[type="submit"]{
+    border-radius: 10px!important;
+}
+
+ion-icon{
+    pointer-events: none;
+}
+
+.mb-igrp-info{
+    position: absolute;
+    right:-32px;
+    font-size:24px;
+    top:50%;
+    margin-top:-12px;
+}

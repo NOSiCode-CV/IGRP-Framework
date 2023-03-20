@@ -29,7 +29,7 @@ public class Compiler {
 	private List<String> dirs;
 	private Config config;
 	private String files = "";
-	private String jars = "";
+	private StringBuilder jars =  new StringBuilder("");
 	private static final String ERROR_SEPARATOR="ERROR_SEPARATOR";
 	private List<ErrorCompile> errors;
 	private List<ErrorCompile> warnings;
@@ -64,7 +64,7 @@ public class Compiler {
 			listFilesDirectory(this.config.getPathLib());
 			CompilationProgress progress = null;
 			final String buildArgs = " -encoding UTF-8 " + files + " -cp " + "lombok.jar" /*+ System.getProperty("path.separator") + jars
-					+ this.config.getBasePathClass() + System.getProperty("path.separator")*/ + " -classpath " + jars 
+					+ this.config.getBasePathClass() + System.getProperty("path.separator")*/ + " -classpath " + jars.toString() 
 					+ System.getProperty("path.separator") + this.config.getBasePathClass() + " -d " + this.config.getBasePathClass() // lugar onde é colocado
 																								// os arquivos
 																								// compilados
@@ -207,9 +207,10 @@ public class Compiler {
 	// Get jar files
 	public void listFilesDirectory(String path) {
 		if (FileHelper.dirExists(path)) {
-			Map<String, String> files = new FileHelper().listFilesDirectory(path);
-			for (Map.Entry<String, String> file : files.entrySet()) {
-				this.jars += (file.getValue() + System.getProperty("path.separator"));
+			Map<String, String> lFiles = new FileHelper().listFilesDirectory(path);
+			
+			for (Map.Entry<String, String> file : lFiles.entrySet()) {
+				this.jars.append((file.getValue() + System.getProperty("path.separator")));
 			}
 		}
 	}

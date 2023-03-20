@@ -1,0 +1,101 @@
+.border-neutral-200 {
+  border-color: var(--neutral-200)!important;
+}
+.border-neutral-300 {
+  border-color: var(--neutral-300)!important;
+}
+.border-neutral-400 {
+  border-color: var(--neutral-400)!important;
+}
+.border-neutral-500 {
+  border-color: var(--neutral-500)!important;
+}
+.border-neutral-600 {
+  border-color: var(--neutral-600)!important;
+}
+.border-neutral-700 {
+  border-color: var(--neutral-700)!important;
+}
+.border-neutral-800 {
+  border-color: var(--neutral-800)!important;
+}
+.border-neutral-900 {
+  border-color: var(--neutral-900)!important;
+}
+
+
+.border-primary-200 {
+  border-color: var(--primary-200)!important;
+}
+.border-primary-300 {
+  border-color: var(--primary-300)!important;
+}
+.border-primary-400 {
+  border-color: var(--primary-400)!important;
+}
+.border-primary-500 {
+  border-color: var(--primary-500)!important;
+}
+.border-primary-600 {
+  border-color: var(--primary-600)!important;
+}
+.border-primary-700 {
+  border-color: var(--primary-700)!important;
+}
+.border-primary-800 {
+  border-color: var(--primary-800)!important;
+}
+.border-primary-900 {
+  border-color: var(--primary-900)!important;
+}
+.border-primary-1000 {
+  border-color: var(--primary-1000)!important;
+}
+.border-primary-1100 {
+  border-color: var(--primary-1100)!important;
+}
+
+
+.border-secondary-100 {
+  border-color: var(--secondary-100)!important;
+}
+.border-secondary-1100 {
+  border-color: var(--secondary-500)!important;
+}
+
+
+.border-warning-200 {
+  border-color: var(--warning-200)!important;
+}
+.border-warning-300 {
+  border-color: var(--warning-300)!important;
+}
+.border-warning-400 {
+  border-color: var(--warning-400)!important;
+}
+.border-warning-500 {
+  border-color: var(--warning-500)!important;
+}
+.border-warning-600 {
+  border-color: var(--warning-600)!important;
+}
+
+
+.border-danger-200 {
+  border-color: var(--danger-200)!important;
+}
+.border-danger-300 {
+  border-color: var(--danger-300)!important;
+}
+.border-danger-300 {
+  border-color: var(--danger-300)!important;
+}
+.border-danger-400 {
+  border-color: var(--danger-400)!important;
+}
+.border-danger-500 {
+  border-color: var(--danger-500)!important;
+}
+.border-danger-600 {
+  border-color: var(--danger-600)!important;
+}

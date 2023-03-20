@@ -1,18 +1,18 @@
 package nosi.webapps.igrp.pages.pesquisarperfil;
 
-import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Core;
 
 public class PesquisarPerfilView extends View {
 
 	public Field sectionheader_1_text;
 	public Field help;
 	public Field organica;
+	public Field perfil_pai;
 	public Field estado;
 	public Field estado_check;
 	public Field descricao;
@@ -61,6 +61,10 @@ public class PesquisarPerfilView extends View {
 		organica.setLabel(gt("Organização"));
 		organica.propertie().add("name","p_organica").add("type","text").add("maxlength","255").add("showLabel","true").add("group_in","");
 		
+		perfil_pai = new TextField(model,"perfil_pai");
+		perfil_pai.setLabel(gt("Perfil Pai"));
+		perfil_pai.propertie().add("name","p_perfil_pai").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
+		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Estado"));
 		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
@@ -82,11 +86,11 @@ public class PesquisarPerfilView extends View {
 		
 		id_app = new HiddenField(model,"id_app");
 		id_app.setLabel(gt(""));
-		id_app.propertie().add("name","p_id_app").add("type","hidden").add("maxlength","250").add("java-type","int").add("tag","id_app");
+		id_app.propertie().add("name","p_id_app").add("type","hidden").add("maxlength","250").add("java-type","int").add("tooltip","false").add("disable_copy_paste","false").add("tag","id_app");
 		
 		id_org = new HiddenField(model,"id_org");
 		id_org.setLabel(gt(""));
-		id_org.propertie().add("name","p_id_org").add("type","hidden").add("maxlength","250").add("java-type","int").add("tag","id_org");
+		id_org.propertie().add("name","p_id_org").add("type","hidden").add("maxlength","250").add("java-type","int").add("tooltip","false").add("disable_copy_paste","false").add("tag","id_org");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -110,7 +114,7 @@ public class PesquisarPerfilView extends View {
 		btn_convidar.propertie.add("id","button_a1c1_3c29").add("type","specific").add("class","warning").add("rel","convidar").add("refresh_components","");
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarPerfil","eliminar","alert_submit","danger|fa-trash","","");
-		btn_eliminar.propertie.add("id","button_aa26_9fae").add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
+		btn_eliminar.propertie.add("id","button_aa26_9fae").add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","").add("labelConfirm","Deseja realmente realizar esta operação?");
 
 		
 	}
@@ -124,6 +128,7 @@ public class PesquisarPerfilView extends View {
 
 
 		table_1.addField(organica);
+		table_1.addField(perfil_pai);
 		table_1.addField(estado);
 		table_1.addField(estado_check);
 		table_1.addField(descricao);
@@ -152,6 +157,7 @@ public class PesquisarPerfilView extends View {
 		
 		help.setValue(model);
 		organica.setValue(model);
+		perfil_pai.setValue(model);
 		estado.setValue(model);
 		descricao.setValue(model);
 		codigo.setValue(model);

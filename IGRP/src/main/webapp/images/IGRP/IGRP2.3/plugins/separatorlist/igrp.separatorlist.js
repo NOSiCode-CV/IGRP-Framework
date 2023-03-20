@@ -916,16 +916,19 @@ $.fn.separatorList = function(o){
 			
 			if($obj[0] && $obj.val()){
 				
-				if($(e.target).attr('target') == 'editseparator')
-					e.preventDefault();
-				
-				if(!$('.splist-form-holder .dynamic-alert',$(sl))[0]){
+				if($(e.target).is('[target]')){
+
+					if($(e.target).attr('target') == 'editseparator')
+						e.preventDefault();
 					
-					$('.splist-form-holder',$(sl)).append($.IGRP.utils.message.alert({
-						type : 'warning',
-						text : 'Para opcões de insersão mutliplas e necessario clicar em Adicionar.'
-					}));
-					
+					if(!$('.splist-form-holder .dynamic-alert',$(sl))[0]){
+						
+						$('.splist-form-holder',$(sl)).append($.IGRP.utils.message.alert({
+							type : 'warning',
+							text : 'Para opcões de insersão mutliplas e necessario clicar em Adicionar.'
+						}));
+						
+					}
 				}
 				
 				if($.IGRP.components.tabcontent)

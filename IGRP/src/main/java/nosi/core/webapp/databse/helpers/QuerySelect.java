@@ -47,10 +47,12 @@ public class QuerySelect extends CommonFIlter{
 			this.config_env = config;
 			Session session = this.getSession();
 			if(session!=null) {
-				try {
-					session.beginTransaction();
+				try {					
+					if(!session.getTransaction().isActive()) {
+						session.beginTransaction();
+					}
 					String sql_ = sql.replaceAll(":\\w+", "null");
-					Core.log("SQL Query:"+sql_);
+					Core.log("SQL Query: "+sql_);
 					Query query = session.createNativeQuery(sql_,Tuple.class);
 					query.setHint(QueryHints.HINT_READONLY, true);
 					query.getResultList();
@@ -97,7 +99,8 @@ public class QuerySelect extends CommonFIlter{
 				}
 				Core.log("SQL Query:"+this.getSql());
 				Query query = session.createNativeQuery(this.getSql(),Tuple.class);	
-				query.setHint(QueryHints.HINT_READONLY, true);
+				if(!this.keepConnection)
+					query.setHint(QueryHints.HINT_READONLY, true);
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
 						 ParametersHelper.setParameter(query,col.getDefaultValue(),col);					
@@ -107,9 +110,10 @@ public class QuerySelect extends CommonFIlter{
 				}	
 				list = query.getResultList();
 			}catch(Exception e) {
+				this.keepConnection = false;
 				this.setError(null, e);
 			}finally {
-				if(!this.keepConnection)
+				if(!this.keepConnection && session!=null && session.isOpen())
 					session.close();
 			}
 		}

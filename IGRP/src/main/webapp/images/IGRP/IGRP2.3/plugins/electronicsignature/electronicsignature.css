@@ -1,0 +1,25 @@
+.holder-signature .control-signature{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.holder-signature .control-signature a{
+    margin-left: 5px;
+}
+
+.holder-signature canvas{
+    width: 100%;
+}
+
+.holder-signature .signature-label{
+    text-align: center;
+}
+
+.box-signature{
+    border-bottom: 1px solid #EAEAEA;
+    margin-bottom: 10px;
+}

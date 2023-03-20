@@ -191,6 +191,10 @@
 
                         break;
 
+						case 'texteditor':
+							CKEDITOR?.instances[formElement.attr('id')]?.setData( value );
+						break;
+
                         default:
 
                             $(e).val('');
@@ -333,6 +337,12 @@
 						case 'link':
 							
 							$('a',parent).attr('href',value);
+						
+						break;
+
+						case 'images':
+							
+							formElement.attr('src',value);
 						
 						break;
 

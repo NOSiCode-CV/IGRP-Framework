@@ -246,9 +246,7 @@ var GENTABCONTENT = function(name,tparams){
 			
 			btn.init();
 
-			btn.unsetProprieties(['class','action','target','transaction','service']);
-
-			btn.onEditionConfirm = setBtnIcon;
+			btn.unsetProprieties(['class','target','transaction','service','img','custom_return']);
 
 			btn.setEventListner('tagChange',function(v){
 
@@ -258,9 +256,37 @@ var GENTABCONTENT = function(name,tparams){
 
 				content.attr('item-name',btn.GET.tag());
 
-				//console.log(content);
+			});
 
-			})
+			btn.setPropriety({
+				name	: 'submitbeforenext',
+				label   : 'Submit Before Next',
+				value   : false,
+				order	: 1,
+				onEditionStart : function(v){
+
+					const holderAction = $('.gen-properties-setts-holder.active div[rel="action"]');
+
+					const refreshComponents = $('.gen-properties-setts-holder.active div[rel="refresh_components"]');
+
+					if(btn.GET.submitbeforenext && btn.GET.submitbeforenext()){
+						holderAction.show();
+						refreshComponents.show();
+					}
+					else{
+						holderAction.hide();
+						refreshComponents.hide();
+					}
+
+					$('input',v.input).on('change',function(){
+						
+						const action = $(this).is(':checked') ? 'show' : 'hide';
+
+						holderAction[action]();
+						refreshComponents[action]();
+					})
+				}
+			});
 
 		}
 
@@ -464,23 +490,29 @@ var GENTABCONTENT = function(name,tparams){
 
 	var getMenuItem = function(title,idx,_class,btn,xsl){
 
-		var genID         = !xsl ? 'gen-field-id="'+btn.GET.id()+'"' : '';
+		var genID  = !xsl ? 'gen-field-id="'+btn.GET.id()+'"' : '';
 
+		let tag    = btn.GET.tag(),
+			strXsl = `<xsl:if test="${btn.parent.GET.path()}/fields/${tag}/@submitbeforenext='true'">
+					<xsl:attribute name="action">
+						<xsl:value-of select="${btn.parent.GET.path()}/fields/${tag}/@actionstep"/>
+					</xsl:attribute>
+				<xsl:if test="//${btn.parent.GET.path()}/fields/${tag}/@refresh_components!=''">
+					<xsl:attribute name="refresh_components">
+						<xsl:value-of select="//${btn.parent.GET.path()}/fields/${tag}/@refresh_components"/>
+					</xsl:attribute>
+				</xsl:if>
+			</xsl:if>`;
 
-		var icon = btn.GET.img() ? btn.GET.img() :'fa-dot-circle-o';
-		
-		var iconHtml = '<i class="fa '+icon+'"></i>';
-
-		return '<li item-name="'+btn.GET.tag()+'" '+genID+' data-step-target="'+btn.GET.tag()+'" class="'+_class+' gen-fields-holder" rel="step-'+idx+'">'+
-					'<a data-toggle="tab" aria-expanded="true" href="#step-'+idx+'">'+
-						'<span gen-lbl-setter="true">'+title+'</span>'+
-					'</a>'+
-				'</li>';
+		return '<li item-name="'+tag+'" '+genID+' data-step-target="'+tag+'" class="'+_class+' gen-fields-holder" rel="step-'+idx+'">'+
+			strXsl+
+			'<a data-toggle="tab" aria-expanded="true" href="#step-'+idx+'">'+
+				'<span gen-lbl-setter="true">'+title+'</span>'+
+			'</a>'+
+		'</li>';
 	}
 
 	var getContentItem = function(idx,_class,contents,content,xsl){
-		
-
 		var rtn = '<div class="'+classes.contentItem+' gen-rows-holder '+_class+'" data-step="'+content.GET.tag()+'" id="step-'+idx+'" rel="step-'+idx+'" item-name="'+content.GET.tag()+'">';
 					if(contents) rtn+=contents;
 			rtn+='</div>';

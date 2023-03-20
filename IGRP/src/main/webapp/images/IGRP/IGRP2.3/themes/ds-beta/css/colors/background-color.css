@@ -1,0 +1,118 @@
+.bg-neutral-200 {
+  background-color: var(--neutral-200)!important;
+}
+.bg-neutral-300 {
+  background-color: var(--neutral-300)!important;
+}
+.bg-neutral-400 {
+  background-color: var(--neutral-400)!important;
+}
+.bg-neutral-500 {
+  background-color: var(--neutral-500)!important;
+}
+.bg-neutral-600 {
+  background-color: var(--neutral-600)!important;
+}
+.bg-neutral-700 {
+  background-color: var(--neutral-700)!important;
+}
+.bg-neutral-800 {
+  background-color: var(--neutral-800)!important;
+}
+.bg-neutral-900 {
+  background-color: var(--neutral-900)!important;
+}
+
+
+.bg-primary-200 {
+  background-color: var(--primary-200)!important;
+}
+.bg-primary-300 {
+  background-color: var(--primary-300)!important;
+}
+.bg-primary-400 {
+  background-color: var(--primary-400)!important;
+}
+.bg-primary-500 {
+  background-color: var(--primary-500)!important;
+}
+.bg-primary-600 {
+  background-color: var(--primary-600)!important;
+}
+.bg-primary-700 {
+  background-color: var(--primary-700)!important;
+}
+.bg-primary-800 {
+  background-color: var(--primary-800)!important;
+}
+.bg-primary-900 {
+  background-color: var(--primary-900)!important;
+}
+.bg-primary-1000 {
+  background-color: var(--primary-1000)!important;
+}
+.bg-primary-1100 {
+  background-color: var(--primary-1100)!important;
+}
+
+
+.bg-secondary-100 {
+  background-color: var(--secondary-100)!important;
+}
+.bg-secondary-500 {
+  background-color: var(--secondary-500)!important;
+}
+
+
+.bg-warning-200 {
+  background-color: var(--warning-200)!important;
+}
+.bg-warning-300 {
+  background-color: var(--warning-300)!important;
+}
+.bg-warning-400 {
+  background-color: var(--warning-400)!important;
+}
+.bg-warning-500 {
+  background-color: var(--warning-500)!important;
+}
+.bg-warning-600 {
+  background-color: var(--warning-600)!important;
+}
+
+
+.bg-success-100 {
+  background-color: var(--success-100)!important;
+}
+.bg-success-200 {
+  background-color: var(--success-200)!important;
+}
+.bg-success-300 {
+  background-color: var(--success-300)!important;
+}
+.bg-success-400 {
+  background-color: var(--success-400)!important;
+}
+.bg-success-500 {
+  background-color: var(--success-500)!important;
+}
+.bg-success-600 {
+  background-color: var(--success-600)!important;
+}
+
+
+.bg-danger-200 {
+  background-color: var(--danger-200)!important;
+}
+.bg-danger-300 {
+  background-color: var(--danger-300)!important;
+}
+.bg-danger-400 {
+  background-color: var(--danger-400)!important;
+}
+.bg-danger-500 {
+  background-color: var(--danger-500)!important;
+}
+.bg-danger-600 {
+  background-color: var(--danger-600)!important;
+}
