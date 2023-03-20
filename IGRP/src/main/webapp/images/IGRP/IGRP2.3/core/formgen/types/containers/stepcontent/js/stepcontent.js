@@ -78,6 +78,12 @@ var GENTABCONTENT = function(name,tparams){
 			value    : false
 		});
 
+		container.setProperty({
+			name     : 'controlviewonly',
+			label    : 'view-only control',
+			value    : false
+		});
+
 
 
 	}

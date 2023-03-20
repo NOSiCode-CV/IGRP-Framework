@@ -75,7 +75,7 @@ public abstract class Model { // IGRP super model
 			List<TaskVariables> var = hts.getVariables().stream().filter(
 					v -> v.getName().equalsIgnoreCase(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI + "_" + hts.getId()))
 					.collect(Collectors.toList());
-			String json = (var != null && var.size() > 0) ? var.get(0).getValue().toString() : "";
+			String json = (var != null && !var.isEmpty()) ? var.get(0).getValue().toString() : "";
 			if (Core.isNotNull(json)) {
 				CustomVariableIGRP custom = new Gson().fromJson(json, CustomVariableIGRP.class);
 				if (custom.getRows() != null) {
@@ -495,7 +495,7 @@ public abstract class Model { // IGRP super model
 		if(Core.isUploadedFiles()) {
 			try {
 				Part file = Igrp.getInstance().getRequest().getPart("p_igrpfile");
-				if (file != null) {
+				if (file != null && file.getSize()>0) {
 					String xml = FileHelper.convertToString(file);
 					DomXML domXml = new DomXML(xml);
 					NodeList n = domXml.getDocument().getElementsByTagName("row").item(0).getChildNodes();

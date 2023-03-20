@@ -1,28 +1,56 @@
 (function () {
 
-	var com,
+	let com,
 		startAt 	 = 0,
 		isNav   	 = $('body[app]')[0],
 		btnDirection = 0,
 		firstIsHide  = false,
 		lastIsHide   = false,
-		totalStep    = 1;
+		validateStep = true,
+		totalStep    = 1,
+		rel 	     = '';
 
 	$.IGRP.component('stepcontent', {
 
+		controllVieWonly : function(name, val){
+			let inputControllVieWonly = $(`#${name}`);
+
+			if(inputControllVieWonly[0]){
+				if(val === undefined)
+					val = isNaN(inputControllVieWonly.val() * 1) ? 0 : inputControllVieWonly.val() * 1;
+
+				else
+					inputControllVieWonly.val(val);
+
+				validateStep =  val === 1 ? false : true; 
+			}
+			else{
+
+				validateStep =  val === 1 ? false : true;
+
+				$.IGRP.utils.createHidden({
+					name 	: name,
+					id 		: name,
+					class 	: "menuCtrl submittable",
+					value   : 1
+				});
+			}
+		},
+
 		stepStartAt : function(obj){
-			var lengthStep = $('.step-tab-panel', obj).length;
+			let lengthStep = $('.step-tab-panel', obj).length;
 
 			if(lengthStep > 0){
 				$('.step-footer',obj).removeClass('hidden');
 
 				totalStep =  lengthStep - 1;
 
-				var rel 		  = obj.attr("item-name"),
-					name 		  = "p_fwl_"+rel,
-					inputControll = $("#"+name),
+				rel = obj.attr("item-name");
+
+				let name 		  = "p_fwl_"+rel,
+					inputControll = $(`#${name}`),
 					firstElement  = $('div.step-tab-panel:eq(0)', obj),
-					lastElement   = $('div.step-tab-panel:eq('+totalStep+')', obj);
+					lastElement   = $(`div.step-tab-panel:eq(${totalStep})`, obj);
 
 				if(obj.is("[control-start]") && obj.attr("control-start") == "true" && isNav){
 
@@ -39,6 +67,13 @@
 							value   : 1
 						});
 					}
+				}
+
+				if(obj.is('[control-viewonly]')  && obj.attr("control-viewonly") == "true"  && isNav){
+					const viewOnly = `${name}_viewonly`;
+
+					com.controllVieWonly(viewOnly,1);
+					
 				}
 
 				if(firstElement[0] && firstElement.hasClass('hiddenrules')){
@@ -154,6 +189,10 @@
 			return valid;
 		},
 
+		getInputToSerializeArray : function(obj){
+
+		},
+
 		start: function (obj) {
 
 			obj.steps({
@@ -209,7 +248,7 @@
 
 						$('ul.step-steps li:eq('+totalStep+')').removeClass('active error');
 
-						valid = true;
+						return true;
 
 					}else{
 						if(isNav){
@@ -222,7 +261,7 @@
 
 								const liStep = $(`ul.step-steps li[data-step-target="${currentObj.attr('data-step')}"]`);
 								
-								if(liStep[0] && liStep.is('[action]')){ // Submit before next
+								if(liStep[0] && liStep.is('[action]') && validateStep){ // Submit before next
 
 									const action = liStep.attr('action');
 
@@ -235,7 +274,7 @@
 
 											currentObj.addClass('done');
 
-											const objSubmit = $('.step-tab-panel.done');
+											const objSubmit = $.IGRP.utils.getForm();
 
 											$.IGRP.utils.loading.show();
 
@@ -273,6 +312,18 @@
 														return false;
 
 													}else{
+
+														const viewOnly  = `p_fwl_${rel}_viewonly`,
+															viewonlyObj = $(xml).find(`rows content >* hidden[name="${viewOnly}"]`);
+
+														if(viewonlyObj[0]){
+															
+															const val = isNaN(viewonlyObj.text()) ? 0 : viewonlyObj.text();
+
+															com.controllVieWonly(viewOnly, val);
+														}
+
+														$.IGRP.components.form.getHiddenFields(xml);
 
 														let refreshComponents = liStep.is('[refresh_components]') ? liStep.attr('refresh_components') : null;
 
@@ -326,12 +377,13 @@
 									}
 
 								}else{
+									console.log("viewonly :: ",validateStep);
 
-									if (fields[0]) 
+									if (fields[0] && validateStep) 
 										valid = fields.valid();
 
-										if(valid)
-											currentObj.addClass('done');
+									if(valid)
+										currentObj.addClass('done');
 
 									com.controllChange({
 										currentIndex : currentIndex,
