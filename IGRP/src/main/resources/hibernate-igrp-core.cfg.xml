@@ -6,7 +6,7 @@
 		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
 		<property name="hibernate.connection.url">jdbc:postgresql://postgres:7782/db_igrp</property>
 		<property name="hibernate.connection.username">postgres</property><!-- Eg: postgres -->
-		<property name="hibernate.connection.password">k}x}TNkm#qcB4",</property><!-- Eg: Password -->
+		<property name="hibernate.connection.password">la62C@bL8M!h</property><!-- Eg: Password -->
 		<property name="hibernate.hbm2ddl.auto">none</property>
 		<property name="hibernate.connection.isolation">2</property>
 		<property name="hibernate.connection.autocommit">false</property>
