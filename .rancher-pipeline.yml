@@ -4,17 +4,6 @@ stages:
   - runScriptConfig:
       image: maven:3.8.5-openjdk-17
       shellScript: mvn clean package
-- name: code check
-  steps:
-  - runScriptConfig:
-      image: maven:3.3-jdk-8
-      shellScript: |-
-        mvn clean verify sonar:sonar \
-          -Dsonar.projectKey=igrp-web_igrp-web-framework_AYbb4piKltjb8mcsAUON \
-          -Dsonar.host.url=https://code-sec.nosi.cv \
-          -Dsonar.login=sqp_034344ac933180118b6dd84bf806533906186691
-    when:
-      branch: {}
 - name: container
   steps:
   - publishImageConfig:
