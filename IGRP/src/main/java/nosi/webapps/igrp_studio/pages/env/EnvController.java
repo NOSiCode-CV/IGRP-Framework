@@ -470,7 +470,7 @@ public class EnvController extends Controller {
 			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !contextName.equalsIgnoreCase(env.getUrl())) {
 				url = this.configApp.getAutentikaUrlForSso(); 
 				url = url.replace("state=igrp", "state=ENV/" + env.getDad()); 
-				url = url.replace("/IGRP/", "/" + env.getUrl() + "/"); 
+				url = url.replace("/" + contextName + "/", "/" + env.getUrl() + "/"); 
 			}
 		} catch (Exception ignored) {
 			// Ignored
