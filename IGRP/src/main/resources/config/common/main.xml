@@ -10,7 +10,7 @@
 	<entry key="igrp.datasource.connection-name">hibernate-igrp-core</entry>
 	
 	<!-- igrpweb workspace parameter (absolute path) -->
-	<entry key="igrp.workspace">C:\git\igrp-web-framework\IGRP</entry> 
+	<entry key="igrp.workspace"></entry> 
 	
 	<!-- igrpweb authentication type parameter (db|ldap|oauth2-openid) -->
 	<entry key="igrp.authentication_type">oauth2-openid</entry> 
