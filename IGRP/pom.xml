@@ -23,7 +23,7 @@
 		<tomee.classifier>plus</tomee.classifier>
 		<hibernate.version>5.6.8.Final</hibernate.version>
 		<hibernate.jpa_2_1_api.version>1.0.2.Final</hibernate.jpa_2_1_api.version>
-		<jersey.version>2.29</jersey.version>
+		<jersey.version>3.1.1</jersey.version>
 		<mysql.version>8.0.28</mysql.version>
 		<postgres.version>42.3.3</postgres.version>
 		<h2.version>2.1.210</h2.version>
@@ -104,8 +104,8 @@
 		<!-- Flyway Migration API & Docker PostgreSQL -->
 		<flyway.version>8.5.8</flyway.version>
 		<igrp.db.user>postgres</igrp.db.user>
-		<igrp.db.password>softwaredeveloper</igrp.db.password>
-		<igrp.db.dsn>jdbc:postgresql://localhost:5432/db_igrp</igrp.db.dsn> <!-- Comment this line when run IGRPWEB+Postgres+Docker -->
+		<igrp.db.password>cotsamente</igrp.db.password>
+		<igrp.db.dsn>jdbc:postgresql://localhost:5432/db_igrp_sigtc</igrp.db.dsn> <!-- Comment this line when run IGRPWEB+Postgres+Docker -->
 		<!--<igrp.db.dsn>jdbc:postgresql://postgres:5432/db_igrp</igrp.db.dsn>--> <!-- Uncomment this line when run IGRPWEB+Postgres+Docker -->
 		<igrp.migration.location>classpath:nosi/core/db/migration/igrp/postgres</igrp.migration.location>
 		

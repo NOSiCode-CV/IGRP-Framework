@@ -17,11 +17,11 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
 import jakarta.servlet.http.Cookie;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.core.Form;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.core.Form;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -489,7 +489,7 @@ public class LoginController extends Controller {
 			Invocation.Builder ib = curl.target(endpoint).request("application/x-www-form-urlencoded");
 			ib.header("Accept", "application/json");
 			ib.header("Authorization",  "Basic " + Base64.getEncoder().encodeToString((client_id + ":" + client_secret).getBytes()));
-			javax.ws.rs.core.Response r = ib.post(Entity.form(postData), javax.ws.rs.core.Response.class);
+			jakarta.ws.rs.core.Response r = ib.post(Entity.form(postData), jakarta.ws.rs.core.Response.class);
 			
 			
 			String resultPost = r.readEntity(String.class); 
@@ -528,11 +528,11 @@ public class LoginController extends Controller {
 			String endpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_USER.value());
 			
 			Client curl = ClientBuilder.newClient();
-			javax.ws.rs.core.Response r = curl.target(endpoint)
+			jakarta.ws.rs.core.Response r = curl.target(endpoint)
 											.request()
 											.header("Accept", "application/json")
 											.header("Authorization", "Bearer " + token) 
-											.get(javax.ws.rs.core.Response.class);  
+											.get(jakarta.ws.rs.core.Response.class);  
 			
 			int code = r.getStatus();
 			
