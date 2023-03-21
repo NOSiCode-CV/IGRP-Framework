@@ -2,6 +2,7 @@ package nosi.core.webapp;
 
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPMessage;
@@ -22,24 +23,33 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
-
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Marcel Iekiny Apr 15, 2017
  */
 public class Controller {
+	
+	private static final Logger LOGGER = LogManager.getLogger(Controller.class);
 
     protected ConfigApp configApp = ConfigApp.getInstance();
 
@@ -569,7 +579,7 @@ public class Controller {
             auxActionName = "actionIndex";
             auxcontrollerPath = this.getConfig().getPackage("igrp", "Home", auxActionName);
         }
-        return Page.loadPage(auxcontrollerPath, auxActionName);
+        return loadPage(auxcontrollerPath, auxActionName);
     }
 
     protected Response call(String app, String page, String action) {
@@ -585,7 +595,7 @@ public class Controller {
         igrpApp.setCurrentAppName(app);
         igrpApp.setCurrentPageName(page);
         igrpApp.setCurrentActionName(action);
-        Object obj = Page.loadPage(auxcontrollerPath, "action" + StringHelper.camelCaseFirst(action));
+        Object obj = loadPage(auxcontrollerPath, "action" + StringHelper.camelCaseFirst(action));
         Response resp = (Response) obj;
         if (resp != null) {
             String content = resp.getContent();
@@ -723,5 +733,56 @@ public class Controller {
     public Config getConfig() {
         return this.configApp.getConfig();
     }
+    
+    public static Object loadPage(String controllerPath, String actionName){
+		Igrp igrpApp = Igrp.getInstance();
+		try {
+			Class<?> classController = Class.forName(controllerPath);
+			Object controller = classController.newInstance();
+			igrpApp.setCurrentController((Controller) controller);
+			Method action = Arrays.stream(classController.getDeclaredMethods()).filter(p -> p.getName().equals(actionName)).findFirst().orElseThrow(NoSuchMethodException::new);
+			if(action.getParameterCount() == 0)
+				return  action.invoke(controller);
+			return action.invoke(controller, formalParameters(action, igrpApp).toArray());
+		}catch (Exception e) {
+			addParametersToErrorPage(igrpApp);
+			LOGGER.fatal(e.getMessage(), e);
+			throw new RuntimeException(e.getMessage(), e);
+		}
+	}
+    
+    private static List<Object> formalParameters(Method action, Igrp igrpApp) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		List<Object> paramValues = new ArrayList<>();
+		for (Parameter parameter : action.getParameters()) {
+			if (parameter.getType().getSuperclass().getName().equals("nosi.core.webapp.Model")) {
+				// Dependency Injection for models
+				Class<?> classModel = Class.forName(parameter.getType().getName());
+				nosi.core.webapp.Model model = (Model) classModel.newInstance();
+				model.load();
+				paramValues.add(model);
+			} else // Dependency Injection for simple vars ... 
+				if (parameter.getType().getName().equals("java.lang.String") && parameter.getAnnotation(RParam.class) != null) {
+					if (parameter.getType().isArray())
+						paramValues.add(igrpApp.getRequest().getParameterValues(parameter.getAnnotation(RParam.class).rParamName()));
+					else
+						paramValues.add(igrpApp.getRequest().getParameter(parameter.getAnnotation(RParam.class).rParamName()));
+			} else
+				paramValues.add(null);
+		}
+		return paramValues;
+	}
+    
+    private static void addParametersToErrorPage(Igrp igrpApp) {
+		ConfigApp configApp = ConfigApp.getInstance();
+		Map<String, Object> errorParam = new HashMap<String, Object>();
+		errorParam.put("dad", igrpApp.getCurrentAppName());
+		errorParam.put(ConfigCommonMainConstants.IGRP_ENV.value(), configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_ENV.value()));
+		igrpApp.getRequest().setAttribute("igrp.error", errorParam);
+	}
+    
+    protected <T> T getComponent(Class<T> componentType) {
+    	T component = CDI.current().select(componentType).get();
+    	return component;
+	}
 
 }
