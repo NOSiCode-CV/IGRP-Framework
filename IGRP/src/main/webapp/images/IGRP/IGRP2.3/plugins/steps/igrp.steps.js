@@ -72,7 +72,7 @@
 				if(obj.is('[control-viewonly]')  && obj.attr("control-viewonly") == "true"  && isNav){
 					const viewOnly = `${name}_viewonly`;
 
-					com.controllVieWonly(viewOnly,1);
+					com.controllVieWonly(viewOnly);
 					
 				}
 
