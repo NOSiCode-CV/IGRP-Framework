@@ -13,7 +13,7 @@
 	<entry key="igrp.workspace">C:\git\igrp-web-framework\IGRP</entry> 
 	
 	<!-- igrpweb authentication type parameter (db|ldap|oauth2-openid) -->
-	<entry key="igrp.authentication_type">db</entry> 
+	<entry key="igrp.authentication_type">oauth2-openid</entry> 
 	
 	<!-- igrpweb password recovery parameter: enable or not the password recovery funcionality -->
 	<entry key="igrp.pwdRecover">true</entry>
