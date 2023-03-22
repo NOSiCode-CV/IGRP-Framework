@@ -8,7 +8,7 @@ import java.util.List;
 import jakarta.servlet.http.Part;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import javax.xml.bind.JAXB;
+import jakarta.xml.bind.JAXB;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.reflect.TypeToken;

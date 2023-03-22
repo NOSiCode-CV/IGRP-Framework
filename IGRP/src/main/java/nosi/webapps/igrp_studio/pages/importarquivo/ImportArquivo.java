@@ -11,7 +11,7 @@ import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 import nosi.core.webapp.uploadfile.UploadFile;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 public class ImportArquivo extends Model{		
 
 	@RParam(rParamName = "p_sectionheader_1_text")

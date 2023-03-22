@@ -5,7 +5,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.servlet.http.Part;
-import javax.xml.bind.JAXB;
+import jakarta.xml.bind.JAXB;
 
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;

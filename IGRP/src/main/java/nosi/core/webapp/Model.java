@@ -22,11 +22,11 @@ import org.w3c.dom.NodeList;
 import javax.persistence.Tuple;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Part;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.ValidatorFactory;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -405,7 +405,7 @@ public abstract class Model { // IGRP super model
 					}
 				}
 				break;
-			case "javax.servlet.http.Part":
+			case "jakarta.servlet.http.Part":
 				try {
 					m.set(this, Core.getFile(m.getAnnotation(RParam.class).rParamName()));
 				} catch (IOException | ServletException e) {
@@ -470,7 +470,7 @@ public abstract class Model { // IGRP super model
 					m.set(this, typeName.equals("[Ljava.lang.String;") ? aux : null); // The field could be a Object
 			}
 		} else {
-			if (typeName.equals("[Ljavax.servlet.http.Part;")) {
+			if (typeName.equals("[Ljakarta.servlet.http.Part;")) {
 				List<Part> files;
 				try {
 					files = Core.getFiles();

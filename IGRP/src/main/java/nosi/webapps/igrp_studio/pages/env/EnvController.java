@@ -13,7 +13,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.*;
 import org.apache.commons.io.IOUtils;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import javax.persistence.GeneratedValue;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -428,7 +428,7 @@ public class EnvController extends Controller {
 			return this.redirect(p[0], p[1], p[2],this.queryString());
 		}		
 		Core.setMessageError(gt("Não tem permissão! No permission! Page: ") + page);		
-		Core.setAttribute("javax.servlet.error.message", gt("Não tem permissão! No permission! Page: ") + page);		
+		Core.setAttribute("jakarta.servlet.error.message", gt("Não tem permissão! No permission! Page: ") + page);		
 		return this.redirectError();
 	}
 	
