@@ -2,7 +2,7 @@ package nosi.webapps.igrp.pages.lookuplistpage;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;

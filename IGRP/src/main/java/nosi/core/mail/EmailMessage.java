@@ -6,18 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import javax.activation.DataHandler;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.util.ByteArrayDataSource;
+import jakarta.activation.DataHandler;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Multipart;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
+import jakarta.mail.util.ByteArrayDataSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -75,7 +75,7 @@ public class EmailMessage {
 		// Setup mail server
 		properties.put("mail.smtp.host", "smtp.gmail.com");
 		properties.put("mail.smtp.socketFactory.port", "465");
-		properties.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+		properties.put("mail.smtp.socketFactory.class","jakarta.net.ssl.SSLSocketFactory");
 		properties.put("mail.smtp.auth", "true");
 		properties.put("mail.smtp.port", "465");
 		properties.put("mail.smtp.ssl.checkserveridentity", true); // Compliant
@@ -157,7 +157,7 @@ public class EmailMessage {
 			checkNSetupCredencials();
 			// Get the default Session object.
 			Session session = Session.getInstance(this.settings,
-				new javax.mail.Authenticator() {
+				new jakarta.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
 						return new PasswordAuthentication(auth_username, auth_password);
 					}

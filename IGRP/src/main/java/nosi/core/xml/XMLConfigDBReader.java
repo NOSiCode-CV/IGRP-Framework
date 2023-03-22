@@ -2,7 +2,7 @@ package nosi.core.xml;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import nosi.webapps.igrp.dao.Config_env;
 
