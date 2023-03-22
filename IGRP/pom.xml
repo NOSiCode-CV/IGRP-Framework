@@ -17,13 +17,16 @@
 		
 		<maven.compiler.source>11</maven.compiler.source>	
 		<maven.compiler.target>11</maven.compiler.target>
-
+	
+		<!-- TomEE Embedded Maven Plugin -->
 		<tomee.version>9.0.0</tomee.version>
+		<tomee.maven.plugin.version>9.0.0</tomee.maven.plugin.version>		
+		<tomee.embedded.version>9.0.0</tomee.embedded.version>
 		<javadoc.plugin.version>3.0.1</javadoc.plugin.version>
 		<tomee.classifier>plus</tomee.classifier>
 		<hibernate.version>5.6.15.Final</hibernate.version>
 		<hibernate.jpa_2_1_api.version>1.0.2.Final</hibernate.jpa_2_1_api.version>
-		<jersey.version>3.1.1</jersey.version>
+		<jersey.version>3.0.9</jersey.version>
 		<mysql.version>8.0.32</mysql.version>
 		<postgres.version>42.6.0</postgres.version>
 		<h2.version>2.1.214</h2.version>
@@ -46,9 +49,6 @@
 		<reflections.version>0.10.2</reflections.version>
 		<apache.axis.version>1.8.2</apache.axis.version>
 		<jdt.version>3.33.0</jdt.version>
-
-		<!-- JGit -->
-		<jgit.version>6.5.0.202303070854-r</jgit.version>	
 			
 		<!-- Servlet API -->
 		<servlet.api.version>3.1.0</servlet.api.version>	
@@ -63,12 +63,6 @@
 		
 		<!-- For XSLT and XPATH handling ... -->
 		<xalan.version>2.7.2</xalan.version>
-		
-		<!-- Java API for email (SMTP) -->
-		<javax.mail.version>1.6.2</javax.mail.version>
-		
-		<!-- For Java Beans validation -->
-		<javax.validation.version>2.0.1.Final</javax.validation.version>
 		
 		<!-- Maven compiler plugin -->
 		<maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
@@ -93,13 +87,6 @@
 		<!-- Activiti BPMN -->
 		<activiti.bpmn.model.version>6.0.0</activiti.bpmn.model.version>
 		<activiti.bpmn.converter.version>6.0.0</activiti.bpmn.converter.version>
-
-		<!-- TomEE Embedded Maven Plugin -->
-		<tomee.maven.plugin.version>8.0.10</tomee.maven.plugin.version>
-		
-		<!-- TomEE Embedded -->
-		<tomee.embedded.version>9.0.0</tomee.embedded.version>
-		
 		<!-- Flyway Migration API & Docker PostgreSQL -->
 		<flyway.version>9.16.1</flyway.version>
 		<igrp.db.user>postgres</igrp.db.user>
@@ -111,8 +98,7 @@
 		<!-- K8s & Docker -->
 		<jkube.version>1.7.0</jkube.version>
 		<docker.registry>localhost:5000</docker.registry>
-		
-		
+			
 	</properties>
 
 	<dependencies>
@@ -211,12 +197,12 @@
 			<artifactId>hibernate-hikaricp</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api 
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.1-api</artifactId>
 			<version>${hibernate.jpa_2_1_api.version}</version>
-		</dependency>
+		</dependency>-->
 		<!--END Hibernate Dependencies -->
 
 
@@ -370,8 +356,8 @@
 		</dependency>
 		
 		
-		<!-- Java Mail - SMTP -->
-		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+		<!-- Java Mail - SMTP 
+		 https://mvnrepository.com/artifact/javax.mail/javax.mail-api 
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>javax.mail-api</artifactId>
@@ -381,16 +367,16 @@
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
 			<version>${javax.mail.version}</version>
-		</dependency>
+		</dependency>-->
 		<!-- Java Mail - SMTP -->
 		
 		<!-- For Java Beans Validation -->
-		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api 
 		<dependency>
 		    <groupId>javax.validation</groupId>
 		    <artifactId>validation-api</artifactId>
 		    <version>${javax.validation.version}</version>
-		</dependency>
+		</dependency>-->
 		
 		
 		<!-- Web, XML, SOAP ... -->
@@ -432,13 +418,6 @@
 			<version>${jdt.version}</version>
 		</dependency>
 		
-		<!-- For integration with git protocol/repositories -->
-		<!-- https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit --> 
-		<dependency>
-		    <groupId>org.eclipse.jgit</groupId>
-		    <artifactId>org.eclipse.jgit</artifactId>
-		    <version>${jgit.version}</version>
-		</dependency>
 
 		<!-- Javadev underscore API for jsonToXml transformation purpose -->
 		<!-- https://mvnrepository.com/artifact/com.github.javadev/underscore -->
