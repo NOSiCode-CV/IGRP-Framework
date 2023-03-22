@@ -63,7 +63,8 @@
 		
 		<!-- For XSLT and XPATH handling ... -->
 		<xalan.version>2.7.2</xalan.version>
-		
+		<!-- For Java Beans validation -->
+		<javax.validation.version>2.0.1.Final</javax.validation.version>
 		<!-- Maven compiler plugin -->
 		<maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
 		
@@ -197,12 +198,9 @@
 			<artifactId>hibernate-hikaricp</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api 
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.1-api</artifactId>
-			<version>${hibernate.jpa_2_1_api.version}</version>
-		</dependency>-->
+
+		
+
 		<!--END Hibernate Dependencies -->
 
 
@@ -371,12 +369,12 @@
 		<!-- Java Mail - SMTP -->
 		
 		<!-- For Java Beans Validation -->
-		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api 
+		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
 		<dependency>
 		    <groupId>javax.validation</groupId>
 		    <artifactId>validation-api</artifactId>
 		    <version>${javax.validation.version}</version>
-		</dependency>-->
+		</dependency>
 		
 		
 		<!-- Web, XML, SOAP ... -->
