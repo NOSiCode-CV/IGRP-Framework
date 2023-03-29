@@ -1,5 +1,6 @@
 package nosi.core.webapp;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.regex.Pattern;
@@ -58,8 +59,8 @@ public final class ApplicationManager {
 					}
 				}
 				switch (type) {
-					case "ENV": 
-						Application application = Core.findApplicationByDad(value); 
+					case "ENV":
+						Application application = new Application().findByDad(dad); 
 						if(application != null) {
 							dad = application.getDad(); 
 							nosi.webapps.igrp.dao.Action ac = application.getAction(); 
@@ -69,7 +70,7 @@ public final class ApplicationManager {
 						}
 					break;
 					case "PAGE":
-						Action ac = new Action().findOne(Core.toInt(value)); 
+						Action ac = new Action().findOne(Integer.valueOf(value));
 						if(ac != null && ac.getApplication() != null) { 
 							Application envIgrpWeb = new Application().find().andWhere("dad", "=", dad).one(); 
 							if(envIgrpWeb == null) {
@@ -104,15 +105,18 @@ public final class ApplicationManager {
 	
 	public static boolean isPublic(HttpServletRequest request) {
 		String r = request.getParameter("r");
-		String isPublic = request.getParameter("isPublic");
-		if(r == null)
+		final String isPublic = request.getParameter("isPublic");
+		if(r == null || isPublic == null || !Arrays.asList("1", "2").contains(isPublic))
 			return false;
 		if(PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains(r.toLowerCase()))
 			return true;
+		if("2".equals(isPublic)) {
+			r = r.replace(" ", "+");	
+			r = EncrypDecrypt.decryptURL(r, EncrypDecrypt.SECRET_KEY_PUBLIC_PAGE);
+		}
 		String[] c = r.split("/");
-		if("1".equals(isPublic) && c.length > 1)
+		if(c.length > 1)
 			return new Action().isPublicPage(c[0], c[1]);
-		// colocar condiçao para isPublic=2
 		return false;
 	}
 	
