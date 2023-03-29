@@ -20,7 +20,7 @@ public class EncrypDecrypt {
 	private static final String SECRET_KEY_SPEC = "AES";
 	private static final String SECRET_KEY_ALGO = "SHA-1";
 	public static final String SECRET_KEY_ENCRYPT_DB = "igrp.conf.db";
-	private static final String SECRET_KEY_PUBLIC_PAGE = "&igrp.public.page.encrypt/";
+	public static final String SECRET_KEY_PUBLIC_PAGE = "&igrp.public.page.encrypt/";
 	
 	public static String encrypt(String content) {
 		return encryptURL(content, getSecretKey()).replace(" ", "+");
