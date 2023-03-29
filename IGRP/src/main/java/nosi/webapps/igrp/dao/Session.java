@@ -14,7 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import jakarta.servlet.http.HttpServletRequest;
-
+import nosi.core.webapp.Identity;
 import nosi.core.webapp.Igrp;
 
 
@@ -218,7 +218,7 @@ public class Session extends IGRPBaseActiveRecord<Session> implements Serializab
 		this.organization = organization;
 	}
 	
-	private String getClientIpAddr() {  // For HProxy server purpose ... 
+	public String getClientIpAddr() {  // For HProxy server purpose ... 
 		HttpServletRequest request = Igrp.getInstance().getRequest();
         String ip = request.getHeader("X-Forwarded-For");  
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
@@ -238,43 +238,6 @@ public class Session extends IGRPBaseActiveRecord<Session> implements Serializab
         }  
        
         return ip;  
-	}
-
-	public static boolean afterLogin(Profile profile) {
-		Session currentSession = new Session();
-		currentSession.setUser(new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()));
-		User user = ((User)Igrp.getInstance().getUser().getIdentity());
-		
-		currentSession.setOrganization(profile.getOrganization());
-		currentSession.setProfileType(profile.getProfileType());
-		try {
-			currentSession.setApplication(new Application().findOne(user.getAplicacao().getId()));
-		}catch(Exception e) {
-			currentSession.setApplication(profile.getOrganization().getApplication());
-			//e.printStackTrace();
-		}
-		
-		currentSession.setIpAddress(currentSession.getClientIpAddr());
-		currentSession.setSessionId(Igrp.getInstance().getRequest().getRequestedSessionId());
-		currentSession.setUserName(user.getUser_name());
-		currentSession.setHttps( Igrp.getInstance().getRequest().isSecure() ? 1 : 0);
-		currentSession.setHost(Igrp.getInstance().getRequest().getRemoteHost());
-		currentSession.setHostName(Igrp.getInstance().getRequest().getRemoteHost());
-		currentSession.setSessionOldId(Igrp.getInstance().getRequest().getRequestedSessionId());
-		currentSession.setMediaType("WEB");
-		currentSession.setTarget("_blank");
-		long time = System.currentTimeMillis();
-		currentSession.setStartTime(time);
-		currentSession.setEndTime(time + 30*60); // add 30 min. 
-		currentSession.setUrl(Igrp.getInstance().getRequest().getRequestURL().toString());
-		currentSession = currentSession.insert();
-		return currentSession!=null;
-	}
-
-	public static boolean afterLogout(String currentSessionId) {
-		Session session = new Session().find().andWhere("sessionId", "=", currentSessionId).one();
-		if(session!=null){session.setEndTime(System.currentTimeMillis());}
-		return session!=null && session.getApplication()!=null && session.update()!=null;
 	}
 
 	@Override

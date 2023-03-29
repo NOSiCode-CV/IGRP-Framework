@@ -1,4 +1,4 @@
-package nosi.core.ldap;
+package nosi.core.authentication.ldap;
 /**
  * @author Adilson Rodrigues
  * May 29, 2017

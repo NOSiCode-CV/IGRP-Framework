@@ -154,8 +154,17 @@ public final class ConfigApp {
         String url = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE.value());
         final String redirectUri = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
         final String clientId = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
-        url += "?response_type=code&client_id=" + clientId + "&scope=openid+email+profile&state=igrp&redirect_uri=" + redirectUri;
+        url = "/IGRP/app/callback?response_type=code&client_id=" + clientId + "&scope=openid+email+profile&state=igrp&redirect_uri=" + redirectUri;
         return url;
+    }
+    
+    public String getCallbackUrl(String dad) {
+    	String url = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
+    	if(dad != null && !dad.trim().isEmpty()) {
+    		String deployedWarName = Core.getDeployedWarName();
+    		url = url.replace("/" + deployedWarName + "/", "/" + dad + "/");
+    	}
+    	return url;
     }
 
     public String getWorkspace() {
