@@ -341,8 +341,8 @@
 						break;
 
 						case 'images':
-							
-							formElement.attr('src',value);
+							if(value)
+								formElement.attr('src',value);
 						
 						break;
 

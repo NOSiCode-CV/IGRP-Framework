@@ -8,7 +8,7 @@ import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 public class PesquisarMenu extends Model{		
 
 	@RParam(rParamName = "p_sectionheader_1_text")

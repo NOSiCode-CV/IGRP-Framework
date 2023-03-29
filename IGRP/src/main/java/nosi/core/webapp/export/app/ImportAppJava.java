@@ -1,7 +1,7 @@
 package nosi.core.webapp.export.app;
 
 import jakarta.servlet.http.Part;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import com.google.gson.reflect.TypeToken;
 
 import nosi.core.config.Config;

@@ -98,7 +98,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			xml.endElement(); 
 			return this.renderView(xml.toString());	
 		}
-		Core.setAttribute("javax.servlet.error.message", gt("Task não tem página associada!"));
+		Core.setAttribute("jakarta.servlet.error.message", gt("Task não tem página associada!"));
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 

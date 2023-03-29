@@ -224,7 +224,7 @@
     
     <xsl:variable name="import_validations_annotations">    	
     	<xsl:if test="count(/rows/content/*[@type = 'formlist' or @type = 'separatorlist'])  &gt; 0">
-    		<xsl:text>import javax.validation.Valid;</xsl:text>
+    		<xsl:text>import jakarta.validation.Valid;</xsl:text>
     	</xsl:if>
     	<xsl:if test="count(//validations/validation)  &gt; 0">
        		<xsl:value-of select="$newline"/>

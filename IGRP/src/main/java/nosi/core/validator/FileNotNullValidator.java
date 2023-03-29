@@ -1,7 +1,7 @@
 package nosi.core.validator;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import nosi.core.validator.constraints.FileNotNull;
 import nosi.core.webapp.uploadfile.UploadFile;

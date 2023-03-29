@@ -1,0 +1,36 @@
+package nosi.core.authentication;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp.dao.User;
+
+public final class DBAuthenticationManager {
+	
+	private DBAuthenticationManager() {}
+	
+	public static boolean authenticate(String username, String password, HttpServletRequest request) {
+		User user = (User) new User().findIdentityByUsername(username);
+		if (user != null && user.validate(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256"))) {
+			if(user.getStatus() == 1) {
+				Profile profile = new Profile().getByUser(user.getId());
+				if(profile == null)
+					throw new IllegalStateException("Nenhum perfil foi encontrado para o utilizador.");
+				AuthenticationManager.createSecurityContext(user, request.getSession(false));
+				AuthenticationManager.afterLogin(profile, user, request);
+				return true;
+			}else
+				throw new IllegalStateException("Utilizador desativado. Por favor contacte o Administrador.");
+		}else
+			throw new IllegalStateException("A sua conta ou palavra-passe está incorreta. Se não se lembra da sua palavra-passe, contacte o Administrador.");
+	}
+	
+	public static void signOut(User currentUser, HttpServletRequest request, HttpServletResponse response) {
+		currentUser.setIsAuthenticated(0); 
+		currentUser = currentUser.update();
+		AuthenticationManager.destroySecurityContext(request.getSession(false), response);
+		AuthenticationManager.afterLogout(request.getRequestedSessionId());
+		AuthenticationManager.clearAllCookieExceptLocale(request, response);
+	}
+
+}
