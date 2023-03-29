@@ -385,10 +385,10 @@ public class EnvController extends Controller {
 			Application env = Core.findApplicationByDad(app);
 			// 2 - custom dad 
 			String url = null; 
-			if(env.getExternal() == 2)  
-				url = buildAppUrlUsingAutentikaForSSO(env); 
+			if(env.getExternal() == 2)
+				url = buildAppUrlUsingAutentikaForSSO(env);
 			// 1 External 
-			if(env.getExternal() == 1) 
+			if(env.getExternal() == 1)
 				url = env.getUrl(); 
 			if(url != null) 
 				return redirectToUrl(url); 
@@ -463,14 +463,17 @@ public class EnvController extends Controller {
 		return this.renderView(xml.toString());
 	} 
 	
-	private String buildAppUrlUsingAutentikaForSSO(Application env) { 
+	private String buildAppUrlUsingAutentikaForSSO(Application env) {
 		String url = null;
-		try { 
+		try {
 			String contextName = Core.getDeployedWarName(); 
 			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !contextName.equalsIgnoreCase(env.getUrl())) {
-				url = this.configApp.getAutentikaUrlForSso(); 
-				url = url.replace("state=igrp", "state=ENV/" + env.getDad()); 
-				url = url.replace("/" + contextName + "/", "/" + env.getUrl() + "/"); 
+				Action ac = env.getAction(); 
+				String page = "tutorial/DefaultPage/index";
+				if(ac != null && ac.getApplication() != null) 
+					page = ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage() + "/index&title=" + ac.getAction_descr();
+				url = this.configApp.getCallbackUrl(env.getUrl()); 
+				url = String.format("%s?r=%s", url, page);
 			}
 		} catch (Exception ignored) {
 			// Ignored

@@ -23,9 +23,10 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+
+import nosi.core.authentication.ldap.LdapPerson;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.exception.ServerErrorHttpException;
-import nosi.core.ldap.LdapPerson;
 import nosi.core.mail.EmailMessage.PdexTemplate;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;

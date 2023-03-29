@@ -395,17 +395,11 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 
 	private String buildMenuUrlByDadUsingAutentika(String dad, String app, String page) {
 		String url = "#";
-		try {
-			Action pagina = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", page).one();
-			if (pagina != null) {
-				String orgCode = Core.getCurrentOrganizationCode();
-				String profCode = Core.getCurrentProfileCode();
-				String stateValue = Core.buildStateValueForSsoAutentika("PAGE", pagina.getId() + "", app, orgCode,
-						profCode, null);
-				url = ConfigApp.getInstance().getAutentikaUrlForSso();
-				url = url.replace("/IGRP/", "/" + dad + "/").replace("state=igrp", "state=" + stateValue);
-			}
-		} catch (Exception e) {
+		Action pagina = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", page).one();
+		if (pagina != null) {
+			url = ConfigApp.getInstance().getCallbackUrl(dad);
+			if(url != null && !url.trim().isEmpty())
+				url = String.format("%s?r=%s/%s/%s", url, app, page, pagina.getAction());
 		}
 		return url;
 	}

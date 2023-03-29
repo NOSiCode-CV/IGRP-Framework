@@ -31,7 +31,6 @@ public class User implements Component{
 			return false;
 		try {
 			this.identity = identity;
-			//new Permission().changeOrgAndProfile("tutorial");
 			// Create the session context
 			JSONArray json =  new JSONArray();
 			json.put(this.identity.getIdentityId());

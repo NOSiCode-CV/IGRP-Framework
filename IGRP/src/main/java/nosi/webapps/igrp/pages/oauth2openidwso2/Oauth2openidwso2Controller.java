@@ -31,7 +31,9 @@ public class Oauth2openidwso2Controller extends Controller {
 		model.load();
 		Oauth2openidwso2View view = new Oauth2openidwso2View();
 		/*----#start-code(index)----*/ 
-		
+		String error = Core.getParam("oauth2_openid_error");
+		if(error != null)
+			Core.setMessageError(error);
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -73,7 +75,7 @@ public class Oauth2openidwso2Controller extends Controller {
 			}
 		}
 		
-		Core.setMessageWarning("A serious problem has occured. Please try login and if the problem persist clear your browser cache and try login again ! "); 
+		Core.setMessageWarning("Error!!! Please try login and if the problem persist clear your browser cache and try login again ! "); 
 		
 		return redirect("igrp", "Oauth2openidwso2", "index"); 
 		
@@ -90,15 +92,7 @@ public class Oauth2openidwso2Controller extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","Oauth2openidwso2","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(sign_in_)----*/
-		Properties settings = this.configApp.getMainSettings(); 
-		String url = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE.value());
-		String redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value()); 
-		String client_id = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value()); 
-		String warName = Core.getDeployedWarName(); 
-		redirect_uri = redirect_uri.replace("/IGRP/", "/"+warName+"/"); 
-		url += "?response_type=code&client_id=" + client_id + "&scope=openid&state=igrpweb&redirect_uri=" + redirect_uri;
-		
-		return redirectToUrl(url);
+		return redirect("igrp", "login", "index");
 		/*----#end-code----*/
 	}
 	
