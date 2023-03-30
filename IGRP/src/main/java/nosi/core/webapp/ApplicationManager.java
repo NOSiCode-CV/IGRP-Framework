@@ -202,6 +202,7 @@ public final class ApplicationManager {
 	private static String requestUrl(HttpServletRequest request) {
 		String url = request.getRequestURL().toString();
 		// ... replace callback path here ...
+		System.out.println("url: " + url);
 		return url;
 	}
 	
