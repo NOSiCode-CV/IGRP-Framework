@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+
+		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+		<property name="hibernate.connection.url">jdbc:postgresql://dbpostgres:5432/db_igrp</property>
+		<property name="hibernate.connection.username">postgres</property><!-- Eg: postgres -->
+		<property name="hibernate.connection.password">k}x}TNkm#qcB4",</property><!-- Eg: Password -->
+		<property name="hibernate.hbm2ddl.auto">none</property>
+		<property name="hibernate.connection.isolation">2</property>
+		<property name="hibernate.connection.autocommit">false</property>
+		<property name="hibernate.hbm2ddl.jdbc_metadata_extraction_strategy">individually</property>
+		<property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
+		<property name="hibernate.transaction.auto_close_session">DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		
+		
+		<!-- Hikaricp configuration -->
+		<property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>      
+		<property name="hibernate.hikari.connectionTimeout">60000</property>
+		<property name="hibernate.hikari.idleTimeout">10000</property>
+		<property name="hibernate.hikari.minimumIdle">0</property>
+		<property name="hibernate.hikari.maximumPoolSize">100</property>
+		<property name="hibernate.hikari.maxLifetime">30000</property>
+		<property name="hibernate.hikari.leakDetectionThreshold">0</property>
+		
+		<!-- IGRP Core -->
+		<mapping class="nosi.webapps.igrp.dao.Domain" />
+		<mapping class="nosi.webapps.igrp.dao.Action" />
+		<mapping class="nosi.webapps.igrp.dao.Application" />
+		<mapping class="nosi.webapps.igrp.dao.CLob" />
+		<mapping class="nosi.webapps.igrp.dao.Config_env" />
+		<mapping class="nosi.webapps.igrp.dao.Config" />
+		<mapping class="nosi.webapps.igrp.dao.Menu" />
+		<mapping class="nosi.webapps.igrp.dao.Organization" />
+		<mapping class="nosi.webapps.igrp.dao.Profile" />
+		<mapping class="nosi.webapps.igrp.dao.ProfileType" />
+		<mapping class="nosi.webapps.igrp.dao.RepInstance" />
+		<mapping class="nosi.webapps.igrp.dao.RepSource" />
+		<mapping class="nosi.webapps.igrp.dao.RepTemplate" />
+		<mapping class="nosi.webapps.igrp.dao.RepTemplateParam" />
+		<mapping class="nosi.webapps.igrp.dao.RepTemplateSource" />
+		<mapping class="nosi.webapps.igrp.dao.RepTemplateSourceParam" />
+		<mapping class="nosi.webapps.igrp.dao.Session" />
+		<mapping class="nosi.webapps.igrp.dao.Transaction" />
+		<mapping class="nosi.webapps.igrp.dao.User" />
+		<mapping class="nosi.webapps.igrp.dao.ImportExportDAO" />
+		<mapping class="nosi.webapps.igrp.dao.Share" />
+		<mapping class="nosi.webapps.igrp.dao.TaskComponent" />
+		<mapping class="nosi.webapps.igrp.dao.TipoDocumento" />
+		<mapping class="nosi.webapps.igrp.dao.TipoDocumentoEtapa" />
+		<mapping class="nosi.webapps.igrp.dao.Modulo" />
+		<mapping class="nosi.webapps.igrp.dao.TaskAccess" />
+		<mapping class="nosi.webapps.igrp.dao.TempFile" />
+		<mapping class="nosi.webapps.igrp.dao.Mapping" />
+		<mapping class="nosi.webapps.igrp.dao.Historic" />
+		
+		<!-- <mapping class="nosi.webapps.igrp.dao.Auditoria" /> --> 
+		
+		<!-- Task Access -->
+		<mapping class="nosi.webapps.igrp.dao.TaskUnassigned" />
+		<mapping class="nosi.webapps.igrp.dao.TaskFile" />
+		<mapping class="nosi.webapps.igrp.dao.ActivityExecute" />
+		<!-- <mapping class="nosi.webapps.igrp.dao.CustomPermssionTask"/> -->
+		
+		<mapping class="nosi.webapps.igrp.dao.CertificatedSignatures" />
+
+	</session-factory>
+</hibernate-configuration>
