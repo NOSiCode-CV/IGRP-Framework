@@ -33,7 +33,7 @@
 <entry key="ids.oauth2-openid.endpoint.token">https://autentika.gov.cv/oauth2/token</entry>
 <entry key="ids.oauth2-openid.endpoint.user">https://autentika.gov.cv/oauth2/userinfo?schema=openid</entry>
 <entry key="ids.oauth2-openid.endpoint.authorize">https://autentika.gov.cv/oauth2/authorize</entry>
-<entry key="ids.oauth2-openid.endpoint.redirect_uri">https://igrp-horizon.gov.cv/app2/index.jsp</entry>
+<entry key="ids.oauth2-openid.endpoint.redirect_uri">https://igrp-horizon.gov.cv/app2/app/callback</entry>
 <entry key="ids.oauth2-openid.endpoint.logout">https://autentika.gov.cv/oidc/logout</entry>
 	
 	<!-- Ldap configuration parameters -->
