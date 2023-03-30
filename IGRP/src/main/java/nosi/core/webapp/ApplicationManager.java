@@ -1,5 +1,8 @@
 package nosi.core.webapp;
 
+
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Properties;
@@ -66,7 +69,7 @@ public final class ApplicationManager {
 							nosi.webapps.igrp.dao.Action ac = application.getAction(); 
 							page = "tutorial/DefaultPage/index&title=";
 							if(ac != null && ac.getApplication()!=null) 
-								page = ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage() + "/index&title="+ac.getAction_descr();
+								page = ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage() + "/index&title=" + URLEncoder.encode(ac.getAction_descr(), Charset.forName("utf-8"));
 						}
 					break;
 					case "PAGE":
@@ -77,7 +80,7 @@ public final class ApplicationManager {
 								Application envIgrpPlSql = new Application().find().andWhere("plsql_code", "=", dad).one(); 
 								if(envIgrpPlSql != null) dad = envIgrpPlSql.getDad(); 
 							}
-							page = ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage() + "/index&title="+ac.getAction_descr(); 
+							page = ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage() + "/index&title=" + URLEncoder.encode(ac.getAction_descr(), Charset.forName("utf-8")); 
 						}
 					break;
 					case "ACTI":
@@ -87,7 +90,7 @@ public final class ApplicationManager {
 				}
 				String []pageNTitle = page.split(Pattern.quote("&"));
 				page = EncrypDecrypt.encryptURL(pageNTitle[0], request.getRequestedSessionId()).replace(" ", "+");
-				url = Optional.of(String.format("app/webapps?r=%s&dad=%s%s", page, dad, pageNTitle.length > 1 ? "&" + pageNTitle[1] : ""));
+				url = Optional.of(String.format("%s?r=%s&dad=%s%s",  requestUrl(request), page, dad, pageNTitle.length > 1 ? "&" + pageNTitle[1] : ""));
 			}
 		}
 		return url;
@@ -98,7 +101,7 @@ public final class ApplicationManager {
 		String page = request.getParameter("r");
 		if(page != null && page.split("/").length == 3) {
 			page = EncrypDecrypt.encryptURL(page, request.getRequestedSessionId()).replace(" ", "+");
-			url = Optional.of(String.format("app/webapps?r=%s", page));
+			url = Optional.of(String.format("%s?r=%s", requestUrl(request), page));
 		}
 		return url;
 	}
@@ -193,7 +196,13 @@ public final class ApplicationManager {
 	}
 	
 	public static String homeUrl(HttpServletRequest request) {
-		return String.format("%s?r=igrp/home/index", request.getRequestURL());
+		return String.format("%s?r=igrp/home/index", requestUrl(request));
 	}
-
+	
+	private static String requestUrl(HttpServletRequest request) {
+		String url = request.getRequestURL().toString();
+		// ... replace callback path here ...
+		return url;
+	}
+	
 }

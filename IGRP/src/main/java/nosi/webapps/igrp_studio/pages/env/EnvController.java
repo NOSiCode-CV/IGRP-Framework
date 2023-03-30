@@ -4,7 +4,11 @@ import nosi.core.config.Config;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.integration.pdex.service.AppConfig;
 import nosi.core.integration.pdex.service.AppConfig.App;
-import nosi.core.webapp.*;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
+import nosi.core.webapp.RParam;
+import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.ApplicationPermition;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.security.EncrypDecrypt;
@@ -17,11 +21,24 @@ import jakarta.jws.WebService;
 import javax.persistence.GeneratedValue;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import java.io.*;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.*;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.function.Function;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
@@ -471,7 +488,7 @@ public class EnvController extends Controller {
 				Action ac = env.getAction(); 
 				String page = "tutorial/DefaultPage/index";
 				if(ac != null && ac.getApplication() != null) 
-					page = ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage() + "/index&title=" + ac.getAction_descr();
+					page = ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage() + "/index&title=" + URLEncoder.encode(ac.getAction_descr(), Charset.forName("utf-8"));
 				url = this.configApp.getCallbackUrl(env.getUrl()); 
 				url = String.format("%s?r=%s", url, page);
 			}
