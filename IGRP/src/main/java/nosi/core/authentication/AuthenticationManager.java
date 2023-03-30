@@ -2,6 +2,10 @@ package nosi.core.authentication;
 
 
 import java.util.Base64;
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +22,8 @@ import nosi.webapps.igrp.dao.Session;
 
 public final class AuthenticationManager {
 	
+	private static final Logger LOGGER = LogManager.getLogger(AuthenticationManager.class);
+	
 	private AuthenticationManager() {}
 	
 	public static boolean isSessionExists(HttpServletRequest request) {
@@ -26,6 +32,22 @@ public final class AuthenticationManager {
 			return false;
 		Object sessionData = session.getAttribute(User.IDENTITY_PARAM_NAME);
 		return sessionData != null;
+	}
+	
+	public static Optional<Identity> getIdentityFromSession(HttpServletRequest request){
+		if(!isSessionExists(request))
+			return Optional.empty();
+		try {
+			JSONArray json = new JSONArray((String) request.getSession(false).getAttribute(User.IDENTITY_PARAM_NAME));
+			int identityId = json.getInt(0);
+			String authenticationKey = json.getString(1);
+			nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User().findIdentityById(identityId);
+			if(user != null && authenticationKey.equals(user.getAuth_key()))
+				return Optional.of(user);
+		} catch (Exception ex) {
+			LOGGER.error(ex);
+		}
+		return Optional.empty();
 	}
 	
 	public static boolean createPerfilWhenAutoInvite(nosi.webapps.igrp.dao.User user) { 
@@ -58,6 +80,18 @@ public final class AuthenticationManager {
 		json.put(user.getIdentityId());
 		json.put(user.getAuthenticationKey());
 		httpSession.setAttribute(User.IDENTITY_PARAM_NAME, json.toString());
+	}
+	
+	public static void createSecurityContext(Identity user, HttpSession httpSession, HttpServletResponse response, int expire) {
+		createSecurityContext(user, httpSession);
+		if(expire > 0) {
+			String token = (String) httpSession.getAttribute(User.IDENTITY_PARAM_NAME);
+			token = Base64.getEncoder().encodeToString(token.getBytes());
+			Cookie cookie = new Cookie(User.IDENTITY_PARAM_NAME, token);
+			cookie.setMaxAge(expire);
+			cookie.setHttpOnly(true);
+			response.addCookie(cookie);
+		}
 	}
 	
 	public static void destroySecurityContext(HttpSession userSesion, HttpServletResponse response) {
