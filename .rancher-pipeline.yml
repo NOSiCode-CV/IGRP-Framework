@@ -3,7 +3,7 @@ stages:
   steps:
   - runScriptConfig:
       image: maven:3.8.5-openjdk-17
-      shellScript: mvn clean package -A
+      shellScript: mvn clean package -B
 - name: container
   steps:
   - publishImageConfig:
