@@ -8,6 +8,6 @@ pageEncoding="ISO-8859-1"%>
 </head>
 <body>
 <%
-response.sendRedirect("app2/app/webapps?r=igrp/login/login");
+response.sendRedirect("app1/app/webapps?r=igrp/login/login");
 %>
 </body>
