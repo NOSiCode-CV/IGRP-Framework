@@ -10,7 +10,7 @@
 	<entry key="igrp.datasource.connection-name">hibernate-igrp-core</entry>
 	
 	<!-- igrpweb workspace parameter (absolute path) -->
-	<entry key="igrp.workspace">C:\git\igrp-web-framework\IGRP</entry> 
+	<entry key="igrp.workspace"></entry> 
 	
 	<!-- igrpweb authentication type parameter (db|ldap|oauth2-openid) -->
 	<entry key="igrp.authentication_type">oauth2-openid</entry> 
@@ -33,7 +33,7 @@
 <entry key="ids.oauth2-openid.endpoint.token">https://autentika.gov.cv/oauth2/token</entry>
 <entry key="ids.oauth2-openid.endpoint.user">https://autentika.gov.cv/oauth2/userinfo?schema=openid</entry>
 <entry key="ids.oauth2-openid.endpoint.authorize">https://autentika.gov.cv/oauth2/authorize</entry>
-<entry key="ids.oauth2-openid.endpoint.redirect_uri">https://igrp-horizon.gov.cv/app1/app/callback</entry>
+<entry key="ids.oauth2-openid.endpoint.redirect_uri">https://igrp-horizon.gov.cv/app2/app/callback</entry>
 <entry key="ids.oauth2-openid.endpoint.logout">https://autentika.gov.cv/oidc/logout</entry>
 	
 	<!-- Ldap configuration parameters -->

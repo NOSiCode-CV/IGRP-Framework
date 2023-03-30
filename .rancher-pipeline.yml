@@ -9,7 +9,7 @@ stages:
   - publishImageConfig:
       dockerfilePath: ./data/Dockerfile
       buildContext: .
-      tag: registry.nosi.cv/igrpweb-horizon/igrpweb:1.0
+      tag: registry.nosi.cv/igrpweb-horizon/igrpweb:2.0
       pushRemote: true
       registry: registry.nosi.cv
 - name: redeploy
@@ -21,7 +21,7 @@ stages:
         -X POST \
         -H 'Accept: application/json' \
         -H 'Content-Type: application/json' \
-        --insecure 'https://manager.nosi.cv/v3/project/c-cpx7p:p-mkpb6/workloads/statefulset:horizon:igrp?action=redeploy'
+        --insecure 'https://manager.nosi.cv/v3/project/c-cpx7p:p-mkpb6/workloads/statefulset:horizon:igrp1?action=redeploy'
     envFrom:
     - sourceName: api-redeploy
       sourceKey: access
