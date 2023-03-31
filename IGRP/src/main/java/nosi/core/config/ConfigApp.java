@@ -13,6 +13,7 @@ import java.util.Properties;
 
 import nosi.core.db.migration.api.MigrationIGRPInitConfig;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 
 
 /**
@@ -149,20 +150,12 @@ public final class ConfigApp {
         }
         return Core.isNotNull(this.isInstallation);
     }
-
-    public String getAutentikaUrlForSso() {
-        String url = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE.value());
-        final String redirectUri = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
-        final String clientId = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
-        url = "/IGRP/app/callback?response_type=code&client_id=" + clientId + "&scope=openid+email+profile&state=igrp&redirect_uri=" + redirectUri;
-        return url;
-    }
     
-    public String getCallbackUrl(String dad) {
-    	String url = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
+    public String getExternalUrl(String dad) {
+    	String url = Igrp.getInstance().getRequest().getRequestURL().toString();
     	if(dad != null && !dad.trim().isEmpty()) {
     		String deployedWarName = Core.getDeployedWarName();
-    		url = url.replace("/" + deployedWarName + "/", "/" + dad + "/");
+    		url = url.replaceFirst("/" + deployedWarName + "/", "/" + dad + "/");
     	}
     	return url;
     }

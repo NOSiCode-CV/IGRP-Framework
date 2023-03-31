@@ -487,9 +487,12 @@ public class EnvController extends Controller {
 			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !contextName.equalsIgnoreCase(env.getUrl())) {
 				Action ac = env.getAction(); 
 				String page = "tutorial/DefaultPage/index";
-				if(ac != null && ac.getApplication() != null) 
-					page = ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage() + "/index&title=" + URLEncoder.encode(ac.getAction_descr(), Charset.forName("utf-8"));
-				url = this.configApp.getCallbackUrl(env.getUrl()); 
+				if(ac != null && ac.getApplication() != null) {
+					page = String.format("%s/%s/index", ac.getApplication().getDad().toLowerCase(), ac.getPage());
+					if(ac.getAction_descr() != null)
+						page = String.format("%s&title=%s", page, URLEncoder.encode(ac.getAction_descr(), Charset.forName("utf-8")));
+				}
+				url = this.configApp.getExternalUrl(env.getUrl());
 				url = String.format("%s?r=%s", url, page);
 			}
 		} catch (Exception ignored) {

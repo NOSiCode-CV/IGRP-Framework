@@ -71,7 +71,7 @@ public class LookupField extends TextField {
 					String orgCode = Core.getCurrentOrganizationCode();
 					String profCode = Core.getCurrentProfileCode();
 					String stateValue = Core.buildStateValueForSsoAutentika("PAGE", pagina.getId() + "", app, orgCode, profCode, null); 
-					this.lookup = ConfigApp.getInstance().getAutentikaUrlForSso();
+					this.lookup = ConfigApp.getInstance().getExternalUrl(application.getUrl());
 					this.lookup = this.lookup.replace("&state=igrp", ""); 
 					this.lookup = this.lookup.replace("/IGRP/", "/" + application.getUrl() + "/"); 
 					this.lookup += "state=" + stateValue; 

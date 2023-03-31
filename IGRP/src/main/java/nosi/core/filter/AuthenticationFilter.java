@@ -64,10 +64,8 @@ public class AuthenticationFilter implements Filter {
 				String destination = url.get();
 				if(destination.equals(OAuth2OpenIdAuthenticationManager.OAUTH2_OPENID_PAGE)) 
 					httpServletRequest.getRequestDispatcher(destination).forward(httpServletRequest, httpServletResponse);
-				else {
-					System.out.println("Destination: " + destination);
+				else
 					httpServletResponse.sendRedirect(destination);
-				}
 				return;
 			}
 			

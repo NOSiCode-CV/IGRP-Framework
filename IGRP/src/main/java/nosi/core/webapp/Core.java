@@ -5249,10 +5249,9 @@ public final class Core {
 		String contextName = Core.getDeployedWarName();
 		if (env != null && env.getUrl() != null && !env.getUrl().isEmpty()
 				&& !contextName.equalsIgnoreCase(env.getUrl())) {
-			url = configApp.getAutentikaUrlForSso();
+			url = configApp.getExternalUrl(env.getUrl());
 			if (stateValue != null && !stateValue.isEmpty())
 				url = url.replace("state=igrp", "state=" + stateValue);
-			url = url.replace("/IGRP/", "/" + env.getUrl() + "/");
 		}
 		return url;
 	}

@@ -291,7 +291,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 												+ r.getString("page") + "/" + r.getString("action")) + "&dad="
 												+ currentDad);
 									} else {
-										String _u = buildMenuUrlByDadUsingAutentika(r.getString("dad_app_page"),
+										String _u = buildExternalUrl(r.getString("dad_app_page"),
 												r.getString("dad_app_page"), r.getString("page"));
 										ms.setLink(_u);
 									}
@@ -304,7 +304,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 												+ r.getString("page") + "/" + r.getString("action")) + "&dad="
 												+ currentDad);
 									} else {
-										String _u = buildMenuUrlByDadUsingAutentika(pagina.getApplication().getUrl(),
+										String _u = buildExternalUrl(pagina.getApplication().getUrl(),
 												r.getString("dad_app_page"), r.getString("page")); // Custom Dad
 										ms.setLink(_u);
 									}
@@ -393,13 +393,12 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 				+ menu + ", organization=" + organization + "]";
 	}
 
-	private String buildMenuUrlByDadUsingAutentika(String dad, String app, String page) {
+	private String buildExternalUrl(String dad, String app, String page) {
 		String url = "#";
 		Action pagina = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", page).one();
 		if (pagina != null) {
-			url = ConfigApp.getInstance().getCallbackUrl(dad);
-			if(url != null && !url.trim().isEmpty())
-				url = String.format("%s?r=%s/%s/%s", url, app, page, pagina.getAction());
+			url = ConfigApp.getInstance().getExternalUrl(dad);
+			url = String.format("%s?r=%s/%s/%s", url, app, page, pagina.getAction());
 		}
 		return url;
 	}

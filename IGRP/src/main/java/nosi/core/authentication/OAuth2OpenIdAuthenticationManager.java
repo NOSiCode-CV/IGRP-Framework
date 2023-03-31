@@ -34,7 +34,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 		String error = request.getParameter("error");
 		String authCode = request.getParameter("code");
 		String sessionState = request.getParameter("session_state");
-		HttpSession session = request.getSession(false);
+		HttpSession session = request.getSession();
 		if (error != null && !error.isEmpty())
 			throw new IllegalStateException("Ocorreu o seguinte erro: (" + error + ").");
 		
@@ -49,9 +49,6 @@ public final class OAuth2OpenIdAuthenticationManager {
 		String idToken = m.get("id_token");
 		sessionState = m.get("session_state");
 		String refresh_token = m.get("refresh_token");
-
-		session.setAttribute("_oidcIdToken", idToken);
-		session.setAttribute("_oidcState", sessionState);
 
 		if (token == null)
 			throw new IllegalStateException("Token não encontrado.");
@@ -83,6 +80,9 @@ public final class OAuth2OpenIdAuthenticationManager {
 			AuthenticationManager.createSecurityContext(user, session);
 			AuthenticationManager.afterLogin(profile, user, request);
 			
+			session.setAttribute("_oidcIdToken", idToken);
+			session.setAttribute("_oidcState", sessionState);
+			
 			user.setValid_until(token);
 			user.setOidcIdToken(idToken);
 			user.setOidcState(sessionState);
@@ -111,6 +111,8 @@ public final class OAuth2OpenIdAuthenticationManager {
 				throw new IllegalStateException("Ocorreu um erro: Utilizador não encontrado.");
 			AuthenticationManager.createPerfilWhenAutoInvite(newUser);
 			AuthenticationManager.createSecurityContext(newUser, session);
+			session.setAttribute("_oidcIdToken", idToken);
+			session.setAttribute("_oidcState", sessionState);
 			isUserAuthenticated = true;
 		}
 		if(!isUserAuthenticated)
@@ -149,7 +151,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 				m.put("refresh_token", refresh_token);
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage(), ex);
 		}
 		return m;
 	}
@@ -163,6 +165,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 			if (r.getStatus() == 200) {
 				String result = r.readEntity(String.class);
 				curl.close();
+				System.out.println(result);
 				JSONObject jToken = new JSONObject(result);
 				uid.put("sub", getAttributeStringValue(jToken, "sub"));
 				uid.put("email", getAttributeStringValue(jToken, "email"));
@@ -171,7 +174,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 				uid.put("phone_number", getAttributeStringValue(jToken, "phone_number"));
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage(), ex);
 		}
 		return uid;
 	}
