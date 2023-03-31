@@ -146,13 +146,14 @@ public final class ApplicationManager {
 	}
 
 	public static Optional<String> buildOAuth2AuthorizeLink(HttpServletRequest request) {
+		System.out.println("buildOAuth2AuthorizeLink: " + request.getRequestURL().toString());
 		Properties settings = loadConfig();
 		String authenticationType = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
 		String authorizeEndpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE.value(), "");
 		String redirectUri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
 		String clientId = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
 		if (ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType)
-				&& !"".equals(authorizeEndpoint) && !request.getRequestURL().toString().equals(redirectUri)) { // Too many redirect on sight
+				&& !"".equals(authorizeEndpoint) && !request.getRequestURL().toString().endsWith("/callback")) { // Too many redirect on sight
 			String r = request.getParameter("r");
 			String state = null;
 			if (r != null) {
@@ -180,11 +181,11 @@ public final class ApplicationManager {
 	}
 
 	public static Optional<String> processCallback(HttpServletRequest request) {
+		System.out.println("processCallback: " + request.getRequestURL().toString());
 		Properties settings = loadConfig();
 		String authenticationType = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
-		String redirectUri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
 		if (!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType)
-				|| !request.getRequestURL().toString().equals(redirectUri)) // Too many redirect on sight
+				|| !request.getRequestURL().toString().endsWith("/callback")) // Too many redirect on sight
 			return Optional.empty();
 		try {
 			OAuth2OpenIdAuthenticationManager.authorizationCodeSwap(request);
