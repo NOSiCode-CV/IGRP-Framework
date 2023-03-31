@@ -1,7 +1,9 @@
 package nosi.core.authentication;
 
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
@@ -25,6 +27,8 @@ import nosi.webapps.igrp.dao.User;
 public final class OAuth2OpenIdAuthenticationManager {
 	
 	public static final String OAUTH2_OPENID_PAGE = "/app/webapps?r=igrp/Oauth2openidwso2/index&target=_blank&isPublic=1&lang=pt_PT";
+	public final static String CALLBACK_PATH = "/app/callback";
+	public final static String OAUTH2_OPENID_ERROR_PARAM_NAME = "oauth2_openid_error";
 	
 	private static final Logger LOGGER = LogManager.getLogger(OAuth2OpenIdAuthenticationManager.class);
 	
@@ -36,14 +40,14 @@ public final class OAuth2OpenIdAuthenticationManager {
 		String sessionState = request.getParameter("session_state");
 		HttpSession session = request.getSession();
 		if (error != null && !error.isEmpty())
-			throw new IllegalStateException("Ocorreu o seguinte erro: (" + error + ").");
+			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador. ERROR: (" + error + ").");
 		
 		Properties settings = ApplicationManager.loadConfig();
 		
 		Map<String, String> m = swap(authCode, sessionState, settings);
 		
 		if(m.isEmpty())
-			throw new IllegalStateException("Ocorreu um erro (swap).");
+			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador.");
 		
 		String token = m.get("access_token");
 		String idToken = m.get("id_token");
@@ -51,7 +55,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 		String refresh_token = m.get("refresh_token");
 
 		if (token == null)
-			throw new IllegalStateException("Token não encontrado.");
+			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador. Token não encontrado.");
 
 		Map<String, String> userInfo = oAuth2GetUserInfoByToken(token, settings);
 
@@ -108,7 +112,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 			newUser.setRefreshToken(refresh_token);
 			newUser = newUser.insert();
 			if(newUser == null)
-				throw new IllegalStateException("Ocorreu um erro: Utilizador não encontrado.");
+				throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador. Utilizador não encontrado.");
 			AuthenticationManager.createPerfilWhenAutoInvite(newUser);
 			AuthenticationManager.createSecurityContext(newUser, session);
 			session.setAttribute("_oidcIdToken", idToken);
@@ -165,7 +169,6 @@ public final class OAuth2OpenIdAuthenticationManager {
 			if (r.getStatus() == 200) {
 				String result = r.readEntity(String.class);
 				curl.close();
-				System.out.println(result);
 				JSONObject jToken = new JSONObject(result);
 				uid.put("sub", getAttributeStringValue(jToken, "sub"));
 				uid.put("email", getAttributeStringValue(jToken, "email"));
@@ -189,20 +192,27 @@ public final class OAuth2OpenIdAuthenticationManager {
 		return _value;
 	}
 	
-	public static Optional<String> signOut(User currentUser, Properties configs) {
+	public static Optional<String> signOut(User currentUser, Properties configs, HttpServletRequest request) {
 		String authenticationType = configs.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
 		if(!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equalsIgnoreCase(authenticationType))
 			return Optional.empty();
 		String oidcIdToken = currentUser.getOidcIdToken(); 
 		String oidcState = currentUser.getOidcState(); 
 		String oidcLogout = configs.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_LOGOUT.value());
+		String redirectUri = configs.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value()); 
 		if(oidcLogout != null && !oidcLogout.isEmpty()) {
-			String aux = oidcLogout + "?id_token_hint=" + oidcIdToken + "&state=" + oidcState; 
-			String redirect_uri = configs.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value()); 
-			aux = redirect_uri != null && !redirect_uri.isEmpty() ? aux + "&post_logout_redirect_uri=" + redirect_uri : aux;
+			String aux = String.format("%s?id_token_hint=%s&state=%s&post_logout_redirect_uri=%s", oidcLogout, oidcIdToken, oidcState, redirectUri);
 			return Optional.of(aux);
 		}
 		return Optional.empty();
+	}
+	
+	public static boolean isSignOutRequest(HttpServletRequest request) {
+		String state = request.getParameter("state");
+		String sp = request.getParameter("sp");
+		String tenantDomain = request.getParameter("tenantDomain");
+		List<String> params = Arrays.asList(state, sp, tenantDomain);
+		return !params.contains(null) && !params.contains("");
 	}
 	
 }

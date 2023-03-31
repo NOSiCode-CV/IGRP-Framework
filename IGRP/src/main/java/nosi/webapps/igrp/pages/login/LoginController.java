@@ -68,9 +68,9 @@ public class LoginController extends Controller {
 	public Response actionLogout() throws Exception {
 		try {
 			DBAuthenticationManager.signOut(Core.getCurrentUser(), Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
-			Optional<String> signOutUrl = OAuth2OpenIdAuthenticationManager.signOut(Core.getCurrentUser(), this.configApp.getMainSettings());
+			Optional<String> signOutUrl = OAuth2OpenIdAuthenticationManager.signOut(Core.getCurrentUser(), this.configApp.getMainSettings(), Igrp.getInstance().getRequest());
 			if(signOutUrl.isPresent())
-				redirectToUrl(signOutUrl.get());
+				return redirectToUrl(signOutUrl.get());
 		} catch (Exception e) {
 			Core.setMessageError(gt("Ocorreu um erro no logout."));
 			LOGGER.error(e.getMessage(), e);

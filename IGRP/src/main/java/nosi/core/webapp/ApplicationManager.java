@@ -20,12 +20,11 @@ import nosi.webapps.igrp.dao.Application;
 
 public final class ApplicationManager {
 
-	public final static String LOGIN_LINK = "/app/webapps?r=igrp/login/login";
+	public final static String LOGIN_PAGE = "/app/webapps?r=igrp/login/login";
 
 	private static final Logger LOGGER = LogManager.getLogger(ApplicationManager.class);
 
-	private ApplicationManager() {
-	}
+	private ApplicationManager() {}
 
 	public static Optional<String> buildAppLinkFromStateParam(HttpServletRequest request) {
 		Optional<String> url = Optional.empty();
@@ -146,14 +145,14 @@ public final class ApplicationManager {
 	}
 
 	public static Optional<String> buildOAuth2AuthorizeLink(HttpServletRequest request) {
-		System.out.println("buildOAuth2AuthorizeLink: " + request.getRequestURL().toString());
 		Properties settings = loadConfig();
 		String authenticationType = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
 		String authorizeEndpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE.value(), "");
 		String redirectUri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
 		String clientId = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
 		if (ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType)
-				&& !"".equals(authorizeEndpoint) && !request.getRequestURL().toString().endsWith("/callback")) { // Too many redirect on sight
+				&& !"".equals(authorizeEndpoint)
+				&& /**Too many redirect on sight*/ !request.getRequestURL().toString().endsWith(OAuth2OpenIdAuthenticationManager.CALLBACK_PATH)) {
 			String r = request.getParameter("r");
 			String state = null;
 			if (r != null) {
@@ -168,7 +167,36 @@ public final class ApplicationManager {
 		}
 		return Optional.empty();
 	}
+	
+	public static Optional<String> processCallback(HttpServletRequest request) {
+		Properties settings = loadConfig();
+		String authenticationType = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+		if (!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType)
+				|| /**Too many redirect on sight*/ !request.getRequestURL().toString().endsWith(OAuth2OpenIdAuthenticationManager.CALLBACK_PATH))
+			return Optional.empty();
+		if(OAuth2OpenIdAuthenticationManager.isSignOutRequest(request))
+			return Optional.of(requestUrl(request));
+		try {
+			OAuth2OpenIdAuthenticationManager.authorizationCodeSwap(request);
+			Optional<String> urlFromState = buildAppLinkFromStateParam(request);
+			return urlFromState.isPresent() ? urlFromState : Optional.of(homeUrl(request));
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			request.setAttribute(OAuth2OpenIdAuthenticationManager.OAUTH2_OPENID_ERROR_PARAM_NAME, e.getMessage());
+			return Optional.of(OAuth2OpenIdAuthenticationManager.OAUTH2_OPENID_PAGE);
+		}
+	}
 
+	public static String homeUrl(HttpServletRequest request) {
+		return String.format("%s?r=igrp/home/index", requestUrl(request));
+	}
+
+	public static String requestUrl(HttpServletRequest request) {
+		String url = request.getRequestURL().toString();
+		url = url.replaceFirst("/callback", "/webapps");
+		return url;
+	}
+	
 	public static Properties loadConfig() {
 		Properties config = new Properties();
 		try {
@@ -178,35 +206,6 @@ public final class ApplicationManager {
 			LOGGER.error(e.getMessage(), e);
 		}
 		return config;
-	}
-
-	public static Optional<String> processCallback(HttpServletRequest request) {
-		System.out.println("processCallback: " + request.getRequestURL().toString());
-		Properties settings = loadConfig();
-		String authenticationType = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
-		if (!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType)
-				|| !request.getRequestURL().toString().endsWith("/callback")) // Too many redirect on sight
-			return Optional.empty();
-		try {
-			OAuth2OpenIdAuthenticationManager.authorizationCodeSwap(request);
-			Optional<String> urlFromState = buildAppLinkFromStateParam(request);
-			return urlFromState.isPresent() ? urlFromState : Optional.of(homeUrl(request));
-		} catch (Exception e) {
-			e.printStackTrace();
-			LOGGER.error(e.getMessage(), e);
-			request.setAttribute("oauth2_openid_error", e.getMessage());
-			return Optional.of(OAuth2OpenIdAuthenticationManager.OAUTH2_OPENID_PAGE);
-		}
-	}
-
-	public static String homeUrl(HttpServletRequest request) {
-		return String.format("%s?r=igrp/home/index", requestUrl(request));
-	}
-
-	private static String requestUrl(HttpServletRequest request) {
-		String url = request.getRequestURL().toString();
-		url = url.replaceFirst("/callback", "/webapps");
-		return url;
 	}
 
 }

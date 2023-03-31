@@ -45,7 +45,7 @@ public final class AuthenticationManager {
 			if(user != null && authenticationKey.equals(user.getAuth_key()))
 				return Optional.of(user);
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage(), ex);
 		}
 		return Optional.empty();
 	}
