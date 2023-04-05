@@ -123,7 +123,7 @@ public final class ApplicationManager {
 		if(clientRequestProtocol != null && !clientRequestProtocol.trim().isEmpty()) {
 			int index = url.indexOf("://");
 			if(index != -1)
-				url = String.format("%s%s", clientRequestProtocol.toLowerCase(), url);
+				url = String.format("%s%s", clientRequestProtocol, url.substring(index));
 		}
 		return url;
 	}
