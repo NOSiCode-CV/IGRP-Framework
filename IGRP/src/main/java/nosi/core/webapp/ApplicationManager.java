@@ -3,6 +3,8 @@ package nosi.core.webapp;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.regex.Pattern;
@@ -25,92 +27,15 @@ public final class ApplicationManager {
 	private static final Logger LOGGER = LogManager.getLogger(ApplicationManager.class);
 
 	private ApplicationManager() {}
-
-	public static Optional<String> buildAppLinkFromStateParam(HttpServletRequest request) {
-		Optional<String> url = Optional.empty();
-		String state = request.getParameter("state");
-		if (state != null) {
-			String[] aux = state.split("/"); // Ex.: ENV/id/APP;ORG;PROF/p_id=1;p_type=3
-			if (aux.length >= 2) {
-				String type = aux[0];
-				String value = aux[1];
-				String context = null;
-				String params = null;
-				String dad = null;
-				String orgCode = null;
-				String profCode = null;
-				String page = null;
-				if (aux.length > 2) {
-					context = aux[2];
-					if (aux.length == 4)
-						params = aux[3];
-				}
-				if (context != null) {
-					String[] allContext = context.split(";");
-					if (allContext.length > 0) {
-						if (allContext[0] != null && !allContext[0].isEmpty())
-							dad = allContext[0];
-						if (allContext.length == 3) {
-							orgCode = allContext[1] != null && !allContext[1].isEmpty() ? allContext[1] : null;
-							profCode = allContext[2] != null && !allContext[2].isEmpty() ? allContext[2] : null;
-							// inject session and cookie
-							if (orgCode != null && profCode != null)
-								/* injectOrgNProf(orgCode, profCode)*/;
-						}
-					}
-				}
-				switch (type) {
-				case "ENV":
-					Application application = new Application().findByDad(dad);
-					if (application != null) {
-						dad = application.getDad();
-						nosi.webapps.igrp.dao.Action ac = application.getAction();
-						page = "tutorial/DefaultPage/index&title=";
-						if (ac != null && ac.getApplication() != null) {
-							page = String.format("%s/%s/index", ac.getApplication().getDad().toLowerCase(),
-									ac.getPage());
-							if (ac.getAction_descr() != null)
-								page = String.format("%s&title=%s", page,
-										URLEncoder.encode(ac.getAction_descr(), Charset.forName("utf-8")));
-						}
-					}
-					break;
-				case "PAGE":
-					Action ac = new Action().findOne(Integer.valueOf(value));
-					if (ac != null && ac.getApplication() != null) {
-						Application envIgrpWeb = new Application().find().andWhere("dad", "=", dad).one();
-						if (envIgrpWeb == null) {
-							Application envIgrpPlSql = new Application().find().andWhere("plsql_code", "=", dad).one();
-							if (envIgrpPlSql != null)
-								dad = envIgrpPlSql.getDad();
-						}
-						page = String.format("%s/%s/index", ac.getApplication().getDad().toLowerCase(), ac.getPage());
-						if (ac.getAction_descr() != null)
-							page = String.format("%s&title=%s", page,
-									URLEncoder.encode(ac.getAction_descr(), Charset.forName("utf-8")));
-					}
-					break;
-				case "ACTI":
-					// Core.startTask(taskId)
-					break;
-				default:
-					page = "igrp/home/index";
-				}
-				String[] pageNTitle = page.split(Pattern.quote("&"));
-				page = EncrypDecrypt.encryptURL(pageNTitle[0], request.getRequestedSessionId()).replace(" ", "+");
-				url = Optional.of(String.format("%s?r=%s&dad=%s%s", requestUrl(request), page, dad,
-						pageNTitle.length > 1 ? "&" + pageNTitle[1] : ""));
-			}
-		}
-		return url;
-	}
-
+	
 	public static Optional<String> buildAppLink(HttpServletRequest request) {
 		Optional<String> url = Optional.empty();
 		String page = request.getParameter("r");
+		String dad = request.getParameter("dad");
 		if (page != null && page.split("/").length == 3) {
 			page = EncrypDecrypt.encryptURL(page, request.getRequestedSessionId()).replace(" ", "+");
-			url = Optional.of(String.format("%s?r=%s", requestUrl(request), page));
+			dad = dad != null && !dad.trim().isEmpty() ? String.format("&dad=%s", dad) : "";
+			url = Optional.of(String.format("%s?r=%s%s", requestUrl(request), page, dad));
 		}
 		return url;
 	}
@@ -195,6 +120,104 @@ public final class ApplicationManager {
 		String url = request.getRequestURL().toString();
 		url = url.replaceFirst("/callback", "/webapps");
 		return url;
+	}
+	
+	private static Map<String, String> extractStateValues(String state){
+		Map<String, String> stateValues = new HashMap<String, String>();
+		if(state == null || state.trim().isEmpty())
+			return stateValues;
+		String[] aux = state.split("/"); // Ex.: ENV/id/APP;ORG;PROF/p_id=1;p_type=3
+		if (aux.length >= 2) {
+			stateValues.put("type", aux[0]);
+			stateValues.put("value", aux[1]);
+			if (aux.length > 2) {
+				stateValues.put("context", aux[2]);
+				if (aux.length == 4)
+					stateValues.put("params", aux[3]);
+			}
+			if (stateValues.containsKey("context")) {
+				String[] allContext = stateValues.get("context").split(";");
+				if (allContext.length > 0) {
+					if (allContext[0] != null && !allContext[0].isEmpty())
+						stateValues.put("dad", allContext[0]);
+					if (allContext.length == 3) {
+						if(allContext[1] != null && !allContext[1].isEmpty())
+							stateValues.put("orgCode", allContext[1]);
+						if(allContext[2] != null && !allContext[2].isEmpty())
+							stateValues.put("profCode", allContext[2]);
+					}
+				}
+			}
+		}
+		return stateValues;
+	}
+	
+	private static Optional<String> buildPageRouteWhenTypeEnv(String dad) {
+		Application application = new Application().findByDad(dad);
+		if (application != null) {
+			dad = application.getDad();
+			nosi.webapps.igrp.dao.Action ac = application.getAction();
+			String page = String.format("tutorial/DefaultPage/index&dad=%s", dad);
+			if (ac != null && ac.getApplication() != null) {
+				page = String.format("%s/%s/index", ac.getApplication().getDad().toLowerCase(), ac.getPage());
+				if (ac.getAction_descr() != null)
+					page = String.format("%s&dad=%s&title=%s", page, dad, URLEncoder.encode(ac.getAction_descr(), Charset.forName("utf-8")));
+			}
+			return Optional.of(page);
+		}
+		return Optional.empty();
+	}
+	
+	private static Optional<String> buildPageRouteWhenTypePage(String dad, String actionId) {
+		Action ac = new Action().findOne(Integer.valueOf(actionId));
+		if (ac != null && ac.getApplication() != null) {
+			Application envIgrpWeb = new Application().find().andWhere("dad", "=", dad).one();
+			if (envIgrpWeb == null) {
+				Application envIgrpPlSql = new Application().find().andWhere("plsql_code", "=", dad).one();
+				if (envIgrpPlSql != null)
+					dad = envIgrpPlSql.getDad();
+			}
+			String page = String.format("%s/%s/index", ac.getApplication().getDad().toLowerCase(), ac.getPage());
+			if (ac.getAction_descr() != null)
+				page = String.format("%s&title=%s", page, URLEncoder.encode(ac.getAction_descr(), Charset.forName("utf-8")));
+			return Optional.of(page);
+		}
+		return Optional.empty();
+	}
+
+	public static Optional<String> buildAppLinkFromStateParam(HttpServletRequest request) {
+		String state = request.getParameter("state");
+		Map<String, String> stateValues = extractStateValues(state);
+		String pageRoute = null;
+		if(stateValues.containsKey("type")) {
+			String type = stateValues.get("type");
+			switch (type) {
+				case "ENV":
+					Optional<String> env = buildPageRouteWhenTypeEnv(stateValues.get("dad"));
+					if(env.isPresent())
+						pageRoute = env.get();
+				break;
+				case "PAGE":
+					Optional<String> page = buildPageRouteWhenTypePage(stateValues.get("dad"), stateValues.get("value"));
+					if(page.isPresent())
+						pageRoute = page.get();
+				break;
+			}
+		}
+		if(pageRoute != null) {
+			String[] splittedPageRoute = pageRoute.split(Pattern.quote("&"));
+			String encryptedPageRoute = EncrypDecrypt.encryptURL(splittedPageRoute[0], request.getRequestedSessionId()).replace(" ", "+");
+			String additionalParams = extractAdditionalParams(pageRoute);
+			return Optional.of(String.format("%s?r=%s%s", requestUrl(request), encryptedPageRoute, additionalParams));
+		}
+		return Optional.empty();
+	}
+	
+	private static String extractAdditionalParams(String pageRoute) {
+		int index = pageRoute.indexOf("&");
+		if(index != -1 && (index + 1 < pageRoute.length()))
+			return pageRoute.substring(pageRoute.indexOf("&") + 1);
+		return "";
 	}
 	
 	public static Properties loadConfig() {

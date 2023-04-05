@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.Properties;
 
 import nosi.core.db.migration.api.MigrationIGRPInitConfig;
+import nosi.core.webapp.ApplicationManager;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 
@@ -152,7 +153,7 @@ public final class ConfigApp {
     }
     
     public String getExternalUrl(String dad) {
-    	String url = Igrp.getInstance().getRequest().getRequestURL().toString();
+    	String url = ApplicationManager.requestUrl(Igrp.getInstance().getRequest());
     	if(dad != null && !dad.trim().isEmpty()) {
     		String deployedWarName = Core.getDeployedWarName();
     		url = url.replaceFirst("/" + deployedWarName + "/", "/" + dad + "/");

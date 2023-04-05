@@ -1,5 +1,6 @@
 package nosi.webapps.igrp.pages.page;
 
+import nosi.core.webapp.ApplicationManager;
 import nosi.core.webapp.Controller;//
 import nosi.core.webapp.databse.helpers.ResultSet;//
 import nosi.core.webapp.databse.helpers.QueryInterface;//
@@ -25,6 +26,12 @@ import org.apache.logging.log4j.util.Strings;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.HttpHeaders;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -733,22 +740,46 @@ public class PageController extends Controller {
 		String json = "";
 		if (p_id != null && !p_id.isEmpty()) {
 			Action ac = null;
-			if (Core.isInt(p_id)) {
+			if (Core.isInt(p_id))
 				ac = new Action().findOne(Core.toInt(p_id));
-			} else {
+			else {
 				if(p_id.contains("@")) {
-					p_app=p_id.split("@")[0];
-					p_id=p_id.split("@")[1];
+					String splittedId[] = p_id.split("@");
+					p_app = splittedId[0];
+					p_id = splittedId[1];
 				}
-					
 				ac = new Action().find().where("page", "=", p_id).andWhere("application.dad", "=", p_app).one();
 			}
-			if (ac != null)
-				json = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac) + "/",
-						ac.getPage() + ".json");
+			if (ac != null) {
+				String contextName = Core.getDeployedWarName();
+				if (ac.getApplication().getExterno() == 2 && !contextName.equals(ac.getApplication().getUrl())) {
+		            String resourcePath = String.format("%s/%s.json", this.getConfig().getImageAppPath(ac), ac.getPage());
+		            json = getJsonFromHttp(resourcePath, contextName, ac.getApplication().getUrl());
+		        }else
+		        	json = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac) + "/", ac.getPage() + ".json");
+			}
 		}
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(json);
+	}
+	
+	private String getJsonFromHttp(String resourcePath, String contextName, String externalContextName) {
+		String json = "";
+		String url = ApplicationManager.requestUrl(Igrp.getInstance().getRequest());
+		url = url.replace(Igrp.getInstance().getRequest().getRequestURI(), String.format("/%s", resourcePath));
+		url = url.replaceFirst(contextName, externalContextName);
+		System.out.println("getJsonFromHttp: " + url);
+		Client client = ClientBuilder.newClient(); 
+		try {
+			WebTarget webTarget = client.target(url);
+			jakarta.ws.rs.core.Response response  = webTarget.request().get(); 
+			json = response.readEntity(String.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			client.close();
+		}
+		return json;
 	}
 
 	public Response actionFileExists() {

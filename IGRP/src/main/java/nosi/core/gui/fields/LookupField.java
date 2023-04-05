@@ -68,13 +68,8 @@ public class LookupField extends TextField {
 				Action pagina = new Action().findByPage(page, app); 
 				if(!deployedWarName.equals(application.getUrl()) && pagina != null) {
 					this.isSso = true; 
-					String orgCode = Core.getCurrentOrganizationCode();
-					String profCode = Core.getCurrentProfileCode();
-					String stateValue = Core.buildStateValueForSsoAutentika("PAGE", pagina.getId() + "", app, orgCode, profCode, null); 
 					this.lookup = ConfigApp.getInstance().getExternalUrl(application.getUrl());
-					this.lookup = this.lookup.replace("&state=igrp", ""); 
-					this.lookup = this.lookup.replace("/IGRP/", "/" + application.getUrl() + "/"); 
-					this.lookup += "state=" + stateValue; 
+					this.lookup = String.format("%s?r=%s/%s/%s", this.lookup, app, page, pagina.getAction());
 				}
 			}
 		}

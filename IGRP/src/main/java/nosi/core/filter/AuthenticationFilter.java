@@ -35,13 +35,7 @@ public class AuthenticationFilter implements Filter {
 		
 		if(AuthenticationManager.isSessionExists(httpServletRequest)) {
 			
-			Optional<String> url = ApplicationManager.buildAppLinkFromStateParam(httpServletRequest);
-			if(url.isPresent()) {
-				httpServletRequest.getRequestDispatcher(url.get()).forward(httpServletRequest, httpServletResponse);
-				return;
-			}
-			
-			url = ApplicationManager.buildAppLink(httpServletRequest);
+			Optional<String> url = ApplicationManager.buildAppLink(httpServletRequest);
 			if(url.isPresent() && !ApplicationManager.isLoginPage(httpServletRequest)) {
 				httpServletResponse.sendRedirect(url.get());
 				return;
