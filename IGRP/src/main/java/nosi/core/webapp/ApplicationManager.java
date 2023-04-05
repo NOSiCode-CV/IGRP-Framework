@@ -119,6 +119,12 @@ public final class ApplicationManager {
 	public static String requestUrl(HttpServletRequest request) {
 		String url = request.getRequestURL().toString();
 		url = url.replaceFirst("/callback", "/webapps");
+		String clientRequestProtocol = request.getHeader("X-Forwarded-Proto");
+		if(clientRequestProtocol != null && !clientRequestProtocol.trim().isEmpty()) {
+			int index = url.indexOf("://");
+			if(index != -1)
+				url = String.format("%s%s", clientRequestProtocol.toLowerCase(), url);
+		}
 		return url;
 	}
 	
