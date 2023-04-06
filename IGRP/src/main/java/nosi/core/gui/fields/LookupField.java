@@ -69,7 +69,7 @@ public class LookupField extends TextField {
 				if(!deployedWarName.equals(application.getUrl()) && pagina != null) {
 					this.isSso = true; 
 					this.lookup = ConfigApp.getInstance().getExternalUrl(application.getUrl());
-					this.lookup = String.format("%s?r=%s/%s/%s", this.lookup, app, page, pagina.getAction());
+					this.lookup = String.format("%s?r=%s/%s/%s&", this.lookup, app, page, pagina.getAction());
 				}
 			}
 		}
