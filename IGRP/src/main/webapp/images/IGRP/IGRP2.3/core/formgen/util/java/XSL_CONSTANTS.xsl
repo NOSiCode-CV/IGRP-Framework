@@ -191,10 +191,6 @@
 
     <xsl:variable name="import_controller">
         <xsl:text>import nosi.core.webapp.Controller;//</xsl:text>
-        <xsl:value-of select="$newline"/>
-        <xsl:text>import nosi.core.webapp.databse.helpers.ResultSet;//</xsl:text>
-        <xsl:value-of select="$newline"/>
-        <xsl:text>import nosi.core.webapp.databse.helpers.QueryInterface;//</xsl:text>
     </xsl:variable>
 
     <xsl:variable name="import_exception">
