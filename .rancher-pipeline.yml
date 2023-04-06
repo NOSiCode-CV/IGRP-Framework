@@ -29,5 +29,5 @@ stages:
     - sourceName: api-redeploy
       sourceKey: secret
       targetKey: password
-timeout: 10
+timeout: 20
 notification: {}
