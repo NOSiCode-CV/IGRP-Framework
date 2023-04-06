@@ -111,7 +111,7 @@ public abstract class Model { // IGRP super model
 				for (Tuple tuple : tuples) {
 					T t;
 					try {
-						t = className.newInstance();
+						t = className.getDeclaredConstructor().newInstance();
 						Field[] fields = null;
 						if (t instanceof IGRPChart3D || t instanceof IGRPChart2D) {
 							fields = className.getSuperclass().getDeclaredFields();
@@ -132,7 +132,8 @@ public abstract class Model { // IGRP super model
 							}
 							list.add(t);
 						}
-					} catch (InstantiationException | IllegalAccessException e1) {
+					}  catch (SecurityException | NoSuchMethodException | InvocationTargetException
+							| IllegalArgumentException | InstantiationException | IllegalAccessException e1) {
 						e1.printStackTrace();
 					}
 				}
@@ -142,7 +143,7 @@ public abstract class Model { // IGRP super model
 		return null;
 	}
 
-	public <T> List<T> loadFormList(BaseQueryInterface query, Class<T> className) {
+	public <T> List<T> loadFormList(BaseQueryInterface query, Class<T> className)  {
 		if (query != null) {
 			List<Tuple> queryResult = query.getResultList();
 			if (queryResult != null) {
@@ -150,19 +151,18 @@ public abstract class Model { // IGRP super model
 				for (Tuple tuple : queryResult) {
 					T t;
 					try {
-						t = className.newInstance();
+						t = className.getDeclaredConstructor().newInstance();
 						for (Field field : className.getDeclaredFields()) {
-							try {
-								Object value = tuple.get(field.getName()); 
-								if (value != null) 
-									BeanUtils.setProperty(t, field.getName(),new Pair(value.toString(), value.toString())); 
-							} catch (java.lang.IllegalArgumentException | IllegalAccessException
-									| InvocationTargetException e) {
-								e.printStackTrace();
-							}
+						
+								Object value = tuple.get(field.getName());
+								if (value != null)
+									BeanUtils.setProperty(t, field.getName(),
+											new Pair(value.toString(), value.toString()));
+							
 						}
 						list.add(t);
-					} catch (InstantiationException | IllegalAccessException e1) {
+					} catch (SecurityException | NoSuchMethodException | InvocationTargetException
+							| IllegalArgumentException | InstantiationException | IllegalAccessException e1) {
 						e1.printStackTrace();
 					}
 				}
@@ -282,7 +282,7 @@ public abstract class Model { // IGRP super model
 						MAX_ITERATION = list.size();
 				}
 				while (row < MAX_ITERATION) {
-					Object obj2 = Class.forName(c_.getName()).newInstance();
+					Object obj2 = Class.forName(c_.getName()).getDeclaredConstructor().newInstance();
 					for (Field m : obj2.getClass().getDeclaredFields()) {
 						m.setAccessible(true);
 						String param = "p_" + m.getName().toLowerCase() + "_fk";
@@ -323,11 +323,12 @@ public abstract class Model { // IGRP super model
 					auxResults.add(obj2);
 					row++;
 				}
-			} catch (ClassNotFoundException | InstantiationException e) {
+			} catch (ClassNotFoundException | SecurityException | NoSuchMethodException | InvocationTargetException
+					| IllegalArgumentException | InstantiationException | IllegalAccessException e) { 
 				e.printStackTrace();
 			} catch (IndexOutOfBoundsException e) {
 				continue; // go to next -- Separator list
-			}
+			} 
 		}
 		this.loadModelFromAttribute();
 	}

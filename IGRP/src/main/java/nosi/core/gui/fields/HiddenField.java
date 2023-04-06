@@ -15,7 +15,7 @@ public class HiddenField extends AbstractField {
 		this.setTagName("hidden");
 		this.setName(name);
 		this.propertie.put("name",(name!=null && !name.startsWith("p_"))?"p_"+name:name);
-		this.propertie.put("maxlength", new Integer(30));
+		this.propertie.put("maxlength", Integer.valueOf(30));
 		this.configValue(model);
 	}
 	
@@ -26,6 +26,6 @@ public class HiddenField extends AbstractField {
 		this.setTagName("hidden");
 		this.setName(name);
 		this.propertie.put("name", (name!=null && !name.startsWith("p_")) ? "p_"+name:name);
-		this.propertie.put("maxlength", new Integer(30));
+		this.propertie.put("maxlength", Integer.valueOf(30));
 	}
 }

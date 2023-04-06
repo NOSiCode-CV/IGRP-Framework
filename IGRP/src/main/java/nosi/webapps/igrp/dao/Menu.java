@@ -237,8 +237,8 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 				.addString("dad", currentDad).addInt("status", 1).addInt("org_fk", currentOrganization)
 				.addInt("prof_type_fk", currentProfile).addString("dad", currentDad).addInt("status", 1)
 				.addInt("user_fk", Core.getCurrentUser().getId()).orderByAsc("orderby").getRecordList();
-		if (row.RowList != null) {
-			row.RowList.forEach(r -> {
+		if (row.rowList != null) {
+			row.rowList.forEach(r -> {
 				// Get Menu Pai
 				MenuProfile ms = new MenuProfile();
 				ms.setId(r.getInt("id"));
@@ -371,7 +371,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 		// m.flg_base=1";
 		ResultSet.Record record = Core.query(this.getConnectionName(), sqlMenuByApp).addInt("org_fk", orgID)
 				.addInt("env_fk", appID).orderByAsc("flg_base").getRecordList();
-		record.RowList.forEach(row -> {
+		record.rowList.forEach(row -> {
 
 			lista.put(row.getInt("action_fk"), row.getString("descr"));
 		});
@@ -404,8 +404,8 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 				.addInt("status", 1).addInt("org_fk", currentOrg).addInt("prof_type_fk", currentProf)
 				.addString("dad", currentDad).addInt("status", 1).addInt("user_fk", userId).orderByAsc("orderby")
 				.getRecordList();
-		if (row.RowList != null) {
-			row.RowList.forEach(r -> {
+		if (row.rowList != null) {
+			row.rowList.forEach(r -> {
 				// Get Menu Pai
 				MenuProfile ms = new MenuProfile();
 				ms.setId(r.getInt("id"));
