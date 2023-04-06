@@ -13,8 +13,7 @@
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
       
-      <maven.compiler.source>17</maven.compiler.source>
-      <maven.compiler.target>17</maven.compiler.target>
+     <maven.compiler.release>11</maven.compiler.release>
       
       <!-- TomEE Embedded Maven Plugin -->
       <tomee.version>9.0.0</tomee.version>
@@ -86,7 +85,8 @@
       <docker.registry>localhost:5000</docker.registry>
       
     
-
+		<!-- For Java Beans validation -->
+		<javax.validation.version>2.0.1.Final</javax.validation.version>
        <!-- Barcode ...
       <google.zxing.version>3.5.1</google.zxing.version> -->
        <!--  <apache.httpcomponents.httpmime.version>4.5.14</apache.httpcomponents.httpmime.version>
@@ -108,7 +108,14 @@
          <version>5.2.3</version>
       </dependency>-->
 	
-
+		<!-- For Java Beans Validation -->
+		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+		<dependency>
+		    <groupId>javax.validation</groupId>
+		    <artifactId>validation-api</artifactId>
+		    <version>${javax.validation.version}</version>
+		</dependency>
+		
 
 	   
       <dependency>
@@ -182,12 +189,11 @@
          <artifactId>hibernate-core</artifactId>
          <version>${hibernate.version}</version>
       </dependency>
-     <!--
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-hikaricp</artifactId>
          <version>${hibernate.version}</version>
-      </dependency>-->
+      </dependency>
       <!--END
         Hibernate Dependencies -->
       <!-- Database Dependencies -->
