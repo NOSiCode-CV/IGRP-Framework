@@ -83,7 +83,7 @@ public class FileController extends Controller {
 	
 	public Response actionSaveImage()  throws Exception {		
 		Properties p = new Properties();
-		Integer id = new Integer(-1);
+		Integer id = Integer.valueOf(-1);
 		String uuid = Core.saveFileNGetUuid("p_file_name");
 		if(Core.isNull(uuid)) {			
 			p.put("msg", Core.gt("Error saving file."));

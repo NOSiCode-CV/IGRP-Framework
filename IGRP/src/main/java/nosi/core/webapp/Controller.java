@@ -28,6 +28,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.net.MalformedURLException;
@@ -265,7 +266,7 @@ public class Controller {
             Class<?> c = Class.forName(packageName + "." + BPMNConstants.PREFIX_TASK + runtimeTak.getTask().getTaskDefinitionKey() + "Controller");
             Method method = c.getMethod("getOutputDocumentType");
             @SuppressWarnings("unchecked")
-            List<TipoDocumentoEtapa> listDocOutput = (List<TipoDocumentoEtapa>) method.invoke(c.newInstance());
+            List<TipoDocumentoEtapa> listDocOutput = (List<TipoDocumentoEtapa>) method.invoke(c.getDeclaredConstructor().newInstance());
             display.addListDocumentType(listDocOutput);
         } catch (Exception e) {
             e.printStackTrace();
@@ -606,27 +607,6 @@ public class Controller {
         return resp;
     }
 
-    @Deprecated
-    /**
-     * @deprecated
-     * @param app
-     * @param page
-     * @param action
-     * @param model
-     * @return
-     */
-    protected Response forward(String app, String page, String action, Model model) {
-        return this.forward(app, page, action, model, new QueryString<>());
-    }
-
-    /**
-     * @deprecated
-     */
-    @Deprecated
-    protected Response forward(String app, String page, String action, Model model,
-                               QueryString<String, Object> queryString) {
-        return this.forward(app, page, action, queryString);
-    }
 
     protected Response forward(String app, String page, String action, QueryString<String, Object> queryString) {
         this.setQueryString(queryString);
@@ -738,7 +718,7 @@ public class Controller {
 		Igrp igrpApp = Igrp.getInstance();
 		try {
 			Class<?> classController = Class.forName(controllerPath);
-			Object controller = classController.newInstance();
+			Object controller = classController.getDeclaredConstructor().newInstance();
 			igrpApp.setCurrentController((Controller) controller);
 			Method action = Arrays.stream(classController.getDeclaredMethods()).filter(p -> p.getName().equals(actionName)).findFirst().orElseThrow(NoSuchMethodException::new);
 			if(action.getParameterCount() == 0)
@@ -751,13 +731,13 @@ public class Controller {
 		}
 	}
     
-    private static List<Object> formalParameters(Method action, Igrp igrpApp) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    private static List<Object> formalParameters(Method action, Igrp igrpApp) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		List<Object> paramValues = new ArrayList<>();
 		for (Parameter parameter : action.getParameters()) {
 			if (parameter.getType().getSuperclass().getName().equals("nosi.core.webapp.Model")) {
 				// Dependency Injection for models
 				Class<?> classModel = Class.forName(parameter.getType().getName());
-				nosi.core.webapp.Model model = (Model) classModel.newInstance();
+				nosi.core.webapp.Model model = (Model) classModel.getDeclaredConstructor().newInstance();
 				model.load();
 				paramValues.add(model);
 			} else // Dependency Injection for simple vars ... 
@@ -774,15 +754,14 @@ public class Controller {
     
     private static void addParametersToErrorPage(Igrp igrpApp) {
 		ConfigApp configApp = ConfigApp.getInstance();
-		Map<String, Object> errorParam = new HashMap<String, Object>();
+		Map<String, Object> errorParam = new HashMap<>();
 		errorParam.put("dad", igrpApp.getCurrentAppName());
 		errorParam.put(ConfigCommonMainConstants.IGRP_ENV.value(), configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_ENV.value()));
 		igrpApp.getRequest().setAttribute("igrp.error", errorParam);
 	}
     
     protected <T> T getComponent(Class<T> componentType) {
-    	T component = CDI.current().select(componentType).get();
-    	return component;
+    	return CDI.current().select(componentType).get();
 	}
 
 }

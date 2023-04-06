@@ -207,7 +207,7 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 										  .addInt("env_fk", appId)
 										  .addInt("env_fk", appId)
 										  .getRecordList();
-			recorde.RowList.forEach(row->{
+			recorde.rowList.forEach(row->{
 				Menu m = new Menu();					
 				m.setDescr(row.getString("descr"));
 				m.setId(row.getInt("id"));
@@ -231,7 +231,7 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 									  .addInt("prof_fk", profId)
 									  .addInt("org_fk", orgId)
 									  .getRecordList();
-		record.RowList.forEach(row->{
+		record.rowList.forEach(row->{
 			Menu m = new Menu();					
 			m.setDescr(row.getString("descr"));
 			m.setId(row.getInt("id"));
@@ -251,7 +251,7 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 								  .addInt("org_fk", orgId)
 								  .addInt("env_fk", appId)
 								  .getRecordList();
-		recorde.RowList.forEach(row->{
+		recorde.rowList.forEach(row->{
 			Transaction t = new Transaction();
 			t.setId(row.getInt("id"));
 			t.setCode(row.getString("code"));
@@ -276,7 +276,7 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 				  .addInt("org_fk", orgId)
 				  .getRecordList();
 		List<Transaction> transactions = new ArrayList<>();
-		recorde.RowList.forEach(row->{
+		recorde.rowList.forEach(row->{
 			Transaction t = new Transaction();
 			t.setId(row.getInt("id"));
 			t.setCode(row.getString("code"));
@@ -307,7 +307,7 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 									  .addInt("user_fk", userId)
 									  .addInt("org_fk", orgId)
 									  .getRecordList();
-		recorde.RowList.forEach(row->{
+		recorde.rowList.forEach(row->{
 			Menu m = new Menu();					
 			m.setDescr(row.getString("descr"));
 			m.setId(row.getInt("id"));
@@ -329,7 +329,7 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 								  .addInt("user_fk", userId)
 								  .addInt("org_fk", orgId)
 								  .getRecordList();
-		recorde.RowList.forEach(row->{
+		recorde.rowList.forEach(row->{
 			Transaction t = new Transaction();
 			t.setId(row.getInt("id"));
 			t.setCode(row.getString("code"));
