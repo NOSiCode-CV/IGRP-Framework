@@ -766,8 +766,8 @@ public class PageController extends Controller {
 	private String getJsonFromHttp(String resourcePath, String contextName, String externalContextName) {
 		String json = "";
 		String url = ApplicationManager.requestUrl(Igrp.getInstance().getRequest());
-		url = url.replace(Igrp.getInstance().getRequest().getRequestURI(), String.format("/%s", resourcePath));
-		url = url.replaceFirst(contextName, externalContextName);
+		url = url.replace(Igrp.getInstance().getRequest().getRequestURI(), String.format("/%s/%s", externalContextName,resourcePath));
+	
 		System.out.println("getJsonFromHttp: " + url);
 		Client client = ClientBuilder.newClient(); 
 		try {
