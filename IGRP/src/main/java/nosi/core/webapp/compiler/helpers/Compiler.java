@@ -63,14 +63,13 @@ public class Compiler {
 			}
 			listFilesDirectory(this.config.getPathLib());
 			CompilationProgress progress = null;
-			final String buildArgs = " -encoding UTF-8 " 
-					+ files 
-					+ " -cp -classpath " + jars.toString() 
-					+ System.getProperty("path.separator") 
-					+ this.config.getBasePathClass() + " -d " // lugar onde é colocado os arquivos compilados
-					+ " -warn:none" + " -Xemacs"; 
+			final String buildArgs = " -encoding UTF-8 "   
+										+ files +" -classpath " + jars.toString()  +  System.getProperty("path.separator") +  this.config.getBasePathClass()
+										+ " -d " + this.config.getBasePathClass() // lugar onde é colocado os arquivos compilados
+										+ " -warn:none -16  -Xemacs"; 
+
 			
-		//	System.out.println(buildArgs);
+			//System.out.println(buildArgs);
 			
 			StringWriter swS = new StringWriter();
 			StringWriter swE = new StringWriter();
