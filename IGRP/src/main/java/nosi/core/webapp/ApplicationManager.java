@@ -125,6 +125,7 @@ public final class ApplicationManager {
 			if(index != -1)
 				url = String.format("%s%s", clientRequestProtocol, url.substring(index));
 		}
+		System.out.println("requestUrl (clientRequestProtocol): " + clientRequestProtocol);
 		return url;
 	}
 	
