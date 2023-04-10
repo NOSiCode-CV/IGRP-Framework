@@ -125,7 +125,9 @@ public final class ApplicationManager {
 			if(index != -1)
 				url = String.format("%s%s", clientRequestProtocol, url.substring(index));
 		}
-		System.out.println("requestUrl (clientRequestProtocol): " + clientRequestProtocol);
+		System.out.println("X-Forwarded-Proto: " + clientRequestProtocol);
+		url = url.replaceFirst("http", "https"); // remover 
+		System.out.println("RequestUrl : " + url);
 		return url;
 	}
 	
