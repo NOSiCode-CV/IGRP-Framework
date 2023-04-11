@@ -9,7 +9,7 @@ stages:
   - publishImageConfig:
       dockerfilePath: ./data/Dockerfile
       buildContext: .
-      tag: registry.nosi.cv/igrpweb-horizon/igrpweb:1.0
+      tag: registry.nosi.cv/igrpweb-horizon/igrpweb:1.1
       pushRemote: true
       registry: registry.nosi.cv
 - name: redeploy
