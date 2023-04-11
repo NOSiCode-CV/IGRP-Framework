@@ -20,6 +20,8 @@ ADD data/tomcat-users.xml /usr/local/tomcat/conf/
 
 ADD data/index.jsp /usr/local/tomcat/webapps/ROOT/
 
+ADD data/server.xml /usr/local/tomcat/conf/
+
 COPY /IGRP/target/IGRP.war /usr/local/tomcat/webapps/app1.war
 
 ##COPY /activiti/*.war /usr/local/tomcat/webapps/
