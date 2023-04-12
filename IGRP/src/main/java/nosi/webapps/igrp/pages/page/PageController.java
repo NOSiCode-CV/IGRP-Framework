@@ -767,8 +767,6 @@ public class PageController extends Controller {
 		String json = "";
 		String url = ApplicationManager.requestUrl(Igrp.getInstance().getRequest());
 		url = url.replace(Igrp.getInstance().getRequest().getRequestURI(), String.format("/%s/%s", externalContextName,resourcePath));
-	
-		System.out.println("getJsonFromHttp: " + url);
 		Client client = ClientBuilder.newClient(); 
 		try {
 			WebTarget webTarget = client.target(url);

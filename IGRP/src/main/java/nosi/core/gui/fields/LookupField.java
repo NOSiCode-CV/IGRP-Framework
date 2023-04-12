@@ -21,7 +21,6 @@ public class LookupField extends TextField {
 	private Map<String,Object> params;
 	private Map<String,Object> lookupParams;
 	private int versionLookup = 1;
-	private boolean isSso; 
 	
 	public LookupField(Object model,String name) {
 		super(model,name);
@@ -61,22 +60,17 @@ public class LookupField extends TextField {
 		if(isPublic == 1)
 			this.lookup = Route.getResolveUrl(app, page, action, currentDad, 1).replace("?", "").replace("webapps", "");
 		else { 
-			this.lookup = Route.getResolveUrl(app, page, action).replace("?", "").replace("webapps", ""); 
+			this.lookup = Route.getResolveUrl(app, page, action).replace("?", "").replace("webapps", "");
 			Application application = Core.findApplicationByDad(app); 
 			if(application != null && application.getExterno() == 2) {
 				String deployedWarName = Core.getDeployedWarName(); 
 				Action pagina = new Action().findByPage(page, app); 
 				if(!deployedWarName.equals(application.getUrl()) && pagina != null) {
-					this.isSso = true; 
 					this.lookup = ConfigApp.getInstance().getExternalUrl(application.getUrl());
-					this.lookup = String.format("%s?r=%s/%s/%s&", this.lookup, app, page, pagina.getAction());
+					this.lookup = String.format("%s?r=%s/%s/%s", this.lookup, app, page, pagina.getAction());
 				}
 			}
 		}
-	}
-
-	public boolean isSso() {
-		return isSso;
 	}
 	
 }

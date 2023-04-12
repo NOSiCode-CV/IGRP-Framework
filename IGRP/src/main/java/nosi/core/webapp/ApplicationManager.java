@@ -3,6 +3,7 @@ package nosi.core.webapp;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -11,8 +12,10 @@ import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import nosi.core.authentication.OAuth2OpenIdAuthenticationManager;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.security.EncrypDecrypt;
@@ -35,7 +38,14 @@ public final class ApplicationManager {
 		if (page != null && page.split("/").length == 3) {
 			page = EncrypDecrypt.encryptURL(page, request.getRequestedSessionId()).replace(" ", "+");
 			dad = dad != null && !dad.trim().isEmpty() ? String.format("&dad=%s", dad) : "";
-			url = Optional.of(String.format("%s?r=%s%s", requestUrl(request), page, dad));
+			StringBuilder additionalParams = new StringBuilder("");
+			Enumeration<String> paramNames = request.getParameterNames();
+			while(paramNames.hasMoreElements()) {
+				String paramName = paramNames.nextElement();
+				if(!"r".equals(paramName) && !"dad".equals(paramName)) // skip "r" and "dad" param
+					additionalParams.append(String.format("&%s=%s", paramName, request.getParameter(paramName)));
+			}
+			url = Optional.of(String.format("%s?r=%s%s%s", requestUrl(request), page, dad, additionalParams));
 		}
 		return url;
 	}
@@ -78,17 +88,8 @@ public final class ApplicationManager {
 		if (ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType)
 				&& !"".equals(authorizeEndpoint)
 				&& /**Too many redirect on sight*/ !request.getRequestURL().toString().endsWith(OAuth2OpenIdAuthenticationManager.CALLBACK_PATH)) {
-			String r = request.getParameter("r");
-			String state = null;
-			if (r != null) {
-				String[] arr = r.split("/");
-				if (arr.length == 3) {
-					Action page = new Action().find().andWhere("application.dad", "=", arr[0]).andWhere("page", "=", arr[1]).one();
-					if (page != null)
-						state = String.format("&state=PAGE/%s/%s", page.getId(), arr[0]);
-				}
-			}
-			return Optional.of(String.format("%s?response_type=code&client_id=%s&scope=openid+email+profile%s&redirect_uri=%s", authorizeEndpoint, clientId, state != null ? state : "", redirectUri));
+			rememberRoute(request);
+			return Optional.of(String.format("%s?response_type=code&client_id=%s&scope=openid+email+profile&redirect_uri=%s", authorizeEndpoint, clientId, redirectUri));
 		}
 		return Optional.empty();
 	}
@@ -103,8 +104,10 @@ public final class ApplicationManager {
 			return Optional.of(requestUrl(request));
 		try {
 			OAuth2OpenIdAuthenticationManager.authorizationCodeSwap(request);
-			Optional<String> urlFromState = buildAppLinkFromStateParam(request);
-			return urlFromState.isPresent() ? urlFromState : Optional.of(homeUrl(request));
+			Optional<String> returnUrl = buildAppLinkFromStateParam(request);
+			if(returnUrl.isEmpty())
+				returnUrl = buildAppLinkFromSession(request);
+			return returnUrl.isPresent() ? returnUrl : Optional.of(homeUrl(request));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			request.setAttribute(OAuth2OpenIdAuthenticationManager.OAUTH2_OPENID_ERROR_PARAM_NAME, e.getMessage());
@@ -126,7 +129,7 @@ public final class ApplicationManager {
 				url = String.format("%s%s", clientRequestProtocol, url.substring(index));
 		}
 		System.out.println("X-Forwarded-Proto: " + clientRequestProtocol);
-		url = url.replaceFirst("http", "https"); // remover 
+		//url = url.replaceFirst("http", "https"); // remover 
 		System.out.println("RequestUrl : " + url);
 		return url;
 	}
@@ -227,6 +230,55 @@ public final class ApplicationManager {
 		if(index != -1 && (index + 1 < pageRoute.length()))
 			return pageRoute.substring(pageRoute.indexOf("&") + 1);
 		return "";
+	}
+	
+	public static Optional<String> buildAppLinkFromSession(HttpServletRequest request) {
+		System.out.println("buildAppLinkFromSession (Entrado)");
+		HttpSession session = request.getSession();
+		if(session == null)
+			return Optional.empty();
+		String returnRoute = (String) session.getAttribute("returnRoute");
+		session.removeAttribute("returnRoute");
+		if(!(returnRoute instanceof String) || returnRoute == null)
+			return Optional.empty();
+		JSONObject json = new JSONObject(returnRoute);
+		String appCode = json.optString("appCode");
+		String pageCode = json.optString("pageCode");
+		String actionCode = json.optString("actionCode", "index");
+		String additionalParams = json.optString("additionalParams");
+		String dad = json.optString("dad");
+		dad = !dad.isEmpty() ? String.format("&dad=%s", dad) : dad;
+		if(appCode.isEmpty() || pageCode.isEmpty())
+			return Optional.empty();
+		String route = EncrypDecrypt.encryptURL(String.format("%s/%s/%s", appCode, pageCode, actionCode), session.getId()).replace(" ", "+");
+		return Optional.of(String.format("%s?r=%s%s%s", requestUrl(request), route, dad, additionalParams));
+	}
+	
+	private static void rememberRoute(HttpServletRequest request) {
+		String r = request.getParameter("r");
+		String dad = request.getParameter("dad");
+		if (r != null) {
+			String[] arr = r.split("/");
+			if (arr.length == 3) {
+				HttpSession session = request.getSession(true);
+				JSONObject route = new JSONObject();
+				route.put("appCode", arr[0]);
+				route.put("pageCode", arr[1]);
+				route.put("actionCode", arr[2]);
+				if(dad != null && !dad.isEmpty())
+					route.put("dad", dad);
+				StringBuilder additionalParams = new StringBuilder("");
+				Enumeration<String> paramNames = request.getParameterNames();
+				while(paramNames.hasMoreElements()) {
+					String paramName = paramNames.nextElement();
+					if(!"r".equals(paramName) && !"dad".equals(paramName)) // skip "r" and "dad" param
+						additionalParams.append(String.format("&%s=%s", paramName, request.getParameter(paramName)));
+				}
+				route.put("additionalParams", additionalParams.toString());
+				
+				session.setAttribute("returnRoute", route.toString());
+			}
+		}
 	}
 	
 	public static Properties loadConfig() {
