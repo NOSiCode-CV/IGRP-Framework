@@ -152,8 +152,11 @@
                
                
         <Valve className="org.apache.catalina.valves.RemoteIpValve"
+           internalProxies="10.0.28.7"
            remoteIpHeader="x-forwarded-for"
-           protocolHeaderHttpsValue="https" />
+           remoteIpProxiesHeader="x-forwarded-by"
+           protocolHeader="x-forwarded-proto"
+    />
 
       </Host>
     </Engine>
