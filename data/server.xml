@@ -151,11 +151,12 @@
                pattern="%h %l %u %t &quot;%r&quot; %s %b" />
                
                
-        <Valve className="org.apache.catalina.valves.RemoteIpValve"
+<Valve className="org.apache.catalina.valves.RemoteIpValve"
            internalProxies="10.0.28.7"
            remoteIpHeader="x-forwarded-for"
            remoteIpProxiesHeader="x-forwarded-by"
            protocolHeader="x-forwarded-proto"
+           protocolHeaderHttpsValue="https"
     />
 
       </Host>
