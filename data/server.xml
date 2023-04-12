@@ -136,7 +136,7 @@
 
       <Host name="localhost"  appBase="webapps"
             unpackWARs="true" autoDeploy="true">
-
+    <Valve className="org.apache.catalina.valves.RemoteIpValve" protocolHeader="x-forwarded-proto" protocolHeaderHttpsValue="https" />
         <!-- SingleSignOn valve, share authentication between web applications
              Documentation at: /docs/config/valve.html -->
         <!--
@@ -151,13 +151,7 @@
                pattern="%h %l %u %t &quot;%r&quot; %s %b" />
                
                
-<Valve className="org.apache.catalina.valves.RemoteIpValve"
-           internalProxies="10.0.28.7"
-           remoteIpHeader="x-forwarded-for"
-           remoteIpProxiesHeader="x-forwarded-by"
-           protocolHeader="x-forwarded-proto"
-           protocolHeaderHttpsValue="https"
-    />
+
 
       </Host>
     </Engine>
