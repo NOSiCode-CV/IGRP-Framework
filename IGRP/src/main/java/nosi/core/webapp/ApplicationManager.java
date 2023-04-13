@@ -267,7 +267,7 @@ public final class ApplicationManager {
 		System.out.println("buildAppLinkFromSession (jsonLookup): " + jsonLookup);
 		
 		String route = EncrypDecrypt.encryptURL(String.format("%s/%s/%s", appCode, pageCode, actionCode), session.getId()).replace(" ", "+");
-		return Optional.of(String.format("%s?r=%s%s%s", requestUrl(request), route, dad, additionalParams));
+		return Optional.of(String.format("%s?r=%s%s%s", requestUrl(request), route, dad, additionalParamsQueryString));
 	}
 	
 	private static void rememberRoute(HttpServletRequest request) {
