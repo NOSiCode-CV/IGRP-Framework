@@ -1,10 +1,13 @@
 package nosi.core.webapp;
 
+
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
@@ -26,7 +29,6 @@ import nosi.webapps.igrp.dao.Application;
 public final class ApplicationManager {
 
 	public final static String LOGIN_PAGE = "/app/webapps?r=igrp/login/login";
-
 	private static final Logger LOGGER = LogManager.getLogger(ApplicationManager.class);
 
 	private ApplicationManager() {}
@@ -42,8 +44,8 @@ public final class ApplicationManager {
 			Enumeration<String> paramNames = request.getParameterNames();
 			while(paramNames.hasMoreElements()) {
 				String paramName = paramNames.nextElement();
-				if(!"r".equals(paramName) && !"dad".equals(paramName)) // skip "r" and "dad" param
-					additionalParams.append(String.format("&%s=%s", paramName, request.getParameter(paramName)));
+				if(!"r".equals(paramName) && !"dad".equals(paramName)) // skipping "r" and "dad" param
+					additionalParams.append(String.format("&%s=%s", paramName, encodeParameterValue(request.getParameter(paramName))));
 			}
 			url = Optional.of(String.format("%s?r=%s%s%s", requestUrl(request), page, dad, additionalParams));
 		}
@@ -129,7 +131,6 @@ public final class ApplicationManager {
 				url = String.format("%s%s", clientRequestProtocol, url.substring(index));
 		}
 		System.out.println("X-Forwarded-Proto: " + clientRequestProtocol);
-		//url = url.replaceFirst("http", "https"); // remover 
 		System.out.println("RequestUrl : " + url);
 		return url;
 	}
@@ -233,7 +234,6 @@ public final class ApplicationManager {
 	}
 	
 	public static Optional<String> buildAppLinkFromSession(HttpServletRequest request) {
-		System.out.println("buildAppLinkFromSession (Entrado)");
 		HttpSession session = request.getSession();
 		if(session == null)
 			return Optional.empty();
@@ -241,22 +241,31 @@ public final class ApplicationManager {
 		session.removeAttribute("returnRoute");
 		if(!(returnRoute instanceof String) || returnRoute == null)
 			return Optional.empty();
+		
 		JSONObject json = new JSONObject(returnRoute);
 		String appCode = json.optString("appCode");
 		String pageCode = json.optString("pageCode");
-		String actionCode = json.optString("actionCode", "index");
-		String additionalParams = json.optString("additionalParams");
-		String dad = json.optString("dad");
-		dad = !dad.isEmpty() ? String.format("&dad=%s", dad) : dad;
 		if(appCode.isEmpty() || pageCode.isEmpty())
 			return Optional.empty();
+		String actionCode = json.optString("actionCode", "index");
+		String additionalParams = json.optString("additionalParams");
+		
+		String dad = json.optString("dad");
+		dad = !dad.isEmpty() ? String.format("&dad=%s", dad) : dad;
+		
+		String jsonLookup = encodeParameterValue(json.optString("jsonLookup"));
+		
+		System.out.println("buildAppLinkFromSession (jsonLookup): " + jsonLookup);
+		
 		String route = EncrypDecrypt.encryptURL(String.format("%s/%s/%s", appCode, pageCode, actionCode), session.getId()).replace(" ", "+");
-		return Optional.of(String.format("%s?r=%s%s%s", requestUrl(request), route, dad, additionalParams));
+		return Optional.of(String.format("%s?r=%s%s%s%s", requestUrl(request), route, dad, jsonLookup, additionalParams));
 	}
 	
 	private static void rememberRoute(HttpServletRequest request) {
 		String r = request.getParameter("r");
 		String dad = request.getParameter("dad");
+		String jsonLookup = request.getParameter("jsonLookup");
+		final List<String> skipParamNames = Arrays.asList("r", "dad", "jsonLookup");
 		if (r != null) {
 			String[] arr = r.split("/");
 			if (arr.length == 3) {
@@ -267,11 +276,13 @@ public final class ApplicationManager {
 				route.put("actionCode", arr[2]);
 				if(dad != null && !dad.isEmpty())
 					route.put("dad", dad);
+				if(jsonLookup != null && !jsonLookup.isEmpty())
+					route.put("jsonLookup", jsonLookup);
 				StringBuilder additionalParams = new StringBuilder("");
 				Enumeration<String> paramNames = request.getParameterNames();
 				while(paramNames.hasMoreElements()) {
 					String paramName = paramNames.nextElement();
-					if(!"r".equals(paramName) && !"dad".equals(paramName)) // skip "r" and "dad" param
+					if(!skipParamNames.contains(paramName))
 						additionalParams.append(String.format("&%s=%s", paramName, request.getParameter(paramName)));
 				}
 				route.put("additionalParams", additionalParams.toString());
@@ -291,5 +302,14 @@ public final class ApplicationManager {
 		}
 		return config;
 	}
-
+	
+	public static String encodeParameterValue(String value) {
+		try {
+			return URLEncoder.encode(URLDecoder.decode(value, "utf-8"), "utf-8");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		return value;
+	}
+	
 }
