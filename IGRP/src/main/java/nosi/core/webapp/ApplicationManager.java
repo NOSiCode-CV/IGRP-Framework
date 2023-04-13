@@ -262,9 +262,7 @@ public final class ApplicationManager {
 		
 		dad = !dad.isEmpty() ? String.format("&dad=%s", dad) : dad;
 		
-		String jsonLookup = encodeParameterValue(json.optString("jsonLookup"));
-		
-		System.out.println("buildAppLinkFromSession (jsonLookup): " + jsonLookup);
+		System.out.println("buildAppLinkFromSession (jsonLookup): " + additionalParams);
 		
 		String route = EncrypDecrypt.encryptURL(String.format("%s/%s/%s", appCode, pageCode, actionCode), session.getId()).replace(" ", "+");
 		return Optional.of(String.format("%s?r=%s%s%s", requestUrl(request), route, dad, additionalParamsQueryString));
@@ -294,6 +292,7 @@ public final class ApplicationManager {
 					}
 				}
 				route.put("additionalParams", additionalParams);
+				System.out.println("Before autentika: " + route.toString());
 				session.setAttribute("returnRoute", route.toString());
 			}
 		}
