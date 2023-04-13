@@ -6,7 +6,6 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
@@ -29,6 +28,8 @@ import nosi.webapps.igrp.dao.Application;
 public final class ApplicationManager {
 
 	public final static String LOGIN_PAGE = "/app/webapps?r=igrp/login/login";
+	public final static String RETURN_ROUTE_ATTRIBUTE_NAME = "returnRoute";
+	
 	private static final Logger LOGGER = LogManager.getLogger(ApplicationManager.class);
 
 	private ApplicationManager() {}
@@ -130,8 +131,6 @@ public final class ApplicationManager {
 			if(index != -1)
 				url = String.format("%s%s", clientRequestProtocol, url.substring(index));
 		}
-		System.out.println("X-Forwarded-Proto: " + clientRequestProtocol);
-		System.out.println("RequestUrl : " + url);
 		return url;
 	}
 	
@@ -174,7 +173,7 @@ public final class ApplicationManager {
 			if (ac != null && ac.getApplication() != null) {
 				page = String.format("%s/%s/index", ac.getApplication().getDad().toLowerCase(), ac.getPage());
 				if (ac.getAction_descr() != null)
-					page = String.format("%s&dad=%s&title=%s", page, dad, URLEncoder.encode(ac.getAction_descr(), Charset.forName("utf-8")));
+					page = String.format("%s&dad=%s&title=%s", page, dad, encodeParameterValue(ac.getAction_descr()));
 			}
 			return Optional.of(page);
 		}
@@ -192,7 +191,7 @@ public final class ApplicationManager {
 			}
 			String page = String.format("%s/%s/index", ac.getApplication().getDad().toLowerCase(), ac.getPage());
 			if (ac.getAction_descr() != null)
-				page = String.format("%s&title=%s", page, URLEncoder.encode(ac.getAction_descr(), Charset.forName("utf-8")));
+				page = String.format("%s&title=%s", page, encodeParameterValue(ac.getAction_descr()));
 			return Optional.of(page);
 		}
 		return Optional.empty();
@@ -237,19 +236,18 @@ public final class ApplicationManager {
 		HttpSession session = request.getSession();
 		if(session == null)
 			return Optional.empty();
-		String returnRoute = (String) session.getAttribute("returnRoute");
-		session.removeAttribute("returnRoute");
+		String returnRoute = (String) session.getAttribute(RETURN_ROUTE_ATTRIBUTE_NAME);
+		session.removeAttribute(RETURN_ROUTE_ATTRIBUTE_NAME);
 		if(!(returnRoute instanceof String) || returnRoute == null)
 			return Optional.empty();
-		
 		JSONObject json = new JSONObject(returnRoute);
 		String appCode = json.optString("appCode");
 		String pageCode = json.optString("pageCode");
 		String dad = json.optString("dad");
 		if(appCode.isEmpty() || pageCode.isEmpty())
 			return Optional.empty();
+		dad = !dad.isEmpty() ? String.format("&dad=%s", dad) : dad;
 		String actionCode = json.optString("actionCode", "index");
-		
 		JSONArray additionalParams = json.optJSONArray("additionalParams");
 		StringBuilder additionalParamsQueryString = new StringBuilder("");
 		if(additionalParams != null) 
@@ -258,12 +256,6 @@ public final class ApplicationManager {
 				if(param != null && param.keySet().stream().anyMatch(p -> p.equals("paramName")))
 					additionalParamsQueryString.append(String.format("&%s=%s", param.optString("paramName"), encodeParameterValue(param.optString("paramValue"))));
 			}
-		
-		
-		dad = !dad.isEmpty() ? String.format("&dad=%s", dad) : dad;
-		
-		System.out.println("buildAppLinkFromSession (jsonLookup): " + additionalParams);
-		
 		String route = EncrypDecrypt.encryptURL(String.format("%s/%s/%s", appCode, pageCode, actionCode), session.getId()).replace(" ", "+");
 		return Optional.of(String.format("%s?r=%s%s%s", requestUrl(request), route, dad, additionalParamsQueryString));
 	}
@@ -293,8 +285,7 @@ public final class ApplicationManager {
 					}
 				}
 				route.put("additionalParams", additionalParams);
-				System.out.println("Before autentika: " + route.toString());
-				session.setAttribute("returnRoute", route.toString());
+				session.setAttribute(RETURN_ROUTE_ATTRIBUTE_NAME, route.toString());
 			}
 		}
 	}
@@ -311,12 +302,7 @@ public final class ApplicationManager {
 	}
 	
 	public static String encodeParameterValue(String value) {
-		try {
-			return URLEncoder.encode(URLDecoder.decode(value, "utf-8"), "utf-8");
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-		return value;
+		return URLEncoder.encode(URLDecoder.decode(value, Charset.forName("utf-8")), Charset.forName("utf-8"));
 	}
 	
 }
