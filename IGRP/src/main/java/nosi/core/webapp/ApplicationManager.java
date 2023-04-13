@@ -287,7 +287,8 @@ public final class ApplicationManager {
 					String paramName = paramNames.nextElement();
 					if(!"r".equals(paramName) && !"dad".equals(paramName)) {
 						JSONObject param = new JSONObject();
-						param.put(paramName, request.getParameter(paramName));
+						param.put("paramName", paramName);
+						param.put("paramValue", request.getParameter(paramName));
 						additionalParams.put(param);
 					}
 				}
