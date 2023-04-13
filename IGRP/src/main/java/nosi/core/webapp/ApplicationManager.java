@@ -1,6 +1,5 @@
 package nosi.core.webapp;
 
-
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
@@ -15,6 +14,7 @@ import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -245,12 +245,21 @@ public final class ApplicationManager {
 		JSONObject json = new JSONObject(returnRoute);
 		String appCode = json.optString("appCode");
 		String pageCode = json.optString("pageCode");
+		String dad = json.optString("dad");
 		if(appCode.isEmpty() || pageCode.isEmpty())
 			return Optional.empty();
 		String actionCode = json.optString("actionCode", "index");
-		String additionalParams = json.optString("additionalParams");
 		
-		String dad = json.optString("dad");
+		JSONArray additionalParams = json.optJSONArray("additionalParams");
+		StringBuilder additionalParamsQueryString = new StringBuilder("");
+		if(additionalParams != null) 
+			for(int i = 0; i < additionalParams.length(); i++) {
+				JSONObject param = additionalParams.optJSONObject(i);
+				if(param != null && param.keySet().stream().anyMatch(p -> p.equals("paramName")))
+					additionalParamsQueryString.append(String.format("&%s=%s", param.optString("paramName"), encodeParameterValue(param.optString("paramValue"))));
+			}
+		
+		
 		dad = !dad.isEmpty() ? String.format("&dad=%s", dad) : dad;
 		
 		String jsonLookup = encodeParameterValue(json.optString("jsonLookup"));
@@ -258,14 +267,12 @@ public final class ApplicationManager {
 		System.out.println("buildAppLinkFromSession (jsonLookup): " + jsonLookup);
 		
 		String route = EncrypDecrypt.encryptURL(String.format("%s/%s/%s", appCode, pageCode, actionCode), session.getId()).replace(" ", "+");
-		return Optional.of(String.format("%s?r=%s%s%s%s", requestUrl(request), route, dad, jsonLookup, additionalParams));
+		return Optional.of(String.format("%s?r=%s%s%s", requestUrl(request), route, dad, additionalParams));
 	}
 	
 	private static void rememberRoute(HttpServletRequest request) {
 		String r = request.getParameter("r");
 		String dad = request.getParameter("dad");
-		String jsonLookup = request.getParameter("jsonLookup");
-		final List<String> skipParamNames = Arrays.asList("r", "dad", "jsonLookup");
 		if (r != null) {
 			String[] arr = r.split("/");
 			if (arr.length == 3) {
@@ -276,17 +283,17 @@ public final class ApplicationManager {
 				route.put("actionCode", arr[2]);
 				if(dad != null && !dad.isEmpty())
 					route.put("dad", dad);
-				if(jsonLookup != null && !jsonLookup.isEmpty())
-					route.put("jsonLookup", jsonLookup);
-				StringBuilder additionalParams = new StringBuilder("");
+				JSONArray additionalParams = new JSONArray();
 				Enumeration<String> paramNames = request.getParameterNames();
 				while(paramNames.hasMoreElements()) {
 					String paramName = paramNames.nextElement();
-					if(!skipParamNames.contains(paramName))
-						additionalParams.append(String.format("&%s=%s", paramName, request.getParameter(paramName)));
+					if(!"r".equals(paramName) && !"dad".equals(paramName)) {
+						JSONObject param = new JSONObject();
+						param.put(paramName, request.getParameter(paramName));
+						additionalParams.put(param);
+					}
 				}
-				route.put("additionalParams", additionalParams.toString());
-				
+				route.put("additionalParams", additionalParams);
 				session.setAttribute("returnRoute", route.toString());
 			}
 		}
