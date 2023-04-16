@@ -29,9 +29,8 @@ import org.json.JSONObject;
 
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Invocation;
 import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.HttpHeaders;
+import nosi.core.config.Config;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -170,12 +169,12 @@ public class PageController extends Controller {
 			if (action != null) {
 				Core.setMessageSuccess("Página atualizada com sucesso.");
 
-				Historic hitoric_page = new Historic();
-				hitoric_page.setNome(Core.getCurrentUser().getName());
-				hitoric_page.setIdUtilizador(Core.getCurrentUser().getId());
-				hitoric_page.setPage(action);
-				hitoric_page.setDescricao("Informações da Página Alterada");
-				hitoric_page.insert();
+				Historic historicPage = new Historic();
+				historicPage.setNome(Core.getCurrentUser().getName());
+				historicPage.setIdUtilizador(Core.getCurrentUser().getId());
+				historicPage.setPage(action);
+				historicPage.setDescricao("Informações da Página Alterada");
+				historicPage.insert();
 
 				Application app2 = Core.findApplicationById(action.getApplication().getId());
 
@@ -210,8 +209,8 @@ public class PageController extends Controller {
 			action.setTipo(model.getPublico());
 			action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
 			action.setPackage_name("nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".pages");
-			action.setVersion(model.getVersion() == null ? "2.3." + this.getConfig().VERSION
-					: model.getVersion() + "." + this.getConfig().VERSION);
+			action.setVersion(model.getVersion() == null ? "2.3." + Config.VERSION
+					: model.getVersion() + "." + Config.VERSION);
 			action.setAction("index");
 			action.setIsComponent((short) model.getComponente());
 			action.setXsl_src(action.getApplication().getDad().toLowerCase() + "/" + action.getPage().toLowerCase()
@@ -228,12 +227,12 @@ public class PageController extends Controller {
 
 			action = action.insert();
 
-			Historic hitoric_page = new Historic();
-			hitoric_page.setNome(Core.getCurrentUser().getName());
-			hitoric_page.setIdUtilizador(Core.getCurrentUser().getId());
-			hitoric_page.setDescricao("Criação da página");
-			hitoric_page.setPage(action);
-			hitoric_page.insert();
+			Historic historicPage = new Historic();
+			historicPage.setNome(Core.getCurrentUser().getName());
+			historicPage.setIdUtilizador(Core.getCurrentUser().getId());
+			historicPage.setDescricao("Criação da página");
+			historicPage.setPage(action);
+			historicPage.insert();
 
 			if (action != null) {
 
@@ -291,12 +290,12 @@ public class PageController extends Controller {
 				recover.setStatus(1);
 				recover.update();
 
-				Historic hitoric_page = new Historic();
-				hitoric_page.setNome(Core.getCurrentUser().getName());
-				hitoric_page.setIdUtilizador(Core.getCurrentUser().getId());
-				hitoric_page.setPage(recover);
-				hitoric_page.setDescricao("Página Recuperada");
-				hitoric_page.insert();
+				Historic historicPage = new Historic();
+				historicPage.setNome(Core.getCurrentUser().getName());
+				historicPage.setIdUtilizador(Core.getCurrentUser().getId());
+				historicPage.setPage(recover);
+				historicPage.setDescricao("Página Recuperada");
+				historicPage.insert();
 
 				Core.setMessageInfo("Página Recuperada Com Sucesso!");
 				return this.forward("igrp", "page", "index");
@@ -324,19 +323,19 @@ public class PageController extends Controller {
 		/* Start-Code-Block (eliminar_pagina)  *//* End-Code-Block  */
 		/*----#start-code(eliminar_pagina)----*/
 
-		Action eliminar_page = new Action().findOne(Core.toInt(model.getId()));
-		eliminar_page.setStatus(2);
-		eliminar_page.update();
+		Action eliminarPage = new Action().findOne(Core.toInt(model.getId()));
+		eliminarPage.setStatus(2);
+		eliminarPage.update();
 		
-		Historic hitoric_page = new Historic();
-		hitoric_page.setNome(Core.getCurrentUser().getName());
-		hitoric_page.setIdUtilizador(Core.getCurrentUser().getId());
-		hitoric_page.setPage(eliminar_page);
-		hitoric_page.setDescricao("Página Eliminada.");
-		hitoric_page.insert();
+		Historic historicPage = new Historic();
+		historicPage.setNome(Core.getCurrentUser().getName());
+		historicPage.setIdUtilizador(Core.getCurrentUser().getId());
+		historicPage.setPage(eliminarPage);
+		historicPage.setDescricao("Página Eliminada.");
+		historicPage.insert();
 
-		List<Menu> menu_delete = new Menu().find().where("action", "=", Core.toInt(model.getId())).all();
-		for (Menu menu_del : menu_delete) {
+		List<Menu> menuDelete = new Menu().find().where("action", "=", Core.toInt(model.getId())).all();
+		for (Menu menu_del : menuDelete) {
 			menu_del.delete();
 		}
 		Core.setMessageSuccess("Página eliminada com Sucesso!");
@@ -371,9 +370,9 @@ public class PageController extends Controller {
 		String messages = "";
 		if (null!=ac) {
 			pageFile = new PageFile();
-			String path_class = Igrp.getInstance().getRequest().getParameter("p_package").trim();
-			path_class = path_class.replaceAll("(\r\n|\n)", "");
-			path_class = path_class.replace(".", File.separator) + File.separator + ac.getPage().toLowerCase().trim();
+			String pathClass = Igrp.getInstance().getRequest().getParameter("p_package").trim();
+			pathClass = pathClass.replaceAll("(\r\n|\n)", "");
+			pathClass = pathClass.replace(".", File.separator) + File.separator + ac.getPage().toLowerCase().trim();
 			String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(ac);
 			String path_xsl_work_space = null;
 			String path_class_work_space = null;
@@ -388,9 +387,9 @@ public class PageController extends Controller {
 				path_class_work_space = this.getConfig().getBasePahtClassWorkspace(ac.getApplication().getDad(),
 						ac.getPage());
 			}
-			path_class = this.getConfig().getBasePathClass() + path_class;
-			if (pageFile.isAllFileExists() && path_xsl != null && !path_xsl.equals("") && path_class != null
-					&& !path_class.equals("")) {
+			pathClass = this.getConfig().getBasePathClass() + pathClass;
+			if (pageFile.isAllFileExists() && path_xsl != null && !path_xsl.equals("") 
+					&& !pathClass.equals("")) {
 				this.processJson(pageFile.getFileJson(), ac);
 
 				if (Boolean.TRUE.equals(workspace))
@@ -401,9 +400,9 @@ public class PageController extends Controller {
 						new String[] { pageFile.getFileXml(), pageFile.getFileXsl(), pageFile.getFileJson() });
 				 boolean r;
 				if (ac.getIsComponent() == 0) {
-					r = FileHelper.saveFilesJava(path_class, ac.getPage(), new String[] { pageFile.getFileModel(),
+					r = FileHelper.saveFilesJava(pathClass, ac.getPage(), new String[] { pageFile.getFileModel(),
 							pageFile.getFileView(), pageFile.getFileController() });
-					compiler = this.processCompile(path_class, ac.getPage());
+					compiler = this.processCompile(pathClass, ac.getPage());
 					if (r && !compiler.hasError() && Boolean.TRUE.equals(workspace)) {// Check if not error on the compilation class
 						
 							if (!FileHelper.fileExists(path_class_work_space)) {// check directory
@@ -422,12 +421,12 @@ public class PageController extends Controller {
 									Core.toJson(new MapErrorCompile(Core.gt("Componente registado com sucesso"), null)))
 							+ "</message>");
 			}
-			Historic hitoric_page = new Historic();
-			hitoric_page.setNome(Core.getCurrentUser().getName());
-			hitoric_page.setIdUtilizador(Core.getCurrentUser().getId());
-			hitoric_page.setPage(ac);
-			hitoric_page.setDescricao("Alterações no Gerador.");
-			hitoric_page.insert();
+			Historic historicPage = new Historic();
+			historicPage.setNome(Core.getCurrentUser().getName());
+			historicPage.setIdUtilizador(Core.getCurrentUser().getId());
+			historicPage.setPage(ac);
+			historicPage.setDescricao("Alterações no Gerador.");
+			historicPage.insert();
 		}
 
 		if (compiler != null && compiler.hasError())
@@ -436,7 +435,7 @@ public class PageController extends Controller {
 		if (compiler != null && compiler.hasWarning())
 			messages += ("<message type=\"" + FlashMessage.WARNING + "\">"
 					+ StringEscapeUtils.escapeXml11(compiler.getWarningToJson()) + "</message>");
-		if (compiler != null && !compiler.hasError() && ac != null) {
+		if (compiler != null && !compiler.hasError()) {
 			messages += ("<message type=\"" + FlashMessage.SUCCESS + "\">"
 					+ StringEscapeUtils.escapeXml10(Core.toJson(new MapErrorCompile(
 							ac.getIsComponent() == 0 ? Core.gt("CompSuc") : Core.gt("Componente registado com sucesso"),
@@ -446,10 +445,10 @@ public class PageController extends Controller {
 		return this.renderView("<messages>" + messages + "</messages>");
 	}
 
-	private Compiler processCompile(String path_class, String page) {
-		String path_class_ = path_class + File.separator;
+	private Compiler processCompile(String pathClass, String page) {
+		pathClass = pathClass + File.separator;
 		Compiler compiler = new Compiler();
-		String fileName = path_class_ + page;
+		String fileName = pathClass + page;
 		compiler.addFileName(fileName + ".java");
 		compiler.addFileName(fileName + "View.java");
 		compiler.addFileName(fileName + "Controller.java");
@@ -535,7 +534,7 @@ public class PageController extends Controller {
 		String json = "[";
 		List<Share> shares = new Share().find().andWhere("env.id", "=", app).andWhere("type", "=", "PAGE")
 				.andWhere("status", "=", 1).all();
-		List<Action> aux = new ArrayList<Action>();
+		List<Action> aux = new ArrayList<>();
 		if (shares != null)
 			for (Share share : shares) {
 				Action action = new Action().findOne(share.getType_fk());
@@ -641,8 +640,8 @@ public class PageController extends Controller {
 		if (Core.isNotNull(page) && Core.isNotNull(app)) {
 			Action ac = new Action().find().andWhere("page", "=", page).andWhere("application", "=", Core.toInt(app))
 					.one();
-			String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(ac);
-			String content = FileHelper.readFile(path_xsl, ac.getPage() + ".xsl");
+			String pathXsl = this.getConfig().getCurrentBaseServerPahtXsl(ac);
+			String content = FileHelper.readFile(pathXsl, ac.getPage() + ".xsl");
 			this.format = Response.FORMAT_XSL;
 			return this.renderView(content.replaceAll("<xsl:include href=\"../../../",
 					"<xsl:include href=\"" + this.getConfig().getLinkImg() + "/"));
@@ -744,7 +743,7 @@ public class PageController extends Controller {
 				ac = new Action().findOne(Core.toInt(p_id));
 			else {
 				if(p_id.contains("@")) {
-					String splittedId[] = p_id.split("@");
+					String[] splittedId = p_id.split("@");
 					p_app = splittedId[0];
 					p_id = splittedId[1];
 				}

@@ -33,6 +33,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -490,7 +491,7 @@ public class EnvController extends Controller {
 				if(ac != null && ac.getApplication() != null) {
 					page = String.format("%s/%s/index", ac.getApplication().getDad().toLowerCase(), ac.getPage());
 					if(ac.getAction_descr() != null)
-						page = String.format("%s&title=%s", page, URLEncoder.encode(ac.getAction_descr(), Charset.forName("utf-8")));
+						page = String.format("%s&title=%s", page, URLEncoder.encode(ac.getAction_descr(), StandardCharsets.UTF_8));
 				}
 				url = this.configApp.getExternalUrl(env.getUrl());
 				url = String.format("%s?r=%s", url, page);

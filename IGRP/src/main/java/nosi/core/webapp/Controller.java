@@ -223,9 +223,9 @@ public class Controller {
         if (Core.isNotNull(obj)) {
             TaskServiceQuery task = (TaskServiceQuery) obj;
             List<TaskVariableDetails> v = taskService.queryHistoryTaskVariables(task.getId());
-            String prof_id = v.stream().filter(var -> var.getPropertyId().equals("profile")).findFirst().get()
+            String profId = v.stream().filter(var -> var.getPropertyId().equals("profile")).findFirst().get()
                     .getPropertyValue();
-            ProfileType prof = new ProfileType().findOne(Core.toInt(prof_id));
+            ProfileType prof = new ProfileType().findOne(Core.toInt(profId));
             String userName = v.stream().filter(var -> var.getPropertyId().equals("userName")).findFirst().get()
                     .getPropertyValue();
             details.setnProcess(task.getProcessInstanceId());
