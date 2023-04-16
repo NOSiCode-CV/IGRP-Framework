@@ -111,7 +111,7 @@ public abstract class Model { // IGRP super model
 				for (Tuple tuple : tuples) {
 					T t;
 					try {
-						t = className.newInstance();
+						t = className.getDeclaredConstructor().newInstance();
 						Field[] fields = null;
 						if (t instanceof IGRPChart3D || t instanceof IGRPChart2D) {
 							fields = className.getSuperclass().getDeclaredFields();
@@ -132,7 +132,8 @@ public abstract class Model { // IGRP super model
 							}
 							list.add(t);
 						}
-					} catch (InstantiationException | IllegalAccessException e1) {
+					}  catch (SecurityException | NoSuchMethodException | InvocationTargetException
+							| IllegalArgumentException | InstantiationException | IllegalAccessException e1) {
 						e1.printStackTrace();
 					}
 				}
@@ -142,7 +143,7 @@ public abstract class Model { // IGRP super model
 		return null;
 	}
 
-	public <T> List<T> loadFormList(BaseQueryInterface query, Class<T> className) {
+	public <T> List<T> loadFormList(BaseQueryInterface query, Class<T> className)  {
 		if (query != null) {
 			List<Tuple> queryResult = query.getResultList();
 			if (queryResult != null) {
@@ -150,19 +151,18 @@ public abstract class Model { // IGRP super model
 				for (Tuple tuple : queryResult) {
 					T t;
 					try {
-						t = className.newInstance();
+						t = className.getDeclaredConstructor().newInstance();
 						for (Field field : className.getDeclaredFields()) {
-							try {
-								Object value = tuple.get(field.getName()); 
-								if (value != null) 
-									BeanUtils.setProperty(t, field.getName(),new Pair(value.toString(), value.toString())); 
-							} catch (java.lang.IllegalArgumentException | IllegalAccessException
-									| InvocationTargetException e) {
-								e.printStackTrace();
-							}
+						
+								Object value = tuple.get(field.getName());
+								if (value != null)
+									BeanUtils.setProperty(t, field.getName(),
+											new Pair(value.toString(), value.toString()));
+							
 						}
 						list.add(t);
-					} catch (InstantiationException | IllegalAccessException e1) {
+					} catch (SecurityException | NoSuchMethodException | InvocationTargetException
+							| IllegalArgumentException | InstantiationException | IllegalAccessException e1) {
 						e1.printStackTrace();
 					}
 				}
@@ -179,13 +179,13 @@ public abstract class Model { // IGRP super model
 	public void load() throws IllegalArgumentException, IllegalAccessException {
 		this.loadModelFromFile();
 		Class<? extends Model> c = this.getClass();
-		List<Field> fields = new ArrayList<Field>(); // For particular case purpose ...
+		List<Field> fields = new ArrayList<>(); // For particular case purpose ...
 		for (Field m : c.getDeclaredFields()) {
 			m.setAccessible(true);
 			String typeName = m.getType().getName();
 			if (m.getType().isArray()) {
 				String[] aux = null;
-				aux = (String[]) Core.getParamArray(
+				aux = Core.getParamArray(
 						m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("")
 								? m.getAnnotation(RParam.class).rParamName()
 								: m.getName() // default case use the name of field
@@ -218,13 +218,13 @@ public abstract class Model { // IGRP super model
 		}
 		Map<String, List<Part>> allFiles = this.getFiles();
 		for (Field obj : fields) {
-			Map<String, List<String>> mapFk = new LinkedHashMap<String, List<String>>();
-			Map<String, List<String>> mapFkDesc = new LinkedHashMap<String, List<String>>();
-			Map<String, List<String>> mapFileId = new LinkedHashMap<String, List<String>>();
+			Map<String, List<String>> mapFk = new LinkedHashMap<>();
+			Map<String, List<String>> mapFkDesc = new LinkedHashMap<>();
+			Map<String, List<String>> mapFileId = new LinkedHashMap<>();
 
 			Class<?> c_ = obj.getDeclaredAnnotation(SeparatorList.class).name();
 
-			List<String> aux = new ArrayList<String>();
+			List<String> aux = new ArrayList<>();
 
 			for (Field m : c_.getDeclaredFields()) {
 
@@ -232,18 +232,18 @@ public abstract class Model { // IGRP super model
 				aux.add(m.getName());
 
 				String s = c_.getName().substring(c_.getName().lastIndexOf("$") + 1).toLowerCase();
-				String[] file_id = Core.getAttributeArray(Model.getParamFileId(m.getName()));
+				String[] fileId = Core.getAttributeArray(Model.getParamFileId(m.getName()));
 			
-				if(file_id==null) {
-					file_id = Core.getParamArray(Model.getParamFileId(m.getName()));
+				if(fileId==null) {
+					fileId = Core.getParamArray(Model.getParamFileId(m.getName()));
 				}
-				mapFileId.put(m.getName(),  file_id != null ? Arrays.asList(file_id) : new ArrayList<String>());
+				mapFileId.put(m.getName(),  fileId != null ? Arrays.asList(fileId) : new ArrayList<String>());
 				if (m.getName().equals(s + "_id")) {
 					String[] values1 = Core.getParamArray("p_" + m.getName());
 					if (values1 != null && values1.length > 1 && values1[0] != null && values1[0].isEmpty()) {
-						String aux_[] = new String[values1.length - 1];
-						System.arraycopy(values1, 1, aux_, 0, aux_.length);
-						values1 = aux_;
+						String[] auxS = new String[values1.length - 1];
+						System.arraycopy(values1, 1, auxS, 0, auxS.length);
+						values1 = auxS;
 					}
 					String[] values2 = values1;
 					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
@@ -252,13 +252,13 @@ public abstract class Model { // IGRP super model
 					String param = "p_" + m.getName() + "_fk";
 					String[] values1 = Core.getParamArray(param);
 					if(((values1!=null && values1.length==0) || values1==null) && (allFiles!=null && allFiles.containsKey(param))) 
-						values1 = allFiles.get(param).stream().map(f->f.getName()).toArray(String[]::new); 
+						values1 = allFiles.get(param).stream().map(Part::getName).toArray(String[]::new); 
 					String[] values2 = Core.getParamArray(param+ "_desc");
 					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
 					// If the field is checkbox, we don't have _check_desc with value2=null so
 					// causing indexOutOfBounds here
 					List<String> list1 = values1 != null ? Arrays.asList(new String[values1.length])
-							: new ArrayList<String>();
+							: new ArrayList<>();
 					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : list1);
 
 				}
@@ -282,7 +282,7 @@ public abstract class Model { // IGRP super model
 						MAX_ITERATION = list.size();
 				}
 				while (row < MAX_ITERATION) {
-					Object obj2 = Class.forName(c_.getName()).newInstance();
+					Object obj2 = Class.forName(c_.getName()).getDeclaredConstructor().newInstance();
 					for (Field m : obj2.getClass().getDeclaredFields()) {
 						m.setAccessible(true);
 						String param = "p_" + m.getName().toLowerCase() + "_fk";
@@ -323,11 +323,12 @@ public abstract class Model { // IGRP super model
 					auxResults.add(obj2);
 					row++;
 				}
-			} catch (ClassNotFoundException | InstantiationException e) {
+			} catch (ClassNotFoundException | SecurityException | NoSuchMethodException | InvocationTargetException
+					| IllegalArgumentException | InstantiationException | IllegalAccessException e) { 
 				e.printStackTrace();
 			} catch (IndexOutOfBoundsException e) {
 				continue; // go to next -- Separator list
-			}
+			} 
 		}
 		this.loadModelFromAttribute();
 	}
@@ -479,7 +480,7 @@ public abstract class Model { // IGRP super model
 								.filter(f -> f.getName().equals(m.getAnnotation(RParam.class).rParamName()))
 								.toArray(Part[]::new);
 						if (filesArray != null) {
-							m.set(this, (Part[]) filesArray);
+							m.set(this, filesArray);
 						}
 					}
 				} catch (IOException | ServletException e) {
