@@ -482,24 +482,24 @@ public class EnvController extends Controller {
 	} 
 	
 	private String buildAppUrlUsingAutentikaForSSO(Application env) {
-		String url = null;
 		try {
 			String contextName = Core.getDeployedWarName(); 
 			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !contextName.equalsIgnoreCase(env.getUrl())) {
-				Action ac = env.getAction(); 
-				String page = "tutorial/DefaultPage/index";
+				Action ac = env.getAction();
+				StringBuilder url = new StringBuilder(this.configApp.getExternalUrl(env.getUrl()));
 				if(ac != null && ac.getApplication() != null) {
-					page = String.format("%s/%s/index", ac.getApplication().getDad().toLowerCase(), ac.getPage());
+					String dad =ac.getApplication().getDad().toLowerCase();
+					url.append(String.format("?r=%s/%s/index&dad=%s", dad, ac.getPage(), dad));
 					if(ac.getAction_descr() != null)
-						page = String.format("%s&title=%s", page, URLEncoder.encode(ac.getAction_descr(), StandardCharsets.UTF_8));
-				}
-				url = this.configApp.getExternalUrl(env.getUrl());
-				url = String.format("%s?r=%s", url, page);
+						url.append(String.format("&title=%s", URLEncoder.encode(ac.getAction_descr(), Charset.forName("utf-8"))));
+				}else
+					url.append(String.format("?r=tutorial/DefaultPage/index&dad=%s", env.getDad().toLowerCase()));
+				return url.toString();
 			}
 		} catch (Exception ignored) {
 			// Ignored
 		}
-		return url;
+		return null;
 	}
 	
 	public Map<String,String> listFilesDirectory(String path) {
