@@ -128,17 +128,15 @@ public final class ApplicationManager {
 		String clientRequestProtocol = request.getHeader("X-Forwarded-Proto");
 		if(clientRequestProtocol != null && !clientRequestProtocol.trim().isEmpty()) {
 			int index = url.indexOf("://");
-			System.out.printf("index e URL "+index+ " - "+url);
 			if(index != -1)
 				url = String.format("%s%s", clientRequestProtocol, url.substring(index));
 		}
 		
-		System.out.printf("Bom vamos ver isto URL "+url);
 		return url;
 	}
 	
 	private static Map<String, String> extractStateValues(String state){
-		Map<String, String> stateValues = new HashMap<String, String>();
+		Map<String, String> stateValues = new HashMap<>();
 		if(state == null || state.trim().isEmpty())
 			return stateValues;
 		String[] aux = state.split("/"); // Ex.: ENV/id/APP;ORG;PROF/p_id=1;p_type=3
@@ -192,9 +190,9 @@ public final class ApplicationManager {
 				if (envIgrpPlSql != null)
 					dad = envIgrpPlSql.getDad();
 			}
-			String page = String.format("%s/%s/index", ac.getApplication().getDad().toLowerCase(), ac.getPage());
+			String page = String.format("%s/%s/index&dad=%s", ac.getApplication().getDad().toLowerCase(), ac.getPage(),dad);
 			if (ac.getAction_descr() != null)
-				page = String.format("%s&title=%s", page, encodeParameterValue(ac.getAction_descr()));
+				page = String.format("%s&dad=%s&title=%s", page, dad,encodeParameterValue(ac.getAction_descr()));
 			return Optional.of(page);
 		}
 		return Optional.empty();
