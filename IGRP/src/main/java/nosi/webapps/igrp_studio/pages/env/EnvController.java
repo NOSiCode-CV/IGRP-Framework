@@ -488,10 +488,11 @@ public class EnvController extends Controller {
 				Action ac = env.getAction();
 				StringBuilder url = new StringBuilder(this.configApp.getExternalUrl(env.getUrl()));
 				if(ac != null && ac.getApplication() != null) {
-					String dad =ac.getApplication().getDad().toLowerCase();
-					url.append(String.format("?r=%s/%s/index&dad=%s", dad, ac.getPage(), dad));
+					String dad = env.getDad().toLowerCase();
+					String dadOfPage =ac.getApplication().getDad().toLowerCase();
+					url.append(String.format("?r=%s/%s/index&dad=%s", dadOfPage, ac.getPage(), dad));
 					if(ac.getAction_descr() != null)
-						url.append(String.format("&title=%s", URLEncoder.encode(ac.getAction_descr(), Charset.forName("utf-8"))));
+						url.append(String.format("&title=%s", URLEncoder.encode(ac.getAction_descr(), StandardCharsets.UTF_8)));
 				}else
 					url.append(String.format("?r=tutorial/DefaultPage/index&dad=%s", env.getDad().toLowerCase()));
 				return url.toString();
