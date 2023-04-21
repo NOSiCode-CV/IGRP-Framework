@@ -128,9 +128,12 @@ public final class ApplicationManager {
 		String clientRequestProtocol = request.getHeader("X-Forwarded-Proto");
 		if(clientRequestProtocol != null && !clientRequestProtocol.trim().isEmpty()) {
 			int index = url.indexOf("://");
+			System.out.printf("index e URL "+index+ " - "+url);
 			if(index != -1)
 				url = String.format("%s%s", clientRequestProtocol, url.substring(index));
 		}
+		
+		System.out.printf("Bom vamos ver isto URL "+url);
 		return url;
 	}
 	
