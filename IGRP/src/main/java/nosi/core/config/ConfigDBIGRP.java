@@ -31,7 +31,6 @@ public class ConfigDBIGRP {
     private static final String FILE_NAME_IGRP_CONNECTION_CONFIG = "db_igrp_config.xml";
     private static final String FILE_NAME_IGRP_CONNECTION_CONFIG_H2 = "db_igrp_config_h2.xml";
     public static final String FILE_NAME_HIBERNATE_IGRP_CONFIG = ConfigApp.getInstance().getBaseConnection();
-;
 
     //Default configuration for h2
     private ConfigDBIGRP() {
