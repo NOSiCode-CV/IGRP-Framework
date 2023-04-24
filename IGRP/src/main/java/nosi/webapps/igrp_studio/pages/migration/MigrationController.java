@@ -663,7 +663,7 @@ public class MigrationController extends Controller {
 	
 	private void prepareMigrationLocation() {
 		@SuppressWarnings("unchecked")
-		Map<String, Object> configs = HibernateUtils.REGISTRY_BUILDER_IGRP.getAggregatedCfgXml().getConfigurationValues();
+		Map<String, Object> configs = HibernateUtils.getSettings();
 		StringBuilder location = new StringBuilder(migrationLocation);
 		String folder = IgrpMigrationAPI.getDbEngineNameFromDsn((String) configs.get(AvailableSettings.URL));
 		if(folder != null) {
