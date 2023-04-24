@@ -64,7 +64,7 @@ public class DominioController extends Controller {
      	//cod pa table de lista de dominio
      	if(Core.isNotNull(model.getAplicacao())) {
      		view.table_1.setVisible(true);
-     		model.loadTable_1(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), "SELECT DISTINCT dominio as id_dom, dominio  as dominio FROM tbl_domain WHERE env_fk=:env_fk").addInt("env_fk", model.getAplicacao()));
+     		model.loadTable_1(Core.query(this.configApp.getBaseConnection(), "SELECT DISTINCT dominio as id_dom, dominio  as dominio FROM tbl_domain WHERE env_fk=:env_fk").addInt("env_fk", model.getAplicacao()));
      	}else {
      		view.table_1.setVisible(false);
      	}
