@@ -1,1 +1,68 @@
-ddd
+stages:
+  - npm
+  - java
+  - build
+  - deploy
+
+npm:
+  stage: npm
+  image: node:10
+  script:
+    - cd liferay
+    - chmod 777 gradlew
+    - cd themes/nosi-sober-theme
+    - npm rebuild node-sass
+    - npm install
+    - cd ../../
+    - ls
+  artifacts:
+    name: "my-build"
+    expire_in: 1 week
+    paths:
+      - liferay
+    
+java:
+  stage: java
+  image: openjdk:8
+  script:
+    - cd liferay
+    - chmod +x gradlew
+    - ./gradlew packageRunBuild
+    - ./gradlew deploy
+    - ./gradlew createDockerfile -Pliferay.workspace.environment=dev
+  artifacts:
+    name: "my-build"
+    expire_in: 1 week
+    paths:
+      - liferay/build/
+
+    
+build_image:
+  stage: build
+  image: docker:18.09
+  services:
+    - name: docker:18.09-dind
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_DRIVER: overlay2
+    DOCKER_HOST: tcp://docker:2375
+  before_script:
+    - cd liferay/build/docker/
+    - docker login -u $DOCKER_REGISTRY_USERNAME  -p $DOCKER_REGISTRY_PASSWORD $DOCKER_REGISTRY 
+  script:
+    - docker build -t registry.nosi.cv/nosi-portal-dev/liferay7.3ga:latest .
+    - docker push registry.nosi.cv/nosi-portal-dev/liferay7.3ga:latest
+    - docker tag registry.nosi.cv/nosi-portal-dev/liferay7.3ga:latest registry.nosi.cv/nosi-portal-dev/liferay7.3ga:$CI_PIPELINE_ID
+    - docker push registry.nosi.cv/nosi-portal-dev/liferay7.3ga:$CI_PIPELINE_ID
+
+      
+deploy:
+  stage: deploy
+  image: gcc:latest
+  script:
+    - |
+      curl -u "$user:$password" \
+        -X POST \
+        -H 'Accept: application/json' \
+        -H 'Content-Type: application/json' \
+        'https://manager.nosi.cv/v3/project/c-cpx7p:p-bhmw7/workloads/statefulset:dev-portal-nosi:liferay?action=redeploy'
