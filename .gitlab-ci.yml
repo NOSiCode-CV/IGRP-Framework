@@ -12,7 +12,7 @@ compile:
     name: "horizon"
     expire_in: 1 day
     paths:
-      - data
+      - /data
       - /IGRP/target/
     
 build_image:
