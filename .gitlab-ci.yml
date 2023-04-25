@@ -12,8 +12,8 @@ compile:
     name: "horizon"
     expire_in: 1 day
     paths:
-      - /data
-      - /IGRP/target/
+      - data
+      - IGRP/target/
     
 build_image:
   stage: build
