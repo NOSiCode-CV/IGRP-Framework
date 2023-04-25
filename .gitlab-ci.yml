@@ -26,10 +26,9 @@ build_image:
     DOCKER_DRIVER: overlay2
     DOCKER_HOST: tcp://docker:2375
   before_script:
-    - cd data/
     - docker login -u $DOCKER_REGISTRY_USERNAME  -p $DOCKER_REGISTRY_PASSWORD $DOCKER_REGISTRY 
   script:
-    - docker build -t registry.nosi.cv/igrpweb-horizon/app1:latest .
+    - docker build -t registry.nosi.cv/igrpweb-horizon/app1:latest data/.
     - docker push registry.nosi.cv/igrpweb-horizon/app1:latest
     - docker tag registry.nosi.cv/igrpweb-horizon/app1:latest registry.nosi.cv/igrpweb-horizon/app1:$CI_PIPELINE_ID
     - docker push registry.nosi.cv/igrpweb-horizon/app1:$CI_PIPELINE_ID
