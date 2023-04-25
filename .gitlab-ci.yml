@@ -1,41 +1,18 @@
 stages:
-  - npm
-  - java
+  - compile
   - build
   - deploy
 
-npm:
-  stage: npm
-  image: node:10
+compile:
+  stage: compile
+  image: maven:3.8.5-openjdk-17
   script:
-    - cd liferay
-    - chmod 777 gradlew
-    - cd themes/nosi-sober-theme
-    - npm rebuild node-sass
-    - npm install
-    - cd ../../
-    - ls
+    - mvn -T 1C clean package -B
   artifacts:
     name: "my-build"
     expire_in: 1 week
     paths:
       - liferay
-    
-java:
-  stage: java
-  image: openjdk:8
-  script:
-    - cd liferay
-    - chmod +x gradlew
-    - ./gradlew packageRunBuild
-    - ./gradlew deploy
-    - ./gradlew createDockerfile -Pliferay.workspace.environment=dev
-  artifacts:
-    name: "my-build"
-    expire_in: 1 week
-    paths:
-      - liferay/build/
-
     
 build_image:
   stage: build
@@ -47,13 +24,13 @@ build_image:
     DOCKER_DRIVER: overlay2
     DOCKER_HOST: tcp://docker:2375
   before_script:
-    - cd liferay/build/docker/
+    - cd data/
     - docker login -u $DOCKER_REGISTRY_USERNAME  -p $DOCKER_REGISTRY_PASSWORD $DOCKER_REGISTRY 
   script:
-    - docker build -t registry.nosi.cv/nosi-portal-dev/liferay7.3ga:latest .
-    - docker push registry.nosi.cv/nosi-portal-dev/liferay7.3ga:latest
-    - docker tag registry.nosi.cv/nosi-portal-dev/liferay7.3ga:latest registry.nosi.cv/nosi-portal-dev/liferay7.3ga:$CI_PIPELINE_ID
-    - docker push registry.nosi.cv/nosi-portal-dev/liferay7.3ga:$CI_PIPELINE_ID
+    - docker build -t registry.nosi.cv/igrpweb-horizon/app1:latest .
+    - docker push registry.nosi.cv/igrpweb-horizon/app1:latest
+    - docker tag registry.nosi.cv/igrpweb-horizon/app1:latest registry.nosi.cv/igrpweb-horizon/app1:$CI_PIPELINE_ID
+    - docker push registry.nosi.cv/igrpweb-horizon/app1:$CI_PIPELINE_ID
 
       
 deploy:
@@ -65,4 +42,4 @@ deploy:
         -X POST \
         -H 'Accept: application/json' \
         -H 'Content-Type: application/json' \
-        'https://manager.nosi.cv/v3/project/c-cpx7p:p-bhmw7/workloads/statefulset:dev-portal-nosi:liferay?action=redeploy'
+        'https://manager.nosi.cv/v3/project/c-cpx7p:p-mkpb6/workloads/statefulset:horizon:igrp?action=redeploy'
