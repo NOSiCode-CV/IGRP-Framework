@@ -59,10 +59,10 @@ public class DomainHeper {
 	}
 	
 	public static BaseQueryInterface getDomainQuery(Integer appId) {
-		Properties properties = ConfigApp.getInstance().getMainSettings();
+		
 		if(Core.isNullOrZero(appId))
-			return Core.query(properties.getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), DomainHeper.SQL_DOMINIO_PUB);
-		return Core.query(properties.getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), DomainHeper.SQL_DOMINIO_PRIVATE).addInt("env_fk", appId);
+			return Core.query(ConfigApp.getInstance().getBaseConnection(), DomainHeper.SQL_DOMINIO_PUB);
+		return Core.query(ConfigApp.getInstance().getBaseConnection(), DomainHeper.SQL_DOMINIO_PRIVATE).addInt("env_fk", appId);
 	}
 
 	public static boolean saveDomain(Dominio model) {

@@ -160,7 +160,7 @@ public class MigrationController extends Controller {
 			}
 			sql+= ")";
 		}*/
-		model.loadTable_pagina(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), sql).addInt("application_id", Core.toInt(model.getAplicacao())));
+		model.loadTable_pagina(Core.query(this.configApp.getBaseConnection(), sql).addInt("application_id", Core.toInt(model.getAplicacao())));
 	
 	}
 	
@@ -168,26 +168,26 @@ public class MigrationController extends Controller {
 		String sql = "SELECT id as transation_ids,0 as transation_ids_check, concat(descr,' (',code,')') as descricao_transation "
 				   + "FROM tbl_transaction "
 				   + "WHERE status=1 AND env_fk=:application_id";
-		model.loadTbl_transation(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), sql).addInt("application_id", Core.toInt(model.getAplicacao())));
+		model.loadTbl_transation(Core.query(this.configApp.getBaseConnection(), sql).addInt("application_id", Core.toInt(model.getAplicacao())));
 	}
 	
 	private void loadConections(Migration model) {
 		String sql = "SELECT id as conexao_ids,0 as conexao_ids_check, name as descricao_conexao "
 				   + "FROM tbl_config_env "
 				   + "WHERE env_fk=:application_id";
-		model.loadTable_connections(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), sql).addInt("application_id", Core.toInt(model.getAplicacao())));
+		model.loadTable_connections(Core.query(this.configApp.getBaseConnection(), sql).addInt("application_id", Core.toInt(model.getAplicacao())));
 	}
 	
 	private void loadReports(Migration model) {
 		String sql = "SELECT id as report_ids,0 as report_ids_check, concat(name,' (',code,')') as descricao_report "
 				   + "FROM tbl_rep_template "
 				   + "WHERE env_fk=:application_id AND status=1 ";
-		model.loadTable_report(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), sql).addInt("application_id", Core.toInt(model.getAplicacao())));
+		model.loadTable_report(Core.query(this.configApp.getBaseConnection(), sql).addInt("application_id", Core.toInt(model.getAplicacao())));
 	}
 	
 	private void loadDomains(Migration model) {
 		String sql = "SELECT dominio as domain_ids,0 as domain_ids_check, dominio as descricao_domain FROM tbl_domain WHERE status='ATIVE' AND env_fk=" + model.getAplicacao(); 
-		model.loadTable_domain_info(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), sql));
+		model.loadTable_domain_info(Core.query(this.configApp.getBaseConnection(), sql));
 		if(model.getTable_domain_info() != null && !model.getTable_domain_info().isEmpty())
 			model.setTable_domain_info(model.getTable_domain_info().stream().collect(Collectors.groupingBy(Migration.Table_domain_info::getDescricao_domain)).values().stream().map(m->m.get(0)).collect(Collectors.toList()));
 	}
@@ -210,7 +210,7 @@ public class MigrationController extends Controller {
 		String sql = "SELECT id as tipo_doc_ids,0 as tipo_doc_ids_check, concat(codigo,' - ',descricao) as descricao_tipo_doc "
 				   + "FROM tbl_tipo_documento "
 				   + "WHERE status=1 AND env_fk=:application_id";
-		model.loadTable_tipo_documento(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()), sql).addInt("application_id",Core.toInt( model.getAplicacao())));
+		model.loadTable_tipo_documento(Core.query(this.configApp.getBaseConnection(), sql).addInt("application_id",Core.toInt( model.getAplicacao())));
 	}
 	
 	private String generateContent(Application app, String[] page_ids, String[] conexao_ids, String[] transation_ids, String[] domain_ids, String[] report_ids, String []tipo_doc_ids, String []bpmn_ids) {
@@ -663,7 +663,7 @@ public class MigrationController extends Controller {
 	
 	private void prepareMigrationLocation() {
 		@SuppressWarnings("unchecked")
-		Map<String, Object> configs = HibernateUtils.REGISTRY_BUILDER_IGRP.getAggregatedCfgXml().getConfigurationValues();
+		Map<String, Object> configs = HibernateUtils.getSettings();
 		StringBuilder location = new StringBuilder(migrationLocation);
 		String folder = IgrpMigrationAPI.getDbEngineNameFromDsn((String) configs.get(AvailableSettings.URL));
 		if(folder != null) {
