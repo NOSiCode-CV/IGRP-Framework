@@ -9,10 +9,10 @@ compile:
   script:
     - mvn -T 1C clean package -B
   artifacts:
-    name: "my-build"
-    expire_in: 1 week
+    name: "horizon"
+    expire_in: 1 day
     paths:
-      - liferay
+      - data
     
 build_image:
   stage: build
