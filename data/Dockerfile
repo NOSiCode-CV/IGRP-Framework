@@ -2,7 +2,11 @@
 
 FROM tomcat:jre17
 
-COPY data/apache-tomee-9.0.0-plus.tar.gz .
+#COPY data/apache-tomee-9.0.0-plus.tar.gz .
+ENV TOMEE_VER 9.0.0
+ENV TOMEE_BUILD plus
+
+RUN curl -SL https://dist.apache.org/repos/dist/release/tomee/tomee-${TOMEE_VER}/apache-tomee-${TOMEE_VER}-${TOMEE_BUILD}.tar.gz -o tomee.tar.gz 
 RUN tar -xvf apache-tomee-9.0.0-plus.tar.gz --strip-components=1 
 RUN rm bin/*.bat 
 RUN  rm apache-tomee-9.0.0-plus.tar.gz
