@@ -12,13 +12,13 @@ ENV HOME=/app
 EXPOSE 8080
 
 
-ADD data/context.xml /usr/local/tomcat/webapps/manager/META-INF/ 
+ADD context.xml /usr/local/tomcat/webapps/manager/META-INF/ 
 
-ADD data/context.xml /usr/local/tomcat/conf/
+ADD context.xml /usr/local/tomcat/conf/
 
-ADD data/tomcat-users.xml /usr/local/tomcat/conf/
+ADD tomcat-users.xml /usr/local/tomcat/conf/
 
-ADD data/index.jsp /usr/local/tomcat/webapps/ROOT/
+ADD index.jsp /usr/local/tomcat/webapps/ROOT/
 
 COPY IGRP.war /usr/local/tomcat/webapps/app1.war
 
