@@ -13,7 +13,7 @@ compile:
     expire_in: 1 week
     paths:
       - data
-      - IGRP/target/IGRP.war
+      - IGRP
     
 
 build_image:
