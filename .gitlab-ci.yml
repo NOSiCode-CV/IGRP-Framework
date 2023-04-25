@@ -15,6 +15,7 @@ compile:
       - data
       - IGRP/target/IGRP.war
     
+
 build_image:
   stage: build
   image: docker:18.09
