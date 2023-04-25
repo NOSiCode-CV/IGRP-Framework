@@ -29,7 +29,7 @@ build_image:
     - docker login -u $DOCKER_REGISTRY_USERNAME  -p $DOCKER_REGISTRY_PASSWORD $DOCKER_REGISTRY 
   script:
     - cp IGRP/target/IGRP.war data/
-    - docker build -t registry.nosi.cv/igrpweb-horizon/app1:latest .
+    - docker build -t registry.nosi.cv/igrpweb-horizon/app1:latest data/.
     - docker push registry.nosi.cv/igrpweb-horizon/app1:latest
     - docker tag registry.nosi.cv/igrpweb-horizon/app1:latest registry.nosi.cv/igrpweb-horizon/app1:$CI_PIPELINE_ID
     - docker push registry.nosi.cv/igrpweb-horizon/app1:$CI_PIPELINE_ID
