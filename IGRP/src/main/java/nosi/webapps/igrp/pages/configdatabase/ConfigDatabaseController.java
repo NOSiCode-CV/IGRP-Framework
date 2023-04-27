@@ -419,10 +419,10 @@ public class ConfigDatabaseController extends Controller {
 			    // iterate through child elements of root
 			    Iterator<Element> i = root.elementIterator("session-factory"); 
 			    if(i.hasNext()) { 
-			    	Element element = (Element) i.next(); 
+			    	Element element = i.next(); 
 			    	   Iterator<Element> j = element.elementIterator(); 
 			    	   while(j.hasNext()) { 
-			    		   Element property = (Element) j.next(); 
+			    		   Element property = j.next(); 
 			    		   String attr_name = property.attributeValue("name");
 			    		   if(attr_name != null) {
 			    			   if(attr_name.equals("hibernate.connection.url")) 
