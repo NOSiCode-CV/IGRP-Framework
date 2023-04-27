@@ -83,7 +83,7 @@ public class ConfigDatabaseController extends Controller {
 			lista_tabela.add(tabela);
 		}
 		if (Core.isInt(model.getAplicacao()) ) {
-			view.aplicacao.setQuery(Core.query(this.configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_DATASOURCE_CONNECTION_NAME.value()),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));		 	
+			view.aplicacao.setQuery(Core.query(this.configApp.getBaseConnection(),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));		 	
 			view.tipo_base_dados.setValue(DatabaseConfigHelper.getDatabaseTypes());
 			view.table_1.addData(lista_tabela);
 			//if EDIT
@@ -419,10 +419,10 @@ public class ConfigDatabaseController extends Controller {
 			    // iterate through child elements of root
 			    Iterator<Element> i = root.elementIterator("session-factory"); 
 			    if(i.hasNext()) { 
-			    	Element element = (Element) i.next(); 
+			    	Element element = i.next(); 
 			    	   Iterator<Element> j = element.elementIterator(); 
 			    	   while(j.hasNext()) { 
-			    		   Element property = (Element) j.next(); 
+			    		   Element property = j.next(); 
 			    		   String attr_name = property.attributeValue("name");
 			    		   if(attr_name != null) {
 			    			   if(attr_name.equals("hibernate.connection.url")) 

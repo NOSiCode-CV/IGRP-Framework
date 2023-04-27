@@ -1,7 +1,15 @@
 package nosi.base.ActiveRecord;
 
-import nosi.core.config.ConfigApp;
-import nosi.core.webapp.Core;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.SessionFactory;
@@ -9,12 +17,8 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
+import nosi.core.config.ConfigApp;
+import nosi.core.webapp.Core;
 
 /**
  * Emanuel
@@ -31,11 +35,20 @@ public class HibernateUtils {
 
     public static final String SUFIX_HIBERNATE_CONFIG = ".cfg.xml";
 
+    private HibernateUtils() {
+        throw new IllegalStateException("Utility class");
+      }
     static {
         String cfgName = ConfigApp.getInstance().getBaseConnection() + SUFIX_HIBERNATE_CONFIG;
-        REGISTRY_BUILDER_IGRP = new StandardServiceRegistryBuilder().configure(cfgName);
+        Properties properties = getProperties(ConfigApp.getInstance().getBaseConnection()+".properties");
+		
+        REGISTRY_BUILDER_IGRP = new StandardServiceRegistryBuilder().applySettings(properties).configure(cfgName);
         SESSION_FACTORY_IGRP = buildSessionFactory(cfgName);
     }
+    
+
+
+	
 
     public static SessionFactory getSessionFactory(String connectionName) {
         return getSessionFactory(connectionName, Core.getCurrentDadParam());
@@ -67,13 +80,29 @@ public class HibernateUtils {
             if (cfgName.startsWith(ConfigApp.getInstance().getBaseConnection()))
                 serviceRegistry = REGISTRY_BUILDER_IGRP.build();
             else
-                serviceRegistry = new StandardServiceRegistryBuilder().configure(cfgName).build();
+                serviceRegistry = getServiceRegistryBuilder(cfgName).build();
+                  
             return new Configuration().buildSessionFactory(serviceRegistry);
         } catch (Exception ex) {
             LOG.error("Initial SessionFactory creation failed.", ex);
             throw new ExceptionInInitializerError(ex);
         }
     }
+
+    public static Map<String, Object> getSettings(){
+    	return HibernateUtils.REGISTRY_BUILDER_IGRP.getSettings();
+    	
+    }
+
+	private static StandardServiceRegistryBuilder getServiceRegistryBuilder(String cfgName) {
+		return new StandardServiceRegistryBuilder().applySettings(getProperties(cfgName.replace(SUFIX_HIBERNATE_CONFIG, ".properties"))).configure(cfgName);
+	}
+	
+	  public static Map<String, Object> getSettings(String cfgName){
+		  return getServiceRegistryBuilder(cfgName).getSettings();
+	  }
+	
+	
 
     public static synchronized void unregisterAllDrivers() {
         final Enumeration<Driver> drivers = DriverManager.getDrivers();
@@ -97,4 +126,15 @@ public class HibernateUtils {
         if (null != sessionFactory && sessionFactory.isOpen())
             sessionFactory.close();
     }
+    
+    private static Properties getProperties(String fileName) {
+		Properties properties = new Properties();
+          	try (InputStream inputStream = HibernateUtils.class.getClassLoader().getResourceAsStream(fileName)) {
+    			if (inputStream != null)
+    				properties.load(inputStream);
+    		} catch (IOException e) {
+				e.printStackTrace();
+			}
+		return properties;
+	}
 }

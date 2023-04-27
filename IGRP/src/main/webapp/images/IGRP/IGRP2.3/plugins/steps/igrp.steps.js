@@ -22,11 +22,11 @@
 				else
 					inputControllVieWonly.val(val);
 
-				validateStep =  val === 1 ? false : true; 
+				validateStep =  !val; 
 			}
 			else{
 
-				validateStep =  val === 1 ? false : true;
+				validateStep = false;
 
 				$.IGRP.utils.createHidden({
 					name 	: name,
@@ -72,7 +72,7 @@
 				if(obj.is('[control-viewonly]')  && obj.attr("control-viewonly") == "true"  && isNav){
 					const viewOnly = `${name}_viewonly`;
 
-					com.controllVieWonly(viewOnly,1);
+					com.controllVieWonly(viewOnly);
 					
 				}
 
@@ -318,7 +318,7 @@
 
 														if(viewonlyObj[0]){
 															
-															const val = isNaN(viewonlyObj.text()) ? 0 : viewonlyObj.text();
+															const val = isNaN(viewonlyObj.text()) ? 0 : viewonlyObj.text() * 1;
 
 															com.controllVieWonly(viewOnly, val);
 														}
