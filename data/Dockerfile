@@ -18,10 +18,19 @@ ADD context.xml /usr/local/tomcat/conf/
 
 ADD tomcat-users.xml /usr/local/tomcat/conf/
 
+ADD setevn.sh /usr/local/tomcat/bin/
+
+ADD opentelemetry-javaagent.jar /usr/local/tomcat/lib/
+
 ADD index.jsp /usr/local/tomcat/webapps/ROOT/
 
-COPY IGRP.war /usr/local/tomcat/webapps/app1.war
+ADD nosi /usr/local/tomcat/webapps/app1/WEB-INF/classes/nosi
+COPY IGRP /usr/local/tomcat/webapps/app1
+
+
+##COPY IGRP.war /usr/local/tomcat/webapps/app1.war
 
 ##COPY /activiti/IGRP.war /usr/local/tomcat/webapps/
 
 CMD ["catalina.sh", "run"]
+
