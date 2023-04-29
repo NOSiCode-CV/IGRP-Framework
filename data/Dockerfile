@@ -18,7 +18,7 @@ ADD context.xml /usr/local/tomcat/conf/
 
 ADD tomcat-users.xml /usr/local/tomcat/conf/
 
-ADD setevn.sh /usr/local/tomcat/bin/
+ADD setenv.sh /usr/local/tomcat/bin/
 
 ADD opentelemetry-javaagent.jar /usr/local/tomcat/lib/
 
