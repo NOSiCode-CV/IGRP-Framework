@@ -22,6 +22,7 @@ public class DatabaseConfigHelper {
 	public static final String IBM = "ibm";
 	public static final String INFORMIX = "informix";
 	public static final String MONGODB = "mongodb";
+	public static final String OTHER = "other";
 	
 	public static String getUrl(String type, String host, String port, String db_name) {
 		switch (type) {
@@ -146,6 +147,7 @@ public class DatabaseConfigHelper {
 		dbTypes.put(IBM, "IBM DB2");
 		dbTypes.put(INFORMIX, "Informix");	
 //		dbTypes.put(MONGODB, "Mongo DB");		
+		dbTypes.put(OTHER, "Outro");	
 		
 		return dbTypes;
 	}
