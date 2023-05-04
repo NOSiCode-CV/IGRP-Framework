@@ -590,7 +590,7 @@ public class ConfigDatabaseController extends Controller {
 	
 	private boolean saveProps(Config_env config) {
 		//Checks if it is null and if the switch check was saved with option 1 so it means save .propeties
-		if(config!=null)
+		if(Core.isNotNullMultiple(config,config.getHost()))
 			return config.getHost().equals("1");
 		return true;
 	}
