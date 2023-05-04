@@ -3140,10 +3140,10 @@ public final class Core {
 	 * Shows a error flash message "Falha ao tentar efetuar esta operação!"
 	 */
 	public static void setMessageError() {
-		if(Igrp.getInstance() != null)
+		if(Igrp.getInstance() != null && Core.isNull(Core.getParam("igrp.test.bdd",false)))
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(FlashMessage.MESSAGE_ERROR));
 		else
-			System.out.print("[ERROR] "+ gt(FlashMessage.MESSAGE_ERROR));
+			System.err.print("[ERROR] "+ gt(FlashMessage.MESSAGE_ERROR));
 	}
 
 	/**
@@ -3156,7 +3156,7 @@ public final class Core {
 		if(Igrp.getInstance() != null && Core.isNull(Core.getParam("igrp.test.bdd",false)))
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(msg));
 		else
-			System.out.print("[ERROR] "+ gt(msg));
+			System.err.print("[ERROR] "+ gt(msg));
 	}
 
 	/**
@@ -3261,7 +3261,7 @@ public final class Core {
 		if(Igrp.getInstance() != null && Core.isNull(Core.getParam("igrp.test.bdd",false)))
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, gt(msg));
 		else
-			System.out.print("[WARNING] "+ gt(msg));
+			System.err.print("[WARNING] "+ gt(msg));
 	}
 
 	/**
