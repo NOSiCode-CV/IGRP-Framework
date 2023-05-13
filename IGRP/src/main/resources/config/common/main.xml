@@ -13,12 +13,13 @@
 	<entry key="igrp.workspace"></entry> 
 	
 	<!-- igrpweb authentication type parameter (db|ldap|oauth2-openid) -->
-	<entry key="igrp.authentication_type">oauth2-openid</entry> 
+	<entry key="igrp.authentication_type">db</entry> 
 	
 	<!-- igrpweb password recovery parameter: enable or not the password recovery funcionality -->
 	<entry key="igrp.pwdRecover">true</entry>
+	<!-- For login template change
+	<entry key="igrp.login.template">ds-beta</entry> -->
 	
-	<!--  -->
 	<entry key="igrp.authentication.govcv.enbaled">false</entry>
 	
 	<!-- igrpweb identity server (autentika.gov.cv) service --> 
@@ -28,13 +29,13 @@
 	<entry key="ids.autentika.admin-pwd"></entry>
 	
 	<!-- Identity server parameters --> 
-<entry key="ids.oauth2-openid.client_id">vPanMyB0P1J4prafmwffiViOfOIa</entry>
-<entry key="ids.oauth2-openid.client_secret">VuOv9pRNMs3sIJnblsDRhgMVYHga</entry>
-<entry key="ids.oauth2-openid.endpoint.token">https://autentika.gov.cv/oauth2/token</entry>
-<entry key="ids.oauth2-openid.endpoint.user">https://autentika.gov.cv/oauth2/userinfo?schema=openid</entry>
-<entry key="ids.oauth2-openid.endpoint.authorize">https://autentika.gov.cv/oauth2/authorize</entry>
-<entry key="ids.oauth2-openid.endpoint.redirect_uri">https://igrp-horizon.gov.cv/app1/app/callback</entry>
-<entry key="ids.oauth2-openid.endpoint.logout">https://autentika.gov.cv/oidc/logout</entry>
+	<entry key="ids.oauth2-openid.client_id"></entry>
+	<entry key="ids.oauth2-openid.client_secret"></entry>
+	<entry key="ids.oauth2-openid.endpoint.token"></entry>
+	<entry key="ids.oauth2-openid.endpoint.user"></entry>
+	<entry key="ids.oauth2-openid.endpoint.authorize">e</entry>
+	<entry key="ids.oauth2-openid.endpoint.redirect_uri"></entry> 
+	<entry key="ids.oauth2-openid.endpoint.logout"></entry> 
 	
 	<!-- Ldap configuration parameters -->
 	<entry key="ldap.ad.url"></entry>
