@@ -24,7 +24,7 @@ public class Config {
     private static final String SEPARATOR_FOR_HTTP = "/";
     private static final String SEPARATOR_FOR_FILESYSTEM = File.separator;
     public static final String BASE_PATH_CONFIGURATION = "config";
-    public static final String VERSION = "1.7.1.230502";
+    public static final String VERSION = "1.7.1.230512";
 
     public String getLinkXSLLogin() {
         String linkXslLogin = "images/IGRP/IGRP2.3/xsl/IGRP-login.xsl";
