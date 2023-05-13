@@ -77,7 +77,7 @@ public class RegistarUtilizadorController extends Controller {
 				user.setMobile(model.getTelemovel());
 				user.setUpdated_at(System.currentTimeMillis());              	
 					try {
-						if(Core.isNotNull(model.getForm_1_img_1()))
+						if(Core.isNotNull(model.getForm_1_img_1()) && model.getForm_1_img_1().isUploaded())
 							user.setSignature_id(Core.saveFileNGetUuid(model.getForm_1_img_1()));
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -140,7 +140,7 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 				user.setCni(model.getCni());
 				user.setUpdated_at(System.currentTimeMillis());              	
 					try {
-						if(Core.isNotNull(model.getForm_1_img_1()))
+						if(Core.isNotNull(model.getForm_1_img_1()) && model.getForm_1_img_1().isUploaded())
 							user.setSignature_id(Core.saveFileNGetUuid(model.getForm_1_img_1()));
 					} catch (Exception e) {
 						e.printStackTrace();
