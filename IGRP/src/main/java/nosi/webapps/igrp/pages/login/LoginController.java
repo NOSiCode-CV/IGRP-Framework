@@ -723,7 +723,7 @@ public class LoginController extends Controller {
 				c = Class.forName(packageName);
 				if(c!=null) {
 					Method method = c.getMethod("afterLogin",User.class);
-					method.invoke(c.newInstance(), user);//after login implementation
+					method.invoke(c.getDeclaredConstructor().newInstance(), user);//after login implementation
 				}
 			} catch (Exception e) {
 				
