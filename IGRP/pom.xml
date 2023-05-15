@@ -22,12 +22,14 @@
       <javadoc.plugin.version>3.0.1</javadoc.plugin.version>
       <tomee.classifier>plus</tomee.classifier>
       <hibernate.version>5.6.15.Final</hibernate.version>
+      <hikaricp.version>5.0.1</hikaricp.version>
       <hibernate.jpa_2_1_api.version>1.0.2.Final</hibernate.jpa_2_1_api.version>
       <jersey.version>2.29.1</jersey.version>
       <mysql.version>8.0.32</mysql.version>
       <postgres.version>42.6.0</postgres.version>
       <h2.version>2.1.214</h2.version>
       <sqlserver.version>12.2.0.jre11</sqlserver.version>
+      <oracle.version>23.2.0.0</oracle.version>
       <model.mapper.version>3.1.1</model.mapper.version>
       <gson.version>2.10.1</gson.version>
       <json.version>20230227</json.version>
@@ -58,7 +60,7 @@
       <maven.surefire.plugin.version>3.0.0</maven.surefire.plugin.version>
       <!-- Unit Test and Integration Test Properties -->
       <junit.jupiter.version>5.9.2</junit.jupiter.version>
-      <junit.vintage.version>5.9.2</junit.vintage.version>
+     
       <!-- JavaEE API & jax-rs version -->
       <javaee.api.version>8.0-6</javaee.api.version>
       <cxf.rt.frontend.jaxrs.version>4.0.0</cxf.rt.frontend.jaxrs.version>
@@ -72,7 +74,7 @@
      
      
       <!-- Flyway Migration API & Docker PostgreSQL -->
-      <flyway.version>9.16.1</flyway.version>
+      <flyway.version>9.17.0</flyway.version>
 	      <igrp.db.user>postgres</igrp.db.user>
 	      <igrp.db.password />
 	      <igrp.db.dsn>jdbc:postgresql://localhost:5432/db_igrp</igrp.db.dsn>
@@ -194,6 +196,12 @@
          <artifactId>hibernate-hikaricp</artifactId>
          <version>${hibernate.version}</version>
       </dependency>
+      <!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP a versão 5 é JDK11-->
+		<dependency>
+		   <groupId>com.zaxxer</groupId>
+		   <artifactId>HikariCP</artifactId>
+		   <version>${hikaricp.version}</version>
+		</dependency>
       <!--END
         Hibernate Dependencies -->
       <!-- Database Dependencies -->
@@ -222,7 +230,21 @@
          <artifactId>h2</artifactId>
          <version>${h2.version}</version>
       </dependency>
+      		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8 -->
+		<dependency>
+		    <groupId>com.oracle.database.jdbc</groupId>
+		    <artifactId>ojdbc8</artifactId>
+		    <version>${oracle.version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ucp -->
+		<dependency>
+		    <groupId>com.oracle.database.jdbc</groupId>
+		    <artifactId>ucp</artifactId>
+		    <version>${oracle.version}</version>
+	  	</dependency>
       <!-- END Database Dependencies -->
+      
       <!-- Jersey Dependencies -->
       <dependency>
          <groupId>org.glassfish.jersey.core</groupId>
@@ -460,14 +482,7 @@
          <artifactId>tomee-embedded</artifactId>
          <version>${tomee.embedded.version}</version>
       </dependency>
-      <!-- System Dependencies -->
-      <!-- <dependency>
-			<artifactId>IGRP</artifactId>
-		<groupId>nosi</groupId>
-			<version>1.0</version>
-			<scope>system</scope>
-		<systemPath>${pom.basedir}/src/main/webapp/WEB-INF/lib/IGRP.jar</systemPath>
-		</dependency> -->
+
    </dependencies>
    <build>
       <finalName>${project.artifactId}</finalName>

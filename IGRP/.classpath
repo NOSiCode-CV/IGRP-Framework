@@ -11,9 +11,8 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
 		<attributes>
-			<attribute name="module" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
@@ -23,14 +22,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jd-cli.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tools.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/conversion-box-v1.1.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/ojdbc8.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/ucp.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/activiti-bpmn-converter-6.0.0.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/activiti-bpmn-model-6.0.0.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Tomee v8.0 Server at localhost"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v10.0"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="test" value="true"/>
