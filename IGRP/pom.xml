@@ -47,7 +47,8 @@
 
 		<reflections.version>0.10.2</reflections.version>
 		<apache.axis.version>1.8.0</apache.axis.version>
-		<jdt.core.compiler.version>3.32.0</jdt.core.compiler.version>
+		<!-- ATTENTION!!! LAST VERSION FOR JDK8 is 3.19.0-->
+		<jdt.core.compiler.version>3.19.0</jdt.core.compiler.version>
 
 		<!-- JGit -->
 		<jgit.version>4.7.0.201704051617-r</jgit.version>	
@@ -89,8 +90,9 @@
 		<cxf.rt.frontend.jaxrs.version>3.3.6</cxf.rt.frontend.jaxrs.version>
 		<tomee.jaxrs.version>8.0.14</tomee.jaxrs.version>
 		
-		<!-- JavaDev Underscore Version: Transform JSON To XML Preserving the order of the elements -->
-		<javadev.underscore.version>1.86</javadev.underscore.version>
+		<!-- JavaDev Underscore Version: Transform JSON To XML Preserving the order of the elements 
+		ATTENTION!!! LAST VERSION FOR JDK8 is 1.81-->
+		<javadev.underscore.version>1.81</javadev.underscore.version>
 
 		<!-- Activiti BPMN -->
 		<activiti.bpmn.model.version>6.0.0</activiti.bpmn.model.version>
