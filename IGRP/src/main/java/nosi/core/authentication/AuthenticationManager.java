@@ -1,11 +1,13 @@
 package nosi.core.authentication;
 
 
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.ThreadContext;
 import org.json.JSONArray;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,22 +32,53 @@ public final class AuthenticationManager {
 		HttpSession session = request.getSession(false);
 		if(session == null)
 			return false;
+		ThreadContext.put("sessionId", request.getRequestedSessionId());
 		Object sessionData = session.getAttribute(User.IDENTITY_PARAM_NAME);
-		return sessionData != null;
+		if(sessionData != null) {
+			Optional<Identity> optIdentity = getIdentityFromToken(sessionData.toString());
+			if(optIdentity.isPresent()) {
+				request.setAttribute(User.IDENTITY_PARAM_NAME, optIdentity.get());
+				return true;
+			}else {
+				// Trying to restore session from cookie if exists
+				optIdentity = getIdentityFromCookie(request);
+				if(optIdentity.isPresent()) {
+					AuthenticationManager.createSecurityContext(optIdentity.get(), session);
+					request.setAttribute(User.IDENTITY_PARAM_NAME, optIdentity.get());
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
-	public static Optional<Identity> getIdentityFromSession(HttpServletRequest request){
-		if(!isSessionExists(request))
-			return Optional.empty();
-		try {
-			JSONArray json = new JSONArray((String) request.getSession(false).getAttribute(User.IDENTITY_PARAM_NAME));
-			int identityId = json.getInt(0);
-			String authenticationKey = json.getString(1);
-			nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User().findIdentityById(identityId);
-			if(user != null && authenticationKey.equals(user.getAuth_key()))
-				return Optional.of(user);
-		} catch (Exception ex) {
-			LOGGER.error(ex.getMessage(), ex);
+	public static Optional<Identity> getIdentityFromCookie(HttpServletRequest request){
+		Cookie []allCookies = request.getCookies();
+		if(allCookies != null) {
+			Optional<Cookie> optCookie = Arrays.stream(allCookies).filter(cookie -> cookie.getName().equals(User.IDENTITY_PARAM_NAME)).findFirst();
+			try {
+				if(optCookie.isPresent()) {
+					Cookie identityCookie = optCookie.get();
+					return getIdentityFromToken(identityCookie.getValue());
+				}
+			} catch (Exception ex) {
+				LOGGER.error(ex.getMessage(), ex);
+			}
+		}
+		return Optional.empty();
+	}
+	
+	private static Optional<Identity> getIdentityFromToken(String token){
+		token = new String(Base64.getDecoder().decode(token));
+		JSONArray json = new JSONArray(token);
+		int identityId = json.getInt(0);
+		String authenticationKey = json.getString(1);
+		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User().findIdentityById(identityId);
+		if(user != null && authenticationKey.equals(user.getAuth_key()) && user.getStatus() == 1) {
+			String uid = user.getUser_name();
+			// Encoding uid to base64
+			ThreadContext.put("userId", uid);
+			return Optional.of(user);
 		}
 		return Optional.empty();
 	}
@@ -79,7 +112,8 @@ public final class AuthenticationManager {
 		JSONArray json =  new JSONArray();
 		json.put(user.getIdentityId());
 		json.put(user.getAuthenticationKey());
-		httpSession.setAttribute(User.IDENTITY_PARAM_NAME, json.toString());
+		String token = Base64.getEncoder().encodeToString(json.toString().getBytes());
+		httpSession.setAttribute(User.IDENTITY_PARAM_NAME, token);
 	}
 	
 	public static void createSecurityContext(Identity user, HttpSession httpSession, HttpServletResponse response, int expire) {
@@ -116,6 +150,7 @@ public final class AuthenticationManager {
 		Session currentSession = new Session();
 		currentSession.setUser(new nosi.webapps.igrp.dao.User().findOne(identity.getIdentityId()));
 		nosi.webapps.igrp.dao.User user = (nosi.webapps.igrp.dao.User) identity;
+		user.setIsAuthenticated(1);
 		currentSession.setOrganization(profile.getOrganization());
 		currentSession.setProfileType(profile.getProfileType());
 		try {
@@ -136,8 +171,9 @@ public final class AuthenticationManager {
 		currentSession.setStartTime(time);
 		currentSession.setEndTime(time + 30*60); // add 30 min. 
 		currentSession.setUrl(request.getRequestURL().toString());
+		user = user.update();
 		currentSession = currentSession.insert();
-		return currentSession!=null;
+		return currentSession != null;
 	}
 
 	public static boolean afterLogout(String currentSessionId) {

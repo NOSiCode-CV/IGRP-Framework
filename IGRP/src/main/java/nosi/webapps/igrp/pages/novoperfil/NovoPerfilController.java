@@ -14,7 +14,6 @@ import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
 
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 
 import nosi.webapps.igrp.dao.Action;
@@ -23,7 +22,7 @@ import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
-import java.text.Normalizer;
+
 /*----#end-code----*/
 		
 public class NovoPerfilController extends Controller {

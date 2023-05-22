@@ -16,6 +16,8 @@ import nosi.core.webapp.ApplicationManager;
 import java.io.IOException;
 import java.util.Optional;
 
+import org.apache.logging.log4j.ThreadContext;
+
 @WebFilter
 public class AuthenticationFilter implements Filter {
        
@@ -29,6 +31,7 @@ public class AuthenticationFilter implements Filter {
 		HttpServletResponse httpServletResponse =   (HttpServletResponse) response;
 		
 		if((ApplicationManager.isInWhiteList(httpServletRequest) || ApplicationManager.isPublic(httpServletRequest)) && !ApplicationManager.isLoginPage(httpServletRequest)) {
+			ThreadContext.put("sessionId", httpServletRequest.getRequestedSessionId());
 			chain.doFilter(request, response);
 			return;
 		}

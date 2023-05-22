@@ -78,11 +78,6 @@ public class LoginController extends Controller {
 		return this.redirect("igrp", "login", "login");
 	}
 
-	// Dont delete this method
-	public Response actionGoToLogin() throws IOException {
-		return this.redirect("igrp", "login", "login");
-	}
-
 	public Optional<Response> createResponseApplyingActivation() {
 		try {
 			String activationKey = Igrp.getInstance().getRequest().getParameter("activation_key");

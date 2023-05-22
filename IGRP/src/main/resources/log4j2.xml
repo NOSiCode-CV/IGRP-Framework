@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
+
+	<Properties>
+	    <Property name="defaultSessionId">yourDefaultSessionId</Property>
+	    <Property name="defaultUserId">yourDefaultUserId</Property>
+	  </Properties>
+
   <Appenders>
     <Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36}:%L - %msg%n"/>
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %X{sessionId} %X{userId} %-5level %logger{36}:%L - %msg%n"/>
     </Console>
   </Appenders>
+  
   <Loggers>
+  
   	<Logger name="nosi" level="debug" additivity="false">
       <AppenderRef ref="Console"/>
     </Logger>
-    <Root level="info">
+    
+    <Root level="error">
       <AppenderRef ref="Console"/>
     </Root>
+    
   </Loggers>
+  
 </Configuration>
