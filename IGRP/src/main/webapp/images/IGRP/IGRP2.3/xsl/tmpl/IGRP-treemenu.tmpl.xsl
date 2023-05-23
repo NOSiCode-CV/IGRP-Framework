@@ -345,7 +345,7 @@
         <xsl:param name="class" select="'form-link'"/>
         
         <xsl:choose>
-            <xsl:when test="$parser = 'true'">
+            <xsl:when test="$parser = 'true' and not($haslink)">
                 <xsl:attribute name="class"><xsl:value-of select="'lookup-parser'"/></xsl:attribute>
             </xsl:when>
             <xsl:otherwise>
