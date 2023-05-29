@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import nosi.core.authentication.OAuth2OpenIdAuthenticationManager;
+import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.PagesScapePermission;
@@ -292,14 +293,7 @@ public final class ApplicationManager {
 	}
 	
 	public static Properties loadConfig() {
-		Properties config = new Properties();
-		try {
-			config.loadFromXML(
-					Thread.currentThread().getContextClassLoader().getResourceAsStream("config/common/main.xml"));
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-		return config;
+		return ConfigApp.getInstance().getMainSettings();
 	}
 	
 	public static String encodeParameterValue(String value) {

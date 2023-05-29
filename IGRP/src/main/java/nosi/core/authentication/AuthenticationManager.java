@@ -4,6 +4,7 @@ package nosi.core.authentication;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Optional;
+import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,8 +14,14 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
+import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.webapp.ApplicationManager;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Identity;
 import nosi.core.webapp.User;
+import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -76,7 +83,7 @@ public final class AuthenticationManager {
 		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User().findIdentityById(identityId);
 		if(user != null && authenticationKey.equals(user.getAuth_key()) && user.getStatus() == 1) {
 			String uid = user.getUser_name();
-			// Encoding uid to base64
+			uid = encryptUid(uid);
 			ThreadContext.put("userId", uid);
 			return Optional.of(user);
 		}
@@ -206,6 +213,12 @@ public final class AuthenticationManager {
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
             ip = request.getRemoteAddr();
         return ip;  
+	}
+	
+	private static String encryptUid(String uid) {
+		Properties config = ConfigApp.getInstance().getMainSettings();
+		final String secretKey = config.getProperty(ConfigCommonMainConstants.IGRP_SECRET_KEY.value(), EncrypDecrypt.SECRET_KEY_PUBLIC_PAGE);
+		return EncrypDecrypt.encrypt(uid, secretKey);
 	}
 	
 }
