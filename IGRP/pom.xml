@@ -5,16 +5,18 @@
    
    <groupId>IGRP</groupId>
    <artifactId>IGRP</artifactId>
-   <version>v.2.0.0.230406</version>
+   <version>v.2.0.0.${current.date}</version>
    <packaging>war</packaging>
    <name>IGRP-Framework</name>
-   
+  
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
       
-     <maven.compiler.release>11</maven.compiler.release>
+     <maven.compiler.release>17</maven.compiler.release>
       
+      <maven.build.timestamp.format>YYMMdd</maven.build.timestamp.format>
+   	<current.date>${maven.build.timestamp}</current.date>
       <!-- TomEE Embedded Maven Plugin -->
       <tomee.version>9.0.0</tomee.version>
       <tomee.maven.plugin.version>9.0.0</tomee.maven.plugin.version>
