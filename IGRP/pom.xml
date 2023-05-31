@@ -6,7 +6,7 @@
 	
 	<groupId>IGRP</groupId>
 	<artifactId>IGRP</artifactId>
-	<version>v.230512</version>
+	<version>v.${current.date}</version>
 	<packaging>war</packaging>
 	<name>IGRP-Framework</name>
 	
@@ -17,6 +17,9 @@
 		
 		<maven.compiler.source>1.8</maven.compiler.source>	
 		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<maven.build.timestamp.format>YYMMdd</maven.build.timestamp.format>		
+   	    <current.date>${maven.build.timestamp}</current.date>
 
 		<javadoc.plugin.version>3.0.1</javadoc.plugin.version>
 		<tomee.classifier>plus</tomee.classifier>
