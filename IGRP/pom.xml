@@ -5,7 +5,7 @@
    
    <groupId>IGRP</groupId>
    <artifactId>IGRP</artifactId>
-   <version>v.2.0.0.${current.date}</version>
+   <version>2.0.0.${current.date}</version>
    <packaging>war</packaging>
    <name>IGRP-Framework</name>
   
