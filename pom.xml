@@ -14,7 +14,9 @@
    <name>Modulos IGRP</name>
    <description>Modulso de igrp</description>
 
-
+    <configuration>
+        <skip>true</skip>
+     </configuration>
    <modules>
        <module>IGRP</module>
    </modules>
