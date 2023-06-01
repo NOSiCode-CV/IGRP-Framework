@@ -6,7 +6,6 @@
 	
 	<groupId>IGRP</groupId>
 	<artifactId>IGRP</artifactId>
-<!--	Used in the CI CD automatic deploy. Do not change -->
 	<version>v1</version>  
 	<packaging>war</packaging>
 	<name>IGRP-Framework</name>
