@@ -4,8 +4,7 @@
    <modelVersion>4.0.0</modelVersion>
    
    <groupId>IGRP</groupId>
-   <artifactId>IGRP</artifactId>
-<!--	Used in the CI CD automatic deploy. Do not change -->   
+   <artifactId>IGRP</artifactId> 
    <version>v2</version>
    <packaging>war</packaging>
    <name>IGRP-Framework</name>
