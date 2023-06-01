@@ -6,7 +6,8 @@
 	
 	<groupId>IGRP</groupId>
 	<artifactId>IGRP</artifactId>
-	<version>v.${current.date}</version>
+<!--	Used in the CI CD automatic deploy. Do not change -->
+	<version>v1</version>  
 	<packaging>war</packaging>
 	<name>IGRP-Framework</name>
 	
@@ -17,9 +18,6 @@
 		
 		<maven.compiler.source>1.8</maven.compiler.source>	
 		<maven.compiler.target>1.8</maven.compiler.target>
-
-		<maven.build.timestamp.format>YYMMdd</maven.build.timestamp.format>		
-   	    <current.date>${maven.build.timestamp}</current.date>
 
 		<javadoc.plugin.version>3.0.1</javadoc.plugin.version>
 		<tomee.classifier>plus</tomee.classifier>
