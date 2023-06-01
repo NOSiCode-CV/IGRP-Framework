@@ -5,7 +5,8 @@
    
    <groupId>IGRP</groupId>
    <artifactId>IGRP</artifactId>
-   <version>2.0.0.${current.date}</version>
+<!--	Used in the CI CD automatic deploy. Do not change -->   
+   <version>v2</version>
    <packaging>war</packaging>
    <name>IGRP-Framework</name>
   
@@ -15,8 +16,6 @@
       
      	<maven.compiler.release>17</maven.compiler.release>
       
-      <maven.build.timestamp.format>YYMMdd</maven.build.timestamp.format>
-   	<current.date>${maven.build.timestamp}</current.date>
       <!-- TomEE Embedded Maven Plugin -->
       <tomee.version>9.0.0</tomee.version>
       <tomee.maven.plugin.version>9.0.0</tomee.maven.plugin.version>
