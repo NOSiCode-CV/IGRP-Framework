@@ -1,9 +1,7 @@
 package nosi.core.gui.page;
 
-
 import java.util.ArrayList;
 import java.util.List;
-
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLogBar;
 import nosi.core.gui.components.IGRPMessage;
@@ -38,7 +36,7 @@ public class Page{
 
 	public Page(){
 		this.gui = new ArrayList<>();
-		this.copyright = "&copy; Copyright 2021, Núcleo Operacional da Sociedade de informação - E.P.E. Todos os direitos reservados."; 
+		this.copyright = "&copy; Copyright 2023, Núcleo Operacional da Sociedade de informação - E.P.E. Todos os direitos reservados."; 
 		this.developed = "Design &amp; Concepção"; 
 	}
 	
@@ -73,13 +71,18 @@ public class Page{
 		String app = igrpApp.getCurrentAppName();
 		String page = igrpApp.getCurrentPageName();
 		String action = igrpApp.getCurrentActionName();
+		Action ac=null;
+		if (!app.equals("") && !page.equals("") && !action.equals("")) {
+			ac = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", Page.resolvePageName(page)).one();
+			
+		}
 		if (this.getLinkXsl() != null && !this.getLinkXsl().isEmpty())
 			path_xsl = this.getLinkXsl();
-		else
-			if (!app.equals("") && !page.equals("") && !action.equals(""))
-				path_xsl = new Config().getLinkPageXsl(new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", Page.resolvePageName(page)).one());
+		else if(ac!=null)
+			path_xsl = new Config().getLinkPageXsl(ac);
+			
 		XMLWritter xml = new XMLWritter("rows", path_xsl, "utf-8");
-		xml.addXml(new Config().getHeader(this.getView()));
+		xml.addXml(new Config().getHeader(this.getView(),ac));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
 		xml.setElement("title", this.getView().getPageTitle());

@@ -233,14 +233,14 @@
       		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8 -->
 		<dependency>
 		    <groupId>com.oracle.database.jdbc</groupId>
-		    <artifactId>ojdbc8</artifactId>
+		    <artifactId>ojdbc11</artifactId>
 		    <version>${oracle.version}</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ucp -->
 		<dependency>
 		    <groupId>com.oracle.database.jdbc</groupId>
-		    <artifactId>ucp</artifactId>
+		    <artifactId>ucp11</artifactId>
 		    <version>${oracle.version}</version>
 	  	</dependency>
       <!-- END Database Dependencies -->
@@ -494,6 +494,7 @@
       <resources>
          <resource>
             <directory>${project.basedir}/src/main/resources</directory>
+             <filtering>true</filtering>
          </resource>
       </resources>
       <testResources>
@@ -552,7 +553,6 @@
                <artifactId>tomee-maven-plugin</artifactId>
                <version>${tomee.maven.plugin.version}</version>
                <configuration>
-                  <encoding>UTF-8</encoding>
                   <tomeeClassifier>plus</tomeeClassifier>
                   <reloadOnUpdate>true</reloadOnUpdate>
                   <!--	<deployOpenEjbApplication>true</deployOpenEjbApplication> -->
@@ -574,87 +574,97 @@
                   </systemVariables>
                </configuration>
             </plugin>
-            <!-- Docker -->
-            <plugin>
-               <groupId>io.fabric8</groupId>
-               <artifactId>docker-maven-plugin</artifactId>
-               <configuration>
-                  <images>
-                     <image>
-                        <name>igrpweb:${project.version}</name>
-                        <alias>igrpweb</alias>
-                        <build>
-                           <!-- filter>@</filter-->
-                           <contextDir>${project.basedir}/src/main/docker</contextDir>
-                           <assembly>
-                              <descriptorRef>artifact</descriptorRef>
-                           </assembly>
-                        </build>
-                        <run>
-                           <ports>
-                              <port>8080:8080</port>
-                           </ports>
-                           <volumes>
-                              <bind>
-                                 <volume>igrpweb_data:/local/tomee</volume>
-                              </bind>
-                           </volumes>
-                           <!-- <autoRemove>true</autoRemove> -->
-                           <!-- 
-			                <links>
-									<link>postgres</link>
+            
+ 				<!-- Docker -->
+<!--				<plugin>-->
+<!--			        <groupId>io.fabric8</groupId>-->
+<!--			        <artifactId>docker-maven-plugin</artifactId>-->
+<!--			        <configuration>-->
+			          
+<!--			          <images>-->
+			          
+<!--			            <image>-->
+<!--			              <name>igrpweb:${project.version}</name>-->
+<!--			              <alias>igrpweb</alias>-->
+<!--			              <build>-->
+<!--			                 filter>@</filter-->
+<!--			                <contextDir>${project.basedir}/src/main/docker</contextDir>-->
+<!--			                <assembly>-->
+<!--			                  <descriptorRef>artifact</descriptorRef> -->
+<!--			                </assembly>-->
+<!--			              </build>-->
+<!--			              <run>-->
+<!--			                <ports>-->
+<!--			                  <port>8080:8080</port>-->
+<!--			                </ports>-->
+<!--			                <volumes>-->
+<!--							  <bind>-->
+<!--							    <volume>igrpweb_data:/local/tomee</volume>-->
+<!--							  </bind>-->
+<!--							</volumes>-->
+			                <!-- <autoRemove>true</autoRemove> -->
+			                <!-- 
+			                <links> 
+					          <link>postgres</link>
 					        </links>
 					        -->
-                        </run>
-                     </image>
-                     <!--
+<!--			              </run>-->
+<!--			            </image>-->
+			            
+			            <!--
 			            <image>
-					      <alias>postgres</alias>
-							<name>postgres:latest</name>
+					      <alias>postgres</alias> 
+					      <name>postgres:latest</name>
 					      <run>
 					      	<env>
-							<POSTGRES_USER>${igrp.db.user}</POSTGRES_USER>
-							<POSTGRES_PASSWORD>${igrp.db.password}</POSTGRES_PASSWORD>
-							<POSTGRES_DB>db_igrp</POSTGRES_DB>
+							    <POSTGRES_USER>${igrp.db.user}</POSTGRES_USER>
+							    <POSTGRES_PASSWORD>${igrp.db.password}</POSTGRES_PASSWORD>
+							    <POSTGRES_DB>db_igrp</POSTGRES_DB>
 							</env>
-							<ports>
+					      	<ports>
 							    <port>5432:5432</port>
 							</ports>
-							<log>
+					      	<log>
 							    <prefix>postgres</prefix>
-							<enabled>true</enabled>
+							    <enabled>true</enabled>
 							    <color>yellow</color>
 							</log>
 					        <wait> 
-					          <log>(?s)PostgreSQL
-							init process complete.*database system is ready to
-							accept connections</log>
+					          <log>(?s)PostgreSQL init process complete.*database system is ready to accept connections</log>
 					          <time>20000</time>
-							</wait>
+					        </wait>
 					      </run>
 					    </image>
 			            -->
-                  </images>
-               </configuration>
-            </plugin>
-            <!-- K8s -->
-            <plugin>
-               <groupId>org.eclipse.jkube</groupId>
-               <artifactId>kubernetes-maven-plugin</artifactId>
-               <version>${jkube.version}</version>
-               <configuration>
-                  <images>
-                     <image>
-                        <name>${docker.registry}/imarcelf/igrpweb:${project.version}</name>
-                        <alias>igrpweb</alias>
-                        <build>
-                           <contextDir>${project.basedir}/src/main/docker</contextDir>
-                        </build>
-                     </image>
-                  </images>
-               </configuration>
-            </plugin>
-         </plugins>
-      </pluginManagement>
-   </build>
+<!--			          </images>-->
+			          
+<!--			        </configuration>-->
+			        
+<!--			      </plugin>-->
+			      
+			      <!-- K8s 
+			      <plugin>
+					    <groupId>org.eclipse.jkube</groupId>
+					    <artifactId>kubernetes-maven-plugin</artifactId>
+					    <version>${jkube.version}</version>
+					    <configuration>
+					    	<images>
+						    	<image>
+					              <name>${docker.registry}/imarcelf/igrpweb:${project.version}</name>
+					              <alias>igrpweb</alias>
+					              <build>
+					                <contextDir>${project.basedir}/src/main/docker</contextDir>
+					              </build>
+					            </image>
+					    	</images>
+					    </configuration>
+				  </plugin>-->
+				
+                
+			</plugins>
+			
+		</pluginManagement>
+		
+	</build>
+	
 </project>

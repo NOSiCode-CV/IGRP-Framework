@@ -229,9 +229,11 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 
 	public LinkedHashMap<String, List<MenuProfile>> getMyMenu() {
 		LinkedHashMap<String, List<MenuProfile>> list = new LinkedHashMap<>();
-		String currentDad = Core.getCurrentDad();
-		Integer currentOrganization = Core.getCurrentOrganization();
-		Integer currentProfile = Core.getCurrentProfile();
+		final String currentDad = Core.getCurrentDad();
+		final Integer currentOrganization = Core.getCurrentOrganization();
+		final Integer currentProfile = Core.getCurrentProfile();
+		final String deployedWarName = Core.getDeployedWarName();
+		final String aux = Igrp.getInstance().getServlet().getInitParameter("default_language");
 		Record row = Core.query(this.getConnectionName(), sqlMenuByProfile).union().select(sqlMenuByUser)
 				.addInt("org_fk", currentOrganization).addInt("prof_type_fk", currentProfile)
 				.addString("dad", currentDad).addInt("status", 1).addInt("org_fk", currentOrganization)
@@ -249,19 +251,19 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 				ms.setMenu_icon(r.getString("menu_icon"));
 				String linky = r.getString("link");
 				if (linky != null && !linky.trim().isEmpty()) {
-					String currentOrganizationCode = Core.getCurrentOrganizationCode();
-					String currentProfileCode = Core.getCurrentProfileCode();
+					final String currentOrganizationCode = Core.getCurrentOrganizationCode();
+					final String currentProfileCode = Core.getCurrentProfileCode();
 					if (linky.contains("$CONTEXT$"))
 						linky = linky.replace("$CONTEXT$", String.format("%s:%s:%s", currentDad, currentOrganizationCode, currentProfileCode)).replace("$PARAMS$", "");
 					ms.setLink(linky);
 					ms.setType(2);
 				} else {
-					Action pagina = new Action().find().andWhere("page", "=", r.getString("page"))
+					Action pagina = new Action().find().keepConnection().andWhere("page", "=", r.getString("page"))
 							.andWhere("application.dad", "=", r.getString("dad_app_page")).one();
 					if (pagina != null) {
 						if (pagina.getTipo() == 1) { // If it is a public page ...
 							ms.setType(1);
-							String aux = Igrp.getInstance().getServlet().getInitParameter("default_language");
+							
 							ms.setLink(r.getString("dad_app_page") + "/" + r.getString("page") + "/"
 									+ r.getString("action") + "&dad=" + currentDad + "&isPublic=1&lang="
 									+ (Core.isNull(aux) ? "pt_PT" : aux) /* + "&target=_blank" */);
@@ -275,7 +277,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 
 								ms.setType(2);
 
-								String deployedWarName = Core.getDeployedWarName();
+								
 								// Externo
 								if (pagina.getApplication().getExternal() == 1) {
 									if (deployedWarName.equals(pagina.getApplication().getUrl())) {
