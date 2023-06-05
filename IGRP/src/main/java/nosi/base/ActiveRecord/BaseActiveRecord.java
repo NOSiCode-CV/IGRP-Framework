@@ -757,7 +757,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 	@Override
 	public T orderBy(String... orderByNames) {
-		return this.orderBy(orderByNames);
+		return this.orderBy(new String[][] {orderByNames});
 	}
 	
 	@Override
