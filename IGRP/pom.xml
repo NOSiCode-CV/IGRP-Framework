@@ -247,8 +247,8 @@
 
 		<!-- Database Dependencies -->
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
 			<version>${mysql.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
@@ -670,7 +670,6 @@
 					<artifactId>tomee-maven-plugin</artifactId>
 					<version>${tomee.maven.plugin.version}</version>
 					<configuration>
-						<encoding>UTF-8</encoding>
 						<tomeeClassifier>plus</tomeeClassifier>
 						<reloadOnUpdate>true</reloadOnUpdate>
 <!-- 						<deployOpenEjbApplication>true</deployOpenEjbApplication> -->
@@ -692,40 +691,40 @@
 				</plugin>
 				
 				<!-- Docker -->
-				<plugin>
-			        <groupId>io.fabric8</groupId>
-			        <artifactId>docker-maven-plugin</artifactId>
-			        <configuration>
+<!--				<plugin>-->
+<!--			        <groupId>io.fabric8</groupId>-->
+<!--			        <artifactId>docker-maven-plugin</artifactId>-->
+<!--			        <configuration>-->
 			          
-			          <images>
+<!--			          <images>-->
 			          
-			            <image>
-			              <name>igrpweb:${project.version}</name>
-			              <alias>igrpweb</alias>
-			              <build>
-			                <!-- filter>@</filter-->
-			                <contextDir>${project.basedir}/src/main/docker</contextDir>
-			                <assembly>
-			                  <descriptorRef>artifact</descriptorRef> 
-			                </assembly>
-			              </build>
-			              <run>
-			                <ports>
-			                  <port>8080:8080</port>
-			                </ports>
-			                <volumes>
-							  <bind>
-							    <volume>igrpweb_data:/local/tomee</volume>
-							  </bind>
-							</volumes>
+<!--			            <image>-->
+<!--			              <name>igrpweb:${project.version}</name>-->
+<!--			              <alias>igrpweb</alias>-->
+<!--			              <build>-->
+<!--			                 filter>@</filter-->
+<!--			                <contextDir>${project.basedir}/src/main/docker</contextDir>-->
+<!--			                <assembly>-->
+<!--			                  <descriptorRef>artifact</descriptorRef> -->
+<!--			                </assembly>-->
+<!--			              </build>-->
+<!--			              <run>-->
+<!--			                <ports>-->
+<!--			                  <port>8080:8080</port>-->
+<!--			                </ports>-->
+<!--			                <volumes>-->
+<!--							  <bind>-->
+<!--							    <volume>igrpweb_data:/local/tomee</volume>-->
+<!--							  </bind>-->
+<!--							</volumes>-->
 			                <!-- <autoRemove>true</autoRemove> -->
 			                <!-- 
 			                <links> 
 					          <link>postgres</link>
 					        </links>
 					        -->
-			              </run>
-			            </image>
+<!--			              </run>-->
+<!--			            </image>-->
 			            
 			            <!--
 			            <image>
@@ -752,13 +751,13 @@
 					      </run>
 					    </image>
 			            -->
-			          </images>
+<!--			          </images>-->
 			          
-			        </configuration>
+<!--			        </configuration>-->
 			        
-			      </plugin>
+<!--			      </plugin>-->
 			      
-			      <!-- K8s -->
+			      <!-- K8s 
 			      <plugin>
 					    <groupId>org.eclipse.jkube</groupId>
 					    <artifactId>kubernetes-maven-plugin</artifactId>
@@ -774,7 +773,7 @@
 					            </image>
 					    	</images>
 					    </configuration>
-				  </plugin>
+				  </plugin>-->
 				
                 
 			</plugins>

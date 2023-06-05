@@ -126,7 +126,7 @@ public class User implements Component{
 
 	@Override
 	public void init(HttpServletRequest request) {
-		String aux = request.getParameter("r") != null ? request.getParameter("r").toString() : LOGIN_ROUTE; 
+		String aux = request.getParameter("r") != null ? request.getParameter("r") : LOGIN_ROUTE; 
 		boolean isLoginPage = aux.equals(LOGIN_ROUTE);
 		if(SecurtyCallPage.isPublic(aux) && !isLoginPage ) { 
 			this.checkSessionContext();
@@ -163,7 +163,7 @@ public class User implements Component{
 	}
 	
 	public static String generateAuthenticationKey() {
-		return java.util.UUID.randomUUID().toString().replaceAll("-", "");
+		return java.util.UUID.randomUUID().toString().replace("-", "");
 	}
 	
 	public static String generateActivationKey() {
@@ -171,7 +171,7 @@ public class User implements Component{
 	}
 	
 	public static String generatePasswordResetToken() {
-		return Base64.getUrlEncoder().encodeToString(((java.util.UUID.randomUUID().toString().replaceAll("-", "") + "_" + (System.currentTimeMillis() + 1000*10*60)) + "").getBytes()); // 10 min.  
+		return Base64.getUrlEncoder().encodeToString(((java.util.UUID.randomUUID().toString().replace("-", "") + "_" + (System.currentTimeMillis() + 1000*10*60)) + "").getBytes()); // 10 min.  
 	}
 	
 }
