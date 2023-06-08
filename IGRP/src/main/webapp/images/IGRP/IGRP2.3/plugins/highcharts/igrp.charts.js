@@ -1226,8 +1226,8 @@
 					com.utils.resizeAllCharts( $(target) ); 
 			});
 
-			if($.IGRP.components.stepcontent && $.IGRP.components.stepcontent.on)
-				$.IGRP.components.stepcontent.on('stepActive',function(target){
+			if($.IGRP.components.stepcontent && $.IGRP.components.stepcontent.events)
+				$.IGRP.components.stepcontent.events.on('stepActive',function(target){
 					com.utils.resizeAllCharts( $(target) ); 
 			});
 			
