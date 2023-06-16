@@ -473,6 +473,10 @@
                <groupId>com.fasterxml.jackson.core</groupId>
   				<artifactId>jackson-databind</artifactId>
             </exclusion>
+            <exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-core</artifactId>
+				</exclusion>
          </exclusions>
          
       </dependency>
@@ -481,6 +485,7 @@
          <groupId>org.apache.tomee</groupId>
          <artifactId>tomee-embedded</artifactId>
          <version>${tomee.embedded.version}</version>
+         <scope>provided</scope>
       </dependency>
 
    </dependencies>
