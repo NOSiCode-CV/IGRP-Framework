@@ -20,15 +20,15 @@ public abstract class IGRPComponent {
 	protected String connectionName;
 	private boolean isVisible = true;
 	
-	public IGRPComponent(String tag_name,String title) {
-		this.tag_name = tag_name;
+	protected IGRPComponent(String tagName,String title) {
+		this.tag_name = tagName;
 		this.xml = new XMLWritter();
 		this.properties = new FieldProperties();
 		this.properties.put("title", gt(title));
 		this.connectionName = ConfigApp.getInstance().getBaseConnection();
 	}
-	public IGRPComponent(String tag_name) {
-		this(tag_name,"");
+	protected IGRPComponent(String tagName) {
+		this(tagName,"");
 	}
 	
 	public abstract String toString();
