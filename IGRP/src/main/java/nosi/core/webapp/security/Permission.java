@@ -65,13 +65,13 @@ public class Permission {
 			}
 			
 			if(app.getPermissionApp(dad)){
-				prof = (Profile) prof.getByUserPerfil(id_user,app.getId());
+				prof = prof.getByUserPerfil(id_user,app.getId());
 				if(prof!=null){
 					 org.setId(prof.getOrganization().getId());
 					 profType.setId(prof.getProfileType().getId());
 					 ApplicationPermition appP = this.getApplicationPermition(dad);
 					 if(appP==null) {
-						 appP = new ApplicationPermition(app.getId(),dad, org!=null?org.getId():null, profType!=null ? profType.getId():null,prof!=null && prof.getOrganization()!=null? prof.getOrganization().getCode():null,prof!=null && prof.getProfileType()!=null?prof.getProfileType().getCode():null);
+						 appP = new ApplicationPermition(app.getId(),dad, org.getId(),profType.getId(),prof.getOrganization()!=null? prof.getOrganization().getCode():null,prof!=null && prof.getProfileType()!=null?prof.getProfileType().getCode():null);
 					}
 					 this.applicationPermition = appP;
 					 this.setCookie(appP);
@@ -86,7 +86,7 @@ public class Permission {
 		if(Igrp.getInstance().getRequest().getSession()!=null && app!=null) {
 			ApplicationPermition appP = this.getApplicationPermition(dad);
 			if(appP==null) {
-				 appP = new ApplicationPermition(app.getId(),dad, org!=null?org.getId():null, profType!=null ? profType.getId():null,prof!=null && prof.getOrganization()!=null? prof.getOrganization().getCode():null,prof!=null && prof.getProfileType()!=null?prof.getProfileType().getCode():null);
+				 appP = new ApplicationPermition(app.getId(),dad,  org.getId(),profType.getId(),prof!=null && prof.getOrganization()!=null? prof.getOrganization().getCode():null,prof!=null && prof.getProfileType()!=null?prof.getProfileType().getCode():null);
 			}
 			this.applicationPermition = appP; 
 			this.setCookie(appP); 
@@ -148,7 +148,7 @@ public class Permission {
 	}
 	
 	public ApplicationPermition getApplicationPermition(String dad) {
-		Optional<Cookie> cookies = Igrp.getInstance().getRequest().getCookies()!=null?Arrays.asList(Igrp.getInstance().getRequest().getCookies()).stream().filter(c -> c.getName().equalsIgnoreCase(dad)).findFirst():null;
+		Optional<Cookie> cookies = Igrp.getInstance()!= null && Igrp.getInstance().getRequest().getCookies()!=null?Arrays.asList(Igrp.getInstance().getRequest().getCookies()).stream().filter(c -> c.getName().equalsIgnoreCase(dad)).findFirst():null;
 		String json = (cookies!=null && cookies.isPresent())?cookies.get().getValue():null;
 		if(json!=null) {
 			try {
