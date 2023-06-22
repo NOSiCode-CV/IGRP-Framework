@@ -635,6 +635,8 @@ public final class Core {
 	}
 
 	public static String[] getAttributeArray(String name) {
+		if(isNull(Igrp.getInstance()))
+			return null;
 		final Object attribute = Igrp.getInstance().getRequest().getAttribute(name);
 		if (attribute instanceof Object[]) {
 			Object[] valueO = (Object[]) attribute;
