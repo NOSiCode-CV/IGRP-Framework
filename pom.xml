@@ -8,11 +8,11 @@
 
    <groupId>IGRP</groupId>
    <artifactId>parent</artifactId>
-   <version>1.0.0-SNAPSHOT</version>
+   <version>v2</version>
    <packaging>pom</packaging>
 
    <name>Modulos IGRP</name>
-   <description>Modulso de igrp</description>
+   <description>Modulos do igrp</description>
 
     
    <modules>
