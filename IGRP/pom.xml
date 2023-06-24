@@ -8,7 +8,38 @@
    <version>v2</version>
    <packaging>war</packaging>
    <name>IGRP-Framework</name>
-  
+   <description>IGRPWeb is a platform developed by the Operational Nucleus for
+		the Information Society (NOSi) to create web applications, based on
+		business steps, processes, automatic code generation and incorporation
+		of the Once-Only-Principle, written in Java.
+		The IGRPWeb core is extremely lightweight and based on simple concepts.
+		It's open-source and distributed under the Apache 2.0 license. Allows
+		you to build unlimited number of e-government applications by yourself
+		ensuring sustainability with an affordable and scalable solution on your
+		own data.
+	</description>
+	<url>https://github.com/NOSiCode-CV/IGRP-Framework</url>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>IGRP</name>
+			<email>igrpweb@nosi.cv</email>
+			<organization>NOSI EPE</organization>
+			<organizationUrl>https://nosi.cv</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/NOSiCode-CV/IGRP-Framework.git</connection>
+		<developerConnection>scm:git:ssh://github.com/NOSiCode-CV/IGRP-Framework.git</developerConnection>
+		<url>http://github.com/NOSiCode-CV/IGRP-Framework/tree/igrp-horizon-dev</url>
+	</scm>
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -16,15 +47,15 @@
      	<maven.compiler.release>17</maven.compiler.release>
       
       <!-- TomEE Embedded Maven Plugin -->
-      <tomee.version>9.0.0</tomee.version>
-      <tomee.maven.plugin.version>9.0.0</tomee.maven.plugin.version>
-      <tomee.embedded.version>9.0.0</tomee.embedded.version>
+      <tomee.version>9.1.0</tomee.version>
+      <tomee.maven.plugin.version>9.1.0</tomee.maven.plugin.version>
+      <tomee.embedded.version>9.1.0</tomee.embedded.version>
       <javadoc.plugin.version>3.0.1</javadoc.plugin.version>
       <tomee.classifier>plus</tomee.classifier>
       <hibernate.version>5.6.15.Final</hibernate.version>
       <hikaricp.version>5.0.1</hikaricp.version>
       <hibernate.jpa_2_1_api.version>1.0.2.Final</hibernate.jpa_2_1_api.version>
-      <jersey.version>2.29.1</jersey.version>
+      <jersey.version>3.1.2</jersey.version>
       <mysql.version>8.0.32</mysql.version>
       <postgres.version>42.6.0</postgres.version>
       <h2.version>2.1.214</h2.version>
@@ -51,7 +82,7 @@
       <jsoup.version>1.15.4</jsoup.version>
       
       <!-- For XSLT and XPATH handling ... -->
-      <xalan.version>2.7.2</xalan.version>
+      <xalan.version>2.7.3</xalan.version>
       <!-- Maven compiler plugin -->
       <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
       <!-- Maven war plugin -->
@@ -65,7 +96,7 @@
       <javaee.api.version>8.0-6</javaee.api.version>
       <cxf.rt.frontend.jaxrs.version>4.0.0</cxf.rt.frontend.jaxrs.version>
       <!-- JavaDev Underscore Version: Transform JSON To XML Preserving the
-		order of the elements -->
+		order of the elements - needed to invite users LDAP-->
       <javadev.underscore.version>1.87</javadev.underscore.version>
       
       <!-- Activiti BPMN -->
@@ -74,18 +105,16 @@
      
      
       <!-- Flyway Migration API & Docker PostgreSQL -->
-      <flyway.version>9.17.0</flyway.version>
-	      <igrp.db.user>postgres</igrp.db.user>
-	      <igrp.db.password />
-	      <igrp.db.dsn>jdbc:postgresql://localhost:5432/db_igrp</igrp.db.dsn>
-      <!-- Comment this line when run IGRPWEB+Postgres+Docker -->
-      <!--<igrp.db.dsn>jdbc:postgresql://postgres:5432/db_igrp</igrp.db.dsn>-->
-      <!-- Uncomment this line when run IGRPWEB+Postgres+Docker -->
-     	 <igrp.migration.location>classpath:nosi/core/db/migration/igrp/postgres</igrp.migration.location>
-      <!-- K8s & Docker -->
+		<flyway.version>9.20.0</flyway.version>
+		<igrp.db.user>${db_user}</igrp.db.user> <!-- Ex: postgres -->
+		<igrp.db.password>${db_password}</igrp.db.password>
+		<igrp.db.dsn>jdbc:postgresql://${server_IP}/${db_name}</igrp.db.dsn> <!-- Ex: jdbc:postgresql://localhost:5432/db_igrp  -->
+		<!--<igrp.db.dsn>jdbc:postgresql://postgres:5432/db_igrp</igrp.db.dsn>--> <!-- Uncomment this line when run IGRPWEB+Postgres+Docker -->
+		<igrp.migration.location>${migration_location}</igrp.migration.location> <!-- Ex: classpath:nosi/core/db/migration/igrp/postgres  -->
+      <!-- K8s & Docker
       <jkube.version>1.7.0</jkube.version>
       <docker.registry>localhost:5000</docker.registry>
-      
+       -->
     
 		<!-- For Java Beans validation -->
 		<javax.validation.version>2.0.1.Final</javax.validation.version>
@@ -560,13 +589,11 @@
                <configuration>
                   <tomeeClassifier>plus</tomeeClassifier>
                   <reloadOnUpdate>true</reloadOnUpdate>
-                  <!--	<deployOpenEjbApplication>true</deployOpenEjbApplication> -->
                   <args>-Dfile.encoding=UTF-8</args>
                   <synchronization>
                      <extensions>
                         <extension>.class</extension>
-                        <!-- if you want to
-								update each time you build with mvn compile -->
+                        <!-- if you want to	update each time you build with mvn compile -->
                         <extension>.properties</extension>
                         <extension>.xml</extension>
                      </extensions>
