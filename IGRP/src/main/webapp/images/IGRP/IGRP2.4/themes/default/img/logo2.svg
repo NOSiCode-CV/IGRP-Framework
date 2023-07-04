@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="Layer_1"
+   data-name="Layer 1"
+   viewBox="0 0 302.85504 228.47091"
+   version="1.1"
+   sodipodi:docname="logoIGRPWEB so logo_v4.0.svg"
+   inkscape:version="0.92.1 r15371"
+   width="8.0130396cm"
+   height="6.04496cm">
+  <metadata
+     id="metadata33">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>logoIGRPWEB_v4.0</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1514"
+     inkscape:window-height="851"
+     id="namedview31"
+     showgrid="false"
+     inkscape:zoom="1.0395266"
+     inkscape:cx="-67.732201"
+     inkscape:cy="73.842807"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="Layer_1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     units="cm" />
+  <defs
+     id="defs4">
+    <style
+       id="style2">.cls-1{fill:#c4ccd4;}.cls-1,.cls-2{opacity:0.8;}.cls-2{fill:#3aa0d9;}.cls-3{fill:#231f20;}</style>
+  </defs>
+  <title
+     id="title6">logoIGRPWEB_v4.0</title>
+  <path
+     class="cls-1"
+     d="m 16.423413,77.10875 h 65.909999 a 6.82,6.82 0 0 1 5.51,2.81 l 53.999998,74.47998 H 59.133413 l -48.22,-66.49998 a 6.8,6.8 0 0 1 5.51,-10.79 z"
+     id="path8"
+     inkscape:connector-curvature="0"
+     style="opacity:0.8;fill:#c4ccd4" />
+  <path
+     class="cls-2"
+     d="m 184.55341,77.10875 h -65.9 a 6.82,6.82 0 0 0 -5.51,2.81 l -53.999997,74.47998 h 82.709997 l 48.22,-66.49998 a 6.8,6.8 0 0 0 -5.52,-10.79 z"
+     id="path10"
+     inkscape:connector-curvature="0"
+     style="opacity:0.8;fill:#3aa0d9" />
+  <path
+     class="cls-1"
+     d="m 118.65341,77.10875 h 65.9 a 6.82,6.82 0 0 1 5.51,2.81 l 54,74.47998 h -82.71 l -48.22,-66.49998 a 6.8,6.8 0 0 1 5.52,-10.79 z"
+     id="path12"
+     inkscape:connector-curvature="0"
+     style="opacity:0.8;fill:#c4ccd4" />
+  <path
+     class="cls-2"
+     d="m 286.77341,77.10875 h -65.91 a 6.82,6.82 0 0 0 -5.51,2.81 l -54,74.47998 h 82.71 l 48.22,-66.49998 a 6.8,6.8 0 0 0 -5.51,-10.79 z"
+     id="path14"
+     inkscape:connector-curvature="0"
+     style="opacity:0.8;fill:#3aa0d9" />
+</svg>

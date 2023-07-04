@@ -1,0 +1,121 @@
+
+.igrp-highmaps {
+    position: relative;
+}
+
+.igrp-highmaps text{
+    font-size: 12px !important;
+    /*font-size: 12px !important;
+    fill: #8c8c8c!important;
+    font-weight: 500!important;
+    text-decoration: none!important;*/
+}
+
+text.highcharts-title{
+    font-size: 18px!important
+}
+
+.highcharts-text-outline {
+    font-size: 12px !important;
+}
+.igrp-highmaps.is-home .mc-breadcrumb{
+    visibility: hidden;
+}
+
+.mc-breadcrumb{
+    padding: 5px 10px
+}
+
+.mc-breadcrumb.is-home{
+     visibility: hidden;
+}
+
+.mc-legend-wrapper{
+    text-align: center;
+    padding: 10px ;
+    margin-top: 15px;
+}
+
+.mc-legend-item{
+    display: inline-block;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.mc-legend-wrapper.block .mc-legend-item{
+    display: block;
+    text-align: left;
+}
+
+.mc-legend-color{
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    margin-right: 4px;
+    border-radius: 100%;
+    border:1px solid rgba(0,0,0,.2);
+}
+
+.mc-legend-item[visible="false"] {
+    opacity: .4
+}
+
+.mc-breadcrumb .mc-bc-item{
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.highcharts-credits{
+    display: none;
+}
+
+.highcharts-loading{
+    opacity: .7!important;
+}
+
+.highcharts-drillup-button{
+    display: none;
+}
+
+.igrp-hm-tooltip ul {
+    margin:0;
+    padding: 0
+}
+
+.mapchart-export-menu{
+    position: absolute;
+    z-index: 50;
+    top: 55px;
+    right: 20px;
+}
+
+.box>.box-header+.box-body .mapchart-export-menu{
+    top: 55px;
+}
+
+.mapchart-export-menu.left{
+    left: 25px;
+    right: auto;
+}
+
+.mapchart-export-menu.right .dropdown-menu{
+    left: auto;
+    right: 0
+}
+
+.gen-container-item.map-exporting .mapchart-export-menu,
+.gen-container-item.map-exporting .box-header .box-tools {
+    display: none;
+}
+
+.gen-container-item.map-exporting .box-header {
+   background:white;
+   border: 0;
+}
+
+.box.waiting>.box-body>.igrp-highmaps{
+    cursor: wait!important;
+    opacity: .5!important
+}

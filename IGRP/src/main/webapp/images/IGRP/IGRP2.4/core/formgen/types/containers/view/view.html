@@ -1,0 +1,13 @@
+<div class="box clearfix view-block" has-img="#[img]#" template="#[template]#" item-separator-border="#[itemSeparator]#">
+	<div class="box-body">
+		<xsl:apply-templates mode="form-hidden-fields" select="#path#/fields"/>
+		<xsl:if test="#path#/fields/#tag#_img">
+            <img src="{#path#/fields/#tag#_img/value}"/>
+        </xsl:if>
+        
+        <div class="view-body clearfix " gen-id="drop-zone" >
+        	
+        </div>
+
+	</div>
+</div>

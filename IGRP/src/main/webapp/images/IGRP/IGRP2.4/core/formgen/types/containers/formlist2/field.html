@@ -1,0 +1,11 @@
+<xsl:if test="not(#tag#/@visible)">
+	<div class="col-md-#[size]# form-group" item-name="{../../../fields/#tag#/@name}" item-type="#[type]#">
+        <label for="{../../../fields/#tag#/@name}_fk">
+          <xsl:value-of select="../../../fields/#tag#/label"/>
+        </label>
+      
+        <input type="hidden" name="{../../../fields/#tag#/@name}_fk_desc" value="{#tag#_desc}"/>
+        <input type="#[type]#" name="{../../../fields/#tag#/@name}_fk" value="{#tag#}" class="#[type]# form-control" rel="F_#parent.tag#"/>
+  
+      </div>
+</xsl:if>

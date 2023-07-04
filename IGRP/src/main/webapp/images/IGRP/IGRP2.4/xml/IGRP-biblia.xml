@@ -1,0 +1,1160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../xsl/IGRP-biblia.xsl" type="text/xsl"?>
+<rows>
+    <template>default_inverse</template>
+    <title>IGRP Framework</title>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>igrpweb</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>BIBLIO</page>
+    <app>RED</app>
+    <plsql>
+        <action>BIB-DET</action>
+        <package_instance>3</package_instance>
+        <package_db>c</package_db>
+        <package_html>c</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>/images/IGRP/IGRP2.3/core/formgen/util/preserve.xml</preserve_url>
+    </plsql>
+    <!--<navigation file="navigation.xml?v={14257AEA-86F5-8602-E050-040A08026729}"  prm_app="p_prm_app" prm_page="p_prm_page"   prm_action="p_prm_action" />-->
+    <top_menu   file="IGRP-top_menu.xml" />
+    <slide-menu file="IGRP-slide-menu.xml?v=1" />
+    <content>
+        <title>Detalhe Lista</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[This is the IGRP Framework Dashboard Example!]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <paragraph_1 type="paragraph" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <paragraph_1_text type="text" name="p_paragraph_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Welcome to IGRP. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.]]>
+                    </value>
+                </paragraph_1_text>
+            </fields>
+        </paragraph_1>
+        <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <forms name="p_forms" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-wpforms" maxlength="50">
+                    <label>Forms</label>
+                    <value/>
+                </forms>
+                <buttons name="p_buttons" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-angle-right" maxlength="50">
+                    <label>Buttons</label>
+                    <value>1</value>
+                </buttons>
+                <tables name="p_tables" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-list-alt" maxlength="50">
+                    <label>Tables</label>
+                    <value/>
+                </tables>
+                <charts name="p_charts" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-bar-chart-o" maxlength="50">
+                    <label>Charts</label>
+                    <value/>
+                </charts>
+                <others name="p_others" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cubes" maxlength="50">
+                    <label>Others</label>
+                    <value/>
+                </others>
+            </fields>
+        </tabcontent_1>
+        <form_1 type="form" xml-type="form" title="Inputs" gen-type="container" gen-group="">
+            <fields>
+                <email_1 name="p_email_1" type="email" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Email</label>
+                    <value>soldud@example.com</value>
+                </email_1>
+                <text_1 name="p_text_1" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Text</label>
+                    <value>Omnis labore elit officia ipsu</value>
+                </text_1>
+                <number_1 name="p_number_1" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Number</label>
+                    <value>7</value>
+                </number_1>
+                <checkbox_1 name="p_checkbox_1" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
+                    <label>Checkbox</label>
+                    <value>1</value>
+                </checkbox_1>
+                <addons name="p_addons" type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Addons</label>
+                </addons>
+                <date_1 name="p_date_1" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="primary">
+                    <label>Date</label>
+                    <value/>
+                </date_1>
+                <lookup_1 name="p_lookup_1" type="lookup" action="BIB-DET" page="BIBLIO" app="RED" lookup_type="LOOKUP" class="primary" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Lookup</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </lookup_1>
+                <file_1 name="p_file_1" type="file" accept="" targetrend="" multiple="false" rendvalue="false" maxlength="30" required="false" disabled="false" right="false" class="primary" min="" max="">
+                    <label>File</label>
+                    <value/>
+                </file_1>
+                <color_1 name="p_color_1" type="color" format="hex" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Color</label>
+                    <value>#f10f1c</value>
+                </color_1>
+                <select_1 name="p_select_1" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Select</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </select_1>
+                <range_1 name="p_range_1" type="range" rangeMin="0" rangeMax="100" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Range</label>
+                    <value/>
+                </range_1>
+                <checkboxlist_1 name="p_checkboxlist_1" type="checkboxlist" domain="" maxlength="30" required="false" change="false" readonly="false" disabled="false" child_size="12" right="false">
+                    <label>Checkboxlist</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </checkboxlist_1>
+                <radiolist_1 name="p_radiolist_1" type="radiolist" domain="" maxlength="30" required="false" change="false" readonly="false" disabled="false" child_size="12" right="false">
+                    <label>Radiolist</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </radiolist_1>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="info" rel="action">
+                    <title>Action</title>
+                    <app>RED</app>
+                    <page>BIBLIO</page>
+                    <link>BIB-DET</link>
+                    <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml?</parameter>
+                    <target>_blank</target>
+                    <img>info|fa-check</img>
+                </item>
+                <item type="form" code="" class="success" rel="submit">
+                    <title>Submit</title>
+                    <app>RED</app>
+                    <page>BIBLIO</page>
+                    <link>BIB-DET</link>
+                    <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml?</parameter>
+                    <target>_blank</target>
+                    <img>success|fa-send-o</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <formlist_1 type="formlist" xml-type="formlist" gen-clean="true" gen-type="container" gen-group="true">
+            <fields>
+                <address name="p_address" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desc="true">
+                    <label>Address</label>
+                </address>
+                <photo name="p_photo" type="file" accept="" targetrend="" multiple="false" rendvalue="false" maxlength="30" required="false" disabled="false" right="false" class="grey" desc="true">
+                    <label>Photo</label>
+                </photo>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <address name="p_address" desc="true">Iste totam ipsum unde voluptat</address>
+                        <address_desc name="p_address_desc">Iste totam ipsum unde voluptat</address_desc>
+                        <photo name="p_photo" desc="true"/>
+                        <photo_desc name="p_photo_desc"/>
+                    </row>
+                    <row>
+                        <address name="p_address" desc="true">Ipsum elit adipiscing iste eli</address>
+                        <address_desc name="p_address_desc">Ipsum elit adipiscing iste eli</address_desc>
+                        <photo name="p_photo" desc="true"/>
+                        <photo_desc name="p_photo_desc"/>
+                    </row>
+                    <row>
+                        <address name="p_address" desc="true">Totam ipsum ut unde ut</address>
+                        <address_desc name="p_address_desc">Totam ipsum ut unde ut</address_desc>
+                        <photo name="p_photo" desc="true"/>
+                        <photo_desc name="p_photo_desc"/>
+                    </row>
+                    <row>
+                        <address name="p_address" desc="true">Dolor laudantium amet dolor mo</address>
+                        <address_desc name="p_address_desc">Dolor laudantium amet dolor mo</address_desc>
+                        <photo name="p_photo" desc="true"/>
+                        <photo_desc name="p_photo_desc"/>
+                    </row>
+                    <row>
+                        <address name="p_address" desc="true">Consectetur elit sit sed conse</address>
+                        <address_desc name="p_address_desc">Consectetur elit sit sed conse</address_desc>
+                        <photo name="p_photo" desc="true"/>
+                        <photo_desc name="p_photo_desc"/>
+                    </row>
+                </value>
+            </table>
+        </formlist_1>
+        <form_2 type="form" xml-type="form" title="Text Editor" gen-type="container" gen-group="">
+            <fields>
+                <texteditor_1 name="p_texteditor_1" type="texteditor" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label/>
+                    <value>Doloremque magna amet ut totam</value>
+                </texteditor_1>
+            </fields>
+        </form_2>
+        <separatorlist_1 type="separatorlist" xml-type="separatorlist" title="Separatorlist" gen-clean="true" gen-type="container" gen-group="true">
+            <fields>
+                <name name="p_name" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desc="true">
+                    <label>Name</label>
+                    <value>Officia natus rem laudantium t</value>
+                </name>
+                <phone name="p_phone" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desc="true">
+                    <label>Phone</label>
+                    <value>5</value>
+                </phone>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <name name="p_name" desc="true">Accusantium stract sit natus a</name>
+                        <name_desc name="p_name_desc">Accusantium stract sit natus a</name_desc>
+                        <phone name="p_phone" desc="true">22</phone>
+                        <phone_desc name="p_phone_desc">22</phone_desc>
+                    </row>
+                    <row>
+                        <name name="p_name" desc="true">Elit unde perspiciatis aperiam</name>
+                        <name_desc name="p_name_desc">Elit unde perspiciatis aperiam</name_desc>
+                        <phone name="p_phone" desc="true">17</phone>
+                        <phone_desc name="p_phone_desc">17</phone_desc>
+                    </row>
+                    <row>
+                        <name name="p_name" desc="true">Officia iste ipsum rem ut</name>
+                        <name_desc name="p_name_desc">Officia iste ipsum rem ut</name_desc>
+                        <phone name="p_phone" desc="true">16</phone>
+                        <phone_desc name="p_phone_desc">16</phone_desc>
+                    </row>
+                    <row>
+                        <name name="p_name" desc="true">Sit stract adipiscing stract d</name>
+                        <name_desc name="p_name_desc">Sit stract adipiscing stract d</name_desc>
+                        <phone name="p_phone" desc="true">15</phone>
+                        <phone_desc name="p_phone_desc">15</phone_desc>
+                    </row>
+                    <row>
+                        <name name="p_name" desc="true">Lorem sed adipiscing mollit lo</name>
+                        <name_desc name="p_name_desc">Lorem sed adipiscing mollit lo</name_desc>
+                        <phone name="p_phone" desc="true">13</phone>
+                        <phone_desc name="p_phone_desc">13</phone_desc>
+                    </row>
+                </value>
+            </table>
+        </separatorlist_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="default">
+                <title>Default</title>
+                <app>RED</app>
+                <page>BIBLIO</page>
+                <link>BIB-DET</link>
+                <target>_blank</target>
+                <img>default|fa-cog</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</parameter>
+            </item>
+            <item type="specific" code="" rel="primary">
+                <title>Primary</title>
+                <app>RED</app>
+                <page>BIBLIO</page>
+                <link>BIB-DET</link>
+                <target>_blank</target>
+                <img>primary|fa-coffee</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</parameter>
+            </item>
+            <item type="specific" code="" rel="good">
+                <title>Good</title>
+                <app>RED</app>
+                <page>BIBLIO</page>
+                <link>BIB-DET</link>
+                <target>_blank</target>
+                <img>success|fa-check</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</parameter>
+            </item>
+        </toolsbar_1>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="info">
+                <title>Info</title>
+                <app>RED</app>
+                <page>BIBLIO</page>
+                <link>BIB-DET</link>
+                <target>_blank</target>
+                <img>info|fa-info</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</parameter>
+            </item>
+            <item type="specific" code="" rel="warning">
+                <title>Warning</title>
+                <app>RED</app>
+                <page>BIBLIO</page>
+                <link>BIB-DET</link>
+                <target>_blank</target>
+                <img>warning|fa-warning</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</parameter>
+            </item>
+            <item type="specific" code="" rel="danger">
+                <title>Danger</title>
+                <app>RED</app>
+                <page>BIBLIO</page>
+                <link>BIB-DET</link>
+                <target>_blank</target>
+                <img>danger|fa-times</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</parameter>
+            </item>
+        </toolsbar_2>
+        <paragraph_2 type="paragraph" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <paragraph_2_text type="text" name="p_paragraph_2_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Vertical Menu]]>
+                    </value>
+                </paragraph_2_text>
+            </fields>
+        </paragraph_2>
+        <verticalmenu_1 type="verticalmenu" xml-type="verticalmenu" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="button_1">
+                <title>Button</title>
+                <app>RED</app>
+                <page>BIBLIO</page>
+                <link>BIB-DET</link>
+                <target>_blank</target>
+                <img>default|fa-angle-right</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</parameter>
+            </item>
+            <item type="specific" code="" rel="button_2">
+                <title>Button</title>
+                <app>RED</app>
+                <page>BIBLIO</page>
+                <link>BIB-DET</link>
+                <target>_blank</target>
+                <img>default|fa-angle-right</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</parameter>
+            </item>
+            <item type="specific" code="" rel="button_3">
+                <title>Button</title>
+                <app>RED</app>
+                <page>BIBLIO</page>
+                <link>BIB-DET</link>
+                <target>_blank</target>
+                <img>default|fa-angle-right</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</parameter>
+            </item>
+            <item type="specific" code="" rel="button_4">
+                <title>Button</title>
+                <app>RED</app>
+                <page>BIBLIO</page>
+                <link>BIB-DET</link>
+                <target>_blank</target>
+                <img>default|fa-angle-right</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</parameter>
+            </item>
+        </verticalmenu_1>
+        <paragraph_4 type="paragraph" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <paragraph_4_text type="text" name="p_paragraph_4_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Quick Button]]>
+                    </value>
+                </paragraph_4_text>
+            </fields>
+        </paragraph_4>
+        <quickbuttonbox_1 type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <quickbuttonbox_1_tit name="p_quickbuttonbox_1_tit" type="text" maxlength="4000" persist="true">
+                    <label>Title</label>
+                    <value>Box Title</value>
+                </quickbuttonbox_1_tit>
+                <quickbuttonbox_1_val name="p_quickbuttonbox_1_val" type="text" maxlength="4000">
+                    <label>Value</label>
+                    <value>895</value>
+                </quickbuttonbox_1_val>
+                <quickbuttonbox_1_url name="p_quickbuttonbox_1_url" type="text" maxlength="4000">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </quickbuttonbox_1_url>
+                <quickbuttonbox_1_bg name="p_quickbuttonbox_1_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-crimson</value>
+                </quickbuttonbox_1_bg>
+                <quickbuttonbox_1_icn name="p_quickbuttonbox_1_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-check</value>
+                </quickbuttonbox_1_icn>
+            </fields>
+        </quickbuttonbox_1>
+        <paragraph_3 type="paragraph" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <paragraph_3_text type="text" name="p_paragraph_3_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Tree Menu]]>
+                    </value>
+                </paragraph_3_text>
+            </fields>
+        </paragraph_3>
+        <treemenu_1 type="treemenu" xml-type="table" gen-type="container" gen-group="true">
+            <fields/>
+            <fields>
+                <treemenu_1_link type="link" target="_self" desc="true">
+                    <label>Link</label>
+                </treemenu_1_link>
+                <treemenu_1_tmid type="number">
+                    <label>ID</label>
+                </treemenu_1_tmid>
+                <treemenu_1_parent type="number">
+                    <label>Parent ID</label>
+                </treemenu_1_parent>
+                <treemenu_1_icon type="text">
+                    <label>Icon</label>
+                </treemenu_1_icon>
+                <treemenu_1_child>
+                    <label>Has child value(0/X)</label>
+                </treemenu_1_child>
+                <treemenu_1_active>
+                    <label>Is Active value(true/false)</label>
+                </treemenu_1_active>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 1</treemenu_1_link_desc>
+                        <treemenu_1_tmid>1</treemenu_1_tmid>
+                        <treemenu_1_parent/>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
+                    </row>
+                    <row>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 2</treemenu_1_link_desc>
+                        <treemenu_1_tmid>2</treemenu_1_tmid>
+                        <treemenu_1_parent>1</treemenu_1_parent>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
+                    </row>
+                    <row>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 3</treemenu_1_link_desc>
+                        <treemenu_1_tmid>3</treemenu_1_tmid>
+                        <treemenu_1_parent>1</treemenu_1_parent>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
+                    </row>
+                    <row>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 4</treemenu_1_link_desc>
+                        <treemenu_1_tmid>4</treemenu_1_tmid>
+                        <treemenu_1_parent>3</treemenu_1_parent>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
+                    </row>
+                    <row>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 5</treemenu_1_link_desc>
+                        <treemenu_1_tmid>5</treemenu_1_tmid>
+                        <treemenu_1_parent/>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
+                    </row>
+                    <row>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 6</treemenu_1_link_desc>
+                        <treemenu_1_tmid>6</treemenu_1_tmid>
+                        <treemenu_1_parent>5</treemenu_1_parent>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
+                    </row>
+                    <row>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 7</treemenu_1_link_desc>
+                        <treemenu_1_tmid>7</treemenu_1_tmid>
+                        <treemenu_1_parent/>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
+                    </row>
+                    <row>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 8</treemenu_1_link_desc>
+                        <treemenu_1_tmid>8</treemenu_1_tmid>
+                        <treemenu_1_parent>7</treemenu_1_parent>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
+                    </row>
+                </value>
+            </table>
+        </treemenu_1>
+        <toolsbar_3 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="default_1">
+                <title>Default</title>
+                <app>RED</app>
+                <page>BIBLIO</page>
+                <link>BIB-DET</link>
+                <target>_blank</target>
+                <img>default|fa-cog</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</parameter>
+            </item>
+            <item type="specific" code="" rel="primary_1">
+                <title>Primary</title>
+                <app>RED</app>
+                <page>BIBLIO</page>
+                <link>BIB-DET</link>
+                <target>_blank</target>
+                <img>primary|fa-coffee</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</parameter>
+            </item>
+            <item type="specific" code="" rel="success_1">
+                <title>Success</title>
+                <app>RED</app>
+                <page>BIBLIO</page>
+                <link>BIB-DET</link>
+                <target>_blank</target>
+                <img>success|fa-check</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</parameter>
+            </item>
+            <item type="specific" code="" rel="black_1">
+                <title>Black</title>
+                <app>RED</app>
+                <page>BIBLIO</page>
+                <link>BIB-DET</link>
+                <target>_blank</target>
+                <img>black|fa-arrow-left</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</parameter>
+            </item>
+        </toolsbar_3>
+        <paragraph_5 type="paragraph" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <paragraph_5_text type="text" name="p_paragraph_5_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Justified]]>
+                    </value>
+                </paragraph_5_text>
+            </fields>
+        </paragraph_5>
+        <paragraph_6 type="paragraph" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <paragraph_6_text type="text" name="p_paragraph_6_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Left Align]]>
+                    </value>
+                </paragraph_6_text>
+            </fields>
+        </paragraph_6>
+        <paragraph_7 type="paragraph" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <paragraph_7_text type="text" name="p_paragraph_7_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Right Align]]>
+                    </value>
+                </paragraph_7_text>
+            </fields>
+        </paragraph_7>
+        <toolsbar_4 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="black">
+                <title>Black</title>
+                <app>RED</app>
+                <page>BIBLIO</page>
+                <link>BIB-DET</link>
+                <target>_blank</target>
+                <img>black|fa-angle-right</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</parameter>
+            </item>
+            <item type="specific" code="" rel="grey">
+                <title>Grey</title>
+                <app>RED</app>
+                <page>BIBLIO</page>
+                <link>BIB-DET</link>
+                <target>_blank</target>
+                <img>grey|fa-angle-right</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</parameter>
+            </item>
+        </toolsbar_4>
+        <paragraph_8 type="paragraph" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <paragraph_8_text type="text" name="p_paragraph_8_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Center Align]]>
+                    </value>
+                </paragraph_8_text>
+            </fields>
+        </paragraph_8>
+        <table_1 type="table" xml-type="table" title="Simple Table" gen-type="container" gen-group="true">
+            <fields>
+                <father_name name="p_father_name" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Father Name</label>
+                </father_name>
+                <email_1 name="p_email_1" type="email" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Email</label>
+                </email_1>
+                <row_id name="p_row_id" type="hidden" maxlength="30" iskey="false" tag="row_id"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <father_name name="p_father_name">Laudantium stract dolor sit al</father_name>
+                        <email_1 name="p_email_1">kuac@example.com</email_1>
+                        <row_id name="p_row_id" tag="row_id">1</row_id>
+                    </row>
+                    <row>
+                        <father_name name="p_father_name">Ut aperiam sit amet voluptatem</father_name>
+                        <email_1 name="p_email_1">cawa@example.com</email_1>
+                        <row_id name="p_row_id" tag="row_id">1</row_id>
+                    </row>
+                    <row>
+                        <father_name name="p_father_name">Iste natus doloremque consecte</father_name>
+                        <email_1 name="p_email_1">roinewar@example.com</email_1>
+                        <row_id name="p_row_id" tag="row_id">1</row_id>
+                    </row>
+                    <row>
+                        <father_name name="p_father_name">Amet anim ut voluptatem aliqua</father_name>
+                        <email_1 name="p_email_1">rouwbu@example.com</email_1>
+                        <row_id name="p_row_id" tag="row_id">1</row_id>
+                    </row>
+                    <row>
+                        <father_name name="p_father_name">Dolor stract mollit consectetu</father_name>
+                        <email_1 name="p_email_1">emo@example.com</email_1>
+                        <row_id name="p_row_id" tag="row_id">1</row_id>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+        <table_2 type="table" xml-type="table" title="Context Menu" gen-type="container" gen-group="true">
+            <fields>
+                <whatever name="p_whatever" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Whatever</label>
+                </whatever>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <whatever name="p_whatever">Unde laudantium dolor stract d</whatever>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <whatever name="p_whatever">Officia aperiam rem elit lauda</whatever>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <whatever name="p_whatever">Lorem ut totam doloremque amet</whatever>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <whatever name="p_whatever">Deserunt doloremque dolor aliq</whatever>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <whatever name="p_whatever">Totam anim mollit omnis perspi</whatever>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="default" rel="row_action">
+                        <title>Row Action</title>
+                        <app>RED</app>
+                        <page>BIBLIO</page>
+                        <link>BIB-DET</link>
+                        <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml?</parameter>
+                        <target>_blank</target>
+                        <img>default|fa-cog</img>
+                    </item>
+                    <item type="specific" code="" class="grey" rel="another_action">
+                        <title>Another Action</title>
+                        <app>RED</app>
+                        <page>BIBLIO</page>
+                        <link>BIB-DET</link>
+                        <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml?</parameter>
+                        <target>_blank</target>
+                        <img>grey|fa-cube</img>
+                    </item>
+                </context-menu>
+            </table>
+        </table_2>
+        <table_3 type="table" xml-type="table" title="Complete Table" gen-type="container" gen-group="true">
+            <fields>
+                <checkbox_1 name="p_checkbox_1" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" check="true" desc="true">
+                    <label>Checkbox</label>
+                </checkbox_1>
+                <color_1 name="p_color_1" type="color" format="hex" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Color</label>
+                </color_1>
+                <item_title name="p_item_title" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Item Title</label>
+                </item_title>
+                <details name="p_details" type="link" target="_self" target_fields="" closerefresh="false" action="BIB-DET" page="BIBLIO" app="RED" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="center" lookup_parser="false" iskey="false" desc="true">
+                    <label>Details</label>
+                </details>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <color_1 name="p_color_1">5</color_1>
+                        <item_title name="p_item_title">Laudantium sit doloremque elit</item_title>
+                        <details name="p_details" desc="true">http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</details>
+                        <details_desc name="p_details_desc">Details</details_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <color_1 name="p_color_1">3</color_1>
+                        <item_title name="p_item_title">Natus omnis mollit labore dese</item_title>
+                        <details name="p_details" desc="true">http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</details>
+                        <details_desc name="p_details_desc">Details</details_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <color_1 name="p_color_1">8</color_1>
+                        <item_title name="p_item_title">Labore natus unde amet volupta</item_title>
+                        <details name="p_details" desc="true">http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</details>
+                        <details_desc name="p_details_desc">Details</details_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <color_1 name="p_color_1">8</color_1>
+                        <item_title name="p_item_title">Totam sit labore magna iste</item_title>
+                        <details name="p_details" desc="true">http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</details>
+                        <details_desc name="p_details_desc">Details</details_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <color_1 name="p_color_1">1</color_1>
+                        <item_title name="p_item_title">Sed totam elit consectetur mag</item_title>
+                        <details name="p_details" desc="true">http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml</details>
+                        <details_desc name="p_details_desc">Details</details_desc>
+                    </row>
+                </value>
+                <legend_color>
+                    <title>Legenda</title>
+                    <item>
+                        <label>Cor 1</label>
+                        <value>1</value>
+                    </item>
+                    <item>
+                        <label>Cor 2</label>
+                        <value>2</value>
+                    </item>
+                    <item>
+                        <label>Cor 3</label>
+                        <value>3</value>
+                    </item>
+                    <item>
+                        <label>Cor 4</label>
+                        <value>4</value>
+                    </item>
+                    <item>
+                        <label>Cor 5</label>
+                        <value>5</value>
+                    </item>
+                    <item>
+                        <label>Cor 6</label>
+                        <value>6</value>
+                    </item>
+                    <item>
+                        <label>Cor 7</label>
+                        <value>7</value>
+                    </item>
+                    <item>
+                        <label>Cor 8</label>
+                        <value>8</value>
+                    </item>
+                    <item>
+                        <label>Cor 9</label>
+                        <value>9</value>
+                    </item>
+                </legend_color>
+                <context-menu>
+                    <item type="specific" code="" class="danger" rel="delete_row">
+                        <title>Delete Row</title>
+                        <app>RED</app>
+                        <page>BIBLIO</page>
+                        <link>BIB-DET</link>
+                        <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml?</parameter>
+                        <target>_blank</target>
+                        <img>danger|fa-times</img>
+                    </item>
+                    <item type="specific" code="" class="success" rel="confirm_">
+                        <title>Confirm </title>
+                        <app>RED</app>
+                        <page>BIBLIO</page>
+                        <link>BIB-DET</link>
+                        <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml?</parameter>
+                        <target>_blank</target>
+                        <img>success|fa-check-square</img>
+                    </item>
+                </context-menu>
+            </table>
+        </table_3>
+        <statbox_1 type="statbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <statbox_1_tit name="p_statbox_1_tit" type="text" maxlength="4000" persist="true">
+                    <label>Box Title</label>
+                    <value>Users</value>
+                </statbox_1_tit>
+                <statbox_1_val name="p_statbox_1_val" type="text" maxlength="4000" persist="true">
+                    <label>Value</label>
+                    <value>1256</value>
+                </statbox_1_val>
+                <statbox_1_txt name="p_statbox_1_txt" type="text" maxlength="4000" persist="true">
+                    <label>Url Text</label>
+                    <value>Read More...</value>
+                </statbox_1_txt>
+                <statbox_1_url name="p_statbox_1_url" type="text" maxlength="4000" persist="true">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </statbox_1_url>
+                <statbox_1_bg name="p_statbox_1_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-cyan</value>
+                </statbox_1_bg>
+                <statbox_1_icn name="p_statbox_1_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-users</value>
+                </statbox_1_icn>
+            </fields>
+        </statbox_1>
+        <statbox_2 type="statbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <statbox_2_tit name="p_statbox_2_tit" type="text" maxlength="4000" persist="true">
+                    <label>Box Title</label>
+                    <value>Products</value>
+                </statbox_2_tit>
+                <statbox_2_val name="p_statbox_2_val" type="text" maxlength="4000" persist="true">
+                    <label>Value</label>
+                    <value>38</value>
+                </statbox_2_val>
+                <statbox_2_txt name="p_statbox_2_txt" type="text" maxlength="4000" persist="true">
+                    <label>Url Text</label>
+                    <value>Read More...</value>
+                </statbox_2_txt>
+                <statbox_2_url name="p_statbox_2_url" type="text" maxlength="4000" persist="true">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </statbox_2_url>
+                <statbox_2_bg name="p_statbox_2_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-emerald</value>
+                </statbox_2_bg>
+                <statbox_2_icn name="p_statbox_2_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-line-chart</value>
+                </statbox_2_icn>
+            </fields>
+        </statbox_2>
+        <statbox_3 type="statbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <statbox_3_tit name="p_statbox_3_tit" type="text" maxlength="4000" persist="true">
+                    <label>Box Title</label>
+                    <value>Services</value>
+                </statbox_3_tit>
+                <statbox_3_val name="p_statbox_3_val" type="text" maxlength="4000" persist="true">
+                    <label>Value</label>
+                    <value>38</value>
+                </statbox_3_val>
+                <statbox_3_txt name="p_statbox_3_txt" type="text" maxlength="4000" persist="true">
+                    <label>Url Text</label>
+                    <value>Read More...</value>
+                </statbox_3_txt>
+                <statbox_3_url name="p_statbox_3_url" type="text" maxlength="4000" persist="true">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </statbox_3_url>
+                <statbox_3_bg name="p_statbox_3_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-red</value>
+                </statbox_3_bg>
+                <statbox_3_icn name="p_statbox_3_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-cubes</value>
+                </statbox_3_icn>
+            </fields>
+        </statbox_3>
+        <sectionheader_2 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_2_text type="text" name="p_sectionheader_2_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Stat Boxes]]>
+                    </value>
+                </sectionheader_2_text>
+            </fields>
+        </sectionheader_2>
+        <sectionheader_3 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_3_text type="text" name="p_sectionheader_3_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Highcharts]]>
+                    </value>
+                </sectionheader_3_text>
+            </fields>
+        </sectionheader_3>
+        <chart_1 type="chart" xml-type="chart" title="Line" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>line</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#0938d8</col>
+                <col>#9b8ed4</col>
+                <col>#638235</col>
+                <col>#838a16</col>
+            </colors>
+        </chart_1>
+        <chart_2 type="chart" xml-type="chart" title="Area" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>area</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#fabcde</col>
+                <col>#f45373</col>
+                <col>#91d283</col>
+                <col>#2b4b3b</col>
+            </colors>
+        </chart_2>
+        <chart_3 type="chart" xml-type="chart" title="Stacked Bar" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>stackedbar</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#000FFF</col>
+                <col>#000FFF</col>
+                <col>#000FFF</col>
+                <col>#000FFF</col>
+            </colors>
+        </chart_3>
+        <sectionheader_4 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_4_text type="text" name="p_sectionheader_4_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Map Chart]]>
+                    </value>
+                </sectionheader_4_text>
+            </fields>
+        </sectionheader_4>
+        <mapchart_1 type="mapchart" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <mapchart_1_basemap name="p_mapchart_1_basemap" type="text" maxlength="4000">
+                    <label>Basemap</label>
+                    <value>/images/IGRP/IGRP2.3/utils/geo/basemap/caboverde/json.geojson</value>
+                </mapchart_1_basemap>
+                <mapchart_1_data name="p_mapchart_1_data" type="text" maxlength="4000">
+                    <label>Data</label>
+                    <value>/images/IGRP/IGRP2.3/utils/geo/data/data.json</value>
+                </mapchart_1_data>
+                <mapchart_1_config name="p_mapchart_1_config" type="text" maxlength="4000">
+                    <label>Configuration</label>
+                    <value>/images/IGRP/IGRP2.3/utils/geo/config/config2.json</value>
+                </mapchart_1_config>
+            </fields>
+        </mapchart_1>
+        <video_1 type="video" xml-type="video" gen-type="container" gen-group="">
+            <fields>
+                <video_1_text type="text" name="p_video_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[https://www.youtube.com/embed/Viz9FefXZYg]]>
+                    </value>
+                </video_1_text>
+            </fields>
+        </video_1>
+    </content>
+</rows>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRPnull/app/test/homestudio/HomeStudio.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>HomeStudio</page>
+    <app>test</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.test.pages</package_db>
+        <package_html>HomeStudio</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=97</preserve_url>
+    </plsql>
+    <content>
+        <title>Home IGRP Studio</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gestao_de_paginas">
+                <title>Gestão de Páginas</title>
+                <app>test</app>
+                <page>HomeStudio</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>success|fa-gears</img>
+                <parameter>undefinedimages/IGRP/IGRPnull/app/test/homestudio/HomeStudio.xsl</parameter>
+            </item>
+            <item type="specific" code="" rel="importjar">
+                <title>Import.jar</title>
+                <app>test</app>
+                <page>HomeStudio</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>danger|fa-file-archive-o</img>
+                <parameter>undefinedimages/IGRP/IGRPnull/app/test/homestudio/HomeStudio.xsl</parameter>
+            </item>
+            <item type="specific" code="" rel="report_design">
+                <title>Report Design</title>
+                <app>test</app>
+                <page>HomeStudio</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>black|fa-file</img>
+                <parameter>undefinedimages/IGRP/IGRPnull/app/test/homestudio/HomeStudio.xsl</parameter>
+            </item>
+        </toolsbar_1>
+    </content>
+</rows>

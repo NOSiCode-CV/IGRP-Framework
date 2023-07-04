@@ -1,0 +1,7 @@
+<xsl:if test="not(#tag#/@visible)">
+  <td align="#[align]#" data-row="{position()}" data-title="{../../../fields/#tag#/label}" class="#type#" item-name="#[tag]#" item-type="#type#">
+    <xsl:apply-templates mode="igrp-formlist-color-field" select="./#tag#">
+      <xsl:with-param name="format" select="'#[format]#'"/>
+    </xsl:apply-templates>
+  </td>
+</xsl:if>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="./circle_stat_box.xsl" type="text/xsl"?>
+<rows>
+    <template>velzon</template>
+    <title>IGRP Framework</title>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>igrpweb</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>BIBLIO</page>
+    <app>RED</app>
+     <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.teste_elias.pages</package_db>
+        <package_html>Page</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=5592</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>page</title>
+
+        <circlestatbox_1 type="circlestatbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <circlestatbox_1_title name="p_circlestatbox_1_title" type="text" maxlength="4000">
+                    <label>Circle Box Title</label>
+                    <value>Circle Box Title</value>
+                </circlestatbox_1_title>
+                <circlestatbox_1_lbl name="p_circlestatbox_1_lbl" type="text" maxlength="4000">
+                    <label>Percent Text</label>
+                    <value>percent</value>
+                </circlestatbox_1_lbl>
+                <circlestatbox_1_val name="p_circlestatbox_1_val" type="text" maxlength="4000">
+                    <label>Value</label>
+                    <value>4500</value>
+                </circlestatbox_1_val>
+                <circlestatbox_1_pct name="p_circlestatbox_1_val" type="text" maxlength="4000">
+                    <label>Percent Value</label>
+                    <value>84.3</value>
+                </circlestatbox_1_pct>
+                <circlestatbox_1_desc name="p_circlestatbox_1_desc" type="text" maxlength="4000">
+                    <label>Description</label>
+                    <value>Some Text Here</value>
+                </circlestatbox_1_desc>
+                <circlestatbox_1_url name="p_circlestatbox_1_url" type="text" maxlength="4000">
+                    <label>Link</label>
+                    <value>http://www.example.com</value>
+                </circlestatbox_1_url>
+                <circlestatbox_1_bg name="p_circlestatbox_1_bg" type="text" maxlength="4000">
+                    <label>Background</label>
+                    <value>#000</value>
+                </circlestatbox_1_bg>
+            </fields>
+        </circlestatbox_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

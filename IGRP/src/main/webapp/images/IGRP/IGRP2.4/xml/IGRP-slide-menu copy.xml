@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menus>
+  <!--Titulo de Menus-->
+  <title>Home</title>
+  <link></link>
+  <menu>
+    <!--Titulo de Menu-->
+    <title>Parametros Inicio</title>
+    <icon>ri-settings-2-line</icon>
+    <!--Respectivos submenus-->
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Gestão de Utlizadores</title>
+      <!-- Link de Sub menu-->
+      <link>#</link>
+      <id>1</id>
+      <status>1</status>
+    </submenu>
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Gestão de Perfil</title>
+      <!-- Link de Sub menu-->
+      <link>#</link>
+      <id>2</id>
+      <status>0</status>
+    </submenu>
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Gestão de Menu</title>
+      <!-- Link de Sub menu-->
+      <link>#</link>
+      <id>3</id>
+      <status>0</status>
+    </submenu>
+
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Gestão de Transacção</title>
+      <!-- Link de Sub menu-->
+      <link>#</link>
+      <id>4</id>
+      <status>0</status>
+    </submenu>
+  </menu>
+
+  <menu>
+    <!--Titulo de Menu-->
+    <title>Teste</title>
+    <icon>ri-arrow-left-right-line</icon>
+    <!--Respectivos submenus-->
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Formulário</title>
+      <!-- Link de Sub menu-->
+      <link>/images/IGRP/teste/teste-form.xml</link>
+      <id>5</id>
+      <status>0</status>
+    </submenu>
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Lista</title>
+      <!-- Link de Sub menu-->
+      <link>/images/IGRP/teste/teste-table.xml</link>
+      <id>6</id>
+      <status>0</status>
+    </submenu>
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>DashBoard</title>
+      <!-- Link de Sub menu-->
+      <link>/images/IGRP/teste/teste-dashboard.xml</link>
+      <id>7</id>
+      <status>0</status>
+    </submenu>
+  </menu>
+
+  <menu>
+    <!--Titulo de Menu-->
+    <title>Processos</title>
+    <icon>ri-stackshare-line</icon>
+    <!--Respectivos submenus-->
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Tipo de Processo</title>
+      <!-- Link de Sub menu-->
+      <link>#</link>
+      <id>8</id>
+      <status>0</status>
+    </submenu>
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Etapas</title>
+      <!-- Link de Sub menu-->
+      <link>#</link>
+      <id>9</id>
+      <status>1</status>
+    </submenu>
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Componentes</title>
+      <!-- Link de Sub menu-->
+      <link>#</link>
+      <id>10</id>
+      <status>0</status>
+    </submenu>
+  </menu>
+  <menu>
+    <!--Titulo de Menu-->
+    <title>Administração</title>
+    <icon>ri-admin-line</icon>
+    <!--Respectivos submenus-->
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Tipo de Processo</title>
+      <!-- Link de Sub menu-->
+      <link>#</link>
+      <id>11</id>
+      <status>1</status>
+    </submenu>
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Etapas</title>
+      <!-- Link de Sub menu-->
+      <link>#</link>
+      <id>10</id>
+      <status>0</status>
+    </submenu>
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Componentes</title>
+      <!-- Link de Sub menu-->
+      <link>#</link>
+      <id>12</id>
+      <status>0</status>
+    </submenu>
+  </menu>
+  <menu>
+    <!--Titulo de Menu-->
+    <title>Cartas</title>
+    <icon>ri-sd-card-line</icon>
+    <!--Respectivos submenus-->
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Tipo de Processo</title>
+      <!-- Link de Sub menu-->
+      <link>#</link>
+      <id>13</id>
+      <status>0</status>
+    </submenu>
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Etapas</title>
+      <!-- Link de Sub menu-->
+      <link>#</link>
+    </submenu>
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Componentes</title>
+      <!-- Link de Sub menu-->
+      <link>#</link>
+      <id>14</id>
+      <status>0</status>
+    </submenu>
+  </menu>
+
+
+</menus>

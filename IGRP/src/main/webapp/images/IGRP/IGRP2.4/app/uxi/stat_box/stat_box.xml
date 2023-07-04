@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="./stat_box.xsl" type="text/xsl"?>
+<rows>
+    <template>velzon</template>
+    <title>IGRP Framework</title>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>igrpweb</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>BIBLIO</page>
+    <app>RED</app>
+     <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.teste_elias.pages</package_db>
+        <package_html>Page</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=5592</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>page</title>
+        <statbox_1 type="statbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <statbox_1_title name="p_statbox_1_title" type="text" maxlength="4000">
+                    <label>Box Title</label>
+                    <value>Stat Box</value>
+                </statbox_1_title>
+                <statbox_1_val name="p_statbox_1_val" type="text" maxlength="4000">
+                    <label>Value</label>
+                    <value>451</value>
+                </statbox_1_val>
+                <statbox_1_txt name="p_statbox_1_txt" type="text" maxlength="4000">
+                    <label>Url Text</label>
+                    <value>Read More...</value>
+                </statbox_1_txt>
+                <statbox_1_url name="p_statbox_1_url" type="text" maxlength="4000">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </statbox_1_url>
+               <!-- <statbox_1_pct name="p_statbox_pct_1_val" type="text" maxlength="4000">
+                    <label>Percent Value</label>
+                    <value>43.5</value>
+                </statbox_1_pct>-->
+                <statbox_1_bg name="p_statbox_1_bg" type="text" maxlength="4000">
+                    <label>Background</label>
+                    <value>success</value>
+                </statbox_1_bg>
+                <statbox_1_icn name="p_statbox_1_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>bx bx-dollar-circle </value>
+                </statbox_1_icn>
+            </fields>
+        </statbox_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

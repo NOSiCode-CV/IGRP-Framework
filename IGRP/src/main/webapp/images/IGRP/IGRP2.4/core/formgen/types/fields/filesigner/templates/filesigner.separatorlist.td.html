@@ -1,0 +1,18 @@
+<xsl:choose>
+	<xsl:when test="not(//#path#/@visible)">
+		<td data-row="{position()}" data-title="{../../fields/#tag#/label}" class="link" is-button="#[button]#" item-name="#[tag]#">
+			<a class="link btn btn-primary form-link btn-filesigner #[signerbeforsave]#" rel="#tag#">
+				#[setSignerUrlHooks]#
+				<i class="fa fa-pencil"></i>
+				<span>#label.val#</span>
+			</a>
+	        <input type="hidden" name="p_#tag#_fk" value="{#tag#}"/>
+	        <input type="hidden" name="p_#tag#_fk_desc" value="{#tag#_desc}"/>
+		</td>
+		
+	</xsl:when>
+	<xsl:otherwise>
+		<input type="hidden" name="p_#tag#_fk" value="{#tag#}"/>
+  		<input type="hidden" name="p_#tag#_fk_desc" value="{#tag#_desc}"/>
+	</xsl:otherwise>
+</xsl:choose>

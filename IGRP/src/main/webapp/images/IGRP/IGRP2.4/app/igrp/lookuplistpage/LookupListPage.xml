@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>LookupListPage</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>LookupListPage</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=25</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Lista de Pagina Para Lookup</title>
+        <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <associar_pagina name="p_associar_pagina" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-file-powerpoint-o" request_fields="" refresh_submit="false" refresh_components="" maxlength="50">
+                    <label>Associar Página</label>
+                    <value/>
+                </associar_pagina>
+                <associar_documentos name="p_associar_documentos" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-file-word-o" request_fields="" refresh_submit="false" refresh_components="" maxlength="50">
+                    <label>Associar Documentos</label>
+                    <value/>
+                </associar_documentos>
+            </fields>
+        </tabcontent_1>
+        <form_1 type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
+            <fields>
+                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
+                    <label>Aplicação</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </env_fk>
+                <page_descr name="p_page_descr" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                    <label>Título</label>
+                    <value>Sit laudantium amet labore sit</value>
+                </page_descr>
+                <page name="p_page" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                    <label>Code</label>
+                    <value>Dolor perspiciatis aperiam aliqua laudantium</value>
+                </page>
+            </fields>
+            <tools-bar>
+                <item id="button_a6fd_a12c" type="form" code="" class="primary" rel="pesquisar" refresh_components="">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>Dominio</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
+                    <target>submit</target>
+                    <img>primary|fa-search</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
+                </item>
+            </tools-bar>
+        </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar" refresh_components="">
+                <title>Gravar</title>
+                <app>igrp</app>
+                <page>LookupListPage</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>primary|fa-save</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xml</preview>
+            </item>
+        </toolsbar_1>
+        <formlist_1 type="formlist" xml-type="formlist" gen-clean="true" gen-type="container" gen-group="true">
+            <fields>
+                <checkbox name="p_checkbox" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" java-type="int" check="true" desc="true">
+                    <label></label>
+                </checkbox>
+                <obrigatorio name="p_obrigatorio" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" java-type="int" check="true" desc="true">
+                    <label>Obrigatório?</label>
+                </obrigatorio>
+                <tipo name="p_tipo" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="" delimiter=";" tags="false" desc="true">
+                    <label>Tipo</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo>
+                <nome name="p_nome" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="true" placeholder="" right="false" desc="true">
+                    <label>Nome</label>
+                </nome>
+                <descricao_documento name="p_descricao_documento" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="true" placeholder="" right="false" desc="true">
+                    <label>Descrição</label>
+                </descricao_documento>
+                <type_doc name="p_type_doc" type="hidden" maxlength="250" java-type="String" tag="type_doc" desc="true"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
+                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <obrigatorio name="p_obrigatorio" check="true" desc="true">1</obrigatorio>
+                        <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
+                        <tipo name="p_tipo" desc="true">2</tipo>
+                        <tipo_desc name="p_tipo_desc">2</tipo_desc>
+                        <nome name="p_nome" desc="true">Amet aliqua stract labore sed</nome>
+                        <nome_desc name="p_nome_desc">Amet aliqua stract labore sed</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Rem sit mollit ipsum laudantiu</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Rem sit mollit ipsum laudantiu</descricao_documento_desc>
+                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-0cb4_8310</type_doc>
+                        <type_doc_desc name="p_type_doc_desc">hidden-0cb4_8310</type_doc_desc>
+                    </row>
+                    <row>
+                        <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
+                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <obrigatorio name="p_obrigatorio" check="true" desc="true">1</obrigatorio>
+                        <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
+                        <tipo name="p_tipo" desc="true">2</tipo>
+                        <tipo_desc name="p_tipo_desc">2</tipo_desc>
+                        <nome name="p_nome" desc="true">Sit ipsum lorem anim omnis</nome>
+                        <nome_desc name="p_nome_desc">Sit ipsum lorem anim omnis</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Consectetur voluptatem rem mol</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Consectetur voluptatem rem mol</descricao_documento_desc>
+                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-f051_d59c</type_doc>
+                        <type_doc_desc name="p_type_doc_desc">hidden-f051_d59c</type_doc_desc>
+                    </row>
+                    <row>
+                        <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
+                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <obrigatorio name="p_obrigatorio" check="true" desc="true">1</obrigatorio>
+                        <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
+                        <tipo name="p_tipo" desc="true">2</tipo>
+                        <tipo_desc name="p_tipo_desc">2</tipo_desc>
+                        <nome name="p_nome" desc="true">Consectetur sit aperiam deseru</nome>
+                        <nome_desc name="p_nome_desc">Consectetur sit aperiam deseru</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Unde amet consectetur stract r</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Unde amet consectetur stract r</descricao_documento_desc>
+                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-675c_d0e1</type_doc>
+                        <type_doc_desc name="p_type_doc_desc">hidden-675c_d0e1</type_doc_desc>
+                    </row>
+                    <row>
+                        <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
+                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <obrigatorio name="p_obrigatorio" check="true" desc="true">1</obrigatorio>
+                        <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
+                        <tipo name="p_tipo" desc="true">2</tipo>
+                        <tipo_desc name="p_tipo_desc">2</tipo_desc>
+                        <nome name="p_nome" desc="true">Amet doloremque amet officia a</nome>
+                        <nome_desc name="p_nome_desc">Amet doloremque amet officia a</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Stract adipiscing sit dolor el</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Stract adipiscing sit dolor el</descricao_documento_desc>
+                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-2581_ff61</type_doc>
+                        <type_doc_desc name="p_type_doc_desc">hidden-2581_ff61</type_doc_desc>
+                    </row>
+                    <row>
+                        <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
+                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <obrigatorio name="p_obrigatorio" check="true" desc="true">1</obrigatorio>
+                        <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
+                        <tipo name="p_tipo" desc="true">2</tipo>
+                        <tipo_desc name="p_tipo_desc">2</tipo_desc>
+                        <nome name="p_nome" desc="true">Doloremque voluptatem rem adip</nome>
+                        <nome_desc name="p_nome_desc">Doloremque voluptatem rem adip</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Doloremque sit lorem laudantiu</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Doloremque sit lorem laudantiu</descricao_documento_desc>
+                        <type_doc name="p_type_doc" tag="type_doc" desc="true">hidden-4eed_6a77</type_doc>
+                        <type_doc_desc name="p_type_doc_desc">hidden-4eed_6a77</type_doc_desc>
+                    </row>
+                </value>
+            </table>
+        </formlist_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false" showLabel="true" group_in="">
+                    <label>Título</label>
+                </descricao>
+                <nome_pagina name="p_nome_pagina" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false" showLabel="true" group_in="">
+                    <label>Code</label>
+                </nome_pagina>
+                <id name="p_id" type="hidden" maxlength="30" iskey="false" showLabel="true" group_in="" java-type="" tag="id"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <descricao name="p_descricao">Unde rem voluptatem unde amet</descricao>
+                        <nome_pagina name="p_nome_pagina">Officia omnis stract consectet</nome_pagina>
+                        <id name="p_id" tag="id">hidden-01b4_098b</id>
+                    </row>
+                    <row>
+                        <descricao name="p_descricao">Lorem doloremque labore stract</descricao>
+                        <nome_pagina name="p_nome_pagina">Laudantium officia mollit sit</nome_pagina>
+                        <id name="p_id" tag="id">hidden-ab62_bb02</id>
+                    </row>
+                    <row>
+                        <descricao name="p_descricao">Adipiscing mollit voluptatem m</descricao>
+                        <nome_pagina name="p_nome_pagina">Iste ipsum magna aperiam molli</nome_pagina>
+                        <id name="p_id" tag="id">hidden-db17_218a</id>
+                    </row>
+                    <row>
+                        <descricao name="p_descricao">Natus anim sit sed natus</descricao>
+                        <nome_pagina name="p_nome_pagina">Aperiam consectetur omnis natu</nome_pagina>
+                        <id name="p_id" tag="id">hidden-af62_7002</id>
+                    </row>
+                    <row>
+                        <descricao name="p_descricao">Adipiscing unde sit ut accusan</descricao>
+                        <nome_pagina name="p_nome_pagina">Laudantium accusantium mollit</nome_pagina>
+                        <id name="p_id" tag="id">hidden-eee0_6f0d</id>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+        <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <hidden name="p_taskId" type="hidden" maxlength="30" java-type="" tag="taskid"/>
+                <hidden name="p_processId" type="hidden" maxlength="30" java-type="" tag="processid"/>
+            </fields>
+        </form_2>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

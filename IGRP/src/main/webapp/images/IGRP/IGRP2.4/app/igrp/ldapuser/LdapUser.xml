@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/ldapuser/LdapUser.xsl" type="text/xsl"?>
+<rows>
+    <link_img>images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>LdapUser</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>LdapUser</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=45</preserve_url>
+    </plsql>
+    <content>
+        <title>LdapUser</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>igrp</app>
+                <page>LdapUser</page>
+                <link>index</link>
+                <target>submit_form</target>
+                <img>primary|fa-save</img>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/ldapuser/LdapUser.xsl</parameter>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <common_name name="p_common_name" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Common Name</label>
+                    <value>Anim perspiciatis sed ut sit</value>
+                </common_name>
+                <surname name="p_surname" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Surname</label>
+                    <value>Mollit perspiciatis doloremque omnis voluptatem</value>
+                </surname>
+                <email_1 name="p_email_1" type="email" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Email</label>
+                    <value>ut@example.com</value>
+                </email_1>
+            </fields>
+        </form_1>
+    </content>
+</rows>

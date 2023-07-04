@@ -1,0 +1,32 @@
+<div class="box box-table-contents">
+	<div class="box-body ">
+		<div class="table-contents-head">
+			<div class="table-contents-inner">
+				#[hasColorTmpl]#
+		  		#[filterTemplate]#
+		  	</div>
+		</div>
+		<div class="table-box">
+			<div class="table-box-inner">
+				<table id="#tag#" class="table table-striped #[ordertable]# #[dataTable]# #[ctxMenuClass]# #[ctxStyle]#" exports="#[export]#">
+					<thead>
+						<tr gen-id="drop-zone" gen-field-template="th">
+							#[ctxInlineHeadTmpl]#
+						</tr>
+					</thead>
+					<tbody>
+						<xsl:for-each select="#path#/table/value/row[not(@total='yes')]">
+							<tr gen-id="drop-zone">
+								<xsl:apply-templates mode="context-param" select="context-menu" />
+								<gen-template name="table-rows-hiddens"/>
+								#[ctxInlineTmpl]#
+							</tr>
+						</xsl:for-each>
+					</tbody>
+					#[tableFooter]#
+				</table>
+				#[ctxMenuTemplate]#
+			</div>
+		</div>
+	</div>
+</div>

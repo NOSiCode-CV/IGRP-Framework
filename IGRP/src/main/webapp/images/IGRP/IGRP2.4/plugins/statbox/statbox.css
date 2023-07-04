@@ -1,0 +1,68 @@
+.statbox {
+    height: 120px;
+    padding: 10px;
+    position: relative;
+    margin-bottom: 28px;
+}
+
+.statbox .number {
+    font-size: 40px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.statbox .number i{
+    margin-left: 5px;
+    margin-bottom: 15px;
+}
+
+.statbox .title {
+    font-size: 16px;
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    padding: 5px;
+}
+
+.statbox .footer {
+    background: rgba(0,0,0,.1);
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    padding: 10px;
+}
+
+.statbox .footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.statbox .boxchart {
+    zoom: 0.5;
+}
+
+.statbox .boxchart canvas{
+    display: inline-block; 
+    width: 128px; 
+    height: 120px; 
+    vertical-align: top;
+
+}
+
+.purple {
+    background: #603CBA !important;
+    border-color: #603CBA !important;
+    color: #fff;
+}
+
+.red {
+    background: red !important;
+    border-color: red !important;
+    color: #fff;
+}
+
+.statbox_container[active="true"] .statbox{
+	border:2px solid #00000040!important;
+	box-shadow:0 0 10px 2px #55555585
+}

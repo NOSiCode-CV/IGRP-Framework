@@ -1,0 +1,38 @@
+.gis-widget-wrapper[widget-type="legend"]{
+	background: rgba(255, 255, 255, 0.9)
+}
+
+.gis-widget-wrapper[widget-type="legend"] .list-group{
+	max-height:248px;
+	overflow:auto;
+}
+
+.gis-widget-wrapper[widget-type="legend"] .list-group .list-group-item{
+	padding: 2px 4px 10px;
+}
+
+.gis-widget-wrapper[widget-type="legend"] .children{
+	padding: 5px 0 0 15px;
+	display: flex;
+}
+
+
+.gis-widget-wrapper[widget-type="legend"] .children .legend-check{
+	margin-right: 8px;
+}
+
+
+.gis-widget-wrapper[widget-type="legend"] .children span{
+	margin-left: 5px;
+	vertical-align: top;
+}
+
+.gis-widget-wrapper[widget-type="legend"] .children img{
+    width: 18px; 
+}
+
+
+
+.gis-widget-wrapper[widget-type="legend"] .children.legend-item:not(.active){
+    opacity: 0.5;
+}

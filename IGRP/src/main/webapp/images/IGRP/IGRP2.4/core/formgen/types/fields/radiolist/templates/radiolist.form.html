@@ -1,0 +1,23 @@
+<div class="col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
+  <div class="form-group radiolist clear" #[required]#>
+     <label>
+        #label.val#
+        #[tooltip]#
+     </label>
+        <xsl:for-each select="#list.path#/option">
+            <div class="radio radiolist col-md-#[child_size]#">
+                <label style="font-weight: normal !important;" class="container-box"> <span><xsl:value-of select="text"/></span>
+                    <input #[required]# type="radio" name="{../../@name}" value="{value}" class="radiolist #[change]#" label="{text}">
+                        <xsl:call-template name="setAttributes">
+                            <xsl:with-param name="field" select="//#path#"/>
+                        </xsl:call-template>
+                        <xsl:if test="@selected='true'">
+                            <xsl:attribute name="checked">checked</xsl:attribute>
+                        </xsl:if>
+                    </input>
+                    <span class="radiomark"></span>
+                </label>
+            </div>
+        </xsl:for-each>
+    </div>
+</div>

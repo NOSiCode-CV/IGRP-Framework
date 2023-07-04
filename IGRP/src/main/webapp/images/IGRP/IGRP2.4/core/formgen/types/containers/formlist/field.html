@@ -1,0 +1,9 @@
+<xsl:if test="not(#tag#/@visible)">
+	<td align="#[align]#" data-row="{position()}" data-title="{../../../fields/#tag#/label}" class="#type#" item-name="#tag#">
+		<xsl:apply-templates mode="igrp-formlist-field" select="./#tag#">
+			<xsl:with-param name="parent-id" select="'#parent.tag#'"/>
+			<xsl:with-param name="inputmask" select="'#[inputmask]#'"/>
+			<xsl:with-param name="placeholder" select="'#[placeholder]#'"/>
+		</xsl:apply-templates>
+	</td>
+</xsl:if>

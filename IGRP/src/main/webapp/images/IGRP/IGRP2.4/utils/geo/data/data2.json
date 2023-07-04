@@ -1,0 +1,23 @@
+{
+    "legend":[
+        {
+            "legend":"Lorem Ipsum",
+            "color" :"#000"
+        },
+        {
+            "legend":"Mais que 24",
+            "color" :"#45a6d3"
+        },
+        {
+            "legend":"Mais uma descrição ",
+            "color" :"#f0f0f0"
+        }
+    ],
+	"series":[
+        {
+            "color": "#000",
+            "id": "474",
+            "value":50
+        }
+    ]
+}

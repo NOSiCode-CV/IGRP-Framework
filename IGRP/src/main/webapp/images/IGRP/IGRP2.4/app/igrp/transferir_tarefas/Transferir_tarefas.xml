@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/transferir_tarefas/Transferir_tarefas.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Transferir_tarefas</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>null</package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Transferir_tarefas</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=33</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Transferir tarefas</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Transferêcia de Tarefa]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <novo_utilizador name="p_novo_utilizador" type="lookup" action="index" page="LookupListUser" app="igrp" lookup_type="LOOKUP" class="primary" maxlength="255" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" lookup_eraser="false" desclabel="false">
+                    <label>Novo Utilizador</label>
+                    <value/>
+                    <lookup>../images/IGRP/IGRP2.3/app/igrp/lookuplistuser/LookupListUser.xml</lookup>
+                    <lookupParams>
+                        <param field-target="p_novo_utilizador">nome_1</param>
+                        <param field-target="p_id_utilizador">id</param>
+                        <param field-target="p_email_do_utilizador">email_1</param>
+                    </lookupParams>
+                </novo_utilizador>
+                <email_do_utilizador name="p_email_do_utilizador" type="text" maxlength="250" required="false" change="false" readonly="true" disabled="true" placeholder="" desclabel="false" right="false">
+                    <label>Email do utilizador</label>
+                    <value>Deserunt sit unde amet stract</value>
+                </email_do_utilizador>
+                <hidden name="p_id_utilizador" type="hidden" maxlength="30" java-type="Integer" tag="id_utilizador"/>
+                <hidden name="p_id" type="hidden" maxlength="100" java-type="String" tag="id"/>
+            </fields>
+        </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar" refresh_components="">
+                <title>Gravar</title>
+                <app>igrp</app>
+                <page>Transferir_tarefas</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>primary|fa-save</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/transferir_tarefas/Transferir_tarefas.xml</preview>
+            </item>
+        </toolsbar_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <detalhes_de_processo name="p_detalhes_de_processo" type="separator" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Detalhes de Processo</label>
+                </detalhes_de_processo>
+                <tipo_processo name="p_tipo_processo" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Tipo Processo</label>
+                    <value>Deserunt labore sit unde mollit</value>
+                </tipo_processo>
+                <numero_processo name="p_numero_processo" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Número Processo</label>
+                    <value>Sed iste unde sit aperiam</value>
+                </numero_processo>
+                <criado_por_ name="p_criado_por_" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Criado Por </label>
+                    <value>Adipiscing stract lorem stract unde</value>
+                </criado_por_>
+                <data_inicio name="p_data_inicio" type="date" range="false" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Data Início</label>
+                    <value>04-08-2015</value>
+                </data_inicio>
+                <detalhes_de_tarefa name="p_detalhes_de_tarefa" type="separator" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Detalhes de Tarefa</label>
+                </detalhes_de_tarefa>
+                <descricao_de_tarefa name="p_descricao_de_tarefa" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Descrição de Tarefa</label>
+                    <value>Sit accusantium amet totam aperiam</value>
+                </descricao_de_tarefa>
+                <n_tarefa name="p_n_tarefa" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Nº Tarefa</label>
+                    <value>Sit doloremque deserunt aperiam amet</value>
+                </n_tarefa>
+                <atribuido_a name="p_atribuido_a" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Atribuido à</label>
+                    <value>Aperiam mollit voluptatem iste unde</value>
+                </atribuido_a>
+            </fields>
+        </view_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

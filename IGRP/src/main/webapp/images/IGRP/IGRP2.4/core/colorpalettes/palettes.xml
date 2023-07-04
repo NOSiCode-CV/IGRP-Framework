@@ -1,0 +1,29 @@
+<?xml-stylesheet href="palettes.xsl?v=30" type="text/xsl"?>
+<palettes>
+	<color name="fresh" bg-text-color="white">#009688</color>
+	<color name="vermillion" bg-text-color="white">#F44336</color>
+	<color name="orange" bg-text-color="white">#F79E02</color>
+	<color name="starrynight" bg-text-color="white">#0375BA</color>
+	<color name="irises" bg-text-color="white">#007849</color>
+	<color name="palegold" bg-text-color="white">#C0B283</color>
+	<color name="powder" bg-text-color="white">#66B9BF</color>
+	<color name="tan" bg-text-color="white">#EEAA7B</color>
+	<color name="fuschia" bg-text-color="white">#A239CA</color>
+	<color name="lavendar" bg-text-color="white">#6D7993</color>
+	<color name="ink" bg-text-color="white">#062F4F</color>
+	<color name="embers" bg-text-color="white">#B82601</color>
+	<color name="electric" bg-text-color="white">#3CC47C</color>
+	<color name="black" bg-text-color="white">#000</color>
+	<color name="rustyred" bg-text-color="white">#984B43</color>
+	<color name="blush" bg-text-color="white">#EB6E80</color>
+	<color name="petal" bg-text-color="white">#D48CF8</color>
+	<color name="field" bg-text-color="white">#B37D4E</color>
+	<color name="mint" bg-text-color="white">#B4DBC0</color>
+	<color name="magenta" bg-text-color="white">#F81B8A</color>
+	<color name="yellow" bg-text-color="white">#F5CE28</color>
+	<color name="cyan" bg-text-color="white">#43C0F6</color>
+	<color name="jewel" bg-text-color="white">#5F0F4E</color>
+	<color name="stylish" bg-text-color="white">#557A95</color>
+	<color name="citrus" bg-text-color="white">#A4A71E</color>
+</palettes>
+

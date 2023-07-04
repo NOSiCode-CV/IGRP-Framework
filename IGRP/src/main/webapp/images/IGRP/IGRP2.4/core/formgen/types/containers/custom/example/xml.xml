@@ -1,0 +1,10 @@
+<fields>
+    <text_1 name="p_text_1" type="text" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false">
+        <label>Text</label>
+        <value>Sit amet voluptatem aperiam ut</value>
+    </text_1>
+    <email_1 name="p_email_1" type="email" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false">
+        <label>Email</label>
+        <value>hekuze@example.com</value>
+    </email_1>
+</fields>

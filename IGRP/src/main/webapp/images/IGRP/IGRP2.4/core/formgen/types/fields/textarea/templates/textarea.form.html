@@ -1,0 +1,12 @@
+<div class="form-group col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
+    <label for="{#path#/@name}">
+        <xsl:value-of select="#path#/label"/>
+        #[tooltip]#
+    </label>
+    <textarea name="#name.attr#" #[required]# #[disablehtml]# #[readonly]# #[disabled]# class="textarea form-control #[change]# #[desclabel]#" maxlength="#[maxlength]#" placeholder="#[placeholder]#">
+    	<xsl:call-template name="setAttributes">
+            <xsl:with-param name="field" select="#path#"/>
+        </xsl:call-template>
+        <xsl:value-of select="#path#/value"/>
+    </textarea>
+</div>

@@ -1,0 +1,145 @@
+.step-holder > .step-steps {
+  margin: 0 0 40px 0;
+  padding: 0;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.step-holder > .step-steps::before{
+	content: '';
+	height: 4.5px;
+	width: 100%;
+	left: 0;
+	right: 0;
+	top: 17px;
+	background: #C0C0C0;
+	position:absolute;
+}
+
+.step-holder > .step-steps > li {
+  list-style: none;
+  flex: 1;
+  z-index: 1;
+  cursor: pointer;
+  display: block;
+  padding: 10px;
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+}
+
+.step-holder > .step-steps > li::after{
+	content: '';
+    width: 20px;
+    height: 20px;
+    margin: auto;
+    border-radius: 100%;
+    position: absolute;
+    top: -21px;
+    left: 50%;
+    margin-left: -8px;
+    background: #FFFFFF;
+    box-shadow: 5.31138px 21.2455px 26.5569px rgb(229 233 246 / 40%);
+}
+
+.step-holder > .step-steps > li::before{
+	content: '';
+    width: 28px;
+    height: 28px;
+    margin: auto;
+    border-radius: 100%;
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    margin-left: -12px;
+    background: #C0C0C0;
+    box-shadow: 5.31138px 21.2455px 26.5569px rgb(229 233 246 / 40%);
+}
+
+.step-holder > .step-steps > li:hover::before {
+  background-color: #ddd;
+}
+
+.step-holder > .step-steps > li:last-child{
+  border: none;
+}
+
+.step-holder > .step-steps > li.active::before {
+  background-color: #F4A100;
+}
+
+.step-holder > .step-steps > li.error::before {
+  background-color: #e7505a;
+}
+
+.step-holder > .step-steps > li.done::before {
+  background-color: #3cb371;
+}
+
+.step-holder > .step-steps > li.active{
+	color: #F4A100;
+}
+
+.step-holder > .step-steps > li.error{
+	color: #e7505a;
+}
+
+.step-holder > .step-steps > li.done{
+	color: #3cb371;
+}
+
+
+.step-holder > .step-content {
+  border: 1px solid #e5e5e5;
+  border-top: 0;
+}
+
+body[app] .step-holder > .step-content {
+	border: 0;
+}
+
+.step-holder > .step-content > .step-tab-panel,
+.step-holder > .step-content > .step-tab-panel.active.hiddenrules {
+  display: none !important;
+}
+
+.step-holder > .step-content > .step-tab-panel.active {
+  display: block !important;
+}
+
+.step-holder > .step-footer {
+  margin: 15px 0;
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.step-holder > .step-footer .step-btn, 
+body[app] .step-holder > .step-footer .step-finish-btns{
+  display: none;
+}
+
+body[app] .step-holder > .step-footer .step-btn:not(.step-finish-btns){
+  display: block;
+}
+
+.step-holder > .step-footer > .step-btn {
+  cursor: pointer;
+}
+
+.step-holder > .step-footer > .step-btn.prev{
+	margin-right: 5px;
+}
+
+.step-holder > .step-footer > .step-btn .icon-item-holder{
+  vertical-align: text-bottom;
+}
+
+.step-holder > .step-footer > .step-btn.finish,
+.step-holder > .step-footer > .step-btn.next .icon-item-holder{
+	margin-left: 5px;
+}

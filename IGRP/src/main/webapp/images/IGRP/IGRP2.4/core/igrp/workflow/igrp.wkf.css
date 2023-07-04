@@ -1,0 +1,163 @@
+/*workflow*/
+.igrp-gen-workflow ul.nav {
+  
+}
+
+.gen-tab-content .gen-tab-item-title{
+  opacity: 0!important;
+  overflow: hidden!important;
+  opacity: 0!important;
+  height: 0px!important;
+  visibility: hidden!important;
+  padding: 0!important;
+}
+
+.gen-tab-content .gen-tab-item-title+.gen-item-boxed{
+  margin-top: -32px;
+  border-top: 0;
+} 
+
+.igrp-gen-workflow .board .nav-tabs {
+    position: relative;
+    /* border-bottom: 0; */
+    /* width: 80%; */
+    margin: 0 auto;
+    box-sizing: border-box;
+    border-bottom: 0
+}
+
+.igrp-gen-workflow .board > div.board-inner{
+    background: transparent;
+    background-size: 30%;
+    padding-bottom: 35px
+}
+
+.igrp-gen-workflow .board .nav-tabs > li:not(.active) h3{
+  display: none;
+}
+
+.igrp-gen-workflow .board .nav-tabs > li h3{
+    position: absolute;
+    bottom: -35px;
+    z-index: 100;
+    left: 10px;
+    margin: 0;
+}
+
+.igrp-gen-workflow .board .nav-tabs > li .igrp-wf-item-title{
+  text-align: center;
+  display: block;
+  padding: 0 4px;
+  color: #afafaf;
+
+}
+
+
+.igrp-gen-workflow .board .nav-tabs > li.active > a, 
+.igrp-gen-workflow .board .nav-tabs > li.active > a:hover, 
+.igrp-gen-workflow .board .nav-tabs > li.active > a:focus {
+    color: white;
+    cursor: default;
+    /* background-color: #ffffff; */
+    border: 0;
+    border-bottom-color: transparent;
+    background: transparent!important;
+
+}
+.igrp-gen-workflow .board ul:before{
+    height: 2px;
+    background: #ddd;
+    position: absolute;
+    width: 100%;
+    width: calc(100% - 10px );
+    margin: 0 auto;
+    left: 10px;
+    right: 0;
+    top: 40px;
+    z-index: 1;
+    content:"";
+}
+
+.igrp-gen-workflow .board span.round-tabs{
+    width: 60px;
+    height: 60px;
+    line-height: 55px;
+    display: inline-block;
+    border-radius: 100px;
+    background-color: whitesmoke;
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    text-align: center;
+    font-size: 25px;
+    border:2px solid #ddd;
+    transition: background-color .4s;
+}
+
+
+.igrp-gen-workflow .board .nav-tabs > li.active > a .tooltip,
+.igrp-gen-workflow .board .nav-tabs[show-tooltip="false"] > li > a .tooltip{
+  display: none!important;
+}
+
+.igrp-gen-workflow .board .nav-tabs > li > a .tooltip{
+  width: 120px
+}
+
+.igrp-gen-workflow .board .nav-tabs > li {
+    /*width: 95px;*/
+    position: static;
+}
+.igrp-gen-workflow .board .nav-tabs > li:after {
+    content: " ";
+    position: absolute;
+    left: 45%;
+    opacity:0;
+    margin: 0 auto;
+    bottom: 0px;
+    border: 5px solid transparent;
+    border-bottom-color: #ddd;
+    transition:0.1s ease-in-out;
+    
+}
+/*.igrp-gen-workflow .board .nav-tabs > li.active:after {
+    content: " ";
+    position: absolute;
+    left: 50%;
+    opacity:1;
+    margin: 0 auto;
+    bottom: 0px;
+    border: 10px solid transparent;
+    border-bottom-color: #ddd;
+    margin-left: -10px
+    
+}*/
+.igrp-gen-workflow .board .nav-tabs > li a{
+   width: 60px;
+   height: 60px;
+   margin: 10px auto;
+   border-radius: 100%;
+   padding: 0;
+   border:0!important;
+   color: #ddd
+}
+
+.igrp-gen-workflow .board .nav-tabs > li a:hover{
+    background: transparent;
+}
+
+.igrp-gen-workflow li.active [active-bg-color="1"]{
+  background-color : #4496C1!important;
+}
+
+.igrp-gen-workflow li.active [active-text-color="1"]{
+  color: #4496C1!important;
+}
+
+@media (max-width: 767px) {
+
+  .igrp-gen-workflow .board ul:before{
+    display: none;
+  }
+
+}

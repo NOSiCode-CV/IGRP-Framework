@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/login/Login.xsl" type="text/xsl"?>
+<rows>
+<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Teste</page>
+    <app>RED</app>
+    <plsql>
+        <action>Action</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Login</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/generator/index&amp;id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe App</title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <user name="p_user" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Utilizador</label>
+                    <value>Deserunt ipsum sit labore iste</value>
+                </user>
+                <password name="p_password" type="password" maxlength="200" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Password</label>
+                    <value>******</value>
+                </password>
+                <button name="p_button" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Login</label>
+                    <value>Mollit doloremque perspiciatis totam dolor</value>
+                </button>
+                
+                <button name="p_button2" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Recuperar conta</label>
+                    <value>Recuperar conta</value>
+                </button>
+                
+                <buttontoken name="p_buttontoken" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Login com Token</label>
+                    <value>Unde anim perspiciatis sed accusantium</value>
+                </buttontoken>
+                <hidden name="p_sam_message" type="hidden" maxlength="100" tag="sam_message"/>
+                <hidden name="p_sam_message_digest" type="hidden" maxlength="100" tag="sam_message_digest"/>
+                <hidden name="p_sam_certificate" type="hidden" maxlength="100" tag="sam_certificate"/>
+                <hidden name="p_p_env_procedure" type="hidden" maxlength="100" tag="p_env_procedure"/>
+                <hidden name="p_p_env_dml" type="hidden" maxlength="100" tag="p_env_dml"/>
+            </fields>
+        </form_1>
+    </content>
+</rows>

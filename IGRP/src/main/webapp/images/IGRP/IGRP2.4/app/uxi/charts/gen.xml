@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="gen.xsl" type="text/xsl"?>
+<rows>
+    <link_img>http://localhost/igrp-design-system-beta/IGRP2.4</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>undefined</page>
+    <app>generator</app>
+    <template>velzon</template>
+    <plsql>
+        <action>undefined</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>/igrp-design-system-beta/IGRP2.4/core/formgen/types/check_file.php?v=undefined</preserve_url>
+    </plsql>
+    <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>IGRP 2.4 Dashboard</title>
+        <chart_bar_1 type="chart-bar" xml-type="chart-bar" title="Chart-bar" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>bar</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>658</col>
+                    <col>7</col>
+                    <col>212</col>
+                    <col>521</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>318</col>
+                    <col>998</col>
+                    <col>411</col>
+                    <col>209</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>435</col>
+                    <col>746</col>
+                    <col>965</col>
+                </row>
+            </value>
+            <colors>
+                <col>#dbf24b</col>
+                <col>#c66daa</col>
+                <col>#1df010</col>
+                <col>#471ddd</col>
+            </colors>
+        </chart_bar_1>
+        <chart_line_1 type="chart-line" xml-type="chart-line" title="Chart-line" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>line</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>76</col>
+                    <col>660</col>
+                    <col>756</col>
+                    <col>470</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>148</col>
+                    <col>371</col>
+                    <col>405</col>
+                    <col>577</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>520</col>
+                    <col>445</col>
+                    <col>232</col>
+                </row>
+            </value>
+            <colors>
+                <col>#4896b7</col>
+                <col>#fe7b68</col>
+                <col>#e3e2a6</col>
+                <col>#3c13c1</col>
+            </colors>
+        </chart_line_1>
+        <chart_pie_1 type="chart-pie" xml-type="chart-pie" title="Chart-pie" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>pie</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>154</col>
+                    <col>94</col>
+                    <col>700</col>
+                    <col>822</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>949</col>
+                    <col>284</col>
+                    <col>87</col>
+                    <col>861</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>236</col>
+                    <col>427</col>
+                    <col>253</col>
+                </row>
+            </value>
+            <colors>
+                <col>#553f7d</col>
+                <col>#86a02a</col>
+                <col>#ac5a3f</col>
+                <col>#884a67</col>
+            </colors>
+        </chart_pie_1>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[<p>Chart.js</p>
+]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <sectionheader_2 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_2_text type="text" name="p_sectionheader_2_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[<p>Apexcharts</p>
+]]>
+                    </value>
+                </sectionheader_2_text>
+            </fields>
+        </sectionheader_2>
+        <chart_bar_2 type="chart-bar" xml-type="chart-bar" title="Chart-bar" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>bar</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>435</col>
+                    <col>271</col>
+                    <col>421</col>
+                    <col>886</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>640</col>
+                    <col>972</col>
+                    <col>744</col>
+                    <col>411</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>951</col>
+                    <col>465</col>
+                    <col>608</col>
+                </row>
+            </value>
+            <colors>
+                <col>#e8c4f3</col>
+                <col>#ff4d6b</col>
+                <col>#a33dbe</col>
+                <col>#419789</col>
+            </colors>
+        </chart_bar_2>
+        <chart_line_2 type="chart-line" xml-type="chart-line" title="Chart-line" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>line</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>745</col>
+                    <col>772</col>
+                    <col>805</col>
+                    <col>691</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>980</col>
+                    <col>228</col>
+                    <col>682</col>
+                    <col>887</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>830</col>
+                    <col>890</col>
+                    <col>772</col>
+                </row>
+            </value>
+            <colors>
+                <col>#eff9a3</col>
+                <col>#6e5643</col>
+                <col>#94defb</col>
+                <col>#f0adc8</col>
+            </colors>
+        </chart_line_2>
+        <chart_pie_3 type="chart-pie" xml-type="chart-pie" title="Chart-pie" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>pie</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>647</col>
+                    <col>664</col>
+                    <col>67</col>
+                    <col>53</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>595</col>
+                    <col>343</col>
+                    <col>861</col>
+                    <col>281</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>451</col>
+                    <col>149</col>
+                    <col>861</col>
+                </row>
+            </value>
+            <colors>
+                <col>#c4f84c</col>
+                <col>#2bc334</col>
+                <col>#1e7811</col>
+                <col>#e331d9</col>
+            </colors>
+        </chart_pie_3>
+    </content>
+    <blockly></blockly>
+</rows>

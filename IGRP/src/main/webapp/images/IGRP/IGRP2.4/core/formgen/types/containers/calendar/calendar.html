@@ -1,0 +1,21 @@
+<div class="box">
+	<div class="box-body">
+		<xsl:apply-templates mode="IGRP-calendar" select="#path#">
+			<xsl:with-param name="id" select="'#tag#'"/>
+			<xsl:with-param name="lang" select="#path#/fields/#tag#_lang/value"/>
+			<xsl:with-param name="addevents" select="#path#/fields/#tag#_dropedit/value"/>
+			<xsl:with-param name="addevents" select="#path#/fields/#tag#_add/value"/>
+			<xsl:with-param name="loadevents" select="#path#/fields/#tag#_load/value"/>
+			<xsl:with-param name="alleditevents" select="#path#/fields/#tag#_edit/value"/>
+			<xsl:with-param name="defaultview" select="#path#/fields/#tag#_view/value"/>
+			<xsl:with-param name="defaultdate" select="#path#/fields/#tag#_date/value"/>
+			<xsl:with-param name="daysoff" select="#path#/fields/#tag#_daysoff/value"/>
+			<xsl:with-param name="views" select="'#[views]#'"/>
+			<xsl:with-param name="header" select="'#[header]#'"/>
+			<xsl:with-param name="weekends" select="'#[weekends]#'"/>
+			<xsl:with-param name="ebeforetoday" select="'#[ebeforetoday]#'"/>
+			<xsl:with-param name="firstday" select="'#[firstday]#'"/>
+			#[refreshonedit]#
+		</xsl:apply-templates> 
+	</div>
+</div>

@@ -1,0 +1,11 @@
+<div gen-fields=".layer-group" id="#tag#-wrapper">
+
+	<xsl:call-template name="gis-map-view">
+
+		<xsl:with-param name="id" select="'#tag#'"/>
+
+		<xsl:with-param name="data" select="rows/content/#tag#/fields/#tag#_data/value"/>
+
+	</xsl:call-template>
+
+</div>

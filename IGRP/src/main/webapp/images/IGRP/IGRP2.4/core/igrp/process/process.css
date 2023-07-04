@@ -1,0 +1,243 @@
+
+.toolsbar-holder.block-icons a span{
+	display: block;
+}
+
+#IGRP-process .process {
+	overflow: hidden;
+	border-radius: 5px;
+	counter-reset: flag; 
+	
+}
+
+#IGRP-process .process a {
+	text-decoration: none;
+	outline: none;
+	font-size: 12px;
+	line-height: 36px;
+	color: white;
+	padding: 5px 15px 5px 60px;
+	background: #666;
+	background: linear-gradient(#666, #333);
+	position: relative;
+	margin: 5px 0 ;
+	text-align: center;
+	border: 0;
+}
+
+#IGRP-process .process a:first-child {
+	padding-left: 46px;
+	border-radius: 5px 0 0 5px; 
+}
+#IGRP-process .process a:first-child .process-w-counter {
+	left: 14px;
+}
+#IGRP-process .process a:last-child {
+	border-radius: 0 5px 5px 0; 
+	padding-right: 20px;
+}
+
+#IGRP-process .process a.active, 
+#IGRP-process .process a:hover{
+	background: #333;
+	background: linear-gradient(#333, #000);
+	box-shadow: none;
+}
+
+#IGRP-process .process a.active .process-w-arrow, 
+#IGRP-process .process a:hover .process-w-arrow {
+	background: #333;
+	background: linear-gradient(135deg, #333, #000);
+}
+
+#IGRP-process .process a .process-w-arrow {
+	content: '';
+    position: absolute;
+    top: -1px;
+    right: -18px;
+    width: 45px;
+    height: 48px;
+    transform: scale(0.707) rotate(45deg);
+    z-index: 1;
+    background: #faae42;
+    /* background: linear-gradient(135deg, #666, #333); */
+    box-shadow: 2px -2px 0 1px #f3f5f7, 3px -3px 0 2px #f3f5f7;
+    border-radius: 0 5px 0 50px;
+}
+
+#IGRP-process .flat a .process-w-title{
+	font-weight: 300;
+	font-size: 14px;
+	display: block
+}
+
+#IGRP-process .process a:last-child .process-w-arrow {
+	content: none;
+	display: none;
+}
+
+#IGRP-process .process a .process-w-counter {
+	/*content: counter(flag);
+	counter-increment: flag;*/
+	/*some styles now*/
+	border-radius: 100%;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	margin: 8px 0;
+	position: absolute;
+	top: 5px;
+	left: 30px;
+	background: #444;
+	background: linear-gradient(#444, #222);
+	font-weight: 500;
+}
+
+
+#IGRP-process .flat a, 
+#IGRP-process .flat a .process-w-arrow {
+	background: #fff;
+	color: inherit;
+	transition: all 0.5s;
+}
+#IGRP-process .flat a .process-w-counter {
+	background: white;
+	box-shadow: 0 0 0 1px #ccc;
+	color: #333
+}
+#IGRP-process .flat a:hover, 
+#IGRP-process .flat a.active, 
+#IGRP-process .flat a:hover .process-w-arrow, 
+#IGRP-process .flat a.active .process-w-arrow{
+	background: #faae42;
+}
+
+
+#IGRP-process .flat a:not(.active):not(.proc_start):not(.proc_end):hover,
+#IGRP-process .flat a:not(.active):not(.proc_start):not(.proc_end):hover .process-w-arrow{
+	background: #e6edf5;
+}
+
+#IGRP-process .flat a.active,
+#IGRP-process .flat a.active .process-w-arrow{
+	background: #faae42;
+}
+
+#IGRP-process .flat a.active .process-w-title{
+	color:white;
+}
+
+
+#IGRP-process .flat a.proc_start,
+#IGRP-process .flat a.proc_start .process-w-arrow{ 
+	background:#ffc61b;
+	color: white
+}
+#IGRP-process .flat a.proc_end,
+#IGRP-process .flat a.proc_end .process-w-arrow{ 
+	background:#f44336;
+	color: white
+}
+
+
+
+
+/*
+	TEMPLATE 2
+*/
+
+.f1 {
+	padding: 10px 0; 
+	text-align: center;
+}
+
+.f1-steps { position: relative; }
+
+.f1-progress {display: none; position: absolute; top: 24px; left: 0; width: 100%; height: 1px; background: #ddd; }
+.f1-progress-line { position: absolute; top: 0; left: 0; height: 1px; background: #ddd; }
+
+.f1-step { position: relative; float: left; padding: 0 5px; text-decoration: none!important;}
+
+.f1-step:before {
+    content: "";
+    display: block;
+    height: 1px;
+    width: 100%;
+    background: #dddddd;
+    left: 0;
+    top: 50%;
+    position: absolute;
+    margin-top: -7px;
+}
+.f1-step-icon {
+	display: inline-block; width: 40px; height: 40px; margin-top: 4px; background: #ddd;
+	font-size: 16px; color: #fff; line-height: 40px;
+	-moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%;
+	position: relative;
+	z-index: 10
+}
+.f1-step.activated .f1-step-icon {
+	background: #fff; border: 1px solid #f35b3f; color: #f35b3f; line-height: 38px;
+}
+/*.f1-step.active .f1-step-icon {
+	width: 48px; height: 48px; margin-top: 0; background: #f35b3f; font-size: 22px; line-height: 48px;
+}*/
+
+.f1-step p { color: #ccc; }
+.f1-step.activated p { color: #f35b3f; }
+.f1-step.active p { color: #f35b3f; }
+
+.f1 fieldset { display: none; text-align: left; }
+
+.f1-buttons { text-align: right; }
+
+.f1 .input-error { border-color: #f35b3f; }
+
+/*.f1 .wiz-step:hover{
+	position: relative;
+	overflow: visible;
+}
+
+.f1 .wiz-step:hover >p{
+	    text-overflow: unset;
+    white-space: nowrap;
+    overflow: visible;
+    position: absolute;
+    z-index: 10;
+    padding: 0 5px;
+    text-align: center;
+
+    width: 200px;
+   
+    margin-left: -62px;
+}*/
+
+#start-content{
+	box-shadow: 0 0px 6px rgba(0,0,0,0.1);
+	background: #fff;
+	margin-bottom: 30px;
+	padding: 15px 0 10px 0;
+}
+
+.tab-process:after{
+	display: block;
+	content: '';
+	clear: both;
+}
+
+.separator{
+	display: block;
+	clear: both;
+	width: 100%;
+}
+
+@media (max-width: 415px) {
+	
+	.f1 { padding-bottom: 20px; }
+	.f1-buttons button { margin-bottom: 5px; }
+
+}
+
+a[href^="?r="]  [active-bg-color="primary"]{
+  background-color:#2fa6cd;
+}

@@ -1,0 +1,6 @@
+<div class="time-line box #[clean]#"  gen-structure="timeline">
+	<xsl:apply-templates mode="IGRP-timeline" select="#path#" >
+		<xsl:with-param name="themes" select="'#[style]#'"/>
+		<xsl:with-param name="bg" select="'#[bg]#'"/>
+	</xsl:apply-templates>	
+</div>

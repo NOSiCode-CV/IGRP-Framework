@@ -1,0 +1,32 @@
+.daterangepicker .input-mini.active,
+.daterangepicker .input-mini{
+	border-radius: 0
+}
+.daterangepicker_input{
+	display: none;
+}
+
+html.ie .datepicker-clear{
+	display: none;
+}
+
+.datepicker-clear{
+	position: absolute;
+	z-index: 15;
+	top: 50%;
+	margin-top: -9px;
+	padding: 2px;
+	right:50px;
+	cursor:pointer;
+	-webkit-transition: color .5s, opacity .5s; /* Safari */
+    transition: color .5s, opacity .5s;
+    opacity: 0
+}
+.datepicker-clear:hover{
+	color:#DD4B39;
+	opacity: 1
+}
+
+.gen-date-picker-wrapper:hover .datepicker-clear{
+	opacity: .6
+}

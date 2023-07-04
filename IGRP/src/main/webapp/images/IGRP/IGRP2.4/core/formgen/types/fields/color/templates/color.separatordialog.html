@@ -1,0 +1,16 @@
+<div class="col-1-#[size]# item" item-name="#tag#">
+  <div class="igrp_item #type#">
+    <label>
+      <xsl:if test="string-length(#label.path#) >45">
+        <xsl:attribute name="title"><xsl:value-of select="#label.path#"/></xsl:attribute>
+      </xsl:if>
+      #label.val#
+    </label>
+	<div class="itemIcon">
+	    <input type="text" class="color" name="#name.attr#" id="#tag#" rel="F_#parent.tag#" placeholder="#[placeholder]#"/>
+	    <input type="hidden" format="#[format]#" class="colorPicker notForm" relColor="#tag#"/>
+	</div>
+	<div class="_clear"/>
+</div>
+<div class="_clear"></div>
+</div>

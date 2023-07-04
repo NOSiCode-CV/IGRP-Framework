@@ -1,0 +1,9 @@
+<div class="box">
+	<div class="box-body" style="padding:0">
+		<div id="#tag#" class="carousel slide" data-ride="carousel" gen-fields=".carousel-inner .item">
+		  <xsl:apply-templates select="#path#" mode="igrp-carousel">
+		      <xsl:with-param name="id" select="'#tag#'"/>
+		  </xsl:apply-templates>
+		</div>
+	</div>
+</div>

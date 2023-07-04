@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="../xsl/IGRP-error.xsl?v=30" type="text/xsl"?>
+<rows>
+	<title>NOSI Teste Page 1</title>
+	<link>IGRP-home.xml</link>
+	<site>	
+		<welcome_note>Olá</welcome_note>
+		<footer_note>2011 - Copyright NOSI</footer_note>
+		
+		<user_name>Milton Cabral</user_name>
+		
+		<button>
+			<link>http://www.google.com</link>
+			<img>exit.png</img>
+			<title>Sair</title>
+		</button>		
+	</site>
+
+	<!-- <top_menu file="/images/IGRP2.2/xml/IGRP-top_menu.xml" /> -->
+
+	<applications file="IGRP-applications.xml" />
+
+	<slide-menu file="IGRP-slide-menu.xml?v=2" />
+	
+	
+	<app>HOME</app>
+	
+	<page>0001</page>
+	
+	<content>
+		<messages>
+			<message type="error">Erro!</message>
+			<message type="warning">Erro!</message>
+		</messages>
+	
+	</content>
+	
+</rows>

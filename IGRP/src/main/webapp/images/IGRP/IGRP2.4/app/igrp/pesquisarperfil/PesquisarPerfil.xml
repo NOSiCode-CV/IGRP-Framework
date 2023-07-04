@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>PesquisarPerfil</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>PesquisarPerfil</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=11</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Gestão de Perfil</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Gestão de Perfil]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="" action_type="false" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
+                    <label>Help</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
+                </help>
+            </fields>
+        </view_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="novo" refresh_components="">
+                <title>Novo</title>
+                <app>igrp</app>
+                <page>NovoPerfil</page>
+                <link>index</link>
+                <target>right_panel|refresh</target>
+                <img>success|fa-plus-square</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xml</preview>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <organica name="p_organica" type="text" maxlength="255" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Organização</label>
+                </organica>
+                <perfil_pai name="p_perfil_pai" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Perfil Pai</label>
+                </perfil_pai>
+                <estado name="p_estado" type="checkbox" maxlength="30" align="center" lookup_parser="false" iskey="false" switch="false" java-type="int" showLabel="true" group_in="" check="true" desc="true">
+                    <label>Estado</label>
+                </estado>
+                <descricao name="p_descricao" type="text" maxlength="255" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Nome</label>
+                </descricao>
+                <codigo name="p_codigo" type="text" maxlength="255" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Código</label>
+                </codigo>
+                <id name="p_id" type="hidden" maxlength="30" iskey="true" java-type="" showLabel="true" group_in="" tag="id"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <organica name="p_organica">Aliqua sed iste omnis perspiciatis</organica>
+                        <perfil_pai name="p_perfil_pai">Perspiciatis sit iste aperiam</perfil_pai>
+                        <estado name="p_estado" check="true" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                        <descricao name="p_descricao">Unde consectetur aperiam unde officia</descricao>
+                        <codigo name="p_codigo">Aliqua ut totam consectetur adipiscing</codigo>
+                        <id name="p_id" tag="id">hidden-3cef_fae4</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <organica name="p_organica">Amet voluptatem ipsum omnis lorem</organica>
+                        <perfil_pai name="p_perfil_pai">Rem amet unde ut voluptatem</perfil_pai>
+                        <estado name="p_estado" check="true" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                        <descricao name="p_descricao">Aperiam unde ut ipsum rem</descricao>
+                        <codigo name="p_codigo">Sed consectetur voluptatem consectetur aperiam</codigo>
+                        <id name="p_id" tag="id">hidden-3a48_fb42</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <organica name="p_organica">Lorem perspiciatis sit stract unde</organica>
+                        <perfil_pai name="p_perfil_pai">Labore aperiam elit officia an</perfil_pai>
+                        <estado name="p_estado" check="true" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                        <descricao name="p_descricao">Lorem sit labore doloremque aperiam</descricao>
+                        <codigo name="p_codigo">Consectetur voluptatem unde doloremque sed</codigo>
+                        <id name="p_id" tag="id">hidden-58a4_1fef</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <organica name="p_organica">Magna rem perspiciatis voluptatem doloremque</organica>
+                        <perfil_pai name="p_perfil_pai">Ipsum natus laudantium aperiam</perfil_pai>
+                        <estado name="p_estado" check="true" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                        <descricao name="p_descricao">Elit aliqua rem sit totam</descricao>
+                        <codigo name="p_codigo">Magna natus laudantium officia omnis</codigo>
+                        <id name="p_id" tag="id">hidden-7922_e9e6</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <organica name="p_organica">Doloremque elit aperiam doloremque dolor</organica>
+                        <perfil_pai name="p_perfil_pai">Accusantium lorem ut mollit pe</perfil_pai>
+                        <estado name="p_estado" check="true" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                        <descricao name="p_descricao">Ut totam iste lorem unde</descricao>
+                        <codigo name="p_codigo">Dolor mollit ipsum totam rem</codigo>
+                        <id name="p_id" tag="id">hidden-1f48_85a0</id>
+                    </row>
+                </value>
+                <context-menu>
+                    <item id="button_40d9_9edf" type="specific" code="" class="warning" rel="editar" custom_return="true" refresh_components="">
+                        <title>Editar</title>
+                        <app>igrp</app>
+                        <page>NovoPerfil</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xml?</parameter>
+                        <target>right_panel|refresh</target>
+                        <img>warning|fa-pencil</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xml</preview>
+                    </item>
+                    <item id="button_2d77_a624" type="specific" code="" class="info" rel="menu" custom_return="true" refresh_components="">
+                        <title>Menu</title>
+                        <app>igrp</app>
+                        <page>MenuOrganica</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xml?</parameter>
+                        <target>right_panel</target>
+                        <img>info|fa-bars</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xml</preview>
+                    </item>
+                    <item id="button_6e1b_72ce" type="specific" code="" class="black" rel="transacao" custom_return="true" refresh_components="">
+                        <title>Transacao</title>
+                        <app>igrp</app>
+                        <page>TransacaoOrganica</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xml?</parameter>
+                        <target>right_panel</target>
+                        <img>black|fa-exchange</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xml</preview>
+                    </item>
+                    <item id="button_0636_8fae" type="specific" code="" class="primary" rel="associar_etapa" custom_return="true" refresh_components="">
+                        <title>Associar Etapa</title>
+                        <app>igrp</app>
+                        <page>PesquisarPerfil</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml?</parameter>
+                        <target>right_panel</target>
+                        <img>primary|fa-sitemap</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</preview>
+                    </item>
+                    <item id="button_a1c1_3c29" type="specific" code="" class="warning" rel="convidar" custom_return="true" refresh_components="">
+                        <title>Convidar</title>
+                        <app>igrp</app>
+                        <page>NovoUtilizador</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xml?</parameter>
+                        <target>right_panel</target>
+                        <img>warning|fa-send</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xml</preview>
+                    </item>
+                    <item id="button_aa26_9fae" type="specific" code="" class="danger" rel="eliminar" refresh_components="" labelConfirm="Deseja realmente realizar esta operação?">
+                        <title>Eliminar</title>
+                        <app>igrp</app>
+                        <page>PesquisarPerfil</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml?</parameter>
+                        <target>alert_submit</target>
+                        <img>danger|fa-trash</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</preview>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <hidden name="p_id_app" type="hidden" maxlength="250" java-type="int" tooltip="false" disable_copy_paste="false" tag="id_app"/>
+                <hidden name="p_id_org" type="hidden" maxlength="250" java-type="int" tooltip="false" disable_copy_paste="false" tag="id_org"/>
+            </fields>
+        </form_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

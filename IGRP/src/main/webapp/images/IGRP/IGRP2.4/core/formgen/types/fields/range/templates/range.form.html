@@ -1,0 +1,10 @@
+<div class="form-group col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
+    <label for="{#path#/@name}">
+        <xsl:value-of select="#path#/label"/>
+        #[tooltip]#
+    </label>
+    <input id="range-#tag#" range-id="range-#tag#" name="{#path#/@name}" class="igrp-range" type="text" data-slider-min="#[rangeMin]#" data-slider-max="#[rangeMax]#" data-slider-step="1" data-slider-value="{#path#/value}"/>
+    <div class="min-max-range">
+        <span class="min">#[rangeMin]#</span><span class="max pull-right">#[rangeMax]#</span>
+    </div>
+</div>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/migrate/Migrate.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Migrate</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Migrate</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=26</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Migrate IGRP</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>Migração de base de dados</value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="migrar">
+                <title>Migrar</title>
+                <app>igrp</app>
+                <page>PesquisaNIF</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>info|fa-exchange</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisanif/PesquisaNIF.xml</preview>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" copy="true" copy-tag="form_1" copy-package-db="nosi.webapps.igrp.pages" copy-package-html="ConfigDatabase" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="" tags="false">
+                    <label>Aplicação</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <tipo_base_dados name="p_tipo_base_dados" type="select" multiple="false" maxlength="20" required="true" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
+                    <label>Tipo de base de dados</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <rules/>
+                </tipo_base_dados>
+                <nome_de_conexao name="p_nome_de_conexao" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="A name ex: myConn, DEVNOSI" right="false">
+                    <label>Nome da conexão</label>
+                    <value>Adipiscing laudantium sit ipsu</value>
+                </nome_de_conexao>
+                <config name="p_config" type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Config</label>
+                </config>
+                <url_connection name="p_url_connection" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Url Connection</label>
+                    <value>Perspiciatis consectetur iste amet adipiscing</value>
+                </url_connection>
+                <driver_connection name="p_driver_connection" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Driver Connection</label>
+                    <value>Sit laudantium deserunt anim laudantium</value>
+                </driver_connection>
+                <paragraph_1 name="p_paragraph_1" type="plaintext" clear="false" maxlength="250" right="false">
+                    <label>Example</label>
+                    <value>Aliqua deserunt aperiam amet sed omnis aperiam totam officia rem laudantium aperiam totam unde ipsum ut ipsum rem mollit labore natus doloremque totam anim omnis</value>
+                </paragraph_1>
+                <credenciais name="p_credenciais" type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Credenciais</label>
+                </credenciais>
+                <username name="p_username" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Username</label>
+                    <value>Elit stract sed natus labore</value>
+                </username>
+                <password name="p_password" type="password" maxlength="80" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Password</label>
+                    <value>******</value>
+                </password>
+            </fields>
+        </form_1>
+    </content>
+</rows>

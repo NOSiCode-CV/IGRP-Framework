@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/lookuplistuser/LookupListUser.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>LookupListUser</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>null</package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>LookupListUser</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=31</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Lookup Lista Utilizador</title>
+        <form_1 type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
+            <fields>
+                <email name="p_email" type="email" maxlength="255" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                    <label>Email</label>
+                    <value>gacosot@example.com</value>
+                </email>
+                <login name="p_login" type="text" maxlength="255" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                    <label>Login</label>
+                    <value>Aperiam iste amet iste mollit</value>
+                </login>
+                <nome name="p_nome" type="text" maxlength="255" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                    <label>Nome</label>
+                    <value>Officia lorem perspiciatis stract mollit</value>
+                </nome>
+            </fields>
+            <tools-bar>
+                <item id="button_2a9b_deb7" type="form" code="" class="primary" rel="pesquisar" refresh_components="">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>LookupListUser</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp/lookuplistuser/LookupListUser.xml?</parameter>
+                    <target>submit</target>
+                    <img>primary|fa-search</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp/lookuplistuser/LookupListUser.xml</preview>
+                </item>
+            </tools-bar>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <email_1 name="p_email_1" type="email" maxlength="30" align="left" lookup_parser="true" iskey="false" showLabel="true" group_in="">
+                    <label>Email</label>
+                </email_1>
+                <login_1 name="p_login_1" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false" showLabel="true" group_in="">
+                    <label>Login</label>
+                </login_1>
+                <nome_1 name="p_nome_1" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false" showLabel="true" group_in="">
+                    <label>Nome</label>
+                </nome_1>
+                <id name="p_id" type="hidden" maxlength="30" iskey="false" showLabel="true" group_in="" java-type="" tag="id"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <email_1 name="p_email_1">oj@example.com</email_1>
+                        <login_1 name="p_login_1">Iste perspiciatis adipiscing v</login_1>
+                        <nome_1 name="p_nome_1">Officia consectetur consectetu</nome_1>
+                        <id name="p_id" tag="id">hidden-c7da_a6d8</id>
+                    </row>
+                    <row>
+                        <email_1 name="p_email_1">itror@example.com</email_1>
+                        <login_1 name="p_login_1">Magna lorem adipiscing unde to</login_1>
+                        <nome_1 name="p_nome_1">Magna voluptatem consectetur l</nome_1>
+                        <id name="p_id" tag="id">hidden-f724_6c1d</id>
+                    </row>
+                    <row>
+                        <email_1 name="p_email_1">nebut@example.com</email_1>
+                        <login_1 name="p_login_1">Labore accusantium adipiscing</login_1>
+                        <nome_1 name="p_nome_1">Elit natus amet elit sit</nome_1>
+                        <id name="p_id" tag="id">hidden-aba4_1fcb</id>
+                    </row>
+                    <row>
+                        <email_1 name="p_email_1">wuzo@example.com</email_1>
+                        <login_1 name="p_login_1">Omnis totam stract natus aliqu</login_1>
+                        <nome_1 name="p_nome_1">Accusantium stract aperiam con</nome_1>
+                        <id name="p_id" tag="id">hidden-2ec7_c966</id>
+                    </row>
+                    <row>
+                        <email_1 name="p_email_1">ofazit@example.com</email_1>
+                        <login_1 name="p_login_1">Sit aperiam ut rem deserunt</login_1>
+                        <nome_1 name="p_nome_1">Dolor totam elit adipiscing ip</nome_1>
+                        <id name="p_id" tag="id">hidden-0686_5a18</id>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

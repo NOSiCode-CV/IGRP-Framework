@@ -1,0 +1,1714 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="../xsl/IGRP-biblia-all.xsl" type="text/xsl"?>
+<rows>
+  <title>IGRP 2.2</title>
+  <!--<target>_blank</target>-->
+  <site>
+    <welcome_note>Olá</welcome_note>
+    <footer_note>2014 - Copyright NOSI</footer_note>
+    <user_name>Maria Mendes</user_name>
+  </site>
+  <app>HOME</app>
+  <page>0001</page>
+  <action>BULK</action>
+  <navigation file="/images/IGRP2.2/xml/IGRP-navigation.xml?"/>
+  <applications file="/images/IGRP2.2/xml/IGRP-applications.xml" />
+  <top_menu file="/images/IGRP2.2/xml/IGRP-top_menu.xml"/>
+  <slide-menu file="/images/IGRP2.2/xml/IGRP-slide-menu.xml?v=2"/>
+  <language file="/images/IGRP2.2/xml/IGRP-language.xml"/>
+  <content>
+    <title>NOSI IGRP 2.2</title>
+    <messages>
+      <message type="info">XML de Teste para todas as páginas</message>
+      <message type="error">XML de Teste para todas as páginas</message>
+      <message type="confirm">Isto sim é que falar?</message>
+      <message type="warning">Isto sim é que falar?</message>
+      <message type="success">Isto sim é que falar?</message>
+      <message type="debug">Tipo isto mas nao é 1</message>
+      <message type="debug">Tipo isto mas nao é dos 2</message>
+      <message type="debug">Tipo isto mas nao é dos 3</message>
+      <message type="debug">Tipo isto mas nao é dos 4 mas é</message>
+      <message type="debug">Tipo isto mas nao é 5</message>
+      <message type="debug">Tipo isto mas nao é 1</message>
+      <message type="debug">Tipo isto mas nao é dos 2</message>
+      <message type="debug">Tipo isto mas nao é dos 3</message>
+      <message type="debug">Tipo isto mas nao é dos 4 mas é</message>
+      <message type="debug">Tipo isto mas nao é 5</message>
+      <message type="debug">Tipo isto mas nao é 1</message>
+      <message type="debug">Tipo isto mas nao é dos 2</message>
+      <message type="debug">Tipo isto mas nao é dos 3</message>
+      <message type="debug">Tipo isto mas nao é dos 4 mas é</message>
+      <message type="debug">Tipo isto mas nao é 5</message>
+    </messages>
+    <!--TAB MENU-->
+    <menu>
+      <title>Menu Simples</title>
+      <group title="Informações" id="informacoes">
+        <item>
+          <img>menu_infor.png</img>
+          <link>#</link>
+          <title>Informações</title>
+          <target>self</target>
+        </item>
+        <item>
+          <img>menu_notif.png</img>
+          <link>#</link>
+          <title>Observações</title>
+          <target>self</target>
+        </item>
+        <item>
+          <img>menu_infor.png</img>
+          <link>#</link>
+          <title>Notificações</title>
+          <target>self</target>
+        </item>
+        <item>
+          <img>menu_dados.png</img>
+          <link>#</link>
+          <title>Repartição de Finanças</title>
+          <target>self</target>
+        </item>
+      </group>
+      <group title="Dados">
+        <item>
+          <img>menu_infor.png</img>
+          <link>#</link>
+          <title>Informações</title>
+          <target>self</target>
+        </item>
+        <item>
+          <img>menu_dados.png</img>
+          <link>#</link>
+          <title>Observações</title>
+          <target>self</target>
+        </item>
+        <item>
+          <img>menu_notif.png</img>
+          <link>#</link>
+          <title>Notificações</title>
+          <target>self</target>
+        </item>
+      </group>
+      <group title="Lista">
+        <item>
+          <img>menu_infor.png</img>
+          <link>#</link>
+          <title>Notificações</title>
+          <target>self</target>
+        </item>
+        <item>
+          <img>menu_dados.png</img>
+          <link>#</link>
+          <title>Repartição de Finanças</title>
+          <target>self</target>
+        </item>
+      </group>
+      <item>
+        <img>menu_dados.png</img>
+        <link>#</link>
+        <title>Dados Gerais</title>
+      </item>
+      <item>
+        <img>menu_infor.png</img>
+        <link>#</link>
+        <title>Informações</title>
+      </item>
+      <item>
+        <img>menu_notif.png</img>
+        <link>#</link>
+        <title>Notificações</title>
+      </item>
+    </menu>
+    <!--END TAB MENU-->
+    <grafico>
+      <caption>Zegui Mokô a brincar....</caption>
+      <xaxys>Exio de teste</xaxys>
+      <yaxys>Exio de Y</yaxys>
+      <url>link da pagina</url>
+      <label>
+        <col>Ano</col>
+        <col>Jan</col>
+        <col>Fev</col>
+        <col>Mar</col>
+      </label>
+      <value>
+        <row>
+          <col>2010</col>
+          <col>265</col>
+          <col>658</col>
+          <col>498</col>
+        </row>
+        <row>
+          <col>2009</col>
+          <col>784</col>
+          <col>258</col>
+          <col>594</col>
+        </row>
+        <row>
+          <col>2008</col>
+          <col>1010</col>
+          <col>698</col>
+          <col>366</col>
+        </row>
+      </value>
+      <colors>
+        <col>#2f7ed8</col>
+        <col>#0d233a</col>
+        <col>#FF00FF</col>
+      </colors>
+    </grafico>
+    <graficopie>
+      <caption>Zegui Mokô a brincar....</caption>
+      <xaxys>Exio de teste</xaxys>
+      <yaxys>Exio de Y</yaxys>
+      <url>link da pagina</url>
+      <label>
+        <col>Ano</col>
+        <col>Jan Jan Jan Jan Jan</col>
+        <col>Fev</col>
+        <col>Mar</col>
+      </label>
+      <value>
+        <row>
+          <col>2010</col>
+          <col>39</col>
+          <col>20</col>
+          <col>41</col>
+        </row>
+        <row>
+          <col>2009</col>
+          <col>784</col>
+          <col>258</col>
+          <col>594</col>
+        </row>
+        <row>
+          <col>2008</col>
+          <col>1010</col>
+          <col>698</col>
+          <col>366</col>
+        </row>
+      </value>
+      <colors>
+        <col>#77a1e5</col>
+        <col>#c42525</col>
+        <col>#a6c96a</col>
+      </colors>
+    </graficopie>
+    <grafifunel>
+      <caption>Zegui Mokô a brincar....</caption>
+      <xaxys>Exio de teste</xaxys>
+      <yaxys>Exio de Y</yaxys>
+      <url>link da pagina</url>
+      <label>
+        <col>Ano</col>
+        <col>Jan</col>
+        <col>Fev</col>
+        <col>Mar</col>
+      </label>
+      <value>
+        <row>
+          <col>2010</col>
+          <col>265</col>
+          <col>658</col>
+          <col>498</col>
+        </row>
+        <row>
+          <col>2009</col>
+          <col>784</col>
+          <col>258</col>
+          <col>594</col>
+        </row>
+        <row>
+          <col>2008</col>
+          <col>1010</col>
+          <col>698</col>
+          <col>366</col>
+        </row>
+      </value>
+      <colors>
+        <col>rgba(126,86,134,1)</col>
+        <col>rgba(248,161,63,1)</col>
+        <col>rgba(186,60,61,.5)</col>
+      </colors>
+    </grafifunel>
+    <table>
+      <title>TABELA SIMPLES</title>
+      <label>
+        <processo>N. Processo</processo>
+        <documento>BI</documento>
+        <data>Data</data>
+        <marcar name="p_marcar">Marcar</marcar>
+        <marcar1 name="p_marcar1">Marcar</marcar1>
+      </label>
+      <control>
+        <paginete>true</paginete>
+        <filter>true</filter>
+        <pageLength>5</pageLength>
+        <ordering></ordering>
+        <info></info>
+      </control>
+      <value>
+        <row>
+          <context-menu>
+            <param>p1=linha1</param>
+            <param>p2=linha1</param>
+          </context-menu>
+          <processo>1 - 234598767</processo>
+          <documento>96474569</documento>
+          <data>10-10-2006</data>
+          <marcar name="p_marcar">1</marcar>
+          <marcar1 name="p_marcar1">1</marcar1>
+          <color>0</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha2</param>
+            <param>p2=linha2</param>
+          </context-menu>
+          <processo>2 - 865987448</processo>
+          <documento>92635283</documento>
+          <data>19-08-2005</data>
+          <marcar name="p_marcar">2</marcar>
+          <marcar1 name="p_marcar1">2</marcar1>
+          <color>2</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha3</param>
+            <param>p2=linha3</param>
+          </context-menu>
+          <processo>3 - 697534380</processo>
+          <documento>45093688</documento>
+          <data>07-03-2007</data>
+          <marcar name="p_marcar">3</marcar>
+          <marcar1 name="p_marcar1">3</marcar1>
+          <color>3</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha4</param>
+            <param>p2=linha4</param>
+          </context-menu>
+          <processo>4 - 456782309</processo>
+          <documento>62134567</documento>
+          <data>28-10-2010</data>
+          <marcar name="p_marcar">4</marcar>
+          <marcar1 name="p_marcar1">4</marcar1>
+          <color>1</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha5</param>
+            <param>p2=linha5</param>
+            <param>ctx_hidden=Relacoes,Efectuar Pagamento</param>
+          </context-menu>
+          <processo>2 - 865987448</processo>
+          <documento>92635283</documento>
+          <data>19-08-2005</data>
+          <marcar name="p_marcar">5</marcar>
+          <marcar1 name="p_marcar1">5</marcar1>
+          <color>5</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha2</param>
+            <param>p2=linha2</param>
+          </context-menu>
+          <processo>2 - 865987448</processo>
+          <documento>92635283</documento>
+          <data>19-08-2005</data>
+          <marcar name="p_marcar">2</marcar>
+          <marcar1 name="p_marcar1">2</marcar1>
+          <color>2</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha3</param>
+            <param>p2=linha3</param>
+          </context-menu>
+          <processo>3 - 697534380</processo>
+          <documento>45093688</documento>
+          <data>07-03-2007</data>
+          <marcar name="p_marcar">3</marcar>
+          <marcar1 name="p_marcar1">3</marcar1>
+          <color>3</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha4</param>
+            <param>p2=linha4</param>
+          </context-menu>
+          <processo>4 - 456782309</processo>
+          <documento>62134567</documento>
+          <data>28-10-2010</data>
+          <marcar name="p_marcar">4</marcar>
+          <marcar1 name="p_marcar1">4</marcar1>
+          <color>1</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha5</param>
+            <param>p2=linha5</param>
+            <param>ctx_hidden=Relacoes,Anexar Documetos,Efectuar Pagamento</param>
+          </context-menu>
+          <processo>5 - 156723098</processo>
+          <documento>97237873</documento>
+          <data>30-12-2008</data>
+          <marcar name="p_marcar">5</marcar>
+          <marcar1 name="p_marcar1">5</marcar1>
+          <color>2</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha1</param>
+            <param>p2=linha1</param>
+          </context-menu>
+          <processo>1 - 234598767</processo>
+          <documento>96474569</documento>
+          <data>10-10-2006</data>
+          <marcar name="p_marcar">1</marcar>
+          <marcar1 name="p_marcar1">1</marcar1>
+          <color>0</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha2</param>
+            <param>p2=linha2</param>
+          </context-menu>
+          <processo>2 - 865987448</processo>
+          <documento>92635283</documento>
+          <data>19-08-2005</data>
+          <marcar name="p_marcar">2</marcar>
+          <marcar1 name="p_marcar1">2</marcar1>
+          <color>2</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha3</param>
+            <param>p2=linha3</param>
+          </context-menu>
+          <processo>3 - 697534380</processo>
+          <documento>45093688</documento>
+          <data>07-03-2007</data>
+          <marcar name="p_marcar">3</marcar>
+          <marcar1 name="p_marcar1">3</marcar1>
+          <color>3</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha4</param>
+            <param>p2=linha4</param>
+          </context-menu>
+          <processo>4 - 456782309</processo>
+          <documento>62134567</documento>
+          <data>28-10-2010</data>
+          <marcar name="p_marcar">4</marcar>
+          <marcar1 name="p_marcar1">4</marcar1>
+          <color>1</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha5</param>
+            <param>p2=linha5</param>
+            <param>ctx_hidden=Relacoes,Efectuar Pagamento</param>
+          </context-menu>
+          <processo>2 - 865987448</processo>
+          <documento>92635283</documento>
+          <data>19-08-2005</data>
+          <marcar name="p_marcar">5</marcar>
+          <marcar1 name="p_marcar1">5</marcar1>
+          <color>5</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha2</param>
+            <param>p2=linha2</param>
+          </context-menu>
+          <processo>2 - 865987448</processo>
+          <documento>92635283</documento>
+          <data>19-08-2005</data>
+          <marcar name="p_marcar">2</marcar>
+          <marcar1 name="p_marcar1">2</marcar1>
+          <color>2</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha3</param>
+            <param>p2=linha3</param>
+          </context-menu>
+          <processo>3 - 697534380</processo>
+          <documento>45093688</documento>
+          <data>07-03-2007</data>
+          <marcar name="p_marcar">3</marcar>
+          <marcar1 name="p_marcar1">3</marcar1>
+          <color>3</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha4</param>
+            <param>p2=linha4</param>
+          </context-menu>
+          <processo>4 - 456782309</processo>
+          <documento>62134567</documento>
+          <data>28-10-2010</data>
+          <marcar name="p_marcar">4</marcar>
+          <marcar1 name="p_marcar1">4</marcar1>
+          <color>1</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha5</param>
+            <param>p2=linha5</param>
+            <param>ctx_hidden=Relacoes,Anexar Documetos,Relacoes Eliminar,Efectuar Pagamento</param>
+          </context-menu>
+          <processo>5 - 156723098</processo>
+          <documento>97237873</documento>
+          <data>30-12-2008</data>
+          <marcar name="p_marcar">5</marcar>
+          <marcar1 name="p_marcar1">5</marcar1>
+          <color>2</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha1</param>
+            <param>p2=linha1</param>
+          </context-menu>
+          <processo>1 - 234598767</processo>
+          <documento>96474569</documento>
+          <data>10-10-2006</data>
+          <marcar name="p_marcar">1</marcar>
+          <marcar1 name="p_marcar1">1</marcar1>
+          <color>0</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha2</param>
+            <param>p2=linha2</param>
+          </context-menu>
+          <processo>2 - 865987448</processo>
+          <documento>92635283</documento>
+          <data>19-08-2005</data>
+          <marcar name="p_marcar">2</marcar>
+          <marcar1 name="p_marcar1">2</marcar1>
+          <color>2</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha3</param>
+            <param>p2=linha3</param>
+          </context-menu>
+          <processo>3 - 697534380</processo>
+          <documento>45093688</documento>
+          <data>07-03-2007</data>
+          <marcar name="p_marcar">3</marcar>
+          <marcar1 name="p_marcar1">3</marcar1>
+          <color>3</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha4</param>
+            <param>p2=linha4</param>
+          </context-menu>
+          <processo>4 - 456782309</processo>
+          <documento>62134567</documento>
+          <data>28-10-2010</data>
+          <marcar name="p_marcar">4</marcar>
+          <marcar1 name="p_marcar1">4</marcar1>
+          <color>1</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha5</param>
+            <param>p2=linha5</param>
+            <param>ctx_hidden=Relacoes Eliminar,Efectuar Pagamento</param>
+          </context-menu>
+          <processo>2 - edson</processo>
+          <documento>92635283</documento>
+          <data>19-08-2005</data>
+          <marcar name="p_marcar">5</marcar>
+          <marcar1 name="p_marcar1">5</marcar1>
+          <color>5</color>
+        </row>
+        <row>
+          <context-menu>
+            <param>p1=linha2</param>
+            <param>p2=linha2</param>
+          </context-menu>
+          <processo>2 - 865987448</processo>
+          <documento>92635283</documento>
+          <data>19-08-2005</data>
+          <marcar name="p_marcar">2</marcar>
+          <marcar1 name="p_marcar1">2</marcar1>
+          <color>2</color>
+        </row>
+      </value>
+      <legend_color>
+        <title>Legenda</title>
+        <item>
+          <label>urgente urgente urgente</label>
+          <cor>1</cor>
+        </item>
+        <item>
+          <label>por fazer</label>
+          <cor>2</cor>
+        </item>
+        <item>
+          <label>Normal</label>
+          <cor>3</cor>
+        </item>
+        <item>
+          <label>Espera</label>
+          <cor>4</cor>
+        </item>
+        <item>
+          <label>Ver</label>
+          <cor>5</cor>
+        </item>
+        <item>
+          <label>Fazendo</label>
+          <cor>6</cor>
+        </item>
+        <item>
+          <label>NOSI</label>
+          <cor>7</cor>
+        </item>
+        <item>
+          <label>DT</label>
+          <cor>8</cor>
+        </item>
+        <item>
+          <label>Praia</label>
+          <cor>9</cor>
+        </item>
+        <item>
+          <label>Achada</label>
+          <cor>2</cor>
+        </item>
+      </legend_color>
+      <context-menu>
+        <item   type="specific">
+          <title>Relacoes</title>
+          <app>HOME</app>
+          <page>CRIACAO_EMPRESA</page>
+          <link>AD2</link>
+          <target>_blank</target>
+          <img>edit.png</img>
+          <parameter>&amp;p_nome=zegui&amp;p_idade=29</parameter>
+        </item>
+        <item>
+          <img>pagar.png</img>
+          <link>http://teste.html?p_id=#P1&amp;p_nr_processo=#P2</link>
+          <title>Efectuar Pagamento</title>
+          <target>self</target>
+          <app>HOME</app>
+          <page>CRIACAO_EMPRESA</page>
+        </item>
+        <item>
+          <img>send.png</img>
+          <link>http://teste.html?p_id=#P1&amp;p_nr_processo=#P2</link>
+          <title>Anexar Documetos</title>
+          <target>_blank</target>
+          <app>HOME</app>
+          <page>CRIACAO_EMPRESA</page>
+        </item>
+        <item>
+          <img>delete.png</img>
+          <link>DELETE</link>
+          <title>Relacoes Eliminar</title>
+          <target>confirm</target>
+          <app>HOME</app>
+          <page>CRIACAO_EMPRESA</page>
+        </item>
+      </context-menu>
+      <tools-bar>
+        <item type="specific">
+          <link>http://www.google.com</link>
+          <img>pagar.png</img>
+          <title>Apagar</title>
+          <target>_back</target>
+          <parameter>link</parameter>
+        </item>
+        <item type="specific">
+          <link>http://www.google.com</link>
+          <img>delete.png</img>
+          <title>Fechar</title>
+          <target>confirm</target>
+        </item>
+        <item type="specific">
+          <link>SAVE</link>
+          <img>edit.png</img>
+          <title>Edit</title>
+          <target>submit</target>
+        </item>
+        <item type="specific">
+          <link>http://www.google.com</link>
+          <img>pagar.png</img>
+          <title>submit popup submit popup</title>
+          <target>submit_popup</target>
+        </item>
+        <item type="specific">
+          <link>http://igrpresp.teste.gov.cv/images/IGRP/xml/IGRP-biblia-all.xml</link>
+          <img>delete.png</img>
+          <title>Fechar</title>
+          <target>alert_submit</target>
+        </item>
+      </tools-bar>
+    </table>
+    <filter		tab="true">
+      <label>
+        <nome		name="p_nome"	type="text"	change="true"	maxlength="30">nome</nome>
+      </label>
+      <value>
+        <nome		name="p_nome">Ajgfpxyvnvatywscjxjwkc</nome>
+      </value>
+      <tools-bar>
+        <item		type="specific">
+          <title>Pesquisar</title>
+          <app>REDGLOBAL</app>
+          <page>TESTE</page>
+          <link>TESTE_EDSON</link>
+          <target>_self</target>
+          <img>tbsearch.png</img>
+        </item>
+      </tools-bar>
+    </filter>
+    
+    <!--<process>-->
+    <menus>
+      <!--Titulo de Menus-->
+      <title>Processo 1</title>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Parametros</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Utlizadores</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Perfil</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Menu</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Transacção</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Teste</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Formulário</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-form.xml</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Lista</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-table.xml</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>DashBoard</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-dashboard.xml</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Processos</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Administração</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Cartas</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+    </menus>
+    <menus>
+      <!--Titulo de Menus-->
+      <title>Processo 2</title>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Parametros</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Utlizadores</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Perfil</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Menu</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Transacção</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Teste</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Formulário</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-form.xml</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Lista</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-table.xml</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>DashBoard</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-dashboard.xml</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Processos</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Administração</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Cartas</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+    </menus>
+    <menus>
+      <!--Titulo de Menus-->
+      <title>Processo 3</title>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Parametros</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Utlizadores</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Perfil</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Menu</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Transacção</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Teste</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Formulário</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-form.xml</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Lista</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-table.xml</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>DashBoard</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-dashboard.xml</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Processos</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Administração</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Cartas</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Cartas</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Cartas</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+    </menus>
+    <menus>
+      <!--Titulo de Menus-->
+      <title>Processo 4</title>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Parametros</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Utlizadores</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Perfil</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Menu</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Transacção</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Teste</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Formulário</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-form.xml</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Lista</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-table.xml</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>DashBoard</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-dashboard.xml</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Processos</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Administração</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Cartas</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+    </menus>
+    <menus>
+      <!--Titulo de Menus-->
+      <title>Processo 5 teste</title>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Parametros</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Utlizadores</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Perfil</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Menu</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Transacção</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Teste</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Formulário</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-form.xml</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Lista</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-table.xml</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>DashBoard</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-dashboard.xml</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Processos</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Administração</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Cartas</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+    </menus>
+    <menus>
+      <!--Titulo de Menus-->
+      <title>Processo 6 teste</title>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Parametros</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Utlizadores</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Perfil</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Menu</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Gestão de Transacção</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Teste</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Formulário</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-form.xml</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Lista</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-table.xml</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>DashBoard</title>
+          <!-- Link de Sub menu-->
+          <link>/images/IGRP/teste/teste-dashboard.xml</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Processos</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Administração</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+      <menu>
+        <!--Titulo de Menu-->
+        <title>Cartas</title>
+        <!--Respectivos submenus-->
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Tipo de Processo</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Etapas</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+        <submenu>
+          <!-- Titulo de Sub Menu-->
+          <title>Componentes</title>
+          <!-- Link de Sub menu-->
+          <link>#</link>
+        </submenu>
+      </menu>
+    </menus>
+    <!--MAPA DE PROCESSO-->
+    <process_flow>
+      <table>
+        <label>
+          <title>Titulo Processo</title>
+          <type>Tipo Processo</type>
+          <img>Imagem</img>
+          <link>Link</link>
+        </label>
+        <value>
+          <row>
+            <title>Pedido Licenca Pedido Licenca Pedido Licenca Pedido Licenca</title>
+            <type>stage</type>
+            <img>stage.png</img>
+            <link>#</link>
+          </row>
+          <row>
+            <title>Pedido Licenca1</title>
+            <type>stage</type>
+            <img>stage.png</img>
+            <link>#</link>
+          </row>
+          <row>
+            <title>Pedido Licenca1</title>
+            <type>stage</type>
+            <img>stage.png</img>
+            <link>#</link>
+          </row>
+          <row>
+            <title>Pedido Licenca1</title>
+            <type>stage</type>
+            <img>stage.png</img>
+            <link>#</link>
+          </row>
+          <row>
+            <title>Pedido Licenca1</title>
+            <type>stage</type>
+            <img>stage.png</img>
+            <link>#</link>
+          </row>
+          <row>
+            <title>Pedido Licenca1</title>
+            <type>stage</type>
+            <img>stage.png</img>
+            <link>#</link>
+          </row>
+          <row>
+            <title>Pedido Licenca1</title>
+            <type>curent</type>
+            <img>stage.png</img>
+            <link>#</link>
+          </row>
+          <row>
+            <title>Pedido Licenca1</title>
+            <type></type>
+            <img>curent.png</img>
+            <link>#</link>
+          </row>
+          <row>
+            <title>Novo Cenario Antis do FIm</title>
+            <type>proc_start</type>
+            <img>end.png</img>
+            <link>#</link>
+          </row>
+          <row>
+            <title>Fim</title>
+            <type>end</type>
+            <img>end.png</img>
+            <link>#</link>
+          </row>
+          <row>
+            <title>Novo Cenario Depois do Fim</title>
+            <type>proc_end</type>
+            <img>end.png</img>
+            <link>#</link>
+          </row>
+        </value>
+      </table>
+    </process_flow>
+    <!--MAPA DE PROCESSO-->
+    <fingerprint>
+      <label>
+        <link>link</link>
+        <photo_link		readonly="readonly">Foto</photo_link>
+        <fingerright_link		readonly="readonly">Dedo Direito</fingerright_link>
+        <fingerleft_link		readonly="readonly">Dedo Esquerdo</fingerleft_link>
+        <signature_link		readonly="readonly">Assinatura</signature_link>
+        <img_refrech		readonly="readonly">/images/IGRP/themes/default/img/foto.png</img_refrech>
+        <self_service>Self Service</self_service>
+        <process_start>Iniciar Processo</process_start>
+        <number_process>Nº de Processo</number_process>
+      </label>
+      <value>
+        <photo_link		name="p_photo_link">../themes/default/img/funcionario.png</photo_link>
+        <fingerright_link		name="p_fingerright_link">../themes/default/img/bio2.png</fingerright_link>
+        <fingerleft_link		name="p_fingerleft_link">../themes/default/img/bio2.png</fingerleft_link>
+        <signature_link		name="p_signature_link">../themes/default/img/assinatura.png</signature_link>
+        <number_process name="number_process">number_process</number_process>
+        <link>/images/IGRP/xml/teste-bio.xml?p_link=0</link>
+        <hidden name="photo_id"></hidden>
+        <hidden name="fingerleft_id"></hidden>
+        <hidden name="fingerleft_wsq_id"></hidden>
+        <hidden name="fingerright_id"></hidden>
+        <hidden name="fingerright_wsq_id"></hidden>
+        <hidden name="singature_id"></hidden>
+      </value>
+    </fingerprint>
+    <view>
+      <label>
+        <view_name		name="p_nome"	type="text"	required="true"	maxlength="30">Nome</view_name>
+        <data		name="p_apelido"	type="text"	required="true"	maxlength="30">Data Nascimento</data>
+        <morada		name="p_morada"	type="text"	required="true"	maxlength="30">Morada</morada>
+        <email		name="p_email"	type="text"	required="true"	maxlength="30">Email</email>
+        <telefone		name="p_telefone"	type="text"	required="true"	maxlength="30">Telefone</telefone>
+        <telemovel		name="p_telemovel"	type="text"	required="true"	maxlength="30">Telemovel</telemovel>
+        <view_foto		name="p_view_foto"	type="text"	maxlength="2000">Foto</view_foto>
+        <separador		type="separator">Outros Dados</separador>
+        <nacionalidade>Nacionalidade</nacionalidade>
+        <ilha>Local de Nascimento</ilha>
+        <documento>N BI</documento>
+      </label>
+      <value>
+        <view_name		name="p_nome">Manuel Silva Gomes</view_name>
+        <data		name="p_apelido">13/01/1987</data>
+        <morada		name="p_morada">Lem Catchor</morada>
+        <email		name="p_email">manuel.rosario@cv.cv</email>
+        <telefone		name="p_telefone">00989789</telefone>
+        <telemovel		name="p_telemovel">009123</telemovel>
+        <view_foto		name="p_view_foto">../themes/default/img/funcionario.png</view_foto>
+        <nacionalidade>Caboverdiano</nacionalidade>
+        <ilha>Fogo</ilha>
+        <documento>00098765</documento>
+      </value>
+    </view>
+    <form		tab="true">
+      <label>
+        <separador		type="separator">separador</separador>
+        <nome		name="p_nome"	type="LOOKUP"	maxlength="30">nome</nome>
+        <idade		name="p_idade"	type="number"	maxlength="30">idade</idade>
+        <separador1		type="separator">separador1</separador1>
+        <dados		name="p_dados"	type="text"	maxlength="30">dados</dados>
+        <morada		name="p_morada"	type="textarea"	maxlength="30">Morada</morada>
+        <sparador2		type="separator">sparador2</sparador2>
+        <filho		name="p_filho"	type="text"	maxlength="30">Filho</filho>
+        <data_nascimento		name="p_data_nascimento"	type="date"	maxlength="30">Data Nascimento</data_nascimento>
+      </label>
+      <value>
+        <nome		name="p_nome">Lhbyjwvobdhcoqrgh</nome>
+        <idade		name="p_idade">2100055</idade>
+        <dados		name="p_dados">Gofrznyk</dados>
+        <morada		name="p_morada">Djgbiwjzwjdvw</morada>
+        <filho		name="p_filho">Xyswumfnoml</filho>
+        <data_nascimento		name="p_data_nascimento">23-08-2007</data_nascimento>
+      </value>
+    </form>
+    <js_validation>
+      <row>
+        <event>blur</event>
+        <field>p_nif</field>
+        <operation>equal</operation>
+        <value>2</value>
+        <action>hide</action>
+        <target>p_bi</target>
+      </row>
+	  <row>
+        <event>blur</event>
+        <field>p_nif</field>
+        <operation>equal</operation>
+        <value>2</value>
+        <action>required</action>
+        <target>p_name</target>
+      </row>
+	  <row>
+        <event>blur</event>
+        <field>p_nif</field>
+        <operation>equal</operation>
+        <value>3</value>
+        <action>notrequired</action>
+        <target>p_name</target>
+      </row>
+      <row>
+        <event>blur</event>
+        <field>p_idade</field>
+        <operation>equal</operation>
+        <value>18</value>
+        <action>hide</action>
+        <target>group-separador</target>
+      </row>
+	  <row>
+        <event>blur</event>
+        <field>p_idade</field>
+        <operation>equal</operation>
+        <value>18</value>
+        <action>hide</action>
+        <target>op-separador</target>
+      </row>
+      <row>
+        <event>blur</event>
+        <field>p_idade</field>
+        <operation>equal</operation>
+        <value>20</value>
+        <action>show</action>
+        <target>group-separador</target>
+      </row>
+	  <row>
+        <event>blur</event>
+        <field>p_idade</field>
+        <operation>equal</operation>
+        <value>20</value>
+        <action>show</action>
+        <target>op-separador</target>
+      </row>
+      <row>
+        <event>blur</event>
+        <field>p_nif</field>
+        <operation>equal</operation>
+        <value>3</value>
+        <action>show</action>
+        <target>p_bi</target>
+      </row>
+	  <row>
+		  <event>blur</event>
+		  <field>p_idade</field>
+		  <operation>greater</operation>
+		  <value>18</value>
+		  <action>message</action>
+		  <action_type>error</action_type>
+		  <action_message>idade nao pode ser superior a 18</action_message>
+      </row>
+      <row>
+        <event>blur</event>
+        <field>p_idade</field>
+        <operation>equal</operation>
+        <value>25</value>
+        <action>remote_list</action>
+        <target>separador</target>
+        <action_url>redglobal.redglobal_teste_teste_eds_db.remote_idade_list</action_url>
+        <action_submit>#</action_submit>
+      </row>
+    </js_validation>
+  </content>
+</rows>

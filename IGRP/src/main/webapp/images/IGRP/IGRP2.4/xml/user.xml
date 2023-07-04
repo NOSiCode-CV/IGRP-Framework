@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../xsl/user.xsl" type="text/xsl"?>
+<rows>
+    
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>undefined</page>
+    <app>generator</app>
+    <template>velzon</template>
+    <plsql>
+        <action>undefined</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.application_example.pages</package_db>
+        <package_html>Igrp_generator_ui</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>/igrp-design-system-beta/IGRP2.4/core/formgen/types/check_file.php?v=undefined</preserve_url>
+    </plsql>
+    <slide-menu file="IGRP-slide-menu.xml?v=2" />
+    <top_menu file="IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>IGRP 2.4 Dashboard</title>
+        <card_1 type="card" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </card_1>
+        <form_1 type="form" xml-type="form" title="Alterar Dados" gen-type="container" gen-group="">
+            <fields>
+                <nome name="p_nome" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" disablehtml="true" placeholder="" desclabel="false" inputmask="" right="false" tooltip="false" disable_copy_paste="false">
+                    <label>Nome</label>
+                    <value>Iste officia dolor labore perspiciatis</value>
+                </nome>
+                <apelido name="p_apelido" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" disablehtml="true" placeholder="" desclabel="false" inputmask="" right="false" tooltip="false" disable_copy_paste="false">
+                    <label>Apelido</label>
+                    <value>Aperiam ipsum sed aperiam sed</value>
+                </apelido>
+                <form_1_email_1 name="p_form_1_email_1" type="email" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" tooltip="false" disable_copy_paste="false">
+                    <label>Email</label>
+                    <value>sis@example.com</value>
+                </form_1_email_1>
+                <telefone name="p_telefone" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" disablehtml="true" placeholder="" desclabel="false" inputmask="" right="false" tooltip="false" disable_copy_paste="false">
+                    <label>Telefone</label>
+                    <value>Sed iste officia ut ipsum</value>
+                </telefone>
+            </fields>
+            <tools-bar>
+                <item id="button_8d8d_6fff" type="form" code="" class="primary" rel="form_1_button_1" refresh_components="">
+                    <title>Button</title>
+                    <app/>
+                    <page/>
+                    <link/>
+                    <parameter>?</parameter>
+                    <target>_blank</target>
+                    <img>btn-primary|fa-angle-right</img>
+                    <preview/>
+                </item>
+            </tools-bar>
+        </form_1>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[<p>Ant&oacute;nio Jos&eacute; Mendon&ccedil;a</p>
+]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <table_1 type="table" xml-type="table" title="Table" gen-type="container" gen-group="true">
+            <fields>
+                <table_1_email_1 name="p_table_1_email_1" type="email" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Email</label>
+                </table_1_email_1>
+                <table_1_text_1 name="p_table_1_text_1" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Text</label>
+                </table_1_text_1>
+                <table_1_text_2 name="p_table_1_text_2" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Text</label>
+                </table_1_text_2>
+                <table_1_date_1 name="p_table_1_date_1" type="date" range="false" disableWeekends="false" disabledBeforetoday="false" daysoff="false" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Date</label>
+                </table_1_date_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <table_1_email_1 name="p_table_1_email_1">rifulat@example.com</table_1_email_1>
+                        <table_1_text_1 name="p_table_1_text_1">Doloremque sit magna voluptate</table_1_text_1>
+                        <table_1_text_2 name="p_table_1_text_2">Laudantium omnis totam natus i</table_1_text_2>
+                        <table_1_date_1 name="p_table_1_date_1">05-04-2014</table_1_date_1>
+                    </row>
+                    <row>
+                        <table_1_email_1 name="p_table_1_email_1">vi@example.com</table_1_email_1>
+                        <table_1_text_1 name="p_table_1_text_1">Omnis voluptatem anim lorem ma</table_1_text_1>
+                        <table_1_text_2 name="p_table_1_text_2">Sit anim mollit elit lorem</table_1_text_2>
+                        <table_1_date_1 name="p_table_1_date_1">01-02-2016</table_1_date_1>
+                    </row>
+                    <row>
+                        <table_1_email_1 name="p_table_1_email_1">asufifra@example.com</table_1_email_1>
+                        <table_1_text_1 name="p_table_1_text_1">Ipsum rem lorem elit officia</table_1_text_1>
+                        <table_1_text_2 name="p_table_1_text_2">Aperiam stract perspiciatis ad</table_1_text_2>
+                        <table_1_date_1 name="p_table_1_date_1">06-01-2010</table_1_date_1>
+                    </row>
+                    <row>
+                        <table_1_email_1 name="p_table_1_email_1">iwemu@example.com</table_1_email_1>
+                        <table_1_text_1 name="p_table_1_text_1">Sit iste dolor stract elit</table_1_text_1>
+                        <table_1_text_2 name="p_table_1_text_2">Mollit sit labore elit omnis</table_1_text_2>
+                        <table_1_date_1 name="p_table_1_date_1">04-01-2013</table_1_date_1>
+                    </row>
+                    <row>
+                        <table_1_email_1 name="p_table_1_email_1">ozbah@example.com</table_1_email_1>
+                        <table_1_text_1 name="p_table_1_text_1">Lorem amet doloremque consecte</table_1_text_1>
+                        <table_1_text_2 name="p_table_1_text_2">Labore mollit consectetur magn</table_1_text_2>
+                        <table_1_date_1 name="p_table_1_date_1">05-07-2017</table_1_date_1>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="notificar" refresh_components="">
+                <title>Notificar</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>btn-soft-warning|fa-bell</img>
+                <preview/>
+            </item>
+            <item type="specific" code="" rel="telefonar" refresh_components="">
+                <title>Telefonar</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>btn-success|fa-phone</img>
+                <preview/>
+            </item>
+        </toolsbar_1>
+        <paragraph_1 type="paragraph" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <paragraph_1_text type="text" name="p_paragraph_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.]]>
+                    </value>
+                </paragraph_1_text>
+            </fields>
+        </paragraph_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <view_1_text_1 name="p_view_1_text_1" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="fa-user-o" showlabel="true">
+                    <label>Nome</label>
+                    <value>Consectetur doloremque mollit labore totam</value>
+                </view_1_text_1>
+                <view_1_text_1_4 name="p_view_1_text_1_4" type="email" maxlength="250" class="default" iconColor="#333" iconClass="" img="fa-at" showlabel="true">
+                    <label>Email</label>
+                    <value>pav@example.com</value>
+                </view_1_text_1_4>
+                <view_1_text_1_3 name="p_view_1_text_1_3" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="fa-phone" showlabel="true">
+                    <label>Phone</label>
+                    <value>Aliqua adipiscing deserunt aliqua labore</value>
+                </view_1_text_1_3>
+                <view_1_text_1_2 name="p_view_1_text_1_2" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="fa-map-marker" showlabel="true">
+                    <label>Endereço</label>
+                    <value>Stract rem stract iste voluptatem</value>
+                </view_1_text_1_2>
+                <view_1_img type="text" name="p_view_1_img" maxlength="300">
+                    <value>/igrp-design-system-beta/IGRP2.4/assets/img/jon_doe.jpg</value>
+                </view_1_img>
+            </fields>
+        </view_1>
+    </content>
+    <blockly></blockly>
+</rows>

@@ -1,0 +1,17 @@
+<div class="card card-animate igrp-circle-stat-box">                        
+	<div class="card-body" style="z-index:1 ;">
+		<div class="d-flex align-items-center">
+			<div class="flex-grow-1 overflow-hidden">
+				<p class="text-uppercase fw-medium text-muted text-truncate mb-3">
+					<xsl:value-of select="#path#/fields/#tag#_title/value"></xsl:value-of>
+				</p>
+				<h4 class="fs-22 fw-semibold ff-secondary mb-0">
+					<span class="counter-value" data-target="{#path#/fields/#tag#_val/value}"></span>
+				</h4>
+			</div>
+			<div class="flex-shrink-0">
+				<div data-colors='["{#path#/fields/#tag#_bg/value}"]' data-series="{#path#/fields/#tag#_pct/value}" class="apex-charts" dir="ltr"></div>
+			</div>
+		</div>
+	</div>
+</div>

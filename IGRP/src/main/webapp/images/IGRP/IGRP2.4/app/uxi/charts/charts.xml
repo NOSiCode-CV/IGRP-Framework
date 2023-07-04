@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="./charts.xsl" type="text/xsl"?>
+<rows>
+    <template>velzon</template>
+    <title>IGRP Framework</title>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>igrpweb</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>BIBLIO</page>
+    <app>RED</app>
+    <plsql>
+        <action>BIB-DET</action>
+        <package_instance>3</package_instance>
+        <package_db>c</package_db>
+        <package_html>c</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>/images/IGRP/IGRP2.3/core/formgen/util/preserve.xml</preserve_url>
+    </plsql>
+    <!--<navigation file="navigation.xml?v={14257AEA-86F5-8602-E050-040A08026729}"  prm_app="p_prm_app" prm_page="p_prm_page"   prm_action="p_prm_action" />-->
+    <top_menu   file="IGRP-top_menu.xml" />
+    <slide-menu file="IGRP-slide-menu.xml?v=1" />
+    <content>
+        <title>Line Chart</title>
+       
+        <chart_1 type="chart" xml-type="chart" title="Chart" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>line</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>499</col>
+                    <col>271</col>
+                    <col>18</col>
+                    <col>80</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>79</col>
+                    <col>289</col>
+                    <col>18</col>
+                    <col>200</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>218</col>
+                    <col>662</col>
+                    <col>993</col>
+                </row>
+            </value>
+            <colors>
+                <col>#42fb11</col>
+                <col>#29b117</col>
+                <col>#d3ce50</col>
+                <col>#c2ef6c</col>
+            </colors>
+        </chart_1>
+
+
+    </content>
+</rows>

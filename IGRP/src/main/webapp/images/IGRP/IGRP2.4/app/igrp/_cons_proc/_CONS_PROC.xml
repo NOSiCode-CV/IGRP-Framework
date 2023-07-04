@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/_cons_proc/_CONS_PROC.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>_CONS_PROC</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>_CONS_PROC</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=47</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Consulta Processo</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[<p>Consultar Etapas de Processos</p>
+]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="true" disabled="false" right="false" java-type="" load_service_data="false" tooltip="false" disable_copy_paste="false">
+                    <label>Aplicação</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <tipo_processo name="p_tipo_processo" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="" load_service_data="false" tooltip="false" disable_copy_paste="false">
+                    <label>Nome do Processo</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_processo>
+                <cbx_utilizador name="p_cbx_utilizador" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="" load_service_data="false" tooltip="false" disable_copy_paste="false">
+                    <label>Atribuído a</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </cbx_utilizador>
+                <referencia_pedido type="separator" name="p_referencia_pedido" maxlength="30" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
+                    <label>Referencia Pedido</label>
+                </referencia_pedido>
+                <requerente name="p_requerente" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" inputmask="" tooltip="false" disable_copy_paste="false" disablehtml="true">
+                    <label>Requerente</label>
+                    <value>Labore anim voluptatem omnis aliqua</value>
+                </requerente>
+                <num name="p_num" type="text" maxlength="150" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" inputmask="" tooltip="false" disable_copy_paste="false" disablehtml="true">
+                    <label>Nº Processo</label>
+                    <value>Elit lorem sit consectetur lorem</value>
+                </num>
+                <status name="p_status" type="radiolist" domain="" maxlength="30" required="false" change="false" readonly="false" disabled="false" child_size="4" right="false" java-type="String" tooltip="false" disable_copy_paste="false">
+                    <label>Estado</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </status>
+                <intervalo_entrada type="separator" name="p_intervalo_entrada" maxlength="30" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
+                    <label>Intervalo de datas</label>
+                </intervalo_entrada>
+                <dt_ini name="p_dt_ini" type="date" maxlength="30" range="false" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="success" desclabel="false" disableWeekends="false" disabledBeforetoday="false" daysoff="false" tooltip="false" disable_copy_paste="false">
+                    <label>De</label>
+                    <value>08-01-2014</value>
+                </dt_ini>
+                <dt_fim name="p_dt_fim" type="date" maxlength="30" range="false" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="danger" desclabel="false" disableWeekends="false" disabledBeforetoday="false" daysoff="false" tooltip="false" disable_copy_paste="false">
+                    <label>Até</label>
+                    <value>07-07-2013</value>
+                </dt_fim>
+                <data_de name="p_data_de" type="radiolist" domain="" maxlength="250" required="false" change="false" readonly="false" disabled="false" child_size="3" right="false" java-type="String" tooltip="false" disable_copy_paste="false">
+                    <label>Da data:</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </data_de>
+            </fields>
+            <tools-bar>
+                <item id="button_433f_034e" type="form" code="" class="primary" rel="pesquisar" custom_return="true" refresh_components="table_1">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>_CONS_PROC</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp/_cons_proc/_CONS_PROC.xml?</parameter>
+                    <target>submit_ajax</target>
+                    <img>primary|fa-search</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp/_cons_proc/_CONS_PROC.xml</preview>
+                </item>
+            </tools-bar>
+        </form>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <estado name="p_estado" type="color" format="hex" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Estado</label>
+                </estado>
+                <num_processo name="p_num_processo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Nº Processo</label>
+                </num_processo>
+                <processo name="p_processo" type="text" maxlength="100" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Nome do Processo</label>
+                </processo>
+                <eatapa name="p_eatapa" type="text" maxlength="100" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Etapa</label>
+                </eatapa>
+                <dt_inicio_etapa name="p_dt_inicio_etapa" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Dt. Inicio Etapa</label>
+                </dt_inicio_etapa>
+                <dt_fim_etapa name="p_dt_fim_etapa" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Dt. Fim Etapa</label>
+                </dt_fim_etapa>
+                <atribuido_a name="p_atribuido_a" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Atribuído a</label>
+                </atribuido_a>
+                <id_task name="p_id_task" type="hidden" maxlength="100" iskey="true" showLabel="true" java-type="" group_in="" tag="id_task"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">3</estado>
+                        <num_processo name="p_num_processo">Deserunt elit labore anim sed</num_processo>
+                        <processo name="p_processo">Labore amet aperiam deserunt lorem</processo>
+                        <eatapa name="p_eatapa">Amet omnis natus perspiciatis sit</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Sit consectetur dolor totam of</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Unde sit natus sit anim</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Stract adipiscing elit unde lo</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-70eb_52d5</id_task>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">2</estado>
+                        <num_processo name="p_num_processo">Consectetur omnis doloremque c</num_processo>
+                        <processo name="p_processo">Labore officia mollit consectetur magna</processo>
+                        <eatapa name="p_eatapa">Elit dolor elit adipiscing ipsum</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Iste natus anim amet labore</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Dolor rem totam unde amet</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Consectetur stract omnis elit</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-705f_0696</id_task>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">3</estado>
+                        <num_processo name="p_num_processo">Perspiciatis sit dolor consect</num_processo>
+                        <processo name="p_processo">Sit mollit ipsum natus labore</processo>
+                        <eatapa name="p_eatapa">Anim dolor omnis sit stract</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Iste consectetur dolor perspic</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Doloremque sed unde ipsum unde</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Sit stract sed laudantium unde</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-b8ec_89cb</id_task>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">1</estado>
+                        <num_processo name="p_num_processo">Adipiscing unde consectetur am</num_processo>
+                        <processo name="p_processo">Anim stract adipiscing elit stract</processo>
+                        <eatapa name="p_eatapa">Laudantium mollit anim aperiam laudantium</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Anim omnis lorem elit dolor</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Natus adipiscing mollit adipis</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Elit aliqua consectetur ipsum</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-b511_a0d6</id_task>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">1</estado>
+                        <num_processo name="p_num_processo">Natus aliqua adipiscing deseru</num_processo>
+                        <processo name="p_processo">Perspiciatis natus sit elit natus</processo>
+                        <eatapa name="p_eatapa">Natus dolor amet voluptatem mollit</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Labore elit totam iste aliqua</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Amet adipiscing voluptatem ips</dt_fim_etapa>
+                        <atribuido_a name="p_atribuido_a">Labore mollit magna adipiscing</atribuido_a>
+                        <id_task name="p_id_task" tag="id_task">hidden-aaf0_d14f</id_task>
+                    </row>
+                </value>
+                <legend_color>
+                    <item>
+                        <label>Terminado</label>
+                        <value>1</value>
+                        <color>#ea263e</color>
+                    </item>
+                    <item>
+                        <label>Não Atribuido</label>
+                        <value>2</value>
+                        <color>#2652ea</color>
+                    </item>
+                    <item>
+                        <label>Em Execução</label>
+                        <value>3</value>
+                        <color>#95c11f</color>
+                    </item>
+                </legend_color>
+                <context-menu>
+                    <item id="button_8d65_c46a" type="specific" code="" class="warning" rel="ver_etapa" custom_return="true" refresh_components="">
+                        <title>Detalhes da Tarefa</title>
+                        <app>igrp</app>
+                        <page>Page</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/page/Page.xml?</parameter>
+                        <target>mpsubmit</target>
+                        <img>warning|fa-file-text</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/page/Page.xml</preview>
+                    </item>
+                    <item id="button_893d_357f" type="specific" code="" class="primary" rel="ver_processo" refresh_components="">
+                        <title>Detalhes de Processo</title>
+                        <app>igrp</app>
+                        <page>DetalhesProcesso</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/detalhesprocesso/DetalhesProcesso.xml?</parameter>
+                        <target>mpsubmit</target>
+                        <img>primary|fa-sitemap</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/detalhesprocesso/DetalhesProcesso.xml</preview>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+    <blockly></blockly>
+</rows>

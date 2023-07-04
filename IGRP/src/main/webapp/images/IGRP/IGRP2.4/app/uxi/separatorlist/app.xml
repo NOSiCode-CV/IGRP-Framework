@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="app.xsl" type="text/xsl"?>
+<rows>
+    <link_img>http://localhost/igrp-design-system-beta/IGRP2.4</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>undefined</page>
+    <app>generator</app>
+    <template>velzon</template>
+    <plsql>
+        <action>undefined</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>/igrp-design-system-beta/IGRP2.4/core/formgen/types/check_file.php?v=undefined</preserve_url>
+    </plsql>
+    <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>IGRP 2.4 Dashboard</title>
+        <separatorlist_1 type="separatorlist" xml-type="separatorlist" gen-clean="true" gen-type="container" gen-group="true">
+            <fields>
+                <separatorlist_1_text_1 name="p_separatorlist_1_text_1" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" disablehtml="true" placeholder="" desclabel="false" right="false" desc="true">
+                    <label>Text</label>
+                    <value>Totam elit officia mollit iste</value>
+                </separatorlist_1_text_1>
+                <separatorlist_1_email_1 name="p_separatorlist_1_email_1" type="email" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" desc="true">
+                    <label>Email</label>
+                    <value>nuzor@example.com</value>
+                </separatorlist_1_email_1>
+                <separatorlist_1_email_1_1 name="p_separatorlist_1_email_1_1" type="email" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" visible="false" desc="true">
+                    <label>Email</label>
+                    <value>uhtuum@example.com</value>
+                </separatorlist_1_email_1_1>
+                <separatorlist_1_text_2 name="p_separatorlist_1_text_2" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" disablehtml="true" placeholder="" desclabel="false" right="false" visible="false" desc="true">
+                    <label>Text</label>
+                    <value>Magna rem unde sed iste</value>
+                </separatorlist_1_text_2>
+                <separatorlist_1_text_3 name="p_separatorlist_1_text_3" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" disablehtml="true" placeholder="" desclabel="false" right="false" visible="false" desc="true">
+                    <label>Text</label>
+                    <value>Rem magna anim natus lorem</value>
+                </separatorlist_1_text_3>
+                <separatorlist_1_text_4 name="p_separatorlist_1_text_4" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" disablehtml="true" placeholder="" desclabel="false" right="false" visible="false" desc="true">
+                    <label>Text</label>
+                    <value>Totam elit iste voluptatem adipiscing</value>
+                </separatorlist_1_text_4>
+                <separatorlist_1_text_5 name="p_separatorlist_1_text_5" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" disablehtml="true" placeholder="" desclabel="false" right="false" visible="false" desc="true">
+                    <label>Text</label>
+                    <value>Voluptatem omnis magna elit accusantium</value>
+                </separatorlist_1_text_5>
+                <separatorlist_1_text_6 name="p_separatorlist_1_text_6" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" disablehtml="true" placeholder="" desclabel="false" right="false" visible="false" desc="true">
+                    <label>Text</label>
+                    <value>Sed ut mollit ut magna</value>
+                </separatorlist_1_text_6>
+                <separatorlist_1_text_7 name="p_separatorlist_1_text_7" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" disablehtml="true" placeholder="" desclabel="false" right="false" visible="false" desc="true">
+                    <label>Text</label>
+                    <value>Perspiciatis officia magna voluptatem accusantium</value>
+                </separatorlist_1_text_7>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Dolor perspiciatis amet deserunt magna</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Dolor perspiciatis amet deserunt magna</separatorlist_1_text_1_desc>
+                        <separatorlist_1_email_1 name="p_separatorlist_1_email_1" desc="true">ame@example.com</separatorlist_1_email_1>
+                        <separatorlist_1_email_1_desc name="p_separatorlist_1_email_1_desc">ame@example.com</separatorlist_1_email_1_desc>
+                        <separatorlist_1_email_1_1 name="p_separatorlist_1_email_1_1" desc="true" visible="false">ej@example.com</separatorlist_1_email_1_1>
+                        <separatorlist_1_email_1_1_desc name="p_separatorlist_1_email_1_1_desc">ej@example.com</separatorlist_1_email_1_1_desc>
+                        <separatorlist_1_text_2 name="p_separatorlist_1_text_2" desc="true" visible="false">Stract totam lorem laudantium voluptatem</separatorlist_1_text_2>
+                        <separatorlist_1_text_2_desc name="p_separatorlist_1_text_2_desc">Stract totam lorem laudantium voluptatem</separatorlist_1_text_2_desc>
+                        <separatorlist_1_text_3 name="p_separatorlist_1_text_3" desc="true" visible="false">Doloremque natus aliqua aperiam elit</separatorlist_1_text_3>
+                        <separatorlist_1_text_3_desc name="p_separatorlist_1_text_3_desc">Doloremque natus aliqua aperiam elit</separatorlist_1_text_3_desc>
+                        <separatorlist_1_text_4 name="p_separatorlist_1_text_4" desc="true" visible="false">Consectetur natus rem elit deserunt</separatorlist_1_text_4>
+                        <separatorlist_1_text_4_desc name="p_separatorlist_1_text_4_desc">Consectetur natus rem elit deserunt</separatorlist_1_text_4_desc>
+                        <separatorlist_1_text_5 name="p_separatorlist_1_text_5" desc="true" visible="false">Voluptatem stract magna dolor rem</separatorlist_1_text_5>
+                        <separatorlist_1_text_5_desc name="p_separatorlist_1_text_5_desc">Voluptatem stract magna dolor rem</separatorlist_1_text_5_desc>
+                        <separatorlist_1_text_6 name="p_separatorlist_1_text_6" desc="true" visible="false">Officia dolor magna consectetur perspiciatis</separatorlist_1_text_6>
+                        <separatorlist_1_text_6_desc name="p_separatorlist_1_text_6_desc">Officia dolor magna consectetur perspiciatis</separatorlist_1_text_6_desc>
+                        <separatorlist_1_text_7 name="p_separatorlist_1_text_7" desc="true" visible="false">Lorem sit rem magna doloremque</separatorlist_1_text_7>
+                        <separatorlist_1_text_7_desc name="p_separatorlist_1_text_7_desc">Lorem sit rem magna doloremque</separatorlist_1_text_7_desc>
+                    </row>
+                    <row>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Ipsum deserunt iste ipsum totam</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Ipsum deserunt iste ipsum totam</separatorlist_1_text_1_desc>
+                        <separatorlist_1_email_1 name="p_separatorlist_1_email_1" desc="true">osa@example.com</separatorlist_1_email_1>
+                        <separatorlist_1_email_1_desc name="p_separatorlist_1_email_1_desc">osa@example.com</separatorlist_1_email_1_desc>
+                        <separatorlist_1_email_1_1 name="p_separatorlist_1_email_1_1" desc="true" visible="false">iva@example.com</separatorlist_1_email_1_1>
+                        <separatorlist_1_email_1_1_desc name="p_separatorlist_1_email_1_1_desc">iva@example.com</separatorlist_1_email_1_1_desc>
+                        <separatorlist_1_text_2 name="p_separatorlist_1_text_2" desc="true" visible="false">Sit sit unde anim deserunt</separatorlist_1_text_2>
+                        <separatorlist_1_text_2_desc name="p_separatorlist_1_text_2_desc">Sit sit unde anim deserunt</separatorlist_1_text_2_desc>
+                        <separatorlist_1_text_3 name="p_separatorlist_1_text_3" desc="true" visible="false">Doloremque mollit voluptatem sit anim</separatorlist_1_text_3>
+                        <separatorlist_1_text_3_desc name="p_separatorlist_1_text_3_desc">Doloremque mollit voluptatem sit anim</separatorlist_1_text_3_desc>
+                        <separatorlist_1_text_4 name="p_separatorlist_1_text_4" desc="true" visible="false">Aperiam laudantium deserunt amet sit</separatorlist_1_text_4>
+                        <separatorlist_1_text_4_desc name="p_separatorlist_1_text_4_desc">Aperiam laudantium deserunt amet sit</separatorlist_1_text_4_desc>
+                        <separatorlist_1_text_5 name="p_separatorlist_1_text_5" desc="true" visible="false">Omnis ipsum consectetur mollit sit</separatorlist_1_text_5>
+                        <separatorlist_1_text_5_desc name="p_separatorlist_1_text_5_desc">Omnis ipsum consectetur mollit sit</separatorlist_1_text_5_desc>
+                        <separatorlist_1_text_6 name="p_separatorlist_1_text_6" desc="true" visible="false">Sed mollit anim sit aliqua</separatorlist_1_text_6>
+                        <separatorlist_1_text_6_desc name="p_separatorlist_1_text_6_desc">Sed mollit anim sit aliqua</separatorlist_1_text_6_desc>
+                        <separatorlist_1_text_7 name="p_separatorlist_1_text_7" desc="true" visible="false">Voluptatem magna totam labore natus</separatorlist_1_text_7>
+                        <separatorlist_1_text_7_desc name="p_separatorlist_1_text_7_desc">Voluptatem magna totam labore natus</separatorlist_1_text_7_desc>
+                    </row>
+                    <row>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Adipiscing natus unde omnis sit</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Adipiscing natus unde omnis sit</separatorlist_1_text_1_desc>
+                        <separatorlist_1_email_1 name="p_separatorlist_1_email_1" desc="true">copjow@example.com</separatorlist_1_email_1>
+                        <separatorlist_1_email_1_desc name="p_separatorlist_1_email_1_desc">copjow@example.com</separatorlist_1_email_1_desc>
+                        <separatorlist_1_email_1_1 name="p_separatorlist_1_email_1_1" desc="true" visible="false">ivejuk@example.com</separatorlist_1_email_1_1>
+                        <separatorlist_1_email_1_1_desc name="p_separatorlist_1_email_1_1_desc">ivejuk@example.com</separatorlist_1_email_1_1_desc>
+                        <separatorlist_1_text_2 name="p_separatorlist_1_text_2" desc="true" visible="false">Aperiam consectetur labore totam doloremque</separatorlist_1_text_2>
+                        <separatorlist_1_text_2_desc name="p_separatorlist_1_text_2_desc">Aperiam consectetur labore totam doloremque</separatorlist_1_text_2_desc>
+                        <separatorlist_1_text_3 name="p_separatorlist_1_text_3" desc="true" visible="false">Iste adipiscing natus mollit anim</separatorlist_1_text_3>
+                        <separatorlist_1_text_3_desc name="p_separatorlist_1_text_3_desc">Iste adipiscing natus mollit anim</separatorlist_1_text_3_desc>
+                        <separatorlist_1_text_4 name="p_separatorlist_1_text_4" desc="true" visible="false">Natus aperiam doloremque magna sit</separatorlist_1_text_4>
+                        <separatorlist_1_text_4_desc name="p_separatorlist_1_text_4_desc">Natus aperiam doloremque magna sit</separatorlist_1_text_4_desc>
+                        <separatorlist_1_text_5 name="p_separatorlist_1_text_5" desc="true" visible="false">Magna elit anim doloremque sit</separatorlist_1_text_5>
+                        <separatorlist_1_text_5_desc name="p_separatorlist_1_text_5_desc">Magna elit anim doloremque sit</separatorlist_1_text_5_desc>
+                        <separatorlist_1_text_6 name="p_separatorlist_1_text_6" desc="true" visible="false">Elit mollit deserunt magna aperiam</separatorlist_1_text_6>
+                        <separatorlist_1_text_6_desc name="p_separatorlist_1_text_6_desc">Elit mollit deserunt magna aperiam</separatorlist_1_text_6_desc>
+                        <separatorlist_1_text_7 name="p_separatorlist_1_text_7" desc="true" visible="false">Sed laudantium accusantium sed doloremque</separatorlist_1_text_7>
+                        <separatorlist_1_text_7_desc name="p_separatorlist_1_text_7_desc">Sed laudantium accusantium sed doloremque</separatorlist_1_text_7_desc>
+                    </row>
+                    <row>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Rem lorem omnis anim totam</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Rem lorem omnis anim totam</separatorlist_1_text_1_desc>
+                        <separatorlist_1_email_1 name="p_separatorlist_1_email_1" desc="true">zo@example.com</separatorlist_1_email_1>
+                        <separatorlist_1_email_1_desc name="p_separatorlist_1_email_1_desc">zo@example.com</separatorlist_1_email_1_desc>
+                        <separatorlist_1_email_1_1 name="p_separatorlist_1_email_1_1" desc="true" visible="false">fogpihmev@example.com</separatorlist_1_email_1_1>
+                        <separatorlist_1_email_1_1_desc name="p_separatorlist_1_email_1_1_desc">fogpihmev@example.com</separatorlist_1_email_1_1_desc>
+                        <separatorlist_1_text_2 name="p_separatorlist_1_text_2" desc="true" visible="false">Lorem unde ut mollit doloremque</separatorlist_1_text_2>
+                        <separatorlist_1_text_2_desc name="p_separatorlist_1_text_2_desc">Lorem unde ut mollit doloremque</separatorlist_1_text_2_desc>
+                        <separatorlist_1_text_3 name="p_separatorlist_1_text_3" desc="true" visible="false">Adipiscing rem laudantium elit mollit</separatorlist_1_text_3>
+                        <separatorlist_1_text_3_desc name="p_separatorlist_1_text_3_desc">Adipiscing rem laudantium elit mollit</separatorlist_1_text_3_desc>
+                        <separatorlist_1_text_4 name="p_separatorlist_1_text_4" desc="true" visible="false">Lorem magna elit ut ipsum</separatorlist_1_text_4>
+                        <separatorlist_1_text_4_desc name="p_separatorlist_1_text_4_desc">Lorem magna elit ut ipsum</separatorlist_1_text_4_desc>
+                        <separatorlist_1_text_5 name="p_separatorlist_1_text_5" desc="true" visible="false">Rem natus accusantium aliqua unde</separatorlist_1_text_5>
+                        <separatorlist_1_text_5_desc name="p_separatorlist_1_text_5_desc">Rem natus accusantium aliqua unde</separatorlist_1_text_5_desc>
+                        <separatorlist_1_text_6 name="p_separatorlist_1_text_6" desc="true" visible="false">Omnis accusantium amet totam magna</separatorlist_1_text_6>
+                        <separatorlist_1_text_6_desc name="p_separatorlist_1_text_6_desc">Omnis accusantium amet totam magna</separatorlist_1_text_6_desc>
+                        <separatorlist_1_text_7 name="p_separatorlist_1_text_7" desc="true" visible="false">Rem elit consectetur unde voluptatem</separatorlist_1_text_7>
+                        <separatorlist_1_text_7_desc name="p_separatorlist_1_text_7_desc">Rem elit consectetur unde voluptatem</separatorlist_1_text_7_desc>
+                    </row>
+                    <row>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Stract deserunt omnis accusantium consectetur</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Stract deserunt omnis accusantium consectetur</separatorlist_1_text_1_desc>
+                        <separatorlist_1_email_1 name="p_separatorlist_1_email_1" desc="true">vaala@example.com</separatorlist_1_email_1>
+                        <separatorlist_1_email_1_desc name="p_separatorlist_1_email_1_desc">vaala@example.com</separatorlist_1_email_1_desc>
+                        <separatorlist_1_email_1_1 name="p_separatorlist_1_email_1_1" desc="true" visible="false">siakdi@example.com</separatorlist_1_email_1_1>
+                        <separatorlist_1_email_1_1_desc name="p_separatorlist_1_email_1_1_desc">siakdi@example.com</separatorlist_1_email_1_1_desc>
+                        <separatorlist_1_text_2 name="p_separatorlist_1_text_2" desc="true" visible="false">Iste sit deserunt sed perspiciatis</separatorlist_1_text_2>
+                        <separatorlist_1_text_2_desc name="p_separatorlist_1_text_2_desc">Iste sit deserunt sed perspiciatis</separatorlist_1_text_2_desc>
+                        <separatorlist_1_text_3 name="p_separatorlist_1_text_3" desc="true" visible="false">Sit unde doloremque ipsum sed</separatorlist_1_text_3>
+                        <separatorlist_1_text_3_desc name="p_separatorlist_1_text_3_desc">Sit unde doloremque ipsum sed</separatorlist_1_text_3_desc>
+                        <separatorlist_1_text_4 name="p_separatorlist_1_text_4" desc="true" visible="false">Lorem magna aliqua doloremque aperiam</separatorlist_1_text_4>
+                        <separatorlist_1_text_4_desc name="p_separatorlist_1_text_4_desc">Lorem magna aliqua doloremque aperiam</separatorlist_1_text_4_desc>
+                        <separatorlist_1_text_5 name="p_separatorlist_1_text_5" desc="true" visible="false">Voluptatem amet sit ipsum consectetur</separatorlist_1_text_5>
+                        <separatorlist_1_text_5_desc name="p_separatorlist_1_text_5_desc">Voluptatem amet sit ipsum consectetur</separatorlist_1_text_5_desc>
+                        <separatorlist_1_text_6 name="p_separatorlist_1_text_6" desc="true" visible="false">Natus lorem sed aliqua omnis</separatorlist_1_text_6>
+                        <separatorlist_1_text_6_desc name="p_separatorlist_1_text_6_desc">Natus lorem sed aliqua omnis</separatorlist_1_text_6_desc>
+                        <separatorlist_1_text_7 name="p_separatorlist_1_text_7" desc="true" visible="false">Rem sit deserunt consectetur voluptatem</separatorlist_1_text_7>
+                        <separatorlist_1_text_7_desc name="p_separatorlist_1_text_7_desc">Rem sit deserunt consectetur voluptatem</separatorlist_1_text_7_desc>
+                    </row>
+                </value>
+            </table>
+        </separatorlist_1>
+    </content>
+    <blockly></blockly>
+</rows>

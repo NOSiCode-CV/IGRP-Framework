@@ -1,0 +1,442 @@
+<menus>
+  <!--Titulo de Menus-->
+  <title>Home</title>
+  <link></link>
+
+  <menu>
+    <title>Getting Started</title>
+    <icon> ri-home-2-line</icon>
+    <submenu>
+      <title>Principles</title>
+      <link>IGRP-principles.xml</link>
+    </submenu>
+
+  </menu>
+
+  <menu>
+    <title>Foundations</title>
+    <icon>ri-paint-brush-line</icon>
+    <submenu>
+      <title>Typography</title>
+      <link>IGRP-foundations-typography.xml</link>
+    </submenu>
+    <submenu>
+      <title>Grid System</title>
+      <link>IGRP-foundations-grid.xml</link>
+    </submenu>
+    <submenu>
+      <title>Colors</title>
+      <link>IGRP-foundations-colors.xml</link>
+    </submenu>
+  </menu>
+
+  <menu>
+    <title>Base UI</title>
+    <icon>ri-pencil-ruler-2-line</icon>
+    <!--Respectivos submenus-->
+    <submenu>
+      <title>Alerts</title>
+      <link>IGRP-base-ui-alert.xml</link>
+    </submenu>
+    <submenu>
+      <title>Badges</title>
+      <link>IGRP-base-ui-badges.xml</link>
+    </submenu>
+    <submenu>
+      <title>Buttons</title>
+      <link>IGRP-base-ui-buttons.xml</link>
+    </submenu>
+    <submenu>
+      <title>Cards</title>
+      <link>IGRP-base-ui-cards.xml</link>
+    </submenu>
+    <submenu>
+      <title>Carousel</title>
+      <link>IGRP-base-ui-carousel.xml</link>
+    </submenu>
+    <submenu>
+      <title>Dropdows</title>
+      <link>IGRP-base-ui-dropdows.xml</link>
+    </submenu>
+    <submenu>
+      <title>Images</title>
+      <link>IGRP-base-ui-images.xml</link>
+    </submenu>
+    <submenu>
+      <title>Tabs</title>
+      <link>IGRP-base-ui-tabs.xml</link>
+    </submenu>
+    <submenu>
+      <title>Accordion &amp; Collapes</title>
+      <link>IGRP-base-ui-accordions.xml</link>
+    </submenu>
+    <submenu>
+      <title>Modals</title>
+      <link>IGRP-base-ui-modals.xml</link>
+    </submenu>
+    <submenu>
+      <title>Offcanvas</title>
+      <link>IGRP-base-ui-offcanvas.xml</link>
+    </submenu>
+    <submenu>
+      <title>Placeholders</title>
+      <link>IGRP-base-ui-placeholders.xml</link>
+    </submenu>
+    <submenu>
+      <title>Progress</title>
+      <link>IGRP-base-ui-progress.xml</link>
+    </submenu>
+    <submenu>
+      <title>Notifications</title>
+      <link>IGRP-base-ui-notifications.xml</link>
+    </submenu>
+    <submenu>
+      <title>Media object</title>
+      <link>IGRP-base-ui-media.xml</link>
+    </submenu>
+    <submenu>
+      <title>Embed Video</title>
+      <link>IGRP-base-ui-embed-video.xml</link>
+    </submenu>
+    <submenu>
+      <title>Typography</title>
+      <link>IGRP-foundations-typography.xml</link>
+    </submenu>
+    <submenu>
+      <title>Lists</title>
+      <link>IGRP-base-ui-list.xml</link>
+    </submenu>
+    <submenu>
+      <title>General</title>
+      <link>IGRP-base-ui-general.xml</link>
+    </submenu>
+    <submenu>
+      <title>Ribbons</title>
+      <link>IGRP-base-ui-ribbons.xml</link>
+    </submenu>
+    <submenu>
+      <title>Utilities</title>
+      <link>IGRP-base-ui-utilities.xml</link>
+    </submenu>
+
+    <icon>ri-pencil-ruler-2-line</icon>
+
+  </menu>
+
+  <menu>
+    <title>Advanced UI</title>
+    <icon>ri-stack-line</icon>
+    <submenu>
+      <title>Sweet Alert</title>
+      <link>IGRP-advanced-ui-sweet-alerts.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Nestable List</title>
+      <link>IGRP-advanced-ui-nestable-list.xml</link>
+    </submenu>
+    <submenu>
+      <title>Scrollbar</title>
+      <link>IGRP-advanced-ui-scrollbar.xml</link>
+    </submenu>
+    <submenu>
+      <title>Animation</title>
+      <link>IGRP-advanced-ui-animation.xml</link>
+    </submenu>
+    <submenu>
+      <title>Tour</title>
+      <link>IGRP-advanced-ui-tour.xml</link>
+    </submenu>
+    <submenu>
+      <title>Swiper Slider</title>
+      <link>IGRP-advanced-ui-swiper-slider.xml</link>
+    </submenu>
+    <submenu>
+      <title>Rating</title>
+      <link>IGRP-advanced-ui-ratings.xml</link>
+    </submenu>
+    <submenu>
+      <title>Highlight</title>
+      <link>IGRP-advanced-ui-highlight.xml</link>
+    </submenu>
+    <submenu>
+      <title>ScrollSpy</title>
+      <link>IGRP-advanced-ui-scrollspy.xml</link>
+    </submenu>
+    <submenu>
+      <title>Widgets</title>
+      <link>IGRP-advanced-ui-widgets.xml</link>
+    </submenu>
+  </menu>
+
+  <menu>
+    <title>Forms</title>
+    <icon>ri-file-list-3-line</icon>
+    <!--Respectivos submenus-->
+
+    <submenu>
+      <title>Basic Elements</title>
+      <link>IGRP-form-elements.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Form Select</title>
+      <link>IGRP-form-select.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Checkboxs &amp; Radios</title>
+      <link>IGRP-form-checkbox.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Pickers</title>
+      <link>IGRP-form-pickers.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Input Masks</title>
+      <link>IGRP-form-mask.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Advanced</title>
+      <link>IGRP-form-advanced.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Range Slider</title>
+      <link>IGRP-form-range-slider.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Validation</title>
+      <link>IGRP-form-validation.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Wizard</title>
+      <link>IGRP-form-wizard.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Editors</title>
+      <link>IGRP-form-editors.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>File Upload</title>
+      <link>IGRP-form-file-upload.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Form Layouts</title>
+      <link>IGRP-form-layouts.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Select2</title>
+      <link>IGRP-form-select2.xml</link>
+    </submenu>
+
+
+
+  </menu>
+
+  <menu>
+    <title>Tables</title>
+    <icon>ri-layout-grid-line</icon>
+
+
+    <submenu>
+      <title>Basic Tables</title>
+      <link>IGRP-table-basic.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Grid JS</title>
+      <link>IGRP-table-grid.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>List JS</title>
+      <link>IGRP-table-lists.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Datatable</title>
+      <link>IGRP-table-datatable.xml</link>
+    </submenu>
+
+  </menu>
+
+  <menu>
+    <title>Charts</title>
+    <icon>ri-pie-chart-line</icon>
+
+    <submenu>
+      <title>Apexcharts</title>
+      <link>IGRP-chart-apex.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Chartsjs</title>
+      <link>IGRP-chart-chartjs.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Echarts</title>
+      <link>IGRP-chart-echart.xml</link>
+    </submenu>
+
+  </menu>
+
+  <menu>
+    <title>Maps</title>
+    <icon>ri-map-pin-line</icon>
+
+    <submenu>
+      <title>Google</title>
+      <link>IGRP-maps-google.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Vector</title>
+      <link>IGRP-maps-vector.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Leaflet</title>
+      <link>IGRP-maps-leaflet.xml</link>
+    </submenu>
+
+  </menu>
+
+  <menu>
+    <title>Dashboard</title>
+    <icon>ri-dashboard-line</icon>
+    <!--Respectivos submenus-->
+    <submenu>
+      <title>Analytics</title>
+      <link>IGRP-home.xml</link>
+    </submenu>
+    <submenu>
+      <title>CRM</title>
+      <link>IGRP-dashboard-crm.xml</link>
+    </submenu>
+    <submenu>
+      <title>E-commerce</title>
+      <link>IGRP-dashboard-ecommerce.xml</link>
+    </submenu>
+    <submenu>
+      <title>Base UI</title>
+      <link>IGRP-dashboard-base-ui.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Widgets</title>
+      <link>IGRP-widgets.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Crypto</title>
+      <link>IGRP-dashboard-crypto.xml</link>
+    </submenu>
+    <submenu>
+      <title>Projects</title>
+      <link>IGRP-dashboard-projects.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>NFT</title>
+      <link>IGRP-dashboard-nft.xml</link>
+    </submenu>
+
+  </menu>
+
+  <menu>
+
+    <title>E-Commerce</title>
+    <icon>ri-shopping-cart-2-line</icon>
+    <!--Respectivos submenus-->
+    <submenu>
+      <title>Products</title>
+      <link>IGRP-ecommerce-products.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Products Details</title>
+      <link>IGRP-ecommerce-products-details.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Create Products</title>
+      <link>IGRP-ecommerce-create-product.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Orders</title>
+      <link>IGRP-ecommerce-order.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Order Details</title>
+      <link>IGRP-ecommerce-order-details.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Costumers</title>
+      <link>IGRP-ecommerce-costumers.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Shopping Cart</title>
+      <link>IGRP-ecommerce-cart.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Checkout</title>
+      <link>IGRP-ecommerce-checkout.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Seller</title>
+      <link>IGRP-ecommerce-seller.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Seller Details</title>
+      <link>IGRP-ecommerce-seller-details.xml</link>
+    </submenu>
+  </menu>
+
+  <menu>
+    <!--Titulo de Menu-->
+    <title>Demo App</title>
+    <icon>ri-apps-line</icon>
+    <!--Respectivos submenus-->
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Gestão de Utilizadores</title>
+      <!-- Link de Sub menu-->
+      <link>IGRP-gestao-utilizadores.xml</link>
+      <id>5</id>
+      <status>0</status>
+    </submenu>
+
+    <submenu>
+      <!-- Titulo de Sub Menu-->
+      <title>Informações do Cliente</title>
+      <!-- Link de Sub menu-->
+      <link>user.xml</link>
+      <id>66</id>
+      <status>0</status>
+    </submenu>
+
+
+  </menu>
+
+
+
+
+</menus>

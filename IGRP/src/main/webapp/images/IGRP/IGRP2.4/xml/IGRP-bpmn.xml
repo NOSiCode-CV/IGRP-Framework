@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="../xsl/IGRP-bpmn.xsl" type="text/xsl"?>
+<rows>
+  <title>IGRP 2.2</title>
+  <!--
+  <target>_blank</target>-->
+  <site>
+    <welcome_note>Olá</welcome_note>
+    <footer_note>2014 - Copyright NOSI</footer_note>
+    <user_name>Maria Mendes</user_name>
+  </site>
+  <app>HOME</app>
+  <page>0001</page>
+  <action>BULK</action>
+  <navigation file="/images/IGRP2.2/xml/IGRP-navigation.xml?"/>
+  <applications file="/images/IGRP2.2/xml/IGRP-applications.xml" />
+  <top_menu file="/images/IGRP2.2/xml/IGRP-top_menu.xml"/>
+  <slide-menu file="/images/IGRP2.2/xml/IGRP-slide-menu.xml?v=2"/>
+  <language file="/images/IGRP2.2/xml/IGRP-language.xml"/>
+  <content>
+    <title>BPMN - IGRP 2.2</title>
+    <messages>
+      <message type="info">XML de Teste para todas as páginas</message>
+      <message type="error">XML de Teste para todas as páginas</message>
+      <message type="confirm">Isto sim é que falar?</message>
+      <message type="warning">Isto sim é que falar?</message>
+      <message type="success">Isto sim é que falar?</message>
+      <message type="debug">Tipo isto mas nao é 1</message>
+      <message type="debug">Tipo isto mas nao é dos 2</message>
+      <message type="debug">Tipo isto mas nao é dos 3</message>
+    </messages>
+    <form>
+      <label>
+        <nodedata></nodedata>
+        <linkdata></linkdata>
+      </label>
+      <value>
+        <nodedata>{"category":"activity","item":"generic task","key":5,"loc":"379.59375 223","text":"Task","taskType":0,"boundaryEventArray":[{"portId":"be0","eventType":2,"color":"white","alignmentIndex":0},{"portId":"be1","eventType":2,"color":"white","alignmentIndex":1}]},{"category":"gateway","item":"","key":204,"loc":"529.5 216.5","text":"Exclusive","taskType":0,"gatewayType":4},{"category":"activity","item":"generic task","key":-4,"loc":"743.40625 98","text":"Task","taskType":0},{"category":"activity","item":"generic task","key":-5,"loc":"691.5 445","text":"Task","taskType":0},{"category":"activity","item":"generic task","key":-6,"loc":"943.40625 200","text":"Task","taskType":0},{"category":"event","item":"start","key":101,"loc":"201.5 223","text":"Start","eventType":1,"eventDimension":1,"taskType":0},{"category":"event","item":"End","key":104,"loc":"945.171875 401","text":"End","eventType":1,"eventDimension":8,"taskType":0},{"category":"activity","item":"Message Task","key":1,"loc":"476.40625 502","text":"Edson","taskType":1}</nodedata>
+        <linkdata>{"from":5,"to":204,"points":[439.59375,223,449.59375,223,459.296875,223,459.296875,216.5,469,216.5,489,216.5]},{"from":204,"to":-5,"visible":true,"points":[529.5,257,529.5,267,529.5,344,691.5,344,691.5,385,691.5,405],"text":"Edson Tavares"},{"from":204,"to":-4,"visible":true,"points":[570,216.5,580,216.5,621.703125,216.5,621.703125,98,663.40625,98,683.40625,98]},{"from":-4,"to":-6,"points":[803.40625,98,813.40625,98,943.40625,98,943.40625,119,943.40625,140,943.40625,160]},{"from":101,"to":5,"points":[223,223,233,223,266.296875,223,266.296875,223,299.59375,223,319.59375,223]},{"from":-6,"to":104,"points":[943.40625,240,943.40625,250,943.40625,304,945.171875,304,945.171875,358,945.171875,378]},{"from":-5,"to":104,"points":[751.5,445,761.5,445,831.8359375,445,831.8359375,401,902.171875,401,922.171875,401]},{"from":5,"to":-5,"points":[379.59375,263,379.59375,273,379.59375,445,495.546875,445,611.5,445,631.5,445]},{"from":1,"to":-5,"points":[536.40625,502,546.40625,502,578.953125,502,578.953125,445,611.5,445,631.5,445]}</linkdata>
+      </value>
+      <tools-bar>
+        <item   type="specific">
+          <title>Gravar</title>
+          <app>//ADBABB</app>
+          <page>//BDAFB2B1</page>
+          <link>//B8ADBEA9BEADA0CCCDBDAFB2B1</link>
+          <target>submit</target>
+          <img>save.png</img>
+        </item>
+        <item   type="specific">
+          <title>Recarregar</title>
+          <app>//ADBABB</app>
+          <page>//BDAFB2B1</page>
+          <link>//ADBABCBEADADBAB8BEA0CCCDBDAFB2B1</link>
+          <target>alert_submit</target>
+          <img>tb_refresh.png</img>
+        </item>
+        <item   type="specific">
+          <title>Fechar</title>
+          <app>//ADBABB</app>
+          <page>//BDAFB2B1</page>
+          <link>//B9BABCB7BEADA0CCCDBDAFB2B1</link>
+          <target>_close</target>
+          <img>close.png</img>
+        </item>
+      </tools-bar>
+    </form>
+    <table>
+      <label></label>
+      <value>
+        <row>
+          <title>Area</title>
+          <id>1</id>
+          <id_pai></id_pai>
+          <link>http://igrp.teste.gov.cv/images/IGRP/xml/IGRP-bpmn.xml</link>
+        </row>
+        <row>
+          <title>Area Edson</title>
+          <id>9</id>
+          <id_pai>1</id_pai>
+          <link>http://igrp.teste.gov.cv/images/IGRP/xml/IGRP-bpmn.xml</link>
+        </row>
+        <row>
+          <title>Sub Area </title>
+          <id>2</id>
+          <id_pai>1</id_pai>
+          <link>http://igrp.teste.gov.cv/images/IGRP2.2/xml/IGRP-bpmn.xml</link>
+        </row>
+        <row>
+          <title>Raiz Area</title>
+          <id>3</id>
+          <id_pai>2</id_pai>
+          <link>http://igrp.teste.gov.cv/images/IGRP2.2/xml/IGRP-bpmn.xml</link>
+        </row>
+        <row>
+          <title>Area 1</title>
+          <id>4</id>
+          <id_pai></id_pai>
+          <link>http://igrp.teste.gov.cv/images/IGRP2.2/xml/IGRP-bpmn.xml</link>
+        </row>
+        <row>
+          <title>Sub Area 1</title>
+          <id>5</id>
+          <id_pai>4</id_pai>
+          <link>http://igrp.teste.gov.cv/images/IGRP2.2/xml/IGRP-bpmn.xml</link>
+        </row>
+        <row>
+          <title>Raiz Area 1</title>
+          <id>6</id>
+          <id_pai>5</id_pai>
+          <link>http://igrp.teste.gov.cv/images/IGRP2.2/xml/IGRP-bpmn.xml</link>
+        </row>
+        <row>
+          <title>Raiz Area 2</title>
+          <id>7</id>
+          <id_pai>5</id_pai>
+          <link>http://igrp.teste.gov.cv/images/IGRP2.2/xml/IGRP-bpmn.xml</link>
+        </row>
+        <row>
+          <title>Raiz Area 3</title>
+          <id>8</id>
+          <id_pai>7</id_pai>
+          <link>http://igrp.teste.gov.cv/images/IGRP2.2/xml/IGRP-bpmn.xml</link>
+        </row>
+      </value>
+    </table>
+  </content>
+</rows>

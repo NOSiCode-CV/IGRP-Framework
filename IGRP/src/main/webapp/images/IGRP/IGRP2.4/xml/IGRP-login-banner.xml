@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rows>
+  <version>1</version>
+  <content>
+    <table>
+      <title>TABELA SIMPLES</title>
+      <label>
+        <image>Banner</image>
+        <caption>Descrição</caption>
+        <link>Link</link>
+        <flag>active</flag>
+      </label>
+      <value>
+        <row>
+          <image>1.jpg</image>
+          <caption>NOSI</caption>
+          <link>www.nosi.cv</link>
+          <flag>1</flag>
+        </row>
+        <row>
+          <image>2.jpg</image>
+          <caption></caption>
+          <link></link>
+          <flag>0</flag>
+        </row>
+        <row>
+          <image>3.jpg</image>
+          <caption></caption>
+          <link></link>
+          <flag>0</flag>
+        </row>
+		<row>
+          <image>4.jpg</image>
+          <caption></caption>
+          <link></link>
+          <flag>0</flag>
+        </row>
+      </value>
+    </table>
+  </content>
+</rows>

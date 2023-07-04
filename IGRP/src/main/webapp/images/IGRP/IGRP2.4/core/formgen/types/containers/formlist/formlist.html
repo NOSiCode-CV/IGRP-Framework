@@ -1,0 +1,43 @@
+<div class="box box-table-contents card igrp-formlist-wrapper">
+  <div class="box-body table-box card-body ">
+    <xsl:apply-templates mode="form-hidden-fields" select="#path#/fields"/>
+    #[filterTemplate]#
+    <div class="table-responsive table-card">
+    <table id="#tag#" class="table #[hoverable]# #[striped]# #[bordered]# gen-data-table #[ordertable]# IGRP_formlist #[noupdate]# #[nodelete]# #[totalcol]# #[totalrow]#" rel="T_#tag#" data-control="data-#tag#">
+      <thead class="#[tableHeaderStyle]# border-top">
+        <tr gen-id="drop-zone" gen-field-template="th">
+          <xsl:if test="not(#path#/table/value/row[position() = 1]/@noupdate) or not(#path#/table/value/row[position() = 1]/@nodelete)" gen-preserve="last">
+            <th class="table-btn add" style="width:1px">
+              <xsl:if test="not(#path#/table/value/row[position() = 1]/@noupdate)">
+                <a class="formlist-row-add link-primary  d-flex align-items-center justify-content-center" rel="#tag#"  title="{$locale-strings/add-row}" data-toggle="tooltip" data-placement="left">
+                  <i class="bx bx-add-to-queue"></i>
+                </a>
+              </xsl:if>
+            </th>
+          </xsl:if>
+        </tr>
+      </thead>
+      <tbody>
+        <xsl:for-each select="#path#/table/value/row[not(@total='yes')]">
+          <tr gen-id="drop-zone" row="{position()}">
+            <input type="hidden" name="p_#tag#_id" value="{#tag#_id}" />
+            <gen-template name="table-rows-hiddens"/>
+            #[addTotalRow]#
+            <xsl:if test="not(@nodelete) or not(@noupdate)" gen-preserve="last">
+              <td class="table-btn delete" data-row="{position()}">
+                <xsl:if test="not(@nodelete)">
+                  <span class="formlist-row-remove link-danger d-flex align-items-center justify-content-center" rel="#tag#"  title="{$locale-strings/remove-row}" data-toggle="tooltip" data-placement="bottom">
+                    <i class="bx bx-trash"></i>
+                  </span>
+                </xsl:if>
+              </td>
+            </xsl:if>
+            <xsl:apply-templates mode="form-hidden-fields" select="."/>		
+          </tr>
+        </xsl:for-each>
+      </tbody>
+      #[tableFooter]#
+    </table>
+  </div>
+  </div>
+</div>

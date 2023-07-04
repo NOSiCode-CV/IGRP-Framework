@@ -1,0 +1,66 @@
+{
+ "dir_name": "imac_soluction_2",
+ "dir": [
+   {
+     "dir_name": "pages",
+     "dir": [
+       {
+         "dir_name": "page_to_share",
+         "dir": [
+            {
+             "dir_name": "My Folder",
+             "dir": [],
+             "dir_files": [
+
+                {
+             "name": "Page_to_share.java",
+              "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file1.java",
+              "fileName": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file1.java"
+           },
+           {
+             "name": "Page_to_shareController.java",
+              "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java",
+              "fileName": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java"
+           }
+
+             ],
+             "dir_path" : "/images/IGRP/IGRP2.3/core/fileeditor/data/files/"
+           }
+         ],
+         "dir_files": [
+           {
+             "name": "Page_to_share.java",
+              "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file1.java",
+              "fileName": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file1.java"
+           },
+           {
+             "name": "Page_to_shareController.java",
+              "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java",
+              "fileName": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java"
+           },
+           {
+              "name": "Page_to_shareView.java",
+              "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file3.java",
+              "fileName": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file3.java"
+           }
+         ],
+         "dir_path" : "/images/IGRP/IGRP2.3/core/fileeditor/data/files/"
+       }
+     ],
+     "dir_files": [],
+     "dir_path" : "/images/IGRP/IGRP2.3/core/fileeditor/data/files/"
+   }
+ ],
+ "dir_files": [],
+
+ "dir_path" : "/images/IGRP/IGRP2.3/core/fileeditor/data/files/",
+
+ "default_file": [
+    {
+      "name": "Page_to_shareController.java",
+      "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java",
+      "fileName": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java"
+    }
+  ]
+
+}

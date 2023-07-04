@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>TransacaoOrganica</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>TransacaoOrganica</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=20</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Associar Transacao a Organica</title>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=transacao" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
+                    <label>Help</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
+                </help>
+            </fields>
+        </view_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar" custom_return="true" refresh_components="">
+                <title>Gravar</title>
+                <app>igrp</app>
+                <page>Dominio</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>primary|fa-save</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <transacao name="p_transacao" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="int" showLabel="true" group_in="" check="true" desc="true">
+                    <label></label>
+                </transacao>
+                <nome name="p_nome" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Nome (code)</label>
+                </nome>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <transacao name="p_transacao" check="true" desc="true">1</transacao>
+                        <transacao_desc name="p_transacao_desc">1</transacao_desc>
+                        <nome name="p_nome">Lorem iste aliqua amet accusan</nome>
+                    </row>
+                    <row>
+                        <transacao name="p_transacao" check="true" desc="true">1</transacao>
+                        <transacao_desc name="p_transacao_desc">1</transacao_desc>
+                        <nome name="p_nome">Aperiam omnis dolor iste dolor</nome>
+                    </row>
+                    <row>
+                        <transacao name="p_transacao" check="true" desc="true">1</transacao>
+                        <transacao_desc name="p_transacao_desc">1</transacao_desc>
+                        <nome name="p_nome">Elit rem ut sit aliqua</nome>
+                    </row>
+                    <row>
+                        <transacao name="p_transacao" check="true" desc="true">1</transacao>
+                        <transacao_desc name="p_transacao_desc">1</transacao_desc>
+                        <nome name="p_nome">Omnis dolor laudantium ut dese</nome>
+                    </row>
+                    <row>
+                        <transacao name="p_transacao" check="true" desc="true">1</transacao>
+                        <transacao_desc name="p_transacao_desc">1</transacao_desc>
+                        <nome name="p_nome">Amet rem mollit ipsum doloremq</nome>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+        <toolsbar_3 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gestao_de_transacoes" refresh_components="">
+                <title>Gestão transações</title>
+                <app>igrp</app>
+                <page>Transaccao</page>
+                <link>index</link>
+                <target>mpsubmit|refresh</target>
+                <img>black|fa-exchange</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml</preview>
+            </item>
+            <item type="specific" code="" rel="novo_transacao" refresh_components="">
+                <title>Nova Transação</title>
+                <app>igrp</app>
+                <page>EditarTransacao</page>
+                <link>index</link>
+                <target>right_panel|refresh</target>
+                <img>success|fa-plus-square</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/editartransacao/EditarTransacao.xml</preview>
+            </item>
+        </toolsbar_3>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <hidden name="p_id" type="hidden" maxlength="30" java-type="int" tag="id"/>
+                <hidden name="p_type" type="hidden" maxlength="30" java-type="String" tag="type"/>
+            </fields>
+        </form_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>
