@@ -1,0 +1,23 @@
+<style>
+
+	<logo>img/logo2.svg</logo>
+	
+	<sidebar>
+		<background>#265b88</background>
+	</sidebar>
+
+	<colors>
+		
+		<color name="primary">#337ab7</color>
+
+		<color name="secondary" text-hover="white" bg-hover="#173c5d" >#1b4c76</color>
+
+	</colors> 
+
+	<!-- <css >
+		<file>css/header.css</file>
+		<file>css/sidebar.css</file>
+		<file>css/gen.css</file>
+	</css> -->
+
+</style>

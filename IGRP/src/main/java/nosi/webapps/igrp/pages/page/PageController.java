@@ -815,7 +815,7 @@ public class PageController extends Controller {
 	}
 	
 	final String basePath = this.getConfig().basePathServer() + "images" + File.separator + "IGRP" + File.separator
-			+ "IGRP2.3" + File.separator + "core" + File.separator + "formgen" + File.separator + "types"
+			+ "IGRP2.4" + File.separator + "core" + File.separator + "formgen" + File.separator + "types"
 			+ File.separator;
 	
 	/*----#end-code----*/
