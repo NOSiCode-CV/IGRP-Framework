@@ -59,8 +59,8 @@ public class ImportAppJava {
 				List<JavaClasse> configPages = (List<JavaClasse>) ResponseConverter.convertJsonToListDao(j.getValue(), new TypeToken<List<JavaClasse>>(){}.getType());
 				this.saveConfigPages(configPages);
 			}else if(j.getKey().equalsIgnoreCase("StoredApp")){
-				StoredApplication app = (StoredApplication) ResponseConverter.convertJsonToDao(j.getValue(), StoredApplication.class);
-				this.saveApp(app);
+				StoredApplication appStored = (StoredApplication) ResponseConverter.convertJsonToDao(j.getValue(), StoredApplication.class);
+				this.saveApp(appStored);
 			}else if(j.getKey().equalsIgnoreCase("StoredPage")){
 				List<StoredPages> pages = (List<StoredPages>) ResponseConverter.convertJsonToListDao(j.getValue(), new TypeToken<List<StoredPages>>(){}.getType());
 				this.savePages(pages);
@@ -111,7 +111,7 @@ public class ImportAppJava {
 			//TODO: if change version must see the version inside json
 			path =  warName + File.separator + config.getImageAppPath(this.app, "2.3") + File.separator + folderPage.toLowerCase();
 			//path = this.config.getBaseServerPahtXsl(this.app) + File.separator + folderPage.toLowerCase();
-			pathWorkSpace = this.config.getBasePahtXslWorkspace(this.app)+File.separator+folderPage.toLowerCase();
+			pathWorkSpace = this.config.getBasePahtXslWorkspace(this.app,"2.3")+File.separator+folderPage.toLowerCase();
 			
 		}else if(c.getType().equalsIgnoreCase("pages")) {
 			path = classJavaPath+"pages"+File.separator+c.getFolder().toLowerCase();
@@ -124,8 +124,7 @@ public class ImportAppJava {
 			pathWorkSpace = this.config.getBasePahtClassWorkspace(this.app.getDad())+File.separator+"services"+File.separator+c.getFolder().toLowerCase();
 		}
 		
-		if(Core.isNotNull(this.config.getWorkspace()) && FileHelper.dirExists(this.config.getWorkspace())) 
-			if(!c.getName().endsWith(".class")) 
+		if(Core.isNotNull(this.config.getWorkspace()) && FileHelper.dirExists(this.config.getWorkspace()) && (!c.getName().endsWith(".class"))) 
 				FileHelper.save(pathWorkSpace, c.getName(), c.getContent());
 		
 		FileHelper.save(path, c.getName(), c.getContent());
@@ -142,22 +141,20 @@ public class ImportAppJava {
 	
 	private void processCompile() {
 		Collections.sort(this.pagesToCompile);
-		for(FileImportAppOrPage file:this.pagesToCompile){
-			String path = config.getPathServerClass(this.app.getDad())+"pages"+File.separator+file.getFolder().toLowerCase();
+		for(FileImportAppOrPage fileImport:this.pagesToCompile){
+			String path = config.getPathServerClass(this.app.getDad())+"pages"+File.separator+fileImport.getFolder().toLowerCase();
 			Compiler compiler = new Compiler();
-			compiler.addFileName(path + File.separator+file.getNome());
+			compiler.addFileName(path + File.separator+fileImport.getNome());
 			compiler.compile();
 			if (compiler.hasError()) {
-				this.errors.add("Ocorreu um erro ao compilar o ficheiro "+file.getNome());
+				this.errors.add("Ocorreu um erro ao compilar o ficheiro "+fileImport.getNome());
 			}
 		}
 	}
 	
 
 	private void saveReports(List<StoredReports> reports) {
-		reports.stream().forEach(report->{
-			this.saveReport(report);
-		});
+		reports.stream().forEach(this::saveReport);
 	}
 
 	private void saveReport(StoredReports report) {
@@ -222,13 +219,13 @@ public class ImportAppJava {
 			int index = content.indexOf("<process id=\"");
 			if(index != -1) {
 				String fileName = content.substring(index+"<process id=\"".length(), content.indexOf("\" name",content.indexOf("<process id=\"")))+"_"+this.app.getDad()+".bpmn20.xml";
-				InputStream file;
+				InputStream fileInput;
 				try {
-					file = FileHelper.convertStringToInputStream(content);
+					fileInput = FileHelper.convertStringToInputStream(content);
 					DeploymentServiceRest deployRest = new DeploymentServiceRest();
 					DeploymentService deploy = new DeploymentServiceRest().getDeploymentByName(fileName);
 					if(Core.isNull(deploy.getName()))
-						deployRest.create(file, this.app.getDad(), fileName, MediaType.APPLICATION_OCTET_STREAM);
+						deployRest.create(fileInput, this.app.getDad(), fileName, MediaType.APPLICATION_OCTET_STREAM);
 				} catch (Exception e) {
 					this.errors.add(e.getMessage());
 				} 
@@ -237,25 +234,21 @@ public class ImportAppJava {
 	}
 
 	private void saveConfigDb(List<StoredConfigDB> configsBd) {
-		configsBd.stream().forEach(c->{
-			this.saveConfigDb(c);
-		});
+		configsBd.stream().forEach(this::saveConfigDb);
 	}
 
 	private void saveConfigDb(StoredConfigDB c) {
-		Config_env config = new Config_env().find().andWhere("name", "=",c.getName()).andWhere("application", "=",this.app.getId()).one();
-		if(config == null) {
-			config = new Config_env();
-			Core.mapper(c, config);
-			config.setApplication(this.app);
-			config.insert();
+		Config_env configEnv = new Config_env().find().andWhere("name", "=",c.getName()).andWhere("application", "=",this.app.getId()).one();
+		if(configEnv == null) {
+			configEnv = new Config_env();
+			Core.mapper(c, configEnv);
+			configEnv.setApplication(this.app);
+			configEnv.insert();
 		}
 	}
 
 	private void savePages(List<StoredPages> pages) {
-		pages.stream().forEach(page->{
-			this.savePage(page);
-		});
+		pages.stream().forEach(this::savePage);
 	}
 
 	private void savePage(StoredPages page) {
@@ -265,7 +258,7 @@ public class ImportAppJava {
 			Core.mapper(page, action);
 			action.setApplication(this.app);
 			
-			action = action.insert();
+			action.insert();
 		}
 	}
 	

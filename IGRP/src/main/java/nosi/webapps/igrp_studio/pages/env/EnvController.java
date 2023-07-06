@@ -319,7 +319,7 @@ public class EnvController extends Controller {
 		/** End **/
 		boolean displaySubtitle = false;
 		boolean displayTitle = false;
-		xmlMenu.setElement("link_img", this.getConfig().getLinkImg());
+		xmlMenu.setElement("link_img", this.getConfig().getLinkImg(Config.DEFAULT_V_PAGE));
 		for(Profile profile:myApp){
 			xmlMenu.startElement("application");
 			xmlMenu.writeAttribute("available", "yes");

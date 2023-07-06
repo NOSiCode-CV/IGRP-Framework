@@ -11,7 +11,7 @@ import nosi.core.config.Config;
 import nosi.core.config.IHeaderConfig;
 import nosi.core.xml.XMLWritter;
 
-public class Generator2_3 implements IHeaderConfig{
+public class Generator2v3 implements IHeaderConfig{
 
 	private XMLWritter xml;
 	
@@ -23,8 +23,8 @@ public class Generator2_3 implements IHeaderConfig{
 	public String getTarget() {
 		return "_blank";
 	}
-	public Generator2_3(String xml) {
-		this.xml = new XMLWritter("rows",new Config().getLinkXSLGenerator(), "dash");
+	public Generator2v3(String xml) {
+		this.xml = new XMLWritter("rows",new Config().getLinkXSLGenerator("2.3"), "dash");
 		this.xml.addXml(new Config().getHeader(this));
 		this.xml.startElement("content");
 		this.xml.writeAttribute("type", "dash");

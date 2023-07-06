@@ -109,7 +109,7 @@ public class ImportJavaPage {
 			//String xslXMLJsonPath = config.getBaseServerPahtXsl(this.page.getApplication())+File.separator;
 			 path =  warName + File.separator + config.getImageAppPath(this.page.getApplication(),"2.3") + File.separator+folderPage.toLowerCase();
 			  
-			pathWorkSpace = this.config.getBasePahtXslWorkspace(this.page.getApplication())+File.separator+folderPage.toLowerCase();
+			pathWorkSpace = this.config.getBasePahtXslWorkspace(this.page.getApplication(),this.page.getVersion())+File.separator+folderPage.toLowerCase();
 			
 		}else if(c.getType().equalsIgnoreCase("pages")) {
 			path = classJavaPath+"pages"+File.separator+c.getFolder().toLowerCase();
