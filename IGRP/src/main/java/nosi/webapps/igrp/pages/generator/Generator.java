@@ -27,6 +27,7 @@ public class Generator extends Model{
 	private String tipo;
 	private String package_;
 	private String page;
+	private String version;
 	
 	public String getGen_elements() {
 		return gen_elements;
@@ -177,6 +178,12 @@ public class Generator extends Model{
 	}
 	public void setPage(String page) {
 		this.page = page;
+	}
+	public String getVersion() {
+		return version;
+	}
+	public void setVersion(String version) {
+		this.version = version;
 	}	
 	
 }

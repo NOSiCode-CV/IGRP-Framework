@@ -234,7 +234,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 		final Integer currentProfile = Core.getCurrentProfile();
 		final String deployedWarName = Core.getDeployedWarName();
 		final String aux = Igrp.getInstance().getServlet().getInitParameter("default_language");
-		Record row = Core.query(this.getConnectionName(), sqlMenuByProfile).union().select(sqlMenuByUser)
+		final Record row = Core.query(this.getConnectionName(), sqlMenuByProfile).union().select(sqlMenuByUser)
 				.addInt("org_fk", currentOrganization).addInt("prof_type_fk", currentProfile)
 				.addString("dad", currentDad).addInt("status", 1).addInt("org_fk", currentOrganization)
 				.addInt("prof_type_fk", currentProfile).addString("dad", currentDad).addInt("status", 1)

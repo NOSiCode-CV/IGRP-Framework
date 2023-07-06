@@ -112,7 +112,7 @@ public class PageController extends Controller {
 
 		view.env_fk.setValue(new Application().getListApps());
 		view.version.setValue(this.getConfig().getVersions());
-		view.version.setVisible(false);
+		
 		view.id.setParam(true);
 		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getEnv_fk())), "name",
 				"descricao", "-- Selecionar --"));
@@ -158,6 +158,7 @@ public class PageController extends Controller {
 			action.setStatus(model.getStatus());
 			action.setTipo(model.getPublico());
 			action.setIsComponent((short) model.getComponente());
+			action.setVersion(model.getVersion());
 
 			if (model.getModulo() != null && !model.getModulo().isEmpty())
 				action.setNomeModulo(model.getModulo());
@@ -189,7 +190,7 @@ public class PageController extends Controller {
 				Core.setMessageError();
 
 			this.addQueryString("p_id_page", idPage);
-			return this.redirect("igrp", "page", "index", this.queryString());
+			return this.renderView(pageView);
 
 			/****** ADICIONANDO NOVA PÁGINA ********/
 
@@ -209,8 +210,7 @@ public class PageController extends Controller {
 			action.setTipo(model.getPublico());
 			action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
 			action.setPackage_name("nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".pages");
-			action.setVersion(model.getVersion() == null ? "2.3." + Config.VERSION
-					: model.getVersion() + "." + Config.VERSION);
+			action.setVersion(model.getVersion());
 			action.setAction("index");
 			action.setIsComponent((short) model.getComponente());
 			action.setXsl_src(action.getApplication().getDad().toLowerCase() + "/" + action.getPage().toLowerCase()
@@ -268,9 +268,8 @@ public class PageController extends Controller {
 					app2.setAction(action);
 					app2.update();
 				}
-
-				this.addQueryString("p_env_fk", model.getEnv_fk());
-				return this.redirect("igrp", "page", "index", this.queryString());
+//				this.addQueryString("p_env_fk", model.getEnv_fk());
+				return this.renderView(pageView);
 
 			} else {
 				Core.setMessageError();
@@ -346,6 +345,8 @@ public class PageController extends Controller {
 	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 	
+	
+	PageView pageView = new PageView();
 	public Response actionSetModuloEditar(Page model) {
 		String xml = "<content>" + "<editar_modulo>"
 				+ StringEscapeUtils.escapeXml11(
@@ -624,7 +625,7 @@ public class PageController extends Controller {
 				if (index1 > 0) {
 					String c= "<?xml version=\"1.0\" encoding=\"UTF-8\"?><?xml-stylesheet href=\"../";
 					c += content.substring(content.indexOf("images/IGRP/"), index1 + "<rows>".length());
-					c += "<link_img>" + this.getConfig().getLinkImg() + "</link_img>";
+					c += "<link_img>" + this.getConfig().getLinkImg(ac.getVersion()) + "</link_img>";
 					c += content.substring(content.indexOf("</link_img>") + "</link_img>".length());
 					return this.renderView(c);
 				}
@@ -644,7 +645,7 @@ public class PageController extends Controller {
 			String content = FileHelper.readFile(pathXsl, ac.getPage() + ".xsl");
 			this.format = Response.FORMAT_XSL;
 			return this.renderView(content.replaceAll("<xsl:include href=\"../../../",
-					"<xsl:include href=\"" + this.getConfig().getLinkImg() + "/"));
+					"<xsl:include href=\"" + this.getConfig().getLinkImg(ac.getVersion()) + "/"));
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}

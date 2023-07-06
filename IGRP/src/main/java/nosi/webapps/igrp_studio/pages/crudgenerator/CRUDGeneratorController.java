@@ -257,7 +257,7 @@ public class CRUDGeneratorController extends Controller {
 			pageForm = new Action(pageNameForm, "index",
 					(NOSI_WEBAPPS + config.getApplication().getDad() + PAGES).toLowerCase(),
 					(config.getApplication().getDad() + "/" + pageNameForm).toLowerCase() + "/" + pageNameForm + ".xsl",
-					"Registar " + tableName, "Registar " + tableName, "2.3", 1, config.getApplication());
+					"Registar " + tableName, "Registar " + tableName, Config.DEFAULT_V_PAGE, 1, config.getApplication());
 			pageForm = pageForm.insert();
 
 		} else {
@@ -270,7 +270,7 @@ public class CRUDGeneratorController extends Controller {
 			pageList = new Action(pageNameList, "index",
 					(NOSI_WEBAPPS + config.getApplication().getDad() + PAGES).toLowerCase(),
 					(config.getApplication().getDad() + "/" + pageNameList).toLowerCase() + "/" + pageNameList + ".xsl",
-					"Listar " + tableName, "Listar " + tableName, "2.3", 1, config.getApplication());
+					"Listar " + tableName, "Listar " + tableName, Config.DEFAULT_V_PAGE, 1, config.getApplication());
 			pageList = pageList.insert();
 
 		} else {
@@ -318,10 +318,10 @@ public class CRUDGeneratorController extends Controller {
 		xmlSave = this.saveFiles(pageForm, pageForm.getPage() + ".xml", formXML)
 				&& this.saveFiles(pageList, pageList.getPage() + ".xml", listXML);
 
-		String xslFileNameFrom = this.getConfig().getLinkXSLGeneratorMCVForm();
-		String xslFileNameList = this.getConfig().getLinkXSLGeneratorMCVList();
-		String xslFileNameGen = this.getConfig().getLinkXSLGenerator_CRUD();
-		String jsonFileName = this.getConfig().getLinkXSLJsonGenerator();
+		String xslFileNameFrom = this.getConfig().getLinkXSLGeneratorMCVForm(pageForm.getVersion());
+		String xslFileNameList = this.getConfig().getLinkXSLGeneratorMCVList(pageList.getVersion());
+		String xslFileNameGen = this.getConfig().getLinkXSLGenerator_CRUD(pageForm.getVersion());
+		String jsonFileName = this.getConfig().getLinkXSLJsonGenerator(pageForm.getVersion());
 		String pathXslForm = this.getConfig().getCurrentBaseServerPahtXsl(pageForm) + File.separator
 				+ pageForm.getPage() + ".xml";
 		String pathXslList = this.getConfig().getCurrentBaseServerPahtXsl(pageList) + File.separator
