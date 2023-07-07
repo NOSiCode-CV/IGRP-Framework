@@ -270,7 +270,7 @@
       var tagName = defaults.tag || "action";
       var type = defaults.type || "text";
 
-      var setBTNAction = function (id, object) {
+      var setBTNAction = function (id) {
         if (options[0])
           for (var i = 0; i < options.length; i++) {
             var o = options[i];

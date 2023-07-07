@@ -32,7 +32,7 @@
         <xsl:value-of select="/rows/link_img" />
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>/IGRP/images/IGRP/IGRP2.4</xsl:text>
+        <xsl:text>/images/IGRP/IGRP2.4</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:variable>

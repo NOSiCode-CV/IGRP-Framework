@@ -33,7 +33,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>/igrp-design-system-beta/IGRP2.4/core/formgen/types/check_file.php?v=undefined</preserve_url>
+        <preserve_url>/images/IGRP2.4/core/formgen/types/check_file.php?v=undefined</preserve_url>
     </plsql>
     <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
