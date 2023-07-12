@@ -83,14 +83,14 @@
                 <page name="p_page" maxlength="200" disabled="false" readonly="false" required="false" type="text" change="false" value="Portal_di" placeholder="" right="false"></page>
             </label>
             <value>
-                <gen_elements name="p_gen_elements" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false">/images/IGRP/IGRP2.4/app/igrp/generator/config.txt?id=</gen_elements>
+                <gen_elements name="p_gen_elements" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false">/IGRP/images/IGRP/IGRP2.4/app/igrp/generator/config.txt?id=</gen_elements>
                 <has_menu name="p_has_menu" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></has_menu>
                 <id_objeto name="p_id_objeto" maxlength="30" disabled="false" readonly="false" required="false" type="number" change="false" value="4558" placeholder="" right="false">4558</id_objeto>
                 <nome name="p_nome" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></nome>
                 <link_image name="p_link_image" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false">/IGRP/images/IGRP/Config/img.list.php?name=</link_image>
                 <link_save name="p_link_save" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false"></link_save>
                 <link_doc name="p_link_doc" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false"></link_doc>
-                <page_form name="p_page_form" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false">/images/IGRP/IGRP2.4/app/igrp/generator/page.json</page_form>
+                <page_form name="p_page_form" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false">/IGRP/images/IGRP/IGRP2.4/app/igrp/generator/page.json</page_form>
                 <page_xml name="p_page_xml" maxlength="30" class="default" accept="file_extension" disabled="false" required="false" type="file" value="" right="false" multiple="false"></page_xml>
                 <page_xsl name="p_page_xsl" maxlength="30" class="default" accept="file_extension" disabled="false" required="false" type="file" value="" right="false" multiple="false"></page_xsl>
                 <data name="p_data" maxlength="30" class="default" accept="file_extension" disabled="false" required="false" type="file" value="" right="false" multiple="false"></data>

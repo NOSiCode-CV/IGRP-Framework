@@ -18,6 +18,7 @@
     <search-no-results>nenhum resultado encontrado</search-no-results>
     <add>adicionar</add>
     <remove>remover</remove>
+    <cancel>cancelar</cancel>
     <title>título</title>
 
     <table-striped>linhas listradas</table-striped>

@@ -32,7 +32,7 @@ app.get("/page-builder/check-file", (req, res) => {
   
 });
 
-app.use(express.static("."));
+app.use('/IGRP',express.static("."));
 
 app.listen(3000, () => {
   console.log("Server is running on http://localhost:3000");

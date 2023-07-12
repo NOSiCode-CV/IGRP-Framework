@@ -18,13 +18,17 @@ var GENSEPARATORLIST = function(name,params){
 			{ path   : '/plugins/separatorlist/igrp.separatorlist.css' },
 			/*{ path   : '/core/igrp/form/igrp.forms.css' }, */
 			//{ path   : '/core/igrp/table/igrp.tables.css' },
-			{ path   : '/core/igrp/table/dataTables.bootstrap.css' }
+			{ path   : '/core/igrp/table/dataTables.bootstrap.css' },
+
+			{ path   : '/components/separatorlist/igrp.separatorlist.css' },
 			
 		],
 		js  : [ 
+			
 			{ path   : '/plugins/separatorlist/igrp.separatorlist.js' },
 			{ path   : '/core/igrp/form/igrp.forms.js' }, 
-			{ path   : '/core/igrp/components/list-association/igrp.list.association.1.1.js' }
+			{ path   : '/core/igrp/components/list-association/igrp.list.association.1.1.js' },
+			{ path   : '/components/separatorlist/igrp.separatorlist.js' }, 
 		]
 	};
 
@@ -66,6 +70,12 @@ var GENSEPARATORLIST = function(name,params){
 	};
 
 	container.ready = function(){
+
+		container.setPropriety({
+			name:'hasTitle',
+			value:true,
+			editable:false
+		});
 
 		container.setPropriety({
 			name:'dialog',

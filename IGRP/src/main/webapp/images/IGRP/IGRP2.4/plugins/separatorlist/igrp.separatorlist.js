@@ -395,6 +395,14 @@ $.fn.separatorList = function(o){
 				fChange  = null,
 				arrField = [];  
 
+			$(sl).trigger('row-edit-start', [{
+				
+				row : row
+				
+			}])
+
+			console.log(fields)
+
 			resetForm(fields,sl);
 			
 			rowEdit.set({
@@ -458,6 +466,13 @@ $.fn.separatorList = function(o){
 			if (isChange) {
 				fChange.change();
 			}
+
+			$(sl).trigger('row-edit-ready', [{
+					
+				row : row
+				
+			}])
+
 		};
 
 		var removeRow = function(sl,row){
@@ -818,6 +833,7 @@ $.fn.separatorList = function(o){
 			sl.events.execute('form-reset',fields);
 		};
 		
+		
 		//
 
 		var customFieldsConfig = function(sl){
@@ -1084,6 +1100,15 @@ $.fn.separatorList = function(o){
 				}
 			});
 		};
+
+		var setTemplates = (templates)=>{
+			options.templates = {
+				...options.templates,
+				...templates
+			};
+
+			console.log(options.templates)
+		}
 		
 		$.each(this,function(i,sl){
 			sl.name     = $(sl).attr('tag');  
@@ -1099,6 +1124,10 @@ $.fn.separatorList = function(o){
 				"form-reset",
 				"reset-all"
 			]);
+
+			sl.resetForm = resetForm;
+
+			sl.setTemplates = setTemplates;
 
 			slOptionsCtrl(sl);
 
