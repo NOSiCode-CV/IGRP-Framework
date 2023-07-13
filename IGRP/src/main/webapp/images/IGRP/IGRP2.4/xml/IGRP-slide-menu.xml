@@ -126,6 +126,12 @@
   <menu>
     <title>Advanced UI</title>
     <icon>ri-stack-line</icon>
+
+    <submenu>
+      <title>Separator List</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/app/uxi/separatorlist-new/app.xml</link>
+    </submenu>
+
     <submenu>
       <title>Sweet Alert</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-sweet-alerts.xml</link>
