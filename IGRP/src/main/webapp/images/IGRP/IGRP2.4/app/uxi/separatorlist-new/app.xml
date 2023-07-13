@@ -38,87 +38,69 @@
     <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>IGRP 2.4 Dashboard</title>
-        <separatorlist_1 type="separatorlist" xml-type="separatorlist" title="Separatorlist" gen-clean="true" gen-type="container" gen-group="true">
+        <separatorlist_1 type="separatorlist" xml-type="separatorlist" title="Clientes" gen-clean="true" gen-type="container" gen-group="true">
             <fields>
                 <separatorlist_1_text_1 name="p_separatorlist_1_text_1" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" disablehtml="true" placeholder="" desclabel="false" desc="true">
-                    <label>Text</label>
-                    <value>Officia omnis rem sed officia</value>
+                    <label>Nome</label>
+                    <value>Dolor sed aliqua omnis labore</value>
                 </separatorlist_1_text_1>
-                <separatorlist_1_select_1 name="p_separatorlist_1_select_1" type="select" placeholder="" multiple="false" tags="false" load_service_data="false" domain="" maxlength="250" required="false" change="false" disabled="false" java-type="" desc="true">
-                    <label>Select</label>
-                    <list>
-                        <option>
-                            <text>--</text>
-                            <value/>
-                        </option>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </separatorlist_1_select_1>
                 <separatorlist_1_date_1 name="p_separatorlist_1_date_1" type="date" format="d-m-Y" enableTime="false" range="false" disableWeekends="false" disabledBeforetoday="false" daysoff="false" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" class="primary" desc="true">
-                    <label>Date</label>
-                    <value>05-02-2012</value>
+                    <label>Data de Nascimento</label>
+                    <value>06-04-2013</value>
                 </separatorlist_1_date_1>
             </fields>
             <table>
                 <value>
                     <row>
-                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Accusantium stract officia sed iste</separatorlist_1_text_1>
-                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Accusantium stract officia sed iste</separatorlist_1_text_1_desc>
-                        <separatorlist_1_select_1 name="p_separatorlist_1_select_1" desc="true">2</separatorlist_1_select_1>
-                        <separatorlist_1_select_1_desc name="p_separatorlist_1_select_1_desc">2</separatorlist_1_select_1_desc>
-                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">07-07-2011</separatorlist_1_date_1>
-                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">07-07-2011</separatorlist_1_date_1_desc>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Stract sed anim amet sed</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Stract sed anim amet sed</separatorlist_1_text_1_desc>
+                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">01-03-2016</separatorlist_1_date_1>
+                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">01-03-2016</separatorlist_1_date_1_desc>
                     </row>
                     <row>
-                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Totam amet adipiscing aperiam amet</separatorlist_1_text_1>
-                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Totam amet adipiscing aperiam amet</separatorlist_1_text_1_desc>
-                        <separatorlist_1_select_1 name="p_separatorlist_1_select_1" desc="true">2</separatorlist_1_select_1>
-                        <separatorlist_1_select_1_desc name="p_separatorlist_1_select_1_desc">2</separatorlist_1_select_1_desc>
-                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">03-07-2010</separatorlist_1_date_1>
-                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">03-07-2010</separatorlist_1_date_1_desc>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Officia laudantium amet totam natus</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Officia laudantium amet totam natus</separatorlist_1_text_1_desc>
+                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">08-06-2012</separatorlist_1_date_1>
+                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">08-06-2012</separatorlist_1_date_1_desc>
                     </row>
                     <row>
-                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Laudantium omnis rem ut totam</separatorlist_1_text_1>
-                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Laudantium omnis rem ut totam</separatorlist_1_text_1_desc>
-                        <separatorlist_1_select_1 name="p_separatorlist_1_select_1" desc="true">2</separatorlist_1_select_1>
-                        <separatorlist_1_select_1_desc name="p_separatorlist_1_select_1_desc">2</separatorlist_1_select_1_desc>
-                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">08-08-2013</separatorlist_1_date_1>
-                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">08-08-2013</separatorlist_1_date_1_desc>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Perspiciatis voluptatem labore consectetur anim</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Perspiciatis voluptatem labore consectetur anim</separatorlist_1_text_1_desc>
+                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">06-04-2017</separatorlist_1_date_1>
+                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">06-04-2017</separatorlist_1_date_1_desc>
                     </row>
                     <row>
-                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Rem officia natus amet laudantium</separatorlist_1_text_1>
-                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Rem officia natus amet laudantium</separatorlist_1_text_1_desc>
-                        <separatorlist_1_select_1 name="p_separatorlist_1_select_1" desc="true">2</separatorlist_1_select_1>
-                        <separatorlist_1_select_1_desc name="p_separatorlist_1_select_1_desc">2</separatorlist_1_select_1_desc>
-                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">05-04-2016</separatorlist_1_date_1>
-                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">05-04-2016</separatorlist_1_date_1_desc>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Aliqua sed mollit deserunt mollit</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Aliqua sed mollit deserunt mollit</separatorlist_1_text_1_desc>
+                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">03-07-2013</separatorlist_1_date_1>
+                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">03-07-2013</separatorlist_1_date_1_desc>
                     </row>
                     <row>
-                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Lorem dolor laudantium magna sit</separatorlist_1_text_1>
-                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Lorem dolor laudantium magna sit</separatorlist_1_text_1_desc>
-                        <separatorlist_1_select_1 name="p_separatorlist_1_select_1" desc="true">2</separatorlist_1_select_1>
-                        <separatorlist_1_select_1_desc name="p_separatorlist_1_select_1_desc">2</separatorlist_1_select_1_desc>
-                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">08-01-2016</separatorlist_1_date_1>
-                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">08-01-2016</separatorlist_1_date_1_desc>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Consectetur dolor magna rem totam</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Consectetur dolor magna rem totam</separatorlist_1_text_1_desc>
+                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">06-03-2017</separatorlist_1_date_1>
+                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">06-03-2017</separatorlist_1_date_1_desc>
                     </row>
                 </value>
             </table>
         </separatorlist_1>
+        <separatorlist_2 type="separatorlist" xml-type="separatorlist" title="Fornecedores" gen-clean="true" gen-type="container" gen-group="true">
+            <fields>
+                <separatorlist_2_text_1 name="p_separatorlist_2_text_1" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" disablehtml="true" placeholder="" desclabel="false" desc="true">
+                    <label>Nome</label>
+                    <value>Labore doloremque rem natus aperiam</value>
+                </separatorlist_2_text_1>
+                <separatorlist_2_email_1 name="p_separatorlist_2_email_1" type="email" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" desc="true">
+                    <label>Email</label>
+                    <value>baniv@example.com</value>
+                </separatorlist_2_email_1>
+            </fields>
+            <table>
+                <value>
+                 
+                </value>
+            </table>
+        </separatorlist_2>
     </content>
     <blockly></blockly>
 </rows>

@@ -401,8 +401,6 @@ $.fn.separatorList = function(o){
 				
 			}])
 
-			console.log(fields)
-
 			resetForm(fields,sl);
 			
 			rowEdit.set({
@@ -1106,8 +1104,6 @@ $.fn.separatorList = function(o){
 				...options.templates,
 				...templates
 			};
-
-			console.log(options.templates)
 		}
 		
 		$.each(this,function(i,sl){

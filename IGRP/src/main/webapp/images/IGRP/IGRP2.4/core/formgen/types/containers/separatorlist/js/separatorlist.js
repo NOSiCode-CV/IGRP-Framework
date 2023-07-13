@@ -135,6 +135,7 @@ var GENSEPARATORLIST = function(name,params){
 
 	container.onDrawEnd = function(){
 		$('.IGRP-separatorlist',container.holder).separatorList();
+		$.IGRP.components['separatorlist-ext']?.init( container.holder.find('.IGRP-separatorlist') );
 	}
 }
 

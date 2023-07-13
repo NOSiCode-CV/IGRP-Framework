@@ -2,14 +2,15 @@
     padding-left: 16px;
 }
 
-.splist-form-holder{
+.IGRP-separatorlist .splist-form-holder{
     display:none;
 }
 
-.splist-form-holder.active{
+.IGRP-separatorlist .splist-form-holder.active{
     display:block
 }
 
 .IGRP-separatorlist .table-row-add{
     display: none!important;
 }
+

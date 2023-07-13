@@ -1,6 +1,6 @@
 (function(){
     
-    const SeparatorComponent = (el,id)=>{
+    const SeparatorComponent = function(el,id){
         const com = this;
         const card = $(el).parents('.card')[0];
         const formWrapper = $('.splist-form-holder', el);
@@ -13,13 +13,9 @@
         }
         
         const setEvents = ()=>{
-
             $(el).on('row-edit-start', (e,data)=>com.onEdition(data) );
-
         }
         
-
-
         com.countHeaders = ()=>{
             return table.find('thead>tr>th').length;
         }
@@ -39,7 +35,7 @@
         com.showAddRow = (row)=>{
             const html = `
             <tr class="created-row-tr">
-                <td colspan="${this.countHeaders()}" class="table-form-wrapper">
+                <td colspan="${this.countHeaders()}" class="table-form-wrapper bg-light">
                     <div class="d-flex align-items-center justify-content-end">
                         <a href="#" class="btn btn-sm btn-light text-capitalize cancel-add-row me-2">
                             ${$.IGRP.locale.get('cancel')}
@@ -53,14 +49,9 @@
             </tr>`;
           
             if(row){
-
                 const rowIndex = $(row).index();
-
                 $(`tbody tr:nth-child(${rowIndex +1 })`, table).after(html);
-
-            }
-                
-            else
+            }else
                 table.find('tbody').prepend(html);
             
             formWrapper.prependTo( $('.table-form-wrapper', table) );
@@ -117,17 +108,19 @@
    
     const app = {
         list : {},
-        init : ()=>{
-          const Separators = $('.IGRP-separatorlist');
+        init : (elements)=>{
+          const Separators = elements || $('.IGRP-separatorlist');
           Separators.each( (i,el)=>{
             const id = $(el).attr('tag');
-            const component = SeparatorComponent(el,id);
+            const component = new SeparatorComponent(el,id);
             
             app.list[id] = component;
           });
+
+          
         }
     };
-
+    console.log(app)
     $.IGRP.component('separatorlist-ext', app, true);
 
 })();
