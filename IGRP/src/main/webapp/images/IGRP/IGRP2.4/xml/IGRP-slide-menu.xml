@@ -1,14 +1,14 @@
 <menus>
   <!--Titulo de Menus-->
   <title>Home</title>
-  <link>/images/IGRP/IGRP2.4/xml/</link>
+  <link>/IGRP/images/IGRP/IGRP2.4/xml/</link>
 
   <menu>
     <title>Getting Started</title>
     <icon> ri-home-2-line</icon>
     <submenu>
       <title>Principles</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-principles.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-principles.xml</link>
     </submenu>
 
   </menu>
@@ -18,15 +18,15 @@
     <icon>ri-paint-brush-line</icon>
     <submenu>
       <title>Typography</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-foundations-typography.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-foundations-typography.xml</link>
     </submenu>
     <submenu>
       <title>Grid System</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-foundations-grid.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-foundations-grid.xml</link>
     </submenu>
     <submenu>
       <title>Colors</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-foundations-colors.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-foundations-colors.xml</link>
     </submenu>
   </menu>
 
@@ -36,87 +36,87 @@
     <!--Respectivos submenus-->
     <submenu>
       <title>Alerts</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-alert.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-alert.xml</link>
     </submenu>
     <submenu>
       <title>Badges</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-badges.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-badges.xml</link>
     </submenu>
     <submenu>
       <title>Buttons</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-buttons.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-buttons.xml</link>
     </submenu>
     <submenu>
       <title>Cards</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-cards.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-cards.xml</link>
     </submenu>
     <submenu>
       <title>Carousel</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-carousel.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-carousel.xml</link>
     </submenu>
     <submenu>
       <title>Dropdows</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-dropdows.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-dropdows.xml</link>
     </submenu>
     <submenu>
       <title>Images</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-images.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-images.xml</link>
     </submenu>
     <submenu>
       <title>Tabs</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-tabs.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-tabs.xml</link>
     </submenu>
     <submenu>
       <title>Accordion &amp; Collapes</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-accordions.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-accordions.xml</link>
     </submenu>
     <submenu>
       <title>Modals</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-modals.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-modals.xml</link>
     </submenu>
     <submenu>
       <title>Offcanvas</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-offcanvas.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-offcanvas.xml</link>
     </submenu>
     <submenu>
       <title>Placeholders</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-placeholders.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-placeholders.xml</link>
     </submenu>
     <submenu>
       <title>Progress</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-progress.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-progress.xml</link>
     </submenu>
     <submenu>
       <title>Notifications</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-notifications.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-notifications.xml</link>
     </submenu>
     <submenu>
       <title>Media object</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-media.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-media.xml</link>
     </submenu>
     <submenu>
       <title>Embed Video</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-embed-video.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-embed-video.xml</link>
     </submenu>
     <submenu>
       <title>Typography</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-foundations-typography.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-foundations-typography.xml</link>
     </submenu>
     <submenu>
       <title>Lists</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-list.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-list.xml</link>
     </submenu>
     <submenu>
       <title>General</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-general.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-general.xml</link>
     </submenu>
     <submenu>
       <title>Ribbons</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-ribbons.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-ribbons.xml</link>
     </submenu>
     <submenu>
       <title>Utilities</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-base-ui-utilities.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-utilities.xml</link>
     </submenu>
 
     <icon>ri-pencil-ruler-2-line</icon>
@@ -128,44 +128,44 @@
     <icon>ri-stack-line</icon>
     <submenu>
       <title>Sweet Alert</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-sweet-alerts.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-sweet-alerts.xml</link>
     </submenu>
 
     <submenu>
       <title>Nestable List</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-nestable-list.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-nestable-list.xml</link>
     </submenu>
     <submenu>
       <title>Scrollbar</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-scrollbar.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-scrollbar.xml</link>
     </submenu>
     <submenu>
       <title>Animation</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-animation.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-animation.xml</link>
     </submenu>
     <submenu>
       <title>Tour</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-tour.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-tour.xml</link>
     </submenu>
     <submenu>
       <title>Swiper Slider</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-swiper-slider.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-swiper-slider.xml</link>
     </submenu>
     <submenu>
       <title>Rating</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-ratings.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-ratings.xml</link>
     </submenu>
     <submenu>
       <title>Highlight</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-highlight.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-highlight.xml</link>
     </submenu>
     <submenu>
       <title>ScrollSpy</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-scrollspy.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-scrollspy.xml</link>
     </submenu>
     <submenu>
       <title>Widgets</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-widgets.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-advanced-ui-widgets.xml</link>
     </submenu>
   </menu>
 
@@ -176,67 +176,67 @@
 
     <submenu>
       <title>Basic Elements</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-form-elements.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-form-elements.xml</link>
     </submenu>
 
     <submenu>
       <title>Form Select</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-form-select.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-form-select.xml</link>
     </submenu>
 
     <submenu>
       <title>Checkboxs &amp; Radios</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-form-checkbox.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-form-checkbox.xml</link>
     </submenu>
 
     <submenu>
       <title>Pickers</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-form-pickers.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-form-pickers.xml</link>
     </submenu>
 
     <submenu>
       <title>Input Masks</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-form-mask.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-form-mask.xml</link>
     </submenu>
 
     <submenu>
       <title>Advanced</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-form-advanced.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-form-advanced.xml</link>
     </submenu>
 
     <submenu>
       <title>Range Slider</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-form-range-slider.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-form-range-slider.xml</link>
     </submenu>
 
     <submenu>
       <title>Validation</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-form-validation.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-form-validation.xml</link>
     </submenu>
 
     <submenu>
       <title>Wizard</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-form-wizard.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-form-wizard.xml</link>
     </submenu>
 
     <submenu>
       <title>Editors</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-form-editors.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-form-editors.xml</link>
     </submenu>
 
     <submenu>
       <title>File Upload</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-form-file-upload.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-form-file-upload.xml</link>
     </submenu>
 
     <submenu>
       <title>Form Layouts</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-form-layouts.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-form-layouts.xml</link>
     </submenu>
 
     <submenu>
       <title>Select2</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-form-select2.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-form-select2.xml</link>
     </submenu>
 
 
@@ -250,22 +250,22 @@
 
     <submenu>
       <title>Basic Tables</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-table-basic.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-table-basic.xml</link>
     </submenu>
 
     <submenu>
       <title>Grid JS</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-table-grid.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-table-grid.xml</link>
     </submenu>
 
     <submenu>
       <title>List JS</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-table-lists.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-table-lists.xml</link>
     </submenu>
 
     <submenu>
       <title>Datatable</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-table-datatable.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-table-datatable.xml</link>
     </submenu>
 
   </menu>
@@ -276,17 +276,17 @@
 
     <submenu>
       <title>Apexcharts</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-chart-apex.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex.xml</link>
     </submenu>
 
     <submenu>
       <title>Chartsjs</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-chart-chartjs.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-chartjs.xml</link>
     </submenu>
 
     <submenu>
       <title>Echarts</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-chart-echart.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-echart.xml</link>
     </submenu>
 
   </menu>
@@ -297,17 +297,17 @@
 
     <submenu>
       <title>Google</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-maps-google.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-maps-google.xml</link>
     </submenu>
 
     <submenu>
       <title>Vector</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-maps-vector.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-maps-vector.xml</link>
     </submenu>
 
     <submenu>
       <title>Leaflet</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-maps-leaflet.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-maps-leaflet.xml</link>
     </submenu>
 
   </menu>
@@ -318,38 +318,38 @@
     <!--Respectivos submenus-->
     <submenu>
       <title>Analytics</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-home.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-home.xml</link>
     </submenu>
     <submenu>
       <title>CRM</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-dashboard-crm.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-dashboard-crm.xml</link>
     </submenu>
     <submenu>
       <title>E-commerce</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-dashboard-ecommerce.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-dashboard-ecommerce.xml</link>
     </submenu>
     <submenu>
       <title>Base UI</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-dashboard-base-ui.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-dashboard-base-ui.xml</link>
     </submenu>
 
     <submenu>
       <title>Widgets</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-widgets.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-widgets.xml</link>
     </submenu>
 
     <submenu>
       <title>Crypto</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-dashboard-crypto.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-dashboard-crypto.xml</link>
     </submenu>
     <submenu>
       <title>Projects</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-dashboard-projects.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-dashboard-projects.xml</link>
     </submenu>
 
     <submenu>
       <title>NFT</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-dashboard-nft.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-dashboard-nft.xml</link>
     </submenu>
 
   </menu>
@@ -361,52 +361,52 @@
     <!--Respectivos submenus-->
     <submenu>
       <title>Products</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-products.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-products.xml</link>
     </submenu>
 
     <submenu>
       <title>Products Details</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-products-details.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-products-details.xml</link>
     </submenu>
 
     <submenu>
       <title>Create Products</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-create-product.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-create-product.xml</link>
     </submenu>
 
     <submenu>
       <title>Orders</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-order.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-order.xml</link>
     </submenu>
 
     <submenu>
       <title>Order Details</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-order-details.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-order-details.xml</link>
     </submenu>
 
     <submenu>
       <title>Costumers</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-costumers.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-costumers.xml</link>
     </submenu>
 
     <submenu>
       <title>Shopping Cart</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-cart.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-cart.xml</link>
     </submenu>
 
     <submenu>
       <title>Checkout</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-checkout.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-checkout.xml</link>
     </submenu>
 
     <submenu>
       <title>Seller</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-seller.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-seller.xml</link>
     </submenu>
 
     <submenu>
       <title>Seller Details</title>
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-seller-details.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-ecommerce-seller-details.xml</link>
     </submenu>
   </menu>
 
@@ -419,7 +419,7 @@
       <!-- Titulo de Sub Menu-->
       <title>Gestão de Utilizadores</title>
       <!-- Link de Sub menu-->
-      <link>/images/IGRP/IGRP2.4/xml/IGRP-gestao-utilizadores.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-gestao-utilizadores.xml</link>
       <id>5</id>
       <status>0</status>
     </submenu>
@@ -428,7 +428,7 @@
       <!-- Titulo de Sub Menu-->
       <title>Informações do Cliente</title>
       <!-- Link de Sub menu-->
-      <link>/images/IGRP/IGRP2.4/xml/user.xml</link>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/user.xml</link>
       <id>66</id>
       <status>0</status>
     </submenu>
