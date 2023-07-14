@@ -804,10 +804,7 @@
                     basePath : '<xsl:value-of select="$path"/>/core/formgen/util/java',
 
                     codes : [
-                        {
-                            name : 'INTERFACE',
-                            xsl  : 'mvc/XSL_INTERFACE.xsl'
-                        },
+                        
                         {
                             name : 'CONTROLLER',
                             xsl  : 'mvc/XSL_CONTROLLER.xsl'
@@ -820,6 +817,11 @@
                         {
                             name : 'VIEW',
                             xsl  : 'mvc/XSL_VIEW.xsl'
+                        },
+
+                        {
+                            name : 'INTERFACE',
+                            xsl  : 'mvc/XSL_INTERFACE.xsl'
                         },
 
                     ]

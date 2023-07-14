@@ -491,8 +491,12 @@
 				     	</xsl:call-template>
 
 				     	<xsl:if test="not(@custom_return) or @custom_return!='true'">
-					     	<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString());')"/>
-					   	</xsl:if>
+							<xsl:value-of select="concat('return ',$page,'.',$action_name_,'(model);')"/>	
+							<!--
+								<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString());')"/>
+							-->
+						
+						</xsl:if>
 						
 					</xsl:when>
 					<xsl:when test="$type_render_='render_message'">
@@ -558,7 +562,8 @@
 			     	
 					<xsl:call-template name="newlineTab2"/>		
 					<xsl:if test="not(@custom_return) or @custom_return!='true'">
-							<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString());')"/>
+						<xsl:value-of select="concat('return ',$page,'.',$action_name_,'(model);')"/>	
+						<!--<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString());')"/>-->
 					</xsl:if>
 				</xsl:if>
 			</xsl:otherwise>

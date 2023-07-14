@@ -28,7 +28,9 @@
                                 <xsl:value-of select="rows/content/separatorlist_1/@title"/>
                               </h3>
                               <xsl:if test="(not(rows/content/separatorlist_1/@noadd) or rows/content/separatorlist_1/@noadd != 'true')">
-                                <xsl:call-template name="igrp-separatorlist-add"/>
+                                <div class="ms-auto">
+                                  <xsl:call-template name="igrp-separatorlist-add"/>
+                                </div>
                               </xsl:if>
                             </div>
                             <div class="box-body card-body IGRP-separatorlist pt-0" tag="separatorlist_1" dialog="false">

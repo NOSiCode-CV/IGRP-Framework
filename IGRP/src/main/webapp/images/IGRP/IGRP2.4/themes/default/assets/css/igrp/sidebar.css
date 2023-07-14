@@ -1,0 +1,5 @@
+[data-sidebar-size="sm"] .menu-searcher,
+[data-layout="horizontal"] .menu-searcher,
+[data-layout="twocolumn"] .menu-searcher{
+    display: none;
+}
