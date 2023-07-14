@@ -28,7 +28,11 @@
                                 <xsl:value-of select="rows/content/separatorlist_1/@title"/>
                               </h3>
                               <xsl:if test="(not(rows/content/separatorlist_1/@noadd) or rows/content/separatorlist_1/@noadd != 'true')">
-                                <div class="ms-auto">
+                                <div class="ms-auto d-flex align-items-center">
+                                  <a href="#" class=" fs-12 link-muted p-2 export-data d-flex align-items-center me-1">
+                                    Exportar
+                                  </a>
+                   
                                   <a class="btn fs-12 btn-sm btn-success show-add-row text-capitalize">
                                     <xsl:value-of select="$locale-strings/add"/>
                                   </a>
@@ -155,8 +159,8 @@
                                         <td data-row="{position()}" class="table-btn" style="vertical-align:middle">
                                           <div class="d-flex align-items-center">
                                             <xsl:if test="not(//rows/content/separatorlist_1/@noedit) or //rows/content/separatorlist_1/@noedit != 'true'">
-                                              <span class="table-row-undo btn btn-ghost-info d-none" rel="separatorlist_1">
-                                                <i class="fa fa-undo"/>
+                                              <span class="table-row-undo btn btn-ghost-dark d-none" rel="separatorlist_1">
+                                                <i class="ri-arrow-go-back-line"/>
                                               </span>
                                               <span class="table-row-edit btn btn-ghost-success " rel="separatorlist_1">
                                                 <i class="ri-edit-2-line"/>
@@ -188,7 +192,10 @@
                                 <xsl:value-of select="rows/content/separatorlist_2/@title"/>
                               </h3>
                               <xsl:if test="(not(rows/content/separatorlist_2/@noadd) or rows/content/separatorlist_2/@noadd != 'true')">
-                                <div class="ms-auto">
+                                <div class="ms-auto d-flex align-items-center ">
+                                  <a class="btn fs-12 btn-sm link-dark export-data me-1">
+                                    Exportar
+                                  </a>
                                   <a class="btn fs-12 btn-sm btn-success show-add-row text-capitalize">
                                     <xsl:value-of select="$locale-strings/add"/>
                                   </a>
@@ -311,7 +318,7 @@
                                         <td data-row="{position()}" class="table-btn" style="vertical-align:middle">
                                           <div class="d-flex align-items-center">
                                             <xsl:if test="not(//rows/content/separatorlist_2/@noedit) or //rows/content/separatorlist_2/@noedit != 'true'">
-                                              <span class="table-row-undo btn btn-ghost-info d-none" rel="separatorlist_2">
+                                              <span class="table-row-undo btn btn-ghost-warning d-none" rel="separatorlist_2">
                                                 <i class="fa fa-undo"/>
                                               </span>
                                               <span class="table-row-edit btn btn-ghost-success " rel="separatorlist_2">
@@ -329,6 +336,13 @@
                                     </xsl:for-each>
                                   </tbody>
                                 </table>
+                                <xsl:if test="not(rows/content/separatorlist_2/table/value/row[0])">
+                                  <div class="p-3 no-data-message">
+                                    <i class="small">
+                                      <xsl:value-of select="$locale-strings/separator-list-no-data-found"/>
+                                    </i>
+                                  </div>
+                                </xsl:if>
                               </div>
                             </div>
                           </div>

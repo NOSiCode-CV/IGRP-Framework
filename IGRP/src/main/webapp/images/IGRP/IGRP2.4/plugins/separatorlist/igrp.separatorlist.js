@@ -378,11 +378,13 @@ $.fn.separatorList = function(o){
 				}
 
 				rtn = true;
+
+				
 				
 			}else{
 				console.log('error')
 			}
-
+			
 			return rtn;
 		};
 
@@ -830,9 +832,6 @@ $.fn.separatorList = function(o){
 
 			sl.events.execute('form-reset',fields);
 		};
-		
-		
-		//
 
 		var customFieldsConfig = function(sl){
 			//LINK FIELD
@@ -1105,7 +1104,7 @@ $.fn.separatorList = function(o){
 				...templates
 			};
 		}
-		
+
 		$.each(this,function(i,sl){
 			sl.name     = $(sl).attr('tag');  
 			sl.isDialog = $(sl).attr('dialog') == 'true' ? true : false;

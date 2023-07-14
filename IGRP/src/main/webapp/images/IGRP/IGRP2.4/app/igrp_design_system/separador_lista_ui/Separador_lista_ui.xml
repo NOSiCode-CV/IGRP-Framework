@@ -38,11 +38,11 @@
     <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Separador Lista UI</title>
-        <separatorlist_1 type="separatorlist" xml-type="separatorlist" title="Separatorlist" gen-clean="true" gen-type="container" gen-group="true">
+        <separatorlist_1 type="separatorlist" xml-type="separatorlist" title="Separator List" gen-clean="true" gen-type="container" gen-group="true">
             <fields>
                 <separatorlist_1_text_1 name="p_separatorlist_1_text_1" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" disablehtml="true" placeholder="" desclabel="false" desc="true">
                     <label>Text</label>
-                    <value>Doloremque stract sed sit unde</value>
+                    <value>Elit omnis elit deserunt natus</value>
                 </separatorlist_1_text_1>
                 <separatorlist_1_select_1 name="p_separatorlist_1_select_1" type="select" placeholder="" multiple="false" tags="false" load_service_data="false" domain="" maxlength="250" required="false" change="false" disabled="false" java-type="" desc="true">
                     <label>Select</label>
@@ -71,64 +71,64 @@
                 </separatorlist_1_select_1>
                 <separatorlist_1_date_1 name="p_separatorlist_1_date_1" type="date" format="d-m-Y" enableTime="false" range="false" disableWeekends="false" disabledBeforetoday="false" daysoff="false" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" class="primary" desc="true">
                     <label>Date</label>
-                    <value>07-04-2015</value>
+                    <value>05-02-2011</value>
                 </separatorlist_1_date_1>
                 <separatorlist_1_email_1 name="p_separatorlist_1_email_1" type="email" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" desc="true">
                     <label>Email</label>
-                    <value>lil@example.com</value>
+                    <value>tifha@example.com</value>
                 </separatorlist_1_email_1>
             </fields>
             <table>
                 <value>
                     <row>
-                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Amet elit voluptatem natus ut</separatorlist_1_text_1>
-                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Amet elit voluptatem natus ut</separatorlist_1_text_1_desc>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Doloremque consectetur lorem ut unde</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Doloremque consectetur lorem ut unde</separatorlist_1_text_1_desc>
                         <separatorlist_1_select_1 name="p_separatorlist_1_select_1" desc="true">2</separatorlist_1_select_1>
                         <separatorlist_1_select_1_desc name="p_separatorlist_1_select_1_desc">2</separatorlist_1_select_1_desc>
-                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">08-05-2013</separatorlist_1_date_1>
-                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">08-05-2013</separatorlist_1_date_1_desc>
-                        <separatorlist_1_email_1 name="p_separatorlist_1_email_1" desc="true">abhep@example.com</separatorlist_1_email_1>
-                        <separatorlist_1_email_1_desc name="p_separatorlist_1_email_1_desc">abhep@example.com</separatorlist_1_email_1_desc>
+                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">02-05-2017</separatorlist_1_date_1>
+                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">02-05-2017</separatorlist_1_date_1_desc>
+                        <separatorlist_1_email_1 name="p_separatorlist_1_email_1" desc="true">ota@example.com</separatorlist_1_email_1>
+                        <separatorlist_1_email_1_desc name="p_separatorlist_1_email_1_desc">ota@example.com</separatorlist_1_email_1_desc>
                     </row>
                     <row>
-                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Officia unde consectetur voluptatem elit</separatorlist_1_text_1>
-                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Officia unde consectetur voluptatem elit</separatorlist_1_text_1_desc>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Sed officia sed doloremque voluptatem</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Sed officia sed doloremque voluptatem</separatorlist_1_text_1_desc>
                         <separatorlist_1_select_1 name="p_separatorlist_1_select_1" desc="true">2</separatorlist_1_select_1>
                         <separatorlist_1_select_1_desc name="p_separatorlist_1_select_1_desc">2</separatorlist_1_select_1_desc>
-                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">01-03-2012</separatorlist_1_date_1>
-                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">01-03-2012</separatorlist_1_date_1_desc>
-                        <separatorlist_1_email_1 name="p_separatorlist_1_email_1" desc="true">lonworfol@example.com</separatorlist_1_email_1>
-                        <separatorlist_1_email_1_desc name="p_separatorlist_1_email_1_desc">lonworfol@example.com</separatorlist_1_email_1_desc>
+                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">01-08-2012</separatorlist_1_date_1>
+                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">01-08-2012</separatorlist_1_date_1_desc>
+                        <separatorlist_1_email_1 name="p_separatorlist_1_email_1" desc="true">wedpe@example.com</separatorlist_1_email_1>
+                        <separatorlist_1_email_1_desc name="p_separatorlist_1_email_1_desc">wedpe@example.com</separatorlist_1_email_1_desc>
                     </row>
                     <row>
-                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Unde omnis dolor amet rem</separatorlist_1_text_1>
-                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Unde omnis dolor amet rem</separatorlist_1_text_1_desc>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Laudantium perspiciatis mollit accusantium lorem</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Laudantium perspiciatis mollit accusantium lorem</separatorlist_1_text_1_desc>
                         <separatorlist_1_select_1 name="p_separatorlist_1_select_1" desc="true">2</separatorlist_1_select_1>
                         <separatorlist_1_select_1_desc name="p_separatorlist_1_select_1_desc">2</separatorlist_1_select_1_desc>
-                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">04-08-2011</separatorlist_1_date_1>
-                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">04-08-2011</separatorlist_1_date_1_desc>
-                        <separatorlist_1_email_1 name="p_separatorlist_1_email_1" desc="true">kiflaru@example.com</separatorlist_1_email_1>
-                        <separatorlist_1_email_1_desc name="p_separatorlist_1_email_1_desc">kiflaru@example.com</separatorlist_1_email_1_desc>
+                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">07-07-2010</separatorlist_1_date_1>
+                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">07-07-2010</separatorlist_1_date_1_desc>
+                        <separatorlist_1_email_1 name="p_separatorlist_1_email_1" desc="true">nemlefub@example.com</separatorlist_1_email_1>
+                        <separatorlist_1_email_1_desc name="p_separatorlist_1_email_1_desc">nemlefub@example.com</separatorlist_1_email_1_desc>
                     </row>
                     <row>
-                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Aperiam stract rem magna sed</separatorlist_1_text_1>
-                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Aperiam stract rem magna sed</separatorlist_1_text_1_desc>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Labore rem anim elit amet</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Labore rem anim elit amet</separatorlist_1_text_1_desc>
                         <separatorlist_1_select_1 name="p_separatorlist_1_select_1" desc="true">2</separatorlist_1_select_1>
                         <separatorlist_1_select_1_desc name="p_separatorlist_1_select_1_desc">2</separatorlist_1_select_1_desc>
-                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">01-01-2013</separatorlist_1_date_1>
-                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">01-01-2013</separatorlist_1_date_1_desc>
-                        <separatorlist_1_email_1 name="p_separatorlist_1_email_1" desc="true">sadmudguc@example.com</separatorlist_1_email_1>
-                        <separatorlist_1_email_1_desc name="p_separatorlist_1_email_1_desc">sadmudguc@example.com</separatorlist_1_email_1_desc>
+                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">03-01-2015</separatorlist_1_date_1>
+                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">03-01-2015</separatorlist_1_date_1_desc>
+                        <separatorlist_1_email_1 name="p_separatorlist_1_email_1" desc="true">ajohewaz@example.com</separatorlist_1_email_1>
+                        <separatorlist_1_email_1_desc name="p_separatorlist_1_email_1_desc">ajohewaz@example.com</separatorlist_1_email_1_desc>
                     </row>
                     <row>
-                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Lorem mollit accusantium adipiscing officia</separatorlist_1_text_1>
-                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Lorem mollit accusantium adipiscing officia</separatorlist_1_text_1_desc>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Elit aperiam totam lorem rem</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Elit aperiam totam lorem rem</separatorlist_1_text_1_desc>
                         <separatorlist_1_select_1 name="p_separatorlist_1_select_1" desc="true">2</separatorlist_1_select_1>
                         <separatorlist_1_select_1_desc name="p_separatorlist_1_select_1_desc">2</separatorlist_1_select_1_desc>
-                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">07-03-2014</separatorlist_1_date_1>
-                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">07-03-2014</separatorlist_1_date_1_desc>
-                        <separatorlist_1_email_1 name="p_separatorlist_1_email_1" desc="true">zewve@example.com</separatorlist_1_email_1>
-                        <separatorlist_1_email_1_desc name="p_separatorlist_1_email_1_desc">zewve@example.com</separatorlist_1_email_1_desc>
+                        <separatorlist_1_date_1 name="p_separatorlist_1_date_1" desc="true">07-01-2012</separatorlist_1_date_1>
+                        <separatorlist_1_date_1_desc name="p_separatorlist_1_date_1_desc">07-01-2012</separatorlist_1_date_1_desc>
+                        <separatorlist_1_email_1 name="p_separatorlist_1_email_1" desc="true">nehor@example.com</separatorlist_1_email_1>
+                        <separatorlist_1_email_1_desc name="p_separatorlist_1_email_1_desc">nehor@example.com</separatorlist_1_email_1_desc>
                     </row>
                 </value>
             </table>

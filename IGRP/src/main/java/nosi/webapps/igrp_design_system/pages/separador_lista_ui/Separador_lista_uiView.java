@@ -19,7 +19,7 @@ public class Separador_lista_uiView extends View {
 
 		this.setPageTitle("Separador Lista UI");
 			
-		separatorlist_1 = new IGRPSeparatorList("separatorlist_1","Separatorlist");
+		separatorlist_1 = new IGRPSeparatorList("separatorlist_1","Separator List");
 
 		separatorlist_1_text_1 = new TextField(model,"separatorlist_1_text_1");
 		separatorlist_1_text_1.setLabel(gt("Text"));

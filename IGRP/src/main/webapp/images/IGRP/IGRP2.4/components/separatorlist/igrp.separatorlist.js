@@ -5,15 +5,28 @@
         const card = $(el).parents('.card')[0];
         const formWrapper = $('.splist-form-holder', el);
         const table = $('table', card);
+        const noDataMsg = $('.no-data-message', card);
 
         const setControllers = ()=>{
             $(card).on('click','.show-add-row',  ()=>com.showForm());
             $(card).on('click', '.cancel-add-row', ()=>com.cancelAddEdit());
             $(card).on('click', '.confirm-add-row', ()=>com.confirmAdd());
+            $(card).on('click', '.export-data', ()=>com.export());
         }
         
         const setEvents = ()=>{
             $(el).on('row-edit-start', (e,data)=>com.onEdition(data) );
+            $(el).on('row-add', checkNoDataMessage );
+            $(el).on('row-remove', checkNoDataMessage );
+        }
+
+        const checkNoDataMessage = ()=>{
+            console.log('check:' + $('tbody tr',table).length)
+            if( $('tbody tr',table).length ){
+                noDataMsg.hide()
+            }else{
+                noDataMsg.show();
+            }
         }
         
         com.countHeaders = ()=>{
@@ -30,6 +43,11 @@
             $('.table-row-add',card).click();
             if(edition)
                 com.cancelAddEdit();
+            else{
+                checkNoDataMessage();
+            }
+
+            
         }
 
         com.showAddRow = (row)=>{
@@ -61,7 +79,8 @@
         com.showForm = ( row )=>{
             com.showAddRow(row);
             formWrapper.addClass('active');
-            $('.show-add-row', card).prop('disabled',true).attr('disabled',true).addClass('disabled')
+            $('.show-add-row', card).prop('disabled',true).attr('disabled',true).addClass('disabled');
+            noDataMsg.hide();
         }
         
         com.hideForm = (ev)=>{
@@ -73,6 +92,8 @@
             el.resetForm();
             com.removeFormTr();
             com.hideForm();
+
+            checkNoDataMessage();
         }
 
         com.removeFormTr = ()=>{
@@ -80,13 +101,36 @@
             $('.created-row-tr', table).remove();
         }
 
+        com.getTitle = ()=>{
+            return $('.card-title',card).text() || 'IGRP List Export'
+        }
+        com.export = ()=>{
+            const data = JSON.stringify(el.toJSON());
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+
+            link.href = url;
+            link.download = com.getTitle();
+
+            const clickEvent = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: false
+            });
+
+            link.dispatchEvent(clickEvent);
+       
+            URL.revokeObjectURL(url);
+        }
+
         if(el.setTemplates){
             el.setTemplates({
                 rowOptions: `
                 <td data-row="" class="table-btn" style="vertical-align:middle">
                     <div class="d-flex align-items-center">
-                        <span class="table-row-undo btn btn-ghost-info" rel="${id}">
-                            <i class="fa fa-undo"/>
+                        <span class="table-row-undo btn btn-ghost-dark" rel="${id}">
+                            <i class="ri-arrow-go-back-line"/>
                         </span>
                         <span class="table-row-edit btn btn-ghost-success " rel="${id}" >
                             <i class="ri-edit-2-line"/>

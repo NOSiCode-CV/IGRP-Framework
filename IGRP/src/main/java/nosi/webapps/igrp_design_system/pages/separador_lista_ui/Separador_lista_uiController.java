@@ -21,7 +21,7 @@ public class Separador_lista_uiController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadSeparatorlist_1(Core.query(null,"SELECT 'Omnis aperiam ipsum voluptatem anim' as separatorlist_1_text_1,'2' as separatorlist_1_select_1,'08-01-2011' as separatorlist_1_date_1,'luuzazo@example.com' as separatorlist_1_email_1 "));
+		model.loadSeparatorlist_1(Core.query(null,"SELECT 'Adipiscing sit labore rem magna' as separatorlist_1_text_1,'2' as separatorlist_1_select_1,'04-07-2014' as separatorlist_1_date_1,'puwpa@example.com' as separatorlist_1_email_1 "));
 		view.separatorlist_1_select_1.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/* Start-Code-Block (index) *//* End-Code-Block (index) */

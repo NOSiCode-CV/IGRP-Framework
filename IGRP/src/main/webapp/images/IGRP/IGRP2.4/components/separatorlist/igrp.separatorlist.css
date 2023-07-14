@@ -14,3 +14,15 @@
     display: none!important;
 }
 
+.IGRP-separatorlist .table-row-undo{
+    top:0;
+    box-shadow: none;
+}
+
+.IGRP-separatorlist td.table-btn .d-flex{
+    position: relative;
+}
+
+.IGRP-separatorlist .row-edited:hover .table-row-undo{
+    display: block;
+}

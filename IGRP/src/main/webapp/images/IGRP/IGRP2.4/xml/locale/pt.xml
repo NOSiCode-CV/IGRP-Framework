@@ -21,6 +21,8 @@
     <cancel>cancelar</cancel>
     <title>título</title>
 
+    <separator-list-no-data-found>Lista vazia. Clique em Adicionar para inserir dados na tabela</separator-list-no-data-found>
+
     <table-striped>linhas listradas</table-striped>
 
     <gen-container-empty>componente sem campo definido</gen-container-empty>
