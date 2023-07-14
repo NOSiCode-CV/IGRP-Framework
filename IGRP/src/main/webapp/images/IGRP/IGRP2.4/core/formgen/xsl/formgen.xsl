@@ -626,14 +626,20 @@
               <div class="modal fade" id="gen-include-file-modal">
                   <div class="modal-dialog">
                       <div class="modal-content">
-                          <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                              <h4 class="modal-title"></h4>
-                          </div>
-                          <div class="modal-body">
-                              <div class="box gen-container-item clean" gen-class="" item-name="file_inc">
-                                <div class="box-body IGRP-separatorlist" tag="file_inc" dialog="false">
-                                  <div class="splist-form-holder">
+                          
+                          <div class="modal-body px-0 pt-0 pb-3">
+                              <div class="box card gen-container-item clean" gen-class="" item-name="file_inc">
+                                <div class="d-flex align-items-center card-header">
+                                    <h5 class="modal-title"></h5>
+                                    <div class="ms-auto d-flex align-items-center ">
+                                        <a class="btn fs-12 btn-sm btn-success show-add-row text-capitalize">
+                                          <xsl:value-of select="$locale-strings/add"/>
+                                        </a>
+                                      </div>
+                                    
+                                </div>
+                                <div class="box-body  card-body IGRP-separatorlist pt-0" tag="file_inc" dialog="false">
+                                  <div class="splist-form-holder ">
                                     <div class="splist-form" role="form">
                                       <div class="form-group col-md-12 gen-fields-holder" item-name="file" item-type="text" required="required">
                                         <label>File URL</label>
@@ -641,9 +647,9 @@
                                       </div>
                                     </div>
                                   </div>
-                                  <div class="table-box box-body box-table-contents splist-table">
-                                    <table rel="T_file_inc" id="file_inc" class="table table-striped gen-data-table">
-                                      <thead>
+                                  <div class="table-box box-body box-table-contents splist-table  table-card mt-0">
+                                    <table rel="T_file_inc" id="file_inc" class="table table- gen-data-table">
+                                      <thead class="table-light">
                                         <tr>
                                           <th align="" item-name="file">Files</th>
                                           <th class="table-btn">
@@ -662,8 +668,12 @@
                               </div>
                           </div>
                           <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-primary" id="gen-inc-confirm">Confirm</button>
+                              <button type="button" class="btn btn-default" data-dismiss="modal">
+                                <xsl:value-of select="$locale-strings/close"></xsl:value-of>
+                              </button>
+                              <button type="button" class="btn btn-soft-primary" id="gen-inc-confirm">
+                                <xsl:value-of select="$locale-strings/confirm"></xsl:value-of>
+                              </button>
                           </div>
                       </div>
                   </div>
@@ -694,6 +704,8 @@
           <script type="text/javascript" src="{$path}/plugins/separatorlist/igrp.separatorlist.js"></script>
           <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js"></script>
           <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js"></script>
+
+          <script type="text/javascript" src="{$path}/components/separatorlist/igrp.separatorlist.js"></script>
           <!-- end:SEPARATORLIST -->
 
           <!-- FORMLIST JS INCLUDES -->
@@ -793,20 +805,22 @@
 
                     codes : [
                         {
+                            name : 'INTERFACE',
+                            xsl  : 'mvc/XSL_INTERFACE.xsl'
+                        },
+                        {
                             name : 'CONTROLLER',
-                            xsl  : '/mvc/XSL_CONTROLLER.xsl'
+                            xsl  : 'mvc/XSL_CONTROLLER.xsl'
                         },
                         {
                             name : 'MODEL',
-                            xsl  : '/mvc/XSL_MODEL.xsl'
+                            xsl  : 'mvc/XSL_MODEL.xsl'
                         },
 
                         {
                             name : 'VIEW',
-                            xsl  : '/mvc/XSL_VIEW.xsl'
-                        }
-
-                       
+                            xsl  : 'mvc/XSL_VIEW.xsl'
+                        },
 
                     ]
 
@@ -950,6 +964,8 @@
         <!-- IGRP handler -->
         <script encode="utf-8" src="{$path}/core/igrp/IGRP.handler.js?v={$version}" ></script>
 
+
+
         <script>
 			$.IGRP.locale = {
 				current : "<xsl:value-of select="$locale"/>",
@@ -1012,6 +1028,8 @@
         <link rel="stylesheet" type="text/css" href="{$path}/plugins/separatorlist/igrp.separatorlist.css"/>
         <!--<link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/igrp.tables.css"/>-->
         <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/dataTables.bootstrap.css"/>
+
+        <link rel="stylesheet" type="text/css" href="{$path}/components/separatorlist/igrp.separatorlist.css"/>
         <!-- end:SEPARATORLIST CSS INCLUDES -->
         
         <!-- start:SELECT CSS INCLUDES -->

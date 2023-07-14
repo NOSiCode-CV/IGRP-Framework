@@ -1415,6 +1415,7 @@ var CONTAINER = function(name,params){
 							
 							if(isDrawable(f.type)){
 								var ftemplateContext = dz.template ? dz.template : 'field';
+								//check if drop zone is a table, if so, returns the tag, if not, returns the field path
 								var iftester 		 = !dz.isTable ? container.GET.path()+'/fields/'+f.GET.tag() : f.GET.tag();
 								
 								if(container.xml.type =='items')

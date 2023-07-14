@@ -266,7 +266,10 @@
         </xsl:call-template>
     </xsl:variable>
     <xsl:variable name="package_name">
-        <xsl:value-of select="concat(rows/plsql/package_db,'.',$page,';')"></xsl:value-of>
+        <xsl:value-of select="concat(rows/plsql/package_db,'.pages.',$page,';')"></xsl:value-of>
+    </xsl:variable>
+    <xsl:variable name="package_pages">
+        <xsl:value-of select="concat(rows/plsql/package_db,'.pages.',$page)"></xsl:value-of>
     </xsl:variable>
     <xsl:variable name="package_import_name">
         <xsl:value-of select="concat('import ',rows/plsql/package_db)"/>

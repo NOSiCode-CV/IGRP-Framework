@@ -13,7 +13,7 @@ var GENSEPARATORLIST = function(name,params){
 	container.sortableOptions.placeholder = 'gen-form-placeholder';
 
 	container.includes = {
-		xsl : [ 'IGRP-form-utils.tmpl', 'component.form.fields' ],
+		xsl : [ 'IGRP-form-utils.tmpl', 'component.form.fields', 'component.separatorlist' ],
 		css : [ 
 			{ path   : '/plugins/separatorlist/igrp.separatorlist.css' },
 			/*{ path   : '/core/igrp/form/igrp.forms.css' }, */

@@ -10,6 +10,10 @@
     display:block
 }
 
+.IGRP-separatorlist .splist-form-holder .form-check label{ 
+    padding-left: 8px;
+}
+
 .IGRP-separatorlist .table-row-add{
     display: none!important;
 }

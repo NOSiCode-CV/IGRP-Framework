@@ -95,7 +95,7 @@ $(function() {
 			xsl : o.basePath + '/' + o.xsl,
 			xslParams : xslParams,
 			xslBasePath : o.basePath,
-
+			method : 'GET',
 			complete : function(d, e) {
 
 				var content = d.html(),

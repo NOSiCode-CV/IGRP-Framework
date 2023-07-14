@@ -28,15 +28,7 @@
                                 <xsl:value-of select="rows/content/separatorlist_1/@title"/>
                               </h3>
                               <xsl:if test="(not(rows/content/separatorlist_1/@noadd) or rows/content/separatorlist_1/@noadd != 'true')">
-                                <div class="ms-auto d-flex align-items-center">
-                                  <a href="#" class=" fs-12 link-muted p-2 export-data d-flex align-items-center me-1">
-                                    Exportar
-                                  </a>
-                   
-                                  <a class="btn fs-12 btn-sm btn-success show-add-row text-capitalize">
-                                    <xsl:value-of select="$locale-strings/add"/>
-                                  </a>
-                                </div>
+                                <xsl:call-template name="igrp-separatorlist-add"/>
                               </xsl:if>
                             </div>
                             <div class="box-body card-body IGRP-separatorlist pt-0" tag="separatorlist_1" dialog="false">
@@ -196,9 +188,7 @@
                                   <a class="btn fs-12 btn-sm link-dark export-data me-1">
                                     Exportar
                                   </a>
-                                  <a class="btn fs-12 btn-sm btn-success show-add-row text-capitalize">
-                                    <xsl:value-of select="$locale-strings/add"/>
-                                  </a>
+                                  <xsl:call-template name="igrp-separatorlist-add"/>
                                 </div>
                               </xsl:if>
                             </div>
@@ -319,7 +309,7 @@
                                           <div class="d-flex align-items-center">
                                             <xsl:if test="not(//rows/content/separatorlist_2/@noedit) or //rows/content/separatorlist_2/@noedit != 'true'">
                                               <span class="table-row-undo btn btn-ghost-warning d-none" rel="separatorlist_2">
-                                                <i class="fa fa-undo"/>
+                                                <i class="ri-arrow-go-back-line"/>
                                               </span>
                                               <span class="table-row-edit btn btn-ghost-success " rel="separatorlist_2">
                                                 <i class="ri-edit-2-line"/>
@@ -385,4 +375,5 @@
   <xsl:include href="../../../xsl/tmpl/parts.sidebar.xsl?v=13"/>
   <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=13"/>
   <xsl:include href="../../../xsl/tmpl/component.form.fields.xsl?v=13"/>
+  <xsl:include href="../../../xsl/tmpl/component.separatorlist.xsl?v=13"/>
 </xsl:stylesheet>

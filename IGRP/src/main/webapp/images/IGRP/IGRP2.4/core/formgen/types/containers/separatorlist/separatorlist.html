@@ -5,9 +5,7 @@
 		</h3>
 		<xsl:if test="(not(rows/content/#tag#/@noadd) or rows/content/#tag#/@noadd != 'true')">
 		  <div class="ms-auto">
-			<a class="btn fs-12 btn-sm btn-success show-add-row text-capitalize">
-			  <xsl:value-of select="$locale-strings/add"/>
-			</a>
+			<xsl:call-template name="igrp-separatorlist-add"/>
 		  </div>
 		</xsl:if>
 	  </div>
@@ -60,8 +58,8 @@
 							<td data-row="{position()}" class="table-btn" gen-preserve="last" style="vertical-align:middle">
 								<div class="d-flex align-items-center">
 									<xsl:if test="not(//#path#/@noedit) or //#path#/@noedit != 'true'">
-										<span class="table-row-undo btn btn-ghost-dark " rel="#tag#">
-											<i class="fa fa-undo"/>
+										<span class="table-row-undo btn btn-ghost-dark d-none" rel="#tag#">
+											<i class="ri-arrow-go-back-line"/>
 										</span>
 										<span class="table-row-edit btn btn-ghost-success " rel="#tag#" >
 											<i class="ri-edit-2-line"/>

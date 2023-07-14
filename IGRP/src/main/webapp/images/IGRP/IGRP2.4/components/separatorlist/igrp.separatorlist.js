@@ -129,7 +129,7 @@
                 rowOptions: `
                 <td data-row="" class="table-btn" style="vertical-align:middle">
                     <div class="d-flex align-items-center">
-                        <span class="table-row-undo btn btn-ghost-dark" rel="${id}">
+                        <span class="table-row-undo btn btn-ghost-dark d-none" rel="${id}">
                             <i class="ri-arrow-go-back-line"/>
                         </span>
                         <span class="table-row-edit btn btn-ghost-success " rel="${id}" >

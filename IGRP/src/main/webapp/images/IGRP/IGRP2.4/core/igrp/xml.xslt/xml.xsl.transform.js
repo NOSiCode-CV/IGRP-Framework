@@ -431,7 +431,7 @@ $.fn.XMLTransform = function(params) {
  	//AJAX LOAD CONTENT
  	var getContentFromUrl = function(p){
  		var base = p.url.split('/').slice(0,-1).join('/');
-
+	
  		$.ajax({
  			url     : p.url,
  			dataType: params.dataType ? params.dataType : 'xml',
