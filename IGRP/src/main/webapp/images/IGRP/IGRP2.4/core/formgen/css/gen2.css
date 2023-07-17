@@ -150,7 +150,7 @@ th .gen-field-edt-options {
 }
 
 .row .row-options > ul > li[rel="columns"]:hover a{
-    color:#878a99
+ 
 }
 
 
@@ -341,10 +341,11 @@ body.sidebar-off .gen-column[empty="true"]>.gen-column-inner>.gen-container-plac
 .row-options>ul>li>a{
     padding: 4px 5px;
     font-size: 14px;
-    transition: color .3s;
+    transition: opacity .3s;
+    opacity: .75;
 }
 .row-options>ul>li>a:hover{
-    color:whitesmoke
+    opacity: 1
 }
 .row-options>ul>li>a img{
     max-width: 14px;
@@ -553,7 +554,7 @@ body.startin:after{
 }
 
 .ri-delete-bin-line:hover{
-    color: red;
+
         
 }
 

@@ -7,6 +7,7 @@
         const table = $('table', card);
         const noDataMsg = $('.no-data-message', card);
 
+
         const setControllers = ()=>{
             $(card).on('click','.show-add-row',  ()=>com.showForm());
             $(card).on('click', '.cancel-add-row', ()=>com.cancelAddEdit());
@@ -18,6 +19,8 @@
             $(el).on('row-edit-start', (e,data)=>com.onEdition(data) );
             $(el).on('row-add', checkNoDataMessage );
             $(el).on('row-remove', checkNoDataMessage );
+
+            checkNoDataMessage();
         }
 
         const checkNoDataMessage = ()=>{

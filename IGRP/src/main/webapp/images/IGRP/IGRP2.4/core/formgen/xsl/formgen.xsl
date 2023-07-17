@@ -77,8 +77,13 @@
                   </ul>
               </div>
 
-              <ul id="igrp-top-menu" class="hidden-xs nav navbar-nav navbar-right ml-auto pe-4 ms-auto">
-                  <xsl:for-each select="rows/content/form/tools-bar/item">
+              <ul id="igrp-top-menu" class="hidden-xs navbar-right ml-auto pe-4 ms-auto d-flex align-items-center">
+                    <li>
+                        <a>
+                            <i class="fas fa-export"></i>
+                        </a>
+                    </li>
+                    <xsl:for-each select="rows/content/form/tools-bar/item">
                       <li>
                           <a target="{target}" class="form-gen-save igrpClick d-flex align-items-center">
                               <xsl:call-template name="page-nav">

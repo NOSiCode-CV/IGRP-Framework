@@ -113,7 +113,7 @@
 	display: block;
 }
 .row .row-options > ul > li[rel="delete-row"] a{
-	color:#DD4B39;
+	
 }
 .row .row-options > ul  li > .column-list{
 	list-style: none;

@@ -3,7 +3,7 @@
 
     <xsl:template name="igrp-separatorlist-add" >
         <a class="btn fs-12 btn-sm btn-soft-success show-add-row text-capitalize">
-            <xsl:value-of select="$locale-strings/add"/>
+            Adicionar
         </a>
     </xsl:template>
 
