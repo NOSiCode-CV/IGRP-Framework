@@ -25,27 +25,28 @@
 
                   <div class="container-fluid">
                     <div class="row">
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Markers</h4>
+                            <h4 class="card-title mb-0">Basic Heatmap Chart</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="gmaps-markers" class="gmaps"></div>
+                            <div class="live-preview">
+                              <div id="basic_heatmap" data-colors='["--vz-success", "--vz-card-bg-custom"]' class="apex-charts" dir="ltr"></div>
+                            </div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
                       <!-- end col -->
-
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Overlays</h4>
+                            <h4 class="card-title mb-0">Heatmap - Multiple Series</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="gmaps-overlay" class="gmaps"></div>
+                            <div id="multiple_heatmap" data-colors='["--vz-primary", "--vz-secondary", "--vz-success", "--vz-info", "--vz-warning", "--vz-danger", "--vz-dark", "--vz-primary", "--vz-card-bg-custom"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
@@ -54,27 +55,26 @@
                     <!-- end row -->
 
                     <div class="row">
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Street View Panoramas</h4>
+                            <h4 class="card-title mb-0">Heatmap Color Range</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="panorama" class="gmaps-panaroma"></div>
+                            <div id="color_heatmap" data-colors='["--vz-info", "--vz-success", "--vz-primary", "--vz-warning"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
                       <!-- end col -->
-
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Map Types</h4>
+                            <h4 class="card-title mb-0">Heatmap - Range Without Shades</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="gmaps-types" class="gmaps"></div>
+                            <div id="shades_heatmap" data-colors='["--vz-info", "--vz-primary"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
@@ -97,20 +97,16 @@
 
         <!-- page includes JS -->
 
-        <!-- prismjs plugin -->
-        <script src="{$path}/libs/prismjs/prism.js"></script>
+        <!-- apexcharts -->
+        <script src="{$path}/libs/apexcharts/apexcharts.min.js"></script>
 
-        <!-- google maps api -->
-        <script src="https://maps.google.com/maps/api/js?key=AIzaSyCtSAR45TFgZjOs4nBFFZnII-6mMHLfSYI"></script>
+        <!-- heatmapscharts init -->
+        <script src="{$themePath}/assets/js/pages/apexcharts-heatmap.init.js"></script>
 
-        <!-- gmaps plugins -->
-        <script src="{$path}/libs/gmaps/gmaps.min.js"></script>
-
-        <!-- gmaps init -->
-        <script src="{$themePath}/assets/js/pages/gmaps.init.js"></script>
 
 
         <xsl:call-template name="igrp-scripts"/>
+
 
 
       </body>

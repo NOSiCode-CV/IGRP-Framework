@@ -23,26 +23,6 @@
 
                                     <!-- page content -->
                                     <div class="container-fluid">
-
-                                        <!-- start page title -->
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                                    <h4 class="mb-sm-0">Sellers</h4>
-
-                                                    <div class="page-title-right">
-                                                        <ol class="breadcrumb m-0">
-                                                            <li class="breadcrumb-item">
-                                                                <a href="javascript: void(0);">Ecommerce</a>
-                                                            </li>
-                                                            <li class="breadcrumb-item active">Sellers</li>
-                                                        </ol>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- end page title -->
                                         <div class="card">
                                             <div class="card-header border-0 rounded">
                                                 <div class="row g-2">
@@ -91,7 +71,7 @@
                                                         </div>
                                                         <img src="{$themePath}/assets/images/companies/img-1.png" alt="" height="45"/>
                                                         <h5 class="mb-1 mt-4">
-                                                            <a href="apps-ecommerce-seller-details.html" class="link-primary">Force Medicines</a>
+                                                            <a href="IGRP-ecommerce-seller-details.xml" class="link-primary">Force Medicines</a>
                                                         </h5>
                                                         <p class="text-muted mb-4">David Marshall</p>
                                                         <div class="row justify-content-center">
@@ -110,7 +90,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="mt-4">
-                                                            <a href="apps-ecommerce-seller-details.html" class="btn btn-light w-100">View Details</a>
+                                                            <a href="IGRP-ecommerce-seller-details.xml" class="btn btn-light w-100">View Details</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -121,7 +101,7 @@
                                                     <div class="card-body text-center p-4">
                                                         <img src="{$themePath}/assets/images/companies/img-2.png" alt="" height="45"/>
                                                         <h5 class="mb-1 mt-4">
-                                                            <a href="apps-ecommerce-seller-details.html" class="link-primary">Micro Design</a>
+                                                            <a href="IGRP-ecommerce-seller-details.xml" class="link-primary">Micro Design</a>
                                                         </h5>
                                                         <p class="text-muted mb-4">Katia Stapleton</p>
                                                         <div class="row justify-content-center">
@@ -140,7 +120,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="mt-4">
-                                                            <a href="apps-ecommerce-seller-details.html" class="btn btn-light w-100">View Details</a>
+                                                            <a href="IGRP-ecommerce-seller-details.xml" class="btn btn-light w-100">View Details</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -151,7 +131,7 @@
                                                     <div class="card-body text-center p-4">
                                                         <img src="{$themePath}/assets/images/companies/img-3.png" alt="" height="45"/>
                                                         <h5 class="mb-1 mt-4">
-                                                            <a href="apps-ecommerce-seller-details.html" class="link-primary">Nesta Technologies</a>
+                                                            <a href="IGRP-ecommerce-seller-details.xml" class="link-primary">Nesta Technologies</a>
                                                         </h5>
                                                         <p class="text-muted mb-4">Harley Fuller</p>
                                                         <div class="row justify-content-center">
@@ -170,7 +150,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="mt-4">
-                                                            <a href="apps-ecommerce-seller-details.html" class="btn btn-light w-100">View Details</a>
+                                                            <a href="IGRP-ecommerce-seller-details.xml" class="btn btn-light w-100">View Details</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -185,7 +165,7 @@
                                                         </div>
                                                         <img src="{$themePath}/assets/images/companies/img-4.png" alt="" height="45"/>
                                                         <h5 class="mb-1 mt-4">
-                                                            <a href="apps-ecommerce-seller-details.html" class="link-primary">iTest Factory</a>
+                                                            <a href="IGRP-ecommerce-seller-details.xml" class="link-primary">iTest Factory</a>
                                                         </h5>
                                                         <p class="text-muted mb-4">Oliver Tyler</p>
                                                         <div class="row justify-content-center">
@@ -204,7 +184,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="mt-4">
-                                                            <a href="apps-ecommerce-seller-details.html" class="btn btn-light w-100">View Details</a>
+                                                            <a href="IGRP-ecommerce-seller-details.xml" class="btn btn-light w-100">View Details</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -215,7 +195,7 @@
                                                     <div class="card-body text-center p-4">
                                                         <img src="{$themePath}/assets/images/companies/img-5.png" alt="" height="45"/>
                                                         <h5 class="mb-1 mt-4">
-                                                            <a href="apps-ecommerce-seller-details.html" class="link-primary">Meta4Systems</a>
+                                                            <a href="IGRP-ecommerce-seller-details.xml" class="link-primary">Meta4Systems</a>
                                                         </h5>
                                                         <p class="text-muted mb-4">Zoe Dennis</p>
                                                         <div class="row justify-content-center">
@@ -234,7 +214,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="mt-4">
-                                                            <a href="apps-ecommerce-seller-details.html" class="btn btn-light w-100">View Details</a>
+                                                            <a href="IGRP-ecommerce-seller-details.xml" class="btn btn-light w-100">View Details</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -249,7 +229,7 @@
                                                         </div>
                                                         <img src="{$themePath}/assets/images/companies/img-6.png" alt="" height="45"/>
                                                         <h5 class="mb-1 mt-4">
-                                                            <a href="apps-ecommerce-seller-details.html" class="link-primary">Digitech Galaxy</a>
+                                                            <a href="IGRP-ecommerce-seller-details.xml" class="link-primary">Digitech Galaxy</a>
                                                         </h5>
                                                         <p class="text-muted mb-4">John Roberts</p>
                                                         <div class="row justify-content-center">
@@ -268,7 +248,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="mt-4">
-                                                            <a href="apps-ecommerce-seller-details.html" class="btn btn-light w-100">View Details</a>
+                                                            <a href="IGRP-ecommerce-seller-details.xml" class="btn btn-light w-100">View Details</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -283,7 +263,7 @@
                                                         </div>
                                                         <img src="{$themePath}/assets/images/companies/img-7.png" alt="" height="45"/>
                                                         <h5 class="mb-1 mt-4">
-                                                            <a href="apps-ecommerce-seller-details.html" class="link-primary">Syntyce Solutions</a>
+                                                            <a href="IGRP-ecommerce-seller-details.xml" class="link-primary">Syntyce Solutions</a>
                                                         </h5>
                                                         <p class="text-muted mb-4">Demi Allen</p>
                                                         <div class="row justify-content-center">
@@ -302,7 +282,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="mt-4">
-                                                            <a href="apps-ecommerce-seller-details.html" class="btn btn-light w-100">View Details</a>
+                                                            <a href="IGRP-ecommerce-seller-details.xml" class="btn btn-light w-100">View Details</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -313,7 +293,7 @@
                                                     <div class="card-body text-center p-4">
                                                         <img src="{$themePath}/assets/images/companies/img-8.png" alt="" height="45"/>
                                                         <h5 class="mb-1 mt-4">
-                                                            <a href="apps-ecommerce-seller-details.html" class="link-primary">Zoetic Fashion</a>
+                                                            <a href="IGRP-ecommerce-seller-details.xml" class="link-primary">Zoetic Fashion</a>
                                                         </h5>
                                                         <p class="text-muted mb-4">James Bowen</p>
                                                         <div class="row justify-content-center">
@@ -332,7 +312,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="mt-4">
-                                                            <a href="apps-ecommerce-seller-details.html" class="btn btn-light w-100">View Details</a>
+                                                            <a href="IGRP-ecommerce-seller-details.xml" class="btn btn-light w-100">View Details</a>
                                                         </div>
                                                     </div>
                                                 </div>

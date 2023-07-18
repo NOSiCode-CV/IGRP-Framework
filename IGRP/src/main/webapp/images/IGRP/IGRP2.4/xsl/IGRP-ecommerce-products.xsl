@@ -6,11 +6,14 @@
       <head>
 
         <!-- page includes css -->
+
+        <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+
         <!-- nouisliderribute css -->
-        <link rel="stylesheet" href="{$themePath}/libs/nouislider/nouislider.min.css"/>
+        <link rel="stylesheet" href="{$path}/libs/nouislider/nouislider.min.css"/>
 
         <!-- gridjs css -->
-        <link rel="stylesheet" href="{$themePath}/libs/gridjs/theme/mermaid.min.css"/>
+        <link rel="stylesheet" href="{$path}/libs/gridjs/theme/mermaid.min.css"/>
         <xsl:call-template name="igrp-head"/>
 
       </head>
@@ -321,7 +324,7 @@
                             <div class="row g-4">
                               <div class="col-sm-auto">
                                 <div>
-                                  <a href="apps-ecommerce-add-product.html" class="btn btn-success" id="addproduct-btn">
+                                  <a href="IGRP-ecommerce-create-product.xml" class="btn btn-success" id="addproduct-btn">
                                     <i class="ri-add-line align-bottom me-1"></i> Add Product</a
                 >
                                 </div>
@@ -426,11 +429,11 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 
         <!-- nouisliderribute js -->
-        <script src="{$themePath}/libs/nouislider/nouislider.min.js"></script>
-        <script src="{$themePath}/libs/wnumb/wNumb.min.js"></script>
+        <script src="{$path}/libs/nouislider/nouislider.min.js"></script>
+        <script src="{$path}/libs/wnumb/wNumb.min.js"></script>
 
         <!-- gridjs js -->
-        <script src="{$themePath}/libs/gridjs/gridjs.umd.js"></script>
+        <script src="{$path}/libs/gridjs/gridjs.umd.js"></script>
         <script src="https://unpkg.com/gridjs/plugins/selection/dist/selection.umd.js"></script>
         <!-- ecommerce product list -->
         <script src="{$themePath}/assets/js/pages/ecommerce-product-list.init.js"></script>

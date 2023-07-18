@@ -372,10 +372,11 @@
                 <xsl:call-template name="igrp-page-helpers"/>
 
                 <!-- page includes JS -->
+
                 <!-- multi.js -->
                 <script src="{$path}/libs/multi.js/multi.min.js"></script>
                 <!-- autocomplete js -->
-                <script src="{$themePath}/assets/libs/@tarekraafat/autocomplete.js/autoComplete.min.js"></script>
+                <script src="{$path}/libs/@tarekraafat/autocomplete.js/autoComplete.min.js"></script>
 
                 <!-- init js -->
                 <script src="{$themePath}/assets/js/pages/form-advanced.init.js"></script>

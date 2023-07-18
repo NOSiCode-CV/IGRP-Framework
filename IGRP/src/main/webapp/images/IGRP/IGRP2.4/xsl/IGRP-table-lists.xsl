@@ -7,8 +7,15 @@
 
         <!-- page includes css -->
 
+        <!-- Include Choices CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+
+        <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+
         <!-- Sweet Alert css-->
-        <link href="{$themePath}/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+        <link href="{$path}/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+
+        
 
         <xsl:call-template name="igrp-head"/>
 
@@ -683,20 +690,18 @@
         <xsl:call-template name="igrp-page-helpers"/>
 
         <!-- page includes JS -->
-        
-        <!-- Include Choices CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 
         <!-- prismjs plugin -->
-        <script src="{$themePath}/assets/libs/prismjs/prism.js"></script>
-        <script src="{$themePath}/assets/libs/list.js/list.min.js"></script>
-        <script src="{$themePath}/assets/libs/list.pagination.js/list.pagination.min.js"></script>
+        <script src="{$path}/libs/prismjs/prism.js"></script>
+        <script src="{$path}/libs/list.js/list.min.js"></script>
+        <script src="{$path}/libs/list.pagination.js/list.pagination.min.js"></script>
 
         <!-- listjs init -->
         <script src="{$themePath}/assets/js/pages/listjs.init.js"></script>
 
         <!-- Sweet Alerts js -->
-        <script src="{$themePath}/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+        <script src="{$path}/libs/sweetalert2/sweetalert2.min.js"></script>
+
 
 
         <xsl:call-template name="igrp-scripts"/>

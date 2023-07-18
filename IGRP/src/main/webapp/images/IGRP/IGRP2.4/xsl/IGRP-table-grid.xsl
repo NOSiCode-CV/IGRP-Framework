@@ -7,7 +7,7 @@
 
                 <!-- page includes css -->
                 <!-- gridjs css -->
-                <link rel="stylesheet" href="{$themePath}/assets/libs/gridjs/theme/mermaid.min.css"/>
+                <link rel="stylesheet" href="{$path}/libs/gridjs/theme/mermaid.min.css"/>
 
 
                 <xsl:call-template name="igrp-head"/>
@@ -170,10 +170,10 @@
                 <!-- page includes JS -->
 
                 <!-- prismjs plugin -->
-                <script src="{$themePath}/assets/libs/prismjs/prism.js"></script>
+                <script src="{$path}/libs/prismjs/prism.js"></script>
 
                 <!-- gridjs js -->
-                <script src="{$themePath}/assets/libs/gridjs/gridjs.umd.js"></script>
+                <script src="{$path}/libs/gridjs/gridjs.umd.js"></script>
                 <!-- gridjs init -->
                 <script src="{$themePath}/assets/js/pages/gridjs.init.js"></script>
 

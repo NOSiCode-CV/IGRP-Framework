@@ -19,14 +19,15 @@
               <div class="container-fluid">
                 <xsl:call-template name="igrp-page-title"/>
                 <div class="igrp-page-contents">
+
                   <!-- page content -->
-                  <article class="container m-5">
-                    <div class="mat-elevation-z4 bg-white p-5">
+                  <div class="card">
+                    <div class="card-body">
                       <img class="center" src="{$themePath}/assets/images/igrpweb-design-system-wallpaper_v1.0.svg" style="width:100%"></img>
 
                       <h1 class="py-4">IGRP Design System</h1>
 
-                      <div>
+                      <div class="text-muted">
                         <p >IGRP Design System is an open-source platform that facilitates the creation of web applications. 
                   This user-friendly system <b>emphasizes branding, customization, personalization, and user interface (UI) component reuse.</b>
                         </p>
@@ -54,15 +55,18 @@
 
                         <h4>Here are the key benefits of using the IGRP Design System:</h4>
                         <ul class="pt-1">
-                          <li> <b>Consistency</b>: The system ensures a uniform look and feel across all your web applications, enhancing brand recognition and memorability.</li>
+                          <li>
+                            <b>Consistency</b>: The system ensures a uniform look and feel across all your web applications, enhancing brand recognition and memorability.</li>
                           <br/>
-                          <li><b>Efficiency</b>: It offers a library of pre-built components that expedite development, saving time and resources.</li>
+                          <li>
+                            <b>Efficiency</b>: It offers a library of pre-built components that expedite development, saving time and resources.</li>
                           <br/>
-                          <li><b>Flexibility</b>: With high customizability, the system can be tailored to your specific requirements, making it a versatile tool for diverse projects.</li>
+                          <li>
+                            <b>Flexibility</b>: With high customizability, the system can be tailored to your specific requirements, making it a versatile tool for diverse projects.</li>
                         </ul>
                       </div>
                     </div>
-                  </article>
+                  </div>
                 </div>
               </div>
             </div>

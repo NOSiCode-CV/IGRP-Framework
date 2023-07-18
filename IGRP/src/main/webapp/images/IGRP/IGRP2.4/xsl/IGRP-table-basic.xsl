@@ -3421,7 +3421,7 @@
 
 
         <!-- prismjs plugin -->
-        <script src="{$themePath}/assets/libs/prismjs/prism.js"></script>
+        <script src="{$path}/libs/prismjs/prism.js"></script>
 
 
         <xsl:call-template name="igrp-scripts"/>

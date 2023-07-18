@@ -25,27 +25,27 @@
 
                   <div class="container-fluid">
                     <div class="row">
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Markers</h4>
+                            <h4 class="card-title mb-0">Basic Scatter Chart</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="gmaps-markers" class="gmaps"></div>
+                            <div id="basic_scatter" data-colors='["--vz-primary", "--vz-success", "--vz-warning"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
                       <!-- end col -->
 
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Overlays</h4>
+                            <h4 class="card-title mb-0">Scatter - Datetime Chart</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="gmaps-overlay" class="gmaps"></div>
+                            <div id="datetime_scatter" data-colors='["--vz-primary", "--vz-success", "--vz-warning", "--vz-warning", "--vz-info"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
@@ -54,27 +54,14 @@
                     <!-- end row -->
 
                     <div class="row">
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Street View Panoramas</h4>
+                            <h4 class="card-title mb-0">Scatter Images Chart</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="panorama" class="gmaps-panaroma"></div>
-                          </div>                          <!-- end card-body -->
-                        </div>                        <!-- end card -->
-                      </div>
-                      <!-- end col -->
-
-                      <div class="col-lg-6">
-                        <div class="card">
-                          <div class="card-header">
-                            <h4 class="card-title mb-0">Map Types</h4>
-                          </div>                          <!-- end card header -->
-
-                          <div class="card-body">
-                            <div id="gmaps-types" class="gmaps"></div>
+                            <div id="images_scatter" data-colors='["--vz-primary", "--vz-danger"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
@@ -97,20 +84,15 @@
 
         <!-- page includes JS -->
 
-        <!-- prismjs plugin -->
-        <script src="{$path}/libs/prismjs/prism.js"></script>
+        <!-- apexcharts -->
+        <script src="{$path}/libs/apexcharts/apexcharts.min.js"></script>
 
-        <!-- google maps api -->
-        <script src="https://maps.google.com/maps/api/js?key=AIzaSyCtSAR45TFgZjOs4nBFFZnII-6mMHLfSYI"></script>
-
-        <!-- gmaps plugins -->
-        <script src="{$path}/libs/gmaps/gmaps.min.js"></script>
-
-        <!-- gmaps init -->
-        <script src="{$themePath}/assets/js/pages/gmaps.init.js"></script>
+        <!-- scatter charts init -->
+        <script src="{$themePath}/assets/js/pages/apexcharts-scatter.init.js"></script>
 
 
         <xsl:call-template name="igrp-scripts"/>
+
 
 
       </body>

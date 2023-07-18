@@ -357,7 +357,7 @@
                                                                     <h5>Thank you ! Your Order is Completed !</h5>
                                                                     <p class="text-muted">You will receive an order confirmation email with details of your order.</p>
 
-                                                                    <h3 class="fw-semibold">Order ID: <a href="apps-ecommerce-order-details.html" class="text-decoration-underline">VZ2451</a>
+                                                                    <h3 class="fw-semibold">Order ID: <a href="IGRP-ecommerce-order-details.xml" class="text-decoration-underline">VZ2451</a>
                                                                     </h3>
                                                                   </div>
                                                                 </div>
@@ -400,7 +400,7 @@
                                                                       </td>
                                                                       <td>
                                                                         <h5 class="fs-14">
-                                                                          <a href="apps-ecommerce-product-details.html" class="text-dark">Sweatshirt for Men (Pink)</a>
+                                                                          <a href="IGRP-ecommerce-products-details.xml" class="text-dark">Sweatshirt for Men (Pink)</a>
                                                                         </h5>
                                                                         <p class="text-muted mb-0">$ 119.99 x 2</p>
                                                                       </td>
@@ -414,7 +414,7 @@
                                                                         </td>
                                                                         <td>
                                                                           <h5 class="fs-14">
-                                                                            <a href="apps-ecommerce-product-details.html" class="text-dark">Noise Evolve Smartwatch</a>
+                                                                            <a href="IGRP-ecommerce-products-details.xml" class="text-dark">Noise Evolve Smartwatch</a>
                                                                           </h5>
                                                                           <p class="text-muted mb-0">$ 94.99 x 1</p>
                                                                         </td>
@@ -428,7 +428,7 @@
                                                                           </td>
                                                                           <td>
                                                                             <h5 class="fs-14">
-                                                                              <a href="apps-ecommerce-product-details.html" class="text-dark">350 ml Glass Grocery Container</a>
+                                                                              <a href="IGRP-ecommerce-products-details.xml" class="text-dark">350 ml Glass Grocery Container</a>
                                                                             </h5>
                                                                             <p class="text-muted mb-0">$ 24.99 x 1</p>
                                                                           </td>

@@ -13,6 +13,8 @@
         <!-- Sweet Alert css-->
         <link href="{$path}/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 
+        <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+
         <xsl:call-template name="igrp-head"/>
 
       </head>
@@ -164,7 +166,7 @@
                                         </div>
                                       </th>
                                       <td class="id">
-                                        <a href="apps-ecommerce-order-details.html" class="fw-medium link-primary">#VZ2101</a>
+                                        <a href="IGRP-ecommerce-order-details.xml" class="fw-medium link-primary">#VZ2101</a>
                                       </td>
                                       <td class="customer_name">Frank Hook</td>
                                       <td class="product_name">Puma Tshirt</td>
@@ -178,7 +180,7 @@
                                       <td>
                                         <ul class="list-inline hstack gap-2 mb-0">
                                           <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
-                                            <a href="apps-ecommerce-order-details.html" class="text-primary d-inline-block">
+                                            <a href="IGRP-ecommerce-order-details.xml" class="text-primary d-inline-block">
                                               <i class="ri-eye-fill fs-16"></i>
                                             </a>
                                           </li>

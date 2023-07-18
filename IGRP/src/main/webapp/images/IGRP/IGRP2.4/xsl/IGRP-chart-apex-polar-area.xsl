@@ -22,59 +22,30 @@
                 <div class="igrp-page-contents">
 
                   <!-- page content -->
-
-                  <div class="container-fluid">
-                    <div class="row">
-                      <div class="col-lg-6">
-                        <div class="card">
-                          <div class="card-header">
-                            <h4 class="card-title mb-0">Markers</h4>
-                          </div>                          <!-- end card header -->
-
-                          <div class="card-body">
-                            <div id="gmaps-markers" class="gmaps"></div>
-                          </div>                          <!-- end card-body -->
-                        </div>                        <!-- end card -->
-                      </div>
-                      <!-- end col -->
-
-                      <div class="col-lg-6">
-                        <div class="card">
-                          <div class="card-header">
-                            <h4 class="card-title mb-0">Overlays</h4>
-                          </div>                          <!-- end card header -->
-
-                          <div class="card-body">
-                            <div id="gmaps-overlay" class="gmaps"></div>
-                          </div>                          <!-- end card-body -->
-                        </div>                        <!-- end card -->
-                      </div>
-                      <!-- end col -->
-                    </div>
-                    <!-- end row -->
+                  <div class="container-fluid">                   
 
                     <div class="row">
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Street View Panoramas</h4>
+                            <h4 class="card-title mb-0">Basic Polararea Chart</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="panorama" class="gmaps-panaroma"></div>
+                            <div id="basic_polar_area" data-colors='["--vz-primary", "--vz-success", "--vz-warning","--vz-danger", "--vz-info", "--vz-success", "--vz-primary", "--vz-dark", "--vz-secondary"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
                       <!-- end col -->
 
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Map Types</h4>
+                            <h4 class="card-title mb-0">PolarArea Monochrome</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="gmaps-types" class="gmaps"></div>
+                            <div id="monochrome_polar_area" class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
@@ -96,21 +67,14 @@
         <xsl:call-template name="igrp-page-helpers"/>
 
         <!-- page includes JS -->
+        <!-- apexcharts -->
+        <script src="{$path}/libs/apexcharts/apexcharts.min.js"></script>
 
-        <!-- prismjs plugin -->
-        <script src="{$path}/libs/prismjs/prism.js"></script>
-
-        <!-- google maps api -->
-        <script src="https://maps.google.com/maps/api/js?key=AIzaSyCtSAR45TFgZjOs4nBFFZnII-6mMHLfSYI"></script>
-
-        <!-- gmaps plugins -->
-        <script src="{$path}/libs/gmaps/gmaps.min.js"></script>
-
-        <!-- gmaps init -->
-        <script src="{$themePath}/assets/js/pages/gmaps.init.js"></script>
-
+        <!-- polarareacharts init -->
+        <script src="{$themePath}/assets/js/pages/apexcharts-polararea.init.js"></script>
 
         <xsl:call-template name="igrp-scripts"/>
+
 
 
       </body>

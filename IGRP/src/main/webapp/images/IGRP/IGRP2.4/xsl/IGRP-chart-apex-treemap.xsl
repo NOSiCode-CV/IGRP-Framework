@@ -25,27 +25,27 @@
 
                   <div class="container-fluid">
                     <div class="row">
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Markers</h4>
+                            <h4 class="card-title mb-0">Basic Treemap Charts</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="gmaps-markers" class="gmaps"></div>
+                            <div id="basic_treemap" data-colors='["--vz-success"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
                       <!-- end col -->
 
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Overlays</h4>
+                            <h4 class="card-title mb-0">Multi-Dimensional Treemap Chart</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="gmaps-overlay" class="gmaps"></div>
+                            <div id="multi_treemap" data-colors='["--vz-primary","--vz-success"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
@@ -54,27 +54,27 @@
                     <!-- end row -->
 
                     <div class="row">
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Street View Panoramas</h4>
+                            <h4 class="card-title mb-0">Distributed Treemap Chart (Different Color for each Cell)</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="panorama" class="gmaps-panaroma"></div>
+                            <div id="distributed_treemap" data-colors='["--vz-primary", "--vz-secondary", "--vz-success", "--vz-info","--vz-warning", "--vz-danger"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
                       <!-- end col -->
 
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Map Types</h4>
+                            <h4 class="card-title mb-0">Treemap Chart with Color Ranges</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="gmaps-types" class="gmaps"></div>
+                            <div id="color_range_treemap" data-colors='["--vz-info","--vz-danger"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
@@ -96,21 +96,17 @@
         <xsl:call-template name="igrp-page-helpers"/>
 
         <!-- page includes JS -->
+        <!-- apexcharts -->
+        <script src="{$path}/libs/apexcharts/apexcharts.min.js"></script>
 
-        <!-- prismjs plugin -->
-        <script src="{$path}/libs/prismjs/prism.js"></script>
+        <!-- treecharts init -->
+        <script src="{$themePath}/assets/js/pages/apexcharts-treemap.init.js"></script>
 
-        <!-- google maps api -->
-        <script src="https://maps.google.com/maps/api/js?key=AIzaSyCtSAR45TFgZjOs4nBFFZnII-6mMHLfSYI"></script>
-
-        <!-- gmaps plugins -->
-        <script src="{$path}/libs/gmaps/gmaps.min.js"></script>
-
-        <!-- gmaps init -->
-        <script src="{$themePath}/assets/js/pages/gmaps.init.js"></script>
 
 
         <xsl:call-template name="igrp-scripts"/>
+        
+
 
 
       </body>

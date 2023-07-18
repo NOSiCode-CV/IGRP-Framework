@@ -55,7 +55,7 @@
                                                                 <img src="{$themePath}/assets/images/products/img-8.png" alt="" class="img-fluid d-block"/>
                                                             </div>
                                                             <div class="flex-grow-1 ms-3">
-                                                                <h5 class="fs-15"><a href="apps-ecommerce-product-details.html" class="link-primary">Sweatshirt for Men (Pink)</a></h5>
+                                                                <h5 class="fs-15"><a href="IGRP-ecommerce-products-details.xml" class="link-primary">Sweatshirt for Men (Pink)</a></h5>
                                                                 <p class="text-muted mb-0">Color: <span class="fw-medium">Pink</span></p>
                                                                 <p class="text-muted mb-0">Size: <span class="fw-medium">M</span></p>
                                                             </div>
@@ -79,7 +79,7 @@
                                                                 <img src="{$themePath}/assets/images/products/img-7.png" alt="" class="img-fluid d-block"/>
                                                             </div>
                                                             <div class="flex-grow-1 ms-3">
-                                                                <h5 class="fs-15"><a href="apps-ecommerce-product-details.html" class="link-primary">Noise NoiseFit Endure Smart Watch</a></h5>
+                                                                <h5 class="fs-15"><a href="IGRP-ecommerce-products-details.xml" class="link-primary">Noise NoiseFit Endure Smart Watch</a></h5>
                                                                 <p class="text-muted mb-0">Color: <span class="fw-medium">Black</span></p>
                                                                 <p class="text-muted mb-0">Size: <span class="fw-medium">32.5mm</span></p>
                                                             </div>
@@ -103,7 +103,7 @@
                                                                 <img src="{$themePath}/assets/images/products/img-3.png" alt="" class="img-fluid d-block"/>
                                                             </div>
                                                             <div class="flex-grow-1 ms-3">
-                                                                <h5 class="fs-15"><a href="apps-ecommerce-product-details.html" class="link-primary">350 ml Glass Grocery Container</a></h5>
+                                                                <h5 class="fs-15"><a href="IGRP-ecommerce-products-details.xml" class="link-primary">350 ml Glass Grocery Container</a></h5>
                                                                 <p class="text-muted mb-0">Color: <span class="fw-medium">White</span></p>
                                                                 <p class="text-muted mb-0">Size: <span class="fw-medium">350 ml</span></p>
                                                             </div>

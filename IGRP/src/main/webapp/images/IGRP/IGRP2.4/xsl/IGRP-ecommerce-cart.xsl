@@ -33,7 +33,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-auto">
-                                                        <a href="apps-ecommerce-products.html" class="link-primary text-decoration-underline">Continue Shopping</a>
+                                                        <a href="IGRP-ecommerce-products.xml" class="link-primary text-decoration-underline">Continue Shopping</a>
                                                     </div>
                                                 </div>
 
@@ -47,7 +47,7 @@
                                                             </div>
                                                             <div class="col-sm">
                                                                 <h5 class="fs-14 text-truncate">
-                                                                    <a href="ecommerce-product-detail.html" class="text-dark">Sweatshirt for Men (Pink)</a>
+                                                                    <a href="IGRP-ecommerce-products-details.xml" class="text-dark">Sweatshirt for Men (Pink)</a>
                                                                 </h5>
                                                                 <ul class="list-inline text-muted">
                                                                     <li class="list-inline-item">Color : <span class="fw-medium">Pink</span>
@@ -109,7 +109,7 @@
                                                             </div>
                                                             <div class="col-sm">
                                                                 <h5 class="fs-14 text-truncate">
-                                                                    <a href="ecommerce-product-detail.html" class="text-dark">Noise NoiseFit Endure Smart Watch</a>
+                                                                    <a href="IGRP-ecommerce-products-details.xml" class="text-dark">Noise NoiseFit Endure Smart Watch</a>
                                                                 </h5>
 
                                                                 <ul class="list-inline text-muted">
@@ -172,7 +172,7 @@
                                                             </div>
                                                             <div class="col-sm">
                                                                 <h5 class="fs-14 text-truncate">
-                                                                    <a href="ecommerce-product-detail.html" class="text-dark">350 ml Glass Grocery Container</a>
+                                                                    <a href="IGRP-ecommerce-products-details.xml" class="text-dark">350 ml Glass Grocery Container</a>
                                                                 </h5>
 
                                                                 <ul class="list-inline text-muted">
@@ -227,7 +227,7 @@
 
 
                                                 <div class="text-end mb-4">
-                                                    <a href="apps-ecommerce-checkout.html" class="btn btn-success btn-label right ms-auto">
+                                                    <a href="IGRP-ecommerce-checkout.xml" class="btn btn-success btn-label right ms-auto">
                                                         <i class="ri-arrow-right-line label-icon align-bottom fs-16 ms-2"></i> Checkout</a>
                                                 </div>
                                             </div>

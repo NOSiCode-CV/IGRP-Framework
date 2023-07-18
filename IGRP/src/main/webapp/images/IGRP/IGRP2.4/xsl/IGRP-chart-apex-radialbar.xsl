@@ -22,30 +22,29 @@
                 <div class="igrp-page-contents">
 
                   <!-- page content -->
-
                   <div class="container-fluid">
                     <div class="row">
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Markers</h4>
+                            <h4 class="card-title mb-0">Simple Radialbar Chart</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="gmaps-markers" class="gmaps"></div>
+                            <div id="basic_radialbar" data-colors='["--vz-success"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
                       <!-- end col -->
 
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Overlays</h4>
+                            <h4 class="card-title mb-0">Multiple Radialbar</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="gmaps-overlay" class="gmaps"></div>
+                            <div id="multiple_radialbar" data-colors='["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
@@ -54,27 +53,72 @@
                     <!-- end row -->
 
                     <div class="row">
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Street View Panoramas</h4>
+                            <h4 class="card-title mb-0">Circle Chart - Custom Angle</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="panorama" class="gmaps-panaroma"></div>
+                            <div id="circle_radialbar" data-colors='["--vz-primary", "--vz-info", "--vz-danger", "--vz-success"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
                       <!-- end col -->
 
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Map Types</h4>
+                            <h4 class="card-title mb-0">Gradient Circle Chart</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="gmaps-types" class="gmaps"></div>
+                            <div id="gradient_radialbar" data-colors='["--vz-success"]' class="apex-charts" dir="ltr"></div>
+                          </div>                          <!-- end card-body -->
+                        </div>                        <!-- end card -->
+                      </div>
+                      <!-- end col -->
+                    </div>
+                    <!-- end row -->
+
+                    <div class="row">
+                      <div class="col-xl-6">
+                        <div class="card">
+                          <div class="card-header">
+                            <h4 class="card-title mb-0">Stroked Circle Chart</h4>
+                          </div>                          <!-- end card header -->
+
+                          <div class="card-body">
+                            <div id="stroked_radialbar" data-colors='["--vz-success"]' class="apex-charts" dir="ltr"></div>
+                          </div>                          <!-- end card-body -->
+                        </div>                        <!-- end card -->
+                      </div>
+                      <!-- end col -->
+
+                      <div class="col-xl-6">
+                        <div class="card">
+                          <div class="card-header">
+                            <h4 class="card-title mb-0">Radialbars with Image</h4>
+                          </div>                          <!-- end card header -->
+
+                          <div class="card-body">
+                            <div id="radialbar_with_img" data-colors='["--vz-success"]' class="apex-charts" dir="ltr"></div>
+                          </div>                          <!-- end card-body -->
+                        </div>                        <!-- end card -->
+                      </div>
+                      <!-- end col -->
+                    </div>
+                    <!-- end row -->
+
+                    <div class="row">
+                      <div class="col-xl-6">
+                        <div class="card">
+                          <div class="card-header">
+                            <h4 class="card-title mb-0">Semi Circular Chart</h4>
+                          </div>                          <!-- end card header -->
+
+                          <div class="card-body">
+                            <div id="semi_radialbar" data-colors='["--vz-primary"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
@@ -84,7 +128,6 @@
 
                   </div>
                   <!-- container-fluid -->
-
                 </div>
               </div>
             </div>
@@ -97,20 +140,15 @@
 
         <!-- page includes JS -->
 
-        <!-- prismjs plugin -->
-        <script src="{$path}/libs/prismjs/prism.js"></script>
+        <!-- apexcharts -->
+        <script src="{$path}/libs/apexcharts/apexcharts.min.js"></script>
 
-        <!-- google maps api -->
-        <script src="https://maps.google.com/maps/api/js?key=AIzaSyCtSAR45TFgZjOs4nBFFZnII-6mMHLfSYI"></script>
-
-        <!-- gmaps plugins -->
-        <script src="{$path}/libs/gmaps/gmaps.min.js"></script>
-
-        <!-- gmaps init -->
-        <script src="{$themePath}/assets/js/pages/gmaps.init.js"></script>
+        <!-- radialbar charts init -->
+        <script src="{$themePath}/assets/js/pages/apexcharts-radialbar.init.js"></script>
 
 
         <xsl:call-template name="igrp-scripts"/>
+
 
 
       </body>

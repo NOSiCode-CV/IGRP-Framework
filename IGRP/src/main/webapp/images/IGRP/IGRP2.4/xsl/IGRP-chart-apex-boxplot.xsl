@@ -25,63 +25,48 @@
 
                   <div class="container-fluid">
                     <div class="row">
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Markers</h4>
+                            <h4 class="card-title mb-0">Basic Box Chart</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="gmaps-markers" class="gmaps"></div>
+                            <div id="basic_box" data-colors='["--vz-primary", "--vz-info"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
                       <!-- end col -->
 
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Overlays</h4>
+                            <h4 class="card-title mb-0">Boxplot with Scatter Chart</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="gmaps-overlay" class="gmaps"></div>
+                            <div id="box_plot" data-colors='["--vz-danger", "--vz-info", "--vz-danger", "--vz-primary"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
                       <!-- end col -->
                     </div>
                     <!-- end row -->
-
                     <div class="row">
-                      <div class="col-lg-6">
+                      <div class="col-xl-6">
                         <div class="card">
                           <div class="card-header">
-                            <h4 class="card-title mb-0">Street View Panoramas</h4>
+                            <h4 class="card-title mb-0">Horizontal BoxPlot</h4>
                           </div>                          <!-- end card header -->
 
                           <div class="card-body">
-                            <div id="panorama" class="gmaps-panaroma"></div>
-                          </div>                          <!-- end card-body -->
-                        </div>                        <!-- end card -->
-                      </div>
-                      <!-- end col -->
-
-                      <div class="col-lg-6">
-                        <div class="card">
-                          <div class="card-header">
-                            <h4 class="card-title mb-0">Map Types</h4>
-                          </div>                          <!-- end card header -->
-
-                          <div class="card-body">
-                            <div id="gmaps-types" class="gmaps"></div>
+                            <div id="box_plot_hori" data-colors='["--vz-light", "--vz-card-bg-custom"]' class="apex-charts" dir="ltr"></div>
                           </div>                          <!-- end card-body -->
                         </div>                        <!-- end card -->
                       </div>
                       <!-- end col -->
                     </div>
                     <!-- end row -->
-
                   </div>
                   <!-- container-fluid -->
 
@@ -97,20 +82,15 @@
 
         <!-- page includes JS -->
 
-        <!-- prismjs plugin -->
-        <script src="{$path}/libs/prismjs/prism.js"></script>
+        <!-- apexcharts -->
+        <script src="{$path}/libs/apexcharts/apexcharts.min.js"></script>
 
-        <!-- google maps api -->
-        <script src="https://maps.google.com/maps/api/js?key=AIzaSyCtSAR45TFgZjOs4nBFFZnII-6mMHLfSYI"></script>
-
-        <!-- gmaps plugins -->
-        <script src="{$path}/libs/gmaps/gmaps.min.js"></script>
-
-        <!-- gmaps init -->
-        <script src="{$themePath}/assets/js/pages/gmaps.init.js"></script>
+        <!-- boxplotcharts init -->
+        <script src="{$themePath}/assets/js/pages/apexcharts-boxplot.init.js"></script>
 
 
         <xsl:call-template name="igrp-scripts"/>
+
 
 
       </body>

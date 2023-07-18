@@ -115,7 +115,7 @@
                                 </div>
                                 <div class="flex-shrink-0">
                                   <div>
-                                    <a href="apps-ecommerce-add-product.html" class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                    <a href="IGRP-ecommerce-create-product.xml" class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
                                       <i class="ri-pencil-fill align-bottom"></i>
                                     </a>
                                   </div>
