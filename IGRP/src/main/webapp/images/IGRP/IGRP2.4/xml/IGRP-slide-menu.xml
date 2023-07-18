@@ -20,13 +20,20 @@
       <title>Typography</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-foundations-typography.xml</link>
     </submenu>
+
     <submenu>
       <title>Grid System</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-foundations-grid.xml</link>
     </submenu>
+
     <submenu>
       <title>Colors</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-foundations-colors.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Utilities</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-foundations-utilities.xml</link>
     </submenu>
   </menu>
 
@@ -38,97 +45,106 @@
       <title>Alerts</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-alert.xml</link>
     </submenu>
+
     <submenu>
       <title>Badges</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-badges.xml</link>
     </submenu>
+
     <submenu>
       <title>Buttons</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-buttons.xml</link>
     </submenu>
+
     <submenu>
       <title>Cards</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-cards.xml</link>
     </submenu>
+
     <submenu>
       <title>Carousel</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-carousel.xml</link>
     </submenu>
+
     <submenu>
       <title>Dropdows</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-dropdows.xml</link>
     </submenu>
+
     <submenu>
       <title>Images</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-images.xml</link>
     </submenu>
+
     <submenu>
       <title>Tabs</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-tabs.xml</link>
     </submenu>
+
     <submenu>
       <title>Accordion &amp; Collapes</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-accordions.xml</link>
     </submenu>
+
     <submenu>
       <title>Modals</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-modals.xml</link>
     </submenu>
+
     <submenu>
       <title>Offcanvas</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-offcanvas.xml</link>
     </submenu>
+
     <submenu>
       <title>Placeholders</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-placeholders.xml</link>
     </submenu>
+
     <submenu>
       <title>Progress</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-progress.xml</link>
     </submenu>
+
     <submenu>
       <title>Notifications</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-notifications.xml</link>
     </submenu>
+
     <submenu>
       <title>Media object</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-media.xml</link>
     </submenu>
+
     <submenu>
       <title>Embed Video</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-embed-video.xml</link>
     </submenu>
-    <submenu>
-      <title>Typography</title>
-      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-foundations-typography.xml</link>
-    </submenu>
+
     <submenu>
       <title>Lists</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-list.xml</link>
     </submenu>
+
     <submenu>
       <title>General</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-general.xml</link>
     </submenu>
+
     <submenu>
       <title>Ribbons</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-ribbons.xml</link>
     </submenu>
-    <submenu>
-      <title>Utilities</title>
-      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-base-ui-utilities.xml</link>
-    </submenu>
 
-    <icon>ri-pencil-ruler-2-line</icon>
 
   </menu>
 
   <menu>
     <title>Advanced UI</title>
     <icon>ri-stack-line</icon>
-
+   
     <submenu>
-      <title>Separator List</title>
+      <title>Separador Lista</title>
       <link>/IGRP/images/IGRP/IGRP2.4/app/uxi/separatorlist-new/app.xml</link>
     </submenu>
 
@@ -281,18 +297,94 @@
     <icon>ri-pie-chart-line</icon>
 
     <submenu>
-      <title>Apexcharts</title>
-      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex.xml</link>
-    </submenu>
-
-    <submenu>
       <title>Chartsjs</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-chartjs.xml</link>
     </submenu>
-
+  <!--
     <submenu>
       <title>Echarts</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-echart.xml</link>
+    </submenu>
+    -->
+
+    <submenu>
+      <title>Apexchart - Line</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex-line.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Apexchart - Area</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex-area.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Apexchart - Column</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex-column.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Apexchart - Bar</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex-bar.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Apexchart - Mixed</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex-mixed.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Apexchart - Timeline</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex-timeline.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Apexchart - Candlstick</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex-candlstick.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Apexchart - Boxplot</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex-boxplot.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Apexchart - Bubble</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex-bubble.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Apexchart - Scatter</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex-scatter.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Apexchart - Heatmap</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex-heatmap.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Apexchart - Treemap</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex-treemap.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Apexchart - Pie</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex-pie.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Apexchart - Radialbar</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex-radialbar.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Apexchart - Radar</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex-radar.xml</link>
+    </submenu>
+
+    <submenu>
+      <title>Apexchart - Polar Area</title>
+      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-chart-apex-polar-area.xml</link>
     </submenu>
 
   </menu>
@@ -322,26 +414,20 @@
     <title>Dashboard</title>
     <icon>ri-dashboard-line</icon>
     <!--Respectivos submenus-->
+
     <submenu>
       <title>Analytics</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-home.xml</link>
     </submenu>
+
     <submenu>
       <title>CRM</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-dashboard-crm.xml</link>
     </submenu>
+
     <submenu>
       <title>E-commerce</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-dashboard-ecommerce.xml</link>
-    </submenu>
-    <submenu>
-      <title>Base UI</title>
-      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-dashboard-base-ui.xml</link>
-    </submenu>
-
-    <submenu>
-      <title>Widgets</title>
-      <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-widgets.xml</link>
     </submenu>
 
     <submenu>
@@ -439,10 +525,6 @@
       <status>0</status>
     </submenu>
 
-
   </menu>
-
-
-
 
 </menus>
