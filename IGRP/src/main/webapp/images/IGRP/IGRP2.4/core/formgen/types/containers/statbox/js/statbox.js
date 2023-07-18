@@ -8,6 +8,9 @@ this[VARS.name].declareContainer({
 
 		var container = this;
 
+		const IconsProperty = GEN.getGlobalProperty('icons-property');
+
+
 		container.xml.structure = 'form';
 
 		container.includes = {
@@ -73,12 +76,21 @@ this[VARS.name].declareContainer({
 				//valuePersist : true
 			});
 
-			GEN.setImgAttr(container,{
+			IconsProperty(container,{
+				name:'icn',
+				value:'fa-check',
+				isField : true,
+				valuePersist : true,
+				showPosition : false
+			});
+
+			/*GEN.setImgAttr(container,{
 				name:'icn',
 				value:'fa-check',
 				isField   : true,
-				valuePersist : true
-			});
+				valuePersist : true,
+				//showPosition: 
+			});*/
 
 			/*container.setPropriety({
 				name:'icn',

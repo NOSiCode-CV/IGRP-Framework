@@ -101,7 +101,7 @@
 		"icons-property", 
 		(object, defaults = {}) => {	
 			var name = defaults.name ? defaults.name : "img";
-
+			var showPosition = defaults.showPosition  === false ? false : true;
 			object.setPropriety({
 				name: "iconColor",
 				value: object.proprieties.iconColor
@@ -188,76 +188,77 @@
 				isField: defaults.isField,
 				valuePersist: defaults.valuePersist,
 			});
+			
+			if(showPosition)
+				(function () {
+					var faSetter = () => $(".gen-fa-setter");
+					var btnClssSetter = () => $('.propriety-setter[rel="class"]');
+					var btnStyleSetter = () => $('.propriety-setter[rel="btnStyle"]');
+					var labelSetter = () => $('.propriety-setter[rel="label"]');
+					//var set
+					object.setPropriety({
+						name: "iconPosition",
+						label: "Posição do Icon",
+						value: {
+							value: object.proprieties.iconPosition
+								? object.proprieties.iconPosition
+								: "left",
+							list: {
+								items: [
+									{ value: "left", label: "Esquerda" },
+									{ value: "right", label: "Direita" },
+								],
+								itemTemplate: ({ label, value }) => {
+									const icon =
+										faSetter().attr("attr-value") || `ri-arrow-${value}-line`;
+									const _label = object.GET.label ? object.GET.label() : label;
+									const clss = btnClssSetter().val();
+									const style = btnStyleSetter().val();
 
-			(function () {
-				var faSetter = () => $(".gen-fa-setter");
-				var btnClssSetter = () => $('.propriety-setter[rel="class"]');
-				var btnStyleSetter = () => $('.propriety-setter[rel="btnStyle"]');
-				var labelSetter = () => $('.propriety-setter[rel="label"]');
-				//var set
-				object.setPropriety({
-					name: "iconPosition",
-					label: "Posição do Icon",
-					value: {
-						value: object.proprieties.iconPosition
-							? object.proprieties.iconPosition
-							: "left",
-						list: {
-							items: [
-								{ value: "left", label: "Esquerda" },
-								{ value: "right", label: "Direita" },
-							],
-							itemTemplate: ({ label, value }) => {
-								const icon =
-									faSetter().attr("attr-value") || `ri-arrow-${value}-line`;
-								const _label = object.GET.label() || label;
-								const clss = btnClssSetter().val();
-								const style = btnStyleSetter().val();
-
-								return `<div>
-								<a icon-position="${value}" href="#" class=" btn-label  btn btn-sm ${style}-${clss} icon-position-prop d-flex align-items-center">
-									<i class="label-icon fa ${icon}"></i>
-									<span  class="btn-text" text="${
-										value == "right" ? "Direita" : "Esquerda"
-									}">${_label}</span>
-								</a>
-							</div>`;
+									return `<div>
+									<a icon-position="${value}" href="#" class=" btn-label  btn btn-sm ${style}-${clss} icon-position-prop d-flex align-items-center">
+										<i class="label-icon fa ${icon}"></i>
+										<span  class="btn-text" text="${
+											value == "right" ? "Direita" : "Esquerda"
+										}">${_label}</span>
+									</a>
+								</div>`;
+								},
 							},
 						},
-					},
-					onEditionStart: (v) => {
-						var setBtnClss = () => {
-							$(".icon-position-prop", v.input).each((i, el) => {
-								const prefix = "btn-";
-								const classes = el.className
-									.split(" ")
-									.filter((c) => !c.startsWith(prefix));
-								const clss = btnClssSetter().val();
-								const style = btnStyleSetter().val();
+						onEditionStart: (v) => {
+							var setBtnClss = () => {
+								$(".icon-position-prop", v.input).each((i, el) => {
+									const prefix = "btn-";
+									const classes = el.className
+										.split(" ")
+										.filter((c) => !c.startsWith(prefix));
+									const clss = btnClssSetter().val();
+									const style = btnStyleSetter().val();
 
-								el.className =
-									classes.join(" ").trim() + ` ${style}-${clss} btn-label btn-sm`;
+									el.className =
+										classes.join(" ").trim() + ` ${style}-${clss} btn-label btn-sm`;
+								});
+							};
+
+							btnClssSetter().on("change", setBtnClss);
+
+							btnStyleSetter().on("change", setBtnClss);
+
+							labelSetter().on("blur", () => {
+								$(".btn-text", v.input).each((i, t) => {
+									$(t).text(labelSetter().val() || $(t).attr("text"));
+								});
 							});
-						};
 
-						btnClssSetter().on("change", setBtnClss);
-
-						btnStyleSetter().on("change", setBtnClss);
-
-						labelSetter().on("blur", () => {
-							$(".btn-text", v.input).each((i, t) => {
-								$(t).text(labelSetter().val() || $(t).attr("text"));
+							faSetter().on("attr-value-change", (e, icon) => {
+								$(".icon-position-prop", v.input)
+									.find("i")
+									.attr("class", `label-icon fa ${icon}`);
 							});
-						});
-
-						faSetter().on("attr-value-change", (e, icon) => {
-							$(".icon-position-prop", v.input)
-								.find("i")
-								.attr("class", `label-icon fa ${icon}`);
-						});
-					},
-				});
-			})();
+						},
+					});
+				})();
   });
 
   GEN.defineGlobalProperty(

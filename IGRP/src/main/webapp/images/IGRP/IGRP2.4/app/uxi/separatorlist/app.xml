@@ -22,8 +22,8 @@
     <plsql>
         <action>undefined</action>
         <package_instance></package_instance>
-        <package_db></package_db>
-        <package_html></package_html>
+        <package_db>nosi.webapps.igrphorizon</package_db>
+        <package_html>Teste</package_html>
         <table_name></table_name>
         <with_replace>false</with_replace>
         <with_label>false</with_label>
@@ -38,34 +38,54 @@
     <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>IGRP 2.4 Dashboard</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="toolsbar_1_button_1" refresh_components="">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img position="left">btn-primary|fa-angle-right</img>
+                <preview/>
+            </item>
+            <item type="specific" code="" rel="toolsbar_1_button_2" refresh_components="">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img position="left">btn-primary|fa-angle-right</img>
+                <preview/>
+            </item>
+        </toolsbar_1>
         <separatorlist_1 type="separatorlist" xml-type="separatorlist" title="Separatorlist" gen-clean="true" gen-type="container" gen-group="true">
             <fields>
                 <separatorlist_1_text_1 name="p_separatorlist_1_text_1" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" disablehtml="true" placeholder="" desclabel="false" desc="true">
                     <label>Text</label>
-                    <value>Rem perspiciatis ut doloremque accusantium</value>
+                    <value>Rem natus consectetur elit rem</value>
                 </separatorlist_1_text_1>
             </fields>
             <table>
                 <value>
                     <row>
-                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Totam mollit lorem perspiciatis voluptatem</separatorlist_1_text_1>
-                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Totam mollit lorem perspiciatis voluptatem</separatorlist_1_text_1_desc>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Magna accusantium aliqua accusantium totam</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Magna accusantium aliqua accusantium totam</separatorlist_1_text_1_desc>
                     </row>
                     <row>
-                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Voluptatem rem natus elit iste</separatorlist_1_text_1>
-                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Voluptatem rem natus elit iste</separatorlist_1_text_1_desc>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Stract amet adipiscing amet omnis</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Stract amet adipiscing amet omnis</separatorlist_1_text_1_desc>
                     </row>
                     <row>
-                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Doloremque ipsum labore sit elit</separatorlist_1_text_1>
-                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Doloremque ipsum labore sit elit</separatorlist_1_text_1_desc>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Sit labore adipiscing aperiam anim</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Sit labore adipiscing aperiam anim</separatorlist_1_text_1_desc>
                     </row>
                     <row>
-                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Elit anim rem omnis aliqua</separatorlist_1_text_1>
-                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Elit anim rem omnis aliqua</separatorlist_1_text_1_desc>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Totam unde sit perspiciatis stract</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Totam unde sit perspiciatis stract</separatorlist_1_text_1_desc>
                     </row>
                     <row>
-                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Elit ipsum ut anim labore</separatorlist_1_text_1>
-                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Elit ipsum ut anim labore</separatorlist_1_text_1_desc>
+                        <separatorlist_1_text_1 name="p_separatorlist_1_text_1" desc="true">Aliqua stract natus mollit accusantium</separatorlist_1_text_1>
+                        <separatorlist_1_text_1_desc name="p_separatorlist_1_text_1_desc">Aliqua stract natus mollit accusantium</separatorlist_1_text_1_desc>
                     </row>
                 </value>
             </table>

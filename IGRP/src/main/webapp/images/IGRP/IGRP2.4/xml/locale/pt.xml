@@ -31,6 +31,9 @@
     <gen-table-header-style>Cor do cabeçalho</gen-table-header-style>
     <gen-show-title>mostrar título</gen-show-title>
     <gen-tag-property-label>identificador</gen-tag-property-label>
+    <gen-java-settings-title>Configurações de ambiente</gen-java-settings-title>
+    <gen-java-settings-package-name>Nome do pacote</gen-java-settings-package-name>
+ 
 
     <ui-white>branco</ui-white>
     <ui-gray>cinza</ui-gray>

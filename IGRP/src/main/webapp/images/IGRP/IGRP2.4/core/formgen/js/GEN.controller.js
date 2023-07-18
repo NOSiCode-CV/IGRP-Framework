@@ -3864,10 +3864,10 @@ var GENERATOR = function(genparams){
 			},
 			checkBtn:function(){
 				
-				if(GEN.SETTINGS.GET('package') && GEN.SETTINGS.GET('html') && GEN.SETTINGS.GET('subversionpath'))
+				/*if(GEN.SETTINGS.GET('package') && GEN.SETTINGS.GET('html') && GEN.SETTINGS.GET('subversionpath'))
 					$('#gen-execute-subv').removeAttr('disabled');
 				else
-					$('#gen-execute-subv').attr('disabled','disabled');
+					$('#gen-execute-subv').attr('disabled','disabled');*/
 				
 			},
 			toJson:function(){
@@ -5816,7 +5816,7 @@ var GENERATOR = function(genparams){
 						itemTemplate: ({label,value})=>{
 							const icon = faSetter().attr('attr-value') ||  `ri-arrow-${value}-line`;
 							const iconPosition = value;
-							const _label = field.GET.label() || label;
+							const _label = field.GET.label && field.GET.label() || label;
 							const clss = btnClssSetter().val();
 							const style = btnStyleSetter().val();
 

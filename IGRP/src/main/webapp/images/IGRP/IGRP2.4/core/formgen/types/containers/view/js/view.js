@@ -8,10 +8,11 @@ var GENVIEW = function(name,params){
 	container.includes = {css:[{ path:'/plugins/view/igrp.view.css' }]};
 
 	container.ready = function(){
+		
 		container.setPropriety({
 			name      :'img',
 			label     :'Image?',
-			value     :true,
+			value     :false,
 			transform :true
 		});
 		

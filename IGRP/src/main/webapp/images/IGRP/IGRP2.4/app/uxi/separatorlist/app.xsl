@@ -4,6 +4,7 @@
     <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
       <head>
         <xsl:call-template name="igrp-head"/>
+        <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/toolsbar/igrp.ds.toolsbar.css?v={$version}"/>
         <link rel="stylesheet" type="text/css" href="{$path}/plugins/separatorlist/igrp.separatorlist.css?v={$version}"/>
         <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/dataTables.bootstrap.css?v={$version}"/>
         <link rel="stylesheet" type="text/css" href="{$path}/components/separatorlist/igrp.separatorlist.css?v={$version}"/>
@@ -18,20 +19,27 @@
               <div class="container-fluid">
                 <xsl:call-template name="igrp-page-title"/>
                 <div class="igrp-page-contents">
-                  <div class="row " id="row-4ac04f19">
+                  <div class="row " id="row-cfc58070">
                     <div class="gen-column col-md-12">
                       <div class="gen-inner">
+                        <xsl:if test="rows/content/toolsbar_1">
+                          <div class="toolsbar-holder clearfix gen-container-item " gen-structure="toolsbar" gen-fields=".btns-holder&gt;a.btn" gen-class="" item-name="toolsbar_1">
+                            <div class="btns-holder  justify-content-end d-flex align-items-center clearfix" role="group">
+                              <xsl:apply-templates select="rows/content/toolsbar_1" mode="igrp-button-item">
+                                <xsl:with-param name="rounded" select="'false'"/>
+                              </xsl:apply-templates>
+                            </div>
+                          </div>
+                        </xsl:if>
                         <xsl:if test="rows/content/separatorlist_1">
-                          <div class="box card gen-container-item " id="separatorlist1689161966840" gen-class="" item-name="separatorlist_1">
+                          <div class="box card gen-container-item " id="separatorlist1689636297186" gen-class="" item-name="separatorlist_1">
                             <div class="card-header d-flex align-items-center ">
                               <h3 class="card-title ">
                                 <xsl:value-of select="rows/content/separatorlist_1/@title"/>
                               </h3>
                               <xsl:if test="(not(rows/content/separatorlist_1/@noadd) or rows/content/separatorlist_1/@noadd != 'true')">
                                 <div class="ms-auto">
-                                  <a class="btn fs-12 btn-sm btn-success show-add-row text-capitalize">
-                                    <xsl:value-of select="$locale-strings/add"/>
-                                  </a>
+                                  <xsl:call-template name="igrp-separatorlist-add"/>
                                 </div>
                               </xsl:if>
                             </div>
@@ -55,44 +63,9 @@
                                 <xsl:if test="(not(rows/content/separatorlist_1/@noadd) or rows/content/separatorlist_1/@noadd != 'true')">
                                   <div class="splist-form row g-4" role="form">
                                     <xsl:apply-templates mode="form-hidden-fields" select="rows/content/separatorlist_1/fields"/>
-                                    <xsl:if test="rows/content/separatorlist_1/fields/separatorlist_1_select_1">
-                                      <div class="col-sm-3 form-group  gen-fields-holder" item-name="separatorlist_1_select_1" item-type="select">
-                                        <xsl:apply-templates mode="igrp-form-select-field" select="rows/content/separatorlist_1/fields/separatorlist_1_select_1">
-                                          <xsl:param name="parent-id" select="'separatorlist_1'"/>
-                                          <xsl:param name="change" select="''"/>
-                                          <xsl:param name="tags" select="'false'"/>
-                                          <xsl:param name="maxlength" select="'250'"/>
-                                          <xsl:with-param name="multiple" select="'false'"/>
-                                        </xsl:apply-templates>
-                                      </div>
-                                    </xsl:if>
                                     <xsl:if test="rows/content/separatorlist_1/fields/separatorlist_1_text_1">
                                       <div class="col-md-3 gen-fields-holder" item-name="separatorlist_1_text_1" item-type="text">
                                         <xsl:apply-templates mode="igrp-form-field" select="rows/content/separatorlist_1/fields/separatorlist_1_text_1">
-                                          <xsl:with-param name="change" select="''"/>
-                                          <xsl:with-param name="declabel" select="''"/>
-                                          <xsl:with-param name="inputmask" select="''"/>
-                                          <xsl:with-param name="maxlength" select="'250'"/>
-                                        </xsl:apply-templates>
-                                      </div>
-                                    </xsl:if>
-                                    <xsl:if test="rows/content/separatorlist_1/fields/separatorlist_1_date_1">
-                                      <div class="form-group col-sm-3 gen-date-picker-wrapper gen-fields-holder" item-name="separatorlist_1_date_1" item-type="date">
-                                        <xsl:apply-templates mode="igrp-form-date-field" select="rows/content/separatorlist_1/fields/separatorlist_1_date_1">
-                                          <xsl:with-param name="format" select="'d-m-Y'"/>
-                                          <xsl:with-param name="enableTime" select="'false'"/>
-                                          <xsl:with-param name="disableWeekends" select="'false'"/>
-                                          <xsl:with-param name="disabledBeforetoday" select="'false'"/>
-                                          <xsl:with-param name="range" select="'false'"/>
-                                          <xsl:with-param name="change" select="''"/>
-                                          <xsl:with-param name="maxlength" select="'250'"/>
-                                          <xsl:with-param name="placeholder" select="''"/>
-                                        </xsl:apply-templates>
-                                      </div>
-                                    </xsl:if>
-                                    <xsl:if test="rows/content/separatorlist_1/fields/separatorlist_1_email_1">
-                                      <div class="col-md-3 gen-fields-holder" item-name="separatorlist_1_email_1" item-type="email">
-                                        <xsl:apply-templates mode="igrp-form-field" select="rows/content/separatorlist_1/fields/separatorlist_1_email_1">
                                           <xsl:with-param name="change" select="''"/>
                                           <xsl:with-param name="declabel" select="''"/>
                                           <xsl:with-param name="inputmask" select="''"/>
@@ -107,15 +80,6 @@
                                 <table rel="T_separatorlist_1" id="separatorlist_1" class="table  table- gen-data-table">
                                   <thead class="table-light">
                                     <tr>
-                                      <xsl:if test="rows/content/separatorlist_1/fields/separatorlist_1_select_1">
-                                        <xsl:if test="not(//rows/content/separatorlist_1/fields/separatorlist_1_select_1/@visible)">
-                                          <th align="" item-name="separatorlist_1_select_1">
-                                            <span>
-                                              <xsl:value-of select="rows/content/separatorlist_1/fields/separatorlist_1_select_1/label"/>
-                                            </span>
-                                          </th>
-                                        </xsl:if>
-                                      </xsl:if>
                                       <xsl:if test="rows/content/separatorlist_1/fields/separatorlist_1_text_1">
                                         <xsl:if test="not(//rows/content/separatorlist_1/fields/separatorlist_1_text_1/@visible)">
                                           <th align="" item-name="separatorlist_1_text_1">
@@ -125,27 +89,9 @@
                                           </th>
                                         </xsl:if>
                                       </xsl:if>
-                                      <xsl:if test="rows/content/separatorlist_1/fields/separatorlist_1_date_1">
-                                        <xsl:if test="not(//rows/content/separatorlist_1/fields/separatorlist_1_date_1/@visible)">
-                                          <th align="" item-name="separatorlist_1_date_1">
-                                            <span>
-                                              <xsl:value-of select="rows/content/separatorlist_1/fields/separatorlist_1_date_1/label"/>
-                                            </span>
-                                          </th>
-                                        </xsl:if>
-                                      </xsl:if>
-                                      <xsl:if test="rows/content/separatorlist_1/fields/separatorlist_1_email_1">
-                                        <xsl:if test="not(//rows/content/separatorlist_1/fields/separatorlist_1_email_1/@visible)">
-                                          <th align="" item-name="separatorlist_1_email_1">
-                                            <span>
-                                              <xsl:value-of select="rows/content/separatorlist_1/fields/separatorlist_1_email_1/label"/>
-                                            </span>
-                                          </th>
-                                        </xsl:if>
-                                      </xsl:if>
                                       <th class="table-btn">
                                         <xsl:if test="(not(rows/content/separatorlist_1/@noadd) or rows/content/separatorlist_1/@noadd != 'true')">
-                                          <a class="d-none table-row-add btn-xs btn btn-primary" >
+                                          <a class="table-row-add btn-xs btn btn-primary d-none" title="Add" data-toggle="tooltip" data-placement="left">
                                             <i class="fa fa-plus"/>
                                           </a>
                                         </xsl:if>
@@ -156,24 +102,7 @@
                                     <xsl:for-each select="rows/content/separatorlist_1/table/value/row">
                                       <tr>
                                         <input type="hidden" class="sl-row-id" name="p_separatorlist_1_id" value="{separatorlist_1_id}"/>
-                                        <xsl:apply-templates mode="form-hidden-fields" select="."/>
-                                        <xsl:if test="separatorlist_1_select_1">
-                                          <xsl:choose>
-                                            <xsl:when test="not(//rows/content/separatorlist_1/fields/separatorlist_1_select_1/@visible)">
-                                              <td field="separatorlist_1_select_1" data-row="{position()}" data-title="{../../../fields/separatorlist_1_select_1/label}" class="select" item-name="separatorlist_1_select_1">
-                                                <span class="separator-list-td-val">
-                                                  <xsl:value-of select="separatorlist_1_select_1_desc"/>
-                                                </span>
-                                                <input type="hidden" name="p_separatorlist_1_select_1_fk" value="{separatorlist_1_select_1}"/>
-                                                <input type="hidden" name="p_separatorlist_1_select_1_fk_desc" value="{separatorlist_1_select_1_desc}"/>
-                                              </td>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                              <input type="hidden" name="p_separatorlist_1_select_1_fk" value="{separatorlist_1_select_1}"/>
-                                              <input type="hidden" name="p_separatorlist_1_select_1_fk_desc" value="{separatorlist_1_select_1_desc}"/>
-                                            </xsl:otherwise>
-                                          </xsl:choose>
-                                        </xsl:if>
+                                        <xsl:apply-templates mode="form-hidden-fields" select="."/>		
                                         <xsl:if test="separatorlist_1_text_1">
                                           <xsl:choose>
                                             <xsl:when test="not(//rows/content/separatorlist_1/fields/separatorlist_1_text_1/@visible)">
@@ -191,61 +120,14 @@
                                             </xsl:otherwise>
                                           </xsl:choose>
                                         </xsl:if>
-                                        <xsl:if test="separatorlist_1_date_1">
-                                          <xsl:choose>
-                                            <xsl:when test="not(//rows/content/separatorlist_1/fields/separatorlist_1_date_1/@visible)">
-                                              <td field="separatorlist_1_date_1" data-row="{position()}" data-title="{../../../fields/separatorlist_1_date_1/label}" class="date" item-name="separatorlist_1_date_1">
-                                                <span class="separator-list-td-val">
-                                                  <xsl:value-of select="separatorlist_1_date_1_desc"/>
-                                                </span>
-                                                <input type="hidden" name="p_separatorlist_1_date_1_fk" value="{separatorlist_1_date_1}"/>
-                                                <input type="hidden" name="p_separatorlist_1_date_1_fk_desc" value="{separatorlist_1_date_1_desc}"/>
-                                              </td>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                              <input type="hidden" name="p_separatorlist_1_date_1_fk" value="{separatorlist_1_date_1}"/>
-                                              <input type="hidden" name="p_separatorlist_1_date_1_fk_desc" value="{separatorlist_1_date_1_desc}"/>
-                                            </xsl:otherwise>
-                                          </xsl:choose>
-                                        </xsl:if>
-                                        <xsl:if test="separatorlist_1_email_1">
-                                          <xsl:choose>
-                                            <xsl:when test="not(//rows/content/separatorlist_1/fields/separatorlist_1_email_1/@visible)">
-                                              <td field="separatorlist_1_email_1" data-row="{position()}" data-title="{../../../fields/separatorlist_1_email_1/label}" class="email" item-name="separatorlist_1_email_1">
-                                                <span class="separator-list-td-val">
-                                                  <xsl:value-of select="separatorlist_1_email_1_desc"/>
-                                                </span>
-                                                <input type="hidden" name="p_separatorlist_1_email_1_fk" value="{separatorlist_1_email_1}"/>
-                                                <input type="hidden" name="p_separatorlist_1_email_1_fk_desc" value="{separatorlist_1_email_1_desc}"/>
-                                              </td>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                              <input type="hidden" name="p_separatorlist_1_email_1_fk" value="{separatorlist_1_email_1}"/>
-                                              <input type="hidden" name="p_separatorlist_1_email_1_fk_desc" value="{separatorlist_1_email_1_desc}"/>
-                                            </xsl:otherwise>
-                                          </xsl:choose>
-                                        </xsl:if>
                                         <td data-row="{position()}" class="table-btn" style="vertical-align:middle">
-                                          <div class="d-flex align-items-center">
-                                            <xsl:if test="not(//rows/content/separatorlist_1/@noedit) or //rows/content/separatorlist_1/@noedit != 'true'">
-                                              <span class="table-row-undo btn btn-ghost-info" rel="separatorlist_1">
-                                                <i class="fa fa-undo"/>
-                                              </span>
-                                              <span class="table-row-edit btn btn-ghost-success " rel="separatorlist_1" >
-                                                <i class="ri-edit-2-line"/>
-                                              </span>
-                                            </xsl:if>
-                                            <xsl:if test="not(//rows/content/separatorlist_1/@nodelete) or //rows/content/separatorlist_1/@nodelete != 'true'">
-                                              <span class="table-row-remove btn btn-ghost-danger" rel="separatorlist_1" >
-                                                <i class="ri-delete-bin-line"/>
-                                              </span>
-                                            </xsl:if>
-                                          </div>
+                                          <xsl:apply-templates mode="igrp-separatorlist-row-actions" select="//rows/content/separatorlist_1"/>
                                         </td>
                                       </tr>
                                     </xsl:for-each>
                                   </tbody>
                                 </table>
+                                <xsl:apply-templates mode="igrp-separatorlist-after-table" select="rows/content/separatorlist_1"/>
                               </div>
                             </div>
                           </div>
@@ -266,27 +148,20 @@
         <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
         <script type="text/javascript" src="{$path}/core/igrp/components/list-association/igrp.list.association.1.1.js?v={$version}"/>
         <script type="text/javascript" src="{$path}/components/separatorlist/igrp.separatorlist.js?v={$version}"/>
-        <!-- SELECT JS INCLUDES -->
-        <script type="text/javascript" src="{$path}/libs/choices.js/public/assets/scripts/choices.min.js?v={$version}"/>
-        <!-- DATE JS INCLUDES -->
-        <script type="text/javascript" src="{$path}/core/moment/moment.min.js?v={$version}"/>
-        <script type="text/javascript" src="{$path}/libs/flatpickr/flatpickr.min.js?v={$version}"/>
-        <script type="text/javascript" src="{$path}/libs/flatpickr/l10n/pt.js?v={$version}"/>
-        <script type="text/javascript" src="{$path}/libs/flatpickr/l10n/en.js?v={$version}"/>
-        <script type="text/javascript" src="{$path}/components/datepicker/init.js?v={$version}"/>
       </body>
     </html>
   </xsl:template>
-  <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=12"/>
-  <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=12"/>
-  <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=12"/>
-  <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=12"/>
-  <xsl:include href="../../../xsl/tmpl/parts.common.xsl?v=12"/>
-  <xsl:include href="../../../xsl/tmpl/parts.head.xsl?v=12"/>
-  <xsl:include href="../../../xsl/tmpl/parts.header.xsl?v=12"/>
-  <xsl:include href="../../../xsl/tmpl/parts.scripts.xsl?v=12"/>
-  <xsl:include href="../../../xsl/tmpl/parts.footer.xsl?v=12"/>
-  <xsl:include href="../../../xsl/tmpl/parts.sidebar.xsl?v=12"/>
-  <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=12"/>
-  <xsl:include href="../../../xsl/tmpl/component.form.fields.xsl?v=12"/>
+  <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=17"/>
+  <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=17"/>
+  <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=17"/>
+  <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=17"/>
+  <xsl:include href="../../../xsl/tmpl/parts.common.xsl?v=17"/>
+  <xsl:include href="../../../xsl/tmpl/parts.head.xsl?v=17"/>
+  <xsl:include href="../../../xsl/tmpl/parts.header.xsl?v=17"/>
+  <xsl:include href="../../../xsl/tmpl/parts.scripts.xsl?v=17"/>
+  <xsl:include href="../../../xsl/tmpl/parts.footer.xsl?v=17"/>
+  <xsl:include href="../../../xsl/tmpl/parts.sidebar.xsl?v=17"/>
+  <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=17"/>
+  <xsl:include href="../../../xsl/tmpl/component.form.fields.xsl?v=17"/>
+  <xsl:include href="../../../xsl/tmpl/component.separatorlist.xsl?v=17"/>
 </xsl:stylesheet>

@@ -386,7 +386,7 @@ var GENSTRUCTURES = function(GEN){
 				rtn+='<value>';
 				
 				if(container.GET.fields()[0]){
-					for(var i=0; i<5;i++){
+					for(var i=0; i<3;i++){
 						
 						var aux = i+1;
 

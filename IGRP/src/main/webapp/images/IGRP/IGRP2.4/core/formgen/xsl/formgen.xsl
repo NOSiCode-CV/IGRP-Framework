@@ -394,65 +394,63 @@
                  </xsl:if>
               </form-hidden>
               <!--PAGE SETTINGS-->
-              <div class="modal fade" data-backdrop="static" tabindex="-1" id="gen-settings-modal" role="dialog" >
-                  <div class="modal-dialog">
-                      <div class="modal-content">
-                          <div class="modal-header">
-                              <h4 id="" class="modal-title">Settings</h4>
-                          </div>
-                          <div class="modal-body" role="form">
-                              <div id="gen-page-settings" rel="settings">
-                                  <!--  <xsl:if test="rows/content/form/label/instancia">
-                                      <div class="col-md-6 form-group" item-name="instancia">
-                                          <label>
-                                              <xsl:value-of select="rows/content/form/label/instancia" disable-output-escaping="yes"/>
-                                          </label>
-                                          <select name="{rows/content/form/list/instancia/@name}" id="{rows/content/form/list/instancia/@name}" data-placeholder="{rows/content/form/list/instancia/option[position() = 1]/text}" class="select gen-page-setter form-control" rel="instance" required="required">
-                                              
-                                              <xsl:for-each select="rows/content/form/list/instancia/option[position() != 1]">
-                                                  <option value="{value}">
-                                                      <xsl:if test="@selected='true'">
-                                                          <xsl:attribute name="selected">selected</xsl:attribute>
-                                                      </xsl:if>
-                                                      <xsl:value-of select="text"/>
-                                                  </option>
-                                              </xsl:for-each>
-                                          </select>
-                                      </div>
-                                  </xsl:if>-->
-                                  <div class="col-md-6 form-group" item-name="gentype">
-                                      <label>Gen Type</label>
-                                      <select name="p_gentype" id="p_gentype" class="select gen-page-setter form-control" rel="gentype">
-                                        <!-- <option value="plsql" >Plsql</option> -->
-                                        <option value="java" selected="">Java</option>
-                                      </select>
-                                  </div>
-                                  <div class="col-md-6 form-group" item-name="package_db_name" required="required">
-                                      <label>Package Name (DB)</label>
-                                      <input rel="package" required="" type="text" name="plsql_pack" value="" class="text gen-page-setter form-control" maxlength="500"/>
-                                  </div>
-                                  <div class="col-md-6 form-group" item-name="package_html_name" required="required">
-                                      <label>Package Name (HTML)</label>
-                                      <input rel="html" type="text" required="" name="plsql_html" value="" class="text gen-page-setter form-control" maxlength="500"/>
-                                  </div>
+              <!-- Default Modals -->
 
-								 <div class="col-md-5 col-md-offset-1 checkbox" style="margin-top:15px">
-                                      <div  item-name="process">
-                                          <input rel="process" type="checkbox" name="plsql_process" value="" class="checkbox gen-page-setter "/>
-                                          <span>Processo</span>
-                                      </div>
-                                  </div>
+                <div  id="gen-settings-modal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="myModalLabel">
+                                    <xsl:value-of select="$locale-strings/gen-java-settings-title"/>
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="gen-page-settings" class="row" rel="settings">
 
-                              </div>
-                          </div>
-                          <div class="modal-footer" id="gen-page-setts-btns" style="clear:both">
-                              <button disabled="disabled" class="btn btn-link" id="gen-execute-subv">Subversion</button>
-                              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                              <button type="button" class="btn btn-primary" id="gen-page-setts-confirm">Confirm</button>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+                                    <div class="col-md-6 form-group d-none" item-name="gentype">
+                                        <label>Gen Type</label>
+                                        <select name="p_gentype" id="p_gentype" class="select gen-page-setter form-control" rel="gentype">
+                                          <!-- <option value="plsql" >Plsql</option> -->
+                                          <option value="java" selected="">Java</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group" item-name="package_db_name" required="required">
+                                        <label>Package Name (DB)</label>
+                                        <input rel="package" required="" type="text" name="plsql_pack" value="" class="text gen-page-setter form-control" maxlength="500"/>
+                                    </div>
+                                    <div class="col-md-6 form-group" item-name="package_html_name" required="required">
+                                        <label>Package Name (HTML)</label>
+                                        <input rel="html" type="text" required="" name="plsql_html" value="" class="text gen-page-setter form-control" maxlength="500"/>
+                                    </div>
+  
+                                   <div class="col-md-5 col-md-offset-1 checkbox" style="margin-top:15px">
+
+                                        <div class="form-check " item-name="process">
+                                            <input id="plsql_process" type="checkbox" name="plsql_process" value="" class="checkbox form-check-input checkbox gen-page-setter"/>
+                                            <label class="form-check-label " for="plsql_process">
+                                                Processo
+                                            </label>
+                                        </div>
+
+                            
+                                    </div>
+  
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn text-capitalize btn-light" data-bs-dismiss="modal">
+                                    <xsl:value-of select="$locale-strings/close"/>
+                                </button>
+                                <button type="button" class="btn text-capitalize btn-primary "  id="gen-page-setts-confirm">
+                                    <xsl:value-of select="$locale-strings/confirm"/>
+                                </button>
+                            </div>
+
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
               <!--EDITION MODAL-->
               <div class="modal fade" tabindex="-1" id="gen-edition-modal" role="dialog"  data-bs-keyboard="true" >
                   <div class="modal-dialog modal-lg">
@@ -788,7 +786,7 @@
 		
           <script src="{$path}/core/formgen/js/GEN.xsl.templates.utils.js"></script>
 
-          <script src="{$path}/core/formgen/js/GEN.subversion.js"></script>
+        
           <script src="{$path}/core/formgen/js/vkbeautify.0.99.00.beta.js"></script>
           <script>
 
