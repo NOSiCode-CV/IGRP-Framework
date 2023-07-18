@@ -16,8 +16,6 @@ import org.eclipse.jdt.core.compiler.batch.BatchCompiler;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.compiler.helpers.ErrorCompile;
-import nosi.core.webapp.compiler.helpers.MapErrorCompile;
 import nosi.core.webapp.helpers.FileHelper;
 
 
@@ -66,11 +64,7 @@ public class Compiler {
 			final String buildArgs = " -encoding UTF-8 "   
 										+ files +" -classpath " + jars.toString()  +  System.getProperty("path.separator") +  this.config.getBasePathClass()
 										+ " -d " + this.config.getBasePathClass() // lugar onde é colocado os arquivos compilados
-										+ " -warn:none -16  -Xemacs"; 
-
-			
-			//System.out.println(buildArgs);
-			
+										+ " -warn:none -16  -Xemacs";
 			StringWriter swS = new StringWriter();
 			StringWriter swE = new StringWriter();
 			PrintWriter outSuccess = new PrintWriter(swS);

@@ -181,8 +181,7 @@ public class ListaPageController extends Controller {
 							.equalsIgnoreCase("tutorial"))
 					.filter(profile -> !profile.getOrganization().getApplication().getDad()
 							.equalsIgnoreCase("igrp_studio"))
-					//ATTENTION .toList() only works in java +17 
-					.toList(); 
+					.collect(Collectors.toList());
 			for (Profile p : myApp) {
 				ListaPage.Table_2 myapps = new ListaPage.Table_2();
 				String page = "tutorial/DefaultPage";

@@ -19,7 +19,6 @@ public class GeneratorController extends Controller{
 	private SecureRandom r= new SecureRandom();
 	public Response actionIndex() throws IOException{		
 		/*----#START-PRESERVED-AREA(INDEX)----*/
-		
 		this.isNoCached=true;		
 		Generator model = new Generator();
 		Integer id = Core.getParamInt("p_id_page");
@@ -34,9 +33,7 @@ public class GeneratorController extends Controller{
 					model.setId_pai(ac.getApplication().getId());
 					model.setLink_image(this.getConfig().getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/img.list.php?name=");
 					model.setVersion(ac.getVersion());
-					//model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index"));
 					String json = this.getConfig().getCurrentBaseServerPahtXsl(ac)+ File.separator +ac.getPage()+".json";
-					
 					if(FileHelper.fileExists(json)){
 						json = this.getConfig().getCurrentResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json?v="+r.nextInt();
 						model.setPage_form(json.replace("\\", "/"));
