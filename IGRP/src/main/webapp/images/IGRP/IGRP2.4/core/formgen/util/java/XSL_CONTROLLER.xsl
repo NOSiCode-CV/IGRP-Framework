@@ -308,10 +308,8 @@
 
 		<xsl:variable name="preserveActionsExceptionsUrl" select="'throws IOException, IllegalArgumentException, IllegalAccessException'"/>
 
-
 		<xsl:value-of select="concat('public Response action',$action,'() ',$preserveActionsExceptionsUrl,'{')"/>
 	
-		
      	<xsl:variable name="url">
      		<xsl:value-of select="concat($preserve_url,'&amp;type=c_on_action&amp;ac=',$action,'&amp;app=',$app_name,'&amp;page=',$page_name)"></xsl:value-of>
      	</xsl:variable>	   	
@@ -493,13 +491,18 @@
 						</xsl:call-template> 			
 						<xsl:text>/* End-Code-Block  */</xsl:text>	
 						<xsl:call-template name="start-code">
-				     		<xsl:with-param name="type" select="concat($action,'')"/>
-				     		<xsl:with-param name="url" select="$url"/>
-				     		<!--  <xsl:with-param name="text" select="concat('return null;',$newline,$newline)"/> -->
-				     	</xsl:call-template>
+							<xsl:with-param name="type" select="$action"/>
+							<xsl:with-param name="url" select="$url"/>
+							<xsl:with-param 
+								name="preserved-content" 
+								select="concat('Response response = ',$page,'.',$action_name_,'(model);', $newline, $newline, $tab2)"
+							/>
+						</xsl:call-template>
 
 				     	<xsl:if test="not(@custom_return) or @custom_return!='true'">
-							<xsl:value-of select="concat('return ',$page,'.',$action_name_,'(model);')"/>	
+							
+							<!--<xsl:value-of select="concat('return ',$page,'.',$action_name_,'(model);')"/>-->	
+							<xsl:value-of select="'return response;'"/>	
 							<!--
 								<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString());')"/>
 							-->
