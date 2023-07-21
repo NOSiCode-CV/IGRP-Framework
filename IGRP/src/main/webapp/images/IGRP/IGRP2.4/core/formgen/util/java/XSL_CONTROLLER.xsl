@@ -250,6 +250,7 @@
 		<xsl:param name="type_render_"/>
 		<xsl:param name="extra" select="''"/>
 		<xsl:param name="after-custom-code" select="''"/>
+		<xsl:param name="before-custom-code" select="''"/>
 		
 		<xsl:variable name="model">
    			<xsl:value-of select="$page_"></xsl:value-of>
@@ -412,7 +413,12 @@
 						</xsl:if>	
 						
 						
-						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>					
+						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>		
+						
+						<xsl:value-of select="$newlineTab2"/>	
+						<xsl:value-of select="$before-custom-code"></xsl:value-of>	
+						<xsl:value-of select="$newlineTab2"/>	
+
 						<xsl:call-template name="setParam"/>
 						<xsl:call-template name="setSqlCombobox_">						
 							<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>						
@@ -425,12 +431,14 @@
 							<xsl:call-template name="setBoxValue"/>	
 							<xsl:call-template name="end-example"/>
 						</xsl:if>
-						<xsl:value-of select="$newlineTab2"/>		
+						<xsl:value-of select="$newlineTab2"/>
 						<xsl:text>/* Start-Code-Block (index) */</xsl:text>	
 						<xsl:call-template name="blockly.elements">
 							<xsl:with-param name="elements" select="//rows/blockly/xml/block/statement[@name='index']/block"/>
 						</xsl:call-template> 
 						<xsl:text>/* End-Code-Block (index) */</xsl:text>	
+						<xsl:value-of select="$newlineTab2"/>
+
 						<xsl:call-template name="start-code">
 				     		<xsl:with-param name="type" select="concat($action,'')"/>
 				     		<xsl:with-param name="url" select="$url"/>				    
@@ -558,11 +566,15 @@
 					<xsl:call-template name="start-code">
 			     		<xsl:with-param name="type" select="$action"/>
 			     		<xsl:with-param name="url" select="$url"/>
+						<xsl:with-param 
+							name="preserved-content" 
+							select="concat('Response response = ',$page,'.',$action_name_,'(model);', $newline, $newline, $tab2)"
+						/>
 			     	</xsl:call-template>
-			     	
+			     
 					<xsl:call-template name="newlineTab2"/>		
 					<xsl:if test="not(@custom_return) or @custom_return!='true'">
-						<xsl:value-of select="concat('return ',$page,'.',$action_name_,'(model);')"/>	
+						<xsl:value-of select="'return response;'"/>	
 						<!--<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString());')"/>-->
 					</xsl:if>
 				</xsl:if>
@@ -631,7 +643,7 @@
 			<xsl:with-param name="action_name_"><xsl:value-of select="'index'"/></xsl:with-param>
 			<xsl:with-param name="page_"><xsl:value-of select="$class_name"/></xsl:with-param>
 			<xsl:with-param name="type_render_"><xsl:value-of select="'render'"/></xsl:with-param>
-			<xsl:with-param name="after-custom-code" select="concat($page,'.index(model, view);')"/>
+			<xsl:with-param name="before-custom-code" select="concat($page,'.index(model, view);')"/>
 		</xsl:call-template>
  	</xsl:template>
 

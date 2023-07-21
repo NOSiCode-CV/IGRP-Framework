@@ -737,3 +737,16 @@ body.startin:after{
     text-transform: capitalize;
 }
 
+.container-contents>.igrp-inner-section>.inner-body.gen-rows-holder.ui-sortable>.row{
+    margin:0 -5px!important;
+}
+
+.gen-container-holder[type="single-container-row"] .row-options,
+.gen-container-holder[type="single-container-row"] .add-row-control{
+    display: none!important;
+}
+
+.single-container-row .gen-container-placeholder{
+    display: inherit;
+}
+

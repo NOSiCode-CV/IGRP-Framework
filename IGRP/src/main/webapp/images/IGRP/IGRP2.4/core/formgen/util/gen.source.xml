@@ -57,6 +57,17 @@
 			<hasField>false</hasField>
 			<group>layout</group>
 		</item>
+
+
+		<item hidden="">
+			<icon type='fa'></icon>
+			<type>container</type>
+			<name>single-container-row</name>
+			<label>Single Container Row</label>
+			<hasField>false</hasField>
+			<group>layout</group>
+		</item>
+
 		<item>
 			<icon type='fa'>header</icon>
 			<type>container</type>
@@ -262,6 +273,7 @@
 			<group>widget</group>
 			<accept></accept>
 		</item>
+		
 		<item>
 			<icon type='fa'>dashboard</icon>
 			<type>container</type>
@@ -269,6 +281,15 @@
 			<label>Stat Box</label>
 			<hasField>false</hasField>
 			<reject>map_layer,map_widget</reject>
+			<group>widget</group>
+			<accept></accept>
+		</item>
+		<item>
+			<icon type='fa'>dashboard</icon>
+			<type>container</type>
+			<name>statbox_list</name>
+			<label>Stat Box List</label>
+			<hasField>false</hasField>
 			<group>widget</group>
 			<accept></accept>
 		</item>

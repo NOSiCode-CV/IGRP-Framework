@@ -733,7 +733,7 @@ $(function() {
 					}
 				}
 				
-
+				
 				var xslBlock = content.substring(beginIdx, endIdx),
 
 					xslContent = xslBlock.substring(xslBlock.indexOf(startCodeXp) + startCodeXp.length, xslBlock.indexOf(options.end.expression)),
@@ -752,7 +752,11 @@ $(function() {
 						
 					original : originalContent,
 
-					content : actualContent
+					content : actualContent,
+
+					code : reservedCode,
+
+					field: field
 				};
 
 			}
@@ -764,12 +768,16 @@ $(function() {
 			replaceReservedContents(options);
 
 		} else {
-
+	
 			for (var a in options.returner) {
 
 				var contents = options.returner[a];
 
-				content = content.replaceAll(contents.original, contents.content);
+				if(contents.field?.type == 'button' && contents.code !== '\n\n\n' && contents.code !== '' ){
+				
+					content = content.replaceAll(contents.original, contents.content);
+
+				}
 
 			};
 

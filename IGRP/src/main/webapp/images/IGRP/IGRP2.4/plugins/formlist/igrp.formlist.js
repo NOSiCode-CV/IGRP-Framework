@@ -315,6 +315,8 @@
             };
 
             this.on('click',settings.btnObjDelete,function(ele){
+
+                ele.preventDefault();
                
                 vRel  = $(this).attr('rel');
 
@@ -323,6 +325,8 @@
                 var element = type == 'table' ? "tr:first" : '.fl-box';
 
                 onDelete($(this).parents(element));
+
+                return false;
             });
 
             var  removeChar = function(str, searchstr){

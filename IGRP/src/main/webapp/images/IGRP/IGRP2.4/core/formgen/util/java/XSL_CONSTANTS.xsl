@@ -467,6 +467,7 @@
         <xsl:param name="end" select="true()"/>
         <xsl:param name="tabCode" select="true()"/>
         <xsl:param name="tabIndent" select="'2'"/>
+        <xsl:param name="preserved-content"/>
 		
 		<xsl:variable name="indentation">			
 			<xsl:if test="$tabCode">
@@ -486,7 +487,6 @@
                 <xsl:with-param name="text" select="$type"/>
             </xsl:call-template>
         </xsl:variable>
-        
         
         <xsl:value-of select="$newline"/>
 
@@ -508,10 +508,12 @@
         </xsl:if>        
         <xsl:value-of select="$text"/>
 		<xsl:value-of select="$newline"/>     
-		
+
        <xsl:if test="$tabCode">
             <xsl:value-of select="$indentation"/>
         </xsl:if>
+
+        <xsl:value-of select="$preserved-content"></xsl:value-of>
         
 		<xsl:if test="$end = true()">
 	        <xsl:call-template name="end-code">
