@@ -16,8 +16,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Part;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.export.app.ImportAppJava;
-import nosi.core.webapp.export.app.ImportJavaPage;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.import_export.Import;
@@ -30,6 +28,7 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.webapps.igrp.dao.Profile;
+import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import java.util.List;
 import java.util.ArrayList;
@@ -100,6 +99,7 @@ public class ImportArquivoController extends Controller {
 					ImportArquivo.Formlist_1 row2 = new ImportArquivo.Formlist_1();
 					String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
 					String url = baseUrl.replace("app/webapps", "images") + "/IGRP/IGRP2.3/assets/img/login/" + key;
+					String imgUrlteste =new Config().getLinkImgBase();
 					row.setCarousel_1_img(url);
 					row2.setImagem_tbl(new Pair(url, key));
 					row2.setFormlist_1_id(new Pair(key, key));
@@ -199,9 +199,8 @@ public class ImportArquivoController extends Controller {
 		  ----#gen-example */
 		/* Start-Code-Block (btm_import_aplicacao)  *//* End-Code-Block  */
 		/*----#start-code(btm_import_aplicacao)----*/
-		try {
 
-			if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")) {
+			if (Core.isHttpPost()) {
 				boolean result = false;
 				String descricao = "";
 				try {
@@ -219,28 +218,12 @@ public class ImportArquivoController extends Controller {
 								result = true;
 							} else {
 								if (importApp.hasError()) {
-									importApp.getErrors().stream().forEach(e -> {
-										Core.setMessageError(e);
-									});
+									importApp.getErrors().stream().forEach(Core::setMessageError);
 								}
 								if (importApp.hasWarning()) {
-									importApp.getWarnings().stream().forEach(e -> {
-										Core.setMessageWarning(e);
-									});
+									importApp.getWarnings().stream().forEach(Core::setMessageWarning);
 								}
 							}
-						} else if (file.getSubmittedFileName().endsWith(".app.jar")) {// Old import (deprecated)
-							ImportAppJava importApp = new ImportAppJava(file);
-							importApp.importApp();
-							if (importApp.hasError()) {
-								importApp.getErros().stream().forEach(err -> {
-									Core.setMessageError(err);
-								});
-							} else {
-								result = true;
-							}
-						} else {
-							result = false;
 						}
 					} else {
 						Core.setMessageError("Extensão válido tem de ser .zip ou .app.jar... tente de novo!!");
@@ -250,7 +233,7 @@ public class ImportArquivoController extends Controller {
 				} catch (ServletException e) {
 					ImportExportDAO ie_dao = new ImportExportDAO(descricao, Core.getCurrentUser().getUser_name(),
 							Core.getCurrentDataTime(), "Import - Exception");
-					ie_dao = ie_dao.insert();
+					ie_dao.insert();
 
 					Core.setMessageError(e.getMessage());
 					return this.forward("igrp_studio", "ImportArquivo", "index");
@@ -258,16 +241,13 @@ public class ImportArquivoController extends Controller {
 				if (result) {
 					ImportExportDAO ie_dao = new ImportExportDAO(descricao, Core.getCurrentUser().getUser_name(),
 							Core.getCurrentDataTime(), "Import");
-					ie_dao = ie_dao.insert();
+					ie_dao.insert();
 					Core.setMessageSuccess();
 				}
 
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			Core.setMessageError();
-		}
+		
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
 	}
@@ -284,7 +264,7 @@ public class ImportArquivoController extends Controller {
 		  ----#gen-example */
 		/* Start-Code-Block (importar_jar_file)  *//* End-Code-Block  */
 		/*----#start-code(importar_jar_file)----*/
-		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")) {
+		if (Core.isHttpPost()) {
 			Collection<Part> parts;
 			try {
 				parts = Igrp.getInstance().getRequest().getParts();
@@ -300,7 +280,6 @@ public class ImportArquivoController extends Controller {
 					Core.setMessageError(FlashMessage.ERROR_IMPORT);
 				}
 			} catch (ServletException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -342,7 +321,6 @@ public class ImportArquivoController extends Controller {
 				Core.setMessageError();
 			}
 		} catch (ServletException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		/*----#end-code----*/
@@ -361,7 +339,7 @@ public class ImportArquivoController extends Controller {
 		  ----#gen-example */
 		/* Start-Code-Block (import_images)  *//* End-Code-Block  */
 		/*----#start-code(import_images)----*/
-		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")) {
+		if (Core.isHttpPost()) {
 			String dad = Core.getCurrentDad();
 			this.addQueryString("p_env_fk", model.getAplicacao_combo_img());
 			this.addQueryString("p_tipo", model.getTipo());
@@ -384,7 +362,7 @@ public class ImportArquivoController extends Controller {
 								if (model.getTipo() != 1) {
 
 									if (model.getTipo() == 3) {
-										fileName= fileName.replaceAll("\\s+", "_").replaceAll("\'", "");	
+										fileName= fileName.replaceAll("\\s+", "_").replace("'", "");	
 										appImgPath += File.separator + "reports";
 									}
 										
@@ -392,17 +370,17 @@ public class ImportArquivoController extends Controller {
 
 									// Saving in your workspace case exists
 									if (Core.isNotNull(imgWorkSapce))
-										imported = FileHelper.saveImage(imgWorkSapce, fileName,
+										FileHelper.saveImage(imgWorkSapce, fileName,
 												extensionName.toLowerCase(), part);
 									// Saving into server
 									imported = FileHelper.saveImage(Path.getImageServer(appImgPath), fileName,
 											extensionName.toLowerCase(), part);
 									this.addQueryString("p_form_5_link_1", "../images/IGRP/IGRP2.3/assets/img/"
-											+ appImgPath.replaceAll("\\\\", "/") + "/" + fileName + "\n");
+											+ appImgPath.replace("\\", "/") + "/" + fileName + "\n");
 								} else {
 									String imgWorkSapce1 = Path.getImageWorkSpace("iconApp");
 									if (Core.isNotNull(imgWorkSapce1))// Saving in your workspace case exists
-										imported = FileHelper.saveImage(imgWorkSapce1, fileName,
+										FileHelper.saveImage(imgWorkSapce1, fileName,
 												extensionName.toLowerCase(), part);
 									imported = FileHelper.saveImage(Path.getImageServer("iconApp"), fileName,
 											extensionName.toLowerCase(), part);
@@ -419,7 +397,6 @@ public class ImportArquivoController extends Controller {
 					Core.setMessageError();
 				}
 			} catch (ServletException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -449,7 +426,7 @@ public class ImportArquivoController extends Controller {
 				if (part != null) {
 					String fileName = model.getImagem().getSubmittedFileName();
 					if (Core.isNotNull(fileName)) {
-						fileName = fileName.replaceAll("\\s+", "_").replaceAll("\'", "");
+						fileName = fileName.replaceAll("\\s+", "_").replace("'", "");
 						int index = fileName.lastIndexOf(".");
 						if (index != -1) {
 							String extensionName = fileName.substring(index + 1);
@@ -501,7 +478,7 @@ public class ImportArquivoController extends Controller {
 		/* Start-Code-Block (btm_importar_page)  *//* End-Code-Block  */
 		/*----#start-code(btm_importar_page)----*/
 
-		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")) {
+		if (Core.isHttpPost()) {
 			boolean result = false;
 			String descricao = "";
 			if (model.getList_aplicacao() != null) {
@@ -523,32 +500,12 @@ public class ImportArquivoController extends Controller {
 
 							else {
 								if (importApp.hasError()) {
-									importApp.getErrors().stream().forEach(e -> {
-										Core.setMessageError(e);
-									});
+									importApp.getErrors().stream().forEach(Core::setMessageError);
 								}
 								if (importApp.hasWarning()) {
-									importApp.getWarnings().stream().forEach(e -> {
-										Core.setMessageWarning(e);
-									});
+									importApp.getWarnings().stream().forEach(Core::setMessageWarning);
 								}
 							}
-						} else if (file.getSubmittedFileName().endsWith(".page.jar")) {// Old import (deprecated)
-							Application application = new Application()
-									.findOne(Integer.parseInt(model.getList_aplicacao()));
-							ImportJavaPage importApp = new ImportJavaPage(file, application);
-
-							importApp.importApp();
-
-							if (importApp.hasError()) {
-								importApp.getErros().stream().forEach(err -> {
-									Core.setMessageError(err);
-								});
-							} else {
-								result = true;
-							}
-						} else {
-							result = false;
 						}
 					} else {
 						Core.setMessageError("Extensão válido tem de ser .zip ou .page.jar... tente de novo!!");
@@ -562,7 +519,7 @@ public class ImportArquivoController extends Controller {
 				if (result) {
 					ImportExportDAO ie_dao = new ImportExportDAO(descricao, Core.getCurrentUser().getUser_name(),
 							Core.getCurrentDataTime(), "Import");
-					ie_dao = ie_dao.insert();
+					ie_dao.insert();
 					Core.setMessageSuccess();
 				} else
 					Core.setMessageInfo("Check if the page was added!");
