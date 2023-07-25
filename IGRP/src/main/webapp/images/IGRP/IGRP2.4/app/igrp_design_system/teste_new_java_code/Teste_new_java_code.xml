@@ -18,7 +18,7 @@
     </site>
     <page>Teste_new_java_code</page>
     <app>igrp_design_system</app>
-    <template>velzon</template>
+    <template>default</template>
     <plsql>
         <action>index</action>
         <package_instance></package_instance>

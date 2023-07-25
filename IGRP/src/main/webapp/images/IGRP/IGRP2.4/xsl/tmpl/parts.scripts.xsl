@@ -14,6 +14,8 @@
 		<script src="{$themePath}/assets/js/app.js"></script>
 
 		<script src="{$path}/core/jquery/{$jq-v}/jquery.min.js"></script>
+		<script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js"></script>
+		<script src="{$path}/core/moment/moment.min.js"></script>
 		<!-- EVENTS class -->
 		<script src="{$path}/core/igrp/IGRP.events.class.js?v={$version}"></script>
 		<!-- UTILS class -->
@@ -27,6 +29,7 @@
 		<!-- IGRP targets controller -->
 		<script src="{$path}/core/igrp/targets/IGRP.targets.js?v={$version}"></script>
 		<!-- IGRP targets controller -->
+		<script src="{$path}/components/sidebar/sidebar.js?v={$version}"></script>
 
 		<script>
 			$.IGRP.locale = {
@@ -44,8 +47,7 @@
 		
 		</script>
 
-		<script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js"></script>
-		<script src="{$path}/core/moment/moment.min.js"></script>
+		
 
 		<script>
 			$(window).on('load', function(){

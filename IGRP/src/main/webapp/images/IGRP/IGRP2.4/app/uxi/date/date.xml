@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="./date.xsl" type="text/xsl"?>
 <rows>
-     <template>velzon</template>
+     <template>default</template>
     <title>IGRP Framework</title>
     <site>
         <welcome_note>Ola</welcome_note>

@@ -18,7 +18,7 @@
     </site>
     <page>undefined</page>
     <app>generator</app>
-    <template>velzon</template>
+    <template>default</template>
     <plsql>
         <action>undefined</action>
         <package_instance></package_instance>

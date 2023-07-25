@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet href="../xsl/IGRP-form-layouts.xsl?v=30" type="text/xsl"?>
 <rows>
-	<template>velzon</template>
+	<template>default</template>
 	<title>NOSI Teste Page 1</title>
 	<link>IGRP-home.xml</link>
 	<site>	

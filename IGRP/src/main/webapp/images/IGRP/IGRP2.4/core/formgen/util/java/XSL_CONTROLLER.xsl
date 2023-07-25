@@ -339,6 +339,8 @@
 						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>						
 						<xsl:call-template name="newlineTab2"/>						
 						<xsl:value-of select="'model.load();'"/>
+
+						
 						<xsl:call-template name="setBoxUrl"/>
 						<xsl:for-each select="//rows/content/*[@type!='table' and @type!='workflow']/fields/*">  
 							<xsl:if test="@action and @app and @page and @custom_action='' and ../../@type != 'formlist' and ../../@type != 'separatorlist'"> 
@@ -458,6 +460,10 @@
 					    <xsl:call-template name="newlineTab2"/>		
 					    					    	
 						<xsl:value-of select="'model.load();'"/>
+
+						<xsl:call-template name="newlineTab2"/>
+						<xsl:value-of select="concat('Response response = ',$page,'.',$action_name_,'(model);')"/>
+
 						<xsl:call-template name="start-example"/>						
 						<xsl:value-of select="concat(' ',' this.addQueryString(',$double_quotes,'p_id',$double_quotes,',',$double_quotes,'12',$double_quotes,'); //to send a query string in the URL')"/>							
 						<xsl:call-template name="newlineTab2"/>	
@@ -493,10 +499,10 @@
 						<xsl:call-template name="start-code">
 							<xsl:with-param name="type" select="$action"/>
 							<xsl:with-param name="url" select="$url"/>
-							<xsl:with-param 
+							<!--<xsl:with-param 
 								name="preserved-content" 
 								select="concat('Response response = ',$page,'.',$action_name_,'(model);', $newline, $newline, $tab2)"
-							/>
+							/>-->
 						</xsl:call-template>
 
 				     	<xsl:if test="not(@custom_return) or @custom_return!='true'">
@@ -544,6 +550,10 @@
 						<xsl:value-of select="concat($class_name,' model = new ',$class_name,'();')"/>
 					    <xsl:call-template name="newlineTab2"/>							    					    	
 						<xsl:value-of select="'model.load();'"/>
+
+						<xsl:call-template name="newlineTab2"/>
+						<xsl:value-of select="concat('Response response = ',$page,'.',$action_name_,'(model);')"/>
+
 						<xsl:call-template name="start-example"/>		
 						<xsl:value-of select="concat(' ','this.addQueryString(',$double_quotes,'p_id',$double_quotes,',',$double_quotes,'12',$double_quotes,'); //to send a query string in the URL')"/>							
 						<xsl:call-template name="newlineTab2"/>	
@@ -569,10 +579,10 @@
 					<xsl:call-template name="start-code">
 			     		<xsl:with-param name="type" select="$action"/>
 			     		<xsl:with-param name="url" select="$url"/>
-						<xsl:with-param 
+						<!--<xsl:with-param 
 							name="preserved-content" 
 							select="concat('Response response = ',$page,'.',$action_name_,'(model);', $newline, $newline, $tab2)"
-						/>
+						/>-->
 			     	</xsl:call-template>
 			     
 					<xsl:call-template name="newlineTab2"/>		
