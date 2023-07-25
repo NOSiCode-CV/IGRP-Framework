@@ -56,36 +56,84 @@ IGRP Studio is the environment used to develop applications within igrpweb, it i
 
 ## :beginner: Get Start
 
-There’s available a free demo cloud on how to create and run your own e-government apps on cloud https://cloud.nosi.cv/IGRP:
+There’s available a free demo cloud on how to create and run your own IGRP apps on cloud https://cloud.nosi.cv/IGRP:
 
 - User: demo@nosi.cv
 - Password: demo
 
-Also, there is a documentation that is going to help you develop and to understand the framework: [Docs IGRP (PT)](https://docs.igrp.cv)
+### :computer: Start IGRP Project
 
-## :triangular_flag_on_post: Requirements
+**Prerequisites:**
+Before running the Maven command to generate the project, ensure that your environment meets the following requirements:
 
-To build IGRPWeb from the source distribution, it is necessary that you have JDK 1.8 and Maven 3.0.4 or later, IDE java web development compatible. Also:
+1. Java 17: Make sure you have Java Development Kit (JDK) version 17 or higher installed on your machine.
 
-- Minimum memory - 3GB
-- Processor 2000 MHZ or equivalent at minimum
-- Java 1.8
+2. Compatible Database: You need a local database available for the project to run correctly. Ensure that is installed and configured with either the default credentials or the required connection information.
 
-Complete installation requirements can be found in the documentation under <a href="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&isPublic=1&target=_blankisPublic=1&p_id=1145">2.1 Pré-Requisitos</a>.
-
-**Database:**
-
-| Database   | Minimum | Recommended |
+| Database | Minimum | Recommended |
 | ---------- | ------- | ----------- |
-| MySQL      | 5.7.8   | 8.0         |
-| MariaDB    | 10.3    | 10.6        |
-| PostgreSQL | 11.0    | 14.0        |
-| H2         | 2.0.204 | 2.1.10      |
-| Oracle     | 11g     | 12c         |
+| MySQL | 5.7.8 | 8.0 |
+| MariaDB | 10.3 | 10.6 |
+| PostgreSQL | 11.0 | 14.0 |
+| H2 | 2.0.204 | 2.1.10 |
+| Oracle | 11g | 12c |
 
-(Please note that IGRP Framework may work on other database, but these are not tested nor officially supported at this time.)
+**Generating the Project:**
 
-**We recommend always using the latest version of IGRP Framework to start your new projects**.
+To generate the project using the "igrp-archetype-horizon" archetype, execute the following Maven command:
+
+```bash
+mvn archetype:generate -Dfilter=igrp-archetype-horizon
+```
+
+Maven will download the necessary dependencies and prompt you for some information to configure the generated project. Follow the instructions that appear in the terminal and provide the required details to customize the project.
+
+Once the generation process is complete, you will have a project based on the "igrp-archetype-horizon" ready to be developed and executed.
+
+Please note that depending on the information provided during project generation, you may need to configure the PostgreSQL database connection details in the project's configuration file to ensure the proper functioning of the application.
+
+Now you are all set to start development with the generated project. Happy coding!
+
+**Running the Project**
+
+To start the application locally, you can use the following Maven command:
+
+```bash
+mvn package tomee:run
+```
+
+This command will package the application and deploy it to an Apache TomEE server, which will run the web application on your local machine.
+
+Once the server is up and running, you can access the application using the following link in your web browser:
+
+```
+http://127.0.0.1:8080/{artifactId}
+```
+
+Replace `{artifactId}` with the actual artifact ID of your generated project.
+
+After accessing the link, you should be able to interact with the web application in your browser.
+
+Keep the terminal with the running TomEE server open as long as you want the application to be available locally. If you wish to stop the server, you can use `Ctrl+C` in the terminal to terminate it.
+
+Please note that the specific steps and commands may vary slightly depending on the configuration of the generated project and the environment in which you are running it. Always refer to the project's documentation or README for any project-specific instructions.
+
+### Customizable Properties of the Archetype
+
+When generating the project using the "igrp-archetype-horizon" archetype, you have the option to customize certain properties. Below are the properties that you can modify along with their default values:
+
+| Property      | Description           | Default Value                              |
+| --------------|-----------------------|--------------------------------------------|
+| dbJdbcUrl     | Database Jdbc Url     | jdbc:postgresql://localhost:5432/db_igrp  |
+| dbUser        | Database Username     | postgres                                   |
+| dbPassword    | Database Password     | password                                   |
+| dbJdbcDriver  | Database Jdbc Driver   | org.postgresql.Driver                      |
+
+To customize these properties during project generation, you will be prompted to provide new values for each of these properties. By default, the values mentioned above will be used unless you specify different values during the project generation process.
+
+These customizable properties allow you to set up the project to connect to your specific PostgreSQL database instance with the appropriate credentials and configuration. Make sure to enter the correct values according to your local database setup to ensure a successful connection.
+
+After generating the project, if you need to modify these properties later on, you can find and update them in the project's configuration file or relevant configuration classes, depending on how the archetype structures the generated project.
 
 
 ## :ballot_box_with_check: Contributing to IGRPWeb
