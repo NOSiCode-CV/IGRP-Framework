@@ -116,10 +116,10 @@
                                 </div>
                             </div>
 
-                            <div class="gen-components-search px-3 mt-4 position-relative">
+                            <div class="gen-components-search px-3 mt-4 position-relative d-none">
                                 
                                 <i class="fa fa-search"></i>
-                                <input class="form-control" placeholder="Componentes..."></input>
+                                <input class="form-control igrp-menu-search" placeholder="Pesquisar..."></input>
                                 
                             </div>
                             
