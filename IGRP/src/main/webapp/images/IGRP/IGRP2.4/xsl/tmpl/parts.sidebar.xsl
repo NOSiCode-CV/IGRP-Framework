@@ -35,7 +35,7 @@
 					<ul class="navbar-nav" id="navbar-nav">
 						<li class="menu-title">
 							<span data-key="t-menu">Menu</span>
-							<div class="px-4">
+							<div class="px-4 d-none">
 								<input type="text" class="form-control igrp-menu-search " placeholder="Pesquisar..." autocomplete="off" id="search-options" value=""/>
 							</div>
 						</li>
