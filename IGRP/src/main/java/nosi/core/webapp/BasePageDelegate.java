@@ -3,6 +3,8 @@ package nosi.core.webapp;
 import java.io.File;
 import java.io.IOException;
 
+import nosi.core.webapp.bpmn.InterfaceBPMNTask;
+import nosi.core.webapp.bpmn.RuntimeTask;
 import nosi.core.webapp.webservices.helpers.FileRest;
 
 public abstract class BasePageDelegate {
@@ -77,6 +79,26 @@ public abstract class BasePageDelegate {
 	
 	public Response xSend(FileRest file, String name, String contentType, boolean download){
 		return Igrp.getInstance().getCurrentController().xSend(file, name, contentType, download);
+	}
+	
+	public Response renderView(View view) throws IOException {
+		return Igrp.getInstance().getCurrentController().renderView(view);
+	}
+	
+	public Response renderView(View view, boolean isRenderPartial) throws IOException {
+		return Igrp.getInstance().getCurrentController().renderView(view, isRenderPartial);
+	}
+	
+	public Response renderView(String content) throws IOException {
+		return Igrp.getInstance().getCurrentController().renderView(content);
+	}
+	
+	public Response renderView(String app, String page, View v, InterfaceBPMNTask bpmn, RuntimeTask runtimeTask) throws IOException {
+		return Igrp.getInstance().getCurrentController().renderView(app, page, v, bpmn, runtimeTask);
+	}
+	
+	public Response renderView(String app, String page, View v) throws IOException {
+		return Igrp.getInstance().getCurrentController().renderView(app, page, v);
 	}
 	
 }

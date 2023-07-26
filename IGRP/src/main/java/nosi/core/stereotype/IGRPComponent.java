@@ -19,15 +19,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.inject.Stereotype;
+import jakarta.inject.Singleton;
 
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Stereotype
-@RequestScoped
+@Singleton
 public @interface IGRPComponent {
 
 	/**

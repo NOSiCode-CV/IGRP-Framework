@@ -6,8 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.inject.Stereotype;
+import jakarta.inject.Singleton;
 
 /**
  * Indicates that an annotated class is a "Service", originally defined by Domain-Driven
@@ -28,7 +28,7 @@ import jakarta.enterprise.inject.Stereotype;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@RequestScoped
+@Singleton
 @Stereotype
 @IGRPComponent
 public @interface IGRPService {
