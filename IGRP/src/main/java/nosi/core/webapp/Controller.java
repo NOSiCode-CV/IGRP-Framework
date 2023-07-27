@@ -761,7 +761,11 @@ public class Controller {
 	}
     
     protected <T> T getComponent(Class<T> componentType) {
-    	return CDI.current().select(componentType).get();
+    	try {
+    		return CDI.current().select(componentType).get();
+		} catch (jakarta.enterprise.inject.UnsatisfiedResolutionException e) {
+			return null;
+		}
 	}
 
 }

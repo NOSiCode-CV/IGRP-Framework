@@ -656,7 +656,7 @@
 			<xsl:with-param name="action_name_"><xsl:value-of select="'index'"/></xsl:with-param>
 			<xsl:with-param name="page_"><xsl:value-of select="$class_name"/></xsl:with-param>
 			<xsl:with-param name="type_render_"><xsl:value-of select="'render'"/></xsl:with-param>
-			<xsl:with-param name="before-custom-code" select="concat($page,'.index(model, view);')"/>
+			<xsl:with-param name="before-custom-code" select="concat('if(', $page, ' != ', 'null', ') ', $page,'.index(model, view);')"/>
 		</xsl:call-template>
  	</xsl:template>
 
