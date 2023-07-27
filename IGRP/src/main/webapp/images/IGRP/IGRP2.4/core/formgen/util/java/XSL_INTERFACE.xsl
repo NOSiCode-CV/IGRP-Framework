@@ -69,6 +69,8 @@
 		<xsl:value-of select="concat('package ',rows/plsql/package_db,'.pagedelegate',';')"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$import_exception"/>
+		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$import_response"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="concat($package_import_name,'.pages.', $page ,'.', $class_name,';')"></xsl:value-of>

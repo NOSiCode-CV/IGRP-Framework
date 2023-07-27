@@ -230,7 +230,7 @@
 		</xsl:variable>
 
 
-		<xsl:value-of select="concat('default Response ',$action_name_,'(',$model,' model) {')"/>
+		<xsl:value-of select="concat('default Response ',$action_name_,'(',$model,' model) throws IOException {')"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab2"/>
 		<xsl:value-of select="'return null;'"/>

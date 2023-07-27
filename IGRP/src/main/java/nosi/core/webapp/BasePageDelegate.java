@@ -25,6 +25,10 @@ public abstract class BasePageDelegate {
         return Igrp.getInstance().getCurrentController().queryString();
     }
 	
+	public Response redirect(String app, String page, String action) throws IOException {
+		return Igrp.getInstance().getCurrentController().redirect(app, page, action);
+	}
+	
 	public Response redirect(String r) {
 		return Igrp.getInstance().getCurrentController().redirect(r);
 	}
