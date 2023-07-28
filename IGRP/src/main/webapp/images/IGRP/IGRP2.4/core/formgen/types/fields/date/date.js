@@ -16,7 +16,7 @@ var DATEFIELD = function(type,params){
 		js  :[ 
 			{ path: '/core/moment/moment.min.js'},
 			{ path: '/libs/flatpickr/flatpickr.min.js'},
-			{ path: '/libs/flatpickr/l10n/pt.js'},
+			{ path: '/libs/flatpickr/l10n/default.js'},
 			{ path: '/libs/flatpickr/l10n/en.js'},
 			{ path: '/libs/choices.js/public/assets/scripts/choices.min.js'},
 			{ path: '/components/datepicker/init.js'},

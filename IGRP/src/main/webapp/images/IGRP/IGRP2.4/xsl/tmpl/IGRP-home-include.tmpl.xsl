@@ -465,11 +465,17 @@
                           <input placeholder="Pesquisar" type="text" class="not-form form-control"/>
                       </div>
                   </xsl:if>
-                  <ul class="clear igrp-debug-list">
+                  <ul class="list-group list-group-flush">
                       <xsl:for-each select="rows/content/messages/message[@type='debug']">
-                        <li style="white-space: pre-wrap" value="{.}"><xsl:value-of select="." /></li>
+                        <xsl:variable name="background">
+                          <xsl:if test="position() mod 2 = 0">
+                            <xsl:text>bg-light</xsl:text>
+                          </xsl:if>
+                        </xsl:variable>
+                        <li class="list-group-item {$background}"  value="{.}"><xsl:value-of select="." /></li>
                       </xsl:for-each>
                   </ul>
+   
               </div>
             </div>
 
@@ -516,9 +522,10 @@
   <xsl:template name="iframe-nav">
     <div class="modal fade" data-backdrop="static" tabindex="-1" id="igrp-iframe-nav" role="dialog" >
       
-      <div class="iframe-nav-close"><i class="fa fa-close"></i></div>
-      
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-xl">
+        <div class="d-flex align-items-center justify-content-end w-100 igrp-iframe-nav-closer">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
         <iframe></iframe>
       </div>
 

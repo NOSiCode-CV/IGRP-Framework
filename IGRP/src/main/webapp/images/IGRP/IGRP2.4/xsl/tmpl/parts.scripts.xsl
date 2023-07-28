@@ -30,6 +30,10 @@
 		<script src="{$path}/core/igrp/targets/IGRP.targets.js?v={$version}"></script>
 		<!-- IGRP targets controller -->
 		<script src="{$path}/components/sidebar/sidebar.js?v={$version}"></script>
+		
+		<script src="{$path}/core/igrp/iframenav/IGRP.iframeNav.js?v={$version}"></script>
+
+		<script src="{$path}/core/igrp/IGRP.handler.js?v={$version}"></script>
 
 		<script>
 			$.IGRP.locale = {

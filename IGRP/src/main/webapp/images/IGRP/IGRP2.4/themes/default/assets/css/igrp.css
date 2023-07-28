@@ -4,10 +4,19 @@
 @import url("./igrp/toolsbar.css");
 @import url("./igrp/sidebar.css");
 
-/*
-body,html{
-    overflow-x: hidden;
-}*/
+
+body[has-menu="false"] .main-content{
+    margin:0!important;
+}
+body[has-menu="false"] .page-content{
+    padding-top:0!important;
+}
+body[has-menu="false"] .page-title-box {
+    margin-top: 0!important;
+}
+body[has-menu="false"] .footer{
+   display:none!important
+}
 .gen-container-item{
     margin-bottom:24px;
 }
@@ -26,4 +35,16 @@ body,html{
 #igrp-iframe-nav iframe{
     width: 100%;
     height:calc(100vh - 90px)
+}
+
+.modal-dialog{
+    pointer-events: initial;
+}
+
+
+.igrp-iframe-nav-closer{
+    z-index: 10;
+    position: relative;
+    top: 28px;
+    right: 10px;
 }
