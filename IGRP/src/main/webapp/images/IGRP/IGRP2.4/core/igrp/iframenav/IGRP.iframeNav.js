@@ -57,6 +57,7 @@
 					iframe.replaceWith(n_iframe);
 				}
 
+				console.log(modal)
 				modal.modal('show');
 			},
 			hide:function(){
