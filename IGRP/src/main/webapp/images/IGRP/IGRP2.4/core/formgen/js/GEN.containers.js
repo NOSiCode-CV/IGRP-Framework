@@ -82,7 +82,7 @@ var CONTAINER = function(name,params){
 		//autoTag     : true,
 		tag         : '',
 		hasTitle    : false,
-		collapsible : false,
+		//collapsible : false,
 		type        : name,
 	}
 

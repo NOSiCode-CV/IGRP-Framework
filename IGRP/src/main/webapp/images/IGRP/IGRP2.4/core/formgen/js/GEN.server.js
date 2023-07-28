@@ -773,11 +773,11 @@ $(function() {
 
 				var contents = options.returner[a];
 
-				//if(contents.field?.type == 'button' && contents.code !== '\n\n\n' && contents.code !== '' ){
+				if(contents.field?.type == 'button' && contents.code !== '\n\n\n' && contents.code !== '' ){
 				
 					content = content.replaceAll(contents.original, contents.content);
 
-				//}
+				}
 
 			};
 
