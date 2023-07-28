@@ -2,11 +2,11 @@
 
 	<xsl:template name="rules-list">
        
-        <div class="box gen-container-item "  gen-class="" item-name="separatorlist_2">
-          <div class="box-body IGRP-separatorlist" id="gen-rules-holder"  tag="separatorlist_2" dialog="true">
+        <div class="box gen-container-item  "  gen-class="" item-name="separatorlist_2">
+          <div class="box-body IGRP-separatorlist old-version" id="gen-rules-holder"  tag="separatorlist_2" dialog="true">
             <div class="splist-form-holder clearfix">
 
-              <div class="splist-form clearfix" role="form">
+              <div class="splist-form row g-4" role="form">
 
                 <div class="form-group col-md-6 " item-name="gen_rule_name" item-type="text">
                   <label>Name</label>
@@ -24,7 +24,7 @@
                     </select>
                 </div>
                 
-                <div class="box-head subtitle" text-color="1"><span>Condition/Value</span></div>
+                <div class="box-head subtitle  text-primary" text-color="1" style="font-weight:700"><span>Condições</span></div>
                 
                 <div class="col-md-6 form-group" item-name="gen_rule_condition" item-type="select" >
                   <label>Condition</label>
@@ -97,7 +97,7 @@
                 </div>
 
                 <div class="col-md-12" item-name="gen_rule_opposite" item-type="checkbox">
-                    <div class="form-group">
+                    <div class="form-group mb-4">
                         <div class="checkbox form-check-offset">
                             <label>
                                 <input type="checkbox" name="p_gen_rule_opposite" class="checkbox" label="Opposite Rule?" value="1" rel="gen_rule_opposite"/>Opposite Rule?
@@ -132,7 +132,7 @@
                     </th>
 
                     <th class="table-btn">
-                      <a class="table-row-add btn-xs btn btn-primary" title="Adicionar" data-toggle="tooltip" data-placement="left">
+                      <a class="table-row-add btn-xs btn btn-primary d-block" title="Adicionar" data-toggle="tooltip" data-placement="left">
                         <i class="fa fa-plus"/>
                       </a>
                     </th>
@@ -146,13 +146,13 @@
           </div>
         </div>
         
-        <div id="act-list-wrp" class="hidden">
-          <div class="box gen-container-item " gen-class="" item-name="actions_list">
-            <div class="box-body IGRP-separatorlist" tag="actions_list" dialog="false">
-              <div class="splist-form-holder">
-                <div class="splist-form" role="form">
+        <div id="act-list-wrp" class="d-none">
+          <div class="box gen-container-item  " gen-class="" item-name="actions_list">
+            <div class="box-body IGRP-separatorlist old-version" tag="actions_list" dialog="false">
+              <div class="splist-form-holder d-block">
+                <div class="splist-form row g-4" role="form">
 
-                  <div class="box-head subtitle" text-color="1"><span>Actions/Targets</span></div>
+                  <div class="box-head subtitle  text-primary" text-color="1" style="font-weight:700"><span>Ações</span></div>
 
                   <div class="col-sm-6 form-group  gen-fields-holder" item-name="gen_rule_action" item-type="select" required="required">
                     
@@ -251,8 +251,8 @@
                         </span>
                       </th>
 
-                      <th class="table-btn">
-                        <a class="table-row-add btn-xs btn btn-primary" title="Adicionar" data-toggle="tooltip" data-placement="left">
+                      <th class="table-btn ">
+                        <a class="table-row-add btn-xs btn btn-primary d-block" title="Adicionar" data-toggle="tooltip" data-placement="left">
                           <i class="fa fa-plus"/>
                         </a>
                       </th>

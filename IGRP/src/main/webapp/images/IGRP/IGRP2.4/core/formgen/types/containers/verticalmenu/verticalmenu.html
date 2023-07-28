@@ -1,7 +1,9 @@
-<div class="igrp-vertical-menu" gen-fields=".list-group .btn" template="#[template]#">
-	<div class="list-group" >
-		<xsl:apply-templates select="#path#" mode="gen-buttons">
-			<xsl:with-param name="vertical" select="'true'"/>
-		</xsl:apply-templates>
-	</div>
+<div class="igrp-vertical-menu list-group-flush list-group" gen-fields=".list-group .btn" template="#[template]#">
+	
+	<xsl:apply-templates select="#path#" mode="igrp-buttons">
+		<xsl:with-param name="style" select="'list-group-item'"/>
+	</xsl:apply-templates>
+	
+
+
 </div>

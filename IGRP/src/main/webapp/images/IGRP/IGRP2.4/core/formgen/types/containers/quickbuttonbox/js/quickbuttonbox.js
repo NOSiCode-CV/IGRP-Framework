@@ -41,7 +41,7 @@
 				//valuePersist : true
 			});
 			
-			GEN.setBtnActionAttr(container,{
+			/*GEN.setBtnActionAttr(container,{
 				value 		   : params.proprieties && params.proprieties.action ? params.proprieties.action : '',					
 				isField 	   : true,
 				valuePersist   : true,
@@ -56,7 +56,7 @@
 			
 			GEN.setTargetAttr(container,{
 				value:'modal'
-			});
+			});*/
 
 			container.setPropriety({
 				name:'bg',

@@ -10,7 +10,7 @@ var FINGERPRINT = function(name,params){
 	container.xml.type = 'fingerprint';
 
 	container.includes = {
-		xsl : ['fingerprint'],
+		xsl : ['IGRP-fingerprint.tmpl'],
 		css : [ { path : '/plugins/fingerprint/fingerprint.css' } ], 
 		js  : [ { path : '/plugins/fingerprint/fingerprint.js' }]
 	}

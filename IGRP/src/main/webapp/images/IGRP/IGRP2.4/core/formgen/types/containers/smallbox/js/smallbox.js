@@ -6,6 +6,10 @@ this[VARS.name].declareContainer({
 		var GEN = VARS.getGen();
 		var container = this;
 
+		const BackgroundProperties = GEN.getGlobalProperty('button-appearance-properties');
+
+		const IconProperties = GEN.getGlobalProperty('icons-property');
+
 		container.xml.structure = 'form';
 
 		container.includes = {
@@ -51,8 +55,23 @@ this[VARS.name].declareContainer({
 			//	valuePersist : true
 			});
 
+			BackgroundProperties(container,{
+				label : 'Color',
+				showbtnStyle : false,
+				isField   : true,
+				valuePersist : true,
+			});
 
-			container.setPropriety({
+			IconProperties(container,{
+				name:'icn',
+				value:'fa-info',
+				isField   : true,
+				valuePersist : false,
+				showPosition : false
+			});
+
+
+			/*container.setPropriety({
 				name:'bg',
 				label:'Background',
 				value:{
@@ -66,9 +85,9 @@ this[VARS.name].declareContainer({
 				isField   : true
 				//valuePersist : true
 				
-			});
+			});*/
 
-			GEN.setImgAttr(container,{
+			/*GEN.setImgAttr(container,{
 				name:'icn',
 				value:'fa-check',
 				isField   : true

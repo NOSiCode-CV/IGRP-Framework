@@ -5,6 +5,8 @@ this[VARS.name].declareContainer({
 
 		var GEN = VARS.getGen();
 		var container = this;
+		const BackgroundProperties = GEN.getGlobalProperty('button-appearance-properties');
+		const IconProperties = GEN.getGlobalProperty('icons-property');
 
 		container.xml.structure = 'form';
 
@@ -52,15 +54,23 @@ this[VARS.name].declareContainer({
 				isField   : true
 			});
 
-			container.setProperty({
+			BackgroundProperties(container,{
+				class:'success',
+				showbtnStyle : false,
+				isField   : true,
+				valuePersist : true,
+			});
+
+
+			/*container.setProperty({
 				name      :'desc',
 				label     :'Description',
 				value     :'Some Text Here',
 				isField   : true
 				//valuePersist : true
-			});
+			});*/
 
-			container.setProperty({
+			/*container.setProperty({
 				name      :'url',
 				label     :'Link',
 				value     :'http://www.example.com',
@@ -69,9 +79,9 @@ this[VARS.name].declareContainer({
 
 			GEN.setTargetAttr(container,{
 				value:'modal'
-			});
+			});*/
 
-			container.setPropriety({
+			/*container.setPropriety({
 				name:'bg',
 				label:'Background',
 				value:{
@@ -84,9 +94,9 @@ this[VARS.name].declareContainer({
 				},
 				isField   : true
 				//valuePersist : true
-			});
+			});*/
 
-            container.setPropriety({
+           /* container.setPropriety({
                 name:'csize',
                 label :'Size',
                 value:{
@@ -97,7 +107,7 @@ this[VARS.name].declareContainer({
                         {value : 'big', label : 'Big'}
                     ]
                 }
-            });
+            });*/
             
 		}
 

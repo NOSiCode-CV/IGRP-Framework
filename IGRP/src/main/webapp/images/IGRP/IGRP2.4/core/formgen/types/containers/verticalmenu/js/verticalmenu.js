@@ -47,9 +47,12 @@ var GENVERTICALMENU = function(name,params){
 
 
 	container.onFieldSet = function(field){
+
+		field.unsetProprieties(['class','btnStyle', 'iconPosition']);
 		
 		field.setProperty({
 			name:'parent',
+			editable:false,
 			order:5,
 			value:{
 				value:'',

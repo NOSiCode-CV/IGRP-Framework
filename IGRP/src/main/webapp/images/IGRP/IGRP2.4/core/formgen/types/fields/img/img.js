@@ -31,7 +31,7 @@ var IMGFIELD = function(type,params){
 		if(field?.parent?.GET.type() == 'table')
 			defaultImgVal = 'https://placehold.co/40x40';
 		else 
-			defaultImgVal = '..'+subpath.substring(subpath.indexOf('/'))+'/assets/img/jon_doe.jpg'
+			defaultImgVal = 'https://placehold.co/1200x400';
 
 		field.setPropriety({
 			name:'img',

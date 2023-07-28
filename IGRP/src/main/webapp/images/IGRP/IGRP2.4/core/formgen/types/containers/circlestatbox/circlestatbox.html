@@ -1,17 +1,68 @@
-<div class="card card-animate igrp-circle-stat-box">                        
-	<div class="card-body" style="z-index:1 ;">
+<div>
+	<div class="card card-animate overflow-hidden m-0">
+	<div class="position-absolute start-0" style="z-index: 0">
+		<svg
+		version="1.2"
+		xmlns="http://www.w3.org/2000/svg"
+		viewBox="0 0 200 120"
+		width="200"
+		height="120"
+		>
+		<style>
+			.s-#tag# {
+			opacity: 0.05;
+			fill: var(--vz-#[class]#);
+			}
+		</style>
+		<path
+			id="Shape-#tag#"
+			class="s-#tag#"
+			d="m189.5-25.8c0 0 20.1 46.2-26.7 71.4 0 0-60 15.4-62.3 65.3-2.2 49.8-50.6 59.3-57.8 61.5-7.2 2.3-60.8 0-60.8 0l-11.9-199.4z"
+		></path>
+		</svg>
+	</div>
+	<div class="card-body" style="z-index: 1">
 		<div class="d-flex align-items-center">
-			<div class="flex-grow-1 overflow-hidden">
-				<p class="text-uppercase fw-medium text-muted text-truncate mb-3">
-					<xsl:value-of select="#path#/fields/#tag#_title/value"></xsl:value-of>
-				</p>
-				<h4 class="fs-22 fw-semibold ff-secondary mb-0">
-					<span class="counter-value" data-target="{#path#/fields/#tag#_val/value}"></span>
-				</h4>
-			</div>
-			<div class="flex-shrink-0">
-				<div data-colors='["{#path#/fields/#tag#_bg/value}"]' data-series="{#path#/fields/#tag#_pct/value}" class="apex-charts" dir="ltr"></div>
-			</div>
+		<div class="flex-grow-1 overflow-hidden">
+			<p class="text-uppercase fw-medium text-muted text-truncate mb-3">
+			<xsl:value-of select="#path#/fields/#tag#_title/value"></xsl:value-of>
+			</p>
+			<h4 class="fs-22 fw-semibold ff-secondary mb-0">
+			<span
+				class="counter-value"
+				data-target="{#path#/fields/#tag#_val/value}"
+			>
+				<xsl:value-of select="#path#/fields/#tag#_val/value" />
+			</span>
+			</h4>
+		</div>
+		<div class="flex-shrink-0">
+			<div id="chart-#tag#" data-colors='["--vz-#[class]#"]' class="apex-charts" dir="ltr"></div>
+		</div>
 		</div>
 	</div>
+	</div>
+	<script>
+		
+		new ApexCharts(
+			document.querySelector("#chart-#[tag]#"),
+			options = {
+				series: [<xsl:value-of select="#path#/fields/#tag#_pct/value"/>],
+				chart: { type: "radialBar", width: 105, sparkline: { enabled: !0 } },
+				dataLabels: { enabled: !1 },
+				plotOptions: {
+					radialBar: {
+						hollow: { margin: 0, size: "70%" },
+						track: { margin: 1 },
+						dataLabels: {
+						show: !0,
+						name: { show: !1 },
+						value: { show: !0, fontSize: "16px", fontWeight: 600, offsetY: 8 },
+						},
+					},
+				},
+				colors:  getChartColorsArray(document.querySelector("#chart-#[tag]#")),
+			}
+		).render()
+	</script>
 </div>

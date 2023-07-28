@@ -20,6 +20,7 @@
     <remove>remover</remove>
     <cancel>cancelar</cancel>
     <title>título</title>
+    <height>Altura</height>
 
     <separator-list-no-data-found>Lista vazia. Clique em Adicionar para inserir dados na tabela</separator-list-no-data-found>
 
@@ -33,6 +34,8 @@
     <gen-tag-property-label>identificador</gen-tag-property-label>
     <gen-java-settings-title>Configurações de ambiente</gen-java-settings-title>
     <gen-java-settings-package-name>Nome do pacote</gen-java-settings-package-name>
+    <gen-button-action>Página de Destino</gen-button-action>
+    <gen-button-target>Target</gen-button-target>
  
 
     <ui-white>branco</ui-white>

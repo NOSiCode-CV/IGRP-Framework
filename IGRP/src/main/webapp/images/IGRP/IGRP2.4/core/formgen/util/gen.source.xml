@@ -2,7 +2,7 @@
 	<path>GEN</path>
 	<containers>
 		
-		<item>
+		<item hidden="true">
 			<icon type='fa'>square-o</icon>
 			<type>container</type>
 			<name>_example</name>
@@ -19,7 +19,7 @@
 			<hasField>false</hasField>
 			<group>layout</group>
 		</item>
-		<item>
+		<item hidden="true">
 			<icon type='fa'>square-o</icon>
 			<type>container</type>
 			<name>box</name>
@@ -27,7 +27,7 @@
 			<hasField>false</hasField>
 			<group>layout</group>
 		</item>
-		<item>
+		<item hidden="true">
 			<icon type='fa'>folder</icon>
 			<type>container</type>
 			<name>tabcontent</name>
@@ -47,19 +47,18 @@
 			<hasField>false</hasField>
 			<group>layout</group>
 		</item>
-		<item>
+		<item hidden="true">
 			<icon type='fa'>square-o</icon>
 			<type>container</type>
 			<name>panels</name>
-			<label>Panels</label>
-			<reject>map_layer,map_widget</reject>
-			<accept></accept>
+			<label>Accordion</label>
+
 			<hasField>false</hasField>
 			<group>layout</group>
 		</item>
 
 
-		<item hidden="">
+		<item hidden="true">
 			<icon type='fa'></icon>
 			<type>container</type>
 			<name>single-container-row</name>
@@ -102,7 +101,7 @@
 			<accept>button</accept>
 			<group>menu</group>
 		</item>
-		<item>
+		<item hidden="true">
 			<icon type='fa'>bars</icon>
 			<type>container</type>
 			<name>treemenu</name>
@@ -112,7 +111,7 @@
 			<group>menu</group>
 		</item>
 
-		<item>
+		<item hidden="true">
 			<icon type='fa'>bars</icon>
 			<type>container</type>
 			<name>treelist</name>
@@ -174,10 +173,10 @@
 			<type>container</type>
 			<name>table</name>
 			<label>Table</label>
-			<accept>text,plaintext,email,link,number,checkbox,color,url,time,date,button,img</accept>
+			<accept>hidden,text,plaintext,email,link,number,checkbox,color,url,time,date,button,img</accept>
 			<group>table</group>
 		</item>
-		<item>
+		<item hidden="true">
 			<icon type='fa'>history</icon>
 			<type>container</type>
 			<name>timeline</name>
@@ -196,7 +195,7 @@
 			<group>map</group>
 		</item>
 		
-		<item>
+		<item hidden="true">
 			<icon type='fa'>map-o</icon>
 			<type>container</type>
 			<name>map_os</name>
@@ -275,7 +274,7 @@
 		</item>
 		
 		<item>
-			<icon type='fa'>dashboard</icon>
+			<icon type='fa'>sort-numeric-asc</icon>
 			<type>container</type>
 			<name>statbox</name>
 			<label>Stat Box</label>
@@ -284,7 +283,7 @@
 			<group>widget</group>
 			<accept></accept>
 		</item>
-		<item>
+		<item hidden="true">
 			<icon type='fa'>dashboard</icon>
 			<type>container</type>
 			<name>statbox_list</name>
@@ -293,7 +292,7 @@
 			<group>widget</group>
 			<accept></accept>
 		</item>
-		<item>
+		<item hidden="true">
 			<icon type='fa'>dashboard</icon>
 			<type>container</type>
 			<name>quickbuttonbox</name>
@@ -312,7 +311,7 @@
 			<group>widget</group>
 			<accept></accept>
 		</item>
-		<item>
+		<item hidden="true">
 			<icon type='fa'>dashboard</icon>
 			<type>container</type>
 			<name>smallbox</name>
@@ -356,7 +355,7 @@
 			<accept></accept>
 			<hasField>false</hasField>
 		</item>
-		<item>
+		<item hidden="true">
 			<icon type='fa'>hand-o-up</icon>
 			<type>container</type>
 			<name>fingerprint</name>

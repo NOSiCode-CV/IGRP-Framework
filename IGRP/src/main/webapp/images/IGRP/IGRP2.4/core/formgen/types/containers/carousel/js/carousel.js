@@ -38,7 +38,7 @@ VARS.getGen().declareContainer({
 
 		container.includes = {
 
-			xsl:[ 'IGRP-carousel.tmpl' ]
+			xsl:[ 'components.carousel' ]
 
 		};
 

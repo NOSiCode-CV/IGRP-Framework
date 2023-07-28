@@ -796,7 +796,7 @@ var CONTAINER = function(name,params){
 	}
 
 	var configHiddenFields = function(){
-		var appender      = $('.box-body',container.holder)[0] ? $('.box-body',container.holder).first() : $('[gen-id="drop-zone"]',container.holder).first();
+		var appender      = $('.card-body',container.holder)[0] ? $('.card-body',container.holder).first() : $('[gen-id="drop-zone"]',container.holder).first();
 		var hiddensHolder = $('<div class="gen-hidden-holder"/>');
 		var count         = 0;
 
@@ -2269,7 +2269,7 @@ var CONTAINER = function(name,params){
 					name:'text',
 					order:0,
 					size:'12',
-					inputType:'texteditor',
+					inputType:container.xml.inputType || 'texteditor',
 					value:container.xml.dataExample ? container.xml.dataExample : capitalizeFirstLetter(container.type)
 				});
 

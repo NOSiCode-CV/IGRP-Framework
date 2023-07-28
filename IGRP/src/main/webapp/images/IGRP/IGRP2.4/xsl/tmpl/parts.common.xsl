@@ -194,6 +194,56 @@
                             </div>
                         </div>
 
+                        <div id="sidebar-visibility">
+                            <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Sidebar Visibility</h6>
+                            <p class="text-muted">Choose show or Hidden sidebar.</p>
+                    
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-check card-radio">
+                                        <input class="form-check-input" type="radio" name="data-sidebar-visibility" id="sidebar-visibility-show" value="show"/>
+                                        <label class="form-check-label p-0 avatar-md w-100" for="sidebar-visibility-show">
+                                            <span class="d-flex gap-1 h-100">
+                                                <span class="flex-shrink-0 p-1">
+                                                    <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
+                                                        <span class="d-block p-1 px-2 bg-soft-primary rounded mb-2"></span>
+                                                        <span class="d-block p-1 px-2 pb-0 bg-soft-primary"></span>
+                                                        <span class="d-block p-1 px-2 pb-0 bg-soft-primary"></span>
+                                                        <span class="d-block p-1 px-2 pb-0 bg-soft-primary"></span>
+                                                    </span>
+                                                </span>
+                                                <span class="flex-grow-1">
+                                                    <span class="d-flex h-100 flex-column pt-1 pe-2">
+                                                        <span class="bg-light d-block p-1"></span>
+                                                        <span class="bg-light d-block p-1 mt-auto"></span>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <h5 class="fs-13 text-center mt-2">Show</h5>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-check card-radio">
+                                        <input class="form-check-input" type="radio" name="data-sidebar-visibility" id="sidebar-visibility-hidden" value="hidden"/>
+                                        <label class="form-check-label p-0 avatar-md w-100 px-2" for="sidebar-visibility-hidden">
+                                            <span class="d-flex gap-1 h-100">
+                                                <span class="flex-grow-1">
+                                                    <span class="d-flex h-100 flex-column pt-1 px-2">
+                                                        <span class="bg-light d-block p-1"></span>
+                                                        <span class="bg-light d-block p-1 mt-auto"></span>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <h5 class="fs-13 text-center mt-2">Hidden</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
                         <div id="layout-width">
                             <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Layout Width</h6>
                             <p class="text-muted">Choose Fluid or Boxed layout.</p>
@@ -532,6 +582,111 @@
                             </div>
                             <h5 class="fs-13 text-center mt-2">Dark</h5>
                         </div>
+                        <div id="sidebar-img">
+                            <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Sidebar Images</h6>
+                            <p class="text-muted">Choose a image of Sidebar.</p>
+        
+                            <div class="d-flex gap-2 flex-wrap img-switch">
+                                <div class="form-check sidebar-setting card-radio">
+                                    <input class="form-check-input" type="radio" name="data-sidebar-image" id="sidebarimg-none" value="none"/>
+                                    <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-none">
+                                        <span class="avatar-md w-auto bg-light d-flex align-items-center justify-content-center">
+                                            <i class="ri-close-fill fs-20"></i>
+                                        </span>
+                                    </label>
+                                </div>
+        
+                                <div class="form-check sidebar-setting card-radio">
+                                    <input class="form-check-input" type="radio" name="data-sidebar-image" id="sidebarimg-01" value="img-1"/>
+                                    <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-01">
+                                        <img src="{$themePath}/assets/images/sidebar/img-1.jpg" alt="" class="avatar-md w-auto object-cover"/>
+                                    </label>
+                                </div>
+        
+                                <div class="form-check sidebar-setting card-radio">
+                                    <input class="form-check-input" type="radio" name="data-sidebar-image" id="sidebarimg-02" value="img-2"/>
+                                    <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-02">
+                                        <img src="{$themePath}/assets/images/sidebar/img-2.jpg" alt="" class="avatar-md w-auto object-cover"/>
+                                    </label>
+                                </div>
+                                <div class="form-check sidebar-setting card-radio">
+                                    <input class="form-check-input" type="radio" name="data-sidebar-image" id="sidebarimg-03" value="img-3"/>
+                                    <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-03">
+                                        <img src="{$themePath}/assets/images/sidebar/img-3.jpg" alt="" class="avatar-md w-auto object-cover"/>
+                                    </label>
+                                </div>
+                                <div class="form-check sidebar-setting card-radio">
+                                    <input class="form-check-input" type="radio" name="data-sidebar-image" id="sidebarimg-04" value="img-4"/>
+                                    <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-04">
+                                        <img src="{$themePath}/assets/images/sidebar/img-4.jpg" alt="" class="avatar-md w-auto object-cover"/>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div id="preloader-menu">
+                            <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Preloader</h6>
+                            <p class="text-muted">Choose a preloader.</p>
+        
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-check sidebar-setting card-radio">
+                                        <input class="form-check-input" type="radio" name="data-preloader" id="preloader-view-custom" value="enable"/>
+                                        <label class="form-check-label p-0 avatar-md w-100" for="preloader-view-custom">
+                                            <span class="d-flex gap-1 h-100">
+                                                <span class="flex-shrink-0">
+                                                    <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
+                                                        <span class="d-block p-1 px-2 bg-soft-primary rounded mb-2"></span>
+                                                        <span class="d-block p-1 px-2 pb-0 bg-soft-primary"></span>
+                                                        <span class="d-block p-1 px-2 pb-0 bg-soft-primary"></span>
+                                                        <span class="d-block p-1 px-2 pb-0 bg-soft-primary"></span>
+                                                    </span>
+                                                </span>
+                                                <span class="flex-grow-1">
+                                                    <span class="d-flex h-100 flex-column">
+                                                        <span class="bg-light d-block p-1"></span>
+                                                        <span class="bg-light d-block p-1 mt-auto"></span>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                            <!-- <div id="preloader"> -->
+                                            <div id="status" class="d-flex align-items-center justify-content-center">
+                                                <div class="spinner-border text-primary avatar-xxs m-auto" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </div>
+                                            <!-- </div> -->
+                                        </label>
+                                    </div>
+                                    <h5 class="fs-13 text-center mt-2">Enable</h5>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-check sidebar-setting card-radio">
+                                        <input class="form-check-input" type="radio" name="data-preloader" id="preloader-view-none" value="disable"/>
+                                        <label class="form-check-label p-0 avatar-md w-100" for="preloader-view-none">
+                                            <span class="d-flex gap-1 h-100">
+                                                <span class="flex-shrink-0">
+                                                    <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
+                                                        <span class="d-block p-1 px-2 bg-soft-primary rounded mb-2"></span>
+                                                        <span class="d-block p-1 px-2 pb-0 bg-soft-primary"></span>
+                                                        <span class="d-block p-1 px-2 pb-0 bg-soft-primary"></span>
+                                                        <span class="d-block p-1 px-2 pb-0 bg-soft-primary"></span>
+                                                    </span>
+                                                </span>
+                                                <span class="flex-grow-1">
+                                                    <span class="d-flex h-100 flex-column">
+                                                        <span class="bg-light d-block p-1"></span>
+                                                        <span class="bg-light d-block p-1 mt-auto"></span>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <h5 class="fs-13 text-center mt-2">Disable</h5>
+                                </div>
+                            </div>
+        
+                        </div>
                         <div class="col-4">
                             <button class="btn btn-link avatar-md w-100 p-0 overflow-hidden border collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBgGradient" aria-expanded="false" aria-controls="collapseBgGradient">
                                 <span class="d-flex gap-1 h-100">
@@ -587,111 +742,7 @@
                     </div>
                 </div>
 
-                <div id="sidebar-img">
-                    <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Sidebar Images</h6>
-                    <p class="text-muted">Choose a image of Sidebar.</p>
-
-                    <div class="d-flex gap-2 flex-wrap img-switch">
-                        <div class="form-check sidebar-setting card-radio">
-                            <input class="form-check-input" type="radio" name="data-sidebar-image" id="sidebarimg-none" value="none"/>
-                            <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-none">
-                                <span class="avatar-md w-auto bg-light d-flex align-items-center justify-content-center">
-                                    <i class="ri-close-fill fs-20"></i>
-                                </span>
-                            </label>
-                        </div>
-
-                        <div class="form-check sidebar-setting card-radio">
-                            <input class="form-check-input" type="radio" name="data-sidebar-image" id="sidebarimg-01" value="img-1"/>
-                            <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-01">
-                                <img src="assets/images/sidebar/img-1.jpg" alt="" class="avatar-md w-auto object-cover"/>
-                            </label>
-                        </div>
-
-                        <div class="form-check sidebar-setting card-radio">
-                            <input class="form-check-input" type="radio" name="data-sidebar-image" id="sidebarimg-02" value="img-2"/>
-                            <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-02">
-                                <img src="assets/images/sidebar/img-2.jpg" alt="" class="avatar-md w-auto object-cover"/>
-                            </label>
-                        </div>
-                        <div class="form-check sidebar-setting card-radio">
-                            <input class="form-check-input" type="radio" name="data-sidebar-image" id="sidebarimg-03" value="img-3"/>
-                            <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-03">
-                                <img src="assets/images/sidebar/img-3.jpg" alt="" class="avatar-md w-auto object-cover"/>
-                            </label>
-                        </div>
-                        <div class="form-check sidebar-setting card-radio">
-                            <input class="form-check-input" type="radio" name="data-sidebar-image" id="sidebarimg-04" value="img-4"/>
-                            <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-04">
-                                <img src="assets/images/sidebar/img-4.jpg" alt="" class="avatar-md w-auto object-cover"/>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="preloader-menu">
-                    <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Preloader</h6>
-                    <p class="text-muted">Choose a preloader.</p>
-
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="form-check sidebar-setting card-radio">
-                                <input class="form-check-input" type="radio" name="data-preloader" id="preloader-view-custom" value="enable"/>
-                                <label class="form-check-label p-0 avatar-md w-100" for="preloader-view-custom">
-                                    <span class="d-flex gap-1 h-100">
-                                        <span class="flex-shrink-0">
-                                            <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                <span class="d-block p-1 px-2 bg-soft-primary rounded mb-2"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-soft-primary"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-soft-primary"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-soft-primary"></span>
-                                            </span>
-                                        </span>
-                                        <span class="flex-grow-1">
-                                            <span class="d-flex h-100 flex-column">
-                                                <span class="bg-light d-block p-1"></span>
-                                                <span class="bg-light d-block p-1 mt-auto"></span>
-                                            </span>
-                                        </span>
-                                    </span>
-                                    <!-- <div id="preloader"> -->
-                                    <div id="status" class="d-flex align-items-center justify-content-center">
-                                        <div class="spinner-border text-primary avatar-xxs m-auto" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
-                                    </div>
-                                    <!-- </div> -->
-                                </label>
-                            </div>
-                            <h5 class="fs-13 text-center mt-2">Enable</h5>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-check sidebar-setting card-radio">
-                                <input class="form-check-input" type="radio" name="data-preloader" id="preloader-view-none" value="disable"/>
-                                <label class="form-check-label p-0 avatar-md w-100" for="preloader-view-none">
-                                    <span class="d-flex gap-1 h-100">
-                                        <span class="flex-shrink-0">
-                                            <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                <span class="d-block p-1 px-2 bg-soft-primary rounded mb-2"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-soft-primary"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-soft-primary"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-soft-primary"></span>
-                                            </span>
-                                        </span>
-                                        <span class="flex-grow-1">
-                                            <span class="d-flex h-100 flex-column">
-                                                <span class="bg-light d-block p-1"></span>
-                                                <span class="bg-light d-block p-1 mt-auto"></span>
-                                            </span>
-                                        </span>
-                                    </span>
-                                </label>
-                            </div>
-                            <h5 class="fs-13 text-center mt-2">Disable</h5>
-                        </div>
-                    </div>
-
-                </div>
+                
                 <!-- end preloader-menu -->
 
             </div>
@@ -707,6 +758,7 @@
         <xsl:param name="use-fa" select="'true'"/>
         <xsl:param name="fixed-target"/>
         <xsl:param name="fixed-btn-class" select="''"/>
+       
 
         <xsl:variable name="img-folder">
             <xsl:choose>
@@ -715,16 +767,34 @@
             </xsl:choose>
         </xsl:variable>
 
+        
+
         <xsl:for-each select="item">
-            <xsl:apply-templates mode="igrp-button-item" select=".">
-                <xsl:with-param name="type" select="$type"/>
-                <xsl:with-param name="use-fa" select="$use-fa"/>
-                <xsl:with-param name="fixed-target" select="$fixed-target"/>
-                <xsl:with-param name="style" select="$style"/>
-                <xsl:with-param name="rounded" select="$rounded"/>
-                <xsl:with-param name="position" select="position()"/>
-                <xsl:with-param name="fixed-btn-class" select="$fixed-btn-class"/>
-            </xsl:apply-templates>
+            <xsl:choose>
+                <xsl:when test="$style = 'btn'">
+                    <xsl:apply-templates mode="igrp-button-item" select=".">
+                        <xsl:with-param name="type" select="$type"/>
+                        <xsl:with-param name="use-fa" select="$use-fa"/>
+                        <xsl:with-param name="fixed-target" select="$fixed-target"/>
+                        <xsl:with-param name="style" select="$style"/>
+                        <xsl:with-param name="rounded" select="$rounded"/>
+                        <xsl:with-param name="position" select="position()"/>
+                        <xsl:with-param name="fixed-btn-class" select="$fixed-btn-class"/>
+                    </xsl:apply-templates>
+                </xsl:when>
+                <xsl:when test="$style = 'list-group-item'">
+                    <xsl:apply-templates mode="igrp-action-list-item" select=".">
+                        <xsl:with-param name="type" select="$type"/>
+                        <xsl:with-param name="use-fa" select="$use-fa"/>
+                        <xsl:with-param name="fixed-target" select="$fixed-target"/>
+                        <xsl:with-param name="style" select="$style"/>
+                        <xsl:with-param name="rounded" select="$rounded"/>
+                        <xsl:with-param name="position" select="position()"/>
+                        <xsl:with-param name="fixed-btn-class" select="$fixed-btn-class"/>
+                    </xsl:apply-templates>
+                </xsl:when>
+            </xsl:choose>
+            
 
         </xsl:for-each>
     </xsl:template>
@@ -807,6 +877,109 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:attribute>
+            </xsl:if>
+
+            <xsl:if test="contains($target, '|')">
+                <xsl:call-template name="get-target-params">
+                    <xsl:with-param name="list" select="$target"/>
+                </xsl:call-template>
+            </xsl:if>
+
+            <xsl:call-template name="page-nav">
+                <xsl:with-param name="action" select="link" />
+                <xsl:with-param name="page" select="page" />
+                <xsl:with-param name="app" select="app" />
+                <xsl:with-param name="linkextra" select="parameter" />
+            </xsl:call-template>
+
+            <xsl:if test="img">
+                <xsl:choose>
+                    <xsl:when test="$use-fa != 'false'">
+                        <xsl:call-template name="igrp-get-icon-item-with-color">
+                            <xsl:with-param name="list" select="img"/>
+                            <xsl:with-param name="use-fa" select="$use-fa"/>
+                            <xsl:with-param name="img-folder" select="$img-folder"/>
+                            <xsl:with-param name="style" select="$style"/>
+                            <xsl:with-param name="rounded" select="$rounded"/>
+                        </xsl:call-template>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <img src="{$path}/assets/img/v1/icon/{$img-folder}/{img}"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:if>
+            <span class="btn-text ">
+                <xsl:value-of select="title"/>
+            </span>
+        </a>
+    </xsl:template>
+
+    <xsl:template name="igrp-action-list-item" mode="igrp-action-list-item" match="item">
+        <xsl:param name="type"/>
+        <xsl:param name="use-fa" select="'true'"/>
+        <xsl:param name="fixed-target"/>
+        <xsl:param name="style" select="'btn'"/>
+        <xsl:param name="rounded"/>
+        <xsl:param name="position"/>
+        <xsl:param name="fixed-btn-class" select="''"/>
+
+        <xsl:variable name="refresh_components" select="@refresh_components"></xsl:variable>
+
+        <xsl:variable name="btn-class">
+            <xsl:choose>
+                <xsl:when test="@class">
+                    <xsl:value-of select="@class"/>
+                </xsl:when>
+                <xsl:otherwise>default</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:variable name="target">
+            <xsl:choose>
+                <xsl:when test="$fixed-target">
+                    <xsl:value-of select="$fixed-target"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="target"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:variable name="img-folder">
+            <xsl:choose>
+                <xsl:when test="$type='tools-bar'">tools-bar</xsl:when>
+                <xsl:otherwise>menu</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <a class="list-group-item" target="{$target}" use-fa="{$use-fa}" position="{./@rel}" icon-position="{./img/@position}">
+
+            <xsl:if test="$refresh_components != ''">
+                <xsl:attribute name="refresh-components">
+                    <xsl:value-of select="$refresh_components"></xsl:value-of>
+                </xsl:attribute>
+            </xsl:if>
+
+            <xsl:if test="@labelConfirm">
+                <xsl:attribute name="label-confirm">
+                    <xsl:value-of select="@labelConfirm"/>
+                </xsl:attribute>
+            </xsl:if>
+
+            <xsl:if test="@notvalidatefields = 'true'">
+                <xsl:attribute name="notvalidatefields">
+                    <xsl:value-of select="@notvalidatefields"/>
+                </xsl:attribute>
+            </xsl:if>
+
+            <xsl:if test="target = 'sharpadbclient'">
+                <xsl:attribute name="sharpadbclient">
+                    <xsl:value-of select="@sharpadbclient"></xsl:value-of>
+                </xsl:attribute>
+            </xsl:if>
+
+            <xsl:if test="img!=''">
+                <xsl:attribute name="has-img">true</xsl:attribute>
             </xsl:if>
 
             <xsl:if test="contains($target, '|')">

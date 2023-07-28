@@ -103,7 +103,7 @@
 					{ path : '/plugins/gis/v2/modules/gis.legends.js' },
 				
 				],
-				xsl : [ 'gis.map' ]
+				xsl : [ 'IGRP-gis.map.tmpl' ]
 			};
 
 			function GetMapData(){

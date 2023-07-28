@@ -10,10 +10,15 @@ this[VARS.name].declareContainer({
 
 		const IconsProperty = GEN.getGlobalProperty('icons-property');
 
+		const ClssProperty = GEN.getGlobalProperty('button-appearance-properties');
+		
+
+		console.log(params)
 
 		container.xml.structure = 'form';
 
 		container.includes = {
+			xsl: ['components.statbox'],
 			css:[ { path:'/plugins/statbox/statbox.css' } ]
 		};
 
@@ -38,6 +43,30 @@ this[VARS.name].declareContainer({
 			});
 
 			container.setProperty({
+				name      :'pct',
+				label     :'Percent',
+				value     :""+((Math.random() * 99) + 1).toFixed(1),
+				isField   : true
+			});
+
+			container.setProperty({
+				name      :'state',
+				label     :$.IGRP.locale.get('state'),
+				value     : function(){
+					const startChar = '+';
+					const endChar = '-';
+					const startCharCode = startChar.charCodeAt(0);
+					const endCharCode = endChar.charCodeAt(0);
+				  
+					const randomCharCode = Math.floor(Math.random() * (endCharCode - startCharCode + 1)) + startCharCode;
+					console.log(randomCharCode)
+					return String.fromCharCode(randomCharCode);
+				}(),
+				isField   : true,
+				editable: false
+			});
+
+			container.setProperty({
 				name      :'txt',
 				label     :'Url Text',
 				value     :'Read More...',
@@ -57,7 +86,7 @@ this[VARS.name].declareContainer({
 				value:'modal'
 			});
 
-			container.setPropriety({
+			/*container.setPropriety({
 				name:'bg',
 				label:'Background',
 				value:{
@@ -74,7 +103,14 @@ this[VARS.name].declareContainer({
 				},
 				isField   : true
 				//valuePersist : true
-			});
+			});*/
+
+			ClssProperty(container,{
+				name:'bg',
+				label : $.IGRP.locale?.get('background-class'),
+				showbtnStyle : false,
+				isField   : true
+			})
 
 			IconsProperty(container,{
 				name:'icn',
@@ -82,6 +118,13 @@ this[VARS.name].declareContainer({
 				isField : true,
 				valuePersist : true,
 				showPosition : false
+			});
+			
+
+			container.setProperty({
+				name:'style',
+				value:'default',
+				editable: false
 			});
 
 			/*GEN.setImgAttr(container,{

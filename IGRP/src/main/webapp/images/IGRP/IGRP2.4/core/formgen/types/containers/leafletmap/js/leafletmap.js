@@ -33,7 +33,7 @@
 
 				],
 
-				xsl : [ 'leaflet' ]
+				xsl : [ 'IGRP-leaflet.tmpl' ]
 
 			};
 

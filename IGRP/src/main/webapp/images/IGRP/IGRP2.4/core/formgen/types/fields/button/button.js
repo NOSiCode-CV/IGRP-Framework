@@ -22,7 +22,7 @@ var BTNFIELD = function(type,params){
 			value: proprieties && proprieties.action ? proprieties.action : ''
 		});
 
-		GEN.service.set(field);
+		//GEN.service.set(field);
 
 		ButtonAppearanceProperties(field);
 

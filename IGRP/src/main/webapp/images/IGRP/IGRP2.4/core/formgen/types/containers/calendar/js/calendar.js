@@ -70,7 +70,7 @@ var GENCALENDAR = function(name,params){
 	};
 
 	container.includes = {
-		xsl: ['calendar'],
+		xsl: ['IGRP-calendar.tmpl'],
 		css: [
 			{ 
 				path:'/core/calendar/3.0.1/css/fullcalendar.print.css',

@@ -6,9 +6,12 @@
     (object, defaults = {}) => {
       var pref = defaults.classPrefix ? defaults.classPrefix + " " : "";
       var _default = defaults.class;
+	  var name = defaults.name || "class";
 
       object.setPropriety({
-        name: "class",
+        name: name,
+		label : name,
+		isField: defaults.isField,
         value: {
           value: _default ? _default : "primary",
           size: "12",
@@ -40,7 +43,7 @@
           const bt_class = "btn-sm btn d-flex align-items-center";
 
           var checkClss = function (v) {
-            var val = v || object.GET.class();
+            var val = v || object.GET[name]();
 
             setTimeout(function () {
               if (val?.indexOf("link-") >= 0) {
@@ -324,6 +327,7 @@
 
       var params = {
         name: tagName,
+		label:$.IGRP.locale?.get('gen-button-action'),
         value: {
           value: value ? value : GEN.DETAILS.id,
           options: options,
@@ -457,6 +461,7 @@
 			
 			field.setPropriety({
 				name: 'target',
+				label : $.IGRP.locale.get('gen-button-target'),
 				value:{
 					value:p.value ? p.value : '_blank',
 					options: $.IGRP.defaults.buttons.targets()

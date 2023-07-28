@@ -25,6 +25,8 @@ th .gen-field-edt-options {
 }
 
 
+
+
 .gen-viewers-toolbar{
     min-height: 35px;
     display: flex;
@@ -630,6 +632,17 @@ body.startin:after{
     min-height: calc(100% - 80px );
 }
 
+.available-fields::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color:  transparent;
+}
+
+.available-fields::-webkit-scrollbar-thumb {
+    background-color: rgb(0,0,0,.15);
+    /* border-radius: 5px; */
+}
+
 .gen-properties-setts-holder[rel="fields"] .container-field-setter-search{
     border-radius: 4px;
     border: 1px solid #CED4DA;
@@ -750,3 +763,17 @@ body.startin:after{
     display: inherit;
 }
 
+.gen-hidden-holder{
+   display: none!important;
+}
+
+.IGRP-separatorlist.old-version .table-row-add{
+    display: block!important;
+}
+
+.IGRP-separatorlist.old-version:not([dialog="true"])  .splist-form-holder{
+    display: block!important;
+}
+.hidden{
+    display: none;
+}

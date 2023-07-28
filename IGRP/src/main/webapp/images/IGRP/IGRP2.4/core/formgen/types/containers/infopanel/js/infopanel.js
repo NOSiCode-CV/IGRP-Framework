@@ -11,6 +11,14 @@
 
 			var container = this;
 
+			const ActionProperties = GEN.getGlobalProperty('action-properties');
+
+			const BackgroundProperties = GEN.getGlobalProperty('button-appearance-properties');
+
+			const IconProperties = GEN.getGlobalProperty('icons-property');
+
+			
+
 			CONTAINER.call(container,name,params);
 			
 			container.xml.structure = 'form';
@@ -25,7 +33,7 @@
 
 				container.unsetProprieties(['hasTitle']);
 
-				var defColors = [
+				/*var defColors = [
 					{
 						label:"Primary",
 						value:"bg-primary"
@@ -45,7 +53,7 @@
 				],
 
 				bgColors = $.IGRP.components.colorPalettes.colors ? $.IGRP.components.colorPalettes.colors.concat(defColors) : defColors.push({"value":"cp-cyan","label":"Cyan"});
-
+*/
 				container.propertiesOptions.title = {
 					name : 'title',
 					label : 'Title',
@@ -61,45 +69,44 @@
 					valuePersist : false
 				});
 				
+				BackgroundProperties(container,{
+					showbtnStyle : false,
+					isField   : true,
+					valuePersist : true,
+				});
 
-				GEN.setBtnActionAttr(container,{
+				IconProperties(container,{
+					name:'icn',
+					value:'fa-info',
+					isField   : true,
+					valuePersist : false,
+					showPosition : false
+				});
+				
+				/*actionProperties(container,{
+					tag : 'url',
+					type : 'action',
+					isField 	   : true,
+					valuePersist   : false,
+				})*/
+
+				/*GEN.setBtnActionAttr(container,{
 					value 		   : params.proprieties && params.proprieties.action ? params.proprieties.action : '',					
 					isField 	   : true,
 					valuePersist   : false,
 					tag : 'url',
-					
 					type : 'action',
 					//canAddOptions  : false,
 					onChange:function(v){
-//						console.log(v);
-						/*var page   = v.params.page,
-							app    = v.params.app,
-							action = v.params.action,
-							url    = 'webapps?r='+app+'/'+page+'/'+action;
 
-						setTimeout(function(){
-
-							container.SET.url(url);
-
-						},200);*/
-						
 					}
-				});
-
-				/*container.setPropriety({
-					name    : 'url',
-					label   : 'URL',
-					value   : "",
-					isField : true,
-					valuePersist : true,
-					editable : false
 				});*/
 
-				GEN.setTargetAttr(container,{
+				/*GEN.setTargetAttr(container,{
 					value:'modal'
-				});
+				});*/
 
-				container.setPropriety({
+				/*container.setPropriety({
 					name:'bg',
 					label:'Background',
 					value:{
@@ -116,14 +123,14 @@
 					},
 					isField   : true,
 					valuePersist : false
-				});
+				});*/
 
-				GEN.setImgAttr(container,{
+				/*GEN.setImgAttr(container,{
 					name:'icn',
 					value:'fa-info',
 					isField   : true,
 					valuePersist : false
-				});
+				});*/
 
 
 			}

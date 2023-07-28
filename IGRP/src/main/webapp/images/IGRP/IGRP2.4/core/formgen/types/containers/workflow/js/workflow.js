@@ -14,7 +14,7 @@ var WORKFLOW = function(name,params){
 	container.xml.structure = 'table';
 
 	container.includes = {
-		xsl : ['workflow'],
+		xsl : ['IGRP-workflow.tmpl'],
 		css : [ { path : '/plugins/workflow/workflow.css' } ]
 	}
 };

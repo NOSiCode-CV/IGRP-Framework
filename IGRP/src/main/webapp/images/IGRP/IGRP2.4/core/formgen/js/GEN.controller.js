@@ -311,6 +311,47 @@ var GENERATOR = function(genparams){
 		col.removeClass('distance-bottom');
 	}
 
+	const getRulesActionsXML = ()=>{
+		let rtn = "";
+
+		let content = "";
+
+		GEN.getAllFields().forEach( (field,i)=>{
+			if(field.rules && field.rules[0]){
+				field.rules.forEach( (rule,x)=>{
+					let actions = rule.actions?.replaceAll("'",'"');
+					if(actions){
+						actions = JSON.parse(actions);
+						if(actions && actions[0]){
+							actions.forEach( (action,z)=>{
+								if(
+									action.gen_rule_action === 'remote' ||
+									action.gen_rule_action === 'remote_combobox' ||
+									action.gen_rule_action === 'remote_list'
+								 ){
+
+									content+=`
+									<item type="specific" code="" rel="${action.gen_rule_procedure}">
+										<title>${action.gen_rule_procedure}</title>
+									</item>
+									`
+								 }
+							})
+						}
+					}
+				} )
+			}
+		} )
+		if(content){
+			rtn = `
+				<page_rules_actions type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+					${content}
+				</page_rules_actions>
+			`
+		}
+		return rtn;
+	}
+
 	GEN.getXML = function(p){
 		var _params = p ? p : {};
 		var rtn      = '',
@@ -331,7 +372,7 @@ var GENERATOR = function(genparams){
 			rtn+='<page>'+page+'</page>';
 			//app
 			rtn+='<app>'+app+'</app>';
-			rtn+='<template>velzon</template>';
+			//rtn+='<template>velzon</template>';
 			//plsql
 			rtn+=VARS.xml.plsql();
 			//slide menu
@@ -365,7 +406,7 @@ var GENERATOR = function(genparams){
 						}
 					});
 				}
-
+			rtn+=getRulesActionsXML();
 			rtn+='</content>';
 			if(GEN.GET.service && GEN.GET.service().code)
 				rtn+=GEN.getFieldServiceMap(GEN.GET.service());

@@ -9,10 +9,10 @@
 
 
         const setControllers = ()=>{
-            $(card).on('click','.show-add-row',  ()=>com.showForm());
-            $(card).on('click', '.cancel-add-row', ()=>com.cancelAddEdit());
-            $(card).on('click', '.confirm-add-row', ()=>com.confirmAdd());
-            $(card).on('click', '.export-data', ()=>com.export());
+            $(card).on('click','.show-add-row',  (e)=>com.showForm());
+            $(card).on('click', '.cancel-add-row', (e)=>com.cancelAddEdit(e));
+            $(card).on('click', '.confirm-add-row', (e)=>com.confirmAdd());
+            $(card).on('click', '.export-data', (e)=>com.export());
         }
         
         const setEvents = ()=>{
@@ -97,6 +97,8 @@
             com.hideForm();
 
             checkNoDataMessage();
+
+            return false;
         }
 
         com.removeFormTr = ()=>{
@@ -156,7 +158,7 @@
     const app = {
         list : {},
         init : (elements)=>{
-          const Separators = elements || $('.IGRP-separatorlist');
+          const Separators = elements || $('.IGRP-separatorlist:not(.old-version)');
           Separators.each( (i,el)=>{
             const id = $(el).attr('tag');
             const component = new SeparatorComponent(el,id);
@@ -167,7 +169,7 @@
           
         }
     };
-    console.log(app)
+
     $.IGRP.component('separatorlist-ext', app, true);
 
 })();
