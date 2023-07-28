@@ -444,12 +444,12 @@
 			<name>lookup</name>
 			<label>LookUp</label>
 		</item>
-		<item>
+		<!--<item >
 			<icon type='fa'>search</icon>
 			<type>locator</type>
 			<name>locator</name>
 			<label>Coordinates</label>
-		</item>
+		</item>-->
 		<item>
 			<icon type='fa'>link</icon>
 			<type>link</type>
@@ -492,7 +492,7 @@
 			<name>file</name>
 			<label>Upload</label>
 		</item>
-		<item>
+		<!--<item>
 			<icon type='fa'>file-pdf-o</icon>
 			<type>filesigner</type>
 			<name>filesigner</name>
@@ -503,7 +503,7 @@
 			<type>electronicsignature</type>
 			<name>electronicsignature</name>
 			<label>Electronic Signature</label>
-		</item>
+		</item>-->
 		<item>
 			<icon type='fa'>eye-slash</icon>
 			<type>hidden</type>
@@ -534,12 +534,12 @@
 			<name>button</name>
 			<label>Button</label>
 		</item>
-		<item>
+		<!--<item>
 			<icon type='fa'>keyboard-o</icon>
 			<type>virtualkeyboard</type>
 			<name>virtualkeyboard</name>
 			<label>Virtual Key Board</label>
-		</item>
+		</item>-->
 		<item>
 			<icon type='fa'>pencil-square</icon>
 			<type>texteditor</type>
@@ -547,7 +547,7 @@
 			<label>Text Editor</label>
 		</item>
 		
-		<item>
+		<!--<item>
 			<icon type='fa'>pencil-square</icon>
 			<type>map_layer</type>
 			<name>map_layer</name>
@@ -558,7 +558,7 @@
 			<type>map_widget</type>
 			<name>map_widget</name>
 			<label>Map Widget</label>
-		</item>
+		</item>-->
 	
 	</fields>
 	<pages>

@@ -340,6 +340,8 @@ var Field = function(type,params){
 			});
 		}
 	}
+
+	field.unsetProperties = field.unsetProprieties;
 	
 	var notEditableAttrs = {
 		_id : true

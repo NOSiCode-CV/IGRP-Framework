@@ -40,6 +40,10 @@ var VARS = {
 			<i class="ri-add-fill"></i>
 		</div>
 
+		<div class="text-light add-row-control control-top d-flex align-items-center justify-content-center" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top">
+			<i class="ri-add-fill"></i>
+		</div>
+
 
 		<div class="row-options shadow-lg">
 		  <ul>

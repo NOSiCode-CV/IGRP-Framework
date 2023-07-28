@@ -836,7 +836,7 @@ var GENSTRUCTURES = function(GEN){
 	
 	var genLookUpField = function(f){
 
-		var link 	= (f.action && f.action.link) ? '..'+f.action.link.substring(1).substring(f.action.link.substring(1).indexOf('/')) : '',				
+		var link 	= (f.action && f.action.link) ? f.action.link : '',				
 			rtn     = '<lookup>'+link+'</lookup>',
 		
 			isTable = f.parent.GET.type() == 'formlist' ? 'is-table="true"' : '';

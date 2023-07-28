@@ -16,9 +16,9 @@ var LOOKUPFIELD = function(type,params){
 		GEN.setBtnActionAttr(field,{
 			value: proprieties && proprieties.action ? proprieties.action : '',
 			xmlAttr:function(){
-				var action = field.action.action ? field.action.action : '',
-					page   = field.action.page   ? field.action.page   : '',
-					app    = field.action.app    ? field.action.app    : '';
+				var action = field.action?.action ? field.action?.action : '',
+					page   = field.action?.page   ? field.action?.page   : '',
+					app    = field.action?.app    ? field.action?.app    : '';
 
 				return 'action="'+action+'" page="'+page+'" app="'+app+'"';
 			}
@@ -145,16 +145,14 @@ var LOOKUPFIELD = function(type,params){
 			}
 		});
 
-		
-		
-		field.setProperty({
+		/*field.setProperty({
 			label 	: 'Clear mapped field value',
 			name  	:'lookup_eraser',
 			value 	:false,
 			xslValue:function(){
 				return '<span class="lookup-eraser"><i class="fa fa-times"></i></span>';
 			}
-		});
+		});*/
 		
 		field.setProperty({
 			name:'lookup_type',
@@ -202,7 +200,7 @@ var LOOKUPFIELD = function(type,params){
 			}
 		});
 
-		GEN.setBTNClass(field);
+		//GEN.setBTNClass(field);
 	}
 	
 }

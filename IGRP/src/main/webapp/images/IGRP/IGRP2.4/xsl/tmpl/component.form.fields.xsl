@@ -175,6 +175,41 @@
 
     </xsl:template>
 
+    <xsl:template name="igrp-form-lookup-field" mode="igrp-form-lookup-field" match="*">
+        <xsl:param name="change" select="''"/>
+        <xsl:param name="declabel" select="''"/>
+        <xsl:param name="inputmask" select="''"/>
+        <xsl:param name="maxlength" select="''"/>
+        <xsl:param name="field_param" select="''"/>
+        <xsl:param name="input-id" select="''"/>
+        <xsl:variable name="type" select="@type"/>
+
+        <label for="{@name}">
+            <xsl:value-of select="label"/>
+        </label>
+        
+        <div class="input-group">
+            <input type="text" value="{value}" class="form-control gen-lookup {$change} {$declabel}" id="{$input-id}" name="{@name}" maxlength="{$maxlength}" placeholder="{@placeholder}">
+                <xsl:call-template name="setAttributes">
+                    <xsl:with-param name="field" select="."/>
+                </xsl:call-template>
+            </input>
+            <xsl:call-template name="lookup-tool">
+                <xsl:with-param name="page" select="rows/page"/>
+                <xsl:with-param name="ad_hoc" select="'1'"/>
+                <xsl:with-param name="action" select="'LOOKUP'"/>
+                <xsl:with-param name="name" select="@name"/>
+                <xsl:with-param name="js_lookup" select="lookup"/>
+                <xsl:with-param name="input-id" select="$input-id"/>
+                <xsl:with-param name="btnClass" select="''"/>
+                <xsl:with-param name="getparams" select="$field_param"/>
+            </xsl:call-template>
+
+        </div>
+
+
+    </xsl:template>
+
     <xsl:template name="igrp-form-field-tmpl" mode="igrp-form-field-tmpl" match="*">
         <xsl:param name="change" select="''"/>
         <xsl:param name="declabel" select="''"/>

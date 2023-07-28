@@ -4,6 +4,12 @@ var SEPARATORFIELD = function(type,params){
 	var field = this;
 	field.xml.value = false;
 
+	field.unsetProperties(['desclabel','tooltip','disable_copy_paste'])
+	
+	field.ready = ()=>{
+		
+	}
+
 }
 
 this[VARS.name].declareField({

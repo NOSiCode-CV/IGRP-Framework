@@ -21,3 +21,9 @@ body,html{
     display: none!important;
 }
 
+
+
+#igrp-iframe-nav iframe{
+    width: 100%;
+    height:calc(100vh - 90px)
+}

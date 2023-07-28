@@ -70,9 +70,9 @@ var SELECTFIELD = function(type,params){
 			const inputs = $(`.form-group[item-name="${field.GET.tag()}"] select`);
 
 			inputs.each( (i,el)=>{
-				/*const choices = new Choices(el,{
+				const choices = new Choices(el,{
 				
-				});*/
+				});
 			} )
 			
 			//$.IGRP.components.select2.init(field.parent.holder);

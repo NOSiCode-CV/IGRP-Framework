@@ -42,11 +42,11 @@ var GENFORM = function(name,params){
 		
 		GEN.setFormFieldAttr(field);
 
-		const hideProprietys = ['filesigner', 'electronicsignature'];
+		const hideProprietys = ['filesigner', 'electronicsignature', 'separator'];
 
 		if(!hideProprietys.includes(field.type)){
 
-			field.setPropriety({
+			/*field.setPropriety({
 
 				name:'tooltip',
 
@@ -67,7 +67,7 @@ var GENFORM = function(name,params){
 				value : false,
 				xslValue : 'onselectstart="return false" oncut="return false" oncopy="return false" onpaste="return false" ondrag="return false" ondrop="return false"'
 
-			});
+			});*/
 		}
 
 	}

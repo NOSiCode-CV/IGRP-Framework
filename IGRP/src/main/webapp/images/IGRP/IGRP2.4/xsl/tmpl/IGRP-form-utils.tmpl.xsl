@@ -52,7 +52,7 @@
       <xsl:param name="lookupClass" select="''"/>
       <xsl:param name="getparams" select="''"/>
       
-      <span href="#" input-rel="{$input-id}" class="input-group-btn gen-date-icon IGRP_lookupPopup {$lookupClass}" ctx_param="{$name}">
+      <span href="#" input-rel="{$input-id}" class="input-group-text gen-date-icon IGRP_lookupPopup {$lookupClass}" ctx_param="{$name}">
         <xsl:if test="$getparams != ''">
           <xsl:attribute name="getparams"><xsl:value-of select="$getparams"/></xsl:attribute>
         </xsl:if>
@@ -62,8 +62,8 @@
            <xsl:with-param name="linkextra" select="$js_lookup" />
            <xsl:with-param name="ad_hoc" select="$ad_hoc" />
           </xsl:call-template> 
-          <span class="btn btn-{$btnClass}">
-            <i class="fa fa-search"></i>
+          <span class="">
+            <i class="ri-search-line"></i>
           </span>
       </span>
       

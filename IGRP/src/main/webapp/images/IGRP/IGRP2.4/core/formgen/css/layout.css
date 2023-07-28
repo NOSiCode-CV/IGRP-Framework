@@ -416,6 +416,15 @@ li[rel="columns"] .dropdown-header{
 	cursor: pointer;
 }
 
+.add-row-control.control-top{
+	bottom:auto!important;
+	top:-18px!important;
+}
+
+.row+.row .add-row-control.control-top{
+	
+}
+
 .gen-row:hover>.add-row-control{
 	opacity:1;
 }

@@ -10,7 +10,7 @@ var ELECTRONICSIGNATURE = function(type,params){
 	field.xml.description = true;
 
 	field.includes = {
-		xsl : ['electronic-signature'],
+		xsl : ['IGRP-electronic-signature.tmpl'],
 		js  : [ { path:'/plugins/electronicsignature/electronicsignature.js'}],
 		css : [ { path:'/plugins/electronicsignature/electronicsignature.css'}]
 	}

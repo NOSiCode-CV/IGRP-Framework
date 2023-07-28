@@ -2,12 +2,12 @@
     "gen_file_exists": "/page-builder/check-file?path=",
     "core_methods_list": "webapps?r=igrp/page/metodos-core",
     "link_page_detail": "/IGRP/images/IGRP/IGRP2.4/app/igrp/generator/page-details.json?v=",
-    "link_page_list": "/IGRP/images/IGRP/IGRP2.4/app/igrp/generator/domains-list.json?v=",
+    "link_page_list": "/IGRP/images/IGRP/IGRP2.4/app/igrp/generator/list-page.json?v=",
     "link_service_list": "webapps?r=igrp/page/listService&p_id=",
     "link_image_list": "webapps?r=igrp/page/imageList&name=",
     "preserve_url": "/IGRP/images/IGRP/IGRP2.4/core/formgen/util/preserve.json",
     "link_service_xsd": "/IGRP/images/IGRP/IGRP2.4/core/formgen/util/test.xsd",
-    "link_domains": "/IGRP/images/IGRP/IGRP2.4/app/igrp/generator/page-details.json?v=",
+    "link_domains": "/IGRP/images/IGRP/IGRP2.4/app/igrp/generator/domains-list.json?v=",
     "link_domains_value": "webapps?r=igrp/page/domainsValues&p_id=",
-    "link_get_page_json": "webapps?r=igrp/page/getPageJson&p_id="
+    "link_get_page_json": "/IGRP/images/IGRP/IGRP2.4/app/igrp/generator/page.json?p_id="
 }

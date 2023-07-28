@@ -377,6 +377,10 @@ var GEN_LAYOUT = function(viewer){
 			var parent              = rowAppenderSelector ? $($(this).parents(rowAppenderSelector)[0]) : $($(this).parents('.gen-rows-holder')[0]);
 			var index               = $(this).parents(VARS.layout.rows).index()+1;
 
+			if($(this).hasClass('control-top')){
+				index = $(this).parents(VARS.layout.rows).index();
+			}
+
 			layout.addRow({index:index, parent:parent});
 			
 			setZindex();

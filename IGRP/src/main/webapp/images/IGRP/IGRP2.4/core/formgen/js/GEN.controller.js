@@ -5583,7 +5583,19 @@ var GENERATOR = function(genparams){
 					}
 				}
 
-				const setPlaceholder = ['electronicsignature', 'filesigner',"button", "plaintext", "select", "file", "radio", "checkbox", "radiolist", "checkboxlist"];
+				const setPlaceholder = [
+					'electronicsignature', 
+					'filesigner',
+					"button", 
+					"plaintext", 
+					"select", 
+					"file", 
+					"radio", 
+					"checkbox", 
+					"radiolist", 
+					"checkboxlist",
+					"separator"
+				];
 
 				if(!setPlaceholder.includes(type)){
 
@@ -5592,14 +5604,14 @@ var GENERATOR = function(genparams){
 						value: ''
 					});
 					
-					if(container.GET.type() != 'formlist'){
+					if(container.GET.type() != 'formlist' ){
 					
-						field.setPropriety({
+						/*field.setPropriety({
 							label    : 'Description Label',
 							name     : 'desclabel',
 							value 	 : false,
 							xslValue : 'desclabel'
-						});
+						});*/
 					}
 				}
 
