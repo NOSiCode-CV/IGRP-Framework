@@ -1,6 +1,15 @@
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:template name="igrp-footer">
+
+		<!-- IFRAME NAVIGATION MODAL -->
+		<xsl:call-template name="iframe-nav"/>
+		<!--/IFRAME NAVIGATION MODAL -->
+	
+		<!-- DEBUG -->
+		<xsl:call-template name="IGRP-debug"/>
+		<!--/DEBUG -->
+
 		<footer class="footer">
 			<div class="container-fluid">
 				<div class="row">

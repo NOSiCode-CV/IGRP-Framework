@@ -9,10 +9,10 @@
       <xsl:if test="$collapsible = 'true'">box-collapser</xsl:if>
     </xsl:variable>
     <xsl:attribute name="collapsed"><xsl:value-of select="$collapsed"/></xsl:attribute>
-    <div class="card-header {$collapsibleClass}">
+    <div class="card-header {$collapsibleClass} d-flex align-items-center">
       <h3 class="card-title"><xsl:value-of select="$title"/></h3>
       <xsl:if test="$collapsible = 'true'">
-        <div class="box-tools pull-right">
+        <div class="box-tools ml-auto">
         <a class="btn-box-tool"><i class="fa fa-chevron-up"></i></a>
       </div>
       </xsl:if>
