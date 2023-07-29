@@ -13,6 +13,8 @@ body[has-menu="false"] .page-content{
 }
 body[has-menu="false"] .page-title-box {
     margin-top: 0!important;
+    padding-top:15px;
+    padding-bottom: 15px;
 }
 body[has-menu="false"] .footer{
    display:none!important
@@ -57,3 +59,4 @@ body[has-menu="false"] .footer{
     margin-left:-10px;
     left:50%
 }
+

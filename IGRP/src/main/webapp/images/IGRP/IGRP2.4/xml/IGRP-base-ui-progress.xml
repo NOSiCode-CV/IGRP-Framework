@@ -33,7 +33,7 @@
 		<version>1.0</version>					
 		
 		<messages>		
-			<message type="info">XML de Teste para todas as páginas</message>
+			<message></message>
 		</messages>
 
 		<title>Progress</title>

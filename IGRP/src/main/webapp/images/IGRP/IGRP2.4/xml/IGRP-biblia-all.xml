@@ -19,7 +19,7 @@
   <content>
     <title>NOSI IGRP 2.2</title>
     <messages>
-      <message type="info">XML de Teste para todas as páginas</message>
+      <message></message>
       <message type="error">XML de Teste para todas as páginas</message>
       <message type="confirm">Isto sim é que falar?</message>
       <message type="warning">Isto sim é que falar?</message>

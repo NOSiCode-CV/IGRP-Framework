@@ -1109,22 +1109,25 @@
     <xsl:template name="igrp-page-messages">
         <xsl:param name="messages"></xsl:param>
         <xsl:for-each select="$messages">
+            <xsl:if test=". and . != ''">
+                <xsl:variable name="msg-type">
+                    <xsl:call-template name="igrp-msg-transform"/>
+                </xsl:variable>
+
+                <xsl:variable name="msg-icon">
+                    <xsl:call-template name="igrp-msg-icon"/>
+                </xsl:variable>
+
+
+                <div class="alert alert-{$msg-type} alert-border-left alert-dismissible fade show" role="alert">
+                    <span class="disable-output-escaping "><xsl:value-of select="." disable-output-escaping="yes"/></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+            </xsl:if>
             
-            <xsl:variable name="msg-type">
-                <xsl:call-template name="igrp-msg-transform"/>
-            </xsl:variable>
-
-            <xsl:variable name="msg-icon">
-                <xsl:call-template name="igrp-msg-icon"/>
-            </xsl:variable>
-
-
-            <div class="alert alert-{$msg-type} alert-border-left alert-dismissible fade show" role="alert">
-                <span class="disable-output-escaping "><xsl:value-of select="." disable-output-escaping="yes"/></span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
 
         </xsl:for-each>
     </xsl:template>
-
+    
 </xsl:stylesheet>
