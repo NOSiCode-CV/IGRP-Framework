@@ -2,6 +2,8 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
     <xsl:template name="igrp-page-title">
+        <xsl:variable name="messages" select="//rows/content/messages/message[ not(@type='debug') and not(@type='confirm')]"/>
+  
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box ">
@@ -19,6 +21,12 @@
                         </div>
                     </div>
                 </div>
+                <xsl:if test="$messages">
+                    <xsl:call-template name="igrp-page-messages">
+                        <xsl:with-param name="messages" select="$messages"/>
+                    </xsl:call-template>
+                </xsl:if>
+                
             </div>
         </div>
     </xsl:template>
@@ -27,8 +35,16 @@
     <xsl:template name="igrp-icon">
         <xsl:param name="type" select="''"/>
         <xsl:param name="icon" select="''"/>
-        <xsl:param name="default" select="''"/>
-        <i class="{$icon}"></i>
+        <xsl:param name="default" select="'ri-radio-button-line'"/>
+        <xsl:choose>
+            <xsl:when test="$icon">
+                <i class="{$icon}"></i>
+            </xsl:when>
+            <xsl:otherwise>
+                <i class="{$default}"></i>
+            </xsl:otherwise>
+        </xsl:choose>
+        
     </xsl:template>
 
     <xsl:template name="igrp-page-helpers">
@@ -1090,5 +1106,25 @@
 
     </xsl:template>
    
+    <xsl:template name="igrp-page-messages">
+        <xsl:param name="messages"></xsl:param>
+        <xsl:for-each select="$messages">
+            
+            <xsl:variable name="msg-type">
+                <xsl:call-template name="igrp-msg-transform"/>
+            </xsl:variable>
+
+            <xsl:variable name="msg-icon">
+                <xsl:call-template name="igrp-msg-icon"/>
+            </xsl:variable>
+
+
+            <div class="alert alert-{$msg-type} alert-border-left alert-dismissible fade show" role="alert">
+                <span class="disable-output-escaping "><xsl:value-of select="." disable-output-escaping="yes"/></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+        </xsl:for-each>
+    </xsl:template>
 
 </xsl:stylesheet>

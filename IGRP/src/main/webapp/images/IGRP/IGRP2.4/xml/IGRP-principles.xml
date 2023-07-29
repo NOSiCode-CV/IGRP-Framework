@@ -34,6 +34,7 @@
 		
 		<messages>		
 			<message type="info">XML de Teste para todas as páginas</message>
+			<message type="debug">XML de Teste para todas as páginas</message>
 		</messages>
 
 		<title>Principles</title>

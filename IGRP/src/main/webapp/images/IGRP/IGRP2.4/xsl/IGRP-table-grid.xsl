@@ -194,5 +194,6 @@
     <xsl:include href="../xsl/tmpl/parts.footer.xsl?v=1515664208567"/>
     <xsl:include href="../xsl/tmpl/parts.sidebar.xsl?v=1515664208567"/>
     <xsl:include href="../xsl/tmpl/parts.header.xsl?v=1515664208567"/>
+    <xsl:include href="../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1515664208567"/>
 
 </xsl:stylesheet>

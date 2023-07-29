@@ -48,3 +48,12 @@ body[has-menu="false"] .footer{
     top: 28px;
     right: 10px;
 }
+
+.igrp-debug-ctrl{
+    position: fixed;
+    bottom:0;
+    z-index: 10;
+    cursor: pointer;
+    margin-left:-10px;
+    left:50%
+}

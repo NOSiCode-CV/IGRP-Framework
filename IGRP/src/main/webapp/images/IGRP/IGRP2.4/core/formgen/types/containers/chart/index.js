@@ -68,7 +68,7 @@ var GenChartComponent = ( type )=>{
                 name:'chart_lib',
                 label:'Biblioteca de gráfico',
                 value:{
-                    value   : 'chartjs',
+                    value   : 'apexcharts',
                     options : [
                         {label:'Chart.js', value:'chartjs'},
                         {label:'Apexchart', value:'apexcharts'}

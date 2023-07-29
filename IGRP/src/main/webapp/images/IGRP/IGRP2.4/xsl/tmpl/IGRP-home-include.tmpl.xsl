@@ -448,23 +448,24 @@
   <xsl:template name="IGRP-debug">
     <xsl:if test="rows/content/messages/message[@type='debug'] != ''">
       <xsl:variable name="contDebug" select="count(rows/content/messages/message[@type='debug'])"/>
-      <a class="igrp-debug-ctrl">
-        <i class="fa fa-chevron-up"></i>
+      <a class="igrp-debug-ctrl fs-20">
+        <i class=" ri-code-box-line"></i>
       </a>
       <div class="modal fade " id="igrp-debugger" role="dialog" >
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog ">
           <div class="modal-content">
             <div class="modal-header">
-              <h3>Debugger</h3>
-              <button type="button" class="close" data-dismiss="modal">×</button>
+              <h4>Debugger</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body d-block">
+              <div class="igrp-debug-search form-group clearfix w-100 d-flex">
+                <input placeholder="Pesquisar" type="text" class="not-form form-control"/>
+            </div>
                <div class="igrp-debug-contents clearfix">
-                  <xsl:if test="$contDebug &gt; 9">
-                      <div class="igrp-debug-search form-group col-md-4 clearfix pull-right">
-                          <input placeholder="Pesquisar" type="text" class="not-form form-control"/>
-                      </div>
-                  </xsl:if>
+                 
+                  
+                
                   <ul class="list-group list-group-flush">
                       <xsl:for-each select="rows/content/messages/message[@type='debug']">
                         <xsl:variable name="background">

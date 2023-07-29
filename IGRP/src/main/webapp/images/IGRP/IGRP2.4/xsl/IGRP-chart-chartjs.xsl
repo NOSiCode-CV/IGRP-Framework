@@ -135,4 +135,5 @@
   <xsl:include href="../xsl/tmpl/parts.footer.xsl?v=22"/>
   <xsl:include href="../xsl/tmpl/parts.sidebar.xsl?v=22"/>
   <xsl:include href="../xsl/tmpl/parts.charts.xsl?v=22"/>
+   
 </xsl:stylesheet>
