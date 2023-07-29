@@ -4,9 +4,9 @@
   <link>/IGRP/images/IGRP/IGRP2.4/xml/</link>
 
   <menu>
-    <title>Getting Started</title>
+    <title>Principles</title>
     <icon> ri-home-2-line</icon>
-    
+    <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-principles.xml</link>
     <submenu>
       <title>Principles</title>
       <link>/IGRP/images/IGRP/IGRP2.4/xml/IGRP-principles.xml</link>

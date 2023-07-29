@@ -60,3 +60,6 @@ body[has-menu="false"] .footer{
     left:50%
 }
 
+.igrp-notify-container {
+    right:15px;
+}
