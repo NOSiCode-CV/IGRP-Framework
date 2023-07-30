@@ -133,11 +133,13 @@
 	
 		<!-- For Java Beans Validation -->
 		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api
+				TODO: Dependencie for hibernate 5.X.X do not delete yet
+		-->
 		<dependency>
 		    <groupId>javax.validation</groupId>
 		    <artifactId>validation-api</artifactId>
 		    <version>2.0.1.Final</version>
-		</dependency> -->		
+		</dependency> 		
       <!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
 		<dependency>
 		    <groupId>jakarta.validation</groupId>
@@ -474,13 +476,13 @@
 		<!-- (End) Unit & Integration Test Dependencies -->
 		<!-- Provided Dependencies -->
 		<!-- For jax-rs client dependencies. (Ex: ContentDisposition.class) -->
-		<!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-bundle-jaxrs -->
+		<!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-bundle-jaxrs 
       <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-frontend-jaxrs</artifactId>
          <version>${cxf.rt.frontend.jaxrs.version}</version>
          <scope>provided</scope>
-      </dependency>
+      </dependency>-->
 		<!-- Activiti BPMN -->
 		<!--
 		https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-converter -->
@@ -540,12 +542,23 @@
          </testResource>
       </testResources>
       <pluginManagement>
-         <plugins> 
-			 
-			  <plugin>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <version>3.5.0</version>
-        </plugin>
+         <plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.3.1</version>
+					<configuration>
+						<propertiesEncoding>UTF-8</propertiesEncoding>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>3.5.0</version>
+					<configuration>
+						<!-- Use ${repositorySystemSession} instead of 'local' -->
+						<repositorySession>${repositorySystemSession}</repositorySession>
+					</configuration>
+				</plugin>
 
 
 				<!--		https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
