@@ -55,17 +55,17 @@ public class DatabaseConfigHelper {
 			case H2:
 				return "org.hibernate.dialect.H2Dialect";
 			case MYSQL:
-				return "org.hibernate.dialect.MySQL5InnoDBDialect";
+				return "org.hibernate.dialect.MySQLDialect";
 			case POSTGRESQL:
 				return "org.hibernate.dialect.PostgreSQLDialect";
 			case ORACLE:
-				return "org.hibernate.dialect.Oracle10gDialect";
+				return "org.hibernate.dialect.OracleDialect";
 			case MSSQL:
-				return "org.hibernate.dialect.SQLServer2008Dialect";
+				return "org.hibernate.dialect.SQLServerDialect";
 			case HSQLDB:
 				return "org.hibernate.dialect.HSQLDialect";
 			case SYBASE:
-				return "org.hibernate.dialect.SybaseDialect";
+				return "org.hibernate.dialect.SybaseASEDialect";
 			case DERBY:
 				return "org.hibernate.dialect.DerbyDialect";
 			case IBM:
