@@ -26,7 +26,7 @@ public class IGRPLogin extends IGRPForm{
 		this.properties = null;//No properties
 		this.xml = new XMLWritter("rows",this.config.getLinkXSLLogin(), "");	
 		this.xml.setElement("template", ConfigApp.getInstance().getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_LOGIN_TEMPLATE.value()));
-		this.xml.setElement("link_img", this.config.getLinkImg());
+		this.xml.setElement("link_img", this.config.getLinkImg(Config.DEFAULT_V_PAGE));
 		this.xml.startElement("content");
 		this.xml.text(":_message_reseved");
 	}
@@ -37,7 +37,7 @@ public class IGRPLogin extends IGRPForm{
 	@Override
 	public String toString(){
 		
-		this.xml.setElement("link_img", this.config.getLinkImg());
+		this.xml.setElement("link_img", this.config.getLinkImg(Config.DEFAULT_V_PAGE));
 		this.xml.setElement("title", "Login");
 		this.xml.setElement("version",Config.VERSION);
 		
