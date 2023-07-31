@@ -191,6 +191,9 @@ public class Config {
         return path.toString();
     }
 
+    public final String getLinkImg() {
+        return getLinkImg(Config.DEFAULT_V_PAGE);
+    }
     public final String getLinkImg(String verson) {
         String link = getLinkImgBase() + (getConfig().get("link_img") != null ? getConfig().get("link_img").toString() + verson : "images/IGRP/IGRP" + verson);
         return link.replace("\\\\", SEPARATOR_FOR_HTTP);
