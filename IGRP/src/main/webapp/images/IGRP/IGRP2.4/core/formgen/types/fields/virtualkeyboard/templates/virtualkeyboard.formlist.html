@@ -1,0 +1,14 @@
+<xsl:if test="not(#tag#/@visible)">
+    <td data-row="{position()}" data-title="{../../fields/#tag#/label}" class="#[keyType]#" item-name="#[tag]#" item-type="#type#">
+        <input type="hidden" name="p_#tag#_fk_desc" value="{#tag#_desc}"/>
+        <div class="itemIcon">
+            <xsl:call-template name="VirtualKeyBoard">
+                <xsl:with-param name="type" select="'#[keyType]#'"/>
+                <xsl:with-param name="rel" select="concat('#tag#_',position())"/>
+                <xsl:with-param name="input_type" select="'password'"/>
+                <xsl:with-param name="input_name" select="concat(../../fields/#tag#/@name,'_fk')"/>
+                  <xsl:with-param name="placeholder" select="'#[placeholder]#'"/>
+            </xsl:call-template>
+        </div>
+    </td>
+</xsl:if>

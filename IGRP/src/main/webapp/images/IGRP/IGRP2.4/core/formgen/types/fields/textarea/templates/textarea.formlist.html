@@ -1,0 +1,12 @@
+<xsl:if test="not(#tag#/@visible)">
+  <td data-row="{position()}" data-title="{../../../fields/#tag#/label}" class="textarea" item-name="#[tag]#" item-type="#type#">
+    <input type="hidden" name="{../../../fields/#tag#/@name}_fk_desc" value="{#tag#_desc}"/>
+    
+    <textarea name="{../../../fields/#tag#/@name}_fk" class="textarea form-control" maxlength="#[maxlength]#" rel="F_#parent.tag#" #[disabled]# #[readonly]# #[required]# #[disablehtml]# placeholder="#[placeholder]#">
+      	<xsl:call-template name="setAttributes">
+            <xsl:with-param name="field" select="//#path#"/>
+        </xsl:call-template>
+      <xsl:value-of select="#tag#"/>
+    </textarea>
+  </td>
+</xsl:if>

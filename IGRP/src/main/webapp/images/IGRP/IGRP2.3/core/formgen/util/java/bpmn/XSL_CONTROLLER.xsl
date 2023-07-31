@@ -15,13 +15,9 @@
     	<xsl:value-of select="$newline"/>
 		<xsl:text>import nosi.core.webapp.Response;//</xsl:text>
     	<xsl:value-of select="$newline"/>
-		<xsl:text>import javax.servlet.ServletException;//</xsl:text>
+		<xsl:text>import jakarta.servlet.ServletException;//</xsl:text>
     	<xsl:value-of select="$newline"/>
 		<xsl:text>import nosi.core.webapp.Core;//</xsl:text>
-    	<xsl:value-of select="$newline"/>
-		<xsl:text>import nosi.core.webapp.databse.helpers.ResultSet;//</xsl:text>
-    	<xsl:value-of select="$newline"/>
-		<xsl:text>import nosi.core.webapp.databse.helpers.QueryInterface;//</xsl:text>
     	<xsl:value-of select="$newline"/>
 		<xsl:text>import nosi.webapps.igrp.dao.TipoDocumentoEtapa;//</xsl:text>
     	<xsl:value-of select="$newline"/>

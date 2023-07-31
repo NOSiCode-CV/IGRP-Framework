@@ -1,0 +1,23 @@
+<xsl:if test="not(#tag#/@visible)">
+  <td data-row="{position()}" data-title="{../../fields/#tag#/label}" class="#type#" item-name="#[tag]#" item-type="#type#">
+      <input type="hidden" name="p_#tag#_fk_desc" value="{#tag#_desc}"/>
+
+      <select name="{../../fields/#tag#/@name}_fk}" chosen="select" id="{../../fields/#tag#/@name}_fk" data-placeholder="{//#list.path#/option[position() = 1]/text}" class="select" rel="F_#parent.tag#" #[disabled]# #[readonly]# #[required]#> 
+        <xsl:call-template name="setAttributes">
+          <xsl:with-param name="field" select="//#path#"/>
+        </xsl:call-template>
+        <option value=""/>
+
+        <xsl:variable name="v_selecter" select="#tag#"/>
+
+        <xsl:for-each select="//#list.path#/option[position() != 1]">
+          <option value="{value}">
+            <xsl:if test="$v_selecter = value">
+              <xsl:attribute name="selected">selected</xsl:attribute>
+            </xsl:if>
+            <xsl:value-of select="text"/>
+          </option>
+        </xsl:for-each>
+      </select>
+    </td>
+</xsl:if>

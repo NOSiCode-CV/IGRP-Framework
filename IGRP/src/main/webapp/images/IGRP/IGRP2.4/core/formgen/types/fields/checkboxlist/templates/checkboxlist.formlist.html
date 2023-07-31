@@ -1,0 +1,29 @@
+<xsl:if test="not(#tag#/@visible)">
+  <td align="#[align]#" data-row="{position()}" data-title="{../../../fields/#tag#/label}" class="#type#" item-name="#[tag]#"  item-type="#type#">
+    <input type="hidden" name="{../../../fields/#tag#/@name}_fk_desc" value="{#tag#_desc}"/>
+    <div class="form-group" item-name="#tag#" item-type="#type#">
+        <select class="form-control select2 #[change]#" id="#parent.tag#_#tag#" name="{#path#/@name}" #[required]# #[multiple]# >
+          <xsl:call-template name="setAttributes">
+            <xsl:with-param name="field" select="//#path#"/>
+          </xsl:call-template>
+          <xsl:for-each select="../../../fields/#tag#/list/option">
+              <option value="{value}">
+                <xsl:if test="@selected='true'">
+                  <xsl:attribute name="selected">selected</xsl:attribute>
+                </xsl:if>
+                <span><xsl:value-of select="text"/></span>
+              </option>
+            </xsl:for-each>
+        </select>
+        <script>
+          $(function(){
+            if($('##parent.tag#_#tag#').select2)
+              $('##parent.tag#_#tag#').select2();
+            else
+              console.log('include select 2')
+          });
+        </script>
+    </div>
+  </td>
+</xsl:if>
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fingerprint_1 type="fingerprint" xml-type="fingerprint" title="Fingerprint" gen-type="container" gen-group="">
+    <fields>
+        <fp_photo>
+            <label>Foto</label>
+            <value>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/assets/img/v1/funcionario.png</value>
+        </fp_photo>
+        <fp_fingerright>
+            <label>Finger Right</label>
+            <value>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/assets/img/v1/bio.png</value>
+        </fp_fingerright>
+        <fp_fingerleft>
+            <label>Finger Lefet</label>
+            <value>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/assets/img/v1/bio.png</value>
+        </fp_fingerleft>
+        <fp_signature>
+            <label>Signature</label>
+            <value>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/assets/img/v1/assinatura.png</value>
+        </fp_signature>
+        <fp_process name="p_number_process">
+            <label>Number Process</label>
+            <value>12</value>
+        </fp_process>
+    </fields>
+</fingerprint_1>		

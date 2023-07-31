@@ -1,0 +1,264 @@
+<map>
+    <id>29</id>
+    <zoom>12</zoom>
+    <center>
+        <long>-22.929388000000102</long>
+        <lat>16.729526999999823</lat>
+    </center>
+    <basemap>
+        <id>504</id>
+        <name>satellite</name>
+        <type>ESRI</type>
+        <link>https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer</link>
+        <layers_wms />
+        <format />
+    </basemap>
+    <style>blue</style>
+    <token>NO_TOKEN</token>
+    <layers>
+        <!-- <theme>
+            <name>Planos Sal</name>
+            <layer>
+                <type>FEATURE ACCESS</type>
+                <id>861</id>
+                <name>Area Reserva Militar</name>
+                <cache>false</cache>
+                <zoom>12</zoom>
+                <center>
+                    <long>-22.929388000000102</long>
+                    <lat>16.729526999999823</lat>
+                </center>
+                <img />
+                <url>https://rai-gv-gis-02.gov.cv:6443/arcgis/rest/services/FeatureAcess/Planos_Urbanisticos/FeatureServer/0</url>
+                <geom_type>POLIGONO</geom_type>
+                <editable>0</editable>
+                <visible>0</visible>
+                <ordem>1</ordem>
+                <label />
+                <hidden>0</hidden>
+                <outfields>*</outfields>
+                <layers_wms />
+            </layer>
+            <layer>
+                <type>FEATURE ACCESS</type>
+                <id>865</id>
+                <name>Planta Ordenamento SaL</name>
+                <cache>false</cache>
+                <zoom>12</zoom>
+                <center>
+                    <long>-22.929388000000102</long>
+                    <lat>16.729526999999823</lat>
+                </center>
+                <img />
+                <url>https://rai-gv-gis-02.gov.cv:6443/arcgis/rest/services/FeatureAcess/Planos_Urbanisticos/FeatureServer/4</url>
+                <geom_type />
+                <editable>0</editable>
+                <visible>0</visible>
+                <ordem>1</ordem>
+                <label />
+                <hidden>0</hidden>
+                <outfields>*</outfields>
+                <layers_wms />
+            </layer>
+            <layer>
+                <type>FEATURE ACCESS</type>
+                <id>863</id>
+                <name>Servidao Aeroporto</name>
+                <cache>false</cache>
+                <zoom>12</zoom>
+                <center>
+                    <long>-22.929388000000102</long>
+                    <lat>16.729526999999823</lat>
+                </center>
+                <img />
+                <url>https://rai-gv-gis-02.gov.cv:6443/arcgis/rest/services/FeatureAcess/Planos_Urbanisticos/FeatureServer/2</url>
+                <geom_type>POLIGONO</geom_type>
+                <editable>0</editable>
+                <visible>0</visible>
+                <ordem>1</ordem>
+                <label />
+                <hidden>0</hidden>
+                <outfields>*</outfields>
+                <layers_wms />
+            </layer>
+        </theme> -->
+        <theme>
+            <name>Tema Base</name>
+            <layer>
+                <type>FEATURE ACCESS</type>
+                <id>941</id>
+                <name>Cadastro</name>
+                <cache>false</cache>
+                <zoom>12</zoom>
+                <center>
+                    <long>-22.929388000000102</long>
+                    <lat>16.729526999999823</lat>
+                </center>
+                <img />
+                <url>https://nosigis.gov.cv/arcgis/rest/services/STG/Cadastro_Polygon/MapServer/0</url>
+                <geom_type>POLIGONO</geom_type>
+                <editable>1</editable>
+                <visible>1</visible>
+                <ordem>1</ordem>
+                <label>OBJECTID</label>
+                <hidden>0</hidden>
+                <outfields>*</outfields>
+                <layers_wms />
+            </layer>
+        </theme>
+    </layers>
+    <widgets>
+        <widget>
+            <name>pesquisaigrp</name>
+            <label>Pesquisar</label>
+            <tooltip>Pesquisar Predios</tooltip>
+            <icon />
+            <position>MappTools</position>
+            <widgetcontent>
+                <linkigrp>https://nosiodb01.gov.cv/redglobal_dev/redgis.gis_w_pesquisaigrp.go_to_page?p_page_id=61751</linkigrp>
+                <code>61751</code>
+            </widgetcontent>
+        </widget>
+        <widget>
+            <name>pesquisadefault</name>
+            <label>Pesquisar Zona</label>
+            <tooltip>Pesquisar</tooltip>
+            <icon />
+            <position>MappTools</position>
+            <widgetcontent>
+                <layers>
+                    <layer>
+                        <id>942</id>
+                        <name>Limites_Cidades_SL</name>
+                        <fields>
+                            <field>NOME</field>
+                        </fields>
+                    </layer>
+                </layers>
+            </widgetcontent>
+        </widget>
+        <widget>
+            <name>desanexacao</name>
+            <label>Desanexar</label>
+            <tooltip>Desanexar</tooltip>
+            <icon />
+            <position>MappTools</position>
+            <widgetcontent>
+                <layers>
+                    <layer>
+                        <id>941</id>
+                        <field_main>p_object_pai</field_main>
+                        <field_split>p_object_resultante</field_split>
+                    </layer>
+                </layers>
+            </widgetcontent>
+        </widget>
+
+        <widget>
+            <name>anexacao</name>
+            <label>Anexar</label>
+            <tooltip>Anexar</tooltip>
+            <icon />
+            <position>MappTools</position>
+            <widgetcontent>
+                <layers>
+                    <layer>
+                        <id>941</id>
+                        <field_child>p_object_pai</field_child>
+                        <field_join>p_object_resultante</field_join>
+                    </layer>
+                </layers>
+            </widgetcontent>
+        </widget>
+
+        <widget>
+            <name>featureeditdb</name>
+            <label>Editar</label>
+            <tooltip>Editar Features</tooltip>
+            <icon />
+            <position>MappTools</position>
+            <widgetcontent>
+                <layers>
+                    <layer>
+                        <id>941</id>
+                        <link_editor>https://nosiodb01.gov.cv/redglobal_dev/redgis.asde</link_editor>
+                    </layer>
+                </layers>
+            </widgetcontent>
+        </widget>
+        <widget>
+            <name>medição</name>
+            <label>Medir</label>
+            <tooltip>Medir feature</tooltip>
+            <icon />
+            <position>MappTools</position>
+            <widgetcontent></widgetcontent>
+        </widget>
+        <widget>
+            <name>legendadefault</name>
+            <label>Legenda</label>
+            <tooltip>Legenda</tooltip>
+            <icon />
+            <position>MappTools</position>
+            <widgetcontent></widgetcontent>
+        </widget>
+        <widget>
+            <name>attributerender</name>
+            <label>Attribute Render</label>
+            <tooltip>Attribute Render</tooltip>
+            <icon />
+            <position>no_position</position>
+            <widgetcontent>
+                <layers>
+                    <layer>
+                        <id>941</id>
+                        <field>COR</field>
+                        <values>
+                            <value color="192,192,192,0.8" label="Cadastrados" operator="=">SEMPH</value>
+                            <value color="255,128,0,0.8" label="Lote por Associar" operator="=">NEUTRO</value>
+                            <value color="96,96,96,0.8" label="Prédios em regime de PH" operator="=">PH</value>
+                        </values>
+                    </layer>
+                </layers>
+            </widgetcontent>
+        </widget>
+        <widget>
+            <name>selectionmenu</name>
+            <label>Selection Menu</label>
+            <tooltip>Selection Menu</tooltip>
+            <icon />
+            <position>no_position</position>
+            <widgetcontent>
+                <layers>
+                    <layer>
+                        <id>941</id>
+                        <menu>
+                            <url>https://nosiodb01.gov.cv/redglobal_dev/redgis.gis_w_selection_menu.go_to_page?p_page_id=57165</url>
+                            <target>_self</target>
+                            <label>Associar Prédio</label>
+                            <tipo>IGRP</tipo>
+                            <code>57165</code>
+                            <icon>criar_predio_icon.png</icon>
+                        </menu>
+                        <menu>
+                            <url>https://nosiodb01.gov.cv/redglobal_dev/redgis.gis_w_selection_menu.go_to_page?p_page_id=58418</url>
+                            <target>_self</target>
+                            <label>Detalhes Prédio</label>
+                            <tipo>IGRP</tipo>
+                            <code>58418</code>
+                            <icon>pesquisapredio_icon.png</icon>
+                        </menu>
+                    </layer>
+                </layers>
+            </widgetcontent>
+        </widget>
+        <widget>
+            <name>queryexpression</name>
+            <label>Query Expression</label>
+            <tooltip>Query Expression</tooltip>
+            <icon />
+            <position>no_position</position>
+            <widgetcontent></widgetcontent>
+        </widget>
+    </widgets>
+</map>

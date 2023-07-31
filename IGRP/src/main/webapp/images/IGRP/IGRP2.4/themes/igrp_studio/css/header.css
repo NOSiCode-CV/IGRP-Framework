@@ -1,0 +1,85 @@
+body{
+	background: #fafafa
+}
+
+#igrp-top-nav.navbar{
+	background: white
+}
+
+.navbar-brand{
+	background: transparent;
+	color: inherit;
+	width: auto!important;
+	margin-left: 50px;
+}
+.navbar-brand>span{
+	margin: 0 10px;
+    font-size: 20px;
+    color: inherit;
+}
+.navbar-brand>img{
+	width: 26px;
+}
+
+.navbar-brand>span b{
+	font-weight: 500
+}
+
+.navbar-brand:hover{
+	color: inherit;
+}
+
+body.sidebar-off .navbar-brand{
+	display: block!important;
+}
+
+
+#side-bar-ctrl{
+	position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -27px;
+    color: inherit;
+}
+#side-bar-ctrl:hover{
+	/*color: #e4e4e4;*/
+	background: none;
+}
+
+
+#igrp-app-title {
+	font-weight: 300;
+	color: inherit;
+	line-height: 56px
+}
+
+
+#igrp-top-menu>li>a:after, 
+#igrp-top-menu>li>a:before{
+	display: none;
+}
+
+
+#igrp-top-menu>li>a{
+	color:#888;
+	font-size: 16px;
+	border-bottom-color: transparent;
+	border:0!important;
+	transition: color .3s;
+	line-height: 56px;
+}
+
+#igrp-top-menu>li>a>i{
+	line-height: 56px;
+}
+
+#igrp-top-menu>li>a:hover, 
+#igrp-top-menu>li>a:focus{
+	/*border-bottom-color:#337ab7;;*/
+	background: rgba(0,0,0,.01);
+	color: #008900
+}
+
+.gen-tab-holder[tab-template="clean"]>ul.nav-tabs>li.active>a{
+	color:inherit!important;
+}

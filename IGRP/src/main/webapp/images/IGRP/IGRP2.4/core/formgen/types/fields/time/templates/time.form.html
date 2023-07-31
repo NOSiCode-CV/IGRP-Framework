@@ -1,0 +1,11 @@
+<div class="form-group col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
+  <label for="{#path#/@name}">
+    #label.val#
+    #[tooltip]#
+  </label>
+  <input type="time" value="{#path#/value}" class="form-control gen-date #[change]#" id="#parent.tag#-#tag#" name="{#path#/@name}" #[required]# format="#[format]#" maxlength="#[maxlength]#" #[readonly]# #[disabled]#>
+  	<xsl:call-template name="setAttributes">
+        <xsl:with-param name="field" select="#path#"/>
+    </xsl:call-template>
+  </input>
+</div>

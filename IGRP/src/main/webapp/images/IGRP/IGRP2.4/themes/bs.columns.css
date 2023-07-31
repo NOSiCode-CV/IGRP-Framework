@@ -1,0 +1,97 @@
+/*COL HACK*/
+
+
+[class*='col-xs-'],
+[class*='col-sm-'],
+[class*='col-md-'],
+[class*='col-lg-'] {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    
+}
+
+.col-xs-15 {
+    width: 20%;
+    float: left;
+}
+
+.col-xs-25 {
+    width: 40%;
+    float: left;
+}
+
+.col-xs-35 {
+    width: 60%;
+    float: left;
+}
+
+.col-xs-45 {
+    width: 80%;
+    float: left;
+}
+
+
+@media (min-width: 768px) {
+    .col-sm-15 {
+        width: 20%;
+        float: left;
+    }
+
+    .col-sm-25 {
+        width: 40%;
+        float: left;
+    }
+
+    .col-sm-35 {
+        width: 60%;
+        float: left;
+    }
+    .col-sm-45 {
+        width: 80%;
+        float: left;
+    }
+
+}
+
+@media (min-width: 992px) {
+    .col-md-15 {
+        width: 20%;
+        float: left;
+    }
+
+    .col-md-25 {
+        width: 40%;
+        float: left;
+    }
+
+    .col-md-35 {
+        width: 60%;
+        float: left;
+    }
+    .col-md-45 {
+        width: 80%;
+        float: left;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-lg-15 {
+        width: 20%;
+        float: left;
+    }
+    .col-lg-25 {
+        width: 40%;
+        float: left;
+    }
+    .col-lg-35 {
+        width: 60%;
+        float: left;
+    }
+    .col-lg-45 {
+        width: 80%;
+        float: left;
+    }
+}
+

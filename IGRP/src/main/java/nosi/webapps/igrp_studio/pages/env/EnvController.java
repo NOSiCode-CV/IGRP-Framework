@@ -4,7 +4,11 @@ import nosi.core.config.Config;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.integration.pdex.service.AppConfig;
 import nosi.core.integration.pdex.service.AppConfig.App;
-import nosi.core.webapp.*;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
+import nosi.core.webapp.RParam;
+import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.ApplicationPermition;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.security.EncrypDecrypt;
@@ -13,15 +17,29 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.*;
 import org.apache.commons.io.IOUtils;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import javax.persistence.GeneratedValue;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import java.io.*;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.*;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.function.Function;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
@@ -301,7 +319,7 @@ public class EnvController extends Controller {
 		/** End **/
 		boolean displaySubtitle = false;
 		boolean displayTitle = false;
-		xmlMenu.setElement("link_img", this.getConfig().getLinkImg());
+		xmlMenu.setElement("link_img", this.getConfig().getLinkImg(Config.DEFAULT_V_PAGE));
 		for(Profile profile:myApp){
 			xmlMenu.startElement("application");
 			xmlMenu.writeAttribute("available", "yes");
@@ -385,10 +403,10 @@ public class EnvController extends Controller {
 			Application env = Core.findApplicationByDad(app);
 			// 2 - custom dad 
 			String url = null; 
-			if(env.getExternal() == 2)  
-				url = buildAppUrlUsingAutentikaForSSO(env); 
+			if(env.getExternal() == 2)
+				url = buildAppUrlUsingAutentikaForSSO(env);
 			// 1 External 
-			if(env.getExternal() == 1) 
+			if(env.getExternal() == 1)
 				url = env.getUrl(); 
 			if(url != null) 
 				return redirectToUrl(url); 
@@ -428,7 +446,7 @@ public class EnvController extends Controller {
 			return this.redirect(p[0], p[1], p[2],this.queryString());
 		}		
 		Core.setMessageError(gt("Não tem permissão! No permission! Page: ") + page);		
-		Core.setAttribute("javax.servlet.error.message", gt("Não tem permissão! No permission! Page: ") + page);		
+		Core.setAttribute("jakarta.servlet.error.message", gt("Não tem permissão! No permission! Page: ") + page);		
 		return this.redirectError();
 	}
 	
@@ -463,19 +481,26 @@ public class EnvController extends Controller {
 		return this.renderView(xml.toString());
 	} 
 	
-	private String buildAppUrlUsingAutentikaForSSO(Application env) { 
-		String url = null;
-		try { 
+	private String buildAppUrlUsingAutentikaForSSO(Application env) {
+		try {
 			String contextName = Core.getDeployedWarName(); 
 			if(env != null && env.getUrl() != null && !env.getUrl().isEmpty() && !contextName.equalsIgnoreCase(env.getUrl())) {
-				url = this.configApp.getAutentikaUrlForSso(); 
-				url = url.replace("state=igrp", "state=ENV/" + env.getDad()); 
-				url = url.replace("/IGRP/", "/" + env.getUrl() + "/"); 
+				Action ac = env.getAction();
+				StringBuilder url = new StringBuilder(this.configApp.getExternalUrl(env.getUrl()));
+				if(ac != null && ac.getApplication() != null) {
+					String dad = env.getDad().toLowerCase();
+					String dadOfPage =ac.getApplication().getDad().toLowerCase();
+					url.append(String.format("?r=%s/%s/index&dad=%s", dadOfPage, ac.getPage(), dad));
+					if(ac.getAction_descr() != null)
+						url.append(String.format("&title=%s", URLEncoder.encode(ac.getAction_descr(), StandardCharsets.UTF_8)));
+				}else
+					url.append(String.format("?r=tutorial/DefaultPage/index&dad=%s", env.getDad().toLowerCase()));
+				return url.toString();
 			}
 		} catch (Exception ignored) {
 			// Ignored
 		}
-		return url;
+		return null;
 	}
 	
 	public Map<String,String> listFilesDirectory(String path) {

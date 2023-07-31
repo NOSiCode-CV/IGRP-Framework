@@ -3,11 +3,11 @@ package nosi.core.integration.pdex.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.HttpHeaders;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,7 +37,7 @@ public class GlobalAcl extends PdexServiceTemplate{
 		Client client = ClientBuilder.newClient(); 
 		WebTarget webTarget = client.target(this.url); 
 		Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
-		javax.ws.rs.core.Response response  = invocationBuilder.get(); 
+		jakarta.ws.rs.core.Response response  = invocationBuilder.get(); 
 		String json = response.readEntity(String.class); 
 		client.close(); 
 		JSONObject obj = new JSONObject(json);
@@ -89,7 +89,7 @@ public class GlobalAcl extends PdexServiceTemplate{
 		Client client = ClientBuilder.newClient(); 
 		WebTarget webTarget = client.target(this.url); 
 		Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
-		javax.ws.rs.core.Response response  = invocationBuilder.get(); 
+		jakarta.ws.rs.core.Response response  = invocationBuilder.get(); 
 		String json = response.readEntity(String.class); 
 		client.close(); 
 		

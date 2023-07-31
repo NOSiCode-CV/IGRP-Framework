@@ -1,0 +1,8 @@
+<div class="col-md-#[size]#" item-name="#tag#" item-type="#type#" #[required]#>
+  <xsl:apply-templates mode="igrp-form-field" select="#path#">
+    <xsl:with-param name="change" select="'#[change]#'"/>
+    <xsl:with-param name="declabel" select="'#[declabel]#'"/>
+    <xsl:with-param name="inputmask" select="'#[inputmask]#'"/>
+    <xsl:with-param name="maxlength" select="'#[maxlength]#'"/>
+  </xsl:apply-templates>
+</div>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>ListaEnv</page>
+    <app>igrp_studio</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp_studio.pages</package_db>
+        <package_html>ListaEnv</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=3</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Application builder</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[App builder]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="ListaPage" app="igrp_studio" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=new_app" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true">
+                    <label>Help</label>
+                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=new_app</value>
+                </documento>
+            </fields>
+        </view_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="importar" refresh_components="">
+                <title>Importar</title>
+                <app>igrp_studio</app>
+                <page>ImportArquivo</page>
+                <link>index</link>
+                <target>modal|refresh</target>
+                <img>danger|fa-upload</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
+            </item>
+            <item type="specific" code="" rel="novo" refresh_components="">
+                <title>Novo</title>
+                <app>igrp_studio</app>
+                <page>Env</page>
+                <link>index</link>
+                <target>modal|refresh</target>
+                <img>success|fa-plus</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</preview>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <status name="p_status" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="true" java-type="int" showLabel="true" group_in="" check="true" desc="true">
+                    <label>Ativo?</label>
+                    <rules>
+                        <rule type="remote">
+                            <proc>changeStatus</proc>
+                            <requestFields>
+                                <item>p_status</item>
+                                <item>p_id</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
+                </status>
+                <name name="p_name" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" action="index" page="Env" app="igrp_studio" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" show_header="true" refresh_submit="false" list_source="" showLabel="true" refresh_components="" group_in="" desc="true">
+                    <label>Name</label>
+                </name>
+                <dad name="p_dad" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Código</label>
+                </dad>
+                <id name="p_id" type="hidden" maxlength="30" iskey="true" java-type="" showLabel="true" group_in="" tag="id"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <status name="p_status" check="true" desc="true">1</status>
+                        <status_desc name="p_status_desc">1</status_desc>
+                        <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
+                        <name_desc name="p_name_desc">Name</name_desc>
+                        <dad name="p_dad">Stract ut voluptatem ut anim</dad>
+                        <id name="p_id" tag="id">hidden-76d7_54f3</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <status name="p_status" check="true" desc="true">1</status>
+                        <status_desc name="p_status_desc">1</status_desc>
+                        <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
+                        <name_desc name="p_name_desc">Name</name_desc>
+                        <dad name="p_dad">Totam elit iste sed deserunt</dad>
+                        <id name="p_id" tag="id">hidden-7859_dc63</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <status name="p_status" check="true" desc="true">1</status>
+                        <status_desc name="p_status_desc">1</status_desc>
+                        <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
+                        <name_desc name="p_name_desc">Name</name_desc>
+                        <dad name="p_dad">Sit officia totam labore totam</dad>
+                        <id name="p_id" tag="id">hidden-71dd_7a0a</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <status name="p_status" check="true" desc="true">1</status>
+                        <status_desc name="p_status_desc">1</status_desc>
+                        <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
+                        <name_desc name="p_name_desc">Name</name_desc>
+                        <dad name="p_dad">Aliqua adipiscing ipsum aliqua</dad>
+                        <id name="p_id" tag="id">hidden-7ebe_1593</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <status name="p_status" check="true" desc="true">1</status>
+                        <status_desc name="p_status_desc">1</status_desc>
+                        <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
+                        <name_desc name="p_name_desc">Name</name_desc>
+                        <dad name="p_dad">Rem ut voluptatem officia magn</dad>
+                        <id name="p_id" tag="id">hidden-8254_4dc4</id>
+                    </row>
+                </value>
+                <context-menu>
+                    <item id="button_c6d1_e0a5" type="specific" code="" class="warning" rel="editar" refresh_components="">
+                        <title>Editar</title>
+                        <app>igrp_studio</app>
+                        <page>ListaEnv</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml?</parameter>
+                        <target>mpsubmit|refresh</target>
+                        <img>warning|fa-pencil</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
+                    </item>
+                    <item id="button_62f1_debb" type="specific" code="" class="danger" rel="eliminar" refresh_components="">
+                        <title>Eliminar</title>
+                        <app>igrp_studio</app>
+                        <page>ListaEnv</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml?</parameter>
+                        <target>confirm</target>
+                        <img>danger|fa-trash-o</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
+                    </item>
+                    <item id="button_81be_6e42" type="specific" code="" class="black" rel="configurar_base_dados" custom_return="true" refresh_components="">
+                        <title>Configurar Base Dados</title>
+                        <app>igrp_studio</app>
+                        <page>Env</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml?</parameter>
+                        <target>modal</target>
+                        <img>black|fa-database</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</preview>
+                    </item>
+                    <item id="button_c71f_27b5" type="specific" code="" class="default" rel="exportar" refresh_components="">
+                        <title>Export</title>
+                        <app>igrp_studio</app>
+                        <page>ListaEnv</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml?</parameter>
+                        <target>confirm</target>
+                        <img>default|fa-download</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="363" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

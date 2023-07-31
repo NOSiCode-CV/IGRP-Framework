@@ -10,15 +10,16 @@
 	<entry key="igrp.datasource.connection-name">hibernate-igrp-core</entry>
 	
 	<!-- igrpweb workspace parameter (absolute path) -->
-	<entry key="igrp.workspace"></entry> 
+	<entry key="igrp.workspace">../..</entry> 
 	
 	<!-- igrpweb authentication type parameter (db|ldap|oauth2-openid) -->
 	<entry key="igrp.authentication_type">db</entry> 
 	
 	<!-- igrpweb password recovery parameter: enable or not the password recovery funcionality -->
 	<entry key="igrp.pwdRecover">true</entry>
+	<!-- For login template change
+	<entry key="igrp.login.template">ds-beta</entry> -->
 	
-	<!--  -->
 	<entry key="igrp.authentication.govcv.enbaled">false</entry>
 	
 	<!-- igrpweb identity server (autentika.gov.cv) service --> 

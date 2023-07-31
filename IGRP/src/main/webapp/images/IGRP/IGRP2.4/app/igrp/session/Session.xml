@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/session/Session.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Session</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Session</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=22</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Gestao de Sessao</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>Gestão de Sessão</value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" tags="false" domain="" java-type="int">
+                    <label>Aplicação</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <utilizador name="p_utilizador" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Utilizador</label>
+                    <value>Sit labore voluptatem magna to</value>
+                </utilizador>
+                <data_inicio name="p_data_inicio" type="date" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default" range="true">
+                    <label>Data Início</label>
+                    <value/>
+                </data_inicio>
+                <estado name="p_estado" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" tags="false" domain="" java-type="">
+                    <label>Estado</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </estado>
+                <hidden name="p_data_fim" type="hidden" maxlength="30" java-type="" tag="data_fim"/>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>Session</page>
+                    <link>index</link>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/session/Session.xml?</parameter>
+                    <target>submit_form</target>
+                    <img>primary|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <aplicacao_t name="p_aplicacao_t" type="text" maxlength="50" align="left" lookup_parser="false" iskey="false">
+                    <label>Aplicação</label>
+                </aplicacao_t>
+                <utilizadort name="p_utilizadort" type="text" maxlength="50" align="left" lookup_parser="false" iskey="false">
+                    <label>Utilizador</label>
+                </utilizadort>
+                <ip name="p_ip" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>IP</label>
+                </ip>
+                <data_inicio_t name="p_data_inicio_t" type="date" maxlength="30" align="left" lookup_parser="false" range="false" iskey="false">
+                    <label>Data Início</label>
+                </data_inicio_t>
+                <data_fim_t name="p_data_fim_t" type="date" maxlength="30" align="left" lookup_parser="false" range="false" iskey="false">
+                    <label>Data Fim</label>
+                </data_fim_t>
+                <table_1_filter name="p_table_1_filter" type="text" maxlength="100">
+                    <value/>
+                </table_1_filter>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <aplicacao_t name="p_aplicacao_t">Natus sit labore officia unde</aplicacao_t>
+                        <utilizadort name="p_utilizadort">Aliqua amet iste totam elit</utilizadort>
+                        <ip name="p_ip">Magna totam sed ipsum totam</ip>
+                        <data_inicio_t name="p_data_inicio_t"/>
+                        <data_fim_t name="p_data_fim_t"/>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <aplicacao_t name="p_aplicacao_t">Perspiciatis sit laudantium rem unde</aplicacao_t>
+                        <utilizadort name="p_utilizadort">Sit consectetur sit iste magna</utilizadort>
+                        <ip name="p_ip">Laudantium officia rem amet is</ip>
+                        <data_inicio_t name="p_data_inicio_t"/>
+                        <data_fim_t name="p_data_fim_t"/>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <aplicacao_t name="p_aplicacao_t">Iste consectetur unde stract omnis</aplicacao_t>
+                        <utilizadort name="p_utilizadort">Mollit rem doloremque lorem mollit</utilizadort>
+                        <ip name="p_ip">Sit amet sed aperiam laudantiu</ip>
+                        <data_inicio_t name="p_data_inicio_t"/>
+                        <data_fim_t name="p_data_fim_t"/>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <aplicacao_t name="p_aplicacao_t">Deserunt stract ipsum ut mollit</aplicacao_t>
+                        <utilizadort name="p_utilizadort">Deserunt voluptatem unde totam rem</utilizadort>
+                        <ip name="p_ip">Unde lorem accusantium dolor l</ip>
+                        <data_inicio_t name="p_data_inicio_t"/>
+                        <data_fim_t name="p_data_fim_t"/>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <aplicacao_t name="p_aplicacao_t">Ipsum mollit dolor iste laudantium</aplicacao_t>
+                        <utilizadort name="p_utilizadort">Sit dolor doloremque laudantium totam</utilizadort>
+                        <ip name="p_ip">Anim sed accusantium labore to</ip>
+                        <data_inicio_t name="p_data_inicio_t"/>
+                        <data_fim_t name="p_data_fim_t"/>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="default" rel="ver_logs">
+                        <title>Ver Logs</title>
+                        <app>igrp</app>
+                        <page>MapaProcesso</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/mapaprocesso/MapaProcesso.xml?</parameter>
+                        <target>submit</target>
+                        <img>default|fa-angle-right</img>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+        <chart_t_sessao type="chart" xml-type="chart" title="Total Sessões" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>pie</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#e7530c</col>
+                <col>#f0d68a</col>
+                <col>#71c989</col>
+                <col>#7f5d02</col>
+            </colors>
+        </chart_t_sessao>
+        <chart_t_session_app type="chart" xml-type="chart" title="Total Sessões por Aplicação" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>pie</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#802c71</col>
+                <col>#ce6484</col>
+                <col>#a8670b</col>
+                <col>#3a21c3</col>
+            </colors>
+        </chart_t_session_app>
+    </content>
+</rows>

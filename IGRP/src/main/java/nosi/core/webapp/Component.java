@@ -1,6 +1,6 @@
 package nosi.core.webapp;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Marcel Iekiny

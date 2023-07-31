@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>teste</title>
+<script type="text/javascript">
+
+/*ht = screen.availHeight; 
+wd = screen.availWidth; 
+url = "index.html";
+window.onload = function ()
+{ window.open(url, "teste", "location = no", "width =" + wd + ", height =" + ht + ", top = 0, left = 0,scrollbars = yes","statusbar=no", "menubar=no, _self");
+//open.close (); 
+window.opener = window;
+this.window.close(0);
+}*/
+
+window.onload = function(){
+/*var browser=navigator.appName;
+if (browser=="Microsoft Internet Explorer")
+{
+	window.opener=window;
+	window.confirm('click OK dipos Sim para continuar');
+	window.close();
+	
+}
+	url = "index.html";
+	window.open(url, "teste", "location = no", "width =1024", "height =768", "top = 0", "left = 0","scrollbars = yes","statusbar=no", "menubar=no");
+	window.moveTo(0,0);
+	window.resizeTo(screen.width,screen.height-100);
+	window.fullScreen;
+	
+		window.document.statusbar.enable = false; 
+		window.document.location = false;
+		window.document.addressbar = false;
+	
+	  	window.width = screen.width;
+	  	window.height = screen.height;
+	  	window.scroll(0,1);*/
+		
+		
+		var browser=navigator.appName;
+
+		/*if (browser=="Microsoft Internet Explorer")
+		{*/
+			window.opener=self;
+		/*}*/
+		
+		window.open("index.html","null","width=900,height=750, toolbar=no,scrollbars=no,location=no,resizable=yes");
+		
+		window.moveTo(0,0);
+		
+		window.resizeTo(screen.width,screen.height-100);
+		
+		self.close();
+
+}
+
+
+</script>
+</head>
+
+<body>
+
+</body>
+</html>
+

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/detalhesprocesso/DetalhesProcesso.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>DetalhesProcesso</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>null</package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>DetalhesProcesso</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=48</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Detalhes Processo</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[<p>Detalhes do&nbsp;Processo</p>
+]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <numero_de_processo name="p_numero_de_processo" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="fa-hashtag" showlabel="true">
+                    <label>Processo</label>
+                    <value>Deserunt dolor totam sit totam</value>
+                </numero_de_processo>
+                <descricao name="p_descricao" type="text" maxlength="30" class="info" iconColor="#333" iconClass="" img="fa-info-circle" showlabel="true">
+                    <label>Descrição</label>
+                    <value>Natus sit voluptatem amet cons</value>
+                </descricao>
+                <data_inicio_de_processo name="p_data_inicio_de_processo" type="text" maxlength="30" class="success" iconColor="#333" iconClass="" img="fa-calendar" showlabel="true">
+                    <label>Data Início de Processo</label>
+                    <value>Doloremque sit magna dolor ame</value>
+                </data_inicio_de_processo>
+                <data_criacao_de_processo name="p_data_criacao_de_processo" type="text" maxlength="30" class="primary" iconColor="#333" iconClass="" img="fa-calendar-plus-o" showlabel="true">
+                    <label>Data Criação de Processo</label>
+                    <value>Unde elit accusantium elit ut</value>
+                </data_criacao_de_processo>
+                <data_fim_processo name="p_data_fim_processo" type="text" maxlength="30" class="danger" iconColor="#333" iconClass="" img="fa-calendar-check-o" showlabel="true">
+                    <label>Data Fim Processo</label>
+                    <value>Sit rem sit perspiciatis dolor</value>
+                </data_fim_processo>
+            </fields>
+        </view_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <img_1 name="p_img_1" type="img" persist="true" img="" width="" height="" croppie="false" rounded="false" maxlength="30" placeholder="" right="false" autoupload="false" desclabel="false">
+                    <label>Img</label>
+                    <value>../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </img_1>
+            </fields>
+        </form_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

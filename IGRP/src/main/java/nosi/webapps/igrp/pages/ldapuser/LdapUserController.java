@@ -3,14 +3,15 @@ package nosi.webapps.igrp.pages.ldapuser;
 import static nosi.core.i18n.Translator.gt;
 import java.io.IOException;
 import java.util.Properties;
+
+import nosi.core.authentication.ldap.LdapInfo;
+import nosi.core.authentication.ldap.LdapPerson;
+import nosi.core.authentication.ldap.NosiLdapAPI;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.integration.autentika.RemoteUserStoreManagerServiceSoapClient;
 import nosi.core.integration.autentika.dto.ClaimDTO;
 import nosi.core.integration.autentika.dto.RemoteUserStoreManagerServiceConstants;
 import nosi.core.integration.autentika.dto.UserRequestDTO;
-import nosi.core.ldap.LdapInfo;
-import nosi.core.ldap.LdapPerson;
-import nosi.core.ldap.NosiLdapAPI;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;

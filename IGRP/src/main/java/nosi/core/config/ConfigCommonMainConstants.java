@@ -63,7 +63,9 @@ public enum ConfigCommonMainConstants {
 	IGRP_EMBEDDED_SERVER_SERVLET_CONTEXT_PATH("igrp.embedded.server.servlet.context-path"),
 	IGRP_EMBEDDED_SERVER_HTTP_PORT("igrp.embedded.server.http.port"),
 	
-	IGRP_LOGIN_TEMPLATE("igrp.login.template")
+	IGRP_LOGIN_TEMPLATE("igrp.login.template"),
+	
+	IGRP_SECRET_KEY("igrp.secret.key"),
 	
 	; 
 	

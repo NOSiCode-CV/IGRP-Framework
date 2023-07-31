@@ -1,0 +1,43 @@
+{
+	"widgets" : {
+	
+		"search" : {
+			
+			"label" : "Search",
+			
+			"icon" : "fa-times",
+			
+			"attributes" : {
+			
+				"layers" : {
+					
+					"type" : "layers",
+					
+					"label" : "Layers",
+					
+					"value" : ""
+					
+				},
+				
+				"test" : {
+					
+					"label" : "This is a Test",
+					
+					"value" : "ok"
+					
+				},
+				
+				"test2" : {
+					
+					"label" : "This is a Test",
+					
+					"value" : "ok"
+					
+				}
+			
+			}
+			
+		}
+	
+	}
+}

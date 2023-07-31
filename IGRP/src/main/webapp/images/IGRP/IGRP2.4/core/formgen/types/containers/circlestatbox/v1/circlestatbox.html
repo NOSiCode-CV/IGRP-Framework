@@ -1,0 +1,15 @@
+<div class="circlestatbox-container">
+    <div class="circlestatbox {#path#/fields/#tag#_bg/value}">
+    <div class="header"><xsl:value-of select="#path#/fields/#tag#_tit/value"/></div>
+    <span class="percent"><xsl:value-of select="#path#/fields/#tag#_lbl/value"/></span>
+    <div class="circleStat">
+        <input type="text" value="{#path#/fields/#tag#_val/value}" class="circlestats-chart" readonly="readonly"/>
+    </div>
+        <div class="footer">
+            <a class="clickable" target="#[target]#" style="display: block;" href="{#path#/fields/#tag#_url/value}">
+                <span class="description"><xsl:value-of select="#path#/fields/#tag#_desc/value"/></span>
+            </a>
+        </div>
+    </div>
+    
+</div>

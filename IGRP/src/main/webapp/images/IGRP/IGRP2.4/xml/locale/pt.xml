@@ -1,0 +1,53 @@
+<root>
+    <actions>ações</actions>
+    <configurations>configurações</configurations>
+    <delete>eliminar</delete>
+    <properties>propriedades</properties>
+    <fields>campos</fields>
+    <style>estilo</style>
+    <validations>validações</validations>
+    <xsl>xsl</xsl>
+    <copy>copiar</copy>
+    <current-fields>Campos atuais</current-fields>
+    <available-fields>Campos disponíveis</available-fields>
+    <rules>regras</rules>
+    <confirm>confirmar</confirm>
+    <close>fechar</close>
+    <clear>limpar</clear>
+    <search-field>pesquisar campo</search-field>
+    <search-no-results>nenhum resultado encontrado</search-no-results>
+    <add>adicionar</add>
+    <remove>remover</remove>
+    <cancel>cancelar</cancel>
+    <title>título</title>
+    <height>Altura</height>
+
+    <separator-list-no-data-found>Lista vazia. Clique em Adicionar para inserir dados na tabela</separator-list-no-data-found>
+
+    <table-striped>linhas listradas</table-striped>
+
+    <gen-container-empty>componente sem campo definido</gen-container-empty>
+    <gen-container-add-field>adicione um campo clicando no painel à esquerda</gen-container-add-field>
+    <gen-click-drag-to-add>clique para adicionar</gen-click-drag-to-add>
+    <gen-table-header-style>Cor do cabeçalho</gen-table-header-style>
+    <gen-show-title>mostrar título</gen-show-title>
+    <gen-tag-property-label>identificador</gen-tag-property-label>
+    <gen-java-settings-title>Configurações de ambiente</gen-java-settings-title>
+    <gen-java-settings-package-name>Nome do pacote</gen-java-settings-package-name>
+    <gen-button-action>Página de Destino</gen-button-action>
+    <gen-button-target>Target</gen-button-target>
+ 
+
+    <ui-white>branco</ui-white>
+    <ui-gray>cinza</ui-gray>
+    <ui-light>claro</ui-light>
+    <ui-dark>escuro</ui-dark>
+    <ui-primary>primário</ui-primary>
+    <ui-secondary>secundáro</ui-secondary>
+    <ui-success>sucesso</ui-success>
+    <ui-info>informação</ui-info>
+    <ui-warning>aviso</ui-warning>
+    <ui-danger>alerta</ui-danger>
+    <ui-default>pré-definido</ui-default>
+    
+</root>

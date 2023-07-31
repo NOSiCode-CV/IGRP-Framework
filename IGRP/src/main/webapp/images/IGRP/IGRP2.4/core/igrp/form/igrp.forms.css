@@ -1,0 +1,324 @@
+
+*[role="form"] .box-head.subtitle{
+  padding: 0px 15px;
+
+}
+
+*[role="form"] .box-head.subtitle span{
+	display: inline-block;
+	padding: 5px 0;
+	position: relative;
+	top: 1px;
+	font-weight: 400
+	/*border-bottom: 1px solid*/
+}
+
+*[role="form"] .form-group{
+	min-height: 62px
+}
+
+.checkbox label, .radio label {
+    display: block;
+    min-height: 0px; 
+    padding-left: 3px;
+}
+.form-group > label,
+.form-link {
+	display: block;
+	margin-bottom: 8px;
+	font-weight: 500;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.form-group label input+span{
+	font-weight: normal;
+}
+
+
+/*fields*/
+textarea.form-control {
+	min-height: 108px;
+}
+
+select.form-control.select2+span.select2-container{
+	width: 100%!important;
+}
+
+.desc_label{
+	position: absolute;
+	width: calc(100% - 30px);
+	font-size: 11px;
+	display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.select2-container .select2-selection--multiple{
+	min-height: 34px!important;
+}
+
+.form-group a.form-link.btn{
+	margin-top: 28px;
+	margin-bottom: 0
+}
+
+.form-group a.form-link.btn.btn-link{
+	text-align: left;
+	display: inline-block;
+}
+
+.form-group a.form-link{
+	margin-top: 32px;
+	margin-bottom: 7px;
+}
+
+.IGRP_formlist .form-group a.form-link{
+	margin: 0;
+}
+
+.form-link-offset, .form-check-offset{
+	padding-top: 34px;
+	padding-bottom: 8px;
+	margin: 0;
+}
+
+.input-group-addon,
+.input-group-btn{
+	cursor:pointer;
+}
+
+.input-group-btn .btn:after{
+	content:"";
+}
+
+.buttonBar { 
+	text-align: right;
+	padding: relative;
+}
+.gen-form-footer {
+	text-align: right;
+	padding-right:25px;
+	padding-left: 25px; 
+}
+.gen-form-footer > button{
+	margin-left: 10px;
+	position: relative;
+}
+.gen-form-btns > a.btn{
+	margin-left:4px;
+}
+/*button file*/
+/*.input-group .input-group-btn .btn .fa{
+	line-height: 20px;	
+}*/
+.file-btn-holder {
+  position: relative;
+  overflow: hidden;
+}
+
+.form-group[item-type="file"] input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 100px;
+  -moz-background: transparent;
+  display: block;
+  z-index: 1;
+  cursor:pointer!important;
+}
+
+input[readonly] {
+  background-color: white !important;
+  cursor: text !important;
+}
+
+/*plaintext*/
+form [item-type="plaintext"]{
+	
+}
+
+/*height hack*/
+.igrp-forms .form-group[item-type="lookup"],
+.igrp-forms .form-group[item-type="select"],
+.igrp-forms .form-group[item-type="date"],
+.igrp-forms .form-group[item-type="file"],
+.igrp-forms .form-group[item-type="color"]{
+	min-height: 62px;
+}
+
+.igrp-forms td .form-group[item-type], *[role="form"] td .form-group{
+	height: auto;
+	min-height: 0;
+}
+
+
+
+/* FORM VALIDATION */
+.form-validator-label {
+ 	position: absolute;
+    left: 24px;
+    top: 17px;
+    font-size: 11px;
+    font-weight: normal!important;
+    background: #c9302c;
+    color: white;
+    padding-left: 3px;
+    padding-right: 3px;
+    z-index: 3;
+}
+
+.input-group .form-validator-label {
+	left:0;
+	top:-12px;
+}
+
+*[item-type="checkboxlist"] .form-validator-label,
+*[item-type="radiolist"] .form-validator-label {
+	top:-8px;
+	left:9px;
+}
+
+*[item-type="checkbox"] .form-validator-label,
+*[item-type="radio"] .form-validator-label{
+	left:-20px;
+}
+
+/*REQUIRED - 27.01.17 - William Lima*/
+[role="form"] .form-group[required="required"]>label:not(.form-validator-label):before,
+[role="form"] .form-group[required="required"]>.checkbox > label:not(.form-validator-label):after,
+[role="form"] .form-group[required="required"]>.radio > label:not(.form-validator-label):after/*,
+[role="form"] :not([item-type="checkboxlist"]) [required="required"] .checkbox>label:not(.form-validator-label):after,
+[role="form"] :not([item-type="checkboxlist"]) [required="required"] .radio>label:not(.form-validator-label):after,
+[role="form"] :not([item-type="radiolist"]) [required="required"] .radio>label:not(.form-validator-label):after*/{
+	content:"*";
+	position: relative;
+	top: 1px;
+	color:#ca2418;
+	margin-right: 2px;
+	font-weight: bold;
+}
+
+[role="form"] [item-type="checkboxlist"] label:not(.form-validator-label):after,
+[role="form"] [item-type="radiolist"] label:not(.form-validator-label):after{
+	display: none
+}
+
+[role="form"] :not([item-type="checkboxlist"]) [required="required"] .checkbox label:not(.form-validator-label):after,
+[role="form"] :not([item-type="radiolist"]) [required="required"] .radio label:not(.form-validator-label):after{
+	margin-right: 0;
+	margin-left: 2px;
+}
+
+.checkboxlist .checkbox, .radiolist .radio{
+	margin-top: 0;
+	margin-bottom: 2px;
+	padding: 0;
+}
+
+.checkboxlist .checkbox+.checkbox, .radiolist .radio+.radio{
+	margin-top: 0;
+}
+
+.checkboxlist > label, .radiolist > label{
+	margin-bottom: 5px;
+}
+
+/*checkbox switch*/
+.form-group .checkbox-switch.switch {
+    position: relative;
+    display: inline-block;
+    width: auto;
+    height: 24px;
+    margin-bottom: 0;
+    position: absolute;
+    top: 32px;
+    left: 0
+}
+
+.form-group .checkbox-switch.switch>input{
+               visibility: hidden
+}
+
+
+.form-group .checkbox-switch.switch>span.checkbox-label{
+               /*display: none;*/
+               margin-left: 30px;
+}
+.form-group .checkbox-switch .slider.round {
+    border-radius: 24px;
+    width: 40px;
+}
+
+.form-group .checkbox-switch .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+.checkbox-switch input:checked + .slider {
+    background-color: #2196F3;
+}
+
+.checkbox-switch input.remote-requesting + .slider:after {
+	content:"";
+	position:absolute;
+	width:100%;
+	height:100%;
+	background:rgba(255,255,255,.25);
+	border-radius:24px;
+	z-index:10
+}
+
+.form-group .checkbox-switch .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+.form-group .checkbox-switch .slider.round:before {
+    border-radius: 50%;
+}
+
+.form-group .checkbox-switch input:checked + .slider:before {
+    -webkit-transform: translateX(16px);
+    -ms-transform: translateX(16px);
+    transform: translateX(16px);
+}
+
+.lookup-eraser{
+  position: absolute;
+  right: 40px;
+  z-index: 2;
+  bottom: 11px;
+  color: #c9302c;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  display: none;
+}
+
+div[item-type*="lookup"]:hover .lookup-eraser{
+  display: block;
+}
+
+table tbody tr td input[inputmask="currency"]{
+  text-align: right;
+}
+
+

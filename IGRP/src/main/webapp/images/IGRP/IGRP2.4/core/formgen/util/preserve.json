@@ -1,0 +1,30 @@
+[
+    {
+        "action": "packages_import",
+        "content": "\n\n\n",
+        "start": "/*----#start-code(packages_import)----*/",
+        "end": "/*----#end-code----*/",
+        "isGlobal": false
+    },
+    {
+        "action": "custom_actions",
+        "content": "\n\n\n",
+        "start": "/*----#start-code(custom_actions)----*/",
+        "end": "/*----#end-code----*/",
+        "isGlobal": false
+    },
+    {
+        "action": "Toolsbar_1_button_1",
+        "content": "\n\n\n",
+        "start": "/*----#start-code(form_1_button_1)----*/",
+        "end": "/*----#end-code----*/",
+        "isGlobal": false
+    },
+    {
+        "action": "Index",
+        "content": "\n\t\t\n      \tmodel.loadTable_1(Core.query(null,\"SELECT \u0027Ipsum omnis totam perspiciatis\u0027 as table_1_text_1 \"));\n\t\t\n\t\t",
+        "start": "/*----#start-code(index)----*/",
+        "end": "/*----#end-code----*/",
+        "isGlobal": false
+    }
+]

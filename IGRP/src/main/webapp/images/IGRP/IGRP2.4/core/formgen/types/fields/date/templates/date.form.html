@@ -1,0 +1,12 @@
+<div class="form-group col-sm-#[size]# gen-date-picker-wrapper" item-name="#tag#" item-type="#type#" #[required]#>
+  <xsl:apply-templates mode="igrp-form-date-field" select="#path#">
+    <xsl:with-param name="format" select="'#[format]#'"/>
+    <xsl:with-param name="enableTime" select="'#[enableTime]#'"/>
+    <xsl:with-param name="disableWeekends" select="'#[disableWeekends]#'"/>
+    <xsl:with-param name="disabledBeforetoday" select="'#[disabledBeforetoday]#'"/>
+    <xsl:with-param name="range" select="'#[range]#'"/>
+    <xsl:with-param name="change" select="'#[change]#'"/>
+    <xsl:with-param name="maxlength" select="'#[maxlength]#'"/>
+    <xsl:with-param name="placeholder" select="'#[placeholder]#'"/>
+  </xsl:apply-templates>
+</div>

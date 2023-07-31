@@ -1,0 +1,13 @@
+.btn-label[icon-position="right"]{
+    padding-right: 44px;;
+    padding-left: 16px;
+}
+
+.btn-label[icon-position="right"] .label-icon{
+    right: -1px;
+    left: auto;
+}
+
+.btn-label .label-icon{
+    font-size: inherit;
+}

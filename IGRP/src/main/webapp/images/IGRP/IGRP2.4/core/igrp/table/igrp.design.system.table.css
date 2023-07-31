@@ -1,0 +1,26 @@
+.igrp-table .igrp-table-ctx-th{
+    width: 1px;;
+}
+
+.igrp-table td .btn-ctx-inline-item{
+    display: flex;
+    align-items: center;
+}
+
+.igrp-table td .btn-ctx-inline-item[icon-position="right"]{
+    flex-direction: row-reverse;
+}
+
+.igrp-table td .btn-ctx-inline-item .ctx-title {
+    margin-left: 4px;;
+}
+
+.igrp-table td .btn-ctx-inline-item[icon-position="right"] .ctx-title{
+    margin-right: 4px;;
+}
+
+
+.igrp-table .card-header{
+    border-bottom: 0;
+}
+

@@ -15,10 +15,12 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Part;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import nosi.core.config.Config;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Report;
 import nosi.core.gui.page.Page;
@@ -568,7 +570,7 @@ public class WebReportController extends Controller {
 			xmlW.setElement("name_contraprova", "Contra Prova");
 			xmlW.setElement("value_contraprova", contra_prova);
 			xmlW.setElement("user_print",user!=null?user.getName():"Anonimous");
-			xmlW.setElement("link_img",this.getConfig().getLinkImg()+"/");
+			xmlW.setElement("link_img",this.getConfig().getLinkImg(Config.DEFAULT_V_PAGE)+"/");
 			xmlW.setElement("template", "por adicionar");
 		xmlW.endElement();
 		xmlW.addXml(contentXml);

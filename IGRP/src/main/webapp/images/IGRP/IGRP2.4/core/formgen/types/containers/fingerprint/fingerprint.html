@@ -1,0 +1,6 @@
+<div class="fingerprint box"  gen-structure="fingerprint" param="#[field_param]#">
+	<xsl:call-template name="fingerprint">
+		<xsl:with-param name="fp" select="#path#/fields"/>
+		#[view]#
+	</xsl:call-template>
+</div>

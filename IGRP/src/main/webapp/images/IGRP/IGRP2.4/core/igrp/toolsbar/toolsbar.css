@@ -1,0 +1,239 @@
+.toolsbar-holder:after,
+.toolsbar-holder:before{
+	content:"";
+	clear: both;
+	float: none;
+	display: block;
+}
+
+.toolsbar-holder{
+	background: transparent;
+	padding: 0;
+	border: 0;
+}
+
+.toolsbar-holder .btns-holder:not(.btn-group)>.btn{
+	margin: 2px;
+}
+
+.toolsbar-holder .btns-holder[vertical="false"]>.btn{
+	min-width: 70px;
+}
+
+.toolsbar-holder .btns-holder[vertical="false"]>.btn img{
+	height: 28px;
+	position: relative;
+}
+
+.toolsbar-holder .btns-holder[vertical="true"]>.btn img{
+	height: 14px;
+	position: relative;
+	top:-2px
+}
+
+.toolsbar-holder .btns-holder[vertical="true"]>.btn img+span{
+	margin-left: 4px
+}
+
+.toolsbar-holder .btns-holder.bordered{
+	padding: 10px 5px;
+	background:#EFEFEF;
+	border: 1px solid #EAEAEA;
+}
+
+.toolsbar-holder .btn-group-justified a {
+	border-right: 0;	
+}
+
+.toolsbar-holder .btn-group-justified>a {
+	border-right: 0;
+}
+
+.toolsbar-holder .btn-group-justified>a:last-child {
+	border-right: 1px solid #ccc;
+}
+
+.toolsbar-holder .btns-holder > a[use-fa="false"] > img{
+	height: 16px;
+	position: relative;
+	top: -2px;
+	margin-right: 4px;
+}
+
+.toolsbar-holder .btns-holder[use-fa="false"]:not([vertical="true"]) > a:not([has-img="true"]) {
+	padding-top: 26px
+}
+
+/*STYLES*/
+/*boxed*/
+.toolsbar-holder.boxed{
+	padding: 10px;
+	background: #fff;
+	/*border:1px solid #eaeaea;*/
+}
+/*/boxed*/
+/*centralized*/
+.toolsbar-holder .btns-holder.centralized{
+	text-align: center;
+}
+/*/centralized*/
+
+/*clean*/
+.toolsbar-holder.clean{
+	border-bottom: 1px solid #eaeaea;
+    background: transparent;
+    position: relative;
+    top: 1px;
+}
+
+.toolsbar-holder.clean .btns-holder:not(.btn-group)>.btn{
+	margin: 0 5px;
+}
+
+.toolsbar-holder.clean .btns-holder>.btn{
+	border-color: transparent;
+	background: transparent;
+	color: #333;
+}
+
+.toolsbar-holder.clean .btns-holder>.btn:hover,
+.toolsbar-holder.clean .btns-holder>.btn.active,
+.toolsbar-holder.clean .btns-holder>.btn.active:hover, 
+.toolsbar-holder.clean .btns-holder>.btn:focus,
+.toolsbar-holder.clean .btns-holder>.btn.active:focus{
+	background: transparent;
+	color: #4496C1;
+    border-bottom-color: #4496C1;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+/*clean*/
+
+.toolsbar-holder:after,
+.toolsbar-holder:before{
+	content:"";
+	clear: both;
+	float: none;
+	display: block;
+}
+
+.toolsbar-holder{
+	background: transparent;
+	padding: 0;
+	border: 0;
+}
+
+.toolsbar-holder .btns-holder:not(.btn-group)>.btn{
+	margin: 2px;
+}
+
+.toolsbar-holder .btns-holder[vertical="false"]>.btn{
+	min-width: 70px;
+}
+
+.toolsbar-holder .btns-holder[vertical="false"]>.btn img{
+	height: 28px;
+	position: relative;
+}
+
+.toolsbar-holder .btns-holder[vertical="true"]>.btn img{
+	height: 14px;
+	position: relative;
+	top:-2px
+}
+
+.toolsbar-holder .btns-holder[vertical="true"]>.btn img+span{
+	margin-left: 4px
+}
+
+.toolsbar-holder .btns-holder.bordered{
+	padding: 10px 5px;
+	background:#EFEFEF;
+	border: 1px solid #EAEAEA;
+}
+
+.toolsbar-holder .btn-group-justified a {
+	border-right: 0;	
+}
+
+.toolsbar-holder .btn-group-justified>a {
+	border-right: 0;
+}
+
+.toolsbar-holder .btn-group-justified>a:last-child {
+	border-right: 1px solid #ccc;
+}
+
+.toolsbar-holder .btns-holder > a[use-fa="false"] > img{
+	height: 16px;
+	position: relative;
+	top: -2px;
+	margin-right: 4px;
+}
+
+.toolsbar-holder .btns-holder[use-fa="false"]:not([vertical="true"]) > a:not([has-img="true"]) {
+	padding-top: 26px
+}
+
+/*STYLES*/
+/*boxed*/
+.toolsbar-holder.boxed{
+	padding: 10px 25px;
+	background: #fff;
+	/*border:1px solid #eaeaea;*/
+}
+/*/boxed*/
+/*centralized*/
+.toolsbar-holder .btns-holder.centralized{
+	text-align: center;
+}
+/*/centralized*/
+
+/*clean*/
+.toolsbar-holder.clean{
+	border-bottom: 1px solid #eaeaea;
+    background: transparent;
+    position: relative;
+    top: 1px;
+}
+
+.toolsbar-holder.clean .btns-holder:not(.btn-group)>.btn{
+	margin: 0 5px;
+}
+
+.toolsbar-holder.clean .btns-holder>.btn{
+	border-color: transparent;
+	background: transparent;
+	color: #333;
+}
+
+.toolsbar-holder.clean .btns-holder>.btn:hover,
+.toolsbar-holder.clean .btns-holder>.btn.active,
+.toolsbar-holder.clean .btns-holder>.btn.active:hover, 
+.toolsbar-holder.clean .btns-holder>.btn:focus,
+.toolsbar-holder.clean .btns-holder>.btn.active:focus{
+	background: transparent;
+	color: #4496C1;
+    border-bottom-color: #4496C1;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+/*clean*/
+
+.toolsbar-holder.vertical-toolbar{
+  background:none!important;
+  padding:0!important;
+  box-shadow:none!important;
+}
+
+.toolsbar-holder.vertical-toolbar .btns-holder{
+  display:block;
+  float:none!important;
+}
+.toolsbar-holder.vertical-toolbar .btns-holder:not(.btn-group)>.btn{
+  display:block;
+  width:100%;
+  text-align:left
+}
+
+

@@ -1,0 +1,49 @@
+{
+    "legend":[
+        {
+            "legend":"Lorem Ipsums",
+            "color" :"#000"
+        },
+        {
+            "legend":"Mais que 24",
+            "color" :"#45a6d3"
+        },
+        {
+            "legend":"Mais uma descrição ",
+            "color" :"#f0f0f0"
+        }
+    ],
+	"series":[
+        {
+            "color": "#000",
+            "id": "609",
+            "value":50,
+            "desc" : "Teste <br/> Danilo"
+        },
+        {
+            "color": "#45a6d3",
+            "id": "473",
+            "value":5,
+            "desc" : "Teste <br/> Danilo"
+        },
+        {
+            "color": "#f0f0f0",
+            "id": "644",
+            "value":5,
+            "desc" : "Teste <br/> Danilo"
+        },
+        {
+            "color": "#000",
+            "id": "474",
+            "value":50,
+            "desc" : "Teste <br/> Danilo"
+        },
+        {
+            "color": "#000",
+            "id": "605",
+            "value":50,
+            "desc" : "Teste <br/> Danilo"
+            
+        }
+    ]
+}

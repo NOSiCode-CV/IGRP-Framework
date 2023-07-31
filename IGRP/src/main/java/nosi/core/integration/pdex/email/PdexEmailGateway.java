@@ -4,13 +4,13 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -51,7 +51,7 @@ public class PdexEmailGateway {
 			try {
 				WebTarget webTarget = client.target(endpoint); 
 				Invocation.Builder invocationBuilder  = webTarget.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, httpAuthorizationHeaderValue); 
-				javax.ws.rs.core.Response response  = invocationBuilder.post(Entity.json(convertPayloadToJson()));
+				jakarta.ws.rs.core.Response response  = invocationBuilder.post(Entity.json(convertPayloadToJson()));
 				switch (response.getStatus()) {
 				case 200:
 					JSONObject jsonResult = new JSONObject(response.readEntity(String.class)); 

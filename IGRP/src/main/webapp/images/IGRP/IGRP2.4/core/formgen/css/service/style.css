@@ -1,0 +1,212 @@
+ @charset "utf-8";
+/* CSS Document */
+
+/* BTN SERVICE CONFIG*/
+
+.IGRP_overlay {
+	z-index: 9999;
+}
+
+.link-opener {
+	z-index: 99999;
+}
+
+.gen-btn-service:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+/*#gen-service-mapper .closer{
+	width: 25px;
+    height: 25px;
+    cursor: pointer;
+    background: url(../../img/closer.png) no-repeat center;
+    position: fixed;
+    z-index: 1;
+    right: calc(15% - 24px);
+    top: calc(10% - 1px);
+
+}
+#gen-service-mapper {
+    left: 15%;
+    max-height: 75%;
+    top: 10%;
+    width:70%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: fixed;
+    z-index: 10000;
+    background: #fafafa;
+    display: none;
+
+}*/
+
+#gen-service-mapper{
+	z-index: 1053;
+}
+
+#gen-service-mapper .content>ul{
+	padding: 0
+}
+
+.modal-backdrop[modal-rel="#gen-service-mapper"]{
+	z-index: 1052;
+}
+
+
+.gen-btn-service .IGRP_lookupPopup img {
+	width: 95%;
+	display: inherit;
+}
+
+#gen-service-mapper .inner{
+	padding: 10px;
+	padding-bottom: 30px;
+}
+
+#gen-service-mapper .inner:after{
+	clear: both;
+	content: "";
+	display: block;
+}
+	
+
+/*#gen-service-mapper #gen-service-buttons button:hover{
+	background: #0D5880;
+}
+
+#gen-service-mapper #gen-service-buttons button{
+	margin: 0 10px;
+	background: #267199;
+	color:white;
+	border:0;
+	outline: 0;
+	padding: 8px;
+	border-radius: 4px;
+	cursor: pointer;
+	border: 1px solid #0D5880;
+}*/
+.gen-serv-links.active{
+	display: block;
+}
+.gen-serv-links{
+	margin-top: 5px;
+	float: left;
+	padding: 2px;
+	color: #267199;
+	display: none;
+}
+
+.gen-serv-links.gen-serv-res {
+	float: right;
+}
+
+.gen-service-panel#target {
+	float: right;
+	text-align: right;
+}
+
+.gen-service-panel#source {
+	float: left;
+}
+
+.gen-service-panel h3 {
+	margin: 10px 0;
+	text-transform: uppercase;
+}
+
+.gen-service-panel ul li:after{
+	content: "";
+	display: block;
+	clear: both;
+}
+
+._jsPlumb_endpoint {
+	cursor: pointer;
+}
+
+/*TREE CSS*/
+.gen-service-panel .row {
+	padding-left: 20px;
+	clear: both;
+	margin:0;
+	position: static!important;
+
+}
+.gen-service-panel .child {
+	margin-left: 7px;
+}
+.gen-service-panel .row.hidden {
+	display: none;
+}
+
+.gen-service-panel .row li:after{
+	display: block;
+	clear: both;
+	content: "";
+}
+
+.gen-service-panel#target .row {
+	padding-left: 0;
+	padding-right: 20px;
+}
+
+.gen-service-panel .row-name {
+	cursor: pointer;
+	font-size: 15px;
+	padding: 2px 10px;
+	display: block;
+	float: left;
+}
+
+.gen-service-panel .row-name {
+	padding-left: 0;
+}
+.gen-service-panel#source .row-name {
+	padding-right: 20px;
+}
+.gen-service-panel#target .row-name {
+	padding-right: 0;
+	float: right;
+	padding-left: 20px;
+}
+.gen-service-panel .row-symbol {
+	cursor: pointer;
+}
+
+.gen-service-panel#source .row-symbol {
+	margin-right: 8px;
+	margin-top: 5px;
+	float: left;
+	width: 15px;
+	height: 15px;
+	background-repeat: no-repeat;
+	background: url(row.png);
+}
+.gen-service-panel#target .row-symbol {
+	margin-left: 8px;
+	margin-top: 5px;
+	float: right;
+	width: 15px;
+	height: 15px;
+	background-repeat: no-repeat;
+	background: url(rowL.png);
+}
+.gen-service-panel .has-child > .row-symbol,.gen-service-panel ul.tree > li > .row-symbol {
+	background: url("minus.png")!important;
+	margin-top: 2px!important;
+}
+.gen-service-panel .has-child > .row-symbol.closed, .gen-service-panel ul.tree > li > .row-symbol.closed  {
+	background: url("plus.png")!important;
+}
+/*DRAG CONFIG*/
+.drag-init {
+	border: 1px solid;
+}
+
+svg._jsPlumb_connector.hidden {
+	visibility:hidden;opacity:0;	
+}
+svg._jsPlumb_connector.visible {
+	visibility:visible;opacity:1;	
+}

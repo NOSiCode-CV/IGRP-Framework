@@ -1,0 +1,19 @@
+[
+    {
+        "action": "",
+        "app": "",
+        "page": "",
+        "id": "",
+        "description": "",
+        "link": ""
+    },
+    {
+    "action": "index",
+    "app": "testes_uxi",
+    "page": "Lookup",
+    "id": "5570",
+    "description": "Lookup",
+    "link": "/IGRP/images/IGRP/IGRP2.4/app/testes_uxi/lookup/app.xml"
+  }
+
+]

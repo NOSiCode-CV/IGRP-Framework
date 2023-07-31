@@ -1,0 +1,26 @@
+<div class="form-group col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
+    <label for="{#path#/@name}">
+        <xsl:value-of select="#path#/label"/>
+        #[tooltip]#
+    </label>
+    <div class="input-group" >
+        <input type="text" value="{#path#/value}" class="form-control gen-lookup #[change]#" id="#parent.tag#_#tag#" name="{#path#/@name}" #[required]# #[readonly]# maxlength="#[maxlength]#">
+            <xsl:call-template name="setAttributes">
+                <xsl:with-param name="field" select="#path#"/>
+            </xsl:call-template>
+        </input>
+     
+        <xsl:call-template name="locator-tool">
+            <xsl:with-param name="page" select="rows/page"/>
+            <xsl:with-param name="ad_hoc" select="'1'"/>
+            <xsl:with-param name="action" select="'LOOKUP'"/>
+            <xsl:with-param name="name" select="#path#/@name"/>
+            <xsl:with-param name="js_lookup" select="#path#/lookup"/>
+            <xsl:with-param name="input-id" select="'#parent.tag#_#tag#'"/>
+            <xsl:with-param name="btnClass" select="'#[class]#'"/>
+            <xsl:with-param name="mapName" select="'#[map]#'"/>
+            <xsl:with-param name="widgetTitle" select="#path#/label"/>
+        </xsl:call-template>
+      
+    </div>
+</div>

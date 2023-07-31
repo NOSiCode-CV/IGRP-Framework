@@ -1,0 +1,43 @@
+<widgets>
+
+	<item name="search" label="Pesquisar" icon="fa-search" css="true" buttonControl="false" active="true">
+		
+		<attributes>
+			
+			<attr name="layers" type="layers" label=" " value=""/>
+			
+			<!-- <attr name="showButton" type="checkbox" value="0"></attr>
+			
+			<attr name="active" type="checkbox" value="1"></attr> -->
+		
+		</attributes>
+	
+	</item>
+	
+	<item name="addpoint" label="Marcar Ponto" icon="fa-map-marker" html="true">
+		
+		<attributes>
+			
+			<attr name="layers" type="layers" label=" " value=""/>
+			
+			<!-- <attr name="showButton" type="checkbox" value="1"></attr>
+			
+			<attr name="active" type="checkbox" value="0"></attr> -->
+		
+		</attributes>
+	
+	
+	</item>
+	
+	<item name="infowindow" label="Info Window" icon="fa-info" html="false" active="true" buttonControl="false"  >
+		
+		<attributes>
+			
+			<attr name="layers" type="layers" label=" " value=""/>
+		
+		</attributes>
+	
+	
+	</item>
+
+</widgets>

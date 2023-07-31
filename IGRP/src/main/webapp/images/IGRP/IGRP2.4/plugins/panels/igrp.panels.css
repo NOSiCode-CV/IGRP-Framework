@@ -1,0 +1,82 @@
+/*GEN ACCORDION MENU*/
+
+.panel-group .panel{
+  border-radius: 0;
+}
+.panel-group .panel-heading{
+  background: #fdfdfd;
+  border-radius: 0
+}
+
+.panel-group .panel-heading h4 a{
+  position: relative;
+  display: block;
+}
+
+.panel-group .panel-heading h4 a i{
+  position: absolute;
+  right: 0;
+  top:50%;
+  margin-top: -6px;
+  font-size: 12px;
+}
+
+.panel-group[template="igrp-accordion-group"] .panel-body{
+  background: #fff;
+}
+.panel-group[template="igrp-accordion-group"] .panel{
+  border-radius: 0;
+  border-bottom-width:  0;
+  border-color: #eaeaea;
+}
+
+.panel-group[template="igrp-accordion-group"] .panel:last-child{
+   border-bottom-width:  1px
+}
+
+.panel-group[template="igrp-accordion-group"] .panel+.panel{
+  margin:0;
+}
+.panel-group[template="igrp-accordion-group"] .panel-heading{
+  background: white;
+}
+
+.panel-group .panel-body .gen-inner>.igrp-vertical-menu:last-child,
+.panel-group .panel-body .gen-inner>.igrp-vertical-menu:last-child .list-group{
+  margin:0;
+}
+.panel-group[template="igrp-accordion-group"] .panel-body>a,
+.panel-group[template="igrp-accordion-group"] .panel-body .igrp-vertical-menu>.list-group>a
+{
+  display: block;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  text-align:left;
+  padding: 8px 10px 8px 15px;
+  border-bottom: 1px solid #eaeaea;
+  background: transparent;
+  color:#333;
+}
+
+.panel-group[template="igrp-accordion-group"] .panel-body>a:last-child{
+  border-bottom: 0
+}
+
+.panel-group[template="igrp-accordion-group"] .panel-body>a img{
+  width: 18px;
+  margin-right: 10px
+}
+
+
+.panel-group[template="igrp-accordion-group"] .panel-body>.gen-rows-holder>.row>.gen-column>.gen-inner .igrp-vertical-menu{
+  margin:-15px;
+}
+
+.panel-group[template="igrp-accordion-group"] .panel-body>.gen-rows-holder>.row>.gen-column>.gen-inner *+.igrp-vertical-menu{
+  margin-top: 0
+}
+
+.panel-group[template="igrp-accordion-group"] .panel-body>.gen-rows-holder>.row>.gen-column>.gen-inner .igrp-vertical-menu+*{
+  margin-top: 45px
+}

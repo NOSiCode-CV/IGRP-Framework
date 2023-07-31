@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<language>
+	<framework>
+		<name>Integrated Government Resource Planning</name>
+		<abbreviation>IGRP</abbreviation>
+		<logo>/images/IGRP2.2/themes/default/img/igrp-logo.png</logo>
+		<version>Versão 2.2</version>
+	</framework>
+	<js_messages>
+		<message name="validate_fild_required">Campo de preenchimento obrigatório.</message>
+		<message name="validate_fild_number">Por favor, introduza um número válido.</message>
+		<message name="validate_fild_date">Por favor, introduza uma data válida (dd-mm-aaaa).</message>
+		<message name="validate_fild_email">Por favor, introduza um email válido.</message>
+		<message name="validate_fild_url">Por favor, introduza um URL válido.</message>
+		<message name="error_fild_required">Favor preencher campos obrigatórios!</message>
+		<message name="warning_fild_required">Favor preencher pelo menos uns dos campos!</message>
+		<message name="warning_delete_item_table">O id da linha não pode ser vazio!</message>
+		<message name="yes">OK</message>
+		<message name="no">Cancel</message>
+		<message name="add">Adicionar</message>
+		<message name="delete">Eliminar</message>
+		<message name="edit">Editar</message>
+		<message name="close">Fechar</message>
+	</js_messages>
+	<separatorlist_dialog>
+		<add>Adicionar</add>
+		<save>Confirmar</save>
+		<save_close>Confirmar &amp; Fechar</save_close>
+		<delete>Eliminar</delete>
+		<edit>Editar</edit>
+	</separatorlist_dialog>
+	<title_modal_dialog>Confirm</title_modal_dialog>
+	<search>Search</search>
+</language>

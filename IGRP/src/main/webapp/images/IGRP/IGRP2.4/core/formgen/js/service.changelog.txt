@@ -1,0 +1,51 @@
+﻿/css/style.css : adicionar código
+	.modal{
+		overflow: auto;
+	}
+
+-------------------------------------------
+
+/js/GEN.structures.js : substituir função getFieldServiceMap :
+
+	var getFieldServiceMap = function(service){
+		var GEN = VARS.getGen();
+		var rtn = '<service code="'+service.code+'">';
+		
+		//GEN.getAllFields();
+		rtn+='<request>';
+		service.connectionsReq.forEach(function(c){
+			var cTag  = c.from.split('.')[0];
+			var fTag  = c.from.split('.')[1];
+			var container = GEN.getContainerByTag(cTag);
+			var field = GEN.getFieldByAttr('tag',fTag);
+
+			var _from = container && container.hasTableRows ? c.from : fTag;
+			
+			if(field)
+				rtn+='<map><from>'+_from+'</from><to>'+c.to+'</to></map>';	
+		});
+		rtn+='</request>';
+
+		rtn+='<response>';
+		service.connectionsRes.forEach(function(c){
+			var cTag  = c.from.split('.')[0];
+			var fTag  = c.from.split('.')[1];
+			var container = GEN.getContainerByTag(cTag);
+			var field = GEN.getFieldByAttr('tag',fTag);
+
+			var _from = container && container.hasTableRows ? c.from : fTag;
+			
+			if(field)
+				rtn+='<map><from>'+_from+'</from><to>'+c.to+'</to></map>';	
+		});
+		rtn+='</response>';
+
+
+		rtn+='</service>';
+
+		return rtn;
+	}
+
+
+
+/js/GEN.service.js : substituir ficheiro *

@@ -1,0 +1,645 @@
+{
+    "annotation": {
+        "types": {
+            "checkbox": [
+                {
+                    "list": {
+                        "@Digits": {
+                            "inputs": {
+                                "integer": {
+                                    "required": true
+                                },
+                                "max": false,
+                                "min": false,
+                                "numeric": true,
+                                "value": false
+                            },
+                            "label": "Digits"
+                        },
+                        "@Max": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": {
+                                    "required": true
+                                }
+                            },
+                            "label": "Max"
+                        },
+                        "@Min": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": {
+                                    "required": true
+                                }
+                            },
+                            "label": "Min"
+                        },
+                        "@NotNull": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "NotNull"
+                        },
+                        "@Pattern": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": {
+                                    "required": true
+                                }
+                            },
+                            "label": "Pattern"
+                        },
+                        "@Size": {
+                            "inputs": {
+                                "integer": false,
+                                "max": true,
+                                "min": true,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Size"
+                        }
+                    },
+                    "type": "multi"
+                },
+                {
+                    "list": {
+                        "@Negative": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Negative"
+                        },
+                        "@NegativeOrZero": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "NegativeOrZero"
+                        },
+                        "@Positive": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Positive"
+                        },
+                        "@PositiveOrZero": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "PositiveOrZero"
+                        }
+                    },
+                    "type": "unique"
+                },
+                {
+                    "list": {
+                        "@Future": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Future"
+                        },
+                        "@FutureOrPresent": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "FutureOrPresent"
+                        },
+                        "@Past": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Past"
+                        },
+                        "@PastOrPresent": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "PastOrPresent"
+                        },
+                        "@Present": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Present"
+                        }
+                    },
+                    "type": "unique"
+                }
+            ],
+            "date": [
+            	{
+                    "list": {
+                        "@NotNull": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "NotNull"
+                        },
+                        "@Pattern": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": {
+                                    "required": true
+                                }
+                            },
+                            "label": "Pattern"
+                        }
+                    },
+                    "type": "multi"
+                },
+                {
+                    "list": {
+                        "@Future": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Future"
+                        },
+                        "@FutureOrPresent": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "FutureOrPresent"
+                        },
+                        "@Past": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Past"
+                        },
+                        "@PastOrPresent": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "PastOrPresent"
+                        },
+                        "@Present": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Present"
+                        }
+                    },
+                    "type": "unique"
+                }
+            ],
+            "email": [
+                {
+                    "list": {
+                        "@Email": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Email"
+                        },
+                        "@NotNull": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "NotNull"
+                        },
+                        "@Pattern": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": {
+                                    "required": true
+                                }
+                            },
+                            "label": "Pattern"
+                        },
+                        "@Size": {
+                            "inputs": {
+                                "integer": false,
+                                "max": true,
+                                "min": true,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Size"
+                        }
+                    },
+                    "type": "multi"
+                }
+            ],
+            "number": [
+                {
+                    "list": {
+                        "@Digits": {
+                            "inputs": {
+                                "integer": {
+                                    "required": true
+                                },
+                                "max": false,
+                                "min": false,
+                                "numeric": true,
+                                "value": false
+                            },
+                            "label": "Digits"
+                        },
+                        "@Max": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": {
+                                    "required": true
+                                }
+                            },
+                            "label": "Max"
+                        },
+                        "@Min": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": {
+                                    "required": true
+                                }
+                            },
+                            "label": "Min"
+                        },
+                        "@NotNull": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "NotNull"
+                        }
+                    },
+                    "type": "multi"
+                },
+                {
+                    "list": {
+                        "@Negative": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Negative"
+                        },
+                        "@NegativeOrZero": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "NegativeOrZero"
+                        },
+                        "@Positive": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Positive"
+                        },
+                        "@PositiveOrZero": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "PositiveOrZero"
+                        }
+                    },
+                    "type": "unique"
+                }
+            ],
+            "radiolist": [
+                {
+                    "list": {
+                        "@Digits": {
+                            "inputs": {
+                                "integer": {
+                                    "required": true
+                                },
+                                "max": false,
+                                "min": false,
+                                "numeric": true,
+                                "value": false
+                            },
+                            "label": "Digits"
+                        },
+                        "@Max": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": {
+                                    "required": true
+                                }
+                            },
+                            "label": "Max"
+                        },
+                        "@Min": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": {
+                                    "required": true
+                                }
+                            },
+                            "label": "Min"
+                        },
+                        "@NotNull": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "NotNull"
+                        },
+                        "@Pattern": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": {
+                                    "required": true
+                                }
+                            },
+                            "label": "Pattern"
+                        },
+                        "@Size": {
+                            "inputs": {
+                                "integer": false,
+                                "max": true,
+                                "min": true,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Size"
+                        }
+                    },
+                    "type": "multi"
+                },
+                {
+                    "list": {
+                        "@Negative": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Negative"
+                        },
+                        "@NegativeOrZero": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "NegativeOrZero"
+                        },
+                        "@Positive": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Positive"
+                        },
+                        "@PositiveOrZero": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "PositiveOrZero"
+                        }
+                    },
+                    "type": "unique"
+                }
+            ],
+            "text": [
+                {
+                    "list": {
+                        "@NotNull": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "NotNull"
+                        },
+                        "@Pattern": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": {
+                                    "required": true
+                                }
+                            },
+                            "label": "Pattern"
+                        },
+                        "@Size": {
+                            "inputs": {
+                                "integer": false,
+                                "max": true,
+                                "min": true,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Size"
+                        }
+                    },
+                    "type": "multi"
+                }
+            ],
+            "time": [
+                {
+                    "list": {
+                        "@Future": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Future"
+                        },
+                        "@FutureOrPresent": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "FutureOrPresent"
+                        },
+                        "@Past": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Past"
+                        },
+                        "@PastOrPresent": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "PastOrPresent"
+                        },
+                        "@Present": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "Present"
+                        }
+                    },
+                    "type": "unique"
+                }
+            ],
+            "file": [
+                {
+                    "list": {
+                        "@FileNotNull": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "FileNotNull"
+                        }
+                    },
+                    "type": "multi"
+                }
+            ]
+        }
+    }
+}

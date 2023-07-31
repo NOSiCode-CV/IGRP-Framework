@@ -3,7 +3,7 @@ package nosi.core.webapp.digicert.business;
 import java.io.IOException;
 import java.util.UUID;
 
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Part;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

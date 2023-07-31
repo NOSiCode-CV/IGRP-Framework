@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/file_editor/File_editor.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>File_editor</page>
+    <app>igrp_studio</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp_studio.pages</package_db>
+        <package_html>File_editor</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=59</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>File Editor</title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <json_data name="p_json_data" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" action="undefined" page="undefined" app="undefined" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="80000" placeholder="" right="false">
+                    <label>Json_data</label>
+                    <value>http://kaz.com/tekor</value>
+                </json_data>
+                <save_url name="p_save_url" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" action="undefined" page="undefined" app="undefined" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="8000" placeholder="" right="false">
+                    <label>Save_url</label>
+                    <value>http://famvir.edu/hecruc</value>
+                </save_url>
+                <create_url name="p_create_url" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" action="index" page="File_editor" app="igrp_studio" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="250" placeholder="" right="false">
+                    <label>Create_url</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/file_editor/File_editor.xml</value>
+                </create_url>
+            </fields>
+        </form_1>
+    </content>
+</rows>

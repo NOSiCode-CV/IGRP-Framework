@@ -1,8 +1,8 @@
 package nosi.webapps.igrp.pages.page;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Part;
 
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
@@ -19,6 +19,7 @@ public class PageFile {
 	private String fileModel;
 	private String fileView;
 	private String fileController;
+	private String filePageDelegate;
 	
 	public PageFile() {
 		try {
@@ -28,6 +29,7 @@ public class PageFile {
 			Part fileModel = Core.getFile("p_model");
 			Part fileView = Core.getFile("p_view");
 			Part fileController = Core.getFile("p_controller");
+			Part filePageDelegate = Core.getFile("p_interface");
 			
 			if(fileXml!=null) {
 				this.setFileXml(FileHelper.convertToString(fileXml.getInputStream()));
@@ -52,6 +54,11 @@ public class PageFile {
 			if(fileController!=null) {
 				this.setFileController(FileHelper.convertToString(fileController.getInputStream()));
 				fileController.delete();
+			}
+			
+			if(filePageDelegate != null) {
+				this.setFilePageDelegate(FileHelper.convertToString(filePageDelegate.getInputStream()));
+				filePageDelegate.delete();
 			}
 		} catch (IOException | ServletException e) {
 			// TODO Auto-generated catch block
@@ -95,6 +102,12 @@ public class PageFile {
 	public void setFileController(String fileController) {
 		this.fileController = fileController;
 	}
+	public String getFilePageDelegate() {
+		return filePageDelegate;
+	}
+	public void setFilePageDelegate(String filePageDelegate) {
+		this.filePageDelegate = filePageDelegate;
+	}
 	
 	public boolean xslFileExists() {
 		return Core.isNotNull(this.getFileXsl());
@@ -119,9 +132,12 @@ public class PageFile {
 	public boolean controllerFileExists() {
 		return Core.isNotNull(this.getFileController());
 	}
+	public boolean pageDelegateFileExists() {
+		return Core.isNotNull(this.getFilePageDelegate());
+	}
 
 	public boolean isAllFileExists() {
-		return this.modelFileExists() && this.viewFileExists() && this.controllerFileExists()
+		return this.pageDelegateFileExists() && this.modelFileExists() && this.viewFileExists() && this.controllerFileExists()
 				&& this.jsonFileExists() && this.xmlFileExists() && this.xslFileExists();
 	}
 }

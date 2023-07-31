@@ -1,0 +1,79 @@
+{  
+   "legend":[  
+      {  
+         "legend":"Sem Registo",
+         "color":"#FFFFFF"
+      },
+      {  
+         "legend":"Numero Igual registos",
+         "color":"#828282"
+      },
+      {  
+         "legend":"Doen\u00E7as de Notifica\u00E7\u00E3o",
+         "color":"#FF9933"
+      },
+      {  
+         "legend":"Doen\u00E7as Transmiss\u00EDveis",
+         "color":"#339900"
+      },
+      {  
+         "legend":"Doen\u00E7as n\u00E3o Transmiss\u00EDveis",
+         "color":"#FFFF00"
+      },
+      {  
+         "legend":"Doen\u00E7as Cr\u00F4nicas",
+         "color":"#FF0000"
+      },
+      {  
+         "legend":"Vetores",
+         "color":"#330033"
+      }
+   ],
+   "series":[  
+      {  
+         "color":"#FF0000",
+         "obs":" Cr\u00F3nicas: 223",
+         "id":717
+      },
+      {  
+         "color":"#FF0000",
+         "obs":" Cr\u00F3nicas: 149",
+         "id":790
+      },
+      {  
+         "color":"#FF9933",
+         "obs":"Notificac\u00E3o: 10161",
+         "id":770
+      },
+      {  
+         "color":"#FF9933",
+         "obs":"Notificac\u00E3o: 74",
+         "id":473
+      },
+      {  
+         "color":"#FF0000",
+         "obs":" Cr\u00F3nicas: 155",
+         "id":170
+      },
+      {  
+         "color":"#FFFF00",
+         "obs":" N\u00E3o transmissiveis: 43",
+         "id":671
+      },
+      {  
+         "color":"#828282",
+         "obs":" Cr\u00F3nicas: 29 Vetoriais: 29",
+         "id":609
+      },
+      {  
+         "color":"#339900",
+         "obs":" Transmissiveis: 14",
+         "id":802
+      },
+      {  
+         "color":"#FF9933",
+         "obs":"Notificac\u00E3o: 87",
+         "id":662
+      }
+   ]
+}

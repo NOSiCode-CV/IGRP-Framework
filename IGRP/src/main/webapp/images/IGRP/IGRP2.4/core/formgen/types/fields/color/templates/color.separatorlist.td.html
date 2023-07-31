@@ -1,0 +1,13 @@
+<xsl:choose>
+	<xsl:when test="not(#tag#/@visible)">
+		<td data-row="{position()}" data-title="{../../../fields/#tag#/label}" class="#type#" item-name="#[tag]#">
+			<span class="separator-list-td-val color" style="background-color:{#tag#_desc};height: 10px;display: block;"></span>
+			<input type="hidden" name="p_#tag#_fk" value="{#tag#}"/>
+			<input type="hidden" name="p_#tag#_fk_desc" value="{#tag#_desc}"/>
+		</td>
+	</xsl:when>
+	<xsl:otherwise>
+		<input type="hidden" name="p_#tag#_fk" value="{#tag#}"/>
+  		<input type="hidden" name="p_#tag#_fk_desc" value="{#tag#_desc}"/>
+	</xsl:otherwise>
+</xsl:choose>

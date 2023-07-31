@@ -1,0 +1,113 @@
+[
+	{
+		"id": "1",
+		"image_src": "assets/images/users/avatar-4.jpg",
+		"name": "Alexis Clarke",
+		"company_name": "Force Medicines",
+		"date": "07 Apr, 2021",
+		"leads_score": "147",
+		"phone": "580-464-4694",
+		"location": "Los Angeles, USA",
+		"tags": ["Partner"]
+	},
+	{
+		"id": "2",
+		"image_src": "assets/images/users/avatar-3.jpg",
+		"name": "James Morris",
+		"company_name": "iTest Factory",
+		"date": "15 Feb, 2021",
+		"leads_score": "230",
+		"phone": "863-577-5537",
+		"location": "Phoenix, USA",
+		"tags": ["Long-term", "Lead"]
+	},
+	{
+		"id": "3",
+		"image_src": "assets/images/users/avatar-2.jpg",
+		"name": "Nancy Martino",
+		"company_name": "Syntyce Solutions",
+		"date": "02 Jan, 2022",
+		"leads_score": "159",
+		"phone": "786-253-9927",
+		"location": "London, UK",
+		"tags": ["Lead", "Partner"]
+	},
+	{
+		"id": "4",
+		"image_src": "assets/images/users/avatar-7.jpg",
+		"name": "Michael Morris",
+		"company_name": "Micro Design",
+		"date": "19 May, 2021",
+		"leads_score": "352",
+		"phone": "856-253-9927",
+		"location": "Damascus, Syria",
+		"tags": ["Lead"]
+	},
+	{
+		"id": "5",
+		"image_src": "assets/images/users/avatar-8.jpg",
+		"name": "Kevin Dawson",
+		"company_name": "Nesta Technologies",
+		"date": "14 Apr, 2021",
+		"leads_score": "78",
+		"phone": "213-741-4294",
+		"location": "Bogota, Colombia",
+		"tags": ["Exiting"]
+	},
+	{
+		"id": "6",
+		"image_src": "assets/images/users/avatar-6.jpg",
+		"name": "Herbert Stokes",
+		"company_name": "Zoetic Fashion",
+		"date": "07 Jun, 2020",
+		"leads_score": "85",
+		"phone": "414-453-5725",
+		"location": "Windhoek, Namibia",
+		"tags": ["Exiting", "Lead", "Partner"]
+	},
+	{
+		"id": "7",
+		"image_src": "assets/images/users/avatar-5.jpg",
+		"name": "Glen Matney",
+		"company_name": "Moetic Fashion",
+		"date": "19 May, 2021",
+		"leads_score": "365",
+		"phone": "515-395-1069",
+		"location": "Berlin, Germany",
+		"tags": ["Lead", "Partner"]
+	},
+	{
+		"id": "8",
+		"image_src": "assets/images/users/avatar-1.jpg",
+		"name": "Charles Kubik",
+		"company_name": "Syntyce Solutions",
+		"date": "25 Sep, 2021",
+		"leads_score": "236",
+		"phone": "231-480-8536",
+		"location": "Brasilia, Brazil",
+		"tags": ["Partner"]
+	},
+	{
+		"id": "9",
+		"image_src": "assets/images/users/avatar-9.jpg",
+		"name": "Thomas Taylor",
+		"company_name": "Digitech Galaxy",
+		"date": "28 Feb, 2019",
+		"leads_score": "754",
+		"phone": "536-480-8536",
+		"location": "Windhoek, Namibia",
+		"tags": ["Lead"]
+	},
+	{
+		"id": "10",
+		"image_src": "assets/images/users/avatar-10.jpg",
+		"name": "Tonya Noble",
+		"company_name": "Micro Design",
+		"date": "23 Nov, 2021",
+		"leads_score": "193",
+		"phone": "745-321-9874",
+		"location": "London, UK",
+		"tags": ["Lead", "Partner"]
+	}
+
+]

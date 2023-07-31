@@ -40,13 +40,13 @@ import org.hibernate.SessionFactory;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.Tuple;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Part;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.Invocation;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import java.io.*;
 import java.lang.reflect.Type;
@@ -1210,7 +1210,7 @@ public final class Core {
 					return parts.stream().filter(file -> Core.isNotNull(file.getSubmittedFileName()))
 							.filter(file -> Core.isNotNull(file.getName())).collect(Collectors.toList());
 				}
-			} catch (javax.servlet.ServletException e) {
+			} catch (jakarta.servlet.ServletException e) {
 				e.printStackTrace();
 			}
 		}
@@ -5260,10 +5260,9 @@ public final class Core {
 		String contextName = Core.getDeployedWarName();
 		if (env != null && env.getUrl() != null && !env.getUrl().isEmpty()
 				&& !contextName.equalsIgnoreCase(env.getUrl())) {
-			url = configApp.getAutentikaUrlForSso();
+			url = configApp.getExternalUrl(env.getUrl());
 			if (stateValue != null && !stateValue.isEmpty())
 				url = url.replace("state=igrp", "state=" + stateValue);
-			url = url.replace("/IGRP/", "/" + env.getUrl() + "/");
 		}
 		return url;
 	}

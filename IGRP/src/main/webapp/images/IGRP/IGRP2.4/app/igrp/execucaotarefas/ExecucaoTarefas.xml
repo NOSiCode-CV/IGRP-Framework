@@ -1,0 +1,1225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>ExecucaoTarefas</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>ExecucaoTarefas</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=30</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Execucao Tarefas</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Distribuição de Tarefas]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <disponiveis name="p_disponiveis" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-calendar-check-o" request_fields="" custom_return="false" refresh_submit="false" refresh_components="" adbcli="" maxlength="50">
+                    <label>Disponíveis</label>
+                    <value/>
+                </disponiveis>
+                <minhas_tarefas name="p_minhas_tarefas" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-address-book-o" request_fields="" custom_return="false" refresh_submit="false" refresh_components="" adbcli="" maxlength="50">
+                    <label>Minhas Tarefas</label>
+                    <value/>
+                </minhas_tarefas>
+                <estatistica name="p_estatistica" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-line-chart" request_fields="" custom_return="false" refresh_submit="false" refresh_components="" adbcli="" maxlength="50">
+                    <label>Estatística</label>
+                    <value/>
+                </estatistica>
+                <gerir_tarefas name="p_gerir_tarefas" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-tasks" request_fields="" custom_return="false" refresh_submit="false" refresh_components="" adbcli="" maxlength="50">
+                    <label>Gerir Tarefas</label>
+                    <value/>
+                </gerir_tarefas>
+                <colaboradores name="p_colaboradores" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-users" request_fields="" custom_return="false" refresh_submit="false" refresh_components="" adbcli="" maxlength="50">
+                    <label>Colaboradores</label>
+                    <value/>
+                </colaboradores>
+            </fields>
+        </tabcontent_1>
+        <form_disponiveis type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
+            <fields>
+                <tipo_processo_form_disponiveis name="p_tipo_processo_form_disponiveis" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" tags="false" java-type="">
+                    <label>Tipo Processo</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_processo_form_disponiveis>
+                <numero_processo_form_disponiveis name="p_numero_processo_form_disponiveis" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                    <label>Nº Processo</label>
+                    <value>Natus deserunt omnis rem accus</value>
+                </numero_processo_form_disponiveis>
+                <prioridade_form_disponiveis name="p_prioridade_form_disponiveis" type="select" multiple="false" tags="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="">
+                    <label>Prioridade</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </prioridade_form_disponiveis>
+                <nada5 name="p_nada5" type="separator" maxlength="250" placeholder="" right="false" desclabel="false">
+                    <label></label>
+                </nada5>
+                <data_inicio_form_disponiveis name="p_data_inicio_form_disponiveis" type="date" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="success" range="false" desclabel="false">
+                    <label>Data entrada</label>
+                    <value>04-01-2013</value>
+                </data_inicio_form_disponiveis>
+                <data_fim_form_disponiveis name="p_data_fim_form_disponiveis" type="date" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="danger" range="false" desclabel="false">
+                    <label>Data fim</label>
+                    <value>05-05-2017</value>
+                </data_fim_form_disponiveis>
+            </fields>
+            <tools-bar>
+                <item id="button_8ee9_d629" type="form" code="" class="primary" rel="pesquisar_button_disponiveis" custom_return="true" refresh_components="table_disponiveis">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>ExecucaoTarefas</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml?</parameter>
+                    <target>submit_ajax</target>
+                    <img>primary|fa-search</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml</preview>
+                </item>
+            </tools-bar>
+        </form_disponiveis>
+        <form_minhas_tarefas type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
+            <fields>
+                <tipo_processo_minhas_tarefas name="p_tipo_processo_minhas_tarefas" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" tags="false" java-type="">
+                    <label>Tipo Processo</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_processo_minhas_tarefas>
+                <numero_processo_minhas_tarefas name="p_numero_processo_minhas_tarefas" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                    <label>Nº Processo</label>
+                    <value>Omnis mollit amet perspiciatis</value>
+                </numero_processo_minhas_tarefas>
+                <prioridade_minhas_tarefas name="p_prioridade_minhas_tarefas" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" tags="false" java-type="">
+                    <label>Prioridade</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </prioridade_minhas_tarefas>
+                <nada3_ name="p_nada3_" type="separator" maxlength="250" placeholder="" right="false" desclabel="false">
+                    <label></label>
+                </nada3_>
+                <data_inicio_minhas_tarefas name="p_data_inicio_minhas_tarefas" type="date" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="success" range="false" desclabel="false">
+                    <label>Data entrada</label>
+                    <value>02-08-2015</value>
+                </data_inicio_minhas_tarefas>
+                <data_fim_minhas_tarefas name="p_data_fim_minhas_tarefas" type="date" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="danger" range="false" desclabel="false">
+                    <label>Data fim</label>
+                    <value>02-08-2012</value>
+                </data_fim_minhas_tarefas>
+            </fields>
+            <tools-bar>
+                <item id="button_e8d8_bc35" type="form" code="" class="primary" rel="pesquisar_button_minhas_tarefas" custom_return="true" refresh_components="table_minhas_tarefas">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>ExecucaoTarefas</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml?</parameter>
+                    <target>submit_ajax</target>
+                    <img>primary|fa-search</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml</preview>
+                </item>
+            </tools-bar>
+        </form_minhas_tarefas>
+        <view_estatistica type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <n_tarefas_cocluidas_view_estatistica name="p_n_tarefas_cocluidas_view_estatistica" type="text" maxlength="30" class="success" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>N. Tarefas Cocluidas</label>
+                    <value>Laudantium officia aperiam lab</value>
+                </n_tarefas_cocluidas_view_estatistica>
+                <n_tarefas_pendentes_view_estatistica name="p_n_tarefas_pendentes_view_estatistica" type="text" maxlength="30" class="warning" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>N. Tarefas Pendentes</label>
+                    <value>Stract accusantium sit accusan</value>
+                </n_tarefas_pendentes_view_estatistica>
+                <n_atendimento_dia_view_estatistica name="p_n_atendimento_dia_view_estatistica" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="fa-hashtag" showlabel="true">
+                    <label>N. Atendimento Dia</label>
+                    <value>Sed omnis deserunt totam ut</value>
+                </n_atendimento_dia_view_estatistica>
+                <media_tempo_view_estatistica name="p_media_tempo_view_estatistica" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="fa-clock-o" showlabel="true">
+                    <label>Media Tempo</label>
+                    <value>Sit amet sit adipiscing consec</value>
+                </media_tempo_view_estatistica>
+                <view_estatistica_img type="text" name="p_view_estatistica_img" maxlength="300">
+                    <value>../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </view_estatistica_img>
+            </fields>
+        </view_estatistica>
+        <form_gerir_tarefa type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
+            <fields>
+                <tipo_processo_gerir_tarefa name="p_tipo_processo_gerir_tarefa" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" tags="false" java-type="">
+                    <label>Tipo Processo</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_processo_gerir_tarefa>
+                <numero_processo_gerir_tarefa name="p_numero_processo_gerir_tarefa" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                    <label>Nº Processo</label>
+                    <value>Deserunt sit sed deserunt aliq</value>
+                </numero_processo_gerir_tarefa>
+                <prioridade_gerir_tarefa name="p_prioridade_gerir_tarefa" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" tags="false" java-type="">
+                    <label>Prioridade</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </prioridade_gerir_tarefa>
+                <nada_ name="p_nada_" type="separator" maxlength="250" placeholder="" right="false" desclabel="false">
+                    <label></label>
+                </nada_>
+                <data_inicio_gerir_tarefa name="p_data_inicio_gerir_tarefa" type="date" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="success" range="false" desclabel="false">
+                    <label>Data entrada</label>
+                    <value>06-06-2014</value>
+                </data_inicio_gerir_tarefa>
+                <data_fim_gerir_tarefa name="p_data_fim_gerir_tarefa" type="date" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="danger" range="false" desclabel="false">
+                    <label>Data fim</label>
+                    <value>04-07-2016</value>
+                </data_fim_gerir_tarefa>
+            </fields>
+            <tools-bar>
+                <item id="button_2cf3_f7d9" type="form" code="" class="primary" rel="pesquisar_tarefa" custom_return="true" refresh_components="table_gerir_tarefas">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>ExecucaoTarefas</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml?</parameter>
+                    <target>submit_ajax</target>
+                    <img>primary|fa-search</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml</preview>
+                </item>
+            </tools-bar>
+        </form_gerir_tarefa>
+        <form_colaboradores type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
+            <fields>
+                <tipo_processo_colaborador name="p_tipo_processo_colaborador" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" tags="false" java-type="">
+                    <label>Tipo Processo</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_processo_colaborador>
+                <numero_processo_colaborador name="p_numero_processo_colaborador" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                    <label>Nº Processo</label>
+                    <value>Amet sit consectetur adipiscin</value>
+                </numero_processo_colaborador>
+                <prioridade_colaborador name="p_prioridade_colaborador" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" tags="false" java-type="">
+                    <label>Prioridade</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </prioridade_colaborador>
+                <tipo_etapa_colaborador name="p_tipo_etapa_colaborador" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" tags="false" java-type="">
+                    <label>Tipo Etapa</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_etapa_colaborador>
+                <nada2_ name="p_nada2_" type="separator" maxlength="250" placeholder="" right="false" desclabel="false">
+                    <label></label>
+                </nada2_>
+                <data_inicio_colaborador name="p_data_inicio_colaborador" type="date" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="success" range="false" desclabel="false">
+                    <label>Data inicio</label>
+                    <value>02-04-2010</value>
+                </data_inicio_colaborador>
+                <data_fim_colaborador name="p_data_fim_colaborador" type="date" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="danger" range="false" desclabel="false">
+                    <label>Data fim</label>
+                    <value>01-05-2014</value>
+                </data_fim_colaborador>
+            </fields>
+            <tools-bar>
+                <item id="button_cbf9_4278" type="form" code="" class="primary" rel="pesquisar_colaborador" custom_return="true" refresh_components="">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>ExecucaoTarefas</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml?</parameter>
+                    <target>submit_ajax</target>
+                    <img>primary|fa-search</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml</preview>
+                </item>
+            </tools-bar>
+        </form_colaboradores>
+        <form_estatistica type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
+            <fields>
+                <tipo_processo_estatistica name="p_tipo_processo_estatistica" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" tags="false" java-type="">
+                    <label>Tipo Processo</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_processo_estatistica>
+                <numero_processo_estatistica name="p_numero_processo_estatistica" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                    <label>Nº Processo</label>
+                    <value>Omnis sit consectetur natus do</value>
+                </numero_processo_estatistica>
+                <prioridade_estatistica name="p_prioridade_estatistica" type="select" multiple="false" tags="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="">
+                    <label>Prioridade</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </prioridade_estatistica>
+                <estado_estatistica name="p_estado_estatistica" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" tags="false" java-type="">
+                    <label>Estado</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </estado_estatistica>
+                <nada4 name="p_nada4" type="separator" maxlength="250" placeholder="" right="false" desclabel="false">
+                    <label></label>
+                </nada4>
+                <data_inicio_estatistica name="p_data_inicio_estatistica" type="date" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="success" range="false" desclabel="false">
+                    <label>Data entrada</label>
+                    <value>02-01-2015</value>
+                </data_inicio_estatistica>
+                <data_fim_estatistica name="p_data_fim_estatistica" type="date" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="danger" range="false" desclabel="false">
+                    <label>Data conclusão</label>
+                    <value>07-08-2012</value>
+                </data_fim_estatistica>
+            </fields>
+            <tools-bar>
+                <item id="button_bf98_a80c" type="form" code="" class="primary" rel="pesquisar_estatistica" custom_return="true" refresh_components="table_estatistica">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>ExecucaoTarefas</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml?</parameter>
+                    <target>submit_ajax</target>
+                    <img>primary|fa-search</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml</preview>
+                </item>
+            </tools-bar>
+        </form_estatistica>
+        <table__colaboradores type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <nome_colab_tabela name="p_nome_colab_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Nome</label>
+                </nome_colab_tabela>
+                <contacto_colab_tabela name="p_contacto_colab_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Contacto</label>
+                </contacto_colab_tabela>
+                <n_tarefas_colab_tabela name="p_n_tarefas_colab_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Nº Tarefas</label>
+                </n_tarefas_colab_tabela>
+                <n_atendimento_colab_tabela name="p_n_atendimento_colab_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Nº Atendimento</label>
+                </n_atendimento_colab_tabela>
+                <media_tempo_colab_tabela name="p_media_tempo_colab_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Media Tempo</label>
+                </media_tempo_colab_tabela>
+                <ranking_colab_tabela name="p_ranking_colab_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Ranking</label>
+                </ranking_colab_tabela>
+                <percentagem_colab_tabela name="p_percentagem_colab_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>%</label>
+                </percentagem_colab_tabela>
+                <foto_colab_tabela name="p_foto_colab_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Foto</label>
+                </foto_colab_tabela>
+                <param_colab_tabela name="p_param_colab_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Param</label>
+                </param_colab_tabela>
+                <p_id_c name="p_p_id_c" type="hidden" maxlength="30" iskey="true" java-type="" showLabel="true" group_in="" tag="p_id_c"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome_colab_tabela name="p_nome_colab_tabela">Laudantium consectetur dolorem</nome_colab_tabela>
+                        <contacto_colab_tabela name="p_contacto_colab_tabela">Consectetur deserunt sit aperi</contacto_colab_tabela>
+                        <n_tarefas_colab_tabela name="p_n_tarefas_colab_tabela">Consectetur amet lorem dolorem</n_tarefas_colab_tabela>
+                        <n_atendimento_colab_tabela name="p_n_atendimento_colab_tabela">Iste labore adipiscing sit ame</n_atendimento_colab_tabela>
+                        <media_tempo_colab_tabela name="p_media_tempo_colab_tabela">Lorem laudantium sit anim pers</media_tempo_colab_tabela>
+                        <ranking_colab_tabela name="p_ranking_colab_tabela">Ut amet ipsum natus deserunt</ranking_colab_tabela>
+                        <percentagem_colab_tabela name="p_percentagem_colab_tabela">Officia omnis adipiscing molli</percentagem_colab_tabela>
+                        <foto_colab_tabela name="p_foto_colab_tabela">Labore anim sit ipsum natus</foto_colab_tabela>
+                        <param_colab_tabela name="p_param_colab_tabela">Natus rem adipiscing laudantiu</param_colab_tabela>
+                        <p_id_c name="p_p_id_c" tag="p_id_c">hidden-6a5f_7172</p_id_c>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome_colab_tabela name="p_nome_colab_tabela">Omnis mollit adipiscing labore</nome_colab_tabela>
+                        <contacto_colab_tabela name="p_contacto_colab_tabela">Lorem sit consectetur sed offi</contacto_colab_tabela>
+                        <n_tarefas_colab_tabela name="p_n_tarefas_colab_tabela">Doloremque omnis ut consectetu</n_tarefas_colab_tabela>
+                        <n_atendimento_colab_tabela name="p_n_atendimento_colab_tabela">Anim adipiscing magna sit magn</n_atendimento_colab_tabela>
+                        <media_tempo_colab_tabela name="p_media_tempo_colab_tabela">Doloremque labore aliqua magna</media_tempo_colab_tabela>
+                        <ranking_colab_tabela name="p_ranking_colab_tabela">Mollit labore mollit amet sit</ranking_colab_tabela>
+                        <percentagem_colab_tabela name="p_percentagem_colab_tabela">Ut labore sit unde deserunt</percentagem_colab_tabela>
+                        <foto_colab_tabela name="p_foto_colab_tabela">Doloremque dolor consectetur v</foto_colab_tabela>
+                        <param_colab_tabela name="p_param_colab_tabela">Iste ipsum adipiscing mollit i</param_colab_tabela>
+                        <p_id_c name="p_p_id_c" tag="p_id_c">hidden-f664_855c</p_id_c>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome_colab_tabela name="p_nome_colab_tabela">Labore ipsum sit voluptatem si</nome_colab_tabela>
+                        <contacto_colab_tabela name="p_contacto_colab_tabela">Amet magna adipiscing stract s</contacto_colab_tabela>
+                        <n_tarefas_colab_tabela name="p_n_tarefas_colab_tabela">Ipsum lorem magna sed rem</n_tarefas_colab_tabela>
+                        <n_atendimento_colab_tabela name="p_n_atendimento_colab_tabela">Totam consectetur stract offic</n_atendimento_colab_tabela>
+                        <media_tempo_colab_tabela name="p_media_tempo_colab_tabela">Sed sit laudantium dolor conse</media_tempo_colab_tabela>
+                        <ranking_colab_tabela name="p_ranking_colab_tabela">Anim consectetur sed deserunt</ranking_colab_tabela>
+                        <percentagem_colab_tabela name="p_percentagem_colab_tabela">Adipiscing unde labore adipisc</percentagem_colab_tabela>
+                        <foto_colab_tabela name="p_foto_colab_tabela">Mollit dolor stract aliqua per</foto_colab_tabela>
+                        <param_colab_tabela name="p_param_colab_tabela">Magna elit totam lorem dolorem</param_colab_tabela>
+                        <p_id_c name="p_p_id_c" tag="p_id_c">hidden-b77e_ca3c</p_id_c>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome_colab_tabela name="p_nome_colab_tabela">Doloremque perspiciatis deseru</nome_colab_tabela>
+                        <contacto_colab_tabela name="p_contacto_colab_tabela">Dolor adipiscing stract magna</contacto_colab_tabela>
+                        <n_tarefas_colab_tabela name="p_n_tarefas_colab_tabela">Sit sit aperiam accusantium of</n_tarefas_colab_tabela>
+                        <n_atendimento_colab_tabela name="p_n_atendimento_colab_tabela">Doloremque omnis magna anim vo</n_atendimento_colab_tabela>
+                        <media_tempo_colab_tabela name="p_media_tempo_colab_tabela">Voluptatem anim amet labore pe</media_tempo_colab_tabela>
+                        <ranking_colab_tabela name="p_ranking_colab_tabela">Natus voluptatem magna volupta</ranking_colab_tabela>
+                        <percentagem_colab_tabela name="p_percentagem_colab_tabela">Magna dolor ipsum magna aliqua</percentagem_colab_tabela>
+                        <foto_colab_tabela name="p_foto_colab_tabela">Sit deserunt doloremque mollit</foto_colab_tabela>
+                        <param_colab_tabela name="p_param_colab_tabela">Laudantium mollit omnis magna</param_colab_tabela>
+                        <p_id_c name="p_p_id_c" tag="p_id_c">hidden-fa48_2e47</p_id_c>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome_colab_tabela name="p_nome_colab_tabela">Dolor unde totam doloremque co</nome_colab_tabela>
+                        <contacto_colab_tabela name="p_contacto_colab_tabela">Perspiciatis officia dolor lor</contacto_colab_tabela>
+                        <n_tarefas_colab_tabela name="p_n_tarefas_colab_tabela">Sed unde aliqua amet rem</n_tarefas_colab_tabela>
+                        <n_atendimento_colab_tabela name="p_n_atendimento_colab_tabela">Labore officia dolor sit volup</n_atendimento_colab_tabela>
+                        <media_tempo_colab_tabela name="p_media_tempo_colab_tabela">Stract omnis rem officia dolor</media_tempo_colab_tabela>
+                        <ranking_colab_tabela name="p_ranking_colab_tabela">Officia amet mollit sit magna</ranking_colab_tabela>
+                        <percentagem_colab_tabela name="p_percentagem_colab_tabela">Natus sit doloremque iste moll</percentagem_colab_tabela>
+                        <foto_colab_tabela name="p_foto_colab_tabela">Unde voluptatem lorem elit und</foto_colab_tabela>
+                        <param_colab_tabela name="p_param_colab_tabela">Voluptatem elit doloremque ut</param_colab_tabela>
+                        <p_id_c name="p_p_id_c" tag="p_id_c">hidden-cf60_d247</p_id_c>
+                    </row>
+                </value>
+                <context-menu>
+                    <item id="button_17fb_9014" type="specific" code="" class="primary" rel="ver_detalhes" refresh_components="">
+                        <title>Ver Detalhes</title>
+                        <app>igrp</app>
+                        <page>Transferir_tarefas</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/transferir_tarefas/Transferir_tarefas.xml?</parameter>
+                        <target>modal</target>
+                        <img>primary|fa-address-card</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/transferir_tarefas/Transferir_tarefas.xml</preview>
+                    </item>
+                    <item id="button_298e_8233" type="specific" code="" class="info" rel="ver_estatistica" refresh_components="">
+                        <title>Ver Estatistica</title>
+                        <app>igrp</app>
+                        <page>Transferir_tarefas</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/transferir_tarefas/Transferir_tarefas.xml?</parameter>
+                        <target>modal</target>
+                        <img>info|fa-line-chart</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/transferir_tarefas/Transferir_tarefas.xml</preview>
+                    </item>
+                    <item id="button_998d_99ce" type="specific" code="" class="warning" rel="enviar_msg" refresh_components="">
+                        <title>Enviar Msg</title>
+                        <app>igrp</app>
+                        <page>Transferir_tarefas</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/transferir_tarefas/Transferir_tarefas.xml?</parameter>
+                        <target>modal</target>
+                        <img>warning|fa-send-o</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/transferir_tarefas/Transferir_tarefas.xml</preview>
+                    </item>
+                </context-menu>
+            </table>
+        </table__colaboradores>
+        <table_estatistica type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <n_processo_estat_tabela name="p_n_processo_estat_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Nº Processo</label>
+                </n_processo_estat_tabela>
+                <desc_tarefa_estat_tabela name="p_desc_tarefa_estat_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Tarefa</label>
+                </desc_tarefa_estat_tabela>
+                <tipo_estatistica_tabela name="p_tipo_estatistica_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Tipo processo</label>
+                </tipo_estatistica_tabela>
+                <data_entrada_estat_tabela name="p_data_entrada_estat_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Data entrada</label>
+                </data_entrada_estat_tabela>
+                <data_conclusao_estat_tabela name="p_data_conclusao_estat_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Data conclusão</label>
+                </data_conclusao_estat_tabela>
+                <p_id_e name="p_p_id_e" type="hidden" maxlength="30" iskey="true" java-type="" showLabel="true" group_in="" tag="p_id_e"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <n_processo_estat_tabela name="p_n_processo_estat_tabela">Aliqua aperiam rem stract tota</n_processo_estat_tabela>
+                        <desc_tarefa_estat_tabela name="p_desc_tarefa_estat_tabela">Anim stract dolor natus dolor</desc_tarefa_estat_tabela>
+                        <tipo_estatistica_tabela name="p_tipo_estatistica_tabela">Unde anim iste stract labore</tipo_estatistica_tabela>
+                        <data_entrada_estat_tabela name="p_data_entrada_estat_tabela">Dolor perspiciatis mollit ipsu</data_entrada_estat_tabela>
+                        <data_conclusao_estat_tabela name="p_data_conclusao_estat_tabela">Sed voluptatem aperiam adipisc</data_conclusao_estat_tabela>
+                        <p_id_e name="p_p_id_e" tag="p_id_e">hidden-0d0a_ddb3</p_id_e>
+                    </row>
+                    <row>
+                        <n_processo_estat_tabela name="p_n_processo_estat_tabela">Ipsum dolor mollit consectetur</n_processo_estat_tabela>
+                        <desc_tarefa_estat_tabela name="p_desc_tarefa_estat_tabela">Ut aliqua aperiam stract aliqu</desc_tarefa_estat_tabela>
+                        <tipo_estatistica_tabela name="p_tipo_estatistica_tabela">Unde stract anim elit aperiam</tipo_estatistica_tabela>
+                        <data_entrada_estat_tabela name="p_data_entrada_estat_tabela">Natus dolor iste doloremque of</data_entrada_estat_tabela>
+                        <data_conclusao_estat_tabela name="p_data_conclusao_estat_tabela">Stract laudantium sit accusant</data_conclusao_estat_tabela>
+                        <p_id_e name="p_p_id_e" tag="p_id_e">hidden-dc93_d971</p_id_e>
+                    </row>
+                    <row>
+                        <n_processo_estat_tabela name="p_n_processo_estat_tabela">Natus sit natus dolor voluptat</n_processo_estat_tabela>
+                        <desc_tarefa_estat_tabela name="p_desc_tarefa_estat_tabela">Dolor unde consectetur dolor s</desc_tarefa_estat_tabela>
+                        <tipo_estatistica_tabela name="p_tipo_estatistica_tabela">Sit sit omnis iste amet</tipo_estatistica_tabela>
+                        <data_entrada_estat_tabela name="p_data_entrada_estat_tabela">Consectetur ut anim rem sed</data_entrada_estat_tabela>
+                        <data_conclusao_estat_tabela name="p_data_conclusao_estat_tabela">Magna labore dolor amet magna</data_conclusao_estat_tabela>
+                        <p_id_e name="p_p_id_e" tag="p_id_e">hidden-a94f_7888</p_id_e>
+                    </row>
+                    <row>
+                        <n_processo_estat_tabela name="p_n_processo_estat_tabela">Totam sed unde accusantium eli</n_processo_estat_tabela>
+                        <desc_tarefa_estat_tabela name="p_desc_tarefa_estat_tabela">Unde accusantium magna natus l</desc_tarefa_estat_tabela>
+                        <tipo_estatistica_tabela name="p_tipo_estatistica_tabela">Ipsum aperiam lorem dolor offi</tipo_estatistica_tabela>
+                        <data_entrada_estat_tabela name="p_data_entrada_estat_tabela">Laudantium lorem dolor amet re</data_entrada_estat_tabela>
+                        <data_conclusao_estat_tabela name="p_data_conclusao_estat_tabela">Consectetur amet rem sit sit</data_conclusao_estat_tabela>
+                        <p_id_e name="p_p_id_e" tag="p_id_e">hidden-7a44_ed07</p_id_e>
+                    </row>
+                    <row>
+                        <n_processo_estat_tabela name="p_n_processo_estat_tabela">Perspiciatis anim aliqua conse</n_processo_estat_tabela>
+                        <desc_tarefa_estat_tabela name="p_desc_tarefa_estat_tabela">Sed amet deserunt adipiscing o</desc_tarefa_estat_tabela>
+                        <tipo_estatistica_tabela name="p_tipo_estatistica_tabela">Officia unde iste rem deserunt</tipo_estatistica_tabela>
+                        <data_entrada_estat_tabela name="p_data_entrada_estat_tabela">Magna ut sit dolor mollit</data_entrada_estat_tabela>
+                        <data_conclusao_estat_tabela name="p_data_conclusao_estat_tabela">Mollit omnis sit sed sit</data_conclusao_estat_tabela>
+                        <p_id_e name="p_p_id_e" tag="p_id_e">hidden-3514_252f</p_id_e>
+                    </row>
+                </value>
+            </table>
+        </table_estatistica>
+        <table_gerir_tarefas type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <prioridade_g name="p_prioridade_g" type="color" format="hex" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Prioridade</label>
+                </prioridade_g>
+                <n_tarefa_g name="p_n_tarefa_g" type="text" maxlength="100" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Nº Processo</label>
+                </n_tarefa_g>
+                <desc_tarefa name="p_desc_tarefa" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Tarefa</label>
+                </desc_tarefa>
+                <tipo name="p_tipo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Tipo processo</label>
+                </tipo>
+                <data_entrada name="p_data_entrada" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Data entrada</label>
+                </data_entrada>
+                <data_fim_g name="p_data_fim_g" type="date" maxlength="30" align="left" lookup_parser="false" iskey="false" range="false" showLabel="true" group_in="">
+                    <label>Data fim</label>
+                </data_fim_g>
+                <atribuido_por name="p_atribuido_por" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Atribuido por</label>
+                </atribuido_por>
+                <atribuido_a name="p_atribuido_a" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Atribuido a</label>
+                </atribuido_a>
+                <p_id_g name="p_p_id_g" type="hidden" maxlength="30" iskey="true" java-type="" showLabel="true" group_in="" tag="p_id_g"/>
+                <numero_processo_tabela name="p_numero_processo_tabela" type="hidden" maxlength="30" showLabel="true" iskey="false" group_in="" java-type="" tag="numero_processo_tabela"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <prioridade_g name="p_prioridade_g">25</prioridade_g>
+                        <n_tarefa_g name="p_n_tarefa_g">Totam amet accusantium consectetur magna</n_tarefa_g>
+                        <desc_tarefa name="p_desc_tarefa">Totam lorem aperiam voluptatem</desc_tarefa>
+                        <tipo name="p_tipo">Sed deserunt dolor sed consect</tipo>
+                        <data_entrada name="p_data_entrada">Officia ut ipsum unde perspici</data_entrada>
+                        <data_fim_g name="p_data_fim_g">06-06-2016</data_fim_g>
+                        <atribuido_por name="p_atribuido_por">Officia totam sed lorem sit</atribuido_por>
+                        <atribuido_a name="p_atribuido_a">Aliqua voluptatem consectetur</atribuido_a>
+                        <p_id_g name="p_p_id_g" tag="p_id_g">hidden-6866_925a</p_id_g>
+                        <numero_processo_tabela name="p_numero_processo_tabela" tag="numero_processo_tabela">hidden-4ef4_179f</numero_processo_tabela>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <prioridade_g name="p_prioridade_g">0</prioridade_g>
+                        <n_tarefa_g name="p_n_tarefa_g">Anim natus aliqua sed rem</n_tarefa_g>
+                        <desc_tarefa name="p_desc_tarefa">Rem officia rem iste rem</desc_tarefa>
+                        <tipo name="p_tipo">Stract lorem officia consectet</tipo>
+                        <data_entrada name="p_data_entrada">Sit ipsum sit unde ut</data_entrada>
+                        <data_fim_g name="p_data_fim_g">02-07-2016</data_fim_g>
+                        <atribuido_por name="p_atribuido_por">Aliqua dolor aliqua consectetu</atribuido_por>
+                        <atribuido_a name="p_atribuido_a">Omnis anim amet magna dolor</atribuido_a>
+                        <p_id_g name="p_p_id_g" tag="p_id_g">hidden-d75c_b6f9</p_id_g>
+                        <numero_processo_tabela name="p_numero_processo_tabela" tag="numero_processo_tabela">hidden-8128_d279</numero_processo_tabela>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <prioridade_g name="p_prioridade_g">0</prioridade_g>
+                        <n_tarefa_g name="p_n_tarefa_g">Doloremque dolor labore doloremque natus</n_tarefa_g>
+                        <desc_tarefa name="p_desc_tarefa">Unde mollit ipsum sed anim</desc_tarefa>
+                        <tipo name="p_tipo">Magna ipsum dolor elit iste</tipo>
+                        <data_entrada name="p_data_entrada">Dolor voluptatem sit magna omn</data_entrada>
+                        <data_fim_g name="p_data_fim_g">03-03-2013</data_fim_g>
+                        <atribuido_por name="p_atribuido_por">Accusantium sit dolor ipsum la</atribuido_por>
+                        <atribuido_a name="p_atribuido_a">Sit aliqua accusantium officia</atribuido_a>
+                        <p_id_g name="p_p_id_g" tag="p_id_g">hidden-7627_03f8</p_id_g>
+                        <numero_processo_tabela name="p_numero_processo_tabela" tag="numero_processo_tabela">hidden-aa72_fa8d</numero_processo_tabela>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <prioridade_g name="p_prioridade_g">50</prioridade_g>
+                        <n_tarefa_g name="p_n_tarefa_g">Perspiciatis rem labore doloremque rem</n_tarefa_g>
+                        <desc_tarefa name="p_desc_tarefa">Labore sed accusantium unde pe</desc_tarefa>
+                        <tipo name="p_tipo">Aperiam accusantium laudantium</tipo>
+                        <data_entrada name="p_data_entrada">Stract amet magna adipiscing l</data_entrada>
+                        <data_fim_g name="p_data_fim_g">01-01-2011</data_fim_g>
+                        <atribuido_por name="p_atribuido_por">Ipsum elit labore sit rem</atribuido_por>
+                        <atribuido_a name="p_atribuido_a">Officia laudantium sit lorem a</atribuido_a>
+                        <p_id_g name="p_p_id_g" tag="p_id_g">hidden-c8ba_26a5</p_id_g>
+                        <numero_processo_tabela name="p_numero_processo_tabela" tag="numero_processo_tabela">hidden-47d1_30c2</numero_processo_tabela>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <prioridade_g name="p_prioridade_g">75</prioridade_g>
+                        <n_tarefa_g name="p_n_tarefa_g">Rem magna doloremque accusantium totam</n_tarefa_g>
+                        <desc_tarefa name="p_desc_tarefa">Laudantium consectetur accusan</desc_tarefa>
+                        <tipo name="p_tipo">Ut sed anim deserunt mollit</tipo>
+                        <data_entrada name="p_data_entrada">Sed ipsum natus dolor amet</data_entrada>
+                        <data_fim_g name="p_data_fim_g">03-06-2016</data_fim_g>
+                        <atribuido_por name="p_atribuido_por">Sit rem mollit rem iste</atribuido_por>
+                        <atribuido_a name="p_atribuido_a">Iste anim lorem accusantium el</atribuido_a>
+                        <p_id_g name="p_p_id_g" tag="p_id_g">hidden-2394_57b9</p_id_g>
+                        <numero_processo_tabela name="p_numero_processo_tabela" tag="numero_processo_tabela">hidden-0211_2067</numero_processo_tabela>
+                    </row>
+                </value>
+                <legend_color>
+                    <item>
+                        <label>Urgente</label>
+                        <value>100</value>
+                        <color>#dc2b4c</color>
+                    </item>
+                    <item>
+                        <label>Alta</label>
+                        <value>75</value>
+                        <color>#ffb266</color>
+                    </item>
+                    <item>
+                        <label>Normal</label>
+                        <value>50</value>
+                        <color>#ffff00</color>
+                    </item>
+                    <item>
+                        <label>Baixa</label>
+                        <value>25</value>
+                        <color>#008000</color>
+                    </item>
+                    <item>
+                        <label>Muito baixa</label>
+                        <value>0</value>
+                        <color>#00a9ff</color>
+                    </item>
+                </legend_color>
+                <context-menu>
+                    <item id="button_936c_f6e3" type="specific" code="" class="primary" rel="transferir_tarefa" refresh_components="">
+                        <title>Transferir Tarefa</title>
+                        <app>igrp</app>
+                        <page>Transferir_tarefas</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/transferir_tarefas/Transferir_tarefas.xml?</parameter>
+                        <target>mpsubmit|refresh</target>
+                        <img>primary|fa-exchange</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/transferir_tarefas/Transferir_tarefas.xml</preview>
+                    </item>
+                    <item id="button_4b3c_5782" type="specific" code="" class="info" rel="detalhes_tarefa" refresh_components="">
+                        <title>Detalhes Tarefa</title>
+                        <app>igrp</app>
+                        <page>ExecucaoTarefas</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml?</parameter>
+                        <target>modal</target>
+                        <img>info|fa-file-text</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml</preview>
+                    </item>
+                    <item id="button_bc5c_af17" type="specific" code="" class="default" rel="detalhes_processo" refresh_components="">
+                        <title>Detalhes Processo</title>
+                        <app>igrp</app>
+                        <page>DetalhesProcesso</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/detalhesprocesso/DetalhesProcesso.xml?</parameter>
+                        <target>modal</target>
+                        <img>default|fa-sitemap</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/detalhesprocesso/DetalhesProcesso.xml</preview>
+                    </item>
+                    <item id="button_7385_4c77" type="specific" code="" class="warning" rel="alterar_prioridade_tarefa" refresh_components="">
+                        <title>Alterar Prioridade Tarefa</title>
+                        <app>igrp</app>
+                        <page>Alter_prioridade_tarefa</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/alter_prioridade_tarefa/Alter_prioridade_tarefa.xml?</parameter>
+                        <target>mpsubmit|refresh</target>
+                        <img>warning|fa-pencil</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/alter_prioridade_tarefa/Alter_prioridade_tarefa.xml</preview>
+                    </item>
+                </context-menu>
+            </table>
+        </table_gerir_tarefas>
+        <table_minhas_tarefas type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <prioridade_m name="p_prioridade_m" type="color" format="hex" maxlength="30" showLabel="true" align="center" lookup_parser="false" iskey="false" group_in="">
+                    <label>Prioridade</label>
+                </prioridade_m>
+                <n_tarefa_m name="p_n_tarefa_m" type="text" maxlength="100" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Nº Processo</label>
+                </n_tarefa_m>
+                <desc_tarefa_tabela_minhas_tarefas name="p_desc_tarefa_tabela_minhas_tarefas" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Tarefa</label>
+                </desc_tarefa_tabela_minhas_tarefas>
+                <tipo_tabela_minhas_tarefas name="p_tipo_tabela_minhas_tarefas" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Tipo processo</label>
+                </tipo_tabela_minhas_tarefas>
+                <data_entrada_tabela_minhas_tarefas name="p_data_entrada_tabela_minhas_tarefas" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Data entrada</label>
+                </data_entrada_tabela_minhas_tarefas>
+                <data_fim_m name="p_data_fim_m" type="date" maxlength="30" align="left" lookup_parser="false" iskey="false" range="false" showLabel="true" group_in="">
+                    <label>Data fim</label>
+                </data_fim_m>
+                <atribuido_por_tabela_minhas_tarefas name="p_atribuido_por_tabela_minhas_tarefas" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Atribuido por</label>
+                </atribuido_por_tabela_minhas_tarefas>
+                <espera_tabela_minhas_tarefas name="p_espera_tabela_minhas_tarefas" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Espera</label>
+                </espera_tabela_minhas_tarefas>
+                <prm_taskid name="p_prm_taskid" type="hidden" maxlength="30" iskey="true" java-type="" showLabel="true" group_in="" tag="prm_taskid"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <prioridade_m name="p_prioridade_m">75</prioridade_m>
+                        <n_tarefa_m name="p_n_tarefa_m">Labore stract sed officia amet</n_tarefa_m>
+                        <desc_tarefa_tabela_minhas_tarefas name="p_desc_tarefa_tabela_minhas_tarefas">Lorem amet ipsum mollit sed</desc_tarefa_tabela_minhas_tarefas>
+                        <tipo_tabela_minhas_tarefas name="p_tipo_tabela_minhas_tarefas">Amet ipsum accusantium perspic</tipo_tabela_minhas_tarefas>
+                        <data_entrada_tabela_minhas_tarefas name="p_data_entrada_tabela_minhas_tarefas">Deserunt adipiscing sed rem ma</data_entrada_tabela_minhas_tarefas>
+                        <data_fim_m name="p_data_fim_m">08-01-2012</data_fim_m>
+                        <atribuido_por_tabela_minhas_tarefas name="p_atribuido_por_tabela_minhas_tarefas">Sit mollit deserunt aliqua adi</atribuido_por_tabela_minhas_tarefas>
+                        <espera_tabela_minhas_tarefas name="p_espera_tabela_minhas_tarefas">Officia sed unde labore sit</espera_tabela_minhas_tarefas>
+                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-dc2c_8ea7</prm_taskid>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <prioridade_m name="p_prioridade_m">50</prioridade_m>
+                        <n_tarefa_m name="p_n_tarefa_m">Stract totam natus voluptatem ipsum</n_tarefa_m>
+                        <desc_tarefa_tabela_minhas_tarefas name="p_desc_tarefa_tabela_minhas_tarefas">Totam deserunt magna deserunt</desc_tarefa_tabela_minhas_tarefas>
+                        <tipo_tabela_minhas_tarefas name="p_tipo_tabela_minhas_tarefas">Aperiam amet sed voluptatem ac</tipo_tabela_minhas_tarefas>
+                        <data_entrada_tabela_minhas_tarefas name="p_data_entrada_tabela_minhas_tarefas">Ipsum voluptatem sit aperiam d</data_entrada_tabela_minhas_tarefas>
+                        <data_fim_m name="p_data_fim_m">06-04-2010</data_fim_m>
+                        <atribuido_por_tabela_minhas_tarefas name="p_atribuido_por_tabela_minhas_tarefas">Sit sit officia laudantium acc</atribuido_por_tabela_minhas_tarefas>
+                        <espera_tabela_minhas_tarefas name="p_espera_tabela_minhas_tarefas">Aperiam aliqua sit ipsum rem</espera_tabela_minhas_tarefas>
+                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-99cf_9b29</prm_taskid>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <prioridade_m name="p_prioridade_m">25</prioridade_m>
+                        <n_tarefa_m name="p_n_tarefa_m">Stract perspiciatis lorem accusantium sit</n_tarefa_m>
+                        <desc_tarefa_tabela_minhas_tarefas name="p_desc_tarefa_tabela_minhas_tarefas">Natus dolor doloremque anim el</desc_tarefa_tabela_minhas_tarefas>
+                        <tipo_tabela_minhas_tarefas name="p_tipo_tabela_minhas_tarefas">Rem voluptatem officia laudant</tipo_tabela_minhas_tarefas>
+                        <data_entrada_tabela_minhas_tarefas name="p_data_entrada_tabela_minhas_tarefas">Sit voluptatem elit consectetu</data_entrada_tabela_minhas_tarefas>
+                        <data_fim_m name="p_data_fim_m">01-06-2016</data_fim_m>
+                        <atribuido_por_tabela_minhas_tarefas name="p_atribuido_por_tabela_minhas_tarefas">Deserunt voluptatem perspiciat</atribuido_por_tabela_minhas_tarefas>
+                        <espera_tabela_minhas_tarefas name="p_espera_tabela_minhas_tarefas">Iste natus perspiciatis stract</espera_tabela_minhas_tarefas>
+                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-f00f_d75d</prm_taskid>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <prioridade_m name="p_prioridade_m">25</prioridade_m>
+                        <n_tarefa_m name="p_n_tarefa_m">Lorem laudantium stract adipiscing totam</n_tarefa_m>
+                        <desc_tarefa_tabela_minhas_tarefas name="p_desc_tarefa_tabela_minhas_tarefas">Unde sit laudantium iste conse</desc_tarefa_tabela_minhas_tarefas>
+                        <tipo_tabela_minhas_tarefas name="p_tipo_tabela_minhas_tarefas">Adipiscing accusantium ipsum a</tipo_tabela_minhas_tarefas>
+                        <data_entrada_tabela_minhas_tarefas name="p_data_entrada_tabela_minhas_tarefas">Mollit ut perspiciatis adipisc</data_entrada_tabela_minhas_tarefas>
+                        <data_fim_m name="p_data_fim_m">02-01-2017</data_fim_m>
+                        <atribuido_por_tabela_minhas_tarefas name="p_atribuido_por_tabela_minhas_tarefas">Adipiscing mollit perspiciatis</atribuido_por_tabela_minhas_tarefas>
+                        <espera_tabela_minhas_tarefas name="p_espera_tabela_minhas_tarefas">Officia totam voluptatem labor</espera_tabela_minhas_tarefas>
+                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-e157_2b56</prm_taskid>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <prioridade_m name="p_prioridade_m">25</prioridade_m>
+                        <n_tarefa_m name="p_n_tarefa_m">Stract voluptatem deserunt mollit ut</n_tarefa_m>
+                        <desc_tarefa_tabela_minhas_tarefas name="p_desc_tarefa_tabela_minhas_tarefas">Magna sit totam aperiam laudan</desc_tarefa_tabela_minhas_tarefas>
+                        <tipo_tabela_minhas_tarefas name="p_tipo_tabela_minhas_tarefas">Aperiam doloremque totam rem a</tipo_tabela_minhas_tarefas>
+                        <data_entrada_tabela_minhas_tarefas name="p_data_entrada_tabela_minhas_tarefas">Doloremque aperiam sit adipisc</data_entrada_tabela_minhas_tarefas>
+                        <data_fim_m name="p_data_fim_m">01-03-2015</data_fim_m>
+                        <atribuido_por_tabela_minhas_tarefas name="p_atribuido_por_tabela_minhas_tarefas">Omnis anim consectetur aperiam</atribuido_por_tabela_minhas_tarefas>
+                        <espera_tabela_minhas_tarefas name="p_espera_tabela_minhas_tarefas">Iste deserunt perspiciatis str</espera_tabela_minhas_tarefas>
+                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-f089_579d</prm_taskid>
+                    </row>
+                </value>
+                <legend_color>
+                    <item>
+                        <label>Urgente</label>
+                        <value>100</value>
+                        <color>#dc2b4c</color>
+                    </item>
+                    <item>
+                        <label>Alta</label>
+                        <value>75</value>
+                        <color>#ffb266</color>
+                    </item>
+                    <item>
+                        <label>Normal</label>
+                        <value>50</value>
+                        <color>#ffff00</color>
+                    </item>
+                    <item>
+                        <label>Baixa</label>
+                        <value>25</value>
+                        <color>#008000</color>
+                    </item>
+                    <item>
+                        <label>Muito baixa</label>
+                        <value>0</value>
+                        <color>#00a9ff</color>
+                    </item>
+                </legend_color>
+                <context-menu>
+                    <item id="button_1b69_e3d6" type="specific" code="" class="primary" rel="executar_button_minha_tarefas" refresh_components="">
+                        <title>Executar</title>
+                        <app>igrp</app>
+                        <page>ExecucaoTarefas</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml?</parameter>
+                        <target>_self</target>
+                        <img>primary|fa-play</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml</preview>
+                    </item>
+                    <item id="button_517a_8ea3" type="specific" code="" class="info" rel="detalhes_minha_tarefa" refresh_components="">
+                        <title>Detalhes Tarefa</title>
+                        <app>igrp</app>
+                        <page>ExecucaoTarefas</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml?</parameter>
+                        <target>modal</target>
+                        <img>info|fa-file-text</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml</preview>
+                    </item>
+                    <item id="button_1551_60cb" type="specific" code="" class="default" rel="detalhes_processos_button_minha_tarefas" refresh_components="">
+                        <title>Detalhes Processos</title>
+                        <app>igrp</app>
+                        <page>DetalhesProcesso</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/detalhesprocesso/DetalhesProcesso.xml?</parameter>
+                        <target>modal</target>
+                        <img>default|fa-sitemap</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/detalhesprocesso/DetalhesProcesso.xml</preview>
+                    </item>
+                    <item id="button_99a9_b288" type="specific" code="" class="warning" rel="leberar_tarefa_button_minha_tarefas" refresh_components="">
+                        <title>Liberar Tarefa</title>
+                        <app>igrp</app>
+                        <page>ExecucaoTarefas</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml?</parameter>
+                        <target>alert_submit</target>
+                        <img>warning|fa-close</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml</preview>
+                    </item>
+                </context-menu>
+            </table>
+        </table_minhas_tarefas>
+        <table_disponiveis type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <prioridade name="p_prioridade" type="color" format="hex" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Prioridade</label>
+                </prioridade>
+                <n_tarefa_d name="p_n_tarefa_d" type="text" maxlength="100" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Nº Processo</label>
+                </n_tarefa_d>
+                <tarefas_tabela_disponiveis name="p_tarefas_tabela_disponiveis" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Tarefa</label>
+                </tarefas_tabela_disponiveis>
+                <categorias_processo_tabela_disponiveis name="p_categorias_processo_tabela_disponiveis" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Tipo processo</label>
+                </categorias_processo_tabela_disponiveis>
+                <data_entrada_tabela_disponiveis name="p_data_entrada_tabela_disponiveis" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Data entrada</label>
+                </data_entrada_tabela_disponiveis>
+                <data_fim_d name="p_data_fim_d" type="date" maxlength="30" align="left" lookup_parser="false" iskey="false" range="false" showLabel="true" group_in="">
+                    <label>Data fim</label>
+                </data_fim_d>
+                <p_id_d name="p_p_id_d" type="hidden" maxlength="30" iskey="true" java-type="" showLabel="true" group_in="" tag="p_id_d"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <prioridade name="p_prioridade">75</prioridade>
+                        <n_tarefa_d name="p_n_tarefa_d">Omnis lorem doloremque iste unde</n_tarefa_d>
+                        <tarefas_tabela_disponiveis name="p_tarefas_tabela_disponiveis">Mollit perspiciatis adipiscing</tarefas_tabela_disponiveis>
+                        <categorias_processo_tabela_disponiveis name="p_categorias_processo_tabela_disponiveis">Doloremque dolor deserunt accu</categorias_processo_tabela_disponiveis>
+                        <data_entrada_tabela_disponiveis name="p_data_entrada_tabela_disponiveis">Ipsum doloremque omnis mollit</data_entrada_tabela_disponiveis>
+                        <data_fim_d name="p_data_fim_d">03-02-2013</data_fim_d>
+                        <p_id_d name="p_p_id_d" tag="p_id_d">hidden-0150_1020</p_id_d>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <prioridade name="p_prioridade">50</prioridade>
+                        <n_tarefa_d name="p_n_tarefa_d">Natus omnis amet dolor sit</n_tarefa_d>
+                        <tarefas_tabela_disponiveis name="p_tarefas_tabela_disponiveis">Consectetur rem officia accusa</tarefas_tabela_disponiveis>
+                        <categorias_processo_tabela_disponiveis name="p_categorias_processo_tabela_disponiveis">Sit voluptatem adipiscing lore</categorias_processo_tabela_disponiveis>
+                        <data_entrada_tabela_disponiveis name="p_data_entrada_tabela_disponiveis">Voluptatem officia ut amet ist</data_entrada_tabela_disponiveis>
+                        <data_fim_d name="p_data_fim_d">06-03-2016</data_fim_d>
+                        <p_id_d name="p_p_id_d" tag="p_id_d">hidden-a077_aa4d</p_id_d>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <prioridade name="p_prioridade">0</prioridade>
+                        <n_tarefa_d name="p_n_tarefa_d">Aliqua accusantium rem adipiscing sit</n_tarefa_d>
+                        <tarefas_tabela_disponiveis name="p_tarefas_tabela_disponiveis">Labore ipsum doloremque totam</tarefas_tabela_disponiveis>
+                        <categorias_processo_tabela_disponiveis name="p_categorias_processo_tabela_disponiveis">Iste totam aliqua amet natus</categorias_processo_tabela_disponiveis>
+                        <data_entrada_tabela_disponiveis name="p_data_entrada_tabela_disponiveis">Anim magna rem adipiscing pers</data_entrada_tabela_disponiveis>
+                        <data_fim_d name="p_data_fim_d">04-03-2010</data_fim_d>
+                        <p_id_d name="p_p_id_d" tag="p_id_d">hidden-9de9_b95b</p_id_d>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <prioridade name="p_prioridade">25</prioridade>
+                        <n_tarefa_d name="p_n_tarefa_d">Ipsum amet accusantium doloremque aperiam</n_tarefa_d>
+                        <tarefas_tabela_disponiveis name="p_tarefas_tabela_disponiveis">Mollit magna sit aperiam dolor</tarefas_tabela_disponiveis>
+                        <categorias_processo_tabela_disponiveis name="p_categorias_processo_tabela_disponiveis">Lorem anim amet officia lorem</categorias_processo_tabela_disponiveis>
+                        <data_entrada_tabela_disponiveis name="p_data_entrada_tabela_disponiveis">Magna aliqua officia voluptate</data_entrada_tabela_disponiveis>
+                        <data_fim_d name="p_data_fim_d">07-02-2012</data_fim_d>
+                        <p_id_d name="p_p_id_d" tag="p_id_d">hidden-9a5c_7137</p_id_d>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <prioridade name="p_prioridade">50</prioridade>
+                        <n_tarefa_d name="p_n_tarefa_d">Labore adipiscing voluptatem doloremque unde</n_tarefa_d>
+                        <tarefas_tabela_disponiveis name="p_tarefas_tabela_disponiveis">Aliqua deserunt aperiam omnis</tarefas_tabela_disponiveis>
+                        <categorias_processo_tabela_disponiveis name="p_categorias_processo_tabela_disponiveis">Voluptatem stract sit amet ips</categorias_processo_tabela_disponiveis>
+                        <data_entrada_tabela_disponiveis name="p_data_entrada_tabela_disponiveis">Totam ipsum officia unde sit</data_entrada_tabela_disponiveis>
+                        <data_fim_d name="p_data_fim_d">05-07-2014</data_fim_d>
+                        <p_id_d name="p_p_id_d" tag="p_id_d">hidden-2c2a_52d1</p_id_d>
+                    </row>
+                </value>
+                <legend_color>
+                    <item>
+                        <label>Urgente</label>
+                        <value>100</value>
+                        <color>#dc2b4c</color>
+                    </item>
+                    <item>
+                        <label>Alta</label>
+                        <value>75</value>
+                        <color>#ffb266</color>
+                    </item>
+                    <item>
+                        <label>Normal</label>
+                        <value>50</value>
+                        <color>#ffff00</color>
+                    </item>
+                    <item>
+                        <label>Baixa</label>
+                        <value>25</value>
+                        <color>#008000</color>
+                    </item>
+                    <item>
+                        <label>Muito baixa</label>
+                        <value>0</value>
+                        <color>#00a9ff</color>
+                    </item>
+                </legend_color>
+                <context-menu>
+                    <item id="button_c509_2c6e" type="specific" code="" class="success" rel="assumir_button_tabela" refresh_components="">
+                        <title>Assumir</title>
+                        <app>igrp</app>
+                        <page>ExecucaoTarefas</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml?</parameter>
+                        <target>alert_submit</target>
+                        <img>success|fa-check</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml</preview>
+                    </item>
+                </context-menu>
+            </table>
+        </table_disponiveis>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

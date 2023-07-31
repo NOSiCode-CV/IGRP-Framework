@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="IGRP.blockly.java.test.xsl" type="text/xsl"?>
+
+<main>
+    <config>
+        <app>
+            <title>app_teste</title>
+        </app>
+        <page>
+            <title>Testeee</title>
+        </page>
+    </config>
+    <xml >
+        <block type="controller" id="controller" x="163" y="-12">
+            <statement name="index">
+                <block type="separator" id="HDKxmZRb?i`HzkXxv5tx" inline="true">
+                    <mutation count="0"></mutation>
+                    <field name="table">separatorlist_1</field>
+                    <field name="dao_sep">Exame</field>
+                    <value name="id_separator">
+                        <block type="get-dao-Exame" id="YCY4LB]p]uYHM(j(5W#g">
+                            <mutation hover_type="Integer::idExame"></mutation>
+                            <field name="DAO_FIELD">Integer::idExame</field>
+                        </block>
+                    </value>
+                    <statement name="value2">
+                        <block type="sep_row" id="pC{z.!aG,z%2RuIhPj7=">
+                            <field name="coluna">String::nome_exame</field>
+                            <value name="fields_model">
+                                <block type="get-dao-Exame" id="2(q@lVsTjjD:Vv75uTqw">
+                                    <mutation hover_type="String::nome_exame"></mutation>
+                                    <field name="DAO_FIELD">String::nome_exame</field>
+                                </block>
+                            </value>
+                            <next>
+                                <block type="sep_row" id="^F~0`ydu)neeH%S`l-|k">
+                                    <field name="coluna">Date::data_exame</field>
+                                    <value name="fields_model">
+                                        <block type="get-dao-Exame" id="/8D@Nad!|.YYg1Q2ttnK">
+                                            <mutation hover_type="Date::data"></mutation>
+                                            <field name="DAO_FIELD">Date::data</field>
+                                        </block>
+                                    </value>
+                                </block>
+                            </next>
+                        </block>
+                    </statement>
+                </block>
+            </statement>
+        </block>
+    </xml>
+</main>

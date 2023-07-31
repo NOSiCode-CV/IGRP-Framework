@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisanascimento/PesquisaNascimento.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>PesquisaNascimento</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>PesquisaNascimento</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=40</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Pesquisar Nascimento</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Pesquisa Nascimento [REGISTOS NOTARIADO E IDENTIFICAÇÃO]]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <n_registo name="p_n_registo" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nº Registo</label>
+                    <value>Laudantium dolor perspiciatis</value>
+                </n_registo>
+                <nome name="p_nome" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Dolor natus rem sit dolor</value>
+                </nome>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>ErrorPage</page>
+                    <link>index</link>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/errorpage/ErrorPage.xml?</parameter>
+                    <target>submit</target>
+                    <img>primary|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <n_registo_tabela name="p_n_registo_tabela" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Nº Registo</label>
+                </n_registo_tabela>
+                <nome_tabela name="p_nome_tabela" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Nome</label>
+                </nome_tabela>
+                <data_facto name="p_data_facto" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Data Facto</label>
+                </data_facto>
+                <nome_mae name="p_nome_mae" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome Mãe</label>
+                </nome_mae>
+                <nome_pai name="p_nome_pai" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome Pai</label>
+                </nome_pai>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <n_registo_tabela name="p_n_registo_tabela">Sed officia mollit dolor anim</n_registo_tabela>
+                        <nome_tabela name="p_nome_tabela">Ut officia iste aliqua dolor</nome_tabela>
+                        <data_facto name="p_data_facto">Aliqua officia deserunt natus</data_facto>
+                        <nome_mae name="p_nome_mae">Ipsum amet adipiscing perspici</nome_mae>
+                        <nome_pai name="p_nome_pai">Amet natus laudantium aperiam</nome_pai>
+                    </row>
+                    <row>
+                        <n_registo_tabela name="p_n_registo_tabela">Sed ipsum aliqua aperiam sit</n_registo_tabela>
+                        <nome_tabela name="p_nome_tabela">Natus sit lorem omnis labore</nome_tabela>
+                        <data_facto name="p_data_facto">Consectetur labore amet natus</data_facto>
+                        <nome_mae name="p_nome_mae">Perspiciatis officia dolor sit</nome_mae>
+                        <nome_pai name="p_nome_pai">Mollit adipiscing totam adipis</nome_pai>
+                    </row>
+                    <row>
+                        <n_registo_tabela name="p_n_registo_tabela">Sit rem dolor anim unde</n_registo_tabela>
+                        <nome_tabela name="p_nome_tabela">Voluptatem omnis lorem perspic</nome_tabela>
+                        <data_facto name="p_data_facto">Consectetur amet voluptatem pe</data_facto>
+                        <nome_mae name="p_nome_mae">Unde iste sed elit perspiciati</nome_mae>
+                        <nome_pai name="p_nome_pai">Adipiscing natus iste perspici</nome_pai>
+                    </row>
+                    <row>
+                        <n_registo_tabela name="p_n_registo_tabela">Dolor labore accusantium sit i</n_registo_tabela>
+                        <nome_tabela name="p_nome_tabela">Natus adipiscing lorem stract</nome_tabela>
+                        <data_facto name="p_data_facto">Officia stract aliqua laudanti</data_facto>
+                        <nome_mae name="p_nome_mae">Officia ut aliqua doloremque i</nome_mae>
+                        <nome_pai name="p_nome_pai">Dolor ipsum deserunt aliqua el</nome_pai>
+                    </row>
+                    <row>
+                        <n_registo_tabela name="p_n_registo_tabela">Aliqua unde lorem sit rem</n_registo_tabela>
+                        <nome_tabela name="p_nome_tabela">Voluptatem iste anim aperiam d</nome_tabela>
+                        <data_facto name="p_data_facto">Rem stract accusantium stract</data_facto>
+                        <nome_mae name="p_nome_mae">Lorem iste accusantium perspic</nome_mae>
+                        <nome_pai name="p_nome_pai">Aliqua voluptatem unde labore</nome_pai>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>GeralApresentacao</page>
+    <app>tutorial</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.tutorial.pages</package_db>
+        <package_html>GeralApresentacao</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=42</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>O que fazer dentro do IGRP JAVA...</title>
+        <sectionheader_2 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_2_text type="text" name="p_sectionheader_2_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Tutorial IGRP WEB]]>
+                    </value>
+                </sectionheader_2_text>
+            </fields>
+        </sectionheader_2>
+        <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <welcome name="p_welcome" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-child" request_fields="" custom_return="false" maxlength="50">
+                    <label>Welcome</label>
+                    <value/>
+                </welcome>
+                <videos_tutoriais name="p_videos_tutoriais" type="button" request_fields="" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-video-camera" maxlength="50">
+                    <label>Videos Tutoriais</label>
+                    <value/>
+                </videos_tutoriais>
+                <documentos_gerais name="p_documentos_gerais" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-file-text" request_fields="" custom_return="false" maxlength="50">
+                    <label>Documentos Gerais</label>
+                    <value/>
+                </documentos_gerais>
+            </fields>
+        </tabcontent_1>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Bem-vindo ao seu IGRP WEB]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <quickbuttonbox_gestao type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <quickbuttonbox_gestao_title name="p_quickbuttonbox_gestao_title" type="text" maxlength="4000" persist="true">
+                    <label>Title</label>
+                    <value>Criação e Gestão de uma Aplicação</value>
+                </quickbuttonbox_gestao_title>
+                <quickbuttonbox_gestao_val name="p_quickbuttonbox_gestao_val" type="text" maxlength="4000" persist="true">
+                    <label>Value</label>
+                    <value/>
+                </quickbuttonbox_gestao_val>
+                <quickbuttonbox_gestao_url name="p_quickbuttonbox_gestao_url" type="text" maxlength="4000" persist="true">
+                    <label/>
+                    <value type="action">
+                        <app>tutorial</app>
+                        <page>Video_gestao_de_aplicacao</page>
+                        <action>index</action>
+                    </value>
+                </quickbuttonbox_gestao_url>
+                <quickbuttonbox_gestao_bg name="p_quickbuttonbox_gestao_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-starrynight</value>
+                </quickbuttonbox_gestao_bg>
+                <quickbuttonbox_gestao_icn name="p_quickbuttonbox_gestao_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-video-camera</value>
+                </quickbuttonbox_gestao_icn>
+            </fields>
+        </quickbuttonbox_gestao>
+        <statbox_1 type="statbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <statbox_1_title name="p_statbox_1_title" type="text" maxlength="4000" persist="true">
+                    <label>Box Title</label>
+                    <value>Box Title</value>
+                </statbox_1_title>
+                <statbox_1_val name="p_statbox_1_val" type="text" maxlength="4000" persist="true">
+                    <label>Value</label>
+                    <value>Gitbook</value>
+                </statbox_1_val>
+                <statbox_1_txt name="p_statbox_1_txt" type="text" maxlength="4000" persist="true">
+                    <label>Url Text</label>
+                    <value>Read More...</value>
+                </statbox_1_txt>
+                <statbox_1_url name="p_statbox_1_url" type="text" maxlength="4000" persist="true">
+                    <label>Url</label>
+                    <value>https://nosicode.gitbook.io/faq/</value>
+                </statbox_1_url>
+                <statbox_1_bg name="p_statbox_1_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-cyan</value>
+                </statbox_1_bg>
+                <statbox_1_icn name="p_statbox_1_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-external-link</value>
+                </statbox_1_icn>
+            </fields>
+        </statbox_1>
+        <paragraph_1 type="paragraph" xml-type="form" title="Tutorial IGRP WEB" gen-type="container" gen-group="">
+            <fields>
+                <paragraph_1_text type="text" name="p_paragraph_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Nesse pequeno Tutorial vamos ver como fazer diversas coisas com o IGRP WEB através de vídeos e documentos., como gerir um App desde a sua criação até atribuição de acesso, gerar as páginas e os CRUDs numa tabela. Agora é só navegar e descobrir a mágica da criaão e integração das aplicações. Bom aproveito...]]>
+                    </value>
+                </paragraph_1_text>
+            </fields>
+        </paragraph_1>
+        <quickbuttonbox_instalar type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <quickbuttonbox_instalar_title name="p_quickbuttonbox_instalar_title" type="text" maxlength="4000" persist="true">
+                    <label>Title</label>
+                    <value>Importar o IGRP WEB (GitHub)</value>
+                </quickbuttonbox_instalar_title>
+                <quickbuttonbox_instalar_val name="p_quickbuttonbox_instalar_val" type="text" maxlength="4000" persist="true">
+                    <label>Value</label>
+                    <value/>
+                </quickbuttonbox_instalar_val>
+                <quickbuttonbox_instalar_url name="p_quickbuttonbox_instalar_url" type="text" maxlength="4000" persist="true">
+                    <label/>
+                    <value type="action">
+                        <app>tutorial</app>
+                        <page>Video_instalar_igrp_web</page>
+                        <action>index</action>
+                    </value>
+                </quickbuttonbox_instalar_url>
+                <quickbuttonbox_instalar_bg name="p_quickbuttonbox_instalar_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-starrynight</value>
+                </quickbuttonbox_instalar_bg>
+                <quickbuttonbox_instalar_icn name="p_quickbuttonbox_instalar_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-video-camera</value>
+                </quickbuttonbox_instalar_icn>
+            </fields>
+        </quickbuttonbox_instalar>
+        <paragraph_6 type="paragraph" xml-type="form" title="Documentos IGRP WEB" gen-type="container" gen-group="">
+            <fields>
+                <paragraph_6_text type="text" name="p_paragraph_6_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Documentos auxiliares na apredizagem de algumas funcionalidades do IGRP WEB. Para mais dúvidas... por favor consulte o nosso FAQ ao lado!!]]>
+                    </value>
+                </paragraph_6_text>
+            </fields>
+        </paragraph_6>
+        <video_2 type="video" xml-type="video" title="Welcome IGRP WEB Framework" gen-type="container" gen-group="">
+            <fields>
+                <video_2_text type="text" name="p_video_2_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[https://www.youtube.com/embed/Xc38EPBydco]]>
+                    </value>
+                </video_2_text>
+            </fields>
+        </video_2>
+        <quickbuttonbox_my_first type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <quickbuttonbox_my_first_title name="p_quickbuttonbox_my_first_title" type="text" maxlength="4000" persist="true">
+                    <label>Title</label>
+                    <value>My First App</value>
+                </quickbuttonbox_my_first_title>
+                <quickbuttonbox_my_first_val name="p_quickbuttonbox_my_first_val" type="text" maxlength="4000" persist="true">
+                    <label>Value</label>
+                    <value/>
+                </quickbuttonbox_my_first_val>
+                <quickbuttonbox_my_first_url name="p_quickbuttonbox_my_first_url" type="text" maxlength="4000" persist="true">
+                    <label/>
+                    <value type="action">
+                        <app>tutorial</app>
+                        <page>Video_my_first_app</page>
+                        <action>index</action>
+                    </value>
+                </quickbuttonbox_my_first_url>
+                <quickbuttonbox_my_first_bg name="p_quickbuttonbox_my_first_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-starrynight</value>
+                </quickbuttonbox_my_first_bg>
+                <quickbuttonbox_my_first_icn name="p_quickbuttonbox_my_first_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-video-camera</value>
+                </quickbuttonbox_my_first_icn>
+            </fields>
+        </quickbuttonbox_my_first>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <documento name="p_documento" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Documento</label>
+                </documento>
+                <ver name="p_ver" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" action="index" page="GeralApresentacao" app="tutorial" custom_action="" action_type="false" class="info" btnSize="" iconColor="#333" iconClass="" img="fa-external-link-square" maxlength="30" align="left" lookup_parser="false" iskey="false" desc="true">
+                    <label>Ver</label>
+                </ver>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <documento name="p_documento">Mollit lorem officia iste unde</documento>
+                        <ver name="p_ver" desc="true">/IGRP/images/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xml</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                    </row>
+                    <row>
+                        <documento name="p_documento">Natus sed adipiscing labore ac</documento>
+                        <ver name="p_ver" desc="true">/IGRP/images/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xml</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                    </row>
+                    <row>
+                        <documento name="p_documento">Anim adipiscing aperiam perspi</documento>
+                        <ver name="p_ver" desc="true">/IGRP/images/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xml</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                    </row>
+                    <row>
+                        <documento name="p_documento">Lorem accusantium sit labore a</documento>
+                        <ver name="p_ver" desc="true">/IGRP/images/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xml</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                    </row>
+                    <row>
+                        <documento name="p_documento">Accusantium mollit sed perspic</documento>
+                        <ver name="p_ver" desc="true">/IGRP/images/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xml</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

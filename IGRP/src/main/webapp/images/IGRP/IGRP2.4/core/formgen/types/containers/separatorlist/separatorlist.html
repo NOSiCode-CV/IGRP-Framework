@@ -1,0 +1,54 @@
+<div class="box card" id="#[id]#">
+	<div class="card-header d-flex align-items-center ">
+		<h3 class="card-title ">
+		  <xsl:value-of select="rows/content/#tag#/@title"/>
+		</h3>
+		<xsl:if test="(not(rows/content/#tag#/@noadd) or rows/content/#tag#/@noadd != 'true')">
+		  <div class="ms-auto">
+			<xsl:call-template name="igrp-separatorlist-add"/>
+		  </div>
+		</xsl:if>
+	  </div>
+	<div class="box-body card-body IGRP-separatorlist pt-0" tag="#tag#" dialog="#[dialog]#">
+		<xsl:apply-templates mode="igrp-separatorlist-card-attributes" select="#path#"/>
+		<div class="splist-form-holder pt-4 ">
+			<xsl:if test="(not(#path#/@noadd) or #path#/@noadd != 'true')">
+				<div class="splist-form row g-4" role="form" gen-id="drop-zone" gen-field-template="form.field">
+					<xsl:apply-templates mode="form-hidden-fields" select="#path#/fields"/>
+				</div>
+			</xsl:if>
+		</div>
+		<div class="table-box box-body box-table-contents splist-table  table-card mt-0">
+			<table rel="T_#tag#" id="#tag#" class="table #[ordertable]# table- gen-data-table">
+				<thead class="table-light">
+					<tr gen-id="drop-zone" gen-field-template="th">
+						#[countHeader]#
+						<th gen-preserve="last" class="table-btn">
+							<xsl:if test="(not(#path#/@noadd) or #path#/@noadd != 'true')">
+								<a class="table-row-add btn-xs btn btn-primary d-none" title="Add" data-toggle="tooltip" data-placement="left" >
+	                              <i class="fa fa-plus"/>
+	                            </a>
+                            </xsl:if>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<xsl:for-each select="#path#/table/value/row">
+						<tr gen-id="drop-zone" gen-field-template="td">
+							#[countRow]#
+							<td data-row="{position()}" class="table-btn" gen-preserve="last" style="vertical-align:middle">
+								<xsl:apply-templates mode="igrp-separatorlist-row-actions" select="//#path#"></xsl:apply-templates>
+							</td>
+							<input type="hidden" class="sl-row-id" name="p_#tag#_id" value="{#tag#_id}" />
+							<gen-template name="table-rows-hiddens"/>
+							<xsl:apply-templates mode="form-hidden-fields" select="."/>		
+						</tr>
+					</xsl:for-each>
+				</tbody>
+			</table>
+			<xsl:apply-templates mode="igrp-separatorlist-after-table" select="#path#"/>
+	
+		</div>
+	</div>
+</div>
+

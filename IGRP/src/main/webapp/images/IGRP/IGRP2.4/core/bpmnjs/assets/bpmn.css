@@ -1,0 +1,238 @@
+#igrp-top-nav{
+  padding-left: 25%
+}
+#side-bar-ctrl{
+  left: 25%
+}
+
+/* for BPMN.html */
+#igrp-contents.main{
+    padding: 0;
+}
+
+#igrp-sidebar.sidebar{
+  padding-top: 15px;
+  border-right: 1px solid #ccc;
+  background: #fff!important;
+}
+
+#igrp-sidebar .nav-sidebar > li > a,
+.treeview-menu>li>a{
+  color: #337ab7;
+}
+
+.treeview-menu>li>a:hover, .treeview-menu>li>a.active{
+  color: #337ab7;
+  font-weight: 500;
+}
+
+#igrp-contents .content>.row:first-child{
+  margin-top: 0;
+}
+
+#igrp-sidebar #tabprocessos .nav-sidebar{
+  	margin-right:0px;
+	margin-left:0px;
+	position: relative;
+    height: auto; 
+    top:0px;
+}
+
+#description {
+  float: left;
+  margin-left: 4px;
+}
+
+.myPaletteDiv {
+  width: 100%;
+  min-height:700px;
+  height: 100%;
+}
+
+.toolsbar-holder{
+  position: fixed;
+  right: 20px;
+  left: 50%;
+  top: 8px;
+  z-index: 1049;
+}
+
+#sideBar div.IGRP-menu{
+  visibility: hidden; 
+  height: 0;
+}
+#sideBar div.IGRP-menu.active{
+  visibility:visible; 
+  height: auto;
+}
+#PaletteAndDiagram {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+a.addArea{
+  cursor: pointer; 
+  display: none;
+  font-size: 18px;
+  color:#449d44;
+  position: absolute;
+  right: 10px;
+  bottom: 5px;
+}
+/*a.addArea.active{display: block;}*/
+
+
+#sideBar {
+  width:100%;
+  min-height:700px;
+  position: relative; 
+}
+
+#sideBar .IGRP-menu .chosen-drop ul.chosen-results li{ 
+  width: 100% !important; 
+  max-width: none !important;  
+  min-width: none !important;
+}
+
+.sidebar{
+  padding:15px;
+  overflow: hidden;
+}
+
+.nav-sidebar{
+  margin-left: -15px;
+  margin-right: -15px;
+}
+
+.nav-sidebar li a{
+  cursor: pointer;
+  text-transform: none;
+  text-decoration: none;
+}
+
+
+.treeview-menu li a{
+  padding: 10px 30px;
+  position: relative;
+}
+
+.treeview-menu li a[type="line"]{
+  padding-left: 45px;
+}
+
+.treeview-menu li a[type="line"] i{
+  left: 35px;
+}
+
+.treeview-menu li a[type="line"]:hover{
+  text-decoration:underline;
+}
+
+.treeview-menu .icon{
+  position: absolute;
+  top: 50%;
+  margin-top: -7px;
+  right: 10px;
+  z-index: 1;
+  left: inherit;
+}
+
+.treeview-menu li.active a .icon{
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.apps-selector{
+  position: absolute;
+  width: 280px;
+  text-align: left;
+  top:0;
+  left: 0;
+  display:none;
+
+}
+.apps-selector.set{ display: block; }
+.apps-selector label{
+  display: none
+}
+.apps-selector ul{
+  width: auto!important;
+  height: auto!important;
+  background: none!important;
+}
+.tool-bar .apps-selector  ul li{
+  height: auto!important;
+  float:none!important;
+  min-width: 0!important;
+  max-width: none!important;
+  background: none;
+} 
+
+ul .tree-menu-options{
+  position: absolute;
+  top: 8px;
+  right:20px;
+  display: none;
+}
+ul .tree-menu-options .btn{
+  padding: 6px 5px;
+}
+
+/*ul li a:hover .tree-menu-options {
+  display: block
+}*/
+
+.box-head.subtitle{
+  padding-top:20px; 
+  position: relative;
+}
+.box-head.subtitle span{
+  font-size: 14px;
+  font-weight: 600;
+  display: block;
+  padding: 5px 40px 5px 0;
+}
+
+.box-head.subtitle span i{
+  margin-right: 5px;
+}
+
+#igrp-sidebar .nav-sidebar > li > a{
+  padding: 10px 15px;
+}
+
+.bpm-lookup{
+  display: none;
+  position: absolute;
+  top: 135px;
+  width: 100%;
+}
+
+.bpm-lookup.forms{
+  display: block;
+}
+
+div[data-entry="form-fields"]{
+  margin-top: 20px;
+}
+
+.bpmn-controller{
+  z-index: 1;
+  margin: 0 3px !important;
+}
+
+.bpp-properties-group[data-group="forms"] 
+.bpp-properties-entry[data-entry="form-fields"]{
+  margin-top: 70px;
+}
+
+.input-group-btn.IGRP_lookupPopup .btn{
+	padding: 9px 12px;
+}
+
+#igrp-doc{
+	font-size: 12px;
+    margin-top: 15px;
+}

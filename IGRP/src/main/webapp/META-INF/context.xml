@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Go to https://tomcat.apache.org/tomcat-10.0-doc/config/manager.html 
+	section Special Features (Persistence Across Restarts) for more details. -->
+<Context>
+	<Manager pathname="SESSIONS.ser" />
+</Context>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="-15.42 3069.316 1800 1800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="clip-2" transform="">
+      <path d="M 0 1280.601 L 1771.16 1280.601 L 1771.16 0 L 0 0 Z" style="fill: none; clip-rule: nonzero;"/>
+    </clipPath>
+  </defs>
+  <g transform="matrix(1, 0, 0, -1, -0.000035, 4608.616699)">
+    <g transform="matrix(1, 0, 0, 1, 13.420078, 7.424438)" style="">
+      <path d="M -28.84 -268.124 L 1771.16 -268.124 L 1771.16 1531.876 L -28.84 1531.876 L -28.84 -268.124 Z" style="fill: rgb(17, 141, 47); fill-opacity: 1;"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 884.580078, 1147.411987)" style="">
+      <path d="M 0 112.798 L 776.404 -508.111 L 0 -1129.021 L -776.404 -508.111 L 0 112.798 Z" style="fill: rgb(255, 221, 0); fill-rule: evenodd; fill-opacity: 1;"/>
+    </g>
+    <g style="clip-path: url(#clip-2);">
+      <g transform="translate(884.5801 967.0391)">
+        <path d="M 0 0 C 181.005 0 327.738 -146.733 327.738 -327.738 C 327.738 -508.744 181.005 -655.478 0 -655.478 C -181.005 -655.478 -327.739 -508.744 -327.739 -327.738 C -327.739 -146.733 -181.005 0 0 0" style="fill: rgb(0, 50, 166); fill-rule: evenodd; fill-opacity: 1;"/>
+      </g>
+    </g>
+    <g style="clip-path: url(#clip-2);">
+      <g transform="translate(647.9834 802.2305)">
+        <path d="M 0 0 C 214.718 0 410.903 -79.28 560.937 -210.135 C 556.826 -238.637 549.057 -265.953 538.104 -291.589 C 398.334 -157.781 208.773 -75.563 0 -75.563 C -27.169 -75.563 -54.01 -76.966 -80.461 -79.683 C -73.207 -51.993 -62.426 -25.731 -48.622 -1.408 C -32.525 -0.504 -16.322 0 0 0" style="fill: rgb(254, 254, 254); fill-rule: evenodd; fill-opacity: 1;"/>
+      </g>
+    </g>
+  </g>
+</svg>

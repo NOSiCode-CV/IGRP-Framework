@@ -1,0 +1,32 @@
+.IGRP-separatorlist .table-card td:first-of-type {
+    padding-left: 16px;
+}
+
+.IGRP-separatorlist .splist-form-holder{
+    display:none;
+}
+
+.IGRP-separatorlist .splist-form-holder.active{
+    display:block
+}
+
+.IGRP-separatorlist .splist-form-holder .form-check label{ 
+    padding-left: 8px;
+}
+
+.IGRP-separatorlist .table-row-add{
+    display: none;
+}
+
+.IGRP-separatorlist .table-row-undo{
+    top:0;
+    box-shadow: none;
+}
+
+.IGRP-separatorlist td.table-btn .d-flex{
+    position: relative;
+}
+
+.IGRP-separatorlist .row-edited:hover .table-row-undo{
+    display: block;
+}

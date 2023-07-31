@@ -1,0 +1,69 @@
+[
+	
+	{
+        "id": 1956,
+        "name": "Foco Mosquito",
+        "options": {
+            "layers": "INSP_GIS:insp_foco_mosquito"
+        },
+        "type": "WMS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/INSP_GIS/wms"
+    },
+    
+    {
+        "id": 1505,
+        "name": "Balcão Nacional",
+        "options": {
+            "typeName": "Divisao_Administrativa:casa_cidadao_balcao_nacional"
+        },
+        "type": "WFS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/Divisao_Administrativa/ows"
+    },
+    
+    {
+        "id": 15051,
+        "name": "Balcão Nacional WMS",
+        "options": {
+            "layers": "Divisao_Administrativa:casa_cidadao_balcao_nacional"
+        },
+        "type": "WFS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/Divisao_Administrativa/ows"
+    },
+    
+    {
+        "id": 5,
+        "name": "Casa Cidadão Nacional",
+        "options": {
+            "typeName": "Divisao_Administrativa:casa_cidadao_nacional"
+        },
+        "type": "WFS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/Divisao_Administrativa/ows"
+    },
+    {
+        "id": 6,
+        "name": "Casa Cidadão Diáspora ",
+        "options": {
+            "typeName": "Divisao_Administrativa:casa_cidadao_diaspora"
+        },
+        "type": "WFS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/Divisao_Administrativa/ows"
+    },
+    {
+        "id": 4,
+        "name": "Divião Administrativa WMS",
+        "options": {
+            "layers": "Divisao_Administrativa:divisao_admin"
+        },
+        "type": "WMS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/Divisao_Administrativa/wms"
+    },
+    {
+        "id": 7,
+        "name": "Divisão Administrativa de Cabo Verde WFS",
+        "options": {
+            "typeName": "Divisao_Administrativa:Limites CV"
+        },
+        "type": "WFS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/Divisao_Administrativa/ows"
+    }
+]

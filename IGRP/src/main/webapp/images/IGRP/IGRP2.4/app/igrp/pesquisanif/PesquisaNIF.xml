@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisanif/PesquisaNIF.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>PesquisaNIF</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>PesquisaNIF</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=39</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Pesquisar NIF</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Pesquisa NIF [DIREÇÃO GERAL DAS CONTRIBUIÇÕES E IMPOSTOS]]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <nif name="p_nif" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="">
+                    <label>NIF</label>
+                    <value>20</value>
+                </nif>
+                <nome name="p_nome" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Accusantium lorem unde perspic</value>
+                </nome>
+                <n_documento name="p_n_documento" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="">
+                    <label>Nº Documento</label>
+                    <value>17</value>
+                </n_documento>
+                <tipo_contribuinte name="p_tipo_contribuinte" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" tags="false" java-type="">
+                    <label>Tipo Contribuinte</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_contribuinte>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>Resetbyemail</page>
+                    <link>index</link>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/resetbyemail/Resetbyemail.xml?</parameter>
+                    <target>submit</target>
+                    <img>primary|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <nif_tabela name="p_nif_tabela" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>NIF</label>
+                </nif_tabela>
+                <nome_tabela name="p_nome_tabela" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Nome</label>
+                </nome_tabela>
+                <desig_social name="p_desig_social" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Desig. Social</label>
+                </desig_social>
+                <data_nascimento name="p_data_nascimento" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Data Nascimento</label>
+                </data_nascimento>
+                <nome_pai name="p_nome_pai" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome Pai</label>
+                </nome_pai>
+                <nome_mae name="p_nome_mae" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome Mãe</label>
+                </nome_mae>
+                <documento name="p_documento" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Documento</label>
+                </documento>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <nif_tabela name="p_nif_tabela">Magna adipiscing consectetur a</nif_tabela>
+                        <nome_tabela name="p_nome_tabela">Sit iste consectetur ut laudan</nome_tabela>
+                        <desig_social name="p_desig_social">Totam ut aliqua stract ipsum</desig_social>
+                        <data_nascimento name="p_data_nascimento">Unde consectetur aperiam omnis</data_nascimento>
+                        <nome_pai name="p_nome_pai">Totam omnis unde doloremque si</nome_pai>
+                        <nome_mae name="p_nome_mae">Natus doloremque mollit offici</nome_mae>
+                        <documento name="p_documento">Mollit accusantium aliqua unde</documento>
+                    </row>
+                    <row>
+                        <nif_tabela name="p_nif_tabela">Anim laudantium doloremque sed</nif_tabela>
+                        <nome_tabela name="p_nome_tabela">Amet voluptatem labore elit lo</nome_tabela>
+                        <desig_social name="p_desig_social">Sit perspiciatis aliqua stract</desig_social>
+                        <data_nascimento name="p_data_nascimento">Adipiscing perspiciatis elit p</data_nascimento>
+                        <nome_pai name="p_nome_pai">Rem dolor elit mollit sit</nome_pai>
+                        <nome_mae name="p_nome_mae">Sit labore natus rem aperiam</nome_mae>
+                        <documento name="p_documento">Doloremque ut unde magna labor</documento>
+                    </row>
+                    <row>
+                        <nif_tabela name="p_nif_tabela">Totam laudantium aperiam persp</nif_tabela>
+                        <nome_tabela name="p_nome_tabela">Ipsum rem unde aliqua consecte</nome_tabela>
+                        <desig_social name="p_desig_social">Sit accusantium mollit elit is</desig_social>
+                        <data_nascimento name="p_data_nascimento">Amet magna mollit doloremque u</data_nascimento>
+                        <nome_pai name="p_nome_pai">Anim sed deserunt magna ipsum</nome_pai>
+                        <nome_mae name="p_nome_mae">Mollit stract officia ipsum si</nome_mae>
+                        <documento name="p_documento">Aliqua iste lorem officia anim</documento>
+                    </row>
+                    <row>
+                        <nif_tabela name="p_nif_tabela">Adipiscing dolor omnis totam m</nif_tabela>
+                        <nome_tabela name="p_nome_tabela">Mollit doloremque lorem ut per</nome_tabela>
+                        <desig_social name="p_desig_social">Laudantium unde anim elit amet</desig_social>
+                        <data_nascimento name="p_data_nascimento">Totam doloremque lorem aperiam</data_nascimento>
+                        <nome_pai name="p_nome_pai">Ut aperiam amet magna aperiam</nome_pai>
+                        <nome_mae name="p_nome_mae">Mollit aperiam laudantium dese</nome_mae>
+                        <documento name="p_documento">Labore natus laudantium perspi</documento>
+                    </row>
+                    <row>
+                        <nif_tabela name="p_nif_tabela">Laudantium aliqua magna ipsum</nif_tabela>
+                        <nome_tabela name="p_nome_tabela">Perspiciatis magna sed ut offi</nome_tabela>
+                        <desig_social name="p_desig_social">Officia ipsum totam omnis stra</desig_social>
+                        <data_nascimento name="p_data_nascimento">Officia consectetur officia om</data_nascimento>
+                        <nome_pai name="p_nome_pai">Adipiscing mollit magna dolore</nome_pai>
+                        <nome_mae name="p_nome_mae">Ipsum iste voluptatem aperiam</nome_mae>
+                        <documento name="p_documento">Dolor adipiscing sit aperiam u</documento>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

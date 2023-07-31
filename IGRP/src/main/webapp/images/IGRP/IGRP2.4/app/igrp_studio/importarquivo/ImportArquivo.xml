@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>ImportArquivo</page>
+    <app>igrp_studio</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp_studio.pages</package_db>
+        <package_html>ImportArquivo</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=36</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Import Arquivo</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Importar Arquivos]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <help name="p_help" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=import" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
+                    <label>Help</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
+                </help>
+            </fields>
+        </view_1>
+        <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <importar_aplicacao name="p_importar_aplicacao" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" custom_return="false" request_fields="" refresh_components="" refresh_submit="false" adbcli="" maxlength="50">
+                    <label>Importar IGRP</label>
+                    <value/>
+                </importar_aplicacao>
+                <importar_jar_file name="p_importar_jar_file" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-external-link-square" custom_return="false" request_fields="" refresh_components="" refresh_submit="false" adbcli="" maxlength="50">
+                    <label>Importar extra lib.</label>
+                    <value/>
+                </importar_jar_file>
+                <importar_sql_script name="p_importar_sql_script" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-code" request_fields="" refresh_components="" refresh_submit="false" adbcli="" maxlength="50">
+                    <label>Importar Sql Script</label>
+                    <value/>
+                </importar_sql_script>
+                <importar_imagem name="p_importar_imagem" type="button" request_fields="" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-image" refresh_components="" refresh_submit="false" adbcli="" maxlength="50">
+                    <label>Importar Imagens</label>
+                    <value/>
+                </importar_imagem>
+                <personalizar_login name="p_personalizar_login" type="button" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" adbcli="" custom_return="false" iconColor="#333" iconClass="" img="fa-photo" maxlength="50">
+                    <label>Personalizar Login</label>
+                    <value/>
+                </personalizar_login>
+            </fields>
+        </tabcontent_1>
+        <sectionheader_2 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_2_text type="text" name="p_sectionheader_2_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Importar aplicação (.jar/.zip)]]>
+                    </value>
+                </sectionheader_2_text>
+            </fields>
+        </sectionheader_2>
+        <sectionheader_4 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_4_text type="text" name="p_sectionheader_4_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Importar third-party jar file (.jar)]]>
+                    </value>
+                </sectionheader_4_text>
+            </fields>
+        </sectionheader_4>
+        <sectionheader_5 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_5_text type="text" name="p_sectionheader_5_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Importar Sql Script]]>
+                    </value>
+                </sectionheader_5_text>
+            </fields>
+        </sectionheader_5>
+        <sectionheader_6 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_6_text type="text" name="p_sectionheader_6_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Importar Imagens (.jpg/.png/...)]]>
+                    </value>
+                </sectionheader_6_text>
+            </fields>
+        </sectionheader_6>
+        <box_2 type="box" xml-type="form" title="Importar Imagens para Página Login" gen-type="container" gen-group="">
+            <fields/>
+        </box_2>
+        <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" accept="application/java-archive,.jar,application/zip" targetrend="" multiple="false" rendvalue="false" maxlength="1000" required="true" disabled="false" right="false" class="primary">
+                    <label>IGRP compress file</label>
+                    <value/>
+                </arquivo_aplicacao>
+            </fields>
+            <tools-bar>
+                <item id="button_94f6_cdb4" type="form" code="" class="primary" rel="btm_import_aplicacao" refresh_components="">
+                    <title>Importar</title>
+                    <app>igrp_studio</app>
+                    <page>ImportArquivo</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
+                    <target>submit_form</target>
+                    <img>primary|fa-upload</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
+                </item>
+            </tools-bar>
+        </form_2>
+        <form_3 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <jar_file name="p_jar_file" type="file" accept="application/java-archive,.jar" targetrend="" multiple="false" rendvalue="false" maxlength="10000" required="true" disabled="false" right="false" class="danger">
+                    <label>Jar file</label>
+                    <value/>
+                </jar_file>
+            </fields>
+            <tools-bar>
+                <item id="button_7cc0_d1d0" type="form" code="" class="danger" rel="importar_jar_file" refresh_components="">
+                    <title>Importar</title>
+                    <app>igrp_studio</app>
+                    <page>ImportArquivo</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
+                    <target>submit_form</target>
+                    <img>danger|fa-upload</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
+                </item>
+            </tools-bar>
+        </form_3>
+        <form_4 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao_script name="p_aplicacao_script" type="select" multiple="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="" tags="false">
+                    <label>Aplicação</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <rules>
+                        <rule type="remote_combobox">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_aplicacao_script</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
+                </aplicacao_script>
+                <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="" tags="false">
+                    <label>Data Source</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </data_source>
+                <sql_script name="p_sql_script" type="file" maxlength="250" required="true" disabled="false" right="false" class="warning" accept="" targetrend="" multiple="false" rendvalue="false">
+                    <label>Sql Script</label>
+                    <value/>
+                </sql_script>
+            </fields>
+            <tools-bar>
+                <item id="button_2757_073c" type="form" code="" class="warning" rel="importar_script" refresh_components="">
+                    <title>Importar</title>
+                    <app>igrp_studio</app>
+                    <page>ImportArquivo</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
+                    <target>submit_form</target>
+                    <img>warning|fa-upload</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
+                </item>
+            </tools-bar>
+        </form_4>
+        <form_5 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao_combo_img name="p_aplicacao_combo_img" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
+                    <label>Aplicação</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao_combo_img>
+                <tipo name="p_tipo" type="radiolist" domain="" maxlength="250" required="true" change="false" readonly="false" disabled="false" child_size="4" right="false" java-type="int">
+                    <label>Tipo / Localização</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo>
+                <imagens name="p_imagens" type="file" accept="image/*" targetrend="" multiple="true" rendvalue="false" maxlength="250" required="true" disabled="false" right="false" class="purple">
+                    <label>Imagens</label>
+                    <value/>
+                </imagens>
+                <form_5_link_1 name="p_form_5_link_1" type="plaintext" clear="false" disable_output_escaping="false" html_class="" maxlength="250" right="true">
+                    <label>Link</label>
+                    <value>Sit sed stract iste omnis ut perspiciatis natus ut unde laudantium consectetur mollit aliqua elit laudantium deserunt perspiciatis doloremque iste aperiam adipiscing consectetur officia deserunt</value>
+                </form_5_link_1>
+            </fields>
+            <tools-bar>
+                <item id="button_c361_ef7f" type="form" code="" class="purple" rel="import_images" refresh_components="">
+                    <title>Importar</title>
+                    <app>igrp_studio</app>
+                    <page>ImportArquivo</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
+                    <target>submit_form</target>
+                    <img>purple|fa-upload</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
+                </item>
+            </tools-bar>
+        </form_5>
+        <box_1 type="box" xml-type="form" title="" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
+        <carousel_1 type="carousel" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <carousel_1_label name="p_carousel_1_label" type="text" maxlength="200">
+                    <label>Title</label>
+                </carousel_1_label>
+                <carousel_1_img name="p_carousel_1_img" type="text" maxlength="200">
+                    <label>Image</label>
+                </carousel_1_img>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <carousel_1_label name="p_carousel_1_label">Img</carousel_1_label>
+                        <carousel_1_img name="p_carousel_1_img">../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</carousel_1_img>
+                    </row>
+                </value>
+            </table>
+        </carousel_1>
+        <sectionheader_3 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_3_text type="text" name="p_sectionheader_3_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Importar página IGRP antiga (.zip)]]>
+                    </value>
+                </sectionheader_3_text>
+            </fields>
+        </sectionheader_3>
+        <form_1 type="form" xml-type="form" title="Inserir uma nova Imagem " gen-type="container" gen-group="">
+            <fields>
+                <imagem name="p_imagem" type="file" accept="image/*" targetrend="" multiple="false" rendvalue="false" maxlength="250" required="true" disabled="false" right="false" class="grey">
+                    <label>Imagem</label>
+                    <value/>
+                </imagem>
+            </fields>
+            <tools-bar>
+                <item id="button_0498_24b9" type="form" code="" class="grey" rel="upload" custom_return="true" refresh_components="carousel_1">
+                    <title>Upload</title>
+                    <app>igrp_studio</app>
+                    <page>ImportArquivo</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
+                    <target>submit_form</target>
+                    <img>grey|fa-upload</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
+                </item>
+            </tools-bar>
+        </form_1>
+        <formlist_1 type="formlist" xml-type="formlist" title="Ordenar e/ou Apagar Imagens" gen-clean="true" gen-type="container" gen-group="true">
+            <fields>
+                <imagem_tbl name="p_imagem_tbl" type="link" target="modal" request_fields="" target_fields="" list_source="" closerefresh="false" refresh_components="" refresh_submit="false" adbcli="" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="true" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="250" placeholder="" right="false" desc="true">
+                    <label>Imagem</label>
+                </imagem_tbl>
+                <id_img name="p_id_img" type="hidden" maxlength="250" java-type="" tag="id_img" desc="true"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <imagem_tbl name="p_imagem_tbl" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</imagem_tbl>
+                        <imagem_tbl_desc name="p_imagem_tbl_desc">Imagem</imagem_tbl_desc>
+                        <id_img name="p_id_img" tag="id_img" desc="true">hidden-71d4_83a6</id_img>
+                        <id_img_desc name="p_id_img_desc">hidden-71d4_83a6</id_img_desc>
+                    </row>
+                    <row>
+                        <imagem_tbl name="p_imagem_tbl" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</imagem_tbl>
+                        <imagem_tbl_desc name="p_imagem_tbl_desc">Imagem</imagem_tbl_desc>
+                        <id_img name="p_id_img" tag="id_img" desc="true">hidden-d314_9a69</id_img>
+                        <id_img_desc name="p_id_img_desc">hidden-d314_9a69</id_img_desc>
+                    </row>
+                    <row>
+                        <imagem_tbl name="p_imagem_tbl" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</imagem_tbl>
+                        <imagem_tbl_desc name="p_imagem_tbl_desc">Imagem</imagem_tbl_desc>
+                        <id_img name="p_id_img" tag="id_img" desc="true">hidden-3be8_d04b</id_img>
+                        <id_img_desc name="p_id_img_desc">hidden-3be8_d04b</id_img_desc>
+                    </row>
+                    <row>
+                        <imagem_tbl name="p_imagem_tbl" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</imagem_tbl>
+                        <imagem_tbl_desc name="p_imagem_tbl_desc">Imagem</imagem_tbl_desc>
+                        <id_img name="p_id_img" tag="id_img" desc="true">hidden-4b2b_569f</id_img>
+                        <id_img_desc name="p_id_img_desc">hidden-4b2b_569f</id_img_desc>
+                    </row>
+                    <row>
+                        <imagem_tbl name="p_imagem_tbl" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</imagem_tbl>
+                        <imagem_tbl_desc name="p_imagem_tbl_desc">Imagem</imagem_tbl_desc>
+                        <id_img name="p_id_img" tag="id_img" desc="true">hidden-fc55_dd52</id_img>
+                        <id_img_desc name="p_id_img_desc">hidden-fc55_dd52</id_img_desc>
+                    </row>
+                </value>
+            </table>
+        </formlist_1>
+        <form_6 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <list_aplicacao name="p_list_aplicacao" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
+                    <label>Aplicação</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </list_aplicacao>
+                <arquivo_pagina name="p_arquivo_pagina" type="file" accept="application/java-archive,.jar,application/zip" targetrend="" multiple="false" rendvalue="false" maxlength="250" required="false" disabled="false" right="false" class="primary">
+                    <label>Página</label>
+                    <value/>
+                </arquivo_pagina>
+            </fields>
+            <tools-bar>
+                <item id="button_6e68_d5a9" type="form" code="" class="primary" rel="btm_importar_page" refresh_components="">
+                    <title>Importar</title>
+                    <app>igrp_studio</app>
+                    <page>ImportArquivo</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
+                    <target>submit_form</target>
+                    <img>primary|fa-upload</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
+                </item>
+            </tools-bar>
+        </form_6>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar" refresh_components="">
+                <title>Gravar</title>
+                <app>igrp_studio</app>
+                <page>ImportArquivo</page>
+                <link>index</link>
+                <target>submit_notvalidate</target>
+                <img>grey|fa-trash</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
+            </item>
+        </toolsbar_2>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

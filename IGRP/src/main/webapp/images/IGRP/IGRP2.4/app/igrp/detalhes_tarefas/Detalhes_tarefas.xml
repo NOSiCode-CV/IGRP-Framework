@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/detalhes_tarefas/Detalhes_tarefas.xsl" type="text/xsl"?>
+<rows>
+    <link_img>images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Detalhes_tarefas</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>null</package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Detalhes_tarefas</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=49</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhes Tarefas</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Detalhes da Tarefa]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <tipo_da_tarefa name="p_tipo_da_tarefa" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Tipo da Tarefa</label>
+                    <value>Aperiam stract consectetur dol</value>
+                </tipo_da_tarefa>
+                <data_criacao_da_tarefa name="p_data_criacao_da_tarefa" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Data Criação da Tarefa</label>
+                    <value>Rem elit unde ipsum unde</value>
+                </data_criacao_da_tarefa>
+                <data_inicio_da_tarefa name="p_data_inicio_da_tarefa" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Data Início da Tarefa</label>
+                    <value>Labore iste officia adipiscing</value>
+                </data_inicio_da_tarefa>
+                <data_fim_da_tarefa name="p_data_fim_da_tarefa" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Data Fim da Tarefa</label>
+                    <value>Sit stract labore anim ipsum</value>
+                </data_fim_da_tarefa>
+                <prioridade_da_tarefa name="p_prioridade_da_tarefa" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Prioridade da Tarefa</label>
+                    <value>Perspiciatis accusantium totam</value>
+                </prioridade_da_tarefa>
+                <tarefa_atribuida_por name="p_tarefa_atribuida_por" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Tarefa Atribuída Por</label>
+                    <value>Lorem deserunt ipsum rem unde</value>
+                </tarefa_atribuida_por>
+                <tarefa_atribuida_a name="p_tarefa_atribuida_a" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Tarefa Atribuída A</label>
+                    <value>Elit lorem deserunt aperiam om</value>
+                </tarefa_atribuida_a>
+                <tipo_de_processo name="p_tipo_de_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Tipo de Processo</label>
+                    <value>Iste aperiam aliqua mollit sit</value>
+                </tipo_de_processo>
+                <numero_de_processo name="p_numero_de_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Número De Processo</label>
+                    <value>Mollit aperiam iste unde natus</value>
+                </numero_de_processo>
+                <data_criacao_de_processo name="p_data_criacao_de_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Data Criação de Processo</label>
+                    <value>Iste voluptatem dolor ipsum ad</value>
+                </data_criacao_de_processo>
+                <data_inicio_de_processo name="p_data_inicio_de_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Data Início de Processo</label>
+                    <value>Deserunt unde totam doloremque</value>
+                </data_inicio_de_processo>
+                <data_fim_processo name="p_data_fim_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Data Fim Processo</label>
+                    <value>Aperiam sit ipsum officia adip</value>
+                </data_fim_processo>
+                <descricao_da_tarefa name="p_descricao_da_tarefa" type="textarea" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Descrição da Tarefa</label>
+                    <value>Ipsum rem elit voluptatem rem</value>
+                </descricao_da_tarefa>
+            </fields>
+        </form_1>
+    </content>
+</rows>

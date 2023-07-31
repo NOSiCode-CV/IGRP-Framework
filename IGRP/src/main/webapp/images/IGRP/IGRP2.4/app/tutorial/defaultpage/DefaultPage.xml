@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/tutorial/defaultpage/DefaultPage.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>DefaultPage</page>
+    <app>tutorial</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.tutorial.pages</package_db>
+        <package_html>DefaultPage</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=202</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>DefaultPage</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Primeira Página]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <infopanel_1 type="infopanel" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <infopanel_1_title name="p_infopanel_1_title" type="text" maxlength="4000">
+                    <label>Title</label>
+                    <value>Guide - How to change this home page?</value>
+                </infopanel_1_title>
+                <infopanel_1_val name="p_infopanel_1_val" type="text" maxlength="4000">
+                    <label>Value</label>
+                    <value/>
+                </infopanel_1_val>
+                <infopanel_1_url name="p_infopanel_1_url" type="link" maxlength="4000">
+                    <label/>
+                    <value type="action">
+                        <app>tutorial</app>
+                        <page>Video_gestao_de_aplicacao</page>
+                        <action>index</action>
+                    </value>
+                </infopanel_1_url>
+                <infopanel_1_bg name="p_infopanel_1_bg" type="text" maxlength="4000">
+                    <label>Background</label>
+                    <value>cp-irises</value>
+                </infopanel_1_bg>
+                <infopanel_1_icn name="p_infopanel_1_icn" type="text" maxlength="4000">
+                    <label>Icon</label>
+                    <value>fa-github-square</value>
+                </infopanel_1_icn>
+            </fields>
+        </infopanel_1>
+        <carousel_1 type="carousel" xml-type="table" title="Examples" gen-type="container" gen-group="true">
+            <fields>
+                <carousel_1_label name="p_carousel_1_label" type="text" maxlength="200">
+                    <label>Title</label>
+                </carousel_1_label>
+                <carousel_1_img name="p_carousel_1_img" type="text" maxlength="200">
+                    <label>Image</label>
+                </carousel_1_img>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <carousel_1_label name="p_carousel_1_label">Img</carousel_1_label>
+                        <carousel_1_img name="p_carousel_1_img">../images/IGRP/IGRP2.3/assets/img/tutorial/home_dashboard.png</carousel_1_img>
+                    </row>
+                    <row>
+                        <carousel_1_label name="p_carousel_1_label">Img</carousel_1_label>
+                        <carousel_1_img name="p_carousel_1_img">../images/IGRP/IGRP2.3/assets/img/tutorial/home_igrp_studio.png</carousel_1_img>
+                    </row>
+                    <row>
+                        <carousel_1_label name="p_carousel_1_label">Img</carousel_1_label>
+                        <carousel_1_img name="p_carousel_1_img">../images/IGRP/IGRP2.3/assets/img/tutorial/home_tutorial2.png</carousel_1_img>
+                    </row>
+                </value>
+            </table>
+        </carousel_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

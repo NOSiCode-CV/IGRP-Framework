@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="./Generator.xsl" type="text/xsl"?>
+<rows>
+    <template>default</template>
+    <title>IGRP Studio</title>
+    <description>IGRP Studio - Software Developer</description>
+    <version>220414</version>
+    <link>webapps?r=9s7MhSXb-UfltD8epln1jtYUqRQVEFSFgDTfxflG9Ms=&amp;dad=igrp_studio&amp;p_application=353</link>
+ 
+    <target>_blank</target>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2020 - Copyright NOSi v.220414</footer_note>
+        <user_name>NOSI / DDS - Edson Samora Pires Tavares</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>igrp</app>
+            <page>login</page>
+            <link>webapps?r=igrp/login/logout&amp;target=_blank&amp;dad=igrp_studio</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <app>igrp_studio</app>
+    <page>Form</page>
+    <plsql>
+        <action>1</action>
+        <package_db />
+        <package_html />
+        <package_instance />
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+    </plsql>
+    <navigation url="webapps?" prm_app="prm_app" prm_page="prm_page" prm_action="r"></navigation>
+    <slide-menu file="../../../"></slide-menu>
+    <top_menu file="webapps?r=iwaxae9m72UXp0Ok3mcVlLPUCLyNbLBsNivkmmY0K9g=&amp;dad=igrp_studio"></top_menu>
+    <content type="dash">
+        <title>Form Design</title>
+        <filter type="filter" tab="">
+            <label>
+                <env_fk name="p_env_fk" maxlength="30" disabled="false" required="false" type="select" change="false" value="" right="false" multiple="false"></env_fk>
+            </label>
+            <value></value>
+            <list>
+                <env_fk name="p_env_fk" maxlength="30" disabled="false" required="false" type="select" change="false" value="" right="false" multiple="false"></env_fk>
+            </list>
+            <tools-bar>
+                <item type="form">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>form</page>
+                    <link>leNblLjRn1FKXXLKVeVJFQ==&amp;target=_blank&amp;dad=igrp_studio</link>
+                    <target>_self</target>
+                    <img>search.png</img>
+                </item>
+            </tools-bar>
+        </filter>
+        <form tab="">
+            <label>
+                <gen_elements name="p_gen_elements" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false"></gen_elements>
+                <has_menu name="p_has_menu" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></has_menu>
+                <id_objeto name="p_id_objeto" maxlength="30" disabled="false" readonly="false" required="false" type="number" change="false" value="4558" placeholder="" right="false"></id_objeto>
+                <nome name="p_nome" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></nome>
+                <link_image name="p_link_image" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false"></link_image>
+                <link_save name="p_link_save" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false"></link_save>
+                <link_doc name="p_link_doc" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false">Help</link_doc>
+                <page_form name="p_page_form" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false"></page_form>
+                <page_xml name="p_page_xml" maxlength="30" class="default" accept="file_extension" disabled="false" required="false" type="file" value="" right="false" multiple="false"></page_xml>
+                <page_xsl name="p_page_xsl" maxlength="30" class="default" accept="file_extension" disabled="false" required="false" type="file" value="" right="false" multiple="false"></page_xsl>
+                <data name="p_data" maxlength="30" class="default" accept="file_extension" disabled="false" required="false" type="file" value="" right="false" multiple="false"></data>
+                <instancia name="p_instancia" maxlength="30" disabled="false" required="false" type="select" change="false" value="" right="false" multiple="false"></instancia>
+                <transform_tools name="p_transform_tools" maxlength="30" disabled="false" required="false" type="list" change="false" value="" right="false" multiple="false"></transform_tools>
+                <tool_nome name="p_tool_nome" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></tool_nome>
+                <xsl_path name="p_xsl_path" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></xsl_path>
+                <on_click name="p_on_click" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></on_click>
+                <icon name="p_icon" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></icon>
+                <package_ name="p_package_" maxlength="200" disabled="false" readonly="false" required="false" type="text" change="false" value="nosi.webapps.stp_iva.pages.portal_di.Portal_diController" placeholder="" right="false"></package_>
+                <page name="p_page" maxlength="200" disabled="false" readonly="false" required="false" type="text" change="false" value="Portal_di" placeholder="" right="false"></page>
+            </label>
+            <value>
+                <gen_elements name="p_gen_elements" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false">/IGRP/images/IGRP/IGRP2.4/app/igrp/generator/config.txt?id=</gen_elements>
+                <has_menu name="p_has_menu" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></has_menu>
+                <id_objeto name="p_id_objeto" maxlength="30" disabled="false" readonly="false" required="false" type="number" change="false" value="4558" placeholder="" right="false">4558</id_objeto>
+                <nome name="p_nome" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></nome>
+                <link_image name="p_link_image" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false">/IGRP/images/IGRP/Config/img.list.php?name=</link_image>
+                <link_save name="p_link_save" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false"></link_save>
+                <link_doc name="p_link_doc" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false"></link_doc>
+                <page_form name="p_page_form" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false">/IGRP/images/IGRP/IGRP2.4/app/igrp/generator/page.json</page_form>
+                <page_xml name="p_page_xml" maxlength="30" class="default" accept="file_extension" disabled="false" required="false" type="file" value="" right="false" multiple="false"></page_xml>
+                <page_xsl name="p_page_xsl" maxlength="30" class="default" accept="file_extension" disabled="false" required="false" type="file" value="" right="false" multiple="false"></page_xsl>
+                <data name="p_data" maxlength="30" class="default" accept="file_extension" disabled="false" required="false" type="file" value="" right="false" multiple="false"></data>
+                <tool_nome name="p_tool_nome" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></tool_nome>
+                <xsl_path name="p_xsl_path" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></xsl_path>
+                <on_click name="p_on_click" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></on_click>
+                <icon name="p_icon" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></icon>
+                <package_ name="p_package_" maxlength="200" disabled="false" readonly="false" required="false" type="text" change="false" value="nosi.webapps.stp_iva.pages.portal_di.Portal_diController" placeholder="" right="false">nosi.webapps.stp_iva.pages.portal_di.Portal_diController</package_>
+                <page name="p_page" maxlength="200" disabled="false" readonly="false" required="false" type="text" change="false" value="Portal_di" placeholder="" right="false">Portal_di</page>
+            </value>
+            <list>
+                <instancia name="p_instancia" maxlength="30" disabled="false" required="false" type="select" change="false" value="" right="false" multiple="false"></instancia>
+                <transform_tools name="p_transform_tools" maxlength="30" disabled="false" required="false" type="list" change="false" value="" right="false" multiple="false"></transform_tools>
+            </list>
+            <tools-bar>
+                <item type="form">
+                    <title>Gravar</title>
+                    <app>igrp</app>
+                    <page>page</page>
+                    <link>R7VXqXum3zMC47Qtq6X-jFkgK4w98jaWb5T8AvWGeQs=&amp;target=_blank&amp;dad=igrp_studio</link>
+                    <target>submit</target>
+                    <img>save.png</img>
+                </item>
+            </tools-bar>
+        </form>
+        <table operation="">
+            <label>
+                <title name="p_title" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></title>
+                <id name="p_id" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="4558" placeholder="" right="false"></id>
+                <id_pai name="p_id_pai" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="353" placeholder="" right="false"></id_pai>
+                <link name="p_link" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false"></link>
+                <link_desc name="p_link_desc" maxlength="30" class="link" img="fa-link" target="_self" type="field_copy" iconClass="" iconColor="#333" placeholder="" right="false"></link_desc>
+                <id_objeto name="p_id_objeto" maxlength="30" disabled="false" readonly="false" required="false" type="number" change="false" value="4558" placeholder="" right="false"></id_objeto>
+                <tipo name="p_tipo" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></tipo>
+            </label>
+            <value>
+                <title name="p_title" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></title>
+                <id name="p_id" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="4558" placeholder="" right="false">4558</id>
+                <id_pai name="p_id_pai" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="353" placeholder="" right="false">353</id_pai>
+                <link name="p_link" maxlength="30" class="link" img="fa-link" target="_self" type="link" iconClass="" iconColor="#333" placeholder="" right="false"></link>
+                <link_desc name="p_link_desc" maxlength="30" class="link" img="fa-link" target="_self" type="field_copy" iconClass="" iconColor="#333" placeholder="" right="false"></link_desc>
+                <id_objeto name="p_id_objeto" maxlength="30" disabled="false" readonly="false" required="false" type="number" change="false" value="4558" placeholder="" right="false">4558</id_objeto>
+                <tipo name="p_tipo" maxlength="30" disabled="false" readonly="false" required="false" type="text" change="false" value="" placeholder="" right="false"></tipo>
+            </value>
+            <list></list>
+            <value></value>
+        </table>
+    </content>
+</rows>

@@ -1,0 +1,55 @@
+{  
+   "legend":[  
+      {  
+         "legend":"Sem Registo",
+         "color":"#FFFFFF"
+      },
+      {  
+         "legend":"Numero Igual registos",
+         "color":"#828282"
+      },
+      {  
+         "legend":"Doen\u00E7as de Notifica\u00E7\u00E3o",
+         "color":"#FF9933"
+      },
+      {  
+         "legend":"Doen\u00E7as Transmiss\u00EDveis",
+         "color":"#339900"
+      },
+      {  
+         "legend":"Doen\u00E7as n\u00E3o Transmiss\u00EDveis",
+         "color":"#FFFF00"
+      },
+      {  
+         "legend":"Doen\u00E7as Cr\u00F4nicas",
+         "color":"#FF0000"
+      },
+      {  
+         "legend":"Vetores",
+         "color":"#330033"
+      }
+   ],
+   "series":[  
+      {  
+         "color":"#FF0000",
+         "obs":" Cr\u00F3nicas: 9",
+         "id":798,
+         "value" : ""
+
+      },
+      {  
+         "color":"#339900",
+         "obs":" Transmissiveis: 8",
+         "id":797,
+         "value" : ""
+
+      },
+      {  
+         "color":"#339900",
+         "obs":" Transmissiveis: 6",
+         "id":799,
+         "value" : ""
+
+      }
+   ]
+}

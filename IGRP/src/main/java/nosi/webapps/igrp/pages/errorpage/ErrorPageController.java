@@ -3,7 +3,7 @@ package nosi.webapps.igrp.pages.errorpage;
 import java.io.IOException;
 
 /*----#start-code(packages_import)----*/
-import javax.servlet.RequestDispatcher;
+import jakarta.servlet.RequestDispatcher;
 
 
 import nosi.core.webapp.Controller;
@@ -54,7 +54,7 @@ public class ErrorPageController extends Controller {
 					e.printStackTrace();
 				}				
 				
-				String errorMsg = Core.getAttribute("javax.servlet.error.message",true); 
+				String errorMsg = Core.getAttribute("jakarta.servlet.error.message",true); 
 				
 				//logger.error(errorMsg);
 				if(errorMsg!=null)

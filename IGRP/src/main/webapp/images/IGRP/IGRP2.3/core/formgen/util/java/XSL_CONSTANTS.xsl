@@ -191,10 +191,6 @@
 
     <xsl:variable name="import_controller">
         <xsl:text>import nosi.core.webapp.Controller;//</xsl:text>
-        <xsl:value-of select="$newline"/>
-        <xsl:text>import nosi.core.webapp.databse.helpers.ResultSet;//</xsl:text>
-        <xsl:value-of select="$newline"/>
-        <xsl:text>import nosi.core.webapp.databse.helpers.QueryInterface;//</xsl:text>
     </xsl:variable>
 
     <xsl:variable name="import_exception">
@@ -224,7 +220,7 @@
     
     <xsl:variable name="import_validations_annotations">    	
     	<xsl:if test="count(/rows/content/*[@type = 'formlist' or @type = 'separatorlist'])  &gt; 0">
-    		<xsl:text>import javax.validation.Valid;</xsl:text>
+    		<xsl:text>import jakarta.validation.Valid;</xsl:text>
     	</xsl:if>
     	<xsl:if test="count(//validations/validation)  &gt; 0">
        		<xsl:value-of select="$newline"/>

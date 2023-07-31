@@ -1,0 +1,18 @@
+.IGRP_formlist .formlist-row-add, 
+.IGRP_formlist .formlist-row-remove{
+    font-size: 18px;
+}
+
+.IGRP_formlist th[required="required"]:before{
+    content: "*";
+    position: relative;
+    top: 1px;
+    color: #ca2418;
+    margin-right: 2px;
+    font-weight: bold;
+    display: inline;
+}
+
+.IGRP_formlist td.table-btn{
+    vertical-align: middle;
+}

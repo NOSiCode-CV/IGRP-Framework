@@ -80,7 +80,7 @@ public abstract class QueryHelper implements QueryInterface{
 		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
 	
-	@SuppressWarnings("resource")
+	
 	protected Session getSession() {
 		SessionFactory sessionFactory = this.getSessionFactory();
 		if (sessionFactory != null) {

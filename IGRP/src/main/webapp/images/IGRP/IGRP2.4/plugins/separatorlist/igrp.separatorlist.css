@@ -1,0 +1,145 @@
+.IGRP-separatorlist tr.row-active{
+	display: none;;
+}
+
+.IGRP-separatorlist > .box-table-contents{
+	padding-top: 0;
+	overflow-x: visible;
+    overflow-y: inherit;
+}
+
+
+
+.IGRP-separatorlist .splist-form{
+	padding-bottom:30px;
+}
+.IGRP-separatorlist .splist-form:after,
+.IGRP-separatorlist .splist-form:before{
+	content:"";
+	clear:both;
+	float: none;
+	display: block;
+}
+
+.IGRP-separatorlist .splist-btns{
+	border-bottom: 1px solid #f4f4f4
+}
+
+.splist-table{
+	
+	clear: both;
+}
+
+.IGRP-separatorlist .table-btn{
+	width: 60px;
+	padding: 0px;
+}
+
+.IGRP-separatorlist td.table-btn .btn{
+	padding: 0 4px;
+	font-size: 14px;
+	margin:2px;
+}
+
+.IGRP-separatorlist .table-row-add{
+	margin: 10px auto!important;
+	width: 30px;
+	padding:5px 0;
+}
+
+.IGRP-separatorlist .table-row-add i{
+	/*font-size: 20px;*/
+}
+
+/*  DIALOG CONFIG */
+.IGRP-separatorlist[dialog="true"]{
+	padding: 0;
+}
+
+.IGRP-separatorlist[dialog="true"] .table-row-add i:before{
+	/*color:#31b0d5!important;*/
+	content:"\f0fe";
+}
+
+.IGRP-separatorlist[dialog="true"]:not(.dialog-open) .splist-table{
+	border-top:0;
+}
+
+.IGRP-separatorlist[dialog="true"] .splist-form-holder{
+	display: none;
+}
+.IGRP-separatorlist.dialog-open[dialog="true"] .splist-form-holder{
+	display: block;
+}
+
+.splist-dialog-shadow{
+	display: none;
+	position: fixed;
+	z-index: 1031;
+	width: 100%;
+	height: 100%;
+	top:0;
+	left: 0;
+	filter: alpha(opacity=50);
+    opacity: .5;
+    background-color: #000;
+}
+.splist-dialog-shadow.active{
+	display: block;
+}
+
+.splist-form-holder .form-group[item-type="link"] {
+	min-height: 60px;
+	position: absolute;
+	visibility: hidden;
+	opacity: 0;
+	top:-990%;
+	left: -990%;
+	overflow: hidden;
+}
+
+.IGRP-separatorlist[noedt="true"] .table-btn .table-row-edit,
+.IGRP-separatorlist[nodel="true"] .table-btn .table-row-remove,
+.IGRP-separatorlist[noadd="true"] .table-btn .table-row-add,
+.IGRP-separatorlist[noadd="true"][nodel="true"][noedt="true"] .table-btn{
+	display: none;
+}
+
+
+.IGRP-separatorlist tr {
+    counter-increment: rowNumber;
+}
+
+.IGRP-separatorlist-count-header{
+	width: 25px;
+}
+
+
+.IGRP-separatorlist-count-row::before {
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
+}
+
+table tr.row-edited{
+	border: 1px solid #ec971f;
+	border-bottom: 0;
+	border-top: 0;
+}
+
+table tr.row-edited .table-btn{
+	position: relative;
+}
+
+.table-row-undo{
+	display: none;
+    position: absolute;
+    top: 0;
+    left: -24px;
+	z-index: 5;
+
+}
+
+table tr.row-edited:hover .table-row-undo{
+	display: block;
+}

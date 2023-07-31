@@ -5,8 +5,8 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.Part;
-import javax.ws.rs.core.Response;
+import jakarta.servlet.http.Part;
+import jakarta.ws.rs.core.Response;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

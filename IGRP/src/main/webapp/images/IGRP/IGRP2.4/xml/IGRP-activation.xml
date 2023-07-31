@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-2"?>
+<?xml-stylesheet href="../xsl/IGRP-activation.xsl?v=10" type="text/xsl"?>
+<rows>
+   
+    <content>
+        
+        <title>Activaçăo</title>
+        <version>201605181152</version>
+        <action>https://nosiappsdev.gov.cv/redglobal_lab/!redglobal.glb_dispatcher.db_activation</action>
+        <footer_note>@2016 - NOSi</footer_note>
+        <messages>
+            <message type="error">Password năo pode ser nulo. Favor verificar</message>
+            <message type="error">Chave Activaçăo năo pode ser nula. Favor verificar</message>
+        </messages>
+        <form>
+            <label>
+                <user>Utilizador</user>
+                <password>Password</password>
+                <key>Chave Activaçăo</key>
+                <button>Activar</button>
+                <buttontoken>Activar com Token</buttontoken>
+                <sam_message>Message</sam_message>
+                <sam_message_digest>Message Digest</sam_message_digest>
+                <sam_certificate>Certificate</sam_certificate>
+                <p_env_procedure />
+                <p_env_dml />
+            </label>
+            <value>
+                <user   name="p_login" />
+                <password   name="p_password" />
+                <key    name="p_key" />
+                <button     name="p_button">Activar</button>
+                <buttontoken        name="p_button">Activar com Token</buttontoken>
+                <hidden     name="p_sam_message">331E44FF47C0DB00E050040A84067EBD107397173hInGBTGRnHAtDyY11521267</hidden>
+                <hidden name="p_sam_message_digest" />
+                <hidden name="p_sam_certificate" />
+                <hidden     name="p_env_procedure">db_activation</hidden>
+                <hidden     name="p_env_dml">AUTH</hidden>
+            </value>
+        </form>
+    </content>
+</rows>

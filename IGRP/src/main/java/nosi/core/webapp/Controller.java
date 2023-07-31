@@ -23,10 +23,10 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
-
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -607,27 +607,6 @@ public class Controller {
         return resp;
     }
 
-    @Deprecated
-    /**
-     * @deprecated
-     * @param app
-     * @param page
-     * @param action
-     * @param model
-     * @return
-     */
-    protected Response forward(String app, String page, String action, Model model) {
-        return this.forward(app, page, action, model, new QueryString<>());
-    }
-
-    /**
-     * @deprecated
-     */
-    @Deprecated
-    protected Response forward(String app, String page, String action, Model model,
-                               QueryString<String, Object> queryString) {
-        return this.forward(app, page, action, queryString);
-    }
 
     protected Response forward(String app, String page, String action, QueryString<String, Object> queryString) {
         this.setQueryString(queryString);
@@ -781,6 +760,12 @@ public class Controller {
 		igrpApp.getRequest().setAttribute("igrp.error", errorParam);
 	}
     
-
+    protected <T> T getComponent(Class<T> componentType) {
+    	try {
+    		return CDI.current().select(componentType).get();
+		} catch (jakarta.enterprise.inject.UnsatisfiedResolutionException e) {
+			return null;
+		}
+	}
 
 }

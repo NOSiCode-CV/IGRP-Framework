@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/detalhes_dashboard_processo/Detalhes_dashboard_processo.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Detalhes_dashboard_processo</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Detalhes_dashboard_processo</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=1061</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Detalhes dashboard processo</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[<p>Detalhes do Processo</p>
+]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <total_proc_em_execucao type="infopanel" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <total_proc_em_execucao_title name="p_total_proc_em_execucao_title" type="text" maxlength="4000">
+                    <label>Title</label>
+                    <value>Total de processos em execução</value>
+                </total_proc_em_execucao_title>
+                <total_proc_em_execucao_val name="p_total_proc_em_execucao_val" type="text" maxlength="4000">
+                    <label>Value</label>
+                    <value>99</value>
+                </total_proc_em_execucao_val>
+                <total_proc_em_execucao_url name="p_total_proc_em_execucao_url" type="link" maxlength="4000">
+                    <label/>
+                    <value type="action">
+                        <app>igrp</app>
+                        <page>Dominio</page>
+                        <action>index</action>
+                    </value>
+                </total_proc_em_execucao_url>
+                <total_proc_em_execucao_bg name="p_total_proc_em_execucao_bg" type="text" maxlength="4000">
+                    <label>Background</label>
+                    <value>cp-irises</value>
+                </total_proc_em_execucao_bg>
+                <total_proc_em_execucao_icn name="p_total_proc_em_execucao_icn" type="text" maxlength="4000">
+                    <label>Icon</label>
+                    <value>fa-play-circle</value>
+                </total_proc_em_execucao_icn>
+            </fields>
+        </total_proc_em_execucao>
+        <total_proc_finished type="infopanel" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <total_proc_finished_title name="p_total_proc_finished_title" type="text" maxlength="4000">
+                    <label>Title</label>
+                    <value>Total de processos executados</value>
+                </total_proc_finished_title>
+                <total_proc_finished_val name="p_total_proc_finished_val" type="text" maxlength="4000">
+                    <label>Value</label>
+                    <value>27</value>
+                </total_proc_finished_val>
+                <total_proc_finished_url name="p_total_proc_finished_url" type="link" maxlength="4000">
+                    <label/>
+                    <value type="action">
+                        <app>igrp</app>
+                        <page>Dominio</page>
+                        <action>index</action>
+                    </value>
+                </total_proc_finished_url>
+                <total_proc_finished_bg name="p_total_proc_finished_bg" type="text" maxlength="4000">
+                    <label>Background</label>
+                    <value>cp-vermillion</value>
+                </total_proc_finished_bg>
+                <total_proc_finished_icn name="p_total_proc_finished_icn" type="text" maxlength="4000">
+                    <label>Icon</label>
+                    <value>fa-stop-circle</value>
+                </total_proc_finished_icn>
+            </fields>
+        </total_proc_finished>
+        <table_1 type="table" xml-type="table" title="Processos iniciados" gen-type="container" gen-group="true">
+            <fields>
+                <estado name="p_estado" type="color" format="hex" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Estado</label>
+                </estado>
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Descrição</label>
+                </descricao>
+                <n_processo name="p_n_processo" type="link" target="mpsubmit" request_fields="" target_fields="" closerefresh="false" action="index" page="Lista_terfa_de_processo" app="igrp" custom_action="" action_type="false" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-tasks" maxlength="30" align="center" lookup_parser="false" iskey="false" refresh_submit="false" showLabel="true" show_header="true" list_source="" refresh_components="" group_in="" adbcli="" desc="true">
+                    <label>Nº processo</label>
+                </n_processo>
+                <iniciado_em name="p_iniciado_em" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Iniciado em</label>
+                </iniciado_em>
+                <id name="p_id" type="hidden" maxlength="30" iskey="true" showLabel="true" java-type="" group_in="" tag="id"/>
+                <process_definition name="p_process_definition" type="hidden" maxlength="30" iskey="true" showLabel="true" java-type="" group_in="" tag="process_definition"/>
+                <process_key name="p_process_key" type="hidden" maxlength="30" iskey="true" showLabel="true" java-type="" group_in="" tag="process_key"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">2</estado>
+                        <descricao name="p_descricao">Doloremque anim accusantium ip</descricao>
+                        <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml</n_processo>
+                        <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
+                        <iniciado_em name="p_iniciado_em">Accusantium sit unde labore ma</iniciado_em>
+                        <id name="p_id" tag="id">hidden-6e46_0963</id>
+                        <process_definition name="p_process_definition" tag="process_definition">hidden-cc41_576a</process_definition>
+                        <process_key name="p_process_key" tag="process_key">hidden-ff79_57ab</process_key>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">2</estado>
+                        <descricao name="p_descricao">Accusantium ipsum deserunt ali</descricao>
+                        <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml</n_processo>
+                        <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
+                        <iniciado_em name="p_iniciado_em">Iste stract omnis elit consect</iniciado_em>
+                        <id name="p_id" tag="id">hidden-35fd_853e</id>
+                        <process_definition name="p_process_definition" tag="process_definition">hidden-ed48_c378</process_definition>
+                        <process_key name="p_process_key" tag="process_key">hidden-8c61_a950</process_key>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">2</estado>
+                        <descricao name="p_descricao">Deserunt amet deserunt ipsum l</descricao>
+                        <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml</n_processo>
+                        <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
+                        <iniciado_em name="p_iniciado_em">Unde accusantium aliqua unde m</iniciado_em>
+                        <id name="p_id" tag="id">hidden-a81a_5aea</id>
+                        <process_definition name="p_process_definition" tag="process_definition">hidden-6e26_38e7</process_definition>
+                        <process_key name="p_process_key" tag="process_key">hidden-e113_ea6c</process_key>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">1</estado>
+                        <descricao name="p_descricao">Adipiscing aliqua sit perspici</descricao>
+                        <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml</n_processo>
+                        <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
+                        <iniciado_em name="p_iniciado_em">Perspiciatis omnis adipiscing</iniciado_em>
+                        <id name="p_id" tag="id">hidden-baff_9be3</id>
+                        <process_definition name="p_process_definition" tag="process_definition">hidden-434a_a142</process_definition>
+                        <process_key name="p_process_key" tag="process_key">hidden-010b_b014</process_key>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">1</estado>
+                        <descricao name="p_descricao">Sed lorem labore sit aliqua</descricao>
+                        <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xml</n_processo>
+                        <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
+                        <iniciado_em name="p_iniciado_em">Voluptatem adipiscing laudanti</iniciado_em>
+                        <id name="p_id" tag="id">hidden-1e8a_99c7</id>
+                        <process_definition name="p_process_definition" tag="process_definition">hidden-10a3_8263</process_definition>
+                        <process_key name="p_process_key" tag="process_key">hidden-00fb_641a</process_key>
+                    </row>
+                </value>
+                <legend_color>
+                    <item>
+                        <label>Terminado</label>
+                        <value>1</value>
+                        <color>#dc2b4c</color>
+                    </item>
+                    <item>
+                        <label>Em execucao</label>
+                        <value>2</value>
+                        <color>#1eed57</color>
+                    </item>
+                </legend_color>
+                <context-menu>
+                    <item id="button_1d9c_1614" type="specific" code="" class="info" rel="show_diagram" refresh_components="">
+                        <title>Show diagram</title>
+                        <app>igrp</app>
+                        <page>Dominio</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
+                        <target>mpsubmit</target>
+                        <img>info|fa-sitemap</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
+                    </item>
+                    <item id="button_f22b_b678" type="specific" code="" flg_transaction="true" class="danger" rel="cancelar_processo" refresh_components="">
+                        <title>Cancelar processo</title>
+                        <app>igrp</app>
+                        <page>Detalhes_dashboard_processo</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/detalhes_dashboard_processo/Detalhes_dashboard_processo.xml?</parameter>
+                        <target>confirm</target>
+                        <img>danger|fa-times</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/detalhes_dashboard_processo/Detalhes_dashboard_processo.xml</preview>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

@@ -12,7 +12,8 @@ import nosi.core.gui.fields.LinkField;
 import nosi.core.gui.fields.ListField;
 import nosi.core.gui.fields.NumberField;
 import nosi.core.gui.fields.TextField;
-import nosi.core.gui.generator.Generator2_3;
+import nosi.core.gui.generator.Generator2v3;
+import nosi.core.gui.generator.Generator2v4;
 import nosi.core.webapp.View;
 
 public class GeneratorView extends View{
@@ -126,8 +127,14 @@ public class GeneratorView extends View{
 		form.addButton(btn_gravar);
 		//form.addButton(btn_publicar);
 		filter.addButton(btn_pesquisar);
-		Generator2_3 gen23 = new Generator2_3(filter.toString()+form.toString()+table.toString());
+		if(version.equals("2.3")){
+			Generator2v3 gen23 = new Generator2v3(filter.toString()+form.toString()+table.toString());
+			this.addToPage(gen23);
+		}else if(version.equals("2.4")){
+			Generator2v4 gen24 = new Generator2v4(filter.toString()+form.toString()+table.toString());
+			this.addToPage(gen24);
+		}
 		
-		this.addToPage(gen23);
+		
 	}
 }
