@@ -48,9 +48,11 @@ public class GeneratorView extends View{
 	public IGRPButton btn_publicar;
 	public IGRPButton btn_gravar;
 	public IGRPButton btn_pesquisar;
+	public String version;
 	
 	
 	public GeneratorView(Generator model) {
+		version=model.getVersion();
 		table = new IGRPTable("table", (float) 2.1);
 		form = new IGRPForm("form", (float) 2.1);		
 		filter = new IGRPFilter("filter", (float) 2.1);
