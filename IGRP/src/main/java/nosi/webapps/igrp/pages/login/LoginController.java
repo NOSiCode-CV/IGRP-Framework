@@ -241,7 +241,7 @@ public class LoginController extends Controller {
 
 	private boolean loginWithDb(String username, String password) {
 		boolean success = false;
-		User user = (User) new User().findIdentityByUsername(username);
+		User user = new User().findIdentityByUsername(username);
 		if (user != null && user.validate(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256"))
 				&& userIsAuthenticatedFlag(user)) {
 			if (user.getStatus() == 1) {
@@ -274,7 +274,7 @@ public class LoginController extends Controller {
 
 		if (success) {
 			// Verify if this credentials exist in DB
-			User user = (User) new User().findIdentityByUsername(username);
+			User user = new User().findIdentityByUsername(username);
 			if (user != null) {
 				/*
 				 * password = nosi.core.webapp.User.encryptToHash(password, "SHA-256");
@@ -296,7 +296,7 @@ public class LoginController extends Controller {
 					User newUser = new User();
 					newUser.setUser_name(username.trim().toLowerCase());
 
-					if (personArray != null && personArray.size() > 0)
+					if (personArray != null && !personArray.isEmpty())
 						for (int i = 0; i < personArray.size(); i++) {
 							LdapPerson p = personArray.get(i);
 
@@ -557,9 +557,7 @@ public class LoginController extends Controller {
 			curl.close();
 
 			JSONObject jToken = new JSONObject(result);
-
-			uid = new HashMap<String, String>();
-
+			uid = new HashMap<>();
 			uid.put("sub", getAttributeStringValue(jToken, "sub"));
 			uid.put("email", getAttributeStringValue(jToken, "email"));
 			uid.put("birthdate", getAttributeStringValue(jToken, "birthdate"));
