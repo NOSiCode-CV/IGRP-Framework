@@ -1,0 +1,392 @@
+/* RESET PADDING */
+form .container-fluid,
+#igrp-contents>.content>.row{
+	padding: 0!important;
+	margin:0!important;
+}
+/* FILE EDITOR */
+.igrp-fileeditor{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height:100%;
+	z-index: 2000;
+}
+.igrp-fileeditor.requesting:after{
+	content:"";
+	position: fixed;
+	z-index: 15;
+}
+
+/*buttons*/
+.igrp-fileeditor-save{
+	position: fixed!important;
+	right: 5px;
+	top: 5px;
+	z-index: 100
+	/*top: auto;
+	z-index: 100;
+	width: 55px;
+	height: 55px;
+	border-radius: 100%;
+	line-height: 32px;*/
+}
+/*.igrp-fileeditor-save i{
+	margin-left: -2px
+}*/
+/*left panel*/
+.igrp-fileeditor .igrp-fileeditor-left-panel{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	background: #607D8B;
+	color: white;
+	padding: 15px 0px 15px 15px;
+	font-size: 14px;
+	overflow: auto;
+	width: 350px!important;
+}
+
+.igrp-fileeditor .file.active{
+	background:rgba(0,0,0,.15);
+	position: relative;
+}
+
+.igrp-fileeditor .file.brand-new{
+	position: relative;
+	background:rgba(0,0,0,.05);
+	font-style: italic;
+	font-weight: bold;
+}
+
+/*.igrp-fileeditor .file.brand-new .spinner{
+	position: absolute;
+	right: 0;
+	top: 50%;
+	margin-top: -7px;
+	display: none
+}
+
+.igrp-fileeditor .file.brand-new.requesting .spinner{
+	display: block;
+}*/
+
+/*.igrp-fileeditor .file.brand-new.requesting :after{
+	display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+    content:"\f110";
+    position: absolute;
+    top: 50%;
+    margin-top: -7px;
+    right:0;
+}*/
+
+.igrp-fileeditor .file.active:after,
+.igrp-fileeditor .file.brand-new:after
+{
+	content: "";
+    background: rgba(0,0,0,.15);
+    position: absolute;
+    top: 0;
+    right: -100%;
+    height: 100%;
+    width: 100%;
+}
+
+.igrp-fileeditor .file.active:before,
+.igrp-fileeditor .file.brand-new:before{
+	content:"";
+	left:-100%;
+	width: 100%;
+	height: 100%;
+	background:rgba(0,0,0,.15);
+	position: absolute;
+	top: 0
+}
+
+.igrp-fileeditor .file.brand-new:after,
+.igrp-fileeditor .file.brand-new:before{
+	background:rgba(0,0,0,.05);
+}
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul{
+	padding: 0
+}
+.igrp-fileeditor .igrp-fileeditor-left-panel ul>li{
+	position: relative;
+}
+
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul>li ul:not(.dropdown-menu){
+	padding-left: 8px;
+}
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul li>span{
+	display: block;
+	padding:5px;
+	cursor: pointer;
+	position: relative;
+	color: #f3f3f3;
+	font-weight: 300;
+}
+
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul>li:not(.file)>span[aria-expanded="true"]{
+	
+	font-weight: 500
+}
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul>li:not(.file)>span:hover{
+	color: white;
+
+}
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul li.folder>span:before,
+.igrp-fileeditor .igrp-fileeditor-left-panel ul li.file>span:before{
+	display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+	content:"\f114";
+	margin-right: 4px;
+}
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul li.loading span:after{
+	display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+    content:"\f110";
+    position: absolute;
+    top: 50%;
+    margin-top: -7px;
+    right:0;
+}
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul li.file>span:before{
+	content :"\f0f6";
+}
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul li.folder>span[aria-expanded="true"]:before{
+	content: "\f115"
+}
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul>li span:hover>.dropdown{
+	opacity: 1;
+}
+
+.igrp-fileeditor li .dropdown{
+	position: absolute;
+	right: -5px;
+    top: 5px;
+	z-index: 20;
+	transition: opacity .4s;
+}
+.igrp-fileeditor li .dropdown>a{
+	color: white;
+	cursor: pointer;
+	padding: 5px;
+}
+.igrp-fileeditor li .dropdown>a.dropdown-toggle{
+	display: none
+}
+.igrp-fileeditor .dropdown-menu{
+	margin-top: 15px;
+} 
+.igrp-fileeditor .dropdown-menu a{
+	border: 0
+}
+.igrp-fileeditor .dropdown-menu .divider{
+	margin: 0
+}
+/*main panel*/
+.igrp-fileeditor .igrp-fileeditor-main-panel {
+	position: absolute;
+	left: 350px;
+	width: calc( 100% - 350px );
+	height: 100%;
+	padding:0;
+}
+
+.igrp-fileeditor-tab{
+	background: #f7f7f7;
+	padding: 0 25px;
+	box-shadow:0px 3px 4px -1px #eee;
+}
+
+.igrp-fileeditor .tab-content{
+	padding: 0;
+	border:0;
+	position: absolute;
+	top: 40px;
+	left: 0;
+	width: 100%;
+	height: calc(100% - 40px)
+}
+.igrp-fileeditor .nav-tabs>li>a{
+	border-width:0 0 1px 0!important;
+	margin: 0;
+	font-weight: 400;
+	padding: 10px 15px 10px!important
+}
+.igrp-fileeditor .nav-tabs>li.active>a:after{
+	content:"";
+	width: 100%;
+	height: 2px;
+	position: relative;
+	z-index: 15;
+	background: red
+}
+
+/*code mirror*/
+.igrp-fileeditor-coder .CodeMirror{
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.CodeMirror-gutters{
+	background: white;
+	border:0;
+}
+
+div[item-name="igrp-fileeditor"] ul.nav li {
+	/*max-width: 150px;*/
+	border: 1px solid #e4e4e4;
+    margin: 2px;
+
+}
+
+div[item-name="igrp-fileeditor"] ul.nav li .fileeditor-menu-closer {
+	position: absolute;
+    right: 2px;
+    top: 7px;
+    z-index: 2;
+    font-size: 12px;
+    color: #b2b2b2;
+    padding: 3px;
+    opacity:  0;
+    transition: opacity .4s;
+    cursor: pointer;
+}
+
+div[item-name="igrp-fileeditor"] ul.nav li:hover .fileeditor-menu-closer {
+    opacity: 1;
+}
+
+div[item-name="igrp-fileeditor"] ul.nav li a{
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    font-size: 12px!important;
+    padding-right: 25px!important;
+}
+
+div[item-name="igrp-fileeditor"] ul.nav li.active a{
+	background: white!important;
+}
+
+div[item-name="igrp-fileeditor"] ul.nav li.active a:after{
+	/*content:"";
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	background: red*/
+}
+
+.gen-editor-errors {
+    position: fixed;
+    bottom: 0;
+    height: 160px;
+    background: white;
+    z-index: 10;
+    padding: 10px 30px;
+    overflow: auto;
+    width: calc(100% - 350px);
+    left: 350px;
+}
+
+.gen-editor-errors table{
+	width:100%;
+}
+
+.gen-editor-errors table tr{
+	cursor:pointer;
+}
+
+.gen-editor-errors table td{
+	padding:5px;
+}
+
+.gen-editor-errors table td.gen-editor-err-line{
+	width:30px;
+	color:#fa0000;
+}
+
+.gen-editor-errors table tbody tr:hover{
+	background-color:none!important;
+}
+
+.gen-editor-errors .gen-editor-errors-close{
+	position: absolute;
+    right: 0;
+    top: 0;
+    font-size:16px;
+    cursor:pointer;
+	border:0
+}
+
+.CodeMirror-gutter-wrapper.has-error .CodeMirror-linenumber{
+	background:#fa0000;
+	color:white;
+}   
+
+/* file editor add modal */
+#fileeditor-add-modal{
+	
+}
+
+#fileeditor-add-modal .modal-dialog{
+	top: 50%;
+	margin-top: -150px;
+}
+
+#fileeditor-add-modal .confirm-add{
+	margin-top: 25px;
+}
+.adder-input{
+	background: transparent;
+	border: 0;
+	outline: 0;
+	width: 80%;
+}
+/*search files and dirs*/
+.fileeditor-search-wrapper{
+	margin-right:15px;
+}
+
+.fileeditor-search-wrapper input,
+.fileeditor-search-wrapper span{
+	background: rgba(0,0,0,.15);
+	border: 0;
+	outline: 0;
+	border-color: rgba(0,0,0,.15);
+	height: 35px;
+	color:white
+}

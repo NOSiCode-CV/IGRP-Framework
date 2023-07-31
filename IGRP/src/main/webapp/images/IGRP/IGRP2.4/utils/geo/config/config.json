@@ -1,0 +1,6 @@
+{
+	"bv" : "/utils/geo/cv/boavista/geo.json.geojson",
+	"sv" : "/utils/geo/cv/saovicente/geo.json.geojson",
+	"sv2" : "/images/IGRP/IGRP2.3/core/formgen/types/containers/mapchart/utils/basemap/bv.json",
+	"sv1" : "/images/IGRP/IGRP2.3/core/formgen/types/containers/mapchart/utils/basemap/us-all.json"
+}

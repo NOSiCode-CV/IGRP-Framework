@@ -8,13 +8,13 @@
 
    <groupId>IGRP</groupId>
    <artifactId>parent</artifactId>
-   <version>v1</version>
+   <version>v2</version>
    <packaging>pom</packaging>
 
    <name>Modulos IGRP</name>
    <description>Modulos do igrp</description>
 
-
+    
    <modules>
        <module>IGRP</module>
    </modules>
@@ -32,4 +32,6 @@
     		</plugins>
 		</pluginManagement>
 	</build>
+
+
 </project>

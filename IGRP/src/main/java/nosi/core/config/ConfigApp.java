@@ -12,7 +12,9 @@ import java.util.Objects;
 import java.util.Properties;
 
 import nosi.core.db.migration.api.MigrationIGRPInitConfig;
+import nosi.core.webapp.ApplicationManager;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 
 
 /**
@@ -149,13 +151,14 @@ public final class ConfigApp {
         }
         return Core.isNotNull(this.isInstallation);
     }
-
-    public String getAutentikaUrlForSso() {
-        String url = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE.value());
-        final String redirectUri = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
-        final String clientId = commonMain.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
-        url += "?response_type=code&client_id=" + clientId + "&scope=openid+email+profile&state=igrp&redirect_uri=" + redirectUri;
-        return url;
+    
+    public String getExternalUrl(String dad) {
+    	String url = ApplicationManager.requestUrl(Igrp.getInstance().getRequest());
+    	if(dad != null && !dad.trim().isEmpty()) {
+    		String deployedWarName = Core.getDeployedWarName();
+    		url = url.replaceFirst("/" + deployedWarName + "/", "/" + dad + "/");
+    	}
+    	return url;
     }
 
     public String getWorkspace() {

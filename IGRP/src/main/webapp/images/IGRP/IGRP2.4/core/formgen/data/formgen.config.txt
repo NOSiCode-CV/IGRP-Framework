@@ -1,0 +1,12 @@
+{
+	"link_page_detail":"pageDetails.txt?p_id=",
+	"link_page_list":"link_page_list.txt?p_id=",
+	"link_service_list":"/images/IGRP/IGRP2.3/app/bootstrap/xml/service.xml",
+	"link_image_list":"red.form_designer_db.image_list?p_name=",
+	"preserve_url":"/images/IGRP/IGRP2.3/core/formgen/util/preserve.xml",
+	"link_service_xsd":"/images/IGRP/IGRP2.3/core/formgen/util/test.xsd",
+	"link_get_page_json":"data_copy.txt?p_id=",
+	"link_preview":"/images/IGRP/",
+	"link_domains": "domains.json",
+	"link_domains_value": "domain.yesno.json?domain="
+}

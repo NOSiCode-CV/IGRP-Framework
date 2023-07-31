@@ -14,7 +14,7 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Part;
 
 import nosi.core.webapp.import_export.FileImportAppOrPage;
 

@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Part;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;

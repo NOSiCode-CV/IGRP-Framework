@@ -1,0 +1,10 @@
+<div class="form-group col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
+    <xsl:apply-templates mode="igrp-form-lookup-field" select="#path#">
+        <xsl:with-param name="change" select="'#[change]#'"/>
+        <xsl:with-param name="declabel" select="'#[declabel]#'"/>
+        <xsl:with-param name="inputmask" select="'#[inputmask]#'"/>
+        <xsl:with-param name="maxlength" select="'#[maxlength]#'"/>
+        <xsl:with-param name="field_param" select="'#[field_param]#'"/>
+        <xsl:with-param name="input-id" select="'#parent.tag#_#tag#'"/>
+    </xsl:apply-templates>
+</div>

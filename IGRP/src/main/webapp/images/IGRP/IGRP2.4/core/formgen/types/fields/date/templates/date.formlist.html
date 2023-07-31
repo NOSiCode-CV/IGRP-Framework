@@ -1,0 +1,19 @@
+<xsl:if test="not(#tag#/@visible)">
+    <td align="#[align]#" data-row="{position()}" data-title="{../../../fields/#tag#/label}" class="#type#" item-name="#[tag]#" item-type="#type#">
+        <xsl:apply-templates mode="igrp-formlist-date-field" select="./#tag#">
+            <xsl:with-param name="parent-id" select="'#parent.tag#'"/>
+            <xsl:with-param name="format" select="'#[format]#'"/>
+            <xsl:with-param name="enableTime" select="'#[enableTime]#'"/>
+            <xsl:with-param name="disableWeekends" select="'#[disableWeekends]#'"/>
+            <xsl:with-param name="disabledBeforetoday" select="'#[disabledBeforetoday]#'"/>
+            <xsl:with-param name="range" select="'#[range]#'"/>
+            <xsl:with-param name="change" select="'#[change]#'"/>
+            <xsl:with-param name="maxlength" select="'#[maxlength]#'"/>
+            <xsl:with-param name="placeholder" select="'#[placeholder]#'"/>
+        </xsl:apply-templates>
+    </td>
+</xsl:if>
+
+
+
+

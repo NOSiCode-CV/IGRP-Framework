@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Dash_board_processo</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Dash_board_processo</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=259</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Dash Board Processo</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[<p>Mapa de Processos</p>
+]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <table_2 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <nome_processo name="p_nome_processo" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Nome Processo</label>
+                </nome_processo>
+                <process_id name="p_process_id" type="hidden" maxlength="30" iskey="true" showLabel="true" java-type="String" group_in="" tag="process_id"/>
+                <process_key name="p_process_key" type="hidden" maxlength="30" showLabel="true" iskey="true" java-type="String" group_in="" tag="process_key"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome_processo name="p_nome_processo">Sit adipiscing officia ut accu</nome_processo>
+                        <process_id name="p_process_id" tag="process_id">hidden-10bb_5e93</process_id>
+                        <process_key name="p_process_key" tag="process_key">hidden-707e_9a9c</process_key>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome_processo name="p_nome_processo">Doloremque unde sit adipiscing</nome_processo>
+                        <process_id name="p_process_id" tag="process_id">hidden-87a7_4d3f</process_id>
+                        <process_key name="p_process_key" tag="process_key">hidden-27d9_57d4</process_key>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome_processo name="p_nome_processo">Officia laudantium iste offici</nome_processo>
+                        <process_id name="p_process_id" tag="process_id">hidden-203c_6ede</process_id>
+                        <process_key name="p_process_key" tag="process_key">hidden-1b94_e54b</process_key>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome_processo name="p_nome_processo">Perspiciatis consectetur deser</nome_processo>
+                        <process_id name="p_process_id" tag="process_id">hidden-5b9b_b482</process_id>
+                        <process_key name="p_process_key" tag="process_key">hidden-1277_6483</process_key>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome_processo name="p_nome_processo">Iste totam omnis iste deserunt</nome_processo>
+                        <process_id name="p_process_id" tag="process_id">hidden-8fc4_9758</process_id>
+                        <process_key name="p_process_key" tag="process_key">hidden-5846_e1d0</process_key>
+                    </row>
+                </value>
+                <context-menu>
+                    <item id="button_96a4_5ff5" type="specific" code="" class="primary" rel="iniciar_processo" refresh_components="">
+                        <title>Iniciar Processo</title>
+                        <app>igrp</app>
+                        <page>ExecucaoTarefas</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml?</parameter>
+                        <target>alert_submit</target>
+                        <img>primary|fa-play</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/execucaotarefas/ExecucaoTarefas.xml</preview>
+                    </item>
+                    <item id="button_d6eb_cd54" type="specific" code="" class="grey" rel="detalhes_processo" refresh_components="">
+                        <title>Detalhes Processo</title>
+                        <app>igrp</app>
+                        <page>Detalhes_dashboard_processo</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/detalhes_dashboard_processo/Detalhes_dashboard_processo.xml?</parameter>
+                        <target>submit_popup</target>
+                        <img>grey|fa-list</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/detalhes_dashboard_processo/Detalhes_dashboard_processo.xml</preview>
+                    </item>
+                    <item id="button_d82a_52b1" type="specific" code="" class="danger" rel="eliminar_processo" refresh_components="">
+                        <title>Eliminar Processo</title>
+                        <app>igrp</app>
+                        <page>Dash_board_processo</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xml?</parameter>
+                        <target>alert_submit</target>
+                        <img>danger|fa-times</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xml</preview>
+                    </item>
+                </context-menu>
+            </table>
+        </table_2>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

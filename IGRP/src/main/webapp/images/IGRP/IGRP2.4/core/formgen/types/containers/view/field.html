@@ -1,0 +1,17 @@
+<div class="view-item text-{#path#/@class}" item-name="#tag#" >
+	<xsl:if test="#path#/@img != ''">
+		<i class="fa {#path#/@img} view-img">
+		<xsl:if test="#path#/@showlabel = 'false'">
+			<xsl:attribute name="title">
+				<xsl:value-of select="#path#/label"/>
+			</xsl:attribute>
+		</xsl:if>
+			
+		</i>
+	</xsl:if>
+	<xsl:if test="#path#/@showlabel != 'false' or not(#path#/@showlabel)">
+		<span class="view-label"><xsl:value-of select="#path#/label"/></span>
+	</xsl:if>
+    
+    <span class="view-value"><xsl:value-of select="#path#/value"/></span>
+</div>

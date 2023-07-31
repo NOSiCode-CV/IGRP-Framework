@@ -5,11 +5,13 @@ package nosi.core.webapp;
  */
 import java.io.IOException;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.DatatypeConverter;
+import org.apache.logging.log4j.ThreadContext;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.xml.bind.DatatypeConverter;
 
 import nosi.core.i18n.I18nManager;
 import nosi.core.servlet.IgrpServlet;
@@ -61,6 +63,7 @@ public final class Igrp{
 	 
     public static void remove() {
     	appInstance.cleanUp();
+    	ThreadContext.clearAll(); // Log4j MDC clear all context resources
     }
 	 
 	// Inicialize the web app components

@@ -1,0 +1,7 @@
+.formlist-a-details{
+	display:none;
+}
+
+#igrp-form-gen .formlist-a-details{
+	display:block;
+}

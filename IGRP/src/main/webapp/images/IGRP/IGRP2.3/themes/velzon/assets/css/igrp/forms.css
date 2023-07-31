@@ -1,0 +1,19 @@
+
+.igrp-forms .gen-form-footer>.gen-form-btns>a:not(:first-child){ 
+    margin-left:8px;
+}
+
+[role="form"] [required="required"]>label:not(.form-validator-label):before, 
+[role="form"] [required="required"]>.checkbox > label:not(.form-validator-label):after, 
+[role="form"] [required="required"]>.radio > label:not(.form-validator-label):after {
+    content: "*";
+    position: relative;
+    top: 1px;
+    color: #ca2418;
+    margin-right: 2px;
+    font-weight: bold;
+}
+
+.form-group a.link{
+    margin-top: 30px;
+}

@@ -1,0 +1,62 @@
+/* GEN */
+
+#gen-views-ctrl ul li{
+	color: inherit!important;
+	border-right: 0!important
+}
+
+#igrp-form-gen #igrp-sidebar.sidebar{
+	background: white;
+}
+
+
+#gen-views-ctrl ul li.active{
+    font-weight: 400;
+}
+
+#igrp-sidebar .nav-tabs > li.active > a,
+#gen-views-ctrl ul li.active{
+	color: #008900!important
+}
+#igrp-sidebar .nav-tabs > li.active > a:after{
+	background:#008900!important;
+}
+
+#igrp-sidebar .nav-tabs > li.active > a:hover{
+color: #008900!important
+}
+ 
+#igrp-sidebar .nav-tabs > li > a:hover,
+#igrp-form-gen .treeview-menu>li>a{
+	color: inherit!important;
+}
+
+.gen-row .row-options,
+.gen-column .col-options{
+	background: rgb(253, 253, 253)!important;
+	border: 0!important;
+}
+#gen-design .gen-row,
+.row .gen-column-inner{
+	border: 0!important
+}
+.gen-column .col-options:before{
+	background: transparent!important;
+	border: 0!important
+}
+.row .row-options .row-class-setter{
+	font-size: 9px;
+}
+
+.gen-viewers-toolbar{
+	z-index: 100;
+    background: #fbfbfb;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 0;
+    padding: 2px 4px;
+    border-bottom: 1px solid #ededed;
+    box-shadow: -2px 0px 4px 0px #ccc;
+}
+

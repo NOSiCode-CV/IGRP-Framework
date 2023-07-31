@@ -1,0 +1,14 @@
+<div class="form-group col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#">
+  	
+	<xsl:apply-templates mode="igrp-form-link-field" select="#path#">
+      <xsl:with-param name="request_fields" select="'#[request_fields]#'"/>
+      <xsl:with-param name="adbcli" select="'#[adbcli]#'"/>
+      <xsl:with-param name="closerefresh" select="'#[closerefresh]#'"/>
+      <xsl:with-param name="target" select="'#[target]#'"/>
+      <xsl:with-param name="class" select="'#[class]#'"/>
+      <xsl:with-param name="style" select="'#[btnStyle]#'"/>
+      <xsl:with-param name="icon" select="'#[img]#'"/>
+      <xsl:with-param name="iconPosition" select="'#[iconPosition]#'"/>
+    </xsl:apply-templates>
+	
+</div>

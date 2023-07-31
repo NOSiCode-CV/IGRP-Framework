@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>IGRP Blockly</title>
+	<script src="jquery-3.3.1.min.js"></script>
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/igrp.blocky.css">
+	<!-- import required blockly and blocks -->
+	<script type="text/javascript" src="blockly/blockly_compressed.js"></script>
+	<script type="text/javascript" src="blockly/blocks_compressed.js"></script>	
+	<!-- import custom blocks (Selenium) -->
+	<script type="text/javascript" src="blockly/selenium_block.js"></script>	
+	<!-- import code -->
+	<script type="text/javascript" src="blockly/javascript_compressed.js"></script>	
+	<!-- import code - custom and helper -->
+	<script type="text/javascript" src="blockly/java_compressed.js"></script>	
+	<script type="text/javascript" src="blockly/selenium.js"></script>	
+	<script type="text/javascript" src="js/code.js"></script>
+	<!-- import message language -->
+	<script type="text/javascript" src="blockly/msg/js/en.js"></script>
+	<script type="text/javascript" src="js/Blob.js"></script>
+	<script type="text/javascript" src="js/spin.js"></script>
+	<script type="text/javascript" src="js/FileSaver.min.js"></script>
+	<script type="text/javascript" src="js/file_helper.js"></script>	
+</head>
+<body>
+<table height="100%" width="100%">
+	<tr>
+		<td colspan=2>
+		<table width="100%">
+			<tr id="tabRow" height="1em">
+				<td id="tab_blocks" class="tabon">Blocks</td>
+				<td class="tabmin">&nbsp;</td>
+				<td id="tab_selenium" class="taboff">Java</td>
+				<td class="tabmin">&nbsp;</td>
+				<td id="tab_xml" class="taboff">XML</td>
+				<td class="tabmax">	
+					<button onclick="saveCode()">Save Java Code</button>
+					<button onclick="save()">Save XML</button>
+					<button id="fakeload">Load XML</button>
+					<input type="file" id="load" style="display: none;"/>
+					<button id="trashButton" class="notext" title="...">
+					<img src='blockly/media/1x1.gif' class="trash icon21">
+					</button>
+					<input type="file" id="load" style="display: none;"/>
+				</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+	<tr>
+		<td height="99%" id="content_area"></td>
+	</tr>
+</table>
+<div id="content_blocks" class="content"></div>
+<textarea id="content_selenium" class="content" readonly wrap="off"></textarea>
+<textarea id="content_javascript" class="content" readonly wrap="off"></textarea>
+<textarea id="content_xml" class="content" wrap="off"></textarea>
+<xml id="toolbox" style="display: none">   
+<category id="catIGRP" name="IGRP Blocks" colour="#990000">	
+<!--<category id="catGiven" name="Classes Core" colour="#990598">
+	<block type="teste_core">
+		<value name="NAME">
+			<shadow type="text">
+			<field name="TEXT"></field>
+			</shadow>						
+		</value>
+		<value name="NAME2">
+			<shadow type="variables_get">
+			<field name="TEXT"></field>
+			</shadow>						
+		</value>
+	</block>
+</category> -->
+<category id="inicial_script" name="Script Inicial" colour="#990598">
+	
+	<block type="script_inicial">
+		<value name="NAME">
+			<shadow type="text">
+				<field name="TEXT"></field>
+			</shadow>						
+		</value>
+	</block>
+</category>	
+<category id="insert" name="Inserção" colour="#990598">
+	<block type="inserir">
+		<value name="NAME">
+		<shadow type="text">
+		<field name="TEXT"></field>
+		</shadow>						
+		</value>
+		<value name="NAME2">
+		<shadow type="text">
+		<field name="TEXT"></field>
+		</shadow>						
+		</value>
+	</block>
+	<block type="dado"></block>
+</category>
+<category id="list" name="Listagem" colour="#990598">
+	<block type="listar">
+		<value name="NAME">
+			<shadow type="text">
+				<field name="TEXT"></field>
+			</shadow>							
+		</value>
+	</block>
+	<block type="linha"></block>
+</category>	
+<category id="model" name="Objetos do model" colour="#990598">
+</category>
+<category id="dao" name="Objetos da base de dados" colour="#990598">
+	<block type="teste_set_dao_nome"></block>
+	<block type="teste_get_dao_nome"></block>
+	<block type="teste_set_dao_idade"></block>
+	<block type="teste_get_dao_idade"></block>
+	<block type="teste_set_dao_morada"></block>	
+	<block type="teste_get_dao_morada"></block>
+</category>					
+</category>
+</xml>
+<script>
+$.get('teste.xml').then(myFunction);
+function myFunction(xml) {
+	$('rows>content>*[type]',xml).each(function(i,element){
+		$(element).find('>fields>*').each(function(x, field){
+			var tag = $(field).prop('tagName');
+			$('#model').append(
+			'<block type="teste_set_model_'+tag+'"></block>\n'+ 
+			'<block type="teste_get_model_'+tag+'"></block>'
+			)
+		})
+	});
+	Code.init()
+}
+</script>
+</body>
+</html>

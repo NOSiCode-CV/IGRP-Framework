@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Lista_terfa_de_processo</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Lista_terfa_de_processo</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=260</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Lista Terfa de Processo</title>
+        <table_1 type="table" xml-type="table" title="Lista das etapas" gen-type="container" gen-group="true">
+            <fields>
+                <estado name="p_estado" type="color" format="hex" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Estado</label>
+                </estado>
+                <descricao_tarefa name="p_descricao_tarefa" type="text" maxlength="255" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Descrição</label>
+                </descricao_tarefa>
+                <data_inicio name="p_data_inicio" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Data Inicio</label>
+                </data_inicio>
+                <data_fim name="p_data_fim" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Data Fim</label>
+                </data_fim>
+                <n_tarefa name="p_n_tarefa" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Nº Etapa</label>
+                </n_tarefa>
+                <atribuido_a name="p_atribuido_a" type="text" maxlength="255" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Atribuído a</label>
+                </atribuido_a>
+                <processdefinitionkey name="p_processdefinitionkey" type="hidden" maxlength="30" showLabel="true" iskey="true" group_in="" java-type="String" tag="processdefinitionkey"/>
+                <taskdefinitionkey name="p_taskDefinitionKey" type="hidden" maxlength="30" showLabel="true" iskey="true" group_in="" java-type="String" tag="taskdefinitionkey"/>
+                <prm_taskid name="p_prm_taskid" type="hidden" maxlength="30" showLabel="true" iskey="true" group_in="" java-type="String" tag="prm_taskid"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">1</estado>
+                        <descricao_tarefa name="p_descricao_tarefa">Dolor anim accusantium perspiciatis officia</descricao_tarefa>
+                        <data_inicio name="p_data_inicio">Rem ut adipiscing officia aliq</data_inicio>
+                        <data_fim name="p_data_fim">Adipiscing sit lorem natus lor</data_fim>
+                        <n_tarefa name="p_n_tarefa">Magna consectetur elit deserun</n_tarefa>
+                        <atribuido_a name="p_atribuido_a">Voluptatem ut mollit officia laudantium</atribuido_a>
+                        <processdefinitionkey name="p_processdefinitionkey" tag="processdefinitionkey">hidden-0587_6994</processdefinitionkey>
+                        <taskdefinitionkey name="p_taskDefinitionKey" tag="taskdefinitionkey">hidden-878a_ec0c</taskdefinitionkey>
+                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-24d9_3557</prm_taskid>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">2</estado>
+                        <descricao_tarefa name="p_descricao_tarefa">Doloremque deserunt voluptatem omnis ipsum</descricao_tarefa>
+                        <data_inicio name="p_data_inicio">Doloremque unde ipsum sit sit</data_inicio>
+                        <data_fim name="p_data_fim">Unde natus dolor amet ut</data_fim>
+                        <n_tarefa name="p_n_tarefa">Omnis voluptatem mollit labore</n_tarefa>
+                        <atribuido_a name="p_atribuido_a">Natus ipsum iste mollit laudantium</atribuido_a>
+                        <processdefinitionkey name="p_processdefinitionkey" tag="processdefinitionkey">hidden-7e39_4f2c</processdefinitionkey>
+                        <taskdefinitionkey name="p_taskDefinitionKey" tag="taskdefinitionkey">hidden-6cf9_8802</taskdefinitionkey>
+                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-bb2e_92a7</prm_taskid>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">2</estado>
+                        <descricao_tarefa name="p_descricao_tarefa">Rem sed stract perspiciatis totam</descricao_tarefa>
+                        <data_inicio name="p_data_inicio">Elit sed amet mollit voluptate</data_inicio>
+                        <data_fim name="p_data_fim">Aliqua elit amet labore offici</data_fim>
+                        <n_tarefa name="p_n_tarefa">Elit consectetur perspiciatis</n_tarefa>
+                        <atribuido_a name="p_atribuido_a">Sed aliqua officia totam adipiscing</atribuido_a>
+                        <processdefinitionkey name="p_processdefinitionkey" tag="processdefinitionkey">hidden-fd6c_2edd</processdefinitionkey>
+                        <taskdefinitionkey name="p_taskDefinitionKey" tag="taskdefinitionkey">hidden-04a1_53b9</taskdefinitionkey>
+                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-da87_2e86</prm_taskid>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">1</estado>
+                        <descricao_tarefa name="p_descricao_tarefa">Omnis iste labore totam natus</descricao_tarefa>
+                        <data_inicio name="p_data_inicio">Adipiscing ut sit perspiciatis</data_inicio>
+                        <data_fim name="p_data_fim">Ipsum deserunt sed totam volup</data_fim>
+                        <n_tarefa name="p_n_tarefa">Magna omnis aperiam perspiciat</n_tarefa>
+                        <atribuido_a name="p_atribuido_a">Deserunt laudantium consectetur ut iste</atribuido_a>
+                        <processdefinitionkey name="p_processdefinitionkey" tag="processdefinitionkey">hidden-1e42_631f</processdefinitionkey>
+                        <taskdefinitionkey name="p_taskDefinitionKey" tag="taskdefinitionkey">hidden-6659_4f47</taskdefinitionkey>
+                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-f30d_b085</prm_taskid>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">1</estado>
+                        <descricao_tarefa name="p_descricao_tarefa">Ut labore lorem perspiciatis ut</descricao_tarefa>
+                        <data_inicio name="p_data_inicio">Sit ipsum omnis labore totam</data_inicio>
+                        <data_fim name="p_data_fim">Labore stract aliqua doloremqu</data_fim>
+                        <n_tarefa name="p_n_tarefa">Iste anim totam natus iste</n_tarefa>
+                        <atribuido_a name="p_atribuido_a">Elit doloremque magna unde amet</atribuido_a>
+                        <processdefinitionkey name="p_processdefinitionkey" tag="processdefinitionkey">hidden-ad89_179c</processdefinitionkey>
+                        <taskdefinitionkey name="p_taskDefinitionKey" tag="taskdefinitionkey">hidden-4e69_11d7</taskdefinitionkey>
+                        <prm_taskid name="p_prm_taskid" tag="prm_taskid">hidden-5bcc_b9f9</prm_taskid>
+                    </row>
+                </value>
+                <legend_color>
+                    <item>
+                        <label>Terminado</label>
+                        <value>1</value>
+                        <color>#dc2b4c</color>
+                    </item>
+                    <item>
+                        <label>Em execucao</label>
+                        <value>2</value>
+                        <color>#95c11f</color>
+                    </item>
+                </legend_color>
+                <context-menu>
+                    <item id="button_32f7_03fc" type="specific" code="" class="info" rel="ver_detalhes" custom_return="true" refresh_components="">
+                        <title>Ver detalhes</title>
+                        <app>igrp</app>
+                        <page>Dominio</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
+                        <target>mpsubmit</target>
+                        <img>info|fa-eye</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

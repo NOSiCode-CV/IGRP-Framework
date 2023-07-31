@@ -1,5 +1,6 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 
+
 import nosi.core.webapp.Controller;//
 import nosi.core.webapp.databse.helpers.ResultSet;//
 import nosi.core.webapp.databse.helpers.QueryInterface;//
@@ -9,7 +10,7 @@ import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
-
+import nosi.core.config.Config;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,6 +22,7 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.DateHelper;
+import nosi.core.webapp.helpers.mime_type.MimeType;
 import nosi.core.webapp.import_export_v2.exports.ExportHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -83,7 +85,7 @@ public class ListaPageController extends Controller {
 		Core.log(uri);
 
 		if (!uri.equals("/IGRP/app/webapps")) {
-			if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET")) {
+			if (Core.isHttpGet()) {
 				final Application appX = new Application().find().andWhere("url", "=", uri.split("/")[1].toLowerCase())
 						.one();
 				if (appX != null)
@@ -118,10 +120,9 @@ public class ListaPageController extends Controller {
 		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
 		List<ListaPage.Table_2> apps = new ArrayList<>();
 
-		if (Core.isNotNull(app)) {
-			if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET")) {
+		if (Core.isNotNull(app) &&  (Core.isHttpGet())) {
 				model.setApplication(app);
-			}
+			
 		}
 
 		if (Core.isNotNull(model.getApplication())) {
@@ -138,7 +139,7 @@ public class ListaPageController extends Controller {
 
 		}
 
-		List<Action> actions = new ArrayList<Action>();
+		List<Action> actions = new ArrayList<>();
 
 		if (Core.getParamArray("p_modulo") != null) {
 			for (String m : Core.getParamArray("p_modulo")) {
@@ -166,7 +167,7 @@ public class ListaPageController extends Controller {
 			if (map.size() > 1 && Core.isNotNull(ac.getNomeModulo()) && Core.isNotNull(map.get(ac.getNomeModulo())))
 				module = "" + map.get(ac.getNomeModulo());
 			table1.setModulo_tab(module);
-			table1.setDescricao_page(ac.getPage_descr() + " (" + ac.getPage() + ")");
+			table1.setDescricao_page(ac.getPage_descr() + " (" + ac.getPage() + ")"+(ac.getVersion().equals("2.4")?"₂.₄":""));
 			int check = ac.getStatus() == 1 ? ac.getStatus() : -1;
 			table1.setStatus_page(ac.getStatus());
 			table1.setStatus_page_check(check);
@@ -189,7 +190,7 @@ public class ListaPageController extends Controller {
 					page = (ac != null && ac.getPage() != null) ? ac.getPage() : page;
 					page = ac.getApplication().getDad().toLowerCase() + "/" + page;
 				}
-				myapps.setMy_app_img(this.getConfig().getLinkImg() + "/assets/img/iconApp/"
+				myapps.setMy_app_img(this.getConfig().getLinkImg(Config.DEFAULT_V_PAGE) + "/assets/img/iconApp/"
 						+ (Core.isNotNull(p.getOrganization().getApplication().getImg_src())
 								? p.getOrganization().getApplication().getImg_src()
 								: "default.svg"));
@@ -340,16 +341,16 @@ public class ListaPageController extends Controller {
 			Wizard_export_step_2 model_w = new Wizard_export_step_2();
 			model_w.setApplication_id(page.getApplication().getId());
 			model_w.setFile_name(page.getApplication().getName() + "-" + page.getPage_descr() + "(" + page.getPage()
-					+ ")_igrpweb_v." + this.configApp.getConfig().VERSION);
+					+ ")_igrpweb_v." + Config.VERSION);
 			Core.setAttribute("p_pagina_ids_check_fk", new String[] { "" + id });
 			// insert data on import/export table
 			ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), this.getConfig().getUserName(),
 					DateHelper.getCurrentDataTime(), "Export");
-			ie_dao = ie_dao.insert();
+			ie_dao.insert();
 
 			byte[] bytes = ExportHelper.export(model_w);
 			if (bytes != null) {
-				return this.xSend(bytes, model_w.getFile_name() + ".jar", Core.MimeType.APPLICATION_JAR, true);
+				return this.xSend(bytes, model_w.getFile_name() + ".jar", MimeType.APPLICATION_JAR, true);
 			}
 		} else {
 			Core.setMessageError();
@@ -381,7 +382,7 @@ public class ListaPageController extends Controller {
 		
 /*----#start-code(custom_actions)----*/
 	public Response actionChangeStatus()
-			throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
+			throws IllegalArgumentException, JSONException {
 
 		this.format = Response.FORMAT_JSON;
 		String id = Core.getParam("p_id_page");
@@ -431,12 +432,10 @@ public class ListaPageController extends Controller {
 
 		@Override
 		public int compare(Table_2 o1, Table_2 o2) {
-			// TODO Auto-generated method stub
 			return o2.getEnv_fk() - o1.getEnv_fk();
 
 		}
 	}
 
-	final String apagar_page = "_DEL__343";
 	/*----#end-code----*/
 }

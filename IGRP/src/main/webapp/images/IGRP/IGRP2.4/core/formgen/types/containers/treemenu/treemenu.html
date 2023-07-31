@@ -1,0 +1,14 @@
+<div class="treemenu box"  gen-structure="treemenu">
+	<xsl:apply-templates mode="form-hidden-fields" select="#path#/fields"/>
+	<xsl:apply-templates select="#path#" mode="treemenu">
+		<xsl:with-param name="target" select="'#[target]#'"/>
+		<xsl:with-param name="target_fields" select="'#[target_fields]#'"/>
+		<xsl:with-param name="style" select="'#[style]#'"/>
+		#[packageName]#
+		#[remote]#
+		#[onLoad]#
+		#[tooltip]#
+		#[parser]#
+		#[search]#
+	</xsl:apply-templates>
+</div>

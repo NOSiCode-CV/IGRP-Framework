@@ -10,11 +10,12 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Part;
 import javax.xml.transform.TransformerConfigurationException;
 import org.apache.commons.text.StringEscapeUtils;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
@@ -152,7 +153,7 @@ public class BPMNDesignerController extends Controller {
 			ac.setStatus(1);
 			ac.setPage(taskName);
 			ac.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".process."+task.getProcessDefinitionId().toLowerCase());
-			ac.setVersion("2.3");
+			ac.setVersion(Config.DEFAULT_V_PAGE);
 			ac.setAction("index");
 			ac.setProcessKey(task.getProcessDefinitionId().toLowerCase());
 			ac.setIsComponent((short) 2);
@@ -172,20 +173,20 @@ public class BPMNDesignerController extends Controller {
 				FileHelper.createDiretory(classPathWorkspace);
 			}
 			String xml = BPMNHelper.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), ac.getPage(), task.getFormKey(), classPathWorkspace);
-			String content = this.transformXMLToController(xml);
+			String content = this.transformXMLToController(xml,ac.getVersion());
 			FileHelper.saveFilesJavaControllerAndReplace(classPathWorkspace, ac.getPage(), content);
 		}else {
 			String classPathServer = this.getClassPathServer(task, app);
 			String xml = BPMNHelper.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), ac.getPage(), task.getFormKey(), classPathServer);
-			String content = this.transformXMLToController(xml);
+			String content = this.transformXMLToController(xml,ac.getVersion());
 			FileHelper.saveFilesJavaControllerAndReplace(classPathServer, ac.getPage(), content);
 			this.compiler.addFileName(classPathServer+File.separator+ ac.getPage()+"Controller.java");
 		}
 	}
 
 
-	private String transformXMLToController(String xml) throws TransformerConfigurationException, UnsupportedEncodingException {
-		return XMLTransform.xmlTransformWithXSL(FileHelper.convertStringToInputStream(xml), this.getConfig().getLinkXSLBpmnControllerGenerator());
+	private String transformXMLToController(String xml, String verson) throws TransformerConfigurationException, UnsupportedEncodingException {
+		return XMLTransform.xmlTransformWithXSL(FileHelper.convertStringToInputStream(xml), this.getConfig().getLinkXSLBpmnControllerGenerator(verson));
 	}
 	
 	private String getClassPathServer(TaskService task,Application app) {

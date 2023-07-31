@@ -5,7 +5,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Part;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -316,9 +316,17 @@ public class FileHelper {
     }
 
     public static boolean saveFilesJava(String path, String page, String[] content) throws IOException {
-        return FileHelper.save(path, page + ".java", content[0]) && // Save Model;
-                FileHelper.save(path, page + "View.java", content[1]) && //Save View
-                FileHelper.save(path, page + "Controller.java", content[2]);
+    	String pageDelegatePath = String.format("%s%cpagedelegate", path, File.separatorChar);
+		String mvcPath = String.format("%s%cpages%c%s", path, File.separatorChar, File.separatorChar, page.toLowerCase().trim());
+    	int index = path.lastIndexOf("pages");
+    	if(index != -1) {
+    		pageDelegatePath = String.format("%spagedelegate", path.substring(0, index));
+    		mvcPath = String.format("%s%c%s", path, File.separatorChar, page.toLowerCase().trim());
+    	}
+        return FileHelper.save(mvcPath, String.format("%s.java", page), content[0]) && // Save Model
+                FileHelper.save(mvcPath, String.format("%sView.java", page), content[1]) && //Save View
+                FileHelper.save(mvcPath, String.format("%sController.java", page), content[2]) && //Save Controller
+                (content.length == 3 || FileHelper.save(pageDelegatePath, String.format("I%sDelegate.java", page), content[3])); // //Save PageDelegate
     }
 
     public static void deletePartFile(Part file) throws IOException {
@@ -342,9 +350,11 @@ public class FileHelper {
     }
 
     public static boolean saveFilesJava(String path, String page, String[] content, String encodeIn, String encodeOut) throws IOException {
-        return FileHelper.save(path, page + ".java", content[0], encodeIn, encodeOut) && // Save Model;
-                FileHelper.save(path, page + "View.java", content[1], encodeIn, encodeOut) && //Save View
-                FileHelper.save(path, page + "Controller.java", content[2], encodeIn, encodeOut);
+    	String pageDelegatePath = String.format("%spagedelegate", path.substring(0, path.lastIndexOf("pages")));
+        return FileHelper.save(path, String.format("%s.java", page), content[0], encodeIn, encodeOut) && // Save Model;
+                FileHelper.save(path, String.format("%sView.java", page), content[1], encodeIn, encodeOut) && //Save View
+                FileHelper.save(path, String.format("%sController.java", page), content[2], encodeIn, encodeOut) && // Save Controller
+                (content.length == 3 || FileHelper.save(pageDelegatePath, String.format("I%sDelegate.java", page), content[3], encodeIn, encodeOut)); // Save Page Delegate
     }
 
     public static boolean saveFilesJava(String path, String page, Part[] content, String encodeIn, String encodeOut) throws IOException {
@@ -361,4 +371,5 @@ public class FileHelper {
             e.printStackTrace();
         }
     }
+    
 }

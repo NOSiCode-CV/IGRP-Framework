@@ -1,0 +1,152 @@
+.fp-content a{
+	background: whitesmoke;
+	display: block;
+}
+
+.fp-center a{
+	text-align: center;
+}
+
+.fp-content{
+	margin-left: -1px;
+	border:1px solid #EAEAEA; 
+}
+
+.fingerprint  .gen-form-btns{
+	margin-bottom: 15px;
+}
+
+.fp-left.fp-content{
+	margin-left:0; 
+}
+
+.fp-signature.fp-content{
+	margin-right:0;
+}
+.fp-signature.fp-content a{
+	text-align: left;
+}
+
+.fp-box{
+	border-top:1px solid #EAEAEA ;
+	height: 150px;
+	padding: 10px;
+	text-align: center;
+}
+
+.fp-signature .fp-box{
+	text-align: left;
+}
+
+.fp-box[view="true"]{
+	border-top: none;
+}
+
+.fp-left a i.fa{
+	-ms-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.fp-right a i.fa{
+	-ms-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
+
+.fp-box.error .fa{
+	color: #cf1414;
+	position: absolute;
+    font-size: 40px;
+    top: 50%;
+    margin-top: -10px;
+    left: 50%;
+    margin-left: -10px;
+}
+.fp-box.error img{
+	display: none;
+}
+
+.form-control.error{
+	border-color: #e71616;
+}
+
+.fp-box .loader{
+	margin-top: -5px;
+}
+.fp-box.notload .loader{
+	display: none;
+}
+
+.fp-col{
+	padding: 0;
+}
+
+.fp-box img{
+	max-height: 100%;
+}
+
+.fp-btn.btn:hover{
+	color: #f1f1f1;
+}
+.fp-content .btn:hover{
+	color: #333;
+}
+
+@media (max-width: 768px){
+	.fp-right.fp-content{
+   	 	margin-right: 0;
+	}
+	.fp-signature.fp-content{
+   	 	margin-right: 0;
+    	margin-left: 0;
+	}
+	.pull-right.gen-form-btns{
+		float: right !important;
+	}
+	.pull-right.gen-form-btns .btn{
+		padding:6px 12px;
+	}
+	.pull-right.gen-form-btns .btn[type="self"]{
+		margin-left: 0;
+	}
+}
+
+@media (max-width: 425px){
+	.fp-content{
+		margin: 0;
+	}
+	.fp-left.fp-content{
+		margin-top: 15px;
+	}
+	.fp-signature.fp-content a{
+		text-align: center;
+	}
+	.pull-right.gen-form-btns{
+		float: none !important;
+	}
+	.pull-right.gen-form-btns .btn{
+		padding:6px 36px;
+	}
+	.pull-right.gen-form-btns .btn[type="self"]{
+		margin-left: 0;
+	}
+}
+
+@media (max-width: 375px){
+	.pull-right.gen-form-btns .btn{
+		padding:6px 23px;
+	}
+}
+
+@media (max-width: 320px){
+	.pull-right.gen-form-btns .btn{
+		padding:6px 9px;
+	}
+}
+
+

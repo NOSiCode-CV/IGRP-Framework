@@ -1,0 +1,1853 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet href="../xsl/IGRP-process.xsl?sessid=2012070601" type="text/xsl"?>
+<rows>
+  <title>CUBHIS [Teste]</title>
+  <link>https://nosiodb01.gov.cv/redglobaldep01/!REDGLOBAL.GLB_DISPATCHER.main?p_env_procedure=//27103108098095104111109101046104111109101&amp;igrpbccaaeeffe=359763040007010045&amp;p_env_dad=//86049</link>
+  <site>
+    <welcome_note>Olá</welcome_note>
+    <footer_note>2011 - Copyright NOSI</footer_note>
+    <user_name>milton.cabral</user_name>
+    <button type="specific">
+      <title>Sair</title>
+      <app>CADASTRO_V02</app>
+      <page />
+      <link>https://nosiodb01.gov.cv/redglobaldep01/redglobal.glb_dispatcher.logout</link>
+      <target>_self</target>
+      <img>exit.png</img>
+    </button>
+  </site>
+  <app>CADASTRO_V02</app>
+  <page>WORKFLOW</page>
+  <applications file="/images/IGRP/xml/IGRP-applications.xml" />
+  <top_menu file="/images/IGRP/xml/IGRP-top_menu.xml" />
+  <slide-menu file="/images/IGRP/xml/IGRP-slide-menu.xml?v=2" />
+  <language file="/images/IGRP/xml/IGRP-language.xml?v=1"/>
+  <content type="dash">
+   
+    <title>4.1.1 - Escrituras Diversas [ 2 - Objeto do Ato ] - Nº 7643</title>
+    
+    <form>
+      <label>
+
+        <p_wf_proc_tp_fk name="p_wf_proc_tp_fk" type="hidden" maxlength="30">p_wf_proc_tp_fk</p_wf_proc_tp_fk>
+        <p_wf_acti_tp_fk name="p_wf_acti_tp_fk" type="hidden" maxlength="30">p_wf_acti_tp_fk</p_wf_acti_tp_fk>
+        <p_wf_proc_id name="p_wf_proc_id" type="hidden" maxlength="30">p_wf_proc_id</p_wf_proc_id>
+        <p_wf_acti_id name="p_wf_acti_id" type="hidden" maxlength="30">p_wf_acti_id</p_wf_acti_id>
+        <p_wf_on_save name="p_wf_on_save" type="hidden" maxlength="30">p_wf_on_save</p_wf_on_save>
+        <p_wf_only name="p_wf_only" type="hidden" maxlength="30">p_wf_only</p_wf_only>
+        <p_wf_view name="p_wf_view" type="hidden" maxlength="30">p_wf_view</p_wf_view>
+        <p_wf_activity_code name="p_wf_activity_code" type="hidden" maxlength="30">p_wf_activity_code</p_wf_activity_code>
+
+
+        <biometric name="p_biometric" type="biometric" maxlength="30">Biometric</biometric>
+
+        <wf_docs_to_print type="list" container="true">Documentos Imprimir/Enviar</wf_docs_to_print>
+        <wf_type_to_print name="p_wf_type_to_print" type="text" rel="wf_docs_to_print" maxlength="250">Documento</wf_type_to_print>
+        <wf_link_to_print name="p_wf_link_to_print" type="link" rel="wf_docs_to_print" maxlength="30">Imprimir</wf_link_to_print>
+        <separatorsin_custas1 type="separator" start="SIN_CUSTAS">CUSTAS E TARIFARIOS</separatorsin_custas1>
+        <tarifario name="p_tarifario" type="selectchange" change="true" maxlength="30">Serviço Urgente</tarifario>
+        <sep_tst name="p_sep_tst" type="separator"  maxlength="30">Separador Tst</sep_tst>
+        <servico name="p_servico" type="selectchange" change="true" maxlength="30">Serviço</servico>
+        <horario name="p_horario" type="selectchange" change="true" maxlength="30">Horário de Atendimento</horario>
+        <gerar_custa name="p_gerar_custa" type="checkbox" required="true" change="true" maxlength="30">Gerar/Atualizar Custa</gerar_custa>
+        <custa type="formlist" container="true">Detalhes de Custas</custa>
+        <s_cobranca name="p_s_cobranca" type="hidden" rel="custa" maxlength="150">Serviço de Cobrança</s_cobranca>
+        <tp_acto_certidao name="p_tp_acto_certidao" type="email" rel="custa" maxlength="50">Ato / Certidão</tp_acto_certidao>
+        <benificiario name="p_benificiario" type="plaintext" rel="custa" maxlength="50">Beneficiário</benificiario>
+        <benificiario_hidd name="p_benificiario_hidd" type="hidden" rel="custa" maxlength="30">Beneficiário</benificiario_hidd>
+        <custas name="p_custas" type="plaintext" rel="custa" maxlength="150">Custas / Impostos</custas>
+        <descricao name="p_descricao" type="plaintext" rel="custa" maxlength="190">Base Legal</descricao>
+        <unidade name="p_unidade" type="plaintext" rel="custa" maxlength="30" visible="false">Uni.</unidade>
+        <valor name="p_valor" type="plaintext" rel="custa" maxlength="30">Valor</valor>
+        <valor_hidd name="p_valor_hidd" type="hidden" rel="custa" maxlength="30">Valor</valor_hidd>
+        <custa_tarifario name="p_custa_tarifario" type="selectchange" change="true" rel="custa" maxlength="30">Variações Tarifario</custa_tarifario>
+        <v_final name="p_v_final" type="plaintext" rel="custa" maxlength="30">Valor Final</v_final>
+        <v_final_hidd name="p_v_final_hidd" type="hidden" rel="custa" maxlength="30">Valor Final</v_final_hidd>
+        <custa_id_linha name="p_custa_id_linha" type="hidden" rel="custa" maxlength="30">custa_id_linha</custa_id_linha>
+        <valor_entidade name="p_valor_entidade" type="hidden" rel="custa" maxlength="30">Valor</valor_entidade>
+        <tipo_acto_cert_hidden name="p_tipo_acto_cert_hidden" type="hidden" rel="custa" maxlength="50">Tipo_Acto_hidden</tipo_acto_cert_hidden>
+        <benificiario__hidden name="p_benificiario__hidden" type="hidden" rel="custa" maxlength="50">benificiario_hidden</benificiario__hidden>
+        <check_digito_rsp name="p_check_digito_rsp" type="hidden" rel="custa" maxlength="30">Check_digito_rsp</check_digito_rsp>
+        <entidade_rsp name="p_entidade_rsp" type="hidden" rel="custa" maxlength="30">Entidade_rsp</entidade_rsp>
+        <referencia_rps name="p_referencia_rps" type="hidden" rel="custa" maxlength="30">Referencia_rps</referencia_rps>
+        <valor_ent_rsp name="p_valor_ent_rsp" type="hidden" rel="custa" maxlength="30">Valor_ent_rsp</valor_ent_rsp>
+        <id_custa_atual name="p_id_custa_atual" type="hidden" rel="custa" maxlength="30">id_custa_atual</id_custa_atual>
+        <qtd name="p_qtd" type="hidden" rel="custa" maxlength="30">qtd</qtd>
+        <entidade_sisp name="p_entidade_sisp" type="hidden" rel="custa" maxlength="30">entidade_sisp</entidade_sisp>
+        <tipo_cobranca name="p_tipo_cobranca" type="hidden" rel="custa" maxlength="30">tipo_cobranca</tipo_cobranca>
+        <item_custa name="p_item_custa" type="hidden" rel="custa" maxlength="30">item_custa</item_custa>
+        <codigo_cliente name="p_codigo_cliente" type="hidden" rel="custa" maxlength="30">codigo_cliente</codigo_cliente>
+        <entidade_registo name="p_entidade_registo" type="hidden" rel="custa" maxlength="30">entidade_registo</entidade_registo>
+        <process_id name="p_process_id" type="hidden" rel="custa" maxlength="30" end="true">process_id</process_id>
+        <acto type="list" container="true">ATO (S)</acto>
+        <tipo_acto name="p_tipo_acto" type="text" required="true" change="true" rel="acto" maxlength="150">Tipo de Ato</tipo_acto>
+
+
+
+        <tp_acto_id name="p_tp_acto_id" type="hidden" rel="acto" maxlength="30">tp_acto_id</tp_acto_id>
+        <tp_acto_codigo name="p_tp_acto_codigo" type="hidden" rel="acto" maxlength="30">tp_acto_codigo</tp_acto_codigo>
+        <deniminacao_id name="p_deniminacao_id" type="hidden" rel="acto" maxlength="30">deniminacao_id</deniminacao_id>
+        <codigo_tp_acto name="p_codigo_tp_acto" type="hidden" rel="acto" maxlength="30">codigo_tp_acto</codigo_tp_acto>
+        <valor_acto name="p_valor_acto" type="number" rel="acto" maxlength="30">Valor do Ato</valor_acto>
+        <ref_acto name="p_ref_acto" type="text" rel="acto" maxlength="400">Referência do Ato</ref_acto>
+        <objecto_acto name="p_objecto_acto" type="hidden" rel="acto" maxlength="500">Objeto do Acto</objecto_acto>
+        <objecto_a type="separator">OBJETO DO ATO</objecto_a>
+        <objecto name="p_objecto" type="checkboxlist" change="true" maxlength="30">Objeto</objecto>
+        <sep_bem_imovel type="separatordialog" container="true">Bem Imovel</sep_bem_imovel>
+        <tp_acto_escolha name="p_tp_acto_escolha" type="selectlist" required="true" rel="sep_bem_imovel" maxlength="30">Tipo de Ato</tp_acto_escolha>
+        <efectuar_r_predial name="p_efectuar_r_predial" type="select" required="true" rel="sep_bem_imovel" maxlength="30">Pedido Registo</efectuar_r_predial>
+        <predio_omisso name="p_predio_omisso" type="selectchange" required="true" change="true" rel="sep_bem_imovel" maxlength="30">Prédio Omisso</predio_omisso>
+        <efectuar_p_iup name="p_efectuar_p_iup" type="select" rel="sep_bem_imovel" maxlength="100">Regularizar IUP</efectuar_p_iup>
+        <descricao_predio name="p_descricao_predio" type="group" rel="sep_bem_imovel" maxlength="30">Identificação do Prédio</descricao_predio>
+        <nip name="p_nip" type="LOOKUP" rel="sep_bem_imovel" maxlength="250" readonly="readonly">NIP</nip>
+        <b_a_unit_id name="p_b_a_unit_id" type="hidden" rel="sep_bem_imovel" maxlength="60">b_a_unit_id</b_a_unit_id>
+        <n_registo_predial name="p_n_registo_predial" type="LOOKUP" rel="sep_bem_imovel" maxlength="100" readonly="readonly" visible="false">Registo Predial</n_registo_predial>
+        <registo name="p_registo" type="text" rel="sep_bem_imovel" maxlength="200" readonly="readonly">Nº Registo Predial</registo>
+        <letra_fraccao name="p_letra_fraccao" type="text" rel="sep_bem_imovel" maxlength="50" readonly="readonly">Letra da Fração</letra_fraccao>
+        <matriz name="p_matriz" type="LOOKUP" rel="sep_bem_imovel" maxlength="100" readonly="readonly">Matriz</matriz>
+        <matriz_2 name="p_matriz_2" type="hidden" change="true" rel="sep_bem_imovel" maxlength="100">Matriz</matriz_2>
+        <fracao name="p_fracao" type="text" rel="sep_bem_imovel" maxlength="50" readonly="readonly">Fração da Matriz</fracao>
+        <valor_pred name="p_valor_pred" type="number" rel="sep_bem_imovel" maxlength="30" readonly="readonly">Valor Patrimonial</valor_pred>
+        <area name="p_area" type="number" rel="sep_bem_imovel" maxlength="250" readonly="readonly" visible="false">Area (m2)</area>
+        <municipio_prd_id name="p_municipio_prd_id" type="hidden" change="true" rel="sep_bem_imovel" maxlength="100">municipio_prd_id</municipio_prd_id>
+        <id_matriz_cm name="p_id_matriz_cm" type="hidden" rel="sep_bem_imovel" maxlength="50">id_matriz_cm</id_matriz_cm>
+        <certidao name="p_certidao" type="hidden" rel="sep_bem_imovel" maxlength="4000">Certidão</certidao>
+        <id_registo_predial name="p_id_registo_predial" type="hidden" rel="sep_bem_imovel" maxlength="30" visible="false">id_registo_predial</id_registo_predial>
+        <id_registo_prd name="p_id_registo_prd" type="hidden" rel="sep_bem_imovel" maxlength="30">id_registo_prd</id_registo_prd>
+        <denominacao_predio name="p_denominacao_predio" type="text" rel="sep_bem_imovel" maxlength="150" readonly="readonly" visible="false">Denominação</denominacao_predio>
+        <localizacao_id name="p_localizacao_id" type="hidden" rel="sep_bem_imovel" maxlength="50">localizacao_predio_id</localizacao_id>
+        <geo_id name="p_geo_id" type="hidden" rel="sep_bem_imovel" maxlength="50">geo_id</geo_id>
+        <localizacao name="p_localizacao" type="text" rel="sep_bem_imovel" maxlength="350" readonly="readonly" visible="false">Localização</localizacao>
+        <bloco name="p_bloco" type="text" rel="sep_bem_imovel" maxlength="100" readonly="readonly" visible="false">Bloco</bloco>
+        <andar name="p_andar" type="text" rel="sep_bem_imovel" maxlength="30" readonly="readonly" visible="false">Andar / Piso</andar>
+        <andar_piso name="p_andar_piso" type="hidden" rel="sep_bem_imovel" maxlength="1000" readonly="readonly" visible="false">Localização no Andar / Piso</andar_piso>
+        <confrontacao name="p_confrontacao" type="hidden" rel="sep_bem_imovel" maxlength="350" readonly="readonly" visible="false">Descrição do Prédio</confrontacao>
+        <natureza name="p_natureza" type="text" rel="sep_bem_imovel" maxlength="100" readonly="readonly" visible="false">Natureza</natureza>
+        <finalidade__destino name="p_finalidade__destino" type="text" rel="sep_bem_imovel" maxlength="100" readonly="readonly" visible="false">Finalidade / Destino</finalidade__destino>
+        <destino_prd name="p_destino_prd" type="hidden" rel="sep_bem_imovel" maxlength="30">destino_prd</destino_prd>
+        <freguesia name="p_freguesia" type="text" rel="sep_bem_imovel" maxlength="100" readonly="readonly" visible="false">Freguesia</freguesia>
+        <concelho name="p_concelho" type="text" rel="sep_bem_imovel" maxlength="100" readonly="readonly" visible="false">Concelho</concelho>
+        <id_frequesia_prd name="p_id_frequesia_prd" type="hidden" rel="sep_bem_imovel" maxlength="30">id_frequesia_prd</id_frequesia_prd>
+        <concelho_id_prd name="p_concelho_id_prd" type="hidden" rel="sep_bem_imovel" maxlength="30">concelho_id_prd</concelho_id_prd>
+        <lote name="p_lote" type="text" rel="sep_bem_imovel" maxlength="100" readonly="readonly" visible="false">Lote</lote>
+        <quarteirao name="p_quarteirao" type="text" rel="sep_bem_imovel" maxlength="100" readonly="readonly" visible="false">Quarteirão</quarteirao>
+        <sub_zona name="p_sub_zona" type="text" rel="sep_bem_imovel" maxlength="1000" readonly="readonly" visible="false">Sub Zona</sub_zona>
+        <composicao name="p_composicao" type="textarea" rel="sep_bem_imovel" maxlength="1000" readonly="readonly" visible="false">Composição</composicao>
+        <detalhe name="p_detalhe" type="link" rel="sep_bem_imovel" maxlength="4000">Detalhe</detalhe>
+        <confrotacoes name="p_confrotacoes" type="group" rel="sep_bem_imovel" maxlength="30">Confrotações</confrotacoes>
+        <norte name="p_norte" type="textarea" rel="sep_bem_imovel" maxlength="200" readonly="readonly" visible="false">Norte</norte>
+        <este name="p_este" type="textarea" rel="sep_bem_imovel" maxlength="200" readonly="readonly" visible="false">Este</este>
+        <sul name="p_sul" type="textarea" rel="sep_bem_imovel" maxlength="200" readonly="readonly" visible="false">Sul</sul>
+        <oeste name="p_oeste" type="textarea" rel="sep_bem_imovel" maxlength="200" readonly="readonly" visible="false">Oeste</oeste>
+        <total_imovel name="p_total_imovel" type="hidden" rel="sep_bem_imovel" maxlength="30">total_imovel</total_imovel>
+        <matriz_ds name="p_matriz_ds" type="hidden" rel="sep_bem_imovel" maxlength="30">matriz_ds</matriz_ds>
+        <tipo_prd name="p_tipo_prd" type="hidden" rel="sep_bem_imovel" maxlength="30">tipo_prd</tipo_prd>
+        <predio_prd name="p_predio_prd" type="hidden" rel="sep_bem_imovel" maxlength="30">predio_prd</predio_prd>
+        <prop_pes type="list" container="true">Proprietário</prop_pes>
+        <nome_firma name="p_nome_firma" type="text" rel="prop_pes" maxlength="30">Nome / Firma</nome_firma>
+        <nip_prop name="p_nip_prop" type="number" rel="prop_pes" maxlength="30">NIP</nip_prop>
+        <n_reg_prd_prop name="p_n_reg_prd_prop" type="text" rel="prop_pes" maxlength="30">Nº Registo Predial</n_reg_prd_prop>
+        <matriz_prop name="p_matriz_prop" type="text" rel="prop_pes" maxlength="30">Matriz</matriz_prop>
+        <nif_prop name="p_nif_prop" type="number" rel="prop_pes" maxlength="30">NIF</nif_prop>
+        <tipo_doc_prop name="p_tipo_doc_prop" type="text" rel="prop_pes" maxlength="30">Tipo Documento</tipo_doc_prop>
+        <n_doc_prop name="p_n_doc_prop" type="text" rel="prop_pes" maxlength="30">Nº Documento / Matricula</n_doc_prop>
+        <residencia_sede name="p_residencia_sede" type="text" rel="prop_pes" maxlength="30">Residencia / Sede</residencia_sede>
+        <quotas_prop name="p_quotas_prop" type="number" rel="prop_pes" maxlength="30">Quotas (%)</quotas_prop>
+        <tp_acto_escolha_movel name="p_tp_acto_escolha_movel" type="selectlist" required="true" rel="sep_bem_movel" maxlength="30">Tipo de Ato</tp_acto_escolha_movel>
+        <tipo_movel name="p_tipo_movel" type="select" required="true" rel="sep_bem_movel" maxlength="50">Movel</tipo_movel>
+        <tipo_movel_id name="p_tipo_movel_id" type="hidden" rel="sep_bem_movel" maxlength="500">tipo_movel_id</tipo_movel_id>
+        <identificacao_bem name="p_identificacao_bem" type="text" rel="sep_bem_movel" maxlength="150">Identificação do Bem</identificacao_bem>
+        <valor_acto_movel name="p_valor_acto_movel" type="number" rel="sep_bem_movel" maxlength="30">Valor</valor_acto_movel>
+        <n_registo_movel name="p_n_registo_movel" type="text" rel="sep_bem_movel" maxlength="30">Nº Registo</n_registo_movel>
+        <quotas_movel name="p_quotas_movel" type="text" rel="sep_bem_movel" maxlength="30">Nº Quotas / Acões</quotas_movel>
+        <ref_bem_movel name="p_ref_bem_movel" type="text" rel="sep_bem_movel" maxlength="30">Referencia</ref_bem_movel>
+        <identificacao_acto name="p_identificacao_acto" type="hidden" rel="sep_bem_movel" maxlength="30" visible="false">Identificação do Ato</identificacao_acto>
+        <automovel name="p_automovel" type="hidden" rel="sep_bem_movel" maxlength="30">Automóvel</automovel>
+        <matricula_movel name="p_matricula_movel" type="LOOKUP" required="true" rel="sep_bem_movel" maxlength="30">Matricula</matricula_movel>
+        <matricula_au_n_par name="p_matricula_au_n_par" type="text" required="true" rel="sep_bem_movel" maxlength="30">Matricula</matricula_au_n_par>
+        <marca name="p_marca" type="text" rel="sep_bem_movel" maxlength="150" visible="false">Marca</marca>
+        <modelo name="p_modelo" type="text" rel="sep_bem_movel" maxlength="150" visible="false">Modelo</modelo>
+        <tipo name="p_tipo" type="text" rel="sep_bem_movel" maxlength="100" visible="false">Tipo</tipo>
+        <ano_fabrico name="p_ano_fabrico" type="number" rel="sep_bem_movel" maxlength="30" visible="false">Ano de Fabrico</ano_fabrico>
+        <n_chassi name="p_n_chassi" type="text" rel="sep_bem_movel" maxlength="100" visible="false">Nº de Chassi</n_chassi>
+        <n_cilindros name="p_n_cilindros" type="number" rel="sep_bem_movel" maxlength="50" visible="false">Nº de Cilindros</n_cilindros>
+        <cilindarada name="p_cilindarada" type="number" rel="sep_bem_movel" maxlength="50" visible="false">Cilindarada</cilindarada>
+        <combustivel name="p_combustivel" type="text" rel="sep_bem_movel" maxlength="100" visible="false">Combustivel</combustivel>
+        <caixa name="p_caixa" type="text" rel="sep_bem_movel" maxlength="100" visible="false">Caixa</caixa>
+        <cor name="p_cor" type="text" rel="sep_bem_movel" maxlength="100" visible="false">Cor</cor>
+        <servico_movel name="p_servico_movel" type="text" rel="sep_bem_movel" maxlength="100" visible="false">Serviço</servico_movel>
+        <id_acto name="p_id_acto" type="hidden" maxlength="30">id_acto</id_acto>
+        <id name="p_id" type="hidden" maxlength="30" end="true">id</id>
+        <separatorsin_documentos3 type="separator" start="sin_documentos">SIN_DOCUMENTOS</separatorsin_documentos3>
+        <documentos_doc type="separatordialog" container="true">DOCUMENTO (S)</documentos_doc>
+        <tipo_acto_certidao name="p_tipo_acto_certidao" type="select" required="true" rel="documentos_doc" maxlength="30">Ato / Certidão</tipo_acto_certidao>
+        <natureza_doc name="p_natureza_doc" type="select" required="true" rel="documentos_doc" maxlength="100">Natureza</natureza_doc>
+        <consultados_doc name="p_consultados_doc" type="hidden" rel="documentos_doc" maxlength="30">Consultado</consultados_doc>
+        <fonte_pesquisa name="p_fonte_pesquisa" type="select" rel="documentos_doc" maxlength="100">Referência</fonte_pesquisa>
+        <referencia name="p_referencia" type="LOOKUP" rel="documentos_doc" maxlength="500" readonly="readonly">Documento</referencia>
+        <descricao_doc name="p_descricao_doc" type="text" rel="documentos_doc" maxlength="100">Descrição</descricao_doc>
+        <n_folhas_doc name="p_n_folhas_doc" type="number" rel="documentos_doc" maxlength="10">Folhas</n_folhas_doc>
+        <entidade_emitente_doc name="p_entidade_emitente_doc" type="text" rel="documentos_doc" maxlength="100">Entidade Emitente</entidade_emitente_doc>
+        <data_emissao_doc name="p_data_emissao_doc" type="date" rel="documentos_doc" maxlength="30">Data Emissão</data_emissao_doc>
+        <exibidos_doc name="p_exibidos_doc" type="select" rel="documentos_doc" maxlength="30">Exibido</exibidos_doc>
+        <arquivados_doc name="p_arquivados_doc" type="select" rel="documentos_doc" maxlength="30">Arquivar</arquivados_doc>
+        <anexar_doc name="p_anexar_doc" type="file" rel="documentos_doc" maxlength="30">Documento</anexar_doc>
+        <ver_documento name="p_ver_documento" type="link" rel="documentos_doc" maxlength="4000">Documento</ver_documento>
+        <info_par_not type="separatordialog" container="true">INFORMAÇÕES E PARECERES</info_par_not>
+        <etapa name="p_etapa" type="text" rel="info_par_not" maxlength="150" readonly="readonly">Etapa</etapa>
+        <nome_oficial name="p_nome_oficial" type="text" rel="info_par_not" maxlength="500" readonly="readonly">Oficial</nome_oficial>
+        <data name="p_data" type="text" rel="info_par_not" maxlength="100" readonly="readonly">Data</data>
+        <tipo_parecer name="p_tipo_parecer" type="select" required="true" rel="info_par_not" maxlength="4000">Tipo</tipo_parecer>
+        <conteudo name="p_conteudo" type="textarea" rel="info_par_not" maxlength="1500">Conteudo</conteudo>
+        <notificar name="p_notificar" type="hidden" rel="info_par_not" maxlength="3000">Notificar</notificar>
+        <user_id name="p_user_id" type="hidden" rel="info_par_not" maxlength="30">user_id</user_id>
+        <user_name name="p_user_name" type="hidden" rel="info_par_not" maxlength="30">user_name</user_name>
+        <processer_register_id name="p_processer_register_id" type="hidden" rel="info_par_not" maxlength="30" end="true">processer_register_id</processer_register_id>
+        <wf_view name="p_wf_view" type="hidden" maxlength="30">wf_view</wf_view>
+        <wf_only name="p_wf_only" type="hidden" maxlength="30">wf_only</wf_only>
+        <custa_noedt name="p_custa_noedt" type="hidden" maxlength="30">custa_noedt</custa_noedt>
+        <custa_nodel name="p_custa_nodel" type="hidden" maxlength="30">custa_nodel</custa_nodel>
+        <p_env_frm_url  name="p_env_frm_url"  type="hidden" maxlength="50" />
+        <p_env_dml  name="p_env_dml"  type="hidden" maxlength="50" />
+        <custa_nodel  name="custa_nodel"  type="hidden" maxlength="50" />
+        <p_fwl_tab_page name="p_fwl_tab_page" type="hidden" maxlength="50">p_fwl_tab_page</p_fwl_tab_page>
+        <p_fwl_workflow name="p_fwl_workflow" type="hidden" maxlength="50">p_fwl_workFlow</p_fwl_workflow>
+        <p_fwl_dialogbox name="p_fwl_dialogbox" type="hidden" maxlength="50">p_fwl_dialogbox</p_fwl_dialogbox>
+        <p_fwl_relbox name="p_fwl_relbox" type="hidden" maxlength="50">p_fwl_relbox</p_fwl_relbox>
+        <p_fwl_tab_menu name="p_fwl_tab_menu" type="hidden" maxlength="50">p_fwl_tab_menu</p_fwl_tab_menu>
+      </label>
+      <value>
+        <wf_type_to_print name="p_wf_type_to_print" />
+        <wf_link_to_print name="p_wf_link_to_print" />
+        <gerar_custa  name="p_gerar_custa" />
+        <tp_acto_certidao name="p_tp_acto_certidao" />
+        <benificiario name="p_benificiario" />
+        <custas name="p_custas" />
+        <descricao  name="p_descricao" />
+        <unidade  name="p_unidade" />
+        <valor  name="p_valor" />
+        <v_final  name="p_v_final" />
+        <tipo_acto  name="p_tipo_acto" />
+        <valor_acto name="p_valor_acto" />
+        <ref_acto name="p_ref_acto" />
+        <descricao_predio name="p_descricao_predio" />
+        <nip  name="p_nip" />
+        <n_registo_predial  name="p_n_registo_predial" >Lorem Ipsum</n_registo_predial>
+        <registo  name="p_registo" />
+        <letra_fraccao  name="p_letra_fraccao" />
+        <matriz name="p_matriz" />
+        <fracao name="p_fracao" />
+        <valor_pred name="p_valor_pred" />
+        <area name="p_area" />
+        <denominacao_predio name="p_denominacao_predio" />
+        <localizacao  name="p_localizacao" />
+        <bloco  name="p_bloco" />
+        <andar  name="p_andar" />
+        <natureza name="p_natureza" />
+        <finalidade__destino  name="p_finalidade__destino" />
+        <freguesia  name="p_freguesia" />
+        <concelho name="p_concelho" />
+        <lote name="p_lote" />
+        <quarteirao name="p_quarteirao" />
+        <sub_zona name="p_sub_zona" />
+        <composicao name="p_composicao" />
+        <detalhe  name="p_detalhe" />
+        <confrotacoes name="p_confrotacoes" />
+        <norte  name="p_norte" />
+        <este name="p_este" />
+        <sul  name="p_sul" />
+        <oeste  name="p_oeste" />
+        <nome_firma name="p_nome_firma" />
+        <nip_prop name="p_nip_prop" />
+        <n_reg_prd_prop name="p_n_reg_prd_prop" />
+        <matriz_prop  name="p_matriz_prop" />
+        <nif_prop name="p_nif_prop" />
+        <tipo_doc_prop  name="p_tipo_doc_prop" />
+        <n_doc_prop name="p_n_doc_prop" />
+        <residencia_sede  name="p_residencia_sede" />
+        <quotas_prop  name="p_quotas_prop" />
+        <identificacao_bem  name="p_identificacao_bem" />
+        <valor_acto_movel name="p_valor_acto_movel" />
+        <n_registo_movel  name="p_n_registo_movel" />
+        <quotas_movel name="p_quotas_movel" />
+        <ref_bem_movel  name="p_ref_bem_movel" />
+        <matricula_movel  name="p_matricula_movel" />
+        <matricula_au_n_par name="p_matricula_au_n_par" />
+        <marca  name="p_marca" />
+        <modelo name="p_modelo" />
+        <tipo name="p_tipo" />
+        <ano_fabrico  name="p_ano_fabrico" />
+        <n_chassi name="p_n_chassi" />
+        <n_cilindros  name="p_n_cilindros" />
+        <cilindarada  name="p_cilindarada" />
+        <combustivel  name="p_combustivel" />
+        <caixa  name="p_caixa" />
+        <cor  name="p_cor" />
+        <servico_movel  name="p_servico_movel" />
+        <referencia name="p_referencia" />
+        <descricao_doc  name="p_descricao_doc" />
+        <n_folhas_doc name="p_n_folhas_doc" />
+        <entidade_emitente_doc  name="p_entidade_emitente_doc" />
+        <data_emissao_doc name="p_data_emissao_doc" />
+        <anexar_doc name="p_anexar_doc" />
+        <ver_documento  name="p_ver_documento" />
+        <etapa  name="p_etapa" />
+        <nome_oficial name="p_nome_oficial">NOSI - William Lima</nome_oficial>
+        <data name="p_data">04-OCT-17</data>
+        <conteudo name="p_conteudo" />
+        <hidden name="p_wf_proc_tp_fk">4732</hidden>
+        <hidden name="p_wf_acti_tp_fk">21584</hidden>
+        <hidden name="p_wf_proc_id">302471</hidden>
+        <hidden name="p_wf_acti_id">12331937</hidden>
+        <hidden name="p_wf_on_save">ON_SAVE</hidden>
+        <hidden name="p_wf_only" />
+        <hidden name="p_wf_view" />
+        <hidden name="p_wf_activity_code">2</hidden>
+        <hidden name="p_s_cobranca" rel="custa" />
+        <hidden name="p_benificiario_hidd"  rel="custa" />
+        <hidden name="p_valor_hidd" rel="custa" />
+        <hidden name="p_v_final_hidd" rel="custa" />
+        <hidden name="p_custa_id_linha" rel="custa" />
+        <hidden name="p_valor_entidade" rel="custa" />
+        <hidden name="p_tipo_acto_cert_hidden"  rel="custa" />
+        <hidden name="p_benificiario__hidden" rel="custa" />
+        <hidden name="p_check_digito_rsp" rel="custa" />
+        <hidden name="p_entidade_rsp" rel="custa" />
+        <hidden name="p_referencia_rps" rel="custa" />
+        <hidden name="p_valor_ent_rsp"  rel="custa" />
+        <hidden name="p_id_custa_atual" rel="custa" />
+        <hidden name="p_qtd"  rel="custa" />
+        <hidden name="p_entidade_sisp"  rel="custa" />
+        <hidden name="p_tipo_cobranca"  rel="custa" />
+        <hidden name="p_item_custa" rel="custa" />
+        <hidden name="p_codigo_cliente" rel="custa" />
+        <hidden name="p_entidade_registo" rel="custa" />
+        <hidden name="p_process_id" rel="custa" />
+        <hidden name="p_tp_acto_id" rel="acto" />
+        <hidden name="p_tp_acto_codigo" rel="acto" />
+        <hidden name="p_deniminacao_id" rel="acto" />
+        <hidden name="p_codigo_tp_acto" rel="acto" />
+        <hidden name="p_objecto_acto" rel="acto" />
+        <hidden name="p_b_a_unit_id"  rel="sep_bem_imovel" />
+        <hidden name="p_matriz_2" rel="sep_bem_imovel" />
+        <hidden name="p_municipio_prd_id" rel="sep_bem_imovel" />
+        <hidden name="p_id_matriz_cm" rel="sep_bem_imovel" />
+        <hidden name="p_certidao" rel="sep_bem_imovel" />
+        <hidden name="p_id_registo_predial" rel="sep_bem_imovel" />
+        <hidden name="p_id_registo_prd" rel="sep_bem_imovel" />
+        <hidden name="p_localizacao_id" rel="sep_bem_imovel" />
+        <hidden name="p_geo_id" rel="sep_bem_imovel" />
+        <hidden name="p_andar_piso" rel="sep_bem_imovel" />
+        <hidden name="p_confrontacao" rel="sep_bem_imovel" />
+        <hidden name="p_destino_prd"  rel="sep_bem_imovel" />
+        <hidden name="p_id_frequesia_prd" rel="sep_bem_imovel" />
+        <hidden name="p_concelho_id_prd"  rel="sep_bem_imovel" />
+        <hidden name="p_total_imovel" rel="sep_bem_imovel" />
+        <hidden name="p_matriz_ds"  rel="sep_bem_imovel" />
+        <hidden name="p_tipo_prd" rel="sep_bem_imovel" />
+        <hidden name="p_predio_prd" rel="sep_bem_imovel" />
+        <hidden name="p_tipo_movel_id"  rel="sep_bem_movel" />
+        <hidden name="p_identificacao_acto" rel="sep_bem_movel" />
+        <hidden name="p_automovel"  rel="sep_bem_movel" />
+        <hidden name="p_id_acto" />
+        <hidden name="p_id" />
+        <hidden name="p_consultados_doc"  rel="documentos_doc" />
+        <hidden name="p_notificar"  rel="info_par_not" />
+        <hidden name="p_user_id" rel="info_par_not">2851</hidden>
+        <hidden name="p_user_name" rel="info_par_not">WILLIAM.LIMA</hidden>
+        <hidden name="p_processer_register_id"  rel="info_par_not" />
+        <hidden name="p_wf_view" />
+        <hidden name="p_wf_only" />
+        <hidden name="p_custa_noedt">true</hidden>
+        <hidden name="p_custa_nodel">true</hidden>
+        <hidden name="p_env_dml">Executar</hidden>
+        <hidden name="custa_nodel">true</hidden>
+        <hidden name="p_fwl_tab_page" />
+        <hidden name="p_fwl_workflow" />
+        <hidden name="p_fwl_dialogbox" />
+        <hidden name="p_fwl_relbox" />
+        <hidden name="p_fwl_tab_menu" />
+      </value>
+      <lookup>
+        <nip>&amp;p_prm_app=//BCBEBBBEACABADB0A0B9BEBCBA&amp;p_prm_page=//B8BAACABBEB0A0AFADBABBB6B0&amp;p_prm_action=//CFCFA0B3B6ACABBE&amp;p_prm_target=_blank&amp;p_fw_db=LOOKUP&amp;p_fwl_id=p_id_predio&amp;amp;p_tipo_pesq=PESQ&amp;p_fwl_nip_ls=p_nip&amp;p_fwl_nip_ls=p_nu_nip&amp;p_fwl_freguesia_ls=p_freguesia&amp;p_fwl_confrontacao_norte=p_norte&amp;p_fwl_confrontacao__sul=p_sul&amp;p_fwl_confrontacao__este=p_este&amp;p_fwl_confrontacao_oeste=p_oeste&amp;p_fwl_area_total_val=p_area&amp;p_fwl_localidade_ls=p_localizacao&amp;p_fwl_valor_avaliado=p_valor_pred&amp;p_fwl_description=p_composicao&amp;p_fwl_fraction =p_fracao&amp;p_fwl_concelho_id=p_localizacao_id&amp;p_fwl_ba_unit_id_ls=p_b_a_unit_id&amp;p_fwl_concelho_ls=p_concelho&amp;p_fwl_nome_predio_ls=p_denominacao_predio&amp;p_fwl_natureza=p_natureza&amp;p_fwl_uso=p_finalidade__destino</nip>
+        <n_registo_predial>&amp;p_prm_app=//ADB1B6&amp;p_prm_page=//ACB6B1A0A9B6ACAABEB3B6A5BEAD&amp;p_prm_action=//AFBAACAEAAB6ACBE&amp;p_prm_target=_blank&amp;p_fw_db=LOOKUP&amp;p_fwl_id_registo=p_id_registo_predial&amp;p_fwl_localizacao=p_localizacao&amp;p_fwl_numero=p_n_registo_predial&amp;p_fwl_fraccao=p_fracao&amp;p_fwl_natureza=p_natureza&amp;p_fwl_denominacao=p_denominacao_predio&amp;p_fwl_c_norte=p_norte&amp;p_fwl_c_sul=p_sul&amp;p_fwl_c_este=p_este&amp;p_fwl_c_oeste=p_oeste&amp;p_fwl_descricao=p_composicao&amp;p_fwl_area=p_area&amp;p_fwl_tipo=p_tipo_prd&amp;p_fwl_finalidade=p_finalidade__destino&amp;p_fwl_num_matriz=p_matriz&amp;p_fwl_concelho=p_concelho&amp;p_fwl_id_freguesia=p_id_frequesia_prd&amp;p_fwl_freguesia=p_freguesia&amp;p_fwl_id_concelho=p_concelho_id_prd&amp;p_fwl_num_reg_pred=p_registo&amp;p_fwl_lote=p_lote&amp;p_fwl_quarteirao=p_quarteirao&amp;p_fwl_sub_zona=p_sub_zona&amp;p_fwl_valor_fraccao=p_valor_pred</n_registo_predial>
+        <matriz>&amp;p_prm_app=//ACB6B2A0B8B3B0BDBEB3&amp;p_prm_page=//AFBAACAEA0B2BEABADB6A5A0B8BAADBEB3&amp;p_prm_action=//AFBAACAEAAB6ACBEDFB8BAADBEB3DFB2BEABADB6A5&amp;p_prm_target=_blank&amp;p_fw_db=LOOKUP&amp;p_fwl_numero_matriz=p_matriz&amp;p_fwl_freguesia_id=p_id_frequesia_prd &amp;p_fwl_tipo=p_tipo_prd&amp;p_fwl_matriz_id=p_id_matriz_cm&amp;p_fwl_fracao_cm=p_fracao&amp;p_fwl_area=p_area&amp;p_fwl_composicao=p_composicao&amp;p_fwl_norte=p_norte&amp;p_fwl_sul=p_sul&amp;p_fwl_este=p_este&amp;p_fwl_oeste=p_oeste&amp;p_fwl_designacao=p_ds_matriz&amp;p_fwl_localizacao=p_localizacao&amp;p_fwl_valor=p_valor_pred&amp;p_fwl_andar=p_andar&amp;p_fwl_bloco=p_bloco&amp;p_fwl_tipo_matriz=p_predio_prd&amp;p_fwl_uso=p_destino_prd&amp;p_fwl_concelho_ine_id=p_concelho_id_prd&amp;p_fwl_schemma=p_municipio_prd_id&amp;p_fwl_letra=p_letra_fraccao&amp;p_fwl_tipo=p_natureza&amp;p_fwl_nome_freguesia=p_freguesia&amp;p_fwl_nome_concelho=p_concelho&amp;p_fwl_lote=p_lote&amp;p_fwl_quarteirao=p_quarteirao&amp;p_fwl_subzona=p_sub_zona</matriz>
+        <matricula_movel>&amp;p_prm_app=//BBB8ABAD&amp;p_prm_page=//AFBAACB2BEABADB6&amp;p_prm_action=//AFBAACB2BEAB&amp;p_prm_target=_blank&amp;p_fw_db=LOOKUP&amp;p_fwl_matricula=p_matricula_movel&amp;p_fwl_peso_br=p_peso_bruto&amp;p_fwl_nr_cilindro=p_n_cilindros&amp;p_fwl_cilindrada=p_cilindarada&amp;p_fwl_tara=p_tara&amp;p_fwl_lotacao=p_lotacao&amp;p_fwl_combustivel=p_combustivel&amp;p_fwl_cor=p_cor&amp;p_fwl_ano=p_ano_fabrico&amp;p_fwl_Caixa=p_caixa&amp;p_fwl_Servico=p_servico_movel&amp;p_fwl_marca=p_marca&amp;p_fwl_modelo=p_modelo&amp;p_fwl_chassi=p_n_chassi&amp;p_fwl_tipo=p_tipo&amp;p_fwl_cor=p_cor&amp;p_fwl_pneu_f=p_pneus_frente_tras</matricula_movel>
+        <referencia>&amp;p_prm_app=//BCBEBBBEACABADB0A0B9BEBCBA&amp;p_prm_page=//&amp;p_prm_action=//B3B0B0B4AAAF&amp;p_prm_target=_blank&amp;p_fwl_db=LOOKUP</referencia>
+      </lookup>
+      <list>
+        <tarifario name="p_tarifario">
+          <option>
+            <text>-- Serviço Urgente --</text>
+            <value />
+          </option>
+        </tarifario>
+        <servico name="p_servico">
+          <option>
+            <text>-- Serviço --</text>
+            <value />
+          </option>
+        </servico>
+        <horario name="p_horario">
+          <option>
+            <text>-- Horário de Atendimento --</text>
+            <value />
+          </option>
+        </horario>
+        <custa_tarifario name="p_custa_tarifario">
+          <option>
+            <text>-- Variações Tarifario --</text>
+            <value />
+          </option>
+          <option>
+            <text>Option 1</text>
+            <value >1</value>
+          </option>
+        </custa_tarifario>
+        <objecto name="p_objecto">
+          <option selected="true">
+            <text>Imóvel</text>
+            <value>IM</value>
+          </option>
+          <option>
+            <text>Móvel</text>
+            <value>MV</value>
+          </option>
+          <option>
+            <text>Outro</text>
+            <value>OU</value>
+          </option>
+        </objecto>
+        <tp_acto_escolha name="p_tp_acto_escolha">
+          <option>
+            <text>-- Tipo de Ato --</text>
+            <value />
+          </option>
+          <option selected="true">
+            <text>Tipo Lorem Ipsum</text>
+            <value >1</value>
+          </option>
+        </tp_acto_escolha>
+        <efectuar_r_predial name="p_efectuar_r_predial">
+          <option>
+            <text>-- Pedido Registo --</text>
+            <value />
+          </option>
+          <option>
+            <text>Não</text>
+            <value>0</value>
+          </option>
+          <option selected="true">
+            <text>Sim</text>
+            <value>1</value>
+          </option>
+        </efectuar_r_predial>
+        <predio_omisso name="p_predio_omisso">
+          <option>
+            <text>-- Prédio Omisso --</text>
+            <value />
+          </option>
+          <option selected="true">
+            <text>Não</text>
+            <value>0</value>
+          </option>
+          <option>
+            <text>Sim</text>
+            <value>1</value>
+          </option>
+        </predio_omisso>
+        <efectuar_p_iup name="p_efectuar_p_iup">
+          <option>
+            <text>-- Regularizar IUP --</text>
+            <value />
+          </option>
+          <option>
+            <text>Opção 1</text>
+            <value>1</value>
+          </option>
+          <option>
+            <text>Opção 2</text>
+            <value>2</value>
+          </option>
+          <option>
+            <text>Opção 3</text>
+            <value>3</value>
+          </option>
+        </efectuar_p_iup>
+        <tp_acto_escolha_movel name="p_tp_acto_escolha_movel">
+          <option>
+            <text>-- Tipo de Ato --</text>
+            <value />
+          </option>
+        </tp_acto_escolha_movel>
+        <tipo_movel name="p_tipo_movel">
+          <option>
+            <text>-- Movel --</text>
+            <value />
+          </option>
+          <option>
+            <text>Aeronave</text>
+            <value>AEO</value>
+          </option>
+          <option>
+            <text>Automóvel</text>
+            <value>AUT</value>
+          </option>
+          <option>
+            <text>Navio</text>
+            <value>NV</value>
+          </option>
+          <option>
+            <text>Participação Social</text>
+            <value>PS</value>
+          </option>
+        </tipo_movel>
+        <tipo_acto_certidao name="p_tipo_acto_certidao">
+          <option>
+            <text>-- Ato / Certidão --</text>
+            <value />
+          </option>
+          <option>
+            <text>Aceitação Doação</text>
+            <value>38</value>
+          </option>
+          <option>
+            <text>Aditamento</text>
+            <value>21</value>
+          </option>
+          <option>
+            <text>Alteração Arrendamento</text>
+            <value>24</value>
+          </option>
+          <option>
+            <text>Alteração De Propriedade Horizontal</text>
+            <value>121</value>
+          </option>
+          <option>
+            <text>Arrendamento</text>
+            <value>22</value>
+          </option>
+          <option>
+            <text>Arrendamento E Fiança</text>
+            <value>23</value>
+          </option>
+          <option>
+            <text>Averbamentos A Escritura</text>
+            <value>85</value>
+          </option>
+          <option>
+            <text>Assinatura Com Menção Especial</text>
+            <value>28</value>
+          </option>
+          <option>
+            <text>Cancelamento Hipoteca</text>
+            <value>101</value>
+          </option>
+          <option>
+            <text>Cessão</text>
+            <value>25</value>
+          </option>
+          <option>
+            <text>Cessão De Usufruto</text>
+            <value>29</value>
+          </option>
+          <option>
+            <text>Cessão Direito Arrendamento</text>
+            <value>27</value>
+          </option>
+          <option>
+            <text>Cessão Quinhão Hereditário</text>
+            <value>26</value>
+          </option>
+          <option>
+            <text>Compra E Venda</text>
+            <value>3</value>
+          </option>
+          <option>
+            <text>Constituição Direito Superfície</text>
+            <value>30</value>
+          </option>
+          <option>
+            <text>Constituição De Propriedade Horizontal</text>
+            <value>641</value>
+          </option>
+          <option>
+            <text>Convenção Antenupcial</text>
+            <value>32</value>
+          </option>
+          <option>
+            <text>Dacção Em Cumprimento</text>
+            <value>33</value>
+          </option>
+          <option>
+            <text>Declarativa</text>
+            <value>34</value>
+          </option>
+          <option>
+            <text>Distrate</text>
+            <value>36</value>
+          </option>
+          <option>
+            <text>Divisão E Demarcação</text>
+            <value>35</value>
+          </option>
+          <option>
+            <text>Doação</text>
+            <value>37</value>
+          </option>
+          <option>
+            <text>Habilitação Notarial</text>
+            <value>40</value>
+          </option>
+          <option>
+            <text>Hipoteca</text>
+            <value>1</value>
+          </option>
+          <option>
+            <text>Habilitação De Herdeiros</text>
+            <value>661</value>
+          </option>
+          <option>
+            <text>Justificação Notarial</text>
+            <value>41</value>
+          </option>
+          <option>
+            <text>Jose Afonso-Sal Escrituras</text>
+            <value>286</value>
+          </option>
+          <option>
+            <text>Mútuo</text>
+            <value>53</value>
+          </option>
+          <option>
+            <text>Partilha</text>
+            <value>42</value>
+          </option>
+          <option>
+            <text>Permuta</text>
+            <value>43</value>
+          </option>
+          <option>
+            <text>Promessa De Compra E Venda</text>
+            <value>31</value>
+          </option>
+          <option>
+            <text>Propriedade Horizontal</text>
+            <value>2</value>
+          </option>
+          <option>
+            <text>Quitação</text>
+            <value>44</value>
+          </option>
+          <option>
+            <text>Reconhecimento De Direito</text>
+            <value>45</value>
+          </option>
+          <option>
+            <text>Rectificação</text>
+            <value>46</value>
+          </option>
+          <option>
+            <text>Rectificação De Compra E Venda</text>
+            <value>123</value>
+          </option>
+          <option>
+            <text>Regime Especial - Compra E Venda E Hipoteca</text>
+            <value>5</value>
+          </option>
+          <option>
+            <text>Renúncia De Servidão</text>
+            <value>48</value>
+          </option>
+          <option>
+            <text>Renúncia De Uso E Habitação</text>
+            <value>50</value>
+          </option>
+          <option>
+            <text>Renúncia De Usufruto</text>
+            <value>49</value>
+          </option>
+          <option>
+            <text>Repúdio De Herança</text>
+            <value>51</value>
+          </option>
+          <option>
+            <text>Rescisão De Contrato</text>
+            <value>52</value>
+          </option>
+          <option>
+            <text>Trespasse</text>
+            <value>87</value>
+          </option>
+        </tipo_acto_certidao>
+        <natureza_doc name="p_natureza_doc">
+          <option>
+            <text>-- Natureza --</text>
+            <value />
+          </option>
+          <option>
+            <text>Acordo Convenção</text>
+            <value>29</value>
+          </option>
+          <option>
+            <text>Acordo De Condonimo</text>
+            <value>502</value>
+          </option>
+          <option>
+            <text>Acordo Partilha</text>
+            <value>30</value>
+          </option>
+          <option>
+            <text>Boletim Oficial</text>
+            <value>304</value>
+          </option>
+          <option>
+            <text>Cartão Eleitor</text>
+            <value>10</value>
+          </option>
+          <option>
+            <text>Cartão Residência</text>
+            <value>9</value>
+          </option>
+          <option>
+            <text>Certidão (Ões) Comercial (Ais)</text>
+            <value>5</value>
+          </option>
+          <option>
+            <text>Certidão Camarária Propriedade Horizontal</text>
+            <value>3</value>
+          </option>
+          <option>
+            <text>Certidão Casamento</text>
+            <value>26</value>
+          </option>
+          <option>
+            <text>Certidão De Registo</text>
+            <value>308</value>
+          </option>
+          <option>
+            <text>Certidão De Registo Comercial</text>
+            <value>306</value>
+          </option>
+          <option>
+            <text>Certidão Matricial</text>
+            <value>2</value>
+          </option>
+          <option>
+            <text>Certidão Nascimento</text>
+            <value>22</value>
+          </option>
+          <option>
+            <text>Certidão Registo Predial</text>
+            <value>1</value>
+          </option>
+          <option>
+            <text>Certidão Tribunal Judicial</text>
+            <value>21</value>
+          </option>
+          <option>
+            <text>Certidão Òbito</text>
+            <value>24</value>
+          </option>
+          <option>
+            <text>Comprovativo Iup</text>
+            <value>6</value>
+          </option>
+          <option>
+            <text>Cédula</text>
+            <value>16</value>
+          </option>
+          <option>
+            <text>Cédula Cadastral</text>
+            <value>7</value>
+          </option>
+          <option>
+            <text>Declaração</text>
+            <value>481</value>
+          </option>
+          <option>
+            <text>Despacho</text>
+            <value>305</value>
+          </option>
+          <option>
+            <text>Docu</text>
+            <value>362</value>
+          </option>
+          <option>
+            <text>Documento Complementar</text>
+            <value>63</value>
+          </option>
+          <option>
+            <text>Documento Complementar - Condições De Empréstimo</text>
+            <value>161</value>
+          </option>
+          <option>
+            <text>Escritura</text>
+            <value>101</value>
+          </option>
+          <option>
+            <text>Escritura Notariado</text>
+            <value>181</value>
+          </option>
+          <option>
+            <text>Fotocópia Bilhete Identidade</text>
+            <value>11</value>
+          </option>
+          <option>
+            <text>Fotocópia Bilhete Identidade Testemunhas</text>
+            <value>33</value>
+          </option>
+          <option>
+            <text>Instrumento De Consentimento</text>
+            <value>27</value>
+          </option>
+          <option>
+            <text>Instrumento De Ratificação</text>
+            <value>28</value>
+          </option>
+          <option>
+            <text>Jornal Oficial</text>
+            <value>303</value>
+          </option>
+          <option>
+            <text>Minuta</text>
+            <value>441</value>
+          </option>
+          <option>
+            <text>Minuta</text>
+            <value>401</value>
+          </option>
+          <option>
+            <text>Minuta Banco</text>
+            <value>61</value>
+          </option>
+          <option>
+            <text>Numero Contribuinte</text>
+            <value>13</value>
+          </option>
+          <option>
+            <text>Outros Documentos</text>
+            <value>81</value>
+          </option>
+          <option>
+            <text>Planta Cadastral</text>
+            <value>8</value>
+          </option>
+          <option>
+            <text>Planta De Localização</text>
+            <value>501</value>
+          </option>
+          <option>
+            <text>Procuração</text>
+            <value>4</value>
+          </option>
+          <option>
+            <text>Rectificação Suplimento E Nulidades</text>
+            <value>282</value>
+          </option>
+          <option>
+            <text>Sem Identificação</text>
+            <value>18</value>
+          </option>
+          <option>
+            <text>Substabelecimento</text>
+            <value>201</value>
+          </option>
+          <option>
+            <text>Teste Deploy</text>
+            <value>241</value>
+          </option>
+          <option>
+            <text>Titulo Direito Propriedade</text>
+            <value>31</value>
+          </option>
+        </natureza_doc>
+        <fonte_pesquisa name="p_fonte_pesquisa">
+          <option>
+            <text>-- Referência --</text>
+            <value />
+          </option>
+          <option>
+            <text>Camara Municipal</text>
+            <value>CAMARA</value>
+          </option>
+          <option>
+            <text>NIF</text>
+            <value>NIF</value>
+          </option>
+          <option>
+            <text>Notariado</text>
+            <value>NOTARIADO</value>
+          </option>
+          <option>
+            <text>Registo Predial</text>
+            <value>PREDIAL</value>
+          </option>
+          <option>
+            <text>Bilhete Identidade</text>
+            <value>BI</value>
+          </option>
+          <option>
+            <text>Documento Complementar</text>
+            <value>COMPLEMENTAR</value>
+          </option>
+        </fonte_pesquisa>
+        <exibidos_doc name="p_exibidos_doc">
+          <option>
+            <text>-- Exibido --</text>
+            <value />
+          </option>
+          <option selected="true">
+            <text>Não</text>
+            <value>0</value>
+          </option>
+          <option>
+            <text>Sim</text>
+            <value>1</value>
+          </option>
+        </exibidos_doc>
+        <arquivados_doc name="p_arquivados_doc">
+          <option>
+            <text>-- Arquivar --</text>
+            <value />
+          </option>
+          <option>
+            <text>Não</text>
+            <value>0</value>
+          </option>
+          <option selected="true">
+            <text>Sim</text>
+            <value>1</value>
+          </option>
+        </arquivados_doc>
+        <tipo_parecer name="p_tipo_parecer">
+          <option>
+            <text>-- Tipo --</text>
+            <value />
+          </option>
+          <option>
+            <text>Comunicação</text>
+            <value>INF_PAR3</value>
+          </option>
+          <option>
+            <text>Esclarecimento</text>
+            <value>INF_PAR4</value>
+          </option>
+          <option>
+            <text>Informação</text>
+            <value>INF_PAR1</value>
+          </option>
+          <option>
+            <text>Outros</text>
+            <value>INF_PAR5</value>
+          </option>
+          <option>
+            <text>Parecer</text>
+            <value>INF_PAR2</value>
+          </option>
+        </tipo_parecer>
+      </list>
+      <table>
+        <wf_docs_to_print type="list" container="true">
+          <label>
+            <wf_type_to_print name="p_wf_type_to_print" type="text" align="">Tipo Documento</wf_type_to_print>
+            <wf_type_to_print_desc name="p_wf_type_to_print_desc" type="text" align="">Tipo Documento</wf_type_to_print_desc>
+            <wf_link_to_print name="p_wf_link_to_print" type="link" align="">Imprimir</wf_link_to_print>
+            <wf_link_to_print_desc name="p_wf_link_to_print_desc" type="link" align="">Imprimir</wf_link_to_print_desc>
+            <wf_docs_to_print_id name="p_wf_docs_to_print_id" type="hidden" align="">Imprimir</wf_docs_to_print_id>
+          </label>
+          <value>
+            <row>
+              <wf_type_to_print name="p_wf_type_to_print" type="text">Comprovativo de Pedido</wf_type_to_print>
+              <wf_type_to_print_desc name="p_wf_type_to_print_desc" type="text">Comprovativo de Pedido</wf_type_to_print_desc>
+              <wf_link_to_print name="p_wf_link_to_print" type="link">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CDC8C9C8CD&amp;p_prm_target=_blank&amp;p_id=145161</wf_link_to_print>
+              <wf_link_to_print_desc name="p_wf_link_to_print_desc" type="link">Imprimir/Enviar</wf_link_to_print_desc>
+              <wf_docs_to_print_id name="p_wf_docs_to_print_id" type="hidden">145161</wf_docs_to_print_id>
+            </row>
+            <row>
+              <wf_type_to_print name="p_wf_type_to_print" type="text">Documento Único De Cobrança</wf_type_to_print>
+              <wf_type_to_print_desc name="p_wf_type_to_print_desc" type="text">Documento Único De Cobrança</wf_type_to_print_desc>
+              <wf_link_to_print name="p_wf_link_to_print" type="link">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CDC8C9C8CD&amp;p_prm_target=_blank&amp;p_id=145162</wf_link_to_print>
+              <wf_link_to_print_desc name="p_wf_link_to_print_desc" type="link">Imprimir/Enviar</wf_link_to_print_desc>
+              <wf_docs_to_print_id name="p_wf_docs_to_print_id" type="hidden">145162</wf_docs_to_print_id>
+            </row>
+          </value>
+        </wf_docs_to_print>
+        <custa type="formlist" container="true">
+          <label>
+            <s_cobranca name="p_s_cobranca" type="hidden" align="">Serviço de Cobrança</s_cobranca>
+            <s_cobranca_desc name="p_s_cobranca_desc" type="hidden" align="">Serviço de Cobrança</s_cobranca_desc>
+            <tp_acto_certidao name="p_tp_acto_certidao" type="plaintext" align="">Ato / Certidão</tp_acto_certidao>
+            <tp_acto_certidao_desc name="p_tp_acto_certidao_desc" type="plaintext" align="">Ato / Certidão</tp_acto_certidao_desc>
+            <benificiario name="p_benificiario" type="plaintext" align="">Beneficiário</benificiario>
+            <benificiario_desc name="p_benificiario_desc" type="plaintext" align="">Beneficiário</benificiario_desc>
+            <benificiario_hidd name="p_benificiario_hidd" type="hidden" align="">Beneficiário</benificiario_hidd>
+            <benificiario_hidd_desc name="p_benificiario_hidd_desc" type="hidden" align="">Beneficiário</benificiario_hidd_desc>
+            <custas name="p_custas" type="plaintext" align="">Custas / Impostos</custas>
+            <custas_desc name="p_custas_desc" type="plaintext" align="">Custas / Impostos</custas_desc>
+            <descricao name="p_descricao" type="plaintext" align="">Base Legal</descricao>
+            <descricao_desc name="p_descricao_desc" type="plaintext" align="">Base Legal</descricao_desc>
+            <unidade name="p_unidade" type="plaintext" align="" visible="false">Uni.</unidade>
+            <unidade_desc name="p_unidade_desc" type="plaintext" align="">Uni.</unidade_desc>
+            <valor name="p_valor" type="plaintext" align="">Valor</valor>
+            <valor_desc name="p_valor_desc" type="plaintext" align="">Valor</valor_desc>
+            <valor_hidd name="p_valor_hidd" type="hidden" align="">Valor</valor_hidd>
+            <valor_hidd_desc name="p_valor_hidd_desc" type="hidden" align="">Valor</valor_hidd_desc>
+            <custa_tarifario name="p_custa_tarifario" type="selectchange" align="">Variações Tarifario</custa_tarifario>
+            <custa_tarifario_desc name="p_custa_tarifario_desc" type="selectchange" align="">Variações Tarifario</custa_tarifario_desc>
+            <v_final name="p_v_final" type="plaintext" align="">Valor Final</v_final>
+            <v_final_desc name="p_v_final_desc" type="plaintext" align="">Valor Final</v_final_desc>
+            <v_final_hidd name="p_v_final_hidd" type="hidden" align="">Valor Final</v_final_hidd>
+            <v_final_hidd_desc name="p_v_final_hidd_desc" type="hidden" align="">Valor Final</v_final_hidd_desc>
+            <custa_id_linha name="p_custa_id_linha" type="hidden" align="">custa_id_linha</custa_id_linha>
+            <custa_id_linha_desc name="p_custa_id_linha_desc" type="hidden" align="">custa_id_linha</custa_id_linha_desc>
+            <valor_entidade name="p_valor_entidade" type="hidden" align="">Valor</valor_entidade>
+            <valor_entidade_desc name="p_valor_entidade_desc" type="hidden" align="">Valor</valor_entidade_desc>
+            <tipo_acto_cert_hidden name="p_tipo_acto_cert_hidden" type="hidden" align="">Tipo_Acto_hidden</tipo_acto_cert_hidden>
+            <tipo_acto_cert_hidden_desc name="p_tipo_acto_cert_hidden_desc" type="hidden" align="">Tipo_Acto_hidden</tipo_acto_cert_hidden_desc>
+            <benificiario__hidden name="p_benificiario__hidden" type="hidden" align="">benificiario_hidden</benificiario__hidden>
+            <benificiario__hidden_desc name="p_benificiario__hidden_desc" type="hidden" align="">benificiario_hidden</benificiario__hidden_desc>
+            <check_digito_rsp name="p_check_digito_rsp" type="hidden" align="">Check_digito_rsp</check_digito_rsp>
+            <check_digito_rsp_desc name="p_check_digito_rsp_desc" type="hidden" align="">Check_digito_rsp</check_digito_rsp_desc>
+            <entidade_rsp name="p_entidade_rsp" type="hidden" align="">Entidade_rsp</entidade_rsp>
+            <entidade_rsp_desc name="p_entidade_rsp_desc" type="hidden" align="">Entidade_rsp</entidade_rsp_desc>
+            <referencia_rps name="p_referencia_rps" type="hidden" align="">Referencia_rps</referencia_rps>
+            <referencia_rps_desc name="p_referencia_rps_desc" type="hidden" align="">Referencia_rps</referencia_rps_desc>
+            <valor_ent_rsp name="p_valor_ent_rsp" type="hidden" align="">Valor_ent_rsp</valor_ent_rsp>
+            <valor_ent_rsp_desc name="p_valor_ent_rsp_desc" type="hidden" align="">Valor_ent_rsp</valor_ent_rsp_desc>
+            <id_custa_atual name="p_id_custa_atual" type="hidden" align="">id_custa_atual</id_custa_atual>
+            <id_custa_atual_desc name="p_id_custa_atual_desc" type="hidden" align="">id_custa_atual</id_custa_atual_desc>
+            <qtd name="p_qtd" type="hidden" align="">qtd</qtd>
+            <qtd_desc name="p_qtd_desc" type="hidden" align="">qtd</qtd_desc>
+            <entidade_sisp name="p_entidade_sisp" type="hidden" align="">entidade_sisp</entidade_sisp>
+            <entidade_sisp_desc name="p_entidade_sisp_desc" type="hidden" align="">entidade_sisp</entidade_sisp_desc>
+            <tipo_cobranca name="p_tipo_cobranca" type="hidden" align="">tipo_cobranca</tipo_cobranca>
+            <tipo_cobranca_desc name="p_tipo_cobranca_desc" type="hidden" align="">tipo_cobranca</tipo_cobranca_desc>
+            <item_custa name="p_item_custa" type="hidden" align="">item_custa</item_custa>
+            <item_custa_desc name="p_item_custa_desc" type="hidden" align="">item_custa</item_custa_desc>
+            <codigo_cliente name="p_codigo_cliente" type="hidden" align="">codigo_cliente</codigo_cliente>
+            <codigo_cliente_desc name="p_codigo_cliente_desc" type="hidden" align="">codigo_cliente</codigo_cliente_desc>
+            <entidade_registo name="p_entidade_registo" type="hidden" align="">entidade_registo</entidade_registo>
+            <entidade_registo_desc name="p_entidade_registo_desc" type="hidden" align="">entidade_registo</entidade_registo_desc>
+            <process_id name="p_process_id" type="hidden" align="">process_id</process_id>
+            <process_id_desc name="p_process_id_desc" type="hidden" align="">process_id</process_id_desc>
+            <custa_id name="p_custa_id" type="hidden" align="">process_id</custa_id>
+          </label>
+          <value>
+            <row >
+              <s_cobranca name="p_s_cobranca" type="hidden" />
+              <s_cobranca_desc  name="p_s_cobranca_desc"  type="hidden" />
+              <tp_acto_certidao name="p_tp_acto_certidao" type="email" required="true" />
+              <tp_acto_certidao_desc  name="p_tp_acto_certidao_desc"  type="plaintext" />
+              <benificiario name="p_benificiario" type="plaintext" />
+              <benificiario_desc  name="p_benificiario_desc"  type="plaintext" />
+              <benificiario_hidd  name="p_benificiario_hidd"  type="hidden" />
+              <benificiario_hidd_desc name="p_benificiario_hidd_desc" type="hidden" />
+              <custas name="p_custas" type="plaintext" />
+              <custas_desc  name="p_custas_desc"  type="plaintext" />
+              <descricao  name="p_descricao"  type="plaintext" />
+              <descricao_desc name="p_descricao_desc" type="plaintext" />
+              <unidade  name="p_unidade"  type="plaintext"  visible="false" />
+              <unidade_desc name="p_unidade_desc" type="plaintext" />
+              <valor  name="p_valor"  type="plaintext" />
+              <valor_desc name="p_valor_desc" type="plaintext" />
+              <valor_hidd name="p_valor_hidd" type="hidden" />
+              <valor_hidd_desc  name="p_valor_hidd_desc"  type="hidden" />
+              <custa_tarifario  name="p_custa_tarifario"  type="selectchange" />
+              <custa_tarifario_desc name="p_custa_tarifario_desc" type="selectchange" />
+              <v_final  name="p_v_final"  type="plaintext" />
+              <v_final_desc name="p_v_final_desc" type="plaintext" />
+              <v_final_hidd name="p_v_final_hidd" type="hidden" />
+              <v_final_hidd_desc  name="p_v_final_hidd_desc"  type="hidden" />
+              <custa_id_linha name="p_custa_id_linha" type="hidden" />
+              <custa_id_linha_desc  name="p_custa_id_linha_desc"  type="hidden" />
+              <valor_entidade name="p_valor_entidade" type="hidden" />
+              <valor_entidade_desc  name="p_valor_entidade_desc"  type="hidden" />
+              <tipo_acto_cert_hidden  name="p_tipo_acto_cert_hidden"  type="hidden" />
+              <tipo_acto_cert_hidden_desc name="p_tipo_acto_cert_hidden_desc" type="hidden" />
+              <benificiario__hidden name="p_benificiario__hidden" type="hidden" />
+              <benificiario__hidden_desc  name="p_benificiario__hidden_desc"  type="hidden" />
+              <check_digito_rsp name="p_check_digito_rsp" type="hidden" />
+              <check_digito_rsp_desc  name="p_check_digito_rsp_desc"  type="hidden" />
+              <entidade_rsp name="p_entidade_rsp" type="hidden" />
+              <entidade_rsp_desc  name="p_entidade_rsp_desc"  type="hidden" />
+              <referencia_rps name="p_referencia_rps" type="hidden" />
+              <referencia_rps_desc  name="p_referencia_rps_desc"  type="hidden" />
+              <valor_ent_rsp  name="p_valor_ent_rsp"  type="hidden" />
+              <valor_ent_rsp_desc name="p_valor_ent_rsp_desc" type="hidden" />
+              <id_custa_atual name="p_id_custa_atual" type="hidden" />
+              <id_custa_atual_desc  name="p_id_custa_atual_desc"  type="hidden" />
+              <qtd  name="p_qtd"  type="hidden" />
+              <qtd_desc name="p_qtd_desc" type="hidden" />
+              <entidade_sisp  name="p_entidade_sisp"  type="hidden" />
+              <entidade_sisp_desc name="p_entidade_sisp_desc" type="hidden" />
+              <tipo_cobranca  name="p_tipo_cobranca"  type="hidden" />
+              <tipo_cobranca_desc name="p_tipo_cobranca_desc" type="hidden" />
+              <item_custa name="p_item_custa" type="hidden" />
+              <item_custa_desc  name="p_item_custa_desc"  type="hidden" />
+              <codigo_cliente name="p_codigo_cliente" type="hidden" />
+              <codigo_cliente_desc  name="p_codigo_cliente_desc"  type="hidden" />
+              <entidade_registo name="p_entidade_registo" type="hidden" />
+              <entidade_registo_desc  name="p_entidade_registo_desc"  type="hidden" />
+              <process_id name="p_process_id" type="hidden" />
+              <process_id_desc  name="p_process_id_desc"  type="hidden" />
+              <custa_id name="p_custa_id" type="hidden" />
+            </row>
+          </value>
+        </custa>
+        <acto type="list" container="true">
+          <label>
+            <tipo_acto name="p_tipo_acto" type="text" align="">Tipo de Ato</tipo_acto>
+            <tipo_acto_desc name="p_tipo_acto_desc" type="text" align="">Tipo de Ato</tipo_acto_desc>
+            <tp_acto_id name="p_tp_acto_id" type="hidden" align="">tp_acto_id</tp_acto_id>
+            <tp_acto_id_desc name="p_tp_acto_id_desc" type="hidden" align="">tp_acto_id</tp_acto_id_desc>
+            <tp_acto_codigo name="p_tp_acto_codigo" type="hidden" align="">tp_acto_codigo</tp_acto_codigo>
+            <tp_acto_codigo_desc name="p_tp_acto_codigo_desc" type="hidden" align="">tp_acto_codigo</tp_acto_codigo_desc>
+            <deniminacao_id name="p_deniminacao_id" type="hidden" align="">deniminacao_id</deniminacao_id>
+            <deniminacao_id_desc name="p_deniminacao_id_desc" type="hidden" align="">deniminacao_id</deniminacao_id_desc>
+            <codigo_tp_acto name="p_codigo_tp_acto" type="hidden" align="">codigo_tp_acto</codigo_tp_acto>
+            <codigo_tp_acto_desc name="p_codigo_tp_acto_desc" type="hidden" align="">codigo_tp_acto</codigo_tp_acto_desc>
+            <valor_acto name="p_valor_acto" type="number" align="">Valor do Ato</valor_acto>
+            <valor_acto_desc name="p_valor_acto_desc" type="number" align="">Valor do Ato</valor_acto_desc>
+            <ref_acto name="p_ref_acto" type="text" align="">Referência do Ato</ref_acto>
+            <ref_acto_desc name="p_ref_acto_desc" type="text" align="">Referência do Ato</ref_acto_desc>
+            <objecto_acto name="p_objecto_acto" type="hidden" align="">Objeto do Acto</objecto_acto>
+            <objecto_acto_desc name="p_objecto_acto_desc" type="hidden" align="">Objeto do Acto</objecto_acto_desc>
+            <acto_id name="p_acto_id" type="hidden" align="">Objeto do Acto</acto_id>
+          </label>
+          <value>
+            <row>
+              <tipo_acto name="p_tipo_acto" type="text">Constituição De Propriedade Horizontal</tipo_acto>
+              <tipo_acto_desc name="p_tipo_acto_desc" type="text">Constituição De Propriedade Horizontal</tipo_acto_desc>
+              <tp_acto_id name="p_tp_acto_id" type="hidden">7643</tp_acto_id>
+              <tp_acto_id_desc  name="p_tp_acto_id_desc"  type="hidden" />
+              <tp_acto_codigo name="p_tp_acto_codigo" type="hidden" />
+              <tp_acto_codigo_desc  name="p_tp_acto_codigo_desc"  type="hidden" />
+              <deniminacao_id name="p_deniminacao_id" type="hidden">641</deniminacao_id>
+              <deniminacao_id_desc  name="p_deniminacao_id_desc"  type="hidden" />
+              <codigo_tp_acto name="p_codigo_tp_acto" type="hidden" />
+              <codigo_tp_acto_desc  name="p_codigo_tp_acto_desc"  type="hidden" />
+              <valor_acto name="p_valor_acto" type="number">324</valor_acto>
+              <valor_acto_desc name="p_valor_acto_desc" type="number">324</valor_acto_desc>
+              <ref_acto name="p_ref_acto" type="text" />
+              <ref_acto_desc  name="p_ref_acto_desc"  type="text" />
+              <objecto_acto name="p_objecto_acto" type="hidden" />
+              <objecto_acto_desc  name="p_objecto_acto_desc"  type="hidden" />
+              <acto_id  name="p_acto_id"  type="hidden" >1</acto_id>
+            </row>
+          </value>
+        </acto>
+        <sep_bem_imovel type="separatordialog" container="true">
+          <label>
+            <tp_acto_escolha name="p_tp_acto_escolha" type="selectlist" align="">Tipo de Ato</tp_acto_escolha>
+            <tp_acto_escolha_desc name="p_tp_acto_escolha_desc" type="selectlist" align="">Tipo de Ato</tp_acto_escolha_desc>
+            <efectuar_r_predial name="p_efectuar_r_predial" type="select" align="">Pedido Registo</efectuar_r_predial>
+            <efectuar_r_predial_desc name="p_efectuar_r_predial_desc" type="select" align="">Pedido Registo</efectuar_r_predial_desc>
+            <predio_omisso name="p_predio_omisso" type="selectchange" align="">Prédio Omisso</predio_omisso>
+            <predio_omisso_desc name="p_predio_omisso_desc" type="selectchange" align="">Prédio Omisso</predio_omisso_desc>
+            <efectuar_p_iup name="p_efectuar_p_iup" type="select" align="">Regularizar IUP</efectuar_p_iup>
+            <efectuar_p_iup_desc name="p_efectuar_p_iup_desc" type="select" align="">Regularizar IUP</efectuar_p_iup_desc>
+            <descricao_predio name="p_descricao_predio" type="group" align="">Identificação do Prédio</descricao_predio>
+            <descricao_predio_desc name="p_descricao_predio_desc" type="group" align="">Identificação do Prédio</descricao_predio_desc>
+            <nip name="p_nip" type="lookup" align="">NIP</nip>
+            <nip_desc name="p_nip_desc" type="lookup" align="">NIP</nip_desc>
+            <b_a_unit_id name="p_b_a_unit_id" type="hidden" align="">b_a_unit_id</b_a_unit_id>
+            <b_a_unit_id_desc name="p_b_a_unit_id_desc" type="hidden" align="">b_a_unit_id</b_a_unit_id_desc>
+            <n_registo_predial name="p_n_registo_predial" type="lookup" align="" visible="false">Registo Predial</n_registo_predial>
+            <n_registo_predial_desc name="p_n_registo_predial_desc" type="lookup" align="">Registo Predial</n_registo_predial_desc>
+            <registo name="p_registo" type="text" align="">Nº Registo Predial</registo>
+            <registo_desc name="p_registo_desc" type="text" align="">Nº Registo Predial</registo_desc>
+            <letra_fraccao name="p_letra_fraccao" type="text" align="">Letra da Fração</letra_fraccao>
+            <letra_fraccao_desc name="p_letra_fraccao_desc" type="text" align="">Letra da Fração</letra_fraccao_desc>
+            <matriz name="p_matriz" type="lookup" align="">Matriz</matriz>
+            <matriz_desc name="p_matriz_desc" type="lookup" align="">Matriz</matriz_desc>
+            <matriz_2 name="p_matriz_2" type="hidden" align="">Matriz</matriz_2>
+            <matriz_2_desc name="p_matriz_2_desc" type="hidden" align="">Matriz</matriz_2_desc>
+            <fracao name="p_fracao" type="text" align="">Fração da Matriz</fracao>
+            <fracao_desc name="p_fracao_desc" type="text" align="">Fração da Matriz</fracao_desc>
+            <valor_pred name="p_valor_pred" type="number" align="">Valor Patrimonial</valor_pred>
+            <valor_pred_desc name="p_valor_pred_desc" type="number" align="">Valor Patrimonial</valor_pred_desc>
+            <area name="p_area" type="number" align="" visible="false">Area (m2)</area>
+            <area_desc name="p_area_desc" type="number" align="">Area (m2)</area_desc>
+            <municipio_prd_id name="p_municipio_prd_id" type="hidden" align="">municipio_prd_id</municipio_prd_id>
+            <municipio_prd_id_desc name="p_municipio_prd_id_desc" type="hidden" align="">municipio_prd_id</municipio_prd_id_desc>
+            <id_matriz_cm name="p_id_matriz_cm" type="hidden" align="">id_matriz_cm</id_matriz_cm>
+            <id_matriz_cm_desc name="p_id_matriz_cm_desc" type="hidden" align="">id_matriz_cm</id_matriz_cm_desc>
+            <certidao name="p_certidao" type="hidden" align="">Certidão</certidao>
+            <certidao_desc name="p_certidao_desc" type="hidden" align="">Certidão</certidao_desc>
+            <id_registo_predial name="p_id_registo_predial" type="hidden" align="" visible="false">id_registo_predial</id_registo_predial>
+            <id_registo_predial_desc name="p_id_registo_predial_desc" type="hidden" align="">id_registo_predial</id_registo_predial_desc>
+            <id_registo_prd name="p_id_registo_prd" type="hidden" align="">id_registo_prd</id_registo_prd>
+            <id_registo_prd_desc name="p_id_registo_prd_desc" type="hidden" align="">id_registo_prd</id_registo_prd_desc>
+            <denominacao_predio name="p_denominacao_predio" type="text" align="" visible="false">Denominação</denominacao_predio>
+            <denominacao_predio_desc name="p_denominacao_predio_desc" type="text" align="">Denominação</denominacao_predio_desc>
+            <localizacao_id name="p_localizacao_id" type="hidden" align="">localizacao_predio_id</localizacao_id>
+            <localizacao_id_desc name="p_localizacao_id_desc" type="hidden" align="">localizacao_predio_id</localizacao_id_desc>
+            <geo_id name="p_geo_id" type="hidden" align="">geo_id</geo_id>
+            <geo_id_desc name="p_geo_id_desc" type="hidden" align="">geo_id</geo_id_desc>
+            <localizacao name="p_localizacao" type="text" align="" visible="false">Localização</localizacao>
+            <localizacao_desc name="p_localizacao_desc" type="text" align="">Localização</localizacao_desc>
+            <bloco name="p_bloco" type="text" align="" visible="false">Bloco</bloco>
+            <bloco_desc name="p_bloco_desc" type="text" align="">Bloco</bloco_desc>
+            <andar name="p_andar" type="text" align="" visible="false">Andar / Piso</andar>
+            <andar_desc name="p_andar_desc" type="text" align="">Andar / Piso</andar_desc>
+            <andar_piso name="p_andar_piso" type="hidden" align="" visible="false">Localização no Andar / Piso</andar_piso>
+            <andar_piso_desc name="p_andar_piso_desc" type="hidden" align="">Localização no Andar / Piso</andar_piso_desc>
+            <confrontacao name="p_confrontacao" type="hidden" align="" visible="false">Descrição do Prédio</confrontacao>
+            <confrontacao_desc name="p_confrontacao_desc" type="hidden" align="">Descrição do Prédio</confrontacao_desc>
+            <natureza name="p_natureza" type="text" align="" visible="false">Natureza</natureza>
+            <natureza_desc name="p_natureza_desc" type="text" align="">Natureza</natureza_desc>
+            <finalidade__destino name="p_finalidade__destino" type="text" align="" visible="false">Finalidade / Destino</finalidade__destino>
+            <finalidade__destino_desc name="p_finalidade__destino_desc" type="text" align="">Finalidade / Destino</finalidade__destino_desc>
+            <destino_prd name="p_destino_prd" type="hidden" align="">destino_prd</destino_prd>
+            <destino_prd_desc name="p_destino_prd_desc" type="hidden" align="">destino_prd</destino_prd_desc>
+            <freguesia name="p_freguesia" type="text" align="" visible="false">Freguesia</freguesia>
+            <freguesia_desc name="p_freguesia_desc" type="text" align="">Freguesia</freguesia_desc>
+            <concelho name="p_concelho" type="text" align="" visible="false">Concelho</concelho>
+            <concelho_desc name="p_concelho_desc" type="text" align="">Concelho</concelho_desc>
+            <id_frequesia_prd name="p_id_frequesia_prd" type="hidden" align="">id_frequesia_prd</id_frequesia_prd>
+            <id_frequesia_prd_desc name="p_id_frequesia_prd_desc" type="hidden" align="">id_frequesia_prd</id_frequesia_prd_desc>
+            <concelho_id_prd name="p_concelho_id_prd" type="hidden" align="">concelho_id_prd</concelho_id_prd>
+            <concelho_id_prd_desc name="p_concelho_id_prd_desc" type="hidden" align="">concelho_id_prd</concelho_id_prd_desc>
+            <lote name="p_lote" type="text" align="" visible="false">Lote</lote>
+            <lote_desc name="p_lote_desc" type="text" align="">Lote</lote_desc>
+            <quarteirao name="p_quarteirao" type="text" align="" visible="false">Quarteirão</quarteirao>
+            <quarteirao_desc name="p_quarteirao_desc" type="text" align="">Quarteirão</quarteirao_desc>
+            <sub_zona name="p_sub_zona" type="text" align="" visible="false">Sub Zona</sub_zona>
+            <sub_zona_desc name="p_sub_zona_desc" type="text" align="">Sub Zona</sub_zona_desc>
+            <composicao name="p_composicao" type="textarea" align="" visible="false">Composição</composicao>
+            <composicao_desc name="p_composicao_desc" type="textarea" align="">Composição</composicao_desc>
+            <detalhe name="p_detalhe" type="link" align="">Detalhe</detalhe>
+            <detalhe_desc name="p_detalhe_desc" type="link" align="">Detalhe</detalhe_desc>
+            <confrotacoes name="p_confrotacoes" type="group" align="">Confrotações</confrotacoes>
+            <confrotacoes_desc name="p_confrotacoes_desc" type="group" align="">Confrotações</confrotacoes_desc>
+            <norte name="p_norte" type="textarea" align="" visible="false">Norte</norte>
+            <norte_desc name="p_norte_desc" type="textarea" align="">Norte</norte_desc>
+            <este name="p_este" type="textarea" align="" visible="false">Este</este>
+            <este_desc name="p_este_desc" type="textarea" align="">Este</este_desc>
+            <sul name="p_sul" type="textarea" align="" visible="false">Sul</sul>
+            <sul_desc name="p_sul_desc" type="textarea" align="">Sul</sul_desc>
+            <oeste name="p_oeste" type="textarea" align="" visible="false">Oeste</oeste>
+            <oeste_desc name="p_oeste_desc" type="textarea" align="">Oeste</oeste_desc>
+            <total_imovel name="p_total_imovel" type="hidden" align="">total_imovel</total_imovel>
+            <total_imovel_desc name="p_total_imovel_desc" type="hidden" align="">total_imovel</total_imovel_desc>
+            <matriz_ds name="p_matriz_ds" type="hidden" align="">matriz_ds</matriz_ds>
+            <matriz_ds_desc name="p_matriz_ds_desc" type="hidden" align="">matriz_ds</matriz_ds_desc>
+            <tipo_prd name="p_tipo_prd" type="hidden" align="">tipo_prd</tipo_prd>
+            <tipo_prd_desc name="p_tipo_prd_desc" type="hidden" align="">tipo_prd</tipo_prd_desc>
+            <predio_prd name="p_predio_prd" type="hidden" align="">predio_prd</predio_prd>
+            <predio_prd_desc name="p_predio_prd_desc" type="hidden" align="">predio_prd</predio_prd_desc>
+            <sep_bem_imovel_id name="p_sep_bem_imovel_id" type="hidden" align="">predio_prd</sep_bem_imovel_id>
+          </label>
+          <value>
+            <row>
+              <tp_acto_escolha  name="p_tp_acto_escolha"  type="selectlist" />
+              <tp_acto_escolha_desc name="p_tp_acto_escolha_desc" type="selectlist">Constituição De Propriedade Horizontal</tp_acto_escolha_desc>
+              <efectuar_r_predial name="p_efectuar_r_predial" type="select" />
+              <efectuar_r_predial_desc  name="p_efectuar_r_predial_desc"  type="select" />
+              <predio_omisso  name="p_predio_omisso"  type="selectchange" />
+              <predio_omisso_desc name="p_predio_omisso_desc" type="selectchange" />
+              <efectuar_p_iup name="p_efectuar_p_iup" type="select" />
+              <efectuar_p_iup_desc  name="p_efectuar_p_iup_desc"  type="select" />
+              <descricao_predio name="p_descricao_predio" type="group" />
+              <descricao_predio_desc  name="p_descricao_predio_desc"  type="group" />
+              <nip  name="p_nip"  type="lookup" />
+              <nip_desc name="p_nip_desc" type="lookup" />
+              <b_a_unit_id  name="p_b_a_unit_id"  type="hidden" />
+              <b_a_unit_id_desc name="p_b_a_unit_id_desc" type="hidden" />
+              <n_registo_predial  name="p_n_registo_predial"  type="lookup" visible="false" />
+              <n_registo_predial_desc name="p_n_registo_predial_desc" type="lookup" />
+              <registo  name="p_registo"  type="text" />
+              <registo_desc name="p_registo_desc" type="text" />
+              <letra_fraccao  name="p_letra_fraccao"  type="text" />
+              <letra_fraccao_desc name="p_letra_fraccao_desc" type="text" />
+              <matriz name="p_matriz" type="lookup" />
+              <matriz_desc  name="p_matriz_desc"  type="lookup" />
+              <matriz_2 name="p_matriz_2" type="hidden" />
+              <matriz_2_desc  name="p_matriz_2_desc"  type="hidden" />
+              <fracao name="p_fracao" type="text" />
+              <fracao_desc  name="p_fracao_desc"  type="text" />
+              <valor_pred name="p_valor_pred" type="number" />
+              <valor_pred_desc  name="p_valor_pred_desc"  type="number" />
+              <area name="p_area" type="number" visible="false" />
+              <area_desc  name="p_area_desc"  type="number" />
+              <municipio_prd_id name="p_municipio_prd_id" type="hidden" />
+              <municipio_prd_id_desc  name="p_municipio_prd_id_desc"  type="hidden" />
+              <id_matriz_cm name="p_id_matriz_cm" type="hidden" />
+              <id_matriz_cm_desc  name="p_id_matriz_cm_desc"  type="hidden" />
+              <certidao name="p_certidao" type="hidden" />
+              <certidao_desc  name="p_certidao_desc"  type="hidden" />
+              <id_registo_predial name="p_id_registo_predial" type="hidden" visible="false" />
+              <id_registo_predial_desc  name="p_id_registo_predial_desc"  type="hidden" />
+              <id_registo_prd name="p_id_registo_prd" type="hidden" />
+              <id_registo_prd_desc  name="p_id_registo_prd_desc"  type="hidden" />
+              <denominacao_predio name="p_denominacao_predio" type="text" visible="false" />
+              <denominacao_predio_desc  name="p_denominacao_predio_desc"  type="text" />
+              <localizacao_id name="p_localizacao_id" type="hidden" />
+              <localizacao_id_desc  name="p_localizacao_id_desc"  type="hidden" />
+              <geo_id name="p_geo_id" type="hidden" />
+              <geo_id_desc  name="p_geo_id_desc"  type="hidden" />
+              <localizacao  name="p_localizacao"  type="text" visible="false" />
+              <localizacao_desc name="p_localizacao_desc" type="text" />
+              <bloco  name="p_bloco"  type="text" visible="false" />
+              <bloco_desc name="p_bloco_desc" type="text" />
+              <andar  name="p_andar"  type="text" visible="false" />
+              <andar_desc name="p_andar_desc" type="text" />
+              <andar_piso name="p_andar_piso" type="hidden" visible="false" />
+              <andar_piso_desc  name="p_andar_piso_desc"  type="hidden" />
+              <confrontacao name="p_confrontacao" type="hidden" visible="false" />
+              <confrontacao_desc  name="p_confrontacao_desc"  type="hidden" />
+              <natureza name="p_natureza" type="text" visible="false" />
+              <natureza_desc  name="p_natureza_desc"  type="text" />
+              <finalidade__destino  name="p_finalidade__destino"  type="text" visible="false" />
+              <finalidade__destino_desc name="p_finalidade__destino_desc" type="text" />
+              <destino_prd  name="p_destino_prd"  type="hidden" />
+              <destino_prd_desc name="p_destino_prd_desc" type="hidden" />
+              <freguesia  name="p_freguesia"  type="text" visible="false" />
+              <freguesia_desc name="p_freguesia_desc" type="text" />
+              <concelho name="p_concelho" type="text" visible="false" />
+              <concelho_desc  name="p_concelho_desc"  type="text" />
+              <id_frequesia_prd name="p_id_frequesia_prd" type="hidden" />
+              <id_frequesia_prd_desc  name="p_id_frequesia_prd_desc"  type="hidden" />
+              <concelho_id_prd  name="p_concelho_id_prd"  type="hidden" />
+              <concelho_id_prd_desc name="p_concelho_id_prd_desc" type="hidden" />
+              <lote name="p_lote" type="text" visible="false" />
+              <lote_desc  name="p_lote_desc"  type="text" />
+              <quarteirao name="p_quarteirao" type="text" visible="false" />
+              <quarteirao_desc  name="p_quarteirao_desc"  type="text" />
+              <sub_zona name="p_sub_zona" type="text" visible="false" />
+              <sub_zona_desc  name="p_sub_zona_desc"  type="text" />
+              <composicao name="p_composicao" type="textarea" visible="false" />
+              <composicao_desc  name="p_composicao_desc"  type="textarea" />
+              <detalhe  name="p_detalhe"  type="link" />
+              <detalhe_desc name="p_detalhe_desc" type="link" />
+              <confrotacoes name="p_confrotacoes" type="group" />
+              <confrotacoes_desc  name="p_confrotacoes_desc"  type="group" />
+              <norte  name="p_norte"  type="textarea" visible="false" />
+              <norte_desc name="p_norte_desc" type="textarea" />
+              <este name="p_este" type="textarea" visible="false" />
+              <este_desc  name="p_este_desc"  type="textarea" />
+              <sul  name="p_sul"  type="textarea" visible="false" />
+              <sul_desc name="p_sul_desc" type="textarea" />
+              <oeste  name="p_oeste"  type="textarea" visible="false" />
+              <oeste_desc name="p_oeste_desc" type="textarea" />
+              <total_imovel name="p_total_imovel" type="hidden" />
+              <total_imovel_desc  name="p_total_imovel_desc"  type="hidden" />
+              <matriz_ds  name="p_matriz_ds"  type="hidden" />
+              <matriz_ds_desc name="p_matriz_ds_desc" type="hidden" />
+              <tipo_prd name="p_tipo_prd" type="hidden" />
+              <tipo_prd_desc  name="p_tipo_prd_desc"  type="hidden" />
+              <predio_prd name="p_predio_prd" type="hidden" />
+              <predio_prd_desc  name="p_predio_prd_desc"  type="hidden" />
+              <sep_bem_imovel_id  name="p_sep_bem_imovel_id"  type="hidden" >123</sep_bem_imovel_id>
+            </row>
+          </value>
+        </sep_bem_imovel>
+        <prop_pes type="list" container="true">
+          <label>
+            <nome_firma name="p_nome_firma" type="text" align="">Nome / Firma</nome_firma>
+            <nome_firma_desc name="p_nome_firma_desc" type="text" align="">Nome / Firma</nome_firma_desc>
+            <nip_prop name="p_nip_prop" type="number" align="">NIP</nip_prop>
+            <nip_prop_desc name="p_nip_prop_desc" type="number" align="">NIP</nip_prop_desc>
+            <n_reg_prd_prop name="p_n_reg_prd_prop" type="text" align="">Nº Registo Predial</n_reg_prd_prop>
+            <n_reg_prd_prop_desc name="p_n_reg_prd_prop_desc" type="text" align="">Nº Registo Predial</n_reg_prd_prop_desc>
+            <matriz_prop name="p_matriz_prop" type="text" align="">Matriz</matriz_prop>
+            <matriz_prop_desc name="p_matriz_prop_desc" type="text" align="">Matriz</matriz_prop_desc>
+            <nif_prop name="p_nif_prop" type="number" align="">NIF</nif_prop>
+            <nif_prop_desc name="p_nif_prop_desc" type="number" align="">NIF</nif_prop_desc>
+            <tipo_doc_prop name="p_tipo_doc_prop" type="text" align="">Tipo Documento</tipo_doc_prop>
+            <tipo_doc_prop_desc name="p_tipo_doc_prop_desc" type="text" align="">Tipo Documento</tipo_doc_prop_desc>
+            <n_doc_prop name="p_n_doc_prop" type="text" align="">Nº Documento / Matricula</n_doc_prop>
+            <n_doc_prop_desc name="p_n_doc_prop_desc" type="text" align="">Nº Documento / Matricula</n_doc_prop_desc>
+            <residencia_sede name="p_residencia_sede" type="text" align="">Residencia / Sede</residencia_sede>
+            <residencia_sede_desc name="p_residencia_sede_desc" type="text" align="">Residencia / Sede</residencia_sede_desc>
+            <quotas_prop name="p_quotas_prop" type="number" align="">Quotas (%)</quotas_prop>
+            <quotas_prop_desc name="p_quotas_prop_desc" type="number" align="">Quotas (%)</quotas_prop_desc>
+            <prop_pes_id name="p_prop_pes_id" type="hidden" align="">Quotas (%)</prop_pes_id>
+          </label>
+          <value></value>
+        </prop_pes>
+        <documentos_doc type="separatordialog" container="true">
+          <label>
+            <tipo_acto_certidao name="p_tipo_acto_certidao" type="select" align="">Ato / Certidão</tipo_acto_certidao>
+            <tipo_acto_certidao_desc name="p_tipo_acto_certidao_desc" type="select" align="">Ato / Certidão</tipo_acto_certidao_desc>
+            <natureza_doc name="p_natureza_doc" type="select" align="">Natureza</natureza_doc>
+            <natureza_doc_desc name="p_natureza_doc_desc" type="select" align="">Natureza</natureza_doc_desc>
+            <consultados_doc name="p_consultados_doc" type="hidden" align="">Consultado</consultados_doc>
+            <consultados_doc_desc name="p_consultados_doc_desc" type="hidden" align="">Consultado</consultados_doc_desc>
+            <fonte_pesquisa name="p_fonte_pesquisa" type="select" align="">Referência</fonte_pesquisa>
+            <fonte_pesquisa_desc name="p_fonte_pesquisa_desc" type="select" align="">Referência</fonte_pesquisa_desc>
+            <referencia name="p_referencia" type="lookup" align="">Documento</referencia>
+            <referencia_desc name="p_referencia_desc" type="lookup" align="">Documento</referencia_desc>
+            <descricao_doc name="p_descricao_doc" type="text" align="">Descrição</descricao_doc>
+            <descricao_doc_desc name="p_descricao_doc_desc" type="text" align="">Descrição</descricao_doc_desc>
+            <n_folhas_doc name="p_n_folhas_doc" type="number" align="">Folhas</n_folhas_doc>
+            <n_folhas_doc_desc name="p_n_folhas_doc_desc" type="number" align="">Folhas</n_folhas_doc_desc>
+            <entidade_emitente_doc name="p_entidade_emitente_doc" type="text" align="">Entidade Emitente</entidade_emitente_doc>
+            <entidade_emitente_doc_desc name="p_entidade_emitente_doc_desc" type="text" align="">Entidade Emitente</entidade_emitente_doc_desc>
+            <data_emissao_doc name="p_data_emissao_doc" type="date" align="">Data Emissão</data_emissao_doc>
+            <data_emissao_doc_desc name="p_data_emissao_doc_desc" type="date" align="">Data Emissão</data_emissao_doc_desc>
+            <exibidos_doc name="p_exibidos_doc" type="select" align="">Exibido</exibidos_doc>
+            <exibidos_doc_desc name="p_exibidos_doc_desc" type="select" align="">Exibido</exibidos_doc_desc>
+            <arquivados_doc name="p_arquivados_doc" type="select" align="">Arquivar</arquivados_doc>
+            <arquivados_doc_desc name="p_arquivados_doc_desc" type="select" align="">Arquivar</arquivados_doc_desc>
+            <anexar_doc name="p_anexar_doc" type="file" align="">Documento</anexar_doc>
+            <anexar_doc_desc name="p_anexar_doc_desc" type="file" align="">Documento</anexar_doc_desc>
+            <ver_documento name="p_ver_documento" type="link" align="">Documento</ver_documento>
+            <ver_documento_desc name="p_ver_documento_desc" type="link" align="">Documento</ver_documento_desc>
+            <documentos_doc_id name="p_documentos_doc_id" type="hidden" align="">Nº Folhas Maço</documentos_doc_id>
+          </label>
+          <value></value>
+        </documentos_doc>
+        <info_par_not type="separatordialog" container="true">
+          <label>
+            <etapa name="p_etapa" type="text" align="">Etapa</etapa>
+            <etapa_desc name="p_etapa_desc" type="text" align="">Etapa</etapa_desc>
+            <nome_oficial name="p_nome_oficial" type="text" align="">Oficial</nome_oficial>
+            <nome_oficial_desc name="p_nome_oficial_desc" type="text" align="">Oficial</nome_oficial_desc>
+            <data name="p_data" type="text" align="">Data</data>
+            <data_desc name="p_data_desc" type="text" align="">Data</data_desc>
+            <tipo_parecer name="p_tipo_parecer" type="select" align="">Tipo</tipo_parecer>
+            <tipo_parecer_desc name="p_tipo_parecer_desc" type="select" align="">Tipo</tipo_parecer_desc>
+            <conteudo name="p_conteudo" type="textarea" align="">Conteudo</conteudo>
+            <conteudo_desc name="p_conteudo_desc" type="textarea" align="">Conteudo</conteudo_desc>
+            <notificar name="p_notificar" type="hidden" align="">Notificar</notificar>
+            <notificar_desc name="p_notificar_desc" type="hidden" align="">Notificar</notificar_desc>
+            <user_id name="p_user_id" type="hidden" align="">user_id</user_id>
+            <user_id_desc name="p_user_id_desc" type="hidden" align="">user_id</user_id_desc>
+            <user_name name="p_user_name" type="hidden" align="">user_name</user_name>
+            <user_name_desc name="p_user_name_desc" type="hidden" align="">user_name</user_name_desc>
+            <processer_register_id name="p_processer_register_id" type="hidden" align="">processer_register_id</processer_register_id>
+            <processer_register_id_desc name="p_processer_register_id_desc" type="hidden" align="">processer_register_id</processer_register_id_desc>
+            <info_par_not_id name="p_info_par_not_id" type="hidden" align="">processer_register_id</info_par_not_id>
+          </label>
+          <value></value>
+        </info_par_not>
+      </table>
+      <fingerprint>
+            <label>
+                <link name="p_link" type="text" rel="xxx_no" maxlength="2000" code="">link</link>
+                <photo_link name="p_photo_link" type="text" rel="xxx_no" maxlength="2000" code="">Foto</photo_link>
+                <fingerright_link name="p_fingerright_link" type="text" rel="xxx_no" maxlength="2000" code="">Dedo Direito</fingerright_link>
+                <fingerleft_link name="p_fingerleft_link" type="text" rel="xxx_no" maxlength="2000" code="">Dedo Esquerdo</fingerleft_link>
+                <signature_link name="p_signature_link" type="text" rel="xxx_no" maxlength="2000" code="">Assinatura</signature_link>
+                <self_service name="p_self_service" type="text" rel="xxx_no" maxlength="100" code="">Self Service</self_service>
+                <process_start name="p_process_start" type="text" rel="xxx_no" maxlength="100" code="">Iniciar Processo</process_start>
+                <number_process name="p_number_process" type="number" rel="xxx_no" maxlength="30" code="">N  Processo</number_process>
+                <photo_id name="p_photo_id" type="hidden" rel="xxx_no" maxlength="30" code="">photo_id</photo_id>
+                <photo_jp2000_id name="p_photo_jp2000_id" type="hidden" rel="xxx_no" maxlength="30" code="">photo_jp2000_id</photo_jp2000_id>
+                <fingerleft_id name="p_fingerleft_id" type="hidden" rel="xxx_no" maxlength="30" code="">fingerleft_id</fingerleft_id>
+                <fingerleft_wsq_id name="p_fingerleft_wsq_id" type="hidden" rel="xxx_no" maxlength="30" code="">fingerleft_wsq_id</fingerleft_wsq_id>
+                <fingerright_id name="p_fingerright_id" type="hidden" rel="xxx_no" maxlength="30" code="">fingerright_id</fingerright_id>
+                <fingerright_wsq_id name="p_fingerright_wsq_id" type="hidden" rel="xxx_no" maxlength="30" code="">fingerright_wsq_id</fingerright_wsq_id>
+                <signature_id name="p_signature_id" type="hidden" rel="xxx_no" maxlength="30" code="">signature_id</signature_id>
+                <kiosk_session_key name="p_kiosk_session_key" type="hidden" rel="xxx_no" maxlength="30" code="">kiosk_session_key</kiosk_session_key>
+                <greyscale_id name="p_greyscale_id" type="hidden" rel="xxx_no" maxlength="30" code="">greyscale_id</greyscale_id>
+                <greyscale_link name="p_greyscale_link" type="text" rel="xxx_no" maxlength="2000" code="">Greyscale</greyscale_link>
+                <face_icaoheader_id name="p_face_icaoheader_id" type="hidden" rel="xxx_no" maxlength="40" code="">face_icaoheader_id</face_icaoheader_id>
+                <finger_headerleft_id name="p_finger_headerleft_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_headerleft_id</finger_headerleft_id>
+                <finger_headerright_id name="p_finger_headerright_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_headerright_id</finger_headerright_id>
+                <face_jp2_icaoheader_id name="p_face_jp2_icaoheader_id" type="hidden" rel="xxx_no" maxlength="40" code="">face_jp2_icaoheader_id</face_jp2_icaoheader_id>
+                <face_raw_id name="p_face_raw_id" type="hidden" rel="xxx_no" maxlength="40" code="">face_raw_id</face_raw_id>
+                <height_measure_id name="p_height_measure_id" type="hidden" rel="xxx_no" maxlength="40" code="">height_measure_id</height_measure_id>
+                <finger_wsq_left_cbeff_id name="p_finger_wsq_left_cbeff_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_wsq_left_cbeff_id</finger_wsq_left_cbeff_id>
+                <finger_wsq_right_cbeff_id name="p_finger_wsq_right_cbeff_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_wsq_right_cbeff_id</finger_wsq_right_cbeff_id>
+                <finger_position_left_id name="p_finger_position_left_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_position_left_id</finger_position_left_id>
+                <finger_position_right_id name="p_finger_position_right_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_position_right_id</finger_position_right_id>
+                <finger_metadata_left_id name="p_finger_metadata_left_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_metadata_left_id</finger_metadata_left_id>
+                <finger_metadata_right_id name="p_finger_metadata_right_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_metadata_right_id</finger_metadata_right_id>
+                <finger_witheader_left_id name="p_finger_witheader_left_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_witheader_left_id</finger_witheader_left_id>
+                <finger_witheader_right_id name="p_finger_witheader_right_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_witheader_right_id</finger_witheader_right_id>
+                <finger_mopc_left_id name="p_finger_mopc_left_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_mopc_left_id</finger_mopc_left_id>
+                <finger_mopc_right_id name="p_finger_mopc_right_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_mopc_right_id</finger_mopc_right_id>
+                <signature_bmp_id name="p_signature_bmp_id" type="hidden" rel="xxx_no" maxlength="30" code="">signature_bmp_id</signature_bmp_id>
+            </label>
+            <value>
+                <link name="p_link">/images/IGRP/xml/teste-bio.xml?v=1</link>
+                <photo_link name="p_photo_link">/images/IGRP/templates/default/img/funcionario.png</photo_link>
+                <fingerright_link name="p_fingerright_link">/images/IGRP/templates/default/img/bio2.png</fingerright_link>
+                <fingerleft_link name="p_fingerleft_link">/images/IGRP/templates/default/img/bio2.png</fingerleft_link>
+                <signature_link name="p_signature_link">/images/IGRP/templates/default/img/assinatura.png</signature_link>
+                <self_service   name="p_self_service" />
+                <process_start  name="p_process_start" />
+                <number_process name="p_number_process" />
+                <greyscale_link name="p_greyscale_link">/images/IGRP/templates/default/img/funcionario.png</greyscale_link>
+                <hidden name="p_photo_id"   rel="xxx_no" />
+                <hidden name="p_photo_jp2000_id"    rel="xxx_no" />
+                <hidden name="p_fingerleft_id"  rel="xxx_no" />
+                <hidden name="p_fingerleft_wsq_id"  rel="xxx_no" />
+                <hidden name="p_fingerright_id" rel="xxx_no" />
+                <hidden name="p_fingerright_wsq_id" rel="xxx_no" />
+                <hidden name="p_signature_id"   rel="xxx_no" />
+                <hidden name="p_kiosk_session_key"  rel="xxx_no" />
+                <hidden name="p_greyscale_id"   rel="xxx_no" />
+                <hidden name="p_face_icaoheader_id" rel="xxx_no" />
+                <hidden name="p_finger_headerleft_id"   rel="xxx_no" />
+                <hidden name="p_finger_headerright_id"  rel="xxx_no" />
+                <hidden name="p_face_jp2_icaoheader_id" rel="xxx_no" />
+                <hidden name="p_face_raw_id"    rel="xxx_no" />
+                <hidden name="p_height_measure_id"  rel="xxx_no" />
+                <hidden name="p_finger_wsq_left_cbeff_id"   rel="xxx_no" />
+                <hidden name="p_finger_wsq_right_cbeff_id"  rel="xxx_no" />
+                <hidden name="p_finger_position_left_id"    rel="xxx_no" />
+                <hidden name="p_finger_position_right_id"   rel="xxx_no" />
+                <hidden name="p_finger_metadata_left_id"    rel="xxx_no" />
+                <hidden name="p_finger_metadata_right_id"   rel="xxx_no" />
+                <hidden name="p_finger_witheader_left_id"   rel="xxx_no" />
+                <hidden name="p_finger_witheader_right_id"  rel="xxx_no" />
+                <hidden name="p_finger_mopc_left_id"    rel="xxx_no" />
+                <hidden name="p_finger_mopc_right_id"   rel="xxx_no" />
+                <hidden name="p_signature_bmp_id"   rel="xxx_no" />
+            </value>
+        </fingerprint>
+      <tools-bar>
+        <item type="specific">
+          <title>Notificar</title>
+          <app>//ADB1B6</app>
+          <page>//ACB6B1A0BEB8BAB1BBBEB2BAB1ABB0</page>
+          <link>//B1B0ABB9A0B1B0A9BE</link>
+          <target>_blank</target>
+          <img>enviar_notificacoes.png</img>
+          <parameter>&amp;p_n_processo_pesq=7643&amp;p_prm_target=_blank</parameter>
+        </item>
+        <item type="specific">
+          <title>Seguinte</title>
+          <app>//ADBABBB8B3B0BDBEB3</app>
+          <page>//A8B0ADB4B9B3B0A8</page>
+          <link>//A8B9A0B1BAA7AB</link>
+          <target>submit</target>
+          <img>next.png</img>
+          <parameter>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC7</parameter>
+        </item>
+        <item type="specific">
+          <title>Gravar</title>
+          <app>//ADBABBB8B3B0BDBEB3</app>
+          <page>//A8B0ADB4B9B3B0A8</page>
+          <link>//A8B9A0ACBEA9BA</link>
+          <target>submit</target>
+          <img>save.png</img>
+          <parameter>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC8</parameter>
+        </item>
+      </tools-bar>
+    </form>
+    <table>
+      <label>
+        <title name="title" type="text" align="">Titulo Processo</title>
+        <type name="type" type="text" align="">Tipo Processo</type>
+        <link name="link" type="text" align="">Link</link>
+      </label>
+      <value>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">2 - Objeto do Ato</title>
+          <type name="link" type="text" align="">curent</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331937&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=21584&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        
+
+
+        <!-- <row>
+          <title name="link" type="text" align="">2 - Objeto do Ato</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331937&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=21584&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">2 - Objeto do Ato</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331937&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=21584&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row> -->
+      </value>
+    </table>
+
+    <js_validation>
+       
+      <row>
+        <event>change</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>AEO</value>
+        <action>hide</action>
+        <target>p_matricula_movel,p_n_chassi,p_n_cilindros,p_cilindarada,p_caixa</target>
+      </row>
+
+      <row>
+        <event>change</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>AEO</value>
+        <action>show</action>
+        <target>p_matricula_au_n_par,p_marca,p_modelo,p_tipo,p_ano_fabrico,p_combustivel,p_caixa,p_servico_movel,p_cor</target>
+      </row>
+      <row>
+        <event>change</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>NV</value>
+        <action>hide</action>
+        <target>p_matricula_movel,p_n_chassi,p_n_cilindros,p_cilindarada,p_caixa</target>
+      </row>
+      <row>
+        <event>change</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>NV</value>
+        <action>show</action>
+        <target>p_matricula_au_n_par,p_marca,p_modelo,p_tipo,p_ano_fabrico,p_combustivel,p_caixa,p_servico_movel,p_cor</target>
+      </row>
+      <row>
+        <event>change</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>PS</value>
+        <action>hide</action>
+        <target>p_matricula_movel,p_marca,p_modelo,p_tipo,p_ano_fabrico,p_n_chassi,p_n_cilindros,p_cilindarada,p_combustivel,p_caixa,p_servico_movel,p_cor</target>
+      </row>
+      <row>
+        <event>change</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>PS</value>
+        <action>show</action>
+        <target>p_matricula_au_n_par</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>AUT</value>
+        <action>show</action>
+        <target>p_matricula_movel,p_marca,p_modelo,p_tipo,p_ano_fabrico,p_n_chassi,p_n_cilindros,p_cilindarada,p_combustivel,p_caixa,p_servico_movel,p_cor</target>
+      </row>
+      <row>
+        <event>change</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>AUT</value>
+        <action>show</action>
+        <target>p_matricula_movel,p_marca,p_modelo,p_tipo,p_ano_fabrico,p_n_chassi,p_n_cilindros,p_cilindarada,p_combustivel,p_caixa,p_servico_movel,p_cor</target>
+      </row>
+      <row>
+        <event>change</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>AUT</value>
+        <action>hide</action>
+        <target>p_matricula_au_n_par</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>AUT</value>
+        <action>hide</action>
+        <target>p_matricula_au_n_par</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>AEO</value>
+        <action>hide</action>
+        <target>p_matricula_movel,p_n_chassi,p_n_cilindros,p_cilindarada,p_caixa</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>NV</value>
+        <action>show</action>
+        <target>p_matricula_au_n_par,p_marca,p_modelo,p_tipo,p_ano_fabrico,p_combustivel,p_caixa,p_servico_movel,p_cor</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>NV</value>
+        <action>hide</action>
+        <target>p_matricula_movel</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>PS</value>
+        <action>hide</action>
+        <target>p_matricula_movel,p_marca,p_modelo,p_tipo,p_ano_fabrico,p_n_chassi,p_n_cilindros,p_cilindarada,p_combustivel,p_caixa,p_servico_movel,p_cor</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>PS</value>
+        <action>show</action>
+        <target>p_matricula_au_n_par</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>AEO</value>
+        <action>show</action>
+        <target>p_matricula_au_n_par,p_marca,p_modelo,p_tipo,p_ano_fabrico,p_combustivel,p_caixa,p_servico_movel,p_cor</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field>p_tipo_movel</field>
+        <operation>null</operation>
+        <action>hide</action>
+        <target>p_matricula_au_n_par,p_matricula_movel,p_marca,p_modelo,p_tipo,p_ano_fabrico,p_n_chassi,p_n_cilindros,p_cilindarada,p_combustivel,p_caixa,p_servico_movel,p_cor</target>
+      </row>
+      <row>
+        <event>change</event>
+        <field>p_tipo_movel</field>
+        <operation>null</operation>
+        <action>hide</action>
+        <target>p_matricula_au_n_par,p_matricula_movel,p_marca,p_modelo,p_tipo,p_ano_fabrico,p_n_chassi,p_n_cilindros,p_cilindarada,p_combustivel,p_caixa,p_servico_movel,p_cor</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>AUT</value>
+        <action>readonly</action>
+        <target>p_matricula_movel</target>
+      </row>
+      <row>
+        <event>change</event>
+        <field>p_tipo_movel</field>
+        <operation>equal</operation>
+        <value>AUT</value>
+        <action>readonly</action>
+        <target>p_matricula_movel</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field>p_predio_omisso</field>
+        <operation>equal</operation>
+        <value>1</value>
+        <action>hide</action>
+        <target>p_nip,p_n_registo_predial,p_registo,p_letra_fraccao</target>
+      </row>
+      <row>
+        <event>change</event>
+        <field>p_predio_omisso</field>
+        <operation>equal</operation>
+        <value>1</value>
+        <action>hide</action>
+        <target>p_nip,p_n_registo_predial,p_registo,p_letra_fraccao</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field />
+        <action>hide</action>
+        <target>p_separatorsin_documentos1</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field />
+        <action>hide</action>
+        <target>p_separatorsin_documentos2</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field />
+        <action>hide</action>
+        <target>p_separatorsin_documentos3</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field />
+        <action>hide</action>
+        <target>p_separatorsin_documentos4</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field />
+        <action>hide</action>
+        <target>p_separatorsin_documentos5</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field />
+        <action>hide</action>
+        <target>p_separatorsin_documentos6</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field />
+        <action>hide</action>
+        <target>p_separatorsin_documentos7</target>
+      </row>
+      <row>
+        <event>load</event>
+        <field />
+        <action>hide</action>
+        <target>p_separatorsin_documentos8</target>
+      </row>
+    </js_validation>
+  </content>
+</rows>

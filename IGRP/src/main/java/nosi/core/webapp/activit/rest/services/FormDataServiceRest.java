@@ -2,7 +2,7 @@ package nosi.core.webapp.activit.rest.services;
 
 import java.io.IOException;
 import java.io.InputStream;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 

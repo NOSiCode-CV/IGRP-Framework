@@ -1,0 +1,334 @@
+.tab-content{
+    background: white;
+    padding: 20px 15px 1px 15px;
+    border:1px solid #F2F2F2;
+    border-top: 0;
+}
+
+.tab-content>.row{
+    margin:0;
+}
+
+.gen-tab-holder[tab-template="accordion"]{
+    position: relative;
+    margin-top: 20px;
+}
+
+.gen-tab-holder[tab-template="accordion"]:after{
+    content:"";
+    display: block;
+    clear: both;
+}
+
+.gen-tab-holder[tab-template="accordion"]>.nav-tabs{
+    position: relative;
+    width: 20%;
+    left: 2px;
+    top:0;
+    border: 0;
+    float: left;
+}
+.gen-tab-holder[tab-template="accordion"]>.nav-tabs>li{
+    float: none;
+}
+
+.gen-tab-holder[tab-template="accordion"]>.nav-tabs>li>a{
+    border: 0;
+    border-radius: 0;
+    position: relative;
+    background: whitesmoke;
+    border-bottom: 1px solid #F2F2F2
+}
+
+.gen-tab-holder[tab-template="accordion"]>.nav-tabs>li.active>a{
+    background: white;
+}
+
+.gen-tab-holder[tab-template="accordion"]>.nav-tabs>li.active>a:before{
+    content:"";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width:2px;
+    background: #4496C1
+}
+
+.gen-tab-holder[tab-template="accordion"]>.nav-tabs>li.active>a:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 5px;
+    right: -2px;
+    height: 100%;
+    top: 0;
+    z-index: 10;
+    background: white;
+}
+
+.gen-tab-holder[tab-template="accordion"]>.tab-content{
+    width: 80%;
+    float: right;
+    padding-top: 0;
+    border-left: 1px solid #F2F2F2  ;
+}
+
+/* WIZARD TEMPLATE */
+.gen-tab-holder[tab-template="wizard"]>ul.nav-tabs{
+    border:1px solid #eaeaea;
+    top: 0;
+    width: 100%;
+    margin-bottom: 15px;
+    background: #efefef
+}   
+
+.gen-tab-holder[tab-template="wizard"]>ul.nav-tabs li{
+    display: table-cell;
+    width: 1%;
+    float: none;
+    text-align: center;
+}
+
+.gen-tab-holder[tab-template="wizard"]>ul.nav-tabs li.active:after{
+    content:"";
+    width: 100%;
+    height: 2px;
+    background: #4496c1;
+    position: absolute;
+    top: -2px;
+    left: 0;
+}
+
+.gen-tab-holder[tab-template="wizard"]>ul.nav-tabs li a{
+    margin: 0;
+    border: 0;
+    color:#adadad;
+}
+
+.gen-tab-holder[tab-template="wizard"]>ul.nav-tabs li.active a{
+    color:#4496c1;
+}
+
+.gen-tab-holder[tab-template="wizard"]>ul.nav-tabs li a i{
+    display: block;
+    font-size: 18px
+}
+
+.gen-tab-holder[tab-template="wizard"]>ul.nav-tabs li a span{
+    display: block;
+    margin-left: 0;
+    text-transform: uppercase;
+}
+
+.gen-tab-holder[tab-template="wizard"]>.tab-content{
+    padding: 0;
+    border:0;
+    background:transparent;
+}
+
+/* CLEAN */
+.gen-tab-holder[tab-template="clean"]>ul.nav-tabs{
+    margin-bottom: 15px;
+    border: 0;
+} 
+
+.gen-tab-holder[tab-template="clean"]>ul.nav-tabs>li>a {
+    color: #959faf;
+    margin-right: 0;
+    padding: 10px 30px 10px 0;
+    border:0;
+    font-weight: 400;
+    line-height: 18px;
+    font-size: 16px;
+    border-bottom: 2px solid transparent;
+
+}
+
+.gen-tab-holder[tab-template="clean"]>ul.nav-tabs>li.active>a {
+    background: transparent;
+    color:#337ab7;
+    font-size: 18px;
+
+}
+
+.gen-tab-holder[tab-template="clean"]>.nav>li>a:focus, 
+.gen-tab-holder[tab-template="clean"]>.nav>li>a:hover{
+    background-color:transparent;
+}
+
+
+.gen-tab-holder[tab-template="clean"]>.tab-content{
+    background: transparent;
+    border: 0;
+    padding: 0;
+}  
+
+/* boxed */ 
+.gen-tab-holder[tab-template="boxed"]>ul.nav-tabs{
+   margin-bottom: 30px;
+   background: #efefef;
+   padding: 0 5px;
+   padding-bottom: 0;
+   border:1px solid #eaeaea;
+} 
+
+.gen-tab-holder[tab-template="boxed"]>ul.nav-tabs>li>a {
+    color: #333;
+    margin-right: 0;
+    padding: 10px 20px;
+    border:0;
+    font-size: 16px;
+    transition: none;
+}
+
+.gen-tab-holder[tab-template="boxed"]>ul.nav-tabs>li.active>a {
+    background: whitesmoke;
+    color:#4496C1;
+    border: 1px solid #eaeaea;
+    border-bottom: 1px solid whitesmoke;
+    /* border-top: 2px solid; */
+}
+
+.gen-tab-holder[tab-template="boxed"]>ul.nav-tabs>li.active>a:after{
+    content:"";
+    width: 100%;
+    height: 4px;
+    top: -3px;
+    left: 0;
+    border-top:2px solid;
+    position: absolute;
+}
+
+
+.gen-tab-holder[tab-template="boxed"]>.tab-content{
+    background: transparent;
+    border: 0;
+    padding: 0;
+}  
+
+
+/* NAV BAR TEMPLATE */
+
+.gen-tab-holder[tab-template="navbar"]{
+    position: relative;
+}
+
+
+.gen-tab-holder[tab-template="navbar"]>ul.nav-tabs{
+    background: #f9f9f9;
+    border:1px solid #efefef;
+    top: 0;
+
+}
+
+.gen-tab-holder[tab-template="navbar"]>ul.nav-tabs>li{
+    margin: 0
+}
+
+.gen-tab-holder[tab-template="navbar"]>ul.nav-tabs>li>a{
+    border: 0;
+    line-height: 2;
+    border-left: 0px solid transparent;
+    border-right: 0px solid transparent;
+    margin: 0
+}
+
+.gen-tab-holder[tab-template="navbar"]>ul.nav-tabs>li>a:hover{
+    background: #f3f3f3
+}
+
+.gen-tab-holder[tab-template="navbar"]>ul.nav-tabs>li.active>a{
+    border-color: #efefef;
+    background: #f3f3f3
+}
+.gen-tab-holder[tab-template="navbar"]>ul.nav-tabs>li:first-child.active>a{
+    border-left-color: transparent;
+}
+.gen-tab-holder[tab-template="navbar"]>ul.nav-tabs>li:last-child.active>a{
+    border-right-color: transparent;
+}
+
+.gen-tab-holder[tab-template="navbar"]>ul.nav-tabs>li>a>i{
+    margin-left: 4px;
+}
+
+.gen-tab-holder[tab-template="navbar"]>.tab-content{
+    padding: 0;
+    background: transparent;
+    position: absolute!important;
+    min-width: 210px;
+    top: 45px;
+    display: none;
+    z-index: 25;
+}
+
+.gen-tab-holder[tab-template="navbar"]>.tab-content>.tab-pane{
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    padding: 6px 0;
+    background: white;
+    border: 0;
+}
+
+.gen-tab-holder[tab-template="navbar"]>.tab-content>.tab-pane>.row{
+    margin:0;
+}
+
+.gen-tab-holder[tab-template="navbar"]>.tab-content>.tab-pane>.row>.gen-column{
+    padding: 0;
+}
+
+.gen-tab-holder[tab-template="navbar"]>.tab-content>.tab-pane .toolsbar-holder{
+    margin: 0;
+}
+.gen-tab-holder[tab-template="navbar"]>.tab-content>.tab-pane .toolsbar-holder>.btns-holder{
+    float: none!important;
+}
+.gen-tab-holder[tab-template="navbar"]>.tab-content>.tab-pane .toolsbar-holder>.btns-holder>a{
+    margin: 0;
+    display: block;
+    text-align: left;
+    border-radius: 0;
+    background: white;
+    border:0;
+    border-bottom:1px solid transparent;
+    border-top:1px solid transparent;
+    color: inherit;
+    box-shadow: none!important
+}
+.gen-tab-holder[tab-template="navbar"]>.tab-content>.tab-pane .toolsbar-holder>.btns-holder>a:hover,
+.gen-tab-holder[tab-template="navbar"]>.tab-content>.tab-pane .toolsbar-holder>.btns-holder>a.active{
+    background: #f9f9f9;
+    
+}
+
+
+.row-fluid>.gen-column>.gen-inner>.gen-tab-holder[tab-template="navbar"]>ul{
+    padding: 0 50px;
+}
+
+
+body[has-menu="false"] .row-fluid>.gen-column>.gen-inner>.gen-tab-holder[tab-template="navbar"]{
+    margin-top: -15px;
+}
+
+.tab-content .tab-pane {
+    display: none;
+}
+
+.tab-content .tab-pane.active {
+    display: block!important;
+}
+
+.tab-content .tab-pane:not(.active) {
+    display: none!important;
+}
+
+.tab-content.nav-tab-content{
+    margin-bottom: 30px;
+}
+
+ul.nav.tab-nav.nav-tabs{
+    border-bottom:1px solid #F2F2F2;
+    top: 0;
+}

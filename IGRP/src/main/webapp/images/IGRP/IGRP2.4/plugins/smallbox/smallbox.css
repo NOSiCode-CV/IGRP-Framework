@@ -1,0 +1,31 @@
+.small-box{
+	position: relative;
+	border-radius: 0;
+}
+.small-box *{
+	border-radius: 0;
+}
+.small-box .huge {
+    font-size: 40px;
+    min-height: 57px;
+}
+
+.small-box .huge+div {
+    min-height: 40px;
+    margin-top: 10px;
+}
+
+.small-box .sb-icon{
+	position: absolute;
+	left: 20px;
+	top: 20px;
+}
+
+.small-box .sb-contents{
+	padding: 0;
+}
+
+.small-box .panel-footer{
+	background: white;
+	border-top: 0;
+}

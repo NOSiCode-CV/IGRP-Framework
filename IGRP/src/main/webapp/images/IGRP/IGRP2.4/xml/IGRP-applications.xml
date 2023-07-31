@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="../xsl/IGRP-home.xsl" type="text/xsl"?>
+<applications>
+  <title>Minhas Aplicações</title>
+  <subtitle>Outras Aplicações</subtitle>
+  <application available="yes">
+    <link>../app/CICLO_VIDA/xml/CICLO_VIDA_MOD_PAG_dash.xml</link>
+    <img>cadastro_prediall2.png</img>
+    <title>Cadastro Predial</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>../app/MZ_EMP/xml/MZ_EMP_ESTAT_EMP_EMP_dash.xml</link>
+    <img>business.png</img>
+    <title>Empresa no Dia</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>../app/MZ_MAR/xml/MZ_MAR_EST_MERG_EST_MER_dash.xml</link>
+    <img>mergulho.png</img>
+    <title>Sistema Licenciamento Pesca e Mergulho</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>../app/MZ_Conc/xml/MZ_CONC_CIRC_TUR_MAP_CIRC_dash.xml</link>
+    <img>icon_municipios.png</img>
+    <title>Sistema de Informação Municipal</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>../app/IGRP_LIC/xml/IGRP_LIC_ESTAT_IND_TUR_dash.xml</link>
+    <img>licenciamento.png</img>
+    <title>Framework Licenciamento</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>../app/MZ_TUR/xml/MZ_TUR_1_11_dash.xml</link>
+    <img>jutur.png</img>
+    <title>Janela Unica Turismo</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>../app/MZ_TUR/xml/MZ_TUR_1_11_dash.xml</link>
+    <img>mz-industria.png</img>
+    <title>Industria</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>../app/MZ_TUR/xml/MZ_TUR_1_11_dash.xml</link>
+    <img>mz-comercio.png</img>
+    <title>Comércio</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>../app/MZ_TUR/xml/MZ_TUR_1_11_dash.xml</link>
+    <img>mz-licenc.png</img>
+    <title>DUAT</title>
+    <description>Documento que autoriza alguém ou empresa a ocupar um terreno.</description>
+  </application>
+  <application available="yes">
+    <link>../app/MZ_TUR/xml/MZ_TUR_1_11_dash.xml</link>
+    <img>mz-licenc.png</img>
+    <title>Pareceres e Decisões</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>../app/MZ_TUR/xml/MZ_TUR_1_11_dash.xml</link>
+    <img>mz_fiscalizacao.png</img>
+    <title>Fiscalização</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>../app/MZ_TUR/xml/MZ_TUR_1_11_dash.xml</link>
+    <img>mz-ambiente.png</img>
+    <title>Ambiente</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>../app/MZ_TUR/xml/MZ_TUR_1_11_dash.xml</link>
+    <img>mz-invest.png</img>
+    <title>Projectos de Investimento</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>../app/MZ_TUR/xml/MZ_TUR_1_11_dash.xml</link>
+    <img>mz-bau.png</img>
+    <title>BAU</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>../app/AUTO/xml/AUTO_RPA_CUSTO_BULK_dash.xml</link>
+    <img>icon_transportes.png</img>
+    <title>RPA</title>
+    <description>Registo Propriedade Automovel.</description>
+  </application>
+  <application available="yes">
+    <link>../app/BANCA/xml/BANCA_21_211_dash.xml</link>
+    <img>bancar.png</img>
+    <title>Bancarização de Tesouro</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>../app/BONIF/xml/BONIF___.xml</link>
+    <img>icone_bonificacao.png</img>
+    <title>Bonificação</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>../app/CNPS2/xml/CNPS2_CNPS_BENEFICIARIO_BULK_dash.xml</link>
+    <img>icon_segurancasocial.png</img>
+    <title>CNPS</title>
+    <description>Centro Nacional de Pensão Social.</description>
+  </application>
+  <application available="yes">
+    <link>../app/OUTDOOR/xml/OUTDOOR_1_11_dash.xml</link>
+    <img>outdoor.png</img>
+    <title>Sisoutdoor</title>
+    <description>Um Outdoor é a designação de um meio publicitário exterior, sobretudo em placards...</description>
+  </application>
+  <application available="yes">
+    <link>../app/CULTURA/xml/CULTURA_1_10_form.xml</link>
+    <img>icon_cultura.png</img>
+    <title>SiCultura</title>
+    <description>Sistema pa geri cadastro de artistas, partocinios, agentes, associações culturais etc.</description>
+  </application>
+  <application available="yes">
+    <link>../app/SIS_FRM/xml/SIS_FRM_ROSTO_SIS_dash.xml</link>
+    <img>icon_saude.png</img>
+    <title>Saúde</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt.</description>
+  </application>
+  <application available="no">
+    <link>http://#</link>
+    <img>icon_transportes.png</img>
+    <title>Transporte</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>icon_segurancasocial.png</img>
+    <title>Segurança Social</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>app_CM-Boavista.png</img>
+    <title>Câmara Municipal da Boa Vista</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>app_CM-Maio.png</img>
+    <title>Câmara Municipal do Maio</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>app_CM-Paul.png</img>
+    <title>Câmara Municipal do Paul</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>app_CM-Praia.png</img>
+    <title>Câmara Municipal da Praia</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>app_CM-Ribeira-Brava.png</img>
+    <title>Câmara Municipal da Ribeira Brava</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>app_CMRG-Santiago.png</img>
+    <title>Câmara Municipal da Ribeira Grande de Santiago</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>app_CM-Sal.png</img>
+    <title>Câmara Municipal do Sal</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>app_CM-Sao-Filipe.png</img>
+    <title>Câmara Municipal de São Filipe</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>app_CM-Mosteiros.png</img>
+    <title>Câmara Municipal dos Mosteiros</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>app_CM-Sao-Vicente.png</img>
+    <title>Câmara Municipal de São Vicente</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>app_CM-Porto-Novo.png</img>
+    <title>Câmara Municipal do Porto Novo</title>
+    <description></description>
+  </application>
+  <!--<application available="yes">
+			<link>http://#</link>
+			<img>icon_saude.png</img>
+			<title>Saúde</title>
+			<description>
+				Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.  
+			</description>
+		</application>-->
+  <application available="yes">
+    <link>http://#</link>
+    <img>icon_identificacao.png</img>
+    <title>Identificação Civil</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="no">
+    <link>http://#</link>
+    <img>icon_recursoshumanos.png</img>
+    <title>Recursos Humanos</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>icon_gestaofinaceira.png</img>
+    <title>Gestão Financeira</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>icon_educacao.png</img>
+    <title>Educação</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="no">
+    <link>http://#</link>
+    <img>icon_eleicoes.png</img>
+    <title>Eleições</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>icon_habitacao.png</img>
+    <title>Habitação</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="no">
+    <link>http://#</link>
+    <img>icon_orcamento.png</img>
+    <title>Orçamento</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>icon_municipios.png</img>
+    <title>Municipios</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>icon_impostos.png</img>
+    <title>Impostos</title>
+    <description>Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>SIMFAR.png</img>
+    <title>SIMFAR</title>
+    <description>Sistema Integrado de Monitorização de Produtos Farmacêuticos</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>SIARA.png</img>
+    <title>SIARA</title>
+    <description>Sistema Integrado de Alerta Rápido de Alimentos</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>bolsa_valores.png</img>
+    <title>BVC</title>
+    <description>Bolsa de Valores</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>licen_industria.png</img>
+    <title>INDSCH</title>
+    <description>Licenciamento Indutria</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>aviacao_civil.png</img>
+    <title>AAC</title>
+    <description>Agência de Aviação Civil</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>comercio.png</img>
+    <title>COMSCH</title>
+    <description>Licenciamento Comércio (Grosso e Retalho) / TCE - Título de Comércio Externo</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>licen_empresa.png</img>
+    <title>Licenciamento de Empresa</title>
+    <description>Licenciamento de Empresa</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>turismo.png</img>
+    <title>Turismo</title>
+    <description>Licenciamento Turismo</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>tribunal_contas.png</img>
+    <title>Tribunal de Contas</title>
+    <description>Tribunal de Contas</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>coima_acidente.png</img>
+    <title>Gestão de Coimas e Acidentes</title>
+    <description>Sistema de Gestão de Coimas e Acidentes</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>SSA.png</img>
+    <title>SSA</title>
+    <description>Sistema de Seguimento e Avaliação</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>ICIEG.png</img>
+    <title>ICIEG</title>
+    <description>Instituto Cabo-Verdiano para a Igualdade e Equidade do Género</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>inspecao_financas.png</img>
+    <title>IGF</title>
+    <description>Inspeção Geral Finanças</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>olho.png</img>
+    <title>OLHO</title>
+    <description>Sistema de Alertas do Governo</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>cadastro-unico.png</img>
+    <title>Cadastro Único</title>
+    <description>SNHIS - Sistema Nacional de Habitação de Interesse Social</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>carta-social.png</img>
+    <title>Carta Social</title>
+    <description>Sistema de Gestão de Aparelhos Sociais</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>e-gov.png</img>
+    <title>E-Government</title>
+    <description>Uso de tecnologias da informação na entrega de produtos e serviços do Estado tanto aos cidadãos como a industria...</description>
+  </application>
+  <application available="yes">
+    <link>http://../app/ELECTRA/xml/ELECTRA_1_16_dash.xml</link>
+    <img>electra.png</img>
+    <title>Electra</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>framework.png</img>
+    <title>Framework IGRP</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>arfa.png</img>
+    <title>ARFA</title>
+    <description>Agencia de Regulação e Supervisão dos Produtos Farmaceuticos e Alimentares</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>default.png</img>
+    <title>default</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>default_2.png</img>
+    <title>default</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>INPS.png</img>
+    <title>INPS</title>
+    <description>Instituto Nacional de Previdência Social.</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>dgtr.png</img>
+    <title>DGTR</title>
+    <description>Direcção Geral dos Transportes Rodoviários</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>database.png</img>
+    <title>Base de Dados</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>ges_correspondence.png</img>
+    <title>Gestão de Correspondência</title>
+    <description>É uma aplicação de troca de correspondia entre varios serviços</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>STJ.png</img>
+    <title>Supremo Tribunal de Justiça</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>app_patrimonio.png</img>
+    <title>Sistema de Gestão de Património de Estado</title>
+    <description></description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>app_sinas.png</img>
+    <title>SINAS</title>
+    <description>Sistema de Informação Nacional de Água e saneamento</description>
+  </application>
+  <application available="yes">
+    <link>http://#</link>
+    <img>app_casacidadao.png</img>
+    <title>CASA DO CIDADÃO</title>
+    <description>Aplicação para a Casa do Cidadão</description>
+  </application>
+   <application available="yes">
+    <link>http://#</link>
+    <img>app_licen-econon.png</img>
+    <title>Licenciamento das Actividades Economicas</title>
+    <description>Licenciamento das Actividades Economicas</description>
+  </application>
+  
+  <application available="yes">
+    <link>../app/CICLO_VIDA/xml/CICLO_VIDA_MOD_PAG_dash.xml</link>
+    <img>recusos-humanos_ge.png</img>
+    <title>Recursos Humanos</title>
+    <description>Recursos Humanos</description>
+  </application>
+  <application available="yes">
+    <link>../app/MZ_EMP/xml/MZ_EMP_ESTAT_EMP_EMP_dash.xml</link>
+    <img>gestao-bens_ge.png</img>
+    <title>Gestion Bienes del Estado</title>
+    <description>Gestion Bienes del Estado</description>
+  </application>
+</applications>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/task/Task.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Task</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Task</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=49</preserve_url>
+    </plsql>
+    <content>
+        <title>Atribuição de Tarrefas</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>igrp</app>
+                <page>Task</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>primary|fa-save</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/task/Task.xml</preview>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="true" disabled="false" right="false" java-type="">
+                    <label>Aplicacao</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <processo name="p_processo" type="select" multiple="false" domain="" maxlength="30" required="true" change="true" disabled="false" right="false" java-type="">
+                    <label>Processo</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </processo>
+            </fields>
+        </form_1>
+        <table_1 type="table" xml-type="table" title="Lista de Tarrefas" gen-type="container" gen-group="true">
+            <fields>
+                <selecionar name="p_selecionar" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" check="true" desc="true">
+                    <label/>
+                </selecionar>
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Descrição</label>
+                </descricao>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <selecionar name="p_selecionar" check="true" desc="true">1</selecionar>
+                        <selecionar_desc name="p_selecionar_desc">1</selecionar_desc>
+                        <descricao name="p_descricao">Elit rem ipsum accusantium ips</descricao>
+                    </row>
+                    <row>
+                        <selecionar name="p_selecionar" check="true" desc="true">1</selecionar>
+                        <selecionar_desc name="p_selecionar_desc">1</selecionar_desc>
+                        <descricao name="p_descricao">Natus totam elit ut rem</descricao>
+                    </row>
+                    <row>
+                        <selecionar name="p_selecionar" check="true" desc="true">1</selecionar>
+                        <selecionar_desc name="p_selecionar_desc">1</selecionar_desc>
+                        <descricao name="p_descricao">Aperiam aliqua totam voluptate</descricao>
+                    </row>
+                    <row>
+                        <selecionar name="p_selecionar" check="true" desc="true">1</selecionar>
+                        <selecionar_desc name="p_selecionar_desc">1</selecionar_desc>
+                        <descricao name="p_descricao">Iste sit aperiam omnis dolorem</descricao>
+                    </row>
+                    <row>
+                        <selecionar name="p_selecionar" check="true" desc="true">1</selecionar>
+                        <selecionar_desc name="p_selecionar_desc">1</selecionar_desc>
+                        <descricao name="p_descricao">Unde officia laudantium lorem</descricao>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

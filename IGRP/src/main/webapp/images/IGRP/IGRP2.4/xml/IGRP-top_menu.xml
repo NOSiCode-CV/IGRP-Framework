@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<top_menu>
+	<button>
+		<title>Home</title>
+		<app>igrp</app>
+		<page>DefaultPage</page>
+		<link></link>
+		<target>_self</target>
+		<img>home.png</img>
+	</button>
+	<button>
+		<title>Settings</title>
+		<app>igrp</app>
+		<page>Settings</page>
+		<link>/IGRP/images/IGRP/IGRP2.3/app/igrp/settings/Settings.xml</link>
+		<target>modal</target>
+		<img>portuguese_flag.png</img>
+	</button>
+	
+</top_menu>

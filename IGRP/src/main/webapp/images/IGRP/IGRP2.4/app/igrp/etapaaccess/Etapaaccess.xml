@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/etapaaccess/Etapaaccess.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Etapaaccess</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Etapaaccess</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=54</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>EtapaAccess</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Associar Etapa a Organica/Perfil]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar" custom_return="true" refresh_components="">
+                <title>Gravar</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>submit</target>
+                <img>primary|fa-save</img>
+                <preview/>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <id name="p_id" type="checkbox" maxlength="255" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" showLabel="true" group_in="" check="true" desc="true">
+                    <label/>
+                </id>
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Descricao</label>
+                </descricao>
+                <processid name="p_processId" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" group_in="" tag="processid"/>
+                <task_description name="p_task_description" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" group_in="" tag="task_description"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <id name="p_id" check="true" desc="true">1</id>
+                        <id_desc name="p_id_desc">1</id_desc>
+                        <descricao name="p_descricao">Laudantium dolor doloremque la</descricao>
+                        <processid name="p_processId" tag="processid">hidden-d5eb_61c6</processid>
+                        <task_description name="p_task_description" tag="task_description">hidden-ebf8_9525</task_description>
+                    </row>
+                    <row>
+                        <id name="p_id" check="true" desc="true">1</id>
+                        <id_desc name="p_id_desc">1</id_desc>
+                        <descricao name="p_descricao">Ut perspiciatis rem accusantiu</descricao>
+                        <processid name="p_processId" tag="processid">hidden-e7f0_23a6</processid>
+                        <task_description name="p_task_description" tag="task_description">hidden-c760_9118</task_description>
+                    </row>
+                    <row>
+                        <id name="p_id" check="true" desc="true">1</id>
+                        <id_desc name="p_id_desc">1</id_desc>
+                        <descricao name="p_descricao">Omnis mollit natus doloremque</descricao>
+                        <processid name="p_processId" tag="processid">hidden-41d7_222f</processid>
+                        <task_description name="p_task_description" tag="task_description">hidden-3293_de88</task_description>
+                    </row>
+                    <row>
+                        <id name="p_id" check="true" desc="true">1</id>
+                        <id_desc name="p_id_desc">1</id_desc>
+                        <descricao name="p_descricao">Sit doloremque stract anim sit</descricao>
+                        <processid name="p_processId" tag="processid">hidden-036b_9560</processid>
+                        <task_description name="p_task_description" tag="task_description">hidden-8122_90a8</task_description>
+                    </row>
+                    <row>
+                        <id name="p_id" check="true" desc="true">1</id>
+                        <id_desc name="p_id_desc">1</id_desc>
+                        <descricao name="p_descricao">Ipsum dolor labore anim rem</descricao>
+                        <processid name="p_processId" tag="processid">hidden-fad0_6d81</processid>
+                        <task_description name="p_task_description" tag="task_description">hidden-a56e_fb36</task_description>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

@@ -1,0 +1,168 @@
+.igrp-calendar .fc-toolbar .fc-center,
+.igrp-calendar .fc-toolbar .fc-left,
+.igrp-calendar .fc-toolbar .fc-right{
+	position:relative;
+}
+
+.igrp-calendar .fc-toolbar .fc-left{
+	/*margin-left: 50px*/
+}
+
+.igrp-calendar .fc-toolbar .fc-prev-button,
+.igrp-calendar .fc-toolbar .fc-next-button,
+.igrp-calendar .fc-toolbar h2{
+	display: inline;	
+	float: left;
+	outline: none;
+}
+
+.igrp-calendar .fc-toolbar .fc-prev-button,
+.igrp-calendar .fc-toolbar .fc-next-button{
+	box-shadow: none;
+	-webkit-appearance:none;
+	background: none;
+	border:0;
+	margin: 4px 6px 0;
+
+}
+
+.igrp-calendar .fc-head .fc-widget-header{
+	vertical-align: middle;
+	background:whitesmoke;
+}
+.igrp-calendar .fc-head .fc-widget-header span{
+	display: block;
+	padding:5px 0;
+}
+
+.table-context-menu{
+    position: absolute;
+    min-width: 140px;
+    box-shadow: 0px 4px 10px 0px #ddd;
+    -webkit-box-shadow:0px 4px 10px 0px #ddd;
+    border-radius:0;
+    border: none;
+}
+
+.table-context-menu .list-group{
+	margin: 0;
+	padding: 0;
+	border: 1px solid #
+}
+
+.table-context-menu .list-group li a.btn{
+	text-align: left;
+	margin-bottom: -1px;
+	border-radius:0;
+	padding: 6px 12px;
+}
+
+.fc-event{
+	border-radius: 0;
+	padding:2px 5px;
+	letter-spacing: 1px;
+	margin: 0 5px 5px 5px;
+}
+
+
+.fc-unthemed .fc-content, .fc-unthemed .fc-divider, .fc-unthemed .fc-list-heading td, 
+.fc-unthemed .fc-list-view, .fc-unthemed .fc-popover, 
+.fc-unthemed .fc-row, .fc-unthemed tbody, .fc-unthemed td, 
+.fc-unthemed th, .fc-unthemed thead{
+	border-color:#e5e5e5;
+}
+
+.fc .fc-head tr th.fc-day-header, .fc-header span.fc-title{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #000;
+}
+
+.fc-state-default{
+	border: 1px solid #e5e5e5;
+	padding: 5px;
+	background-image: none;
+	text-shadow: none;
+	box-shadow: none;
+	outline: none;
+	border-radius:0; 
+	color: #000;
+}
+
+.fc-state-default.fc-corner-left,
+.fc-state-default.fc-corner-right{
+	border-radius:0;
+}
+
+.fc .fc-day-top .fc-day-number{
+    font-size: 15px;
+    margin: 2px;
+    min-width: 19px;
+    height: 19px;
+    padding: 6px;
+    text-align: center;
+    color: #000;
+}
+
+.fc .fc-day{
+	cursor: pointer;
+}
+
+.fc-icon-x:after{
+	font-size: 25px;
+}
+
+.fc-row.fc-rigid, .fc-time-grid-event{
+	overflow: inherit;
+}
+
+.fc-unthemed .fc-today {
+    background: #FFF3E0;
+}
+
+.fc-state-default.fc-state-active, .fc-state-down{
+	background-color: #263238;
+	color: #fff;
+}
+
+.calendar_notOverflow .fc-scroller.fc-day-grid-container{
+	overflow: inherit !important;
+}
+
+.tooltip{
+	z-index: 999999;
+}
+
+.igrp-calendar-ctx-item.ctx_hidden{
+	display: none;
+}
+
+/* Tooltip */
+.tooltip > .tooltip-inner {
+  /*background-color: #fff; 
+  color: #000; 
+  border: 1px solid #e5e5e5; 
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);*/
+  background-color: #263238;
+  color: #fff;
+  text-align: left;
+  padding:10px;
+  font-size:12px;
+}
+/* Tooltip on top */
+.tooltip.top > .tooltip-arrow {
+  border-top: 5px solid #263238;
+}
+/* Tooltip on bottom */
+.tooltip.bottom > .tooltip-arrow {
+  border-bottom: 5px solid #263238;
+}
+/* Tooltip on left */
+.tooltip.left > .tooltip-arrow {
+  border-left: 5px solid #263238;
+}
+/* Tooltip on right*/ 
+.tooltip.right > .tooltip-arrow {
+  border-right: 5px solid #263238;
+}

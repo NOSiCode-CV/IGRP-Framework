@@ -1,0 +1,452 @@
+<?xml-stylesheet href="../xsl/IGRP-process-map.xsl?sessid=5A4234F9732345CBE0534D02040AD018" type="text/xsl"?>
+<rows>
+	<title>Cadastro Predial [Desenvolvimento]</title>
+	<version>5A4234F9732345CBE0534D02040AD018</version>
+	<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dadini=//cccfccc8&amp;p_env_dad=//CE</link>
+	
+	<site>
+		<welcome_note>Olá</welcome_note>
+		<footer_note>2011 - Copyright NOSI</footer_note>
+		<user_name>william.lima</user_name>
+		<button type="specific">
+			<title>Sair</title>
+			<app>CADASTRO_FACE</app>
+			<page />
+			<link>https://nosiappsdev.gov.cv/redglobal_dev/redglobal.glb_dispatcher.logout</link>
+			<target>_self</target>
+			<img>exit.png</img>
+		</button>
+	</site>
+	<app>CADASTRO_FACE</app>
+	<page>WORKFLOW</page>
+	
+	<content>
+
+		<title>Mapa de Processos</title>
+
+		<filter>
+			<label>
+				<p_env_frm_url />
+				<p_env_dml />
+				<p_fwl_tab_page>p_fwl_tab_page</p_fwl_tab_page>
+				<p_fwl_workflow>p_fwl_workFlow</p_fwl_workflow>
+				<p_fwl_dialogbox>p_fwl_dialogbox</p_fwl_dialogbox>
+				<p_fwl_relbox>p_fwl_relbox</p_fwl_relbox>
+				<p_fwl_tab_menu>p_fwl_tab_menu</p_fwl_tab_menu>
+			</label>
+			<value>
+				<hidden name="p_env_frm_url">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CCC9CDCE</hidden>
+				<hidden	name="p_env_dml" />
+				<hidden	name="p_fwl_tab_page" />
+				<hidden	name="p_fwl_workflow" />
+				<hidden	name="p_fwl_dialogbox" />
+				<hidden	name="p_fwl_relbox" />
+				<hidden	name="p_fwl_tab_menu" />
+			</value>
+		</filter>
+		<menus>
+			<title>1 - Cadastro</title>
+			<link>redglobal.glb_db.save_favourite?p_id=</link>
+			<menu>
+				<title>1.1 - Gestão de Prédio</title>
+				<submenu>
+					<title>1.1.4 - P. Horizontal</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=5704&amp;p_wf_acti_tp_fk=20384&amp;p_wf_acti_adhoc=</link>
+					<id>20384</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.1.5 - Emissão de CIP</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=5724&amp;p_wf_acti_tp_fk=20444&amp;p_wf_acti_adhoc=</link>
+					<id>20444</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.1.6 - Desanexação</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=5904&amp;p_wf_acti_tp_fk=21004&amp;p_wf_acti_adhoc=</link>
+					<id>21004</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.1.9 - Anexaçao</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=5964&amp;p_wf_acti_tp_fk=21104&amp;p_wf_acti_adhoc=</link>
+					<id>21104</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.1.10 - Alteração de Propriedade Horizontal</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=6504&amp;p_wf_acti_tp_fk=21924&amp;p_wf_acti_adhoc=</link>
+					<id>21924</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.1.11 - Pedido de Licença/ Autorização de Utilização</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=6584&amp;p_wf_acti_tp_fk=22045&amp;p_wf_acti_adhoc=</link>
+					<id>22045</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.1.12 - Averbamento de Construção</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=6604&amp;p_wf_acti_tp_fk=22093&amp;p_wf_acti_adhoc=</link>
+					<id>22093</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.1.13 - Alteração de Prédio</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=7225&amp;p_wf_acti_tp_fk=23695&amp;p_wf_acti_adhoc=</link>
+					<id>23695</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+			</menu>
+			<menu>
+				<title>1.2 - Planeamento</title>
+				<submenu>
+					<title>1.2.1 - Loteamento_old</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=5925&amp;p_wf_acti_tp_fk=21026&amp;p_wf_acti_adhoc=</link>
+					<id>21026</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.2.2 - Loteamento</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=7204&amp;p_wf_acti_tp_fk=23604&amp;p_wf_acti_adhoc=</link>
+					<id>23604</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+			</menu>
+			<menu>
+				<title>1.3 - Construção</title>
+				<submenu>
+					<title>1.3.1 - Licença de Obras_old</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=6105&amp;p_wf_acti_tp_fk=21306&amp;p_wf_acti_adhoc=</link>
+					<id>21306</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.3.3 - Implantação_old</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=6167&amp;p_wf_acti_tp_fk=21379&amp;p_wf_acti_adhoc=</link>
+					<id>21379</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.3.4 - Projectos_obra_old</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=6224&amp;p_wf_acti_tp_fk=21444&amp;p_wf_acti_adhoc=</link>
+					<id>21444</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.3.5 - Licença de Obra</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=7125&amp;p_wf_acti_tp_fk=23448&amp;p_wf_acti_adhoc=</link>
+					<id>23448</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.3.6 - Aprovação Projecto</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=7145&amp;p_wf_acti_tp_fk=23510&amp;p_wf_acti_adhoc=</link>
+					<id>23510</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.3.7 - Fiscalizacao Obra</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=7205&amp;p_wf_acti_tp_fk=23675&amp;p_wf_acti_adhoc=</link>
+					<id>23675</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+			</menu>
+		</menus>
+		<menus>
+			<title>4 - Cartorio Notarial</title>
+			<link>redglobal.glb_db.save_favourite?p_id=</link>
+			<menu>
+				<title>4.1 - Atos e Processos Notariais</title>
+				<submenu>
+					<title>4.1.1 - Escrituras Diversas</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_acti_adhoc=</link>
+					<id>17196</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>4.1.2 - Testamento Público e Revogacão Testamento</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=4733&amp;p_wf_acti_tp_fk=17219&amp;p_wf_acti_adhoc=</link>
+					<id>17219</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>4.1.3 - Retificações, Suprimentos e Nulidades</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=4807&amp;p_wf_acti_tp_fk=17849&amp;p_wf_acti_adhoc=</link>
+					<id>17849</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>4.1.4 - Instrumentos Avulso</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=4846&amp;p_wf_acti_tp_fk=18006&amp;p_wf_acti_adhoc=</link>
+					<id>18006</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>4.1.5 - Reconhecimento</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=5030&amp;p_wf_acti_tp_fk=18784&amp;p_wf_acti_adhoc=</link>
+					<id>18784</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>4.1.6 - Emissão de Certidões</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=4767&amp;p_wf_acti_tp_fk=17338&amp;p_wf_acti_adhoc=</link>
+					<id>17338</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>4.1.7 - Conferência De Fotocópias</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=6324&amp;p_wf_acti_tp_fk=21685&amp;p_wf_acti_adhoc=</link>
+					<id>21685</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+			</menu>
+		</menus>
+		<menus>
+			<title>5 - Pré-Cadastro</title>
+			<link>redglobal.glb_db.save_favourite?p_id=</link>
+			<menu>
+				<title>5.1 - Execução de Cadastro</title>
+				<submenu>
+					<title>5.1.1 - Caraterização Definitiva e Registo</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=6004&amp;p_wf_acti_tp_fk=21184&amp;p_wf_acti_adhoc=</link>
+					<id>21184</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>5.1.2 - Recadastramento</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=8665&amp;p_wf_acti_tp_fk=26635&amp;p_wf_acti_adhoc=</link>
+					<id>26635</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+			</menu>
+		</menus>
+		<menus>
+			<title>1 - Cadastro</title>
+			<link>redglobal.glb_db.save_favourite?p_id=</link>
+			<menu>
+				<title>1.1 - Gestão de Prédio</title>
+				<submenu>
+					<title>1.1.4 - P. Horizontal</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=5704&amp;p_wf_acti_tp_fk=20384&amp;p_wf_acti_adhoc=</link>
+					<id>20384</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.1.5 - Emissão de CIP</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=5724&amp;p_wf_acti_tp_fk=20444&amp;p_wf_acti_adhoc=</link>
+					<id>20444</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.1.6 - Desanexação</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=5904&amp;p_wf_acti_tp_fk=21004&amp;p_wf_acti_adhoc=</link>
+					<id>21004</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.1.9 - Anexaçao</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=5964&amp;p_wf_acti_tp_fk=21104&amp;p_wf_acti_adhoc=</link>
+					<id>21104</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.1.10 - Alteração de Propriedade Horizontal</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=6504&amp;p_wf_acti_tp_fk=21924&amp;p_wf_acti_adhoc=</link>
+					<id>21924</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.1.11 - Pedido de Licença/ Autorização de Utilização</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=6584&amp;p_wf_acti_tp_fk=22045&amp;p_wf_acti_adhoc=</link>
+					<id>22045</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.1.12 - Averbamento de Construção</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=6604&amp;p_wf_acti_tp_fk=22093&amp;p_wf_acti_adhoc=</link>
+					<id>22093</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.1.13 - Alteração de Prédio</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=7225&amp;p_wf_acti_tp_fk=23695&amp;p_wf_acti_adhoc=</link>
+					<id>23695</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+			</menu>
+			<menu>
+				<title>1.2 - Planeamento</title>
+				<submenu>
+					<title>1.2.1 - Loteamento_old</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=5925&amp;p_wf_acti_tp_fk=21026&amp;p_wf_acti_adhoc=</link>
+					<id>21026</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.2.2 - Loteamento</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=7204&amp;p_wf_acti_tp_fk=23604&amp;p_wf_acti_adhoc=</link>
+					<id>23604</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+			</menu>
+			<menu>
+				<title>1.3 - Construção</title>
+				<submenu>
+					<title>1.3.1 - Licença de Obras_old</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=6105&amp;p_wf_acti_tp_fk=21306&amp;p_wf_acti_adhoc=</link>
+					<id>21306</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.3.3 - Implantação_old</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=6167&amp;p_wf_acti_tp_fk=21379&amp;p_wf_acti_adhoc=</link>
+					<id>21379</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.3.4 - Projectos_obra_old</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=6224&amp;p_wf_acti_tp_fk=21444&amp;p_wf_acti_adhoc=</link>
+					<id>21444</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.3.5 - Licença de Obra</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=7125&amp;p_wf_acti_tp_fk=23448&amp;p_wf_acti_adhoc=</link>
+					<id>23448</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.3.6 - Aprovação Projecto</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=7145&amp;p_wf_acti_tp_fk=23510&amp;p_wf_acti_adhoc=</link>
+					<id>23510</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>1.3.7 - Fiscalizacao Obra</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=7205&amp;p_wf_acti_tp_fk=23675&amp;p_wf_acti_adhoc=</link>
+					<id>23675</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+			</menu>
+		</menus>
+		<menus>
+			<title>4 - Cartorio Notarial</title>
+			<link>redglobal.glb_db.save_favourite?p_id=</link>
+			<menu>
+				<title>4.1 - Atos e Processos Notariais</title>
+				<submenu>
+					<title>4.1.1 - Escrituras Diversas</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_acti_adhoc=</link>
+					<id>17196</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>4.1.2 - Testamento Público e Revogacão Testamento</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=4733&amp;p_wf_acti_tp_fk=17219&amp;p_wf_acti_adhoc=</link>
+					<id>17219</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>4.1.3 - Retificações, Suprimentos e Nulidades</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=4807&amp;p_wf_acti_tp_fk=17849&amp;p_wf_acti_adhoc=</link>
+					<id>17849</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>4.1.4 - Instrumentos Avulso</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=4846&amp;p_wf_acti_tp_fk=18006&amp;p_wf_acti_adhoc=</link>
+					<id>18006</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>4.1.5 - Reconhecimento</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=5030&amp;p_wf_acti_tp_fk=18784&amp;p_wf_acti_adhoc=</link>
+					<id>18784</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>4.1.6 - Emissão de Certidões</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=4767&amp;p_wf_acti_tp_fk=17338&amp;p_wf_acti_adhoc=</link>
+					<id>17338</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>4.1.7 - Conferência De Fotocópias</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=6324&amp;p_wf_acti_tp_fk=21685&amp;p_wf_acti_adhoc=</link>
+					<id>21685</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+			</menu>
+		</menus>
+		<menus>
+			<title>5 - Pré-Cadastro</title>
+			<link>redglobal.glb_db.save_favourite?p_id=</link>
+			<menu>
+				<title>5.1 - Execução de Cadastro</title>
+				<submenu>
+					<title>5.1.1 - Caraterização Definitiva e Registo</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=6004&amp;p_wf_acti_tp_fk=21184&amp;p_wf_acti_adhoc=</link>
+					<id>21184</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+				<submenu>
+					<title>5.1.2 - Recadastramento</title>
+					<link>https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpafcbedad=542349732345053402040018&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_proc_tp_fk=8665&amp;p_wf_acti_tp_fk=26635&amp;p_wf_acti_adhoc=</link>
+					<id>26635</id>
+					<status />
+					<target>LEFT_MENU</target>
+				</submenu>
+			</menu>
+		</menus>
+	</content>
+</rows>

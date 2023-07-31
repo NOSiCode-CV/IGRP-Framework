@@ -1,0 +1,39 @@
+{
+
+    "series": [
+       
+        {
+        	"name":"Gripe",
+
+        	"color": "#FF0000",
+        	
+        	"data" : [
+
+        		{	
+		            "id": 170,
+		            "value" : 5
+		        },
+		        {
+		            "id": 770,
+		            "value" : 15
+		        }
+		    ]
+		    
+        },
+
+        {
+        	"name":"Doenças Crónicas",
+        	
+        	"color": "#330033",
+        	
+        	"data" : [
+        		{
+		            "id": 609,
+		            "value" : 33
+		        }
+		    ]
+		    
+        }
+
+    ]
+}

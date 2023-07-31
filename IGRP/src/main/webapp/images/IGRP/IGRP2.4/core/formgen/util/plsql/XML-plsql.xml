@@ -1,0 +1,608 @@
+<?xml-stylesheet href="XSL-plsql.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button		type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>LAB</page>
+    <app>C_CIDADAO</app>
+    <plsql>
+        <action>PLSQL</action>
+        <package_instance>findev</package_instance>
+        <package_db>C_CIDADAO_LAB2_PLSQL_DB</package_db>
+        <package_html>C_CIDADAO_LAB2_PLSQL_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_lab/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Teste Gerador PLSQL</title>
+        <!-- <view_1 type="view">
+            <fields>
+                <nome1 type="text" name="p_nome1">
+                    <label>nome</label>
+                    <value>Omnis aperiam mollit unde magna</value>
+                </nome1>
+                <morada1 type="text" name="p_morada1">
+                    <label>morada</label>
+                    <value>Doloremque accusantium unde deserunt doloremque</value>
+                </morada1>
+                <view_foto type="text" name="p_view_foto">
+                    <label>Foto</label>
+                    <value>Unde mollit aliqua unde deserunt</value>
+                </view_foto>
+                <view_img>http://igrp.teste.gov.cv/images/IGRPLAB2.2/themes/default/img/funcionario.png</view_img>
+            </fields>
+        </view_1>
+
+        <separatordialog_1 type="separatordialog">
+            <fields>
+                <date1 type="date" name="p_date1" table="true" maxLength="40" required="false" format="IGRP_datePicker">
+                    <label>date</label>
+                    <value />
+                </date1>
+                <email1 type="email" name="p_email1" table="true" maxLength="40" required="false">
+                    <label>email</label>
+                    <value>acwot@example.com</value>
+                </email1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <date1 />
+                        <date1_desc />
+                        <email1>gopuzkuh@example.com</email1>
+                        <email1_desc>wur@example.com</email1_desc>
+                    </row>
+                    <row>
+                        <date1 />
+                        <date1_desc />
+                        <email1>jeor@example.com</email1>
+                        <email1_desc>edimot@example.com</email1_desc>
+                    </row>
+                    <row>
+                        <date1 />
+                        <date1_desc />
+                        <email1>pelnal@example.com</email1>
+                        <email1_desc>navokne@example.com</email1_desc>
+                    </row>
+                    <row>
+                        <date1 />
+                        <date1_desc />
+                        <email1>wo@example.com</email1>
+                        <email1_desc>takafu@example.com</email1_desc>
+                    </row>
+                </value>
+            </table>
+        </separatordialog_1>
+
+        <gen_tab_menu type="tabmenu">
+            <group title="Menu 1" id="group-0" code="">
+                <item type="specific" rel="gen_tab_menu-ctx-0" code="">
+                    <title>Menu 1.1</title>
+                    <app />
+                    <page />
+                    <link />
+                    <target>specific</target>
+                    <img>default.png</img>
+                </item>
+                <item type="specific" rel="gen_tab_menu-ctx-2" code="">
+                    <title>Menu 1.3</title>
+                    <app />
+                    <page />
+                    <link />
+                    <target>specific</target>
+                    <img>default.png</img>
+                </item>
+                <item type="specific" rel="gen_tab_menu-ctx-1" code="">
+                    <title>Menu 1.2</title>
+                    <app />
+                    <page />
+                    <link />
+                    <target>specific</target>
+                    <img>default.png</img>
+                </item>
+            </group>
+            <group title="Menu 2" id="group-1" code="">
+                <item type="specific" rel="gen_tab_menu-ctx-3" code="">
+                    <title>Menu 2.1</title>
+                    <app />
+                    <page />
+                    <link />
+                    <target>specific</target>
+                    <img>default.png</img>
+                </item>
+            </group>
+        </gen_tab_menu>-->
+
+        <gen_form_toolsbar type="toolsbar" gen-type="menu" dynamic-menu="true">
+            <item type="specific" rel="gen_form_toolsbar-ctx-1" code="">
+                <title>Fechar</title>
+                <app>C_CIDADAO</app>
+                <page>LAB</page>
+                <link>PLSQL</link>
+                <target>_close</target>
+                <img>PDF_F.png</img>
+            </item>
+            <item type="specific" rel="gen_form_toolsbar-ctx-0" code="">
+                <title>Gravar</title>
+                <app>C_CIDADAO</app>
+                <page>LAB</page>
+                <link>PLSQL</link>
+                <target>submit</target>
+                <img>save.png</img>
+                <service code="5003353">
+                    <request>
+                        <map>
+                            <from>date_1</from>
+                            <to>mimetype</to>
+                        </map>
+                        <map>
+                            <from>number_1</from>
+                            <to>link</to>
+                        </map>
+                    </request>
+                    <response>
+                        <map>
+                            <from>status_text</from>
+                            <to>text_1</to>
+                        </map>
+                        <map>
+                            <from>status</from>
+                            <to>number_1</to>
+                        </map>
+                    </response>
+                </service>
+            </item>
+        </gen_form_toolsbar>
+
+        <!--<gen_form_1 type="form">
+            <fields>
+                <nome type="text" name="p_nome" maxlength="30" required="false">
+                    <label>nome</label>
+                    <value>Iste accusantium ut perspiciatis accusantium</value>
+                </nome>
+                <numero type="number" name="p_numero" maxlength="30" required="false">
+                    <label>numero</label>
+                    <value>311</value>
+                </numero>
+                <data type="date" name="p_data" maxlength="30" required="false" format="IGRP_datePicker">
+                    <label>data</label>
+                    <value />
+                </data>
+                <email type="email" name="p_email" maxlength="30" required="false">
+                    <label>email</label>
+                    <value>vajko@example.com</value>
+                </email>
+                <checkbox type="checkbox" name="p_checkbox" maxlength="30" required="false">
+                    <label>checkbox</label>
+                    <value>1</value>
+                </checkbox>
+                <combobox type="select" multiple="false" name="p_combobox" maxlength="30" required="false">
+                    <label>combobox</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </combobox>
+                <checkboxlista type="checkboxlist" name="p_checkboxlista" maxlength="30" required="false">
+                    <label>checkboxlista</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </checkboxlista>
+                <pesquisa type="lookup" name="p_pesquisa" action="" maxlength="30" required="false" app="" page="">
+                    <label>Pesquisa</label>
+                    <value />
+                    <lookup>?XXX</lookup>
+                </pesquisa>
+                <pesquisa_bi type="lookup" name="p_pesquisa_bi" action="" maxlength="30" required="false" app="" page="">
+                    <label>PesquisaBI</label>
+                    <value />
+                    <lookup>?XXX</lookup>
+                </pesquisa_bi>
+                <pesquisa_geog type="lookup" name="p_pesquisa_geog" action="" maxlength="30" required="false" app="" page="">
+                    <label>PesquisaGEOG</label>
+                    <value />
+                    <lookup>?XXX</lookup>
+                </pesquisa_geog>
+            </fields>
+        </gen_form_1>
+
+        <separador_lista title="separador lista" type="separatorlist">
+            <fields>
+                <texto1 type="text" name="p_texto1" maxlength="40" table="true" required="false">
+                    <label>texto1</label>
+                    <value>Elit omnis officia amet unde</value>
+                </texto1>
+                <combox1 type="select" multiple="false" name="p_combox1" maxlength="40" table="true" required="false">
+                    <label>Combox1</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </combox1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <texto1>Omnis labore amet doloremque natus</texto1>
+                        <texto1_desc>Iste ipsum laudantium anim ipsum</texto1_desc>
+                        <combox1 />
+                        <combox1_desc />
+                    </row>
+                    <row>
+                        <texto1>Consectetur stract ipsum laudantium iste</texto1>
+                        <texto1_desc>Sit natus anim lorem omnis</texto1_desc>
+                        <combox1 />
+                        <combox1_desc />
+                    </row>
+                    <row>
+                        <texto1>Iste adipiscing aliqua rem magna</texto1>
+                        <texto1_desc>Accusantium adipiscing lorem omnis aliqua</texto1_desc>
+                        <combox1 />
+                        <combox1_desc />
+                    </row>
+                    <row>
+                        <texto1>Aliqua mollit labore officia sit</texto1>
+                        <texto1_desc>Rem aliqua anim sit deserunt</texto1_desc>
+                        <combox1 />
+                        <combox1_desc />
+                    </row>
+                </value>
+            </table>
+        </separador_lista>
+
+        <gen_table_toolsbar type="toolsbar">
+            <item type="specific" rel="gen_table_toolsbar-ctx-0" code="">
+                <title>Botao1</title>
+                <app>C_CIDADAO</app>
+                <page>LAB</page>
+                <link>MULTILINGUA</link>
+                <target>_self</target>
+                <img>default.png</img>
+            </item>
+            <item type="specific" rel="gen_table_toolsbar-ctx-1" code="">
+                <title>Botao2</title>
+                <app />
+                <page />
+                <link />
+                <target>_self</target>
+                <img>default.png</img>
+            </item>
+        </gen_table_toolsbar>
+
+
+        <grafico_1 type="chart">
+            <caption />
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url />
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#2f7ed8</col>
+                <col>#0d233a</col>
+                <col>#FF00FF</col>
+                <col>#FF0000</col>
+            </colors>
+        </grafico_1>
+
+        <filter_1 type="form">
+            <fields>
+                <nome2 type="text" name="p_nome2" maxlength="30" required="false">
+                    <label>Nome</label>
+                    <value>Adipiscing natus dolor aperiam natus</value>
+                </nome2>
+            </fields>
+            <tools-bar>
+                <item type="form" code="">
+                    <title>Pesquisar</title>
+                    <app />
+                    <page />
+                    <link />
+                    <target>_self</target>
+                    <img>search.png</img>
+                </item>
+            </tools-bar>
+        </filter_1> -->
+
+        <!--<formlist_1 type="formlist"  gen-type="container" gen-group="true" >
+            <fields>
+                <number type="number" name="p_number">
+                    <label>number</label>
+                </number>
+                <email type="email" name="p_email">
+                    <label>email</label>
+                </email>
+               
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <number>716</number>
+                        <number_desc>647</number_desc>
+                        <email>tehowfet@example.com</email>
+                        <email_desc>ofla@example.com</email_desc>
+                        
+                    </row>
+                    <row>
+                        <number>354</number>
+                        <number_desc>563</number_desc>
+                        <email>juvmuj@example.com</email>
+                        <email_desc>ocu@example.com</email_desc>
+                        
+                    </row>
+                    <row>
+                        <number>937</number>
+                        <number_desc>485</number_desc>
+                        <email>suejka@example.com</email>
+                        <email_desc>wer@example.com</email_desc>
+                        
+                    </row>
+                    <row>
+                        <number>120</number>
+                        <number_desc>481</number_desc>
+                        <email>zanumo@example.com</email>
+                        <email_desc>dazot@example.com</email_desc>
+                        
+                    </row>
+                </value>
+            </table>
+        </formlist_1>-->
+
+
+       <!--  <form_3 type="form">
+            <fields>
+                <texteditor type="texteditor" name="p_texteditor" maxlength="40" required="false">
+                    <label>texteditor</label>
+                    <value>Aperiam omnis aliqua sed unde mollit deserunt accusantium elit sit officia dolor ipsum dolor doloremque voluptatem natus aliqua omnis elit mollit perspiciatis aperiam sed anim labore unde laudantium omnis unde</value>
+                </texteditor>
+            </fields>
+        </form_3>
+
+        <chart_3 type="chart">
+            <caption />
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url />
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#2f7ed8</col>
+                <col>#0d233a</col>
+                <col>#FF00FF</col>
+                <col>#FF0000</col>
+            </colors>
+        </chart_3>
+
+        <gen_table type="table">
+            <fields>
+                <nome3 type="text" align="left" name="p_nome3">
+                    <label>nome</label>
+                </nome3>
+                <morada type="text" align="left" name="p_morada">
+                    <label>morada</label>
+                </morada>
+                <checkall type="checkbox" align="left" name="p_checkall">
+                    <label>checkall</label>
+                </checkall>
+                <filter type="filter_az" name="p_gen_table_filter">
+                    <value />
+                </filter>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <nome3>Sit iste voluptatem stract amet</nome3>
+                        <nome3_desc>Iste magna consectetur iste unde</nome3_desc>
+                        <morada>Stract totam aliqua iste magna</morada>
+                        <morada_desc>Natus sit lorem stract amet</morada_desc>
+                        <checkall>1</checkall>
+                        <checkall_desc>1</checkall_desc>
+                    </row>
+                    <row>
+                        <nome3>Ut aliqua officia stract totam</nome3>
+                        <nome3_desc>Laudantium doloremque labore laudantium consectetur</nome3_desc>
+                        <morada>Stract accusantium dolor accusantium sit</morada>
+                        <morada_desc>Ut doloremque elit perspiciatis accusantium</morada_desc>
+                        <checkall>1</checkall>
+                        <checkall_desc>1</checkall_desc>
+                    </row>
+                    <row>
+                        <nome3>Accusantium aperiam stract adipiscing unde</nome3>
+                        <nome3_desc>Stract perspiciatis officia omnis consectetur</nome3_desc>
+                        <morada>Totam magna voluptatem unde rem</morada>
+                        <morada_desc>Officia elit accusantium stract aliqua</morada_desc>
+                        <checkall>1</checkall>
+                        <checkall_desc>1</checkall_desc>
+                    </row>
+                    <row>
+                        <nome3>Accusantium adipiscing aperiam adipiscing accusantium</nome3>
+                        <nome3_desc>Doloremque natus adipiscing totam dolor</nome3_desc>
+                        <morada>Anim mollit accusantium totam iste</morada>
+                        <morada_desc>Deserunt sit rem sit doloremque</morada_desc>
+                        <checkall>1</checkall>
+                        <checkall_desc>1</checkall_desc>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="">
+                        <title>context1</title>
+                        <app>C_CIDADAO</app>
+                        <page>LAB</page>
+                        <link>PLSQL</link>
+                        <target>_blank</target>
+                        <img>default.png</img>
+                    </item>
+                    <item type="specific" code="">
+                        <title>context2</title>
+                        <app>C_CIDADAO</app>
+                        <page>LAB</page>
+                        <link>MULTILINGUA</link>
+                        <target>confirm</target>
+                        <img>default.png</img>
+                    </item>
+                </context-menu>
+            </table>
+        </gen_table>
+
+
+        <grafico_2 type="chart">
+            <caption />
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url />
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#2f7ed8</col>
+                <col>#0d233a</col>
+                <col>#FF00FF</col>
+                <col>#FF0000</col>
+            </colors>
+        </grafico_2> -->
+    </content>
+</rows>

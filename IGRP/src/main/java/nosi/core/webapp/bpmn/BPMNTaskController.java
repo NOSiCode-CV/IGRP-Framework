@@ -8,8 +8,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Part;
 import com.google.gson.Gson;
 
 import nosi.core.gui.components.IGRPMessage;
@@ -69,7 +69,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	}
 	
 	@Override
-	public Response index() throws IOException, ServletException {	
+	public Response index() throws IOException{	
 		if(Core.isNotNull(this.runtimeTask)) {
 			Action action = new Action().find().andWhere("application", "=",this.runtimeTask.getAppId())
 					.andWhere("page", "=",this.runtimeTask.getTask().getFormKey()).one();
@@ -98,7 +98,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			xml.endElement(); 
 			return this.renderView(xml.toString());	
 		}
-		Core.setAttribute("javax.servlet.error.message", gt("Task não tem página associada!"));
+		Core.setAttribute("jakarta.servlet.error.message", gt("Task não tem página associada!"));
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 
@@ -156,7 +156,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	
 
 	
-	private Response saveTask(TaskService task,String taskId,List<Part> parts) throws IOException  {
+	private Response saveTask(TaskService task,String taskId,List<Part> parts) throws IOException, ServletException  {
 		TaskServiceIGRP taskServiceRest = new TaskServiceIGRP();
 		StartProcess st = this.bpmnExecute.exeuteTask(task, parts,this.myCustomPermission);
 		if(Core.isNull(st)) {
@@ -270,7 +270,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	}
 
 	@Override
-	public Response update() throws IOException, ServletException{
+	public Response update() throws IOException{
  	
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
@@ -299,7 +299,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 
 
 	@Override
-	public String details(TaskServiceQuery task) throws IOException, ServletException {
+	public String details(TaskServiceQuery task) throws IOException {
 		this.page = BPMNConstants.PREFIX_TASK+task.getTaskDefinitionKey();
 		Gson gson = new Gson();		
 		Action action = new Action().find()

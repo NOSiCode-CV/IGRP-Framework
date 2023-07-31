@@ -1,0 +1,108 @@
+
+.highcharts-container .highcharts-contextmenu>div>div{
+	font-size: 14px!important;
+}
+.highcharts-container hr{
+	margin:5px 0!important;
+}
+
+.highcharts-container{
+	padding-top: 0px;
+}
+
+.IGRP-highcharts{
+	position: relative;
+}
+
+.table_graph{
+	padding-top: 40px;
+}
+
+.clickable{cursor: pointer;}
+
+.toggleChart{
+	position: absolute;
+	right: 40px;
+    top: 5px;
+    z-index: 1;
+}
+.toggleChart img{
+	width: 18px;
+	height: 18px;
+}
+
+.toggleChart.open>.dropdown-toggle.btn-default:focus, 
+.toggleChart.open>.dropdown-toggle.btn-default:hover, 
+.toggleChart.open>.dropdown-toggle.btn-default,
+.toggleChart>.dropdown-toggle.btn-default, 
+.toggleChart .btn-group.open .dropdown-toggle {
+	background: transparent;
+	border: none;
+	border-color: transparent;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	padding: 2px 5px;
+	box-shadow: 0 1px 5px rgba(0,0,0,.175);
+}
+
+.toggleChart.open>.dropdown-toggle.btn-default:focus, 
+.toggleChart.open>.dropdown-toggle.btn-default:hover, 
+.toggleChart.open>.dropdown-toggle.btn-default{
+	background: #fff;
+	border: 1px solid rgba(173, 173, 173, 0.36);
+	border-bottom: 0;
+	z-index: 1001;
+	box-shadow:none;
+}
+
+.toggleChart.open{
+	z-index: 1002;
+}
+
+.toggleChart .dropdown-menu {
+    min-width: 200px;
+    font-size: 12px;
+    border: none;
+    border-radius: 0;
+    right: 0;
+    left: inherit;
+   	border: 1px solid rgba(173, 173, 173, 0.36);
+   	top: 95%;
+   	margin: 0;
+    min-height: 40px;
+    max-height: 250px;
+    overflow: auto;
+}
+
+.toggleChart .btn i {
+    font-size: 12px;
+    margin-right: 8px;
+}
+
+.toggleChart .btn .caret {
+    margin-left: 5px;
+}
+
+.toggleChart .dropdown-item {
+    display: block;
+    padding:5px;
+    color: #080808;
+    cursor: pointer;
+    text-transform: none;
+    text-decoration: none;
+    position: relative;
+}
+
+.toggleChart .dropdown-menu .icon {
+    font-size: 11px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.toggleChart .dropdown-menu .dropdown-item:hover {
+    font-weight: 700;
+}
+.highcharts-title,
+.highcharts-axis-title{
+    display: none!important;
+}

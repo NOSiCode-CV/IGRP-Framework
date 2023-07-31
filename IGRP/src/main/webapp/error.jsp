@@ -32,7 +32,7 @@
 		isPublic = isPublic == null ? "0" : isPublic;
 		String target = request.getParameter("target");
 		target = target == null ? "self" : target;
-		Integer errorCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
+		Integer errorCode = (Integer) request.getAttribute("jakarta.servlet.error.status_code");
 		errorCode = errorCode == null ? 500 : errorCode;
 		
 		Map<String, Object> igrpErrorParam = new HashMap<String, Object>();

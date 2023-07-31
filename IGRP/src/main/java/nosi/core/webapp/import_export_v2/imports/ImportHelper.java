@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Part;
 
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.JarUnJarFile;
@@ -132,11 +132,11 @@ public class ImportHelper {
 	}
 
 	public boolean hasError() {
-		return this.imp.getErrors()!=null && this.imp.getErrors().size() > 0;
+		return this.imp.getErrors()!=null && !this.imp.getErrors().isEmpty();
 	}
 	
 	public boolean hasWarning() {
-		return this.imp.getWarnings()!=null && this.imp.getWarnings().size() > 0;
+		return this.imp.getWarnings()!=null && !this.imp.getWarnings().isEmpty();
 	}
 	
 	public List<String> getErrors(){

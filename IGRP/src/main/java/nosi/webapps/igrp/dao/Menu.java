@@ -234,13 +234,13 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 		final Integer currentProfile = Core.getCurrentProfile();
 		final String deployedWarName = Core.getDeployedWarName();
 		final String aux = Igrp.getInstance().getServlet().getInitParameter("default_language");
-		Record row = Core.query(this.getConnectionName(), sqlMenuByProfile).union().select(sqlMenuByUser)
+		final Record row = Core.query(this.getConnectionName(), sqlMenuByProfile).union().select(sqlMenuByUser)
 				.addInt("org_fk", currentOrganization).addInt("prof_type_fk", currentProfile)
 				.addString("dad", currentDad).addInt("status", 1).addInt("org_fk", currentOrganization)
 				.addInt("prof_type_fk", currentProfile).addString("dad", currentDad).addInt("status", 1)
 				.addInt("user_fk", Core.getCurrentUser().getId()).orderByAsc("orderby").getRecordList();
-		if (row.RowList != null) {
-			row.RowList.forEach(r -> {
+		if (row.rowList != null) {
+			row.rowList.forEach(r -> {
 				// Get Menu Pai
 				MenuProfile ms = new MenuProfile();
 				ms.setId(r.getInt("id"));
@@ -286,7 +286,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 												+ r.getString("page") + "/" + r.getString("action")) + "&dad="
 												+ currentDad);
 									} else {
-										String _u = buildMenuUrlByDadUsingAutentika(r.getString("dad_app_page"),
+										String _u = buildExternalUrl(r.getString("dad_app_page"),
 												r.getString("dad_app_page"), r.getString("page"));
 										ms.setLink(_u);
 									}
@@ -299,7 +299,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 												+ r.getString("page") + "/" + r.getString("action")) + "&dad="
 												+ currentDad);
 									} else {
-										String _u = buildMenuUrlByDadUsingAutentika(pagina.getApplication().getUrl(),
+										String _u = buildExternalUrl(pagina.getApplication().getUrl(),
 												r.getString("dad_app_page"), r.getString("page")); // Custom Dad
 										ms.setLink(_u);
 									}
@@ -373,7 +373,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 		// m.flg_base=1";
 		ResultSet.Record record = Core.query(this.getConnectionName(), sqlMenuByApp).addInt("org_fk", orgID)
 				.addInt("env_fk", appID).orderByAsc("flg_base").getRecordList();
-		record.RowList.forEach(row -> {
+		record.rowList.forEach(row -> {
 
 			lista.put(row.getInt("action_fk"), row.getString("descr"));
 		});
@@ -388,19 +388,12 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 				+ menu + ", organization=" + organization + "]";
 	}
 
-	private String buildMenuUrlByDadUsingAutentika(String dad, String app, String page) {
+	private String buildExternalUrl(String dad, String app, String page) {
 		String url = "#";
-		try {
-			Action pagina = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", page).one();
-			if (pagina != null) {
-				String orgCode = Core.getCurrentOrganizationCode();
-				String profCode = Core.getCurrentProfileCode();
-				String stateValue = Core.buildStateValueForSsoAutentika("PAGE", pagina.getId() + "", app, orgCode,
-						profCode, null);
-				url = ConfigApp.getInstance().getAutentikaUrlForSso();
-				url = url.replace("/IGRP/", "/" + dad + "/").replace("state=igrp", "state=" + stateValue);
-			}
-		} catch (Exception e) {
+		Action pagina = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", page).one();
+		if (pagina != null) {
+			url = ConfigApp.getInstance().getExternalUrl(dad);
+			url = String.format("%s?r=%s/%s/%s", url, app, page, pagina.getAction());
 		}
 		return url;
 	}
@@ -413,8 +406,8 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 				.addInt("status", 1).addInt("org_fk", currentOrg).addInt("prof_type_fk", currentProf)
 				.addString("dad", currentDad).addInt("status", 1).addInt("user_fk", userId).orderByAsc("orderby")
 				.getRecordList();
-		if (row.RowList != null) {
-			row.RowList.forEach(r -> {
+		if (row.rowList != null) {
+			row.rowList.forEach(r -> {
 				// Get Menu Pai
 				MenuProfile ms = new MenuProfile();
 				ms.setId(r.getInt("id"));

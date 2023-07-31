@@ -164,11 +164,11 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 	}
 
 	public String getVersion() {
-		return "2.3";
+		return versao;
 	}
 
 	public void setVersion(String version) {
-		this.versao = "2.3";
+		this.versao = version;
 	}
 
 	@Transient

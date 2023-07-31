@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/lookup_list_organica/Lookup_list_organica.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Lookup_list_organica</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Lookup_list_organica</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=148</preserve_url>
+    </plsql>
+    <content>
+        <title>Lookup list organica</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>Escolhe a Orgânica</value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <code name="p_code" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Code</label>
+                </code>
+                <aplicacao name="p_aplicacao" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Aplicação</label>
+                </aplicacao>
+                <organica name="p_organica" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Orgânica</label>
+                </organica>
+                <id_org name="p_id_org" type="hidden" maxlength="30" iskey="false" tag="id_org"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <code name="p_code">Mollit officia rem voluptatem</code>
+                        <aplicacao name="p_aplicacao">Natus sit elit sed aperiam</aplicacao>
+                        <organica name="p_organica">Sed adipiscing anim totam moll</organica>
+                        <id_org name="p_id_org" tag="id_org">1</id_org>
+                    </row>
+                    <row>
+                        <code name="p_code">Lorem adipiscing stract totam</code>
+                        <aplicacao name="p_aplicacao">Ut doloremque accusantium moll</aplicacao>
+                        <organica name="p_organica">Elit ipsum unde stract iste</organica>
+                        <id_org name="p_id_org" tag="id_org">1</id_org>
+                    </row>
+                    <row>
+                        <code name="p_code">Anim mollit stract rem ipsum</code>
+                        <aplicacao name="p_aplicacao">Totam dolor mollit aperiam con</aplicacao>
+                        <organica name="p_organica">Rem sed lorem ut accusantium</organica>
+                        <id_org name="p_id_org" tag="id_org">1</id_org>
+                    </row>
+                    <row>
+                        <code name="p_code">Dolor stract totam ut magna</code>
+                        <aplicacao name="p_aplicacao">Perspiciatis sed consectetur u</aplicacao>
+                        <organica name="p_organica">Ipsum consectetur sit dolor ip</organica>
+                        <id_org name="p_id_org" tag="id_org">1</id_org>
+                    </row>
+                    <row>
+                        <code name="p_code">Stract magna consectetur molli</code>
+                        <aplicacao name="p_aplicacao">Labore aperiam amet aperiam pe</aplicacao>
+                        <organica name="p_organica">Totam aperiam perspiciatis vol</organica>
+                        <id_org name="p_id_org" tag="id_org">1</id_org>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

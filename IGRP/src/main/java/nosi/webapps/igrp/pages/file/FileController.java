@@ -7,8 +7,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 /*----#end-code----*/
 
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Part;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -41,6 +41,7 @@ public class FileController extends Controller {
 	public Response actionGetFile() throws Exception {
 			
 		String uuid= Core.getParam("uuid");		
+		System.out.println("Entrado: " + uuid);
 		CLob file;
 		if(Core.isNotNull(uuid))
 			 file = Core.getFileByUuid(uuid);
@@ -83,7 +84,7 @@ public class FileController extends Controller {
 	
 	public Response actionSaveImage()  throws Exception {		
 		Properties p = new Properties();
-		Integer id = new Integer(-1);
+		Integer id = Integer.valueOf(-1);
 		String uuid = Core.saveFileNGetUuid("p_file_name");
 		if(Core.isNull(uuid)) {			
 			p.put("msg", Core.gt("Error saving file."));
@@ -115,7 +116,6 @@ public class FileController extends Controller {
 							r = FileHelper.saveImage(workSapce, fileName,extensionName.toLowerCase(), file);
 						//Saving into server
 						r = FileHelper.saveImage(Path.getImageServerTxt(appName,pageName), fileName,extensionName.toLowerCase(), file);
-						//System.out.println("Image saved:"+r);
 					}
 				}
 			}
@@ -142,9 +142,6 @@ public class FileController extends Controller {
 		String appName = Core.getParam("p_app_name");
 		String pageName = Core.getParam("p_page_name");
 		if(Core.isNotNull(fileName)) {
-			
-		//	System.out.println("Image getted doc:"+fileName);
-		//	System.out.println("Appname getted doc:"+appName);
 			String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
 			return this.redirectToUrl(baseUrl.toString().replaceAll("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/"+appName+"/"+pageName+"/"+fileName);
 		}

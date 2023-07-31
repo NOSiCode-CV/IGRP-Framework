@@ -1,0 +1,49 @@
+[
+	{
+        "id": 1,
+        "name": "Casa do Cidadão",
+        "options": {
+            "layers": "INSP_GIS:insp_foco_mosquito"
+        },
+        "type": "WMS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/INSP_GIS/wms"
+    },
+    {
+        "id": 15,
+        "name": "Casa do Cidadão",
+        "options": {
+            "typeName": "INSP_GIS:insp_foco_mosquito"
+        },
+        "type": "WFS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/INSP_GIS/ows"
+    },
+	{
+        "id": 2,
+        "name": "Divisão Administrativa",
+        "options": {
+            "typeName": "Divisao_Administrativa:divisao_admin"
+        },
+        "type": "WFS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/Divisao_Administrativa/ows"
+    },
+	{
+        "id": 3,
+        "name": "Central Park",
+        "options": {
+            "layers": "tiger:poly_landmarks"
+        },
+        "type": "WMS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/tiger/wms"
+    },
+    
+    {
+        "id": 7,
+        "name": "Manhattan (NY) roads",
+        "options": {
+            "typeName": "tiger:tiger_roads"
+        },
+        "type": "WFS",
+        "url": " https://rai-tst-osg-02.gov.cv:8443/geoserver/tiger/ows"
+    }
+
+]

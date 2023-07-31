@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../xsl/IGRP-gestao-utilizadores.xsl" type="text/xsl"?>
+<rows>
+    
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>John Doe</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <slide-menu file="IGRP-slide-menu.xml?v=2" />
+    <page>undefined</page>
+    <app>generator</app>
+    <template>default</template>
+    <plsql>
+        <action>undefined</action>
+        <package_instance></package_instance>
+        <package_db>Page</package_db>
+        <package_html>Page</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>/igrp-design-system-beta/IGRP2.4/core/formgen/types/check_file.php?v=undefined</preserve_url>
+    </plsql>
+    <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Gestão de Utilizadores</title>
+        <paragraph_1 type="paragraph" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <paragraph_1_text type="text" name="p_paragraph_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.]]>
+                    </value>
+                </paragraph_1_text>
+            </fields>
+        </paragraph_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="eliminar" refresh_components="">
+                <title>Eliminar</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>danger|fa-angle-right</img>
+                <preview/>
+            </item>
+            <item type="specific" code="" rel="toolsbar_1_button_1" refresh_components="">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>success|fa-angle-right</img>
+                <preview/>
+            </item>
+            <item type="specific" code="" rel="toolsbar_1_button_3" refresh_components="">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>primary|fa-angle-right</img>
+                <preview/>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <form_1_email_1 name="p_form_1_email_1" type="email" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" tooltip="false" disable_copy_paste="false">
+                    <label>Email</label>
+                    <value>im@example.com</value>
+                </form_1_email_1>
+                <form_1_email_2 name="p_form_1_email_2" type="email" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" tooltip="false" disable_copy_paste="false">
+                    <label>Email</label>
+                    <value>edo@example.com</value>
+                </form_1_email_2>
+                <form_1_email_3 name="p_form_1_email_3" type="email" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" tooltip="false" disable_copy_paste="false">
+                    <label>Email</label>
+                    <value>di@example.com</value>
+                </form_1_email_3>
+                <form_1_email_4 name="p_form_1_email_4" type="email" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" tooltip="false" disable_copy_paste="false">
+                    <label>Email</label>
+                    <value>ah@example.com</value>
+                </form_1_email_4>
+            </fields>
+        </form_1>
+        <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
+        <table_1 structure="fields" xml-type="table" type="table" title="Utilizadores">
+            <fields>
+                <ativo name="p_ativo" remote="?r=6BLylfZeo4Vg_MjZIiCoW7vWH1xTfApGTboJXfnooH4wCfo2nofT2pIn0xgU4HrI&amp;dad=eleicoes" check="true" maxlength="30" disabled="false" group_in="" showLabel="true" readonly="false" desc="true" required="false" type="checkbox" change="false" switch="true" value="" placeholder="" right="false" java-type="int">
+                    <label>Ativo?</label>
+                    <value/>
+                </ativo>
+                <ativo_check name="p_ativo" check="true" maxlength="30" disabled="false" group_in="" showLabel="true" readonly="false" desc="true" required="false" type="checkbox" change="false" switch="true" placeholder="" right="false" java-type="int">
+                    <label/>
+                    <value/>
+                </ativo_check>
+                <nominho name="p_nominho" maxlength="50" disable_output_escaping="false" group_in="" html_class="" showLabel="true" clear="false" type="plaintext" value="" right="false">
+                    <label>Nome</label>
+                    <value/>
+                </nominho>
+                <range_1 name="p_range_1" rangeMin="0" maxlength="30" disabled="false" group_in="" showLabel="true" rangeMax="100" readonly="false" required="false" type="range" change="false" value="" placeholder="" right="false">
+                    <label>Range</label>
+                    <value/>
+                </range_1>
+                <nome name="p_nome" maxlength="100" disable_output_escaping="false" group_in="" html_class="" showLabel="true" clear="false" type="plaintext" value="" right="false">
+                    <label>Username</label>
+                    <value/>
+                </nome>
+                <tb_email name="p_tb_email" maxlength="100" disable_output_escaping="false" group_in="" html_class="" showLabel="true" clear="false" type="plaintext" value="" right="false">
+                    <label>Email</label>
+                    <value/>
+                </tb_email>
+                <perfile name="p_perfile" maxlength="50" disable_output_escaping="false" group_in="" html_class="" showLabel="true" clear="false" type="plaintext" value="" right="false">
+                    <label>App/Org/Perfil</label>
+                    <value/>
+                </perfile>
+                <hidden tag="id" showLabel="true" name="p_id" type="hidden" value="" group_in="" java-type=""></hidden>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p_nome=william.lima</param>
+                            <param>p_tb_email=william.lima@nosi.cv</param>
+                            <param>p_id=14422</param>
+                            <param>ctx_hidden=</param>
+                        </context-menu>
+                        <ativo name="p_ativo">14</ativo>
+                        <ativo_check name="p_ativo_check">14</ativo_check>
+                        <ativo_check name="p_ativo">14</ativo_check>
+                        <ativo_check_check name="p_ativo_check"></ativo_check_check>
+                        <nominho name="p_nominho">NOSI / DDS - William Lima</nominho>
+                        <nominho_desc name="p_nominho_desc"></nominho_desc>
+                        <range_1 name="p_range_1"></range_1>
+                        <range_1_desc name="p_range_1_desc"></range_1_desc>
+                        <nome name="p_nome">william.lima</nome>
+                        <nome_desc name="p_nome_desc"></nome_desc>
+                        <tb_email name="p_tb_email">william.lima@nosi.cv</tb_email>
+                        <tb_email_desc name="p_tb_email_desc"></tb_email_desc>
+                        <perfile name="p_perfile">IGRP/Admin</perfile>
+                        <perfile_desc name="p_perfile_desc"></perfile_desc>
+                        <id name="p_id">14422</id>
+                        <id_desc name="p_id_desc"></id_desc>
+                    </row>
+     
+                    <row>
+                        <context-menu>
+                            <param>p_nome=ana.m.marta</param>
+                            <param>p_tb_email=ana.m.marta@nosi.cv</param>
+                            <param>p_id=14872</param>
+                            <param>ctx_hidden=</param>
+                        </context-menu>
+                        <ativo name="p_ativo">35</ativo>
+                        <ativo_check name="p_ativo_check">35</ativo_check>
+                        <ativo_check name="p_ativo">35</ativo_check>
+                        <ativo_check_check name="p_ativo_check"></ativo_check_check>
+                        <nominho name="p_nominho">NOSI / DSC - Ana Marta</nominho>
+                        <nominho_desc name="p_nominho_desc"></nominho_desc>
+                        <range_1 name="p_range_1"></range_1>
+                        <range_1_desc name="p_range_1_desc"></range_1_desc>
+                        <nome name="p_nome">ana.m.marta</nome>
+                        <nome_desc name="p_nome_desc"></nome_desc>
+                        <tb_email name="p_tb_email">ana.m.marta@nosi.cv</tb_email>
+                        <tb_email_desc name="p_tb_email_desc"></tb_email_desc>
+                        <perfile name="p_perfile">IGRP/Admin</perfile>
+                        <perfile_desc name="p_perfile_desc"></perfile_desc>
+                        <id name="p_id">14872</id>
+                        <id_desc name="p_id_desc"></id_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p_nome=edson.tavares</param>
+                            <param>p_tb_email=edson.tavares@nosi.cv</param>
+                            <param>p_id=14424</param>
+                            <param>ctx_hidden=</param>
+                        </context-menu>
+                        <ativo name="p_ativo">47</ativo>
+                        <ativo_check name="p_ativo_check">47</ativo_check>
+                        <ativo_check name="p_ativo">47</ativo_check>
+                        <ativo_check_check name="p_ativo_check"></ativo_check_check>
+                        <nominho name="p_nominho">NOSI / DDS - Edson Samora Pires Tavares</nominho>
+                        <nominho_desc name="p_nominho_desc"></nominho_desc>
+                        <range_1 name="p_range_1"></range_1>
+                        <range_1_desc name="p_range_1_desc"></range_1_desc>
+                        <nome name="p_nome">edson.tavares</nome>
+                        <nome_desc name="p_nome_desc"></nome_desc>
+                        <tb_email name="p_tb_email">edson.tavares@nosi.cv</tb_email>
+                        <tb_email_desc name="p_tb_email_desc"></tb_email_desc>
+                        <perfile name="p_perfile">IGRP/Admin</perfile>
+                        <perfile_desc name="p_perfile_desc"></perfile_desc>
+                        <id name="p_id">14424</id>
+                        <id_desc name="p_id_desc"></id_desc>
+                    </row>
+          
+                    <row>
+                        <context-menu>
+                            <param>p_nome=adilson.cabral</param>
+                            <param>p_tb_email=adilson.cabral@nosi.cv</param>
+                            <param>p_id=13434</param>
+                            <param>ctx_hidden=</param>
+                        </context-menu>
+                        <ativo name="p_ativo">202</ativo>
+                        <ativo_check name="p_ativo_check">202</ativo_check>
+                        <ativo_check name="p_ativo">202</ativo_check>
+                        <ativo_check_check name="p_ativo_check"></ativo_check_check>
+                        <nominho name="p_nominho">NOSI / DDS - Adilson Vaz Cabral</nominho>
+                        <nominho_desc name="p_nominho_desc"></nominho_desc>
+                        <range_1 name="p_range_1"></range_1>
+                        <range_1_desc name="p_range_1_desc"></range_1_desc>
+                        <nome name="p_nome">adilson.cabral</nome>
+                        <nome_desc name="p_nome_desc"></nome_desc>
+                        <tb_email name="p_tb_email">adilson.cabral@nosi.cv</tb_email>
+                        <tb_email_desc name="p_tb_email_desc"></tb_email_desc>
+                        <perfile name="p_perfile">IGRP/Admin</perfile>
+                        <perfile_desc name="p_perfile_desc"></perfile_desc>
+                        <id name="p_id">13434</id>
+                        <id_desc name="p_id_desc"></id_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p_nome=rolando.sanches</param>
+                            <param>p_tb_email=rolando.sanches@nosi.cv</param>
+                            <param>p_id=14876</param>
+                            <param>ctx_hidden=</param>
+                        </context-menu>
+                        <ativo name="p_ativo">207</ativo>
+                        <ativo_check name="p_ativo_check">207</ativo_check>
+                        <ativo_check name="p_ativo">207</ativo_check>
+                        <ativo_check_check name="p_ativo_check"></ativo_check_check>
+                        <nominho name="p_nominho">NOSI / DDS - Rolando Sanches</nominho>
+                        <nominho_desc name="p_nominho_desc"></nominho_desc>
+                        <range_1 name="p_range_1"></range_1>
+                        <range_1_desc name="p_range_1_desc"></range_1_desc>
+                        <nome name="p_nome">rolando.sanches</nome>
+                        <nome_desc name="p_nome_desc"></nome_desc>
+                        <tb_email name="p_tb_email">rolando.sanches@nosi.cv</tb_email>
+                        <tb_email_desc name="p_tb_email_desc"></tb_email_desc>
+                        <perfile name="p_perfile">IGRP/Admin</perfile>
+                        <perfile_desc name="p_perfile_desc"></perfile_desc>
+                        <id name="p_id">14876</id>
+                        <id_desc name="p_id_desc"></id_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p_nome=neusa.mette</param>
+                            <param>p_tb_email=neusa.mette@nosi.cv</param>
+                            <param>p_id=14874</param>
+                            <param>ctx_hidden=</param>
+                        </context-menu>
+                        <ativo name="p_ativo">219</ativo>
+                        <ativo_check name="p_ativo_check">219</ativo_check>
+                        <ativo_check name="p_ativo">219</ativo_check>
+                        <ativo_check_check name="p_ativo_check"></ativo_check_check>
+                        <nominho name="p_nominho">NOSI / DDS - Neusa J. Mendes Mette</nominho>
+                        <nominho_desc name="p_nominho_desc"></nominho_desc>
+                        <range_1 name="p_range_1"></range_1>
+                        <range_1_desc name="p_range_1_desc"></range_1_desc>
+                        <nome name="p_nome">neusa.mette</nome>
+                        <nome_desc name="p_nome_desc"></nome_desc>
+                        <tb_email name="p_tb_email">neusa.mette@nosi.cv</tb_email>
+                        <tb_email_desc name="p_tb_email_desc"></tb_email_desc>
+                        <perfile name="p_perfile">IGRP/Admin</perfile>
+                        <perfile_desc name="p_perfile_desc"></perfile_desc>
+                        <id name="p_id">14874</id>
+                        <id_desc name="p_id_desc"></id_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p_nome=eliana.marques</param>
+                            <param>p_tb_email=eliana.marques@nosi.cv</param>
+                            <param>p_id=16361</param>
+                            <param>ctx_hidden=</param>
+                        </context-menu>
+                        <ativo name="p_ativo">262</ativo>
+                        <ativo_check name="p_ativo_check">262</ativo_check>
+                        <ativo_check name="p_ativo">262</ativo_check>
+                        <ativo_check_check name="p_ativo_check"></ativo_check_check>
+                        <nominho name="p_nominho">NOSI / DSC - Eliana Patricia Fonseca Marques</nominho>
+                        <nominho_desc name="p_nominho_desc"></nominho_desc>
+                        <range_1 name="p_range_1"></range_1>
+                        <range_1_desc name="p_range_1_desc"></range_1_desc>
+                        <nome name="p_nome">eliana.marques</nome>
+                        <nome_desc name="p_nome_desc"></nome_desc>
+                        <tb_email name="p_tb_email">eliana.marques@nosi.cv</tb_email>
+                        <tb_email_desc name="p_tb_email_desc"></tb_email_desc>
+                        <perfile name="p_perfile">IGRP/Admin</perfile>
+                        <perfile_desc name="p_perfile_desc"></perfile_desc>
+                        <id name="p_id">16361</id>
+                        <id_desc name="p_id_desc"></id_desc>
+                    </row>
+               
+                    <row>
+                        <context-menu>
+                            <param>p_nome=carlosa.graca@nosi.cv</param>
+                            <param>p_tb_email=carlosa.graca@nosi.cv</param>
+                            <param>p_id=13664</param>
+                            <param>ctx_hidden=</param>
+                        </context-menu>
+                        <ativo name="p_ativo">328</ativo>
+                        <ativo_check name="p_ativo_check">328</ativo_check>
+                        <ativo_check name="p_ativo">328</ativo_check>
+                        <ativo_check_check name="p_ativo_check"></ativo_check_check>
+                        <nominho name="p_nominho">NOSI / DDS - Carlos Alberto Andrade  Graca</nominho>
+                        <nominho_desc name="p_nominho_desc"></nominho_desc>
+                        <range_1 name="p_range_1"></range_1>
+                        <range_1_desc name="p_range_1_desc"></range_1_desc>
+                        <nome name="p_nome">carlosa.graca@nosi.cv</nome>
+                        <nome_desc name="p_nome_desc"></nome_desc>
+                        <tb_email name="p_tb_email">carlosa.graca@nosi.cv</tb_email>
+                        <tb_email_desc name="p_tb_email_desc"></tb_email_desc>
+                        <perfile name="p_perfile">IGRP/Admin</perfile>
+                        <perfile_desc name="p_perfile_desc"></perfile_desc>
+                        <id name="p_id">13664</id>
+                        <id_desc name="p_id_desc"></id_desc>
+                    </row>
+    
+                    <row>
+                        <context-menu>
+                            <param>p_nome=claudia.cruz@nosi.cv</param>
+                            <param>p_tb_email=claudia.cruz@nosi.cv</param>
+                            <param>p_id=14188</param>
+                            <param>ctx_hidden=</param>
+                        </context-menu>
+                        <ativo name="p_ativo">359</ativo>
+                        <ativo_check name="p_ativo_check">359</ativo_check>
+                        <ativo_check name="p_ativo">359</ativo_check>
+                        <ativo_check_check name="p_ativo_check"></ativo_check_check>
+                        <nominho name="p_nominho">NOSI / UXI - Claudia Sophia Cruz</nominho>
+                        <nominho_desc name="p_nominho_desc"></nominho_desc>
+                        <range_1 name="p_range_1"></range_1>
+                        <range_1_desc name="p_range_1_desc"></range_1_desc>
+                        <nome name="p_nome">claudia.cruz@nosi.cv</nome>
+                        <nome_desc name="p_nome_desc"></nome_desc>
+                        <tb_email name="p_tb_email">claudia.cruz@nosi.cv</tb_email>
+                        <tb_email_desc name="p_tb_email_desc"></tb_email_desc>
+                        <perfile name="p_perfile">IGRP/Admin</perfile>
+                        <perfile_desc name="p_perfile_desc"></perfile_desc>
+                        <id name="p_id">14188</id>
+                        <id_desc name="p_id_desc"></id_desc>
+                    </row>
+                </value>
+                <context-menu>
+
+                    <item rel="assiocar_menu" refresh_components="" type="form" class="info" id="button_f39b_61a7">
+                        <title>Associar Menu</title>
+                        <app>igrp</app>
+                        <page>PesquisarUtilizador</page>
+                        <link>6BLylfZeo4Vg_MjZIiCoW2WI2NLYdEseITZEZ2gW4iQyKcrz4xbwFDOC0nJrprle&amp;dad=eleicoes</link>
+                        <target>right_panel_submit</target>
+                        <img>info|fa-bars</img>
+                    </item>
+                    <item rel="assiocar_transacao" refresh_components="" type="form" class="black" id="button_ead4_9d21">
+                        <title>Associar Transacao</title>
+                        <app>igrp</app>
+                        <page>PesquisarUtilizador</page>
+                        <link>6BLylfZeo4Vg_MjZIiCoW2WI2NLYdEseITZEZ2gW4iTcta6OpvDBnOdRS9zoa-Cq&amp;dad=eleicoes</link>
+                        <target>right_panel</target>
+                        <img>black|fa-exchange</img>
+                    </item>
+
+                    <item rel="convidar_user" refresh_components="" type="form" class="warning" id="button_0c9f_e52a">
+                        <title>Convidar</title>
+                        <app>igrp</app>
+                        <page>PesquisarUtilizador</page>
+                        <link>6BLylfZeo4Vg_MjZIiCoW8B7Tn8FFpmizlJCKcCtB9sRtUwSdBWJFg7gpTt_3NcJ&amp;dad=eleicoes</link>
+                        <target>right_panel|refresh</target>
+                        <img>warning|fa-send</img>
+                    </item>
+                    <item rel="eliminar" refresh_components="" type="form" class="danger" id="button_2f8d_ba41">
+                        <title>Eliminar</title>
+                        <app>igrp</app>
+                        <page>PesquisarUtilizador</page>
+                        <link>6BLylfZeo4Vg_MjZIiCoW5W_FJXMMNpKh2NGk5yn7F_W7ou2_OFiwCk6Ddz6biew&amp;dad=eleicoes</link>
+                        <target>alert_submit</target>
+                        <img>danger|fa-trash</img>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+    <blockly></blockly>
+</rows>

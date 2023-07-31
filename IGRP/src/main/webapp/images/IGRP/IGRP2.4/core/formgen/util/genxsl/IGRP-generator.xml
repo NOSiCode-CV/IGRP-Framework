@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet href="igrp-generator.xsl" type="text/xsl"?>
+<rows>
+    <title>GENERATOR</title>
+    <version>122</version>
+    <link></link>
+    <link_img>/images/IGRP.bootstrap</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>milton.cabral</user_name>
+        <button   type="specific">
+            <title>Sair</title>
+            <app>CADASTRO_V02</app>
+            <page />
+            <link></link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <app>CADASTRO_V02</app>
+    <page>WORKFLOW</page>
+    <target></target>
+    <applications file="../images/IGRP/IGRP2.3/xml/IGRP-applications.xml" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml" />
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <content>
+        <title>8.1.1 - HOJE [ 1 - Etapa Inicial ]</title>
+        <messages>
+            <message    type="debug">27-09-2012 11:39:55 :: SESSID: CAAC684A0A8A560DE040040A08024A0E</message>
+            <message    type="debug">27-09-2012 11:39:55 :: p_env_procedure : //B8B3BDA0B7B0B2BAD1B7B0B2BA</message>
+            <message    type="debug">27-09-2012 11:39:55 :: p_env_menu : //CBCECCC9</message>
+            <message    type="debug">27-09-2012 11:39:55 :: START: GLB_HOME.HOME</message>
+            <message    type="debug">27-09-2012 11:39:55 :: START ACTION: WORKFLOW - WF_SHOW [REDWF.GLB_ENGINE_HTML.show]</message>
+            <message    type="debug">27-09-2012 11:39:55 :: BEFORE-SHOW::REDGLOBAL.WF_PROCESS_811_HTML.FORM_ACTIVITY_1</message>
+            <message    type="debug">27-09-2012 11:39:55 :: COMPONET-SELECT::1</message>
+            <message    type="debug">27-09-2012 11:39:55 :: COMPONENT REDGLOBAL.REDGLOBAL_WF_COMP_22_DB.dml_select</message>
+            <message    type="confirm">Deseja continuar a Acção?</message>
+        </messages>
+        <view>
+            <label >
+                <nome type="text">Nome</nome>
+                
+                <link type="link">Link</link>
+                <view_foto></view_foto>
+            </label>
+            <value>
+                <nome>William</nome>
+
+                <link>www.nosi.cv</link>
+                <view_foto>../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</view_foto>
+            </value>
+        </view>
+        <form>
+            <label>
+                <biometric    name="p_biometric"  type="biometric_view" maxlength="30">Teste Bio</biometric>
+                <p_wf_proc_tp_fk    name="p_wf_proc_tp_fk"  type="hidden" maxlength="30">p_wf_proc_tp_fk</p_wf_proc_tp_fk>
+                <p_wf_acti_tp_fk    name="p_wf_acti_tp_fk"  type="hidden" maxlength="30">p_wf_acti_tp_fk</p_wf_acti_tp_fk>
+                <p_wf_proc_id   name="p_wf_proc_id" type="hidden" maxlength="30">p_wf_proc_id</p_wf_proc_id>
+                <p_wf_acti_id   name="p_wf_acti_id" type="hidden" maxlength="30">p_wf_acti_id</p_wf_acti_id>
+                <p_wf_on_save   name="p_wf_on_save" type="hidden" maxlength="30">p_wf_on_save</p_wf_on_save>
+                <testedata   name="p_testedata" type="date" maxlength="30">teste1</testedata>
+                
+                <combobox   name="p_combobox1" type="checkboxlist" maxlength="30">Combobox</combobox>
+
+                <textarea2   name="p_teste2" type="textarea" maxlength="30">teste2</textarea2>
+
+                <checkbox3   name="p_checkbox" type="radio" maxlength="30">Checkbox</checkbox3>
+
+                <img_tst   name="p_checkbox" type="texteditor">Text editor</img_tst>
+
+                <upload2   name="p_upload2" type="file" maxlength="30">Upload</upload2>
+
+                <lookup1   name="p_upload2" type="lookup" maxlength="30">Upload</lookup1>
+
+                <colorr   name="p_colorr" type="color"  maxlength="30"  readonly="readonly">Color</colorr>
+
+
+                <separator1   name="separator1" type="separator"  maxlength="30">TESTE 0</separator1>
+                <nome   name="p_nome" type="LOOKUP_BI"  maxlength="30"  readonly="readonly">nome</nome>
+                <idade    name="p_idade"  type="text" maxlength="30"  readonly="true">idade</idade>
+                <bi   name="p_bi" type="LOOKUP" maxlength="30">bi</bi>
+                <radio    name="p_radio"  type="radiolist"  readonly="onchange" maxlength="30">radio</radio>
+                <teste    name="p_teste"  type="selectchange" maxlength="30">Teste</teste>
+                <teste_link   name="p_teste_link" type="link" maxlength="2000">Teste Link</teste_link>
+                <teste_grupo    type="formlist">Teste Grupo</teste_grupo>
+                <teste1   name="p_teste1" type="date" rel="teste_grupo" maxlength="30">teste1</teste1>
+                <teste2   name="p_teste2" type="textarea" rel="teste_grupo" maxlength="30">teste2</teste2>
+                <morada   name="p_morada" type="LOOKUP_GEOG"  rel="teste_grupo" maxlength="30">Morada</morada>
+                <morada_id    name="p_morada_id"  type="texteditor" rel="teste_grupo" maxlength="30">morada_id</morada_id>
+                <texto_livre    name="p_texto_livre"  type="text" rel="teste_grupo" maxlength="30">Texto Livre</texto_livre>
+                <upload   name="p_upload" type="file" rel="teste_grupo" maxlength="30">Upload</upload>
+                <combobox   name="p_combobox" type="select" rel="teste_grupo" maxlength="30">Combobox</combobox>
+                <checkbox   name="p_checkbox" type="checkbox" rel="teste_grupo" maxlength="30">Checkbox</checkbox>
+                <radio    name="p_radio"  type="radio"  rel="teste_grupo" maxlength="30">Radio</radio>
+                <numero   name="p_numero" type="number" rel="teste_grupo" maxlength="30">Numero</numero>
+                <anexar_documentos    type="separatorlist">Anexar Documentos</anexar_documentos>
+                <wf_acti_doctype_fk   name="p_wf_acti_doctype_fk" type="select" required="true" rel="anexar_documentos" maxlength="22">Tipo Documento</wf_acti_doctype_fk>
+                <wf_document    name="p_wf_document"  type="file" required="true" rel="anexar_documentos" maxlength="30">Documento</wf_document>
+                <ccc   name="p_numero" type="color" rel="anexar_documentos" maxlength="30">Color</ccc>
+                <numero55   name="p_numero" type="number" rel="anexar_documentos" maxlength="30">Numero</numero55>
+                <separator12   name="separator1" type="separator"  maxlength="30">Notificação Contacto</separator12>
+                <wfo_email    name="p_wfo_email"  type="email"  maxlength="30">E-mail</wfo_email>
+                <wfo_sms    name="p_wfo_sms"  type="text" maxlength="30">Nº Móvel</wfo_sms>
+                <wfo_notifications    type="list">Notificações</wfo_notifications>
+                <wfo_notification   name="p_wfo_notification" type="text" rel="wfo_notifications" maxlength="30">Notificação</wfo_notification>
+
+                <wfo_sms33    name="p_wfo_sms"  type="color" rel="wfo_notifications" maxlength="30">Nº Móvel</wfo_sms33>
+
+                <wfo_preview    name="p_wfo_preview"  type="link" rel="wfo_notifications" maxlength="30">Preview</wfo_preview>
+                <wfo_status   name="p_wfo_status" type="text" rel="wfo_notifications" maxlength="30">Estado</wfo_status>
+                <texteditor type="texteditor" name="p_texteditor">texteditor</texteditor>
+                <iframe type="iframe" name="p_iframe">iframe</iframe>
+                <image type="image" name="p_name">images</image>
+            </label>
+            <value>
+                <nome name="p_nome" />
+                <img_tst   name="p_checkbox" type="img">http://www.addictedtoibiza.com/wp-content/uploads/2012/12/example.png</img_tst>
+                <idade  name="p_idade" />
+                <bi name="p_bi" />
+                <teste_link name="p_teste_link" />
+                <teste1 name="p_teste1" />
+                <teste2 name="p_teste2" />
+                <morada name="p_morada" />
+                <texteditor name="p_texteditor">testando texteditor</texteditor>
+                <iframe name="p_iframe">http://www.nosi.cv/</iframe>
+                <image name="p_name">http://igrp.teste.gov.cv/images/IGRP/app/OUTDOOR/img/5.jpg</image>
+                <texto_livre  name="p_texto_livre" />
+                <upload name="p_upload" />
+                <checkbox name="p_checkbox" />
+                <radio  name="p_radio" />
+                <numero name="p_numero" />
+                <wf_document  name="p_wf_document" />
+                <wfo_email  name="p_wfo_email" />
+                <wfo_sms  name="p_wfo_sms" />
+                <wfo_notification name="p_wfo_notification" />
+                <wfo_preview  name="p_wfo_preview" >http://www.google.com</wfo_preview>
+                <wfo_status name="p_wfo_status" />
+                <hidden   name="p_wf_proc_tp_fk">1028</hidden>
+                <hidden   name="p_wf_acti_tp_fk">3226</hidden>
+                <hidden name="p_wf_proc_id" />
+                <hidden name="p_wf_acti_id" />
+                <hidden   name="p_wf_on_save">ON_SAVE</hidden>
+                <hidden name="p_morada_id"  rel="teste_grupo" />
+            </value>
+            <lookup>
+                <nome>&amp;p_prm_target=_blank&amp;p_fw_db=BI&amp;p_fwl_name=p_nome&amp;p_fwl_dt_nasc=XXX&amp;p_fwl_numero=XXX&amp;p_fwl_sexo=XXX&amp;p_fwl_estado_civil=XXX&amp;p_fwl_nm_mae=XXX&amp;p_fwl_nm_pai=XXX&amp;p_fwl_morada=XXX&amp;p_fwl_cppostal=XXX&amp;p_fwl_email=XXX&amp;p_fwl_fax=XXX&amp;p_fwl_movel=XXX&amp;p_fwl_phone=XXX</nome>
+                <bi>&amp;p_prm_app=//ADBABBB8B3B0BDBEB3&amp;p_prm_page=//&amp;p_prm_action=//B3B0B0B4AAAF&amp;p_prm_target=_blank&amp;p_fw_db=LOOKUP&amp;p_fwl_name=p_bi&amp;p_fwl_dt_nasc=XXX&amp;p_fwl_numero=XXX&amp;p_fwl_sexo=XXX&amp;p_fwl_estado_civil=XXX&amp;p_fwl_nm_mae=XXX&amp;p_fwl_nm_pai=XXX&amp;p_fwl_morada=XXX&amp;p_fwl_cppostal=XXX&amp;p_fwl_email=XXX&amp;p_fwl_fax=XXX&amp;p_fwl_movel=XXX&amp;p_fwl_phone=XXX</bi>
+                <morada>&amp;p_prm_target=_blank&amp;p_fwl_db=GEOG&amp;p_cx_id=p_morada_id&amp;p_cx_nome=p_morada&amp;p_cx_nivel_saida=6&amp;p_cx_nivel_saida_only=0&amp;p_cx_codigo=XXX&amp;p_fwl_copy_id=XXX</morada>
+            </lookup>
+            <list>
+                <radio    name="p_radio">
+                    <option>
+                        <text>Opção 1</text>
+                        <value>1</value>
+                    </option>
+                    <option>
+                        <text>Opção 2</text>
+                        <value>2</value>
+                    </option>
+                    <option>
+                        <text>Opção 3</text>
+                        <value>3</value>
+                    </option>
+                </radio>
+                <teste    name="p_teste">
+                    <option>
+                        <text>-- Teste --</text>
+                        <value />
+                    </option>
+                    <option>
+                        <text>Opção 1</text>
+                        <value>1</value>
+                    </option>
+                    <option>
+                        <text>Opção 2</text>
+                        <value>2</value>
+                    </option>
+                    <option>
+                        <text>Opção 3</text>
+                        <value>3</value>
+                    </option>
+                </teste>
+                <combobox   name="p_combobox">
+                    <option>
+                        <text>-- Combobox --</text>
+                        <value />
+                    </option>
+                    <option>
+                        <text>Opção 1</text>
+                        <value>1</value>
+                    </option>
+                    <option>
+                        <text>Opção 2</text>
+                        <value>2</value>
+                    </option>
+                    <option>
+                        <text>Opção 3</text>
+                        <value>3</value>
+                    </option>
+                </combobox>
+                <checkbox   name="p_checkbox">
+                    <option>
+                        <text>-- Checkbox --</text>
+                        <value />
+                    </option>
+                    <option>
+                        <text>Opção 1</text>
+                        <value>1</value>
+                    </option>
+                    <option>
+                        <text>Opção 2</text>
+                        <value>2</value>
+                    </option>
+                    <option>
+                        <text>Opção 3</text>
+                        <value>3</value>
+                    </option>
+                </checkbox>
+                <wf_acti_doctype_fk   name="p_wf_acti_doctype_fk">
+                    <option>
+                        <text>-- Tipo Documento --</text>
+                        <value />
+                    </option>
+                    <option>
+                        <text>Bilhete</text>
+                        <value>1028</value>
+                    </option>
+                    <option>
+                        <text>BlaBlaBla</text>
+                        <value>393</value>
+                    </option>
+                </wf_acti_doctype_fk>
+            </list>
+            <table>
+                <teste_grupo>
+                    <label>
+                        <teste1   name="p_teste1" type="date">teste1</teste1>
+                        <teste1_desc    name="p_teste1_desc"  type="date">teste1</teste1_desc>
+                        <teste2   name="p_teste2" type="textarea">teste2</teste2>
+                        <teste2_desc    name="p_teste2_desc"  type="textarea">teste2</teste2_desc>
+                        <morada   name="p_morada" type="lookup_geog">Morada</morada>
+                        <morada_desc    name="p_morada_desc"  type="lookup_geog">Morada</morada_desc>
+                        <morada_id    name="p_morada_id"  type="link">morada_id</morada_id>
+                        <morada_id_desc   name="p_morada_id_desc" type="link">morada_id</morada_id_desc>
+                        <texto_livre    name="p_texto_livre"  type="text">Texto Livre</texto_livre>
+                        <texto_livre_desc   name="p_texto_livre_desc" type="text">Texto Livre</texto_livre_desc>
+                        <upload   name="p_upload" type="file">Upload</upload>
+                        <upload_desc    name="p_upload_desc"  type="file">Upload</upload_desc>
+                        <combobox   name="p_combobox" type="select">Combobox</combobox>
+                        <combobox_desc    name="p_combobox_desc"  type="select">Combobox</combobox_desc>
+                        <checkbox   name="p_checkbox" type="checkbox">Checkbox</checkbox>
+                        <checkbox_check   name="p_checkbox_check" type="checkbox">Checkbox</checkbox_check>
+                        <checkbox_desc    name="p_checkbox_desc"  type="checkbox">Checkbox</checkbox_desc>
+                        <radio    name="p_radio"  type="radio">Radio</radio>
+                        <radio_desc   name="p_radio_desc" type="radio">Radio</radio_desc>
+                        <numero   name="p_numero" type="number">Numero</numero>
+                        <numero_desc    name="p_numero_desc"  type="number">Numero</numero_desc>
+                        <teste_grupo_id   name="p_teste_grupo_id" type="hidden">Numero</teste_grupo_id>
+                    </label>
+                    <value>
+                        <row>
+                            <teste1   name="p_teste1" type="date">12-05-1999</teste1>
+                            <teste1_desc    name="p_teste1_desc"  type="date">12-05-1999</teste1_desc>
+                            <teste2   name="p_teste2" type="textarea">nif 1</teste2>
+                            <teste2_desc    name="p_teste2_desc"  type="textarea">nif 1</teste2_desc>
+                            <morada   name="p_morada" type="lookup_geog">bi 1</morada>
+                            <morada_desc    name="p_morada_desc"  type="lookup_geog">bi 1</morada_desc>
+                            <morada_id    name="p_morada_id"  type="hidden">m</morada_id>
+                            <morada_id_desc   name="p_morada_id_desc" type="hidden">m</morada_id_desc>
+                            <texto_livre  name="p_texto_livre"  type="text">Zegui</texto_livre>
+                            <texto_livre_desc name="p_texto_livre_desc" type="text">Zegui</texto_livre_desc>
+                            <upload name="p_upload" type="file" />
+                            <upload_desc  name="p_upload_desc"  type="file" />
+                            <combobox name="p_combobox" type="select" >2</combobox>
+                            <combobox_desc  name="p_combobox_desc"  type="select" />
+                            <checkbox name="p_checkbox" type="checkbox" >0</checkbox>
+                            <checkbox_check name="p_checkbox_check" type="checkbox" >Edson</checkbox_check>
+                            <checkbox_desc  name="p_checkbox_desc"  type="checkbox">Edson</checkbox_desc>
+                            <radio  name="p_radio"  type="radio">2</radio>
+                            <radio_desc name="p_radio_desc" type="radio" />
+                            <numero name="p_numero" type="number" />
+                            <numero_desc  name="p_numero_desc"  type="number" />
+                            <teste_grupo_id   name="p_teste_grupo_id" type="hidden">1</teste_grupo_id>
+                        </row>
+                        <row>
+                            <teste1   name="p_teste1" type="date">12-05-1999</teste1>
+                            <teste1_desc    name="p_teste1_desc"  type="date">12-05-1999</teste1_desc>
+                            <teste2   name="p_teste2" type="textarea">nif 2</teste2>
+                            <teste2_desc    name="p_teste2_desc"  type="textarea">nif 2</teste2_desc>
+                            <morada   name="p_morada" type="lookup_geog">bi 2</morada>
+                            <morada_desc    name="p_morada_desc"  type="lookup_geog">bi 2</morada_desc>
+                            <morada_id    name="p_morada_id"  type="hidden">F</morada_id>
+                            <morada_id_desc   name="p_morada_id_desc" type="hidden">F</morada_id_desc>
+                            <texto_livre  name="p_texto_livre"  type="text" />
+                            <texto_livre_desc name="p_texto_livre_desc" type="text" />
+                            <upload name="p_upload" type="file" />
+                            <upload_desc  name="p_upload_desc"  type="file" />
+                            <combobox name="p_combobox" type="select" >2</combobox>
+                            <combobox_desc  name="p_combobox_desc"  type="select" />
+                            <checkbox name="p_checkbox" type="checkbox" >-0</checkbox>
+                            <checkbox_check name="p_checkbox_check" type="checkbox" />
+                            <checkbox_desc  name="p_checkbox_desc"  type="checkbox" />
+                            <radio  name="p_radio"  type="radio">1</radio>
+                            <radio_desc name="p_radio_desc" type="radio" />
+                            <numero name="p_numero" type="number" />
+                            <numero_desc  name="p_numero_desc"  type="number" />
+                            <teste_grupo_id   name="p_teste_grupo_id" type="hidden">2</teste_grupo_id>
+                        </row>
+                        <row>
+                            <teste1   name="p_teste1" type="date">12-05-1999</teste1>
+                            <teste1_desc    name="p_teste1_desc"  type="date">12-05-1999</teste1_desc>
+                            <teste2   name="p_teste2" type="textarea">nif 3</teste2>
+                            <teste2_desc    name="p_teste2_desc"  type="textarea">nif 3</teste2_desc>
+                            <morada   name="p_morada" type="lookup_geog">bi 3</morada>
+                            <morada_desc    name="p_morada_desc"  type="lookup_geog">bi 3</morada_desc>
+                            <morada_id    name="p_morada_id"  type="hidden">m</morada_id>
+                            <morada_id_desc   name="p_morada_id_desc" type="hidden">m</morada_id_desc>
+                            <texto_livre  name="p_texto_livre"  type="text" />
+                            <texto_livre_desc name="p_texto_livre_desc" type="text" />
+                            <upload name="p_upload" type="file" />
+                            <upload_desc  name="p_upload_desc"  type="file" />
+                            <combobox name="p_combobox" type="select"/>
+                            <combobox_desc  name="p_combobox_desc"  type="select" />
+                            <checkbox name="p_checkbox" type="checkbox" >1</checkbox>
+                            <checkbox_check name="p_checkbox_check" type="checkbox" />
+                            <checkbox_desc  name="p_checkbox_desc"  type="checkbox" />
+                            <radio  name="p_radio"  type="radio" />
+                            <radio_desc name="p_radio_desc" type="radio" />
+                            <numero name="p_numero" type="number" />
+                            <numero_desc  name="p_numero_desc"  type="number" />
+                            <teste_grupo_id   name="p_teste_grupo_id" type="hidden">3</teste_grupo_id>
+                        </row>
+                    </value>
+                </teste_grupo>
+                <anexar_documentos>
+                    <label>
+                        <wf_acti_doctype_fk   name="p_wf_acti_doctype_fk" type="select">Tipo Documento</wf_acti_doctype_fk>
+                        <wf_acti_doctype_fk_desc    name="p_wf_acti_doctype_fk_desc"  type="select">Tipo Documento</wf_acti_doctype_fk_desc>
+                        <ccc  name="p_ccc"  type="color">Color</ccc>
+                        <ccc_desc  name="p_ccc_desc"  type="color">Color</ccc_desc>
+                        <numero55  name="p_numero55"  type="number">Color</numero55>
+                        <numero55_desc  name="p_numero55_desc"  type="number">Color</numero55_desc>
+                        <wf_document    name="p_wf_document"  type="file">Documento</wf_document>
+                        <wf_document_desc   name="p_wf_document_desc" type="file">Documento</wf_document_desc>
+                        <anexar_documentos_id   name="p_anexar_documentos_id" type="hidden">Documento</anexar_documentos_id>
+                    </label>
+                    <value>
+                       
+                    </value>
+                </anexar_documentos>
+                <wfo_notifications>
+                    <label>
+                        <wfo_notification   name="p_wfo_notification" type="text">Notificação</wfo_notification>
+                        <wfo_notification_desc    name="p_wfo_notification_desc"  type="text">Notificação</wfo_notification_desc>
+                        <wfo_sms33    name="p_wfo_sms"  type="checkbox" rel="wfo_notifications" maxlength="30">Color</wfo_sms33>
+                        <wfo_sms33_desc    name="p_wfo_sms"  type="checkbox" rel="wfo_notifications" maxlength="30"></wfo_sms33_desc>
+                        <wfo_preview    name="p_wfo_preview"  type="link">Preview</wfo_preview>
+                        <wfo_preview_desc   name="p_wfo_preview_desc" type="link">Preview</wfo_preview_desc>
+                        <wfo_status   name="p_wfo_status" type="text">Estado</wfo_status>
+                        <wfo_status_desc    name="p_wfo_status_desc"  type="text">Estado</wfo_status_desc>
+                        <wfo_notifications_id   name="p_wfo_notifications_id" type="hidden">Estado</wfo_notifications_id>
+                    </label>
+                    <value>
+                        <row>
+                            <wfo_notification   name="p_wfo_notification" type="text">23 - BlaBlaBla</wfo_notification>
+                            <wfo_notification_desc    name="p_wfo_notification_desc"  type="text">23 - BlaBlaBla</wfo_notification_desc>
+                            <wfo_preview    name="p_wfo_preview"  type="link">https://nosiodb01.gov.cv/redglobal/!REDGLOBAL.GLB_DISPATCHER.main?p_env_procedure=//B8B3BDA0B7B0B2BAD1B7B0B2BA&amp;igrpcaacaaadea=68408560040040080240&amp;p_env_menu=//CDC8C9C8CD&amp;p_prm_target=_blank&amp;p_acti_doctype_id=452</wfo_preview>
+                            <wfo_preview_desc   name="p_wfo_preview_desc" type="link">Ver</wfo_preview_desc>
+
+                            <wfo_sms33    name="p_wfo_sms"  type="checkbox" rel="wfo_notifications" maxlength="30">5</wfo_sms33>
+                            <wfo_sms33_desc    name="p_wfo_sms"  type="checkbox" rel="wfo_notifications" maxlength="30">5</wfo_sms33_desc>
+
+                            <wfo_status   name="p_wfo_status" type="text">Activo</wfo_status>
+                            <wfo_status_desc    name="p_wfo_status_desc"  type="text">Activo</wfo_status_desc>
+                            <wfo_notifications_id   name="p_wfo_notifications_id" type="hidden">452</wfo_notifications_id>
+                        </row>
+                        <row>
+                            <wfo_notification   name="p_wfo_notification" type="text">Cod 5 - Desenho das várias peças de mobiliário &amp;#341; escala 1:20</wfo_notification>
+                            <wfo_notification_desc    name="p_wfo_notification_desc"  type="text">Cod 5 - Desenho das várias peças de mobiliário &amp;#341; escala 1:20</wfo_notification_desc>
+                            <wfo_preview    name="p_wfo_preview"  type="link">https://nosiodb01.gov.cv/redglobal/!REDGLOBAL.GLB_DISPATCHER.main?p_env_procedure=//B8B3BDA0B7B0B2BAD1B7B0B2BA&amp;igrpcaacaaadea=68408560040040080240&amp;p_env_menu=//CDC8C9C8CD&amp;p_prm_target=_blank&amp;p_acti_doctype_id=249</wfo_preview>
+                            <wfo_preview_desc   name="p_wfo_preview_desc" type="link">Ver</wfo_preview_desc>
+                            <wfo_sms33    name="p_wfo_sms"  type="checkbox" rel="wfo_notifications" maxlength="30">1</wfo_sms33>
+                            <wfo_sms33_desc    name="p_wfo_sms"  type="checkbox" rel="wfo_notifications" maxlength="30">1</wfo_sms33_desc>
+                            <wfo_status   name="p_wfo_status" type="text">Activo</wfo_status>
+                            <wfo_status_desc    name="p_wfo_status_desc"  type="text">Activo</wfo_status_desc>
+                            <wfo_notifications_id   name="p_wfo_notifications_id" type="hidden">249</wfo_notifications_id>
+                        </row>
+                        <row>
+                            <wfo_notification   name="p_wfo_notification" type="text">Reg_Crim - Certificado do Registo Criminal</wfo_notification>
+                            <wfo_notification_desc    name="p_wfo_notification_desc"  type="text">Reg_Crim - Certificado do Registo Criminal</wfo_notification_desc>
+                            <wfo_preview    name="p_wfo_preview"  type="link">https://nosiodb01.gov.cv/redglobal/!REDGLOBAL.GLB_DISPATCHER.main?p_env_procedure=//B8B3BDA0B7B0B2BAD1B7B0B2BA&amp;igrpcaacaaadea=68408560040040080240&amp;p_env_menu=//CDC8C9C8CD&amp;p_prm_target=_blank&amp;p_acti_doctype_id=267</wfo_preview>
+                            <wfo_preview_desc   name="p_wfo_preview_desc" type="link">Ver</wfo_preview_desc>
+                            <wfo_sms33    name="p_wfo_sms"  type="checkbox" rel="wfo_notifications" maxlength="30">2</wfo_sms33>
+                            <wfo_sms33_desc    name="p_wfo_sms"  type="checkbox" rel="wfo_notifications" maxlength="30">2</wfo_sms33_desc>
+                            <wfo_status   name="p_wfo_status" type="text">Activo</wfo_status>
+                            <wfo_status_desc    name="p_wfo_status_desc"  type="text">Activo</wfo_status_desc>
+                            <wfo_notifications_id   name="p_wfo_notifications_id" type="hidden">267</wfo_notifications_id>
+                        </row>
+                    </value>
+                </wfo_notifications>
+            </table>
+            <label>
+                <campo_teste_hid    name="p_campo_teste_hid"  type="hidden" maxlength="30">campo_teste_hid</campo_teste_hid>
+                <p_env_frm_url  name="p_env_frm_url"  type="hidden" maxlength="50" />
+                <p_env_dml  name="p_env_dml"  type="hidden" maxlength="50" />
+                <p_prm_target name="p_prm_target" type="hidden" maxlength="50" />
+                <p_fwl_tab_page   name="p_fwl_tab_page" type="hidden" maxlength="50">p_fwl_tab_page</p_fwl_tab_page>
+                <p_fwl_tab_menu   name="p_fwl_tab_menu" type="hidden" maxlength="50">p_fwl_tab_menu</p_fwl_tab_menu>
+            </label>
+            <value>
+                <hidden name="p_campo_teste_hid" />
+                <hidden   name="p_env_frm_url">https://nosiodb01.gov.cv/redglobal/!REDGLOBAL.GLB_DISPATCHER.main?p_env_procedure=//B8B3BDA0B7B0B2BAD1B7B0B2BA&amp;igrpcaacaaadea=68408560040040080240&amp;p_env_menu=//CBCECCC9</hidden>
+                <hidden name="p_env_dml" />
+                <hidden   name="p_prm_target">_blank</hidden>
+                <hidden name="p_fwl_tab_page" />
+                <hidden name="p_fwl_tab_menu" />
+            </value>
+            <tools-bar>
+                <item   type="specific">
+                    <title>Seguinte</title>
+                    <app>//ADBABBB8B3B0BDBEB3</app>
+                    <page>//A8B0ADB4B9B3B0A8</page>
+                    <link>//A8B9A0B1BAA7AB</link>
+                    <target>submit</target>
+                    <img>next.png</img>
+                </item>
+                <item   type="specific">
+                    <title>Gravar</title>
+                    <app>//ADBABBB8B3B0BDBEB3</app>
+                    <page>//A8B0ADB4B9B3B0A8</page>
+                    <link>//A8B9A0ACBEA9BA</link>
+                    <target>submit</target>
+                    <img>save.png</img>
+                </item>
+            </tools-bar>
+        </form>
+        <fingerprint>
+            <label>
+                <link>link</link>
+                <photo_link   readonly="readonly">Foto</photo_link>
+                <fingerright_link   readonly="readonly">Dedo Direito</fingerright_link>
+                <fingerleft_link    readonly="readonly">Dedo Esquerdo</fingerleft_link>
+                <signature_link   readonly="readonly">Assinatura</signature_link>
+                <img_refrech    readonly="readonly">/images/IGRP/templates/default/img/foto.png</img_refrech>
+                <self_service>Self Service</self_service>
+                <process_start>Iniciar Processo</process_start>
+                <number_process>Nº de Processo</number_process>
+            </label>
+            <value>
+                <photo_link   name="p_photo_link">../templates/default/img/funcionario.png</photo_link>
+                <fingerright_link   name="p_fingerright_link">../templates/default/img/bio2.png</fingerright_link>
+                <fingerleft_link    name="p_fingerleft_link">../templates/default/img/bio2.png</fingerleft_link>
+                <signature_link   name="p_signature_link">../templates/default/img/assinatura.png</signature_link>
+                <number_process name="number_process">number_process</number_process>
+                <link>/images/IGRP/xml/teste-bio.xml?v=1</link>
+                <hidden name="p_photo_id"></hidden>
+                <hidden name="p_photo_jp2000_id"></hidden>
+                <hidden name="p_fingerleft_id"></hidden>
+                <hidden name="p_fingerleft_wsq_id"></hidden>
+                <hidden name="p_fingerright_id"></hidden>
+                <hidden name="p_fingerright_wsq_id"></hidden>
+                <hidden name="p_signature_id"></hidden>
+            </value>
+        </fingerprint>
+        <table>
+            <label></label>
+            <value></value>
+        </table>
+    </content>
+</rows>

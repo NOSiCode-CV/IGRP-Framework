@@ -1,0 +1,51 @@
+<div class="box igrp-forms gen-container-item clean" item-name="domain_form" style="margin:0">
+  <div class="box-body">
+    <div role="form">
+      <div class="form-group col-sm-9 gen-fields-holder" item-name="domain_name" item-type="text">
+        <label>Domain</label>
+        <input type="text" value="" class="form-control " id="domain_name" name="domain_name" maxlength="60" />
+      </div>
+      <div class="form-group col-sm-3 gen-fields-holder" item-name="domain_save" item-type="link">
+        <a href="#" class="link btn btn-primary form-link" target="void"  id="domain_save">
+          <i class="fa fa-send-o"/>
+          <span>Save</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="box gen-container-item clean" gen-class="" item-name="domain_items" style="margin:0;margin-top:5px">
+  <div class="box-header " style="border-bottom:1px solid #EAEAEA">
+    <h3 class="box-title">Domain Items</h3>
+  </div>
+  <div class="box-body IGRP-separatorlist" tag="domain_items" dialog="false">
+    <div class="splist-form-holder">
+      <div class="splist-form" role="form">
+        <div class="form-group col-sm-6 gen-fields-holder" item-name="domain_item_value" item-type="text" required="required">
+          <label>Value</label>
+          <input type="text" value="" class="form-control " id="domain_item_value" name="p_domain_item_value" maxlength="80" required="required"></input>
+        </div>
+        <div class="form-group col-sm-6 gen-fields-holder" item-name="domain_item_info" item-type="text">
+          <label>Description</label>
+          <input type="text" value="" class="form-control " id="domain_item_info" name="p_domain_item_info" maxlength="100" ></input>
+        </div>
+      </div>
+    </div>
+    <div class="table-box box-body box-table-contents splist-table">
+      <table rel="T_domain_items" id="domain_items" class="table table-striped gen-data-table">
+        <thead>
+          <tr>
+            <th align="" item-name="domain_item_value">Value</th>
+            <th align="" item-name="domain_item_info">Description</th>
+            <th class="table-btn">
+              <a class="table-row-add btn-xs btn btn-primary" title="Adicionar" data-toggle="tooltip" data-placement="left">
+                <i class="fa fa-plus"/>
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>

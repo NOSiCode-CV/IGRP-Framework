@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>CRUDGenerator</page>
+    <app>igrp_studio</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp_studio.pages</package_db>
+        <package_html>CRUDGenerator</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=44</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>CRUD Generator</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[<p>CRUD/DAO generator</p>
+]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="//in controller" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
+                    <label>Help</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
+                </documento>
+                <forum name="p_forum" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="//in controller" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
+                    <label>Forum</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
+                </forum>
+            </fields>
+        </view_1>
+        <toolsbar_3 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="add_datasource" refresh_components="">
+                <title>Add datasource</title>
+                <app>igrp_studio</app>
+                <page>ListaPage</page>
+                <link>index</link>
+                <target>mpsubmit</target>
+                <img>primary|fa-database</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</preview>
+            </item>
+        </toolsbar_3>
+        <form_crud_dao_gen type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="" tags="false">
+                    <label>Application</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <rules>
+                        <rule type="remote_combobox">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_aplicacao</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
+                </aplicacao>
+                <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="" tags="false">
+                    <label>Data Source</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <rules>
+                        <rule type="remote_list">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_aplicacao</item>
+                                <item>p_data_source</item>
+                                <item>p_table_type</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
+                </data_source>
+                <schema name="p_schema" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="" tags="false">
+                    <label>Schema</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <rules>
+                        <rule type="remote_list">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_aplicacao</item>
+                                <item>p_data_source</item>
+                                <item>p_schema</item>
+                                <item>p_table_type</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
+                </schema>
+            </fields>
+        </form_crud_dao_gen>
+        <table_1 type="table" xml-type="table" title="Escolha a tabela" gen-type="container" gen-group="true">
+            <fields>
+                <check_table name="p_check_table" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" showLabel="true" java-type="String" group_in="" check="true" desc="true">
+                    <label/>
+                </check_table>
+                <table_name name="p_table_name" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Table Name</label>
+                </table_name>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <check_table name="p_check_table" check="true" desc="true">1</check_table>
+                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
+                        <table_name name="p_table_name">Iste rem voluptatem laudantium</table_name>
+                    </row>
+                    <row>
+                        <check_table name="p_check_table" check="true" desc="true">1</check_table>
+                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
+                        <table_name name="p_table_name">Sit laudantium dolor magna off</table_name>
+                    </row>
+                    <row>
+                        <check_table name="p_check_table" check="true" desc="true">1</check_table>
+                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
+                        <table_name name="p_table_name">Officia perspiciatis aperiam p</table_name>
+                    </row>
+                    <row>
+                        <check_table name="p_check_table" check="true" desc="true">1</check_table>
+                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
+                        <table_name name="p_table_name">Lorem sit amet dolor anim</table_name>
+                    </row>
+                    <row>
+                        <check_table name="p_check_table" check="true" desc="true">1</check_table>
+                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
+                        <table_name name="p_table_name">Unde adipiscing sed sit totam</table_name>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+        <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <table_type name="p_table_type" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
+                    <label>Table Type</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <rules>
+                        <rule type="remote_list">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_aplicacao</item>
+                                <item>p_data_source</item>
+                                <item>p_schema</item>
+                                <item>p_table_type</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
+                </table_type>
+                <form_2_radiolist_1 name="p_form_2_radiolist_1" type="radiolist" domain="" maxlength="250" required="false" change="false" readonly="false" disabled="false" child_size="6" right="false" java-type="">
+                    <label>Escolha 1º</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <rules/>
+                </form_2_radiolist_1>
+            </fields>
+        </form_2>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gerar" custom_return="true" refresh_components="">
+                <title>CRUD</title>
+                <app>igrp_studio</app>
+                <page>CRUDGenerator</page>
+                <link>index</link>
+                <target>submit_ajax</target>
+                <img>success|fa-gear</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xml</preview>
+            </item>
+        </toolsbar_1>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gerar_dao" custom_return="true" refresh_components="">
+                <title>DAO</title>
+                <app>igrp_studio</app>
+                <page>ListaEnv</page>
+                <link>index</link>
+                <target>submit_ajax</target>
+                <img>danger|fa-gears</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
+            </item>
+        </toolsbar_2>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="163" y="38"></block>
+        </xml>
+    </blockly>
+</rows>

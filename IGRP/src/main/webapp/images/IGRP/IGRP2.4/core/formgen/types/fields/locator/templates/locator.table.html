@@ -1,0 +1,18 @@
+<td style="width:1px;"  align="#[align]#" data-order="{#tag#}" data-row="{position()}" data-title="{../../../fields/#tag#/label}" class="#type#" item-name="#[tag]#">
+	
+	 <a class="btn btn-#[class]# btn-sm" target="gis:viewCoordinates" coordinates="{#tag#}" properties="#[properties]#" map-name="#[map]#" >
+	 	
+	 	<xsl:call-template name="page-nav">
+           <xsl:with-param name="action" select="'LOOKUP'" />
+           <xsl:with-param name="page" select="//rows/page" />
+           <xsl:with-param name="linkextra" select="../../../fields/#tag#/lookup" />
+           <xsl:with-param name="ad_hoc" select="'1'" />
+          
+         </xsl:call-template> 
+	 	
+	 	<i class="fa fa-location-arrow"></i>
+	 	<span><xsl:value-of select="../../../fields/#tag#/label"/></span>
+	 	
+	 </a>
+	
+</td>

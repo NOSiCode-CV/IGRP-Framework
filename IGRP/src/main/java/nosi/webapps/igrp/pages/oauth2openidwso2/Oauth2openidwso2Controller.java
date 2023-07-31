@@ -1,26 +1,16 @@
 package nosi.webapps.igrp.pages.oauth2openidwso2;
 
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.IOException;
-import java.util.List;
-import java.util.Properties;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import nosi.core.config.Config;
-import nosi.core.config.ConfigApp;
-import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Profile;
+
+/*----#start-code(packages_import)----*/
+
+import java.util.Properties;
+import nosi.core.config.ConfigCommonMainConstants;
+import nosi.core.webapp.Igrp;
 
 /*----#end-code----*/
 		
@@ -31,7 +21,9 @@ public class Oauth2openidwso2Controller extends Controller {
 		model.load();
 		Oauth2openidwso2View view = new Oauth2openidwso2View();
 		/*----#start-code(index)----*/ 
-		
+		String error = Core.getParam("oauth2_openid_error");
+		if(error != null)
+			Core.setMessageError(error);
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -73,7 +65,7 @@ public class Oauth2openidwso2Controller extends Controller {
 			}
 		}
 		
-		Core.setMessageWarning("A serious problem has occured. Please try login and if the problem persist clear your browser cache and try login again ! "); 
+		Core.setMessageWarning("Error!!! Please try login and if the problem persist clear your browser cache and try login again ! "); 
 		
 		return redirect("igrp", "Oauth2openidwso2", "index"); 
 		
@@ -90,15 +82,7 @@ public class Oauth2openidwso2Controller extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","Oauth2openidwso2","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(sign_in_)----*/
-		Properties settings = this.configApp.getMainSettings(); 
-		String url = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE.value());
-		String redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value()); 
-		String client_id = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value()); 
-		String warName = Core.getDeployedWarName(); 
-		redirect_uri = redirect_uri.replace("/IGRP/", "/"+warName+"/"); 
-		url += "?response_type=code&client_id=" + client_id + "&scope=openid&state=igrpweb&redirect_uri=" + redirect_uri;
-		
-		return redirectToUrl(url);
+		return redirect("igrp", "login", "index");
 		/*----#end-code----*/
 	}
 	

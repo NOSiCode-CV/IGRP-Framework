@@ -1,0 +1,42 @@
+<top_menu>
+	<button type="specific">
+		<title>Home</title>
+		<app>REDGLOBAL</app>
+		<page/>
+		<link>#</link>
+		<target>_self</target>
+		<img>home.png</img>
+	</button>
+	<button type="specific">
+		<title>Settings</title>
+		<app>REDGLOBAL</app>
+		<page/>
+		<link>#</link>
+		<target>_self</target>
+		<img>settings.png</img>
+	</button>
+	<button type="specific">
+		<title>Mapa Processos</title>
+		<app>REDGLOBAL</app>
+		<page/>
+		<link>#</link>
+		<target>_self</target>
+		<img>process.png</img>
+	</button>
+	<button type="mytask">
+		<title>14</title>
+		<app>REDGLOBAL</app>
+		<page/>
+		<link>#</link>
+		<target>_self</target>
+		<img>tasks.png</img>
+	</button>
+	<button type="availtask">
+		<title>5</title>
+		<app>REDGLOBAL</app>
+		<page/>
+		<link>#</link>
+		<target>_self</target>
+		<img>tasks.png</img>
+	</button>
+</top_menu>

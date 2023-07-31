@@ -1,8 +1,8 @@
 package nosi.core.validator;
 
 import java.math.BigDecimal;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import nosi.core.validator.constraints.Min;
 import nosi.core.webapp.Core;

@@ -1,0 +1,40 @@
+<div class="card igrp-table" >
+
+	<div class="card-body">
+		<div>
+			<div class="table-responsive table-card">
+				<table class="table align-middle #[hoverable]# #[striped]# #[bordered]#" id="table-#tag#">
+					<thead class="#[tableHeaderStyle]# border-top">
+						<tr gen-id="drop-zone" gen-field-template="th">
+							#[ctxInlineHeadTmpl]#
+						</tr>
+					</thead>
+					<tbody class="list form-check-all">
+						<xsl:for-each select="#path#/table/value/row[not(@total='yes')]">
+							<tr gen-id="drop-zone">
+								<xsl:apply-templates mode="context-param" select="context-menu" />
+								<gen-template name="table-rows-hiddens"/>
+								#[ctxInlineTmpl]#
+							</tr>
+						</xsl:for-each>
+					</tbody>
+					#[tableFooter]#
+				</table>
+				#[ctxMenuTemplate]#
+				<div class="noresult" style="display: none">
+					<div class="text-center">
+						<lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:75px;height:75px"></lord-icon>
+						<h5 class="mt-2">Sorry! No Result Found</h5>
+						<p class="text-muted mb-0">We've searched more than 150+ leads We did not find any leads for you search.</p>
+					</div>
+				</div>
+			</div>
+
+
+	
+		</div>
+
+
+
+	</div>
+</div>

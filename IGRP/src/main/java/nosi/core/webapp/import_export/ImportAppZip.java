@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Part;
 import javax.xml.transform.TransformerConfigurationException;
 
 import nosi.core.webapp.Core;
@@ -142,7 +142,6 @@ public class ImportAppZip extends ImportAppJar{
 				//FileHelper.save(pathWorkSpace, page.getPage()+".json", json);
 			}	
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		
@@ -157,8 +156,8 @@ public class ImportAppZip extends ImportAppJar{
 		try {
 			String path = this.getConfig().getCurrentBaseServerPahtXsl(page)+File.separator+page.getPage()+".xml";
 			//Gera codigo MVC a partir de xml, usando gerador xsl
-			String modelViewController = XMLTransform.xmlTransformWithXSL(path, this.getConfig().getLinkXSLGeneratorMCV());
-			String[] partsJavaCode = modelViewController.toString().split(" END ");
+			String modelViewController = XMLTransform.xmlTransformWithXSL(path, this.getConfig().getLinkXSLGeneratorMCV(page.getVersion()));
+			String[] partsJavaCode = modelViewController.split(" END ");
 			if(partsJavaCode.length > 2){
 				String model = partsJavaCode[0]+"*/";
 				String view = "/*"+partsJavaCode[1]+"*/";

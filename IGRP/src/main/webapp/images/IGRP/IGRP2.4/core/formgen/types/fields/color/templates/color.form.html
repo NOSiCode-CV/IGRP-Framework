@@ -1,0 +1,6 @@
+<div class="form-group col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
+    <xsl:apply-templates mode="igrp-form-color-field" select="#path#">
+        <xsl:with-param name="format" select="'#[format]#'"/>
+        <xsl:with-param name="parent-id" select="'#parent.tag#'"/>
+    </xsl:apply-templates>
+</div>

@@ -1,0 +1,16 @@
+<div class="col-sm-#[size]# #[right]# " item-name="#tag#" item-type="#type#" >
+  <div class="form-check #[switch]#" #[required]# style="margin-top: 35px;">
+    <input id="#name.attr#" type="checkbox" name="#name.attr#" value="1" class="checkbox form-check-input #[change]#" #[required]# label="#label.attr#">
+      <xsl:call-template name="setAttributes">
+        <xsl:with-param name="field" select="#path#"/>
+      </xsl:call-template>
+      <xsl:if test="#value.path# = '1'">
+        <xsl:attribute name="checked">checked</xsl:attribute>
+      </xsl:if>
+    </input>
+    <label class="form-check-label " for="#name.attr#">
+        <xsl:value-of select="#label.path#"/>
+        #[tooltip]#
+    </label>
+  </div>
+</div>

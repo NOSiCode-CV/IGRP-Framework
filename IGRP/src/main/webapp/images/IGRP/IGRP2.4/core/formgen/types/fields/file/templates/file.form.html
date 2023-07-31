@@ -1,0 +1,9 @@
+<div class="form-group col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
+	<xsl:apply-templates mode="igrp-form-file-field" select="#path#">
+        <xsl:with-param name="targetrend" select="'#[targetrend]#'"/>
+        <xsl:with-param name="accept" select="'#[accept]#'"/>
+        <xsl:with-param name="multiple" select="'#[multiple]#'"/>
+        <xsl:with-param name="rendvalue" select="'#[rendvalue]#'"/>
+    </xsl:apply-templates>
+</div>  
+

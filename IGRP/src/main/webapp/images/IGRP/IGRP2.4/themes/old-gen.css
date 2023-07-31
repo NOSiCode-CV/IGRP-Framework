@@ -1,0 +1,229 @@
+.box, .toolsbar-holder.boxed{
+  box-shadow: none;
+}
+.box-body[last-type-container="true"]{
+  padding-bottom: 0;
+}
+
+.box-body[first-type-container="true"] [role="form"] *:first-child{
+  margin-top: 0
+}
+
+.box-body[last-type-container="true"] [role="form"]*:last-child{
+  margin-bottom: 0;
+}
+
+.box-body:not([last-type-container="true"]) > [role="form"] > [item-type="separator"] {
+  margin-top:-10px!important;
+}
+
+.box-body:not([last-type-container="true"]) > [role="form"] > [item-type="separator"]  ~ [item-type="separator"]{
+  margin-top:0
+}
+
+.toolsbar-holder .btns-holder[use-fa="false"][vertical="false"] > a > img{
+  top: auto;
+  height: 20px;
+  margin: 0
+}
+
+.old-v .gen-item-boxed {
+  margin: 20px -10px;
+  clear: both;
+  display: block;
+  width: auto;
+  float: none;
+  border-right: 0;
+  border-left: 0;
+  /*border-top: 20px solid whitesmoke;
+  border-bottom: 20px solid whitesmoke;*/
+  position: relative;
+}
+
+.old-v .self-boxed-item{
+  /*background: whitesmoke;*/
+  /*margin: -12px -25px;
+  clear: both;
+  padding: 10px 0;*/
+
+  background: #f3f5f7;
+  margin: 35px -25px 0px!important
+}
+
+
+.old-v .self-boxed-item:after{
+  content:"";
+  display: block;
+  clear: both;
+}
+
+.old-v .self-boxed-inner:after,
+.old-v .self-boxed-inner:before{
+  clear:both;
+  content: "";
+  display: block;
+}
+
+.old-v .gen-item-boxed:before{
+    content: "";
+    position: relative;
+    height: 20px;
+    top: 0;
+    width: 101%;
+    background: #f3f5f7;
+    left: -1px;
+    z-index: 10;
+    display: block;
+}
+
+.old-v .gen-item-boxed:after{
+        content: "";
+    position: relative;
+    height: 10px;
+    bottom: -11px;
+    width: 101%;
+    background: #f3f5f7;
+    left: -1px;
+    display: block;
+    /* padding-bottom: 10px; */
+    box-sizing: content-box;
+    padding-bottom: 15px;
+}
+
+.old-v .btns-holder-form{
+  display: inline-block;
+  margin-top: 25px;
+  margin-left: 15px;
+}
+
+.old-v *[role="form"] .IGRP_formlist .form-group{
+  min-height: 0;
+} 
+
+.old-v .checkbox-label{
+  display: block;
+}
+
+/*.old-v .gen-item-boxed+.gen-item-boxed:before{
+    position: absolute;
+    top: auto;
+    bottom: -1px;
+}
+.old-v  [role="form"] [item-name]:not(.gen-container-item)+.gen-item-boxed+.gen-item-boxed:after{
+    position: absolute;
+    content: "aff"; 
+    top: auto;
+    bottom: -1px;
+}*/
+
+
+.form-group a.form-link{
+  margin-top: 35px
+}
+
+.old-v .gen-item-boxed>.box-header{
+  
+}
+
+
+
+.old-v [class*="col-md-"]+.gen-item-boxed:before{
+    padding-top: 20px;
+    background: whitesmoke;
+    position: relative;
+    display: block;
+    width: 101%;
+    left: -1px;
+    top: 0;
+}
+
+.old-v [first-type-container="true"]>[role="form"] {
+  margin-top: -52px;
+}
+/*.old-v [first-type-container="true"] [role="form"] > .gen-container-item:nth-child(0) {
+  margin-top:-32px;
+  background: red!important
+}*/
+
+.old-v *[first-type-container="true"] [role="form"] > .gen-item-boxed:last-child {
+  margin-bottom:-11px;
+}
+
+.tab-content .gen-tab-content .gen-item-boxed:last-child{
+  margin-bottom: -20px;
+}
+
+
+.old-v .gen-item-boxed+.gen-item-boxed{
+  margin-top: -35px;
+  /*margin-top:-10px!important;
+  border-top:0!important;*/
+  
+}
+
+.old-v .gen-item-boxed+[item-name]:not(.gen-item-boxed){
+  margin-bottom: 
+}
+
+
+.old-v .box-header{
+    display: block;
+    /*padding: 10px;*/
+    position: relative;
+    margin-right: -1px;
+    margin-left: -1px;
+    /*text-transform: uppercase;*/
+    /*border-top: 1px solid #eee*/
+}
+
+.old-v .box-header .box-title{
+  /*font-weight: bold;*/
+}
+
+.old-v *[role="form"] .box-head.subtitle  {
+    font-size: 18px;
+    /*text-transform: uppercase;*/
+    margin-right: -11px;
+    margin-left: -11px;
+    /*padding: 10px;*/
+    line-height: 1;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    /*font-weight: bold;*/
+    /*margin-top: 10px;*/
+ 
+}
+
+[last-type-container="true"] .gen-container-item:last-child{
+ margin-bottom: -1px;
+}
+
+[last-type-container="true"] .gen-container-item:last-child:after{
+  display: none
+}
+
+.old-v .gen-item-boxed+.box-head.subtitle  {
+  margin-top: -10px!important;
+}
+
+.old-v *[role="form"][first-type-container!='true'] .box-head.subtitle  {
+
+}
+
+.old-v .gen-data-table{
+ /* border-bottom:1px solid #EAEAEA;*/
+}
+
+.table-box{
+
+}
+
+.old-v .gen-item-boxed+.box-head.subtitle{
+  border-top: 1px solid #EAEAEA;
+  margin-top:-1px;
+}
+
+.old-v [class*="col-md-"] .gen-item-boxed+.box-head.subtitle{
+  border-top: 1px solid #EAEAEA;
+  margin-top:-1px;
+}

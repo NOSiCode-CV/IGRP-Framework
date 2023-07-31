@@ -1,0 +1,22 @@
+
+@media (min-width: 768px){
+.single-container-row .gen-inner,
+.single-container-row .gen-container-placeholder{
+    display: flex;
+   }
+
+   .single-container-row .gen-inner>*,
+    .single-container-row .gen-container-placeholder>*{
+        width: 100%;
+    }
+}
+
+.single-container-row .statbox_container .statbox{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+   
+
+
+    

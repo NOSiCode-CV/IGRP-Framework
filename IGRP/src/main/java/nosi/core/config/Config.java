@@ -14,7 +14,7 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.User;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 import java.io.File;
 import java.util.*;
 
@@ -24,80 +24,79 @@ public class Config {
     private static final String SEPARATOR_FOR_HTTP = "/";
     private static final String SEPARATOR_FOR_FILESYSTEM = File.separator;
     public static final String BASE_PATH_CONFIGURATION = "config";
-    public static final String VERSION = "1.7.3.230731";
+    public static final String VERSION = "2.0.0.230729";
     public static final String DEFAULT_V_PAGE = "2.3";
     private static final Properties configs = new Properties();
 
-
     public String getLinkXSLLogin() {
-        String linkXslLogin = "images/IGRP/IGRP2.3/xsl/IGRP-login.xsl";
+        String linkXslLogin = "images/IGRP/IGRP"+"2.3"+"/xsl/IGRP-login.xsl";
         //For Design System Login
         if("ds-beta".equals(ConfigApp.getInstance().getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_LOGIN_TEMPLATE.value())))
         		linkXslLogin = "images/IGRP/IGRP2.3/xsl/IGRP-login-ds.xsl";
         return this.getLinkImgBase().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslLogin;
     }
 
-    public String getLinkXSLGenerator() {
-        String linkXslGenerator = "images/IGRP/IGRP2.3/app/igrp/generator/Generator.xsl";
+    public String getLinkXSLGenerator(String verson) {
+        String linkXslGenerator = "images/IGRP/IGRP"+verson+"/app/igrp/generator/Generator.xsl";
         return this.getLinkImgBase().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslGenerator;
     }
 
     public String getLinkXSLHomeStudio() {
-        String linkXslHomeStudio = "images/IGRP/IGRP2.3/xsl/IGRP-Studio-home.xsl";
+        String linkXslHomeStudio = "images/IGRP/IGRP"+DEFAULT_V_PAGE+"/xsl/IGRP-Studio-home.xsl";
         return this.getLinkImgBase().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslHomeStudio;
     }
 
     public String getLinkXSLHomeApp() {
-        String linkXslHomeApp = "images/IGRP/IGRP2.3/xsl/IGRP-homeApp.xsl";
+        String linkXslHomeApp = "images/IGRP/IGRP"+DEFAULT_V_PAGE+"/xsl/IGRP-homeApp.xsl";
         return this.getLinkImgBase().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslHomeApp;
     }
 
     public String getLinkXSLHome() {
-        String linkXslHome = "images/IGRP/IGRP2.3/xsl/IGRP-home.xsl";
+        String linkXslHome = "images/IGRP/IGRP"+"2.3"+"/xsl/IGRP-home.xsl";
         return this.getLinkImgBase().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslHome;
     }
 
     public String getLinkXSLMapProcess() {
-        String linkXslMapProcess = "images/IGRP/IGRP2.3/xsl/IGRP-process.xsl";
+        String linkXslMapProcess = "images/IGRP/IGRP"+DEFAULT_V_PAGE+"/xsl/IGRP-process.xsl";
         return this.getLinkImgBase().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslMapProcess;
     }
 
-    public String getLinkXSLGeneratorMCV() {
+    public String getLinkXSLGeneratorMCV(String verson) {
         //For page sql imported
-        String linkXslGeneratorMcv = "images/IGRP/IGRP2.3/core/formgen/util/java/XSL_GENERATOR.xsl";
+        String linkXslGeneratorMcv = "images/IGRP/IGRP"+verson+"/core/formgen/util/java/XSL_GENERATOR.xsl";
         return this.getBasePathServerXsl().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslGeneratorMcv;
     }
 
-    public String getLinkXSLGeneratorMCVForm() {
-        String linkXslGeneratorMcvForm = "images/IGRP/IGRP2.3/core/formgen/util/java/crud/XSL_CRUD_FORM_GENERATOR.xsl";
+    public String getLinkXSLGeneratorMCVForm(String verson) {
+        String linkXslGeneratorMcvForm = "images/IGRP/IGRP"+verson+"/core/formgen/util/java/crud/XSL_CRUD_FORM_GENERATOR.xsl";
         return this.getBasePathServerXsl().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslGeneratorMcvForm;
     }
 
-    public String getLinkXSLGeneratorMCVList() {
-        String linkXslGeneratorMcvList = "images/IGRP/IGRP2.3/core/formgen/util/java/crud/XSL_CRUD_LIST_GENERATOR.xsl";
+    public String getLinkXSLGeneratorMCVList(String verson) {
+        String linkXslGeneratorMcvList = "images/IGRP/IGRP"+verson+"/core/formgen/util/java/crud/XSL_CRUD_LIST_GENERATOR.xsl";
         return this.getBasePathServerXsl().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslGeneratorMcvList;
     }
 
-    public String getLinkXSLGenerator_CRUD() {
+    public String getLinkXSLGenerator_CRUD(String verson) {
         //Generator XSL for CRUD pages
-        String linkXslGeneratorCrud = "images/IGRP/IGRP2.3/core/formgen/util/GEN.CRUD.xsl";
+        String linkXslGeneratorCrud = "images/IGRP/IGRP"+verson+"/core/formgen/util/GEN.CRUD.xsl";
         return this.getBasePathServerXsl().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslGeneratorCrud;
     }
 
-    public String getLinkXSLJsonGenerator() {
+    public String getLinkXSLJsonGenerator(String verson) {
         //Generator JSON for CRUD pages
-        String linkXslJsonGenerator = "images/IGRP/IGRP2.3/core/formgen/util/GEN.JSON.xsl";
+        String linkXslJsonGenerator = "images/IGRP/IGRP"+verson+"/core/formgen/util/GEN.JSON.xsl";
         return this.getBasePathServerXsl().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslJsonGenerator;
     }
 
-    public String getLinkXSLJsonConvert() {
+    public String getLinkXSLJsonConvert(String verson) {
         //Convert Page in format XML 2.1 to JSON
-        String linkXslJsonConvert = "images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl";
+        String linkXslJsonConvert = "images/IGRP/IGRP"+verson+"/core/formgen/util/jsonConverter.xsl";
         return this.getBasePathServerXsl().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslJsonConvert;
     }
 
-    public String getLinkXSLBpmnControllerGenerator() {
-        String linkXslGeneratorControllerBpmn = "images/IGRP/IGRP2.3/core/formgen/util/java/bpmn/XSL_CONTROLLER.xsl";
+    public String getLinkXSLBpmnControllerGenerator(String verson) {
+        String linkXslGeneratorControllerBpmn = "images/IGRP/IGRP"+verson+"/core/formgen/util/java/bpmn/XSL_CONTROLLER.xsl";
         return this.getBasePathServerXsl().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslGeneratorControllerBpmn;
     }
 
@@ -198,7 +197,7 @@ public class Config {
 
     public String getVersion() {
         final Object version = getConfig().get("version");
-        return version != null ? version.toString() : "1.0";
+        return version != null ? version.toString() : "2.0";
 
     }
 
@@ -239,6 +238,7 @@ public class Config {
     public Map<String, String> getVersions() {
         final Map<String, String> versions = new HashMap<>();
         versions.put("2.3", "2.3");
+        versions.put("2.4", "2.4");
         return versions;
     }
 
@@ -398,7 +398,7 @@ public class Config {
     public String getBasePahtXslWorkspace(Application app, String verson) {
         String workSpace = this.getWorkspace();
         if (Core.isNotNull(workSpace))
-            return workSpace + SEPARATOR_FOR_FILESYSTEM + this.getWebapp() + SEPARATOR_FOR_FILESYSTEM + this.getImageAppPath(app, "2.3");
+            return workSpace + SEPARATOR_FOR_FILESYSTEM + this.getWebapp() + SEPARATOR_FOR_FILESYSTEM + this.getImageAppPath(app, verson);
         return null;
     }
 

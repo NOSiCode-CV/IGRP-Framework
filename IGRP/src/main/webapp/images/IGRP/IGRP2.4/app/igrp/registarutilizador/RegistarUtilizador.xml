@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>RegistarUtilizador</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>RegistarUtilizador</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=15</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Registar Utilizador</title>
+        <titulo type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <titulo_text type="text" name="p_titulo_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Registar utilizador]]>
+                    </value>
+                </titulo_text>
+            </fields>
+        </titulo>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="guardar" refresh_components="">
+                <title>Guardar</title>
+                <app>igrp</app>
+                <page>RegistarUtilizador</page>
+                <link>index</link>
+                <target>submit_ajax</target>
+                <img>primary|fa-save</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xml</preview>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <nome name="p_nome" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" inputmask="" tooltip="false" disable_copy_paste="false">
+                    <label>Nome</label>
+                    <value>Aperiam anim lorem anim sed</value>
+                </nome>
+                <username name="p_username" type="text" maxlength="50" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" inputmask="" tooltip="false" disable_copy_paste="false">
+                    <label>Username</label>
+                    <value>Dolor deserunt stract ut aperiam</value>
+                </username>
+                <email name="p_email" type="email" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" tooltip="false" disable_copy_paste="false">
+                    <label>Email</label>
+                    <value>sihil@example.com</value>
+                </email>
+                <cni name="p_cni" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" inputmask="" right="false" tooltip="false" disable_copy_paste="false">
+                    <label>CNI</label>
+                    <value>Officia amet aperiam voluptatem natus</value>
+                </cni>
+                <telefone name="p_telefone" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" inputmask="" tooltip="false" disable_copy_paste="false">
+                    <label>Telefone</label>
+                    <value>Mollit perspiciatis sed deserunt ut</value>
+                </telefone>
+                <telemovel name="p_telemovel" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" inputmask="" tooltip="false" disable_copy_paste="false">
+                    <label>Telemóvel</label>
+                    <value>Stract iste ipsum mollit sit</value>
+                </telemovel>
+                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
+                    <label></label>
+                </nada>
+                <password name="p_password" type="password" maxlength="20" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
+                    <label>Password</label>
+                    <value>******</value>
+                </password>
+                <confirmar_password name="p_confirmar_password" type="password" maxlength="20" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
+                    <label>Confirmar password</label>
+                    <value>******</value>
+                </confirmar_password>
+                <s_ass name="p_s_ass" type="separator" maxlength="250" placeholder="" desclabel="false" right="false" tooltip="false" disable_copy_paste="false">
+                    <label/>
+                </s_ass>
+                <form_1_img_1 name="p_form_1_img_1" type="file" accept="image/*" targetrend="" multiple="false" rendvalue="false" maxlength="250" required="false" disabled="false" right="false" class="black" tooltip="false" disable_copy_paste="false">
+                    <label>Assinatura</label>
+                    <value/>
+                </form_1_img_1>
+            </fields>
+        </form_1>
+    </content>
+    <blockly>
+        <imports>
+            <import type="inserir_dao">Inserir Daos</import>
+            <import type="dao">User</import>
+        </imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+            <block type="save_formu_form_1" id="5_0yzhXQ|8wgp-vtxSA{" inline="true" x="663" y="163">
+                <mutation count="0" pxchecked="false"></mutation>
+                <field name="dao">User</field>
+                <field name="EDIT">FALSE</field>
+                <statement name="value2">
+                    <block type="set-dao-User" id="|?RBG*M}mgC?7OHT6#W2" inline="false">
+                        <mutation hover_type="String::signature_id"></mutation>
+                        <field name="DAO_FIELD">String::signature_id</field>
+                        <value name="value1">
+                            <block type="mod_formform_1" id="3k9H/J`J:LPzY-QsmIFO">
+                                <field name="get_model">Image::form_1_img_1</field>
+                            </block>
+                        </value>
+                    </block>
+                </statement>
+            </block>
+        </xml>
+    </blockly>
+</rows>

@@ -1,0 +1,24 @@
+<root>
+    <actions>actions</actions>
+    <configurations>configurations</configurations>
+    <delete>delete</delete>
+    <properties>properties</properties>
+    <fields>fields</fields>
+    <style>style</style>
+    <validations>validations</validations>
+    <xsl>xsl</xsl>
+    <copy>copy</copy>
+    <current-fields>current fields</current-fields>
+    <available-fields>available fields</available-fields>
+    <rules>rules</rules>
+    <confirm>confirm</confirm>
+    <close>close</close>
+    <clear>clear</clear>
+    <search-field>search field</search-field>
+    <search-no-results>no records found</search-no-results>
+    <add>adicionar</add>
+    <remove>remover</remove>
+    <gen-container-empty>empty component</gen-container-empty>
+    <gen-container-add-field>add clicking on a field in left panel</gen-container-add-field>
+    <gen-click-drag-to-add>click to add</gen-click-drag-to-add>
+</root>

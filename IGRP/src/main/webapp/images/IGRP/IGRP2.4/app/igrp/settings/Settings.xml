@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Settings</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>null</package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Settings</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=14</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Área pessoal</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Área pessoal]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="alterar_senha" refresh_components="">
+                <title>Alterar senha</title>
+                <app>igrp</app>
+                <page>ChangePassword</page>
+                <link>index</link>
+                <target>right_panel</target>
+                <img>info|fa-lock</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/changepassword/ChangePassword.xml</preview>
+            </item>
+            <item type="specific" code="" rel="editar_perfil" custom_return="true" refresh_components="">
+                <title>Editar Perfil</title>
+                <app>igrp</app>
+                <page>RegistarUtilizador</page>
+                <link>index</link>
+                <target>right_panel_submit|refresh</target>
+                <img>warning|fa-pencil-square-o</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xml</preview>
+            </item>
+        </toolsbar_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <nome name="p_nome" type="text" maxlength="100" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Nome</label>
+                    <value>Iste officia perspiciatis mollit sit</value>
+                </nome>
+                <email name="p_email" type="text" maxlength="100" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Email</label>
+                    <value>Natus amet ut rem iste</value>
+                </email>
+                <username name="p_username" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Username</label>
+                    <value>Amet elit iste sed sit</value>
+                </username>
+                <cni name="p_cni" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>CNI</label>
+                    <value>Iste perspiciatis sit accusantium adipiscing</value>
+                </cni>
+                <telefone name="p_telefone" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Telefone</label>
+                    <value>Anim deserunt lorem magna natu</value>
+                </telefone>
+                <telemovel name="p_telemovel" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Telemóvel</label>
+                    <value>Lorem officia labore sit rem</value>
+                </telemovel>
+                <ultimo_acesso_igrp name="p_ultimo_acesso_igrp" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Ultimo Acesso IGRP</label>
+                    <value>Omnis adipiscing stract magna</value>
+                </ultimo_acesso_igrp>
+                <ultimo_acesso_rede_estado name="p_ultimo_acesso_rede_estado" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Ultimo Acesso Rede Estado</label>
+                    <value>Sed rem deserunt ipsum stract</value>
+                </ultimo_acesso_rede_estado>
+                <password_expira_em name="p_password_expira_em" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Password Expira em</label>
+                    <value>Adipiscing amet rem dolor dese</value>
+                </password_expira_em>
+                <view_1_img type="text" name="p_view_1_img" maxlength="300">
+                    <value>../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </view_1_img>
+            </fields>
+        </view_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <idioma name="p_idioma" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="" tags="false" load_service_data="false" tooltip="false" disable_copy_paste="false">
+                    <label> Idioma</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </idioma>
+                <separator_1 name="p_separator_1" type="separator" maxlength="30" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
+                    <label>Acesso</label>
+                </separator_1>
+                <perfil name="p_perfil" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="" tags="false" load_service_data="false" tooltip="false" disable_copy_paste="false">
+                    <label>Perfil</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </perfil>
+                <s_as name="p_s_as" type="separator" maxlength="250" placeholder="" desclabel="false" right="false" tooltip="false" disable_copy_paste="false">
+                    <label>Assinatura</label>
+                </s_as>
+                <assinatura name="p_assinatura" type="img" persist="true" img="../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" desclabel="false" right="false" tooltip="false" disable_copy_paste="false">
+                    <label>Img</label>
+                    <value>../images/IGRP/IGRP2.3/assets/img/v1/assinatura.png</value>
+                </assinatura>
+                <hidden name="p_organica" type="hidden" maxlength="30" java-type="" tooltip="false" disable_copy_paste="false" tag="organica"/>
+            </fields>
+        </form_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

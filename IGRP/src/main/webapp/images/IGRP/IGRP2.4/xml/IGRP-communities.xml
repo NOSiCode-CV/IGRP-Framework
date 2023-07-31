@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<communities>
+
+  <title>Nossa comunidade</title>
+  <description>Equipa, contribuidores e desenvolvedores em canais diferentes.</description>
+  <subtitle>Contribua</subtitle>
+
+  <community available="yes">
+    <link>https://github.com/NOSiCode-CV</link>
+    <icon>fa-github</icon>
+    <title>Github</title>
+    <color>#161614</color>
+  </community>
+
+  <community available="yes">
+    <link>https://igrpweb.canny.io/</link>
+    <img>data:image/png;base64,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</img>
+    <title>Canny</title>
+  </community>
+
+
+  <community available="no">
+    <link>#</link>
+    <icon>fa-slack</icon>
+    <title>Slack</title>
+    <color>#7289DA</color>
+  </community>
+
+  <community available="no">
+    <link>#</link>
+    <icon>fa-reddit</icon>
+    <title>Reddit</title>
+    <color>#FF4500</color>
+  </community>
+
+  <community available="no">
+    <link>#</link>
+    <icon>fa-twitter</icon>
+    <title>Twitter</title>
+    <color>#1DA1F2</color>
+  </community>
+  
+  
+</communities>

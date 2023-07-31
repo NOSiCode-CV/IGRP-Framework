@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/alter_prioridade_tarefa/Alter_prioridade_tarefa.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Alter_prioridade_tarefa</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>null</package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Alter_prioridade_tarefa</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=32</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Alter prioridade tarefa</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Alterar prioridade da Tarefa]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <nova_prioridade name="p_nova_prioridade" type="radiolist" domain="" maxlength="30" required="true" change="false" readonly="false" disabled="false" child_size="12" right="false" java-type="">
+                    <label>Nova Prioridade</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </nova_prioridade>
+                <hidden name="p_id" type="hidden" maxlength="30" java-type="" tag="id"/>
+            </fields>
+            <tools-bar>
+                <item id="button_6990_5041" type="form" code="" class="primary" rel="salvar" refresh_components="">
+                    <title>Salvar</title>
+                    <app>igrp</app>
+                    <page>Alter_prioridade_tarefa</page>
+                    <link>index</link>
+                    <parameter>../images/IGRP/IGRP2.3/app/igrp/alter_prioridade_tarefa/Alter_prioridade_tarefa.xml?</parameter>
+                    <target>submit</target>
+                    <img>primary|fa-save</img>
+                    <preview>../images/IGRP/IGRP2.3/app/igrp/alter_prioridade_tarefa/Alter_prioridade_tarefa.xml</preview>
+                </item>
+            </tools-bar>
+        </form_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <detalhes_do_processo name="p_detalhes_do_processo" type="separator" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Detalhes do Processo</label>
+                </detalhes_do_processo>
+                <tipo_de_processo name="p_tipo_de_processo" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Tipo de Processo</label>
+                    <value>Voluptatem laudantium perspiciatis natus doloremque</value>
+                </tipo_de_processo>
+                <numero_de_processo name="p_numero_de_processo" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Número de Processo</label>
+                    <value>Anim magna totam mollit magna</value>
+                </numero_de_processo>
+                <data_inicio_do_processo name="p_data_inicio_do_processo" type="date" range="false" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Data Início do Processo</label>
+                    <value>04-04-2015</value>
+                </data_inicio_do_processo>
+                <detalhes_da_tarefa name="p_detalhes_da_tarefa" type="separator" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Detalhes da Tarefa</label>
+                </detalhes_da_tarefa>
+                <descricao_da_tarefa name="p_descricao_da_tarefa" type="textarea" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Descrição da Tarefa</label>
+                    <value>Consectetur officia magna sit lorem perspiciatis doloremque aperiam ut natus labore elit perspiciatis mollit ut</value>
+                </descricao_da_tarefa>
+                <data_inicio_da_tarefa name="p_data_inicio_da_tarefa" type="date" range="false" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Data Início da Tarefa</label>
+                    <value>01-08-2013</value>
+                </data_inicio_da_tarefa>
+                <prioridade_da_tarefa name="p_prioridade_da_tarefa" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Prioridade da Tarefa</label>
+                    <value>Dolor aperiam adipiscing magna dolor</value>
+                </prioridade_da_tarefa>
+                <tarefa_atribuida_por name="p_tarefa_atribuida_por" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Tarefa Atribuida Por</label>
+                    <value>Ut consectetur dolor doloremque totam</value>
+                </tarefa_atribuida_por>
+                <tarefa_atribuida_a name="p_tarefa_atribuida_a" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                    <label>Tarefa Atribuida A</label>
+                    <value>Perspiciatis consectetur stract accusantium sed</value>
+                </tarefa_atribuida_a>
+            </fields>
+        </view_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

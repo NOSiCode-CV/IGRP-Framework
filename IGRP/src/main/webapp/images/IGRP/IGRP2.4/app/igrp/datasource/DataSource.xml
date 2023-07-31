@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/datasource/DataSource.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>DataSource</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>DataSource</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=24</preserve_url>
+    </plsql>
+    <slide-menu file="../images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Registar Data Source</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar" refresh_components="">
+                <title>Gravar</title>
+                <app>igrp</app>
+                <page>DataSource</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>primary|fa-save</img>
+                <preview>../images/IGRP/IGRP2.3/app/igrp/datasource/DataSource.xml</preview>
+            </item>
+            <item type="specific" code="" rel="fechar" refresh_components="">
+                <title>Fechar</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_close</target>
+                <img>danger|fa-close</img>
+                <preview/>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <tipo name="p_tipo" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
+                    <label>Tipo</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <rules/>
+                </tipo>
+                <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="" tags="false">
+                    <label>Data Source</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </data_source>
+                <nome name="p_nome" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                    <label>Nome</label>
+                    <value>Rem adipiscing sit rem aliqua</value>
+                </nome>
+                <processo name="p_processo" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
+                    <label>Processo</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </processo>
+                <etapa name="p_etapa" type="select" multiple="false" maxlength="100" required="true" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
+                    <label>Etapa</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </etapa>
+                <objecto name="p_objecto" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="Table or View name" right="false" desclabel="false">
+                    <label>Objeto</label>
+                    <value>Stract ut doloremque voluptatem lorem</value>
+                </objecto>
+                <pagina name="p_pagina" type="lookup" action="index" page="Dominio" app="igrp" lookup_type="LOOKUP" class="primary" maxlength="100" required="true" change="false" readonly="true" disabled="false" placeholder="" right="false" lookup_eraser="true" desclabel="false">
+                    <label>Página</label>
+                    <value/>
+                    <lookup>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</lookup>
+                    <lookupParams/>
+                </pagina>
+                <query name="p_query" type="textarea" maxlength="4000" required="false" change="false" readonly="false" disabled="false" placeholder="SELECT * FROM tableName" right="false" desclabel="false">
+                    <label>Query</label>
+                    <value>Sit aperiam lorem unde iste aliqua amet magna consectetur ipsum magna aperiam dolor accusantium stract</value>
+                </query>
+                <servico name="p_servico" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="200" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" lookup_eraser="false" desclabel="false">
+                    <label>Serviço</label>
+                    <value/>
+                    <lookup>../images/IGRP/IGRP2.3/app/igrp/datasource/DataSource.xml</lookup>
+                    <lookupParams/>
+                </servico>
+                <hidden name="p_id_pagina" type="hidden" maxlength="30" java-type="int" tag="id_pagina"/>
+                <hidden name="p_id_servico" type="hidden" maxlength="30" java-type="" tag="id_servico"/>
+                <hidden name="p_id" type="hidden" maxlength="30" java-type="" tag="id"/>
+                <hidden name="p_id_env" type="hidden" maxlength="30" java-type="" tag="id_env"/>
+                <hidden name="p_datasorce_app" type="hidden" maxlength="250" java-type="" tag="datasorce_app"/>
+            </fields>
+        </form_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>

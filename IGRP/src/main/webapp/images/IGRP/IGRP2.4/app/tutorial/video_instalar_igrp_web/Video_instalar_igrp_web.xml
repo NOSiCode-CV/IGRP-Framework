@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/tutorial/video_instalar_igrp_web/Video_instalar_igrp_web.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Video_instalar_igrp_web</page>
+    <app>tutorial</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.tutorial.pages</package_db>
+        <package_html>Video_instalar_igrp_web</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=57</preserve_url>
+    </plsql>
+    <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>video instalar igrp web</title>
+        <paragraph_1 type="paragraph" xml-type="form" title="Baixar e instalar IGRP WEB" gen-type="container" gen-group="">
+            <fields>
+                <paragraph_1_text type="text" name="p_paragraph_1_text" persist="true" maxlength="4000">
+                    <value>Nessa sessão mostra como baixar e instalar o IGRP WEB, importar o IGRP WEB do repositório GitHub directamente do Eclipse IDE.</value>
+                </paragraph_1_text>
+            </fields>
+        </paragraph_1>
+        <video_1 type="video" xml-type="video" title="Como importar o IGRP WEB (GitHub)" gen-type="container" gen-group="">
+            <fields>
+                <video_1_text type="text" name="p_video_1_text" persist="true" maxlength="4000">
+                    <value>https://www.youtube.com/embed/_17K4AoM4c4</value>
+                </video_1_text>
+            </fields>
+        </video_1>
+    </content>
+</rows>

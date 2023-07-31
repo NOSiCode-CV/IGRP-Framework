@@ -9,7 +9,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Optional;
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;

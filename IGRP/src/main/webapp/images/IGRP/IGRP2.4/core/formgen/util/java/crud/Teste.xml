@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="XSL_CRUD_LIST_GENERATOR.xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Sips_t_tp_documentoList</page>
+    <app>inss</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>db_inss</package_instance>
+        <package_db>nosi.webapps.inss.pages</package_db>
+        <package_html>Sips_t_tp_documentoList</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=51</preserve_url>
+    </plsql>
+    <content>
+        <title>Listar sips_t_tp_documento</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="new">
+                <title>New</title>
+                <app>inss</app>
+                <page>Sips_t_tp_documentoForm</page>
+                <link>index</link>
+                <target>modal|refresh</target>
+                <img>success|fa-plus</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/inss/sips_t_tp_documentoform/Sips_t_tp_documentoForm.xml</preview>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" title="Lista de Tipo Documento" gen-type="container" gen-group="true">
+            <fields>
+                <hidden name="p_id" type="hidden" maxlength="30" iskey="false" tag="hidden"/>
+                <codigo name="p_codigo" type="text" maxlength="50" align="left" lookup_parser="false" iskey="false">
+                    <label>Codigo</label>
+                </codigo>
+                <tipo name="p_tipo" type="text" maxlength="20" align="left" lookup_parser="false" iskey="false">
+                    <label>Tipo</label>
+                </tipo>
+                <nome name="p_nome" type="text" maxlength="100" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome</label>
+                </nome>
+                <descricao name="p_descricao" type="text" maxlength="500" align="left" lookup_parser="false" iskey="false">
+                    <label>Descricao</label>
+                </descricao>
+                <estado name="p_estado" type="text" maxlength="1" align="left" lookup_parser="false" iskey="false">
+                    <label>Estado</label>
+                </estado>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <hidden name="p_id" tag="hidden">1</hidden>
+                        <codigo name="p_codigo">Stract ut consectetur officia totam</codigo>
+                        <tipo name="p_tipo">Anim natus omnis dol</tipo>
+                        <nome name="p_nome">Mollit ut dolor adipiscing anim</nome>
+                        <descricao name="p_descricao">Consectetur stract dolor magna accusantium</descricao>
+                        <estado name="p_estado">N</estado>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <hidden name="p_id" tag="hidden">1</hidden>
+                        <codigo name="p_codigo">Magna sit officia laudantium stract</codigo>
+                        <tipo name="p_tipo">Adipiscing accusanti</tipo>
+                        <nome name="p_nome">Stract voluptatem officia magna sed</nome>
+                        <descricao name="p_descricao">Unde aliqua laudantium stract omnis</descricao>
+                        <estado name="p_estado">L</estado>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <hidden name="p_id" tag="hidden">1</hidden>
+                        <codigo name="p_codigo">Officia dolor sed natus perspiciatis</codigo>
+                        <tipo name="p_tipo">Doloremque consectet</tipo>
+                        <nome name="p_nome">Anim perspiciatis anim totam sed</nome>
+                        <descricao name="p_descricao">Mollit magna accusantium amet adipiscing</descricao>
+                        <estado name="p_estado">U</estado>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <hidden name="p_id" tag="hidden">1</hidden>
+                        <codigo name="p_codigo">Omnis anim natus consectetur adipiscing</codigo>
+                        <tipo name="p_tipo">Laudantium aliqua ut</tipo>
+                        <nome name="p_nome">Sed mollit amet omnis unde</nome>
+                        <descricao name="p_descricao">Aliqua elit rem dolor perspiciatis</descricao>
+                        <estado name="p_estado">O</estado>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <hidden name="p_id" tag="hidden">1</hidden>
+                        <codigo name="p_codigo">Rem laudantium perspiciatis elit mollit</codigo>
+                        <tipo name="p_tipo">Stract amet stract o</tipo>
+                        <nome name="p_nome">Consectetur rem lorem voluptatem totam</nome>
+                        <descricao name="p_descricao">Rem voluptatem sit omnis ut</descricao>
+                        <estado name="p_estado">P</estado>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="warning" rel="update">
+                        <title>Update</title>
+                        <app>inss</app>
+                        <page>Sips_t_tp_documentoList</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/inss/sips_t_tp_documentolist/Sips_t_tp_documentoList.xml?</parameter>
+                        <target>mpsubmit|refresh</target>
+                        <img>warning|fa-pencil</img>
+                    </item>
+                    <item type="specific" code="" class="danger" rel="delete">
+                        <title>Delete</title>
+                        <app>inss</app>
+                        <page>Sips_t_tp_documentoList</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/inss/sips_t_tp_documentolist/Sips_t_tp_documentoList.xml?</parameter>
+                        <target>confirm</target>
+                        <img>danger|fa-trash</img>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+</rows>

@@ -1,0 +1,9 @@
+<xsl:if test="not(#tag#/@visible)">
+    <td align="#[align]#" data-row="{position()}" data-title="{../../fields/#tag#/label}" class="#type#" item-name="#[tag]#" item-type="#type#">
+        <div class="form-group" item-name="#tag#" item-type="#type#">
+            <button class="btn btn-#[class]#" target="#[target]#" href="{#tag#}" request-fields="#[request_fields]#" list-association-src="#[list_source]#">
+                <i class="fa #[img]#"></i><span><xsl:value-of select="../../../fields/#tag#/label"/></span>
+            </button>
+        </div>
+    </td>
+</xsl:if>
