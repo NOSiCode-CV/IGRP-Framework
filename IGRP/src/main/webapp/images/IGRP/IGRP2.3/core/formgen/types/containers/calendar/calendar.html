@@ -3,7 +3,7 @@
 		<xsl:apply-templates mode="IGRP-calendar" select="#path#">
 			<xsl:with-param name="id" select="'#tag#'"/>
 			<xsl:with-param name="lang" select="#path#/fields/#tag#_lang/value"/>
-			<xsl:with-param name="addevents" select="#path#/fields/#tag#_dropedit/value"/>
+			<xsl:with-param name="editevents" select="#path#/fields/#tag#_dropedit/value"/>
 			<xsl:with-param name="addevents" select="#path#/fields/#tag#_add/value"/>
 			<xsl:with-param name="loadevents" select="#path#/fields/#tag#_load/value"/>
 			<xsl:with-param name="alleditevents" select="#path#/fields/#tag#_edit/value"/>

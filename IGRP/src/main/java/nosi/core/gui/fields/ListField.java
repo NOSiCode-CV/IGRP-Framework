@@ -28,12 +28,12 @@ public class ListField extends AbstractField {
 		this.setName(name);
 		this.propertie.put("type", "select");
 		this.propertie.put("name", "p_" + name);
-		this.propertie.put("multiple", new Boolean(false));
-		this.propertie.put("right", new Boolean(false));
-		this.propertie.put("disabled", new Boolean(false));
-		this.propertie.put("maxlength", new Integer(30));
-		this.propertie.put("change", new Boolean(false));
-		this.propertie.put("required", new Boolean(false));
+		this.propertie.put("multiple", Boolean.valueOf(false));
+		this.propertie.put("right", Boolean.valueOf(false));
+		this.propertie.put("disabled", Boolean.valueOf(false));
+		this.propertie.put("maxlength", Integer.valueOf(30));
+		this.propertie.put("change", Boolean.valueOf(false));
+		this.propertie.put("required", Boolean.valueOf(false));
 		this.setTagName(name);
 		this.configValue(model);
 		try {

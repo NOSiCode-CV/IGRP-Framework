@@ -24,8 +24,8 @@ public class LinkField extends AbstractField {
 		this.propertie.put("iconClass", "");
 		this.propertie.put("img","fa-link");
 		this.propertie.put("placeholder", "");
-		this.propertie.put("right", new Boolean(false));
-		this.propertie.put("maxlength", new Integer(30));
+		this.propertie.put("right", Boolean.valueOf(false));
+		this.propertie.put("maxlength", Integer.valueOf(30));
 		this.configValue(model);
 		this.params = new LinkedHashMap <>();
 	}

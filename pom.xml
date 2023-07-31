@@ -8,15 +8,28 @@
 
    <groupId>IGRP</groupId>
    <artifactId>parent</artifactId>
-   <version>1.0.0-SNAPSHOT</version>
+   <version>v1</version>
    <packaging>pom</packaging>
 
    <name>Modulos IGRP</name>
-   <description>Modulso de igrp</description>
+   <description>Modulos do igrp</description>
 
 
    <modules>
        <module>IGRP</module>
    </modules>
-
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.1.1</version>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+    		</plugins>
+		</pluginManagement>
+	</build>
 </project>

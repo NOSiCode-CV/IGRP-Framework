@@ -43,8 +43,19 @@
             	});
 			}
 		},
+		handlerName : function(f){
+			let name = f.attr('name');
+
+			if(name.includes('p_')){
+				name = name.split('p_')[1];
+			}
+
+			return name;
+		},
 		modal : function(f){
-			var id 		= f.attr('name'),
+			
+
+			let id 		= com.handlerName(f),
 				height  = f.attr('height') || 150,
 				width   = f.attr('width')  || 150, 
 				content = '<div class="row">'+
@@ -217,7 +228,9 @@
 			}
 		},
 		onload : function(f){
-			var id 	 = 'croppie-'+f.attr('name'),
+			const name = com.handlerName(f);
+
+			let id 	 = 'croppie-'+name,
 				src  = f.attr('src');
 			if (src) {
 				
@@ -279,7 +292,8 @@
 			com = this;
 
 			$('body').on('click','.croppie',function(){
-				$.IGRP.store.unset($(this).attr('name'));
+				const name = com.handlerName($(this));
+				$.IGRP.store.unset(name);
 				com.modal($(this));
 			});
 
@@ -291,7 +305,7 @@
 
 						if(!$(this).hasClass('autoupload')){
 
-							var name 	  = $(this).attr('name'),
+							var name 	  = com.handlerName($(this)),
 								cropStore = $.IGRP.store.get(name),
 								value 	  = '';
 

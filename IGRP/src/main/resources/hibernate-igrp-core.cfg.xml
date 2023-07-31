@@ -3,18 +3,14 @@
 <hibernate-configuration>
 	<session-factory>
 
-		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-		<property name="hibernate.connection.url">jdbc:postgresql://[DB_HOST]:[DB_PORT]/[DB_IGRP_NAME]</property><!-- Eg: jdbc:postgresql://localhost:5432/db_igrp  -->
-		<property name="hibernate.connection.username">[DB_USER]</property><!-- Eg: postgres -->
-		<property name="hibernate.connection.password">[DB_PASSWORD]</property><!-- Eg: Password -->
+		<!--  Connection.driver,url,username and password now in hibernate-igrp-core.properties  -->
+		
 		<property name="hibernate.hbm2ddl.auto">none</property>
 		<property name="hibernate.connection.isolation">2</property>
 		<property name="hibernate.connection.autocommit">false</property>
 		<property name="hibernate.hbm2ddl.jdbc_metadata_extraction_strategy">individually</property>
 		<property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
 		<property name="hibernate.transaction.auto_close_session">DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION</property>
-		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-		
 		
 		<!-- Hikaricp configuration -->
 		<property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>      

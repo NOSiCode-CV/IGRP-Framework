@@ -95,8 +95,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	private boolean keepConnection = false;
 	@Expose(serialize = false) @JsonIgnore
 	private String applicationName;
+	private String distinctByColumn;
+	private boolean isDistinctBy=false;
 	private boolean isShowConsoleSql=false;
-	
 	protected BaseActiveRecord() {
 		this.classNameCriteria = (T) this;
 		this.className = this.getClassType();
@@ -151,8 +152,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Override
 	public T where(String name, String operator, String[] values) {
 		if(values!=null) {
-			String[] values_ = this.normalizeStringVlaues(values);
-			String value = this.applyToInCondition(values_);	
+			String[] valuesT = this.normalizeStringVlaues(values);
+			String value = this.applyToInCondition(valuesT);	
 			this.where("");
 			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
 		}
@@ -269,8 +270,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		if(values!=null) {
 			String value="('')";
 			if(values.length>0){
-				String[] values_ = this.normalizeStringVlaues(values);
-				value = this.applyToInCondition(values_);
+				String[] valuesT = this.normalizeStringVlaues(values);
+				value = this.applyToInCondition(valuesT);
 			}			
 			this.and();
 			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
@@ -497,8 +498,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	}
 	
 	@Transient	 
-	protected String generateSqlCount() {
+	protected String generateSqlCount() {		
 		return " SELECT count("+this.getAlias()+") FROM "+this.getTableName()+" "+this.getAlias()+" ";
+	}
+	
+	@Transient	 
+	protected String generateSqlCountDistinctBy() {		
+		return " SELECT count("+this.distinctByColumn+") FROM "+this.getTableName()+" "+this.getAlias()+" "+this.sql;
 	}
 	
 	@Transient
@@ -784,9 +790,16 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Override
 	public T groupBy(String... groupByNames) {
 		if(groupByNames!=null) {
-			this.sql+=" GROUP BY "+String.join(",", groupByNames);
+			this.sql+=" GROUP BY "+ String.join(",", groupByNames);		
 		}
 		return (T) this;
+	}
+	
+	public void setDistinct(String column) {
+		if(column!=null) {
+			distinctByColumn = " DISTINCT "+column;	
+			isDistinctBy = true;			
+		}
 	}
 
 	@Override
@@ -893,7 +906,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public T one() {
 		this.limit = 1;
 		List<T> list = this.all();
-		return (list!=null && !list.isEmpty() && list.size()>0)?list.get(0):null;
+		return (list!=null && !list.isEmpty())?list.get(0):null;
 	}
 
 	@Override
@@ -1152,7 +1165,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Transient
 	@XmlTransient
 	public Long getCount() {
-		this.sql = this.generateSqlCount()+this.sql;
+		this.sql = isDistinctBy ? this.generateSqlCountDistinctBy() : this.generateSqlCount() + this.sql;
 		return (Long)this.getSingleResult();
 	}
 	
@@ -1536,9 +1549,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public T whereNotIn(String columnName, Number... numbers) {
 		if(Core.isNotNull(columnName)&&numbers!=null&&numbers.length>0) {
 			this.where("");
-			String lista = "";
+			StringBuilder lista = new StringBuilder("");
 			for(Number n : numbers) {
-				lista = lista + "," + n ;
+				lista.append( "," + n) ;
 			}
 			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " NOT IN (" + lista.substring(1) + ") ");
 		}
@@ -1558,9 +1571,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public T whereNotIn(String columnName, String... strings) {
 		if(Core.isNotNull(columnName)&&strings!=null&&strings.length>0) {
 			this.where("");
-			String lista = "";
+			StringBuilder lista = new StringBuilder("");
 			for(String n : strings) {
-				lista = lista + ",'" + n + "'";
+				lista.append(",'" + n + "'");
 			}
 			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " NOT IN (" + lista.substring(1) + ") ");
 		}
@@ -1580,9 +1593,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public T whereNotIn(String columnName, UUID... uuIds) {
 		if(Core.isNotNull(columnName)&&uuIds!=null&&uuIds.length>0) {
 			this.where("");
-			String list = "";
+			StringBuilder list = new StringBuilder("");
 			for(UUID u : uuIds) {
-				list = list + ",'" + u + "'";
+				list.append(",'" + u + "'");
 			}
 			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " NOT IN (" + list.substring(1) + ") ");
 		}
@@ -1602,9 +1615,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public T whereIn(String columnName, UUID... uuIds) {
 		if(Core.isNotNull(columnName)&&uuIds!=null&&uuIds.length>0) {
 			this.where("");
-			String list = "";
+			StringBuilder list = new StringBuilder("");
 			for(UUID u : uuIds) {
-				list = list + ",'" + u + "'";
+				list.append(",'" + u + "'");
 			}
 			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " IN (" + list.substring(1) + ") ");
 		}
@@ -1625,9 +1638,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public T whereIn(String columnName, Number... numbers) {
 		if(Core.isNotNull(columnName)&&numbers!=null&&numbers.length>0) {
 			this.where("");
-			String lista = "";
+			StringBuilder lista = new StringBuilder("");
 			for(Number n : numbers) {
-				lista = lista + "," + n ;
+				lista.append("," + n );
 			}
 			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " IN (" + lista.substring(1) + ") ");
 		}
@@ -1648,9 +1661,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public T whereIn(String columnName, String... strings) {
 		if(Core.isNotNull(columnName)&&strings!=null&&strings.length>0) {
 			this.where("");
-			String lista = "";
+			StringBuilder lista = new StringBuilder("");
 			for(String n : strings) {
-				lista = lista + ",'" + n + "'";
+				lista.append(",'" + n + "'");
 			}
 			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " IN (" + lista.substring(1) + ") ");
 		}

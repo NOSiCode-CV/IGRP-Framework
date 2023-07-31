@@ -340,6 +340,12 @@
 						
 						break;
 
+						case 'images':
+							if(value)
+								formElement.attr('src',value);
+						
+						break;
+
 						default:
 							if (lookup)
 								$('.IGRP_lookupPopup',parent).attr('href',lookup);
@@ -620,14 +626,18 @@
 
 				arrStar.forEach(function (idx, i) {
 
-					var xpr   = p.str.substring(idx, arrEnd[i] + endStr.length),
+					var xpr   	= p.str.substring(idx, arrEnd[i] + endStr.length),
 
-						name  = 'p_' + xpr.slice(starStr.length, xpr.indexOf(endStr)) + prefix,
+						auxName = 'p_' + xpr.slice(starStr.length, xpr.indexOf(endStr)),
+
+						name 	= auxName + prefix,
 						
-						field = $('[name="' + name + '"]', holder);
+						field 	= $('[name="' + name + '"]', holder);
 					
-					if(!field[0])
-						field = $('[name="' + name + '"]', $.IGRP.utils.getForm());
+					if(!field[0]){
+						field 	= $('[name="' + auxName + '"]', $.IGRP.utils.getForm());
+						name 	= auxName;
+					}
 
 					arrObj[name] = {
 						str 	: xpr,

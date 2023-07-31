@@ -77,7 +77,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			String content = BPMNButton.removeXMLButton(resp.getContent());
 			XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replace("&", "&amp;")
 					+"&amp;page="+this.runtimeTask.getTask().getFormKey()+"&amp;app="+this.runtimeTask.getAppId(), "utf-8");
-			xml.addXml(this.getConfig().getHeader(null));
+			xml.addXml(this.getConfig().getHeader(null,action));
 			xml.startElement("content");
 			xml.writeAttribute("type", "");
 			if(Core.isNotNull(this.runtimeTask.getTask().getProcessInstanceId())) {

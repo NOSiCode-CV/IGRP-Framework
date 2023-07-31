@@ -57,7 +57,7 @@ var GENFORM = function(name,params){
 	container.onFieldSet = function(field){
 		GEN.setFormFieldAttr(field);
 
-		const hideProprietys = ['filesigner', 'digitalsignature'];
+		const hideProprietys = ['filesigner', 'electronicsignature'];
 
 		if(!hideProprietys.includes(field.type)){
 

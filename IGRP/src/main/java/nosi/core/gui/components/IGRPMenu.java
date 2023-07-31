@@ -175,7 +175,7 @@ public class IGRPMenu extends IGRPComponent{
 	}
 	@Override
 	public String toString() {
-		if(this.listMenu.size() > 0){
+		if(!this.listMenu.isEmpty()){
 			for(IGRPMenu igrpMenu:this.listMenu){
 				xml.startElement("menus");
 				xml.setElement("title", igrpMenu.getTitle());

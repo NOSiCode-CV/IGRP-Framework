@@ -56,9 +56,8 @@ public class Detalhes_tarefasController extends Controller {
 			String packageName =  "nosi.webapps."+task.getTenantId().toLowerCase()+".process."+task.getProcessDefinitionKey().toLowerCase();
 			Class<?> c = Class.forName(packageName+"."+BPMNConstants.PREFIX_TASK+task.getTaskDefinitionKey()+"Controller");
 			Method method = c.getMethod("details",TaskServiceQuery.class);
-			content = (String) method.invoke(c.newInstance(), task);
+			content = (String) method.invoke(c.getDeclaredConstructor().newInstance(), task);
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return content;

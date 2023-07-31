@@ -5456,7 +5456,7 @@ var GENERATOR = function(genparams){
 			  }
 
 			//if(){	
-			  const setFieldAttr = ['digitalsignature','button', 'img', 'plaintext', 'separator', 'link'];
+			  const setFieldAttr = ['electronicsignature','button', 'img', 'plaintext', 'separator', 'link'];
 
 				if(!setFieldAttr.includes(type)){
 
@@ -5504,7 +5504,7 @@ var GENERATOR = function(genparams){
 					}
 				}
 
-				const setPlaceholder = ['digitalsignature', 'filesigner',"button", "plaintext", "select", "file", "radio", "checkbox", "radiolist", "checkboxlist"];
+				const setPlaceholder = ['electronicsignature', 'filesigner',"button", "plaintext", "select", "file", "radio", "checkbox", "radiolist", "checkboxlist"];
 
 				if(!setPlaceholder.includes(type)){
 
@@ -5604,7 +5604,7 @@ var GENERATOR = function(genparams){
 				});
 			}
 
-			const hideRightProprietys = ['filesigner', 'digitalsignature'];
+			const hideRightProprietys = ['filesigner', 'electronicsignature'];
 			
 			if(!hideRightProprietys.includes(type)){
 				field.setPropriety({
@@ -5642,18 +5642,21 @@ var GENERATOR = function(genparams){
 					value : {
 						value : field.javaType || '',
 							options : [
-											{ value : '', label : '' },
+											{ value : '', label : '' },											
+											{ value : 'Long', label : 'Long' },
+											{ value : 'String', label : 'String' },
+											{ value : 'String[]', label : 'String[]' },
+											{ value : 'BigInteger', label : 'BigInteger' },
+											{ value : 'BigDecimal', label : 'BigDecimal' },
+											{ value : 'Integer', label : 'Integer' },	
+											{ value : 'Short', label : 'Short' },
+											{ value : 'Float', label : 'Float' },
+											{ value : 'Double', label : 'Double' },
 											{ value : 'int', label : 'int' },										
 											{ value : 'double', label : 'double' },
 											{ value : 'float', label : 'float' },
 											{ value : 'short', label : 'short' },
 											{ value : 'long', label : 'long' },
-											{ value : 'String', label : 'String' },
-											{ value : 'BigInteger', label : 'BigInteger' },
-											{ value : 'BigDecimal', label : 'BigDecimal' },
-											{ value : 'Integer', label : 'Integer' },	
-											{ value : 'String[]', label : 'String[]' },	
-									
 										]
 							}
 					})

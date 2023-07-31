@@ -1,39 +1,64 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import java.util.ArrayList;
+import java.util.List;
+
+import nosi.core.validator.constraints.*;
 
 public class ConfigDatabase extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
+
 	@RParam(rParamName = "p_tipo_base_dados")
 	private String tipo_base_dados;
+
 	@RParam(rParamName = "p_nome_de_conexao")
 	private String nome_de_conexao;
+
 	@RParam(rParamName = "p_config")
 	private String config;
+
 	@RParam(rParamName = "p_url_connection")
 	private String url_connection;
+
 	@RParam(rParamName = "p_driver_connection")
 	private String driver_connection;
+
 	@RParam(rParamName = "p_paragraph_1")
 	private String paragraph_1;
+
+	@NotNull()
+	@RParam(rParamName = "p_sql_dialect")
+	private String sql_dialect;
+
 	@RParam(rParamName = "p_credenciais")
 	private String credenciais;
+
 	@RParam(rParamName = "p_username")
 	private String username;
+
 	@RParam(rParamName = "p_password")
 	private String password;
-	
-	@RParam(rParamName = "p_link_doc")
-	private String link_doc;
+
+	@RParam(rParamName = "p_save_properties")
+	private int save_properties;
+	@RParam(rParamName = "p_save_properties_check")
+	private int save_properties_check;
+
+	@RParam(rParamName = "p_abrir_cfgxml")
+	private IGRPLink abrir_cfgxml;
+	@RParam(rParamName = "p_abrir_cfgxml_desc")
+	private String abrir_cfgxml_desc;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -56,13 +81,6 @@ public class ConfigDatabase extends Model{
 	}
 	public String getAplicacao(){
 		return this.aplicacao;
-	}
-	
-	public String getLink_doc() {
-		return link_doc;
-	}
-	public void setLink_doc(String link_doc) {
-		this.link_doc = link_doc;
 	}
 	
 	public void setTipo_base_dados(String tipo_base_dados){
@@ -107,6 +125,13 @@ public class ConfigDatabase extends Model{
 		return this.paragraph_1;
 	}
 	
+	public void setSql_dialect(String sql_dialect){
+		this.sql_dialect = sql_dialect;
+	}
+	public String getSql_dialect(){
+		return this.sql_dialect;
+	}
+	
 	public void setCredenciais(String credenciais){
 		this.credenciais = credenciais;
 	}
@@ -126,6 +151,41 @@ public class ConfigDatabase extends Model{
 	}
 	public String getPassword(){
 		return this.password;
+	}
+	
+	public void setSave_properties(int save_properties){
+		this.save_properties = save_properties;
+	}
+	public int getSave_properties(){
+		return this.save_properties;
+	}
+	public void setSave_properties_check(int save_properties_check){
+		this.save_properties_check = save_properties_check;
+	}
+	public int getSave_properties_check(){
+		return this.save_properties_check;
+	}
+	
+	public IGRPLink setAbrir_cfgxml(String app,String page,String action){
+		this.abrir_cfgxml = new IGRPLink(app,page,action);
+		return this.abrir_cfgxml;
+	}
+	public IGRPLink getAbrir_cfgxml(){
+		return this.abrir_cfgxml;
+	}
+	public void setAbrir_cfgxml_desc(String abrir_cfgxml_desc){
+		this.abrir_cfgxml_desc = abrir_cfgxml_desc;
+	}
+	public String getAbrir_cfgxml_desc(){
+		return this.abrir_cfgxml_desc;
+	}
+	public IGRPLink setAbrir_cfgxml(String link){
+		this.abrir_cfgxml = new IGRPLink(link);
+		return this.abrir_cfgxml;
+	}
+	public IGRPLink setAbrir_cfgxml(Report link){
+		this.abrir_cfgxml = new IGRPLink(link);
+		return this.abrir_cfgxml;
 	}
 
 
