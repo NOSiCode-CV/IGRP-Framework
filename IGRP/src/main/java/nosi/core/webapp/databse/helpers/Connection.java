@@ -5,15 +5,11 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.Properties;
 
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.AvailableSettings;
 
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.ConfigApp;
-import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.security.EncrypDecrypt;
-import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 
 /**

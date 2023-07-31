@@ -2,7 +2,7 @@ package nosi.webapps.igrp.pages.generator;
 
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.IOException;
-import java.util.Random;
+import java.security.SecureRandom;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -15,9 +15,10 @@ import java.io.File;
 
 public class GeneratorController extends Controller{
 	
+	
+	private SecureRandom r= new SecureRandom();
 	public Response actionIndex() throws IOException{		
 		/*----#START-PRESERVED-AREA(INDEX)----*/
-		
 		this.isNoCached=true;		
 		Generator model = new Generator();
 		Integer id = Core.getParamInt("p_id_page");
@@ -31,14 +32,13 @@ public class GeneratorController extends Controller{
 					model.setId(ac.getId());
 					model.setId_pai(ac.getApplication().getId());
 					model.setLink_image(this.getConfig().getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/img.list.php?name=");
-					//model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index"));
+					model.setVersion(ac.getVersion());
 					String json = this.getConfig().getCurrentBaseServerPahtXsl(ac)+ File.separator +ac.getPage()+".json";
-					Random r = new Random();
 					if(FileHelper.fileExists(json)){
-						json = this.getConfig().getCurrentResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json?v="+Math.abs(r.nextInt());
+						json = this.getConfig().getCurrentResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json?v="+r.nextInt();
 						model.setPage_form(json.replace("\\", "/"));
 					}else if(FileHelper.fileExists(json.replaceAll(".json", ".xml"))){
-						String xmlp = this.getConfig().getCurrentResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml?v="+Math.abs(r.nextInt());
+						String xmlp = this.getConfig().getCurrentResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml?v="+r.nextInt();
 						model.setPage_form(xmlp.replace("\\", "/"));
 					}
 					model.setPackage_(this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction()));
