@@ -24,12 +24,13 @@ public class Config {
     private static final String SEPARATOR_FOR_HTTP = "/";
     private static final String SEPARATOR_FOR_FILESYSTEM = File.separator;
     public static final String BASE_PATH_CONFIGURATION = "config";
-    public static final String VERSION = "1.5.1.230226";
+    public static final String VERSION = "1.7.3.230731";
 
     public String getLinkXSLLogin() {
         String linkXslLogin = "images/IGRP/IGRP2.3/xsl/IGRP-login.xsl";
         //For Design System Login
-       // String linkXslLogin = "images/IGRP/IGRP2.3/xsl/IGRP-login-ds.xsl";
+        if("ds-beta".equals(ConfigApp.getInstance().getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_LOGIN_TEMPLATE.value())))
+        		linkXslLogin = "images/IGRP/IGRP2.3/xsl/IGRP-login-ds.xsl";
         return this.getLinkImgBase().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslLogin;
     }
 
@@ -461,7 +462,7 @@ public class Config {
         String description = app.getDescription();
         String linkHome = headerConfig.getLinkHome();
         XMLWritter xml = new XMLWritter();
-        xml.setElement("ispublic", page != null ?page.getTipo():0); // 0 = Privado (Authentication); 1 = Publico; 2 = Publico e Link Encryptado 
+        xml.setElement("ispublic", Core.getCurrentUser()!=null?0:1); // Page used without a user with login
         
         xml.setElement("template", app.getTemplate());
         xml.setElement("title", Core.getSwitchNotNullValue(title, headerConfig.getTitle()));

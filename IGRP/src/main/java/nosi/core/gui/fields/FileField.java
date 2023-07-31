@@ -13,7 +13,7 @@ public class FileField extends TextField {
 		this.propertie.put("type","file");
 		this.propertie.put("accept","file_extension");
 		this.propertie.put("class","default");
-		this.propertie.put("multiple", new Boolean(false));
+		this.propertie.put("multiple",  Boolean.valueOf(false));
 		this.propertie.remove("placeholder");
 		this.propertie.remove("change");
 		this.propertie.remove("readonly");

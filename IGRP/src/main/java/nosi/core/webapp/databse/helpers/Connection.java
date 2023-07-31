@@ -40,7 +40,6 @@ public class Connection {
 		return Connection.getConnectionWithConfig(config);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static java.sql.Connection getConnection(String connectionName){		
 		String url = "";
 		String password = "";
@@ -49,18 +48,12 @@ public class Connection {
 		ConfigApp configApp = ConfigApp.getInstance();
 		Map<String, Object> settings;
 		if(connectionName.equalsIgnoreCase(configApp.getBaseConnection())) {
-			settings = HibernateUtils.REGISTRY_BUILDER_IGRP.getAggregatedCfgXml().getConfigurationValues();
+			settings = HibernateUtils.getSettings();
 			
 		}else {
 			String dad = Core.getCurrentDadParam();
-			settings = new StandardServiceRegistryBuilder().configure(connectionName+"."+dad+HibernateUtils.SUFIX_HIBERNATE_CONFIG).getAggregatedCfgXml().getConfigurationValues();
+			settings = HibernateUtils.getSettings(connectionName+"."+dad+HibernateUtils.SUFIX_HIBERNATE_CONFIG);
 
-//			String dad = Core.getCurrentDadParam();
-//			Config_env config = new Config_env().find().setKeepConnection(true)
-//					.andWhere("name", "=", connectionName)
-//					.andWhere("application.dad", "=",dad)
-//					.one();
-//			return Connection.getConnectionWithConfig(config);
 		}
 		if(settings!=null) {
 			for(java.util.Map.Entry<String, Object> s:settings.entrySet()) {
@@ -87,18 +80,8 @@ public class Connection {
 		String user = "";
 		String driver ="";
 		if (config != null) {
-//			url = Core.isNotNull(config.getUrl_connection())? Core.decrypt(config.getUrl_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB):
-//				DatabaseConfigHelper.getUrl(Core.decrypt(config.getType_db(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB),
-//											Core.decrypt(config.getHost(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB),
-//											Core.decrypt(config.getPort(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB),
-//											Core.decrypt(config.getName_db(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
-//			
-//			password = Core.decrypt(config.getPassword(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);
-//			user = Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);	
-//			driver = DatabaseConfigHelper.getDatabaseDriversExamples(Core.decrypt(config.getType_db(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			
-			@SuppressWarnings("unchecked")
-			Map<String, Object> settings = new StandardServiceRegistryBuilder().configure(config.getName()+"."+config.getApplication().getDad()+HibernateUtils.SUFIX_HIBERNATE_CONFIG).getAggregatedCfgXml().getConfigurationValues();
+			Map<String, Object> settings = HibernateUtils.getSettings(config.getName()+"."+config.getApplication().getDad()+HibernateUtils.SUFIX_HIBERNATE_CONFIG);
 			if(settings!=null) {
 				for(java.util.Map.Entry<String, Object> s:settings.entrySet()) {
 					if(s.getKey().equals(AvailableSettings.USER)) {
@@ -129,7 +112,7 @@ public class Connection {
 		    connectionProps.put("password", password);
 		    boolean isConnect = true;
 		    try {
-		    	Class.forName(driver); 
+		    		Class.forName(driver); 
 				conn = DriverManager.getConnection(url,connectionProps);
 			} catch (SQLException | ClassNotFoundException e) {
 				isConnect = false;
@@ -138,17 +121,17 @@ public class Connection {
 				e.printStackTrace();
 			}
 		    if(isConnect)
-		    	return conn;
+		    		return conn;
 		    else {
-		    	if(conn!=null) {
-		    		try {
-						conn.close();
-					} catch (SQLException e) {
-						Core.setMessageError(e.getMessage());
-						Core.log(e.getMessage());
-						e.printStackTrace();
-					}
-		    	}
+			    	if(conn!=null) {
+			    		try {
+							conn.close();
+						} catch (SQLException e) {
+							Core.setMessageError(e.getMessage());
+							Core.log(e.getMessage());
+							e.printStackTrace();
+						}
+			    	}
 		    }
 		}
 	    return null;

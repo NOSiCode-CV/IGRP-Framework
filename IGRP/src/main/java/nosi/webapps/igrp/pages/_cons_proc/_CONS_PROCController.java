@@ -14,12 +14,8 @@ import static nosi.core.i18n.Translator.gt;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.apache.poi.ss.usermodel.DataFormatter;
 
 import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
@@ -30,7 +26,7 @@ import nosi.core.webapp.activit.rest.helpers.StatusTask;
 import nosi.core.webapp.bpmn.BPMNConstants;
 
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.User;
+
 
 /*----#end-code----*/
 		

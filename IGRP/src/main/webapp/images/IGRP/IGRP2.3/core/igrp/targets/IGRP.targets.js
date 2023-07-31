@@ -1102,7 +1102,7 @@ var mWindow = null,
 		}
 
 		var signerBeforeDownload = function(p){
-			console.log(p, $.IGRP.components?.nosicaSigner);
+			
 			if($.IGRP.components?.nosicaSigner){
 				$.IGRP.components.nosicaSigner.signerBeforeDownload(p);
 			}

@@ -106,3 +106,7 @@
 .highcharts-axis-title{
     display: none!important;
 }
+
+.IGRP_graph{
+    overflow:auto !important;
+}

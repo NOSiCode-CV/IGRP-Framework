@@ -87,9 +87,11 @@
    		var ispublic    = '<xsl:value-of select="$ispublic"/>';
       	var rekey       = '<xsl:value-of select="$recaptchakey"/>'; 
       	var secretrekey = '<xsl:value-of select="$secretrecaptchakey"/>'; 
-    </script>
-    <!-- reCAPTCHA -->  
+	</script>
+	  <xsl:if test="$ispublic = 1">
+      	<!-- reCAPTCHA -->
       	<script src="https://www.google.com/recaptcha/api.js?render={$recaptchakey}"></script>
+   	 </xsl:if>
 
     <!-- BS CSS -->    
    <!-- NOT ASYNC JS-->   
@@ -231,7 +233,7 @@
               <li alt="{$settingsURL/title}" title="{$settingsURL/title}">       
                 <a href="{$settingsURL/link}" target="{$settingsURL/target}" close="refresh">
                 <xsl:if test="$settingsURL/img != ''">             
-                  <img src="{$path}/assets/img/{$settingsURL/img}" style="width: 26px;"></img>
+                  <img src="{$path}/assets/img/{$settingsURL/img}" style="width: 26px;margin-right: 4px;"></img>
                   </xsl:if>
                   <span class=""><b><xsl:value-of select="rows/site/user_name"/></b></span>         
                 </a>

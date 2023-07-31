@@ -79,12 +79,24 @@
 					
 					 	
 					 	<xsl:if test="@persist='true' ">
+					 			<xsl:variable name="v_page">
+					 				<xsl:choose>
+										<xsl:when test="contains(value/page, '@')">
+											<xsl:value-of
+												select="substring-after(value/page, '@')" />
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:value-of
+												select="value/page" />
+										</xsl:otherwise>
+									</xsl:choose>
+								</xsl:variable>
 					 		<xsl:variable name="p_value">
 					 			
 					 			<xsl:choose>
 					 				<xsl:when test="value/@type='action'">
 					 					<xsl:variable name="_app" select="concat($double_quotes,value/app,$double_quotes)"/>
-					 					<xsl:variable name="_page" select="concat($double_quotes,value/page,$double_quotes)"/>
+					 					<xsl:variable name="_page" select="concat($double_quotes,$v_page,$double_quotes)"/>
 					 					<xsl:variable name="_action" select="concat($double_quotes,value/action,$double_quotes)"/>
 					 					<xsl:value-of select="concat('Core.getIGRPLink(',$_app,',',$_page,',',$_action,')')"/>
 					 				</xsl:when>
@@ -102,7 +114,18 @@
 						 
 						<xsl:if test="@action and @app and @page and @custom_action=''">
 							<xsl:variable name="_app" select="concat($double_quotes,@app,$double_quotes)"/>
-					 		<xsl:variable name="_page" select="concat($double_quotes,@page,$double_quotes)"/>
+							<xsl:variable name="_page">
+								<xsl:choose>
+									<xsl:when test="contains(@page, '@')">
+										<xsl:value-of
+											select="concat($double_quotes,substring-after(@page, '@'),$double_quotes)" />
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of
+											select="concat($double_quotes,@page,$double_quotes)" />
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:variable>
 					 		<xsl:variable name="_action" select="concat($double_quotes,@action,$double_quotes)"/>
 
 							<xsl:variable name="linkUrl">
@@ -122,23 +145,14 @@
 						
 							<xsl:variable name="lu_act" select="@action"/>
 							<xsl:variable name="lu_page">
-
                                 <xsl:choose>
-
                                     <xsl:when test="contains(@page, '@')">
-
                                         <xsl:value-of select="substring-after(@page, '@')"/>
-
                                     </xsl:when>
-
                                     <xsl:otherwise>
-
                                         <xsl:value-of select="@page"/>
-
                                     </xsl:otherwise>
-
                                 </xsl:choose>
-
                             </xsl:variable>
 							<xsl:variable name="lookup_action">
 								<xsl:value-of select="concat($double_quotes,$lu_app,$double_quotes)"/><xsl:text>,</xsl:text>
@@ -196,7 +210,16 @@
 						<!-- For rules -->
 						<xsl:if test="./rules">
 							<xsl:variable name="app_" select="/rows/app" />
-							<xsl:variable name="page_" select="/rows/page" />
+							<xsl:variable name="page_" >
+								 <xsl:choose>
+									<xsl:when test="contains(/rows/page, '@')">
+										<xsl:value-of select="substring-after(/rows/page, '@')" />
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="/rows/page" />
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:variable>
 							<xsl:for-each select="./rules/rule"> 
 								<xsl:variable name="action_" select="./proc" />
 								<xsl:value-of select="concat('.add(',$double_quotes,'remote',$double_quotes,',', 'Core.getIGRPLink(',$double_quotes, $app_, $double_quotes, ',', $double_quotes, $page_, $double_quotes, ',', $double_quotes, $action_, $double_quotes ,')',')')"/>

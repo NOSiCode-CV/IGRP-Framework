@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
@@ -190,7 +191,7 @@ public class LoginController extends Controller {
 				if (user != null && activation_key.compareTo(System.currentTimeMillis() + "") > 0
 						&& user.getStatus() == 0) {
 					user.setStatus(1);
-					user = user.update();
+					user.update();
 					Core.setMessageSuccess("Ativação bem sucedida. Faça o login !!!");
 				} else {
 					Core.setMessageError("Ooops !!! Ocorreu um erro na activação.");
@@ -263,7 +264,7 @@ public class LoginController extends Controller {
 
 	private boolean loginWithLdap(String username, String password) {
 		boolean success = false;
-		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
+		ArrayList<LdapPerson> personArray = new ArrayList<>();
 
 		String idsAutentikaEnabled = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value());
 		if (idsAutentikaEnabled != null && idsAutentikaEnabled.equalsIgnoreCase("true"))
@@ -422,14 +423,14 @@ public class LoginController extends Controller {
 			int code = curl.getResponseCode();
 			if (code != 200)
 				return false;
-			BufferedReader br = new BufferedReader(new InputStreamReader(curl.getInputStream(), "UTF-8"));
+			BufferedReader br = new BufferedReader(new InputStreamReader(curl.getInputStream(), StandardCharsets.UTF_8));
 			String result = "";
 			String token = "";
 			result = br.lines().collect(Collectors.joining());
 			JSONObject jToken = new JSONObject(result);
 			token = (String) jToken.get("access_token");
 			dao.setValid_until(token);
-			dao = dao.update();
+		    dao.update();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -521,7 +522,7 @@ public class LoginController extends Controller {
 			String id_token = (String) jToken.get("id_token");
 			String refresh_token = (String) jToken.get("refresh_token");
 
-			Map<String, String> m = new HashMap<String, String>();
+			Map<String, String> m = new HashMap<>();
 			m.put("access_token", token);
 			m.put("id_token", id_token);
 			m.put("session_state", session_state);
@@ -573,7 +574,7 @@ public class LoginController extends Controller {
 	}
 
 	private String getAttributeStringValue(JSONObject obj, String attibute) {
-		log.info("[obj]=" + obj);
+		log.info("[obj]= %s", obj);
 
 		String _value = null;
 		try {
@@ -622,7 +623,7 @@ public class LoginController extends Controller {
 
 					String email = _r.get("email") != null ? _r.get("email").trim().toLowerCase() : "";
 
-					log.info("email=" + email);
+					log.info("email= %s", email);
 					String uid = _r.get("sub");
 					String name = _r.get("name");
 					String phone_number = _r.get("phone_number");
@@ -631,7 +632,7 @@ public class LoginController extends Controller {
 
 					User user = new User();
 
-					if (uid != null & Pattern.matches(NIC_PATTERN, uid)) {
+					if (uid != null && Pattern.matches(NIC_PATTERN, uid)) {
 						try {
 							log.info("GET USER BY cni");
 							user = new User().find().andWhere("cni", "=", uid.toUpperCase()).one();
@@ -665,10 +666,12 @@ public class LoginController extends Controller {
 								user.setOidcState(session_state);
 								user.setIsAuthenticated(1);
 								user.setRefreshToken(refresh_token);
-								user = user.update();
+								
+								user.update();
 
 								return redirect("igrp", "home", "index", this.queryString());
 							} catch (Exception e) {
+								log.error("User update error");
 							}
 						}
 
@@ -681,7 +684,10 @@ public class LoginController extends Controller {
 							try {
 								User newUser = new User();
 								newUser.setUser_name(uid);
-								newUser.setEmail(Core.isNotNullOrZero(email)?email:Pattern.matches(NIC_PATTERN, uid)? uid.toUpperCase() : null);
+								if(Core.isNotNullOrZero(email))
+									newUser.setEmail(email);
+								else if(Pattern.matches(NIC_PATTERN, uid))
+									newUser.setEmail(uid.toUpperCase());
 								newUser.setName(name);
 								newUser.setPhone(phone_number);
 								newUser.setStatus(1);
@@ -744,11 +750,12 @@ public class LoginController extends Controller {
 			Class<?> c;
 			try {
 				c = Class.forName(packageName);
-				if (c != null) {
-					Method method = c.getMethod("afterLogin", User.class);
-					method.invoke(c.newInstance(), user);// after login implementation
+				if(c!=null) {
+					Method method = c.getMethod("afterLogin",User.class);
+					method.invoke(c.getDeclaredConstructor().newInstance(), user);//after login implementation
 				}
 			} catch (Exception e) {
+				log.error("AfterLogin implementation error");
 
 			}
 		}

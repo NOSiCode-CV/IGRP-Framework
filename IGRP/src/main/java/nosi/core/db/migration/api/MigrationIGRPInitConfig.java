@@ -16,7 +16,7 @@ public class MigrationIGRPInitConfig {
 		    throw new IllegalStateException("Utility class");
 	 }
 	public static void start() {
-		Map<String, Object> configs = HibernateUtils.REGISTRY_BUILDER_IGRP.getAggregatedCfgXml().getConfigurationValues();
+		Map<String, Object> configs = HibernateUtils.getSettings();
 		new IgrpMigrationAPI((String) configs.get(AvailableSettings.URL), (String) configs.get(AvailableSettings.USER), (String) configs.get(AvailableSettings.PASS))
 			.configureNLoad()
 			.migrate();
