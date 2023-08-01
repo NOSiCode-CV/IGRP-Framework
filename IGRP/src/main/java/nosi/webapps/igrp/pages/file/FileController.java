@@ -83,7 +83,7 @@ public class FileController extends Controller {
 	
 	public Response actionSaveImage()  throws Exception {		
 		Properties p = new Properties();
-		Integer id = new Integer(-1);
+		Integer id = Integer.valueOf(-1);
 		String uuid = Core.saveFileNGetUuid("p_file_name");
 		if(Core.isNull(uuid)) {			
 			p.put("msg", Core.gt("Error saving file."));
@@ -105,14 +105,14 @@ public class FileController extends Controller {
 			Part file = Core.getFile("p_file_name");
 			if (file != null) {
 				fileName = file.getSubmittedFileName();
-				fileName =  fileName.replaceAll(" ", "-");
+				fileName =  fileName.replace(" ", "-");
 				if(Core.isNotNull(fileName)) {
 					int index = fileName.lastIndexOf(".");
 					if(index!=-1) {
 						String extensionName = fileName.substring(index+1);
 						String workSapce = Path.getImageWorkSpaceTxt(appName,pageName);
 						if(Core.isNotNull(workSapce))//Saving in your workspace case exists
-							r = FileHelper.saveImage(workSapce, fileName,extensionName.toLowerCase(), file);
+							FileHelper.saveImage(workSapce, fileName,extensionName.toLowerCase(), file);
 						//Saving into server
 						r = FileHelper.saveImage(Path.getImageServerTxt(appName,pageName), fileName,extensionName.toLowerCase(), file);
 						//System.out.println("Image saved:"+r);
@@ -120,7 +120,7 @@ public class FileController extends Controller {
 				}
 			}
 		} catch (ServletException e) {
-			r = false;
+			
 		}
 		
 		//String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
@@ -146,7 +146,7 @@ public class FileController extends Controller {
 		//	System.out.println("Image getted doc:"+fileName);
 		//	System.out.println("Appname getted doc:"+appName);
 			String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
-			return this.redirectToUrl(baseUrl.toString().replaceAll("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/"+appName+"/"+pageName+"/"+fileName);
+			return this.redirectToUrl(baseUrl.replace("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/"+appName+"/"+pageName+"/"+fileName);
 		}
 		resp.setContent(FlashMessage.MSG_ERROR);	
 		return resp;
