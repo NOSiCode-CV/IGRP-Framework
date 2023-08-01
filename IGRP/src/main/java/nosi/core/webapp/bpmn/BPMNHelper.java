@@ -182,8 +182,8 @@ public final class BPMNHelper {
 				.andWhere("tipoDocumento.application.dad", "=",taskDad)
 				.all();	
 		
-		List<TipoDocumentoEtapa> aux = new ArrayList<TipoDocumentoEtapa>(); 
-		List<String> taskIds = new ArrayList<String>();
+		List<TipoDocumentoEtapa> aux = new ArrayList<>(); 
+		List<String> taskIds = new ArrayList<>();
 		
 		for(TipoDocumentoEtapa t : tipoDocs) {
 			for(ActivityExecute task : allBeforeTasks) {
@@ -231,14 +231,14 @@ public final class BPMNHelper {
 				.find()
 				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")
 				.andWhere("taskId", "=",Core.isNotNull(taskDefinition)?taskDefinition:"-1")
-				.andWhere("status", "=",new Integer(1))
+				.andWhere("status", "=",Integer.valueOf(1))
 				.andWhere("tipo", "=","OUT")
 				.andWhere("repTemplate", "notnull")
 				.andWhere("repTemplate.application.dad", "=",taskDad)
 				.all();		
 		for(TipoDocumentoEtapa t : tipoDocs) { 
 			RuntimeTask runtimeTask = RuntimeTask.getRuntimeTask(); 
-			t.setFileId(new Integer(-1));
+			t.setFileId(Integer.valueOf(-1));
 			nosi.core.webapp.Report r = Core.getLinkReport(t.getRepTemplate().getCode()); 
 			List<RepTemplateSource> allDataSources = new RepTemplateSource().find().andWhere("repTemplate", "=", t.getRepTemplate()).all(); 
 			String p_task_id = "";  
@@ -265,7 +265,7 @@ public final class BPMNHelper {
 	}
 	
 	public static List<TipoDocumentoEtapa> getFilesByProcessIdNTaskId(String appDad, String processId, String taskId) { 
-		List<TipoDocumentoEtapa> allOutDocs = new ArrayList<TipoDocumentoEtapa>(); 
+		List<TipoDocumentoEtapa> allOutDocs = new ArrayList<>(); 
 		List<TipoDocumentoEtapa> tipoDocs = null;
 		TipoDocumentoEtapa tipoDocumentoEtapa = new TipoDocumentoEtapa().find().andWhere("processId", "=", Core.isNotNull(processId) ? processId: "-1");
 		if(taskId != null) 
@@ -327,7 +327,7 @@ public final class BPMNHelper {
 	
 	
 	public static List<TaskService> getAllTaskFromMetadataXml(String appDad, String processId) {
-		List<TaskService> list = new ArrayList<TaskService>();
+		List<TaskService> list = new ArrayList<>();
 		List<ProcessDefinitionService> allProcess = new ProcessDefinitionIGRP().getProcessDefinitionsForCreated(appDad); 
 		if(allProcess != null) {
 			TaskServiceRest taskRest = new TaskServiceRest();

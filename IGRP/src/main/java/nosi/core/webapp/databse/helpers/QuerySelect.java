@@ -209,11 +209,11 @@ public class QuerySelect extends CommonFIlter{
 		List<Tuple> list = this.getResultList();
 		r.setSql(this.getSql());
 		if(list!=null) { 
-			r.RowList = new ArrayList<>();
+			r.rowList = new ArrayList<>();
 			list.stream().forEach(l->{
 				Record rec = new Record();
-				rec.Row = l;
-				r.RowList.add(rec);
+				rec.row = l;
+				r.rowList.add(rec);
 			});
 		}
 		return r;
@@ -223,7 +223,7 @@ public class QuerySelect extends CommonFIlter{
 	@Deprecated
 	public Record getSigleRecord() {
 		Record r = new Record();
-		r.Row = this.getSigleResult();
+		r.row = this.getSigleResult();
 		r.setSql(this.getSql());
 		return r;
 	}
@@ -232,7 +232,7 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public Record getSingleRecord() {
 		Record r = new Record();
-		r.Row = this.getSingleResult();
+		r.row = this.getSingleResult();
 		r.setSql(this.getSql());
 		return r;
 	}

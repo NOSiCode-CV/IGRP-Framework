@@ -43,91 +43,74 @@
 		<maven.compiler.source>1.8</maven.compiler.source>	
 		<maven.compiler.target>1.8</maven.compiler.target>
 
+		<tomee.jaxrs.version>8.0.14</tomee.jaxrs.version>
+		<tomee.maven.plugin.version>8.0.14</tomee.maven.plugin.version>
+		<tomee.embedded.version>8.0.14</tomee.embedded.version>
+		
 		<javadoc.plugin.version>3.0.1</javadoc.plugin.version>
-		<tomee.classifier>plus</tomee.classifier>
-		<hibernate.version>5.6.15.Final</hibernate.version>
-		<hikaricp.version>4.0.3</hikaricp.version>
+		
+		<hibernate.version>5.6.15.Final</hibernate.version>		
 		<hibernate.jpa_2_1_api.version>1.0.2.Final</hibernate.jpa_2_1_api.version>
-		<jersey.version>3.1.2</jersey.version>
-		<mysql.version>8.0.32</mysql.version>
+			<!-- ATTENTION!!! LAST VERSION FOR JDK8 is 4.0.3-->
+		<hikaricp.version>4.0.3</hikaricp.version> 
+
+		<jersey.version>2.40</jersey.version>
+		<!-- DRIVERS -->
+		<mysql.version>8.1.0</mysql.version>
 		<postgres.version>42.6.0</postgres.version>
 		<h2.version>2.2.220</h2.version>
 		<sqlserver.version>10.2.0.jre8</sqlserver.version>
 		<oracle.version>23.2.0.0</oracle.version>
-		<model.mapper.version>3.1.1</model.mapper.version>
+		
 		<gson.version>2.10.1</gson.version>
-		<json.version>20230227</json.version>
-		<org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
+		<json.version>20230618</json.version>
+		<jsoup.version>1.16.1</jsoup.version>
+		
+		<model.mapper.version>3.1.1</model.mapper.version>
+		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
 		<!-- Apache properties -->
 		<apache.libintl.version>0.18.3</apache.libintl.version>
 		<apache.commons.beanutils.version>1.9.4</apache.commons.beanutils.version>
-		<apache.commons.lang3.version>3.12.0</apache.commons.lang3.version>
+		<apache.commons.lang3.version>3.13.0</apache.commons.lang3.version>
 		<apache.commons.text.version>1.10.0</apache.commons.text.version>
-		<apache.commons.io.version>2.11.0</apache.commons.io.version>
+		<apache.commons.io.version>2.13.0</apache.commons.io.version>
 		<apache.logging.log4j.version>2.20.0</apache.logging.log4j.version>
-		<slf4j.version>2.0.7</slf4j.version>
+		<apache.axis.version>1.8.2</apache.axis.version>
 		<apache.poi.version>5.2.3</apache.poi.version>
 		<apache.httpcomponents.httpmime.version>4.5.14</apache.httpcomponents.httpmime.version>
 		<apache.httpcomponents.httpcore.version>4.4.16</apache.httpcomponents.httpcore.version>
 
 		<reflections.version>0.10.2</reflections.version>
-		<apache.axis.version>1.8.0</apache.axis.version>
-		<!-- ATTENTION!!! LAST VERSION FOR JDK8 is 3.19.0-->
+		<slf4j.version>2.0.7</slf4j.version>
+			<!-- ATTENTION!!! LAST VERSION FOR JDK8 is 3.19.0-->
 		<jdt.core.compiler.version>3.19.0</jdt.core.compiler.version>
-
-		<!-- JGit -->
-		<jgit.version>4.7.0.201704051617-r</jgit.version>
-
 		<!-- Servlet API -->
-		<servlet.api.version>3.1.0</servlet.api.version>
-
+		<servlet.api.version>3.1.0</servlet.api.version>	
 		<!-- OPEN HTML TO PDF -->
 		<openhtml.version>1.0.10</openhtml.version>
-
-		<jsoup.version>1.15.3</jsoup.version>
-
 		<!-- Barcode ... -->
-		<google.zxing.version>3.4.1</google.zxing.version>
-
+		<google.zxing.version>3.5.2</google.zxing.version>
 		<!-- For XSLT and XPATH handling ... -->
 		<xalan.version>2.7.3</xalan.version>
-
 		<!-- Java API for email (SMTP) -->
 		<javax.mail.version>1.6.2</javax.mail.version>
-
 		<!-- For Java Beans validation -->
 		<javax.validation.version>2.0.1.Final</javax.validation.version>
-
 		<!-- Maven compiler plugin -->
-		<maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
-
-		<!-- Maven war plugin -->
-		<maven.war.plugin.version>3.3.1</maven.war.plugin.version>
-
-		<!-- Maven surefire plugin -->
-		<maven.surefire.plugin.version>3.0.0</maven.surefire.plugin.version>
-
+		<maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
+		<maven.war.plugin.version>3.4.0</maven.war.plugin.version>
+		<maven.surefire.plugin.version>3.1.2</maven.surefire.plugin.version>
 		<!-- Unit Test and Integration Test Properties -->
-		<junit.jupiter.version>5.9.2</junit.jupiter.version>
-
+		<junit.jupiter.version>5.10.0</junit.jupiter.version>
 		<!-- JavaEE API & jax-rs version -->
 		<javaee.api.version>8.0-6</javaee.api.version>
-		<cxf.rt.frontend.jaxrs.version>3.3.6</cxf.rt.frontend.jaxrs.version>
-		<tomee.jaxrs.version>8.0.14</tomee.jaxrs.version>
-
+		<cxf.rt.frontend.jaxrs.version>3.6.1</cxf.rt.frontend.jaxrs.version>
 		<!-- JavaDev Underscore Version: Transform JSON To XML Preserving the order of the elements 
-		ATTENTION!!! LAST VERSION FOR JDK8 is 1.81-->
+				ATTENTION!!! LAST VERSION FOR JDK8 is 1.81-->
 		<javadev.underscore.version>1.81</javadev.underscore.version>
-
 		<!-- Activiti BPMN -->
 		<activiti.bpmn.model.version>6.0.0</activiti.bpmn.model.version>
 		<activiti.bpmn.converter.version>6.0.0</activiti.bpmn.converter.version>
-
-		<!-- TomEE Embedded Maven Plugin -->
-		<tomee.maven.plugin.version>8.0.14</tomee.maven.plugin.version>
-
-		<!-- TomEE Embedded -->
-		<tomee.embedded.version>8.0.14</tomee.embedded.version>
 
 		<!-- Flyway Migration API & Docker PostgreSQL -->
 		<flyway.version>9.21.1</flyway.version>
@@ -247,7 +230,7 @@
 		<dependency>
 		    <groupId>org.dom4j</groupId>
 		    <artifactId>dom4j</artifactId>
-		    <version>2.1.3</version>
+		    <version>2.1.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -514,14 +497,6 @@
 		</dependency>
 
 
-		<!-- For integration with git protocol/repositories -->
-		<!-- https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit --> 
-		<dependency>
-		    <groupId>org.eclipse.jgit</groupId>
-		    <artifactId>org.eclipse.jgit</artifactId>
-		    <version>${jgit.version}</version>
-		</dependency>
-
 		<!-- Javadev underscore API for jsonToXml transformation purpose -->
 		<!-- https://mvnrepository.com/artifact/com.github.javadev/underscore -->
 		<dependency>
@@ -649,6 +624,18 @@
 		<pluginManagement>
 		
 			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.3.1</version>
+					<configuration>
+						<propertiesEncoding>UTF-8</propertiesEncoding>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>3.6.0</version>
+				</plugin>
 
 				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
 				<plugin>
@@ -701,7 +688,7 @@
 					<configuration>
 						<tomeeClassifier>plus</tomeeClassifier>
 						<reloadOnUpdate>true</reloadOnUpdate>
-						<!-- 						<deployOpenEjbApplication>true</deployOpenEjbApplication> -->
+						<!-- <deployOpenEjbApplication>true</deployOpenEjbApplication> -->
 						<args>-Dfile.encoding=UTF-8</args>
 						<synchronization>
 					      <extensions>
