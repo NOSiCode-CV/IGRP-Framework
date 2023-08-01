@@ -46,39 +46,83 @@ public abstract class IGRPSubWhereQuery<E> extends IGRPQueryBase<E> implements I
         return this;
     }
 
+    @SafeVarargs
+    private final <T> IGRPSubWhereQuery<E> internalNotIn(String column, T... values) {
+        javax.persistence.criteria.Predicate notInClause = this.getCriteriaBuilder().in(this.getRoot().get(column)).not();
+        notInClause.in(Arrays.asList(values));
+        this.addPredicate(notInClause);
+        return this;
+    }
+
     @Override
     public IGRPSubWhereQuery<E> in(String column, Date... values) {
         return this.internalIn(column, values);
+    }
+    public IGRPSubWhereQuery<E> notIn(String column, Date... values) {
+        return this.internalNotIn(column, values);
     }
 
     @Override
     public IGRPSubWhereQuery<E> in(String column, Double... values) {
         return this.internalIn(column, values);
     }
+    public IGRPSubWhereQuery<E> notIn(String column, Double... values) {
+        return this.internalNotIn(column, values);
+    }
 
     @Override
     public IGRPSubWhereQuery<E> in(String column, Float... values) {
         return this.internalIn(column, values);
+    }
+    public IGRPSubWhereQuery<E> notIn(String column, Float... values) {
+        return this.internalNotIn(column, values);
     }
 
     @Override
     public IGRPSubWhereQuery<E> in(String column, Integer... values) {
         return this.internalIn(column, values);
     }
+    public IGRPSubWhereQuery<E> notIn(String column, Integer... values) {
+        return this.internalNotIn(column, values);
+    }
 
     @Override
     public IGRPSubWhereQuery<E> in(String column, Long... values) {
         return this.internalIn(column, values);
+    }
+    public IGRPSubWhereQuery<E> notIn(String column, Long... values) {
+        return this.internalNotIn(column, values);
     }
 
     @Override
     public IGRPSubWhereQuery<E> in(String column, Short... values) {
         return this.internalIn(column, values);
     }
+    public IGRPSubWhereQuery<E> notIn(String column, Short... values) {
+        return this.internalNotIn(column, values);
+    }
 
     @Override
     public IGRPSubWhereQuery<E> in(String column, String... values) {
         return this.internalIn(column, values);
+    }
+    public IGRPSubWhereQuery<E> notIn(String column, String... values) {
+        return this.internalNotIn(column, values);
+    }
+
+    @SafeVarargs
+    @Override
+    public final <V> IGRPSubWhereQuery<E> notInIf(SingularAttribute<E, V> attribute, Predicate<V[]> validateExpression, V... values) {
+        if (validateExpression.test(values))
+            notIn(attribute, values);
+        return this;
+    }
+    @SafeVarargs
+    @Override
+    public final <V> IGRPSubWhereQuery<E> inIf(SingularAttribute<E, V> attribute, Predicate<V[]> validateExpression, V... values) {
+        if (validateExpression.test(values))
+            in(attribute, values);
+        return this;
     }
 
     @SafeVarargs
@@ -90,9 +134,23 @@ public abstract class IGRPSubWhereQuery<E> extends IGRPQueryBase<E> implements I
         return this;
     }
 
+    @SafeVarargs
+    @Override
+    public final <V> IGRPSubWhereQuery<E> notIn(SingularAttribute<E, V> attribute, V... values) {
+        final javax.persistence.criteria.Predicate notInClause = this.getCriteriaBuilder().in(this.getRoot().get(attribute)).not();
+        notInClause.in(Arrays.asList(values));
+        this.addPredicate(notInClause);
+        return this;
+    }
+
     @Override
     public IGRPSubWhereQuery<E> in(String column, UUID... values) {
         return this.internalIn(column, values);
+    }
+
+    @Override
+    public IGRPSubWhereQuery<E> notIn(String column, UUID... values) {
+        return this.internalNotIn(column, values);
     }
 
     @Override
@@ -980,9 +1038,19 @@ public abstract class IGRPSubWhereQuery<E> extends IGRPQueryBase<E> implements I
     }
 
     @Override
+    public IGRPSubWhereQuery<E> isNullIf(String column, boolean condition) {
+        return condition ? isNull(column) : this;
+    }
+
+    @Override
     public IGRPSubWhereQuery<E> isNull(String column) {
         this.addPredicate(this.getCriteriaBuilder().isNull(this.getRoot().get(column)));
         return this;
+    }
+
+    @Override
+    public <V> IGRPSubWhereQuery<E> isNotNullIf(SingularAttribute<E, V> attribute, boolean condition) {
+        return condition ? isNotNull(attribute) : this;
     }
 
     @Override
@@ -992,9 +1060,19 @@ public abstract class IGRPSubWhereQuery<E> extends IGRPQueryBase<E> implements I
     }
 
     @Override
+    public <V> IGRPSubWhereQuery<E> isNullIf(SingularAttribute<E, V> attribute, boolean condition) {
+        return condition ? isNull(attribute) : this;
+    }
+
+    @Override
     public <V> IGRPSubWhereQuery<E> isNull(SingularAttribute<E, V> attribute) {
         this.addPredicate(this.getCriteriaBuilder().isNull(this.getRoot().get(attribute)));
         return this;
+    }
+
+    @Override
+    public IGRPSubWhereQuery<E> isNotNullIf(String column, boolean condition) {
+        return condition ? isNotNull(column) : this;
     }
 
     @Override
