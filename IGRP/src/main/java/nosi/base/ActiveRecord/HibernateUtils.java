@@ -1,22 +1,25 @@
 package nosi.base.ActiveRecord;
 
-import nosi.core.config.ConfigApp;
-import nosi.core.webapp.Core;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+
+import nosi.core.config.ConfigApp;
+import nosi.core.webapp.Core;
 
 /**
  * Emanuel
@@ -25,144 +28,114 @@ import java.util.stream.Collectors;
 
 public class HibernateUtils {
 
-   private static final Logger LOG = LogManager.getLogger(HibernateUtils.class);
+    private static final Logger LOG = LogManager.getLogger(HibernateUtils.class);
 
-   private static final Map<String, SessionFactory> SESSION_FACTORY = new HashMap<>();
-   private static final SessionFactory SESSION_FACTORY_IGRP;
-   public static final StandardServiceRegistryBuilder REGISTRY_BUILDER_IGRP;
-   private static final String ENV_VARIABLE_PREFIX = "${";
-   private static final String ENV_VARIABLE_SUFFIX = "}";
-   public static final String SUFIX_HIBERNATE_CONFIG = ".cfg.xml";
-   public static final String PROPERTIES_EXTENSION = ".properties";
+    private static final Map<String, SessionFactory> SESSION_FACTORY = new HashMap<>();
+    private static final SessionFactory SESSION_FACTORY_IGRP;
+    public static final StandardServiceRegistryBuilder REGISTRY_BUILDER_IGRP;
 
-   private HibernateUtils() {
-      throw new IllegalStateException("Utility class");
-   }
+    public static final String SUFIX_HIBERNATE_CONFIG = ".cfg.xml";
 
-   static {
-      String cfgName = ConfigApp.getInstance().getBaseConnection() + SUFIX_HIBERNATE_CONFIG;
-      Properties properties = getProperties(ConfigApp.getInstance().getBaseConnection() + PROPERTIES_EXTENSION);
-
-      REGISTRY_BUILDER_IGRP = new StandardServiceRegistryBuilder().applySettings(properties).configure(cfgName);
-      SESSION_FACTORY_IGRP = buildSessionFactory(cfgName);
-   }
-
-
-   public static SessionFactory getSessionFactory(String connectionName) {
-      return getSessionFactory(connectionName, Core.getCurrentDadParam());
-   }
-
-   public static SessionFactory getSessionFactory(String connectionName, String dad) {
-
-      if (Objects.nonNull(connectionName) && connectionName.equalsIgnoreCase(ConfigApp.getInstance().getBaseConnection()))
-         return SESSION_FACTORY_IGRP;
-
-      final String fileName = Objects.nonNull(dad) && !dad.trim().isEmpty() ? connectionName + "." + dad : connectionName;
-
-      SessionFactory sessionFactory = SESSION_FACTORY.computeIfAbsent(connectionName, sf -> buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG));
-
-      if (Objects.nonNull(sessionFactory) && sessionFactory.isOpen())
-         return sessionFactory;
-
-      removeSessionFactory(connectionName);
-
-      sessionFactory = buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG);
-      SESSION_FACTORY.put(connectionName, sessionFactory);
-
-      return sessionFactory;
-   }
-
-   private static SessionFactory buildSessionFactory(String cfgName) {
-      try {
-         ServiceRegistry serviceRegistry;
-         if (cfgName.startsWith(ConfigApp.getInstance().getBaseConnection()))
-            serviceRegistry = REGISTRY_BUILDER_IGRP.build();
-         else
-            serviceRegistry = getServiceRegistryBuilder(cfgName).build();
-
-         return new Configuration().buildSessionFactory(serviceRegistry);
-      } catch (Exception ex) {
-         LOG.error("Initial SessionFactory creation failed.", ex);
-         throw new ExceptionInInitializerError(ex);
+    private HibernateUtils() {
+        throw new IllegalStateException("Utility class");
       }
-   }
-
-   public static Map<String, Object> getSettings() {
-      return HibernateUtils.REGISTRY_BUILDER_IGRP.getSettings();
-   }
-
-   private static StandardServiceRegistryBuilder getServiceRegistryBuilder(String cfgName) {
-      return new StandardServiceRegistryBuilder().applySettings(getProperties(cfgName.replace(SUFIX_HIBERNATE_CONFIG, PROPERTIES_EXTENSION))).configure(cfgName);
-   }
-
-   public static Map<String, Object> getSettings(String cfgName) {
-      return getServiceRegistryBuilder(cfgName).getSettings();
-   }
+    static {
+        String cfgName = ConfigApp.getInstance().getBaseConnection() + SUFIX_HIBERNATE_CONFIG;
+        Properties properties = getProperties(ConfigApp.getInstance().getBaseConnection()+".properties");
+		
+        REGISTRY_BUILDER_IGRP = new StandardServiceRegistryBuilder().applySettings(properties).configure(cfgName);
+        SESSION_FACTORY_IGRP = buildSessionFactory(cfgName);
+    }
+    
 
 
-   public static synchronized void unregisterAllDrivers() {
-      final Enumeration<Driver> drivers = DriverManager.getDrivers();
-      while (drivers.hasMoreElements()) {
-         try {
-            DriverManager.deregisterDriver(drivers.nextElement());
-         } catch (SQLException e) {
-            e.printStackTrace();
-         }
-      }
-   }
+	
 
-   public static void closeAllConnection() {
-      SESSION_FACTORY.values().forEach(SessionFactory::close);
-      if (Objects.nonNull(SESSION_FACTORY_IGRP))
-         SESSION_FACTORY_IGRP.close();
-   }
+    public static SessionFactory getSessionFactory(String connectionName) {
+        return getSessionFactory(connectionName, Core.getCurrentDadParam());
+    }
 
-   public static void removeSessionFactory(String connectionName) {
-      final SessionFactory sessionFactory = SESSION_FACTORY.remove(connectionName);
-      if (Objects.nonNull(sessionFactory) && sessionFactory.isOpen())
-         sessionFactory.close();
-   }
+    public static SessionFactory getSessionFactory(String connectionName, String dad) {
 
-   private static Properties getProperties(String fileName) {
+        if (connectionName != null && connectionName.equalsIgnoreCase(ConfigApp.getInstance().getBaseConnection()))
+            return SESSION_FACTORY_IGRP;
 
-      final Properties properties = new Properties();
+        final String fileName = dad != null && !dad.isEmpty() ? connectionName + "." + dad : connectionName;
 
-      try (final InputStream inputStream = HibernateUtils.class.getClassLoader().getResourceAsStream(fileName)) {
-         if (inputStream != null) {
+        SessionFactory sessionFactory = SESSION_FACTORY.computeIfAbsent(connectionName, sf -> buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG));
 
-            properties.load(inputStream);
+        if (sessionFactory != null && sessionFactory.isOpen())
+            return sessionFactory;
 
-            final Map<Object, Object> connectionDetails = properties.entrySet()
-                    .stream()
-                    .collect(Collectors.toMap(Map.Entry::getKey, obj -> checkEnvironmentVariable(obj.getValue())));
+        removeSessionFactory(connectionName);
 
-            properties.clear();
-            properties.putAll(connectionDetails);
-         }
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
-      return properties;
-   }
+        sessionFactory = buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG);
+        SESSION_FACTORY.put(connectionName, sessionFactory);
 
-   private static Object checkEnvironmentVariable(Object value) {
+        return sessionFactory;
+    }
 
-      if (Objects.isNull(value))
-         return "";
+    private static SessionFactory buildSessionFactory(String cfgName) {
+        try {
+            ServiceRegistry serviceRegistry;
+            if (cfgName.startsWith(ConfigApp.getInstance().getBaseConnection()))
+                serviceRegistry = REGISTRY_BUILDER_IGRP.build();
+            else
+                serviceRegistry = getServiceRegistryBuilder(cfgName).build();
+                  
+            return new Configuration().buildSessionFactory(serviceRegistry);
+        } catch (Exception ex) {
+            LOG.error("Initial SessionFactory creation failed.", ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
 
-      final String val = value.toString().trim();
+    public static Map<String, Object> getSettings(){
+    	return HibernateUtils.REGISTRY_BUILDER_IGRP.getSettings();
+    	
+    }
 
-      final boolean isEnvVariablePattern = val.startsWith(ENV_VARIABLE_PREFIX) && val.endsWith(ENV_VARIABLE_SUFFIX);
+	private static StandardServiceRegistryBuilder getServiceRegistryBuilder(String cfgName) {
+		return new StandardServiceRegistryBuilder().applySettings(getProperties(cfgName.replace(SUFIX_HIBERNATE_CONFIG, ".properties"))).configure(cfgName);
+	}
+	
+	  public static Map<String, Object> getSettings(String cfgName){
+		  return getServiceRegistryBuilder(cfgName).getSettings();
+	  }
+	
+	
 
-      return isEnvVariablePattern ? getEnvironmentVariableValue(val) : val;
-   }
+    public static synchronized void unregisterAllDrivers() {
+        final Enumeration<Driver> drivers = DriverManager.getDrivers();
+        while (drivers.hasMoreElements()) {
+            try {
+                DriverManager.deregisterDriver(drivers.nextElement());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-   private static String getEnvironmentVariableValue(String name) {
+    public static void closeAllConnection() {
+        SESSION_FACTORY.values().forEach(SessionFactory::close);
+        if (SESSION_FACTORY_IGRP != null)
+            SESSION_FACTORY_IGRP.close();
+    }
 
-      final String withStartRemoved = StringUtils.removeStart(name, ENV_VARIABLE_PREFIX);
-
-      final String withEndRemoved = StringUtils.removeEnd(withStartRemoved, ENV_VARIABLE_SUFFIX);
-
-      return System.getenv(withEndRemoved);
-   }
+    public static void removeSessionFactory(String connectionName) {
+        final SessionFactory sessionFactory = SESSION_FACTORY.remove(connectionName);
+        if (null != sessionFactory && sessionFactory.isOpen())
+            sessionFactory.close();
+    }
+    
+    private static Properties getProperties(String fileName) {
+		Properties properties = new Properties();
+          	try (InputStream inputStream = HibernateUtils.class.getClassLoader().getResourceAsStream(fileName)) {
+    			if (inputStream != null)
+    				properties.load(inputStream);
+    		} catch (IOException e) {
+				e.printStackTrace();
+			}
+		return properties;
+	}
 }
