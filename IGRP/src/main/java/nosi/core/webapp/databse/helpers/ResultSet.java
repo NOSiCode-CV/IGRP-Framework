@@ -88,7 +88,7 @@ public class ResultSet {
 	public static class Record{
 
 		public Tuple row;	
-		public List<Record> rowList;
+		public List<Record> RowList;
 		private String sql;
 		
 		public Object getObject(String name) {

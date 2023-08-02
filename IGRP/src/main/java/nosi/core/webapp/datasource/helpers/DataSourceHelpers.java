@@ -287,13 +287,13 @@ public class DataSourceHelpers {
 		if(data!=null) {			
 			Map<Properties,String> mapping = new HashMap<>();
 			Record r = new Record();
-			r.rowList = new ArrayList<>();
+			r.RowList = new ArrayList<>();
 			data.stream().forEach(l->{
 				Record rec = new Record();
 				rec.row = l;
-				r.rowList.add(rec);
+				r.RowList.add(rec);
 			});
-			r.rowList.forEach(t->{
+			r.RowList.forEach(t->{
 				this.xmlRows.startElement("row");
 				Iterator<Properties> listColumns = columns.iterator();
 				while(listColumns.hasNext()){
