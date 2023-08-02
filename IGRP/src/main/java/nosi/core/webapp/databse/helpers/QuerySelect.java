@@ -209,11 +209,11 @@ public class QuerySelect extends CommonFIlter{
 		List<Tuple> list = this.getResultList();
 		r.setSql(this.getSql());
 		if(list!=null) { 
-			r.rowList = new ArrayList<>();
+			r.RowList = new ArrayList<>();
 			list.stream().forEach(l->{
 				Record rec = new Record();
 				rec.row = l;
-				r.rowList.add(rec);
+				r.RowList.add(rec);
 			});
 		}
 		return r;
