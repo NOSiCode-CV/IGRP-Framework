@@ -41,6 +41,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -89,6 +90,10 @@ public class Controller {
 
     public QueryString<String, Object> queryString() {
         return this.queryString;
+    }
+
+    public QueryString<String, Object> addQueryString(String name, Object value, Predicate<Object> predicate) {
+        return predicate.test(value) ? addQueryString(name, value) : queryString();
     }
 
     public QueryString<String, Object> addQueryString(String name, Object value) {
