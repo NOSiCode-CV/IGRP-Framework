@@ -79,7 +79,7 @@ public class DomainHeper {
 	}
 
 	private static boolean validateDomains(Formlist_1 formlist) {
-		return Core.isNotNullMultiple(formlist.getKey().getKey(), formlist.getDescription().getKey());
+		return Core.isNotNullMultiple(formlist.getKey().getKey().trim(), formlist.getDescription().getKey().trim());
 	}
 
 	public static boolean saveItemDomain(Dominio model) {
@@ -120,9 +120,9 @@ public class DomainHeper {
 
 	private static boolean update(Formlist_1 formlist,int order,int isPublico) {
 		Domain d = new Domain().findOne(formlist.getFormlist_1_id().getKey());
-		d.setDescription(formlist.getDescription().getKey().trim());
+		d.setDescription(formlist.getDescription().getKey());
 		d.setStatus(formlist.getEstado().getKey().equals(formlist.getEstado_check().getKey())?"ATIVE":"INATIVE");
-		d.setValor(formlist.getKey().getKey().trim());
+		d.setValor(formlist.getKey().getKey());
 		d.setordem(order);
 		d.setDomainType(getDomainType(isPublico));
 		d = d.update();
