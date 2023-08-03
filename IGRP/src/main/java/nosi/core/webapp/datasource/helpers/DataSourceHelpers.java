@@ -290,7 +290,7 @@ public class DataSourceHelpers {
 			r.RowList = new ArrayList<>();
 			data.stream().forEach(l->{
 				Record rec = new Record();
-				rec.row = l;
+				rec.Row = l;
 				r.RowList.add(rec);
 			});
 			r.RowList.forEach(t->{

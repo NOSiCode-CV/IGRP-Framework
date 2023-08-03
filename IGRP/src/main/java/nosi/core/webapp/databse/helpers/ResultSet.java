@@ -86,15 +86,16 @@ public class ResultSet {
 	
 	
 	public static class Record{
-
-		public Tuple row;	
+			
+		//WARNINIG: Do not change (Row,RowList) in the legacy version because of apps using this like it is
+		public Tuple Row;	
 		public List<Record> RowList;
 		private String sql;
 		
 		public Object getObject(String name) {
-			if(this.row!=null) {
+			if(this.Row!=null) {
 				try {
-					return this.row.get(name);
+					return this.Row.get(name);
 				}catch(IllegalArgumentException e) {
 					return null;
 				}
@@ -143,9 +144,9 @@ public class ResultSet {
 		}
 
 		public Object getObject(int index) {
-			if(this.row!=null) {
+			if(this.Row!=null) {
 				try {
-					return this.row.get(index);
+					return this.Row.get(index);
 				}catch(IllegalArgumentException e) {
 					return null;
 				}
