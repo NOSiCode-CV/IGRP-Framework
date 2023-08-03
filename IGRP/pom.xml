@@ -43,9 +43,9 @@
 		<maven.compiler.source>1.8</maven.compiler.source>	
 		<maven.compiler.target>1.8</maven.compiler.target>
 
-		<tomee.jaxrs.version>8.0.14</tomee.jaxrs.version>
-		<tomee.maven.plugin.version>8.0.14</tomee.maven.plugin.version>
-		<tomee.embedded.version>8.0.14</tomee.embedded.version>
+		<tomee.jaxrs.version>8.0.15</tomee.jaxrs.version>
+		<tomee.maven.plugin.version>8.0.15</tomee.maven.plugin.version>
+		<tomee.embedded.version>8.0.15</tomee.embedded.version>
 		
 		<javadoc.plugin.version>3.0.1</javadoc.plugin.version>
 		
@@ -70,7 +70,7 @@
 		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
 		<!-- Apache properties -->
 		<apache.libintl.version>0.18.3</apache.libintl.version>
-		<apache.commons.beanutils.version>1.9.4</apache.commons.beanutils.version>
+<!--		<apache.commons.beanutils.version>1.9.4</apache.commons.beanutils.version>-->
 		<apache.commons.lang3.version>3.13.0</apache.commons.lang3.version>
 		<apache.commons.text.version>1.10.0</apache.commons.text.version>
 		<apache.commons.io.version>2.13.0</apache.commons.io.version>
@@ -377,12 +377,12 @@
 
 
 		<!-- Apache dependencies -->
-		<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+		<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 			<version>${apache.commons.beanutils.version}</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -535,13 +535,13 @@
 
 		<!-- Provided Dependencies -->
 		<!-- For jax-rs client dependencies. (Ex: ContentDisposition.class) -->
-		<!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-bundle-jaxrs -->
+		<!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-bundle-jaxrs 
 		<dependency>
 		     <groupId>org.apache.cxf</groupId>
     		 <artifactId>cxf-rt-frontend-jaxrs</artifactId>
 		    <version>${cxf.rt.frontend.jaxrs.version}</version>
 		    <scope>provided</scope>
-		</dependency>
+		</dependency>-->
 		<!-- https://mvnrepository.com/artifact/org.apache.tomee/tomee-jaxrs -->
 		<dependency>
 		    <groupId>org.apache.tomee</groupId>
