@@ -827,6 +827,11 @@
                             xsl  : 'mvc/XSL_INTERFACE.xsl'
                         },
 
+                        {
+                            name : 'INTERFACE_IMPL',
+                            xsl  : 'mvc/XSL_INTERFACE_IMPL.xsl'
+                        },
+
                     ]
 
                 }

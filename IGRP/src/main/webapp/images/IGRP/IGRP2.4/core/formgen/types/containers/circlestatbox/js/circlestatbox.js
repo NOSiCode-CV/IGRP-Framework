@@ -16,6 +16,7 @@ this[VARS.name].declareContainer({
             js : [
                 { path:'/libs/apexcharts/apexcharts.min.js' },
 				{ path:'/plugins/apexchart/apexchart.init.js' },
+				{ path:'/components/percent-box/percent-box.init.js' } 
                 
             ]
 		};
@@ -114,7 +115,7 @@ this[VARS.name].declareContainer({
 		container.onDrawEnd = function(){
 
 		
-				var e = document.querySelectorAll(".counter-value");
+				/*var e = document.querySelectorAll(".counter-value");
 				function s(e) {
 				  return e.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 				}
@@ -130,10 +131,10 @@ this[VARS.name].declareContainer({
 						  : (n.innerText = s(t)),
 						s(n.innerText);
 					})();
-				  });
+				  });*/
 			  
 			  
-
+				  $.IGRP.components['percent-box'].init( container.holder );
 			  
 		    //$.IGRP.components.circlestatbox.init();
         }
