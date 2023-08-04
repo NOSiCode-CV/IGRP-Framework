@@ -38,7 +38,7 @@
     "browserify-css": "^0.15.0",
     "ignore-styles": "^5.0.1",
     "jsdom": "^15.1.1",
-    "mocha": "^6.1.4",
+    "mocha": "^10.2.0",
     "sinon": "^7.3.2"
   }
 }
