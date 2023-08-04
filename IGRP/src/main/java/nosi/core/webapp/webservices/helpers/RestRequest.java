@@ -5,18 +5,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+import org.apache.cxf.jaxrs.ext.multipart.ContentDisposition;
+import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
+
+import com.google.gson.annotations.Expose;
+
 import jakarta.servlet.http.Part;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.CacheControl;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.apache.cxf.jaxrs.ext.multipart.Attachment;
-import org.apache.cxf.jaxrs.ext.multipart.ContentDisposition;
-import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
-import com.google.gson.annotations.Expose;
-
-import nosi.webapps.igrp.dao.Config;
 
 
 /**
@@ -41,15 +43,20 @@ public class RestRequest{
 	private ConfigurationRequest config;
 	
 	public RestRequest() {
+		 cacheControl.setNoCache(false);
+		 cacheControl.setMaxAge(60); // Cache for 60 seconds
 	
 	}	
+	CacheControl cacheControl = new CacheControl();
+     
+
 	
 	public  Response get(String url, Object id) {
 		try {
 			Client client = this.getConfig().bluidClient();
 			this.addUrl(url);
 	        WebTarget target = client.target(this.getConfig().getUrl()).path(String.valueOf(id));
-	        Response response = target.request(this.getAccept_format()).get(Response.class);
+	        Response response = target.request(this.getAccept_format()).cacheControl(cacheControl).get(Response.class);
 	        client.close();
 	        return response;
 		}catch(Exception e){ 
@@ -63,7 +70,7 @@ public class RestRequest{
 			Client client = this.getConfig().bluidClient();
 			this.addUrl(url);
 	        WebTarget target = client.target(this.getConfig().getUrl());
-	        Response response = target.request(this.getAccept_format()).get(Response.class);
+	        Response response = target.request(this.getAccept_format()).cacheControl(cacheControl).get(Response.class);
 	        client.close();
 	        return response;
 		}catch(Exception e){ 
@@ -77,7 +84,7 @@ public class RestRequest{
 		Client client = this.getConfig().bluidClient();
 		WebTarget target = client.target(this.getConfig().getUrl());
 		ContentDisposition cd = new ContentDisposition("form-data; name=\"file\";filename=\""+file.getName()+fileExtension+"\"");
-		List<Attachment> atts = new LinkedList<Attachment>();
+		List<Attachment> atts = new LinkedList<>();
 		atts.add(new Attachment("file", file.getInputStream(),cd));
 		MultipartBody body = new MultipartBody(atts);
 		Response response = target.request(this.getAccept_format()).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA));
@@ -91,7 +98,7 @@ public class RestRequest{
 		Client client = this.getConfig().bluidClient();
 		WebTarget target = client.target(this.getConfig().getUrl());
 		ContentDisposition cd = new ContentDisposition("form-data; name=\"file\";filename=\""+file.getSubmittedFileName()+"\"; Content-Type=\""+file.getContentType()+"\"");
-		List<Attachment> atts = new LinkedList<Attachment>();
+		List<Attachment> atts = new LinkedList<>();
 		atts.add(new Attachment("file", file.getInputStream(),cd));
 		MultipartBody body = new MultipartBody(atts);
 		Response response = target.request(this.getAccept_format()).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA));
@@ -104,7 +111,7 @@ public class RestRequest{
 		Client client = this.getConfig().bluidClient();
 		WebTarget target = client.target(this.getConfig().getUrl());
 		ContentDisposition cd = new ContentDisposition("form-data; name=\"file\";filename=\""+fileName+"\"; Content-Type=\""+contentType+"\"");
-		List<Attachment> atts = new LinkedList<Attachment>();
+		List<Attachment> atts = new LinkedList<>();
 		atts.add(new Attachment("file", file,cd));
 		MultipartBody body = new MultipartBody(atts);
 		Response response = target.request(this.getAccept_format()).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA));
@@ -184,7 +191,6 @@ public class RestRequest{
 	}
 	
 	public void addUrl(String url){
-		url = new Config().find().andWhere("name", "=", "url_ativiti_connection").one().getValue().contains("https")?url.replace("http", "https").replace("httpss", "https"):url;
 		this.base_url += url;
 	}
 	public String getBase_url() {

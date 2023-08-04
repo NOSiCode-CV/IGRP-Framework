@@ -233,31 +233,46 @@ public interface IIGRPWhereOnlyQuery<E> extends IIGRPQuery<E> {
 	IIGRPWhereOnlyQuery<E> greaterThanOrEqualToIf(String column, Short value,
 														 Predicate<Short> validateExpression);
 
+	<V> IIGRPWhereOnlyQuery<E> inIf(SingularAttribute<E, V> attribute,Predicate<V[]> validateExpression, V... values);
+	<V> IIGRPWhereOnlyQuery<E> notInIf(SingularAttribute<E, V> attribute,Predicate<V[]> validateExpression, V... values);
 	<V> IIGRPWhereOnlyQuery<E> in(SingularAttribute<E, V> attribute, V... values);
+	<V> IIGRPWhereOnlyQuery<E> notIn(SingularAttribute<E, V> attribute, V... values);
 
 	IIGRPWhereOnlyQuery<E> in(String column, Date... values);
+	IIGRPWhereOnlyQuery<E> notIn(String column, Date... values);
 
 	IIGRPWhereOnlyQuery<E> in(String column, Double... values);
+	IIGRPWhereOnlyQuery<E> notIn(String column, Double... values);
 
 	IIGRPWhereOnlyQuery<E> in(String column, Float... values);
+	IIGRPWhereOnlyQuery<E> notIn(String column, Float... values);
 
 	IIGRPWhereOnlyQuery<E> in(String column, Integer... values);
+	IIGRPWhereOnlyQuery<E> notIn(String column, Integer... values);
 
 	IIGRPWhereOnlyQuery<E> in(String column, Long... values);
+	IIGRPWhereOnlyQuery<E> notIn(String column, Long... values);
 
 	IIGRPWhereOnlyQuery<E> in(String column, Short... values);
+	IIGRPWhereOnlyQuery<E> notIn(String column, Short... values);
 
 	IIGRPWhereOnlyQuery<E> in(String column, String... values);
+	IIGRPWhereOnlyQuery<E> notIn(String column, String... values);
 
 	IIGRPWhereOnlyQuery<E> in(String column, UUID... values);
+	IIGRPWhereOnlyQuery<E> notIn(String column, UUID... values);
 
+	<V> IIGRPWhereOnlyQuery<E> isNotNullIf(SingularAttribute<E, V> attribute, boolean condition);
 	<V> IIGRPWhereOnlyQuery<E> isNotNull(SingularAttribute<E, V> attribute);
 
+	IIGRPWhereOnlyQuery<E> isNotNullIf(String column, boolean condition);
 	IIGRPWhereOnlyQuery<E> isNotNull(String column);
 
 	<V> IIGRPWhereOnlyQuery<E> isNull(SingularAttribute<E, V> attribute);
+	<V> IIGRPWhereOnlyQuery<E> isNullIf(SingularAttribute<E, V> attribute, boolean condition);
 
 	IIGRPWhereOnlyQuery<E> isNull(String column);
+	IIGRPWhereOnlyQuery<E> isNullIf(String column, boolean condition);
 
 	<V extends Comparable<? super V>> IIGRPWhereOnlyQuery<E> lessThan(SingularAttribute<E, V> attribute,
 																			 V value);
