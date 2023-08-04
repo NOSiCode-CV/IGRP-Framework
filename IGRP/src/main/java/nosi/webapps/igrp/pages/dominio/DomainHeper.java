@@ -4,10 +4,7 @@ package nosi.webapps.igrp.pages.dominio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-
 import nosi.core.config.ConfigApp;
-import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
@@ -66,8 +63,9 @@ public class DomainHeper {
 	}
 
 	public static boolean saveDomain(Dominio model) {
-		if (Core.isNotNull(model.getNovo_dominio())) {
-			return !(new Domain(model.getNovo_dominio(), "", "", "ATIVE", 0,getDomainType(model.getAplicacao()==null?1:0) ,Core.isNullOrZero(model.getAplicacao())?null:Core.findApplicationById(model.getAplicacao())).insert().hasError());
+		final String domainName = model.getNovo_dominio().trim();
+		if (Core.isNotNull(domainName)) {
+			return !(new Domain(domainName, "", "", "ATIVE", 0,getDomainType(model.getAplicacao() == null?1:0) ,Core.isNullOrZero(model.getAplicacao())?null:Core.findApplicationById(model.getAplicacao())).insert().hasError());
 		}
 		return false;
 	}
@@ -79,22 +77,23 @@ public class DomainHeper {
 		}
 		return domainType;
 	}
+
 	private static boolean validateDomains(Formlist_1 formlist) {
-		return Core.isNotNullMultiple(formlist.getKey().getKey(), formlist.getDescription().getKey());
+		return Core.isNotNullMultiple(formlist.getKey().getKey().trim(), formlist.getDescription().getKey().trim());
 	}
 
 	public static boolean saveItemDomain(Dominio model) {
 		boolean r = false;
 		deleteOld(model);
 		int order = 0;
-		for(Formlist_1 d:model.getFormlist_1()) {
-			if(validateDomains(d)) {
-				if(Core.isNotNull(d.getFormlist_1_id()) && Core.isNotNull(d.getFormlist_1_id().getKey())) {
-					if(!(r= update(d,(++order),model.getAplicacao()==null?1:0))) {
+		for (Formlist_1 d : model.getFormlist_1()) {
+			if (validateDomains(d)) {
+				if (Core.isNotNull(d.getFormlist_1_id()) && Core.isNotNull(d.getFormlist_1_id().getKey())) {
+					if (!(r = update(d, (++order), model.getAplicacao() == null ? 1 : 0))) {
 						break;
 					}
-				}else {
-					if(!(r=insert(model,d,(++order))))
+				} else {
+					if (!(r = insert(model, d, (++order))))
 						break;
 				}
 			}
@@ -105,8 +104,8 @@ public class DomainHeper {
 	
 	private static boolean insert(Dominio model,Formlist_1 formlist,int order) {
 		Domain d = new Domain(model.getLst_dominio(),
-				formlist.getKey().getKey(),
-				formlist.getDescription().getKey(),
+				formlist.getKey().getKey().trim(),
+				formlist.getDescription().getKey().trim(),
 				formlist.getEstado().getKey().equals(formlist.getEstado_check().getKey())?"ATIVE":"INATIVE",
 						order,
 						getDomainType(model.getAplicacao()==null?1:0),
