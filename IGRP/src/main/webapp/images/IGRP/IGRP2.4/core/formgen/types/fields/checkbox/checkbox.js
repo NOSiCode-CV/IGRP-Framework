@@ -9,7 +9,12 @@ var CHECKBOXFIELD = function(type,params){
 	
 	field.ready = function(){
 		
-	
+		field.setProperty({
+			name  	 : 'switch',
+			label 	 : 'Switch',
+			value    : false,
+			xslValue : 'form-switch'
+		});
 			
 		
 	}
