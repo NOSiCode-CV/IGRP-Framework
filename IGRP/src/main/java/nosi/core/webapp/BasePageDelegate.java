@@ -2,12 +2,17 @@ package nosi.core.webapp;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.function.Predicate;
 
 import nosi.core.webapp.bpmn.InterfaceBPMNTask;
 import nosi.core.webapp.bpmn.RuntimeTask;
 import nosi.core.webapp.webservices.helpers.FileRest;
 
 public abstract class BasePageDelegate {
+
+	public QueryString<String, Object> addQueryString(String name, Object value, Predicate<Object> predicate) {
+		return predicate.test(value) ? addQueryString(name, value) : queryString();
+	}
 	
 	public QueryString<String, Object> addQueryString(String name, Object value) {
 		return Igrp.getInstance().getCurrentController().addQueryString(name, value);
