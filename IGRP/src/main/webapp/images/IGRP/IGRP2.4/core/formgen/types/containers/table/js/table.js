@@ -40,7 +40,7 @@ var GENTABLE = function(name,params){
 	};
 
 	container.includes = {
-		xsl :[ 'IGRP-table-utils.tmpl'],
+		xsl :[ 'IGRP-table-utils.tmpl','component.table'],
 		css :[ 
 			{path:'/core/igrp/table/igrp.design.system.table.css'},	
 			//{path:'/core/igrp/table/datatable/dataTables.bootstrap.css', id:'DataTable'},
@@ -101,8 +101,6 @@ var GENTABLE = function(name,params){
 			editable:false,
 			xslValue:'<xsl:apply-templates mode="context-param" select="context-menu" />'
 		});
-
-
 
 		var includesJs = function(arr){
 			arr.forEach(function(e){
@@ -448,12 +446,8 @@ var GENTABLE = function(name,params){
 	}
 
 	container.onCheckboxFieldSet = function(f){
-		f.setProperty({
-			name  	 : 'switch',
-			label 	 : 'Switch',
-			value    : false,
-			xslValue : 'checkbox-switch switch'
-		});
+
+		
 	}
 
 	container.onLinkFieldSet = function(f){
