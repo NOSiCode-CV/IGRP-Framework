@@ -12,7 +12,7 @@
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
 		
-		<xsl:value-of select="concat('private I',$class_name,'Delegate ',$page,';')"></xsl:value-of>
+		<xsl:value-of select="concat('private final I',$class_name,'Delegate ',$page,';')"></xsl:value-of>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
@@ -190,12 +190,16 @@
 	</xsl:template>
 
 	<xsl:template name="actions-interface">
+		<xsl:param name="override" select="false()"/>
 		<xsl:param name="page_"/>
 		<xsl:param name="app_"/>
 		<xsl:param name="target_"/>
 		<xsl:param name="link_"/>
 		<xsl:param name="rel" select="''"/>
 		<xsl:param name="code" select="''"/>
+		<xsl:param name="var-type" select="'default'"/>
+		<xsl:param name="return" select="'return null;'"/>
+
 		<xsl:variable name="button_name">
 			<xsl:value-of select="$rel"/>
         	<xsl:if test="$rel =''">
@@ -203,12 +207,19 @@
         	</xsl:if>
         </xsl:variable>
 
+		<xsl:if test="$override = true()">
+			<xsl:value-of select="'@Override'"/>
+			<xsl:value-of select="concat($newline,$tab)"/>
+		</xsl:if>
+
 		<xsl:call-template name="gen-action-interface">
 			<xsl:with-param name="action_name_"><xsl:value-of select="$button_name"/></xsl:with-param>
 			<xsl:with-param name="page_"><xsl:value-of select="$page_"/></xsl:with-param>
 			<xsl:with-param name="app_"><xsl:value-of select="$app_"/></xsl:with-param>
 			<xsl:with-param name="link_"><xsl:value-of select="$link_"/></xsl:with-param>
 			<xsl:with-param name="type_render_"><xsl:value-of select="'redirect'"/></xsl:with-param>
+			<xsl:with-param name="var-type" select="$var-type"/>
+			<xsl:with-param name="return" select="$return"/>
 		</xsl:call-template>
 
 		<xsl:value-of select="$newline"/>
@@ -224,16 +235,19 @@
 		<xsl:param name="link_" select="''"/>
 		<xsl:param name="type_render_"/>
 		<xsl:param name="extra" select="''"/>
+		<xsl:param name="var-type" select="'default'"/>
+
+		<xsl:param name="return" select="'return null;'"/>
 		
 		<xsl:variable name="model">
    			<xsl:value-of select="$page_"></xsl:value-of>
 		</xsl:variable>
 
 
-		<xsl:value-of select="concat('default Response ',$action_name_,'(',$model,' model) throws IOException {')"/>
+		<xsl:value-of select="concat($var-type,' Response ',$action_name_,'(',$model,' model) throws IOException {')"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab2"/>
-		<xsl:value-of select="'return null;'"/>
+		<xsl:value-of select="$return"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
 		<xsl:value-of select="'}'"/>
