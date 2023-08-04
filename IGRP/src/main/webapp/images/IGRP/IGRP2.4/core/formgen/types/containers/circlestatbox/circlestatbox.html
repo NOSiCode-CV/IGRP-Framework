@@ -1,4 +1,4 @@
-<div>
+<div class="igrp-percent-box" tag="#tag#">
 	<div class="card card-animate overflow-hidden m-0">
 	<div class="position-absolute start-0" style="z-index: 0">
 		<svg
@@ -31,41 +31,17 @@
 			<span
 				class="counter-value"
 				data-target="{#path#/fields/#tag#_val/value}"
+		
 			>
 				<xsl:value-of select="#path#/fields/#tag#_val/value" />
 			</span>
 			</h4>
 		</div>
 		<div class="flex-shrink-0">
-			<div id="chart-#tag#" data-colors='["--vz-#[class]#"]' class="apex-charts" dir="ltr"></div>
+			<div id="chart-#tag#" data-pct="{#path#/fields/#tag#_pct/value}"  data-colors='["--vz-#[class]#"]' class="apex-charts" dir="ltr"></div>
 		</div>
 		</div>
 	</div>
 	</div>
-	<script>
-		window.addEventListener("load", (event) => {
-			new ApexCharts(
-			document.querySelector("#chart-#[tag]#"),
-			options = {
-				series: [<xsl:value-of select="#path#/fields/#tag#_pct/value"/>],
-				chart: { type: "radialBar", width: 105, sparkline: { enabled: !0 } },
-				dataLabels: { enabled: !1 },
-				plotOptions: {
-					radialBar: {
-						hollow: { margin: 0, size: "70%" },
-						track: { margin: 1 },
-						dataLabels: {
-						show: !0,
-						name: { show: !1 },
-						value: { show: !0, fontSize: "16px", fontWeight: 600, offsetY: 8 },
-						},
-					},
-				},
-				colors:  getChartColorsArray(document.querySelector("#chart-#[tag]#")),
-			}
-		).render();
-		});
-		
 
-	</script>
 </div>
