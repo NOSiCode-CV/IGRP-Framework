@@ -37,7 +37,7 @@
     "browserify": "^16.3.0",
     "browserify-css": "^0.15.0",
     "ignore-styles": "^5.0.1",
-    "jsdom": "^15.1.1",
+    "jsdom": "^22.1.0",
     "mocha": "^10.2.0",
     "sinon": "^7.3.2"
   }
