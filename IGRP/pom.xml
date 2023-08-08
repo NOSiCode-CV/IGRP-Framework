@@ -37,8 +37,10 @@
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
       
      <maven.compiler.release>17</maven.compiler.release>
-      
-      <!-- TomEE Embedded Maven Plugin -->
+
+		
+
+		<!-- TomEE Embedded Maven Plugin -->
       <tomee.version>9.1.0</tomee.version>
       <tomee.maven.plugin.version>9.1.0</tomee.maven.plugin.version>
       <tomee.embedded.version>9.1.0</tomee.embedded.version>
@@ -59,7 +61,7 @@
       <model.mapper.version>3.1.1</model.mapper.version>
      
        <jersey.version>2.40</jersey.version>
-      <!-- Apache properties -->
+		<!-- Apache properties -->
       <apache.libintl.version>0.18.3</apache.libintl.version>
       <apache.commons.beanutils.version>1.9.4</apache.commons.beanutils.version>
       <apache.commons.lang3.version>3.13.0</apache.commons.lang3.version>
@@ -68,70 +70,67 @@
       <apache.logging.log4j.version>2.20.0</apache.logging.log4j.version>
    
       <reflections.version>0.10.2</reflections.version>
-      <jdt.version>3.34.0</jdt.version>   
-      <!-- Servlet API -->
+      <jdt.version>3.34.0</jdt.version>
+		<!-- Servlet API -->
       <servlet.api.version>3.1.0</servlet.api.version>
-      <!-- OPEN HTML TO PDF -->
+		<!-- OPEN HTML TO PDF -->
       <openhtml.version>1.0.10</openhtml.version>
       <jsoup.version>1.16.1</jsoup.version>     
       <json.version>20230618</json.version>
       <gson.version>2.10.1</gson.version>
-      <!-- For XSLT and XPATH handling ... -->
+		<!-- For XSLT and XPATH handling ... -->
       <xalan.version>2.7.3</xalan.version>
-      <!-- Maven compiler plugin -->
+		<!-- Maven compiler plugin -->
       <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
       <maven.war.plugin.version>3.4.0</maven.war.plugin.version>
-      <maven.surefire.plugin.version>3.0.0</maven.surefire.plugin.version>
-      <!-- Unit Test and Integration Test Properties -->
+      <maven.surefire.plugin.version>3.1.2</maven.surefire.plugin.version>
+		<!-- Unit Test and Integration Test Properties -->
       <junit.jupiter.version>5.9.2</junit.jupiter.version>
-     
-      <!-- JavaEE API & jax-rs version -->
+
+		<!-- JavaEE API & jax-rs version -->
       <javaee.api.version>8.0-6</javaee.api.version>
-      <!-- JavaDev Underscore Version: Transform JSON To XML Preserving the
+		<!-- JavaDev Underscore Version: Transform JSON To XML Preserving the
 		order of the elements - needed to invite users LDAP-->
-      <javadev.underscore.version>1.91</javadev.underscore.version>
-      <!-- For Java Beans validation -->
-		<jakarta.validation.version>3.0.2</jakarta.validation.version>
-      <!-- Activiti BPMN -->
+      <javadev.underscore.version>1.92</javadev.underscore.version>
+	  <jakarta.validation.version>3.0.2</jakarta.validation.version>
+		<!-- Activiti BPMN -->
       <activiti.bpmn.model.version>6.0.0</activiti.bpmn.model.version>
       <activiti.bpmn.converter.version>6.0.0</activiti.bpmn.converter.version>
-     
-      <!-- Flyway Migration API & Docker PostgreSQL -->
+
+		<!-- Flyway Migration API & Docker PostgreSQL -->
 		<flyway.version>9.21.1</flyway.version>
 		<igrp.db.user>${db_user}</igrp.db.user> <!-- Ex: postgres -->
 		<igrp.db.password>${db_password}</igrp.db.password>
 		<igrp.db.dsn>jdbc:postgresql://${server_IP}/${db_name}</igrp.db.dsn> <!-- Ex: jdbc:postgresql://localhost:5432/db_igrp  -->
 		<!--<igrp.db.dsn>jdbc:postgresql://postgres:5432/db_igrp</igrp.db.dsn>--> <!-- Uncomment this line when run IGRPWEB+Postgres+Docker -->
 		<igrp.migration.location>${migration_location}</igrp.migration.location> <!-- Ex: classpath:nosi/core/db/migration/igrp/postgres  -->
-   
-    
-		
-       <!-- Barcode ...
+
+
+		<!-- Barcode ...
       <google.zxing.version>3.5.1</google.zxing.version> -->
-       <!--  <apache.httpcomponents.httpmime.version>4.5.14</apache.httpcomponents.httpmime.version>
+		<!--  <apache.httpcomponents.httpmime.version>4.5.14</apache.httpcomponents.httpmime.version>
       <apache.httpcomponents.httpcore.version>4.4.16</apache.httpcomponents.httpcore.version>-->
-         <!-- K8s & Docker
+		<!-- K8s & Docker
       <jkube.version>1.7.0</jkube.version>
       <docker.registry>localhost:5000</docker.registry>
        -->
    </properties>
   
    <dependencies>
-	     <!-- https://mvnrepository.com/artifact/com.google.guava/guava
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava
       <dependency>
          <groupId>com.google.guava</groupId>
          <artifactId>guava</artifactId>
          <version>31.1-jre</version>
       </dependency> -->
-     <!-- Microsoft Office docs. -->
-      <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml 
+		<!-- Microsoft Office docs. -->
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml 
       <dependency>
          <groupId>org.apache.poi</groupId>
          <artifactId>poi-ooxml</artifactId>
          <version>5.2.3</version>
       </dependency>-->
-	
-		<!-- For Java Beans Validation -->
+
 		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api
 				TODO: Dependencie for hibernate 5.X.X do not delete yet
 		-->
@@ -139,8 +138,8 @@
 		    <groupId>javax.validation</groupId>
 		    <artifactId>validation-api</artifactId>
 		    <version>2.0.1.Final</version>
-		</dependency> 		
-      <!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
 		<dependency>
 		    <groupId>jakarta.validation</groupId>
 		    <artifactId>jakarta.validation-api</artifactId>
@@ -154,53 +153,53 @@
          <version>6.0.0</version>
          <scope>provided</scope>
       </dependency>
-      <!-- TO BE REPLACED https://mvnrepository.com/artifact/org.dom4j/dom4j -->
+		<!-- TO BE REPLACED https://mvnrepository.com/artifact/org.dom4j/dom4j -->
       <dependency>
          <groupId>org.dom4j</groupId>
          <artifactId>dom4j</artifactId>
          <version>2.1.4</version>
       </dependency>
-    
-      <!-- OPEN HTML TO PDF https://github.com/danfickle/openhtmltopdf -->
+
+		<!-- OPEN HTML TO PDF https://github.com/danfickle/openhtmltopdf -->
       <dependency>
-         <!-- ALWAYS required, usually included transitively. -->
+			<!-- ALWAYS required, usually included transitively. -->
          <groupId>com.openhtmltopdf</groupId>
          <artifactId>openhtmltopdf-core</artifactId>
          <version>${openhtml.version}</version>
       </dependency>
-      <!-- Required for PDF output. 
+		<!-- Required for PDF output. 
       <dependency>
          <groupId>com.openhtmltopdf</groupId>
          <artifactId>openhtmltopdf-pdfbox</artifactId>
          <version>${openhtml.version}</version>
       </dependency>-->
-      <!-- Objects support plugin. -->
+		<!-- Objects support plugin. -->
       <dependency>
          <groupId>com.openhtmltopdf</groupId>
          <artifactId>openhtmltopdf-objects</artifactId>
          <version>${openhtml.version}</version>
       </dependency>
-      <!-- Barcode... 
+		<!-- Barcode... 
       <dependency>
          <groupId>com.google.zxing</groupId>
          <artifactId>javase</artifactId>
          <version>${google.zxing.version}</version>
       </dependency>-->
-      <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
       <dependency>
          <groupId>org.jsoup</groupId>
          <artifactId>jsoup</artifactId>
          <version>${jsoup.version}</version>
       </dependency>
-      <!-- /END OPEN HTML TO PDF https://github.com/danfickle/openhtmltopdf -->
-      <!-- For XSLT and XPATH handling -->
-      <!-- https://mvnrepository.com/artifact/xalan/xalan 
+		<!-- /END OPEN HTML TO PDF https://github.com/danfickle/openhtmltopdf -->
+		<!-- For XSLT and XPATH handling -->
+		<!-- https://mvnrepository.com/artifact/xalan/xalan 
       <dependency>
          <groupId>xalan</groupId>
          <artifactId>xalan</artifactId>
          <version>${xalan.version}</version>
       </dependency> -->
-      <!-- https://mvnrepository.com/artifact/xalan/serializer 
+		<!-- https://mvnrepository.com/artifact/xalan/serializer 
       <dependency>
          <groupId>xalan</groupId>
          <artifactId>serializer</artifactId>
@@ -213,7 +212,7 @@
          </exclusions>
       </dependency>-->
 
-      <!-- Hibernate Dependencies -->
+		<!-- Hibernate Dependencies -->
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-core</artifactId>
@@ -224,15 +223,15 @@
          <artifactId>hibernate-hikaricp</artifactId>
          <version>${hibernate.version}</version>
       </dependency>
-      <!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP a versão 5 é JDK11-->
+		<!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP a versão 5 é JDK11-->
 		<dependency>
 		   <groupId>com.zaxxer</groupId>
 		   <artifactId>HikariCP</artifactId>
 		   <version>${hikaricp.version}</version>
 		</dependency>
-      <!--END
+		<!--END
         Hibernate Dependencies -->
-      <!-- Database Dependencies -->
+		<!-- Database Dependencies -->
 		<!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
 		<dependency>
 			<groupId>com.mysql</groupId>
@@ -552,20 +551,18 @@
 				</plugin>
 				<plugin>
 					<artifactId>maven-dependency-plugin</artifactId>
-					<version>3.5.0</version>
+					<version>3.6.0</version>
 				</plugin>
-
-
 				<!--		https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
-            <plugin>
-               <artifactId>maven-compiler-plugin</artifactId>
-               <version>${maven.compiler.plugin.version}</version>
-               <configuration>
-                  <includes>
-                     <include>**/*.java</include>
-                  </includes>
-               </configuration>
-            </plugin>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven.compiler.plugin.version}</version>
+					<configuration>
+						<includes>
+							<include>**/*.java</include>
+						</includes>
+					</configuration>
+				</plugin>
 				<!--https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
             <plugin>
                <artifactId>maven-surefire-plugin</artifactId>
