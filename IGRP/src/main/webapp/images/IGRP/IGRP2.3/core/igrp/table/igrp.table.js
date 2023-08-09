@@ -186,7 +186,7 @@
 
 			}, op);
 
-			var tables = $(o.selector,o.parent);
+			var tables = o.obj && o.obj[0] ? o.obj : $(o.selector,o.parent);
 
 			if(tables[0] && $.fn.DataTable){
 				
@@ -228,7 +228,7 @@
 					          
 					        },
 
-					        order  		: [],
+							order: [],
 
 							columnDefs	: [{
 
@@ -270,7 +270,7 @@
 
 					$.IGRP.on('submit',function(o){
 						
-						if(o.valid && o.target == 'submit'){
+						if(o.valid && o.target.includes('submit')){
 							datatable.destroy();
 						}
 					
@@ -297,7 +297,12 @@
 
 		        		if(table[0] && table.hasClass('igrp-data-table') && table.attr('id') == $(t).attr('id'))
 		        			datatable.destroy();
-		        	});
+					});
+					
+					/*$(t).on('checkall', function (i, p) {
+						if(p.tableId && p.tableId === $(t).attr('id'))
+							datatable.destroy();
+					});*/
 					
 				});
 
@@ -483,14 +488,20 @@
 
 			//CheckAll
 			$(document).on('change', 'table .IGRP_checkall', function() {
-				var table    = $(this).parents('.table').first(),
+				let table    = $(this).parents('.table').first(),
 					checkrel = $(this).attr('check-rel'),
-					checkers = $('[check-rel="'+checkrel+'"]:not(.IGRP_checkall):not([disabled])',table),
 					checkAll = $(this).is(':checked');
-					
+
+				/*table.trigger('checkall', [{
+					isChecked: checkAll,
+					tableId  : table.attr('id'),
+				}]);*/
+
+				const checkers = $('[check-rel="' + checkrel + '"]:not(.IGRP_checkall):not([disabled])', table);
+				
 				
 				checkers.each(function(i,e){
-					var parent 	 = $(e).parents('div[item-name="'+checkrel+'"]')[0] ? $(e).parents('div[item-name="'+checkrel+'"]') : $(e).parents('td');
+					var parent = $(e).parents('div[item-name="'+checkrel+'"]')[0] ? $(e).parents('div[item-name="'+checkrel+'"]') : $(e).parents('td');
 					
 					com.checkdControl({
 						rel 	: checkrel,
@@ -501,7 +512,9 @@
 					});
 				});
 
-				checkers.prop('checked',checkAll).attr('checked',checkAll);
+				checkers.prop('checked', checkAll).attr('checked', checkAll);
+
+				//com.dataTable({ obj: table });
 			});
 
 			$(document).on('change','table [item-type="checkbox"] input[type="checkbox"][name], table .checkdcontrol',function(e){

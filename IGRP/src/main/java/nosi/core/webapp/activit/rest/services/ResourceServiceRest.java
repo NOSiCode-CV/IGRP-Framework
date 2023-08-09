@@ -10,7 +10,6 @@ import com.google.gson.reflect.TypeToken;
 
 import nosi.core.webapp.activit.rest.entities.ResourceService;
 import nosi.core.webapp.activit.rest.entities.ResourcesService;
-import nosi.core.webapp.activit.rest.request.Credentials;
 import nosi.core.webapp.activit.rest.request.RestRequest;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
@@ -63,11 +62,11 @@ public class ResourceServiceRest extends GenericActivitiRest{
 
 	public String getResourceData(String link) {
 		RestRequest request = this.getRestRequest();
-		String url = Credentials.getInstance().getUrl();
-		String link_ = url.contains("https") ? link.replace("http", "https") : link;
+//		String url = Credentials.getInstance().getUrl();
+//		String link_ = url.contains("https") ? link.replace("http", "https") : link;
 		request.setBase_url("");
 		String contentResp = "";
-		Response response = request.get(link_);
+		Response response = request.get(link);
 		if (response != null) {
 			if (response.getStatus() == 200) {
 				try {
@@ -95,7 +94,6 @@ public class ResourceServiceRest extends GenericActivitiRest{
 			if (response.getStatus() == 200) {
 				d = (List<ResourceService>) ResponseConverter.convertJsonToListDao(contentResp,
 						new TypeToken<List<ResourceService>>() {
-							private static final long serialVersionUID = 1L;
 						}.getType());
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));

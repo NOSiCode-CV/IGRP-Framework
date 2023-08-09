@@ -82,7 +82,7 @@ public class GenericActivitiIGRP {
 					final Class<?> c = Class.forName(packageName);
 					Core.setAttribute("current_app_conn", Core.getCurrentDad());
 					final Method method = c.getMethod("allowTask", ActivityExecute.class);
-					allowTask = (boolean) method.invoke(c.newInstance(), task);//Get custom permission
+					allowTask = (boolean) method.invoke(c.getDeclaredConstructor().newInstance(), task);//Get custom permission
 	    		}
     		}
 		} catch (Exception ignored) {
