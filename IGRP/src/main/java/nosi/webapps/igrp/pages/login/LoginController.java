@@ -242,6 +242,11 @@ public class LoginController extends Controller {
 	private boolean loginWithDb(String username, String password) {
 		boolean success = false;
 		User user = new User().findIdentityByUsername(username);
+		if (user == null) {
+			user = new User().findIdentityByEmail(username);
+			if (user != null)
+				username=user.getUser_name();
+		}
 		if (user != null && user.validate(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256"))
 				&& userIsAuthenticatedFlag(user)) {
 			if (user.getStatus() == 1) {
