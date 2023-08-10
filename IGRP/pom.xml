@@ -694,7 +694,6 @@
 						<synchronization>
 					      <extensions>
 					        <extension>.class</extension> <!-- if you want to update each time you build with mvn compile -->
-					        <extension>.properties</extension>
 					        <extension>.xml</extension>
 					      </extensions>
 					    </synchronization>
