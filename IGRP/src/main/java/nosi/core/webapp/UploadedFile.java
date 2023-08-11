@@ -45,9 +45,9 @@ public final class UploadedFile {
 	}
 	
 	public static List<UploadedFile> getInstances() {
-		List<UploadedFile> files = new ArrayList<UploadedFile>();
+		List<UploadedFile> files = new ArrayList<>();
 		try {
-			ArrayList<Part> list = new ArrayList<Part>(Igrp.getInstance().getRequest().getParts()); 
+			ArrayList<Part> list = new ArrayList<>(Igrp.getInstance().getRequest().getParts()); 
 			for(Part obj : list) {
 				UploadedFile aux = new UploadedFile();
 				aux.fileName = obj.getName();
@@ -67,28 +67,29 @@ public final class UploadedFile {
 	
 	public static List<UploadedFile> getInstances(String name) {
 		List<UploadedFile> files = getInstances(); 
-		files = files.stream().filter(file -> { 
-			return file.getFileName().equalsIgnoreCase(name) && file.getSubmittedFileName() != null && !file.getSubmittedFileName().isEmpty();  
-		}).collect(Collectors.toList()); 
+		files = files.stream().filter(file ->  
+			 file.getFileName().equalsIgnoreCase(name) && file.getSubmittedFileName() != null && !file.getSubmittedFileName().isEmpty()
+		).toList(); 
 		return files;
 	}
+	//Leak, if used, must be fixed
 	
-	public boolean saveAs(String path) {
-		String result = Igrp.getInstance().getServlet().getServletContext().getRealPath(path);
-		File file = new File(result);
-		boolean flag = false;
-		try {
-			file.createNewFile();
-			FileOutputStream out = new FileOutputStream(file);
-			out.write(this.getContent());
-			out.flush();
-			out.close();
-			flag = true;
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return flag;
-	}
+//	public boolean saveAs(String path) {
+//		String result = Igrp.getInstance().getServlet().getServletContext().getRealPath(path);
+//		File file = new File(result);
+//		boolean flag = false;
+//		try {
+//			file.createNewFile();
+//			FileOutputStream out = new FileOutputStream(file);
+//			out.write(this.getContent());
+//			out.flush();
+//			out.close();
+//			flag = true;
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//		return flag;
+//	}
 	
 	public byte[] getContent() {
 		BufferedInputStream stream = new BufferedInputStream(in);

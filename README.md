@@ -80,10 +80,10 @@ Before running the Maven command to generate the project, ensure that your envir
 
 **Generating the Project:**
 
-To generate the project using the "igrp-archetype-horizon" archetype, execute the following Maven command:
+We can choose to generate the project using the "igrp-archetype-horizon" archetype, execute the following Maven command and type 1:
 
 ```bash
-mvn archetype:generate -Dfilter=igrp-archetype-horizon
+mvn archetype:generate -Dfilter=igrp-archetype
 ```
 
 Maven will download the necessary dependencies and prompt you for some information to configure the generated project. Follow the instructions that appear in the terminal and provide the required details to customize the project.

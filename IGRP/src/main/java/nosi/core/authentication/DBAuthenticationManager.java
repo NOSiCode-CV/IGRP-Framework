@@ -10,7 +10,13 @@ public final class DBAuthenticationManager {
 	private DBAuthenticationManager() {}
 	
 	public static boolean authenticate(String username, String password, HttpServletRequest request) {
-		User user = (User) new User().findIdentityByUsername(username);
+		User user = new User().findIdentityByUsername(username);
+		if (user == null) {
+			user = new User().findIdentityByEmail(username);
+			if (user != null)
+				username=user.getUser_name();
+		}
+			
 		if (user != null && user.validate(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256"))) {
 			if(user.getStatus() == 1) {
 				Profile profile = new Profile().getByUser(user.getId());
@@ -27,7 +33,7 @@ public final class DBAuthenticationManager {
 	
 	public static void signOut(User currentUser, HttpServletRequest request, HttpServletResponse response) {
 		currentUser.setIsAuthenticated(0); 
-		currentUser = currentUser.update();
+		currentUser.update();
 		AuthenticationManager.destroySecurityContext(request.getSession(false), response);
 		AuthenticationManager.afterLogout(request.getRequestedSessionId());
 		AuthenticationManager.clearAllCookieExceptLocale(request, response);
