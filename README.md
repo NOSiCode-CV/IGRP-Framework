@@ -83,15 +83,17 @@ Before running the Maven command to generate the project, ensure that your envir
 We can choose to generate the project using the "igrp-archetype-horizon" archetype, execute the following Maven command and type 1:
 
 ```bash
-mvn archetype:generate -Dfilter=igrp-archetype
+mvn archetype:generate -Dfilter=igrp
 ```
 
 Maven will download the necessary dependencies and prompt you for some information to configure the generated project. Follow the instructions that appear in the terminal and provide the required details to customize the project.
 
 Once the generation process is complete, you will have a project based on the "igrp-archetype-horizon" ready to be developed and executed.
 
-Please note that depending on the information provided during project generation, you may need to configure the PostgreSQL database connection details in the project's configuration file to ensure the proper functioning of the application.
-
+Please note that depending on the information provided during project generation, you may need to configure the PostgreSQL database connection details in the project's configuration file to ensure the proper functioning of the application or you can insert the data using this command with the arguments:
+```bash
+mvn archetype:generate -Dfilter=igrp -DdbUser=user1 -DdbPassword=mypassword -DdbJdbcUrl=jdbc:postgresql://localhost:5432/my_igrp_db
+```
 Now you are all set to start development with the generated project. Happy coding!
 
 **Running the Project**
