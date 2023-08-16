@@ -598,9 +598,11 @@ var mWindow = null,
 
 		var mpsubmit  = function(p){
 			
-			var fields = $.IGRP.utils.getFieldsValidate(),
-
-				valid  = formData != '' ? (p?.validate ? p.validate : fields.valid()) : true;
+			let fields = $.IGRP.utils.getFieldsValidate(),
+				
+				parent = p.clicked.parents('table tbody tr')[0] ? '' : form;
+				
+				valid  = parent != '' ? (p?.validate ? p.validate : fields.valid()) : true;
 
 			if(valid){
 
@@ -614,7 +616,7 @@ var mWindow = null,
 					target  : p.target
 				});
 
-				const formData = p.clicked.parents('table tbody tr')[0] ? '' : form.serialize();
+				const formData = parent != '' ? form.serialize() : '';
 			
 				if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)				
 						mWindow = window;
