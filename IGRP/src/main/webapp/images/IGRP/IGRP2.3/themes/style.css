@@ -2433,6 +2433,10 @@ input[type="email"] {
 	z-index: 1051;
 }
 
+#igrp-iframe-nav.modal{
+	z-index: 1052;
+}
+
 .modal-backdrop.fade.in+.modal-backdrop.fade.in{
   z-index: 1050;
 }
