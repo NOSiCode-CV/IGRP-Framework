@@ -746,7 +746,7 @@ public class Controller {
 			Class<?> classController = Class.forName(controllerPath);
 			Object controller = classController.getDeclaredConstructor().newInstance();
 			igrpApp.setCurrentController((Controller) controller);
-			Method action = Arrays.stream(classController.getDeclaredMethods()).filter(p -> p.getName().equals(actionName)).findFirst().orElseThrow(NoSuchMethodException::new);
+			Method action = Arrays.stream(classController.getDeclaredMethods()).filter(p -> p.getName().equals(actionName)).findFirst().orElseThrow(() -> new NoSuchMethodException("Não existe action "+actionName+" na pagina "+igrpApp.getCurrentPageName()));
 			if(action.getParameterCount() == 0)
 				return  action.invoke(controller);
 			return action.invoke(controller, formalParameters(action, igrpApp).toArray());
