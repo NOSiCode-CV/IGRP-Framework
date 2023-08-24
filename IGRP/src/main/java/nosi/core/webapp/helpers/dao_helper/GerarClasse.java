@@ -63,6 +63,7 @@ public class GerarClasse {
 	private static final String NEW_LINE = "\n";
 	private static final String TAB = "\t";
 	private Set<Class<?>> importClasses = new HashSet<>();
+	 String databaseType;
 
 	public GerarClasse(DaoDto daoDto) {
 		this.daoDto = daoDto;
@@ -78,6 +79,7 @@ public class GerarClasse {
 
 		List<Column> columns = DatabaseMetadaHelper.getCollumns(this.daoDto.getConfigEnv(), this.daoDto.getSchema(),
 				this.daoDto.getTableName());
+		 databaseType = this.decreptyDatabaseCode(this.daoDto.getConfigEnv().getType_db());
 
 		for (DatabaseMetadaHelper.Column column : columns) {
 
@@ -164,9 +166,10 @@ public class GerarClasse {
 		this.pascalCaseColumnName = convertCase(column.getName(), true);
 		this.camelCaseColumnName = convertCase(column.getName(), false);
 	}
-
 	private void doIfColumnIsPrimaryKey(DatabaseMetadaHelper.Column column) throws SQLException {
+		
 		final String databaseType = this.decreptyDatabaseCode(this.daoDto.getConfigEnv().getType_db());
+
 		final String sequence = this.getOracleSequence(databaseType);
 		variables.append(TAB).append("@Id").append(NEW_LINE);
 
@@ -247,11 +250,12 @@ public class GerarClasse {
 
 	private String addStringProperties(Class<?> clazz, Integer size, boolean isNullable) {
 
-		if (!clazz.equals(String.class) || this.isView())
+		if ((!clazz.equals(String.class) && !clazz.equals(Integer.class) && !clazz.equals(Long.class) && !clazz.equals(Float.class) && !clazz.equals(Double.class))
+			|| this.isView())
 			return "";
 
 		final StringBuilder annotationsProps = new StringBuilder();
-		final boolean isDefaultMaxSize = size == Integer.MAX_VALUE;	
+		final boolean isDefaultMaxSize = size >= Short.MAX_VALUE;	
 
 		//Não pode ser Null -  NotNull
 		if (!isNullable) {				
@@ -296,8 +300,12 @@ public class GerarClasse {
 		case Types.BIGINT:
 			clazz = Long.class;
 			break;
-		case Types.DECIMAL:
 		case Types.NUMERIC:	
+			if(databaseType.equalsIgnoreCase(DatabaseConfigHelper.ORACLE)) {
+				clazz = Integer.class;
+				break;
+			}
+		case Types.DECIMAL:
 			clazz = BigDecimal.class;
 			this.importClasses.add(BigDecimal.class);
 			break;
