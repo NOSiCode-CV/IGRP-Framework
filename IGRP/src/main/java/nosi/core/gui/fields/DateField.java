@@ -1,7 +1,7 @@
 package nosi.core.gui.fields;
 /**
  * @author: Emanuel Pereira
- * 
+ * <p>
  * Apr 13, 2017
  *
  * Description: class to configure date field

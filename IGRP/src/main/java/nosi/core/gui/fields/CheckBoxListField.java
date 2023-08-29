@@ -1,10 +1,8 @@
 package nosi.core.gui.fields;
 
-import nosi.core.webapp.helpers.IgrpHelper;
-
 /**
  * @author: Emanuel Pereira
- * 
+ * <p>
  * Apr 13, 2017
  *
  * Description: class to configure checkboxlist field
