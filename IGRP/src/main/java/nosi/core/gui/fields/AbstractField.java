@@ -1,28 +1,27 @@
 package nosi.core.gui.fields;
 
-import static nosi.core.i18n.Translator.gt;
-
-/**
- * @author: Emanuel Pereira
- * 
- * Apr 13, 2017
- *
- * Description: abstract class to configure any field
- */
-
 import java.util.Map;
-
 import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.Route;
 
+import static nosi.core.i18n.Translator.gt;
+
+/**
+ * @author: Emanuel Pereira
+ * <p>
+ * Apr 13, 2017
+ *
+ * Description: abstract class to configure any field
+ */
+
 public abstract class AbstractField implements Field {
 
 	private String name;
-	private String tag_name;
-	private String param_tag;
+	private String tagName;
+	private String paramTag;
 	private Object value = "";
 	private String label = "";
 	protected String lookup = "";
@@ -55,19 +54,19 @@ public abstract class AbstractField implements Field {
 
 	@Override
 	public String getTagName() {
-		tag_name = this.propertie.get("tag") != null ? this.propertie.get("tag").toString().toLowerCase() : tag_name;
-		return tag_name;
+		tagName = this.propertie.get("tag") != null ? this.propertie.get("tag").toString().toLowerCase() : tagName;
+		return tagName;
 	}
 
 	@Override
-	public void setTagName(String tag_name) {
-		this.tag_name = tag_name;
+	public void setTagName(String tagName) {
+		this.tagName = tagName;
 	}
 
 	@Override
 	public String getParamTag() {
-		param_tag = this.propertie.get("name") != null ? this.propertie.get("name").toString().toLowerCase() : param_tag;
-		return param_tag;
+		paramTag = this.propertie.get("name") != null ? this.propertie.get("name").toString().toLowerCase() : paramTag;
+		return paramTag;
 	}
 
 	@Override
@@ -90,17 +89,17 @@ public abstract class AbstractField implements Field {
 
 	@Override
 	public void setValue(int value) {
-		this.value = Integer.valueOf(value);
+		this.value = value;
 	}
 
 	@Override
 	public void setValue(float value) {
-		this.value = Float.valueOf(value);
+		this.value = value;
 	}
 
 	@Override
 	public void setValue(double value) {
-		this.value = Double.valueOf(value);
+		this.value = value;
 	}
 
 	@Override
@@ -150,7 +149,7 @@ public abstract class AbstractField implements Field {
 
 	@Override
 	public void setSqlQuery(String connectionName, String sql) {
-		if (connectionName != null && !connectionName.equals("")) {
+		if (connectionName != null && !connectionName.isEmpty()) {
 			this.connectionName = connectionName;
 		}
 		this.setSqlQuery(sql);
@@ -159,7 +158,7 @@ public abstract class AbstractField implements Field {
 	@Override
 	public void setSqlQuery(String connectionName, String tableName, String key, String value) {
 		String sqlQ = "";
-		if (connectionName != null && !connectionName.equals("") && tableName != null && key != null && value != null) {
+		if (connectionName != null && !connectionName.isEmpty() && tableName != null && key != null && value != null) {
 			this.connectionName = connectionName;
 			sqlQ = "SELECT " + key + ", " + value + " FROM " + tableName;
 		}
@@ -169,7 +168,7 @@ public abstract class AbstractField implements Field {
 	@Override
 	public void setSqlQuery(String connectionName, String schemaName, String tableName_, String key, String value) {
 		String tableName = tableName_;
-		if (schemaName != null && !schemaName.equals("")) {
+		if (schemaName != null && !schemaName.isEmpty()) {
 			tableName = schemaName + "." + tableName;
 		}
 		this.setSqlQuery(connectionName, tableName, key, value);
