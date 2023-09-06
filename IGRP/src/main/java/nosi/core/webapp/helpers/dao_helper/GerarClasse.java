@@ -250,8 +250,9 @@ public class GerarClasse {
 
 	private String addStringProperties(Class<?> clazz, Integer size, boolean isNullable) {
 
-		if ((!clazz.equals(String.class) && !clazz.equals(Integer.class) && !clazz.equals(Long.class) && !clazz.equals(Float.class) && !clazz.equals(Double.class))
-			|| this.isView())
+		
+//		IMPORTANT: Integer, Double. etc cannot be used with NotBlank and @Size
+		if (!clazz.equals(String.class) || this.isView())
 			return "";
 
 		final StringBuilder annotationsProps = new StringBuilder();
@@ -261,7 +262,9 @@ public class GerarClasse {
 		if (!isNullable) {				
 			this.importClasses.add(NotBlank.class);
 			annotationsProps.append(TAB).append("@NotBlank").append(NEW_LINE);	
-		}		
+		}	
+		
+		
 		if(!isDefaultMaxSize) {
 			this.importClasses.add(Size.class);
 			annotationsProps.append(TAB).append("@Size(").append("max = ").append(size).append(")")
