@@ -11,12 +11,12 @@ public class SeparatorField extends AbstractField {
 	public SeparatorField(Object model,String name) {
 		super();
 		this.setName(name);
-		this.propertie.put("type","separator");
+		this.propertie().put("type","separator");
 		this.setTagName(name);
-		this.propertie.put("name","p_"+name);
-		this.propertie.put("right",  Boolean.valueOf(false));
-		this.propertie.put("placeholder", "");
-		this.propertie.put("maxlength",  Integer.valueOf(30));
+		this.propertie().put("name","p_"+name);
+		this.propertie().put("right",  Boolean.FALSE);
+		this.propertie().put("placeholder", "");
+		this.propertie().put("maxlength", 30);
 		this.configValue(model);
 	}
 

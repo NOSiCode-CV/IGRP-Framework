@@ -1,11 +1,5 @@
 package nosi.core.gui.fields;
-/**
- * @author: Emanuel Pereira
- * 
- * Apr 13, 2017
- *
- * Description: class to configure lookup field
- */
+
 import java.util.Map;
 
 import nosi.core.config.ConfigApp;
@@ -16,15 +10,22 @@ import nosi.webapps.igrp.dao.Application;
 
 import java.util.LinkedHashMap;
 
+/**
+ * @author: Emanuel Pereira
+ * <p>
+ * Apr 13, 2017
+ *
+ * Description: class to configure lookup field
+ */
 public class LookupField extends TextField {
 
-	private Map<String,Object> params;
-	private Map<String,Object> lookupParams;
+	private final Map<String,Object> params;
+	private final Map<String,Object> lookupParams;
 	private int versionLookup = 1;
 	
 	public LookupField(Object model,String name) {
 		super(model,name);
-		this.propertie.put("type", "lookup");
+		this.propertie().put("type", "lookup");
 		this.params = new LinkedHashMap <>();
 		this.lookupParams = new LinkedHashMap <>();
 	}
@@ -55,7 +56,7 @@ public class LookupField extends TextField {
 
 	@Override
 	public void setLookup(String app, String page, String action) { 
-		int isPublic = Core.getParamInt("isPublic").intValue();
+		int isPublic = Core.getParamInt("isPublic");
 		String currentDad = Core.getCurrentDad(); 
 		if(isPublic == 1)
 			this.lookup = Route.getResolveUrl(app, page, action, currentDad, 1).replace("?", "").replace("webapps", "");

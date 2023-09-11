@@ -10,7 +10,7 @@ public class PasswordField extends TextField {
 
 	public PasswordField(Object model,String name) {
 		super(model,name);
-		this.propertie.put("type","password");
+		this.propertie().put("type","password");
 	}
 
 }

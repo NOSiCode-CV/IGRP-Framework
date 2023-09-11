@@ -10,7 +10,7 @@ public class RadioListField extends ListField {
 
 	public RadioListField(Object model,String name) {
 		super(model,name);
-		this.propertie.put("type","radiolist");
+		this.propertie().put("type","radiolist");
 	}
 
 }
