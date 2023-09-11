@@ -35,7 +35,7 @@ public class Alter_prioridade_tarefaController extends Controller {
 		view.nova_prioridade.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		Map<String,String> listPrioridade = new LinkedHashMap<String,String>();		
+		Map<String,String> listPrioridade = new LinkedHashMap<>();		
 		listPrioridade.put("100", "Urgente");
       	listPrioridade.put("75", "Alta");
 		listPrioridade.put("50", "Normal");
@@ -64,7 +64,7 @@ public class Alter_prioridade_tarefaController extends Controller {
               model.setNova_prioridade(task.getPriority());
 			}
 		}
-		view.target = "_blank";
+		view.setTarget("_blank");
 		view.nova_prioridade.setValue(listPrioridade);
 		
 		if(type!=null && type.equalsIgnoreCase("view")){
