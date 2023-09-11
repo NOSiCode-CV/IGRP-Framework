@@ -796,6 +796,10 @@ public class PageController extends Controller {
 	public Response actionFileExists() {
 		final String fileName = Core.getParam("uri").replace("\\", File.separator);
 		final Properties p = new Properties();
+		final String version=Core.getParam("version","2.3");
+		final String basePath = this.getConfig().basePathServer() + "images" + File.separator + "IGRP" + File.separator
+				+ "IGRP"+version+ File.separator + "core" + File.separator + "formgen" + File.separator + "types"
+				+ File.separator;
 		final boolean fileExists = FileHelper.fileExists(basePath + fileName);
 		p.put("status", fileExists);
 		p.put("content", fileExists ? FileHelper.readFile(basePath, fileName) : "");
@@ -827,9 +831,7 @@ public class PageController extends Controller {
 		return this.renderView(xml.toString());
 	}
 	
-	final String basePath = this.getConfig().basePathServer() + "images" + File.separator + "IGRP" + File.separator
-			+ "IGRP2.4" + File.separator + "core" + File.separator + "formgen" + File.separator + "types"
-			+ File.separator;
+	
 	
 	/*----#end-code----*/
 }
