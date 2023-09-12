@@ -73,18 +73,18 @@ public class IGRPTable extends IGRPComponent{
 
 	public static final String TABLE_LOOKUP_ROW = "p_fwl_form_idx";
 	protected ArrayList<Field> fields;
-	private IGRPContextMenu contextmenu;
+	private final IGRPContextMenu contextmenu;
 	protected float version = (float) 2.3;
 	protected ArrayList<IGRPButton> buttons;
 	protected List<?> data;
 	protected String rows = "";
 	protected List<?> modelList;
-	private List<Properties> legendColor = new ArrayList<>();
+	private final List<Properties> legendColor = new ArrayList<>();
 	private Map<Object,Map <String, String> > legendColors = new HashMap<>();
-	
+
 	private final List<String> scapeParam = new ArrayList<>(
-				Arrays.asList(new String[] {"p_prm_app","p_prm_page","p_target","p_dad","p_env_frm_url"})
-				);
+			Arrays.asList("p_prm_app", "p_prm_page", "p_target", "p_dad", "p_env_frm_url")
+	);
 	
 	private IGRPTable.Struct [][]rowStruct; 
 	private IGRPTable.Struct []columnStruct; 
@@ -102,9 +102,9 @@ public class IGRPTable extends IGRPComponent{
 	}	
 	
 	private void createParamsLookup() {
-		String forLookup = Core.isNotNull(Igrp.getInstance()) ? Igrp.getInstance().getRequest().getParameter("forLookup") : null;
+		final String forLookup = Core.isNotNull(Igrp.getInstance()) ? Igrp.getInstance().getRequest().getParameter("forLookup") : null;
 		if(Core.isNotNull(forLookup)){
-			Enumeration<String> params = Igrp.getInstance().getRequest().getParameterNames();
+			final Enumeration<String> params = Igrp.getInstance().getRequest().getParameterNames();
 			while(params.hasMoreElements()){
 				String param=params.nextElement();
 				if(!this.scapeParam.contains(param) && !param.equalsIgnoreCase("r") && !param.equalsIgnoreCase("forLookup")){
@@ -115,9 +115,8 @@ public class IGRPTable extends IGRPComponent{
 			String jsonLookup = Core.getParam("jsonLookup");
 			if(Core.isNotNull(jsonLookup)) {
 				jsonLookup = this.decodeJson(jsonLookup);
-				Properties params = (Properties) Core.fromJson(jsonLookup,Properties.class);
-				params.entrySet().forEach(p1->this.addLookupField(p1.getKey().toString(),p1.getValue().toString())
-				);
+				final Properties params = (Properties) Core.fromJson(jsonLookup,Properties.class);
+				params.forEach((key, value) -> this.addLookupField(key.toString(), value.toString()));
 			}
 		}
 	}
@@ -192,7 +191,7 @@ public class IGRPTable extends IGRPComponent{
 						all=this.modelList; 
 					else if(this.data != null)
 						all=this.data;
-				Float total = (float) 0; 
+				float total = 0;
 				for(Object obj : all) { 
 					String val = IgrpHelper.getValue(obj, field.getName()); 
 					total += Core.toFloat(val); 
@@ -259,9 +258,8 @@ public class IGRPTable extends IGRPComponent{
 				this.contextmenu.setButtons(this.buttons);
 				this.xml.addXml(this.contextmenu.toXmlTools());
 			}
-		this.xml.endElement(); 
-		String aux = this.xml.toString(); 
-		return aux; 
+		this.xml.endElement();
+		return this.xml.toString();
 	}
 
 	public void setLegendColors(Map<Object, Map<String, String>> colors) {
@@ -269,17 +267,17 @@ public class IGRPTable extends IGRPComponent{
 	}
 	
 	private void genLegendColor() {
-		if(this.fields.stream().filter(f->f instanceof ColorField).count() > 0 && this.legendColors.size() > 0){
+		if(this.fields.stream().anyMatch(ColorField.class::isInstance) && !this.legendColors.isEmpty()){
 			this.xml.startElement("legend_color");
-			this.legendColors.entrySet().stream().forEach(l->{
-				for(Entry<String, String> p : l.getValue().entrySet()) {
-		          this.xml.startElement("item");
-		          	this.xml.setElement("label", p.getValue());
-		          	this.xml.setElement("value", l.getKey().toString());
-		          	this.xml.setElement("color", p.getKey());
-		          this.xml.endElement();
-		        }
-			});
+			this.legendColors.forEach((key, value) -> {
+               for (Entry<String, String> p : value.entrySet()) {
+                  this.xml.startElement("item");
+                  this.xml.setElement("label", p.getValue());
+                  this.xml.setElement("value", key.toString());
+                  this.xml.setElement("color", p.getKey());
+                  this.xml.endElement();
+               }
+            });
 			this.xml.endElement();
 		}
 	}
@@ -299,17 +297,17 @@ public class IGRPTable extends IGRPComponent{
 					}
 				}
 			}
-			int isPublic = Core.getParamInt("isPublic").intValue();
+			final int isPublic = Core.getParamInt("isPublic");
 			if(isPublic==1) {
 				this.xml.setElement("param", "isPublic="+isPublic);
 			}
 			if(l instanceof IGRPTable.Table && ((IGRPTable.Table)l).getHiddenButtons()!=null) {
 				this.xml.startElement("param");
-				String text= "ctx_hidden=";
+				StringBuilder text= new StringBuilder("ctx_hidden=");
 				for(IGRPButton button:((IGRPTable.Table)l).getHiddenButtons()) {
-					text+=button.getProperties().getProperty("rel")+",";
+					text.append(button.getProperties().getProperty("rel")).append(",");
 				}		
-				this.xml.text(text);				
+				this.xml.text(text.toString());
 				this.xml.endElement();		
 			}
 			this.xml.endElement();			
@@ -337,27 +335,27 @@ public class IGRPTable extends IGRPComponent{
 				for(Field field : this.fields){
 					if(field.isParam()){
 						String value = IgrpHelper.getValue(obj, field.getName());
-						value = (value==null||value.equals(""))?IgrpHelper.getValue(obj, field.getValue().toString()):value;
-						value = (value==null||value.equals(""))?field.getValue().toString():value;
-						if(value!=null && !value.equals(""))
+						value = (value==null || value.isEmpty())?IgrpHelper.getValue(obj, field.getValue().toString()):value;
+						value = (value==null || value.isEmpty())?field.getValue().toString():value;
+						if(value!=null && !value.isEmpty())
 							this.xml.setElement("param", field.propertie().getProperty("name")+"="+value);
 						if(Core.isNotNull(Core.getParam(TABLE_LOOKUP_ROW,false))) {
 							this.xml.setElement("param", TABLE_LOOKUP_ROW+"="+Core.getParam(TABLE_LOOKUP_ROW));
 						}
 					}
 				}
-				int isPublic = Core.getParamInt("isPublic").intValue();
+				final int isPublic = Core.getParamInt("isPublic");
 				if(isPublic==1) {
 					this.xml.setElement("param", "isPublic="+isPublic);
 				}
 				if(obj instanceof IGRPTable.Table && ((IGRPTable.Table)obj).getHiddenButtons()!=null) {
 					this.xml.startElement("param");
-					String text= "ctx_hidden=";
+					StringBuilder text= new StringBuilder("ctx_hidden=");
 					for(IGRPButton button:((IGRPTable.Table)obj).getHiddenButtons()) {
 						if(button!=null)
-							text+=button.getProperties().getProperty("rel")+",";
+							text.append(button.getProperties().getProperty("rel")).append(",");
 					}		
-					this.xml.text(text);
+					this.xml.text(text.toString());
 					this.xml.endElement();		
 				}
 				this.xml.endElement();
@@ -366,7 +364,7 @@ public class IGRPTable extends IGRPComponent{
 						this.xml.startElement(field.getTagName());
 						this.xml.writeAttribute("name", field.propertie().getProperty("name"));
 						String val = IgrpHelper.getValue(obj, field.getName());
-						if(val==null || val.equals("")){
+						if(val==null || val.isEmpty()){
 							val = field.getValue()!=null?field.getValue().toString():"";
 						}
 						this.xml.text(val);
@@ -378,7 +376,7 @@ public class IGRPTable extends IGRPComponent{
 						this.xml.startElement(field.getTagName()+sufix);
 						this.xml.writeAttribute("name", field.propertie().getProperty("name")+sufix);
 						String val1 = IgrpHelper.getValue(obj, field.getName()+sufix);
-						if(val1==null || val1.equals("")){						
+						if(val1==null || val1.isEmpty()){
 							val1 = field.getValue() != null ? field.getValue().toString() : "";						
 						}
 						this.xml.text(val1);
@@ -388,7 +386,7 @@ public class IGRPTable extends IGRPComponent{
 				this.xml.endElement();
 			}
 		}
-		if(!this.rows.equals("")){
+		if(!this.rows.isEmpty()){
 			this.xml.addXml(this.rows);
 		}
 	}
@@ -404,7 +402,7 @@ public class IGRPTable extends IGRPComponent{
 				this.xml.writeAttribute("type", "separatordialog");
 				this.xml.writeAttribute("container", "true");
 				GenXMLField.toXmlV21(this.xml,this.fields);
-				if(!this.rows.equals("")){
+				if(!this.rows.isEmpty()){
 					this.xml.addXml(this.rows);
 				}
 			this.xml.endElement();
@@ -430,6 +428,11 @@ public class IGRPTable extends IGRPComponent{
 		public Table() {
 			this.buttons = new ArrayList<>();
 		}
+
+		public void hiddenButton(boolean condition, IGRPButton... buttons) {
+			if (condition)
+				this.hiddenButton(buttons);
+		}
 		public void hiddenButton(IGRPButton...buttons) {
 			if(buttons != null)
 				this.buttons.addAll(Arrays.asList(buttons));
@@ -437,7 +440,7 @@ public class IGRPTable extends IGRPComponent{
 		
 		public IGRPButton[] getHiddenButtons() {
 			if(this.buttons != null)
-				return this.buttons.stream().toArray(IGRPButton[]::new);
+				return this.buttons.toArray(new IGRPButton[0]);
 			return null;
 		}
 	}
@@ -447,21 +450,19 @@ public class IGRPTable extends IGRPComponent{
 		xmlWritter.startElement(tagName + "_events"); 
 		xmlWritter.startElement("table"); 
 		xmlWritter.startElement("value");
-		
-		if(data != null) {
-			for(Object obj : data) {
-				xmlWritter.startElement("row"); 
-				xmlWritter.setElement("context-menu", ""); 
-				java.lang.reflect.Field []fields = obj.getClass().getDeclaredFields(); 
-				if(fields != null) {
-					for(java.lang.reflect.Field field : fields) {
-						xmlWritter.startElement(field.getName()); 
-						xmlWritter.writeAttribute("name", "p_" + field.getName());
-						xmlWritter.text(IgrpHelper.getValue(obj, field.getName()));
-						xmlWritter.endElement(); 
-					}
+
+		if (data != null) {
+			for (Object obj : data) {
+				xmlWritter.startElement("row");
+				xmlWritter.setElement("context-menu", "");
+				java.lang.reflect.Field[] fields = obj.getClass().getDeclaredFields();
+				for (java.lang.reflect.Field field : fields) {
+					xmlWritter.startElement(field.getName());
+					xmlWritter.writeAttribute("name", "p_" + field.getName());
+					xmlWritter.text(IgrpHelper.getValue(obj, field.getName()));
+					xmlWritter.endElement();
 				}
-				xmlWritter.endElement(); 
+				xmlWritter.endElement();
 			}
 		}
 		
@@ -472,7 +473,7 @@ public class IGRPTable extends IGRPComponent{
 		return xmlWritter.toString();
 	}
 	
-	public void setColumnStruct(IGRPTable.Struct columns[]) {
+	public void setColumnStruct(IGRPTable.Struct[] columns) {
 		columnStruct = columns; 
 	}
 	
