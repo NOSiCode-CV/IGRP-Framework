@@ -10,7 +10,7 @@ public class TextAreaField extends TextField {
 
 	public TextAreaField(Object model,String name) {
 		super(model,name);
-		this.propertie.put("type", "textarea");
+		this.propertie().put("type", "textarea");
 	}
 
 }

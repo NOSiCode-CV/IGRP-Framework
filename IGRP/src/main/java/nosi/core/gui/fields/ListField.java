@@ -11,34 +11,36 @@ import javax.persistence.Tuple;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.webapps.igrp.dao.Domain;
 
 /**
  * @author: Emanuel Pereira
- * 
+ * <p>
  *          Apr 13, 2017
  *
  *          Description: class to configure list field
  */
 
 public class ListField extends AbstractField {
+
 	public Object value = null;
 
 	public ListField(Object model, String name) {
 		super();
 		this.setName(name);
-		this.propertie.put("type", "select");
-		this.propertie.put("name", "p_" + name);
-		this.propertie.put("multiple", Boolean.valueOf(false));
-		this.propertie.put("right", Boolean.valueOf(false));
-		this.propertie.put("disabled", Boolean.valueOf(false));
-		this.propertie.put("maxlength", Integer.valueOf(30));
-		this.propertie.put("change", Boolean.valueOf(false));
-		this.propertie.put("required", Boolean.valueOf(false));
+		this.propertie().put("type", "select");
+		this.propertie().put("name", "p_" + name);
+		this.propertie().put("multiple", Boolean.FALSE);
+		this.propertie().put("right", Boolean.FALSE);
+		this.propertie().put("disabled", Boolean.FALSE);
+		this.propertie().put("maxlength", 30);
+		this.propertie().put("change", Boolean.FALSE);
+		this.propertie().put("required", Boolean.FALSE);
 		this.setTagName(name);
 		this.configValue(model);
 		try {
-			this.propertie.put("value", this.getValue());
-		} catch (NullPointerException e) {
+			this.propertie().put("value", this.getValue());
+		} catch (NullPointerException ignored) {
 
 		}
 		this.value = null;
@@ -51,27 +53,23 @@ public class ListField extends AbstractField {
 			String hasDomain = (String) this.propertie().get("domain"); 
 			if(Core.isNotNull(hasDomain) && (this.getListOptions() == null || this.getListOptions().isEmpty())) {
 				if(hasDomain.contains("«")) {
-					String aux[] = hasDomain.split(" « ");
+					String[] aux = hasDomain.split(" « ");
 					String domainName = aux[0].trim(); 
 					String appName = aux[1].trim(); 
-					if(this.propertie.getProperty("type").equals("radiolist") || this.propertie.getProperty("type").equals("checkboxlist"))
+					if(this.propertie().getProperty("type").equals("radiolist") || this.propertie().getProperty("type").equals("checkboxlist"))
 						this.loadDomainByApp(domainName, appName);
 					else
 						this.loadDomain(domainName, appName, "-- Selecionar --");
 				}else {
-					if(this.propertie.getProperty("type").equals("radiolist") || this.propertie.getProperty("type").equals("checkboxlist"))
+					if(this.propertie().getProperty("type").equals("radiolist") || this.propertie().getProperty("type").equals("checkboxlist"))
 						this.loadDomain(hasDomain);
 					else
 						this.loadDomain(hasDomain, "-- Selecionar --");
-					
-					
 				}
-					
-				
 			}
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
-		if ( (this.propertie.get("multiple") != null && this.propertie.get("multiple").equals("true")) || this.propertie.getProperty("type").equals("checkboxlist")) {
+		if ( (this.propertie().get("multiple") != null && this.propertie().get("multiple").equals("true")) || this.propertie().getProperty("type").equals("checkboxlist")) {
 			this.setValue(IgrpHelper.getValueArray(model, this.getName()));
 		} else
 			this.setValue("" + IgrpHelper.getValue(model, this.getName()));
@@ -102,7 +100,7 @@ public class ListField extends AbstractField {
 
 	@Override
 	public void setDefaultValue(Object defaultValue) {
-		this.propertie.put("value", defaultValue);
+		this.propertie().put("value", defaultValue);
 	}
 
 	@Override
@@ -121,7 +119,7 @@ public class ListField extends AbstractField {
 		if (prompt != null)
 			map.put(null, gt(prompt));
 		// To skip error "incompatible types: inferred type does not conform to upper bound(s) inferred..."
-		Map<Object, String> resultMap = Core.findDomainByCode(domains).stream().collect(Collectors.toMap(x -> x.getValor(), x -> gt(x.getDescription()),(oldValue, newValue) -> oldValue, LinkedHashMap<Object, String>::new));	
+		Map<Object, String> resultMap = Core.findDomainByCode(domains).stream().collect(Collectors.toMap(Domain::getValor, x -> gt(x.getDescription()),(oldValue, newValue) -> oldValue, LinkedHashMap<Object, String>::new));
 		map.putAll(resultMap);
 		this.setValue(map);
 	}
@@ -132,7 +130,7 @@ public class ListField extends AbstractField {
 		if (prompt != null)
 			map.put(null, gt(prompt));
 		// To skip error "incompatible types: inferred type does not conform to upper bound(s) inferred..."
-		Map<Object, String> resultMap = Core.findDomainByCode(domains,codeApp).stream().collect(Collectors.toMap(x -> x.getValor(), x -> gt(x.getDescription()),(oldValue, newValue) -> oldValue, LinkedHashMap<Object, String>::new));	
+		Map<Object, String> resultMap = Core.findDomainByCode(domains,codeApp).stream().collect(Collectors.toMap(Domain::getValor, x -> gt(x.getDescription()),(oldValue, newValue) -> oldValue, LinkedHashMap<Object, String>::new));
 		map.putAll(resultMap);
 		this.setValue(map);
 	}

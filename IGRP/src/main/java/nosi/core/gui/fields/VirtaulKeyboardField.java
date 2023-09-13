@@ -10,8 +10,8 @@ public class VirtaulKeyboardField extends TextField {
 
 	public VirtaulKeyboardField(Object model,String name) {
 		super(model,name);
-		this.propertie.put("type", "virtualkeyboard");
-		this.propertie.put("keyType", "vkb_aznum");
+		this.propertie().put("type", "virtualkeyboard");
+		this.propertie().put("keyType", "vkb_aznum");
 	}
 
 }
