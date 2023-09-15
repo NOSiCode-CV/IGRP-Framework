@@ -15,7 +15,9 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.function.BiConsumer;
+import java.util.function.Predicate;
 
 import static nosi.core.i18n.Translator.gt;
 
@@ -207,9 +209,14 @@ public class IGRPButton {
 	public void setParameter(String parameter) {
 		this.parameter = parameter;
 	}
-	
+
+	public IGRPButton addParameter(String name, Object value, Predicate<Object> predicate) {
+		return predicate.test(value) ? this.addParameter(name, value) : this;
+	}
 
     public IGRPButton addParameter(String name, Object value) {
+
+		Objects.requireNonNull(name, "Parameter to be added can not be null");
 
         final BiConsumer<String, Object> parameterProcessor = (n, v) -> {
             final String param = "&" + n + "=" + (Core.isNotNull(v) ? v.toString().trim() : "");
