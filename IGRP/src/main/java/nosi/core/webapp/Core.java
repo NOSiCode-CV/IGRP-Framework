@@ -1414,10 +1414,15 @@ public final class Core {
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name) {
+		return getParam(name,"");
+	}
+	
+	public static String getParam(String name,String defaultParam) {
 		Object v = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameter(name) : null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, true);
-		return (v != null && !v.equals("null")) ? v + "" : "";
+		return (v != null && !v.equals("null")) ? v + "" : defaultParam;
+		
 	}
 
 	/**

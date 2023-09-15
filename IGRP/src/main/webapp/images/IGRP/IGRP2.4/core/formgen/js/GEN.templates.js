@@ -256,9 +256,9 @@ var TEMPLATES = {
 
 				var fieldTemplate = temp == 'field' ? '' : '.'+temp;
 
-				var fieldContainerTmpl = fileExistsURL+'fields/'+p.field+'/templates/'+p.field+'.'+p.container+fieldTemplate+'.html';
+				var fieldContainerTmpl = fileExistsURL+'fields/'+p.field+'/templates/'+p.field+'.'+p.container+fieldTemplate+'.html&version=2.4';
 	
-				var fieldCopyTempl 	   = fileExistsURL+'fields/'+p.field+'/templates/'+p.field+'.'+container+fieldTemplate+'.html';
+				var fieldCopyTempl 	   = fileExistsURL+'fields/'+p.field+'/templates/'+p.field+'.'+container+fieldTemplate+'.html&version=2.4';
 				//url = path+'/components/core/formgen/types/fields/'+p.field+'/templates/'+p.field+'.'+container+fieldTemplate+'.html';
 	
 				//console.log(fieldContainerTmpl);

@@ -27,14 +27,14 @@ public abstract class View  implements IHeaderConfig{
 	
 	private Controller context;
 	private Page page; // representa o main layout de uma view
-	public String title;
-	public String target;	
+	private String title;
+	private String target;	
 	private String pageTitle;
 	protected Model model;
 	
 	private Map<String, Object> currentModels;
 	
-	public View(){
+	protected View(){
 		this.currentModels = new HashMap<>();
 		this.pageTitle = "IGRP"; // Default page title
 		this.page = new Page();
@@ -57,7 +57,7 @@ public abstract class View  implements IHeaderConfig{
 	private void addPersistentParams(IGRPForm formHidden) {
 		//Add hidden field env_frm_url to persistence index url of page
 		HiddenField field = new HiddenField("env_frm_url");
-		String target = Core.getParam("target");
+		String targetPersit = Core.getParam("target");
 		String value = null;
 		String isPublic = Core.getParam("isPublic");
 		
@@ -68,9 +68,9 @@ public abstract class View  implements IHeaderConfig{
 		}else {
 			//No encrypt if page is public
 			if(Core.isNotNull(isPublic) && isPublic.equals("1")) 
-				value = "webapps?r="+Igrp.getInstance().getCurrentAppName()+"/"+Igrp.getInstance().getCurrentPageName()+"/index&target="+target+"&isPublic=1&lang="+Core.getParam("lang")+"&dad="+Igrp.getInstance().getCurrentAppName();
+				value = "webapps?r="+Igrp.getInstance().getCurrentAppName()+"/"+Igrp.getInstance().getCurrentPageName()+"/index&target="+targetPersit+"&isPublic=1&lang="+Core.getParam("lang")+"&dad="+Igrp.getInstance().getCurrentAppName();
 			else 
-				value = Route.getResolveUrl(Igrp.getInstance().getCurrentAppName(),Igrp.getInstance().getCurrentPageName(), "index"+(Core.isNotNull(target)?("&target="+target):""));
+				value = Route.getResolveUrl(Igrp.getInstance().getCurrentAppName(),Igrp.getInstance().getCurrentPageName(), "index"+(Core.isNotNull(targetPersit)?("&target="+targetPersit):""));
 		}
 		field.propertie().add("value", value).add("name","p_env_frm_url").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","env_frm_url");
 		field.setValue(value);
@@ -93,7 +93,7 @@ public abstract class View  implements IHeaderConfig{
 				  		)
 				  .forEach(param->{
 					  	HiddenField f = new HiddenField(null,param.getKey());
-						f.propertie.add("value", param.getValue()[0]).add("tag", param.getKey()).add("name",param.getKey());
+						f.propertie().add("value", param.getValue()[0]).add("tag", param.getKey()).add("name",param.getKey());
 						f.setValue(param.getValue()[0]);
 						formHidden.addField(f);
 				  });		
@@ -111,7 +111,7 @@ public abstract class View  implements IHeaderConfig{
 				e.printStackTrace();
 			}
 			HiddenField f = new HiddenField(null,"jsonLookup");
-			f.propertie.add("value",jsonLookup).add("tag","jsonLookup").add("name","jsonLookup");
+			f.propertie().add("value",jsonLookup).add("tag","jsonLookup").add("name","jsonLookup");
 			f.setValue(jsonLookup);
 			formHidden.addField(f);
 		}
@@ -133,7 +133,7 @@ public abstract class View  implements IHeaderConfig{
 					&& !param.equalsIgnoreCase("prm_app")
 				) {
 					HiddenField f = new HiddenField(null,param);
-					f.propertie.add("value", p.getValue()[0]).add("tag", param).add("name",param);
+					f.propertie().add("value", p.getValue()[0]).add("tag", param).add("name",param);
 					f.setValue(p.getValue()[0]);
 					formHidden.addField(f);
 				}
@@ -145,10 +145,18 @@ public abstract class View  implements IHeaderConfig{
 	public String getTitle() {
 		return title;
 	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	@Override
 	public String getTarget() {
 		return target;
+	}
+	
+	public void setTarget(String target) {
+		this.target = target;
 	}
 	public Controller getContext(){
 		return this.context;
@@ -165,12 +173,10 @@ public abstract class View  implements IHeaderConfig{
 	public abstract void render(); // Permite override obrigatorio nas subclasses
 	
 	protected void addToPage(Object obj){
-		if(obj instanceof IGRPComponent) {
-			if(((IGRPComponent) obj).isVisible())
-				this.page.addContent(obj);			
-		}else if(obj instanceof IGRPToolsBar) {
-			if(((IGRPToolsBar) obj).isVisible())
-				this.page.addContent(obj);
+		if(obj instanceof IGRPComponent igrpcomponent && igrpcomponent.isVisible()) {
+			this.page.addContent(obj);			
+		}else if(obj instanceof IGRPToolsBar igrptoolsbar && igrptoolsbar.isVisible()) {
+			this.page.addContent(obj);
 		}else
 			this.page.addContent(obj);
 	}
