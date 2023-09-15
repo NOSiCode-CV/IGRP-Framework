@@ -306,7 +306,7 @@ public class IGRPTable extends IGRPComponent{
 				StringBuilder text= new StringBuilder("ctx_hidden=");
 				for(IGRPButton button:((IGRPTable.Table)l).getHiddenButtons()) {
 					text.append(button.getProperties().getProperty("rel")).append(",");
-				}
+				}		
 				this.xml.text(text.toString());
 				this.xml.endElement();		
 			}
