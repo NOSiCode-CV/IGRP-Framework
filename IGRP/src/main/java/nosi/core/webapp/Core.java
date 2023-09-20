@@ -1409,15 +1409,24 @@ public final class Core {
 	/**
 	 * {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
 	 * 
-	 * @param name
-	 *            of the string name remove the attribute after get it
+	 * @param name of the string name remove the attribute after get it
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name) {
+		return getParam(name,"");
+	}
+	/**
+	 * 
+	 * @param name of the string to be get in th request getParameter, will remove the attribute after getting it
+	 * @param defaultParam is the string to be returned if no param is found
+	 * @return
+	 */
+	public static String getParam(String name,String defaultParam) {
 		Object v = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameter(name) : null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, true);
-		return (v != null && !v.equals("null")) ? v + "" : "";
+		return (v != null && !v.equals("null")) ? v + "" : defaultParam;
+		
 	}
 
 	/**
