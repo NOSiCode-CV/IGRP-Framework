@@ -19,10 +19,9 @@ import nosi.core.webapp.uploadfile.UploadFile;
 
 /**
  * @author: Emanuel Pereira
- * 
- *          Apr 17, 2017
+ * Apr 17, 2017
  *
- *          Description: class to generate xml of SeparatorList
+ * Description: class to generate xml of SeparatorList
  */
 /*
  * /*Generate XML SeparatorList <separatorlist_1 type="separatorlist"
@@ -39,19 +38,18 @@ public class IGRPSeparatorList extends IGRPTable {
 
 	protected static final String TEMP_VALUE = "temp-value";
 	
-	public IGRPSeparatorList(String tag_name, String title) {
-		super(tag_name, title);
+	public IGRPSeparatorList(String tagName, String title) {
+		super(tagName, title);
 		this.properties.put("type", "separatorlist");
 		this.addFormlist_1_id();
 	}
 
-	public IGRPSeparatorList(String tag_name) {
-		this(tag_name, "");
+	public IGRPSeparatorList(String tagName) {
+		this(tagName, "");
 	}
 
-	public IGRPSeparatorList(String tag_name, Object model, String name) {
-		this(tag_name, "");
-		//
+	public IGRPSeparatorList(String tagName, Object model, String name) {
+		this(tagName);
 	}
 
 	protected String[] rowId;
@@ -66,22 +64,22 @@ public class IGRPSeparatorList extends IGRPTable {
 	}
 
 	private void addFormlist_1_id() {
-		Field formlist_1_id = new HiddenField(this.tag_name + "_id");
-		formlist_1_id.setLabel("");
-		formlist_1_id.propertie().add("name", "p_" + this.tag_name + "_id").add("type", "hidden").add("maxlength", "50")
+		Field formlist1Id = new HiddenField(this.tag_name + "_id");
+		formlist1Id.setLabel("");
+		formlist1Id.propertie().add("name", "p_" + this.tag_name + "_id").add("type", "hidden").add("maxlength", "50")
 				.add("java-type", "").add("tag", this.tag_name + "_id").add("desc", "true")
 				.add("hidden_formlist", "true");
-		this.addField(formlist_1_id);
+		this.addField(formlist1Id);
 	}
 
 	@Override
 	protected void genRows() {
 		int rowIndex = 1;
 		this.data = this.modelList;
-		if (this.data != null && this.data.size() > 0 && this.fields.size() > 0) {
+		if (this.data != null && !this.data.isEmpty() && !this.fields.isEmpty()) {
 			for (Object obj : this.data) {
 				this.xml.startElement("row");//start row
-				if (this.buttons.size() > 0) {
+				if (!this.buttons.isEmpty()) {
 					this.xml.startElement("context-menu");//start context-menu
 					for (Field field : this.fields) {
 						if (field.isParam())
@@ -96,8 +94,8 @@ public class IGRPSeparatorList extends IGRPTable {
 						if (field.getName().equals(this.tag_name + "_id")) {
 							if (val != null && !val.isEmpty()) {
 								this.xml.startElement(this.tag_name + "_id");
-								String[] aux = val.split(SPLIT_SEQUENCE);
-								this.xml.text(aux != null && aux.length > 0 ? aux[0] : "");
+								final String[] aux = val.split(SPLIT_SEQUENCE);
+								this.xml.text(aux.length > 0 ? aux[0] : "");
 								this.xml.endElement();
 							} else {
 								this.xml.startElement(this.tag_name + "_id");
@@ -106,7 +104,7 @@ public class IGRPSeparatorList extends IGRPTable {
 							}
 							continue;
 						}
-						if ((val == null || val.equals("")) && field.getValue() != null) 
+						if ((val == null || val.isEmpty()) && field.getValue() != null)
 							val = field.getValue().toString(); 
 						if (val != null) {
 							String[] aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved
@@ -126,7 +124,7 @@ public class IGRPSeparatorList extends IGRPTable {
 				this.xml.endElement();//end rows
 			}
 		}
-		if (!this.rows.equals("")) 
+		if (!this.rows.isEmpty())
 			this.xml.addXml(this.rows);
 	}
 
@@ -141,34 +139,30 @@ public class IGRPSeparatorList extends IGRPTable {
 			}
 		this.xml.endElement();
 	}
-	
-	protected void genRowField(Field field,String key,String value) {
-		
-		//if(!field.getName().contains("_check")) {
-			
-			String sufix = "_desc";
-			this.xml.startElement(field.getTagName());
-				this.xml.writeAttribute("name", field.propertie().getProperty("name"));
-				if(field instanceof CheckBoxListField || field instanceof CheckBoxField 
-					|| field instanceof RadioListField || field instanceof RadioField) {
-					this.xml.writeAttribute("check","true");
-					//sufix = this instanceof IGRPFormList ? "_check" : sufix;
-				}
-				if(field instanceof FileField && Core.isNotNull(field.propertie().getProperty(TEMP_VALUE))) {
-					this.xml.writeAttribute(TEMP_VALUE, field.propertie().getProperty(TEMP_VALUE));
-				}
-				this.xml.text(key);
+
+	protected void genRowField(Field field, String key, String value) {
+
+		final String suffix = "_desc";
+
+		this.xml.startElement(field.getTagName());
+		this.xml.writeAttribute("name", field.propertie().getProperty("name"));
+		if (field instanceof CheckBoxListField || field instanceof CheckBoxField
+			|| field instanceof RadioListField || field instanceof RadioField) {
+			this.xml.writeAttribute("check", "true");
+		}
+		if (field instanceof FileField && Core.isNotNull(field.propertie().getProperty(TEMP_VALUE))) {
+			this.xml.writeAttribute(TEMP_VALUE, field.propertie().getProperty(TEMP_VALUE));
+		}
+		this.xml.text(key);
+		this.xml.endElement();
+
+		if (!(field instanceof HiddenField)) {
+			//Description
+			this.xml.startElement(field.getTagName() + suffix);
+			this.xml.writeAttribute("name", field.propertie().getProperty("name") + suffix);
+			this.xml.text(value);
 			this.xml.endElement();
-			
-			if(!(field instanceof HiddenField)) {
-				//Description 
-				this.xml.startElement(field.getTagName() + sufix);
-				this.xml.writeAttribute("name", field.propertie().getProperty("name") + sufix);
-				this.xml.text(value);
-				this.xml.endElement();
-			}
-			
-		//}
+		}
 	}
 	
 	@Override
@@ -209,6 +203,11 @@ public class IGRPSeparatorList extends IGRPTable {
 		private UploadFile file;
 
 		public Pair() {
+		}
+
+		public Pair(Object key, Object value) {
+			this.key = key != null ? key.toString() : "";
+			this.value = value != null ? value.toString() : "";
 		}
 
 		public Pair(String key, String value) {
