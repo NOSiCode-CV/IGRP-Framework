@@ -489,6 +489,8 @@ public abstract class Model { // IGRP super model
 	}
 
 	private void loadModelFromFile() {
+		if (!Core.isUploadedFiles())
+			return;
 		try {
 			final Part file = Igrp.getInstance().getRequest().getPart("p_igrpfile");
 			if (file != null && file.getSize() > 0) {
