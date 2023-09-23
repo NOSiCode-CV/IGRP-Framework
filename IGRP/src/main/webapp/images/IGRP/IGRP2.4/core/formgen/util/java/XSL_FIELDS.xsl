@@ -629,7 +629,7 @@
 			<xsl:if test="$type='Pair'">
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab_"/>
-				<xsl:value-of select="concat('public void set',$name_,'(String key){')"/>
+				<xsl:value-of select="concat('public void set',$name_,'(Object key){')"/>
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2_"/>
 				<xsl:value-of select="concat('this.set',$name_,'(key, key);')"/>
@@ -638,7 +638,7 @@
 				<xsl:value-of select="'}'"/>
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab_"/>
-				<xsl:value-of select="concat('public void set',$name_,'(String key, String value){')"/>
+				<xsl:value-of select="concat('public void set',$name_,'(Object key, Object value){')"/>
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2_"/>
 				<xsl:value-of select="concat('this.',$name,'= new Pair(key, value);')"/>
