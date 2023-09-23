@@ -668,7 +668,6 @@
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab_"/>
 				<xsl:value-of select="'}'"/>
-				<xsl:value-of select="$newline"/>
 			</xsl:if>
     		<!-- En gen Method Set -->
 
