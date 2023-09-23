@@ -106,8 +106,8 @@
 		<igrp.migration.location>${migration_location}</igrp.migration.location> <!-- Ex: classpath:nosi/core/db/migration/igrp/postgres  -->
 
 
-		<!-- Barcode ...
-      <google.zxing.version>3.5.1</google.zxing.version> -->
+		<!-- Barcode ...-->
+      <google.zxing.version>3.5.1</google.zxing.version> 
 		<!--  <apache.httpcomponents.httpmime.version>4.5.14</apache.httpcomponents.httpmime.version>
       <apache.httpcomponents.httpcore.version>4.4.16</apache.httpcomponents.httpcore.version>-->
 		<!-- K8s & Docker
@@ -179,12 +179,12 @@
          <artifactId>openhtmltopdf-objects</artifactId>
          <version>${openhtml.version}</version>
       </dependency>
-		<!-- Barcode... 
+		<!-- Barcode... -->
       <dependency>
          <groupId>com.google.zxing</groupId>
          <artifactId>javase</artifactId>
          <version>${google.zxing.version}</version>
-      </dependency>-->
+      </dependency>
 		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
       <dependency>
          <groupId>org.jsoup</groupId>
@@ -603,6 +603,7 @@
                         <extension>.class</extension>
 								<!-- if you want to	update each time you build with mvn compile -->
                         <extension>.xml</extension>
+                         <extension>.properties</extension>
                      </extensions>
                   </synchronization>
                   <systemVariables>
