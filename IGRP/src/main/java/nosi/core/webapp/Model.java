@@ -543,6 +543,8 @@ public abstract class Model { // IGRP super model
 	}
 
 	private Map<String, List<Part>> getFiles() {
+		if (!Core.isUploadedFiles())
+			return new HashMap<>();
 		try {
 			final Collection<Part> allFiles = Igrp.getInstance().getRequest().getParts();
 			if (allFiles != null) {
