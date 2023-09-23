@@ -489,6 +489,8 @@ public abstract class Model { // IGRP super model
 	}
 
 	private void loadModelFromFile() {
+		if (!Core.isUploadedFiles())
+			return;
 		try {
 			final Part file = Igrp.getInstance().getRequest().getPart("p_igrpfile");
 			if (file != null && file.getSize() > 0) {
@@ -541,6 +543,8 @@ public abstract class Model { // IGRP super model
 	}
 
 	private Map<String, List<Part>> getFiles() {
+		if (!Core.isUploadedFiles())
+			return new HashMap<>();
 		try {
 			final Collection<Part> allFiles = Igrp.getInstance().getRequest().getParts();
 			if (allFiles != null) {
