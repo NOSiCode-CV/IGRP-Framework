@@ -207,11 +207,6 @@ public class IGRPSeparatorList extends IGRPTable {
 			this.key = key;
 			this.value = value;
 		}
-
-		public Pair(Object key, Object value) {
-			this.key = key != null ? key.toString() : "";
-			this.value = value != null ? value.toString() : "";
-		}
 		
 		public Pair(String id,String key, String value) {
 			this.key = key;
