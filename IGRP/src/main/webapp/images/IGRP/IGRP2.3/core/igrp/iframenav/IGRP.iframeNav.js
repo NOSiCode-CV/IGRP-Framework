@@ -76,6 +76,12 @@
 				if (modal.attr('close') && modal.attr('close') == 'refresh')
 					$.IGRP.targets.closerefresh.action();
 
+
+				$.IGRP.events.execute('iframe-modal-hide',{
+					iframe,
+					modal
+				})
+
 			},
 
 			events:function(){
