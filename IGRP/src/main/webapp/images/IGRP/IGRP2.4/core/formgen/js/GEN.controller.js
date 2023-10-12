@@ -2483,6 +2483,10 @@ var GENERATOR = function(genparams){
 						
 						json.plsql[p] = GEN.SETTINGS.gentype;
 
+					if(p === 'package' && json.plsql[p]?.indexOf('.pages')>=0 ){
+						json.plsql[p] = json.plsql[p].split('.pages')[0];
+					}
+					
 					GEN.SETTINGS.SET(p,json.plsql[p]);
 				}
 

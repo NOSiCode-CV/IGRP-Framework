@@ -57,7 +57,6 @@
 					iframe.replaceWith(n_iframe);
 				}
 
-				console.log(modal)
 				modal.modal('show');
 			},
 			hide:function(){
@@ -76,6 +75,12 @@
 				
 				if (modal.attr('close') && modal.attr('close') == 'refresh')
 					$.IGRP.targets.closerefresh.action();
+
+
+				$.IGRP.events.execute('iframe-modal-hide',{
+					iframe,
+					modal
+				})
 
 			},
 

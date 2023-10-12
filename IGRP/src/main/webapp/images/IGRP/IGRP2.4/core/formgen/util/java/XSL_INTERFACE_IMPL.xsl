@@ -8,9 +8,13 @@
 		<xsl:call-template name="import-packages-interface-impl"></xsl:call-template>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
+		
+		<xsl:value-of select="'/* SAMPLE of a Delegate class to be used in your project with copy paste for now (THIS WILL NOT BE SAVED) */'"></xsl:value-of>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="'@IGRPComponent'"/>
 		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="concat('public interface ',$class_name,'Delegate extends BasePageDelegate implements I',$class_name,'Delegate {')"></xsl:value-of>
+		<xsl:value-of select="concat('public class ',$class_name,'Delegate extends BasePageDelegate implements I',$class_name,'Delegate {')"></xsl:value-of>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
 
@@ -19,7 +23,7 @@
 		<xsl:value-of select="$newline"/>
 
 		<xsl:value-of select="$tab"/>
-		<xsl:value-of select="concat('default void index(',$class_name,' model, ',$class_name,'View view) {')"/>
+		<xsl:value-of select="concat('public void index(',$class_name,' model, ',$class_name,'View view) {')"/>
 
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
@@ -30,10 +34,6 @@
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="concat($tab,$tab)"/>
-		<xsl:value-of select="concat('I',$class_name,'.super.index(model, view);')"/>
-
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab"/>
 
 		<xsl:value-of select="'}'"/>
 
@@ -63,7 +63,7 @@
 							<xsl:value-of select="concat('//TODO: Implement ',@rel)"/>
 							<xsl:value-of select="$newline"></xsl:value-of>
 							<xsl:value-of select="$tab"></xsl:value-of>
-							<xsl:value-of select="concat('return I',$class_name,'Delegate.super.',@rel,'(model);')"></xsl:value-of>
+							<xsl:value-of select="concat('return this.redirect(',$double_quotes,./app,$double_quotes,',',$double_quotes,./page,$double_quotes,',',$double_quotes,./link,$double_quotes,', this.queryString());')"/>
 						</xsl:with-param>
 		            </xsl:call-template>
 		        </xsl:if>
@@ -85,7 +85,9 @@
 						<xsl:value-of select="concat('//TODO: Implement ',@rel)"/>
 						<xsl:value-of select="$newline"></xsl:value-of>
 						<xsl:value-of select="$tab"></xsl:value-of>
-						<xsl:value-of select="concat('return I',$class_name,'Delegate.super.',@rel,'(model);')"></xsl:value-of>
+						
+						<xsl:value-of select="concat('return this.redirect(',$double_quotes,./app,$double_quotes,',',$double_quotes,./page,$double_quotes,',',$double_quotes,./link,$double_quotes,', this.queryString());')"/>
+			
 					</xsl:with-param>
 	            </xsl:call-template>
 	        </xsl:if>
@@ -107,7 +109,8 @@
 						<xsl:value-of select="concat('//TODO: Implement ',@rel)"/>
 						<xsl:value-of select="$newline"></xsl:value-of>
 						<xsl:value-of select="$tab"></xsl:value-of>
-						<xsl:value-of select="concat('return I',$class_name,'Delegate.super.',@rel,'(model);')"></xsl:value-of>
+							<xsl:value-of select="concat('return this.redirect(',$double_quotes,./app,$double_quotes,',',$double_quotes,./page,$double_quotes,',',$double_quotes,./link,$double_quotes,', this.queryString());')"/>
+						
 					</xsl:with-param>
 	            </xsl:call-template>
             </xsl:if>

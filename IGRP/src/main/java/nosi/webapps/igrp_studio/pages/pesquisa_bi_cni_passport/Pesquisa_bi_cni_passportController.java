@@ -34,6 +34,7 @@ public class Pesquisa_bi_cni_passportController extends Controller {
    		view.tipo_documento.setVisible(false);
 		view.data_nascimento.setVisible(false);
 		view.nome.setVisible(false);
+		view.btn_pesquisar.setLink("index");
 		
 		ConsumeJson json_obj = new ConsumeJson();
 		

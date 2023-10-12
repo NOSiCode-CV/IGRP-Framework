@@ -378,12 +378,12 @@ public class ConfigDatabaseController extends Controller {
 			"\t\t<property name=\"hibernate.hbm2ddl.jdbc_metadata_extraction_strategy\">individually</property>\r\n" + 
 			"\t\t<property name=\"hibernate.current_session_context_class\">org.hibernate.context.internal.ThreadLocalSessionContext</property>\r\n" + 
 			"\t\t<property name=\"hibernate.transaction.auto_close_session\">DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION</property>\r\n" + 
-			"\t\t<!-- Hikaricp configuration -->\r\n" + 
+			"\t\t<!-- Hikaricp configuration https://github.com/brettwooldridge/HikariCP#configuration-knobs-baby -->\r\n" + 
 			"\t\t<property name=\"hibernate.connection.provider_class\">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>\r\n" + 
-			"\t\t<property name=\"hibernate.hikari.connectionTimeout\">120000</property>\r\n" + 
-			"\t\t<property name=\"hibernate.hikari.idleTimeout\">600000</property>\r\n" + 
 			"\t\t<property name=\"hibernate.hikari.minimumIdle\">0</property>\r\n" + 
 			"\t\t<property name=\"hibernate.hikari.maximumPoolSize\">10</property>\r\n" + 
+			"\t\t<property name=\"hibernate.hikari.idleTimeout\">600000</property>\r\n" + 
+			"\t\t<property name=\"hibernate.hikari.connectionTimeout\">120000</property>\r\n" + 
 			"\t\t<property name=\"hibernate.hikari.maxLifetime\">1800000</property>\r\n" + 
 			"\t\t<property name=\"hibernate.hikari.leakDetectionThreshold\">0</property>\r\n" +
 			"\t\t<!-- Mapping your class here... \n" + 
@@ -409,12 +409,12 @@ public class ConfigDatabaseController extends Controller {
 				"\t\t<property name=\"hibernate.current_session_context_class\">org.hibernate.context.internal.ThreadLocalSessionContext</property>\r\n" + 
 				"\t\t<property name=\"hibernate.transaction.auto_close_session\">DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION</property>\r\n" + 
 				"\t\t<property name=\"hibernate.dialect\">"+config.getName_db()+"</property>\n"+
-				"\t\t<!-- Hikaricp configuration -->\r\n" + 
+				"\t\t<!-- Hikaricp configuration https://github.com/brettwooldridge/HikariCP#configuration-knobs-baby -->\r\n" + 
 				"\t\t<property name=\"hibernate.connection.provider_class\">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.connectionTimeout\">120000</property>\r\n" + 
-				"\t\t<property name=\"hibernate.hikari.idleTimeout\">600000</property>\r\n" + 
 				"\t\t<property name=\"hibernate.hikari.minimumIdle\">0</property>\r\n" + 
 				"\t\t<property name=\"hibernate.hikari.maximumPoolSize\">10</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.idleTimeout\">600000</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.connectionTimeout\">120000</property>\r\n" + 
 				"\t\t<property name=\"hibernate.hikari.maxLifetime\">1800000</property>\r\n" + 
 				"\t\t<property name=\"hibernate.hikari.leakDetectionThreshold\">0</property>\r\n" +
 				"\t\t<!-- Mapping your class here... \n" + 
