@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Map.Entry;
 import java.util.function.BiConsumer;
+import java.util.function.Predicate;
 
 import static nosi.core.i18n.Translator.gt;
 
@@ -36,7 +37,7 @@ public class IGRPButton {
 	private boolean genReverse = false;
 	private Report report;
 	public FieldProperties propertie;
-	
+
 	public IGRPButton(String title, String app, String page, String link, String target, String img, String parameter,
 			String params) {
 		this.propertie = new FieldProperties();
@@ -102,7 +103,7 @@ public class IGRPButton {
 	public void setPage(String page) {
 		this.page = page;
 	}
-	
+
 	public String getTag() {
 		return tag;
 	}
@@ -114,12 +115,12 @@ public class IGRPButton {
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
 	}
-	
+
 	public String getPrefix() {
 		return this.prefix;
 	}
-	
-	public String getLink() {	
+
+	public String getLink() {
 		if(this.report!=null) {
 			link = this.report.getLink();
 			this.report.getParams().forEach((key, value) -> {
@@ -132,8 +133,8 @@ public class IGRPButton {
 			link = link.replace("webapps\\?r=", "");
 			return link;
 		}
-		String target_ = "";		
-		
+		String target_ = "";
+
 		if (Igrp.getInstance().getRequest().getParameter("target") != null)
 			target_ += "&target=" + Igrp.getInstance().getRequest().getParameter("target");
 
@@ -162,18 +163,18 @@ public class IGRPButton {
 		this.genReverse = genReverse;
 	}
 
-	public void setLink(String link) {		
+	public void setLink(String link) {
 		this.link = link;
 	}
 
 	public void setLink(Report report) {
 		this.report = report;
 	}
-	
+
 	public void setLink(String app, String page, String action) {
 		this.setApp(app);
 		this.setPage(page);
-		this.setLink(action);		
+		this.setLink(action);
 	}
 
 	public String getTarget() {
@@ -207,7 +208,11 @@ public class IGRPButton {
 	public void setParameter(String parameter) {
 		this.parameter = parameter;
 	}
-	
+
+   public IGRPButton addParameter(String name, Object value, Predicate<Object> predicate) {
+      return predicate.test(value) ? addParameter(name, value) : this;
+   }
+
 
     public IGRPButton addParameter(String name, Object value) {
 

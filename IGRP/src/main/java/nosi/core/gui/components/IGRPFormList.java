@@ -11,7 +11,6 @@ import nosi.webapps.igrp.dao.TempFile;
 
 /**
  * @author: Emanuel Pereira
- * 
  * Apr 17, 2017
  *
  * Description: class to generate xml of FormList
@@ -45,8 +44,8 @@ public class IGRPFormList extends IGRPSeparatorList {
 	public IGRPFormList(String tagName, String title) {
 		super(tagName, title);
 		this.properties.put("type", "formlist");
-		String fieldDel = (tagName + "_del").toLowerCase();
-		String[] delLinesValues = Core.getParamArray("p_" + fieldDel);
+		final String fieldDel = (tagName + "_del").toLowerCase();
+		final String[] delLinesValues = Core.getParamArray("p_" + fieldDel);
 		if (delLinesValues != null) {
 			for (String value : delLinesValues) {
 				Core.addHiddenField(fieldDel, value);
@@ -74,13 +73,12 @@ public class IGRPFormList extends IGRPSeparatorList {
 				}
 				for (Field field : this.fields) {
 					if (field.isVisible()) {
-						String val = IgrpHelper.getValue(obj, field.getName());
-						
+						final String val = IgrpHelper.getValue(obj, field.getName());
 						if (field.getName().equals(this.tag_name + "_id")) {
 							this.xml.startElement(this.tag_name + "_id");
 							if (val != null && !val.isEmpty()) {
-								String[] aux = val.split(SPLIT_SEQUENCE);
-								this.xml.text(aux != null && aux.length > 0 ? aux[0] : "");
+								final String[] aux = val.split(SPLIT_SEQUENCE);
+								this.xml.text(aux.length > 0 ? aux[0] : "");
 							} else {
 								this.xml.text((rowIndex++) + "");
 							}
@@ -89,10 +87,10 @@ public class IGRPFormList extends IGRPSeparatorList {
 						}
 						
 						if (val != null) {
-							String[] aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved
+							final String[] aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved
 							if (field instanceof FileField) {
 								if (aux.length > 2) {// With temp file
-									TempFile tempFile = TempFileHelper.getTempFile(aux[2]);
+									final TempFile tempFile = TempFileHelper.getTempFile(aux[2]);
 									if (tempFile != null) {
 										field.propertie().add(TEMP_VALUE, tempFile.getName());
 									} else {
@@ -122,7 +120,7 @@ public class IGRPFormList extends IGRPSeparatorList {
 			}
 			this.xml.endElement();
 		}
-		if (!this.rows.equals(""))
+		if (!this.rows.isEmpty())
 			this.xml.addXml(this.rows);
 	}
 	

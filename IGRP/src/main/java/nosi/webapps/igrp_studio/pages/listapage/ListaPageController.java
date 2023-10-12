@@ -24,6 +24,7 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.mime_type.MimeType;
 import nosi.core.webapp.import_export_v2.exports.ExportHelper;
+import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ImportExportDAO;
@@ -194,13 +195,16 @@ public class ListaPageController extends Controller {
 						+ (Core.isNotNull(p.getOrganization().getApplication().getImg_src())
 								? p.getOrganization().getApplication().getImg_src()
 								: "default.svg"));
-				myapps.setMy_aplicacao("igrp_studio", "env", "openApp")
+				myapps.setMy_aplicacao("webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"env"+"/"+"openApp"))
 						.addParam("app", p.getOrganization().getApplication().getDad())
 						.addParam("page", page + "/index&title=" + p.getOrganization().getApplication().getName());
 				myapps.setMy_aplicacao_desc(p.getOrganization().getApplication().getName());
 				myapps.setEnv_fk(p.getOrganization().getApplication().getId());
 				apps.add(myapps);
 			}
+			//<a href="webapps?r=JsYEVgCPilhnccmcfv4FtUhfkFDZTtUJbzX6ZIRDNIo=&amp;app=sis&amp;page=tutorial/DefaultPage/index&amp;title=SIS" class="igrp-app-block clear clearfix" search-content="SIS - Sistema Integrado de Saúde"><div class="app-img"><img src="/IGRP/images/IGRP/IGRP2.3/assets/img/iconApp/mz-comercio.png"></div>
+			           //<a href="JsYEVgCPilhnccmcfv4FtUhfkFDZTtUJbzX6ZIRDNIo=&amp;app=sis&amp;page=tutorial/DefaultPage/index&amp;title=SIS" class="link bClick btn btn-link " target-fields="" target="_newtab" request-fields="" name="my_aplicacao"><span>SIS</span></a>
+			
 			// model.setInfopanel_3_val(""+apps.size());
 		}
 

@@ -598,15 +598,25 @@ var mWindow = null,
 
 		var mpsubmit  = function(p){
 			
-			var formData = p.clicked.parents('table tbody tr')[0] ? '' : form.serialize(),
-			
-				fields = $.IGRP.utils.getFieldsValidate(),
+			let fields = $.IGRP.utils.getFieldsValidate(),
 				
-				valid  = formData != '' ? (p?.validate ? p.validate : fields.valid()) : true;
+				auxParent = p.clicked.parents('table tbody tr')[0] ? '' : form,
+				
+				valid  = auxParent != '' ? (p?.validate ? p.validate : fields.valid()) : true;
 
 			if(valid){
 
 				clearErrors(form);
+
+				$.IGRP.events.execute('submit',{
+					valid   : valid,
+					fields  : fields,
+					event   : p.event,
+					clicked : p.clicked,
+					target  : p.target
+				});
+
+				const formData = auxParent != '' ? form.serialize() : '';
 			
 				if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)				
 						mWindow = window;
@@ -1488,7 +1498,7 @@ var mWindow = null,
 
 					ev.execute('target-click',{
 						target  : target,
-						url     : url,
+						url: url,
 						clicked : _this,
 						validate : validate
 					});
@@ -1499,9 +1509,10 @@ var mWindow = null,
 					});
 	
 					return targetAction({
-						url     : url,
-						target  : target,
-						clicked : _this,
+						url      : url,
+						target   : target,
+						clicked  : _this,
+						event 	 : e,
 						validate : validate
 					});
 				}
