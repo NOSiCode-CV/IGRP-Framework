@@ -23,6 +23,7 @@ public class AuthenticationFilter implements Filter {
        
 	public AuthenticationFilter() {}
 
+	@Override
 	public void destroy() {}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException  {
@@ -30,16 +31,16 @@ public class AuthenticationFilter implements Filter {
 		HttpServletRequest httpServletRequest =   (HttpServletRequest) request;
 		HttpServletResponse httpServletResponse =   (HttpServletResponse) response;
 		
-		if((ApplicationManager.isInWhiteList(httpServletRequest) || ApplicationManager.isPublic(httpServletRequest)) && !ApplicationManager.isLoginPage(httpServletRequest)) {
-			ThreadContext.put("sessionId", httpServletRequest.getRequestedSessionId());
-			chain.doFilter(request, response);
-			return;
-		}
-		
 		if(AuthenticationManager.isSessionExists(httpServletRequest)) {
 			
+			if(ApplicationManager.isInWhiteList(httpServletRequest) || ApplicationManager.isPublic(httpServletRequest)) {
+				chain.doFilter(request, response);
+				return;
+			}
+				
+			
 			Optional<String> url = ApplicationManager.buildAppLink(httpServletRequest);
-			if(url.isPresent() && !ApplicationManager.isLoginPage(httpServletRequest)) {
+			if(url.isPresent() && !ApplicationManager.isLoginPage(httpServletRequest) ) {
 				httpServletResponse.sendRedirect(url.get());
 				return;
 			}
@@ -48,30 +49,42 @@ public class AuthenticationFilter implements Filter {
 			
 		}else {
 			
-			// Go to autentika
-			Optional<String> url = ApplicationManager.buildOAuth2AuthorizeLink(httpServletRequest);
-			if(url.isPresent()) {
-				httpServletResponse.sendRedirect(url.get());
-				return;
+			//Public pages without session or don't need login
+			if(ApplicationManager.isPublic(httpServletRequest) && !ApplicationManager.isLoginPage(httpServletRequest)) {
+				if(request.getParameter("target")==null) {
+					httpServletResponse.sendRedirect(ApplicationManager.buildPublicTargetLink(httpServletRequest));
+					return;					
+				}
+				chain.doFilter(request, response);
+			}else {
+				// Go to autentika
+				Optional<String> url = ApplicationManager.buildOAuth2AuthorizeLink(httpServletRequest);
+				if(url.isPresent()) {
+					httpServletResponse.sendRedirect(url.get());
+					return;
+				}
+				
+				// Process callback from autentika
+				url = ApplicationManager.processCallback(httpServletRequest);
+				if(url.isPresent()) {
+					String destination = url.get();
+					if(destination.equals(OAuth2OpenIdAuthenticationManager.OAUTH2_OPENID_PAGE)) 
+						httpServletRequest.getRequestDispatcher(destination).forward(httpServletRequest, httpServletResponse);
+					else
+						httpServletResponse.sendRedirect(destination);
+					return;
+				}
+				
+				// got to login
+				httpServletRequest.getRequestDispatcher(ApplicationManager.LOGIN_PAGE).forward(httpServletRequest, httpServletResponse);
 			}
 			
-			// Process callback from autentika
-			url = ApplicationManager.processCallback(httpServletRequest);
-			if(url.isPresent()) {
-				String destination = url.get();
-				if(destination.equals(OAuth2OpenIdAuthenticationManager.OAUTH2_OPENID_PAGE)) 
-					httpServletRequest.getRequestDispatcher(destination).forward(httpServletRequest, httpServletResponse);
-				else
-					httpServletResponse.sendRedirect(destination);
-				return;
-			}
-			
-			// got to login
-			httpServletRequest.getRequestDispatcher(ApplicationManager.LOGIN_PAGE).forward(httpServletRequest, httpServletResponse);
 		}
 		
 	}
 
-	public void init(FilterConfig fConfig) throws ServletException {}
+	@Override
+	public void init(FilterConfig fConfig) throws ServletException { 
+		}
 
 }

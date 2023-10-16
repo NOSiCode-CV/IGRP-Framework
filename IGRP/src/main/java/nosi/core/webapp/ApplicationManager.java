@@ -2,7 +2,7 @@ package nosi.core.webapp;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -28,8 +28,8 @@ import nosi.webapps.igrp.dao.Application;
 
 public final class ApplicationManager {
 
-	public final static String LOGIN_PAGE = "/app/webapps?r=igrp/login/login";
-	public final static String RETURN_ROUTE_ATTRIBUTE_NAME = "returnRoute";
+	public static final String LOGIN_PAGE = "/app/webapps?r=igrp/login/login";
+	public static final String RETURN_ROUTE_ATTRIBUTE_NAME = "returnRoute";
 	
 	private static final Logger LOGGER = LogManager.getLogger(ApplicationManager.class);
 
@@ -51,6 +51,23 @@ public final class ApplicationManager {
 			}
 			url = Optional.of(String.format("%s?r=%s%s%s", requestUrl(request), page, dad, additionalParams));
 		}
+		return url;
+	}
+	
+	public static String buildPublicTargetLink(HttpServletRequest request) {
+		String url = "";
+		String page = request.getParameter("r");
+		String dad = request.getParameter("dad");
+		dad = dad != null && !dad.trim().isEmpty() ? String.format("&dad=%s", dad) : "";
+		StringBuilder additionalParams = new StringBuilder("");
+		Enumeration<String> paramNames = request.getParameterNames();
+		while(paramNames.hasMoreElements()) {
+			String paramName = paramNames.nextElement();
+			if(!"r".equals(paramName) && !"dad".equals(paramName)) // skipping "r" and "dad" param
+				additionalParams.append(String.format("&%s=%s", paramName, encodeParameterValue(request.getParameter(paramName))));
+		}
+		additionalParams.append(String.format("&%s=%s", "target", "_blank"));
+		url = String.format("%s?r=%s%s%s", requestUrl(request), page, dad, additionalParams);
 		return url;
 	}
 
@@ -240,7 +257,7 @@ public final class ApplicationManager {
 			return Optional.empty();
 		String returnRoute = (String) session.getAttribute(RETURN_ROUTE_ATTRIBUTE_NAME);
 		session.removeAttribute(RETURN_ROUTE_ATTRIBUTE_NAME);
-		if(!(returnRoute instanceof String) || returnRoute == null)
+		if(!(returnRoute instanceof String))// || returnRoute == null)
 			return Optional.empty();
 		JSONObject json = new JSONObject(returnRoute);
 		String appCode = json.optString("appCode");
@@ -297,7 +314,7 @@ public final class ApplicationManager {
 	}
 	
 	public static String encodeParameterValue(String value) {
-		return URLEncoder.encode(URLDecoder.decode(value, Charset.forName("utf-8")), Charset.forName("utf-8"));
+		return URLEncoder.encode(URLDecoder.decode(value, StandardCharsets.UTF_8), StandardCharsets.UTF_8);
 	}
 	
 }
