@@ -41,7 +41,6 @@ public class FileController extends Controller {
 	public Response actionGetFile() throws Exception {
 			
 		String uuid= Core.getParam("uuid");		
-		System.out.println("Entrado: " + uuid);
 		CLob file;
 		if(Core.isNotNull(uuid))
 			 file = Core.getFileByUuid(uuid);

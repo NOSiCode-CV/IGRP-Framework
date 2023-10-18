@@ -2,9 +2,9 @@
 <faceted-project>
   <runtime name="tomee-plus-7.0.5"/>
   <fixed facet="wst.jsdt.web"/>
-  <installed facet="java" version="1.8"/>
   <installed facet="wst.jsdt.web" version="1.0"/>
   <installed facet="jst.jaxrs" version="2.0"/>
   <installed facet="jst.jsf" version="2.2"/>
   <installed facet="jst.web" version="4.0"/>
+  <installed facet="java" version="17"/>
 </faceted-project>

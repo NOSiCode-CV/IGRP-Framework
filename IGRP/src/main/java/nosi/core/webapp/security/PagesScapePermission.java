@@ -55,6 +55,7 @@ public class PagesScapePermission {
 	 */
 	static {
 		PAGES_SCAPE_ENCRYPT.add("igrp/login/login".toLowerCase());
+		PAGES_SCAPE_ENCRYPT.add("igrp/login/logout".toLowerCase()); 
 		PAGES_SCAPE_ENCRYPT.add("igrp/ErrorPage/exception".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/error-page/exception".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/ErrorPage/permission".toLowerCase());
