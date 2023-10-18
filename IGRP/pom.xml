@@ -569,10 +569,19 @@
                <version>${maven.surefire.plugin.version}</version>
             </plugin>
 				<!--		https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-war-plugin -->
-            <plugin>
-               <artifactId>maven-war-plugin</artifactId>
-               <version>${maven.war.plugin.version}</version>
-            </plugin>
+				<plugin>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${maven.war.plugin.version}</version>
+					<configuration>
+						<webResources>
+							<resource>
+								<directory>
+									${project.basedir}/src/main/java/nosi/core/i18n</directory>
+								<targetPath>WEB-INF/classes/nosi/core/i18n</targetPath>
+							</resource>
+						</webResources>
+					</configuration>
+				</plugin>
 				<!-- Database migrations plugin -->
             <plugin>
                <groupId>org.flywaydb</groupId>
