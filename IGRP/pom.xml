@@ -658,6 +658,15 @@
 				<plugin>
 				    <artifactId>maven-war-plugin</artifactId>
 				    <version>${maven.war.plugin.version}</version>
+				    <configuration>
+						<webResources>
+							<resource>
+								<directory>
+									${project.basedir}/src/main/java/nosi/core/i18n</directory>
+								<targetPath>WEB-INF/classes/nosi/core/i18n</targetPath>
+							</resource>
+						</webResources>
+					</configuration>
 				</plugin>
 
 
@@ -693,7 +702,7 @@
 						<synchronization>
 					      <extensions>
 					        <extension>.class</extension> <!-- if you want to update each time you build with mvn compile -->
-					        <extension>.xml</extension>
+					        <extension>.xsl</extension>
 					      </extensions>
 					    </synchronization>
 					    <systemVariables>
