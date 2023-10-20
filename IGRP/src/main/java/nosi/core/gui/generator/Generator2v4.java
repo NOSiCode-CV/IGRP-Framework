@@ -30,7 +30,7 @@ public class Generator2v4 implements IHeaderConfig{
 		Application appG= new Application();
 		appG.setDad("igrp");
 		Action acGen24= new Action("Generator", "Generator", "", "", "Generator","Generator", "2.4", 1, appG);
-		this.xml.addXml(new Config().getHeader(this,acGen24).replace("<template>igrp_studio</template>", "<template>velzon</template>"));
+		this.xml.addXml(new Config().getHeader(this,acGen24).replace("<template>igrp_studio</template>", "<template>default</template>"));
 		this.xml.startElement("content");
 		this.xml.writeAttribute("type", "dash");
 		this.xml.setElement("title", "Form Design");
