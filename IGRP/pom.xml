@@ -611,8 +611,7 @@
                      <extensions>
                         <extension>.class</extension>
 								<!-- if you want to	update each time you build with mvn compile -->
-                        <extension>.xml</extension>
-                         <extension>.properties</extension>
+                        <extension>.xsl</extension>
                      </extensions>
                   </synchronization>
                   <systemVariables>
@@ -621,6 +620,13 @@
                      <openejb.system.apps>true</openejb.system.apps>
                      <tomee.remote.support>true</tomee.remote.support>
                   </systemVariables>
+                  	<libs>
+							<lib>remove:myfaces</lib>	
+							<lib>remove:openjpa-</lib>	
+<!--							<lib>remove:openwebbeans-</lib>-->
+<!--							<lib>remove:microprofile-</lib>		-->
+<!--							<lib>remove:smallrye-</lib>					-->
+						</libs>
                </configuration>
             </plugin>
 
