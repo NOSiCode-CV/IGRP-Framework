@@ -176,7 +176,7 @@
 
                 var label = field.label || field.name.capitalizeFirstLetter(),
 
-                    th    = $('<th><span>'+label+'</span></th>'),
+                    th    = $('<th><span class="d-block">'+label+'</span></th>'),
 
                     td    = $('<td data-row="0" class="'+field.type+'" item-name="'+field.name+'"></td>'),
 
@@ -275,17 +275,25 @@
 
                     }
 
-                    $('thead',element).append( '<th class="table-btn add">'+
-                        '<a class="formlist-row-add btn btn-primary" rel="'+rel+'">'+
-                            '<i class="fa fa-plus"/>'+
-                        '</a>'+
-                    '</th>' );
+                    $('thead',element).append( 
+                        `
+                        <th class="table-btn add text-end" style="width:1px">
+                            <a class="formlist-row-add fs-16 link-success   d-flex align-items-center justify-content-center" rel="${rel}" title="Adicionar" data-toggle="tooltip" data-placement="left">
+                                <i class="ri-menu-add-fill"/>
+                            </a>
+                        </th>
+                        `
+                    );
 
-                    $('tbody tr',element).append( '<td class="table-btn delete" data-row="0">'+
-                        '<span class="formlist-row-remove btn btn-danger" rel="'+rel+'">'+
-                            '<i class="fa fa-times"/>'+
-                        '</span>'+
-                    '</td>' );
+                    $('tbody tr',element).append( 
+                        `
+                        <td class="table-btn delete text-end" data-row="0">
+                        <span class="formlist-row-remove fs-16 link-danger d-flex align-items-center justify-content-center" rel="formlist_1" title="Remover" data-toggle="tooltip" data-placement="bottom">
+                            <i class="ri-delete-bin-6-line"/>
+                        </span>
+                        </td>
+                        `
+                    );
 
                     //TABLE[0].events.execute('fields-draw', $('tbody tr',element))
 
@@ -423,12 +431,16 @@
                 e._import = function(data, merge){
 
                    var rows = [];
+                   
 
                     data.forEach(function(d){
 
                         var tr = getCloneRow(e),
 
                             tdLength = tr.find('td[item-name]').length;
+
+
+                        console.log(tr)
 
                         resetFildsRow(tr);
 
@@ -537,6 +549,8 @@
                 if(settings.data && settings.data[0])
 
                     e._import(settings.data);
+
+                
 
 
             });

@@ -99,7 +99,8 @@ button.header-item{
 }
 
 
-.sidebar .tab-content ul li a{
+.sidebar .tab-content ul li a,
+.page-header-item{
     padding:20px 6px 8px;
     color:white;
     font-weight: 400;
@@ -112,8 +113,16 @@ button.header-item{
     text-align: center;
 }
 
-.sidebar .tab-content ul li a:hover{
-    background-color: rgba(255,255,255,.05)
+.page-header-item{
+    opacity: .6;
+    transition: opacity .35s;
+}
+
+.sidebar .tab-content ul li a:hover,
+.page-header-item:hover,
+.page-header-item.active{
+    background-color: rgba(255,255,255,.05);
+    opacity: 1;
 }
 
 .sidebar .tab-content ul li a:before{
@@ -127,7 +136,8 @@ button.header-item{
     opacity:.6;
     transition: opacity .4s;
 }
-.sidebar .tab-content ul li a:hover:before{
+.sidebar .tab-content ul li a:hover:before,
+.page-header-item:hover:before{
     opacity: 1;
 }
 .gen-searcher-wrapper{

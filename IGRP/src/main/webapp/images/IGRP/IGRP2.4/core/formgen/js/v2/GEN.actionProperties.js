@@ -8,34 +8,45 @@
       var _default = defaults.class;
 	  var name = defaults.name || "class";
 
+	  const themeColors = function(){
+		const res = [];
+		if($.IGRP.theme && Object.keys($.IGRP.theme.colors)[0]){
+			Object.keys($.IGRP.theme.colors).forEach( (key)=>{
+				res.push({
+					label : key,
+					value: `${pref}${key}`,
+					theme:true
+				})
+			} )
+		}
+		return res;
+	  }();
+
+
+
       object.setPropriety({
         name: name,
-		label : name,
+		label : $.IGRP.locale.get('gen-button-type'),
 		isField: defaults.isField,
         value: {
           value: _default ? _default : "primary",
           size: "12",
           list: {
-            items: [
+            items: themeColors.concat([
+			  
               { label: $.IGRP.locale.get("Primary"), value: pref + "primary" },
-              {
-                label: $.IGRP.locale.get("Secondary"),
-                value: pref + "secondary",
-              },
+              { label: $.IGRP.locale.get("Secondary"),value: pref + "secondary",},
               { label: $.IGRP.locale.get("Success"), value: pref + "success" },
               { label: $.IGRP.locale.get("Info"), value: pref + "info" },
               { label: $.IGRP.locale.get("Warning"), value: pref + "warning" },
               { label: $.IGRP.locale.get("Danger"), value: pref + "danger" },
               { label: $.IGRP.locale.get("Dark"), value: pref + "dark" },
               { label: $.IGRP.locale.get("Light"), value: pref + "light" },
-              {
-                label: $.IGRP.locale.get("Link"),
-                value: pref + "link-primary",
-              },
-            ],
-            itemTemplate: ({ label, value }) => {
+              { label: $.IGRP.locale.get("Link"),value: pref + "link-primary"},
+            ]),
+            itemTemplate: ({ label, value, theme }) => {
               value = value.indexOf("link") >= 0 ? value : "btn-" + value;
-              return `<span class="btn btn-sm  ${value}">${label}</span>`;
+              return `<span class="${theme && 'theme-color' } button-type-selector btn btn-sm  ${value}" title="${label}"><small>${label}</small></span>`;
             },
           },
         },
@@ -100,169 +111,7 @@
     }
   );
 
-  GEN.defineGlobalProperty(
-		"icons-property", 
-		(object, defaults = {}) => {	
-			var name = defaults.name ? defaults.name : "img";
-			var showPosition = defaults.showPosition  === false ? false : true;
-			object.setPropriety({
-				name: "iconColor",
-				value: object.proprieties.iconColor
-					? object.proprieties.iconColor
-					: "#333",
-				editable: false,
-			});
 
-			object.setPropriety({
-				name: "iconClass",
-				value: object.proprieties.iconClass ? object.proprieties.iconClass : "",
-				editable: false,
-			});
-
-			object.setPropriety({
-				name: name,
-				label: "Icon",
-				type: "attrvalue",
-				value: {
-					value: defaults.value,
-					size: "12",
-					class: "gen-fa-icon-setter",
-					//color : object.GET.iconColor(),
-					icon: "",
-					setter: function () {
-						var holder = $(VARS.fontawesome.setter).clone(true);
-
-						var img = object.GET[name]();
-
-						holder.attr("attr-value", img);
-
-						holder.trigger("attr-value-change", [img]);
-
-						var activeItem = $('.gen-fa-icon[rel="' + img + '"]', holder);
-
-						var activeParent = activeItem.attr("parent");
-
-						activeItem.addClass("active");
-
-						$(".nav-tabs>li", holder).removeClass("active");
-
-						$(".tab-pane", holder).removeClass("active in");
-
-						$('.nav-tabs>li[rel="' + activeParent + '"]', holder).addClass(
-							"active"
-						);
-
-						$(".tab-pane#gen-fa-" + activeParent, holder).addClass("active in");
-
-						holder.on("click", ".gen-fa-icon", function () {
-							var rel = $(this).attr("rel");
-
-							$(".gen-fa-icon", holder).removeClass("active");
-
-							$(this).addClass("active");
-
-							holder.attr("attr-value", rel);
-
-							holder.trigger("attr-value-change", [rel]);
-
-							//object.SET[name]( rel );
-						});
-
-						setTimeout(function () {
-							try {
-								$(".tab-content").animate(
-									{
-										scrollTop: activeItem.position().top,
-									},
-									400
-								);
-							} catch (err) {
-								console.log(err);
-								return;
-							}
-
-							//$('.nav-tabs',holder).tabdrop();
-						}, 250);
-
-						return holder;
-					},
-					onChange: function (v) {},
-				},
-				isField: defaults.isField,
-				valuePersist: defaults.valuePersist,
-			});
-			
-			if(showPosition)
-				(function () {
-					var faSetter = () => $(".gen-fa-setter");
-					var btnClssSetter = () => $('.propriety-setter[rel="class"]');
-					var btnStyleSetter = () => $('.propriety-setter[rel="btnStyle"]');
-					var labelSetter = () => $('.propriety-setter[rel="label"]');
-					//var set
-					object.setPropriety({
-						name: "iconPosition",
-						label: "Posição do Icon",
-						value: {
-							value: object.proprieties.iconPosition
-								? object.proprieties.iconPosition
-								: "left",
-							list: {
-								items: [
-									{ value: "left", label: "Esquerda" },
-									{ value: "right", label: "Direita" },
-								],
-								itemTemplate: ({ label, value }) => {
-									const icon =
-										faSetter().attr("attr-value") || `ri-arrow-${value}-line`;
-									const _label = object.GET.label ? object.GET.label() : label;
-									const clss = btnClssSetter().val();
-									const style = btnStyleSetter().val();
-
-									return `<div>
-									<a icon-position="${value}" href="#" class=" btn-label  btn btn-sm ${style}-${clss} icon-position-prop d-flex align-items-center">
-										<i class="label-icon fa ${icon}"></i>
-										<span  class="btn-text" text="${
-											value == "right" ? "Direita" : "Esquerda"
-										}">${_label}</span>
-									</a>
-								</div>`;
-								},
-							},
-						},
-						onEditionStart: (v) => {
-							var setBtnClss = () => {
-								$(".icon-position-prop", v.input).each((i, el) => {
-									const prefix = "btn-";
-									const classes = el.className
-										.split(" ")
-										.filter((c) => !c.startsWith(prefix));
-									const clss = btnClssSetter().val();
-									const style = btnStyleSetter().val();
-
-									el.className =
-										classes.join(" ").trim() + ` ${style}-${clss} btn-label btn-sm`;
-								});
-							};
-
-							btnClssSetter().on("change", setBtnClss);
-
-							btnStyleSetter().on("change", setBtnClss);
-
-							labelSetter().on("blur", () => {
-								$(".btn-text", v.input).each((i, t) => {
-									$(t).text(labelSetter().val() || $(t).attr("text"));
-								});
-							});
-
-							faSetter().on("attr-value-change", (e, icon) => {
-								$(".icon-position-prop", v.input)
-									.find("i")
-									.attr("class", `label-icon fa ${icon}`);
-							});
-						},
-					});
-				})();
-  });
 
   GEN.defineGlobalProperty(
     "action-properties",

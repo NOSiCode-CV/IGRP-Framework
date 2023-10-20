@@ -20,6 +20,8 @@ var GENTABCONTENT = function(name,tparams){
 	container.xslValidation = false;
 
 	container.incrementFieldsType = 'contents';
+
+	container.menuItemType = 'button';
 	
 	//container.xml.genType = 'menu';
 
@@ -31,7 +33,7 @@ var GENTABCONTENT = function(name,tparams){
 
 	container.includes = {
 		xsl : [],
-		css : [{ path:'/plugins/tabs/igrp.tabs.css' }],
+		//css : [{ path:'/plugins/tabs/igrp.tabs.css' }],
 		js  : [{ path:'/plugins/tabs/igrp.tabs.js' }]
 	};
 
@@ -233,6 +235,17 @@ var GENTABCONTENT = function(name,tparams){
 		});
 	}
 
+	container.getMenuById = (id)=>{
+		var rtn = null;
+		for(var x = 0; x < container.contents.length; x++){
+			if(container.contents[x].id === id){
+				rtn = container.contents[x];
+				break;
+			}
+		}
+		return rtn;
+	}
+
 	container.setContents = function(contents){
 		clearContents();
 		//console.log(container.contents)
@@ -247,7 +260,7 @@ var GENTABCONTENT = function(name,tparams){
 
 	var newBtn = function(p){
 		var btn = null;
-		var f   = GEN.getDeclaredField('button');
+		var f   = GEN.getDeclaredField( container.menuItemType );
 		
 		if(f) {
 			
@@ -266,7 +279,7 @@ var GENTABCONTENT = function(name,tparams){
 			
 			btn.init();
 
-			btn.unsetProprieties(['class','action','target','transaction','service']);
+			btn.unsetProprieties(['class','btnStyle','action','target','transaction','service','custom_return']);
 
 			btn.onEditionConfirm = setBtnIcon;
 
@@ -478,24 +491,36 @@ var GENTABCONTENT = function(name,tparams){
 		});
 	}
 
+
+	container.updateContents = updateContents;
+
 	var setBtnIcon =function(btn){
-		btn.holder.find('>a>i.fa').removeAttr('class').addClass('fa '+btn.GET.img());
+		const iconHolder = btn.holder.find('.icon');
+		iconHolder.removeAttr('class');
+		if(btn.GET.iconLib && btn.GET.iconLib() && btn.GET.img())
+			iconHolder.addClass(btn.GET.img());
+
+		iconHolder.addClass('icon')
+		//else
+
 	}
 
 	var getMenuItem = function(title,idx,_class,btn,xsl){
 
 		var activetabTmpl = xsl ? '<xsl:call-template name="get-active-tab">'+
 			                    	'<xsl:with-param name="value" select="'+container.GET.path()+'/fields/'+btn.GET.tag()+'/value"/>'+
-			                  	  '</xsl:call-template>' : '';
+									'<xsl:with-param name="class" select="\'nav-link\'"/>'+
+								  '</xsl:call-template>' : '';
 
 		var genID         = !xsl ? 'gen-field-id="'+btn.GET.id()+'"' : '';
 
 
-		var icon = btn.GET.img() ? btn.GET.img() :'fa-dot-circle-o';
-		var iconHtml = '<i class="fa '+icon+'"></i>';
-		return '<li item-name="'+btn.GET.tag()+'" '+genID+' class="'+_class+' gen-fields-holder" rel="tab-'+idx+'">'+
-					activetabTmpl+
-					'<a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-'+idx+'">'+
+		var icon = btn.GET.iconLib && btn.GET.iconLib() && btn.GET.img() ? btn.GET.img() :'';
+
+		var iconHtml = '<i class=" icon '+icon+'"></i>';
+		return '<li item-name="'+btn.GET.tag()+'" '+genID+' class="'+_class+' gen-fields-holder nav-item" rel="tab-'+idx+'" role="presentation">'+
+					'<a class="nav-link" active-text-color="primary" data-bs-toggle="tab" aria-expanded="true" href="#tab-'+idx+'">'+
+						activetabTmpl+
 						iconHtml+'<span gen-lbl-setter="true">'+title+'</span>'+
 					'</a>'+
 				'</li>';

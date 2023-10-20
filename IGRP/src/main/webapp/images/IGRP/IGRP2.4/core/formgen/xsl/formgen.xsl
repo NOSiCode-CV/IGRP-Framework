@@ -123,21 +123,21 @@
                                 
                             </div>
                             
-                            <!--
-                            <ul class="nav nav-tabs col-lg-2  col-sm-3 clearfix" role="tablist" bg-color="secondary">
-                                <li class="d-none">
+                            
+                            <ul class="nav nav-tabs col-lg-2  col-sm-3 clearfix bottom-0 border-top" role="tablist" bg-color="secondary">
+                                <li class="w-50">
                                     <a class="txt-ellipsis d-flex align-items-center justify-content-center flex-column" href="#gen-page-properties" role="tab" data-toggle="tab">
                                         <i class="ri-settings-2-line"></i>
-                                        <span class="">Settings</span>
+                                        <span class="">Definições</span>
                                     </a>
                                 </li>
                                 <li class="active w-50">
                                     <a class="txt-ellipsis d-flex align-items-center justify-content-center flex-column" href="#gen-list-components" role="tab" data-toggle="tab">
                                         <i class="ri-apps-line"></i>
-                                        <span class="">Components</span>
+                                        <span class="">Componentes</span>
                                     </a>
                                 </li> 
-                                <li class="w-50">
+                                <li class="w-50 d-none">
                                     <a class="txt-ellipsis d-flex align-items-center justify-content-center flex-column" href="#gen-list-fields" role="tab" data-toggle="tab">
                                         <i class="ri-checkbox-multiple-line"></i>
                                         <span class="">Fields</span>
@@ -145,7 +145,7 @@
                                 </li> 
                                 
                             </ul>
-
+    <!--
                             <div class="form-group gen-searcher-wrapper col-lg-2  col-sm-3 " h-calc="-55">
                             
                             <input bg-color="secondary" type="text" class="border-end-0 border-top-0 border-start-0 form-control gen-types-search" placeholder="Pesquisar..."/>
@@ -269,10 +269,14 @@
                         <div class="col col-md-9 col-lg-10 col-md-offset-2 col-sm-offset-3 main ms-auto" id="igrp-contents">
                             
                             <div class="content gen-viewers active " id="gen-design">
-                               
-                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 gen-page-title"></h4>
+
+                                <div class="igrp-page-header">
+
                                 </div>
+                               
+                                <!--<div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h4 class="mb-0 gen-page-title"></h4>
+                                </div>-->
 
                                 <div class=" gen-rows-holder " >
                                                 
@@ -686,7 +690,7 @@
           </form>
 
 
-        <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+        <script src="{$path}/plugins/handlebars/handlebars.4.7.8.js"></script>
 
           <script src="{$path}/core/formgen/js/GEN.componentsSearcher.js"></script>
           
@@ -845,7 +849,8 @@
 
           </script>
 
-
+          <script src="{$path}/core/formgen/js/v2/GEN.adapter.js" ></script>
+          
           <script src="{$path}/core/formgen/js/v2/GEN.containerFieldSetter.js" ></script>
           
           <script src="{$path}/core/formgen/js/v2/GEN.groupContainerMenus.js"></script>
@@ -853,6 +858,10 @@
           <script src="{$path}/core/formgen/js/v2/GEN.tableProperties.js"></script>
 
           <script src="{$path}/core/formgen/js/v2/GEN.actionProperties.js"></script>
+
+          <script src="{$path}/core/formgen/js/v2/GEN.iconProperties.js"></script>
+
+          <script src="{$path}/core/formgen/js/v2/GEN.headers.controller.js"></script>
           
           <!-- GEN Java Auto Complete -->
           <script src="{$path}/core/formgen/js/GEN.autocomplete.js"></script>
@@ -869,6 +878,10 @@
 
           <script src="{$path}/core/formgen/types/containers/chart/index.js"></script>
 
+            <xsl:for-each select="$gen/headers/item">
+                <script src="{$path}/core/formgen/types/containers/{name}/js/{name}.js"></script>
+            </xsl:for-each>   
+          
           <xsl:for-each select="$gen/containers/item">
               <xsl:if test="not(@js) or @js!='false'">
                   <script src="{$path}/core/formgen/types/containers/{name}/js/{name}.js"></script>
@@ -926,6 +939,8 @@
         <script src="{$themePath}/assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
         <script src="{$themePath}/assets/js/plugins.js"></script>
 
+        <script src="{$path}/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+
 
          <!-- NOT ASYNC JS-->   
         <script src="{$path}/core/promise/promise.min.js" ></script>    
@@ -974,43 +989,7 @@
         <!-- IGRP handler -->
         <script encode="utf-8" src="{$path}/core/igrp/IGRP.handler.js?v={$version}" ></script>
 
-
-
-        <script>
-			$.IGRP.locale = {
-				current : "<xsl:value-of select="$locale"/>",
-				texts : {
-				<xsl:for-each select="$locale-strings/*">
-					"<xsl:value-of select="name()"/>" : "<xsl:value-of select="."/>"<xsl:if test="position() != last()">,</xsl:if>
-				</xsl:for-each>
-				},
-				get:function(string){
-					return $.IGRP.locale.texts[string] || string;
-				}
-			}
-		
-		</script>
-
-        <xsl:call-template name="colorpalettes-js"/>
-
-        <!-- THEME JS -->
-        <xsl:for-each select="$themeConfigData/js/file">
-        <script src="{$themePath}/{.}"></script>
-        </xsl:for-each>
-        <!-- /THEME JS -->
-
-        <script>
-        $(window).on('load', function(){
-            $.IGRP.onLoad ? $.IGRP.onLoad() : null;
-        });
-        $(document).ready( function(){
-            $.IGRP.init( );
-        });
-        </script> 
-        
-        <link href="{$path}/core/bootstrap/plugins/tabdrop/css/tabdrop.css" rel="stylesheet"/>
-               
-        <link rel="stylesheet" href="{$path}/core/bootstrap/plugins/treeview/css/bootstrap-treeview.css"/>
+        <xsl:call-template name="igrp-global-scripts"></xsl:call-template>
        
         <!--codeMirror-->
         <link href="{$path}/core/codemirror/css/codemirror.css" rel="stylesheet"/>
@@ -1058,6 +1037,7 @@
 
         <!-- FORMLIST CSS INCLUDES -->
         <link rel="stylesheet" type="text/css" href="{$path}/plugins/formlist/igrp.formlist.css?v={$version}"/>
+        <link rel="stylesheet" type="text/css" href="{$path}/components/formlist/style.css?v={$version}"/>
         <script type="text/javascript" src="{$path}/plugins/colorpicker/js/bootstrap-colorpicker.js?v={$version}"/>
         <script type="text/javascript" src="{$path}/plugins/colorpicker/colorpicker.init.js?v={$version}"/>
        		

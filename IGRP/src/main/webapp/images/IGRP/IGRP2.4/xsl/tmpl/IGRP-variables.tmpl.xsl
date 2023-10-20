@@ -110,35 +110,48 @@
   <xsl:variable name="labels" select="document(concat($path,'/core/igrp/labels/igrp.labels.pt.xml'))/labels"/>
   <!-- /fixed labels -->
 
-  <!-- app theme -->
-  <xsl:variable name="theme">
+
+  <xsl:variable name="defined-template" >
     <xsl:choose>
       <xsl:when test="rows/template and rows/template != ''">
-        <xsl:text>/themes/</xsl:text>
         <xsl:value-of select="rows/template"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>/themes/default</xsl:text>
+        <xsl:text>default</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
-  <!--/app theme -->
 
-  <!-- theme path-->
-  <xsl:variable name="themePath" select="concat($path,$theme)"/>
-  <!--/theme path-->
+  <!-- app theme -->
+  <xsl:variable name="theme" select="concat('/themes/',$defined-template)"/>
+  <!--/app theme -->
 
   <!-- default theme path-->
   <xsl:variable name="themePathDefault" select="concat($path,'/themes/default')"/>
   <!-- /default theme path-->
 
   <!-- config theme file-->
-  <xsl:variable name="themeConfigPath" select="concat($themePath,'/config.xml')"/>
+  <xsl:variable name="themeConfigPath" select="concat($path,'/themes/',$defined-template,'/config.xml')"/>
   <!--/config theme file-->
 
   <!-- theme config data-->
   <xsl:variable name="themeConfigData" select="document($themeConfigPath)/style"/>
   <!--/theme config data-->
+
+  <!-- theme path-->
+  <xsl:variable name="themePath">
+    <xsl:choose>
+      <xsl:when test="$themeConfigData/@base and $themeConfigData/@base != ''">
+        <xsl:value-of select="concat($path,'/themes/',$themeConfigData/@base)"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="concat($path,'/themes/',$defined-template)"/>
+      </xsl:otherwise>
+    </xsl:choose>
+
+  <!--  select="concat($path,$theme)" -->
+  </xsl:variable>
+  <!--/theme path-->
 
   <xsl:variable name="palettesXMLPath" select="concat($path,'/core/colorpalettes/palettes.xml')"/>
 

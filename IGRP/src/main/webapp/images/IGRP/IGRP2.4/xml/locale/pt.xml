@@ -36,6 +36,10 @@
     <gen-java-settings-package-name>Nome do pacote</gen-java-settings-package-name>
     <gen-button-action>Página de Destino</gen-button-action>
     <gen-button-target>Target</gen-button-target>
+    <gen-button-type>Cor</gen-button-type>
+    <gen-icon-lib>Tipo de Ícone</gen-icon-lib>
+    <gen-page-header-tab>Conteúdos em Tab</gen-page-header-tab>
+    
  
 
     <ui-white>branco</ui-white>
