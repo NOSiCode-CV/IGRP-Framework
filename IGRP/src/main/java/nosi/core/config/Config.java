@@ -327,8 +327,7 @@ public class Config {
 
         String appLinkImage = null;
 
-        if (ConfigApp.getInstance().isInstall())
-            appLinkImage = this.getLinkImgBase();
+        appLinkImage = this.getLinkImgBase();
 
         if (appLinkImage != null) {
             appLinkImage = appLinkImage + SEPARATOR_FOR_HTTP;
