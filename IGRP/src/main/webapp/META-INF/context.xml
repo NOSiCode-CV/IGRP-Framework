@@ -17,8 +17,7 @@
 -->
 <!-- The contents of this file will be loaded for each web application -->
 <Context>
-    <JarScanner scanClassPath="false"/>
-    
+    <Resources archiveIndexStrategy="bloom" cachingAllowed="true" cacheMaxSize="100000" />
     <!-- Default set of monitored resources. If one of these changes, the    -->
     <!-- web application will be reloaded.                                  
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
