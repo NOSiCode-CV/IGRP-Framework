@@ -62,6 +62,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.*;
 import java.util.Map.Entry;
@@ -5434,5 +5435,71 @@ public final class Core {
 		else
 			return Route.getResolveUrl("igrp", "DigitalSignature", "downloadData&uuid=" + uuid);
 
+	}
+	
+	
+	/**
+	 * Will save a propertie useful for caching in a dead file .properties, data like values for statbox and other statistics that you don't need to do count in SQL every time.
+	 * 
+	 * @param p
+	 * @param caller
+	 * @param moreArgs
+	 */
+	public static void saveProp4Cache(Properties p, Class<?> caller, String moreArgs) {
+		p.setProperty("t", LocalDateTime.now().toString());
+		 try (FileOutputStream output = new FileOutputStream("temp/"+caller.getName()+moreArgs+".properties")) {
+	            // Save the properties to a file in the temp directory
+	            p.store(output, caller.getSimpleName());
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+		
+	}
+	/**
+	 * Will check if the properties in cache was saved more than 30 minutes ago by default
+	 * Tip: use prop.getProperty("t") to retrieve the last time updated and "m" to retrive in minutes;
+	 * 
+	 * @param caller is used to get the full name of the class to be the filename saved 
+	 * @param moreArgs is to complement more arguments for example different profiles
+	 * @return
+	 */
+	public static Properties loadProp4Cache(Class<?> caller,String moreArgs) {
+		return loadProp4Cache(caller,moreArgs,null);
+	}
+	/**
+	 * 
+	 * Will check if the properties in cache was saved more than the moreArgs minutes ago 
+	 * Tip: use prop.getProperty("t") to retrieve the last time updated and "m" to retrive in minutes;
+	 * 
+	 * @param caller is used to get the full name of the class to be the filename saved 
+	 * @param moreArgs is to complement more arguments for example different profiles
+	 * @param experirationTime is the minutes to be checked for the document to be considered expired
+	 * @return
+	 */
+	public static Properties loadProp4Cache(Class<?> caller, String moreArgs,Integer expirationTime) {
+		final long EXPIRATION_TIME = expirationTime==null? 30:expirationTime; // tempo de expiração em minutos
+		Properties propCached = new Properties();
+		try(FileInputStream input = new FileInputStream("temp/"+caller.getName()+moreArgs+".properties")){
+			propCached.load(input);
+			// Carrega as propriedades do arquivo
+			if(!propCached.isEmpty()) {
+				LocalDateTime timestamp = LocalDateTime.parse(propCached.getProperty("t"));
+				LocalDateTime now = LocalDateTime.now();
+				
+				long minutesElapsed = ChronoUnit.MINUTES.between(timestamp, now);
+				
+				if (minutesElapsed > EXPIRATION_TIME) {
+					return new Properties(); // os dados expiraram
+				}
+				propCached.setProperty("m", ""+minutesElapsed);
+			}
+			
+			return propCached;
+		
+
+		} catch (Exception e) {
+			System.out.println("loadProp4Cache "+e.getMessage());
+		} 
+		return propCached;
 	}
 }
