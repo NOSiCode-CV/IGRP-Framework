@@ -45,7 +45,7 @@ var VARS = {
 		</div>
 
 
-		<div class="row-options shadow-lg">
+		<div class="row-options ">
 		  <ul>
 			
 		 	<li class="d-flex align-items-center" rel="move" data-bs-toggle="tooltip" data-bs-title="Ordenar" >

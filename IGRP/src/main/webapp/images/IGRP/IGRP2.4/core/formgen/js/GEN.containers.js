@@ -655,6 +655,7 @@ var CONTAINER = function(name,params){
 			
 	}
 
+
 	var setUpNoField = function(area,o){
 		if(o){
 			area.addClass('no-fields');
@@ -2516,13 +2517,15 @@ var CONTAINER = function(name,params){
 		
 		container.folder = VARS.genPath+'/types/containers/'+name;
 
-		container.reject = $(VARS.html.containers+'[name="'+name+'"]').attr('reject') ? $(VARS.html.containers+'[name="'+name+'"]').attr('reject').split(',') : [];
+		container.reject = $('.gen-declared-containers[name="'+name+'"]').attr('reject') ? $('.gen-declared-containers[name="'+name+'"]').attr('reject').split(',') : [];
 						   
-		container.accept = $(VARS.html.containers+'[name="'+name+'"]').attr('accept') ? $(VARS.html.containers+'[name="'+name+'"]').attr('accept').split(',') : [];
+		container.accept = $('.gen-declared-containers[name="'+name+'"]').attr('accept') ? $('.gen-declared-containers[name="'+name+'"]').attr('accept').split(',') : [];
 		
-		container.fields =  $(VARS.html.containers+'[name="'+name+'"]').attr('hasField') == 'false' ? false : true;
+		container.fields =  $('.gen-declared-containers[name="'+name+'"]').attr('hasField') == 'false' ? false : true;
 
-		container.canRecieveFields = $(VARS.html.containers+'[name="'+name+'"]').attr('hasfield') == 'false' ? false : true;
+		container.canRecieveFields = $('.gen-declared-containers[name="'+name+'"]').attr('hasfield') == 'false' ? false : true;
+
+		
 
 		container.acceptableFields = function(){
 			const acceptArray = []
@@ -2530,13 +2533,16 @@ var CONTAINER = function(name,params){
 				var fname = $(f).attr('name');
 				if(container.validField(fname))
 					acceptArray.push(fname);
-			})
+			});
+		
 			return acceptArray
 		}();
 
 		container.holder = getContainerHolder(container);
 
 		container.SET.tag(container.incrementTag('container',name));
+
+		console.log(container.holder)
 
 		//set drawable options
 		GEN.getDeclaredFields().forEach(function(f){

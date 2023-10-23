@@ -44,7 +44,7 @@ public abstract class QueryHelper implements QueryInterface{
 	protected List<DatabaseMetadaHelper.Column> columnsValue;
 	protected String connectionName;
 	protected boolean whereIsCall = false;
-	protected Config_env config_env;
+	protected Config_env configEnv;
 	protected String[] retuerningKeys;
 	protected boolean isAutoCommit = false;
 	private boolean showError = true;
@@ -56,8 +56,8 @@ public abstract class QueryHelper implements QueryInterface{
 	
 	protected QueryHelper(Object connectionName) {
 		this();
-		if(Core.isNotNull(connectionName) && connectionName instanceof Config_env) {
-			this.config_env = (Config_env) connectionName;			
+		if(Core.isNotNull(connectionName) && connectionName instanceof Config_env ) {
+			this.configEnv = (Config_env) connectionName;			
 		}
 		this.connectionName = nosi.core.webapp.databse.helpers.Connection.getMyConnectionName(connectionName);
 	}	
@@ -70,8 +70,8 @@ public abstract class QueryHelper implements QueryInterface{
 
 	protected SessionFactory getSessionFactory() {
 		SessionFactory sessionFactory = null;
-		if(this.config_env!=null) {
-			sessionFactory= HibernateUtils.getSessionFactory(config_env.getName(),  config_env.getApplication().getDad());
+		if(this.configEnv!=null) {
+			sessionFactory= HibernateUtils.getSessionFactory(configEnv.getName(),  configEnv.getApplication().getDad());
 		}else
 			sessionFactory= HibernateUtils.getSessionFactory(this.getConnectionName());
 		if(sessionFactory!=null) {
@@ -91,7 +91,7 @@ public abstract class QueryHelper implements QueryInterface{
 				return s;
 			}
 			sessionFactory.close();
-			HibernateUtils.removeSessionFactory(this.config_env != null?this.config_env.getName():this.getConnectionName());
+			HibernateUtils.removeSessionFactory(this.configEnv != null?this.configEnv.getName():this.getConnectionName());
 			sessionFactory = this.getSessionFactory();
 			if (sessionFactory != null) {
 				s = sessionFactory.getCurrentSession();
@@ -323,7 +323,7 @@ public abstract class QueryHelper implements QueryInterface{
 		String name_ = name;
 		if((this instanceof QueryUpdate|| (this.operationType!=null && this.operationType.compareTo(OperationType.UPDATE)==0)) && this.columnsValue!=null) {
 			String n = name;
-			List<Column> cols = this.columnsValue.stream().filter(col->col.getName()!=null && col.getName().equalsIgnoreCase(n)).collect(Collectors.toList());
+			List<Column> cols = this.columnsValue.stream().filter(col->col.getName()!=null && col.getName().equalsIgnoreCase(n)).toList();
 			if(cols!=null && !cols.isEmpty()) {
 				name_ = name+"_"+cols.size();
 			}

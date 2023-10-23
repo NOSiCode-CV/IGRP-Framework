@@ -3,8 +3,6 @@
 
 	<xsl:template name="igrp-scripts">
 
-
-
 		<script src="{$path}/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 		<script src="{$path}/libs/simplebar/simplebar.min.js"></script>
 		<script src="{$path}/libs/node-waves/waves.min.js"></script>
@@ -35,32 +33,7 @@
 
 		<script src="{$path}/core/igrp/IGRP.handler.js?v={$version}"></script>
 
-		<script>
-			$.IGRP.locale = {
-				current : "<xsl:value-of select="$locale"/>",
-				available : ['pt','en'],
-				texts : {
-				<xsl:for-each select="$locale-strings/*">
-					"<xsl:value-of select="name()"/>" : "<xsl:value-of select="."/>"<xsl:if test="position() != last()">,</xsl:if>
-				</xsl:for-each>
-				},
-				get:function(string){
-					return $.IGRP.locale.texts[string] || string;
-				}
-			}
-		
-		</script>
-
-		
-
-		<script>
-			$(window).on('load', function(){
-					$.IGRP.onLoad ? $.IGRP.onLoad() : null;
-			});
-			$(document).ready( function(){
-					$.IGRP.init( );
-			});
-		</script>
+		<xsl:call-template name="igrp-global-scripts"></xsl:call-template>
 
 	</xsl:template>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="./Generator.xsl" type="text/xsl"?>
 <rows>
-    <template>default</template>
+    <template>sigtca</template>
     <title>IGRP Studio</title>
     <description>IGRP Studio - Software Developer</description>
     <version>220414</version>

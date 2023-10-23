@@ -19,7 +19,7 @@
     <slide-menu file="IGRP-slide-menu.xml?v=2" />
     <page>undefined</page>
     <app>generator</app>
-    <template>default</template>
+    <template></template>
     <plsql>
         <action>undefined</action>
         <package_instance></package_instance>

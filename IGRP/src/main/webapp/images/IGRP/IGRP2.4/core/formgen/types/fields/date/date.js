@@ -26,7 +26,7 @@ var DATEFIELD = function(type,params){
 	}
 
 	var initDatePicker = function(){
-		console.log(field)
+
 
 		$.IGRP.components.datepicker?.init( )
 		//flatpickr('#'+field.GET.tag())

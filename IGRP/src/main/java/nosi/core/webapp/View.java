@@ -173,13 +173,18 @@ public abstract class View  implements IHeaderConfig{
 	public abstract void render(); // Permite override obrigatorio nas subclasses
 	
 	protected void addToPage(Object obj){
-		if(obj instanceof IGRPComponent igrpcomponent && igrpcomponent.isVisible()) {
-			this.page.addContent(obj);			
-		}else if(obj instanceof IGRPToolsBar igrptoolsbar && igrptoolsbar.isVisible()) {
-			this.page.addContent(obj);
-		}else
+		//Attention with lint suggestion...
+		if (obj instanceof IGRPComponent) {
+			if (((IGRPComponent) obj).isVisible())
+				this.page.addContent(obj);
+		} else if (obj instanceof IGRPToolsBar) {
+			if (((IGRPToolsBar) obj).isVisible())
+				this.page.addContent(obj);
+		} else
 			this.page.addContent(obj);
 	}
+	
+	
 	
 	protected Object getModel(String name){
 		return this.currentModels.get(name);

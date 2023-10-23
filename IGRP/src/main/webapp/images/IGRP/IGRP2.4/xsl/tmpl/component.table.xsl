@@ -33,5 +33,20 @@
        
     </xsl:template>
 
+    <xsl:template name="igrp-table-fields-color-td" mode="igrp-table-fields-color-td" match="*">
+        <xsl:param name="tag" select="name()"/>
+        <xsl:param name="field" select="../../../../fields/*[name() = $tag]"/>
+        <xsl:param name="color" select="."/>
+        <xsl:param name="table-colors" select="../../../legend_color/item"/>
+        <xsl:attribute name="class">tdcolor</xsl:attribute>
+
+        <div class="td-badge">
+            <span class="badge rounded-pill " style="background:{ concat( $table-colors[value=$color]/color, '1a' )  }; color:{$table-colors[value=$color]/color}">
+                <xsl:value-of select="$table-colors[value=$color]/label"/>
+            </span>
+        </div>
+
+    </xsl:template>
+
     
 </xsl:stylesheet>

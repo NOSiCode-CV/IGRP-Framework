@@ -348,6 +348,12 @@ var GENTABLE = function(name,params){
 
 
 	}
+
+
+	container.setProperty({
+		name : 'has_filter',
+		value: true
+	})
 	/* WHEN A FIELD IS DROPPED - SET EXAMPLE DATA TO THE TABLE*/
 	container.onFieldSet = function(field){
 		//field.xml.desc = true;
@@ -408,6 +414,17 @@ var GENTABLE = function(name,params){
 				}
 			});
 		}
+
+
+		field.setProperty({
+			name:'in_filter',
+			value: true
+		})
+
+		field.setProperty({
+			name:'in_table',
+			value: true
+		});
 		
 		field.setPropriety({
 			name:'group_in',
@@ -585,43 +602,60 @@ var GENTABLE = function(name,params){
 
 				type : 'formlist',
 
+				fields : {
+					text : {
+						type: 'text'
+					},
+					
+					value : {
+						type:'text'
+					},
+					color: {
+						type: 'color'
+					},
+
+
+				},
+
 				value : {
 
-				value : params.proprieties && params.proprieties.legendColors || [
-                        {
-                            "color": "#dc2b4c",
-                            "text": "Cor 1",
-                            "value": "1"
-                        },
-                        {
-                            "color": "#ea9126",
-                            "text": "Color 2",
-                            "value": "2"
-                        },
-                        {
-                            "color": "#95c11f",
-                            "text": "Cor 3",
-                            "value": "3"
-                        }
-                    ],
+					value : params.proprieties && params.proprieties.legendColors || [
+						{
+							"color": "#dc2b4c",
+							"text": "Cor 1",
+							"value": "1"
+						},
+						{
+							"color": "#ea9126",
+							"text": "Cor 2",
+							"value": "2"
+						},
+						{
+							"color": "#95c11f",
+							"text": "Cor 3",
+							"value": "3"
+						}
+					],
 
-					setter:function(){
-						
-						var flist = $('<div class="box clean box-table-contents gen-container-item IGRP-gen-table-colors" gen-class="" item-name="gen_legend_colors_fl"><div class="box-body table-box"><table id="gen_legend_colors_fl" class="table table-striped gen-data-table IGRP_formlist " rel="T_gen_legend_colors_fl" data-control="data-gen_legend_colors_fl"><thead><tr><th align="" class="" style="width:33%;"><span>Text</span></th><th align="" class="" style="width:33%;"><span>Value</span></th><th align="" class="color-th" style="width:23%;"><span>Color</span></th><th class="table-btn add"><a class="formlist-row-add btn btn-primary" rel="gen_legend_colors_fl"><i class="fa fa-plus"/></a></th></tr></thead><tbody><tr row="0"><input type="hidden" name="p_gen_legend_colors_fl_id" value=""/><td align="" data-row="0" data-title="Text" class="text" item-name="text"><input type="hidden" name="p_text_fk_desc" value=""/><div class="form-group" item-name="text" item-type="text"><input type="text" name="p_text_fk" value="" class="text form-control" rel="F_gen_legend_colors_fl"/></div></td><td align="" data-row="0" data-title="Value" class="text" item-name="value"><input type="hidden" name="p_value_fk_desc" value=""/><div class="form-group" item-name="value" item-type="text"><input type="text" name="p_value_fk" value="" class="text form-control" rel="F_gen_legend_colors_fl"/></div></td><td align="" data-row="0" data-title="Color" class="color" item-name="color"><input type="hidden" name="p_color_fk_desc" value=""/><div class="form-group"><div class="input-group form-color-picker" format="hex"><input type="text" value="" format="hex" class="form-control" id="gen_legend_colors_fl_color_1" name="p_color_fk"/><span class="input-group-addon"><i/></span></div></div></td><td class="table-btn delete" data-row="0"><span class="formlist-row-remove btn btn-danger" rel="gen_legend_colors_fl"><i class="fa fa-times"/></span></td></tr></tbody></table></div></div>'),
+					
 
-							data  = 	container.GET.legendColors();
+						/*setter:function(){
+							
+							var flist = $('<div class="box clean box-table-contents gen-container-item IGRP-gen-table-colors" gen-class="" item-name="gen_legend_colors_fl"><div class="box-body table-box"><table id="gen_legend_colors_fl" class="table table-striped gen-data-table IGRP_formlist " rel="T_gen_legend_colors_fl" data-control="data-gen_legend_colors_fl"><thead><tr><th align="" class="" style="width:33%;"><span>Text</span></th><th align="" class="" style="width:33%;"><span>Value</span></th><th align="" class="color-th" style="width:23%;"><span>Color</span></th><th class="table-btn add"><a class="formlist-row-add btn btn-primary" rel="gen_legend_colors_fl"><i class="fa fa-plus"/></a></th></tr></thead><tbody><tr row="0"><input type="hidden" name="p_gen_legend_colors_fl_id" value=""/><td align="" data-row="0" data-title="Text" class="text" item-name="text"><input type="hidden" name="p_text_fk_desc" value=""/><div class="form-group" item-name="text" item-type="text"><input type="text" name="p_text_fk" value="" class="text form-control" rel="F_gen_legend_colors_fl"/></div></td><td align="" data-row="0" data-title="Value" class="text" item-name="value"><input type="hidden" name="p_value_fk_desc" value=""/><div class="form-group" item-name="value" item-type="text"><input type="text" name="p_value_fk" value="" class="text form-control" rel="F_gen_legend_colors_fl"/></div></td><td align="" data-row="0" data-title="Color" class="color" item-name="color"><input type="hidden" name="p_color_fk_desc" value=""/><div class="form-group"><div class="input-group form-color-picker" format="hex"><input type="text" value="" format="hex" class="form-control" id="gen_legend_colors_fl_color_1" name="p_color_fk"/><span class="input-group-addon"><i/></span></div></div></td><td class="table-btn delete" data-row="0"><span class="formlist-row-remove btn btn-danger" rel="gen_legend_colors_fl"><i class="fa fa-times"/></span></td></tr></tbody></table></div></div>'),
 
-						$('.IGRP_formlist',flist).IGRP_formlist({
+								data  = 	container.GET.legendColors();
 
-							data : data
+							$('.IGRP_formlist',flist).IGRP_formlist({
 
-						});
+								data : data
 
-						$.IGRP.components.colorpicker.init(flist);
+							});
 
-						return flist;
+							$.IGRP.components.colorpicker.init(flist);
 
-					}
+							return flist;
+
+						}*/
 
 				},
 

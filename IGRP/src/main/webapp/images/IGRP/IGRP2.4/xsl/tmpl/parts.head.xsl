@@ -14,10 +14,31 @@
         <link href="{$themePath}/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="{$themePath}/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <link href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css" rel="stylesheet" media="none" onload="if(media!='all')media='all'"/>
-        <link href="{$themePath}/assets/css/app.min.css" rel="stylesheet" type="text/css" />
+        
+        <xsl:choose>
+            <xsl:when test="$defined-template = 'default' or $defined-template = ''">
+                <link href="{$themePath}/assets/css/app.min.css" rel="stylesheet" type="text/css" />
+            </xsl:when>
+            <xsl:otherwise>
+                <link href="{$path}/themes/{$defined-template}/css/{$defined-template}.css" rel="stylesheet" type="text/css" />
+            </xsl:otherwise>
+        </xsl:choose>
+        
         <link href="{$themePath}/assets/css/custom.min.css" rel="stylesheet" type="text/css" />
-
         <link href="{$themePath}/assets/css/igrp.css" rel="stylesheet" type="text/css" />
+
+        <xsl:if test="$themeConfigData">
+            <xsl:for-each select="$themeConfigData/css/file">
+                <xsl:choose>
+                    <xsl:when test="@external = 'true'">
+                        <link href="{.}" rel="stylesheet"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <link href="{$path}/themes/{$defined-template}/{.}" rel="stylesheet" media="none" onload="if(media!='all')media='all'"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:for-each>
+        </xsl:if>
 
         <script>
             var path        = '<xsl:value-of select="$path"/>';

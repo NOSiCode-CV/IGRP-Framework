@@ -44,7 +44,7 @@ public class QuerySelect extends CommonFIlter{
 	public boolean validateQuery(Config_env config,String sql) {
 		boolean isValid = false;
 		if(Core.isNotNull(sql)) {
-			this.config_env = config;
+			this.configEnv = config;
 			Session session = this.getSession();
 			if(session!=null) {
 				try {					

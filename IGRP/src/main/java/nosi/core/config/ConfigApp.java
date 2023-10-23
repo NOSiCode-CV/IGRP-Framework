@@ -51,16 +51,6 @@ public final class ConfigApp {
         }
         return properties;
     }
-
-    /**
-     * @return loadConfig(" common ", " main.xml ");
-     * @deprecated (Use getMainSettings)
-     */
-    @Deprecated
-    public Properties loadCommonConfig() {
-        return this.commonMain;
-    }
-
 	public Properties loadProperties(String fileName) throws IOException {
 		final Properties properties = new Properties();
 		try (InputStream inputStream = getClass().getResourceAsStream(fileName)) {
@@ -84,55 +74,6 @@ public final class ConfigApp {
         return "hibernate-igrp-core";
     }
 
-    public void configurationApp() {
-        if (!this.isInstall()) {
-            MigrationIGRPInitConfig.start();
-			this.save();
-		}
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getData_install() {
-        return dataInstall;
-    }
-
-    public void setData_install(String dataInstall) {
-        this.dataInstall = dataInstall;
-    }
-
-    public String isInstallation() {
-        return isInstallation;
-    }
-
-    public void setInstallation(String isInstallation) {
-        this.isInstallation = isInstallation;
-    }
-
-    private void load() throws IOException {
-        final Properties properties = this.loadProperties("/config/install/install.properties");
-        this.version = properties.getProperty("version");
-        this.dataInstall = properties.getProperty("data_install");
-        this.isInstallation = properties.getProperty("isInstallation");
-    }
-
-    public void save() {
-        Properties p = new Properties();
-        p.setProperty("version", Config.VERSION);
-        p.setProperty("data_install", Core.getCurrentDate());
-        p.setProperty("isInstallation", "success");
-        if (Core.isNotNull(this.getWorkspace())) {//Save in workspace eclipse
-            this.saveProperties(p, this.config.getPathWorkspaceResources() + File.separator + "config" + File.separator + "install" + File.separator + "install.properties");
-        }
-        this.saveProperties(p, this.config.getBasePathClass() + "config" + File.separator + "install" + File.separator + "install.properties");
-    }
-
     public void saveProperties(Properties p, String fileName) {
         try (OutputStream out = Files.newOutputStream(Paths.get(fileName))) {
             p.store(out, "");
@@ -140,18 +81,6 @@ public final class ConfigApp {
             e.printStackTrace();
         }
     }
-
-    public boolean isInstall() {
-        if (Core.isNull(this.isInstallation)) {
-            try {
-                this.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return Core.isNotNull(this.isInstallation);
-    }
-    
     public String getExternalUrl(String dad) {
     	String url = ApplicationManager.requestUrl(Igrp.getInstance().getRequest());
     	if(dad != null && !dad.trim().isEmpty()) {
