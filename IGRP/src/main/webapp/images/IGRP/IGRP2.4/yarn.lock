@@ -59,7 +59,7 @@
     "@babel/helpers" "^7.22.6"
     "@babel/parser" "^7.22.7"
     "@babel/template" "^7.22.5"
-    "@babel/traverse" "^7.22.8"
+    "@babel/traverse" "^7.23.2"
     "@babel/types" "^7.22.5"
     "@nicolo-ribaudo/semver-v6" "^6.3.3"
     convert-source-map "^1.7.0"
@@ -191,7 +191,7 @@
     "@babel/helper-split-export-declaration" "^7.22.5"
     "@babel/helper-validator-identifier" "^7.22.5"
     "@babel/template" "^7.22.5"
-    "@babel/traverse" "^7.22.5"
+    "@babel/traverse" "^7.23.2"
     "@babel/types" "^7.22.5"
 
 "@babel/helper-optimise-call-expression@^7.22.5":
@@ -225,7 +225,7 @@
     "@babel/helper-member-expression-to-functions" "^7.22.5"
     "@babel/helper-optimise-call-expression" "^7.22.5"
     "@babel/template" "^7.22.5"
-    "@babel/traverse" "^7.22.5"
+    "@babel/traverse" "^7.23.2"
     "@babel/types" "^7.22.5"
 
 "@babel/helper-simple-access@^7.22.5":
@@ -271,7 +271,7 @@
   dependencies:
     "@babel/helper-function-name" "^7.22.5"
     "@babel/template" "^7.22.5"
-    "@babel/traverse" "^7.22.5"
+    "@babel/traverse" "^7.23.2"
     "@babel/types" "^7.22.5"
 
 "@babel/helpers@^7.22.6":
@@ -280,7 +280,7 @@
   integrity sha512-YjDs6y/fVOYFV8hAf1rxd1QvR9wJe1pDBZ2AREKq/SDayfPzgk0PBnVuTCE5X1acEpMMNOVUqoe+OwiZGJ+OaA==
   dependencies:
     "@babel/template" "^7.22.5"
-    "@babel/traverse" "^7.22.6"
+    "@babel/traverse" "^7.23.2"
     "@babel/types" "^7.22.5"
 
 "@babel/highlight@^7.22.5":
@@ -5863,7 +5863,7 @@ jest-snapshot@^27.5.1:
     "@babel/core" "^7.7.2"
     "@babel/generator" "^7.7.2"
     "@babel/plugin-syntax-typescript" "^7.7.2"
-    "@babel/traverse" "^7.7.2"
+    "@babel/traverse" "^7.23.2"
     "@babel/types" "^7.0.0"
     "@jest/transform" "^27.5.1"
     "@jest/types" "^27.5.1"
