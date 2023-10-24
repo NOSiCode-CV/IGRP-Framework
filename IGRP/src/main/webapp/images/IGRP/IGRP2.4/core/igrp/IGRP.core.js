@@ -1337,7 +1337,7 @@
 							var id = 0;
 							
 							var count = 0;
-							
+
 							p.nodes.forEach(function(n,i){
 								
 								var nodeElement = $.IGRP.utils.xsl.getNode(pageXSL,'xsl:if',{
@@ -1359,65 +1359,79 @@
 									xsl      : xslt,
 									index    : id
 								});
+		
+								if(typeof p.customTransform === 'function'){
 
-								itemHTML.XMLTransform({
-									xml     	 : p.xml,
-									xsl     	 : xslt,
-									loading      : true,
-									xslBasePath  : path+'/xsl/tmpl',
-									method 	     : 'replace',
-									complete     : function(e,c){
-										
-										var content = $('.gen-container-item[item-name="'+n+'"]'),
-										
-											currentStyle = content.attr('style') || '',
-											
-											style 		 = oldStyle+currentStyle;
-											
-										content.attr('style', style);
-										
-										id += 1;
-										
-										$.IGRP.events.execute('element-transform',{
-											content  : content,
-											itemName : n,
-											xml 	 : p.xml,
-											xsl      : xslt,
-											index    : id
-										});
+									p.customTransform({
+										xml     	 : p.xml,
+										xsl     	 : xslt,
+										loading      : true,
+										xslBasePath  : path+'/xsl/tmpl',
+									})
 
-										if(p.success){
-											p.success({
+								}else{
+
+									itemHTML.XMLTransform({
+										xml     	 : p.xml,
+										xsl     	 : xslt,
+										loading      : true,
+										xslBasePath  : path+'/xsl/tmpl',
+										method 	     : 'replace',
+										complete     : function(e,c){
+											
+											var content = $('.gen-container-item[item-name="'+n+'"]'),
+											
+												currentStyle = content.attr('style') || '',
+												
+												style 		 = oldStyle+currentStyle;
+												
+											content.attr('style', style);
+											
+											id += 1;
+											
+											$.IGRP.events.execute('element-transform',{
+												content  : content,
 												itemName : n,
-												xsl 	 : xslt,
 												xml 	 : p.xml,
-												itemHTML : content
+												xsl      : xslt,
+												index    : id
+											});
+	
+											if(p.success){
+												p.success({
+													itemName : n,
+													xsl 	 : xslt,
+													xml 	 : p.xml,
+													itemHTML : content
+												});
+											}
+											
+											if(id == p.nodes.length){
+												if(p.clicked)
+													p.clicked.removeAttr("disabled");
+												
+												$.IGRP.utils.message.handleXML(p.xml);
+												
+												if(p.complete){
+													
+													p.complete();
+													
+												}
+											}
+											
+											
+										},
+										error: function(e){
+											
+											$.IGRP.notify({
+												message : 'Error Transforming Component',
+												type    : 'warning'
 											});
 										}
-										
-										if(id == p.nodes.length){
-											if(p.clicked)
-												p.clicked.removeAttr("disabled");
-											
-											$.IGRP.utils.message.handleXML(p.xml);
-											
-											if(p.complete){
-												
-												p.complete();
-												
-											}
-										}
-										
-										
-									},
-									error: function(e){
-										
-										$.IGRP.notify({
-											message : 'Error Transforming Component',
-											type    : 'warning'
-										});
-									}
-								});
+									});
+
+								}
+								
 								
 							});
 						}

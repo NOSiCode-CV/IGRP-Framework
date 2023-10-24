@@ -17,10 +17,44 @@ this[VARS.name].declareContainer({
 
 		container.unsetProprieties(['collapsible','collapsed', 'hasTitle']);
 
-		container.setProperty({
+		container.ready = ()=>{
+			const PageTab = GEN.getContainerByTag('page_tab');
+			
+			if(!PageTab){
+
+				const pageTabParams = GEN.importedData?.header?.columns[0].containers?.filter( (c)=>c.proprieties?.tag == 'page_tab' )[0];
+
+				const params = Object.assign({
+					genType : 'container',
+					proprieties : {
+						tag : 'page_tab'
+					}
+				},pageTabParams)
+
+
+				const row = GEN.Headers.row();
+
+				var tabContainer = {
+					name   : 'tabcontent',
+					row    : row,
+					column : row.find('.gen-column'),
+					index  : 1,
+					params : params
+				}
+
+				GEN.dropContainers_ROW([tabContainer],{
+					placeholder:  $('.gen-container-placeholder',row)
+				});
+
+			}
+				
+		}
+
+		/*container.setProperty({
 			name : 'tab',
 			label : $.IGRP.locale?.get('gen-page-header-tab'),
-			value : false,
+			value : true,
+			editable : false,
 			onChange : (v)=>{
 
 				const PageTab = GEN.getContainerByTag('page_tab');
@@ -30,7 +64,7 @@ this[VARS.name].declareContainer({
 						const params = {
 							genType : 'container',
 							proprieties : {
-							tag : 'page_tab'
+								tag : 'page_tab'
 							}
 						}
 
@@ -54,7 +88,7 @@ this[VARS.name].declareContainer({
 						GEN.removeContainer(PageTab.GET.id())
 				}
 			}
-		})
+		})*/
 
 		
 		

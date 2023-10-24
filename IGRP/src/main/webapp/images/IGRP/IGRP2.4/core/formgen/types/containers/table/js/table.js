@@ -39,8 +39,12 @@ var GENTABLE = function(name,params){
 		}
 	};
 
+	container.dropZoneFieldValidation = function(dropzone,field){
+		return field.GET.table() === false ? false : true;
+	}
+
 	container.includes = {
-		xsl :[ 'IGRP-table-utils.tmpl','component.table'],
+		xsl :[ 'IGRP-table-utils.tmpl','component.table', 'component.form.fields'],
 		css :[ 
 			{path:'/core/igrp/table/igrp.design.system.table.css'},	
 			//{path:'/core/igrp/table/datatable/dataTables.bootstrap.css', id:'DataTable'},
@@ -50,7 +54,8 @@ var GENTABLE = function(name,params){
 			{path : '/core/igrp/form/igrp.forms.js',id:'Form'},
 			{path : '/core/igrp/table/datatable/jquery.dataTables.min.js',id:'DataTable'},
 			{path:'/core/igrp/table/datatable/dataTables.bootstrap.min.js',id:'DataTable'},
-			{path:'/core/igrp/table/igrp.table.js'}
+			{path:'/core/igrp/table/igrp.table.js'},
+			{path:'/components/table/table.js'}
 		]
 	};
 
@@ -84,7 +89,9 @@ var GENTABLE = function(name,params){
 
 	};
 
-	container.ready = function(){
+	container.ready = function(params){
+
+		console.log(params)
 
 		container.SET.hasTitle(true);
 
@@ -204,7 +211,7 @@ var GENTABLE = function(name,params){
 
 		container.setPropriety({
 			name:'filter',
-			label : 'Filtro',
+			label : 'Paginação',
 			value:{
 				value: '',
 				options:[
@@ -341,6 +348,13 @@ var GENTABLE = function(name,params){
 			xslValue:getTableFooter
 		});
 
+		container.setProperty({
+			label : $.IGRP.locale.get('gen-table-has-filter'),
+			name : 'has_filter',
+			value: true,
+			xslValue : `<xsl:apply-templates mode="igrp-table-form-filter" select="${container.GET.path()}"/>`
+		})
+
 
 		var tableStyleProps = GEN.getGlobalProperty('table-style');
 
@@ -350,10 +364,9 @@ var GENTABLE = function(name,params){
 	}
 
 
-	container.setProperty({
-		name : 'has_filter',
-		value: true
-	})
+	//console.log(container.properties?.ta)
+
+	
 	/* WHEN A FIELD IS DROPPED - SET EXAMPLE DATA TO THE TABLE*/
 	container.onFieldSet = function(field){
 		//field.xml.desc = true;
@@ -369,6 +382,11 @@ var GENTABLE = function(name,params){
 		});
 		
 		if(!field.hidden){
+
+			field.setProperty({
+				name:'table',
+				value : true
+			});
 			
 			field.setPropriety({
 				name:'align',
@@ -417,12 +435,12 @@ var GENTABLE = function(name,params){
 
 
 		field.setProperty({
-			name:'in_filter',
+			name:'filter',
 			value: true
 		})
 
 		field.setProperty({
-			name:'in_table',
+			name:'table',
 			value: true
 		});
 		
