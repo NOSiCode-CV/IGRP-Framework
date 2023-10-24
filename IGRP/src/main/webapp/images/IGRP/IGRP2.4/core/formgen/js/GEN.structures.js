@@ -49,7 +49,7 @@ var GENSTRUCTURES = function(GEN){
 			
 		if(tag){
 
-			if(container.GET.hasTitle && container.GET.hasTitle() && container.GET.title)
+			if(container.GET.title && container.GET.title())
 				attributes+=' title="'+container.GET.title()+'"';
 
 			if(container.GET.dynamic && container.GET.dynamic())
@@ -460,6 +460,7 @@ var GENSTRUCTURES = function(GEN){
 					notvalidatefields = (item.GET.notvalidatefields && item.GET.notvalidatefields()) ? 'notvalidatefields="true"' : '',
 					target = item.GET.target(),
 					refresh_components = '',
+					icon = item.GET.iconLib && item.GET.iconLib() ? item.GET.img() : '',
 					id     = item.GET.id ? item.GET.id() : '',
 					adbcli = target == 'sharpadbclient' ? 'sharpadbclient="' + item.GET.adbcli()+'"' : '',
 					labelConfirm = targetConfirm.includes(target) ? 'labelConfirm="Deseja realmente realizar esta operação?"' : '';
@@ -495,7 +496,7 @@ var GENSTRUCTURES = function(GEN){
 	                    '<link>'+link+'</link>'+
 	                    '<parameter>'+linkAction+'?</parameter>'+
 	                    '<target>'+target+'</target>'+
-	                    '<img position="'+iconPosition+'">'+btnStyle+_class+'|'+item.GET.img()+'</img>'+
+	                    '<img position="'+iconPosition+'">'+btnStyle+_class+'|'+icon+'</img>'+
 	                    '<preview>'+linkAction+'</preview>'+
 	                     map+
 	                 '</item>';
@@ -516,7 +517,7 @@ var GENSTRUCTURES = function(GEN){
 			var tag    = f.GET.tag(),
 				title  = f.GET.label(),
 				target = f.GET.target ? f.GET.target() : "",
-				img    = f.GET.img    ? f.GET.img()    : "",
+				img    = f.GET.iconLib && f.GET.iconLib() && f.GET.img  ? f.GET.img()    : "",
 				iconPosition = f.GET.iconPosition ? f.GET.iconPosition() : 'left',
 				imgTag = img ? '<img>'+img+'</img>' : '',
 				app    = f.action && f.action.app    ? f.action.app    : '',

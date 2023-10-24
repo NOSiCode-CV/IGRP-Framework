@@ -9,6 +9,7 @@
     let currentContainer = null;
 
     var setAvailableFields = (container)=>{
+
         const availableFieldsWrapper = $('.available-fields',availableWrapper);
         
         availableFieldsWrapper.html('');
@@ -19,8 +20,10 @@
 
         if(container?.acceptableFields?.length > 2 )
             availableSearcherWrapper.show();
+
+        const acceptableList = container.menuItemType && container.contents ? [container.menuItemType] : container?.acceptableFields;
         
-        container?.acceptableFields?.map( (field)=>{
+        acceptableList?.map( (field)=>{
 			const elem = $('.treeview-menu li.gen-declared-fields[name="'+field+'"]');
 			const title = $('a span', elem).text();
 			const icon = $('i',elem).attr('class');
@@ -48,9 +51,13 @@
 
         currentActionsWrapper.hide();
 
-        if(container.GET.fields().length || container.GET.contextMenuFields().length){
+        const settedFields = container.contents && container.contents[0] ? container.contents :  container.GET.fields();
 
-            container.GET.fields().forEach(field => { 
+        if(settedFields.length || container.GET.contextMenuFields().length){
+
+            console.log(settedFields)
+
+            settedFields.forEach(field => { 
                 var render = Handlebars.compile(currentItemTemplate);
                 var template = render( {
                     ...field.proprieties,
@@ -84,15 +91,23 @@
     var addField = (name)=>{
     
         if(currentContainer){
-            var f    = gen.getDeclaredField(name);
-            if(f){
-                var field = new f.field(name,{
-                    properties:null
-                });
-                currentContainer.SET.fields([field],null,function(){
-                    setCurrentFields(currentContainer);
-                });
+            if(currentContainer.addMenu){
+                currentContainer.addMenu();
+                setCurrentFields(currentContainer);
+            }else{
+
+                var f    = gen.getDeclaredField(name);
+                if(f){
+                    var field = new f.field(name,{
+                        properties:null
+                    });
+                    currentContainer.SET.fields([field],null,function(){
+                        setCurrentFields(currentContainer);
+                    });
+                }
+
             }
+            
             return false;
         }
         
@@ -105,7 +120,7 @@
         currentContainer = null;
         fieldsMenu.hide();
 
-        if(acceptableFields[0]){
+        if(acceptableFields[0] || container.addMenu){
             currentContainer = container;
             fieldsMenu.show();
             setCurrentFields(container);
@@ -116,7 +131,9 @@
 
     var handleFieldEdit = (ev)=>{
         const id = $(ev.currentTarget).parents('[gen-field-id]').attr('gen-field-id');
-        const field = currentContainer?.GET.field(id) || currentContainer.contextMenu?.getField(id);
+       // const field = currentContainer?.GET.field(id) || currentContainer?.contextMenu?.getField(id) || currentContainer?.getMenuById(id);
+        const field = currentContainer.getMenuById ? currentContainer?.getMenuById(id) :  currentContainer?.GET.field(id) || currentContainer?.contextMenu?.getField(id);
+       
         if(field && gen.edit.object){
             gen.confirmEdition({
                 hide:false
@@ -158,10 +175,33 @@
 
     var setCurrentSortable = ()=>{
 
+        var startPos;
+
         $('.current-fields','#gen-edition-modal').sortable({
             containment: ".current-wrapper",
             stop:(e,ui)=>{
-                currentContainer?.reorderFieldsByElements( $('.current-fields > div') )
+                if(currentContainer.contents && currentContainer.addMenu && currentContainer.updateContents){
+                    const id = ui.item.attr('gen-field-id');
+                    if(id){
+                        const field = currentContainer.getMenuById(id);
+                        field.holder.insertBefore(  field.holder.parent().find('>li').eq( ui.item.index()  )[0]  );
+                        currentContainer.updateContents();
+                    }
+                }else
+                    currentContainer?.reorderFieldsByElements( $('.current-fields > div') )
+            }
+        });
+
+        $('.current-action-fields','#gen-edition-modal').sortable({
+            containment: ".current-wrapper",
+            start : (e,ui)=>{
+                startPos = ui.item.index();
+            },
+            stop:(e,ui)=>{
+                var endPos = ui.item.index();
+                ArrayMove(currentContainer?.contextMenu?.items,startPos,endPos);
+                startPos = null;
+                currentContainer.Transform();
             }
         });
 

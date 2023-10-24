@@ -2,3 +2,8 @@
     margin-right:16px;
 }
 
+
+
+.btn-label[has-icon="false"]{
+    padding-left: var(--vz-btn-padding-x)
+}

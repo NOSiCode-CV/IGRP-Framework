@@ -569,10 +569,19 @@
                <version>${maven.surefire.plugin.version}</version>
             </plugin>
 				<!--		https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-war-plugin -->
-            <plugin>
-               <artifactId>maven-war-plugin</artifactId>
-               <version>${maven.war.plugin.version}</version>
-            </plugin>
+				<plugin>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${maven.war.plugin.version}</version>
+					<configuration>
+						<webResources>
+							<resource>
+								<directory>
+									${project.basedir}/src/main/java/nosi/core/i18n</directory>
+								<targetPath>WEB-INF/classes/nosi/core/i18n</targetPath>
+							</resource>
+						</webResources>
+					</configuration>
+				</plugin>
 				<!-- Database migrations plugin -->
             <plugin>
                <groupId>org.flywaydb</groupId>
@@ -602,8 +611,7 @@
                      <extensions>
                         <extension>.class</extension>
 								<!-- if you want to	update each time you build with mvn compile -->
-                        <extension>.xml</extension>
-                         <extension>.properties</extension>
+                        <extension>.xsl</extension>
                      </extensions>
                   </synchronization>
                   <systemVariables>
@@ -612,6 +620,13 @@
                      <openejb.system.apps>true</openejb.system.apps>
                      <tomee.remote.support>true</tomee.remote.support>
                   </systemVariables>
+                  	<libs>
+							<lib>remove:myfaces</lib>	
+							<lib>remove:openjpa-</lib>	
+<!--							<lib>remove:openwebbeans-</lib>-->
+<!--							<lib>remove:microprofile-</lib>		-->
+<!--							<lib>remove:smallrye-</lib>					-->
+						</libs>
                </configuration>
             </plugin>
 

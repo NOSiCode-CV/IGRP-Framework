@@ -24,7 +24,7 @@ public final class LdapAuthenticationManager {
 	
 	public static boolean authenticate(String username, String password, Properties config, HttpServletRequest request) {
 		boolean success = false;
-		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
+		ArrayList<LdapPerson> personArray = new ArrayList<>();
 		String idsAutentikaEnabled = config.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value());
 		if ("true".equalsIgnoreCase(idsAutentikaEnabled))
 			success = authenticateThroughIdentityServerAutentika(username, password, config, personArray);
@@ -33,7 +33,7 @@ public final class LdapAuthenticationManager {
 		if(!success)
 			throw new IllegalStateException("A sua conta ou palavra-passe está incorreta.");
 			// Verify if this credentials exist in DB
-			User user = (User) new User().findIdentityByUsername(username);
+			User user = new User().findIdentityByUsername(username);
 			if (user != null) {
 				Profile profile = new Profile().getByUser(user.getId());
 				if(profile == null)
@@ -49,7 +49,7 @@ public final class LdapAuthenticationManager {
 					throw new IllegalStateException("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador.");
 				User newUser = new User();
 				newUser.setUser_name(username.trim().toLowerCase());
-				if (personArray != null && personArray.size() > 0) {
+				if ( !personArray.isEmpty()) {
 					for (int i = 0; i < personArray.size(); i++) {
 						LdapPerson p = personArray.get(i);
 						if (p.getName() != null && !p.getName().isEmpty())

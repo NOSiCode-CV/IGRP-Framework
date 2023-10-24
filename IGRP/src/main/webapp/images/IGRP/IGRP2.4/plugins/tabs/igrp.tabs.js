@@ -339,12 +339,12 @@
 
 						activeTab  = activeName ? $('[item-name="'+activeName+'"]>a',tab) : $('li:first-child>a',tab);
 
-					if(activeTab.is(':visible'))
-						activeTab.click();
+					if(!activeTab.is(':visible'))
+						activeTab = activeTab.parents('ul').first().find('li').filter(':visible')[0];
+		
+					var tabTrigger = new bootstrap.Tab(activeTab[0]);
 
-					else
-						$(activeTab.parents('ul').first().find('li').filter(':visible')[0]).find('a').click();
-
+					tabTrigger.show();
 
 					$.IGRP.store.unset($.IGRP.getPageInfo()+':'+parentName+':active');
 
@@ -352,7 +352,7 @@
 
 				}else{
 
-					if( !$('li.active',tab)[0] )
+					if( !$('li a.active',tab)[0] )
 
 						$('li:first-child>a',tab).click();
 				}

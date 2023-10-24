@@ -24,7 +24,6 @@
         }
 
         const checkNoDataMessage = ()=>{
-            console.log('check:' + $('tbody tr',table).length)
             if( $('tbody tr',table).length ){
                 noDataMsg.hide()
             }else{

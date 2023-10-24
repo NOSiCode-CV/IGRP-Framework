@@ -15,7 +15,15 @@ var GENTOOLSBAR = function(name,params){
 
 	container.ready = function(){
 
-		container.unsetProprieties(['title']);
+		//container.unsetProprieties(['title']);
+
+		/*container.setPropriety({
+			name:'title',
+			label : $.IGRP.locale.get('title'),
+			value:'',
+			isField: true, 
+			valuePersist: false
+		});*/
 
 		container.setPropriety({
 			name:'align',
@@ -30,6 +38,7 @@ var GENTOOLSBAR = function(name,params){
 				]
 			}
 		});
+
 
 		
 /*
@@ -106,7 +115,7 @@ var GENTOOLSBAR = function(name,params){
 			label : 'Botões Arredondados',
 			value    : false,
 			onChange : function(v){
-				console.log(v)
+				//console.log(v)
 			}
 			//xslValue : 'btn-outline'
 		});

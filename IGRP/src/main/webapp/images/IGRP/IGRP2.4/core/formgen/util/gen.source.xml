@@ -1,5 +1,27 @@
 <gen>
 	<path>GEN</path>
+
+	<headers>
+		<item>
+			<icon type='fa'>square-o</icon>
+			<type>container</type>
+			<name>page_header_basic</name>
+			<label>Básico</label>
+			<hasField>false</hasField>
+			
+			<group></group>
+		</item>
+		<item>
+			<icon type='fa'>square-o</icon>
+			<type>container</type>
+			<name>page_header_tab</name>
+			<label>Tabs</label>
+			<accept>button,text,date</accept>
+			<hasField></hasField>
+			<group></group>
+		</item>
+	</headers>
+
 	<containers>
 		
 		<item hidden="true">
@@ -27,13 +49,13 @@
 			<hasField>false</hasField>
 			<group>layout</group>
 		</item>
-		<item hidden="true">
+		<item >
 			<icon type='fa'>folder</icon>
 			<type>container</type>
 			<name>tabcontent</name>
 			<label>Tabs</label>
-			<reject>map_layer,map_widget</reject>
-			<accept></accept>
+			
+	
 			<hasField>false</hasField>
 			<group>layout</group>
 		</item>
@@ -173,7 +195,7 @@
 			<type>container</type>
 			<name>table</name>
 			<label>Table</label>
-			<accept>hidden,text,plaintext,email,link,number,checkbox,color,url,time,date,button,img</accept>
+			<accept>hidden,text,email,link,number,checkbox,color,time,date,button,img,select,lookup</accept>
 			<group>table</group>
 		</item>
 		<item hidden="true">

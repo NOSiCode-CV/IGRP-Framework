@@ -5,6 +5,7 @@
 @import url("./igrp/sidebar.css");
 
 
+/*
 body[has-menu="false"] .main-content{
     margin:0!important;
 }
@@ -18,6 +19,19 @@ body[has-menu="false"] .page-title-box {
 }
 body[has-menu="false"] .footer{
    display:none!important
+}
+*/
+
+html[page-target="_blank"] .main-content{
+    margin-left: 0!important;
+}
+
+html[page-target="_blank"] .page-content{
+    padding-top: 22px!important;;
+}
+
+html[page-target="_blank"] .footer{
+    left:0!important;
 }
 .gen-container-item{
     margin-bottom:24px;
@@ -62,4 +76,45 @@ body[has-menu="false"] .footer{
 
 .igrp-notify-container {
     right:15px;
+}
+
+.page-header-row{
+    margin-top: 0!important;
+    background: #fffbf4;
+    margin-left: -12px!important;
+    margin-right: -12px!important;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    padding: 0 15px;
+}
+.topbar-user{
+    background-color: transparent;
+}
+.page-title-box h4{
+    margin:0
+}
+
+h1>p,
+h2>p,
+h3>p,
+h4>p,
+h5>p,
+h6>p{
+    margin:0
+}
+
+
+.page-header-tab-wrapper,
+.page-header-tab-wrapper>.card{
+    margin-bottom:0!important;
+    border-radius: 0;
+}
+
+.igrp-page-header .gen-tab-holder>ul{
+    margin-left:-1.5rem!important;
+    margin-right: -1.5rem!important;
+    position: relative;
+    padding-right: 1.5rem!important;
+    padding-left: 1.5rem!important;
+    background-color: var( --vz-header-bg);
 }

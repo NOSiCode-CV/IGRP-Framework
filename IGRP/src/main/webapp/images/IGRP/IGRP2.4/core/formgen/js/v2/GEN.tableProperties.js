@@ -13,14 +13,15 @@
           items: [
             { value: "", label: $.IGRP.locale.get("ui-white") },
             
-            //{ value: "table-secondary", label: $.IGRP.locale.get("ui-secondary") },
-            //{ value: "table-success", label: $.IGRP.locale.get("ui-success") },
-            //{ value: "table-info", label: $.IGRP.locale.get("ui-info") },
-            //{ value: "table-warning", label: $.IGRP.locale.get("ui-warning") },
+            { value: "table-secondary", label: $.IGRP.locale.get("ui-secondary") },
+            { value: "table-success", label: $.IGRP.locale.get("ui-success") },
+            { value: "table-info", label: $.IGRP.locale.get("ui-info") },
+            { value: "table-warning", label: $.IGRP.locale.get("ui-warning") },
            // { value: "table-danger", label: $.IGRP.locale.get("ui-danger") },
             { value: "table-light", label: $.IGRP.locale.get("ui-gray") },
-            //{ value: "table-primary", label: $.IGRP.locale.get("ui-primary") },
-            //{ value: "table-dark", label: $.IGRP.locale.get("ui-dark") },
+          
+            { value: "table-primary", label: $.IGRP.locale.get("ui-primary") },
+            { value: "table-dark", label: $.IGRP.locale.get("ui-dark") },
             
           ],
           itemTemplate: ({ label, value }) => {

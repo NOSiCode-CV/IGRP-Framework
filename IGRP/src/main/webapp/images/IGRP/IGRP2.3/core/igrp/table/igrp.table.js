@@ -277,7 +277,8 @@
 	            	});
 
 					$.IGRP.events.on('iframe-modal-hide', (o)=>{
-						datatable = $(t).DataTable(options);
+						if ( ! $.fn.DataTable.isDataTable( t ) ) 
+							datatable = $(t).DataTable(options);
 					});
 					
 					$.IGRP.events.on('submit-ajax',function(o){

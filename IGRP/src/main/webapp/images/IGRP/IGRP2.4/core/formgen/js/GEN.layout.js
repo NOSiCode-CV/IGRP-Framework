@@ -69,13 +69,18 @@ var GEN_LAYOUT = function(viewer){
 		var tabRel = p.rel ? p.rel : 'tab-0';
 		var idx = p.index ? p.index : 0;
 
+
 		if(view[0]){
 
 			var id   = 'row-'+guid();
 			
 			var row = $(VARS.layout.rowsHtml).attr('id',id);
 
-			//setColumnOptions(row);
+			if(p.controllers === false){
+				$('.add-row-control', row).remove();
+				$('.row-options',row).remove();
+			}
+			
 			
 			rtn = {
 				row     : row,
@@ -132,6 +137,7 @@ var GEN_LAYOUT = function(viewer){
 				row.find('.column-setter[data-layout="'+selectedStruc+'"]').addClass('active')
 			})
 
+			console.log(  )
 	
 			return row;
 		}
@@ -409,11 +415,12 @@ var GEN_LAYOUT = function(viewer){
 
 				oclss = $(row).attr('gen-class');
 
-			//console.log(oclss)
-
 			$(row).removeClass(oclss).addClass(clss);
 
 			$(row).attr('gen-class',clss);
+
+			if(!$(row).hasClass('row'))
+				$(row).addClass('row');
 
 		});
 

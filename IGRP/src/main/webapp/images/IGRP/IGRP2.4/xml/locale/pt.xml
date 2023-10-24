@@ -21,6 +21,8 @@
     <cancel>cancelar</cancel>
     <title>título</title>
     <height>Altura</height>
+    <filter>filtro</filter>
+    <to-filter>filtrar</to-filter>
 
     <separator-list-no-data-found>Lista vazia. Clique em Adicionar para inserir dados na tabela</separator-list-no-data-found>
 
@@ -30,12 +32,17 @@
     <gen-container-add-field>adicione um campo clicando no painel à esquerda</gen-container-add-field>
     <gen-click-drag-to-add>clique para adicionar</gen-click-drag-to-add>
     <gen-table-header-style>Cor do cabeçalho</gen-table-header-style>
+    
     <gen-show-title>mostrar título</gen-show-title>
     <gen-tag-property-label>identificador</gen-tag-property-label>
     <gen-java-settings-title>Configurações de ambiente</gen-java-settings-title>
     <gen-java-settings-package-name>Nome do pacote</gen-java-settings-package-name>
     <gen-button-action>Página de Destino</gen-button-action>
     <gen-button-target>Target</gen-button-target>
+    <gen-button-type>Cor</gen-button-type>
+    <gen-icon-lib>Tipo de Ícone</gen-icon-lib>
+    <gen-page-header-tab>Conteúdos em Tab</gen-page-header-tab>
+    
  
 
     <ui-white>branco</ui-white>

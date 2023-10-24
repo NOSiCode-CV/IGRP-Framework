@@ -10,19 +10,19 @@
 					<!-- Dark Logo-->
 					<a href="{rows/link}" class="logo logo-dark">
 						<span class="logo-sm">
-							<img src="{$themePath}/assets/images/logo-white.svg" alt="" height="24" />
+							<img src="{$path}/themes/{$defined-template}/assets/images/logo-white.svg" alt="" height="24" />
 						</span>
 						<span class="logo-lg">
-							<img src="{$themePath}/assets/images/logo-white.svg" alt="" height="45" />
+							<img src="{$path}/themes/{$defined-template}/assets/images/logo-white.svg" alt="" height="45" />
 						</span>
 					</a>
 					<!-- Light Logo-->
 					<a href="{rows/link}" class="logo logo-light">
 						<span class="logo-sm">
-							<img src="{$themePath}/assets/images/logo-white.svg" alt="" height="24" />
+							<img src="{$path}/themes/{$defined-template}/assets/images/logo-white.svg" alt="" height="24" />
 						</span>
 						<span class="logo-lg">
-							<img src="{$themePath}/assets/images/logo-white.svg" alt="" height="45" />
+							<img src="{$path}/themes/{$defined-template}/assets/images/logo-white.svg" alt="" height="45" />
 						</span>
 					</a>
 					<button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
@@ -30,13 +30,15 @@
 					</button>
 				</div>
 
+				<div class="text-center text-light d-none mb-3">Sistema Integrado de Gestão do Tribunal de Contas</div>
+
 				<div id="scrollbar">
 					<div class="container-fluid">
 						<div id="two-column-menu"></div>
 						<ul class="navbar-nav" id="navbar-nav">
 							<li class="menu-title">
-								<span data-key="t-menu">Menu</span>
-								<div class="px-4 d-none">
+								<span class="d-none" data-key="t-menu">Menu</span>
+								<div class="px-4">
 									<input type="text" class="form-control igrp-menu-search " placeholder="Pesquisar..." autocomplete="off" id="search-options" value=""/>
 								</div>
 							</li>

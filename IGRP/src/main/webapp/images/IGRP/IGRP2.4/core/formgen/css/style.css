@@ -522,7 +522,7 @@ max-height: 34px;
 	border-bottom: 1px solid rgba(0,0,0,.15);
 	position: fixed;
 	z-index: 101;
-    top: 0;
+    bottom: 0;
     left: 0;
     padding: 0;
     background: white;

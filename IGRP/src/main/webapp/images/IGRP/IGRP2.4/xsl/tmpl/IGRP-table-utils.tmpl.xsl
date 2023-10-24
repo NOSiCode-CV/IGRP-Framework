@@ -233,7 +233,7 @@
 
                     <xsl:with-param name="class" select="'btn-ctx-inline-item btn-sm'"/>
                 
-                    <xsl:with-param name="text-class" select="' '"></xsl:with-param>
+                    <xsl:with-param name="text-class" select="' d-none'"></xsl:with-param>
 
 
                   </xsl:call-template>
@@ -261,6 +261,7 @@
     <xsl:param name="class" select="'btn'"/>
     <xsl:param name="text-class" select="''"/>
     <xsl:param name="ctx-params" select="''"/>
+    <xsl:param name="show-label" select="true()"/>
     <xsl:param name="view"/>
 
     <a id="{@id}" class="{$class}" target="{target}" icon-position="{img/@position}">

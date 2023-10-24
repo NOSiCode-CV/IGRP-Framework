@@ -274,16 +274,11 @@ var GENERATOR = function(genparams){
 
 			GEN.checkColumnComponents( p.column );
 
-			if(!fromSortable || p.clone)
-
+			if(!fromSortable || p.clone){
 				p.column.find('> .gen-column-inner >'+VARS.html.containersPlaceHolder).insertAt(holder,p.object.order);
-			
-			
-			counter++;
+			}
 
-		/*}catch(e){
-			console.log(e);
-		}*/
+			counter++;
 	}
 
 	GEN.initObject_ROW = function(p){
@@ -445,6 +440,8 @@ var GENERATOR = function(genparams){
 
 		var layoutRows = GEN.layout.getRows(true);
 
+		var headerHTML = GEN.designRows( GEN.Headers.export() );
+
 		_c+= GEN.designRows(layoutRows,{
 			main : true
 		});
@@ -458,6 +455,8 @@ var GENERATOR = function(genparams){
 
 		if(o.removeGenAttrs)
 			_c = removeGenAttrs(_c);
+
+		_c = _c.replaceAll('<!--page-header-->', headerHTML);
 	
 		return _c;
 	}
@@ -746,6 +745,8 @@ var GENERATOR = function(genparams){
 
 		var indx = params && params.index >= 0 ? params.index : 0;
 
+	
+
 		if(indx < containers.length){
 			
 			var dropped    = containers[indx];
@@ -754,6 +755,9 @@ var GENERATOR = function(genparams){
 
 			var declared   = GEN['getDeclared'+capitalizeFirstLetter(objectType)+'s'] ? GEN['getDeclared'+capitalizeFirstLetter(objectType)+'s'](dropped.name) : null;
 
+
+			//console.log(dropped)
+			
 			if(declared){
 
 				if(objectType == 'container'){
@@ -905,7 +909,7 @@ var GENERATOR = function(genparams){
 	
 	GEN.declareContainer = function(d){		
 		if(!GEN.getDeclaredContainers(d.name)){
-			var menuItem = $(VARS.html.containers+'[name="'+d.name+'"]');
+			var menuItem = $(VARS.html.containers+'[name="'+d.name+'"], .page-header-item[type="'+d.name+'"]');
 			d.accept = menuItem.attr('accept') ? menuItem.attr('accept').split(',') :  [];
 			d.reject = menuItem.attr('reject') ? menuItem.attr('reject').split(',') :  [];
 			d.hasField = menuItem.attr('hasfield') != 'false';
@@ -1132,7 +1136,8 @@ var GENERATOR = function(genparams){
 		var holder    = $('<div '+attrsStr+' rel="'+propriety+'" item-name="edit-'+propriety+'" class="form-group col-md-'+size+' '+_class+' col-xs-12"></div>');
 		var label     = $('<label>'+pLabel+'</label>');
 		var value     = object.GET[propriety] ? object.GET[propriety]() : '';
-		
+
+
 		
 		switch(type){
 			//OPTIONS / comboboxx
@@ -1316,7 +1321,34 @@ var GENERATOR = function(genparams){
 
 							attName    = p.propriety,
 	
-							flist 	   = $('<div class="box clean box-table-contents gen-formlist-attr-holder" gen-class="" item-name="gen-'+objectName+'_'+attName+'"><div class="box-body table-box"><table id="gen-'+objectName+'_'+attName+'" class="table table-striped gen-data-table IGRP_formlist " rel="T_gen-'+objectName+'_'+attName+'" data-control="data-gen-'+objectName+'_'+attName+'"><thead></thead><tbody><tr row="0"><input type="hidden" name="p_gen-'+objectName+'_'+attName+'_id" value="" /></tr></tbody></table></div></div>'),
+							flist 	   = $(`
+							<div 
+								class="box box-table-contents card igrp-formlist-wrapper gen-container-item gen-formlist-attr-holder" 
+								gen-class="" 
+								item-name="gen-${objectName}_${attName}">
+								<div class="box-body table-box card-body ">
+									<div class="table-responsive table-card">
+									<table 
+										id="gen-${objectName}_${attName}" 
+										class="table   gen-data-table IGRP_formlist " 
+										rel="T_gen-${objectName}_${attName}"
+										data-control="data-gen-${objectName}_${attName}"
+									>
+										<thead class=" border-top" style="vertical-align:middle"></thead>
+										<tbody>
+											<tr row="0">
+												<input
+												type="hidden"
+												name="p_gen-${objectName}_${attName}_id"
+												value=""
+												/>
+											</tr>
+										</tbody>
+									</table>
+									</div>
+								</div>
+							</div>
+							`),
 	
 							fields 	   =  objectProperties.fields || false;
 	
@@ -1476,11 +1508,12 @@ var GENERATOR = function(genparams){
 					
 					//console.log(p);
 					//console.log(inputType)
-
+				
 				input = GEN.getSetter({
 					type      : inputType,
 					propriety : p,
-					object    : object
+					object    : object,
+					definition : objectProperties && objectProperties.hasOwnProperty(p) ? objectProperties[p] : null,
 				});
 
 				if(input) {
@@ -1525,7 +1558,8 @@ var GENERATOR = function(genparams){
 						object.propertiesOptions[p].onEditionStart( {
 							property : p,
 							value    : object.GET[p](),
-							input : input
+							input : input,
+							modal: $(VARS.edition.modal)
 						} )
 					
 				}
@@ -1845,7 +1879,13 @@ var GENERATOR = function(genparams){
 				$(VARS.html.pageCopySelecter).select2('val',GEN.edit.object.copyOptions.id);
 			}
 
-			$('.modal-header ul li[rel="fields"]',modal).show();
+			
+			if(GEN.edit.object.fields || GEN.edit.object.contextMenu ){
+				
+				$('.modal-header ul li[rel="fields"]',modal).show();
+
+			}
+				
 			
 		}
 
@@ -1861,17 +1901,20 @@ var GENERATOR = function(genparams){
 		else
 			$(modal.find('.modal-header > ul > li')[0]).click();
 
-		$('select',modal).select2();
+		const inputs = $('select',modal);
+
+		inputs.each( (i,el)=>{
+			if( !$(el).data('select-set') ){
+				new Choices(el,{});
+				$(el).data('select-set', true)
+			}
+		});
 
 		/*FORM FIELD RULES SET/ SHOW/HIDE*/
 		if(object.formField || $.inArray(object.type,acceptsRules) !== -1)
-
 			GENRULES.setTargets(object,GEN);
-
 		else
-
 			$('.modal-header ul li[rel="rules"]',modal).hide();
-		
 		
 		$(document).trigger('gen-edition', [{ object: object }]);
 		
@@ -2348,6 +2391,8 @@ var GENERATOR = function(genparams){
 	}
 	
 	GEN.import = function(data,_p){
+
+		GEN.importedData = data;
 		
 		var arr = [];
 
@@ -2368,10 +2413,19 @@ var GENERATOR = function(genparams){
 				xsl : []
 			};
 			
+
+			
+
 			//draw page rows
 			if(json.rows && json.rows[0]){
+				
 
 				removeAllContainers();
+
+				if( !json.version )
+
+					GEN.convertTo2dot4( json );
+				
 				//css value
 				if(json.css){
 					GEN.cssEditor.setValue(json.css);
@@ -2411,7 +2465,6 @@ var GENERATOR = function(genparams){
 
 				//js value
 				//set here
-				//console.log(json.rows);
 
 				var arr = GEN.addContainersPerRow(json.rows);
 
@@ -2442,7 +2495,10 @@ var GENERATOR = function(genparams){
 				
 				if(json && (!json.rows || !json.rows[0])) {
 					
-					var row = GEN.layout.addRow({index:0});
+					var row = GEN.layout.addRow({
+						index:0,
+						//class : 'page-header-row'
+					});
 
 					startCb();
 				
@@ -2474,6 +2530,12 @@ var GENERATOR = function(genparams){
 				}
 
 				
+			}
+
+			if(json.header){
+				GEN.Headers.import( json.header );
+			}else{
+				GEN.Headers.add('page_header_basic');
 			}
 
 			if(json.plsql)
@@ -2548,11 +2610,13 @@ var GENERATOR = function(genparams){
 		//console.log(GEN.cssEditor.getValue().replaceAll(' ',''))
 		var page = {
 			rows    : GEN.layout.getRows(),
+			header  : GEN.Headers.export()[0], 
 			plsql   : GEN.SETTINGS.toJson(),
 			css     : GEN.cssEditor.getValue(),
 			js 	    : GEN.jsEditor.getValue(),
 			files   : GEN.files,
-			service : GEN.proprieties.service
+			service : GEN.proprieties.service,
+			version : '2.4'
 		}
 		//console.log(page);		
 		//console.log(JSON.stringify(page));
