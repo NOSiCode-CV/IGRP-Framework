@@ -916,17 +916,36 @@ public final class Core {
 	/**
 	 * @category DOMAIN
 	 *           <p>
-	 *           Find Active Domains by domain code name and app is null
+	 * Find Active Domains by domain code name and app is null
 	 * 
-	 * @param domainsName
-	 *            domain code name
-	 * @return {@code List< of Domains> }
+	 * @param domainsName domain code name
+	 * @return {@code List<Domains> }
 	 */
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName) {
+		return findDomainByCode(domainsName);
+	}
+
+	/**
+	 * @category DOMAIN
+	 *           <p>
+	 * Find Active Domains by domain code name and app is null
+	 *
+	 * @param domainNames domain code name
+	 * @return {@code List<Domains> }
+	 */
+	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String... domainNames) {
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
-		return domain.find().where("valor !=''").andWhere("dominio", "=", domainsName).andWhere("application", "isnull")
-				.andWhere("status", "=", "ATIVE").orderBy("ordem").all();
+
+		final String[] distinctValues = Arrays.stream(domainNames).distinct().toArray(String[]::new);
+
+		return domain.find()
+				.where("valor !=''")
+				.and()
+				.whereIn("dominio", distinctValues)
+				.andWhere("status", "=", "ATIVE")
+				.orderBy("ordem")
+				.all();
 	}
 
 	/**
