@@ -76,7 +76,6 @@
 		<!-- OPEN HTML TO PDF -->
       <openhtml.version>1.0.10</openhtml.version>
       <jsoup.version>1.16.1</jsoup.version>     
-      <json.version>20230618</json.version>
       <gson.version>2.10.1</gson.version>
 		<!-- For XSLT and XPATH handling ... -->
       <xalan.version>2.7.3</xalan.version>
@@ -343,7 +342,7 @@
       <dependency>
          <groupId>org.json</groupId>
          <artifactId>json</artifactId>
-         <version>${json.version}</version>
+         <version>[20231013,]</version>
       </dependency>
 		<!-- END JSON Dependencies -->
 		<!-- For accessing GNU Gettext Java bundles -->
