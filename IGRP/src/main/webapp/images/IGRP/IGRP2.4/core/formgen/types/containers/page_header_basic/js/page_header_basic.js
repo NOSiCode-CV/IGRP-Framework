@@ -32,22 +32,6 @@ var PAGE_HEADER_BASIC = function(name,params){
 		size: '12'
 	})
 
-	/*container.autoSetField = false;
-
-	container.xslValidation = false;
-	
-	container.xml.type = 'items';
-	container.xml.genType = 'menu';
-	container.xml.structure = 'toolsbar';
-	container.xml.genStart = ()=>{
-		return '<'+container.GET.tag()+'  type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">';
-	}
-
-	container.autoTag = false;
-	
-	container.ready = function(){
-		
-	}	*/
 }
 
 this[VARS.name].declareContainer({

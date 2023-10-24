@@ -1,6 +1,7 @@
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
+	
 	<xsl:template name="igrp-scripts">
 
 		<script src="{$path}/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -9,7 +10,7 @@
 		<script src="{$path}/libs/feather-icons/feather.min.js"></script>
 		<script src="{$themePath}/assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
 		<script src="{$themePath}/assets/js/plugins.js"></script>
-		<script src="{$themePath}/assets/js/app.js"></script>
+		<script src="{$themePath}/assets/js/app.js" async=""></script>
 
 		<script src="{$path}/core/jquery/{$jq-v}/jquery.min.js"></script>
 		<script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js"></script>
@@ -33,9 +34,43 @@
 
 		<script src="{$path}/core/igrp/IGRP.handler.js?v={$version}"></script>
 
+		<script src="{$path}/core/igrp/xml.xslt/xml.xsl.transform.js"></script>
+
 		<xsl:call-template name="igrp-global-scripts"></xsl:call-template>
 
 	</xsl:template>
+
+	<xsl:template name="igrp-global-scripts">
+
+        <script id="igrp-locale-js">
+			$.IGRP.locale = {
+				current : "<xsl:value-of select="$locale"/>",
+				available : ['pt','en'],
+				texts : {
+				<xsl:for-each select="$locale-strings/*">
+					"<xsl:value-of select="name()"/>" : "<xsl:value-of select="."/>"<xsl:if test="position() != last()">,</xsl:if>
+				</xsl:for-each>
+				},
+				get:function(string){
+					return $.IGRP.locale.texts[string] || string;
+				}
+			}
+		
+		</script>
+
+		<xsl:if test="$themeConfigData">
+            <xsl:apply-templates mode="igrp-theme-colors-script" select="$themeConfigData"/>
+        </xsl:if>
+
+		<script>
+			$(window).on('load', function(){
+					$.IGRP.onLoad ? $.IGRP.onLoad() : null;
+			});
+			$(document).ready( function(){
+					$.IGRP.init( );
+			});
+		</script>
+    </xsl:template>
 
 	<xsl:template name="igrp-chart-scripts">
 		<script src="{$path}/plugins/charts/igrp.charts.utils.js"></script>

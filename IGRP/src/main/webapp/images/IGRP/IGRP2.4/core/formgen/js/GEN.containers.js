@@ -1412,7 +1412,9 @@ var CONTAINER = function(name,params){
 
 						var isOnly     = !only    ? true : f.type == only   ?true : false;
 
-						if(isExcluded && isOnly){
+						var valid = container.dropZoneFieldValidation && typeof container.dropZoneFieldValidation === 'function' ? container.dropZoneFieldValidation(dz, f) : true;
+
+						if(isExcluded && isOnly && valid){
 							
 							if(isDrawable(f.type)){
 								var ftemplateContext = dz.template ? dz.template : 'field';
@@ -1855,7 +1857,7 @@ var CONTAINER = function(name,params){
 		hasTitle:function(val,p){
 			container.proprieties.hasTitle = val;
 
-			var transform = p && (p.transform != false) ? true : false;
+			/*var transform = p && (p.transform != false) ? true : false;
 			var idx = container.template.indexOf('>');
 
 			try{
@@ -1876,7 +1878,7 @@ var CONTAINER = function(name,params){
 			
 			}catch(e){
 				console.log(e);
-			}
+			}*/
 		},
 		collapsible:function(val,p){
 
@@ -2293,7 +2295,7 @@ var CONTAINER = function(name,params){
 
 					container.template = contents.template;
 					
-					container.ready();
+					container.ready(  );
 
 					_EVENTS.execute('ready',container);
 

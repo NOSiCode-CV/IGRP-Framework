@@ -178,6 +178,22 @@
         </xsl:if> 
     </xsl:template>
 
+    <xsl:template name="igrp-card-header" mode="igrp-card-header" match="*">
+        <xsl:param name="title" select="@title"/>
+        <xsl:param name="show-title" select="'false'"/>
+        <xsl:param name="has-filter" select="'true'"/>
+        <xsl:param name="filter-type" select="'default'"/>
+
+        <xsl:if test="$show-title">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="card-title">
+                    <xsl:value-of select="$title"/>
+                </h3>
+            </div>
+        </xsl:if>
+
+    </xsl:template>
+
     <xsl:template name="igrp-icon">
         <xsl:param name="type" select="''"/>
         <xsl:param name="icon" select="''"/>
@@ -1068,6 +1084,34 @@
         </a>
     </xsl:template>
 
+    <xsl:template name="igrp-lookup-tool">  
+      <xsl:param name="page" select="'LOOKUP'" />
+      <xsl:param name="action" select="''" />
+      <xsl:param name="name" select="''" />
+      <xsl:param name="js_lookup" select="''" />    
+      <xsl:param name="ad_hoc" select="'0'" />
+      <xsl:param name="input-id" select="$name"/>
+      <xsl:param name="btnClass" select="'default'"/>
+      <xsl:param name="lookupClass" select="''"/>
+      <xsl:param name="getparams" select="''"/>
+      
+      <span href="#" input-rel="{$input-id}" class="input-group-text gen-date-icon IGRP_lookupPopup {$lookupClass}" ctx_param="{$name}">
+        <xsl:if test="$getparams != ''">
+          <xsl:attribute name="getparams"><xsl:value-of select="$getparams"/></xsl:attribute>
+        </xsl:if>
+        <xsl:call-template name="page-nav">
+           <xsl:with-param name="action" select="$action" />
+           <xsl:with-param name="page" select="$page" />
+           <xsl:with-param name="linkextra" select="$js_lookup" />
+           <xsl:with-param name="ad_hoc" select="$ad_hoc" />
+          </xsl:call-template> 
+          <span class="">
+            <i class="ri-search-line"></i>
+          </span>
+      </span>
+      
+  </xsl:template>
+
     <xsl:template name="igrp-action-list-item" mode="igrp-action-list-item" match="item">
         <xsl:param name="type"/>
         <xsl:param name="use-fa" select="'true'"/>
@@ -1290,37 +1334,6 @@
         </script>
     </xsl:template>
 
-    <xsl:template name="igrp-global-scripts">
-        <script>
-			$.IGRP.locale = {
-				current : "<xsl:value-of select="$locale"/>",
-				available : ['pt','en'],
-				texts : {
-				<xsl:for-each select="$locale-strings/*">
-					"<xsl:value-of select="name()"/>" : "<xsl:value-of select="."/>"<xsl:if test="position() != last()">,</xsl:if>
-				</xsl:for-each>
-				},
-				get:function(string){
-					return $.IGRP.locale.texts[string] || string;
-				}
-			}
-		
-		</script>
-
-		<xsl:if test="$themeConfigData">
-            <xsl:apply-templates mode="igrp-theme-colors-script" select="$themeConfigData"/>
-        </xsl:if>
-
-		<script>
-			$(window).on('load', function(){
-					$.IGRP.onLoad ? $.IGRP.onLoad() : null;
-			});
-			$(document).ready( function(){
-					$.IGRP.init( );
-			});
-		</script>
-    </xsl:template>
-    
     <xsl:template name="igrp-page-attributes">
         <xsl:attribute name="page-target">
             <xsl:value-of select="//rows/target"/>
@@ -1330,6 +1343,12 @@
         </xsl:attribute>
         <xsl:attribute name="base-path">
             <xsl:value-of select="$path"/>
+        </xsl:attribute>
+        <xsl:attribute name="app">
+            <xsl:value-of select="//rows/app"/>
+        </xsl:attribute>
+        <xsl:attribute name="page">
+            <xsl:value-of select="//rows/page"/>
         </xsl:attribute>
         
         <xsl:attribute name="lang">pt</xsl:attribute>

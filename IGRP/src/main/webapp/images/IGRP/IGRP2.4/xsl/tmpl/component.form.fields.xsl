@@ -194,7 +194,7 @@
                     <xsl:with-param name="field" select="."/>
                 </xsl:call-template>
             </input>
-            <xsl:call-template name="lookup-tool">
+            <xsl:call-template name="igrp-lookup-tool">
                 <xsl:with-param name="page" select="rows/page"/>
                 <xsl:with-param name="ad_hoc" select="'1'"/>
                 <xsl:with-param name="action" select="'LOOKUP'"/>
@@ -207,6 +207,33 @@
 
         </div>
 
+
+    </xsl:template>
+
+    <xsl:template name="igrp-form-checkbox-field" mode="igrp-form-checkbox-field" match="*">
+        <xsl:param name="change" select="@change"/>
+        <xsl:param name="required" select="@required"/>
+        <xsl:param name="declabel" select="@desclabel"/>
+        <xsl:param name="inputmask" select="@inputmask"/>
+        <xsl:param name="maxlength" select="@maxlength"/>
+        <xsl:param name="switch" select="@switch"/>
+        <xsl:variable name="type" select="@type"/>
+        
+
+        <div class="form-check {$switch}"  style="margin-top: 35px;">
+            <input id="{@name}" type="checkbox" name="{@name}" value="1" class="checkbox form-check-input ${change}" label="{label}">
+            <xsl:call-template name="setAttributes">
+                <xsl:with-param name="field" select="."/>
+            </xsl:call-template>
+            <xsl:if test="value = '1'">
+                <xsl:attribute name="checked">checked</xsl:attribute>
+            </xsl:if>
+            </input>
+            <label class="form-check-label " for="{@name}">
+                <xsl:value-of select="label"/>
+            </label>
+        </div>
+   
 
     </xsl:template>
 
