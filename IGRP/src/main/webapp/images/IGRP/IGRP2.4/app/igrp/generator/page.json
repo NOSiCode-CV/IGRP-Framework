@@ -1,1 +1,380 @@
-{"rows":[{"columns":[{"size":"col-md-12","containers":[]}],"propreties":{"class":""}}],"header":{"columns":[{"size":"col-md-12","containers":[{"genType":"container","proprieties":{"title":"IGRP 2.4 Dashboard","tag":"page_header","type":"page_header_tab","tab":true},"fields":[],"style":{"id":"","class":"","inline":""},"options":{"autoTag":false},"id":"page_header_tab1697632119120","xsl":{"useDefault":true}},{"genType":"container","proprieties":{"tag":"page_tab","type":"tabcontent","template":"default","justified":false,"autoctrl":false,"setpagetitle":false},"fields":[],"style":{"id":"","class":"","inline":""},"options":{"autoTag":false},"id":"tabcontent1697632132761","xsl":{"useDefault":true},"contents":[{"properties":{"_id":"button_0c96_024e","label":"Tab Item 1","tag":"page_tab_button_1","name":"p_page_tab_button_1","type":"button","request_fields":"","target_fields":"","closerefresh":false,"refresh_components":"","refresh_submit":false,"adbcli":"","iconColor":"#333","iconClass":"","iconLib":"","img":"fa-angle-right","iconPosition":"left","notvalidatefields":false},"style":{"id":"","class":"","inline":""},"options":{"autoTag":true,"rules":[]},"xsl":{"useDefault":true,"template":null},"validation":[],"rows":[{"columns":[{"size":"col-md-12","containers":[]}],"propreties":{"class":""}}]}]}]}],"propreties":{}},"plsql":{"instance":"","table":"","package":"c","html":"c","gentype":"java","replace":false,"label":false,"biztalk":false,"process":false,"subversionpath":""},"css":"","js":"","files":{"css":[],"js":[],"xsl":[]},"service":{"value":{"code":"","desc":"","proc":"","connectionsReq":[],"fieldsReq":[],"connectionsRes":[],"fieldsRes":[]}},"version":"2.4","blocklyData":""}
+{
+  "rows": [
+    {
+      "columns": [{ "size": "col-md-12", "containers": [] }],
+      "propreties": { "class": "" }
+    }
+  ],
+  "header": {
+    "columns": [
+      {
+        "size": "col-md-12",
+        "containers": [
+          {
+            "genType": "container",
+            "proprieties": {
+              "title": "Lorem ipsum dolor",
+              "tag": "page_header",
+              "type": "page_header_tab"
+            },
+            "fields": [
+              {
+                "properties": {
+                  "_id": "text_b6c5_7a06",
+                  "label": "Text",
+                  "tag": "page_header_text_1",
+                  "name": "p_page_header_text_1",
+                  "type": "text"
+                },
+                "style": { "id": "", "class": "", "inline": "" },
+                "options": { "autoTag": false, "rules": [] },
+                "xsl": { "useDefault": true, "template": null },
+                "validation": []
+              },
+              {
+                "properties": {
+                  "_id": "date_182c_0da3",
+                  "label": "Date",
+                  "tag": "page_header_date_1",
+                  "name": "p_page_header_date_1",
+                  "type": "date",
+                  "format": "d-m-Y",
+                  "enableTime": false,
+                  "range": false,
+                  "disableWeekends": false,
+                  "disabledBeforetoday": false,
+                  "daysoff": false
+                },
+                "style": { "id": "", "class": "", "inline": "" },
+                "options": { "autoTag": false, "rules": [] },
+                "xsl": { "useDefault": true, "template": null },
+                "validation": []
+              },
+              {
+                "properties": {
+                  "_id": "text_8b93_965c",
+                  "label": "Text",
+                  "tag": "page_header_text_2",
+                  "name": "p_page_header_text_2",
+                  "type": "text"
+                },
+                "style": { "id": "", "class": "", "inline": "" },
+                "options": { "autoTag": false, "rules": [] },
+                "xsl": { "useDefault": true, "template": null },
+                "validation": []
+              },
+              {
+                "properties": {
+                  "_id": "date_32c3_610c",
+                  "label": "Date",
+                  "tag": "page_header_date_2",
+                  "name": "p_page_header_date_2",
+                  "type": "date",
+                  "format": "d-m-Y",
+                  "enableTime": false,
+                  "range": false,
+                  "disableWeekends": false,
+                  "disabledBeforetoday": false,
+                  "daysoff": false
+                },
+                "style": { "id": "", "class": "", "inline": "" },
+                "options": { "autoTag": false, "rules": [] },
+                "xsl": { "useDefault": true, "template": null },
+                "validation": []
+              }
+            ],
+            "style": { "id": "", "class": "", "inline": "" },
+            "options": { "autoTag": false },
+            "id": "page_header_tab1698076234392",
+            "xsl": { "useDefault": true }
+          },
+          {
+            "genType": "container",
+            "proprieties": {
+              "tag": "page_tab",
+              "type": "tabcontent",
+              "template": "default",
+              "justified": false,
+              "autoctrl": false,
+              "setpagetitle": false
+            },
+            "fields": [],
+            "style": { "id": "", "class": "", "inline": "" },
+            "options": { "autoTag": false },
+            "id": "tabcontent1698076234413",
+            "xsl": { "useDefault": true },
+            "contents": [
+              {
+                "properties": {
+                  "_id": "button_013a_2b65",
+                  "label": "Tab Item 1",
+                  "tag": "page_tab_button_1",
+                  "name": "p_page_tab_button_1",
+                  "type": "button",
+                  "request_fields": [],
+                  "target_fields": "",
+                  "closerefresh": false,
+                  "refresh_components": [],
+                  "refresh_submit": false,
+                  "adbcli": "",
+                  "iconColor": "#333",
+                  "iconClass": "",
+                  "iconLib": "remix",
+                  "img": "ri-filter-3-line",
+                  "iconPosition": "left",
+                  "notvalidatefields": false
+                },
+                "style": { "id": "", "class": "", "inline": "" },
+                "options": { "autoTag": true, "rules": [] },
+                "xsl": { "useDefault": true, "template": false },
+                "validation": [],
+                "rows": [
+                  {
+                    "columns": [
+                      {
+                        "size": "col-md-12",
+                        "containers": [
+                          {
+                            "genType": "container",
+                            "proprieties": {
+                              "title": "Table",
+                              "tag": "table_1",
+                              "hasTitle": true,
+                              "collapsible": false,
+                              "type": "table",
+                              "ctxMenuClass": false,
+                              "hasContextMenu": false,
+                              "ordertable": false,
+                              "ctxMenuTemplate": false,
+                              "hasColorTmpl": false,
+                              "filterTemplate": false,
+                              "filter": "",
+                              "ctxType": "inl",
+                              "ctxStyle": "",
+                              "export": [],
+                              "dataTable": false,
+                              "ctxInlineTmpl": true,
+                              "ctxInlineHeadTmpl": true,
+                              "tableFooter": false,
+                              "has_filter": true,
+                              "tableHeaderStyle": "",
+                              "hoverable": false,
+                              "striped": true,
+                              "bordered": false,
+                              "collapsed": false
+                            },
+                            "fields": [
+                              {
+                                "properties": {
+                                  "_id": "text_ba7d_3ed4",
+                                  "label": "Text",
+                                  "tag": "table_1_text_1",
+                                  "name": "p_table_1_text_1",
+                                  "type": "text",
+                                  "maxlength": 30,
+                                  "showLabel": true,
+                                  "table": true,
+                                  "align": "left",
+                                  "lookup_parser": false,
+                                  "iskey": false,
+                                  "filter": true,
+                                  "group_in": ""
+                                },
+                                "style": {
+                                  "id": "",
+                                  "class": "",
+                                  "inline": ""
+                                },
+                                "options": { "autoTag": false, "rules": [] },
+                                "xsl": { "useDefault": true, "template": null },
+                                "validation": []
+                              },
+                              {
+                                "properties": {
+                                  "_id": "text_28bf_12d7",
+                                  "label": "Nome",
+                                  "tag": "table_1_text_2",
+                                  "name": "p_table_1_text_2",
+                                  "type": "text",
+                                  "maxlength": 30,
+                                  "showLabel": true,
+                                  "table": true,
+                                  "align": "left",
+                                  "lookup_parser": false,
+                                  "iskey": false,
+                                  "filter": true,
+                                  "group_in": ""
+                                },
+                                "style": {
+                                  "id": "",
+                                  "class": "",
+                                  "inline": ""
+                                },
+                                "options": { "autoTag": false, "rules": [] },
+                                "xsl": {
+                                  "useDefault": true,
+                                  "template": false
+                                },
+                                "validation": []
+                              },
+                              {
+                                "properties": {
+                                  "_id": "lookup_f43e_76a8",
+                                  "label": "Lookup",
+                                  "tag": "table_1_lookup_1",
+                                  "name": "p_table_1_lookup_1",
+                                  "type": "lookup",
+                                  "field_param": "",
+                                  "lookupParams": [],
+                                  "lookup_type": "LOOKUP",
+                                  "maxlength": 30,
+                                  "showLabel": true,
+                                  "table": true,
+                                  "align": "left",
+                                  "lookup_parser": false,
+                                  "iskey": false,
+                                  "filter": true,
+                                  "group_in": ""
+                                },
+                                "style": {
+                                  "id": "",
+                                  "class": "",
+                                  "inline": ""
+                                },
+                                "options": { "autoTag": false, "rules": [] },
+                                "xsl": { "useDefault": true, "template": null },
+                                "validation": []
+                              },
+                              {
+                                "properties": {
+                                  "_id": "select_0816_9afd",
+                                  "label": "Select",
+                                  "tag": "table_1_select_1",
+                                  "name": "p_table_1_select_1",
+                                  "type": "select",
+                                  "placeholder": "",
+                                  "multiple": false,
+                                  "tags": false,
+                                  "load_service_data": false,
+                                  "domain_value": "",
+                                  "domain": "",
+                                  "maxlength": 30,
+                                  "showLabel": true,
+                                  "table": true,
+                                  "align": "left",
+                                  "lookup_parser": false,
+                                  "iskey": false,
+                                  "filter": true,
+                                  "group_in": "",
+                                  "java-type": ""
+                                },
+                                "style": {
+                                  "id": "",
+                                  "class": "",
+                                  "inline": ""
+                                },
+                                "options": { "autoTag": false, "rules": [] },
+                                "xsl": { "useDefault": true, "template": null },
+                                "validation": []
+                              }
+                            ],
+                            "style": { "id": "", "class": "", "inline": "" },
+                            "options": { "autoTag": false },
+                            "id": "table1697899067107",
+                            "xsl": { "useDefault": true }
+                          }
+                        ]
+                      }
+                    ],
+                    "propreties": { "class": "" }
+                  }
+                ]
+              },
+              {
+                "properties": {
+                  "_id": "button_c6d2_2853",
+                  "label": "Tab Item 2",
+                  "tag": "page_tab_button_2",
+                  "name": "p_page_tab_button_2",
+                  "type": "button",
+                  "request_fields": [],
+                  "target_fields": "",
+                  "closerefresh": false,
+                  "refresh_components": [],
+                  "refresh_submit": false,
+                  "adbcli": "",
+                  "iconColor": "#333",
+                  "iconClass": "",
+                  "iconLib": "remix",
+                  "img": "ri-home-2-line",
+                  "iconPosition": "left",
+                  "notvalidatefields": false
+                },
+                "style": { "id": "", "class": "", "inline": "" },
+                "options": { "autoTag": true, "rules": [] },
+                "xsl": { "useDefault": true, "template": false },
+                "validation": [],
+                "rows": [
+                  {
+                    "columns": [{ "size": "col-md-12", "containers": [] }],
+                    "propreties": { "class": "" }
+                  }
+                ]
+              },
+              {
+                "properties": {
+                  "_id": "button_531e_9c94",
+                  "label": "Tab Item 3",
+                  "tag": "page_tab_button_3",
+                  "name": "p_page_tab_button_3",
+                  "type": "button",
+                  "request_fields": "",
+                  "target_fields": "",
+                  "closerefresh": false,
+                  "refresh_components": "",
+                  "refresh_submit": false,
+                  "adbcli": "",
+                  "iconColor": "#333",
+                  "iconClass": "",
+                  "iconLib": "",
+                  "img": "fa-angle-right",
+                  "iconPosition": "left",
+                  "notvalidatefields": false
+                },
+                "style": { "id": "", "class": "", "inline": "" },
+                "options": { "autoTag": true, "rules": [] },
+                "xsl": { "useDefault": true, "template": null },
+                "validation": [],
+                "rows": [
+                  {
+                    "columns": [{ "size": "col-md-12", "containers": [] }],
+                    "propreties": { "class": "" }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "propreties": {}
+  },
+  "plsql": {
+    "instance": "",
+    "table": "",
+    "package": "c",
+    "html": "c",
+    "gentype": "java",
+    "replace": false,
+    "label": false,
+    "biztalk": false,
+    "process": false,
+    "subversionpath": ""
+  },
+  "css": "",
+  "js": "",
+  "files": { "css": [], "js": [], "xsl": [] },
+  "service": {},
+  "version": "2.4",
+  "blocklyData": ""
+}

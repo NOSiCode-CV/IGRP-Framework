@@ -320,9 +320,9 @@
 
 		config:function(){
 
-			var app  = $('body').attr('app'),
+			var app  = $('html').attr('app'),
 
-				page = $('body').attr('page');
+				page = $('html').attr('page');
 
 			$.IGRP.info.app = app || null;
 

@@ -756,7 +756,7 @@ var GENERATOR = function(genparams){
 			var declared   = GEN['getDeclared'+capitalizeFirstLetter(objectType)+'s'] ? GEN['getDeclared'+capitalizeFirstLetter(objectType)+'s'](dropped.name) : null;
 
 
-			console.log(dropped)
+			//console.log(dropped)
 			
 			if(declared){
 
@@ -2391,6 +2391,8 @@ var GENERATOR = function(genparams){
 	}
 	
 	GEN.import = function(data,_p){
+
+		GEN.importedData = data;
 		
 		var arr = [];
 
@@ -2533,7 +2535,7 @@ var GENERATOR = function(genparams){
 			if(json.header){
 				GEN.Headers.import( json.header );
 			}else{
-				GEN.Headers.add('page_header_tab');
+				GEN.Headers.add('page_header_basic');
 			}
 
 			if(json.plsql)
