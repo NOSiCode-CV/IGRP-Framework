@@ -23,7 +23,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
-
+import javax.enterprise.inject.spi.CDI;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -786,6 +786,13 @@ public class Controller {
 		igrpApp.getRequest().setAttribute("igrp.error", errorParam);
 	}
     
+    protected <T> T getComponent(Class<T> componentType) {
+    	try {
+    		return CDI.current().select(componentType).get();
+		} catch (javax.enterprise.inject.UnsatisfiedResolutionException e) {
+			return null;
+		}
+	}
 
 
 }
