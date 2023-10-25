@@ -41,6 +41,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -89,6 +90,10 @@ public class Controller {
 
     public QueryString<String, Object> queryString() {
         return this.queryString;
+    }
+
+    public QueryString<String, Object> addQueryString(String name, Object value, Predicate<Object> predicate) {
+        return predicate.test(value) ? addQueryString(name, value) : queryString();
     }
 
     public QueryString<String, Object> addQueryString(String name, Object value) {
@@ -720,7 +725,7 @@ public class Controller {
 			Class<?> classController = Class.forName(controllerPath);
 			Object controller = classController.getDeclaredConstructor().newInstance();
 			igrpApp.setCurrentController((Controller) controller);
-			Method action = Arrays.stream(classController.getDeclaredMethods()).filter(p -> p.getName().equals(actionName)).findFirst().orElseThrow(NoSuchMethodException::new);
+			Method action = Arrays.stream(classController.getDeclaredMethods()).filter(p -> p.getName().equals(actionName)).findFirst().orElseThrow(() -> new NoSuchMethodException("Não existe action "+actionName+" na pagina "+igrpApp.getCurrentPageName()));
 			if(action.getParameterCount() == 0)
 				return  action.invoke(controller);
 			return action.invoke(controller, formalParameters(action, igrpApp).toArray());
