@@ -14,11 +14,11 @@
 		
 		<!-- Hikaricp configuration -->
 		<property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>      
-		<property name="hibernate.hikari.connectionTimeout">60000</property>
-		<property name="hibernate.hikari.idleTimeout">10000</property>
-		<property name="hibernate.hikari.minimumIdle">0</property>
-		<property name="hibernate.hikari.maximumPoolSize">100</property>
-		<property name="hibernate.hikari.maxLifetime">30000</property>
+		<property name="hibernate.hikari.connectionTimeout">30000</property>
+		<property name="hibernate.hikari.idleTimeout">90000</property>
+		<property name="hibernate.hikari.minimumIdle">10</property>
+		<property name="hibernate.hikari.maximumPoolSize">50</property>
+		<property name="hibernate.hikari.maxLifetime">0</property>
 		<property name="hibernate.hikari.leakDetectionThreshold">0</property>
 		
 		<!-- IGRP Core -->
