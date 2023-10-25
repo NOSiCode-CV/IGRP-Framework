@@ -352,8 +352,9 @@ public class Report extends Controller{
 	 */
 	public Response processRepContraProva(String contraprova, String id, String outType, String toDownload)
 			throws TransformerFactoryConfigurationError, IOException {
+		
 		RepInstance ri = new RepInstance().find().andWhere("contra_prova", "=",contraprova)
-				.andWhere("application.id", "=",Integer.getInteger(id, null)).orderByDesc("id").one();			
+				.andWhere("application.id", "=",Integer.getInteger(id, 0)).orderByDesc("id").one();			
 		String content = "";
 		if(ri!=null && ri.getTemplate()!=null && !ri.hasError()){			
 			switch (outType) {
@@ -367,7 +368,7 @@ public class Report extends Controller{
 			
 		}
 		Core.setMessageError("[ EN ] - The document #("+contraprova+") has not been found. <br>[ PT ] - O documento #("+contraprova+") não foi encontrado.");
-		return this.redirect("igrp", "ErrorPage", "exception");
+		return this.redirect("igrp", "ErrorPage", "exception","&target=_blank");
 	}
 	
 }
