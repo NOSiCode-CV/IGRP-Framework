@@ -48,8 +48,6 @@
 	<!-- Default configuration parameters of server smtp (gmail) -->
 	<entry key="java.net.preferIPv4Stack"></entry>
 	<entry key="mail.smtp.host"></entry>
-	<entry key="mail.smtp.socketFactory.port"></entry>
-	<entry key="mail.smtp.socketFactory.class"></entry>
 	<entry key="mail.smtp.auth"></entry>
 	<entry key="mail.smtp.port"></entry>
 	<entry key="mail.user"></entry>
