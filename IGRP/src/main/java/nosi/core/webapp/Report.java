@@ -352,9 +352,12 @@ public class Report extends Controller{
 	 */
 	public Response processRepContraProva(String contraprova, String id, String outType, String toDownload)
 			throws TransformerFactoryConfigurationError, IOException {
-		
+		if(Core.isNull(contraprova)) {
+			Core.setMessageError("[ EN ] - The number contraprova is empty. <br>[ PT ] - O número de contraprova está vazio.");		
+			return this.redirect("igrp", "ErrorPage", "exception","&target=_blank");
+		}
 		RepInstance ri = new RepInstance().find().andWhere("contra_prova", "=",contraprova)
-				.andWhere("application.id", "=",Integer.getInteger(id, 0)).orderByDesc("id").one();			
+				.andWhere("application.id", "=",Integer.getInteger(id, null)).orderByDesc("id").one();			
 		String content = "";
 		if(ri!=null && ri.getTemplate()!=null && !ri.hasError()){			
 			switch (outType) {
