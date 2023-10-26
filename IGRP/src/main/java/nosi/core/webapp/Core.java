@@ -922,18 +922,20 @@ public final class Core {
 	 * @return {@code List<Domains> }
 	 */
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName) {
-		return findDomainByCodes(domainsName);
+		return findDomainByCode(domainsName, "");
 	}
 
 	/**
 	 * @category DOMAIN
 	 *           <p>
-	 * Find Active Domains by domain code name and app is null
+	 * Find Active Domains by domain code name and app dad
 	 *
-	 * @param domainNames domain code name
+	 * @param applicationCode app code
+	 * @param domainNames array of domain codes for the specified applicationCode
 	 * @return {@code List<Domains> }
 	 */
-	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCodes(String... domainNames) {
+	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCodes(String applicationCode, String... domainNames) {
+
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
 
@@ -944,6 +946,7 @@ public final class Core {
 				.and()
 				.whereIn("dominio", distinctValues)
 				.andWhere("status", "=", "ATIVE")
+				.andWhere("application.dad", "=", applicationCode)
 				.orderBy("ordem")
 				.all();
 	}
@@ -963,10 +966,20 @@ public final class Core {
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
 		if (isNullOrZero(applicationCode))
-			return domain.find().where("valor !=''").andWhere("dominio", "=", domainName)
-					.andWhere("status", "=", "ATIVE").andWhere("application", "isnull").orderBy("ordem").all();
-		return domain.find().where("valor !=''").andWhere("dominio", "=", domainName).andWhere("status", "=", "ATIVE")
-				.andWhere("application.dad", "=", applicationCode).orderBy("ordem").all();
+			return domain.find()
+					.where("valor !=''")
+					.andWhere("dominio", "=", domainName)
+					.andWhere("status", "=", "ATIVE")
+					.andWhere("application", "isnull")
+					.orderBy("ordem")
+					.all();
+		return domain.find()
+				.where("valor !=''")
+				.andWhere("dominio", "=", domainName)
+				.andWhere("status", "=", "ATIVE")
+				.andWhere("application.dad", "=", applicationCode)
+				.orderBy("ordem")
+				.all();
 	}
 
 	/**
