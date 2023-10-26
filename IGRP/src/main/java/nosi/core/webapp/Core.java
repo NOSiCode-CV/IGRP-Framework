@@ -916,17 +916,39 @@ public final class Core {
 	/**
 	 * @category DOMAIN
 	 *           <p>
-	 *           Find Active Domains by domain code name and app is null
+	 * Find Active Domains by domain code name and app is null
 	 * 
-	 * @param domainsName
-	 *            domain code name
-	 * @return {@code List< of Domains> }
+	 * @param domainsName domain code name
+	 * @return {@code List<Domains> }
 	 */
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName) {
+		return findDomainByCode(domainsName, "");
+	}
+
+	/**
+	 * @category DOMAIN
+	 *           <p>
+	 * Find Active Domains by domain code name and app dad
+	 *
+	 * @param applicationCode app code
+	 * @param domainNames array of domain codes for the specified applicationCode
+	 * @return {@code List<Domains> }
+	 */
+	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCodes(String applicationCode, String... domainNames) {
+
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
-		return domain.find().where("valor !=''").andWhere("dominio", "=", domainsName).andWhere("application", "isnull")
-				.andWhere("status", "=", "ATIVE").orderBy("ordem").all();
+
+		final String[] distinctValues = Arrays.stream(domainNames).distinct().toArray(String[]::new);
+
+		return domain.find()
+				.where("valor !=''")
+				.and()
+				.whereIn("dominio", distinctValues)
+				.andWhere("status", "=", "ATIVE")
+				.andWhere("application.dad", "=", applicationCode)
+				.orderBy("ordem")
+				.all();
 	}
 
 	/**
@@ -944,10 +966,20 @@ public final class Core {
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
 		if (isNullOrZero(applicationCode))
-			return domain.find().where("valor !=''").andWhere("dominio", "=", domainName)
-					.andWhere("status", "=", "ATIVE").andWhere("application", "isnull").orderBy("ordem").all();
-		return domain.find().where("valor !=''").andWhere("dominio", "=", domainName).andWhere("status", "=", "ATIVE")
-				.andWhere("application.dad", "=", applicationCode).orderBy("ordem").all();
+			return domain.find()
+					.where("valor !=''")
+					.andWhere("dominio", "=", domainName)
+					.andWhere("status", "=", "ATIVE")
+					.andWhere("application", "isnull")
+					.orderBy("ordem")
+					.all();
+		return domain.find()
+				.where("valor !=''")
+				.andWhere("dominio", "=", domainName)
+				.andWhere("status", "=", "ATIVE")
+				.andWhere("application.dad", "=", applicationCode)
+				.orderBy("ordem")
+				.all();
 	}
 
 	/**
@@ -1410,14 +1442,18 @@ public final class Core {
 	/**
 	 * {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
 	 * 
-	 * @param name
-	 *            of the string name remove the attribute after get it
+	 * @param name of the string name remove the attribute after get it
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name) {
 		return getParam(name,"");
 	}
-	
+	/**
+	 * 
+	 * @param name of the string to be get in th request getParameter, will remove the attribute after getting it
+	 * @param defaultParam is the string to be returned if no param is found
+	 * @return
+	 */
 	public static String getParam(String name,String defaultParam) {
 		Object v = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameter(name) : null;
 		if (Core.isNull(v))
