@@ -922,7 +922,7 @@ public final class Core {
 	 * @return {@code List<Domains> }
 	 */
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName) {
-		return findDomainByCode(domainsName);
+		return findDomainByCodes(domainsName);
 	}
 
 	/**
@@ -933,7 +933,7 @@ public final class Core {
 	 * @param domainNames domain code name
 	 * @return {@code List<Domains> }
 	 */
-	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String... domainNames) {
+	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCodes(String... domainNames) {
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
 
