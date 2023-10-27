@@ -3,6 +3,7 @@ package nosi.webapps.igrp.pages.pesquisarmenu;
 import nosi.core.config.ConfigApp;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.gui.components.IGRPTopMenu;
+import nosi.core.i18n.I18n;
 import nosi.core.integration.pdex.service.AppConfig;
 import nosi.core.integration.pdex.service.AppConfig.ExternalMenu;
 import nosi.core.webapp.Controller;
@@ -20,7 +21,6 @@ import nosi.webapps.igrp.dao.ProfileType;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.servlet.http.Cookie;
 import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
@@ -382,22 +382,25 @@ public class PesquisarMenuController extends Controller {
 			topMenu.addItem("Home", "igrp", "DefaultPage", "index", "_self", "home.png", "webapps?r=");
 		}
 
-		String flag = "english_flag.png";
-		for (Cookie cookie : Igrp.getInstance().getRequest().getCookies()) {
-			if (cookie.getName().equals("igrp_lang")) {
-				switch (cookie.getValue()) {
-				case "pt_PT":
+		String flag = "portuguese_flag.png";
+		 I18n coreLang = Igrp.getInstance().getI18nManager().getCoreLanguage();
+		 if(coreLang!=null) {
+				String lang = coreLang.getBundle().getLocale().getLanguage();
+				switch (lang) {
+				case "pt":
 					flag = "portuguese_flag.png";
 					break;
-				case "es_ES":
+				case "es":
 					flag = "spanish_flag.png";
 					break;
-				case "fr_FR":
+				case "fr":
 					flag = "french_flag.png";
 					break;
+				case "en":
+					flag = "english_flag.png";
+					break;
 				}
-			}
-		}
+		 }
 
 		topMenu.addItem("Settings", "igrp", "Settings", "index", "modal", flag, "webapps?r=");
 		if (isStartProc) {
