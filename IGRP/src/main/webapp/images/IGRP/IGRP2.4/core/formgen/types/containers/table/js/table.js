@@ -32,11 +32,11 @@ var GENTABLE = function(name,params){
 
 	container.contextMenu = {
 		type   : 'button',
-		holder : '.table-ctx-holder',
+		/*holder : '.table-ctx-holder',
 		menu   : {
 			selector: '.operationTable',
 			label   : 'span',
-		}
+		}*/
 	};
 
 	container.dropZoneFieldValidation = function(dropzone,field){
@@ -352,7 +352,21 @@ var GENTABLE = function(name,params){
 			label : $.IGRP.locale.get('gen-table-has-filter'),
 			name : 'has_filter',
 			value: true,
-			xslValue : `<xsl:apply-templates mode="igrp-table-form-filter" select="${container.GET.path()}"/>`
+			onChange:()=>{
+				container.SET.filterTemplate(true);
+			}
+		})
+
+		container.setProperty({
+			editable: false,
+			name : 'filterTemplate',
+			value: true,
+			xslValue : `
+				<xsl:apply-templates mode="igrp-table-form-filter" select="${container.GET.path()}"/>
+			`,
+			onChange:()=>{
+				
+			}
 		})
 
 
@@ -511,7 +525,19 @@ var GENTABLE = function(name,params){
 	
 	container.onContextMenuSet = function(field){
 
-			if(!ctxIncludes){
+		field.setProperty({
+			name:  'action_type',
+			order: 5,
+			value : {
+				value : 'specific',
+				options : [
+					{ label : 'Ação de Contexto', value:'specific' },
+					{ label : 'Ação', value:'action' }
+				]
+			}
+		})
+
+		if(!ctxIncludes){
 			container.SET.ctxMenuClass(true);
 			container.SET.ctxMenuTemplate(true);
 			container.SET.hasContextMenu(true);
@@ -522,6 +548,7 @@ var GENTABLE = function(name,params){
 			);
 
 			ctxIncludes = true;
+
 		}
 	}
 

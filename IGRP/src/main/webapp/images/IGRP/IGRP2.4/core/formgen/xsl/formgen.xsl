@@ -849,6 +849,8 @@
 
           </script>
 
+          <script src="{$path}/core/formgen/js/v2/GEN.state.js" ></script>
+          
           <script src="{$path}/core/formgen/js/v2/GEN.adapter.js" ></script>
           
           <script src="{$path}/core/formgen/js/v2/GEN.containerFieldSetter.js" ></script>

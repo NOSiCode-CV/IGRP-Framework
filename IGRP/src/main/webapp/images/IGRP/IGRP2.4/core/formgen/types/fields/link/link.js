@@ -33,7 +33,9 @@ var LINKFIELD = function(type,params){
 		});
 
 		IconsProperty(field,{
-			value:'fa-angle-right'
+			value:'ri-arrow-right-s-line',
+			iconLib : 'remix',
+			iconPosition : 'right'
 		});
 
 		/*GEN.setTargetAttr(field,{

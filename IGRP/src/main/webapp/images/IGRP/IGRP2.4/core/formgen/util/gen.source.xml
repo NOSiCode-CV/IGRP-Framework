@@ -7,8 +7,8 @@
 			<type>container</type>
 			<name>page_header_basic</name>
 			<label>Básico</label>
-			<hasField>false</hasField>
-			
+			<hasField>true</hasField>
+			<accept>button,text,date,link</accept>
 			<group></group>
 		</item>
 		<item>
@@ -16,7 +16,7 @@
 			<type>container</type>
 			<name>page_header_tab</name>
 			<label>Tabs</label>
-			<accept>button,text,date</accept>
+			<accept>button,text,date,link</accept>
 			<hasField></hasField>
 			<group></group>
 		</item>
@@ -195,7 +195,7 @@
 			<type>container</type>
 			<name>table</name>
 			<label>Table</label>
-			<accept>hidden,text,email,link,number,checkbox,color,time,date,button,img,select,lookup</accept>
+			<accept>hidden,text,email,link,number,checkbox,color,time,date,button,img,select,lookup,plaintext</accept>
 			<group>table</group>
 		</item>
 		<item hidden="true">

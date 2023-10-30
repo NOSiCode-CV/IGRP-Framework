@@ -618,12 +618,14 @@ var CONTAINER = function(name,params){
 			
 			var startPos;
 
+			console.log(container)
+
 			ctxHolder.sortable({
 				placeholder:'ctx-place-holder',
 				containment:'parent',
 				tolerance  :'pointer',
 				scroll:false,
-				items:container.contextMenu.menu.selector,
+				items:container.contextMenu.menu?.selector,
 				start:function(e,ui){
 					startPos = ui.item.index();
 				},
@@ -638,12 +640,12 @@ var CONTAINER = function(name,params){
 
 			container.contextMenu.items.forEach(function(item,i){
 			
-				var itemHolder = $(ctxHolder.find(container.contextMenu.menu.selector)[i]);
+				var itemHolder = $(ctxHolder.find(container.contextMenu.menu?.selector)[i]);
 			
 				itemHolder.attr('parent-id',container.GET.id());
 				itemHolder.attr('gen-field-id',item.GET.id());
 				itemHolder.addClass(VARS.class.ctxMenuHolder);
-				itemHolder.find(container.contextMenu.menu.label).attr('gen-lbl-setter','');
+				itemHolder.find(container.contextMenu.menu?.label).attr('gen-lbl-setter','');
 				
 				item.holder = itemHolder;
 				item.holder.append(container.getFieldEditOptions(item));

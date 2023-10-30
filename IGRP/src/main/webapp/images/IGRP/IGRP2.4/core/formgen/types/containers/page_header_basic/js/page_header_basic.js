@@ -11,7 +11,7 @@ var PAGE_HEADER_BASIC = function(name,params){
 	//container.xml.genType = 'menu';
 	//container.xml.structure = 'toolsbar';
 
-/*	container.contextMenu = {
+	container.contextMenu = {
 		type   : 'button',
 		holder : '.buttons-holder',
 		menu   : {
@@ -19,7 +19,7 @@ var PAGE_HEADER_BASIC = function(name,params){
 			
 		},
 		xmlTag:'tools-bar'
-	}*/
+	}
 
 	container.unsetProprieties(['collapsible','collapsed', 'hasTitle']);
 	
