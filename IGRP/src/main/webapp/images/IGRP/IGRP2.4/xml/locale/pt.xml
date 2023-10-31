@@ -14,10 +14,13 @@
     <confirm>confirmar</confirm>
     <close>fechar</close>
     <clear>limpar</clear>
+    <search>pesquisar</search>
+    <apply>aplicar</apply>
     <search-field>pesquisar campo</search-field>
     <search-no-results>nenhum resultado encontrado</search-no-results>
     <add>adicionar</add>
     <remove>remover</remove>
+    <erase>limpar</erase>
     <cancel>cancelar</cancel>
     <title>título</title>
     <height>Altura</height>
@@ -42,7 +45,7 @@
     <gen-button-type>Cor</gen-button-type>
     <gen-icon-lib>Tipo de Ícone</gen-icon-lib>
     <gen-page-header-tab>Conteúdos em Tab</gen-page-header-tab>
-    
+    <gen-table-has-filter>Mostrar Filtro</gen-table-has-filter>
  
 
     <ui-white>branco</ui-white>

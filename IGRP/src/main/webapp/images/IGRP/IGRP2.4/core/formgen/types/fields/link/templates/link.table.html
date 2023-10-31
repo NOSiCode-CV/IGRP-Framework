@@ -1,10 +1,16 @@
 <td align="#[align]#" data-row="{position()}" data-title="{../../label/#tag#}" class="#type#" item-name="#[tag]#">
 <xsl:choose>
     <xsl:when test="#tag# != ''">
-        <a href="{normalize-space(#tag#)}" class="link bClick btn btn-#[class]# #[btnSize]#" sharpadbclient="#[adbcli]#" target-fields="#[target_fields]#" target="#[target]#" request-fields="#[request_fields]#" name="#tag#">
-        	<i class="fa #[img]#"/>
-            <span><xsl:value-of select="#tag#_desc"/></span>
-        </a>
+        <xsl:apply-templates mode="igrp-table-link-field-td" select="#tag#">
+            <xsl:with-param name="class" select="'#[class]#'"/>
+            <xsl:with-param name="icon" select="'#[img]#'"/>
+		    <xsl:with-param name="icon-lib" select="'#[iconLib]#'"/>
+            <xsl:with-param name="icon-position" select="'#[iconPosition]#'"/>
+            <xsl:with-param name="adbcli" select="'#[adbcli]#'"/>
+            <xsl:with-param name="target_fields" select="'#[target_fields]#'"/>
+            <xsl:with-param name="request_fields" select="'#[request_fields]#'"/>
+            <xsl:with-param name="target" select="'#[target]#'"/>
+        </xsl:apply-templates>
     </xsl:when>
     <xsl:otherwise>
         <span><xsl:value-of select="#tag#_desc"/></span>

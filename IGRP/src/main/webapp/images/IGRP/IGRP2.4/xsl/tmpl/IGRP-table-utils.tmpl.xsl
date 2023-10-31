@@ -144,6 +144,8 @@
       </xsl:call-template>
     </xsl:variable>
 
+    <xsl:variable name="context-items" select="item[not(@type='action')]"/>
+
     <xsl:choose>
       <xsl:when test="$type = 'dropdown'">
 
@@ -152,7 +154,7 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu table-ctx-holder">
-            <xsl:for-each select="item">
+            <xsl:for-each select="$context-items">
               <xsl:variable name="rowCtxHiddenTitle">
                 <xsl:call-template name="ctxHiddenTitle">
                   <xsl:with-param name="vText" select="$ctxHiddenContent"/>
@@ -200,7 +202,7 @@
 
       <xsl:otherwise>
         <div class="clearfix table-ctx-holder d-flex">
-          <xsl:for-each select="item">
+          <xsl:for-each select="$context-items">
             <xsl:variable name="rowCtxHiddenTitle">
               <xsl:call-template name="ctxHiddenTitle">
                 <xsl:with-param name="vText" select="$ctxHiddenContent"/>

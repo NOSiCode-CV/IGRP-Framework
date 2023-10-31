@@ -117,55 +117,6 @@
 
                 </div>
           
-                <ul class="nav nav-tabs-custom border-bottom-0 d-none" role="tablist">
-                  <li class="nav-item" role="presentation">
-                    <a
-                      class="nav-link active fw-semibold"
-                      data-bs-toggle="tab"
-                      href="#project-overview"
-                      role="tab"
-                      aria-selected="true"
-                    >
-                      Overview
-                    </a>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <a
-                      class="nav-link fw-semibold"
-                      data-bs-toggle="tab"
-                      href="#project-documents"
-                      role="tab"
-                      aria-selected="false"
-                      tabindex="-1"
-                    >
-                      Documents
-                    </a>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <a
-                      class="nav-link fw-semibold"
-                      data-bs-toggle="tab"
-                      href="#project-activities"
-                      role="tab"
-                      aria-selected="false"
-                      tabindex="-1"
-                    >
-                      Activities
-                    </a>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <a
-                      class="nav-link fw-semibold"
-                      data-bs-toggle="tab"
-                      href="#project-team"
-                      role="tab"
-                      aria-selected="false"
-                      tabindex="-1"
-                    >
-                      Team
-                    </a>
-                  </li>
-                </ul>
               </div>
             </div>
           </div>
@@ -1078,7 +1029,7 @@
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:if>
-            <span class="btn-text ">
+            <span class="btn-text text-truncate">
                 <xsl:value-of select="title"/>
             </span>
         </a>

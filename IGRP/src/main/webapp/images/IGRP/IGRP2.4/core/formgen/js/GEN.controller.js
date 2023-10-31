@@ -2479,6 +2479,8 @@ var GENERATOR = function(genparams){
 						GEN.done();
 						
 						_import(false);
+
+						$(document).trigger('import-complete', [json])
 					}
 				});
 

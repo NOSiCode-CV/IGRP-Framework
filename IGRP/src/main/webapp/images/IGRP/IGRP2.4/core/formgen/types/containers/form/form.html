@@ -1,8 +1,7 @@
 <div class="card igrp-forms">
+	<xsl:apply-templates mode="igrp-card-header" select="#path#"/>
 	<div class="card-body">
-		<div class="row g-4" role="form" gen-id="drop-zone">
-		
-		</div>
+		<div class="row g-4" role="form" gen-id="drop-zone"></div>
 	</div>
 	<xsl:apply-templates select="#path#/tools-bar" mode="form-buttons-2"/>
 </div>

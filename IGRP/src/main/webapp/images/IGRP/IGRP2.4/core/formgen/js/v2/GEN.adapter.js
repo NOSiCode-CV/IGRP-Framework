@@ -14,11 +14,12 @@
 
         //table ctx menu
         transformComponents(data, 'table', (component)=>{
+
             if(component.contextMenu && component.contextMenu[0]){
                 component.contextMenu.forEach( (field)=>{
                     setButtonProps(field);
                     field.properties.btnStyle = "btn-ghost";
-                })
+                });
             }
         });
 
@@ -34,12 +35,20 @@
     }
 
     const setButtonProps = (btn)=>{
-        btn.properties.iconLib = "fontawesome";
+        const btnIconSettings = transformFaToRemix(btn.properties.img);
+
+        btn.properties.img     = btnIconSettings.icon;
+        btn.properties.iconLib = btnIconSettings.lib;
+
         btn.properties.iconPosition = "left";
+       
         if(btn.properties.class == "black")
             btn.properties.class = "dark";
         if(btn.properties.class == "grey")
             btn.properties.class = "dark";
+
+
+        
     }
 
 
@@ -60,8 +69,21 @@
         }
     }
 
+    const transformFaToRemix = (fa="icon")=>{
+        return {
+            icon : iconsMapFaToRemix[fa] ? iconsMapFaToRemix[fa] : fa,
+            lib : iconsMapFaToRemix[fa] ? 'remix' : 'fontawesome'
+        };
+
+    }
+
     const iconsMapFaToRemix = {
-        "fa-trash" : ""
+        "fa-bell"  : "ri-notification-4-line",
+        "fa-trash" : "ri-delete-bin-line",
+        "fa-plus"  : "ri-add-line",
+        "fa-search" : "ri-search-line",
+        "fa-eraser" : "ri-eraser-line",
+        "fa-archive" : "ri-archive-line"
     }
 
     

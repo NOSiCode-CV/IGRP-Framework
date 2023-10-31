@@ -1,14 +1,19 @@
 package nosi.webapps.igrp_studio.pages.env;
 
+import nosi.core.webapp.Controller;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
 import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.integration.pdex.service.AppConfig;
 import nosi.core.integration.pdex.service.AppConfig.App;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.ApplicationPermition;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.security.EncrypDecrypt;
@@ -16,23 +21,19 @@ import nosi.core.webapp.security.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.*;
 import org.apache.commons.io.IOUtils;
-
 import jakarta.jws.WebService;
 import javax.persistence.GeneratedValue;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,8 +49,8 @@ import java.util.stream.Collectors;
 import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
-
 import static nosi.core.i18n.Translator.gt;
+
 /*----#end-code----*/
 		
 public class EnvController extends Controller {
@@ -62,6 +63,7 @@ public class EnvController extends Controller {
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		view.img_src.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.templates.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.template_theme_24_.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.action_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.flg_external.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -69,7 +71,8 @@ public class EnvController extends Controller {
 		/*----#start-code(index)----*/
 
 		view.img_src.setValue(this.getIcons());
-		view.templates.setValue(this.getThemes());
+		view.templates.setValue(this.getThemes("2.3"));
+		view.template_theme_24_.setValue(this.getThemes("2.4"));
 
 		final Application application = new Application().findOne(Core.getParam("p_id"));
 		model.setImg_src(application != null && Core.isNotNull(application.getImg_src()) ? application.getImg_src() : "default.svg");
@@ -82,6 +85,7 @@ public class EnvController extends Controller {
 		view.link_center.setVisible(false);
 		view.action_fk.setVisible(false);
 		view.flg_old.setVisible(false);
+				view.plsql_codigo.setVisible(Core.isNotNull(ConfigApp.getInstance().getMainSettings().getProperty("igrp.plsql.myapps.url")));
 		view.flg_external.setValue(new Application().getAtivesEstadoRegisto());
 		
 		/*----#end-code----*/
@@ -132,7 +136,8 @@ public class EnvController extends Controller {
 			app.setImg_src(model.getImg_src());
 			app.setName(model.getName());
 			app.setStatus(model.getStatus());
-			app.setTemplate(model.getTemplates());
+			String theme24=Core.isNotNull(model.getTemplate_theme_24_())?";"+model.getTemplate_theme_24_():"";
+			app.setTemplate(model.getTemplates()+theme24);
 			
 			Application tutorial = new Application().find().andWhere("dad", "=", "tutorial").one();
 			if(tutorial != null && app.getExternal() != 1) {
@@ -226,7 +231,13 @@ public class EnvController extends Controller {
 		}
 		model.setImg_src(application.getImg_src());
 		model.setStatus(application.getStatus());
-		model.setTemplates(application.getTemplate());
+		if(application.getTemplateRaw()!=null) {
+			String[] themes = application.getTemplateRaw().split(";");
+			model.setTemplates(themes[0]);
+			if(themes.length>1)
+				model.setTemplate_theme_24_(themes[1]);
+		}
+		
 		model.setPlsql_codigo(application.getPlsql_code());
 		
 		if(Core.isHttpPost()){
@@ -264,7 +275,8 @@ public class EnvController extends Controller {
 				
 			}
 			application.setStatus(model.getStatus());
-			application.setTemplate(model.getTemplates());
+			String theme24=Core.isNotNull(model.getTemplate_theme_24_())?";"+model.getTemplate_theme_24_():"";
+			application.setTemplate(model.getTemplates()+theme24);
 			application = application.update();
 			if(application != null){
 				
@@ -279,16 +291,18 @@ public class EnvController extends Controller {
 		}	
 		EnvView view = new EnvView();
 		view.sectionheader_1_text.setValue(Core.gt("App builder - Atualizar"));
-    	view.dad.propertie().setProperty("disabled", "true");
+		view.dad.propertie().setProperty("disabled", "true");
 		view.btn_gravar.setLink("igrp_studio", "env", "editar&p_id=" + idAplicacao);
 		view.action_fk.setValue(new Menu().getListAction(idAplicacao));
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
 		view.flg_old.setVisible(false);
+		view.plsql_codigo.setVisible(Core.isNotNull(ConfigApp.getInstance().getMainSettings().getProperty("igrp.plsql.myapps.url")));
 		view.plsql_codigo.setLabel("IGRP (code)");
 		view.img_src.setValue(this.getIcons());
-		view.templates.setValue(this.getThemes());
+		view.templates.setValue(this.getThemes("2.3"));
+		view.template_theme_24_.setValue(this.getThemes("2.4"));
 		view.flg_external.setValue(new Application().getAtivesEstadoRegisto());
 		view.setModel(model);
 		return this.renderView(view); 
@@ -300,12 +314,12 @@ public class EnvController extends Controller {
 		Igrp.getInstance().getResponse().setContentType("text/xml");
 		List<Profile> myApp = new Application().getMyApp(); 
 		myApp = myApp.stream()
-				  .filter(profile->profile.getOrganization().getApplication().getStatus()==1).collect(Collectors.toList());
+				  .filter(profile->profile.getOrganization().getApplication().getStatus()==1).toList();
 		if(type.equalsIgnoreCase("dev")) {
 			myApp = myApp.stream()					 
 					.filter(profile->!profile.getOrganization().getApplication().getDad().equalsIgnoreCase("tutorial"))
 					.filter(profile->!profile.getOrganization().getApplication().getDad().equalsIgnoreCase("igrp_studio"))
-					.collect(Collectors.toList());
+					.toList();
 		}
 		List<Application> otherApp = new Application().getOtherApp();
 		List<Integer> aux = new ArrayList<>();
@@ -643,13 +657,13 @@ public class EnvController extends Controller {
 		return new HashMap<>();
 	}
 
-	private Map<String, String> getThemes() {
+	private Map<String, String> getThemes(String version) {
 
 		final Map<String, String> themes = new LinkedHashMap<>();
 
 		try {
 
-			final String iconAppPath = new Config().getPathOfImagesFolder() + "/IGRP/IGRP2.3/themes";
+			final String iconAppPath = new Config().getPathOfImagesFolder() + "/IGRP/IGRP"+version+"/themes";
 
 			themes.put(null, "-- Seleccionar --");
 
@@ -661,6 +675,8 @@ public class EnvController extends Controller {
 		}
 		return themes;
 	}
+	
+
 	
 	/*----#end-code----*/
 }

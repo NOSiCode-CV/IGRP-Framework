@@ -24,7 +24,7 @@ public class Config {
     private static final String SEPARATOR_FOR_HTTP = "/";
     private static final String SEPARATOR_FOR_FILESYSTEM = File.separator;
     public static final String BASE_PATH_CONFIGURATION = "config";
-    public static final String VERSION = "2.0.0.231023";
+    public static final String VERSION = "2.0.0.231031";
     public static final String DEFAULT_V_PAGE = "2.3";
     private static final Properties configs = new Properties();
 
@@ -474,7 +474,7 @@ public class Config {
         XMLWritter xml = new XMLWritter();
         xml.setElement("ispublic", Core.getCurrentUser()!=null?0:1); // Page used without a user with login
         
-        xml.setElement("template", app.getTemplate());
+        xml.setElement("template", app.getTemplate(page != null ? page.getVersion() : Config.DEFAULT_V_PAGE));
         xml.setElement("title", Core.getSwitchNotNullValue(title, headerConfig.getTitle()));
         xml.setElement("description", Core.getSwitchNotNullValue(description, ""));
 
