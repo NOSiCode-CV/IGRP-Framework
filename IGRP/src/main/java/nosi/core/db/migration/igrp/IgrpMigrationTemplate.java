@@ -130,7 +130,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 				psInsertOrUpdate.setString(3, this.app.getImg_src());
 				psInsertOrUpdate.setString(4, this.app.getName());
 				psInsertOrUpdate.setInt(5, this.app.getStatus());
-				psInsertOrUpdate.setString(6, this.app.getTemplate());
+				psInsertOrUpdate.setString(6, this.app.getTemplateRaw());
 				psInsertOrUpdate.setString(7, this.app.getDad());
 				psInsertOrUpdate.executeUpdate(); 
 			}else {
@@ -141,7 +141,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 				psInsertOrUpdate.setString(3, this.app.getImg_src());
 				psInsertOrUpdate.setString(4, this.app.getName());
 				psInsertOrUpdate.setInt(5, this.app.getStatus());
-				psInsertOrUpdate.setString(6, this.app.getTemplate());
+				psInsertOrUpdate.setString(6, this.app.getTemplateRaw());
 				psInsertOrUpdate.setString(7, this.app.getDad());
 				psInsertOrUpdate.executeUpdate(); 
 				ResultSet resultSetPk = psInsertOrUpdate.getGeneratedKeys(); 

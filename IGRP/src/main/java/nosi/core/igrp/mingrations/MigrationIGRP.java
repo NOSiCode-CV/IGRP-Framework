@@ -120,7 +120,7 @@ public final class MigrationIGRP {
 					.addInt("external", app.getExternal())
 					.addString("img_src", app.getImg_src())
 					.addString("name", app.getName())
-					.addString("template", app.getTemplate())
+					.addString("template", app.getTemplateRaw())
 					.addInt("status", app.getStatus())
 					.addString("url", app.getUrl())
 					.execute();

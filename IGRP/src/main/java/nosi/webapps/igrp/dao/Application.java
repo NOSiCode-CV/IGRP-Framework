@@ -173,8 +173,28 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	public void setAction(Action action) {
 		this.action = action;
 	}
-
+	
+	public String getTemplateRaw() {
+		return template;
+	}
+	
 	public String getTemplate() {
+		return getTemplate("2.3");
+	}
+	
+	public String getTemplate(String uiVersion) {
+		if(template!=null) {
+			String[] themes = template.split(";");
+			if(uiVersion.equals("2.3"))
+				return themes[0];
+			else {
+				if(themes.length>1)
+					return themes[1];
+				else
+					return template;
+			}
+	
+		}
 		return template;
 	}
 
@@ -354,7 +374,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 				.andWhere("type_fk", ">", 1).all();
 		if(list!=null && !list.isEmpty()) {
 			list=list.stream() 
-				.filter(distinctByKey(p -> p.getType_fk())) 
+				.filter(distinctByKey(Profile::getType_fk)) 
 				.collect(Collectors.toList());
 			list.sort(Comparator.comparing(Profile::getType_fk));
 			return list;
@@ -385,10 +405,10 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		if (ids != null && ids.length > 0) {
 			Predicate<? super User> predicate = u -> Arrays.stream(ids).anyMatch(e -> e.equals(u.getId()));
 			users = Optional.ofNullable(this.getAllUsers(dad))
-					.orElse(new ArrayList<User>())
+					.orElse(new ArrayList<>())
 					.stream()
 					.filter(predicate)
-					.collect(Collectors.toList());
+					.toList();
 		}
 		return users != null && !users.isEmpty() ? users : null;
 	}
@@ -482,7 +502,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 
 	public LinkedHashMap<String, String> getAtivesEstadoRegisto() {
-		 LinkedHashMap<String, String> m = new  LinkedHashMap<String, String>();
+		 LinkedHashMap<String, String> m = new  LinkedHashMap<>();
 		 m.put(null, "--- Selecionar ---");
 		 m.put("1", "Externo"); 
 		 m.put("2", "Custom host folder"); 
