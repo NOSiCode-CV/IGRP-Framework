@@ -83,8 +83,8 @@ public class PesquisarPerfil extends Model{
 		private int estado_check;
 		private String descricao;
 		private String codigo;
-		private String perfil_pai;
 		private String organica;
+		private String perfil_pai;
 		private String id;
 		public void setEstado(int estado){
 			this.estado = estado;
@@ -113,18 +113,18 @@ public class PesquisarPerfil extends Model{
 			return this.codigo;
 		}
 
-		public void setPerfil_pai(String perfil_pai){
-			this.perfil_pai = perfil_pai;
-		}
-		public String getPerfil_pai(){
-			return this.perfil_pai;
-		}
-
 		public void setOrganica(String organica){
 			this.organica = organica;
 		}
 		public String getOrganica(){
 			return this.organica;
+		}
+
+		public void setPerfil_pai(String perfil_pai){
+			this.perfil_pai = perfil_pai;
+		}
+		public String getPerfil_pai(){
+			return this.perfil_pai;
 		}
 
 		public void setId(String id){

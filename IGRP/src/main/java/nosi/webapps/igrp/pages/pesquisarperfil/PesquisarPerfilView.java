@@ -15,8 +15,8 @@ public class PesquisarPerfilView extends View {
 	public Field estado_check;
 	public Field descricao;
 	public Field codigo;
-	public Field perfil_pai;
 	public Field organica;
+	public Field perfil_pai;
 	public Field id;
 	public Field id_app;
 	public Field id_org;
@@ -72,13 +72,13 @@ public class PesquisarPerfilView extends View {
 		codigo.setLabel(gt("Código"));
 		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","255").add("showLabel","true").add("group_in","");
 		
-		perfil_pai = new TextField(model,"perfil_pai");
-		perfil_pai.setLabel(gt("Perfil Pai"));
-		perfil_pai.propertie().add("name","p_perfil_pai").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
-		
 		organica = new TextField(model,"organica");
 		organica.setLabel(gt("Organização"));
 		organica.propertie().add("name","p_organica").add("type","text").add("maxlength","255").add("showLabel","true").add("group_in","");
+		
+		perfil_pai = new TextField(model,"perfil_pai");
+		perfil_pai.setLabel(gt("Perfil Pai"));
+		perfil_pai.propertie().add("name","p_perfil_pai").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
@@ -131,8 +131,8 @@ public class PesquisarPerfilView extends View {
 		table_1.addField(estado_check);
 		table_1.addField(descricao);
 		table_1.addField(codigo);
-		table_1.addField(perfil_pai);
 		table_1.addField(organica);
+		table_1.addField(perfil_pai);
 		table_1.addField(id);
 
 		form_1.addField(id_app);
@@ -159,8 +159,8 @@ public class PesquisarPerfilView extends View {
 		estado.setValue(model);
 		descricao.setValue(model);
 		codigo.setValue(model);
-		perfil_pai.setValue(model);
 		organica.setValue(model);
+		perfil_pai.setValue(model);
 		id.setValue(model);
 		id_app.setValue(model);
 		id_org.setValue(model);	

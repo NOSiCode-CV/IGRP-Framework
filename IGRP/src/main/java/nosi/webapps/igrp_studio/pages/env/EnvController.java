@@ -85,7 +85,7 @@ public class EnvController extends Controller {
 		view.link_center.setVisible(false);
 		view.action_fk.setVisible(false);
 		view.flg_old.setVisible(false);
-				view.plsql_codigo.setVisible(Core.isNotNull(ConfigApp.getInstance().getMainSettings().getProperty("igrp.plsql.myapps.url")));
+		view.plsql_codigo.setVisible(this.configApp.isActiveGlobalACL());
 		view.flg_external.setValue(new Application().getAtivesEstadoRegisto());
 		
 		/*----#end-code----*/
@@ -298,7 +298,7 @@ public class EnvController extends Controller {
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
 		view.flg_old.setVisible(false);
-		view.plsql_codigo.setVisible(Core.isNotNull(ConfigApp.getInstance().getMainSettings().getProperty("igrp.plsql.myapps.url")));
+		view.plsql_codigo.setVisible(this.configApp.isActiveGlobalACL());
 		view.plsql_codigo.setLabel("IGRP (code)");
 		view.img_src.setValue(this.getIcons());
 		view.templates.setValue(this.getThemes("2.3"));

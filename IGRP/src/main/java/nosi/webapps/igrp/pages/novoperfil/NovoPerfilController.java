@@ -64,8 +64,8 @@ public class NovoPerfilController extends Controller {
 					: null);
 		}
 
-		view.igrp_code.setVisible(false);
-
+		view.igrp_code.setVisible(this.configApp.isActiveGlobalACL());
+		
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -196,7 +196,8 @@ public class NovoPerfilController extends Controller {
 		}
 
 		model.setIgrp_code(p.getPlsql_code());
-
+		view.igrp_code.setVisible(this.configApp.isActiveGlobalACL());
+		
 		view.setModel(model);
 		return this.renderView(view);
 	}
