@@ -67,12 +67,6 @@
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <organica name="p_organica" type="text" maxlength="255" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
-                    <label>Organização</label>
-                </organica>
-                <perfil_pai name="p_perfil_pai" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
-                    <label>Perfil Pai</label>
-                </perfil_pai>
                 <estado name="p_estado" type="checkbox" maxlength="30" align="center" lookup_parser="false" iskey="false" switch="false" java-type="int" showLabel="true" group_in="" check="true" desc="true">
                     <label>Estado</label>
                 </estado>
@@ -82,6 +76,12 @@
                 <codigo name="p_codigo" type="text" maxlength="255" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
                     <label>Código</label>
                 </codigo>
+                <perfil_pai name="p_perfil_pai" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Perfil Pai</label>
+                </perfil_pai>
+                <organica name="p_organica" type="text" maxlength="255" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                    <label>Organização</label>
+                </organica>
                 <id name="p_id" type="hidden" maxlength="30" iskey="true" java-type="" showLabel="true" group_in="" tag="id"/>
             </fields>
             <table>
@@ -91,65 +91,65 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Aliqua sed iste omnis perspiciatis</organica>
-                        <perfil_pai name="p_perfil_pai">Perspiciatis sit iste aperiam</perfil_pai>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Unde consectetur aperiam unde officia</descricao>
-                        <codigo name="p_codigo">Aliqua ut totam consectetur adipiscing</codigo>
-                        <id name="p_id" tag="id">hidden-3cef_fae4</id>
+                        <descricao name="p_descricao">Deserunt aliqua omnis deserunt amet</descricao>
+                        <codigo name="p_codigo">Omnis anim unde doloremque perspiciatis</codigo>
+                        <perfil_pai name="p_perfil_pai">Voluptatem ipsum accusantium d</perfil_pai>
+                        <organica name="p_organica">Lorem officia amet adipiscing dolor</organica>
+                        <id name="p_id" tag="id">hidden-39a7_16ee</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Amet voluptatem ipsum omnis lorem</organica>
-                        <perfil_pai name="p_perfil_pai">Rem amet unde ut voluptatem</perfil_pai>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Aperiam unde ut ipsum rem</descricao>
-                        <codigo name="p_codigo">Sed consectetur voluptatem consectetur aperiam</codigo>
-                        <id name="p_id" tag="id">hidden-3a48_fb42</id>
+                        <descricao name="p_descricao">Lorem totam voluptatem rem lorem</descricao>
+                        <codigo name="p_codigo">Unde anim consectetur aliqua elit</codigo>
+                        <perfil_pai name="p_perfil_pai">Accusantium totam omnis unde i</perfil_pai>
+                        <organica name="p_organica">Accusantium iste sit natus stract</organica>
+                        <id name="p_id" tag="id">hidden-2a29_35fa</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Lorem perspiciatis sit stract unde</organica>
-                        <perfil_pai name="p_perfil_pai">Labore aperiam elit officia an</perfil_pai>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Lorem sit labore doloremque aperiam</descricao>
-                        <codigo name="p_codigo">Consectetur voluptatem unde doloremque sed</codigo>
-                        <id name="p_id" tag="id">hidden-58a4_1fef</id>
+                        <descricao name="p_descricao">Labore deserunt voluptatem consectetur officia</descricao>
+                        <codigo name="p_codigo">Ut ipsum omnis dolor doloremque</codigo>
+                        <perfil_pai name="p_perfil_pai">Labore magna aperiam sed unde</perfil_pai>
+                        <organica name="p_organica">Iste labore deserunt magna natus</organica>
+                        <id name="p_id" tag="id">hidden-b3e4_84cc</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Magna rem perspiciatis voluptatem doloremque</organica>
-                        <perfil_pai name="p_perfil_pai">Ipsum natus laudantium aperiam</perfil_pai>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Elit aliqua rem sit totam</descricao>
-                        <codigo name="p_codigo">Magna natus laudantium officia omnis</codigo>
-                        <id name="p_id" tag="id">hidden-7922_e9e6</id>
+                        <descricao name="p_descricao">Lorem omnis dolor perspiciatis officia</descricao>
+                        <codigo name="p_codigo">Sit aliqua labore lorem sit</codigo>
+                        <perfil_pai name="p_perfil_pai">Elit anim dolor labore volupta</perfil_pai>
+                        <organica name="p_organica">Perspiciatis lorem sit accusantium rem</organica>
+                        <id name="p_id" tag="id">hidden-096e_6429</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Doloremque elit aperiam doloremque dolor</organica>
-                        <perfil_pai name="p_perfil_pai">Accusantium lorem ut mollit pe</perfil_pai>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Ut totam iste lorem unde</descricao>
-                        <codigo name="p_codigo">Dolor mollit ipsum totam rem</codigo>
-                        <id name="p_id" tag="id">hidden-1f48_85a0</id>
+                        <descricao name="p_descricao">Totam stract deserunt ipsum stract</descricao>
+                        <codigo name="p_codigo">Omnis officia adipiscing consectetur doloremque</codigo>
+                        <perfil_pai name="p_perfil_pai">Iste rem stract consectetur re</perfil_pai>
+                        <organica name="p_organica">Voluptatem labore laudantium rem labore</organica>
+                        <id name="p_id" tag="id">hidden-5b1b_61a2</id>
                     </row>
                 </value>
                 <context-menu>

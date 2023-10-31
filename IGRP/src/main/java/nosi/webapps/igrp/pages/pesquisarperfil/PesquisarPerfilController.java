@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.pesquisarperfil;
 
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -27,7 +25,7 @@ public class PesquisarPerfilController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Labore rem dolor doloremque adipiscing' as organica,'Labore unde natus deserunt omn' as perfil_pai,'1' as estado,'Mollit aperiam sit elit amet' as descricao,'Sed consectetur laudantium magna deserunt' as codigo,'hidden-5f2e_4b2b' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Labore ut laudantium mollit consectetur' as descricao,'Mollit adipiscing doloremque adipiscing doloremque' as codigo,'Iste voluptatem amet ipsum ut' as perfil_pai,'Laudantium officia consectetur ut voluptatem' as organica,'hidden-3964_706f' as id "));
 		  ----#gen-example */
 		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
