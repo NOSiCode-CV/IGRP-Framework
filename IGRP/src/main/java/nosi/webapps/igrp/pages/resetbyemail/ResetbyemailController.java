@@ -1,16 +1,19 @@
 package nosi.webapps.igrp.pages.resetbyemail;
 
-import java.io.IOException;
+import nosi.core.webapp.Controller;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
 import java.util.Properties;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.integration.autentika.RemoteUserStoreManagerServiceSoapClient;
 import nosi.core.integration.autentika.dto.UserClaimValuesRequestDTO;
 import nosi.core.integration.autentika.dto.UserClaimValuesResponseDTO;
 import nosi.core.mail.EmailMessage;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
 
 /*----#end-code----*/
@@ -21,6 +24,7 @@ public class ResetbyemailController extends Controller {
 		model.load();
 		model.setSign_in("igrp","Dominio","index");
 		ResetbyemailView view = new ResetbyemailView();
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 		model.setSign_in("igrp","login","login&isPublic=0&target=_self");		
 		
@@ -35,8 +39,11 @@ public class ResetbyemailController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","Resetbyemail","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","Resetbyemail","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/* Start-Code-Block (enviar)  *//* End-Code-Block  */
 		/*----#start-code(enviar)----*/
 		String token = nosi.core.webapp.User.generatePasswordResetToken();
 		String link = Igrp.getInstance().getRequest().getRequestURL() + "?r=" + "igrp" + "/Resetpassword/index" + "&target=_blank&isPublic=1" + "&t=" + token; 
@@ -67,7 +74,7 @@ public class ResetbyemailController extends Controller {
 		/*----#end-code----*/
 		return this.redirect("igrp","Resetbyemail","index", this.queryString());	
 	}
-	
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 	
 	private boolean db(String email, String token) {

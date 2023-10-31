@@ -1,25 +1,30 @@
 package nosi.webapps.igrp.pages.resetpassword;
 
-import java.io.IOException;
+import nosi.core.webapp.Controller;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
+
 import static nosi.core.i18n.Translator.gt;
 import java.util.Base64;
 import java.util.Properties;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.integration.autentika.RemoteUserStoreManagerServiceSoapClient;
 import nosi.core.integration.autentika.dto.UpdateCredentialByAdminRequestDTO;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
+
 /*----#end-code----*/
 		
 public class ResetpasswordController extends Controller {
-	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Resetpassword model = new Resetpassword();
 		model.load();
 		model.setSign_in("igrp","Dominio","index");
 		ResetpasswordView view = new ResetpasswordView();
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 		model.setSign_in("webapps?r=igrp/login/login");
 		String token = Core.getParam("t");
@@ -52,8 +57,11 @@ public class ResetpasswordController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","Resetpassword","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","Resetpassword","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/* Start-Code-Block (guardar)  *//* End-Code-Block  */
 		/*----#start-code(guardar)----*/
 		String token = Core.getParam("t");
 		User user = null;
@@ -86,16 +94,16 @@ public class ResetpasswordController extends Controller {
 				if(db(username, pwd)) 				
 					return redirectToUrl("webapps?r=igrp/login/login"); 
 			}else 
-				if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value())) {
-					if(ldap(username, pwd)) 	                      
-						return redirectToUrl("webapps?r=igrp/login/login");
+				if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value()) && (ldap(username, pwd))) 	                      
+						{
+					return redirectToUrl("webapps?r=igrp/login/login");
 				}
 		}
 		this.addQueryString("t", token);
 		/*----#end-code----*/
 		return this.redirect("igrp","Resetpassword","index", this.queryString());	
 	}
-	
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 	
 	private boolean db(String username, String password) {
