@@ -18,7 +18,6 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.util.ByteArrayDataSource;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import nosi.core.config.ConfigApp;
@@ -50,8 +49,8 @@ public class EmailMessage {
 	private Properties settings;
 	
 	// credentials 
-	private String auth_username;
-	private String auth_password;
+	private String authUsername;
+	private String authPassword;
 	
 	private List<File> attaches; 
 	private List<Attachment> attachesBytes; 
@@ -74,8 +73,6 @@ public class EmailMessage {
 		Properties properties = System.getProperties();
 		// Setup mail server
 		properties.put("mail.smtp.host", "smtp.gmail.com");
-		properties.put("mail.smtp.socketFactory.port", "465");
-		properties.put("mail.smtp.socketFactory.class","jakarta.net.ssl.SSLSocketFactory");
 		properties.put("mail.smtp.auth", "true");
 		properties.put("mail.smtp.port", "465");
 		properties.put("mail.smtp.ssl.checkserveridentity", true); // Compliant
@@ -135,15 +132,15 @@ public class EmailMessage {
 	}
 	
 	public EmailMessage authenticate(String username, String password) {
-		this.auth_username = username;
-		this.auth_password = password;
+		this.authUsername = username;
+		this.authPassword = password;
 		return this;
 	}
 	
 	private void checkNSetupCredencials() {
-		if(auth_username == null || auth_username.isEmpty() || auth_password == null || auth_password.isEmpty()) {
-			auth_username = settings.getProperty("mail.user"); 
-			auth_password = settings.getProperty("mail.password"); 
+		if(authUsername == null || authUsername.isEmpty() || authPassword == null || authPassword.isEmpty()) {
+			authUsername = settings.getProperty("mail.user"); 
+			authPassword = settings.getProperty("mail.password"); 
 		}
 	}
 	
@@ -158,14 +155,15 @@ public class EmailMessage {
 			// Get the default Session object.
 			Session session = Session.getInstance(this.settings,
 				new jakarta.mail.Authenticator() {
+					@Override
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(auth_username, auth_password);
+						return new PasswordAuthentication(authUsername, authPassword);
 					}
 			});
 			// Create a default MimeMessage object. 
 			MimeMessage message = new MimeMessage(session); 
 			if(!validateEmail(this.from)) {
-				LOG.error("Email not sent ... Invalid email (from): <" + this.from + "> ");
+				LOG.error("Email not sent ... Invalid email (from): <{}> ",this.from);
 				return false;
 			}
 			// Set From: header field of the header.
@@ -173,13 +171,13 @@ public class EmailMessage {
 			// Set To: header field of the header. 
 			if(this.multipleRecipients) {
 				if(!validateEmails(this.to)) {
-					LOG.error("Email not sent (To)... one of email is invalid: <" + this.to + "> ");
+					LOG.error("Email not sent (To)... one of email is invalid: <{}> ",this.to);
 					return false;
 				}
 				message.addRecipients(Message.RecipientType.CC,InternetAddress.parse(this.to)); // this.to is a string separated by comma 
 			}else {
 				if(!validateEmails(this.to)) {
-					LOG.error("Email not sent (To)... one of email is invalid: <" + this.to + "> ");
+					LOG.error("Email not sent (To)... one of email is invalid: <{}> ",this.to);
 					return false;
 				}		
 				if(this.to != null && !this.to.isEmpty()) 
@@ -245,7 +243,7 @@ public class EmailMessage {
 	}
 	
 	public static boolean validateEmails(String emails) {
-		String aux[] = emails.split(",");
+		String[] aux = emails.split(",");
 		for(String email : aux)
 			if(!validateEmail(email))
 				return false;
@@ -343,34 +341,38 @@ public class EmailMessage {
 	
 	public static class PdexTemplate{
 		
-		public PdexTemplate() {}
+		private PdexTemplate() {
+			 throw new IllegalStateException("Utility class");
+		}
 		
 		
 		public static String getCorpoFormatado(String boxTitle, String msgBoasVindas, String[] paragrafos, String []textoBtnAcao, String []hrefBtnAcao, String helpLink) {
-			if(paragrafos.length == 0 || msgBoasVindas.isEmpty()) return "";
-			 String body = ""
-	                + "<div style=\"HEIGHT: 100%; width:100%; background-color: rgb(244, 244, 244);\">"
-	                + "<!--[if mso | IE]><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"\" style=\"width:600px;\" width=\"600\" ><tr><td style=\"line-height:0px;font-size:0px;mso-line-height-rule:exactly;\"><![endif]-->"	        		
-	                + "<div style=\" margin: 10px auto; width: 600px;\">"
-	                + "<table align=\"center\" role=\"presentation\" style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
-	                + "        <tbody>"
-	                + "            <tr>"
-	                + "                <td style=\"padding: 20px 0px; text-align: center; direction: ltr;font: 15px 'Helvetica Neue', Helvetica, Arial, sans-serif;\">"
-	                + "         	      <div class=\"mj-column-per-100 mj-outlook-group-fix\" style=\"width: 100%; text-align: left; vertical-align: top; display: inline-block; direction: ltr;\">"
-	                + "<table width=\"100%\" role=\"presentation\" style=\"background: white;vertical-align: top;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
-	                + "<tbody>"
-	                + "<tr>"
-	                + "<td align=\"left\" style=\"padding: 10px 25px; \">"
-	                + "<table role=\"presentation\" style=\"border-collapse: collapse; border-spacing: 0px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
-	                + "<tbody>"
-	                + "                       <tr style=\"width:100%;height:57px;\" >"
-	                + "                                <td style=\"border-bottom-color: #ddd; border-bottom-width: 1px; border-bottom-style: solid; font-size:36px;text-align:center;color:#333333;padding:0px;margin: 0 auto;\">"
-	                + "                                    <strong>" + boxTitle + "</strong>"
-	                + "                                </td>"
-	                + "                            </tr>"
-	                + "                            <tr style=\"width:100%;\" >"
-	                + "                                <td style=\"border-bottom-color: #ddd; border-bottom-width: 1px; border-bottom-style: solid; background:#FFFFFF;padding:18px;vertical-align:top;text-align:left;\">"
-	                + "                                    <h1 style=\"font-size:20px;margin:0;color:#424242\">" + msgBoasVindas + "</h1>";
+			if(paragrafos.length == 0 || msgBoasVindas.isEmpty()) 
+				return "";
+				 
+			String body = ""
+		                + "<div style=\"HEIGHT: 100%; width:100%; background-color: rgb(244, 244, 244);\">"
+		                + "<!--[if mso | IE]><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"\" style=\"width:600px;\" width=\"600\" ><tr><td style=\"line-height:0px;font-size:0px;mso-line-height-rule:exactly;\"><![endif]-->"	        		
+		                + "<div style=\" margin: 10px auto; width: 600px;\">"
+		                + "<table align=\"center\" role=\"presentation\" style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
+		                + "        <tbody>"
+		                + "            <tr>"
+		                + "                <td style=\"padding: 20px 0px; text-align: center; direction: ltr;font: 15px 'Helvetica Neue', Helvetica, Arial, sans-serif;\">"
+		                + "					<div class=\"mj-column-per-100 mj-outlook-group-fix\" style=\"width: 100%; text-align: left; vertical-align: top; display: inline-block; direction: ltr;\">"
+		                + "<table width=\"100%\" role=\"presentation\" style=\"background: white;vertical-align: top;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
+		                + "<tbody>"
+		                + "<tr>"
+		                + "<td align=\"left\" style=\"padding: 10px 25px; \">"
+		                + "<table role=\"presentation\" style=\"border-collapse: collapse; border-spacing: 0px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
+		                + "<tbody>"
+		                + "                       <tr style=\"width:100%;height:57px;\" >"
+		                + "                                <td style=\"border-bottom-color: #ddd; border-bottom-width: 1px; border-bottom-style: solid; font-size:36px;text-align:center;color:#333333;padding:0px;margin: 0 auto;\">"
+		                + "                                    <strong>" + boxTitle + "</strong>"
+		                + "                                </td>"
+		                + "                            </tr>"
+		                + "                            <tr style=\"width:100%;\" >"
+		                + "                                <td style=\"border-bottom-color: #ddd; border-bottom-width: 1px; border-bottom-style: solid; background:#FFFFFF;padding:18px;vertical-align:top;text-align:left;\">"
+		                + "                                    <h1 style=\"font-size:20px;margin:0;color:#424242\">" + msgBoasVindas + "</h1>";
 	        // Paragrafos
 	        for (String paragrafo : paragrafos) {
 	        	body += "<p style=\"margin: 10px 0px;\">"

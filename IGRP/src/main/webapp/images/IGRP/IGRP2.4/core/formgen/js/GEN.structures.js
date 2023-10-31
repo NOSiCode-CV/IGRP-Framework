@@ -487,6 +487,8 @@ var GENSTRUCTURES = function(GEN){
 				}
 				
 				btnStyle = _class?.indexOf('link')>=0 ? '' : btnStyle+'-';
+
+				itemType = item.GET.action_type ? item.GET.action_type() : itemType;
 				
 				var linkAction= (item.action && item.action.link) ? '..'+item.action.link.substring(1).substring(item.action.link.substring(1).indexOf('/')) : '';
 				rtn+='<item id="'+id+'" '+notvalidatefields+' type="'+itemType+'" ' + adbcli +' code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+' refresh_components="'+refresh_components+'" '+labelConfirm+'>'+

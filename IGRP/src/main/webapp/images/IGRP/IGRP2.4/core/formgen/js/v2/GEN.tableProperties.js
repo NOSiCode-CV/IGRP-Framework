@@ -8,16 +8,16 @@
       label: $.IGRP.locale.get("gen-table-header-style"),
       size: 12,
       value: {
-        value: defaults.tableHeaderStyle || "",
+        value: defaults.tableHeaderStyle || "table-light",
         list: {
           items: [
             { value: "", label: $.IGRP.locale.get("ui-white") },
             
-            { value: "table-secondary", label: $.IGRP.locale.get("ui-secondary") },
+            /*{ value: "table-secondary", label: $.IGRP.locale.get("ui-secondary") },
             { value: "table-success", label: $.IGRP.locale.get("ui-success") },
             { value: "table-info", label: $.IGRP.locale.get("ui-info") },
             { value: "table-warning", label: $.IGRP.locale.get("ui-warning") },
-           // { value: "table-danger", label: $.IGRP.locale.get("ui-danger") },
+           // { value: "table-danger", label: $.IGRP.locale.get("ui-danger") },*/
             { value: "table-light", label: $.IGRP.locale.get("ui-gray") },
           
             { value: "table-primary", label: $.IGRP.locale.get("ui-primary") },
@@ -39,19 +39,19 @@
     object?.setProperty({
       name: "hoverable",
       label: ":hover",
-      value: defaults?.hoverable || false,
+      value: defaults?.hoverable || true,
       xslValue: "table-hover",
     });
     object?.setProperty({
       name: "striped",
       label: $.IGRP.locale.get('table-striped'),
-      value: defaults?.hoverable || true,
+      value: defaults?.striped || false,
       xslValue: "table-striped",
     });
     object?.setProperty({
       name: "bordered",
       label: "Mostrar bordas",
-      value: defaults?.hoverable || false,
+      value: defaults?.bordered || false,
       xslValue: "table-bordered",
     });
   });

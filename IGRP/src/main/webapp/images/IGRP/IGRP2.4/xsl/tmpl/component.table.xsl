@@ -50,23 +50,56 @@
 
 	</xsl:template>
 
+	<xsl:template name="igrp-table-link-field-td" mode="igrp-table-link-field-td" match="*">
+		<xsl:param name="tag" select="name()"/>
+		<xsl:param name="field" select="../../../../fields/*[name() = $tag]"/>
+		<xsl:param name="class" select="''"/>
+		<xsl:param name="icon" select="'ri-arrow-right-line'"/>
+		<xsl:param name="icon-lib" select="''"/>
+		<xsl:param name="icon-position" select="'right'"/>
+		<xsl:param name="adbcli" select="''"/>
+		<xsl:param name="target_fields" select="''"/>
+		<xsl:param name="request_fields" select="''"/>
+		<xsl:param name="target" select="''"/>
+
+
+		<xsl:variable name="description-name" select="concat($tag,'_desc')"/>
+		<xsl:variable name="description" select="../*[name() = $description-name]"/>
+		
+		<a href="{normalize-space(.)}" class=" link-{$class} d-flex align-items-center" sharpadbclient="{$adbcli}" target-fields="{$target_fields}" target="{$target}" request-fields="{$request_fields}" name="{$tag}">
+			<xsl:if test="$icon-lib and $icon-position = 'left'">
+				<i class=" fa {$icon} me-2"/>
+			</xsl:if>
+			<span><xsl:value-of select="$description"/></span>
+			<xsl:if test="$icon-lib and $icon-position = 'right'">
+				<i class=" fa {$icon} ms-2"/>
+			</xsl:if>
+		</a>
+
+	</xsl:template>
+
 	<xsl:template name="igrp-table-header" mode="igrp-table-header" match="*">
 		<xsl:param name="title" select="@title"/>
 		<xsl:param name="has-title" select="@title"/>
-		<xsl:param name="has-filter" select="'true'"/>
+		<xsl:param name="has-filter" select="'false'"/>
 		<xsl:param name="filter-type" select="'default'"/>
-
 		<div class="card-header d-flex align-items-center">
-			<h3 class="card-title">
+			<h3 class="card-title me-auto">
 				<xsl:value-of select="$title"/>
 			</h3>
-			<xsl:if test="$has-filter = 'true' and ./fields/*[@filter='true']">
-				<div class="ms-auto">
-					<a class="btn  btn-light btn-sm" href="#{name()}-filter-fields" data-bs-toggle="collapse" aria-controls="{name()}-filter-fields" aria-expanded="false">
-						<i class="ri-filter-3-line"></i> <span class="ms-2">Filtrar</span>
-					</a>
-				</div>
-			</xsl:if>
+		
+			<div class="ms-auto d-flex gap-2">
+				<xsl:if test="$has-filter = 'true' and ./fields/*[@filter='true']">
+					<div title="{$locale-strings/to-filter}" data-bs-toggle="tooltip">
+						<a   class="btn  btn-light  d-flex align-items-center" href="#{name()}-filter-fields" data-bs-toggle="collapse" aria-controls="{name()}-filter-fields" aria-expanded="false">
+							<i class="ri-filter-3-line"></i> 
+						</a>
+					</div>
+				</xsl:if>
+				<xsl:if test="table/context-menu/item[@type='action']">
+					<xsl:apply-templates select="table/context-menu/item[@type='action']" mode="igrp-button-item"/>
+				</xsl:if>
+			</div>
 		</div>
 
 	</xsl:template>
@@ -76,18 +109,16 @@
 		<xsl:variable name="fields" select="./fields/*[@filter='true' and not(@type='hidden')]"/>
 
 		<xsl:if test="$fields">
-			<xsl:variable name="field-col-class" select="'col col-md-3'"/>
-			<div class="card-filter border-top pb-3 px-3 collapse" id="{name()}-filter-fields" remote-filter="remote-table.xml"> 
-				<div class=" row py-3 clearfix fields">
+			<xsl:variable name="field-col-class" select="'col-12 col-sm-6 col-md-4 col-lg-3 '"/>
+			<div class="card-filter border-top pb-3 px-3 collapse bg-light" id="{name()}-filter-fields" remote-filter="remote-table.xml"> 
+				<div class=" row py-3 clearfix fields gy-3" role="form">
 					<xsl:for-each select="$fields">
 						<xsl:choose>
-
 							<xsl:when test="@type = 'checkbox'">
 								<div class="{$field-col-class}">
 									<xsl:apply-templates mode="igrp-form-checkbox-field" select="."/>
 								</div>
 							</xsl:when>
-
 							<xsl:when test="@type = 'color'">
 								<xsl:variable name="table-legend" select="../../table/legend_color"/>
 								<div class="{$field-col-class}">
@@ -98,9 +129,6 @@
 										<xsl:call-template name="setAttributes">
 											<xsl:with-param name="field" select="."/>
 										</xsl:call-template>
-										<xsl:if test="@load_service_data = 'true'">
-											<xsl:attribute name="load_service_data"></xsl:attribute>
-										</xsl:if>
 										<xsl:if test="@tags = 'true'">
 											<xsl:attribute name="tags">true</xsl:attribute>
 										</xsl:if>
@@ -121,7 +149,6 @@
 									</select>
 								</div>
 							</xsl:when>
-
 							<xsl:when test="@type = 'date'">
 								<div class="{$field-col-class}">
 									<xsl:apply-templates mode="igrp-form-date-field" select=".">
@@ -136,7 +163,6 @@
 									</xsl:apply-templates>
 								</div>
 							</xsl:when>
-
 							<xsl:when test="@type = 'lookup'">
 								<div class="{$field-col-class}">
 									<xsl:apply-templates mode="igrp-form-lookup-field" select=".">
@@ -149,7 +175,6 @@
 									</xsl:apply-templates>
 								</div>
 							</xsl:when>
-
 							<xsl:when test="@type = 'select'">
 								<div class="{$field-col-class}">
 									<xsl:apply-templates mode="igrp-form-select-field" select=".">
@@ -172,21 +197,25 @@
 								</div>
 							</xsl:otherwise>
 						</xsl:choose>
-
 					</xsl:for-each>
 				</div>
 				<div class="row">
-					<div class="col d-flex justify-content-end">
-						<div>
-							<button class="btn btn-light igrp-table-filter-action">
-								Aplicar
-							</button>
-						</div>
+					<div class="col d-flex justify-content-end gap-4 align-items-center">
+						<a href="#" class="link-dark  igrp-table-reset-action text-capitalize">
+							<i class="ri-eraser-line"></i>
+							<span>Limpar</span>
+						</a>
+						<button class="text-capitalize btn btn btn-soft-sigtca igrp-table-filter-action d-flex align-items-center">
+							<span>Aplicar</span>
+						</button>
 					</div>
 				</div>
 			</div>
 
 		</xsl:if>
+		<div class="igrp-table-filter-info px-3 bg-light d-none">
+			Lorem ipsum
+		</div>
 
 
 	</xsl:template>

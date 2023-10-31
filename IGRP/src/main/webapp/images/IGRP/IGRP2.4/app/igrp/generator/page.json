@@ -1,380 +1,1121 @@
 {
-  "rows": [
-    {
-      "columns": [{ "size": "col-md-12", "containers": [] }],
-      "propreties": { "class": "" }
-    }
-  ],
-  "header": {
-    "columns": [
+    "rows": [
       {
-        "size": "col-md-12",
-        "containers": [
+        "columns": [
           {
-            "genType": "container",
-            "proprieties": {
-              "title": "Lorem ipsum dolor",
-              "tag": "page_header",
-              "type": "page_header_tab"
-            },
-            "fields": [
+            "size": "col-sm-6",
+            "containers": [
               {
-                "properties": {
-                  "_id": "text_b6c5_7a06",
-                  "label": "Text",
-                  "tag": "page_header_text_1",
-                  "name": "p_page_header_text_1",
-                  "type": "text"
+                "genType": "container",
+                "proprieties": {
+                  "tag": "sectionheader_1",
+                  "type": "sectionheader",
+                  "text": "<p>Gest&atilde;o de Expediente</p>\n",
+                  "maxlength": 4000
                 },
-                "style": { "id": "", "class": "", "inline": "" },
-                "options": { "autoTag": false, "rules": [] },
-                "xsl": { "useDefault": true, "template": null },
-                "validation": []
-              },
-              {
-                "properties": {
-                  "_id": "date_182c_0da3",
-                  "label": "Date",
-                  "tag": "page_header_date_1",
-                  "name": "p_page_header_date_1",
-                  "type": "date",
-                  "format": "d-m-Y",
-                  "enableTime": false,
-                  "range": false,
-                  "disableWeekends": false,
-                  "disabledBeforetoday": false,
-                  "daysoff": false
+                "fields": [],
+                "style": {
+                  "id": "",
+                  "class": "",
+                  "inline": ""
                 },
-                "style": { "id": "", "class": "", "inline": "" },
-                "options": { "autoTag": false, "rules": [] },
-                "xsl": { "useDefault": true, "template": null },
-                "validation": []
-              },
-              {
-                "properties": {
-                  "_id": "text_8b93_965c",
-                  "label": "Text",
-                  "tag": "page_header_text_2",
-                  "name": "p_page_header_text_2",
-                  "type": "text"
+                "options": {
+                  "autoTag": false
                 },
-                "style": { "id": "", "class": "", "inline": "" },
-                "options": { "autoTag": false, "rules": [] },
-                "xsl": { "useDefault": true, "template": null },
-                "validation": []
-              },
-              {
-                "properties": {
-                  "_id": "date_32c3_610c",
-                  "label": "Date",
-                  "tag": "page_header_date_2",
-                  "name": "p_page_header_date_2",
-                  "type": "date",
-                  "format": "d-m-Y",
-                  "enableTime": false,
-                  "range": false,
-                  "disableWeekends": false,
-                  "disabledBeforetoday": false,
-                  "daysoff": false
-                },
-                "style": { "id": "", "class": "", "inline": "" },
-                "options": { "autoTag": false, "rules": [] },
-                "xsl": { "useDefault": true, "template": null },
-                "validation": []
+                "id": "sectionheader1668103449347",
+                "xsl": {
+                  "useDefault": true
+                }
               }
-            ],
-            "style": { "id": "", "class": "", "inline": "" },
-            "options": { "autoTag": false },
-            "id": "page_header_tab1698076234392",
-            "xsl": { "useDefault": true }
+            ]
           },
           {
-            "genType": "container",
-            "proprieties": {
-              "tag": "page_tab",
-              "type": "tabcontent",
-              "template": "default",
-              "justified": false,
-              "autoctrl": false,
-              "setpagetitle": false
-            },
-            "fields": [],
-            "style": { "id": "", "class": "", "inline": "" },
-            "options": { "autoTag": false },
-            "id": "tabcontent1698076234413",
-            "xsl": { "useDefault": true },
-            "contents": [
+            "size": "col-sm-6",
+            "containers": [
               {
-                "properties": {
-                  "_id": "button_013a_2b65",
-                  "label": "Tab Item 1",
-                  "tag": "page_tab_button_1",
-                  "name": "p_page_tab_button_1",
-                  "type": "button",
-                  "request_fields": [],
-                  "target_fields": "",
-                  "closerefresh": false,
-                  "refresh_components": [],
-                  "refresh_submit": false,
-                  "adbcli": "",
-                  "iconColor": "#333",
-                  "iconClass": "",
-                  "iconLib": "remix",
-                  "img": "ri-filter-3-line",
-                  "iconPosition": "left",
-                  "notvalidatefields": false
+                "genType": "container",
+                "proprieties": {
+                  "tag": "toolsbar_1",
+                  "type": "toolsbar",
+                  "align": " pull-right",
+                  "btnSize": "",
+                  "style": "default",
+                  "vertical": true,
+                  "dynamic": false,
+                  "outline": false
                 },
-                "style": { "id": "", "class": "", "inline": "" },
-                "options": { "autoTag": true, "rules": [] },
-                "xsl": { "useDefault": true, "template": false },
-                "validation": [],
-                "rows": [
+                "fields": [
                   {
-                    "columns": [
-                      {
-                        "size": "col-md-12",
-                        "containers": [
-                          {
-                            "genType": "container",
-                            "proprieties": {
-                              "title": "Table",
-                              "tag": "table_1",
-                              "hasTitle": true,
-                              "collapsible": false,
-                              "type": "table",
-                              "ctxMenuClass": false,
-                              "hasContextMenu": false,
-                              "ordertable": false,
-                              "ctxMenuTemplate": false,
-                              "hasColorTmpl": false,
-                              "filterTemplate": false,
-                              "filter": "",
-                              "ctxType": "inl",
-                              "ctxStyle": "",
-                              "export": [],
-                              "dataTable": false,
-                              "ctxInlineTmpl": true,
-                              "ctxInlineHeadTmpl": true,
-                              "tableFooter": false,
-                              "has_filter": true,
-                              "tableHeaderStyle": "",
-                              "hoverable": false,
-                              "striped": true,
-                              "bordered": false,
-                              "collapsed": false
-                            },
-                            "fields": [
-                              {
-                                "properties": {
-                                  "_id": "text_ba7d_3ed4",
-                                  "label": "Text",
-                                  "tag": "table_1_text_1",
-                                  "name": "p_table_1_text_1",
-                                  "type": "text",
-                                  "maxlength": 30,
-                                  "showLabel": true,
-                                  "table": true,
-                                  "align": "left",
-                                  "lookup_parser": false,
-                                  "iskey": false,
-                                  "filter": true,
-                                  "group_in": ""
-                                },
-                                "style": {
-                                  "id": "",
-                                  "class": "",
-                                  "inline": ""
-                                },
-                                "options": { "autoTag": false, "rules": [] },
-                                "xsl": { "useDefault": true, "template": null },
-                                "validation": []
-                              },
-                              {
-                                "properties": {
-                                  "_id": "text_28bf_12d7",
-                                  "label": "Nome",
-                                  "tag": "table_1_text_2",
-                                  "name": "p_table_1_text_2",
-                                  "type": "text",
-                                  "maxlength": 30,
-                                  "showLabel": true,
-                                  "table": true,
-                                  "align": "left",
-                                  "lookup_parser": false,
-                                  "iskey": false,
-                                  "filter": true,
-                                  "group_in": ""
-                                },
-                                "style": {
-                                  "id": "",
-                                  "class": "",
-                                  "inline": ""
-                                },
-                                "options": { "autoTag": false, "rules": [] },
-                                "xsl": {
-                                  "useDefault": true,
-                                  "template": false
-                                },
-                                "validation": []
-                              },
-                              {
-                                "properties": {
-                                  "_id": "lookup_f43e_76a8",
-                                  "label": "Lookup",
-                                  "tag": "table_1_lookup_1",
-                                  "name": "p_table_1_lookup_1",
-                                  "type": "lookup",
-                                  "field_param": "",
-                                  "lookupParams": [],
-                                  "lookup_type": "LOOKUP",
-                                  "maxlength": 30,
-                                  "showLabel": true,
-                                  "table": true,
-                                  "align": "left",
-                                  "lookup_parser": false,
-                                  "iskey": false,
-                                  "filter": true,
-                                  "group_in": ""
-                                },
-                                "style": {
-                                  "id": "",
-                                  "class": "",
-                                  "inline": ""
-                                },
-                                "options": { "autoTag": false, "rules": [] },
-                                "xsl": { "useDefault": true, "template": null },
-                                "validation": []
-                              },
-                              {
-                                "properties": {
-                                  "_id": "select_0816_9afd",
-                                  "label": "Select",
-                                  "tag": "table_1_select_1",
-                                  "name": "p_table_1_select_1",
-                                  "type": "select",
-                                  "placeholder": "",
-                                  "multiple": false,
-                                  "tags": false,
-                                  "load_service_data": false,
-                                  "domain_value": "",
-                                  "domain": "",
-                                  "maxlength": 30,
-                                  "showLabel": true,
-                                  "table": true,
-                                  "align": "left",
-                                  "lookup_parser": false,
-                                  "iskey": false,
-                                  "filter": true,
-                                  "group_in": "",
-                                  "java-type": ""
-                                },
-                                "style": {
-                                  "id": "",
-                                  "class": "",
-                                  "inline": ""
-                                },
-                                "options": { "autoTag": false, "rules": [] },
-                                "xsl": { "useDefault": true, "template": null },
-                                "validation": []
-                              }
-                            ],
-                            "style": { "id": "", "class": "", "inline": "" },
-                            "options": { "autoTag": false },
-                            "id": "table1697899067107",
-                            "xsl": { "useDefault": true }
-                          }
-                        ]
-                      }
-                    ],
-                    "propreties": { "class": "" }
+                    "properties": {
+                      "_id": "button_5388_3e28",
+                      "label": "Novo Expediente",
+                      "tag": "novo_expediente",
+                      "name": "p_novo_expediente",
+                      "type": "button",
+                      "target": "_self",
+                      "request_fields": [],
+                      "target_fields": "",
+                      "closerefresh": false,
+                      "refresh_components": [],
+                      "refresh_submit": false,
+                      "adbcli": "",
+                      "action": "Mapa_expediente",
+                      "service": {
+                        "code": "",
+                        "desc": "",
+                        "proc": "",
+                        "connectionsReq": [],
+                        "fieldsReq": [],
+                        "connectionsRes": [],
+                        "fieldsRes": []
+                      },
+                      "transaction": false,
+                      "custom_return": false,
+                      "notvalidatefields": false,
+                      "class": "success",
+                      "iconColor": "#333",
+                      "iconClass": "",
+                      "img": "fa-plus"
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": true,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
                   }
-                ]
-              },
-              {
-                "properties": {
-                  "_id": "button_c6d2_2853",
-                  "label": "Tab Item 2",
-                  "tag": "page_tab_button_2",
-                  "name": "p_page_tab_button_2",
-                  "type": "button",
-                  "request_fields": [],
-                  "target_fields": "",
-                  "closerefresh": false,
-                  "refresh_components": [],
-                  "refresh_submit": false,
-                  "adbcli": "",
-                  "iconColor": "#333",
-                  "iconClass": "",
-                  "iconLib": "remix",
-                  "img": "ri-home-2-line",
-                  "iconPosition": "left",
-                  "notvalidatefields": false
+                ],
+                "style": {
+                  "id": "",
+                  "class": "",
+                  "inline": ""
                 },
-                "style": { "id": "", "class": "", "inline": "" },
-                "options": { "autoTag": true, "rules": [] },
-                "xsl": { "useDefault": true, "template": false },
-                "validation": [],
-                "rows": [
-                  {
-                    "columns": [{ "size": "col-md-12", "containers": [] }],
-                    "propreties": { "class": "" }
-                  }
-                ]
-              },
-              {
-                "properties": {
-                  "_id": "button_531e_9c94",
-                  "label": "Tab Item 3",
-                  "tag": "page_tab_button_3",
-                  "name": "p_page_tab_button_3",
-                  "type": "button",
-                  "request_fields": "",
-                  "target_fields": "",
-                  "closerefresh": false,
-                  "refresh_components": "",
-                  "refresh_submit": false,
-                  "adbcli": "",
-                  "iconColor": "#333",
-                  "iconClass": "",
-                  "iconLib": "",
-                  "img": "fa-angle-right",
-                  "iconPosition": "left",
-                  "notvalidatefields": false
+                "options": {
+                  "autoTag": false
                 },
-                "style": { "id": "", "class": "", "inline": "" },
-                "options": { "autoTag": true, "rules": [] },
-                "xsl": { "useDefault": true, "template": null },
-                "validation": [],
-                "rows": [
-                  {
-                    "columns": [{ "size": "col-md-12", "containers": [] }],
-                    "propreties": { "class": "" }
-                  }
-                ]
+                "id": "toolsbar1668103458684",
+                "xsl": {
+                  "useDefault": true
+                }
               }
             ]
           }
-        ]
+        ],
+        "propreties": {
+          "class": ""
+        }
+      },
+      {
+        "columns": [
+          {
+            "size": "col-md-12",
+            "containers": [
+              {
+                "genType": "container",
+                "proprieties": {
+                  "title": "Form",
+                  "tag": "form_1",
+                  "hasTitle": false,
+                  "collapsible": false,
+                  "type": "form",
+                  "collapsed": false
+                },
+                "fields": [
+                  {
+                    "properties": {
+                      "_id": "text_5a37_50b2",
+                      "label": "Nº Expediente",
+                      "tag": "n_expediente",
+                      "name": "p_n_expediente",
+                      "type": "text",
+                      "maxlength": 250,
+                      "required": false,
+                      "change": false,
+                      "readonly": false,
+                      "disabled": false,
+                      "placeholder": "",
+                      "desclabel": false,
+                      "size": "3",
+                      "right": false,
+                      "disable_copy_paste": false,
+                      "disablehtml": true,
+                      "inputmask": "",
+                      "tooltip": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": true,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "select_7c10_44b4",
+                      "label": "Natureza do expediente",
+                      "tag": "tipo_de_expediente",
+                      "name": "p_tipo_de_expediente",
+                      "type": "select",
+                      "multiple": false,
+                      "tags": false,
+                      "domain_value": [],
+                      "domain": "",
+                      "maxlength": 250,
+                      "required": false,
+                      "change": false,
+                      "disabled": false,
+                      "size": "3",
+                      "right": false,
+                      "java-type": "",
+                      "load_service_data": false,
+                      "disable_copy_paste": false,
+                      "tooltip": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "date_a098_6e91",
+                      "label": "Data de entrada",
+                      "tag": "data_flt",
+                      "name": "p_data_flt",
+                      "type": "date",
+                      "range": true,
+                      "disableWeekends": false,
+                      "daysoff": false,
+                      "maxlength": 250,
+                      "required": false,
+                      "change": false,
+                      "readonly": false,
+                      "disabled": false,
+                      "placeholder": "",
+                      "desclabel": false,
+                      "size": "3",
+                      "right": false,
+                      "class": "primary",
+                      "disabledBeforetoday": false,
+                      "disable_copy_paste": false,
+                      "tooltip": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "lookup_d328_d678",
+                      "label": "Entidade",
+                      "tag": "entidade_flt",
+                      "name": "p_entidade_flt",
+                      "type": "lookup",
+                      "action": "sigtca@LISTA_ENTIDADE",
+                      "field_param": [],
+                      "lookupParams": [
+                        {
+                          "lookupParams_id": "",
+                          "target_field": "p_entidade_flt",
+                          "value_field": "designacao_entidade_lst"
+                        },
+                        {
+                          "lookupParams_id": "",
+                          "target_field": "p_entidade_id",
+                          "value_field": "id_entidade"
+                        }
+                      ],
+                      "lookup_eraser": true,
+                      "lookup_type": "LOOKUP",
+                      "class": "primary",
+                      "maxlength": 250,
+                      "required": false,
+                      "change": false,
+                      "readonly": true,
+                      "disabled": false,
+                      "placeholder": "",
+                      "desclabel": false,
+                      "size": "3",
+                      "right": false,
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "text_e786_33fd",
+                      "label": "Nº Documento",
+                      "tag": "n_documento_flt",
+                      "name": "p_n_documento_flt",
+                      "type": "text",
+                      "maxlength": 250,
+                      "required": false,
+                      "change": false,
+                      "readonly": false,
+                      "disabled": false,
+                      "placeholder": "",
+                      "desclabel": false,
+                      "size": "3",
+                      "right": false,
+                      "disable_copy_paste": false,
+                      "disablehtml": true,
+                      "inputmask": "",
+                      "tooltip": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "select_6e8c_8851",
+                      "label": "Utilizador",
+                      "tag": "utilizador_flt",
+                      "name": "p_utilizador_flt",
+                      "type": "select",
+                      "multiple": false,
+                      "tags": false,
+                      "domain_value": [],
+                      "domain": "",
+                      "maxlength": 250,
+                      "required": false,
+                      "change": false,
+                      "disabled": false,
+                      "size": "3",
+                      "right": false,
+                      "java-type": "",
+                      "load_service_data": false,
+                      "disable_copy_paste": false,
+                      "tooltip": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "select_2935_2283",
+                      "label": "Estado",
+                      "tag": "estado_flt",
+                      "name": "p_estado_flt",
+                      "type": "select",
+                      "multiple": false,
+                      "tags": false,
+                      "domain_value": [
+                        {
+                          "text": "Cancelado",
+                          "value": "CANCELED"
+                        },
+                        {
+                          "text": "Criado",
+                          "value": "CREATED"
+                        },
+                        {
+                          "text": "Criado",
+                          "value": "CREATED"
+                        },
+                        {
+                          "text": "Iniciado",
+                          "value": "STARTED"
+                        }
+                      ],
+                      "domain": "D_STATUS_PROC « gexp",
+                      "maxlength": 250,
+                      "required": false,
+                      "change": false,
+                      "disabled": false,
+                      "size": "3",
+                      "right": false,
+                      "java-type": "",
+                      "load_service_data": false,
+                      "disable_copy_paste": false,
+                      "tooltip": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "hidden_9ee5_1a1f",
+                      "tag": "entidade_id",
+                      "name": "p_entidade_id",
+                      "type": "hidden",
+                      "maxlength": 250,
+                      "java-type": "Integer",
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  }
+                ],
+                "style": {
+                  "id": "",
+                  "class": "",
+                  "inline": ""
+                },
+                "options": {
+                  "autoTag": false
+                },
+                "id": "form1626796338837",
+                "contextMenu": [
+                  {
+                    "properties": {
+                      "_id": "button_fbe1_706e",
+                      "label": "Limpar",
+                      "tag": "limpar",
+                      "name": "p_limpar",
+                      "type": "button",
+                      "target": "submit_form",
+                      "request_fields": [],
+                      "target_fields": "",
+                      "closerefresh": false,
+                      "refresh_components": [],
+                      "refresh_submit": false,
+                      "adbcli": "",
+                      "action": "Lista_expediente",
+                      "service": {
+                        "code": "",
+                        "desc": "",
+                        "proc": "",
+                        "connectionsReq": [],
+                        "fieldsReq": [],
+                        "connectionsRes": [],
+                        "fieldsRes": []
+                      },
+                      "transaction": false,
+                      "custom_return": false,
+                      "notvalidatefields": false,
+                      "class": "grey",
+                      "iconColor": "#333",
+                      "iconClass": "",
+                      "img": "fa-eraser"
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": true,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "button_b3e7_a4a8",
+                      "label": "Pesquisar",
+                      "tag": "pesquisar",
+                      "name": "p_pesquisar",
+                      "type": "button",
+                      "target": "submit_ajax",
+                      "request_fields": [],
+                      "target_fields": "",
+                      "closerefresh": false,
+                      "refresh_components": ["table_1"],
+                      "refresh_submit": false,
+                      "adbcli": "",
+                      "action": "Lista_expediente",
+                      "service": {
+                        "code": "",
+                        "desc": "",
+                        "proc": "",
+                        "connectionsReq": [],
+                        "fieldsReq": [],
+                        "connectionsRes": [],
+                        "fieldsRes": []
+                      },
+                      "transaction": false,
+                      "custom_return": true,
+                      "class": "primary",
+                      "iconColor": "#333",
+                      "iconClass": "",
+                      "img": "fa-search",
+                      "notvalidatefields": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": true,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  }
+                ],
+                "xsl": {
+                  "useDefault": true
+                }
+              },
+              {
+                "genType": "container",
+                "proprieties": {
+                  "title": "Lista de Expediente",
+                  "tag": "table_1",
+                  "hasTitle": false,
+                  "collapsible": false,
+                  "type": "table",
+                  "ctxMenuClass": true,
+                  "hasContextMenu": true,
+                  "ordertable": false,
+                  "ctxMenuTemplate": true,
+                  "hasColorTmpl": false,
+                  "filterTemplate": true,
+                  "filter": "filter_num",
+                  "ctxType": "inl",
+                  "ctxStyle": "",
+                  "export": [],
+                  "dataTable": false,
+                  "ctxInlineTmpl": true,
+                  "ctxInlineHeadTmpl": true,
+                  "tableFooter": false,
+                  "collapsed": false
+                },
+                "fields": [
+                  {
+                    "properties": {
+                      "_id": "plaintext_0047_cbb9",
+                      "label": "Estado",
+                      "tag": "estado_lst",
+                      "name": "p_estado_lst",
+                      "type": "plaintext",
+                      "disable_output_escaping": true,
+                      "html_class": "ff-fix",
+                      "maxlength": 50,
+                      "showLabel": true,
+                      "align": "left",
+                      "lookup_parser": false,
+                      "iskey": false,
+                      "group_in": ""
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "link_995c_d8ed",
+                      "label": "Nº Expediente",
+                      "tag": "n_expediente_lst",
+                      "name": "p_n_expediente_lst",
+                      "type": "link",
+                      "target": "modal",
+                      "request_fields": [],
+                      "target_fields": "",
+                      "list_source": "",
+                      "closerefresh": false,
+                      "refresh_components": [],
+                      "refresh_submit": false,
+                      "adbcli": "",
+                      "action": "Menu_processo",
+                      "custom_action": "",
+                      "action_type": false,
+                      "class": "link",
+                      "btnSize": "",
+                      "iconColor": "#333",
+                      "iconClass": "",
+                      "img": "fa-eye",
+                      "maxlength": 200,
+                      "showLabel": true,
+                      "align": "left",
+                      "lookup_parser": false,
+                      "iskey": false,
+                      "group_in": "",
+                      "show_header": true
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": true,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "text_08e5_8a76",
+                      "label": "Natureza do expediente",
+                      "tag": "tipo_de_processo_lst",
+                      "name": "p_tipo_de_processo_lst",
+                      "type": "text",
+                      "maxlength": 30,
+                      "showLabel": true,
+                      "align": "left",
+                      "lookup_parser": false,
+                      "iskey": false,
+                      "group_in": ""
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "text_01ab_ec2f",
+                      "label": "Entidade",
+                      "tag": "entidade_lst",
+                      "name": "p_entidade_lst",
+                      "type": "text",
+                      "maxlength": 30,
+                      "showLabel": true,
+                      "align": "left",
+                      "lookup_parser": false,
+                      "iskey": false,
+                      "group_in": ""
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "date_8ae3_d1a1",
+                      "label": "Data de entrada",
+                      "tag": "dt_register",
+                      "name": "p_dt_register",
+                      "type": "date",
+                      "range": false,
+                      "disableWeekends": false,
+                      "daysoff": false,
+                      "maxlength": 30,
+                      "showLabel": true,
+                      "align": "left",
+                      "lookup_parser": false,
+                      "iskey": false,
+                      "group_in": "",
+                      "disabledBeforetoday": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "date_4647_0328",
+                      "label": "Data Fim",
+                      "tag": "dt_end",
+                      "name": "p_dt_end",
+                      "type": "date",
+                      "range": false,
+                      "disableWeekends": false,
+                      "daysoff": false,
+                      "maxlength": 7,
+                      "showLabel": true,
+                      "align": "left",
+                      "lookup_parser": false,
+                      "iskey": false,
+                      "group_in": "",
+                      "disabledBeforetoday": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "hidden_42fc_005d",
+                      "tag": "processo_id",
+                      "name": "p_processo_id",
+                      "type": "hidden",
+                      "maxlength": 39,
+                      "showLabel": true,
+                      "iskey": true,
+                      "group_in": "",
+                      "java-type": "Integer"
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "hidden_4b85_efb4",
+                      "tag": "estado",
+                      "name": "p_estado",
+                      "type": "hidden",
+                      "maxlength": 30,
+                      "showLabel": true,
+                      "iskey": false,
+                      "group_in": "",
+                      "java-type": ""
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "hidden_d1fe_4bc3",
+                      "tag": "id_ato",
+                      "name": "p_id_ato",
+                      "type": "hidden",
+                      "maxlength": 30,
+                      "showLabel": true,
+                      "iskey": true,
+                      "group_in": "",
+                      "java-type": "String"
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "hidden_c223_27ff",
+                      "tag": "id_det_processo",
+                      "name": "p_id_det_processo",
+                      "type": "hidden",
+                      "maxlength": 30,
+                      "showLabel": true,
+                      "iskey": true,
+                      "group_in": "",
+                      "java-type": "Integer"
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  }
+                ],
+                "style": {
+                  "id": "",
+                  "class": "",
+                  "inline": ""
+                },
+                "options": {
+                  "autoTag": false
+                },
+                "id": "table1626782955456",
+                "contextMenu": [
+                  {
+                    "properties": {
+                      "_id": "button_2eb7_f606",
+                      "label": "Executar Expediente",
+                      "tag": "executar_processo",
+                      "name": "p_executar_processo",
+                      "type": "button",
+                      "target": "_self",
+                      "request_fields": [],
+                      "target_fields": "",
+                      "list_source": "",
+                      "closerefresh": true,
+                      "refresh_components": [],
+                      "refresh_submit": false,
+                      "adbcli": "",
+                      "action": "Lista_expediente",
+                      "service": {
+                        "code": "",
+                        "desc": "",
+                        "proc": "",
+                        "connectionsReq": [],
+                        "fieldsReq": [],
+                        "connectionsRes": [],
+                        "fieldsRes": []
+                      },
+                      "transaction": false,
+                      "custom_return": false,
+                      "class": "success",
+                      "iconColor": "#333",
+                      "iconClass": "",
+                      "img": "fa-toggle-right",
+                      "notvalidatefields": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "button_2c28_a204",
+                      "label": "Documentos",
+                      "tag": "documentos",
+                      "name": "p_documentos",
+                      "type": "button",
+                      "target": "modal",
+                      "request_fields": [],
+                      "target_fields": "",
+                      "list_source": "",
+                      "closerefresh": false,
+                      "refresh_components": [],
+                      "refresh_submit": false,
+                      "adbcli": "",
+                      "action": "Anexar_documentos",
+                      "service": {
+                        "code": "",
+                        "desc": "",
+                        "proc": "",
+                        "connectionsReq": [],
+                        "fieldsReq": [],
+                        "connectionsRes": [],
+                        "fieldsRes": []
+                      },
+                      "transaction": true,
+                      "custom_return": false,
+                      "class": "grey",
+                      "iconColor": "#333",
+                      "iconClass": "",
+                      "img": "fa-archive",
+                      "notvalidatefields": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": true,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "button_bc8a_2ca0",
+                      "label": "Cancelar Expediente",
+                      "tag": "cancelar_pedido",
+                      "type": "button",
+                      "target": "modal",
+                      "action": "Cancelar_processo",
+                      "class": "danger",
+                      "img": "fa-trash",
+                      "request_fields": [],
+                      "target_fields": "",
+                      "list_source": "",
+                      "closerefresh": true,
+                      "refresh_components": [],
+                      "refresh_submit": false,
+                      "adbcli": "",
+                      "service": {
+                        "code": "",
+                        "desc": "",
+                        "proc": "",
+                        "connectionsReq": [],
+                        "fieldsReq": [],
+                        "connectionsRes": [],
+                        "fieldsRes": []
+                      },
+                      "transaction": true,
+                      "custom_return": false,
+                      "iconColor": "#333",
+                      "iconClass": "",
+                      "name": "p_cancelar_pedido",
+                      "notvalidatefields": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "button_ac9f_569c",
+                      "label": "Notificação",
+                      "tag": "notificacao",
+                      "name": "p_notificacao",
+                      "type": "button",
+                      "target": "modal",
+                      "request_fields": [],
+                      "target_fields": "",
+                      "list_source": "",
+                      "closerefresh": false,
+                      "refresh_components": [],
+                      "refresh_submit": false,
+                      "adbcli": "",
+                      "action": "Lista_notificacao",
+                      "service": {
+                        "code": "",
+                        "desc": "",
+                        "proc": "",
+                        "connectionsReq": [],
+                        "fieldsReq": [],
+                        "connectionsRes": [],
+                        "fieldsRes": []
+                      },
+                      "transaction": true,
+                      "custom_return": false,
+                      "notvalidatefields": false,
+                      "class": "warning",
+                      "iconColor": "#333",
+                      "iconClass": "",
+                      "img": "fa-bell"
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": true,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  }
+                ],
+                "xsl": {
+                  "useDefault": true
+                }
+              }
+            ]
+          }
+        ],
+        "propreties": {
+          "class": ""
+        }
       }
     ],
-    "propreties": {}
-  },
-  "plsql": {
-    "instance": "",
-    "table": "",
-    "package": "c",
-    "html": "c",
-    "gentype": "java",
-    "replace": false,
-    "label": false,
-    "biztalk": false,
-    "process": false,
-    "subversionpath": ""
-  },
-  "css": "",
-  "js": "",
-  "files": { "css": [], "js": [], "xsl": [] },
-  "service": {},
-  "version": "2.4",
-  "blocklyData": ""
-}
+    "plsql": {
+      "instance": "",
+      "table": "",
+      "package": "nosi.webapps.testes_uxi",
+      "html": "Gestao_de_expedientes",
+      "replace": false,
+      "label": false,
+      "biztalk": false,
+      "subversionpath": ""
+    },
+    "css": "",
+    "js": ""
+  }
+  

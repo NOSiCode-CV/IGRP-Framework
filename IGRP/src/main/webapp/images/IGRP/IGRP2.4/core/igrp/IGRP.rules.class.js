@@ -989,6 +989,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 					},
 
 					success:function(c){
+						$.each( p.targetFields ,function(i,f){
+							$(this).trigger('remote-list-target-callback', [c] )
+						});
 						if ($.IGRP.components.tableCtrl.resetTableConfigurations)
 							$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
 					},

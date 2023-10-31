@@ -2,8 +2,9 @@
 	<xsl:apply-templates mode="igrp-table-header" select="#path#">
 		<xsl:with-param name="title" select="'#[title]#'"/>
 		<xsl:with-param name="show-title" select="'#[hasTitle]#'"/>
+		<xsl:with-param name="has-filter" select="'#[has_filter]#'"/>
 	</xsl:apply-templates>
-	#[has_filter]#
+	#[filterTemplate]#
 	<div class="card-body p-0">
 		<div>
 			<div class="table-responsive table-card m-0">

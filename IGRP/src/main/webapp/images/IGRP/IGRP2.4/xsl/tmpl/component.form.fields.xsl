@@ -6,10 +6,15 @@
         <xsl:param name="declabel" select="''"/>
         <xsl:param name="inputmask" select="''"/>
         <xsl:param name="maxlength" select="''"/>
+        <xsl:param name="show-label" select="1"/>
         <xsl:variable name="type" select="@type"/>
-        <label for="{@name}" class="form-label">
-            <xsl:value-of select="label"/>
-        </label>
+        
+        <xsl:if test="$show-label = 1">
+            <label for="{@name}" class="form-label">
+                <xsl:value-of select="label"/>
+            </label>
+        </xsl:if>
+        
         <input type="{$type}" value="{value}" class="form-control {$change} {$declabel}" inputmask="{$inputmask}" id="{@name}" name="{@name}" maxlength="{$maxlength}" placeholder="{@placeholder}">
             <xsl:call-template name="setAttributes">
                 <xsl:with-param name="field" select="."/>
@@ -26,12 +31,16 @@
         <xsl:param name="accept" select="''"/>
         <xsl:param name="multiple" select="''"/>
         <xsl:param name="rendvalue" select="''"/>
-        
-        <xsl:variable name="type" select="@type"/>
+        <xsl:param name="show-label" select="1"/>
 
-        <label for="{@name}" class="form-label">
-            <xsl:value-of select="label"/>
-        </label>
+        <xsl:variable name="type" select="@type"/>
+        
+        <xsl:if test="$show-label = 1">
+            <label for="{@name}" class="form-label">
+                <xsl:value-of select="label"/>
+            </label>
+        </xsl:if>
+
         <input 
             id="{@name}" 
             name="{@name}" 
@@ -62,11 +71,16 @@
         <xsl:param name="multiple" select="''"/>
         <xsl:param name="desclabel" select="''"/>
         <xsl:param name="load_service_data" select="''"/>
+        <xsl:param name="show-label" select="1"/>
 
         <xsl:variable name="type" select="@type"/>
-        <label for="{@name}">
-            <xsl:value-of select="label"/>
-        </label>
+        
+        <xsl:if test="$show-label = 1">
+            <label for="{@name}" class="form-label">
+                <xsl:value-of select="label"/>
+            </label>
+        </xsl:if>
+        
         <select class="form-control {$change} {$desclabel}" data-choices="" id="{$parent-id}_{name()}" name="{@name}" placeholder="{@placeholder}">
             <xsl:call-template name="setAttributes">
                 <xsl:with-param name="field" select="."/>
@@ -96,9 +110,13 @@
     <xsl:template name="igrp-form-color-field" mode="igrp-form-color-field" match="*">
         <xsl:param name="parent-id" select="''"/>
         <xsl:param name="format" select="''"/>
-        <label for="{@name}">
-            <xsl:value-of select="label"/>
-        </label>
+        <xsl:param name="show-label" select="1"/>
+
+        <xsl:if test="$show-label = 1">
+            <label for="{@name}" class="form-label">
+                <xsl:value-of select="label"/>
+            </label>
+        </xsl:if>
         <div id="{$parent-id}_{name()}_colorp">
             <div class="colorpicker-input" rel="{$parent-id}_{name()}"></div>
             <input type="hidden" value="{value}" format="{$format}" class="form-control" id="{$parent-id}_{name()}" name="{@name}" placeholder="{@placeholder}">
@@ -120,9 +138,12 @@
         <xsl:param name="readonly"/>
         <xsl:param name="maxlength"/>
         <xsl:param name="placeholder"/>
-        <label for="{./@name}">
-            <xsl:value-of select="label"/>
-        </label>
+        <xsl:param name="show-label" select="1"/>
+        <xsl:if test="$show-label = 1">
+            <label for="{@name}" class="form-label">
+                <xsl:value-of select="label"/>
+            </label>
+        </xsl:if>
         <div class="input-group">
             <input type="text" value="{./value}" datefield="true" disableWeekends="{$disableWeekends}" disabledBeforetoday="{$disabledBeforetoday}" data-range="{$range}" class="form-control gen-date-picker flatpickr-input {$change}" data-provider="flatpickr" data-date-format="{$format}" data-enable-time="{$enableTime}" id="{name()}" name="{./@name}" maxlength="{$maxlength}" placeholder="{$placeholder}">
                 <xsl:call-template name="setAttributes">
@@ -182,11 +203,15 @@
         <xsl:param name="maxlength" select="''"/>
         <xsl:param name="field_param" select="''"/>
         <xsl:param name="input-id" select="''"/>
+        <xsl:param name="show-label" select="1"/>
+
         <xsl:variable name="type" select="@type"/>
 
-        <label for="{@name}">
-            <xsl:value-of select="label"/>
-        </label>
+        <xsl:if test="$show-label = 1">
+            <label for="{@name}" class="form-label">
+                <xsl:value-of select="label"/>
+            </label>
+        </xsl:if>
         
         <div class="input-group">
             <input type="text" value="{value}" class="form-control gen-lookup {$change} {$declabel}" id="{$input-id}" name="{@name}" maxlength="{$maxlength}" placeholder="{@placeholder}">
@@ -242,7 +267,15 @@
         <xsl:param name="declabel" select="''"/>
         <xsl:param name="inputmask" select="''"/>
         <xsl:param name="maxlength" select="''"/>
+        <xsl:param name="show-label" select="1"/>
+
         <xsl:variable name="type" select="@type"/>
+
+        <xsl:if test="$show-label = 1">
+            <label for="{@name}" class="form-label">
+                <xsl:value-of select="label"/>
+            </label>
+        </xsl:if>
 
 
     </xsl:template>

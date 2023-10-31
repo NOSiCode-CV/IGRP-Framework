@@ -37,13 +37,15 @@ $.fn.XMLTransform = function(params) {
  	var setContent = function(content){
 
  		setTimeout(function(){
- 			
- 			if(params.method && params.method == 'replace')
- 				element.replaceWith(content);
+ 			if(params.method && params.method == 'replace'){
+				if(params.replaceSelector)
+					element.find(params.replaceSelector).replaceWith(  $(content).find(params.replaceSelector) )
+				else
+					element.replaceWith(content);
+			}
  			else
  				element.html(content);
- 			
-
+ 		
  			done(content);
  			
  		},150);		

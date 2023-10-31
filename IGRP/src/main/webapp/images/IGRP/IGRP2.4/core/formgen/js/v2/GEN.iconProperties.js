@@ -25,7 +25,7 @@
 				label : $.IGRP.locale.get('gen-icon-lib'),
 				readonly: true,
 				value: {
-					value: '',
+					value: defaults.iconLib || '',
 					options : [
 						{ value : '', label : 'Sem Ícone' },
 						{ value : 'remix', label : 'Remix' },
@@ -125,7 +125,7 @@
 						}
 						
 						setTimeout(()=>{
-							console.log($('select[rel="iconLib"]', modal))
+							
 							renderIconSetter( object.GET.iconLib() );
 							$('select[rel="iconLib"]', modal)[0]?.addEventListener(
 								'change',
@@ -133,76 +133,17 @@
 								false
 							);
 							holder.on('click','.item-selector', function(e){
-								
 								const val = $(this).attr('value');
-							
-	
+			
 								$('.item-selector', holder).removeClass("active shadow");
-	
 								$(this).addClass("active shadow");
-	
+
 								holder.attr("attr-value", val);
-	
+
 								holder.trigger("attr-value-change", [val]);
-							})
+							});
+
 						},150);
-						
-
-
-						
-
-						
-						
-
-						/*var img = object.GET[name]();
-
-						holder.attr("attr-value", img);
-
-						holder.trigger("attr-value-change", [img]);
-
-						var activeItem = $('.gen-fa-icon[rel="' + img + '"]', holder);
-
-						var activeParent = activeItem.attr("parent");
-
-						activeItem.addClass("active");
-
-						$(".nav-tabs>li", holder).removeClass("active");
-
-						$(".tab-pane", holder).removeClass("active in");
-
-						$('.nav-tabs>li[rel="' + activeParent + '"]', holder).addClass("active");
-
-						$(".tab-pane#gen-fa-" + activeParent, holder).addClass("active in");
-
-						holder.on("click", ".gen-fa-icon", function () {
-							var rel = $(this).attr("rel");
-
-							$(".gen-fa-icon", holder).removeClass("active");
-
-							$(this).addClass("active");
-
-							holder.attr("attr-value", rel);
-
-							holder.trigger("attr-value-change", [rel]);
-
-							//object.SET[name]( rel );
-						});
-
-						setTimeout(function () {
-							try {
-								$(".tab-content").animate(
-									{
-										scrollTop: activeItem.position().top,
-									},
-									400
-								);
-							} catch (err) {
-								console.log(err);
-								return;
-							}
-
-							//$('.nav-tabs',holder).tabdrop();
-						}, 250);*/
 					
 						return holder;
 					},
@@ -226,7 +167,7 @@
 						value: {
 							value: object.proprieties.iconPosition
 								? object.proprieties.iconPosition
-								: "left",
+								: (defaults.iconPosition || "left"),
 							list: {
 								items: [
 									{ value: "left", label: "Esquerda" },
