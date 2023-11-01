@@ -34,12 +34,11 @@ public class SecurtyCallPage {
 	 */
 	private static void changeLanguage() {
 		String lang = Core.getParam("lang");
-		if(Core.isNotNull(lang)) {
-			if (new SettingsController().getIdiomaMap().containsKey(lang)) { 			
+		if(Core.isNotNull(lang) &&  (new SettingsController().getIdiomaMap().containsKey(lang))) { 			
 				Cookie cookie = new Cookie("igrp_lang", lang);
 				cookie.setMaxAge(I18nManager.COOKIE_EXPIRE);			
 				Igrp.getInstance().getResponse().addCookie(cookie);		
-			}
+			
 		}
 	}
 	
