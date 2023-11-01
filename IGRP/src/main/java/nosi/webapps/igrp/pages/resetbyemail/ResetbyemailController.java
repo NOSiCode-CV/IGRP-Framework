@@ -57,11 +57,10 @@ public class ResetbyemailController extends Controller {
 			}
 			username= Core.findUserByEmail(email)!=null?Core.findUserByEmail(email).getName():""; 
 		}else 
-			if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value())) {
-				if(!ldap(email, token)) {
+			if(authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value()) && (!ldap(email, token))) {
 					Core.setMessageError("Ooops ! O email inserido não foi encontrado.");
 					return forward("igrp","Resetbyemail","index", this.queryString());
-				}
+				
 			}
 		String msg = "" + "<p>Caro(a) "+username+", foi solicitado o reset de password da sua conta de acesso ... </p>"; 
 		String aux = EmailMessage.PdexTemplate.getCorpoFormatado("Recuperação da palavra-passe", "Excelentíssimo,", new String[] {msg}, new String[] {"Recuperar Password"}, new String[] {link},  "http://igrp.cv");
