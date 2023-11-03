@@ -201,11 +201,12 @@
 				</div>
 				<div class="row">
 					<div class="col d-flex justify-content-end gap-4 align-items-center">
-						<a href="#" class="link-dark  igrp-table-reset-action text-capitalize">
+						<a href="#" class="link-dark igrp-table-reset-action text-capitalize">
 							<i class="ri-eraser-line"></i>
-							<span>Limpar</span>
+							<span class="">Limpar</span>
 						</a>
-						<button class="text-capitalize btn btn btn-soft-sigtca igrp-table-filter-action d-flex align-items-center">
+						<button class="text-capitalize btn btn btn-soft-primary igrp-table-filter-action d-flex align-items-center">
+				
 							<span>Aplicar</span>
 						</button>
 					</div>

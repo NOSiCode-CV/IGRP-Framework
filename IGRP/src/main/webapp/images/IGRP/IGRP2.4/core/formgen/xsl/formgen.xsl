@@ -597,8 +597,8 @@
                   
                             
                           </div>
-                          <div class="modal-footer d-flex align-items-center d-none">
-                                <div class="">
+                          <div class="modal-footer d-flex align-items-center ">
+                                <div class="d-flex align-items-center">
                                     <span class="info object d-none"></span>
                                     <span class="info type"></span>
                                     <span class="info parent" style="display:none"></span>
@@ -619,7 +619,7 @@
                                     </span>
                               	</xsl:if>
                               
-                              <div class="modal-buttons text-right">
+                              <div class="modal-buttons text-right d-none">
                               	
                                 <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button> 
                               	<button type="button" class="btn btn-primary"  id="gen-edit-confirm">Confirm <i class="fa fa-check"/></button>

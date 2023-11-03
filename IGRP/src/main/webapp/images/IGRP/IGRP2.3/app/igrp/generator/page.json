@@ -1,0 +1,978 @@
+{
+  "rows": [
+    {
+      "columns": [
+        {
+          "size": "col-sm-12",
+          "containers": [
+            {
+                "genType": "container",
+                "proprieties": {
+                  "title": "Dados do Expediente",
+                  "tag": "form_2",
+                  "hasTitle": false,
+                  "collapsible": true,
+                  "type": "form",
+                  "collapsed": false
+                },
+                "fields": [
+                  {
+                    "properties": {
+                      "_id": "select_295f_6799",
+                      "label": "Tipo de Expediente",
+                      "tag": "tipo_expediente",
+                      "name": "p_tipo_expediente",
+                      "type": "select",
+                      "multiple": false,
+                      "tags": false,
+                      "load_service_data": false,
+                      "domain_value": [],
+                      "domain": "",
+                      "maxlength": 250,
+                      "required": true,
+                      "change": false,
+                      "disabled": false,
+                      "size": "5",
+                      "right": false,
+                      "java-type": "",
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": [
+                        {
+                          "name": "loadNatureza",
+                          "event": "load,change",
+                          "condition": "",
+                          "value": "",
+                          "value2": "",
+                          "patern": "",
+                          "patern_custom": "",
+                          "opposite": "",
+                          "actions": "[{'gen_rule_action':'remote_combobox','gen_rule_targets':'sub_tipo','gen_rule_procedure':'loadNatureza','gen_rule_request_fields':'id_tipo_expediente,tipo_expediente,sub_tipo,temp_sub_tipo','gen_rule_msg_type':'info','gen_rule_msg':''}]",
+                          "isTable": false
+                        },
+                        {
+                          "name": "loadDocsAssociado",
+                          "event": "change",
+                          "condition": "notnull",
+                          "value": "",
+                          "value2": "",
+                          "patern": "",
+                          "patern_custom": "",
+                          "opposite": "",
+                          "actions": "[{'gen_rule_action':'remote_list','gen_rule_targets':'docs_entregues','gen_rule_procedure':'loadDocsAssociados','gen_rule_request_fields':'processo_id,id_tipo_processo,id_tipo_expediente,tipo_expediente,step_code','gen_rule_msg_type':'','gen_rule_msg':''}]",
+                          "isTable": false
+                        }
+                      ]
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": [
+                      {
+                        "annotation": "@NotNull",
+                        "value": "",
+                        "integer": "",
+                        "numeric": "",
+                        "min": "",
+                        "max": "",
+                        "message": ""
+                      }
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "_id": "select_73e1_5317",
+                      "label": "Sub-Tipo",
+                      "tag": "sub_tipo",
+                      "name": "p_sub_tipo",
+                      "type": "select",
+                      "multiple": false,
+                      "tags": false,
+                      "load_service_data": false,
+                      "domain_value": [],
+                      "domain": "",
+                      "maxlength": 250,
+                      "required": false,
+                      "change": false,
+                      "disabled": false,
+                      "size": "3",
+                      "right": false,
+                      "java-type": "",
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": true,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "radiolist_8c26_a2ba",
+                      "label": "Carácter do Expediente",
+                      "tag": "caracter_do_expediente",
+                      "name": "p_caracter_do_expediente",
+                      "type": "radiolist",
+                      "domain_value": [],
+                      "domain": "",
+                      "maxlength": 250,
+                      "required": true,
+                      "change": false,
+                      "readonly": false,
+                      "disabled": false,
+                      "size": "4",
+                      "child_size": "6",
+                      "right": false,
+                      "java-type": "String",
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": true,
+                      "rules": [
+                        {
+                          "name": "isConfidencial",
+                          "event": "load,change,click",
+                          "condition": "equal",
+                          "value": "CFL",
+                          "value2": "",
+                          "patern": "",
+                          "patern_custom": "",
+                          "opposite": "1",
+                          "actions": "[{'gen_rule_action':'notrequired','gen_rule_targets':'data__do_documento','gen_rule_procedure':'','gen_rule_request_fields':'','gen_rule_msg_type':'','gen_rule_msg':''}]",
+                          "isTable": false
+                        }
+                      ]
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": [
+                      {
+                        "annotation": "@NotNull",
+                        "value": "",
+                        "integer": "",
+                        "numeric": "",
+                        "min": "",
+                        "max": "",
+                        "message": ""
+                      }
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "_id": "separator_d2e4_8381",
+                      "label": "Data e Hora",
+                      "tag": "data_e_hora",
+                      "name": "p_data_e_hora",
+                      "type": "separator",
+                      "maxlength": 250,
+                      "placeholder": "",
+                      "desclabel": false,
+                      "size": "12",
+                      "right": false,
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": true,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "date_7acb_c90a",
+                      "label": "Data entrada TCA",
+                      "tag": "data_entrada_tc",
+                      "name": "p_data_entrada_tc",
+                      "type": "date",
+                      "range": false,
+                      "disableWeekends": false,
+                      "disabledBeforetoday": false,
+                      "daysoff": false,
+                      "maxlength": 250,
+                      "required": true,
+                      "change": false,
+                      "readonly": false,
+                      "disabled": false,
+                      "placeholder": "",
+                      "desclabel": false,
+                      "size": "3",
+                      "right": false,
+                      "tooltip": false,
+                      "disable_copy_paste": false,
+                      "class": "success"
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "time_7b29_c90b",
+                      "label": "Hora entrada TCA",
+                      "tag": "hora_entrada_tc",
+                      "name": "p_hora_entrada_tc",
+                      "type": "time",
+                      "maxlength": 250,
+                      "required": true,
+                      "change": false,
+                      "readonly": false,
+                      "disabled": false,
+                      "placeholder": "",
+                      "desclabel": false,
+                      "size": "2",
+                      "right": false,
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "date_3711_3d7f",
+                      "label": "Data  do documento",
+                      "tag": "data__do_documento",
+                      "name": "p_data__do_documento",
+                      "type": "date",
+                      "range": false,
+                      "disableWeekends": false,
+                      "disabledBeforetoday": false,
+                      "daysoff": false,
+                      "maxlength": 250,
+                      "required": true,
+                      "change": false,
+                      "readonly": false,
+                      "disabled": false,
+                      "placeholder": "",
+                      "desclabel": false,
+                      "size": "2",
+                      "right": false,
+                      "tooltip": false,
+                      "disable_copy_paste": false,
+                      "class": "primary"
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": true,
+                      "rules": [
+                        {
+                          "name": "isNotNulll",
+                          "event": "load,change,click",
+                          "condition": "notnull",
+                          "value": "",
+                          "value2": "",
+                          "patern": "",
+                          "patern_custom": "",
+                          "opposite": "1",
+                          "actions": "[{'gen_rule_action':'required','gen_rule_targets':'referencia_externa__do_documento','gen_rule_procedure':'','gen_rule_request_fields':'','gen_rule_msg_type':'','gen_rule_msg':''}]",
+                          "isTable": false
+                        }
+                      ]
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "text_cf37_814a",
+                      "label": "Referência externa  do documento",
+                      "tag": "referencia_externa__do_documento",
+                      "name": "p_referencia_externa__do_documento",
+                      "type": "text",
+                      "maxlength": 50,
+                      "required": false,
+                      "change": false,
+                      "readonly": false,
+                      "disabled": false,
+                      "disablehtml": true,
+                      "placeholder": "",
+                      "desclabel": false,
+                      "inputmask": "",
+                      "size": "5",
+                      "right": false,
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": true,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "separator_e1f0_6ac6",
+                      "label": "Remetente",
+                      "tag": "remetente_sep",
+                      "name": "p_remetente_sep",
+                      "type": "separator",
+                      "maxlength": 250,
+                      "placeholder": "",
+                      "desclabel": false,
+                      "size": "12",
+                      "right": false,
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "radiolist_37a0_c238",
+                      "label": "Tipo remetente",
+                      "tag": "tipo_remetente",
+                      "name": "p_tipo_remetente",
+                      "type": "radiolist",
+                      "domain_value": [],
+                      "domain": "",
+                      "maxlength": 250,
+                      "required": true,
+                      "change": false,
+                      "readonly": false,
+                      "disabled": false,
+                      "size": "3",
+                      "child_size": "6",
+                      "right": false,
+                      "java-type": "String",
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": true,
+                      "rules": [
+                        {
+                          "name": "changeLookup",
+                          "event": "load,change",
+                          "condition": "notnull",
+                          "value": "",
+                          "value2": "",
+                          "patern": "",
+                          "patern_custom": "",
+                          "opposite": "",
+                          "actions": "[{'gen_rule_action':'remote','gen_rule_targets':'nome_remetente','gen_rule_procedure':'setLookup','gen_rule_request_fields':'tipo_remetente,nome_remetente','gen_rule_msg_type':'','gen_rule_msg':''}]",
+                          "isTable": false
+                        },
+                        {
+                          "name": "isSingular",
+                          "event": "load,change",
+                          "condition": "equal",
+                          "value": "SGL",
+                          "value2": "",
+                          "patern": "",
+                          "patern_custom": "",
+                          "opposite": "",
+                          "actions": "[{'gen_rule_action':'hide','gen_rule_targets':'tipo_entidade','gen_rule_procedure':'','gen_rule_request_fields':'','gen_rule_msg_type':'','gen_rule_msg':''},{'gen_rule_action':'show','gen_rule_targets':'nome_remetente,nif','gen_rule_procedure':'','gen_rule_request_fields':'','gen_rule_msg_type':'','gen_rule_msg':''}]",
+                          "isTable": false
+                        },
+                        {
+                          "name": "isColetiva",
+                          "event": "load,change",
+                          "condition": "equal",
+                          "value": "CLT",
+                          "value2": "",
+                          "patern": "",
+                          "patern_custom": "",
+                          "opposite": "",
+                          "actions": "[{'gen_rule_action':'show','gen_rule_targets':'nome_remetente,tipo_entidade,nif','gen_rule_procedure':'','gen_rule_request_fields':'','gen_rule_msg_type':'','gen_rule_msg':''}]",
+                          "isTable": false
+                        },
+                        {
+                          "name": "isNullTpP",
+                          "event": "load,change",
+                          "condition": "null",
+                          "value": "",
+                          "value2": "",
+                          "patern": "",
+                          "patern_custom": "",
+                          "opposite": "",
+                          "actions": "[{'gen_rule_action':'hide','gen_rule_targets':'nome_remetente,tipo_entidade,nif','gen_rule_procedure':'','gen_rule_request_fields':'','gen_rule_msg_type':'','gen_rule_msg':''}]",
+                          "isTable": false
+                        },
+                        {
+                          "name": "isChangeClearData",
+                          "event": "change,click",
+                          "condition": "notnull",
+                          "value": "",
+                          "value2": "",
+                          "patern": "",
+                          "patern_custom": "",
+                          "opposite": "",
+                          "actions": "[{'gen_rule_action':'cleanValue','gen_rule_targets':'nome_remetente','gen_rule_procedure':'','gen_rule_request_fields':'','gen_rule_msg_type':'','gen_rule_msg':''}]",
+                          "isTable": false
+                        },
+                        {
+                          "name": "isClearNIF",
+                          "event": "change,click",
+                          "condition": "notnull",
+                          "value": "",
+                          "value2": "",
+                          "patern": "",
+                          "patern_custom": "",
+                          "opposite": "",
+                          "actions": "[{'gen_rule_action':'cleanValue','gen_rule_targets':'nif','gen_rule_procedure':'','gen_rule_request_fields':'','gen_rule_msg_type':'','gen_rule_msg':''}]",
+                          "isTable": false
+                        }
+                      ]
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "lookup_0b7e_8183",
+                      "label": "Procedência",
+                      "tag": "nome_remetente",
+                      "name": "p_nome_remetente",
+                      "type": "lookup",
+                      "action": "LISTA_ENTIDADE",
+                      "lookupParams": [
+                        {
+                          "lookupParams_id": "",
+                          "target_field": "p_nome_remetente",
+                          "value_field": "designacao_entidade_lst"
+                        },
+                        {
+                          "lookupParams_id": "",
+                          "target_field": "p_nif",
+                          "value_field": "nif_entidade_lst"
+                        },
+                        {
+                          "lookupParams_id": "",
+                          "target_field": "p_tipo_entidade",
+                          "value_field": "tipo_entidade_lst"
+                        },
+                        {
+                          "lookupParams_id": "",
+                          "target_field": "p_id_entidade",
+                          "value_field": "id_entidade"
+                        }
+                      ],
+                      "lookup_eraser": true,
+                      "lookup_type": "LOOKUP",
+                      "class": "primary",
+                      "maxlength": 250,
+                      "required": true,
+                      "change": false,
+                      "readonly": false,
+                      "disabled": false,
+                      "placeholder": "",
+                      "desclabel": false,
+                      "size": "4",
+                      "right": false,
+                      "tooltip": false,
+                      "disable_copy_paste": false,
+                      "field_param": []
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": [
+                      {
+                        "annotation": "@NotNull",
+                        "value": "",
+                        "integer": "",
+                        "numeric": "",
+                        "min": "",
+                        "max": "",
+                        "message": ""
+                      }
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "_id": "select_4fc3_59b2",
+                      "label": "Natureza da entidade",
+                      "tag": "tipo_entidade",
+                      "name": "p_tipo_entidade",
+                      "type": "select",
+                      "multiple": false,
+                      "tags": false,
+                      "load_service_data": false,
+                      "domain_value": [],
+                      "domain": "",
+                      "maxlength": 250,
+                      "required": false,
+                      "change": false,
+                      "disabled": false,
+                      "size": "3",
+                      "right": false,
+                      "java-type": "",
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "number_018b_48ba",
+                      "label": "NIF",
+                      "tag": "nif",
+                      "name": "p_nif",
+                      "type": "number",
+                      "min": "",
+                      "max": "",
+                      "calculation": false,
+                      "mathcal": "",
+                      "numberformat": "",
+                      "maxlength": 9,
+                      "required": true,
+                      "change": false,
+                      "readonly": false,
+                      "disabled": false,
+                      "placeholder": "",
+                      "desclabel": false,
+                      "size": "2",
+                      "right": false,
+                      "java-type": "String",
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": true,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "separator_082b_7e59",
+                      "label": "",
+                      "tag": "assunto_sep",
+                      "name": "p_assunto_sep",
+                      "type": "separator",
+                      "maxlength": 250,
+                      "placeholder": "",
+                      "desclabel": false,
+                      "size": "12",
+                      "right": false,
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "textarea_8969_a663",
+                      "label": "Assunto",
+                      "tag": "assunto",
+                      "name": "p_assunto",
+                      "type": "textarea",
+                      "maxlength": 2000,
+                      "required": true,
+                      "change": false,
+                      "readonly": false,
+                      "disabled": false,
+                      "disablehtml": true,
+                      "placeholder": "",
+                      "desclabel": false,
+                      "size": "12",
+                      "right": false,
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": true,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": [
+                      {
+                        "annotation": "@NotNull",
+                        "value": "",
+                        "integer": "",
+                        "numeric": "",
+                        "min": "",
+                        "max": "",
+                        "message": ""
+                      }
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "_id": "textarea_0aa5_fff0",
+                      "label": "Observação",
+                      "tag": "observacao",
+                      "name": "p_observacao",
+                      "type": "textarea",
+                      "maxlength": 4000,
+                      "required": false,
+                      "change": false,
+                      "readonly": false,
+                      "disabled": false,
+                      "disablehtml": true,
+                      "placeholder": "",
+                      "desclabel": false,
+                      "size": "12",
+                      "right": false,
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": true,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "hidden_69a8_64c6",
+                      "tag": "step_code",
+                      "name": "p_step_code",
+                      "type": "hidden",
+                      "maxlength": 250,
+                      "java-type": "String",
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": [
+                      {
+                        "annotation": "@NotNull",
+                        "value": "",
+                        "integer": "",
+                        "numeric": "",
+                        "min": "",
+                        "max": "",
+                        "message": ""
+                      }
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "_id": "hidden_d215_aa2e",
+                      "tag": "id_entidade",
+                      "name": "p_id_entidade",
+                      "type": "hidden",
+                      "maxlength": 250,
+                      "java-type": "Integer",
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "hidden_429c_1774",
+                      "tag": "contra_prova_id",
+                      "name": "p_contra_prova_id",
+                      "type": "hidden",
+                      "maxlength": 250,
+                      "java-type": "",
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "hidden_4455_80e6",
+                      "tag": "numero_nota",
+                      "name": "p_numero_nota",
+                      "type": "hidden",
+                      "maxlength": 250,
+                      "java-type": "",
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "hidden_21f3_233d",
+                      "tag": "temp_sub_tipo",
+                      "name": "p_temp_sub_tipo",
+                      "type": "hidden",
+                      "maxlength": 250,
+                      "java-type": "",
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  },
+                  {
+                    "properties": {
+                      "_id": "hidden_ea7d_c383",
+                      "tag": "id_pessoa_remetente",
+                      "name": "p_id_pessoa_remetente",
+                      "type": "hidden",
+                      "maxlength": 250,
+                      "java-type": "Integer",
+                      "tooltip": false,
+                      "disable_copy_paste": false
+                    },
+                    "style": {
+                      "id": "",
+                      "class": "",
+                      "inline": ""
+                    },
+                    "options": {
+                      "autoTag": false,
+                      "rules": []
+                    },
+                    "xsl": {
+                      "useDefault": true,
+                      "template": false
+                    },
+                    "validation": []
+                  }
+                ],
+                "style": {
+                  "id": "",
+                  "class": "clean",
+                  "inline": ""
+                },
+                "options": { "autoTag": false },
+                "id": "form1671035867017",
+                "xsl": { "useDefault": true }
+              }
+          ]
+        }
+      ],
+      "propreties": { "class": "" }
+    }
+  ],
+  "plsql": {
+    "instance": "",
+    "table": "",
+    "package": "nosi.webapps.sigtca.pages",
+    "html": "Registo_entrada_geral",
+    "gentype": "java",
+    "replace": false,
+    "label": false,
+    "biztalk": false,
+    "process": false,
+    "subversionpath": ""
+  },
+  "css": "",
+  "js": "",
+  "files": {
+    "css": [],
+    "js": [{ "file": "/assets/sigtca/scripts.js" }],
+    "xsl": []
+  },
+  "service": {},
+  "blocklyData": ""
+}

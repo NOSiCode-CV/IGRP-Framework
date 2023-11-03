@@ -1468,7 +1468,7 @@
 
 				data : options.data,
 
-				method:'POST',
+				method:'GET',
 				
 				headers : options.headers,
 

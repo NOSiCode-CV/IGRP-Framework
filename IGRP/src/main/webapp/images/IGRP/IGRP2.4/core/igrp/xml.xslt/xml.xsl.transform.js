@@ -401,6 +401,7 @@ $.fn.XMLTransform = function(params) {
 	 				getContentFromUrl({
 	 					url      :params.xml,
 	 					data     :params.xmlData,
+						method : 'POST',
 	 					callback :setXML
 	 				});
 
@@ -438,8 +439,8 @@ $.fn.XMLTransform = function(params) {
  			url     : p.url,
  			dataType: params.dataType ? params.dataType : 'xml',
  			data    : p.data ? p.data : null,
- 			method  : params.method ? params.method.toUpperCase() : 'POST',
- 			type    : params.method ? params.method.toUpperCase() : 'POST',
+ 			method  : p.method ? p.method.toUpperCase() : 'GET',
+ 			type    : p.method ? p.method.toUpperCase() : 'GET',
  			success : p.callback,
  			error   : errorHandler,
  			fail    : errorHandler
