@@ -37,12 +37,9 @@ $.fn.XMLTransform = function(params) {
  	var setContent = function(content){
 
  		setTimeout(function(){
- 			if(params.method && params.method == 'replace'){
-				if(params.replaceSelector)
-					element.find(params.replaceSelector).replaceWith(  $(content).find(params.replaceSelector) )
-				else
-					element.replaceWith(content);
-			}
+ 			
+ 			if(params.method && params.method == 'replace')
+ 				element.replaceWith(content);
  			else
  				element.html(content);
  		
@@ -435,13 +432,13 @@ $.fn.XMLTransform = function(params) {
  	//AJAX LOAD CONTENT
  	var getContentFromUrl = function(p){
  		var base = p.url.split('/').slice(0,-1).join('/');
-	
+
  		$.ajax({
  			url     : p.url,
- 			dataType: params.dataType ? params.dataType : 'xml',
+ 			dataType: p.dataType ? p.dataType : 'xml',
  			data    : p.data ? p.data : null,
  			method  : p.method ? p.method.toUpperCase() : 'GET',
- 			type    : p.method ? p.method.toUpperCase() : 'GET',
+ 			type    : p.method ? params.method.toUpperCase() : 'GET',
  			success : p.callback,
  			error   : errorHandler,
  			fail    : errorHandler
