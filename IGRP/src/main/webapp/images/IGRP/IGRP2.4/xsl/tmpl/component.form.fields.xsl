@@ -64,7 +64,7 @@
     </xsl:template>
 
     <xsl:template name="igrp-form-select-field" mode="igrp-form-select-field" match="*">
-        <xsl:param name="parent-id" select="''"/>
+        <xsl:param name="parent-id" select="name(../..)"/>
         <xsl:param name="change" select="''"/>
         <xsl:param name="tags" select="''"/>
         <xsl:param name="maxlength" select="''"/>
@@ -108,7 +108,7 @@
     </xsl:template>
 
     <xsl:template name="igrp-form-color-field" mode="igrp-form-color-field" match="*">
-        <xsl:param name="parent-id" select="''"/>
+        <xsl:param name="parent-id" select="name(../..)"/>
         <xsl:param name="format" select="''"/>
         <xsl:param name="show-label" select="1"/>
 

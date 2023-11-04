@@ -6,6 +6,7 @@
     <fields>campos</fields>
     <style>estilo</style>
     <validations>validações</validations>
+    <annotations>anotações</annotations>
     <xsl>xsl</xsl>
     <copy>copiar</copy>
     <current-fields>Campos atuais</current-fields>

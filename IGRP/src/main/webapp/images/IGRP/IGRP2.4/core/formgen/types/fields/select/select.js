@@ -17,6 +17,7 @@ var SELECTFIELD = function(type,params){
 		],
 		js  :[ 
 			{ path:'/libs/choices.js/public/assets/scripts/choices.min.js'}, 
+			{ path:'/components/select.choices/select.choices.js'} 
 			//{ path:'/components/select-choices/init.js'} 
 		]
 	}
@@ -69,11 +70,15 @@ var SELECTFIELD = function(type,params){
 		field.on('draw-end',function(){
 			const inputs = $(`.form-group[item-name="${field.GET.tag()}"] select`);
 
-			inputs.each( (i,el)=>{
+			$.IGRP.components.choices.init(inputs);
+			
+			/*inputs.each( (i,el)=>{
 				const choices = new Choices(el,{
 				
 				});
-			} )
+			} )*/
+
+
 			
 			//$.IGRP.components.select2.init(field.parent.holder);
 		},true);

@@ -476,7 +476,7 @@
                                         <xsl:value-of select="$locale-strings/style"/>
                                     </li>
                                     <li rel="validation">
-                                        <xsl:value-of select="$locale-strings/validations"/>
+                                        <xsl:value-of select="$locale-strings/annotations"/>
                                     </li>
                                     <li rel="rules">
                                         <xsl:value-of select="$locale-strings/rules"/>
@@ -600,7 +600,7 @@
                           <div class="modal-footer d-flex align-items-center ">
                                 <div class="d-flex align-items-center">
                                     <span class="info object d-none"></span>
-                                    <span class="info type"></span>
+                                    <span class="info type d-flex align-items-center"></span>
                                     <span class="info parent" style="display:none"></span>
                                 </div>
 

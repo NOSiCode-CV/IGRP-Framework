@@ -15,8 +15,8 @@
 	</style>
 	<div class="box gen-container-item clean" gen-class="" item-name="field_validations">
 	<div class="validations-message"></div>
-	  <div class="box-body IGRP-separatorlist" id="igrp-field-annotations-list" tag="field_validations" dialog="false">
-	    <div class="splist-form-holder">
+	  <div class="box-body IGRP-separatorlist old-version" id="igrp-field-annotations-list" tag="field_validations" dialog="false">
+	    <div class="splist-form-holder d-block">
 	      <div class="splist-form" role="form">
 	        <div class="col-sm-6 form-group gen-fields-holder" item-name="annotation" item-type="select">
 	          <label for="annotation">Annotation</label>
@@ -72,7 +72,7 @@
 	              <span>Message</span>
 	            </th>
 	            <th class="table-btn">
-	              <a class="table-row-add btn-xs btn btn-primary" title="Add" data-toggle="tooltip" data-placement="left">
+	              <a class="table-row-add btn-xs btn btn-primary d-block" title="Add" data-toggle="tooltip" data-placement="left">
 	                <i class="fa fa-plus"/>
 	              </a>
 	            </th>

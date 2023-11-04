@@ -869,3 +869,10 @@ html body[view="gen-design"] .tab-pane >.row{
     margin:0!important;
 }
 
+.select2-search--dropdown{
+    display: none;
+}
+
+#gen-edition-modal:not([view="properties"]) .modal-footer{
+    display: none!important;
+}

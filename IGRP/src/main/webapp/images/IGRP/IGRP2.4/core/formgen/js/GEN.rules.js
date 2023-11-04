@@ -114,10 +114,6 @@
 
       targetsFields.html('');
 
-      //console.log(separatorlist);
-
-      //console.log(actionslist)
-      
       GEN.getContainers().forEach(function(c){
         var cTag = c.GET.tag();
         targetsFields.append('<option class="gen-container" value="'+cTag+'">'+cTag+'</option>');
@@ -134,8 +130,46 @@
         }
 
       });
+      
+      targetsFields.each( (i,el)=>{
+        const optionsHtml = targetsFields.html();
+        if(el.choicesSettings && el.choicesSettings.destroy)
+          el.choicesSettings.destroy();
+        $(el).html( optionsHtml );
+        $(el).select2({
 
-      targetsFields.select2({
+          templateResult: function(state) {
+          
+            if (!state.id) 
+              
+              return state.text; 
+  
+            var _class = state.element ? $(state.element).attr('class') : '',
+  
+                c      = state.text.indexOf('.') != -1 ? 'gen-field' : 'gen-container',
+  
+                $state = $('<span class="rules-target '+_class+'">' + state.text + '</span>');
+              
+            return $state;
+  
+          }
+  
+        });
+
+        /*new Choices(el,{  
+          callbackOnCreateTemplates: function(template) {
+            console.log(template);
+            return template;
+          }
+        });*/
+
+      } )
+      
+      //new Choices(el,{});
+
+      //callbackOnCreateTemplates: function(template) {
+
+      /*targetsFields.select2({
 
         templateResult: function(state) {
        
@@ -153,7 +187,7 @@
 
         }
 
-      });
+      });*/
 
       separatorlist.resetAll();
 

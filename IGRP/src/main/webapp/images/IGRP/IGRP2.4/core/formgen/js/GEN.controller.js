@@ -1901,14 +1901,18 @@ var GENERATOR = function(genparams){
 		else
 			$(modal.find('.modal-header > ul > li')[0]).click();
 
-		const inputs = $('select',modal);
+		const inputs = $('select:not(.select2)',modal);
 
 		inputs.each( (i,el)=>{
-			if( !$(el).data('select-set') ){
-				new Choices(el,{});
-				$(el).data('select-set', true)
-			}
+			
+			if($(el).data('select2'))
+				$(el).select2('destroy');
+
+			$.IGRP.components.choices.init( $(el) );
+
 		});
+
+		//$('select',modal).select2();
 
 		/*FORM FIELD RULES SET/ SHOW/HIDE*/
 		if(object.formField || $.inArray(object.type,acceptsRules) !== -1)
@@ -2088,6 +2092,7 @@ var GENERATOR = function(genparams){
 		$('.style-setter[rel="id"]',modal).removeAttr('disabled');
 
 		//copy
+		//console.log( $(VARS.html.pageCopySelecter). )
 		$(VARS.html.pageCopySelecter).select2('val','');
 		$(VARS.html.pageCopyContainerList).html('');
 
@@ -3111,6 +3116,8 @@ var GENERATOR = function(genparams){
 			$('#gen-edition-modal .modal-header ul li').removeClass('active');
 
 			$('#gen-edition-modal').attr('view',rel);
+
+			
 
 			$(this).addClass('active');
 		});
