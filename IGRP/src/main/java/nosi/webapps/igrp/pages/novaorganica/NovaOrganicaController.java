@@ -47,7 +47,7 @@ public class NovaOrganicaController extends Controller {
 		view.organizacao_pai.setVisible(false);
 		// view.organica_pai.setValue(model.getAplicacao() != 0 ?
 		// organization.getListOrganizations(model.getAplicacao()) : null);
-
+		view.plsql_code.setVisible(this.configApp.isActiveGlobalACL());
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);
@@ -65,7 +65,7 @@ public class NovaOrganicaController extends Controller {
 		  ----#gen-example */
 		/* Start-Code-Block (gravar) *//* End-Code-Block */
 		/*----#start-code(gravar)----*/
-		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
+		if (Core.isHttpPost()) {
 
 			Organization organization = new Organization();
 			String dad = Core.getCurrentDad();
@@ -127,7 +127,9 @@ public class NovaOrganicaController extends Controller {
 		// organization.getListOrganizations() : null);
 		view.sectionheader_1_text.setValue(gt("Gestão de Orgânica - Atualizar"));
 		view.organizacao_pai.setVisible(false);
+		view.plsql_code.setVisible(this.configApp.isActiveGlobalACL());
 		view.btn_gravar.setLink("editar_&p_id=" + idOrganica);
+		
 		view.setModel(model);
 		return this.renderView(view);
 	}
