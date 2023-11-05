@@ -12,14 +12,15 @@ import nosi.base.ActiveRecord.HibernateUtils;
 @WebListener
 public class BasicListener implements ServletContextListener { 
 	
-    public BasicListener() {} 
 
+    @Override
     public void contextDestroyed(ServletContextEvent arg0)  {
     	HibernateUtils.closeAllConnection();
     	HibernateUtils.unregisterAllDrivers();
 		//System.gc();
     }
     
+	@Override
 	public void contextInitialized(ServletContextEvent arg0)  {
 		nosi.core.db.migration.api.MigrationIGRPInitConfig.start();
 	}
