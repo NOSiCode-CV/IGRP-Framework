@@ -65,41 +65,46 @@ public class WebReportController extends Controller {
 		  ----#gen-example */
 		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
- 		model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=report"));
- 		
-		if(Core.isNotNull(model.getEnv_fk())){
-			Integer env_fk = Core.toInt(model.getEnv_fk());
-			view.datasorce_app.setValue(this.dsh.getListSources(env_fk));
-			RepTemplate  rep = new RepTemplate();
-			List<WebReport.Gen_table> data = new ArrayList<>(); 
-			for(RepTemplate r: rep.find().andWhere("status", "=", 1).andWhere("application", "=", env_fk).all()){
-				StringBuilder params =new StringBuilder();
+
+		model.setLink_doc(this.getConfig().getResolveUrl("tutorial", "Listar_documentos", "index&p_type=report"));
+
+		if (Core.isNotNull(model.getEnv_fk())) {
+
+			final Integer envFk = Core.toInt(model.getEnv_fk());
+			view.datasorce_app.setValue(this.dsh.getListSources(envFk));
+
+			RepTemplate rep = new RepTemplate();
+			List<WebReport.Gen_table> data = new ArrayList<>();
+
+			for (RepTemplate r : rep.find().andWhere("status", "=", 1).andWhere("application", "=", envFk).all()) {
+				StringBuilder params = new StringBuilder();
 				WebReport.Gen_table t1 = new WebReport.Gen_table();
 				List<RepTemplateSource> listParams = new RepTemplateSource().find().andWhere("repTemplate", "=", r.getId()).all();
-				if(!listParams.isEmpty())
-					for(RepTemplateSource param : listParams)
-						if(param.getParameters() != null) 
-							for(RepTemplateSourceParam p:param.getParameters()) 
-								params.append(".addParam(\""+p.getParameter().toLowerCase()+"\",\"?\")");
-				String link = "Core.getLinkReport(\""+r.getCode()+"\")"+params.toString()+"; //or PDF report - Response=> Core.getLinkReportPDF(\""+r.getCode()+"\",new nosi.core.webapp.Report()"+params+");"+"or report HTML - Response=> Core.getLinkReport(\""+r.getCode()+"\",new nosi.core.webapp.Report()"+params+");";
+				if (!listParams.isEmpty())
+					for (RepTemplateSource param : listParams)
+						if (param.getParameters() != null)
+							for (RepTemplateSourceParam p : param.getParameters())
+								params.append(".addParam(\"").append(p.getParameter().toLowerCase()).append("\",\"?\")");
+				String link = "Core.getLinkReport(\"" + r.getCode() + "\")" + params + "; //or PDF report - Response=> Core.getLinkReportPDF(\"" + r.getCode() + "\",new nosi.core.webapp.Report()" + params + ");" + "or report HTML - Response=> Core.getLinkReport(\"" + r.getCode() + "\",new nosi.core.webapp.Report()" + params + ");";
 				t1.setDescricao(link);
-				t1.setLink("igrp_studio", "web-report", "load-template&id="+r.getId());
+				t1.setLink("igrp_studio", "web-report", "load-template&id=" + r.getId());
 				t1.setLink_desc(r.getCode());
 				t1.setId(r.getId());
-				t1.setTitle(r.getName());
+				t1.setTitle(r.getName() + "( " + r.getCode() + " )");
 				data.add(t1);
 			}
 			view.gen_table.addData(data);
-			model.setLink_add_source(this.getConfig().getResolveUrl("igrp","data-source","index&target=_blank&id_env="+model.getEnv_fk()));
-			model.setLink_upload_img(this.getConfig().getResolveUrl("igrp_studio","web-report","save-image&id_env="+model.getEnv_fk()));
-			
-		}else {
-			model.setLink_add_source(this.getConfig().getResolveUrl("igrp","data-source","index&target=_blank"));
-			model.setLink_upload_img(this.getConfig().getResolveUrl("igrp_studio","web-report","save-image"));
+			model.setLink_add_source(this.getConfig().getResolveUrl("igrp", "data-source", "index&target=_blank&id_env=" + model.getEnv_fk()));
+			model.setLink_upload_img(this.getConfig().getResolveUrl("igrp_studio", "web-report", "save-image&id_env=" + model.getEnv_fk()));
+
+		} else {
+			model.setLink_add_source(this.getConfig().getResolveUrl("igrp", "data-source", "index&target=_blank"));
+			model.setLink_upload_img(this.getConfig().getResolveUrl("igrp_studio", "web-report", "save-image"));
 		}
 		view.env_fk.setValue(new Application().getListApps());
-		model.setLink_source(this.getConfig().getResolveUrl("igrp","data-source","get-data-source&target=_blank"));
-		model.setEdit_name_report(this.getConfig().getResolveUrl("igrp_studio","web-report","save-edit-template"));
+		model.setLink_source(this.getConfig().getResolveUrl("igrp", "data-source", "get-data-source&target=_blank"));
+		model.setEdit_name_report(this.getConfig().getResolveUrl("igrp_studio", "web-report", "save-edit-template"));
+
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -117,21 +122,22 @@ public class WebReportController extends Controller {
 		  ----#gen-example */
 		/* Start-Code-Block (gravar)  *//* End-Code-Block  */
 		/*----#start-code(gravar)----*/
+
 		try{
 			Part fileXsl = Core.getFile("p_xslreport");
 			Part fileTxt = Core.getFile("p_textreport");
 			String title = Core.getParam("p_title_report");
 			String code = Core.getParam("p_code");
-			String env_fk = Core.getParam("p_env_fk");
+			String envFk = Core.getParam("p_env_fk");
 			String id = Core.getParam("p_id");			
-			String [] data_sources = Core.getParamArray("p_datasorce_app");
+			String [] dataSources = Core.getParamArray("p_datasorce_app");
 			
 			if(fileTxt!=null && fileXsl!=null){
 				CLob clob_xsl = new CLob();
 				CLob clob_html = new CLob();
 				RepTemplate rt = new RepTemplate();
 				//Save report if not exist
-				if(Core.isNotNullMultiple(env_fk,title,code) && (id==null || id.equals(""))){
+				if(Core.isNotNullMultiple(envFk,title,code) && (id==null || id.isEmpty())){
 					clob_xsl.setC_lob_content(FileHelper.convertToString(fileXsl).getBytes());
 					clob_xsl.setDt_created(new Date(System.currentTimeMillis()));
 					clob_xsl = clob_xsl.insert();
@@ -141,7 +147,7 @@ public class WebReportController extends Controller {
 					rt.setCode(code);
 					rt.setName(title);
 					Application app = new Application();
-					app = app.findOne(Core.toInt(env_fk));
+					app = app.findOne(Core.toInt(envFk));
 					rt.setApplication(app);
 					rt.setXml_content(clob_html);
 					rt.setXsl_content(clob_xsl);
@@ -155,7 +161,7 @@ public class WebReportController extends Controller {
 					rt = rt.insert();	
 				}
 				//Update report if is exist
-				if(Core.isNotNullMultiple(env_fk,id)){
+				if(Core.isNotNullMultiple(envFk,id)){
 					rt = rt.findOne(Core.toInt(id));
 					clob_xsl = clob_xsl.findOne(rt.getXsl_content().getId());
 					clob_html = clob_html.findOne(rt.getXml_content().getId());				
@@ -169,17 +175,17 @@ public class WebReportController extends Controller {
 				RepTemplateSource rts = new RepTemplateSource();
 				rts.deleteAll(rt.getId());//Delete old data source of report
 				
-				if(data_sources!=null && data_sources.length>0){
-					for(String dts:data_sources){
+				if(dataSources!=null && dataSources.length>0){
+					for(String dts:dataSources){
 						rts = new RepTemplateSource(rt, new RepSource().findOne(Core.toInt(dts)));
 						rts.insert();
 					}
 				}
-				String p_datasourcekeys= Core.getParam("p_datasourcekeys");
-				if(Core.isNotNull(p_datasourcekeys)){
+				String dataSourceKeys= Core.getParam("p_datasourcekeys");
+				if(Core.isNotNull(dataSourceKeys)){
 					Gson g = new Gson();
 					@SuppressWarnings("unchecked")
-					List<DataSourceParam> datasources = (List<DataSourceParam>) g.fromJson(p_datasourcekeys, new TypeToken<List<DataSourceParam>>(){}.getType());
+					List<DataSourceParam> datasources = (List<DataSourceParam>) g.fromJson(dataSourceKeys, new TypeToken<List<DataSourceParam>>(){}.getType());
 					if (datasources != null) {
 						for (DataSourceParam p : datasources) {
 							if (Core.isNotNull(p.getId()))
@@ -213,8 +219,10 @@ public class WebReportController extends Controller {
 			}
 		}catch(ServletException e){
 			
-        }	
+        }
+
 		return this.renderView(FlashMessage.MSG_ERROR);
+
 		/*----#end-code----*/
 			
 	}
@@ -236,11 +244,11 @@ public class WebReportController extends Controller {
 		Integer id = Core.getParamInt("p_rep_id");
 		String contraProva= Core.getParam("ctpr");		
 		if(Core.isNotNull(id)){
-			String []name_array = Core.getParamArray("name_array");
-			String []value_array = Core.getParamArray("value_array");
+			String[] nameArray = Core.getParamArray("name_array");
+			String[] valueArray = Core.getParamArray("value_array");
 			RepTemplate rt = new RepTemplate();
 			rt = rt.findOne(id);
-			String genXml = genRenderXml(rt, type, contraProva, name_array, value_array);	
+			String genXml = genRenderXml(rt, type, contraProva, nameArray, valueArray);
 			
 			if(type.equals(Report.PDF_SAVE))
 				return new Report().processPDF(System.currentTimeMillis()+"_"+rt.getName(),rt.getXsl_content(), genXml,"false");
@@ -249,6 +257,7 @@ public class WebReportController extends Controller {
 			return this.renderView(genXml);
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
+
 		/*----#end-code----*/
 			
 	}
@@ -270,11 +279,11 @@ public class WebReportController extends Controller {
 		Integer id = Core.getParamInt("p_rep_id");
 		String contraProva= Core.getParam("ctpr");		
 		if(Core.isNotNull(id)){
-			String []name_array = Core.getParamArray("name_array");
-			String []value_array = Core.getParamArray("value_array");
+			String []nameArrays = Core.getParamArray("name_array");
+			String []valueArrays = Core.getParamArray("value_array");
 			RepTemplate rt = new RepTemplate();
 			rt = rt.findOne(id);
-			String genXml = genRenderXml(rt, type, contraProva, name_array, value_array);				
+			String genXml = genRenderXml(rt, type, contraProva, nameArrays, valueArrays);
 		
 			return new Report().processPDF(System.currentTimeMillis()+"_"+rt.getName(),rt.getXsl_content(), genXml,"false");
 		}
@@ -285,12 +294,8 @@ public class WebReportController extends Controller {
 	}
 	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/	
-	
-	
-	
-	
+
 	/**
-	 * @param id
 	 * @param type save the report or not? 0 not save; 1 save the report to clob
 	 * @param contraProva
 	 * @param name_array
@@ -298,9 +303,9 @@ public class WebReportController extends Controller {
 	 * @return
 	 */
 	public String genRenderXml(RepTemplate rt, String type, String contraProva, String[] name_array, String[] value_array) {
+
 		StringBuilder xml = new StringBuilder();
-		
-		
+
 		List<RepTemplateSource> allRepTemplateSource = new RepTemplateSource().getAllDataSources(rt.getId()); 
 		List<RepTemplateSource> allRepTemplateSourceTask  = allRepTemplateSource.stream().filter(p -> p.getRepSource().getType().equalsIgnoreCase("task")).collect(Collectors.toList()); 
 		allRepTemplateSource.removeIf(p -> p.getRepSource().getType().equalsIgnoreCase("task")); 
@@ -354,7 +359,7 @@ public class WebReportController extends Controller {
 	//Get xsl content of report
 	public Response actionGetXsl() throws IOException{
 		String id = Core.getParam("p_id");
-		String xsl = "";
+		String xsl;
 		if(Core.isNotNull(id)){
 			CLob c = new CLob();
 			c = c.findOne(Core.toInt(id));
@@ -370,33 +375,33 @@ public class WebReportController extends Controller {
 		String p_code = Core.getParam("p_rep_code");
 		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", p_code).one();
 
-		String []name_array = Core.getParamArray("name_array");
-		String []value_array = Core.getParamArray("value_array");
+		String [] nameArrays = Core.getParamArray("name_array");
+		String [] valueArrays = Core.getParamArray("value_array");
 		StringBuilder params = new StringBuilder();
-		if(name_array!=null && value_array!=null && name_array.length > 0 && value_array.length > 0){
-			for(String n:name_array)
-				params.append(("&name_array="+n));
-			for(String v:value_array)
-				params.append(("&value_array="+v));
+		if(nameArrays!=null && valueArrays!=null && nameArrays.length > 0 && valueArrays.length > 0){
+			for(String n:nameArrays)
+				params.append("&name_array=").append(n);
+			for(String v:valueArrays)
+				params.append("&value_array=").append(v);
 		}
 		this.loadQueryString();
 		this.removeQueryString("name_array");
 		this.removeQueryString("value_array");		
 		
 		if(rt!=null)
-			return this.redirect("igrp_studio", "WebReport", "preview&p_rep_id="+rt.getId()+"&p_type="+Report.XSLXML_SAVE+params.toString(),this.queryString());
+			return this.redirect("igrp_studio", "WebReport", "preview&p_rep_id=" + rt.getId() + "&p_type=" + Report.XSLXML_SAVE + params,this.queryString());
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 	
 	
 	
 	
-	private String getData(RepTemplateSource rep,String []name_array,String []value_array) {
+	private String getData(RepTemplateSource rep,String[] nameArray,String []valueArray) {
 		String type = rep.getRepSource().getType().toLowerCase();
 		switch (type) {
 			case "object":
 			case "query":
-				return this.getDataForQueryOrObject(rep,name_array,value_array);
+				return this.getDataForQueryOrObject(rep,nameArray,valueArray);
 			case "page":
 				return this.getDataForPage(rep);
 			default:
@@ -431,13 +436,13 @@ public class WebReportController extends Controller {
 	private String getDataForPage(RepTemplateSource rep) {
 		Action ac= new DataSourceController().getActionReport(rep.getRepSource());
 			if(ac!=null){
-				String actionName = "";
+				StringBuilder actionName = new StringBuilder();
 				for(String aux : ac.getAction().split("-"))
-					actionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-				actionName = "action" + actionName;
+					actionName.append(aux.substring(0, 1).toUpperCase()).append(aux.substring(1));
+				actionName.insert(0, "action");
 				Core.setAttribute("current_app_conn", ac.getApplication().getDad());	
 				String controllerPath = this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction());			
-				Object ob = Controller.loadPage(controllerPath,actionName);
+				Object ob = Controller.loadPage(controllerPath, actionName.toString());
 				Core.removeAttribute("current_app_conn");
 				if(ob!=null){
 					Response resp = (Response) ob;
@@ -455,11 +460,11 @@ public class WebReportController extends Controller {
 	}
 
 
-	private String getDataForQueryOrObject(RepTemplateSource rep,String []name_array,String []value_array) {
+	private String getDataForQueryOrObject(RepTemplateSource rep,String []nameArray,String []valueArray) {
 		String query = rep.getRepSource().getType_query();
 		query = rep.getRepSource().getType().equalsIgnoreCase("object")?("SELECT * FROM "+query):query;
 		query += rep.getRepSource().getType().equalsIgnoreCase("query") && !query.toLowerCase().contains("where")?" WHERE 1=1 ":""; 
-		String rowsXml = this.dsh.getSqlQueryToXml(query, name_array, value_array,rep.getRepTemplate(),rep.getRepSource());
+		String rowsXml = this.dsh.getSqlQueryToXml(query, nameArray, valueArray,rep.getRepTemplate(),rep.getRepSource());
 		return this.processPreview(rowsXml,rep,rep.getRepSource());
 	}
 
@@ -477,18 +482,18 @@ public class WebReportController extends Controller {
 	}
 
 	//Load report, load all configuration of report
-	public Response actionLoadTemplate() throws IOException{
+	public Response actionLoadTemplate() throws IOException {
 		String id = Core.getParam("id");
 		String json = "";
-		if(id!=null && !id.equals("")){
+		if (id != null && !id.isEmpty()) {
 			RepTemplate rt = new RepTemplate().findOne(Core.toInt(id));
 			CLob clob = new CLob().findOne(rt.getXml_content().getId());
-			String data_sources = "";
-			for(RepTemplateSource r:new RepTemplateSource().getAllDataSources(rt.getId())){
-				data_sources+=""+r.getRepSource().getId()+",";
+			StringBuilder dataSources = new StringBuilder();
+			for (RepTemplateSource r : new RepTemplateSource().getAllDataSources(rt.getId())) {
+				dataSources.append(r.getRepSource().getId()).append(",");
 			}
-			data_sources = (!data_sources.equals(""))?data_sources.substring(0, data_sources.length()-1):"";
-			json = "{\"textreport\":"+new String(clob.getC_lob_content())+",\"datasorce_app\":\""+data_sources+"\"}";
+			dataSources = new StringBuilder((dataSources.length() > 0) ? dataSources.substring(0, dataSources.length() - 1) : "");
+			json = "{\"textreport\":" + new String(clob.getC_lob_content()) + ",\"datasorce_app\":\"" + dataSources + "\"}";
 		}
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(json);
@@ -520,8 +525,8 @@ public class WebReportController extends Controller {
 		User user = null;
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){
 			user = new User();
-			Integer user_id = Core.getCurrentUser().getId();			
-			user = user.findOne(user_id);
+			Integer userId = Core.getCurrentUser().getId();
+			user = user.findOne(userId);
 		}		
 		String content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replace("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contraProva, rt,user,type);
 		if(type.equals(Report.XSLXML_SAVE) || type.equals(Report.PDF_SAVE)){
@@ -548,7 +553,7 @@ public class WebReportController extends Controller {
 		return content;
 	}
 	
-	private String getReport(String contentXml,String xslPath,String contra_prova,RepTemplate rt,User user, String type){
+	private String getReport(String contentXml,String xslPath,String contraProva,RepTemplate rt,User user, String type){
 		XMLWritter xmlW = new XMLWritter("rows", xslPath, "");
 		xmlW.startElement("print_report");
 			xmlW.setElement("name_app",rt.getApplication().getDad());
@@ -556,17 +561,17 @@ public class WebReportController extends Controller {
 			switch (type) {
 			case Report.PDF_PRV:
 			case Report.PDF_SAVE:
-				xmlW.setElement("link_qrcode",Core.getLinkContraProvaPDF(contra_prova,""+rt.getApplication().getId(),false));
+				xmlW.setElement("link_qrcode",Core.getLinkContraProvaPDF(contraProva,""+rt.getApplication().getId(),false));
 				break;
 			default:
-				xmlW.setElement("link_qrcode",Core.getLinkContraProva(contra_prova));
+				xmlW.setElement("link_qrcode",Core.getLinkContraProva(contraProva));
 				break;
 			}
 			xmlW.setElement("img_brasao", "brasao.png");
 			xmlW.emptyTag("name_brasao");
 			xmlW.setElement("data_print",new Date(System.currentTimeMillis()).toString());
 			xmlW.setElement("name_contraprova", "Contra Prova");
-			xmlW.setElement("value_contraprova", contra_prova);
+			xmlW.setElement("value_contraprova", contraProva);
 			xmlW.setElement("user_print",user!=null?user.getName():"Anonimous");
 			xmlW.setElement("link_img",this.getConfig().getLinkImg()+"/");
 			xmlW.setElement("template", "por adicionar");
@@ -602,9 +607,8 @@ public class WebReportController extends Controller {
 	 * Upload image file into server
 	 * @return
 	 * @throws IOException
-	 * @throws ServletException
 	 */
-	public Response actionSaveImage()  throws IOException, ServletException {
+	public Response actionSaveImage()  throws IOException {
 		boolean r = false;
 		String fileName="";
 		Integer id_env=  Core.getParamInt("id_env");
@@ -616,16 +620,18 @@ public class WebReportController extends Controller {
 			if (file != null) {
 				fileName = file.getSubmittedFileName();
 				if(Core.isNotNull(fileName)) {
-					fileName= fileName.replaceAll("\\s+", "_").replaceAll("\'", "");					
+					fileName= fileName.replaceAll("\\s+", "_").replace("\'", "");
 					int index = fileName.lastIndexOf(".");
 					if(index!=-1) {
 						String extensionName = fileName.substring(index+1);
-						
-						String workSpace = Path.getImageWorkSpace((env.equals("")?"":env+File.separator)+"reports");
+
+						final String nameApp = (env.isEmpty() ? "" : env + File.separator) + "reports";
+						String workSpace = Path.getImageWorkSpace(nameApp);
+
 						if(Core.isNotNull(workSpace))//Saving in your workspace case exists
 							FileHelper.saveImage(workSpace, fileName,extensionName.toLowerCase(), file);
 						//Saving into server
-						r = FileHelper.saveImage(Path.getImageServer((env.equals("")?"":env+File.separator)+"reports"), fileName,extensionName.toLowerCase(), file);
+						r = FileHelper.saveImage(Path.getImageServer(nameApp), fileName,extensionName.toLowerCase(), file);
 					}
 				}
 			}
@@ -642,9 +648,7 @@ public class WebReportController extends Controller {
 	/**
 	 * Read and display image from server
 	 * @return
-	 * @throws IOException
 	 * @throws IllegalArgumentException
-	 * @throws IllegalAccessException
 	 */
 	public Response actionGetImage()  throws IllegalArgumentException {
 		Response resp = new Response();
@@ -659,7 +663,7 @@ public class WebReportController extends Controller {
 		return resp;
 	}
 	
-	private DataSourceController ds = new DataSourceController();
-	private DataSourceHelpers dsh = new DataSourceHelpers(); 
+	private final DataSourceController ds = new DataSourceController();
+	private final DataSourceHelpers dsh = new DataSourceHelpers();
 	/*----#end-code----*/
 }
