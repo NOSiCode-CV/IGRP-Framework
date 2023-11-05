@@ -6,3 +6,5 @@ WebContent/WEB-INF/config/app/
 /Export Jar Save.jardesc
 .DS_Store
 /.classpath
+/.settings/
+
