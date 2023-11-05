@@ -42,13 +42,13 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	public QueryInterface where(String name, String operator, String value) {
 		if(value!=null) {
 			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
-			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equals("notlike")) {
+//			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equals("notlike")) {
 				this.where("");
 				this.sql += " UPPER("+name+") "+operator+":"+name_;
-			}else {
-				this.where("");
-				this.sql += " UPPER("+name+") "+operator+":"+name_;
-			}
+//			}else {
+//				this.where("");
+//				this.sql += " UPPER("+name+") "+operator+":"+name_;
+//			}
 			this.addString(name_, value.toUpperCase());
 		}
 		return this;
@@ -199,11 +199,11 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 		if(value!=null) {
 			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.or();
-			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equalsIgnoreCase("notlike")) {
+//			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equalsIgnoreCase("notlike")) {
 				this.filterWhere(" UPPER("+name+") "+operator+" :"+name_+" ").addString(name_, value.toUpperCase());
-			}else {
-				this.filterWhere(" UPPER("+name+") "+operator+" :"+name_+" ").addString(name_, value.toUpperCase());
-			}
+//			}else {
+//				this.filterWhere(" UPPER("+name+") "+operator+" :"+name_+" ").addString(name_, value.toUpperCase());
+//			}
 		}
 		return this;
 	}
