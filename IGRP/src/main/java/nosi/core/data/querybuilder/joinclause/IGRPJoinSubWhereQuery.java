@@ -201,14 +201,14 @@ public abstract class IGRPJoinSubWhereQuery<E> extends IGRPQueryBase<E> implemen
 
 
    @Override
-   public IIGRPWhereOnlyQuery<E> between(String column, LocalDate from, LocalDate to) {
+   public IGRPJoinSubWhereQuery<E> between(String column, LocalDate from, LocalDate to) {
       this.addPredicate(this.getCriteriaBuilder().between(join.get(column), from, to));
       return this;
    }
 
 
    @Override
-   public IIGRPWhereOnlyQuery<E> between(String column, LocalDateTime from, LocalDateTime to) {
+   public IGRPJoinSubWhereQuery<E> between(String column, LocalDateTime from, LocalDateTime to) {
       this.addPredicate(this.getCriteriaBuilder().between(join.get(column), from, to));
       return this;
    }
@@ -274,7 +274,7 @@ public abstract class IGRPJoinSubWhereQuery<E> extends IGRPQueryBase<E> implemen
 
 
    @Override
-   public IIGRPWhereOnlyQuery<E> betweenIf(String column, LocalDate from, LocalDate to,
+   public IGRPJoinSubWhereQuery<E> betweenIf(String column, LocalDate from, LocalDate to,
                                            BiPredicate<LocalDate, LocalDate> validateExpression) {
       if (validateExpression.test(from, to))
          return this.between(column, from, to);
@@ -282,7 +282,7 @@ public abstract class IGRPJoinSubWhereQuery<E> extends IGRPQueryBase<E> implemen
    }
 
    @Override
-   public IIGRPWhereOnlyQuery<E> betweenIf(String column, LocalDateTime from, LocalDateTime to,
+   public IGRPJoinSubWhereQuery<E> betweenIf(String column, LocalDateTime from, LocalDateTime to,
                                            BiPredicate<LocalDateTime, LocalDateTime> validateExpression) {
       if (validateExpression.test(from, to))
          return this.between(column, from, to);
