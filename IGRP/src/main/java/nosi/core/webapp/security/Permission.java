@@ -71,7 +71,7 @@ public class Permission {
 					 profType.setId(prof.getProfileType().getId());
 					 ApplicationPermition appP = this.getApplicationPermition(dad);
 					 if(appP==null) {
-						 appP = new ApplicationPermition(app.getId(),dad, org.getId(),profType.getId(),prof.getOrganization()!=null? prof.getOrganization().getCode():null,prof!=null && prof.getProfileType()!=null?prof.getProfileType().getCode():null);
+						 appP = new ApplicationPermition(app.getId(),dad, org.getId(),profType.getId(),prof.getOrganization()!=null? prof.getOrganization().getCode():null, prof.getProfileType()!=null?prof.getProfileType().getCode():null);
 					}
 					 this.applicationPermition = appP;
 					 this.setCookie(appP);
