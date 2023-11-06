@@ -64,16 +64,17 @@ if($ && $.IGRP && !$.IGRP.rules){
 					if(remote.indexOf('{') == 0){
 						try{
 							const object = JSON.parse(remote.replaceAll("'",'"'));
-							remote = object['remote-'+p.name];
+							remote = object['remote-'+p.procedureName];
 							return remote;
 						}catch(err){
+							console.log(err)
 							return defaultRemote;
 						}
 					}else{
 						return remote;
 					}
-				}() : defaultRemote
-			
+				}() : defaultRemote;
+
 			return url;
 		},
 
@@ -841,6 +842,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 					p.sourceField[0].remoteRequest.abort();
 				
 				p.sourceField.addClass('remote-requesting');
+
+		
 			
 				p.sourceField[0].remoteRequest = $.IGRP.request( $.IGRP.rules.getRemoteUrl(p) ,{
 					params  : getParam(p),

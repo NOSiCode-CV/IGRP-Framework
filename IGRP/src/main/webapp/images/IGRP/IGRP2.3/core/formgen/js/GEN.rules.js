@@ -94,7 +94,7 @@
                 proc    = a.procedure;
 
             a.procedure = GEN.SETTINGS.gentype == 'java' ? 'webapps?r='+GEN.DETAILS.app+'/'+GEN.DETAILS.page+'/'+proc : app+'.'+package+'.'+proc;
-
+            a.procedureName = proc;
           }
 
         });
