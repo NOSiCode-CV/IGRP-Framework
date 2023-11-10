@@ -101,7 +101,6 @@ public class PageController extends Controller {
 		} else {
 			// NEW page
 			model.setStatus(1);
-			model.setCriar_menu(1);
 			model.setGen_auto_code(1);
 		}
 
