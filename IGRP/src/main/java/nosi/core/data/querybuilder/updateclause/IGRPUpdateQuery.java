@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.SingularAttribute;
+import java.util.function.Predicate;
 
 /**
  * william.fonseca
@@ -19,9 +20,19 @@ public class IGRPUpdateQuery<E> extends IGRPUpdateQueryBase<E> implements IIGRPU
    }
 
    @Override
+   public <V> IGRPUpdateQuery<E> setIf(SingularAttribute<E, V> attribute, V value, Predicate<V> validateExpression) {
+      return validateExpression.test(value) ? this.set(attribute, value) : this;
+   }
+
+   @Override
    public <V> IGRPUpdateQuery<E> set(SingularAttribute<E, V> attribute, V value) {
       this.getCriteriaUpdateQuery().set(this.getRoot().get(attribute), value);
       return this;
+   }
+
+   @Override
+   public IGRPUpdateQuery<E> setIf(String attribute, Object value, Predicate<Object> validateExpression) {
+      return validateExpression.test(value) ? this.set(attribute, value) : this;
    }
 
    @Override
