@@ -3492,7 +3492,7 @@ public final class Core {
 		if (vars != null) {
 			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
-					.collect(Collectors.toList());
+					.toList();
 			return (variav != null && !variav.isEmpty()) ? "" + variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
@@ -3510,7 +3510,7 @@ public final class Core {
 		if (vars != null) {
 			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
-					.collect(Collectors.toList());
+					.toList();
 			return (variav != null && !variav.isEmpty()) ? "" + variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
@@ -3699,7 +3699,7 @@ public final class Core {
 		if (vars != null) {
 			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
-					.collect(Collectors.toList());
+					.toList();
 			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : null;
 		}
 		return null;
@@ -3710,7 +3710,7 @@ public final class Core {
 		if (vars != null) {
 			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
-					.collect(Collectors.toList());
+					.toList();
 			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : null;
 		}
 		return null;
@@ -3721,7 +3721,7 @@ public final class Core {
 		if (vars != null) {
 			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + "p_task_id"))
-					.collect(Collectors.toList());
+					.toList();
 			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
