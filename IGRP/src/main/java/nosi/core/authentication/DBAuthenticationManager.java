@@ -2,6 +2,7 @@ package nosi.core.authentication;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.User;
 
@@ -10,13 +11,15 @@ public final class DBAuthenticationManager {
 	private DBAuthenticationManager() {}
 	
 	public static boolean authenticate(String username, String password, HttpServletRequest request) {
+		if(Core.isNullMultiple(username,password))
+			return false;
+					
 		User user = new User().findIdentityByUsername(username);
 		if (user == null) {
 			user = new User().findIdentityByEmail(username);
 			if (user != null)
 				username=user.getUser_name();
 		}
-			
 		if (user != null && user.validate(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256"))) {
 			if(user.getStatus() == 1) {
 				Profile profile = new Profile().getByUser(user.getId());
@@ -35,7 +38,7 @@ public final class DBAuthenticationManager {
 		currentUser.setIsAuthenticated(0); 
 		currentUser.update();
 		AuthenticationManager.destroySecurityContext(request.getSession(false), response);
-		AuthenticationManager.afterLogout(request.getRequestedSessionId());
+		AuthenticationManager.afterLogout(request.getSession().getId());
 		AuthenticationManager.clearAllCookieExceptLocale(request, response);
 	}
 
