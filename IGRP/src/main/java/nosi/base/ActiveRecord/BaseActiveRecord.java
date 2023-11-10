@@ -14,8 +14,6 @@ import java.util.UUID;
 
 import javax.persistence.Id;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
-import org.hibernate.jpa.QueryHints;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -26,6 +24,9 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.jpa.QueryHints;
+import org.hibernate.query.Query;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;

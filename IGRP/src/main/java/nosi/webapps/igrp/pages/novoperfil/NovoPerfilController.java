@@ -66,7 +66,8 @@ public class NovoPerfilController extends Controller {
 		}
 
 		view.igrp_code.setVisible(false);
-
+	//	view.igrp_code.setVisible(this.configApp.isActiveGlobalACL());
+		
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
