@@ -10,6 +10,6 @@ public class NumberField extends TextField {
 
 	public NumberField(Object model,String name){
 		super(model,name);
-		this.propertie.put("type","number");
+		this.propertie().put("type","number");
 	}
 }
