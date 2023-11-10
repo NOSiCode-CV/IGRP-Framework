@@ -4,7 +4,7 @@
     <delete>eliminar</delete>
     <properties>propriedades</properties>
     <fields>campos</fields>
-    <style>estilo</style>
+    <style>css</style>
     <validations>validações</validations>
     <annotations>anotações</annotations>
     <xsl>xsl</xsl>
@@ -30,12 +30,12 @@
 
     <separator-list-no-data-found>Lista vazia. Clique em Adicionar para inserir dados na tabela</separator-list-no-data-found>
 
-    <table-striped>linhas listradas</table-striped>
+    <table-striped>listrado</table-striped>
 
     <gen-container-empty>componente sem campo definido</gen-container-empty>
     <gen-container-add-field>adicione um campo clicando no painel à esquerda</gen-container-add-field>
     <gen-click-drag-to-add>clique para adicionar</gen-click-drag-to-add>
-    <gen-table-header-style>Cor do cabeçalho</gen-table-header-style>
+    <gen-table-header-style>Cabeçalho</gen-table-header-style>
     
     <gen-show-title>mostrar título</gen-show-title>
     <gen-tag-property-label>identificador</gen-tag-property-label>
@@ -46,8 +46,12 @@
     <gen-button-type>Cor</gen-button-type>
     <gen-icon-lib>Tipo de Ícone</gen-icon-lib>
     <gen-page-header-tab>Conteúdos em Tab</gen-page-header-tab>
+    <gen-contextmenu-type>Tipo de Ação</gen-contextmenu-type>
+    <gen-allow-order>Permitir ordenação</gen-allow-order>
     <gen-table-has-filter>Mostrar Filtro</gen-table-has-filter>
- 
+    <gen-colors-legend>Legenda de Cores</gen-colors-legend>
+    <gen-colors-legend-map>Mapear</gen-colors-legend-map>
+    
 
     <ui-white>branco</ui-white>
     <ui-gray>cinza</ui-gray>

@@ -628,9 +628,14 @@ body.startin:after{
 }
 
 .gen-properties-setts-holder[rel="fields"] .available-wrapper .available-fields{
-    max-height: 380px;
+    max-height: calc(75vh - 140px);
     overflow: auto;
-    min-height: calc(100% - 80px );
+ 
+}
+
+.current-wrapper{
+    max-height: 75vh;
+    overflow: auto;
 }
 
 .available-fields::-webkit-scrollbar {

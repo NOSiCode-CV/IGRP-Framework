@@ -118,3 +118,11 @@ h6>p{
     padding-left: 1.5rem!important;
     background-color: var( --vz-header-bg);
 }
+
+.bg-light-subtle {
+    background-color: #f9fbfc;
+  }
+  
+  [data-layout-mode="dark"] .bg-light-subtle{
+    background-color: #25282c;
+  }

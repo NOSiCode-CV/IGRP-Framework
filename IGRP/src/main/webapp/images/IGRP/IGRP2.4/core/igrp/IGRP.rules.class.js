@@ -1025,7 +1025,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 			do:function(p){
 				
 				$.each(p.targetFields,function(i,t){
-					$('input,select,textarea',t).val('');
+					$('input,select,textarea',t).val('').trigger('change');
 				});
 
 			}

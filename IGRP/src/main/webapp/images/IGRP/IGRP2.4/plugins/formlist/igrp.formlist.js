@@ -67,6 +67,8 @@
 
                 },20);
 
+                console.log(TABLE);
+                
                 TABLE[0].events.execute('row-reset',vObjTr);
                 
                 TABLE.trigger('formlist:row-reset', [{
@@ -278,7 +280,7 @@
                     $('thead',element).append( 
                         `
                         <th class="table-btn add text-end" style="width:1px">
-                            <a class="formlist-row-add fs-16 link-success   d-flex align-items-center justify-content-center" rel="${rel}" title="Adicionar" data-toggle="tooltip" data-placement="left">
+                            <a class="formlist-row-add fs-16 btn btn-sm btn-primary bg-primary  d-flex align-items-center justify-content-center" rel="${rel}" title="Adicionar" data-toggle="tooltip" data-placement="left">
                                 <i class="ri-menu-add-fill"/>
                             </a>
                         </th>
@@ -288,7 +290,7 @@
                     $('tbody tr',element).append( 
                         `
                         <td class="table-btn delete text-end" data-row="0">
-                        <span class="formlist-row-remove fs-16 link-danger d-flex align-items-center justify-content-center" rel="formlist_1" title="Remover" data-toggle="tooltip" data-placement="bottom">
+                        <span class="formlist-row-remove fs-16 link-danger d-flex align-items-center justify-content-center" rel="${rel}" title="Remover" data-toggle="tooltip" data-placement="bottom">
                             <i class="ri-delete-bin-6-line"/>
                         </span>
                         </td>
