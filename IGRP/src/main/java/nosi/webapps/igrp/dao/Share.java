@@ -109,8 +109,11 @@ public class Share extends IGRPBaseActiveRecord<Share> implements Serializable{
 	}
 	
 	public List<Share> getAllSharedResources(int appOrigem, int appDestino, String type){
-		List<Share> results = new ArrayList<Share>();
-		results = this.find().andWhere("owner.id", "=", appOrigem).andWhere("env.id", "=", appDestino).andWhere("type", "=", type).all();
+		List<Share> results = new ArrayList<>();
+		results = this.find().andWhere("owner.id", "=", appOrigem)
+				.andWhere("env.id", "=", appDestino)
+				.andWhere("type", "=", type)
+				.all();
 		return results;
 	}
 	
@@ -123,6 +126,16 @@ public class Share extends IGRPBaseActiveRecord<Share> implements Serializable{
 			.andWhere("status", "=", 1)
 			.one();
 		return s!=null;
+	}
+	public boolean isTransactionShared(Integer transactionId,Integer appId, Integer appIdOwner) {
+		if(transactionId==null)
+			return false;
+		return new Share().find()
+				.andWhere("type_fk", "=", transactionId)
+				.andWhere("status", "=", 1)
+				.andWhere("env.id", "=", appId)
+				.andWhere("owner.id", "=", appIdOwner)
+				.one()!=null;
 	}
 
 	public String getProcessKey() {
