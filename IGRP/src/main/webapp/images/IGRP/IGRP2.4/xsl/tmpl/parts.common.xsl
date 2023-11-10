@@ -135,7 +135,7 @@
         <xsl:param name="has-filter" select="'true'"/>
         <xsl:param name="filter-type" select="'default'"/>
 
-        <xsl:if test="$show-title">
+        <xsl:if test="$show-title = 'true' and $title != ''">
             <div class="card-header d-flex align-items-center">
                 <h3 class="card-title">
                     <xsl:value-of select="$title"/>
@@ -928,6 +928,7 @@
         <xsl:param name="style" select="'btn'"/>
         <xsl:param name="rounded"/>
         <xsl:param name="position"/>
+        <xsl:param name="size"/>
         <xsl:param name="fixed-btn-class" select="'btn-default'"/>
 
         <xsl:variable name="refresh_components" select="@refresh_components"></xsl:variable>
@@ -1022,6 +1023,7 @@
                             <xsl:with-param name="img-folder" select="$img-folder"/>
                             <xsl:with-param name="style" select="$style"/>
                             <xsl:with-param name="rounded" select="$rounded"/>
+                            <xsl:with-param name="size" select="$size"/>
                         </xsl:call-template>
                     </xsl:when>
                     <xsl:otherwise>
@@ -1070,6 +1072,7 @@
         <xsl:param name="style" select="'btn'"/>
         <xsl:param name="rounded"/>
         <xsl:param name="position"/>
+        <xsl:param name="size"/>
         <xsl:param name="fixed-btn-class" select="''"/>
 
         <xsl:variable name="refresh_components" select="@refresh_components"></xsl:variable>
@@ -1153,6 +1156,7 @@
                             <xsl:with-param name="img-folder" select="$img-folder"/>
                             <xsl:with-param name="style" select="$style"/>
                             <xsl:with-param name="rounded" select="$rounded"/>
+                            <xsl:with-param name="size" select="$size"/>
                         </xsl:call-template>
                     </xsl:when>
                     <xsl:otherwise>
@@ -1199,6 +1203,9 @@
                     <xsl:if test="$rounded = 'true'">
                         <xsl:value-of select="' rounded-pill'"/>
                     </xsl:if>
+                    <xsl:if test="$size != ''">
+                        <xsl:value-of select="concat(' btn-',$size)"/>
+                    </xsl:if>
                 </xsl:attribute>
                 <xsl:call-template name="igrp-get-icon-item-with-color">
                     <xsl:with-param name="list" select="substring-after($list,$delimiter)"/>
@@ -1208,6 +1215,8 @@
                     <xsl:with-param name="img-folder" select="$img-folder"/>
                     <xsl:with-param name="style" select="$style"/>
                     <xsl:with-param name="rounded" select="$rounded"/>
+                    <xsl:with-param name="size" select="$size"/>
+                    
                 </xsl:call-template>
             </xsl:when>
             <xsl:otherwise>
@@ -1252,37 +1261,17 @@
                 <xsl:variable name="msg-type">
                     <xsl:call-template name="igrp-msg-transform"/>
                 </xsl:variable>
-
                 <xsl:variable name="msg-icon">
                     <xsl:call-template name="igrp-msg-icon"/>
                 </xsl:variable>
-
-
                 <div class="alert alert-{$msg-type} alert-border-left alert-dismissible fade show" role="alert">
-                    <span class="disable-output-escaping "><xsl:value-of select="." disable-output-escaping="yes"/></span>
+                    <span class="disable-output-escaping ">
+                        <xsl:value-of select="." disable-output-escaping="yes"/>
+                    </span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-
             </xsl:if>
-            
-
         </xsl:for-each>
-    </xsl:template>
-    
-    <xsl:template name="igrp-theme-colors-script" mode="igrp-theme-colors-script" match="*">
-        <script>
-
-            $.IGRP.theme = {
-                name:"<xsl:value-of select="$defined-template"/>",
-                colors : {
-                <xsl:for-each select="colors/color">
-                    <xsl:value-of select="@name"/>:"<xsl:value-of select="."/>"<xsl:if test="position() != last()">,</xsl:if>
-                </xsl:for-each>
-                }
-            };
-            
-            
-        </script>
     </xsl:template>
 
     <xsl:template name="igrp-page-attributes">

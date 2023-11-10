@@ -1,3 +1,7 @@
+@import url('../../libs/datatable/dataTables.bootstrap5.min.css');
+@import url('../../libs/datatable/responsive.bootstrap.min.css');
+/*@import url('../../libs/datatable/buttons.dataTables.min.css');*/
+
 .igrp-table .igrp-table-ctx-th{
     width: 1px;;
 }
@@ -24,3 +28,6 @@
     border-bottom: 0;
 }
 
+
+
+table-ctx-holder{}

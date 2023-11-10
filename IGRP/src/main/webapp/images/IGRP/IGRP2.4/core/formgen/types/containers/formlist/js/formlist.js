@@ -205,7 +205,7 @@
 
 		var tableProperties = GEN.getGlobalProperty('table-style');
 
-		container.setPropriety({
+		/*container.setPropriety({
 			name:'filterTemplate',
 			value:false,
 			editable:false,
@@ -222,7 +222,7 @@
 	                    '<xsl:with-param name="type" select="'+filter+'"/>'+
 	                  '</xsl:call-template>';
 			}
-		});
+		});*/
 		
 		container.setPropriety({
 			name:'filter',

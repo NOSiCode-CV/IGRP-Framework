@@ -1,14 +1,16 @@
-<div class="card igrp-table" >
+<div class="card igrp-table  datatable " >
 	<xsl:apply-templates mode="igrp-table-header" select="#path#">
 		<xsl:with-param name="title" select="'#[title]#'"/>
 		<xsl:with-param name="show-title" select="'#[hasTitle]#'"/>
 		<xsl:with-param name="has-filter" select="'#[has_filter]#'"/>
+		<xsl:with-param name="length-change" select="'#[length_change]#'"/>
+		<xsl:with-param name="search" select="'#[search]#'"/>
 	</xsl:apply-templates>
 	#[filterTemplate]#
 	<div class="card-body p-0">
 		<div>
-			<div class="table-responsive table-card m-0">
-				<table class="table align-middle #[hoverable]# #[striped]# #[bordered]#" id="table-#tag#">
+			<div class="w-100 table-card m-0">
+				<table class="table border-top  dt-responsive overflow-auto mt-0 align-middle #[hoverable]# #[striped]# #[bordered]#" id="table-#tag#" data-paging="#[pagination]#" data-info="#[pagination]#" style="width:100%!important;max-width:100%!important;margin-top:0!important;margin-bottom:0!important">
 					<thead class="#[tableHeaderStyle]# border-top">
 						<tr gen-id="drop-zone" gen-field-template="th">
 							#[ctxInlineHeadTmpl]#

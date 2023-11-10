@@ -107,14 +107,12 @@
                   <div class="row">
                         <div class="col-lg-2  col-md-3 sidebar tree-list shadow d-none d-md-block" id="igrp-sidebar" bg-color="secondary">
                             
-                            <div class="d-flex align-items-center px-3 pt-4">
-                                <div>
-                                    <img src="{$path}/core/formgen/img/logo-gen-white.png"/>
-                                </div>
+                            <a class="d-flex align-items-center px-3 pt-4" href="{rows/link}">
+                                <img src="{$path}/core/formgen/img/logo-gen-white.png"/>
                                 <div class="studio-name">
-                                    <b>IGRP STUDIO</b>
+                                    <b>STUDIO</b>
                                 </div>
-                            </div>
+                            </a>
 
                             <div class="gen-components-search px-3 mt-4 position-relative d-none">
                                 
@@ -857,11 +855,12 @@
           
           <script src="{$path}/core/formgen/js/v2/GEN.groupContainerMenus.js"></script>
 
-          <script src="{$path}/core/formgen/js/v2/GEN.tableProperties.js"></script>
+          <script src="{$path}/core/formgen/js/v2/GEN.props.js"></script>
+          <script src="{$path}/core/formgen/js/v2/GEN.props.table.js"></script>
+          <script src="{$path}/core/formgen/js/v2/GEN.props.action.js"></script>
+          <script src="{$path}/core/formgen/js/v2/GEN.props.icon.js"></script>
 
-          <script src="{$path}/core/formgen/js/v2/GEN.actionProperties.js"></script>
-
-          <script src="{$path}/core/formgen/js/v2/GEN.iconProperties.js"></script>
+          
 
           <script src="{$path}/core/formgen/js/v2/GEN.headers.controller.js"></script>
           
@@ -942,6 +941,7 @@
         <script src="{$themePath}/assets/js/plugins.js"></script>
 
         <script src="{$path}/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+        
 
 
          <!-- NOT ASYNC JS-->   
@@ -966,6 +966,7 @@
         <script src="{$path}/core/igrp/IGRP.core.js?v={$version}" ></script>
         <!-- IGRP globalModal
         not async -->
+        <script src="{$path}/components/select.choices/select.choices.js"></script>
         <script src="{$path}/core/igrp/globalmodal/IGRP.globalModal.js?v={$version}"  ></script>
         <!-- IGRP iframeNavigation 
         not async -->
@@ -990,6 +991,8 @@
         <script src="{$path}/core/igrp/xml.xslt/xml.xsl.transform.js?v={$version}" ></script>
         <!-- IGRP handler -->
         <script encode="utf-8" src="{$path}/core/igrp/IGRP.handler.js?v={$version}" ></script>
+
+
 
         <xsl:call-template name="igrp-global-scripts"></xsl:call-template>
        

@@ -35,17 +35,19 @@ $.fn.XMLTransform = function(params) {
 
  	//SET DIV CONTENT FROM TRANSFORMATION
  	var setContent = function(content){
-
- 		setTimeout(function(){
- 			
- 			if(params.method && params.method == 'replace')
- 				element.replaceWith(content);
- 			else
- 				element.html(content);
- 		
- 			done(content);
- 			
- 		},150);		
+		setTimeout(function(){
+			if(params.method && params.method == 'replace'){
+			   if(params.replaceSelector)
+				   element.find(params.replaceSelector).replaceWith(  $(content).find(params.replaceSelector) )
+			   else
+				   element.replaceWith(content);
+		   }
+			else
+				element.html(content);
+		
+			done(content);
+			
+		},150);	
  	}
  	//TRANSFORM
  	var start = function(){
@@ -438,7 +440,7 @@ $.fn.XMLTransform = function(params) {
  			dataType: p.dataType ? p.dataType : 'xml',
  			data    : p.data ? p.data : null,
  			method  : p.method ? p.method.toUpperCase() : 'GET',
- 			type    : p.method ? params.method.toUpperCase() : 'GET',
+ 			type    : p.method ? p.method.toUpperCase() : 'GET',
  			success : p.callback,
  			error   : errorHandler,
  			fail    : errorHandler

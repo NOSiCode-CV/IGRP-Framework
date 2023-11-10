@@ -42,7 +42,7 @@ var GENERATOR = function(genparams){
 	GEN.defaultIncludes  = ['IGRP-functions.tmpl', 'IGRP-variables.tmpl','IGRP-home-include.tmpl','IGRP-utils.tmpl', 'parts.common','parts.head','parts.header','parts.scripts', 'parts.footer','parts.sidebar'];
 
 
-	GEN.globalProperties = {};
+	
 
 	/**<xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=14"/>
     <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=14"/>
@@ -136,18 +136,9 @@ var GENERATOR = function(genparams){
 		
 	};
 
-	GEN.defineGlobalProperty = function( name, p ){
-		GEN.globalProperties[name] = p;
-	}
-	GEN.getGlobalProperty = function(name){
-		return GEN.globalProperties[name] && typeof GEN.globalProperties[name] === 'function' ? GEN.globalProperties[name] : ()=>{}
-	}
-
+	
 	GEN.init = function(){
 		setVars();
-		
-		
-
 		getConfigData();
 		getBaseXSL();
 		setEvents();
@@ -696,7 +687,7 @@ var GENERATOR = function(genparams){
 
 					container.GET.fields().forEach(function(f){
 
-						container.removeField(f.id,false)
+						container.removeField(f.id,false,false)
 
 					});
 
@@ -756,7 +747,7 @@ var GENERATOR = function(genparams){
 			var declared   = GEN['getDeclared'+capitalizeFirstLetter(objectType)+'s'] ? GEN['getDeclared'+capitalizeFirstLetter(objectType)+'s'](dropped.name) : null;
 
 
-			//console.log(dropped)
+			console.log(dropped)
 			
 			if(declared){
 
@@ -1140,6 +1131,7 @@ var GENERATOR = function(genparams){
 
 		
 		switch(type){
+			
 			//OPTIONS / comboboxx
 			case 'select':
 				var canAdd   = objectProperties.canAdd ? ' can-add="true"' : '';
@@ -1451,8 +1443,6 @@ var GENERATOR = function(genparams){
 		var formHolder = $(VARS.edition.modal).find('.modal-body [rel="properties"]');
 		var inputFieldsHolder = $('<div class="input-fields row m-0" style="height:fit-content"></div>')
 		
-		
-	
 		$(VARS.edition.modal).find('.modal-body [rel="properties"]').html('');
 
 		for(var p in object.proprieties){ // ciclo nas proprieades do elemento
@@ -1505,16 +1495,26 @@ var GENERATOR = function(genparams){
 						break;
 					}	
 				
-					
-					//console.log(p);
-					//console.log(inputType)
+				if(objectProperties?.type == 'separator'){
 				
-				input = GEN.getSetter({
-					type      : inputType,
-					propriety : p,
-					object    : object,
-					definition : objectProperties && objectProperties.hasOwnProperty(p) ? objectProperties[p] : null,
-				});
+					input = $(`
+						<div class="mb-3">
+							<a class="border-bottom text-muted d-block py-2 mb-3 h5" data-bs-toggle="collapse" href="#group-field-${p}">${objectProperties.value}</a>
+							<div class="group-fields row collapse" id="group-field-${p}" rel="${p}"></div>
+						</div>
+					`);
+		
+				}else{	
+
+					input = GEN.getSetter({
+						type      : inputType,
+						propriety : p,
+						object    : object,
+						definition : objectProperties && objectProperties.hasOwnProperty(p) ? objectProperties[p] : null,
+					});
+
+				}
+				
 
 				if(input) {
 						
@@ -1527,29 +1527,48 @@ var GENERATOR = function(genparams){
 						configAutoTagSetter(input,object);
 
 					}
-					
-					if(inputType == 'checkbox'){
 
-						checkers.push(input);
+					if(p == 'type_changer'){
+
+						input.find('label').remove();
+
+						$('#gen-edition-modal .modal-footer .info.type').html( input );
 
 					}else{
 
-						if(p == 'type_changer'){
+						if(objectProperties?.group){
 
-							input.find('label').remove();
-
-							$('#gen-edition-modal .modal-footer .info.type').html( input );
+							const groupHolder =  $('.group-fields[rel="'+objectProperties.group+'"]');
+		
+							if(objectProperties && objectProperties.order>=0)
+								groupHolder.insertAt(input,objectProperties.order)
+							else
+								groupHolder.append(input);
 
 						}else{
-							formHolder.append(inputFieldsHolder);
 
-							if(objectProperties && objectProperties.order>=0)
-								inputFieldsHolder.insertAt(input,objectProperties.order)
-							else
-								inputFieldsHolder.append(input);
+							if(inputType == 'checkbox'){
+
+								checkers.push(input);
+		
+							}else{
+		
+								formHolder.append(inputFieldsHolder);
+		
+								if(objectProperties && objectProperties.order>=0)
+									inputFieldsHolder.insertAt(input,objectProperties.order)
+								else
+									inputFieldsHolder.append(input);
+		
+							}
+
 						}
 
+						
+
 					}
+					
+					
 			
 					if(objectProperties && objectProperties.hidden)
 						input.addClass('hidden');
@@ -1908,7 +1927,7 @@ var GENERATOR = function(genparams){
 			if($(el).data('select2'))
 				$(el).select2('destroy');
 
-			$.IGRP.components.choices.init( $(el) );
+			$.IGRP.components.choices?.init( $(el) );
 
 		});
 
