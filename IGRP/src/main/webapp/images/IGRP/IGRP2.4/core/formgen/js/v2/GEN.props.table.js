@@ -1,10 +1,11 @@
 (function () {
   var gen = VARS.getGen();
+
   gen.defineGlobalProperty("table-style", (object, defaults = {}) => {
 
     object?.setPropertyGroup({
 			name : 'data_table',
-			label : 'Opções',
+			label : $.IGRP.locale.get('gen-table-filter-options'),
 			order : 3,
 			properties : [
 				{
@@ -25,12 +26,12 @@
         },
 				{
 					name : 'search',
-					label : 'Pesquisar',
+					label : $.IGRP.locale.get('search'),
 					value : false
 				},
 				{
 					name : 'pagination',
-					label : 'Paginação',
+					label : $.IGRP.locale.get('pagination'),
 					value : true,
 					onChange: ()=>{
 						console.log('change');
@@ -38,7 +39,7 @@
 				},
 				{
 					name : 'length_change',
-					label : 'Linhas por página',
+					label : $.IGRP.locale.get('gen-table-length-change'),
 					value : false
 				},
         /*{
@@ -51,7 +52,7 @@
 
     object?.setPropertyGroup({
 			name : 'visual',
-			label : 'Aparência',
+			label : $.IGRP.locale.get('gen-table-appearance'),
 			order : 3,
 			properties : [
 				{
@@ -88,8 +89,7 @@
         },
         {
           name: "hoverable",
-          label: "Realçar",
-          tip : 'Realçar linha ao passar o rato',
+          label: $.IGRP.locale.get('gen-table-hoverable'),
           value: defaults?.hoverable || true,
           xslValue: "table-hover",
         },
@@ -110,7 +110,7 @@
 
     object?.setPropertyGroup({
 			name : 'context-menu',
-      label : 'Ações de Contexto',
+      label :$.IGRP.locale.get('gen-table-contextmenu-type-group'),
       properties : [
         {
           name:'ctxMenuTemplate',
@@ -196,8 +196,7 @@
       ]
     });
     
-
-    object.onColorFieldSet = function(field){
+    object.onColorFieldSet = function( field ){
       //set legend xml
       object.xml.tableLegend = true;
 
@@ -257,11 +256,10 @@
   
     object.onColorFieldRemove = function(field){
       //has no Color 
-      if(!object.hasFieldType('color')) {
-  
+      if(!object.hasFieldType('color')) 
         object.unsetProprieties(['legendColors','colors_group']);
-      }
     }
 
   });
+
 })();

@@ -490,7 +490,8 @@
                           </div>
                           <div class="modal-body" role="form">
                               <div rel="properties" class="gen-properties-setts-holder row active">
-                            
+                                
+                                    <div rel="default"></div>
 
                               </div>
 

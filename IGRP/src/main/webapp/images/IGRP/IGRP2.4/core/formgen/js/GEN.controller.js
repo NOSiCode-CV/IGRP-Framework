@@ -1499,7 +1499,7 @@ var GENERATOR = function(genparams){
 				
 					input = $(`
 						<div class="mb-3">
-							<a class="border-bottom text-muted d-block py-2 mb-3 h5" data-bs-toggle="collapse" href="#group-field-${p}">${objectProperties.value}</a>
+							<a class="border-bottom text-muted d-block py-2 mb-2 h5" data-bs-toggle="collapse" href="#group-field-${p}">${objectProperties.value}</a>
 							<div class="group-fields row collapse" id="group-field-${p}" rel="${p}"></div>
 						</div>
 					`);
@@ -1547,11 +1547,11 @@ var GENERATOR = function(genparams){
 
 						}else{
 
-							if(inputType == 'checkbox'){
+							//if(inputType == 'checkbox'){
 
-								checkers.push(input);
+								//checkers.push(input);
 		
-							}else{
+							//}else{
 		
 								formHolder.append(inputFieldsHolder);
 		
@@ -1560,7 +1560,7 @@ var GENERATOR = function(genparams){
 								else
 									inputFieldsHolder.append(input);
 		
-							}
+							//}
 
 						}
 

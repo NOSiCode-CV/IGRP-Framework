@@ -560,3 +560,8 @@ table .is-grouped{
   display: none !important;
 }
 
+
+td.link>span{
+  padding-left: 32px;
+  font-size: 14px;
+}
