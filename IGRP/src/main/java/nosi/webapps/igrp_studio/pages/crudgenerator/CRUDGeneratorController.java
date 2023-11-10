@@ -1,8 +1,6 @@
 package nosi.webapps.igrp_studio.pages.crudgenerator;
 
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -19,12 +17,14 @@ import java.util.ArrayList;
 import nosi.core.config.Config;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.compiler.helpers.Compiler;
+import nosi.core.webapp.databse.helpers.Connection;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.dao_helper.DaoDto;
 import nosi.core.webapp.helpers.dao_helper.GerarClasse;
 import nosi.core.webapp.helpers.dao_helper.SaveMapeamentoDAO;
+import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.xml.XMLTransform;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -40,13 +40,14 @@ public class CRUDGeneratorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Laudantium sit natus ut aperia' as table_name "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Ipsum stract anim adipiscing d' as table_name "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.schema.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.table_type.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.form_2_radiolist_1.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 		
 		try {
@@ -76,17 +77,28 @@ public class CRUDGeneratorController extends Controller {
 
 					Config_env config = new Config_env().find().andWhere("id", "=", Core.toInt(model.getData_source()))
 							.andWhere("application.id", "=", Core.toInt(model.getAplicacao())).one();
+					if(config!=null) {
+						
+							Map<String, String> schemasMap = DatabaseMetadaHelper.getSchemas(config);
+							if (schemasMap.size() == 2)
+								schemasMap.remove(null);
+							else
+								model.setSchema(Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 
-					Map<String, String> schemasMap = DatabaseMetadaHelper.getSchemas(config);
-					if (schemasMap.size() == 2)
-						schemasMap.remove(null);
+							view.schema.setValue(schemasMap);
 
-					view.schema.setValue(schemasMap);
-
-					this.fillTable(model, config);
-				}
+							this.fillTable(model, config);
+						
+					}
+					
+				}else
+					model.setSchema(null);
 			}
 		} catch (Exception e) {
+			model.setTable_1(new ArrayList<>());
+			
+		//	model.getTable_1().add(row);
+			
 			//e.printStackTrace();
 		}
 		
@@ -105,6 +117,7 @@ public class CRUDGeneratorController extends Controller {
 		  return this.forward("igrp_studio","ListaPage","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (add_datasource)  *//* End-Code-Block  */
 		/*----#start-code(add_datasource)----*/
 
 		/*----#end-code----*/
@@ -121,6 +134,7 @@ public class CRUDGeneratorController extends Controller {
 		  return this.forward("igrp_studio","CRUDGenerator","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gerar)  *//* End-Code-Block  */
 		/*----#start-code(gerar)----*/
 
 		if (Core.isNotNullMultiple(model.getData_source(), model.getAplicacao())) {
@@ -168,6 +182,7 @@ public class CRUDGeneratorController extends Controller {
 		  return this.forward("igrp_studio","ListaEnv","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gerar_dao)  *//* End-Code-Block  */
 		/*----#start-code(gerar_dao)----*/
 
 		final String[] rowsId = Core.getParamArray("p_check_table_fk");
@@ -223,9 +238,7 @@ public class CRUDGeneratorController extends Controller {
 		/*----#end-code----*/
 			
 	}
-	
-		
-		
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 	
 	private void fillTable(CRUDGenerator model, Config_env config) {
@@ -257,7 +270,7 @@ public class CRUDGeneratorController extends Controller {
 			pageForm = new Action(pageNameForm, "index",
 					(NOSI_WEBAPPS + config.getApplication().getDad() + PAGES).toLowerCase(),
 					(config.getApplication().getDad() + "/" + pageNameForm).toLowerCase() + "/" + pageNameForm + ".xsl",
-					"Registar " + tableName, "Registar " + tableName, "2.3", 1, config.getApplication());
+					"Registar " + tableName, "Registar " + tableName, Config.DEFAULT_V_PAGE, 1, config.getApplication());
 			pageForm = pageForm.insert();
 
 		} else {
@@ -270,7 +283,7 @@ public class CRUDGeneratorController extends Controller {
 			pageList = new Action(pageNameList, "index",
 					(NOSI_WEBAPPS + config.getApplication().getDad() + PAGES).toLowerCase(),
 					(config.getApplication().getDad() + "/" + pageNameList).toLowerCase() + "/" + pageNameList + ".xsl",
-					"Listar " + tableName, "Listar " + tableName, "2.3", 1, config.getApplication());
+					"Listar " + tableName, "Listar " + tableName, Config.DEFAULT_V_PAGE, 1, config.getApplication());
 			pageList = pageList.insert();
 
 		} else {
@@ -323,7 +336,7 @@ public class CRUDGeneratorController extends Controller {
 		String xslFileNameGen = this.getConfig().getLinkXSLGenerator_CRUD();
 		String jsonFileName = this.getConfig().getLinkXSLJsonGenerator();
 		String pathXslForm = this.getConfig().getCurrentBaseServerPahtXsl(pageForm) + File.separator
-				+ pageForm.getPage() + ".xml";
+					+ pageForm.getPage() + ".xml";
 		String pathXslList = this.getConfig().getCurrentBaseServerPahtXsl(pageList) + File.separator
 				+ pageList.getPage() + ".xml";
 
