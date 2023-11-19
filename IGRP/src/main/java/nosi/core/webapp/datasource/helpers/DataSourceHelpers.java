@@ -204,10 +204,10 @@ public class DataSourceHelpers {
 	
 	private String getResolveQuery(String query_,Map<String,String> parameters,Map<String, String> paramsUrl) {
 		String query = query_;
-		if(paramsUrl!=null &&paramsUrl.size() > 0){
+		if(paramsUrl!=null && !paramsUrl.isEmpty()){
 			query += !query.toLowerCase().contains("where")?" WHERE 1=1 ":"";	
 			for(Map.Entry<String, String> parm:paramsUrl.entrySet()){
-				if(parm.getKey()!=null && parm.getValue()!=null  && !parm.getKey().equals("") && !parm.getValue().equals("")){
+				if(parm.getKey()!=null && parm.getValue()!=null && !parm.getKey().isEmpty() && !parm.getValue().isEmpty()){
 					String column_name = parm.getKey().contains("p_")?parm.getKey().substring(2, parm.getKey().length()):parm.getKey();
 					boolean column_find = (parameters.containsKey("p_"+column_name.toLowerCase()) || parameters.containsKey(column_name.toLowerCase()));
 					if(column_find) {

@@ -97,7 +97,7 @@ public class BPMNButton {
 					.forEach(q1 -> {
 						try {
 							if(q.getKey().startsWith(BPMNConstants.CUSTOM_PARAM_PREFIX))
-								qs.append("&" + q.getKey() + "=" +  (Core.isNotNull(q1) && q1 instanceof String? URLEncoder.encode((String) q1, StandardCharsets.UTF_8.toString()):q1));
+								qs.append("&").append(q.getKey()).append("=").append(Core.isNotNull(q1) && q1 instanceof String ? URLEncoder.encode((String) q1, StandardCharsets.UTF_8.toString()) : q1);
 						} catch (UnsupportedEncodingException e) {
 							e.printStackTrace();
 						}

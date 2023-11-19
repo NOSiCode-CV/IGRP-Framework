@@ -68,7 +68,7 @@ public class PageExport implements IExport{
 					this.add(id);
 			}
 			export.add(this);
-			if(this.modulo_ids!=null && this.modulo_ids.size() > 0) {
+			if(this.modulo_ids!=null && !this.modulo_ids.isEmpty()) {
 				String[] modulos = new String[this.modulo_ids.size()];
 				modulos = this.modulo_ids.toArray(modulos);
 				new ModuloExport().export(export,modulos);	

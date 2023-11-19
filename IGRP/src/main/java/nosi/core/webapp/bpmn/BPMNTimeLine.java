@@ -101,7 +101,7 @@ public class BPMNTimeLine {
 			taskSQ.queryHistoryTask()
 			    .stream()
 			    .forEach(task->{
-			    	if(tasksSQ.size()==0) {
+			    	if(tasksSQ.isEmpty()) {
 			    		tasksSQ.put(task.getTaskDefinitionKey(), task.getId());
 			    	}else {
 			    		if(!tasksSQ.containsKey(task.getTaskDefinitionKey())) {

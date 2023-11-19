@@ -388,7 +388,7 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 
 	public String getSqlInsert(String schemaName, List<DatabaseMetadaHelper.Column> colmns, String tableName) {
-		String tableName_ = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
+		String tableName_ = (schemaName!=null && !schemaName.isEmpty())? schemaName + "." + tableName:tableName;//Adiciona schema
 		String inserts = "";
 		String values = "";
 		for(DatabaseMetadaHelper.Column col:colmns) {
@@ -404,7 +404,7 @@ public abstract class QueryHelper implements QueryInterface{
 	
 
 	public String getSqlUpdate(String schemaName, List<DatabaseMetadaHelper.Column> colmns, String tableName) {
-		String tableName_ = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
+		String tableName_ = (schemaName!=null && !schemaName.isEmpty())? schemaName + "." + tableName:tableName;//Adiciona schema
 		String updates = "";
 		for(DatabaseMetadaHelper.Column col:colmns) {
 			if(!col.isAutoIncrement() && !col.isAfterWhere()) {
@@ -417,7 +417,7 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 	
 	public String getSqlDelete(String schemaName, String tableName) {
-		String tableName_ = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
+		String tableName_ = (schemaName!=null && !schemaName.isEmpty())? schemaName + "." + tableName:tableName;//Adiciona schema
 		return "DELETE FROM "+tableName_;
 	}
 

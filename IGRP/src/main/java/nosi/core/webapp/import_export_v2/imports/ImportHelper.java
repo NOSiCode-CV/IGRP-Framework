@@ -132,11 +132,11 @@ public class ImportHelper {
 	}
 
 	public boolean hasError() {
-		return this.imp.getErrors()!=null && this.imp.getErrors().size() > 0;
+		return this.imp.getErrors()!=null && !this.imp.getErrors().isEmpty();
 	}
 	
 	public boolean hasWarning() {
-		return this.imp.getWarnings()!=null && this.imp.getWarnings().size() > 0;
+		return this.imp.getWarnings()!=null && !this.imp.getWarnings().isEmpty();
 	}
 	
 	public List<String> getErrors(){

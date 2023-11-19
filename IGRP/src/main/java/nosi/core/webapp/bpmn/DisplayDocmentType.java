@@ -46,7 +46,7 @@ public class DisplayDocmentType{
 		formlist_documento_task.getProperties().add("no-delete", "true").add("no-add", "true");
 		this.addField(formlist_documento_task);		
 		formlist_documento_task.addData(this.getInputDocsData()); 
-		return formlist_documento_task.getData() !=null && formlist_documento_task.getData().size() > 0 ? formlist_documento_task.toString() : "";
+		return formlist_documento_task.getData() !=null && !formlist_documento_task.getData().isEmpty() ? formlist_documento_task.toString() : "";
 	}
 	
 	private String displayOutputDocs() {
@@ -55,7 +55,7 @@ public class DisplayDocmentType{
 		formlist_documento_output_task.getProperties().add("no-delete", "true").add("no-add", "true");
 		this.addField_(formlist_documento_output_task);		
 		formlist_documento_output_task.addData(this.getOutputDocsData());
-		return formlist_documento_output_task.getData() != null && formlist_documento_output_task.getData().size() > 0 ? formlist_documento_output_task.toString():"";
+		return formlist_documento_output_task.getData() != null && !formlist_documento_output_task.getData().isEmpty() ? formlist_documento_output_task.toString():"";
 	}
 	
 	private String displayInputNOutputDocs() {
@@ -66,7 +66,7 @@ public class DisplayDocmentType{
 		List<Formlist_documento_task> l = this.getInputDocsData();
 		if(l != null) l.addAll(this.getOutputDocsData());
 		formlist_documento_task.addData(l);
-		return formlist_documento_task.getData() !=null && formlist_documento_task.getData().size() > 0 ? formlist_documento_task.toString() : "";
+		return formlist_documento_task.getData() !=null && !formlist_documento_task.getData().isEmpty() ? formlist_documento_task.toString() : "";
 	
 	}
 	

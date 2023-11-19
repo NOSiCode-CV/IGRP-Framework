@@ -189,7 +189,7 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public Tuple getSigleResult() {
 		List<Tuple> list = this.getResultList();		
-		if(list!=null && list.size()> 0)
+		if(list!=null && !list.isEmpty())
 			return list.get(0);
 		return null;
 	}
@@ -197,7 +197,7 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public Tuple getSingleResult() {
 		List<Tuple> list = this.getResultList();		
-		if(list!=null && list.size()> 0)
+		if(list!=null && !list.isEmpty())
 			return list.get(0);
 		return null;
 	}
@@ -210,7 +210,7 @@ public class QuerySelect extends CommonFIlter{
 		r.setSql(this.getSql());
 		if(list!=null) { 
 			r.RowList = new ArrayList<>();
-			list.stream().forEach(l->{
+			list.forEach(l->{
 				Record rec = new Record();
 				rec.Row = l;
 				r.RowList.add(rec);

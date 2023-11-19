@@ -210,7 +210,7 @@ public class Compiler {
 			Map<String, String> lFiles = new FileHelper().listFilesDirectory(path);
 			
 			for (Map.Entry<String, String> file : lFiles.entrySet()) {
-				this.jars.append((file.getValue() + System.getProperty("path.separator")));
+				this.jars.append(file.getValue()).append(System.getProperty("path.separator"));
 			}
 		}
 	}

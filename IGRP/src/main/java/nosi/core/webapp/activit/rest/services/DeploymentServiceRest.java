@@ -53,7 +53,7 @@ public class DeploymentServiceRest extends GenericActivitiRest {
 				List<DeploymentService> list = (List<DeploymentService>) ResponseConverter
 						.convertJsonToListDao(contentResp, "data", new TypeToken<List<DeploymentService>>() {
 						}.getType());
-				if (list != null && list.size() > 0)
+				if (list != null && !list.isEmpty())
 					d = list.get(0);
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));

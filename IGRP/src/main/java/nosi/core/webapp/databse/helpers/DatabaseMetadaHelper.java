@@ -238,7 +238,7 @@ public class DatabaseMetadaHelper {
 		try (java.sql.Connection con = Connection.getConnection(config)) {
 			List<String> pkeys = getPrimaryKeys(con, schema, tableName);
 			Map<String, String> fkeys = getForeignKeysTableName(con, schema, tableName);
-			justTablename = (schema != null && !schema.equals("")) ? schema + "." + tableName : tableName;
+			justTablename = (schema != null && !schema.isEmpty()) ? schema + "." + tableName : tableName;
 			String sql = "SELECT * FROM " + justTablename;
 			try (PreparedStatement st = con.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
 				ResultSetMetaData metaData = rs.getMetaData();

@@ -20,7 +20,7 @@ public class ReflectionHelper {
 		if (Core.isNull(interfaceClass) || Core.isNull(fromPackage)) {
 			return null;
 		}
-		final List<Class<?>> rVal = new ArrayList<Class<?>>();
+		final List<Class<?>> rVal = new ArrayList<>();
 		try {
 			final Class<?>[] targets = getAllClassesFromPackage(fromPackage);
 			if (targets != null) {
@@ -51,7 +51,7 @@ public class ReflectionHelper {
 		assert classLoader != null;
 		String path = packageName.replace('.', '/');
 		Enumeration<URL> resources = classLoader.getResources(path);
-		List<File> dirs = new ArrayList<File>();
+		List<File> dirs = new ArrayList<>();
 		while (resources.hasMoreElements()) {
 			URL resource = resources.nextElement();
 			dirs.add(new File(resource.getFile()));
@@ -60,11 +60,11 @@ public class ReflectionHelper {
 		for (File directory : dirs) {
 			classes.addAll(findClasses(directory, packageName));
 		}
-		return classes.toArray(new Class[classes.size()]);
+		return classes.toArray(new Class[0]);
 	}
 	
 	public static List<Class<?>> findClasses(File directory, String packageName) throws ClassNotFoundException {
-		List<Class<?>> classes = new ArrayList<Class<?>>();
+		List<Class<?>> classes = new ArrayList<>();
 		if (!directory.exists()) {
 			return classes;
 		}

@@ -124,7 +124,7 @@ public class FlashMessage implements Serializable{
 		}
 		
 		public boolean hasMessage(String name){
-			return this.msg.containsKey(name) && this.msg.get(name).size() > 0;
+			return this.msg.containsKey(name) && !this.msg.get(name).isEmpty();
 		}
 		
 		public String getMessagesAsString(String name){ // return all specific message as a String

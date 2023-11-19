@@ -16,21 +16,20 @@ import nosi.webapps.igrp.pages.migrate.Migrate;
  * 2 Aug 2017
  */
 public final class MigrationIGRP {
-
 	private List<Application> applications;
 	private List<Action> actions;
 	private List<CLob> clobs;
-	private List<Config_env> config_envs;
+	private List<Config_env> configEnvs;
 	private List<Config> configs;
 	private List<Menu> menus;
 	private List<Organization> organizations;
 	private List<Profile> profiles;
-	private List<ProfileType> profile_types;
-	private List<RepInstance> rep_instances;
-	private List<RepSource> rep_sources;
-	private List<RepTemplate> rep_templates;
-	private List<RepTemplateParam> rep_template_parmas;
-	private List<RepTemplateSource> rep_template_sources;
+	private List<ProfileType> profileTypes;
+	private List<RepInstance> repInstances;
+	private List<RepSource> repSources;
+	private List<RepTemplate> repTemplates;
+	private List<RepTemplateParam> repTemplateParams;
+	private List<RepTemplateSource> repTemplateSources;
 	private List<Session> sessions;
 	private List<Transaction> transactions;
 	private List<User> users;
@@ -43,9 +42,9 @@ public final class MigrationIGRP {
 	private List<TipoDocumentoEtapa> tipoDocumentoEtapas;
 	
 	private String connetionName;
-	
-	public void start(Migrate model){
-		if(model!=null){
+
+	public void start(Migrate model) {
+		if (model != null) {
 			ConfigDBIGRP config = ConfigDBIGRP.getInstance();
 			config.setType_db(model.getTipo_base_dados());
 			config.setUsername(model.getUsername());
@@ -53,17 +52,16 @@ public final class MigrationIGRP {
 			config.setUrlConnection(model.getUrl_connection());
 			config.setDriverConnection(model.getDriver_connection());
 			this.getData();
-			if(config.save()) {
+			if (config.save()) {
 				HibernateUtils.removeSessionFactory(model.getNome_de_conexao());
 				HibernateUtils.getSessionFactory(model.getNome_de_conexao());
-			}
-			else {
+			} else {
 				Core.setMessageError("Não foi possivel efetuar migração do IGRP");
 				return;
 			}
 			this.connetionName = model.getNome_de_conexao();
 		}
-		
+
 		this.saveData();
 		new CreateViews();
 	}
@@ -80,16 +78,16 @@ public final class MigrationIGRP {
 		actions = new Action().findAll();
 		clobs = new CLob().findAll();
 		configs = new Config().findAll();
-		config_envs = new Config_env().findAll();
+		configEnvs = new Config_env().findAll();
 		menus = new Menu().findAll();
 		organizations = new Organization().findAll();
 		profiles = new Profile().findAll();
-		profile_types = new ProfileType().findAll();
-		rep_instances = new RepInstance().findAll();
-		rep_sources = new RepSource().findAll();
-		rep_templates = new RepTemplate().findAll();
-		rep_template_parmas = new RepTemplateParam().findAll();
-		rep_template_sources = new RepTemplateSource().findAll();
+		profileTypes = new ProfileType().findAll();
+		repInstances = new RepInstance().findAll();
+		repSources = new RepSource().findAll();
+		repTemplates = new RepTemplate().findAll();
+		repTemplateParams = new RepTemplateParam().findAll();
+		repTemplateSources = new RepTemplateSource().findAll();
 		sessions = new Session().findAll();
 		transactions = new Transaction().findAll();
 		users = new User().findAll();
@@ -104,15 +102,16 @@ public final class MigrationIGRP {
 	}
 
 	private void saveData() {
+
 		if(!configs.isEmpty()){
-			configs.stream().forEach(c->{
+			configs.forEach(c->{
 				c.setId(null);
 				c.insert();
 			});
 		}
 		
 		if(!applications.isEmpty()){
-			applications.stream().forEach(app->{
+			applications.forEach(app->{
 				Core.insert(this.connetionName,"tbl_env")
 					.addInt("id", app.getId())
 					.addString("dad", app.getDad())
@@ -126,14 +125,14 @@ public final class MigrationIGRP {
 					.execute();
 				try {
 					new Application().insertOnly();//Using to increment value for last id
-				}catch(Exception e) {
+				}catch(Exception ignored) {
 					
 				}
 			});
 		}
 		
 		if(!modulos.isEmpty() ) {
-			modulos.stream().forEach(m->{
+			modulos.forEach(m->{
 				Core.insert(this.connetionName,"tbl_modulo")
 					.addInt("id", m.getId())
 					.addString("name", m.getName())
@@ -143,7 +142,7 @@ public final class MigrationIGRP {
 			});
 		}
 		if(!domains.isEmpty() ) {
-			domains.stream().forEach(d->{
+			domains.forEach(d->{
 				Core.insert(this.connetionName,"tbl_domain")
 					.addInt("id", d.getId())
 					.addString("description", d.getDescription())
@@ -157,7 +156,7 @@ public final class MigrationIGRP {
 		}
 		
 		if(!actions.isEmpty()){
-			actions.stream().forEach(a->{
+			actions.forEach(a->{
 				Core.insert(this.connetionName,"tbl_action")
 					.addInt("id", a.getId())
 					.addString("action", a.getAction())
@@ -177,8 +176,7 @@ public final class MigrationIGRP {
 					.execute();
 				new Action().insert();//Using to increment value for last id 
 			});
-			applications = applications.stream().filter(a->a.getAction()!=null).collect(Collectors.toList());
-			applications.stream().forEach(app->{
+			applications.stream().filter(a->a.getAction()!=null).forEach(app->{
 				Core.update(this.connetionName,"tbl_env")
 					.addInt("action_fk", app.getAction().getId())
 					.where("id=:id")
@@ -188,7 +186,7 @@ public final class MigrationIGRP {
 		}
 		
 		if(!shares.isEmpty() ) {
-			shares.stream().forEach(s->{
+			shares.forEach(s->{
 				Core.insert(this.connetionName,"glb_t_acl")
 					.addInt("id",s.getId())
 					.addInt("status", s.getStatus())
@@ -203,7 +201,7 @@ public final class MigrationIGRP {
 		
 		
 		if(!clobs.isEmpty()){
-			clobs.stream().forEach(cl->{
+			clobs.forEach(cl->{
 				Core.insert(this.connetionName,"tbl_clob")
 					.addInt("id", cl.getId())
 					.addByte("c_lob_content", cl.getC_lob_content())
@@ -215,8 +213,8 @@ public final class MigrationIGRP {
 			});
 		}
 		
-		if(!config_envs.isEmpty()){
-			config_envs.stream().forEach(c->{
+		if(!configEnvs.isEmpty()){
+			configEnvs.forEach(c->{
 				Core.insert(this.connetionName,"tbl_config_env")
 					.addInt("id", c.getId())
 					.addString("charset", c.getCharset())
@@ -235,7 +233,7 @@ public final class MigrationIGRP {
 			});
 		}
 		if(!users.isEmpty()){
-			users.stream().forEach(u->{
+			users.forEach(u->{
 				Core.insert(this.connetionName,"tbl_user")
 					.addInt("id", u.getId())
 					.addString("activation_key", u.getActivation_key())
@@ -260,7 +258,7 @@ public final class MigrationIGRP {
 			});
 		}
 		if(!organizations.isEmpty()){
-			organizations.stream().forEach(o->{
+			organizations.forEach(o->{
 				Core.insert(this.connetionName,"tbl_organization")
 					.addInt("id", o.getId())
 					.addString("code", o.getCode())
@@ -273,8 +271,8 @@ public final class MigrationIGRP {
 				new Organization().insert();//Using to increment value for last id
 			});
 		}
-		if(!profile_types.isEmpty()){
-			profile_types.stream().forEach(p->{
+		if(!profileTypes.isEmpty()){
+			profileTypes.forEach(p->{
 				Core.insert(this.connetionName,"tbl_profile_type")
 					.addInt("id", p.getId())
 					.addString("code", p.getCode())
@@ -289,7 +287,7 @@ public final class MigrationIGRP {
 		}		
 
 		if(!menus.isEmpty()){
-			menus.stream().forEach(m->{
+			menus.forEach(m->{
 				Core.insert(this.connetionName,"tbl_menu")
 					.addInt("id", m.getId())
 					.addString("descr", m.getDescr())
@@ -306,7 +304,7 @@ public final class MigrationIGRP {
 		}
 		
 		if(!transactions.isEmpty()){
-			transactions.stream().forEach(t->{
+			transactions.forEach(t->{
 				Core.insert(this.connetionName,"tbl_transaction")
 					.addInt("id", t.getId())
 					.addString("code", t.getCode())
@@ -319,7 +317,7 @@ public final class MigrationIGRP {
 		}
 		
 		if(!profiles.isEmpty()){
-			profiles.stream().forEach(p->{
+			profiles.forEach(p->{
 				Core.insert(this.connetionName,"tbl_profile")
 					.addInt("id", p.getId())
 					.addString("type", p.getType())
@@ -332,8 +330,8 @@ public final class MigrationIGRP {
 			});
 		}
 		
-		if(!rep_templates.isEmpty()){
-			rep_templates.stream().forEach(rt->{
+		if(!repTemplates.isEmpty()){
+			repTemplates.forEach(rt->{
 				Core.insert(this.connetionName,"tbl_rep_template")
 					.addInt("id", rt.getId())
 					.addString("code", rt.getCode())
@@ -350,8 +348,8 @@ public final class MigrationIGRP {
 				new RepTemplate().insert();//Using to increment value for last id
 			});
 		}
-		if(!rep_template_parmas.isEmpty()){
-			rep_template_parmas.stream().forEach(rt->{
+		if(!repTemplateParams.isEmpty()){
+			repTemplateParams.forEach(rt->{
 				Core.insert(this.connetionName,"tbl_rep_template_param")
 					.addInt("id", rt.getId())
 					.addString("parameter", rt.getParameter())
@@ -360,8 +358,8 @@ public final class MigrationIGRP {
 				new RepTemplateParam().insert();//Using to increment value for last id
 			});
 		}
-		if(!rep_instances.isEmpty()){
-			rep_instances.stream().forEach(ri->{
+		if(!repInstances.isEmpty()){
+			repInstances.forEach(ri->{
 				Core.insert(this.connetionName,"tbl_rep_instance")
 					.addInt("id", ri.getId())
 					.addString("contra_prova", ri.getContra_prova())
@@ -377,8 +375,8 @@ public final class MigrationIGRP {
 				new RepInstance().insert();//Using to increment value for last id
 			});
 		}
-		if(!rep_sources.isEmpty()){
-			rep_sources.stream().forEach(rs->{
+		if(!repSources.isEmpty()){
+			repSources.forEach(rs->{
 				Core.insert(this.connetionName,"tbl_rep_source")
 					.addInt("id", rs.getId())
 					.addDate("dt_created", rs.getDt_created())
@@ -401,8 +399,8 @@ public final class MigrationIGRP {
 				new RepSource().insert();//Using to increment value for last id
 			});
 		}
-		if(!rep_template_sources.isEmpty()){
-			rep_template_sources.stream().forEach(rt->{
+		if(!repTemplateSources.isEmpty()){
+			repTemplateSources.forEach(rt->{
 				Core.insert(this.connetionName,"tbl_rep_template_source")
 					.addInt("id", rt.getId())
 					.addInt("rep_source_fk", rt.getRepSource().getId())
@@ -413,7 +411,7 @@ public final class MigrationIGRP {
 		}
 		
 		if(!taskComponents.isEmpty()) {
-			taskComponents.stream().forEach(tc->{
+			taskComponents.forEach(tc->{
 				Core.insert(this.connetionName,"tbl_task_component")
 					.addInt("id", tc.getId())
 					.addString("codigo", tc.getCodigo())
@@ -428,7 +426,7 @@ public final class MigrationIGRP {
 		}
 		
 		if(!taskAccess.isEmpty() ) {
-			taskAccess.stream().forEach(ta->{
+			taskAccess.forEach(ta->{
 				Core.insert(this.connetionName,"tbl_task_access")
 					.addInt("id", ta.getId())
 					.addString("processName", ta.getProcessName())
@@ -442,7 +440,7 @@ public final class MigrationIGRP {
 		}
 		
 		if(!tipoDocumentos.isEmpty() ) {
-			tipoDocumentos.stream().forEach(td->{
+			tipoDocumentos.forEach(td->{
 				Core.insert(this.connetionName,"tbl_tipo_documento")
 					.addInt("id", td.getId())
 					.addString("codigo", td.getCodigo())
@@ -456,7 +454,7 @@ public final class MigrationIGRP {
 		}
 		
 		if(!tipoDocumentoEtapas.isEmpty() ) {
-			tipoDocumentoEtapas.stream().forEach(td->{
+			tipoDocumentoEtapas.forEach(td->{
 				Core.insert(this.connetionName,"tbl_tipo_documento_etapa")
 					.addInt("id", td.getId())
 					.addString("processId", td.getProcessId())
@@ -472,7 +470,7 @@ public final class MigrationIGRP {
 		}
 		
 		if(!sessions.isEmpty()){
-			sessions.stream().forEach(s->{
+			sessions.forEach(s->{
 				Core.insert(this.connetionName,"tbl_session")
 					.addInt("id", s.getId())
 					.addLong("endTime", s.getEndTime())
@@ -496,5 +494,4 @@ public final class MigrationIGRP {
 			});
 		}
 	}
-
 }
