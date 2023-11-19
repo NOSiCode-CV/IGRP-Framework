@@ -55,6 +55,8 @@ import nosi.webapps.igrp.dao.Transaction;
  * Jun 20, 2021
  */
 public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
+
+	// TODO 19/11/2023 19:35 Use try with resources with all prepared statements to prevent memory leaks
 	
 	private static final Logger LOGGER = LogManager.getLogger(IgrpMigrationTemplate.class); 
 	
@@ -71,9 +73,9 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 	protected List<String> bpmns = new ArrayList<>();
 	
 	private static final String REPORT_BPMN_FILE_PATH_NAME = "nosi/core/db/migration/igrp";
-	private final String ACTIVITI_ENDPOINT_NAME = "url_ativiti_connection";
-	private final String ACTIVITI_USERNAME_PARAM_NAME = "ativiti_user";
-	private final String ACTIVITI_PASSWORD_PARAM_NAME = "ativiti_password";
+	private static final String ACTIVITI_ENDPOINT_NAME = "url_ativiti_connection";
+	private static final String ACTIVITI_USERNAME_PARAM_NAME = "ativiti_user";
+	private static final String ACTIVITI_PASSWORD_PARAM_NAME = "ativiti_password";
 	
 	private boolean isAppExists = true;
 	protected String dbEngineName;
@@ -480,7 +482,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 					psInsertOrUpdate.setObject(14, loadIdByConnectionNameIdentify(context, reportSource.getConfig_env().getConnection_identify()));
 					psInsertOrUpdate.setInt(15, this.loadUserIdByUid(context, reportSource.getUser_created().getUser_name()));
 					psInsertOrUpdate.setInt(16, this.loadUserIdByUid(context, reportSource.getUser_updated().getUser_name()));
-					psInsertOrUpdate.setString(17, reportSource.getSource_identify() != null && !reportSource.getSource_identify().equals(null) ? reportSource.getSource_identify() : null);
+					psInsertOrUpdate.setString(17, reportSource.getSource_identify() != null ? reportSource.getSource_identify() : null);
 					psInsertOrUpdate.executeUpdate(); 
 				}
 			}finally {
@@ -667,9 +669,9 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 						psInsertOrUpdate.setInt(2, documentoEtapa.getRequired());
 						psInsertOrUpdate.setInt(3, documentoEtapa.getStatus());
 						psInsertOrUpdate.setString(4, documentoEtapa.getTaskId());
-						psInsertOrUpdate.setObject(5, idTipoDocumento != null ? idTipoDocumento : null);
+						psInsertOrUpdate.setObject(5, idTipoDocumento);
 						psInsertOrUpdate.setString(6, documentoEtapa.getTipo());
-						psInsertOrUpdate.setObject(7, idRepTemplate != null ?  idRepTemplate : null);
+						psInsertOrUpdate.setObject(7, idRepTemplate);
 						psInsertOrUpdate.setInt(8, idTipoDocumentoEtapa);
 						psInsertOrUpdate.executeUpdate();
 					}else {
@@ -678,9 +680,9 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 						psInsertOrUpdate.setInt(2, documentoEtapa.getRequired());
 						psInsertOrUpdate.setInt(3, documentoEtapa.getStatus());
 						psInsertOrUpdate.setString(4, documentoEtapa.getTaskId());
-						psInsertOrUpdate.setObject(5, idTipoDocumento != null ? idTipoDocumento : null);
+						psInsertOrUpdate.setObject(5, idTipoDocumento);
 						psInsertOrUpdate.setString(6, documentoEtapa.getTipo());
-						psInsertOrUpdate.setObject(7, idRepTemplate != null ?  idRepTemplate : null);
+						psInsertOrUpdate.setObject(7, idRepTemplate);
 						psInsertOrUpdate.executeUpdate();
 					}
 			}finally {
@@ -737,17 +739,18 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 	}
 	
 	private boolean deployBPMNToEngine(String endpoint, String httpAuthorizationHeaderValue, String fileName, InputStream inputStream) {
-		boolean success = false; 
+		boolean success;
 		Client client = ClientBuilder.newClient();
 		try {
 			WebTarget webTarget = client.target(endpoint).path("repository/deployments").queryParam("tenantId", this.app.getDad()); 
 			Invocation.Builder invocationBuilder  = webTarget.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, httpAuthorizationHeaderValue); 
 			ContentDisposition contentDisposition = new ContentDisposition("form-data; name=\"file\";filename=\"" + fileName + "\"; Content-Type=\"" + MediaType.APPLICATION_OCTET_STREAM + "\"");
-			List<Attachment> attachments = new LinkedList<Attachment>();
+			List<Attachment> attachments = new LinkedList<>();
 			attachments.add(new Attachment("file", inputStream, contentDisposition));
 			MultipartBody body = new MultipartBody(attachments);
-			Response response  = invocationBuilder.post(Entity.entity(body, MediaType.MULTIPART_FORM_DATA));
-			success = response.getStatus() == 201;
+			try (Response response = invocationBuilder.post(Entity.entity(body, MediaType.MULTIPART_FORM_DATA))) {
+				success = response.getStatus() == 201;
+			}
 		} finally {
 			client.close();
 		}
