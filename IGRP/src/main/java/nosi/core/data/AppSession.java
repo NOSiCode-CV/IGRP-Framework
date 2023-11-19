@@ -48,9 +48,9 @@ public final class AppSession {
    /**
     * Creates a new AppSession instance with a default Hibernate Session obtained from the app default connection
     *
-    * @return A new AppSession instance with the
+    * @return A new AppSession instance with the default session
     */
-   public static AppSession newInstance() {
+   public static AppSession withDefaultConnection() {
       return with(Core.getSession());
    }
 
