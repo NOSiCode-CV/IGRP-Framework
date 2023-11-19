@@ -72,7 +72,7 @@ public class IGRPToolsBar {
         </item>
 	 */
 	public String toXmlTools(){
-		if(this.buttons!=null && this.buttons.size() > 0){
+		if(this.buttons!=null && !this.buttons.isEmpty()){
 			xml.startElement(this.tag_name);
 			if(this.getClassName().compareTo("IGRPToolsBar") == 0){
 				for(Entry<Object, Object> prop : properties.entrySet()) {
@@ -100,7 +100,7 @@ public class IGRPToolsBar {
         </button>
 	 */
 	public String toXmlButton(){
-		if(this.buttons.size() > 0){
+		if(!this.buttons.isEmpty()){
 			for(IGRPButton item:buttons){
 				item.setTag("button");
 				this.xml.addXml(item.toString());

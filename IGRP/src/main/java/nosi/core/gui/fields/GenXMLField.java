@@ -30,7 +30,7 @@ public class GenXMLField {
         </fields>
 	 */
 	public static void toXml(XMLWritter xml, List<Field> fields){
-		if(fields.size() > 0){
+		if(!fields.isEmpty()){
 			xml.startElement("fields");
 				for(Field field:fields){
 					if(field.isVisible()){
@@ -134,7 +134,7 @@ public class GenXMLField {
         ...
 	 */
 	public static void toXmlV21(XMLWritter xml, List<Field> fields){
-		if(fields.size() > 0){
+		if(!fields.isEmpty()){
 			xml.startElement("label");
 				for(Field field:fields){
 					if(field.isVisible()){
