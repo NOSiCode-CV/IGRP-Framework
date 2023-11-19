@@ -56,7 +56,7 @@ public class ConfigurationRequest {
 		try {
 			sslContext = SSLContext.getInstance("SSL");
 			sslContext.init(null, this.createTrustManager(), new java.security.SecureRandom());// new java.security.SecureRandom()
-		} catch (NoSuchAlgorithmException | KeyManagementException e) {
+		} catch (NoSuchAlgorithmException | KeyManagementException ignored) {
 		}
 		return sslContext;
 	}

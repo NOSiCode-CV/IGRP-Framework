@@ -5,123 +5,123 @@ package nosi.core.webapp.databse.helpers;
  */
 public interface QueryInterface extends BaseQueryInterface{
 
-	public QueryInterface where(String name,String operator,java.sql.Date value); 
+	QueryInterface where(String name, String operator, java.sql.Date value);
 
-	public QueryInterface where(String name,String operator,String value,String format);
+	QueryInterface where(String name, String operator, String value, String format);
 	
-	public QueryInterface andWhereNotNull(String name);
+	QueryInterface andWhereNotNull(String name);
 	
-	public QueryInterface andWhereIsNull(String name);
+	QueryInterface andWhereIsNull(String name);
 	
-	public QueryInterface andWhere(String name,String operator,String value);
+	QueryInterface andWhere(String name, String operator, String value);
 	
-	public QueryInterface andWhere(String name,String operator,String[] values);
+	QueryInterface andWhere(String name, String operator, String[] values);
 	
-	public QueryInterface andWhere(String name,String operator,Integer[] values);
+	QueryInterface andWhere(String name, String operator, Integer[] values);
 	
-	public QueryInterface andWhere(String name,String operator,Double[] values);
+	QueryInterface andWhere(String name, String operator, Double[] values);
 	
-	public QueryInterface andWhere(String name,String operator,Float[] values);
+	QueryInterface andWhere(String name, String operator, Float[] values);
 	
-	public QueryInterface andWhere(String name,String operator,Integer value);
+	QueryInterface andWhere(String name, String operator, Integer value);
 	
-	public QueryInterface andWhere(String name,String operator,Float value);
+	QueryInterface andWhere(String name, String operator, Float value);
 	
-	public QueryInterface andWhere(String name,String operator,Double value);
+	QueryInterface andWhere(String name, String operator, Double value);
 
-	public QueryInterface andWhere(String name,String operator,java.sql.Date value); 
+	QueryInterface andWhere(String name, String operator, java.sql.Date value);
 
-	public QueryInterface andWhere(String name,String operator,String value,String format);
+	QueryInterface andWhere(String name, String operator, String value, String format);
 	
-	public QueryInterface orWhereNotNull(String name);
+	QueryInterface orWhereNotNull(String name);
 	
-	public QueryInterface orWhereIsNull(String name);
+	QueryInterface orWhereIsNull(String name);
 	
-	public QueryInterface orWhere(String name,String operator,String value);
+	QueryInterface orWhere(String name, String operator, String value);
 	
-	public QueryInterface orWhere(String name,String operator,String[] values);
+	QueryInterface orWhere(String name, String operator, String[] values);
 	
-	public QueryInterface orWhere(String name,String operator,Integer[] values);
+	QueryInterface orWhere(String name, String operator, Integer[] values);
 	
-	public QueryInterface orWhere(String name,String operator,Double[] values);
+	QueryInterface orWhere(String name, String operator, Double[] values);
 	
-	public QueryInterface orWhere(String name,String operator,Float[] values);
+	QueryInterface orWhere(String name, String operator, Float[] values);
 	
-	public QueryInterface orWhere(String name,String operator,Integer value);
+	QueryInterface orWhere(String name, String operator, Integer value);
 	
-	public QueryInterface orWhere(String name,String operator,Float value);
+	QueryInterface orWhere(String name, String operator, Float value);
 	
-	public QueryInterface orWhere(String name,String operator,Double value);
+	QueryInterface orWhere(String name, String operator, Double value);
 
-	public QueryInterface orWhere(String name,String operator,java.sql.Date value); 
+	QueryInterface orWhere(String name, String operator, java.sql.Date value);
 
-	public QueryInterface orWhere(String name,String operator,String value,String format);
+	QueryInterface orWhere(String name, String operator, String value, String format);
 
-	public QueryInterface having(String name,String operator,String value);
+	QueryInterface having(String name, String operator, String value);
 	
-	public QueryInterface having(String name,String operator,Integer value);
+	QueryInterface having(String name, String operator, Integer value);
 	
-	public QueryInterface having(String name,String operator,Double value);
+	QueryInterface having(String name, String operator, Double value);
 	
-	public QueryInterface having(String name,String operator,Float value);
+	QueryInterface having(String name, String operator, Float value);
 
-	public QueryInterface having(String name,String operator,java.sql.Date value); 
+	QueryInterface having(String name, String operator, java.sql.Date value);
 
-	public QueryInterface having(String name,String operator,String value,String format);
+	QueryInterface having(String name, String operator, String value, String format);
 	
-	public QueryInterface orderBy(String[] ...orderByNames);
+	QueryInterface orderBy(String[]... orderByNames);
 	
-	public QueryInterface orderByAsc(String...columns);
+	QueryInterface orderByAsc(String... columns);
 	
-	public QueryInterface orderByDesc(String...columns);
+	QueryInterface orderByDesc(String... columns);
 	
-	public QueryInterface groupBy(String ...groupByNames);
+	QueryInterface groupBy(String... groupByNames);
 	
-	public QueryInterface between(String name,Object value1,Object value2);
+	QueryInterface between(String name, Object value1, Object value2);
 	
-	public QueryInterface notBetween(String name,Object value1,Object value2);
+	QueryInterface notBetween(String name, Object value1, Object value2);
 	
-	public QueryInterface exists(String value);	
+	QueryInterface exists(String value);
 	
-	public QueryInterface notExists(String value);	
+	QueryInterface notExists(String value);
 
-	public QueryInterface innerJoin(String table2,String key1,String key2);
+	QueryInterface innerJoin(String table2, String key1, String key2);
 	
-	public QueryInterface leftJoin(String table2,String key1,String key2);
+	QueryInterface leftJoin(String table2, String key1, String key2);
 	
-	public QueryInterface rightJoin(String table2,String key1,String key2);
+	QueryInterface rightJoin(String table2, String key1, String key2);
 	
-	public QueryInterface outerJoin(String table2,String key1,String key2);
+	QueryInterface outerJoin(String table2, String key1, String key2);
 	
-	public QueryInterface selfJoin(String table2,String key1,String key2);
+	QueryInterface selfJoin(String table2, String key1, String key2);
 
-	public QueryInterface innerJoin(String table1,String table2,String key1,String key2);
+	QueryInterface innerJoin(String table1, String table2, String key1, String key2);
 	
-	public QueryInterface leftJoin(String table1,String table2,String key1,String key2);
+	QueryInterface leftJoin(String table1, String table2, String key1, String key2);
 	
-	public QueryInterface rightJoin(String table1,String table2,String key1,String key2);
+	QueryInterface rightJoin(String table1, String table2, String key1, String key2);
 	
-	public QueryInterface outerJoin(String table1,String table2,String key1,String key2);
+	QueryInterface outerJoin(String table1, String table2, String key1, String key2);
 	
-	public QueryInterface selfJoin(String table1,String table2,String key1,String key2);
+	QueryInterface selfJoin(String table1, String table2, String key1, String key2);
 	
-	public QueryInterface union();
+	QueryInterface union();
 	
-	public QueryInterface unionAll();
+	QueryInterface unionAll();
 //	@Deprecated
-	public QueryInterface returning(String...retuerningKeys);
+QueryInterface returning(String... retuerningKeys);
 	
-	public QueryInterface and();
+	QueryInterface and();
 	
-	public QueryInterface or();
+	QueryInterface or();
 	
-	public QueryInterface limit(int limit);
+	QueryInterface limit(int limit);
 	
-	public QueryInterface offset(int offset);
+	QueryInterface offset(int offset);
 	
-	public QueryInterface any(String subQuery);
+	QueryInterface any(String subQuery);
 	
-	public void setShowError(boolean showError);
+	void setShowError(boolean showError);
 
-	public void setShowTracing(boolean showTracing);
+	void setShowTracing(boolean showTracing);
 }

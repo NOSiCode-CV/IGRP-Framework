@@ -69,7 +69,7 @@ public enum HttpStatus {
 	 HttpStatus(int statusCode, String statusText) {
 		 this.statusCode = statusCode;
 		 this.statusText = statusText;
-	 };
+	 }
 	 
 		/* 
 			422 => 'Unprocessable entity', 

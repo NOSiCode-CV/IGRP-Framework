@@ -270,13 +270,13 @@ public abstract class QueryHelper implements QueryInterface{
     
 	@Override
     public QueryInterface addByte(String columnName,byte value) {
-        this.addColumn(columnName, Byte.valueOf(value), Byte.class);
+        this.addColumn(columnName, value, Byte.class);
         return this;
     }  
     
     @Override
     public QueryInterface addBoolean(String columnName,boolean value) {
-        this.addColumn(columnName, Boolean.valueOf(value), Boolean.class);
+        this.addColumn(columnName, value, Boolean.class);
         return this;
     }  
     
@@ -458,7 +458,7 @@ public abstract class QueryHelper implements QueryInterface{
 					this.setParameters(q);
 					r.setSql(q.getSql());
 					Core.log("SQL:"+q.getSql());
-					r.setKeyValue(Integer.valueOf(q.executeUpdate()));
+					r.setKeyValue(q.executeUpdate());
 				} catch (SQLException e) {
 					this.setError(r,e);
 				}

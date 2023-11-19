@@ -109,7 +109,7 @@ public class DisplayDocmentType{
 	private List<Formlist_documento_task> getInputDocsData() {
 		List<Formlist_documento_task> data = new ArrayList<>();
 		if(this.listDocmentType!=null) {
-			this.listDocmentType.stream().forEach(td->{	
+			this.listDocmentType.forEach(td->{
 				if(td.getTipo().equals("IN")) {
 					Formlist_documento_task ft = new Formlist_documento_task();
 					String descricao="",nome = "";
@@ -143,7 +143,7 @@ public class DisplayDocmentType{
 	private List<Formlist_documento_task> getOutputDocsData() {
 		List<Formlist_documento_task> data = new ArrayList<>();
 		if(this.listDocmentType!=null) {
-			this.listDocmentType.stream().forEach(td->{		
+			this.listDocmentType.forEach(td->{
 				if(td.getTipo().equals("OUT")) {
 					Formlist_documento_task ft = new Formlist_documento_task();
 					String descricao="",nome = "";

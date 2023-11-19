@@ -137,7 +137,7 @@ public class IGRPChart extends IGRPComponent{
 		LinkedHashMap<LinkedHashMap<String,String>,Object> result = new LinkedHashMap<>();
 		Set<String> values1 = new LinkedHashSet<>();
 		Set<String> values2 = new LinkedHashSet<>();
-		this.data.stream().forEach(o->{
+		this.data.forEach(o->{
 			IGRPChart3D chart3d = (IGRPChart3D)o;
 			values1.add(chart3d.getEixoX()!=null?chart3d.getEixoX():"");
 			values2.add(chart3d.getEixoY()!=null?chart3d.getEixoY():"");
@@ -151,10 +151,10 @@ public class IGRPChart extends IGRPComponent{
 			result.put(key ,v);
 		});
 		this.xml.startElement("value");
-		values2.stream().forEach(v2->{
+		values2.forEach(v2->{
 			this.xml.startElement("row");
 			this.xml.setElement("col", v2);
-			values1.stream().forEach(v1->{
+			values1.forEach(v1->{
 				LinkedHashMap<String,String> key = new LinkedHashMap<>();
 				key.put(v1, v2);
 				if(result.containsKey(key)) {
@@ -174,7 +174,7 @@ public class IGRPChart extends IGRPComponent{
 			List<Tuple> list = this.query.getResultList();	
 			Set<String> labels = new LinkedHashSet<>();
 			LinkedHashMap<String,Object> valuesXY = new LinkedHashMap<>();
-			list.stream().forEach(t->{
+			list.forEach(t->{
 				try {
 					labels.add(t.get(0)!=null?t.get(0).toString():"");
 					String key = t.get(0)!=null?t.get(0).toString():"";
@@ -202,22 +202,22 @@ public class IGRPChart extends IGRPComponent{
 	private void generateRowsValueXYZ(List<Tuple> list) {
 		LinkedHashMap<LinkedHashMap<String,String>,Double> result = new LinkedHashMap<>();
 		Set<String> values1 = new LinkedHashSet<>(),values2 = new LinkedHashSet<>();
-		list.stream().forEach(t->{
+		list.forEach(t->{
 			values1.add(t.get(0)!=null?t.get(0).toString():"");
 			values2.add(t.get(1)!=null?t.get(1).toString():"");
 			LinkedHashMap<String, String> key = new LinkedHashMap<>();
 			key.put(t.get(0)!=null?t.get(0).toString():"",t.get(1)!=null?t.get(1).toString():"");						
-			double v = Core.toDouble(t.get(2)!=null?t.get(2).toString():"0").doubleValue();
+			double v = Core.toDouble(t.get(2) != null ? t.get(2).toString() : "0");
 			if(result.containsKey(key)) {
-				v +=result.remove(key).doubleValue();
+				v += result.remove(key);
 			}
-			result.put(key,Double.valueOf(v));
+			result.put(key, v);
 		});
 		this.xml.startElement("value");
-		values2.stream().forEach(v2->{
+		values2.forEach(v2->{
 			this.xml.startElement("row");
 			this.xml.setElement("col", v2);
-			values1.stream().forEach(v1->{
+			values1.forEach(v1->{
 				LinkedHashMap<String,String> key = new LinkedHashMap<>();
 				key.put(v1, v2);
 				if(result.containsKey(key)) {
@@ -235,7 +235,7 @@ public class IGRPChart extends IGRPComponent{
 		this.xml.startElement("value");
 		this.xml.startElement("row");
 		this.xml.setElement("col"," ");
-		valuesXY.entrySet().stream().forEach(t->{
+		valuesXY.entrySet().forEach(t->{
 			try {
 				this.xml.setElement("col",t.getValue());
 			}catch(IllegalArgumentException e) {
@@ -248,7 +248,7 @@ public class IGRPChart extends IGRPComponent{
 	private void generateLabels(Set<String> labels) {
 		this.xml.startElement("label");	
 		this.xml.setElement("col"," ");
-		labels.stream().forEach(l->{
+		labels.forEach(l->{
 			this.xml.setElement("col",l);
 		});	
 		this.xml.endElement();
@@ -259,7 +259,7 @@ public class IGRPChart extends IGRPComponent{
 		if(!colors.isEmpty() && countlabels>0) {
 			this.xml.startElement("colors");			
 			for(int i=0;i<countlabels/colors.size()+1;i++) {
-				this.colors.stream().forEach(l->{
+				this.colors.forEach(l->{
 					this.xml.setElement("col",l);
 				});	
 			}

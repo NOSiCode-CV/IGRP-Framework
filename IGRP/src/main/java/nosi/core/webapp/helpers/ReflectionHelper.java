@@ -3,9 +3,7 @@ package nosi.core.webapp.helpers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 
 import nosi.core.webapp.Core;
 import nosi.core.webapp.ReportKey;
@@ -16,6 +14,8 @@ import nosi.core.webapp.ReportKey;
  */
 public class ReflectionHelper {
 
+	private ReflectionHelper(){}
+
 	public static List<Class<?>> findClassesByInterface(Class<ReportKey> interfaceClass, String fromPackage) {
 		if (Core.isNull(interfaceClass) || Core.isNull(fromPackage)) {
 			return null;
@@ -23,19 +23,12 @@ public class ReflectionHelper {
 		final List<Class<?>> rVal = new ArrayList<>();
 		try {
 			final Class<?>[] targets = getAllClassesFromPackage(fromPackage);
-			if (targets != null) {
-				for (Class<?> aTarget : targets) {
-					if (aTarget == null) {
-						continue;
-					} else if (aTarget.equals(interfaceClass)) {
-						continue;
-					} else if (!interfaceClass.isAssignableFrom(aTarget)) {
-						continue;
-					} else {
-						rVal.add(aTarget);
-					}
-				}
-			}
+			Arrays.stream(targets)
+					.filter(Objects::nonNull)
+					.filter(aTarget -> !aTarget.equals(interfaceClass))
+					.filter(interfaceClass::isAssignableFrom)
+					.forEach(rVal::add);
+
 		} catch (ClassNotFoundException e) {
 			return null;
 		} catch (IOException e) {

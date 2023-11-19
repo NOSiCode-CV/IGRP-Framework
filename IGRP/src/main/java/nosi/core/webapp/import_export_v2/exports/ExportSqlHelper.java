@@ -29,7 +29,7 @@ public class ExportSqlHelper {
 		this.application = Core.findApplicationById(model.getApplication_id());
 		this.showAllTable(view,false);
 		for(String type:opcoes) {
-			int t = Core.toInt(type).intValue();
+			int t = Core.toInt(type);
 			if(t==OptionsImportExport.BPMN.getValor()) {
 				view.table_bpmn.setVisible(true);
 				this.loadBPMNData(model);

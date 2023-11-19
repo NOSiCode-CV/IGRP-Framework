@@ -8,7 +8,6 @@ import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.compiler.helpers.ErrorCompile;
-import nosi.webapps.igrp.dao.Application;
 
 /**
  * Emanuel
@@ -41,7 +40,7 @@ public class Import{
 	}
 	
 	public void execute() {
-		this.imports.stream().forEach(i->{
+		this.imports.forEach(i->{
 			i.execute();
 			if(Core.isNotNull(i.getError()))
 				this.addError(i.getFileName()+" "+i.getError());
@@ -52,7 +51,7 @@ public class Import{
 
 	public void compile() {
 		Compiler compiler = new Compiler();
-		this.imports.stream().forEach(i->i.getFileName().forEach(compiler::addFileName));
+		this.imports.forEach(i->i.getFileName().forEach(compiler::addFileName));
 		compiler.compile();
 		this.addError(compiler.getErrors());
 		this.addWarning(compiler.getWarnings());
@@ -62,13 +61,13 @@ public class Import{
 	private void removeJavaClass() {
 		String env = new Config().getEnvironment();
 		if(env.equalsIgnoreCase(ConfigCommonMainConstants.IGRP_ENV_PROD.value()) || env.equalsIgnoreCase("prd") ) {
-			this.imports.stream().forEach(i->i.getFileName().forEach(Core::forceDelete));
+			this.imports.forEach(i->i.getFileName().forEach(Core::forceDelete));
 		}
 	}
 
 	public void addError(List<ErrorCompile> errors) {
 		if(errors!=null) {
-			errors.stream().forEach(e->{
+			errors.forEach(e->{
 				if(Core.isNotNull(e.getError()))
 					this.addError(e.getFileName()+" "+e.getError());
 			 });
@@ -77,7 +76,7 @@ public class Import{
 
 	public void addWarning(List<ErrorCompile> warnings) {
 		if(warnings!=null) {
-			 warnings.stream().forEach(e->{
+			 warnings.forEach(e->{
 				 if(Core.isNotNull(e.getWarning()))
 					 this.addWarning(e.getFileName()+" "+e.getWarning());
 			 });

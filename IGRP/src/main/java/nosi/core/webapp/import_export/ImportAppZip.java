@@ -36,13 +36,13 @@ public class ImportAppZip extends ImportAppJar{
 			
 			
 			if(file.getConteudo()!=null && !file.getConteudo().isEmpty() && (file.getNome().startsWith("FTP/IGRP") || file.getNome().startsWith("FTP/app"))){
-				String part[] = file.getNome().split("/");
+				String[] part = file.getNome().split("/");
 				if(!"navigation.xml".equals(part[part.length-1]) && !"slide-menu.xml".equals(part[part.length-1])) {
 					this.filesConfigPagePlsql.put(part[part.length-1], file);
 				}
 			}
 			if(file.getConteudo()!=null && !file.getConteudo().isEmpty() && file.getNome().startsWith("SQL/CONFIG") && file.getNome().endsWith(".json.xml")){
-				String part[] = file.getNome().split("/");
+				String[] part = file.getNome().split("/");
 				this.filesConfigPagePlsql.put(part[part.length-1], file);
 			}
 		}
@@ -88,7 +88,7 @@ public class ImportAppZip extends ImportAppJar{
 	private boolean saveConfigFilesPlsql(String fileName, Application app, Action page) {
 		boolean result = false;
 		if(fileName!=null && !fileName.isEmpty()) {
-			String part[] = fileName.split("/");
+			String[] part = fileName.split("/");
 			String xsl = StringHelper.removeSpace(part[part.length-1]);
 			String xml = xsl.replace(".xsl", ".xml");
 			String json = "UI"+page.getId_plsql()+".json.xml";
@@ -170,7 +170,7 @@ public class ImportAppZip extends ImportAppJar{
 				this.filesToCompile.add(fileV);
 				this.filesToCompile.add(fileC);
 			}
-		} catch (TransformerConfigurationException e) {
+		} catch (TransformerConfigurationException ignored) {
 		}
 	}
 

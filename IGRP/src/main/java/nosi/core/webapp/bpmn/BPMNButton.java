@@ -93,7 +93,7 @@ public class BPMNButton {
 	
 	private static void setQueryString(QueryString<String, Object> queryString, StringBuilder qs) {
 		if (queryString != null && !queryString.getQueryString().isEmpty()) {
-			queryString.getQueryString().entrySet().stream().forEach(q -> q.getValue().stream().filter(q1 -> q1 != null)
+			queryString.getQueryString().entrySet().forEach(q -> q.getValue().stream().filter(q1 -> q1 != null)
 					.forEach(q1 -> {
 						try {
 							if(q.getKey().startsWith(BPMNConstants.CUSTOM_PARAM_PREFIX))

@@ -23,131 +23,131 @@ import nosi.core.webapp.databse.helpers.ResultSet.Record;
  */
 public interface BaseQueryInterface {
 	
-	public ResultSet execute();
+	ResultSet execute();
 	
-	public ResultSet executeTransaction() throws SQLException;
+	ResultSet executeTransaction() throws SQLException;
 	
-	public List<Tuple> getResultList();
+	List<Tuple> getResultList();
 	/**
     * @deprecated (use getSingleResult())
     */
 	@Deprecated
-	public Tuple getSigleResult();
+    Tuple getSigleResult();
 	
-	public Record getRecordList();
+	Record getRecordList();
 	/**
     * @deprecated (use getSingleRecord())
     */
 	@Deprecated
-	public Record getSigleRecord();
+    Record getSigleRecord();
 	
-	public Record getSingleRecord();
+	Record getSingleRecord();
 	
-	public Tuple getSingleResult();
+	Tuple getSingleResult();
 	
-	public TypedQuery<?> getTypedQuery();
+	TypedQuery<?> getTypedQuery();
 	
-	public <T> List<T> getResultList(Class<T> entity);
+	<T> List<T> getResultList(Class<T> entity);
 	
-	public <T> T getSingleResult(Class<T> entity);
+	<T> T getSingleResult(Class<T> entity);
 	
-	public String getConnectionName();
+	String getConnectionName();
 	
-	public String getSql();
+	String getSql();
 	
-	public String getSqlWithData();
+	String getSqlWithData();
 	
-	public QueryInterface setAutoCommit(boolean isAutoCommit);
+	QueryInterface setAutoCommit(boolean isAutoCommit);
 	
-	public QueryInterface from(String tables);
+	QueryInterface from(String tables);
 	
-	public QueryInterface select(String collumns);
+	QueryInterface select(String collumns);
 	
-	public QueryInterface where(String condition);
+	QueryInterface where(String condition);
 	
-	public QueryInterface where();
+	QueryInterface where();
 	
-	public QueryInterface whereNotNull(String name);
+	QueryInterface whereNotNull(String name);
 	
-	public QueryInterface whereIsNull(String name);
+	QueryInterface whereIsNull(String name);
 	
-	public QueryInterface where(String name,String operator,String value);
+	QueryInterface where(String name, String operator, String value);
 	
-	public QueryInterface where(String name,String operator,Integer value);
+	QueryInterface where(String name, String operator, Integer value);
 	
-	public QueryInterface where(String name,String operator,Float value);
+	QueryInterface where(String name, String operator, Float value);
 	
-	public QueryInterface where(String name,String operator,Double value);
+	QueryInterface where(String name, String operator, Double value);
 	
-	public QueryInterface addLong(String columnName,Long value);
+	QueryInterface addLong(String columnName, Long value);
 
-	public QueryInterface addDouble(String columnName,Double value);
+	QueryInterface addDouble(String columnName, Double value);
 
-	public QueryInterface addFloat(String columnName,Float value);
+	QueryInterface addFloat(String columnName, Float value);
 
-	public QueryInterface addShort(String columnName,Short value);
+	QueryInterface addShort(String columnName, Short value);
 
-	public QueryInterface addDate(String columnName,String value,String format);
+	QueryInterface addDate(String columnName, String value, String format);
 	
-	public QueryInterface addDate(String columnName,String value);
+	QueryInterface addDate(String columnName, String value);
 	
-	public QueryInterface addDate(String columnName,java.util.Date value);
+	QueryInterface addDate(String columnName, java.util.Date value);
 	
-	public QueryInterface addDate(String columnName,java.util.Date value, String format);
+	QueryInterface addDate(String columnName, java.util.Date value, String format);
 	
-	public QueryInterface addDate(String columnName,java.sql.Date value);
+	QueryInterface addDate(String columnName, java.sql.Date value);
 	
-	public QueryInterface addDate(String columnName,java.sql.Date value,String format);
+	QueryInterface addDate(String columnName, java.sql.Date value, String format);
 	
-	public QueryInterface add(Column col,Object value);
+	QueryInterface add(Column col, Object value);
 	
-	public QueryInterface addString(String columnName,String value);
+	QueryInterface addString(String columnName, String value);
 	
-	public QueryInterface addInt(String columnName,Integer value);
+	QueryInterface addInt(String columnName, Integer value);
 
-	public QueryInterface addBinaryStream(String columnName,FileInputStream value);
+	QueryInterface addBinaryStream(String columnName, FileInputStream value);
 	
-	public QueryInterface addBinaryStream(String columnName,InputStream value);
+	QueryInterface addBinaryStream(String columnName, InputStream value);
 
-    public QueryInterface addObject(String columnName,Object value);
+    QueryInterface addObject(String columnName, Object value);
     
-    public QueryInterface addTimestamp(String columnName,Timestamp value);
+    QueryInterface addTimestamp(String columnName, Timestamp value);
 
-    public QueryInterface addArray(String columnName,ArrayList<?> value);
+    QueryInterface addArray(String columnName, ArrayList<?> value);
 
-    public QueryInterface addAsciiStream(String columnName,InputStream value);
+    QueryInterface addAsciiStream(String columnName, InputStream value);
 
-    public QueryInterface addClob(String columnName,Clob value);
+    QueryInterface addClob(String columnName, Clob value);
     
-    public QueryInterface addBlob(String columnName,Blob value);
+    QueryInterface addBlob(String columnName, Blob value);
 
-    public QueryInterface addByte(String columnName,byte[] value);
+    QueryInterface addByte(String columnName, byte[] value);
     
-    public QueryInterface addByte(String columnName,byte value);
+    QueryInterface addByte(String columnName, byte value);
     
-    public QueryInterface addBoolean(String columnName,boolean value);
+    QueryInterface addBoolean(String columnName, boolean value);
     
-	public QueryInterface addBigDecimal(String columnName,BigDecimal value);
+	QueryInterface addBigDecimal(String columnName, BigDecimal value);
 	
-	public QueryInterface addBigInteger(String columnName,BigInteger value);
+	QueryInterface addBigInteger(String columnName, BigInteger value);
 
-    public QueryInterface addTime(String columnName,Time value);
+    QueryInterface addTime(String columnName, Time value);
     
-    public List<Column> getParametersMap();
+    List<Column> getParametersMap();
     
-    public QueryInterface keepConnection();
+    QueryInterface keepConnection();
     
-    public void begin() throws SQLException;
+    void begin() throws SQLException;
     
-    public void commit() throws SQLException;
+    void commit() throws SQLException;
     
-    public void roolback() throws SQLException;
+    void roolback() throws SQLException;
     
-    public QueryInterface insert(String tableName);
+    QueryInterface insert(String tableName);
     
-    public QueryInterface update(String tableName);
+    QueryInterface update(String tableName);
 
-    public QueryInterface delete(String tableName);
+    QueryInterface delete(String tableName);
     
-    public void closeConnection() throws SQLException;
+    void closeConnection() throws SQLException;
 }

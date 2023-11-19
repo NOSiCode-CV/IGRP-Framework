@@ -52,7 +52,7 @@ public class BPMNTimeLine {
 			List<TimeLine> list = new ArrayList<>();
 			List<TaskTimeLine> tasks = getTasks();
 			this.countTask=0;
-			tasks.stream().forEach(task->{
+			tasks.forEach(task->{
 				TimeLine t = new TimeLine();
 				t.setTitle((++countTask)+" - "+task.getName());
 				t.setType(task.getType());
@@ -68,7 +68,7 @@ public class BPMNTimeLine {
 	private void recursiveTask(List<UserTask> userTasks,Map<String,String> refs,String taskSearch) {
 		final String next = refs.get(taskSearch);
 		userTasks.stream()
-			.filter(t->(t.getId().compareTo(""+taskSearch) == 0) && next!=null)
+			.filter(t-> (t.getId().compareTo(taskSearch) == 0) && next != null)
 			.forEach(t->{
 				TaskTimeLine tt = new TaskTimeLine();
 				tt.setTaskId(t.getId());
@@ -99,7 +99,6 @@ public class BPMNTimeLine {
 			taskSQ.addFilterBody("executionId", runtimeTask.getTask().getExecutionId());
 		try {
 			taskSQ.queryHistoryTask()
-			    .stream()
 			    .forEach(task->{
 			    	if(tasksSQ.isEmpty()) {
 			    		tasksSQ.put(task.getTaskDefinitionKey(), task.getId());
@@ -136,7 +135,7 @@ public class BPMNTimeLine {
 			}
 			String start = startEvent.stream().findFirst().get().getId();
 			this.recursiveTask(userTasks,refs, start);
-			taskTimeline.stream()
+			taskTimeline
 			.forEach(t->{
 				if(t.getName().equalsIgnoreCase(runtimeTask.getTask().getName())) {
 					t.setType("curent");

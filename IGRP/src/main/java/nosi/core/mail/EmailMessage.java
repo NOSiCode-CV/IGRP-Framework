@@ -245,7 +245,7 @@ public class EmailMessage {
 	}
 	
 	public static boolean validateEmails(String emails) {
-		String aux[] = emails.split(",");
+		String[] aux = emails.split(",");
 		for(String email : aux)
 			if(!validateEmail(email))
 				return false;
@@ -348,69 +348,48 @@ public class EmailMessage {
 		
 		public static String getCorpoFormatado(String boxTitle, String msgBoasVindas, String[] paragrafos, String []textoBtnAcao, String []hrefBtnAcao, String helpLink) {
 			if(paragrafos.length == 0 || msgBoasVindas.isEmpty()) return "";
-			 String body = ""
-	                + "<div style=\"HEIGHT: 100%; width:100%; background-color: rgb(244, 244, 244);\">"
-	                + "<!--[if mso | IE]><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"\" style=\"width:600px;\" width=\"600\" ><tr><td style=\"line-height:0px;font-size:0px;mso-line-height-rule:exactly;\"><![endif]-->"	        		
-	                + "<div style=\" margin: 10px auto; width: 600px;\">"
-	                + "<table align=\"center\" role=\"presentation\" style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
-	                + "        <tbody>"
-	                + "            <tr>"
-	                + "                <td style=\"padding: 20px 0px; text-align: center; direction: ltr;font: 15px 'Helvetica Neue', Helvetica, Arial, sans-serif;\">"
-	                + "         	      <div class=\"mj-column-per-100 mj-outlook-group-fix\" style=\"width: 100%; text-align: left; vertical-align: top; display: inline-block; direction: ltr;\">"
-	                + "<table width=\"100%\" role=\"presentation\" style=\"background: white;vertical-align: top;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
-	                + "<tbody>"
-	                + "<tr>"
-	                + "<td align=\"left\" style=\"padding: 10px 25px; \">"
-	                + "<table role=\"presentation\" style=\"border-collapse: collapse; border-spacing: 0px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
-	                + "<tbody>"
-	                + "                       <tr style=\"width:100%;height:57px;\" >"
-	                + "                                <td style=\"border-bottom-color: #ddd; border-bottom-width: 1px; border-bottom-style: solid; font-size:36px;text-align:center;color:#333333;padding:0px;margin: 0 auto;\">"
-	                + "                                    <strong>" + boxTitle + "</strong>"
-	                + "                                </td>"
-	                + "                            </tr>"
-	                + "                            <tr style=\"width:100%;\" >"
-	                + "                                <td style=\"border-bottom-color: #ddd; border-bottom-width: 1px; border-bottom-style: solid; background:#FFFFFF;padding:18px;vertical-align:top;text-align:left;\">"
-	                + "                                    <h1 style=\"font-size:20px;margin:0;color:#424242\">" + msgBoasVindas + "</h1>";
+			 StringBuilder body = new StringBuilder(""
+                                                    + "<div style=\"HEIGHT: 100%; width:100%; background-color: rgb(244, 244, 244);\">"
+                                                    + "<!--[if mso | IE]><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"\" style=\"width:600px;\" width=\"600\" ><tr><td style=\"line-height:0px;font-size:0px;mso-line-height-rule:exactly;\"><![endif]-->"
+                                                    + "<div style=\" margin: 10px auto; width: 600px;\">"
+                                                    + "<table align=\"center\" role=\"presentation\" style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
+                                                    + "        <tbody>"
+                                                    + "            <tr>"
+                                                    + "                <td style=\"padding: 20px 0px; text-align: center; direction: ltr;font: 15px 'Helvetica Neue', Helvetica, Arial, sans-serif;\">"
+                                                    + "         	      <div class=\"mj-column-per-100 mj-outlook-group-fix\" style=\"width: 100%; text-align: left; vertical-align: top; display: inline-block; direction: ltr;\">"
+                                                    + "<table width=\"100%\" role=\"presentation\" style=\"background: white;vertical-align: top;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
+                                                    + "<tbody>"
+                                                    + "<tr>"
+                                                    + "<td align=\"left\" style=\"padding: 10px 25px; \">"
+                                                    + "<table role=\"presentation\" style=\"border-collapse: collapse; border-spacing: 0px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
+                                                    + "<tbody>"
+                                                    + "                       <tr style=\"width:100%;height:57px;\" >"
+                                                    + "                                <td style=\"border-bottom-color: #ddd; border-bottom-width: 1px; border-bottom-style: solid; font-size:36px;text-align:center;color:#333333;padding:0px;margin: 0 auto;\">"
+                                                    + "                                    <strong>" + boxTitle + "</strong>"
+                                                    + "                                </td>"
+                                                    + "                            </tr>"
+                                                    + "                            <tr style=\"width:100%;\" >"
+                                                    + "                                <td style=\"border-bottom-color: #ddd; border-bottom-width: 1px; border-bottom-style: solid; background:#FFFFFF;padding:18px;vertical-align:top;text-align:left;\">"
+                                                    + "                                    <h1 style=\"font-size:20px;margin:0;color:#424242\">" + msgBoasVindas + "</h1>");
 	        // Paragrafos
 	        for (String paragrafo : paragrafos) {
-	        	body += "<p style=\"margin: 10px 0px;\">"
-	        			+ "<span style=\"color: rgb(27, 29, 34);\">"
-	        			+ "<span style=\"font-size: 14px; background-color: rgb(255, 255, 255); \">"
-	        			+ paragrafo + "</span></span></p>";
+	        	body.append("<p style=\"margin: 10px 0px;\">" + "<span style=\"color: rgb(27, 29, 34);\">" + "<span style=\"font-size: 14px; background-color: rgb(255, 255, 255); \">").append(paragrafo).append("</span></span></p>");
 	        			 
 			}
-	        body += "</td></tr><tr>"; 
+	        body.append("</td></tr><tr>");
 	        if (textoBtnAcao != null && textoBtnAcao.length > 0 && hrefBtnAcao != null && hrefBtnAcao.length > 0 && hrefBtnAcao.length == textoBtnAcao.length) {
 	        	for(int i = 0 ; i < hrefBtnAcao.length; i++) { // Botao Accao 
-	        		body += ""
-		                    + "<td align=\"center\" style=\"padding: 20px 5px;\" vertical-align=\"middle\">"
-		                    + "<table role=\"presentation\" style=\"line-height: 100%; border-collapse: separate;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
-		                    + "<tbody>"
-		                    + "<tr><td align=\"center\" role=\"presentation\" valign=\"middle\" style=\"background: #337ab7; border-radius: 3px; border: 0px solid rgb(255, 255, 255); cursor: auto; mso-padding-alt: 15px 25px 15px 25px;\" bgcolor=\"#337ab7\">"
-		                    + "<a style=\"background: #337ab7; margin: 0px; padding: 15px 25px; border-radius: 3px; color: rgb(255, 255, 255); text-transform: none; line-height: 120%; font-family: Arial, sans-serif; font-size: 15px; font-weight: normal; text-decoration: none; display: inline-block; mso-padding-alt: 0px;\" "
-		                    + "href=\"" + hrefBtnAcao[i] + "\" target=\"_blank\">"
-		                    + "<b style=\"font-weight: 700;\"><span style=\"color: rgb(255, 255, 255); font-weight: 700;\">"+ textoBtnAcao[i] + "</span></b></a>"
-		                    + "</td></tr></tbody></table></td>";
+	        		body.append("<td align=\"center\" style=\"padding: 20px 5px;\" vertical-align=\"middle\">" + "<table role=\"presentation\" style=\"line-height: 100%; border-collapse: separate;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">" + "<tbody>" + "<tr><td align=\"center\" role=\"presentation\" valign=\"middle\" style=\"background: #337ab7; border-radius: 3px; border: 0px solid rgb(255, 255, 255); cursor: auto; mso-padding-alt: 15px 25px 15px 25px;\" bgcolor=\"#337ab7\">" + "<a style=\"background: #337ab7; margin: 0px; padding: 15px 25px; border-radius: 3px; color: rgb(255, 255, 255); text-transform: none; line-height: 120%; font-family: Arial, sans-serif; font-size: 15px; font-weight: normal; text-decoration: none; display: inline-block; mso-padding-alt: 0px;\" " + "href=\"").append(hrefBtnAcao[i]).append("\" target=\"_blank\">").append("<b style=\"font-weight: 700;\"><span style=\"color: rgb(255, 255, 255); font-weight: 700;\">").append(textoBtnAcao[i]).append("</span></b></a>").append("</td></tr></tbody></table></td>");
 	        	}
 	        } else {
 	            // Funciona tipo uma margem antes do rodape
-	            body += "<td><p style=\"height:30px;\"></p></td>";
+	            body.append("<td><p style=\"height:30px;\"></p></td>");
 	        }
-	        body += "</tr>";
-	        body += "<tr><td>";
+	        body.append("</tr>");
+	        body.append("<tr><td>");
 	        // Rodape
-	        body += "                                    <p style=\"color:#797f89;margin-bottom:0;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:13px;\"> "
-	                + "                                        <a href=\"" + helpLink + "\" style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;color:#ef5b25;text-decoration:none;float: right;\" target=\"_blank\" >Click +info</a>"
-	                + "                                    </p>"
-	                + "                                </td>"
-	                + "                            </tr>"
-	                + "                        </tbody>"
-	                + "                    </table>"
-	                + "                </td>"
-	                + "            </tr>"
-	                + "        </tbody>"
-	                + "    </table></div></div>";
-	        return body;
+	        body.append("                                    <p style=\"color:#797f89;margin-bottom:0;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:13px;\"> " + "                                        <a href=\"").append(helpLink).append("\" style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;color:#ef5b25;text-decoration:none;float: right;\" target=\"_blank\" >Click +info</a>").append("                                    </p>").append("                                </td>").append("                            </tr>").append("                        </tbody>").append("                    </table>").append("                </td>").append("            </tr>").append("        </tbody>").append("    </table></div></div>");
+	        return body.toString();
 	    }
 	}
 	

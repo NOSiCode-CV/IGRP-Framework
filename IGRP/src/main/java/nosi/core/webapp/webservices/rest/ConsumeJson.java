@@ -17,9 +17,9 @@ import nosi.core.webapp.Core;
  *
  */
 public class ConsumeJson {
-	public String getObjectFromJson(String url, String json_data) throws IOException {
+	public String getObjectFromJson(String url, String jsonData) throws IOException {
 
-		byte[] postData = json_data.getBytes(StandardCharsets.UTF_8);
+		byte[] postData = jsonData.getBytes(StandardCharsets.UTF_8);
 		int postDataLength = postData.length;
 		URL url_request = new URL(url);
 		HttpURLConnection conn = (HttpURLConnection) url_request.openConnection();
@@ -36,7 +36,7 @@ public class ConsumeJson {
 			wr.write(postData);
 		}
 
-		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
 
 		StringBuffer response = new StringBuffer();
 		in.lines().forEach(response::append);
@@ -57,7 +57,7 @@ public class ConsumeJson {
 			conn.setRequestProperty("accept", "application/json");
 			conn.setRequestProperty("charset", "utf-8");
 			// conn.setUseCaches( false );
-			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
 			StringBuffer response = new StringBuffer();
 			in.lines().forEach(response::append);
 			in.close();

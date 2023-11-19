@@ -10,13 +10,11 @@ import java.util.List;
  */
 public class RemoteXML {
 
-	private StringBuilder xmlConstruct;
+	private final StringBuilder xmlConstruct;
 	private List<String> properties;
 	private List<String> messages;
-	private String lineSeparator="\n";
-	private final String rootElement="<content>";
-	private final String endRootElement = "</content>";
-	
+	private final String lineSeparator="\n";
+
 	public RemoteXML()
 	{
 		this.xmlConstruct = new StringBuilder();
@@ -64,12 +62,14 @@ public class RemoteXML {
 	private void startXml() {
 		this.xmlConstruct.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		this.xmlConstruct.append(lineSeparator);
+		String rootElement = "<content>";
 		this.xmlConstruct.append(rootElement);
 		this.xmlConstruct.append(lineSeparator);
 	}
 	
 	private void closeXml() {
 		this.xmlConstruct.append(lineSeparator);
+		String endRootElement = "</content>";
 		this.xmlConstruct.append(endRootElement);
 		this.messages=null;
 		this.properties=null;

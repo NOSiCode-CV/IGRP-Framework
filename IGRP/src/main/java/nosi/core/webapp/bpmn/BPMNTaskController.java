@@ -185,13 +185,13 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		Object[] id_tp_doc = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");	
 		if(id_tp_doc!=null && parts_!=null) {
 			try {
-				id_tp_doc = Arrays.asList(id_tp_doc).stream().filter(Core::isNotNull).toArray();
+				id_tp_doc = Arrays.stream(id_tp_doc).filter(Core::isNotNull).toArray();
 				
 				Object[] doc_id = Core.getParamArray("p_formlist_documento_doc_id_fk");	
-				doc_id = Arrays.asList(doc_id).stream().filter(Core::isNotNull).toArray();
+				doc_id = Arrays.stream(doc_id).filter(Core::isNotNull).toArray();
 	
 				Object[] input_type = Core.getParamArray("p_formlist_documento_task_documento_fk_desc");	
-				input_type = Arrays.asList(input_type).stream().filter(Core::isNotNull).toArray();
+				input_type = Arrays.stream(input_type).filter(Core::isNotNull).toArray();
 	
 				List<Part> parts = parts_.stream().filter(p->p.getName().equalsIgnoreCase("p_formlist_documento_task_documento_fk")).collect(Collectors.toList());
 

@@ -123,7 +123,7 @@ public class DataSourceHelpers {
 		}
 		for(RepTemplateSource r:list ){
 			if(r.getParameters()!=null) {
-				r.getParameters().stream().forEach(p->{
+				r.getParameters().forEach(p->{
 					params.put(p.getParameter().toLowerCase(),p.getParameter_type());
 				});
 			}
@@ -167,7 +167,7 @@ public class DataSourceHelpers {
 		//Get all parameters of datasource
 		Map<String,String> parameters = this.getParams(rt.getId(), rs.getId());
 		//Reomve filtro caso nao existir
-		if(value_array==null || value_array.length<=0){
+		if(value_array==null || value_array.length == 0){
 			query =rs.getType().equalsIgnoreCase("query")?this.replaceParameters(query):query;
 		}
 		//Aplica filtro caso existir
@@ -288,26 +288,24 @@ public class DataSourceHelpers {
 			Map<Properties,String> mapping = new HashMap<>();
 			Record r = new Record();
 			r.RowList = new ArrayList<>();
-			data.stream().forEach(l->{
+			data.forEach(l->{
 				Record rec = new Record();
 				rec.Row = l;
 				r.RowList.add(rec);
 			});
 			r.RowList.forEach(t->{
 				this.xmlRows.startElement("row");
-				Iterator<Properties> listColumns = columns.iterator();
-				while(listColumns.hasNext()){
-					Properties p = listColumns.next();
-					String name = p.getProperty("name");
-					String value = t.getString(name);
-					String tag = p.getProperty("tag"); 
-					if(Core.isNull(value)) {
-						name = name.startsWith("p_") ? name.substring(2, name.length()) : name;
-						value = t.getString(name);
-					}
-					mapping.put(p, value !=  null ? value : "");
-					this.appendTag(tag, name, value !=  null ? value : ""); 
-				}
+               for (Properties p : columns) {
+                  String name = p.getProperty("name");
+                  String value = t.getString(name);
+                  String tag = p.getProperty("tag");
+                  if (Core.isNull(value)) {
+                     name = name.startsWith("p_") ? name.substring(2, name.length()) : name;
+                     value = t.getString(name);
+                  }
+                  mapping.put(p, value != null ? value : "");
+                  this.appendTag(tag, name, value != null ? value : "");
+               }
 				this.xmlRows.endElement();
 			});
 			return mapping;

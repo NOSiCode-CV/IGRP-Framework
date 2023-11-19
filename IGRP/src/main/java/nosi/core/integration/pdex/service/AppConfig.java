@@ -84,8 +84,8 @@ public class AppConfig extends PdexServiceTemplate{
 		ExternalMenu menu = new ExternalMenu(); 
 		try {
 			menu.setId("" + m.getLong("id"));
-			menu.setTitle("" + m.getString("title")); 
-			menu.setArea("" + m.getString("area"));
+			menu.setTitle(m.getString("title"));
+			menu.setArea(m.getString("area"));
 			try {
 				menu.setEstado("" + m.getInt("estado")); 
 			} catch (Exception e) {
@@ -93,23 +93,23 @@ public class AppConfig extends PdexServiceTemplate{
 			}
 			
 			try {
-				menu.setDescription("" + m.getString("description"));
+				menu.setDescription(m.getString("description"));
 			} catch (Exception e) {
 				menu.setDescription(""); 
 			}
 			
 			try {
-				menu.setUrl("" + m.getString("url"));
+				menu.setUrl(m.getString("url"));
 			} catch (Exception e) {
 				menu.setUrl("#"); 
 			}
 			try {
-				menu.setImgsrc("" + m.getString("imgsrc"));
+				menu.setImgsrc(m.getString("imgsrc"));
 			} catch (Exception e) {
 				menu.setImgsrc("#");
 			}
 			try {
-				menu.setSelf_id("" + m.getString("self_id"));
+				menu.setSelf_id(m.getString("self_id"));
 			} catch (Exception e) {
 				menu.setSelf_id("");
 			}

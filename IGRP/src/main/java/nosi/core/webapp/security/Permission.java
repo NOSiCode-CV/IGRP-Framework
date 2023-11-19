@@ -60,7 +60,7 @@ public class Permission {
 			
 			try {// eliminar 
 				id_user = Core.getCurrentUser().getIdentityId();
-			}catch(Exception e) {
+			}catch(Exception ignored) {
 				
 			}
 			
@@ -148,8 +148,9 @@ public class Permission {
 	}
 	
 	public ApplicationPermition getApplicationPermition(String dad) {
-		Optional<Cookie> cookies = Igrp.getInstance()!= null && Igrp.getInstance().getRequest().getCookies()!=null?Arrays.asList(Igrp.getInstance().getRequest().getCookies()).stream().filter(c -> c.getName().equalsIgnoreCase(dad)).findFirst():null;
-		String json = (cookies!=null && cookies.isPresent())?cookies.get().getValue():null;
+		Optional<Cookie> cookies = Igrp.getInstance()!= null && Igrp.getInstance().getRequest().getCookies()!=null ?
+				Arrays.stream(Igrp.getInstance().getRequest().getCookies()).filter(c -> c.getName().equalsIgnoreCase(dad)).findFirst(): Optional.empty();
+		String json = cookies.map(Cookie::getValue).orElse(null);
 		if(json!=null) {
 			try {
 				json = URLDecoder.decode(json,ENCODE);

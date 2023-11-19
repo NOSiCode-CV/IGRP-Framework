@@ -57,8 +57,7 @@ public class StringHelper {
 
 	public static String decode(String headerText) {
 		try {
-			final Charset utf8 = StandardCharsets.UTF_8;
-			headerText = new String(headerText.getBytes(utf8), utf8.name());
+			headerText = new String(headerText.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8.name());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

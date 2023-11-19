@@ -1,7 +1,6 @@
 package nosi.core.igrp.mingrations;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.ConfigDBIGRP;

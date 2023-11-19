@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface Component { 
 
-	public void init(HttpServletRequest request);
-	public void destroy();
+	void init(HttpServletRequest request);
+	void destroy();
 	
 }

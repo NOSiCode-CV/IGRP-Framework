@@ -1,12 +1,6 @@
 package nosi.core.webapp.helpers;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.function.DoubleBinaryOperator;
-import java.util.function.IntToDoubleFunction;
-
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.security.PagesScapePermission;
 
 /**
