@@ -2,23 +2,16 @@ package nosi.core.webapp;
 
 import java.util.Map;
 
-import nosi.core.webapp.Igrp;
-
 import java.util.HashMap;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
-
 
 /**
  * @author Marcel Iekiny
  * Apr 19, 2017
  */
 public class FlashMessage implements Serializable{
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private Message msgs;
@@ -63,15 +56,11 @@ public class FlashMessage implements Serializable{
 	
 	public FlashMessage addMessage(String name, String msg){
 		this.msgs.addMessage(name, msg);
-		// atualizar session  /* Sorry we dont need it */
-		//Igrp.getInstance().getRequest().getSession().setAttribute("flash", this.msgs);
 		return this;
 	}
 	
 	public void setMessage(String name, String msg){
 		this.msgs.setMessage(name, msg);
-		// atualizar session /* Sorry we dont need it */
-		//Igrp.getInstance().getRequest().getSession().setAttribute("flash", this.msgs);
 	}
 	
 	public boolean hasMessage(String name){
@@ -85,29 +74,21 @@ public class FlashMessage implements Serializable{
 	public ArrayList<String> getMessages(String name){
 		return this.msgs.getMessages(name);
 	}
-
-	// Please dont uncomment this method below ... (because it is only for test purpose)
-	/*public Message getMessage(){
-		return this.msgs;
-	}*/
 	
-	private class Message implements Serializable{ // inner/internal class for all message
-		
-		/**
-		 * 
-		 */
+	private static class Message implements Serializable{ // inner/internal class for all message
+
 		private static final long serialVersionUID = 1L;
-		private Map<String, ArrayList<String>> msg;
+		private final Map<String, ArrayList<String>> msg;
 		
 		public Message(){
-			this.msg = new HashMap<String, ArrayList<String>>();
-			this.msg.put(FlashMessage.ERROR, new ArrayList<String>());
-			this.msg.put(FlashMessage.SUCCESS, new ArrayList<String>());
-			this.msg.put(FlashMessage.CONFIRM, new ArrayList<String>());
-			this.msg.put(FlashMessage.INFO, new ArrayList<String>());
-			this.msg.put(FlashMessage.WARNING, new ArrayList<String>());
-			this.msg.put(FlashMessage.DEBUG, new ArrayList<String>());
-			this.msg.put(FlashMessage.INFO_LINK, new ArrayList<String>());
+			this.msg = new HashMap<>();
+			this.msg.put(FlashMessage.ERROR, new ArrayList<>());
+			this.msg.put(FlashMessage.SUCCESS, new ArrayList<>());
+			this.msg.put(FlashMessage.CONFIRM, new ArrayList<>());
+			this.msg.put(FlashMessage.INFO, new ArrayList<>());
+			this.msg.put(FlashMessage.WARNING, new ArrayList<>());
+			this.msg.put(FlashMessage.DEBUG, new ArrayList<>());
+			this.msg.put(FlashMessage.INFO_LINK, new ArrayList<>());
 		}
 		
 		public void addMessage(String name, String msg){
@@ -118,7 +99,7 @@ public class FlashMessage implements Serializable{
 		}
 		
 		public void setMessage(String name, String msg){
-			ArrayList<String> aux = new ArrayList<String>();
+			ArrayList<String> aux = new ArrayList<>();
 			aux.add(msg);
 			this.msg.put(name, aux);
 		}
@@ -126,30 +107,29 @@ public class FlashMessage implements Serializable{
 		public boolean hasMessage(String name){
 			return this.msg.containsKey(name) && !this.msg.get(name).isEmpty();
 		}
-		
-		public String getMessagesAsString(String name){ // return all specific message as a String
+
+		public String getMessagesAsString(String name) { // return all specific message as a String
 			StringBuilder result = new StringBuilder();
-			if(this.msg.containsKey(name)){
-				Iterator<String> i = this.msg.get(name).iterator();
-				while(i.hasNext())
-					result.append(i.next()).append(" ");
+			if (this.msg.containsKey(name)) {
+				for (String s : this.msg.get(name))
+					result.append(s).append(" ");
 			}
 			this.msg.get(name).clear();
 			return result.toString();
 		}
 		
 		public ArrayList<String> getMessages(String name){
-			ArrayList<String> result = new ArrayList<String>(); // empty ArrayList for NullPointerException when return it ...
+			ArrayList<String> result = new ArrayList<>(); // empty ArrayList for NullPointerException when return it ...
 			if(this.msg.containsKey(name)){
-				result = new ArrayList<String>(this.msg.get(name)); // to make clone of collection
+				result = new ArrayList<>(this.msg.get(name)); // to make clone of collection
 				this.msg.get(name).clear();
 			}
 			return result;
 		}
-		
+
 
 		public void removeMsg(String name) {
-			if(this.msg!=null && this.msg.containsKey(name))
+			if (this.msg != null)
 				this.msg.remove(name);
 		}
 	}
