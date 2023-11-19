@@ -203,21 +203,21 @@ public class DataSourceHelpers {
 	
 	
 	private String getResolveQuery(String query_,Map<String,String> parameters,Map<String, String> paramsUrl) {
-		String query = query_;
+		StringBuilder query = new StringBuilder(query_);
 		if(paramsUrl!=null && !paramsUrl.isEmpty()){
-			query += !query.toLowerCase().contains("where")?" WHERE 1=1 ":"";	
+			query.append(!query.toString().toLowerCase().contains("where") ? " WHERE 1=1 " : "");
 			for(Map.Entry<String, String> parm:paramsUrl.entrySet()){
 				if(parm.getKey()!=null && parm.getValue()!=null && !parm.getKey().isEmpty() && !parm.getValue().isEmpty()){
 					String column_name = parm.getKey().contains("p_")?parm.getKey().substring(2, parm.getKey().length()):parm.getKey();
 					boolean column_find = (parameters.containsKey("p_"+column_name.toLowerCase()) || parameters.containsKey(column_name.toLowerCase()));
 					if(column_find) {
-						 if(!query.contains(":"+column_name.toLowerCase()) && !query.contains(":p_"+column_name.toLowerCase()))
-							 query += " AND "+column_name+"=:"+parm.getKey();
+						 if(!query.toString().contains(":" + column_name.toLowerCase()) && !query.toString().contains(":p_" + column_name.toLowerCase()))
+							 query.append(" AND ").append(column_name).append("=:").append(parm.getKey());
 					}
 				}
 			}
 		}
-		return query;
+		return query.toString();
 	}
 
 

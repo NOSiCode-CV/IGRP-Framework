@@ -131,16 +131,16 @@ public class Validation {
 	
 	public static boolean validateDigits(int integer,int fraction, String value) {
 		if(fraction > 0) {
-			String number = Validation.normalizeNumber(value);
-			if(number.contains(".")) {
-				String[] numberSplit = number.split("\\.");
-				number = numberSplit[0];
+			StringBuilder number = new StringBuilder(Validation.normalizeNumber(value));
+			if(number.toString().contains(".")) {
+				String[] numberSplit = number.toString().split("\\.");
+				number = new StringBuilder(numberSplit[0]);
 				if(numberSplit.length > 2) {
 					for(int i=1;i<numberSplit.length-1;i++) {
-						number += numberSplit[i];
+						number.append(numberSplit[i]);
 					}
 				}
-				return Core.digits(number) <= integer && Core.digits(numberSplit[numberSplit.length-1]) <= fraction;
+				return Core.digits(number.toString()) <= integer && Core.digits(numberSplit[numberSplit.length - 1]) <= fraction;
 			}
 		}else {
 			return Core.digits(value) <= integer;

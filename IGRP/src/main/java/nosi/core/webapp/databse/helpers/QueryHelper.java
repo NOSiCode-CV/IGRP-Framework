@@ -389,29 +389,29 @@ public abstract class QueryHelper implements QueryInterface{
 
 	public String getSqlInsert(String schemaName, List<DatabaseMetadaHelper.Column> colmns, String tableName) {
 		String tableName_ = (schemaName!=null && !schemaName.isEmpty())? schemaName + "." + tableName:tableName;//Adiciona schema
-		String inserts = "";
-		String values = "";
+		StringBuilder inserts = new StringBuilder();
+		StringBuilder values = new StringBuilder();
 		for(DatabaseMetadaHelper.Column col:colmns) {
 			if(!col.isAutoIncrement()) {
-				inserts += col.getName().toLowerCase()+",";
-				values += ":"+col.getName().toLowerCase()+",";
+				inserts.append(col.getName().toLowerCase()).append(",");
+				values.append(":").append(col.getName().toLowerCase()).append(",");
 			}
 		}	
-		inserts = inserts.substring(0, inserts.length()-1);
-		values = values.substring(0, values.length()-1);
+		inserts = new StringBuilder(inserts.substring(0, inserts.length() - 1));
+		values = new StringBuilder(values.substring(0, values.length() - 1));
 		return "INSERT INTO "+tableName_+" ("+inserts+") VALUES ("+values+")";
 	}
 	
 
 	public String getSqlUpdate(String schemaName, List<DatabaseMetadaHelper.Column> colmns, String tableName) {
 		String tableName_ = (schemaName!=null && !schemaName.isEmpty())? schemaName + "." + tableName:tableName;//Adiciona schema
-		String updates = "";
+		StringBuilder updates = new StringBuilder();
 		for(DatabaseMetadaHelper.Column col:colmns) {
 			if(!col.isAutoIncrement() && !col.isAfterWhere()) {
-				updates += col.getName().toLowerCase()+"=:"+col.getName().toLowerCase()+",";
+				updates.append(col.getName().toLowerCase()).append("=:").append(col.getName().toLowerCase()).append(",");
 			}
 		}	
-		updates = Core.isNotNull(updates)?updates.substring(0, updates.length()-1):"";
+		updates = new StringBuilder(Core.isNotNull(updates.toString()) ? updates.substring(0, updates.length() - 1) : "");
 		String s = "UPDATE "+tableName_ +" SET "+updates;
 		return s;
 	}

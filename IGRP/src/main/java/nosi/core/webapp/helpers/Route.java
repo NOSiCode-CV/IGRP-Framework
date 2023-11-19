@@ -29,16 +29,16 @@ public final class Route {
 		String action = resolveAction(action_);
 		String url = "";
 		url = Route.getResolveUrl(app, page, action+queryString,null,isPublic);
-		url = url.replaceAll("&&", "&");
+		url = url.replace("&&", "&");
 		return url;
 	}
 	
 	public static String toUrl(String app, String page, String action_, String qs) {
-		return Route.toUrl(app, page, action_, qs, Core.getParamInt("isPublic").intValue());
+		return Route.toUrl(app, page, action_, qs, Core.getParamInt("isPublic"));
 	}
 
 	public static String getResolveUrl(String app,String page,String action){
-		return Route.getResolveUrl(app, page, action, Core.getCurrentDad(),Core.getParamInt("isPublic").intValue());
+		return Route.getResolveUrl(app, page, action, Core.getCurrentDad(), Core.getParamInt("isPublic"));
 	}
 
 	public static String getResolveUrl(String app,String page,String action_,String dad,int isPublic){
@@ -69,7 +69,7 @@ public final class Route {
 				}
 			}
 		}
-		return url.replaceAll("&&", "&");
+		return url.replace("&&", "&");
 	}
 	
 	public static String getQueryString(String action) {
@@ -100,17 +100,17 @@ public final class Route {
 	}
 
 	public static String toUrl(String app, String page, String action, String[] paramNames, String[] paramValues) {
-		String aux = "";
+		StringBuilder aux = new StringBuilder();
 		for (int i = 0; i < paramNames.length; i++) {
 			if (i > 0 && i < paramNames.length)
-				aux += "&";
-			aux = aux + paramNames[i] + "=" + paramValues[i];
+				aux.append("&");
+			aux.append(paramNames[i]).append("=").append(paramValues[i]);
 		}
-		return Route.toUrl(app, page, action, aux);
+		return Route.toUrl(app, page, action, aux.toString());
 	}
 
 	public static String urlEncoding(String r) {
-		return r.replaceAll(" ", "+");
+		return r.replace(" ", "+");
 	}
 
 	public static String resolveRParam(String r) {

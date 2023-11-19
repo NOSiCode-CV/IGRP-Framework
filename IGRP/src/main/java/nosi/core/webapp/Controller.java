@@ -567,25 +567,25 @@ public class Controller {
 
     protected Object run() {
         Igrp app = Igrp.getInstance();
-        String auxAppName = "";
-        String auxPageName = "";
+        StringBuilder auxAppName = new StringBuilder();
+        StringBuilder auxPageName = new StringBuilder();
         String auxcontrollerPath = "";
-        String auxActionName = "";
+        StringBuilder auxActionName = new StringBuilder();
         if (app != null && app.getCurrentAppName() != null && app.getCurrentActionName() != null
                 && app.getCurrentPageName() != null) {
             for (String aux : app.getCurrentAppName().split("-"))
-                auxAppName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+                auxAppName.append(aux.substring(0, 1).toUpperCase()).append(aux.substring(1));
             for (String aux : app.getCurrentPageName().split("-"))
-                auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+                auxPageName.append(aux.substring(0, 1).toUpperCase()).append(aux.substring(1));
             for (String aux : app.getCurrentActionName().split("-"))
-                auxActionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-            auxActionName = "action" + auxActionName;
-            auxcontrollerPath = this.getConfig().getPackage(auxAppName, auxPageName, auxActionName);
+                auxActionName.append(aux.substring(0, 1).toUpperCase()).append(aux.substring(1));
+            auxActionName.insert(0, "action");
+            auxcontrollerPath = this.getConfig().getPackage(auxAppName.toString(), auxPageName.toString(), auxActionName.toString());
         } else {
-            auxActionName = "actionIndex";
-            auxcontrollerPath = this.getConfig().getPackage("igrp", "Home", auxActionName);
+            auxActionName = new StringBuilder("actionIndex");
+            auxcontrollerPath = this.getConfig().getPackage("igrp", "Home", auxActionName.toString());
         }
-        return loadPage(auxcontrollerPath, auxActionName);
+        return loadPage(auxcontrollerPath, auxActionName.toString());
     }
 
     protected Response call(String app, String page, String action) {

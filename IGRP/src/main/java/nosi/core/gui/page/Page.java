@@ -138,9 +138,9 @@ public class Page{
 	}
 
 	public static String resolvePageName(String page){
-		String page_name = "";
+		StringBuilder page_name = new StringBuilder();
 		for(String aux : page.split("-"))
-			page_name += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-		return page_name;
+			page_name.append(aux.substring(0, 1).toUpperCase()).append(aux.substring(1));
+		return page_name.toString();
 	}
 }

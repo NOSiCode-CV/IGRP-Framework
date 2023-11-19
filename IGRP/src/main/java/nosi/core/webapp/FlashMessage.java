@@ -128,14 +128,14 @@ public class FlashMessage implements Serializable{
 		}
 		
 		public String getMessagesAsString(String name){ // return all specific message as a String
-			String result = "";
+			StringBuilder result = new StringBuilder();
 			if(this.msg.containsKey(name)){
 				Iterator<String> i = this.msg.get(name).iterator();
 				while(i.hasNext())
-					result += i.next() + " ";
+					result.append(i.next()).append(" ");
 			}
 			this.msg.get(name).clear();
-			return result;
+			return result.toString();
 		}
 		
 		public ArrayList<String> getMessages(String name){

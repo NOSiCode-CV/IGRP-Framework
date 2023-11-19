@@ -113,7 +113,7 @@ public class ExportSqlHelper {
 	}
 
 	private String loadDataFromFile(Wizard_export_step_2 model, String dir,String columnName) {
-		String sql = "";
+		StringBuilder sql = new StringBuilder();
 		String basePath = Path.getPath(this.application)+dir;		
 		this.files = new ArrayList<>();
 		this.listFilesDirectory(basePath);
@@ -121,15 +121,14 @@ public class ExportSqlHelper {
 			int size = this.files.size();
 			int count = 0;
 			for(File f:this.files) {
-				sql += "SELECT '" + f.getAbsolutePath() + "' as " + columnName + "_ids,0 as " + columnName
-						+ "_ids_check, '" +f.getParentFile().getName()+" / "+f.getName()+"' as descricao_" + columnName;
+				sql.append("SELECT '").append(f.getAbsolutePath()).append("' as ").append(columnName).append("_ids,0 as ").append(columnName).append("_ids_check, '").append(f.getParentFile().getName()).append(" / ").append(f.getName()).append("' as descricao_").append(columnName);
 				++count;
 				if(count!=size) {
-					sql+=" UNION ";
+					sql.append(" UNION ");
 				}
 			}
 		}
-		return sql;
+		return sql.toString();
 	}
 	
 	public void listFilesDirectory(String path) {
@@ -191,22 +190,22 @@ public class ExportSqlHelper {
 	}
 
 	private void loadPageData(Wizard_export_step_2 model) {
-		String sql = "SELECT id as pagina_ids,0 as pagina_ids_check,concat(page_descr,' (',page,')') as descricao_pagina "
-				   + "FROM tbl_action "
-				   + "WHERE env_fk=:application_id AND status=1 AND processkey is null";
+		StringBuilder sql = new StringBuilder("SELECT id as pagina_ids,0 as pagina_ids_check,concat(page_descr,' (',page,')') as descricao_pagina "
+                                              + "FROM tbl_action "
+                                              + "WHERE env_fk=:application_id AND status=1 AND processkey is null");
 		if(Core.isNotNull(model.getModulo())) {
-			sql+= " AND (";
+			sql.append(" AND (");
 			int count=0;
 			int size = model.getModulo().length;			
 			for(String modulo:model.getModulo()) {
-				sql+=" nomeModulo='"+modulo+"'";
+				sql.append(" nomeModulo='").append(modulo).append("'");
 				++count;
 				if(count!=size)
-					sql+=" OR ";
+					sql.append(" OR ");
 			}
-			sql+= ")";
+			sql.append(")");
 		}
-		model.loadTable_pagina(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
+		model.loadTable_pagina(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, sql.toString()).addInt("application_id", model.getApplication_id()));
 	}
 
 	private void loadDomainData(Wizard_export_step_2 model) {
