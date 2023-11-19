@@ -285,7 +285,7 @@ public class Config {
     }
 
     public String getBasePackage(String app) {
-        if (app != null && !app.equals(""))
+        if (app != null && !app.isEmpty())
             return "nosi.webapps." + app.toLowerCase();
         return "nosi.webapps.igrp.pages";
     }

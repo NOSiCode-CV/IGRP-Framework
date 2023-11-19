@@ -72,7 +72,7 @@ public class Page{
 		String page = igrpApp.getCurrentPageName();
 		String action = igrpApp.getCurrentActionName();
 		Action ac=null;
-		if (!app.equals("") && !page.equals("") && !action.equals("")) {
+		if (!app.isEmpty() && !page.isEmpty() && !action.isEmpty()) {
 			ac = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", Page.resolvePageName(page)).one();
 			
 		}

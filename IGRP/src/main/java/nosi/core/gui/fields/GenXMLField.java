@@ -184,7 +184,7 @@ public class GenXMLField {
 									xml.writeAttribute("checked", "true");
 								}
 								xml.setElement("text", obj.getValue().toString());
-								if(obj.getKey() == null || obj.getKey().toString().equals(""))
+								if(obj.getKey() == null || obj.getKey().toString().isEmpty())
 									xml.emptyTag("value");
 								else
 									xml.setElement("value", obj.getKey().toString());
@@ -248,7 +248,7 @@ public class GenXMLField {
 						xml.writeAttribute("checked", "true");
 					}
 					xml.setElement("text", ""+obj.getValue());
-					if(obj.getKey() == null || obj.getKey().toString().equals(""))
+					if(obj.getKey() == null || obj.getKey().toString().isEmpty())
 						xml.emptyTag("value");
 					else
 						xml.setElement("value", ""+obj.getKey());
