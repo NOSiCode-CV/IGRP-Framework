@@ -101,7 +101,7 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		this.addFilterUrl("latest", "true");
 		this.addFilterUrl("tenantId", tenantId);
 		List<ProcessDefinitionService> list = this.getProcessDefinitions();
-		return list != null && list.size() > 0 ? list.get(0) : null;
+		return list != null && !list.isEmpty() ? list.get(0) : null;
 	}
 
 	@SuppressWarnings("unchecked")

@@ -46,7 +46,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 				d = (List<ProcessInstancesService>) ResponseConverter.convertJsonToListDao(contentResp,"data", 
 						new TypeToken<List<ProcessInstancesService>>(){}.getType());
 				if (d != null && !d.isEmpty()) {
-					d.stream().forEach(t -> {
+					d.forEach(t -> {
 						ProcessDefinitionService proc = new ProcessDefinitionServiceRest()
 								.getProccessDescription(t.getProcessDefinitionUrl());
 						String processName = proc.getName();

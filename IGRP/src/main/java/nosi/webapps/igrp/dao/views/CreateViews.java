@@ -8,7 +8,7 @@ import nosi.core.webapp.databse.helpers.QuerySelect;
 
 public class CreateViews{
 
-	private static List<String> VIEWS = new ArrayList<>();
+	private static final List<String> VIEWS = new ArrayList<>();
 	static{
 		VIEWS.add("CREATE OR REPLACE VIEW GLB_MV_ALL_MENUS(ID,DESCR,DESCR_MENU,SELF_FK,ENV_FK,ACTION_FK, ORDERBY) as SELECT  "
 			+ "a.ID,"
@@ -190,10 +190,11 @@ public class CreateViews{
 	}
 	
 	private void createView(){
+		final String baseConnection = ConfigApp.getInstance().getBaseConnection();
 		for(String sql:VIEWS){
 			QuerySelect q = new QuerySelect();
 			q.setSql(sql);
-			q.executeQuery(ConfigApp.getInstance().getBaseConnection()) ;
+			q.executeQuery(baseConnection) ;
 		}
 	}
 }

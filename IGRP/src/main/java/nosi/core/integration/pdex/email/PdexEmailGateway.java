@@ -20,10 +20,10 @@ import org.json.JSONObject;
  */
 public class PdexEmailGateway {
 	
-	private String endpoint; 
-	private String httpAuthorizationHeaderValue;
+	private final String endpoint;
+	private final String httpAuthorizationHeaderValue;
 	private PdexEmailGatewayPayloadDTO payload; 
-	private List<String> errors; 
+	private final List<String> errors;
 	
 	public static final int DEFAULT_TIMEOUT = 1000; 
 	
@@ -35,7 +35,7 @@ public class PdexEmailGateway {
 	public PdexEmailGateway(String endpoint, String httpAuthorizationHeaderValue) {
 		this.endpoint = endpoint;
 		this.httpAuthorizationHeaderValue = httpAuthorizationHeaderValue;
-		errors = new ArrayList<String>(); 
+		errors = new ArrayList<>();
 	}
 	
 	public void setPayload(PdexEmailGatewayPayloadDTO payload) {
@@ -50,24 +50,25 @@ public class PdexEmailGateway {
 			Client client = ClientBuilder.newClient(); 
 			try {
 				WebTarget webTarget = client.target(endpoint); 
-				Invocation.Builder invocationBuilder  = webTarget.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, httpAuthorizationHeaderValue); 
-				javax.ws.rs.core.Response response  = invocationBuilder.post(Entity.json(convertPayloadToJson()));
-				switch (response.getStatus()) {
-				case 200:
-					JSONObject jsonResult = new JSONObject(response.readEntity(String.class)); 
-					JSONObject result = jsonResult.optJSONObject("result"); 
-					if(result != null && result.optBoolean("success") == false)
-						errors.add("The email was not sent. An error has occurred."); 
-				break;
-				case 401:
-				case 403:
-					errors.add("The email was not sent. An Unauthorized or Forbidden error has occurred. Please check the credencials."); 
-				break;
-				case 500:
-					errors.add("The email was not sent. An Internal Server Error has occurred. ResponseBody: " + response.readEntity(String.class)); 
-				break;
-				default:
-					break;
+				Invocation.Builder invocationBuilder  = webTarget.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, httpAuthorizationHeaderValue);
+				try (javax.ws.rs.core.Response response = invocationBuilder.post(Entity.json(convertPayloadToJson()))) {
+					switch (response.getStatus()) {
+						case 200:
+							JSONObject jsonResult = new JSONObject(response.readEntity(String.class));
+							JSONObject result = jsonResult.optJSONObject("result");
+							if (result != null && result.optBoolean("success") == false)
+								errors.add("The email was not sent. An error has occurred.");
+							break;
+						case 401:
+						case 403:
+							errors.add("The email was not sent. An Unauthorized or Forbidden error has occurred. Please check the credencials.");
+							break;
+						case 500:
+							errors.add("The email was not sent. An Internal Server Error has occurred. ResponseBody: " + response.readEntity(String.class));
+							break;
+						default:
+							break;
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace(); 
@@ -143,12 +144,11 @@ public class PdexEmailGateway {
 	}
 	
 	public static boolean ping(final String hostUrl, final int timeout) {
-		boolean success = false; 
 		try {
-			success = InetAddress.getByName(new URL(hostUrl).getHost()).isReachable(DEFAULT_TIMEOUT);
+			return InetAddress.getByName(new URL(hostUrl).getHost()).isReachable(DEFAULT_TIMEOUT);
 		} catch (Exception e) {
 			e.printStackTrace(); 
 		}
-		return success; 
+		return false;
 	}
 }

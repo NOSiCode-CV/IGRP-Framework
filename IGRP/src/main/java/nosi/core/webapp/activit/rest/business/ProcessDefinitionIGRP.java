@@ -2,9 +2,7 @@ package nosi.core.webapp.activit.rest.business;
 
 import static nosi.core.i18n.Translator.gt;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import nosi.core.webapp.Core;
@@ -13,7 +11,6 @@ import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 
-import java.util.Set;
 /**
  * Emanuel 15 May 2019
  */
@@ -65,7 +62,7 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 	public Map<String, String> mapToComboBoxByProcessKey(String processKey, String tenantId) {
 		if (Core.isNotNull(processKey)) {
 			List<TaskService> list = new TaskServiceRest().getTasksByProcessKey(processKey, tenantId);
-			Set<TaskService> listDistint = list.stream().distinct().collect(Collectors.toSet());// Remove Duplicate
+			Set<TaskService> listDistint = new HashSet<>(list);// Remove Duplicate
 			Map<String, String> map = new HashMap<>();	
 			map.put(null, gt("-- Selecionar --"));
 			map.putAll(listDistint.stream()

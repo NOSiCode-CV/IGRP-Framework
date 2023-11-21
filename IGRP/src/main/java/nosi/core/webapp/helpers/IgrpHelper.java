@@ -85,15 +85,15 @@ public final class IgrpHelper {
 				return result;
 			}
 			case "boolean": break;
-			default:;
-		}
+			default:
+        }
 		return array; // default purpose ...
 	}
 	
 
 	public static String getValue(Object model,String name){
 		String value = "";
-		if(model!=null && name!=null && !name.equals("")){		
+		if(model!=null && name!=null && !name.isEmpty()){
 			value = "";
 			String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
 		    for (Method m : model.getClass().getDeclaredMethods()) {		    	
@@ -133,7 +133,7 @@ public final class IgrpHelper {
 	
 	public static Object getValueArray(Object model,String name){
 		Object value = null;
-		if(model!=null && name!=null && !name.equals("")){	
+		if(model!=null && name!=null && !name.isEmpty()){
 			String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
 			for (Method m : model.getClass().getDeclaredMethods()) {		    	
 		    	if(m.getName().startsWith("get") && m.getName().equals("get"+methodName)){

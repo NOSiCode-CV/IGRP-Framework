@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 
-import nosi.core.webapp.security.Permission;
 import nosi.core.webapp.security.SecurtyCallPage;
 import nosi.webapps.igrp.pages.login.LoginController;
 /**

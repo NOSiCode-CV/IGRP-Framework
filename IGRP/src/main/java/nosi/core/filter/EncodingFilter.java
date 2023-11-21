@@ -11,8 +11,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
 
-import nosi.core.webapp.Core;
-
 /**
  * Emanuel
  * 12 Feb 2018

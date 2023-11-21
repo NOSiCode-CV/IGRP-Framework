@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.List;
 
-import javax.xml.XMLConstants;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -116,7 +115,7 @@ public class XMLTransform {
 	//Add field into Form or Table Component
 	public void addField(IGRPComponent component,List<DatabaseMetadaHelper.Column> columns) {
 		if(component!=null) {
-			columns.stream().forEach(column->{
+			columns.forEach(column->{
 				Field f = XMLTransform.getGenFiled(component,column);
 				f.setLabel(f.getLabel().replace("_", " "));
 				if(component instanceof IGRPForm) {					

@@ -30,7 +30,7 @@ public class GenXMLField {
         </fields>
 	 */
 	public static void toXml(XMLWritter xml, List<Field> fields){
-		if(fields.size() > 0){
+		if(!fields.isEmpty()){
 			xml.startElement("fields");
 				for(Field field:fields){
 					if(field.isVisible()){
@@ -52,50 +52,50 @@ public class GenXMLField {
 						}
 						if(field instanceof LookupField){
 							LookupField lookupField = (LookupField) field; 
-							String link = field.getLookup();
+							StringBuilder link = new StringBuilder(field.getLookup());
 							if(field.vertionLookup() == 1) {
 								if(lookupField.isSso()) {
 									
-									String params = "forLookup=true"; 
+									StringBuilder params = new StringBuilder("forLookup=true");
 									for(Entry<String, Object> param : lookupField.getParams().entrySet())
-										params += ";" + param.getKey() + "=" + param.getValue(); 
-									link += params; 
+										params.append(";").append(param.getKey()).append("=").append(param.getValue());
+									link.append(params);
 									
 								}else {
-									link += "&forLookup=true"; 
+									link.append("&forLookup=true");
 									for(Entry<String, Object> param : lookupField.getParams().entrySet())
-										link += "&"+param.getKey() + "=" + param.getValue();
+										link.append("&").append(param.getKey()).append("=").append(param.getValue());
 								}
-								xml.setElement("lookup", link); 
+								xml.setElement("lookup", link.toString());
 							}else 
 								if(field.vertionLookup() == 2){
 									
 									if(lookupField.isSso()) {
 										
-										String params = "jsonLookup="; 
+										StringBuilder params = new StringBuilder("jsonLookup=");
 										try {
-											params += URLEncoder.encode(Core.toJson(lookupField.getLookupParams()),"UTF-8");
+											params.append(URLEncoder.encode(Core.toJson(lookupField.getLookupParams()), "UTF-8"));
 										} catch (UnsupportedEncodingException e) {
 											e.printStackTrace();
 										}
 										for(Entry<String, Object> param:((LookupField) field).getParams().entrySet())
-											params += ";" + param.getKey() + "=" + param.getValue(); 
+											params.append(";").append(param.getKey()).append("=").append(param.getValue());
 										
-										link += params; 
+										link.append(params);
 										
 									}else {
-										link += "&jsonLookup=";
+										link.append("&jsonLookup=");
 										try {
-											link += URLEncoder.encode(Core.toJson(lookupField.getLookupParams()),"UTF-8");
+											link.append(URLEncoder.encode(Core.toJson(lookupField.getLookupParams()), "UTF-8"));
 										} catch (UnsupportedEncodingException e) {
 											e.printStackTrace();
 										}
 										for(Entry<String, Object> param:((LookupField) field).getParams().entrySet()){
-											link+= "&"+param.getKey()+"="+param.getValue();
+											link.append("&").append(param.getKey()).append("=").append(param.getValue());
 										}
 									}
 									
-									xml.setElement("lookup", link); 
+									xml.setElement("lookup", link.toString());
 							}
 						}
 						xml.endElement();
@@ -134,7 +134,7 @@ public class GenXMLField {
         ...
 	 */
 	public static void toXmlV21(XMLWritter xml, List<Field> fields){
-		if(fields.size() > 0){
+		if(!fields.isEmpty()){
 			xml.startElement("label");
 				for(Field field:fields){
 					if(field.isVisible()){
@@ -184,7 +184,7 @@ public class GenXMLField {
 									xml.writeAttribute("checked", "true");
 								}
 								xml.setElement("text", obj.getValue().toString());
-								if(obj.getKey() == null || obj.getKey().toString().equals(""))
+								if(obj.getKey() == null || obj.getKey().toString().isEmpty())
 									xml.emptyTag("value");
 								else
 									xml.setElement("value", obj.getKey().toString());
@@ -248,7 +248,7 @@ public class GenXMLField {
 						xml.writeAttribute("checked", "true");
 					}
 					xml.setElement("text", ""+obj.getValue());
-					if(obj.getKey() == null || obj.getKey().toString().equals(""))
+					if(obj.getKey() == null || obj.getKey().toString().isEmpty())
 						xml.emptyTag("value");
 					else
 						xml.setElement("value", ""+obj.getKey());

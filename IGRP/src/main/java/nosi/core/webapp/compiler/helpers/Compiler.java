@@ -48,7 +48,7 @@ public class Compiler {
 
 	public void compile() {
 		if (this.dirs != null) {
-			this.dirs.stream().forEach(dir -> {
+			this.dirs.forEach(dir -> {
 				files += dir + " ";
 			});		
 			String pathTomcat = Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
@@ -210,7 +210,7 @@ public class Compiler {
 			Map<String, String> lFiles = new FileHelper().listFilesDirectory(path);
 			
 			for (Map.Entry<String, String> file : lFiles.entrySet()) {
-				this.jars.append((file.getValue() + System.getProperty("path.separator")));
+				this.jars.append(file.getValue()).append(System.getProperty("path.separator"));
 			}
 		}
 	}
@@ -225,7 +225,7 @@ public class Compiler {
 	
 	private String convertListToString(List<ErrorCompile> list) {
 		Function<List<ErrorCompile>, String> listErrorToString = e->{
-			e.stream().forEach(err->{
+			e.forEach(err->{
 				listToString+=err;
 			});
 			return listToString;

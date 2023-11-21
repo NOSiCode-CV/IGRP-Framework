@@ -34,7 +34,7 @@ public class ImportDocumentType  extends AbstractImport implements IImport{
 	@Override
 	public void execute() {
 		if(this.doctypes!=null) {
-			this.doctypes.stream().forEach(t->{
+			this.doctypes.forEach(t->{
 				if(this.application==null) {
 					this.application = new Application().findByDad(t.getDad());
 				}

@@ -2,7 +2,6 @@ package nosi.core.webapp.business;
 
 import org.hibernate.Session;
 
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 /**

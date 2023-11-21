@@ -122,7 +122,7 @@ public class ExtractReserveCode {
 	        ArrayList<ReserveCode> codes = new ArrayList<>();
 	        ArrayList<String> extrats = extractAllMethods(className);
 	        if(extrats != null)
-		        extractAllMethods(className).stream().forEach(ac->{
+		        extractAllMethods(className).forEach(ac->{
 		            
 		        	codes.add(ExtractReserveCode.extract(code,ac, ac.toUpperCase()));
 		        });

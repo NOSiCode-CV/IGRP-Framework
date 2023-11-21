@@ -4,8 +4,6 @@ import nosi.core.data.querybuilder.whereclause.IGRPWhereQuery;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
-import java.util.Objects;
-import java.util.function.Consumer;
 
 /**
  * venceslau.gama

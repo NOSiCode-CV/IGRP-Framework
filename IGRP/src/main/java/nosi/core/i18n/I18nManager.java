@@ -31,7 +31,7 @@ public final class I18nManager implements Component{
 	
 	private void newConfiguration() {
 		String v = "";
-		Cookie cookies[] = request.getCookies();
+		Cookie[] cookies = request.getCookies();
 		if(cookies != null)
 			for(Cookie cookie : cookies)
 				if(cookie!=null && cookie.getName()!=null && cookie.getName().equals("igrp_lang")) {

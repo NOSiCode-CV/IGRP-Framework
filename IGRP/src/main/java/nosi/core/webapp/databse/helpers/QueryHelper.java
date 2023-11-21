@@ -270,13 +270,13 @@ public abstract class QueryHelper implements QueryInterface{
     
 	@Override
     public QueryInterface addByte(String columnName,byte value) {
-        this.addColumn(columnName, Byte.valueOf(value), Byte.class);
+        this.addColumn(columnName, value, Byte.class);
         return this;
     }  
     
     @Override
     public QueryInterface addBoolean(String columnName,boolean value) {
-        this.addColumn(columnName, Boolean.valueOf(value), Boolean.class);
+        this.addColumn(columnName, value, Boolean.class);
         return this;
     }  
     
@@ -388,36 +388,36 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 
 	public String getSqlInsert(String schemaName, List<DatabaseMetadaHelper.Column> colmns, String tableName) {
-		String tableName_ = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
-		String inserts = "";
-		String values = "";
+		String tableName_ = (schemaName!=null && !schemaName.isEmpty())? schemaName + "." + tableName:tableName;//Adiciona schema
+		StringBuilder inserts = new StringBuilder();
+		StringBuilder values = new StringBuilder();
 		for(DatabaseMetadaHelper.Column col:colmns) {
 			if(!col.isAutoIncrement()) {
-				inserts += col.getName().toLowerCase()+",";
-				values += ":"+col.getName().toLowerCase()+",";
+				inserts.append(col.getName().toLowerCase()).append(",");
+				values.append(":").append(col.getName().toLowerCase()).append(",");
 			}
 		}	
-		inserts = inserts.substring(0, inserts.length()-1);
-		values = values.substring(0, values.length()-1);
+		inserts = new StringBuilder(inserts.substring(0, inserts.length() - 1));
+		values = new StringBuilder(values.substring(0, values.length() - 1));
 		return "INSERT INTO "+tableName_+" ("+inserts+") VALUES ("+values+")";
 	}
 	
 
 	public String getSqlUpdate(String schemaName, List<DatabaseMetadaHelper.Column> colmns, String tableName) {
-		String tableName_ = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
-		String updates = "";
+		String tableName_ = (schemaName!=null && !schemaName.isEmpty())? schemaName + "." + tableName:tableName;//Adiciona schema
+		StringBuilder updates = new StringBuilder();
 		for(DatabaseMetadaHelper.Column col:colmns) {
 			if(!col.isAutoIncrement() && !col.isAfterWhere()) {
-				updates += col.getName().toLowerCase()+"=:"+col.getName().toLowerCase()+",";
+				updates.append(col.getName().toLowerCase()).append("=:").append(col.getName().toLowerCase()).append(",");
 			}
 		}	
-		updates = Core.isNotNull(updates)?updates.substring(0, updates.length()-1):"";
+		updates = new StringBuilder(Core.isNotNull(updates.toString()) ? updates.substring(0, updates.length() - 1) : "");
 		String s = "UPDATE "+tableName_ +" SET "+updates;
 		return s;
 	}
 	
 	public String getSqlDelete(String schemaName, String tableName) {
-		String tableName_ = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
+		String tableName_ = (schemaName!=null && !schemaName.isEmpty())? schemaName + "." + tableName:tableName;//Adiciona schema
 		return "DELETE FROM "+tableName_;
 	}
 
@@ -458,7 +458,7 @@ public abstract class QueryHelper implements QueryInterface{
 					this.setParameters(q);
 					r.setSql(q.getSql());
 					Core.log("SQL:"+q.getSql());
-					r.setKeyValue(Integer.valueOf(q.executeUpdate()));
+					r.setKeyValue(q.executeUpdate());
 				} catch (SQLException e) {
 					this.setError(r,e);
 				}

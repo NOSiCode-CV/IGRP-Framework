@@ -1,12 +1,16 @@
 package nosi.core.webapp.helpers;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author: Emanuel Pereira
  * 25 Oct 2017
  */
 public class StringHelper {
+
+	private StringHelper(){}
 
 	/*Camel Case to first letter of string
 	 * 
@@ -31,11 +35,11 @@ public class StringHelper {
 	 * List page => List Page
 	 */
 	public static String camelCase(String string){
-		String []strting_part = string.split("\\s+");
-		String result = "";
-		for(String s:strting_part)
-			result += StringHelper.camelCaseFirst(s);
-		return result;
+		String[] strParts = string.split("\\s+");
+		StringBuilder result = new StringBuilder();
+		for(String s:strParts)
+			result.append(StringHelper.camelCaseFirst(s));
+		return result.toString();
 	}
 	
 	/*Validade the className for Java Class
@@ -51,14 +55,13 @@ public class StringHelper {
 		return string;
 	}
 
-	public static String decode(String header_text) {
+	public static String decode(String headerText) {
 		try {
-			header_text = new String(header_text.getBytes("UTF-8"), "UTF-8");
+			headerText = new String(headerText.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8.name());
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return header_text;
+		return headerText;
 	}
-	
+
 }
