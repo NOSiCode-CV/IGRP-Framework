@@ -225,6 +225,12 @@
     
   </xsl:template>
 
+  <xsl:template name="setRequiredAttribute" mode="setRequiredAttribute" match="*">
+    <xsl:if test="@required = 'true'">
+      <xsl:attribute name="required">required</xsl:attribute>
+    </xsl:if>
+  </xsl:template>
+
   <xsl:template name="setTooltip">
     <xsl:param name="field"/>
 
