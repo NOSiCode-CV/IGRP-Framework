@@ -232,7 +232,7 @@ public class User extends IGRPBaseActiveRecord<User> implements Serializable, Id
 	
 	@Override
 	public boolean validate(String inputPassword) {
-		return this.pass_hash!=null?this.pass_hash.equals(inputPassword):false;
+		return this.pass_hash != null && this.pass_hash.equals(inputPassword);
 	}
 	
 	public Organization getOrganica() {

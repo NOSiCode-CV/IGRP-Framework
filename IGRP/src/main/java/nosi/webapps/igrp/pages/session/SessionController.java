@@ -48,7 +48,7 @@ public class SessionController extends Controller {
 		String endDate = model.getData_fim();
 		
 		if(startDate != null) {
-			String aux[] = startDate.split("/");
+			String[] aux = startDate.split("/");
 			if(aux.length > 1) {
 				startDate = aux[0].trim();
 				endDate = aux[1].trim();
@@ -84,8 +84,8 @@ public class SessionController extends Controller {
 						"ORDER BY 1, 2";
 			break;
 			
-			case "mysql":;
-			case "h2": 
+			case "mysql":
+           case "h2":
 				sql1 = "SELECT TO_CHAR(TO_TIMESTAMP(starttime / 1000), 'DD/MM/YYYY') as EixoX, COUNT (*) as valor " + 
 						"FROM tbl_session a " + 
 						"WHERE TO_CHAR(TO_TIMESTAMP(starttime / 1000), 'DD/MM/YYYY') BETWEEN '" + startDate + "' AND '" + endDate + "' " + 
@@ -98,8 +98,8 @@ public class SessionController extends Controller {
 						"GROUP BY applicao, data_ " + 
 						"ORDER BY 1, 2";
 			break;
-			default:;
-		}
+			default:
+        }
 		
 		
 		
@@ -111,13 +111,13 @@ public class SessionController extends Controller {
 		nosi.webapps.igrp.dao.Session session = new nosi.webapps.igrp.dao.Session();
 		
 		ArrayList<Session.Table_1> data = new ArrayList<>();
-		List<nosi.webapps.igrp.dao.Session> sessions = new ArrayList<nosi.webapps.igrp.dao.Session>();
+		List<nosi.webapps.igrp.dao.Session> sessions = new ArrayList<>();
 		try {
 			 sessions = session.find().andWhere("application", "=", model.getAplicacao()!=0?model.getAplicacao():null)
 					 .andWhere("user.user_name", "=", model.getUtilizador())
 					 .andWhere("user.status", "=", model.getEstado())
 					 .all();
-		}catch(Exception e) {
+		}catch(Exception ignored) {
 			
 		}
 		
@@ -126,9 +126,9 @@ public class SessionController extends Controller {
 		sessions =  sessions.stream().filter(obj -> {
 			Date auxEndTime = new Date(obj.getEndTime());
 			Date auxStartTime = new Date(obj.getStartTime());
-			return !((model.getData_inicio() != null && !model.getData_inicio().equals("") && model.getData_inicio().compareTo(dateFormat.format(auxStartTime)) > 0)
+			return !((model.getData_inicio() != null && !model.getData_inicio().isEmpty() && model.getData_inicio().compareTo(dateFormat.format(auxStartTime)) > 0)
 					||
-					(model.getData_fim() != null && !model.getData_fim().equals("") && 
+					(model.getData_fim() != null && !model.getData_fim().isEmpty() &&
 					model.getData_fim().compareTo(dateFormat.format(auxEndTime)) < 1));
 		}).collect(Collectors.toList());
 		

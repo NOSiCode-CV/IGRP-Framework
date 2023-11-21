@@ -164,7 +164,7 @@ public class LoginController extends Controller {
 			if (u.getIsAuthenticated() == 0) {
 				try {
 					return redirect("igrp", "login", "logout");
-				} catch (IOException e) {
+				} catch (IOException ignored) {
 				}
 			}
 
@@ -175,7 +175,7 @@ public class LoginController extends Controller {
 				if (state != null && !state.isEmpty())
 					this.addQueryString("dad", state);
 				return this.redirect("igrp", "home", "index", this.queryString());
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 			}
 		}
 		return null;
@@ -205,7 +205,7 @@ public class LoginController extends Controller {
 					return redirectToUrl(createUrlForOAuth2OpenIdRequest());
 
 				return redirect("igrp", "login", "login", this.queryString());
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 			}
 		}
 
@@ -221,7 +221,7 @@ public class LoginController extends Controller {
 
 				try {
 					return this.redirect("igrp", "home", "index"); // By default go to home index url
-				} catch (Exception e) {
+				} catch (Exception ignored) {
 				}
 			}
 		} else if (authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_LDAP.value())) {
@@ -231,7 +231,7 @@ public class LoginController extends Controller {
 
 				try {
 					return this.redirect("igrp", "home", "index"); // By default go to home index url
-				} catch (Exception e) {
+				} catch (Exception ignored) {
 				}
 			}
 		}
@@ -302,18 +302,16 @@ public class LoginController extends Controller {
 					newUser.setUser_name(username.trim().toLowerCase());
 
 					if (personArray != null && !personArray.isEmpty())
-						for (int i = 0; i < personArray.size(); i++) {
-							LdapPerson p = personArray.get(i);
+                       for (LdapPerson p : personArray) {
+                          if (p.getName() != null && !p.getName().isEmpty())
+                             newUser.setName(p.getName());
+                          else if (p.getDisplayName() != null && !p.getDisplayName().isEmpty())
+                             newUser.setName(p.getDisplayName());
+                          else
+                             newUser.setName(p.getFullName());
 
-							if (p.getName() != null && !p.getName().isEmpty())
-								newUser.setName(p.getName());
-							else if (p.getDisplayName() != null && !p.getDisplayName().isEmpty())
-								newUser.setName(p.getDisplayName());
-							else
-								newUser.setName(p.getFullName());
-
-							newUser.setEmail(p.getMail().toLowerCase());
-						}
+                          newUser.setEmail(p.getMail().toLowerCase());
+                       }
 
 					newUser.setStatus(1);
 					newUser.setCreated_at(System.currentTimeMillis());

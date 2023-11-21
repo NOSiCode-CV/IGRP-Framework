@@ -63,7 +63,7 @@ public class ResetpasswordController extends Controller {
 			user = new User().find().andWhere("password_reset_token", "=", token).one();
 			if(user != null) {
 				String aux = new String(Base64.getUrlDecoder().decode(user.getPassword_reset_token()));
-				String arr[] = aux.split("_");
+				String[] arr = aux.split("_");
 				String time = arr[1];
 				if(time.compareTo(System.currentTimeMillis() + "") <= 0 || user.getStatus() == 0) 
 					throw new Exception("Invalid or expired token.");

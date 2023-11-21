@@ -655,12 +655,10 @@ return this.forward("igrp","ExecucaoTarefas","index",this.queryString());
 				tasks = taskServiceBO.getAvailableTasks();
 				break;
 			case CONTRIBUTOR:
-				tasks = taskServiceBO.getMabageTasks();
+           case MANAGE_TASK:
+              tasks = taskServiceBO.getMabageTasks();
 				break;
-			case MANAGE_TASK:
-				tasks = taskServiceBO.getMabageTasks();
-				break;
-			case MY_TASK:
+           case MY_TASK:
 				tasks = taskServiceBO.getMyTasks();
 				break;
 			case STATISTIC:

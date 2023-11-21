@@ -156,7 +156,7 @@ public class MenuOrganicaController extends Controller {
 	private User userAdmin = new User().getUserAdmin();
 	private ProfileType profAdmin = new ProfileType().getProfileAdmin();
 
-	class SortbyStatus implements Comparator<MenuOrganica.Table_1> {
+	static class SortbyStatus implements Comparator<MenuOrganica.Table_1> {
 		public int compare(MenuOrganica.Table_1 a, MenuOrganica.Table_1 b) {
 			return b.getMenu() - a.getMenu();
 		}
@@ -172,20 +172,24 @@ public class MenuOrganicaController extends Controller {
 	}
 
 	private void removeMenu(MenuOrganica model, List<String> uncheckedIds) {
-		if (model.getType().equals("org")) {
-			this.deleteMenu(uncheckedIds, "MEN", model.getId(), this.profAdmin.getId(), this.userAdmin.getId());
-			List<ProfileType> profilesOfOrg = new ProfileType().find().andWhere("organization.id", "=", model.getId())
-					.all();
-			for (ProfileType p : profilesOfOrg) {
-				this.deleteMenu(uncheckedIds, "MEN", p.getOrganization().getId(), p.getId(), this.userAdmin.getId());
-			}
-		} else if (model.getType().equals("perfil")) {
-			ProfileType pt = new ProfileType().findOne(model.getId());
-			this.deleteMenu(uncheckedIds, "MEN", pt.getOrganization().getId(), pt.getId(), this.userAdmin.getId());
-		} else if (model.getType().equals("user")) {
-			this.deleteMenu(uncheckedIds, "MEN_USER", Core.getParamInt("org_id"), Core.getParamInt("prof_id"),
-					Core.getParamInt("user_id"));
-		}
+       switch (model.getType()) {
+          case "org":
+             this.deleteMenu(uncheckedIds, "MEN", model.getId(), this.profAdmin.getId(), this.userAdmin.getId());
+             List<ProfileType> profilesOfOrg = new ProfileType().find().andWhere("organization.id", "=", model.getId())
+                     .all();
+             for (ProfileType p : profilesOfOrg) {
+                this.deleteMenu(uncheckedIds, "MEN", p.getOrganization().getId(), p.getId(), this.userAdmin.getId());
+             }
+             break;
+          case "perfil":
+             ProfileType pt = new ProfileType().findOne(model.getId());
+             this.deleteMenu(uncheckedIds, "MEN", pt.getOrganization().getId(), pt.getId(), this.userAdmin.getId());
+             break;
+          case "user":
+             this.deleteMenu(uncheckedIds, "MEN_USER", Core.getParamInt("org_id"), Core.getParamInt("prof_id"),
+                     Core.getParamInt("user_id"));
+             break;
+       }
 	}
 
 	private void deleteMenu(List<String> uncheckedIds, String type, int org_id, int prof_id, int user_id) {
@@ -203,25 +207,29 @@ public class MenuOrganicaController extends Controller {
 
 	private void insetMenu(MenuOrganica model, List<String> chekedIds) {
 		boolean success = false;
-		if (model.getType().equals("org")) {
-			success = this.insertMenu(chekedIds, "MEN", model.getId(), this.profAdmin.getId(), this.userAdmin.getId());
-			List<ProfileType> profilesOfOrg = new ProfileType().find().andWhere("organization.id", "=", model.getId()).orderByAsc("id")
-					.all();
-			if (profilesOfOrg != null && profilesOfOrg.size() > 0) {
-				ProfileType p = profilesOfOrg.get(0);
-				success = this.insertMenu(chekedIds, "MEN", p.getOrganization().getId(), p.getId(),
-						this.userAdmin.getId());
-			}
+       switch (model.getType()) {
+          case "org":
+             success = this.insertMenu(chekedIds, "MEN", model.getId(), this.profAdmin.getId(), this.userAdmin.getId());
+             List<ProfileType> profilesOfOrg = new ProfileType().find().andWhere("organization.id", "=", model.getId()).orderByAsc("id")
+                     .all();
+             if (profilesOfOrg != null && profilesOfOrg.size() > 0) {
+                ProfileType p = profilesOfOrg.get(0);
+                success = this.insertMenu(chekedIds, "MEN", p.getOrganization().getId(), p.getId(),
+                        this.userAdmin.getId());
+             }
 
-		} else if (model.getType().equals("perfil")) {
-			ProfileType pt = new ProfileType().findOne(model.getId());
-			success = this.insertMenu(chekedIds, "MEN", pt.getOrganization().getId(), pt.getId(),
-					this.userAdmin.getId());
+             break;
+          case "perfil":
+             ProfileType pt = new ProfileType().findOne(model.getId());
+             success = this.insertMenu(chekedIds, "MEN", pt.getOrganization().getId(), pt.getId(),
+                     this.userAdmin.getId());
 
-		} else if (model.getType().equals("user")) {
-			success = this.insertMenu(chekedIds, "MEN_USER", Core.getParamInt("org_id"), Core.getParamInt("prof_id"),
-					Core.getParamInt("user_id"));
-		}
+             break;
+          case "user":
+             success = this.insertMenu(chekedIds, "MEN_USER", Core.getParamInt("org_id"), Core.getParamInt("prof_id"),
+                     Core.getParamInt("user_id"));
+             break;
+       }
 		if (success)
 			Core.setMessageSuccess();
 		else
@@ -230,20 +238,24 @@ public class MenuOrganicaController extends Controller {
 
 	private List<String> filterIds(MenuOrganica model, List<String> chekedIds) {
 		List<Profile> profiles = null;
-		if (model.getType().equals("org")) {
-			profiles = new Profile().find().andWhere("organization", "=", model.getId())
-					.andWhere("profileType", "=", this.profAdmin.getId()).andWhere("type", "=", "MEN")
-					.andWhere("user", "=", this.userAdmin.getId()).all();
-		} else if (model.getType().equals("perfil")) {
-			ProfileType pt = new ProfileType().findOne(model.getId());
-			profiles = new Profile().find().andWhere("organization", "=", pt.getOrganization().getId())
-					.andWhere("profileType", "=", pt.getId()).andWhere("type", "=", "MEN")
-					.andWhere("user", "=", this.userAdmin.getId()).all();
-		} else if (model.getType().equals("user")) {
-			profiles = new Profile().find().andWhere("organization", "=", Core.getParamInt("org_id"))
-					.andWhere("profileType", "=", Core.getParamInt("prof_id")).andWhere("type", "=", "MEN_USER")
-					.andWhere("user", "=", Core.getParamInt("user_id")).all();
-		}
+       switch (model.getType()) {
+          case "org":
+             profiles = new Profile().find().andWhere("organization", "=", model.getId())
+                     .andWhere("profileType", "=", this.profAdmin.getId()).andWhere("type", "=", "MEN")
+                     .andWhere("user", "=", this.userAdmin.getId()).all();
+             break;
+          case "perfil":
+             ProfileType pt = new ProfileType().findOne(model.getId());
+             profiles = new Profile().find().andWhere("organization", "=", pt.getOrganization().getId())
+                     .andWhere("profileType", "=", pt.getId()).andWhere("type", "=", "MEN")
+                     .andWhere("user", "=", this.userAdmin.getId()).all();
+             break;
+          case "user":
+             profiles = new Profile().find().andWhere("organization", "=", Core.getParamInt("org_id"))
+                     .andWhere("profileType", "=", Core.getParamInt("prof_id")).andWhere("type", "=", "MEN_USER")
+                     .andWhere("user", "=", Core.getParamInt("user_id")).all();
+             break;
+       }
 		List<Integer> ids = profiles != null ? profiles.stream().map(Profile::getType_fk).collect(Collectors.toList())
 				: null;
 		return chekedIds.stream().filter(m -> ids != null && !ids.contains(Core.toInt(m))).collect(Collectors.toList());

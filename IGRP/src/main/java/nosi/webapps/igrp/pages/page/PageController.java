@@ -1,8 +1,7 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
+
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -26,7 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import nosi.core.config.Config;
-import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.compiler.helpers.Compiler;
@@ -292,13 +290,12 @@ public class PageController extends Controller {
 				historicPage.insert();
 
 				Core.setMessageInfo("Página Recuperada Com Sucesso!");
-				return this.forward("igrp", "page", "index");
-			} else {
+            } else {
 				Core.setMessageWarning("Este code já existe. Por favor editar.");
-				return this.forward("igrp", "page", "index");
 
-			}
-		}
+            }
+           return this.forward("igrp", "page", "index");
+        }
 
 		/*----#end-code----*/
 			
@@ -360,7 +357,7 @@ public class PageController extends Controller {
 		Action ac = new Action().findOne(Integer.parseInt(p_id));
 		Compiler compiler = null;
 		PageFile pageFile = null;
-		Boolean workspace = false;
+		boolean workspace = false;
 		String messages = "";
 		if (null!=ac) {
 			pageFile = new PageFile();
@@ -382,8 +379,8 @@ public class PageController extends Controller {
 						ac.getPage());
 			}
 			pathClass = this.getConfig().getBasePathClass() + pathClass;
-			if (pageFile.isAllFileExists() && path_xsl != null && !path_xsl.equals("") 
-					&& !pathClass.equals("")) {
+			if (pageFile.isAllFileExists() && path_xsl != null && !path_xsl.isEmpty()
+                && !pathClass.isEmpty()) {
 				this.processJson(pageFile.getFileJson(), ac);
 
 				if (Boolean.TRUE.equals(workspace))
@@ -525,7 +522,7 @@ public class PageController extends Controller {
 	public Response actionListPage()  {
 		final String dad = Core.getParam("p_dad");
 		int app = Core.findApplicationByDad(dad).getId();
-		String json = "[";
+		StringBuilder json = new StringBuilder("[");
 		List<Share> shares = new Share().find().andWhere("env.id", "=", app).andWhere("type", "=", "PAGE")
 				.andWhere("status", "=", 1).all();
 		List<Action> aux = new ArrayList<>();
@@ -540,24 +537,21 @@ public class PageController extends Controller {
 		if (actions != null) {
 			if (aux != null) actions.addAll(aux);
 			for (Action ac : actions) {
-				json += "{";
-				json += "\"action\":\"" + ac.getAction() + "\",";
+				json.append("{");
+				json.append("\"action\":\"").append(ac.getAction()).append("\",");
 				final String dad2 = ac.getApplication().getDad();
-				json += "\"app\":\"" + dad2 + "\",";
-				json += "\"page\":\"" +(dad.equalsIgnoreCase(dad2) ? "" : dad2+"@")+ ac.getPage() + "\",";
-				json += "\"id\":\"" + ac.getId() + "\",";
-				json += "\"description\":\"" + (dad.equalsIgnoreCase(dad2) ? "" : dad2 + "/")
-						+ (ac.getPage_descr() != null ? ac.getPage_descr() + " (" + ac.getPage() + ")" : ac.getPage())
-						+ "\",";
-				json += "\"link\":\"" + this.getConfig().getResolvePathPage(dad2, ac.getPage(), ac.getVersion()) + "/"
-						+ ac.getPage() + ".xml\"";
-				json += "},";
+				json.append("\"app\":\"").append(dad2).append("\",");
+				json.append("\"page\":\"").append(dad.equalsIgnoreCase(dad2) ? "" : dad2 + "@").append(ac.getPage()).append("\",");
+				json.append("\"id\":\"").append(ac.getId()).append("\",");
+				json.append("\"description\":\"").append(dad.equalsIgnoreCase(dad2) ? "" : dad2 + "/").append(ac.getPage_descr() != null ? ac.getPage_descr() + " (" + ac.getPage() + ")" : ac.getPage()).append("\",");
+				json.append("\"link\":\"").append(this.getConfig().getResolvePathPage(dad2, ac.getPage(), ac.getVersion())).append("/").append(ac.getPage()).append(".xml\"");
+				json.append("},");
 			}
 		}
-		json = json.substring(0, json.length() - 1);
-		json += "]";
+		json = new StringBuilder(json.substring(0, json.length() - 1));
+		json.append("]");
 		this.format = Response.FORMAT_JSON;
-		return this.renderView(json);
+		return this.renderView(json.toString());
 	}
 
 	// get detail page
@@ -683,14 +677,14 @@ public class PageController extends Controller {
 					.addInt("env_fk", ac.getApplication().getId()).getResultList()) {
 				try {
 					domains.add(t.get("dominio") + " « " + dad);
-				} catch (IllegalArgumentException e) {
+				} catch (IllegalArgumentException ignored) {
 				}
 			}
 			for (Tuple t : Core.query(this.configApp.getBaseConnection(), DomainHeper.SQL_DOMINIO_PUB)
 					.getResultList()) {
 				try {
 					domains.add(t.get("dominio") + "");
-				} catch (IllegalArgumentException e) {
+				} catch (IllegalArgumentException ignored) {
 				}
 			}
 			Properties p = new Properties();
