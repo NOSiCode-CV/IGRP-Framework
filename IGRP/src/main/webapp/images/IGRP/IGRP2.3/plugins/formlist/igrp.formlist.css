@@ -233,3 +233,10 @@ table.IGRP_formlist tfoot td:first-child::after{
 .IGRP_formlist.totalcol tfoot td:nth-last-child(2) p{
 	padding:0 15px 0 0;
 }
+
+.IGRP_formlist tbody td{
+	position: relative;
+}
+.IGRP_formlist textarea.error{
+	border:1px solid red
+}
