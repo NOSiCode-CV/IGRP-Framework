@@ -190,28 +190,26 @@ public class DefaultConfigHibernate {
 				+ ", autocommit=" + autocommit + "]";
 	}
 
-	public void load() throws Exception{
+	public void load() throws Exception {
 		Properties p = ConfigApp.getInstance().loadProperties("/config/db/hikaricp.properties");
-		if(p!=null){
-			this.connectionTimeout = p.getProperty("connectionTimeout");
-			this.idleTimeout = p.getProperty("idleTimeout");
-			this.maximumPoolSize = p.getProperty("maximumPoolSize","10");
-			this.maxLifetime = p.getProperty("maxLifetime");
-			this.minimumIdle = p.getProperty("minimumIdle");
-			this.provider_class = p.getProperty("provider_class");
-			this.leakDetectionThreshold = p.getProperty("leakDetectionThreshold");
-			this.useConnectionPool = p.getProperty("useConnectionPool");
-			this.allowPoolSuspension = p.getProperty("allowPoolSuspension");
-			this.autCloseSession = p.getProperty("autCloseSession");
-			this.connectionIsolation = p.getProperty("connectionIsolation");
-			this.hbm2ddlAuto = p.getProperty("hbm2ddlAuto");
-			this.currentSessionContextClass = p.getProperty("currentSessionContextClass");
-			this.autocommit = p.getProperty("autocommit","false");
-			this.release_mode = p.getProperty("releaseMode");
-			this.mminimumPoolSize = p.getProperty("mminimumPoolSize", "5");
-			this.incrementPool = p.getProperty("incrementPool","5");
-			this.strategy_access_jdbc = p.getProperty("strategy_access_jdbc");
-		}
+		this.connectionTimeout = p.getProperty("connectionTimeout");
+		this.idleTimeout = p.getProperty("idleTimeout");
+		this.maximumPoolSize = p.getProperty("maximumPoolSize", "10");
+		this.maxLifetime = p.getProperty("maxLifetime");
+		this.minimumIdle = p.getProperty("minimumIdle");
+		this.provider_class = p.getProperty("provider_class");
+		this.leakDetectionThreshold = p.getProperty("leakDetectionThreshold");
+		this.useConnectionPool = p.getProperty("useConnectionPool");
+		this.allowPoolSuspension = p.getProperty("allowPoolSuspension");
+		this.autCloseSession = p.getProperty("autCloseSession");
+		this.connectionIsolation = p.getProperty("connectionIsolation");
+		this.hbm2ddlAuto = p.getProperty("hbm2ddlAuto");
+		this.currentSessionContextClass = p.getProperty("currentSessionContextClass");
+		this.autocommit = p.getProperty("autocommit", "false");
+		this.release_mode = p.getProperty("releaseMode");
+		this.mminimumPoolSize = p.getProperty("mminimumPoolSize", "5");
+		this.incrementPool = p.getProperty("incrementPool", "5");
+		this.strategy_access_jdbc = p.getProperty("strategy_access_jdbc");
 	}
 
 }
