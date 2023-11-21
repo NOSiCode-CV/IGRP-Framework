@@ -176,6 +176,21 @@
         <xsl:value-of select="$field/@remote" />
       </xsl:attribute>
     </xsl:if>
+
+    <xsl:if test="$field[@*[contains(name(), 'remote-')]]">
+      <xsl:attribute name="igrp-remote">
+        <xsl:text>{</xsl:text>
+        <xsl:for-each select="$field/@*[contains(name(), 'remote-')]">
+          <xsl:text>'</xsl:text>
+          <xsl:value-of select="name()"></xsl:value-of>
+          <xsl:text>':'</xsl:text>
+          <xsl:value-of select="."/>
+          <xsl:text>'</xsl:text>
+          <xsl:if test="position() != last()">,</xsl:if>
+        </xsl:for-each>
+        <xsl:text>}</xsl:text>
+     </xsl:attribute>
+    </xsl:if>
     
     <xsl:if test="$field/@temp-value and $field/@temp-value != ''">
       <xsl:attribute name="value">
@@ -208,6 +223,12 @@
       </xsl:attribute>
     </xsl:if>
     
+  </xsl:template>
+
+  <xsl:template name="setRequiredAttribute" mode="setRequiredAttribute" match="*">
+    <xsl:if test="@required = 'true'">
+      <xsl:attribute name="required">required</xsl:attribute>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template name="setTooltip">

@@ -311,7 +311,7 @@
 				
 				$("html, body").animate({
 					
-			        scrollTop: scrollto.offset().top - scrollto.height()
+			        scrollTop: scrollto?.offset()?.top - scrollto.height()
 			    
 			    }, 1000);
 			}
