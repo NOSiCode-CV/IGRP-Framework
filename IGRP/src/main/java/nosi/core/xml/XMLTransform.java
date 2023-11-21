@@ -132,11 +132,7 @@ public class XMLTransform {
 		Field f = null;
 		if(component instanceof IGRPTable) {
 			switch (SqlJavaType.sqlToXML(column)) {
-			case TypesXML.TEXT:
-			case TypesXML.COMBOBOX:
-				f = new TextField(null, column.getName());
-				break;	
-			case TypesXML.NUMBER:
+               case TypesXML.NUMBER:
 				f = new NumberField(null, column.getName());
 				break;	
 			case TypesXML.CHECK:
@@ -161,16 +157,15 @@ public class XMLTransform {
 			case TypesXML.HIDDEN:
 				f = new HiddenField(null, column.getName());
 				break;
-			default:
+               case TypesXML.TEXT:
+               case TypesXML.COMBOBOX:
+               default:
 				f = new TextField(null, column.getName());
 				break;
 		}
 		}else {
 			switch (SqlJavaType.sqlToXML(column)) {
-				case TypesXML.TEXT:
-					f = new TextField(null, column.getName());
-					break;	
-				case TypesXML.NUMBER:
+               case TypesXML.NUMBER:
 					f = new NumberField(null, column.getName());
 					break;	
 				case TypesXML.CHECK:
@@ -213,7 +208,8 @@ public class XMLTransform {
 				case TypesXML.HIDDEN:
 					f = new HiddenField(null, column.getName());
 					break;
-				default:
+               case TypesXML.TEXT:
+               default:
 					f = new TextField(null, column.getName());
 					break;
 			}
@@ -312,23 +308,4 @@ public class XMLTransform {
 		}
 		return null;
 	}
-	
-	
-	/*
-	public static Field getField(String name,String type){
-		switch (type) {
-			case "date":
-				return new DateField(null, name);
-			case "long":
-				return new NumberField(null, name);
-			case "boolean":
-				return new CheckBoxField(null, name);
-			case "enum":
-				return new ListField(null, name);
-			case "hidden":
-				return new HiddenField(null,name);
-			default :
-					return new TextField(null, name);
-		}
-	}*/
 }

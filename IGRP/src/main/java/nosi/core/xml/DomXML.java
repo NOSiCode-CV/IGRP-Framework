@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
  */
 public class DomXML {
 
-	private Document document;
+	private final Document document;
 	
 	public DomXML(String xml) {
 		this.document = this.extractXml(xml);
