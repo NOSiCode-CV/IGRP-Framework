@@ -337,7 +337,7 @@ public class QuerySelect extends CommonFIlter{
     			}else{
     				newNames = Arrays.copyOf(names, names.length-1>=1?names.length-1:names.length);
     			}
-    			c.append(Arrays.toString(newNames).replace("\\[", "").replace("\\]", "")).append(" ").append(order).append(i == orderByNames.length ? " " : ", ");
+    			c.append(Arrays.toString(newNames).replace("[", "").replace("]", "")).append(" ").append(order).append(i == orderByNames.length ? " " : ", ");
     			i++;
     		}
     		this.filterWhere(c.toString());
