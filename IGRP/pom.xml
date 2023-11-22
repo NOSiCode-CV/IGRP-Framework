@@ -112,7 +112,7 @@
 		<activiti.bpmn.converter.version>6.0.0</activiti.bpmn.converter.version>
 
 		<!-- Flyway Migration API & Docker PostgreSQL -->
-		<flyway.version>9.21.1</flyway.version>
+		<flyway.version>9.22.3</flyway.version>
 		<igrp.db.user>${db_user}</igrp.db.user> <!-- Ex: postgres -->
 		<igrp.db.password>${db_password}</igrp.db.password>
 		<igrp.db.dsn>jdbc:postgresql://${server_IP}/${db_name}</igrp.db.dsn> <!-- Ex: jdbc:postgresql://localhost:5432/db_igrp  -->
