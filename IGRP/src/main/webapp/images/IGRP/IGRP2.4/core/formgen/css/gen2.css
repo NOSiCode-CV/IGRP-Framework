@@ -33,7 +33,7 @@ th .gen-field-edt-options {
 }
 
 .gen-properties-setts-holder .form-group{
-    margin-bottom:15px;
+    margin-bottom:20px;
 }
 
 #gen-edition-modal .modal-footer .info.type:before{
@@ -880,4 +880,8 @@ html body[view="gen-design"] .tab-pane >.row{
 
 #gen-edition-modal:not([view="properties"]) .modal-footer{
     display: none!important;
+}
+
+#gen-edition-modal .group-fields{
+    padding:6px 0
 }

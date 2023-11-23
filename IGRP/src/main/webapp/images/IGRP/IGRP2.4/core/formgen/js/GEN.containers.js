@@ -1762,9 +1762,9 @@ var CONTAINER = function(name,params){
 		hasTitle:function(){
 			return container.proprieties.hasTitle;
 		},
-		collapsible:function(){
+	/*	collapsible:function(){
 			return container.proprieties.collapsible;
-		},
+		},*/
 		field:function(id){
 			var rtn = null;
 			for(var x=0;x<FIELDS.length;x++){
@@ -1858,37 +1858,16 @@ var CONTAINER = function(name,params){
 		hasTitle:function(val,p){
 			container.proprieties.hasTitle = val;
 
-			/*var transform = p && (p.transform != false) ? true : false;
-			var idx = container.template.indexOf('>');
-
-			try{
-				if(container.template){
-					if(val){
-						if(container.template.indexOf(VARS.templates.tittleCollapserStr) == -1)
-							container.template = container.template.insert(idx+1,VARS.templates.tittleCollapserStr);
-					}else{
-						container.template = container.template.replace(VARS.templates.tittleCollapserStr,'');
-					}
-				}else{
-
-				}
-
-				if(container.onHasTitleSet)
-					container.onHasTitleSet(val);
-				//if(transform) container.Transform();
-			
-			}catch(e){
-				console.log(e);
-			}*/
+		
 		},
-		collapsible:function(val,p){
+		/*collapsible:function(val,p){
 
 			container.proprieties.collapsible = val;
 
 			if(container.onCollapsibleSet)
 				container.onCollapsibleSet(val);
 
-		},
+		},*/
 		name:function(name,p){
 
 			container.proprieties.name = name;

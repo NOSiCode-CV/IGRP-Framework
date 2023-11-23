@@ -489,9 +489,9 @@
                                 <button style="position:absolute;top:20px;right:8px;filter: invert(1);" type="button" class="btn-close me-0" data-bs-dismiss="modal" aria-label="Close" fdprocessedid="esl2a"></button>
                           </div>
                           <div class="modal-body" role="form">
-                              <div rel="properties" class="gen-properties-setts-holder row active">
+                              <div rel="properties" id="properties-accordion" class="gen-properties-setts-holder row active accordion">
                                 
-                                    <div rel="default"></div>
+                          
 
                               </div>
 

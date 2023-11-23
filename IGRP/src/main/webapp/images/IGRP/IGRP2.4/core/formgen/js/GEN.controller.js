@@ -1443,14 +1443,20 @@ var GENERATOR = function(genparams){
 		var formHolder = $(VARS.edition.modal).find('.modal-body [rel="properties"]');
 		var inputFieldsHolder = $('<div class="input-fields row m-0" style="height:fit-content"></div>')
 		
-		$(VARS.edition.modal).find('.modal-body [rel="properties"]').html('');
+		formHolder.html('');
+
+		formHolder.append(`
+			<div class="mb-3">
+				<div class="group-fields row" id="group-field-default" rel="default">
+				</div>
+				<div class="group-fields-checkers row" rel="default">
+				</div>
+			</div>
+		`);
 
 		for(var p in object.proprieties){ // ciclo nas proprieades do elemento
 			
 			var objectProperties = object.getPropertyOptions && object.getPropertyOptions(p) ? object.getPropertyOptions(p) : object.propertiesOptions[p] || null;
-		
-			//if( object.isEditable(p) && p != 'type' && p != 'name'){
-			//console.log(objectProperties)
 			
 			if( object.isEditable(p) && p != 'type' && p != 'name'){
 				
@@ -1498,11 +1504,16 @@ var GENERATOR = function(genparams){
 				if(objectProperties?.type == 'separator'){
 				
 					input = $(`
-						<div class="mb-3">
-							<a class="border-bottom text-muted d-block py-2 mb-2 h5" data-bs-toggle="collapse" href="#group-field-${p}">${objectProperties.value}</a>
-							<div class="group-fields row collapse" id="group-field-${p}" rel="${p}"></div>
+						<div class="mb-3 ">
+							<a class="border-bottom text-muted d-block py-2 mb-2 h5" data-bs-toggle="collapse" href="#group-field-${p}" > ${objectProperties.value}</a>
+							<div class="collapse" id="group-field-${p}" data-bs-parent="#properties-accordion">
+								<div class="group-fields row "  rel="${p}"></div>
+								<div class="group-fields-checkers row" rel="${p}"></div>
+							</div>
 						</div>
 					`);
+
+					formHolder.append(input);
 		
 				}else{	
 
@@ -1515,7 +1526,6 @@ var GENERATOR = function(genparams){
 
 				}
 				
-
 				if(input) {
 						
 					if(p == 'tag') {
@@ -1536,40 +1546,29 @@ var GENERATOR = function(genparams){
 
 					}else{
 
-						if(objectProperties?.group){
+						if( objectProperties?.type != 'separator' ){
 
-							const groupHolder =  $('.group-fields[rel="'+objectProperties.group+'"]');
-		
-							if(objectProperties && objectProperties.order>=0)
-								groupHolder.insertAt(input,objectProperties.order)
-							else
-								groupHolder.append(input);
+							const groupRel = (objectProperties?.group || 'default' );
+							const groupHolder =  $('.group-fields[rel="'+groupRel+'"]');
+							const groupCheckHolder =  $('.group-fields-checkers[rel="'+groupRel+'"]');
 
-						}else{
+							if(inputType == 'checkbox'){
 
-							//if(inputType == 'checkbox'){
-
-								//checkers.push(input);
+								groupCheckHolder.append(input);
 		
-							//}else{
+							}else{
 		
-								formHolder.append(inputFieldsHolder);
-		
-								if(objectProperties && objectProperties.order>=0)
-									inputFieldsHolder.insertAt(input,objectProperties.order)
+								if( objectProperties?.order>=0)
+									groupHolder.insertAt(input,objectProperties.order)
 								else
-									inputFieldsHolder.append(input);
+									groupHolder.append(input);
 		
-							//}
+							}
 
 						}
 
-						
-
 					}
-					
-					
-			
+
 					if(objectProperties && objectProperties.hidden)
 						input.addClass('hidden');
 

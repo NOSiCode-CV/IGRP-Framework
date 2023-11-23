@@ -1,7 +1,15 @@
 (function () {
   var gen = VARS.getGen();
+  
 
   gen.defineGlobalProperty("table-style", (object, defaults = {}) => {
+
+    const TitleOptions = gen.getGlobalProperty('title-options');
+
+    TitleOptions(object,{
+      collapsible : false,
+      collapsed : false
+    });
 
     object?.setPropertyGroup({
 			name : 'data_table',

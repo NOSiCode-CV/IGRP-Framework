@@ -80,18 +80,21 @@
 
 	<xsl:template name="igrp-table-header" mode="igrp-table-header" match="*">
 		<xsl:param name="title" select="@title"/>
-		<xsl:param name="has-title" select="@title"/>
+		<xsl:param name="show-title" select="@title"/>
 		<xsl:param name="has-filter" select="'false'"/>
 		<xsl:param name="length-change" select="'false'"/>
 		<xsl:param name="search" select="'true'"/>
 		<xsl:param name="filter-type" select="'default'"/>
 
-		<xsl:if test="$title or $search = 'true' or $has-filter='true' or table/context-menu/item[@type='action']">
+		<xsl:if test=" $show-title = 'true' or $search = 'true' or $has-filter='true' or table/context-menu/item[@type='action']">
 			<div class="card-header d-flex align-items-center py-2">
-				<h3 class="card-title me-auto my-2">
-					<xsl:value-of select="$title"/>
-				</h3>
-			
+				
+				<xsl:if test="$show-title = 'true'">
+					<h3 class="card-title me-auto my-2">
+						<xsl:value-of select="$title"/>
+					</h3>
+				</xsl:if>
+				
 				<div class="ms-auto d-flex gap-2 align-items-center">
 					<xsl:if test="$length-change = 'true'">
 						<div class="d-flex align-items-center">

@@ -28,6 +28,6 @@
     border-bottom: 0;
 }
 
-
-
-table-ctx-holder{}
+.igrp-table .dataTables_info{
+    font-size:12px;
+}

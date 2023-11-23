@@ -21,10 +21,11 @@
         transform ( url, params ){
             $.get( url, params).then( ( d )=>{
                 const { app, page } = $.IGRP.info;
+                console.log(this.name)
                 $.IGRP.utils.xsl.transform({
                     xsl    : `${path}/app/${app}/${page}/${page.capitalizeFirstLetter()}.xsl`,
                     xml    : d,
-                    nodes  : ['table_1'],
+                    nodes  : [this.name],
                     method:'replace',
                     replaceSelector : '.card-body',
                     success: (o)=>{
@@ -36,34 +37,31 @@
         
 
         setDataTable(){ 
-            console.log('set data tabe')
+           
             try{
-
                 const defaultOptions = {
                     pagination : false,
                     search: false,
                     searching : true,
                     lengthChange: true,
                     pageLength:5,
-                    dom : "t <'d-lg-flex align-items-lg-center' i<'ms-auto' p > >",
+                    dom : "t <'d-lg-flex align-items-lg-center' i <'ms-auto' p > >",
                     language: {
                         url: `${path}/components/table/locale/pt.json`,
                     },
                     error: function (settings, techNote, message) {
                         console.log('An error occurred: ' + message);
-                        // You can replace the above line with your custom error handling logic.
                     }
-                    
                 }
     
                 this.datatable = new DataTable( this.table[0], defaultOptions );
     
                 this.datatable.on('init', ()=>{
-                    console.log('init')
+                    //console.log('init')
                 })
     
                 this.datatable.on('draw', ()=>{
-                    console.log('draaw')
+                    //console.log('draaw')
                 })
 
             }catch(err){

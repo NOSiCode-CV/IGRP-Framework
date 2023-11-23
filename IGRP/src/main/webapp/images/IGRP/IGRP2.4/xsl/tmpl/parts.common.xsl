@@ -478,6 +478,7 @@
             <xsl:text>btn-label </xsl:text>
         </xsl:param>
         <xsl:param name="text-class" select="''"/>
+        <xsl:param name="icon-class" select="''"/>
         <xsl:param name="classes" select="'btn'"/>
 
         <xsl:param name="style" select="'btn'"/>
@@ -509,6 +510,7 @@
                     <xsl:with-param name="delimiter" select="$delimiter"/>
                     <xsl:with-param name="use-fa" select="$use-fa"/>
                     <xsl:with-param name="text-class" select="$text-class"/>
+                    <xsl:with-param name="icon-class" select="$icon-class"/>
                     <xsl:with-param name="img-folder" select="$img-folder"/>
                     <xsl:with-param name="style" select="$style"/>
                     <xsl:with-param name="rounded" select="$rounded"/>
@@ -526,7 +528,7 @@
                                         <xsl:value-of select="' rounded-pill'"/>
                                     </xsl:if>
                                 </xsl:variable>
-                                <i class="fa {$list} label-icon align-middle fs-16 {$icon-rounded}"></i>
+                                <i class="fa {$list} {$icon-class} label-icon align-middle fs-16 {$icon-rounded}"></i>
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:attribute name="class">

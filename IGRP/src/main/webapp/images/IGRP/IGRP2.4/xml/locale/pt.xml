@@ -53,7 +53,7 @@
     <gen-colors-legend>Legenda de Cores</gen-colors-legend>
     <gen-colors-legend-map>Mapear</gen-colors-legend-map>
     <gen-table-has-filter>Mostrar Filtro</gen-table-has-filter>
-    <gen-table-appearance>Estilo e Aparência</gen-table-appearance>
+    <gen-table-appearance>Aparência</gen-table-appearance>
     
     <gen-table-filter-options>Filtros e Paginação</gen-table-filter-options>
     <gen-table-hoverable>Realçar linha (hover)</gen-table-hoverable>

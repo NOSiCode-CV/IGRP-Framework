@@ -180,12 +180,14 @@
                     <xsl:attribute name="title">
                       <xsl:value-of select="title"/>
                     </xsl:attribute>
+                   
                     <xsl:call-template name="table-ctx-item">
                       <xsl:with-param name="use-fa" select="$use-fa"/>
                       <xsl:with-param name="size" select="'xs'"/>
                       <xsl:with-param name="ctx-params" select="$ctx_holder"/>
-                      <xsl:with-param name="class" select="''"></xsl:with-param>
-                      <xsl:with-param name="text-class" select="@class"></xsl:with-param>
+                      <xsl:with-param name="class" select="'dropdown-item'"></xsl:with-param>
+                      <xsl:with-param name="text-class" select="''"></xsl:with-param>
+                      <xsl:with-param name="icon-class" select="@class"></xsl:with-param>
                     </xsl:call-template>
                   </xsl:when>
                   <xsl:otherwise>
@@ -262,6 +264,7 @@
     <xsl:param name="size" select="'normal'"/>
     <xsl:param name="class" select="'btn'"/>
     <xsl:param name="text-class" select="''"/>
+    <xsl:param name="icon-class" select="''"/>
     <xsl:param name="ctx-params" select="''"/>
     <xsl:param name="show-label" select="true()"/>
     <xsl:param name="view"/>
@@ -307,6 +310,8 @@
           <xsl:with-param name="size" select="$size"/>
           <xsl:with-param name="btnClass" select="$class"/>
           <xsl:with-param name="text-class" select="$text-class"/>
+          <xsl:with-param name="icon-class" select="concat('text-',$icon-class,' me-2')"/>
+          
         </xsl:call-template>
       </xsl:if>
 
