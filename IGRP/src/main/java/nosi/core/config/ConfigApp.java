@@ -101,6 +101,11 @@ public final class ConfigApp {
     public String getAutenticationType() {
         return commonMain.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
     }
+    
+    public boolean isActiveGlobalACL() {
+        return Core.isNotNull(commonMain.getProperty("igrp.plsql.myapps.url"));
+
+    }
 
     public Properties getMainSettings() {
         return commonMain;

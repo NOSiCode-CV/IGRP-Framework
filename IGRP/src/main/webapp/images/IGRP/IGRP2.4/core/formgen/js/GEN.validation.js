@@ -226,7 +226,7 @@
 		});
 		
 		$(document).on('gen-field-edition', function(e, field){
-			
+
 			$('.validations-message').html('');
 			
 			var type 			= field.type,

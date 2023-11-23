@@ -107,14 +107,12 @@
                   <div class="row">
                         <div class="col-lg-2  col-md-3 sidebar tree-list shadow d-none d-md-block" id="igrp-sidebar" bg-color="secondary">
                             
-                            <div class="d-flex align-items-center px-3 pt-4">
-                                <div>
-                                    <img src="{$path}/core/formgen/img/logo-gen-white.png"/>
-                                </div>
+                            <a class="d-flex align-items-center px-3 pt-4" href="{rows/link}">
+                                <img src="{$path}/core/formgen/img/logo-gen-white.png"/>
                                 <div class="studio-name">
-                                    <b>IGRP STUDIO</b>
+                                    <b>STUDIO</b>
                                 </div>
-                            </div>
+                            </a>
 
                             <div class="gen-components-search px-3 mt-4 position-relative d-none">
                                 
@@ -476,7 +474,7 @@
                                         <xsl:value-of select="$locale-strings/style"/>
                                     </li>
                                     <li rel="validation">
-                                        <xsl:value-of select="$locale-strings/validations"/>
+                                        <xsl:value-of select="$locale-strings/annotations"/>
                                     </li>
                                     <li rel="rules">
                                         <xsl:value-of select="$locale-strings/rules"/>
@@ -491,8 +489,9 @@
                                 <button style="position:absolute;top:20px;right:8px;filter: invert(1);" type="button" class="btn-close me-0" data-bs-dismiss="modal" aria-label="Close" fdprocessedid="esl2a"></button>
                           </div>
                           <div class="modal-body" role="form">
-                              <div rel="properties" class="gen-properties-setts-holder row active">
-                            
+                              <div rel="properties" id="properties-accordion" class="gen-properties-setts-holder row active accordion">
+                                
+                          
 
                               </div>
 
@@ -597,10 +596,10 @@
                   
                             
                           </div>
-                          <div class="modal-footer d-flex align-items-center d-none">
-                                <div class="">
+                          <div class="modal-footer d-flex align-items-center ">
+                                <div class="d-flex align-items-center">
                                     <span class="info object d-none"></span>
-                                    <span class="info type"></span>
+                                    <span class="info type d-flex align-items-center"></span>
                                     <span class="info parent" style="display:none"></span>
                                 </div>
 
@@ -619,7 +618,7 @@
                                     </span>
                               	</xsl:if>
                               
-                              <div class="modal-buttons text-right">
+                              <div class="modal-buttons text-right d-none">
                               	
                                 <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button> 
                               	<button type="button" class="btn btn-primary"  id="gen-edit-confirm">Confirm <i class="fa fa-check"/></button>
@@ -857,11 +856,12 @@
           
           <script src="{$path}/core/formgen/js/v2/GEN.groupContainerMenus.js"></script>
 
-          <script src="{$path}/core/formgen/js/v2/GEN.tableProperties.js"></script>
+          <script src="{$path}/core/formgen/js/v2/GEN.props.js"></script>
+          <script src="{$path}/core/formgen/js/v2/GEN.props.table.js"></script>
+          <script src="{$path}/core/formgen/js/v2/GEN.props.action.js"></script>
+          <script src="{$path}/core/formgen/js/v2/GEN.props.icon.js"></script>
 
-          <script src="{$path}/core/formgen/js/v2/GEN.actionProperties.js"></script>
-
-          <script src="{$path}/core/formgen/js/v2/GEN.iconProperties.js"></script>
+          
 
           <script src="{$path}/core/formgen/js/v2/GEN.headers.controller.js"></script>
           
@@ -942,6 +942,7 @@
         <script src="{$themePath}/assets/js/plugins.js"></script>
 
         <script src="{$path}/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+        
 
 
          <!-- NOT ASYNC JS-->   
@@ -966,6 +967,7 @@
         <script src="{$path}/core/igrp/IGRP.core.js?v={$version}" ></script>
         <!-- IGRP globalModal
         not async -->
+        <script src="{$path}/components/select.choices/select.choices.js"></script>
         <script src="{$path}/core/igrp/globalmodal/IGRP.globalModal.js?v={$version}"  ></script>
         <!-- IGRP iframeNavigation 
         not async -->
@@ -990,6 +992,8 @@
         <script src="{$path}/core/igrp/xml.xslt/xml.xsl.transform.js?v={$version}" ></script>
         <!-- IGRP handler -->
         <script encode="utf-8" src="{$path}/core/igrp/IGRP.handler.js?v={$version}" ></script>
+
+
 
         <xsl:call-template name="igrp-global-scripts"></xsl:call-template>
        

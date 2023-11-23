@@ -80,27 +80,53 @@
 
 	<xsl:template name="igrp-table-header" mode="igrp-table-header" match="*">
 		<xsl:param name="title" select="@title"/>
-		<xsl:param name="has-title" select="@title"/>
+		<xsl:param name="show-title" select="@title"/>
 		<xsl:param name="has-filter" select="'false'"/>
+		<xsl:param name="length-change" select="'false'"/>
+		<xsl:param name="search" select="'true'"/>
 		<xsl:param name="filter-type" select="'default'"/>
-		<div class="card-header d-flex align-items-center">
-			<h3 class="card-title me-auto">
-				<xsl:value-of select="$title"/>
-			</h3>
-		
-			<div class="ms-auto d-flex gap-2">
-				<xsl:if test="$has-filter = 'true' and ./fields/*[@filter='true']">
-					<div title="{$locale-strings/to-filter}" data-bs-toggle="tooltip">
-						<a   class="btn  btn-light  d-flex align-items-center" href="#{name()}-filter-fields" data-bs-toggle="collapse" aria-controls="{name()}-filter-fields" aria-expanded="false">
-							<i class="ri-filter-3-line"></i> 
-						</a>
-					</div>
+
+		<xsl:if test=" $show-title = 'true' or $search = 'true' or $has-filter='true' or table/context-menu/item[@type='action']">
+			<div class="card-header d-flex align-items-center py-2">
+				
+				<xsl:if test="$show-title = 'true'">
+					<h3 class="card-title me-auto my-2">
+						<xsl:value-of select="$title"/>
+					</h3>
 				</xsl:if>
-				<xsl:if test="table/context-menu/item[@type='action']">
-					<xsl:apply-templates select="table/context-menu/item[@type='action']" mode="igrp-button-item"/>
-				</xsl:if>
+				
+				<div class="ms-auto d-flex gap-2 align-items-center">
+					<xsl:if test="$length-change = 'true'">
+						<div class="d-flex align-items-center">
+							<b class="small bold me-2">Mostrar</b>
+							<select class="form-control ">
+								<option value="10">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="50">50</option>
+							</select>
+						</div>
+					</xsl:if>
+
+					<xsl:if test="$search = 'true'">
+						<div>
+							<input class="form-control igrp-table-searcher" placeholder="Pesquisar..."/>
+						</div>
+					</xsl:if>
+
+					<xsl:if test="$has-filter = 'true' and ./fields/*[@filter='true']">
+						<div>
+							<a   class="btn btn-light  d-flex align-items-center" href="#{name()}-filter-fields" data-bs-toggle="collapse" aria-controls="{name()}-filter-fields" aria-expanded="false">
+								<i class="ri-sound-module-line"></i> 
+							</a>
+						</div>
+					</xsl:if>
+					<xsl:if test="table/context-menu/item[@type='action']">
+						<xsl:apply-templates select="table/context-menu/item[@type='action']" mode="igrp-button-item"/>
+					</xsl:if>
+				</div>
 			</div>
-		</div>
+		</xsl:if>
 
 	</xsl:template>
 
@@ -110,7 +136,7 @@
 
 		<xsl:if test="$fields">
 			<xsl:variable name="field-col-class" select="'col-12 col-sm-6 col-md-4 col-lg-3 '"/>
-			<div class="card-filter border-top pb-3 px-3 collapse bg-light" id="{name()}-filter-fields" remote-filter="remote-table.xml"> 
+			<div class="card-filter border-top pb-3 px-3 collapse bg-light-subtle" id="{name()}-filter-fields" remote-filter="Gestao_de_expedientes.xml"> 
 				<div class=" row py-3 clearfix fields gy-3" role="form">
 					<xsl:for-each select="$fields">
 						<xsl:choose>
@@ -200,12 +226,11 @@
 					</xsl:for-each>
 				</div>
 				<div class="row">
-					<div class="col d-flex justify-content-end gap-4 align-items-center">
-						<a href="#" class="link-dark  igrp-table-reset-action text-capitalize">
-							<i class="ri-eraser-line"></i>
-							<span>Limpar</span>
+					<div class="col d-flex justify-content-end gap-2 align-items-center">
+						<a href="#" class="btn btn-sm btn-light igrp-table-reset-action text-capitalize d-flex align-items-center">
+							<i></i>
 						</a>
-						<button class="text-capitalize btn btn btn-soft-sigtca igrp-table-filter-action d-flex align-items-center">
+						<button class="text-capitalize btn-soft-theme-primary btn-sm btn igrp-table-filter-action d-flex align-items-center">
 							<span>Aplicar</span>
 						</button>
 					</div>
@@ -213,9 +238,6 @@
 			</div>
 
 		</xsl:if>
-		<div class="igrp-table-filter-info px-3 bg-light d-none">
-			Lorem ipsum
-		</div>
 
 
 	</xsl:template>

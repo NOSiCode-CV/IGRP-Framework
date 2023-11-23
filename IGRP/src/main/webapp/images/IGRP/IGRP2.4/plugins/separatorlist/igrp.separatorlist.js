@@ -338,9 +338,9 @@ $.fn.separatorList = function(o){
 							if(desc)
 								$(f).attr('item-value-desc',desc);
 
-							$.IGRP.components.select2.select2Init({
+							/*$.IGRP.components.select2.select2Init({
 							   field : $(f)
-						   });
+						   });*/
 
 					   }else
 						   $(f).trigger('change.select2');

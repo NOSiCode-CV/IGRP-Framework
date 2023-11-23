@@ -42,7 +42,7 @@ var GENERATOR = function(genparams){
 	GEN.defaultIncludes  = ['IGRP-functions.tmpl', 'IGRP-variables.tmpl','IGRP-home-include.tmpl','IGRP-utils.tmpl', 'parts.common','parts.head','parts.header','parts.scripts', 'parts.footer','parts.sidebar'];
 
 
-	GEN.globalProperties = {};
+	
 
 	/**<xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=14"/>
     <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=14"/>
@@ -136,18 +136,9 @@ var GENERATOR = function(genparams){
 		
 	};
 
-	GEN.defineGlobalProperty = function( name, p ){
-		GEN.globalProperties[name] = p;
-	}
-	GEN.getGlobalProperty = function(name){
-		return GEN.globalProperties[name] && typeof GEN.globalProperties[name] === 'function' ? GEN.globalProperties[name] : ()=>{}
-	}
-
+	
 	GEN.init = function(){
 		setVars();
-		
-		
-
 		getConfigData();
 		getBaseXSL();
 		setEvents();
@@ -696,7 +687,7 @@ var GENERATOR = function(genparams){
 
 					container.GET.fields().forEach(function(f){
 
-						container.removeField(f.id,false)
+						container.removeField(f.id,false,false)
 
 					});
 
@@ -756,7 +747,7 @@ var GENERATOR = function(genparams){
 			var declared   = GEN['getDeclared'+capitalizeFirstLetter(objectType)+'s'] ? GEN['getDeclared'+capitalizeFirstLetter(objectType)+'s'](dropped.name) : null;
 
 
-			//console.log(dropped)
+			console.log(dropped)
 			
 			if(declared){
 
@@ -1140,6 +1131,7 @@ var GENERATOR = function(genparams){
 
 		
 		switch(type){
+			
 			//OPTIONS / comboboxx
 			case 'select':
 				var canAdd   = objectProperties.canAdd ? ' can-add="true"' : '';
@@ -1451,16 +1443,20 @@ var GENERATOR = function(genparams){
 		var formHolder = $(VARS.edition.modal).find('.modal-body [rel="properties"]');
 		var inputFieldsHolder = $('<div class="input-fields row m-0" style="height:fit-content"></div>')
 		
-		
-	
-		$(VARS.edition.modal).find('.modal-body [rel="properties"]').html('');
+		formHolder.html('');
+
+		formHolder.append(`
+			<div class="mb-3">
+				<div class="group-fields row" id="group-field-default" rel="default">
+				</div>
+				<div class="group-fields-checkers row" rel="default">
+				</div>
+			</div>
+		`);
 
 		for(var p in object.proprieties){ // ciclo nas proprieades do elemento
 			
 			var objectProperties = object.getPropertyOptions && object.getPropertyOptions(p) ? object.getPropertyOptions(p) : object.propertiesOptions[p] || null;
-		
-			//if( object.isEditable(p) && p != 'type' && p != 'name'){
-			//console.log(objectProperties)
 			
 			if( object.isEditable(p) && p != 'type' && p != 'name'){
 				
@@ -1505,17 +1501,31 @@ var GENERATOR = function(genparams){
 						break;
 					}	
 				
-					
-					//console.log(p);
-					//console.log(inputType)
+				if(objectProperties?.type == 'separator'){
 				
-				input = GEN.getSetter({
-					type      : inputType,
-					propriety : p,
-					object    : object,
-					definition : objectProperties && objectProperties.hasOwnProperty(p) ? objectProperties[p] : null,
-				});
+					input = $(`
+						<div class="mb-3 ">
+							<a class="border-bottom text-muted d-block py-2 mb-2 h5" data-bs-toggle="collapse" href="#group-field-${p}" > ${objectProperties.value}</a>
+							<div class="collapse" id="group-field-${p}" data-bs-parent="#properties-accordion">
+								<div class="group-fields row "  rel="${p}"></div>
+								<div class="group-fields-checkers row" rel="${p}"></div>
+							</div>
+						</div>
+					`);
 
+					formHolder.append(input);
+		
+				}else{	
+
+					input = GEN.getSetter({
+						type      : inputType,
+						propriety : p,
+						object    : object,
+						definition : objectProperties && objectProperties.hasOwnProperty(p) ? objectProperties[p] : null,
+					});
+
+				}
+				
 				if(input) {
 						
 					if(p == 'tag') {
@@ -1527,30 +1537,38 @@ var GENERATOR = function(genparams){
 						configAutoTagSetter(input,object);
 
 					}
-					
-					if(inputType == 'checkbox'){
 
-						checkers.push(input);
+					if(p == 'type_changer'){
+
+						input.find('label').remove();
+
+						$('#gen-edition-modal .modal-footer .info.type').html( input );
 
 					}else{
 
-						if(p == 'type_changer'){
+						if( objectProperties?.type != 'separator' ){
 
-							input.find('label').remove();
+							const groupRel = (objectProperties?.group || 'default' );
+							const groupHolder =  $('.group-fields[rel="'+groupRel+'"]');
+							const groupCheckHolder =  $('.group-fields-checkers[rel="'+groupRel+'"]');
 
-							$('#gen-edition-modal .modal-footer .info.type').html( input );
+							if(inputType == 'checkbox'){
 
-						}else{
-							formHolder.append(inputFieldsHolder);
+								groupCheckHolder.append(input);
+		
+							}else{
+		
+								if( objectProperties?.order>=0)
+									groupHolder.insertAt(input,objectProperties.order)
+								else
+									groupHolder.append(input);
+		
+							}
 
-							if(objectProperties && objectProperties.order>=0)
-								inputFieldsHolder.insertAt(input,objectProperties.order)
-							else
-								inputFieldsHolder.append(input);
 						}
 
 					}
-			
+
 					if(objectProperties && objectProperties.hidden)
 						input.addClass('hidden');
 
@@ -1901,14 +1919,18 @@ var GENERATOR = function(genparams){
 		else
 			$(modal.find('.modal-header > ul > li')[0]).click();
 
-		const inputs = $('select',modal);
+		const inputs = $('select:not(.select2)',modal);
 
 		inputs.each( (i,el)=>{
-			if( !$(el).data('select-set') ){
-				new Choices(el,{});
-				$(el).data('select-set', true)
-			}
+			
+			if($(el).data('select2'))
+				$(el).select2('destroy');
+
+			$.IGRP.components.choices?.init( $(el) );
+
 		});
+
+		//$('select',modal).select2();
 
 		/*FORM FIELD RULES SET/ SHOW/HIDE*/
 		if(object.formField || $.inArray(object.type,acceptsRules) !== -1)
@@ -2088,6 +2110,7 @@ var GENERATOR = function(genparams){
 		$('.style-setter[rel="id"]',modal).removeAttr('disabled');
 
 		//copy
+		//console.log( $(VARS.html.pageCopySelecter). )
 		$(VARS.html.pageCopySelecter).select2('val','');
 		$(VARS.html.pageCopyContainerList).html('');
 
@@ -3111,6 +3134,8 @@ var GENERATOR = function(genparams){
 			$('#gen-edition-modal .modal-header ul li').removeClass('active');
 
 			$('#gen-edition-modal').attr('view',rel);
+
+			
 
 			$(this).addClass('active');
 		});

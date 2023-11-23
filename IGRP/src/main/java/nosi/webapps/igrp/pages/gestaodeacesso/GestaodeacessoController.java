@@ -45,7 +45,7 @@ public class GestaodeacessoController extends Controller {
 
       
 		List<Gestaodeacesso.Org_table> data = new ArrayList<>();
-		String ichange = Core.getParam("ichange");   
+//		String ichange = Core.getParam("ichange");   
       view.id_app.setParam(true);
 		String dad = Core.getCurrentDad();
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
@@ -53,11 +53,10 @@ public class GestaodeacessoController extends Controller {
           view.aplicacao.propertie().add("disabled","true");
 			//setTable(model, data);
 		}
-		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")) {
-			if (ichange.equalsIgnoreCase("p_aplicacao") && Core.isNotNull(model.getAplicacao())) {
-				setTable(model, data);
-			}
-		}		
+//		if (Core.isHttpPost() &&  (ichange.equalsIgnoreCase("p_aplicacao") && Core.isNotNull(model.getAplicacao()))) {
+//				setTable(model, data);
+//			
+//		}		
 		
 		if(Core.isNotNull(model.getAplicacao())) {
 			Core.setAttribute("p_aplicacao",model.getAplicacao());
@@ -161,6 +160,7 @@ public class GestaodeacessoController extends Controller {
 				Core.setMessageError();
 		}else
 			Core.setMessageError();
+		
 		 return this.forward("igrp","Gestaodeacesso","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 	
 		/*----#end-code----*/

@@ -3492,7 +3492,7 @@ public final class Core {
 		if (vars != null) {
 			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
-					.collect(Collectors.toList());
+					.toList();
 			return (variav != null && !variav.isEmpty()) ? "" + variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
@@ -3510,7 +3510,7 @@ public final class Core {
 		if (vars != null) {
 			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
-					.collect(Collectors.toList());
+					.toList();
 			return (variav != null && !variav.isEmpty()) ? "" + variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
@@ -3699,7 +3699,7 @@ public final class Core {
 		if (vars != null) {
 			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
-					.collect(Collectors.toList());
+					.toList();
 			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : null;
 		}
 		return null;
@@ -3710,7 +3710,7 @@ public final class Core {
 		if (vars != null) {
 			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
-					.collect(Collectors.toList());
+					.toList();
 			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : null;
 		}
 		return null;
@@ -3721,7 +3721,7 @@ public final class Core {
 		if (vars != null) {
 			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + "p_task_id"))
-					.collect(Collectors.toList());
+					.toList();
 			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
@@ -4949,19 +4949,19 @@ public final class Core {
 	}
 
 	public static boolean isHttpPost() {
-		return Igrp.getInstance().getRequest().getMethod().equals(HttpMethod.POST.toString());
+		return Igrp.getInstance().getRequest().getMethod().toUpperCase().equals(HttpMethod.POST.toString());
 	}
 
 	public static boolean isHttpGet() {
-		return Igrp.getInstance().getRequest().getMethod().equals(HttpMethod.GET.toString());
+		return Igrp.getInstance().getRequest().getMethod().toUpperCase().equals(HttpMethod.GET.toString());
 	}
 
 	public static boolean isHttpPut() {
-		return Igrp.getInstance().getRequest().getMethod().equals(HttpMethod.PUT.toString());
+		return Igrp.getInstance().getRequest().getMethod().toUpperCase().equals(HttpMethod.PUT.toString());
 	}
 
 	public static boolean isHttpDelete() {
-		return Igrp.getInstance().getRequest().getMethod().equals(HttpMethod.DELETE.toString());
+		return Igrp.getInstance().getRequest().getMethod().toUpperCase().equals(HttpMethod.DELETE.toString());
 	}
 
 	public static long calculateYears(String data) {

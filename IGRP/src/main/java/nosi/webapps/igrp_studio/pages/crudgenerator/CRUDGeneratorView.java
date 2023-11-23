@@ -54,23 +54,25 @@ public class CRUDGeneratorView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		documento.setValue(gt("//in controller"));
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		forum = new LinkField(model,"forum");
 		forum.setLabel(gt("Forum"));
-		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		forum.setValue(gt("//in controller"));
+		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-comments").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Application"));
-		aplicacao.propertie().add("remote",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("disabled","false").add("java-type","").add("tags","false");
+		aplicacao.propertie().add("remote-index",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		data_source = new ListField(model,"data_source");
 		data_source.setLabel(gt("Data Source"));
-		data_source.propertie().add("remote",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_data_source").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","").add("tags","false");
+		data_source.propertie().add("remote-index",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_data_source").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		schema = new ListField(model,"schema");
 		schema.setLabel(gt("Schema"));
-		schema.propertie().add("remote",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_schema").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","").add("tags","false");
+		schema.propertie().add("remote-index",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_schema").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		check_table = new CheckBoxField(model,"check_table");
 		check_table.setLabel(gt(""));
@@ -85,11 +87,11 @@ public class CRUDGeneratorView extends View {
 		
 		table_type = new ListField(model,"table_type");
 		table_type.setLabel(gt("Table Type"));
-		table_type.propertie().add("remote",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_table_type").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
+		table_type.propertie().add("remote-index",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_table_type").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		form_2_radiolist_1 = new RadioListField(model,"form_2_radiolist_1");
 		form_2_radiolist_1.setLabel(gt("Escolha 1º"));
-		form_2_radiolist_1.propertie().add("name","p_form_2_radiolist_1").add("type","radiolist").add("domain","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("child_size","6").add("java-type","");
+		form_2_radiolist_1.propertie().add("name","p_form_2_radiolist_1").add("type","radiolist").add("domain","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("child_size","6").add("java-type","").add("tooltip","false").add("disable_copy_paste","false");
 		
 
 		toolsbar_3 = new IGRPToolsBar("toolsbar_3");
@@ -146,8 +148,6 @@ public class CRUDGeneratorView extends View {
 	@Override
 	public void setModel(Model model) {
 		
-		documento.setValue(model);
-		forum.setValue(model);
 		aplicacao.setValue(model);
 		data_source.setValue(model);
 		schema.setValue(model);

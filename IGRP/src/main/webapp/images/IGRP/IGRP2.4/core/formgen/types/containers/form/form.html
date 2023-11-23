@@ -1,5 +1,7 @@
 <div class="card igrp-forms">
-	<xsl:apply-templates mode="igrp-card-header" select="#path#"/>
+	<xsl:apply-templates mode="igrp-card-header" select="#path#">
+		<xsl:with-param name="show-title" select="'#[hasTitle]#'"/>
+	</xsl:apply-templates>
 	<div class="card-body">
 		<div class="row g-4" role="form" gen-id="drop-zone"></div>
 	</div>

@@ -1,10 +1,11 @@
-<div class="form-group col-sm-#[size]# #[right]# gen-date-picker-wrapper" item-name="#tag#" item-type="#type#" #[required]#>
+<div class="form-group col-sm-#[size]# #[right]# gen-date-picker-wrapper" item-name="#tag#" item-type="#type#" >
+  <xsl:apply-templates mode="setRequiredAttribute" select="#path#"/>
   <label for="{#path#/@name}">
     #label.val#
     #[tooltip]#
   </label>
   <div class="input-group">
-      <input type="text" value="{#path#/value}" datefield="true" disableWeekends="#[disableWeekends]#" disabledBeforetoday="#[disabledBeforetoday]#" #[daysoff]# data-range="#[range]#" class="form-control gen-date-picker #[change]#" id="#tag#" name="{#path#/@name}" #[required]# format="#[format]#" maxlength="#[maxlength]#" #[readonly]# #[disabled]# placeholder="#[placeholder]#">
+      <input type="text" value="{#path#/value}" datefield="true" disableWeekends="#[disableWeekends]#" disabledBeforetoday="#[disabledBeforetoday]#" #[daysoff]# data-range="#[range]#" class="form-control gen-date-picker #[change]#" id="#tag#" name="{#path#/@name}" format="#[format]#" maxlength="#[maxlength]#"  placeholder="#[placeholder]#">
       	<xsl:call-template name="setAttributes">
             <xsl:with-param name="field" select="#path#"/>
         </xsl:call-template>

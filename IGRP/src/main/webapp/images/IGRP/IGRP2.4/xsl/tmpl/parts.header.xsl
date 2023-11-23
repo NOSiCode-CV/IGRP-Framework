@@ -376,7 +376,7 @@
                 </div>
               </div>
 
-              <div class="dropdown topbar-head-dropdown ms-1 header-item">
+              <div class="dropdown topbar-head-dropdown ms-1 header-item d-none">
                 <button
                   type="button"
                   class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
@@ -747,7 +747,7 @@
                 </button>
               </div>
 
-              <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
+              <div class="dropdown topbar-head-dropdown ms-1 header-item d-none" id="notificationDropdown">
                 <button
                   type="button"
                   class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"

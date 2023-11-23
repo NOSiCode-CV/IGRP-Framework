@@ -35,20 +35,19 @@ $.fn.XMLTransform = function(params) {
 
  	//SET DIV CONTENT FROM TRANSFORMATION
  	var setContent = function(content){
-
- 		setTimeout(function(){
- 			if(params.method && params.method == 'replace'){
-				if(params.replaceSelector)
-					element.find(params.replaceSelector).replaceWith(  $(content).find(params.replaceSelector) )
-				else
-					element.replaceWith(content);
-			}
- 			else
- 				element.html(content);
- 		
- 			done(content);
- 			
- 		},150);		
+		setTimeout(function(){
+			if(params.method && params.method == 'replace'){
+			   if(params.replaceSelector)
+				   element.find(params.replaceSelector).replaceWith(  $(content).find(params.replaceSelector) )
+			   else
+				   element.replaceWith(content);
+		   }
+			else
+				element.html(content);
+		
+			done(content);
+			
+		},150);	
  	}
  	//TRANSFORM
  	var start = function(){
@@ -364,7 +363,8 @@ $.fn.XMLTransform = function(params) {
 	 			'background-repeat':'no-repeat',
 	 			'background-position':'center',
 	 			'left':0,
-	 			'top':0
+	 			'top':0,
+				'z-index':999999999
 	 		});
 
 	 		element.css({
@@ -401,6 +401,7 @@ $.fn.XMLTransform = function(params) {
 	 				getContentFromUrl({
 	 					url      :params.xml,
 	 					data     :params.xmlData,
+						method : 'POST',
 	 					callback :setXML
 	 				});
 
@@ -433,13 +434,13 @@ $.fn.XMLTransform = function(params) {
  	//AJAX LOAD CONTENT
  	var getContentFromUrl = function(p){
  		var base = p.url.split('/').slice(0,-1).join('/');
-	
+
  		$.ajax({
  			url     : p.url,
- 			dataType: params.dataType ? params.dataType : 'xml',
+ 			dataType: p.dataType ? p.dataType : 'xml',
  			data    : p.data ? p.data : null,
- 			method  : params.method ? params.method.toUpperCase() : 'POST',
- 			type    : params.method ? params.method.toUpperCase() : 'POST',
+ 			method  : p.method ? p.method.toUpperCase() : 'GET',
+ 			type    : p.method ? p.method.toUpperCase() : 'GET',
  			success : p.callback,
  			error   : errorHandler,
  			fail    : errorHandler

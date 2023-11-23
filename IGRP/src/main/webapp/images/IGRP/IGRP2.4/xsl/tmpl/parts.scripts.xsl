@@ -40,6 +40,19 @@
 
 	</xsl:template>
 
+	<xsl:template name="igrp-theme-colors-script" mode="igrp-theme-colors-script" match="*">
+        <script>
+            $.IGRP.theme = {
+                name:"<xsl:value-of select="$defined-template"/>",
+                colors : {
+                <xsl:for-each select="colors/color">
+                    <xsl:value-of select="@name"/>:"<xsl:value-of select="."/>"<xsl:if test="position() != last()">,</xsl:if>
+                </xsl:for-each>
+                }
+            };
+        </script>
+    </xsl:template>
+
 	<xsl:template name="igrp-global-scripts">
 
         <script id="igrp-locale-js">

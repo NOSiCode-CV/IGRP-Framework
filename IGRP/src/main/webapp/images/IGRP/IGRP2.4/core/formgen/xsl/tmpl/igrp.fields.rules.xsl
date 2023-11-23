@@ -15,7 +15,7 @@
               
                 <div class="col-md-6 form-group" item-name="gen_rule_event" item-type="select" required="required">
                     <label>Event</label>
-                    <select  required="required" multiple="multiple" name="p_gen_rule_event" class="form-control rule-setter select2" rel="gen_rule_event">
+                    <select  required="required" multiple="multiple" name="p_gen_rule_event" class="form-control rule-setter" rel="gen_rule_event">
                         <option value="load" label="Load">Load</option>
                         <option value="change" label="Change">Change</option>
                         <option value="blur" label="Blur">Blur</option>
@@ -28,7 +28,7 @@
                 
                 <div class="col-md-6 form-group" item-name="gen_rule_condition" item-type="select" >
                   <label>Condition</label>
-                  <select  name="p_gen_rule_condition" class="select2 form-control rule-setter" rel="gen_rule_condition">
+                  <select  name="p_gen_rule_condition" class=" form-control rule-setter" rel="gen_rule_condition">
                       
                       <option value=""></option>
                       
@@ -83,7 +83,7 @@
 
                 <div class="col-md-6 form-group"  item-name="gen_rule_patern" item-type="select" required="required">
                     <label>Pattern</label>
-                    <select  required="required" name="p_gen_rule_patern" class="form-control rule-setter select2" rel="gen_rule_patern">
+                    <select  required="required" name="p_gen_rule_patern" class="form-control rule-setter" rel="gen_rule_patern">
                         <option></option>
                         <option value="email">E-mail</option>
                         <option value="date">Date</option>
@@ -160,7 +160,7 @@
                       Action
                     </label>
 
-                    <select class="form-control rule-setter select2 " id="actions_list_gen_rule_action" name="p_gen_rule_action" required="required">
+                    <select class="form-control rule-setter  " id="actions_list_gen_rule_action" name="p_gen_rule_action" required="required">
                       <option value="show" >Show</option>
                       <option value="showicon" >Show Icon (date lookup)</option>
                       <option value="hide">Hide</option>
@@ -214,7 +214,7 @@
                     <label for="p_gen_rule_msg_type">
                       Message Type
                     </label>
-                    <select class="form-control rule-setter select2 " id="actions_list_gen_rule_msg_type" name="p_gen_rule_msg_type" >
+                    <select class="form-control rule-setter " id="actions_list_gen_rule_msg_type" name="p_gen_rule_msg_type" >
                       <option value="info">Info</option>
                       <option value="success">Success</option>
                       <option value="warning">Warning</option>

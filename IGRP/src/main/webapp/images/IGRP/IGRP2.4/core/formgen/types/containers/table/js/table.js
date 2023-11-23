@@ -31,12 +31,7 @@ var GENTABLE = function(name,params){
 	container.sortableOptions.onOut = showBody;
 
 	container.contextMenu = {
-		type   : 'button',
-		/*holder : '.table-ctx-holder',
-		menu   : {
-			selector: '.operationTable',
-			label   : 'span',
-		}*/
+		type   : 'button'
 	};
 
 	container.dropZoneFieldValidation = function(dropzone,field){
@@ -46,300 +41,21 @@ var GENTABLE = function(name,params){
 	container.includes = {
 		xsl :[ 'IGRP-table-utils.tmpl','component.table', 'component.form.fields'],
 		css :[ 
-			{path:'/core/igrp/table/igrp.design.system.table.css'},	
-			//{path:'/core/igrp/table/datatable/dataTables.bootstrap.css', id:'DataTable'},
-			//{path:'/core/igrp/table/igrp.tables.css'},		
+			{path:'/components/table/table.css'}		
 		],
 		js  :[ 
 			{path : '/core/igrp/form/igrp.forms.js',id:'Form'},
-			{path : '/core/igrp/table/datatable/jquery.dataTables.min.js',id:'DataTable'},
-			{path:'/core/igrp/table/datatable/dataTables.bootstrap.min.js',id:'DataTable'},
-			{path:'/core/igrp/table/igrp.table.js'},
+			{path : '/libs/datatable/jquery.dataTables.min.js'},
+			{path : '/libs/datatable/dataTables.bootstrap5.min.js'},
+			{path : '/libs/datatable/dataTables.responsive.min.js'},
 			{path:'/components/table/table.js'}
 		]
 	};
 
-	var tableOrderIncludes 		= [{path : '/core/formgen/js/jquery-ui.min.js'}],
-
-		tablePaginationIncludes = [{path : '/core/igrp/table/pagination.js'}];
-
-	/*var tableExportIncludes = [		
-		{ path:'/core/igrp/table/export/buttons.print.min.js'},
-		{ path:'/core/igrp/table/export/buttons.html5.min.js'},
-		{ path:'/core/igrp/table/export/vfs_fonts.js'},
-		{ path:'/core/igrp/table/export/pdfmake.min.js'},
-		{ path:'/core/igrp/table/export/jszip.min.js'},
-		{ path:'/core/igrp/table/export/buttons.flash.min.js'},
-		{ path:'/core/igrp/table/export/dataTables.buttons.min.js'}		
-	];*/
-
-	var tableExportInc = false,
-		tableOrderInc  = false,
-		paginationInc  = false;
-
-	function CheckExport(val){
-
-		var action = val ? 'show' : 'hide';
-		
-		$('.gen-properties-setts-holder [item-name="edit-export"]')[action]();
-
-		if(!val)
-
-			$('.gen-properties-setts-holder [item-name="edit-export"] select').val('').trigger('change');
-
-	};
 
 	container.ready = function(params){
 
-		console.log(params)
-
 		container.SET.hasTitle(true);
-
-		container.setPropriety({
-			name:'ctxMenuClass',
-			value:false,
-			editable:false,
-			xslValue:'IGRP_contextmenu'
-		});
-
-		container.setPropriety({
-			name:'hasContextMenu',
-			value:false,
-			editable:false,
-			xslValue:'<xsl:apply-templates mode="context-param" select="context-menu" />'
-		});
-
-		var includesJs = function(arr){
-			arr.forEach(function(e){
-				for( var i = 0; i < container.includes.js.length; i++){
-					var inc = container.includes.js[i];
-					if(inc.path == e.path){
-						var index = container.includes.js.indexOf(inc);
-						if (index > -1) 
-						    container.includes.js.splice(index, 1);
-						break;
-					}
-				}
-			});
-		};
-
-		container.setPropriety({
-			name:'ordertable',
-			label : 'Order Table',
-			value:false,
-			xslValue:'ordertable',
-			onChange:function(v){
-				if(v){
-
-					if(!tableOrderInc){
-						tableOrderIncludes.forEach(function(e){
-							container.includes.js.unshift(e);
-						});
-						tableOrderInc = true;
-					}					
-				}else{
-					includesJs(tableOrderIncludes);
-					tableOrderInc = false;
-				}
-			}
-		});
-
-		container.setPropriety({
-			name:'ctxMenuTemplate',
-			value:false,
-			editable:false,
-			xslValue:function(){
-				
-				var rtn = '';
-				
-				if(!container.GET.ctxInlineTmpl()){
-					
-					rtn = '<xsl:apply-templates select="'+container.GET.path()+'/table/context-menu'+'" mode="table-context-menu">';
-					
-					if(container.GET.ctxType() == 'hover')
-						rtn += '<xsl:with-param name="view" select="\'lavel-menu\'"/>';
-
-					rtn += '</xsl:apply-templates>';
-				}
-				
-				return rtn;
-			}
-		});
-
-		container.setPropriety({
-			name:'hasColorTmpl',
-			value:false,
-			editable:false,
-			xslValue:function(){
-
-				return '<xsl:apply-templates mode="table-legend" select="'+container.GET.path()+'/table/legend_color"/>'
-			}
-		});
-
-		container.setPropriety({
-			name:'filterTemplate',
-			value:false,
-			editable:false,
-			xslValue: function(){
-				var filterTag = container.GET.tag()+"_filter",
-					name	  = "'p_"+filterTag+"'",
-					filter    = "'"+container.GET.filter()+"'",
-					fltPg     = container.GET.filter()=='filter_num' ? '<xsl:with-param name="filter_pagination" select="'+container.GET.path()+'/fields/'+filterTag+'_pg/value"/>' : '';
-
-				return '<xsl:call-template name="table-filter">'+
-	                    '<xsl:with-param name="name" select="'+name+'"/>'+
-	                    '<xsl:with-param name="value" select="'+container.GET.path()+'/fields/'+filterTag+'/value"/>'+
-	                    fltPg+
-	                    '<xsl:with-param name="type" select="'+filter+'"/>'+
-	                  '</xsl:call-template>';
-			},
-			onChange:function(v){
-				if(v){
-
-					if(!paginationInc){
-						tablePaginationIncludes.forEach(function(e){
-							container.includes.js.unshift(e);
-						});
-						paginationInc = true;
-					}					
-				}else{
-					includesJs(tablePaginationIncludes);
-					paginationInc = false;
-				}
-			}
-		});
-
-		container.setPropriety({
-			name:'filter',
-			label : 'Paginação',
-			value:{
-				value: '',
-				options:[
-					{value : ''            ,label : ''},
-					{value : 'filter_az'   ,label : 'A-Z'},
-					{value : 'filter_num'  ,label : '0-9'},
-					{value : 'filter_aznum',label : 'A-Z-0-9'}
-				]
-			},
-			onChange:function(v){
-				var val = v && v != ''? true : false;
-				container.SET.filterTemplate(val);
-			}
-		});
-
-		container.setPropriety({
-			name:'ctxType',
-			label:'Menu de contexto',
-			value:{
-				value:'inl',
-				options:[
-					
-					{value:'ctx',label:'Right Click'},
-					{value:'inl',label:'Inline'},
-					{value:'hover',label:'Hover'},
-					{value:'dropdown',label:'Dropdown'},
-				]
-			},
-			onChange:function(v){
-				var ismenu = v == 'ctx' || v == 'hover' ? true : false;
-				container.SET.ctxInlineTmpl(!ismenu);
-			},
-			onEditionStart : function(v){
-				$('select',v.input).on('change',function(){
-					var action  = $(this).val() == 'inl' ? 'show' : 'hide'; 
-					$('.gen-properties-setts-holder div[rel="ctxStyle"]')[action]();
-				});
-			}
-		});
-
-		container.setPropriety({
-			name:'ctxStyle',
-			label:'Context Menu Inline Style',
-			value:{
-				value:'',
-				options:[
-					{value:'',label:'Default'},
-					{value:'align',label:'Align'}
-				]
-			},
-			onEditionStart : function(o){
-				if(container.GET.ctxType && container.GET.ctxType() == 'inl')
-					o.input.show();
-				else
-					o.input.hide();
-			}
-		});
-
-		container.setPropriety({
-			name:'export',
-			value:{
-				value:'',
-				options:[
-					{value:'pdf',label:'PDF'},
-					{value:'excel',label:'Excel'}
-				],
-				multiple:true
-			},
-			onChange:function(v){
-				
-				var set = v && v[0] ? true : false;
-				
-				if(set)
-
-					for(var i = tableExportIncludes.length - 1; i >= 0; i--)
-
-						container.includes.js.push(tableExportIncludes[i])
-
-			}
-		});
-
-		container.setPropriety({
-			name:'dataTable',
-			label : 'Data Table',
-			value:false,
-			xslValue:'igrp-data-table',
-			onEditionStart:function(){
-				
-				CheckExport( container.GET.dataTable() );
-
-				$('.gen-properties-setts-holder').on('change','[item-name="edit-dataTable"] input', function(){
-
-					CheckExport( $(this).is(':checked') )
-
-				});
-
-			},
-			//editable:false
-		});
-
-		container.setPropriety({
-			name:'ctxInlineTmpl',
-			label:'CtxMenu Inline',
-			value:true,
-			editable:false,
-			onChange:function(e){
-				container.SET.ctxInlineHeadTmpl(e);
-			},
-
-			xslValue:function(){
-				var ctxType = "'"+container.GET.ctxType()+"'"
-					return '<xsl:if test="//'+container.GET.path()+'/table/context-menu/item" gen-preserve="last"><td class="igrp-table-ctx-td" >'+
-							'<xsl:apply-templates select="../../context-menu'+'" mode="table-context-inline">'+
-								'<xsl:with-param name="row-params" select="context-menu"/>'+
-								'<xsl:with-param name="type" select="'+ctxType+'"/>'+
-							'</xsl:apply-templates>'+
-						'</td></xsl:if>';
-			}
-		});
-
-		container.setPropriety({
-			name:'ctxInlineHeadTmpl',
-			editable:false,
-			value:true,
-			xslValue:function(){
-					return '<xsl:if test="'+container.GET.path()+'/table/context-menu/item" gen-preserve="last"><th class="igrp-table-ctx-th" gen-preserve="last"></th></xsl:if>';
-			}
-		});
 
 		container.setPropriety({
 			name:'tableFooter',
@@ -348,75 +64,45 @@ var GENTABLE = function(name,params){
 			xslValue:getTableFooter
 		});
 
-		container.setProperty({
-			label : $.IGRP.locale.get('gen-table-has-filter'),
-			name : 'has_filter',
-			value: true,
-			onChange:()=>{
-				container.SET.filterTemplate(true);
-			}
-		})
-
-		container.setProperty({
-			editable: false,
-			name : 'filterTemplate',
-			value: true,
-			xslValue : `
-				<xsl:apply-templates mode="igrp-table-form-filter" select="${container.GET.path()}"/>
-			`,
-			onChange:()=>{
-				
-			}
-		})
-
-
 		var tableStyleProps = GEN.getGlobalProperty('table-style');
 
-		tableStyleProps(container);
-
+		tableStyleProps(container, params);
 
 	}
 
-
-	//console.log(container.properties?.ta)
-
-	
 	/* WHEN A FIELD IS DROPPED - SET EXAMPLE DATA TO THE TABLE*/
 	container.onFieldSet = function(field){
 		//field.xml.desc = true;
 		field.setPropriety({
 			name:'maxlength',
+			label : 'Tamanho Máximo',
 			value : 30
 		});
 		
 		field.setPropriety({
 			name : 'showLabel',
-			label : 'Show Label',
+			label : 'Mostrar Cabeçalho',
 			value:true
 		});
 		
 		if(!field.hidden){
-
-			field.setProperty({
-				name:'table',
-				value : true
-			});
 			
 			field.setPropriety({
 				name:'align',
+				label:'Alinhamento',
 				propriety:{
 					value:'left',
 					options:[
-						{value:'left',label:'Left'},
-						{value:'center',label:'Center'},
-						{value:'right',label:'Right'}
+						{value:'left',label:'Esquerda'},
+						{value:'center',label:'Centro'},
+						{value:'right',label:'Direita'}
 					]
 				}
 			});
 
 			field.setPropriety({
 				name    : 'lookup_parser',
-				label   : 'Value Parser',
+				label   : 'Passa valor',
 				value   : false,
 				xslValue: 'lookup-parser'
 			});
@@ -432,14 +118,14 @@ var GENTABLE = function(name,params){
 
 		field.setPropriety({
 			name    : 'iskey',
-			label   : 'Is Key',
+			label   : 'Key?',
 			value   : false
 		});
 
 		if(field.GET.type() == 'number'){
 			field.setPropriety({
 				name:'total_footer',
-				label:'Total Col',
+				label:'Coluna de Total',
 				value: false,
 				onChange:function(v){
 					container.SET.tableFooter(v)
@@ -450,17 +136,19 @@ var GENTABLE = function(name,params){
 
 		field.setProperty({
 			name:'filter',
+			label : 'Mostrar no Filtro',
 			value: true
 		})
 
 		field.setProperty({
 			name:'table',
+			label : 'Mostrar na Lista',
 			value: true
 		});
 		
 		field.setPropriety({
 			name:'group_in',
-			label:'Group in',
+			label:'Agrupar em',
 			value: {
 				value : '',
 				options : function(){
@@ -608,117 +296,12 @@ var GENTABLE = function(name,params){
 				
 			}
 			
-		})
-		/*field.setProperty({
-			
-			name : 'info_window',
-			
-			label : 'Info Window',
-			
-			value : '',
-			
-			order: 4,
-			
-			inputType : 'texteditor',
-			
-			size : 12
-			
-		});*/
+
+		});
 		
 	};
 
-	container.onColorFieldSet = function(field){
-		//set legend xml
-		container.xml.tableLegend = true;
-		//set prop hasColor True
-		container.SET.hasColorTmpl(true);
-		//include  css
-		container.includes.css.push(
-			{ path:'/core/igrp/table/table-colors.css' }
-		);
-
-		if(!container.proprieties.legendColors)
-
-			container.setPropriety({
-
-				name:'legendColors',
-
-				label : 'Legend Colors List',
-
-				type : 'formlist',
-
-				fields : {
-					text : {
-						type: 'text'
-					},
-					
-					value : {
-						type:'text'
-					},
-					color: {
-						type: 'color'
-					},
-
-
-				},
-
-				value : {
-
-					value : params.proprieties && params.proprieties.legendColors || [
-						{
-							"color": "#dc2b4c",
-							"text": "Cor 1",
-							"value": "1"
-						},
-						{
-							"color": "#ea9126",
-							"text": "Cor 2",
-							"value": "2"
-						},
-						{
-							"color": "#95c11f",
-							"text": "Cor 3",
-							"value": "3"
-						}
-					],
-
-					
-
-						/*setter:function(){
-							
-							var flist = $('<div class="box clean box-table-contents gen-container-item IGRP-gen-table-colors" gen-class="" item-name="gen_legend_colors_fl"><div class="box-body table-box"><table id="gen_legend_colors_fl" class="table table-striped gen-data-table IGRP_formlist " rel="T_gen_legend_colors_fl" data-control="data-gen_legend_colors_fl"><thead><tr><th align="" class="" style="width:33%;"><span>Text</span></th><th align="" class="" style="width:33%;"><span>Value</span></th><th align="" class="color-th" style="width:23%;"><span>Color</span></th><th class="table-btn add"><a class="formlist-row-add btn btn-primary" rel="gen_legend_colors_fl"><i class="fa fa-plus"/></a></th></tr></thead><tbody><tr row="0"><input type="hidden" name="p_gen_legend_colors_fl_id" value=""/><td align="" data-row="0" data-title="Text" class="text" item-name="text"><input type="hidden" name="p_text_fk_desc" value=""/><div class="form-group" item-name="text" item-type="text"><input type="text" name="p_text_fk" value="" class="text form-control" rel="F_gen_legend_colors_fl"/></div></td><td align="" data-row="0" data-title="Value" class="text" item-name="value"><input type="hidden" name="p_value_fk_desc" value=""/><div class="form-group" item-name="value" item-type="text"><input type="text" name="p_value_fk" value="" class="text form-control" rel="F_gen_legend_colors_fl"/></div></td><td align="" data-row="0" data-title="Color" class="color" item-name="color"><input type="hidden" name="p_color_fk_desc" value=""/><div class="form-group"><div class="input-group form-color-picker" format="hex"><input type="text" value="" format="hex" class="form-control" id="gen_legend_colors_fl_color_1" name="p_color_fk"/><span class="input-group-addon"><i/></span></div></div></td><td class="table-btn delete" data-row="0"><span class="formlist-row-remove btn btn-danger" rel="gen_legend_colors_fl"><i class="fa fa-times"/></span></td></tr></tbody></table></div></div>'),
-
-								data  = 	container.GET.legendColors();
-
-							$('.IGRP_formlist',flist).IGRP_formlist({
-
-								data : data
-
-							});
-
-							$.IGRP.components.colorpicker.init(flist);
-
-							return flist;
-
-						}*/
-
-				},
-
-				size : 12
-
-			});
-
-	}	
-
-	container.onColorFieldRemove = function(field){
-		//has no Color 
-		if(!container.hasFieldType('color')) {
-
-			container.SET.hasColorTmpl(false);
-			
-			container.unsetProprieties(['legendColors']);
-		}
-	}
+	
 	
 	container.xml.getLegendColors = function(){
 		var rtn = null;
@@ -744,8 +327,10 @@ var GENTABLE = function(name,params){
 	}
 	
 	container.onDrawEnd = function(){
+	
+		$.IGRP.components.table_ext?.init( container.holder );
 
-		if(tableExportInc &&  container.GET.fields()[0])
+		/*if(tableExportInc &&  container.GET.fields()[0])
 			$.IGRP.components.tableExport2.init( 
 				container.holder.find( $('.box-table-contents') ) 
 			);
@@ -761,7 +346,7 @@ var GENTABLE = function(name,params){
 			$.IGRP.components.tableCtrl.setTableStyle( $('.box-table-contents',container.holder) );
 		if(container.GET.ordertable())
 
-			$.IGRP.components.tableCtrl.ordertable( 'table#'+container.GET.tag() );
+			$.IGRP.components.tableCtrl.ordertable( 'table#'+container.GET.tag() );*/
 	}
 
 	var getTableFooter = function(){

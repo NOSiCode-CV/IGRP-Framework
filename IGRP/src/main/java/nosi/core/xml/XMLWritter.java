@@ -71,7 +71,7 @@ public class XMLWritter {
     }
 
     public void setElement(String tag, String value) {
-        if (value != null && !value.equals("")) {
+        if (value != null && !value.isEmpty()) {
             this.startElement(tag);
             this.text(value);
             this.countAttr.put(tag, false);

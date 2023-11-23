@@ -222,7 +222,7 @@
 							</xsl:variable>
 							<xsl:for-each select="./rules/rule"> 
 								<xsl:variable name="action_" select="./proc" />
-								<xsl:value-of select="concat('.add(',$double_quotes,'remote',$double_quotes,',', 'Core.getIGRPLink(',$double_quotes, $app_, $double_quotes, ',', $double_quotes, $page_, $double_quotes, ',', $double_quotes, $action_, $double_quotes ,')',')')"/>
+								<xsl:value-of select="concat('.add(',$double_quotes,'remote-',$action_,$double_quotes,',', 'Core.getIGRPLink(',$double_quotes, $app_, $double_quotes, ',', $double_quotes, $page_, $double_quotes, ',', $double_quotes, $action_, $double_quotes ,')',')')"/>
 		    				</xsl:for-each>
 						</xsl:if>
 						

@@ -1,21 +1,27 @@
 package nosi.webapps.igrp.pages.resetpassword;
 
 import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.Report;
 
 public class Resetpassword extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_username")
 	private String username;
+
 	@RParam(rParamName = "p_nafa")
 	private String nafa;
+
 	@RParam(rParamName = "p_nova_senha")
 	private String nova_senha;
+
 	@RParam(rParamName = "p_confirmar_nova_senha")
 	private String confirmar_nova_senha;
+
 	@RParam(rParamName = "p_sign_in")
 	private IGRPLink sign_in;
 	@RParam(rParamName = "p_sign_in_desc")
