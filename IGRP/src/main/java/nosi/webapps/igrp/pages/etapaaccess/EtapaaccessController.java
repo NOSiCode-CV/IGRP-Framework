@@ -279,7 +279,7 @@ public class EtapaaccessController extends Controller {
 			List<TaskAccess> list = new TaskAccess().find()
 													.andWhere("organization", "=",prof.getOrganization().getId())
 													.andWhere("profileType","=", prof.getId())
-													.andWhere("profileType", "isnotnull")
+													.andWhereNotNull("profileType")
 													.all();
 			list.stream().forEach(task->{
 				Table_1 t = new Table_1();
@@ -301,7 +301,7 @@ public class EtapaaccessController extends Controller {
 		return new TaskAccess().find()
 				.andWhere("organization", "=",id)
 				.andWhere("processName", "=",proccessName)
-				.andWhere("profileType", "isnull")
+				.andWhereIsNull("profileType")
 				.all() ;
 	}
 	
