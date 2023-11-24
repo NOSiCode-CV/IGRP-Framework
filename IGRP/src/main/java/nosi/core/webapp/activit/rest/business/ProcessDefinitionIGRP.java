@@ -71,4 +71,8 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 		}
 		return null;
 	}
+
+	public boolean hasBPMN(String dad) {
+		return !processDefinitionServiceRest.getProcessDefinitionsAtivos(dad).isEmpty();
+	}
 }
