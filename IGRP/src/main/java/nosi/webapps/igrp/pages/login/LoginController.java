@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Pattern;
@@ -247,7 +248,7 @@ public class LoginController extends Controller {
 			if (user != null)
 				username=user.getUser_name();
 		}
-		if (user != null && user.validate(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256"))
+		if (user != null && user.validate(nosi.core.webapp.User.encryptToHash(username.toLowerCase(Locale.ROOT).trim()  + "" + password, "SHA-256"))
 				&& userIsAuthenticatedFlag(user)) {
 			if (user.getStatus() == 1) {
 				Profile profile = new Profile().getByUser(user.getId());
