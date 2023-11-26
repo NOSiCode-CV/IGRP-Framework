@@ -35,7 +35,7 @@ public class Alter_prioridade_tarefaController extends Controller {
 		view.nova_prioridade.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		Map<String,String> listPrioridade = new LinkedHashMap<String,String>();		
+		Map<String,String> listPrioridade = new LinkedHashMap<>();
 		listPrioridade.put("100", "Urgente");
       	listPrioridade.put("75", "Alta");
 		listPrioridade.put("50", "Normal");
@@ -44,7 +44,7 @@ public class Alter_prioridade_tarefaController extends Controller {
 		TaskServiceIGRP taskRest = new TaskServiceIGRP();
 		String id = Core.getParam(BPMNConstants.PRM_TASK_ID);
 		String type = Core.getParam("type");
-		if(id!=null && !id.equals("")){
+		if(id!=null && !id.isEmpty()){
 			TaskService task = taskRest.getTask(id); 
 			if(task != null){
 				ProcessDefinitionService process = new ProcessDefinitionIGRP().getProcessDefinitionServiceRest().getProcessDefinition(task.getProcessDefinitionId());

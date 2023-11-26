@@ -80,7 +80,7 @@ public class ProforgmapperController extends Controller {
         				.andWhere("dadDestino", "=", model.getAplicacao_destino())
         				.andWhere("tipo", "=", tipo).all(); 
         		if(all != null) { 
-        			model.setFormlist_1(new ArrayList<Proforgmapper.Formlist_1>());
+        			model.setFormlist_1(new ArrayList<>());
         			all.forEach(obj->{
         				Proforgmapper.Formlist_1 row = new Proforgmapper.Formlist_1(); 
         				row.setFormlist_1_id(new Pair(obj.getId() + "", obj.getId() + "")); 
@@ -109,8 +109,8 @@ public class ProforgmapperController extends Controller {
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(guardar)----*/
-		
-		this.t = null;
+
+		Transaction t = null;
 		boolean success = false;
 		try {
 			
@@ -118,10 +118,10 @@ public class ProforgmapperController extends Controller {
 			if(sessionFactory != null) 
 				 s = sessionFactory.getCurrentSession();
 			
-			this.t = this.s.getTransaction(); 
+			t = this.s.getTransaction();
 			
-			if(!this.t.isActive())
-				this.t.begin(); 
+			if(!t.isActive())
+				t.begin();
 			
 			List<Proforgmapper.Formlist_1> data = model.getFormlist_1(); 
 			if(data != null) {
@@ -152,14 +152,14 @@ public class ProforgmapperController extends Controller {
 				}
 			}
 			
-			this.t.commit(); 
+			t.commit();
 			
 			success = true; 
 			
 		}catch (Exception e) {
 			//e.printStackTrace();
-		if(this.t!=null)
-			this.t.rollback();
+		if(t != null)
+			t.rollback();
 		} finally {
 			if(this.s != null) 
 				this.s.close();
@@ -217,7 +217,6 @@ public class ProforgmapperController extends Controller {
     }  
     
     private Session s;
-	private Transaction t;
-    
-/*----#end-code----*/
+
+	/*----#end-code----*/
 }

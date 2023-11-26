@@ -50,7 +50,7 @@ public class ErrorPageController extends Controller {
 			try {
 				Exception e = (Exception)Igrp.getInstance().getRequest().getAttribute(RequestDispatcher.ERROR_EXCEPTION);
 				if(e!=null) {
-					Core.log("ExpTion: "+e.toString());
+					Core.log("ExpTion: " + e);
 					e.printStackTrace();
 				}				
 				
@@ -65,7 +65,7 @@ public class ErrorPageController extends Controller {
 					Core.log(Igrp.getInstance().getRequest().getSession().getAttribute("igrp.error")+"");
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block				
-				Core.log("TryCatch: "+e1.toString());
+				Core.log("TryCatch: " + e1);
 				e1.printStackTrace();
 			}
 			
