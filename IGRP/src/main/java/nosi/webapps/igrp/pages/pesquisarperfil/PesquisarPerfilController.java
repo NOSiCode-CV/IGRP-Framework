@@ -9,6 +9,7 @@ import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
+import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -68,6 +69,8 @@ public class PesquisarPerfilController extends Controller {
         view.btn_eliminar.setVisible(false);
        view.btn_novo.addParameter("p_aplicacao", idApp)
        				.addParameter("p_organica", idOrg);
+   	view.btn_associar_etapa.setVisible(new ProcessDefinitionIGRP().hasBPMN(Core.findApplicationById(idApp).getDad()));
+    
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	

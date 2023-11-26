@@ -30,7 +30,7 @@ public class TipoDocumento extends IGRPBaseActiveRecord<TipoDocumento> implement
 	private Integer id;
 	@Column(length=100,nullable=false)
 	private String nome;
-	private int status;
+	private int status; // 0- inactive, 1- Active, 2 - deleted
 	@Column(length=500)
 	private String descricao;
 	@Column(length=50)
