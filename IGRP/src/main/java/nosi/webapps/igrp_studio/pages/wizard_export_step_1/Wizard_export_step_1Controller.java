@@ -11,9 +11,11 @@ import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.databse.helpers.QueryInterface;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.import_export_v2.common.OptionsImportExport;
+import nosi.webapps.igrp.dao.Application;
 
 public class Wizard_export_step_1Controller extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -27,9 +29,10 @@ public class Wizard_export_step_1Controller extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/	
 		
-		final String nomeApp = Core.findApplicationById(Integer.valueOf(model.getApplication_id())).getName();
+		final Application app = Core.findApplicationById(Integer.valueOf(model.getApplication_id()));
+		final String nomeApp = app.getName();
 		final String fileName = Core.getParam("p_file_name");
-		final String sql = this.getSql();
+		final String sql = this.getSql(app.getDad());
 		
 		model.setFile_name(Core.isNull(fileName) ? nomeApp + "_igrpweb_v." + Config.VERSION : fileName);
 		model.setHelp(this.getConfig().getResolveUrl("tutorial", "Listar_documentos", "index&p_type=import"));
@@ -73,11 +76,13 @@ public class Wizard_export_step_1Controller extends Controller {
 		
 /*----#start-code(custom_actions)----*/
 	
-private String getSql() {
+private String getSql(String dad) {
 	StringBuilder sql = new StringBuilder();
 	try {
+		boolean hasBPMN= new ProcessDefinitionIGRP().hasBPMN(dad);
 		List<OptionsImportExport> list = Arrays.stream(OptionsImportExport.values())
 				.filter(p -> p != OptionsImportExport.APP && p != OptionsImportExport.MODULO && p != OptionsImportExport.BPMN_DOCUMENT_TYPE)
+				.filter(p -> p == OptionsImportExport.BPMN? hasBPMN:true)
 				.collect(Collectors.toList());
 		int index = 0;
 		for (OptionsImportExport type : list) {
