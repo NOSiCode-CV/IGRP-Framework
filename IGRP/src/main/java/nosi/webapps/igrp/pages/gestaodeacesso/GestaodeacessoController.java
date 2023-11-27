@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 
@@ -59,7 +60,8 @@ public class GestaodeacessoController extends Controller {
 		
 		if(Core.isNotNull(model.getAplicacao())) {
 			Core.setAttribute("p_aplicacao",model.getAplicacao());
-         
+			
+			view.btn_associar_etapa.setVisible(new ProcessDefinitionIGRP().hasBPMN(Core.findApplicationById(Core.toInt(model.getAplicacao())).getDad()));
           	model.setId_app(Core.toInt(model.getAplicacao()));
 			 model.getGestao_de_menu().addParam("p_id_app",Core.getParam("p_aplicacao")).addParam("p_aplicacao",Core.getParam("p_aplicacao"));
 			 model.setAdicionar_organica("igrp", "NovaOrganica", "index").addParam("id_app",model.getAplicacao());

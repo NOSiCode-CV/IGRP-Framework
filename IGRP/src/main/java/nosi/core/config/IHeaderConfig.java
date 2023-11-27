@@ -12,7 +12,7 @@ import nosi.webapps.igrp.dao.Action;
 public interface IHeaderConfig {
 
 	
-	 public default String getLinkHome() {
+	 default String getLinkHome() {
 		Integer pageId = Core.getParamInt("p_id_page");
 		if(Igrp.getInstance() != null && pageId!=null && "generator".contentEquals(Igrp.getInstance().getCurrentPageName())) {
 			 Action ac = new Action().findOne(pageId);
@@ -22,36 +22,36 @@ public interface IHeaderConfig {
         return "webapps?r="+EncrypDecrypt.encrypt("igrp"+"/"+"home"+"/"+"index");
 	}
 	
-	public default String getLinkMyApps() {
+	default String getLinkMyApps() {
       return "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"env"+"/"+"myApps") + "&dad="+Core.getCurrentDad();
     }
-	public default String getTitle() {
+	default String getTitle() {
         return "";
 	}
-	public default String getTarget() {
+	default String getTarget() {
 	        return "";
     }
-	public default String getTypeHeader() {
+	default String getTypeHeader() {
         return "normal";
 	}
-	public default String getLinkOpenApp() { 
+	default String getLinkOpenApp() {
         return "webapps?r=" + "igrp_studio"+"/"+"env"+"/"+"openApp"+"&dad="+Core.getCurrentDad()+"&app=";
 	}
-	public default String getLinkSileMenu(){
+	default String getLinkSileMenu(){
 		return "webapps?r="+ EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"myMenu")+"&dad="+Core.getCurrentDad();
 	}
-	public default String getLinkTopMenu(){
+	default String getLinkTopMenu(){
 		return "webapps?r="+ EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"topMenu") +"&dad=" + Core.getCurrentDad() ;
 	}
 
-	public default String getPackageInstance(){
+	default String getPackageInstance(){
 		return "";
 	}
 
-	public default String getPackageCopyDb(){
+	default String getPackageCopyDb(){
 		return "";
 	}
-	public default String getPackageCopyHtml(){
+	default String getPackageCopyHtml(){
 		return "";
 	}
 }

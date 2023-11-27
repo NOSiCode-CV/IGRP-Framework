@@ -49,7 +49,7 @@ public class ConfigDBIGRP {
 
     public boolean save() {
         File file = new File(Objects.requireNonNull(getClass().getClassLoader().getResource(path + fileName)).getFile().replace("%20", " "));
-        try (FileOutputStream out = new FileOutputStream(file);) {
+        try (FileOutputStream out = new FileOutputStream(file)) {
             this.generateConfig().storeToXML(out, "store config igrp database");
             return this.saveIntoWorkSpace();
         } catch (IOException e) {
@@ -67,7 +67,7 @@ public class ConfigDBIGRP {
             this.path += File.separator + new Config().getResourcesConfigDB();
             File file = new File(path + fileName);
 
-            try (FileOutputStream out = new FileOutputStream(file);) {
+            try (FileOutputStream out = new FileOutputStream(file)) {
                 this.generateConfig().storeToXML(out, "store config igrp database");
             } catch (IOException e) {
                 e.printStackTrace();
