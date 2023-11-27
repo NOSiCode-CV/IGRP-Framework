@@ -212,7 +212,7 @@ public class MenuOrganicaController extends Controller {
              success = this.insertMenu(chekedIds, "MEN", model.getId(), this.profAdmin.getId(), this.userAdmin.getId());
              List<ProfileType> profilesOfOrg = new ProfileType().find().andWhere("organization.id", "=", model.getId()).orderByAsc("id")
                      .all();
-             if (profilesOfOrg != null && profilesOfOrg.size() > 0) {
+             if (profilesOfOrg != null && !profilesOfOrg.isEmpty()) {
                 ProfileType p = profilesOfOrg.get(0);
                 success = this.insertMenu(chekedIds, "MEN", p.getOrganization().getId(), p.getId(),
                         this.userAdmin.getId());
