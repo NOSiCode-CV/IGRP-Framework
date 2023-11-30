@@ -7,7 +7,7 @@
           <xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="concat($path,'/themes/default/img/logo2.svg')"/>
+          <xsl:value-of select="concat($path,'/themes/default/images/logo-dark.svg')"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -107,8 +107,8 @@
                   <div class="row">
                         <div class="col-lg-2  col-md-3 sidebar tree-list shadow d-none d-md-block" id="igrp-sidebar" bg-color="secondary">
                             
-                            <a class="d-flex align-items-center px-3 pt-4" href="{rows/link}">
-                                <img src="{$path}/core/formgen/img/logo-gen-white.png"/>
+                            <a class="d-flex align-items-center px-5 pt-1" href="{rows/link}">
+                                <img style="height: 50px;" src="{$path}/core/formgen/img/logo-gen-white.png"/>
                                 <div class="studio-name">
                                     <b>STUDIO</b>
                                 </div>
