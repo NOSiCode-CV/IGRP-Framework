@@ -6,6 +6,7 @@ import nosi.core.webapp.Core;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Objects;
 
 /**
  * @author: Emanuel Pereira
@@ -120,8 +121,18 @@ public class Transaction extends IGRPBaseActiveRecord<Transaction> implements Se
 
         final Integer currentProfile = Core.getCurrentProfile();
         final Integer currentOrganization = Core.getCurrentOrganization();
+        final Integer currentAppId = Core.getCurrentAppId();
         final User currentUser = Core.getCurrentUser();
-
+    	
+        Transaction t= new Transaction().find().keepConnection()
+				.where("code","=",transaction)				
+				.one();
+		if(t==null)
+			return false;
+		
+		if(!Objects.equals(t.getApplication().getId(), currentAppId) && !new Share().isTransactionShared(t.getId(), currentAppId, t.getApplication().getId()))
+			return false;
+	
         return Core.query(this.getConnectionName(), sqlByProfile)
                 .addString("type", "TRANS")
                 .addInt("prof_type_fk", currentProfile)

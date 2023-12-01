@@ -33,7 +33,7 @@ th .gen-field-edt-options {
 }
 
 .gen-properties-setts-holder .form-group{
-    margin-bottom:15px;
+    margin-bottom:20px;
 }
 
 #gen-edition-modal .modal-footer .info.type:before{
@@ -469,18 +469,18 @@ body.startin{
 }
 body.startin:before{
     content: "";
-    width: 170px;
-    height: 90px;
+    width: 190px;
+    height: 130px;
     background: url(../../../themes/velzon/assets/images/logo-dark.svg);
     background-size: cover;
     display: block;
     left:50%;
-    margin-left: -85px;
+    margin-left: -65px;
     opacity: 1;
     transition: opacity .5s;
     position: absolute;
     top: 50%;
-    margin-top: -45px;
+    margin-top: -85px;
 }
 
 body.startin:after{
@@ -628,9 +628,14 @@ body.startin:after{
 }
 
 .gen-properties-setts-holder[rel="fields"] .available-wrapper .available-fields{
-    max-height: 380px;
+    max-height: calc(75vh - 140px);
     overflow: auto;
-    min-height: calc(100% - 80px );
+ 
+}
+
+.current-wrapper{
+    max-height: 75vh;
+    overflow: auto;
 }
 
 .available-fields::-webkit-scrollbar {
@@ -869,3 +874,14 @@ html body[view="gen-design"] .tab-pane >.row{
     margin:0!important;
 }
 
+.select2-search--dropdown{
+    display: none;
+}
+
+#gen-edition-modal:not([view="properties"]) .modal-footer{
+    display: none!important;
+}
+
+#gen-edition-modal .group-fields{
+    padding:6px 0
+}

@@ -4,8 +4,9 @@
     <delete>eliminar</delete>
     <properties>propriedades</properties>
     <fields>campos</fields>
-    <style>estilo</style>
+    <style>css</style>
     <validations>validações</validations>
+    <annotations>anotações</annotations>
     <xsl>xsl</xsl>
     <copy>copiar</copy>
     <current-fields>Campos atuais</current-fields>
@@ -16,6 +17,7 @@
     <clear>limpar</clear>
     <search>pesquisar</search>
     <apply>aplicar</apply>
+    <pagination>paginação</pagination>
     <search-field>pesquisar campo</search-field>
     <search-no-results>nenhum resultado encontrado</search-no-results>
     <add>adicionar</add>
@@ -29,12 +31,12 @@
 
     <separator-list-no-data-found>Lista vazia. Clique em Adicionar para inserir dados na tabela</separator-list-no-data-found>
 
-    <table-striped>linhas listradas</table-striped>
+    <table-striped>listrado</table-striped>
 
     <gen-container-empty>componente sem campo definido</gen-container-empty>
     <gen-container-add-field>adicione um campo clicando no painel à esquerda</gen-container-add-field>
     <gen-click-drag-to-add>clique para adicionar</gen-click-drag-to-add>
-    <gen-table-header-style>Cor do cabeçalho</gen-table-header-style>
+    <gen-table-header-style>Cabeçalho</gen-table-header-style>
     
     <gen-show-title>mostrar título</gen-show-title>
     <gen-tag-property-label>identificador</gen-tag-property-label>
@@ -45,9 +47,18 @@
     <gen-button-type>Cor</gen-button-type>
     <gen-icon-lib>Tipo de Ícone</gen-icon-lib>
     <gen-page-header-tab>Conteúdos em Tab</gen-page-header-tab>
+    <gen-table-contextmenu-type-group>Ações e Menus de Contexto</gen-table-contextmenu-type-group>
+    <gen-contextmenu-type>Tipo de Menu de Contexto</gen-contextmenu-type>
+    <gen-allow-order>Permitir ordenação</gen-allow-order>
+    <gen-colors-legend>Legenda de Cores</gen-colors-legend>
+    <gen-colors-legend-map>Mapear</gen-colors-legend-map>
     <gen-table-has-filter>Mostrar Filtro</gen-table-has-filter>
- 
-
+    <gen-table-appearance>Aparência</gen-table-appearance>
+    
+    <gen-table-filter-options>Filtros e Paginação</gen-table-filter-options>
+    <gen-table-hoverable>Realçar linha (hover)</gen-table-hoverable>
+    <gen-table-length-change># Linhas/página</gen-table-length-change>
+    
     <ui-white>branco</ui-white>
     <ui-gray>cinza</ui-gray>
     <ui-light>claro</ui-light>

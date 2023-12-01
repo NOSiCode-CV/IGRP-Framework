@@ -40,7 +40,7 @@ public final class ApplicationManager {
 		String page = request.getParameter("r");
 		String dad = request.getParameter("dad");
 		if (page != null && page.split("/").length == 3) {
-			page = EncrypDecrypt.encryptURL(page, request.getRequestedSessionId()).replace(" ", "+");
+			page = EncrypDecrypt.encryptURL(page, request.getSession().getId()).replace(" ", "+");
 			dad = dad != null && !dad.trim().isEmpty() ? String.format("&dad=%s", dad) : "";
 			StringBuilder additionalParams = new StringBuilder("");
 			Enumeration<String> paramNames = request.getParameterNames();
@@ -237,7 +237,7 @@ public final class ApplicationManager {
 		}
 		if(pageRoute != null) {
 			String[] splittedPageRoute = pageRoute.split(Pattern.quote("&"));
-			String encryptedPageRoute = EncrypDecrypt.encryptURL(splittedPageRoute[0], request.getRequestedSessionId()).replace(" ", "+");
+			String encryptedPageRoute = EncrypDecrypt.encryptURL(splittedPageRoute[0], request.getSession().getId()).replace(" ", "+");
 			String additionalParams = extractAdditionalParams(pageRoute);
 			return Optional.of(String.format("%s?r=%s%s", requestUrl(request), encryptedPageRoute, additionalParams));
 		}

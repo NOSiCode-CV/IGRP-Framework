@@ -50,32 +50,32 @@
       <hibernate.jpa_2_1_api.version>1.0.2.Final</hibernate.jpa_2_1_api.version>
       <hibernate.version>5.6.15.Final</hibernate.version>
       <hikaricp.version>5.0.1</hikaricp.version>
-      
-      <mysql.version>8.1.0</mysql.version>
+		<!--      jbdc drivers-->
+      <mysql.version>8.2.0</mysql.version>
       <postgres.version>42.6.0</postgres.version>
-      <h2.version>2.2.220</h2.version>
-      <sqlserver.version>12.2.0.jre11</sqlserver.version>
-      <oracle.version>23.2.0.0</oracle.version>
+      <h2.version>2.2.224</h2.version>
+      <sqlserver.version>12.4.2.jre11</sqlserver.version>
+      <oracle.version>23.2.0.0</oracle.version> <!-- 23.3.0.23.09 with problem starting -->
       
       <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
-      <model.mapper.version>3.1.1</model.mapper.version>
+      <model.mapper.version>3.2.0</model.mapper.version>
      
        <jersey.version>2.40</jersey.version>
 		<!-- Apache properties -->
       <apache.libintl.version>0.18.3</apache.libintl.version>
       <apache.commons.beanutils.version>1.9.4</apache.commons.beanutils.version>
       <apache.commons.lang3.version>3.13.0</apache.commons.lang3.version>
-      <apache.commons.text.version>1.10.0</apache.commons.text.version>
-      <apache.commons.io.version>2.13.0</apache.commons.io.version>
+      <apache.commons.text.version>1.10.0</apache.commons.text.version>  <!-- not starting with 1.11.0-->
+      <apache.commons.io.version>2.15.0</apache.commons.io.version>
       <apache.logging.log4j.version>2.20.0</apache.logging.log4j.version>
    
       <reflections.version>0.10.2</reflections.version>
-      <jdt.version>3.34.0</jdt.version>
+      <jdt.version>3.35.0</jdt.version>
 		<!-- Servlet API -->
       <servlet.api.version>3.1.0</servlet.api.version>
 		<!-- OPEN HTML TO PDF -->
       <openhtml.version>1.0.10</openhtml.version>
-      <jsoup.version>1.16.1</jsoup.version>     
+      <jsoup.version>1.16.2</jsoup.version>     
       <gson.version>2.10.1</gson.version>
 		<!-- For XSLT and XPATH handling ... -->
       <xalan.version>2.7.3</xalan.version>
@@ -90,14 +90,14 @@
       <javaee.api.version>8.0-6</javaee.api.version>
 		<!-- JavaDev Underscore Version: Transform JSON To XML Preserving the
 		order of the elements - needed to invite users LDAP-->
-      <javadev.underscore.version>1.92</javadev.underscore.version>
+      <javadev.underscore.version>1.95</javadev.underscore.version>
 	  <jakarta.validation.version>3.0.2</jakarta.validation.version>
 		<!-- Activiti BPMN -->
       <activiti.bpmn.model.version>6.0.0</activiti.bpmn.model.version>
       <activiti.bpmn.converter.version>6.0.0</activiti.bpmn.converter.version>
 
 		<!-- Flyway Migration API & Docker PostgreSQL -->
-		<flyway.version>9.21.1</flyway.version>
+		<flyway.version>10.0.0</flyway.version>
 		<igrp.db.user>${db_user}</igrp.db.user> <!-- Ex: postgres -->
 		<igrp.db.password>${db_password}</igrp.db.password>
 		<igrp.db.dsn>jdbc:postgresql://${server_IP}/${db_name}</igrp.db.dsn> <!-- Ex: jdbc:postgresql://localhost:5432/db_igrp  -->
@@ -106,7 +106,7 @@
 
 
 		<!-- Barcode ...-->
-      <google.zxing.version>3.5.1</google.zxing.version> 
+      <google.zxing.version>3.5.2</google.zxing.version> 
 		<!--  <apache.httpcomponents.httpmime.version>4.5.14</apache.httpcomponents.httpmime.version>
       <apache.httpcomponents.httpcore.version>4.4.16</apache.httpcomponents.httpcore.version>-->
 		<!-- K8s & Docker
@@ -444,6 +444,14 @@
          <artifactId>flyway-core</artifactId>
          <version>${flyway.version}</version>
       </dependency>
+      
+      <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-database-postgresql -->
+		<dependency>
+		    <groupId>org.flywaydb</groupId>
+		    <artifactId>flyway-database-postgresql</artifactId>
+		    <version>10.0.0</version>
+		</dependency>
+
 		<!-- (Start) Unit & Integration Test Dependencies -->
 		<!--JUnit
         5 Platform Test Engine & JUnit 5 API -->

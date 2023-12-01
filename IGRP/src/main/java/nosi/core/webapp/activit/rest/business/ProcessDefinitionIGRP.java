@@ -32,7 +32,7 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 	public List<ProcessDefinitionService> getMyProcessDefinitions(String dadApp) {
 		List<ProcessDefinitionService> list = processDefinitionServiceRest
 				.getProcessDefinitionsAtivos(dadApp);		
-		list = list.stream().filter(this::filterAccess).collect(Collectors.toList());
+		list = list.stream().filter(this::filterAccess).toList();
 		return list;
 	}
 
@@ -73,5 +73,9 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 			return map;
 		}
 		return null;
+	}
+
+	public boolean hasBPMN(String dad) {
+		return !processDefinitionServiceRest.getProcessDefinitionsAtivos(dad).isEmpty();
 	}
 }

@@ -223,16 +223,16 @@ public class User extends IGRPBaseActiveRecord<User> implements Serializable, Id
 
 	@Override
 	public User findIdentityByUsername(String username) {	
-		return this.find().andWhere("user_name", "=", username.trim().toLowerCase(Locale.ROOT).trim()).one();
+		return this.find().andWhere("lower(user_name)","user_name", "=", username.trim().toLowerCase(Locale.ROOT).trim()).one();
 	}
 	
 	public User findIdentityByEmail(String email) {	
-		return this.find().andWhere("email", "=", email.toLowerCase(Locale.ROOT).trim()).one();
+		return this.find().andWhere("lower(email)","email", "=", email.toLowerCase(Locale.ROOT).trim()).one();
 	}
 	
 	@Override
 	public boolean validate(String inputPassword) {
-		return this.pass_hash!=null?this.pass_hash.equals(inputPassword):false;
+		return this.pass_hash!=null&&this.pass_hash.equals(inputPassword);
 	}
 	
 	public Organization getOrganica() {

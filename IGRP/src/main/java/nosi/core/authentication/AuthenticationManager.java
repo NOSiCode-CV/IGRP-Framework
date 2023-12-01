@@ -36,7 +36,7 @@ public final class AuthenticationManager {
 		HttpSession session = request.getSession(false);
 		if(session == null)
 			return false;
-		ThreadContext.put("sessionId", request.getRequestedSessionId());
+		ThreadContext.put("sessionId", request.getSession().getId());
 		Object sessionData = session.getAttribute(User.IDENTITY_PARAM_NAME);
 		if(sessionData != null) {
 			Optional<Identity> optIdentity = getIdentityFromToken(sessionData.toString());
@@ -163,12 +163,12 @@ public final class AuthenticationManager {
 			currentSession.setApplication(profile.getOrganization().getApplication());
 		}
 		currentSession.setIpAddress(getClientIpAddr(request));
-		currentSession.setSessionId(request.getRequestedSessionId());
+		currentSession.setSessionId(request.getSession().getId());
 		currentSession.setUserName(user.getUser_name());
 		currentSession.setHttps(request.isSecure() ? 1 : 0);
 		currentSession.setHost(request.getRemoteHost());
 		currentSession.setHostName(request.getRemoteHost());
-		currentSession.setSessionOldId(request.getRequestedSessionId());
+		currentSession.setSessionOldId(request.getSession().getId());
 		currentSession.setMediaType("WEB");
 		currentSession.setTarget("_blank");
 		long time = System.currentTimeMillis();

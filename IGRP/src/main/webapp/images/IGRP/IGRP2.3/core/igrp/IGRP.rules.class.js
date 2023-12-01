@@ -58,10 +58,23 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		
 		getRemoteUrl : function(p){
-			
+			var defaultRemote = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
 			var remote  = $(':input[name="'+p.sourceName+'"]').attr('igrp-remote'),
-				url 	= remote && remote != undefined ? remote : $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
-			
+				url 	= remote && remote != undefined ? function(){
+					if(remote.indexOf('{') == 0){
+						try{
+							const object = JSON.parse(remote.replaceAll("'",'"'));
+							remote = object['remote-'+p.procedureName];
+							return remote;
+						}catch(err){
+							console.log(err)
+							return defaultRemote;
+						}
+					}else{
+						return remote;
+					}
+				}() : defaultRemote;
+
 			return url;
 		},
 
@@ -162,7 +175,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 			for(var fname in data){
 				
 				var rules  = data[fname];
-				
+
 				rules.forEach(function(rule){
 					
 					fname = rule.isTable ? fname+'_fk' : fname;
@@ -829,6 +842,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 					p.sourceField[0].remoteRequest.abort();
 				
 				p.sourceField.addClass('remote-requesting');
+
+		
 			
 				p.sourceField[0].remoteRequest = $.IGRP.request( $.IGRP.rules.getRemoteUrl(p) ,{
 					params  : getParam(p),
@@ -872,7 +887,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 			do:function(p){
 
 				const row = p.isTable == true ? p.sourceField.parents('tr:first') : null;
-				
+
 				$.ajax({
 					url 	: $.IGRP.rules.getRemoteUrl(p),
 					headers : {
@@ -966,48 +981,51 @@ if($ && $.IGRP && !$.IGRP.rules){
 			}
 		},
 		remote_list:{
-			do : function(p){
-				var actionURL	 = $.IGRP.rules.getRemoteUrl(p) || $.IGRP.utils.getPageUrl(),
-					form		 = $.IGRP.utils.getForm(),
-					nodeNames    = [];
-				
-				$.each( p.targetFields ,function(i,f){
-					nodeNames.push($(f).attr('item-name'));
-				});
+            do : function(p){
+                var actionURL    = $.IGRP.rules.getRemoteUrl(p) || $.IGRP.utils.getPageUrl(),
+                    form         = $.IGRP.utils.getForm(),
+                    nodeNames    = [];
+
+                $.each( p.targetFields ,function(i,f){
+                    nodeNames.push($(f).attr('item-name'));
+                });
 
 
-				$.IGRP.utils.transformXMLNodes({
-				
-					nodes : nodeNames,
+                $.IGRP.utils.transformXMLNodes({
 
-					url   : $.IGRP.utils.getSubmitParams(actionURL,form,false),
+                    nodes : nodeNames,
 
-					data  : form.serialize(),
-					
-					headers : {
-						'X-IGRP-REMOTE' : 1
-					},
+                    url   : $.IGRP.utils.getSubmitParams(actionURL,form,false),
 
-					success:function(c){
-						if ($.IGRP.components.tableCtrl.resetTableConfigurations)
-							$.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
-					},
+                    data  : form.serialize(),
 
-					error:function(){
-						
-						$.IGRP.utils.loading.hide();
-					}
+                    headers : {
+                        'X-IGRP-REMOTE' : 1
+                    },
 
-				});
+                    success:function(c){
+                        $.each( p.targetFields ,function(i,f){
+                            $(document).trigger($(f).attr('item-name')+'-remote-list-callback', [c] )
+                        });
+                        if ($.IGRP.components.tableCtrl.resetTableConfigurations)
+                            $.IGRP.components.tableCtrl.resetTableConfigurations(c.itemHTML);
+                    },
 
-				
-			}
-		},
+                    error:function(){
+
+                        $.IGRP.utils.loading.hide();
+                    }
+
+                });
+
+
+            }
+        },
 		cleanValue:{
 			do:function(p){
-				
+				console.log(p)
 				$.each(p.targetFields,function(i,t){
-					$('input,select,textarea',t).val('');
+					$('input,select,textarea',t).val('').trigger('change')
 				});
 
 			}
@@ -1115,6 +1133,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 				if(a && a[0])
 					
 					a.forEach(function(act){	
+
+						act.name = o.name;
 
 						act.sourceField = field;
 

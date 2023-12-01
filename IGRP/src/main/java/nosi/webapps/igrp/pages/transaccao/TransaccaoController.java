@@ -72,8 +72,9 @@ public class TransaccaoController extends Controller {
 		 this.addQueryString("p_codigo",Core.getParam("p_codigo"));
 		 return this.forward("igrp","EditarTransacao","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(editar)----*/
-    String codigo = Core.getParam("p_codigo");
-      if(Core.isNotNull(codigo))
+		String codigo = Core.getParam("p_codigo");
+      	
+		if(Core.isNotNull(codigo))
 			this.addQueryString("codigo",codigo);
 		else
 			Core.setMessageError();

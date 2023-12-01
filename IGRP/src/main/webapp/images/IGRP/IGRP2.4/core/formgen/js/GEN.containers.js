@@ -39,7 +39,9 @@ var CONTAINER = function(name,params){
 		tag : $.IGRP.locale.get('gen-tag-property-label'),
 	};
 
-	container.propertiesOptions= {};
+	container.propertiesOptions= {
+
+	};
 	
 	container.htmlAttributes = {};
 
@@ -81,8 +83,8 @@ var CONTAINER = function(name,params){
 		title       : capitalizeFirstLetter(name),
 		//autoTag     : true,
 		tag         : '',
-		hasTitle    : false,
-		collapsible : false,
+		//hasTitle    : false,
+		//collapsible : false,
 		type        : name,
 	}
 
@@ -506,6 +508,7 @@ var CONTAINER = function(name,params){
 
 	var afterTransform = function(contents){
 		
+		
 		$(function(){
 
 			container.holder.show();
@@ -617,8 +620,6 @@ var CONTAINER = function(name,params){
 			ctxHolder.addClass(VARS.class.ctxMenu+' active');
 			
 			var startPos;
-
-			console.log(container)
 
 			ctxHolder.sortable({
 				placeholder:'ctx-place-holder',
@@ -1208,12 +1209,6 @@ var CONTAINER = function(name,params){
 				containersIDs:[container.GET.id()]
 			}));
 
-			console.log(tXML);
-			console.log(tXSL)
-			/*}catch(err){
-				console.log(err);
-			}*/
-
 			if(tXML && tXSL){
 				container.tranforming = true;
 				//include css and js before container transform
@@ -1693,8 +1688,12 @@ var CONTAINER = function(name,params){
 			id : container.GET.id()
 		};
 
-		for(var p in container.proprieties)
-			c.proprieties[p] = container.GET[p]();
+		for(var p in container.proprieties){
+			var objectProperties = container.getPropertyOptions && container.getPropertyOptions(p) ? container.getPropertyOptions(p) : container.propertiesOptions[p] || {};
+			if( objectProperties.type != 'separator' )
+				c.proprieties[p] = container.GET[p]();
+		}
+			
 
 		if(container.copyOptions){
 			//console.log(container.copyOptions)
@@ -1763,9 +1762,9 @@ var CONTAINER = function(name,params){
 		hasTitle:function(){
 			return container.proprieties.hasTitle;
 		},
-		collapsible:function(){
+	/*	collapsible:function(){
 			return container.proprieties.collapsible;
-		},
+		},*/
 		field:function(id){
 			var rtn = null;
 			for(var x=0;x<FIELDS.length;x++){
@@ -1859,37 +1858,16 @@ var CONTAINER = function(name,params){
 		hasTitle:function(val,p){
 			container.proprieties.hasTitle = val;
 
-			/*var transform = p && (p.transform != false) ? true : false;
-			var idx = container.template.indexOf('>');
-
-			try{
-				if(container.template){
-					if(val){
-						if(container.template.indexOf(VARS.templates.tittleCollapserStr) == -1)
-							container.template = container.template.insert(idx+1,VARS.templates.tittleCollapserStr);
-					}else{
-						container.template = container.template.replace(VARS.templates.tittleCollapserStr,'');
-					}
-				}else{
-
-				}
-
-				if(container.onHasTitleSet)
-					container.onHasTitleSet(val);
-				//if(transform) container.Transform();
-			
-			}catch(e){
-				console.log(e);
-			}*/
+		
 		},
-		collapsible:function(val,p){
+		/*collapsible:function(val,p){
 
 			container.proprieties.collapsible = val;
 
 			if(container.onCollapsibleSet)
 				container.onCollapsibleSet(val);
 
-		},
+		},*/
 		name:function(name,p){
 
 			container.proprieties.name = name;
@@ -2199,60 +2177,70 @@ var CONTAINER = function(name,params){
 			
 			if(p.label) container.propertiesLabels[p.name] = p.label;
 
-			/* setter */
-			var isInt = typeof p.value == 'number';
-			
-			if(p.editable == false) //{
-				 notEditableAttrs[p.name] = true;
-			//}else{
-			var hasChangeEvent = p.value.changeEvent ? true : false;
-			if(hasChangeEvent){
+			if(p.type != 'separator'){
+
+				/* setter */
+				var isInt = typeof p.value == 'number';
 				
-				container.proprieties[p.name]['on'+capitalizeFirstLetter(p.value.changeEvent)] = function(val){
-					container.SET[p.name](val);
-					if(p.onChange) p.onChange(val);
+				if(p.editable == false) //{
+					notEditableAttrs[p.name] = true;
+				//}else{
+				var hasChangeEvent = p.value.changeEvent ? true : false;
+				if(hasChangeEvent){
+					
+					container.proprieties[p.name]['on'+capitalizeFirstLetter(p.value.changeEvent)] = function(val){
+						container.SET[p.name](val);
+						if(p.onChange) p.onChange(val);
+					}
+
+				}
+				container.SET[p.name] = function(value,_params){
+					var transform = (_params && _params.transform==false) ? false : true;
+
+					var _value = isInt ? parseInt(value) : value;
+
+					//console.log(p.value)
+
+					if(typeof p.value == 'object')
+						container.proprieties[p.name].value = _value;
+					else
+						container.proprieties[p.name] = _value;
+
+					if(!hasChangeEvent && p.onChange)
+						p.onChange(_value);
+
+					//if(p.transform && transform) 
+						//container.Transform();
 				}
 
-			}
-			container.SET[p.name] = function(value,_params){
-				var transform = (_params && _params.transform==false) ? false : true;
+				if(typeof p.value == 'boolean' && p.xslValue)
+					container.xslValues[p.name] =  p.xslValue;
 
-				var _value = isInt ? parseInt(value) : value;
+				/* getter */
+				container.GET[p.name] = function(){
+					var rtn;
+					if(typeof p.value == 'object'){
+						var hasValueAttr = 'value' in container.proprieties[p.name];
+						var val = hasValueAttr ? container.proprieties[p.name].value : container.proprieties[p.name];
+						rtn = val;
+					}else{
+						rtn = container.proprieties[p.name];
+					}
 
-				//console.log(p.value)
-
-				if(typeof p.value == 'object')
-					container.proprieties[p.name].value = _value;
-				else
-					container.proprieties[p.name] = _value;
-
-				if(!hasChangeEvent && p.onChange)
-					p.onChange(_value);
-
-				//if(p.transform && transform) 
-					//container.Transform();
-			}
-
-			if(typeof p.value == 'boolean' && p.xslValue)
-				container.xslValues[p.name] =  p.xslValue;
-
-			/* getter */
-			container.GET[p.name] = function(){
-				var rtn;
-				if(typeof p.value == 'object'){
-					var hasValueAttr = 'value' in container.proprieties[p.name];
-					var val = hasValueAttr ? container.proprieties[p.name].value : container.proprieties[p.name];
-					rtn = val;
-				}else{
-					rtn = container.proprieties[p.name];
+					return rtn;
 				}
+				
+			}
 
-				return rtn;
-			}	
 		}
 	}
 
 	container.setProperty = container.setPropriety;
+
+	container.setPropertyGroup = (groupParams)=> GEN.setPropertyGroup(container,groupParams);
+
+
+
 	/*init*/
 	container.init = function(callback){
 		try{
@@ -2267,7 +2255,7 @@ var CONTAINER = function(name,params){
 			if(container.groups) SETUPGROUPS();
 
 			if(container.contextMenu) SETUPCONTEXTMENU();
-
+			
 			if(container.xml.type == 'text' || container.xml.type == 'texteditor'){
 
 				container.setPropriety({
@@ -2545,8 +2533,6 @@ var CONTAINER = function(name,params){
 		container.holder = getContainerHolder(container);
 
 		container.SET.tag(container.incrementTag('container',name));
-
-		console.log(container.holder)
 
 		//set drawable options
 		GEN.getDeclaredFields().forEach(function(f){

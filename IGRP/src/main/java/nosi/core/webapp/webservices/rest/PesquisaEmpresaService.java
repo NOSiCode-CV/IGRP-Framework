@@ -36,7 +36,7 @@ public class PesquisaEmpresaService {
 			
 						
 			try {
-				String json = json_obj.getJsonFromUrl(url.replaceAll(" ", "%20"), AUTHORIZATION);
+				String json = json_obj.getJsonFromUrl(url.replace(" ", "%20"), AUTHORIZATION);
 				if(Core.isNull(json)) {
 					Core.setMessageError();
 					return empresas;

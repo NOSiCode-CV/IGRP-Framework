@@ -276,9 +276,9 @@ public class DatabaseMetadaHelper {
 	// Get Schemas of connection datasource
 	public static Map<String, String> getSchemas(Config_env config) {
 		Map<String, String> schemasMap = new HashMap<>();
-		schemasMap.put(null, "-- Escolha o Schema --");
-		try (java.sql.Connection con = Connection.getConnection(config);
-				ResultSet schemas = con.getMetaData().getSchemas()) {
+		
+		try (java.sql.Connection con = Connection.getConnection(config); ResultSet schemas = con.getMetaData().getSchemas()) {
+			schemasMap.put(null, "-- Escolha o Schema --");
 			while (schemas.next()) {
 				String s = schemas.getString(1);
 				if (!s.contains("pg_catalog") && !s.contains("information_schema")) {
@@ -286,8 +286,9 @@ public class DatabaseMetadaHelper {
 				}
 			}
 		} catch (Exception e) {
+			schemasMap.put(null, "Conexão à base de dados sem sucesso!");
 			e.printStackTrace();
-			Core.setMessageError("Conexão à base de dados sem sucesso.");
+			//Core.setMessageError("Conexão à base de dados sem sucesso! ");
 		}
 		return schemasMap;
 	}

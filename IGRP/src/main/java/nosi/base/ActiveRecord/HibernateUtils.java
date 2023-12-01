@@ -39,8 +39,8 @@ public class HibernateUtils {
         throw new IllegalStateException("Utility class");
       }
     static {
-        String cfgName = ConfigApp.getInstance().getBaseConnection() + SUFIX_HIBERNATE_CONFIG;
-        Properties properties = getProperties(ConfigApp.getInstance().getBaseConnection()+".properties");
+        final String cfgName = ConfigApp.getInstance().getBaseConnection() + SUFIX_HIBERNATE_CONFIG;
+        final Properties properties = getProperties(ConfigApp.getInstance().getBaseConnection()+".properties");
 		
         REGISTRY_BUILDER_IGRP = new StandardServiceRegistryBuilder().applySettings(properties).configure(cfgName);
         SESSION_FACTORY_IGRP = buildSessionFactory(cfgName);

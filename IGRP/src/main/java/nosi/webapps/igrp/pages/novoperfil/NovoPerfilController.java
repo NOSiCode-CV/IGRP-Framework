@@ -1,5 +1,6 @@
 package nosi.webapps.igrp.pages.novoperfil;
 
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Controller;//
 import nosi.core.webapp.databse.helpers.ResultSet;//
 import nosi.core.webapp.databse.helpers.QueryInterface;//
@@ -64,8 +65,8 @@ public class NovoPerfilController extends Controller {
 					: null);
 		}
 
-		view.igrp_code.setVisible(false);
-
+		view.igrp_code.setVisible(this.configApp.isActiveGlobalACL());
+		
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -111,12 +112,15 @@ public class NovoPerfilController extends Controller {
 			 * pt.getCode()); group.setName(pt.getOrganization().getName() + " - " +
 			 * pt.getDescr()); group.setType("assignment"); group.create(group);
 			 */
-			if (insertProfile(pt)) {
+			if(!this.getConfig().getEnvironment().equalsIgnoreCase(ConfigCommonMainConstants.IGRP_ENV_PROD.value())) {
+				if (Boolean.TRUE.equals(insertProfile(pt))) {
+					Core.setMessageSuccess("Perfil criado com sucesso");
+				}else {
+					Core.setMessageError();
+					return this.forward("igrp", "NovoPerfil", "index", this.queryString());
+				}
+			}else
 				Core.setMessageSuccess("Perfil criado com sucesso");
-			} else {
-				Core.setMessageError();
-				return this.forward("igrp", "NovoPerfil", "index", this.queryString());
-			}
 
 		} else {
 			Core.setMessageError();
@@ -183,7 +187,8 @@ public class NovoPerfilController extends Controller {
 		view.sectionheader_1_text.setValue("Gestão de Perfil - Atualizar");
 		view.btn_gravar.setTitle("Gravar");
 		view.btn_gravar.setLink("GravarEdicao");
-		view.btn_gravar.addParameter("p_id", idProf).addParameter("p_aplicacao", model.getAplicacao());
+		view.btn_gravar.addParameter("p_id", idProf)
+			.addParameter("p_aplicacao", model.getAplicacao());
 		view.aplicacao.setValue(new Application().getListApps());
 
 		if (Core.isNotNullOrZero(model.getAplicacao())) {
@@ -196,7 +201,8 @@ public class NovoPerfilController extends Controller {
 		}
 
 		model.setIgrp_code(p.getPlsql_code());
-
+		view.igrp_code.setVisible(this.configApp.isActiveGlobalACL());
+		
 		view.setModel(model);
 		return this.renderView(view);
 	}

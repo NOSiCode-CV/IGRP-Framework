@@ -176,7 +176,7 @@ public class IGRPTable extends IGRPComponent{
 	}
 	
 	public void addButton(IGRPButton button){
-		button.propertie.put("type", "form");
+		//button.propertie.put("type", "form");
 		this.buttons.add(button);
 	}
 	

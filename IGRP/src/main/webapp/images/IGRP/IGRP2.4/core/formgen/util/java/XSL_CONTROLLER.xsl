@@ -35,7 +35,16 @@
     <!-- create actions based in rules (Fields) -->
  	<xsl:template name="createActions_"> 	
  		<xsl:variable name="app_" select="/rows/app" />
-		<xsl:variable name="page_" select="/rows/page" />		
+		<xsl:variable name="page_">
+             <xsl:choose>
+                 <xsl:when test="contains(/rows/page, '@')">
+                     <xsl:value-of select="substring-after(/rows/page, '@')"/>
+                 </xsl:when>
+                 <xsl:otherwise>
+                     <xsl:value-of select="/rows/page"/>
+                 </xsl:otherwise>
+             </xsl:choose>
+		</xsl:variable>
  		<xsl:for-each select="//rules/rule"> 		
  			<xsl:variable name="action_" select="./proc" />
  		</xsl:for-each> 		
@@ -353,8 +362,6 @@
 						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>						
 						<xsl:call-template name="newlineTab2"/>						
 						<xsl:value-of select="'model.load();'"/>
-
-						
 						<xsl:call-template name="setBoxUrl"/>
 						<xsl:for-each select="//rows/content/*[@type!='table' and @type!='workflow']/fields/*">  
 							<xsl:if test="@action and @app and @page and @custom_action='' and ../../@type != 'formlist' and ../../@type != 'separatorlist'"> 
@@ -366,7 +373,18 @@
 						        </xsl:call-template>
 				    			</xsl:variable> 				    			
 								<xsl:variable name="_app" select="concat($double_quotes,@app,$double_quotes)"/>
-						 		<xsl:variable name="_page" select="concat($double_quotes,@page,$double_quotes)"/>
+						 		<xsl:variable name="_page">
+						 			<xsl:choose>
+										<xsl:when test="contains(@page, '@')">
+											<xsl:value-of
+												select="concat($double_quotes,substring-after(@page, '@'),$double_quotes)" />
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:value-of
+												select="concat($double_quotes,@page,$double_quotes)" />
+										</xsl:otherwise>
+									</xsl:choose>
+								</xsl:variable>
 						 		<xsl:variable name="_action" select="concat($double_quotes,@action,$double_quotes)"/>					
 								<xsl:value-of select="concat('model.set',$name_,'(',$_app,',',$_page,',',$_action,');')"/>						
 								<xsl:call-template name="newlineTab2"/>		
@@ -431,8 +449,7 @@
 						
 						<xsl:value-of select="$newlineTab2"/>	
 						<xsl:value-of select="$before-custom-code"></xsl:value-of>	
-						<xsl:value-of select="$newlineTab2"/>	
-
+					
 						<xsl:call-template name="setParam"/>
 						<xsl:call-template name="setSqlCombobox_">						
 							<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>						
@@ -451,15 +468,13 @@
 							<xsl:with-param name="elements" select="//rows/blockly/xml/block/statement[@name='index']/block"/>
 						</xsl:call-template> 
 						<xsl:text>/* End-Code-Block (index) */</xsl:text>	
-						<xsl:value-of select="$newlineTab2"/>
-
 						<xsl:call-template name="start-code">
 				     		<xsl:with-param name="type" select="concat($action,'')"/>
 				     		<xsl:with-param name="url" select="$url"/>				    
 				     	</xsl:call-template>	
 						
 						 <xsl:value-of select="$after-custom-code"></xsl:value-of>
-						 <xsl:call-template name="newlineTab2"/>	
+						
 				     	<xsl:value-of select="'view.setModel(model);'"/>
 				     	<xsl:call-template name="newlineTab2"/>
 				     	
@@ -885,7 +900,18 @@
 	 	<xsl:for-each select="//content/*[@type='quickbuttonbox' or @type='infopanel']/fields/*">
 	 		 
 	 			<xsl:call-template name="newlineTab2"/>
-	 			
+				<xsl:variable name="v_page">
+	 				<xsl:choose>
+						<xsl:when test="contains(./value/page, '@')">
+							<xsl:value-of
+								select="substring-after(./value/page, '@')" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of
+								select="./value/page" />
+						</xsl:otherwise>
+					</xsl:choose> 
+				</xsl:variable>
 	 			<xsl:variable name="instance_name">
 	 				<xsl:call-template name="CamelCaseWord">
 	 					<xsl:with-param name="text"><xsl:value-of select="name()" /></xsl:with-param>
@@ -896,7 +922,7 @@
  					<xsl:value-of select="concat('model.','set', $instance_name,'(',$double_quotes, ./value, $double_quotes,');')"/> 
  				</xsl:when>
  				<xsl:otherwise>
- 					<xsl:value-of select="concat('model.','set', $instance_name,'(','Core.getIGRPLink(',$double_quotes,./value/app,$double_quotes,',',$double_quotes,./value/page,$double_quotes,',',$double_quotes,./value/action,$double_quotes,'));')"/>
+ 					<xsl:value-of select="concat('model.','set', $instance_name,'(','Core.getIGRPLink(',$double_quotes,./value/app,$double_quotes,',',$double_quotes,$v_page,$double_quotes,',',$double_quotes,./value/action,$double_quotes,'));')"/>
 				</xsl:otherwise>
 				</xsl:choose>
 	 	</xsl:for-each>

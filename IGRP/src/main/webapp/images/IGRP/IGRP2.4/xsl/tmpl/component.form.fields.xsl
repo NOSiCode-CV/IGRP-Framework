@@ -64,7 +64,7 @@
     </xsl:template>
 
     <xsl:template name="igrp-form-select-field" mode="igrp-form-select-field" match="*">
-        <xsl:param name="parent-id" select="''"/>
+        <xsl:param name="parent-id" select="name(../..)"/>
         <xsl:param name="change" select="''"/>
         <xsl:param name="tags" select="''"/>
         <xsl:param name="maxlength" select="''"/>
@@ -108,7 +108,7 @@
     </xsl:template>
 
     <xsl:template name="igrp-form-color-field" mode="igrp-form-color-field" match="*">
-        <xsl:param name="parent-id" select="''"/>
+        <xsl:param name="parent-id" select="name(../..)"/>
         <xsl:param name="format" select="''"/>
         <xsl:param name="show-label" select="1"/>
 
@@ -235,6 +235,44 @@
 
     </xsl:template>
 
+    <xsl:template name="igrp-form-checkboxlist-field" mode="igrp-form-checkboxlist-field" match="*">
+        <xsl:param name="change" select="''"/>
+        <xsl:param name="declabel" select="''"/>
+        <xsl:param name="inputmask" select="''"/>
+        <xsl:param name="maxlength" select="''"/>
+        <xsl:param name="show-label" select="1"/>
+        <xsl:param name="switch" select="@switch"/>
+        <xsl:param name="child-size" select="'12'"/>
+        <xsl:variable name="type" select="@type"/>
+        
+        <div class="form-group checkboxlist clear">
+            <xsl:if test="$show-label = 1">
+                <label class="form-label">
+                    <xsl:value-of select="label"/>
+                </label>
+            </xsl:if>
+            <div class="row m-0">
+                <xsl:for-each select="list/option">
+                    <div class="form-check checkboxlist col-md-{$child-size}">
+                        <input type="checkbox" id="{../../@name}-{position()}" name="{../../@name}" value="{value}" class="form-check-input checkboxlist {$change}" label="{text}" >
+                            <xsl:call-template name="setAttributes">
+                                <xsl:with-param name="field" select="../.."/>
+                            </xsl:call-template>
+                            <xsl:if test="@selected='true'">
+                                <xsl:attribute name="checked">checked</xsl:attribute>
+                            </xsl:if>
+                        </input>
+                        <label style="font-weight: normal !important;" for="{../../@name}-{position()}">
+                            <xsl:value-of select="text"/>
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </xsl:for-each>
+            </div>
+        </div>
+
+    </xsl:template>
+    
     <xsl:template name="igrp-form-checkbox-field" mode="igrp-form-checkbox-field" match="*">
         <xsl:param name="change" select="@change"/>
         <xsl:param name="required" select="@required"/>

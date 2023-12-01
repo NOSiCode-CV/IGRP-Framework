@@ -179,7 +179,7 @@ public class Config_env extends IGRPBaseActiveRecord<Config_env> implements Seri
 
 	public  Map<Object, Object> getListDSbyEnv(int idEnv) {
 		final List<Config_env> findall = this.find().andWhere("application", "=",idEnv).all();
-		return IgrpHelper.toMap(findall, "id", "name", findall.size()!=0 ?gt("-- Selecionar --"):gt("++ Add a datasource ++"));
+		return IgrpHelper.toMap(findall, "id", "name", !findall.isEmpty() ?gt("-- Selecionar --"):gt("++ Add a datasource ++"));
 	}
 
 	public short getIsDefault() {

@@ -132,8 +132,9 @@ public class ListaPageController extends Controller {
 			model.setLink_btn_nova_pagina("igrp", "Page", "index").addParam("p_env_fk", model.getApplication());
 			model.getCrud_generator().addParam("p_aplicacao", model.getApplication());
 			model.getInfopanel_1_url().addParam("p_env_fk", model.getApplication());
+			final Application appExt = Core.findApplicationById(Core.toInt(model.getApplication()));
+			view.btn_gerar_codigo.addParameter("dad", appExt.getDad());	
 			view.infopanel_2_url.addParam("p_env_fk", model.getApplication());
-
 		} else {
 			model.getBtn_import().addParam("tab-tabcontent_1-importar_pagina", "1");
 			model.setLink_btn_nova_pagina("igrp", "Page", "index");
@@ -182,7 +183,7 @@ public class ListaPageController extends Controller {
 							.equalsIgnoreCase("tutorial"))
 					.filter(profile -> !profile.getOrganization().getApplication().getDad()
 							.equalsIgnoreCase("igrp_studio"))
-					.collect(Collectors.toList());
+					.toList();
 			for (Profile p : myApp) {
 				ListaPage.Table_2 myapps = new ListaPage.Table_2();
 				String page = "tutorial/DefaultPage";
@@ -319,7 +320,7 @@ public class ListaPageController extends Controller {
 		/*----#start-code(gerar_codigo)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
-			return this.forward("igrp", "generator", "index&target=_blank&id=" + p_id_page);
+			return this.forward("igrp", "generator", "index&target=_blank&id=" + p_id_page+"&dad="+Core.getParam("dad"));
 		}
 
 		/*----#end-code----*/
