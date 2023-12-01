@@ -46,9 +46,16 @@ var Field = function(type,params){
 
 	field.events = _EVENTS;
 
+	field.proprieties = {
+		label     : capitalizeFirstLetter(type),
+		tag       : '',
+		name      : '',
+		type      : type
+		
+	}
+
 	field.on = function(evs,callback,once){
 		var events    = evs.split(',');
-		
 		events.forEach(function(ev){
 			var eventList = _EVENTS.get($.trim(ev));
 			if(eventList && callback && typeof callback == 'function'){
@@ -148,6 +155,10 @@ var Field = function(type,params){
 
 	field.getPropertyOptions = function(name){
 		return field.propertiesOptions[name];
+	}
+
+	field.setPropertyGroup = (groupParams)=>{
+		GEN.setPropertyGroup(field,groupParams);
 	}
 
 	field.GET = {
@@ -472,6 +483,7 @@ var Field = function(type,params){
 	field.setProperty = field.setPropriety;
 
 	var setFieldPropertiesValues = function(){
+		//var properties = o ? o : params && params.proprieties ? params.proprieties : {} ;
 		var properties = paramsProperties;
 		//console.log( JSON.stringify(properties))
 		if(properties){
@@ -523,6 +535,8 @@ var Field = function(type,params){
 
 		field.folder   = VARS.genPath+'/types/fields/'+type;
 
+		
+
 		if(!field.proprieties.tag || $.trim(field.proprieties.tag) == ''){
 			var tag = field.parent.proprieties.tag+'_'+type;
 			
@@ -535,6 +549,10 @@ var Field = function(type,params){
 		field.setFilesIncludes();
 
 		setFieldPropertiesValues();
+			
+		_EVENTS.execute('ready');
+
+		
 		
 		$(document).trigger('gen-field-init', [{ field:field, params : params }])
 
@@ -550,13 +568,7 @@ var Field = function(type,params){
 
 	field.rules =  params && params.options && params.options.rules ? params.options.rules : [];
 
-	field.proprieties = params && params.properties ? params.properties : {
-		label     : capitalizeFirstLetter(type),
-		tag       : '',
-		name      : '',
-		type      : type
-		
-	}
+	
 	
 	
 

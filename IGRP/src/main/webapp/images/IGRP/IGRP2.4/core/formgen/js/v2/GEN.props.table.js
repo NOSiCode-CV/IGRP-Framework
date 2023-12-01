@@ -28,7 +28,7 @@
           editable: false,
           name : 'filterTemplate',
           value: true,
-          xslValue : `
+          xslValue : ()=>`
             <xsl:apply-templates mode="igrp-table-form-filter" select="${object.GET.path()}"/>
           ` 
         },

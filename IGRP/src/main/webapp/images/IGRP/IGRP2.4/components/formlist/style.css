@@ -1,6 +1,6 @@
 .IGRP_formlist .formlist-row-add, 
 .IGRP_formlist .formlist-row-remove{
-    font-size: 18px;
+   
 }
 
 .IGRP_formlist th[required="required"]:before{
