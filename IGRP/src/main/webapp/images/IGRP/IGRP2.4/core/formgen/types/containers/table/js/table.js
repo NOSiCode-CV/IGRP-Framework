@@ -35,7 +35,8 @@ var GENTABLE = function(name,params){
 	};
 
 	container.dropZoneFieldValidation = function(dropzone,field){
-		return field.GET.table() === false ? false : true;
+	
+		return field.GET.table && field.GET.table() === false ? false : true;
 	}
 
 	container.includes = {
@@ -53,9 +54,13 @@ var GENTABLE = function(name,params){
 	};
 
 
-	container.ready = function(params){
-
+	container.on('init', ()=>{
+		
 		container.SET.hasTitle(true);
+
+		var tableStyleProps = GEN.getGlobalProperty('table-style');
+
+		tableStyleProps(container, params);
 
 		container.setPropriety({
 			name:'tableFooter',
@@ -64,66 +69,91 @@ var GENTABLE = function(name,params){
 			xslValue:getTableFooter
 		});
 
-		var tableStyleProps = GEN.getGlobalProperty('table-style');
+	})
 
-		tableStyleProps(container, params);
+	/*container.ready = function(){
 
-	}
+	}*/
 
-	/* WHEN A FIELD IS DROPPED - SET EXAMPLE DATA TO THE TABLE*/
-	container.onFieldSet = function(field){
-		//field.xml.desc = true;
+	container.on('field:before-init', (field)=>{
+		
+		const tablePropsGroup = [];
+
 		field.setPropriety({
 			name:'maxlength',
 			label : 'Tamanho Máximo',
 			value : 30
 		});
-		
-		field.setPropriety({
-			name : 'showLabel',
-			label : 'Mostrar Cabeçalho',
-			value:true
-		});
-		
-		if(!field.hidden){
-			
-			field.setPropriety({
-				name:'align',
-				label:'Alinhamento',
-				propriety:{
-					value:'left',
-					options:[
-						{value:'left',label:'Esquerda'},
-						{value:'center',label:'Centro'},
-						{value:'right',label:'Direita'}
-					]
-				}
-			});
-
-			field.setPropriety({
-				name    : 'lookup_parser',
-				label   : 'Passa valor',
-				value   : false,
-				xslValue: 'lookup-parser'
-			});
-
-			switch (field.GET.type()){
-				case 'checkbox':
-				case 'link':
-				case 'radio':
-					field.xml.desc = true;
-				break;
-			}
-		}
 
 		field.setPropriety({
 			name    : 'iskey',
-			label   : 'Key?',
+			label   : 'Chave?',
 			value   : false
 		});
 
+		if(!field.hidden){
+			tablePropsGroup.push(
+				{
+					name:'group_in',
+					label:'Agrupar em',
+					value: {
+						value : '',
+						options : function(){
+							var o = [{
+								label : '',
+								value : ''
+							}];
+							field.parent.GET.fields().forEach(function(f){
+								if(f.GET.tag() != field.GET.tag() && f.GET.type() !== 'hidden'){
+									if(f.GET.group_in && !f.GET.group_in())
+										o.push({
+											label : f.GET.label() || f.GET.tag(),
+											value : f.GET.tag()
+										})	
+								}
+							});
+							return o;
+						}
+					}
+				},
+				{
+					name:'align',
+					label:'Alinhamento',
+					propriety:{
+						value:'left',
+						options:[
+							{value:'left',label:'Esquerda'},
+							{value:'center',label:'Centro'},
+							{value:'right',label:'Direita'}
+						]
+					}
+				},
+				{
+					name:'table',
+					label : 'Mostrar na Lista',
+					value: true
+				},
+				{
+					name:'filter',
+					label : 'Mostrar no Filtro',
+					value: true
+				},
+				{
+					name    : 'lookup_parser',
+					label   : 'Passa valor',
+					value   : false,
+					xslValue: 'lookup-parser'
+				},
+				{
+					name : 'showLabel',
+					label : 'Mostrar Cabeçalho',
+					value:true
+				},
+			);
+		}
+		
 		if(field.GET.type() == 'number'){
-			field.setPropriety({
+			tablePropsGroup.push({
 				name:'total_footer',
 				label:'Coluna de Total',
 				value: false,
@@ -132,54 +162,30 @@ var GENTABLE = function(name,params){
 				}
 			});
 		}
-
-
-		field.setProperty({
-			name:'filter',
-			label : 'Mostrar no Filtro',
-			value: true
-		})
-
-		field.setProperty({
-			name:'table',
-			label : 'Mostrar na Lista',
-			value: true
-		});
 		
-		field.setPropriety({
-			name:'group_in',
-			label:'Agrupar em',
-			value: {
-				value : '',
-				options : function(){
-					
-					var o = [{
-						label : '',
-						value : ''
-					}];
-					
-					field.parent.GET.fields().forEach(function(f){
-						
-						if(f.GET.tag() != field.GET.tag() && f.GET.type() !== 'hidden'){
-							
-							if(f.GET.group_in && !f.GET.group_in())
-								
-								o.push({
-									label : f.GET.label() || f.GET.tag(),
-									value : f.GET.tag()
-								})
-									
-						}
-						
-					});
-					
-					return o;
-					
-				}
-			}
+		field.setPropertyGroup({
+			name: 'table-props',
+			label : 'Opções de Tabela',
+			order: 20,
+			properties : tablePropsGroup
 		});
-		
+
 		GEN.SetJavaTypeAttr( field );
+
+		switch (field.proprieties.type){
+			case 'checkbox':
+			case 'link':
+			case 'radio':
+				field.xml.desc = true;
+			break;
+		}
+		
+	})
+	/* WHEN A FIELD IS DROPPED - SET EXAMPLE DATA TO THE TABLE*/
+	container.onFieldSet = function(field){
+		//field.xml.desc = true;
+		
+		
 	}
 
 	container.onCheckboxFieldSet = function(f){

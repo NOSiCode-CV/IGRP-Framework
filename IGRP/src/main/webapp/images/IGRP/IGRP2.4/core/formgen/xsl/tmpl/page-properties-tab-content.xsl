@@ -31,16 +31,18 @@
                         </a>
                     </li>
 	            </ul>
-                <h5>Domains</h5>
-	            <ul class="">
-                   
-                    <li>
-                        <a href="#" id="gen-domains">
-                            <i class="fa fa-plus"></i>
-                            <span>New Domain</span>
-                        </a>
-                    </li>
-	            </ul>
+                <div class="d-none">
+                    <h5>Domains</h5>
+                    <ul class="">
+                    
+                        <li>
+                            <a href="#" id="gen-domains">
+                                <i class="fa fa-plus"></i>
+                                <span>New Domain</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 	        </div>
 
         </div>

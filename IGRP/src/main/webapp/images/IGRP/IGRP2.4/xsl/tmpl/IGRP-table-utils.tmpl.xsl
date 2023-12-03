@@ -150,8 +150,8 @@
       <xsl:when test="$type = 'dropdown'">
 
         <div class="dropdown pull-right igrp-table-dd-ctx">
-          <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            <span class="caret"></span>
+          <button class="btn btn-xs btn-default fs-16 py-0 " type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <i class="ri-more-2-fill"></i>
           </button>
           <ul class="dropdown-menu table-ctx-holder">
             <xsl:for-each select="$context-items">

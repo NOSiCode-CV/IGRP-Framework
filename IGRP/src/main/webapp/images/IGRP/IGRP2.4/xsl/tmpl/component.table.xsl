@@ -136,7 +136,7 @@
 
 		<xsl:if test="$fields">
 			<xsl:variable name="field-col-class" select="'col-12 col-sm-6 col-md-4 col-lg-3 '"/>
-			<div class="card-filter border-top pb-3 px-3 collapse bg-light-subtle" id="{name()}-filter-fields" remote-filter="Gestao_de_expedientes.xml"> 
+			<div class="card-filter border-top pb-3 px-3 collapse bg-light-subtle" id="{name(.)}-filter-fields" remote-filter="Gestao_de_expedientes.xml"> 
 				<div class=" row py-3 clearfix fields gy-3" role="form">
 					<xsl:for-each select="$fields">
 						<xsl:choose>
@@ -230,7 +230,7 @@
 						<a href="#" class="btn btn-sm btn-light igrp-table-reset-action text-capitalize d-flex align-items-center">
 							<i></i>
 						</a>
-						<button class="text-capitalize btn-soft-theme-primary btn-sm btn igrp-table-filter-action d-flex align-items-center">
+						<button class="text-capitalize btn-theme-primary btn-sm btn igrp-table-filter-action d-flex align-items-center">
 							<span>Aplicar</span>
 						</button>
 					</div>
