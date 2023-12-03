@@ -168,8 +168,9 @@ public class CRUDGeneratorController extends Controller {
 				}
 			}
 		}
-		return this.renderView(new CRUDGeneratorView());
-
+		//return this.renderView(new CRUDGeneratorView());
+		  return this.forward("igrp_studio","CRUDGenerator","index",this.queryString()); //if submit, loads the values
+						
 		/*----#end-code----*/
 			
 	}
@@ -235,8 +236,9 @@ public class CRUDGeneratorController extends Controller {
 		}
 		/* -- FIM ACTION GERAR -- */
 
-		return this.renderView(new CRUDGeneratorView());
-
+	//	return this.renderView(new CRUDGeneratorView());
+		  return this.forward("igrp_studio","CRUDGenerator","index",this.queryString()); //if submit, loads the values
+						
 		/*----#end-code----*/
 			
 	}
