@@ -138,7 +138,7 @@ These customizable properties allow you to set up the project to connect to your
 After generating the project, if you need to modify these properties later on, you can find and update them in the project's configuration file or relevant configuration classes, depending on how the archetype structures the generated project.
 
 
-## :ballot_box_with_check: Contributing to IGRPWeb
+## :ballot_box_with_check: Contributing to IGRP
 
 Follow [Contributing guidelines](CONTRIBUTING.md) for more details on how to contribute in the community and how to is the process of submitting pull requests, bugs fixing, patches.
 
