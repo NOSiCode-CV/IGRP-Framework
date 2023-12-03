@@ -4,9 +4,9 @@
 
 ## :loudspeaker: About
 
-IGRP**Web** is a platform developed by the Operational Nucleus for the Information Society (NOSi) to create web applications, based on business steps, processes, automatic code generation and incorporation of the Once-Only-Principle, written in Java.
+IGRP is a platform developed by the Operational Nucleus for the Information Society (NOSi) to create web applications, based on business steps, processes, automatic code generation and incorporation of the Once-Only-Principle, written in Java.
 
-The IGRP**Web** core is extremely lightweight and based on simple concepts. It's open-source and distributed under the Apache 2.0 license. Allows you to build unlimited number of e-government applications by yourself ensuring sustainability with an affordable and scalable solution on your own data.
+The IGRP core is extremely lightweight and based on simple concepts. It's open-source and distributed under the Apache 2.0 license. Allows you to build unlimited number of e-government applications by yourself ensuring sustainability with an affordable and scalable solution on your own data.
 
 ## :key: Why use IGRP**Web?**
 
