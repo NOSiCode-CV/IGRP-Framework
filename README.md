@@ -1,6 +1,6 @@
 [![ASL 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/NOSiCode-CV/IGRP-Java-Template-Eclipse/blob/master/README.md)
 
-[<img src="docs/root-images/logo_igrpweb_2.png">](http://www.igrp.cv)
+[<img src="docs/root-images/logo_igrp.png">](http://www.igrp.cv)
 
 ## :loudspeaker: About
 
@@ -8,9 +8,9 @@ IGRP is a platform developed by the Operational Nucleus for the Information Soci
 
 The IGRP core is extremely lightweight and based on simple concepts. It's open-source and distributed under the Apache 2.0 license. Allows you to build unlimited number of e-government applications by yourself ensuring sustainability with an affordable and scalable solution on your own data.
 
-## :key: Why use IGRP**Web?**
+## :key: Why use IGRP?
 
-IGRPWeb allows to:
+IGRP allows to:
 
 - Independently create an unlimited number of applications;
 
@@ -149,7 +149,6 @@ Remember pull requests, bug fixes and new applications development are always en
 For general help using IGRP Framework, please refer to [the official IGRP Framework documentation](https://docs.igrp.cv). For additional help, you can use one of these channels to ask a question:
 
 - [GitHub](https://https://github.com/NOSiCode-CV/IGRP-Framework) (Bug reports, Contributions)
-- [Feedback section](https://igrpweb.canny.io) (Roadmap, Feature requests)
 - [YouTube Channel](https://www.youtube.com/playlist?list=PL4WRKYdHA5CZRna6eclQvL9q2UI3878vs) (Learn from Video Tutorials)
 
 ## :memo: License
