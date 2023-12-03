@@ -166,8 +166,8 @@ public class CRUDGeneratorController extends Controller {
 				}
 			}
 		}
-		return this.renderView(new CRUDGeneratorView());
-
+		//return this.renderView(new CRUDGeneratorView());
+		return this.forward("igrp_studio","CRUDGenerator","index",this.queryString());
 		/*----#end-code----*/
 			
 	}
@@ -233,8 +233,8 @@ public class CRUDGeneratorController extends Controller {
 		}
 		/* -- FIM ACTION GERAR -- */
 
-		return this.renderView(new CRUDGeneratorView());
-
+		//return this.renderView(new CRUDGeneratorView());
+		return this.forward("igrp_studio","CRUDGenerator","index",this.queryString());
 		/*----#end-code----*/
 			
 	}
@@ -335,19 +335,19 @@ public class CRUDGeneratorController extends Controller {
 		String xslFileNameList = this.getConfig().getLinkXSLGeneratorMCVList(pageList.getVersion());
 		String xslFileNameGen = this.getConfig().getLinkXSLGenerator_CRUD(pageForm.getVersion());
 		String jsonFileName = this.getConfig().getLinkXSLJsonGenerator(pageForm.getVersion());
-		String pathXslForm = this.getConfig().getCurrentBaseServerPahtXsl(pageForm) + File.separator
+		String pathXmlForm = this.getConfig().getCurrentBaseServerPahtXsl(pageForm) + File.separator
 				+ pageForm.getPage() + ".xml";
-		String pathXslList = this.getConfig().getCurrentBaseServerPahtXsl(pageList) + File.separator
+		String pathXmlList = this.getConfig().getCurrentBaseServerPahtXsl(pageList) + File.separator
 				+ pageList.getPage() + ".xml";
 
-		String formJson = XMLTransform.xmlTransformWithXSL(pathXslForm, jsonFileName);
-		String listJson = XMLTransform.xmlTransformWithXSL(pathXslList, jsonFileName);
+		String formJson = XMLTransform.xmlTransformWithXSL(pathXmlForm, jsonFileName);
+		String listJson = XMLTransform.xmlTransformWithXSL(pathXmlList, jsonFileName);
 
-		String formMVC = XMLTransform.xmlTransformWithXSL(pathXslForm, xslFileNameFrom);
-		String listMVC = XMLTransform.xmlTransformWithXSL(pathXslList, xslFileNameList);
+		String formMVC = XMLTransform.xmlTransformWithXSL(pathXmlForm, xslFileNameFrom);
+		String listMVC = XMLTransform.xmlTransformWithXSL(pathXmlList, xslFileNameList);
 
-		String xslForm = XMLTransform.xmlTransformWithXSL(pathXslForm, xslFileNameGen);
-		String xslList = XMLTransform.xmlTransformWithXSL(pathXslList, xslFileNameGen);
+		String xslForm = XMLTransform.xmlTransformWithXSL(pathXmlForm, xslFileNameGen);
+		String xslList = XMLTransform.xmlTransformWithXSL(pathXmlList, xslFileNameGen);
 
 		r = this.saveFiles(pageForm, pageForm.getPage() + ".json", formJson)
 				&& this.saveFiles(pageList, pageList.getPage() + ".json", listJson)

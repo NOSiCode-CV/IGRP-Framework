@@ -192,13 +192,13 @@
       </dependency>
 		<!-- /END OPEN HTML TO PDF https://github.com/danfickle/openhtmltopdf -->
 		<!-- For XSLT and XPATH handling -->
-		<!-- https://mvnrepository.com/artifact/xalan/xalan 
+		<!-- https://mvnrepository.com/artifact/xalan/xalan -->
       <dependency>
          <groupId>xalan</groupId>
          <artifactId>xalan</artifactId>
          <version>${xalan.version}</version>
-      </dependency> -->
-		<!-- https://mvnrepository.com/artifact/xalan/serializer 
+      </dependency> 
+		<!-- https://mvnrepository.com/artifact/xalan/serializer -->
       <dependency>
          <groupId>xalan</groupId>
          <artifactId>serializer</artifactId>
@@ -209,7 +209,7 @@
                <artifactId>xml-apis</artifactId>
             </exclusion>
          </exclusions>
-      </dependency>-->
+      </dependency>
 
 		<!-- Hibernate Dependencies -->
       <dependency>

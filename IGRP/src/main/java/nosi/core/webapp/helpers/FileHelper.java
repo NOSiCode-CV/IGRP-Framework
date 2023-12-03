@@ -321,7 +321,7 @@ public class FileHelper {
     	int index = path.lastIndexOf("pages");
     	if(index != -1) {
     		pageDelegatePath = String.format("%spagedelegate", path.substring(0, index));
-    		mvcPath = String.format("%s%c%s", path, File.separatorChar, page.toLowerCase().trim());
+    		mvcPath = String.format("%spages%c%s", path.substring(0,index), File.separatorChar, page.toLowerCase().trim());
     	}
         return FileHelper.save(mvcPath, String.format("%s.java", page), content[0]) && // Save Model
                 FileHelper.save(mvcPath, String.format("%sView.java", page), content[1]) && //Save View
