@@ -7,8 +7,7 @@ var GENFORM = function(name,params){
 	container.sortableOptions.placeholder = 'gen-form-placeholder';
 
 	container.includes = {
-		xsl : [ 'IGRP-form-utils.tmpl', 'component.form.fields' ],
-		//js  : [ { path :'/core/igrp/form/igrp.forms.js'} ]
+		xsl : [ 'IGRP-form-utils.tmpl', 'component.form.fields' ]
 	};
 
 	container.contextMenu = {

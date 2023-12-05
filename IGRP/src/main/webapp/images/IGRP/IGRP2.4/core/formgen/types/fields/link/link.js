@@ -19,17 +19,16 @@ var LINKFIELD = function(type,params){
 
 	field.ready = function(){
 
-		TargetProperties(field,{
-			value: proprieties && proprieties.target ? proprieties.target : '_self'
-		});
-
 		ActionProperties(field,{
 			value: proprieties && proprieties.action ? proprieties.action : ''
 		});
 
+		TargetProperties(field,{
+			value: proprieties && proprieties.target ? proprieties.target : '_self'
+		});
+
 		ButtonAppearanceProperties(field,{
 			showbtnStyle:false,
-			
 		});
 
 		IconsProperty(field,{

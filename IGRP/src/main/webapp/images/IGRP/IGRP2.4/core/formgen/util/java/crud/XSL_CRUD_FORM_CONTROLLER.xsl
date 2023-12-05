@@ -92,13 +92,13 @@
 	     	</xsl:call-template>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>  		
-			<xsl:value-of select="concat('String isEdit = Core.getParam(',$double_quotes,'isEdit',$double_quotes,');')"/>;
+			<xsl:value-of select="concat('String isEdit = Core.getParam(',$double_quotes,'isEdit',$double_quotes,')')"/>;
  			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
 			<xsl:value-of select="concat('if(',$isEditSave,') {')"/>	
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>
-				<xsl:value-of select="concat('QueryInterface query = Core.query(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,'SELECT ',$columns,' FROM ',/rows/plsql/package_copy_html,'.',/rows/plsql/package_copy_db,$double_quotes,')',$conditions,';')"/>
+				<xsl:value-of select="concat('nosi.core.webapp.databse.helpers.QueryInterface query = Core.query(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,'SELECT ',$columns,' FROM ',/rows/plsql/package_copy_html,'.',/rows/plsql/package_copy_db,$double_quotes,')',$conditions,';')"/>
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>	
 				<xsl:value-of select="'model.load(query);'"/>			
@@ -142,7 +142,7 @@
 	     	</xsl:call-template>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/> 
-			<xsl:value-of select="'ResultSet r = null;'"/>	 					
+			<xsl:value-of select="'nosi.core.webapp.databse.helpers.ResultSet r = null;'"/>	 					
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>	
 			<xsl:call-template name="gen-crud-sql"/>

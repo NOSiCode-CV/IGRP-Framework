@@ -1427,9 +1427,9 @@ var GENERATOR = function(genparams){
 			break;
 		}
 
-		if(objectProperties && objectProperties.help){
+		/*if(objectProperties && objectProperties.help){
 			console.log(holder);
-		}
+		}*/
 
 		/*if(propriety == 'tag'){
 			$('.propriety-setter',holder).attr('maxlength',8);
@@ -1441,18 +1441,25 @@ var GENERATOR = function(genparams){
 	GEN.attrsForm = function(object){
 		var checkers   = [];
 		var formHolder = $(VARS.edition.modal).find('.modal-body [rel="properties"]');
-		var inputFieldsHolder = $('<div class="input-fields row m-0" style="height:fit-content"></div>')
+		var inputFieldsHolder = $('<div class="input-fields row m-0 p-0" style="height:fit-content"></div>')
 		
 		formHolder.html('');
 
 		formHolder.append(`
 			<div class="mb-3">
-				<div class="group-fields row" id="group-field-default" rel="default">
-				</div>
-				<div class="group-fields-checkers row" rel="default">
+				<a class="border-bottom text-muted d-block py-2 mb-2 h5" data-bs-toggle="collapse" href="#group-field-default" >
+					Definições
+				</a>
+				<div class="collapse show" id="group-field-default" data-bs-parent="#properties-accordion">
+					<div class="group-fields row"  rel="default">
+					</div>
+					<div class="group-fields-checkers row" rel="default">
+					</div>
 				</div>
 			</div>
 		`);
+
+		formHolder.append(inputFieldsHolder);
 
 		for(var p in object.proprieties){ // ciclo nas proprieades do elemento
 			
@@ -1513,7 +1520,12 @@ var GENERATOR = function(genparams){
 						</div>
 					`);
 
-					formHolder.append(input);
+	
+					if( objectProperties?.order>=0)
+						inputFieldsHolder.insertAt(input,objectProperties.order)
+					else
+						inputFieldsHolder.append(input);
+
 		
 				}else{	
 
@@ -1584,7 +1596,7 @@ var GENERATOR = function(genparams){
 			}
 		}
 		//checkers on bottom
-		formHolder.append($(`<div class="gen-propreties-checkers-holder d-flex flex-wrap row mx-0 mt-4"/>`).append(checkers))
+		//formHolder.append($(`<div class="gen-propreties-checkers-holder d-flex flex-wrap row mx-0 mt-4"/>`).append(checkers))
 	}
 	
 	GEN.confirmEdition = function(o){
@@ -1732,7 +1744,6 @@ var GENERATOR = function(genparams){
 						GEN.edit.object.onEditionConfirm(GEN.edit.object);
 
 				}
-				
 				
 				transformer.Transform({
 					
@@ -1951,6 +1962,20 @@ var GENERATOR = function(genparams){
 			GEN.openIgrpDoc($(this).val());
 		});
 
+		
+		console.log(object.propertiesActiveTab)
+		if(object.propertiesActiveTab){
+			try{
+				var myCollapse = document.getElementById(object.propertiesActiveTab)
+				new bootstrap.Collapse(myCollapse, {
+					toggle: true
+				});
+
+			}catch(error){
+				console.log(error);
+			}
+		}
+
 		GEN.edit.show();
 	}
 
@@ -2073,11 +2098,14 @@ var GENERATOR = function(genparams){
 	GEN.edit.hide = function(){
 		var modal          = $(VARS.edition.modal);
 		var rseparatorlist = $('[rel="rules"] .IGRP-separatorlist',modal)[0];
+
+		GEN.edit.object.propertiesActiveTab = $('.accordion a[data-bs-toggle="collapse"][aria-expanded="true"]',VARS.edition.modal).attr('href')?.split('#')[1];
+
 		GEN.edit.XSLEditor.setValue('');
 
 		codeEditorView(false);
 
-	  setTimeout(function() {
+	  	setTimeout(function() {
 		   GEN.edit.XSLEditor.refresh();  
 		},400);
 
@@ -2102,6 +2130,7 @@ var GENERATOR = function(genparams){
 		$('.modal-header ul li[rel="rules"]',modal).hide();
 		
 		rseparatorlist.resetAll();
+		
 
 		/* style*/
 
@@ -2119,7 +2148,7 @@ var GENERATOR = function(genparams){
 
 		xslEditing = false;
 		if(GEN.edit.object){
-
+			
 			if(GEN.edit.object.proprieties && GEN.edit.object.proprieties.type_changer)
 			
 				delete GEN.edit.object.proprieties.type_changer;
@@ -3949,7 +3978,7 @@ var GENERATOR = function(genparams){
 
 		GEN.imagesURL  = genparams && genparams.imagesURL ? genparams.imagesURL : '';
 
-		GEN.sourcePath = genparams.sourcePath ? genparams.sourcePath : path+'/core/formgen/util/gen.source.xml';
+		GEN.sourcePath = genparams.sourcePath ? genparams.sourcePath : path+'/core/formgen/types/components.xml';
 		
 		GEN.images = {}
 

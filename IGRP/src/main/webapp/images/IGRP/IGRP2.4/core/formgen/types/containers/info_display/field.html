@@ -1,0 +1,10 @@
+<div class="info-display-item d-block border-bottom border-light py-2 " >
+    <xsl:if test="#path#/@showlabel = 'true' ">
+		<b class="item-label me-2">
+            <xsl:value-of select="#path#/label"/>
+        </b>
+	</xsl:if>
+    <span class="item-value">
+        <xsl:value-of select="#path#/value"/>
+    </span>
+</div>
