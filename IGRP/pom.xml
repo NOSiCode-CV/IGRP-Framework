@@ -613,12 +613,16 @@
                <configuration>
                   <tomeeClassifier>plus</tomeeClassifier>
                   <reloadOnUpdate>true</reloadOnUpdate>
+              		<!-- To change de ports
+					<tomeeHttpPort>8081</tomeeHttpPort>
+					<tomeeShutdownPort>8006</tomeeShutdownPort>  -->
                   <args>-Dfile.encoding=UTF-8</args>
                   <synchronization>
                      <extensions>
                         <extension>.class</extension>
 								<!-- if you want to	update each time you build with mvn compile -->
-                        <extension>.xsl</extension>
+                        <extension>.xml</extension>
+                        <extension>.properties</extension>
                      </extensions>
                   </synchronization>
                   <systemVariables>
