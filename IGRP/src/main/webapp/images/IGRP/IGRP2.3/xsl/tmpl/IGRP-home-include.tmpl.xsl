@@ -188,8 +188,8 @@
 
           <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
             <a class="navbar-brand col-sm-3 col-md-2" href="{rows/link}" >
-            <img src="{$logo}"/>
-            <span class=""><b><xsl:value-of select="rows/title"/></b></span>
+            <!-- <img src="{$logo}"/>
+            <span class=""><b><xsl:value-of select="rows/title"/></b></span> -->
             </a>
 
             <div id="side-bar-ctrl">
@@ -267,13 +267,46 @@
           <xsl:call-template name="sidebar-v4"/>
         </xsl:when>
         <xsl:otherwise>
+          <xsl:variable name="logo">
+            <xsl:choose>
+              <xsl:when test="$themeConfigData/logo">
+                <xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="concat($path,'/themes/default/img/logo2.svg')"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:variable>
           <div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar">
+
+              <!-- BENNINGING -->
+                
+                <div class="navbar-brand-box">
+                  <!-- Dark Logo-->
+                  <a href="{rows/link}" class="logo logo-dark"  style="display: flex;justify-content: center;align-items: center;">
+                    <span class="logo-sm">                    
+                      <img src="{$logo}" height="50"/>
+                    </span>
+                     <!--<span class="logo-lg">
+                      <img src="../images/IGRP/IGRP2.3/themes/default/img/logo3.svg" alt="" height="80" />
+                    </span>--> 
+                  </a>
+                    
+                </div>
+                <div class="text-center text-white d-none" style="color:#ffffff">
+                  <xsl:value-of select="rows/title"/>
+                </div>
+              
+  
+                <!-- END -->
         
             <div class="side-bar-ctrl visible-xs clearfix" >
                 <i class="fa fa-navicon pull-right"></i>
             </div>
          
-            <div class="igrp-sidebar-menu-search-wrapper">
+            <div class="igrp-sidebar-menu-search-wrapper igrp-sidebar-menu-search-container">
+              
+              <i class="fa fa-search pull-left igrp-sidebar-menu-search-wrapper-icon"></i>
               <input 
                 type="text" 
                 class="form-control igrp-search-list" 
@@ -284,7 +317,7 @@
                 search-item-wrapper=".treeview-menu" />
             </div>
             
-            <i class="fa fa-search pull-left igrp-sidebar-menu-search-wrapper-icon" ></i>
+            
     
             <ul class="nav nav-sidebar">
               <xsl:for-each select="$menus/menu">
