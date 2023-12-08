@@ -413,7 +413,7 @@ border-bottom-color: #fff;*/
 /* Sidebar navigation */
 #igrp-sidebar .nav-sidebar {
 
-	position: absolute;
+	/* position: absolute; */
 	height: calc(100% - 55px);
 	width: 100%;
 	left: 0;
@@ -591,24 +591,31 @@ body.sidebar-off .navbar-brand {
 
 .igrp-sidebar-menu-search-wrapper {
 	position: absolute;
-	top: 0;
+	/* top: 0; */
 	left: 0;
 	width: 100%;
 }
 
+.igrp-sidebar-menu-search-container {
+	position: relative;
+	width: 100%;
+  }
+  
 .igrp-sidebar-menu-search-wrapper-icon {
 	transition: background .5s;
 	padding: 20px 0px;
-	position: relative;
+	position: absolute;
+	top: 50%;
+	left: 10px; /* Adjust the right positioning as needed */
+	transform: translateY(-50%);
 	color: white;
 	opacity: 0.5;
 	cursor: pointer;
 	z-index: 15;
-	float: right;
-}
+ }
 
 .igrp-sidebar-menu-search-wrapper input {
-	height: 55px;
+	height: 40px;
 	background: rgba(0, 0, 0, 0.05);
 	border: 0;
 	padding-left: 40px;
