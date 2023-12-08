@@ -27,7 +27,8 @@ public class AppConfig extends PdexServiceTemplate{
 	}
 	
 	public List<App> userApps(String uid){ 
-		List<App> allApps = new ArrayList<App>(); 
+		List<App> allApps = new ArrayList<>(); 
+		String json="";
 		if(url == null || url.isEmpty() || !ping(url, DEFAULT_TIMEOUT) || token == null || token.isEmpty()) 
 			return allApps; 
 		try {
@@ -36,7 +37,7 @@ public class AppConfig extends PdexServiceTemplate{
 			WebTarget webTarget = client.target(url); 
 			Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
 			javax.ws.rs.core.Response response  = invocationBuilder.get(); 
-			String json = response.readEntity(String.class); 
+			json = response.readEntity(String.class); 
 			client.close();
 			JSONObject obj = new JSONObject(json); 
 			JSONObject apps_t = obj.optJSONObject("Entries"); 
@@ -47,12 +48,13 @@ public class AppConfig extends PdexServiceTemplate{
 			}
 		} catch (Exception e) {
 			e.printStackTrace(); 
+			System.err.printf("Resp json: %s",json);
 		}
 		return allApps;
 	}
 	
 	public List<ExternalMenu> profAppMenus(String appCode, String orgCode, String profCode){ 
-		List<ExternalMenu> menus = new ArrayList<ExternalMenu>(); 
+		List<ExternalMenu> menus = new ArrayList<>(); 
 		if(url == null || url.isEmpty() || !ping(url, DEFAULT_TIMEOUT) || token == null || token.isEmpty()) 
 			return menus; 
 		try {
