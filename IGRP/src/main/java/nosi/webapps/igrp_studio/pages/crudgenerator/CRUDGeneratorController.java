@@ -60,7 +60,8 @@ public class CRUDGeneratorController extends Controller {
 			view.btn_add_datasource.setLink("igrp", "ConfigDatabase", "index");
 			view.aplicacao.setValue(new Application().getListApps());
 			view.table_type.setValue(DatabaseMetadaHelper.getTableTypeOptions());
-
+			view.check_table.propertie().add("maxlength", 100);
+			view.check_table_check.propertie().add("maxlength", 100);
 			view.documento.setValue("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT&p_type=crud");
 			view.forum.setValue("https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&utm_medium=link&utm_campaign=share-link");
 			
