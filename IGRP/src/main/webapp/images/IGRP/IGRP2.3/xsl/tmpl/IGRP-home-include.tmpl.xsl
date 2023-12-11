@@ -196,7 +196,11 @@
               <i class="fa fa-navicon"></i>
             </div>
 
-            <div id="igrp-app-title" class=""><xsl:value-of select="rows/description"/></div>
+            <div id="igrp-app-title" class="">
+           		 <a style="color: inherit;font-size: 14px;" href="{rows/link}" >
+            	<xsl:value-of select="rows/description"/>
+            	 </a>
+            </div>
 
             <xsl:variable name="topMenus" select="document(rows/top_menu/@file)/top_menu/button"/>
 
@@ -279,22 +283,21 @@
           </xsl:variable>
           <div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar">
 
-              <!-- BENNINGING -->
+              <!-- NAV -->
                 
-                <div class="navbar-brand-box">
+                <div class="navbar-brand-box" style="padding: 0.4rem 1rem;">
                   <!-- Dark Logo-->
-                  <a href="{rows/link}" class="logo logo-dark"  style="display: flex;justify-content: center;align-items: center;">
-                    <span class="logo-sm">                    
-                      <img src="{$logo}" height="50"/>
-                    </span>
-                     <!--<span class="logo-lg">
-                      <img src="../images/IGRP/IGRP2.3/themes/default/img/logo3.svg" alt="" height="80" />
-                    </span>--> 
+				    <a href="{rows/link}" class="logo logo-dark" style="display: flex;align-items: center;">
+						<span class="logo-sm">
+							<img src="{$logo}" height="50" />
+						</span>
+						<div class="text-center text-white d-none"
+							style="color:white;font-weight: bold;align-self: center;">
+							<xsl:value-of select="rows/title" />
+						</div>
                   </a>
+                
                     
-                </div>
-                <div class="text-center text-white d-none" style="color:#ffffff">
-                  <xsl:value-of select="rows/title"/>
                 </div>
               
   

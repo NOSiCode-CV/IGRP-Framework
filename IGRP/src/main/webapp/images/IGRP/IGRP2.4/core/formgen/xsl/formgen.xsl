@@ -20,7 +20,7 @@
           <xsl:call-template name="igrp-head"/>
           <link href="{$path}/core/formgen/css/gen2.css" rel="stylesheet"/>
           <link href="{$path}/core/igrp/toolsbar/igrp.ds.toolsbar.css" rel="stylesheet"/>
-
+ 
           <script>    
            	window.moveTo(0, 0);
            	window.resizeTo(screen.width, screen.height);
@@ -107,9 +107,9 @@
                   <div class="row">
                         <div class="col-lg-2  col-md-3 sidebar tree-list shadow d-none d-md-block" id="igrp-sidebar" bg-color="secondary">
                             
-                            <a class="d-flex align-items-center px-3 pt-4" href="{rows/link}">
-                                <img src="{$path}/core/formgen/img/logo-gen-white.png"/>
-                                <div class="studio-name">
+                 			 <a class="d-flex align-items-center px-5 pt-1" href="{rows/link}">
+                                <img style="height: 50px;" src="{$path}/core/formgen/img/logo-gen-white.png"/>
+                                         <div class="studio-name">
                                     <b>STUDIO</b>
                                 </div>
                             </a>
