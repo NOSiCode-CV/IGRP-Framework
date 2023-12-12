@@ -188,15 +188,19 @@
 
           <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
             <a class="navbar-brand col-sm-3 col-md-2" href="{rows/link}" >
-            <img src="{$logo}"/>
-            <span class=""><b><xsl:value-of select="rows/title"/></b></span>
+            <!-- <img src="{$logo}"/>
+            <span class=""><b><xsl:value-of select="rows/title"/></b></span> -->
             </a>
 
             <div id="side-bar-ctrl">
               <i class="fa fa-navicon"></i>
             </div>
 
-            <div id="igrp-app-title" class=""><xsl:value-of select="rows/description"/></div>
+            <div id="igrp-app-title" class="">
+           		 <a style="color: inherit;font-size: 14px;" href="{rows/link}" >
+            	<xsl:value-of select="rows/description"/>
+            	 </a>
+            </div>
 
             <xsl:variable name="topMenus" select="document(rows/top_menu/@file)/top_menu/button"/>
 
@@ -267,13 +271,45 @@
           <xsl:call-template name="sidebar-v4"/>
         </xsl:when>
         <xsl:otherwise>
+          <xsl:variable name="logo">
+            <xsl:choose>
+              <xsl:when test="$themeConfigData/logo">
+                <xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="concat($path,'/themes/default/img/logo2.svg')"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:variable>
           <div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar">
+
+              <!-- NAV -->
+                
+                <div class="navbar-brand-box" style="padding: 0.4rem 1rem;">
+                  <!-- Dark Logo-->
+				    <a href="{rows/link}" class="logo logo-dark" style="display: flex;align-items: center;">
+						<span class="logo-sm">
+							<img src="{$logo}" height="50" />
+						</span>
+						<div class="text-center text-white d-none"
+							style="color:white;font-weight: bold;align-self: center;">
+							<xsl:value-of select="rows/title" />
+						</div>
+                  </a>
+                
+                    
+                </div>
+              
+  
+                <!-- END -->
         
             <div class="side-bar-ctrl visible-xs clearfix" >
                 <i class="fa fa-navicon pull-right"></i>
             </div>
          
-            <div class="igrp-sidebar-menu-search-wrapper">
+            <div class="igrp-sidebar-menu-search-wrapper igrp-sidebar-menu-search-container">
+              
+              <i class="fa fa-search pull-left igrp-sidebar-menu-search-wrapper-icon"></i>
               <input 
                 type="text" 
                 class="form-control igrp-search-list" 
@@ -284,7 +320,7 @@
                 search-item-wrapper=".treeview-menu" />
             </div>
             
-            <i class="fa fa-search pull-left igrp-sidebar-menu-search-wrapper-icon" ></i>
+            
     
             <ul class="nav nav-sidebar">
               <xsl:for-each select="$menus/menu">
