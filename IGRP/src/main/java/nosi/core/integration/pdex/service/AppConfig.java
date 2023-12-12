@@ -29,10 +29,12 @@ public class AppConfig extends PdexServiceTemplate{
 	public List<App> userApps(String uid){ 
 		List<App> allApps = new ArrayList<>(); 
 		String json="";
-		if(url == null || url.isEmpty() || !ping(url, DEFAULT_TIMEOUT) || token == null || token.isEmpty()) 
-			return allApps; 
 		try {
+			if(url == null || url.isEmpty()|| token == null || token.isEmpty())  //!ping(url, DEFAULT_TIMEOUT) 
+				return allApps; 
+			
 			url += "/user_apps?email=" + URLEncoder.encode(uid, "utf-8"); 
+			
 			Client client = ClientBuilder.newClient(); 
 			WebTarget webTarget = client.target(url); 
 			Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
@@ -55,7 +57,7 @@ public class AppConfig extends PdexServiceTemplate{
 	
 	public List<ExternalMenu> profAppMenus(String appCode, String orgCode, String profCode){ 
 		List<ExternalMenu> menus = new ArrayList<>(); 
-		if(url == null || url.isEmpty() || !ping(url, DEFAULT_TIMEOUT) || token == null || token.isEmpty()) 
+		if(url == null || url.isEmpty() ||  token == null || token.isEmpty()) //!ping(url, DEFAULT_TIMEOUT) ||
 			return menus; 
 		try {
 			url += "/prof_app_menus?prof_code=" + profCode + "&org_code=" + orgCode + "&app_code=" + appCode;  
