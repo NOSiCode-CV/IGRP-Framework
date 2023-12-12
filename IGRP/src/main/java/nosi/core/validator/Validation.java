@@ -17,8 +17,8 @@ public class Validation {
 	public static boolean validatePresentDate(String currentDate, String dateValue) {
 		if(Core.isNotNullMultiple(currentDate,dateValue)) {
 
-			String d1[] = currentDate.split("-");
-			String d2[] = dateValue.split("-");
+			String[] d1 = currentDate.split("-");
+			String[] d2 = dateValue.split("-");
 			if(Core.isNotNullMultiple(d1,d2) && d1.length==3 && d2.length==3) {
 				return Validation.compareDate(d1, d2) == 0;
 			}
@@ -29,8 +29,8 @@ public class Validation {
 	public static boolean validatePastDate(String currentDate, String dateValue) {
 		if(Core.isNotNullMultiple(currentDate,dateValue)) {
 
-			String d1[] = currentDate.split("-");
-			String d2[] = dateValue.split("-");
+			String[] d1 = currentDate.split("-");
+			String[] d2 = dateValue.split("-");
 			if(Core.isNotNullMultiple(d1,d2) && d1.length==3 && d2.length==3) {
 				return Validation.compareDate(d1, d2) < 0;
 			}
@@ -41,8 +41,8 @@ public class Validation {
 	public static boolean validatePastOrPresentDate(String currentDate, String dateValue) {
 		if(Core.isNotNullMultiple(currentDate,dateValue)) {
 
-			String d1[] = currentDate.split("-");
-			String d2[] = dateValue.split("-");
+			String[] d1 = currentDate.split("-");
+			String[] d2 = dateValue.split("-");
 			if(Core.isNotNullMultiple(d1,d2) && d1.length==3 && d2.length==3) {
 				return Validation.compareDate(d1, d2) <= 0;
 			}
@@ -53,8 +53,8 @@ public class Validation {
 	public static boolean validateFutureDate(String currentDate, String dateValue) {
 		if(Core.isNotNullMultiple(currentDate,dateValue)) {
 
-			String d1[] = currentDate.split("-");
-			String d2[] = dateValue.split("-");
+			String[] d1 = currentDate.split("-");
+			String[] d2 = dateValue.split("-");
 			if(Core.isNotNullMultiple(d1,d2) && d1.length==3 && d2.length==3) {
 				return Validation.compareDate(d1, d2) > 0;
 			}
@@ -65,8 +65,8 @@ public class Validation {
 	public static boolean validateFutureOrPresentDate(String currentDate, String dateValue) {
 		if(Core.isNotNullMultiple(currentDate,dateValue)) {
 
-			String d1[] = currentDate.split("-");
-			String d2[] = dateValue.split("-");
+			String[] d1 = currentDate.split("-");
+			String[] d2 = dateValue.split("-");
 			if(Core.isNotNullMultiple(d1,d2) && d1.length==3 && d2.length==3) {
 				return Validation.compareDate(d1, d2) >= 0;
 			}
@@ -81,11 +81,11 @@ public class Validation {
 	}
 	
 	private static LocalDate convertLocalDate(String[] d) {
-		return LocalDate.of(Core.toInt(d[2]).intValue(), Core.toInt(d[1]).intValue(),Core.toInt(d[0]).intValue());
+		return LocalDate.of(Core.toInt(d[2]), Core.toInt(d[1]), Core.toInt(d[0]));
 	}
 	
 	public static boolean validateSize(String value,int min, int max) {
-		int size = (""+value).length();
+		int size = value.length();
 		return size >= min && size <= max;
 	}
 	
@@ -131,16 +131,16 @@ public class Validation {
 	
 	public static boolean validateDigits(int integer,int fraction, String value) {
 		if(fraction > 0) {
-			String number = Validation.normalizeNumber(value);
-			if(number.contains(".")) {
-				String[] numberSplit = number.split("\\.");
-				number = numberSplit[0];
+			StringBuilder number = new StringBuilder(Validation.normalizeNumber(value));
+			if(number.toString().contains(".")) {
+				String[] numberSplit = number.toString().split("\\.");
+				number = new StringBuilder(numberSplit[0]);
 				if(numberSplit.length > 2) {
 					for(int i=1;i<numberSplit.length-1;i++) {
-						number += numberSplit[i];
+						number.append(numberSplit[i]);
 					}
 				}
-				return Core.digits(number) <= integer && Core.digits(numberSplit[numberSplit.length-1]) <= fraction;
+				return Core.digits(number.toString()) <= integer && Core.digits(numberSplit[numberSplit.length - 1]) <= fraction;
 			}
 		}else {
 			return Core.digits(value) <= integer;
