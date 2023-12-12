@@ -11,7 +11,6 @@ import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.Properties;
 
-import nosi.core.db.migration.api.MigrationIGRPInitConfig;
 import nosi.core.webapp.ApplicationManager;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
@@ -23,9 +22,7 @@ import nosi.core.webapp.Igrp;
  */
 public final class ConfigApp {
 
-    private String version;
-    private String dataInstall;
-    private String isInstallation;
+
     private final Config config;
 
     private final Properties commonMain;
@@ -103,7 +100,7 @@ public final class ConfigApp {
     }
     
     public boolean isActiveGlobalACL() {
-        return Core.isNotNull(commonMain.getProperty("igrp.plsql.myapps.url"));
+        return Core.isNotNull(commonMain.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.value()));
 
     }
 
