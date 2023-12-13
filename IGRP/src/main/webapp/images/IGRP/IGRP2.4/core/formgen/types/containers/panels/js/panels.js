@@ -114,7 +114,7 @@ var GENPANELS = function(name,tparams){
 
 	container.onDrawEnd = function(c){
 		
-		var adder = $('<button class="btn btn-box-tool '+classes.adder+'"><i style="color:green" class="fa fa-plus"></i></button>');
+		var adder = $('<button class="btn btn-box-tool '+classes.adder+'"><i style="color:lightgreen" class="fa fa-plus"></i></button>');
 		//html controllers
 		container.HTML = {
 			holder         : $(container.holder.find('> .container-contents > .'+classes.tabHolder)[0]),
