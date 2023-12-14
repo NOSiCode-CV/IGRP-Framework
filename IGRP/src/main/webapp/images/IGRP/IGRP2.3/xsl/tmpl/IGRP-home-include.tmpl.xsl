@@ -175,16 +175,16 @@
           </div>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:variable name="logo">
-            <xsl:choose>
-              <xsl:when test="$themeConfigData/logo">
-                <xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
-              </xsl:when>
-              <xsl:otherwise>
-                <xsl:value-of select="concat($path,'/themes/default/img/logo2.svg')"/>
-              </xsl:otherwise>
-            </xsl:choose>
-          </xsl:variable>
+<!--           <xsl:variable name="logo"> -->
+<!--             <xsl:choose> -->
+<!--               <xsl:when test="$themeConfigData/logo"> -->
+<!--                 <xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/> -->
+<!--               </xsl:when> -->
+<!--               <xsl:otherwise> -->
+<!--                 <xsl:value-of select="concat($path,'/themes/default/img/logo2.svg')"/> -->
+<!--               </xsl:otherwise> -->
+<!--             </xsl:choose> -->
+<!--           </xsl:variable> -->
 
           <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
             <a class="navbar-brand col-sm-3 col-md-2" href="{rows/link}" >
@@ -273,11 +273,18 @@
         <xsl:otherwise>
           <xsl:variable name="logo">
             <xsl:choose>
-              <xsl:when test="$themeConfigData/logo">
-                <xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
+         	  <xsl:when test="$themeConfigData/logo">
+             	<xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
               </xsl:when>
               <xsl:otherwise>
-                <xsl:value-of select="concat($path,'/themes/default/img/logo2.svg')"/>
+                 <xsl:choose>
+	            	<xsl:when test="rows/logo">
+			           <xsl:value-of select="rows/logo"/>              
+		             </xsl:when>
+		             <xsl:otherwise>
+		                <xsl:value-of select="concat($path,'/themes/default/img/logo3.svg')"/>
+		             </xsl:otherwise>
+           		</xsl:choose>
               </xsl:otherwise>
             </xsl:choose>
           </xsl:variable>
@@ -285,14 +292,13 @@
 
               <!-- NAV -->
                 
-                <div class="navbar-brand-box" style="padding: 0.4rem 1rem;">
+                <div class="navbar-brand-box" style="padding: 0 4px 0 20px;height: 65px;display: flex;">
                   <!-- Dark Logo-->
 				    <a href="{rows/link}" class="logo logo-dark" style="display: flex;align-items: center;">
 						<span class="logo-sm">
-							<img src="{$logo}" height="50" />
+							<img src="{$logo}"  style="max-width: 80px;max-height: 60px;min-width: 60px;"/>
 						</span>
-						<div class="text-center text-white d-none"
-							style="color:white;font-weight: bold;align-self: center;">
+						<div class="text-center"	style="color:white;font-size: 15px;font-weight: bold;line-height: normal;padding-left: 1rem;">
 							<xsl:value-of select="rows/title" />
 						</div>
                   </a>
@@ -313,7 +319,7 @@
               <input 
                 type="text" 
                 class="form-control igrp-search-list" 
-                placeholder="Pesquisar Menu" 
+                placeholder="Pesquisar..." 
                 search-list="#igrp-sidebar .treeview>a, #igrp-sidebar ul.treeview-menu>li>a"
                 search-attr="text"
                 search-item-parent=".treeview"
