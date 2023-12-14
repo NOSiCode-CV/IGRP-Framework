@@ -89,7 +89,7 @@ public class IGRPLink {
 	public String getLink() {
 		if(this.report!=null) {
 			this.link = this.report.getLink();
-			this.report.getParams().entrySet().stream().forEach(p->{ 
+			this.report.getParams().entrySet().forEach(p->{
 				try {
 					link += ("&name_array="+p.getKey() + "&value_array="+URLEncoder.encode(""+p.getValue(),StandardCharsets.UTF_8.toString()));
 				} catch (UnsupportedEncodingException e) {
@@ -100,8 +100,8 @@ public class IGRPLink {
 			return link;
 		}
 		if(this.queryString.getQueryString()!=null && !this.queryString.getQueryString().isEmpty()) {
-			this.queryString.getQueryString().entrySet().stream().forEach(q->{
-				q.getValue().stream().forEach(q1->{
+			this.queryString.getQueryString().entrySet().forEach(q->{
+				q.getValue().forEach(q1->{
 					this.link += "&"+q.getKey()+"="+(q1!=null?q1.toString():"");
 				});					
 			});

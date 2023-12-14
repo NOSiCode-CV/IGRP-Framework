@@ -142,7 +142,7 @@ var GENTABCONTENT = function(name,tparams){
 	}
 
 	container.onDrawEnd = function(c){
-		var adder = $('<button class="btn btn-box-tool '+classes.adder+'"><i style="color:green" class="fa fa-plus"></i></button>');
+		var adder = $('<button class="btn btn-box-tool '+classes.adder+'"><i style="color:lightgreen" class="fa fa-plus"></i></button>');
 		//var template = container.GET.template();
 
 		//html controllers

@@ -2,14 +2,14 @@
 	  <xsl:variable name="sourcePath" select="concat($path,'/core/formgen/util/gen.source.xml')"/>
     <xsl:variable name="gen" select="document($sourcePath)/gen"/>
     <xsl:variable name="logo">
-      <xsl:choose>
-        <xsl:when test="$themeConfigData/logo">
-          <xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="concat($path,'/themes/default/img/logo2.svg')"/>
-        </xsl:otherwise>
-      </xsl:choose>
+   		 <xsl:choose>
+         	  <xsl:when test="$themeConfigData/logo">
+             	<xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
+              </xsl:when>
+              <xsl:otherwise>
+		         <xsl:value-of select="concat($path,'/themes/igrp_studio/img/studioLogoBlank.svg')"/>
+              </xsl:otherwise>
+         </xsl:choose>
     </xsl:variable>
 
   	<xsl:template name="formgen-html">
@@ -26,11 +26,14 @@
         </head>
 
         <body class="fixed-nav startin" view="gen-design" template="{rows/template}" id="igrp-form-gen">            
-          <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="template" style="position: sticky;">
-              <a class="navbar-brand col-sm-3 col-md-2" href="{rows/link}" >
-                  <img src="{$logo}"/>
-                  <span><b>IGRP</b></span>
-              </a>
+				<nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="template" style="position: sticky;">
+					<a class="navbar-brand col-sm-3 col-md-2" href="{rows/link}">
+						<img src="{$logo}" style="max-inline-size: fit-content;margin: 8px 0px;height: -webkit-fill-available;width: auto;" />
+						<span><b>
+						STUDIO
+<!-- 							<xsl:value-of select="rows/title" /> -->
+						</b></span>
+					</a>
               <div id="side-bar-ctrl" bg-hover-color="template">
                   <i class="fa fa-navicon"></i>
               </div>
@@ -127,7 +130,7 @@
 
                           <div class="form-group gen-searcher-wrapper col-md-2 col-sm-3 col-xs-12" h-calc="-55">
                            
-                            <input bg-color="secondary" type="text" class="form-control gen-types-search" placeholder="Pesquisar..."/>
+                            <input bg-color="secondary" type="text" class="form-control gen-types-search" placeholder="  Pesquisar..."/>
                             
                             <span class="gen-type-search-clear">
                               <i class="fa fa-times"></i>
@@ -139,7 +142,7 @@
 
                           </div>
 
-                          <div class="tab-content" style="margin:0 -20px;padding:0;border:0">
+                          <div class="tab-content" >
                               <div role="tabpanel" class="tab-pane active" id="gen-list-components">
                                   <ul class="treeview-menu gen-containers menu-open" style="display:block">
                                       <xsl:for-each select="$gen/containers/item">
