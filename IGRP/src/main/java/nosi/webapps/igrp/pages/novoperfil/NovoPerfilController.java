@@ -61,7 +61,7 @@ public class NovoPerfilController extends Controller {
 		if (Core.isNotNullOrZero(model.getAplicacao())) {
 			view.primeira_pagina.setValue(new Menu().getListActionByOrg(model.getAplicacao(), model.getOrganica()));
 			view.perfil_pai.setValue(model.getOrganica() != 0
-					? new ProfileType().getListProfiles4Pai(model.getAplicacao(), model.getOrganica())
+					? new ProfileType().getListProfiles4Pai(model.getAplicacao(), model.getOrganica(),0)
 					: null);
 		}
 
@@ -195,8 +195,8 @@ public class NovoPerfilController extends Controller {
 			view.primeira_pagina.setValue(new Menu().getListActionByOrg(model.getAplicacao(), model.getOrganica()));
 			view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
 			HashMap<String, String> listProfiles4Pai = new ProfileType().getListProfiles4Pai(model.getAplicacao(),
-					model.getOrganica());
-			listProfiles4Pai.remove(idProf);
+					model.getOrganica(),Core.toInt(idProf));
+//			listProfiles4Pai.remove(idProf);
 			view.perfil_pai.setValue(model.getOrganica() != 0 ? listProfiles4Pai : null);
 		}
 
