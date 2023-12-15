@@ -52,7 +52,7 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 	
 	@ManyToOne(cascade=CascadeType.REMOVE)
 	@JoinColumn(name="self_fk",foreignKey=@ForeignKey(name="PROFILE_TYPE_SELF_FK"))
-	private ProfileType profiletype;
+	private ProfileType self;
 	@OneToMany(mappedBy="profileType")
 	private List<Profile> profiles;
 	
@@ -70,7 +70,7 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 		this.status = status;
 		this.organization = organization;
 		this.application = application;
-		this.profiletype = profiletype;
+		this.self = profiletype;
 	}
 
 	public Integer getId() {
@@ -122,11 +122,11 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 	}
 
 	public ProfileType getProfiletype() {
-		return profiletype;
+		return self;
 	}
 
 	public void setProfiletype(ProfileType profiletype) {
-		this.profiletype = profiletype;
+		this.self = profiletype;
 	}
 
 	public List<Profile> getProfiles() {
@@ -173,10 +173,18 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 		return lista;
 	}
 	
-	public HashMap<String, String> getListProfiles4Pai(int app, int organic) {
+	public HashMap<String, String> getListProfiles4Pai(int app, int organic, int idProf) {
 		HashMap<String,String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		for(ProfileType p: this.find().where("status","=",1).andWhere("application.id", "=",app).andWhere("organization.id", "=",organic).andWhere("profiletype", "isnull").all()){
+		for(ProfileType p: this.find().where("status","=",1)
+				.andWhere("id", "!=",idProf)
+				.andWhere("application.id", "=",app)
+				.andWhere("organization.id", "=",organic)
+//				.andWhere("self.id", "=",idProf)
+				.all()){
+			
+			if(p.getProfiletype()!=null && p.getProfiletype().getId()==(idProf))
+				continue;
 			lista.put(p.getId()+"", p.getDescr());
 		}
 		return lista;
