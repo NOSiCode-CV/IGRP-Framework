@@ -339,6 +339,16 @@
 			<group>widget</group>
 			<accept></accept>
 		</item>
+		<item>
+			<!-- Widget Teste-->
+				<icon type='fa'>cog </icon> 
+				<type>container</type>
+				<name>widget</name>
+				<label>Widget</label>
+				<hasField>false</hasField>
+				<group>widget</group>
+				<accept></accept>
+			</item>
 		<item hidden="true">
 			<icon type='fa'>dashboard</icon>
 			<type>container</type>
