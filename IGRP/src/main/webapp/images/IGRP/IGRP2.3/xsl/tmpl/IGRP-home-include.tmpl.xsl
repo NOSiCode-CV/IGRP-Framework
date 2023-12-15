@@ -296,7 +296,7 @@
                   <!-- Dark Logo-->
 				    <a href="{rows/link}" class="logo logo-dark" style="display: flex;align-items: center;">
 						<span class="logo-sm">
-							<img src="{$logo}"  style="max-width: 80px;max-height: 60px;min-width: 60px;"/>
+							<img src="{$logo}"  style="max-width: 80px;max-height: 55px;min-width: 60px;"/>
 						</span>
 						<div class="text-center"	style="color:white;font-size: 15px;font-weight: bold;line-height: normal;padding-left: 1rem;">
 							<xsl:value-of select="rows/title" />
