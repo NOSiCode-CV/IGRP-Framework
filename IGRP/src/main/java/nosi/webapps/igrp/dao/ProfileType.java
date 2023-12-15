@@ -52,7 +52,7 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 	
 	@ManyToOne(cascade=CascadeType.REMOVE)
 	@JoinColumn(name="self_fk",foreignKey=@ForeignKey(name="PROFILE_TYPE_SELF_FK"))
-	private ProfileType self;
+	private ProfileType profiletype;
 	@OneToMany(mappedBy="profileType")
 	private List<Profile> profiles;
 	
@@ -70,7 +70,7 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 		this.status = status;
 		this.organization = organization;
 		this.application = application;
-		this.self = profiletype;
+		this.profiletype = profiletype;
 	}
 
 	public Integer getId() {
@@ -122,11 +122,11 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 	}
 
 	public ProfileType getProfiletype() {
-		return self;
+		return profiletype;
 	}
 
 	public void setProfiletype(ProfileType profiletype) {
-		this.self = profiletype;
+		this.profiletype = profiletype;
 	}
 
 	public List<Profile> getProfiles() {
