@@ -20,7 +20,7 @@ public abstract class GenericActivitiRest {
 	protected JSONObject filterBody;
 	protected List<TaskVariables> variables;
 
-	public GenericActivitiRest() {
+	protected GenericActivitiRest() {
 		this.filterBody = new JSONObject();
 		this.variables = new ArrayList<>();
 	}
