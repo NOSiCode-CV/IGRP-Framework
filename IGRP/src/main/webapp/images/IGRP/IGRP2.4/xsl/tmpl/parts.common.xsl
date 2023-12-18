@@ -151,7 +151,9 @@
         <xsl:param name="default" select="'ri-radio-button-line'"/>
         <xsl:choose>
             <xsl:when test="$icon">
-                <i class="{$icon}"></i>
+                <xsl:if test="submenu/menu_icon !=''" >
+                    <i class="fa {$icon}"></i>
+                </xsl:if>                
             </xsl:when>
             <xsl:otherwise>
                 <i class="{$default}"></i>
