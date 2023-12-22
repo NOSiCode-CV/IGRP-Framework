@@ -14,6 +14,10 @@
     <!-- Normalize -->
     <link rel="stylesheet" href="{$path}/core/normalize/normalize.css" media="none" onload="if(media!='all')media='all'"/>
     <!-- /Normalize -->
+    
+     <!-- FontAwesome -->
+    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'"/>
+    <!-- /FontAwesome -->
 
     <!-- Bootstrap Include CSS -->
     <xsl:if test="not($themeConfigData/css/@bootstrap) or $themeConfigData/css/@bootstrap!='false'">
@@ -26,9 +30,7 @@
     </xsl:if>
     <!-- /Bootstrap Include CSS -->
 
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'"/>
-    <!-- /FontAwesome -->
+   
 
     <!-- COLOR PALETTES -->
     <link rel="stylesheet" type="text/css" href="{$path}/core/colorpalettes/old-palettes.css"  media="none" onload="if(media!='all')media='all'"  />
@@ -273,7 +275,7 @@
             </div>
          
             <div class="igrp-sidebar-menu-search-wrapper">
-              <input 
+              <input name="igrp-sidebar-menu-search"
                 type="text" 
                 class="form-control igrp-search-list" 
                 placeholder="Pesquisar Menu" 
@@ -461,7 +463,7 @@
                <div class="igrp-debug-contents clearfix">
                   <xsl:if test="$contDebug &gt; 9">
                       <div class="igrp-debug-search form-group col-md-4 clearfix pull-right">
-                          <input placeholder="Pesquisar" type="text" class="not-form form-control"/>
+                          <input name="igrp-debug-search" placeholder="Pesquisar" type="text" class="not-form form-control"/>
                       </div>
                   </xsl:if>
                   <ul class="clear igrp-debug-list">
