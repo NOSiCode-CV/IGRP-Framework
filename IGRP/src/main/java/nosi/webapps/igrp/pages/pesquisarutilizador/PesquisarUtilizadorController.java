@@ -1,8 +1,7 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
+
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -259,8 +258,8 @@ public class PesquisarUtilizadorController extends Controller {
 		this.addQueryString("p_id",id)
 			.addQueryString("userEmail", Core.getParam("p_tb_email"))
 			.addQueryString("p_type", "user")
-			.addQueryString("env_fk",new Profile().findOne(id).getOrganization().getApplication().getId());  ;
-	   	return this.redirect("igrp","MenuOrganica","index", this.queryString());
+			.addQueryString("env_fk",new Profile().findOne(id).getOrganization().getApplication().getId());
+       return this.redirect("igrp","MenuOrganica","index", this.queryString());
 		
 		/*----#end-code----*/
 			
@@ -434,7 +433,7 @@ public class PesquisarUtilizadorController extends Controller {
     	                      response = true;
     	              }
     	          }
-    	      }catch(Exception e) {
+    	      }catch(Exception ignored) {
     
     	      }
     	

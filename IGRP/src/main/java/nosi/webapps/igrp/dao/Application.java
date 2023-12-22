@@ -482,7 +482,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 
 	public LinkedHashMap<String, String> getAtivesEstadoRegisto() {
-		 LinkedHashMap<String, String> m = new  LinkedHashMap<>();
+		 LinkedHashMap<String, String> m = new LinkedHashMap<>();
 		 m.put(null, "--- Selecionar ---");
 		 m.put("1", "Externo"); 
 		 m.put("2", "Custom host folder"); 

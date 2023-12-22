@@ -373,10 +373,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 		// m.flg_base=1";
 		ResultSet.Record record = Core.query(this.getConnectionName(), sqlMenuByApp).addInt("org_fk", orgID)
 				.addInt("env_fk", appID).orderByAsc("flg_base").getRecordList();
-		record.RowList.forEach(row -> {
-
-			lista.put(row.getInt("action_fk"), row.getString("descr"));
-		});
+		record.RowList.forEach(row -> lista.put(row.getInt("action_fk"), row.getString("descr")));
 
 		return lista;
 	}
@@ -400,7 +397,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 				url = ConfigApp.getInstance().getAutentikaUrlForSso();
 				url = url.replace("/IGRP/", "/" + dad + "/").replace("state=igrp", "state=" + stateValue);
 			}
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return url;
 	}

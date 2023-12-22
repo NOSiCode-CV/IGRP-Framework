@@ -45,9 +45,9 @@ public class Share extends IGRPBaseActiveRecord<Share> implements Serializable{
 	
 	public enum TYPE{
 		 PAGE, WORKFLOW, SERVICE, REPORT, TRANS 
-	};
-	
-	public Share() {
+	}
+
+   public Share() {
 		super();
 	}
 

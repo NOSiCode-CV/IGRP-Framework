@@ -2,8 +2,6 @@
 package nosi.webapps.igrp.pages.file;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 /*----#end-code----*/
 
@@ -17,7 +15,6 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.TempFileHelper;
-import nosi.core.webapp.helpers.UrlHelper;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.TempFile;
@@ -45,7 +42,7 @@ public class FileController extends Controller {
 		if(Core.isNotNull(uuid))
 			 file = Core.getFileByUuid(uuid);
 		else
-			 file = Core.getFile(Core.getParamInt("p_id").intValue());
+			 file = Core.getFile(Core.getParamInt("p_id"));
 		if(file!=null) {
 			if(!(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated())  && !file.getEstado().equals("AP")){
 				throw new Exception("File not public. Not estado AP");
@@ -63,7 +60,7 @@ public class FileController extends Controller {
 		if(Core.isNotNull(uuid))
 			 file = Core.getFileByUuid(uuid);
 		else
-			 file = Core.getFile(Core.getParamInt("p_id").intValue());
+			 file = Core.getFile(Core.getParamInt("p_id"));
 		if(file!=null) {
 			if(!file.getEstado().equals("AP")){
 				throw new Exception("File not public. Not estado AP");
@@ -83,7 +80,7 @@ public class FileController extends Controller {
 	
 	public Response actionSaveImage()  throws Exception {		
 		Properties p = new Properties();
-		Integer id = Integer.valueOf(-1);
+		Integer id = -1;
 		String uuid = Core.saveFileNGetUuid("p_file_name");
 		if(Core.isNull(uuid)) {			
 			p.put("msg", Core.gt("Error saving file."));
@@ -119,7 +116,7 @@ public class FileController extends Controller {
 					}
 				}
 			}
-		} catch (ServletException e) {
+		} catch (ServletException ignored) {
 			
 		}
 		

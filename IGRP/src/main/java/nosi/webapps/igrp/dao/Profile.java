@@ -130,12 +130,11 @@ public class Profile extends IGRPBaseActiveRecord<Profile> implements Serializab
 	}
 	
 	public List<Profile> getMyPerfile() {
-		List<Profile> list =  this.findAll(this.getCriteria().where(
+       return this.findAll(this.getCriteria().where(
 					this.getBuilder().equal(this.getRoot().get("type"), "PROF"),
 					this.getBuilder().equal(this.getRoot().get("user"), Core.getCurrentUser().getIdentityId()),
 					this.getBuilder().equal(this.getRoot().join("profileType").join("application").get("dad"),Core.getCurrentDad())
 				));
-		return list;
 	}
 
 	public void deleteAllProfile() {

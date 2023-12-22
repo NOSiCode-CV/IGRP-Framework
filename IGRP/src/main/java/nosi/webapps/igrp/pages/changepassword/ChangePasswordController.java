@@ -48,8 +48,8 @@ public class ChangePasswordController extends Controller {
 			switch(this.getConfig().getAutenticationType()) {
 				case "ldap": return ldap(model.getOld_password(), model.getPassword_1());
 				case "db": return db(model.getOld_password(), model.getPassword_1());
-				default:;
-			}
+				default:
+            }
 		}
 		return this.redirect("igrp","ChangePassword","index");
 		/*----#END-PRESERVED-AREA----*/

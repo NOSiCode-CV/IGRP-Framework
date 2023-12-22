@@ -87,16 +87,13 @@ public class LookupListUserController extends Controller {
 		List<Table_1> data = new ArrayList<>();
 		List<Profile> profiles =new ArrayList<>();
 		List<TaskAccess> listAcess = new TaskAccess().find().where("processName", "=", Core.getParam("p_process_name"))
-				.andWhere("taskName", "=", Core.getParam("p_task_name")).andWhere("profileType", "notnull").all();		
-		
-		for (Iterator<TaskAccess> iterator = listAcess.iterator(); iterator.hasNext();) {
-			TaskAccess taskAccess = (TaskAccess) iterator.next();
-			List<Profile> profs = new Profile().find().andWhere("profileType.id", "=", taskAccess.getProfileType().getId())
-					.andWhere("organization.id", "=", taskAccess.getOrganization().getId()).andWhere("type", "=", "PROF").all();
-			for (Profile profile : profs) {
-				profiles.add(profile);
-			}				
-		}
+				.andWhere("taskName", "=", Core.getParam("p_task_name")).andWhere("profileType", "notnull").all();
+
+       for (TaskAccess taskAccess : listAcess) {
+          List<Profile> profs = new Profile().find().andWhere("profileType.id", "=", taskAccess.getProfileType().getId())
+                  .andWhere("organization.id", "=", taskAccess.getOrganization().getId()).andWhere("type", "=", "PROF").all();
+		   profiles.addAll(profs);
+       }
 
 //		filter(distinctByKey(b -> b.getUser()))
 		

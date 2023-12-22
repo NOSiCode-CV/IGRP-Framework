@@ -5,7 +5,7 @@ package nosi.base.ActiveRecord;
  */
 public interface CommonRestriction<T> {
 
-	public T and();
+	T and();
 	
-	public T or();
+	T or();
 }

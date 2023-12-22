@@ -60,7 +60,7 @@ public class LookupListPageController extends Controller {
           view.associar_documentos.setVisible(false);
 		}else {
 			
-			List<LookupListPage.Formlist_1> formList = new ArrayList<LookupListPage.Formlist_1>(); 
+			List<LookupListPage.Formlist_1> formList = new ArrayList<>();
 			
 			List<TipoDocumento> tipoDocumentos = new TipoDocumento().find()
 											.andWhere("application.id", "=", Core.toInt(model.getEnv_fk()))

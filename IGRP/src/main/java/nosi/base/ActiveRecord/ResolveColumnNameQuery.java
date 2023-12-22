@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
  */
 public class ResolveColumnNameQuery {
 
-	private Class<?> className;
+	private final Class<?> className;
 	
 	
 	public ResolveColumnNameQuery(Class<?> className) {
@@ -30,8 +30,8 @@ public class ResolveColumnNameQuery {
 		}
 		columnName = this.resoveName(columnName);
 		if(columnName.contains("."))
-			return before+columnName+(before.equals("")?"":")");
-		return before+alias+"."+columnName+(before.equals("")?"":")");
+			return before+columnName+(before.isEmpty() ?"":")");
+		return before+alias+"."+columnName+(before.isEmpty() ?"":")");
 	}
 	
 

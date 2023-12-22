@@ -1,9 +1,5 @@
 package nosi.base.ActiveRecord;
 import java.sql.Date;
-/**
- * @author: Emanuel Pereira
- * 29 Jun 2017
- */
 import java.util.List;
 import java.util.UUID;
 
@@ -11,248 +7,236 @@ import javax.persistence.criteria.CriteriaQuery;
 
 public interface ActiveRecordIterface<T> extends CommonRestriction<T>{
 
-	public T where(String condition);
+	T where(String condition);
 	
-	public T andWhereNotNull(String name);
+	T andWhereNotNull(String name);
 	
-	public T andWhereIsNull(String name);
+	T andWhereIsNull(String name);
 	
-	public T where();
+	T where();
 	
-	public T and();
+	T and();
 	
-	public T or();
+	T or();
 	
-	public T where(String name,String operator,String value);
+	T where(String name, String operator, String value);
 	
-	public T where(String name,String operator,String[] values);
+	T where(String name, String operator, String[] values);
 	
-	public T where(String name,String operator,Integer[] values);
+	T where(String name, String operator, Integer[] values);
 	
-	public T where(String name,String operator,Double[] values);
+	T where(String name, String operator, Double[] values);
 	
-	public T where(String name,String operator,Float[] values);
+	T where(String name, String operator, Float[] values);
 	
-	public T where(String name,String operator,Short[] values);
+	T where(String name, String operator, Short[] values);
 	
-	public T where(String name,String operator,Integer value);
+	T where(String name, String operator, Integer value);
 	
-	public T where(String name,String operator,Float value);
+	T where(String name, String operator, Float value);
 	
-	public T where(String name,String operator,Double value);
+	T where(String name, String operator, Double value);
 
-	public T where(String name, String operator, Short value);
+	T where(String name, String operator, Short value);
 	
-	public T where(String name,String operator,Date value);
+	T where(String name, String operator, Date value);
 	
-	public T andWhere(String name,String operator,String value);
+	T andWhere(String name, String operator, String value);
 	
-	public T andWhere(String name,String operator,Object value);
+	T andWhere(String name, String operator, Object value);
 	
-	public T andWhere(String name,String paramName,String operator,Object value);
+	T andWhere(String name, String paramName, String operator, Object value);
 	
-	public T andWhere(String name,String operator,String[] values);
+	T andWhere(String name, String operator, String[] values);
 	
-	public T andWhere(String name,String operator,Integer[] values);
+	T andWhere(String name, String operator, Integer[] values);
 	
-	public T andWhere(String name,String operator,Double[] values);
+	T andWhere(String name, String operator, Double[] values);
 	
-	public T andWhere(String name,String operator,Float[] values);
+	T andWhere(String name, String operator, Float[] values);
 	
-	public T andWhere(String name,String operator,Short[] values);
+	T andWhere(String name, String operator, Short[] values);
 	
-	public T andWhere(String name,String operator,Integer value);
+	T andWhere(String name, String operator, Integer value);
 	
-	public T andWhere(String name,String operator,Float value);
+	T andWhere(String name, String operator, Float value);
 	
-	public T andWhere(String name,String operator,Double value);
+	T andWhere(String name, String operator, Double value);
 	
-	public T andWhere(String name,String operator,Date value);
+	T andWhere(String name, String operator, Date value);
 	
-	public T andWhere(String name,String operator,Short value);
+	T andWhere(String name, String operator, Short value);
 
-	public T where(String name,String operator,Object value);
+	T where(String name, String operator, Object value);
 	
-	public T where(String name,String paramName,String operator,Object value);
+	T where(String name, String paramName, String operator, Object value);
 	
-    public T where(String name,String paramName,String operator,String value);
+    T where(String name, String paramName, String operator, String value);
 	
-	public T where(String name,String paramName,String operator,Integer value);
+	T where(String name, String paramName, String operator, Integer value);
 	
-	public T where(String name,String paramName,String operator,Float value);
+	T where(String name, String paramName, String operator, Float value);
 	
-	public T where(String name,String paramName,String operator,Double value);
+	T where(String name, String paramName, String operator, Double value);
 	
-	public T where(String name,String paramName,String operator,Date value);
+	T where(String name, String paramName, String operator, Date value);
 	
-	public T where(String name,String paramName,String operator,Short value);
+	T where(String name, String paramName, String operator, Short value);
 	
-	public T whereIn(String columnName, Number... numbers);
+	T whereIn(String columnName, Number... numbers);
 	
-	public T whereIn(String columnName, String... strings);
+	T whereIn(String columnName, String... strings);
 	
-	public T whereIn(String columnName, UUID... uuIds);
+	T whereIn(String columnName, UUID... uuIds);
 	
-	public T whereNotIn(String columnName, UUID... uuIds);
+	T whereNotIn(String columnName, UUID... uuIds);
 	
-	public T whereNotIn(String columnName, String... strings);
+	T whereNotIn(String columnName, String... strings);
 	
-	public T whereNotIn(String columnName, Number... numbers);
+	T whereNotIn(String columnName, Number... numbers);
 
-	public T whereBetween(String columnName, Object o1, Object o2);
+	T whereBetween(String columnName, Object o1, Object o2);
 	
-	public T orWhereBetween(String columnName, Object o1, Object o2);
+	T orWhereBetween(String columnName, Object o1, Object o2);
 	
-	public T andWhereBetween(String columnName, Object o1, Object o2);
+	T andWhereBetween(String columnName, Object o1, Object o2);
 	
-	public T andWhere(String name,String paramName,String operator,String value);
+	T andWhere(String name, String paramName, String operator, String value);
 	
-	public T andWhere(String name,String paramName,String operator,Integer value);
+	T andWhere(String name, String paramName, String operator, Integer value);
 	
-	public T andWhere(String name,String paramName,String operator,Float value);
+	T andWhere(String name, String paramName, String operator, Float value);
 	
-	public T andWhere(String name,String paramName,String operator,Double value);
+	T andWhere(String name, String paramName, String operator, Double value);
 	
-	public T andWhere(String name,String paramName,String operator,Date value);
+	T andWhere(String name, String paramName, String operator, Date value);
 	
-	public T andWhere(String name,String paramName,String operator,Short value);
+	T andWhere(String name, String paramName, String operator, Short value);
 	
-	public T andWhere(String name, String operator, Number value);
+	T andWhere(String name, String operator, Number value);
 	
-	public T orWhereNotNull(String name);
+	T orWhereNotNull(String name);
 	
-	public T orWhereIsNull(String name);
+	T orWhereIsNull(String name);
 
-	public T orWhere(String name,String operator,Object value);
+	T orWhere(String name, String operator, Object value);
 	
-	public T orWhere(String name,String paramName,String operator,Object value);
+	T orWhere(String name, String paramName, String operator, Object value);
 	
-	public T orWhere(String name,String operator,String value);
+	T orWhere(String name, String operator, String value);
 	
-	public T orWhere(String name,String operator,String[] values);
+	T orWhere(String name, String operator, String[] values);
 	
-	public T orWhere(String name,String operator,Integer[] values);
+	T orWhere(String name, String operator, Integer[] values);
 	
-	public T orWhere(String name,String operator,Double[] values);
+	T orWhere(String name, String operator, Double[] values);
 	
-	public T orWhere(String name,String operator,Float[] values);
+	T orWhere(String name, String operator, Float[] values);
 	
-	public T orWhere(String name,String operator,Short[] values);
+	T orWhere(String name, String operator, Short[] values);
 	
-	public T orWhere(String name,String operator,Integer value);
+	T orWhere(String name, String operator, Integer value);
 	
-	public T orWhere(String name,String operator,Float value);
+	T orWhere(String name, String operator, Float value);
 	
-	public T orWhere(String name,String operator,Double value);
+	T orWhere(String name, String operator, Double value);
 
-	public T orWhere(String name,String operator,Date value);
+	T orWhere(String name, String operator, Date value);
 	
-	public T orWhere(String name,String operator,Short value);
+	T orWhere(String name, String operator, Short value);
 	
-    public T orWhere(String name,String paramName,String operator,String value);
+    T orWhere(String name, String paramName, String operator, String value);
 	
-	public T orWhere(String name,String paramName,String operator,Integer value);
+	T orWhere(String name, String paramName, String operator, Integer value);
 	
-	public T orWhere(String name,String paramName,String operator,Float value);
+	T orWhere(String name, String paramName, String operator, Float value);
 	
-	public T orWhere(String name,String paramName,String operator,Double value);
+	T orWhere(String name, String paramName, String operator, Double value);
 
-	public T orWhere(String name,String paramName,String operator,Date value);
+	T orWhere(String name, String paramName, String operator, Date value);
 	
-	public T orWhere(String name,String paramName,String operator,Short value);
+	T orWhere(String name, String paramName, String operator, Short value);
 	
-	public T having(String name,String operator,String value);
+	T having(String name, String operator, String value);
 	
-	public T having(String name,String operator,Integer value);
+	T having(String name, String operator, Integer value);
 	
-	public T having(String name,String operator,Double value);
+	T having(String name, String operator, Double value);
 	
-	public T having(String name,String operator,Float value);
+	T having(String name, String operator, Float value);
 
-	public T having(String name,String operator,Date value);
+	T having(String name, String operator, Date value);
 	
-	public T having(String name,String operator,Short value);
+	T having(String name, String operator, Short value);
 		
-	public T orderBy(String...orderByNames);
+	T orderBy(String... orderByNames);
 	
-	public T orderBy(String[] ...orderByNames);
+	T orderBy(String[]... orderByNames);
 	
-	public T groupBy(String ...groupByNames);
+	T groupBy(String... groupByNames);
 
-	public T exists(String subQuery);	
+	T exists(String subQuery);
 	
-	public T notExists(String subQuery);	
+	T notExists(String subQuery);
 	
-	public T limit(int limit);
+	T limit(int limit);
 	
-	public T offset(int offset);
+	T offset(int offset);
 	
-	public T any(String subQuery);
+	T any(String subQuery);
 	
-	public T all(String subQuery);
+	T all(String subQuery);
 	
-	public T find();
+	T find();
 	
-	public T findOne(Object value);
+	T findOne(Object value);
 	
-	public List<T> findAll();
+	List<T> findAll();
 	
-	public T one();
+	T one();
 	
-	public List<T> all();
+	List<T> all();
 	
-	public T where(RestrictionImpl restrition);
+	T where(RestrictionImpl restrition);
 	
-	public T andWhere(RestrictionImpl restrition);
+	T andWhere(RestrictionImpl restrition);
 	
-	public T orWhere(RestrictionImpl restrition);
+	T orWhere(RestrictionImpl restrition);
 	
-	public List<T> findAll(CriteriaQuery<T> criteria);
+	List<T> findAll(CriteriaQuery<T> criteria);
 
-	public T findOne(CriteriaQuery<T> criteria);
+	T findOne(CriteriaQuery<T> criteria);
 	
-	public T insert();
+	T insert();
 	
-	public T update();
+	T update();
 	
-	public boolean delete(Object id);
+	boolean delete(Object id);
 	
-	public boolean delete();
+	boolean delete();
 	
-	public T setConnectionName(String connectionName);
+	T setConnectionName(String connectionName);
 	
-	public String getConnectionName();
+	String getConnectionName();
 	
-	public Object getValuePrimaryKey();
+	Object getValuePrimaryKey();
 	
-	public String getNamePrimaryKey();
+	String getNamePrimaryKey();
 	
-	public Long getCount();
+	Long getCount();
 	
-	public Object getMax(String columnName);
+	Object getMax(String columnName);
 
-	public Object getMin(String columnName);
+	Object getMin(String columnName);
 
-	public Double getAvg(String columnName);
+	Double getAvg(String columnName);
 	
-	public Object getSum(String columnName);
+	Object getSum(String columnName);
 
-	public T orderByAsc(String...columns);
+	T orderByAsc(String... columns);
 	
-	public T orderByDesc(String...columns);
+	T orderByDesc(String... columns);
 	
-	public T keepConnection();//keep connection open
-	/*
-	public T sum(String name);
+	T keepConnection();//keep connection open
 
-	public T avg(String name);
-	
-	public T min(String name);
-	
-	public T max(String name);
-	
-	public T count(String name);
-	
-	*/
-	
 }
