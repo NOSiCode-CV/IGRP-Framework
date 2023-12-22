@@ -54,7 +54,7 @@ public class _CONS_PROCController extends Controller {
 			model.setAplicacao("" + (Core.findApplicationByDad(dad)).getId());
 			view.aplicacao.propertie().add("disabled","true");     			
 		}      
-      	Application app = Core.findApplicationById(Core.toInt(model.getAplicacao()));
+    
       	
       	if(!Core.getParam("btnPesq").equals("true")){ 
       		model.setData_de("DI");
@@ -66,7 +66,10 @@ public class _CONS_PROCController extends Controller {
        	
 		List<_CONS_PROC.Table_1> data = new ArrayList<>();
 		TaskServiceIGRP taskQuery = new TaskServiceIGRP();
-		if(Core.isNotNull(model.getAplicacao()) ){			
+		if(Core.isNotNull(model.getAplicacao()) ){		
+		  	Application app = Core.findApplicationById(Core.toInt(model.getAplicacao()));
+		  	taskQuery.addFilterBody("tenantId", app.getDad());
+		  	
 			if(Core.isNotNull(model.getTipo_processo()))
 				taskQuery.addFilterBody("processDefinitionKey", model.getTipo_processo());
 			
@@ -78,9 +81,6 @@ public class _CONS_PROCController extends Controller {
 			
 			if(Core.isNotNull(model.getStatus())) 
 				taskQuery.addFilterBody("finished", model.getStatus());
-			
-			if(Core.isNotNull(model.getAplicacao())) 
-				taskQuery.addFilterBody("tenantId", app.getDad());
 			
 			if(Core.isNotNull(model.getDt_ini())) 			
 				taskQuery.addFilterBody(model.getData_de().equals("DI")?"taskCreatedAfter":"taskCompletedAfter", DateHelper.toDateTime(model.getDt_ini())); 
@@ -105,16 +105,15 @@ public class _CONS_PROCController extends Controller {
 				}
 				data.add(t);
 			}
+			if(app!=null) {
+				view.tipo_processo.setValue(new ProcessDefinitionIGRP().mapToComboBoxByKey(app.getDad()));
+				view.cbx_utilizador.setValue(Core.toMap(Core.getUsersByApplication(app.getDad()), "user_name", "name"));
+				((Map<String,String>) view.cbx_utilizador.getListOptions()).put("", gt("-- Selecionar --"));
+			}
+		
 		}
 
-		
 		view.aplicacao.setValue(new Application().getListApps());	
-		if(app!=null) {
-			view.tipo_processo.setValue(new ProcessDefinitionIGRP().mapToComboBoxByKey(app.getDad()));
-			view.cbx_utilizador.setValue(Core.toMap(Core.getUsersByApplication(app.getDad()), "user_name", "name"));
-			((Map<String,String>) view.cbx_utilizador.getListOptions()).put("", gt("-- Selecionar --"));
-		}
-		
 		
 		view.requerente.setVisible(false);
 		view.status.setValue(StatusTask.getStatus());

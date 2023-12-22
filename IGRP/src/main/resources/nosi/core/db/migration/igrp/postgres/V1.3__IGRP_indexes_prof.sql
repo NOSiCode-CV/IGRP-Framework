@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS profTypeUs on tbl_profile (type_fk, type,user_fk)

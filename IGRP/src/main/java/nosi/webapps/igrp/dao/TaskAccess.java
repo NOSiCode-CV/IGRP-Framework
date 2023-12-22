@@ -2,8 +2,10 @@ package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,6 +18,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import nosi.core.webapp.Core;
 
 /**
@@ -25,6 +30,8 @@ import nosi.core.webapp.Core;
 
 @Entity
 @Table(name="tbl_task_access")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE,region="TaskAcessCache")
 public class TaskAccess extends IGRPBaseActiveRecord<TaskAccess> implements Serializable {
 
 	/**
@@ -126,18 +133,50 @@ public class TaskAccess extends IGRPBaseActiveRecord<TaskAccess> implements Seri
 	
 	
 	public List<TaskAccess> getTaskAccess(){
-		return new TaskAccess().find()
-			   	.andWhere("organization", "=",Core.getCurrentOrganization())
-			   	.andWhere("profileType", "=",Core.getCurrentProfile())
-			   	.all();		
+		return getTaskAccess(null);	
 	}
 	
+	public Boolean hasStartTaskAccess(){
+		return hasStartTaskAccess(null);
+			
+	}
+	
+	public Boolean hasNoStartTaskAccess(){
+		return  hasNoStartTaskAccess(null) ;
+		
+	}
+	public Boolean hasStartTaskAccess(String processKey) {
+		return new TaskAccess().find().keepConnection().limit(1)
+			   	.andWhere("organization", "=",Core.getCurrentOrganization())
+			   	.andWhere("profileType", "=",Core.getCurrentProfile())
+				.andWhere("processName","=",processKey)
+				.andWhere("taskName", "like","Start%")
+				.getCount()>0;	
+	}
+
+	public Boolean hasNoStartTaskAccess(String processKey) {
+		return new TaskAccess().find().keepConnection().limit(1)
+			   	.andWhere("organization", "=",Core.getCurrentOrganization())
+			   	.andWhere("profileType", "=",Core.getCurrentProfile())
+			   	.andWhere("processName","=",processKey)
+				.andWhere("taskName", "not like","Start%")
+			   	.getCount()>0;	
+	}
+
 	public List<TaskAccess> getTaskAccess(String processKey){
-		return new TaskAccess().find()
+		return new TaskAccess().find().keepConnection()
 			   	.where("organization", "=",Core.getCurrentOrganization())
 			   	.andWhere("profileType", "=",Core.getCurrentProfile())
 			   	.andWhere("processName","=",processKey)
 			   	.all();		
+	}
+	
+	public Boolean hasTaskAccess(String processKey){
+		return new TaskAccess().find().keepConnection().limit(1)
+			   	.where("organization", "=",Core.getCurrentOrganization())
+			   	.andWhere("profileType", "=",Core.getCurrentProfile())
+			   	.andWhere("processName","=",processKey)
+			   	.getCount()>0;		
 	}
 	
 	@Override
@@ -147,7 +186,11 @@ public class TaskAccess extends IGRPBaseActiveRecord<TaskAccess> implements Seri
 	}
 
 
-	public List<String> getMyProcessNames() {
-		return this.getTaskAccess().stream().map(TaskAccess::getProcessName).collect(Collectors.toList());
+	public Set<String> getMyProcessNames() {
+		return this.getTaskAccess().stream().map(TaskAccess::getProcessName).collect(Collectors.toSet());
 	}
+
+
+
+
 }
