@@ -4,10 +4,8 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
-import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.TaskAccess;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -48,73 +46,55 @@ public class TaskServiceIGRP extends GenericActivitiIGRP {
 		taskServiceRest.addFilterBody("unassigned", "true");
 		taskServiceRest.addFilterBody("tenantId", Core.getCurrentDad());
 
-		final List<TaskAccess> myTaskAccess = new TaskAccess().getTaskAccess();
-
-		 List<TaskService> tasks  = taskServiceRest.queryTasks();
-
-		return tasks.stream()
-				.filter(taskService -> this.filterAvailableTaskAccess(taskService, myTaskAccess))
-				.filter(this::checkIfExistsNApplyCustomPermission)
-				.collect(Collectors.toList());
+		return getFilterAccessTask();
 	}
+	
 
 	public List<TaskService> getManageTasks() {
-
-//		taskServiceRest.addFilterUrl("tenantId", Core.getCurrentDad());
-//
-//		final List<TaskService> tasks = taskServiceRest.getTasks();
-//
-//		final List<TaskAccess> myTaskAccess = new TaskAccess().getTaskAccess();
-//
-//		final String[] filterThisProcessIDs = Core.convertArrayObjectToArrayString(tasks.stream()
-//				.filter(t -> this.filterAvailableTaskAccess(t, myTaskAccess))
-//				.map(TaskService::getProcessInstanceId)
-//				.distinct().toArray());
-//
-//		this.setMyProccessAccess(filterThisProcessIDs);
-//
-//		return tasks.stream().filter(t->this.filterAvailableTaskAccess(t, myTaskAccess ))
-//				.filter(t->this.myproccessId.contains(t.getProcessInstanceId()))
-//				.collect(Collectors.toList());
-		 final List<TaskAccess> myTaskAccess = new TaskAccess().getTaskAccess();
-		
-		 
-		long startTime = System.currentTimeMillis();
-		long postbdTime = 0 ;
 		taskServiceRest.addFilterBody("tenantId", Core.getCurrentDad());
-//		 List<TaskService> tasks = new ArrayList<>(); //taskServiceRest.queryTasks();
-		 List<TaskService> tasks = taskServiceRest.queryTasks();
-				
-//		for(TaskAccess t:myTaskAccess) {
-//			if(t.getTaskName().equals("Start"+t.getProcessName()))
-//				continue;
-//			taskServiceRest.addFilterBody("taskDefinitionKey", t.getTaskName());
-//			tasks.addAll(taskServiceRest.queryTasks());
-//		}
 		
-		postbdTime = System.currentTimeMillis(); 
-		
-		
-//		final String[] filterThisProcessIDs = Core.convertArrayObjectToArrayString(tasks.stream()
-//				.filter(t -> this.filterAvailableTaskAccess(t, myTaskAccess))
-//				.map(TaskService::getProcessInstanceId)
-//				.distinct().toArray());
-		//this.setMyProccessAccess(filterThisProcessIDs);
-		
-		List<TaskService> list=tasks.stream()
-				.filter(t->this.filterAvailableTaskAccess(t, myTaskAccess ))
-				.filter(this::checkIfExistsNApplyCustomPermission)
-				//.filter(t->this.myproccessId.contains(t.getProcessInstanceId()))
-				.collect(Collectors.toList());
-		
-		 long endTime = System.currentTimeMillis();
-			long postbdTimee= postbdTime - startTime;
-			long elapsedTime = endTime - startTime;
-			System.out.println(this.getClass().getSimpleName()+" postbdTimee time: " + postbdTimee + " milliseconds");
-			System.out.println(this.getClass().getSimpleName()+" Elapsed time: " + elapsedTime + " milliseconds\n");
-			
-		return list;
+		return getFilterAccessTask();
 	}
+
+	/**
+	 * @return
+	 */
+	private List<TaskService> getFilterAccessTask() {
+
+		final List<TaskAccess> myTaskAccess = new TaskAccess().getTaskAccess();
+
+		 List<TaskService> tasks  = new ArrayList<>(); 
+		 if(myTaskAccess==null)
+			 return tasks; 
+		if(myTaskAccess.size()<3) {
+			for(TaskAccess t:myTaskAccess) {
+				long tim = System.currentTimeMillis();
+				if(t.getTaskName().equals("Start"+t.getProcessName()))
+					continue;
+				taskServiceRest.addFilterBody("taskDefinitionKey", t.getTaskName());
+				tasks.addAll(taskServiceRest.queryTasks());
+				System.out.println(this.getClass().getSimpleName()+" "+t.getTaskName()+" postbdTimee time: " + ( System.currentTimeMillis()-tim) + " milliseconds "+tasks.size());
+			}
+		}else {
+			tasks  = taskServiceRest.queryTasks(); 
+		}
+		 //Collects all the ID of the executed process going on on the server filter by the user acess management list
+		final String[] filterThisProcessIDs = Core.convertArrayObjectToArrayString(tasks.stream()
+					.filter(t -> this.filterAvailableTaskAccess(t, myTaskAccess))
+					.map(TaskService::getProcessInstanceId)
+					.distinct().toArray());
+			
+		//Checks if the user is allow in the activity executed table that has Custom Permissions
+		this.setMyProccessAccess(filterThisProcessIDs);
+			
+		//Creates the final list of task for the user to use
+		List<TaskService> list=tasks.stream()
+				.filter(t->this.myproccessId.contains(t.getProcessInstanceId()))
+				.collect(Collectors.toList());
+
+			return list;
+	}
+
 
 
 	private boolean filterAvailableTaskAccess(TaskService taskService, List<TaskAccess> myTaskAccess) {
@@ -126,19 +106,17 @@ public class TaskServiceIGRP extends GenericActivitiIGRP {
 	}
 
 	public List<TaskServiceQuery> queryHistoryTask() {
-
 		final List<TaskServiceQuery> tasks = taskServiceRest.queryHistoryTask();
-
 		final List<TaskAccess> myTaskAccess = new TaskAccess().getTaskAccess();
 
 		final String[] processInstanceIds = tasks.stream()
+				.filter(tsq -> this.filterAvailableTaskAccess(tsq, myTaskAccess))
 				.map(TaskService::getProcessInstanceId)
 				.distinct()
 				.toArray(String[]::new);
 
 		this.setMyProccessAccess(processInstanceIds);
-
-		return tasks.stream().filter(tsq -> this.filterAvailableTaskAccess(tsq, myTaskAccess))
+		return tasks.stream()
 				.filter(t -> this.myproccessId.contains(t.getProcessInstanceId()))
 				.collect(Collectors.toList());
 	}
@@ -157,12 +135,5 @@ public class TaskServiceIGRP extends GenericActivitiIGRP {
 		return this.taskServiceRest.getCurrentTaskByProcessNr(processNr);
 	}
 
-	private boolean checkIfExistsNApplyCustomPermission(TaskService taskService) {
-//		final ActivityExecute activityExecute = new ActivityExecute().find()
-//				.andWhere("processid", "=", taskService.getProcessInstanceId())
-//				.keepConnection()
-//				.orderByDesc("id")
-//				.one();
-		return this.allowTask(taskService.getProcessDefinitionKey(), taskService);
-	}
+
 }
