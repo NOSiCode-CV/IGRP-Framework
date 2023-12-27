@@ -12,6 +12,7 @@ import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
@@ -29,15 +30,15 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import jakarta.xml.bind.annotation.XmlTransient;
 
 import org.apache.commons.text.CaseUtils;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Immutable;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlTransient;
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
@@ -53,16 +54,17 @@ import nosi.webapps.igrp_studio.pages.crudgenerator.CRUDGeneratorController;
  */
 public class GerarClasse {
 
-	private DaoDto daoDto;
-	private StringBuilder variables;
-	private StringBuilder gettersSetters;
-	private StringBuilder fieldsStatic;
+	private final DaoDto daoDto;
+	private final StringBuilder variables;
+	private final StringBuilder gettersSetters;
+	private final StringBuilder fieldsStatic;
 	private String columnType;
 	private String pascalCaseColumnName;
 	private String camelCaseColumnName;
 	private static final String NEW_LINE = "\n";
 	private static final String TAB = "\t";
-	private Set<Class<?>> importClasses = new HashSet<>();
+	private final Set<Class<?>> importClasses = new HashSet<>();
+	 String databaseType;
 
 	public GerarClasse(DaoDto daoDto) {
 		this.daoDto = daoDto;
@@ -72,12 +74,13 @@ public class GerarClasse {
 		this.addDefaultImports();
 	}
 
-	private Function<Class<?>, String> buildImportLine = clazz -> "import " + clazz.getCanonicalName() + ";" + NEW_LINE;
+	private final Function<Class<?>, String> buildImportLine = clazz -> "import " + clazz.getCanonicalName() + ";" + NEW_LINE;
 
 	public String generate() throws SQLException, IOException {
 
 		List<Column> columns = DatabaseMetadaHelper.getCollumns(this.daoDto.getConfigEnv(), this.daoDto.getSchema(),
 				this.daoDto.getTableName());
+		 databaseType = this.decreptyDatabaseCode(this.daoDto.getConfigEnv().getType_db());
 
 		for (DatabaseMetadaHelper.Column column : columns) {
 
@@ -137,15 +140,14 @@ public class GerarClasse {
 				fieldsStatic.append(NEW_LINE).append(TAB)
 				.append("}");
 		
-		return new StringBuilder()
-				.append(this.daoDto.getPackageName())
-				.append(imports)
-				.append(this.addHeaderClassContent())
-				.append(variables)
-				.append(gettersSetters)
-				.append(fieldsStatic)
-				.append(NEW_LINE)
-				.append("}").toString();
+		return this.daoDto.getPackageName() +
+			   imports +
+			   this.addHeaderClassContent() +
+			   variables +
+			   gettersSetters +
+			   fieldsStatic +
+			   NEW_LINE +
+			   "}";
 	}
 
 	private void addDefaultImports() {
@@ -164,13 +166,14 @@ public class GerarClasse {
 		this.pascalCaseColumnName = convertCase(column.getName(), true);
 		this.camelCaseColumnName = convertCase(column.getName(), false);
 	}
-
 	private void doIfColumnIsPrimaryKey(DatabaseMetadaHelper.Column column) throws SQLException {
-		final String databaseType = this.decreptyDatabaseCode(this.daoDto.getConfigEnv().getType_db());
-		final String sequence = this.getOracleSequence(databaseType);
+		
+		final String dbType = this.decreptyDatabaseCode(this.daoDto.getConfigEnv().getType_db());
+
+		final String sequence = this.getOracleSequence(dbType);
 		variables.append(TAB).append("@Id").append(NEW_LINE);
 
-		if (databaseType.equals(DatabaseConfigHelper.ORACLE)) {
+		if (dbType.equals(DatabaseConfigHelper.ORACLE)) {
 
 			this.importClasses.add(GenerationType.class);
 			this.importClasses.add(SequenceGenerator.class);
@@ -247,17 +250,21 @@ public class GerarClasse {
 
 	private String addStringProperties(Class<?> clazz, Integer size, boolean isNullable) {
 
+		
+//		IMPORTANT: Integer, Double. etc cannot be used with NotBlank and @Size
 		if (!clazz.equals(String.class) || this.isView())
 			return "";
 
 		final StringBuilder annotationsProps = new StringBuilder();
-		final boolean isDefaultMaxSize = size == Integer.MAX_VALUE;	
+		final boolean isDefaultMaxSize = size >= Short.MAX_VALUE;	
 
 		//Não pode ser Null -  NotNull
 		if (!isNullable) {				
 			this.importClasses.add(NotBlank.class);
 			annotationsProps.append(TAB).append("@NotBlank").append(NEW_LINE);	
-		}		
+		}	
+		
+		
 		if(!isDefaultMaxSize) {
 			this.importClasses.add(Size.class);
 			annotationsProps.append(TAB).append("@Size(").append("max = ").append(size).append(")")
@@ -296,8 +303,12 @@ public class GerarClasse {
 		case Types.BIGINT:
 			clazz = Long.class;
 			break;
-		case Types.DECIMAL:
 		case Types.NUMERIC:	
+//			if(databaseType.equalsIgnoreCase(DatabaseConfigHelper.ORACLE)) {
+//				clazz = Integer.class;
+//				break;
+//			}
+		case Types.DECIMAL:
 			clazz = BigDecimal.class;
 			this.importClasses.add(BigDecimal.class);
 			break;
@@ -344,49 +355,42 @@ public class GerarClasse {
 	}
 
 	private String addHeaderClassContent() {
-		return new StringBuilder().append(NEW_LINE)
-				.append("/**").append(NEW_LINE)
-				.append(" * @author: ").append(Core.getCurrentUser().getName()).append(" ").append(Core.getCurrentDate()).append(NEW_LINE)
-				.append("*/").append(NEW_LINE)
-				.append("//@XmlRootElement // Can be used for REST / XML API").append(NEW_LINE)
-				.append(NEW_LINE)
-				.append("@Entity").append(NEW_LINE)
-				.append(this.isView() ? "@Immutable".concat(NEW_LINE) : "").append("@Table(name = \"")
-				.append(this.daoDto.getTableName()).append("\", schema = \"").append(this.daoDto.getSchema())
-				.append("\")").append(NEW_LINE).append("@NamedQuery(name = \"").append(this.daoDto.getDaoClassName())
-				.append(".findAll\", query = \"SELECT t FROM ").append(this.daoDto.getDaoClassName()).append(" ")
-				.append("t").append("\")").append(NEW_LINE).append("public class ")
-				.append(this.daoDto.getDaoClassName()).append(" extends BaseActiveRecord<")
-				.append(this.daoDto.getDaoClassName()).append("> {").append(NEW_LINE)
-				.append(NEW_LINE)
-				.append(TAB).append("private static final long serialVersionUID = 1L;").append(NEW_LINE)
-				.append(NEW_LINE)
-				.append(TAB).append("public static final String TABLE_NAME = \""+this.daoDto.getTableName().toUpperCase()+"\";").append(NEW_LINE)
-				.append(NEW_LINE)
-				.append(this.isView()
-						? TAB + "// Consider adding identifier/primary Key(@Id) annotation for your views!" + NEW_LINE+ NEW_LINE: "")
-				.append(TAB).append("// Change Integer type to BigDecimal if the number is very large!")
-				.append(NEW_LINE).append(NEW_LINE).toString();
+		return NEW_LINE +
+			   "/**" + NEW_LINE +
+			   " * @author: " + Objects.requireNonNull(Core.getCurrentUser()).getName() + " " + Core.getCurrentDate() + NEW_LINE +
+			   "*/" + NEW_LINE +
+			   "//@XmlRootElement // Can be used for REST / XML API" + NEW_LINE +
+			   NEW_LINE +
+			   "@Entity" + NEW_LINE +
+			   (this.isView() ? "@Immutable".concat(NEW_LINE) : "") + "@Table(name = \"" +
+			   this.daoDto.getTableName() + "\", schema = \"" + this.daoDto.getSchema() +
+			   "\")" + NEW_LINE + "@NamedQuery(name = \"" + this.daoDto.getDaoClassName() +
+			   ".findAll\", query = \"SELECT t FROM " + this.daoDto.getDaoClassName() + " " +
+			   "t" + "\")" + NEW_LINE + "public class " +
+			   this.daoDto.getDaoClassName() + " extends BaseActiveRecord<" +
+			   this.daoDto.getDaoClassName() + "> {" + NEW_LINE +
+			   NEW_LINE +
+			   TAB + "private static final long serialVersionUID = 1L;" + NEW_LINE +
+			   NEW_LINE +
+			   TAB + "public static final String TABLE_NAME = \"" + this.daoDto.getTableName().toUpperCase() + "\";" + NEW_LINE +
+			   NEW_LINE +
+			   (this.isView()
+					   ? TAB + "// Consider adding identifier/primary Key(@Id) annotation for your views!" + NEW_LINE + NEW_LINE : "") +
+			   TAB + "// Change Integer type to BigDecimal if the number is very large!" +
+			   NEW_LINE + NEW_LINE;
 	}
 
 	private void appendGettersSetters() {
-		gettersSetters.append(new StringBuilder().append(TAB).append("public ").append(this.columnType).append(" get")
-				.append(this.pascalCaseColumnName).append("() { \n\t\treturn this.").append(this.camelCaseColumnName)
-				.append(";").append(NEW_LINE).append(TAB).append("}").append(NEW_LINE).append(NEW_LINE).toString());
+		gettersSetters.append(TAB + "public ").append(this.columnType).append(" get").append(this.pascalCaseColumnName)
+				.append("() { \n\t\treturn this.").append(this.camelCaseColumnName).append(";").append(NEW_LINE).append(TAB).append("}").append(NEW_LINE).append(NEW_LINE);
 		if (!this.isView()) {
-			gettersSetters.append(new StringBuilder().append(TAB).append("public void set")
-					.append(this.pascalCaseColumnName).append("(").append(this.columnType).append(" ")
-					.append(this.camelCaseColumnName).append(") {").append(NEW_LINE).append(TAB).append(TAB)
-					.append(" this.").append(this.camelCaseColumnName).append(" = ").append(this.camelCaseColumnName)
-					.append(";").append(NEW_LINE).append(TAB).append("}").append(NEW_LINE).append(NEW_LINE).toString());
+			gettersSetters.append(TAB + "public void set").append(this.pascalCaseColumnName).append("(").append(this.columnType).append(" ")
+					.append(this.camelCaseColumnName).append(") {").append(NEW_LINE).append(TAB).append(TAB).append(" this.").append(this.camelCaseColumnName).append(" = ").append(this.camelCaseColumnName).append(";").append(NEW_LINE).append(TAB).append("}").append(NEW_LINE).append(NEW_LINE);
 		}
 	}
 	
 	private void appendFieldsStatic(String columnName) {
-		fieldsStatic.append(NEW_LINE).append(new StringBuilder().append(TAB).append("public static final String ")
-				.append(columnName.toUpperCase()).append(" = ").append("\""+this.camelCaseColumnName+"\"")
-				.append(";").toString());
-		
+		fieldsStatic.append(NEW_LINE).append(TAB + "public static final String ").append(columnName.toUpperCase()).append(" = ").append("\"").append(this.camelCaseColumnName).append("\"").append(";");
 	}
 
 	private String decreptyDatabaseCode(String type) {
@@ -428,22 +432,22 @@ public class GerarClasse {
 	}
 
 	private String generateVariableTypeList(String referencedDaoClass, String referencedColumnClass) {
-		return new StringBuilder().append(TAB).append("@OneToMany(cascade = CascadeType.ALL, mappedBy = \"")
-				.append(referencedColumnClass).append("\")").append(NEW_LINE).append(TAB).append("private List<")
-				.append(referencedDaoClass).append("> ").append(convertCase(referencedDaoClass, false)).append("List;")
-				.append(NEW_LINE).append(NEW_LINE).toString();
+		return TAB + "@OneToMany(cascade = CascadeType.ALL, mappedBy = \"" +
+			   referencedColumnClass + "\")" + NEW_LINE + TAB + "private List<" +
+			   referencedDaoClass + "> " + convertCase(referencedDaoClass, false) + "List;" +
+			   NEW_LINE + NEW_LINE;
 	}
 
 	private String generateVariableTypeListGetterSetter(String referencedDaoClass) {
-		String lowerCamelCaseClassName = convertCase(referencedDaoClass, false);
-		return new StringBuilder().append(TAB).append("@XmlTransient").append(NEW_LINE).append(TAB)
-				.append("public List<").append(referencedDaoClass).append("> get").append(lowerCamelCaseClassName)
-				.append("List() {").append(NEW_LINE).append(TAB).append(TAB).append("return ")
-				.append(lowerCamelCaseClassName).append("List;").append(NEW_LINE).append(TAB).append("}")
-				.append(NEW_LINE).append(TAB).append("public void set").append(lowerCamelCaseClassName)
-				.append("List(List<").append(referencedDaoClass).append("> ").append(lowerCamelCaseClassName)
-				.append("List) {").append(NEW_LINE).append(TAB).append(TAB).append("this.")
-				.append(lowerCamelCaseClassName).append("List = ").append(lowerCamelCaseClassName).append("List;")
-				.append(NEW_LINE).append(TAB).append("}").append(NEW_LINE).append(NEW_LINE).toString();
+		final String lowerCamelCaseClassName = convertCase(referencedDaoClass, false);
+		return TAB + "@XmlTransient" + NEW_LINE + TAB +
+			   "public List<" + referencedDaoClass + "> get" + lowerCamelCaseClassName +
+			   "List() {" + NEW_LINE + TAB + TAB + "return " +
+			   lowerCamelCaseClassName + "List;" + NEW_LINE + TAB + "}" +
+			   NEW_LINE + TAB + "public void set" + lowerCamelCaseClassName +
+			   "List(List<" + referencedDaoClass + "> " + lowerCamelCaseClassName +
+			   "List) {" + NEW_LINE + TAB + TAB + "this." +
+			   lowerCamelCaseClassName + "List = " + lowerCamelCaseClassName + "List;" +
+			   NEW_LINE + TAB + "}" + NEW_LINE + NEW_LINE;
 	}
 }

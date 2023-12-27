@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import jakarta.servlet.http.Part;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -116,7 +119,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			if (response.getStatus() == 200) {
 				f.setContent((InputStream) response.getEntity());
-				f.setSize(Integer.valueOf(response.getLength()));
+				f.setSize(response.getLength());
 				f.setContentType(response.getMediaType().toString());
 			}
 			response.close();
@@ -124,7 +127,6 @@ public class TaskServiceRest extends GenericActivitiRest {
 		return f;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<TaskService> getTasks() {
 		List<TaskService> d = new ArrayList<>();
 		Response response = this.getRestRequest()
@@ -137,26 +139,70 @@ public class TaskServiceRest extends GenericActivitiRest {
 				e.printStackTrace();
 			}
 			if (response.getStatus() == 200) {
-				d = (List<TaskService>) ResponseConverter.convertJsonToListDao(contentResp, "data",
-						new TypeToken<List<TaskService>>() {
-						}.getType());
+				d = ResponseConverter
+						.convertJsonToListDao(contentResp, "data", new TypeToken<List<TaskService>>() {
+						}.getType()).stream().map(TaskService.class::cast).collect(Collectors.toList());
 
-				if (d != null && !d.isEmpty()) {
-					d.stream().forEach(t -> {
-						ProcessDefinitionService proc = new ProcessDefinitionServiceRest()
-								.getProccessDescription(t.getProcessDefinitionUrl());
-						String processName = proc.getName();
-						String processDefinitionKey = proc.getKey();
-						t.setProcessName(processName);
-						t.setProcessDefinifionKey(processDefinitionKey);
-					});
-				}
+				setProcNDescTaskServ(d);
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 			response.close();
 		}
 		return d;
+	}
+	
+	public List<TaskService> queryTasks() {
+		List<TaskService> d = new ArrayList<>();
+		
+		Response response = this.getRestRequest().post("query/tasks?size=" + ActivitiConstants.SIZE_QUERY,this.filterBody.toString());
+		if (response != null) {
+			String contentResp = "";
+			try {
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (response.getStatus() == 200) {
+				
+				d = ResponseConverter
+						.convertJsonToListDao(contentResp, "data", new TypeToken<List<TaskService>>() {
+						}.getType()).stream().map(TaskService.class::cast).collect(Collectors.toList());
+				
+				setProcNDescTaskServ(d);
+			} else {
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+			response.close();
+		}
+		return d;
+	}
+
+	/**
+	 * @param d
+	 */
+	private void setProcNDescTaskServ(List<TaskService> d) {
+		if (d != null && !d.isEmpty()) {
+			HashMap<String,ProcessDefinitionService> mProc = new HashMap<>();
+			d.forEach(t -> {
+				String processName;
+				String processDefinitionKey;
+				if(mProc.containsKey(t.getProcessDefinitionUrl())) {
+					processName=mProc.get(t.getProcessDefinitionUrl()).getName();
+					processDefinitionKey = mProc.get(t.getProcessDefinitionUrl()).getKey();
+				}
+				else {
+					ProcessDefinitionService proc = new ProcessDefinitionServiceRest()
+							.getProccessDescription(t.getProcessDefinitionUrl());
+					processName = proc.getName();
+					processDefinitionKey = proc.getKey();
+					mProc.put(t.getProcessDefinitionUrl(), proc);
+				}
+				
+				t.setProcessName(processName);
+				t.setProcessDefinifionKey(processDefinitionKey);
+			});
+		}
 	}
 
 	public List<HistoricTaskService> getHistoryOfProccessInstanceId(String processInstanceId) {
@@ -201,6 +247,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 				d = (List<HistoricTaskService>) ResponseConverter.convertJsonToListDao(contentResp, "data",
 						new TypeToken<List<HistoricTaskService>>() {
 						}.getType());
+				
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
@@ -209,7 +256,6 @@ public class TaskServiceRest extends GenericActivitiRest {
 		return d;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<TaskServiceQuery> queryHistoryTask() {
 		List<TaskServiceQuery> d = new ArrayList<>();
 		Response response = this.getRestRequest().post("query/historic-task-instances?size=100000000",
@@ -222,15 +268,26 @@ public class TaskServiceRest extends GenericActivitiRest {
 				e.printStackTrace();
 			}
 			if (response.getStatus() == 200) {
-				d = (List<TaskServiceQuery>) ResponseConverter.convertJsonToListDao(contentResp, "data",
-						new TypeToken<List<TaskServiceQuery>>() {
-						}.getType());
+				d = ResponseConverter
+						.convertJsonToListDao(contentResp, "data", new TypeToken<List<TaskServiceQuery>>() {
+						}.getType()).stream().map(TaskServiceQuery.class::cast).collect(Collectors.toList());
+			
 				if (d != null && !d.isEmpty()) {
-					d.stream().forEach(t -> {
-						ProcessDefinitionService proc = new ProcessDefinitionServiceRest()
-							.getProccessDescription(t.getProcessDefinitionUrl());
-						String processName = proc.getName();
-						String processDefinitionKey = proc.getKey();
+					HashMap<String,ProcessDefinitionService> mProc = new HashMap<>();
+					d.forEach(t -> {
+						String processName;
+						String processDefinitionKey;
+						if(mProc.containsKey(t.getProcessDefinitionUrl())) {
+							processName=mProc.get(t.getProcessDefinitionUrl()).getName();
+							processDefinitionKey = mProc.get(t.getProcessDefinitionUrl()).getKey();
+						}
+						else {
+							ProcessDefinitionService proc = new ProcessDefinitionServiceRest()
+								.getProccessDescription(t.getProcessDefinitionUrl());
+							processName = proc.getName();
+							processDefinitionKey = proc.getKey();
+							mProc.put(t.getProcessDefinitionUrl(), proc);
+						}
 						t.setProcessName(processName);
 						t.setProcessDefinifionKey(processDefinitionKey);
 					});
@@ -476,7 +533,6 @@ public class TaskServiceRest extends GenericActivitiRest {
 		return list;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<TaskVariableDetails> queryHistoryTaskVariables(String taskId) {
 		List<TaskVariableDetails> d = new ArrayList<>();
 		Response response = this.getRestRequest().get("history/historic-detail?size=" + ActivitiConstants.SIZE_QUERY
@@ -489,9 +545,10 @@ public class TaskServiceRest extends GenericActivitiRest {
 				e.printStackTrace();
 			}
 			if (response.getStatus() == 200) {
-				d = (List<TaskVariableDetails>) ResponseConverter.convertJsonToListDao(contentResp, "data",
-						new TypeToken<List<TaskVariableDetails>>() {
-						}.getType());
+				d = ResponseConverter
+						.convertJsonToListDao(contentResp, "data", new TypeToken<List<TaskVariableDetails>>() {
+						}.getType()).stream().map(TaskVariableDetails.class::cast).collect(Collectors.toList());
+				
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
@@ -500,7 +557,6 @@ public class TaskServiceRest extends GenericActivitiRest {
 		return d;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public TaskService getCurrentTaskByProcessNr(String processNr) {
 		List<TaskService> t = new ArrayList<>();
 		Response response = this.getRestRequest().get("runtime/tasks?processInstanceId=" + processNr);
@@ -512,9 +568,10 @@ public class TaskServiceRest extends GenericActivitiRest {
 				e.printStackTrace();
 			}
 			if (response.getStatus() == 200) 
-				 t = (List<TaskService>) ResponseConverter.convertJsonToListDao(contentResp, "data", 
-							new TypeToken<List<TaskService>>() {
-							}.getType());
+				 t = ResponseConverter
+					.convertJsonToListDao(contentResp, "data", new TypeToken<List<TaskService>>() {
+					}.getType()).stream().map(TaskService.class::cast).collect(Collectors.toList());
+			
 			 else this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			
 			response.close();

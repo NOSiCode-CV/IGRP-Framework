@@ -5,9 +5,9 @@ package nosi.core.webapp;
  */
 public interface Identity {
 	
-	public Object findIdentityById(int identityId);
-	public int getIdentityId();
-	public Object findIdentityByUsername(String username);
-	public boolean validate(String inputPassword);
-	public String getAuthenticationKey();
+	Object findIdentityById(int identityId);
+	int getIdentityId();
+	Object findIdentityByUsername(String username);
+	boolean validate(String inputPassword);
+	String getAuthenticationKey();
 }
