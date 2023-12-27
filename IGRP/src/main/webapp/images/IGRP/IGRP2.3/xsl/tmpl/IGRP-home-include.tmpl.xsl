@@ -11,9 +11,14 @@
     
     <title><xsl:value-of select="rows/title"/></title>
     
+        
+     <!-- FontAwesome -->
+    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'"/>
+    <!-- /FontAwesome -->
     <!-- Normalize -->
     <link rel="stylesheet" href="{$path}/core/normalize/normalize.css" media="none" onload="if(media!='all')media='all'"/>
     <!-- /Normalize -->
+
 
     <!-- Bootstrap Include CSS -->
     <xsl:if test="not($themeConfigData/css/@bootstrap) or $themeConfigData/css/@bootstrap!='false'">
@@ -26,9 +31,7 @@
     </xsl:if>
     <!-- /Bootstrap Include CSS -->
 
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'"/>
-    <!-- /FontAwesome -->
+   
 
     <!-- COLOR PALETTES -->
     <link rel="stylesheet" type="text/css" href="{$path}/core/colorpalettes/old-palettes.css"  media="none" onload="if(media!='all')media='all'"  />
