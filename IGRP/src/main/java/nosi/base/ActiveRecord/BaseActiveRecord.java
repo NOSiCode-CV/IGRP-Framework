@@ -787,7 +787,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
     	}
 		return (T) this;
 	}
-	
+	//Can be used with allColumns and oneColumns
 	@Override
 	public T groupBy(String... groupByNames) {
 		if(groupByNames!=null) {
