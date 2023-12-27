@@ -102,7 +102,6 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 				Core.setMessageError();
 		}
 		
-	
 		
 		/*----#end-code----*/
 		view.setModel(model);

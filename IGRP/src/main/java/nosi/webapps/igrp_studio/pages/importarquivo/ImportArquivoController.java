@@ -17,7 +17,6 @@ import jakarta.servlet.http.Part;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.import_export.Import;
 import nosi.core.webapp.import_export.ImportAppZip;
 import nosi.core.webapp.import_export.ImportPluginIGRP;
@@ -32,8 +31,6 @@ import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import java.util.List;
 import java.util.ArrayList;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 /*----#end-code----*/
 		
 public class ImportArquivoController extends Controller {
@@ -99,7 +96,6 @@ public class ImportArquivoController extends Controller {
 					ImportArquivo.Formlist_1 row2 = new ImportArquivo.Formlist_1();
 					String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
 					String url = baseUrl.replace("app/webapps", "images") + "/IGRP/IGRP2.3/assets/img/login/" + key;
-					String imgUrlteste =new Config().getLinkImgBase();
 					row.setCarousel_1_img(url);
 					row2.setImagem_tbl(new Pair(url, key));
 					row2.setFormlist_1_id(new Pair(key, key));
