@@ -15,6 +15,8 @@ import org.apache.cxf.jaxrs.ext.multipart.ContentDisposition;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
 import com.google.gson.annotations.Expose;
 
+import nosi.core.webapp.activit.rest.request.Credentials;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Response;
@@ -29,17 +31,18 @@ import javax.ws.rs.core.Response;
 public class RestRequest{
 
 	@Expose(serialize=false,deserialize=false)
-	private String base_url;
+	private static  String base_url=Credentials.getInstance().getUrl();
 	@Expose(serialize=false,deserialize=false)
-	private String username;
+	private static final String username=Credentials.getInstance().getUserName();
 	@Expose(serialize=false,deserialize=false)
-	private String password;
+	private static final String password=Credentials.getInstance().getPassword();
 	@Expose(serialize=false,deserialize=false)
-	private String accept_format;
+	private static String accept_format=MediaType.APPLICATION_JSON;
 	@Expose(serialize=false,deserialize=false)
-	private String content_type;
+	private static final String content_type=MediaType.APPLICATION_JSON;
 	@Expose(serialize=false,deserialize=false)
 	private ConfigurationRequest config;
+	
 	
 	public RestRequest() {
 		 cacheControl.setNoCache(false);
@@ -190,30 +193,23 @@ public class RestRequest{
 	}
 	
 	public void addUrl(String url){
-		this.base_url += url;
+		RestRequest.base_url += url;
 	}
 	public String getBase_url() {
 		return base_url;
 	}
 
 	public void setBase_url(String base_url) {
-		this.base_url = base_url;
+		RestRequest.base_url = base_url;
 	}
 
 	public String getUsername() {
 		return username;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
 
 	public String getPassword() {
 		return password;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	
 	public String getAccept_format() {
@@ -221,16 +217,13 @@ public class RestRequest{
 	}
 
 	public void setAccept_format(String accept_format) {
-		this.accept_format = accept_format;
+		RestRequest.accept_format = accept_format;
 	}
 
 	public String getContent_type() {
 		return content_type;
 	}
 
-	public void setContent_type(String content_type) {
-		this.content_type = content_type;
-	}
 
 	public ConfigurationRequest getConfig() {
 		return config;

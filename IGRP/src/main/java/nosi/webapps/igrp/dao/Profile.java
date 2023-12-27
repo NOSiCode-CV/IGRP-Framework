@@ -13,6 +13,7 @@ import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -23,8 +24,11 @@ import nosi.core.webapp.Core;
 
 @Entity
 @Table(name="tbl_profile",uniqueConstraints={
-	    @UniqueConstraint(name="PROFILE_UNIQUE_FK",columnNames = {"type", "type_fk","user_fk","org_fk","prof_type_fk"})
-	})
+	    @UniqueConstraint(name="PROFILE_UNIQUE_FK",columnNames = {"type", "type_fk","user_fk","org_fk","prof_type_fk"})},
+		indexes = @Index(columnList = "type_fk, type, user_fk")
+
+		)
+
 public class Profile extends IGRPBaseActiveRecord<Profile> implements Serializable{
 	
 	/**

@@ -287,7 +287,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 
 	public List<Application> getListMyApp(int idUser, boolean allInative){
 		List<Application> listApp = new ArrayList<>();
-		List<Profile> list;
+		List<Profile> list = new ArrayList<>();
 		if(Core.getCurrentUser().getEmail().compareTo("igrpweb@nosi.cv")==0) {//User master
 			list = new Profile().find()
 					.andWhere("type", "=", "ENV")
@@ -300,20 +300,22 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 					.andWhere("user", "=", idUser) 
 					.andWhere("type_fk", ">", 3) // Oculta IGRP Core,IGRP Tutorial,Oculta IGRP Studio 
 					.all();
-		}
-		if (!list.isEmpty()) {
-			list = list.stream()
-					.filter(distinctByKey(Profile::getType_fk))
+		}		
+		if(!list.isEmpty()){
+			list=list.stream() 
+					.filter(distinctByKey(Profile::getType_fk)) 
 					.collect(Collectors.toList());
-			list.sort(Comparator.comparing(Profile::getType_fk));
-			if (allInative) {
-				list.forEach(e -> listApp.add(e.getProfileType().getApplication()));
-			} else {
-				list.stream()
-						.filter(profile -> profile.getOrganization().getApplication().getStatus() == 1)
-						.forEach(e -> listApp.add(e.getProfileType().getApplication()));
+				list.sort(Comparator.comparing(Profile::getType_fk));
+			if(allInative) {
+			list.stream().peek(e->listApp.add(e.getProfileType().getApplication()))
+			.collect(Collectors.toList());
+			}else {
+			list.stream().filter(profile->profile.getOrganization().getApplication().getStatus()==1)
+			.peek(e->listApp.add(e.getProfileType().getApplication()))
+			.collect(Collectors.toList());
 			}
-
+			
+			
 			listApp.sort(Comparator.comparing(Application::getId).reversed());
 		}
 		
@@ -333,15 +335,15 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 
 	public List<Profile> getMyApp() {
 		User u = Core.getCurrentUser();
-		List<Profile> list = new Profile().find()
+		List<Profile> list = new Profile().find().keepConnection()
 				.andWhere("type", "=", "ENV")
-				.andWhere("user", "=", u.getId())
+				.andWhere("user.id", "=", u.getId())
 				.andWhere("type_fk", ">", 1).all();
+		
 		list=list.stream() 
-			.filter(distinctByKey(Profile::getType_fk))
+			.filter(distinctByKey(Profile::getType_fk)) 
 			.collect(Collectors.toList());
 		list.sort(Comparator.comparing(Profile::getType_fk));
-	
 		return list;
 	}
 	
@@ -352,7 +354,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 				.andWhere("type_fk", ">", 1).all();
 		if(list!=null && !list.isEmpty()) {
 			list=list.stream() 
-				.filter(distinctByKey(Profile::getType_fk))
+				.filter(distinctByKey(Profile::getType_fk)) 
 				.collect(Collectors.toList());
 			list.sort(Comparator.comparing(Profile::getType_fk));
 			return list;
@@ -361,18 +363,19 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 	
 	public List<Profile> getAllProfile(String dad) {
-       return new Profile().find()
+		List<Profile> list = new Profile().find()
 				.andWhere("type", "=", "ENV")
 				.andWhere("type_fk", ">", 1)
 				.andWhere("organization.application.dad", "=", dad)
 				.all();
+		return list; 
 	}
 	
 	public List<User> getAllUsers(String dad) {
 		List<Profile> list = this.getAllProfile(dad);
 		List<User> users = null; 
 		if(list != null)
-			 users = list.stream().filter(p->p.getUser() != null && !p.getUser().getUser_name().equals("root")).map(Profile::getUser).distinct().collect(Collectors.toList());
+			 users = list.stream().filter(p->p.getUser() != null && !p.getUser().getUser_name().equals("root")).map(m->m.getUser()).distinct().collect(Collectors.toList()); 
 		return users; 
 	}
 	
@@ -397,8 +400,9 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 	
 	public List<Application> getOtherApp() {
+		List<Application> list = this.find().andWhere("id", "<>", 1).andWhere("status", "=", 1).all();
 
-       return this.find().andWhere("id", "<>", 1).andWhere("status", "=", 1).all();
+		return list;
 	}
 
 	@Override
