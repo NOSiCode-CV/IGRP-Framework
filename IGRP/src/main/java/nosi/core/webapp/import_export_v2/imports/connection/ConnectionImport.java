@@ -37,7 +37,7 @@ public class ConnectionImport  extends AbstractImport implements IImport{
 	@Override
 	public void execute() { 
 		if(this.conns!=null) { 
-			this.conns.stream().forEach(c->{ 
+			this.conns.forEach(c->{
 				if(this.application == null) 
 					this.application = new Application().findByDad(c.getDad());
 				Config_env config = new Config_env().find().andWhere("connection_identify", "=", c.getConnection_identify()).one();

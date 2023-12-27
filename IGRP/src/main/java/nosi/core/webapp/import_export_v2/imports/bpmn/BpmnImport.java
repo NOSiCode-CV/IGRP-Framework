@@ -41,7 +41,7 @@ public class BpmnImport extends AbstractImport implements IImport {
 	@Override
 	public void execute() {
 		if(this.bpmns!=null) {
-			this.bpmns.stream().forEach(bpmn->{
+			this.bpmns.forEach(bpmn->{
 				if(this.application==null) {
 					 this.application = Core.findApplicationByDad(bpmn.getDad());
 				}
@@ -54,7 +54,7 @@ public class BpmnImport extends AbstractImport implements IImport {
 
 	private void savePagesFile(BPMNSerializable bpmn) {
 		if(bpmn.getPageFiles()!=null) {
-			bpmn.getPageFiles().stream().forEach(page->{
+			bpmn.getPageFiles().forEach(page->{
 				if(page.getFileName().endsWith(".java")) {
 					String basePath = Path.getPath(this.application);
 					basePath += "process" + File.separator + bpmn.getKey().toLowerCase() + File.separator;
@@ -73,7 +73,7 @@ public class BpmnImport extends AbstractImport implements IImport {
 
 	private void savePagesBPMN(BPMNSerializable bpmn) {
 		if(bpmn.getPages()!=null) {
-			bpmn.getPages().stream().forEach(page->{
+			bpmn.getPages().forEach(page->{
 				Action ac = new Action().find().where("application.dad","=",page.getDad())
 											   .andWhere("page","=",page.getPage())
 											   .andWhere("processKey","=",page.getProcessKey())

@@ -289,7 +289,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 
 	public Map<Object, Object> getListApps() {
-		User user = (User) Core.getCurrentUser();
+		User user = Core.getCurrentUser();
 		return Core.toMap(getListMyApp(user.getId()), "id", "name", gt("-- Selecionar --"));
 	}
 
@@ -323,16 +323,16 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		}		
 		if(!list.isEmpty()){
 			list=list.stream() 
-					.filter(distinctByKey(p -> p.getType_fk())) 
-					.collect(Collectors.toList());
+					.filter(distinctByKey(Profile::getType_fk)) 
+					.toList();
 				list.sort(Comparator.comparing(Profile::getType_fk));
 			if(allInative) {
 			list.stream().peek(e->listApp.add(e.getProfileType().getApplication()))
-			.collect(Collectors.toList());
+			.toList();
 			}else {
 			list.stream().filter(profile->profile.getOrganization().getApplication().getStatus()==1)
 			.peek(e->listApp.add(e.getProfileType().getApplication()))
-			.collect(Collectors.toList());
+			.toList();
 			}
 			
 			
@@ -343,7 +343,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 
 	public boolean getPermissionApp(String dad) {
-		User u = (User) Core.getCurrentUser();
+		User u = Core.getCurrentUser();
 		Profile p = new Profile().find()
 				.andWhere("type", "=", "ENV")
 				.andWhere("user", "=", u.getId())
@@ -354,16 +354,15 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 
 	public List<Profile> getMyApp() {
-		User u = (User) Core.getCurrentUser();
-		List<Profile> list = new Profile().find()
+		User u = Core.getCurrentUser();
+		List<Profile> list = new Profile().find().keepConnection()
 				.andWhere("type", "=", "ENV")
-				.andWhere("user", "=", u.getId())
+				.andWhere("user.id", "=", u.getId())
 				.andWhere("type_fk", ">", 1).all();
 		list=list.stream() 
-			.filter(distinctByKey(p -> p.getType_fk())) 
+			.filter(distinctByKey(Profile::getType_fk)) 
 			.collect(Collectors.toList());
 		list.sort(Comparator.comparing(Profile::getType_fk));
-	
 		return list;
 	}
 	

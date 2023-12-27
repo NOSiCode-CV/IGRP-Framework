@@ -20,10 +20,10 @@ import org.json.JSONObject;
  */
 public class PdexEmailGateway {
 	
-	private String endpoint; 
-	private String httpAuthorizationHeaderValue;
+	private final String endpoint;
+	private final String httpAuthorizationHeaderValue;
 	private PdexEmailGatewayPayloadDTO payload; 
-	private List<String> errors; 
+	private final List<String> errors;
 	
 	public static final int DEFAULT_TIMEOUT = 1000; 
 	
@@ -35,7 +35,7 @@ public class PdexEmailGateway {
 	public PdexEmailGateway(String endpoint, String httpAuthorizationHeaderValue) {
 		this.endpoint = endpoint;
 		this.httpAuthorizationHeaderValue = httpAuthorizationHeaderValue;
-		errors = new ArrayList<String>(); 
+		errors = new ArrayList<>();
 	}
 	
 	public void setPayload(PdexEmailGatewayPayloadDTO payload) {
@@ -145,10 +145,10 @@ public class PdexEmailGateway {
 	public static boolean ping(final String hostUrl, final int timeout) {
 		boolean success = false; 
 		try {
-			success = InetAddress.getByName(new URL(hostUrl).getHost()).isReachable(DEFAULT_TIMEOUT);
+			return InetAddress.getByName(new URL(hostUrl).getHost()).isReachable(DEFAULT_TIMEOUT);
 		} catch (Exception e) {
 			e.printStackTrace(); 
 		}
-		return success; 
+		return false;
 	}
 }

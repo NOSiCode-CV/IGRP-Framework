@@ -2,8 +2,6 @@ package nosi.webapps.igrp.pages.novoperfil;
 
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -14,7 +12,6 @@ import nosi.core.webapp.Response;//
 import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
-
 import nosi.core.webapp.Igrp;
 
 import nosi.webapps.igrp.dao.Action;
@@ -64,7 +61,7 @@ public class NovoPerfilController extends Controller {
 					? new ProfileType().getListProfiles4Pai(model.getAplicacao(), model.getOrganica(),0)
 					: null);
 		}
-
+		
 		view.igrp_code.setVisible(this.configApp.isActiveGlobalACL());
 		
 		/*----#end-code----*/
@@ -121,11 +118,12 @@ public class NovoPerfilController extends Controller {
 				}
 			}else
 				Core.setMessageSuccess("Perfil criado com sucesso");
-
+			
 		} else {
-			Core.setMessageError();
-			return this.forward("igrp", "NovoPerfil", "index", this.queryString());
-		}
+				Core.setMessageError();
+				return this.forward("igrp", "NovoPerfil", "index", this.queryString());
+			}
+
 
 		return this.redirect("igrp", "NovoPerfil", "index", this.queryString());
 		/*----#end-code----*/
