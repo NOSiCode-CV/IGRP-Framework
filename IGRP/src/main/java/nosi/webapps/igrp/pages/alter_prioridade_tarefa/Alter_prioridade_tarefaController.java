@@ -44,7 +44,7 @@ public class Alter_prioridade_tarefaController extends Controller {
 		TaskServiceIGRP taskRest = new TaskServiceIGRP();
 		String id = Core.getParam(BPMNConstants.PRM_TASK_ID);
 		String type = Core.getParam("type");
-		if(id!=null && !id.equals("")){
+		if(id!=null && !id.isEmpty()){
 			TaskService task = taskRest.getTask(id); 
 			if(task != null){
 				ProcessDefinitionService process = new ProcessDefinitionIGRP().getProcessDefinitionServiceRest().getProcessDefinition(task.getProcessDefinitionId());

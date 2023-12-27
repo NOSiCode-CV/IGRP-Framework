@@ -326,14 +326,13 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 					.filter(distinctByKey(Profile::getType_fk)) 
 					.toList();
 				list.sort(Comparator.comparing(Profile::getType_fk));
-			if(allInative) {
-			list.stream().peek(e->listApp.add(e.getProfileType().getApplication()))
-			.toList();
-			}else {
-			list.stream().filter(profile->profile.getOrganization().getApplication().getStatus()==1)
-			.peek(e->listApp.add(e.getProfileType().getApplication()))
-			.toList();
-			}
+				if (allInative) {
+					list.stream().peek(e -> listApp.add(e.getProfileType().getApplication())).toList();
+				} else {
+					list.stream()
+					.filter(profile -> profile.getOrganization().getApplication().getStatus() == 1)
+							.peek(e -> listApp.add(e.getProfileType().getApplication())).toList();
+				}
 			
 			
 			listApp.sort(Comparator.comparing(Application::getId).reversed());
@@ -394,7 +393,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		List<Profile> list = this.getAllProfile(dad);
 		List<User> users = null; 
 		if(list != null)
-			 users = list.stream().filter(p->p.getUser() != null && !p.getUser().getUser_name().equals("root")).map(m->m.getUser()).distinct().collect(Collectors.toList()); 
+			 users = list.stream().filter(p->p.getUser() != null && !p.getUser().getUser_name().equals("root")).map(m->m.getUser()).distinct().toList(); 
 		return users; 
 	}
 	
@@ -500,7 +499,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		this.plsql_code = plsql_code;
 	}
 
-	public LinkedHashMap<String, String> getAtivesEstadoRegisto() {
+	public Map<String, String> getAtivesEstadoRegisto() {
 		 LinkedHashMap<String, String> m = new  LinkedHashMap<>();
 		 m.put(null, "--- Selecionar ---");
 		 m.put("1", "Externo"); 

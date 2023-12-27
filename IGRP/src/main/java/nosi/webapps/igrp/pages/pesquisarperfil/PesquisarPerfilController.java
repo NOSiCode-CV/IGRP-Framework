@@ -9,9 +9,7 @@ import nosi.core.webapp.Response;//
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import nosi.webapps.igrp.dao.ProfileType;
 /*----#end-code----*/

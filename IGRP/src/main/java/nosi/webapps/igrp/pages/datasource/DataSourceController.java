@@ -281,10 +281,10 @@ public class DataSourceController extends Controller {
 		final XMLWritter xml = new XMLWritter();
 		xml.startElement("rows");
 		
-		if (Objects.nonNull(ids) && ids.length > 0) {
+		if (Objects.nonNull(ids)) {
 			for (String id : ids) {
 				xml.addXml(this.loadDataSource((int) Float.parseFloat(id),
-						(templateId != null && !templateId.equals("")) ? (int) Float.parseFloat(templateId) : 0));
+						(templateId != null && !templateId.isEmpty()) ? (int) Float.parseFloat(templateId) : 0));
 			}
 		}
 		xml.endElement();
@@ -348,10 +348,9 @@ public class DataSourceController extends Controller {
 			list = getDefaultFieldsWithProc();
 		}	
 		//To check if the field is a param
-		for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
-			String keyParam = iterator.next();			
-			content=content.replace("<"+keyParam, "<"+keyParam+" key=\"true\"");
-		}		
+       for (String keyParam : keys) {
+          content = content.replace("<" + keyParam, "<" + keyParam + " key=\"true\"");
+       }
 		xml.addXml(this.getDefaultForm(list));
 		xml.addXml(content);
 		xml.endElement();
@@ -413,7 +412,7 @@ public class DataSourceController extends Controller {
 	
 	public String getDefaultForm(List<Field> fields) {
 		IGRPForm formProcess = new IGRPForm("default_form_report");
-		fields.stream().forEach(formProcess::addField);
+		fields.forEach(formProcess::addField);
 		return formProcess.toString();
 	}
 	//Transform columns to xml
