@@ -4,13 +4,14 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.services.GenericActivitiRest;
 import nosi.core.webapp.bpmn.GenerateInterfacePermission;
 import nosi.core.webapp.webservices.helpers.FileRest;
@@ -63,50 +64,54 @@ public class GenericActivitiIGRP {
 
 	private List<String> getMyProcessAccess(String[] filterProcessIDs) {
 
-		final List<TaskAccess> myProcessAccess = this.getMyProccessInstances(filterProcessIDs);
+		final List<ActivityExecute> myProcessAccess = this.getMyProccessInstances(filterProcessIDs);
 
 		if (myProcessAccess == null)
 			return new ArrayList<>();
 
 		return myProcessAccess.stream()
-				.filter(t -> allowTask(t.getProcessName(), t))
-				.map(TaskAccess::getTaskId).distinct().collect(Collectors.toList());
+				.filter(p -> allowTask(p.getProccessKey(), p))
+				.map(ActivityExecute::getProcessid).distinct().collect(Collectors.toList());
 	}
 
-	public boolean allowTask(String processKey,TaskService task) {
-		boolean allowTask = true;//allow all task by default
-    	try {
-    		if(Core.isNotNull(task.getTenantId())) {
-	    		String packageName = GenerateInterfacePermission.getProccessPackageName(task.getTenantId(),processKey);
-	    		if(Core.isNotNull(packageName)) {
-					final Class<?> c = Class.forName(packageName);
-					Core.setAttribute("current_app_conn", Core.getCurrentDad());
-					final Method method = c.getMethod("allowTask", ActivityExecute.class);
-					allowTask = (boolean) method.invoke(c.getDeclaredConstructor().newInstance(), task);//Get custom permission
-	    		}
-    		}
-		} catch (Exception ignored) {
-			// Exception ignored
-		} 
-    	return allowTask;
-	}	
+	/**
+	 * Get proccess instance that i have access
+	 * @return list of process instances
+	 */
+	public List<ActivityExecute> getMyProccessInstances(String[] filterProcessIDs) {
+		final String[] process = this.getMyProcessKey();
+		if (process.length > 0) {
+			List<ActivityExecute> listAllActivity = new ActivityExecute().find().keepConnection()
+					.where("organization", "=", Core.getCurrentOrganization())
+					.andWhere("proccessKey", "in", process)
+					.andWhere("processid", "in", filterProcessIDs)
+					.andWhere("application.dad", "=", Core.getCurrentDad())
+					.orderByDesc("id")
+					.all().stream()
+					.collect(Collectors.toMap(
+							ActivityExecute::getProcessid, // key - the field on which you want distinct activities
+							Function.identity(),      // value - the activity itself
+							(existing, replacement) -> existing)) // if a value already exists for a key, keep the existing
+					.values()
+					.stream()
+					.collect(Collectors.toList());
+			return listAllActivity;
+		}
+		return null;
+	}
 	
-	public boolean allowTask(String processKey,TaskAccess task) {
-		boolean allowTask = true;//allow all task by default
-    	try {
-    		if(Core.isNotNull(task.getOrganization().getApplication().getDad())) {
-	    		String packageName = GenerateInterfacePermission.getProccessPackageName(task.getOrganization().getApplication().getDad(),processKey);
-	    		if(Core.isNotNull(packageName)) {
-					final Class<?> c = Class.forName(packageName);
-					Core.setAttribute("current_app_conn", Core.getCurrentDad());
-					final Method method = c.getMethod("allowTask", ActivityExecute.class);
-					allowTask = (boolean) method.invoke(c.getDeclaredConstructor().newInstance(), task);//Get custom permission
-	    		}
-    		}
-		} catch (Exception ignored) {
-			// Exception ignored
-		} 
-    	return allowTask;
+	private String[] getMyProcessKey() {
+		final List<Map<String, Object>> taskAccessList = new TaskAccess().find()
+				.where("organization","=",Core.getCurrentOrganization())
+				.andWhere("profileType","=",Core.getCurrentProfile())
+				.groupBy("processName")
+				.keepConnection()
+				.allColumns("processName");
+		
+		if (taskAccessList == null)
+			return new String[] {};
+		
+		return taskAccessList.stream().map(m->m.get("processName")).distinct().toArray(String[]::new);
 	}	
 	
 	public boolean allowTask(String processKey,ActivityExecute task) {
@@ -127,49 +132,10 @@ public class GenericActivitiIGRP {
     	return allowTask;
 	}
 	
-	/**
-	 * Get proccess instance that i have access
-	 * @return list of process instances
-	 */
-	public List<TaskAccess> getMyProccessInstances(String[] filterProcessIDs) {
-//		final String[] process = this.getMyProcessKey();
-//		if (process.length > 0)
-			return  new TaskAccess().find()
-					.where("organization","=",Core.getCurrentOrganization())
-					.andWhere("profileType","=",Core.getCurrentProfile())
-					.andWhere("profileType.application.dad","=",Core.getCurrentDad())
-					.keepConnection()
-					.all();
-					
-//					new ActivityExecute().find().keepConnection()
-//					.where("organization", "=", Core.getCurrentOrganization())
-//					.andWhere("proccessKey", "in", process)
-//					.andWhere("processid", "in", filterProcessIDs)
-//					.andWhere("application.dad", "=", Core.getCurrentDad())
-//					.all();
-//		return null;
-	}
-
-	private String[] getMyProcessKey() {
-
-		final List<TaskAccess> taskAccessList = new TaskAccess().find()
-				.where("organization","=",Core.getCurrentOrganization())
-				.andWhere("profileType","=",Core.getCurrentProfile())
-				.andWhere("profileType.application.dad","=",Core.getCurrentDad())
-				.keepConnection()
-				.all();
-
-		if (taskAccessList == null)
-			return new String[] {};
-
-		return taskAccessList.stream().map(TaskAccess::getProcessName).distinct().toArray(String[]::new);
-	}
-
-	
 	public boolean filterAccess(ProcessDefinitionService p) {
         if (null == p || p.getKey() == null)
             return false;
-        if ("igrp_studio".equalsIgnoreCase(Core.getCurrentApp().getDad()))
+        if ("igrp_studio".equalsIgnoreCase(Core.getCurrentDad()))
             return true;
 		return new TaskAccess().hasTaskAccess(p.getKey());
 
