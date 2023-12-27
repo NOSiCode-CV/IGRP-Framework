@@ -64,7 +64,7 @@ public class BPMNExecution extends Controller{
 		if (properties != null && properties.getFormProperties() != null) {
 			for (FormProperties prop : properties.getFormProperties()) {
 				Object value = BPMNHelper.getValue(prop.getType(), prop.getId());
-				if (!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
+				if (Boolean.TRUE.equals(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable()) && Core.isNotNull(value)) {
 					formData.addVariable(prop.getId(), value);
 				}
 			}
@@ -101,7 +101,7 @@ public class BPMNExecution extends Controller{
 		if(properties!=null && properties.getFormProperties()!=null){
 			for(FormProperties prop:properties.getFormProperties()){
 				Object value = BPMNHelper.getValue(prop.getType(), prop.getId());
-				if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
+				if(Boolean.TRUE.equals(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable()) && Core.isNotNull(value)) {
 					formData.addVariable(prop.getId(),value);
 				}
 			}
@@ -202,11 +202,10 @@ public class BPMNExecution extends Controller{
 				 .andWhere("taskKey","=","start")
 				 .andWhere("organization","=",Core.getCurrentOrganization())
 				 .one();
-		if(activityExecute!=null) {
-			if(Core.isNotNull(myCustomPermission)) { 
+		if(activityExecute!=null && (Core.isNotNull(myCustomPermission))) { 
 			 activityExecute.setCustomPermission(myCustomPermission);
 		     activityExecute.update();
-			}
+			
 		}
 		this.saveIGRPStartProcess(processId, proccessKey, taskKey, taskId,processName,myCustomPermission);
 	}

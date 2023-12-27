@@ -49,15 +49,11 @@ public class ProcessInstanceIGRP extends GenericActivitiIGRP {
     }
 
     public static boolean isStartPermission() {
-        final List<TaskAccess> listTask = new TaskAccess().getTaskAccess();
-        return listTask.stream()
-                .anyMatch(t -> t.getTaskName().equalsIgnoreCase("Start" + t.getProcessName()));
+        return new TaskAccess().hasStartTaskAccess();
     }
 
 
     public static boolean isStartPermission(String processKey) {
-        final List<TaskAccess> listTask = new TaskAccess().getTaskAccess(processKey);
-        return listTask.stream()
-                .anyMatch(t -> t.getTaskName().equalsIgnoreCase("Start" + t.getProcessName()));
+    	return new TaskAccess().hasStartTaskAccess(processKey);
     }
 }

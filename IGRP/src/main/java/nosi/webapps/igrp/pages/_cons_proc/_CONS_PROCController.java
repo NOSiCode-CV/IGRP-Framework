@@ -26,6 +26,8 @@ import nosi.core.webapp.activit.rest.helpers.StatusTask;
 import nosi.core.webapp.bpmn.BPMNConstants;
 
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.TaskAccess;
+import nosi.webapps.igrp.pages.execucaotarefas.ExecucaoTarefasView;
 
 
 /*----#end-code----*/
@@ -39,9 +41,10 @@ public class _CONS_PROCController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '2' as estado,'Voluptatem sed labore accusant' as num_processo,'Sit mollit anim aperiam perspiciatis' as processo,'Stract adipiscing labore unde omnis' as eatapa,'Perspiciatis sit perspiciatis' as dt_inicio_etapa,'Perspiciatis sit iste mollit d' as dt_fim_etapa,'Lorem ut labore aperiam sit' as atribuido_a,'hidden-551d_0ac2' as id_task "));
+		model.loadTable_1(Core.query(null,"SELECT '3' as estado,'Sit lorem amet accusantium des' as num_processo,'Omnis voluptatem officia totam sit' as processo,'Elit ipsum officia ipsum rem' as eatapa,'Doloremque iste aliqua labore' as dt_inicio_etapa,'Natus sed deserunt mollit cons' as dt_fim_etapa,'Sed stract adipiscing deserunt' as atribuido_a,'hidden-0b91_d910' as id_task "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo_processo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.etapa_filtro.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.cbx_utilizador.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.status.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_de.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -49,78 +52,85 @@ public class _CONS_PROCController extends Controller {
 		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 		model.setAplicacao(""+Core.getCurrentAppId());		
+		
      	String dad = Core.getCurrentDad();
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 			model.setAplicacao("" + (Core.findApplicationByDad(dad)).getId());
 			view.aplicacao.propertie().add("disabled","true");     			
 		}      
-      	Application app = Core.findApplicationById(Core.toInt(model.getAplicacao()));
+		Application app = Core.findApplicationById(Core.toInt(model.getAplicacao()));
       	
       	if(!Core.getParam("btnPesq").equals("true")){ 
       		model.setData_de("DI");
       		model.setDt_ini(LocalDate.now().minusMonths(1).format(DateTimeFormatter.ofPattern(Core.DD_MM_YYYY)));
+      		Core.setMessageInfo("Usar o botão pesquisar para listar.");
 			Core.setMessageWarning("Atenção! Etapas desde: "+model.getDt_ini()+". Modificar o filtro em ''Intervalo de datas - De'' para mais etapas de processos.");
-      	}else
-      		Core.setMessageSuccess();
-      		
-       	
-		List<_CONS_PROC.Table_1> data = new ArrayList<>();
-		TaskServiceIGRP taskQuery = new TaskServiceIGRP();
-		if(Core.isNotNull(model.getAplicacao()) ){			
-			if(Core.isNotNull(model.getTipo_processo()))
-				taskQuery.addFilterBody("processDefinitionKey", model.getTipo_processo());
+			model.setSize_registos(10000);
+      	}else {      		
+	       	
+			List<_CONS_PROC.Table_1> data = new ArrayList<>();
+			TaskServiceIGRP taskQuery = new TaskServiceIGRP();
+			  	
+			  	taskQuery.addFilterBody("tenantId", app.getDad());
+			  	
+				if(Core.isNotNull(model.getTipo_processo()))
+					taskQuery.addFilterBody("processDefinitionKey", model.getTipo_processo());
+				
+				if(Core.isNotNull(model.getNum()))
+					taskQuery.addFilterBody("processInstanceId", model.getNum());
+				
+				if(Core.isNotNull(model.getCbx_utilizador()))
+					taskQuery.addFilterBody("taskAssignee", model.getCbx_utilizador());
+				
+				if(Core.isNotNull(model.getEtapa_filtro()))
+					taskQuery.addFilterBody("taskDefinitionKey", model.getEtapa_filtro());
+				
+				if(Core.isNotNull(model.getStatus())) 
+					taskQuery.addFilterBody("finished", model.getStatus());
+				
+				if(Core.isNotNull(model.getDt_ini())) 			
+					taskQuery.addFilterBody(model.getData_de().equals("DI")?"taskCreatedAfter":"taskCompletedAfter", ""+DateHelper.toDateTime(model.getDt_ini())); 
+							
+				if(Core.isNotNull(model.getDt_fim())) 				
+					taskQuery.addFilterBody(model.getData_de().equals("DI")?"taskCreatedBefore":"taskCompletedBefore", ""+DateHelper.toDateTime(model.getDt_fim(),1)); 
+				
+				if(Core.isNotNullOrZero(model.getSize_registos()))
+					taskQuery.addFilterBody("size", ""+model.getSize_registos());
 			
-			if(Core.isNotNull(model.getNum()))
-				taskQuery.addFilterBody("processInstanceId", model.getNum());
-			
-			if(Core.isNotNull(model.getCbx_utilizador()))
-				taskQuery.addFilterBody("taskAssignee", model.getCbx_utilizador());
-			
-			if(Core.isNotNull(model.getStatus())) 
-				taskQuery.addFilterBody("finished", model.getStatus());
-			
-			if(Core.isNotNull(model.getAplicacao())) 
-				taskQuery.addFilterBody("tenantId", app.getDad());
-			
-			if(Core.isNotNull(model.getDt_ini())) 			
-				taskQuery.addFilterBody(model.getData_de().equals("DI")?"taskCreatedAfter":"taskCompletedAfter", DateHelper.toDateTime(model.getDt_ini())); 
-						
-			if(Core.isNotNull(model.getDt_fim())) 				
-				taskQuery.addFilterBody(model.getData_de().equals("DI")?"taskCreatedBefore":"taskCompletedBefore", DateHelper.toDateTime(model.getDt_fim())); 
-			
-			List<TaskServiceQuery> tasks = taskQuery.queryHistoryTask();		
-			
-			for(TaskServiceQuery task:tasks ) {
-				_CONS_PROC.Table_1 t = new _CONS_PROC.Table_1();
-				t.setNum_processo(task.getProcessInstanceId());
-				t.setProcesso(task.getProcessName());
-				t.setEatapa(Core.isNotNull(task.getName())?task.getName():task.getTaskDefinitionKey());
-				t.setDt_inicio_etapa(Core.ToChar(task.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
-				t.setDt_fim_etapa(Core.ToChar(task.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
-				t.setId_task(task.getId());
-				t.setEstado(""+StatusTask.getStatusTaskValue(task.getEndTime(),task.getAssignee()));
-				t.setAtribuido_a(Core.isNotNull(task.getAssignee())?task.getAssignee():"---");
-				if(!t.getEstado().equalsIgnoreCase("1")) {
-					t.hiddenButton(view.btn_ver_etapa);
+				
+				List<TaskServiceQuery> tasks = taskQuery.queryHistoryTask();		
+				
+				for(TaskServiceQuery task:tasks ) {
+					_CONS_PROC.Table_1 t = new _CONS_PROC.Table_1();
+					t.setNum_processo(task.getProcessInstanceId());
+					t.setProcesso(task.getProcessName());
+					t.setEatapa(Core.isNotNull(task.getName())?task.getName():task.getTaskDefinitionKey());
+					t.setDt_inicio_etapa(Core.ToChar(task.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
+					t.setDt_fim_etapa(Core.ToChar(task.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
+					t.setId_task(task.getId());
+					t.setEstado(""+StatusTask.getStatusTaskValue(task.getEndTime(),task.getAssignee()));
+					t.setAtribuido_a(Core.isNotNull(task.getAssignee())?task.getAssignee():"---");
+					if(!t.getEstado().equalsIgnoreCase("1")) {
+						t.hiddenButton(view.btn_ver_etapa);
+					}
+					data.add(t);
 				}
-				data.add(t);
-			}
-		}
-
-		
-		view.aplicacao.setValue(new Application().getListApps());	
-		if(app!=null) {
+				
+				Core.setMessageSuccess();
+				view.table_1.addData(data);
+      	}
+      	if(app!=null) {
 			view.tipo_processo.setValue(new ProcessDefinitionIGRP().mapToComboBoxByKey(app.getDad()));
-			view.cbx_utilizador.setValue(Core.toMap(Core.getUsersByApplication(app.getDad()), "user_name", "name"));
-			((Map<String,String>) view.cbx_utilizador.getListOptions()).put("", gt("-- Selecionar --"));
+			view.cbx_utilizador.setValue(Core.toMap(Core.getUsersByApplication(app.getDad()), "user_name", "name","-- Selecionar --"));
+			
 		}
-		
+		view.aplicacao.setValue(new Application().getListApps());	
 		
 		view.requerente.setVisible(false);
 		view.status.setValue(StatusTask.getStatus());
 		view.data_de.setValue(DateHelper.getDateFilter());
 		view.btn_pesquisar.addParameter("btnPesq", "true").setLink("index");
-		view.table_1.addData(data);
+		
     
 		/*----#end-code----*/
 		view.setModel(model);
@@ -184,7 +194,12 @@ public class _CONS_PROCController extends Controller {
 	}
 	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
-	
+	public Response actionEtapa() throws IOException {
+		_CONS_PROCView view = new _CONS_PROCView();
+		Map<Object, Object> tasksMapP =  Core.toMap(new TaskAccess().getTaskAccess(Core.getParam(view.tipo_processo.getParamTag())), "taskName", "taskDescription","-- Selecionar --");
+		return this.renderView(Core.remoteComboBoxXml(tasksMapP, view.etapa_filtro, null));
+	}
+
 	
 	/*----#end-code----*/
 }
