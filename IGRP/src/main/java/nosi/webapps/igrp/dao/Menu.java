@@ -71,22 +71,24 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 	@Transient
 	private static final String sqlMenuByProfile = " SELECT prof.org_fk,prof.prof_type_fk,m_sub.*,"
 			+ " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai,"
-			+ " ac.page,ac.action,ac.versao,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile, "
+			+ " ac.page,ac.action,ac.versao,ac.tipo,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile,env_a.externo as external,env_a.url as url, "
 			+ " case WHEN (m_super.self_fk is not null AND m_super.self_fk=m_super.id) then 1 else 0 END as isSubMenuAndSuperMenu "
 			+ " FROM tbl_profile prof INNER JOIN tbl_menu m_sub ON prof.type_fk=m_sub.id AND prof.type='MEN' "
 			+ " LEFT JOIN tbl_menu m_super ON m_sub.self_fk=m_super.id "
-			+ " LEFT JOIN tbl_action ac ON ac.id=m_sub.action_fk " + " LEFT JOIN tbl_env env_a ON env_a.id=ac.env_fk "
+			+ " LEFT JOIN tbl_action ac ON ac.id=m_sub.action_fk "
+			+ " LEFT JOIN tbl_env env_a ON env_a.id=ac.env_fk "
 			+ " LEFT JOIN tbl_profile_type prof_type ON prof_type.id=prof.prof_type_fk "
 			+ " LEFT JOIN tbl_env env_prof ON env_prof.id=prof_type.env_fk "
 			+ " WHERE prof.org_fk=:org_fk AND prof.prof_type_fk=:prof_type_fk AND env_prof.dad=:dad AND m_sub.status=:status";
 	@Transient
 	private static final String sqlMenuByUser = " SELECT prof.org_fk,prof.prof_type_fk,m_sub.*,"
 			+ " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai,"
-			+ " ac.page,ac.action,ac.versao,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile, "
+			+ " ac.page,ac.action,ac.versao,ac.tipo,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile,env_a.externo as external,env_a.url as url, "
 			+ " case WHEN (m_super.self_fk is not null AND m_super.self_fk=m_super.id) then 1 else 0 END as isSubMenuAndSuperMenu "
 			+ " FROM tbl_profile prof INNER JOIN tbl_menu m_sub ON prof.type_fk=m_sub.id AND prof.type='MEN_USER' AND user_fk=:user_fk"
 			+ " LEFT JOIN tbl_menu m_super ON m_sub.self_fk=m_super.id "
-			+ " LEFT JOIN tbl_action ac ON ac.id=m_sub.action_fk " + " LEFT JOIN tbl_env env_a ON env_a.id=ac.env_fk "
+			+ " LEFT JOIN tbl_action ac ON ac.id=m_sub.action_fk "
+			+ " LEFT JOIN tbl_env env_a ON env_a.id=ac.env_fk "
 			+ " LEFT JOIN tbl_profile_type prof_type ON prof_type.id=prof.prof_type_fk "
 			+ " LEFT JOIN tbl_env env_prof ON env_prof.id=prof_type.env_fk "
 			+ " WHERE prof.org_fk=:org_fk AND prof.prof_type_fk=:prof_type_fk AND env_prof.dad=:dad AND m_sub.status=:status ";
@@ -258,10 +260,9 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 					ms.setLink(linky);
 					ms.setType(2);
 				} else {
-					Action pagina = new Action().find().keepConnection().andWhere("page", "=", r.getString("page"))
-							.andWhere("application.dad", "=", r.getString("dad_app_page")).one();
-					if (pagina != null) {
-						if (pagina.getTipo() == 1) { // If it is a public page ...
+					
+					if (r.getString("page") != null) {
+						if (r.getInt("tipo") == 1) { // If it is a public page ...
 							ms.setType(1);
 							
 							ms.setLink(r.getString("dad_app_page") + "/" + r.getString("page") + "/"
@@ -269,38 +270,40 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 									+ (Core.isNull(aux) ? "pt_PT" : aux) /* + "&target=_blank" */);
 						} else {
 
+							final int external = r.getInt("external");
 							if (!r.getString("dad_app_page").equals("tutorial")
 									&& !r.getString("dad_app_page").equals("igrp_studio")
 									&& !r.getString("dad_app_page").equals("igrp")
 									&& !r.getString("dad_app_page").equals(currentDad)
-									&& pagina.getApplication().getExternal() != 0) {
+									&& external != 0) {
 
 								ms.setType(2);
 
 								
 								// Externo
-								if (pagina.getApplication().getExternal() == 1) {
-									if (deployedWarName.equals(pagina.getApplication().getUrl())) {
+								final String url = r.getString("url");
+								if (external == 1) {
+									if (deployedWarName.equals(url)) {
 										ms.setType(3);
 										ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/"
 												+ r.getString("page") + "/" + r.getString("action")) + "&dad="
 												+ currentDad);
 									} else {
 										String _u = buildExternalUrl(r.getString("dad_app_page"),
-												r.getString("dad_app_page"), r.getString("page"));
+												r.getString("dad_app_page"), r.getString("page"),r.getString("action"));
 										ms.setLink(_u);
 									}
 								}
 								// Custom host folder
-								if (pagina.getApplication().getExternal() == 2) {
-									if (deployedWarName.equals(pagina.getApplication().getUrl())) {
+								if (external == 2) {
+									if (deployedWarName.equals(url)) {
 										ms.setType(3);
 										ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/"
 												+ r.getString("page") + "/" + r.getString("action")) + "&dad="
 												+ currentDad);
 									} else {
-										String _u = buildExternalUrl(pagina.getApplication().getUrl(),
-												r.getString("dad_app_page"), r.getString("page")); // Custom Dad
+										String _u = buildExternalUrl(url,
+												r.getString("dad_app_page"), r.getString("page"),r.getString("action")); // Custom Dad
 										ms.setLink(_u);
 									}
 								}
@@ -310,7 +313,6 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 						}
 					}
 				}
-
 				ms.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
 
 				List<MenuProfile> value = new ArrayList<>();
@@ -371,12 +373,9 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 		// AND type_fk=m.id) then 1 else 0 END) as isInserted FROM tbl_menu m WHERE
 		// m.action_fk is not null AND m.status=1 AND m.env_fk<>:env_fk AND
 		// m.flg_base=1";
-		ResultSet.Record record = Core.query(this.getConnectionName(), sqlMenuByApp).addInt("org_fk", orgID)
+		ResultSet.Record recor = Core.query(this.getConnectionName(), sqlMenuByApp).addInt("org_fk", orgID)
 				.addInt("env_fk", appID).orderByAsc("flg_base").getRecordList();
-		record.rowList.forEach(row -> {
-
-			lista.put(row.getInt("action_fk"), row.getString("descr"));
-		});
+		recor.rowList.forEach(row -> lista.put(row.getInt("action_fk"), row.getString("descr")));
 
 		return lista;
 	}
@@ -388,19 +387,15 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 				+ menu + ", organization=" + organization + "]";
 	}
 
-	private String buildExternalUrl(String dad, String app, String page) {
+	private String buildExternalUrl(String dad, String app, String page, String action) {
 		String url = "#";
-		Action pagina = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", page).one();
-		if (pagina != null) {
-			url = ConfigApp.getInstance().getExternalUrl(dad);
-			url = String.format("%s?r=%s/%s/%s", url, app, page, pagina.getAction());
-		}
+		url = String.format("%s?r=%s/%s/%s", ConfigApp.getInstance().getExternalUrl(dad), app, page, action);
 		return url;
 	}
 
 	// To integrate with PL-SQL services as a Rest
 	public List<MenuProfile> getMyMenu(String currentDad, Integer userId, Integer currentOrg, Integer currentProf) {
-		List<MenuProfile> list = new ArrayList<MenuProfile>();
+		List<MenuProfile> list = new ArrayList<>();
 		Record row = Core.query(this.getConnectionName(), sqlMenuByProfile).union().select(sqlMenuByUser)
 				.addInt("org_fk", currentOrg).addInt("prof_type_fk", currentProf).addString("dad", currentDad)
 				.addInt("status", 1).addInt("org_fk", currentOrg).addInt("prof_type_fk", currentProf)

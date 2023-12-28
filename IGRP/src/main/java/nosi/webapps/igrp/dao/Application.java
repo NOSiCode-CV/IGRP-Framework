@@ -323,9 +323,9 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		}		
 		if(!list.isEmpty()){
 			list=list.stream() 
-					.filter(distinctByKey(Profile::getType_fk)) 
+					.filter(distinctByKey(Profile::getType_fk))
+					.sorted(Comparator.comparing(Profile::getType_fk)) 
 					.toList();
-				list.sort(Comparator.comparing(Profile::getType_fk));
 				if (allInative) {
 					list.stream().peek(e -> listApp.add(e.getProfileType().getApplication())).toList();
 				} else {
@@ -359,9 +359,10 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 				.andWhere("user.id", "=", u.getId())
 				.andWhere("type_fk", ">", 1).all();
 		list=list.stream() 
-			.filter(distinctByKey(Profile::getType_fk)) 
+			.filter(distinctByKey(Profile::getType_fk))
+			.sorted(Comparator.comparing(Profile::getType_fk))
 			.collect(Collectors.toList());
-		list.sort(Comparator.comparing(Profile::getType_fk));
+//		list.sort(Comparator.comparing(Profile::getType_fk));
 		return list;
 	}
 	
@@ -373,8 +374,9 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		if(list!=null && !list.isEmpty()) {
 			list=list.stream() 
 				.filter(distinctByKey(Profile::getType_fk)) 
+				.sorted(Comparator.comparing(Profile::getType_fk))
 				.collect(Collectors.toList());
-			list.sort(Comparator.comparing(Profile::getType_fk));
+//			list.sort(Comparator.comparing(Profile::getType_fk));
 			return list;
 		}
 		return null;
