@@ -1,24 +1,18 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <!-- HEAD -->
   <xsl:template name="IGRP-head">
-
+   
+     <title><xsl:value-of select="rows/title"/></title>
     <link REL="SHORTCUT ICON" HREF="{$path}/assets/img/favicon.ico" />
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
-    <link rel="mask-icon" href="{$path}/assets/img/safari-pinned-tab.svg" color="#5bbad5"/>
+    <link rel="mask-icon" href="{$path}/themes/default/img/logo2.svg" color="#5bbad5"/>
     
-    <title><xsl:value-of select="rows/title"/></title>
-    
-        
-     <!-- FontAwesome -->
-    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'"/>
-    <!-- /FontAwesome -->
     <!-- Normalize -->
     <link rel="stylesheet" href="{$path}/core/normalize/normalize.css" media="none" onload="if(media!='all')media='all'"/>
     <!-- /Normalize -->
-
 
     <!-- Bootstrap Include CSS -->
     <xsl:if test="not($themeConfigData/css/@bootstrap) or $themeConfigData/css/@bootstrap!='false'">
@@ -31,7 +25,9 @@
     </xsl:if>
     <!-- /Bootstrap Include CSS -->
 
-   
+     <!-- FontAwesome -->
+    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css"/>
+    <!-- /FontAwesome -->
 
     <!-- COLOR PALETTES -->
     <link rel="stylesheet" type="text/css" href="{$path}/core/colorpalettes/old-palettes.css"  media="none" onload="if(media!='all')media='all'"  />
@@ -90,12 +86,11 @@
    		var ispublic    = '<xsl:value-of select="$ispublic"/>';
       	var rekey       = '<xsl:value-of select="$recaptchakey"/>'; 
       	var secretrekey = '<xsl:value-of select="$secretrecaptchakey"/>'; 
-    </script>
-    <xsl:if test="$ispublic = 1">
+	</script>
+	  <xsl:if test="$ispublic = 1">
       	<!-- reCAPTCHA -->
       	<script src="https://www.google.com/recaptcha/api.js?render={$recaptchakey}"></script>
    	 </xsl:if>
-
 
     <!-- BS CSS -->    
    <!-- NOT ASYNC JS-->   
