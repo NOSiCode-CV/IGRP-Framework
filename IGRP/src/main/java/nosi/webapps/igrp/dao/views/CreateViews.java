@@ -9,10 +9,10 @@ import java.util.List;
 public final class CreateViews {
 
    public CreateViews() {
-      this.createView();
+      this.createViews();
    }
 
-   private void createView() {
+   private void createViews() {
       final String baseConnection = ConfigApp.getInstance().getBaseConnection();
       for (String sql : this.getViews()) {
          final QuerySelect q = new QuerySelect();

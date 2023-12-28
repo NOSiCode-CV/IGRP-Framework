@@ -18,20 +18,23 @@ public class _CONS_PROC extends Model{
 	@RParam(rParamName = "p_tipo_processo")
 	private String tipo_processo;
 
-	@RParam(rParamName = "p_cbx_utilizador")
-	private String cbx_utilizador;
+	@RParam(rParamName = "p_etapa_filtro")
+	private String etapa_filtro;
 
 	@RParam(rParamName = "p_referencia_pedido")
 	private String referencia_pedido;
 
-	@RParam(rParamName = "p_requerente")
-	private String requerente;
-
 	@RParam(rParamName = "p_num")
 	private String num;
 
+	@RParam(rParamName = "p_cbx_utilizador")
+	private String cbx_utilizador;
+
 	@RParam(rParamName = "p_status")
 	private String status;
+
+	@RParam(rParamName = "p_requerente")
+	private String requerente;
 
 	@RParam(rParamName = "p_intervalo_entrada")
 	private String intervalo_entrada;
@@ -44,6 +47,9 @@ public class _CONS_PROC extends Model{
 
 	@RParam(rParamName = "p_data_de")
 	private String data_de;
+
+	@RParam(rParamName = "p_size_registos")
+	private Integer size_registos;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -75,11 +81,11 @@ public class _CONS_PROC extends Model{
 		return this.tipo_processo;
 	}
 	
-	public void setCbx_utilizador(String cbx_utilizador){
-		this.cbx_utilizador = cbx_utilizador;
+	public void setEtapa_filtro(String etapa_filtro){
+		this.etapa_filtro = etapa_filtro;
 	}
-	public String getCbx_utilizador(){
-		return this.cbx_utilizador;
+	public String getEtapa_filtro(){
+		return this.etapa_filtro;
 	}
 	
 	public void setReferencia_pedido(String referencia_pedido){
@@ -89,13 +95,6 @@ public class _CONS_PROC extends Model{
 		return this.referencia_pedido;
 	}
 	
-	public void setRequerente(String requerente){
-		this.requerente = requerente;
-	}
-	public String getRequerente(){
-		return this.requerente;
-	}
-	
 	public void setNum(String num){
 		this.num = num;
 	}
@@ -103,11 +102,25 @@ public class _CONS_PROC extends Model{
 		return this.num;
 	}
 	
+	public void setCbx_utilizador(String cbx_utilizador){
+		this.cbx_utilizador = cbx_utilizador;
+	}
+	public String getCbx_utilizador(){
+		return this.cbx_utilizador;
+	}
+	
 	public void setStatus(String status){
 		this.status = status;
 	}
 	public String getStatus(){
 		return this.status;
+	}
+	
+	public void setRequerente(String requerente){
+		this.requerente = requerente;
+	}
+	public String getRequerente(){
+		return this.requerente;
 	}
 	
 	public void setIntervalo_entrada(String intervalo_entrada){
@@ -136,6 +149,13 @@ public class _CONS_PROC extends Model{
 	}
 	public String getData_de(){
 		return this.data_de;
+	}
+	
+	public void setSize_registos(Integer size_registos){
+		this.size_registos = size_registos;
+	}
+	public Integer getSize_registos(){
+		return this.size_registos;
 	}
 
 

@@ -46,7 +46,7 @@ public class DisplayDocmentType{
 		formlist_documento_task.getProperties().add("no-delete", "true").add("no-add", "true");
 		this.addField(formlist_documento_task);		
 		formlist_documento_task.addData(this.getInputDocsData()); 
-		return formlist_documento_task.getData() !=null && formlist_documento_task.getData().size() > 0 ? formlist_documento_task.toString() : "";
+		return formlist_documento_task.getData() !=null && !formlist_documento_task.getData().isEmpty() ? formlist_documento_task.toString() : "";
 	}
 	
 	private String displayOutputDocs() {
@@ -55,7 +55,7 @@ public class DisplayDocmentType{
 		formlist_documento_output_task.getProperties().add("no-delete", "true").add("no-add", "true");
 		this.addField_(formlist_documento_output_task);		
 		formlist_documento_output_task.addData(this.getOutputDocsData());
-		return formlist_documento_output_task.getData() != null && formlist_documento_output_task.getData().size() > 0 ? formlist_documento_output_task.toString():"";
+		return formlist_documento_output_task.getData() != null && !formlist_documento_output_task.getData().isEmpty() ? formlist_documento_output_task.toString():"";
 	}
 	
 	private String displayInputNOutputDocs() {
@@ -66,7 +66,7 @@ public class DisplayDocmentType{
 		List<Formlist_documento_task> l = this.getInputDocsData();
 		if(l != null) l.addAll(this.getOutputDocsData());
 		formlist_documento_task.addData(l);
-		return formlist_documento_task.getData() !=null && formlist_documento_task.getData().size() > 0 ? formlist_documento_task.toString() : "";
+		return formlist_documento_task.getData() !=null && !formlist_documento_task.getData().isEmpty() ? formlist_documento_task.toString() : "";
 	
 	}
 	
@@ -109,7 +109,7 @@ public class DisplayDocmentType{
 	private List<Formlist_documento_task> getInputDocsData() {
 		List<Formlist_documento_task> data = new ArrayList<>();
 		if(this.listDocmentType!=null) {
-			this.listDocmentType.stream().forEach(td->{	
+			this.listDocmentType.forEach(td->{
 				if(td.getTipo().equals("IN")) {
 					Formlist_documento_task ft = new Formlist_documento_task();
 					String descricao="",nome = "";
@@ -143,7 +143,7 @@ public class DisplayDocmentType{
 	private List<Formlist_documento_task> getOutputDocsData() {
 		List<Formlist_documento_task> data = new ArrayList<>();
 		if(this.listDocmentType!=null) {
-			this.listDocmentType.stream().forEach(td->{		
+			this.listDocmentType.forEach(td->{
 				if(td.getTipo().equals("OUT")) {
 					Formlist_documento_task ft = new Formlist_documento_task();
 					String descricao="",nome = "";

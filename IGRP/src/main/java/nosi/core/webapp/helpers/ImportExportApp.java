@@ -111,7 +111,7 @@ public class ImportExportApp {
 			}
 			this.filesPageClasses = newFilesPage;
 		}
-		return this.filesPageClasses!=null && this.filesPageClasses.size() > 0;
+		return this.filesPageClasses!=null && !this.filesPageClasses.isEmpty();
 	}
 	
 	public boolean validateExportApp(Application app){
@@ -145,7 +145,7 @@ public class ImportExportApp {
 		//Optional<Map<String,String>> opt1 = Optional.of(this.filesPageClasses);
 		Optional<Set<Action>> opt1 = Optional.of(app.getActions());
 		
-		return opt1.isPresent() && opt1.get().size() > 0;
+		return opt1.isPresent() && !opt1.get().isEmpty();
 	}
 	
 	public Map<String,String> getFilesPageClasses(){

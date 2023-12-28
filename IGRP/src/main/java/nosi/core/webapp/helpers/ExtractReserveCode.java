@@ -15,16 +15,17 @@ import nosi.core.webapp.Core;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ExtractReserveCode {
 	
-		public static String globalReserveHeadStart = "/*----#START-PRESERVED-AREA(";
+		public static final String globalReserveHeadStart = "/*----#START-PRESERVED-AREA(";
 		
-		public static String globalReserveHeadEnd = ")----*/";
+		public static final String globalReserveHeadEnd = ")----*/";
 		
-		public static String globalReserveEnd = "/*----#END-PRESERVED-AREA----*/";
+		public static final String globalReserveEnd = "/*----#END-PRESERVED-AREA----*/";
 
 	 	public static String extract(String app, String page){	
 	 		
@@ -44,11 +45,9 @@ public class ExtractReserveCode {
 		        
 		        codes.add(ExtractReserveCode.extractCustomsMethods(code));
 		        
-		        ArrayList<ReserveCode> list = ExtractReserveCode.extractMethods(className,code);
+		        List<ReserveCode> list = ExtractReserveCode.extractMethods(className,code);
 		        
-		        if(list!=null)
-		        	
-		            codes.addAll(list);
+		        codes.addAll(list);
 		        
 		        return gson.toJson(codes);
 	 			
@@ -118,24 +117,23 @@ public class ExtractReserveCode {
 	       return ExtractReserveCode.extract(code,"custom_actions", "custom_actions");
 	    }   
 	    
-	    public static ArrayList<ReserveCode> extractMethods(String className,String code) {  
+	    public static List<ReserveCode> extractMethods(String className,String code) {  
 	        ArrayList<ReserveCode> codes = new ArrayList<>();
-	        ArrayList<String> extrats = extractAllMethods(className);
+	        List<String> extrats = extractAllMethods(className);
 	        if(extrats != null)
-		        extractAllMethods(className).stream().forEach(ac->{
-		            
-		        	codes.add(ExtractReserveCode.extract(code,ac, ac.toUpperCase()));
-		        });
+		        extractAllMethods(className).forEach(ac->
+		        	codes.add(ExtractReserveCode.extract(code,ac, ac.toUpperCase()))
+		        );
 	        return codes;
 	    }	
 	    
-	    public static ArrayList<String> extractAllMethods(String className){
+	    public static List<String> extractAllMethods(String className){
 	        try {
 	            ArrayList<String> actions = new ArrayList<>();
 	            Class<?> c = Class.forName(className);
 	            for (Method method : c.getDeclaredMethods()) {
 	           
-	                actions.add(method.getName().replaceAll("action", ""));
+	                actions.add(method.getName().replace("action", ""));
 	            }
 	            return actions;
 	        } catch (ClassNotFoundException ex) {

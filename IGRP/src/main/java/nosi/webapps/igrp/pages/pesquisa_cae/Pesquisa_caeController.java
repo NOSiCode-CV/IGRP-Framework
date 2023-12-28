@@ -40,10 +40,10 @@ public class Pesquisa_caeController extends Controller {
 	public Response actionRemote_treemenu_1() throws IOException, IllegalArgumentException, IllegalAccessException{
 		String p_id = Core.getParam("p_id");
 		String jsonLookup = Core.getParam("jsonLookup");
-		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" 
-		+ " <treemenu_1> "
-				+ "<table>"
-				+ "<value>";
+		StringBuilder xml = new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                                              + " <treemenu_1> "
+                                              + "<table>"
+                                              + "<value>");
 		
 		if(Core.isNotNull(jsonLookup)) {
 			try {
@@ -52,22 +52,20 @@ public class Pesquisa_caeController extends Controller {
 				e.printStackTrace();
 			}
 			Properties params = (Properties) Core.fromJson(jsonLookup,Properties.class);
-			params.entrySet().forEach(p1->{
-				if(p1.getValue().equals("treemenu_1_tmid"))
-					id_cae=p1.getKey().toString();
-				else if (p1.getValue().equals("treemenu_1_link_desc"))
-					des_cae=p1.getKey().toString();
-			});
+			params.forEach((key, value) -> {
+               if (value.equals("treemenu_1_tmid"))
+                  id_cae = key.toString();
+               else if (value.equals("treemenu_1_link_desc"))
+                  des_cae = key.toString();
+            });
 		}
 		List<Treemenu_1> lista = this.pesquisaCae(p_id);
 		for(Pesquisa_cae.Treemenu_1 li : lista) {			
 			
-			xml += getXml(li.getTreemenu_1_tmid()+"", li.getTreemenu_1_link_desc(),p_id, li.getTreemenu_1_child(),des_cae,id_cae);			
+			xml.append(getXml(li.getTreemenu_1_tmid() + "", li.getTreemenu_1_link_desc(), p_id, li.getTreemenu_1_child(), des_cae, id_cae));
 		}
-		xml +=  "</value>"
-				+ "</table>"
-				+ "</treemenu_1>";
-		return this.renderView(xml);
+		xml.append("</value>" + "</table>" + "</treemenu_1>");
+		return this.renderView(xml.toString());
 		
 	}
 	
@@ -96,7 +94,7 @@ public class Pesquisa_caeController extends Controller {
 							ParamisPublic="<param>isPublic="+ isPublic + "</param>" ;
 						}
 		 
-		 String xml =	"<row>" + 
+		 return	"<row>" +
 							"<context-menu>"+
 							"<param>"+des_cae+"="+ desc_menu +"</param>"+
 							"<param>"+id_cae+"="+ id +"</param>"
@@ -109,7 +107,6 @@ public class Pesquisa_caeController extends Controller {
 								"<treemenu_1_child>" + child +"</treemenu_1_child>" + 
 								"<treemenu_1_active/>" + 
 							"</row>";
-			return xml;
 	}
 /*----#end-code----*/
 }

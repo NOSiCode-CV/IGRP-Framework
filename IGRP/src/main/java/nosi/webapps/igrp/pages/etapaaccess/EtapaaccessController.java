@@ -74,8 +74,8 @@ public class EtapaaccessController extends Controller {
 		 String[] p_id = Core.getParamArray("p_id_fk");
 		 String[] p_id_check = Core.getParamArray("p_id_check_fk"); 
 		 
-		List<String> chekedIds = new ArrayList(Arrays.asList(p_id_check)); 
-		List<String> unChekedIds = new ArrayList(Arrays.asList(p_id)); // all Ids 
+		List<String> chekedIds = new ArrayList<>(Arrays.asList(p_id_check));
+		List<String> unChekedIds = new ArrayList<>(Arrays.asList(p_id)); // all Ids
 		 
 		 try {
 			 unChekedIds.removeIf(p->chekedIds.stream().anyMatch(f->f.equals(p))); 
@@ -179,7 +179,7 @@ public class EtapaaccessController extends Controller {
 					String[] aux = uncheckedId.split(SEPARATOR); 
 					taskname = aux[0]; 
 					processname = aux[1];
-				} catch (Exception e) {} 
+				} catch (Exception ignored) {}
 				if("org".compareTo(type)==0) {				
 					Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_task_access")
 											.where("org_fk=:org_fk and processname=:processname and taskname=:taskname") 
@@ -223,11 +223,11 @@ public class EtapaaccessController extends Controller {
 				listExist.addAll(this.getTaskOrgExists(org.getId(), process.getKey()));
 			}
 			 
-			list.stream().forEach(task->{
+			list.forEach(task->{
 				Table_1 t = new Table_1();
 				t.setId(task.getTaskDefinitionKey()+SEPARATOR+task.getProcessDefinitionId()+SEPARATOR+Core.getSwitchNotNullValue(task.getProcessDefinitionKey(),task.getProcessDefinitionId()) + " - " + task.getName()+" ("+task.getProcessDefinitionId()+")");
 			
-				if(listExist!=null && !listExist.stream().filter(c->c.getProcessName().compareTo(task.getProcessDefinitionId())==0).filter(c->c.getTaskName().compareTo(task.getTaskDefinitionKey())==0).collect(Collectors.toList()).isEmpty()) {
+				if(listExist!=null && !(listExist.stream().filter(c -> c.getProcessName().compareTo(task.getProcessDefinitionId()) == 0).filter(c -> c.getTaskName().compareTo(task.getTaskDefinitionKey()) == 0).count() == 0)) {
 						t.setId_check(t.getId());
 					
 				}
@@ -254,7 +254,7 @@ public class EtapaaccessController extends Controller {
 			list = list.stream().collect(Collectors.groupingBy(task->task.getProcessName() + "" + task.getTaskName()))
 				.values().stream().map(m->m.get(0)).toList(); // Eliminar Duplicatas 
 			
-			list.stream().forEach(task->{
+			list.forEach(task->{
 				Table_1 t = new Table_1();
 				t.setId(task.getTaskName()+SEPARATOR+task.getProcessName()+SEPARATOR+task.getTaskDescription());
 				t.setProcessid(task.getProcessName());
@@ -279,7 +279,7 @@ public class EtapaaccessController extends Controller {
 													.andWhere("profileType","=", prof.getId())
 													.andWhereNotNull("profileType")
 													.all();
-			list.stream().forEach(task->{
+			list.forEach(task->{
 				Table_1 t = new Table_1();
 				t.setId(task.getTaskName()+SEPARATOR+task.getProcessName()+SEPARATOR+task.getTaskDescription());
 				t.setProcessid(task.getProcessName());
@@ -319,12 +319,11 @@ public class EtapaaccessController extends Controller {
 	 * Get existing task associate to the user
 	 */
 	private TaskAccess getTaskUserExists(User user,String proccessName,String taskName){
-		TaskAccess t= new TaskAccess().find()
+       return new TaskAccess().find().keepConnection()
 				.andWhere("processName", "=",proccessName)
 				.andWhere("taskName", "=",taskName)
-				.andWhere("user_fk", "=",user.getId())		
+				.andWhere("user_fk", "=",user.getId())
 				.one();
-		return t;
 	}
 	private static final String SEPARATOR = "---IGRP---";
 	/*----#end-code----*/

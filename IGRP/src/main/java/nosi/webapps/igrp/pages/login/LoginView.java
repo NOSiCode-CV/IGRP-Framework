@@ -7,7 +7,6 @@ import static nosi.core.i18n.Translator.gt;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -50,8 +49,8 @@ public class LoginView extends View {
 		buttontoken.setLabel("Login com Token");
 		buttontoken.propertie().add("name","p_buttontoken").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		sam_message = new HiddenField(model,"sam_message");
-		sam_message.setLabel("Message");;
-		sam_message.propertie().add("name","p_sam_message").add("type","hidden").add("maxlength","100").add("tag","sam_message");
+		sam_message.setLabel("Message");
+        sam_message.propertie().add("name","p_sam_message").add("type","hidden").add("maxlength","100").add("tag","sam_message");
 		sam_message_digest = new HiddenField(model,"sam_message_digest");
 		sam_message_digest.setLabel("Message Digest");
 		sam_message_digest.propertie().add("name","p_sam_message_digest").add("type","hidden").add("maxlength","100").add("tag","sam_message_digest");

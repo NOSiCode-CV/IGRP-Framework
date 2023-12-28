@@ -25,7 +25,7 @@ public class TaskController extends Controller {
 		if (Core.isNotNull(model.getAplicacao())) {
 			Application app = new Application().findOne(Core.toInt(model.getAplicacao()));
 			if (Core.isNotNull(model.getProcesso())) {
-				new TaskServiceRest().getTasksByProcessKey(model.getProcesso(),app.getDad()).stream().forEach(t -> {
+				new TaskServiceRest().getTasksByProcessKey(model.getProcesso(),app.getDad()).forEach(t -> {
 					Task.Table_1 t1 = new Task.Table_1();
 					t1.setSelecionar(t.getProcessDefinitionId() + "_" + t.getId());
 					t1.setDescricao(t.getName());

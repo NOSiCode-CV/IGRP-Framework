@@ -2,8 +2,6 @@
 package nosi.webapps.igrp.pages.file;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 /*----#end-code----*/
 
@@ -17,7 +15,6 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.TempFileHelper;
-import nosi.core.webapp.helpers.UrlHelper;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.TempFile;
@@ -45,7 +42,7 @@ public class FileController extends Controller {
 		if(Core.isNotNull(uuid))
 			 file = Core.getFileByUuid(uuid);
 		else
-			 file = Core.getFile(Core.getParamInt("p_id").intValue());
+			 file = Core.getFile(Core.getParamInt("p_id"));
 		if(file!=null) {
 			if(!(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated())  && !file.getEstado().equals("AP")){
 				throw new Exception("File not public. Not estado AP");
@@ -63,7 +60,7 @@ public class FileController extends Controller {
 		if(Core.isNotNull(uuid))
 			 file = Core.getFileByUuid(uuid);
 		else
-			 file = Core.getFile(Core.getParamInt("p_id").intValue());
+			 file = Core.getFile(Core.getParamInt("p_id"));
 		if(file!=null) {
 			if(!file.getEstado().equals("AP")){
 				throw new Exception("File not public. Not estado AP");
@@ -83,7 +80,7 @@ public class FileController extends Controller {
 	
 	public Response actionSaveImage()  throws Exception {		
 		Properties p = new Properties();
-		Integer id = Integer.valueOf(-1);
+		Integer id = -1;
 		String uuid = Core.saveFileNGetUuid("p_file_name");
 		if(Core.isNull(uuid)) {			
 			p.put("msg", Core.gt("Error saving file."));
@@ -105,21 +102,21 @@ public class FileController extends Controller {
 			Part file = Core.getFile("p_file_name");
 			if (file != null) {
 				fileName = file.getSubmittedFileName();
-				fileName =  fileName.replaceAll(" ", "-");
+				fileName =  fileName.replace(" ", "-");
 				if(Core.isNotNull(fileName)) {
 					int index = fileName.lastIndexOf(".");
 					if(index!=-1) {
 						String extensionName = fileName.substring(index+1);
 						String workSapce = Path.getImageWorkSpaceTxt(appName,pageName);
 						if(Core.isNotNull(workSapce))//Saving in your workspace case exists
-							r = FileHelper.saveImage(workSapce, fileName,extensionName.toLowerCase(), file);
+							FileHelper.saveImage(workSapce, fileName,extensionName.toLowerCase(), file);
 						//Saving into server
 						r = FileHelper.saveImage(Path.getImageServerTxt(appName,pageName), fileName,extensionName.toLowerCase(), file);
 					}
 				}
 			}
-		} catch (ServletException e) {
-			r = false;
+		} catch (ServletException ignored) {
+			
 		}
 		
 		//String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
@@ -142,7 +139,7 @@ public class FileController extends Controller {
 		String pageName = Core.getParam("p_page_name");
 		if(Core.isNotNull(fileName)) {
 			String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
-			return this.redirectToUrl(baseUrl.toString().replaceAll("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/"+appName+"/"+pageName+"/"+fileName);
+			return this.redirectToUrl(baseUrl.replace("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/"+appName+"/"+pageName+"/"+fileName);
 		}
 		resp.setContent(FlashMessage.MSG_ERROR);	
 		return resp;

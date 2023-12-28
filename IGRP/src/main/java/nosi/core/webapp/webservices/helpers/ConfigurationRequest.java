@@ -46,7 +46,7 @@ public class ConfigurationRequest {
 		return new HostnameVerifier() {
 			@Override
 			public boolean verify(String s, SSLSession sslSession) {
-				return true;
+				return s.equalsIgnoreCase(sslSession.getPeerHost());
 			}
 		};
 	}
@@ -56,7 +56,7 @@ public class ConfigurationRequest {
 		try {
 			sslContext = SSLContext.getInstance("SSL");
 			sslContext.init(null, this.createTrustManager(), new java.security.SecureRandom());// new java.security.SecureRandom()
-		} catch (NoSuchAlgorithmException | KeyManagementException e) {
+		} catch (NoSuchAlgorithmException | KeyManagementException ignored) {
 		}
 		return sslContext;
 	}
