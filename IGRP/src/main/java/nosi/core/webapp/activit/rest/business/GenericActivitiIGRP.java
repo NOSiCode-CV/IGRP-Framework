@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -72,11 +74,50 @@ public class GenericActivitiIGRP {
 				.map(ActivityExecute::getProcessid).distinct().collect(Collectors.toList());
 	}
 
-	@SuppressWarnings("deprecation")
+	/**
+	 * Get proccess instance that i have access
+	 * @return list of process instances
+	 */
+	public List<ActivityExecute> getMyProccessInstances(String[] filterProcessIDs) {
+		final String[] process = this.getMyProcessKey();
+		if (process.length > 0) {
+			List<ActivityExecute> listAllActivity = new ActivityExecute().find().keepConnection()
+					.where("organization", "=", Core.getCurrentOrganization())
+					.andWhere("proccessKey", "in", process)
+					.andWhere("processid", "in", filterProcessIDs)
+					.andWhere("application.dad", "=", Core.getCurrentDad())
+					.orderByDesc("id")
+					.all().stream()
+					.collect(Collectors.toMap(
+							ActivityExecute::getProcessid, // key - the field on which you want distinct activities
+							Function.identity(),      // value - the activity itself
+							(existing, replacement) -> existing)) // if a value already exists for a key, keep the existing
+					.values()
+					.stream()
+					.collect(Collectors.toList());
+			return listAllActivity;
+		}
+		return null;
+	}
+	
+	private String[] getMyProcessKey() {
+		final List<Map<String, Object>> taskAccessList = new TaskAccess().find()
+				.where("organization","=",Core.getCurrentOrganization())
+				.andWhere("profileType","=",Core.getCurrentProfile())
+				.groupBy("processName")
+				.keepConnection()
+				.allColumns("processName");
+		
+		if (taskAccessList == null)
+			return new String[] {};
+		
+		return taskAccessList.stream().map(m->m.get("processName")).distinct().toArray(String[]::new);
+	}	
+	
 	public boolean allowTask(String processKey,ActivityExecute task) {
 		boolean allowTask = true;//allow all task by default
     	try {
-    		if(Core.isNotNullMultiple(task.getApplication(),task.getApplication().getDad())) {
+      		if(Core.isNotNullMultiple(task.getApplication(),task.getApplication().getDad())) {
 	    		String packageName = GenerateInterfacePermission.getProccessPackageName(task.getApplication().getDad().toLowerCase(),processKey);
 	    		if(Core.isNotNull(packageName)) {
 					final Class<?> c = Class.forName(packageName);
@@ -89,50 +130,14 @@ public class GenericActivitiIGRP {
 			// Exception ignored
 		} 
     	return allowTask;
-	}	
-	
-	/**
-	 * Get proccess instance that i have access
-	 * @return list of process instances
-	 */
-	public List<ActivityExecute> getMyProccessInstances(String[] filterProcessIDs) {
-		final String[] process = this.getMyProcessKey();
-		if (process.length > 0)
-			return new ActivityExecute().find().keepConnection()
-					.where("organization", "=", Core.getCurrentOrganization())
-					.andWhere("proccessKey", "in", process)
-					.andWhere("processid", "in", filterProcessIDs)
-					.andWhere("application.dad", "=", Core.getCurrentDad())
-					.all();
-		return null;
 	}
-
-	private String[] getMyProcessKey() {
-
-		final List<TaskAccess> taskAccessList = new TaskAccess().find()
-				.where("organization","=",Core.getCurrentOrganization())
-				.andWhere("profileType","=",Core.getCurrentProfile())
-				.andWhere("profileType.application.dad","=",Core.getCurrentDad())
-				.keepConnection()
-				.all();
-
-		if (taskAccessList == null)
-			return new String[] {};
-
-		return taskAccessList.stream().map(TaskAccess::getProcessName).distinct().toArray(String[]::new);
-	}
-
 	
 	public boolean filterAccess(ProcessDefinitionService p) {
         if (null == p || p.getKey() == null)
             return false;
-        if ("igrp_studio".equalsIgnoreCase(Core.getCurrentApp().getDad()))
+        if ("igrp_studio".equalsIgnoreCase(Core.getCurrentDad()))
             return true;
-		return new TaskAccess().getTaskAccess().stream()
-				.anyMatch(a -> null != a && (
-								p.getKey().equals(a.getProcessName()) || ("Start" + p.getKey()).equals(a.getTaskName())
-						)
-				);
+		return new TaskAccess().hasTaskAccess(p.getKey());
 
     }
 

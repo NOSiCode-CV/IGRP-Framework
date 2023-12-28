@@ -9,15 +9,13 @@ import nosi.webapps.igrp.dao.Config;
 public class Credentials {
 
 	private static Credentials CREDENCIALS;
-	private final String url;
-	private final String userName;
-	private final String password;
+	private static final String url = new Config().find().where("name", "=", "url_ativiti_connection").one().getValue();
+	private static final String userName=new Config().find().where("name", "=", "ativiti_user").one().getValue();
+	private static final String password=new Config().find().where("name", "=", "ativiti_password").one().getValue();
 	
 	
 	private Credentials() {
-		this.url = new Config().find().where("name", "=", "url_ativiti_connection").one().getValue(); 
-		this.userName = new Config().find().where("name", "=", "ativiti_user").one().getValue();
-		this.password = new Config().find().where("name", "=", "ativiti_password").one().getValue();
+
 	}
 	
 	public static Credentials getInstance() {

@@ -46,7 +46,7 @@ public class ConfigurationRequest {
 		return new HostnameVerifier() {
 			@Override
 			public boolean verify(String s, SSLSession sslSession) {
-				return true;
+				return s.equalsIgnoreCase(sslSession.getPeerHost());
 			}
 		};
 	}

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import nosi.core.config.Config;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.compiler.helpers.Compiler;
-import nosi.core.webapp.databse.helpers.Connection;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.core.webapp.helpers.FileHelper;
@@ -62,7 +61,8 @@ public class CRUDGeneratorController extends Controller {
 			view.btn_add_datasource.setLink("igrp", "ConfigDatabase", "index");
 			view.aplicacao.setValue(new Application().getListApps());
 			view.table_type.setValue(DatabaseMetadaHelper.getTableTypeOptions());
-
+			view.check_table.propertie().add("maxlength", 100);
+			view.check_table_check.propertie().add("maxlength", 100);
 			view.documento.setValue("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT&p_type=crud");
 			view.forum.setValue("https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&utm_medium=link&utm_campaign=share-link");
 			
@@ -168,8 +168,9 @@ public class CRUDGeneratorController extends Controller {
 				}
 			}
 		}
-		return this.renderView(new CRUDGeneratorView());
-
+		//return this.renderView(new CRUDGeneratorView());
+		  return this.forward("igrp_studio","CRUDGenerator","index",this.queryString()); //if submit, loads the values
+						
 		/*----#end-code----*/
 			
 	}
@@ -235,8 +236,9 @@ public class CRUDGeneratorController extends Controller {
 		}
 		/* -- FIM ACTION GERAR -- */
 
-		return this.renderView(new CRUDGeneratorView());
-
+	//	return this.renderView(new CRUDGeneratorView());
+		  return this.forward("igrp_studio","CRUDGenerator","index",this.queryString()); //if submit, loads the values
+						
 		/*----#end-code----*/
 			
 	}

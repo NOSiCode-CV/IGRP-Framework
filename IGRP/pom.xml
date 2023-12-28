@@ -711,6 +711,13 @@
 							<openejb.system.apps>true</openejb.system.apps>
 							<tomee.remote.support>true</tomee.remote.support>
 						</systemVariables>
+						<libs>
+							<lib>remove:myfaces</lib>	
+							<lib>remove:openjpa-</lib>	
+<!--							<lib>remove:openwebbeans-</lib>-->
+<!--							<lib>remove:microprofile-</lib>		-->
+<!--							<lib>remove:smallrye-</lib>					-->
+						</libs>
 					</configuration>
 				</plugin>
 
