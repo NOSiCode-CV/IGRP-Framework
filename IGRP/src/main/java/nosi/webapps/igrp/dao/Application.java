@@ -327,11 +327,11 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 					.sorted(Comparator.comparing(Profile::getType_fk)) 
 					.toList();
 				if (allInative) {
-					list.stream().peek(e -> listApp.add(e.getProfileType().getApplication())).toList();
+					list.forEach(profile -> listApp.add(profile.getProfileType().getApplication()));
 				} else {
 					list.stream()
-					.filter(profile -> profile.getOrganization().getApplication().getStatus() == 1)
-							.peek(e -> listApp.add(e.getProfileType().getApplication())).toList();
+						.filter(profile -> profile.getOrganization().getApplication().getStatus() == 1)
+						.forEach(profile -> listApp.add(profile.getProfileType().getApplication()));
 				}
 			
 			
@@ -361,7 +361,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		list=list.stream() 
 			.filter(distinctByKey(Profile::getType_fk))
 			.sorted(Comparator.comparing(Profile::getType_fk))
-			.collect(Collectors.toList());
+			.toList();
 //		list.sort(Comparator.comparing(Profile::getType_fk));
 		return list;
 	}
@@ -375,7 +375,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 			list=list.stream() 
 				.filter(distinctByKey(Profile::getType_fk)) 
 				.sorted(Comparator.comparing(Profile::getType_fk))
-				.collect(Collectors.toList());
+				.toList();
 //			list.sort(Comparator.comparing(Profile::getType_fk));
 			return list;
 		}

@@ -226,11 +226,13 @@ public class EtapaaccessController extends Controller {
 			list.forEach(task->{
 				Table_1 t = new Table_1();
 				t.setId(task.getTaskDefinitionKey()+SEPARATOR+task.getProcessDefinitionId()+SEPARATOR+Core.getSwitchNotNullValue(task.getProcessDefinitionKey(),task.getProcessDefinitionId()) + " - " + task.getName()+" ("+task.getProcessDefinitionId()+")");
-			
-				if(listExist!=null && !(listExist.stream().filter(c -> c.getProcessName().compareTo(task.getProcessDefinitionId()) == 0).filter(c -> c.getTaskName().compareTo(task.getTaskDefinitionKey()) == 0).count() == 0)) {
-						t.setId_check(t.getId());
-					
+
+				if (listExist.stream()
+						.filter(c -> c.getProcessName().compareTo(task.getProcessDefinitionId()) == 0)
+						.anyMatch(c -> c.getTaskName().compareTo(task.getTaskDefinitionKey()) == 0)) {
+					t.setId_check(t.getId());
 				}
+
 				t.setDescricao(Core.getSwitchNotNullValue(task.getProcessDefinitionKey(),task.getProcessDefinitionId()) + " - " + task.getName()+" ("+task.getProcessDefinitionId()+")");
 				t.setProcessid(task.getProcessDefinitionId());
 				table.add(t);
