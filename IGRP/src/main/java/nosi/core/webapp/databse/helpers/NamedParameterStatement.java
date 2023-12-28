@@ -18,6 +18,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -74,12 +75,11 @@ public class NamedParameterStatement {
 					c = '?'; // replace the parameter with a question mark
 					i += name.length(); // skip past the end if the parameter
 
-					List<Integer> indexList = indexes.computeIfAbsent(name,n -> indexes.put(n, indexes.get(n)));
-//					List<Integer> indexList = indexes.get(name);
-//					if (indexList == null) {
-//						indexList = new LinkedList<>();
-//						indexes.put(name, indexList);
-//					}
+					List<Integer> indexList = indexes.get(name);
+					if (indexList == null) {
+						indexList = new LinkedList<>();
+						indexes.put(name, indexList);
+					}
 					indexList.add(index);
 
 					index++;
