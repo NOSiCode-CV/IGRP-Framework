@@ -158,8 +158,7 @@ public class IGRPUpdateWhereQuery<E> extends IGRPUpdateExecutionQuery<E> impleme
    }
 
    private <V> IGRPUpdateWhereQuery<E> internalNotIn(String column, V[] values) {
-      final javax.persistence.criteria.Predicate notInClause = this.getCriteriaBuilder().in(this.getRoot().get(column)).not();
-      notInClause.in(Arrays.asList(values));
+      final javax.persistence.criteria.Predicate notInClause = this.getCriteriaBuilder().not(this.getRoot().get(column).in(Arrays.asList(values)));
       this.addPredicate(notInClause);
       return this;
    }
