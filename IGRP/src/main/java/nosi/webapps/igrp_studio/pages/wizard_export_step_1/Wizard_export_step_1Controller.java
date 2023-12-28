@@ -82,7 +82,7 @@ private String getSql(String dad) {
 		boolean hasBPMN= new ProcessDefinitionIGRP().hasBPMN(dad);
 		List<OptionsImportExport> list = Arrays.stream(OptionsImportExport.values())
 				.filter(p -> p != OptionsImportExport.APP && p != OptionsImportExport.MODULO && p != OptionsImportExport.BPMN_DOCUMENT_TYPE)
-				.filter(p -> p == OptionsImportExport.BPMN? hasBPMN:true)
+				.filter(p -> p != OptionsImportExport.BPMN|| hasBPMN)
 				.collect(Collectors.toList());
 		int index = 0;
 		for (OptionsImportExport type : list) {
