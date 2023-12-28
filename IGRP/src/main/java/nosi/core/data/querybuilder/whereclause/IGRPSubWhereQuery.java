@@ -39,7 +39,7 @@ public abstract class IGRPSubWhereQuery<E> extends IGRPQueryBase<E> implements I
     }
 
     @SafeVarargs
-    private final <T> IGRPSubWhereQuery<E> internalIn(String column, T... values) {
+    private <T> IGRPSubWhereQuery<E> internalIn(String column, T... values) {
         In<T> inClause = this.getCriteriaBuilder().in(this.getRoot().get(column));
         Arrays.asList(values).forEach(inClause::value);
         this.addPredicate(inClause);
