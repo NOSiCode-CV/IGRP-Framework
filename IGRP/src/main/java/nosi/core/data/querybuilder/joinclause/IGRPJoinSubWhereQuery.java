@@ -50,8 +50,7 @@ public abstract class IGRPJoinSubWhereQuery<E> extends IGRPQueryBase<E> implemen
 
    @SafeVarargs
    private final <T> IGRPJoinSubWhereQuery<E> internalNotIn(String column, T... values) {
-      javax.persistence.criteria.Predicate notInClause = this.getCriteriaBuilder().in(join.get(column)).not();
-      notInClause.in(Arrays.asList(values));
+      final javax.persistence.criteria.Predicate notInClause = this.getCriteriaBuilder().not(join.get(column).in(Arrays.asList(values)));
       this.addPredicate(notInClause);
       return this;
    }

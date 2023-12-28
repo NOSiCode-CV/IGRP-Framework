@@ -234,9 +234,8 @@ public class IGRPWhereQuery<E> extends IGRPSelectQuery<E> implements IIGRPWhereQ
    }
 
    private <V> IGRPWhereQuery<E> internalNotIn(String attribute, V[] values) {
-      final javax.persistence.criteria.Predicate notInClause = this.getCriteriaBuilder().in(this.getRoot().get(attribute)).not();
-      notInClause.in(Arrays.asList(values));
-      this.addPredicate(notInClause);
+      final javax.persistence.criteria.Predicate notInClause = this.getCriteriaBuilder().not(this.getRoot().get(attribute).in(Arrays.asList(values)));
+      this.addPredicate(notInClause.not());
       return this;
    }
 
