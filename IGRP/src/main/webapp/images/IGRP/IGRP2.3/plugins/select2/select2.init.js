@@ -91,16 +91,22 @@
                     rel    = sel.attr('input-rel'),
 
                     valArr = sel.val(),
+                        
+                    valStr = valArr ? valArr : '',
+                        
+                        textArr = sel.find('option:selected').text(),
+                        textStr = textArr ? textArr : ''   ;
 
-                    valStr = valArr ? valArr : '';
-
-                if (sel.attr('multiple'))
-
-                    valStr = valArr ? valArr.join(';') : '';
+                if (sel.attr('multiple')){
+                        valStr = valArr ? valArr.join(';') : '';
+                        textStr = textArr ? textArr.join(';') : '';
+                }
+                    
 
                 var inputRel = $('[name="'+rel+'"]',sel.parent());
-
+                var inputRelDesc = $('[name="'+rel+'_desc"]',sel.parent());
                 inputRel.val(valStr).trigger('change');
+                inputRelDesc.val(textStr).trigger('change');
 
             }
 
