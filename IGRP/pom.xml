@@ -623,7 +623,7 @@
 								<!-- if you want to	update each time you build with mvn compile -->
                         <extension>.xml</extension>
                         <extension>.xsl</extension>
-                        <extension>.properties</extension>
+<!--                        <extension>.properties</extension>-->
                      </extensions>
                   </synchronization>
                   <systemVariables>
