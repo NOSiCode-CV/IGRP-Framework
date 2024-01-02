@@ -471,7 +471,7 @@ body.startin:before{
     content: "";
     width: 190px;
     height: 130px;
-    background: url(../../../themes/velzon/assets/images/logo-dark.svg);
+    background: url(../../../assets/img/loginLogo.svg);
     background-size: cover;
     display: block;
     left:50%;

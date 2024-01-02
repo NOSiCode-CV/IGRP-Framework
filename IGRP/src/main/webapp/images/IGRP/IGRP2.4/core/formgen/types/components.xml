@@ -202,7 +202,7 @@
 			<name>table</name>
 			<label>Table</label>
 			<accept>hidden,text,email,link,number,checkbox,color,time,date,button,img,select,lookup,plaintext</accept>
-			<group>table</group>
+			<group>form</group>
 		</item>
 		<item hidden="true">
 			<icon type='fa'>history</icon>
@@ -297,7 +297,7 @@
 			<name>infopanel</name>
 			<label>Info Panel</label>
 			<hasField>false</hasField>
-			<group>widget</group>
+			<group>dashboard</group>
 			<accept></accept>
 		</item>
 		
@@ -308,7 +308,7 @@
 			<label>Stat Box</label>
 			<hasField>false</hasField>
 			<reject>map_layer,map_widget</reject>
-			<group>widget</group>
+			<group>dashboard</group>
 			<accept></accept>
 		</item>
 		<item hidden="true">
@@ -317,7 +317,7 @@
 			<name>statbox_list</name>
 			<label>Stat Box List</label>
 			<hasField>false</hasField>
-			<group>widget</group>
+			<group>dashboard</group>
 			<accept></accept>
 		</item>
 		<item hidden="true">
@@ -336,16 +336,27 @@
 			<name>circlestatbox</name>
 			<label>Circle Stat Box</label>
 			<hasField>false</hasField>
-			<group>widget</group>
+			<group>dashboard</group>
 			<accept></accept>
 		</item>
+		<item>
+			<!-- Widget Teste-->
+				<icon type='fa'>cog </icon> 
+				<type>container</type>
+				<name>widget</name>
+				<label>Widget</label>
+				<hasField>false</hasField>
+				<group>dashboard</group>
+				<accept></accept>
+			</item>
+			<item>
 		<item hidden="true">
 			<icon type='fa'>dashboard</icon>
 			<type>container</type>
 			<name>smallbox</name>
 			<label>Small Box</label>
 			<hasField>false</hasField>
-			<group>widget</group>
+			<group>dashboard</group>
 			<accept></accept>
 		</item>
 		<item>
