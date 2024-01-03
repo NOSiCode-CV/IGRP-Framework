@@ -65,23 +65,23 @@
 						<div id="two-column-menu"></div>
 							<div class="position-relative px-2">
 									<input type="text" class="form-control " style="background: #ffffff14;" placeholder="Pesquisar..." autocomplete="off" id="search-options" value=""/>
-									<span class="mdi mdi-magnify search-widget-icon" style="left: 24px;"></span>								
+									<span class="mdi mdi-magnify search-widget-icon" style="left: 16px;"></span>								
 							</div>
 						
 						<ul class="navbar-nav" id="navbar-nav">
-							<li class="menu-title">
-								<span class="d-none" data-key="t-menu">Menu</span>
+<!-- 							<li class="menu-title"> -->
+<!-- 								<span class="d-none" data-key="t-menu">Menu</span> -->
 			
-							</li>
+<!-- 							</li> -->
 							<xsl:for-each select="$menus/menu">
 								<xsl:variable name="menu-position" select="position()"/>
 								<li class="nav-item menu-wrapper">
 									<xsl:choose>
 										<xsl:when test="link and link != ''">
 
-										<a class="nav-link menu-link" href="{link}" role="button" >
+										<a class="nav-link menu-link" href="{link}" target="{submenu/target}" role="button" >
 											<xsl:call-template name="igrp-icon">
-												<xsl:with-param name="icon" select="icon"/>
+												<xsl:with-param name="icon" select="submenu/menu_icon"/>
 											</xsl:call-template>
 											<span >
 												<xsl:value-of select="title"/>
@@ -92,7 +92,7 @@
 										<xsl:otherwise>
 											<a class="nav-link menu-link" href="#sidebar-menu-{$menu-position}" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-menu-{$menu-position}">
 												<xsl:call-template name="igrp-icon">
-													<xsl:with-param name="icon" select="icon"/>
+													<xsl:with-param name="icon" select="submenu/menu_icon"/>
 												</xsl:call-template>
 												<span >
 													<xsl:value-of select="title"/>
@@ -100,11 +100,17 @@
 											</a>
 											<xsl:if test="submenu">
 												<div class="collapse menu-dropdown" id="sidebar-menu-{$menu-position}">
-													<ul class="nav nav-sm flex-column submenu-wrapper">
+													<ul class="nav flex-column submenu-wrapper">
 														<xsl:for-each select="submenu">
+														 <xsl:sort select="order"/>
 															<li class="nav-item">
-																<a href="{link}" class="nav-link" data-key="t-sidebar-submenu-{$menu-position}-{position()}">
-																	<xsl:value-of select="title"/>
+																<a href="{link}" target="{target}" style="padding-left: 1.7rem;" class="nav-link" data-key="t-sidebar-submenu-{$menu-position}-{position()}">
+																	<xsl:call-template name="igrp-icon">
+																		<xsl:with-param name="icon" select="menu_icon" />
+																	</xsl:call-template>
+																	<span>
+																		<xsl:value-of select="title" />
+																	</span>
 																</a>
 															</li>
 														</xsl:for-each>

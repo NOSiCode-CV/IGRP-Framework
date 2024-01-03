@@ -328,18 +328,24 @@
     
             <ul class="nav nav-sidebar">
               <xsl:for-each select="$menus/menu">
-             
                 <xsl:variable name="parentId" select="concat($APP,'-',position())" />
                 <li parent-id="{$parentId}">
                   <xsl:choose>
                     <xsl:when test="link">
                       <xsl:attribute name="class">treeview</xsl:attribute>                  
                       <a href="{link}" target="{submenu/target}" item-id="{$parentId}-{position()}" text="{title}" style=" align-items: center;">
-                        <xsl:if test="submenu/menu_icon !=''" >
-                          <span class="menu-icon">
-                            <i class="fa {submenu/menu_icon}" />
-                          </span>
-                        </xsl:if> 
+                         <xsl:choose>
+	                        <xsl:when test="submenu/menu_icon !=''" >
+	                          <span class="menu-icon">
+	                            <i class="{submenu/menu_icon}" />
+	                          </span>
+	                        </xsl:when> 
+	                       <xsl:otherwise>
+	                          <span class="menu-icon">
+	                            <i class="fa fa-dot-circle-o" />
+	                          </span>
+	                        </xsl:otherwise> 
+                        </xsl:choose>
                         <span class="menu-title">
                           <xsl:value-of select="title" />
                         </span>
@@ -351,11 +357,11 @@
                         <xsl:attribute name="class">treeview</xsl:attribute>
                       </xsl:if>                  
                       <a href="#" text="{title}" class="menu-title">
-                        <xsl:if test="menu_icon !=''" >
-                          <span class="menu-icon">
-                            <i class="fa {menu_icon}" />
-                          </span>
-                        </xsl:if> 
+<!--                         <xsl:if test="menu_icon !=''" > -->
+                         <span class="menu-icon">
+                         	<i class="fa fa-list-ul" style="color: transparent;"></i>
+                         </span>
+<!--                         </xsl:if>  -->
                         <xsl:value-of select="title" />
                         <i class="fa fa-angle-right pull-right"></i>
                         <span class="nav-bar-active" bg-color="2" />                    
@@ -366,11 +372,18 @@
                            <xsl:sort select="order"/>
                             <li>
                               <a href="{link}"  target="{target}" item-id="{$parentId}-{position()}" text="{title}">
-                                <xsl:if test="menu_icon !=''" >
-                                  <span class="menu-icon">
-                                    <i class="fa {menu_icon}" />
-                                  </span>
-                                </xsl:if>   
+   							 <xsl:choose>
+		                        <xsl:when test="menu_icon !=''" >
+		                          <span class="menu-icon">
+		                            <i class="{menu_icon}" />
+		                          </span>
+		                        </xsl:when> 
+		                       <xsl:otherwise>
+		                          <span class="menu-icon">
+		                            <i class="fa fa-dot-circle-o" />
+		                          </span>
+		                        </xsl:otherwise> 
+                      	    </xsl:choose>
                                 <span class="menu-title">
                                   <xsl:value-of select="title" />
                                 </span>                                                  

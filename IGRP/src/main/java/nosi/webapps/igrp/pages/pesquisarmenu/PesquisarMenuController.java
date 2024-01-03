@@ -297,7 +297,7 @@ public class PesquisarMenuController extends Controller {
 							xmlWritter.setElement("id", "" + menuProfile.getId());
 							xmlWritter.setElement("status", "" + menuProfile.getStatus());
 							xmlWritter.setElement("order", "" + menuProfile.getOrder());
-							xmlWritter.setElement("menu_icon", menuProfile.getMenu_icon());
+							xmlWritter.setElement("menu_icon", (menuProfile.getMenu_icon()!=null && menuProfile.getMenu_icon().startsWith("fa"))?"fa "+menuProfile.getMenu_icon(): menuProfile.getMenu_icon());
 							xmlWritter.endElement();
 						}
 						xmlWritter.endElement();
