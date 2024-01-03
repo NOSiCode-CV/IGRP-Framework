@@ -129,7 +129,6 @@ public class NovaOrganicaController extends Controller {
 		view.organizacao_pai.setVisible(false);
 		view.plsql_code.setVisible(this.configApp.isActiveGlobalACL());
 		view.btn_gravar.setLink("editar_&p_id=" + idOrganica);
-		
 		view.setModel(model);
 		return this.renderView(view);
 	}
@@ -137,7 +136,7 @@ public class NovaOrganicaController extends Controller {
 	public Response actionEditar_(@RParam(rParamName = "p_id") String idOrganica)
 			throws IOException, IllegalArgumentException, IllegalAccessException {
 
-		if (Igrp.getInstance().getRequest().getMethod().equals("POST")) {
+		if (Core.isHttpPost()) {
 
 			NovaOrganica model = new NovaOrganica();
 			model.load();

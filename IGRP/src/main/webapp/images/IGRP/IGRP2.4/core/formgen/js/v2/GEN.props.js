@@ -10,6 +10,7 @@
             object.setProperty({
                 name: groupParams.name,
                 type:'separator',
+                order : groupParams.order && groupParams.order >=0 ? groupParams.order : false,
                 value : groupParams.value || groupParams.label
             });
 

@@ -469,18 +469,18 @@ body.startin{
 }
 body.startin:before{
     content: "";
-    width: 170px;
-    height: 90px;
-    background: url(../../../themes/velzon/assets/images/logo-dark.svg);
+    width: 190px;
+    height: 130px;
+    background: url(../../../assets/img/loginLogo.svg);
     background-size: cover;
     display: block;
     left:50%;
-    margin-left: -85px;
+    margin-left: -65px;
     opacity: 1;
     transition: opacity .5s;
     position: absolute;
     top: 50%;
-    margin-top: -45px;
+    margin-top: -85px;
 }
 
 body.startin:after{

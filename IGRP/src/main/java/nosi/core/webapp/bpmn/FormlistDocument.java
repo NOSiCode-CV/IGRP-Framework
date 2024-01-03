@@ -5,7 +5,6 @@ import java.util.List;
 
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.gui.components.IGRPTable.Table;
-import nosi.core.gui.fields.Field;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.SeparatorList;

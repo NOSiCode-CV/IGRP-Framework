@@ -9,8 +9,8 @@ var GenChartComponent = ( type )=>{
     
         container.fields = false;
     
-        container.xml.type = 'graphic';
-    
+        container.xml.type = 'chart';
+        
         container.includes = {
             xsl : ['parts.charts'],
             js : [
@@ -23,22 +23,23 @@ var GenChartComponent = ( type )=>{
             ]
     
         }
+
+        container.GET.type = ()=>'chart';
     
         container.onDrawEnd = function(){
-            
-            GEN.resizeView();
-            
+
             switch(container.GET.chart_lib()){
                 case 'chartjs':
                     $.IGRP.components.chartjs.render( container.holder.find('.IGRP-charts-component')[0] );
                 break;
     
                 case 'apexcharts':
-
                     $.IGRP.components.apexcharts.render( container.holder.find('.IGRP-charts-component')[0] );
                 break;
                 
             }
+
+            GEN.resizeView();
         }
     
         container.ready = function(){

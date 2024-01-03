@@ -2,8 +2,6 @@ package nosi.webapps.igrp.pages.novoperfil;
 
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -14,7 +12,6 @@ import nosi.core.webapp.Response;//
 import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
-
 import nosi.core.webapp.Igrp;
 
 import nosi.webapps.igrp.dao.Action;
@@ -61,10 +58,10 @@ public class NovoPerfilController extends Controller {
 		if (Core.isNotNullOrZero(model.getAplicacao())) {
 			view.primeira_pagina.setValue(new Menu().getListActionByOrg(model.getAplicacao(), model.getOrganica()));
 			view.perfil_pai.setValue(model.getOrganica() != 0
-					? new ProfileType().getListProfiles4Pai(model.getAplicacao(), model.getOrganica())
+					? new ProfileType().getListProfiles4Pai(model.getAplicacao(), model.getOrganica(),0)
 					: null);
 		}
-
+		
 		view.igrp_code.setVisible(this.configApp.isActiveGlobalACL());
 		
 		/*----#end-code----*/
@@ -121,11 +118,12 @@ public class NovoPerfilController extends Controller {
 				}
 			}else
 				Core.setMessageSuccess("Perfil criado com sucesso");
-
+			
 		} else {
-			Core.setMessageError();
-			return this.forward("igrp", "NovoPerfil", "index", this.queryString());
-		}
+				Core.setMessageError();
+				return this.forward("igrp", "NovoPerfil", "index", this.queryString());
+			}
+
 
 		return this.redirect("igrp", "NovoPerfil", "index", this.queryString());
 		/*----#end-code----*/
@@ -195,8 +193,8 @@ public class NovoPerfilController extends Controller {
 			view.primeira_pagina.setValue(new Menu().getListActionByOrg(model.getAplicacao(), model.getOrganica()));
 			view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
 			HashMap<String, String> listProfiles4Pai = new ProfileType().getListProfiles4Pai(model.getAplicacao(),
-					model.getOrganica());
-			listProfiles4Pai.remove(idProf);
+					model.getOrganica(),Core.toInt(idProf));
+//			listProfiles4Pai.remove(idProf);
 			view.perfil_pai.setValue(model.getOrganica() != 0 ? listProfiles4Pai : null);
 		}
 

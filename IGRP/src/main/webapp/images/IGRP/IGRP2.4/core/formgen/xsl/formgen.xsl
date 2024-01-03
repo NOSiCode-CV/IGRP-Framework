@@ -1,5 +1,5 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	<xsl:variable name="sourcePath" select="concat($path,'/core/formgen/util/gen.source.xml')"/>
+	<xsl:variable name="sourcePath" select="concat($path,'/core/formgen/types/components.xml')"/>
     <xsl:variable name="gen" select="document($sourcePath)/gen"/>
     <xsl:variable name="logo">
       <xsl:choose>
@@ -7,7 +7,7 @@
           <xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="concat($path,'/themes/default/img/logo2.svg')"/>
+          <xsl:value-of select="concat($path,'/assets/img/loginLogo.svg')"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -20,7 +20,7 @@
           <xsl:call-template name="igrp-head"/>
           <link href="{$path}/core/formgen/css/gen2.css" rel="stylesheet"/>
           <link href="{$path}/core/igrp/toolsbar/igrp.ds.toolsbar.css" rel="stylesheet"/>
-
+ 
           <script>    
            	window.moveTo(0, 0);
            	window.resizeTo(screen.width, screen.height);
@@ -107,9 +107,9 @@
                   <div class="row">
                         <div class="col-lg-2  col-md-3 sidebar tree-list shadow d-none d-md-block" id="igrp-sidebar" bg-color="secondary">
                             
-                            <a class="d-flex align-items-center px-3 pt-4" href="{rows/link}">
-                                <img src="{$path}/core/formgen/img/logo-gen-white.png"/>
-                                <div class="studio-name">
+                 			 <a class="d-flex align-items-center px-5 pt-1" href="{rows/link}">
+                                <img style="height: 50px;" src="{$path}/core/formgen/img/logo-gen-white.png"/>
+                                         <div class="studio-name">
                                     <b>STUDIO</b>
                                 </div>
                             </a>
@@ -860,6 +860,7 @@
           <script src="{$path}/core/formgen/js/v2/GEN.props.table.js"></script>
           <script src="{$path}/core/formgen/js/v2/GEN.props.action.js"></script>
           <script src="{$path}/core/formgen/js/v2/GEN.props.icon.js"></script>
+          <script src="{$path}/core/formgen/js/v2/GEN.props.date.js"></script>
 
           
 

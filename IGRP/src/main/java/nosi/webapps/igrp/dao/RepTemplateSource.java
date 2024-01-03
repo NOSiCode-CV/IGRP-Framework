@@ -79,8 +79,7 @@ public class RepTemplateSource extends IGRPBaseActiveRecord<RepTemplateSource> i
 	}
 	
 	public List<RepTemplateSource> getAllDataSources(Integer id) {
-		List<RepTemplateSource> list = this.find().andWhere("repTemplate", "=", id).all();
-		return list;
+       return this.find().andWhere("repTemplate", "=", id).all();
 	}	
 	
 	public void deleteAll(Integer id) {

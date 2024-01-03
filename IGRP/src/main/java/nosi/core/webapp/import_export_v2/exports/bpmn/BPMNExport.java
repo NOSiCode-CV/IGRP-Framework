@@ -66,7 +66,7 @@ public class BPMNExport implements IExport{
 		List<Action> actions = new Action().find().where("application.dad","=",this.application.getDad()).andWhere("processKey", "=", processKey.toLowerCase()).all();
 		if(actions!=null) {
 			List<BPMNPages> pages = new ArrayList<>();
-			actions.stream().forEach(ac->{
+			actions.forEach(ac->{
 				BPMNPages p = new BPMNPages();
 				Core.mapper(ac,p);		
 				p.setDad(ac.getApplication().getDad());
@@ -82,7 +82,7 @@ public class BPMNExport implements IExport{
 		Map<String, String> files = new FileHelper().readAllFileDirectory(basePath);
 		if(files!=null) {
 			List<BPMNPageFiles> pageFiles = new ArrayList<>();
-			files.entrySet().stream().forEach(file->{
+			files.entrySet().forEach(file->{
 				if(file.getValue().endsWith(".java")) {
 					BPMNPageFiles p = new BPMNPageFiles();
 					p.setFileContent(FileHelper.readFile(file.getValue(),""));

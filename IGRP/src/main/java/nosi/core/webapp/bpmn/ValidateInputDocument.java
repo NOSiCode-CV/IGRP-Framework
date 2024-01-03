@@ -34,9 +34,9 @@ public class ValidateInputDocument {
 		Map<Integer,TipoDocumentoEtapa> listMap = list.stream().collect(Collectors.toMap(TipoDocumentoEtapa::getId,tp->tp));
 		Object[] p_ids = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");	
 		if(listMap!=null && p_ids!=null) {
-			p_ids = Arrays.asList(p_ids).stream().filter(value->Core.isNotNull(value)).toArray();
+			p_ids = Arrays.stream(p_ids).filter(Core::isNotNull).toArray();
 			if(p_ids!=null && parts_!=null) {
-				List<Part> parts = parts_.stream().filter(p->p.getName().equalsIgnoreCase("p_formlist_documento_task_documento_fk")).collect(Collectors.toList());
+				List<Part> parts = parts_.stream().filter(p->p.getName().equalsIgnoreCase("p_formlist_documento_task_documento_fk")).toList();
 				for(int i=0;i<p_ids.length;i++) {		
 					TipoDocumentoEtapa tp = listMap.get(Core.toInt(p_ids[i].toString())); 	
 					if(tp!=null && tp.getRequired()==1 && !validateRequired(tp,parts,i)) 

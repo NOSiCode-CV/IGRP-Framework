@@ -14,39 +14,39 @@ public interface IImport {
 	 * 
 	 * @param jsonContent
 	 */
-	public void deserialization(String jsonContent);
+    void deserialization(String jsonContent);
 	
 	/**
 	 * Insert data in respective table on database
 	 */
-	public void execute();
+    void execute();
 	
 	/**
 	 * Set a message error
 	 * 
 	 * @param error
 	 */
-	public void addError(String error);
+    void addError(String error);
 	
 	/**
 	 * Set a message warning
 	 * 
 	 * @param warning
 	 */
-	public void addWarning(String warning);
+    void addWarning(String warning);
 
 	/**
 	 * List of file names to process compile
 	 * @return
 	 */
-	public List<String> getFileName();
+    List<String> getFileName();
 	
 	/**
 	 * Get a message error
 	 * 
 	 * @return
 	 */
-	public String getError();
+    String getError();
 	
 
 	/**
@@ -54,5 +54,5 @@ public interface IImport {
 	 * 
 	 * @return
 	 */
-	public String getWarning();
+    String getWarning();
 }

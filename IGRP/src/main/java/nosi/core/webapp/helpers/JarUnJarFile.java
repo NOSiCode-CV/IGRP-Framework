@@ -43,7 +43,7 @@ public class JarUnJarFile {
 	
 	public static byte[] convertFilesToJarBytes(Map<String,String>files,int level){
 		byte[] result = null;
-		if(files.size() > 0 && (level >= 0 && level <= 9))
+		if(!files.isEmpty() && (level >= 0 && level <= 9))
 		try{
 			ByteArrayOutputStream fos = new ByteArrayOutputStream();
 			CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());
@@ -71,7 +71,7 @@ public class JarUnJarFile {
 	public static boolean saveJarFiles(String jarName,Map<String,String>files,int level){
 		boolean result = false;
 		jarName = jarName.endsWith(".jar")?jarName:(jarName+".jar");
-		if(files.size() > 0 && (level >= 0 && level <= 9))
+		if(!files.isEmpty() && (level >= 0 && level <= 9))
 		try{
 			FileOutputStream fos = new FileOutputStream(jarName);
 			CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());

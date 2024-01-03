@@ -65,13 +65,13 @@ public class ReportExport implements IExport{
 				 .andWhere("repTemplate","=",repTemplate.getId())
 				 .all();
 		if(sources!=null) {
-			sources.stream().forEach(s->{
+			sources.forEach(s->{
 				ReportSourceAssocSerializable e = new ReportSourceAssocSerializable();
 				e.setReport(s.getRepTemplate().getReport_identify());
 				e.setSource(s.getRepSource().getSource_identify());
 				List<ReportParamsSerializable> params = new ArrayList<>();
 				if(s.getParameters()!=null) {
-					s.getParameters().stream().forEach(param->{
+					s.getParameters().forEach(param->{
 						ReportParamsSerializable p = new ReportParamsSerializable();
 						p.setParameter(param.getParameter());
 						p.setParameter_type(param.getParameter_type());
@@ -92,7 +92,7 @@ public class ReportExport implements IExport{
 				 .andWhere("repTemplate","=",repTemplate.getId())
 				 .all();
 		if(sources!=null) {
-			sources.stream().forEach(s->{				
+			sources.forEach(s->{
 				ReportSourcesSerializable e = new ReportSourcesSerializable();
 				Core.mapper(s.getRepSource(), e);
 				e.setUsername_created(s.getRepSource().getUser_created()!=null?s.getRepSource().getUser_created().getUser_name():"");

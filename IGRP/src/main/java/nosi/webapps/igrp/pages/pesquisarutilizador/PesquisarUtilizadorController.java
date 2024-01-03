@@ -259,8 +259,8 @@ public class PesquisarUtilizadorController extends Controller {
 		this.addQueryString("p_id",id)
 			.addQueryString("userEmail", Core.getParam("p_tb_email"))
 			.addQueryString("p_type", "user")
-			.addQueryString("env_fk",new Profile().findOne(id).getOrganization().getApplication().getId());  ;
-	   	return this.redirect("igrp","MenuOrganica","index", this.queryString());
+			.addQueryString("env_fk",new Profile().findOne(id).getOrganization().getApplication().getId());
+       return this.redirect("igrp","MenuOrganica","index", this.queryString());
 		
 		/*----#end-code----*/
 			
@@ -434,7 +434,7 @@ public class PesquisarUtilizadorController extends Controller {
     	                      response = true;
     	              }
     	          }
-    	      }catch(Exception e) {
+    	      }catch(Exception ignored) {
     
     	      }
     	

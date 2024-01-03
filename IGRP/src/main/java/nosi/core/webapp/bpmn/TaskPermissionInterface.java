@@ -8,6 +8,6 @@ import nosi.webapps.igrp.dao.ActivityExecute;
  */
 public interface TaskPermissionInterface {
 	
-	public boolean allowTask(ActivityExecute task);
+	boolean allowTask(ActivityExecute task);
 	
 }

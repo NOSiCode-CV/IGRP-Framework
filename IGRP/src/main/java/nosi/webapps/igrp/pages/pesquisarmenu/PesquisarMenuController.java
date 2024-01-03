@@ -1,6 +1,7 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
 import nosi.core.config.ConfigApp;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.i18n.I18n;
@@ -296,7 +297,7 @@ public class PesquisarMenuController extends Controller {
 							xmlWritter.setElement("id", "" + menuProfile.getId());
 							xmlWritter.setElement("status", "" + menuProfile.getStatus());
 							xmlWritter.setElement("order", "" + menuProfile.getOrder());
-							xmlWritter.setElement("menu_icon", menuProfile.getMenu_icon());
+							xmlWritter.setElement("menu_icon", (menuProfile.getMenu_icon()!=null && menuProfile.getMenu_icon().startsWith("fa"))?"fa "+menuProfile.getMenu_icon(): menuProfile.getMenu_icon());
 							xmlWritter.endElement();
 						}
 						xmlWritter.endElement();
@@ -306,7 +307,8 @@ public class PesquisarMenuController extends Controller {
 			e.printStackTrace();
 		}
 
-		displayMenusPlSql(xmlWritter);
+		if(this.configApp.isActiveGlobalACL())
+			displayMenusPlSql(xmlWritter);
 
 		xmlWritter.endElement();
 		this.format = Response.FORMAT_XML;
@@ -451,10 +453,8 @@ public class PesquisarMenuController extends Controller {
 		}
 		final Properties properties = ConfigApp.getInstance().loadConfig("common", "main.xml");
 
-		final String IGRP_PDEX_APPCONFIG_URL = "igrp.pdex.appconfig.url";
-		final String baseUrl = properties.getProperty(IGRP_PDEX_APPCONFIG_URL);
-		final String IGRP_PDEX_APPCONFIG_TOKEN = "igrp.pdex.appconfig.token";
-		final String token = properties.getProperty(IGRP_PDEX_APPCONFIG_TOKEN);
+		final String baseUrl = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.value());
+		final String token = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_TOKEN.value());
 
 		AppConfig appConfig = new AppConfig();
 		appConfig.setUrl(baseUrl);

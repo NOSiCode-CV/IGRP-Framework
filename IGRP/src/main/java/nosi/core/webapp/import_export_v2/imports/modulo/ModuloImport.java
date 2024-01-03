@@ -33,7 +33,7 @@ public class ModuloImport extends AbstractImport implements IImport {
 	@Override
 	public void execute() {
 		if(this.modulos!=null) {
-			this.modulos.stream().forEach(modulo->{
+			this.modulos.forEach(modulo->{
 				Modulo m = new Modulo().find().andWhere("name","=",modulo.getName()).andWhere("application.dad", "=",modulo.getDad_app()).one();
 				if(m==null) {
 					if(this.application==null) {

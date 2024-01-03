@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Objects;
 
 import nosi.core.webapp.Core;
 import nosi.core.webapp.ReportKey;
@@ -16,26 +18,21 @@ import nosi.core.webapp.ReportKey;
  */
 public class ReflectionHelper {
 
+	private ReflectionHelper(){}
+
 	public static List<Class<?>> findClassesByInterface(Class<ReportKey> interfaceClass, String fromPackage) {
 		if (Core.isNull(interfaceClass) || Core.isNull(fromPackage)) {
 			return null;
 		}
-		final List<Class<?>> rVal = new ArrayList<Class<?>>();
+		final List<Class<?>> rVal = new ArrayList<>();
 		try {
 			final Class<?>[] targets = getAllClassesFromPackage(fromPackage);
-			if (targets != null) {
-				for (Class<?> aTarget : targets) {
-					if (aTarget == null) {
-						continue;
-					} else if (aTarget.equals(interfaceClass)) {
-						continue;
-					} else if (!interfaceClass.isAssignableFrom(aTarget)) {
-						continue;
-					} else {
-						rVal.add(aTarget);
-					}
-				}
-			}
+			Arrays.stream(targets)
+					.filter(Objects::nonNull)
+					.filter(aTarget -> !aTarget.equals(interfaceClass))
+					.filter(interfaceClass::isAssignableFrom)
+					.forEach(rVal::add);
+
 		} catch (ClassNotFoundException e) {
 			return null;
 		} catch (IOException e) {
@@ -51,20 +48,20 @@ public class ReflectionHelper {
 		assert classLoader != null;
 		String path = packageName.replace('.', '/');
 		Enumeration<URL> resources = classLoader.getResources(path);
-		List<File> dirs = new ArrayList<File>();
+		List<File> dirs = new ArrayList<>();
 		while (resources.hasMoreElements()) {
 			URL resource = resources.nextElement();
 			dirs.add(new File(resource.getFile()));
 		}
-		ArrayList<Class> classes = new ArrayList<Class>();
+		ArrayList<Class> classes = new ArrayList<>();
 		for (File directory : dirs) {
 			classes.addAll(findClasses(directory, packageName));
 		}
-		return classes.toArray(new Class[classes.size()]);
+		return classes.toArray(new Class[0]); //new Class[0] is better - https://www.baeldung.com/java-collection-toarray-methods
 	}
 	
 	public static List<Class<?>> findClasses(File directory, String packageName) throws ClassNotFoundException {
-		List<Class<?>> classes = new ArrayList<Class<?>>();
+		List<Class<?>> classes = new ArrayList<>();
 		if (!directory.exists()) {
 			return classes;
 		}

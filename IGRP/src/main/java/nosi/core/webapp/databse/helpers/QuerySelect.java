@@ -58,7 +58,6 @@ public class QuerySelect extends CommonFIlter{
 					query.getResultList();
 					isValid = true;
 				}catch(Exception e) {
-					isValid = false;
 					this.setError(null, e);
 				}finally {
 					session.close();
@@ -189,7 +188,7 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public Tuple getSigleResult() {
 		List<Tuple> list = this.getResultList();		
-		if(list!=null && list.size()> 0)
+		if(list!=null && !list.isEmpty())
 			return list.get(0);
 		return null;
 	}
@@ -197,7 +196,7 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public Tuple getSingleResult() {
 		List<Tuple> list = this.getResultList();		
-		if(list!=null && list.size()> 0)
+		if(list!=null && !list.isEmpty())
 			return list.get(0);
 		return null;
 	}
@@ -326,21 +325,21 @@ public class QuerySelect extends CommonFIlter{
 	
 	private QueryInterface orderBy(String[][] orderByNames, String defaultOrder) {
 		if(orderByNames!=null) {
-			String c = " ORDER BY ";
+			StringBuilder c = new StringBuilder(" ORDER BY ");
     		int i=1;
     		for(String[] names:orderByNames) {
     			String order = names[names.length-1];
-    			String[] newNames = null;
+    			String[] newNames;
     			if(!order.equalsIgnoreCase(ORDERBY.ASC) && !order.equalsIgnoreCase(ORDERBY.DESC)) {
     				order = Core.isNotNull(defaultOrder)?defaultOrder:ORDERBY.ASC;
     				newNames = Arrays.copyOf(names, names.length);
     			}else{
     				newNames = Arrays.copyOf(names, names.length-1>=1?names.length-1:names.length);
     			}
-    			c+= (Arrays.toString(newNames).replaceAll("\\[", "").replaceAll("\\]", "")+" "+order+(i==orderByNames.length?" ":", "));
+    			c.append(Arrays.toString(newNames).replace("[", "").replace("]", "")).append(" ").append(order).append(i == orderByNames.length ? " " : ", ");
     			i++;
     		}
-    		this.filterWhere(c);
+    		this.filterWhere(c.toString());
     	}
 		return this;
 	}

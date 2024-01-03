@@ -1,6 +1,6 @@
 <div class="card igrp-table  datatable " >
 	<xsl:apply-templates mode="igrp-table-header" select="#path#">
-		<xsl:with-param name="title" select="'#[title]#'"/>
+		<xsl:with-param name="title" select="#[path]#/@title"/>
 		<xsl:with-param name="show-title" select="'#[hasTitle]#'"/>
 		<xsl:with-param name="has-filter" select="'#[has_filter]#'"/>
 		<xsl:with-param name="length-change" select="'#[length_change]#'"/>

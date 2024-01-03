@@ -45,7 +45,7 @@ public class ReportImport extends AbstractImport implements IImport {
 	@Override
 	public void execute() {
 		if (this.reports != null) {
-			this.reports.stream().forEach(report -> {
+			this.reports.forEach(report -> {
 				RepTemplate repTemplate = new RepTemplate().find()
 						.andWhere("report_identify", "=", report.getReport_identify()).one();
 				CLob xml_content = this.getClob(report.getXml_content(), report.getDad());
@@ -103,7 +103,7 @@ public class ReportImport extends AbstractImport implements IImport {
 	private void saveParamDataSource(ReportSerializable report, RepTemplate repTemplate) {
 		if (report.getSourcesReportAssoc() != null) {
 			deleteTemplateSource(repTemplate); 
-			report.getSourcesReportAssoc().stream().forEach(pds -> {
+			report.getSourcesReportAssoc().forEach(pds -> {
 				RepSource repSource = new RepSource().find().andWhere("source_identify", "=", pds.getSource()).one();
 				RepTemplateSource repTS = new RepTemplateSource().find().andWhere("repSource", "=", repSource)
 						.andWhere("repTemplate", "=", repTemplate)
@@ -137,7 +137,7 @@ public class ReportImport extends AbstractImport implements IImport {
 
 	private void saveDataSource(ReportSerializable report) {
 		if (report.getSources() != null) {
-			report.getSources().stream().forEach(source -> {
+			report.getSources().forEach(source -> {
 				Config_env config = null;
 				if(Core.isNotNull(source.getConnection_name_identify())) {
 					config = new Config_env().find().where("name", "=", source.getConnection_name_identify())

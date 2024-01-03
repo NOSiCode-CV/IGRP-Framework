@@ -11,8 +11,6 @@ import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.RepTemplate;
@@ -60,7 +58,7 @@ public class LookupListPageController extends Controller {
           view.associar_documentos.setVisible(false);
 		}else {
 			
-			List<LookupListPage.Formlist_1> formList = new ArrayList<LookupListPage.Formlist_1>(); 
+			List<LookupListPage.Formlist_1> formList = new ArrayList<>();
 			
 			List<TipoDocumento> tipoDocumentos = new TipoDocumento().find()
 											.andWhere("application.id", "=", Core.toInt(model.getEnv_fk()))

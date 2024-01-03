@@ -105,7 +105,7 @@ var GENSTRUCTURES = function(GEN){
 					if(container.xml.type == 'tabs')
 						rtn+=genTabs(container.contents);
 					
-					if(container.xml.type == 'graphic')
+					if(container.xml.type == 'chart')
 						rtn+=genGraphic(container);
 
 					if(container.xml.type == 'fingerprint')

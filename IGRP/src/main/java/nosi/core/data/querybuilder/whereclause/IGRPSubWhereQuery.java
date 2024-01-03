@@ -39,7 +39,7 @@ public abstract class IGRPSubWhereQuery<E> extends IGRPQueryBase<E> implements I
     }
 
     @SafeVarargs
-    private final <T> IGRPSubWhereQuery<E> internalIn(String column, T... values) {
+    private <T> IGRPSubWhereQuery<E> internalIn(String column, T... values) {
         In<T> inClause = this.getCriteriaBuilder().in(this.getRoot().get(column));
         Arrays.asList(values).forEach(inClause::value);
         this.addPredicate(inClause);
@@ -48,8 +48,7 @@ public abstract class IGRPSubWhereQuery<E> extends IGRPQueryBase<E> implements I
 
     @SafeVarargs
     private final <T> IGRPSubWhereQuery<E> internalNotIn(String column, T... values) {
-        javax.persistence.criteria.Predicate notInClause = this.getCriteriaBuilder().in(this.getRoot().get(column)).not();
-        notInClause.in(Arrays.asList(values));
+        final javax.persistence.criteria.Predicate notInClause = this.getCriteriaBuilder().not(this.getRoot().get(column).in(Arrays.asList(values)));
         this.addPredicate(notInClause);
         return this;
     }

@@ -123,7 +123,9 @@ var CONTAINER = function(name,params){
 		list:{
 			"draw-end"  :[],
 			"tag-change":[],
-			"ready"     :[],
+			"ready"     :[], //before properties value set
+			"init"      : [],
+			"field:before-init" :[],
 			"field-set" :[]
 
 		},
@@ -1410,7 +1412,7 @@ var CONTAINER = function(name,params){
 						var isOnly     = !only    ? true : f.type == only   ?true : false;
 
 						var valid = container.dropZoneFieldValidation && typeof container.dropZoneFieldValidation === 'function' ? container.dropZoneFieldValidation(dz, f) : true;
-
+						
 						if(isExcluded && isOnly && valid){
 							
 							if(isDrawable(f.type)){
@@ -1902,6 +1904,8 @@ var CONTAINER = function(name,params){
 
 					container.groups.setFieldGroup(field);
 
+				_EVENTS.execute('field:before-init',field);
+
 				field.init();
 
 				if(container.contextMenu && field.GET.type() == container.contextMenu.type){
@@ -2301,6 +2305,8 @@ var CONTAINER = function(name,params){
 
 					setProprietiesValues();
 
+					
+
 					if(container.accept.length == 1 && container.accept[0] != ''){
 						
 						//addButtonConfig(container.accept[0]);
@@ -2347,6 +2353,8 @@ var CONTAINER = function(name,params){
 				error:templateError
 			});
 
+			_EVENTS.execute('init',container);
+			
 			container.onInit();
 
 		}catch(e){ 
@@ -2488,7 +2496,7 @@ var CONTAINER = function(name,params){
 	};
 
 	var addButtonConfig = function(name){
-		var adder = $('<button class="btn btn-box-tool gen-adder-btn"><i style="color:green" class="fa fa-plus"></i></button>');
+		var adder = $('<button class="btn btn-box-tool gen-adder-btn"><i style="color:lightgreen" class="fa fa-plus"></i></button>');
 		
 		
 		adder.on('click',function(){

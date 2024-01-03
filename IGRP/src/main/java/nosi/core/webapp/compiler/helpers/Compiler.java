@@ -46,7 +46,7 @@ public class Compiler {
 
 	public void compile() {
 		if (this.dirs != null) {
-			this.dirs.stream().forEach(dir -> {
+			this.dirs.forEach(dir -> {
 				files += dir + " ";
 			});		
 			String pathTomcat = Igrp.getInstance().getServlet().getServletContext().getRealPath("/");

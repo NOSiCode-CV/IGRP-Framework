@@ -743,11 +743,12 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 			WebTarget webTarget = client.target(endpoint).path("repository/deployments").queryParam("tenantId", this.app.getDad()); 
 			Invocation.Builder invocationBuilder  = webTarget.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, httpAuthorizationHeaderValue); 
 			ContentDisposition contentDisposition = new ContentDisposition("form-data; name=\"file\";filename=\"" + fileName + "\"; Content-Type=\"" + MediaType.APPLICATION_OCTET_STREAM + "\"");
-			List<Attachment> attachments = new LinkedList<Attachment>();
+			List<Attachment> attachments = new LinkedList<>();
 			attachments.add(new Attachment("file", inputStream, contentDisposition));
 			MultipartBody body = new MultipartBody(attachments);
-			Response response  = invocationBuilder.post(Entity.entity(body, MediaType.MULTIPART_FORM_DATA));
-			success = response.getStatus() == 201;
+			try (Response response = invocationBuilder.post(Entity.entity(body, MediaType.MULTIPART_FORM_DATA))) {
+				success = response.getStatus() == 201;
+			}
 		} finally {
 			client.close();
 		}

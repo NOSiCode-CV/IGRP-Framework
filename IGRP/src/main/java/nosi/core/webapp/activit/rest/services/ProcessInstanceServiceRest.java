@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
 import jakarta.servlet.http.Part;
 import jakarta.ws.rs.core.Response;
 import com.google.gson.Gson;
@@ -46,10 +48,17 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 				d = (List<ProcessInstancesService>) ResponseConverter.convertJsonToListDao(contentResp,"data", 
 						new TypeToken<List<ProcessInstancesService>>(){}.getType());
 				if (d != null && !d.isEmpty()) {
-					d.stream().forEach(t -> {
-						ProcessDefinitionService proc = new ProcessDefinitionServiceRest()
-								.getProccessDescription(t.getProcessDefinitionUrl());
-						String processName = proc.getName();
+					HashMap<String,String> mProc = new HashMap<>();
+					d.forEach(t -> {
+						String processName;
+						if(mProc.containsKey(t.getProcessDefinitionUrl()))
+							processName=mProc.get(t.getProcessDefinitionUrl());
+						else {
+							ProcessDefinitionService proc = new ProcessDefinitionServiceRest()
+									.getProccessDescription(t.getProcessDefinitionUrl());
+							processName = proc.getName();
+							mProc.put(t.getProcessDefinitionUrl(), processName);
+						}
 						t.setProcessName(processName);
 					});
 				}
@@ -202,7 +211,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 		Response response = this.getRestRequest().post("runtime/process-instances/" + processInstanceId
 				+ "/variables?name=" + variableName + "&type=" + obj.getClass().getTypeName() + "&scope=" + scope,
 				gson.toJson(list));
-		boolean r= response.getStatus() == 201;
+		boolean r=response!=null && response.getStatus() == 201;
 		if(response!=null) {
 			response.close();
 		}

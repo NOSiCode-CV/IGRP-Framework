@@ -37,7 +37,7 @@ public class MenuImport extends AbstractImport implements IImport{
 	@Override
 	public void execute() {
 		if(this.menu!=null) {
-			this.menu.stream().forEach(m->{
+			this.menu.forEach(m->{
 				Application app = Core.findApplicationByDad(m.getDad_menu());
 				if(app!=null) {
 					HashMap<Integer, String> actions = new Action().getListActions(app.getId());

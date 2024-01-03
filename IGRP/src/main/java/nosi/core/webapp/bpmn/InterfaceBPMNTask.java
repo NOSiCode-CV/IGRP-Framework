@@ -17,24 +17,24 @@ import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 public interface InterfaceBPMNTask {
 
 	//Display task
-	public Response index() throws IOException, ServletException;
+    Response index() throws IOException, ServletException;
 	
-	public Response index(String app,Model model,View view) throws IOException,ServletException;
+	Response index(String app, Model model, View view) throws IOException,ServletException;
 	
-	public Response index(String app,Model model,View view, InterfaceBPMNTask bpmnTask) throws IOException,ServletException;
+	Response index(String app, Model model, View view, InterfaceBPMNTask bpmnTask) throws IOException,ServletException;
 	
 	//Details of Task
-	public String details(TaskServiceQuery task) throws IOException,ServletException;
+    String details(TaskServiceQuery task) throws IOException,ServletException;
 	
 	//Save task on activiti
-	public Response save() throws IOException, ServletException;
+    Response save() throws IOException, ServletException;
 	
 	//Update task on activiti
-	public Response update() throws IOException, ServletException;
+    Response update() throws IOException, ServletException;
 	
 	//List Output Document Type Associated with current task
-	public List<TipoDocumentoEtapa> getOutputDocumentType();
+    List<TipoDocumentoEtapa> getOutputDocumentType();
 
 	//List Input Document Type Associated with current task
-	public List<TipoDocumentoEtapa> getInputDocumentType();
+    List<TipoDocumentoEtapa> getInputDocumentType();
 }

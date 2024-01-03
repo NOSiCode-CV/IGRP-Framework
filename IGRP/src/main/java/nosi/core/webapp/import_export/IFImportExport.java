@@ -8,6 +8,6 @@ import nosi.webapps.igrp.dao.Application;
  */
 public interface IFImportExport {
 
-	public boolean importApp();
-	public boolean importPage(Application app );
+	boolean importApp();
+	boolean importPage(Application app);
 }

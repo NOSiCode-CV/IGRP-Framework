@@ -22,8 +22,8 @@ public enum PdexEmailGatewayConstants {
 	ATTACHMENTS("attachments", "Attachments")
 	;
 	
-	private String value; 
-	private String description; 
+	private final String value;
+	private final String description;
 	
 	PdexEmailGatewayConstants(String value, String description) {
 		this.value = value; 

@@ -1,9 +1,12 @@
 package nosi.core.webapp.webservices.helpers;
 
+import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Base64;
+
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
@@ -11,7 +14,10 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+import jakarta.ws.rs.client.ClientRequestContext;
+import jakarta.ws.rs.client.ClientRequestFilter;
+import jakarta.ws.rs.core.HttpHeaders;
+
 
 import nosi.core.webapp.helpers.UrlHelper;
 
@@ -27,36 +33,44 @@ public class ConfigurationRequest {
 		this.request = request;
 	}
 	public Client bluidClient() {
-		return  ClientBuilder.newBuilder()
-				.sslContext(this.createSslContext())
-				.hostnameVerifier(this.getHostNameVerifier())
-				.register(this.getHttpAuthenticationFeature())
-				.build();
+		 ClientBuilder clientBuild = ClientBuilder.newBuilder()
+			.register(new Authenticator(this.request.getUsername(), this.request.getPassword()));
+		if(request.getBase_url().startsWith("https://"))
+			clientBuild.sslContext(this.createSslContext()).hostnameVerifier(this.getHostNameVerifier());
+		
+		return  clientBuild.build();
 	}
-
 	public String getUrl() {
 		return UrlHelper.urlEncoding(this.request.getBase_url());
 	}
+//	public HttpAuthenticationFeature getHttpAuthenticationFeature() {
+//		final HttpAuthenticationFeature basic = HttpAuthenticationFeature.basic(this.request.getUsername(),this.request.getPassword());
+//		return basic;
+//	}
+	public class Authenticator implements ClientRequestFilter {
+	    private final String user;
+	    private final String password;
+	    public Authenticator(String user, String password) {
+	        this.user = user;
+	        this.password = password;
+	    }
 
-	public HttpAuthenticationFeature getHttpAuthenticationFeature() {
-		return HttpAuthenticationFeature.basic(this.request.getUsername(),this.request.getPassword());
+		@Override
+		public void filter(ClientRequestContext requestContext) throws IOException {
+			 String authString = user + ":" + password;
+		        String encodedAuthString = Base64.getEncoder().encodeToString(authString.getBytes());
+		        requestContext.getHeaders().add(HttpHeaders.AUTHORIZATION, "Basic " + encodedAuthString);
+		}
 	}
-	
 	public HostnameVerifier getHostNameVerifier() {
-		return new HostnameVerifier() {
-			@Override
-			public boolean verify(String s, SSLSession sslSession) {
-				return true;
-			}
-		};
+	    return (String s, SSLSession sslSession) -> s.equalsIgnoreCase(sslSession.getPeerHost());
 	}
-	
 	public SSLContext createSslContext() {
 		SSLContext sslContext = null;
 		try {
 			sslContext = SSLContext.getInstance("SSL");
 			sslContext.init(null, this.createTrustManager(), new java.security.SecureRandom());// new java.security.SecureRandom()
-		} catch (NoSuchAlgorithmException | KeyManagementException e) {
+		} catch (NoSuchAlgorithmException | KeyManagementException ignored) {
 		}
 		return sslContext;
 	}

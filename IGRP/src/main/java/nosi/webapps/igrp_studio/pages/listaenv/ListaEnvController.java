@@ -61,7 +61,7 @@ public class ListaEnvController extends Controller {
 		Collections.sort(apps, new SortbyStatus());
 		for (Application a : apps) {
 			//Don't list app IGRP
-			if (!a.getDad().toLowerCase().equals("igrp")) {
+			if (!a.getDad().equalsIgnoreCase("igrp")) {
 				ListaEnv.Table_1 table = new ListaEnv.Table_1();
           	    String page = "tutorial/DefaultPage";
 				table.setDad(a.getDad());

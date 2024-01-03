@@ -14,12 +14,10 @@ import java.util.LinkedHashMap; //block import
 import nosi.webapps.igrp.dao.User; //block import
 import static nosi.core.i18n.Translator.gt;
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
@@ -147,88 +145,87 @@ public class NovoUtilizadorController extends Controller {
 
 	private Boolean db(NovoUtilizador model) throws IllegalArgumentException, IllegalAccessException {
 
-		Boolean ok = true;
+		boolean ok = true;
 		String[] arrayEmails = model.getEmail();
-		for (int i = 0; i < arrayEmails.length; i++) {
-			String email = arrayEmails[i];
-			if (Core.isNull(email) && !email.contains("@"))
-				continue;
-			email = email.toLowerCase(Locale.ROOT).trim();
-			User u = Core.findUserByEmail(email.trim());
-			if (Core.isNotNull(u)) {
-				Boolean insert = true;
-				final Organization org = Core.findOrganizationById(model.getOrganica());
-				final ProfileType prof = Core.findProfileById(model.getPerfil());
+       for (String arrayEmail : arrayEmails) {
+          String email = arrayEmail;
+          if (Core.isNull(email) && !email.contains("@"))
+             continue;
+          email = email.toLowerCase(Locale.ROOT).trim();
+          User u = Core.findUserByEmail(email.trim());
+          if (Core.isNotNull(u)) {
+             boolean insert = true;
+             final Organization org = Core.findOrganizationById(model.getOrganica());
+             final ProfileType prof = Core.findProfileById(model.getPerfil());
 //			List of INACTIVE profiles
-				final List<Profile> result = new Profile().find().andWhere("type", "=", "INATIVE_PROF")
-						.andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
-						.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).all();
-				for (Iterator<Profile> iterator = result.iterator(); iterator.hasNext();) {
-					Profile profile = iterator.next();
-//				The profile was deleted before
-					profile.setType("PROF");
-					profile = profile.update();
+             final List<Profile> result = new Profile().find().andWhere("type", "=", "INATIVE_PROF")
+                     .andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
+                     .andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).all();
+             for (Profile profile : result) {
+                //				The profile was deleted before
+                profile.setType("PROF");
+                profile = profile.update();
 //				 No need to insert
-					insert = false;
-					if (!profile.hasError()) {
+                insert = false;
+                if (!profile.hasError()) {
 //					List of invites to the app with this profile associated
-						final Profile result2 = new Profile().find().andWhere("type", "=", "ENV")
-								.andWhere("type_fk", "=", model.getAplicacao())
-								.andWhere("organization.id", "=", org.getId())
-								.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
-								.one();
+                   final Profile result2 = new Profile().find().andWhere("type", "=", "ENV")
+                           .andWhere("type_fk", "=", model.getAplicacao())
+                           .andWhere("organization.id", "=", org.getId())
+                           .andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
+                           .one();
 
-						if (Core.isNull(result2)) {
+                   if (Core.isNull(result2)) {
 //						Insert Env if was deleted before
-							profile = new Profile(model.getAplicacao(), "ENV", prof, u, org).insert();
-							if (profile.hasError()) {
-								Core.setMessageError();
-								ok = false;
-							}
-						}
-						Core.setMessageSuccess(profile.getUser().getEmail() + " re-invited!");
-					} else
-						ok = false;
-				}
+                      profile = new Profile(model.getAplicacao(), "ENV", prof, u, org).insert();
+                      if (profile.hasError()) {
+                         Core.setMessageError();
+                         ok = false;
+                      }
+                   }
+                   Core.setMessageSuccess(profile.getUser().getEmail() + " re-invited!");
+                } else
+                   ok = false;
+             }
 
-				if (insert) {
-					if (Core.isNotNull(new Profile().find().andWhere("type", "=", "PROF")
-							.andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
-							.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).one())) {
+             if (insert) {
+                if (Core.isNotNull(new Profile().find().andWhere("type", "=", "PROF")
+                        .andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
+                        .andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).one())) {
 //					 Already invited
-						Core.setMessageError(u.getUser_name() + " está convidado para este perfil.");
-						ok = false;
-					} else {
+                   Core.setMessageError(u.getUser_name() + " está convidado para este perfil.");
+                   ok = false;
+                } else {
 //					Will insert profile
-						Profile p = new Profile(model.getPerfil(), "PROF", prof, u, org).insert();
-						if (!p.hasError()) {
+                   Profile p = new Profile(model.getPerfil(), "PROF", prof, u, org).insert();
+                   if (!p.hasError()) {
 //						Check if exists already a ENV						
-							if (Core.isNull(new Profile().find().andWhere("type", "=", "ENV")
-									.andWhere("type_fk", "=", model.getAplicacao())
-									.andWhere("organization.id", "=", org.getId())
-									.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
-									.one())) {
+                      if (Core.isNull(new Profile().find().andWhere("type", "=", "ENV")
+                              .andWhere("type_fk", "=", model.getAplicacao())
+                              .andWhere("organization.id", "=", org.getId())
+                              .andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
+                              .one())) {
 //							ENV not added, so must be inserted the application
-								p = new Profile(model.getAplicacao(), "ENV", prof, u, org).insert();
-								if (p.hasError()) {
-									Core.setMessageError();
-									ok = false;
-								}
-							}
-							if (ok)
-								Core.setMessageSuccess(email + " invited!");
-						} else {
-							Core.setMessageError(u.getUser_name() + " está convidado para este perfil.");
-							ok = false;
-						}
-					}
-				}
-			} else {
-				Core.setMessageError("E-mail: " + email + " não está adicionado. 1º (+) adicionar este utilizador.");
-				ok = false;
-			}
+                         p = new Profile(model.getAplicacao(), "ENV", prof, u, org).insert();
+                         if (p.hasError()) {
+                            Core.setMessageError();
+                            ok = false;
+                         }
+                      }
+                      if (ok)
+                         Core.setMessageSuccess(email + " invited!");
+                   } else {
+                      Core.setMessageError(u.getUser_name() + " está convidado para este perfil.");
+                      ok = false;
+                   }
+                }
+             }
+          } else {
+             Core.setMessageError("E-mail: " + email + " não está adicionado. 1º (+) adicionar este utilizador.");
+             ok = false;
+          }
 
-		}
+       }
 
 		return ok;
 	}
@@ -287,27 +284,27 @@ public class NovoUtilizadorController extends Controller {
 			personArray.add(ldapPerson);
 		}
 		if (!personArray.isEmpty()) {
-			for (int i = 0; i < personArray.size(); i++) {
-				userLdap = new User();
-				LdapPerson person = personArray.get(i);
-				// System.out.println(person);
-				if (person.getName() != null && !person.getName().isEmpty())
-					userLdap.setName(person.getName());
-				else if (person.getDisplayName() != null && !person.getDisplayName().isEmpty())
-					userLdap.setName(person.getDisplayName());
-				else if (person.getFullName() != null && !person.getFullName().isEmpty())
-					userLdap.setName(person.getFullName());
-				else 
-					userLdap.setName(person.getMail().substring(0,person.getMail().indexOf("@")));
-				userLdap.setUser_name(person.getMail().toLowerCase().trim());
-				userLdap.setEmail(person.getMail().trim().toLowerCase());
+           for (LdapPerson ldapPerson : personArray) {
+              userLdap = new User();
+              LdapPerson person = ldapPerson;
+              // System.out.println(person);
+              if (person.getName() != null && !person.getName().isEmpty())
+                 userLdap.setName(person.getName());
+              else if (person.getDisplayName() != null && !person.getDisplayName().isEmpty())
+                 userLdap.setName(person.getDisplayName());
+              else if (person.getFullName() != null && !person.getFullName().isEmpty())
+                 userLdap.setName(person.getFullName());
+              else
+                 userLdap.setName(person.getMail().substring(0, person.getMail().indexOf("@")));
+              userLdap.setUser_name(person.getMail().toLowerCase().trim());
+              userLdap.setEmail(person.getMail().trim().toLowerCase());
 //			The user is not activated because the email send is to activate/confirm the account
-				userLdap.setStatus(0);
-				userLdap.setCreated_at(System.currentTimeMillis());
-				userLdap.setUpdated_at(System.currentTimeMillis());
-				userLdap.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
-				userLdap.setActivation_key(nosi.core.webapp.User.generateActivationKey());
-			}
+              userLdap.setStatus(0);
+              userLdap.setCreated_at(System.currentTimeMillis());
+              userLdap.setUpdated_at(System.currentTimeMillis());
+              userLdap.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
+              userLdap.setActivation_key(nosi.core.webapp.User.generateActivationKey());
+           }
 		} else
 			Core.setMessageError("Este utilizador não existe.");
 
@@ -332,15 +329,15 @@ public class NovoUtilizadorController extends Controller {
 			roleName = roleName.replace("http://", "").replace("https://", "").replace(":", "0_58") + "0_47"
 					+ warName.replace("-", "0_45").replace("/", "0_47");
 
-			Map<String, String> headers = new HashMap<String, String>();
+			Map<String, String> headers = new HashMap<>();
 			headers.put("Authorization", "Basic " + credentials);
 
-			Map<String, String> namespaces = new HashMap<String, String>();
+			Map<String, String> namespaces = new HashMap<>();
 			namespaces.put("SOAP-ENV", "http://www.w3.org/2003/05/soap-envelope");
 			namespaces.put("ser", "http://service.ws.um.carbon.wso2.org");
 
-			Map<String, Object> bodyContent = new HashMap<String, Object>();
-			Map<String, Object> subContent = new LinkedHashMap<String, Object>();
+			Map<String, Object> bodyContent = new HashMap<>();
+			Map<String, Object> subContent = new LinkedHashMap<>();
 			subContent.put("ser:userName", user.getUser_name());
 			subContent.put("ser:newRoles", roleName);
 			bodyContent.put("ser:updateRoleListOfUser", subContent);
@@ -363,152 +360,151 @@ public class NovoUtilizadorController extends Controller {
 
 	private Boolean ldap(NovoUtilizador model) throws IllegalArgumentException, IllegalAccessException {
 
-		Boolean ok = true;
+		boolean ok = true;
 		String[] arrayEmails = model.getEmail();
-		for (int i = 0; i < arrayEmails.length; i++) {
-			String email = arrayEmails[i];
-			if (Core.isNull(email) && !email.contains("@"))
-				continue;
-			email = email.toLowerCase(Locale.ROOT).trim();
+       for (String arrayEmail : arrayEmails) {
+          String email = arrayEmail;
+          if (Core.isNull(email) && !email.contains("@"))
+             continue;
+          email = email.toLowerCase(Locale.ROOT).trim();
 //		check & Get User from Ldap 
-			User utiliz = Core.findUserByEmail(email.trim());
-			User userLdap;
-			if (utiliz == null)
-				userLdap = checkGetUserLdap(email.trim());
-			else
-				userLdap = utiliz;
+          User utiliz = Core.findUserByEmail(email.trim());
+          User userLdap;
+          if (utiliz == null)
+             userLdap = checkGetUserLdap(email.trim());
+          else
+             userLdap = utiliz;
 
-			if (userLdap != null) {
+          if (userLdap != null) {
 //			Find user in the IGRP db too
-				User u = Core.findUserByEmail(email.trim());
-				if (u == null) {
+             User u = Core.findUserByEmail(email.trim());
+             if (u == null) {
 
 //				If LDAP is ws02, the role is added to the server 
-					String idsAutentikaEnabled = settings
-							.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value(), "false");
-					if (idsAutentikaEnabled.equals("true") && !addRoleToUser(userLdap)) {
-						Core.setMessageError("Ocorreu um erro ao adicionar role ao " + email.trim());
-						ok = false;
-						continue;
-					}
+                String idsAutentikaEnabled = settings
+                        .getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value(), "false");
+                if (idsAutentikaEnabled.equals("true") && !addRoleToUser(userLdap)) {
+                   Core.setMessageError("Ocorreu um erro ao adicionar role ao " + email.trim());
+                   ok = false;
+                   continue;
+                }
 
 //				Insert the user in the user table
-					u = userLdap.insert();
-					if (u != null && !u.hasError()) {
-						u = Core.findUserByEmail(email.trim());
-						sendEmailToInvitedUser(u, model);
+                u = userLdap.insert();
+                if (u != null && !u.hasError()) {
+                   u = Core.findUserByEmail(email.trim());
+                   sendEmailToInvitedUser(u, model);
 
-					} else {
-						ok = false;
-						continue;
-					}
+                } else {
+                   ok = false;
+                   continue;
+                }
 
-				}
+             }
 
 //			Checks if the u is not null and in the case if the user was recently added so NOT to use else
-				if (Core.isNotNull(u)) {
-					Boolean insert = true;
-					final Organization org = Core.findOrganizationById(model.getOrganica());
-					final ProfileType prof = Core.findProfileById(model.getPerfil());
+             if (Core.isNotNull(u)) {
+                boolean insert = true;
+                final Organization org = Core.findOrganizationById(model.getOrganica());
+                final ProfileType prof = Core.findProfileById(model.getPerfil());
 //					List of INACTIVE profiles
-					final List<Profile> listInactiveProf = new Profile().find().andWhere("type", "=", "INATIVE_PROF")
-							.andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
-							.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).all();
-					UserServiceRest userRest = new UserServiceRest();
-					GroupServiceRest groupRest = new GroupServiceRest();
-					for (Iterator<Profile> iterator = listInactiveProf.iterator(); iterator.hasNext();) {
-						Profile profile = (Profile) iterator.next();
-//					The profile was deleted before
-						profile.setType("PROF");
-						profile = profile.update();
+                final List<Profile> listInactiveProf = new Profile().find().andWhere("type", "=", "INATIVE_PROF")
+                        .andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
+                        .andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).all();
+                UserServiceRest userRest = new UserServiceRest();
+                GroupServiceRest groupRest = new GroupServiceRest();
+                for (Profile profile : listInactiveProf) {
+                   //					The profile was deleted before
+                   profile.setType("PROF");
+                   profile = profile.update();
 //					 No need to insert
-						insert = false;
-						if (!profile.hasError()) {
+                   insert = false;
+                   if (!profile.hasError()) {
 //						List of invites to the app with this profile associated
-							final Profile result2 = new Profile().find().andWhere("type", "=", "ENV")
-									.andWhere("type_fk", "=", model.getAplicacao())
-									.andWhere("organization.id", "=", org.getId())
-									.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
-									.one();
+                      final Profile result2 = new Profile().find().andWhere("type", "=", "ENV")
+                              .andWhere("type_fk", "=", model.getAplicacao())
+                              .andWhere("organization.id", "=", org.getId())
+                              .andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
+                              .one();
 
-							if (Core.isNull(result2)) {
+                      if (Core.isNull(result2)) {
 //							Insert Env if was deleted before
-								profile = new Profile(model.getAplicacao(), "ENV", prof, u, org).insert();
-								if (profile.hasError()) {
-									Core.setMessageError();
-									ok = false;
-								} else {
-									// Associa utilizador a grupo no Activiti
-									UserService userActiviti0 = new UserService();
-									userActiviti0.setId(u.getUser_name());
-									userActiviti0.setPassword("password.igrp");
-									userActiviti0.setFirstName(u.getName());
-									userActiviti0.setLastName("");
-									userActiviti0.setEmail(u.getEmail().toLowerCase(Locale.ROOT));
-									userRest.create(userActiviti0);
-									groupRest.addUser(profile.getOrganization().getCode() + "."
-											+ profile.getProfileType().getCode(), userActiviti0.getId());
-								}
-							}
-							Core.setMessageSuccess(profile.getUser().getEmail() + " re-invited!");
-						} else
-							ok = false;
-					}
+                         profile = new Profile(model.getAplicacao(), "ENV", prof, u, org).insert();
+                         if (profile.hasError()) {
+                            Core.setMessageError();
+                            ok = false;
+                         } else {
+                            // Associa utilizador a grupo no Activiti
+                            UserService userActiviti0 = new UserService();
+                            userActiviti0.setId(u.getUser_name());
+                            userActiviti0.setPassword("password.igrp");
+                            userActiviti0.setFirstName(u.getName());
+                            userActiviti0.setLastName("");
+                            userActiviti0.setEmail(u.getEmail().toLowerCase(Locale.ROOT));
+                            userRest.create(userActiviti0);
+                            groupRest.addUser(profile.getOrganization().getCode() + "."
+                                              + profile.getProfileType().getCode(), userActiviti0.getId());
+                         }
+                      }
+                      Core.setMessageSuccess(profile.getUser().getEmail() + " re-invited!");
+                   } else
+                      ok = false;
+                }
 
-					if (insert) {
-						if (Core.isNotNull(new Profile().find().andWhere("type", "=", "PROF")
-								.andWhere("type_fk", "=", model.getPerfil())
-								.andWhere("organization.id", "=", org.getId())
-								.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
-								.one())) {
+                if (insert) {
+                   if (Core.isNotNull(new Profile().find().andWhere("type", "=", "PROF")
+                           .andWhere("type_fk", "=", model.getPerfil())
+                           .andWhere("organization.id", "=", org.getId())
+                           .andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
+                           .one())) {
 //						 Already invited
-							Core.setMessageError(u.getName() + gt(" está convidado para este perfil."));
-							ok = false;
-						} else {
+                      Core.setMessageError(u.getName() + gt(" está convidado para este perfil."));
+                      ok = false;
+                   } else {
 //						Will insert profile
-							Profile p = new Profile(model.getPerfil(), "PROF", prof, u, org).insert();
-							if (!p.hasError()) {
+                      Profile p = new Profile(model.getPerfil(), "PROF", prof, u, org).insert();
+                      if (!p.hasError()) {
 //							Check if exists already a ENV 				
-								if (Core.isNull(new Profile().find().andWhere("type", "=", "ENV")
-										.andWhere("type_fk", "=", model.getAplicacao())
-										.andWhere("organization.id", "=", org.getId())
-										.andWhere("profileType.id", "=", prof.getId())
-										.andWhere("user.id", "=", u.getId()).one())) {
+                         if (Core.isNull(new Profile().find().andWhere("type", "=", "ENV")
+                                 .andWhere("type_fk", "=", model.getAplicacao())
+                                 .andWhere("organization.id", "=", org.getId())
+                                 .andWhere("profileType.id", "=", prof.getId())
+                                 .andWhere("user.id", "=", u.getId()).one())) {
 //								ENV not added, so must be inserted the application
-									p = new Profile(model.getAplicacao(), "ENV", prof, u, org).insert();
-									if (p.hasError()) {
-										Core.setMessageError();
-										ok = false;
-									} else {
-										// Associa utilizador a grupo no Activiti
-										UserService userActiviti0 = new UserService();
-										userActiviti0.setId(u.getUser_name());
-										userActiviti0.setPassword("password.igrp");
-										userActiviti0.setFirstName(u.getName());
-										userActiviti0.setLastName("");
-										userActiviti0.setEmail(u.getEmail().toLowerCase(Locale.ROOT));
-										userRest.create(userActiviti0);
-										groupRest.addUser(
-												p.getOrganization().getCode() + "." + p.getProfileType().getCode(),
-												userActiviti0.getId());
-									}
-								}
-								if (ok)
-									Core.setMessageSuccess(email + " invited!");
-							} else {
-								Core.setMessageError(u.getUser_name() + gt(" está convidado para este perfil."));
-								ok = false;
-							}
-						}
-					}
+                            p = new Profile(model.getAplicacao(), "ENV", prof, u, org).insert();
+                            if (p.hasError()) {
+                               Core.setMessageError();
+                               ok = false;
+                            } else {
+                               // Associa utilizador a grupo no Activiti
+                               UserService userActiviti0 = new UserService();
+                               userActiviti0.setId(u.getUser_name());
+                               userActiviti0.setPassword("password.igrp");
+                               userActiviti0.setFirstName(u.getName());
+                               userActiviti0.setLastName("");
+                               userActiviti0.setEmail(u.getEmail().toLowerCase(Locale.ROOT));
+                               userRest.create(userActiviti0);
+                               groupRest.addUser(
+                                       p.getOrganization().getCode() + "." + p.getProfileType().getCode(),
+                                       userActiviti0.getId());
+                            }
+                         }
+                         if (ok)
+                            Core.setMessageSuccess(email + " invited!");
+                      } else {
+                         Core.setMessageError(u.getUser_name() + gt(" está convidado para este perfil."));
+                         ok = false;
+                      }
+                   }
+                }
 
-				} else {
-					Core.setMessageError("Este utilizador não existe no LDAP para convidar.");
+             } else {
+                Core.setMessageError("Este utilizador não existe no LDAP para convidar.");
 
-				}
-			} else
-				ok = false;
-		}
+             }
+          } else
+             ok = false;
+       }
 		return ok;
 	}
 

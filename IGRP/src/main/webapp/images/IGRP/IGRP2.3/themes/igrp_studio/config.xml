@@ -1,6 +1,6 @@
 <style>
 
-	<logo>img/studioLogoBlank.svg</logo>
+	<logo>../../assets/img/iconApp/igrp.svg</logo>
 
 	<nav>
 		<buttonsHover>#298929</buttonsHover>
@@ -15,6 +15,6 @@
 		<color name="secondary">#247724</color>
 	</colors>
 
-	<logo>img/logo.png</logo>
+	
 
 </style>
