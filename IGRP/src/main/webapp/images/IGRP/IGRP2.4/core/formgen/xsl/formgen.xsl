@@ -7,7 +7,7 @@
           <xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="concat($path,'/themes/default/assets/images/logo-dark.svg')"/>
+          <xsl:value-of select="concat($path,'/assets/img/loginLogo.svg')"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
