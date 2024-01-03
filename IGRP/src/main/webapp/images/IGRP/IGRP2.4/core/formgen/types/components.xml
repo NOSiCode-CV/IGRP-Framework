@@ -349,7 +349,6 @@
 				<group>dashboard</group>
 				<accept></accept>
 			</item>
-			<item>
 		<item hidden="true">
 			<icon type='fa'>dashboard</icon>
 			<type>container</type>
