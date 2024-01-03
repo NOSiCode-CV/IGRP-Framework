@@ -167,7 +167,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 				
 				d = ResponseConverter
 						.convertJsonToListDao(contentResp, "data", new TypeToken<List<TaskService>>() {
-						}.getType()).stream().map(TaskService.class::cast).collect(Collectors.toList());
+						}.getType()).stream().map(TaskService.class::cast).toList();
 				
 				setProcNDescTaskServ(d);
 			} else {
