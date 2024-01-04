@@ -94,12 +94,11 @@
                         
                     valStr = valArr ? valArr : '',
                         
-                        textArr = sel.find('option:selected').text(),
-                        textStr = textArr ? textArr : ''   ;
+                    textStr = sel.find('option:selected').text() ; //textArr ? textArr : ''   ;
 
                 if (sel.attr('multiple')){
                         valStr = valArr ? valArr.join(';') : '';
-                        textStr = textArr ? textArr.join(';') : '';
+                        textStr = ''; //textArr ? textArr.join(';') : '';
                 }
                     
 
