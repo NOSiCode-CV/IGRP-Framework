@@ -195,7 +195,7 @@
             </div>
 
             <div id="igrp-app-title" class="">
-           		 <a style="color: inherit;font-size: 14px;" href="{rows/link}" >
+           		 <a style="color: inherit;" href="{rows/link}" >
             	<xsl:value-of select="rows/description"/>
             	 </a>
             </div>
@@ -290,9 +290,14 @@
 
               <!-- NAV -->
                 
-                <div class="navbar-brand-box" style="padding: 0 4px 0 20px;height: 65px;display: flex;">
-                  <!-- Dark Logo-->
-				    <a href="{rows/link}" class="logo logo-dark" style="display: flex;align-items: center;">
+        
+            <div class="side-bar-ctrl visible-xs clearfix" >
+                <i class="fa fa-navicon pull-right"></i>
+            </div>
+         
+            <div class="igrp-sidebar-menu-search-wrapper igrp-sidebar-menu-search-container">
+               <!-- Dark Logo-->
+				    <a href="{rows/link}" class="logo logo-dark" style="display: flex;align-items: center;padding:  0 4px 0 20px;height: 60px;">
 						<span class="logo-sm">
 							<img src="{$logo}"  style="max-width: 80px;max-height: 55px;min-width: 60px;"/>
 						</span>
@@ -300,19 +305,6 @@
 							<xsl:value-of select="rows/title" />
 						</div>
                   </a>
-                
-                    
-                </div>
-              
-  
-                <!-- END -->
-        
-            <div class="side-bar-ctrl visible-xs clearfix" >
-                <i class="fa fa-navicon pull-right"></i>
-            </div>
-         
-            <div class="igrp-sidebar-menu-search-wrapper igrp-sidebar-menu-search-container">
-              
               <i class="fa fa-search pull-left igrp-sidebar-menu-search-wrapper-icon"></i>
               <input 
                 type="text" 

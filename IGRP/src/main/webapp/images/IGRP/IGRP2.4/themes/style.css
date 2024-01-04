@@ -506,7 +506,11 @@ ul#list-reports {
 	opacity: .8;
 	font-weight: 400;
 	color: white;
-	padding: 12px 15px;
+	padding-top: 12px;
+    padding-right: 10px;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    /* 
 	/* min-height: 46px; */
 
 }
