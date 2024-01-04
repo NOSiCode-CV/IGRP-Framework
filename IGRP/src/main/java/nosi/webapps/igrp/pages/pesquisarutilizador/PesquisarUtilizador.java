@@ -127,6 +127,7 @@ public class PesquisarUtilizador extends Model{
 		private String tb_email;
 		private String perfile;
 		private String id;
+		private String check_email_hidden;
 		public void setAtivo(int ativo){
 			this.ativo = ativo;
 		}
@@ -180,6 +181,13 @@ public class PesquisarUtilizador extends Model{
 		}
 		public String getId(){
 			return this.id;
+		}
+
+		public void setCheck_email_hidden(String check_email_hidden){
+			this.check_email_hidden = check_email_hidden;
+		}
+		public String getCheck_email_hidden(){
+			return this.check_email_hidden;
 		}
 
 	}
