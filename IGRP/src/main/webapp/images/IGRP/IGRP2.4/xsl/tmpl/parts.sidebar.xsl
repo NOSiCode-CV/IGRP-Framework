@@ -91,9 +91,7 @@
 										</xsl:when>
 										<xsl:otherwise>
 											<a class="nav-link menu-link" href="#sidebar-menu-{$menu-position}" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-menu-{$menu-position}">
-												<xsl:call-template name="igrp-icon">
-													<xsl:with-param name="icon" select="submenu/menu_icon"/>
-												</xsl:call-template>
+												<i class="fa fa-list-ul"></i>
 												<span >
 													<xsl:value-of select="title"/>
 												</span>

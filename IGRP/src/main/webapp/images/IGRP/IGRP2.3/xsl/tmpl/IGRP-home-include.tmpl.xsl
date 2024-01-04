@@ -359,7 +359,7 @@
                       <a href="#" text="{title}" class="menu-title">
 <!--                         <xsl:if test="menu_icon !=''" > -->
                          <span class="menu-icon">
-                         	<i class="fa fa-list-ul" style="color: transparent;"></i>
+                         	<i class="fa fa-list-ul"></i>
                          </span>
 <!--                         </xsl:if>  -->
                         <xsl:value-of select="title" />
