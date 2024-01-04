@@ -25,6 +25,7 @@ public class PesquisarUtilizadorView extends View {
 	public Field tb_email;
 	public Field perfile;
 	public Field id;
+	public Field check_email_hidden;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPView view_1;
 	public IGRPForm form_1;
@@ -64,30 +65,30 @@ public class PesquisarUtilizadorView extends View {
 		
 		username = new TextField(model,"username");
 		username.setLabel(gt("Username"));
-		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("disablehtml","true").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		email = new EmailField(model,"email");
 		email.setLabel(gt("Email"));
-		email.propertie().add("name","p_email").add("type","email").add("maxlength","100").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		email.propertie().add("name","p_email").add("type","email").add("maxlength","100").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		aplicacao.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		organica = new ListField(model,"organica");
 		organica.setLabel(gt("Orgânica"));
-		organica.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","index")).add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		organica.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","index")).add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel(gt("Perfil"));
-		perfil.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","index")).add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		perfil.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","index")).add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		ativo = new CheckBoxField(model,"ativo");
-		ativo.setLabel(gt("Ativo?"));
+		ativo.setLabel(gt("Utilizador Ativo?"));
 		ativo.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","changeStatus")).add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
 		ativo_check = new CheckBoxField(model,"ativo_check");
@@ -117,6 +118,10 @@ public class PesquisarUtilizadorView extends View {
 		id.setLabel(gt(""));
 		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","id");
 		
+		check_email_hidden = new HiddenField(model,"check_email_hidden");
+		check_email_hidden.setLabel(gt(""));
+		check_email_hidden.propertie().add("name","p_check_email_hidden").add("type","hidden").add("maxlength","30").add("showLabel","true").add("group_in","").add("java-type","").add("tag","check_email_hidden");
+		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
@@ -145,7 +150,7 @@ public class PesquisarUtilizadorView extends View {
 		btn_convidar_user.propertie.add("id","button_0c9f_e52a").add("type","specific").add("class","warning").add("rel","convidar_user").add("refresh_components","");
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarUtilizador","eliminar","alert_submit","danger|fa-trash","","");
-		btn_eliminar.propertie.add("id","button_2f8d_ba41").add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
+		btn_eliminar.propertie.add("id","button_2f8d_ba41").add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","").add("labelConfirm","Deseja realmente realizar esta operação?");
 
 		
 	}
@@ -173,6 +178,7 @@ public class PesquisarUtilizadorView extends View {
 		table_1.addField(tb_email);
 		table_1.addField(perfile);
 		table_1.addField(id);
+		table_1.addField(check_email_hidden);
 
 		toolsbar_1.addButton(btn_convidar);
 		toolsbar_1.addButton(btn_adicionar_utilizador);
@@ -206,7 +212,8 @@ public class PesquisarUtilizadorView extends View {
 		nome.setValue(model);
 		tb_email.setValue(model);
 		perfile.setValue(model);
-		id.setValue(model);	
+		id.setValue(model);
+		check_email_hidden.setValue(model);	
 
 		table_1.loadModel(((PesquisarUtilizador) model).getTable_1());
 		}
