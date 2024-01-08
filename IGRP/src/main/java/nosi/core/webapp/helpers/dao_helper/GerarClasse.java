@@ -1,6 +1,7 @@
 package nosi.core.webapp.helpers.dao_helper;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -157,6 +158,7 @@ public class GerarClasse {
 		this.importClasses.add(NamedQuery.class);
 		this.importClasses.add(Table.class);
 		this.importClasses.add(Entity.class);
+		this.importClasses.add(Serial.class);
 		this.importClasses.add(this.isView() ? Immutable.class : GeneratedValue.class);
 	}
 
@@ -370,7 +372,7 @@ public class GerarClasse {
 			   this.daoDto.getDaoClassName() + " extends BaseActiveRecord<" +
 			   this.daoDto.getDaoClassName() + "> {" + NEW_LINE +
 			   NEW_LINE +
-			   TAB + "private static final long serialVersionUID = 1L;" + NEW_LINE +
+			   TAB + "@Serial" + NEW_LINE + TAB + "private static final long serialVersionUID = 1L;" + NEW_LINE +
 			   NEW_LINE +
 			   TAB + "public static final String TABLE_NAME = \"" + this.daoDto.getTableName().toUpperCase() + "\";" + NEW_LINE +
 			   NEW_LINE +
