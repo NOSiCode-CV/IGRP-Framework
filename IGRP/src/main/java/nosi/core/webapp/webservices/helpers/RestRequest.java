@@ -89,7 +89,7 @@ public class RestRequest{
 		List<Attachment> atts = new LinkedList<>();
 		atts.add(new Attachment("file", file.getInputStream(),cd));
 		MultipartBody body = new MultipartBody(atts);
-		Response response = target.request(this.getAccept_format()).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA));
+		Response response = target.request(this.getAccept_format()).cacheControl(cacheControl).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA));
 		client.close();	
 		return response;
 	}
@@ -103,7 +103,7 @@ public class RestRequest{
 		List<Attachment> atts = new LinkedList<>();
 		atts.add(new Attachment("file", file.getInputStream(),cd));
 		MultipartBody body = new MultipartBody(atts);
-		Response response = target.request(this.getAccept_format()).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA));
+		Response response = target.request(this.getAccept_format()).cacheControl(cacheControl).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA));
 		client.close();	
 		return response;
 	}
@@ -116,7 +116,7 @@ public class RestRequest{
 		List<Attachment> atts = new LinkedList<>();
 		atts.add(new Attachment("file", file,cd));
 		MultipartBody body = new MultipartBody(atts);
-		Response response = target.request(this.getAccept_format()).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA));
+		Response response = target.request(this.getAccept_format()).cacheControl(cacheControl).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA));
 		client.close();	
 		return response;
 	}
@@ -126,7 +126,7 @@ public class RestRequest{
 			Client client = this.getConfig().bluidClient();
 			this.addUrl(url);
 	        WebTarget target = client.target(this.getConfig().getUrl());
-	        Response response = target.request(this.getAccept_format()).post(Entity.json(content));
+	        Response response = target.request(this.getAccept_format()).cacheControl(cacheControl).post(Entity.json(content));
 	        client.close();
 	        return response;	      
 		}catch(Exception e){
@@ -140,7 +140,7 @@ public class RestRequest{
 			Client client = this.getConfig().bluidClient();
 			this.addUrl(url);
 	        WebTarget target = client.target(this.getConfig().getUrl()).path(String.valueOf(id));
-	        Response response = target.request(this.getAccept_format()).post(Entity.json(content));
+	        Response response = target.request(this.getAccept_format()).cacheControl(cacheControl).post(Entity.json(content));
 	        client.close();
 	        return response;
 		}catch(Exception e){
