@@ -5,13 +5,12 @@ package nosi.core.gui.components;
  */
 
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-
 import nosi.core.webapp.QueryString;
 import nosi.core.webapp.Report;
 import nosi.core.webapp.helpers.Route;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class IGRPLink {
 
@@ -89,22 +88,13 @@ public class IGRPLink {
 	public String getLink() {
 		if(this.report!=null) {
 			this.link = this.report.getLink();
-			this.report.getParams().entrySet().forEach(p->{
-				try {
-					link += ("&name_array="+p.getKey() + "&value_array="+URLEncoder.encode(""+p.getValue(),StandardCharsets.UTF_8.toString()));
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} 
-			});
+			this.report.getParams().forEach((key, value) -> link += ("&name_array=" + key + "&value_array=" + URLEncoder.encode("" + value, StandardCharsets.UTF_8)));
 			return link;
 		}
 		if(this.queryString.getQueryString()!=null && !this.queryString.getQueryString().isEmpty()) {
-			this.queryString.getQueryString().entrySet().forEach(q->{
-				q.getValue().forEach(q1->{
-					this.link += "&"+q.getKey()+"="+(q1!=null?q1.toString():"");
-				});					
-			});
+			this.queryString.getQueryString().forEach((key, value) -> value.forEach(q1 -> {
+               this.link += "&" + key + "=" + (q1 != null ? q1.toString() : "");
+            }));
 		}
 		return this.link.replace("&&", "&");
 	}

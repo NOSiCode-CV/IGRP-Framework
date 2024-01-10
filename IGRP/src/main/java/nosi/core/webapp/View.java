@@ -1,7 +1,7 @@
 package nosi.core.webapp;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -104,14 +104,10 @@ public abstract class View  implements IHeaderConfig{
 		 * Extract parameters in json format
 		 */
 		String jsonLookup = Core.getParam("jsonLookup");
-		if(Core.isNotNull(jsonLookup)) {
-			try {
-				jsonLookup = URLEncoder.encode(jsonLookup, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-			HiddenField f = new HiddenField(null,"jsonLookup");
-			f.propertie().add("value",jsonLookup).add("tag","jsonLookup").add("name","jsonLookup");
+		if (Core.isNotNull(jsonLookup)) {
+			jsonLookup = URLEncoder.encode(jsonLookup, StandardCharsets.UTF_8);
+			HiddenField f = new HiddenField(null, "jsonLookup");
+			f.propertie().add("value", jsonLookup).add("tag", "jsonLookup").add("name", "jsonLookup");
 			f.setValue(jsonLookup);
 			formHidden.addField(f);
 		}

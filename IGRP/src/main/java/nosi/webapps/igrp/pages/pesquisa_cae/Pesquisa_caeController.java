@@ -2,6 +2,7 @@ package nosi.webapps.igrp.pages.pesquisa_cae;
 
 import java.io.IOException;
 /*----#start-code(packages_import)----*/
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Properties;
 
@@ -15,7 +16,6 @@ import nosi.webapps.igrp.services.rest.pesquisa_cae.rest.PesquisaCae;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.net.URLDecoder;
-import java.io.UnsupportedEncodingException;
 
 
 /*----#end-code----*/
@@ -46,12 +46,8 @@ public class Pesquisa_caeController extends Controller {
                                               + "<value>");
 		
 		if(Core.isNotNull(jsonLookup)) {
-			try {
-				jsonLookup = URLDecoder.decode(jsonLookup, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-			Properties params = (Properties) Core.fromJson(jsonLookup,Properties.class);
+           jsonLookup = URLDecoder.decode(jsonLookup, StandardCharsets.UTF_8);
+           Properties params = (Properties) Core.fromJson(jsonLookup,Properties.class);
 			params.forEach((key, value) -> {
                if (value.equals("treemenu_1_tmid"))
                   id_cae = key.toString();

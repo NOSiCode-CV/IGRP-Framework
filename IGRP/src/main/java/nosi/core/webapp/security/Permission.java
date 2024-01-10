@@ -4,9 +4,9 @@ package nosi.core.webapp.security;
  * May 29, 2017
  */
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Optional;
 import jakarta.servlet.http.Cookie;
@@ -25,8 +25,6 @@ import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.dao.User;
 
 public class Permission {
-	
-	public static final String ENCODE = "UTF-8"; 
 	public static final int MAX_AGE = 60*60*24;//24h 
 	
 	private ApplicationPermition applicationPermition; 
@@ -94,15 +92,11 @@ public class Permission {
 	}
 	
 	public void setCookie(ApplicationPermition appP) {
-		try {
-			String json = Core.toJson(appP);
-			Cookie cookie = new Cookie(appP.getDad(), URLEncoder.encode( json,ENCODE));
-			cookie.setMaxAge(MAX_AGE);
-			Igrp.getInstance().getResponse().addCookie(cookie);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-	}
+       String json = Core.toJson(appP);
+       Cookie cookie = new Cookie(appP.getDad(), URLEncoder.encode( json, StandardCharsets.UTF_8));
+       cookie.setMaxAge(MAX_AGE);
+       Igrp.getInstance().getResponse().addCookie(cookie);
+    }
 
 	public  String getCurrentEnv() {
 		ApplicationPermition appP = this.getApplicationPermition();
@@ -152,16 +146,11 @@ public class Permission {
 				Arrays.stream(Igrp.getInstance().getRequest().getCookies()).filter(c -> c.getName().equalsIgnoreCase(dad)).findFirst(): Optional.empty();
 		String json = cookies.map(Cookie::getValue).orElse(null);
 		if(json!=null) {
-			try {
-				json = URLDecoder.decode(json,ENCODE);
-				if(Core.isNotNull(json)) {
-					ApplicationPermition appP = (ApplicationPermition) Core.fromJson(json, ApplicationPermition.class);
-					return appP;
-				}
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-		}
+           json = URLDecoder.decode(json,StandardCharsets.UTF_8);
+           if(Core.isNotNull(json)) {
+              return (ApplicationPermition) Core.fromJson(json, ApplicationPermition.class);
+           }
+        }
 		return null;
 	}
 	
