@@ -41,9 +41,9 @@
 		
 
 		<!-- TomEE Embedded Maven Plugin -->
-      <tomee.version>9.1.1</tomee.version>
-      <tomee.maven.plugin.version>9.1.1</tomee.maven.plugin.version>
-      <tomee.embedded.version>9.1.1</tomee.embedded.version>
+      <tomee.version>9.1.2</tomee.version>
+      <tomee.maven.plugin.version>9.1.2</tomee.maven.plugin.version>
+      <tomee.embedded.version>9.1.2</tomee.embedded.version>
       <tomee.classifier>plus</tomee.classifier>
       
       <javadoc.plugin.version>3.0.1</javadoc.plugin.version>
