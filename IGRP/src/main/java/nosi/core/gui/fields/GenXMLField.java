@@ -1,22 +1,23 @@
 package nosi.core.gui.fields;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-/**
- * @author: Emanuel Pereira
- * 
- * Apr 14, 2017
- *
- * Description: class to generate xml of fields
- */
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import nosi.core.webapp.Core;
 import nosi.core.xml.XMLWritter;
+
+/**
+ * @author: Emanuel Pereira
+ *
+ * Apr 14, 2017
+ *
+ * Description: class to generate xml of fields
+ */
+
 
 public class GenXMLField {
 
@@ -30,7 +31,7 @@ public class GenXMLField {
         </fields>
 	 */
 	public static void toXml(XMLWritter xml, List<Field> fields){
-		if(fields.size() > 0){
+		if(!fields.isEmpty()){
 			xml.startElement("fields");
 				for(Field field:fields){
 					if(field.isVisible()){
@@ -47,31 +48,29 @@ public class GenXMLField {
 							xml.setElement("label", field.getLabel());
 						if(!(field instanceof SeparatorField)) // Separator field not contain tag value
 							getXmlValue(xml,field);
-						if(field instanceof LookupField){
-							LookupField lookupField = (LookupField) field; 
+						if(field instanceof LookupField lookupField){
 							StringBuilder link = new StringBuilder(field.getLookup());
 							if(field.vertionLookup() == 1) {
 								link.append("&forLookup=true"); 
 								for(Entry<String, Object> param : lookupField.getParams().entrySet())
 									link.append(String.format("&%s=%s", param.getKey(), param.getValue()));
-								xml.setElement("lookup", link.toString()); 
-							}else 
-								if(field.vertionLookup() == 2){
+								xml.setElement("lookup", link.toString());
+							} else {
+								if (field.vertionLookup() == 2) {
 									link.append("&jsonLookup=");
-									try {
-										link.append(URLEncoder.encode(Core.toJson(lookupField.getLookupParams()),"UTF-8"));
-									} catch (UnsupportedEncodingException e) {
-										e.printStackTrace();
-									}
-									for(Entry<String, Object> param:((LookupField) field).getParams().entrySet())
+									link.append(URLEncoder.encode(Core.toJson(lookupField.getLookupParams()), StandardCharsets.UTF_8));
+
+									for (Entry<String, Object> param : ((LookupField) field).getParams().entrySet())
 										link.append(String.format("&%s=%s", param.getKey(), param.getValue()));
-									xml.setElement("lookup", link.toString()); 
+
+									xml.setElement("lookup", link.toString());
+								}
 							}
 						}
 						xml.endElement();
 					}
 				}
-			if(view_img.toString().compareTo("") > 0){//add tag view_img in case the View
+			if(view_img.compareTo("") > 0){//add tag view_img in case the View
 				xml.setElement("view_img", view_img);//<view_img>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</view_img>
 				view_img = "";
 			}
@@ -104,7 +103,7 @@ public class GenXMLField {
         ...
 	 */
 	public static void toXmlV21(XMLWritter xml, List<Field> fields){
-		if(fields.size() > 0){
+		if(!fields.isEmpty()){
 			xml.startElement("label");
 				for(Field field:fields){
 					if(field.isVisible()){
@@ -120,49 +119,44 @@ public class GenXMLField {
 			xml.endElement();
 			xml.startElement("value");
 				for(Field field:fields){
-					if(field.isVisible()){						
-						if(!(field instanceof ListField) && !(field instanceof RadioListField) && !(field instanceof CheckBoxListField)){
-							if(field instanceof HiddenField){
-								xml.startElement("hidden");
-							}else{
-								xml.startElement(field.getTagName());
-							}
-							writteAttributes(xml,field.propertie());							
-							xml.text(""+field.getValue());
-							if(field instanceof LookupField){
-								xml.setElement("lookup", field.getLookup());
-							}
-							xml.endElement();
+					if (field.isVisible() && (!(field instanceof ListField) && !(field instanceof RadioListField) && !(field instanceof CheckBoxListField))) {
+						if (field instanceof HiddenField) {
+							xml.startElement("hidden");
+						} else {
+							xml.startElement(field.getTagName());
 						}
+						writteAttributes(xml, field.propertie());
+						xml.text("" + field.getValue());
+						if (field instanceof LookupField) {
+							xml.setElement("lookup", field.getLookup());
+						}
+						xml.endElement();
 					}
 				}
 			xml.endElement();
 			xml.startElement("list");
 			for(Field field:fields){
-				if(field.isVisible()){
-					if(field instanceof ListField || field instanceof RadioListField || field instanceof CheckBoxListField){
-						xml.startElement(field.getTagName());
-						writteAttributes(xml,field.propertie());
-						if(field.getValue()!=null && field.getValue() instanceof HashMap){
-							HashMap<?,?> values = (HashMap<?, ?>)field.getValue();
-							for(Entry<?, ?> obj : values.entrySet()){
-								
-								xml.startElement("option");
-								if(field instanceof ListField && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
-									xml.writeAttribute("selected", "true");
-								}else if((field instanceof CheckBoxListField || field instanceof RadioListField) && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
-									xml.writeAttribute("checked", "true");
-								}
-								xml.setElement("text", obj.getValue().toString());
-								if(obj.getKey() == null || obj.getKey().toString().equals(""))
-									xml.emptyTag("value");
-								else
-									xml.setElement("value", obj.getKey().toString());
-								xml.endElement();
+				if (field.isVisible() && (field instanceof ListField || field instanceof RadioListField || field instanceof CheckBoxListField)) {
+					xml.startElement(field.getTagName());
+					writteAttributes(xml, field.propertie());
+					if (field.getValue() instanceof HashMap<?, ?> values) {
+						for (Entry<?, ?> obj : values.entrySet()) {
+							xml.startElement("option");
+							final var valueProperty = field.propertie().get("value");
+							if (field instanceof ListField && obj.getKey() != null && valueProperty != null && valueProperty.toString().equals(obj.getKey().toString())) {
+								xml.writeAttribute("selected", "true");
+							} else if ((field instanceof CheckBoxListField || field instanceof RadioListField) && obj.getKey() != null && valueProperty != null && valueProperty.toString().equals(obj.getKey().toString())) {
+								xml.writeAttribute("checked", "true");
 							}
+							xml.setElement("text", obj.getValue().toString());
+							if (obj.getKey() == null || obj.getKey().toString().isEmpty())
+								xml.emptyTag("value");
+							else
+								xml.setElement("value", obj.getKey().toString());
+							xml.endElement();
 						}
-						xml.endElement();
 					}
+					xml.endElement();
 				}
 			}
 			xml.endElement();
@@ -187,9 +181,11 @@ public class GenXMLField {
 			if (field.getListOptions() != null) {
 				for (Entry<?, ?> obj : field.getListOptions().entrySet()) {
 					xml.startElement("option");
-					if(field instanceof ListField && field.propertie().get("multiple") != null && field.propertie().get("multiple").equals("true") && field.propertie().get("value") != null && obj.getKey() != null) {
+					final var multipleProperty = field.propertie().get("multiple");
+					final var valueProperty = field.propertie().get("value");
+					if(field instanceof ListField && multipleProperty != null && multipleProperty.equals("true") && valueProperty != null && obj.getKey() != null) {
 						try {
-							Object[] o = (Object[]) field.propertie().get("value");
+							Object[] o = (Object[]) valueProperty;
 							
 							List<?> aux = Arrays.asList(o);
 							
@@ -199,11 +195,11 @@ public class GenXMLField {
 						}catch(Exception e) {
 							//e.printStackTrace();
 						}
-					}else if(field instanceof ListField && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
+					}else if(field instanceof ListField && obj.getKey() != null && valueProperty != null && valueProperty.toString().equals(obj.getKey().toString())){
 						xml.writeAttribute("selected", "true");
-					}else if(field instanceof CheckBoxListField && obj.getKey() != null && field.propertie().get("value")!=null) {
+					}else if(field instanceof CheckBoxListField && obj.getKey() != null && valueProperty != null) {
 						try {
-							String[] x = convertToArrayString(field.propertie().get("value")); 
+							String[] x = convertToArrayString(valueProperty);
 							if(x!=null) {
 								List<String> aux = Arrays.asList(x);
 								if(aux.contains(obj.getKey().toString())) { 
@@ -213,11 +209,11 @@ public class GenXMLField {
 						}catch(Exception e) {
 							Core.setMessageError(e.getMessage());
 						}
-					}else if(field instanceof RadioListField && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
+					}else if(field instanceof RadioListField && obj.getKey() != null && valueProperty != null && valueProperty.toString().equals(obj.getKey().toString())){
 						xml.writeAttribute("checked", "true");
 					}
 					xml.setElement("text", ""+obj.getValue());
-					if(obj.getKey() == null || obj.getKey().toString().equals(""))
+					if(obj.getKey() == null || obj.getKey().toString().isEmpty())
 						xml.emptyTag("value");
 					else
 						xml.setElement("value", ""+obj.getKey());
