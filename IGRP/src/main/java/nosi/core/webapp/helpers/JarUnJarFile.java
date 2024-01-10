@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -38,8 +39,6 @@ import nosi.core.webapp.import_export.FileImportAppOrPage;
 
 
 public class JarUnJarFile {
-
-	public static String encode = FileHelper.ENCODE_UTF8;
 	
 	public static byte[] convertFilesToJarBytes(Map<String,String>files,int level){
 		byte[] result = null;
@@ -106,7 +105,7 @@ public class JarUnJarFile {
 				   String         line = null;
 				   DataInputStream in = new DataInputStream(jis); 
 				   StringBuilder content = new StringBuilder();  
-				   BufferedReader d = new BufferedReader(new InputStreamReader(in,encode));
+				   BufferedReader d = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
 				   while((line=d.readLine())!=null){
 				   	content.append(line);
 				   	content.append(ls);
@@ -130,11 +129,11 @@ public class JarUnJarFile {
 			JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
 			JarEntry entry = null;
 			while((entry=jis.getNextJarEntry())!=null){	
-				   String         ls = System.getProperty("line.separator");
-				   String         line = null;
+				   String ls = System.getProperty("line.separator");
+				   String line = null;
 				   DataInputStream in = new DataInputStream(jis); 
 				   StringBuilder content = new StringBuilder();  
-				   BufferedReader d = new BufferedReader(new InputStreamReader(in,encode));
+				   BufferedReader d = new BufferedReader(new InputStreamReader(in,StandardCharsets.UTF_8));
 				   while((line=d.readLine())!=null){
 				   	content.append(line);
 				   	content.append(ls);

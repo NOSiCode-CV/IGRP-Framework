@@ -44,30 +44,17 @@ package nosi.core.gui.components;
     </table>
 </table_1>
  */
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-import java.util.Map.Entry;
 
-import nosi.core.gui.fields.CheckBoxField;
-import nosi.core.gui.fields.CheckBoxListField;
-import nosi.core.gui.fields.ColorField;
-import nosi.core.gui.fields.Field;
-import nosi.core.gui.fields.FieldProperties;
-import nosi.core.gui.fields.GenXMLField;
-import nosi.core.gui.fields.HiddenField;
+import nosi.core.gui.fields.*;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.xml.XMLWritter;
 
-import java.util.Map;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.Map.Entry;
  
 public class IGRPTable extends IGRPComponent{
 
@@ -123,13 +110,9 @@ public class IGRPTable extends IGRPComponent{
 
 	private String decodeJson(String jsonLookup) {
 		String jsonLookupAux = jsonLookup;
-		try {
-			jsonLookupAux = URLDecoder.decode(jsonLookupAux, "UTF-8");
-			if(jsonLookupAux.contains("%"))
-				return this.decodeJson(jsonLookupAux);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+		jsonLookupAux = URLDecoder.decode(jsonLookupAux, StandardCharsets.UTF_8);
+		if (jsonLookupAux.contains("%"))
+			return this.decodeJson(jsonLookupAux);
 		return jsonLookupAux;
 	}
 
