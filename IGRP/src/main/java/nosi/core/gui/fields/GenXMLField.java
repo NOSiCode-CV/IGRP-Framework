@@ -184,9 +184,8 @@ public class GenXMLField {
 	private static void getXmlValue(XMLWritter xml, Field field) {
 		if(field instanceof ListField || field instanceof RadioListField || field instanceof CheckBoxListField){
 			xml.startElement("list");
-			if(field.getListOptions()!=null && field.getListOptions() instanceof Map<?,?>){
-				HashMap<?,?> values = (HashMap<?, ?>)field.getListOptions();
-				for(Entry<?, ?> obj : values.entrySet()){
+			if (field.getListOptions() != null) {
+				for (Entry<?, ?> obj : field.getListOptions().entrySet()) {
 					xml.startElement("option");
 					if(field instanceof ListField && field.propertie().get("multiple") != null && field.propertie().get("multiple").equals("true") && field.propertie().get("value") != null && obj.getKey() != null) {
 						try {
