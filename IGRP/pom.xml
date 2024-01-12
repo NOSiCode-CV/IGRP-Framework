@@ -652,7 +652,7 @@
                      <tomee.serialization.class.whitelist />
                      <tomee.serialization.class.blacklist>-</tomee.serialization.class.blacklist>
                      <openejb.system.apps>false</openejb.system.apps>
-                     <tomee.remote.support>false</tomee.remote.support>
+                     <tomee.remote.support>true</tomee.remote.support>
                   </systemVariables>
                   	<libs>
 							<lib>remove:myfaces</lib>	

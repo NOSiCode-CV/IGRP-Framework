@@ -436,7 +436,7 @@ public class EnvController extends Controller {
 						p[0] = action.getApplication().getDad();
 						p[1] = action.getPage();
 						p[2] = action.getAction();
-						if(!permission.hasApp1PagPermition(app,p[0], p[1], p[2])) {
+						if(!permission.hasMenuPagPermition(Igrp.getInstance().getRequest(),app,p[0], p[1], p[2])) {
 							p[0]="tutorial";
 							p[1]="DefaultPage";
 							p[2]="index";
