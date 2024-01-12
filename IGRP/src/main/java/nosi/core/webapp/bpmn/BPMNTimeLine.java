@@ -77,7 +77,7 @@ public class BPMNTimeLine {
 			});
 		
 		refs.remove(taskSearch,next);
-		if(refs != null && !refs.isEmpty()) {
+		if( !refs.isEmpty()) {
 			if(next!=null)
 				recursiveTask(userTasks,refs,next);
 			else {
@@ -89,12 +89,12 @@ public class BPMNTimeLine {
 	
 	public List<TaskTimeLine> getTasks() {		
 		this.taskTimeline = new ArrayList<>();
-		Map<String,String> tasksSQ = new HashMap<String, String>();
+		Map<String,String> tasksSQ = new HashMap<>();
 		String processDefinition = runtimeTask.getTask().getProcessDefinitionId();
 		TaskServiceRest taskSQ = new TaskServiceRest();
 		taskSQ.addFilterBody("finished", "true");
 		taskSQ.addFilterBody("processDefinitionId", processDefinition);
-		if(taskSQ != null)
+		if(runtimeTask.getTask().getExecutionId() != null)
 			taskSQ.addFilterBody("executionId", runtimeTask.getTask().getExecutionId());
 		try {
 			taskSQ.queryHistoryTask()
@@ -124,7 +124,7 @@ public class BPMNTimeLine {
 			List<SequenceFlow> sequenceFlows = bpmn
 					.convertToBpmnModel(xif.createXMLStreamReader(new StringReader(resource))).getMainProcess()
 					.findFlowElementsOfType(SequenceFlow.class);
-			Map<String,String> refs = new HashMap<String, String>();
+			Map<String,String> refs = new HashMap<>();
 			int i=0;
 			for(SequenceFlow sf:sequenceFlows) {
 				if(!refs.containsKey(sf.getSourceRef())) {
