@@ -18,20 +18,15 @@ import nosi.core.webapp.Igrp;
 @WebFilter
 public class ThreadLocalFilter implements Filter {
 
-    public ThreadLocalFilter() {}
-
-	public void destroy() {}
-
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		 Igrp.set();
 	      try {
-	    	// pass the request along the filter chain 	    	
+	    	// pass the request along the filter chain... EncodingFilter,AuthenticationFilter...   	
 	        chain.doFilter(request, response);
 	      } finally {
 	    	  Igrp.remove();
 	      }
 	}
 
-	public void init(FilterConfig fConfig) throws ServletException {}
 
 }
