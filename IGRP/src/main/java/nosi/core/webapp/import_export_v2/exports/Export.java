@@ -25,7 +25,7 @@ public class Export {
 	
 	public byte[] execute() {
 		Map<String, String> fileMap = new HashMap<>();
-		exports.stream().forEach(e->{
+		exports.forEach(e->{
 			fileMap.put(e.getFileName(), e.serialization());
 		});
 		return JarUnJarFile.convertFilesToJarBytes(fileMap , 9);

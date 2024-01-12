@@ -1,7 +1,6 @@
 package nosi.webapps.igrp_studio.pages.file_editor;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Part;
@@ -23,6 +22,7 @@ import nosi.webapps.igrp.dao.Historic;
 import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -81,45 +81,36 @@ public class File_editorController extends Controller {
 		return this.renderView(json);
 	}
 
-	
+
 	public Response actionGetJsonAllFolder() {
 		Integer envId = Core.getParamInt("env_fk");
 		Application app = new Application().findOne(envId);
 		Map<String, Object> dirs = null;
-		if(app!=null) {
+		if (app != null) {
 			String path = Path.getPath(app);
-			try {
-				dirs = this.listDirectory(app,new File(path),true);
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
+			dirs = this.listDirectory(app, new File(path), true);
 			String task_id = Core.getParam("task_id");
-			if(Core.isNotNull(task_id)) {
-				this.addDefaultFile(task_id,dirs,envId);
-			}
-		}		
+			if (Core.isNotNull(task_id))
+				this.addDefaultFile(task_id, dirs, envId);
+		}
 		this.format = Response.FORMAT_JSON;
 		String json = new Gson().toJson(dirs);
 		return this.renderView(json);
 	}
-	
+
 	private void addDefaultFile(String task_id, Map<String, Object> dirs, Integer envId) {
-		Action ac = new Action().find().andWhere("application", "=",envId).andWhere("page", "=",BPMNConstants.PREFIX_TASK+task_id).one();
+		Action ac = new Action().find().andWhere("application", "=", envId).andWhere("page", "=", BPMNConstants.PREFIX_TASK + task_id).one();
 		FileEditor file = new FileEditor();
-		file.setName(ac.getPage()+".java");
-		try {
-			file.setFileName(URLEncoder.encode(Path.getPath(ac.getApplication())+"process"+File.separator+ac.getProcessKey()+ac.getPage()+".java", "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		file.setPath(this.getConfig().getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ file.getFileName()));
+		file.setName(ac.getPage() + ".java");
+		file.setFileName(URLEncoder.encode(Path.getPath(ac.getApplication()) + "process" + File.separator + ac.getProcessKey() + ac.getPage() + ".java", StandardCharsets.UTF_8));
+		file.setPath(this.getConfig().getResolveUrl("igrp_studio", "File_editor", "get-file&fileName=" + file.getFileName()));
 		file.setId(null);
 		ArrayList<FileEditor> files = new ArrayList<>();
 		files.add(file);
-		dirs.put("default_file",files);
+		dirs.put("default_file", files);
 	}
 
-	public Map<String, Object> listDirectory(Application app,File dir, boolean addHibernateConfigs) throws UnsupportedEncodingException {
+	public Map<String, Object> listDirectory(Application app,File dir, boolean addHibernateConfigs) {
 		File[] content = dir.listFiles();
 		List<FileEditor> files = new LinkedList<>();
 		List<Map<String, Object>> folders = new LinkedList<>();
@@ -155,20 +146,20 @@ public class File_editorController extends Controller {
 		Collections.sort(files,FileEditor.ORDER_BY_NAME);
 		Map<String, Object> result = new HashMap<>();
 		result.put("dir_name", dir.getName());
-		result.put("dir_path", URLEncoder.encode(dir.getPath(),"UTF-8"));
+		result.put("dir_path", URLEncoder.encode(dir.getPath(), StandardCharsets.UTF_8));
 		result.put("dir", folders);
 		result.put("dir_files", files);
 		return result;
 	}
 
 	
-	private void addFile(List<FileEditor> files, File f) throws UnsupportedEncodingException {
+	private void addFile(List<FileEditor> files, File f) {
 		FileEditor file = new FileEditor();
-		file.setName(URLEncoder.encode(f.getName(),"UTF-8"));
-		file.setFileName(URLEncoder.encode(f.getAbsolutePath(), "UTF-8"));
+		file.setName(URLEncoder.encode(f.getName(), StandardCharsets.UTF_8));
+		file.setFileName(URLEncoder.encode(f.getAbsolutePath(), StandardCharsets.UTF_8));
 		file.setPath(this.getConfig().getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ file.getFileName()));
 		file.setId(null);
-		file.setDir_path(URLEncoder.encode(f.getParent(),"UTF-8"));
+		file.setDir_path(URLEncoder.encode(f.getParent(), StandardCharsets.UTF_8));
 		files.add(file);
 	}
 
@@ -222,11 +213,10 @@ public class File_editorController extends Controller {
 	}
 	
 	
-	public Response actionGetFile() throws UnsupportedEncodingException {
-		String content = "";
+	public Response actionGetFile() {
 		String fileName = Core.getParam("fileName");
-		fileName = URLDecoder.decode(fileName,"UTF-8");
-		content = FileHelper.readFile(fileName,"");
+		fileName = URLDecoder.decode(fileName, StandardCharsets.UTF_8);
+		String content = FileHelper.readFile(fileName,"");
 		this.format = Response.FORMAT_TEXT;
 		return this.renderView(content);
 	}

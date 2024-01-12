@@ -29,3 +29,16 @@
   .igrp-menu-search::-ms-input-placeholder { /* Microsoft Edge */
     color: rgba(255,255,255,.8);
   }
+  
+  .navbar-menu .navbar-nav .nav-link   {
+  display: flex;
+   padding-left: 16px;
+    padding-right: 10px;
+/*     color: var(--vz-vertical-menu-item-color); */
+/*   font-size: revert; */
+    font-family: "hkgrotesk", sans-serif;
+  } 
+
+  .app-search .form-control {
+  background-color: transparent;
+  }

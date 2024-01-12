@@ -1,15 +1,14 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <!-- HEAD -->
   <xsl:template name="IGRP-head">
-
+   
+     <title><xsl:value-of select="rows/title"/></title>
     <link REL="SHORTCUT ICON" HREF="{$path}/assets/img/favicon.ico" />
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
-    <link rel="mask-icon" href="{$path}/assets/img/safari-pinned-tab.svg" color="#5bbad5"/>
-    
-    <title><xsl:value-of select="rows/title"/></title>
+    <link rel="mask-icon" href="{$path}/themes/default/img/logo2.svg" color="#5bbad5"/>
     
     <!-- Normalize -->
     <link rel="stylesheet" href="{$path}/core/normalize/normalize.css" media="none" onload="if(media!='all')media='all'"/>
@@ -26,8 +25,8 @@
     </xsl:if>
     <!-- /Bootstrap Include CSS -->
 
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'"/>
+     <!-- FontAwesome -->
+    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css"/>
     <!-- /FontAwesome -->
 
     <!-- COLOR PALETTES -->
@@ -87,12 +86,11 @@
    		var ispublic    = '<xsl:value-of select="$ispublic"/>';
       	var rekey       = '<xsl:value-of select="$recaptchakey"/>'; 
       	var secretrekey = '<xsl:value-of select="$secretrecaptchakey"/>'; 
-    </script>
-    <xsl:if test="$ispublic = 1">
+	</script>
+	  <xsl:if test="$ispublic = 1">
       	<!-- reCAPTCHA -->
       	<script src="https://www.google.com/recaptcha/api.js?render={$recaptchakey}"></script>
    	 </xsl:if>
-
 
     <!-- BS CSS -->    
    <!-- NOT ASYNC JS-->   
@@ -175,28 +173,32 @@
           </div>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:variable name="logo">
-            <xsl:choose>
-              <xsl:when test="$themeConfigData/logo">
-                <xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
-              </xsl:when>
-              <xsl:otherwise>
-                <xsl:value-of select="concat($path,'/themes/default/img/logo2.svg')"/>
-              </xsl:otherwise>
-            </xsl:choose>
-          </xsl:variable>
+<!--           <xsl:variable name="logo"> -->
+<!--             <xsl:choose> -->
+<!--               <xsl:when test="$themeConfigData/logo"> -->
+<!--                 <xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/> -->
+<!--               </xsl:when> -->
+<!--               <xsl:otherwise> -->
+<!--                 <xsl:value-of select="concat($path,'/themes/default/img/logo2.svg')"/> -->
+<!--               </xsl:otherwise> -->
+<!--             </xsl:choose> -->
+<!--           </xsl:variable> -->
 
           <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
             <a class="navbar-brand col-sm-3 col-md-2" href="{rows/link}" >
-            <img src="{$logo}"/>
-            <span class=""><b><xsl:value-of select="rows/title"/></b></span>
+            <!-- <img src="{$logo}"/>
+            <span class=""><b><xsl:value-of select="rows/title"/></b></span> -->
             </a>
 
             <div id="side-bar-ctrl">
               <i class="fa fa-navicon"></i>
             </div>
 
-            <div id="igrp-app-title" class=""><xsl:value-of select="rows/description"/></div>
+            <div id="igrp-app-title" class="">
+           		 <a style="color: inherit;" href="{rows/link}" >
+            	<xsl:value-of select="rows/description"/>
+            	 </a>
+            </div>
 
             <xsl:variable name="topMenus" select="document(rows/top_menu/@file)/top_menu/button"/>
 
@@ -267,39 +269,75 @@
           <xsl:call-template name="sidebar-v4"/>
         </xsl:when>
         <xsl:otherwise>
+          <xsl:variable name="logo">
+            <xsl:choose>
+         	  <xsl:when test="$themeConfigData/logo">
+             	<xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
+              </xsl:when>
+              <xsl:otherwise>
+                 <xsl:choose>
+	            	<xsl:when test="rows/logo">
+			           <xsl:value-of select="rows/logo"/>              
+		             </xsl:when>
+		             <xsl:otherwise>
+		                <xsl:value-of select="concat($path,'/themes/default/img/logo3.svg')"/>
+		             </xsl:otherwise>
+           		</xsl:choose>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:variable>
           <div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar">
+
+              <!-- NAV -->
+                
         
             <div class="side-bar-ctrl visible-xs clearfix" >
                 <i class="fa fa-navicon pull-right"></i>
             </div>
          
-            <div class="igrp-sidebar-menu-search-wrapper">
+            <div class="igrp-sidebar-menu-search-wrapper igrp-sidebar-menu-search-container">
+               <!-- Dark Logo-->
+				    <a href="{rows/link}" class="logo logo-dark" style="display: flex;align-items: center;padding:  0 4px 0 20px;height: 60px;">
+						<span class="logo-sm">
+							<img src="{$logo}"  style="max-width: 80px;max-height: 55px;min-width: 60px;"/>
+						</span>
+						<div class="text-center"	style="color:white;font-size: 15px;font-weight: bold;line-height: normal;padding-left: 1rem;">
+							<xsl:value-of select="rows/title" />
+						</div>
+                  </a>
+              <i class="fa fa-search pull-left igrp-sidebar-menu-search-wrapper-icon"></i>
               <input 
                 type="text" 
                 class="form-control igrp-search-list" 
-                placeholder="Pesquisar Menu" 
+                placeholder="Pesquisar..." 
                 search-list="#igrp-sidebar .treeview>a, #igrp-sidebar ul.treeview-menu>li>a"
                 search-attr="text"
                 search-item-parent=".treeview"
                 search-item-wrapper=".treeview-menu" />
             </div>
             
-            <i class="fa fa-search pull-left igrp-sidebar-menu-search-wrapper-icon" ></i>
+            
     
             <ul class="nav nav-sidebar">
               <xsl:for-each select="$menus/menu">
-             
                 <xsl:variable name="parentId" select="concat($APP,'-',position())" />
                 <li parent-id="{$parentId}">
                   <xsl:choose>
                     <xsl:when test="link">
                       <xsl:attribute name="class">treeview</xsl:attribute>                  
                       <a href="{link}" target="{submenu/target}" item-id="{$parentId}-{position()}" text="{title}" style=" align-items: center;">
-                        <xsl:if test="submenu/menu_icon !=''" >
-                          <span class="menu-icon">
-                            <i class="fa {submenu/menu_icon}" />
-                          </span>
-                        </xsl:if> 
+                         <xsl:choose>
+	                        <xsl:when test="submenu/menu_icon !=''" >
+	                          <span class="menu-icon">
+	                            <i class="{submenu/menu_icon}" />
+	                          </span>
+	                        </xsl:when> 
+	                       <xsl:otherwise>
+	                          <span class="menu-icon">
+	                            <i class="fa fa-dot-circle-o" />
+	                          </span>
+	                        </xsl:otherwise> 
+                        </xsl:choose>
                         <span class="menu-title">
                           <xsl:value-of select="title" />
                         </span>
@@ -311,11 +349,11 @@
                         <xsl:attribute name="class">treeview</xsl:attribute>
                       </xsl:if>                  
                       <a href="#" text="{title}" class="menu-title">
-                        <xsl:if test="menu_icon !=''" >
-                          <span class="menu-icon">
-                            <i class="fa {menu_icon}" />
-                          </span>
-                        </xsl:if> 
+<!--                         <xsl:if test="menu_icon !=''" > -->
+                         <span class="menu-icon">
+                         	<i class="fa fa-list-ul"></i>
+                         </span>
+<!--                         </xsl:if>  -->
                         <xsl:value-of select="title" />
                         <i class="fa fa-angle-right pull-right"></i>
                         <span class="nav-bar-active" bg-color="2" />                    
@@ -326,11 +364,18 @@
                            <xsl:sort select="order"/>
                             <li>
                               <a href="{link}"  target="{target}" item-id="{$parentId}-{position()}" text="{title}">
-                                <xsl:if test="menu_icon !=''" >
-                                  <span class="menu-icon">
-                                    <i class="fa {menu_icon}" />
-                                  </span>
-                                </xsl:if>   
+   							 <xsl:choose>
+		                        <xsl:when test="menu_icon !=''" >
+		                          <span class="menu-icon">
+		                            <i class="{menu_icon}" />
+		                          </span>
+		                        </xsl:when> 
+		                       <xsl:otherwise>
+		                          <span class="menu-icon">
+		                            <i class="fa fa-dot-circle-o" />
+		                          </span>
+		                        </xsl:otherwise> 
+                      	    </xsl:choose>
                                 <span class="menu-title">
                                   <xsl:value-of select="title" />
                                 </span>                                                  

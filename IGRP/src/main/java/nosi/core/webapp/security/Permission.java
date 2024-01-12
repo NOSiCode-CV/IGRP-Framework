@@ -4,9 +4,9 @@ package nosi.core.webapp.security;
  * May 29, 2017
  */
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Optional;
 import jakarta.servlet.http.Cookie;
@@ -25,8 +25,6 @@ import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.dao.User;
 
 public class Permission {
-	
-	public static final String ENCODE = "UTF-8"; 
 	public static final int MAX_AGE = 60*60*24;//24h 
 	
 	private ApplicationPermition applicationPermition; 
@@ -60,7 +58,7 @@ public class Permission {
 			
 			try {// eliminar 
 				id_user = Core.getCurrentUser().getIdentityId();
-			}catch(Exception e) {
+			}catch(Exception ignored) {
 				
 			}
 			
@@ -71,7 +69,7 @@ public class Permission {
 					 profType.setId(prof.getProfileType().getId());
 					 ApplicationPermition appP = this.getApplicationPermition(dad);
 					 if(appP==null) {
-						 appP = new ApplicationPermition(app.getId(),dad, org.getId(),profType.getId(),prof.getOrganization()!=null? prof.getOrganization().getCode():null, prof.getProfileType()!=null?prof.getProfileType().getCode():null);
+						 appP = new ApplicationPermition(app.getId(),dad, org.getId(),profType.getId(),prof.getOrganization()!=null? prof.getOrganization().getCode():null,prof!=null && prof.getProfileType()!=null?prof.getProfileType().getCode():null);
 					}
 					 this.applicationPermition = appP;
 					 this.setCookie(appP);
@@ -94,19 +92,15 @@ public class Permission {
 	}
 	
 	public void setCookie(ApplicationPermition appP) {
-		try {
-			String json = Core.toJson(appP);
-			Cookie cookie = new Cookie(appP.getDad(), URLEncoder.encode( json,ENCODE));
-			cookie.setMaxAge(MAX_AGE);
-			Igrp.getInstance().getResponse().addCookie(cookie);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-	}
+       String json = Core.toJson(appP);
+       Cookie cookie = new Cookie(appP.getDad(), URLEncoder.encode( json, StandardCharsets.UTF_8));
+       cookie.setMaxAge(MAX_AGE);
+       Igrp.getInstance().getResponse().addCookie(cookie);
+    }
 
 	public  String getCurrentEnv() {
 		ApplicationPermition appP = this.getApplicationPermition();
-		return appP!=null && !appP.getDad().equals("")?appP.getDad():Core.getCurrentDadParam();
+		return appP!=null && !appP.getDad().isEmpty() ?appP.getDad():Core.getCurrentDadParam();
 	}
 	
 	public  Integer getCurrentPerfilId() {
@@ -148,19 +142,15 @@ public class Permission {
 	}
 	
 	public ApplicationPermition getApplicationPermition(String dad) {
-		Optional<Cookie> cookies = Igrp.getInstance()!= null && Igrp.getInstance().getRequest().getCookies()!=null?Arrays.asList(Igrp.getInstance().getRequest().getCookies()).stream().filter(c -> c.getName().equalsIgnoreCase(dad)).findFirst():null;
-		String json = (cookies!=null && cookies.isPresent())?cookies.get().getValue():null;
+		Optional<Cookie> cookies = Igrp.getInstance()!= null && Igrp.getInstance().getRequest().getCookies()!=null ?
+				Arrays.stream(Igrp.getInstance().getRequest().getCookies()).filter(c -> c.getName().equalsIgnoreCase(dad)).findFirst(): Optional.empty();
+		String json = cookies.map(Cookie::getValue).orElse(null);
 		if(json!=null) {
-			try {
-				json = URLDecoder.decode(json,ENCODE);
-				if(Core.isNotNull(json)) {
-					ApplicationPermition appP = (ApplicationPermition) Core.fromJson(json, ApplicationPermition.class);
-					return appP;
-				}
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-		}
+           json = URLDecoder.decode(json,StandardCharsets.UTF_8);
+           if(Core.isNotNull(json)) {
+              return (ApplicationPermition) Core.fromJson(json, ApplicationPermition.class);
+           }
+        }
 		return null;
 	}
 	

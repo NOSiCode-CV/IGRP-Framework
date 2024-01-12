@@ -24,7 +24,7 @@ public class Config {
     private static final String SEPARATOR_FOR_HTTP = "/";
     private static final String SEPARATOR_FOR_FILESYSTEM = File.separator;
     public static final String BASE_PATH_CONFIGURATION = "config";
-    public static final String VERSION = "2.0.0.231206";
+    public static final String VERSION = "2.0.0.240110";
     public static final String DEFAULT_V_PAGE = "2.3";
     private static final Properties configs = new Properties();
 
@@ -477,6 +477,11 @@ public class Config {
         xml.setElement("template", app.getTemplate(page != null ? page.getVersion() : Config.DEFAULT_V_PAGE));
         xml.setElement("title", Core.getSwitchNotNullValue(title, headerConfig.getTitle()));
         xml.setElement("description", Core.getSwitchNotNullValue(description, ""));
+        String logo="default-neg.svg";
+        if(Core.isNotNull(app.getImg_src()) && !app.getImg_src().equals("default.svg"))
+        	logo=app.getImg_src();
+        
+        xml.setElement("logo",  getLinkImg("2.3")+"/assets/img/iconApp/"+logo);
 
         xml.setElement("version", VERSION);
         xml.setElement("link", linkHome);

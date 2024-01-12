@@ -262,13 +262,15 @@ public class NovoMenuController extends Controller {
 	}
 
 	public List<PermissionAcl> loadPermissionAcl(int envFk) {
-		List<PermissionAcl> acls = new ArrayList<PermissionAcl>();
+		List<PermissionAcl> acls = new ArrayList<>();
 
 		Config config = new Config().find().andWhere("name", "=", "" + this.IGRPWEB_INSTANCE_NAME).one();
 		Application env = new Application().findOne(envFk);
 
 		Properties properties = this.configApp.getMainSettings();
+		String IGRP_PDEX_GLOBALACL_URL = "igrp.acl.permissionacl.url";
 		String baseUrl = properties.getProperty(IGRP_PDEX_GLOBALACL_URL);
+		String IGRP_PDEX_GLOBALACL_TOKEN = "igrp.acl.permissionacl.token";
 		String token = properties.getProperty(IGRP_PDEX_GLOBALACL_TOKEN);
 
 		GlobalAcl globalAcl = new GlobalAcl();
@@ -324,8 +326,6 @@ public class NovoMenuController extends Controller {
 	
 
 	public final String IGRPWEB_INSTANCE_NAME = "IGRPWEB_INSTANCE_NAME";
-	private final String IGRP_PDEX_GLOBALACL_URL = "igrp.acl.permissionacl.url";
-	private final String IGRP_PDEX_GLOBALACL_TOKEN = "igrp.acl.permissionacl.token";
 
 	/*----#end-code----*/
 }

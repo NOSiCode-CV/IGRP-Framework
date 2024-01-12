@@ -41,7 +41,7 @@ public abstract class PdexServiceTemplate {
 		this.appCode = appCode;
 	} 
 	
-	public static boolean ping(String hostUrl, int timeout) {
+	public static boolean ping(String hostUrl, int timeout) { //TODO: Not working very well...
 		boolean success = false; 
 		try {
 			HttpURLConnection connection = (HttpURLConnection) new URL(hostUrl).openConnection();

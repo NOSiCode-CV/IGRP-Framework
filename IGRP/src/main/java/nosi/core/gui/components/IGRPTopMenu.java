@@ -25,7 +25,7 @@ public class IGRPTopMenu extends IGRPComponent{
 	@Override
 	public String toString() {
 		xml.startElement("top_menu");
-		if(this.buttons.size() > 0){
+		if(!this.buttons.isEmpty()){
 			for(IGRPButton b:this.buttons){
 				b.setTag("button");
 				xml.addXml(b.toString());

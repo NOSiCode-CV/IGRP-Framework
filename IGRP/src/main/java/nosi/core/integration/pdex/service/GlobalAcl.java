@@ -7,6 +7,7 @@ import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Invocation;
 import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.CacheControl;
 import jakarta.ws.rs.core.HttpHeaders;
 
 import org.json.JSONArray;
@@ -27,16 +28,21 @@ public class GlobalAcl extends PdexServiceTemplate{
 	
 	public GlobalAcl() {
 		super();
-	}
+		 cacheControl.setNoCache(false);
+		 cacheControl.setMaxAge(120); // Cache for 60 seconds
+	
+	}	
+	CacheControl cacheControl = new CacheControl();
+	
 	
 	public List<PermissionAcl> permissionAcl(){
-		List<PermissionAcl> acls = new ArrayList<PermissionAcl>(); 
+		List<PermissionAcl> acls = new ArrayList<>(); 
 		if(instanceName == null || instanceName.isEmpty() || appCode == null || appCode.isEmpty() || url == null || url.isEmpty() || token == null || token.isEmpty()) 
 			return acls; 
 		url += "/permissionAcl?instance_id=" + this.instanceName + "&code=" + this.appCode  + "&type=" + type; 
 		Client client = ClientBuilder.newClient(); 
 		WebTarget webTarget = client.target(this.url); 
-		Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
+		Invocation.Builder invocationBuilder  = webTarget.request().cacheControl(cacheControl).header(HttpHeaders.AUTHORIZATION, token); 
 		jakarta.ws.rs.core.Response response  = invocationBuilder.get(); 
 		String json = response.readEntity(String.class); 
 		client.close(); 
@@ -49,29 +55,29 @@ public class GlobalAcl extends PdexServiceTemplate{
 					for(int i=0 ; i< Entry.length() ; i++) {
 						JSONObject r = Entry.getJSONObject(i); 
 						PermissionAcl acl = new PermissionAcl(); 
-						try { acl.setEnv_fk(r.getString("env_fk"));  } catch (Exception e) {}
-						try { acl.setEnv_owner_fk(r.getString("env_owner_fk"));  } catch (Exception e) {}
-						try { acl.setStatus(r.getString("STATUS"));  } catch (Exception e) {}
-						try { acl.setType(r.getString("TYPE"));  } catch (Exception e) {}
-						try { acl.setType_fk(r.getInt("type_fk"));  } catch (Exception e) {}
-						try { acl.setDescription(r.getString("description"));  } catch (Exception e) {} 
-						try { acl.setLink(r.getString("link"));  } catch (Exception e) {}
-						try { acl.setOrg_fk(r.getInt("org_fk"));  } catch (Exception e) {}
-						try { acl.setProf_fk(r.getInt("prof_fk"));  } catch (Exception e) {}
+						try { acl.setEnv_fk(r.getString("env_fk"));  } catch (Exception ignored) {}
+						try { acl.setEnv_owner_fk(r.getString("env_owner_fk"));  } catch (Exception ignored) {}
+						try { acl.setStatus(r.getString("STATUS"));  } catch (Exception ignored) {}
+						try { acl.setType(r.getString("TYPE"));  } catch (Exception ignored) {}
+						try { acl.setType_fk(r.getInt("type_fk"));  } catch (Exception ignored) {}
+						try { acl.setDescription(r.getString("description"));  } catch (Exception ignored) {}
+						try { acl.setLink(r.getString("link"));  } catch (Exception ignored) {}
+						try { acl.setOrg_fk(r.getInt("org_fk"));  } catch (Exception ignored) {}
+						try { acl.setProf_fk(r.getInt("prof_fk"));  } catch (Exception ignored) {}
 						acls.add(acl); 
 					}
 				}else {
 					JSONObject r = Entries.getJSONObject("Entry");
 					PermissionAcl acl = new PermissionAcl(); 
-					try { acl.setEnv_fk(r.getString("env_fk"));  } catch (Exception e) {}
-					try { acl.setEnv_owner_fk(r.getString("env_owner_fk"));  } catch (Exception e) {}
-					try { acl.setStatus(r.getString("STATUS"));  } catch (Exception e) {}
-					try { acl.setType(r.getString("TYPE"));  } catch (Exception e) {}
-					try { acl.setType_fk(r.getInt("type_fk"));  } catch (Exception e) {}
-					try { acl.setDescription(r.getString("description"));  } catch (Exception e) {} 
-					try { acl.setLink(r.getString("link"));  } catch (Exception e) {}
-					try { acl.setOrg_fk(r.getInt("org_fk"));  } catch (Exception e) {}
-					try { acl.setProf_fk(r.getInt("prof_fk"));  } catch (Exception e) {}
+					try { acl.setEnv_fk(r.getString("env_fk"));  } catch (Exception ignored) {}
+					try { acl.setEnv_owner_fk(r.getString("env_owner_fk"));  } catch (Exception ignored) {}
+					try { acl.setStatus(r.getString("STATUS"));  } catch (Exception ignored) {}
+					try { acl.setType(r.getString("TYPE"));  } catch (Exception ignored) {}
+					try { acl.setType_fk(r.getInt("type_fk"));  } catch (Exception ignored) {}
+					try { acl.setDescription(r.getString("description"));  } catch (Exception ignored) {}
+					try { acl.setLink(r.getString("link"));  } catch (Exception ignored) {}
+					try { acl.setOrg_fk(r.getInt("org_fk"));  } catch (Exception ignored) {}
+					try { acl.setProf_fk(r.getInt("prof_fk"));  } catch (Exception ignored) {}
 					acls.add(acl); 
 				}
 			}
@@ -81,14 +87,14 @@ public class GlobalAcl extends PdexServiceTemplate{
 	}
 	
 	public List<AppTransaction> appTransaction(){
-		List<AppTransaction> appTransactions = new ArrayList<AppTransaction>(); 
+		List<AppTransaction> appTransactions = new ArrayList<>(); 
 		
-		if(appCode == null || appCode.isEmpty() || url == null || url.isEmpty() || !ping(url, DEFAULT_TIMEOUT) || token == null || token.isEmpty()) 
+		if(appCode == null || appCode.isEmpty() || url == null || url.isEmpty() || token == null || token.isEmpty()) //!ping(url, DEFAULT_TIMEOUT) || 
 			return appTransactions; 
 		
 		Client client = ClientBuilder.newClient(); 
 		WebTarget webTarget = client.target(this.url); 
-		Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
+		Invocation.Builder invocationBuilder  = webTarget.request().cacheControl(cacheControl).header(HttpHeaders.AUTHORIZATION, token); 
 		jakarta.ws.rs.core.Response response  = invocationBuilder.get(); 
 		String json = response.readEntity(String.class); 
 		client.close(); 
@@ -101,9 +107,9 @@ public class GlobalAcl extends PdexServiceTemplate{
 				for(int i=0 ; i< Entry.length() ; i++) {
 					JSONObject r = Entry.optJSONObject(i); 
 					AppTransaction appTransaction = new AppTransaction(); 
-					try { appTransaction.setCode(r.getString("code"));  } catch (Exception e) {}
-					try { appTransaction.setId(r.getInt("id"));   } catch (Exception e) {}
-					try { appTransaction.setDescription(r.getString("description"));  } catch (Exception e) {}
+					try { appTransaction.setCode(r.getString("code"));  } catch (Exception ignored) {}
+					try { appTransaction.setId(r.getInt("id"));   } catch (Exception ignored) {}
+					try { appTransaction.setDescription(r.getString("description"));  } catch (Exception ignored) {}
 					appTransactions.add(appTransaction); 
 				}
 			}

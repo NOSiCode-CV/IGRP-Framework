@@ -45,8 +45,8 @@ public final class I18nManager implements Component{
 			this.coreLanguage = I18nFactory.createI18n(DEFAULT_CORE_BUNDLE_NAME, new Locale(aux[0], aux[1])); 
 			this.appLanguage = !SKIP_DADS.contains(currentApp) ? I18nFactory.createI18n(defaultAppBundleName, new Locale(aux[0], aux[1])) : this.coreLanguage; 
 		}else {
-			this.coreLanguage = I18nFactory.createI18n(DEFAULT_CORE_BUNDLE_NAME, request.getLocale()); 
-			this.appLanguage = !SKIP_DADS.contains(currentApp) ? I18nFactory.createI18n(defaultAppBundleName, request.getLocale()) : this.coreLanguage; 
+			this.coreLanguage = I18nFactory.createI18n(DEFAULT_CORE_BUNDLE_NAME, new Locale("pt","PT"));  //request.getLocale()
+			this.appLanguage = !SKIP_DADS.contains(currentApp) ? I18nFactory.createI18n(defaultAppBundleName,  new Locale("pt","PT")) : this.coreLanguage;  //request.getLocale()
 		}
 	}
 	

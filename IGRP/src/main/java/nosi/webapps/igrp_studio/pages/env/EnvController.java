@@ -325,12 +325,7 @@ public class EnvController extends Controller {
 		List<Integer> aux = new ArrayList<>();
 		XMLWritter xmlMenu = new XMLWritter();
 		xmlMenu.startElement("applications");
-		/** IGRP-PLSQL Apps **/
-		/** Begin **/
-		List<App> allowApps = new ArrayList<>();
-		List<App> denyApps = new ArrayList<>();
-		getAllApps(allowApps,denyApps);
-		/** End **/
+		
 		boolean displaySubtitle = false;
 		boolean displayTitle = false;
 		xmlMenu.setElement("link_img", this.getConfig().getLinkImg(Config.DEFAULT_V_PAGE));
@@ -368,29 +363,34 @@ public class EnvController extends Controller {
 		}
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
-		for(App obj: allowApps){
-			xmlMenu.startElement("application");
-			xmlMenu.writeAttribute("available", "yes");
-			xmlMenu.setElement("link", obj.getLink());
-			xmlMenu.setElement("img", obj.getImg_src());
-			xmlMenu.setElement("title", obj.getName());
-			xmlMenu.setElement("num_alert", "");
-			xmlMenu.setElement("description", obj.getDescription());
-			xmlMenu.endElement();
-			displayTitle = true;
-		}
-		for(App obj: denyApps){
-			xmlMenu.startElement("application");
-			xmlMenu.writeAttribute("available", "no");
-			xmlMenu.setElement("link", obj.getLink());
-			xmlMenu.setElement("img", obj.getImg_src());
-			xmlMenu.setElement("title", obj.getName());
-			xmlMenu.setElement("num_alert", "");
-			xmlMenu.setElement("description", obj.getDescription());
-			xmlMenu.endElement();
-			displaySubtitle = true; 
-		}
+		if(this.configApp.isActiveGlobalACL()) {
+			List<App> allowApps = new ArrayList<>();
+			List<App> denyApps = new ArrayList<>();
+			getAllApps(allowApps,denyApps);
+			for(App obj: allowApps){
+				xmlMenu.startElement("application");
+				xmlMenu.writeAttribute("available", "yes");
+				xmlMenu.setElement("link", obj.getLink());
+				xmlMenu.setElement("img", obj.getImg_src());
+				xmlMenu.setElement("title", obj.getName());
+				xmlMenu.setElement("num_alert", "");
+				xmlMenu.setElement("description", obj.getDescription());
+				xmlMenu.endElement();
+				displayTitle = true;
+			}
+			for(App obj: denyApps){
+				xmlMenu.startElement("application");
+				xmlMenu.writeAttribute("available", "no");
+				xmlMenu.setElement("link", obj.getLink());
+				xmlMenu.setElement("img", obj.getImg_src());
+				xmlMenu.setElement("title", obj.getName());
+				xmlMenu.setElement("num_alert", "");
+				xmlMenu.setElement("description", obj.getDescription());
+				xmlMenu.endElement();
+				displaySubtitle = true; 
+			}
 		/** End **/
+		}
 		if(displayTitle)
 			xmlMenu.setElement("title", Core.gt("Minhas Aplicações"));
 		if(displaySubtitle)

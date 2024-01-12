@@ -34,7 +34,7 @@ public class DomainImport extends AbstractImport implements IImport{
 	@Override
 	public void execute() {
 		if(this.domains!=null) {
-			this.domains.stream().forEach(d->{
+			this.domains.forEach(d->{
 				if(this.application==null) {
 					this.application = Core.findApplicationByDad(d.getDad());
 				}

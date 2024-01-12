@@ -40,7 +40,7 @@
                   <xsl:if test="position() = 1">active</xsl:if>
                 </xsl:variable>
                 <div class="item {$active}" style="background-image:url({$path}/assets/img/login/{image})">
-
+                  
                 </div>
               </xsl:for-each>
               

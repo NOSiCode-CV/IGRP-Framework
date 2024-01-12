@@ -10,7 +10,6 @@ import nosi.core.webapp.helpers.ApplicationPermition;
 import nosi.core.webapp.security.Permission;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 
 /*---- End ----*/
@@ -106,7 +105,7 @@ public class HomeController extends Controller {
 		}else {
 			try { // Eliminar 
 				new Permission().changeOrgAndProfile("igrp"); 
-			}catch(Exception e) { 
+			}catch(Exception ignored) {
 			}			
 		}
 		

@@ -5,6 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Core;
 import java.util.Map;
 import java.util.LinkedHashMap;
 
@@ -13,15 +14,17 @@ public class _CONS_PROCView extends View {
 	public Field sectionheader_1_text;
 	public Field aplicacao;
 	public Field tipo_processo;
-	public Field cbx_utilizador;
+	public Field etapa_filtro;
 	public Field referencia_pedido;
-	public Field requerente;
 	public Field num;
+	public Field cbx_utilizador;
 	public Field status;
+	public Field requerente;
 	public Field intervalo_entrada;
 	public Field dt_ini;
 	public Field dt_fim;
 	public Field data_de;
+	public Field size_registos;
 	public Field estado;
 	public Field num_processo;
 	public Field processo;
@@ -58,28 +61,32 @@ public class _CONS_PROCView extends View {
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		tipo_processo = new ListField(model,"tipo_processo");
-		tipo_processo.setLabel(gt("Nome do Processo"));
-		tipo_processo.propertie().add("name","p_tipo_processo").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		tipo_processo.setLabel(gt("Tipo Processo"));
+		tipo_processo.propertie().add("remote",Core.getIGRPLink("igrp","_CONS_PROC","etapa")).add("name","p_tipo_processo").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
-		cbx_utilizador = new ListField(model,"cbx_utilizador");
-		cbx_utilizador.setLabel(gt("Atribuído a"));
-		cbx_utilizador.propertie().add("name","p_cbx_utilizador").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		etapa_filtro = new ListField(model,"etapa_filtro");
+		etapa_filtro.setLabel(gt("Etapa"));
+		etapa_filtro.propertie().add("name","p_etapa_filtro").add("type","select").add("multiple","false").add("tags","false").add("load_service_data","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		referencia_pedido = new SeparatorField(model,"referencia_pedido");
 		referencia_pedido.setLabel(gt("Referencia Pedido"));
 		referencia_pedido.propertie().add("type","separator").add("name","p_referencia_pedido").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
-		requerente = new TextField(model,"requerente");
-		requerente.setLabel(gt("Requerente"));
-		requerente.propertie().add("name","p_requerente").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false").add("disablehtml","true");
-		
 		num = new TextField(model,"num");
 		num.setLabel(gt("Nº Processo"));
 		num.propertie().add("name","p_num").add("type","text").add("maxlength","150").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false").add("disablehtml","true");
 		
+		cbx_utilizador = new ListField(model,"cbx_utilizador");
+		cbx_utilizador.setLabel(gt("Atribuído a"));
+		cbx_utilizador.propertie().add("name","p_cbx_utilizador").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		
 		status = new RadioListField(model,"status");
 		status.setLabel(gt("Estado"));
 		status.propertie().add("name","p_status").add("type","radiolist").add("domain","").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("child_size","4").add("java-type","String").add("tooltip","false").add("disable_copy_paste","false");
+		
+		requerente = new TextField(model,"requerente");
+		requerente.setLabel(gt("Requerente"));
+		requerente.propertie().add("name","p_requerente").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false").add("disablehtml","true");
 		
 		intervalo_entrada = new SeparatorField(model,"intervalo_entrada");
 		intervalo_entrada.setLabel(gt("Intervalo de datas"));
@@ -95,7 +102,11 @@ public class _CONS_PROCView extends View {
 		
 		data_de = new RadioListField(model,"data_de");
 		data_de.setLabel(gt("Da data:"));
-		data_de.propertie().add("name","p_data_de").add("type","radiolist").add("domain","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("child_size","3").add("java-type","String").add("tooltip","false").add("disable_copy_paste","false");
+		data_de.propertie().add("name","p_data_de").add("type","radiolist").add("domain","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("child_size","6").add("java-type","String").add("tooltip","false").add("disable_copy_paste","false");
+		
+		size_registos = new NumberField(model,"size_registos");
+		size_registos.setLabel(gt("Limite máximo de registos"));
+		size_registos.propertie().add("name","p_size_registos").add("type","number").add("min","").add("max","").add("calculation","false").add("mathcal","").add("numberformat","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("java-type","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		estado = new ColorField(model,"estado");
 		estado.setLabel(gt("Estado"));
@@ -150,15 +161,17 @@ public class _CONS_PROCView extends View {
 
 		form.addField(aplicacao);
 		form.addField(tipo_processo);
-		form.addField(cbx_utilizador);
+		form.addField(etapa_filtro);
 		form.addField(referencia_pedido);
-		form.addField(requerente);
 		form.addField(num);
+		form.addField(cbx_utilizador);
 		form.addField(status);
+		form.addField(requerente);
 		form.addField(intervalo_entrada);
 		form.addField(dt_ini);
 		form.addField(dt_fim);
 		form.addField(data_de);
+		form.addField(size_registos);
 
 		table_1.addField(estado);
 		table_1.addField(num_processo);
@@ -194,15 +207,17 @@ public class _CONS_PROCView extends View {
 		
 		aplicacao.setValue(model);
 		tipo_processo.setValue(model);
-		cbx_utilizador.setValue(model);
+		etapa_filtro.setValue(model);
 		referencia_pedido.setValue(model);
-		requerente.setValue(model);
 		num.setValue(model);
+		cbx_utilizador.setValue(model);
 		status.setValue(model);
+		requerente.setValue(model);
 		intervalo_entrada.setValue(model);
 		dt_ini.setValue(model);
 		dt_fim.setValue(model);
 		data_de.setValue(model);
+		size_registos.setValue(model);
 		estado.setValue(model);
 		num_processo.setValue(model);
 		processo.setValue(model);

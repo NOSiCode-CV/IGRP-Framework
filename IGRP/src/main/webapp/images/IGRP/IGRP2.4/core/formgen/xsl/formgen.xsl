@@ -7,7 +7,7 @@
           <xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="concat($path,'/themes/default/images/logo-dark.svg')"/>
+          <xsl:value-of select="concat($path,'/assets/img/loginLogo.svg')"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -20,7 +20,7 @@
           <xsl:call-template name="igrp-head"/>
           <link href="{$path}/core/formgen/css/gen2.css" rel="stylesheet"/>
           <link href="{$path}/core/igrp/toolsbar/igrp.ds.toolsbar.css" rel="stylesheet"/>
-
+ 
           <script>    
            	window.moveTo(0, 0);
            	window.resizeTo(screen.width, screen.height);

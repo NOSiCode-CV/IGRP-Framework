@@ -45,7 +45,7 @@ public class IGRPMenuGroup extends IGRPComponent{
 	}
 
 	public void addGroup(String title,IGRPButton item){
-		if(this.groups.size()>0 && this.groups.get(title)!=null){
+		if(!this.groups.isEmpty() && this.groups.get(title) != null){
 			ArrayList<IGRPButton> value = new ArrayList<>();
 			value.add(item);
 			value.addAll(this.groups.get(title));
@@ -79,7 +79,7 @@ public class IGRPMenuGroup extends IGRPComponent{
 	
 	@Override
 	public String toString() {
-		if(this.groups.size() > 0){
+		if(!this.groups.isEmpty()){
 			xml.startElement(this.tag_name);
 			xml.writeAttribute("type","tabmenu");
 				Set<Entry<String, ArrayList<IGRPButton>>> list = this.groups.entrySet();

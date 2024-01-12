@@ -10,7 +10,6 @@ import nosi.core.webapp.security.PagesScapePermission;
 import nosi.core.webapp.security.Permission;
 import nosi.core.xml.XMLWritter;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -124,12 +123,8 @@ public class IGRPButton {
 		if(this.report!=null) {
 			link = this.report.getLink();
 			this.report.getParams().forEach((key, value) -> {
-				try {
-					link += ("&name_array=" + key + "&value_array=" + URLEncoder.encode("" + value, StandardCharsets.UTF_8.toString()));
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
-			});
+               link += ("&name_array=" + key + "&value_array=" + URLEncoder.encode("" + value, StandardCharsets.UTF_8));
+            });
 			link = link.replace("webapps\\?r=", "");
 			return link;
 		}

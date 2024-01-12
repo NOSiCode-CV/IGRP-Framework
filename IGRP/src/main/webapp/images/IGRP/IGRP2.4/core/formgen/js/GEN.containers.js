@@ -2496,7 +2496,7 @@ var CONTAINER = function(name,params){
 	};
 
 	var addButtonConfig = function(name){
-		var adder = $('<button class="btn btn-box-tool gen-adder-btn"><i style="color:green" class="fa fa-plus"></i></button>');
+		var adder = $('<button class="btn btn-box-tool gen-adder-btn"><i style="color:lightgreen" class="fa fa-plus"></i></button>');
 		
 		
 		adder.on('click',function(){

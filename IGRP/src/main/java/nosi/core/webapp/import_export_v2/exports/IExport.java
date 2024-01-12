@@ -8,24 +8,24 @@ public interface IExport {
 	 * The filename for save content
 	 * @return
 	 */
-	public String getFileName();
+    String getFileName();
 	/**
 	 * Get content export in Json or XML
 	 * @return
 	 */
-	public String serialization();
+    String serialization();
 	
 	/**
 	 * 
 	 * @param export
 	 * @param ids
 	 */
-	public void export(Export export, String[] ids);
+    void export(Export export, String[] ids);
 	
 	/**
 	 * Add content export to list
 	 * @param id
 	 */
-	public void add(String id);
+    void add(String id);
 	
 }

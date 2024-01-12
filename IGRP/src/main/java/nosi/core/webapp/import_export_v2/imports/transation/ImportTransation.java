@@ -34,7 +34,7 @@ public class ImportTransation extends AbstractImport implements IImport{
 	@Override
 	public void execute() {
 		if(this.transations!=null) {
-			this.transations.stream().forEach(t->{
+			this.transations.forEach(t->{
 				if(this.application==null) {
 					this.application = Core.findApplicationByDad(t.getDad());
 				}

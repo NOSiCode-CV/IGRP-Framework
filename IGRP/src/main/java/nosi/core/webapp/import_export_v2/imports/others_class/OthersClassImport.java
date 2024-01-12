@@ -37,7 +37,7 @@ public class OthersClassImport extends AbstractImport implements IImport{
 	@Override
 	public void execute() {
 		if(this.others_class!=null) {
-			this.others_class.stream().forEach(fileClass->{
+			this.others_class.forEach(fileClass->{
 				this.saveFile(fileClass);
 			});
 		}

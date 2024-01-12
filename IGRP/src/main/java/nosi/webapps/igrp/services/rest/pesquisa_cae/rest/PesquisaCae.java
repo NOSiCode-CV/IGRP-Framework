@@ -72,8 +72,7 @@ public class PesquisaCae {
 	}
 
 	private static String resolveUrl(String id) {
-		String url = BASE_URL+"?p_cprcae="+id;
-		return url;
+       return BASE_URL + "?p_cprcae=" + id;
 	}
 	
 }

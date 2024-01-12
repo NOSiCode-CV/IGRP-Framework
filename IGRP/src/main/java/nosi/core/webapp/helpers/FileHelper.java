@@ -19,11 +19,6 @@ import java.util.function.Predicate;
 public class FileHelper {
 
     private final Map<String, String> files = new HashMap<>();
-    public static final String ENCODE_UTF8 = "UTF-8";
-
-    public static final String ENCODE_ISO = "ISO-8859-1";
-    public static final String ENCODE_CP1252 = "Cp1252";
-
 
     public Map<String, String> listFilesDirectory(String path) {
         if (FileHelper.fileExists(path)) {
@@ -87,7 +82,7 @@ public class FileHelper {
         return directories;
     }
 
-    public static InputStream convertStringToInputStream(String value) throws UnsupportedEncodingException {
+    public static InputStream convertStringToInputStream(String value) {
         return new ByteArrayInputStream(value.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -172,7 +167,7 @@ public class FileHelper {
 
     //Write data using default encode UTF-8
     public static boolean saveFile(String path, String filename, Part file) throws IOException {
-        return FileHelper.saveFile(path, filename, file, ENCODE_UTF8, ENCODE_UTF8);
+        return FileHelper.saveFile(path, filename, file, StandardCharsets.UTF_8.name(), StandardCharsets.UTF_8.name());
     }
 
     public static boolean saveFile(String path, String filename, Part file, String encodeIn, String encodeOut) throws IOException {
@@ -191,13 +186,13 @@ public class FileHelper {
 
     //save image using default encode UTF-8
     public static boolean saveImage(String path, String filename, String formatName, Part file) throws IOException {
-        return saveImage(path, filename, formatName, file, ENCODE_UTF8, ENCODE_UTF8);
+        return saveImage(path, filename, formatName, file, StandardCharsets.UTF_8.name(), StandardCharsets.UTF_8.name());
     }
 
     public static boolean saveImage(String path, String filename, String formatName, Part filePart, String encodeIn, String encodeOut) throws IOException {
         boolean isSaved = true;
         if (formatName.equals("svg"))
-            isSaved = saveFile(path, filename, filePart, ENCODE_UTF8, ENCODE_UTF8);
+            isSaved = saveFile(path, filename, filePart, StandardCharsets.UTF_8.name(), StandardCharsets.UTF_8.name());
         else {
             FileHelper.createDiretory(path);
             BufferedImage bImage;

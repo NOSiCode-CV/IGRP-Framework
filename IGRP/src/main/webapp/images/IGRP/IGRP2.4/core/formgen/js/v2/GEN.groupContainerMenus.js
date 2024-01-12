@@ -12,14 +12,14 @@
   
     const groups = {
       form: {
-        title : 'Formulários',
+        title : 'Formulários e Listas',
         list : []
       },
   
-      table: {
-        title : 'Listas',
-        list : []
-      },
+//      table: {
+//        title : 'Listas',
+//        list : []
+//      },
   
       menu : {
         title : 'Ações',
@@ -46,8 +46,8 @@
         list : []
       },
   
-      widget: {
-        title : 'Widgets',
+      dashboard: {
+        title : 'Dashboard',
         list : []
       },
   

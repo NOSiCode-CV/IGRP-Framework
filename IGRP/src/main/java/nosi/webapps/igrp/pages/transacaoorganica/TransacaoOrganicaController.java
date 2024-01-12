@@ -10,7 +10,6 @@ import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.webapps.igrp.dao.Application;
@@ -169,120 +168,133 @@ public class TransacaoOrganicaController extends Controller {
 	static final String TRANS = "TRANS";
 	private void deleteOldTransactions(TransacaoOrganica model,List<String> ids) {
 		if(ids!=null && !ids.isEmpty()) {
-			if (model.getType().equals("org")) {
-				this.deleteTransaction(ids, TRANS,model.getId(),this.profAdmin.getId(),this.userAdmin.getId());
-				List<ProfileType> profilesOfOrg = new ProfileType().find().andWhere("organization.id", "=", model.getId()).all();
-				for(ProfileType p:profilesOfOrg) {
-					this.deleteTransaction(ids, TRANS,p.getOrganization().getId(),p.getId(),this.userAdmin.getId());
-				}
-			}else if (model.getType().equals("perfil")) {				
-				ProfileType pt = new ProfileType().findOne(model.getId());
-				this.deleteTransaction(ids, TRANS,pt.getOrganization().getId(),pt.getId(),this.userAdmin.getId());
-			} else if (model.getType().equals("user")) {
-				
-				this.deleteTransaction(ids, TRANS_USER, Core.getParamInt("org_id"), Core.getParamInt("prof_id"), Core.getParamInt("user_id"));
-			}	
+			Integer[] intIDS = ids.stream()
+                    .map(Integer::valueOf)
+                    .toArray(Integer[]::new);
+           switch (model.getType()) {
+              case "org":
+                 this.deleteTransaction(intIDS, TRANS, model.getId(), this.profAdmin.getId(), this.userAdmin.getId());
+                 List<ProfileType> profilesOfOrg = new ProfileType().find().andWhere("organization.id", "=", model.getId()).all();
+                 for (ProfileType p : profilesOfOrg) {
+                    this.deleteTransaction(intIDS, TRANS, p.getOrganization().getId(), p.getId(), this.userAdmin.getId());
+                 }
+                 break;
+              case "perfil":
+                 ProfileType pt = new ProfileType().findOne(model.getId());
+                 this.deleteTransaction(intIDS, TRANS, pt.getOrganization().getId(), pt.getId(), this.userAdmin.getId());
+                 break;
+              case "user":
+                 this.deleteTransaction(intIDS, TRANS_USER, Core.getParamInt("org_id"), Core.getParamInt("prof_id"), Core.getParamInt("user_id"));
+                 break;
+              default:
+             	 break;
+           }
 		}
 	}	
 
-	private void deleteTransaction(List<String> ids, String type,int org_id,int prof_id,int user_id) {
-		for(String id:ids) {
+	private void deleteTransaction(Integer[] intIDS, String type,int org_id,int prof_id,int user_id) {
 			ResultSet r = Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_profile")
 					.where()
 					.andWhere("type", "=", type)
-					.andWhere("type_fk", "=", Core.toInt(id))
+					.andWhere("type_fk", "IN", intIDS)
 					.andWhere("prof_type_fk", "=",prof_id)
 					.andWhere("user_fk", "=",user_id)
 					.andWhere("org_fk", "=", org_id)
 					.execute();	
-			if(r!=null && r.hasError()) {
+			if (r != null && r.hasError()) {
 				Core.setMessageError(r.getError());
-				break;
 			}
-		}
+//		}
 	}
 
 	private List<String> filterIds(TransacaoOrganica model,List<String> chekedIds){
 		List<Profile> profiles = null;
-		if (model.getType().equals("org")) {
-			profiles = new Profile().find()
-				  .andWhere("organization", "=",model.getId())
-				  .andWhere("profileType","=",this.profAdmin.getId())
-				  .andWhere("type","=",TRANS)
-				  .andWhere("user","=",this.userAdmin.getId())
-				  .all();
-		}else if (model.getType().equals("perfil")) {	
-			ProfileType pt = new ProfileType().findOne(model.getId());	
-			profiles = new Profile().find()
-					  .andWhere("organization", "=",pt.getOrganization().getId())
-					  .andWhere("profileType","=",pt.getId())
-					  .andWhere("type","=",TRANS)
-					  .andWhere("user","=",this.userAdmin.getId())
-					  .all();
-		} else if (model.getType().equals("user")) {
-			profiles = new Profile().find()
-					  .andWhere("organization", "=",Core.getParamInt("org_id"))
-					  .andWhere("profileType","=",Core.getParamInt("prof_id"))
-					  .andWhere("type","=",TRANS_USER)
-					  .andWhere("user","=",Core.getParamInt("user_id"))
-					  .all();
-		}
+       switch (model.getType()) {
+          case "org":
+             profiles = new Profile().find()
+                     .andWhere("organization", "=", model.getId())
+                     .andWhere("profileType", "=", this.profAdmin.getId())
+                     .andWhere("type", "=", TRANS)
+                     .andWhere("user", "=", this.userAdmin.getId())
+                     .all();
+             break;
+          case "perfil":
+             ProfileType pt = new ProfileType().findOne(model.getId());
+             profiles = new Profile().find()
+                     .andWhere("organization", "=", pt.getOrganization().getId())
+                     .andWhere("profileType", "=", pt.getId())
+                     .andWhere("type", "=", TRANS)
+                     .andWhere("user", "=", this.userAdmin.getId())
+                     .all();
+             break;
+          case "user":
+             profiles = new Profile().find()
+                     .andWhere("organization", "=", Core.getParamInt("org_id"))
+                     .andWhere("profileType", "=", Core.getParamInt("prof_id"))
+                     .andWhere("type", "=", TRANS_USER)
+                     .andWhere("user", "=", Core.getParamInt("user_id"))
+                     .all();
+             break;
+          default:
+         	 break;
+       }
 		List<Integer> ids = profiles!=null?profiles.stream().map(Profile::getType_fk).toList():null;
 		return chekedIds.stream().filter(m->ids!=null && !ids.contains(Core.toInt(m))).toList();
 	}
 	
 	private void assocNewsTransactios(TransacaoOrganica model,List<String> ids) {	
+		boolean sucess=true;
 		if(!ids.isEmpty()){
-			List<ProfileType> list = null;
-            boolean sucess=true;
+			final Organization auxOrg = model.getType().equals("org")?new Organization().findOne(model.getId()):null;
+			final Organization orgId =model.getType().equals("user")?new Organization().findOne(Core.getParamInt("org_id")):null;
+			final User userId = model.getType().equals("user")?new User().findOne(Core.getParamInt("user_id")):null;
+			final ProfileType profId = model.getType().equals("user")?new ProfileType().findOne(Core.getParamInt("prof_id")):null;
+			 final ProfileType p =  model.getType().equals("perfil")?new ProfileType().findOne(model.getId()):null;
 			for(String x:ids){
 				Profile prof = new Profile();
 				prof.setUser(userAdmin);
 				prof.setType(TRANS);
 				prof.setType_fk(Integer.parseInt(x));
-				if(model.getType().equals("org")){
-					Organization auxOrg = new Organization().findOne(model.getId());
-					prof.setOrganization(auxOrg);
-					prof.setProfileType(profAdmin);
-					list = new ProfileType().find().andWhere("organization.id", "=", auxOrg.getId()).all();
-					if (list != null && !list.isEmpty()) {
-						list.sort((o1, o2) -> {
-							if (o1.getId() > o2.getId())
-								return 1;
-							else if (o1.getId() < o2.getId())
-								return -1;
-							return 0;
-						});
-						ProfileType pAux = list.get(0);
-						Profile pAux2 = new Profile();
-						pAux2.setUser(userAdmin);
-						pAux2.setType(TRANS);		
-						pAux2.setType_fk(Integer.parseInt(x));
-						pAux2.setOrganization(auxOrg);
-						pAux2.setProfileType(pAux);
-						pAux2.insert();
-					}
-				}else if(model.getType().equals("perfil")){
-					ProfileType p = new ProfileType().findOne(model.getId());
-					prof.setOrganization(p.getOrganization());
-					prof.setProfileType(p);
-				}else if (model.getType().equals("user")) {
-					prof.setType(TRANS_USER);
-					prof.setOrganization(new Organization().findOne(Core.getParamInt("org_id")));
-					prof.setUser(new User().findOne(Core.getParamInt("user_id")));
-					prof.setProfileType(new ProfileType().findOne(Core.getParamInt("prof_id")));
-				}
+               switch (model.getType()) {
+                  case "org":
+                     prof.setOrganization(auxOrg);
+                     prof.setProfileType(profAdmin);
+                     ProfileType pAux = new ProfileType().find()
+                    		 .andWhere("organization.id", "=", auxOrg.getId())
+                    		 .orderByAsc("id").one();
+                     if (pAux != null) {
+                        Profile pAux2 = new Profile();
+                        pAux2.setUser(userAdmin);
+                        pAux2.setType(TRANS);
+                        pAux2.setType_fk(Integer.parseInt(x));
+                        pAux2.setOrganization(auxOrg);
+                        pAux2.setProfileType(pAux);
+                        pAux2.insert();
+                     }
+                     break;
+                  case "perfil":
+                     prof.setOrganization(p.getOrganization());
+                     prof.setProfileType(p);
+                     break;
+                  case "user":
+                    prof.setType(TRANS_USER);
+					prof.setOrganization(orgId);
+					prof.setUser(userId);
+					prof.setProfileType(profId);
+                     break;
+                  default:
+                	 break;
+               }
 				prof = prof.insert();
               if(Core.isNull(prof)){
                 sucess=false;
               }
-			}
-          if(sucess){
-            Core.setMessageSuccess();
-          }else
-            Core.setMessageError();
-          
-		}		
+			}          
+		}	
+		 if(sucess){
+       	  Core.setMessageSuccess();
+         }else
+           Core.setMessageError();
    			
 	}
 	
@@ -290,13 +302,10 @@ public class TransacaoOrganicaController extends Controller {
 	private void sharesTransactions(ArrayList<TransacaoOrganica.Table_1> data, TransacaoOrganica model) {
 		
 		String type = model.getType(); 
-		
 		List<Share> sharesTransactions = null;
-		
 		
 		try {
 			if(type.equals("org")){
-				
 				Organization org = Core.findOrganizationById(model.getId());
 				sharesTransactions = new Share().find()
 							.andWhere("type", "=", TipoPartilha.TRANSACTION.getCodigo())
@@ -320,7 +329,6 @@ public class TransacaoOrganicaController extends Controller {
 								.andWhere("env.id", "=", 1)
 								.all(); 
 					}
-					
 					
 				}else if(type.equalsIgnoreCase("user")) {
 					Profile profile = new Profile().findOne(model.getId());
@@ -440,7 +448,7 @@ public class TransacaoOrganicaController extends Controller {
 					if(add2Table)
 						data.add(table);
 					
-				} catch (Exception e) {
+				} catch (Exception ignored) {
 				}
 			} 
 			

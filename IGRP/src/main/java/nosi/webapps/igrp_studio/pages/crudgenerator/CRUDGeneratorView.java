@@ -64,15 +64,15 @@ public class CRUDGeneratorView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Application"));
-		aplicacao.propertie().add("remote-index",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		aplicacao.propertie().add("remote",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		data_source = new ListField(model,"data_source");
 		data_source.setLabel(gt("Data Source"));
-		data_source.propertie().add("remote-index",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_data_source").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		data_source.propertie().add("remote",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_data_source").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		schema = new ListField(model,"schema");
 		schema.setLabel(gt("Schema"));
-		schema.propertie().add("remote-index",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_schema").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		schema.propertie().add("remote",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_schema").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		check_table = new CheckBoxField(model,"check_table");
 		check_table.setLabel(gt(""));
@@ -87,7 +87,7 @@ public class CRUDGeneratorView extends View {
 		
 		table_type = new ListField(model,"table_type");
 		table_type.setLabel(gt("Table Type"));
-		table_type.propertie().add("remote-index",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_table_type").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		table_type.propertie().add("remote",Core.getIGRPLink("igrp_studio","CRUDGenerator","index")).add("name","p_table_type").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		form_2_radiolist_1 = new RadioListField(model,"form_2_radiolist_1");
 		form_2_radiolist_1.setLabel(gt("Escolha 1º"));

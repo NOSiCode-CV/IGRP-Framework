@@ -5,6 +5,8 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -37,23 +39,23 @@ public class ZipUnzipFile {
 			ZipEntry entry = null;
 			while((entry=zis.getNextEntry())!=null){	
 				 int order = 3;
-				 String encode = FileHelper.ENCODE_UTF8;
+					Charset encode = StandardCharsets.UTF_8;
 				   if(entry.getName().endsWith(".xml") || entry.getName().endsWith(".json") || entry.getName().endsWith(".xsl")){
 					   order = 4;
 				   }
 				   if(entry.getName().startsWith("SQL/CONFIG") && entry.getName().endsWith("_ENV.xml")){
 					   order = 1;
-					   encode = FileHelper.ENCODE_ISO;
+					   encode = StandardCharsets.ISO_8859_1;
 				   }
 				   if(entry.getName().startsWith("SQL/CONFIG")  && entry.getName().endsWith("_ACTION.xml") ){
 					   order = 2;
-					   encode = FileHelper.ENCODE_ISO;
+					   encode = StandardCharsets.ISO_8859_1;
 				   }
 				   String         ls = System.getProperty("line.separator");
 				   String         line = null;
 				   DataInputStream in = new DataInputStream(zis); 
 				   StringBuilder content = new StringBuilder();  
-				   BufferedReader d = new BufferedReader(new InputStreamReader(in,encode));
+				   BufferedReader d = new BufferedReader(new InputStreamReader(in, encode));
 				   while((line=d.readLine())!=null){
 				   	content.append(line);
 				   	content.append(ls);
@@ -78,13 +80,12 @@ public class ZipUnzipFile {
 			CheckedInputStream cis = new CheckedInputStream(file.getInputStream(), new Adler32());
 			ZipInputStream zis = new ZipInputStream(new BufferedInputStream(cis));
 			ZipEntry entry = null;
-			while((entry=zis.getNextEntry())!=null){	
-				 String encode = FileHelper.ENCODE_UTF8;
+			while((entry=zis.getNextEntry())!=null){
 				   String         ls = System.getProperty("line.separator");
 				   String         line = null;
 				   DataInputStream in = new DataInputStream(zis); 
 				   StringBuilder content = new StringBuilder();  
-				   BufferedReader d = new BufferedReader(new InputStreamReader(in,encode));
+				   BufferedReader d = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
 				   while((line=d.readLine())!=null){
 					   	content.append(line);
 					   	content.append(ls);

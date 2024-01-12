@@ -36,7 +36,7 @@ public class EncrypDecrypt {
 			Cipher cipher = Cipher.getInstance(ALGO);
 			cipher.init(Cipher.ENCRYPT_MODE, generateSecretKey(secretKey));			
 			return new String(Base64.getUrlEncoder().encode(cipher.doFinal(content.getBytes(CHARTSET))),CHARTSET);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 
 		}
 		return content;
@@ -47,7 +47,7 @@ public class EncrypDecrypt {
 			Cipher cipher = Cipher.getInstance(ALGO);
 			cipher.init(Cipher.ENCRYPT_MODE, generateSecretKey(secretKey));			
 			return new String(Base64.getEncoder().encode(cipher.doFinal(content.getBytes(CHARTSET))),CHARTSET);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 
 		}
 		return content;
@@ -77,7 +77,7 @@ public class EncrypDecrypt {
 			Cipher cipher = Cipher.getInstance(ALGO);
 			cipher.init(Cipher.DECRYPT_MODE, generateSecretKey(secretKey));			
 			return new String(cipher.doFinal(Base64.getUrlDecoder().decode(content.getBytes(StandardCharsets.UTF_8))),CHARTSET);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 
 		}
 		return null;
@@ -88,7 +88,7 @@ public class EncrypDecrypt {
 			Cipher cipher = Cipher.getInstance(ALGO);
 			cipher.init(Cipher.DECRYPT_MODE, generateSecretKey(secretKey));			
 			return new String(cipher.doFinal(Base64.getDecoder().decode(content.getBytes(StandardCharsets.UTF_8))),CHARTSET);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 
 		}
 		return null;
@@ -105,7 +105,7 @@ public class EncrypDecrypt {
 			byteKey = sha.digest(byteKey);
 			byteKey = Arrays.copyOf(byteKey, 16);
 			return new SecretKeySpec(byteKey, SECRET_KEY_SPEC);
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 
 		}
 		return null;

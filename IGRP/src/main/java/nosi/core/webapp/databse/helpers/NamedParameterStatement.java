@@ -45,11 +45,11 @@ public class NamedParameterStatement {
 
 	final String parse(String query) {
 		int length = query.length();
-		StringBuffer parsedQuery = new StringBuffer(length);
+		StringBuilder parsedQuery = new StringBuilder(length);
 		boolean inSingleQuote = false;
 		boolean inDoubleQuote = false;
 		int index = 1;
-		HashMap<String, List<Integer>> indexes = new HashMap<String, List<Integer>>(10);
+		HashMap<String, List<Integer>> indexes = new HashMap<>(10);
 
 		for (int i = 0; i < length; i++) {
 			char c = query.charAt(i);
@@ -77,10 +77,10 @@ public class NamedParameterStatement {
 
 					List<Integer> indexList = indexes.get(name);
 					if (indexList == null) {
-						indexList = new LinkedList<Integer>();
+						indexList = new LinkedList<>();
 						indexes.put(name, indexList);
 					}
-					indexList.add(Integer.valueOf(index));
+					indexList.add(index);
 
 					index++;
 				}
@@ -88,14 +88,14 @@ public class NamedParameterStatement {
 			parsedQuery.append(c);
 		}
 
-		indexMap = new HashMap<String, int[]>(indexes.size());
+		indexMap = new HashMap<>(indexes.size());
 		// replace the lists of Integer objects with arrays of ints
 		for (Map.Entry<String, List<Integer>> entry : indexes.entrySet()) {
 			List<Integer> list = entry.getValue();
 			int[] intIndexes = new int[list.size()];
 			int i = 0;
 			for (Integer x : list) {
-				intIndexes[i++] = x.intValue();
+				intIndexes[i++] = x;
 			}
 			indexMap.put(entry.getKey(), intIndexes);
 		}
@@ -115,31 +115,31 @@ public class NamedParameterStatement {
 
 	public void setObject(String name, Object value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setObject(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setObject(index, value);
+       }
 	}
 
 	public void setString(String name, String value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setString(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setString(index, value);
+       }
 	}
 
 	public void setInt(String name, Integer value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setInt(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setInt(index, value);
+       }
 	}
 
 
 	public void setLong(String name, Long value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setLong(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setLong(index, value);
+       }
 	}
 
 	public String getSql() {
@@ -209,252 +209,252 @@ public class NamedParameterStatement {
 
 	public void setDouble(String name, Double value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setDouble(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setDouble(index, value);
+       }
 	}
 
 	public void setFloat(String name, Float value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setFloat(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setFloat(index, value);
+       }
 	}
 
 	public void setShort(String name, Short value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setShort(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setShort(index, value);
+       }
 	}
 
 
 	public void setTime(String name, Time value,Calendar cal) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setTime(indexes[i], value,cal);
-		}
+       for (int index : indexes) {
+          statement.setTime(index, value, cal);
+       }
 	}
 
 	public void setTimestamp(String name, Timestamp value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setTimestamp(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setTimestamp(index, value);
+       }
 	}
 
 	public void setTimestamp(String name, Timestamp value,Calendar cal) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setTimestamp(indexes[i], value,cal);
-		}
+       for (int index : indexes) {
+          statement.setTimestamp(index, value, cal);
+       }
 	}
 	
 	public void setTime(String name, Time value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setTime(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setTime(index, value);
+       }
 	}
 	public void setDate(String name, Date value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setDate(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setDate(index, value);
+       }
 	}
 
 	public void setDate(String name, Date value,Calendar cal) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setDate(indexes[i], value,cal);
-		}
+       for (int index : indexes) {
+          statement.setDate(index, value, cal);
+       }
 	}
 	public void setBigDecimal(String name, BigDecimal value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setBigDecimal(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setBigDecimal(index, value);
+       }
 	}
 	
 	public void setArray(String name, Array value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setArray(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setArray(index, value);
+       }
 	}
 	
 	public void setAsciiStream(String name, InputStream value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setAsciiStream(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setAsciiStream(index, value);
+       }
 	}
 	
 	public void setAsciiStream(String name, InputStream value,int length) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setAsciiStream(indexes[i], value,length);
-		}
+       for (int index : indexes) {
+          statement.setAsciiStream(index, value, length);
+       }
 	}
 	
 	public void setAsciiStream(String name, InputStream value,long length) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setAsciiStream(indexes[i], value,length);
-		}
+       for (int index : indexes) {
+          statement.setAsciiStream(index, value, length);
+       }
 	}	
 
 	public void setBinaryStream(String name, InputStream value,long length) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setBinaryStream(indexes[i], value,length);
-		}
+       for (int index : indexes) {
+          statement.setBinaryStream(index, value, length);
+       }
 	}
 	
 	public void setBinaryStream(String name, InputStream value,int length) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setBinaryStream(indexes[i], value,length);
-		}
+       for (int index : indexes) {
+          statement.setBinaryStream(index, value, length);
+       }
 	}
 	
 	public void setBinaryStream(String name, InputStream value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setBinaryStream(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setBinaryStream(index, value);
+       }
 	}
 	
 
 	public void setBlob(String name, Blob value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setBlob(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setBlob(index, value);
+       }
 	}
 	public void setBlob(String name, InputStream value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setBlob(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setBlob(index, value);
+       }
 	}
 	public void setBlob(String name, InputStream value,long length) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setBlob(indexes[i], value,length);
-		}
+       for (int index : indexes) {
+          statement.setBlob(index, value, length);
+       }
 	}
 	public void setBoolean(String name, Boolean value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setBoolean(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setBoolean(index, value);
+       }
 	}
 	public void setByte(String name, Byte value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setByte(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setByte(index, value);
+       }
 	}
 	public void setBytes(String name, byte[] value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setBytes(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setBytes(index, value);
+       }
 	}
 	public void setCharacterStream(String name, Reader value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setCharacterStream(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setCharacterStream(index, value);
+       }
 	}
 	public void setCharacterStream(String name, Reader value,int length) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setCharacterStream(indexes[i], value,length);
-		}
+       for (int index : indexes) {
+          statement.setCharacterStream(index, value, length);
+       }
 	}
 	public void setCharacterStream(String name, Reader value,long length) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setCharacterStream(indexes[i], value,length);
-		}
+       for (int index : indexes) {
+          statement.setCharacterStream(index, value, length);
+       }
 	}
 
 	public void setClob(String name, Clob value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setClob(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setClob(index, value);
+       }
 	}
 	
 	public void setClob(String name, Reader value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setClob(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setClob(index, value);
+       }
 	}
 	
 	public void setClob(String name, Reader value,long length) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setClob(indexes[i], value,length);
-		}
+       for (int index : indexes) {
+          statement.setClob(index, value, length);
+       }
 	}
 
 	public void setURL(String name,URL value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setURL(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setURL(index, value);
+       }
 	}
 	
 
 	public void setNCharacterStream(String name,Reader value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setNCharacterStream(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setNCharacterStream(index, value);
+       }
 	}
 
 	public void setNCharacterStream(String name,Reader value,long length) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setNCharacterStream(indexes[i], value,length);
-		}
+       for (int index : indexes) {
+          statement.setNCharacterStream(index, value, length);
+       }
 	}
 
 	public void setNClob(String name,NClob value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setNClob(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setNClob(index, value);
+       }
 	}
 	public void setNClob(String name,Reader value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setNClob(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setNClob(index, value);
+       }
 	}
 	public void setNClob(String name,Reader value,long length) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setNClob(indexes[i], value,length);
-		}
+       for (int index : indexes) {
+          statement.setNClob(index, value, length);
+       }
 	}
 
 	public void setNClob(String name,String value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setNString(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setNString(index, value);
+       }
 	}
 
 	public void setNClob(String name,Object value) throws SQLException {
 		int[] indexes = getIndexes(name);
-		for (int i = 0; i < indexes.length; i++) {
-			statement.setObject(indexes[i], value);
-		}
+       for (int index : indexes) {
+          statement.setObject(index, value);
+       }
 	}
 	public void setFetchSize(int rows) throws SQLException {
 		statement.setFetchSize(rows);

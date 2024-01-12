@@ -13,6 +13,7 @@ import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -23,8 +24,9 @@ import nosi.core.webapp.Core;
 
 @Entity
 @Table(name="tbl_profile",uniqueConstraints={
-	    @UniqueConstraint(name="PROFILE_UNIQUE_FK",columnNames = {"type", "type_fk","user_fk","org_fk","prof_type_fk"})
-	})
+	    @UniqueConstraint(name="PROFILE_UNIQUE_FK",columnNames = {"type", "type_fk","user_fk","org_fk","prof_type_fk"})},
+		indexes = @Index(columnList = "type_fk, type, user_fk")	)
+
 public class Profile extends IGRPBaseActiveRecord<Profile> implements Serializable{
 	
 	/**
@@ -130,12 +132,11 @@ public class Profile extends IGRPBaseActiveRecord<Profile> implements Serializab
 	}
 	
 	public List<Profile> getMyPerfile() {
-		List<Profile> list =  this.findAll(this.getCriteria().where(
+       return this.findAll(this.getCriteria().where(
 					this.getBuilder().equal(this.getRoot().get("type"), "PROF"),
 					this.getBuilder().equal(this.getRoot().get("user"), Core.getCurrentUser().getIdentityId()),
 					this.getBuilder().equal(this.getRoot().join("profileType").join("application").get("dad"),Core.getCurrentDad())
 				));
-		return list;
 	}
 
 	public void deleteAllProfile() {

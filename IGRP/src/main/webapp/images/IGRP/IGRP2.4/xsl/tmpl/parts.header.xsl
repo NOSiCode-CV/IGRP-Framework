@@ -56,8 +56,9 @@
                 </span>
               </button>
 
+
               <!-- App Search-->
-              <form class="app-search d-none d-md-block">
+              <form class="app-search d-none d-md-block" style="display:none !important;">
                 <div class="position-relative">
                   <input
                     type="text"
@@ -75,7 +76,7 @@
                 </div>
                 <div class="dropdown-menu dropdown-menu-lg" id="search-dropdown">
                   <div data-simplebar="" style="max-height: 320px">
-                    <!-- item-->
+<!--                     item -->
                     <div class="dropdown-header">
                       <h6 class="text-overflow text-muted mb-0 text-uppercase">
                         Recent Searches
@@ -94,14 +95,14 @@
                         >buttons <i class="mdi mdi-magnify ms-1"></i>
                       </a>
                     </div>
-                    <!-- item-->
+<!--                     item -->
                     <div class="dropdown-header mt-2">
                       <h6 class="text-overflow text-muted mb-1 text-uppercase">
                         Pages
                       </h6>
                     </div>
 
-                    <!-- item-->
+<!--                     item -->
                     <a
                       href="javascript:void(0);"
                       class="dropdown-item notify-item"
@@ -112,7 +113,7 @@
                       <span>Analytics Dashboard</span>
                     </a>
 
-                    <!-- item-->
+                    item
                     <a
                       href="javascript:void(0);"
                       class="dropdown-item notify-item"
@@ -123,7 +124,7 @@
                       <span>Help Center</span>
                     </a>
 
-                    <!-- item-->
+<!--                     item -->
                     <a
                       href="javascript:void(0);"
                       class="dropdown-item notify-item"
@@ -134,7 +135,7 @@
                       <span>My account settings</span>
                     </a>
 
-                    <!-- item-->
+<!--                     item -->
                     <div class="dropdown-header mt-2">
                       <h6 class="text-overflow text-muted mb-2 text-uppercase">
                         Members
@@ -142,7 +143,7 @@
                     </div>
 
                     <div class="notification-list">
-                      <!-- item -->
+<!--                       item -->
                       <a
                         href="javascript:void(0);"
                         class="dropdown-item notify-item py-2"
@@ -159,7 +160,7 @@
                           </div>
                         </div>
                       </a>
-                      <!-- item -->
+<!--                       item -->
                       <a
                         href="javascript:void(0);"
                         class="dropdown-item notify-item py-2"
@@ -178,7 +179,7 @@
                           </div>
                         </div>
                       </a>
-                      <!-- item -->
+<!--                       item -->
                       <a
                         href="javascript:void(0);"
                         class="dropdown-item notify-item py-2"
@@ -209,6 +210,16 @@
                   </div>
                 </div>
               </form>
+
+
+			<!-- 			Description Title -->
+				<div id="igrp-app-title" style="display: flex; align-items: center;text-transform: uppercase;overflow: hidden;white-space: nowrap; text-overflow: ellipsis;">
+					<a style="font-size: 16px; color: grey;" href="{rows/link}">
+						<xsl:value-of select="rows/description" />
+					</a>
+				</div>
+
+
             </div>
 
             <div class="d-flex align-items-center">

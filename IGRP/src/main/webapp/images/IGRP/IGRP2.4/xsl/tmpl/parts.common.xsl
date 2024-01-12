@@ -148,10 +148,10 @@
     <xsl:template name="igrp-icon">
         <xsl:param name="type" select="''"/>
         <xsl:param name="icon" select="''"/>
-        <xsl:param name="default" select="'ri-radio-button-line'"/>
+        <xsl:param name="default" select="'fa fa-dot-circle-o'"/>
         <xsl:choose>
-            <xsl:when test="$icon">
-                <i class="{$icon}"></i>
+            <xsl:when test="$icon and $icon != ''">
+               <i class="{$icon}"></i>
             </xsl:when>
             <xsl:otherwise>
                 <i class="{$default}"></i>

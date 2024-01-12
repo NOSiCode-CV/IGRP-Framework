@@ -25,7 +25,7 @@ public class ResponseConverter {
 			JSONObject jsonObject = new JSONObject(jsonResult);
 			Gson gson = new Gson();
 			response = gson.fromJson(jsonObject.toString(), dao);
-		} catch (JSONException e) {
+		} catch (JSONException ignored) {
 		}
 		return response;
 	}
@@ -46,7 +46,7 @@ public class ResponseConverter {
 				Gson gson = new Gson();
 				list = gson.fromJson(aux.toString(), type);
 			}
-		} catch (JSONException e) {
+		} catch (JSONException ignored) {
 		}
 		return list;
 	}

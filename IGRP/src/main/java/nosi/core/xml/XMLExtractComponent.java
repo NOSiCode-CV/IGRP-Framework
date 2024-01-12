@@ -8,27 +8,25 @@ import nosi.core.webapp.Core;
  */
 public class XMLExtractComponent {
 
+   private XMLExtractComponent() {
+   }
 
-	public static String extractXML(String xml) {
-		if(Core.isNotNull(xml)) {
-			int start = xml.indexOf(">",xml.indexOf("<content"))+">".length();
-			int end = xml.lastIndexOf("</content>");
-			if(start != -1 && end != -1) {
-				return xml.substring(start, end);
-			}
-		}
-		return "";
-	}
-	
-	public static String extractXSL(String xml) {
-		if(Core.isNotNull(xml)) {
-			int start = xml.indexOf(">",xml.indexOf("<content"))+">".length();
-			int end = xml.lastIndexOf("</content>");
-			if(start != -1 && end != -1) {
-				return xml.substring(start, end);
-			}
-		}
-		return "";
-	}
-	
+
+   public static String extractXML(String xml) {
+      return extract(xml);
+   }
+
+   public static String extractXSL(String xsl) {
+      return extract(xsl);
+   }
+
+   private static String extract(String xxl) {
+      if (Core.isNotNull(xxl)) {
+         final int start = xxl.indexOf(">", xxl.indexOf("<content")) + ">".length();
+         final int end = xxl.lastIndexOf("</content>");
+         if (end != -1)
+            return xxl.substring(start, end);
+      }
+      return "";
+   }
 }

@@ -1,15 +1,15 @@
 package nosi.core.webapp.bpmn;
 
-import static nosi.core.i18n.Translator.gt;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.QueryString;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
+
+import static nosi.core.i18n.Translator.gt;
 
 /**
  * Emanuel
@@ -93,15 +93,11 @@ public class BPMNButton {
 	
 	private static void setQueryString(QueryString<String, Object> queryString, StringBuilder qs) {
 		if (queryString != null && !queryString.getQueryString().isEmpty()) {
-			queryString.getQueryString().entrySet().stream().forEach(q -> q.getValue().stream().filter(q1 -> q1 != null)
-					.forEach(q1 -> {
-						try {
-							if(q.getKey().startsWith(BPMNConstants.CUSTOM_PARAM_PREFIX))
-								qs.append("&" + q.getKey() + "=" +  (Core.isNotNull(q1) && q1 instanceof String? URLEncoder.encode((String) q1, StandardCharsets.UTF_8.toString()):q1));
-						} catch (UnsupportedEncodingException e) {
-							e.printStackTrace();
-						}
-					}));
+			queryString.getQueryString().forEach((key, value) -> value.stream().filter(Objects::nonNull)
+                    .forEach(q1 -> {
+                       if (key.startsWith(BPMNConstants.CUSTOM_PARAM_PREFIX))
+                          qs.append("&").append(key).append("=").append(Core.isNotNull(q1) && q1 instanceof String ? URLEncoder.encode((String) q1, StandardCharsets.UTF_8) : q1);
+                    }));
 		}
 	}
 	
