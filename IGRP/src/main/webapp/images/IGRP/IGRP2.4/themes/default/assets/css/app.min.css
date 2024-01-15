@@ -47,7 +47,7 @@ File: Main Css File
   --vz-vertical-menu-sub-item-hover-color: #405189;
   --vz-vertical-menu-sub-item-active-color: #405189;
   --vz-vertical-menu-title-color: #919da9;
-  --vz-vertical-menu-bg-dark: #405189;
+  --vz-vertical-menu-bg-dark: #143c80;
   --vz-vertical-menu-item-color-dark: #abb9e8;
   --vz-vertical-menu-item-hover-color-dark: #fff;
   --vz-vertical-menu-item-active-color-dark: #fff;
@@ -301,7 +301,7 @@ File: Main Css File
 }
 @media (min-width: 768px) {
   #page-topbar {
-    left: 250px;
+    left: 300px;
   }
 }
 
@@ -353,6 +353,7 @@ File: Main Css File
 .app-search .form-control {
   border: none;
   height: 38px;
+  color: white;
   padding-left: 40px;
   padding-right: 30px;
   background-color: var(--vz-topbar-search-bg);
@@ -651,7 +652,7 @@ File: Main Css File
   position: absolute;
   right: 0;
   color: var(--vz-footer-color);
-  left: 250px;
+  left: 300px;
   height: 60px;
   background-color: var(--vz-footer-bg);
 }
@@ -696,7 +697,7 @@ File: Main Css File
 }
 
 .app-content {
-  margin-left: 250px;
+  margin-left: 300px;
   overflow: hidden;
 }
 .app-content .content {
@@ -709,7 +710,7 @@ File: Main Css File
 }
 @media (min-width: 768px) {
   .main-content {
-    margin-left: 250px;
+    margin-left: 300px;
   }
 }
 
@@ -718,7 +719,7 @@ File: Main Css File
 }
 
 .navbar-menu {
-  width: 250px;
+  width: 300px;
   z-index: 1002;
   background: var(--vz-vertical-menu-bg);
   border-right: 1px solid #fff;
@@ -747,7 +748,7 @@ File: Main Css File
 .navbar-menu .navbar-nav .nav-link i {
   display: inline-block;
   min-width: 1.75rem;
-  font-size: 18px;
+  font-size: 16px;
   line-height: inherit;
 }
 .navbar-menu .navbar-nav .nav-link svg {
@@ -775,7 +776,7 @@ File: Main Css File
   transition: transform 0.2s;
   font-size: 1.05rem;
   position: absolute;
-  right: 18px;
+  right: 10px;
   color: var(--vz-vertical-menu-title-color);
 }
 .navbar-menu .navbar-nav .nav-link[data-bs-toggle=collapse][aria-expanded=true] {
@@ -852,6 +853,7 @@ File: Main Css File
   padding: 0 1.3rem;
   text-align: center;
   transition: all 0.1s ease-out;
+  background: linear-gradient(0deg, rgba(9,9,121,0) 0%, rgb(255 255 255 / 17%) 100%);
 }
 @media (max-width: 767.98px) {
   .navbar-brand-box {
@@ -1017,7 +1019,7 @@ File: Main Css File
   display: none;
 }
 :is([data-layout=vertical], [data-layout=semibox])[data-sidebar-size=sm-hover] .navbar-menu:hover {
-  width: 250px !important;
+  width: 300px !important;
 }
 @media (min-width: 1024.99px) {
   :is([data-layout=vertical], [data-layout=semibox])[data-sidebar-size=sm-hover] .navbar-menu:hover .btn-vertical-sm-hover {
@@ -1636,15 +1638,15 @@ File: Main Css File
     border-radius: 0.25rem;
   }
   [data-layout=semibox] .main-content {
-    margin-left: calc(250px + 25px);
+    margin-left: calc(300px + 25px);
     padding: 0 110px;
   }
   [data-layout=semibox] .footer {
-    left: calc(250px + 110px + 1.5rem + 25px);
+    left: calc(300px + 110px + 1.5rem + 25px);
     right: calc(110px + 1.5rem);
   }
   [data-layout=semibox] #page-topbar {
-    left: calc(250px + 110px + 1.5rem + 25px);
+    left: calc(300px + 110px + 1.5rem + 25px);
     right: calc(110px + 1.5rem);
     top: 25px;
     border-radius: 0.25rem;
@@ -2212,13 +2214,13 @@ File: Main Css File
 [data-layout-width=boxed][data-sidebar-size=sm-hover-active] #page-topbar,
 [data-layout-width=boxed][data-sidebar-size=sm-hover-active] .footer, [data-layout-width=boxed][data-sidebar-size=lg] #page-topbar,
 [data-layout-width=boxed][data-sidebar-size=lg] .footer {
-  max-width: calc(1300px - 250px);
+  max-width: calc(1300px - 300px);
 }
 @media (min-width: 768px) {
   [data-layout-width=boxed][data-sidebar-size=sm-hover-active] #page-topbar,
 [data-layout-width=boxed][data-sidebar-size=sm-hover-active] .footer, [data-layout-width=boxed][data-sidebar-size=lg] #page-topbar,
 [data-layout-width=boxed][data-sidebar-size=lg] .footer {
-    left: 250px !important;
+    left: 300px !important;
   }
 }
 [data-layout-width=boxed][data-sidebar-size=md] #page-topbar,
@@ -7331,100 +7333,6 @@ a {
   background-position: center;
 }
 
-.pagination {
-  --vz-pagination-padding-x: 0.75rem;
-  --vz-pagination-padding-y: 0.375rem;
-  --vz-pagination-font-size: 0.8125rem;
-  --vz-pagination-color: var(--vz-link-color);
-  --vz-pagination-bg: var(--vz-card-bg-custom);
-  --vz-pagination-border-width: 1px;
-  --vz-pagination-border-color: var(--vz-border-color);
-  --vz-pagination-border-radius: 0.25rem;
-  --vz-pagination-hover-color: var(--vz-link-hover-color);
-  --vz-pagination-hover-bg: #eff2f7;
-  --vz-pagination-hover-border-color: var(--vz-border-color);
-  --vz-pagination-focus-color: var(--vz-link-hover-color);
-  --vz-pagination-focus-bg: #eff2f7;
-  --vz-pagination-focus-box-shadow: 0 0 0 0 rgba(64, 81, 137, 0.25);
-  --vz-pagination-active-color: #fff;
-  --vz-pagination-active-bg: #405189;
-  --vz-pagination-active-border-color: #405189;
-  --vz-pagination-disabled-color: #878a99;
-  --vz-pagination-disabled-bg: var(--vz-card-bg-custom);
-  --vz-pagination-disabled-border-color: var(--vz-border-color);
-  display: flex;
-  padding-left: 0;
-  list-style: none;
-}
-
-.page-link {
-  position: relative;
-  display: block;
-  padding: var(--vz-pagination-padding-y) var(--vz-pagination-padding-x);
-  font-size: var(--vz-pagination-font-size);
-  color: var(--vz-pagination-color);
-  text-decoration: none;
-  background-color: var(--vz-pagination-bg);
-  border: var(--vz-pagination-border-width) solid var(--vz-pagination-border-color);
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-@media (prefers-reduced-motion: reduce) {
-  .page-link {
-    transition: none;
-  }
-}
-.page-link:hover {
-  z-index: 2;
-  color: var(--vz-pagination-hover-color);
-  background-color: var(--vz-pagination-hover-bg);
-  border-color: var(--vz-pagination-hover-border-color);
-}
-.page-link:focus {
-  z-index: 3;
-  color: var(--vz-pagination-focus-color);
-  background-color: var(--vz-pagination-focus-bg);
-  outline: 0;
-  box-shadow: var(--vz-pagination-focus-box-shadow);
-}
-.page-link.active, .active > .page-link {
-  z-index: 3;
-  color: var(--vz-pagination-active-color);
-  background-color: var(--vz-pagination-active-bg);
-  border-color: var(--vz-pagination-active-border-color);
-}
-.page-link.disabled, .disabled > .page-link {
-  color: var(--vz-pagination-disabled-color);
-  pointer-events: none;
-  background-color: var(--vz-pagination-disabled-bg);
-  border-color: var(--vz-pagination-disabled-border-color);
-}
-
-.page-item:not(:first-child) .page-link {
-  margin-left: -1px;
-}
-.page-item:first-child .page-link {
-  border-top-left-radius: var(--vz-pagination-border-radius);
-  border-bottom-left-radius: var(--vz-pagination-border-radius);
-}
-.page-item:last-child .page-link {
-  border-top-right-radius: var(--vz-pagination-border-radius);
-  border-bottom-right-radius: var(--vz-pagination-border-radius);
-}
-
-.pagination-lg {
-  --vz-pagination-padding-x: 1.2rem;
-  --vz-pagination-padding-y: 0.6rem;
-  --vz-pagination-font-size: 1.015625rem;
-  --vz-pagination-border-radius: 0.3rem;
-}
-
-.pagination-sm {
-  --vz-pagination-padding-x: 0.5rem;
-  --vz-pagination-padding-y: 0.25rem;
-  --vz-pagination-font-size: 0.7109375rem;
-  --vz-pagination-border-radius: 0.2rem;
-}
-
 .pagination-separated .page-item .page-link {
   margin-left: 0.35rem;
   border-radius: 0.25rem;
@@ -10107,9 +10015,9 @@ th.gridjs-th-sort:focus, th.gridjs-th-sort:hover {
   background-color: transparent;
 }
 .gridjs-pagination .gridjs-pages button.gridjs-currentPage {
-  background-color: #405189;
+  background-color: red;
   color: #fff;
-  border-color: #405189;
+  border-color: red;
   font-weight: 500;
 }
 
@@ -10234,8 +10142,8 @@ button.gridjs-sort-asc, button.gridjs-sort-desc {
 }
 .listjs-pagination li.active .page {
   color: #fff;
-  background-color: #405189;
-  border-color: #405189;
+  background-color: red;
+  border-color: red;
 }
 
 .pagination-wrap {
@@ -14769,8 +14677,8 @@ span.flatpickr-weekday {
 }
 @media (min-width: 992px) {
   .email-menu-sidebar {
-    min-width: 250px;
-    max-width: 250px;
+    min-width: 300px;
+    max-width: 300px;
     height: calc(100vh - 70px - 60px - 8px);
   }
 }
@@ -15839,4 +15747,4 @@ span.flatpickr-weekday {
   right: -35px;
 }
 
-/*# sourceMappingURL=app.min.css.map */
+/*# sourceMappingURL=app.css.map */

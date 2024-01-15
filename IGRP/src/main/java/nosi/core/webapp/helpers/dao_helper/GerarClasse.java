@@ -1,6 +1,7 @@
 package nosi.core.webapp.helpers.dao_helper;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +12,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -53,7 +53,6 @@ import nosi.webapps.igrp_studio.pages.crudgenerator.CRUDGeneratorController;
  * Isaias.Nunes Aug 22, 2019
  */
 public class GerarClasse {
-
 	private final DaoDto daoDto;
 	private final StringBuilder variables;
 	private final StringBuilder gettersSetters;
@@ -64,13 +63,12 @@ public class GerarClasse {
 	private static final String NEW_LINE = "\n";
 	private static final String TAB = "\t";
 	private final Set<Class<?>> importClasses = new HashSet<>();
-	 String databaseType;
 
-	public GerarClasse(DaoDto daoDto) {
+   public GerarClasse(DaoDto daoDto) {
 		this.daoDto = daoDto;
 		this.variables = new StringBuilder();
 		this.gettersSetters = new StringBuilder();
-		this.fieldsStatic = new StringBuilder("public static final class Field {");
+		this.fieldsStatic = new StringBuilder("   public static final class Field {"+ NEW_LINE);
 		this.addDefaultImports();
 	}
 
@@ -78,9 +76,7 @@ public class GerarClasse {
 
 	public String generate() throws SQLException, IOException {
 
-		List<Column> columns = DatabaseMetadaHelper.getCollumns(this.daoDto.getConfigEnv(), this.daoDto.getSchema(),
-				this.daoDto.getTableName());
-		 databaseType = this.decreptyDatabaseCode(this.daoDto.getConfigEnv().getType_db());
+		final var columns = DatabaseMetadaHelper.getCollumns(this.daoDto.getConfigEnv(), this.daoDto.getSchema(), this.daoDto.getTableName());
 
 		for (DatabaseMetadaHelper.Column column : columns) {
 
@@ -101,7 +97,7 @@ public class GerarClasse {
 							this.generateVariableTypeListGetterSetter(this.daoDto.getDaoClassName()));
 					this.daoDto.setHasList(true);
 
-					DaoDto newDaoDto = new DaoDto();
+					var newDaoDto = new DaoDto();
 					newDaoDto.setConfigEnv(this.daoDto.getConfigEnv());
 					newDaoDto.setSchema(this.daoDto.getSchema());
 					newDaoDto.setDadName(this.daoDto.getDadName());
@@ -118,7 +114,7 @@ public class GerarClasse {
 				this.doIfColumnIsNotPrimaryNorForeignKey(column);
 
 			this.appendGettersSetters();
-			
+
 			this.appendFieldsStatic(column.getName());
 		}
 		variables.append(NEW_LINE);
@@ -134,12 +130,10 @@ public class GerarClasse {
 			gettersSetters.append(this.daoDto.getContentListSetGet());
 		}
 
-		final String imports = this.importClasses.stream().map(buildImportLine).collect(Collectors.joining(""));
-		
-		fieldsStatic.append(NEW_LINE).append(NEW_LINE).append(TAB).append("private Field() {}");
-				fieldsStatic.append(NEW_LINE).append(TAB)
-				.append("}");
-		
+		final String imports = this.importClasses.stream().map(buildImportLine).collect(Collectors.joining());
+
+		fieldsStatic.append(NEW_LINE).append(TAB).append("  private Field() {}").append(NEW_LINE).append(TAB).append("}");
+
 		return this.daoDto.getPackageName() +
 			   imports +
 			   this.addHeaderClassContent() +
@@ -157,6 +151,7 @@ public class GerarClasse {
 		this.importClasses.add(NamedQuery.class);
 		this.importClasses.add(Table.class);
 		this.importClasses.add(Entity.class);
+		this.importClasses.add(Serial.class);
 		this.importClasses.add(this.isView() ? Immutable.class : GeneratedValue.class);
 	}
 
@@ -167,10 +162,10 @@ public class GerarClasse {
 		this.camelCaseColumnName = convertCase(column.getName(), false);
 	}
 	private void doIfColumnIsPrimaryKey(DatabaseMetadaHelper.Column column) throws SQLException {
-		
-		final String dbType = this.decreptyDatabaseCode(this.daoDto.getConfigEnv().getType_db());
 
-		final String sequence = this.getOracleSequence(dbType);
+		final var dbType = this.decryptDatabaseCode(this.daoDto.getConfigEnv().getType_db());
+
+		final var sequence = this.getOracleSequence(dbType);
 		variables.append(TAB).append("@Id").append(NEW_LINE);
 
 		if (dbType.equals(DatabaseConfigHelper.ORACLE)) {
@@ -202,16 +197,17 @@ public class GerarClasse {
 	}
 
 	private void doIfColumnIsForeignKey(DatabaseMetadaHelper.Column column) {
-		Class<?> clazz = this.resolveColumnClass(column.getTypeSql());
+
+		final var clazz = this.resolveColumnClass(column.getTypeSql());
 		this.importClasses.add(ManyToOne.class);
 		this.importClasses.add(JoinColumn.class);
 		this.importClasses.add(ForeignKey.class);
 
-		Map<String, String> foreignKeysConstraintNamesMap = new DatabaseMetadaHelper().getForeignKeysConstrainName(
+		final var foreignKeysConstraintNamesMap = new DatabaseMetadaHelper().getForeignKeysConstrainName(
 				this.daoDto.getConfigEnv(), this.daoDto.getSchema(), daoDto.getTableName(), daoDto.getDadName());
 
-		String foreignKeyName = foreignKeysConstraintNamesMap.get(column.getName());
-		String referencedColumnName=foreignKeysConstraintNamesMap.get(foreignKeyName);
+		final var foreignKeyName = foreignKeysConstraintNamesMap.get(column.getName());
+		final var referencedColumnName=foreignKeysConstraintNamesMap.get(foreignKeyName);
 		variables.append(this.addNullablePropertie(clazz, column.isNullable()))
 				.append(this.addStringProperties(clazz, column.getSize(), column.isNullable()))
 				.append(TAB).append("@ManyToOne")
@@ -223,12 +219,12 @@ public class GerarClasse {
 	}
 
 	private void doIfColumnIsNotPrimaryNorForeignKey(DatabaseMetadaHelper.Column column) {
-		Class<?> clazz = this.resolveColumnClass(column.getTypeSql());
+		final var clazz = this.resolveColumnClass(column.getTypeSql());
 		if (columnType.equals(Byte[].class.getSimpleName())) {
 			variables.append(TAB).append("@javax.persistence.Lob\r").append(NEW_LINE).append(TAB)
 					.append("@org.hibernate.annotations.Type(type=\"org.hibernate.type.BinaryType\")").append(NEW_LINE);
 		}
-				
+
 		variables.append(this.addNullablePropertie(clazz, column.isNullable()))
 			.append(this.addStringProperties(clazz, column.getSize(), column.isNullable())).append(TAB)
 			.append("@Column(name = \"").append(column.getName()).append("\"");
@@ -236,35 +232,33 @@ public class GerarClasse {
 			variables.append(", columnDefinition = \"").append(column.getColumnTypeName​()).append("\"");
 		variables.append(")").append(NEW_LINE)
 			.append(TAB).append("private ").append(columnType).append(" ").append(camelCaseColumnName).append(";")
-			.append(NEW_LINE);			
+			.append(NEW_LINE);
 	}
 
-	private String addNullablePropertie(Class<?> clazz, boolean isNullable) {
-		if (clazz.equals(String.class) || isNullable || this.isView())
-			return "";
-		else {
-			this.importClasses.add(NotNull.class);
-			return TAB + "@NotNull" + NEW_LINE;
-		}
-	}
+   private String addNullablePropertie(Class<?> clazz, boolean isNullable) {
+
+      if (clazz.equals(String.class) || isNullable || this.isView())
+         return "";
+
+      this.importClasses.add(NotNull.class);
+      return TAB + "@NotNull" + NEW_LINE;
+   }
 
 	private String addStringProperties(Class<?> clazz, Integer size, boolean isNullable) {
 
-		
 //		IMPORTANT: Integer, Double. etc cannot be used with NotBlank and @Size
 		if (!clazz.equals(String.class) || this.isView())
 			return "";
 
 		final StringBuilder annotationsProps = new StringBuilder();
-		final boolean isDefaultMaxSize = size >= Short.MAX_VALUE;	
 
 		//Não pode ser Null -  NotNull
-		if (!isNullable) {				
+		if (!isNullable) {
 			this.importClasses.add(NotBlank.class);
-			annotationsProps.append(TAB).append("@NotBlank").append(NEW_LINE);	
-		}	
-		
-		
+			annotationsProps.append(TAB).append("@NotBlank").append(NEW_LINE);
+		}
+
+       final boolean isDefaultMaxSize = size >= Short.MAX_VALUE;
 		if(!isDefaultMaxSize) {
 			this.importClasses.add(Size.class);
 			annotationsProps.append(TAB).append("@Size(").append("max = ").append(size).append(")")
@@ -281,153 +275,138 @@ public class GerarClasse {
 		return CaseUtils.toCamelCase(name, firstLetterLowerCase, '_');
 	}
 
-	private Class<?> resolveColumnClass(int typeSql) {
-		Class<?> clazz;
-		switch (typeSql) {
-		case Types.VARCHAR:
-		case Types.NVARCHAR:
-		case Types.CHAR:
-		case Types.NCHAR:
-		case Types.LONGVARCHAR:
-		case Types.LONGNVARCHAR:
-		case Types.STRUCT:
-			clazz = String.class;
-			break;
-		case Types.SMALLINT:
-		case Types.TINYINT:
-			clazz = Short.class;
-			break;
-		case Types.INTEGER:
-			clazz = Integer.class;
-			break;
-		case Types.BIGINT:
-			clazz = Long.class;
-			break;
-		case Types.NUMERIC:	
-//			if(databaseType.equalsIgnoreCase(DatabaseConfigHelper.ORACLE)) {
-//				clazz = Integer.class;
-//				break;
-//			}
-		case Types.DECIMAL:
-			clazz = BigDecimal.class;
-			this.importClasses.add(BigDecimal.class);
-			break;
-		case Types.REAL:
-			clazz = Float.class;
-			break;
-		case Types.FLOAT:
-		case Types.DOUBLE:
-			clazz = Double.class;
-			break;
-		case Types.BIT:
-		case Types.BOOLEAN:
-			clazz = Boolean.class;
-			break;
-		case Types.TIME:
-		case Types.TIME_WITH_TIMEZONE:
-			clazz = LocalTime.class;
-			this.importClasses.add(LocalTime.class);
-			break;
-		case Types.TIMESTAMP:
-		case Types.TIMESTAMP_WITH_TIMEZONE:
-			clazz = LocalDateTime.class;
-			this.importClasses.add(LocalDateTime.class);
-			break;
-		case Types.DATE:
-			clazz = LocalDate.class;
-			this.importClasses.add(LocalDate.class);
-			break;
-		case Types.BINARY:
-		case Types.VARBINARY:
-		case Types.LONGVARBINARY:
-		case Types.BLOB:
-		case Types.CLOB:
-			clazz = Byte[].class;
-			break;
-		case Types.OTHER:
-			clazz = UUID.class;
-			this.importClasses.add(UUID.class);
-			break;
-		default:
-			clazz = Object.class;
-		}
-		return clazz;
-	}
+
+   private Class<?> resolveColumnClass(int typeSql) {
+      return switch (typeSql) {
+         case Types.VARCHAR, Types.NVARCHAR, Types.CHAR, Types.NCHAR,
+                 Types.LONGVARCHAR, Types.LONGNVARCHAR, Types.STRUCT -> String.class;
+         case Types.SMALLINT, Types.TINYINT -> Short.class;
+         case Types.INTEGER -> Integer.class;
+         case Types.BIGINT -> Long.class;
+         case Types.NUMERIC, Types.DECIMAL -> {
+            this.importClasses.add(BigDecimal.class);
+            yield BigDecimal.class;
+         }
+         case Types.REAL -> Float.class;
+         case Types.FLOAT, Types.DOUBLE -> Double.class;
+         case Types.BIT, Types.BOOLEAN -> Boolean.class;
+         case Types.TIME, Types.TIME_WITH_TIMEZONE -> {
+            this.importClasses.add(LocalTime.class);
+            yield LocalTime.class;
+         }
+         case Types.TIMESTAMP, Types.TIMESTAMP_WITH_TIMEZONE -> {
+            this.importClasses.add(LocalDateTime.class);
+            yield LocalDateTime.class;
+         }
+         case Types.DATE -> {
+            this.importClasses.add(LocalDate.class);
+            yield LocalDate.class;
+         }
+         case Types.BINARY, Types.VARBINARY, Types.LONGVARBINARY, Types.BLOB, Types.CLOB -> Byte[].class;
+         case Types.OTHER -> {
+            this.importClasses.add(UUID.class);
+            yield UUID.class;
+         }
+         default -> Object.class;
+      };
+   }
 
 	private String addHeaderClassContent() {
-		return NEW_LINE +
-			   "/**" + NEW_LINE +
-			   " * @author: " + Objects.requireNonNull(Core.getCurrentUser()).getName() + " " + Core.getCurrentDate() + NEW_LINE +
-			   "*/" + NEW_LINE +
-			   "//@XmlRootElement // Can be used for REST / XML API" + NEW_LINE +
-			   NEW_LINE +
-			   "@Entity" + NEW_LINE +
-			   (this.isView() ? "@Immutable".concat(NEW_LINE) : "") + "@Table(name = \"" +
-			   this.daoDto.getTableName() + "\", schema = \"" + this.daoDto.getSchema() +
-			   "\")" + NEW_LINE + "@NamedQuery(name = \"" + this.daoDto.getDaoClassName() +
-			   ".findAll\", query = \"SELECT t FROM " + this.daoDto.getDaoClassName() + " " +
-			   "t" + "\")" + NEW_LINE + "public class " +
-			   this.daoDto.getDaoClassName() + " extends BaseActiveRecord<" +
-			   this.daoDto.getDaoClassName() + "> {" + NEW_LINE +
-			   NEW_LINE +
-			   TAB + "private static final long serialVersionUID = 1L;" + NEW_LINE +
-			   NEW_LINE +
-			   TAB + "public static final String TABLE_NAME = \"" + this.daoDto.getTableName().toUpperCase() + "\";" + NEW_LINE +
-			   NEW_LINE +
-			   (this.isView()
-					   ? TAB + "// Consider adding identifier/primary Key(@Id) annotation for your views!" + NEW_LINE + NEW_LINE : "") +
-			   TAB + "// Change Integer type to BigDecimal if the number is very large!" +
-			   NEW_LINE + NEW_LINE;
+		return """
+            
+            /**
+             * @author: %s %s
+             */
+            
+            //@XmlRootElement // Can be used for REST / XML API
+            
+            %s
+            @Table(name = "%s", schema = "%s")
+            @NamedQuery(name = "%s.findAll", query = "SELECT t FROM %s t")
+            public class %s extends BaseActiveRecord<%s> {
+            
+                @Serial
+                private static final long serialVersionUID = 1L;
+            
+                public static final String TABLE_NAME = "%s";
+            
+                %s
+            
+            """.formatted(
+				Objects.requireNonNull(Core.getCurrentUser()).getName(),
+				LocalDate.now().toString(),
+				this.isView() ? """
+						@Entity
+						@Immutable
+						""" : "@Entity",
+				this.daoDto.getTableName(),
+				this.daoDto.getSchema(),
+				this.daoDto.getDaoClassName(),
+				this.daoDto.getDaoClassName(),
+				this.daoDto.getDaoClassName(),
+				this.daoDto.getDaoClassName(),
+				this.daoDto.getTableName().toUpperCase(),
+				(this.isView() ? """
+						// Consider adding identifier/primary Key(@Id) annotation for your views
+						    // Change Integer type to BigDecimal if the number is very large
+						"""
+						: "// Change Integer type to BigDecimal if the number is very large")
+		);
 	}
 
-	private void appendGettersSetters() {
-		gettersSetters.append(TAB + "public ").append(this.columnType).append(" get").append(this.pascalCaseColumnName)
-				.append("() { \n\t\treturn this.").append(this.camelCaseColumnName).append(";").append(NEW_LINE).append(TAB).append("}").append(NEW_LINE).append(NEW_LINE);
-		if (!this.isView()) {
-			gettersSetters.append(TAB + "public void set").append(this.pascalCaseColumnName).append("(").append(this.columnType).append(" ")
-					.append(this.camelCaseColumnName).append(") {").append(NEW_LINE).append(TAB).append(TAB).append(" this.").append(this.camelCaseColumnName).append(" = ").append(this.camelCaseColumnName).append(";").append(NEW_LINE).append(TAB).append("}").append(NEW_LINE).append(NEW_LINE);
-		}
-	}
-	
+	private static final String FIELD_TEMPLATE_FOR_FIELDS_CLASS = """
+			      public static final String %s = "%s";
+			""";
+
 	private void appendFieldsStatic(String columnName) {
-		fieldsStatic.append(NEW_LINE).append(TAB + "public static final String ").append(columnName.toUpperCase()).append(" = ").append("\"").append(this.camelCaseColumnName).append("\"").append(";");
+		fieldsStatic.append(
+				FIELD_TEMPLATE_FOR_FIELDS_CLASS.formatted(
+						columnName.toUpperCase(),
+						this.camelCaseColumnName
+				));
 	}
 
-	private String decreptyDatabaseCode(String type) {
+	private String decryptDatabaseCode(String type) {
 		return Core.decrypt(type, EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);
 	}
 
 	private String getOracleSequence(String databaseType) throws SQLException {
-		String sequence = " ";
-		if (databaseType.equalsIgnoreCase(DatabaseConfigHelper.ORACLE)) {
-			PreparedStatement preparedStatement = null;
-			java.sql.Connection connection = null;
-			try {
 
-				final String sql = "select seqs.sequence_name seq from all_tables tabs "
-						+ "join all_triggers trigs on trigs.table_owner = tabs.owner "
-						+ "and trigs.table_name = tabs.table_name join all_dependencies deps "
-						+ "on deps.owner = trigs.owner and deps.name = trigs.trigger_name "
-						+ "join all_sequences seqs on seqs.sequence_owner = deps.referenced_owner "
-						+ "and seqs.sequence_name = deps.referenced_name where tabs.table_name='"
-						+ this.daoDto.getTableName() + "'";
+		var sequence = " ";
 
-				connection = Connection.getConnection(this.daoDto.getConfigEnv());
-				preparedStatement = connection.prepareStatement(sql);
-				ResultSet resultSet = preparedStatement.executeQuery();
-				while (resultSet.next()) {
-					sequence = resultSet.getString("seq");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				Core.setMessageError("Oracle Sequence error");
-			} finally {
-				if (preparedStatement != null)
-					preparedStatement.close();
-				if (connection != null)
-					connection.close();
+		if (!databaseType.equalsIgnoreCase(DatabaseConfigHelper.ORACLE))
+			return sequence;
+
+		PreparedStatement preparedStatement = null;
+		java.sql.Connection connection = null;
+
+		try {
+
+			final var sql = """
+					select seqs.sequence_name seq
+					from all_tables tabs
+					     join all_triggers trigs on trigs.table_owner = tabs.owner and trigs.table_name = tabs.table_name
+					     join all_dependencies deps on deps.owner = trigs.owner and deps.name = trigs.trigger_name
+					     join all_sequences seqs on seqs.sequence_owner = deps.referenced_owner and seqs.sequence_name = deps.referenced_name
+					where tabs.table_name = '%s'
+					""";
+
+			connection = Connection.getConnection(this.daoDto.getConfigEnv());
+			preparedStatement = connection.prepareStatement(sql.formatted(this.daoDto.getTableName()));
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				sequence = resultSet.getString("seq");
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			Core.setMessageError("Oracle Sequence error");
+		} finally {
+			if (preparedStatement != null)
+				preparedStatement.close();
+			if (connection != null)
+				connection.close();
 		}
+
 		return sequence;
 	}
 
@@ -449,5 +428,39 @@ public class GerarClasse {
 			   "List) {" + NEW_LINE + TAB + TAB + "this." +
 			   lowerCamelCaseClassName + "List = " + lowerCamelCaseClassName + "List;" +
 			   NEW_LINE + TAB + "}" + NEW_LINE + NEW_LINE;
+	}
+
+	private static final String GETTER_METHOD_TEMPLATE = """
+			   public %s get%s() {
+			      return this.%s;
+			   }
+			   
+			""";
+
+	private static final String SETTER_METHOD_TEMPLATE = """
+			   public void set%s(%s %s) {
+			      this.%s = %s;
+			   }
+			  
+			""";
+
+	private void appendGettersSetters() {
+		gettersSetters.append(
+				GETTER_METHOD_TEMPLATE.formatted(
+						this.columnType,
+						this.pascalCaseColumnName,
+						this.camelCaseColumnName
+				));
+
+		if (!this.isView()) {
+			gettersSetters.append(
+					SETTER_METHOD_TEMPLATE.formatted(
+							this.pascalCaseColumnName,
+							this.columnType,
+							this.camelCaseColumnName,
+							this.camelCaseColumnName,
+							this.camelCaseColumnName
+					));
+		}
 	}
 }

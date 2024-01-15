@@ -7,7 +7,6 @@ package nosi.webapps.igrp_studio.pages.bpmndesigner;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.servlet.ServletException;
@@ -137,7 +136,7 @@ public class BPMNDesignerController extends Controller {
 		return this.renderView(resource);
 	}
 	
-	private void saveTaskController(TaskService task,Application app) throws TransformerConfigurationException, UnsupportedEncodingException {
+	private void saveTaskController(TaskService task,Application app) throws TransformerConfigurationException {
 		String taskName = StringHelper.camelCaseFirst(BPMNConstants.PREFIX_TASK+task.getId());
 		Action ac = new Action().find()
 				.andWhere("application", "=",app.getId())
@@ -166,7 +165,7 @@ public class BPMNDesignerController extends Controller {
 		this.saveTaskFileController(task,app,ac);		
 	}
 	
-	private void saveTaskFileController(TaskService task, Application app, Action ac) throws TransformerConfigurationException, UnsupportedEncodingException {
+	private void saveTaskFileController(TaskService task, Application app, Action ac) throws TransformerConfigurationException {
 		String classPathWorkspace = this.getClassPathWorkspace(task, app);
 		if(Core.isNotNull(classPathWorkspace)) {
 			if(!FileHelper.dirExists(classPathWorkspace)) {
@@ -185,7 +184,7 @@ public class BPMNDesignerController extends Controller {
 	}
 
 
-	private String transformXMLToController(String xml, String verson) throws TransformerConfigurationException, UnsupportedEncodingException {
+	private String transformXMLToController(String xml, String verson) throws TransformerConfigurationException {
 		return XMLTransform.xmlTransformWithXSL(FileHelper.convertStringToInputStream(xml), this.getConfig().getLinkXSLBpmnControllerGenerator(verson));
 	}
 	

@@ -47,7 +47,7 @@ File: Main Css File
   --vz-vertical-menu-sub-item-hover-color: #405189;
   --vz-vertical-menu-sub-item-active-color: #405189;
   --vz-vertical-menu-title-color: #919da9;
-  --vz-vertical-menu-bg-dark: #405189;
+  --vz-vertical-menu-bg-dark: #143c80;
   --vz-vertical-menu-item-color-dark: #abb9e8;
   --vz-vertical-menu-item-hover-color-dark: #fff;
   --vz-vertical-menu-item-active-color-dark: #fff;
@@ -301,7 +301,7 @@ File: Main Css File
 }
 @media (min-width: 768px) {
   #page-topbar {
-    left: 250px;
+    left: 300px;
   }
 }
 
@@ -353,6 +353,7 @@ File: Main Css File
 .app-search .form-control {
   border: none;
   height: 38px;
+  color: white;
   padding-left: 40px;
   padding-right: 30px;
   background-color: var(--vz-topbar-search-bg);
@@ -651,7 +652,7 @@ File: Main Css File
   position: absolute;
   right: 0;
   color: var(--vz-footer-color);
-  left: 250px;
+  left: 300px;
   height: 60px;
   background-color: var(--vz-footer-bg);
 }
@@ -696,7 +697,7 @@ File: Main Css File
 }
 
 .app-content {
-  margin-left: 250px;
+  margin-left: 300px;
   overflow: hidden;
 }
 .app-content .content {
@@ -709,7 +710,7 @@ File: Main Css File
 }
 @media (min-width: 768px) {
   .main-content {
-    margin-left: 250px;
+    margin-left: 300px;
   }
 }
 
@@ -718,7 +719,7 @@ File: Main Css File
 }
 
 .navbar-menu {
-  width: 250px;
+  width: 300px;
   z-index: 1002;
   background: var(--vz-vertical-menu-bg);
   border-right: 1px solid #fff;
@@ -747,7 +748,7 @@ File: Main Css File
 .navbar-menu .navbar-nav .nav-link i {
   display: inline-block;
   min-width: 1.75rem;
-  font-size: 18px;
+  font-size: 16px;
   line-height: inherit;
 }
 .navbar-menu .navbar-nav .nav-link svg {
@@ -775,7 +776,7 @@ File: Main Css File
   transition: transform 0.2s;
   font-size: 1.05rem;
   position: absolute;
-  right: 18px;
+  right: 10px;
   color: var(--vz-vertical-menu-title-color);
 }
 .navbar-menu .navbar-nav .nav-link[data-bs-toggle=collapse][aria-expanded=true] {
@@ -852,6 +853,7 @@ File: Main Css File
   padding: 0 1.3rem;
   text-align: center;
   transition: all 0.1s ease-out;
+  background: linear-gradient(0deg, rgba(9,9,121,0) 0%, rgb(255 255 255 / 17%) 100%);
 }
 @media (max-width: 767.98px) {
   .navbar-brand-box {
@@ -1017,7 +1019,7 @@ File: Main Css File
   display: none;
 }
 :is([data-layout=vertical], [data-layout=semibox])[data-sidebar-size=sm-hover] .navbar-menu:hover {
-  width: 250px !important;
+  width: 300px !important;
 }
 @media (min-width: 1024.99px) {
   :is([data-layout=vertical], [data-layout=semibox])[data-sidebar-size=sm-hover] .navbar-menu:hover .btn-vertical-sm-hover {
@@ -1636,15 +1638,15 @@ File: Main Css File
     border-radius: 0.25rem;
   }
   [data-layout=semibox] .main-content {
-    margin-left: calc(250px + 25px);
+    margin-left: calc(300px + 25px);
     padding: 0 110px;
   }
   [data-layout=semibox] .footer {
-    left: calc(250px + 110px + 1.5rem + 25px);
+    left: calc(300px + 110px + 1.5rem + 25px);
     right: calc(110px + 1.5rem);
   }
   [data-layout=semibox] #page-topbar {
-    left: calc(250px + 110px + 1.5rem + 25px);
+    left: calc(300px + 110px + 1.5rem + 25px);
     right: calc(110px + 1.5rem);
     top: 25px;
     border-radius: 0.25rem;
@@ -2212,13 +2214,13 @@ File: Main Css File
 [data-layout-width=boxed][data-sidebar-size=sm-hover-active] #page-topbar,
 [data-layout-width=boxed][data-sidebar-size=sm-hover-active] .footer, [data-layout-width=boxed][data-sidebar-size=lg] #page-topbar,
 [data-layout-width=boxed][data-sidebar-size=lg] .footer {
-  max-width: calc(1300px - 250px);
+  max-width: calc(1300px - 300px);
 }
 @media (min-width: 768px) {
   [data-layout-width=boxed][data-sidebar-size=sm-hover-active] #page-topbar,
 [data-layout-width=boxed][data-sidebar-size=sm-hover-active] .footer, [data-layout-width=boxed][data-sidebar-size=lg] #page-topbar,
 [data-layout-width=boxed][data-sidebar-size=lg] .footer {
-    left: 250px !important;
+    left: 300px !important;
   }
 }
 [data-layout-width=boxed][data-sidebar-size=md] #page-topbar,
@@ -14675,8 +14677,8 @@ span.flatpickr-weekday {
 }
 @media (min-width: 992px) {
   .email-menu-sidebar {
-    min-width: 250px;
-    max-width: 250px;
+    min-width: 300px;
+    max-width: 300px;
     height: calc(100vh - 70px - 60px - 8px);
   }
 }

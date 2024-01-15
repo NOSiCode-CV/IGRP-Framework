@@ -3,12 +3,12 @@
 <!-- 	<logo>img/logo3.svg</logo> -->
 	
 	<sidebar>
-		<background>#265b88</background>
+		<background>#143c80</background>
 	</sidebar>
 
 	<colors>
 		
-		<color name="primary">#337ab7</color>
+		<color name="primary">#1f59c3</color>
 
 		<color name="secondary" text-hover="white" bg-hover="#173c5d" >#1b4c76</color>
 

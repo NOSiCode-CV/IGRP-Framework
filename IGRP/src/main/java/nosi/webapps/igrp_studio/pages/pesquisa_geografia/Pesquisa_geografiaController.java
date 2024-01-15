@@ -1,9 +1,9 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_geografia;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 /*----#start-code(packages_import)----*/
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -53,22 +53,18 @@ public class Pesquisa_geografiaController extends Controller {
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + " <treemenu_1> " + "<table>" + "<value>"; 
 		
 		if (Core.isNotNull(jsonLookup)) {
-			try {
-				jsonLookup = URLDecoder.decode(jsonLookup, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-			
-			Properties params = (Properties) Core.fromJson(jsonLookup, Properties.class); 
+           jsonLookup = URLDecoder.decode(jsonLookup, StandardCharsets.UTF_8);
+
+           Properties params = (Properties) Core.fromJson(jsonLookup, Properties.class);
 			
 			this.p_nivel = Core.toInt(params.getProperty("p_nivel")); 
 			
-			params.entrySet().forEach(p1 -> {
-				if (p1.getValue().equals("treemenu_1_tmid"))
-					id_geo = p1.getKey().toString();
-				else if (p1.getValue().equals("treemenu_1_link_desc"))
-					des_geo = p1.getKey().toString(); 
-			});
+			params.forEach((key, value) -> {
+               if (value.equals("treemenu_1_tmid"))
+                  id_geo = key.toString();
+               else if (value.equals("treemenu_1_link_desc"))
+                  des_geo = key.toString();
+            });
 		}
 		List<Pesquisa_geografia.Treemenu_1> lista = chamarServico(id, null); 
 		

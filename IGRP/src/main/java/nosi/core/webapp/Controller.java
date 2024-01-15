@@ -1,5 +1,9 @@
 package nosi.core.webapp;
 
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigCommonMainConstants;
@@ -23,28 +27,21 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
-import jakarta.enterprise.inject.spi.CDI;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Predicate;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * @author Marcel Iekiny Apr 15, 2017
@@ -380,15 +377,11 @@ public class Controller {
         queryString.getQueryString().forEach((key, values) -> values.stream().filter(Objects::nonNull)
                 .distinct()
                 .forEach(value -> {
-                    try {
-                        final boolean isString = Core.isNotNull(value) && value instanceof String;
-                        final Object obj = isString ? URLEncoder.encode((String) value, StandardCharsets.UTF_8.toString()) : value;
-                        final String qsParam = "&" + key + "=" + obj;
-                        if (!qs.contains(qsParam))
-                            qs += qsParam;
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
+                   final boolean isString = Core.isNotNull(value) && value instanceof String;
+                   final Object obj = isString ? URLEncoder.encode((String) value, StandardCharsets.UTF_8) : value;
+                   final String qsParam = "&" + key + "=" + obj;
+                   if (!qs.contains(qsParam))
+                       qs += qsParam;
                 }));
     }
 

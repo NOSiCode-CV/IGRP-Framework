@@ -1,6 +1,6 @@
 package nosi.core.webapp.helpers;
 
-import java.io.UnsupportedEncodingException;
+
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -55,12 +55,8 @@ public class StringHelper {
 	}
 
 	public static String decode(String headerText) {
-		try {
-			headerText = new String(headerText.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8.name());
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return headerText;
+       headerText = new String(headerText.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
+       return headerText;
 	}
 
 }

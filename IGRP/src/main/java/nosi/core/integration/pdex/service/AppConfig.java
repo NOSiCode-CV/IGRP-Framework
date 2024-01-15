@@ -8,6 +8,7 @@ import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Invocation;
 import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.CacheControl;
 import jakarta.ws.rs.core.HttpHeaders;
 
 import org.json.JSONArray;
@@ -24,7 +25,12 @@ public class AppConfig extends PdexServiceTemplate{
 	
 	public AppConfig() {
 		super();
-	}
+		 cacheControl.setNoCache(false);
+		 cacheControl.setMaxAge(120); // Cache for 60 seconds
+	
+	}	
+	CacheControl cacheControl = new CacheControl();
+	
 	
 	public List<App> userApps(String uid){ 
 		List<App> allApps = new ArrayList<>(); 
@@ -37,7 +43,7 @@ public class AppConfig extends PdexServiceTemplate{
 			
 			Client client = ClientBuilder.newClient(); 
 			WebTarget webTarget = client.target(url); 
-			Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
+			Invocation.Builder invocationBuilder  = webTarget.request().cacheControl(cacheControl).header(HttpHeaders.AUTHORIZATION, token); 
 			jakarta.ws.rs.core.Response response  = invocationBuilder.get(); 
 			json = response.readEntity(String.class); 
 			client.close();
@@ -62,7 +68,7 @@ public class AppConfig extends PdexServiceTemplate{
 			url += "/prof_app_menus?prof_code=" + profCode + "&org_code=" + orgCode + "&app_code=" + appCode;  
 			Client client = ClientBuilder.newClient(); 
 			WebTarget webTarget = client.target(url); 
-			Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
+			Invocation.Builder invocationBuilder  = webTarget.request().cacheControl(cacheControl).header(HttpHeaders.AUTHORIZATION, token); 
 			jakarta.ws.rs.core.Response response  = invocationBuilder.get(); 
 			String json = response.readEntity(String.class); 
 			client.close(); 

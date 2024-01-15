@@ -64,7 +64,7 @@
 					<div class="container-fluid app-search">
 						<div id="two-column-menu"></div>
 							<div class="position-relative px-2">
-									<input type="text" class="form-control " style="background: #ffffff14;" placeholder="Pesquisar..." autocomplete="off" id="search-options" value=""/>
+									<input type="text" class="form-control " placeholder="Pesquisar..." autocomplete="off" id="search-options" value=""/>
 									<span class="mdi mdi-magnify search-widget-icon" style="left: 16px;"></span>								
 							</div>
 						
@@ -91,9 +91,7 @@
 										</xsl:when>
 										<xsl:otherwise>
 											<a class="nav-link menu-link" href="#sidebar-menu-{$menu-position}" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-menu-{$menu-position}">
-												<xsl:call-template name="igrp-icon">
-													<xsl:with-param name="icon" select="submenu/menu_icon"/>
-												</xsl:call-template>
+												<i class="fa fa-list-ul"></i>
 												<span >
 													<xsl:value-of select="title"/>
 												</span>

@@ -7,6 +7,7 @@ import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Invocation;
 import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.CacheControl;
 import jakarta.ws.rs.core.HttpHeaders;
 
 import org.json.JSONArray;
@@ -27,7 +28,12 @@ public class GlobalAcl extends PdexServiceTemplate{
 	
 	public GlobalAcl() {
 		super();
-	}
+		 cacheControl.setNoCache(false);
+		 cacheControl.setMaxAge(120); // Cache for 60 seconds
+	
+	}	
+	CacheControl cacheControl = new CacheControl();
+	
 	
 	public List<PermissionAcl> permissionAcl(){
 		List<PermissionAcl> acls = new ArrayList<>(); 
@@ -36,7 +42,7 @@ public class GlobalAcl extends PdexServiceTemplate{
 		url += "/permissionAcl?instance_id=" + this.instanceName + "&code=" + this.appCode  + "&type=" + type; 
 		Client client = ClientBuilder.newClient(); 
 		WebTarget webTarget = client.target(this.url); 
-		Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
+		Invocation.Builder invocationBuilder  = webTarget.request().cacheControl(cacheControl).header(HttpHeaders.AUTHORIZATION, token); 
 		jakarta.ws.rs.core.Response response  = invocationBuilder.get(); 
 		String json = response.readEntity(String.class); 
 		client.close(); 
@@ -88,7 +94,7 @@ public class GlobalAcl extends PdexServiceTemplate{
 		
 		Client client = ClientBuilder.newClient(); 
 		WebTarget webTarget = client.target(this.url); 
-		Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
+		Invocation.Builder invocationBuilder  = webTarget.request().cacheControl(cacheControl).header(HttpHeaders.AUTHORIZATION, token); 
 		jakarta.ws.rs.core.Response response  = invocationBuilder.get(); 
 		String json = response.readEntity(String.class); 
 		client.close(); 

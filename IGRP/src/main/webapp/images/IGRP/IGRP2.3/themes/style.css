@@ -506,7 +506,7 @@ ul#list-reports {
 	opacity: .8;
 	font-weight: 400;
 	color: white;
-	padding: 12px 15px;
+	padding: 12px 16px;
 	/* min-height: 46px; */
 
 }
@@ -600,15 +600,17 @@ body.sidebar-off .navbar-brand {
 .igrp-sidebar-menu-search-container {
 	position: relative;
 	width: 100%;
-	padding: 0 6px;
+	    background: linear-gradient(0deg, rgba(9,9,121,0) 29%, rgb(255 255 255 / 17%) 100%);
+/* 	padding: 0 6px; */
   }
   
 .igrp-sidebar-menu-search-wrapper-icon {
 	transition: background .5s;
-	padding: 20px 6px;
+/* 	padding: 10px 6px; */
+	font-size: 16px;
 	position: absolute;
-	top: 50%;
-	left: 10px; /* Adjust the right positioning as needed */
+	top: 80px;
+	left: 16px; /* Adjust the right positioning as needed */
 	transform: translateY(-50%);
 	color: white;
 	opacity: 0.5;
@@ -618,10 +620,11 @@ body.sidebar-off .navbar-brand {
 
 .igrp-sidebar-menu-search-wrapper input {
 	height: 40px;
-	background: rgb(0 0 0 / 16%);
+	background: transparent;
 	border: 0;
-	padding-left: 40px;
-	border-radius: 0.5rem;
+	font-size: 16px;
+	padding-left: 38px;
+/* 	border-radius: 0.5rem; */
 	border-bottom: 1px solid #0000001a !important;
 	box-shadow: none !important;
 	color: rgba(255, 255, 255, .8);
@@ -2391,7 +2394,8 @@ body.sidebar-off .IGRP-footer {
 /* MENU ICON*/
 
 .menu-icon {
-	margin-right: 7px !important;
+	font-size: 16px;
+	margin-right: 6px !important;
 }
 
 .menu-title {

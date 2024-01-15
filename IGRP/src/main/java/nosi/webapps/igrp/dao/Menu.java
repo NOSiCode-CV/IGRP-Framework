@@ -209,18 +209,49 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 
 	public boolean getPermissionMen(String app, String page) {
 
-		Long m = new Menu().find().andWhere("application", "=", Core.findApplicationByDad(app).getId())
-				.andWhere("action", "=", new Action().findByPage(page, app).getId()).andWhere("status", "=", 1)
-				.orWhere("flg_base", "=", 1).getCount();
+		Long m = new Menu().find().keepConnection().limit(1).keepConnection()
+				.andWhere("application.id", "=", Core.findApplicationByDad(app).getId())
+				.andWhere("action.id", "=", new Action().findByPage(page, app).getId())
+				.andWhere("status", "=", 1)
+				.orWhere("flg_base", "=", 1)
+				.getCount();
 		return m > 0;
 	}
+	
+	
+	
+	public boolean getPermissionMenID(Integer userID, String dad,String page) {
+		List<Integer> integerList = new Menu().find().keepConnection()
+				.where("action.page","=", page)
+				.andWhere("application.dad","=",dad)
+				.allColumns("id").stream()
+					    .flatMap(map -> map.values().stream())
+					    .filter(Integer.class::isInstance)
+					    .map(Integer.class::cast)
+					    .toList();
+
+					Integer[] menuIDs = integerList.toArray(new Integer[0]);
+		return new Profile().find().keepConnection().limit(1)
+				.whereIn("type_fk", menuIDs)
+				.andWhere("type", "=", "MEN")
+				.andWhere("user.id", "=", userID)
+				.andWhere("profileType.id", ">", 1)
+
+				.getCount()>0;
+	}
+	
 
 	public List<Menu> getMyMen_de_env(int env_fk) {
 		// First shows all the app pages than all the public pages in the menu
-		List<Menu> list = new Menu().find().andWhere("action", "notnull").andWhere("status", "=", 1)
+		List<Menu> list = new Menu().find().keepConnection()
+				.andWhereNotNull("action")
+				.andWhere("status", "=", 1)
 				.andWhere("application", "=", env_fk).all();
-		List<Menu> menus_App = new Menu().find().andWhere("action", "notnull").andWhere("flg_base", "=", 1)
-				.andWhere("status", "=", 1).andWhere("application", "<>", env_fk).all();
+		List<Menu> menus_App = new Menu().find().keepConnection()
+				.andWhereNotNull("action")
+				.andWhere("flg_base", "=", 1)
+				.andWhere("status", "=", 1)
+				.andWhere("application", "<>", env_fk).all();
 
 		if (list != null) {
 			list.addAll(menus_App);
@@ -339,7 +370,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 	public Map<Integer, String> getListPrincipalMenus(int app) {
 		LinkedHashMap<Integer, String> lista = new LinkedHashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		List<Map<String, Object>> aux = this.find().andWhere("application", "=", app).andWhere("menu", "isnull")
+		List<Map<String, Object>> aux = this.find().keepConnection().andWhere("application", "=", app).andWhereIsNull("menu")
 				.allColumns("id", "descr");
 		for (Map<String, Object> m : aux) {
 			lista.put((Integer) m.get("id"), m.get("descr") + "");
@@ -351,9 +382,13 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 	public Map<Integer, String> getListAction(int app) {
 		LinkedHashMap<Integer, String> lista = new LinkedHashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		List<Menu> aux = this.find().andWhere("application", "=", app).andWhere("status", "=", 1)
-				.andWhere("action", "notnull").orWhere("flg_base", "=", 1).andWhere("action", "notnull")
-				.orderBy("flg_base").setShowConsoleSql(true).all();
+		List<Menu> aux = this.find().keepConnection()
+				.andWhere("application", "=", app)
+				.andWhere("status", "=", 1)
+				.andWhereNotNull("action")
+				.orWhere("flg_base", "=", 1)
+					.andWhereNotNull("action")
+				.orderBy("flg_base").all();
 		for (Menu m : aux) {
 
 			lista.put(m.getAction().getId(),

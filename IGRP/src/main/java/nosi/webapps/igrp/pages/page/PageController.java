@@ -13,6 +13,7 @@ import nosi.core.webapp.Response;//
 import java.io.File;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -406,7 +407,7 @@ public class PageController extends Controller {
 					if (r && !compiler.hasError() && Boolean.TRUE.equals(workspace)) { // Check if not error on the compilation class
 							if (!FileHelper.fileExists(path_class_work_space)) // Check and create directory  if not exist
 								FileHelper.createDiretory(path_class_work_space);
-							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(), javaSourceCode, FileHelper.ENCODE_UTF8, FileHelper.ENCODE_UTF8);
+							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(), javaSourceCode, StandardCharsets.UTF_8.name(), StandardCharsets.UTF_8.name());
 					}
 				} else
 					messages += ("<message type=\"" + FlashMessage.INFO + "\">"

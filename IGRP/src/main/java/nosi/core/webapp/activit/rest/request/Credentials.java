@@ -8,10 +8,10 @@ import nosi.webapps.igrp.dao.Config;
  */
 public class Credentials {
 
-	private static Credentials CREDENCIALS;
-	private static final String url = new Config().find().where("name", "=", "url_ativiti_connection").one().getValue();
-	private static final String userName=new Config().find().where("name", "=", "ativiti_user").one().getValue();
-	private static final String password=new Config().find().where("name", "=", "ativiti_password").one().getValue();
+	private static Credentials credencial;
+	private static final String URL = new Config().find().where("name", "=", "url_ativiti_connection").one().getValue();
+	private static final String USERNAME=new Config().find().where("name", "=", "ativiti_user").one().getValue();
+	private static final String PASSWORD=new Config().find().where("name", "=", "ativiti_password").one().getValue();
 	
 	
 	private Credentials() {
@@ -19,22 +19,22 @@ public class Credentials {
 	}
 	
 	public static Credentials getInstance() {
-		if(CREDENCIALS==null) {
-			CREDENCIALS = new Credentials();
+		if(credencial==null) {
+			credencial = new Credentials();
 		}
-		return CREDENCIALS;
+		return credencial;
 	}
 
 	public String getUrl() {
-		return url;
+		return URL;
 	}
 
 	public String getUserName() {
-		return userName;
+		return USERNAME;
 	}
 
 	public String getPassword() {
-		return password;
+		return PASSWORD;
 	}
 	
 }

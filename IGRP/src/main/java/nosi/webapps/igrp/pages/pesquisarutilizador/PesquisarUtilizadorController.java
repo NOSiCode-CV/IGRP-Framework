@@ -32,10 +32,11 @@ public class PesquisarUtilizadorController extends Controller {
 		view.nome.setParam(true);
 		view.tb_email.setParam(true);
 		view.id.setParam(true);
+		view.check_email_hidden.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Doloremque officia natus anim dolor totam perspici' as nominho,'9' as range_1,'Lorem iste totam deserunt aliqua elit stract ipsum laudantium stract anim sed laudantium ut anim acc' as nome,'Sed consectetur unde voluptatem accusantium labore unde magna natus unde aperiam ut sit iste consect' as tb_email,'Stract amet officia sit dolor anim unde rem adipis' as perfile,'hidden-6aaf_9cca' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Anim sit officia mollit aperiam aliqua labore dolo' as nominho,'2' as range_1,'Voluptatem unde iste deserunt sed dolor stract voluptatem unde adipiscing sed adipiscing elit aperia' as nome,'Anim mollit aliqua deserunt ut rem stract rem aperiam ut voluptatem laudantium anim lorem magna sit' as tb_email,'Accusantium doloremque stract dolor accusantium mo' as perfile,'hidden-5d2d_9b07' as id,'hidden-8808_9091' as check_email_hidden "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -45,10 +46,8 @@ public class PesquisarUtilizadorController extends Controller {
 		//model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=utilizador"));
 		
 		
-		
-		
       if(!Core.getCurrentUser().getUser_name().equalsIgnoreCase("igrpweb@nosi.cv"))
-			view.btn_editar.setVisible(false);
+		view.btn_editar.setVisible(false);
       
    		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();
 
@@ -96,6 +95,7 @@ public class PesquisarUtilizadorController extends Controller {
 			}
 			
 			table1.setTb_email(p.getUser().getEmail());
+			table1.setCheck_email_hidden(p.getUser().getEmail());
 			table1.setNome(p.getUser().getUser_name());
 			table1.setNominho(p.getUser().getName());
 			table1.setPerfile(p.getProfileType().getApplication().getName() + "/"
@@ -146,6 +146,7 @@ public class PesquisarUtilizadorController extends Controller {
 		  this.addQueryString("p_nome",Core.getParam("p_nome"));
 		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_check_email_hidden",Core.getParam("p_check_email_hidden"));
 		  return this.forward("igrp","NovoUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -178,6 +179,7 @@ public class PesquisarUtilizadorController extends Controller {
 		  this.addQueryString("p_nome",Core.getParam("p_nome"));
 		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_check_email_hidden",Core.getParam("p_check_email_hidden"));
 		  return this.forward("igrp","RegistarUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -198,6 +200,7 @@ public class PesquisarUtilizadorController extends Controller {
 		  this.addQueryString("p_nome",Core.getParam("p_nome"));
 		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_check_email_hidden",Core.getParam("p_check_email_hidden"));
 		  return this.forward("igrp","PesquisarUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -222,6 +225,7 @@ public class PesquisarUtilizadorController extends Controller {
 		  this.addQueryString("p_nome",Core.getParam("p_nome"));
 		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_check_email_hidden",Core.getParam("p_check_email_hidden"));
 		  return this.forward("igrp","RegistarUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -250,6 +254,7 @@ public class PesquisarUtilizadorController extends Controller {
 		  this.addQueryString("p_nome",Core.getParam("p_nome"));
 		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_check_email_hidden",Core.getParam("p_check_email_hidden"));
 		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -276,6 +281,7 @@ public class PesquisarUtilizadorController extends Controller {
 		  this.addQueryString("p_nome",Core.getParam("p_nome"));
 		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_check_email_hidden",Core.getParam("p_check_email_hidden"));
 		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -299,6 +305,7 @@ public class PesquisarUtilizadorController extends Controller {
 		  this.addQueryString("p_nome",Core.getParam("p_nome"));
 		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_check_email_hidden",Core.getParam("p_check_email_hidden"));
 		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -323,6 +330,7 @@ public class PesquisarUtilizadorController extends Controller {
 		  this.addQueryString("p_nome",Core.getParam("p_nome"));
 		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_check_email_hidden",Core.getParam("p_check_email_hidden"));
 		  return this.forward("igrp","NovoUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -351,6 +359,7 @@ public class PesquisarUtilizadorController extends Controller {
 		  this.addQueryString("p_nome",Core.getParam("p_nome"));
 		  this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		  this.addQueryString("p_id",Core.getParam("p_id"));
+		  this.addQueryString("p_check_email_hidden",Core.getParam("p_check_email_hidden"));
 		  return this.forward("igrp","PesquisarUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
@@ -418,15 +427,14 @@ public class PesquisarUtilizadorController extends Controller {
     
     
     */
-    
     public Response actionChangeStatus(){
     	      this.format = Response.FORMAT_JSON;
-    	      Integer id = Core.getParamInt("p_ativo");
+    	      String email = Core.getParam(new PesquisarUtilizadorView().check_email_hidden.getParamTag());
     	      String status = Core.getParam("p_ativo_check");
     	      boolean response = false;
     	      try {
-    	          if(id != null) {
-    	              User u =Core.findUserById(id);
+    	          if(email != null) {
+    	              User u =Core.findUserByEmail(email);
     	              if(u != null) {
     	                  u.setStatus(status.equals("true")?1:0);
     	                  u = u.update();
@@ -434,8 +442,7 @@ public class PesquisarUtilizadorController extends Controller {
     	                      response = true;
     	              }
     	          }
-    	      }catch(Exception ignored) {
-    
+    	      }catch(Exception ignored) {   
     	      }
     	
     	      JSONObject json = new JSONObject();

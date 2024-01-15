@@ -32,14 +32,13 @@
   
   .navbar-menu .navbar-nav .nav-link   {
   display: flex;
-    align-items: center;
-   padding-left: 14px;
+   padding-left: 16px;
     padding-right: 10px;
-    color: var(--vz-vertical-menu-item-color);
-  font-size: revert;
+/*     color: var(--vz-vertical-menu-item-color); */
+/*   font-size: revert; */
     font-family: "hkgrotesk", sans-serif;
   } 
-  
-  .navbar-menu {
-    width: 250px;
+
+  .app-search .form-control {
+  background-color: transparent;
   }

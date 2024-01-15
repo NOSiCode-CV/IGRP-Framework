@@ -4,15 +4,16 @@ package nosi.core.webapp.security;
  * May 29, 2017
  */
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Optional;
 import jakarta.servlet.http.Cookie;
-
+import jakarta.servlet.http.HttpServletRequest;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+
 import nosi.core.webapp.helpers.ApplicationPermition;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -25,13 +26,11 @@ import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.dao.User;
 
 public class Permission {
-	
-	public static final String ENCODE = "UTF-8"; 
 	public static final int MAX_AGE = 60*60*24;//24h 
 	
 	private ApplicationPermition applicationPermition; 
 	
-	public boolean isPermition(String app, String appP, String page, String action){ // check permission on app 
+	public boolean hasApp1PagPermition(String app, String appP, String page, String action){ // check permission on app 
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){ 
 			if(PagesScapePermission.PAGES_SHAREDS.contains((appP + "/" + page + "/" + action).toLowerCase())) 
 				return true; 
@@ -41,6 +40,27 @@ public class Permission {
 				if(appP.equals("tutorial")) // default page purpose 
 					return true; 
 				return new Share().getPermissionPage(app,appP,new Action().findByPage(page, appP).getId()); 
+			}
+		}
+		return PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains((appP+"/"+page+"/"+action).toLowerCase());
+	}
+	
+	public boolean hasMenuPagPermition(HttpServletRequest request,String app, String appP, String page, String action){ // check permission on app with request
+	
+		//User Component Identity
+		nosi.core.webapp.User userCI= new nosi.core.webapp.User();
+		userCI.init(request);
+		
+		if(userCI.isAuthenticated()){ 
+			if(PagesScapePermission.PAGES_SHAREDS.contains((appP + "/" + page + "/" + action).toLowerCase())) 
+				return true; 
+			if(appP.equals("tutorial")) // default page purpose 
+				return true; 
+			if(app.equals(appP) || appP.equals("igrp") || appP.equals("igrp_studio")) 
+				return (new Menu().getPermissionMenID(userCI.getIdentity().getIdentityId(),app, page)); 
+			else { 				
+				return new Menu().getPermissionMenID(userCI.getIdentity().getIdentityId(),app, page) 
+						&& new Share().getPermissionPage(app,appP,new Action().findByPage(page, appP).getId()); 
 			}
 		}
 		return PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains((appP+"/"+page+"/"+action).toLowerCase());
@@ -64,7 +84,7 @@ public class Permission {
 				
 			}
 			
-			if(app.getPermissionApp(dad)){
+			if(app.getPermissionApp(app.getId())){
 				prof = prof.getByUserPerfil(id_user,app.getId());
 				if(prof!=null){
 					 org.setId(prof.getOrganization().getId());
@@ -94,15 +114,11 @@ public class Permission {
 	}
 	
 	public void setCookie(ApplicationPermition appP) {
-		try {
-			String json = Core.toJson(appP);
-			Cookie cookie = new Cookie(appP.getDad(), URLEncoder.encode( json,ENCODE));
-			cookie.setMaxAge(MAX_AGE);
-			Igrp.getInstance().getResponse().addCookie(cookie);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-	}
+       String json = Core.toJson(appP);
+       Cookie cookie = new Cookie(appP.getDad(), URLEncoder.encode( json, StandardCharsets.UTF_8));
+       cookie.setMaxAge(MAX_AGE);
+       Igrp.getInstance().getResponse().addCookie(cookie);
+    }
 
 	public  String getCurrentEnv() {
 		ApplicationPermition appP = this.getApplicationPermition();
@@ -152,16 +168,11 @@ public class Permission {
 				Arrays.stream(Igrp.getInstance().getRequest().getCookies()).filter(c -> c.getName().equalsIgnoreCase(dad)).findFirst(): Optional.empty();
 		String json = cookies.map(Cookie::getValue).orElse(null);
 		if(json!=null) {
-			try {
-				json = URLDecoder.decode(json,ENCODE);
-				if(Core.isNotNull(json)) {
-					ApplicationPermition appP = (ApplicationPermition) Core.fromJson(json, ApplicationPermition.class);
-					return appP;
-				}
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-		}
+           json = URLDecoder.decode(json,StandardCharsets.UTF_8);
+           if(Core.isNotNull(json)) {
+              return (ApplicationPermition) Core.fromJson(json, ApplicationPermition.class);
+           }
+        }
 		return null;
 	}
 	
