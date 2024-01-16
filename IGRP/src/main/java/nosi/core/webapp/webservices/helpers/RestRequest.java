@@ -72,7 +72,9 @@ public class RestRequest{
 			Client client = this.getConfig().bluidClient();
 			this.addUrl(url);
 	        WebTarget target = client.target(this.getConfig().getUrl());
-	        Response response = target.request(this.getAccept_format()).cacheControl(cacheControl).get(Response.class);
+	        Response response = target.request(this.getAccept_format())
+	        		.cacheControl(cacheControl)
+	        		.get(Response.class);
 	        client.close();
 	        return response;
 		}catch(Exception e){ 

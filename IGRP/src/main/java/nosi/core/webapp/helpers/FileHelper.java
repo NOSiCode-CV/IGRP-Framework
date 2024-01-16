@@ -88,50 +88,53 @@ public class FileHelper {
 
     //Converte file to string
     public static String convertToString(Part file) throws IOException {
-        if (file != null) {
-            InputStream is = file.getInputStream();
-            StringBuilder code = new StringBuilder();
-            String ls = System.getProperty("line.separator");
-            String line = null;
-            DataInputStream in = new DataInputStream(is);
-            BufferedReader d = new BufferedReader(new InputStreamReader(in));
-            try {
-                while ((line = d.readLine()) != null) {
-                    code.append(line);
-                    code.append(ls);
-                }
-            } finally {
-                is.close();
-                in.close();
-                d.close();
-                file.delete();
-            }
-            return code.toString();
-        }
+    	if (file != null) {
+    	    StringBuilder code = new StringBuilder();
+    	    String ls = System.getProperty("line.separator");
+
+    	    try (
+    	        InputStream is = file.getInputStream();
+    	        DataInputStream in = new DataInputStream(is);
+    	        BufferedReader d = new BufferedReader(new InputStreamReader(in))
+    	    ) {
+    	        String line;
+    	        while ((line = d.readLine()) != null) {
+    	            code.append(line);
+    	            code.append(ls);
+    	        }
+    	    } catch (IOException e) {
+    	        // Handle or rethrow the exception
+    	    } finally {
+    	        file.delete();
+    	    }
+
+    	    return code.toString();
+    	}
+
         return null;
     }
 
     //Converte InputStream to String
     public static String convertToString(InputStream inputStream) throws IOException {
         if (inputStream != null) {
-            StringBuilder code = new StringBuilder();
-            String ls = System.getProperty("line.separator");
-            String line = null;
-            DataInputStream in = new DataInputStream(inputStream);
-            BufferedReader d = new BufferedReader(new InputStreamReader(in));
-            try {
-                while ((line = d.readLine()) != null) {
-                    code.append(line);
-                    code.append(ls);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                inputStream.close();
-                in.close();
-                d.close();
-            }
-            return code.toString();
+        	StringBuilder code = new StringBuilder();
+        	String ls = System.getProperty("line.separator");
+
+        	try (
+        	    DataInputStream in = new DataInputStream(inputStream);
+        	    BufferedReader d = new BufferedReader(new InputStreamReader(in))
+        	) {
+        	    String line;
+        	    while ((line = d.readLine()) != null) {
+        	        code.append(line);
+        	        code.append(ls);
+        	    }
+        	} catch (IOException e) {
+        	    // Handle or rethrow the exception
+        		   e.printStackTrace();
+        	}
+
+        	return code.toString();
         }
         return null;
     }

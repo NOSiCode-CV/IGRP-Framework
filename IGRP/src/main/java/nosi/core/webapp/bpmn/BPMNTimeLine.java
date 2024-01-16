@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.SequenceFlow;
 import org.activiti.bpmn.model.StartEvent;
@@ -21,10 +22,12 @@ import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.LinkField;
 import nosi.core.gui.fields.TextField;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
 import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
+import nosi.webapps.igrp.dao.TaskComponent;
 
 public class BPMNTimeLine {
 	private int countTask=0;
@@ -51,7 +54,7 @@ public class BPMNTimeLine {
 			List<TimeLine> list = new ArrayList<>();
 			List<TaskTimeLine> tasks = getTasks();
 			this.countTask=0;
-			tasks.stream().forEach(task->{
+			tasks.forEach(task->{
 				TimeLine t = new TimeLine();
 				t.setTitle((++countTask)+" - "+task.getName());
 				t.setType(task.getType());
@@ -67,7 +70,7 @@ public class BPMNTimeLine {
 	private void recursiveTask(List<UserTask> userTasks,Map<String,String> refs,String taskSearch) {
 		final String next = refs.get(taskSearch);
 		userTasks.stream()
-			.filter(t->(t.getId().compareTo(""+taskSearch) == 0) && next!=null)
+			.filter(t-> (t.getId().compareTo(taskSearch) == 0) && next != null)
 			.forEach(t->{
 				TaskTimeLine tt = new TaskTimeLine();
 				tt.setTaskId(t.getId());
@@ -77,7 +80,7 @@ public class BPMNTimeLine {
 			});
 		
 		refs.remove(taskSearch,next);
-		if( !refs.isEmpty()) {
+		if(!refs.isEmpty()) {
 			if(next!=null)
 				recursiveTask(userTasks,refs,next);
 			else {
@@ -98,9 +101,8 @@ public class BPMNTimeLine {
 			taskSQ.addFilterBody("executionId", runtimeTask.getTask().getExecutionId());
 		try {
 			taskSQ.queryHistoryTask()
-			    .stream()
 			    .forEach(task->{
-			    	if(tasksSQ.size()==0) {
+			    	if(tasksSQ.isEmpty()) {
 			    		tasksSQ.put(task.getTaskDefinitionKey(), task.getId());
 			    	}else {
 			    		if(!tasksSQ.containsKey(task.getTaskDefinitionKey())) {
@@ -116,6 +118,9 @@ public class BPMNTimeLine {
 		String resource = new ResourceServiceRest().getResourceData(link);
 		BpmnXMLConverter bpmn = new BpmnXMLConverter();
 		XMLInputFactory xif = XMLInputFactory.newInstance();
+		xif.setProperty(XMLInputFactory.SUPPORT_DTD, false); // Disables DTDs entirely
+		xif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false); // Disables external entities
+		
 		try {
 			List<StartEvent> startEvent = bpmn.convertToBpmnModel(xif.createXMLStreamReader(new StringReader(resource))).getMainProcess()
 					.findFlowElementsOfType(StartEvent.class);
@@ -135,7 +140,12 @@ public class BPMNTimeLine {
 			}
 			String start = startEvent.stream().findFirst().get().getId();
 			this.recursiveTask(userTasks,refs, start);
-			taskTimeline.stream()
+			
+			//See if there is a custom ordering for the timeline
+			List<Map<String, Object>> listTasC = new TaskComponent().find().keepConnection()
+					.where("processId","=",processDefinition.split(":")[0])
+					.allColumns("id","ordem","taskId");
+			taskTimeline
 			.forEach(t->{
 				if(t.getName().equalsIgnoreCase(runtimeTask.getTask().getName())) {
 					t.setType("curent");
@@ -150,9 +160,16 @@ public class BPMNTimeLine {
 						t.setUrl("#");
 					}
 				}
+				for (Map<String, Object> mapTasC : listTasC) {
+					if(mapTasC.get("taskId").equals(t.getTaskId())) {
+						t.setOrder(Core.toInt(mapTasC.get("ordem")+""));
+						break;
+					}
+				}
 			});
+			
 			Collections.sort(taskTimeline);
-		} catch (Exception e) {
+		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		}
 		return taskTimeline ;
@@ -199,6 +216,7 @@ public class BPMNTimeLine {
 		public int compareTo(TaskTimeLine t) {
 			return (""+this.getOrder()).compareTo(""+t.getOrder());
 		}
+		
 		@Override
 		public String toString() {
 			return "TaskTimeLine [taskId=" + taskId + ", name=" + name + ", url=" + url + ", type=" + type + ", order="
