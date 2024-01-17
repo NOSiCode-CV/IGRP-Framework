@@ -21,7 +21,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Report;
-import nosi.core.gui.page.Page;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.bpmn.BPMNConstants;
@@ -90,9 +89,10 @@ public class WebReportController extends Controller {
 				t1.setLink("igrp_studio", "web-report", "load-template&id=" + r.getId());
 				t1.setLink_desc(r.getCode());
 				t1.setId(r.getId());
-				t1.setTitle(r.getName() + "( " + r.getCode() + " )");
+				t1.setTitle(r.getName() + " (" + r.getCode() + ")");
 				data.add(t1);
 			}
+			data.sort((WebReport.Gen_table o1, WebReport.Gen_table o2)->o1.getTitle().compareTo(o2.getTitle()));
 			view.gen_table.addData(data);
 			model.setLink_add_source(this.getConfig().getResolveUrl("igrp", "data-source", "index&target=_blank&id_env=" + model.getEnv_fk()));
 			model.setLink_upload_img(this.getConfig().getResolveUrl("igrp_studio", "web-report", "save-image&id_env=" + model.getEnv_fk()));
