@@ -307,12 +307,13 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 					.collect(Collectors.toList());
 				list.sort(Comparator.comparing(Profile::getType_fk));
 			if(allInative) {
-			list.stream().peek(e->listApp.add(e.getProfileType().getApplication()))
-			.collect(Collectors.toList());
+				list.stream().peek(e->listApp.add(e.getProfileType().getApplication()))
+				.collect(Collectors.toList());
 			}else {
-			list.stream().filter(profile->profile.getOrganization().getApplication().getStatus()==1)
-			.peek(e->listApp.add(e.getProfileType().getApplication()))
-			.collect(Collectors.toList());
+				list.stream()
+				.filter(profile->profile.getOrganization().getApplication().getStatus()==1)
+				.peek(e->listApp.add(e.getProfileType().getApplication()))
+				.collect(Collectors.toList());
 			}
 			
 			
