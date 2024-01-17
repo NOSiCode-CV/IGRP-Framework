@@ -12,7 +12,7 @@ public class R__igrp extends IgrpMigrationTemplate{
 
 	@Override
 	public void app() {
-	  this.app = new Application("igrp", "IGRP", "igrp.svg", "Integrated Government Resource Planning", 1, null,"null");
+	  this.app = new Application("igrp", "IGRP", "igrp.svg", "Integrated Government Resource Planning", 1, null,null);
 	}
 
 	@Override

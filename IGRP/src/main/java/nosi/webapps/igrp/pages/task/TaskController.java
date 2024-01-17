@@ -30,7 +30,7 @@ public class TaskController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Sed dolor sed magna elit' as descricao,'Sit doloremque perspiciatis dolor perspiciatis' as ordem "));
+		model.loadTable_1(Core.query(null,"SELECT 'Sit adipiscing officia magna voluptatem' as descricao,'Anim adipiscing perspiciatis iste adipiscing' as ordem "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.processo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -46,7 +46,8 @@ public class TaskController extends Controller {
 		if (Core.isNotNull(model.getAplicacao())) {
 			Application app = new Application().findOne(Core.toInt(model.getAplicacao()));
 			if (app != null) {
-				view.processo.setValue(new ProcessDefinitionIGRP().mapToComboBoxByKey(app.getDad()));
+				final Map<String, String> mapToComboBoxByKey = new ProcessDefinitionIGRP().mapToComboBoxByKey(app.getDad());
+				view.processo.setValue(mapToComboBoxByKey);
 				if(view.processo.getListOptions().size()==2) {
 					view.processo.getListOptions().remove(null);
 					model.setProcesso(view.processo.getListOptions().keySet().toString().replace("[", "").replace("]", ""));

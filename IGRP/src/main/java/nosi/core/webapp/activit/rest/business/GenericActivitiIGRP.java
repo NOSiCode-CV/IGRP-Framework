@@ -135,7 +135,8 @@ public class GenericActivitiIGRP {
 	public boolean filterAccess(ProcessDefinitionService p) {
         if (null == p || p.getKey() == null)
             return false;
-        if ("igrp_studio".equalsIgnoreCase(Core.getCurrentDad()))
+        final String currentDad = Core.getCurrentDad();
+		if ("igrp_studio".equalsIgnoreCase(currentDad) || "igrp".equalsIgnoreCase(currentDad))
             return true;
 		return new TaskAccess().hasTaskAccess(p.getKey());
 
