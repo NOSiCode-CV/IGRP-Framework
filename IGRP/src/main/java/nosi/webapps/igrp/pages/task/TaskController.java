@@ -30,7 +30,7 @@ public class TaskController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Sed dolor sed magna elit' as descricao,'Sit doloremque perspiciatis dolor perspiciatis' as ordem "));
+		model.loadTable_1(Core.query(null,"SELECT 'Sit adipiscing officia magna voluptatem' as descricao,'Anim adipiscing perspiciatis iste adipiscing' as ordem "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.processo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -46,7 +46,8 @@ public class TaskController extends Controller {
 		if (Core.isNotNull(model.getAplicacao())) {
 			Application app = new Application().findOne(Core.toInt(model.getAplicacao()));
 			if (app != null) {
-				view.processo.setValue(new ProcessDefinitionIGRP().mapToComboBoxByKey(app.getDad()));
+				final Map<String, String> mapToComboBoxByKey = new ProcessDefinitionIGRP().mapToComboBoxByKey(app.getDad());
+				view.processo.setValue(mapToComboBoxByKey);
 				if(view.processo.getListOptions().size()==2) {
 					view.processo.getListOptions().remove(null);
 					model.setProcesso(view.processo.getListOptions().keySet().toString().replace("[", "").replace("]", ""));
@@ -71,12 +72,15 @@ public class TaskController extends Controller {
 					if(Core.isNullMultiple(o1.getOrdem(),o2.getOrdem())) {
 						return 0;
 					}
+						
 				    final Integer io1 = Core.toInt(o1.getOrdem().getValue(),0);
 				    final Integer io2 = Core.toInt(o2.getOrdem().getValue(),0);
 				    return Integer.compare(io1, io2);
 				});
 			}
 			model.setTable_1(data);
+//			view.table_1.addData(data);
+	
 		}
 		
 		/*----#end-code----*/
@@ -95,6 +99,7 @@ public class TaskController extends Controller {
 		/*----#start-code(gravar)----*/
 		short s=0;
 		boolean nosucess=true;
+		String appDad=Core.isNotNull(model.getAplicacao())?model.getAplicacao():Core.getCurrentDad();
 		for (Task.Table_1 row : model.getTable_1()){
 			s++;
 			if(Core.isNotNullOrZero(row.getOrdem().getKey())){
@@ -103,7 +108,7 @@ public class TaskController extends Controller {
 				taskcomponent.setTaskId(row.getTable_1_id().getKey());
 				nosucess=taskcomponent.update()==null;
 			}else {
-				nosucess=new TaskComponent(row.getTable_1_id().getKey(), model.getProcesso(), model.getAplicacao(), s, new Action().findOne(1), null).insert()==null;
+				nosucess=new TaskComponent(row.getTable_1_id().getKey(), model.getProcesso(),appDad, s, new Action().findOne(1), null).insert()==null;
 					
 			}
 		}
@@ -112,6 +117,9 @@ public class TaskController extends Controller {
 			return this.forward("igrp","task","index",this.queryString());
 		}
 		Core.setMessageSuccess();
+		this.addQueryString(new TaskView().aplicacao.getParamTag(), appDad);
+		this.addQueryString(new TaskView().processo.getParamTag(), model.getProcesso());
+		
 	
 		/*----#end-code----*/
 		

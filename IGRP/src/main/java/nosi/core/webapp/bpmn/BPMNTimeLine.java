@@ -7,6 +7,7 @@ package nosi.core.webapp.bpmn;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,7 +141,6 @@ public class BPMNTimeLine {
 			}
 			String start = startEvent.stream().findFirst().get().getId();
 			this.recursiveTask(userTasks,refs, start);
-			
 			//See if there is a custom ordering for the timeline
 			List<Map<String, Object>> listTasC = new TaskComponent().find().keepConnection()
 					.where("processId","=",processDefinition.split(":")[0])
@@ -168,7 +168,7 @@ public class BPMNTimeLine {
 				}
 			});
 			
-			Collections.sort(taskTimeline);
+			Collections.sort(taskTimeline, Comparator.comparing(TaskTimeLine::getOrder));
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		}

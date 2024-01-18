@@ -29,7 +29,7 @@ public class TaskView extends View {
 
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicacao"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
+		aplicacao.propertie().add("remote",Core.getIGRPLink("igrp","Task","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("disabled","false").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		processo = new ListField(model,"processo");
 		processo.setLabel(gt("Processo"));

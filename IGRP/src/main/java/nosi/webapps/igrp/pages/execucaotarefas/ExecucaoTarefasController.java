@@ -4,8 +4,6 @@ import nosi.core.webapp.Controller;//
 import nosi.core.webapp.databse.helpers.ResultSet;//
 import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
-import java.time.ZoneOffset;
-
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
@@ -28,6 +26,7 @@ import nosi.webapps.igrp.pages.execucaotarefas.ExecucaoTarefas.Table_minhas_tare
 
 import static nosi.core.i18n.Translator.gt;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
@@ -94,16 +93,18 @@ public class ExecucaoTarefasController extends Controller {
 				model.setLimite_maximo_de_registos_gerir_tarefa(1000);
 			}
 			myTasks = this.getMyTasks(model, view);
-			if(view.gerir_tarefas.isVisible()) addTaskManage(taskManage);
+			if(view.gerir_tarefas.isVisible())
+				addTaskManage(taskManage);
+			
 			tasksDisponiveis = this.getAvailableTask(model, view);
-			if(view.gerir_tarefas.isVisible()) addTaskManage(taskManage);
+			if(view.gerir_tarefas.isVisible())
+				addTaskManage(taskManage);
 
 		}
 		
-	
-		myTasks.sort(Comparator.comparing(ExecucaoTarefas.Table_minhas_tarefas::getPrioridade_m));
-		tasksDisponiveis.sort(Comparator.comparing(ExecucaoTarefas.Table_disponiveis::getPrioridade));
-		taskManage.sort(Comparator.comparing(ExecucaoTarefas.Table_gerir_tarefas::getPrioridade_g));
+		Collections.sort(myTasks, Comparator.comparing((ExecucaoTarefas.Table_minhas_tarefas t) -> Integer.parseInt(t.getPrioridade_m())).reversed());
+		Collections.sort(tasksDisponiveis, Comparator.comparing((ExecucaoTarefas.Table_disponiveis t) -> Integer.parseInt(t.getPrioridade())).reversed());
+		Collections.sort(taskManage, Comparator.comparing((ExecucaoTarefas.Table_gerir_tarefas t) -> Integer.parseInt(t.getPrioridade_g())).reversed());
 
 		view.table_gerir_tarefas.addData(taskManage);
 		view.table_disponiveis.addData(tasksDisponiveis);

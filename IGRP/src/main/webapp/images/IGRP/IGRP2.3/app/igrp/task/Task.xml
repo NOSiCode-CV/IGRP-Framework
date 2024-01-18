@@ -39,7 +39,7 @@
         <title>Task</title>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="true" disabled="false" right="false" java-type="" tags="false" load_service_data="false" tooltip="false" disable_copy_paste="false">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="" tags="false" load_service_data="false" tooltip="false" disable_copy_paste="false">
                     <label>Aplicacao</label>
                     <list>
                         <option/>
@@ -60,6 +60,15 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules>
+                        <rule type="remote_list">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_aplicacao</item>
+                                <item>p_processo</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
                 </aplicacao>
                 <processo name="p_processo" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="" tags="false" load_service_data="false" tooltip="false" disable_copy_paste="false">
                     <label>Processo</label>
@@ -117,38 +126,43 @@
             <table>
                 <value>
                     <row>
-                        <descricao name="p_descricao" desc="true">Stract mollit adipiscing stract laudantium</descricao>
-                        <descricao_desc name="p_descricao_desc">Stract mollit adipiscing stract laudantium</descricao_desc>
-                        <ordem name="p_ordem" desc="true">Labore unde elit consectetur sit</ordem>
-                        <ordem_desc name="p_ordem_desc">Labore unde elit consectetur sit</ordem_desc>
+                        <descricao name="p_descricao" desc="true">Laudantium sit elit accusantium sed</descricao>
+                        <descricao_desc name="p_descricao_desc">Laudantium sit elit accusantium sed</descricao_desc>
+                        <ordem name="p_ordem" desc="true">Rem elit sit iste elit</ordem>
+                        <ordem_desc name="p_ordem_desc">Rem elit sit iste elit</ordem_desc>
                     </row>
                     <row>
-                        <descricao name="p_descricao" desc="true">Stract magna officia omnis mollit</descricao>
-                        <descricao_desc name="p_descricao_desc">Stract magna officia omnis mollit</descricao_desc>
-                        <ordem name="p_ordem" desc="true">Natus sed mollit adipiscing rem</ordem>
-                        <ordem_desc name="p_ordem_desc">Natus sed mollit adipiscing rem</ordem_desc>
+                        <descricao name="p_descricao" desc="true">Adipiscing labore deserunt ipsum totam</descricao>
+                        <descricao_desc name="p_descricao_desc">Adipiscing labore deserunt ipsum totam</descricao_desc>
+                        <ordem name="p_ordem" desc="true">Mollit omnis sed rem aliqua</ordem>
+                        <ordem_desc name="p_ordem_desc">Mollit omnis sed rem aliqua</ordem_desc>
                     </row>
                     <row>
-                        <descricao name="p_descricao" desc="true">Aperiam stract anim elit lorem</descricao>
-                        <descricao_desc name="p_descricao_desc">Aperiam stract anim elit lorem</descricao_desc>
-                        <ordem name="p_ordem" desc="true">Magna lorem perspiciatis stract doloremque</ordem>
-                        <ordem_desc name="p_ordem_desc">Magna lorem perspiciatis stract doloremque</ordem_desc>
+                        <descricao name="p_descricao" desc="true">Aperiam adipiscing aliqua laudantium aperiam</descricao>
+                        <descricao_desc name="p_descricao_desc">Aperiam adipiscing aliqua laudantium aperiam</descricao_desc>
+                        <ordem name="p_ordem" desc="true">Dolor anim lorem deserunt labore</ordem>
+                        <ordem_desc name="p_ordem_desc">Dolor anim lorem deserunt labore</ordem_desc>
                     </row>
                     <row>
-                        <descricao name="p_descricao" desc="true">Ipsum sit accusantium aliqua stract</descricao>
-                        <descricao_desc name="p_descricao_desc">Ipsum sit accusantium aliqua stract</descricao_desc>
-                        <ordem name="p_ordem" desc="true">Amet mollit sit totam lorem</ordem>
-                        <ordem_desc name="p_ordem_desc">Amet mollit sit totam lorem</ordem_desc>
+                        <descricao name="p_descricao" desc="true">Officia rem sit adipiscing aperiam</descricao>
+                        <descricao_desc name="p_descricao_desc">Officia rem sit adipiscing aperiam</descricao_desc>
+                        <ordem name="p_ordem" desc="true">Deserunt elit ut omnis voluptatem</ordem>
+                        <ordem_desc name="p_ordem_desc">Deserunt elit ut omnis voluptatem</ordem_desc>
                     </row>
                     <row>
-                        <descricao name="p_descricao" desc="true">Sed unde aperiam lorem sed</descricao>
-                        <descricao_desc name="p_descricao_desc">Sed unde aperiam lorem sed</descricao_desc>
-                        <ordem name="p_ordem" desc="true">Deserunt consectetur unde aliqua unde</ordem>
-                        <ordem_desc name="p_ordem_desc">Deserunt consectetur unde aliqua unde</ordem_desc>
+                        <descricao name="p_descricao" desc="true">Accusantium perspiciatis dolor amet natus</descricao>
+                        <descricao_desc name="p_descricao_desc">Accusantium perspiciatis dolor amet natus</descricao_desc>
+                        <ordem name="p_ordem" desc="true">Labore accusantium aperiam anim unde</ordem>
+                        <ordem_desc name="p_ordem_desc">Labore accusantium aperiam anim unde</ordem_desc>
                     </row>
                 </value>
             </table>
         </table_1>
     </content>
-    <blockly></blockly>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
 </rows>

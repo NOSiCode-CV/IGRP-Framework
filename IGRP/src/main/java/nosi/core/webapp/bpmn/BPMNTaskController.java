@@ -143,9 +143,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		}
 		Core.setMessageSuccess();
 		TaskServiceIGRP task = new TaskServiceIGRP();
-		task.clearFilterUrl();
-		task.addFilterUrl("processDefinitionId", processDefinitionId);
-		task.addFilterUrl("processInstanceId", st.getId());
+		task.clearFilterBody();
+		task.addFilterBody("processDefinitionId", processDefinitionId);
+		task.addFilterBody("processInstanceId", st.getId());
 		List<TaskService> tasks = task.getAvailableTasks();
 		if (tasks != null && !tasks.isEmpty()) {
 			return this.renderNextTask(tasks);
@@ -156,7 +156,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	
 
 	
-	private Response saveTask(TaskService task,String taskId,List<Part> parts) throws IOException, ServletException  {
+	private Response saveTask(TaskService task,String taskId,List<Part> parts) throws IOException  {
 		TaskServiceIGRP taskServiceRest = new TaskServiceIGRP();
 		StartProcess st = this.bpmnExecute.exeuteTask(task, parts,this.myCustomPermission);
 		if(Core.isNull(st)) {
@@ -165,9 +165,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			this.saveFiles(parts,taskId);
 			Core.removeAttribute("taskId");
 			Core.setMessageSuccess();
-			taskServiceRest.clearFilterUrl();
-			taskServiceRest.addFilterUrl("processDefinitionId",task.getProcessDefinitionId());
-			taskServiceRest.addFilterUrl("processInstanceId", task.getProcessInstanceId());
+			taskServiceRest.clearFilterBody();
+			taskServiceRest.addFilterBody("processDefinitionId",task.getProcessDefinitionId());
+			taskServiceRest.addFilterBody("processInstanceId", task.getProcessInstanceId());
 			List<TaskService> tasks = taskServiceRest.getAvailableTasks();
 			if(tasks!=null  && !tasks.isEmpty()) {
 				return this.renderNextTask(task,tasks);
@@ -185,13 +185,13 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		Object[] id_tp_doc = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");	
 		if(id_tp_doc!=null && parts_!=null) {
 			try {
-				id_tp_doc = Arrays.asList(id_tp_doc).stream().filter(Core::isNotNull).toArray();
+				id_tp_doc = Arrays.stream(id_tp_doc).filter(Core::isNotNull).toArray();
 				
 				Object[] doc_id = Core.getParamArray("p_formlist_documento_doc_id_fk");	
-				doc_id = Arrays.asList(doc_id).stream().filter(Core::isNotNull).toArray();
+				doc_id = Arrays.stream(doc_id).filter(Core::isNotNull).toArray();
 	
 				Object[] input_type = Core.getParamArray("p_formlist_documento_task_documento_fk_desc");	
-				input_type = Arrays.asList(input_type).stream().filter(Core::isNotNull).toArray();
+				input_type = Arrays.stream(input_type).filter(Core::isNotNull).toArray();
 	
 				List<Part> parts = parts_.stream().filter(p->p.getName().equalsIgnoreCase("p_formlist_documento_task_documento_fk")).collect(Collectors.toList());
 
