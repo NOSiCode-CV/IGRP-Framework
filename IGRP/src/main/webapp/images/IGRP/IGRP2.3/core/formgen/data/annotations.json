@@ -569,16 +569,6 @@
             "time": [
                 {
                     "list": {
-                        "@NotNull": {
-                            "inputs": {
-                                "integer": false,
-                                "max": false,
-                                "min": false,
-                                "numeric": false,
-                                "value": false
-                            },
-                            "label": "NotNull"
-                        },
                         "@Future": {
                             "inputs": {
                                 "integer": false,
@@ -631,6 +621,21 @@
                         }
                     },
                     "type": "unique"
+                },
+                {
+                    "list": {
+                        "@NotNull": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "NotNull"
+                        }
+                    },
+                    "type": "multi"
                 }
             ],
             "file": [
