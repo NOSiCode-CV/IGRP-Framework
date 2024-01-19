@@ -517,7 +517,7 @@ var GENTABCONTENT = function(name,tparams){
 
 		var icon = btn.GET.iconLib && btn.GET.iconLib() && btn.GET.img() ? btn.GET.img() :'';
 
-		var iconHtml = '<i class=" icon '+icon+'"></i>';
+		var iconHtml = '<i class="fa icon '+icon+'"></i>';
 		return '<li item-name="'+btn.GET.tag()+'" '+genID+' class="'+_class+' gen-fields-holder nav-item" rel="tab-'+idx+'" role="presentation">'+
 					'<a class="nav-link" active-text-color="primary" data-bs-toggle="tab" aria-expanded="true" href="#tab-'+idx+'">'+
 						activetabTmpl+
