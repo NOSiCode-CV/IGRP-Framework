@@ -1,0 +1,17 @@
+.table{
+    margin-bottom: 0;
+}
+
+.lookup-parser{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+table th[show-label="false"] span,
+table th[show-label="false"] label{
+    display: none;
+}
+
+table th label{
+    font-weight: 600;
+}

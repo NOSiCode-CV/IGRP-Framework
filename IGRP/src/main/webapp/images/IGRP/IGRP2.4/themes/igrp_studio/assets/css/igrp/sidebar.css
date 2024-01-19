@@ -1,0 +1,44 @@
+[data-sidebar-size="sm"] .igrp-menu-search,
+[data-layout="horizontal"] .igrp-menu-search,
+[data-layout="twocolumn"] .igrp-menu-search{
+    display: none;
+}
+
+.igrp-menu-search{
+
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background: #ffffff14;
+    border-color: rgb(255 255 255 / 5%);
+    color: white;
+}
+.igrp-menu-search:focus{
+    background: #ffffff14;
+    color: white;
+}
+
+.igrp-menu-search::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgba(255,255,255,.8);
+    opacity: 1; /* Firefox */
+  }
+  
+  .igrp-menu-search:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgba(255,255,255,.8);
+  }
+  
+  .igrp-menu-search::-ms-input-placeholder { /* Microsoft Edge */
+    color: rgba(255,255,255,.8);
+  }
+  
+  .navbar-menu .navbar-nav .nav-link   {
+  display: flex;
+   padding-left: 16px;
+    padding-right: 10px;
+/*     color: var(--vz-vertical-menu-item-color); */
+/*   font-size: revert; */
+    font-family: "hkgrotesk", sans-serif;
+  } 
+
+  .app-search .form-control {
+  background-color: transparent;
+  }
