@@ -128,7 +128,8 @@ public final class ApplicationManager {
 		Properties settings = loadConfig();
 		String authenticationType = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
 		if (!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType)
-				|| /**Too many redirect on sight*/ !request.getRequestURL().toString().endsWith(OAuth2OpenIdAuthenticationManager.CALLBACK_PATH))
+//				|| /**Too many redirect on sight*/ !request.getRequestURL().toString().endsWith(OAuth2OpenIdAuthenticationManager.CALLBACK_PATH)
+				)
 			return Optional.empty();
 		if(OAuth2OpenIdAuthenticationManager.isSignOutRequest(request))
 			return Optional.of(requestUrl(request));

@@ -56,7 +56,7 @@ public class AuthenticationFilter implements Filter {
 			}else {
 				// Go to autentika
 				Optional<String> url = ApplicationManager.buildOAuth2AuthorizeLink(httpServletRequest);
-				if(url.isPresent()) {
+				if(url.isPresent() && Core.isNull(httpServletRequest.getParameter("code"))) {
 					httpServletResponse.sendRedirect(url.get());
 					return;
 				}
