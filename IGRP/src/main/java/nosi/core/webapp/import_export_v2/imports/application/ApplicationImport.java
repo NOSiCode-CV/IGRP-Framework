@@ -68,7 +68,7 @@ public class ApplicationImport extends AbstractImport implements IImport{
 
 	private void allowImport(Application application) {
 		List<Application> myApp = application.getListMyApp(Core.getCurrentUser().getId());
-		this.allowPermission = myApp.stream().map(Application::getDad).collect(Collectors.toList()).contains(application.getDad());
+		this.allowPermission = myApp.stream().map(Application::getDad).toList().contains(application.getDad());
 	}
 
 	public boolean allowPermissionImport() {		

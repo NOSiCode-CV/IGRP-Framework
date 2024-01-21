@@ -74,13 +74,13 @@ public abstract class Model { // IGRP super model
 		if (hts != null && hts.getVariables() != null) {
 			List<TaskVariables> var = hts.getVariables().stream().filter(
 					v -> v.getName().equalsIgnoreCase(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI + "_" + hts.getId()))
-					.collect(Collectors.toList());
-			String json = (var != null && !var.isEmpty()) ? var.get(0).getValue().toString() : "";
+					.toList();
+			String json = !var.isEmpty() ? var.get(0).getValue().toString() : "";
 			if (Core.isNotNull(json)) {
 				CustomVariableIGRP custom = new Gson().fromJson(json, CustomVariableIGRP.class);
 				if (custom.getRows() != null) {
 					String overrided = Core.getParam("overrided");
-					custom.getRows().stream().forEach(v -> {
+					custom.getRows().forEach(v -> {
 						if (!v.getName().equalsIgnoreCase(BPMNConstants.PRM_RUNTIME_TASK)
 								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PROCESS_DEFINITION)
 								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_TASK_DEFINITION)
@@ -126,7 +126,7 @@ public abstract class Model { // IGRP super model
 										BeanUtils.setProperty(t, field.getName(), value.toString());
 									}
 								} catch (java.lang.IllegalArgumentException | IllegalAccessException
-										| InvocationTargetException e) {
+										| InvocationTargetException ignored) {
 
 								}
 							}
@@ -186,13 +186,13 @@ public abstract class Model { // IGRP super model
 			if (m.getType().isArray()) {
 				String[] aux = null;
 				aux = Core.getParamArray(
-						m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("")
+						m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().isEmpty()
 								? m.getAnnotation(RParam.class).rParamName()
 								: m.getName() // default case use the name of field
 				);
 				this.loadArrayData(m,typeName,aux);
 			} else {
-				String name = m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("")
+				String name = m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().isEmpty()
 						? m.getAnnotation(RParam.class).rParamName()
 						: m.getName();
 
@@ -326,9 +326,9 @@ public abstract class Model { // IGRP super model
 			} catch (ClassNotFoundException | SecurityException | NoSuchMethodException | InvocationTargetException
 					| IllegalArgumentException | InstantiationException | IllegalAccessException e) { 
 				e.printStackTrace();
-			} catch (IndexOutOfBoundsException e) {
-				continue; // go to next -- Separator list
-			} 
+			} catch (IndexOutOfBoundsException ignored) {
+               // go to next -- Separator list
+            }
 		}
 		this.loadModelFromAttribute();
 	}
@@ -338,31 +338,31 @@ public abstract class Model { // IGRP super model
 		String defaultResult = (aux != null && !aux.isEmpty() ? aux : null);
 		switch (typeName) {
 			case "int":
-				m.setInt(this, Core.toInt(aux).intValue());
+				m.setInt(this, Core.toInt(aux));
 				break;
 			case "java.lang.Integer":
 				m.set(this, Core.isNotNull(aux)?Core.toInt(aux):null);
 				break;
 			case "float":
-				m.setFloat(this, Core.toFloat(aux).floatValue());
+				m.setFloat(this, Core.toFloat(aux));
 				break;
 			case "java.lang.Float":
 				m.set(this, Core.isNotNull(aux)?Core.toFloat(aux):null);
 				break;
 			case "double":
-				m.setDouble(this, Core.toDouble(aux).doubleValue());
+				m.setDouble(this, Core.toDouble(aux));
 				break;
 			case "java.lang.Double":
 				m.set(this, Core.isNotNull(aux)?Core.toDouble(aux):null);
 				break;
 			case "long":
-				m.setLong(this, Core.toLong(aux).longValue());
+				m.setLong(this, Core.toLong(aux));
 				break;
 			case "java.lang.Long":
 				m.set(this,Core.isNotNull(aux)?Core.toLong(aux):null);
 				break;
 			case "short":
-				m.setShort(this, Core.toShort(aux).shortValue());
+				m.setShort(this, Core.toShort(aux));
 				break;
 			case "java.lang.Short":
 				m.set(this, Core.isNotNull(aux)?Core.toShort(aux):null);
@@ -383,9 +383,9 @@ public abstract class Model { // IGRP super model
 				if (aux != null && !aux.equals("0")) {
 					String[] datePart = aux.split("-");
 					if(datePart!=null && datePart.length > 2) {
-						int day = Core.toInt(datePart[0]).intValue();
-						int month = Core.toInt(datePart[1]).intValue();
-						int year = Core.toInt(datePart[2]).intValue();
+						int day = Core.toInt(datePart[0]);
+						int month = Core.toInt(datePart[1]);
+						int year = Core.toInt(datePart[2]);
 						LocalDate date = LocalDate.of(year, month, day);
 						m.set(this, date);
 					}
@@ -395,11 +395,11 @@ public abstract class Model { // IGRP super model
 				if (aux != null && !aux.equals("0")) {
 					String[] timePart = aux.split(":");
 					if(timePart!=null && timePart.length > 1) {
-						int hour = Core.toInt(timePart[0]).intValue();
-						int minute = Core.toInt(timePart[1]).intValue();
+						int hour = Core.toInt(timePart[0]);
+						int minute = Core.toInt(timePart[1]);
 						int second = 0;
 						if (timePart.length > 2) {
-							second = Core.toInt(timePart[2]).intValue();
+							second = Core.toInt(timePart[2]);
 						}
 						LocalTime time = LocalTime.of(hour, minute, second);
 						m.set(this, time);
@@ -418,7 +418,7 @@ public abstract class Model { // IGRP super model
 					String param = Model.getParamFileId(m.getName().toLowerCase());
 					String fileId = Core.getParam(param);
 					if(Core.isNotNull(fileId)) {
-						Core.addHiddenField((""+Model.getParamFileId(m.getName().toLowerCase())).replaceFirst("p_", ""), fileId);
+						Core.addHiddenField((Model.getParamFileId(m.getName().toLowerCase())).replaceFirst("p_", ""), fileId);
 						m.set(this, new UploadFile(fileId));
 					}else {
 						m.set(this, new UploadFile(Core.getFile(m.getAnnotation(RParam.class).rParamName())));
@@ -700,7 +700,7 @@ public abstract class Model { // IGRP super model
 		}
 		if(queryString.getQueryString()!=null) {
 			queryString.getQueryString().entrySet().forEach(q->{
-				String[] value = q.getValue().stream().toArray(String[]::new);
+				String[] value = q.getValue().toArray(String[]::new);
 				Core.setAttribute(q.getKey(),value);
 			});
 		}

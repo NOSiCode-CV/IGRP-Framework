@@ -77,12 +77,12 @@ public class Report extends Controller{
 						if (p.getKey().equals("isPublic") && p.getValue().equals("1")) 
 							qStr.append( "&" + p.getKey() + "=" + p.getValue()); // isPublic=1 :-) 
 						else 
-							qStr.append(("&name_array="+p.getKey() + "&value_array="+URLEncoder.encode(""+p.getValue(),StandardCharsets.UTF_8.toString()))); 
+							qStr.append(("&name_array=" + p.getKey() + "&value_array=" + StandardCharsets.UTF_8));
 					}
 				}else {
 					List<Object> parms = (List<Object>) p.getValue(); 
 					for(Object v : parms) 
-						qStr.append( ("&name_array="+p.getKey() + "&value_array="+URLEncoder.encode(v.toString(),StandardCharsets.UTF_8.toString())));
+						qStr.append( ("&name_array="+p.getKey() + "&value_array="+URLEncoder.encode(v.toString(),StandardCharsets.UTF_8)));
 				}
 		
 		
@@ -138,7 +138,7 @@ public class Report extends Controller{
 		
 		rep.setLink(Route.getResolveUrl("igrp_studio", "WebReport", "preview&ctpr="+Core.encryptPublicPage(contra_prova)+"&p_rep_id="+rt.getId()+"&p_type="+XSLXML_SAVE)); 
 		if(queryString!=null) {
-			queryString.getQueryString().entrySet().stream().forEach(q->
+			queryString.getQueryString().entrySet().forEach(q->
 				rep.addParam(q.getKey(), q.getValue().get(0))
 			);
 		}
@@ -335,8 +335,7 @@ public class Report extends Controller{
 						String qrlink= StringUtils.substringBetween(s.html(), "var qrcodeResult = '", "';"); 
 					doc.select("div.containerQrcode, div#containerQrcode").attr("style", "padding:0;width:26mm;margin-bottom:5px;").append("<object value=\""+qrlink+"\" url=\"\" type=\"image/barcode\"style=\"width:100px;height:100px;\" ></object>\n")
 					;
-				return;
-				}		
+                }
 			});
 		}
 		return new W3CDom().fromJsoup(doc);

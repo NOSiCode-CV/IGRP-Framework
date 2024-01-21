@@ -53,7 +53,7 @@ public class ImportExportApp {
 				xml.setElement("status", pagina.getStatus()+"");
 				xml.setElement("version", pagina.getVersion());
 				xml.setElement("xsl_src", pagina.getXsl_src());
-				xml.setElement("dad", pagina.getApplication().getDad()+"");
+				xml.setElement("dad", pagina.getApplication().getDad());
 			xml.endElement();
 		xml.endElement();
 		return xml.toString();

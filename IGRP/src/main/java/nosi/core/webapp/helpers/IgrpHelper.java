@@ -85,8 +85,8 @@ public final class IgrpHelper {
 				return result;
 			}
 			case "boolean": break;
-			default:;
-		}
+			default:
+        }
 		return array; // default purpose ...
 	}
 	

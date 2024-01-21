@@ -51,7 +51,7 @@ public final class ApplicationManager {
 			}
 			page = EncrypDecrypt.encryptURL(page, request.getSession().getId()).replace(" ", "+");
 			dad = dad != null && !dad.trim().isEmpty() ? String.format("&dad=%s", dad) : "";
-			StringBuilder additionalParams = new StringBuilder("");
+			StringBuilder additionalParams = new StringBuilder();
 			Enumeration<String> paramNames = request.getParameterNames();
 			while(paramNames.hasMoreElements()) {
 				String paramName = paramNames.nextElement();
@@ -68,7 +68,7 @@ public final class ApplicationManager {
 		String page = request.getParameter("r");
 		String dad = request.getParameter("dad");
 		dad = dad != null && !dad.trim().isEmpty() ? String.format("&dad=%s", dad) : "";
-		StringBuilder additionalParams = new StringBuilder("");
+		StringBuilder additionalParams = new StringBuilder();
 		Enumeration<String> paramNames = request.getParameterNames();
 		while(paramNames.hasMoreElements()) {
 			String paramName = paramNames.nextElement();
@@ -278,7 +278,7 @@ public final class ApplicationManager {
 		dad = !dad.isEmpty() ? String.format("&dad=%s", dad) : dad;
 		String actionCode = json.optString("actionCode", "index");
 		JSONArray additionalParams = json.optJSONArray("additionalParams");
-		StringBuilder additionalParamsQueryString = new StringBuilder("");
+		StringBuilder additionalParamsQueryString = new StringBuilder();
 		if(additionalParams != null) 
 			for(int i = 0; i < additionalParams.length(); i++) {
 				JSONObject param = additionalParams.optJSONObject(i);

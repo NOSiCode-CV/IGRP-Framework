@@ -317,7 +317,7 @@ public class Controller {
         return resp;
     }
 
-    private final Response redirect_(String url) {
+    private Response redirect_(String url) {
         Response resp = new Response();
         resp.setType(2);
         resp.setCharacterEncoding(Response.CHARSET_UTF_8);

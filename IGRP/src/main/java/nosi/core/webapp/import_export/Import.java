@@ -324,7 +324,7 @@ public class Import {
 			xml.setElement("package_db", page.getPackage_name());//PackageName
 			xml.setElement("package_html", page.getPage());//ClassName
 		xml.endElement();
-		aux += xml.toString() + content.substring(content.indexOf("</site>")+"</site>".length());
+		aux += xml + content.substring(content.indexOf("</site>") + "</site>".length());
 		return aux;
 	}
 }

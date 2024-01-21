@@ -55,7 +55,7 @@ public class User implements Component{
 	}
 	
 	public static String generatePasswordResetToken() {
-		return Base64.getUrlEncoder().encodeToString(((java.util.UUID.randomUUID().toString().replace("-", "") + "_" + (System.currentTimeMillis() + 1000*10*60)) + "").getBytes()); // 10 min.  
+		return Base64.getUrlEncoder().encodeToString((java.util.UUID.randomUUID().toString().replace("-", "") + "_" + (System.currentTimeMillis() + 1000 * 10 * 60)).getBytes()); // 10 min.
 	}
 	
 }

@@ -65,7 +65,7 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 	public Map<String, String> mapToComboBoxByProcessKey(String processKey, String tenantId) {
 		if (Core.isNotNull(processKey)) {
 			List<TaskService> list = new TaskServiceRest().getTasksByProcessKey(processKey, tenantId);
-			Set<TaskService> listDistint = list.stream().distinct().collect(Collectors.toSet());// Remove Duplicate
+			Set<TaskService> listDistint = list.stream().collect(Collectors.toSet());// Remove Duplicate
 			Map<String, String> map = new HashMap<>();	
 			map.put(null, gt("-- Selecionar --"));
 			map.putAll(listDistint.stream()

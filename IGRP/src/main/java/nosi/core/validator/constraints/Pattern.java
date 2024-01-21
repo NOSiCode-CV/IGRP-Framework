@@ -51,7 +51,7 @@ public @interface Pattern {
 	/**
 	 * Possible Regexp flags.
 	 */
-	public static enum Flag {
+    enum Flag {
 
 		/**
 		 * Enables Unix lines mode.
@@ -105,7 +105,7 @@ public @interface Pattern {
 		//JDK flag value
 		private final int value;
 
-		private Flag(int value) {
+		Flag(int value) {
 			this.value = value;
 		}
 

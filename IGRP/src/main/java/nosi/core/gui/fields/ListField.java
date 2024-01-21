@@ -72,7 +72,7 @@ public class ListField extends AbstractField {
 		if ( (this.propertie().get("multiple") != null && this.propertie().get("multiple").equals("true")) || this.propertie().getProperty("type").equals("checkboxlist")) {
 			this.setValue(IgrpHelper.getValueArray(model, this.getName()));
 		} else
-			this.setValue("" + IgrpHelper.getValue(model, this.getName()));
+			this.setValue(IgrpHelper.getValue(model, this.getName()));
 	}
 
 	@Override

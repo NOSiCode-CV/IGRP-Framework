@@ -51,7 +51,7 @@ public class ZipUnzipFile {
 					   order = 2;
 					   encode = StandardCharsets.ISO_8859_1;
 				   }
-				   String         ls = System.getProperty("line.separator");
+				   String         ls = System.lineSeparator();
 				   String         line = null;
 				   DataInputStream in = new DataInputStream(zis); 
 				   StringBuilder content = new StringBuilder();  
@@ -81,7 +81,7 @@ public class ZipUnzipFile {
 			ZipInputStream zis = new ZipInputStream(new BufferedInputStream(cis));
 			ZipEntry entry = null;
 			while((entry=zis.getNextEntry())!=null){
-				   String         ls = System.getProperty("line.separator");
+				   String         ls = System.lineSeparator();
 				   String         line = null;
 				   DataInputStream in = new DataInputStream(zis); 
 				   StringBuilder content = new StringBuilder();  
