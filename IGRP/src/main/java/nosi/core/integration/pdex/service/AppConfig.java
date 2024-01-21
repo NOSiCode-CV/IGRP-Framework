@@ -35,7 +35,7 @@ public class AppConfig extends PdexServiceTemplate{
 	
 	public List<App> userApps(String uid){ 
 		List<App> allApps = new ArrayList<>(); 
-		String json="";
+		String json;
 		try {
 			if(url == null || url.isEmpty()|| token == null || token.isEmpty())  //!ping(url, DEFAULT_TIMEOUT) 
 				return allApps; 

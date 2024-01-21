@@ -143,17 +143,13 @@ public class ExtractReserveCode {
 	    }
 	    
 	    public static String getStartReseveCodeAction(String actionName, boolean isGlobalReserve){
-	    	
-	    	String rtn = isGlobalReserve ? globalReserveHeadStart+actionName+globalReserveHeadEnd : "/*----#start-code("+actionName.toLowerCase()+")----*/";
-	    	
-	    	return rtn;
+
+           return isGlobalReserve ? globalReserveHeadStart + actionName + globalReserveHeadEnd : "/*----#start-code(" + actionName.toLowerCase() + ")----*/";
 	    }
 	    
 	    public static String getEndReserveCode(boolean isGlobalReserve){
-	    	
-	    	String rtn = isGlobalReserve ? globalReserveEnd : "/*----#end-code----*/";
-	    	
-	        return rtn;
+
+           return isGlobalReserve ? globalReserveEnd : "/*----#end-code----*/";
 	    }
 	    
 	    

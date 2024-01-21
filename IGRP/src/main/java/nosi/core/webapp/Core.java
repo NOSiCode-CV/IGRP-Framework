@@ -623,7 +623,7 @@ public final class Core {
 	 */
 	public static String getAttribute(String name, boolean isRemoved) {
 		if (Igrp.getInstance() != null && Igrp.getInstance().getRequest().getAttribute(name) != null) {
-			String v = null;
+			String v;
 			if (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[])
 				v = ((Object[]) Igrp.getInstance().getRequest().getAttribute(name))[0].toString();
 			else
@@ -639,9 +639,8 @@ public final class Core {
 		if(isNull(Igrp.getInstance()))
 			return null;
 		final Object attribute = Igrp.getInstance().getRequest().getAttribute(name);
-		if (attribute instanceof Object[]) {
-			Object[] valueO = (Object[]) attribute;
-			Igrp.getInstance().getRequest().removeAttribute(name);
+		if (attribute instanceof Object[] valueO) {
+           Igrp.getInstance().getRequest().removeAttribute(name);
 			return Arrays.copyOf(valueO, valueO.length, String[].class);
 		}
 		return null;
@@ -1364,7 +1363,7 @@ public final class Core {
 	public static Response getLinkReport(String reportCode, Object report) {
 		Report rep = new Report();
 		if (report instanceof QueryString) {
-			((QueryString<String, Object>) report).getQueryString().entrySet().forEach(q -> rep.addParam(q.getKey(), q.getValue()));
+			((QueryString<String, Object>) report).getQueryString().forEach((key, value) -> rep.addParam(key, value));
 		} else if (report instanceof Report) {
 			return new Report().invokeReport(reportCode, (Report) report);
 		}
@@ -1375,9 +1374,7 @@ public final class Core {
 	public static Response getLinkReportPDF(String reportCode, Object report) {
 		Report rep = new Report();
 		if (report instanceof QueryString) {
-			((QueryString<String, Object>) report).getQueryString().entrySet().forEach(q -> {
-				rep.addParam(q.getKey(), q.getValue());
-			});
+			((QueryString<String, Object>) report).getQueryString().forEach((key, value) -> rep.addParam(key, value));
 		} else if (report instanceof Report) {
 			return new Report().invokeReportPDF(reportCode, (Report) report);
 		}
@@ -1627,8 +1624,7 @@ public final class Core {
 	 * @return {@code Core.getAttribute(name, true);}
 	 */
 	public static Object getParamObject(String name, boolean isRemoved) {
-		Object x = Core.getAttribute(name, isRemoved);
-		return x;
+       return Core.getAttribute(name, isRemoved);
 	}
 
 	/**
@@ -1638,8 +1634,7 @@ public final class Core {
 	 * @return {@code Core.getAttribute(name, true);}
 	 */
 	public static Object getParamObject(String name) {
-		Object x = Core.getAttribute(name, true);
-		return x;
+       return Core.getAttribute(name, true);
 	}
 
 	/**
@@ -1854,8 +1849,7 @@ public final class Core {
 				ib.header(obj.getKey(), obj.getValue());
 			}
 		}
-		T r = ib.post(Entity.entity(content, entityMediaType), result);
-		return r;
+       return ib.post(Entity.entity(content, entityMediaType), result);
 	}
 
 	/**
@@ -1988,7 +1982,7 @@ public final class Core {
 		if (values != null) {
 			for (Object value : values) {
 				r = Core.isNotNull(value);
-				if (r == false)
+				if (!r)
 					break;
 			}
 		}
@@ -2318,7 +2312,7 @@ public final class Core {
 	 * @return boolean success true|false
 	 */
 	public static boolean mailGatewayPdex(String endpoint, String httpAuthorizationHeaderValue, PdexEmailGatewayPayloadDTO payload, List<String> errors) {
-		boolean success = false;
+		boolean success;
 		PdexEmailGateway sender = new PdexEmailGateway(endpoint, httpAuthorizationHeaderValue); 
 		sender.setPayload(payload); 
 		if(!(success = sender.send()) && errors != null) 
@@ -3329,8 +3323,7 @@ public final class Core {
 					row.setValue(p.getValue());
 					customV.add(row);
 				});
-		String json = gson.toJson(customV);
-		return json;
+       return gson.toJson(customV);
 	}
 
 	public static String getProcessVariable(String processDefinitionKey, String variableName) {
@@ -3442,9 +3435,7 @@ public final class Core {
 		CustomVariableIGRP rows = new Gson().fromJson(json, CustomVariableIGRP.class);
 		for (java.lang.reflect.Field f : obj.getClass().getDeclaredFields()) {
 			f.setAccessible(true);
-			rows.getRows().stream().filter(r -> r.getName().equalsIgnoreCase("p_" + f.getName())).forEach(r -> {
-				IgrpHelper.setField(obj, f, r.getValue());
-			});
+			rows.getRows().stream().filter(r -> r.getName().equalsIgnoreCase("p_" + f.getName())).forEach(r -> IgrpHelper.setField(obj, f, r.getValue()));
 		}
 		return obj;
 	}
@@ -4527,8 +4518,7 @@ public final class Core {
 	 * @return class UploadedFile
 	 */
 	public static UploadedFile upload(String tag) {
-		UploadedFile uF = UploadedFile.getInstance(tag);
-		return uF;
+       return UploadedFile.getInstance(tag);
 	}
 
 	/**
@@ -4538,8 +4528,7 @@ public final class Core {
 	 * @return {@code List<UploadedFile>}
 	 */
 	public static List<UploadedFile> uploadMultiple() {
-		List<UploadedFile> uF = UploadedFile.getInstances();
-		return uF;
+       return UploadedFile.getInstances();
 	}
 
 	/**
@@ -4550,8 +4539,7 @@ public final class Core {
 	 * @return {@code List<UploadedFile>}
 	 */
 	public static List<UploadedFile> uploadMultiple(String tag) {
-		List<UploadedFile> uF = UploadedFile.getInstances(tag);
-		return uF;
+       return UploadedFile.getInstances(tag);
 	}
 
 	public static boolean validateQuery(Config_env config_env, String query) {
@@ -4887,7 +4875,7 @@ public final class Core {
 	public static Session getSession(String connectionName) {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory(connectionName);
 		if (sessionFactory != null) {
-			Session s = null;
+			Session s;
 			if (sessionFactory.isOpen() && sessionFactory.getCurrentSession() != null
 					&& sessionFactory.getCurrentSession().isOpen()) {
 				s = sessionFactory.getCurrentSession();
@@ -5226,8 +5214,7 @@ public final class Core {
 	 */
 	public static StartProcess nextTask(TaskService task, List<Part> parts, String myCustomPermission) {
 		BPMNExecution bpmnExecuteValidacao = new BPMNExecution();
-		StartProcess startProcess = bpmnExecuteValidacao.exeuteTask(task, parts, myCustomPermission);
-		return startProcess;
+       return bpmnExecuteValidacao.exeuteTask(task, parts, myCustomPermission);
 	}
 
 	/**

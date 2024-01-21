@@ -11,11 +11,6 @@ import nosi.core.webapp.uploadfile.UploadFile;
  * 24 Jul 2019
  */
 public class FileNotNullValidator implements ConstraintValidator<FileNotNull, UploadFile>{
-
-	@Override
-	public void initialize(FileNotNull constraintAnnotation) {
-		
-	}
 	
 	@Override
 	public boolean isValid(UploadFile file, ConstraintValidatorContext context) {

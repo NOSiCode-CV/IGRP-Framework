@@ -411,8 +411,7 @@ public abstract class QueryHelper implements QueryInterface{
 			}
 		}	
 		updates = new StringBuilder(Core.isNotNull(updates.toString()) ? updates.substring(0, updates.length() - 1) : "");
-		String s = "UPDATE "+tableName_ +" SET "+updates;
-		return s;
+       return "UPDATE " + tableName_ + " SET " + updates;
 	}
 	
 	public String getSqlDelete(String schemaName, String tableName) {

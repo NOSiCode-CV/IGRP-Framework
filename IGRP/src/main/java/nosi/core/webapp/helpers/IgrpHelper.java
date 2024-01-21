@@ -205,8 +205,7 @@ public final class IgrpHelper {
 	}
 	
 	public static String getLabel(Field field) {
-		String value = "";
-		
-		return value;
+
+       return "";
 	}
 }

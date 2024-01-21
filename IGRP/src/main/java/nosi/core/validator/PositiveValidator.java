@@ -11,11 +11,6 @@ import nosi.core.webapp.Core;
  * 26/07/2019
  */
 public class PositiveValidator implements ConstraintValidator<Positive, Number>{
-
-	@Override
-	public void initialize(Positive constraintAnnotation) {
-		
-	}
 	
 	@Override
 	public boolean isValid(Number value, ConstraintValidatorContext context) {

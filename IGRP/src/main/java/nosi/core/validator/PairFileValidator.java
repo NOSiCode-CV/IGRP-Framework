@@ -11,11 +11,6 @@ import nosi.core.validator.constraints.PairFileNotNull;
  * 24 Jul 2019
  */
 public class PairFileValidator implements ConstraintValidator<PairFileNotNull, Pair>{
-
-	@Override
-	public void initialize(PairFileNotNull constraintAnnotation) {
-		
-	}
 	
 	@Override
 	public boolean isValid(Pair pair, ConstraintValidatorContext context) {

@@ -92,9 +92,7 @@ public class IGRPLink {
 			return link;
 		}
 		if(this.queryString.getQueryString()!=null && !this.queryString.getQueryString().isEmpty()) {
-			this.queryString.getQueryString().forEach((key, value) -> value.forEach(q1 -> {
-               this.link += "&" + key + "=" + (q1 != null ? q1.toString() : "");
-            }));
+			this.queryString.getQueryString().forEach((key, value) -> value.forEach(q1 -> this.link += "&" + key + "=" + (q1 != null ? q1.toString() : "")));
 		}
 		return this.link.replace("&&", "&");
 	}

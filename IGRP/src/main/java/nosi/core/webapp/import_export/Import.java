@@ -159,7 +159,7 @@ public class Import {
 			content = this.addClassAndPackage(content,page,"json");
 		}
 		try {
-			boolean result = false;
+			boolean result;
 			//Guarda ficheiros no workspace caso existe
 			if(Core.isNotNull(this.getConfig().getWorkspace()) && FileHelper.fileExists(this.getConfig().getWorkspace())){
 				String path_xsl_work_space = this.getConfig().getBasePahtXslWorkspace(page);		

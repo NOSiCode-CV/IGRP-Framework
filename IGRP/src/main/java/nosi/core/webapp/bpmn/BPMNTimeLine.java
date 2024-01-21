@@ -168,7 +168,7 @@ public class BPMNTimeLine {
 				}
 			});
 			
-			Collections.sort(taskTimeline, Comparator.comparing(TaskTimeLine::getOrder));
+			taskTimeline.sort(Comparator.comparing(TaskTimeLine::getOrder));
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		}

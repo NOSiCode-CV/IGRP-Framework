@@ -325,7 +325,7 @@ public class Config {
 
     public String getBasePathServerXsl() {
 
-        String appLinkImage = null;
+        String appLinkImage;
 
         appLinkImage = this.getLinkImgBase();
 

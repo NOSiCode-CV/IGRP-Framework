@@ -11,11 +11,6 @@ import nosi.core.webapp.Core;
  * 24 Jul 2019
  */
 public class NotNullValidator implements ConstraintValidator<NotNull, Object>{
-
-	@Override
-	public void initialize(NotNull constraintAnnotation) {
-		
-	}
 	
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {

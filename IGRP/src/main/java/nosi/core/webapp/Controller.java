@@ -562,7 +562,7 @@ public class Controller {
         Igrp app = Igrp.getInstance();
         String auxAppName = "";
         String auxPageName = "";
-        String auxcontrollerPath = "";
+        String auxcontrollerPath;
         String auxActionName = "";
         if (app != null && app.getCurrentAppName() != null && app.getCurrentActionName() != null
                 && app.getCurrentPageName() != null) {
@@ -664,7 +664,7 @@ public class Controller {
                         }
                         break;
                     case 2: // redirect
-                        boolean isAbsolute = false;
+                        boolean isAbsolute;
                         try {
                             String url = responseWrapper2.getUrl();
                             try {

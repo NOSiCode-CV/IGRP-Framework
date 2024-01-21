@@ -333,8 +333,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	        Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, this.runtimeTask);
 	        Core.setAttribute(BPMNConstants.PRM_TASK_OBJ, task);
 		 Response resp = this.call(task.getTenantId(),this.page, "index",this.queryString());
-		 String content = resp.getContent();
-		 return content;
+       return resp.getContent();
 	}
 	
 	protected void setCustomPermission(String customPermission) {

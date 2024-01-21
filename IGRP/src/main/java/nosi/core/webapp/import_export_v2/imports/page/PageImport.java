@@ -41,9 +41,7 @@ public class PageImport extends AbstractImport implements IImport{
 	@Override
 	public void execute() {
 		if(this.pages!=null){
-			this.pages.forEach(page->{
-				this.insertPage(page);
-			});
+			this.pages.forEach(this::insertPage);
 		}
 	}
 

@@ -106,16 +106,15 @@ public class NosiLdapAPI {
 	}
 
 	private InitialDirContext ldapContext(String user, String password) throws NamingException {
-		props = new Hashtable<String, String>();
+		props = new Hashtable<>();
 		props.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 		props.put(Context.PROVIDER_URL, this.getL_ldap_url());
 		props.put(Context.SECURITY_AUTHENTICATION, "simple");
 		props.put(Context.SECURITY_PRINCIPAL, user);
 		props.put(Context.SECURITY_CREDENTIALS, password);
-		props.put(Context.REFERRAL, "follow"); 
-		
-		InitialDirContext context = new InitialDirContext(props);
-		return context;
+		props.put(Context.REFERRAL, "follow");
+
+       return new InitialDirContext(props);
 	}
 
 	public String getDistinguishedName(String pUsername, ArrayList<LdapPerson> ldapPersons) {
@@ -154,7 +153,7 @@ public class NosiLdapAPI {
 	}
 	
 	public String getDistinguishedName(String pUsername) {
-		return getDistinguishedName(pUsername, new ArrayList<LdapPerson>());
+		return getDistinguishedName(pUsername, new ArrayList<>());
 	}
 	
 	
@@ -250,7 +249,7 @@ public class NosiLdapAPI {
 	
 	
 	private ArrayList<LdapPerson> SerializeAttribs(NamingEnumeration<?> results) {
-		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
+		ArrayList<LdapPerson> personArray = new ArrayList<>();
 		LdapPerson p = null;
 
 		try {

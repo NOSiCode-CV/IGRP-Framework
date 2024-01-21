@@ -33,13 +33,11 @@ public class ReflectionHelper {
 					.filter(interfaceClass::isAssignableFrom)
 					.forEach(rVal::add);
 
-		} catch (ClassNotFoundException e) {
-			return null;
-		} catch (IOException e) {
+		} catch (ClassNotFoundException | IOException e) {
 			return null;
 		}
 
-		return rVal;
+       return rVal;
 	}
 	
 	public static Class[] getAllClassesFromPackage(final String packageName)

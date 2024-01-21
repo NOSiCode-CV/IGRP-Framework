@@ -45,7 +45,7 @@ public class Geografia {
 	}
 
 	public Map<String, Object> geoGetParentsById(String id, String level){
-		Map<String, Object> r = new LinkedHashMap<String, Object>(); 
+		Map<String, Object> r = new LinkedHashMap<>();
 		r.put("zona_id", null);r.put("zona", null);
 		r.put("cidade_id", null);r.put("cidade", null);
 		r.put("freguesia_id", null);r.put("freguesia", null);

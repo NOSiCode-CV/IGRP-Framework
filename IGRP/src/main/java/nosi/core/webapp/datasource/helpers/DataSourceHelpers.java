@@ -122,9 +122,7 @@ public class DataSourceHelpers {
 		}
 		for(RepTemplateSource r:list ){
 			if(r.getParameters()!=null) {
-				r.getParameters().forEach(p->{
-					params.put(p.getParameter().toLowerCase(),p.getParameter_type());
-				});
+				r.getParameters().forEach(p-> params.put(p.getParameter().toLowerCase(),p.getParameter_type()));
 			}
 		}
 		return params;

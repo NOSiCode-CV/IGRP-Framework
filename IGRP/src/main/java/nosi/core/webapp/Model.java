@@ -237,7 +237,7 @@ public abstract class Model { // IGRP super model
 				if(fileId==null) {
 					fileId = Core.getParamArray(Model.getParamFileId(m.getName()));
 				}
-				mapFileId.put(m.getName(),  fileId != null ? Arrays.asList(fileId) : new ArrayList<String>());
+				mapFileId.put(m.getName(),  fileId != null ? Arrays.asList(fileId) : new ArrayList<>());
 				if (m.getName().equals(s + "_id")) {
 					String[] values1 = Core.getParamArray("p_" + m.getName());
 					if (values1 != null && values1.length > 1 && values1[0] != null && values1[0].isEmpty()) {
@@ -246,15 +246,15 @@ public abstract class Model { // IGRP super model
 						values1 = auxS;
 					}
 					String[] values2 = values1;
-					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
-					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
+					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<>());
+					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<>());
 				} else {
 					String param = "p_" + m.getName() + "_fk";
 					String[] values1 = Core.getParamArray(param);
-					if(((values1!=null && values1.length==0) || values1==null) && (allFiles!=null && allFiles.containsKey(param))) 
+					if((values1 == null || values1.length == 0) && allFiles.containsKey(param))
 						values1 = allFiles.get(param).stream().map(Part::getName).toArray(String[]::new); 
 					String[] values2 = Core.getParamArray(param+ "_desc");
-					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
+					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<>());
 					// If the field is checkbox, we don't have _check_desc with value2=null so
 					// causing indexOutOfBounds here
 					List<String> list1 = values1 != null ? Arrays.asList(new String[values1.length])
@@ -444,31 +444,30 @@ public abstract class Model { // IGRP super model
 	}
 
 	private void loadArrayData(Field m, String typeName,String[] value) throws IllegalArgumentException, IllegalAccessException {
-		String[] aux = value;
-		if (aux != null) {
+       if (value != null) {
 			// Awesome !!! We need make casts for all [] primitive type ... pff
 			switch (typeName) {
 				case "[I": // Array of int
 					// m.set(this, Arrays.stream(aux).mapToInt(Integer::parseInt).toArray());
-					m.set(this, (int[]) IgrpHelper.convertToArray(aux, "int"));
+					m.set(this, (int[]) IgrpHelper.convertToArray(value, "int"));
 					break;
 				case "[J":// Array de long
 					// m.set(this, Arrays.stream(aux).mapToLong(Long::parseLong).toArray());
-					m.set(this, (long[]) IgrpHelper.convertToArray(aux, "long"));
+					m.set(this, (long[]) IgrpHelper.convertToArray(value, "long"));
 					break;
 				case "[D":
 					// m.set(this, Arrays.stream(aux).mapToDouble(Double::parseDouble).toArray());
-					m.set(this, (double[]) IgrpHelper.convertToArray(aux, "double"));
+					m.set(this, (double[]) IgrpHelper.convertToArray(value, "double"));
 					break;
 				case "[S":// Array de short
-					m.set(this, (short[]) IgrpHelper.convertToArray(aux, "short"));
+					m.set(this, (short[]) IgrpHelper.convertToArray(value, "short"));
 					break;
 				case "[F":
 					// m.set(this, Arrays.stream(aux).mapToDouble(Float::parseFloat).toArray());
-					m.set(this, (float[]) IgrpHelper.convertToArray(aux, "float"));
+					m.set(this, (float[]) IgrpHelper.convertToArray(value, "float"));
 					break;
 				default:
-					m.set(this, typeName.equals("[Ljava.lang.String;") ? aux : null); // The field could be a Object
+					m.set(this, typeName.equals("[Ljava.lang.String;") ? value : null); // The field could be a Object
 			}
 		} else {
 			if (typeName.equals("[Ljakarta.servlet.http.Part;")) {
@@ -487,7 +486,7 @@ public abstract class Model { // IGRP super model
 					e.printStackTrace();
 				}
 			} else {
-				m.set(this, aux);
+				m.set(this, value);
 			}
 		}
 	}
@@ -504,9 +503,7 @@ public abstract class Model { // IGRP super model
 					for (int i = 0; i < n.getLength(); i++) {
 						queryString.addQueryString(n.item(i).getNodeName(), n.item(i).getTextContent());
 					}
-					queryString.getQueryString().entrySet().forEach(qs -> {
-						Core.setAttribute(qs.getKey(), qs.getValue().toArray());
-					});
+					queryString.getQueryString().forEach((key, value) -> Core.setAttribute(key, value.toArray()));
 				}
 			} catch (ServletException | IOException e) {
 				e.printStackTrace();
@@ -548,7 +545,7 @@ public abstract class Model { // IGRP super model
 	private Map<String,List<Part>> getFiles(){
 		Map<String,List<Part>> list = new HashMap<>();
 		if(Core.isUploadedFiles()) {
-			Collection<Part> allFiles = null;			
+			Collection<Part> allFiles;
 			try {
 				allFiles = Igrp.getInstance().getRequest().getParts();
 				if(allFiles!=null) {
@@ -699,10 +696,10 @@ public abstract class Model { // IGRP super model
 			m.setAccessible(false);
 		}
 		if(queryString.getQueryString()!=null) {
-			queryString.getQueryString().entrySet().forEach(q->{
-				String[] value = q.getValue().toArray(String[]::new);
-				Core.setAttribute(q.getKey(),value);
-			});
+			queryString.getQueryString().forEach((key, value1) -> {
+               String[] value = value1.toArray(String[]::new);
+               Core.setAttribute(key, value);
+            });
 		}
 	}
 	
