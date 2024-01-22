@@ -11,12 +11,6 @@ import nosi.core.webapp.Core;
  * 26/07/2019
  */
 public class NegativeValidator implements ConstraintValidator<Negative, Number>{
-
-	@Override
-	public void initialize(Negative constraintAnnotation) {
-		
-	}
-	
 	@Override
 	public boolean isValid(Number value, ConstraintValidatorContext context) {
 		if(Core.isNotNull(value)) {

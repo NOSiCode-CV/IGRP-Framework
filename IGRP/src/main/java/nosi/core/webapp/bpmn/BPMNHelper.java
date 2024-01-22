@@ -82,8 +82,7 @@ public final class BPMNHelper {
 		DisplayDocmentType displayDocsInput = new DisplayDocmentType();
 		List<TipoDocumentoEtapa> listInOutDoc = getInputOutputDocumentType(taskDad, processDefinition, taskDefinition, history);
 		displayDocsInput.setListDocmentType(listInOutDoc);
-		String xml = displayDocsInput.displayAllDocsInSameFormList(); 
-		return xml;
+       return displayDocsInput.displayAllDocsInSameFormList();
 	}
 	
 	
@@ -129,7 +128,7 @@ public final class BPMNHelper {
 	
 
 	public static List<TipoDocumentoEtapa> getInputDocumentType(String taskDad, String processDefinition, String taskDefinition){
-		List<TipoDocumentoEtapa> tipoDocsIN = new TipoDocumentoEtapa()
+       return new TipoDocumentoEtapa()
 				.find()
 				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")
 				.andWhere("taskId", "=",Core.isNotNull(taskDefinition)?taskDefinition:"-1")
@@ -137,7 +136,6 @@ public final class BPMNHelper {
 				.andWhere("tipo", "=","IN")
 				.andWhere("tipoDocumento.application.dad", "=",taskDad)
 				.all();
-		return tipoDocsIN;
 	}
 
 	private static String getCurrentTaskId() {
@@ -266,7 +264,7 @@ public final class BPMNHelper {
 	
 	public static List<TipoDocumentoEtapa> getFilesByProcessIdNTaskId(String appDad, String processId, String taskId) { 
 		List<TipoDocumentoEtapa> allOutDocs = new ArrayList<>(); 
-		List<TipoDocumentoEtapa> tipoDocs = null;
+		List<TipoDocumentoEtapa> tipoDocs;
 		TipoDocumentoEtapa tipoDocumentoEtapa = new TipoDocumentoEtapa().find().andWhere("processId", "=", Core.isNotNull(processId) ? processId: "-1");
 		if(taskId != null) 
 			tipoDocumentoEtapa = tipoDocumentoEtapa.andWhere("taskId", "=", taskId);

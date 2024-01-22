@@ -82,7 +82,7 @@ public class BPMNButton {
 		String _link = action + "&"+ BPMNConstants.PRM_TASK_ID + "=" + taskId; 
 		StringBuilder sb = new StringBuilder(); 
 		setQueryString(qs, sb); 
-		if(sb.length() > 0) 
+		if(!sb.isEmpty())
 			_link += sb.toString(); 
 		button.setLink(_link);
 		button.setTarget(BUTTON_TARGET_SAVE_PROCESS);

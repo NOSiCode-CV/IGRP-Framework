@@ -89,11 +89,9 @@ public class ReportImport extends AbstractImport implements IImport {
 	private void deleteTemplateSource(RepTemplate repTemplate) { 
 		List<RepTemplateSource> repTS = new RepTemplateSource().find().andWhere("repTemplate", "=", repTemplate).all();
 		if(repTS != null) { 
-			repTS.forEach(obj->{
-				Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG ,"public", "tbl_rep_template_source_param").where("rep_template_source_fk=:rep_template_source_fk")
-				.addInt("rep_template_source_fk", obj.getId())
-				.execute();
-			}); 
+			repTS.forEach(obj-> Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG ,"public", "tbl_rep_template_source_param").where("rep_template_source_fk=:rep_template_source_fk")
+            .addInt("rep_template_source_fk", obj.getId())
+            .execute());
 		}
 		Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG ,"public", "tbl_rep_template_source").where("rep_template_fk=:rep_template_fk")
 		.addInt("rep_template_fk", repTemplate.getId())

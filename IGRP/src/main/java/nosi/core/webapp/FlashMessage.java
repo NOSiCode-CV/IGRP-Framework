@@ -88,7 +88,7 @@ public class FlashMessage implements Serializable{
 		return this.msgs;
 	}*/
 	
-	private class Message implements Serializable{ // inner/internal class for all message
+	private static class Message implements Serializable{ // inner/internal class for all message
 		
 		/**
 		 * 

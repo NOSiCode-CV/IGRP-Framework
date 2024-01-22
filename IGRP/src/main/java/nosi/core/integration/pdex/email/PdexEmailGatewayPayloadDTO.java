@@ -26,7 +26,7 @@ public class PdexEmailGatewayPayloadDTO {
 		encoding = PdexEmailGatewayConstants.DEFAULT_ENCODING.value(); 
 		contentType = PdexEmailGatewayConstants.DEFAULT_CONTENT_TYPE.value(); 
 		code = UUID.randomUUID().toString().replaceAll("-", "_"); 
-		attachments = new ArrayList<Attachment>(); 
+		attachments = new ArrayList<>();
 	}
 	
 	public String getCode() {

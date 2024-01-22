@@ -317,7 +317,7 @@ public class Controller {
         return resp;
     }
 
-    private final Response redirect_(String url) {
+    private Response redirect_(String url) {
         Response resp = new Response();
         resp.setType(2);
         resp.setCharacterEncoding(Response.CHARSET_UTF_8);
@@ -562,7 +562,7 @@ public class Controller {
         Igrp app = Igrp.getInstance();
         String auxAppName = "";
         String auxPageName = "";
-        String auxcontrollerPath = "";
+        String auxcontrollerPath;
         String auxActionName = "";
         if (app != null && app.getCurrentAppName() != null && app.getCurrentActionName() != null
                 && app.getCurrentPageName() != null) {
@@ -664,7 +664,7 @@ public class Controller {
                         }
                         break;
                     case 2: // redirect
-                        boolean isAbsolute = false;
+                        boolean isAbsolute;
                         try {
                             String url = responseWrapper2.getUrl();
                             try {

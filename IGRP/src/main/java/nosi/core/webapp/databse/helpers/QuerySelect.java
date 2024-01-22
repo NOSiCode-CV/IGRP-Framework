@@ -209,7 +209,7 @@ public class QuerySelect extends CommonFIlter{
 		r.setSql(this.getSql());
 		if(list!=null) { 
 			r.rowList = new ArrayList<>();
-			list.stream().forEach(l->{
+			list.forEach(l->{
 				Record rec = new Record();
 				rec.row = l;
 				r.rowList.add(rec);

@@ -90,7 +90,7 @@ public class FileHelper {
     public static String convertToString(Part file) throws IOException {
     	if (file != null) {
     	    StringBuilder code = new StringBuilder();
-    	    String ls = System.getProperty("line.separator");
+    	    String ls = System.lineSeparator();
 
     	    try (
     	        InputStream is = file.getInputStream();
@@ -118,7 +118,7 @@ public class FileHelper {
     public static String convertToString(InputStream inputStream) throws IOException {
         if (inputStream != null) {
         	StringBuilder code = new StringBuilder();
-        	String ls = System.getProperty("line.separator");
+        	String ls = System.lineSeparator();
 
         	try (
         	    DataInputStream in = new DataInputStream(inputStream);

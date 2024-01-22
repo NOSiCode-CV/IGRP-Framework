@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import jakarta.servlet.http.Part;
 
@@ -176,7 +175,7 @@ public class BPMNExecution extends Controller{
 			List<HistoricTaskService> hts = new TaskServiceRest()
 					.getHistoryOfProccessInstanceId(task.getProcessInstanceId());
 			hts = hts.stream().filter(h -> !h.getTaskDefinitionKey().equals(task.getTaskDefinitionKey()))
-					.collect(Collectors.toList());
+					.toList();
 			String previewTask = !hts.isEmpty() ? hts.get(hts.size() - 1).getTaskDefinitionKey() : "";
 			String preiviewProcessDefinition = !hts.isEmpty()
 					? hts.get(hts.size() - 1).getProcessDefinitionId()

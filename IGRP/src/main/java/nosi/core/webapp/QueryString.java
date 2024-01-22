@@ -24,7 +24,7 @@ public class QueryString<K,V> {
     public QueryString<K,V> addQueryString(K key, V value){
         List<V> target = queryString.get(key);
         if(target == null){
-            target = new ArrayList<V>();
+            target = new ArrayList<>();
             queryString.put(key,target);
         }
         target.add(value);

@@ -8,8 +8,8 @@ public class LdapPerson {
 
 	private String uid;
 	private String sn;
-	private String mail;;
-	private String proxyAddresses;
+	private String mail;
+   private String proxyAddresses;
 	private String name;
 	private String accountExpires;
 	private String lastLogon;

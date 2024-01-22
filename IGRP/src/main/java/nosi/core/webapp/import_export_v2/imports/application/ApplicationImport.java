@@ -1,7 +1,6 @@
 package nosi.core.webapp.import_export_v2.imports.application;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import nosi.core.webapp.Core;
 import nosi.core.webapp.import_export_v2.common.serializable.application.ApplicationSerializable;
@@ -68,7 +67,7 @@ public class ApplicationImport extends AbstractImport implements IImport{
 
 	private void allowImport(Application application) {
 		List<Application> myApp = application.getListMyApp(Core.getCurrentUser().getId());
-		this.allowPermission = myApp.stream().map(Application::getDad).collect(Collectors.toList()).contains(application.getDad());
+		this.allowPermission = myApp.stream().map(Application::getDad).toList().contains(application.getDad());
 	}
 
 	public boolean allowPermissionImport() {		

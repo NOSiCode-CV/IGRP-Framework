@@ -1,6 +1,5 @@
 package nosi.core.webapp.digicert.business;
 
-import java.io.IOException;
 import java.util.UUID;
 
 import jakarta.servlet.http.Part;

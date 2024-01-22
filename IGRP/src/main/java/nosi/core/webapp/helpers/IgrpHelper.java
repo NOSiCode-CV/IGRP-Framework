@@ -85,8 +85,8 @@ public final class IgrpHelper {
 				return result;
 			}
 			case "boolean": break;
-			default:;
-		}
+			default:
+        }
 		return array; // default purpose ...
 	}
 	
@@ -205,8 +205,7 @@ public final class IgrpHelper {
 	}
 	
 	public static String getLabel(Field field) {
-		String value = "";
-		
-		return value;
+
+       return "";
 	}
 }

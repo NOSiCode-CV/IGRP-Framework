@@ -31,7 +31,7 @@ public abstract class AbstractField implements Field {
 	private String connectionName = ConfigApp.getInstance().getBaseConnection();
 	private Map<?, ?> comboBox;
 
-	private FieldProperties propertie;
+	private final FieldProperties propertie;
 
 	@Override
 	public FieldProperties propertie() {

@@ -61,7 +61,7 @@ public final class IgrpLog implements Component { // Not inherited
 
 	@Override
 	public void init(HttpServletRequest request) {
-		this.msgLog = new ArrayList<String>();
+		this.msgLog = new ArrayList<>();
 	}
 	
 }

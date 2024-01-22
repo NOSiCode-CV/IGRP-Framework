@@ -12,11 +12,6 @@ import nosi.core.webapp.Core;
  * 26/07/2019
  */
 public class PairPositiveValidator implements ConstraintValidator<PairPositive, Pair>{
-
-	@Override
-	public void initialize(PairPositive constraintAnnotation) {
-		
-	}
 	
 	@Override
 	public boolean isValid(Pair pair, ConstraintValidatorContext context) {
