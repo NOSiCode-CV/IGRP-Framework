@@ -50,16 +50,15 @@ public final class LdapAuthenticationManager {
 				User newUser = new User();
 				newUser.setUser_name(username.trim().toLowerCase());
 				if ( !personArray.isEmpty()) {
-					for (int i = 0; i < personArray.size(); i++) {
-						LdapPerson p = personArray.get(i);
-						if (p.getName() != null && !p.getName().isEmpty())
-							newUser.setName(p.getName());
-						else if (p.getDisplayName() != null && !p.getDisplayName().isEmpty())
-							newUser.setName(p.getDisplayName());
-						else
-							newUser.setName(p.getFullName());
-						newUser.setEmail(p.getMail().toLowerCase());
-					}
+                   for (LdapPerson p : personArray) {
+                      if (p.getName() != null && !p.getName().isEmpty())
+                         newUser.setName(p.getName());
+                      else if (p.getDisplayName() != null && !p.getDisplayName().isEmpty())
+                         newUser.setName(p.getDisplayName());
+                      else
+                         newUser.setName(p.getFullName());
+                      newUser.setEmail(p.getMail().toLowerCase());
+                   }
 				}
 				newUser.setStatus(1);
 				newUser.setCreated_at(System.currentTimeMillis());

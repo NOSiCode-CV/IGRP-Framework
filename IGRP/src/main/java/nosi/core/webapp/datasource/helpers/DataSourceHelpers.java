@@ -11,7 +11,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -123,9 +122,7 @@ public class DataSourceHelpers {
 		}
 		for(RepTemplateSource r:list ){
 			if(r.getParameters()!=null) {
-				r.getParameters().forEach(p->{
-					params.put(p.getParameter().toLowerCase(),p.getParameter_type());
-				});
+				r.getParameters().forEach(p-> params.put(p.getParameter().toLowerCase(),p.getParameter_type()));
 			}
 		}
 		return params;
@@ -288,7 +285,7 @@ public class DataSourceHelpers {
 			Map<Properties,String> mapping = new HashMap<>();
 			Record r = new Record();
 			r.rowList = new ArrayList<>();
-			data.stream().forEach(l->{
+			data.forEach(l->{
 				Record rec = new Record();
 				rec.row = l;
 				r.rowList.add(rec);

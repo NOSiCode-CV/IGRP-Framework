@@ -21,7 +21,7 @@ public class BPMNTipoDocEtapaExport implements IExport{
 	private Application application; 
 
 	public BPMNTipoDocEtapaExport(Application application) { 
-		this.docEtapa = new ArrayList<BPMNTipoDocEtapaSerializable>(); 
+		this.docEtapa = new ArrayList<>();
 		this.application = application; 
 	}
 	

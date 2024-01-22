@@ -350,8 +350,7 @@ public class EmailMessage {
 			if(paragrafos.length == 0 || msgBoasVindas.isEmpty()) 
 				return "";
 				 
-			String body = ""
-		                + "<div style=\"HEIGHT: 100%; width:100%; background-color: rgb(244, 244, 244);\">"
+			String body = "<div style=\"HEIGHT: 100%; width:100%; background-color: rgb(244, 244, 244);\">"
 		                + "<!--[if mso | IE]><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"\" style=\"width:600px;\" width=\"600\" ><tr><td style=\"line-height:0px;font-size:0px;mso-line-height-rule:exactly;\"><![endif]-->"	        		
 		                + "<div style=\" margin: 10px auto; width: 600px;\">"
 		                + "<table align=\"center\" role=\"presentation\" style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
@@ -384,8 +383,7 @@ public class EmailMessage {
 	        body += "</td></tr><tr>"; 
 	        if (textoBtnAcao != null && textoBtnAcao.length > 0 && hrefBtnAcao != null && hrefBtnAcao.length > 0 && hrefBtnAcao.length == textoBtnAcao.length) {
 	        	for(int i = 0 ; i < hrefBtnAcao.length; i++) { // Botao Accao 
-	        		body += ""
-		                    + "<td align=\"center\" style=\"padding: 20px 5px;\" vertical-align=\"middle\">"
+	        		body += "<td align=\"center\" style=\"padding: 20px 5px;\" vertical-align=\"middle\">"
 		                    + "<table role=\"presentation\" style=\"line-height: 100%; border-collapse: separate;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
 		                    + "<tbody>"
 		                    + "<tr><td align=\"center\" role=\"presentation\" valign=\"middle\" style=\"background: #337ab7; border-radius: 3px; border: 0px solid rgb(255, 255, 255); cursor: auto; mso-padding-alt: 15px 25px 15px 25px;\" bgcolor=\"#337ab7\">"

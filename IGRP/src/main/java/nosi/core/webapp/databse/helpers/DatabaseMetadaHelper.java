@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Config_env;
@@ -33,7 +32,7 @@ public class DatabaseMetadaHelper {
 	public static List<String> getTables(Config_env config, String schema, String tableType) {
 		List<String> tableNames = new ArrayList<>();
 		try (java.sql.Connection con = Connection.getConnection(config);
-				ResultSet tables = con.getMetaData().getTables(null, schema, null, getTypesAsArray());) {
+				ResultSet tables = con.getMetaData().getTables(null, schema, null, getTypesAsArray())) {
 			// Get All Tables on the schema database
 			while (tables.next()) {
 				if (TABLE.equalsIgnoreCase(tableType) && tables.getString(TABLE_TYPE).equalsIgnoreCase(TABLE)) {
@@ -61,7 +60,7 @@ public class DatabaseMetadaHelper {
 	public static boolean tableOrViewExists(Config_env config, String schema, String tableViewName) {
 		if (Core.isNotNull(tableViewName)) {
 			try (java.sql.Connection connection = Connection.getConnection(config);
-					ResultSet tables = connection.getMetaData().getTables(null, schema, null, new String[] { TABLE, VIEW });) {
+					ResultSet tables = connection.getMetaData().getTables(null, schema, null, new String[] { TABLE, VIEW })) {
 				while (tables.next()) {
 					final String table = tables.getString(TABLE_NAME);
 					if (tableViewName.equalsIgnoreCase(table))
@@ -238,7 +237,7 @@ public class DatabaseMetadaHelper {
 		try (java.sql.Connection con = Connection.getConnection(config)) {
 			List<String> pkeys = getPrimaryKeys(con, schema, tableName);
 			Map<String, String> fkeys = getForeignKeysTableName(con, schema, tableName);
-			justTablename = (schema != null && !schema.equals("")) ? schema + "." + tableName : tableName;
+			justTablename = (schema != null && !schema.isEmpty()) ? schema + "." + tableName : tableName;
 			String sql = "SELECT * FROM " + justTablename;
 			try (PreparedStatement st = con.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
 				ResultSetMetaData metaData = rs.getMetaData();
@@ -454,7 +453,7 @@ public class DatabaseMetadaHelper {
 		List<Column> listCols = getCollumns(config, schemaName, tableName);
 		List<String> keys = getPrimaryKeys(config, schemaName, tableName);
 		if (!listCols.isEmpty()) {
-			listCols = listCols.stream().filter(col -> keys.contains(col.getName())).collect(Collectors.toList());
+			listCols = listCols.stream().filter(col -> keys.contains(col.getName())).toList();
 			return (!listCols.isEmpty()) ? listCols.get(0) : null;
 		}
 		return null;

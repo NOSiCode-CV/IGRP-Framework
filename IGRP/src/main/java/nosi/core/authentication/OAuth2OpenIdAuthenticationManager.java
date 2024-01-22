@@ -27,8 +27,8 @@ import nosi.webapps.igrp.dao.User;
 public final class OAuth2OpenIdAuthenticationManager {
 	
 	public static final String OAUTH2_OPENID_PAGE = "/app/webapps?r=igrp/Oauth2openidwso2/index&target=_blank&isPublic=1&lang=pt_PT";
-	public final static String CALLBACK_PATH = "/app/callback";
-	public final static String OAUTH2_OPENID_ERROR_PARAM_NAME = "oauth2_openid_error";
+	public static final String CALLBACK_PATH = "/app/callback";
+	public static final String OAUTH2_OPENID_ERROR_PARAM_NAME = "oauth2_openid_error";
 	
 	private static final Logger LOGGER = LogManager.getLogger(OAuth2OpenIdAuthenticationManager.class);
 	
@@ -39,7 +39,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 		String authCode = request.getParameter("code");
 		String sessionState = request.getParameter("session_state");
 		HttpSession session = request.getSession();
-		if (error != null && !error.isEmpty())
+		if (error != null && !error.equals("null") && !error.isEmpty())
 			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador. ERROR: (" + error + ").");
 		
 		Properties settings = ApplicationManager.loadConfig();

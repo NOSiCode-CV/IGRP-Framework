@@ -21,7 +21,6 @@ public class EncodingFilter implements Filter{
 
 	private String encoding = "UTF-8";
 	
-	private HttpServletRequest req;
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException { 
 		String customEncoding = filterConfig.getInitParameter("encoding"); 
@@ -32,13 +31,12 @@ public class EncodingFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+  HttpServletRequest req;
 		request.setCharacterEncoding(this.encoding);
-		this.req = (HttpServletRequest) request;
+		req = (HttpServletRequest) request;
 		response.setCharacterEncoding(this.encoding);
 		chain.doFilter(req, response);
 	}
 
-	@Override
-	public void destroy() {}
 	
 }

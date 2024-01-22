@@ -91,7 +91,7 @@ public final class Core {
 
 		private final String value;
 
-		private Cons(String value) {
+		Cons(String value) {
 			this.value = value;
 		}
 
@@ -188,7 +188,7 @@ public final class Core {
 		} else {
 			User user = new User();
 			user.setName(name);
-			user.setPass_hash(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256"));
+			user.setPass_hash(nosi.core.webapp.User.encryptToHash(username + password, "SHA-256"));
 			user.setEmail(email.toLowerCase().trim());
 			user.setUser_name(username);
 			user.setStatus(1);
@@ -623,7 +623,7 @@ public final class Core {
 	 */
 	public static String getAttribute(String name, boolean isRemoved) {
 		if (Igrp.getInstance() != null && Igrp.getInstance().getRequest().getAttribute(name) != null) {
-			String v = null;
+			String v;
 			if (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[])
 				v = ((Object[]) Igrp.getInstance().getRequest().getAttribute(name))[0].toString();
 			else
@@ -639,9 +639,8 @@ public final class Core {
 		if(isNull(Igrp.getInstance()))
 			return null;
 		final Object attribute = Igrp.getInstance().getRequest().getAttribute(name);
-		if (attribute instanceof Object[]) {
-			Object[] valueO = (Object[]) attribute;
-			Igrp.getInstance().getRequest().removeAttribute(name);
+		if (attribute instanceof Object[] valueO) {
+           Igrp.getInstance().getRequest().removeAttribute(name);
 			return Arrays.copyOf(valueO, valueO.length, String[].class);
 		}
 		return null;
@@ -709,7 +708,7 @@ public final class Core {
 		Integer isPublic = Core.getParamInt("isPublic", false);
 		String r = Core.getParam("r");
 		
-		switch (isPublic.intValue()) {
+		switch (isPublic) {
 			case 1:			
 				break;
 			case 2:
@@ -731,7 +730,7 @@ public final class Core {
 		Integer isPublic = Core.getParamInt("isPublic", false);
 		String r = Core.getParam("r");
 		
-		switch (isPublic.intValue()) {
+		switch (isPublic) {
 			case 1:			
 				break;
 			case 2:
@@ -1213,12 +1212,8 @@ public final class Core {
 	}
 
 	public static Part getFile(String name) throws IOException, ServletException {
-		if (Core.isUploadedFiles()) {
-			Part part = Igrp.getInstance().getRequest().getPart(name);
-			if (part != null) {
-				return part;
-			}
-		}
+		if (Core.isUploadedFiles())
+           return Igrp.getInstance().getRequest().getPart(name);
 		return null;
 	}
 
@@ -1368,9 +1363,7 @@ public final class Core {
 	public static Response getLinkReport(String reportCode, Object report) {
 		Report rep = new Report();
 		if (report instanceof QueryString) {
-			((QueryString<String, Object>) report).getQueryString().entrySet().stream().forEach(q -> {
-				rep.addParam(q.getKey(), q.getValue());
-			});
+			((QueryString<String, Object>) report).getQueryString().forEach((key, value) -> rep.addParam(key, value));
 		} else if (report instanceof Report) {
 			return new Report().invokeReport(reportCode, (Report) report);
 		}
@@ -1381,9 +1374,7 @@ public final class Core {
 	public static Response getLinkReportPDF(String reportCode, Object report) {
 		Report rep = new Report();
 		if (report instanceof QueryString) {
-			((QueryString<String, Object>) report).getQueryString().entrySet().stream().forEach(q -> {
-				rep.addParam(q.getKey(), q.getValue());
-			});
+			((QueryString<String, Object>) report).getQueryString().forEach((key, value) -> rep.addParam(key, value));
 		} else if (report instanceof Report) {
 			return new Report().invokeReportPDF(reportCode, (Report) report);
 		}
@@ -1397,8 +1388,7 @@ public final class Core {
 	 * @return A Public or Private URL that point to Report
 	 */
 	public static String getFullUrl(IGRPLink partial) {
-		return new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + ""
-				+ partial.getLink();
+		return new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + partial.getLink();
 	}
 
 	/**
@@ -1407,7 +1397,7 @@ public final class Core {
 	 * @return A Public or Private URL that point to Report
 	 */
 	public static String getFullUrl(String partial) {
-		return new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + "" + partial;
+		return new String(Igrp.getInstance().getRequest().getRequestURL()).replace("webapps", "") + partial;
 	}
 
 	/**
@@ -1634,8 +1624,7 @@ public final class Core {
 	 * @return {@code Core.getAttribute(name, true);}
 	 */
 	public static Object getParamObject(String name, boolean isRemoved) {
-		Object x = Core.getAttribute(name, isRemoved);
-		return x;
+       return Core.getAttribute(name, isRemoved);
 	}
 
 	/**
@@ -1645,8 +1634,7 @@ public final class Core {
 	 * @return {@code Core.getAttribute(name, true);}
 	 */
 	public static Object getParamObject(String name) {
-		Object x = Core.getAttribute(name, true);
-		return x;
+       return Core.getAttribute(name, true);
 	}
 
 	/**
@@ -1861,8 +1849,7 @@ public final class Core {
 				ib.header(obj.getKey(), obj.getValue());
 			}
 		}
-		T r = ib.post(Entity.entity(content, entityMediaType), result);
-		return r;
+       return ib.post(Entity.entity(content, entityMediaType), result);
 	}
 
 	/**
@@ -1995,7 +1982,7 @@ public final class Core {
 		if (values != null) {
 			for (Object value : values) {
 				r = Core.isNotNull(value);
-				if (r == false)
+				if (!r)
 					break;
 			}
 		}
@@ -2325,7 +2312,7 @@ public final class Core {
 	 * @return boolean success true|false
 	 */
 	public static boolean mailGatewayPdex(String endpoint, String httpAuthorizationHeaderValue, PdexEmailGatewayPayloadDTO payload, List<String> errors) {
-		boolean success = false;
+		boolean success;
 		PdexEmailGateway sender = new PdexEmailGateway(endpoint, httpAuthorizationHeaderValue); 
 		sender.setPayload(payload); 
 		if(!(success = sender.send()) && errors != null) 
@@ -2336,14 +2323,14 @@ public final class Core {
 	public static Map<Object, Object> mapArray(Object[] array1, Object[] array2) {
 		if (array1 != null && array1.length > 0 && array2 != null && array2.length > 0)
 			return IntStream.range(0, array1.length).boxed().collect(Collectors
-					.toMap(i -> array1[Core.toInt("" + i).intValue()], i -> array2[Core.toInt("" + i).intValue()]));
+					.toMap(i -> array1[Core.toInt("" + i)], i -> array2[Core.toInt("" + i)]));
 		return null;
 	}
 
 	public static Map<Object, Object> mapArray(Object[] array1, Object[] array2, Predicate<? super Integer> filter) {
 		if (array1 != null && array1.length > 0 && array2 != null && array2.length > 0)
 			return IntStream.range(0, array1.length).boxed().filter(filter).collect(Collectors
-					.toMap(i -> array1[Core.toInt("" + i).intValue()], i -> array2[Core.toInt("" + i).intValue()]));
+					.toMap(i -> array1[Core.toInt("" + i)], i -> array2[Core.toInt("" + i)]));
 		return null;
 	}
 
@@ -2425,7 +2412,7 @@ public final class Core {
 			for (Tuple t : list) {
 				try {
 					map.put(t.get(0), t.get(1));
-				} catch (IllegalArgumentException e) {
+				} catch (IllegalArgumentException ignored) {
 
 				}
 			}
@@ -2682,7 +2669,7 @@ public final class Core {
 	 */
 	public static boolean updateFile(byte[] bytes, String name, String mime_type, String dad, Integer id) {
 		CLob clob = getFile(id);
-		if (Core.isNotNullMultiple(clob, bytes, name) && id.intValue() > 0) {
+		if (Core.isNotNullMultiple(clob, bytes, name) && id > 0) {
 			clob.setC_lob_content(bytes);
 			clob.setDt_updated(new Date(System.currentTimeMillis()));
 			clob.setApplication_updated(Core.findApplicationByDad(Core.getCurrentDad()));
@@ -2849,7 +2836,7 @@ public final class Core {
 	 */
 	@Deprecated
 	public static Integer saveFile(byte[] content, String name, String mime_type) {
-		Integer id = Integer.valueOf(0);
+		Integer id = 0;
 		try {
 			if (Core.isNotNull(name)) {
 				String extension = name.substring(name.lastIndexOf("."));
@@ -2919,7 +2906,7 @@ public final class Core {
 	public static Integer saveFile(Part part) {
 		if (part != null)
 			return Core.saveFile(part, part.getSubmittedFileName());
-		return Integer.valueOf(0);
+		return 0;
 	}
 
 	/**
@@ -3054,7 +3041,7 @@ public final class Core {
 			}
 
 		}
-		return Integer.valueOf(0);
+		return 0;
 	}
 
 	public static String saveFileNGetUuid(byte[] bytes, String name, String mime_type, String dad) {
@@ -3096,7 +3083,7 @@ public final class Core {
 				e.printStackTrace();
 			}
 		}
-		return Integer.valueOf(0);
+		return 0;
 	}
 
 	/**
@@ -3132,7 +3119,7 @@ public final class Core {
 	 * @return in ID
 	 */
 	public static Integer saveFile(Part part, String name) {
-		Integer result = Integer.valueOf(0);
+		Integer result = 0;
 		if (Core.isNotNullMultiple(part, name)) {
 			try {
 				result = Core.saveFile(FileHelper.convertInputStreamToByte(part.getInputStream()), name,
@@ -3336,16 +3323,15 @@ public final class Core {
 					row.setValue(p.getValue());
 					customV.add(row);
 				});
-		String json = gson.toJson(customV);
-		return json;
+       return gson.toJson(customV);
 	}
 
 	public static String getProcessVariable(String processDefinitionKey, String variableName) {
 		List<TaskVariables> vars = Core.getProcessVariables(processDefinitionKey);
 		if (vars != null) {
 			List<TaskVariables> variav = vars.stream().filter(v -> v.getName().equalsIgnoreCase(variableName))
-					.collect(Collectors.toList());
-			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : "";
+					.toList();
+			return !variav.isEmpty() ? (String) variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3355,8 +3341,8 @@ public final class Core {
 		List<TaskVariables> vars = Core.getProcessVariables(processDefinitionKey, processInstanceId);
 		if (vars != null) {
 			List<TaskVariables> variav = vars.stream().filter(v -> v.getName().equalsIgnoreCase(variableName))
-					.collect(Collectors.toList());
-			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : "";
+					.toList();
+			return !variav.isEmpty() ? (String) variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3367,8 +3353,8 @@ public final class Core {
 		if (vars != null) {
 			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(BPMNConstants.PRM_PROCESS_ID))
-					.collect(Collectors.toList());
-			return (variav != null && !variav.isEmpty()) ? (String) variav.get(variav.size() - 1).getValue() : "";
+					.toList();
+			return !variav.isEmpty() ? (String) variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3449,9 +3435,7 @@ public final class Core {
 		CustomVariableIGRP rows = new Gson().fromJson(json, CustomVariableIGRP.class);
 		for (java.lang.reflect.Field f : obj.getClass().getDeclaredFields()) {
 			f.setAccessible(true);
-			rows.getRows().stream().filter(r -> r.getName().equalsIgnoreCase("p_" + f.getName())).forEach(r -> {
-				IgrpHelper.setField(obj, f, r.getValue());
-			});
+			rows.getRows().stream().filter(r -> r.getName().equalsIgnoreCase("p_" + f.getName())).forEach(r -> IgrpHelper.setField(obj, f, r.getValue()));
 		}
 		return obj;
 	}
@@ -3549,7 +3533,7 @@ public final class Core {
 	}
 
 	public static void setTaskVariableBoolean(String variableName, boolean value) {
-		Core.setTaskVariable(variableName, "global", "boolean", Boolean.valueOf(value));
+		Core.setTaskVariable(variableName, "global", "boolean", value);
 	}
 
 	public static void setTaskVariableDate(String variableName, java.util.Date value) {
@@ -3585,7 +3569,7 @@ public final class Core {
 	}
 
 	public static void setTaskVariableBoolean(String variableName, String scope, boolean value) {
-		Core.setTaskVariable(variableName, scope, "boolean", Boolean.valueOf(value));
+		Core.setTaskVariable(variableName, scope, "boolean", value);
 	}
 
 	public static void setTaskVariableDate(String variableName, String scope, java.util.Date value) {
@@ -4324,8 +4308,8 @@ public final class Core {
 	public static BigDecimal toBigDecimal(String value, BigDecimal defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
-				return new BigDecimal(value.toString());
-			} catch (NumberFormatException e) {
+				return new BigDecimal(value);
+			} catch (NumberFormatException ignored) {
 
 			}
 		}
@@ -4347,7 +4331,7 @@ public final class Core {
 	public static BigInteger toBigInteger(String value, BigInteger defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
-				return new BigInteger(value.toString());
+				return new BigInteger(value);
 			} catch (NumberFormatException e) {
 				return defaultValue;
 			}
@@ -4370,12 +4354,12 @@ public final class Core {
 	public static Double toDouble(String value, double defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
-				return Double.valueOf(Double.parseDouble(value));
-			} catch (NumberFormatException e) {
+				return Double.parseDouble(value);
+			} catch (NumberFormatException ignored) {
 				
 			}
 		}
-		return Double.valueOf(defaultValue);
+		return defaultValue;
 	}
 
 	/**
@@ -4393,12 +4377,12 @@ public final class Core {
 	public static Float toFloat(String value, float defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
-				return Float.valueOf(Float.parseFloat(value));
-			} catch (NumberFormatException e) {
+				return Float.parseFloat(value);
+			} catch (NumberFormatException ignored) {
 
 			}
 		}
-		return Float.valueOf(defaultValue);
+		return defaultValue;
 	}
 
 	/**
@@ -4425,12 +4409,12 @@ public final class Core {
 	public static Integer toInt(String value, int defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
-				return Integer.valueOf(Integer.parseInt(value));
-			} catch (NumberFormatException e) {
+				return Integer.parseInt(value);
+			} catch (NumberFormatException ignored) {
 
 			}
 		}
-		return Integer.valueOf(defaultValue);
+		return defaultValue;
 	}
 
 	public static String toJson(Object appP) {
@@ -4453,11 +4437,11 @@ public final class Core {
 		if (Core.isNotNull(value)) {
 			try {
 				return Long.parseLong(value);
-			} catch (NumberFormatException e) {
+			} catch (NumberFormatException ignored) {
 				
 			}
 		}
-		return Long.valueOf(defaultValue);
+		return defaultValue;
 	}
 
 	/**
@@ -4496,8 +4480,8 @@ public final class Core {
 
 	public static Short toShort(String value, short defaultValue) {
 		if (Core.isInt(value))
-			return Short.valueOf(Short.parseShort(value));
-		return Short.valueOf(defaultValue);
+			return Short.parseShort(value);
+		return defaultValue;
 	}
 
 	public static BaseQueryInterface update(String tableName) {
@@ -4534,8 +4518,7 @@ public final class Core {
 	 * @return class UploadedFile
 	 */
 	public static UploadedFile upload(String tag) {
-		UploadedFile uF = UploadedFile.getInstance(tag);
-		return uF;
+       return UploadedFile.getInstance(tag);
 	}
 
 	/**
@@ -4545,8 +4528,7 @@ public final class Core {
 	 * @return {@code List<UploadedFile>}
 	 */
 	public static List<UploadedFile> uploadMultiple() {
-		List<UploadedFile> uF = UploadedFile.getInstances();
-		return uF;
+       return UploadedFile.getInstances();
 	}
 
 	/**
@@ -4557,8 +4539,7 @@ public final class Core {
 	 * @return {@code List<UploadedFile>}
 	 */
 	public static List<UploadedFile> uploadMultiple(String tag) {
-		List<UploadedFile> uF = UploadedFile.getInstances(tag);
-		return uF;
+       return UploadedFile.getInstances(tag);
 	}
 
 	public static boolean validateQuery(Config_env config_env, String query) {
@@ -4684,7 +4665,7 @@ public final class Core {
 		Function<N[], int[]> intToString = x -> {
 			int[] a = new int[x.length];
 			for (int i = 0; i < x.length; i++) {
-				a[i] = Core.toInt((String) x[i]).intValue();
+				a[i] = Core.toInt((String) x[i]);
 			}
 			return a;
 		};
@@ -4703,7 +4684,7 @@ public final class Core {
 		Function<N[], short[]> intToString = x -> {
 			short[] a = new short[x.length];
 			for (int i = 0; i < x.length; i++) {
-				a[i] = Core.toShort((String) x[i]).shortValue();
+				a[i] = Core.toShort((String) x[i]);
 			}
 			return a;
 		};
@@ -4722,7 +4703,7 @@ public final class Core {
 		Function<N[], float[]> intToString = x -> {
 			float[] a = new float[x.length];
 			for (int i = 0; i < x.length; i++) {
-				a[i] = Core.toFloat((String) x[i]).floatValue();
+				a[i] = Core.toFloat((String) x[i]);
 			}
 			return a;
 		};
@@ -4741,7 +4722,7 @@ public final class Core {
 		Function<N[], double[]> intToString = x -> {
 			double[] a = new double[x.length];
 			for (int i = 0; i < x.length; i++) {
-				a[i] = Core.toDouble((String) x[i]).doubleValue();
+				a[i] = Core.toDouble((String) x[i]);
 			}
 			return a;
 		};
@@ -4894,7 +4875,7 @@ public final class Core {
 	public static Session getSession(String connectionName) {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory(connectionName);
 		if (sessionFactory != null) {
-			Session s = null;
+			Session s;
 			if (sessionFactory.isOpen() && sessionFactory.getCurrentSession() != null
 					&& sessionFactory.getCurrentSession().isOpen()) {
 				s = sessionFactory.getCurrentSession();
@@ -5115,7 +5096,7 @@ public final class Core {
 				BPMNExecution bpmn = new BPMNExecution();
 				return bpmn.startProcess(processKey, processDefinitionId);
 			}
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 		return null;
 	}
@@ -5143,7 +5124,7 @@ public final class Core {
 			try {
 				BPMNExecution bpmn = new BPMNExecution();
 				return bpmn.startProcess(processKey, processDefinitionId, params);
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 			}
 		}
 		return startProcess(processKey, processDefinitionId);
@@ -5233,8 +5214,7 @@ public final class Core {
 	 */
 	public static StartProcess nextTask(TaskService task, List<Part> parts, String myCustomPermission) {
 		BPMNExecution bpmnExecuteValidacao = new BPMNExecution();
-		StartProcess startProcess = bpmnExecuteValidacao.exeuteTask(task, parts, myCustomPermission);
-		return startProcess;
+       return bpmnExecuteValidacao.exeuteTask(task, parts, myCustomPermission);
 	}
 
 	/**

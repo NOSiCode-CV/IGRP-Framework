@@ -20,7 +20,7 @@ public final class I18n implements Serializable {
 		this.bundle = bundle;
 	}
 
-	public final String t(String text) {
+	public String t(String text) {
 		if (bundle == null)
 			return text;
 		String result = GettextResource.gettext(bundle, StringUtils.stripAccents(text));
@@ -31,21 +31,18 @@ public final class I18n implements Serializable {
 		return result;
 	}
 
-	public final String t(String text, Object... objects) {
-		String result = MessageFormat.format(this.t(text), objects);
-		return result;
+	public String t(String text, Object... objects) {
+       return MessageFormat.format(this.t(text), objects);
 	}
 
-	public final String t(String text, String pluralText, long n) {
+	public String t(String text, String pluralText, long n) {
 		if (bundle == null)
 			return text;
-		String result = GettextResource.ngettext(bundle, text, pluralText, n);
-		return result;
+       return GettextResource.ngettext(bundle, text, pluralText, n);
 	}
 
-	public final String t(String text, String pluralText, long n, Object... objects) {
-		String result = MessageFormat.format(this.t(text, pluralText, n), objects);
-		return result;
+	public String t(String text, String pluralText, long n, Object... objects) {
+       return MessageFormat.format(this.t(text, pluralText, n), objects);
 	}
 
 	public ResourceBundle getBundle() {

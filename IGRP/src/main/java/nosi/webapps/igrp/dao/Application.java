@@ -18,7 +18,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -342,14 +341,25 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 
 	public boolean getPermissionApp(String dad) {
-		User u = Core.getCurrentUser();
-		Profile p = new Profile().find()
+		Integer dadID = Core.findApplicationByDad(dad).getId();
+		return getPermissionApp(dadID) ;
+	}
+	public boolean getPermissionApp(Integer dadID) {
+		Integer userID = Core.getCurrentUser().getId();
+		return getPermissionApp( dadID,  userID);
+	}
+	public boolean getPermissionApp(String dad, Integer userID) {
+		Integer dadID = Core.findApplicationByDad(dad).getId();
+		return getPermissionApp(dadID,userID) ;
+	}
+	public boolean getPermissionApp(Integer dadID, Integer userID) {
+		long p = new Profile().find().limit(1)
 				.andWhere("type", "=", "ENV")
-				.andWhere("user", "=", u.getId())
-				.andWhere("type_fk", "=",Core.findApplicationByDad(dad).getId())
-				.one() ;
+				.andWhere("user.id", "=", userID)
+				.andWhere("type_fk", "=",dadID)
+				.getCount() ;
 		
-		return p != null;
+		return p > 0;
 	}
 
 	public List<Profile> getMyApp() {
@@ -357,7 +367,8 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		List<Profile> list = new Profile().find().keepConnection()
 				.andWhere("type", "=", "ENV")
 				.andWhere("user.id", "=", u.getId())
-				.andWhere("type_fk", ">", 1).all();
+				.andWhere("type_fk", ">", 1)
+				.all();
 		list=list.stream() 
 			.filter(distinctByKey(Profile::getType_fk))
 			.sorted(Comparator.comparing(Profile::getType_fk))
@@ -482,7 +493,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 
 	public Application findByDad(String dad) {
-		return new Application().find().andWhere("dad", "=", dad).one();
+		return new Application().find().keepConnection().andWhere("dad", "=", dad).one();
 	}
 	
 	public int getExterno() {

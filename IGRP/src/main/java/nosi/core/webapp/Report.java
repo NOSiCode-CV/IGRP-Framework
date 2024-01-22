@@ -61,28 +61,28 @@ public class Report extends Controller{
 	@SuppressWarnings("unchecked")
 	public Response invokeReport(String code_report,Report rep,String type) {
 		
-	qStr.append("&p_type="+type); // se for 0 - preview, se for 1 - registar ocorencia ,2-retornar PDF preview 3 - retornar PDF e save clob
+	qStr.append("&p_type=").append(type); // se for 0 - preview, se for 1 - registar ocorencia ,2-retornar PDF preview 3 - retornar PDF e save clob
 	RepTemplate rt = new RepTemplate().find().andWhere("code", "=", code_report).one();
-	qStr.append("&p_rep_id="+rt.getId());
+	qStr.append("&p_rep_id=").append(rt.getId());
 	String contra_prova=rep.getContraProva();
 	if(Core.isNull(contra_prova))
 		 contra_prova = Report.generateContraProva("nosi.webapps."+rt.getApplication().getDad().toLowerCase());
 	
-	qStr.append("&ctpr="+Core.encryptPublicPage(contra_prova));
+	qStr.append("&ctpr=").append(Core.encryptPublicPage(contra_prova));
 	try {
 		if(rep!=null) 
 			for(Entry<String, Object> p : rep.getParams().entrySet()) 
 				if(!(p.getValue() instanceof List)) {
 					if(p.getValue() != null && !p.getValue().toString().equals("?")) { 
 						if (p.getKey().equals("isPublic") && p.getValue().equals("1")) 
-							qStr.append( "&" + p.getKey() + "=" + p.getValue()); // isPublic=1 :-) 
+							qStr.append("&").append(p.getKey()).append("=").append(p.getValue()); // isPublic=1 :-)
 						else 
-							qStr.append(("&name_array="+p.getKey() + "&value_array="+URLEncoder.encode(""+p.getValue(),StandardCharsets.UTF_8.toString()))); 
+							qStr.append("&name_array=").append(p.getKey()).append("&value_array=").append(StandardCharsets.UTF_8);
 					}
 				}else {
 					List<Object> parms = (List<Object>) p.getValue(); 
 					for(Object v : parms) 
-						qStr.append( ("&name_array="+p.getKey() + "&value_array="+URLEncoder.encode(v.toString(),StandardCharsets.UTF_8.toString())));
+						qStr.append("&name_array=").append(p.getKey()).append("&value_array=").append(URLEncoder.encode(v.toString(), StandardCharsets.UTF_8));
 				}
 		
 		
@@ -138,9 +138,7 @@ public class Report extends Controller{
 		
 		rep.setLink(Route.getResolveUrl("igrp_studio", "WebReport", "preview&ctpr="+Core.encryptPublicPage(contra_prova)+"&p_rep_id="+rt.getId()+"&p_type="+XSLXML_SAVE)); 
 		if(queryString!=null) {
-			queryString.getQueryString().entrySet().stream().forEach(q->
-				rep.addParam(q.getKey(), q.getValue().get(0))
-			);
+			queryString.getQueryString().forEach((key, value) -> rep.addParam(key, value.get(0)));
 		}
 		rep.setContraProva(contra_prova);
 		return rep;
@@ -154,11 +152,11 @@ public class Report extends Controller{
 		contraProva=Core.encryptPublicPage(contraProva);
 		StringBuilder querys = new StringBuilder("&ctprov="+contraProva);
 		if(Core.isNotNull(appCodeId))
-			querys.append("&did="+appCodeId);
+			querys.append("&did=").append(appCodeId);
 		if(outType.equals(PDF_PRV)) {
 			querys.append("&out="+PDF_PRV);
 			if(Core.isNotNull(pdfToDownload) && Boolean.TRUE.equals(pdfToDownload))
-				querys.append("&todwn="+pdfToDownload);
+				querys.append("&todwn=").append(pdfToDownload);
 		}		
 		return Core.getHostName()+"?r=igrp_studio/web-report/get-contraprova"+querys;
 	}
@@ -335,8 +333,7 @@ public class Report extends Controller{
 						String qrlink= StringUtils.substringBetween(s.html(), "var qrcodeResult = '", "';"); 
 					doc.select("div.containerQrcode, div#containerQrcode").attr("style", "padding:0;width:26mm;margin-bottom:5px;").append("<object value=\""+qrlink+"\" url=\"\" type=\"image/barcode\"style=\"width:100px;height:100px;\" ></object>\n")
 					;
-				return;
-				}		
+                }
 			});
 		}
 		return new W3CDom().fromJsoup(doc);
@@ -359,15 +356,15 @@ public class Report extends Controller{
 		RepInstance ri = new RepInstance().find().andWhere("contra_prova", "=",contraprova)
 				.andWhere("application.id", "=",Integer.getInteger(id, null)).orderByDesc("id").one();			
 		String content = "";
-		if(ri!=null && ri.getTemplate()!=null && !ri.hasError()){			
-			switch (outType) {
-			case PDF_PRV:
-			case PDF_SAVE:
-				return new Report().processPDF(ri.getXsl_content().getName().replace(".xsl",""),ri.getXsl_content(), new String(ri.getXml_content().getC_lob_content()),toDownload);
-			default:
-				content = new String(ri.getXml_content().getC_lob_content());
-				return this.renderView(content);
-			}
+		if(ri!=null && ri.getTemplate()!=null && !ri.hasError()){
+           return switch (outType) {
+              case PDF_PRV, PDF_SAVE ->
+                      new Report().processPDF(ri.getXsl_content().getName().replace(".xsl", ""), ri.getXsl_content(), new String(ri.getXml_content().getC_lob_content()), toDownload);
+              default -> {
+                 content = new String(ri.getXml_content().getC_lob_content());
+                 yield this.renderView(content);
+              }
+           };
 			
 		}
 		Core.setMessageError("[ EN ] - The document #("+contraprova+") has not been found. <br>[ PT ] - O documento #("+contraprova+") não foi encontrado.");

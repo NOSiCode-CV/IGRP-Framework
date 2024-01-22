@@ -1,6 +1,7 @@
 package nosi.core.integration.pdex.service;
 
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,12 +35,12 @@ public class AppConfig extends PdexServiceTemplate{
 	
 	public List<App> userApps(String uid){ 
 		List<App> allApps = new ArrayList<>(); 
-		String json="";
+		String json;
 		try {
 			if(url == null || url.isEmpty()|| token == null || token.isEmpty())  //!ping(url, DEFAULT_TIMEOUT) 
 				return allApps; 
 			
-			url += "/user_apps?email=" + URLEncoder.encode(uid, "utf-8"); 
+			url += "/user_apps?email=" + URLEncoder.encode(uid, StandardCharsets.UTF_8);
 			
 			Client client = ClientBuilder.newClient(); 
 			WebTarget webTarget = client.target(url); 

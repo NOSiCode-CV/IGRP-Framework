@@ -73,7 +73,7 @@ public class Page{
 		String page = igrpApp.getCurrentPageName();
 		String action = igrpApp.getCurrentActionName();
 		Action ac=null;
-		if (!app.equals("") && !page.equals("") && !action.equals("")) {
+		if (!app.isEmpty() && !page.isEmpty() && !action.isEmpty()) {
 			ac = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", Page.resolvePageName(page)).one();
 			
 		}
@@ -139,9 +139,9 @@ public class Page{
 	}
 
 	public static String resolvePageName(String page){
-		String page_name = "";
+		StringBuilder pageName = new StringBuilder();
 		for(String aux : page.split("-"))
-			page_name += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-		return page_name;
+			pageName.append(aux.substring(0, 1).toUpperCase()).append(aux.substring(1));
+		return pageName.toString();
 	}
 }

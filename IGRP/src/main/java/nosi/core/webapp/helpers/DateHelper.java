@@ -30,7 +30,6 @@ public class DateHelper {
 				newDateFormat.applyPattern(outputFormat);
 				myDateString = newDateFormat.format(myDate);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -115,9 +114,8 @@ public class DateHelper {
 			DateFormat formatter;
 			formatter = new SimpleDateFormat(format);
 			Date date = formatter.parse(str_date);
-			java.sql.Timestamp timeStampDate = new Timestamp(date.getTime());
 
-			return timeStampDate;
+           return new Timestamp(date.getTime());
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;
@@ -135,22 +133,16 @@ public class DateHelper {
 			data = Core.convertDate(data, formatIn,"yyyy-MM-dd");
 			LocalDate birthDate = LocalDate.parse(data);
 			LocalDate currentDate = LocalDate.now();
-			switch (type) {
-			case CALCULATE_AGE:
-				age =  ChronoUnit.YEARS.between(birthDate, currentDate);
-				break;
-			case CALCULATE_DAYS:
-				age =  ChronoUnit.DAYS.between(birthDate, currentDate);
-				break;
-			case CALCULATE_MONTHS:
-				age =  ChronoUnit.MONTHS.between(birthDate.withDayOfMonth(1), currentDate.withDayOfMonth(1));
-				break;
-			}
-			
+           return switch (type) {
+              case CALCULATE_AGE -> ChronoUnit.YEARS.between(birthDate, currentDate);
+              case CALCULATE_DAYS -> ChronoUnit.DAYS.between(birthDate, currentDate);
+              case CALCULATE_MONTHS ->
+                      ChronoUnit.MONTHS.between(birthDate.withDayOfMonth(1), currentDate.withDayOfMonth(1));
+              default -> age;
+           };
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return age;
 	}
 

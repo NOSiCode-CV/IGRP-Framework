@@ -47,7 +47,7 @@ public class SoapClient {
 	public static final String []DEFAULT_SOAP_NAMESPACES = {"SOAP-ENV", "env"}; 
 	
 	public SoapClient() {
-		errors = new ArrayList<String>(); 
+		errors = new ArrayList<>();
 		soapProtocolVersion = SOAPConstants.SOAP_1_2_PROTOCOL; 
 		//To make the below warning goes away 
 		//WARNING: Using deprecated META-INF/services mechanism with non-standard property: javax.xml.soap.MetaFactory. Property javax.xml.soap.SAAJMetaFactory should be used instead.
@@ -138,9 +138,7 @@ public class SoapClient {
 		try {
 			MimeHeaders h = new MimeHeaders();
 			 if(this.headers != null) {
-			    	this.headers.forEach((k,v)->{
-			    		h.addHeader(k, v);
-			    	});
+			    	this.headers.forEach(h::addHeader);
 			 }
 			request = MessageFactory.newInstance(this.soapProtocolVersion).createMessage(h, is); 
 		} catch (IOException | SOAPException e) {

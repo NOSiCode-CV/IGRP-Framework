@@ -122,9 +122,7 @@ public class IGRPButton {
 	public String getLink() {
 		if(this.report!=null) {
 			link = this.report.getLink();
-			this.report.getParams().forEach((key, value) -> {
-               link += ("&name_array=" + key + "&value_array=" + URLEncoder.encode("" + value, StandardCharsets.UTF_8));
-            });
+			this.report.getParams().forEach((key, value) -> link += ("&name_array=" + key + "&value_array=" + URLEncoder.encode("" + value, StandardCharsets.UTF_8)));
 			link = link.replace("webapps\\?r=", "");
 			return link;
 		}

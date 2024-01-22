@@ -22,7 +22,7 @@ public final class DBAuthenticationManager {
 			if (user != null)
 				username=user.getUser_name();
 		}
-		if (user != null && user.validate(nosi.core.webapp.User.encryptToHash(username.toLowerCase(Locale.ROOT).trim() + "" + password, "SHA-256"))) {
+		if (user != null && user.validate(nosi.core.webapp.User.encryptToHash(username.toLowerCase(Locale.ROOT).trim() + password, "SHA-256"))) {
 			if(user.getStatus() == 1) {
 				Profile profile = new Profile().getByUser(user.getId());
 				if(profile == null)

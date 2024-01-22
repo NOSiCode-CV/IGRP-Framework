@@ -10,9 +10,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Optional;
 import jakarta.servlet.http.Cookie;
-
+import jakarta.servlet.http.HttpServletRequest;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+
 import nosi.core.webapp.helpers.ApplicationPermition;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -29,7 +30,7 @@ public class Permission {
 	
 	private ApplicationPermition applicationPermition; 
 	
-	public boolean isPermition(String app, String appP, String page, String action){ // check permission on app 
+	public boolean hasApp1PagPermition(String app, String appP, String page, String action){ // check permission on app 
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){ 
 			if(PagesScapePermission.PAGES_SHAREDS.contains((appP + "/" + page + "/" + action).toLowerCase())) 
 				return true; 
@@ -44,6 +45,27 @@ public class Permission {
 		return PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains((appP+"/"+page+"/"+action).toLowerCase());
 	}
 	
+	public boolean hasMenuPagPermition(HttpServletRequest request,String app, String appP, String page, String action){ // check permission on app with request
+	
+		//User Component Identity
+		nosi.core.webapp.User userCI= new nosi.core.webapp.User();
+		userCI.init(request);
+		
+		if(userCI.isAuthenticated()){ 
+			if(PagesScapePermission.PAGES_SHAREDS.contains((appP + "/" + page + "/" + action).toLowerCase())) 
+				return true; 
+			if(appP.equals("tutorial")) // default page purpose 
+				return true; 
+			if(app.equals(appP) || appP.equals("igrp") || appP.equals("igrp_studio")) 
+				return (new Menu().getPermissionMenID(userCI.getIdentity().getIdentityId(),app, page)); 
+			else { 				
+				return new Menu().getPermissionMenID(userCI.getIdentity().getIdentityId(),app, page) 
+						&& new Share().getPermissionPage(app,appP,new Action().findByPage(page, appP).getId()); 
+			}
+		}
+		return PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains((appP+"/"+page+"/"+action).toLowerCase());
+	}
+	
 	public  boolean isPermission(String transaction){
 		return new Transaction().getPermission(transaction);
 	}
@@ -53,7 +75,7 @@ public class Permission {
 		ProfileType profType = new ProfileType();
 		Organization org = new Organization();
 		Profile prof = new Profile();
-		if(app!=null){			
+		if(app!=null && Igrp.getInstance().getRequest().getSession()!=null){			
 			int id_user = 0;
 			
 			try {// eliminar 
@@ -62,33 +84,27 @@ public class Permission {
 				
 			}
 			
-			if(app.getPermissionApp(dad)){
+			if(app.getPermissionApp(app.getId())){
 				prof = prof.getByUserPerfil(id_user,app.getId());
 				if(prof!=null){
 					 org.setId(prof.getOrganization().getId());
 					 profType.setId(prof.getProfileType().getId());
-					 ApplicationPermition appP = this.getApplicationPermition(dad);
-					 if(appP==null) {
-						 appP = new ApplicationPermition(app.getId(),dad, org.getId(),profType.getId(),prof.getOrganization()!=null? prof.getOrganization().getCode():null,prof!=null && prof.getProfileType()!=null?prof.getProfileType().getCode():null);
-					}
-					 this.applicationPermition = appP;
-					 this.setCookie(appP);
 				}
 			}
+			
+				ApplicationPermition appP = this.getApplicationPermition(dad);
+				if(appP==null) {
+					 appP = new ApplicationPermition(app.getId(),dad,  org.getId(),profType.getId(),prof!=null && prof.getOrganization()!=null? prof.getOrganization().getCode():null,prof!=null && prof.getProfileType()!=null?prof.getProfileType().getCode():null);
+				}
+				this.applicationPermition = appP; 
+				this.setCookie(appP); 
 		}
 		
 		((User)Igrp.getInstance().getUser().getIdentity()).setAplicacao(app);
 		((User)Igrp.getInstance().getUser().getIdentity()).setProfile(profType);
 		((User)Igrp.getInstance().getUser().getIdentity()).setOrganica(org);
 		
-		if(Igrp.getInstance().getRequest().getSession()!=null && app!=null) {
-			ApplicationPermition appP = this.getApplicationPermition(dad);
-			if(appP==null) {
-				 appP = new ApplicationPermition(app.getId(),dad,  org.getId(),profType.getId(),prof!=null && prof.getOrganization()!=null? prof.getOrganization().getCode():null,prof!=null && prof.getProfileType()!=null?prof.getProfileType().getCode():null);
-			}
-			this.applicationPermition = appP; 
-			this.setCookie(appP); 
-		}
+		
 	}
 	
 	public void setCookie(ApplicationPermition appP) {

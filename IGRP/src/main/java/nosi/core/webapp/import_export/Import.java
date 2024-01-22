@@ -159,7 +159,7 @@ public class Import {
 			content = this.addClassAndPackage(content,page,"json");
 		}
 		try {
-			boolean result = false;
+			boolean result;
 			//Guarda ficheiros no workspace caso existe
 			if(Core.isNotNull(this.getConfig().getWorkspace()) && FileHelper.fileExists(this.getConfig().getWorkspace())){
 				String path_xsl_work_space = this.getConfig().getBasePahtXslWorkspace(page);		
@@ -324,7 +324,7 @@ public class Import {
 			xml.setElement("package_db", page.getPackage_name());//PackageName
 			xml.setElement("package_html", page.getPage());//ClassName
 		xml.endElement();
-		aux += xml.toString() + content.substring(content.indexOf("</site>")+"</site>".length());
+		aux += xml + content.substring(content.indexOf("</site>") + "</site>".length());
 		return aux;
 	}
 }

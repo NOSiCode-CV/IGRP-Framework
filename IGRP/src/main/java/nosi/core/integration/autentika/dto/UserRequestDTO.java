@@ -18,8 +18,8 @@ public class UserRequestDTO {
 	
 	public UserRequestDTO() {
 		super();
-		this.claims = new ArrayList<ClaimDTO>();
-		this.roleList = new ArrayList<String>();
+		this.claims = new ArrayList<>();
+		this.roleList = new ArrayList<>();
 	}
 
 	public String getUserName() {

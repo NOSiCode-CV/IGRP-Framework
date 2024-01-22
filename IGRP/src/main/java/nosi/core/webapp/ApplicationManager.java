@@ -1,5 +1,7 @@
 package nosi.core.webapp;
 
+import static nosi.core.i18n.Translator.gt;
+
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -23,6 +25,7 @@ import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.PagesScapePermission;
+import nosi.core.webapp.security.Permission;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 
@@ -40,16 +43,22 @@ public final class ApplicationManager {
 		String page = request.getParameter("r");
 		String dad = request.getParameter("dad");
 		if (page != null && page.split("/").length == 3) {
+			String[] p = page.split("/");
+			String errorMsg="";
+			if(!new Permission().hasMenuPagPermition(request,dad, p[0], p[1], p[2])) {
+				errorMsg="&errorMsg="+encodeParameterValue(gt("Não tem permissão da página no menu! \nNo permission to the page in the menu! \nApp/Page: ") + p[0]+"/"+p[1]);		
+				page = "igrp/error-page/exception";
+			}
 			page = EncrypDecrypt.encryptURL(page, request.getSession().getId()).replace(" ", "+");
 			dad = dad != null && !dad.trim().isEmpty() ? String.format("&dad=%s", dad) : "";
-			StringBuilder additionalParams = new StringBuilder("");
+			StringBuilder additionalParams = new StringBuilder();
 			Enumeration<String> paramNames = request.getParameterNames();
 			while(paramNames.hasMoreElements()) {
 				String paramName = paramNames.nextElement();
 				if(!"r".equals(paramName) && !"dad".equals(paramName)) // skipping "r" and "dad" param
 					additionalParams.append(String.format("&%s=%s", paramName, encodeParameterValue(request.getParameter(paramName))));
 			}
-			url = Optional.of(String.format("%s?r=%s%s%s", requestUrl(request), page, dad, additionalParams));
+			url = Optional.of(String.format("%s?r=%s%s%s%s", requestUrl(request), page, dad, additionalParams,errorMsg));
 		}
 		return url;
 	}
@@ -59,7 +68,7 @@ public final class ApplicationManager {
 		String page = request.getParameter("r");
 		String dad = request.getParameter("dad");
 		dad = dad != null && !dad.trim().isEmpty() ? String.format("&dad=%s", dad) : "";
-		StringBuilder additionalParams = new StringBuilder("");
+		StringBuilder additionalParams = new StringBuilder();
 		Enumeration<String> paramNames = request.getParameterNames();
 		while(paramNames.hasMoreElements()) {
 			String paramName = paramNames.nextElement();
@@ -119,7 +128,8 @@ public final class ApplicationManager {
 		Properties settings = loadConfig();
 		String authenticationType = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
 		if (!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType)
-				|| /**Too many redirect on sight*/ !request.getRequestURL().toString().endsWith(OAuth2OpenIdAuthenticationManager.CALLBACK_PATH))
+//				|| /**Too many redirect on sight*/ !request.getRequestURL().toString().endsWith(OAuth2OpenIdAuthenticationManager.CALLBACK_PATH)
+				)
 			return Optional.empty();
 		if(OAuth2OpenIdAuthenticationManager.isSignOutRequest(request))
 			return Optional.of(requestUrl(request));
@@ -268,7 +278,7 @@ public final class ApplicationManager {
 		dad = !dad.isEmpty() ? String.format("&dad=%s", dad) : dad;
 		String actionCode = json.optString("actionCode", "index");
 		JSONArray additionalParams = json.optJSONArray("additionalParams");
-		StringBuilder additionalParamsQueryString = new StringBuilder("");
+		StringBuilder additionalParamsQueryString = new StringBuilder();
 		if(additionalParams != null) 
 			for(int i = 0; i < additionalParams.length(); i++) {
 				JSONObject param = additionalParams.optJSONObject(i);

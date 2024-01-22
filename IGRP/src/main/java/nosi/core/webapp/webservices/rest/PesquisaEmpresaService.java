@@ -144,7 +144,6 @@ public class PesquisaEmpresaService {
 	
 	
 	private static String resolveUrl(String nif,String nome_firma) {
-		String url = BASE_URL+"?NIF="+nif+"&NOME_FIRMA="+nome_firma;
-		return url;
+       return BASE_URL + "?NIF=" + nif + "&NOME_FIRMA=" + nome_firma;
 	}
 }

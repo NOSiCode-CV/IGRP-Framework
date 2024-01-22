@@ -40,7 +40,7 @@ public final class I18nManager implements Component{
 				}
 		String currentApp = Core.getCurrentDad(); 
 		String defaultAppBundleName = DEFAULT_APP_BUNDLE_NAME.replace("dad", currentApp); 
-		String[] aux = null;  
+		String[] aux;
 		if(v != null && !v.isEmpty() && (aux = v.split("_")).length == 2) {// cookie ok 
 			this.coreLanguage = I18nFactory.createI18n(DEFAULT_CORE_BUNDLE_NAME, new Locale(aux[0], aux[1])); 
 			this.appLanguage = !SKIP_DADS.contains(currentApp) ? I18nFactory.createI18n(defaultAppBundleName, new Locale(aux[0], aux[1])) : this.coreLanguage; 

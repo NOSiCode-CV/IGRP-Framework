@@ -2,7 +2,6 @@ package nosi.core.filter;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
@@ -12,20 +11,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import nosi.core.authentication.AuthenticationManager;
 import nosi.core.authentication.OAuth2OpenIdAuthenticationManager;
 import nosi.core.webapp.ApplicationManager;
+import nosi.core.webapp.Core;
 
 import java.io.IOException;
 import java.util.Optional;
 
-import org.apache.logging.log4j.ThreadContext;
 
 @WebFilter
 public class AuthenticationFilter implements Filter {
        
-	public AuthenticationFilter() {}
-
-	@Override
-	public void destroy() {}
-
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException  {
 		
 		HttpServletRequest httpServletRequest =   (HttpServletRequest) request;
@@ -38,12 +32,14 @@ public class AuthenticationFilter implements Filter {
 				return;
 			}
 				
-			
+			//If the request is "app/page/action" will return a url encrypted
 			Optional<String> url = ApplicationManager.buildAppLink(httpServletRequest);
-			if(url.isPresent() && !ApplicationManager.isLoginPage(httpServletRequest) ) {
+			if(url.isPresent()) {
 				httpServletResponse.sendRedirect(url.get());
 				return;
 			}
+			if(Core.isNotNull(request.getParameter("errorMsg")))
+				request.setAttribute("jakarta.servlet.error.message", request.getParameter("errorMsg") );		
 			
 			chain.doFilter(request, response);
 			
@@ -59,7 +55,7 @@ public class AuthenticationFilter implements Filter {
 			}else {
 				// Go to autentika
 				Optional<String> url = ApplicationManager.buildOAuth2AuthorizeLink(httpServletRequest);
-				if(url.isPresent()) {
+				if(url.isPresent() && Core.isNull(httpServletRequest.getParameter("code"))) {
 					httpServletResponse.sendRedirect(url.get());
 					return;
 				}
@@ -76,15 +72,11 @@ public class AuthenticationFilter implements Filter {
 				}
 				
 				// got to login
-				httpServletRequest.getRequestDispatcher(ApplicationManager.LOGIN_PAGE).forward(httpServletRequest, httpServletResponse);
+				httpServletRequest.getRequestDispatcher(ApplicationManager.LOGIN_PAGE+"&dad="+request.getParameter("dad")).forward(httpServletRequest, httpServletResponse);
 			}
 			
 		}
 		
 	}
-
-	@Override
-	public void init(FilterConfig fConfig) throws ServletException { 
-		}
 
 }
