@@ -307,6 +307,7 @@
                   </a>
               <i class="fa fa-search pull-left igrp-sidebar-menu-search-wrapper-icon"></i>
               <input 
+            	id="menu_pesquisar"
                 type="text" 
                 class="form-control igrp-search-list" 
                 placeholder="Pesquisar..." 
@@ -507,7 +508,7 @@
                <div class="igrp-debug-contents clearfix">
                   <xsl:if test="$contDebug &gt; 9">
                       <div class="igrp-debug-search form-group col-md-4 clearfix pull-right">
-                          <input placeholder="Pesquisar" type="text" class="not-form form-control"/>
+                          <input placeholder="Pesquisar" id="debug_pesquisar" type="text" class="not-form form-control"/>
                       </div>
                   </xsl:if>
                   <ul class="clear igrp-debug-list">
