@@ -72,7 +72,7 @@ public class AuthenticationFilter implements Filter {
 				}
 				
 				// got to login
-				httpServletRequest.getRequestDispatcher(ApplicationManager.LOGIN_PAGE).forward(httpServletRequest, httpServletResponse);
+				httpServletRequest.getRequestDispatcher(ApplicationManager.LOGIN_PAGE+"&dad="+request.getParameter("dad")).forward(httpServletRequest, httpServletResponse);
 			}
 			
 		}
