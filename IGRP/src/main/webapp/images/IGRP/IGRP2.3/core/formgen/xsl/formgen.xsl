@@ -292,9 +292,15 @@
                               <div class="pull-left">
                                   <a href="#" class="btn btn-link gen-include-file">
                                      <i class="fa fa-plus"></i>  Include<span class="f-type"></span>:<span class="f-count"></span>
+                                   
                                   </a>
                               </div>
-                             
+							<div class="pull-right gen-include-file" rel="java">
+								<h5>
+									<i class="fa fa-warning"></i>
+							        <![CDATA[  Tip: this 3 char <  &  > must be &lt;  &amp;  &gt; and do not use // to comment, use /** */         ]]>
+								</h5>
+							</div>  
                              
                               <div class="pull-right gen-toolbar-items" rel="java">
                                   <a href="{$path}/../../javadoc/index.html" class="btn btn-link" target="_newtab">                                  
@@ -327,7 +333,7 @@
 									<option value="monokai">Monokai theme</option>
 									<option value="night">Night theme</option>
 								</select>
-									
+									 
                              </div>
                             
                           </div>
