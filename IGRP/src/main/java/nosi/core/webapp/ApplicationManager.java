@@ -101,6 +101,8 @@ public final class ApplicationManager {
 		String r = request.getParameter("r");
 		if (r == null)
 			return false;
+		if(request.getIntHeader("X-Igrp-Remote")==1)
+			return true;
 		return PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains(r.toLowerCase());
 	}
 

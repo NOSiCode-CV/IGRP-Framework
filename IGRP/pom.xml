@@ -645,6 +645,7 @@
                         <extension>.xsl</extension>
                         <extension>.css</extension>
                         <extension>.js</extension>
+                         <extension>.json</extension>
 <!--                        <extension>.properties</extension>-->
                      </extensions>
                   </synchronization>
