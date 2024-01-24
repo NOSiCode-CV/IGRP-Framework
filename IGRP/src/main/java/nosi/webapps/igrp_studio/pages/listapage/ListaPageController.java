@@ -1,5 +1,6 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;//
 import nosi.core.webapp.databse.helpers.ResultSet;//
 import nosi.core.webapp.databse.helpers.QueryInterface;//
@@ -10,11 +11,7 @@ import nosi.core.webapp.Response;//
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,9 +70,8 @@ public class ListaPageController extends Controller {
 		model.setForum("https://gitter.im/igrpweb/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link");
 
 		Map<Object, Object> listApp = new Application().getListApps();
-		if (listApp != null && listApp.size() == 2) {
-			model.setApplication(listApp.keySet().stream().filter(a -> a != null).findFirst().get().toString());
-		}
+		if (listApp != null && listApp.size() == 2)
+			listApp.keySet().stream().filter(Objects::nonNull).findFirst().ifPresent(obj -> model.setApplication(obj.toString()));
 
 		String app = Core.getParam("app");
 
@@ -83,7 +79,7 @@ public class ListaPageController extends Controller {
 		Core.log(uri);
 
 		if (!uri.equals("/IGRP/app/webapps")) {
-			if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET")) {
+			if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("GET")) {
 				final Application appX = new Application().find().andWhere("url", "=", uri.split("/")[1].toLowerCase())
 						.one();
 				if (appX != null)
@@ -119,7 +115,7 @@ public class ListaPageController extends Controller {
 		List<ListaPage.Table_2> apps = new ArrayList<>();
 
 		if (Core.isNotNull(app)) {
-			if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET")) {
+			if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("GET")) {
 				model.setApplication(app);
 			}
 		}
@@ -138,7 +134,7 @@ public class ListaPageController extends Controller {
 
 		}
 
-		List<Action> actions = new ArrayList<Action>();
+		List<Action> actions = new ArrayList<>();
 
 		if (Core.getParamArray("p_modulo") != null) {
 			for (String m : Core.getParamArray("p_modulo")) {
@@ -152,7 +148,7 @@ public class ListaPageController extends Controller {
 			actions = new Action().find().andWhere("application", "=", Core.toInt(model.getApplication()))
 					.andWhere("isComponent", "<>", (short) 2).all();
 		}
-		Collections.sort(actions, new SortbyStatus());
+		actions.sort(new SortbyStatus());
 		final Map<Object, Object> map = Core.toMap(new Modulo().getModuloByApp(Core.toInt(model.getApplication())),
 				"name", "descricao", "-- Selecionar --");
 
@@ -209,7 +205,7 @@ public class ListaPageController extends Controller {
 		view.modulo.setVisible(map.size() > 1);
 
 		view.table_1.addData(lista);
-		Collections.sort(apps, new SortbyID());
+		apps.sort(new SortbyID());
 		view.table_2.addData(apps);
 
 		/*----#end-code----*/
@@ -340,7 +336,7 @@ public class ListaPageController extends Controller {
 			Wizard_export_step_2 model_w = new Wizard_export_step_2();
 			model_w.setApplication_id(page.getApplication().getId());
 			model_w.setFile_name(page.getApplication().getName() + "-" + page.getPage_descr() + "(" + page.getPage()
-					+ ")_igrpweb_v." + this.configApp.getConfig().VERSION);
+                                 + ")_igrpweb_v." + Config.VERSION);
 			Core.setAttribute("p_pagina_ids_check_fk", new String[] { "" + id });
 			// insert data on import/export table
 			ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), this.getConfig().getUserName(),
@@ -405,7 +401,7 @@ public class ListaPageController extends Controller {
 		return this.renderView(json.toString());
 	}
 
-	class SortbyStatus implements Comparator<Action> {
+	private static class SortbyStatus implements Comparator<Action> {
 		// Used for sorting in ascending order of
 		// roll number
 		public int compare(Action a, Action b) {
@@ -427,11 +423,9 @@ public class ListaPageController extends Controller {
 		}
 	}
 
-	class SortbyID implements Comparator<ListaPage.Table_2> {
-
+	private static class SortbyID implements Comparator<ListaPage.Table_2> {
 		@Override
 		public int compare(Table_2 o1, Table_2 o2) {
-			// TODO Auto-generated method stub
 			return o2.getEnv_fk() - o1.getEnv_fk();
 
 		}

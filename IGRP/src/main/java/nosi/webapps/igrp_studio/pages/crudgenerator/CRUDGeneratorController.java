@@ -258,7 +258,7 @@ public class CRUDGeneratorController extends Controller {
 	}
 
 	/********************* METODO USADOS PARA GERAR CRUD *********************/
-	private Compiler compiler = new Compiler();
+	private final Compiler compiler = new Compiler();
 
 	private boolean generateCRUD(Config_env config, String schema, String tableName)
 			throws TransformerConfigurationException, IOException {
@@ -296,7 +296,7 @@ public class CRUDGeneratorController extends Controller {
 				pageList = pageList.update();
 			}
 		}
-		boolean flag = false;
+		boolean flag;
 
 		try {
 			flag = this.processGenerate(config, tableName, schema, pageForm, pageList);
@@ -310,9 +310,9 @@ public class CRUDGeneratorController extends Controller {
 
 	private boolean processGenerate(Config_env config, String tableName, String schema, Action pageForm,
 			Action pageList) throws IOException, TransformerConfigurationException {
-		boolean r = false;
-		boolean xmlSave = false;
-		List<DatabaseMetadaHelper.Column> columns = null;
+		boolean r;
+		boolean xmlSave;
+		List<DatabaseMetadaHelper.Column> columns;
 		try {
 			columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
 			columns.replaceAll(e -> {
@@ -424,7 +424,7 @@ public class CRUDGeneratorController extends Controller {
 	/********************* METODO USADOS PARA GERAR DAO *********************/
 
 	public boolean generateDAO(DaoDto daoDto) {
-		boolean flag = false;
+		boolean flag;
 		try {
 			
 			final String pathDao = new Config().getPathDAO(daoDto.getDadName());

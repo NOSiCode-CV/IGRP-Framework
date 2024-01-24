@@ -93,7 +93,7 @@ public class Config_error_msgController extends Controller {
 
 		String isEdit = Core.getParam("isEdit");
 		
-			Config tblconfig = null;
+			Config tblconfig;
 			Application app = new Application().findOne(Core.toInt(model.getApplication()));
 
 			if (Core.isNotNull(isEdit)) {

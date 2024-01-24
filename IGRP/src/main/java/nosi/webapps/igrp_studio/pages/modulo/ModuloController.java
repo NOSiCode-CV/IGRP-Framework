@@ -58,15 +58,13 @@ public class ModuloController extends Controller {
 				m = m.update();
 				if(m == null) {
 					Core.setMessageError();
-					this.addQueryString("p_modulo_cod",p_modulo_cod);
-					return forward("igrp_studio","Modulo","index", this.queryString());
-				}
+                }
 				else {
 					Core.setMessageSuccess("Descrição actualizada com sucesso!");
-					this.addQueryString("p_modulo_cod",p_modulo_cod);
-					return forward("igrp_studio","Modulo","index", this.queryString());
-				}
-			}else {
+                }
+               this.addQueryString("p_modulo_cod",p_modulo_cod);
+               return forward("igrp_studio","Modulo","index", this.queryString());
+            }else {
 				nosi.webapps.igrp.dao.Modulo m = new nosi.webapps.igrp.dao.Modulo();
 				Application application = new Application();
 				application.setId(Core.toInt(model.getAplicacao()));
