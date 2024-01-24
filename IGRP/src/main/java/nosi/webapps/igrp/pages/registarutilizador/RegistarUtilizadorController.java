@@ -5,7 +5,10 @@ import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
+import org.hibernate.Session; //block import
+import org.hibernate.Transaction; //block import
 import nosi.webapps.igrp.dao.User; //block import
+import nosi.core.webapp.UploadedFile; //block import
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
@@ -40,7 +43,34 @@ public class RegistarUtilizadorController extends Controller {
 		  return this.forward("igrp","RegistarUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
-		/* Start-Code-Block (guardar)  *//* End-Code-Block  */
+		/* Start-Code-Block (guardar)  */
+	Session session = null;
+	Transaction transaction = null;
+	try{
+	if (model.validate()) {
+		session = Core.getSession(Core.defaultConnection());
+		transaction = session.getTransaction();
+		if(!transaction.isActive())
+			transaction.begin();
+		User user  = new User();
+	
+		session.persist(user);
+		transaction.commit();
+		Core.setMessageSuccess();
+	}
+	else
+		Core.setMessageError();
+	}catch ( Exception e ) {
+		e.printStackTrace();
+		Core.setMessageError("Error: "+ e.getMessage());
+		if (transaction != null)
+			transaction.rollback();
+	}finally {
+		if (session != null && session.isOpen()) {
+			session.close();
+		}
+	}
+	/* End-Code-Block  */
 		/*----#start-code(guardar)----*/
 
 	
@@ -79,11 +109,12 @@ public class RegistarUtilizadorController extends Controller {
 					try {
 						if(Core.isNotNull(model.getForm_1_img_1()) && model.getForm_1_img_1().isUploaded())
 							user.setSignature_id(Core.saveFileNGetUuid(model.getForm_1_img_1()));
+						if(Core.isNotNull(model.getFotografia()) && model.getFotografia().isUploaded())
+							user.setPhoto_id(Core.saveFileNGetUuid(model.getFotografia()));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				
-				
+	
 				user = user.insert();
 				
 				if(user.getId()!=null){
@@ -140,12 +171,22 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 				user.setCni(model.getCni());
 				user.setUpdated_at(System.currentTimeMillis());              	
 					try {
-						if(Core.isNotNull(model.getForm_1_img_1()) && model.getForm_1_img_1().isUploaded())
-							user.setSignature_id(Core.saveFileNGetUuid(model.getForm_1_img_1()));
+						if(Core.isNotNull(model.getForm_1_img_1()) && model.getForm_1_img_1().isUploaded()) {
+							if(Core.isNotNull(user.getSignature_id()))
+								Core.updateFile(model.getForm_1_img_1(),user.getSignature_id());
+							else
+								user.setSignature_id(Core.saveFileNGetUuid(model.getForm_1_img_1()));
+						}
+						
+						if(Core.isNotNull(model.getFotografia()) && model.getFotografia().isUploaded()) {
+							if(Core.isNotNull(user.getPhoto_id()))
+								Core.updateFile(model.getFotografia(),user.getPhoto_id());
+							else
+								user.setPhoto_id(Core.saveFileNGetUuid(model.getFotografia()));
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-              	
 				user = user.update();
 				if(user !=null){
 					Core.setMessageSuccess(gt("Utilizador atualizado com sucesso."));

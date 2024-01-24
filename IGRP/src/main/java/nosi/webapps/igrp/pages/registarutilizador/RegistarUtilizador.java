@@ -41,6 +41,9 @@ public class RegistarUtilizador extends Model{
 
 	@RParam(rParamName = "p_form_1_img_1")
 	private UploadFile form_1_img_1;
+
+	@RParam(rParamName = "p_fotografia")
+	private UploadFile fotografia;
 	
 	public void setTitulo_text(String titulo_text){
 		this.titulo_text = titulo_text;
@@ -124,6 +127,13 @@ public class RegistarUtilizador extends Model{
 	}
 	public UploadFile getForm_1_img_1(){
 		return this.form_1_img_1;
+	}
+	
+	public void setFotografia(UploadFile fotografia){
+		this.fotografia = fotografia;
+	}
+	public UploadFile getFotografia(){
+		return this.fotografia;
 	}
 
 
