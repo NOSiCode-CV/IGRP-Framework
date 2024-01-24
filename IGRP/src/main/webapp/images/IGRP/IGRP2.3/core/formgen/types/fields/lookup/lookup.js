@@ -150,7 +150,7 @@ var LOOKUPFIELD = function(type,params){
 		field.setProperty({
 			label 	: 'Clear mapped field value',
 			name  	:'lookup_eraser',
-			value 	:false,
+			value 	:true,
 			xslValue:function(){
 				return '<span class="lookup-eraser"><i class="fa fa-times"></i></span>';
 			}
