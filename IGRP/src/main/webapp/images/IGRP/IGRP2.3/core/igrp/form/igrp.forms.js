@@ -222,29 +222,31 @@
   			},
   			
   			hasFieldsError : function(){
-  				if($(':input.error')[0]){
-  					
-  					if($.IGRP.components.tabcontent)
-  						$.IGRP.components.tabcontent.activeTabHasFieldsError($(':input[required].error:first'));
-						
-					/*var tab = $(':input[required].error:first').parents('.panel-collapse, .tab-pane');
-					
-					if(tab[0]){
-						var pre   = tab.hasClass('panel-collapse') ? 'pnl-' : '',
-							click = true;
+                if($(':input.error')[0]){
+                    var element = $(':input[required].error:first');
+                    if(!element[0])
+                        element = $('textarea.required.error:first');
+                    if($.IGRP.components.tabcontent)
+                        $.IGRP.components.tabcontent.activeTabHasFieldsError(element);
 
-							if(pre == 'pnl-'){
-								if(tab.hasClass('in'))
-									click = false;
-							}
+                    /*var tab = $(':input[required].error:first').parents('.panel-collapse, .tab-pane');
 
-							if(click)
-								$('[rel="'+pre+tab.attr('id')+'"] a[data-toggle]:first').click();
-					}*/
-					
-					$.IGRP.scrollTo($(':input.error:first'));
-				}
-			},
+                    if(tab[0]){
+                        var pre   = tab.hasClass('panel-collapse') ? 'pnl-' : '',
+                            click = true;
+
+                            if(pre == 'pnl-'){
+                                if(tab.hasClass('in'))
+                                    click = false;
+                            }
+
+                            if(click)
+                                $('[rel="'+pre+tab.attr('id')+'"] a[data-toggle]:first').click();
+                    }*/
+
+                    $.IGRP.scrollTo(element);
+                }
+            },
 
   			change:function(o){
   				
