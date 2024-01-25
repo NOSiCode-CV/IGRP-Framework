@@ -27,12 +27,6 @@ public interface Field {
 
    void setValue(Object value);
 
-   void setValue(int value);
-
-   void setValue(float value);
-
-   void setValue(double value);
-
    void setValue(Map<?, ?> value);
 
    void setDefaultValue(Object defaultValue);
