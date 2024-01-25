@@ -191,7 +191,7 @@
             </a>
 
             <div id="side-bar-ctrl">
-              <i class="fa fa-navicon"></i>
+               <img src="{$path}/assets/img/menu_icon.png"></img>
             </div>
 
             <div id="igrp-app-title" class="">
