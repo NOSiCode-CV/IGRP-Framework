@@ -5,10 +5,6 @@ import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
-import org.hibernate.Session; //block import
-import org.hibernate.Transaction; //block import
-import nosi.webapps.igrp.dao.User; //block import
-import nosi.core.webapp.UploadedFile; //block import
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
@@ -18,6 +14,7 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.User;
 /*----#end-code----*/
 		
 public class RegistarUtilizadorController extends Controller {
@@ -43,34 +40,7 @@ public class RegistarUtilizadorController extends Controller {
 		  return this.forward("igrp","RegistarUtilizador","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
-		/* Start-Code-Block (guardar)  */
-	Session session = null;
-	Transaction transaction = null;
-	try{
-	if (model.validate()) {
-		session = Core.getSession(Core.defaultConnection());
-		transaction = session.getTransaction();
-		if(!transaction.isActive())
-			transaction.begin();
-		User user  = new User();
-	
-		session.persist(user);
-		transaction.commit();
-		Core.setMessageSuccess();
-	}
-	else
-		Core.setMessageError();
-	}catch ( Exception e ) {
-		e.printStackTrace();
-		Core.setMessageError("Error: "+ e.getMessage());
-		if (transaction != null)
-			transaction.rollback();
-	}finally {
-		if (session != null && session.isOpen()) {
-			session.close();
-		}
-	}
-	/* End-Code-Block  */
+		/* Start-Code-Block (guardar)  *//* End-Code-Block  */
 		/*----#start-code(guardar)----*/
 
 	
@@ -92,7 +62,7 @@ public class RegistarUtilizadorController extends Controller {
 				User user = new User();
 				user.setName(model.getNome());
 				
-				user.setPass_hash(nosi.core.webapp.User.encryptToHash(username+ "" + model.getPassword(), "SHA-256"));
+				user.setPass_hash(nosi.core.webapp.User.encryptToHash(username+ model.getPassword(), "SHA-256"));
 				user.setEmail(model.getEmail().toLowerCase(Locale.ROOT).trim());
 				
 				user.setUser_name(username);
