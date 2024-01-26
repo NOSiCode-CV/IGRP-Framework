@@ -9,8 +9,6 @@ import org.json.JSONObject;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.webservices.rest.ConsumeJson;
 
 import java.util.ArrayList;
@@ -59,9 +57,9 @@ public class Pesquisa_nacionalidadeController extends Controller {
 					list_nac.add(tab_nac);
 					}catch (Exception e) {
 						tab_nac.setTreemenu_1_link_desc("");
-					};
-			}
-		}catch (Exception e) {
+					}
+            }
+		}catch (Exception ignored) {
 			
 		}
 		list_nac.sort(Comparator.comparing(Pesquisa_nacionalidade.Treemenu_1::getTreemenu_1_link_desc));

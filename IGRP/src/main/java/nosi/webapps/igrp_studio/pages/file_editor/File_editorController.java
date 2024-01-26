@@ -152,7 +152,7 @@ public class File_editorController extends Controller {
 				}
 			}
 		}
-		Collections.sort(files,FileEditor.ORDER_BY_NAME);
+		files.sort(FileEditor.ORDER_BY_NAME);
 		Map<String, Object> result = new HashMap<>();
 		result.put("dir_name", dir.getName());
 		result.put("dir_path", URLEncoder.encode(dir.getPath(),"UTF-8"));
@@ -223,10 +223,9 @@ public class File_editorController extends Controller {
 	
 	
 	public Response actionGetFile() throws UnsupportedEncodingException {
-		String content = "";
 		String fileName = Core.getParam("fileName");
 		fileName = URLDecoder.decode(fileName,"UTF-8");
-		content = FileHelper.readFile(fileName,"");
+		String content = FileHelper.readFile(fileName,"");
 		this.format = Response.FORMAT_TEXT;
 		return this.renderView(content);
 	}

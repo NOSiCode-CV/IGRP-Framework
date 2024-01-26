@@ -171,7 +171,7 @@ public class EnvController extends Controller {
 			try(FileInputStream fis = new FileInputStream(file)){				
 			try(CheckedInputStream cis = new CheckedInputStream(fis, new Adler32())){				
 			try(JarInputStream jis = new JarInputStream(new BufferedInputStream(cis))){				
-			JarEntry entry = null;
+			JarEntry entry;
 			
 			while((entry=jis.getNextJarEntry()) != null){					
 				JarEntry aux = new JarEntry(entry.getName());				
@@ -312,9 +312,9 @@ public class EnvController extends Controller {
 			xmlMenu.setElement("num_alert", ""+profile.getOrganization().getApplication().getId());
 			xmlMenu.endElement();
 			aux.add(profile.getOrganization().getApplication().getId());
-			displayTitle = (type==null || type.equalsIgnoreCase(""));
+			displayTitle = type.equalsIgnoreCase("");
 		}
-		if(type==null || type.equals("")) {
+		if(type.isEmpty()) {
 			for(Application app:otherApp){
 				if(!aux.contains(app.getId())){ // :-)
 					xmlMenu.startElement("application");
@@ -325,7 +325,7 @@ public class EnvController extends Controller {
 					xmlMenu.setElement("num_alert", "");
 					xmlMenu.setElement("description", app.getDescription());
 					xmlMenu.endElement();
-					displaySubtitle = (type==null || type.equalsIgnoreCase(""));
+					displaySubtitle = type.equalsIgnoreCase("");
 				}
 			}
 		}
@@ -510,26 +510,25 @@ public class EnvController extends Controller {
 							xml.setElement("full_class_name", c.getName());
 							xml.startElement("operations");
 								Method []methods = c.getMethods();
-								if(methods != null)
-									for(Method m : methods) {
-										xml.startElement(m.getName());
-											xml.startElement("params");
-												Parameter[] parameters = m.getParameters();
-												if(parameters != null)
-													for(Parameter p : parameters) {
-														xml.startElement(p.getName());
-															xml.text(p.getType().getTypeName());
-														xml.endElement();
-													}
-											xml.endElement();
-											xml.startElement("return");
-												xml.startElement("tipo");
-													xml.text(m.getReturnType().getName());
-												xml.endElement();
-												xml.addXml(generateXMLFieldsStructure(m.getReturnType()));
-											xml.endElement();
-										xml.endElement();
-									}
+                       for(Method m : methods) {
+                          xml.startElement(m.getName());
+                             xml.startElement("params");
+                                   Parameter[] parameters = m.getParameters();
+                                   if(parameters != null)
+                                      for(Parameter p : parameters) {
+                                         xml.startElement(p.getName());
+                                               xml.text(p.getType().getTypeName());
+                                         xml.endElement();
+                                      }
+                             xml.endElement();
+                             xml.startElement("return");
+                                   xml.startElement("tipo");
+                                      xml.text(m.getReturnType().getName());
+                                   xml.endElement();
+                                   xml.addXml(generateXMLFieldsStructure(m.getReturnType()));
+                             xml.endElement();
+                          xml.endElement();
+                       }
 							xml.endElement();
 						xml.endElement();
 					}

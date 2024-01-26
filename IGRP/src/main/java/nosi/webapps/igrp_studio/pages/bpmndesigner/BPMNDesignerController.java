@@ -77,7 +77,7 @@ public class BPMNDesignerController extends Controller {
 	@SuppressWarnings("resource")
 	public Response actionGravar() throws IOException, ServletException, IllegalArgumentException, IllegalAccessException, TransformerConfigurationException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
-		String erros = "";
+		String erros;
 		BPMNDesigner model = new BPMNDesigner();
 		model.load();
 		Part data = Core.getFile("p_data");

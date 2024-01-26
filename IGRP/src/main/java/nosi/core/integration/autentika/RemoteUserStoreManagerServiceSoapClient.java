@@ -14,11 +14,16 @@ import nosi.core.integration.autentika.dto.UpdateCredentialRequestDTO;
 import nosi.core.integration.autentika.dto.UserClaimValuesRequestDTO;
 import nosi.core.integration.autentika.dto.UserClaimValuesResponseDTO;
 import nosi.core.webapp.webservices.soap.SoapClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Iekiny Marcel
  * Jul 26, 2021
  */
 public class RemoteUserStoreManagerServiceSoapClient {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(RemoteUserStoreManagerServiceSoapClient.class);
 	
 	private String endpoint; 
 	private String username; 
@@ -97,7 +102,9 @@ public class RemoteUserStoreManagerServiceSoapClient {
 					}
 				}
 			}
-		}
+		} else
+			sc.getErrors().forEach(LOGGER::error);
+
 		return userClaimValuesResponseDTO;
 	}
 	
