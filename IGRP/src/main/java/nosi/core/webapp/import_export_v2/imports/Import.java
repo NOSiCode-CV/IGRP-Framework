@@ -15,9 +15,9 @@ import nosi.core.webapp.compiler.helpers.ErrorCompile;
  */
 public class Import{
 
-	private List<IImport> imports;
-	private List<String> errors;
-	private List<String> warnings;
+	private final List<IImport> imports;
+	private final List<String> errors;
+	private final List<String> warnings;
 	
 	public Import() {
 		this.imports = new ArrayList<>();
