@@ -61,27 +61,27 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" inputmask="" tooltip="false" disable_copy_paste="false" disablehtml="true">
                     <label>Nome</label>
-                    <value>Labore accusantium officia iste amet</value>
+                    <value>Ipsum consectetur natus aliqua sed</value>
                 </nome>
                 <username name="p_username" type="text" maxlength="50" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" inputmask="" tooltip="false" disable_copy_paste="false" disablehtml="true">
                     <label>Username</label>
-                    <value>Natus stract sit amet unde</value>
+                    <value>Magna voluptatem lorem doloremque lorem</value>
                 </username>
                 <email name="p_email" type="email" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" tooltip="false" disable_copy_paste="false">
                     <label>Email</label>
-                    <value>gibugjiw@example.com</value>
+                    <value>lota@example.com</value>
                 </email>
                 <cni name="p_cni" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" inputmask="" right="false" tooltip="false" disable_copy_paste="false" disablehtml="true">
                     <label>CNI</label>
-                    <value>Iste mollit doloremque ipsum doloremque</value>
+                    <value>Doloremque iste deserunt consectetur stract</value>
                 </cni>
                 <telefone name="p_telefone" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" inputmask="" tooltip="false" disable_copy_paste="false" disablehtml="true">
                     <label>Telefone</label>
-                    <value>Elit perspiciatis sed sit unde</value>
+                    <value>Dolor magna consectetur stract aperiam</value>
                 </telefone>
                 <telemovel name="p_telemovel" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" inputmask="" tooltip="false" disable_copy_paste="false" disablehtml="true">
                     <label>Telemóvel</label>
-                    <value>Rem mollit iste accusantium officia</value>
+                    <value>Sed mollit laudantium officia mollit</value>
                 </telemovel>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
                     <label></label>
@@ -109,33 +109,7 @@
         </form_1>
     </content>
     <blockly>
-        <imports>
-            <import type="inserir_dao">Inserir Daos</import>
-            <import type="dao">User</import>
-            <import type="fields">File</import>
-        </imports>
-        <xml>
-            <block type="controller" id="controller" x="388" y="13">
-                <statement name="guardar">
-                    <block type="save_formu_form_1" id="5_0yzhXQ|8wgp-vtxSA{" inline="true">
-                        <mutation count="0" pxchecked="false"></mutation>
-                        <field name="dao">User</field>
-                        <field name="EDIT">FALSE</field>
-                    </block>
-                </statement>
-            </block>
-            <block type="mod_formform_1" id="3k9H/J`J:LPzY-QsmIFO" x="863" y="163">
-                <field name="get_model">File::form_1_img_1</field>
-            </block>
-            <block type="set-dao-User" id="|?RBG*M}mgC?7OHT6#W2" inline="false" x="588" y="213">
-                <mutation hover_type="String::photo_id"></mutation>
-                <field name="DAO_FIELD">String::photo_id</field>
-                <value name="value1">
-                    <block type="mod_formform_1" id="o#OMj{WD)HphC#(XF-*S">
-                        <field name="get_model">File::fotografia</field>
-                    </block>
-                </value>
-            </block>
-        </xml>
+        <imports></imports>
+        <xml></xml>
     </blockly>
 </rows>

@@ -208,7 +208,7 @@
 
             ffFix : function(){
 
-                if ($.browser.mozilla)
+                if ($.browser && $.browser.mozilla)
 
                     $('input[type="radio"][checked="checked"], input[type="checkbox"][checked="checked"]').prop('checked', true);
 
