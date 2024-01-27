@@ -433,7 +433,6 @@ public class Controller {
     }
 
     private String ssoUrl(String app, String page, String action, String[] paramNames, String[] paramValues) {
-        String ssoUrl = null;
         Map<String, String> params = new LinkedHashMap<>();
         if (paramNames != null && paramValues != null && paramValues.length == paramNames.length)
             for (int i = 0; i < paramNames.length; i++)
@@ -441,9 +440,9 @@ public class Controller {
         String currentDad = Core.getCurrentDad();
         if (currentDad != null && !currentDad.equals(app) && Core.isSharedPage(currentDad, app, page)) {
             String stateValue = Core.buildStateValueForSsoAutentikaWhenPage(page, app, null, null, !params.isEmpty() ? params : null);
-            ssoUrl = Core.buildAppUrlUsingAutentikaForSSO(app, stateValue);
+            return Core.buildAppUrlUsingAutentikaForSSO(app, stateValue);
         }
-        return ssoUrl;
+        return null;
     }
 
     protected final Response redirectToUrl(String url) {
@@ -543,18 +542,19 @@ public class Controller {
             } else
                 throw new ServerErrorHttpException("The route format is invalid");
         }
+
         String application = "Application: " + app.getCurrentAppName();
         String page = "Page: " + app.getCurrentPageName();
         String action = "Action: " + app.getCurrentActionName();
-        String controllerName = "Controller: " + "nosi.webapps." + app.getCurrentAppName().trim().toLowerCase()
-                + ".pages." + app.getCurrentPageName() + "Controller.java";
-        String viewName = "View: " + "nosi.webapps." + app.getCurrentAppName().trim().toLowerCase() + ".pages."
-                + app.getCurrentPageName() + "View.java";
-        String modelName = "Model: " + "nosi.webapps." + app.getCurrentAppName().trim().toLowerCase() + ".pages."
-                + app.getCurrentPageName() + ".java";
+
+        final String currentAppNameLowerCase = app.getCurrentAppName().trim().toLowerCase();
+        String controllerName = "Controller: " + "nosi.webapps." + currentAppNameLowerCase + ".pages." + app.getCurrentPageName() + "Controller.java";
+        String viewName = "View: " + "nosi.webapps." + currentAppNameLowerCase + ".pages." + app.getCurrentPageName() + "View.java";
+        String modelName = "Model: " + "nosi.webapps." + currentAppNameLowerCase + ".pages." + app.getCurrentPageName() + ".java";
         String xsl = "xsl: " + Igrp.getInstance().getServlet().getServletContext().getContextPath()
-                + "/images/IGRP/IGRP2.3/app/" + app.getCurrentAppName().trim().toLowerCase() + "/"
-                + app.getCurrentPageName().toLowerCase() + "/" + app.getCurrentPageName() + ".xsl";
+                     + "/images/IGRP/IGRP2.3/app/" + currentAppNameLowerCase + "/"
+                     + app.getCurrentPageName().toLowerCase() + "/" + app.getCurrentPageName() + ".xsl";
+
         app.getLog().addMessage(application);
         app.getLog().addMessage(page);
         app.getLog().addMessage(action);
