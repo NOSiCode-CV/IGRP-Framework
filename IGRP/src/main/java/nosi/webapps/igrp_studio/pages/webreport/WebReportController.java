@@ -51,7 +51,6 @@ public class WebReportController extends Controller {
 		WebReport model = new WebReport();
 		model.load();
 		model.setLink_add_source("igrp_studio","WebReport","index");
-		 //model.setLink_upload_img(this.getConfig().getResolveUrl("igrp","file","save-image-txt&p_page_name="+Core.getCurrentPage()));
 		WebReportView view = new WebReportView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -219,7 +218,7 @@ public class WebReportController extends Controller {
 				xml.endElement();
 				return this.renderView(xml.toString());
 			}
-		}catch(ServletException e){
+		}catch(ServletException ignored){
 			
         }
 
@@ -309,7 +308,7 @@ public class WebReportController extends Controller {
 		StringBuilder xml = new StringBuilder();
 
 		List<RepTemplateSource> allRepTemplateSource = new RepTemplateSource().getAllDataSources(rt.getId()); 
-		List<RepTemplateSource> allRepTemplateSourceTask  = allRepTemplateSource.stream().filter(p -> p.getRepSource().getType().equalsIgnoreCase("task")).collect(Collectors.toList()); 
+		List<RepTemplateSource> allRepTemplateSourceTask  = allRepTemplateSource.stream().filter(p -> p.getRepSource().getType().equalsIgnoreCase("task")).toList();
 		allRepTemplateSource.removeIf(p -> p.getRepSource().getType().equalsIgnoreCase("task")); 
 		
 		//Iterate data source per template
@@ -401,8 +400,7 @@ public class WebReportController extends Controller {
 	private String getData(RepTemplateSource rep,String[] nameArray,String []valueArray) {
 		String type = rep.getRepSource().getType().toLowerCase();
 		switch (type) {
-			case "object":
-			case "query":
+			case "object","query":
 				return this.getDataForQueryOrObject(rep,nameArray,valueArray);
 			case "page":
 				return this.getDataForPage(rep);
@@ -494,7 +492,7 @@ public class WebReportController extends Controller {
 			for (RepTemplateSource r : new RepTemplateSource().getAllDataSources(rt.getId())) {
 				dataSources.append(r.getRepSource().getId()).append(",");
 			}
-			dataSources = new StringBuilder((dataSources.length() > 0) ? dataSources.substring(0, dataSources.length() - 1) : "");
+			dataSources = new StringBuilder((!dataSources.isEmpty()) ? dataSources.substring(0, dataSources.length() - 1) : "");
 			json = "{\"textreport\":" + new String(clob.getC_lob_content()) + ",\"datasorce_app\":\"" + dataSources + "\"}";
 		}
 		this.format = Response.FORMAT_JSON;
