@@ -92,7 +92,7 @@
                                   <xsl:with-param name="app" select="app" />
                                   <xsl:with-param name="linkextra" select="parameter" />
                               </xsl:call-template> 
-                              <i class="fa fa-cog fa-spin fa-fw d-none"></i><span><xsl:value-of select="title"/></span>
+                              <i class="fa fa-cog fa-spin fa-fw hidden"></i><span><xsl:value-of select="title"/></span>
                               
                           </a>
                       </li>
