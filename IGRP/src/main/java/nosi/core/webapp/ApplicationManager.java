@@ -82,11 +82,14 @@ public final class ApplicationManager {
 
 	public static boolean isPublic(HttpServletRequest request) {
 		String r = request.getParameter("r");
-		final String isPublic = request.getParameter("isPublic");
-		if (r == null || isPublic == null || !Arrays.asList("1", "2").contains(isPublic))
+		if (r == null)
 			return false;
 		if (PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains(r.toLowerCase()))
 			return true;
+		final String isPublic = request.getParameter("isPublic");
+		if (isPublic == null || !Arrays.asList("1", "2").contains(isPublic))
+			return false;
+
 		if ("2".equals(isPublic)) {
 			r = r.replace(" ", "+");
 			r = EncrypDecrypt.decryptURL(r, EncrypDecrypt.SECRET_KEY_PUBLIC_PAGE);
