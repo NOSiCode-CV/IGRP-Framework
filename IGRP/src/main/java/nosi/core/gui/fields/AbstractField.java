@@ -31,15 +31,15 @@ public abstract class AbstractField implements Field {
 	private String connectionName = ConfigApp.getInstance().getBaseConnection();
 	private Map<?, ?> comboBox;
 
-	private final FieldProperties propertie;
+	private final FieldProperties fieldProperties;
 
 	@Override
 	public FieldProperties propertie() {
-		return this.propertie;
+		return this.fieldProperties;
 	}
 
 	protected AbstractField() {
-		this.propertie = new FieldProperties();
+		this.fieldProperties = new FieldProperties();
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public abstract class AbstractField implements Field {
 
 	@Override
 	public String getTagName() {
-		tagName = this.propertie.get("tag") != null ? this.propertie.get("tag").toString().toLowerCase() : tagName;
+		tagName = this.fieldProperties.get("tag") != null ? this.fieldProperties.get("tag").toString().toLowerCase() : tagName;
 		return tagName;
 	}
 
@@ -65,7 +65,7 @@ public abstract class AbstractField implements Field {
 
 	@Override
 	public String getParamTag() {
-		paramTag = this.propertie.get("name") != null ? this.propertie.get("name").toString().toLowerCase() : paramTag;
+		paramTag = this.fieldProperties.get("name") != null ? this.fieldProperties.get("name").toString().toLowerCase() : paramTag;
 		return paramTag;
 	}
 
@@ -78,28 +78,12 @@ public abstract class AbstractField implements Field {
 	public void setValue(Object value) {
 		if (value instanceof Model) {
 			this.configValue(value);
-			if (this.propertie != null && this.getValue() != null)
-				this.propertie.put("value", this.getValue());
+			if (this.getValue() != null)
+				this.fieldProperties.put("value", this.getValue());
 		} else if (value instanceof Map) {
 			this.setListOptions((Map<?, ?>) value);
-		} else {
+		} else
 			this.value = value;
-		}
-	}
-
-	@Override
-	public void setValue(int value) {
-		this.value = value;
-	}
-
-	@Override
-	public void setValue(float value) {
-		this.value = value;
-	}
-
-	@Override
-	public void setValue(double value) {
-		this.value = value;
 	}
 
 	@Override
@@ -166,12 +150,9 @@ public abstract class AbstractField implements Field {
 	}
 
 	@Override
-	public void setSqlQuery(String connectionName, String schemaName, String tableName_, String key, String value) {
-		String tableName = tableName_;
-		if (schemaName != null && !schemaName.isEmpty()) {
-			tableName = schemaName + "." + tableName;
-		}
-		this.setSqlQuery(connectionName, tableName, key, value);
+	public void setSqlQuery(String connectionName, String schemaName, String tableName, String key, String value) {
+		final var tableDescription = schemaName != null && !schemaName.isEmpty() ? schemaName + "." + tableName : tableName;
+		this.setSqlQuery(connectionName, tableDescription, key, value);
 	}
 
 	@Override
@@ -194,7 +175,7 @@ public abstract class AbstractField implements Field {
 
 	@Override
 	public void setValue(Map<?, ?> map) {
-		this.comboBox = map;
+		this.setListOptions(map);
 	}
 
 	@Override
