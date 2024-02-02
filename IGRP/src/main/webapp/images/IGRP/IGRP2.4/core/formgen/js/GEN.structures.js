@@ -491,7 +491,9 @@ var GENSTRUCTURES = function(GEN){
 				itemType = item.GET.action_type ? item.GET.action_type() : itemType;
 				
 				var linkAction= (item.action && item.action.link) ? '..'+item.action.link.substring(1).substring(item.action.link.substring(1).indexOf('/')) : '';
-				rtn+='<item id="'+id+'" '+notvalidatefields+' type="'+itemType+'" ' + adbcli +' code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+' refresh_components="'+refresh_components+'" '+labelConfirm+'>'+
+				rtn+='<item id="'+id+'" '+notvalidatefields+' type="'+itemType+'" ' + adbcli +' code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+' refresh_components="'+refresh_components+'" '+labelConfirm+
+                ' iconPosition="'+iconPosition+'" '+
+				'>'+
 	                    '<title>'+item.GET.label()+'</title>'+
 	                    '<app>'+app+'</app>'+
 	                    '<page>'+page+'</page>'+
@@ -552,7 +554,9 @@ var GENSTRUCTURES = function(GEN){
 
 			btnStyle = _class?.indexOf('link')>=0 ? '' : btnStyle+'-';
 
-			rtn+='<item  type="specific"  '+notvalidatefields+'  code="" rel="'+tag+'" '+tran+' '+parent+' '+customReturnAttr+' refresh_components="'+refresh_components+'" ' + adbcli +' '+labelConfirm+'>'+
+			rtn+='<item  type="specific"  '+notvalidatefields+'  code="" rel="'+tag+'" '+tran+' '+parent+' '+customReturnAttr+' refresh_components="'+refresh_components+'" ' + adbcli +' '+labelConfirm+
+			 ' iconPosition="'+iconPosition+'" '+
+			'>'+
 		            '<title>'+title+'</title>'+
 		            '<app>'+app+'</app>'+
 		            '<page>'+page+'</page>'+

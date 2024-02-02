@@ -257,7 +257,7 @@
             </xsl:choose>
         </xsl:variable>
 
-        <a target="{$target}" use-fa="{$use-fa}" position="{./@rel}" icon-position="{./img/@position}">
+        <a target="{$target}" use-fa="{$use-fa}" rel="{./@rel}" icon-position="{./@iconPosition}">
 
             <xsl:if test="$refresh_components != ''">
                 <xsl:attribute name="refresh-components">
