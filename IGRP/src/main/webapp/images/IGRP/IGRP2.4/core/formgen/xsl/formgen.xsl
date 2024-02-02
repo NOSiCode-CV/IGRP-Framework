@@ -105,7 +105,7 @@
           <form class="IGRP-form" name="formular_default" novalidate="">
               <div class="container-fluid">
                   <div class="row">
-                        <div class="col-lg-2  col-md-3 sidebar tree-list shadow d-none d-md-block" id="igrp-sidebar" bg-color="secondary">
+                        <div style="background-color:#004910;" class="col-lg-2  col-md-3 sidebar tree-list shadow d-none d-md-block" id="igrp-sidebar" bg-color="secondary">
                             
                  			 <a class="d-flex align-items-center px-5 pt-1" href="{rows/link}">
                                 <img style="height: 50px;" src="{$path}/core/formgen/img/logo-gen-white.png"/>
@@ -122,7 +122,7 @@
                             </div>
                             
                             
-                            <ul class="nav nav-tabs col-lg-2  col-sm-3 clearfix bottom-0 border-top" role="tablist" bg-color="secondary">
+                            <ul style="background-color:#004910;" class="nav nav-tabs col-lg-2  col-sm-3 clearfix bottom-0 border-top" role="tablist" bg-color="secondary">
                                 <li class="w-50">
                                     <a class="txt-ellipsis d-flex align-items-center justify-content-center flex-column" href="#gen-page-properties" role="tab" data-toggle="tab">
                                         <i class="ri-settings-2-line"></i>
