@@ -20,6 +20,7 @@
 									<!--SPLIT-->
 								</div>
 							</div>
+							<xsl:apply-templates mode="form-hidden-fields" select="rows/content/hidden_form_igrp/fields"/>
 						</form>
 						<xsl:call-template name="igrp-footer"/>
 					</div>
