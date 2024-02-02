@@ -1,10 +1,12 @@
 package nosi.core.gui.fields;
 
+import static java.util.Optional.ofNullable;
 import static nosi.core.i18n.Translator.gt;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.persistence.Tuple;
 
@@ -23,8 +25,6 @@ import nosi.webapps.igrp.dao.Domain;
 
 public class ListField extends AbstractField {
 
-	public Object value = null;
-
 	public ListField(Object model, String name) {
 		super();
 		this.setName(name);
@@ -38,12 +38,7 @@ public class ListField extends AbstractField {
 		this.propertie().put("required", Boolean.FALSE);
 		this.setTagName(name);
 		this.configValue(model);
-		try {
-			this.propertie().put("value", this.getValue());
-		} catch (NullPointerException ignored) {
-
-		}
-		this.value = null;
+		ofNullable(this.propertie()).ifPresent(prop -> prop.put("value", this.getValue()));
 	}
 
 	@Override
