@@ -12,7 +12,6 @@ import nosi.core.webapp.import_export.FileImportAppOrPage;
 
 import javax.servlet.http.Part;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.jar.JarEntry;
@@ -25,28 +24,32 @@ import java.util.zip.CheckedOutputStream;
 
 public class JarUnJarFile {
 
+   public static String encode = FileHelper.ENCODE_UTF8;
+
    public static byte[] convertFilesToJarBytes(Map<String, String> files, int level) {
       byte[] result = null;
-      if (!files.isEmpty() && (level >= 0 && level <= 9))
-         try (
-                 ByteArrayOutputStream fos = new ByteArrayOutputStream();
-                 CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());
-                 JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos))
-         ) {
-            Set<Entry<String, String>> entry = files.entrySet();
-            for (Entry<String, String> e : entry) {
-               JarEntry je = new JarEntry(e.getKey());
-               jos.putNextEntry(je);
-               try (InputStream fis = FileHelper.convertStringToInputStream(e.getValue())) {
+      if (files.size() > 0 && (level >= 0 && level <= 9))
+         if (!files.isEmpty() && (level >= 0 && level <= 9))
+            try {
+               ByteArrayOutputStream fos = new ByteArrayOutputStream();
+               CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());
+               JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos));
+               Set<Entry<String, String>> entry = files.entrySet();
+               for (Entry<String, String> e : entry) {
+                  JarEntry je = new JarEntry(e.getKey());
+                  jos.putNextEntry(je);
+                  InputStream fis = FileHelper.convertStringToInputStream(e.getValue());
                   for (int r = fis.read(); r != -1; r = fis.read()) {
                      jos.write(r);
                   }
+                  fis.close();
                }
+               jos.close();
+               result = fos.toByteArray();
+               fos.close();
+            } catch (IOException e) {
+               e.printStackTrace();
             }
-            result = fos.toByteArray();
-         } catch (IOException e) {
-            e.printStackTrace();
-         }
       return result;
    }
 
@@ -54,56 +57,51 @@ public class JarUnJarFile {
    public static boolean saveJarFiles(String jarName, Map<String, String> files, int level) {
       boolean result = false;
       jarName = jarName.endsWith(".jar") ? jarName : (jarName + ".jar");
-      if (!files.isEmpty() && (level >= 0 && level <= 9))
-         try (
-                 FileOutputStream fos = new FileOutputStream(jarName);
-                 CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());
-                 JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos))
-         ) {
-            Set<Entry<String, String>> entry = files.entrySet();
-            for (Entry<String, String> e : entry) {
-               JarEntry je = new JarEntry(e.getKey());
-               jos.putNextEntry(je);
-               try (FileInputStream fis = new FileInputStream(e.getValue())) {
+      if (files.size() > 0 && (level >= 0 && level <= 9))
+         if (!files.isEmpty() && (level >= 0 && level <= 9))
+            try {
+               FileOutputStream fos = new FileOutputStream(jarName);
+               CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());
+               JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos));
+               Set<Entry<String, String>> entry = files.entrySet();
+               for (Entry<String, String> e : entry) {
+                  JarEntry je = new JarEntry(e.getKey());
+                  jos.putNextEntry(je);
+                  FileInputStream fis = new FileInputStream(e.getValue());
                   for (int r = fis.read(); r != -1; r = fis.read()) {
                      jos.write(r);
                   }
+                  fis.close();
                }
+               jos.close();
+               result = true;
+            } catch (IOException e) {
+               result = false;
+               e.printStackTrace();
             }
-            result = true;
-         } catch (IOException e) {
-            result = false;
-            e.printStackTrace();
-         }
       return result;
    }
 
    public static Map<String, String> readJarFile(Part file) {
-
       Map<String, String> files = new LinkedHashMap<>();
-
-      try (
-              InputStream inputStream = file.getInputStream();
-              CheckedInputStream cis = new CheckedInputStream(inputStream, new Adler32());
-              JarInputStream jis = new JarInputStream(new BufferedInputStream(cis))
-      ) {
-         JarEntry entry;
+      try {
+         CheckedInputStream cis = new CheckedInputStream(file.getInputStream(), new Adler32());
+         JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
+         JarEntry entry = null;
          while ((entry = jis.getNextJarEntry()) != null) {
-            String ls = System.lineSeparator();
+            String ls = System.getProperty("line.separator");
+            String line = null;
+            DataInputStream in = new DataInputStream(jis);
             StringBuilder content = new StringBuilder();
-            try (
-                    DataInputStream in = new DataInputStream(jis);
-                    BufferedReader d = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))
-            ) {
-               String line;
-               while ((line = d.readLine()) != null) {
-                  content.append(line);
-                  content.append(ls);
-               }
+            BufferedReader d = new BufferedReader(new InputStreamReader(in, encode));
+            while ((line = d.readLine()) != null) {
+               content.append(line);
+               content.append(ls);
             }
             files.put(entry.getName(), content.toString());
             jis.closeEntry();
          }
+         jis.close();
       } catch (IOException e) {
          e.printStackTrace();
       }
@@ -112,56 +110,47 @@ public class JarUnJarFile {
 
    //Extract files jar format
    public static List<FileImportAppOrPage> getJarFiles(Part file) {
-      List<FileImportAppOrPage> contents = new ArrayList<>();
-      try (
-              InputStream inputStream = file.getInputStream();
-              CheckedInputStream cis = new CheckedInputStream(inputStream, new Adler32());
-              JarInputStream jis = new JarInputStream(new BufferedInputStream(cis))
-      ) {
-
-         JarEntry entry;
+      List<FileImportAppOrPage> contents = null;
+      try {
+         contents = new ArrayList<>();
+         CheckedInputStream cis = new CheckedInputStream(file.getInputStream(), new Adler32());
+         JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
+         JarEntry entry = null;
          while ((entry = jis.getNextJarEntry()) != null) {
-            String ls = System.lineSeparator();
-            String line;
+            String ls = System.getProperty("line.separator");
+            String line = null;
+            DataInputStream in = new DataInputStream(jis);
             StringBuilder content = new StringBuilder();
-            try (
-                    DataInputStream in = new DataInputStream(jis);
-                    BufferedReader d = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
-               while ((line = d.readLine()) != null) {
-                  content.append(line);
-                  content.append(ls);
-               }
+            BufferedReader d = new BufferedReader(new InputStreamReader(in, encode));
+            while ((line = d.readLine()) != null) {
+               content.append(line);
+               content.append(ls);
             }
+            int order = 4;
 
-            final int order = getOrder(entry.getName());
-
+            if (entry.getName().startsWith("configApp")) {
+               order = 0;
+            }
+            if (entry.getName().startsWith("configDBApp")) {
+               order = 1;
+            }
+            if (entry.getName().startsWith("configHibernate")) {
+               order = 2;
+            }
+            if (entry.getName().startsWith("configPage")) {
+               order = 3;
+            }
             FileImportAppOrPage f = new FileImportAppOrPage(entry.getName(), content.toString(), order);
 
             contents.add(f);
             jis.closeEntry();
          }
+         jis.close();
       } catch (IOException e) {
          e.printStackTrace();
       }
       Collections.sort(contents);
       return contents;
-   }
-
-   private static int getOrder(String name) {
-
-      if (name.startsWith("configApp"))
-         return 0;
-
-      if (name.startsWith("configDBApp"))
-         return 1;
-
-      if (name.startsWith("configHibernate"))
-         return 2;
-
-      if (name.startsWith("configPage"))
-         return 3;
-
-      return 4;
    }
 
    public static void copyStream(OutputStream outputStream, InputStream inputStream) throws IOException {
@@ -173,3 +162,4 @@ public class JarUnJarFile {
       }
    }
 }
+
