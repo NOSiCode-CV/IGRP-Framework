@@ -5849,7 +5849,8 @@ var GENERATOR = function(genparams){
 				field.type == 'checkboxlist' || 
 				field.type == 'radiolist' || 
 				field.type == 'radio' ||
-				field.type == 'checkbox' )
+				field.type == 'checkbox' ||
+				field.hidden)
 			
 				field.setPropriety({
 					name:'java-type',

@@ -150,7 +150,8 @@ var GENTABLE = function(name,params){
 					value:true
 				},
 			);
-		}
+		}else
+			GEN.SetJavaTypeAttr( field )
 		
 		if(field.GET.type() == 'number'){
 			tablePropsGroup.push({
@@ -170,7 +171,7 @@ var GENTABLE = function(name,params){
 			properties : tablePropsGroup
 		});
 
-		GEN.SetJavaTypeAttr( field );
+
 
 		switch (field.proprieties.type){
 			case 'checkbox':
