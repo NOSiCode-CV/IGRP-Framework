@@ -77,7 +77,7 @@
                   </ul>
               </div>
 
-              <ul id="igrp-top-menu" class="hidden-xs navbar-right ml-auto pe-4 ms-auto d-flex align-items-center">
+              <ul id="igrp-top-menu" class="hidden-xs navbar-right ml-auto pe-4 ms-auto d-flex align-items-center" style="align-self: flex-end;">
                     <li>
                         <a>
                             <i class="fas fa-export"></i>
