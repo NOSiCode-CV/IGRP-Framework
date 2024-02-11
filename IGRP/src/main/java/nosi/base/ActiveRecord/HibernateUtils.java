@@ -135,20 +135,24 @@ public class HibernateUtils {
    }
 
    /**
-    * Processes environment variables in the properties object by replacing values
-    * that match the format "${variable}" with the corresponding environment variable's value.
+    * This method processes environment variables for database access.
+    * It checks if the system environment variable 'ENABLE_ENV_VARIABLE_SCANNING' is set to true,
+    * and if so, it loads environment variables specified in the properties object
+    * by replacing placeholders with corresponding environment variable values.
     *
-    * @param properties The properties object containing key-value pairs, where some values
-    *                   may contain references to environment variables.
+    * @param properties The properties object containing key-value pairs with potential environment variable placeholders.
     */
    private static void processEnvironmentVariables(Properties properties) {
 
-      final String ENV_VARIABLE_PREFIX = "${";
-      final String ENV_VARIABLE_SUFFIX = "}";
+      final String envVarScanningValue = System.getenv("ENABLE_ENV_VARIABLE_SCANNING");
+      if (!Boolean.parseBoolean(envVarScanningValue))
+         return;
+
+      LOG.info("Loading environment variables for database access...");
 
       for (String propertyKey : properties.stringPropertyNames()) {
          String propertyValue = properties.getProperty(propertyKey);
-         if (propertyValue != null && propertyValue.startsWith(ENV_VARIABLE_PREFIX) && propertyValue.endsWith(ENV_VARIABLE_SUFFIX)) {
+         if (isEnvVariableFormat(propertyValue)) {
             String environmentVariableName = propertyValue.substring(2, propertyValue.length() - 1);
             String environmentVariableValue = System.getenv(environmentVariableName);
             if (environmentVariableValue != null)
@@ -157,5 +161,17 @@ public class HibernateUtils {
                LOG.error("Environment Variable: {} not found", environmentVariableName);
          }
       }
+   }
+
+   /**
+    * This method checks if the given property value is in the format of an environment variable placeholder.
+    *
+    * @param propertyValue The value of a property to be checked.
+    * @return True if the property value is in the format "${...}", false otherwise.
+    */
+   private static boolean isEnvVariableFormat(String propertyValue) {
+      return propertyValue != null &&
+             propertyValue.startsWith("${") &&
+             propertyValue.endsWith("}");
    }
 }
