@@ -143,17 +143,18 @@ public class HibernateUtils {
     */
    private static void processEnvironmentVariables(Properties properties) {
 
-      final String envVarScanningValue = System.getenv("ENABLE_ENV_VARIABLE_SCANNING");
+      // TODO 13/02/2024 18:38 Later create module to handle all main.xml properties as env vars
+      final var envVarScanningValue = System.getenv("IGRP_ENV_VARIABLE_SCAN");
       if (!Boolean.parseBoolean(envVarScanningValue))
          return;
 
       LOG.info("Loading environment variables for database access...");
 
-      for (String propertyKey : properties.stringPropertyNames()) {
-         String propertyValue = properties.getProperty(propertyKey);
+      for (var propertyKey : properties.stringPropertyNames()) {
+         var propertyValue = properties.getProperty(propertyKey);
          if (isEnvVariableFormat(propertyValue)) {
-            String environmentVariableName = propertyValue.substring(2, propertyValue.length() - 1);
-            String environmentVariableValue = System.getenv(environmentVariableName);
+            var environmentVariableName = propertyValue.substring(2, propertyValue.length() - 1);
+            var environmentVariableValue = System.getenv(environmentVariableName);
             if (environmentVariableValue != null)
                properties.setProperty(propertyKey, environmentVariableValue);
             else
