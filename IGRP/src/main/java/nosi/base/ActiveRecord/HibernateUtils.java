@@ -144,7 +144,8 @@ public class HibernateUtils {
     */
    private static void processEnvironmentVariables(Properties properties) {
 
-      final String envVarScanningValue = System.getenv("ENABLE_ENV_VARIABLE_SCANNING");
+      // TODO 13/02/2024 18:38 Later create module to handle all main.xml properties as env vars
+      final String envVarScanningValue = System.getenv("IGRP_ENV_VARIABLE_SCAN");
       if (!Boolean.parseBoolean(envVarScanningValue))
          return;
 
