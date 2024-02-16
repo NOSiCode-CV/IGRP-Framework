@@ -77,7 +77,7 @@ public class Report extends Controller{
 						if (p.getKey().equals("isPublic") && p.getValue().equals("1")) 
 							qStr.append("&").append(p.getKey()).append("=").append(p.getValue()); // isPublic=1 :-)
 						else 
-							qStr.append("&name_array=").append(p.getKey()).append("&value_array=").append(StandardCharsets.UTF_8);
+							qStr.append("&name_array=").append(p.getKey()).append("&value_array=").append(URLEncoder.encode("" + p.getValue(), StandardCharsets.UTF_8));
 					}
 				}else {
 					List<Object> parms = (List<Object>) p.getValue(); 
