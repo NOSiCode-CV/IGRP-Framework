@@ -44,7 +44,7 @@ public final class LdapAuthenticationManager {
 				// sso(username, password, user);
 				return true;
 			} else {
-				String env = config.getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
+				final String env = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ? ConfigCommonMainConstants.IGRP_ENV.getEnvironmentVariable() : config.getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
 				if(!ConfigCommonMainConstants.IGRP_ENV_DEV.value().equals(env))
 					throw new IllegalStateException("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador.");
 				User newUser = new User();
