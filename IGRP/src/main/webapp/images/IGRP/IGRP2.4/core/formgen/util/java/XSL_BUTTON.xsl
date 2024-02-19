@@ -174,7 +174,7 @@
 				<xsl:value-of select="$newline"/>
 			</xsl:if>
            </xsl:for-each>
-           <xsl:for-each select="/rows/content/*[@type = 'form' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]/tools-bar"><!-- add button on form -->           		
+           <xsl:for-each select="/rows/content/*[@xml-type = 'page_header' or @type = 'form' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]/tools-bar"><!-- add button on form -->
            		<xsl:variable name="form_">
 			 		<xsl:value-of select="local-name(parent::*)"/>
 			 	</xsl:variable>	

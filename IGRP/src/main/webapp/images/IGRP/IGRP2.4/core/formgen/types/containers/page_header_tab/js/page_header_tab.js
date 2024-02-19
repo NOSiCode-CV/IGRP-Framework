@@ -4,7 +4,7 @@ this[VARS.name].declareContainer({
 		CONTAINER.call(this,name,params);
 	
 		var container = this;
-
+        container.xml.structure = 'page_header';
 		container.contextMenu = {
 			type   : 'button',
 			holder : '.buttons-holder',
