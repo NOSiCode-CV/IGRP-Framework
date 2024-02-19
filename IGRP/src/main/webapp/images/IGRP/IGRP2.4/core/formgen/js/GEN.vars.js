@@ -123,7 +123,7 @@ var VARS = {
 
 
 		  </ul>
-		  <input type="text" class="row-class-setter" placeholder="ROW" />
+		  <input type="text" name="text_row_class_setter" class="row-class-setter" placeholder="ROW" />
 
 		  
 		</div>

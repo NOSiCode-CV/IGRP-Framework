@@ -19,7 +19,7 @@
 	    <div class="splist-form-holder d-block">
 	      <div class="splist-form" role="form">
 	        <div class="col-sm-6 form-group gen-fields-holder" item-name="annotation" item-type="select">
-	          <label for="annotation">Annotation</label>
+	          <label for="field_validations_annotation">Annotation</label>
 	          <select class="form-control select2 " id="field_validations_annotation" name="annotation"></select>
 	        </div>
 	        <div class="form-group col-sm-6 gen-fields-holder field-annotation-input" item-name="value" item-type="text">
