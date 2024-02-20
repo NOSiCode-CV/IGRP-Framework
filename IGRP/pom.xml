@@ -222,12 +222,6 @@
          <artifactId>hibernate-hikaricp</artifactId>
          <version>${hibernate.version}</version>
       </dependency>
-		<!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP a versão 5 é JDK11-->
-		<dependency>
-		   <groupId>com.zaxxer</groupId>
-		   <artifactId>HikariCP</artifactId>
-		   <version>${hikaricp.version}</version>
-		</dependency>
 		<!--END
         Hibernate Dependencies -->
 		<!-- Database Dependencies -->
