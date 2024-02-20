@@ -32,23 +32,26 @@
  		<xsl:value-of select="'}'"/>
     </xsl:template>  
     
-    <!-- create actions based in rules (Fields) -->
- 	<xsl:template name="createActions_"> 	
- 		<xsl:variable name="app_" select="/rows/app" />
+    <!-- create actions based in rules (Fields)
+	<xsl:template name="createActions_">
+		<xsl:variable name="app_" select="/rows/app" />
 		<xsl:variable name="page_">
-             <xsl:choose>
-                 <xsl:when test="contains(/rows/page, '@')">
-                     <xsl:value-of select="substring-after(/rows/page, '@')"/>
-                 </xsl:when>
-                 <xsl:otherwise>
-                     <xsl:value-of select="/rows/page"/>
-                 </xsl:otherwise>
-             </xsl:choose>
+			<xsl:choose>
+				<xsl:when test="contains(/rows/page, '@')">
+					<xsl:value-of select="substring-after(/rows/page, '@')"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="/rows/page"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
- 		<xsl:for-each select="//rules/rule"> 		
- 			<xsl:variable name="action_" select="./proc" />
- 		</xsl:for-each> 		
- 	</xsl:template>
+		<xsl:for-each select="//rules/rule">
+			<xsl:if test="not(proc = 'index')">
+				<xsl:variable name="action_" select="./proc" />
+			</xsl:if>
+		</xsl:for-each>
+	</xsl:template>
+	-->
  	
 
      <!-- import all class to using in controller -->
@@ -98,9 +101,7 @@
 		<!--<xsl:call-template name="import-class-models"></xsl:call-template>  -->
 	
  	</xsl:template>
- 	
- 	
- 	
+
 	<!-- create actions based in button -->
 	<xsl:template name="createActions">
          <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or  (count(/rows/content//tools-bar) &gt; 0) or (count(/rows/content//context-menu/item) &gt; 0)">
@@ -492,8 +493,9 @@
 
 						<xsl:if test="not(@custom_return) or @custom_return!='true'">
 							<xsl:call-template name="newlineTab2"/>
-							<xsl:value-of select="concat('Response response = ',$page,'==null?this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,',this.queryString()):',$page,'.',$action_name_,'(model);')"/>
+							<xsl:value-of select="concat('Response response = ',$page,'!=null?',$page,'.',$action_name_,'(model):null;')"/>
 						</xsl:if>
+
 						<xsl:call-template name="start-example"/>						
 						<xsl:value-of select="concat(' ',' this.addQueryString(',$double_quotes,'p_id',$double_quotes,',',$double_quotes,'12',$double_quotes,'); //to send a query string in the URL')"/>							
 						<xsl:call-template name="newlineTab2"/>	
@@ -537,11 +539,9 @@
 
 				     	<xsl:if test="not(@custom_return) or @custom_return!='true'">
 							
-							<!--<xsl:value-of select="concat('return ',$page,'.',$action_name_,'(model);')"/>-->	
-							<xsl:value-of select="'return response;'"/>	
-							<!--
-								<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString());')"/>
-							-->
+							<!--<xsl:value-of select="concat('return ',$page,'.',$action_name_,'(model);')"/>-->
+							<xsl:value-of select="concat('return response!=null?response:this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString());')"/>
+
 						
 						</xsl:if>
 						
@@ -583,9 +583,9 @@
 
 						<xsl:if test="not(@custom_return) or @custom_return!='true'">
 							<xsl:call-template name="newlineTab2"/>
-							<xsl:value-of select="concat('Response response = ',$page,'==null?this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,',this.queryString()):',$page,'.',$action_name_,'(model);')"/>
+							<xsl:value-of select="concat('Response response = ',$page,'!=null?',$page,'.',$action_name_,'(model):null;')"/>
 						</xsl:if>
-						<xsl:call-template name="start-example"/>		
+					<xsl:call-template name="start-example"/>
 						<xsl:value-of select="concat(' ','this.addQueryString(',$double_quotes,'p_id',$double_quotes,',',$double_quotes,'12',$double_quotes,'); //to send a query string in the URL')"/>							
 						<xsl:call-template name="newlineTab2"/>	
 										
@@ -603,10 +603,16 @@
 	 						</xsl:for-each> 	 			
 						</xsl:for-each>
 						
-						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,'index',$double_quotes,',this.queryString()); //if submit, loads the values')"/>							
-						<xsl:call-template name="end-example"/>			
-						
-					
+						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,'index',$double_quotes,',this.queryString()); //if submit, loads the values')"/>
+						<xsl:call-template name="newlineTab2"/>
+					<xsl:call-template name="end-example"/>
+					<xsl:call-template name="newlineTab2"/>
+					<xsl:text>/* Start-Code-Block (</xsl:text><xsl:value-of select="$action_name_"></xsl:value-of><xsl:text>)  */</xsl:text>
+					<xsl:call-template name="blockly.elements">
+						<xsl:with-param name="elements" select="//rows/blockly/xml/block/statement[@name=$action_name_]/block"/>
+					</xsl:call-template>
+					<xsl:text>/* End-Code-Block  */</xsl:text>
+
 					<xsl:call-template name="start-code">
 			     		<xsl:with-param name="type" select="$action"/>
 			     		<xsl:with-param name="url" select="$url"/>
@@ -618,8 +624,7 @@
 			     
 					<xsl:call-template name="newlineTab2"/>		
 					<xsl:if test="not(@custom_return) or @custom_return!='true'">
-						<xsl:value-of select="'return response;'"/>	
-						<!--<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString());')"/>-->
+						<xsl:value-of select="concat('return response!=null?response:this.redirect(',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString());')"/>
 					</xsl:if>
 				</xsl:if>
 			</xsl:otherwise>
@@ -628,13 +633,10 @@
 		<xsl:value-of select="$tab"/>
 
      	<!-- <xsl:value-of select="$end_reserve_code"></xsl:value-of> -->
-		
-		 
+
      	<xsl:call-template name="end_reserve_code_action">
      		<xsl:with-param name="type" select="$action"/>
      	</xsl:call-template>
-
-		
 
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
@@ -749,7 +751,8 @@
 			</xsl:choose>
 		</xsl:for-each>
  	</xsl:template>
- 	
+
+	<!-- add view addLegendColor -->
  	<xsl:template name="addLegendColor">
  		<xsl:for-each select="//content/*[@type='table' or @type='workflow']">
  			<xsl:if test="fields/*[@type='color']">
@@ -775,8 +778,7 @@
 	 		<xsl:call-template name="newlineTab2"/>		
 	 	</xsl:for-each>
  	</xsl:template>
- 	
- 	
+
  	<!-- view.table_1.setSqlQuery("select 'name' name, 1 id FROM dual"); -->
  	<xsl:template name="setSqlTable"> 	
  		<xsl:for-each select="//content/*[@type='table' or @type='workflow' or @type='formlist' or @type='separatorlist' ]">
@@ -838,9 +840,7 @@
 			</xsl:for-each>			
 	 	</xsl:for-each>
  	</xsl:template>
- 	
- 	
- 	
+
  	<!-- view.select1.setSqlQuery("select 'id' as id,'name' as name FROM dual"); -->
  	<xsl:template name="setSqlCombobox_">
  		<xsl:param name="app_"/>
@@ -881,8 +881,7 @@
 			</xsl:for-each>			
 	 	</xsl:for-each>
  	</xsl:template>
- 	
- 	
+
  	<!-- statbox, smallbox, circlestatbox  -->
  	<xsl:template name="setBoxUrl">
  		<xsl:for-each select="//content/*[@type='statbox' or @type='smallbox' or @type='circlestatbox']/fields/*">

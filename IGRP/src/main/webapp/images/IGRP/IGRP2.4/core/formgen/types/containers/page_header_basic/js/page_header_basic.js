@@ -9,7 +9,7 @@ var PAGE_HEADER_BASIC = function(name,params){
 	
 	//container.xml.type = 'items';
 	//container.xml.genType = 'menu';
-	//container.xml.structure = 'toolsbar';
+	container.xml.structure = 'page_header';
 
 	container.contextMenu = {
 		type   : 'button',

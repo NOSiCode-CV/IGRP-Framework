@@ -152,7 +152,7 @@
 
         <div class="form-group" item-name="{$tag}" item-type="{$type}">
 
-            <select name="{$field/@name}_fk" class="form-control select2 {$change}" id="{$parent-id}_{$tag}" input-rel="{$field/@name}_fk" rel="F_{$parent-id}">
+            <select name="{$field/@name}_fk" class="form-control select2 {$change}"  input-rel="{$field/@name}_fk" rel="F_{$parent-id}">
                 <xsl:call-template name="setAttributes">
                     <xsl:with-param name="field" select="$field"/>
                 </xsl:call-template>
