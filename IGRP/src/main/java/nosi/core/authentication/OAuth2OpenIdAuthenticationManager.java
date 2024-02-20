@@ -68,6 +68,9 @@ public final class OAuth2OpenIdAuthenticationManager {
 		if (uid == null && Core.isNotNull(email) || user == null)
 			user = new User().find().andWhere("email", "=", email).one();
 
+		final String env = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
+				ConfigCommonMainConstants.IGRP_ENV.getEnvironmentVariable() : settings.getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
+
 		if (user != null) {
 
 			if (user.getStatus() != 1)
@@ -89,7 +92,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 			user.setRefreshToken(refresh_token);
 			user = user.update();
 			isUserAuthenticated = true;
-		} else if ("dev".equalsIgnoreCase(settings.getProperty(ConfigCommonMainConstants.IGRP_ENV.value()))) {
+		} else if ("dev".equalsIgnoreCase(env)) {
 			User newUser = new User();
 			newUser.setUser_name(uid);
 			newUser.setEmail(email);
@@ -187,7 +190,10 @@ public final class OAuth2OpenIdAuthenticationManager {
 	}
 	
 	public static Optional<String> signOut(User currentUser, Properties configs, HttpServletRequest request) {
-		String authenticationType = configs.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+
+		final String authenticationType = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
+				ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.getEnvironmentVariable() : configs.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+
 		if(!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equalsIgnoreCase(authenticationType))
 			return Optional.empty();
 		String oidcIdToken = currentUser.getOidcIdToken(); 

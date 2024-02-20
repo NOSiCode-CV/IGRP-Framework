@@ -1,6 +1,7 @@
 package nosi.base.ActiveRecord;
 
 import nosi.core.config.ConfigApp;
+import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Core;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -143,9 +144,7 @@ public class HibernateUtils {
     */
    private static void processEnvironmentVariables(Properties properties) {
 
-      // TODO 13/02/2024 18:38 Later create module to handle all main.xml properties as env vars
-      final var envVarScanningValue = System.getenv("IGRP_ENV_VARIABLE_SCAN");
-      if (!Boolean.parseBoolean(envVarScanningValue))
+      if (!ConfigCommonMainConstants.isEnvironmentVariableScanActive())
          return;
 
       LOG.info("Loading environment variables for database access...");

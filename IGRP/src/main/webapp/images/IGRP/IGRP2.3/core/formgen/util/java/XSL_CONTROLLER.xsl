@@ -283,7 +283,7 @@
 					<xsl:when test="$type_render_='render'">
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>						
+						<xsl:value-of select="concat('var model = new ',$model,'();')"/>
 						<xsl:call-template name="newlineTab2"/>						
 						<xsl:value-of select="'model.load();'"/>
 						<xsl:call-template name="setBoxUrl"/>
@@ -373,7 +373,7 @@
 						</xsl:if>	
 						
 						
-						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>					
+						<xsl:value-of select="concat('var view = new ',$model,'View();')"/>
 						<xsl:call-template name="setParam"/>
 						<xsl:call-template name="setSqlCombobox_">						
 							<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>						
@@ -407,7 +407,7 @@
 					
 						
 						<xsl:call-template name="newlineTab2"/>														
-						<xsl:value-of select="concat($class_name,' model = new ',$class_name,'();')"/>
+						<xsl:value-of select="concat('var model = new ',$class_name,'();')"/>
 					    <xsl:call-template name="newlineTab2"/>		
 					    					    	
 						<xsl:value-of select="'model.load();'"/>
@@ -459,7 +459,7 @@
 					
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
+						<xsl:value-of select="concat('var model = new ',$model,'();')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="$newline"/>
@@ -467,7 +467,7 @@
 						<xsl:value-of select="'//Your code here'"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="'Response response = new Response();'"/>
+						<xsl:value-of select="'var response = new Response();'"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="'response.setContentType(Response.FORMAT_XML);'"/>
@@ -485,7 +485,7 @@
 			<xsl:otherwise>
 				<xsl:if test="$your_code=''">
 					  <xsl:call-template name="newlineTab2"/>		
-						<xsl:value-of select="concat($class_name,' model = new ',$class_name,'();')"/>
+						<xsl:value-of select="concat('var model = new ',$class_name,'();')"/>
 					    <xsl:call-template name="newlineTab2"/>							    					    	
 						<xsl:value-of select="'model.load();'"/>
 						<xsl:call-template name="start-example"/>		
