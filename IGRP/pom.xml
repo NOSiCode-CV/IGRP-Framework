@@ -52,7 +52,7 @@
       <hikaricp.version>5.1.0</hikaricp.version>
 		<!--      jbdc drivers-->
       <mysql.version>8.2.0</mysql.version>
-      <postgres.version>42.7.1</postgres.version>
+      <postgres.version>[42.7.2,43.0.0)</postgres.version>
       <h2.version>2.2.224</h2.version>
       <sqlserver.version>12.4.2.jre11</sqlserver.version>
       <oracle.version>23.2.0.0</oracle.version> <!-- 23.3.0.23.09 with problem starting -->
@@ -86,8 +86,6 @@
 		<!-- Unit Test and Integration Test Properties -->
       <junit.jupiter.version>5.9.2</junit.jupiter.version>
 
-		<!-- JavaEE API & jax-rs version -->
-      <javaee.api.version>8.0-6</javaee.api.version>
 		<!-- JavaDev Underscore Version: Transform JSON To XML Preserving the
 		order of the elements - needed to invite users LDAP-->
       <javadev.underscore.version>1.97</javadev.underscore.version>
@@ -156,7 +154,7 @@
       <dependency>
          <groupId>org.dom4j</groupId>
          <artifactId>dom4j</artifactId>
-         <version>2.1.4</version>
+         <version>[2.1.4,3.0.0)</version>
       </dependency>
 
 		<!-- OPEN HTML TO PDF https://github.com/danfickle/openhtmltopdf -->
