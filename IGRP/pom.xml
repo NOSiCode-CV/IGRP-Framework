@@ -94,12 +94,16 @@
       <activiti.bpmn.converter.version>6.0.0</activiti.bpmn.converter.version>
 
 		<!-- Flyway Migration API & Docker PostgreSQL -->
-		<flyway.version>10.4.1</flyway.version>
-		<igrp.db.user>${db_user}</igrp.db.user> <!-- Ex: postgres -->
-		<igrp.db.password>${db_password}</igrp.db.password>
-		<igrp.db.dsn>jdbc:postgresql://${server_IP}/${db_name}</igrp.db.dsn> <!-- Ex: jdbc:postgresql://localhost:5432/db_igrp  -->
+
+		<!--suppress UnresolvedMavenProperty -->
+       <igrp.db.user>${db_user}</igrp.db.user> <!-- Ex: postgres -->
+		<!--suppress UnresolvedMavenProperty -->
+       <igrp.db.password>${db_password}</igrp.db.password>
+		<!--suppress UnresolvedMavenProperty -->
+       <igrp.db.dsn>jdbc:postgresql://${server_IP}/${db_name}</igrp.db.dsn> <!-- Ex: jdbc:postgresql://localhost:5432/db_igrp  -->
 		<!--<igrp.db.dsn>jdbc:postgresql://postgres:5432/db_igrp</igrp.db.dsn>--> <!-- Uncomment this line when run IGRPWEB+Postgres+Docker -->
-		<igrp.migration.location>${migration_location}</igrp.migration.location> <!-- Ex: classpath:nosi/core/db/migration/igrp/postgres  -->
+		<!--suppress UnresolvedMavenProperty -->
+       <igrp.migration.location>${migration_location}</igrp.migration.location> <!-- Ex: classpath:nosi/core/db/migration/igrp/postgres  -->
 
 
 		<!-- Barcode ...-->
