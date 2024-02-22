@@ -52,7 +52,6 @@
       <hikaricp.version>5.1.0</hikaricp.version>
 		<!--      jbdc drivers-->
       <mysql.version>8.2.0</mysql.version>
-      <postgres.version>[42.7.2,43.0.0)</postgres.version>
       <h2.version>2.2.224</h2.version>
       <sqlserver.version>12.4.2.jre11</sqlserver.version>
       <oracle.version>23.2.0.0</oracle.version> <!-- 23.3.0.23.09 with problem starting -->
@@ -240,7 +239,7 @@
       <dependency>
          <groupId>org.postgresql</groupId>
          <artifactId>postgresql</artifactId>
-         <version>${postgres.version}</version>
+         <version>[42.7.2,43.0.0)</version>
       </dependency>
 		<!--
 		https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
@@ -440,14 +439,14 @@
       <dependency>
          <groupId>org.flywaydb</groupId>
          <artifactId>flyway-core</artifactId>
-         <version>${flyway.version}</version>
+         <version>[10.4.1,11.0.0)</version>
       </dependency>
       
       <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-database-postgresql -->
 		<dependency>
 		    <groupId>org.flywaydb</groupId>
 		    <artifactId>flyway-database-postgresql</artifactId>
-		    <version>${flyway.version}</version>
+		    <version>[10.4.1,11.0.0)</version>
 		</dependency>
 
 		<!-- (Start) Unit & Integration Test Dependencies -->
@@ -632,6 +631,7 @@
                   <tomeeClassifier>plus</tomeeClassifier>
                   <reloadOnUpdate>true</reloadOnUpdate>
               		<!-- To change de ports
+              		<debugPort>5007</debugPort>
 					<tomeeHttpPort>8081</tomeeHttpPort>
 					<tomeeShutdownPort>8006</tomeeShutdownPort>  -->
                   <args>-Dfile.encoding=UTF-8</args>
