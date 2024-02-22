@@ -614,7 +614,7 @@
             <plugin>
                <groupId>org.flywaydb</groupId>
                <artifactId>flyway-maven-plugin</artifactId>
-               <version>${flyway.version}</version>
+
                <configuration>
                   <url>${igrp.db.dsn}</url>
                   <user>${igrp.db.user}</user>
