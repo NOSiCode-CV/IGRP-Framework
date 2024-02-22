@@ -76,7 +76,7 @@
         <xsl:variable name="type" select="@type"/>
         
         <xsl:if test="$show-label = 1">
-            <label for="{@name}" class="form-label">
+            <label for="{$parent-id}_{name()}" class="form-label">
                 <xsl:value-of select="label"/>
             </label>
         </xsl:if>
@@ -113,7 +113,7 @@
         <xsl:param name="show-label" select="1"/>
 
         <xsl:if test="$show-label = 1">
-            <label for="{@name}" class="form-label">
+            <label for="{$parent-id}_{name()}" class="form-label">
                 <xsl:value-of select="label"/>
             </label>
         </xsl:if>
@@ -208,7 +208,7 @@
         <xsl:variable name="type" select="@type"/>
 
         <xsl:if test="$show-label = 1">
-            <label for="{@name}" class="form-label">
+            <label for="{$input-id}" class="form-label">
                 <xsl:value-of select="label"/>
             </label>
         </xsl:if>

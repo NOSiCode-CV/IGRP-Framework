@@ -1,8 +1,10 @@
 package nosi.core.data.querybuilder.whereclause;
 
+import javax.persistence.criteria.Join;
 import nosi.core.data.querybuilder.base.IGRPQueryBase;
 import nosi.core.data.querybuilder.groupbyclause.IGRPGroupByQuery;
 import nosi.core.data.querybuilder.interfaces.IIGRPWhereQuery;
+import nosi.core.data.querybuilder.joinclause.IGRPJoinWhereQuery;
 import nosi.core.data.querybuilder.orderbyclause.IGRPOrderByQuery;
 import nosi.core.data.querybuilder.selectclause.IGRPSelectQuery;
 
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.BiPredicate;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -47,7 +50,39 @@ public class IGRPWhereQuery<E> extends IGRPSelectQuery<E> implements IIGRPWhereQ
         return new IGRPAndWhereQuery<>(this);
     }
 
-    public IGRPGroupByQuery<E> groupBy(String column) {
+   public IGRPJoinWhereQuery<E> beginJoin(Consumer<JoinAttributeHolder> builderConsumer) {
+
+      final JoinAttributeHolder joinAttributeHolder = new JoinAttributeHolder();
+      builderConsumer.accept(joinAttributeHolder);
+
+      Join<Object, Object> join = null;
+
+      final List<String> attributes = joinAttributeHolder.attributes;
+
+      for (String attribute : attributes) {
+         Objects.requireNonNull(attribute, "attributes contains null references");
+         join = Objects.isNull(join) ? this.getRoot().join(attribute) : join.join(attribute);
+      }
+
+      return new IGRPJoinWhereQuery<>(this, join);
+   }
+
+   public static class JoinAttributeHolder {
+      private final List<String> attributes = new ArrayList<>();
+
+      public <X, Y> JoinAttributeHolder join(SingularAttribute<X, Y> attribute) {
+         this.attributes.add(attribute.getName());
+         return this;
+      }
+
+      public JoinAttributeHolder join(String attribute) {
+         this.attributes.add(attribute);
+         return this;
+      }
+   }
+
+
+   public IGRPGroupByQuery<E> groupBy(String column) {
         this.applyWhereClause();
         return new IGRPGroupByQuery<>(this, column);
     }

@@ -1,9 +1,10 @@
 package nosi.webapps.igrp.pages.settings;
 
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
+import java.sql.Date;
+import java.time.LocalDateTime;
+
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
@@ -103,6 +104,9 @@ public class SettingsController extends Controller {
 			 view.s_as.setVisible(false);
 		     view.assinatura.setVisible(false);
 		}
+		if(Core.isNotNull(currentUser.getPhoto_id()))
+			model.setView_1_img( Core.getLinkFileByUuid(currentUser.getPhoto_id()));
+		
 		//hidden the fields for now
 		view.ultimo_acesso_rede_estado.setVisible(false);
 		view.ultimo_acesso_igrp.setVisible(false);

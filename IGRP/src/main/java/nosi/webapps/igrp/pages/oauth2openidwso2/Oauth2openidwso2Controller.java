@@ -50,9 +50,12 @@ public class Oauth2openidwso2Controller extends Controller {
 		String oidcState = (String) Core.getFromSession("_oidcState", true); 
 		
 		if(oidcIdToken != null && !oidcIdToken.isEmpty() && oidcState != null && !oidcState.isEmpty()) {
-			Properties settings = this.configApp.getMainSettings(); 
-			String r = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value()); 
-			if(r != null && r.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value())) {
+			Properties settings = this.configApp.getMainSettings();
+
+			String authenticationType = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
+					ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.getEnvironmentVariable() : settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+
+			if(authenticationType != null && authenticationType.equals(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value())) {
 				String oidcLogout = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_LOGOUT.value()); 
 				if(oidcLogout != null && !oidcLogout.isEmpty()) {
 					String aux = oidcLogout + "?id_token_hint=" + oidcIdToken + "&state=" + oidcState; 

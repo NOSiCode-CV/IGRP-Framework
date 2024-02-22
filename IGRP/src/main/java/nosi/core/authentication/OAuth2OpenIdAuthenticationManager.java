@@ -1,17 +1,5 @@
 package nosi.core.authentication;
 
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Properties;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.json.JSONException;
-import org.json.JSONObject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.client.Client;
@@ -21,8 +9,15 @@ import jakarta.ws.rs.client.Invocation;
 import jakarta.ws.rs.core.Form;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.ApplicationManager;
+import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.*;
 
 public final class OAuth2OpenIdAuthenticationManager {
 	
@@ -65,14 +60,17 @@ public final class OAuth2OpenIdAuthenticationManager {
 		String name = userInfo.get("name");
 		String phone_number = userInfo.get("phone_number");
 
-		nosi.webapps.igrp.dao.User user = null;
+		User user = null;
 		boolean isUserAuthenticated = false;
 		
 		if (uid != null)
-			user = new nosi.webapps.igrp.dao.User().find().andWhere("cni", "=", uid).one();
-		if ((uid == null && email != null) || (uid != null && user == null))
-			user = new nosi.webapps.igrp.dao.User().find().andWhere("email", "=", email).one();
-		
+			user = new User().find().andWhere("cni", "=", uid).one();
+		if (uid == null && Core.isNotNull(email) || user == null)
+			user = new User().find().andWhere("email", "=", email).one();
+
+		final String env = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
+				ConfigCommonMainConstants.IGRP_ENV.getEnvironmentVariable() : settings.getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
+
 		if (user != null) {
 
 			if (user.getStatus() != 1)
@@ -86,16 +84,16 @@ public final class OAuth2OpenIdAuthenticationManager {
 			
 			session.setAttribute("_oidcIdToken", idToken);
 			session.setAttribute("_oidcState", sessionState);
-			
-			user.setValid_until(token);
+
+			user.setValid_until(refresh_token);
 			user.setOidcIdToken(idToken);
 			user.setOidcState(sessionState);
 			user.setIsAuthenticated(1);
 			user.setRefreshToken(refresh_token);
 			user = user.update();
 			isUserAuthenticated = true;
-		} else if ("dev".equalsIgnoreCase(settings.getProperty(ConfigCommonMainConstants.IGRP_ENV.value()))) {
-			nosi.webapps.igrp.dao.User newUser = new nosi.webapps.igrp.dao.User();
+		} else if ("dev".equalsIgnoreCase(env)) {
+			User newUser = new User();
 			newUser.setUser_name(uid);
 			newUser.setEmail(email);
 			newUser.setName(name);
@@ -106,7 +104,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 			newUser.setUpdated_at(System.currentTimeMillis());
 			newUser.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
 			newUser.setActivation_key(nosi.core.webapp.User.generateActivationKey());
-			newUser.setValid_until(token);
+			newUser.setValid_until(refresh_token);
 			newUser.setOidcIdToken(idToken);
 			newUser.setOidcState(sessionState);
 			newUser.setRefreshToken(refresh_token);
@@ -148,7 +146,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 				JSONObject jToken = new JSONObject(resultPost);
 				String token = (String) jToken.get("access_token");
 				String id_token = (String) jToken.get("id_token");
-				String refresh_token = (String) jToken.get("refresh_token");
+				String refresh_token = (String) jToken.optString("refresh_token", ""+jToken.optIntegerObject("expires_in",4000));
 				m.put("access_token", token);
 				m.put("id_token", id_token);
 				m.put("session_state", sessionState);
@@ -186,14 +184,16 @@ public final class OAuth2OpenIdAuthenticationManager {
 		String _value = null;
 		try {
 			_value = obj.getString(attibute);
-		} catch (JSONException je) {
-			_value = null;
-		}
+		} catch (JSONException ignored) {
+        }
 		return _value;
 	}
 	
 	public static Optional<String> signOut(User currentUser, Properties configs, HttpServletRequest request) {
-		String authenticationType = configs.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+
+		final String authenticationType = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
+				ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.getEnvironmentVariable() : configs.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+
 		if(!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equalsIgnoreCase(authenticationType))
 			return Optional.empty();
 		String oidcIdToken = currentUser.getOidcIdToken(); 

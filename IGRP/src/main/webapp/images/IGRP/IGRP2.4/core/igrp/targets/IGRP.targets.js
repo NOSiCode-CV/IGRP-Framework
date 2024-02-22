@@ -738,7 +738,7 @@ var mWindow = null,
 					close();*/
 				
 				_window.$.IGRP.targets.submit.action({
-					url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || url,
+					url 	 : $('#p_env_frm_url',$(_window.document.getElementsByClassName("IGRP-form")[0])).val() || url,
 					validate : false
 				});
 					

@@ -256,7 +256,7 @@
 					<xsl:when test="$type_render_='render'">
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
+						<xsl:value-of select="concat('var model = new ',$model,'();')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat('if(Igrp.getMethod().equalsIgnoreCase(',$double_quotes,'post',$double_quotes,')){')"/>
@@ -270,7 +270,7 @@
 						
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
+						<xsl:value-of select="concat('var view = new ',$model,'View(model);')"/>
 						<xsl:call-template name="setSqlChart"></xsl:call-template>
 						<xsl:call-template name="setSqlTable"></xsl:call-template>
 						<xsl:call-template name="setSqlCombobox"></xsl:call-template>
@@ -284,7 +284,7 @@
 					<xsl:when test="$type_render_='redirect'">
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat($class_name,' model = new ',$class_name,'();')"/>
+						<xsl:value-of select="concat('var model = new ',$class_name,'();')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat('if(Igrp.getMethod().equalsIgnoreCase(',$double_quotes,'post',$double_quotes,')){')"/>
@@ -335,7 +335,7 @@
 						<xsl:value-of select="'//programming your save edit calendar'"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="'Response response = new Response();'"/>
+						<xsl:value-of select="'var response = new Response();'"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="'response.setContentType(Response.FORMAT_XML);'"/>

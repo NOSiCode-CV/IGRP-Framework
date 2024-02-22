@@ -17,14 +17,14 @@ public class Settings extends Model{
 	@RParam(rParamName = "p_username")
 	private String username;
 
-	@RParam(rParamName = "p_cni")
-	private String cni;
-
 	@RParam(rParamName = "p_telefone")
 	private String telefone;
 
 	@RParam(rParamName = "p_telemovel")
 	private String telemovel;
+
+	@RParam(rParamName = "p_cni")
+	private String cni;
 
 	@RParam(rParamName = "p_ultimo_acesso_igrp")
 	private String ultimo_acesso_igrp;
@@ -86,13 +86,6 @@ public class Settings extends Model{
 		return this.username;
 	}
 	
-	public void setCni(String cni){
-		this.cni = cni;
-	}
-	public String getCni(){
-		return this.cni;
-	}
-	
 	public void setTelefone(String telefone){
 		this.telefone = telefone;
 	}
@@ -105,6 +98,13 @@ public class Settings extends Model{
 	}
 	public String getTelemovel(){
 		return this.telemovel;
+	}
+	
+	public void setCni(String cni){
+		this.cni = cni;
+	}
+	public String getCni(){
+		return this.cni;
 	}
 	
 	public void setUltimo_acesso_igrp(String ultimo_acesso_igrp){

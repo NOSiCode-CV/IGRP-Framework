@@ -92,11 +92,13 @@ public final class ConfigApp {
     }
 
     public String getEnvironment() {
-        return commonMain.getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
+        return ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
+                ConfigCommonMainConstants.IGRP_ENV.getEnvironmentVariable() : commonMain.getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
     }
 
     public String getAutenticationType() {
-        return commonMain.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+        return ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
+                ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.getEnvironmentVariable() : commonMain.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
     }
     
     public boolean isActiveGlobalACL() {

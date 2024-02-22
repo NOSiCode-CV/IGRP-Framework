@@ -82,11 +82,14 @@ public final class ApplicationManager {
 
 	public static boolean isPublic(HttpServletRequest request) {
 		String r = request.getParameter("r");
-		final String isPublic = request.getParameter("isPublic");
-		if (r == null || isPublic == null || !Arrays.asList("1", "2").contains(isPublic))
+		if (r == null)
 			return false;
 		if (PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains(r.toLowerCase()))
 			return true;
+		final String isPublic = request.getParameter("isPublic");
+		if (isPublic == null || !Arrays.asList("1", "2").contains(isPublic))
+			return false;
+
 		if ("2".equals(isPublic)) {
 			r = r.replace(" ", "+");
 			r = EncrypDecrypt.decryptURL(r, EncrypDecrypt.SECRET_KEY_PUBLIC_PAGE);
@@ -101,6 +104,8 @@ public final class ApplicationManager {
 		String r = request.getParameter("r");
 		if (r == null)
 			return false;
+		if(request.getIntHeader("X-Igrp-Remote")==1)
+			return true;
 		return PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains(r.toLowerCase());
 	}
 
@@ -111,7 +116,10 @@ public final class ApplicationManager {
 
 	public static Optional<String> buildOAuth2AuthorizeLink(HttpServletRequest request) {
 		Properties settings = loadConfig();
-		String authenticationType = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+
+		String authenticationType = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
+				ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.getEnvironmentVariable() : settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+
 		String authorizeEndpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_AUTHORIZE.value(), "");
 		String redirectUri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
 		String clientId = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
@@ -126,7 +134,10 @@ public final class ApplicationManager {
 	
 	public static Optional<String> processCallback(HttpServletRequest request) {
 		Properties settings = loadConfig();
-		String authenticationType = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+
+		String authenticationType = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
+				ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.getEnvironmentVariable() : settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+
 		if (!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equals(authenticationType)
 //				|| /**Too many redirect on sight*/ !request.getRequestURL().toString().endsWith(OAuth2OpenIdAuthenticationManager.CALLBACK_PATH)
 				)

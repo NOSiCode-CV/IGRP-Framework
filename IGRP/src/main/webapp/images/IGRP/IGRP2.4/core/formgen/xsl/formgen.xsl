@@ -77,7 +77,7 @@
                   </ul>
               </div>
 
-              <ul id="igrp-top-menu" class="hidden-xs navbar-right ml-auto pe-4 ms-auto d-flex align-items-center">
+              <ul id="igrp-top-menu" class="hidden-xs navbar-right ml-auto pe-4 ms-auto d-flex align-items-center" style="align-self: flex-end;">
                     <li>
                         <a>
                             <i class="fas fa-export"></i>
@@ -92,7 +92,7 @@
                                   <xsl:with-param name="app" select="app" />
                                   <xsl:with-param name="linkextra" select="parameter" />
                               </xsl:call-template> 
-                              <i class="fa fa-cog fa-spin fa-fw d-none"></i><span><xsl:value-of select="title"/></span>
+                              <i class="fa fa-cog fa-spin fa-fw hidden"></i><span><xsl:value-of select="title"/></span>
                               
                           </a>
                       </li>
@@ -105,7 +105,7 @@
           <form class="IGRP-form" name="formular_default" novalidate="">
               <div class="container-fluid">
                   <div class="row">
-                        <div class="col-lg-2  col-md-3 sidebar tree-list shadow d-none d-md-block" id="igrp-sidebar" bg-color="secondary">
+                        <div style="background-color:#004910;" class="col-lg-2  col-md-3 sidebar tree-list shadow d-none d-md-block" id="igrp-sidebar" bg-color="secondary">
                             
                  			 <a class="d-flex align-items-center px-5 pt-1" href="{rows/link}">
                                 <img style="height: 50px;" src="{$path}/core/formgen/img/logo-gen-white.png"/>
@@ -117,12 +117,12 @@
                             <div class="gen-components-search px-3 mt-4 position-relative d-none">
                                 
                                 <i class="fa fa-search"></i>
-                                <input class="form-control igrp-menu-search" placeholder="Pesquisar..."></input>
+                                <input class="form-control igrp-menu-search" name="pesquisar" placeholder="Pesquisar..."></input>
                                 
                             </div>
                             
                             
-                            <ul class="nav nav-tabs col-lg-2  col-sm-3 clearfix bottom-0 border-top" role="tablist" bg-color="secondary">
+                            <ul style="background-color:#004910;" class="nav nav-tabs col-lg-2  col-sm-3 clearfix bottom-0 border-top" role="tablist" bg-color="secondary">
                                 <li class="w-50">
                                     <a class="txt-ellipsis d-flex align-items-center justify-content-center flex-column" href="#gen-page-properties" role="tab" data-toggle="tab">
                                         <i class="ri-settings-2-line"></i>
@@ -411,28 +411,28 @@
                                 <div id="gen-page-settings" class="row" rel="settings">
 
                                     <div class="col-md-6 form-group d-none" item-name="gentype">
-                                        <label>Gen Type</label>
+                                        <label for="p_gentype">Gen Type</label>
                                         <select name="p_gentype" id="p_gentype" class="select gen-page-setter form-control" rel="gentype">
                                           <!-- <option value="plsql" >Plsql</option> -->
                                           <option value="java" selected="">Java</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 form-group" item-name="package_db_name" required="required">
-                                        <label>Package Name (DB)</label>
-                                        <input rel="package" required="" type="text" name="plsql_pack" value="" class="text gen-page-setter form-control" maxlength="500"/>
+                                        <label for="plsql_pack">Package Name (DB)</label>
+                                        <input rel="package" required="" type="text" id="plsql_pack" name="plsql_pack" value="" class="text gen-page-setter form-control" maxlength="500"/>
                                     </div>
                                     <div class="col-md-6 form-group" item-name="package_html_name" required="required">
-                                        <label>Package Name (HTML)</label>
-                                        <input rel="html" type="text" required="" name="plsql_html" value="" class="text gen-page-setter form-control" maxlength="500"/>
+                                        <label for="plsql_html">Package Name (HTML)</label>
+                                        <input rel="html" type="text" required="" id="plsql_html" name="plsql_html" value="" class="text gen-page-setter form-control" maxlength="500"/>
                                     </div>
   
                                    <div class="col-md-5 col-md-offset-1 checkbox" style="margin-top:15px">
 
                                         <div class="form-check " item-name="process">
-                                            <input id="plsql_process" type="checkbox" name="plsql_process" value="" class="checkbox form-check-input checkbox gen-page-setter"/>
                                             <label class="form-check-label " for="plsql_process">
                                                 Processo
                                             </label>
+                                            <input id="plsql_process" type="checkbox" name="plsql_process" value="" class="checkbox form-check-input checkbox gen-page-setter"/>
                                         </div>
 
                             
@@ -499,7 +499,7 @@
                                   <div class="col-4 available-wrapper  text-white p-4">
                                     <div>
                                         <div class="position-relative container-field-setter-search-wrapper mb-3">
-                                            <input placeholder="{$locale-strings/search-field}" class="ps-4 bg-transparent form-control container-field-setter-search py-1 text-white" type="text"/>
+                                            <input name="{$locale-strings/search-field}" placeholder="{$locale-strings/search-field}" class="ps-4 bg-transparent form-control container-field-setter-search py-1 text-white" type="text"/>
                                             <i class="ri-search-line position-absolute"></i>
                                         </div>
                                         <h5 class="text-white pt-0 mb-1">
@@ -544,16 +544,16 @@
 
                               <div rel="style" class="gen-properties-setts-holder row">
                                   <div class="form-group col-md-6">
-                                      <label>Id</label>
-                                      <input type="text" rel="id" value="" class="form-control style-setter"/>
+                                      <label for="form-control_id">Id</label>
+                                      <input type="text" rel="id" value="" id="form-control_id" class="form-control style-setter"/>
                                   </div>
                                   <div class="form-group col-md-6">
-                                      <label>Class</label>
-                                      <input type="text" rel="class" value="" class="form-control style-setter"/>
+                                      <label for="form-control_class">Class</label>
+                                      <input type="text" rel="class" id="form-control_class" value="" class="form-control style-setter"/>
                                   </div>
                                   <div class="form-group col-md-12">
-                                      <label>Estilo (inline)</label>
-                                      <textarea rel="inline" value="" class="form-control style-setter"/>
+                                      <label for="form-control_estilo">Estilo (inline)</label>
+                                      <textarea rel="inline" id="form-control_estilo" value="" class="form-control style-setter"/>
                                   </div>
                               </div>
 
@@ -581,7 +581,7 @@
                               <div rel="copy" class="gen-properties-setts-holder" gen-type="container">
                                   
                                   <div class="col-md-12 form-group" item-type="select" >
-                                      <label>From Page</label>
+                                      <label for="gen-page-copy-selecter">From Page</label>
                                       <select id="gen-page-copy-selecter" class="form-control select2"></select>
                                   </div>
 
@@ -648,7 +648,7 @@
                                   <div class="splist-form-holder ">
                                     <div class="splist-form" role="form">
                                       <div class="form-group col-md-12 gen-fields-holder" item-name="file" item-type="text" required="required">
-                                        <label>File URL</label>
+                                        <label for="p_file">File URL</label>
                                         <input required="required" type="text" value="" class="form-control " id="p_file" name="p_file"></input>
                                       </div>
                                     </div>

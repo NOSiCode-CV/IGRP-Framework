@@ -5,7 +5,6 @@ import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
-import nosi.webapps.igrp.dao.User; //block import
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
@@ -15,6 +14,7 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.User;
 /*----#end-code----*/
 		
 public class RegistarUtilizadorController extends Controller {
@@ -62,7 +62,7 @@ public class RegistarUtilizadorController extends Controller {
 				User user = new User();
 				user.setName(model.getNome());
 				
-				user.setPass_hash(nosi.core.webapp.User.encryptToHash(username+ "" + model.getPassword(), "SHA-256"));
+				user.setPass_hash(nosi.core.webapp.User.encryptToHash(username+ model.getPassword(), "SHA-256"));
 				user.setEmail(model.getEmail().toLowerCase(Locale.ROOT).trim());
 				
 				user.setUser_name(username);
@@ -79,11 +79,12 @@ public class RegistarUtilizadorController extends Controller {
 					try {
 						if(Core.isNotNull(model.getForm_1_img_1()) && model.getForm_1_img_1().isUploaded())
 							user.setSignature_id(Core.saveFileNGetUuid(model.getForm_1_img_1()));
+						if(Core.isNotNull(model.getFotografia()) && model.getFotografia().isUploaded())
+							user.setPhoto_id(Core.saveFileNGetUuid(model.getFotografia()));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				
-				
+	
 				user = user.insert();
 				
 				if(user.getId()!=null){
@@ -140,12 +141,22 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser,@RParam(
 				user.setCni(model.getCni());
 				user.setUpdated_at(System.currentTimeMillis());              	
 					try {
-						if(Core.isNotNull(model.getForm_1_img_1()) && model.getForm_1_img_1().isUploaded())
-							user.setSignature_id(Core.saveFileNGetUuid(model.getForm_1_img_1()));
+						if(Core.isNotNull(model.getForm_1_img_1()) && model.getForm_1_img_1().isUploaded()) {
+							if(Core.isNotNull(user.getSignature_id()))
+								Core.updateFile(model.getForm_1_img_1(),user.getSignature_id());
+							else
+								user.setSignature_id(Core.saveFileNGetUuid(model.getForm_1_img_1()));
+						}
+						
+						if(Core.isNotNull(model.getFotografia()) && model.getFotografia().isUploaded()) {
+							if(Core.isNotNull(user.getPhoto_id()))
+								Core.updateFile(model.getFotografia(),user.getPhoto_id());
+							else
+								user.setPhoto_id(Core.saveFileNGetUuid(model.getFotografia()));
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-              	
 				user = user.update();
 				if(user !=null){
 					Core.setMessageSuccess(gt("Utilizador atualizado com sucesso."));
