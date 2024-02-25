@@ -14,7 +14,7 @@
 
 		<script src="{$path}/core/jquery/{$jq-v}/jquery.min.js"></script>
 		<script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js"></script>
-		<script src="{$path}/core/moment/moment.min.js"></script>
+		<script src="{$path}/core/bootstrap/plugins/notify/bootstrap-notify.min.js" ></script>
 		<!-- EVENTS class -->
 		<script src="{$path}/core/igrp/IGRP.events.class.js?v={$version}"></script>
 		<!-- UTILS class -->
