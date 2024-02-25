@@ -33,16 +33,16 @@ public final class LdapAuthenticationManager {
 		if(!success)
 			throw new IllegalStateException("A sua conta ou palavra-passe está incorreta.");
 			// Verify if this credentials exist in DB
-			User user = new User().findIdentityByUsername(username);
+		User user = new User().findIdentityByUsername(username);
 			if (user != null) {
 				Profile profile = new Profile().getByUser(user.getId());
 				if(profile == null)
 					throw new IllegalStateException("Nenhum perfil foi encontrado para o utilizador.");
 				AuthenticationManager.createSecurityContext(user, request.getSession(false));
 				AuthenticationManager.afterLogin(profile, user, request);
-				setUserAsAuthenticated(user);
+
 				// sso(username, password, user);
-				return true;
+				return setUserAsAuthenticated(user);
 			} else {
 				final String env = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ? ConfigCommonMainConstants.IGRP_ENV.getEnvironmentVariable() : config.getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
 				if(!ConfigCommonMainConstants.IGRP_ENV_DEV.value().equals(env))
@@ -69,7 +69,7 @@ public final class LdapAuthenticationManager {
 				newUser = newUser.insert();
 				if (newUser != null) {
 					AuthenticationManager.createPerfilWhenAutoInvite(newUser);
-					AuthenticationManager.createSecurityContext(user, request.getSession(false));
+					AuthenticationManager.createSecurityContext(newUser, request.getSession(false));
 					// sso(username, password, newUser)
 					return true;
 				}
