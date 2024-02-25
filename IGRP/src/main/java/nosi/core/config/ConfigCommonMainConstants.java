@@ -81,12 +81,7 @@ public enum ConfigCommonMainConstants {
    }
 
    public String getEnvironmentVariable() {
-      System.out.println(System.getenv());
-      System.out.println("-------------------------------------------");
-      final var envVariable = System.getenv(this.name());
-      //for test purposes
-      System.out.println("-------------------------------------------> Getting : " + this.name() + " Value: " + envVariable);
-      return envVariable;
+      return System.getenv(this.name());
    }
 
    public static boolean isEnvironmentVariableScanActive() {
