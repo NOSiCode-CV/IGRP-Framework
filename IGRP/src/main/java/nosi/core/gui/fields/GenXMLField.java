@@ -34,7 +34,7 @@ public class GenXMLField {
 		if(!fields.isEmpty()){
 			xml.startElement("fields");
 				for(Field field:fields){
-					if(field.isVisible()){
+					if(field.isVisible() && !((field instanceof CheckBoxField) && field.getTagName().endsWith("_check"))){
 						if(field instanceof HiddenField){
 							xml.startElement(field.propertie().getProperty("hidden_formlist")!=null?field.propertie().getProperty("tag"):"hidden");
 							field.propertie().remove("maxlength");
