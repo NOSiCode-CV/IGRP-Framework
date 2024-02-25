@@ -242,6 +242,7 @@
                     <div class="form-group m-0">
                       <div class="input-group">
                         <input
+                                name="search_topbar"
                           type="text"
                           class="form-control"
                           placeholder="Search ..."
@@ -1267,6 +1268,11 @@
                         <h6 class="fs-18 fw-semibold lh-base">
                           Hey! You have no any notifications
                         </h6>
+                      </div>
+                    </div>
+                    <div class="notification-actions" id="notification-actions" style="display: block;">
+                      <div class="d-flex text-muted justify-content-center">
+                        Select <div id="select-content" class="text-body fw-semibold px-1">1</div> Result <button type="button" class="btn btn-link link-danger p-0 ms-3" data-bs-toggle="modal" data-bs-target="#removeNotificationModal">Remove</button>
                       </div>
                     </div>
                   </div>
