@@ -107,7 +107,7 @@
 
 
 		<!-- Barcode ...-->
-      <google.zxing.version>3.5.2</google.zxing.version> 
+      <google.zxing.version>3.5.3</google.zxing.version>
 		<!--  <apache.httpcomponents.httpmime.version>4.5.14</apache.httpcomponents.httpmime.version>
       <apache.httpcomponents.httpcore.version>4.4.16</apache.httpcomponents.httpcore.version>-->
 		<!-- K8s & Docker
