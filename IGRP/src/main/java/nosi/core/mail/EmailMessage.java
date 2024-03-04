@@ -52,8 +52,8 @@ public class EmailMessage {
 	private String authUsername;
 	private String authPassword;
 	
-	private List<File> attaches; 
-	private List<Attachment> attachesBytes; 
+	private final List<File> attaches;
+	private final List<Attachment> attachesBytes;
 	
 	private EmailMessage() { 
 		if(!this.load()) 
@@ -151,7 +151,19 @@ public class EmailMessage {
 	
 	public boolean send() throws IOException { 
 		try{
-			checkNSetupCredencials();
+
+			if(!validateEmail(this.from)) {
+				LOG.error("Email not sent ... Invalid email (from): <{}> ",this.from);
+				return false;
+			}
+
+           if (!validateEmails(this.to)) {
+              LOG.error("Email not sent (To)... one of email is invalid: <{}> ", this.to);
+              return false;
+           }
+
+           checkNSetupCredencials();
+
 			// Get the default Session object.
 			Session session = Session.getInstance(this.settings,
 				new jakarta.mail.Authenticator() {
@@ -161,28 +173,18 @@ public class EmailMessage {
 					}
 			});
 			// Create a default MimeMessage object. 
-			MimeMessage message = new MimeMessage(session); 
-			if(!validateEmail(this.from)) {
-				LOG.error("Email not sent ... Invalid email (from): <{}> ",this.from);
-				return false;
-			}
+			MimeMessage message = new MimeMessage(session);
 			// Set From: header field of the header.
 			message.setFrom(new InternetAddress(this.from));
-			// Set To: header field of the header. 
-			if(this.multipleRecipients) {
-				if(!validateEmails(this.to)) {
-					LOG.error("Email not sent (To)... one of email is invalid: <{}> ",this.to);
-					return false;
-				}
-				message.addRecipients(Message.RecipientType.CC,InternetAddress.parse(this.to)); // this.to is a string separated by comma 
-			}else {
-				if(!validateEmails(this.to)) {
-					LOG.error("Email not sent (To)... one of email is invalid: <{}> ",this.to);
-					return false;
-				}		
-				if(this.to != null && !this.to.isEmpty()) 
-					message.addRecipients(Message.RecipientType.TO,InternetAddress.parse(this.to)); 
-			}			
+			// Set To: header field of the header.
+
+			if (this.multipleRecipients) {
+				message.addRecipients(Message.RecipientType.CC, InternetAddress.parse(this.to)); // this.to is a string separated by comma
+			} else {
+				if (this.to != null && !this.to.isEmpty())
+					message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(this.to));
+			}
+
 			if(this.cc != null && !this.cc.isEmpty())	
 				message.addRecipients(Message.RecipientType.CC,InternetAddress.parse(this.cc));
 			if(this.bcc != null && !this.bcc.isEmpty()) 
