@@ -224,6 +224,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 		List<Integer> integerList = new Menu().find().keepConnection()
 				.where("action.page","=", page)
 				.andWhere("application.dad","=",dad)
+				.andWhere("status", "=", 1)
 				.allColumns("id").stream()
 					    .flatMap(map -> map.values().stream())
 					    .filter(Integer.class::isInstance)

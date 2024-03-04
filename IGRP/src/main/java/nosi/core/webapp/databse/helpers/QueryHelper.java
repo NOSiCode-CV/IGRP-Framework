@@ -275,7 +275,7 @@ public abstract class QueryHelper implements QueryInterface{
     
     @Override
     public QueryInterface addBoolean(String columnName,boolean value) {
-        this.addColumn(columnName, Boolean.valueOf(value), Boolean.class);
+        this.addColumn(columnName, value, Boolean.class);
         return this;
     }  
     
@@ -411,8 +411,7 @@ public abstract class QueryHelper implements QueryInterface{
 			}
 		}	
 		updates = new StringBuilder(Core.isNotNull(updates.toString()) ? updates.substring(0, updates.length() - 1) : "");
-		String s = "UPDATE "+tableName_ +" SET "+updates;
-		return s;
+       return "UPDATE " + tableName_ + " SET " + updates;
 	}
 	
 	public String getSqlDelete(String schemaName, String tableName) {

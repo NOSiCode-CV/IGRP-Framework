@@ -311,9 +311,10 @@ var GENERATOR = function(genparams){
 						if(actions && actions[0]){
 							actions.forEach( (action,z)=>{
 								if(
-									action.gen_rule_action === 'remote' ||
+									(action.gen_rule_action === 'remote' ||
 									action.gen_rule_action === 'remote_combobox' ||
-									action.gen_rule_action === 'remote_list'
+									action.gen_rule_action === 'remote_list')
+									&& action.gen_rule_procedure!='index'
 								 ){
 
 									content+=`
@@ -5849,7 +5850,8 @@ var GENERATOR = function(genparams){
 				field.type == 'checkboxlist' || 
 				field.type == 'radiolist' || 
 				field.type == 'radio' ||
-				field.type == 'checkbox' )
+				field.type == 'checkbox' ||
+				field.hidden)
 			
 				field.setPropriety({
 					name:'java-type',

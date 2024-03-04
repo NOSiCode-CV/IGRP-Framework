@@ -41,7 +41,8 @@
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
                     <value>
-                        <![CDATA[Área pessoal]]>
+                        <![CDATA[<p>&Aacute;rea pessoal de</p>
+]]>
                     </value>
                 </sectionheader_1_text>
             </fields>
@@ -68,41 +69,41 @@
         </toolsbar_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <nome name="p_nome" type="text" maxlength="100" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                <nome name="p_nome" type="text" maxlength="100" class="default" iconColor="#333" iconClass="" img="fa-user" showlabel="true">
                     <label>Nome</label>
-                    <value>Iste officia perspiciatis mollit sit</value>
+                    <value>Omnis labore consectetur totam iste</value>
                 </nome>
-                <email name="p_email" type="text" maxlength="100" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                <email name="p_email" type="text" maxlength="100" class="default" iconColor="#333" iconClass="" img="fa-at" showlabel="true">
                     <label>Email</label>
-                    <value>Natus amet ut rem iste</value>
+                    <value>Stract totam omnis unde stract</value>
                 </email>
-                <username name="p_username" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                <username name="p_username" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="fa-user-circle" showlabel="true">
                     <label>Username</label>
-                    <value>Amet elit iste sed sit</value>
+                    <value>Ut lorem unde sit aliqua</value>
                 </username>
-                <cni name="p_cni" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
-                    <label>CNI</label>
-                    <value>Iste perspiciatis sit accusantium adipiscing</value>
-                </cni>
-                <telefone name="p_telefone" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                <telefone name="p_telefone" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="fa-phone" showlabel="true">
                     <label>Telefone</label>
-                    <value>Anim deserunt lorem magna natu</value>
+                    <value>Sed unde elit adipiscing sed</value>
                 </telefone>
-                <telemovel name="p_telemovel" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                <telemovel name="p_telemovel" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="fa-mobile" showlabel="true">
                     <label>Telemóvel</label>
-                    <value>Lorem officia labore sit rem</value>
+                    <value>Officia aperiam mollit stract</value>
                 </telemovel>
-                <ultimo_acesso_igrp name="p_ultimo_acesso_igrp" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                <cni name="p_cni" type="text" maxlength="250" class="default" iconColor="#333" iconClass="" img="fa-id-card-o" showlabel="true">
+                    <label>CNI</label>
+                    <value>Officia sed dolor natus adipiscing</value>
+                </cni>
+                <ultimo_acesso_igrp name="p_ultimo_acesso_igrp" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="fa-hourglass-end" showlabel="true">
                     <label>Ultimo Acesso IGRP</label>
-                    <value>Omnis adipiscing stract magna</value>
+                    <value>Laudantium stract anim iste lo</value>
                 </ultimo_acesso_igrp>
-                <ultimo_acesso_rede_estado name="p_ultimo_acesso_rede_estado" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                <ultimo_acesso_rede_estado name="p_ultimo_acesso_rede_estado" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="fa-hourglass-o" showlabel="true">
                     <label>Ultimo Acesso Rede Estado</label>
-                    <value>Sed rem deserunt ipsum stract</value>
+                    <value>Sit accusantium ipsum anim ips</value>
                 </ultimo_acesso_rede_estado>
-                <password_expira_em name="p_password_expira_em" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="" showlabel="true">
+                <password_expira_em name="p_password_expira_em" type="text" maxlength="30" class="default" iconColor="#333" iconClass="" img="fa-unlock-alt" showlabel="true">
                     <label>Password Expira em</label>
-                    <value>Adipiscing amet rem dolor dese</value>
+                    <value>Adipiscing mollit natus ut adi</value>
                 </password_expira_em>
                 <view_1_img type="text" name="p_view_1_img" maxlength="300">
                     <value>../images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>

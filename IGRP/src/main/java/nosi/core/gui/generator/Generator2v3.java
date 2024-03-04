@@ -10,6 +10,8 @@ package nosi.core.gui.generator;
 import nosi.core.config.Config;
 import nosi.core.config.IHeaderConfig;
 import nosi.core.xml.XMLWritter;
+import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
 
 public class Generator2v3 implements IHeaderConfig{
 
@@ -25,7 +27,8 @@ public class Generator2v3 implements IHeaderConfig{
 	}
 	public Generator2v3(String xml) {
 		this.xml = new XMLWritter("rows",new Config().getLinkXSLGenerator("2.3"), "dash");
-		this.xml.addXml(new Config().getHeader(this));
+		Action acGen23= new Action("Generator", "Generator", "", "", "Generator","Generator", "2.3", 1, new Application().findOne(1));
+		this.xml.addXml(new Config().getHeader(this,acGen23));
 		this.xml.startElement("content");
 		this.xml.writeAttribute("type", "dash");
 			this.xml.setElement("title", "Form Design");

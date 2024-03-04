@@ -67,7 +67,6 @@ public class CRUDGeneratorController extends Controller {
 			if (Core.isNotNull(model.getAplicacao())) {
 				
 				final Map<Object, Object> datasourceByEnv = new Config_env().getListDSbyEnv(Core.toInt(model.getAplicacao()));
-				
 				if (datasourceByEnv.size() == 2)
 					datasourceByEnv.remove(null);
 					
@@ -77,29 +76,25 @@ public class CRUDGeneratorController extends Controller {
 
 					Config_env config = new Config_env().find().andWhere("id", "=", Core.toInt(model.getData_source()))
 							.andWhere("application.id", "=", Core.toInt(model.getAplicacao())).one();
-					if(config!=null) {
-						
-							Map<String, String> schemasMap = DatabaseMetadaHelper.getSchemas(config);
-							if (schemasMap.size() == 2)
-								schemasMap.remove(null);
-							else
-								model.setSchema(Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+					if (config != null) {
 
-							view.schema.setValue(schemasMap);
+						Map<String, String> schemasMap = DatabaseMetadaHelper.getSchemas(config);
 
-							this.fillTable(model, config);
-						
+						if (Core.isNull(model.getSchema()))
+							model.setSchema(Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+
+						view.schema.setValue(schemasMap);
+
+						this.fillTable(model, config);
 					}
 					
-				}else
+				} else
 					model.setSchema(null);
+
+
 			}
 		} catch (Exception e) {
 			model.setTable_1(new ArrayList<>());
-			
-		//	model.getTable_1().add(row);
-			
-			//e.printStackTrace();
 		}
 		
 		/*----#end-code----*/
@@ -254,7 +249,7 @@ public class CRUDGeneratorController extends Controller {
 	}
 
 	/********************* METODO USADOS PARA GERAR CRUD *********************/
-	private Compiler compiler = new Compiler();
+	private final Compiler compiler = new Compiler();
 
 	private boolean generateCRUD(Config_env config, String schema, String tableName)
 			throws TransformerConfigurationException, IOException {

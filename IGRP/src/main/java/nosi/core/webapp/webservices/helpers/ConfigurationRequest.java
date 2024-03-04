@@ -27,7 +27,7 @@ import nosi.core.webapp.helpers.UrlHelper;
  */
 public class ConfigurationRequest {
 
-	private RestRequest request;
+	private final RestRequest request;
 	
 	public ConfigurationRequest(RestRequest request) {
 		this.request = request;
@@ -47,7 +47,7 @@ public class ConfigurationRequest {
 //		final HttpAuthenticationFeature basic = HttpAuthenticationFeature.basic(this.request.getUsername(),this.request.getPassword());
 //		return basic;
 //	}
-	public class Authenticator implements ClientRequestFilter {
+	private static class Authenticator implements ClientRequestFilter {
 	    private final String user;
 	    private final String password;
 	    public Authenticator(String user, String password) {

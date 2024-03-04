@@ -14,8 +14,8 @@ import nosi.webapps.igrp.dao.Application;
  */
 public class ApplicationExport implements IExport{
 
-	private Application application;
-	private ApplicationSerializable applicationSerializable;
+	private final Application application;
+	private final ApplicationSerializable applicationSerializable;
 	
 	public ApplicationExport(Application application) {
 		super();
@@ -31,7 +31,7 @@ public class ApplicationExport implements IExport{
 	@Override
 	public String serialization() {
 		Core.mapper(this.application, this.applicationSerializable);
-		this.applicationSerializable.setVersion(new Config().VERSION);
+		this.applicationSerializable.setVersion(Config.VERSION);
 		return Core.toJsonWithJsonBuilder(this.applicationSerializable);
 	}
 

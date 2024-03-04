@@ -76,7 +76,7 @@
         <xsl:variable name="type" select="@type"/>
         
         <xsl:if test="$show-label = 1">
-            <label for="{@name}" class="form-label">
+            <label for="{$parent-id}_{name()}" class="form-label">
                 <xsl:value-of select="label"/>
             </label>
         </xsl:if>
@@ -113,7 +113,7 @@
         <xsl:param name="show-label" select="1"/>
 
         <xsl:if test="$show-label = 1">
-            <label for="{@name}" class="form-label">
+            <label for="{$parent-id}_{name()}" class="form-label">
                 <xsl:value-of select="label"/>
             </label>
         </xsl:if>
@@ -145,7 +145,7 @@
             </label>
         </xsl:if>
         <div class="input-group">
-            <input type="text" value="{./value}" datefield="true" disableWeekends="{$disableWeekends}" disabledBeforetoday="{$disabledBeforetoday}" data-range="{$range}" class="form-control gen-date-picker flatpickr-input {$change}" data-provider="flatpickr" data-date-format="{$format}" data-enable-time="{$enableTime}" id="{name()}" name="{./@name}" maxlength="{$maxlength}" placeholder="{$placeholder}">
+            <input type="text" value="{./value}" datefield="true" disableWeekends="{$disableWeekends}" disabledBeforetoday="{$disabledBeforetoday}" data-range="{$range}" class="form-control gen-date-picker flatpickr-input {$change}" data-provider="flatpickr" data-date-format="{$format}" data-enable-time="{$enableTime}" id="{./@name}" name="{./@name}" maxlength="{$maxlength}" placeholder="{$placeholder}">
                 <xsl:call-template name="setAttributes">
                     <xsl:with-param name="field" select="."/>
                 </xsl:call-template>
@@ -208,7 +208,7 @@
         <xsl:variable name="type" select="@type"/>
 
         <xsl:if test="$show-label = 1">
-            <label for="{@name}" class="form-label">
+            <label for="{$input-id}" class="form-label">
                 <xsl:value-of select="label"/>
             </label>
         </xsl:if>

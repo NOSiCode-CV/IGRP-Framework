@@ -242,30 +242,15 @@ public class XMLTransform {
 
 	private static String getTypePrimitive(String javaType_) {
 		String javaType = javaType_.replace("class ", "");
-		switch (javaType) {
-			case "java.lang.Integer":
-				javaType = "Integer";
-				break;
-			case "java.lang.Double":
-				javaType = "Double";
-				break;
-			case "java.lang.Float":
-				javaType = "Float";
-				break;
-			case "java.lang.Long":
-				javaType = "Long";
-				break;
-			case "java.lang.Short":
-				javaType = "Short";
-				break;
-			case "java.sql.Date":
-				javaType = "Date";
-				break;
-	
-			default:
-				javaType = "String";
-		}
-		return javaType;
+		return switch (javaType) {
+			case "java.lang.Integer" -> "Integer";
+			case "java.lang.Double" -> "Double";
+			case "java.lang.Float" -> "Float";
+			case "java.lang.Long" -> "Long";
+			case "java.lang.Short" -> "Short";
+			case "java.sql.Date" -> "Date";
+			default -> "String";
+		};
 	}
 
 	//Transform XML to Output content using an XSL File Transformation

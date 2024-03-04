@@ -24,7 +24,7 @@ public class Config {
     private static final String SEPARATOR_FOR_HTTP = "/";
     private static final String SEPARATOR_FOR_FILESYSTEM = File.separator;
     public static final String BASE_PATH_CONFIGURATION = "config";
-    public static final String VERSION = "2.0.0.240111";
+    public static final String VERSION = "2.0.0.240304";
     public static final String DEFAULT_V_PAGE = "2.3";
     private static final Properties configs = new Properties();
 
@@ -108,7 +108,7 @@ public class Config {
     
 
 
-    public static final Properties getConfig() {
+    public static Properties getConfig() {
         if (configs.isEmpty()) {
             loadConfigsFromDatabase();
         }
@@ -282,7 +282,7 @@ public class Config {
     }
 
     public String getBasePackage(String app) {
-        if (app != null && !app.equals(""))
+        if (app != null && !app.isEmpty())
             return "nosi.webapps." + app.toLowerCase();
         return "nosi.webapps.igrp.pages";
     }
@@ -325,7 +325,7 @@ public class Config {
 
     public String getBasePathServerXsl() {
 
-        String appLinkImage = null;
+        String appLinkImage;
 
         appLinkImage = this.getLinkImgBase();
 
@@ -505,7 +505,7 @@ public class Config {
         xml.setElement("action", "1");
         String packageName = page != null ? page.getPackage_name() : "";
         int x = page != null ? page.getPackage_name().indexOf("." + page.getPage().toLowerCase()) : -1;
-        if (x != -1 && page != null) {
+        if (x != -1) {
             packageName = page.getPackage_name().substring(0, page.getPackage_name().indexOf("." + page.getPage().toLowerCase()));
         }
         xml.setElement("package_db", packageName);

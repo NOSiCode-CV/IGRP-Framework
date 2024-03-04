@@ -101,7 +101,7 @@ public class JarUnJarFile {
 			JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
 			JarEntry entry = null;
 			while((entry=jis.getNextJarEntry())!=null){	
-				   String         ls = System.getProperty("line.separator");
+				   String         ls = System.lineSeparator();
 				   String         line = null;
 				   DataInputStream in = new DataInputStream(jis); 
 				   StringBuilder content = new StringBuilder();  
@@ -129,7 +129,7 @@ public class JarUnJarFile {
 			JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
 			JarEntry entry = null;
 			while((entry=jis.getNextJarEntry())!=null){	
-				   String ls = System.getProperty("line.separator");
+				   String ls = System.lineSeparator();
 				   String line = null;
 				   DataInputStream in = new DataInputStream(jis); 
 				   StringBuilder content = new StringBuilder();  

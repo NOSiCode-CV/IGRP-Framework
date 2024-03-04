@@ -114,13 +114,11 @@ public class IGRPChart extends IGRPComponent{
 		LinkedHashMap<String, Object> valuesXY = new LinkedHashMap<>();
 		LinkedHashMap<String,LinkedHashMap<String,Object>> valuesXYZ = new LinkedHashMap<>();		
 		for(Object o:this.data) {
-			if(o instanceof IGRPChart2D) {
-				IGRPChart2D chart2d = (IGRPChart2D) o;
-				valuesXY.put(chart2d.getEixoX(), chart2d.getEixoY());
+			if(o instanceof IGRPChart2D chart2d) {
+               valuesXY.put(chart2d.getEixoX(), chart2d.getEixoY());
 			}
-			else if(o instanceof IGRPChart3D) {
-				IGRPChart3D chart3d = (IGRPChart3D) o;
-				LinkedHashMap<String, Object> value = new LinkedHashMap<>();
+			else if(o instanceof IGRPChart3D chart3d) {
+               LinkedHashMap<String, Object> value = new LinkedHashMap<>();
 				value.put(chart3d.getEixoY(), ""+chart3d.getEixoZ());
 				valuesXYZ.put(chart3d.getEixoX(), value );
 			}
@@ -235,22 +233,20 @@ public class IGRPChart extends IGRPComponent{
 		this.xml.startElement("value");
 		this.xml.startElement("row");
 		this.xml.setElement("col"," ");
-		valuesXY.entrySet().forEach(t->{
-			try {
-				this.xml.setElement("col",t.getValue());
-			}catch(IllegalArgumentException e) {
-				this.xml.setElement("col","");
-			}
-		});	
+		valuesXY.forEach((key, value) -> {
+           try {
+              this.xml.setElement("col", value);
+           } catch (IllegalArgumentException e) {
+              this.xml.setElement("col", "");
+           }
+        });
 		this.xml.endElement();
 	}
 	
 	private void generateLabels(Set<String> labels) {
 		this.xml.startElement("label");	
 		this.xml.setElement("col"," ");
-		labels.forEach(l->{
-			this.xml.setElement("col",l);
-		});	
+		labels.forEach(l-> this.xml.setElement("col",l));
 		this.xml.endElement();
 		generateColors(labels.size());
 	}
@@ -259,9 +255,7 @@ public class IGRPChart extends IGRPComponent{
 		if(!colors.isEmpty() && countlabels>0) {
 			this.xml.startElement("colors");			
 			for(int i=0;i<countlabels/colors.size()+1;i++) {
-				this.colors.forEach(l->{
-					this.xml.setElement("col",l);
-				});	
+				this.colors.forEach(l-> this.xml.setElement("col",l));
 			}
 			
 			this.xml.endElement();

@@ -1,7 +1,7 @@
-<th class="bs-checkbox" align="#[align]#" show-label="#[showLabel]#">
+<th class="bs-checkbox" style="text-align: #[align]#;" show-label="#[showLabel]#">
 	<div class="form-check #[switch]#">
-		<input type="checkbox" class="form-check-input IGRP_checkall" check-rel="#tag#" data-title="#[label]#" data-toggle="tooltip" />	
-		<label class="ms-1 form-check-label ">
+		<input type="checkbox" class="form-check-input IGRP_checkall" check-rel="#tag#" id="#tag#" data-title="#[label]#" data-toggle="tooltip" />
+		<label for="#tag#" class="ms-1 form-check-label ">
 			<xsl:value-of select="#path#/label"/>
 		</label>
 	</div>

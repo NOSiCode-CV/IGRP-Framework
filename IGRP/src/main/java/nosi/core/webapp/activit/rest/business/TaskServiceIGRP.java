@@ -88,11 +88,10 @@ public class TaskServiceIGRP extends GenericActivitiIGRP {
 		this.setMyProccessAccess(filterThisProcessIDs);
 			
 		//Creates the final list of task for the user to use
-		List<TaskService> list=tasks.stream()
-				.filter(t->this.myproccessId.contains(t.getProcessInstanceId()))
-				.collect(Collectors.toList());
 
-			return list;
+       return tasks.stream()
+                     .filter(t-> this.myproccessId.contains(t.getProcessInstanceId()))
+                     .collect(Collectors.toList());
 	}
 
 

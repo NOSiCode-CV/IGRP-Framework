@@ -12,11 +12,6 @@ import nosi.core.webapp.Core;
  * 26/07/2019
  */
 public class PairNegativeOrZeroValidator implements ConstraintValidator<PairNegativeOrZero, Pair>{
-
-	@Override
-	public void initialize(PairNegativeOrZero constraintAnnotation) {
-		
-	}
 	
 	@Override
 	public boolean isValid(Pair pair, ConstraintValidatorContext context) {

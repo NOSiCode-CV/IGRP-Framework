@@ -67,9 +67,9 @@
 				<xsl:choose>
 					<xsl:when test="//form_key!=''">
 		    			<xsl:value-of select="$newline"/>
-						<xsl:value-of select="concat($tab2,//form_key,'View view = new ',//form_key,'View();')"/>
+						<xsl:value-of select="concat($tab2,'var view = new ',//form_key,'View();')"/>
 		    			<xsl:value-of select="$newline"/>
-						<xsl:value-of select="concat($tab2,//form_key,' model = new ',//form_key,'();')"/>
+						<xsl:value-of select="concat($tab2,'var model = new ',//form_key,'();')"/>
 		    			<xsl:value-of select="$newline"/>
 		    			<xsl:value-of select="concat($tab2,'model.load();')"/>
 		    			<xsl:value-of select="$newline"/>

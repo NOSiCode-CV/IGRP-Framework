@@ -156,7 +156,7 @@
 
                   <div class="col-sm-6 form-group  gen-fields-holder" item-name="gen_rule_action" item-type="select" required="required">
                     
-                    <label for="p_gen_rule_action">
+                    <label for="actions_list_gen_rule_action">
                       Action
                     </label>
 
@@ -181,7 +181,7 @@
                   </div>
 
                   <div class="col-sm-6 form-group  gen-fields-holder" item-name="gen_rule_targets" item-type="select">
-                    <label for="p_gen_rule_targets">
+                    <label for="actions_list_gen_rule_targets">
                       Targets
                     </label>
                     <select class="form-control rule-setter select2 " multiple="multiple" id="actions_list_gen_rule_targets" name="p_gen_rule_targets" rel="gen_rule_action">
@@ -200,7 +200,7 @@
                   </div>
 
                   <div class="form-group col-sm-6   gen-fields-holder" item-name="gen_rule_request_fields" item-type="text">
-                    <label for="p_gen_rule_request_fields">
+                    <label for="gen_rule_request_fields">
                       <span>
                         Request Fields
                       </span>
@@ -211,7 +211,7 @@
                   </div>
 
                   <div class="col-sm-6 form-group  gen-fields-holder" item-name="gen_rule_msg_type" item-type="select" >
-                    <label for="p_gen_rule_msg_type">
+                    <label for="actions_list_gen_rule_msg_type">
                       Message Type
                     </label>
                     <select class="form-control rule-setter " id="actions_list_gen_rule_msg_type" name="p_gen_rule_msg_type" >

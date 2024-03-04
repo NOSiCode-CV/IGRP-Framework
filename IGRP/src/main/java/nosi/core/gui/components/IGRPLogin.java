@@ -51,7 +51,9 @@ public class IGRPLogin extends IGRPForm{
 	private void genForm(){
 		
 		Properties settings = ConfigApp.getInstance().getMainSettings();
-		String authType = settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
+
+		final String authType = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
+				ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.getEnvironmentVariable() : settings.getProperty(ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE.value());
 		
 		//Mensagem de informacao para login de demo
 		/*this.xml.startElement("messages");

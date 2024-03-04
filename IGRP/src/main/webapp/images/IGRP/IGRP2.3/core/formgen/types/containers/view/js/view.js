@@ -45,7 +45,7 @@ var GENVIEW = function(name,params){
 		container.setPropriety({
 			name  : 'itemSeparator',
 			label : 'Separator Border',
-			value : true
+			value : false
 		});
 		
 	}

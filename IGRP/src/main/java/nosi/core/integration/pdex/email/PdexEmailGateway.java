@@ -56,7 +56,7 @@ public class PdexEmailGateway {
 				case 200:
 					JSONObject jsonResult = new JSONObject(response.readEntity(String.class)); 
 					JSONObject result = jsonResult.optJSONObject("result"); 
-					if(result != null && result.optBoolean("success") == false)
+					if(result != null && !result.optBoolean("success"))
 						errors.add("The email was not sent. An error has occurred."); 
 				break;
 				case 401:

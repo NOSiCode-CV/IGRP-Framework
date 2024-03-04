@@ -52,7 +52,6 @@
       <hikaricp.version>5.1.0</hikaricp.version>
 		<!--      jbdc drivers-->
       <mysql.version>8.2.0</mysql.version>
-      <postgres.version>42.7.1</postgres.version>
       <h2.version>2.2.224</h2.version>
       <sqlserver.version>12.4.2.jre11</sqlserver.version>
       <oracle.version>23.2.0.0</oracle.version> <!-- 23.3.0.23.09 with problem starting -->
@@ -86,8 +85,6 @@
 		<!-- Unit Test and Integration Test Properties -->
       <junit.jupiter.version>5.9.2</junit.jupiter.version>
 
-		<!-- JavaEE API & jax-rs version -->
-      <javaee.api.version>8.0-6</javaee.api.version>
 		<!-- JavaDev Underscore Version: Transform JSON To XML Preserving the
 		order of the elements - needed to invite users LDAP-->
       <javadev.underscore.version>1.97</javadev.underscore.version>
@@ -97,16 +94,20 @@
       <activiti.bpmn.converter.version>6.0.0</activiti.bpmn.converter.version>
 
 		<!-- Flyway Migration API & Docker PostgreSQL -->
-		<flyway.version>10.4.1</flyway.version>
-		<igrp.db.user>${db_user}</igrp.db.user> <!-- Ex: postgres -->
-		<igrp.db.password>${db_password}</igrp.db.password>
-		<igrp.db.dsn>jdbc:postgresql://${server_IP}/${db_name}</igrp.db.dsn> <!-- Ex: jdbc:postgresql://localhost:5432/db_igrp  -->
+
+		<!--suppress UnresolvedMavenProperty -->
+       <igrp.db.user>${db_user}</igrp.db.user> <!-- Ex: postgres -->
+		<!--suppress UnresolvedMavenProperty -->
+       <igrp.db.password>${db_password}</igrp.db.password>
+		<!--suppress UnresolvedMavenProperty -->
+       <igrp.db.dsn>jdbc:postgresql://${server_IP}/${db_name}</igrp.db.dsn> <!-- Ex: jdbc:postgresql://localhost:5432/db_igrp  -->
 		<!--<igrp.db.dsn>jdbc:postgresql://postgres:5432/db_igrp</igrp.db.dsn>--> <!-- Uncomment this line when run IGRPWEB+Postgres+Docker -->
-		<igrp.migration.location>${migration_location}</igrp.migration.location> <!-- Ex: classpath:nosi/core/db/migration/igrp/postgres  -->
+		<!--suppress UnresolvedMavenProperty -->
+       <igrp.migration.location>${migration_location}</igrp.migration.location> <!-- Ex: classpath:nosi/core/db/migration/igrp/postgres  -->
 
 
 		<!-- Barcode ...-->
-      <google.zxing.version>3.5.2</google.zxing.version> 
+      <google.zxing.version>3.5.3</google.zxing.version>
 		<!--  <apache.httpcomponents.httpmime.version>4.5.14</apache.httpcomponents.httpmime.version>
       <apache.httpcomponents.httpcore.version>4.4.16</apache.httpcomponents.httpcore.version>-->
 		<!-- K8s & Docker
@@ -156,7 +157,7 @@
       <dependency>
          <groupId>org.dom4j</groupId>
          <artifactId>dom4j</artifactId>
-         <version>2.1.4</version>
+         <version>[2.1.4,3.0.0)</version>
       </dependency>
 
 		<!-- OPEN HTML TO PDF https://github.com/danfickle/openhtmltopdf -->
@@ -222,12 +223,6 @@
          <artifactId>hibernate-hikaricp</artifactId>
          <version>${hibernate.version}</version>
       </dependency>
-		<!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP a versão 5 é JDK11-->
-		<dependency>
-		   <groupId>com.zaxxer</groupId>
-		   <artifactId>HikariCP</artifactId>
-		   <version>${hikaricp.version}</version>
-		</dependency>
 		<!--END
         Hibernate Dependencies -->
 		<!-- Database Dependencies -->
@@ -242,7 +237,7 @@
       <dependency>
          <groupId>org.postgresql</groupId>
          <artifactId>postgresql</artifactId>
-         <version>${postgres.version}</version>
+         <version>[42.7.2,43.0.0)</version>
       </dependency>
 		<!--
 		https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
@@ -442,14 +437,14 @@
       <dependency>
          <groupId>org.flywaydb</groupId>
          <artifactId>flyway-core</artifactId>
-         <version>${flyway.version}</version>
+         <version>[10.4.1,11.0.0)</version>
       </dependency>
       
       <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-database-postgresql -->
 		<dependency>
 		    <groupId>org.flywaydb</groupId>
 		    <artifactId>flyway-database-postgresql</artifactId>
-		    <version>${flyway.version}</version>
+		    <version>[10.4.1,11.0.0)</version>
 		</dependency>
 
 		<!-- (Start) Unit & Integration Test Dependencies -->
@@ -613,7 +608,7 @@
             <plugin>
                <groupId>org.flywaydb</groupId>
                <artifactId>flyway-maven-plugin</artifactId>
-               <version>${flyway.version}</version>
+
                <configuration>
                   <url>${igrp.db.dsn}</url>
                   <user>${igrp.db.user}</user>
@@ -634,6 +629,7 @@
                   <tomeeClassifier>plus</tomeeClassifier>
                   <reloadOnUpdate>true</reloadOnUpdate>
               		<!-- To change de ports
+              		<debugPort>5007</debugPort>
 					<tomeeHttpPort>8081</tomeeHttpPort>
 					<tomeeShutdownPort>8006</tomeeShutdownPort>  -->
                   <args>-Dfile.encoding=UTF-8</args>
@@ -645,13 +641,14 @@
                         <extension>.xsl</extension>
                         <extension>.css</extension>
                         <extension>.js</extension>
+                         <extension>.json</extension>
 <!--                        <extension>.properties</extension>-->
                      </extensions>
                   </synchronization>
                   <systemVariables>
                      <tomee.serialization.class.whitelist />
                      <tomee.serialization.class.blacklist>-</tomee.serialization.class.blacklist>
-                     <openejb.system.apps>false</openejb.system.apps>
+                     <openejb.system.apps>true</openejb.system.apps>
                      <tomee.remote.support>true</tomee.remote.support>
                   </systemVariables>
                   	<libs>

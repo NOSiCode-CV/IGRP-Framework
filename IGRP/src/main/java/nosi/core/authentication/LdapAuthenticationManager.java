@@ -33,33 +33,32 @@ public final class LdapAuthenticationManager {
 		if(!success)
 			throw new IllegalStateException("A sua conta ou palavra-passe está incorreta.");
 			// Verify if this credentials exist in DB
-			User user = new User().findIdentityByUsername(username);
+		User user = new User().findIdentityByUsername(username);
 			if (user != null) {
 				Profile profile = new Profile().getByUser(user.getId());
 				if(profile == null)
 					throw new IllegalStateException("Nenhum perfil foi encontrado para o utilizador.");
 				AuthenticationManager.createSecurityContext(user, request.getSession(false));
 				AuthenticationManager.afterLogin(profile, user, request);
-				setUserAsAuthenticated(user);
+
 				// sso(username, password, user);
-				return true;
+				return setUserAsAuthenticated(user);
 			} else {
-				String env = config.getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
+				final String env = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ? ConfigCommonMainConstants.IGRP_ENV.getEnvironmentVariable() : config.getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
 				if(!ConfigCommonMainConstants.IGRP_ENV_DEV.value().equals(env))
 					throw new IllegalStateException("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador.");
 				User newUser = new User();
 				newUser.setUser_name(username.trim().toLowerCase());
 				if ( !personArray.isEmpty()) {
-					for (int i = 0; i < personArray.size(); i++) {
-						LdapPerson p = personArray.get(i);
-						if (p.getName() != null && !p.getName().isEmpty())
-							newUser.setName(p.getName());
-						else if (p.getDisplayName() != null && !p.getDisplayName().isEmpty())
-							newUser.setName(p.getDisplayName());
-						else
-							newUser.setName(p.getFullName());
-						newUser.setEmail(p.getMail().toLowerCase());
-					}
+                   for (LdapPerson p : personArray) {
+                      if (p.getName() != null && !p.getName().isEmpty())
+                         newUser.setName(p.getName());
+                      else if (p.getDisplayName() != null && !p.getDisplayName().isEmpty())
+                         newUser.setName(p.getDisplayName());
+                      else
+                         newUser.setName(p.getFullName());
+                      newUser.setEmail(p.getMail().toLowerCase());
+                   }
 				}
 				newUser.setStatus(1);
 				newUser.setCreated_at(System.currentTimeMillis());
@@ -70,7 +69,7 @@ public final class LdapAuthenticationManager {
 				newUser = newUser.insert();
 				if (newUser != null) {
 					AuthenticationManager.createPerfilWhenAutoInvite(newUser);
-					AuthenticationManager.createSecurityContext(user, request.getSession(false));
+					AuthenticationManager.createSecurityContext(newUser, request.getSession(false));
 					// sso(username, password, newUser)
 					return true;
 				}

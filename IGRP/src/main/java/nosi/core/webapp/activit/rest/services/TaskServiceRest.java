@@ -570,7 +570,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 			if (response.getStatus() == 200) 
 				 t = ResponseConverter
 					.convertJsonToListDao(contentResp, "data", new TypeToken<List<TaskService>>() {
-					}.getType()).stream().map(TaskService.class::cast).collect(Collectors.toList());
+					}.getType()).stream().map(TaskService.class::cast).toList();
 			
 			 else this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			

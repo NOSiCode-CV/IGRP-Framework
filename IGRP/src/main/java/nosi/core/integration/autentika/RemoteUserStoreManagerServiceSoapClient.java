@@ -36,7 +36,7 @@ public class RemoteUserStoreManagerServiceSoapClient {
 	}
 	
 	private Map<String, String> buildHttpHeaders(){
-		Map<String, String> headers = new HashMap<String, String>();
+		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/soap+xml;charset=UTF-8;action=\"" + soapAction + "\"");
 		headers.put("Authorization", HTTP_AUTHENTICATION_TYPE + " "
 				+ Base64.getEncoder().encodeToString((username + ":" + password).getBytes()));
@@ -54,7 +54,7 @@ public class RemoteUserStoreManagerServiceSoapClient {
 	}
 	
 	private Map<String, String> buildNamespaces(){
-		Map<String, String> namespaces = new HashMap<String, String>();
+		Map<String, String> namespaces = new HashMap<>();
 		namespaces.put("ser", "http://service.ws.um.carbon.wso2.org");
 		return namespaces;
 	}
@@ -67,8 +67,8 @@ public class RemoteUserStoreManagerServiceSoapClient {
 		// An Map of Soap Envelope namespace 
 		Map<String, String> namespaces = buildNamespaces();
 		// content 
-		Map<String, Object> bodyContent = new LinkedHashMap<String, Object>();
-		Map<String, Object> subContent = new LinkedHashMap<String, Object>();
+		Map<String, Object> bodyContent = new LinkedHashMap<>();
+		Map<String, Object> subContent = new LinkedHashMap<>();
 		subContent.put("ser:userName", userClaimValuesRequestDTO.getUserName() != null ? userClaimValuesRequestDTO.getUserName() : "");
 		subContent.put("ser:profileName", userClaimValuesRequestDTO.getProfileName() != null ? userClaimValuesRequestDTO.getProfileName() : "");
 		bodyContent.put("ser:getUserClaimValues", subContent);
@@ -111,8 +111,8 @@ public class RemoteUserStoreManagerServiceSoapClient {
 		// An Map of Soap Envelope namespace
 		Map<String, String> namespaces = buildNamespaces();
 		// content
-		Map<String, Object> bodyContent = new LinkedHashMap<String, Object>();
-		Map<String, Object> subContent = new LinkedHashMap<String, Object>();
+		Map<String, Object> bodyContent = new LinkedHashMap<>();
+		Map<String, Object> subContent = new LinkedHashMap<>();
 		subContent.put("ser:userName", userClaimValuesRequestDTO.getUserName());
 		subContent.put("ser:credential", userClaimValuesRequestDTO.getCredential());
 		bodyContent.put("ser:authenticate", subContent);
@@ -135,8 +135,8 @@ public class RemoteUserStoreManagerServiceSoapClient {
 		// An Map of Soap Envelope namespace
 		Map<String, String> namespaces = buildNamespaces();
 		// content
-		Map<String, Object> bodyContent = new LinkedHashMap<String, Object>();
-		Map<String, Object> subContent = new LinkedHashMap<String, Object>();
+		Map<String, Object> bodyContent = new LinkedHashMap<>();
+		Map<String, Object> subContent = new LinkedHashMap<>();
 		subContent.put("ser:userName", userName != null ? userName : "");
 		bodyContent.put("ser:isExistingUser", subContent);
 		// Makes request to the soap endpoint
@@ -157,8 +157,8 @@ public class RemoteUserStoreManagerServiceSoapClient {
 		// An Map of Soap Envelope namespace
 		Map<String, String> namespaces = buildNamespaces();
 		// content
-		Map<String, Object> bodyContent = new LinkedHashMap<String, Object>();
-		Map<String, Object> subContent = new LinkedHashMap<String, Object>();
+		Map<String, Object> bodyContent = new LinkedHashMap<>();
+		Map<String, Object> subContent = new LinkedHashMap<>();
 		subContent.put("ser:userName", updateCredentialRequestDTO.getUserName());
 		subContent.put("ser:newCredential", updateCredentialRequestDTO.getNewCredential());
 		subContent.put("ser:oldCredential", updateCredentialRequestDTO.getOldCredential());
@@ -174,8 +174,8 @@ public class RemoteUserStoreManagerServiceSoapClient {
 		// An Map of Soap Envelope namespace
 		Map<String, String> namespaces = buildNamespaces();
 		// content
-		Map<String, Object> bodyContent = new LinkedHashMap<String, Object>();
-		Map<String, Object> subContent = new LinkedHashMap<String, Object>();
+		Map<String, Object> bodyContent = new LinkedHashMap<>();
+		Map<String, Object> subContent = new LinkedHashMap<>();
 		subContent.put("ser:userName", updateCredentialByAdminRequestDTO.getUserName());
 		subContent.put("ser:newCredential", updateCredentialByAdminRequestDTO.getNewCredential());
 		bodyContent.put("ser:updateCredentialByAdmin", subContent);
@@ -191,14 +191,14 @@ public class RemoteUserStoreManagerServiceSoapClient {
 		Map<String, String> namespaces = buildNamespaces();
 		namespaces.put("xsd", "http://common.mgt.user.carbon.wso2.org/xsd");
 		// content
-		Map<String, Object> bodyContent = new LinkedHashMap<String, Object>();
-		Map<String, Object> subContent = new LinkedHashMap<String, Object>();
+		Map<String, Object> bodyContent = new LinkedHashMap<>();
+		Map<String, Object> subContent = new LinkedHashMap<>();
 		subContent.put("ser:userName", userRequestDTO.getUserName() != null ? userRequestDTO.getUserName() : "");
 		subContent.put("ser:credential",userRequestDTO.getCredential() != null ? userRequestDTO.getCredential() : "");
 		subContent.put("ser:roleList", !userRequestDTO.getRoleList().isEmpty() ? userRequestDTO.getRoleList() : "");
-		List<Map<String, Object>> claims = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> claims = new ArrayList<>();
 		for(ClaimDTO claim : userRequestDTO.getClaims()) {
-			Map<String, Object> claimMap = new LinkedHashMap<String, Object>();
+			Map<String, Object> claimMap = new LinkedHashMap<>();
 			claimMap.put("xsd:claimURI", claim.getClaimUri());
 			claimMap.put("xsd:value",  claim.getValue());
 			claims.add(claimMap); 

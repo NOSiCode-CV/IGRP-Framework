@@ -2,7 +2,6 @@ package nosi.core.filter;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
@@ -56,7 +55,7 @@ public class AuthenticationFilter implements Filter {
 			}else {
 				// Go to autentika
 				Optional<String> url = ApplicationManager.buildOAuth2AuthorizeLink(httpServletRequest);
-				if(url.isPresent()) {
+				if(url.isPresent() && Core.isNull(httpServletRequest.getParameter("code"))) {
 					httpServletResponse.sendRedirect(url.get());
 					return;
 				}
@@ -73,7 +72,7 @@ public class AuthenticationFilter implements Filter {
 				}
 				
 				// got to login
-				httpServletRequest.getRequestDispatcher(ApplicationManager.LOGIN_PAGE).forward(httpServletRequest, httpServletResponse);
+				httpServletRequest.getRequestDispatcher(ApplicationManager.LOGIN_PAGE+"&dad="+request.getParameter("dad")).forward(httpServletRequest, httpServletResponse);
 			}
 			
 		}

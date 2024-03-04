@@ -60,7 +60,7 @@ public abstract class IGRPCrudRepository<T, ID extends Serializable> implements 
    public void deleteById(ID id) {
 
       final Optional<T> entityOp = this.findById(id);
-      if (!entityOp.isPresent())
+      if (entityOp.isEmpty())
          return;
 
       this.delete(entityOp.get());

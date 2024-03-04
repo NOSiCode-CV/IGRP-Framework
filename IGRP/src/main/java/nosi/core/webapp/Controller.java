@@ -317,7 +317,7 @@ public class Controller {
         return resp;
     }
 
-    private final Response redirect_(String url) {
+    private Response redirect_(String url) {
         Response resp = new Response();
         resp.setType(2);
         resp.setCharacterEncoding(Response.CHARSET_UTF_8);
@@ -562,7 +562,7 @@ public class Controller {
         Igrp app = Igrp.getInstance();
         String auxAppName = "";
         String auxPageName = "";
-        String auxcontrollerPath = "";
+        String auxcontrollerPath;
         String auxActionName = "";
         if (app != null && app.getCurrentAppName() != null && app.getCurrentActionName() != null
                 && app.getCurrentPageName() != null) {
@@ -664,7 +664,7 @@ public class Controller {
                         }
                         break;
                     case 2: // redirect
-                        boolean isAbsolute = false;
+                        boolean isAbsolute;
                         try {
                             String url = responseWrapper2.getUrl();
                             try {
@@ -751,10 +751,15 @@ public class Controller {
 	}
     
     private static void addParametersToErrorPage(Igrp igrpApp) {
-		ConfigApp configApp = ConfigApp.getInstance();
+
+        ConfigApp configApp = ConfigApp.getInstance();
+
+        final String env = ConfigCommonMainConstants.isEnvironmentVariableScanActive() ?
+                ConfigCommonMainConstants.IGRP_ENV.getEnvironmentVariable() : configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_ENV.value());
+
 		Map<String, Object> errorParam = new HashMap<>();
 		errorParam.put("dad", igrpApp.getCurrentAppName());
-		errorParam.put(ConfigCommonMainConstants.IGRP_ENV.value(), configApp.getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_ENV.value()));
+		errorParam.put(ConfigCommonMainConstants.IGRP_ENV.value(), env);
 		igrpApp.getRequest().setAttribute("igrp.error", errorParam);
 	}
     

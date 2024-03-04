@@ -3,7 +3,6 @@ package nosi.core.filter;
 import java.io.IOException;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;

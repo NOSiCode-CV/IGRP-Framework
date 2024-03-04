@@ -84,13 +84,13 @@
  		<xsl:value-of select="'public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{'"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat($page_name,' model = new ',$page_name,'();')"/>
+			<xsl:value-of select="concat('var model = new ',$page_name,'();')"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>			
 			<xsl:value-of select="'model.load();'"/>			
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat($page_name,'View',' view = new ',$page_name,'View();')"/>
+			<xsl:value-of select="concat('var view = new ',$page_name,'View();')"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>	
 			
@@ -194,7 +194,7 @@
  		<xsl:value-of select="'public Response actionDelete() throws IOException, IllegalArgumentException, IllegalAccessException{'"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat($page_name,'.Table_1 model = new ',$page_name,'.Table_1();')"/>
+			<xsl:value-of select="concat('var model = new ',$page_name,'.Table_1();')"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>	
 			<xsl:call-template name="start-code-crud">

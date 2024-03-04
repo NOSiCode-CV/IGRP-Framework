@@ -26,8 +26,8 @@ import nosi.webapps.igrp.dao.Application;
  */
 public class BPMNExport implements IExport{
 
-	private List<BPMNSerializable> bpmns;
-	private Application application; 
+	private final List<BPMNSerializable> bpmns;
+	private final Application application;
 	
 	@Override
 	public String getFileName() {
@@ -82,14 +82,14 @@ public class BPMNExport implements IExport{
 		Map<String, String> files = new FileHelper().readAllFileDirectory(basePath);
 		if(files!=null) {
 			List<BPMNPageFiles> pageFiles = new ArrayList<>();
-			files.entrySet().forEach(file->{
-				if(file.getValue().endsWith(".java")) {
-					BPMNPageFiles p = new BPMNPageFiles();
-					p.setFileContent(FileHelper.readFile(file.getValue(),""));
-					p.setFileName(file.getKey());
-					pageFiles.add(p);
-				}
-			});
+			files.forEach((key, value) -> {
+               if (value.endsWith(".java")) {
+                  BPMNPageFiles p = new BPMNPageFiles();
+                  p.setFileContent(FileHelper.readFile(value, ""));
+                  p.setFileName(key);
+                  pageFiles.add(p);
+               }
+            });
 			bpmn.setPageFiles(pageFiles);
 		}
 	}
