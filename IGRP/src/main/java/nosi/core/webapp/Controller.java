@@ -496,9 +496,9 @@ public class Controller {
         }
         igrpApp.getResponse().addHeader("Content-Description", "File Transfer");
         if (download)
-            igrpApp.getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
+            igrpApp.getResponse().setHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
         else
-            igrpApp.getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
+            igrpApp.getResponse().setHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
         response.setType(1);
         response.setContentLength(file.length);
         response.setContentType(contentType);
