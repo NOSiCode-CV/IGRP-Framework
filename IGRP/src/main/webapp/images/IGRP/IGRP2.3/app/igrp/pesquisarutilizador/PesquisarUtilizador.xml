@@ -48,21 +48,25 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=utilizador" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="[object Object]" maxlength="250" showlabel="true" adbcli="">
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=utilizador" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true" adbcli="">
                     <label>Help</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
+                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=utilizador</value>
                 </documento>
             </fields>
         </view_1>
         <form_1 type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
             <fields>
+                <nome_filt name="p_nome_filt" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" disablehtml="true" placeholder="" desclabel="false" inputmask="" right="false" tooltip="false" disable_copy_paste="false">
+                    <label>Nome</label>
+                    <value>Elit natus rem sed doloremque</value>
+                </nome_filt>
                 <username name="p_username" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" disablehtml="true" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>Username</label>
-                    <value>Aliqua elit omnis sed consectetur</value>
+                    <value>Accusantium rem stract adipiscing aperiam</value>
                 </username>
                 <email name="p_email" type="email" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
                     <label>Email</label>
-                    <value>ni@example.com</value>
+                    <value>civa@example.com</value>
                 </email>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false" tooltip="false" disable_copy_paste="false">
                     <label></label>
@@ -164,13 +168,13 @@
                 </perfil>
             </fields>
             <tools-bar>
-                <item id="button_5e31_2699" type="form" code="" class="primary" rel="pesquisar" custom_return="true" refresh_components="">
+                <item id="button_5e31_2699" type="form" code="" class="primary" rel="pesquisar" custom_return="true" refresh_components="table_1">
                     <title>Pesquisar</title>
                     <app>igrp</app>
                     <page>PesquisarUtilizador</page>
                     <link>index</link>
                     <parameter>../images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xml?</parameter>
-                    <target>submit</target>
+                    <target>submit_ajax</target>
                     <img>primary|fa-search</img>
                     <preview>../images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xml</preview>
                 </item>
@@ -238,44 +242,14 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
-                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Dolor doloremque laudantium adipiscing totam dolor</nominho>
-                        <range_1 name="p_range_1">8</range_1>
-                        <nome name="p_nome">Elit iste natus consectetur rem aperiam labore laudantium rem aperiam totam mollit rem deserunt aper</nome>
-                        <tb_email name="p_tb_email">Perspiciatis stract adipiscing unde elit omnis voluptatem officia totam voluptatem sit totam consect</tb_email>
-                        <perfile name="p_perfile">Adipiscing perspiciatis deserunt magna deserunt se</perfile>
-                        <id name="p_id" tag="id">hidden-e254_503d</id>
-                        <check_email_hidden name="p_check_email_hidden" tag="check_email_hidden">hidden-4def_44af</check_email_hidden>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
-                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Adipiscing consectetur anim natus ipsum stract con</nominho>
-                        <range_1 name="p_range_1">4</range_1>
-                        <nome name="p_nome">Dolor deserunt dolor unde dolor anim dolor sit unde sed dolor perspiciatis lorem voluptatem doloremq</nome>
-                        <tb_email name="p_tb_email">Magna ut magna sit ipsum aperiam rem aliqua amet sit lorem aliqua consectetur rem dolor lorem mollit</tb_email>
-                        <perfile name="p_perfile">Perspiciatis labore perspiciatis mollit natus moll</perfile>
-                        <id name="p_id" tag="id">hidden-2b74_4dda</id>
-                        <check_email_hidden name="p_check_email_hidden" tag="check_email_hidden">hidden-08b0_7c1e</check_email_hidden>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
-                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Laudantium voluptatem ut sed dolor sit natus volup</nominho>
+                        <ativo_check name="p_ativo_check">1</ativo_check>
+                        <nominho name="p_nominho">Perspiciatis omnis dolor sit mollit deserunt aliqu</nominho>
                         <range_1 name="p_range_1">6</range_1>
-                        <nome name="p_nome">Labore voluptatem totam consectetur aliqua accusantium adipiscing rem iste stract adipiscing natus u</nome>
-                        <tb_email name="p_tb_email">Ut ipsum sed voluptatem unde elit labore consectetur aliqua adipiscing voluptatem deserunt anim offi</tb_email>
-                        <perfile name="p_perfile">Labore adipiscing sed lorem officia doloremque rem</perfile>
-                        <id name="p_id" tag="id">hidden-338f_807a</id>
-                        <check_email_hidden name="p_check_email_hidden" tag="check_email_hidden">hidden-f239_c52c</check_email_hidden>
+                        <nome name="p_nome">Perspiciatis consectetur ipsum elit dolor omnis ipsum lorem sit anim doloremque laudantium dolor str</nome>
+                        <tb_email name="p_tb_email">Elit officia iste unde aliqua deserunt natus mollit lorem officia aperiam deserunt consectetur rem a</tb_email>
+                        <perfile name="p_perfile">Labore ipsum officia doloremque accusantium rem om</perfile>
+                        <id name="p_id" tag="id">hidden-6f1a_845e</id>
+                        <check_email_hidden name="p_check_email_hidden" tag="check_email_hidden">hidden-552f_8b45</check_email_hidden>
                     </row>
                     <row>
                         <context-menu>
@@ -283,14 +257,14 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
-                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Dolor aliqua magna voluptatem elit anim ipsum aper</nominho>
-                        <range_1 name="p_range_1">7</range_1>
-                        <nome name="p_nome">Perspiciatis deserunt sit natus iste rem ipsum aliqua labore officia consectetur sed unde labore des</nome>
-                        <tb_email name="p_tb_email">Aliqua iste unde laudantium ipsum ut aperiam totam anim voluptatem amet ipsum stract mollit unde ist</tb_email>
-                        <perfile name="p_perfile">Unde voluptatem labore elit mollit adipiscing sed</perfile>
-                        <id name="p_id" tag="id">hidden-4bdb_d664</id>
-                        <check_email_hidden name="p_check_email_hidden" tag="check_email_hidden">hidden-8040_ef9b</check_email_hidden>
+                        <ativo_check name="p_ativo_check">1</ativo_check>
+                        <nominho name="p_nominho">Natus labore doloremque magna sit natus unde labor</nominho>
+                        <range_1 name="p_range_1">1</range_1>
+                        <nome name="p_nome">Labore adipiscing sit totam dolor unde sit magna ipsum lorem dolor omnis dolor anim totam unde anim</nome>
+                        <tb_email name="p_tb_email">Natus anim aperiam sit aperiam deserunt consectetur natus totam consectetur sed stract sit ipsum und</tb_email>
+                        <perfile name="p_perfile">Perspiciatis officia lorem stract amet rem sit und</perfile>
+                        <id name="p_id" tag="id">hidden-f513_e5dd</id>
+                        <check_email_hidden name="p_check_email_hidden" tag="check_email_hidden">hidden-169a_0ec5</check_email_hidden>
                     </row>
                     <row>
                         <context-menu>
@@ -298,14 +272,44 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
-                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Dolor ut consectetur natus unde ut aliqua rem sit</nominho>
+                        <ativo_check name="p_ativo_check">1</ativo_check>
+                        <nominho name="p_nominho">Sit perspiciatis lorem consectetur mollit iste ali</nominho>
+                        <range_1 name="p_range_1">5</range_1>
+                        <nome name="p_nome">Laudantium anim magna deserunt perspiciatis voluptatem rem voluptatem accusantium unde sit unde omni</nome>
+                        <tb_email name="p_tb_email">Ut natus doloremque officia dolor rem totam adipiscing iste elit ut dolor deserunt dolor amet lorem</tb_email>
+                        <perfile name="p_perfile">Voluptatem perspiciatis iste amet elit iste accusa</perfile>
+                        <id name="p_id" tag="id">hidden-d3de_cbda</id>
+                        <check_email_hidden name="p_check_email_hidden" tag="check_email_hidden">hidden-457d_9de3</check_email_hidden>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
+                        <ativo_check name="p_ativo_check">1</ativo_check>
+                        <nominho name="p_nominho">Officia natus rem anim lorem laudantium natus omni</nominho>
+                        <range_1 name="p_range_1">1</range_1>
+                        <nome name="p_nome">Omnis iste labore sit rem ut adipiscing doloremque iste sit deserunt natus doloremque stract aliqua</nome>
+                        <tb_email name="p_tb_email">Elit consectetur stract iste deserunt amet stract amet rem accusantium elit ut labore accusantium la</tb_email>
+                        <perfile name="p_perfile">Totam elit doloremque laudantium sit ipsum sed lor</perfile>
+                        <id name="p_id" tag="id">hidden-4aab_5306</id>
+                        <check_email_hidden name="p_check_email_hidden" tag="check_email_hidden">hidden-fb3c_ee29</check_email_hidden>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
+                        <ativo_check name="p_ativo_check">1</ativo_check>
+                        <nominho name="p_nominho">Adipiscing rem totam lorem iste anim elit sit volu</nominho>
                         <range_1 name="p_range_1">9</range_1>
-                        <nome name="p_nome">Stract unde magna labore sit aliqua doloremque accusantium ut deserunt consectetur unde aliqua aperi</nome>
-                        <tb_email name="p_tb_email">Sed omnis iste totam magna aperiam amet sit voluptatem stract lorem sit perspiciatis iste natus ut l</tb_email>
-                        <perfile name="p_perfile">Adipiscing sed ut aliqua omnis natus consectetur a</perfile>
-                        <id name="p_id" tag="id">hidden-9e63_fe90</id>
-                        <check_email_hidden name="p_check_email_hidden" tag="check_email_hidden">hidden-3f31_23c5</check_email_hidden>
+                        <nome name="p_nome">Unde consectetur doloremque sit iste consectetur aperiam anim ipsum magna rem lorem laudantium elit</nome>
+                        <tb_email name="p_tb_email">Officia elit ut omnis magna ipsum natus anim mollit dolor totam mollit unde omnis totam doloremque a</tb_email>
+                        <perfile name="p_perfile">Officia sit perspiciatis rem anim adipiscing anim</perfile>
+                        <id name="p_id" tag="id">hidden-b7d7_a793</id>
+                        <check_email_hidden name="p_check_email_hidden" tag="check_email_hidden">hidden-c295_6912</check_email_hidden>
                     </row>
                 </value>
                 <context-menu>
