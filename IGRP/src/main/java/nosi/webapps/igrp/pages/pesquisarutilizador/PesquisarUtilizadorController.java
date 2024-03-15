@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -10,10 +8,7 @@ import nosi.core.webapp.Response;//
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 import org.json.JSONObject;
 import nosi.webapps.igrp.dao.Application;
@@ -26,9 +21,9 @@ import nosi.webapps.igrp.dao.User;
 		
 public class PesquisarUtilizadorController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarUtilizador model = new PesquisarUtilizador();
+		var model = new PesquisarUtilizador();
 		model.load();
-		PesquisarUtilizadorView view = new PesquisarUtilizadorView();
+		var view = new PesquisarUtilizadorView();
 		view.nome.setParam(true);
 		view.tb_email.setParam(true);
 		view.id.setParam(true);
@@ -36,7 +31,7 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Anim sit officia mollit aperiam aliqua labore dolo' as nominho,'2' as range_1,'Voluptatem unde iste deserunt sed dolor stract voluptatem unde adipiscing sed adipiscing elit aperia' as nome,'Anim mollit aliqua deserunt ut rem stract rem aperiam ut voluptatem laudantium anim lorem magna sit' as tb_email,'Accusantium doloremque stract dolor accusantium mo' as perfile,'hidden-5d2d_9b07' as id,'hidden-8808_9091' as check_email_hidden "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Aperiam totam dolor sit sed consectetur officia ma' as nominho,'7' as range_1,'Totam aliqua laudantium mollit rem deserunt magna lorem magna amet perspiciatis omnis doloremque vol' as nome,'Dolor consectetur adipiscing aperiam totam ipsum sit dolor ut unde ut elit magna amet aliqua natus a' as tb_email,'Unde anim unde magna ipsum adipiscing anim rem str' as perfile,'hidden-0bc5_c964' as id,'hidden-6965_40c7' as check_email_hidden "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -44,10 +39,8 @@ public class PesquisarUtilizadorController extends Controller {
 		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 		//model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=utilizador"));
-		
-		
-      if(!Core.getCurrentUser().getUser_name().equalsIgnoreCase("igrpweb@nosi.cv"))
-		view.btn_editar.setVisible(false);
+
+		view.btn_editar.setVisible(Core.getCurrentUser().getUser_name().equalsIgnoreCase("igrpweb@nosi.cv"));
       
    		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();
 
@@ -66,34 +59,35 @@ public class PesquisarUtilizadorController extends Controller {
 		}
 		ProfileType pp = Core.findProfileById(Core.getCurrentProfile());
 		if (pp != null && pp.getCode().equalsIgnoreCase("ADMIN")) {
-			profiles = prof.find().andWhere("type", "=", "PROF").andWhere("user.user_name", "=", model.getUsername())
+			profiles = prof.find().whereIn("type", PROF,PROF_DIS)
+					.andWhere("user.name", "like", model.getNome_filt()+"%")
+					.andWhere("user.user_name", "like", model.getUsername()+"%")
 					.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
 					.andWhere("profileType", "=", idProf != 0 ? idProf : null)
 					.andWhere("profileType.application", "=", idApp != 0 ? idApp : null)
-					.andWhere("user.email", "=", model.getEmail())
+					.andWhere("user.email", "=", model.getEmail()).setShowConsoleSql(true)
 					.all();
 		} else {
 			Application app = Core.getCurrentApp();
-			profiles = prof.find().andWhere("type", "=", "PROF").andWhere("user.user_name", "=", model.getUsername())
+			profiles = prof.find().whereIn("type", "in", PROF,PROF_DIS)
+					.andWhere("user.name", "like", model.getNome_filt()+"%")
+					.andWhere("user.user_name", "like", model.getUsername()+"%")
 					.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
 					.andWhere("profileType", "=", idProf != 0 ? idProf : null)
 					.andWhere("profileType.application", "=", idApp != 0 ? idApp : app.getId())
 					.andWhere("user.email", "=", model.getEmail()).all();
 		}
+
 		// Preenchendo a tabela
 		for (Profile p : profiles) {
 			PesquisarUtilizador.Table_1 table1 = new PesquisarUtilizador.Table_1();
-			
 			int status = p.getUser()!=null?p.getUser().getStatus():0;
-			
-//			Checkbox has the id of the user if exists,otherwise will have the vallue 1 to be diferent from 0 (unchecked)
-			table1.setAtivo(p.getUser()!=null?p.getUser().getIdentityId():1);
-			if(status == 0) {
+			table1.setAtivo(1);
+			if(status == 0 || p.getType().equals(PROF_DIS)) {
 				table1.setAtivo_check(0);
-			}else {				
+			}else {
 				table1.setAtivo_check(table1.getAtivo());
 			}
-			
 			table1.setTb_email(p.getUser().getEmail());
 			table1.setCheck_email_hidden(p.getUser().getEmail());
 			table1.setNome(p.getUser().getUser_name());
@@ -101,7 +95,7 @@ public class PesquisarUtilizadorController extends Controller {
 			table1.setPerfile(p.getProfileType().getApplication().getName() + "/"
 					+ p.getProfileType().getOrganization().getName() + "/" + p.getProfileType().getDescr());
 			table1.setId("" + p.getId());
-			
+
 			lista.add(table1);
 		}	
 
@@ -115,7 +109,7 @@ public class PesquisarUtilizadorController extends Controller {
 		}
 		Properties settings = this.configApp.loadConfig("common", "main.xml");
 		String aux = settings.getProperty("igrp.authentication.govcv.enbaled");		
-		if ((aux != null && !aux.isEmpty() && aux.equals("true"))) {
+		if ((aux != null && aux.equals("true"))) {
 			view.btn_adicionar_utilizador.setVisible(false);	
 		}
 
@@ -137,7 +131,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionConvidar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarUtilizador model = new PesquisarUtilizador();
+		var model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -170,7 +164,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionAdicionar_utilizador() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarUtilizador model = new PesquisarUtilizador();
+		var model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -191,7 +185,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarUtilizador model = new PesquisarUtilizador();
+		var model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -216,7 +210,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarUtilizador model = new PesquisarUtilizador();
+		var model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -245,7 +239,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionAssiocar_menu() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarUtilizador model = new PesquisarUtilizador();
+		var model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -272,7 +266,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionAssiocar_transacao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarUtilizador model = new PesquisarUtilizador();
+		var model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -296,7 +290,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionAssiocar_etapa() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarUtilizador model = new PesquisarUtilizador();
+		var model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -321,7 +315,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionConvidar_user() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarUtilizador model = new PesquisarUtilizador();
+		var model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -350,7 +344,7 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarUtilizador model = new PesquisarUtilizador();
+		var model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -393,50 +387,24 @@ public class PesquisarUtilizadorController extends Controller {
 	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 
-/*
-    public Response actionChangeStatus(){
-      this.format = Response.FORMAT_JSON;
-      String id = Core.getParam("p_id");
-      String status = Core.getParam("p_ativo_check");
-      
-      boolean response = false;
-      try {
-    	  
-          if(Core.isNotNull(id)) {
-        	  
-        	  Profile p = new Profile().findOne(Core.toInt(id));
-             // System.out.println(p.getUser().getId()+" status");
-              if(p != null) {
-            	  p.getUser().getStatus()
-                  p.setStatus(status.equals("true")?1:0);
-                  p = p.update();
-                 
-                  if(!p.hasError())
-                      response = true;
-              }
-          }
-      }catch(Exception e) {
-
-      }
-
-      JSONObject json = new JSONObject();
-      json.put("status", response);     
-
-      return this.renderView(json.toString());
-    }	
-    
-    
-    */
+	private static final String PROF_DIS = "PROF_DIS"; //Profile disabled
+	public static final String PROF = "PROF";
     public Response actionChangeStatus(){
     	      this.format = Response.FORMAT_JSON;
     	      String email = Core.getParam(new PesquisarUtilizadorView().check_email_hidden.getParamTag());
     	      String status = Core.getParam("p_ativo_check");
+			  Integer id = Core.getParamInt("p_id");
     	      boolean response = false;
     	      try {
-    	          if(email != null) {
+				  Profile p = new Profile().findOne(id);
+				  if(p != null) {
+					  p.setType(status.equals("true")?PROF:PROF_DIS);
+					  p.update();
+				  }
+    	          if(status.equals("true") && email != null) {
     	              User u =Core.findUserByEmail(email);
-    	              if(u != null) {
-    	                  u.setStatus(status.equals("true")?1:0);
+    	              if(u != null && u.getStatus()==0) {
+    	                  u.setStatus(1);
     	                  u = u.update();
     	                  if(!u.hasError())
     	                      response = true;
@@ -445,7 +413,7 @@ public class PesquisarUtilizadorController extends Controller {
     	      }catch(Exception ignored) {   
     	      }
     	
-    	      JSONObject json = new JSONObject();
+			  JSONObject json = new JSONObject();
     	      json.put("status", response);     
     	
     	      return this.renderView(json.toString());

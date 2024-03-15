@@ -24,7 +24,7 @@ public class Config {
     private static final String SEPARATOR_FOR_HTTP = "/";
     private static final String SEPARATOR_FOR_FILESYSTEM = File.separator;
     public static final String BASE_PATH_CONFIGURATION = "config";
-    public static final String VERSION = "2.0.0.240306";
+    public static final String VERSION = "2.0.0.240315";
     public static final String DEFAULT_V_PAGE = "2.3";
     private static final Properties configs = new Properties();
 
@@ -56,10 +56,7 @@ public class Config {
         return this.getLinkImgBase().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslHome;
     }
 
-    public String getLinkXSLMapProcess() {
-        String linkXslMapProcess = "images/IGRP/IGRP"+DEFAULT_V_PAGE+"/xsl/IGRP-process.xsl";
-        return this.getLinkImgBase().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslMapProcess;
-    }
+
 
     public String getLinkXSLGeneratorMCV(String verson) {
         //For page sql imported
@@ -89,11 +86,7 @@ public class Config {
         return this.getBasePathServerXsl().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslJsonGenerator;
     }
 
-    public String getLinkXSLJsonConvert(String verson) {
-        //Convert Page in format XML 2.1 to JSON
-        String linkXslJsonConvert = "images/IGRP/IGRP"+verson+"/core/formgen/util/jsonConverter.xsl";
-        return this.getBasePathServerXsl().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslJsonConvert;
-    }
+
 
     public String getLinkXSLBpmnControllerGenerator(String verson) {
         String linkXslGeneratorControllerBpmn = "images/IGRP/IGRP"+verson+"/core/formgen/util/java/bpmn/XSL_CONTROLLER.xsl";
@@ -256,9 +249,7 @@ public class Config {
         return this.getRootPaht() + "images" + SEPARATOR_FOR_HTTP + "IGRP" + SEPARATOR_FOR_HTTP + "IGRP" + version + SEPARATOR_FOR_HTTP + "app" + SEPARATOR_FOR_HTTP + app.toLowerCase() + SEPARATOR_FOR_HTTP + page.toLowerCase();
     }
 
-    public String getResolvePathXsl(Action page) {
-        return getResolvePathPage(page.getApplication().getDad(), page.getPage(), page.getVersion());
-    }
+
 
 
     public String getDefaultPageController(String app, String title) {
@@ -329,23 +320,20 @@ public class Config {
 
         appLinkImage = this.getLinkImgBase();
 
-        if (appLinkImage != null) {
-            appLinkImage = appLinkImage + SEPARATOR_FOR_HTTP;
+        appLinkImage = appLinkImage + SEPARATOR_FOR_HTTP;
 
-            final StringBuilder roots = new StringBuilder();
+        final StringBuilder roots = new StringBuilder();
 
-            String[] paths = Igrp.getInstance().getServlet().getServletContext().getRealPath("/").split(SEPARATOR_FOR_FILESYSTEM + SEPARATOR_FOR_FILESYSTEM);
-            if (paths.length <= 1) {
-                paths = Igrp.getInstance().getServlet().getServletContext().getRealPath("/").split(SEPARATOR_FOR_FILESYSTEM);
-            }
-            for (int i = 0; i < paths.length - 1; i++) {
-                roots.append(paths[i]).append(SEPARATOR_FOR_HTTP);
-            }
-            roots.append(appLinkImage);
-
-            return roots.toString();
+        String[] paths = Igrp.getInstance().getServlet().getServletContext().getRealPath("/").split(SEPARATOR_FOR_FILESYSTEM + SEPARATOR_FOR_FILESYSTEM);
+        if (paths.length <= 1) {
+            paths = Igrp.getInstance().getServlet().getServletContext().getRealPath("/").split(SEPARATOR_FOR_FILESYSTEM);
         }
-        return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
+        for (int i = 0; i < paths.length - 1; i++) {
+            roots.append(paths[i]).append(SEPARATOR_FOR_HTTP);
+        }
+        roots.append(appLinkImage);
+
+        return roots.toString();
     }
 
     public String basePathServer() {
@@ -374,18 +362,6 @@ public class Config {
         return "images" + SEPARATOR_FOR_HTTP + "IGRP" + SEPARATOR_FOR_HTTP + "IGRP" + version + SEPARATOR_FOR_HTTP + "app" + SEPARATOR_FOR_HTTP + app.getDad().toLowerCase();
     }
 
-    public String getBaseServerPahtXsl(Application app, String version) {
-        return this.getBasePathServerXsl() + this.getImageAppPath(app, version);
-    }
-
-    public String getBaseHttpServerPahtXsl(Action page) {
-        String APP_LINK_IMAGE = this.getLinkImgBase();
-        if (APP_LINK_IMAGE != null && page != null) {
-            APP_LINK_IMAGE = SEPARATOR_FOR_HTTP + APP_LINK_IMAGE + SEPARATOR_FOR_HTTP;
-            return APP_LINK_IMAGE + "images" + SEPARATOR_FOR_HTTP + "IGRP" + SEPARATOR_FOR_HTTP + "IGRP" + page.getVersion() + SEPARATOR_FOR_HTTP + "app" + SEPARATOR_FOR_HTTP + page.getApplication().getDad().toLowerCase() + SEPARATOR_FOR_HTTP + page.getPage().toLowerCase();
-        }
-        return getBaseServerPahtXsl(page);
-    }
 
     public String getBasePahtXslWorkspace(Action page) {
         String workSpace = this.getWorkspace();
@@ -394,12 +370,7 @@ public class Config {
         return null;
     }
 
-    public String getBasePahtXslWorkspace(Application app, String verson) {
-        String workSpace = this.getWorkspace();
-        if (Core.isNotNull(workSpace))
-            return workSpace + SEPARATOR_FOR_FILESYSTEM + this.getWebapp() + SEPARATOR_FOR_FILESYSTEM + this.getImageAppPath(app, verson);
-        return null;
-    }
+
 
     public String getWebapp() {
         return "src" + SEPARATOR_FOR_FILESYSTEM + "main" + SEPARATOR_FOR_FILESYSTEM + "webapp";
@@ -414,7 +385,11 @@ public class Config {
         return "src" + SEPARATOR_FOR_FILESYSTEM + "main" + SEPARATOR_FOR_FILESYSTEM + "resources" + SEPARATOR_FOR_FILESYSTEM + BASE_PATH_CONFIGURATION + SEPARATOR_FOR_FILESYSTEM + "db" + SEPARATOR_FOR_FILESYSTEM;
     }
 
-    public String getPackage(String app, String page, String action) {
+    @Deprecated
+    public String getPackage(String app, String page, String action){
+        return getPackage( app,  page);
+    }
+    public String getPackage(String app, String page) {
         String basePackage = "nosi.webapps." + app.toLowerCase() + ".pages." + page.toLowerCase() + "." + page + "Controller";
 
         if (Core.isNotNull(app) && Core.isNotNull(page)) {
@@ -450,9 +425,7 @@ public class Config {
         return basePackage;
     }
 
-    public String getPackageProcess(String app, String processId, String taskName) {
-        return "nosi.webapps." + app.toLowerCase() + ".process." + processId.toLowerCase() + "." + taskName + "Controller";
-    }
+
 
     public String getHeader(IHeaderConfig config) {
         return getHeader(config, null);
@@ -537,6 +510,44 @@ public class Config {
             xml.endElement();
         }
         return xml.toString();
+    }
+
+//NOT used in igrp framework but can be used in some code. TODO: be reviewed
+    public String getPackageProcess(String app, String processId, String taskName) {
+        return "nosi.webapps." + app.toLowerCase() + ".process." + processId.toLowerCase() + "." + taskName + "Controller";
+    }
+
+    public String getBasePahtXslWorkspace(Application app, String verson) {
+        String workSpace = this.getWorkspace();
+        if (Core.isNotNull(workSpace))
+            return workSpace + SEPARATOR_FOR_FILESYSTEM + this.getWebapp() + SEPARATOR_FOR_FILESYSTEM + this.getImageAppPath(app, verson);
+        return null;
+    }
+
+    public String getLinkXSLJsonConvert(String verson) {
+        //Convert Page in format XML 2.1 to JSON
+        String linkXslJsonConvert = "images/IGRP/IGRP"+verson+"/core/formgen/util/jsonConverter.xsl";
+        return this.getBasePathServerXsl().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslJsonConvert;
+    }
+    public String getResolvePathXsl(Action page) {
+        return getResolvePathPage(page.getApplication().getDad(), page.getPage(), page.getVersion());
+    }
+
+    public String getBaseServerPahtXsl(Application app, String version) {
+        return this.getBasePathServerXsl() + this.getImageAppPath(app, version);
+    }
+    public String getBaseHttpServerPahtXsl(Action page) {
+        String APP_LINK_IMAGE = this.getLinkImgBase();
+        if (page != null) {
+            APP_LINK_IMAGE = SEPARATOR_FOR_HTTP + APP_LINK_IMAGE + SEPARATOR_FOR_HTTP;
+            return APP_LINK_IMAGE + "images" + SEPARATOR_FOR_HTTP + "IGRP" + SEPARATOR_FOR_HTTP + "IGRP" + page.getVersion() + SEPARATOR_FOR_HTTP + "app" + SEPARATOR_FOR_HTTP + page.getApplication().getDad().toLowerCase() + SEPARATOR_FOR_HTTP + page.getPage().toLowerCase();
+        }
+        return getBaseServerPahtXsl(page);
+    }
+
+    public String getLinkXSLMapProcess() {
+        String linkXslMapProcess = "images/IGRP/IGRP"+DEFAULT_V_PAGE+"/xsl/IGRP-process.xsl";
+        return this.getLinkImgBase().replace("\\\\", SEPARATOR_FOR_HTTP) + linkXslMapProcess;
     }
 
 }

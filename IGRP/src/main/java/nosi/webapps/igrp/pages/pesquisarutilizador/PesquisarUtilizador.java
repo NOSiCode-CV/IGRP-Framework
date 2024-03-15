@@ -19,6 +19,9 @@ public class PesquisarUtilizador extends Model{
 	@RParam(rParamName = "p_documento_desc")
 	private String documento_desc;
 
+	@RParam(rParamName = "p_nome_filt")
+	private String nome_filt;
+
 	@RParam(rParamName = "p_username")
 	private String username;
 
@@ -73,6 +76,13 @@ public class PesquisarUtilizador extends Model{
 	public IGRPLink setDocumento(Report link){
 		this.documento = new IGRPLink(link);
 		return this.documento;
+	}
+	
+	public void setNome_filt(String nome_filt){
+		this.nome_filt = nome_filt;
+	}
+	public String getNome_filt(){
+		return this.nome_filt;
 	}
 	
 	public void setUsername(String username){
