@@ -237,10 +237,10 @@ public class NovoUtilizadorController extends Controller {
 		String uid = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value()); 
 		String pwd = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
 		RemoteUserStoreManagerServiceSoapClient client = new RemoteUserStoreManagerServiceSoapClient(wsdlUrl, uid, pwd);
-		UserClaimValuesResponseDTO result = null; 
-		if(email.endsWith("cv")) {
-			UserClaimValuesRequestDTO request = new UserClaimValuesRequestDTO();
-			request.setUserName(RemoteUserStoreManagerServiceConstants.GOVCV_TENANT + "/" + email);
+		UserClaimValuesResponseDTO result = null;
+        UserClaimValuesRequestDTO request = new UserClaimValuesRequestDTO();
+        if(email.endsWith("cv")) {
+            request.setUserName(RemoteUserStoreManagerServiceConstants.GOVCV_TENANT + "/" + email);
 			result = client.getUserClaimValues(request);
 			if(result == null || result.getClaimDTOs().isEmpty()) {
 				request.setUserName(email);
@@ -251,8 +251,7 @@ public class NovoUtilizadorController extends Controller {
 				}
 			}
 		}else {
-			UserClaimValuesRequestDTO request = new UserClaimValuesRequestDTO();
-			request.setUserName(email);
+            request.setUserName(email);
 			result = client.getUserClaimValues(request);
 			if(result == null || result.getClaimDTOs().isEmpty()) {
 				request.setUserName(RemoteUserStoreManagerServiceConstants.PORTONGOV_TENANT + "/" + email);
@@ -286,18 +285,17 @@ public class NovoUtilizadorController extends Controller {
 		if (!personArray.isEmpty()) {
            for (LdapPerson ldapPerson : personArray) {
               userLdap = new User();
-              LdapPerson person = ldapPerson;
-              // System.out.println(person);
-              if (person.getName() != null && !person.getName().isEmpty())
-                 userLdap.setName(person.getName());
-              else if (person.getDisplayName() != null && !person.getDisplayName().isEmpty())
-                 userLdap.setName(person.getDisplayName());
-              else if (person.getFullName() != null && !person.getFullName().isEmpty())
-                 userLdap.setName(person.getFullName());
+               // System.out.println(person);
+              if (ldapPerson.getName() != null && !ldapPerson.getName().isEmpty())
+                 userLdap.setName(ldapPerson.getName());
+              else if (ldapPerson.getDisplayName() != null && !ldapPerson.getDisplayName().isEmpty())
+                 userLdap.setName(ldapPerson.getDisplayName());
+              else if (ldapPerson.getFullName() != null && !ldapPerson.getFullName().isEmpty())
+                 userLdap.setName(ldapPerson.getFullName());
               else
-                 userLdap.setName(person.getMail().substring(0, person.getMail().indexOf("@")));
-              userLdap.setUser_name(person.getMail().toLowerCase().trim());
-              userLdap.setEmail(person.getMail().trim().toLowerCase());
+                 userLdap.setName(ldapPerson.getMail().substring(0, ldapPerson.getMail().indexOf("@")));
+              userLdap.setUser_name(ldapPerson.getMail().toLowerCase().trim());
+              userLdap.setEmail(ldapPerson.getMail().trim().toLowerCase());
 //			The user is not activated because the email send is to activate/confirm the account
               userLdap.setStatus(0);
               userLdap.setCreated_at(System.currentTimeMillis());
@@ -318,7 +316,7 @@ public class NovoUtilizadorController extends Controller {
 		if (govCv.equals("true") || kriolAddRole.equals("false"))
 			return true;
 		try {
-			String wsdlUrl = "ids.wso2.RemoteUserStoreManagerService-wsdl-url";
+			String wsdlUrl = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_REMOTE_USER_STORE_MANAGER_SERVICE_WSDL_URL.value());
 			String username = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_USN.value());
 			String password = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ADMIN_PWD.value());
 			String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
@@ -381,8 +379,7 @@ public class NovoUtilizadorController extends Controller {
              if (u == null) {
 
 //				If LDAP is ws02, the role is added to the server 
-                String idsAutentikaEnabled = settings
-                        .getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value(), "false");
+                String idsAutentikaEnabled = settings.getProperty(ConfigCommonMainConstants.IDS_AUTENTIKA_ENABLED.value(), "false");
                 if (idsAutentikaEnabled.equals("true") && !addRoleToUser(userLdap)) {
                    Core.setMessageError("Ocorreu um erro ao adicionar role ao " + email.trim());
                    ok = false;
