@@ -13,6 +13,7 @@ import nosi.core.webapp.Response;//
 import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import jakarta.servlet.ServletException;
@@ -93,7 +94,7 @@ public class WebReportController extends Controller {
 				t1.setTitle(r.getName() + " (" + r.getCode() + ")");
 				data.add(t1);
 			}
-			data.sort((WebReport.Gen_table o1, WebReport.Gen_table o2)->o1.getTitle().compareTo(o2.getTitle()));
+			data.sort(Comparator.comparing(WebReport.Gen_table::getTitle));
 			view.gen_table.addData(data);
 			model.setLink_add_source(this.getConfig().getResolveUrl("igrp", "data-source", "index&target=_blank&id_env=" + model.getEnv_fk()));
 			model.setLink_upload_img(this.getConfig().getResolveUrl("igrp_studio", "web-report", "save-image&id_env=" + model.getEnv_fk()));
@@ -176,7 +177,7 @@ public class WebReportController extends Controller {
 				RepTemplateSource rts = new RepTemplateSource();
 				rts.deleteAll(rt.getId());//Delete old data source of report
 				
-				if(dataSources!=null && dataSources.length>0){
+				if(dataSources != null){
 					for(String dts:dataSources){
 						rts = new RepTemplateSource(rt, new RepSource().findOne(Core.toInt(dts)));
 						rts.insert();
@@ -185,8 +186,7 @@ public class WebReportController extends Controller {
 				String dataSourceKeys= Core.getParam("p_datasourcekeys");
 				if(Core.isNotNull(dataSourceKeys)){
 					Gson g = new Gson();
-					@SuppressWarnings("unchecked")
-					List<DataSourceParam> datasources = (List<DataSourceParam>) g.fromJson(dataSourceKeys, new TypeToken<List<DataSourceParam>>(){}.getType());
+					List<DataSourceParam> datasources = g.fromJson(dataSourceKeys, new TypeToken<List<DataSourceParam>>(){}.getType());
 					if (datasources != null) {
 						for (DataSourceParam p : datasources) {
 							if (Core.isNotNull(p.getId()))
@@ -399,14 +399,11 @@ public class WebReportController extends Controller {
 	
 	private String getData(RepTemplateSource rep,String[] nameArray,String []valueArray) {
 		String type = rep.getRepSource().getType().toLowerCase();
-		switch (type) {
-			case "object","query":
-				return this.getDataForQueryOrObject(rep,nameArray,valueArray);
-			case "page":
-				return this.getDataForPage(rep);
-			default:
-				return "";
-		}
+       return switch (type) {
+          case "object", "query" -> this.getDataForQueryOrObject(rep, nameArray, valueArray);
+          case "page" -> this.getDataForPage(rep);
+          default -> "";
+       };
 	}
 
 
@@ -441,7 +438,7 @@ public class WebReportController extends Controller {
 					actionName.append(aux.substring(0, 1).toUpperCase()).append(aux.substring(1));
 				actionName.insert(0, "action");
 				Core.setAttribute("current_app_conn", ac.getApplication().getDad());	
-				String controllerPath = this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction());			
+				String controllerPath = this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage());
 				Object ob = Controller.loadPage(controllerPath, actionName.toString());
 				Core.removeAttribute("current_app_conn");
 				if(ob!=null){

@@ -344,9 +344,9 @@ public class EnvController extends Controller {
 			xmlMenu.setElement("num_alert", ""+profile.getOrganization().getApplication().getId());
 			xmlMenu.endElement();
 			aux.add(profile.getOrganization().getApplication().getId());
-			displayTitle = (type==null || type.equalsIgnoreCase(""));
+			displayTitle = type.equalsIgnoreCase("");
 		}
-		if(type==null || type.equals("")) {
+		if(type.isEmpty()) {
 			for(Application app:otherApp){
 				if(!aux.contains(app.getId())){ // :-)
 					xmlMenu.startElement("application");
@@ -357,7 +357,7 @@ public class EnvController extends Controller {
 					xmlMenu.setElement("num_alert", "");
 					xmlMenu.setElement("description", app.getDescription());
 					xmlMenu.endElement();
-					displaySubtitle = (type==null || type.equalsIgnoreCase(""));
+					displaySubtitle = type.equalsIgnoreCase("");
 				}
 			}
 		}

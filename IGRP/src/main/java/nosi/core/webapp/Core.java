@@ -66,6 +66,7 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -5512,5 +5513,41 @@ public final class Core {
 			System.out.println("loadProp4Cache "+e.getMessage());
 		} 
 		return propCached;
+	}
+
+	public static void populatePageOptionTypeFields(String dad, Map<Field, String> fieldDomainMap) {
+
+		Objects.requireNonNull(dad);
+		Objects.requireNonNull(fieldDomainMap);
+
+		final var domainCodes = fieldDomainMap.values().toArray(new String[0]);
+
+		final var allDomains = Core.findDomainByCodes(dad, domainCodes);
+		if (Objects.isNull(allDomains))
+			return;
+
+		final var allDomainsMap = allDomains.stream().collect(Collectors.groupingBy(Domain::getDominio));
+		if (!allDomainsMap.isEmpty())
+			return;
+
+		final Predicate<String> typeThatNeedPromptVerifier = fieldType -> !"radiolist".equals(fieldType) && !"checkboxlist".equals(fieldType);
+
+		final BiFunction<List<Domain>, Boolean, Map<String, String>> mapBuilder = (values, prompt) -> {
+			final var map = new HashMap<String, String>();
+			if (prompt)
+				map.put(null, "-- Selecionar --");
+			values.forEach(v -> map.put(v.getValor(), v.getDescription()));
+			return map;
+		};
+
+		fieldDomainMap.forEach((field, domainCode) -> {
+			final var domains = allDomainsMap.get(domainCode);
+			if (Objects.nonNull(domains)) {
+				final var fieldType = field.propertie().getProperty("type");
+				final var isTypeThatNeedPromptVal = typeThatNeedPromptVerifier.test(fieldType);
+				final var map = mapBuilder.apply(domains, isTypeThatNeedPromptVal);
+				field.setValue(map);
+			}
+		});
 	}
 }

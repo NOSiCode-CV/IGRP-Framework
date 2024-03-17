@@ -36,9 +36,7 @@ public class Pesquisa_geografiaController extends Controller {
 		if(params != null)
 			this.p_nivel = Core.toInt(params.getProperty("p_nivel"));
 		
-		model.setTreemenu_1(this.chamarServico(Core.isNotNull(id) ? id : "238", view)); 
-		
-		//view.treemenu_1_link.setVisible(false); 
+		model.setTreemenu_1(this.chamarServico(Core.isNotNull(id) ? id : "238", view));
 		
 		/*----#end-code----*/
 		view.setModel(model);
@@ -49,8 +47,8 @@ public class Pesquisa_geografiaController extends Controller {
 			throws IOException {
 		String id = Core.getParam("p_id");
 		String jsonLookup = Core.getParam("jsonLookup");
-		
-		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + " <treemenu_1> " + "<table>" + "<value>"; 
+
+		StringBuilder xml = new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>" + " <treemenu_1> " + "<table>" + "<value>");
 		
 		if (Core.isNotNull(jsonLookup)) {
            jsonLookup = URLDecoder.decode(jsonLookup, StandardCharsets.UTF_8);
@@ -66,23 +64,24 @@ public class Pesquisa_geografiaController extends Controller {
                   des_geo = key.toString();
             });
 		}
-		List<Pesquisa_geografia.Treemenu_1> lista = chamarServico(id, null); 
-		
-		for (Pesquisa_geografia.Treemenu_1 li : lista) { 
-			int aux = -1; 
+		List<Pesquisa_geografia.Treemenu_1> lista = chamarServico(id, null);
+
+		for (Pesquisa_geografia.Treemenu_1 li : lista) {
+			int aux = -1;
 			try {
-				aux = Core.toBigDecimal(li.getNivel()).intValue(); 
-			} catch (Exception e) {} 
-			
-			if(this.p_nivel != 0 && aux != 0 && aux >= this.p_nivel) 
-				xml += getXml(li.getTreemenu_1_tmid() + "", li.getTreemenu_1_link_desc(), id, "0", des_geo, id_geo,this.p_nivel); 
-			else 
-				xml += getXml(li.getTreemenu_1_tmid() + "", li.getTreemenu_1_link_desc(), id, li.getTreemenu_1_child(), des_geo, id_geo,this.p_nivel); 
-				
+				aux = Core.toBigDecimal(li.getNivel()).intValue();
+			} catch (Exception ignored) {
+
 			}
-		xml += "</value>" + "</table>" + "</treemenu_1>";
+
+			if (this.p_nivel != 0 && aux != 0 && aux >= this.p_nivel)
+				xml.append(getXml(li.getTreemenu_1_tmid(), li.getTreemenu_1_link_desc(), id, "0", des_geo, id_geo, this.p_nivel));
+			else
+				xml.append(getXml(li.getTreemenu_1_tmid(), li.getTreemenu_1_link_desc(), id, li.getTreemenu_1_child(), des_geo, id_geo, this.p_nivel));
+		}
+		xml.append("</value>" + "</table>" + "</treemenu_1>");
 		
-		return this.renderView(xml);
+		return this.renderView(xml.toString());
 	}
 
 	/*----#start-code(custom_actions)----*/
@@ -171,21 +170,20 @@ public class Pesquisa_geografiaController extends Controller {
 		String ParamisPublic="";
 		if(isPublic==1) { 
 			ParamisPublic="<param>isPublic="+ isPublic + "</param>"; 
-		} 
-		String xml = "<row>" + "<context-menu>" + 
-				"<param>" + des_geo + "=" + desc_menu + "</param>" + 
-				"<param>p_nivel=" + this.p_nivel + "</param>" + 
-				"<param>"+ id_geo + "=" + id + "</param>" + ParamisPublic + "</context-menu>" + 
-				"<treemenu_1_link_desc>" + desc_menu + "</treemenu_1_link_desc>" + 
-				"<treemenu_1_tmid>" + id + "</treemenu_1_tmid>" + 
-				"<treemenu_1_parent>" + id_par + "</treemenu_1_parent>" + 
-				"<treemenu_1_icon/>" + 
-				(child.equals("1") ? "" : "<treemenu_1_link></treemenu_1_link>" ) + 
-				(p_nivel == 0 ? "<treemenu_1_link></treemenu_1_link>" : "" ) + 
-				"<treemenu_1_child>" + child + "</treemenu_1_child>" + 
-				"<treemenu_1_active/>" + 
-				"</row>"; 
-		return xml; 
+		}
+		return "<row>" + "<context-menu>" +
+				"<param>" + des_geo + "=" + desc_menu + "</param>" +
+				"<param>p_nivel=" + this.p_nivel + "</param>" +
+				"<param>"+ id_geo + "=" + id + "</param>" + ParamisPublic + "</context-menu>" +
+				"<treemenu_1_link_desc>" + desc_menu + "</treemenu_1_link_desc>" +
+				"<treemenu_1_tmid>" + id + "</treemenu_1_tmid>" +
+				"<treemenu_1_parent>" + id_par + "</treemenu_1_parent>" +
+				"<treemenu_1_icon/>" +
+				(child.equals("1") ? "" : "<treemenu_1_link></treemenu_1_link>" ) +
+				(p_nivel == 0 ? "<treemenu_1_link></treemenu_1_link>" : "" ) +
+				"<treemenu_1_child>" + child + "</treemenu_1_child>" +
+				"<treemenu_1_active/>" +
+				"</row>";
 	} 
 	
 	private int p_nivel = 0;
