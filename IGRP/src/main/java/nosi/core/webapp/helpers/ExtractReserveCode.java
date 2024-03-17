@@ -33,7 +33,7 @@ public class ExtractReserveCode {
 	 		
 	 		Config c = new Config();
 	 		
-	 		String className = c.getPackage(app, page,null);
+	 		String className = c.getPackage(app, page);
 	 		
 	 		String code = ExtractReserveCode.getPageController(app, page);
 	 		

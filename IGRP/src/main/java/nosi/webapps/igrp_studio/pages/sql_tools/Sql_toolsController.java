@@ -68,7 +68,7 @@ public class Sql_toolsController extends Controller {
 
                 final List<Tuple> data = Core.query(sql, configEnv).getResultList();
 
-                Core.setMessageInfo("" + (System.currentTimeMillis() - start) + " ms");
+                Core.setMessageInfo((System.currentTimeMillis() - start) + " ms");
 
                 this.populateTable(view.table_1, data);
 

@@ -2,8 +2,7 @@ package nosi.webapps.igrp_studio.pages.migration;
 
 
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
+
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -11,9 +10,9 @@ import nosi.core.webapp.Response;//
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -22,7 +21,6 @@ import java.util.stream.Collectors;
 import java.util.zip.CRC32;
 
 import org.hibernate.cfg.AvailableSettings;
-import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.db.migration.api.IgrpMigrationAPI;
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.webapps.igrp.dao.Action;
@@ -75,7 +73,7 @@ public class MigrationController extends Controller {
 		
 		Map<Object, Object> listApp = new Application().getListApps();
 		if(listApp!=null && listApp.size()==2) 
-			model.setAplicacao(listApp.keySet().stream().filter(a->a!=null).findFirst().get().toString());
+			model.setAplicacao(listApp.keySet().stream().filter(Objects::nonNull).findFirst().get().toString());
 		view.aplicacao.setValue(listApp);
 		
 		if(Core.isNotNull(model.getAplicacao())) {
@@ -218,10 +216,10 @@ public class MigrationController extends Controller {
 		generatePackageName(content);
 		content.append(IMPORTS_PLACEHOLDER);
 		content.append("/**\n"); 
-		content.append(" * " + Core.getCurrentUser().getName() + "\n"); 
-		content.append(" * " + Core.getCurrentDate("MMM dd, yyyy") + "\n"); 
+		content.append(" * ").append(Core.getCurrentUser().getName()).append("\n");
+		content.append(" * ").append(Core.getCurrentDate("MMM dd, yyyy")).append("\n");
 		content.append(" */\n"); 
-		content.append("public class " + FILE_NAME_PREFIX + app.getDad() + " extends IgrpMigrationTemplate{\n\n"); 
+		content.append("public class " + FILE_NAME_PREFIX).append(app.getDad()).append(" extends IgrpMigrationTemplate{\n\n");
 		
 		this.generateTemplateMethods(content);
 		
@@ -251,7 +249,7 @@ public class MigrationController extends Controller {
 	
 	
 	private void generatePackageName(StringBuilder content) {
-		content.append("package " + migrationLocation.replaceAll(Pattern.quote(File.separator), ".")  + ";\n\n"); 
+		content.append("package ").append(migrationLocation.replaceAll(Pattern.quote(File.separator), ".")).append(";\n\n");
 	}
 	
 	private String generateImports(String content) {
@@ -356,10 +354,9 @@ public class MigrationController extends Controller {
 	}
 	
 	private StringBuilder generateAppContent(StringBuilder content, Application app) {
-		StringBuilder auxContent = new StringBuilder();
-		auxContent.append("\t  this.app = new Application(\"" + app.getDad() + "\", \"" + app.getName() + "\", \"" + app.getImg_src() 
-		+ "\", \"" + app.getDescription() + "\", " + app.getStatus() + ", null,\"" + app.getTemplateRaw() + "\");\n"); 
-		return new StringBuilder(content.toString().replace(APP_PLACEHOLDER, auxContent.toString()));
+       String auxContent = "\t  this.app = new Application(\"" + app.getDad() + "\", \"" + app.getName() + "\", \"" + app.getImg_src()
+                           + "\", \"" + app.getDescription() + "\", " + app.getStatus() + ", null,\"" + app.getTemplateRaw() + "\");\n";
+		return new StringBuilder(content.toString().replace(APP_PLACEHOLDER, auxContent));
 	}
 	
 	private StringBuilder generatePagesContent(StringBuilder content, String[] page_ids) {
@@ -370,10 +367,7 @@ public class MigrationController extends Controller {
 				if(pageId != null && !pageId.trim().isEmpty()) {
 					Action action = new Action().findOne(Core.toInt(pageId)); 
 					if(action != null) {
-						auxContent.append("\t  this.actions.add(new Action(\"" + action.getPage() + "\", \"" + action.getAction() + "\", \"" + action.getPackage_name() 
-						+ "\", \"" + action.getXsl_src() + "\", \"" + action.getPage_descr() + "\", \"" + action.getAction_descr() 
-							+ "\", \"" + action.getVersion()+ "\", " + action.getStatus() + ", this.app, (short)" + action.getIsComponent() + ", " 
-						+ (action.getNomeModulo() != null ? "\"" + action.getNomeModulo() + "\"" : null) + ", " + (action.getProcessKey() != null ? "\"" + action.getProcessKey() + "\"" : null)  + ", (short)" + action.getTipo() + "));\n"); 
+						auxContent.append("\t  this.actions.add(new Action(\"").append(action.getPage()).append("\", \"").append(action.getAction()).append("\", \"").append(action.getPackage_name()).append("\", \"").append(action.getXsl_src()).append("\", \"").append(action.getPage_descr()).append("\", \"").append(action.getAction_descr()).append("\", \"").append(action.getVersion()).append("\", ").append(action.getStatus()).append(", this.app, (short)").append(action.getIsComponent()).append(", ").append(action.getNomeModulo() != null ? "\"" + action.getNomeModulo() + "\"" : null).append(", ").append(action.getProcessKey() != null ? "\"" + action.getProcessKey() + "\"" : null).append(", (short)").append(action.getTipo()).append("));\n");
 					Modulo m = new Modulo().find().andWhere("application", "=", action.getApplication()).andWhere("name", "=", action.getNomeModulo()).one();
 					if(m != null) 
 						modules.add(m);
@@ -384,7 +378,7 @@ public class MigrationController extends Controller {
 			if(!modules.isEmpty()) {
 				modules = modules.stream().collect(Collectors.groupingBy(Modulo::getId)).values().stream().map(obj->obj.get(0)).collect(Collectors.toList()); 
 				for(Modulo module : modules) 
-					auxContent.append("\t  this.modules.add(new Modulo(" + module.getId() + ", \"" + module.getName() + "\", this.app, \"" + module.getDescricao() + "\"));\n");
+					auxContent.append("\t  this.modules.add(new Modulo(").append(module.getId()).append(", \"").append(module.getName()).append("\", this.app, \"").append(module.getDescricao()).append("\"));\n");
 			}
 			content = new StringBuilder(content.toString().replace(PAGES_PLACEHOLDER, auxContent.toString()));
 		}
@@ -398,8 +392,7 @@ public class MigrationController extends Controller {
 				if(transationId != null && !transationId.trim().isEmpty()) {
 					Transaction transaction = new Transaction().findOne(transationId); 
 					if(transaction != null) {
-						auxContent.append("\t  this.transactions.add(new Transaction(\"" + transaction.getCode() + "\", \"" + transaction.getDescr() + "\", " 
-								+ transaction.getStatus() + ", this.app));\n");
+						auxContent.append("\t  this.transactions.add(new Transaction(\"").append(transaction.getCode()).append("\", \"").append(transaction.getDescr()).append("\", ").append(transaction.getStatus()).append(", this.app));\n");
 					}
 				}
 			}
@@ -407,21 +400,26 @@ public class MigrationController extends Controller {
 		}
 		return content;
 	}
-	
-	private StringBuilder generateDomainsContent(StringBuilder content, String[] domain_ids) {
-		if(domain_ids != null && domain_ids.length > 0) {
-			StringBuilder auxContent = new StringBuilder();  
-			for(String domainId: domain_ids) {
-				if(domainId != null && !domainId.trim().isEmpty()) {
-					List<Domain> domains = new Domain().find().where("dominio","=",domainId).all().stream().filter(distinctByKey(Domain::getValor)).collect(Collectors.toList()); 
-					for (Iterator<Domain> iterator = domains.iterator(); iterator.hasNext();) {
-						Domain domain = (Domain) iterator.next();
-						if(domain != null) {
-							auxContent.append("\t  this.domains.add(new Domain(\"" + domain.getDominio() + "\", \"" + domain.getValor() 
-								+ "\", \"" + domain.getDescription() + "\", \"" + domain.getStatus() + "\", " + domain.getordem() + ", DomainType." + domain.getDomainType() + ", this.app));\n"); 
+
+	private StringBuilder generateDomainsContent(StringBuilder content, String[] domainIds) {
+		if (domainIds != null && domainIds.length > 0) {
+			StringBuilder auxContent = new StringBuilder();
+			for (String domainId : domainIds) {
+				if (domainId != null && !domainId.trim().isEmpty()) {
+					List<Domain> domains = new Domain().find().where("dominio", "=", domainId).all()
+							.stream().filter(distinctByKey(Domain::getValor)).toList();
+					for (Domain domain : domains) {
+						if (domain != null) {
+							auxContent.append("\t  this.domains.add(new Domain(\"")
+									.append(domain.getDominio()).append("\", \"")
+									.append(domain.getValor()).append("\", \"")
+									.append(domain.getDescription())
+									.append("\", \"")
+									.append(domain.getStatus())
+									.append("\", ")
+									.append(domain.getordem()).append(", DomainType.").append(domain.getDomainType()).append(", this.app));\n");
 						}
-					} 
-					
+					}
 				}
 			}
 			content = new StringBuilder(content.toString().replace(DOMAINS_PLACEHOLDER, auxContent.toString()));
@@ -441,10 +439,7 @@ public class MigrationController extends Controller {
 			for(String conexaoId: conexao_ids) {
 				Config_env conf = new Config_env().findOne(Core.toInt(conexaoId)); 
 				if(conf != null) 
-					auxContent.append("\t  this.configs.add(new Config_env(" + (conf.getPort() != null ?  "\""+ conf.getPort() + "\"" : null) + "," + (conf.getHost() != null ? " \"" + conf.getHost() + "\"" : null) + "," + (conf.getName_db() != null ? " \"" + conf.getName_db() + "\""  : null) + "," 
-						+ (conf.getCharset() != null ? " \"" + conf.getCharset() + "\"" : null) + ", \"" + conf.getType_db() + "\", \"" + conf.getUsername() + "\", \"" + conf.getPassword() 
-						+ "\", \"" + conf.getName() + "\", \"" + conf.getUrl_connection() + "\", \"" + conf.getDriver_connection() + "\", this.app, (short)" + conf.getIsDefault() 
-						+ "," + (conf.getConnection_identify() != null ? " \"" + conf.getConnection_identify() + "\"" : null) + "));\r");
+					auxContent.append("\t  this.configs.add(new Config_env(").append(conf.getPort() != null ? "\"" + conf.getPort() + "\"" : null).append(",").append(conf.getHost() != null ? " \"" + conf.getHost() + "\"" : null).append(",").append(conf.getName_db() != null ? " \"" + conf.getName_db() + "\"" : null).append(",").append(conf.getCharset() != null ? " \"" + conf.getCharset() + "\"" : null).append(", \"").append(conf.getType_db()).append("\", \"").append(conf.getUsername()).append("\", \"").append(conf.getPassword()).append("\", \"").append(conf.getName()).append("\", \"").append(conf.getUrl_connection()).append("\", \"").append(conf.getDriver_connection()).append("\", this.app, (short)").append(conf.getIsDefault()).append(",").append(conf.getConnection_identify() != null ? " \"" + conf.getConnection_identify() + "\"" : null).append("));\r");
 			} 
 			content = new StringBuilder(content.toString().replace(DBCONNECTIONS_PLACEHOLDER, auxContent.toString())); 
 		}
@@ -462,25 +457,19 @@ public class MigrationController extends Controller {
 				if(aux.getXsl_content().getC_lob_content() != null) 
 					saveBpmnOrReportFilesContent(app.getDad(), new String(aux.getXsl_content().getC_lob_content(), StandardCharsets.UTF_8), aux.getCode() + ".xsl"); 
 				// RepTemplate & CLOB 
-				auxContent.append("\t	User userCreated" + i + " = new User();" + "\n");
-				auxContent.append("\t	userCreated" + i + ".setUser_name(\"" + aux.getUser_created().getUser_name() +  "\");" + "\n");
-				auxContent.append("\t	User userUpdated" + i + " = new User();" + "\n");
-				auxContent.append("\t	userUpdated" + i + ".setUser_name(\"" + aux.getUser_updated().getUser_name() +  "\");" + "\n");
-				auxContent.append("\t	Application env" + i + " = new Application();" + "\n");
-				auxContent.append("\t	env" + i + ".setDad(\"" + aux.getApplication().getDad() +  "\");" + "\n");
-				auxContent.append("\t	RepTemplate report" + i + " = new RepTemplate(\"" + aux.getCode() + "\", \"" + aux.getName() + "\","
-						+ " Core.ToDateUtil(\"" + Core.dateToString(aux.getDt_created(), "yyyy-MM-dd") + "\", \"yyyy-MM-dd\"),"
-						+ " Core.ToDateUtil(\"" + Core.dateToString(aux.getDt_updated(), "yyyy-MM-dd") + "\", \"yyyy-MM-dd\"),"
-						+ aux.getStatus() + ", userCreated" + i + ", userUpdated" + i + ", env" + i + ", " 
-						+ " new CLob(\"" + aux.getXml_content().getName() + "\" ,\"" + aux.getXml_content().getMime_type() + "\", null, Core.ToDateUtil(\"" + Core.dateToString(aux.getXml_content().getDt_created(), "yyyy-MM-dd") + "\", \"yyyy-MM-dd\"), env" + i + ", \"" + aux.getXml_content().getUuid() + "\"),"
-						+ " new CLob(\"" + aux.getXsl_content().getName() + "\" ,\"" + aux.getXsl_content().getMime_type() + "\", null, Core.ToDateUtil(\"" + Core.dateToString(aux.getXsl_content().getDt_created(), "yyyy-MM-dd") + "\", \"yyyy-MM-dd\"), env" + i + ", \"" + aux.getXsl_content().getUuid() + "\"), "
-						+ "\"" + aux.getReport_identify() + "\");\n"); 
+				auxContent.append("\t	User userCreated").append(i).append(" = new User();").append("\n");
+				auxContent.append("\t	userCreated").append(i).append(".setUser_name(\"").append(aux.getUser_created().getUser_name()).append("\");").append("\n");
+				auxContent.append("\t	User userUpdated").append(i).append(" = new User();").append("\n");
+				auxContent.append("\t	userUpdated").append(i).append(".setUser_name(\"").append(aux.getUser_updated().getUser_name()).append("\");").append("\n");
+				auxContent.append("\t	Application env").append(i).append(" = new Application();").append("\n");
+				auxContent.append("\t	env").append(i).append(".setDad(\"").append(aux.getApplication().getDad()).append("\");").append("\n");
+				auxContent.append("\t	RepTemplate report").append(i).append(" = new RepTemplate(\"").append(aux.getCode()).append("\", \"").append(aux.getName()).append("\",").append(" Core.ToDateUtil(\"").append(Core.dateToString(aux.getDt_created(), "yyyy-MM-dd")).append("\", \"yyyy-MM-dd\"),").append(" Core.ToDateUtil(\"").append(Core.dateToString(aux.getDt_updated(), "yyyy-MM-dd")).append("\", \"yyyy-MM-dd\"),").append(aux.getStatus()).append(", userCreated").append(i).append(", userUpdated").append(i).append(", env").append(i).append(", ").append(" new CLob(\"").append(aux.getXml_content().getName()).append("\" ,\"").append(aux.getXml_content().getMime_type()).append("\", null, Core.ToDateUtil(\"").append(Core.dateToString(aux.getXml_content().getDt_created(), "yyyy-MM-dd")).append("\", \"yyyy-MM-dd\"), env").append(i).append(", \"").append(aux.getXml_content().getUuid()).append("\"),").append(" new CLob(\"").append(aux.getXsl_content().getName()).append("\" ,\"").append(aux.getXsl_content().getMime_type()).append("\", null, Core.ToDateUtil(\"").append(Core.dateToString(aux.getXsl_content().getDt_created(), "yyyy-MM-dd")).append("\", \"yyyy-MM-dd\"), env").append(i).append(", \"").append(aux.getXsl_content().getUuid()).append("\"), ").append("\"").append(aux.getReport_identify()).append("\");\n");
 				
 				// DataSource 
 				List<RepSource> repSources = loadRepDataSources(aux);
 				for(int j = 0; j < repSources.size(); j++) {
 					RepSource dataSource = repSources.get(j);
-					auxContent.append("\t	User userCreated" + i + "_" + j + " = new User();" + "\n");
+					auxContent.append("\t	User userCreated").append(i).append("_").append(j).append(" = new User();").append("\n");
 					auxContent.append("\t	userCreated" + i + "_" + j  + ".setUser_name(\"" + dataSource.getUser_created().getUser_name() +  "\");" + "\n");
 					auxContent.append("\t	User userUpdated" + i + "_" + j  + " = new User();" + "\n");
 					auxContent.append("\t	userUpdated" + i + "_" + j  + ".setUser_name(\"" + dataSource.getUser_updated().getUser_name() +  "\");" + "\n");
@@ -501,17 +490,16 @@ public class MigrationController extends Controller {
 				List<RepTemplateSource> repTemplateSources = loadRepTemplateDataSources(aux); 
 				for(int k = 0; k < repTemplateSources.size(); k++) {
 					RepTemplateSource reportSource = repTemplateSources.get(k); 
-					auxContent.append("\t	RepSource repSource" + i + "_" + k + " = new RepSource();" + "\n");
-					auxContent.append("\t	repSource" + i + "_" + k + ".setSource_identify(\"" + reportSource.getRepSource().getSource_identify() + "\");" + "\n");
-					auxContent.append("\t	RepTemplateSource reportSource" + i + "_" + k + " = new RepTemplateSource(report" + i + ", repSource" + i + "_" + k + ");\n"); 
-					List<RepTemplateSourceParam> parameters = reportSource.getParameters(); 
-					for(int j = 0; j < parameters.size(); j++) {
-						RepTemplateSourceParam param = parameters.get(j); 
-						auxContent.append("\t	reportSource" + i + "_" + k + ".getParameters().add(new RepTemplateSourceParam(reportSource" + i + "_" + k +  ", \"" + param.getParameter() + "\", \"" + param.getParameter_type() + "\"));\n");
-					}
-					auxContent.append("\t	report" + i + ".getReptemplatesources().add(reportSource" + i + "_" + k + ");\n"); 
+					auxContent.append("\t	RepSource repSource").append(i).append("_").append(k).append(" = new RepSource();").append("\n");
+					auxContent.append("\t	repSource").append(i).append("_").append(k).append(".setSource_identify(\"").append(reportSource.getRepSource().getSource_identify()).append("\");").append("\n");
+					auxContent.append("\t	RepTemplateSource reportSource").append(i).append("_").append(k).append(" = new RepTemplateSource(report").append(i).append(", repSource").append(i).append("_").append(k).append(");\n");
+					List<RepTemplateSourceParam> parameters = reportSource.getParameters();
+                   for (RepTemplateSourceParam param : parameters) {
+                      auxContent.append("\t	reportSource").append(i).append("_").append(k).append(".getParameters().add(new RepTemplateSourceParam(reportSource").append(i).append("_").append(k).append(", \"").append(param.getParameter()).append("\", \"").append(param.getParameter_type()).append("\"));\n");
+                   }
+					auxContent.append("\t	report").append(i).append(".getReptemplatesources().add(reportSource").append(i).append("_").append(k).append(");\n");
 				}
-				auxContent.append("\t	this.reports.add(report" + i + ");\n"); 
+				auxContent.append("\t	this.reports.add(report").append(i).append(");\n");
 			}
 			content = new StringBuilder(content.toString().replace(REPORTS_PLACEHOLDER, auxContent.toString()));
 		}
@@ -536,19 +524,17 @@ public class MigrationController extends Controller {
 								for(int i = 0; i < tipoDocumentoEtapas.size(); i++) {
 									TipoDocumentoEtapa tipoDocumentoEtapa = tipoDocumentoEtapas.get(i); 
 									if(tipoDocumentoEtapa.getTipoDocumento() != null) {
-										auxCode.append("\t	TipoDocumento tipoDocumento" +tipoDocumentoEtapa.getId()+"_"+ i + " = new TipoDocumento();\n"); 
-										auxCode.append("\t	tipoDocumento" +tipoDocumentoEtapa.getId()+"_"+ i + ".setCodigo(\"" + tipoDocumentoEtapa.getTipoDocumento().getCodigo() + "\");\n");
-										auxCode.append("\t	tipoDocumento" +tipoDocumentoEtapa.getId()+"_"+ i + ".setApplication(this.app);\n");
-										auxCode.append("\t	RepTemplate repTemplate" +tipoDocumentoEtapa.getId()+"_"+ i + " = null;\n"); 
+										auxCode.append("\t	TipoDocumento tipoDocumento").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(" = new TipoDocumento();\n");
+										auxCode.append("\t	tipoDocumento").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(".setCodigo(\"").append(tipoDocumentoEtapa.getTipoDocumento().getCodigo()).append("\");\n");
+										auxCode.append("\t	tipoDocumento").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(".setApplication(this.app);\n");
+										auxCode.append("\t	RepTemplate repTemplate").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(" = null;\n");
 									}else {
-										auxCode.append("\t	RepTemplate repTemplate" +tipoDocumentoEtapa.getId()+"_"+ i + " = new RepTemplate();\n"); 
-										auxCode.append("\t	repTemplate"+tipoDocumentoEtapa.getId()+"_"+ i + ".setCode(\"" + tipoDocumentoEtapa.getRepTemplate().getCode()+ "\");\n");
-										auxCode.append("\t	repTemplate"+tipoDocumentoEtapa.getId()+"_" + i + ".setApplication(this.app);\n");
-										auxCode.append("\t	TipoDocumento tipoDocumento"+ tipoDocumentoEtapa.getId()+"_"+ i + " = null;\n"); 
+										auxCode.append("\t	RepTemplate repTemplate").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(" = new RepTemplate();\n");
+										auxCode.append("\t	repTemplate").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(".setCode(\"").append(tipoDocumentoEtapa.getRepTemplate().getCode()).append("\");\n");
+										auxCode.append("\t	repTemplate").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(".setApplication(this.app);\n");
+										auxCode.append("\t	TipoDocumento tipoDocumento").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(" = null;\n");
 									}
-									auxCode.append("\t	this.tipoDocumentoEtapas.add(" + "new TipoDocumentoEtapa(\"" + tipoDocumentoEtapa.getProcessId() + "\","
-											+ " \"" + tipoDocumentoEtapa.getTaskId() + "\", \"" + tipoDocumentoEtapa.getTipo() + "\", " + tipoDocumentoEtapa.getStatus() 
-											+ ", " + tipoDocumentoEtapa.getRequired() + ", tipoDocumento" +tipoDocumentoEtapa.getId()+"_"+ i + ", repTemplate"+tipoDocumentoEtapa.getId()+"_" + i + ")" + ");\n"); 
+									auxCode.append("\t	this.tipoDocumentoEtapas.add(" + "new TipoDocumentoEtapa(\"").append(tipoDocumentoEtapa.getProcessId()).append("\",").append(" \"").append(tipoDocumentoEtapa.getTaskId()).append("\", \"").append(tipoDocumentoEtapa.getTipo()).append("\", ").append(tipoDocumentoEtapa.getStatus()).append(", ").append(tipoDocumentoEtapa.getRequired()).append(", tipoDocumento").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(", repTemplate").append(tipoDocumentoEtapa.getId()).append("_").append(i).append(")").append(");\n");
 								}
 							
 						}
@@ -558,7 +544,7 @@ public class MigrationController extends Controller {
 			if(!bpmns.isEmpty()) {
 				StringBuilder auxContent = new StringBuilder(); 
 				for(String bpmn : bpmns) 
-					auxContent.append("\t	this.bpmns.add(\"" + bpmn + "\");\n"); 
+					auxContent.append("\t	this.bpmns.add(\"").append(bpmn).append("\");\n");
 				auxContent.append(auxCode);
 				content = new StringBuilder(content.toString().replace(BPMNS_PLACEHOLDER, auxContent.toString())); 
 			}
@@ -572,16 +558,16 @@ public class MigrationController extends Controller {
 			for(String id : tipo_doc_ids) {
 				TipoDocumento documento = new TipoDocumento().findOne(Core.toInt(id)); 
 				if(documento != null)
-					auxContent.append("\t\tthis.tipoDocumentos.add(new TipoDocumento(\"" + documento.getNome() + "\", " + documento.getStatus() +  ", \"" + documento.getDescricao() + "\", \"" + documento.getCodigo() + "\", this.app));\n"); 
+					auxContent.append("\t\tthis.tipoDocumentos.add(new TipoDocumento(\"").append(documento.getNome()).append("\", ").append(documento.getStatus()).append(", \"").append(documento.getDescricao()).append("\", \"").append(documento.getCodigo()).append("\", this.app));\n");
 			}
 			content = new StringBuilder(content.toString().replace(DOCUMENT_TYPES_PLACEHOLDER, auxContent.toString()));
 		}
 		return content;
 	}
 	
-	private List<RepTemplate> loadAllReportTemplateByIds(String []report_ids) { 
+	private List<RepTemplate> loadAllReportTemplateByIds(String [] report_ids) {
 		List<RepTemplate> allReports = new ArrayList<>(); 
-		if(report_ids != null && report_ids.length > 0) 
+		if(report_ids != null)
 			for(String id : report_ids) 
 				if(!id.trim().isEmpty()) {
 					RepTemplate report = new RepTemplate().findOne(Core.toInt(id));
@@ -592,11 +578,10 @@ public class MigrationController extends Controller {
 	}
 	
 	private List<RepSource> loadRepDataSources(RepTemplate report){
-		List<RepSource> repSources = new ArrayList<>(); 
 		List<RepTemplateSource> sources = loadRepTemplateDataSources(report);
 		if(sources != null && !sources.isEmpty()) 
-			repSources = sources.stream().map(RepTemplateSource::getRepSource).collect(Collectors.toList());
-		return repSources; 
+			return sources.stream().map(RepTemplateSource::getRepSource).toList();
+		return new ArrayList<>(0);
 	}
 	
 	private List<RepTemplateSource> loadRepTemplateDataSources(RepTemplate report){
@@ -629,7 +614,7 @@ public class MigrationController extends Controller {
 		try {
 			if(Files.notExists(parent)) 
 				parent = Files.createDirectories(parent); 
-			Files.write(path, content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING); 
+			Files.writeString(path, content, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 		} catch (Exception e) {
 			e.printStackTrace();
 			success = false;
@@ -644,7 +629,7 @@ public class MigrationController extends Controller {
 		try {
 			if(Files.notExists(parent)) 
 				parent = Files.createDirectories(parent); 
-			Files.write(path, content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING); 
+			Files.writeString(path, content, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 		} catch (Exception e) {
 			e.printStackTrace();
 			success = false;
@@ -653,12 +638,12 @@ public class MigrationController extends Controller {
 	}
 	
 	private String[] removeBlank(String[] ids) {
-		if(ids == null) return ids;
+		if(ids == null) return null;
 		List<String> idsWithoutBlank = new ArrayList<>(); 
 		for(String id : ids) 
 			if(id != null && !id.trim().isEmpty()) 
 				idsWithoutBlank.add(id);
-		return idsWithoutBlank.toArray(new String[idsWithoutBlank.size()]);
+		return idsWithoutBlank.toArray(new String[0]);
 	}
 	
 	private void prepareMigrationLocation() {

@@ -385,11 +385,8 @@ public class Config {
         return "src" + SEPARATOR_FOR_FILESYSTEM + "main" + SEPARATOR_FOR_FILESYSTEM + "resources" + SEPARATOR_FOR_FILESYSTEM + BASE_PATH_CONFIGURATION + SEPARATOR_FOR_FILESYSTEM + "db" + SEPARATOR_FOR_FILESYSTEM;
     }
 
-    @Deprecated
-    public String getPackage(String app, String page, String action){
-        return getPackage( app,  page);
-    }
     public String getPackage(String app, String page) {
+
         String basePackage = "nosi.webapps." + app.toLowerCase() + ".pages." + page.toLowerCase() + "." + page + "Controller";
 
         if (Core.isNotNull(app) && Core.isNotNull(page)) {

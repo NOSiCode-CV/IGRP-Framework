@@ -20,18 +20,13 @@ public class FileJavaType {
 	}
 
 	public static String createFile(String packageName,String className,String type) {
-		switch (type) {
-			case "class":
-				return createJavaFile(packageName, className, "class");
-			case "interface":
-				return createJavaFile(packageName, className, "interface");
-			case "enum":
-				return createJavaFile(packageName, className, "enum");
-			case "annotation":
-				return createJavaFile(packageName, className, "@interface");
-			case "xml":
-				return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-		}
-		return "";
-	}
+       return switch (type) {
+          case "class" -> createJavaFile(packageName, className, "class");
+          case "interface" -> createJavaFile(packageName, className, "interface");
+          case "enum" -> createJavaFile(packageName, className, "enum");
+          case "annotation" -> createJavaFile(packageName, className, "@interface");
+          case "xml" -> "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+          default -> "";
+       };
+    }
 }
