@@ -4,6 +4,8 @@ package nosi.webapps.igrp.pages.dominio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import nosi.core.config.ConfigApp;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
@@ -20,6 +22,9 @@ import nosi.webapps.igrp.pages.dominio.Dominio.Formlist_1;
  */
 public class DomainHeper {
 
+	private DomainHeper(){
+	}
+
 	 public static final String SQL_DOMINIO_PRIVATE = "SELECT DISTINCT dominio as id, dominio FROM tbl_domain WHERE env_fk=:env_fk";  //"AND domain_type='"+DomainType.PRIVATE+"'";
 	 public static final String SQL_DOMINIO_PUB = "SELECT DISTINCT dominio as id, dominio FROM tbl_domain WHERE env_fk is null"; // AND domain_type='"+DomainType.PUBLIC+"' OR domain_type is null ";		 		
 	 public static final String SQL_ITEM_DOMINIO = "SELECT id as formlist_1_id,description,valor as key, case WHEN (status='ATIVE' OR status='') then '1' else '-1' END as estado, '1' as estado_check, ordem FROM tbl_domain "
@@ -30,7 +35,7 @@ public class DomainHeper {
 		return new Application().getListApps();
 	}
 
-	public static List <Dominio.Formlist_1> getDomainItemQuery(String dominio,Integer appId) {
+	public static List<Dominio.Formlist_1> getDomainItemQuery(String dominio,Integer appId) {
 		try{
 			Domain domainfilter = new Domain().find().where("dominio", "=", dominio);
 			if(Core.isNotNullOrZero(appId))
@@ -52,7 +57,7 @@ public class DomainHeper {
 			return separatorlistDocs;
 			}catch ( Exception e ) {
 				e.printStackTrace();
-				return null;
+				return new ArrayList<>(0);
 			}
 	}
 	
@@ -84,15 +89,26 @@ public class DomainHeper {
 	}
 
 	public static boolean saveItemDomain(Dominio model) {
+
 		boolean r = false;
 		deleteOld(model);
 		int order = 0;
+
+		model.getFormlist_1().stream()
+				.collect(Collectors.groupingBy(obj-> obj.getKey().getKey().trim()))
+				.entrySet()
+				.stream()
+				.filter(obj -> obj.getValue().size() > 1)
+				.forEach(obj -> {
+					final var descriptions = obj.getValue().stream().map(o-> o.getDescription().getKey().trim()).collect(Collectors.joining(", "));
+					Core.setMessageWarning("Foram encontradas chaves repetidas. Chave: [ <strong>%s</strong> ] Descrições: [ <strong>%s</strong> ]".formatted(obj.getKey(),descriptions));
+				});
+
 		for (Formlist_1 d : model.getFormlist_1()) {
 			if (validateDomains(d)) {
 				if (Core.isNotNull(d.getFormlist_1_id()) && Core.isNotNull(d.getFormlist_1_id().getKey())) {
-					if (!(r = update(d, (++order), model.getAplicacao() == null ? 1 : 0))) {
+					if (!(r = update(d, (++order), model.getAplicacao() == null ? 1 : 0)))
 						break;
-					}
 				} else {
 					if (!(r = insert(model, d, (++order))))
 						break;

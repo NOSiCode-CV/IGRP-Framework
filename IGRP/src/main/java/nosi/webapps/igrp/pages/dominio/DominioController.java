@@ -5,9 +5,6 @@ import static nosi.core.i18n.Translator.gt;
 import java.io.IOException;//
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import nosi.core.config.ConfigCommonMainConstants;
-import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -116,7 +113,6 @@ public class DominioController extends Controller {
 		if(DomainHeper.saveDomain(model)) {
 			Core.setMessageSuccess();
 			this.addQueryString("p_aplicacao", model.getAplicacao());
-		//this.addQueryString("p_lst_dominio", model.getNovo_dominio());
           this.addQueryString("target", Core.getParam("target"));
 			return this.redirect("igrp","Dominio","index", this.queryString());
 		}else {
@@ -158,8 +154,8 @@ public class DominioController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(delete)----*/
 		boolean dom = false;
-		List<Domain> list_domain = new Domain().find().andWhere("dominio","=",Core.getParam("p_id_dom")).all();
- 		for(Domain d : list_domain) {
+		List<Domain> listDomain = new Domain().find().andWhere("dominio","=",Core.getParam("p_id_dom")).all();
+ 		for(Domain d : listDomain) {
 			d.delete();
 			if(!d.hasError()) {
 				dom = true;
