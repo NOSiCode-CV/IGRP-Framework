@@ -4,7 +4,6 @@ package nosi.webapps.igrp.pages.dominio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import nosi.core.config.ConfigApp;
@@ -90,34 +89,56 @@ public class DomainHeper {
 
 	public static boolean saveItemDomain(Dominio model) {
 
-		boolean r = false;
+		var success = false;
+
+		printDomainsWarningMessagesWithSameDescription(model.getFormlist_1());
+
+		final var domainsWithSameKey = getDomainsWithSameKey(model.getFormlist_1());
+		if (!domainsWithSameKey.isEmpty()) {
+			domainsWithSameKey.forEach((key, value) -> {
+               final var descriptions = value.stream().map(o -> o.getDescription().getKey().trim()).collect(Collectors.joining(", "));
+               Core.setMessageWarning("Foram encontradas chaves repetidas. Chave: [ <strong>%s</strong> ] Descrições: [ <strong>%s</strong> ]".formatted(key, descriptions));
+            });
+			return success;
+		}
+
 		deleteOld(model);
 		int order = 0;
-
-		model.getFormlist_1().stream()
-				.collect(Collectors.groupingBy(obj-> obj.getKey().getKey().trim()))
-				.entrySet()
-				.stream()
-				.filter(obj -> obj.getValue().size() > 1)
-				.forEach(obj -> {
-					final var descriptions = obj.getValue().stream().map(o-> o.getDescription().getKey().trim()).collect(Collectors.joining(", "));
-					Core.setMessageWarning("Foram encontradas chaves repetidas. Chave: [ <strong>%s</strong> ] Descrições: [ <strong>%s</strong> ]".formatted(obj.getKey(),descriptions));
-				});
 
 		for (Formlist_1 d : model.getFormlist_1()) {
 			if (validateDomains(d)) {
 				if (Core.isNotNull(d.getFormlist_1_id()) && Core.isNotNull(d.getFormlist_1_id().getKey())) {
-					if (!(r = update(d, (++order), model.getAplicacao() == null ? 1 : 0)))
+					if (!(success = update(d, (++order), model.getAplicacao() == null ? 1 : 0)))
 						break;
 				} else {
-					if (!(r = insert(model, d, (++order))))
+					if (!(success = insert(model, d, (++order))))
 						break;
 				}
 			}
 		}
-		return r;
+		return success;
 	}
 
+	private static void printDomainsWarningMessagesWithSameDescription(List<Formlist_1> values) {
+		values.stream()
+				.collect(Collectors.groupingBy(obj -> obj.getDescription().getKey().trim()))
+				.entrySet()
+				.stream()
+				.filter(obj -> obj.getValue().size() > 1)
+				.forEach(obj -> {
+					final var keys = obj.getValue().stream().map(o -> o.getKey().getKey()).collect(Collectors.joining(", "));
+					Core.setMessageWarning("Foram encontradas descrições repetidas. Descrição: [ <strong>%s</strong> ] Chaves: [ <strong>%s</strong> ]".formatted(obj.getKey(), keys));
+				});
+	}
+
+	private static Map<String, List<Formlist_1>> getDomainsWithSameKey(List<Formlist_1> values) {
+		return values.stream()
+				.collect(Collectors.groupingBy(obj -> obj.getKey().getKey().trim()))
+				.entrySet()
+				.stream()
+				.filter(obj -> obj.getValue().size() > 1)
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+	}
 	
 	private static boolean insert(Dominio model,Formlist_1 formlist,int order) {
 		Domain d = new Domain(model.getLst_dominio(),
