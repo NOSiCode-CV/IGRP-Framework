@@ -58,7 +58,7 @@ public class ListaEnvController extends Controller {
 			apps = app.getListMyApp(user.getId(),true);
 //		}
       	
-		Collections.sort(apps, new SortbyStatus());
+		apps.sort(new SortbyStatus());
 		for (Application a : apps) {
 			//Don't list app IGRP
 			if (!a.getDad().equalsIgnoreCase("igrp")) {
@@ -67,7 +67,7 @@ public class ListaEnvController extends Controller {
 				table.setDad(a.getDad());
            		Action ac = a.getAction();
               if (ac != null) {					
-					page = (ac != null && ac.getPage() != null) ? ac.getPage() : page;
+					page = ac.getPage() != null ? ac.getPage() : page;
 					page = ac.getApplication().getDad().toLowerCase() + "/" + page;
 				}
               //Creates the link to open a app
@@ -300,7 +300,7 @@ public class ListaEnvController extends Controller {
 		res.toJson(json);
 		return this.renderView(json.toString());
 	}
-	  class SortbyStatus implements Comparator<Application> {
+	  static class SortbyStatus implements Comparator<Application> {
 		// Used for sorting in ascending order of
 		// roll number
 		public int compare(Application a, Application b) {

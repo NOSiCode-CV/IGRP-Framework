@@ -155,7 +155,7 @@ public class HibernateUtils {
             var environmentVariableName = propertyValue.substring(2, propertyValue.length() - 1);
             var environmentVariableValue = System.getenv(environmentVariableName);
             if (environmentVariableValue != null)
-               properties.setProperty(propertyKey, environmentVariableValue);
+               properties.setProperty(propertyKey, environmentVariableValue.trim());
             else
                LOG.error("Environment Variable: {} not found", environmentVariableName);
          }

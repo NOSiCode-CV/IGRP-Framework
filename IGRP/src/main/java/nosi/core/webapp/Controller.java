@@ -496,9 +496,9 @@ public class Controller {
         }
         igrpApp.getResponse().addHeader("Content-Description", "File Transfer");
         if (download)
-            igrpApp.getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
+            igrpApp.getResponse().setHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
         else
-            igrpApp.getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
+            igrpApp.getResponse().setHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
         response.setType(1);
         response.setContentLength(file.length);
         response.setContentType(contentType);
@@ -573,10 +573,10 @@ public class Controller {
             for (String aux : app.getCurrentActionName().split("-"))
                 auxActionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
             auxActionName = "action" + auxActionName;
-            auxcontrollerPath = this.getConfig().getPackage(auxAppName, auxPageName, auxActionName);
+            auxcontrollerPath = this.getConfig().getPackage(auxAppName, auxPageName);
         } else {
             auxActionName = "actionIndex";
-            auxcontrollerPath = this.getConfig().getPackage("igrp", "Home", auxActionName);
+            auxcontrollerPath = this.getConfig().getPackage("igrp", "Home");
         }
         return loadPage(auxcontrollerPath, auxActionName);
     }
@@ -590,7 +590,7 @@ public class Controller {
         Igrp igrpApp = Igrp.getInstance();
         String m = msg.toString();
         this.setQueryStringToAttributes(queryString);
-        String auxcontrollerPath = this.getConfig().getPackage(app, page, action);
+        String auxcontrollerPath = this.getConfig().getPackage(app, page);
         igrpApp.setCurrentAppName(app);
         igrpApp.setCurrentPageName(page);
         igrpApp.setCurrentActionName(action);

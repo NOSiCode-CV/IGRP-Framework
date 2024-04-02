@@ -145,7 +145,7 @@
             </label>
         </xsl:if>
         <div class="input-group">
-            <input type="text" value="{./value}" datefield="true" disableWeekends="{$disableWeekends}" disabledBeforetoday="{$disabledBeforetoday}" data-range="{$range}" class="form-control gen-date-picker flatpickr-input {$change}" data-provider="flatpickr" data-date-format="{$format}" data-enable-time="{$enableTime}" id="{name()}" name="{./@name}" maxlength="{$maxlength}" placeholder="{$placeholder}">
+            <input type="text" value="{./value}" datefield="true" disableWeekends="{$disableWeekends}" disabledBeforetoday="{$disabledBeforetoday}" data-range="{$range}" class="form-control gen-date-picker flatpickr-input {$change}" data-provider="flatpickr" data-date-format="{$format}" data-enable-time="{$enableTime}" id="{./@name}" name="{./@name}" maxlength="{$maxlength}" placeholder="{$placeholder}">
                 <xsl:call-template name="setAttributes">
                     <xsl:with-param name="field" select="."/>
                 </xsl:call-template>

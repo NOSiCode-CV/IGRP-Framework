@@ -202,7 +202,7 @@ public class ImportArquivoController extends Controller {
 				try {
 					Part file = Igrp.getInstance().getRequest().getPart("p_arquivo_aplicacao");
 					descricao += file.getSubmittedFileName().replace(".app.jar", "").replace(".zip", "");
-					descricao += " " + file.getSize() + " KB";
+					descricao += " " + file.getSize()/1000 + " KB";
 					if (file.getSubmittedFileName().endsWith(".zip") || file.getSubmittedFileName().endsWith(".jar")) {
 						if (file.getSubmittedFileName().endsWith(".zip")) {
 							result = new Import().importApp(new ImportAppZip(file));
@@ -214,10 +214,10 @@ public class ImportArquivoController extends Controller {
 								result = true;
 							} else {
 								if (importApp.hasError()) {
-									importApp.getErrors().stream().forEach(Core::setMessageError);
+									importApp.getErrors().forEach(Core::setMessageError);
 								}
 								if (importApp.hasWarning()) {
-									importApp.getWarnings().stream().forEach(Core::setMessageWarning);
+									importApp.getWarnings().forEach(Core::setMessageWarning);
 								}
 							}
 						}
@@ -269,11 +269,15 @@ public class ImportArquivoController extends Controller {
 					if (part.getSubmittedFileName() != null && part.getSubmittedFileName().endsWith(".jar")) {
 						imported = new ImportPluginIGRP().importPlugin(part);
 					}
-				}
-				if (imported) {
-					Core.setMessageSuccess();
-				} else {
-					Core.setMessageError(FlashMessage.ERROR_IMPORT);
+
+					if (imported) {
+						ImportExportDAO ie_dao = new ImportExportDAO(part.getSubmittedFileName() +" "+part.getSize()/1000+" KB", Core.getCurrentUser().getUser_name(),
+								Core.getCurrentDataTime(), "Import lib.jar");
+						ie_dao.insert();
+						Core.setMessageSuccess();
+					} else {
+						Core.setMessageError(FlashMessage.ERROR_IMPORT);
+					}
 				}
 			} catch (ServletException e) {
 				e.printStackTrace();
@@ -496,10 +500,10 @@ public class ImportArquivoController extends Controller {
 
 							else {
 								if (importApp.hasError()) {
-									importApp.getErrors().stream().forEach(Core::setMessageError);
+									importApp.getErrors().forEach(Core::setMessageError);
 								}
 								if (importApp.hasWarning()) {
-									importApp.getWarnings().stream().forEach(Core::setMessageWarning);
+									importApp.getWarnings().forEach(Core::setMessageWarning);
 								}
 							}
 						}

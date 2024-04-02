@@ -20,8 +20,8 @@
 						<xsl:for-each select="#path#/table/value/row[not(@total='yes')]">
 							<tr gen-id="drop-zone">
 								<xsl:apply-templates mode="context-param" select="context-menu" />
-								<gen-template name="table-rows-hiddens"/>
 								#[ctxInlineTmpl]#
+								<gen-template name="table-rows-hiddens"/>
 							</tr>
 						</xsl:for-each>
 					</tbody>

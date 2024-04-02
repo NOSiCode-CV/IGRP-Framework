@@ -56,7 +56,7 @@ public class Pesquisa_nif_restController extends Controller {
 			url = setting.getProperty("link.rest.pesquisa_nif")+"?NUM_NIF=" + model.getNif();
 		}else if(Core.isNotNull(model.getNome_form()) && (Core.isNullOrZero(model.getNif()))) {
 			url = setting.getProperty("link.rest.pesquisa_nif")+"?NM_CONTRIBUINTE=" + 
-		URLEncoder.encode(model.getNome_form().toUpperCase(Locale.ROOT).trim(), StandardCharsets.UTF_8.toString());
+		URLEncoder.encode(model.getNome_form().toUpperCase(Locale.ROOT).trim(), StandardCharsets.UTF_8);
 			
 		}
       //else if(Core.isNotNull(model.getNome_form()) && (Core.isNotNull(model.getNif()) && model.getNif() != 0)){

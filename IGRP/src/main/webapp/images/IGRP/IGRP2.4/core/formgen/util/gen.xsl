@@ -993,8 +993,6 @@
               <tbody>
                 <xsl:for-each select="rows/content/{name()}/table/value/row">
                   <tr gen-id="drop-zone" row="{position()}">
-                    <input type="hidden" name="p_{name()}_id" value="{concat('{',name(),'_id }')}" />
-                    <gen-template name="table-rows-hiddens"/>
                     <xsl:if test="not(@nodelete) or not(@noupdate)" >
                       <td class="table-btn delete" data-row="{position()}">
                         <xsl:if test="not(@nodelete)">
@@ -1004,6 +1002,8 @@
                         </xsl:if>
                       </td>
                     </xsl:if>
+                    <input type="hidden" name="p_{name()}_id" value="{concat('{',name(),'_id }')}" />
+                    <gen-template name="table-rows-hiddens"/>
                   </tr>
                 </xsl:for-each>
               </tbody>

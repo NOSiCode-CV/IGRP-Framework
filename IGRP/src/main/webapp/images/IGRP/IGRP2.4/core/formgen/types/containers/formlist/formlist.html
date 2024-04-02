@@ -20,8 +20,6 @@
       <tbody>
         <xsl:for-each select="#path#/table/value/row[not(@total='yes')]">
           <tr gen-id="drop-zone" row="{position()}">
-            <input type="hidden" name="p_#tag#_id" value="{#tag#_id}" />
-            <gen-template name="table-rows-hiddens"/>
             #[addTotalRow]#
             <xsl:if test="not(@nodelete) or not(@noupdate)" gen-preserve="last">
               <td class="table-btn delete" data-row="{position()}">
@@ -32,6 +30,8 @@
                 </xsl:if>
               </td>
             </xsl:if>
+            <input type="hidden" name="p_#tag#_id" value="{#tag#_id}" />
+            <gen-template name="table-rows-hiddens"/>
             <xsl:apply-templates mode="form-hidden-fields" select="."/>		
           </tr>
         </xsl:for-each>

@@ -11,11 +11,8 @@ import nosi.core.webapp.Response;//
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.config.Config;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.stream.Collectors;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,7 +74,7 @@ public class ListaPageController extends Controller {
 
 		Map<Object, Object> listApp = new Application().getListApps();
 		if (listApp != null && listApp.size() == 2) {
-			model.setApplication(listApp.keySet().stream().filter(a -> a != null).findFirst().get().toString());
+			model.setApplication(listApp.keySet().stream().filter(Objects::nonNull).findFirst().get().toString());
 		}
 
 		String app = Core.getParam("app");
@@ -155,7 +152,7 @@ public class ListaPageController extends Controller {
 			actions = new Action().find().andWhere("application", "=", Core.toInt(model.getApplication()))
 					.andWhere("isComponent", "<>", (short) 2).all();
 		}
-		Collections.sort(actions, new SortbyStatus());
+		actions.sort(new SortbyStatus());
 		final Map<Object, Object> map = Core.toMap(new Modulo().getModuloByApp(Core.toInt(model.getApplication())),
 				"name", "descricao", "-- Selecionar --");
 
@@ -215,7 +212,7 @@ public class ListaPageController extends Controller {
 		view.modulo.setVisible(map.size() > 1);
 
 		view.table_1.addData(lista);
-		Collections.sort(apps, new SortbyID());
+		apps.sort(new SortbyID());
 		view.table_2.addData(apps);
 
 		/*----#end-code----*/
@@ -411,7 +408,7 @@ public class ListaPageController extends Controller {
 		return this.renderView(json.toString());
 	}
 
-	class SortbyStatus implements Comparator<Action> {
+	static class SortbyStatus implements Comparator<Action> {
 		// Used for sorting in ascending order of
 		// roll number
 		public int compare(Action a, Action b) {
@@ -420,20 +417,20 @@ public class ListaPageController extends Controller {
 			if (b.getNomeModulo() == null)
 				b.setNomeModulo("");
 
-			int NameCompare = a.getNomeModulo().compareTo(b.getNomeModulo());
-			int StatusCompare = b.getStatus() - a.getStatus();
+			int nameCompare = a.getNomeModulo().compareTo(b.getNomeModulo());
+			int statusCompare = b.getStatus() - a.getStatus();
 
 			// 2-level comparison using if-else block
-			if (StatusCompare == 0) {
-				return ((NameCompare == 0) ? StatusCompare : NameCompare);
+			if (statusCompare == 0) {
+				return ((nameCompare == 0) ? statusCompare : nameCompare);
 			} else {
-				return StatusCompare;
+				return statusCompare;
 			}
 
 		}
 	}
 
-	class SortbyID implements Comparator<ListaPage.Table_2> {
+	static class SortbyID implements Comparator<ListaPage.Table_2> {
 
 		@Override
 		public int compare(Table_2 o1, Table_2 o2) {

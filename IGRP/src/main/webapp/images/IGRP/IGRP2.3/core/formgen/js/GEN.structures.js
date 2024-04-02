@@ -375,7 +375,7 @@ var GENSTRUCTURES = function(GEN){
 
 				rtn+='<'+tag+' '+attributesStr+'>'+value+'</'+tag+'>';
 				if(f.xml.desc)
-					rtn+='<'+tag+'_desc name="'+f.GET.name()+'_desc">'+descVal+'</'+tag+'_desc>';
+					rtn+='<'+tag+'_check name="'+f.GET.name()+'_check">'+descVal+'</'+tag+'_check>';
 				
 			});
 

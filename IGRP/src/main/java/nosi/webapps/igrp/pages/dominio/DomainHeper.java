@@ -4,6 +4,7 @@ package nosi.webapps.igrp.pages.dominio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import nosi.core.config.ConfigApp;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
@@ -20,6 +21,9 @@ import nosi.webapps.igrp.pages.dominio.Dominio.Formlist_1;
  */
 public class DomainHeper {
 
+	private DomainHeper(){
+	}
+
 	 public static final String SQL_DOMINIO_PRIVATE = "SELECT DISTINCT dominio as id, dominio FROM tbl_domain WHERE env_fk=:env_fk";  //"AND domain_type='"+DomainType.PRIVATE+"'";
 	 public static final String SQL_DOMINIO_PUB = "SELECT DISTINCT dominio as id, dominio FROM tbl_domain WHERE env_fk is null"; // AND domain_type='"+DomainType.PUBLIC+"' OR domain_type is null ";		 		
 	 public static final String SQL_ITEM_DOMINIO = "SELECT id as formlist_1_id,description,valor as key, case WHEN (status='ATIVE' OR status='') then '1' else '-1' END as estado, '1' as estado_check, ordem FROM tbl_domain "
@@ -30,7 +34,7 @@ public class DomainHeper {
 		return new Application().getListApps();
 	}
 
-	public static List <Dominio.Formlist_1> getDomainItemQuery(String dominio,Integer appId) {
+	public static List<Dominio.Formlist_1> getDomainItemQuery(String dominio,Integer appId) {
 		try{
 			Domain domainfilter = new Domain().find().where("dominio", "=", dominio);
 			if(Core.isNotNullOrZero(appId))
@@ -52,7 +56,7 @@ public class DomainHeper {
 			return separatorlistDocs;
 			}catch ( Exception e ) {
 				e.printStackTrace();
-				return null;
+				return new ArrayList<>(0);
 			}
 	}
 	
@@ -84,24 +88,57 @@ public class DomainHeper {
 	}
 
 	public static boolean saveItemDomain(Dominio model) {
-		boolean r = false;
+
+		var success = false;
+
+		printDomainsWarningMessagesWithSameDescription(model.getFormlist_1());
+
+		final var domainsWithSameKey = getDomainsWithSameKey(model.getFormlist_1());
+		if (!domainsWithSameKey.isEmpty()) {
+			domainsWithSameKey.forEach((key, value) -> {
+               final var descriptions = value.stream().map(o -> o.getDescription().getKey().trim()).collect(Collectors.joining(", "));
+               Core.setMessageWarning("Foram encontradas chaves repetidas. Chave: [ <strong>%s</strong> ] Descrições: [ <strong>%s</strong> ]".formatted(key, descriptions));
+            });
+			return success;
+		}
+
 		deleteOld(model);
 		int order = 0;
+
 		for (Formlist_1 d : model.getFormlist_1()) {
 			if (validateDomains(d)) {
 				if (Core.isNotNull(d.getFormlist_1_id()) && Core.isNotNull(d.getFormlist_1_id().getKey())) {
-					if (!(r = update(d, (++order), model.getAplicacao() == null ? 1 : 0))) {
+					if (!(success = update(d, (++order), model.getAplicacao() == null ? 1 : 0)))
 						break;
-					}
 				} else {
-					if (!(r = insert(model, d, (++order))))
+					if (!(success = insert(model, d, (++order))))
 						break;
 				}
 			}
 		}
-		return r;
+		return success;
 	}
 
+	private static void printDomainsWarningMessagesWithSameDescription(List<Formlist_1> values) {
+		values.stream()
+				.collect(Collectors.groupingBy(obj -> obj.getDescription().getKey().trim()))
+				.entrySet()
+				.stream()
+				.filter(obj -> obj.getValue().size() > 1)
+				.forEach(obj -> {
+					final var keys = obj.getValue().stream().map(o -> o.getKey().getKey()).collect(Collectors.joining(", "));
+					Core.setMessageWarning("Foram encontradas descrições repetidas. Descrição: [ <strong>%s</strong> ] Chaves: [ <strong>%s</strong> ]".formatted(obj.getKey(), keys));
+				});
+	}
+
+	private static Map<String, List<Formlist_1>> getDomainsWithSameKey(List<Formlist_1> values) {
+		return values.stream()
+				.collect(Collectors.groupingBy(obj -> obj.getKey().getKey().trim()))
+				.entrySet()
+				.stream()
+				.filter(obj -> obj.getValue().size() > 1)
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+	}
 	
 	private static boolean insert(Dominio model,Formlist_1 formlist,int order) {
 		Domain d = new Domain(model.getLst_dominio(),
