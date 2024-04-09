@@ -21,7 +21,7 @@ public class IGRPChart extends IGRPComponent{
 	private String xaxys;
 	private String yaxys;
 	private String url;
-	private List<String> colors;
+	private final List<String> colors;
 	private BaseQueryInterface query;
 	
 	public IGRPChart(String tag_name,String title) {

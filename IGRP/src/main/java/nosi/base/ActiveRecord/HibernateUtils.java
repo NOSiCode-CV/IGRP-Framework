@@ -5,6 +5,8 @@ import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Core;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -69,6 +71,23 @@ public class HibernateUtils {
       return sessionFactory;
    }
 
+   public static Session getSession(String connectionName) {
+      SessionFactory sessionFactory = getSessionFactory(connectionName);
+      if (sessionFactory != null) {
+         if (sessionFactory.isOpen() && sessionFactory.getCurrentSession() != null
+             && sessionFactory.getCurrentSession().isOpen()) {
+            return sessionFactory.getCurrentSession();
+         }
+         sessionFactory.close();
+         removeSessionFactory(connectionName);
+         sessionFactory = getSessionFactory(connectionName);
+         if (sessionFactory != null)
+            return sessionFactory.getCurrentSession();
+
+      }
+      throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
+   }
+
    private static SessionFactory buildSessionFactory(String cfgName) {
       try {
          ServiceRegistry serviceRegistry;
@@ -111,6 +130,7 @@ public class HibernateUtils {
 
    public static void closeAllConnection() {
       SESSION_FACTORY.values().forEach(SessionFactory::close);
+      SESSION_FACTORY.clear();
       if (SESSION_FACTORY_IGRP != null)
          SESSION_FACTORY_IGRP.close();
    }

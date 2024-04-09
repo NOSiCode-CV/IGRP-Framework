@@ -611,10 +611,6 @@ public final class Core {
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().fromJson(json, type);
 	}
 
-	public static String getAmberColor() {
-		return "2";
-	}
-
 	/**
 	 * 
 	 * @param name
@@ -652,18 +648,6 @@ public final class Core {
 		if (isRemoved)
 			Igrp.getInstance().getRequest().removeAttribute(name);
 		return v;
-	}
-
-	public static String getBlueColor() {
-		return "7";
-	}
-
-	public static String getBlueGreyColor() {
-		return "5";
-	}
-
-	public static String getBrownColor() {
-		return "8";
 	}
 
 	/**
@@ -1138,10 +1122,6 @@ public final class Core {
 
 	}
 
-	public static String getDeepPurpleColor() {
-		return "9";
-	}
-
 	/**
 	 * @deprecated Use getFileByUuid(
 	 * 
@@ -1255,10 +1235,6 @@ public final class Core {
 		if (flag)
 			Igrp.getInstance().getRequest().getSession().removeAttribute(key);
 		return result;
-	}
-
-	public static String getGreenColor() {
-		return "4";
 	}
 
 	@Deprecated
@@ -1725,14 +1701,6 @@ public final class Core {
 		return taskId;
 	}
 
-	public static String getPinkColor() {
-		return "1";
-	}
-
-	public static String getPurpleColor() {
-		return "6";
-	}
-
 	/**
 	 * Receive multiple params and get one of these params that's not null
 	 * 
@@ -1774,10 +1742,6 @@ public final class Core {
 				});
 		xml.endElement();
 		return xml.toString();
-	}
-
-	public static String getYellowColor() {
-		return "3";
 	}
 
 	public static String gt(String value) {

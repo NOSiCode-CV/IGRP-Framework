@@ -7,7 +7,7 @@ import nosi.core.xml.XMLWritter;
 
 public class IGRPMessage {
 	
-	private XMLWritter result;
+	private final XMLWritter result;
 	
 	public IGRPMessage(){
 		this.result = new XMLWritter();
