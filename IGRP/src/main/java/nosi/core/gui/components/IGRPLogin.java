@@ -19,7 +19,7 @@ import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
 
 public class IGRPLogin extends IGRPForm{
-	protected Config config = new Config();
+	protected final Config config = new Config();
 
 	public IGRPLogin(String tag_name,String title) {
 		super(tag_name,title);

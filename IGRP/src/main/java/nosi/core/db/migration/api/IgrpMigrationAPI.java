@@ -16,11 +16,11 @@ public class IgrpMigrationAPI {
 	
 	private Flyway migrationEngine; 
 	
-	private String dsn; 
-	private String username; 
-	private String password; 
+	private final String dsn;
+	private final String username;
+	private final String password;
 	private boolean baselineOnMigrate; 
-	private String []locations;
+	private String[] locations;
 	
 	public static final String DEFAULT_LOCATION_BASE_PATH = "classpath:nosi/core/db/migration/igrp"; 
 	

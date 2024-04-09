@@ -8,7 +8,7 @@ import nosi.core.xml.XMLWritter;
 
 public class IGRPHome implements IHeaderConfig{
 	public String type_home="";
-	protected Config config = new Config();
+	protected final Config config = new Config();
 	public IGRPHome(String type_home){
 		this.type_home = type_home;
 	}
