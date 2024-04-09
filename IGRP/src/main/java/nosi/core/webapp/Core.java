@@ -623,7 +623,7 @@ public final class Core {
 	 * @return
 	 */
 	public static String getAttribute(String name, boolean isRemoved) {
-		if (Igrp.getInstance() != null && Igrp.getInstance().getRequest().getAttribute(name) != null) {
+		if ((Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null)  && Igrp.getInstance().getRequest().getAttribute(name) != null) {
 			String v;
 			if (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[])
 				v = ((Object[]) Igrp.getInstance().getRequest().getAttribute(name))[0].toString();
@@ -1446,7 +1446,7 @@ public final class Core {
 	 * @return
 	 */
 	public static String getParam(String name,String defaultParam) {
-		Object v = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameter(name) : null;
+		Object v = (Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null)  ? Igrp.getInstance().getRequest().getParameter(name) : null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, true);
 		return (v != null && !v.equals("null")) ? v + "" : defaultParam;
@@ -1463,7 +1463,7 @@ public final class Core {
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name, boolean isRemoved) {
-		Object v = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameter(name) : null;
+		Object v = (Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null) ? Igrp.getInstance().getRequest().getParameter(name) : null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, isRemoved);
 		return v != null && !v.equals("null") ? v.toString() : "";
@@ -1494,7 +1494,7 @@ public final class Core {
 	 * @return value
 	 */
 	public static String[] getParamArray(String name) {
-		String[] value = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameterValues(name) : null;
+		String[] value = (Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null)  ? Igrp.getInstance().getRequest().getParameterValues(name) : null;
 		if (value == null)
 			value = Core.getAttributeArray(name);
 		return value;
