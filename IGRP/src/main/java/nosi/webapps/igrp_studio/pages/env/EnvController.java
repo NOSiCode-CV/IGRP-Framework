@@ -336,11 +336,9 @@ public class EnvController extends Controller {
 			List<App> allowApps = new ArrayList<>();
 			List<App> denyApps = new ArrayList<>();
 			String host= getAllApps(allowApps,denyApps);
-			xmlMenu.setElement("link_img_acl", host+"gov.cv/images/IGRP/IGRP2.3");
 			for(App obj: allowApps){
 				xmlMenu.startElement("application");
 				xmlMenu.writeAttribute("available", "yes");
-
 				xmlMenu.setElement("link", obj.getLink());
 				xmlMenu.setElement("path_acl", host+"gov.cv/images/IGRP/IGRP2.3");
 				xmlMenu.setElement("img", obj.getImg_src());
@@ -353,7 +351,6 @@ public class EnvController extends Controller {
 			for(App obj: denyApps){
 				xmlMenu.startElement("application");
 				xmlMenu.writeAttribute("available", "no");
-
 				xmlMenu.setElement("link", obj.getLink());
 				xmlMenu.setElement("path_acl", host+"gov.cv/images/IGRP/IGRP2.3");
 				xmlMenu.setElement("img", obj.getImg_src());
