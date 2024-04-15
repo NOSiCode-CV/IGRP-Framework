@@ -12,6 +12,7 @@ import nosi.core.webapp.security.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.*;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.jws.WebService;
 import javax.persistence.GeneratedValue;
@@ -334,11 +335,14 @@ public class EnvController extends Controller {
 		if(this.configApp.isActiveGlobalACL()) {
 			List<App> allowApps = new ArrayList<>();
 			List<App> denyApps = new ArrayList<>();
-			getAllApps(allowApps,denyApps);
+			String host= getAllApps(allowApps,denyApps);
+			xmlMenu.setElement("link_img_acl", host+"gov.cv/images/IGRP/IGRP2.3");
 			for(App obj: allowApps){
 				xmlMenu.startElement("application");
 				xmlMenu.writeAttribute("available", "yes");
+
 				xmlMenu.setElement("link", obj.getLink());
+				xmlMenu.setElement("path_acl", host+"gov.cv/images/IGRP/IGRP2.3");
 				xmlMenu.setElement("img", obj.getImg_src());
 				xmlMenu.setElement("title", obj.getName());
 				xmlMenu.setElement("num_alert", "");
@@ -349,7 +353,9 @@ public class EnvController extends Controller {
 			for(App obj: denyApps){
 				xmlMenu.startElement("application");
 				xmlMenu.writeAttribute("available", "no");
+
 				xmlMenu.setElement("link", obj.getLink());
+				xmlMenu.setElement("path_acl", host+"gov.cv/images/IGRP/IGRP2.3");
 				xmlMenu.setElement("img", obj.getImg_src());
 				xmlMenu.setElement("title", obj.getName());
 				xmlMenu.setElement("num_alert", "");
@@ -435,20 +441,26 @@ public class EnvController extends Controller {
 	/** Integration with IGRP-PLSQL Apps **
 	 * */
 	// Begin
-	private void getAllApps(List<App> allowApps /*INOUT var*/, List<App> denyApps  /*INOUT var*/) {
-		Properties properties =  this.configApp.getMainSettings(); 
+	private String getAllApps(List<App> allowApps /*INOUT var*/, List<App> denyApps  /*INOUT var*/) {
+		String host="";
+		Properties properties =  this.configApp.getMainSettings();
 		String baseUrl = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.value()); 
 		String token = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_TOKEN.value()); 
 		AppConfig appConfig = new AppConfig(); 
 		appConfig.setUrl(baseUrl);
 		appConfig.setToken(token);
-		List<App> allApps = appConfig.userApps(Core.getCurrentUser().getEmail()); 
-		for(App app : allApps) { 
+		List<App> allApps = appConfig.userApps(Core.getCurrentUser().getEmail());
+
+
+		for(App app : allApps) {
 			if(app.getAvailable().equals("yes")) 
 				allowApps.add(app);
 			else 
 				denyApps.add(app);
+			if(host.isEmpty() && app.getLink().contains("redirect_uri"))
+				host=StringUtils.substringBetween(app.getLink(),"redirect_uri=","gov.cv");
 		}
+		return host;
 	}
 	
 	// XML for Blocky's consume 
