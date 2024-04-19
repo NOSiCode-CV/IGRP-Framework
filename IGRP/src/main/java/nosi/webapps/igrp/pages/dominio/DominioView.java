@@ -61,11 +61,13 @@ public class DominioView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT&p_type=dominio"));
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		forum = new LinkField(model,"forum");
 		forum.setLabel(gt("Forum"));
-		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		forum.setValue(gt("https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&utm_medium=link&utm_campaign=share-link"));
+		forum.propertie().add("name","p_forum").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-comments").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
@@ -116,13 +118,13 @@ public class DominioView extends View {
 		btn_guardar_item_domain = new IGRPButton("Guardar","igrp","Dominio","guardar_item_domain","submit_ajax","primary|fa-save","","");
 		btn_guardar_item_domain.propertie.add("type","specific").add("rel","guardar_item_domain").add("refresh_components","formlist_1");
 
-		btn_gravar_domain = new IGRPButton("Adicionar","igrp","Dominio","gravar_domain","submit_ajax","success|fa-plus-square","","");
+		btn_gravar_domain = new IGRPButton("Adicionar","igrp","Dominio","gravar_domain","submit_ajax","success|fa-plus","","");
 		btn_gravar_domain.propertie.add("type","specific").add("rel","gravar_domain").add("refresh_components","toolsbar_1,form_1,formlist_1");
 
-		btn_editar = new IGRPButton("Editar","igrp","Dominio","editar","right_panel|refresh","warning|fa-pencil-square","","");
+		btn_editar = new IGRPButton("Editar","igrp","Dominio","editar","right_panel|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("id","button_91cf_1728").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
 
-		btn_delete = new IGRPButton("Delete","igrp","Dominio","delete","alert_submit","danger|fa-times-circle","","");
+		btn_delete = new IGRPButton("Delete","igrp","Dominio","delete","alert_submit","danger|fa-times","","");
 		btn_delete.propertie.add("id","button_91cf_1728").add("type","specific").add("class","danger").add("rel","delete").add("refresh_components","").add("labelConfirm","Deseja realmente realizar esta operação?");
 
 		btn_download = new IGRPButton("Download","igrp","Dominio","download","download|refresh","grey|fa-download","","");
@@ -172,8 +174,6 @@ public class DominioView extends View {
 	@Override
 	public void setModel(Model model) {
 		
-		documento.setValue(model);
-		forum.setValue(model);
 		aplicacao.setValue(model);
 		lst_dominio.setValue(model);
 		novo_dominio.setValue(model);
