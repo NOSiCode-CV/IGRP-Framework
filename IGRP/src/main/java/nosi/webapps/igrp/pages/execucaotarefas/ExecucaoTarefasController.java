@@ -96,7 +96,7 @@ public class ExecucaoTarefasController extends Controller {
 			}
 
 			if(Core.isNull(model.getLimite_maximo_de_registos_minhas_taref()))
-				model.setLimite_maximo_de_registos_minhas_taref(100);
+				model.setLimite_maximo_de_registos_minhas_taref(300);
 			myTasks = this.getMyTasks(model, view);
 			if(view.gerir_tarefas.isVisible()){
 				addTaskManage(taskManage);
