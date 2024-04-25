@@ -1,0 +1,32 @@
+#streetview.on {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	z-index: 1002
+}
+
+/* #streetview.on  */
+
+#map_os_1-map, #streetview.on #map_os_1{
+	min-height: 226px !important;
+} 
+
+#streetview.on #panorama {
+	height: calc(100vh - 226px);
+	width: 100%;
+}
+
+#streetview.on #panorama div{
+	position: absolute;
+}
+
+#streetview.on .gen-container-item {
+	margin-bottom: unset !important;
+}
+
+#streetview.on .box-body {
+	padding: 0 !important;
+}

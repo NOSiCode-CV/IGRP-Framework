@@ -1,0 +1,187 @@
+<div class="gis-widget-panel">
+	
+	<div class="gis-widget-panel-title">
+		<span>{{title}}</span>
+	</div>
+	
+	<div class="gis-widget-panel-body">
+		<div id="search-widget-form">
+			<div class="search-input-layer" >
+			    <div class="form-group form-group-sm" id="search-ckeck-advanced">
+					<input type="checkbox" id="" widget-action="check" action-event="change">
+					<label>Filtro Avançado</label>
+				</div>
+				<div class="form-group" widget-template="layers">
+					<select class="form-control" id="layers-select">
+					<option value="">--- Select Layer ---</option>
+					{{#each layers}}
+						<option value="{{id}}">{{name}}</option>
+					{{/each}}
+					</select>
+				</div>
+				
+				<div class="form-group" widget-template="attributes">
+					<select class="form-control select2 " id="layer-atts-select" multiple style="display:none;">
+					{{#each layerAttributes}}
+						<option value="{{id}}">{{name}}</option>
+					{{/each}}
+					</select>
+				</div>
+							
+				<div id="search-form-advanced" class="widget-step clearfix" step-id="filter" step-when="widget.activeFilter" style="padding: 0">		
+					
+					<div class="form-group" id="search-grid-operators">
+						<div class="btn-group" role="group" aria-label="...">
+						  <button type="button" class="btn btn-default btn-sm" data-operator="=">=</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="<>"><></button>					  
+						  <button type="button" class="btn btn-default btn-sm" data-operator=">">></button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator=">=">>=</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="<"><</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="<="><=</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="like '%%' ">Like</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="and">And</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="or">Or</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="not in('')">Not</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="in('')">In</button>
+						  <button type="button" class="btn btn-default btn-sm" data-operator="between" style="width: 77px;">Between</button>
+						</div>
+					</div>
+					
+					<div class="" id="search-txt-cql">
+						<textarea rows="3" cols="100"></textarea>
+					</div>
+					
+					<div class="" style="text-align: right;">
+					    <!--<div class="search-clear" style="display:none">
+							<i class="fa fa-times"></i>
+						</div>  -->
+						<button widget-action="search-submit" class="btn btn-primary btn-sm" type="button" id="search-form-submit">
+							<i class="fa fa-search"></i>
+							<span>Pesquisar</span>
+					 	</button>
+					 </div>
+				</div>
+				
+			</div>
+			<div class="search-input-wrapper">
+				<div class="input-group">
+				
+					<input type="text" class="form-control" placeholder="Pesquisar...">
+					
+					<span class="input-group-addon" step-action="search" step-event="click">
+						<i class="fa fa-search"></i>
+					</span>
+					
+					<div class="input-group-btn dropdown" id="btnOptions">
+				        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Alterar a forma de pesqusia"><i class="fa fa-navicon"></i></button>
+				        <ul class="dropdown-menu">
+				            <li><a href="#" id="search-layers">Layers</a></li>
+				            <li><a href="#" id="search-nominatim-api">Lugar ou Endereço</a></li>
+				            <li><a href="#" id="search-div-admin">Divisão Administrativa</a></li>
+			           </ul>
+				    </div>
+				    
+				</div>
+				<div class="search-clear" style="display:none">
+					<i class="fa fa-times"></i>
+				</div>
+			</div>
+			<div class="search-div-admin widget-step" step-id="divAdmin" step-when="widget.activeDivAdmin">
+				<div class="form-group form-group-sm" widget-template="div-admin-nivel-1">
+					<select class="form-control select2 remote-change" data-target="nivel-2" data-value="nivel-1" id="nivel-1">
+						<option value="">--- Selecionar ---</option>
+						{{#each divData}}
+							<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
+						{{/each}}
+					</select>
+				</div>
+				<div class="form-group form-group-sm" widget-template="div-admin-nivel-2">
+					<select class="form-control select2 remote-change" id="nivel-2" data-value="nivel-2" data-target="nivel-3">
+						<option value="">--- Selecionar ---</option>
+						{{#each divData}}
+							<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
+						{{/each}}
+					</select>
+				</div>
+				 <div class="form-group form-group-sm" widget-template="div-admin-nivel-3">
+					<select class="form-control select2 remote-change" id="nivel-3" data-value="nivel-3" data-target="nivel-4">
+						<option value="">--- Selecionar ---</option>
+						{{#each divData}}
+						    {{#if selectedId}}
+						    	<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}" selected>{{name}}</option>
+						    {{else}}
+						    	<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
+						    {{/if}}							
+						{{/each}}
+					</select>
+				</div>
+				<div class="form-group form-group-sm" widget-template="div-admin-nivel-4">
+					<select class="form-control select2 remote-change" id="nivel-4" data-value="nivel-4">
+					<option value="">--- Selecionar ---</option>
+					{{#each divData}}
+						<option value="{{id}}" feature-id="{{ GetFeatureData this.feature 'id' }}" bounds="{{ GetFeatureData this.feature 'bounds' }}">{{name}}</option>
+					{{/each}}
+					</select>
+				</div>
+			</div>
+		</div>
+		
+	    <div class="search-widget-results" widget-template="results">
+		  	{{#if total}}
+		 	<div class="panel-group" id="search-accordion-results" role="tablist" aria-multiselectable="true">
+		      {{#each this.searchResults}}
+		        <div class="panel panel-default">
+		          <div class="panel-heading" role="tab" >
+		            <h4 class="panel-title bg-white">
+		              <a role="button" data-toggle="collapse" data-parent="#search-accordion-results" href="#search-tab-{{@index}}">
+		                {{ layer.name }}
+		                <span class="badge badge-sm pull-right" bg-color="primary">{{total}}</span>
+		              </a>
+		            </h4>
+		          </div>
+		          <div id="search-tab-{{@index}}" class="panel-collapse collapse {{ FirstTabActiveClass @index 'in' }}" >
+		            <div class="panel-body">
+		              <div class="search-items">
+						{{#each features}}
+							<div  class="search-item" layer-id="{{../layer.id}}" feature-id="{{ GetFeatureData this 'id' }}" bounds="{{ GetFeatureData this 'bounds' }}" >
+								{{#each ../attributes}}
+								<div class="search-item-info" >
+									<span class="search-item-value">{{lookup ../properties this}}</span>
+									<!--  <span class="search-item-field">({{ this }})</span> -->
+								</div>
+								{{/each}}
+							</div>
+						{{/each}}
+					 </div>
+		            </div>
+		          </div>
+		        </div>
+		      {{/each}}
+		    </div>
+		  	{{else}}
+		  	
+		  	<div class="search-widget-no-data-msg" style="display:block">{{noResultsMessage}}</div>
+		  	
+		  	{{/if}}
+		    
+		</div>
+	  
+		<div class="lds-css">
+			<div class="lds-spinner" >
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+  
+  	</div>
+</div>
