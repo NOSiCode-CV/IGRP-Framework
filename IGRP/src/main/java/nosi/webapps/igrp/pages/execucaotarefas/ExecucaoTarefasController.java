@@ -9,8 +9,8 @@ import nosi.core.webapp.Response;//
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import nosi.core.webapp.activit.rest.entities.TaskService;
@@ -23,13 +23,7 @@ import nosi.webapps.igrp.dao.TaskAccess;
 import nosi.webapps.igrp.pages.execucaotarefas.ExecucaoTarefas.Table_disponiveis;
 import nosi.webapps.igrp.pages.execucaotarefas.ExecucaoTarefas.Table_gerir_tarefas;
 import nosi.webapps.igrp.pages.execucaotarefas.ExecucaoTarefas.Table_minhas_tarefas;
-
 import static nosi.core.i18n.Translator.gt;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-
 /*----#end-code----*/
 		
 public class ExecucaoTarefasController extends Controller {
@@ -70,7 +64,6 @@ public class ExecucaoTarefasController extends Controller {
 		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 
-		
 		this.showTabManage(view, ProfileType.isPerfilPai());// hide tab when user is not manager
 		List<ExecucaoTarefas.Table_gerir_tarefas> taskManage =  new ArrayList<>();
 		List<ExecucaoTarefas.Table_minhas_tarefas> myTasks =  new ArrayList<>();
@@ -85,14 +78,14 @@ public class ExecucaoTarefasController extends Controller {
 			taskManage = this.getTaskManage(model, view);
 			break;
 		case MY_TASK:
-			myTasks = this.getMyTasks(model, view);
+			myTasks = this.getMyTasks(model);
 			break;
 		default:
 			if(view.gerir_tarefas.isVisible()) {
 				Core.setMessageInfo("Em <b>Gerir tarefas</b> usar o filtro e pesquisar por favor porque a lista é só de disponíveis e minhas.");
 				model.setLimite_maximo_de_registos_gerir_tarefa(1000);
 			}
-			myTasks = this.getMyTasks(model, view);
+			myTasks = this.getMyTasks(model);
 			if(view.gerir_tarefas.isVisible())
 				addTaskManage(taskManage);
 			
@@ -102,26 +95,35 @@ public class ExecucaoTarefasController extends Controller {
 
 		}
 		
-		Collections.sort(myTasks, Comparator.comparing((ExecucaoTarefas.Table_minhas_tarefas t) -> Integer.parseInt(t.getPrioridade_m())).reversed());
-		Collections.sort(tasksDisponiveis, Comparator.comparing((ExecucaoTarefas.Table_disponiveis t) -> Integer.parseInt(t.getPrioridade())).reversed());
-		Collections.sort(taskManage, Comparator.comparing((ExecucaoTarefas.Table_gerir_tarefas t) -> Integer.parseInt(t.getPrioridade_g())).reversed());
+		myTasks.sort(Comparator.comparing((Table_minhas_tarefas t) -> Integer.parseInt(t.getPrioridade_m())).reversed());
+		tasksDisponiveis.sort(Comparator.comparing((Table_disponiveis t) -> Integer.parseInt(t.getPrioridade())).reversed());
+		taskManage.sort(Comparator.comparing((Table_gerir_tarefas t) -> Integer.parseInt(t.getPrioridade_g())).reversed());
 
 		view.table_gerir_tarefas.addData(taskManage);
 		view.table_disponiveis.addData(tasksDisponiveis);
 		view.table_minhas_tarefas.addData(myTasks);
+
+		final var listPrioridade = buildPriorityMap();
 		view.prioridade_colaborador.setValue(listPrioridade);
 		view.prioridade_estatistica.setValue(listPrioridade);
 		view.prioridade_minhas_tarefas.setValue(listPrioridade);
 		view.prioridade_form_disponiveis.setValue(listPrioridade);
 		view.prioridade_gerir_tarefa.setValue(listPrioridade);
+
+		final var listProc = new ProcessDefinitionIGRP().mapToComboBoxByKey(Core.getCurrentDad());
 		view.tipo_processo_colaborador.setValue(listProc);
 		view.tipo_processo_form_disponiveis.setValue(listProc);
 		view.tipo_processo_estatistica.setValue(listProc);
 		view.tipo_processo_gerir_tarefa.setValue(listProc);
 		view.tipo_processo_minhas_tarefas.setValue(listProc);
+
+		final Map<Object, Object> tasksMap =  Core.toMap(new TaskAccess().getTaskAccess(), "taskName", "taskDescription","-- Selecionar --");
 		view.tarefa_gerir_tarefa.setValue(tasksMap);
+
+		final Map<Object, Object> userAtrib = Core.toMap(Core.getUsersByApplication(Core.getCurrentDad()), "user_name", "name","-- Selecionar --");
 		view.atribuido_por_gerir_tarefa.setValue(userAtrib);
 		view.atribuido_a_gerir_tarefa.setValue(userAtrib);
+
 		view.atribuido_a_gerir_tarefa.setValue(((Map<String, String>) view.atribuido_a_gerir_tarefa.getListOptions()).put("false", gt("-x Ninguém x-")));
 
 		view.btn_detalhes_minha_tarefa.setVisible(false);
@@ -274,7 +276,7 @@ public class ExecucaoTarefasController extends Controller {
 		/* Start-Code-Block (assumir_button_tabela)  *//* End-Code-Block  */
 		/*----#start-code(assumir_button_tabela)----*/
 		String id = Core.getParam("p_p_id_d");
-		if (Core.isNotNull(id) && new TaskServiceRest().claimTask(id, Core.getCurrentUser().getUser_name())) {
+		if (Core.isNotNull(id) && new TaskServiceRest().claimTask(id, Objects.requireNonNull(Core.getCurrentUser()).getUser_name())) {
 			Core.setMessageSuccess(Core.gt("Tarefa assumido com sucesso"));
 		} else {
 			Core.setMessageError();
@@ -693,10 +695,10 @@ public class ExecucaoTarefasController extends Controller {
 			taskServiceBO.addFilterBody("priority", prioridade);
 		}
 		if(Core.isNotNull(data_fim)) 				
-			taskServiceBO.addFilterBody("createdBefore", ""+DateHelper.toDateTime(data_fim,1)); 
+			taskServiceBO.addFilterBody("createdBefore", DateHelper.toDateTime(data_fim, 1));
 		
 		if(Core.isNotNull(data_inicio)) 			
-			taskServiceBO.addFilterBody("createdAfter", ""+DateHelper.toDateTime(data_inicio)); 
+			taskServiceBO.addFilterBody("createdAfter", DateHelper.toDateTime(data_inicio));
 		
 		if(Core.isNotNull(model.getAtribuido_a_gerir_tarefa())) {
 			if(model.getAtribuido_a_gerir_tarefa().equals("false"))
@@ -722,13 +724,10 @@ public class ExecucaoTarefasController extends Controller {
 			case AVAILABLE:
 				tasksF = taskServiceBO.getAvailableTasks();
 				break;
-			case CONTRIBUTOR:
+			case CONTRIBUTOR, MANAGE_TASK:
 				tasksF = taskServiceBO.getManageTasks();
 				break;
-			case MANAGE_TASK:
-				tasksF = taskServiceBO.getManageTasks();
-				break;
-			case MY_TASK:
+           case MY_TASK:
 				tasksF = taskServiceBO.getMyTasks();
 				break;
 			case STATISTIC:
@@ -747,16 +746,6 @@ public class ExecucaoTarefasController extends Controller {
 		view.gerir_tarefas.setVisible(isVisible);
 		view.colaboradores.setVisible(false);
 		view.estatistica.setVisible(false);
-	}
-
-	private static Map<String, String> listPrioridade = new HashMap<>();
-	static {
-		listPrioridade.put(null, Core.gt("-- Escolher Prioridade --"));
-		listPrioridade.put("100", "Urgente");
-      	listPrioridade.put("75", "Alta");
-		listPrioridade.put("50", "Normal");
-     	listPrioridade.put("25", "Baixa");
-		listPrioridade.put("0", "Muito baixa");
 	}
 
 	// Get tasks for user manager
@@ -781,34 +770,34 @@ public class ExecucaoTarefasController extends Controller {
 			t.setAtribuido_a(task.getAssignee());
 			t.setAtribuido_por(task.getOwner());
 			t.setData_entrada(Core.isNotNull(task.getCreateTime())
-					? Core.dateToString(task.getCreateTime(), "yyyy-MM-dd HH:mm:ss"): "");
+					? Core.dateToString(task.getCreateTime(), DATE_HOUR_PATTERN): "");
 			t.setDesc_tarefa(task.getDescription() != null ? task.getDescription() : task.getName());
 			t.setNumero_processo_tabela(task.getProcessDefinitionId());
 			t.setP_id_g(task.getId());
 			t.setN_tarefa_g(task.getProcessInstanceId());
 			t.setTipo(task.getProcessName()+getVersion(task));
 			t.setData_fim_g(Core.isNotNull(task.getDueDate())
-					? Core.dateToString(task.getDueDate(), "yyyy-MM-dd HH:mm:ss"): "");
+					? Core.dateToString(task.getDueDate(), DATE_HOUR_PATTERN): "");
 			t.setPrioridade_g(""+task.getPriority());
 			taskManage.add(t);
 		}
 	}
 
 	// Get all tasks of current user
-	private List<Table_minhas_tarefas> getMyTasks(ExecucaoTarefas model, ExecucaoTarefasView view) {
+	private List<Table_minhas_tarefas> getMyTasks(ExecucaoTarefas model) {
 		List<Table_minhas_tarefas> myTasks = new ArrayList<>();
 		 tasks = this.applyFiler(model,MY_TASK); // apply new filter
  		for (TaskService task : tasks) {
 			ExecucaoTarefas.Table_minhas_tarefas t = new ExecucaoTarefas.Table_minhas_tarefas();
 			t.setAtribuido_por_tabela_minhas_tarefas(task.getOwner());
 			t.setData_entrada_tabela_minhas_tarefas(Core.isNotNull(task.getCreateTime())
-					? Core.dateToString(task.getCreateTime(), "yyyy-MM-dd HH:mm:ss"): "");
+					? Core.dateToString(task.getCreateTime(), DATE_HOUR_PATTERN): "");
 			t.setDesc_tarefa_tabela_minhas_tarefas(task.getDescription() != null ? task.getDescription() : task.getName());
 			t.setTipo_tabela_minhas_tarefas(task.getProcessName()+getVersion(task));
 			t.setPrm_taskid(task.getId());
 			t.setN_tarefa_m(task.getProcessInstanceId());
 			t.setData_fim_m(Core.isNotNull(task.getDueDate())
-					? Core.dateToString(task.getDueDate(), "yyyy-MM-dd HH:mm:ss"): "");
+					? Core.dateToString(task.getDueDate(), DATE_HOUR_PATTERN): "");
 			t.setPrioridade_m(""+task.getPriority());
 			t.setEspera_tabela_minhas_tarefas(Boolean.TRUE.equals(task.getSuspended())?"Sim":"");
 			myTasks.add(t);
@@ -825,11 +814,11 @@ public class ExecucaoTarefasController extends Controller {
 				ExecucaoTarefas.Table_disponiveis t = new ExecucaoTarefas.Table_disponiveis();
 				t.setCategorias_processo_tabela_disponiveis(task.getProcessName()+getVersion(task));
 				t.setData_entrada_tabela_disponiveis(Core.isNotNull(task.getCreateTime())
-						? Core.dateToString(task.getCreateTime(), "yyyy-MM-dd HH:mm:ss"): "");
+						? Core.dateToString(task.getCreateTime(), DATE_HOUR_PATTERN): "");
 				t.setP_id_d(task.getId());
 				t.setN_tarefa_d(task.getProcessInstanceId());
 				t.setData_fim_d(Core.isNotNull(task.getDueDate())
-						? Core.dateToString(task.getDueDate(), "yyyy-MM-dd HH:mm:ss"): "");
+						? Core.dateToString(task.getDueDate(), DATE_HOUR_PATTERN): "");
 				t.setTarefas_tabela_disponiveis(task.getDescription() != null ? task.getDescription() : task.getName());
 				t.setPrioridade(""+task.getPriority());
 				tasksDisponiveis.add(t);
@@ -847,9 +836,19 @@ public class ExecucaoTarefasController extends Controller {
 		return "";
 	}
 
-	private Map<String, String> listProc = new ProcessDefinitionIGRP().mapToComboBoxByKey(Core.getCurrentDad());
-	private Map<Object, Object> userAtrib = Core.toMap(Core.getUsersByApplication(Core.getCurrentDad()), "user_name", "name","-- Selecionar --");
-	private Map<Object, Object> tasksMap =  Core.toMap(new TaskAccess().getTaskAccess(), "taskName", "taskDescription","-- Selecionar --");
+	private Map<String, String> buildPriorityMap(){
+		final var listPrioridade = new HashMap<String, String>();
+		listPrioridade.put(null, Core.gt("-- Escolher Prioridade --"));
+		listPrioridade.put("100", "Urgente");
+		listPrioridade.put("75", "Alta");
+		listPrioridade.put("50", "Normal");
+		listPrioridade.put("25", "Baixa");
+		listPrioridade.put("0", "Muito baixa");
+		return listPrioridade;
+	}
+
+	private static final String DATE_HOUR_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
 	List<TaskService> tasks;
 	private static final int CONTRIBUTOR = 1;
 	private static final int STATISTIC = 2;

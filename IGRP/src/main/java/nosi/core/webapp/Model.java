@@ -278,8 +278,9 @@ public abstract class Model { // IGRP super model
 				int MAX_ITERATION = 0;
 
 				for (List<String> list : mapFk.values()) {
-					if (MAX_ITERATION < list.size())
-						MAX_ITERATION = list.size();
+					final var size = list.size();
+					if (MAX_ITERATION < size)
+						MAX_ITERATION = size;
 				}
 				while (row < MAX_ITERATION) {
 					Object obj2 = Class.forName(c_.getName()).getDeclaredConstructor().newInstance();
