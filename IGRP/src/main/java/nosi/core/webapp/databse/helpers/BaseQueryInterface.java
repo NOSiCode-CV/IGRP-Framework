@@ -28,18 +28,8 @@ public interface BaseQueryInterface {
 	ResultSet executeTransaction() throws SQLException;
 	
 	List<Tuple> getResultList();
-	/**
-    * @deprecated (use getSingleResult())
-    */
-	@Deprecated
-    Tuple getSigleResult();
 	
 	Record getRecordList();
-	/**
-    * @deprecated (use getSingleRecord())
-    */
-	@Deprecated
-    Record getSigleRecord();
 	
 	Record getSingleRecord();
 	

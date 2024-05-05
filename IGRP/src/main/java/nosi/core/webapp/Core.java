@@ -244,18 +244,6 @@ public final class Core {
 		return ok;
 	}
 
-	/**
-	 * @deprecated Use ToTimestamp Convert string date into Timestamp
-	 * 
-	 * @param date
-	 * @param formatIn
-	 * @return
-	 */
-	@Deprecated
-	public static Timestamp stringToTimestamp(String date, String formatIn) {
-		return DateHelper.convertStringToTimestamp(date, formatIn);
-	}
-
 	public static String decrypt(String content) {
 		return EncrypDecrypt.decrypt(content);
 	}
@@ -756,14 +744,6 @@ public final class Core {
 	 */
 	public static String getCurrentDate(String outputFormat) {
 		return DateHelper.getCurrentDate(outputFormat);
-	}
-
-	@Deprecated
-	/*
-	 * @Deprecated use getCurrentDateSql
-	 */
-	public static Date getCurrentDate1() {
-		return DateHelper.getCurrentDate();
 	}
 
 	/**
