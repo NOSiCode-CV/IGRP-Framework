@@ -5484,6 +5484,9 @@ public final class Core {
 		Objects.requireNonNull(dad);
 		Objects.requireNonNull(fieldDomainMap);
 
+		if (fieldDomainMap.isEmpty())
+			return;
+
 		final var domainCodes = fieldDomainMap.values().toArray(new String[0]);
 
 		final var allDomains = Core.findDomainByCodes(dad, domainCodes);
