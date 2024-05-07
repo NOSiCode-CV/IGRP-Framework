@@ -545,11 +545,6 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 	
 	@Override
-	public Tuple getSigleResult() {
-		throw new UnsupportedOperationException();
-	}
-	
-	@Override
 	public Tuple getSingleResult(){
 		throw new UnsupportedOperationException();
 	}
@@ -780,11 +775,6 @@ public abstract class QueryHelper implements QueryInterface{
 
 	@Override
 	public Record getRecordList() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public Record getSigleRecord() {
 		throw new UnsupportedOperationException();
 	}
 
