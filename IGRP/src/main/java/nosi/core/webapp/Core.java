@@ -5474,13 +5474,13 @@ public final class Core {
 			return;
 
 		final var allDomainsMap = allDomains.stream().collect(Collectors.groupingBy(Domain::getDominio));
-		if (!allDomainsMap.isEmpty())
+		if (allDomainsMap.isEmpty())
 			return;
 
 		final Predicate<String> typeThatNeedPromptVerifier = fieldType -> !"radiolist".equals(fieldType) && !"checkboxlist".equals(fieldType);
 
 		final BiFunction<List<Domain>, Boolean, Map<String, String>> mapBuilder = (values, prompt) -> {
-			final var map = new HashMap<String, String>();
+			final var map = new HashMap<String, String>(values.size() + 1);
 			if (prompt)
 				map.put(null, "-- Selecionar --");
 			values.forEach(v -> map.put(v.getValor(), v.getDescription()));
