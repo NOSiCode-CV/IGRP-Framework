@@ -72,6 +72,7 @@ public abstract class Model { // IGRP super model
 	public void loadFromTask(String taskId) throws IllegalArgumentException, IllegalAccessException {
 		HistoricTaskService hts = Core.getTaskHistory(taskId);
 		if (hts != null && hts.getVariables() != null) {
+			// TODO 10/05/2024 16:24 try to get this json in just one step
 			List<TaskVariables> var = hts.getVariables().stream().filter(
 					v -> v.getName().equalsIgnoreCase(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI + "_" + hts.getId()))
 					.toList();
