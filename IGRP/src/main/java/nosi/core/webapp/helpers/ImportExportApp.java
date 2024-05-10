@@ -70,7 +70,7 @@ public class ImportExportApp {
 				xml.setElement("name", app.getName());
 				xml.setElement("status", app.getStatus()+"");
 				xml.setElement("url", app.getUrl());
-				xml.setElement("action_fk", (app != null) && (app.getAction() != null) ? app.getAction().getId() + "" : "");
+				xml.setElement("action_fk", app.getAction() != null ? app.getAction().getId() + "" : "");
 			xml.endElement();
 		xml.endElement();
 		return xml.toString();

@@ -219,13 +219,14 @@ public class Report extends Controller{
 					;
 			
 		//XML + XSL >> HTML
-			StreamResult result = new TransformHelper().transformXMLXSL2HTML(xml, xsl);
+			final var transformHelper = new TransformHelper();
+			StreamResult result = transformHelper.transformXMLXSL2HTML(xml, xsl);
 			String baseUri4 = FileSystems.getDefault().getPath(new Config().basePathServer()).toUri().toString();
 			baseUri4 = baseUri4.replace(dadBase, "");
 			Document doc = html5ParseDocument(result.getWriter().toString(), baseUri4);	
 			
 			//HTML >> PDF
-			actual = new TransformHelper().transformHTML2PDF(doc, baseUri4);
+			actual = transformHelper.transformHTML2PDF(doc, baseUri4);
 			
 			
 		//Ver PDF ou Download direto
