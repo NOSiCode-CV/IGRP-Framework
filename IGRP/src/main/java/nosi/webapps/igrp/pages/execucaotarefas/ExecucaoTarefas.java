@@ -45,6 +45,9 @@ public class ExecucaoTarefas extends Model{
 	@RParam(rParamName = "p_data_fim_form_disponiveis")
 	private String data_fim_form_disponiveis;
 
+	@RParam(rParamName = "p_limite_maximo_de_registos_dist_taref")
+	private Integer limite_maximo_de_registos_dist_taref;
+
 	@RParam(rParamName = "p_tipo_processo_minhas_tarefas")
 	private String tipo_processo_minhas_tarefas;
 
@@ -62,6 +65,9 @@ public class ExecucaoTarefas extends Model{
 
 	@RParam(rParamName = "p_data_fim_minhas_tarefas")
 	private String data_fim_minhas_tarefas;
+
+	@RParam(rParamName = "p_limite_maximo_de_registos_minhas_taref")
+	private Integer limite_maximo_de_registos_minhas_taref;
 
 	@RParam(rParamName = "p_n_tarefas_cocluidas_view_estatistica")
 	private String n_tarefas_cocluidas_view_estatistica;
@@ -171,6 +177,15 @@ public class ExecucaoTarefas extends Model{
 	}
 
 	
+	private List<Table_gerir_tarefas> table_gerir_tarefas = new ArrayList<>();	
+	public void setTable_gerir_tarefas(List<Table_gerir_tarefas> table_gerir_tarefas){
+		this.table_gerir_tarefas = table_gerir_tarefas;
+	}
+	public List<Table_gerir_tarefas> getTable_gerir_tarefas(){
+		return this.table_gerir_tarefas;
+	}
+
+	
 	private List<Table__colaboradores> table__colaboradores = new ArrayList<>();	
 	public void setTable__colaboradores(List<Table__colaboradores> table__colaboradores){
 		this.table__colaboradores = table__colaboradores;
@@ -186,15 +201,6 @@ public class ExecucaoTarefas extends Model{
 	}
 	public List<Table_estatistica> getTable_estatistica(){
 		return this.table_estatistica;
-	}
-
-	
-	private List<Table_gerir_tarefas> table_gerir_tarefas = new ArrayList<>();	
-	public void setTable_gerir_tarefas(List<Table_gerir_tarefas> table_gerir_tarefas){
-		this.table_gerir_tarefas = table_gerir_tarefas;
-	}
-	public List<Table_gerir_tarefas> getTable_gerir_tarefas(){
-		return this.table_gerir_tarefas;
 	}
 
 	
@@ -282,6 +288,13 @@ public class ExecucaoTarefas extends Model{
 		return this.data_fim_form_disponiveis;
 	}
 	
+	public void setLimite_maximo_de_registos_dist_taref(Integer limite_maximo_de_registos_dist_taref){
+		this.limite_maximo_de_registos_dist_taref = limite_maximo_de_registos_dist_taref;
+	}
+	public Integer getLimite_maximo_de_registos_dist_taref(){
+		return this.limite_maximo_de_registos_dist_taref;
+	}
+	
 	public void setTipo_processo_minhas_tarefas(String tipo_processo_minhas_tarefas){
 		this.tipo_processo_minhas_tarefas = tipo_processo_minhas_tarefas;
 	}
@@ -322,6 +335,13 @@ public class ExecucaoTarefas extends Model{
 	}
 	public String getData_fim_minhas_tarefas(){
 		return this.data_fim_minhas_tarefas;
+	}
+	
+	public void setLimite_maximo_de_registos_minhas_taref(Integer limite_maximo_de_registos_minhas_taref){
+		this.limite_maximo_de_registos_minhas_taref = limite_maximo_de_registos_minhas_taref;
+	}
+	public Integer getLimite_maximo_de_registos_minhas_taref(){
+		return this.limite_maximo_de_registos_minhas_taref;
 	}
 	
 	public void setN_tarefas_cocluidas_view_estatistica(String n_tarefas_cocluidas_view_estatistica){
@@ -667,6 +687,88 @@ public class ExecucaoTarefas extends Model{
 		}
 
 	}
+	public static class Table_gerir_tarefas extends IGRPTable.Table{
+		private String prioridade_g;
+		private String n_tarefa_g;
+		private String desc_tarefa;
+		private String tipo;
+		private String data_entrada;
+		private String data_fim_g;
+		private String atribuido_por;
+		private String atribuido_a;
+		private String p_id_g;
+		private String numero_processo_tabela;
+		public void setPrioridade_g(String prioridade_g){
+			this.prioridade_g = prioridade_g;
+		}
+		public String getPrioridade_g(){
+			return this.prioridade_g;
+		}
+
+		public void setN_tarefa_g(String n_tarefa_g){
+			this.n_tarefa_g = n_tarefa_g;
+		}
+		public String getN_tarefa_g(){
+			return this.n_tarefa_g;
+		}
+
+		public void setDesc_tarefa(String desc_tarefa){
+			this.desc_tarefa = desc_tarefa;
+		}
+		public String getDesc_tarefa(){
+			return this.desc_tarefa;
+		}
+
+		public void setTipo(String tipo){
+			this.tipo = tipo;
+		}
+		public String getTipo(){
+			return this.tipo;
+		}
+
+		public void setData_entrada(String data_entrada){
+			this.data_entrada = data_entrada;
+		}
+		public String getData_entrada(){
+			return this.data_entrada;
+		}
+
+		public void setData_fim_g(String data_fim_g){
+			this.data_fim_g = data_fim_g;
+		}
+		public String getData_fim_g(){
+			return this.data_fim_g;
+		}
+
+		public void setAtribuido_por(String atribuido_por){
+			this.atribuido_por = atribuido_por;
+		}
+		public String getAtribuido_por(){
+			return this.atribuido_por;
+		}
+
+		public void setAtribuido_a(String atribuido_a){
+			this.atribuido_a = atribuido_a;
+		}
+		public String getAtribuido_a(){
+			return this.atribuido_a;
+		}
+
+		public void setP_id_g(String p_id_g){
+			this.p_id_g = p_id_g;
+		}
+		public String getP_id_g(){
+			return this.p_id_g;
+		}
+
+		public void setNumero_processo_tabela(String numero_processo_tabela){
+			this.numero_processo_tabela = numero_processo_tabela;
+		}
+		public String getNumero_processo_tabela(){
+			return this.numero_processo_tabela;
+		}
+
+	}
 	public static class Table__colaboradores extends IGRPTable.Table{
 		private String nome_colab_tabela;
 		private String contacto_colab_tabela;
@@ -799,88 +901,6 @@ public class ExecucaoTarefas extends Model{
 		}
 
 	}
-	public static class Table_gerir_tarefas extends IGRPTable.Table{
-		private String prioridade_g;
-		private String n_tarefa_g;
-		private String desc_tarefa;
-		private String tipo;
-		private String data_entrada;
-		private String data_fim_g;
-		private String atribuido_por;
-		private String atribuido_a;
-		private String p_id_g;
-		private String numero_processo_tabela;
-		public void setPrioridade_g(String prioridade_g){
-			this.prioridade_g = prioridade_g;
-		}
-		public String getPrioridade_g(){
-			return this.prioridade_g;
-		}
-
-		public void setN_tarefa_g(String n_tarefa_g){
-			this.n_tarefa_g = n_tarefa_g;
-		}
-		public String getN_tarefa_g(){
-			return this.n_tarefa_g;
-		}
-
-		public void setDesc_tarefa(String desc_tarefa){
-			this.desc_tarefa = desc_tarefa;
-		}
-		public String getDesc_tarefa(){
-			return this.desc_tarefa;
-		}
-
-		public void setTipo(String tipo){
-			this.tipo = tipo;
-		}
-		public String getTipo(){
-			return this.tipo;
-		}
-
-		public void setData_entrada(String data_entrada){
-			this.data_entrada = data_entrada;
-		}
-		public String getData_entrada(){
-			return this.data_entrada;
-		}
-
-		public void setData_fim_g(String data_fim_g){
-			this.data_fim_g = data_fim_g;
-		}
-		public String getData_fim_g(){
-			return this.data_fim_g;
-		}
-
-		public void setAtribuido_por(String atribuido_por){
-			this.atribuido_por = atribuido_por;
-		}
-		public String getAtribuido_por(){
-			return this.atribuido_por;
-		}
-
-		public void setAtribuido_a(String atribuido_a){
-			this.atribuido_a = atribuido_a;
-		}
-		public String getAtribuido_a(){
-			return this.atribuido_a;
-		}
-
-		public void setP_id_g(String p_id_g){
-			this.p_id_g = p_id_g;
-		}
-		public String getP_id_g(){
-			return this.p_id_g;
-		}
-
-		public void setNumero_processo_tabela(String numero_processo_tabela){
-			this.numero_processo_tabela = numero_processo_tabela;
-		}
-		public String getNumero_processo_tabela(){
-			return this.numero_processo_tabela;
-		}
-
-	}
 
 	public void loadTable_disponiveis(BaseQueryInterface query) {
 		this.setTable_disponiveis(this.loadTable(query,Table_disponiveis.class));
@@ -890,16 +910,16 @@ public class ExecucaoTarefas extends Model{
 		this.setTable_minhas_tarefas(this.loadTable(query,Table_minhas_tarefas.class));
 	}
 
+	public void loadTable_gerir_tarefas(BaseQueryInterface query) {
+		this.setTable_gerir_tarefas(this.loadTable(query,Table_gerir_tarefas.class));
+	}
+
 	public void loadTable__colaboradores(BaseQueryInterface query) {
 		this.setTable__colaboradores(this.loadTable(query,Table__colaboradores.class));
 	}
 
 	public void loadTable_estatistica(BaseQueryInterface query) {
 		this.setTable_estatistica(this.loadTable(query,Table_estatistica.class));
-	}
-
-	public void loadTable_gerir_tarefas(BaseQueryInterface query) {
-		this.setTable_gerir_tarefas(this.loadTable(query,Table_gerir_tarefas.class));
 	}
 
 }

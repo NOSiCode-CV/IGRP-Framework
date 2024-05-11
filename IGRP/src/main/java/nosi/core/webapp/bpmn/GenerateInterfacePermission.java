@@ -41,7 +41,7 @@ public class GenerateInterfacePermission {
 				"	\t}\r\n" + 
 				"\r\n\n"
 				+ "/*"
-				+ "* Exemple Implementation\n"
+				+ "* Example of Implementation\n"
 				+ "*\n"
 				+ "\t\t @Override\r\n" + 
 				"		public boolean allowTask(ActivityExecute task) {\r\n" + 
