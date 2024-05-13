@@ -2,6 +2,9 @@ package nosi.core.webapp.activit.rest.services;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.ws.rs.core.MediaType;
@@ -28,7 +31,7 @@ public class ResourceServiceRest extends GenericActivitiRest{
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -44,13 +47,14 @@ public class ResourceServiceRest extends GenericActivitiRest{
 
 	public String getResourceData(String id_deployment, String id_resource) {
 		RestRequest request = this.getRestRequest();
+		request.setBase_url("");
 		request.setAccept_format(MediaType.APPLICATION_XML);
 		Response response = request.get("repository/deployments/" + id_deployment + "/resourcedata/", id_resource);
 		String contentResp = "";
 		if (response != null) {
 			if (response.getStatus() == 200) {
 				try {
-					contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+					contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -62,21 +66,22 @@ public class ResourceServiceRest extends GenericActivitiRest{
 
 	public String getResourceData(String link) {
 		RestRequest request = this.getRestRequest();
-//		String url = Credentials.getInstance().getUrl();
-//		String link_ = url.contains("https") ? link.replace("http", "https") : link;
 		request.setBase_url("");
+		request.setAccept_format(MediaType.APPLICATION_XML);
 		String contentResp = "";
-		Response response = request.get(link);
-		if (response != null) {
-			if (response.getStatus() == 200) {
-				try {
-					contentResp = FileHelper.convertToString((InputStream) response.getEntity());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			response.close();
+
+
+        try (Response response = request.get(link)) {
+			if (response != null && response.getStatus() == 200) {
+//				InputStream entity = (InputStream) response.getEntity();
+//                contentResp = new FileHelper().convertToString(entity);
+				contentResp = response.readEntity(String.class);
+            }
+		} catch (Exception e) {
+			// Handle exception
+			e.printStackTrace();
 		}
+
 		return contentResp;
 	}
 
@@ -87,7 +92,7 @@ public class ResourceServiceRest extends GenericActivitiRest{
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -111,7 +116,7 @@ public class ResourceServiceRest extends GenericActivitiRest{
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

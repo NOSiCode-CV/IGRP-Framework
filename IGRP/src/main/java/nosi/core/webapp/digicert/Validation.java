@@ -57,7 +57,7 @@ public class Validation {
 			X509Certificate authCert = (X509Certificate) certFactory
 					.generateCertificate(new ByteArrayInputStream(authCertBA));
 
-			System.out.println("SUBJECT DN: " + authCert.getSubjectDN().getName());
+			System.out.println("SUBJECT DN: " + authCert.getSubjectX500Principal().getName());
 			System.out.println("PUBLIC KEY: " + authCert.getPublicKey());
 			System.out.println("Algorithm: " + authCert.getPublicKey().getAlgorithm());
 			System.out.println("Signature Algorithm: " + authCert.getSigAlgName());
@@ -76,7 +76,7 @@ public class Validation {
 			isValid = signatureEngine.verify(b_signature);
 
 			if (isValid)
-				subject = authCert.getSubjectDN().toString();
+				subject = authCert.getSubjectX500Principal().toString();
 
 		} catch (CertificateException e) {
 			throw new RuntimeException("CertificateException::" + e.getMessage());
