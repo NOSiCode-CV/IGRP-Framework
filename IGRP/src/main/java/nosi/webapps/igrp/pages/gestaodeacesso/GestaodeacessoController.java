@@ -195,7 +195,8 @@ public class GestaodeacessoController extends Controller {
 				.andWhere("application", "=", Core.toInt(model.getAplicacao())).all()) {
 			Gestaodeacesso.Org_table table = new Gestaodeacesso.Org_table();
 			table.setId("" + org.getId());
-			table.setOrg_nome(org.getName());
+
+			table.setOrg_nome(org.getName()+(org.getOrganization()!=null?" (Organização Pai: "+org.getOrganization().getName()+")":""));
 			table.setEstado(org.getStatus());
 			table.setEstado_check(org.getStatus()== 1 ? org.getStatus() : -1);       
 			table.setMostrar_perfis("igrp", "PesquisarPerfil","index&p_id_app=" + org.getApplication().getId() + "&p_id_org=" + org.getId());
