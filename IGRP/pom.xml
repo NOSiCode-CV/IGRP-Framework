@@ -58,7 +58,7 @@
 
       <model.mapper.version>3.2.0</model.mapper.version>
      
-       <jersey.version>2.42</jersey.version>
+       <jersey.version>2.43</jersey.version>
 		<!-- Apache properties -->
       <apache.libintl.version>0.18.3</apache.libintl.version>
       <apache.commons.beanutils.version>1.9.4</apache.commons.beanutils.version>
