@@ -140,10 +140,10 @@ public class WebReportController extends Controller {
 				RepTemplate rt = new RepTemplate();
 				//Save report if not exist
 				if(Core.isNotNullMultiple(envFk,title,code) && (id==null || id.isEmpty())){
-					clob_xsl.setC_lob_content(FileHelper.convertToString(fileXsl).getBytes());
+					clob_xsl.setC_lob_content(new FileHelper().convertToString(fileXsl).getBytes());
 					clob_xsl.setDt_created(new Date(System.currentTimeMillis()));
 					clob_xsl = clob_xsl.insert();
-					clob_html.setC_lob_content(FileHelper.convertToString(fileTxt).getBytes());
+					clob_html.setC_lob_content(new FileHelper().convertToString(fileTxt).getBytes());
 					clob_html.setDt_created(new Date(System.currentTimeMillis()));
 					clob_html = clob_html.insert();
 					rt.setCode(code);
@@ -167,8 +167,8 @@ public class WebReportController extends Controller {
 					rt = rt.findOne(Core.toInt(id));
 					clob_xsl = clob_xsl.findOne(rt.getXsl_content().getId());
 					clob_html = clob_html.findOne(rt.getXml_content().getId());				
-					clob_xsl.setC_lob_content(FileHelper.convertToString(fileXsl).getBytes());
-					clob_html.setC_lob_content(FileHelper.convertToString(fileTxt).getBytes());
+					clob_xsl.setC_lob_content(new FileHelper().convertToString(fileXsl).getBytes());
+					clob_html.setC_lob_content(new FileHelper().convertToString(fileTxt).getBytes());
 					clob_xsl.update();
 					clob_html.update();
 					rt.update();

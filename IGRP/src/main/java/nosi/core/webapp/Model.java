@@ -503,7 +503,7 @@ public abstract class Model { // IGRP super model
 			try {
 				Part file = Igrp.getInstance().getRequest().getPart("p_igrpfile");
 				if (file != null && file.getSize()>0) {
-					String xml = FileHelper.convertToString(file);
+					String xml = new FileHelper().convertToString(file);
 					DomXML domXml = new DomXML(xml);
 					NodeList n = domXml.getDocument().getElementsByTagName("row").item(0).getChildNodes();
 					QueryString<String, Object> queryString = new QueryString<>();

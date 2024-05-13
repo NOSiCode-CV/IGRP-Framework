@@ -85,7 +85,7 @@ public class BPMNDesignerController extends Controller {
 		DeploymentServiceRest deploy = new DeploymentServiceRest();
 		if(Core.isNotNull(model.getEnv_fk())) {
 			Application app = new Application().findOne(Core.toInt(model.getEnv_fk()));
-			String content = FileHelper.convertToString(data);
+			String content = new FileHelper().convertToString(data);
 			List<TaskService> tasks = new TaskServiceRest().extractTasks(content,true);
 			this.compiler = new Compiler();
 			for(TaskService task:tasks) {

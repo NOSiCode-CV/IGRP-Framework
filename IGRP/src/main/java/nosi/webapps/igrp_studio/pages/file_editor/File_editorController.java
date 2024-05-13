@@ -180,7 +180,7 @@ public class File_editorController extends Controller {
 			String fileName = Core.getParam("fileName");
 			if(Core.isNotNull(fileName) && javaCode!=null) {
 				fileName = URLDecoder.decode(fileName, StandardCharsets.UTF_8);
-				String content = FileHelper.convertToString(javaCode);
+				String content = new FileHelper().convertToString(javaCode);
 				FileHelper.save(fileName, null, content);
 				if(fileName.endsWith(".java")) {
 					Compiler compiler = new Compiler();

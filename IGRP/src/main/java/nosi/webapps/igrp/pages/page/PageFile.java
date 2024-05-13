@@ -32,32 +32,32 @@ public class PageFile {
 			Part filePageDelegate = Core.getFile("p_interface");
 			
 			if(fileXml!=null) {
-				this.setFileXml(FileHelper.convertToString(fileXml.getInputStream()));
+				this.setFileXml(new FileHelper().convertToString(fileXml.getInputStream()));
 				fileXml.delete();
 			}
 			if(fileJson!=null) {
-				this.setFileJson(FileHelper.convertToString(fileJson.getInputStream()));
+				this.setFileJson(new FileHelper().convertToString(fileJson.getInputStream()));
 				fileJson.delete();
 			}
 			if(fileXsl!=null) {
-				this.setFileXsl(FileHelper.convertToString(fileXsl.getInputStream()));
+				this.setFileXsl(new FileHelper().convertToString(fileXsl.getInputStream()));
 				fileXsl.delete();
 			}
 			if(fileModel!=null) {
-				this.setFileModel(FileHelper.convertToString(fileModel.getInputStream()));
+				this.setFileModel(new FileHelper().convertToString(fileModel.getInputStream()));
 				fileModel.delete();
 			}
 			if(fileView!=null) {
-				this.setFileView(FileHelper.convertToString(fileView.getInputStream()));
+				this.setFileView(new FileHelper().convertToString(fileView.getInputStream()));
 				fileView.delete();
 			}
 			if(fileController!=null) {
-				this.setFileController(FileHelper.convertToString(fileController.getInputStream()));
+				this.setFileController(new FileHelper().convertToString(fileController.getInputStream()));
 				fileController.delete();
 			}
 			
 			if(filePageDelegate != null) {
-				this.setFilePageDelegate(FileHelper.convertToString(filePageDelegate.getInputStream()));
+				this.setFilePageDelegate(new FileHelper().convertToString(filePageDelegate.getInputStream()));
 				filePageDelegate.delete();
 			}
 		} catch (IOException | ServletException e) {

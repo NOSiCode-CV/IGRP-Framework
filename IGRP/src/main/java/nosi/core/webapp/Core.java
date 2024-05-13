@@ -992,8 +992,7 @@ public final class Core {
 	 * 
 	 * @param domainName
 	 *            domain/code name
-	 * @param applicationCode
-	 *            code of the application
+
 	 * @return a {@code Map<String, String>} of this domain with key as
 	 *         {@code valor} and value as {@code description}
 	 */
@@ -3739,8 +3738,7 @@ public final class Core {
 	/**
 	 * @param soapNameSpace
 	 *            The custom soap tag name envelope
-	 * @param soapNamespaceEnvelope
-	 *            custom namespace for custom tag name envelope
+
 	 * @param wsdlUrl
 	 *            The webservice description language url
 	 * @param namespaces
@@ -4931,11 +4929,11 @@ public final class Core {
 	}
 
 	public static String convertPartToString(Part file) throws IOException {
-		return FileHelper.convertToString(file);
+		return new FileHelper().convertToString(file);
 	}
 
 	public static String convertInputStreamToString(InputStream inputStream) throws IOException {
-		return FileHelper.convertToString(inputStream);
+		return new FileHelper().convertToString(inputStream);
 	}
 
 	public static boolean createDiretory(String path) throws IOException {

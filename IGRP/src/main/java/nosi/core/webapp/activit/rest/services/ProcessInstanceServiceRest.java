@@ -40,7 +40,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 		if(response!=null){
 			String contentResp = "";
 			try (InputStream is = (InputStream) response.getEntity()){
-				contentResp = FileHelper.convertToString(is);
+				contentResp = new FileHelper().convertToString(is);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -76,7 +76,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try (InputStream is = (InputStream) response.getEntity()){
-				contentResp = FileHelper.convertToString(is);
+				contentResp = new FileHelper().convertToString(is);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -98,7 +98,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try (InputStream is = (InputStream) response.getEntity()) {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = new FileHelper().convertToString(is);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -138,7 +138,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try (InputStream is = (InputStream) response.getEntity()) {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = new FileHelper().convertToString(is);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -175,7 +175,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try (InputStream is = (InputStream) response.getEntity()){
-				contentResp = FileHelper.convertToString(is);
+				contentResp = new FileHelper().convertToString(is);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
