@@ -18,6 +18,7 @@ import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
 import nosi.webapps.igrp.dao.ActivityExecute;
+import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.TaskAccess;
 
 /**
@@ -81,13 +82,16 @@ public class GenericActivitiIGRP {
 	public List<ActivityExecute> getMyProccessInstances(String[] filterProcessIDs) {
 		final String[] process = this.getMyProcessKey();
 		if (process.length > 0) {
-			List<ActivityExecute> listAllActivity = new ActivityExecute().find().keepConnection()
-					.where("organization", "=", Core.getCurrentOrganization())
-					.andWhere("proccessKey", "in", process)
+			 ActivityExecute activityExecute = new ActivityExecute().find().keepConnection();
+
+			if(new Organization().find().where("organization","=",Core.getCurrentOrganization()).getCount()==0)
+				activityExecute.where("organization", "=", Core.getCurrentOrganization());
+
+			activityExecute.andWhere("proccessKey", "in", process)
 					.andWhere("processid", "in", filterProcessIDs)
 					.andWhere("application.dad", "=", Core.getCurrentDad())
-					.orderByDesc("id")
-					.all().stream()
+					.orderByDesc("id");
+            return activityExecute.all().stream()
 					.collect(Collectors.toMap(
 							ActivityExecute::getProcessid, // key - the field on which you want distinct activities
 							Function.identity(),      // value - the activity itself
@@ -95,7 +99,6 @@ public class GenericActivitiIGRP {
 					.values()
 					.stream()
 					.collect(Collectors.toList());
-			return listAllActivity;
 		}
 		return null;
 	}
