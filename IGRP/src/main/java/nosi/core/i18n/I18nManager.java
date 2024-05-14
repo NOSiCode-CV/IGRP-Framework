@@ -20,7 +20,7 @@ public final class I18nManager implements Component{
 	public static final String DEFAULT_CORE_BUNDLE_NAME = "nosi.core.i18n.igrp";
 	public static final String DEFAULT_APP_BUNDLE_NAME = "nosi.webapps.dad.i18n.Resources"; 
 	
-	public static final List<String> SKIP_DADS = new ArrayList<String>(Arrays.asList("igrp", "igrp_studio", "tutorial")); 
+	protected static final List<String> SKIP_DADS = new ArrayList<>(Arrays.asList("igrp", "igrp_studio", "tutorial"));
 	
 	public static final int COOKIE_EXPIRE = 60*60*24*30; // 1 months 
 	
@@ -40,13 +40,13 @@ public final class I18nManager implements Component{
 				}
 		String currentApp = Core.getCurrentDad(); 
 		String defaultAppBundleName = DEFAULT_APP_BUNDLE_NAME.replace("dad", currentApp); 
-		String []aux = null;  
+		String[] aux;
 		if(v != null && !v.isEmpty() && (aux = v.split("_")).length == 2) {// cookie ok 
 			this.coreLanguage = I18nFactory.createI18n(DEFAULT_CORE_BUNDLE_NAME, new Locale(aux[0], aux[1])); 
 			this.appLanguage = !SKIP_DADS.contains(currentApp) ? I18nFactory.createI18n(defaultAppBundleName, new Locale(aux[0], aux[1])) : this.coreLanguage; 
 		}else {
-			this.coreLanguage = I18nFactory.createI18n(DEFAULT_CORE_BUNDLE_NAME, request.getLocale()); 
-			this.appLanguage = !SKIP_DADS.contains(currentApp) ? I18nFactory.createI18n(defaultAppBundleName, request.getLocale()) : this.coreLanguage; 
+			this.coreLanguage = I18nFactory.createI18n(DEFAULT_CORE_BUNDLE_NAME, new Locale("pt","PT"));  //request.getLocale()
+			this.appLanguage = !SKIP_DADS.contains(currentApp) ? I18nFactory.createI18n(defaultAppBundleName,  new Locale("pt","PT")) : this.coreLanguage;  //request.getLocale()
 		}
 	}
 	

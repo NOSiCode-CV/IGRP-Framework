@@ -15,6 +15,8 @@ import nosi.core.webapp.RParam;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.User;
+import java.util.Map;
+
 /*----#end-code----*/
 
 public class NovaOrganicaController extends Controller {
@@ -42,11 +44,10 @@ public class NovaOrganicaController extends Controller {
 
 		// model.setAplicacao(Core.getParam("id_app"));
 		model.setAtivo(1);
-		// Organization organization = new Organization();
+		 Organization organization = new Organization();
 		view.aplicacao.setValue(new Application().getListApps());
-		view.organizacao_pai.setVisible(false);
-		// view.organica_pai.setValue(model.getAplicacao() != 0 ?
-		// organization.getListOrganizations(model.getAplicacao()) : null);
+		//view.organizacao_pai.setVisible(false);
+		 view.organizacao_pai.setValue(Core.isNotNullOrZero(model.getAplicacao()) ? organization.getListOrganizations(Core.toInt(model.getAplicacao())) : null);
 		view.plsql_code.setVisible(this.configApp.isActiveGlobalACL());
 		/*----#end-code----*/
 		view.setModel(model);
@@ -85,7 +86,7 @@ public class NovaOrganicaController extends Controller {
 			organization.setStatus(model.getAtivo());
 			organization.setName(model.getNome());
 			organization.setPlsql_code(model.getPlsql_code());
-
+			organization.setOrganization(new Organization().findOne(Core.toInt(model.getOrganizacao_pai())));
 			organization = organization.insert();
 			if (organization != null && !organization.hasError()) {
 				Core.setMessageSuccess(gt("Orgânica registada com sucesso"));
@@ -117,16 +118,17 @@ public class NovaOrganicaController extends Controller {
 		model.setAplicacao("" + organization.getApplication().getId());
 		model.setPlsql_code(organization.getPlsql_code());
 
-		/*
-		 * if(organization.getOrganization()!=null){
-		 * model.setOrganica_pai(organization.getOrganization().getId()); }
-		 */
+		if(organization.getOrganization()!=null){
+			model.setOrganizacao_pai(""+organization.getOrganization().getId()); }
+
 		model.setAtivo(organization.getStatus());
-		view.aplicacao.setValue(new Application().getListApps());
-		// view.organica_pai.setValue(model.getAplicacao() != 0 ?
-		// organization.getListOrganizations() : null);
+		view.aplicacao.setValue(new Application().getListApps()); //
+		if(Core.isNotNullOrZero(model.getAplicacao()) ){
+			Map<String, String> listOrganizations = new Organization().getListOrganizations(Core.toInt(model.getAplicacao()));
+			listOrganizations.remove(organization.getId()+"");
+			view.organizacao_pai.setValue(listOrganizations);
+		}
 		view.sectionheader_1_text.setValue(gt("Gestão de Orgânica - Atualizar"));
-		view.organizacao_pai.setVisible(false);
 		view.plsql_code.setVisible(this.configApp.isActiveGlobalACL());
 		view.btn_gravar.setLink("editar_&p_id=" + idOrganica);
 		view.setModel(model);
@@ -136,30 +138,21 @@ public class NovaOrganicaController extends Controller {
 	public Response actionEditar_(@RParam(rParamName = "p_id") String idOrganica)
 			throws IOException, IllegalArgumentException, IllegalAccessException {
 
-		if (Igrp.getInstance().getRequest().getMethod().equals("POST")) {
+		if (Core.isHttpPost()) {
 
 			NovaOrganica model = new NovaOrganica();
 			model.load();
 			Organization organization = new Organization().findOne(Integer.parseInt(idOrganica));
-			// model.setCodigo(organization.getCode());
-			// model.setNome(organization.getName());
-			// model.setAplicacao("" + organization.getApplication().getId());
-			/*
-			 * if(organization.getOrganization()!=null){
-			 * model.setOrganica_pai(organization.getOrganization().getId()); }
-			 */
-			// model.setAtivo(organization.getStatus());
 
 			organization.setCode(model.getCodigo());
 			organization.setName(model.getNome());
 			organization.setApplication(new Application().findOne(model.getAplicacao()));
 			organization.setPlsql_code(model.getPlsql_code());
 
+			 if(Core.isNotNullOrZero(model.getOrganizacao_pai())){
+				 organization.setOrganization(new 	Organization().findOne(Core.toInt(model.getOrganizacao_pai())));
+			 }
 
-			/*
-			 * if(model.getOrganica_pai()!=0){ organization.setOrganization(new
-			 * Organization().findOne(model.getOrganica_pai())); }
-			 */
 			organization.setStatus(model.getAtivo());
 			organization = organization.update();
 			if (organization != null) {
