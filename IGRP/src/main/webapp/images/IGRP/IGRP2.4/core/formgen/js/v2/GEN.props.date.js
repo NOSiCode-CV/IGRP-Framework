@@ -15,9 +15,9 @@
                     value : {
                         value:'d-m-Y',
                         options : [
-                            {value: 'd-M-Y', label:'Dia-Mês-Ano'},
-                            {value: 'M-Y', label:'Mês-Ano'},
-                            {value: 'd-M', label:'Mês-Ano'}
+                            {value: 'd-m-Y', label:'Dia-Mês-Ano (dd-mm-yyyy'},
+                            {value: 'm-Y', label:'Mês-Ano (mm-yyyy'},
+                            {value: 'd-m', label:'Dia-Mês (dd-mm)'}
                         ]
                     },
                     //editable: false
