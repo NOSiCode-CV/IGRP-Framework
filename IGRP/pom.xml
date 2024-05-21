@@ -41,9 +41,9 @@
 		
 
 		<!-- TomEE Embedded Maven Plugin -->
-      <tomee.version>9.1.2</tomee.version>
+      <tomee.version>9.1.3</tomee.version>
       <tomee.maven.plugin.version>9.1.3</tomee.maven.plugin.version>
-      <tomee.embedded.version>9.1.3</tomee.embedded.version>
+
       <tomee.classifier>plus</tomee.classifier>
       
       <javadoc.plugin.version>3.0.1</javadoc.plugin.version>
@@ -140,12 +140,12 @@
 		    <artifactId>validation-api</artifactId>
 		    <version>2.0.1.Final</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
+		<!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api
 		<dependency>
 		    <groupId>jakarta.validation</groupId>
 		    <artifactId>jakarta.validation-api</artifactId>
 		    <version>${jakarta.validation.version}</version>
-		</dependency>
+		</dependency>-->
 
 	   
       <dependency>
@@ -509,13 +509,14 @@
          </exclusions>
          
       </dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomee/tomee-embedded -->
-      <dependency>
-         <groupId>org.apache.tomee</groupId>
-         <artifactId>tomee-embedded</artifactId>
-         <version>${tomee.embedded.version}</version>
-         <scope>provided</scope>
-      </dependency>
+       <!-- https://mvnrepository.com/artifact/org.apache.tomee/tomee-jaxrs-->
+       <dependency>
+           <groupId>org.apache.tomee</groupId>
+           <artifactId>tomee-jaxrs</artifactId>
+           <version>${tomee.version}</version>
+           <scope>provided</scope>
+       </dependency>
+
 
    </dependencies>
    <build>
