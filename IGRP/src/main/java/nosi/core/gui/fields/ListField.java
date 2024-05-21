@@ -109,23 +109,31 @@ public class ListField extends AbstractField {
 
 	@Override
 	public void loadDomain(String domains, String prompt) {
-		Map<Object, String> map = new LinkedHashMap<>();
-		if (prompt != null)
-			map.put(null, gt(prompt));
+
 		// To skip error "incompatible types: inferred type does not conform to upper bound(s) inferred..."
-		Map<Object, String> resultMap = Core.findDomainByCode(domains).stream().collect(Collectors.toMap(Domain::getValor, x -> gt(x.getDescription()),(oldValue, newValue) -> oldValue, LinkedHashMap<Object, String>::new));
+		Map<Object, String> resultMap = Core.findDomainByCode(domains).stream().collect(Collectors.toMap(Domain::getValor, x -> gt(x.getDescription()), (oldValue, newValue) -> oldValue, LinkedHashMap<Object, String>::new));
+
+		Map<Object, String> map = initializeMap(prompt, resultMap.size());
 		map.putAll(resultMap);
 		this.setValue(map);
 	}
 
 	@Override
-	public void loadDomain(String domains,String codeApp, String prompt) {
-		Map<Object, String> map = new LinkedHashMap<>();
-		if (prompt != null)
-			map.put(null, gt(prompt));
+	public void loadDomain(String domains, String codeApp, String prompt) {
+
 		// To skip error "incompatible types: inferred type does not conform to upper bound(s) inferred..."
-		Map<Object, String> resultMap = Core.findDomainByCode(domains,codeApp).stream().collect(Collectors.toMap(Domain::getValor, x -> gt(x.getDescription()),(oldValue, newValue) -> oldValue, LinkedHashMap<Object, String>::new));
+		Map<Object, String> resultMap = Core.findDomainByCode(domains, codeApp).stream().collect(Collectors.toMap(Domain::getValor, x -> gt(x.getDescription()), (oldValue, newValue) -> oldValue, LinkedHashMap<Object, String>::new));
+
+		Map<Object, String> map = initializeMap(prompt, resultMap.size());
 		map.putAll(resultMap);
 		this.setValue(map);
+	}
+
+	private Map<Object, String> initializeMap(String prompt, int optionsSize) {
+		final var size = prompt != null ? optionsSize + 1 : optionsSize;
+		Map<Object, String> map = new LinkedHashMap<>(size);
+		if (prompt != null)
+			map.put(null, gt(prompt));
+		return map;
 	}
 }
