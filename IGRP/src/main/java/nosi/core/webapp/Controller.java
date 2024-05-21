@@ -41,7 +41,9 @@ import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * @author Marcel Iekiny Apr 15, 2017
@@ -559,26 +561,27 @@ public class Controller {
     }
 
     protected Object run() {
+
         Igrp app = Igrp.getInstance();
-        String auxAppName = "";
-        String auxPageName = "";
-        String auxcontrollerPath;
-        String auxActionName = "";
-        if (app != null && app.getCurrentAppName() != null && app.getCurrentActionName() != null
-                && app.getCurrentPageName() != null) {
-            for (String aux : app.getCurrentAppName().split("-"))
-                auxAppName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-            for (String aux : app.getCurrentPageName().split("-"))
-                auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-            for (String aux : app.getCurrentActionName().split("-"))
-                auxActionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-            auxActionName = "action" + auxActionName;
-            auxcontrollerPath = this.getConfig().getPackage(auxAppName, auxPageName);
-        } else {
-            auxActionName = "actionIndex";
-            auxcontrollerPath = this.getConfig().getPackage("igrp", "Home");
+
+        if (app == null || app.getCurrentAppName() == null || app.getCurrentActionName() == null || app.getCurrentPageName() == null) {
+            final var defaultControllerPath = this.getConfig().getPackage("igrp", "Home");
+            return loadPage(defaultControllerPath, "actionIndex");
         }
-        return loadPage(auxcontrollerPath, auxActionName);
+
+        final var capitalizedAppName = capitalizeAndJoin(app.getCurrentAppName());
+        final var capitalizedPageName = capitalizeAndJoin(app.getCurrentPageName());
+        final var capitalizedActionName = "action" + capitalizeAndJoin(app.getCurrentActionName());
+
+        final var controllerPath = this.getConfig().getPackage(capitalizedAppName, capitalizedPageName);
+
+        return loadPage(controllerPath, capitalizedActionName);
+    }
+
+    private String capitalizeAndJoin(String input) {
+        return Arrays.stream(input.split("-"))
+                .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1))
+                .collect(Collectors.joining());
     }
 
     protected Response call(String app, String page, String action) {
