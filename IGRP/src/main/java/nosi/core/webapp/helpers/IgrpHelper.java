@@ -160,53 +160,54 @@ public final class IgrpHelper {
 	 * Errors/validation purpose (begin)
 	 * */
 	public static void setField(Object obj, java.lang.reflect.Field field, Object value) {
-		if (field != null && value != null) {
-			try {
+		if (field == null || value == null)
+			return;
 
-				final var typeName = field.getType().getName();
+		try {
 
-				if (field.getType().isArray()) {
-					if (typeName.equalsIgnoreCase("java.lang.integer[]") || typeName.equalsIgnoreCase("int[]"))
-						field.set(obj, (int[]) value);
-					else if (typeName.equalsIgnoreCase("java.lang.long[]") || typeName.equalsIgnoreCase("long[]"))
-						field.set(obj, (long[]) value);
-					else if (typeName.equalsIgnoreCase("java.lang.short[]") || typeName.equalsIgnoreCase("short[]"))
-						field.set(obj, (short[]) value);
-					else if (typeName.equalsIgnoreCase("java.lang.float[]") || typeName.equalsIgnoreCase("float[]"))
-						field.set(obj, (float[]) value);
-					else if (typeName.equalsIgnoreCase("java.lang.double[]") || typeName.equalsIgnoreCase("double[]"))
-						field.set(obj, (double[]) value);
-					else if (typeName.equalsIgnoreCase("java.lang.boolean[]") || typeName.equalsIgnoreCase("boolean[]"))
-						field.set(obj, (boolean[]) value);
-					return;
-				}
+			final var typeName = field.getType().getName();
 
-				final var stringValue = value.toString();
-
-				if (typeName.equalsIgnoreCase("java.lang.integer") || typeName.equalsIgnoreCase("int"))
-					field.setInt(obj, Core.toInt(stringValue));
-				else if (typeName.equalsIgnoreCase("java.lang.long") || typeName.equalsIgnoreCase("long"))
-					field.setLong(obj, Core.toLong(stringValue));
-				else if (typeName.equalsIgnoreCase("java.lang.short") || typeName.equalsIgnoreCase("short"))
-					field.setShort(obj, Core.toShort(stringValue));
-				else if (typeName.equalsIgnoreCase("java.lang.float") || typeName.equalsIgnoreCase("float"))
-					field.setFloat(obj, Core.toFloat(stringValue));
-				else if (typeName.equalsIgnoreCase("java.lang.double") || typeName.equalsIgnoreCase("double"))
-					field.setDouble(obj, Core.toDouble(stringValue));
-				else if (typeName.equalsIgnoreCase("java.lang.boolean") || typeName.equalsIgnoreCase("boolean"))
-					field.setBoolean(obj, (boolean) value);
-				else if (typeName.equalsIgnoreCase("java.math.BigDecimal"))
-					field.set(obj, Core.toBigDecimal(stringValue));
-				else if (typeName.equalsIgnoreCase("java.math.BigInteger"))
-					field.set(obj, Core.toBigInteger(stringValue));
-				else if (typeName.equalsIgnoreCase("java.lang.String"))
-					field.set(obj, stringValue);
-				else if (typeName.equalsIgnoreCase("java.sql.Date"))
-					field.set(obj, Core.ToDate(stringValue, "yyyy-MM-dd"));
-
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
+			if (field.getType().isArray()) {
+				if (typeName.equalsIgnoreCase("java.lang.integer[]") || typeName.equalsIgnoreCase("int[]"))
+					field.set(obj, (int[]) value);
+				else if (typeName.equalsIgnoreCase("java.lang.long[]") || typeName.equalsIgnoreCase("long[]"))
+					field.set(obj, (long[]) value);
+				else if (typeName.equalsIgnoreCase("java.lang.short[]") || typeName.equalsIgnoreCase("short[]"))
+					field.set(obj, (short[]) value);
+				else if (typeName.equalsIgnoreCase("java.lang.float[]") || typeName.equalsIgnoreCase("float[]"))
+					field.set(obj, (float[]) value);
+				else if (typeName.equalsIgnoreCase("java.lang.double[]") || typeName.equalsIgnoreCase("double[]"))
+					field.set(obj, (double[]) value);
+				else if (typeName.equalsIgnoreCase("java.lang.boolean[]") || typeName.equalsIgnoreCase("boolean[]"))
+					field.set(obj, (boolean[]) value);
+				return;
 			}
+
+			final var stringValue = value.toString();
+
+			if (typeName.equalsIgnoreCase("java.lang.integer") || typeName.equalsIgnoreCase("int"))
+				field.set(obj, Core.toInt(stringValue));
+			else if (typeName.equalsIgnoreCase("java.lang.long") || typeName.equalsIgnoreCase("long"))
+				field.setLong(obj, Core.toLong(stringValue));
+			else if (typeName.equalsIgnoreCase("java.lang.short") || typeName.equalsIgnoreCase("short"))
+				field.setShort(obj, Core.toShort(stringValue));
+			else if (typeName.equalsIgnoreCase("java.lang.float") || typeName.equalsIgnoreCase("float"))
+				field.setFloat(obj, Core.toFloat(stringValue));
+			else if (typeName.equalsIgnoreCase("java.lang.double") || typeName.equalsIgnoreCase("double"))
+				field.setDouble(obj, Core.toDouble(stringValue));
+			else if (typeName.equalsIgnoreCase("java.lang.boolean") || typeName.equalsIgnoreCase("boolean"))
+				field.setBoolean(obj, (boolean) value);
+			else if (typeName.equalsIgnoreCase("java.math.BigDecimal"))
+				field.set(obj, Core.toBigDecimal(stringValue));
+			else if (typeName.equalsIgnoreCase("java.math.BigInteger"))
+				field.set(obj, Core.toBigInteger(stringValue));
+			else if (typeName.equalsIgnoreCase("java.lang.String"))
+				field.set(obj, stringValue);
+			else if (typeName.equalsIgnoreCase("java.sql.Date"))
+				field.set(obj, Core.ToDate(stringValue, "yyyy-MM-dd"));
+
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
 		}
 	}
 }
