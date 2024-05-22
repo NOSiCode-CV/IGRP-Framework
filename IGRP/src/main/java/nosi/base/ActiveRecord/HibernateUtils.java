@@ -18,6 +18,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Emanuel
@@ -28,7 +29,7 @@ public class HibernateUtils {
 
    private static final Logger LOG = LogManager.getLogger(HibernateUtils.class);
 
-   private static final Map<String, SessionFactory> SESSION_FACTORY = new HashMap<>();
+   private static final Map<String, SessionFactory> SESSION_FACTORY = new ConcurrentHashMap<>();
    private static final SessionFactory SESSION_FACTORY_IGRP;
    public static final StandardServiceRegistryBuilder REGISTRY_BUILDER_IGRP;
 
@@ -56,19 +57,14 @@ public class HibernateUtils {
       if (connectionName != null && connectionName.equalsIgnoreCase(ConfigApp.getInstance().getBaseConnection()))
          return SESSION_FACTORY_IGRP;
 
-      final String fileName = dad != null && !dad.isEmpty() ? connectionName + "." + dad : connectionName;
+      final String fileName = (dad != null && !dad.isEmpty()) ? connectionName + "." + dad : connectionName;
 
-      SessionFactory sessionFactory = SESSION_FACTORY.computeIfAbsent(connectionName, sf -> buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG));
-
-      if (sessionFactory != null && sessionFactory.isOpen())
-         return sessionFactory;
-
-      removeSessionFactory(connectionName);
-
-      sessionFactory = buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG);
-      SESSION_FACTORY.put(connectionName, sessionFactory);
-
-      return sessionFactory;
+      return SESSION_FACTORY.compute(connectionName, (key, existingSessionFactory) -> {
+         if (existingSessionFactory == null || !existingSessionFactory.isOpen()) {
+            return buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG);
+         }
+         return existingSessionFactory;
+      });
    }
 
    public static Session getSession(String connectionName) {
