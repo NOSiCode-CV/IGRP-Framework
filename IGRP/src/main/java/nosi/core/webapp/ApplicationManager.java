@@ -84,7 +84,7 @@ public final class ApplicationManager {
 		String r = request.getParameter("r");
 		if (r == null)
 			return false;
-		if (PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains(r.toLowerCase()))
+		if (PagesScapePermission.getPagesWithoutLogin().contains(r.toLowerCase()))
 			return true;
 		final String isPublic = request.getParameter("isPublic");
 		if (isPublic == null || !Arrays.asList("1", "2").contains(isPublic))
@@ -106,7 +106,7 @@ public final class ApplicationManager {
 			return false;
 		if(request.getIntHeader("X-Igrp-Remote")==1)
 			return true;
-		return PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains(r.toLowerCase());
+		return PagesScapePermission.getPagesScapeEncrypt().contains(r.toLowerCase());
 	}
 
 	public static boolean isLoginPage(HttpServletRequest request) {
