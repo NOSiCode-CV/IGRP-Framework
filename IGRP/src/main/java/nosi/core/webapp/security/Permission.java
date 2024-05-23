@@ -32,7 +32,7 @@ public class Permission {
 	
 	public boolean hasApp1PagPermition(String app, String appP, String page, String action){ // check permission on app 
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){ 
-			if(PagesScapePermission.PAGES_SHAREDS.contains((appP + "/" + page + "/" + action).toLowerCase())) 
+			if(PagesScapePermission.getPagesShared().contains((appP + "/" + page + "/" + action).toLowerCase()))
 				return true; 
 			if(app.equals(appP) || appP.equals("igrp") || appP.equals("igrp_studio")) 
 				return (new Application().getPermissionApp(app) && new Menu().getPermissionMen(appP, page)); 
@@ -42,7 +42,7 @@ public class Permission {
 				return new Share().getPermissionPage(app,appP,new Action().findByPage(page, appP).getId()); 
 			}
 		}
-		return PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains((appP+"/"+page+"/"+action).toLowerCase());
+		return PagesScapePermission.getPagesWithoutLogin().contains((appP+"/"+page+"/"+action).toLowerCase());
 	}
 	
 	public boolean hasMenuPagPermition(HttpServletRequest request,String app, String appP, String page, String action){ // check permission on app with request
@@ -52,7 +52,7 @@ public class Permission {
 		userCI.init(request);
 		
 		if(userCI.isAuthenticated()){ 
-			if(PagesScapePermission.PAGES_SHAREDS.contains((appP + "/" + page + "/" + action).toLowerCase())) 
+			if(PagesScapePermission.getPagesShared().contains((appP + "/" + page + "/" + action).toLowerCase()))
 				return true; 
 			if(appP.equals("tutorial")) // default page purpose 
 				return true; 
@@ -63,7 +63,7 @@ public class Permission {
 						&& new Share().getPermissionPage(app,appP,new Action().findByPage(page, appP).getId()); 
 			}
 		}
-		return PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains((appP+"/"+page+"/"+action).toLowerCase());
+		return PagesScapePermission.getPagesWithoutLogin().contains((appP+"/"+page+"/"+action).toLowerCase());
 	}
 	
 	public  boolean isPermission(String transaction){
