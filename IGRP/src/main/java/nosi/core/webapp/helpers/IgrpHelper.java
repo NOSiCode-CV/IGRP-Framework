@@ -34,22 +34,7 @@ public final class IgrpHelper {
 		}
 		return map;
 	}
-	
-	/*public static Map<Object, Object> toMap(List<Object> keys, List<Object> values, String prompt) {
-		Map<Object, Object> map = new HashMap<>();
-		if(prompt != null)
-			map.put(null, prompt);
-		for(int i = 0; i < keys.size(); i++) {
-			map.put(keys.get(i) + "", values.get(i) + "");
-			System.out.println(keys.get(i) + "");
-		}
-		return map;
-	}
-	
-	public static Map<Object, Object> toMap(List<Object> keys, List<Object> values) {
-		return toMap(keys, values, null);
-	}
-	*/
+
 	// Help to convert String[] parameters to any Java primitive type
 	public static Object convertToArray(String []array, String primitiveType){
 		switch(primitiveType){
@@ -94,17 +79,18 @@ public final class IgrpHelper {
 		String value = "";
 		if(model!=null && name!=null && !name.isEmpty()){
 			value = "";
-			String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
+			String methodName = "get"+name.substring(0, 1).toUpperCase()+name.substring(1);
 		    for (Method m : model.getClass().getDeclaredMethods()) {		    	
-		    	if(m.getName().startsWith("get") && m.getName().equals("get"+methodName)){
+		    	if(m.getName().equals(methodName)){
 			    	try {
-			    		if(m.invoke(model)!=null) {
+						final Object invoke = m.invoke(model);
+						if(invoke !=null) {
 			    			if(m.getReturnType().getSimpleName().equalsIgnoreCase("IGRPLink")) {
-			    				IGRPLink link = (IGRPLink) m.invoke(model);
+			    				IGRPLink link = (IGRPLink) invoke;
 								value = link.getLink();
 			    			}else {
 			    				if(m.getReturnType().getSimpleName().equals("UploadFile")) {
-			    					UploadFile upload = (UploadFile) m.invoke(model);
+			    					UploadFile upload = (UploadFile) invoke;
 			    					if(upload!=null) {
 			    						value = upload.getSubmittedFileName();
 			    					}else {
@@ -113,7 +99,7 @@ public final class IgrpHelper {
 			    							value = tempFile.getName();
 			    					}
 			    				}else {
-				    				value = ""+ m.invoke(model);
+				    				value = ""+ invoke;
 				    				if(m.getReturnType().getName().equals("java.time.LocalDate")) {
 				    					value = Core.convertDate(value, "yyyy-MM-dd", "dd-MM-yyyy");
 				    				}
@@ -133,9 +119,9 @@ public final class IgrpHelper {
 	public static Object getValueArray(Object model,String name){
 		Object value = null;
 		if(model!=null && name!=null && !name.isEmpty()){
-			String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
+			String methodName = "get"+name.substring(0, 1).toUpperCase()+name.substring(1);
 			for (Method m : model.getClass().getDeclaredMethods()) {		    	
-		    	if(m.getName().startsWith("get") && m.getName().equals("get"+methodName)){
+		    	if(m.getName().equals(methodName)){
 			    	try {
 			    		
 			    		Object aux = m.invoke(model);

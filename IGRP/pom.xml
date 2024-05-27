@@ -152,7 +152,6 @@
          <groupId>jakarta.servlet</groupId>
          <artifactId>jakarta.servlet-api</artifactId>
          <version>6.0.0</version>
-         <scope>provided</scope>
       </dependency>
 		<!-- TO BE REPLACED https://mvnrepository.com/artifact/org.dom4j/dom4j -->
       <dependency>

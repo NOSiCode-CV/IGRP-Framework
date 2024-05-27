@@ -91,7 +91,16 @@ public class BPMNExecution extends Controller{
 		return this.executeStartProcess(processDefinitionId, null);
 	}
 
+	@Deprecated
+	/**
+	 * Use executeTask instead
+	 */
 	public StartProcess exeuteTask(TaskService task, List<Part> parts, String myCustomPermission) {
+		return executeTask(task,parts,myCustomPermission);
+		}
+
+
+	public StartProcess executeTask(TaskService task, List<Part> parts, String myCustomPermission) {
 		FormDataServiceRest formData = new FormDataServiceRest();
 		ProcessInstanceServiceRest processServiceRest = new ProcessInstanceServiceRest();	
 		TaskServiceIGRP taskServiceRest = new TaskServiceIGRP();
@@ -118,22 +127,30 @@ public class BPMNExecution extends Controller{
 		formData.addVariable("userName", Core.getCurrentUser().getUser_name());
 		formData.addVariable("profile", Core.getCurrentProfile());
 		formData.addVariable("organization", Core.getCurrentOrganization());
-		
-		StartProcess st = formData.submitFormByTask(task);
+
+		formData.submitFormByTask(task);
 		if (Core.isNotNull(formData.getError())) {
 			Core.setMessageError(formData.getError().getException());
 			return null;
 		}
-		st = new StartProcess();
+		StartProcess st = new StartProcess();
 		st.setId(task.getProcessInstanceId());
 		st.setProcessDefinitionKey(task.getProcessDefinitionKey());
 		this.saveIGRPActivitiTask(task.getProcessInstanceId(),task.getProcessDefinitionKey(),task.getId(),task.getTaskDefinitionKey(),
 				task.getProcessDefinitionId(),myCustomPermission);
 		return st;
 	}
-	
+
+	@Deprecated
+	/**
+	 * Use executeTask instead
+	 */
 	public StartProcess exeuteTask(TaskService task,List<Part> parts) {
-		return this.exeuteTask(task, parts,null);
+		return this.executeTask(task, parts,null);
+	}
+
+	public StartProcess executeTask(TaskService task,List<Part> parts) {
+		return this.executeTask(task, parts,null);
 	}
 	
 	
