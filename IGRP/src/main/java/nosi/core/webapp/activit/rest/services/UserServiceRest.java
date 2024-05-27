@@ -23,7 +23,7 @@ public class UserServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -44,7 +44,7 @@ public class UserServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -66,7 +66,7 @@ public class UserServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -87,7 +87,7 @@ public class UserServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

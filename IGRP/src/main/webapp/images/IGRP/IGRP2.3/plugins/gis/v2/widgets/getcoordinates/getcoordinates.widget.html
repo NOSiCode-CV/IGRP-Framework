@@ -1,0 +1,32 @@
+<div class="gis-widget-panel">
+
+	<div class="gis-widget-panel-title">
+		<span>{{title}}</span>
+	</div>
+	
+	<div class="gis-widget-panel-body">
+		
+		<div class="widget-steps-container">
+			<!-- step-trigger="draw-end" -->
+			<div class="widget-step bg-white" step-id="confirmation" step-when="widget.addedMarker">
+				<div class="clearfix">
+					
+					<div class="pull-left">
+						<a widget-action="confirm" class="btn btn-success btn-sm" href="#">
+							<i class="fa fa-check"></i>
+							<span>Confirmar</span>
+						</a>
+						<a widget-action="cancel" class="btn btn-grey btn-sm" href="#">
+							<i class="fa fa-history"></i>
+							<span>Cancelar</span>
+						</a>
+					</div>
+					
+				</div>
+			</div>
+		
+		</div>
+	
+	</div>
+	
+</div>

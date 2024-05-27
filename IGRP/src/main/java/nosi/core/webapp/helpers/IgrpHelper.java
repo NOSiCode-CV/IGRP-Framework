@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import nosi.core.gui.components.IGRPLink;
-import nosi.core.gui.fields.Field;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.uploadfile.UploadFile;
@@ -25,7 +24,7 @@ public final class IgrpHelper {
 	}
 	
 	public static Map<Object, Object> toMap(List<?> values, String keyField, String valueField, String prompt) {
-		Map<Object, Object> map = new LinkedHashMap<>();
+		Map<Object, Object> map = new LinkedHashMap<>(values.size());
 		if(prompt != null)
 			map.put(null, prompt);
 		for(Object obj : values) {
@@ -35,22 +34,7 @@ public final class IgrpHelper {
 		}
 		return map;
 	}
-	
-	/*public static Map<Object, Object> toMap(List<Object> keys, List<Object> values, String prompt) {
-		Map<Object, Object> map = new HashMap<>();
-		if(prompt != null)
-			map.put(null, prompt);
-		for(int i = 0; i < keys.size(); i++) {
-			map.put(keys.get(i) + "", values.get(i) + "");
-			System.out.println(keys.get(i) + "");
-		}
-		return map;
-	}
-	
-	public static Map<Object, Object> toMap(List<Object> keys, List<Object> values) {
-		return toMap(keys, values, null);
-	}
-	*/
+
 	// Help to convert String[] parameters to any Java primitive type
 	public static Object convertToArray(String []array, String primitiveType){
 		switch(primitiveType){
@@ -95,17 +79,18 @@ public final class IgrpHelper {
 		String value = "";
 		if(model!=null && name!=null && !name.isEmpty()){
 			value = "";
-			String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
+			String methodName = "get"+name.substring(0, 1).toUpperCase()+name.substring(1);
 		    for (Method m : model.getClass().getDeclaredMethods()) {		    	
-		    	if(m.getName().startsWith("get") && m.getName().equals("get"+methodName)){
+		    	if(m.getName().equals(methodName)){
 			    	try {
-			    		if(m.invoke(model)!=null) {
+						final Object invoke = m.invoke(model);
+						if(invoke !=null) {
 			    			if(m.getReturnType().getSimpleName().equalsIgnoreCase("IGRPLink")) {
-			    				IGRPLink link = (IGRPLink) m.invoke(model);
+			    				IGRPLink link = (IGRPLink) invoke;
 								value = link.getLink();
 			    			}else {
 			    				if(m.getReturnType().getSimpleName().equals("UploadFile")) {
-			    					UploadFile upload = (UploadFile) m.invoke(model);
+			    					UploadFile upload = (UploadFile) invoke;
 			    					if(upload!=null) {
 			    						value = upload.getSubmittedFileName();
 			    					}else {
@@ -114,7 +99,7 @@ public final class IgrpHelper {
 			    							value = tempFile.getName();
 			    					}
 			    				}else {
-				    				value = ""+ m.invoke(model);
+				    				value = ""+ invoke;
 				    				if(m.getReturnType().getName().equals("java.time.LocalDate")) {
 				    					value = Core.convertDate(value, "yyyy-MM-dd", "dd-MM-yyyy");
 				    				}
@@ -134,9 +119,9 @@ public final class IgrpHelper {
 	public static Object getValueArray(Object model,String name){
 		Object value = null;
 		if(model!=null && name!=null && !name.isEmpty()){
-			String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
+			String methodName = "get"+name.substring(0, 1).toUpperCase()+name.substring(1);
 			for (Method m : model.getClass().getDeclaredMethods()) {		    	
-		    	if(m.getName().startsWith("get") && m.getName().equals("get"+methodName)){
+		    	if(m.getName().equals(methodName)){
 			    	try {
 			    		
 			    		Object aux = m.invoke(model);
@@ -160,52 +145,55 @@ public final class IgrpHelper {
 	/*
 	 * Errors/validation purpose (begin)
 	 * */
-	public static void setField(Object obj,java.lang.reflect.Field field,Object value) {
-		if(field !=null && value!=null) {
-			try {
-				if(field.getType().isArray()) {
-					if (field.getType().getName().equalsIgnoreCase("java.lang.integer[]") || field.getType().getName().equalsIgnoreCase("int[]"))
-						field.set(obj,(int[])value);
-					else if	(field.getType().getName().equalsIgnoreCase("java.lang.long[]") || field.getType().getName().equalsIgnoreCase("long[]"))
-						field.set(obj,(long[])value);
-					else if	(field.getType().getName().equalsIgnoreCase("java.lang.short[]") || field.getType().getName().equalsIgnoreCase("short[]"))
-						field.set(obj,(short[])value);
-					else if(field.getType().getName().equalsIgnoreCase("java.lang.float[]") || field.getType().getName().equalsIgnoreCase("float[]"))
-						field.set(obj,(float[])value);
-					else if(field.getType().getName().equalsIgnoreCase("java.lang.double[]") || field.getType().getName().equalsIgnoreCase("double[]"))
-						field.set(obj,(double[])value);
-					else if	(field.getType().getName().equalsIgnoreCase("java.lang.boolean[]") || field.getType().getName().equalsIgnoreCase("boolean[]"))
-						field.set(obj,(boolean[])value);
-				}else {
-					if (field.getType().getName().equalsIgnoreCase("java.lang.integer") || field.getType().getName().equalsIgnoreCase("int"))
-						field.setInt(obj,Core.toInt(value.toString()));
-					else if	(field.getType().getName().equalsIgnoreCase("java.lang.long") || field.getType().getName().equalsIgnoreCase("long"))
-						field.setLong(obj,Core.toLong(value.toString()));
-					else if	(field.getType().getName().equalsIgnoreCase("java.lang.short") || field.getType().getName().equalsIgnoreCase("short"))
-						field.setShort(obj,Core.toShort(value.toString()));
-					else if(field.getType().getName().equalsIgnoreCase("java.lang.float") || field.getType().getName().equalsIgnoreCase("float"))
-						field.setFloat(obj,Core.toFloat(value.toString()));
-					else if(field.getType().getName().equalsIgnoreCase("java.lang.double") || field.getType().getName().equalsIgnoreCase("double"))
-						field.setDouble(obj,Core.toDouble(value.toString()));
-					else if	(field.getType().getName().equalsIgnoreCase("java.lang.boolean") || field.getType().getName().equalsIgnoreCase("boolean"))
-						field.setBoolean(obj,(boolean)value);
-					else if(field.getType().getName().equalsIgnoreCase("java.math.BigDecimal"))
-						field.set(obj,Core.toBigDecimal(value.toString())); 
-					else if(field.getType().getName().equalsIgnoreCase("java.math.BigInteger"))
-						field.set(obj,Core.toBigInteger(value.toString())); 
-					else if(field.getType().getName().equalsIgnoreCase("java.lang.String")) 
-						field.set(obj,value.toString());						
-					else if(field.getType().getName().equalsIgnoreCase("java.sql.Date"))
-						field.set(obj,Core.ToDate(value.toString(), "yyyy-MM-dd"));
-				}
-			}catch (IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public static String getLabel(Field field) {
+	public static void setField(Object obj, java.lang.reflect.Field field, Object value) {
+		if (field == null || value == null)
+			return;
 
-       return "";
+		try {
+
+			final var typeName = field.getType().getName();
+
+			if (field.getType().isArray()) {
+				if (typeName.equalsIgnoreCase("java.lang.integer[]") || typeName.equalsIgnoreCase("int[]"))
+					field.set(obj, (int[]) value);
+				else if (typeName.equalsIgnoreCase("java.lang.long[]") || typeName.equalsIgnoreCase("long[]"))
+					field.set(obj, (long[]) value);
+				else if (typeName.equalsIgnoreCase("java.lang.short[]") || typeName.equalsIgnoreCase("short[]"))
+					field.set(obj, (short[]) value);
+				else if (typeName.equalsIgnoreCase("java.lang.float[]") || typeName.equalsIgnoreCase("float[]"))
+					field.set(obj, (float[]) value);
+				else if (typeName.equalsIgnoreCase("java.lang.double[]") || typeName.equalsIgnoreCase("double[]"))
+					field.set(obj, (double[]) value);
+				else if (typeName.equalsIgnoreCase("java.lang.boolean[]") || typeName.equalsIgnoreCase("boolean[]"))
+					field.set(obj, (boolean[]) value);
+				return;
+			}
+
+			final var stringValue = value.toString();
+
+			if (typeName.equalsIgnoreCase("java.lang.integer") || typeName.equalsIgnoreCase("int"))
+				field.set(obj, Core.toInt(stringValue));
+			else if (typeName.equalsIgnoreCase("java.lang.long") || typeName.equalsIgnoreCase("long"))
+				field.setLong(obj, Core.toLong(stringValue));
+			else if (typeName.equalsIgnoreCase("java.lang.short") || typeName.equalsIgnoreCase("short"))
+				field.setShort(obj, Core.toShort(stringValue));
+			else if (typeName.equalsIgnoreCase("java.lang.float") || typeName.equalsIgnoreCase("float"))
+				field.setFloat(obj, Core.toFloat(stringValue));
+			else if (typeName.equalsIgnoreCase("java.lang.double") || typeName.equalsIgnoreCase("double"))
+				field.setDouble(obj, Core.toDouble(stringValue));
+			else if (typeName.equalsIgnoreCase("java.lang.boolean") || typeName.equalsIgnoreCase("boolean"))
+				field.setBoolean(obj, (boolean) value);
+			else if (typeName.equalsIgnoreCase("java.math.BigDecimal"))
+				field.set(obj, Core.toBigDecimal(stringValue));
+			else if (typeName.equalsIgnoreCase("java.math.BigInteger"))
+				field.set(obj, Core.toBigInteger(stringValue));
+			else if (typeName.equalsIgnoreCase("java.lang.String"))
+				field.set(obj, stringValue);
+			else if (typeName.equalsIgnoreCase("java.sql.Date"))
+				field.set(obj, Core.ToDate(stringValue, "yyyy-MM-dd"));
+
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
 	}
 }

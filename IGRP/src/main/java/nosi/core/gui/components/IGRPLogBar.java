@@ -11,7 +11,7 @@ import nosi.core.webapp.Igrp;
  */
 public class IGRPLogBar {
 	
-	private List<String> logs;
+	private final List<String> logs;
 	
 	public IGRPLogBar() {
 		logs = Igrp.getInstance().getLog().getMsgLog();

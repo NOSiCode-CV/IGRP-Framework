@@ -208,8 +208,7 @@ public class IGRPWhereQuery<E> extends IGRPSelectQuery<E> implements IIGRPWhereQ
    @SafeVarargs
    @Override
    public final <V> IGRPWhereQuery<E> notIn(SingularAttribute<E, V> attribute, V... values) {
-      final javax.persistence.criteria.Predicate notInClause = this.getCriteriaBuilder().in(this.getRoot().get(attribute)).not();
-      notInClause.in(Arrays.asList(values));
+      final javax.persistence.criteria.Predicate notInClause = this.getRoot().get(attribute).in(Arrays.asList(values)).not();
       this.addPredicate(notInClause);
       return this;
    }

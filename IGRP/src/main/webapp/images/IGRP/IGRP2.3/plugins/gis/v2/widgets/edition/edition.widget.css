@@ -1,0 +1,28 @@
+.gis-widget-wrapper[widget-type="edition"] form input{
+	text-transform: capitalize;
+}
+
+.gis-widget-wrapper[widget-type="edition"] .title{
+    display: inline-block;
+    font-size: 13px;
+    margin: 0;
+    line-height: 1;
+    vertical-align: middle;
+    padding-left: 3px;
+}
+
+.gis-widget-wrapper[widget-type="edition"] .btn-group button{
+	border-right: 1px solid whitesmoke;
+}
+
+.gis-widget-wrapper[widget-type="edition"] .icon {
+	color: transparent;
+    vertical-align: -0.125em;
+    height: 16px;    
+}
+
+.gis-widget-wrapper[widget-type="edition"] .attributes {
+	max-height: 248px;
+    overflow: auto;
+}
+

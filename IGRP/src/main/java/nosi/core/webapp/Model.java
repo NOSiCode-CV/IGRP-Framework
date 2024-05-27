@@ -72,6 +72,7 @@ public abstract class Model { // IGRP super model
 	public void loadFromTask(String taskId) throws IllegalArgumentException, IllegalAccessException {
 		HistoricTaskService hts = Core.getTaskHistory(taskId);
 		if (hts != null && hts.getVariables() != null) {
+			// TODO 10/05/2024 16:24 try to get this json in just one step
 			List<TaskVariables> var = hts.getVariables().stream().filter(
 					v -> v.getName().equalsIgnoreCase(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI + "_" + hts.getId()))
 					.toList();
@@ -217,10 +218,13 @@ public abstract class Model { // IGRP super model
 			/* End */
 		}
 		Map<String, List<Part>> allFiles = this.getFiles();
+
+		final var fieldsSize = fields.size();
+
 		for (Field obj : fields) {
-			Map<String, List<String>> mapFk = new LinkedHashMap<>();
-			Map<String, List<String>> mapFkDesc = new LinkedHashMap<>();
-			Map<String, List<String>> mapFileId = new LinkedHashMap<>();
+			Map<String, List<String>> mapFk = new LinkedHashMap<>(fieldsSize);
+			Map<String, List<String>> mapFkDesc = new LinkedHashMap<>(fieldsSize);
+			Map<String, List<String>> mapFileId = new LinkedHashMap<>(fieldsSize);
 
 			Class<?> c_ = obj.getDeclaredAnnotation(SeparatorList.class).name();
 
@@ -278,25 +282,28 @@ public abstract class Model { // IGRP super model
 				int MAX_ITERATION = 0;
 
 				for (List<String> list : mapFk.values()) {
-					if (MAX_ITERATION < list.size())
-						MAX_ITERATION = list.size();
+					final var size = list.size();
+					if (MAX_ITERATION < size)
+						MAX_ITERATION = size;
 				}
 				while (row < MAX_ITERATION) {
 					Object obj2 = Class.forName(c_.getName()).getDeclaredConstructor().newInstance();
 					for (Field m : obj2.getClass().getDeclaredFields()) {
 						m.setAccessible(true);
 						String param = "p_" + m.getName().toLowerCase() + "_fk";
-						String key = mapFk.get(m.getName()).size() > row ? mapFk.get(m.getName()).get(row) : "";
-						String value = mapFkDesc.get(m.getName()).size() > row ? mapFkDesc.get(m.getName()).get(row): "";
+						final var mapFKKey = mapFk.get(m.getName());
+						String key = mapFKKey.size() > row ? mapFKKey.get(row) : "";
+						final var mapFkDescValue = mapFkDesc.get(m.getName());
+						String value = mapFkDescValue.size() > row ? mapFkDescValue.get(row): "";
 						List<String> fileId = mapFileId.get(m.getName());
-						if (allFiles != null && allFiles.containsKey(param)) {
+						if (allFiles.containsKey(param)) {
 							List<Part> filesByLine = allFiles.get(param);
 							if (!filesByLine.isEmpty()) {
 								try {
 									String id = "-1";
 									if(("p_"+m.getName().toLowerCase()+"_fk").equalsIgnoreCase(key)) {
 										id = fileId != null && fileId.size() > row ? fileId.get(row) : id;
-									}else {
+									} else {
 										id = fileId != null && fileId.size() > row ? fileId.get(row) : key;
 									}
 									BeanUtils.setProperty(obj2, m.getName(),new IGRPSeparatorList.Pair(id, key,value, filesByLine.get(row)));
@@ -496,7 +503,7 @@ public abstract class Model { // IGRP super model
 			try {
 				Part file = Igrp.getInstance().getRequest().getPart("p_igrpfile");
 				if (file != null && file.getSize()>0) {
-					String xml = FileHelper.convertToString(file);
+					String xml = new FileHelper().convertToString(file);
 					DomXML domXml = new DomXML(xml);
 					NodeList n = domXml.getDocument().getElementsByTagName("row").item(0).getChildNodes();
 					QueryString<String, Object> queryString = new QueryString<>();

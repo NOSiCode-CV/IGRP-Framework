@@ -1,11 +1,5 @@
 package nosi.core.gui.generator;
-/**
- * @author: Emanuel Pereira
- * 
- * Apr 18, 2017
- *
- * Description: class to build UI Desgin
- */
+
 
 import nosi.core.config.Config;
 import nosi.core.config.IHeaderConfig;
@@ -13,9 +7,17 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 
+/**
+ * @author: Emanuel Pereira
+ * <p>
+ * Apr 18, 2017
+ *
+ * Description: class to build UI Desgin
+ */
+
 public class Generator2v3 implements IHeaderConfig{
 
-	private XMLWritter xml;
+	private final XMLWritter xml;
 	
 	@Override
 	public String getTitle() {

@@ -112,7 +112,7 @@ public class QuerySelect extends CommonFIlter{
 				this.keepConnection = false;
 				this.setError(null, e);
 			}finally {
-				if(!this.keepConnection && session!=null && session.isOpen())
+				if(!this.keepConnection && session.isOpen())
 					session.close();
 			}
 		}
@@ -184,15 +184,6 @@ public class QuerySelect extends CommonFIlter{
 		return list;
 	}
 	
-	@Deprecated
-	@Override
-	public Tuple getSigleResult() {
-		List<Tuple> list = this.getResultList();		
-		if(list!=null && !list.isEmpty())
-			return list.get(0);
-		return null;
-	}
-	
 	@Override
 	public Tuple getSingleResult() {
 		List<Tuple> list = this.getResultList();		
@@ -217,16 +208,6 @@ public class QuerySelect extends CommonFIlter{
 		}
 		return r;
 	}
-
-	@Override
-	@Deprecated
-	public Record getSigleRecord() {
-		Record r = new Record();
-		r.row = this.getSigleResult();
-		r.setSql(this.getSql());
-		return r;
-	}
-	
 
 	@Override
 	public Record getSingleRecord() {

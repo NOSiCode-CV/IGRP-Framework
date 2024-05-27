@@ -1,0 +1,51 @@
+<div class="gis-widget-panel">
+	
+	<div class="gis-widget-panel-title">
+		<span>{{title}}</span>
+	</div>
+	
+	<div class="gis-widget-panel-body">
+		
+		<ul class="list-group" style="margin: 0" widget-template="legends">
+			 {{#if total}}
+			 	 {{#each this.legends}}
+				 	<li class="list-group-item"><span>{{ title }}</span>
+				 	{{#each items}}
+				 		<p class="children legend-item active"> 
+				 		    <input type="checkbox" class="legend-check" name="legend-check" checked layer-id="{{ ../layerId }}" legend-id="{{id}}"/>
+				 		    {{#if icon }}
+				 		        <img src="{{ icon }}"/>
+				 		    {{else }}
+					 			<svg height="20" width="20">
+					 				{{#if point }}
+	  									<circle cx="10" cy="10" r="9" class="stroke-item" style="{{ style }}"/>
+	  								{{/if}}
+	  								
+	  								{{#if polygon }}
+	  									<rect width="20" height="20" class="stroke-item" style="{{ style }}"/>
+	  								{{/if}}
+	  								
+	  								{{#if raster }}
+	  									<rect width="20" height="20" class="stroke-item" style="{{ style }}"/>
+	  								{{/if}}
+	  								
+	  								{{#if line }}
+	  									<line line x1="0" y1="0" x2="20" y2="20" class="stroke-item" style="{{ style }}"/>
+	  								{{/if}}
+							    </svg>
+						    {{/if}}
+						    <span>{{ label }}</span>
+						 </p>
+				 	{{/each}}</li>
+				 {{/each}}
+			 {{else}}
+	  	
+		  	 	<li class="list-group-item">{{noResultsMessage}}</li>
+		  	
+		  	 {{/if}}
+		</ul>
+
+	</div>
+	
+</div>
+	

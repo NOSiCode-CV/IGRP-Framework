@@ -30,6 +30,7 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+    float: left;
 }
 
 .form-group label input+span{

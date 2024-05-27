@@ -21,7 +21,7 @@ public class IGRPLink {
 	private Report report;
 	private String link_desc;
 	
-	private QueryString<String,Object> queryString;
+	private final QueryString<String,Object> queryString;
 
 	public IGRPLink() {
 		this.queryString = new QueryString<>();
