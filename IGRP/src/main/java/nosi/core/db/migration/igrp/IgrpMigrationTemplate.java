@@ -128,7 +128,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 				rs.close();
 				psInsertOrUpdate = context.getConnection().prepareStatement("UPDATE public.tbl_env SET description=?, externo=?, img_src=?, name=?, status=?, template=? WHERE dad = ?"); 
 				psInsertOrUpdate.setString(1,this.app.getDescription());
-				psInsertOrUpdate.setInt(2, 0);
+				psInsertOrUpdate.setInt(2, Core.isNotNullOrZero(this.app.getExternal())?this.app.getExternal(): 0);
 				psInsertOrUpdate.setString(3, this.app.getImg_src());
 				psInsertOrUpdate.setString(4, this.app.getName());
 				psInsertOrUpdate.setInt(5, this.app.getStatus());
@@ -139,7 +139,7 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 				isAppExists = false;
 				psInsertOrUpdate = context.getConnection().prepareStatement("INSERT INTO public.tbl_env(description, externo, img_src, name, status, template, dad) VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS); 
 				psInsertOrUpdate.setString(1,this.app.getDescription());
-				psInsertOrUpdate.setInt(2, 0);
+				psInsertOrUpdate.setInt(2, Core.isNotNullOrZero(this.app.getExternal())?this.app.getExternal(): 0);
 				psInsertOrUpdate.setString(3, this.app.getImg_src());
 				psInsertOrUpdate.setString(4, this.app.getName());
 				psInsertOrUpdate.setInt(5, this.app.getStatus());
