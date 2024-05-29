@@ -11,6 +11,7 @@ public class PesquisarUtilizadorView extends View {
 
 	public Field sectionheader_1_text;
 	public Field documento;
+	public Field nome_filt;
 	public Field username;
 	public Field email;
 	public Field nada;
@@ -25,6 +26,7 @@ public class PesquisarUtilizadorView extends View {
 	public Field tb_email;
 	public Field perfile;
 	public Field id;
+	public Field check_email_hidden;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPView view_1;
 	public IGRPForm form_1;
@@ -60,34 +62,39 @@ public class PesquisarUtilizadorView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","[object Object]").add("maxlength","250").add("showlabel","true").add("adbcli","");
+		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=utilizador"));
+		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
+
+		nome_filt = new TextField(model,"nome_filt");
+		nome_filt.setLabel(gt("Nome"));
+		nome_filt.propertie().add("name","p_nome_filt").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("disablehtml","true").add("placeholder",gt("")).add("desclabel","false").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		username = new TextField(model,"username");
 		username.setLabel(gt("Username"));
-		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("disablehtml","true").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		email = new EmailField(model,"email");
 		email.setLabel(gt("Email"));
-		email.propertie().add("name","p_email").add("type","email").add("maxlength","100").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
+		email.propertie().add("name","p_email").add("type","email").add("maxlength","100").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		aplicacao.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		organica = new ListField(model,"organica");
 		organica.setLabel(gt("Orgânica"));
-		organica.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","index")).add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		organica.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","index")).add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel(gt("Perfil"));
-		perfil.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","index")).add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		perfil.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","index")).add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		ativo = new CheckBoxField(model,"ativo");
-		ativo.setLabel(gt("Ativo?"));
+		ativo.setLabel(gt("Utilizador Ativo?"));
 		ativo.propertie().add("remote",Core.getIGRPLink("igrp","PesquisarUtilizador","changeStatus")).add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
 		ativo_check = new CheckBoxField(model,"ativo_check");
@@ -117,6 +124,10 @@ public class PesquisarUtilizadorView extends View {
 		id.setLabel(gt(""));
 		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","id");
 		
+		check_email_hidden = new HiddenField(model,"check_email_hidden");
+		check_email_hidden.setLabel(gt(""));
+		check_email_hidden.propertie().add("name","p_check_email_hidden").add("type","hidden").add("maxlength","30").add("showLabel","true").add("group_in","").add("java-type","").add("tag","check_email_hidden");
+		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
@@ -126,8 +137,8 @@ public class PesquisarUtilizadorView extends View {
 		btn_adicionar_utilizador = new IGRPButton("Adicionar Utilizador","igrp","PesquisarUtilizador","adicionar_utilizador","right_panel_submit","success|fa-plus-square","","");
 		btn_adicionar_utilizador.propertie.add("type","specific").add("rel","adicionar_utilizador").add("refresh_components","");
 
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","pesquisar","submit","primary|fa-search","","");
-		btn_pesquisar.propertie.add("id","button_5e31_2699").add("type","form").add("class","primary").add("rel","pesquisar").add("refresh_components","");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","pesquisar","submit_ajax","primary|fa-search","","");
+		btn_pesquisar.propertie.add("id","button_5e31_2699").add("type","form").add("class","primary").add("rel","pesquisar").add("refresh_components","table_1");
 
 		btn_editar = new IGRPButton("Editar","igrp","PesquisarUtilizador","editar","mpsubmit|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("id","button_8625_a0d4").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
@@ -145,7 +156,7 @@ public class PesquisarUtilizadorView extends View {
 		btn_convidar_user.propertie.add("id","button_0c9f_e52a").add("type","specific").add("class","warning").add("rel","convidar_user").add("refresh_components","");
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarUtilizador","eliminar","alert_submit","danger|fa-trash","","");
-		btn_eliminar.propertie.add("id","button_2f8d_ba41").add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","");
+		btn_eliminar.propertie.add("id","button_2f8d_ba41").add("type","specific").add("class","danger").add("rel","eliminar").add("refresh_components","").add("labelConfirm","Deseja realmente realizar esta operação?");
 
 		
 	}
@@ -157,6 +168,7 @@ public class PesquisarUtilizadorView extends View {
 
 		view_1.addField(documento);
 
+		form_1.addField(nome_filt);
 		form_1.addField(username);
 		form_1.addField(email);
 		form_1.addField(nada);
@@ -173,6 +185,7 @@ public class PesquisarUtilizadorView extends View {
 		table_1.addField(tb_email);
 		table_1.addField(perfile);
 		table_1.addField(id);
+		table_1.addField(check_email_hidden);
 
 		toolsbar_1.addButton(btn_convidar);
 		toolsbar_1.addButton(btn_adicionar_utilizador);
@@ -193,7 +206,7 @@ public class PesquisarUtilizadorView extends View {
 	@Override
 	public void setModel(Model model) {
 		
-		documento.setValue(model);
+		nome_filt.setValue(model);
 		username.setValue(model);
 		email.setValue(model);
 		nada.setValue(model);
@@ -206,7 +219,8 @@ public class PesquisarUtilizadorView extends View {
 		nome.setValue(model);
 		tb_email.setValue(model);
 		perfile.setValue(model);
-		id.setValue(model);	
+		id.setValue(model);
+		check_email_hidden.setValue(model);	
 
 		table_1.loadModel(((PesquisarUtilizador) model).getTable_1());
 		}

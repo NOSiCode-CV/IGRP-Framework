@@ -32,9 +32,8 @@ import nosi.webapps.igrp.dao.Application;
  */
 public class ImportHelper {
 
-
 	private Map<String,String> contentReads;
-	private Import imp;
+	private final Import imp;
 	
 	public ImportHelper() {
 		this.imp = new Import();
@@ -44,11 +43,11 @@ public class ImportHelper {
 		this.importFile(null, file);		
 	}
 	
-	private void importFile(Integer application_id,Part file) {
+	private void importFile(Integer applicationId,Part file) {
 		this.contentReads = JarUnJarFile.readJarFile(file);
 		if(contentReads!=null) {
-			Application application = application_id!=null?new Application().findOne(application_id):null;
-			this.contentReads = this.contentReads.entrySet().stream().collect(Collectors.toMap(k->k.getKey().toLowerCase(),v->v.getValue().toString()));
+			Application application = applicationId!=null?new Application().findOne(applicationId):null;
+			this.contentReads = this.contentReads.entrySet().stream().collect(Collectors.toMap(k->k.getKey().toLowerCase(), Map.Entry::getValue));
 			ApplicationImport app = new ApplicationImport(application);				
 			app.deserialization(this.getJsonContent(OptionsImportExport.APP.getFileName()));
 			app.execute();
@@ -61,23 +60,23 @@ public class ImportHelper {
 			}
 			ModuloImport modulo = new ModuloImport(application);
 			modulo.deserialization(this.getJsonContent(OptionsImportExport.MODULO.getFileName()));
-			imp.add(modulo);		
+			imp.add(modulo);
 			
 			DaoImport dao = new DaoImport(application);
 			dao.deserialization(this.getJsonContent(OptionsImportExport.DAO.getFileName()));
 			imp.add(dao);
 			
-			OthersClassImport others_class = new OthersClassImport(app.getApplication());
-			others_class.deserialization(this.getJsonContent(OptionsImportExport.OTHERS_CLASS.getFileName()));
-			imp.add(others_class);
+			OthersClassImport othersClass = new OthersClassImport(app.getApplication());
+			othersClass.deserialization(this.getJsonContent(OptionsImportExport.OTHERS_CLASS.getFileName()));
+			imp.add(othersClass);
 			
 			PageImport page = new PageImport(application);
 			page.deserialization(this.getJsonContent(OptionsImportExport.PAGE.getFileName()));
-			imp.add(page);			
+			imp.add(page);
 
 			MenuImport menu = new MenuImport(application);
 			menu.deserialization(this.getJsonContent(OptionsImportExport.MENU.getFileName()));
-			imp.add(menu);			
+			imp.add(menu);
 
 			ImportTransation transation = new ImportTransation(application);
 			transation.deserialization(this.getJsonContent(OptionsImportExport.TRANSATION.getFileName()));
@@ -112,11 +111,11 @@ public class ImportHelper {
 			imp.add(bpmnTipoDocEtapaImport);
 			
 			imp.execute();
-			imp.compile();			
+			imp.compile();
 		}else {
 			imp.addError(Core.gt("Ocorreu um erro ao ler o ficheiro"));
 		}
-		if(file!=null) {
+		if (file != null) {
 			try {
 				file.delete();
 			} catch (IOException e) {
@@ -126,9 +125,7 @@ public class ImportHelper {
 	}
 
 	private String getJsonContent(String key) {
-		if(this.contentReads.containsKey(key.toLowerCase()))
-			return this.contentReads.get(key.toLowerCase());
-		return null;
+		return this.contentReads.get(key.toLowerCase());
 	}
 
 	public boolean hasError() {

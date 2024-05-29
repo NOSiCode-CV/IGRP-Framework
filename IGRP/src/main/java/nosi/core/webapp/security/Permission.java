@@ -55,42 +55,28 @@ public class Permission {
 		ProfileType profType = new ProfileType();
 		Organization org = new Organization();
 		Profile prof = new Profile();
-		if(app!=null){			
+		if(app!=null && Igrp.getInstance().getRequest().getSession()!=null){			
 			int id_user = 0;
-			
 			try {// eliminar 
 				id_user = Core.getCurrentUser().getIdentityId();
-			}catch(Exception ignored) {
-				
-			}
-			
-			if(app.getPermissionApp(dad)){
+			}catch(Exception ignored) {}
+			if(app.getPermissionApp(app.getId())){
 				prof = prof.getByUserPerfil(id_user,app.getId());
+				ApplicationPermition appP = this.getApplicationPermition(dad);
 				if(prof!=null){
 					 org.setId(prof.getOrganization().getId());
 					 profType.setId(prof.getProfileType().getId());
-					 ApplicationPermition appP = this.getApplicationPermition(dad);
-					 if(appP==null) {
-						 appP = new ApplicationPermition(app.getId(),dad, org.getId(),profType.getId(),prof.getOrganization()!=null? prof.getOrganization().getCode():null,prof!=null && prof.getProfileType()!=null?prof.getProfileType().getCode():null);
+					if(appP==null) {
+						appP = new ApplicationPermition(app.getId(),dad,  org.getId(),profType.getId(), prof.getOrganization() != null ? prof.getOrganization().getCode():null, prof.getProfileType() != null ?prof.getProfileType().getCode():null);
 					}
-					 this.applicationPermition = appP;
-					 this.setCookie(appP);
+					this.setCookie(appP);
 				}
+				this.applicationPermition = appP;
 			}
 		}
-		
 		((User)Igrp.getInstance().getUser().getIdentity()).setAplicacao(app);
 		((User)Igrp.getInstance().getUser().getIdentity()).setProfile(profType);
 		((User)Igrp.getInstance().getUser().getIdentity()).setOrganica(org);
-		
-		if(Igrp.getInstance().getRequest().getSession()!=null && app!=null) {
-			ApplicationPermition appP = this.getApplicationPermition(dad);
-			if(appP==null) {
-				 appP = new ApplicationPermition(app.getId(),dad,  org.getId(),profType.getId(),prof!=null && prof.getOrganization()!=null? prof.getOrganization().getCode():null,prof!=null && prof.getProfileType()!=null?prof.getProfileType().getCode():null);
-			}
-			this.applicationPermition = appP; 
-			this.setCookie(appP); 
-		}
 	}
 	
 	public void setCookie(ApplicationPermition appP) {

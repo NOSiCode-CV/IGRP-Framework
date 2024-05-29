@@ -7,6 +7,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.HttpHeaders;
 
 import org.json.JSONArray;
@@ -27,16 +28,21 @@ public class GlobalAcl extends PdexServiceTemplate{
 	
 	public GlobalAcl() {
 		super();
-	}
+		 cacheControl.setNoCache(false);
+		 cacheControl.setMaxAge(120); // Cache for 60 seconds
+	
+	}	
+	CacheControl cacheControl = new CacheControl();
+	
 	
 	public List<PermissionAcl> permissionAcl(){
-		List<PermissionAcl> acls = new ArrayList<PermissionAcl>(); 
+		List<PermissionAcl> acls = new ArrayList<>(); 
 		if(instanceName == null || instanceName.isEmpty() || appCode == null || appCode.isEmpty() || url == null || url.isEmpty() || token == null || token.isEmpty()) 
 			return acls; 
 		url += "/permissionAcl?instance_id=" + this.instanceName + "&code=" + this.appCode  + "&type=" + type; 
 		Client client = ClientBuilder.newClient(); 
 		WebTarget webTarget = client.target(this.url); 
-		Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
+		Invocation.Builder invocationBuilder  = webTarget.request().cacheControl(cacheControl).header(HttpHeaders.AUTHORIZATION, token); 
 		javax.ws.rs.core.Response response  = invocationBuilder.get(); 
 		String json = response.readEntity(String.class); 
 		client.close(); 
@@ -81,14 +87,14 @@ public class GlobalAcl extends PdexServiceTemplate{
 	}
 	
 	public List<AppTransaction> appTransaction(){
-		List<AppTransaction> appTransactions = new ArrayList<AppTransaction>(); 
+		List<AppTransaction> appTransactions = new ArrayList<>(); 
 		
-		if(appCode == null || appCode.isEmpty() || url == null || url.isEmpty() || !ping(url, DEFAULT_TIMEOUT) || token == null || token.isEmpty()) 
+		if(appCode == null || appCode.isEmpty() || url == null || url.isEmpty() || token == null || token.isEmpty()) //!ping(url, DEFAULT_TIMEOUT) || 
 			return appTransactions; 
 		
 		Client client = ClientBuilder.newClient(); 
 		WebTarget webTarget = client.target(this.url); 
-		Invocation.Builder invocationBuilder  = webTarget.request().header(HttpHeaders.AUTHORIZATION, token); 
+		Invocation.Builder invocationBuilder  = webTarget.request().cacheControl(cacheControl).header(HttpHeaders.AUTHORIZATION, token); 
 		javax.ws.rs.core.Response response  = invocationBuilder.get(); 
 		String json = response.readEntity(String.class); 
 		client.close(); 

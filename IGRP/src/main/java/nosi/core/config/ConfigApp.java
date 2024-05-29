@@ -171,7 +171,7 @@ public final class ConfigApp {
     }
     
     public boolean isActiveGlobalACL() {
-        return Core.isNotNull(commonMain.getProperty("igrp.plsql.myapps.url"));
+        return Core.isNotNull(commonMain.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.value()));
 
     }
 

@@ -1145,7 +1145,9 @@ var mWindow = null,
 				
 				label : 'Download',
 				
-				action : download
+				action : download,
+				
+				type  : 'submit'
 				
 			},
 			

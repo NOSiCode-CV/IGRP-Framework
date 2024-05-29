@@ -143,9 +143,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		}
 		Core.setMessageSuccess();
 		TaskServiceIGRP task = new TaskServiceIGRP();
-		task.clearFilterUrl();
-		task.addFilterUrl("processDefinitionId", processDefinitionId);
-		task.addFilterUrl("processInstanceId", st.getId());
+		task.clearFilterBody();
+		task.addFilterBody("processDefinitionId", processDefinitionId);
+		task.addFilterBody("processInstanceId", st.getId());
 		List<TaskService> tasks = task.getAvailableTasks();
 		if (tasks != null && !tasks.isEmpty()) {
 			return this.renderNextTask(tasks);
@@ -165,9 +165,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			this.saveFiles(parts,taskId);
 			Core.removeAttribute("taskId");
 			Core.setMessageSuccess();
-			taskServiceRest.clearFilterUrl();
-			taskServiceRest.addFilterUrl("processDefinitionId",task.getProcessDefinitionId());
-			taskServiceRest.addFilterUrl("processInstanceId", task.getProcessInstanceId());
+			taskServiceRest.clearFilterBody();
+			taskServiceRest.addFilterBody("processDefinitionId",task.getProcessDefinitionId());
+			taskServiceRest.addFilterBody("processInstanceId", task.getProcessInstanceId());
 			List<TaskService> tasks = taskServiceRest.getAvailableTasks();
 			if(tasks!=null  && !tasks.isEmpty()) {
 				return this.renderNextTask(task,tasks);

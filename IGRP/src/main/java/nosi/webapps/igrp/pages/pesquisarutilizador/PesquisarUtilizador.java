@@ -19,6 +19,9 @@ public class PesquisarUtilizador extends Model{
 	@RParam(rParamName = "p_documento_desc")
 	private String documento_desc;
 
+	@RParam(rParamName = "p_nome_filt")
+	private String nome_filt;
+
 	@RParam(rParamName = "p_username")
 	private String username;
 
@@ -75,6 +78,13 @@ public class PesquisarUtilizador extends Model{
 		return this.documento;
 	}
 	
+	public void setNome_filt(String nome_filt){
+		this.nome_filt = nome_filt;
+	}
+	public String getNome_filt(){
+		return this.nome_filt;
+	}
+
 	public void setUsername(String username){
 		this.username = username;
 	}
@@ -127,6 +137,7 @@ public class PesquisarUtilizador extends Model{
 		private String tb_email;
 		private String perfile;
 		private String id;
+		private String check_email_hidden;
 		public void setAtivo(int ativo){
 			this.ativo = ativo;
 		}
@@ -180,6 +191,13 @@ public class PesquisarUtilizador extends Model{
 		}
 		public String getId(){
 			return this.id;
+		}
+
+		public void setCheck_email_hidden(String check_email_hidden){
+			this.check_email_hidden = check_email_hidden;
+		}
+		public String getCheck_email_hidden(){
+			return this.check_email_hidden;
 		}
 
 	}

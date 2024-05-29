@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import nosi.core.config.Config;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.compiler.helpers.Compiler;
-import nosi.core.webapp.databse.helpers.Connection;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.core.webapp.helpers.FileHelper;
@@ -62,7 +61,8 @@ public class CRUDGeneratorController extends Controller {
 			view.btn_add_datasource.setLink("igrp", "ConfigDatabase", "index");
 			view.aplicacao.setValue(new Application().getListApps());
 			view.table_type.setValue(DatabaseMetadaHelper.getTableTypeOptions());
-
+			view.check_table.propertie().add("maxlength", 100);
+			view.check_table_check.propertie().add("maxlength", 100);
 			view.documento.setValue("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT&p_type=crud");
 			view.forum.setValue("https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&utm_medium=link&utm_campaign=share-link");
 			
@@ -168,8 +168,9 @@ public class CRUDGeneratorController extends Controller {
 				}
 			}
 		}
-		return this.renderView(new CRUDGeneratorView());
-
+		//return this.renderView(new CRUDGeneratorView());
+		  return this.forward("igrp_studio","CRUDGenerator","index",this.queryString()); //if submit, loads the values
+						
 		/*----#end-code----*/
 			
 	}
@@ -235,8 +236,9 @@ public class CRUDGeneratorController extends Controller {
 		}
 		/* -- FIM ACTION GERAR -- */
 
-		return this.renderView(new CRUDGeneratorView());
-
+	//	return this.renderView(new CRUDGeneratorView());
+		  return this.forward("igrp_studio","CRUDGenerator","index",this.queryString()); //if submit, loads the values
+						
 		/*----#end-code----*/
 			
 	}
@@ -256,7 +258,7 @@ public class CRUDGeneratorController extends Controller {
 	}
 
 	/********************* METODO USADOS PARA GERAR CRUD *********************/
-	private Compiler compiler = new Compiler();
+	private final Compiler compiler = new Compiler();
 
 	private boolean generateCRUD(Config_env config, String schema, String tableName)
 			throws TransformerConfigurationException, IOException {
@@ -294,7 +296,7 @@ public class CRUDGeneratorController extends Controller {
 				pageList = pageList.update();
 			}
 		}
-		boolean flag = false;
+		boolean flag;
 
 		try {
 			flag = this.processGenerate(config, tableName, schema, pageForm, pageList);
@@ -308,9 +310,9 @@ public class CRUDGeneratorController extends Controller {
 
 	private boolean processGenerate(Config_env config, String tableName, String schema, Action pageForm,
 			Action pageList) throws IOException, TransformerConfigurationException {
-		boolean r = false;
-		boolean xmlSave = false;
-		List<DatabaseMetadaHelper.Column> columns = null;
+		boolean r;
+		boolean xmlSave;
+		List<DatabaseMetadaHelper.Column> columns;
 		try {
 			columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
 			columns.replaceAll(e -> {
@@ -422,7 +424,7 @@ public class CRUDGeneratorController extends Controller {
 	/********************* METODO USADOS PARA GERAR DAO *********************/
 
 	public boolean generateDAO(DaoDto daoDto) {
-		boolean flag = false;
+		boolean flag;
 		try {
 			
 			final String pathDao = new Config().getPathDAO(daoDto.getDadName());

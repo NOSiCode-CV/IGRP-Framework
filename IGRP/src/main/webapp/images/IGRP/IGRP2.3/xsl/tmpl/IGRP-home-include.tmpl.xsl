@@ -1,15 +1,14 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <!-- HEAD -->
   <xsl:template name="IGRP-head">
-
+   
+     <title><xsl:value-of select="rows/title"/></title>
     <link REL="SHORTCUT ICON" HREF="{$path}/assets/img/favicon.ico" />
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
-    <link rel="mask-icon" href="{$path}/assets/img/safari-pinned-tab.svg" color="#5bbad5"/>
-    
-    <title><xsl:value-of select="rows/title"/></title>
+    <link rel="mask-icon" href="{$path}/themes/default/img/logo2.svg" color="#5bbad5"/>
     
     <!-- Normalize -->
     <link rel="stylesheet" href="{$path}/core/normalize/normalize.css" media="none" onload="if(media!='all')media='all'"/>
@@ -26,8 +25,8 @@
     </xsl:if>
     <!-- /Bootstrap Include CSS -->
 
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'"/>
+     <!-- FontAwesome -->
+    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css"/>
     <!-- /FontAwesome -->
 
     <!-- COLOR PALETTES -->
@@ -273,7 +272,7 @@
             </div>
          
             <div class="igrp-sidebar-menu-search-wrapper">
-              <input 
+              <input name="igrp-sidebar-menu-search"
                 type="text" 
                 class="form-control igrp-search-list" 
                 placeholder="Pesquisar Menu" 
@@ -461,7 +460,7 @@
                <div class="igrp-debug-contents clearfix">
                   <xsl:if test="$contDebug &gt; 9">
                       <div class="igrp-debug-search form-group col-md-4 clearfix pull-right">
-                          <input placeholder="Pesquisar" type="text" class="not-form form-control"/>
+                          <input name="igrp-debug-search" placeholder="Pesquisar" type="text" class="not-form form-control"/>
                       </div>
                   </xsl:if>
                   <ul class="clear igrp-debug-list">

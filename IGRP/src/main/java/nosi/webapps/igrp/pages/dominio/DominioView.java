@@ -1,12 +1,11 @@
 package nosi.webapps.igrp.pages.dominio;
 
-import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Core;
 
 public class DominioView extends View {
 
@@ -37,6 +36,7 @@ public class DominioView extends View {
 	public IGRPButton btn_gravar_domain;
 	public IGRPButton btn_editar;
 	public IGRPButton btn_delete;
+	public IGRPButton btn_download;
 
 	public DominioView(){
 
@@ -61,7 +61,7 @@ public class DominioView extends View {
 		
 		documento = new LinkField(model,"documento");
 		documento.setLabel(gt("Help"));
-		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT;&p_type=dominio"));
+		documento.setValue(gt("https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&dad=tutorial&target=_blank&isPublic=1&lang=pt_PT&p_type=dominio"));
 		documento.propertie().add("name","p_documento").add("type","link").add("target","_newtab").add("request_fields","").add("refresh_components","").add("refresh_submit","false").add("class","[object Object]").add("img","fa-question-circle").add("maxlength","250").add("showlabel","true").add("adbcli","");
 		
 		forum = new LinkField(model,"forum");
@@ -71,27 +71,27 @@ public class DominioView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","Integer");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","Integer").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		lst_dominio = new ListField(model,"lst_dominio");
 		lst_dominio.setLabel(gt("Editar domínio"));
-		lst_dominio.propertie().add("remote",Core.getIGRPLink("igrp","Dominio","index")).add("remote",Core.getIGRPLink("igrp","Dominio","index")).add("name","p_lst_dominio").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
+		lst_dominio.propertie().add("remote",Core.getIGRPLink("igrp","Dominio","index")).add("remote",Core.getIGRPLink("igrp","Dominio","index")).add("name","p_lst_dominio").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("load_service_data","false").add("tooltip","false").add("disable_copy_paste","false");
 		
 		novo_dominio = new TextField(model,"novo_dominio");
 		novo_dominio.setLabel(gt("Novo domínio"));
-		novo_dominio.propertie().add("name","p_novo_dominio").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("dad_name Ex: igrp_types_doc")).add("desclabel","false");
+		novo_dominio.propertie().add("name","p_novo_dominio").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("dad_name Ex: igrp_types_doc")).add("desclabel","false").add("disablehtml","true").add("inputmask","").add("tooltip","false").add("disable_copy_paste","false");
 		
 		app = new HiddenField(model,"app");
 		app.setLabel(gt(""));
-		app.propertie().add("name","p_app").add("type","hidden").add("maxlength","250").add("java-type","Integer").add("tag","app");
+		app.propertie().add("name","p_app").add("type","hidden").add("maxlength","250").add("java-type","Integer").add("tooltip","false").add("disable_copy_paste","false").add("tag","app");
 		
 		description = new TextField(model,"description");
 		description.setLabel(gt("Descrição"));
-		description.propertie().add("name","p_description").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("Yes")).add("desc","true");
+		description.propertie().add("name","p_description").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("Yes")).add("disablehtml","true").add("inputmask","").add("desc","true");
 		
 		key = new TextField(model,"key");
 		key.setLabel(gt("Chave"));
-		key.propertie().add("name","p_key").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("Y")).add("desc","true");
+		key.propertie().add("name","p_key").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("Y")).add("disablehtml","true").add("inputmask","").add("desc","true");
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Ativo?"));
@@ -118,14 +118,17 @@ public class DominioView extends View {
 		btn_guardar_item_domain = new IGRPButton("Guardar","igrp","Dominio","guardar_item_domain","submit_ajax","primary|fa-save","","");
 		btn_guardar_item_domain.propertie.add("type","specific").add("rel","guardar_item_domain").add("refresh_components","formlist_1");
 
-		btn_gravar_domain = new IGRPButton("Adicionar","igrp","Dominio","gravar_domain","submit_ajax","success|fa-plus-square","","");
+		btn_gravar_domain = new IGRPButton("Adicionar","igrp","Dominio","gravar_domain","submit_ajax","success|fa-plus","","");
 		btn_gravar_domain.propertie.add("type","specific").add("rel","gravar_domain").add("refresh_components","toolsbar_1,form_1,formlist_1");
 
-		btn_editar = new IGRPButton("Editar","igrp","Dominio","editar","right_panel|refresh","warning|fa-pencil-square","","");
+		btn_editar = new IGRPButton("Editar","igrp","Dominio","editar","right_panel|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("id","button_91cf_1728").add("type","specific").add("class","warning").add("rel","editar").add("refresh_components","");
 
-		btn_delete = new IGRPButton("Delete","igrp","Dominio","delete","alert_submit","danger|fa-times-circle","","");
-		btn_delete.propertie.add("id","button_91cf_1728").add("type","specific").add("class","danger").add("rel","delete").add("refresh_components","");
+		btn_delete = new IGRPButton("Delete","igrp","Dominio","delete","alert_submit","danger|fa-times","","");
+		btn_delete.propertie.add("id","button_91cf_1728").add("type","specific").add("class","danger").add("rel","delete").add("refresh_components","").add("labelConfirm","Deseja realmente realizar esta operação?");
+
+		btn_download = new IGRPButton("Download","igrp","Dominio","download","download|refresh","grey|fa-download","","");
+		btn_download.propertie.add("id","button_682b_bf52").add("type","specific").add("class","grey").add("rel","download").add("refresh_components","");
 
 		
 	}
@@ -158,6 +161,7 @@ public class DominioView extends View {
 		toolsbar_1.addButton(btn_gravar_domain);
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_delete);
+		table_1.addButton(btn_download);
 		this.addToPage(sectionheader_1);
 		this.addToPage(view_1);
 		this.addToPage(view_2);

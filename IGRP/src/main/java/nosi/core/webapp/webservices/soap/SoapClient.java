@@ -3,6 +3,7 @@ package nosi.core.webapp.webservices.soap;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +79,8 @@ public class SoapClient {
 			 }
 		}catch(Exception e) {
 			errors.add(e.getMessage());
+			if (e instanceof MalformedURLException)
+				errors.add("WSDL URl: " + this.wsdl);
 			e.printStackTrace();
 		}finally {
 			if(connection != null) {

@@ -13,18 +13,23 @@ import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.criteria.CriteriaQuery;
 
 import nosi.core.webapp.Core;
 
 
 @Entity
 @Table(name="tbl_profile",uniqueConstraints={
-	    @UniqueConstraint(name="PROFILE_UNIQUE_FK",columnNames = {"type", "type_fk","user_fk","org_fk","prof_type_fk"})
-	})
+	    @UniqueConstraint(name="PROFILE_UNIQUE_FK",columnNames = {"type", "type_fk","user_fk","org_fk","prof_type_fk"})},
+		indexes = @Index(columnList = "type_fk, type, user_fk")
+
+		)
+
 public class Profile extends IGRPBaseActiveRecord<Profile> implements Serializable{
 	
 	/**
@@ -119,14 +124,15 @@ public class Profile extends IGRPBaseActiveRecord<Profile> implements Serializab
 				this.getBuilder().equal(this.getRoot().get("type"), "PROF"),
 				this.getBuilder().equal(this.getRoot().get("user"), id_user),
 				this.getBuilder().equal(this.getRoot().join("profileType").get("application"), id_app)
-		));
+		).orderBy(this.getBuilder().asc(this.getRoot().get("id"))));
 	}
 
 	public Profile getByUser(Integer id) {
-		return this.findOne(this.getCriteria().where(
+		final CriteriaQuery<Profile> cq = this.getCriteria().where(
 					this.getBuilder().equal(this.getRoot().get("type"), "PROF"),
 					this.getBuilder().equal(this.getRoot().get("user"),id)
-				));
+				);
+		return this.findOne(cq.orderBy(this.getBuilder().asc(this.getRoot().get("id"))));
 	}
 	
 	public List<Profile> getMyPerfile() {

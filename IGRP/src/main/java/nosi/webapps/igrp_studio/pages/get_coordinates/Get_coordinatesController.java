@@ -38,7 +38,7 @@ public class Get_coordinatesController extends Controller {
 				for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
 					String value = entry.getValue().toString().replace("\"", "").trim();
 					if (value.equals(key)) {
-						keyValue = entry.getKey().toString().replace("\"", "").trim();
+						keyValue = entry.getKey().replace("\"", "").trim();
 					}
 					if (Core.isNull(center) && entry.getKey().equals("p_fwl_center")) {
 						center = entry.getValue().toString().replace("\"", "").trim();

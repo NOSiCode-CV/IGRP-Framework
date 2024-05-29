@@ -213,10 +213,10 @@ public class ImportArquivoController extends Controller {
 								result = true;
 							} else {
 								if (importApp.hasError()) {
-									importApp.getErrors().stream().forEach(Core::setMessageError);
+									importApp.getErrors().forEach(Core::setMessageError);
 								}
 								if (importApp.hasWarning()) {
-									importApp.getWarnings().stream().forEach(Core::setMessageWarning);
+									importApp.getWarnings().forEach(Core::setMessageWarning);
 								}
 							}
 						}
@@ -495,10 +495,10 @@ public class ImportArquivoController extends Controller {
 
 							else {
 								if (importApp.hasError()) {
-									importApp.getErrors().stream().forEach(Core::setMessageError);
+									importApp.getErrors().forEach(Core::setMessageError);
 								}
 								if (importApp.hasWarning()) {
-									importApp.getWarnings().stream().forEach(Core::setMessageWarning);
+									importApp.getWarnings().forEach(Core::setMessageWarning);
 								}
 							}
 						}

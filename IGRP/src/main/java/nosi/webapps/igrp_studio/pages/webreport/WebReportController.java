@@ -2,7 +2,7 @@ package nosi.webapps.igrp_studio.pages.webreport;
 
 import nosi.core.webapp.Controller;//
 import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
+
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -13,6 +13,7 @@ import nosi.core.webapp.Response;//
 import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
@@ -21,7 +22,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Report;
-import nosi.core.gui.page.Page;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.bpmn.BPMNConstants;
@@ -90,9 +90,10 @@ public class WebReportController extends Controller {
 				t1.setLink("igrp_studio", "web-report", "load-template&id=" + r.getId());
 				t1.setLink_desc(r.getCode());
 				t1.setId(r.getId());
-				t1.setTitle(r.getName() + "( " + r.getCode() + " )");
+				t1.setTitle(r.getName() + " (" + r.getCode() + ")");
 				data.add(t1);
 			}
+			data.sort(Comparator.comparing(WebReport.Gen_table::getTitle));
 			view.gen_table.addData(data);
 			model.setLink_add_source(this.getConfig().getResolveUrl("igrp", "data-source", "index&target=_blank&id_env=" + model.getEnv_fk()));
 			model.setLink_upload_img(this.getConfig().getResolveUrl("igrp_studio", "web-report", "save-image&id_env=" + model.getEnv_fk()));
@@ -175,7 +176,7 @@ public class WebReportController extends Controller {
 				RepTemplateSource rts = new RepTemplateSource();
 				rts.deleteAll(rt.getId());//Delete old data source of report
 				
-				if(dataSources!=null && dataSources.length>0){
+				if(dataSources != null){
 					for(String dts:dataSources){
 						rts = new RepTemplateSource(rt, new RepSource().findOne(Core.toInt(dts)));
 						rts.insert();
@@ -217,7 +218,7 @@ public class WebReportController extends Controller {
 				xml.endElement();
 				return this.renderView(xml.toString());
 			}
-		}catch(ServletException e){
+		}catch(ServletException ignored){
 			
         }
 
@@ -635,7 +636,7 @@ public class WebReportController extends Controller {
 					}
 				}
 			}
-		} catch (ServletException e) {
+		} catch (ServletException ignored) {
 		
 		}
 		String link = "?r=igrp_studio/WebReport/get-image&p_file_name="+fileName+"&env="+env;

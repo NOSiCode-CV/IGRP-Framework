@@ -3,12 +3,16 @@ package nosi.core.webapp.activit.rest.helpers;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 
 import nosi.core.webapp.Core;
 
@@ -18,7 +22,7 @@ import nosi.core.webapp.Core;
  */
 public class DateHelper {
 	
-	public static boolean compareDate(String date1,String date2,BiFunction<LocalDate, LocalDate, Boolean> compareDate) {
+	public static boolean compareDate(String date1,String date2,BiFunction<LocalDate, LocalDate, Boolean>  compareDate) {
 		if(Core.isNotNullMultiple(date1,date2)) {
 			String date1_ = Core.convertDate(date1, "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd");
 			String date2_ = Core.convertDate(date2, "dd-MM-yyyy", "yyyy-MM-dd");
@@ -56,7 +60,10 @@ public class DateHelper {
 	}
 	
 	public static String toDateTime(String modelDate) {
-		return Core.convertStringToLocalDateTime(modelDate,Core.DD_MM_YYYY).atOffset(ZoneOffset.ofHours(-1))+"";
+		return toDateTime(modelDate,0);
+	}
+	public static String toDateTime(String modelDate, long plusDays) {
+		return Core.convertStringToLocalDateTime(modelDate,Core.DD_MM_YYYY).atOffset(ZoneOffset.ofHours(-1)).plusDays(plusDays)+"";
 	}
 	
 }

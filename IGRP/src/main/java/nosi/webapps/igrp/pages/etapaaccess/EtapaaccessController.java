@@ -226,11 +226,13 @@ public class EtapaaccessController extends Controller {
 			list.forEach(task->{
 				Table_1 t = new Table_1();
 				t.setId(task.getTaskDefinitionKey()+SEPARATOR+task.getProcessDefinitionId()+SEPARATOR+Core.getSwitchNotNullValue(task.getProcessDefinitionKey(),task.getProcessDefinitionId()) + " - " + task.getName()+" ("+task.getProcessDefinitionId()+")");
-			
-				if(listExist!=null && !(listExist.stream().filter(c -> c.getProcessName().compareTo(task.getProcessDefinitionId()) == 0).filter(c -> c.getTaskName().compareTo(task.getTaskDefinitionKey()) == 0).count() == 0)) {
-						t.setId_check(t.getId());
-					
+
+				if (listExist.stream()
+						.filter(c -> c.getProcessName().compareTo(task.getProcessDefinitionId()) == 0)
+						.anyMatch(c -> c.getTaskName().compareTo(task.getTaskDefinitionKey()) == 0)) {
+					t.setId_check(t.getId());
 				}
+
 				t.setDescricao(Core.getSwitchNotNullValue(task.getProcessDefinitionKey(),task.getProcessDefinitionId()) + " - " + task.getName()+" ("+task.getProcessDefinitionId()+")");
 				t.setProcessid(task.getProcessDefinitionId());
 				table.add(t);
@@ -248,7 +250,7 @@ public class EtapaaccessController extends Controller {
 		if(prof!=null) {
 			List<TaskAccess> list = new TaskAccess().find()
 													.andWhere("organization", "=",prof.getOrganization().getId())
-													.andWhere("profileType", "isnull")
+													.andWhereIsNull("profileType")
 													.all();
 			
 			list = list.stream().collect(Collectors.groupingBy(task->task.getProcessName() + "" + task.getTaskName()))
@@ -259,7 +261,7 @@ public class EtapaaccessController extends Controller {
 				t.setId(task.getTaskName()+SEPARATOR+task.getProcessName()+SEPARATOR+task.getTaskDescription());
 				t.setProcessid(task.getProcessName());
 				t.setDescricao(task.getTaskDescription());
-				if(this.getTaskProfExists(prof.getOrganization().getId(), prof.getId(), task.getProcessName(), task.getTaskName())!=null)
+				if(this.getTaskProfExists(prof.getOrganization().getId(), prof.getId(), task.getProcessName(), task.getTaskName()))
 					t.setId_check(t.getId());
 				table.add(t);
 			});
@@ -284,7 +286,7 @@ public class EtapaaccessController extends Controller {
 				t.setId(task.getTaskName()+SEPARATOR+task.getProcessName()+SEPARATOR+task.getTaskDescription());
 				t.setProcessid(task.getProcessName());
 				t.setDescricao(task.getTaskDescription());
-				if(this.getTaskUserExists(user,task.getProcessName(), task.getTaskName())!=null)
+				if(this.getTaskUserExists(user,task.getProcessName(), task.getTaskName()))
 					t.setId_check(t.getId());
 				table.add(t);
 			});
@@ -306,25 +308,27 @@ public class EtapaaccessController extends Controller {
 	/*
 	 * Get existing task associate to the profile
 	 */
-	private TaskAccess getTaskProfExists(Integer idOrg,Integer idProf,String proccessName,String taskName){
+	private boolean getTaskProfExists(Integer idOrg,Integer idProf,String proccessName,String taskName){
 		return new TaskAccess().find()
 				.andWhere("organization", "=",idOrg)
 				.andWhere("processName", "=",proccessName)
 				.andWhere("taskName", "=",taskName)
 				.andWhere("profileType", "=",idProf)
-				.one();
+				.limit(1)
+				.getCount()>0;
 	}
 	
 	/*
 	 * Get existing task associate to the user
 	 */
-	private TaskAccess getTaskUserExists(User user,String proccessName,String taskName){
-       return new TaskAccess().find()
-				.andWhere("processName", "=",proccessName)
-				.andWhere("taskName", "=",taskName)
-				.andWhere("user_fk", "=",user.getId())
-				.one();
-	}
+	private boolean getTaskUserExists(User user,String proccessName,String taskName){
+	       return new TaskAccess().find()
+					.andWhere("processName", "=",proccessName)
+					.andWhere("taskName", "=",taskName)
+					.andWhere("user_fk", "=",user.getId())
+					.limit(1)
+					.getCount()>0;
+		}
 	private static final String SEPARATOR = "---IGRP---";
 	/*----#end-code----*/
 }

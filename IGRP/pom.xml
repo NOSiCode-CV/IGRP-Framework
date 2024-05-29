@@ -43,9 +43,9 @@
 		<maven.compiler.source>1.8</maven.compiler.source>	
 		<maven.compiler.target>1.8</maven.compiler.target>
 
-		<tomee.jaxrs.version>8.0.15</tomee.jaxrs.version>
-		<tomee.maven.plugin.version>8.0.15</tomee.maven.plugin.version>
-		<tomee.embedded.version>8.0.15</tomee.embedded.version>
+		<tomee.jaxrs.version>8.0.16</tomee.jaxrs.version>
+		<tomee.maven.plugin.version>8.0.16</tomee.maven.plugin.version>
+		<tomee.embedded.version>8.0.16</tomee.embedded.version>
 		
 		<javadoc.plugin.version>3.0.1</javadoc.plugin.version>
 		
@@ -703,14 +703,26 @@
 					      <extensions>
 					        <extension>.class</extension> <!-- if you want to update each time you build with mvn compile -->
 					        <extension>.xsl</extension>
+					        <extension>.json</extension>
+					        <extension>.js</extension>
+					        <extension>.css</extension>
 					      </extensions>
 					    </synchronization>
 					    <systemVariables>
 							<tomee.serialization.class.whitelist />
 							<tomee.serialization.class.blacklist>-</tomee.serialization.class.blacklist>
 							<openejb.system.apps>true</openejb.system.apps>
+							<openejb.jmx.active>false</openejb.jmx.active>
 							<tomee.remote.support>true</tomee.remote.support>
+							
 						</systemVariables>
+						<libs>
+							<lib>remove:myfaces</lib>	
+							<lib>remove:openjpa-</lib>	
+<!--							<lib>remove:openwebbeans-</lib>-->
+<!--							<lib>remove:microprofile-</lib>		-->
+<!--							<lib>remove:smallrye-</lib>					-->
+						</libs>
 					</configuration>
 				</plugin>
 

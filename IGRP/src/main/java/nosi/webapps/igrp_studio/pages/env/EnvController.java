@@ -12,6 +12,7 @@ import nosi.core.webapp.security.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.*;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.jws.WebService;
 import javax.persistence.GeneratedValue;
@@ -171,7 +172,7 @@ public class EnvController extends Controller {
 			try(FileInputStream fis = new FileInputStream(file)){				
 			try(CheckedInputStream cis = new CheckedInputStream(fis, new Adler32())){				
 			try(JarInputStream jis = new JarInputStream(new BufferedInputStream(cis))){				
-			JarEntry entry = null;
+			JarEntry entry;
 			
 			while((entry=jis.getNextJarEntry()) != null){					
 				JarEntry aux = new JarEntry(entry.getName());				
@@ -293,12 +294,7 @@ public class EnvController extends Controller {
 		List<Integer> aux = new ArrayList<>();
 		XMLWritter xmlMenu = new XMLWritter();
 		xmlMenu.startElement("applications");
-		/** IGRP-PLSQL Apps **/
-		/** Begin **/
-		List<App> allowApps = new ArrayList<>();
-		List<App> denyApps = new ArrayList<>();
-		getAllApps(allowApps,denyApps);
-		/** End **/
+		
 		boolean displaySubtitle = false;
 		boolean displayTitle = false;
 		xmlMenu.setElement("link_img", this.getConfig().getLinkImg(Config.DEFAULT_V_PAGE));
@@ -317,9 +313,9 @@ public class EnvController extends Controller {
 			xmlMenu.setElement("num_alert", ""+profile.getOrganization().getApplication().getId());
 			xmlMenu.endElement();
 			aux.add(profile.getOrganization().getApplication().getId());
-			displayTitle = (type==null || type.equalsIgnoreCase(""));
+			displayTitle = type.equalsIgnoreCase("");
 		}
-		if(type==null || type.equals("")) {
+		if(type.isEmpty()) {
 			for(Application app:otherApp){
 				if(!aux.contains(app.getId())){ // :-)
 					xmlMenu.startElement("application");
@@ -330,35 +326,42 @@ public class EnvController extends Controller {
 					xmlMenu.setElement("num_alert", "");
 					xmlMenu.setElement("description", app.getDescription());
 					xmlMenu.endElement();
-					displaySubtitle = (type==null || type.equalsIgnoreCase(""));
+					displaySubtitle = type.equalsIgnoreCase("");
 				}
 			}
 		}
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
-		for(App obj: allowApps){
-			xmlMenu.startElement("application");
-			xmlMenu.writeAttribute("available", "yes");
-			xmlMenu.setElement("link", obj.getLink());
-			xmlMenu.setElement("img", obj.getImg_src());
-			xmlMenu.setElement("title", obj.getName());
-			xmlMenu.setElement("num_alert", "");
-			xmlMenu.setElement("description", obj.getDescription());
-			xmlMenu.endElement();
-			displayTitle = true;
-		}
-		for(App obj: denyApps){
-			xmlMenu.startElement("application");
-			xmlMenu.writeAttribute("available", "no");
-			xmlMenu.setElement("link", obj.getLink());
-			xmlMenu.setElement("img", obj.getImg_src());
-			xmlMenu.setElement("title", obj.getName());
-			xmlMenu.setElement("num_alert", "");
-			xmlMenu.setElement("description", obj.getDescription());
-			xmlMenu.endElement();
-			displaySubtitle = true; 
-		}
+		if(this.configApp.isActiveGlobalACL()) {
+			List<App> allowApps = new ArrayList<>();
+			List<App> denyApps = new ArrayList<>();
+			String host= getAllApps(allowApps,denyApps);
+			for(App obj: allowApps){
+				xmlMenu.startElement("application");
+				xmlMenu.writeAttribute("available", "yes");
+				xmlMenu.setElement("link", obj.getLink());
+				xmlMenu.setElement("path_acl", host+"gov.cv/images/IGRP/IGRP2.3");
+				xmlMenu.setElement("img", obj.getImg_src());
+				xmlMenu.setElement("title", obj.getName());
+				xmlMenu.setElement("num_alert", "");
+				xmlMenu.setElement("description", obj.getDescription());
+				xmlMenu.endElement();
+				displayTitle = true;
+			}
+			for(App obj: denyApps){
+				xmlMenu.startElement("application");
+				xmlMenu.writeAttribute("available", "no");
+				xmlMenu.setElement("link", obj.getLink());
+				xmlMenu.setElement("path_acl", host+"gov.cv/images/IGRP/IGRP2.3");
+				xmlMenu.setElement("img", obj.getImg_src());
+				xmlMenu.setElement("title", obj.getName());
+				xmlMenu.setElement("num_alert", "");
+				xmlMenu.setElement("description", obj.getDescription());
+				xmlMenu.endElement();
+				displaySubtitle = true; 
+			}
 		/** End **/
+		}
 		if(displayTitle)
 			xmlMenu.setElement("title", Core.gt("Minhas Aplicações"));
 		if(displaySubtitle)
@@ -435,20 +438,26 @@ public class EnvController extends Controller {
 	/** Integration with IGRP-PLSQL Apps **
 	 * */
 	// Begin
-	private void getAllApps(List<App> allowApps /*INOUT var*/, List<App> denyApps  /*INOUT var*/) {
-		Properties properties =  this.configApp.getMainSettings(); 
+	private String getAllApps(List<App> allowApps /*INOUT var*/, List<App> denyApps  /*INOUT var*/) {
+		String host="";
+		Properties properties =  this.configApp.getMainSettings();
 		String baseUrl = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.value()); 
 		String token = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_TOKEN.value()); 
 		AppConfig appConfig = new AppConfig(); 
 		appConfig.setUrl(baseUrl);
 		appConfig.setToken(token);
-		List<App> allApps = appConfig.userApps(Core.getCurrentUser().getEmail()); 
-		for(App app : allApps) { 
+		List<App> allApps = appConfig.userApps(Core.getCurrentUser().getEmail());
+
+
+		for(App app : allApps) {
 			if(app.getAvailable().equals("yes")) 
 				allowApps.add(app);
 			else 
 				denyApps.add(app);
+			if(host.isEmpty() && app.getLink().contains("redirect_uri"))
+				host=StringUtils.substringBetween(app.getLink(),"redirect_uri=","gov.cv");
 		}
+		return host;
 	}
 	
 	// XML for Blocky's consume 
@@ -510,26 +519,25 @@ public class EnvController extends Controller {
 							xml.setElement("full_class_name", c.getName());
 							xml.startElement("operations");
 								Method []methods = c.getMethods();
-								if(methods != null)
-									for(Method m : methods) {
-										xml.startElement(m.getName());
-											xml.startElement("params");
-												Parameter[] parameters = m.getParameters();
-												if(parameters != null)
-													for(Parameter p : parameters) {
-														xml.startElement(p.getName());
-															xml.text(p.getType().getTypeName());
-														xml.endElement();
-													}
-											xml.endElement();
-											xml.startElement("return");
-												xml.startElement("tipo");
-													xml.text(m.getReturnType().getName());
-												xml.endElement();
-												xml.addXml(generateXMLFieldsStructure(m.getReturnType()));
-											xml.endElement();
-										xml.endElement();
-									}
+                       for(Method m : methods) {
+                          xml.startElement(m.getName());
+                             xml.startElement("params");
+                                   Parameter[] parameters = m.getParameters();
+                                   if(parameters != null)
+                                      for(Parameter p : parameters) {
+                                         xml.startElement(p.getName());
+                                               xml.text(p.getType().getTypeName());
+                                         xml.endElement();
+                                      }
+                             xml.endElement();
+                             xml.startElement("return");
+                                   xml.startElement("tipo");
+                                      xml.text(m.getReturnType().getName());
+                                   xml.endElement();
+                                   xml.addXml(generateXMLFieldsStructure(m.getReturnType()));
+                             xml.endElement();
+                          xml.endElement();
+                       }
 							xml.endElement();
 						xml.endElement();
 					}

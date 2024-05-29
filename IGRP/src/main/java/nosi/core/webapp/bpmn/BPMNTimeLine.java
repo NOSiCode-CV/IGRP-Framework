@@ -7,6 +7,7 @@ package nosi.core.webapp.bpmn;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,10 +23,12 @@ import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.LinkField;
 import nosi.core.gui.fields.TextField;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
 import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
+import nosi.webapps.igrp.dao.TaskComponent;
 
 public class BPMNTimeLine {
 	private int countTask=0;
@@ -78,7 +81,7 @@ public class BPMNTimeLine {
 			});
 		
 		refs.remove(taskSearch,next);
-		if(refs != null && !refs.isEmpty()) {
+		if(!refs.isEmpty()) {
 			if(next!=null)
 				recursiveTask(userTasks,refs,next);
 			else {
@@ -90,12 +93,12 @@ public class BPMNTimeLine {
 	
 	public List<TaskTimeLine> getTasks() {		
 		this.taskTimeline = new ArrayList<>();
-		Map<String,String> tasksSQ = new HashMap<String, String>();
+		Map<String,String> tasksSQ = new HashMap<>();
 		String processDefinition = runtimeTask.getTask().getProcessDefinitionId();
 		TaskServiceRest taskSQ = new TaskServiceRest();
 		taskSQ.addFilterBody("finished", "true");
 		taskSQ.addFilterBody("processDefinitionId", processDefinition);
-		if(taskSQ != null)
+		if(runtimeTask.getTask().getExecutionId() != null)
 			taskSQ.addFilterBody("executionId", runtimeTask.getTask().getExecutionId());
 		try {
 			taskSQ.queryHistoryTask()
@@ -116,6 +119,9 @@ public class BPMNTimeLine {
 		String resource = new ResourceServiceRest().getResourceData(link);
 		BpmnXMLConverter bpmn = new BpmnXMLConverter();
 		XMLInputFactory xif = XMLInputFactory.newInstance();
+		xif.setProperty(XMLInputFactory.SUPPORT_DTD, false); // Disables DTDs entirely
+		xif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false); // Disables external entities
+		
 		try {
 			List<StartEvent> startEvent = bpmn.convertToBpmnModel(xif.createXMLStreamReader(new StringReader(resource))).getMainProcess()
 					.findFlowElementsOfType(StartEvent.class);
@@ -124,7 +130,7 @@ public class BPMNTimeLine {
 			List<SequenceFlow> sequenceFlows = bpmn
 					.convertToBpmnModel(xif.createXMLStreamReader(new StringReader(resource))).getMainProcess()
 					.findFlowElementsOfType(SequenceFlow.class);
-			Map<String,String> refs = new HashMap<String, String>();
+			Map<String,String> refs = new HashMap<>();
 			int i=0;
 			for(SequenceFlow sf:sequenceFlows) {
 				if(!refs.containsKey(sf.getSourceRef())) {
@@ -135,6 +141,10 @@ public class BPMNTimeLine {
 			}
 			String start = startEvent.stream().findFirst().get().getId();
 			this.recursiveTask(userTasks,refs, start);
+			//See if there is a custom ordering for the timeline
+			List<Map<String, Object>> listTasC = new TaskComponent().find().keepConnection()
+					.where("processId","=",processDefinition.split(":")[0])
+					.allColumns("id","ordem","taskId");
 			taskTimeline
 			.forEach(t->{
 				if(t.getName().equalsIgnoreCase(runtimeTask.getTask().getName())) {
@@ -150,8 +160,15 @@ public class BPMNTimeLine {
 						t.setUrl("#");
 					}
 				}
+				for (Map<String, Object> mapTasC : listTasC) {
+					if(mapTasC.get("taskId").equals(t.getTaskId())) {
+						t.setOrder(Core.toInt(mapTasC.get("ordem")+""));
+						break;
+					}
+				}
 			});
-			Collections.sort(taskTimeline);
+			
+			Collections.sort(taskTimeline, Comparator.comparing(TaskTimeLine::getOrder));
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		}
@@ -199,6 +216,7 @@ public class BPMNTimeLine {
 		public int compareTo(TaskTimeLine t) {
 			return (""+this.getOrder()).compareTo(""+t.getOrder());
 		}
+		
 		@Override
 		public String toString() {
 			return "TaskTimeLine [taskId=" + taskId + ", name=" + name + ", url=" + url + ", type=" + type + ", order="
