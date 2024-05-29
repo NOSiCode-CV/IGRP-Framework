@@ -102,6 +102,12 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		this.template = template;
 	}
 
+	public Application(String dad, String name, String img_src, String description, int status, Action action,
+					   String template, Integer externo) {
+		this(dad, name, img_src, description, status, action, template);
+		this.externo = externo ;
+	}
+
 	public int getExternal() {
 		return externo;
 	}
