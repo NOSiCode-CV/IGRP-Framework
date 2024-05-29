@@ -67,7 +67,7 @@
       <apache.commons.io.version>2.16.1</apache.commons.io.version>
       <apache.logging.log4j.version>2.23.1</apache.logging.log4j.version>
 
-       <slf4j.version>2.0.12</slf4j.version>
+       <slf4j.version>2.0.13</slf4j.version>
    
       <reflections.version>0.10.2</reflections.version>
       <jdt.version>3.37.0</jdt.version>
@@ -140,12 +140,12 @@
 		    <artifactId>validation-api</artifactId>
 		    <version>2.0.1.Final</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api
+		<!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api-->
 		<dependency>
 		    <groupId>jakarta.validation</groupId>
 		    <artifactId>jakarta.validation-api</artifactId>
 		    <version>${jakarta.validation.version}</version>
-		</dependency>-->
+		</dependency>
 
 	   
       <dependency>
@@ -381,7 +381,12 @@
          <scope>provided</scope>
          <type>pom</type>
       </dependency> -->
-
+       <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+       <dependency>
+           <groupId>org.slf4j</groupId>
+           <artifactId>slf4j-simple</artifactId>
+           <version>${slf4j.version}</version>
+       </dependency>
 
 		<!-- Web, XML, SOAP ... -->
 		<!-- https://mvnrepository.com/artifact/org.apache.axis2/axis2 
