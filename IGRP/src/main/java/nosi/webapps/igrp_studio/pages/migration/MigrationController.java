@@ -349,7 +349,7 @@ public class MigrationController extends Controller {
        String auxContent = "\t  this.app = new Application(\"" + app.getDad() +
                            "\", \"" + app.getName() + "\", \"" + app.getImg_src() + "\", \"" +
                            app.getDescription() + "\", " + app.getStatus() + ", null,\"" +
-                           app.getTemplate() + "\");\n";
+                           app.getTemplate() + "\","+app.getExternal()+");\n";
 		return new StringBuilder(content.toString().replace(APP_PLACEHOLDER, auxContent));
 	}
 	
