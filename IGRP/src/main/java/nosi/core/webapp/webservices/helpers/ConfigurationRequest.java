@@ -38,30 +38,21 @@ public class ConfigurationRequest {
 		if(request.getBase_url().startsWith("https://"))
 			clientBuild.sslContext(this.createSslContext()).hostnameVerifier(this.getHostNameVerifier());
 		
-		return  clientBuild.build();
+		return clientBuild.build();
 	}
 	public String getUrl() {
 		return UrlHelper.urlEncoding(this.request.getBase_url());
 	}
-//	public HttpAuthenticationFeature getHttpAuthenticationFeature() {
-//		final HttpAuthenticationFeature basic = HttpAuthenticationFeature.basic(this.request.getUsername(),this.request.getPassword());
-//		return basic;
-//	}
-	private static class Authenticator implements ClientRequestFilter {
-	    private final String user;
-	    private final String password;
-	    public Authenticator(String user, String password) {
-	        this.user = user;
-	        this.password = password;
-	    }
 
-		@Override
-		public void filter(ClientRequestContext requestContext) throws IOException {
-			 String authString = user + ":" + password;
-		        String encodedAuthString = Base64.getEncoder().encodeToString(authString.getBytes());
-		        requestContext.getHeaders().add(HttpHeaders.AUTHORIZATION, "Basic " + encodedAuthString);
-		}
-	}
+   private record Authenticator(String user, String password) implements ClientRequestFilter {
+
+      @Override
+      public void filter(ClientRequestContext requestContext) {
+         var authString = user + ":" + password;
+         var encodedAuthString = Base64.getEncoder().encodeToString(authString.getBytes());
+         requestContext.getHeaders().add(HttpHeaders.AUTHORIZATION, "Basic " + encodedAuthString);
+      }
+   }
 	public HostnameVerifier getHostNameVerifier() {
 	    return (String s, SSLSession sslSession) -> s.equalsIgnoreCase(sslSession.getPeerHost());
 	}
