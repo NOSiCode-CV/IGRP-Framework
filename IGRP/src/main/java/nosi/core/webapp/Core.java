@@ -5157,7 +5157,7 @@ public final class Core {
 	 */
 	public static StartProcess nextTask(TaskService task, List<Part> parts, String myCustomPermission) {
 		BPMNExecution bpmnExecuteValidacao = new BPMNExecution();
-       return bpmnExecuteValidacao.exeuteTask(task, parts, myCustomPermission);
+       return bpmnExecuteValidacao.executeTask(task, parts, myCustomPermission);
 	}
 
 	/**
