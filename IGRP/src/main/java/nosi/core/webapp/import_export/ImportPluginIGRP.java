@@ -15,7 +15,7 @@ import nosi.core.config.Config;
  */
 public class ImportPluginIGRP {
 
-	private Config config;
+	private final Config config;
 	public ImportPluginIGRP() {
 		this.config = new Config();
 	}
@@ -31,7 +31,6 @@ public class ImportPluginIGRP {
 			part.delete();
 			result = true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;

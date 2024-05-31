@@ -81,7 +81,7 @@ public class Import {
 			
 			content = content.trim();
 			
-			if(content != null && !content.isEmpty()) { // Sometimes the content of file is empty ... and throw StringIndexOutOfBoundsException 
+			if(!content.isEmpty()) { // Sometimes the content of file is empty ... and throw StringIndexOutOfBoundsException
 			content = content.substring(0, 
 					content.indexOf("package") + 
 					"package".length()) +
