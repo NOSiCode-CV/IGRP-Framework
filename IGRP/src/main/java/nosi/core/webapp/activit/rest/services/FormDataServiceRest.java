@@ -24,7 +24,7 @@ import java.util.ArrayList;
  */
 public class FormDataServiceRest extends GenericActivitiRest {
 
-	private List<Properties> propertyFormSubmit;
+	private final List<Properties> propertyFormSubmit;
 
 	public FormDataServiceRest() {
 		this.propertyFormSubmit = new ArrayList<>();

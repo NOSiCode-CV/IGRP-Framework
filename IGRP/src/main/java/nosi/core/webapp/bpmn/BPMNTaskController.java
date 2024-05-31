@@ -44,15 +44,15 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	private String myCustomPermission;
 	private String usernameNextTask;
 	protected RuntimeTask runtimeTask;
-	private BPMNExecution bpmnExecute;
+	private final BPMNExecution bpmnExecute;
 	
-	private List<String> inputDocsErrors; 
+	private final List<String> inputDocsErrors;
 	private boolean inputDocsAlreadyValidate; 
 	
 	protected BPMNTaskController() {
 		this.runtimeTask = RuntimeTask.getRuntimeTask();
 		this.bpmnExecute = new BPMNExecution();
-		inputDocsErrors = new ArrayList<>(); 
+		this.inputDocsErrors = new ArrayList<>();
 	}
 	@Override
 	public Response index(String app,Model model,View view) throws IOException {
@@ -158,7 +158,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	
 	private Response saveTask(TaskService task,String taskId,List<Part> parts) throws IOException  {
 		TaskServiceIGRP taskServiceRest = new TaskServiceIGRP();
-		StartProcess st = this.bpmnExecute.exeuteTask(task, parts,this.myCustomPermission);
+		StartProcess st = this.bpmnExecute.executeTask(task, parts,this.myCustomPermission);
 		if(Core.isNull(st)) {
 			return this.redirect("igrp", "ErrorPage", "exception");
 		}else {
@@ -289,8 +289,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	public List<TipoDocumentoEtapa> getInputDocumentType() {
 		String appDad = this.runtimeTask.getTask().getTenantId();
 		String taskDefinition = this.runtimeTask.getTask().getTaskDefinitionKey();
-		String processDefinition = this.runtimeTask.getTask().getProcessDefinitionKey();	
-		boolean isDetails = this.runtimeTask.isDetails();
+		String processDefinition = this.runtimeTask.getTask().getProcessDefinitionKey();
        return BPMNHelper.getInputDocumentTypeHistory(appDad,processDefinition, taskDefinition);
 	}
 

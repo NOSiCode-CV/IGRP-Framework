@@ -99,13 +99,14 @@ public final class BPMNHelper {
 		
 	public static List<TipoDocumentoEtapa> getInputDocumentTypeHistory(String taskDad,String processDefinition, String taskDefinition) {
 		List<TipoDocumentoEtapa> tipoDocsIN = getInputDocumentType(taskDad,processDefinition, taskDefinition);
+		final var currentTaskId = getCurrentTaskId();
 		if(tipoDocsIN!=null) {
 				tipoDocsIN.forEach(t->{
 					 t.setFileId(-1);
 		 			 IGRPLink link = new IGRPLink();
-		 			 if(t.getTipoDocumento()!=null) {
+					if(t.getTipoDocumento() != null) {
 						 nosi.webapps.igrp.dao.TaskFile taskFile = new nosi.webapps.igrp.dao.TaskFile().find()
-				 										.where("taskId","=",getCurrentTaskId())
+				 										.where("taskId","=", currentTaskId)
 				 										.andWhere("tipo_doc_task.tipoDocumento.id","=",t.getTipoDocumento().getId())
 				 										.one();
 						 if(taskFile!=null) {
@@ -117,7 +118,7 @@ public final class BPMNHelper {
 						 }
 		 			 }
 		 			 if(t.getRepTemplate()!=null) {
-		 				link = new IGRPLink(Core.getLinkReport(t.getRepTemplate().getCode()).addParam(BPMNConstants.PRM_TASK_ID, getCurrentTaskId()));
+		 				link = new IGRPLink(Core.getLinkReport(t.getRepTemplate().getCode()).addParam(BPMNConstants.PRM_TASK_ID, currentTaskId));
 		 			 }
 		 			 link.setLink_desc(gt("Mostrar"));
 					 t.setLink(link);
@@ -140,9 +141,8 @@ public final class BPMNHelper {
 
 	private static String getCurrentTaskId() {
 		String taskId = RuntimeTask.getRuntimeTask().getPreviewTaskId();
-		if(Core.isNull(taskId)) {
-			taskId = RuntimeTask.getRuntimeTask().getTask().getId();
-		}
+		if (Core.isNull(taskId))
+			return RuntimeTask.getRuntimeTask().getTask().getId();
 		return taskId;
 	}
 
