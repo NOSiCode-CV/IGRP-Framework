@@ -169,6 +169,10 @@ public class BPMNExecution extends Controller{
 		if (task == null)
 			return null;
 
+		final var app = new Application().findByDad(task.getTenantId());
+		if (app == null)
+			return null;
+
 		final var hts = new TaskServiceRest()
 				.getHistoryOfProccessInstanceId(task.getProcessInstanceId())
 				.stream()
@@ -182,13 +186,9 @@ public class BPMNExecution extends Controller{
 		final var previewApp = lastHistoricTask != null ? lastHistoricTask.getTenantId() : "";
 		final var previewTaskId = lastHistoricTask != null ? lastHistoricTask.getId() : "";
 
-		final var app = new Application().findByDad(task.getTenantId());
-		if (app == null)
-			return null;
-
-		final var runtimeTask = new RuntimeTask(task, app.getId(), previewTask, previewApp,
-				previewProcessDefinition, true, previewTaskId);
+		final var runtimeTask = new RuntimeTask(task, app.getId(), previewTask, previewApp,previewProcessDefinition, true, previewTaskId);
 		runtimeTask.setSaveButton(true);
+
 		return runtimeTask;
 	}
 
