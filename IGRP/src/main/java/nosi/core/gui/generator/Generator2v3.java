@@ -28,7 +28,7 @@ public class Generator2v3 implements IHeaderConfig{
 		return "_blank";
 	}
 	public Generator2v3(String xml) {
-		this.xml = new XMLWritter("rows",new Config().getLinkXSLGenerator("2.3"), "dash");
+		this.xml = new XMLWritter("rows",new Config().getLinkXSLGenerator("2.3"));
 		Action acGen23= new Action("Generator", "Generator", "", "", "Generator","Generator", "2.3", 1, new Application().findOne(1));
 		this.xml.addXml(new Config().getHeader(this,acGen23));
 		this.xml.startElement("content");

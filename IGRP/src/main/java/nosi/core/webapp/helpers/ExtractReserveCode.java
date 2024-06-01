@@ -13,25 +13,25 @@ import java.util.logging.Logger;
 
 public class ExtractReserveCode {
 
-   public static final String globalReserveHeadStart = "/*----#START-PRESERVED-AREA(";
+   private static final String globalReserveHeadStart = "/*----#START-PRESERVED-AREA(";
 
-   public static final String globalReserveHeadEnd = ")----*/";
+   private static final String globalReserveHeadEnd = ")----*/";
 
-   public static final String globalReserveEnd = "/*----#END-PRESERVED-AREA----*/";
+   private static final String globalReserveEnd = "/*----#END-PRESERVED-AREA----*/";
 
    public static String extract(String app, String page) {
 
-      final var code = ExtractReserveCode.getPageController(app, page);
+      final var code = getPageController(app, page);
       if (Core.isNull(code))
          return "{}";
 
       final var config = new Config();
       final var className = config.getPackage(app, page);
-      final var list = ExtractReserveCode.extractMethods(className, code);
+      final var list = extractMethods(className, code);
 
       final var codes = new ArrayList<ReserveCode>();
-      codes.add(ExtractReserveCode.extractImports(code));
-      codes.add(ExtractReserveCode.extractCustomsMethods(code));
+      codes.add(extractImports(code));
+      codes.add(extractCustomsMethods(code));
       codes.addAll(list);
 
       return new Gson().toJson(codes);
@@ -59,40 +59,35 @@ public class ExtractReserveCode {
 
          String split_ = isGlobalReserve ? split.toUpperCase() : split;
 
-         String content = ExtractReserveCode.getStartReseveCodeAction(split_, isGlobalReserve);
+         String content = getStartReseveCodeAction(split_, isGlobalReserve);
 
          int start = code.indexOf(content);
 
-         int end = start != -1 ? code.indexOf(ExtractReserveCode.getEndReserveCode(isGlobalReserve), start) : -1;
+         final var endReserveCode = getEndReserveCode(isGlobalReserve);
+
+         int end = start != -1 ? code.indexOf(endReserveCode, start) : -1;
 
          String code_ = (start != -1 && end != -1) ? code.substring(start + content.length(), end) : "";
 
-         ReserveCode rc = new ReserveCode();
-
+         final var rc = new ReserveCode();
          rc.setContent(code_);
-
          rc.setAction(action);
-
-         rc.setEnd(ExtractReserveCode.getEndReserveCode(isGlobalReserve));
-
-         rc.setStart(ExtractReserveCode.getStartReseveCodeAction(split, isGlobalReserve));
-
+         rc.setStart(getStartReseveCodeAction(split, isGlobalReserve));
+         rc.setEnd(endReserveCode);
          rc.setIsGlobal(isGlobalReserve);
 
          return rc;
-
       }
 
       return null;
-
    }
 
    public static ReserveCode extractImports(String code) {
-      return ExtractReserveCode.extract(code, "packages_import", "packages_import");
+      return extract(code, "packages_import", "packages_import");
    }
 
    public static ReserveCode extractCustomsMethods(String code) {
-      return ExtractReserveCode.extract(code, "custom_actions", "custom_actions");
+      return extract(code, "custom_actions", "custom_actions");
    }
 
    public static List<ReserveCode> extractMethods(String className, String code) {
@@ -100,7 +95,7 @@ public class ExtractReserveCode {
       if (allMethods != null) {
          final var codes = new ArrayList<ReserveCode>();
          allMethods.forEach(ac ->
-                 codes.add(ExtractReserveCode.extract(code, ac, ac.toUpperCase()))
+                 codes.add(extract(code, ac, ac.toUpperCase()))
          );
          return codes;
       }
@@ -109,7 +104,7 @@ public class ExtractReserveCode {
 
    public static List<String> extractAllMethods(String className) {
       try {
-         ArrayList<String> actions = new ArrayList<>();
+         List<String> actions = new ArrayList<>();
          Class<?> c = Class.forName(className);
          for (Method method : c.getDeclaredMethods()) {
             actions.add(method.getName().replace("action", ""));
@@ -121,16 +116,13 @@ public class ExtractReserveCode {
       return null;
    }
 
-   public static String getStartReseveCodeAction(String actionName, boolean isGlobalReserve) {
-
+   private static String getStartReseveCodeAction(String actionName, boolean isGlobalReserve) {
       return isGlobalReserve ? globalReserveHeadStart + actionName + globalReserveHeadEnd : "/*----#start-code(" + actionName.toLowerCase() + ")----*/";
    }
 
-   public static String getEndReserveCode(boolean isGlobalReserve) {
-
+   private static String getEndReserveCode(boolean isGlobalReserve) {
       return isGlobalReserve ? globalReserveEnd : "/*----#end-code----*/";
    }
-
 
    public static class ReserveCode {
       private String action;

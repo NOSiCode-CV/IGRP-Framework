@@ -2,8 +2,7 @@ package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.ApplicationManager;
 import nosi.core.webapp.Controller;//
-import nosi.core.webapp.databse.helpers.ResultSet;//
-import nosi.core.webapp.databse.helpers.QueryInterface;//
+
 import java.io.IOException;//
 import nosi.core.webapp.Core;//
 import nosi.core.webapp.Response;//
@@ -15,7 +14,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +21,8 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import javax.persistence.Tuple;
+
+import nosi.webapps.igrp.dao.*;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.json.JSONArray;
@@ -42,13 +42,6 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.xml.XMLWritter;
-import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Historic;
-import nosi.webapps.igrp.dao.Menu;
-import nosi.webapps.igrp.dao.Modulo;
-import nosi.webapps.igrp.dao.Share;
-import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.pages.dominio.DomainHeper;
 
 /*----#end-code----*/
@@ -96,7 +89,7 @@ public class PageController extends Controller {
 				model.setComponente(a.getIsComponent());
 				if (a.getNomeModulo() != null && !a.getNomeModulo().isEmpty())
 					model.setModulo(a.getNomeModulo());
-				Application app = Core.findApplicationById(a.getApplication().getId());
+				Application app = a.getApplication();
 				if (app != null && app.getAction() != null)
 					model.setPrimeira_pagina(idPage.equals(app.getAction().getId()) ? 1 : 0);
 			}
@@ -149,6 +142,7 @@ public class PageController extends Controller {
 
        /***** EDITANDO UMA PÁGINA ********/
 
+		final var currentUser = Core.getCurrentUser();
 		if (idPage != 0) {
 
 			action = action.findOne(idPage);
@@ -170,13 +164,13 @@ public class PageController extends Controller {
 				Core.setMessageSuccess("Página atualizada com sucesso.");
 
 				Historic historicPage = new Historic();
-				historicPage.setNome(Objects.requireNonNull(Core.getCurrentUser()).getName());
-				historicPage.setIdUtilizador(Core.getCurrentUser().getId());
+				historicPage.setNome(Objects.requireNonNull(currentUser).getName());
+				historicPage.setIdUtilizador(currentUser.getId());
 				historicPage.setPage(action);
 				historicPage.setDescricao("Informações da Página Alterada");
 				historicPage.insert();
 
-				Application app2 = Core.findApplicationById(action.getApplication().getId());
+				Application app2 = action.getApplication();
 
 				if (model.getPrimeira_pagina() == 1) {
 					app2.setAction(action);
@@ -227,8 +221,8 @@ public class PageController extends Controller {
 			action = action.insert();
 
 			Historic historicPage = new Historic();
-			historicPage.setNome(Objects.requireNonNull(Core.getCurrentUser()).getName());
-			historicPage.setIdUtilizador(Core.getCurrentUser().getId());
+			historicPage.setNome(Objects.requireNonNull(currentUser).getName());
+			historicPage.setIdUtilizador(currentUser.getId());
 			historicPage.setDescricao("Criação da página");
 			historicPage.setPage(action);
 			historicPage.insert();
@@ -237,9 +231,34 @@ public class PageController extends Controller {
 				String packageName = String.format("nosi.webapps.%s", action.getApplication().getDad().toLowerCase());
 				if("2.3".equals(action.getVersion()))
 					packageName = String.format("%s.pages", packageName);
-				String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\""
-						+ packageName + "\", \"html\":\"" + action.getPage()
-						+ "\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
+
+				String json = """
+						{
+						  "rows": [
+						    {
+						      "columns": [
+						        {
+						          "size": "col-md-12",
+						          "containers": []
+						        }
+						      ]
+						    }
+						  ],
+						  "plsql": {
+						    "instance": "",
+						    "table": "",
+						    "package": "%s",
+						    "html": "%s",
+						    "replace": false,
+						    "label": false,
+						    "biztalk": false,
+						    "subversionpath": ""
+						  },
+						  "css": "",
+						  "js": ""
+						}
+						""".formatted(packageName, action.getPage());
+
 				String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(action);
 				FileHelper.save(path_xsl, action.getPage() + ".json", json);
 				if (Core.isNotNull(this.getConfig().getWorkspace())
@@ -263,7 +282,7 @@ public class PageController extends Controller {
 				}
 				Core.setMessageSuccess();
 				if (model.getPrimeira_pagina() == 1) {
-					Application app2 = Core.findApplicationById(action.getApplication().getId());
+					Application app2 = action.getApplication();
 					app2.setAction(action);
 					app2.update();
 				}
@@ -288,8 +307,8 @@ public class PageController extends Controller {
 				recover.update();
 
 				Historic historicPage = new Historic();
-				historicPage.setNome(Objects.requireNonNull(Core.getCurrentUser()).getName());
-				historicPage.setIdUtilizador(Core.getCurrentUser().getId());
+				historicPage.setNome(Objects.requireNonNull(currentUser).getName());
+				historicPage.setIdUtilizador(currentUser.getId());
 				historicPage.setPage(recover);
 				historicPage.setDescricao("Página Recuperada");
 				historicPage.insert();
@@ -340,14 +359,23 @@ public class PageController extends Controller {
 	}
 	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
-	
-	
+
+
 	final PageView pageView = new PageView();
+
 	public Response actionSetModuloEditar(Page model) {
-		String xml = "<content>" + "<editar_modulo>"
-				+ StringEscapeUtils.escapeXml11(
-						Core.getIGRPLink("igrp_studio", "modulo", "index&p_modulo_cod=" + model.getModulo()))
-				+ "</editar_modulo>" + "</content>";
+		final var xml = """
+				<content>
+				    <editar_modulo>
+				        %s
+				    </editar_modulo>
+				</content>
+				"""
+				.formatted(
+						StringEscapeUtils.escapeXml11(
+								Core.getIGRPLink("igrp_studio", "modulo", "index&p_modulo_cod=" + model.getModulo())
+						)
+				);
 		return this.renderView(xml);
 	}
 
@@ -469,11 +497,9 @@ public class PageController extends Controller {
 
 	// Read json and extract transactions
 	private void processJson(String fileJson, Action ac) {
-		JSONObject objJson;
 		if (fileJson.contains("\"transaction\":true")) {
 			try {
-				objJson = new JSONObject(fileJson);
-
+				JSONObject objJson = new JSONObject(fileJson);
 				this.processBoxContent(objJson, ac);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -554,7 +580,7 @@ public class PageController extends Controller {
 		List<Action> actions = new Action().find().andWhere("isComponent", "<>", (short) 2)
 				.andWhere("application.id", "=", app).andWhere("status", "=", 1).all();
 		if (actions != null) {
-			if (aux != null) actions.addAll(aux);
+           actions.addAll(aux);
 			for (Action ac : actions) {
 				json.append("{");
 				json.append("\"action\":\"").append(ac.getAction()).append("\",");
@@ -575,23 +601,33 @@ public class PageController extends Controller {
 
 	// get detail page
 	public Response actionDetailPage() {
-		int p_id = Core.getParamInt("p_id");
+
+		final int p_id = Core.getParamInt("p_id");
 		Action ac = new Action().findOne(p_id);
-		String json = "{";
+		String json;
+
 		if (ac != null) {
-			json += "\"action\":\"" + ac.getAction() + "\",";
-			json += "\"action_descr\":\"" + ac.getAction_descr() + "\",";
-			json += "\"app\":\"" + ac.getApplication().getDad() + "\",";
-			json += "\"page\":\"" + ac.getPage() + "\",";
-			json += "\"id\":\"" + ac.getId() + "\",";
-			json += "\"filename\":\"" + this.getConfig().getCurrentResolvePathPage(ac.getApplication().getDad(),
-					ac.getPage(), ac.getVersion()) + "/" + ac.getPage() + ".xsl\",";
-			json += "\"page_descr\":\"" + ac.getPage_descr() + "\"";
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("action", ac.getAction());
+			jsonObject.put("action_descr", ac.getAction_descr());
+			jsonObject.put("app", ac.getApplication().getDad());
+			jsonObject.put("page", ac.getPage());
+			jsonObject.put("id", ac.getId());
+			String filename = this.getConfig().getCurrentResolvePathPage(
+					ac.getApplication().getDad(), ac.getPage(), ac.getVersion()
+			) + "/" + ac.getPage() + ".xsl";
+			jsonObject.put("filename", filename);
+			jsonObject.put("page_descr", ac.getPage_descr());
+
+			json = jsonObject.toString();
+		} else {
+			json = "{}";
 		}
-		json += "}";
+
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(json);
 	}
+
 
 	public Response actionImageList()  {
 		String param = Core.getParam("name");
@@ -610,13 +646,10 @@ public class PageController extends Controller {
 
 		String page = Core.getParam("page");
 		String app = Core.getParam("app");
-
 		String json = ExtractReserveCode.extract(app, page);
 
 		this.format = Response.FORMAT_JSON;
-
 		return this.renderView(json);
-
 	}
 
 	// View page with xml
@@ -659,11 +692,10 @@ public class PageController extends Controller {
 	// For Editor
 
 	private Set<Map<String, Set<String>>> getMethod(Class<?>... params) {
-		Set<Map<String, Set<String>>> metodos = new HashSet<>();
+		Set<Map<String, Set<String>>> methods = new HashSet<>();
 		for (Class<?> c : params) {
 			for (Method method : c.getDeclaredMethods()) {
 				if (!method.getName().contains("lambda")) {
-					Map<String, Set<String>> m = new HashMap<>();
 					Set<String> mm = new HashSet<>();
 					for (Parameter param : method.getParameters()) {
 						int i = param.toString().lastIndexOf(".");
@@ -672,18 +704,17 @@ public class PageController extends Controller {
 						else
 							mm.add(param.toString());
 					}
-					m.put(method.getName(), mm);
-					metodos.add(m);
+					methods.add(Map.of(method.getName(), mm));
 				}
 			}
 		}
-		return metodos;
+		return methods;
 	}
 
 	public Response actionMetodosCore() {
-		Set<Map<String, Set<String>>> metodos = getMethod(Core.class, QueryHelper.class);
+		final var methods = getMethod(Core.class, QueryHelper.class);
 		this.format = Response.FORMAT_JSON;
-		return this.renderView(Core.toJson(metodos));
+		return this.renderView(Core.toJson(methods));
 	}
 
 	public Response actionListDomains() {
@@ -761,7 +792,7 @@ public class PageController extends Controller {
 				String contextName = Core.getDeployedWarName();
 				if (ac.getApplication().getExterno() == 2 && !contextName.equals(ac.getApplication().getUrl())) {
 		            String resourcePath = String.format("%s/%s.json", this.getConfig().getImageAppPath(ac), ac.getPage());
-		            json = getJsonFromHttp(resourcePath, contextName, ac.getApplication().getUrl());
+		            json = getJsonFromHttp(resourcePath, ac.getApplication().getUrl());
 		        }else
 		        	json = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac) + "/", ac.getPage() + ".json");
 			}
@@ -770,34 +801,35 @@ public class PageController extends Controller {
 		return this.renderView(json);
 	}
 	
-	private String getJsonFromHttp(String resourcePath, String contextName, String externalContextName) {
-		String json = "";
-		String url = ApplicationManager.requestUrl(Igrp.getInstance().getRequest());
-		url = url.replace(Igrp.getInstance().getRequest().getRequestURI(), String.format("/%s/%s", externalContextName,resourcePath));
+	private String getJsonFromHttp(String resourcePath, String externalContextName) {
+		String url = ApplicationManager.requestUrl(Igrp.getInstance().getRequest())
+				.replace(Igrp.getInstance().getRequest().getRequestURI(), String.format("/%s/%s", externalContextName,resourcePath));
 		Client client = ClientBuilder.newClient(); 
 		try {
 			WebTarget webTarget = client.target(url);
 			jakarta.ws.rs.core.Response response  = webTarget.request().get(); 
-			json = response.readEntity(String.class);
+			return response.readEntity(String.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
 			client.close();
 		}
-		return json;
+		return "";
 	}
 
 	public Response actionFileExists() {
 		final String fileName = Core.getParam("uri").replace("\\", File.separator);
-		final Properties p = new Properties();
 		final String version=Core.getParam("version","2.3");
 		final String basePath = this.getConfig().basePathServer() + "images" + File.separator + "IGRP" + File.separator
 				+ "IGRP"+version+ File.separator + "core" + File.separator + "formgen" + File.separator + "types"
 				+ File.separator;
 		final boolean fileExists = FileHelper.fileExists(basePath + fileName);
+
+		final Properties p = new Properties();
 		p.put("status", fileExists);
 		p.put("content", fileExists ? FileHelper.readFile(basePath, fileName) : "");
 		p.put("filename", fileName);
+
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(Core.toJson(p));
 	}

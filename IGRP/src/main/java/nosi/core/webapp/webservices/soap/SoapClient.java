@@ -36,7 +36,7 @@ public class SoapClient {
 	private Map<String, String> headers;
 	private SOAPMessage request;
 	private SOAPMessage response;
-	private List<String> errors;
+	private final List<String> errors;
 	
 	private String soapNameSpace; 
 	private String soapProtocolVersion; 
@@ -44,7 +44,7 @@ public class SoapClient {
 	private String rawEnvelopeRequest; 
 	private String rawEnvelopeResponse; 
 	
-	public static final String []DEFAULT_SOAP_NAMESPACES = {"SOAP-ENV", "env"}; 
+	private static final List<String> DEFAULT_SOAP_NAMESPACES = List.of("SOAP-ENV", "env");
 	
 	public SoapClient() {
 		errors = new ArrayList<>();
