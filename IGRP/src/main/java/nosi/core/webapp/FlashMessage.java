@@ -1,5 +1,6 @@
 package nosi.core.webapp;
 
+import java.io.Serial;
 import java.util.Map;
 
 import java.util.HashMap;
@@ -16,6 +17,7 @@ public class FlashMessage implements Serializable{
 	/**
 	 * 
 	 */
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private Message msgs;
@@ -93,8 +95,9 @@ public class FlashMessage implements Serializable{
 		/**
 		 * 
 		 */
+		@Serial
 		private static final long serialVersionUID = 1L;
-		private Map<String, ArrayList<String>> msg;
+		private final Map<String, ArrayList<String>> msg;
 		
 		public Message(){
 			this.msg = new HashMap<>();

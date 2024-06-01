@@ -124,7 +124,7 @@ public class FileHelper {
     }
 
     //Save file in a specific directory
-    public static boolean save(String path, String fileName, String data, String encodeIn, String encodeOut) throws IOException {
+    public static boolean save(String path, String fileName, String data, String encodeIn) throws IOException {
         boolean isSaved = true;
         String fName = path + (fileName != null ? (File.separator + fileName) : "");
         File file = new File(fName);
@@ -144,7 +144,7 @@ public class FileHelper {
 
     //Save file in a specific directory
     public static boolean save(String path, String fileName, String data) throws IOException {
-        return FileHelper.save(path, fileName, data, null, null);
+        return FileHelper.save(path, fileName, data, null);
     }
 
     //Write data using default encode UTF-8
@@ -333,10 +333,10 @@ public class FileHelper {
 
     public static boolean saveFilesJava(String path, String page, String[] content, String encodeIn, String encodeOut) throws IOException {
     	String pageDelegatePath = String.format("%spagedelegate", path.substring(0, path.lastIndexOf("pages")));
-        return FileHelper.save(path, String.format("%s.java", page), content[0], encodeIn, encodeOut) && // Save Model;
-                FileHelper.save(path, String.format("%sView.java", page), content[1], encodeIn, encodeOut) && //Save View
-                FileHelper.save(path, String.format("%sController.java", page), content[2], encodeIn, encodeOut) && // Save Controller
-                (content.length == 3 || FileHelper.save(pageDelegatePath, String.format("I%sDelegate.java", page), content[3], encodeIn, encodeOut)); // Save Page Delegate
+        return FileHelper.save(path, String.format("%s.java", page), content[0], encodeIn) && // Save Model;
+                FileHelper.save(path, String.format("%sView.java", page), content[1], encodeIn) && //Save View
+                FileHelper.save(path, String.format("%sController.java", page), content[2], encodeIn) && // Save Controller
+                (content.length == 3 || FileHelper.save(pageDelegatePath, String.format("I%sDelegate.java", page), content[3], encodeIn)); // Save Page Delegate
     }
 
     public static boolean saveFilesJava(String path, String page, Part[] content, String encodeIn, String encodeOut) throws IOException {

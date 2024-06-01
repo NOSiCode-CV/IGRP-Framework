@@ -182,7 +182,7 @@ public class Controller {
         this.view.addToPage(this.view.addFieldToFormHidden());
         String content = this.view.getPage().renderContent(false);
         content = BPMNButton.removeXMLButton(content);
-        XMLWritter xml = new XMLWritter("rows", this.getConfig().getLinkPageXsl(ac), "utf-8");
+        XMLWritter xml = new XMLWritter("rows", this.getConfig().getLinkPageXsl(ac));
         xml.addXml(this.getConfig().getHeader(v,ac));
         xml.startElement("content");
         xml.writeAttribute("type", "");

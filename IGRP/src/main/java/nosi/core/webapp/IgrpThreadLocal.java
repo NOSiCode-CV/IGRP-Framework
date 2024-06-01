@@ -5,7 +5,7 @@ package nosi.core.webapp;
  */
 public class IgrpThreadLocal {
 	
-	private ThreadLocal<Igrp> t;
+	private final ThreadLocal<Igrp> t;
 	
 	public IgrpThreadLocal() {
 		t = new ThreadLocal<>();

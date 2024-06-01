@@ -28,8 +28,6 @@ public class DomXML {
 	public Document extractXml(String xml) {
 		try {
 			DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
-			//df.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
-			//df.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); // compliant
 			DocumentBuilder builder = df.newDocumentBuilder();	
 			InputSource src = new InputSource();
 			src.setCharacterStream(new StringReader(xml.replace("&nbsp;", " ")));

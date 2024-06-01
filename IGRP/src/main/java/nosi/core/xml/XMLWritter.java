@@ -26,7 +26,7 @@ public class XMLWritter {
         this.xmlConstruct = new StringBuilder();
     }
 
-    public XMLWritter(String rootElement, String xslPath, String contentType) {
+    public XMLWritter(String rootElement, String xslPath) {
         this();
         final String xslPathResolved = this.resolvePath(xslPath);
         this.xmlConstruct.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");

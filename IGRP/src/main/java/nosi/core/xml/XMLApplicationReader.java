@@ -1,5 +1,6 @@
 package nosi.core.xml;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -16,6 +17,7 @@ public class XMLApplicationReader implements Serializable{
 	/**
 	 * 
 	 */
+	@Serial
 	private static final long serialVersionUID = 1L;
 	private List<Application> row;
 

@@ -46,7 +46,7 @@ public class XMLTransform {
 
 	//Generate completed XML for Page
 	public String genXML(String xmlContent,Action page,String typeContent,String conectionName,String schemaName,String tableName) {
-		XMLWritter xml = new XMLWritter("rows", page.getPage()+".xsl", "utf-8");
+		XMLWritter xml = new XMLWritter("rows", page.getPage()+".xsl");
 		IHeaderConfig config = new IHeaderConfig() {
 			@Override
 			public String getPackageInstance(){
