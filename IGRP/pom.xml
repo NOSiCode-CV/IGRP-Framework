@@ -89,10 +89,9 @@
 		<!-- JavaDev Underscore Version: Transform JSON To XML Preserving the
 		order of the elements - needed to invite users LDAP-->
       <javadev.underscore.version>1.97</javadev.underscore.version>
-	  <jakarta.validation.version>3.0.2</jakarta.validation.version>
+
 		<!-- Activiti BPMN -->
-      <activiti.bpmn.model.version>6.0.0</activiti.bpmn.model.version>
-      <activiti.bpmn.converter.version>6.0.0</activiti.bpmn.converter.version>
+       <activiti.bpmn.converter.version>7.1.0.M6</activiti.bpmn.converter.version>
 
 		<!-- Flyway Migration API & Docker PostgreSQL -->
 
@@ -140,20 +139,10 @@
 		    <artifactId>validation-api</artifactId>
 		    <version>2.0.1.Final</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api-->
-		<dependency>
-		    <groupId>jakarta.validation</groupId>
-		    <artifactId>jakarta.validation-api</artifactId>
-		    <version>${jakarta.validation.version}</version>
-		</dependency>
 
-	   
-      <dependency>
-         <groupId>jakarta.servlet</groupId>
-         <artifactId>jakarta.servlet-api</artifactId>
-         <version>6.0.0</version>
-      </dependency>
-		<!-- TO BE REPLACED https://mvnrepository.com/artifact/org.dom4j/dom4j -->
+
+
+       <!-- TO BE REPLACED https://mvnrepository.com/artifact/org.dom4j/dom4j -->
       <dependency>
          <groupId>org.dom4j</groupId>
          <artifactId>dom4j</artifactId>
@@ -271,12 +260,12 @@
 	  	</dependency>
 		<!-- END Database Dependencies -->
 
-		<!-- Jersey Dependencies -->
+		<!-- Jersey Dependencies
       <dependency>
          <groupId>org.glassfish.jersey.core</groupId>
          <artifactId>jersey-client</artifactId>
          <version>${jersey.version}</version>
-      </dependency>
+      </dependency>-->
 		<!--
 		https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-server
 		<dependency>
@@ -299,18 +288,18 @@
 		<version>${jersey.version}</version>
 		</dependency>-->
 		<!--
-		https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-jackson-->
+		https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-jackson
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 		<artifactId>jersey-media-json-jackson</artifactId>
 		<version>${jersey.version}</version>
-		</dependency>
-		<!--	https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-multipart-->
+		</dependency>-->
+		<!--	https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-multipart
       <dependency>
          <groupId>org.glassfish.jersey.media</groupId>
          <artifactId>jersey-media-multipart</artifactId>
          <version>${jersey.version}</version>
-      </dependency>
+      </dependency>-->
 		<!-- End Jersey Dependencies -->
 		<!-- Mapp Class -->
       <dependency>
@@ -475,16 +464,15 @@
 		<!-- (End) Unit & Integration Test Dependencies -->
 		<!-- Provided Dependencies -->
 		<!-- For jax-rs client dependencies. (Ex: ContentDisposition.class) -->
-		<!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-bundle-jaxrs 
+		<!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-bundle-jaxrs
       <dependency>
          <groupId>org.apache.cxf</groupId>
-         <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+         <artifactId>cxf-core</artifactId>
          <version>${cxf.rt.frontend.jaxrs.version}</version>
-         <scope>provided</scope>
       </dependency>-->
 		<!-- Activiti BPMN -->
 		<!--
-		https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-converter -->
+		https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-converter-->
       <dependency>
          <groupId>org.activiti</groupId>
          <artifactId>activiti-bpmn-converter</artifactId>
@@ -494,9 +482,17 @@
                <groupId>com.fasterxml.jackson.core</groupId>
                <artifactId>jackson-core</artifactId>
             </exclusion>
+             <exclusion>
+                 <groupId>com.fasterxml.jackson.core</groupId>
+                 <artifactId>jackson-databind</artifactId>
+             </exclusion>
+             <exclusion>
+                 <groupId>com.fasterxml.jackson.core</groupId>
+                 <artifactId>jackson-annotations</artifactId>
+             </exclusion>
          </exclusions>
       </dependency>
-		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-model -->
+		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-model
       <dependency>
          <groupId>org.activiti</groupId>
          <artifactId>activiti-bpmn-model</artifactId>
@@ -507,12 +503,12 @@
   				<artifactId>jackson-databind</artifactId>
             </exclusion>
             <exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-core</artifactId>
-				</exclusion>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+            </exclusion>
          </exclusions>
          
-      </dependency>
+      </dependency>-->
        <!-- https://mvnrepository.com/artifact/org.apache.tomee/tomee-jaxrs-->
        <dependency>
            <groupId>org.apache.tomee</groupId>
@@ -521,6 +517,12 @@
            <scope>provided</scope>
        </dependency>
 
+       <!-- https://mvnrepository.com/artifact/org.apache.tomee/jakartaee-api -->
+       <dependency>
+           <groupId>org.apache.tomee</groupId>
+           <artifactId>jakartaee-api</artifactId>
+           <version>9.1.1</version>
+       </dependency>
 
    </dependencies>
    <build>

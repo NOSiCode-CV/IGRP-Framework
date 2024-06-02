@@ -54,21 +54,13 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		if (Core.isNotNull(link)) {
 			RestRequest request = this.getRestRequest();
 			request.setBase_url("");
-			Response response = request.get(link);
+			//TODO: must check for errors. To be review this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			String response = request.getString(link);
 			if (response != null) {
-				String contentResp = "";
-				try {
-					contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				if (response.getStatus() == 200) {
-					process = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(contentResp,
+
+					process = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(response,
 							ProcessDefinitionService.class);
-				} else {
-					this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
-				}
-				response.close();
+
 			}
 		}
 		return process;
