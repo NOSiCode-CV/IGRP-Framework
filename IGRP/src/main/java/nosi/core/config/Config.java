@@ -229,10 +229,10 @@ public class Config {
     }
 
     public Map<String, String> getVersions() {
-        final Map<String, String> versions = new HashMap<>();
-        versions.put("2.3", "2.3");
-        versions.put("2.4", "2.4");
-        return versions;
+        return Map.of(
+                "2.3", "2.3",
+                "2.4", "2.4"
+        );
     }
 
     public String getLinkPageXsl(Action ac) {
@@ -249,28 +249,30 @@ public class Config {
         return this.getRootPaht() + "images" + SEPARATOR_FOR_HTTP + "IGRP" + SEPARATOR_FOR_HTTP + "IGRP" + version + SEPARATOR_FOR_HTTP + "app" + SEPARATOR_FOR_HTTP + app.toLowerCase() + SEPARATOR_FOR_HTTP + page.toLowerCase();
     }
 
-
-
-
     public String getDefaultPageController(String app, String title) {
-        return "package nosi.webapps." + app.toLowerCase() + ".pages.defaultpage;\n\n"
-                + "import nosi.webapps.igrp.pages.home.HomeAppView;\n"
-                + "import nosi.webapps.igrp.dao.Application;\n"
-                + "import java.io.IOException;\n"
-                + "import nosi.core.webapp.Response;\n"
-                + "import nosi.core.webapp.Controller;\n\n"
-                + "public class DefaultPageController extends Controller {	\n"
-                + "\tpublic Response actionIndex() throws IOException{\n"
-                + "\tApplication app = new Application().find().andWhere(\"dad\",\"=\",\"" + app + "\").one();\n"
-                + "\t		if(app!=null && app.getAction()!=null) {\n"
-                + "\t			return this.redirect(app.getDad().toLowerCase(),app.getAction().getPage(), \"index\");\n"
-                + "\t		}\n"
-                + "\tHomeAppView view = new HomeAppView();\n"
-                + "\tview.title = \"" + title + "\";\n"
-                + "\treturn this.renderView(view,true);\n"
-                + "\t}\n"
-                + "}";
+        return """
+           package nosi.webapps.%s.pages.defaultpage;
+           
+           import nosi.webapps.igrp.pages.home.HomeAppView;
+           import nosi.webapps.igrp.dao.Application;
+           import java.io.IOException;
+           import nosi.core.webapp.Response;
+           import nosi.core.webapp.Controller;
+           
+           public class DefaultPageController extends Controller {
+               public Response actionIndex() throws IOException {
+                   Application app = new Application().find().andWhere("dad", "=", "%s").one();
+                   if (app != null && app.getAction() != null) {
+                       return this.redirect(app.getDad().toLowerCase(), app.getAction().getPage(), "index");
+                   }
+                   HomeAppView view = new HomeAppView();
+                   view.title = "%s";
+                   return this.renderView(view, true);
+               }
+           }
+           """.formatted(app.toLowerCase(), app, title);
     }
+
 
     public String getBasePackage(String app) {
         if (app != null && !app.isEmpty())
@@ -316,22 +318,16 @@ public class Config {
 
     public String getBasePathServerXsl() {
 
-        String appLinkImage;
-
-        appLinkImage = this.getLinkImgBase();
-
-        appLinkImage = appLinkImage + SEPARATOR_FOR_HTTP;
-
-        final StringBuilder roots = new StringBuilder();
-
         String[] paths = Igrp.getInstance().getServlet().getServletContext().getRealPath("/").split(SEPARATOR_FOR_FILESYSTEM + SEPARATOR_FOR_FILESYSTEM);
         if (paths.length <= 1) {
             paths = Igrp.getInstance().getServlet().getServletContext().getRealPath("/").split(SEPARATOR_FOR_FILESYSTEM);
         }
+
+        StringBuilder roots = new StringBuilder();
         for (int i = 0; i < paths.length - 1; i++) {
             roots.append(paths[i]).append(SEPARATOR_FOR_HTTP);
         }
-        roots.append(appLinkImage);
+        roots.append(this.getLinkImgBase()).append(SEPARATOR_FOR_HTTP);
 
         return roots.toString();
     }
