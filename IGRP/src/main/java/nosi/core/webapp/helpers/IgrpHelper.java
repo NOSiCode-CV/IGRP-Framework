@@ -1,5 +1,6 @@
 package nosi.core.webapp.helpers;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
@@ -36,42 +37,45 @@ public final class IgrpHelper {
 	}
 
 	// Help to convert String[] parameters to any Java primitive type
-	public static Object convertToArray(String []array, String primitiveType){
-		switch(primitiveType){
-			case "int":{ 
-				int []result = new int[array.length];
-				for(int i = 0; i < array.length; i++)
+	public static Object convertToArray(String[]array, String primitiveType){
+		return switch(primitiveType){
+			case "int" -> {
+				int[] result = new int[array.length];
+				for (int i = 0; i < array.length; i++) {
 					result[i] = Integer.parseInt(array[i]);
-				return result;
+				}
+				yield result;
 			}
-			case "float": {
-				float []result = new float[array.length];
-				for(int i = 0; i < array.length; i++)
+			case "float" -> {
+				float[] result = new float[array.length];
+				for (int i = 0; i < array.length; i++) {
 					result[i] = Float.parseFloat(array[i]);
-				return result;
+				}
+				yield result;
 			}
-			case "double": {
-				double []result = new double[array.length];
-				for(int i = 0; i < array.length; i++)
+			case "double" -> {
+				double[] result = new double[array.length];
+				for (int i = 0; i < array.length; i++) {
 					result[i] = Double.parseDouble(array[i]);
-				return result;
+				}
+				yield result;
 			}
-			case "short": {
-				short []result = new short[array.length];
-				for(int i = 0; i < array.length; i++)
+			case "short" -> {
+				short[] result = new short[array.length];
+				for (int i = 0; i < array.length; i++) {
 					result[i] = Short.parseShort(array[i]);
-				return result;
+				}
+				yield result;
 			}
-			case "long":{
-				long []result = new long[array.length];
-				for(int i = 0; i < array.length; i++)
+			case "long" -> {
+				long[] result = new long[array.length];
+				for (int i = 0; i < array.length; i++) {
 					result[i] = Long.parseLong(array[i]);
-				return result;
+				}
+				yield result;
 			}
-			case "boolean": break;
-			default:
-        }
-		return array; // default purpose ...
+			default -> array;
+        };
 	}
 	
 
@@ -115,37 +119,30 @@ public final class IgrpHelper {
 		}
 		return value;
 	}
-	
-	public static Object getValueArray(Object model,String name){
-		Object value = null;
-		if(model!=null && name!=null && !name.isEmpty()){
-			String methodName = "get"+name.substring(0, 1).toUpperCase()+name.substring(1);
-			for (Method m : model.getClass().getDeclaredMethods()) {		    	
-		    	if(m.getName().equals(methodName)){
-			    	try {
-			    		
-			    		Object aux = m.invoke(model);
-			    		
-			    		if(aux != null) {
-			    			
-			    			value = aux;
-			    			
-			    			break;
-			    		}
+
+	public static Object getValueArray(Object model, String name) {
+		if (model != null && name != null && !name.isEmpty()) {
+			String methodName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
+			for (Method m : model.getClass().getDeclaredMethods()) {
+				if (m.getName().equals(methodName)) {
+					try {
+						Object aux = m.invoke(model);
+						if (aux != null)
+							return aux;
 					} catch (Exception e) {
 						e.printStackTrace();
-					}                                                                     
-		    	}
-		    }
+					}
+				}
+			}
 		}
-		return value;
+		return null;
 	}
 
 
 	/*
 	 * Errors/validation purpose (begin)
 	 * */
-	public static void setField(Object obj, java.lang.reflect.Field field, Object value) {
+	public static void setField(Object obj, Field field, Object value) {
 		if (field == null || value == null)
 			return;
 
