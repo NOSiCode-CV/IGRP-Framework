@@ -6,7 +6,6 @@ import nosi.core.gui.components.IGRPChart3D;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.activit.rest.entities.CustomVariableIGRP;
-import nosi.core.webapp.activit.rest.entities.HistoricTaskService;
 import nosi.core.webapp.activit.rest.entities.TaskVariables;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
@@ -70,38 +69,47 @@ public abstract class Model { // IGRP super model
 	}
 
 	public void loadFromTask(String taskId) throws IllegalArgumentException, IllegalAccessException {
-		HistoricTaskService hts = Core.getTaskHistory(taskId);
-		if (hts != null && hts.getVariables() != null) {
-			// TODO 10/05/2024 16:24 try to get this json in just one step
-			List<TaskVariables> var = hts.getVariables().stream().filter(
-					v -> v.getName().equalsIgnoreCase(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI + "_" + hts.getId()))
-					.toList();
-			String json = !var.isEmpty() ? var.get(0).getValue().toString() : "";
-			if (Core.isNotNull(json)) {
-				CustomVariableIGRP custom = new Gson().fromJson(json, CustomVariableIGRP.class);
-				if (custom.getRows() != null) {
-					String overrided = Core.getParam("overrided");
-					custom.getRows().forEach(v -> {
-						if (!v.getName().equalsIgnoreCase(BPMNConstants.PRM_RUNTIME_TASK)
-								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PROCESS_DEFINITION)
-								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_TASK_DEFINITION)
-								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_APP_ID)
-								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_APP)
-								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_TASK)
-								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_PROCESSDEFINITION)) {
-							if (overrided.equalsIgnoreCase("false")) {
-								if (Core.isNull(Core.getParam(v.getName(), false))) {
+
+		final var hts = Core.getTaskHistory(taskId);
+		if (hts == null || hts.getVariables() == null)
+			return;
+
+		final var json = hts.getVariables().stream()
+				.filter(v -> v.getName().equalsIgnoreCase(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI + "_" + hts.getId()))
+				.findFirst()
+				.map(TaskVariables::getValue)
+				.map(Object::toString)
+				.orElse("");
+
+		if (Core.isNotNull(json)) {
+			final var customVariableIGRP = new Gson().fromJson(json, CustomVariableIGRP.class);
+			if (customVariableIGRP.getRows() != null) {
+				final var override = Core.getParam("overrided");
+				final var isOverrideFalse = override.equalsIgnoreCase("false");
+				customVariableIGRP.getRows().stream()
+						.filter(v -> !isNotValidName(v.getName()))
+						.forEach(v -> {
+							if (isOverrideFalse) {
+								if (Core.isNull(Core.getParam(v.getName(), false)))
 									Core.setAttribute(v.getName(), v.getValue());
-								}
 							} else {
 								Core.setAttribute(v.getName(), v.getValue());
 							}
-						}
-					});
-				}
+						});
 			}
-			this.load();
 		}
+
+		this.load();
+	}
+
+	private boolean isNotValidName(String name) {
+		return name.equalsIgnoreCase(BPMNConstants.PRM_RUNTIME_TASK)
+			   || name.equalsIgnoreCase(BPMNConstants.PRM_PROCESS_DEFINITION)
+			   || name.equalsIgnoreCase(BPMNConstants.PRM_TASK_DEFINITION)
+			   || name.equalsIgnoreCase(BPMNConstants.PRM_APP_ID)
+			   || name.equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_APP)
+			   || name.equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_TASK)
+			   || name.equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_PROCESSDEFINITION);
 	}
 
 	public <T> List<T> loadTable(BaseQueryInterface query, Class<T> className) {
