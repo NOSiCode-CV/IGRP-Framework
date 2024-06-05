@@ -1,6 +1,13 @@
 package nosi.core.webapp;
 
 import com.google.gson.Gson;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Part;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import nosi.core.gui.components.IGRPChart2D;
 import nosi.core.gui.components.IGRPChart3D;
 import nosi.core.gui.components.IGRPSeparatorList;
@@ -19,13 +26,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.w3c.dom.NodeList;
 
 import javax.persistence.Tuple;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Part;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.ValidatorFactory;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -497,24 +497,21 @@ public abstract class Model { // IGRP super model
 			}
 		}
 	}
-	
-	private Map<String,List<Part>> getFiles(){
-		Map<String,List<Part>> list = new HashMap<>();
-		if(Core.isUploadedFiles()) {
+
+	private Map<String, List<Part>> getFiles() {
+		if (Core.isUploadedFiles()) {
 			try {
-				Collection<Part> allFiles = Igrp.getInstance().getRequest().getParts();
-				if(allFiles!=null) {
-					for(Part f:allFiles){
-						if(Core.isNotNull(f.getContentType())) {
-							list.put(f.getName().toLowerCase(), allFiles.stream().filter(file->file.getName().equals(f.getName())).collect(Collectors.toList()));
-						}
-					}
+				final var allFiles = Igrp.getInstance().getRequest().getParts();
+				if (allFiles != null) {
+					return allFiles.stream()
+							.filter(file -> Core.isNotNull(file.getContentType()))
+							.collect(Collectors.groupingBy(file -> file.getName().toLowerCase()));
 				}
 			} catch (ServletException | IOException e1) {
 				e1.printStackTrace();
 			}
 		}
-		return list;
+		return new HashMap<>(0);
 	}
 
 	/**
