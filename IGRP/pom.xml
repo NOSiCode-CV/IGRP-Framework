@@ -54,7 +54,7 @@
       <mysql.version>8.2.0</mysql.version>
       <h2.version>2.2.224</h2.version>
       <sqlserver.version>12.4.2.jre11</sqlserver.version>
-      <oracle.version>23.2.0.0</oracle.version> <!-- 23.3.0.23.09 with problem starting -->
+      <oracle.version>23.4.0.24.05</oracle.version> <!-- TESTING more than 23.3.0.23.09 with problem starting -->
 
       <model.mapper.version>3.2.0</model.mapper.version>
      
