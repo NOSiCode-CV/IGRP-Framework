@@ -225,8 +225,12 @@ public class DataSourceHelpers {
 		Object value = paramsUrl.get(param.getName().toLowerCase());
 		value = value==null?paramsUrl.get("p_"+param.getName().toLowerCase()):value;
 		String type = parameters.get(param.getName());
-		String column_name = param.getName().contains("p_")?param.getName().substring(2, param.getName().length()):param.getName();
-		type = Core.isNull(type)?parameters.get(column_name) : type; 
+		String column_name = param.getName().contains("p_")?param.getName().substring(2):param.getName();
+		type = Core.isNull(type)?parameters.get(column_name) : type;
+		if(Core.isNull(type)){
+			System.out.println("type is null of "+column_name+". Please choose this in Report Builder for "+query);
+			query.setParameter(param.getName(),Core.isNotNull(value)?value.toString():"");
+		}else
 		if(type.equals("java.math.BigDecimal")) {
 			query.setParameter(param.getName(),value!=null?new BigDecimal(value.toString()):null);
 		}else if(type.equals("java.lang.Integer")) {
@@ -236,18 +240,18 @@ public class DataSourceHelpers {
 		}else if(type.equals("java.lang.Float")){
 			query.setParameter(param.getName(),value!=null?Core.toFloat(value.toString()):null);
 		}else if(type.equals("java.lang.Character")){
-			query.setParameter(param.getName(), value!=null?(Character)value:"");
+			query.setParameter(param.getName(), value!=null? value :"");
 		}else if(type.equals("java.lang.Long")){
 			query.setParameter(param.getName(), value!=null?Core.toLong(value.toString()):null);
 		}else if(type.equals("java.lang.Short")){
 			query.setParameter(param.getName(), value!=null?Core.toShort(value.toString()):null);
 		}else if(type.equals("java.sql.Date")){
-			if((value instanceof String) && Core.isNotNull(value))
+			if(Core.isNotNull(value) && (value instanceof String))
 				query.setParameter(param.getName(),Core.ToDate(value.toString(),"yyyy-MM-dd"));
 			else
 				query.setParameter(param.getName(),"");
 		}else if(type.equals("java.sql.Timestamp")){
-			if((value instanceof String) && Core.isNotNull(value))
+			if(Core.isNotNull(value) && (value instanceof String))
 				query.setParameter(param.getName(),Core.ToTimestamp(value.toString(), "yyyy-MM-dd HH:mm:ss"));
 			else
 				query.setParameter(param.getName(),"");
