@@ -1,5 +1,6 @@
 package nosi.core.xml;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -17,6 +18,7 @@ public class XMLConfigDBReader implements Serializable{
 	/**
 	 * 
 	 */
+	@Serial
 	private static final long serialVersionUID = 1L;
 	private List<Config_env> row;
 	

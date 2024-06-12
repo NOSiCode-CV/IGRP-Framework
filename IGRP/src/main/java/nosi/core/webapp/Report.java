@@ -47,8 +47,8 @@ public class Report extends Controller{
 	public static final String PDF_PRV = "2"; //PDF Preview
 	public static final String PDF_SAVE = "3"; //PDF Save to Clob
 	
-	private Map<String,Object> params = new HashMap<>();
-	private StringBuilder qStr = new StringBuilder();
+	private final Map<String,Object> params = new HashMap<>();
+	private final StringBuilder qStr = new StringBuilder();
 	private String link;
 	private String contraProva;	
 

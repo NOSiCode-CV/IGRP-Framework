@@ -32,7 +32,7 @@ import nosi.webapps.igrp.dao.TaskComponent;
 
 public class BPMNTimeLine {
 	private int countTask=0;
-	private RuntimeTask runtimeTask;
+	private final RuntimeTask runtimeTask;
 	private int order = 0;
 	List<TaskTimeLine> taskTimeline;
 	

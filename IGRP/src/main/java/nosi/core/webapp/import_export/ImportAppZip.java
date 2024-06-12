@@ -24,7 +24,7 @@ import nosi.webapps.igrp.dao.Application;
  */
 public class ImportAppZip extends ImportAppJar{
 
-	private Map<String,FileImportAppOrPage> filesConfigPagePlsql = new HashMap<>();
+	private final Map<String,FileImportAppOrPage> filesConfigPagePlsql = new HashMap<>();
 	List<FileImportAppOrPage> filesToCompile = new ArrayList<>();
 	
 	public ImportAppZip(Part fileName){

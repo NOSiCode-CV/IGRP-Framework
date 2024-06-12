@@ -51,7 +51,7 @@ public enum HttpStatus {
 	STATUS_415(415, "Unsupported Media Type"),
 	STATUS_416(416, "Requested range unsatisfiable"),
 	STATUS_417(417, "Expectation failed"),
-	STATUS_418(418, "I\'m a teapot"),
+	STATUS_418(418, "I am a teapot"),
 	STATUS_421(421, "Misdirected Request"),
 	
 	STATUS_500(500, "Internal Server Error"),

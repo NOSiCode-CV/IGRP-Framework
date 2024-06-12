@@ -21,7 +21,7 @@ public class IGRPHome implements IHeaderConfig{
 		else if(this.type_home.equals("home-app-studio")){
 			path = this.config.getLinkXSLHomeStudio();
 		}
-		XMLWritter xml = new XMLWritter("rows", path, "dash");
+		XMLWritter xml = new XMLWritter("rows", path);
 		 xml.addXml(new Config().getHeader(this));
 		 xml.startElement("content");
 		 xml.text(":_message_reseved");

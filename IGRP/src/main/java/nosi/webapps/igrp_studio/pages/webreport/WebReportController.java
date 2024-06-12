@@ -551,7 +551,7 @@ public class WebReportController extends Controller {
 	}
 	
 	private String getReport(String contentXml,String xslPath,String contraProva,RepTemplate rt,User user, String type){
-		XMLWritter xmlW = new XMLWritter("rows", xslPath, "");
+		XMLWritter xmlW = new XMLWritter("rows", xslPath);
 		xmlW.startElement("print_report");
 			xmlW.setElement("name_app",rt.getApplication().getDad());
 			xmlW.setElement("img_app",rt.getApplication().getImg_src());

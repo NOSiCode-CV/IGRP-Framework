@@ -1,22 +1,19 @@
 package nosi.core.webapp.activit.rest.services;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.reflect.TypeToken;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import com.google.gson.reflect.TypeToken;
-
 import nosi.core.webapp.activit.rest.entities.ResourceService;
 import nosi.core.webapp.activit.rest.entities.ResourcesService;
 import nosi.core.webapp.activit.rest.request.RestRequest;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Emanuel
@@ -36,9 +33,9 @@ public class ResourceServiceRest extends GenericActivitiRest{
 				e.printStackTrace();
 			}
 			if (response.getStatus() == 200) {
-				r = (ResourceService) ResponseConverter.convertJsonToDao(contentResp, ResourceService.class);
+				r = ResponseConverter.convertJsonToDao(contentResp, ResourceService.class);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 			response.close();
 		}
@@ -66,23 +63,21 @@ public class ResourceServiceRest extends GenericActivitiRest{
 
 	public String getResourceData(String link) {
 		RestRequest request = this.getRestRequest();
-		request.setBase_url("");
-		request.setAccept_format(MediaType.APPLICATION_XML);
-		String contentResp = "";
-
-
-        try (Response response = request.get(link)) {
-			if (response != null && response.getStatus() == 200) {
+//		request.setBase_url("");
+//		request.setAccept_format(MediaType.APPLICATION_XML);
+//		String contentResp = "";
+//        try (Response response = request.get(link)) {
+//			if (response != null && response.getStatus() == 200) {
 //				InputStream entity = (InputStream) response.getEntity();
 //                contentResp = new FileHelper().convertToString(entity);
-				contentResp = response.readEntity(String.class);
-            }
-		} catch (Exception e) {
-			// Handle exception
-			e.printStackTrace();
-		}
+//				//contentResp = response.readEntity(String.class);
+//            }
+//		} catch (Exception e) {
+//			// Handle exception
+//			e.printStackTrace();
+//		}
 
-		return contentResp;
+		return request.getString(link);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -121,9 +116,9 @@ public class ResourceServiceRest extends GenericActivitiRest{
 				e.printStackTrace();
 			}
 			if (response.getStatus() == 200) {
-				resource = (ResourcesService) ResponseConverter.convertJsonToDao(contentResp, ResourcesService.class);
+				resource = ResponseConverter.convertJsonToDao(contentResp, ResourcesService.class);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 			response.close();
 		}

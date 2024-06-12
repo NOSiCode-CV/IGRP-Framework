@@ -3,9 +3,15 @@ package nosi.core.webapp.webservices.helpers;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
 
+import jakarta.ws.rs.core.HttpHeaders;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.ContentDisposition;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
@@ -25,7 +31,7 @@ import jakarta.ws.rs.core.Response;
 /**
  * @author: Emanuel Pereira
  * 26 Sep 2017
- * @param <T>
+ *
  */
 
 public class RestRequest{
@@ -66,7 +72,25 @@ public class RestRequest{
 		}
 		return null;
 	}
+	//TODO: optimize this code, testing purpose
+	public String getString(String url){
+		var authString = Credentials.getInstance().getUserName() + ":" + Credentials.getInstance().getPassword();
+		var encodedAuthString = Base64.getEncoder().encodeToString(authString.getBytes());
 
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder()
+				.header(HttpHeaders.AUTHORIZATION, "Basic " + encodedAuthString)
+				.uri(URI.create(url))
+				.build();
+
+		HttpResponse<String> response;
+		try {
+			response = client.send(request, HttpResponse.BodyHandlers.ofString());
+		} catch (IOException | InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+        return response.body();
+	}
 	public Response get(String url) {
 		try {
 			Client client = this.getConfig().bluidClient();

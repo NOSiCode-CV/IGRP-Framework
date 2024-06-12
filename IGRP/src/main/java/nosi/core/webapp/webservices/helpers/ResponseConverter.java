@@ -1,11 +1,11 @@
 package nosi.core.webapp.webservices.helpers;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+
 import java.lang.reflect.Type;
 import java.util.List;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import com.google.gson.Gson;
 
 
 /**
@@ -14,41 +14,34 @@ import com.google.gson.Gson;
  */
 public class ResponseConverter {
 
-	public static String convertDaoToJson(Object dao) {
-		Gson gson = new Gson();
-		return gson.toJson(dao);
-	}
-	
-	public static Object convertJsonToDao(String jsonResult, Class<?> dao) {
-		Object response = null;
-		try {
-			JSONObject jsonObject = new JSONObject(jsonResult);
-			Gson gson = new Gson();
-			response = gson.fromJson(jsonObject.toString(), dao);
-		} catch (JSONException ignored) {
-		}
-		return response;
-	}
-	
-	public static <T> List<? extends Object> convertJsonToListDao(String jsonResult, Type type) {
-		List<? extends Object> list = null;
-		Gson gson = new Gson();
-		list = gson.fromJson(jsonResult, type);
-		return list;
-	}
-	
-	public static <T> List<? extends Object> convertJsonToListDao(String jsonResult,String keySearch, Type type) {
-		List<? extends Object> list = null;
-		try {
-			JSONObject jsonObject = new JSONObject(jsonResult);
-			if(jsonObject.has(keySearch)) {
-				JSONArray aux = jsonObject.getJSONArray(keySearch);
-				Gson gson = new Gson();
-				list = gson.fromJson(aux.toString(), type);
-			}
-		} catch (JSONException ignored) {
-		}
-		return list;
-	}
-	
+   private ResponseConverter() {
+   }
+
+   public static String convertDaoToJson(Object dao) {
+      return new Gson().toJson(dao);
+   }
+
+   public static <T> T convertJsonToDao(String jsonResult, Class<T> dao) {
+      try {
+         return new Gson().fromJson(jsonResult, dao);
+      } catch (JsonSyntaxException ignored) {
+      }
+      return null;
+   }
+
+   public static List<?> convertJsonToListDao(String jsonResult, Type type) {
+      return new Gson().fromJson(jsonResult, type);
+   }
+
+   public static List<?> convertJsonToListDao(String jsonResult, String keySearch, Type type) {
+      try {
+         var jsonObject = JsonParser.parseString(jsonResult).getAsJsonObject();
+         if (jsonObject.has(keySearch)) {
+            var jsonArrayString = jsonObject.get(keySearch).toString();
+            return new Gson().fromJson(jsonArrayString, type);
+         }
+      } catch (Exception ignored) {
+      }
+      return null;
+   }
 }
