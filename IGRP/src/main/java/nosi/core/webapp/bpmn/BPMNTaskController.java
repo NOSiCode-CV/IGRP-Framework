@@ -310,7 +310,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		String json = "";
 		if(task.getVariables()!=null) {
 			List<TaskVariables> variav = task.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+task.getId())).collect(Collectors.toList());
-			json = (variav!=null && !variav.isEmpty())?variav.get(0).getValue().toString():"";
+			json = !variav.isEmpty() ?variav.get(0).getValue().toString():"";
 		}
 		if(Core.isNotNull(json)) {
 			CustomVariableIGRP custom = gson.fromJson(json, CustomVariableIGRP.class);
