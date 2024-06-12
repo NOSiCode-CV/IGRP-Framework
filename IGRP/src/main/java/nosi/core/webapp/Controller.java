@@ -41,7 +41,6 @@ import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -525,7 +524,7 @@ public class Controller {
             Igrp.getInstance().getCurrentController().setResponseWrapper((Response) obj);
     }
 
-    private void resolveRoute() throws IOException {
+    private void resolveRoute() {
         Igrp app = Igrp.getInstance();
         String r = Core.isNotNull(app.getRequest().getParameter("r")) ? app.getRequest().getParameter("r") : "igrp/login/login";
         r = SecurtyCallPage.resolvePage(r);
@@ -538,26 +537,28 @@ public class Controller {
             } else
                 throw new ServerErrorHttpException("The route format is invalid");
         }
-        String application = "Application: " + app.getCurrentAppName();
-        String page = "Page: " + app.getCurrentPageName();
-        String action = "Action: " + app.getCurrentActionName();
-        String controllerName = "Controller: " + "nosi.webapps." + app.getCurrentAppName().trim().toLowerCase()
-                + ".pages." + app.getCurrentPageName() + "Controller.java";
-        String viewName = "View: " + "nosi.webapps." + app.getCurrentAppName().trim().toLowerCase() + ".pages."
-                + app.getCurrentPageName() + "View.java";
-        String modelName = "Model: " + "nosi.webapps." + app.getCurrentAppName().trim().toLowerCase() + ".pages."
-                + app.getCurrentPageName() + ".java";
-        String xsl = "xsl: " + Igrp.getInstance().getServlet().getServletContext().getContextPath()
-                + "/images/IGRP/IGRP2.3/app/" + app.getCurrentAppName().trim().toLowerCase() + "/"
-                + app.getCurrentPageName().toLowerCase() + "/" + app.getCurrentPageName() + ".xsl";
-        app.getLog().addMessage(application);
-        app.getLog().addMessage(page);
-        app.getLog().addMessage(action);
-        app.getLog().addMessage(controllerName);
-        app.getLog().addMessage(viewName);
-        app.getLog().addMessage(modelName);
-        app.getLog().addMessage(xsl);
 
+        final var applicationName = "Application: " + app.getCurrentAppName();
+        final var pageName = "Page: " + app.getCurrentPageName();
+        final var actionName = "Action: " + app.getCurrentActionName();
+
+        final var currentAppNameLowerCase = app.getCurrentAppName().trim().toLowerCase();
+        final var pagesPackagePath = "nosi.webapps." + currentAppNameLowerCase + ".pages.";
+        final var controllerPath = "Controller: " + pagesPackagePath + app.getCurrentPageName() + "Controller.java";
+        final var viewPath = "View: " + pagesPackagePath + app.getCurrentPageName() + "View.java";
+        final var modelPath = "Model: " + pagesPackagePath + app.getCurrentPageName() + ".java";
+
+        final var xslPath = "xsl: " + Igrp.getInstance().getServlet().getServletContext().getContextPath()
+                            + "/images/IGRP/IGRP2.3/app/" + currentAppNameLowerCase + "/"
+                            + app.getCurrentPageName().toLowerCase() + "/" + app.getCurrentPageName() + ".xsl";
+
+        app.getLog().addMessage(applicationName);
+        app.getLog().addMessage(pageName);
+        app.getLog().addMessage(actionName);
+        app.getLog().addMessage(modelPath);
+        app.getLog().addMessage(viewPath);
+        app.getLog().addMessage(controllerPath);
+        app.getLog().addMessage(xslPath);
     }
 
     protected Object run() {
