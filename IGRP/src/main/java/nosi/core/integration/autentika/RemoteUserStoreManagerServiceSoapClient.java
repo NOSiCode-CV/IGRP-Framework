@@ -13,6 +13,7 @@ import nosi.core.integration.autentika.dto.UpdateCredentialByAdminRequestDTO;
 import nosi.core.integration.autentika.dto.UpdateCredentialRequestDTO;
 import nosi.core.integration.autentika.dto.UserClaimValuesRequestDTO;
 import nosi.core.integration.autentika.dto.UserClaimValuesResponseDTO;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.webservices.soap.SoapClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,7 +92,8 @@ public class RemoteUserStoreManagerServiceSoapClient {
 							claimDTO.setClaimUri(nsReturn.get("ax2615:claimUri") instanceof String ? (String)nsReturn.get("ax2615:claimUri") : null);
 							claimDTO.setDescription(nsReturn.get("ax2615:description") instanceof String ? (String) nsReturn.get("ax2615:description") : null);
 							claimDTO.setDialectURI(nsReturn.get("ax2615:dialectURI") instanceof String ? (String)nsReturn.get("ax2615:dialectURI") : null);
-							claimDTO.setDisplayOrder((int)nsReturn.get("ax2615:displayOrder"));
+							if(nsReturn.get("ax2615:displayOrder")!=null)
+								claimDTO.setDisplayOrder((int) nsReturn.get("ax2615:displayOrder"));
 							claimDTO.setDisplayTag(nsReturn.get("ax2615:displayTag") instanceof String ? (String)nsReturn.get("ax2615:displayTag") : null);
 							claimDTO.setRegEx(nsReturn.get("ax2615:regEx") instanceof String ? (String)nsReturn.get("ax2615:regEx") : null);
 							claimDTO.setRequired((boolean)nsReturn.get("ax2615:required"));
