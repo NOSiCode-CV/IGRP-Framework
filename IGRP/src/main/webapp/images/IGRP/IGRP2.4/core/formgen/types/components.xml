@@ -471,6 +471,12 @@
 			<label>Select</label>
 		</item>
 		<item>
+			<icon type='fa'>caret-square-o-down</icon>
+			<type>select2</type>
+			<name>select2</name>
+			<label>Select2</label>
+		</item>
+		<item>
 			<icon type='fa'>sliders</icon>
 			<type>range</type>
 			<name>range</name>
