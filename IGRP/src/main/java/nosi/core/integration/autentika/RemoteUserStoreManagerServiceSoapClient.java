@@ -96,8 +96,10 @@ public class RemoteUserStoreManagerServiceSoapClient {
 								claimDTO.setDisplayOrder((int) nsReturn.get("ax2615:displayOrder"));
 							claimDTO.setDisplayTag(nsReturn.get("ax2615:displayTag") instanceof String ? (String)nsReturn.get("ax2615:displayTag") : null);
 							claimDTO.setRegEx(nsReturn.get("ax2615:regEx") instanceof String ? (String)nsReturn.get("ax2615:regEx") : null);
-							claimDTO.setRequired((boolean)nsReturn.get("ax2615:required"));
-							claimDTO.setSupportedByDefault((boolean)nsReturn.get("ax2615:supportedByDefault"));
+							if(nsReturn.get("ax2615:required")!=null)
+								claimDTO.setRequired((boolean)nsReturn.get("ax2615:required"));
+							if(nsReturn.get("ax2615:supportedByDefault")!=null)
+								claimDTO.setSupportedByDefault((boolean)nsReturn.get("ax2615:supportedByDefault"));
 							claimDTO.setValue(nsReturn.get("ax2615:value") instanceof String ? (String)nsReturn.get("ax2615:value") : null);
 							userClaimValuesResponseDTO.getClaimDTOs().add(claimDTO);
 						}
