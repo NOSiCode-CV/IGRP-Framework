@@ -1,19 +1,9 @@
 package nosi.webapps.igrp.dao;
 
-import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import nosi.core.gui.components.IGRPLink;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Emanuel
@@ -50,8 +40,12 @@ public class TipoDocumentoEtapa extends IGRPBaseActiveRecord<TipoDocumentoEtapa>
 	private IGRPLink link;
 	@Transient
 	private Integer fileId;
-	
-	public TipoDocumentoEtapa(String processId, String taskId,String tipo, int status, int required, TipoDocumento tipoDocumento) {
+	//User that added the document
+	@Transient
+	private String user;
+
+
+	public TipoDocumentoEtapa(String processId, String taskId, String tipo, int status, int required, TipoDocumento tipoDocumento) {
 		this();
 		this.tipo = tipo;
 		this.processId = processId;
@@ -153,7 +147,13 @@ public class TipoDocumentoEtapa extends IGRPBaseActiveRecord<TipoDocumentoEtapa>
 				+ ", status=" + status + ", required=" + required + ", tipoDocumento=" + tipoDocumento
 				+ ", repTemplate=" + repTemplate + ", link=" + link + ", fileId=" + fileId + "]";
 	}
-	
-	
 
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
 }
