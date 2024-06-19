@@ -1,5 +1,4 @@
-<xsl:stylesheet version="1.0"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
     <xsl:template name="igrp-form-field" mode="igrp-form-field" match="*">
         <xsl:param name="change" select="''"/>
@@ -8,13 +7,13 @@
         <xsl:param name="maxlength" select="''"/>
         <xsl:param name="show-label" select="1"/>
         <xsl:variable name="type" select="@type"/>
-        
+
         <xsl:if test="$show-label = 1">
             <label for="{@name}" class="form-label">
                 <xsl:value-of select="label"/>
             </label>
         </xsl:if>
-        
+
         <input type="{$type}" value="{value}" class="form-control {$change} {$declabel}" inputmask="{$inputmask}" id="{@name}" name="{@name}" maxlength="{$maxlength}" placeholder="{@placeholder}">
             <xsl:call-template name="setAttributes">
                 <xsl:with-param name="field" select="."/>
@@ -34,23 +33,14 @@
         <xsl:param name="show-label" select="1"/>
 
         <xsl:variable name="type" select="@type"/>
-        
+
         <xsl:if test="$show-label = 1">
             <label for="{@name}" class="form-label">
                 <xsl:value-of select="label"/>
             </label>
         </xsl:if>
 
-        <input 
-            id="{@name}" 
-            name="{@name}" 
-            type="file" 
-            value="{value}" 
-            target-rend="{$targetrend}" 
-            class="form-control {$rendvalue} {$change} {$declabel}" 
-            placeholder="{@placeholder}"
-            accept="{$accept}"
-        >
+        <input id="{@name}" name="{@name}" type="file" value="{value}" target-rend="{$targetrend}" class="form-control {$rendvalue} {$change} {$declabel}" placeholder="{@placeholder}" accept="{$accept}">
             <xsl:if test="$multiple = 'true'">
                 <xsl:attribute name="multiple">
                     <xsl:text>true</xsl:text>
@@ -72,38 +62,58 @@
         <xsl:param name="desclabel" select="''"/>
         <xsl:param name="load_service_data" select="''"/>
         <xsl:param name="show-label" select="1"/>
+        <xsl:param name="library" select="'choices'"/>
 
         <xsl:variable name="type" select="@type"/>
-        
+
         <xsl:if test="$show-label = 1">
             <label for="{$parent-id}_{name()}" class="form-label">
                 <xsl:value-of select="label"/>
             </label>
         </xsl:if>
-        
-        <select class="form-control {$change} {$desclabel}" data-choices="" id="{$parent-id}_{name()}" name="{@name}" placeholder="{@placeholder}">
+
+        <select class="form-control {$change} {$desclabel}" id="{$parent-id}_{name()}" name="{@name}" placeholder="{@placeholder}">
+
+            <xsl:choose>
+                <xsl:when test="$library = 'select2'">
+                    <xsl:attribute name="data-select2">true</xsl:attribute>
+                </xsl:when>
+                <xsl:when test="$library = 'default'">
+                    <xsl:attribute name="data-select">true</xsl:attribute>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:attribute name="data-choices">true</xsl:attribute>
+                </xsl:otherwise>
+            </xsl:choose>
+
             <xsl:call-template name="setAttributes">
                 <xsl:with-param name="field" select="."/>
             </xsl:call-template>
+
             <xsl:if test="$load_service_data = 'true'">
                 <xsl:attribute name="load_service_data"></xsl:attribute>
             </xsl:if>
+
             <xsl:if test="$tags = 'true'">
                 <xsl:attribute name="tags">true</xsl:attribute>
             </xsl:if>
+
             <xsl:if test="$multiple = 'true'">
                 <xsl:attribute name="multiple">true</xsl:attribute>
             </xsl:if>
+
             <xsl:for-each select="list/option">
                 <option value="{value}" label="{text}">
                     <xsl:if test="@selected='true'">
                         <xsl:attribute name="selected">selected</xsl:attribute>
                     </xsl:if>
+
                     <span>
                         <xsl:value-of select="text"/>
                     </span>
                 </option>
             </xsl:for-each>
+
         </select>
     </xsl:template>
 
@@ -212,7 +222,7 @@
                 <xsl:value-of select="label"/>
             </label>
         </xsl:if>
-        
+
         <div class="input-group">
             <input type="text" value="{value}" class="form-control gen-lookup {$change} {$declabel}" id="{$input-id}" name="{@name}" maxlength="{$maxlength}" placeholder="{@placeholder}">
                 <xsl:call-template name="setAttributes">
@@ -244,7 +254,7 @@
         <xsl:param name="switch" select="@switch"/>
         <xsl:param name="child-size" select="'12'"/>
         <xsl:variable name="type" select="@type"/>
-        
+
         <div class="form-group checkboxlist clear">
             <xsl:if test="$show-label = 1">
                 <label class="form-label">
@@ -254,7 +264,7 @@
             <div class="row m-0">
                 <xsl:for-each select="list/option">
                     <div class="form-check checkboxlist col-md-{$child-size}">
-                        <input type="checkbox" id="{../../@name}-{position()}" name="{../../@name}" value="{value}" class="form-check-input checkboxlist {$change}" label="{text}" >
+                        <input type="checkbox" id="{../../@name}-{position()}" name="{../../@name}" value="{value}" class="form-check-input checkboxlist {$change}" label="{text}">
                             <xsl:call-template name="setAttributes">
                                 <xsl:with-param name="field" select="../.."/>
                             </xsl:call-template>
@@ -272,7 +282,7 @@
         </div>
 
     </xsl:template>
-    
+
     <xsl:template name="igrp-form-checkbox-field" mode="igrp-form-checkbox-field" match="*">
         <xsl:param name="change" select="@change"/>
         <xsl:param name="required" select="@required"/>
@@ -281,22 +291,22 @@
         <xsl:param name="maxlength" select="@maxlength"/>
         <xsl:param name="switch" select="@switch"/>
         <xsl:variable name="type" select="@type"/>
-        
 
-        <div class="form-check {$switch}"  style="margin-top: 35px;">
+
+        <div class="form-check {$switch}" style="margin-top: 35px;">
             <input id="{@name}" type="checkbox" name="{@name}" value="1" class="checkbox form-check-input ${change}" label="{label}">
-            <xsl:call-template name="setAttributes">
-                <xsl:with-param name="field" select="."/>
-            </xsl:call-template>
-            <xsl:if test="value = '1'">
-                <xsl:attribute name="checked">checked</xsl:attribute>
-            </xsl:if>
+                <xsl:call-template name="setAttributes">
+                    <xsl:with-param name="field" select="."/>
+                </xsl:call-template>
+                <xsl:if test="value = '1'">
+                    <xsl:attribute name="checked">checked</xsl:attribute>
+                </xsl:if>
             </input>
             <label class="form-check-label " for="{@name}">
                 <xsl:value-of select="label"/>
             </label>
         </div>
-   
+
 
     </xsl:template>
 
