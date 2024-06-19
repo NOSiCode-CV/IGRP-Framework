@@ -310,7 +310,7 @@ public class ImportArquivoController extends Controller {
 				ResultSet r = Core.executeQuery(
 						new Config_env().find().andWhere("application", "=", Core.toInt(model.getAplicacao_script()))
 								.andWhere("id", "=", Core.toInt(model.getData_source())).one(),
-						FileHelper.convertToString(file));
+						new FileHelper().convertToString(file));
 				if (r.hasError()) {
 					Core.setMessageError(r.getError());
 				} else {

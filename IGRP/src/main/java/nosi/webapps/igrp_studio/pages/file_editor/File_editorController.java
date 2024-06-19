@@ -43,12 +43,12 @@ public class File_editorController extends Controller {
 		model.setLink_doc(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=file_editor"));
 		model.setJson_data("igrp_studio", "File_editor", "get-json-all-folder").addParam("task_id", Core.getParam("p_task_id")).addParam("env_fk", Core.getParam("p_env_fk"));
 		model.setSave_url("igrp_studio", "File_editor", "save-and-compile-file").addParam("env_fk", Core.getParam("p_env_fk"));
+
 		String type = Core.getParam("type");
-		String path = Core.getParam("path");
 		String name = Core.getParam("name");
 		String file_type = Core.getParam("file_type");
-		
-		path = URLDecoder.decode(path, "UTF-8");
+		String path = URLDecoder.decode(Core.getParam("path"), StandardCharsets.UTF_8);
+
 		if(Core.isNotNullMultiple(type,path,name)) {
 			return this.saveFolderFile(type,path,name,file_type);
 		}
@@ -72,7 +72,7 @@ public class File_editorController extends Controller {
 		if(type.compareTo("file")==0) {
 			FileHelper.save(path, name, FileJavaType.createFile(this.convertToPackageName(path),name.substring(0, name.indexOf(".")),file_type));
 			dirs.put("name", name);
-			dirs.put("path", this.getConfig().getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ URLEncoder.encode(path+File.separator+name,"UTF-8")));
+			dirs.put("path", this.getConfig().getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ URLEncoder.encode(path+File.separator+name, StandardCharsets.UTF_8)));
 			dirs.put("fileName", path+File.separator+name);
 		}
 
@@ -143,7 +143,7 @@ public class File_editorController extends Controller {
 				}
 			}
 		}
-		Collections.sort(files,FileEditor.ORDER_BY_NAME);
+		files.sort(FileEditor.ORDER_BY_NAME);
 		Map<String, Object> result = new HashMap<>();
 		result.put("dir_name", dir.getName());
 		result.put("dir_path", URLEncoder.encode(dir.getPath(), StandardCharsets.UTF_8));
@@ -179,8 +179,8 @@ public class File_editorController extends Controller {
 			Part javaCode = Core.getFile("p_package");
 			String fileName = Core.getParam("fileName");
 			if(Core.isNotNull(fileName) && javaCode!=null) {
-				fileName = URLDecoder.decode(fileName, "UTF-8");	
-				String content = FileHelper.convertToString(javaCode);
+				fileName = URLDecoder.decode(fileName, StandardCharsets.UTF_8);
+				String content = new FileHelper().convertToString(javaCode);
 				FileHelper.save(fileName, null, content);
 				if(fileName.endsWith(".java")) {
 					Compiler compiler = new Compiler();

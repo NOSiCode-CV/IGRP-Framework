@@ -19,12 +19,12 @@ import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
 
 public class IGRPLogin extends IGRPForm{
-	protected Config config = new Config();
+	protected final Config config = new Config();
 
 	public IGRPLogin(String tag_name,String title) {
 		super(tag_name,title);
 		this.properties = null;//No properties
-		this.xml = new XMLWritter("rows",this.config.getLinkXSLLogin(), "");	
+		this.xml = new XMLWritter("rows",this.config.getLinkXSLLogin());
 		this.xml.setElement("template", ConfigApp.getInstance().getMainSettings().getProperty(ConfigCommonMainConstants.IGRP_LOGIN_TEMPLATE.value()));
 		this.xml.setElement("link_img", this.config.getLinkImg(Config.DEFAULT_V_PAGE));
 		this.xml.startElement("content");

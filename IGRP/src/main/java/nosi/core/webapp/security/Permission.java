@@ -32,7 +32,7 @@ public class Permission {
 	
 	public boolean hasApp1PagPermition(String app, String appP, String page, String action){ // check permission on app 
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){ 
-			if(PagesScapePermission.PAGES_SHAREDS.contains((appP + "/" + page + "/" + action).toLowerCase())) 
+			if(PagesScapePermission.getPagesShared().contains((appP + "/" + page + "/" + action).toLowerCase()))
 				return true; 
 			if(app.equals(appP) || appP.equals("igrp") || appP.equals("igrp_studio")) 
 				return (new Application().getPermissionApp(app) && new Menu().getPermissionMen(appP, page)); 
@@ -42,7 +42,7 @@ public class Permission {
 				return new Share().getPermissionPage(app,appP,new Action().findByPage(page, appP).getId()); 
 			}
 		}
-		return PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains((appP+"/"+page+"/"+action).toLowerCase());
+		return PagesScapePermission.getPagesWithoutLogin().contains((appP+"/"+page+"/"+action).toLowerCase());
 	}
 	
 	public boolean hasMenuPagPermition(HttpServletRequest request,String app, String appP, String page, String action){ // check permission on app with request
@@ -52,7 +52,7 @@ public class Permission {
 		userCI.init(request);
 		
 		if(userCI.isAuthenticated()){ 
-			if(PagesScapePermission.PAGES_SHAREDS.contains((appP + "/" + page + "/" + action).toLowerCase())) 
+			if(PagesScapePermission.getPagesShared().contains((appP + "/" + page + "/" + action).toLowerCase()))
 				return true; 
 			if(appP.equals("tutorial")) // default page purpose 
 				return true; 
@@ -63,7 +63,7 @@ public class Permission {
 						&& new Share().getPermissionPage(app,appP,new Action().findByPage(page, appP).getId()); 
 			}
 		}
-		return PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains((appP+"/"+page+"/"+action).toLowerCase());
+		return PagesScapePermission.getPagesWithoutLogin().contains((appP+"/"+page+"/"+action).toLowerCase());
 	}
 	
 	public  boolean isPermission(String transaction){
@@ -77,34 +77,26 @@ public class Permission {
 		Profile prof = new Profile();
 		if(app!=null && Igrp.getInstance().getRequest().getSession()!=null){			
 			int id_user = 0;
-			
 			try {// eliminar 
 				id_user = Core.getCurrentUser().getIdentityId();
-			}catch(Exception ignored) {
-				
-			}
-			
+			}catch(Exception ignored) {}
 			if(app.getPermissionApp(app.getId())){
 				prof = prof.getByUserPerfil(id_user,app.getId());
+				ApplicationPermition appP = this.getApplicationPermition(dad);
 				if(prof!=null){
 					 org.setId(prof.getOrganization().getId());
 					 profType.setId(prof.getProfileType().getId());
+					if(appP==null) {
+						appP = new ApplicationPermition(app.getId(),dad,  org.getId(),profType.getId(), prof.getOrganization() != null ? prof.getOrganization().getCode():null, prof.getProfileType() != null ?prof.getProfileType().getCode():null);
+					}
+					this.setCookie(appP);
 				}
+				this.applicationPermition = appP;
 			}
-			
-				ApplicationPermition appP = this.getApplicationPermition(dad);
-				if(appP==null) {
-					 appP = new ApplicationPermition(app.getId(),dad,  org.getId(),profType.getId(),prof!=null && prof.getOrganization()!=null? prof.getOrganization().getCode():null,prof!=null && prof.getProfileType()!=null?prof.getProfileType().getCode():null);
-				}
-				this.applicationPermition = appP; 
-				this.setCookie(appP); 
 		}
-		
 		((User)Igrp.getInstance().getUser().getIdentity()).setAplicacao(app);
 		((User)Igrp.getInstance().getUser().getIdentity()).setProfile(profType);
 		((User)Igrp.getInstance().getUser().getIdentity()).setOrganica(org);
-		
-		
 	}
 	
 	public void setCookie(ApplicationPermition appP) {

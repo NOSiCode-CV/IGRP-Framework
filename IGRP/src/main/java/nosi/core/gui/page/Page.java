@@ -82,7 +82,7 @@ public class Page{
 		else if(ac!=null)
 			path_xsl = new Config().getLinkPageXsl(ac);
 			
-		XMLWritter xml = new XMLWritter("rows", path_xsl, "utf-8");
+		XMLWritter xml = new XMLWritter("rows", path_xsl);
 		xml.addXml(new Config().getHeader(this.getView(),ac));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");

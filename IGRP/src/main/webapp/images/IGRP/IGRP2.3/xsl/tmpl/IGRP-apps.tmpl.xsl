@@ -35,7 +35,14 @@
                                     <div class="col-md-3 col-sm-6 col-xs-12 apps-col">
                                         <a href="{link}" class="igrp-app-block clear clearfix" search-content="{title} - {description}">
                                             <div class="app-img">
-                                                <img src="{$path}/assets/img/iconApp/{img}"/>
+                                                <xsl:choose>
+                                                    <xsl:when test="path_acl!=''">
+                                                        <img src="{path_acl}/assets/img/iconApp/{img}"/>
+                                                    </xsl:when>
+                                                    <xsl:otherwise>
+                                                        <img src="{$path}/assets/img/iconApp/{img}"/>
+                                                    </xsl:otherwise>
+                                                </xsl:choose>
                                             </div>
                                             <div class="app-title">
                                                 <span>
@@ -64,7 +71,14 @@
                                     <div class="col-md-3 col-sm-6 col-xs-12 apps-col">
                                         <a class="igrp-app-block clear clearfix not-available" search-content="{title} - {description}">
                                             <div class="app-img">
-                                                <img src="{$path}/assets/img/iconApp/{img}"/>
+                                                <xsl:choose>
+                                                    <xsl:when test="path_acl!=''">
+                                                        <img src="{path_acl}/assets/img/iconApp/{img}"/>
+                                                    </xsl:when>
+                                                    <xsl:otherwise>
+                                                        <img src="{$path}/assets/img/iconApp/{img}"/>
+                                                    </xsl:otherwise>
+                                                </xsl:choose>
                                             </div>
                                             <div class="app-title">
                                                 <span>

@@ -1,12 +1,18 @@
 package nosi.core.webapp;
 
 import com.google.gson.Gson;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Part;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import nosi.core.gui.components.IGRPChart2D;
 import nosi.core.gui.components.IGRPChart3D;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.activit.rest.entities.CustomVariableIGRP;
-import nosi.core.webapp.activit.rest.entities.HistoricTaskService;
 import nosi.core.webapp.activit.rest.entities.TaskVariables;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
@@ -20,13 +26,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.w3c.dom.NodeList;
 
 import javax.persistence.Tuple;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Part;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.ValidatorFactory;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -70,37 +69,47 @@ public abstract class Model { // IGRP super model
 	}
 
 	public void loadFromTask(String taskId) throws IllegalArgumentException, IllegalAccessException {
-		HistoricTaskService hts = Core.getTaskHistory(taskId);
-		if (hts != null && hts.getVariables() != null) {
-			List<TaskVariables> var = hts.getVariables().stream().filter(
-					v -> v.getName().equalsIgnoreCase(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI + "_" + hts.getId()))
-					.toList();
-			String json = !var.isEmpty() ? var.get(0).getValue().toString() : "";
-			if (Core.isNotNull(json)) {
-				CustomVariableIGRP custom = new Gson().fromJson(json, CustomVariableIGRP.class);
-				if (custom.getRows() != null) {
-					String overrided = Core.getParam("overrided");
-					custom.getRows().forEach(v -> {
-						if (!v.getName().equalsIgnoreCase(BPMNConstants.PRM_RUNTIME_TASK)
-								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PROCESS_DEFINITION)
-								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_TASK_DEFINITION)
-								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_APP_ID)
-								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_APP)
-								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_TASK)
-								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_PROCESSDEFINITION)) {
-							if (overrided.equalsIgnoreCase("false")) {
-								if (Core.isNull(Core.getParam(v.getName(), false))) {
+
+		final var hts = Core.getTaskHistory(taskId);
+		if (hts == null || hts.getVariables() == null)
+			return;
+
+		final var json = hts.getVariables().stream()
+				.filter(v -> v.getName().equalsIgnoreCase(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI + "_" + hts.getId()))
+				.findFirst()
+				.map(TaskVariables::getValue)
+				.map(Object::toString)
+				.orElse("");
+
+		if (Core.isNotNull(json)) {
+			final var customVariableIGRP = new Gson().fromJson(json, CustomVariableIGRP.class);
+			if (customVariableIGRP.getRows() != null) {
+				final var override = Core.getParam("overrided");
+				final var isOverrideFalse = override.equalsIgnoreCase("false");
+				customVariableIGRP.getRows().stream()
+						.filter(v -> !isNotValidName(v.getName()))
+						.forEach(v -> {
+							if (isOverrideFalse) {
+								if (Core.isNull(Core.getParam(v.getName(), false)))
 									Core.setAttribute(v.getName(), v.getValue());
-								}
 							} else {
 								Core.setAttribute(v.getName(), v.getValue());
 							}
-						}
-					});
-				}
+						});
 			}
-			this.load();
 		}
+
+		this.load();
+	}
+
+	private boolean isNotValidName(String name) {
+		return name.equalsIgnoreCase(BPMNConstants.PRM_RUNTIME_TASK)
+			   || name.equalsIgnoreCase(BPMNConstants.PRM_PROCESS_DEFINITION)
+			   || name.equalsIgnoreCase(BPMNConstants.PRM_TASK_DEFINITION)
+			   || name.equalsIgnoreCase(BPMNConstants.PRM_APP_ID)
+			   || name.equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_APP)
+			   || name.equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_TASK)
+			   || name.equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_PROCESSDEFINITION);
 	}
 
 	public <T> List<T> loadTable(BaseQueryInterface query, Class<T> className) {
@@ -109,29 +118,26 @@ public abstract class Model { // IGRP super model
 			if (tuples != null && !tuples.isEmpty()) {
 				List<T> list = new ArrayList<>();
 				for (Tuple tuple : tuples) {
-					T t;
 					try {
-						t = className.getDeclaredConstructor().newInstance();
-						Field[] fields = null;
+						T t = className.getDeclaredConstructor().newInstance();
+						Field[] fields;
 						if (t instanceof IGRPChart3D || t instanceof IGRPChart2D) {
 							fields = className.getSuperclass().getDeclaredFields();
 						} else {
 							fields = className.getDeclaredFields();
 						}
-						if (fields != null) {
-							for (Field field : fields) {
-								try {
-									Object value = tuple.get(field.getName());
-									if (value != null) {
-										BeanUtils.setProperty(t, field.getName(), value.toString());
-									}
-								} catch (java.lang.IllegalArgumentException | IllegalAccessException
-										| InvocationTargetException ignored) {
 
+						for (Field field : fields) {
+							try {
+								Object value = tuple.get(field.getName());
+								if (value != null) {
+									BeanUtils.setProperty(t, field.getName(), value.toString());
 								}
+							} catch (java.lang.IllegalArgumentException | IllegalAccessException
+									 | InvocationTargetException ignored) {
 							}
-							list.add(t);
 						}
+						list.add(t);
 					}  catch (SecurityException | NoSuchMethodException | InvocationTargetException
 							| IllegalArgumentException | InstantiationException | IllegalAccessException e1) {
 						e1.printStackTrace();
@@ -143,33 +149,32 @@ public abstract class Model { // IGRP super model
 		return null;
 	}
 
-	public <T> List<T> loadFormList(BaseQueryInterface query, Class<T> className)  {
-		if (query != null) {
-			List<Tuple> queryResult = query.getResultList();
-			if (queryResult != null) {
-				List<T> list = new ArrayList<>();
-				for (Tuple tuple : queryResult) {
-					T t;
-					try {
-						t = className.getDeclaredConstructor().newInstance();
-						for (Field field : className.getDeclaredFields()) {
-						
-								Object value = tuple.get(field.getName());
-								if (value != null)
-									BeanUtils.setProperty(t, field.getName(),
-											new Pair(value.toString(), value.toString()));
-							
-						}
-						list.add(t);
-					} catch (SecurityException | NoSuchMethodException | InvocationTargetException
-							| IllegalArgumentException | InstantiationException | IllegalAccessException e1) {
-						e1.printStackTrace();
+	public <T> List<T> loadFormList(BaseQueryInterface query, Class<T> className) {
+		if (query == null)
+			return null;
+
+		List<Tuple> queryResult = query.getResultList();
+		if (queryResult == null)
+			return null;
+
+		List<T> list = new ArrayList<>();
+		for (Tuple tuple : queryResult) {
+			try {
+				T t = className.getDeclaredConstructor().newInstance();
+				for (Field field : className.getDeclaredFields()) {
+					Object value = tuple.get(field.getName());
+					if (value != null) {
+						final var stringValue = value.toString();
+						BeanUtils.setProperty(t, field.getName(), new Pair(stringValue, stringValue));
 					}
 				}
-				return list;
+				list.add(t);
+			} catch (SecurityException | NoSuchMethodException | InvocationTargetException
+					 | IllegalArgumentException | InstantiationException | IllegalAccessException e1) {
+				e1.printStackTrace();
 			}
 		}
-		return null;
+		return list;
 	}
 
 	/*
@@ -184,8 +189,7 @@ public abstract class Model { // IGRP super model
 			m.setAccessible(true);
 			String typeName = m.getType().getName();
 			if (m.getType().isArray()) {
-				String[] aux = null;
-				aux = Core.getParamArray(
+				String[] aux = Core.getParamArray(
 						m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().isEmpty()
 								? m.getAnnotation(RParam.class).rParamName()
 								: m.getName() // default case use the name of field
@@ -217,19 +221,19 @@ public abstract class Model { // IGRP super model
 			/* End */
 		}
 		Map<String, List<Part>> allFiles = this.getFiles();
+
+		final var fieldsSize = fields.size();
+
 		for (Field obj : fields) {
-			Map<String, List<String>> mapFk = new LinkedHashMap<>();
-			Map<String, List<String>> mapFkDesc = new LinkedHashMap<>();
-			Map<String, List<String>> mapFileId = new LinkedHashMap<>();
+			Map<String, List<String>> mapFk = new LinkedHashMap<>(fieldsSize);
+			Map<String, List<String>> mapFkDesc = new LinkedHashMap<>(fieldsSize);
+			Map<String, List<String>> mapFileId = new LinkedHashMap<>(fieldsSize);
 
 			Class<?> c_ = obj.getDeclaredAnnotation(SeparatorList.class).name();
-
-			List<String> aux = new ArrayList<>();
 
 			for (Field m : c_.getDeclaredFields()) {
 
 				m.setAccessible(true);
-				aux.add(m.getName());
 
 				String s = c_.getName().substring(c_.getName().lastIndexOf("$") + 1).toLowerCase();
 				String[] fileId = Core.getAttributeArray(Model.getParamFileId(m.getName()));
@@ -237,7 +241,7 @@ public abstract class Model { // IGRP super model
 				if(fileId==null) {
 					fileId = Core.getParamArray(Model.getParamFileId(m.getName()));
 				}
-				mapFileId.put(m.getName(),  fileId != null ? Arrays.asList(fileId) : new ArrayList<>());
+				mapFileId.put(m.getName(),  fileId != null ? Arrays.asList(fileId) : new ArrayList<>(0));
 				if (m.getName().equals(s + "_id")) {
 					String[] values1 = Core.getParamArray("p_" + m.getName());
 					if (values1 != null && values1.length > 1 && values1[0] != null && values1[0].isEmpty()) {
@@ -247,20 +251,18 @@ public abstract class Model { // IGRP super model
 					}
 					String[] values2 = values1;
 					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<>());
-					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<>());
+					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<>(0));
 				} else {
 					String param = "p_" + m.getName() + "_fk";
 					String[] values1 = Core.getParamArray(param);
 					if((values1 == null || values1.length == 0) && allFiles.containsKey(param))
 						values1 = allFiles.get(param).stream().map(Part::getName).toArray(String[]::new); 
 					String[] values2 = Core.getParamArray(param+ "_desc");
-					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<>());
+					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<>(0));
 					// If the field is checkbox, we don't have _check_desc with value2=null so
 					// causing indexOutOfBounds here
-					List<String> list1 = values1 != null ? Arrays.asList(new String[values1.length])
-							: new ArrayList<>();
+					List<String> list1 = values1 != null ? Arrays.asList(new String[values1.length]) : new ArrayList<>(0);
 					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : list1);
-
 				}
 
 				m.setAccessible(false);
@@ -278,25 +280,28 @@ public abstract class Model { // IGRP super model
 				int MAX_ITERATION = 0;
 
 				for (List<String> list : mapFk.values()) {
-					if (MAX_ITERATION < list.size())
-						MAX_ITERATION = list.size();
+					final var size = list.size();
+					if (MAX_ITERATION < size)
+						MAX_ITERATION = size;
 				}
 				while (row < MAX_ITERATION) {
 					Object obj2 = Class.forName(c_.getName()).getDeclaredConstructor().newInstance();
 					for (Field m : obj2.getClass().getDeclaredFields()) {
 						m.setAccessible(true);
 						String param = "p_" + m.getName().toLowerCase() + "_fk";
-						String key = mapFk.get(m.getName()).size() > row ? mapFk.get(m.getName()).get(row) : "";
-						String value = mapFkDesc.get(m.getName()).size() > row ? mapFkDesc.get(m.getName()).get(row): "";
+						final var mapFKKey = mapFk.get(m.getName());
+						String key = mapFKKey.size() > row ? mapFKKey.get(row) : "";
+						final var mapFkDescValue = mapFkDesc.get(m.getName());
+						String value = mapFkDescValue.size() > row ? mapFkDescValue.get(row): "";
 						List<String> fileId = mapFileId.get(m.getName());
-						if (allFiles != null && allFiles.containsKey(param)) {
+						if (allFiles.containsKey(param)) {
 							List<Part> filesByLine = allFiles.get(param);
 							if (!filesByLine.isEmpty()) {
 								try {
 									String id = "-1";
 									if(("p_"+m.getName().toLowerCase()+"_fk").equalsIgnoreCase(key)) {
 										id = fileId != null && fileId.size() > row ? fileId.get(row) : id;
-									}else {
+									} else {
 										id = fileId != null && fileId.size() > row ? fileId.get(row) : key;
 									}
 									BeanUtils.setProperty(obj2, m.getName(),new IGRPSeparatorList.Pair(id, key,value, filesByLine.get(row)));
@@ -333,56 +338,32 @@ public abstract class Model { // IGRP super model
 		this.loadModelFromAttribute();
 	}
 
-	private void loadData(Field m, String typeName,String value) throws IllegalArgumentException, IllegalAccessException {
+	private void loadData(Field m, String typeName, String value) throws IllegalArgumentException, IllegalAccessException {
 		String aux = value;
-		String defaultResult = (aux != null && !aux.isEmpty() ? aux : null);
+		String defaultResult = aux != null && !aux.isEmpty() ? aux : null;
 		switch (typeName) {
-			case "int":
-				m.setInt(this, Core.toInt(aux));
-				break;
-			case "java.lang.Integer":
-				m.set(this, Core.isNotNull(aux)?Core.toInt(aux):null);
-				break;
-			case "float":
-				m.setFloat(this, Core.toFloat(aux));
-				break;
-			case "java.lang.Float":
-				m.set(this, Core.isNotNull(aux)?Core.toFloat(aux):null);
-				break;
-			case "double":
-				m.setDouble(this, Core.toDouble(aux));
-				break;
-			case "java.lang.Double":
-				m.set(this, Core.isNotNull(aux)?Core.toDouble(aux):null);
-				break;
-			case "long":
-				m.setLong(this, Core.toLong(aux));
-				break;
-			case "java.lang.Long":
-				m.set(this,Core.isNotNull(aux)?Core.toLong(aux):null);
-				break;
-			case "short":
-				m.setShort(this, Core.toShort(aux));
-				break;
-			case "java.lang.Short":
-				m.set(this, Core.isNotNull(aux)?Core.toShort(aux):null);
-				break;
-			case "java.math.BigInteger":
-				m.set(this, Core.isNotNull(aux)?Core.toBigInteger(aux):null);
-				break;
-			case "java.math.BigDecimal":
-				m.set(this, Core.isNotNull(aux)?Core.toBigDecimal(aux):null);
-				break;
-			case "java.sql.Date":
+			case "int" -> m.setInt(this, Core.toInt(aux));
+			case "java.lang.Integer" -> m.set(this, Core.isNotNull(aux) ? Core.toInt(aux) : null);
+			case "float" -> m.setFloat(this, Core.toFloat(aux));
+			case "java.lang.Float" -> m.set(this, Core.isNotNull(aux) ? Core.toFloat(aux) : null);
+			case "double" -> m.setDouble(this, Core.toDouble(aux));
+			case "java.lang.Double" -> m.set(this, Core.isNotNull(aux) ? Core.toDouble(aux) : null);
+			case "long" -> m.setLong(this, Core.toLong(aux));
+			case "java.lang.Long" -> m.set(this, Core.isNotNull(aux) ? Core.toLong(aux) : null);
+			case "short" -> m.setShort(this, Core.toShort(aux));
+			case "java.lang.Short" -> m.set(this, Core.isNotNull(aux) ? Core.toShort(aux) : null);
+			case "java.math.BigInteger" -> m.set(this, Core.isNotNull(aux) ? Core.toBigInteger(aux) : null);
+			case "java.math.BigDecimal" -> m.set(this, Core.isNotNull(aux) ? Core.toBigDecimal(aux) : null);
+			case "java.sql.Date" -> {
 				if (aux != null && !aux.equals("0")) {
 					aux = DateHelper.convertDate(aux, "dd-mm-yyyy", "yyyy-mm-dd");
 					m.set(this, java.sql.Date.valueOf(aux));
 				}
-				break;
-			case "java.time.LocalDate":
+			}
+			case "java.time.LocalDate" -> {
 				if (aux != null && !aux.equals("0")) {
 					String[] datePart = aux.split("-");
-					if(datePart!=null && datePart.length > 2) {
+					if (datePart.length > 2) {
 						int day = Core.toInt(datePart[0]);
 						int month = Core.toInt(datePart[1]);
 						int year = Core.toInt(datePart[2]);
@@ -390,103 +371,78 @@ public abstract class Model { // IGRP super model
 						m.set(this, date);
 					}
 				}
-				break;
-			case "java.time.LocalTime":
+			}
+			case "java.time.LocalTime" -> {
 				if (aux != null && !aux.equals("0")) {
 					String[] timePart = aux.split(":");
-					if(timePart!=null && timePart.length > 1) {
+					if (timePart.length > 1) {
 						int hour = Core.toInt(timePart[0]);
 						int minute = Core.toInt(timePart[1]);
-						int second = 0;
-						if (timePart.length > 2) {
-							second = Core.toInt(timePart[2]);
-						}
+						int second = timePart.length > 2 ? Core.toInt(timePart[2]) : 0;
 						LocalTime time = LocalTime.of(hour, minute, second);
 						m.set(this, time);
 					}
 				}
-				break;
-			case "jakarta.servlet.http.Part":
+			}
+			case "jakarta.servlet.http.Part" -> {
 				try {
 					m.set(this, Core.getFile(m.getAnnotation(RParam.class).rParamName()));
 				} catch (IOException | ServletException e) {
 					e.printStackTrace();
 				}
-				break;
-			case "nosi.core.webapp.uploadfile.UploadFile":
+			}
+			case "nosi.core.webapp.uploadfile.UploadFile" -> {
 				try {
 					String param = Model.getParamFileId(m.getName().toLowerCase());
 					String fileId = Core.getParam(param);
-					if(Core.isNotNull(fileId)) {
+					if (Core.isNotNull(fileId)) {
 						Core.addHiddenField((Model.getParamFileId(m.getName().toLowerCase())).replaceFirst("p_", ""), fileId);
 						m.set(this, new UploadFile(fileId));
-					}else {
+					} else {
 						m.set(this, new UploadFile(Core.getFile(m.getAnnotation(RParam.class).rParamName())));
 					}
 				} catch (IOException | ServletException e) {
 					e.printStackTrace();
 				}
-				break;
-			default:
+			}
+			default -> {
 				if ((m.isAnnotationPresent(NotEmpty.class) || m.isAnnotationPresent(NotNull.class)) && m.isAnnotationPresent(RParam.class)) {
 					if (defaultResult == null) {
 						defaultResult = m.getAnnotation(RParam.class).defaultValue();
 					}
-					m.set(this, typeName.equals("java.lang.String") ? (Core.isNotNull(defaultResult) ? defaultResult : null)
-							: null);
+					m.set(this, typeName.equals("java.lang.String") ? (Core.isNotNull(defaultResult) ? defaultResult : null) : null);
 				} else {
-					m.set(this,
-							typeName.equals("java.lang.String")
-									? (defaultResult == null ? m.getAnnotation(RParam.class).defaultValue() : defaultResult)
-									: null); // The field could be a Object
+					m.set(this,typeName.equals("java.lang.String") ? (defaultResult == null ? m.getAnnotation(RParam.class).defaultValue() : defaultResult) : null);
 				}
+			}
 		}
 	}
 
-	private void loadArrayData(Field m, String typeName,String[] value) throws IllegalArgumentException, IllegalAccessException {
-       if (value != null) {
-			// Awesome !!! We need make casts for all [] primitive type ... pff
+	private void loadArrayData(Field m, String typeName, String[] value) throws IllegalArgumentException, IllegalAccessException {
+		if (value != null) {
 			switch (typeName) {
-				case "[I": // Array of int
-					// m.set(this, Arrays.stream(aux).mapToInt(Integer::parseInt).toArray());
-					m.set(this, (int[]) IgrpHelper.convertToArray(value, "int"));
-					break;
-				case "[J":// Array de long
-					// m.set(this, Arrays.stream(aux).mapToLong(Long::parseLong).toArray());
-					m.set(this, (long[]) IgrpHelper.convertToArray(value, "long"));
-					break;
-				case "[D":
-					// m.set(this, Arrays.stream(aux).mapToDouble(Double::parseDouble).toArray());
-					m.set(this, (double[]) IgrpHelper.convertToArray(value, "double"));
-					break;
-				case "[S":// Array de short
-					m.set(this, (short[]) IgrpHelper.convertToArray(value, "short"));
-					break;
-				case "[F":
-					// m.set(this, Arrays.stream(aux).mapToDouble(Float::parseFloat).toArray());
-					m.set(this, (float[]) IgrpHelper.convertToArray(value, "float"));
-					break;
-				default:
-					m.set(this, typeName.equals("[Ljava.lang.String;") ? value : null); // The field could be a Object
+				case "[I" -> m.set(this, (int[]) IgrpHelper.convertToArray(value, "int"));
+				case "[J" -> m.set(this, (long[]) IgrpHelper.convertToArray(value, "long"));
+				case "[D" -> m.set(this, (double[]) IgrpHelper.convertToArray(value, "double"));
+				case "[S" -> m.set(this, (short[]) IgrpHelper.convertToArray(value, "short"));
+				case "[F" -> m.set(this, (float[]) IgrpHelper.convertToArray(value, "float"));
+				default -> m.set(this, typeName.equals("[Ljava.lang.String;") ? value : null);
 			}
 		} else {
-			if (typeName.equals("[Ljakarta.servlet.http.Part;")) {
-				List<Part> files;
-				try {
-					files = Core.getFiles();
-					if (files != null) {
-						Part[] filesArray = files.stream()
-								.filter(f -> f.getName().equals(m.getAnnotation(RParam.class).rParamName()))
-								.toArray(Part[]::new);
-						if (filesArray != null) {
-							m.set(this, filesArray);
-						}
-					}
-				} catch (IOException | ServletException e) {
-					e.printStackTrace();
+			if (!typeName.equals("[Ljakarta.servlet.http.Part;")) {
+				m.set(this, null);
+				return;
+			}
+			try {
+				List<Part> files = Core.getFiles();
+				if (files != null) {
+					final var filesArray = files.stream()
+							.filter(f -> f.getName().equals(m.getAnnotation(RParam.class).rParamName()))
+							.toArray(Part[]::new);
+					m.set(this, filesArray);
 				}
-			} else {
-				m.set(this, value);
+			} catch (IOException | ServletException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -496,7 +452,7 @@ public abstract class Model { // IGRP super model
 			try {
 				Part file = Igrp.getInstance().getRequest().getPart("p_igrpfile");
 				if (file != null && file.getSize()>0) {
-					String xml = FileHelper.convertToString(file);
+					String xml = new FileHelper().convertToString(file);
 					DomXML domXml = new DomXML(xml);
 					NodeList n = domXml.getDocument().getElementsByTagName("row").item(0).getChildNodes();
 					QueryString<String, Object> queryString = new QueryString<>();
@@ -541,25 +497,21 @@ public abstract class Model { // IGRP super model
 			}
 		}
 	}
-	
-	private Map<String,List<Part>> getFiles(){
-		Map<String,List<Part>> list = new HashMap<>();
-		if(Core.isUploadedFiles()) {
-			Collection<Part> allFiles;
+
+	private Map<String, List<Part>> getFiles() {
+		if (Core.isUploadedFiles()) {
 			try {
-				allFiles = Igrp.getInstance().getRequest().getParts();
-				if(allFiles!=null) {
-					for(Part f:allFiles){
-						if(Core.isNotNull(f.getContentType())) {
-							list.put(f.getName().toLowerCase(), allFiles.stream().filter(file->file.getName().equals(f.getName())).collect(Collectors.toList()));
-						}
-					}
+				final var allFiles = Igrp.getInstance().getRequest().getParts();
+				if (allFiles != null) {
+					return allFiles.stream()
+							.filter(file -> Core.isNotNull(file.getContentType()))
+							.collect(Collectors.groupingBy(file -> file.getName().toLowerCase()));
 				}
 			} catch (ServletException | IOException e1) {
 				e1.printStackTrace();
 			}
 		}
-		return list;
+		return new HashMap<>(0);
 	}
 
 	/**

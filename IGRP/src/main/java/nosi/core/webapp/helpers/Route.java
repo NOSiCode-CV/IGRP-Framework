@@ -43,7 +43,7 @@ public final class Route {
 		qs = UrlHelper.urlEncoding(qs);
 		String action = Route.resolveAction(action_);
 		String url = "";
-		if(PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains((app + "/" + page + "/"+action).toLowerCase())) {
+		if(PagesScapePermission.getPagesScapeEncrypt().contains((app + "/" + page + "/"+action).toLowerCase())) {
 			url = "webapps?r="+app+"/"+page+"/"+action+qs;
 		}else {
 			//if a PAGES_SCAPE_ENCRYPT calls a redirect to a public page, must not encrypt it

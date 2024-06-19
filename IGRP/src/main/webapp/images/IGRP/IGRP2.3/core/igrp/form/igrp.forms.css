@@ -31,7 +31,9 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-
+a.link.btn.btn-link.form-link {
+    float: left;
+}
 .form-group label input+span{
 	font-weight: normal;
 }

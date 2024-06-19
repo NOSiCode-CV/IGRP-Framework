@@ -50,13 +50,11 @@ public class StringHelper {
 	
 	public static String removeSpecialCharaterAndSpace(String string) {
 		string = string.replaceAll("[^a-zA-Z0-9]", "_");
-		string = removeSpace(string);
-		return string;
+		return removeSpace(string);
 	}
 
 	public static String decode(String headerText) {
-       headerText = new String(headerText.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
-       return headerText;
+      return new String(headerText.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
 	}
 
 }

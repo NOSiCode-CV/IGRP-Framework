@@ -87,7 +87,7 @@ public class FileHelper {
     }
 
     //Converte file to string
-    public static String convertToString(Part file) throws IOException {
+    public String convertToString(Part file) throws IOException {
     	if (file != null) {
     	    StringBuilder code = new StringBuilder();
     	    String ls = System.lineSeparator();
@@ -115,32 +115,16 @@ public class FileHelper {
     }
 
     //Converte InputStream to String
-    public static String convertToString(InputStream inputStream) throws IOException {
+    public String convertToString(InputStream inputStream) throws IOException {
         if (inputStream != null) {
-        	StringBuilder code = new StringBuilder();
-        	String ls = System.lineSeparator();
+            return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
 
-        	try (
-        	    DataInputStream in = new DataInputStream(inputStream);
-        	    BufferedReader d = new BufferedReader(new InputStreamReader(in))
-        	) {
-        	    String line;
-        	    while ((line = d.readLine()) != null) {
-        	        code.append(line);
-        	        code.append(ls);
-        	    }
-        	} catch (IOException e) {
-        	    // Handle or rethrow the exception
-        		   e.printStackTrace();
-        	}
-
-        	return code.toString();
         }
         return null;
     }
 
     //Save file in a specific directory
-    public static boolean save(String path, String fileName, String data, String encodeIn, String encodeOut) throws IOException {
+    public static boolean save(String path, String fileName, String data, String encodeIn) throws IOException {
         boolean isSaved = true;
         String fName = path + (fileName != null ? (File.separator + fileName) : "");
         File file = new File(fName);
@@ -160,12 +144,12 @@ public class FileHelper {
 
     //Save file in a specific directory
     public static boolean save(String path, String fileName, String data) throws IOException {
-        return FileHelper.save(path, fileName, data, null, null);
+        return FileHelper.save(path, fileName, data, null);
     }
 
     //Write data using default encode UTF-8
     public static boolean save(String path, String filename, Part file) throws IOException {
-        return FileHelper.save(path, filename, convertToString(file));
+        return FileHelper.save(path, filename, new FileHelper().convertToString(file));
     }
 
     //Write data using default encode UTF-8
@@ -349,10 +333,10 @@ public class FileHelper {
 
     public static boolean saveFilesJava(String path, String page, String[] content, String encodeIn, String encodeOut) throws IOException {
     	String pageDelegatePath = String.format("%spagedelegate", path.substring(0, path.lastIndexOf("pages")));
-        return FileHelper.save(path, String.format("%s.java", page), content[0], encodeIn, encodeOut) && // Save Model;
-                FileHelper.save(path, String.format("%sView.java", page), content[1], encodeIn, encodeOut) && //Save View
-                FileHelper.save(path, String.format("%sController.java", page), content[2], encodeIn, encodeOut) && // Save Controller
-                (content.length == 3 || FileHelper.save(pageDelegatePath, String.format("I%sDelegate.java", page), content[3], encodeIn, encodeOut)); // Save Page Delegate
+        return FileHelper.save(path, String.format("%s.java", page), content[0], encodeIn) && // Save Model;
+                FileHelper.save(path, String.format("%sView.java", page), content[1], encodeIn) && //Save View
+                FileHelper.save(path, String.format("%sController.java", page), content[2], encodeIn) && // Save Controller
+                (content.length == 3 || FileHelper.save(pageDelegatePath, String.format("I%sDelegate.java", page), content[3], encodeIn)); // Save Page Delegate
     }
 
     public static boolean saveFilesJava(String path, String page, Part[] content, String encodeIn, String encodeOut) throws IOException {

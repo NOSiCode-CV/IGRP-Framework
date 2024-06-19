@@ -137,7 +137,7 @@ public class IGRPButton {
 
 		final int isPublic = Core.getParamInt("isPublic");
 
-		if (PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains((app + "/" + page + "/" + link).toLowerCase())) {
+		if (PagesScapePermission.getPagesScapeEncrypt().contains((app + "/" + page + "/" + link).toLowerCase())) {
 			return app + "/" + page + "/" + (link + target_);
 		} else if (isPublic == 1) {
 			return app + "/" + page + "/" + (link + target_) + "&isPublic=1";

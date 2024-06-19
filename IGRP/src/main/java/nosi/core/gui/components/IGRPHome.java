@@ -8,7 +8,7 @@ import nosi.core.xml.XMLWritter;
 
 public class IGRPHome implements IHeaderConfig{
 	public String type_home="";
-	protected Config config = new Config();
+	protected final Config config = new Config();
 	public IGRPHome(String type_home){
 		this.type_home = type_home;
 	}
@@ -21,7 +21,7 @@ public class IGRPHome implements IHeaderConfig{
 		else if(this.type_home.equals("home-app-studio")){
 			path = this.config.getLinkXSLHomeStudio();
 		}
-		XMLWritter xml = new XMLWritter("rows", path, "dash");
+		XMLWritter xml = new XMLWritter("rows", path);
 		 xml.addXml(new Config().getHeader(this));
 		 xml.startElement("content");
 		 xml.text(":_message_reseved");

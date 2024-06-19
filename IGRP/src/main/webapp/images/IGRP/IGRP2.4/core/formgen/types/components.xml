@@ -154,7 +154,7 @@
 			<type>container</type>
 			<name>view</name>
 			<label>View</label>
-			<reject>map_layer,map_widgettexteditor</reject>
+			<reject>map_layer,map_widget,texteditor</reject>
 			<group>content</group>
 		</item>
 		<item>

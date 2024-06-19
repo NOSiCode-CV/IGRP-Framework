@@ -22,6 +22,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.*;
 import org.apache.commons.io.IOUtils;
 import jakarta.jws.WebService;
+import org.apache.commons.lang3.StringUtils;
 import javax.persistence.GeneratedValue;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -344,9 +345,9 @@ public class EnvController extends Controller {
 			xmlMenu.setElement("num_alert", ""+profile.getOrganization().getApplication().getId());
 			xmlMenu.endElement();
 			aux.add(profile.getOrganization().getApplication().getId());
-			displayTitle = (type==null || type.equalsIgnoreCase(""));
+			displayTitle = type.equalsIgnoreCase("");
 		}
-		if(type==null || type.equals("")) {
+		if(type.isEmpty()) {
 			for(Application app:otherApp){
 				if(!aux.contains(app.getId())){ // :-)
 					xmlMenu.startElement("application");
@@ -357,7 +358,7 @@ public class EnvController extends Controller {
 					xmlMenu.setElement("num_alert", "");
 					xmlMenu.setElement("description", app.getDescription());
 					xmlMenu.endElement();
-					displaySubtitle = (type==null || type.equalsIgnoreCase(""));
+					displaySubtitle = type.equalsIgnoreCase("");
 				}
 			}
 		}
@@ -366,11 +367,12 @@ public class EnvController extends Controller {
 		if(this.configApp.isActiveGlobalACL()) {
 			List<App> allowApps = new ArrayList<>();
 			List<App> denyApps = new ArrayList<>();
-			getAllApps(allowApps,denyApps);
+			String host= getAllApps(allowApps,denyApps);
 			for(App obj: allowApps){
 				xmlMenu.startElement("application");
 				xmlMenu.writeAttribute("available", "yes");
 				xmlMenu.setElement("link", obj.getLink());
+				xmlMenu.setElement("path_acl", host+"gov.cv/images/IGRP/IGRP2.3");
 				xmlMenu.setElement("img", obj.getImg_src());
 				xmlMenu.setElement("title", obj.getName());
 				xmlMenu.setElement("num_alert", "");
@@ -382,6 +384,7 @@ public class EnvController extends Controller {
 				xmlMenu.startElement("application");
 				xmlMenu.writeAttribute("available", "no");
 				xmlMenu.setElement("link", obj.getLink());
+				xmlMenu.setElement("path_acl", host+"gov.cv/images/IGRP/IGRP2.3");
 				xmlMenu.setElement("img", obj.getImg_src());
 				xmlMenu.setElement("title", obj.getName());
 				xmlMenu.setElement("num_alert", "");
@@ -467,8 +470,9 @@ public class EnvController extends Controller {
 	/** Integration with IGRP-PLSQL Apps **
 	 * */
 	// Begin
-	private void getAllApps(List<App> allowApps /*INOUT var*/, List<App> denyApps  /*INOUT var*/) {
-		Properties properties =  this.configApp.getMainSettings(); 
+	private String getAllApps(List<App> allowApps /*INOUT var*/, List<App> denyApps  /*INOUT var*/) {
+		String host="";
+		Properties properties =  this.configApp.getMainSettings();
 		String baseUrl = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_URL.value()); 
 		String token = properties.getProperty(ConfigCommonMainConstants.IGRP_PDEX_APPCONFIG_TOKEN.value()); 
 		AppConfig appConfig = new AppConfig(); 
@@ -480,7 +484,10 @@ public class EnvController extends Controller {
 				allowApps.add(app);
 			else 
 				denyApps.add(app);
+			if(host.isEmpty() && app.getLink().contains("redirect_uri"))
+				host= StringUtils.substringBetween(app.getLink(),"redirect_uri=","gov.cv");
 		}
+		return host;
 	}
 	
 	// XML for Blocky's consume 
@@ -549,26 +556,25 @@ public class EnvController extends Controller {
 							xml.setElement("full_class_name", c.getName());
 							xml.startElement("operations");
 								Method []methods = c.getMethods();
-								if(methods != null)
-									for(Method m : methods) {
-										xml.startElement(m.getName());
-											xml.startElement("params");
-												Parameter[] parameters = m.getParameters();
-												if(parameters != null)
-													for(Parameter p : parameters) {
-														xml.startElement(p.getName());
-															xml.text(p.getType().getTypeName());
-														xml.endElement();
-													}
-											xml.endElement();
-											xml.startElement("return");
-												xml.startElement("tipo");
-													xml.text(m.getReturnType().getName());
-												xml.endElement();
-												xml.addXml(generateXMLFieldsStructure(m.getReturnType()));
-											xml.endElement();
-										xml.endElement();
-									}
+                        for(Method m : methods) {
+                            xml.startElement(m.getName());
+                                xml.startElement("params");
+                                    Parameter[] parameters = m.getParameters();
+                                    if(parameters != null)
+                                        for(Parameter p : parameters) {
+                                            xml.startElement(p.getName());
+                                                xml.text(p.getType().getTypeName());
+                                            xml.endElement();
+                                        }
+                                xml.endElement();
+                                xml.startElement("return");
+                                    xml.startElement("tipo");
+                                        xml.text(m.getReturnType().getName());
+                                    xml.endElement();
+                                    xml.addXml(generateXMLFieldsStructure(m.getReturnType()));
+                                xml.endElement();
+                            xml.endElement();
+                        }
 							xml.endElement();
 						xml.endElement();
 					}

@@ -49,7 +49,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -74,7 +74,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -96,7 +96,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -134,7 +134,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -159,7 +159,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -239,7 +239,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -263,7 +263,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -379,7 +379,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -406,7 +406,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -452,7 +452,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		Response response = req.get("repository/process-definitions/" + processDefinitionId + "/resourcedata");
 		if (response != null) {
 			try {
-				String xml = FileHelper.convertToString((InputStream) response.getEntity());
+				String xml = new FileHelper().convertToString((InputStream) response.getEntity());
 				list = this.extractTasks(xml, false);
 			} catch (IOException e1) {
 				e1.printStackTrace();
@@ -472,7 +472,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 			Response response = req.get("repository/process-definitions/" + processD.getId() + "/resourcedata");
 			if (response != null) {
 				try {
-					String xml = FileHelper.convertToString((InputStream) response.getEntity());
+					String xml = new FileHelper().convertToString((InputStream) response.getEntity());
 					list = this.extractTasks(xml, false);
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -540,7 +540,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -563,7 +563,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			String contentResp = "";
 			try {
-				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
+				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

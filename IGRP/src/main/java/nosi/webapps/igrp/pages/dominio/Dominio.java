@@ -1,17 +1,16 @@
 package nosi.webapps.igrp.pages.dominio;
 
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
+import nosi.core.gui.components.IGRPTable;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.validation.Valid;
-
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.gui.components.IGRPTable;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.Model;
-import nosi.core.webapp.RParam;
-import nosi.core.webapp.Report;
-import nosi.core.webapp.SeparatorList;
-import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 public class Dominio extends Model{		
 
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -193,12 +192,26 @@ private Pair ordem;
 		public void setFormlist_1_id(Pair formlist_1_id){
 			this.formlist_1_id = formlist_1_id;
 		}
+		public void setFormlist_1_id(String key){
+			this.setFormlist_1_id(key, key);
+		}
+		public void setFormlist_1_id(String key, String value){
+			this.formlist_1_id= new Pair(key, value);
+		}
+
 		public Pair getFormlist_1_id(){
 			return this.formlist_1_id;
 		}
 		public void setDescription(Pair description){
 			this.description = description;
 		}
+		public void setDescription(String key){
+			this.setDescription(key, key);
+		}
+		public void setDescription(String key, String value){
+			this.description= new Pair(key, value);
+		}
+
 		public Pair getDescription(){
 			return this.description;
 		}
@@ -206,6 +219,13 @@ private Pair ordem;
 		public void setKey(Pair key){
 			this.key = key;
 		}
+		public void setKey(String key){
+			this.setKey(key, key);
+		}
+		public void setKey(String key, String value){
+			this.key= new Pair(key, value);
+		}
+
 		public Pair getKey(){
 			return this.key;
 		}
@@ -213,6 +233,13 @@ private Pair ordem;
 		public void setEstado(Pair estado){
 			this.estado = estado;
 		}
+		public void setEstado(String key){
+			this.setEstado(key, key);
+		}
+		public void setEstado(String key, String value){
+			this.estado= new Pair(key, value);
+		}
+
 		public Pair getEstado(){
 			return this.estado;
 		}
@@ -220,6 +247,13 @@ private Pair ordem;
 		public void setEstado_check(Pair estado_check){
 			this.estado_check = estado_check;
 		}
+		public void setEstado_check(String key){
+			this.setEstado_check(key, key);
+		}
+		public void setEstado_check(String key, String value){
+			this.estado_check= new Pair(key, value);
+		}
+
 		public Pair getEstado_check(){
 			return this.estado_check;
 		}
@@ -227,6 +261,13 @@ private Pair ordem;
 		public void setOrdem(Pair ordem){
 			this.ordem = ordem;
 		}
+		public void setOrdem(String key){
+			this.setOrdem(key, key);
+		}
+		public void setOrdem(String key, String value){
+			this.ordem= new Pair(key, value);
+		}
+
 		public Pair getOrdem(){
 			return this.ordem;
 		}

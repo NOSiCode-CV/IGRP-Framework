@@ -1,6 +1,8 @@
 package nosi.core.servlet;
 
 import java.io.IOException;
+import java.io.Serial;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +17,7 @@ import jakarta.servlet.annotation.WebServlet;
 @MultipartConfig(maxFileSize = 52428800, maxRequestSize = 52428800, fileSizeThreshold = 0)
 public class IgrpServlet extends HttpServlet{
 	
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	public IgrpServlet() { super(); }

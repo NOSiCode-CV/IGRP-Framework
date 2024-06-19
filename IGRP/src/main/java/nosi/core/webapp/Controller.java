@@ -42,6 +42,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * @author Marcel Iekiny Apr 15, 2017
@@ -180,7 +181,7 @@ public class Controller {
         this.view.addToPage(this.view.addFieldToFormHidden());
         String content = this.view.getPage().renderContent(false);
         content = BPMNButton.removeXMLButton(content);
-        XMLWritter xml = new XMLWritter("rows", this.getConfig().getLinkPageXsl(ac), "utf-8");
+        XMLWritter xml = new XMLWritter("rows", this.getConfig().getLinkPageXsl(ac));
         xml.addXml(this.getConfig().getHeader(v,ac));
         xml.startElement("content");
         xml.writeAttribute("type", "");
@@ -496,9 +497,9 @@ public class Controller {
         }
         igrpApp.getResponse().addHeader("Content-Description", "File Transfer");
         if (download)
-            igrpApp.getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
+            igrpApp.getResponse().setHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
         else
-            igrpApp.getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
+            igrpApp.getResponse().setHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
         response.setType(1);
         response.setContentLength(file.length);
         response.setContentType(contentType);
@@ -523,7 +524,7 @@ public class Controller {
             Igrp.getInstance().getCurrentController().setResponseWrapper((Response) obj);
     }
 
-    private void resolveRoute() throws IOException {
+    private void resolveRoute() {
         Igrp app = Igrp.getInstance();
         String r = Core.isNotNull(app.getRequest().getParameter("r")) ? app.getRequest().getParameter("r") : "igrp/login/login";
         r = SecurtyCallPage.resolvePage(r);
@@ -536,49 +537,52 @@ public class Controller {
             } else
                 throw new ServerErrorHttpException("The route format is invalid");
         }
-        String application = "Application: " + app.getCurrentAppName();
-        String page = "Page: " + app.getCurrentPageName();
-        String action = "Action: " + app.getCurrentActionName();
-        String controllerName = "Controller: " + "nosi.webapps." + app.getCurrentAppName().trim().toLowerCase()
-                + ".pages." + app.getCurrentPageName() + "Controller.java";
-        String viewName = "View: " + "nosi.webapps." + app.getCurrentAppName().trim().toLowerCase() + ".pages."
-                + app.getCurrentPageName() + "View.java";
-        String modelName = "Model: " + "nosi.webapps." + app.getCurrentAppName().trim().toLowerCase() + ".pages."
-                + app.getCurrentPageName() + ".java";
-        String xsl = "xsl: " + Igrp.getInstance().getServlet().getServletContext().getContextPath()
-                + "/images/IGRP/IGRP2.3/app/" + app.getCurrentAppName().trim().toLowerCase() + "/"
-                + app.getCurrentPageName().toLowerCase() + "/" + app.getCurrentPageName() + ".xsl";
-        app.getLog().addMessage(application);
-        app.getLog().addMessage(page);
-        app.getLog().addMessage(action);
-        app.getLog().addMessage(controllerName);
-        app.getLog().addMessage(viewName);
-        app.getLog().addMessage(modelName);
-        app.getLog().addMessage(xsl);
 
+        final var applicationName = "Application: " + app.getCurrentAppName();
+        final var pageName = "Page: " + app.getCurrentPageName();
+        final var actionName = "Action: " + app.getCurrentActionName();
+
+        final var currentAppNameLowerCase = app.getCurrentAppName().trim().toLowerCase();
+        final var pagesPackagePath = "nosi.webapps." + currentAppNameLowerCase + ".pages.";
+        final var controllerPath = "Controller: " + pagesPackagePath + app.getCurrentPageName() + "Controller.java";
+        final var viewPath = "View: " + pagesPackagePath + app.getCurrentPageName() + "View.java";
+        final var modelPath = "Model: " + pagesPackagePath + app.getCurrentPageName() + ".java";
+
+        final var xslPath = "xsl: " + Igrp.getInstance().getServlet().getServletContext().getContextPath()
+                            + "/images/IGRP/IGRP2.3/app/" + currentAppNameLowerCase + "/"
+                            + app.getCurrentPageName().toLowerCase() + "/" + app.getCurrentPageName() + ".xsl";
+
+        app.getLog().addMessage(applicationName);
+        app.getLog().addMessage(pageName);
+        app.getLog().addMessage(actionName);
+        app.getLog().addMessage(modelPath);
+        app.getLog().addMessage(viewPath);
+        app.getLog().addMessage(controllerPath);
+        app.getLog().addMessage(xslPath);
     }
 
     protected Object run() {
+
         Igrp app = Igrp.getInstance();
-        String auxAppName = "";
-        String auxPageName = "";
-        String auxcontrollerPath;
-        String auxActionName = "";
-        if (app != null && app.getCurrentAppName() != null && app.getCurrentActionName() != null
-                && app.getCurrentPageName() != null) {
-            for (String aux : app.getCurrentAppName().split("-"))
-                auxAppName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-            for (String aux : app.getCurrentPageName().split("-"))
-                auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-            for (String aux : app.getCurrentActionName().split("-"))
-                auxActionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-            auxActionName = "action" + auxActionName;
-            auxcontrollerPath = this.getConfig().getPackage(auxAppName, auxPageName, auxActionName);
-        } else {
-            auxActionName = "actionIndex";
-            auxcontrollerPath = this.getConfig().getPackage("igrp", "Home", auxActionName);
+
+        if (app == null || app.getCurrentAppName() == null || app.getCurrentActionName() == null || app.getCurrentPageName() == null) {
+            final var defaultControllerPath = this.getConfig().getPackage("igrp", "Home");
+            return loadPage(defaultControllerPath, "actionIndex");
         }
-        return loadPage(auxcontrollerPath, auxActionName);
+
+        final var capitalizedAppName = capitalizeAndJoin(app.getCurrentAppName());
+        final var capitalizedPageName = capitalizeAndJoin(app.getCurrentPageName());
+        final var capitalizedActionName = "action" + capitalizeAndJoin(app.getCurrentActionName());
+
+        final var controllerPath = this.getConfig().getPackage(capitalizedAppName, capitalizedPageName);
+
+        return loadPage(controllerPath, capitalizedActionName);
+    }
+
+    private String capitalizeAndJoin(String input) {
+        return Arrays.stream(input.split("-"))
+                .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1))
+                .collect(Collectors.joining());
     }
 
     protected Response call(String app, String page, String action) {
@@ -590,7 +594,7 @@ public class Controller {
         Igrp igrpApp = Igrp.getInstance();
         String m = msg.toString();
         this.setQueryStringToAttributes(queryString);
-        String auxcontrollerPath = this.getConfig().getPackage(app, page, action);
+        String auxcontrollerPath = this.getConfig().getPackage(app, page);
         igrpApp.setCurrentAppName(app);
         igrpApp.setCurrentPageName(page);
         igrpApp.setCurrentActionName(action);

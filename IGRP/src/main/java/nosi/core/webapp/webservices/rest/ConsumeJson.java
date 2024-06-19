@@ -38,7 +38,7 @@ public class ConsumeJson {
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
 
-		StringBuffer response = new StringBuffer();
+		StringBuilder response = new StringBuilder();
 		in.lines().forEach(response::append);
 		in.close();
 		conn.disconnect();
@@ -58,7 +58,7 @@ public class ConsumeJson {
 			conn.setRequestProperty("charset", "utf-8");
 			// conn.setUseCaches( false );
 			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
-			StringBuffer response = new StringBuffer();
+			StringBuilder response = new StringBuilder();
 			in.lines().forEach(response::append);
 			in.close();
 			conn.disconnect();

@@ -41,7 +41,7 @@ public class GeneratorController extends Controller{
 						String xmlp = this.getConfig().getCurrentResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml?v="+r.nextInt();
 						model.setPage_form(xmlp.replace("\\", "/"));
 					}
-					model.setPackage_(this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction()));
+					model.setPackage_(this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage()));
 					model.setPage(ac.getPage());
 					GeneratorView view = new GeneratorView(model);
 					return this.renderView(view,true);

@@ -61,13 +61,9 @@ public class PartilhageralController extends Controller {
 		targets.put(TipoPartilha.TRANSACTION.getCodigo(), TipoPartilha.TRANSACTION.getDescricao());
 		view.elemento.setValue(targets);
 
-		Optional.of(model.getAplicacao_origem()).ifPresent(v -> {
+		Optional.ofNullable(model.getAplicacao_origem()).ifPresent(v -> view.aplicacao_destino.setValue(new Application().getAllAppsActiveByFilterId(Core.toInt(v))));
 
-			view.aplicacao_destino.setValue(new Application().getAllAppsActiveByFilterId(Core.toInt(v)));
-
-		});
-
-		List<Partilhageral.Table_1> t = new ArrayList<Partilhageral.Table_1>(); 
+		List<Partilhageral.Table_1> t = new ArrayList<>();
 		
 		if(model.getElemento() != null) {
 			
@@ -79,11 +75,11 @@ public class PartilhageralController extends Controller {
 	
 					case PAGE: 
 	
-						List<Action> pages = new ArrayList<Action>();
+						List<Action> pages = new ArrayList<>();
 						pages = new Action().find().andWhere("application.id", "=", Core.toInt(model.getAplicacao_origem()))
 								.andWhere("status", "=", 1).andWhere("isComponent", "=", (short) 0).all();
 	
-						List<Share> shares = new ArrayList<Share>();
+						List<Share> shares = new ArrayList<>();
 						shares = new Share().getAllSharedResources(Core.toInt(model.getAplicacao_origem()),
 								Core.toInt(model.getAplicacao_destino()), TipoPartilha.PAGE.getCodigo());
 						for (Action page : pages) {
@@ -102,20 +98,15 @@ public class PartilhageralController extends Controller {
 						}
 						
 						break;
-						
-					case SERV:
-						break;
-					case REPORT:
-						break;
-						
-					case TRANSACTION: 
+
+                   case TRANSACTION:
 						
 						
-						List<Transaction> transactions = new ArrayList<Transaction>();
+						List<Transaction> transactions = new ArrayList<>();
 						transactions = new Transaction().find().andWhere("application.id", "=", Core.toInt(model.getAplicacao_origem()))
 								.andWhere("status", "=", 1).all();
 	
-						List<Share> sharesTransactions = new ArrayList<Share>();
+						List<Share> sharesTransactions = new ArrayList<>();
 						sharesTransactions = new Share().getAllSharedResources(Core.toInt(model.getAplicacao_origem()),
 								Core.toInt(model.getAplicacao_destino()), TipoPartilha.TRANSACTION.getCodigo());
 						
@@ -137,7 +128,8 @@ public class PartilhageralController extends Controller {
 						}
 						
 					break;
-				default:
+                   case SERV, REPORT:
+                   default:
 					break;
 					
 					}
@@ -147,7 +139,7 @@ public class PartilhageralController extends Controller {
 
 		
 
-		Collections.sort(t, new SortbyStatus());
+		t.sort(new SortbyStatus());
 
 		view.table_1.addData(t);
 		
@@ -184,7 +176,7 @@ public class PartilhageralController extends Controller {
 /*----#start-code(custom_actions)----*/
 
 	private void share(Partilhageral model) {
-		List<Share> shares = new ArrayList<Share>();
+		List<Share> shares = new ArrayList<>();
 		if (Core.isInt(model.getAplicacao_origem()) && Core.isInt(model.getAplicacao_destino())) {
 
 			shares = new Share().find().andWhere("env.id", "=", Core.toInt(model.getAplicacao_destino()))
@@ -194,7 +186,7 @@ public class PartilhageralController extends Controller {
 			CheckBoxHelper cp = Core.extractCheckBox(Core.getParamArray("p_estado_fk"),
 					Core.getParamArray("p_estado_check_fk"));
 
-			List<Share> sharesRemoved = new ArrayList<Share>();
+			List<Share> sharesRemoved = new ArrayList<>();
 
 			sharesRemoved = new Share().find().andWhere("env.id", "=", Core.toInt(model.getAplicacao_destino()))
 					.andWhere("owner.id", "=", Core.toInt(model.getAplicacao_origem())).andWhere("type", "=", model.getElemento())
@@ -205,7 +197,7 @@ public class PartilhageralController extends Controller {
 				s.update();
 			}
 
-			Boolean sucess = true;
+			boolean sucess = true;
 
 			boolean flag = false;
 			for (String obj : cp.getChekedIds()) {
@@ -248,7 +240,7 @@ public class PartilhageralController extends Controller {
 			Core.setMessageError();
 	}
 
-	class SortbyStatus implements Comparator<Partilhageral.Table_1> {
+	static class SortbyStatus implements Comparator<Partilhageral.Table_1> {
 		public int compare(Partilhageral.Table_1 a, Partilhageral.Table_1 b) {
 			return b.getEstado_check() - a.getEstado_check();
 		}

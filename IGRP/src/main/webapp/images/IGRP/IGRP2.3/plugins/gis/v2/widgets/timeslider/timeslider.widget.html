@@ -1,0 +1,171 @@
+<div class="gis-widget-panel">
+	
+	<div class="gis-widget-panel-title">
+		<span>{{title}}</span>
+	</div>
+	
+	<div class="gis-widget-panel-body">
+		
+		<div class="form-group" item-name="layers" style="padding:0 8px; display: none;">
+			<label for="p_layers">Layer</label>
+			<select class="form-control layers-select select2" widget-template="layers" name="layers" widget-action="layers" action-event="change">
+				<option value="" label="--- Selecionar ---">--- Selecionar ---</option>
+				{{#each layers}}
+					<option value="{{id}}" label="{{name}}">{{name}}</option>
+				{{/each}}
+			</select>
+		</div>
+		
+		<div class="form-group" item-name="attributes" style="padding:0 8px; display: none;">
+			<label for="p_attributes">Atributo</label>
+			<select class="form-control select2" widget-template="attributes-time" name="attributes">
+				<option value="" label="--- Selecionar ---">--- Selecionar ---</option>
+				{{#each attributes}}
+					<option value="{{id}}" label="{{name}}">{{name}}</option>
+				{{/each}}
+			</select>
+		</div>
+		
+		<div class="slider-time-extent bg-white p8"><span class="start"></span><span class="divider">-</span></span><span class="end"></span></div>
+				
+		<div class="slider-content p8">
+			<div class="slider"></div>	
+		</div>
+		
+		<div class="slider-control bg-white p8">
+		
+			<div class="slider-min-date"><span></span></div>
+			
+			<div class="timeslider-animation">
+				<a widget-action="previous" class="previous" href="#" role="button">
+					<i class="fa fa-step-backward fa-lg"></i>
+				</a>
+				<a widget-action="run" class="run" href="#" role="button">
+					<i class="fa fa-play-circle fa-2x"></i>
+				</a>	
+				<a widget-action="next" class="next" href="#" role="button">
+					<i class="fa fa-step-forward fa-lg"></i>
+				</a>		
+			</div>	
+						
+			<div class="slider-max-date"><span></span></div>
+			
+		</div>
+		
+		<div class="slider-settings p8">
+			<a widget-action="settings" class="settings" href="#" role="button" title="Ver ou alterar as definições do timeslider"> 
+				<i class="fa fa-gear fa-lg"></i>
+			</a>
+		</div>		
+	</div>
+</div>
+
+<div class="modal fade" id="slider-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" style="font-size:14px;">Definições Timeslider</h4>
+      </div>
+      <div class="modal-body">
+      
+		 <div role="form" widget-template="settings">
+			
+			<!--  -->
+			<div class="form-group col-sm-4 gen-date-picker-wrapper">
+			  <label for="p_start_date">Data Inicio</label>
+			  <div class="input-group">
+			      <input type="text" value="{{ this.settings.startDate }}" class="form-control gen-date-picker"  name="start_date"/>			      
+			      <span class="datepicker-clear fa fa-times"></span>
+			      <span class="input-group-btn gen-date-icon">
+			        <a class="btn btn-primary"><i class="fa fa-calendar"></i></a>
+			      </span>
+			  </div>
+			</div>
+			
+			<!--  -->
+			<div class="form-group col-sm-4 gen-date-picker-wrapper">
+			  <label for="p_end_date">Data Fim</label>
+			  <div class="input-group">
+			      <input type="text" value="{{ this.settings.endDate }}" class="form-control gen-date-picker" name="end_date"/>
+			      <span class="datepicker-clear fa fa-times"></span>
+			      <span class="input-group-btn gen-date-icon">
+			        <a class="btn btn-primary"><i class="fa fa-calendar"></i></a>
+			      </span>
+			  </div>
+			</div>
+			
+			<!--  -->
+			<div class="col-sm-4 form-group">
+			    <label for="p_period">Período</label>
+			    <select class="form-control select2 select2-modal" name="period">
+					<option value=""  label="--- Selecionar ---">--- Selecionar ---</option>
+					{{#each settings.periods}}	
+						{{#if (Ative @key ../settings.period)}}
+							<option value="{{@key}}" label="{{this}}" selected >{{this}}</option>						
+						{{else}}
+							<option value="{{@key}}" label="{{this}}">{{this}}</option>		
+						{{/if}}				
+					{{/each}}
+			    </select>
+			</div>
+			<!--  -->
+			
+			<div class="col-sm-4" item-type="radiolist">
+				<div class="form-group radiolist clear">
+					<label><span>Range</span></label>
+					<div style="display: inline-flex">
+						{{#each settings.items}}	
+							<div class="radio col-md-12">								
+								<label style="font-weight: normal !important;" class="container-box"><span>{{this.label}}</span>
+								{{#if (Ative this.active ../settings.range)}}
+									<input type="radio" name="range" value="{{this.active}}" checked class="radiolist" label="{{this.label}}"><span class="radiomark"></span></label>
+								{{else}}
+									<input type="radio" name="range" value="{{this.active}}" class="radiolist" label="{{this.label}}"><span class="radiomark"></span></label>
+								{{/if}}		
+							</div>
+						{{/each}}
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group col-sm-4">
+				<label for="p_step"><span>Passo</span></label>
+				<!-- <input type="number" value="{{ this.settings.step }}" class="form-control" id="p_step" name="step" placeholder="1"> -->
+				{{inputIt this.settings.step "form-control" "step" "1"}}
+			</div>
+			
+			<div class="col-sm-4" item-type="radiolist">
+				<div class="form-group radiolist clear">
+					<label><span>Ciclo</span></label>
+					<div style="display: inline-flex">
+						{{#each settings.items}}	
+							<div class="radio col-md-12">								
+								<label style="font-weight: normal !important;" class="container-box"><span>{{this.label}}</span>
+								{{#if (Ative this.active ../settings.loop)}}
+									<input type="radio" name="loop" value="{{this.active}}" checked class="radiolist" label="{{this.label}}"><span class="radiomark"></span></label>
+								{{else}}
+									<input type="radio" name="loop" value="{{this.active}}" class="radiolist" label="{{this.label}}"><span class="radiomark"></span></label>
+								{{/if}}		
+							</div>
+						{{/each}}
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group col-sm-4">
+				<label for="p_delay"><span>Demora</span></label>
+				<!-- <input type="number" value="{{ this.settings.delay }}" class="form-control" name="delay" placeholder="500"> -->
+				{{inputIt this.settings.delay "form-control" "delay" "500"}}
+			</div>
+			
+          </div>
+          
+      </div><!-- /.modal-body -->
+      
+      <div class="modal-footer" style="padding: 8px;">
+        <button type="button" class="btn btn-primary btn-sm" widget-action="settings-confirm"><i class="fa fa-check"></i> Confirmar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

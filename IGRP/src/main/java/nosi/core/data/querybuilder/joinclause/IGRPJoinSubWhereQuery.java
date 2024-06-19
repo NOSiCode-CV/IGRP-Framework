@@ -146,8 +146,7 @@ public abstract class IGRPJoinSubWhereQuery<E> extends IGRPQueryBase<E> implemen
    @SafeVarargs
    @Override
    public final <V> IGRPJoinSubWhereQuery<E> notIn(SingularAttribute<E, V> attribute, V... values) {
-      final javax.persistence.criteria.Predicate notInClause = this.getCriteriaBuilder().in(join.get(attribute.getName())).not();
-      notInClause.in(Arrays.asList(values));
+      final javax.persistence.criteria.Predicate notInClause = join.get(attribute.getName()).in(Arrays.asList(values)).not();
       this.addPredicate(notInClause);
       return this;
    }

@@ -20,7 +20,7 @@ import nosi.core.webapp.security.EncrypDecrypt;
 
 public final class Igrp{
 	
-	private static IgrpThreadLocal appInstance = new IgrpThreadLocal();
+	private static final IgrpThreadLocal appInstance = new IgrpThreadLocal();
 
 	private HttpServlet servlet;
 	private HttpServletRequest request;

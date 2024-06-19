@@ -47,8 +47,8 @@ public class Report extends Controller{
 	public static final String PDF_PRV = "2"; //PDF Preview
 	public static final String PDF_SAVE = "3"; //PDF Save to Clob
 	
-	private Map<String,Object> params = new HashMap<>();
-	private StringBuilder qStr = new StringBuilder();
+	private final Map<String,Object> params = new HashMap<>();
+	private final StringBuilder qStr = new StringBuilder();
 	private String link;
 	private String contraProva;	
 
@@ -219,13 +219,14 @@ public class Report extends Controller{
 					;
 			
 		//XML + XSL >> HTML
-			StreamResult result = new TransformHelper().transformXMLXSL2HTML(xml, xsl);
+			final var transformHelper = new TransformHelper();
+			StreamResult result = transformHelper.transformXMLXSL2HTML(xml, xsl);
 			String baseUri4 = FileSystems.getDefault().getPath(new Config().basePathServer()).toUri().toString();
 			baseUri4 = baseUri4.replace(dadBase, "");
 			Document doc = html5ParseDocument(result.getWriter().toString(), baseUri4);	
 			
 			//HTML >> PDF
-			actual = new TransformHelper().transformHTML2PDF(doc, baseUri4);
+			actual = transformHelper.transformHTML2PDF(doc, baseUri4);
 			
 			
 		//Ver PDF ou Download direto

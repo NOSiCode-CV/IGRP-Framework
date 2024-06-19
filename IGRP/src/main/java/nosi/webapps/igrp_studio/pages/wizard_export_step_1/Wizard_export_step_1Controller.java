@@ -29,7 +29,7 @@ public class Wizard_export_step_1Controller extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/	
 		
-		final Application app = Core.findApplicationById(Integer.valueOf(model.getApplication_id()));
+		final Application app = Core.findApplicationById(model.getApplication_id());
 		final String nomeApp = app.getName();
 		final String fileName = Core.getParam("p_file_name");
 		final String sql = this.getSql(app.getDad());
@@ -87,7 +87,7 @@ private String getSql(String dad) {
 		int index = 0;
 		for (OptionsImportExport type : list) {
 			if (type != null) {
-				sql.append("SELECT " + type.getValor() + " as ID,'" + type.getDescricao() + "' as NAME");
+				sql.append("SELECT ").append(type.getValor()).append(" as ID,'").append(type.getDescricao()).append("' as NAME");
 				if (index++ != list.size() - 1)
 					sql.append(" UNION ");
 			}

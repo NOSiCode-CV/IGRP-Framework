@@ -5,6 +5,8 @@ import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.Core;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -16,6 +18,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Emanuel
@@ -26,7 +29,7 @@ public class HibernateUtils {
 
    private static final Logger LOG = LogManager.getLogger(HibernateUtils.class);
 
-   private static final Map<String, SessionFactory> SESSION_FACTORY = new HashMap<>();
+   private static final Map<String, SessionFactory> SESSION_FACTORY = new ConcurrentHashMap<>();
    private static final SessionFactory SESSION_FACTORY_IGRP;
    public static final StandardServiceRegistryBuilder REGISTRY_BUILDER_IGRP;
 
@@ -54,19 +57,31 @@ public class HibernateUtils {
       if (connectionName != null && connectionName.equalsIgnoreCase(ConfigApp.getInstance().getBaseConnection()))
          return SESSION_FACTORY_IGRP;
 
-      final String fileName = dad != null && !dad.isEmpty() ? connectionName + "." + dad : connectionName;
+      final String fileName = (dad != null && !dad.isEmpty()) ? connectionName + "." + dad : connectionName;
 
-      SessionFactory sessionFactory = SESSION_FACTORY.computeIfAbsent(connectionName, sf -> buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG));
+      return SESSION_FACTORY.compute(connectionName, (key, existingSessionFactory) -> {
+         if (existingSessionFactory == null || !existingSessionFactory.isOpen()) {
+            return buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG);
+         }
+         return existingSessionFactory;
+      });
+   }
 
-      if (sessionFactory != null && sessionFactory.isOpen())
-         return sessionFactory;
+   public static Session getSession(String connectionName) {
+      SessionFactory sessionFactory = getSessionFactory(connectionName);
+      if (sessionFactory != null) {
+         if (sessionFactory.isOpen() && sessionFactory.getCurrentSession() != null
+             && sessionFactory.getCurrentSession().isOpen()) {
+            return sessionFactory.getCurrentSession();
+         }
+         sessionFactory.close();
+         removeSessionFactory(connectionName);
+         sessionFactory = getSessionFactory(connectionName);
+         if (sessionFactory != null)
+            return sessionFactory.getCurrentSession();
 
-      removeSessionFactory(connectionName);
-
-      sessionFactory = buildSessionFactory(fileName + SUFIX_HIBERNATE_CONFIG);
-      SESSION_FACTORY.put(connectionName, sessionFactory);
-
-      return sessionFactory;
+      }
+      throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
    }
 
    private static SessionFactory buildSessionFactory(String cfgName) {
@@ -111,6 +126,7 @@ public class HibernateUtils {
 
    public static void closeAllConnection() {
       SESSION_FACTORY.values().forEach(SessionFactory::close);
+      SESSION_FACTORY.clear();
       if (SESSION_FACTORY_IGRP != null)
          SESSION_FACTORY_IGRP.close();
    }

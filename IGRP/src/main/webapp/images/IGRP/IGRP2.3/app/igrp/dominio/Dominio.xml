@@ -48,15 +48,15 @@
         </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=dominio" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true" adbcli="">
+                <documento name="p_documento" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT&amp;p_type=dominio" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-question-circle" maxlength="250" showlabel="true" adbcli="">
                     <label>Help</label>
-                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT;&amp;p_type=dominio</value>
+                    <value>https://docs.igrp.cv/IGRP/app/webapps?r=tutorial/Listar_documentos/index&amp;dad=tutorial&amp;target=_blank&amp;isPublic=1&amp;lang=pt_PT&amp;p_type=dominio</value>
                 </documento>
             </fields>
         </view_1>
         <view_2 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <forum name="p_forum" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&amp;utm_medium=link&amp;utm_campaign=share-link" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-comments" maxlength="250" showlabel="true" adbcli="">
+                <forum name="p_forum" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" refresh_components="" refresh_submit="false" persist="true" action="index" page="Dominio" app="igrp" custom_action="https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&amp;utm_medium=link&amp;utm_campaign=share-link" action_type="true" class="[object Object]" btnSize="" iconColor="#333" iconClass="" img="fa-comments-o" maxlength="250" showlabel="true" adbcli="">
                     <label>Forum</label>
                     <value>https://gitter.im/igrpweb/crud_dao_generator?utm_source=share-link&amp;utm_medium=link&amp;utm_campaign=share-link</value>
                 </forum>
@@ -78,13 +78,13 @@
                 <page>Dominio</page>
                 <link>index</link>
                 <target>submit_ajax</target>
-                <img>success|fa-plus-square</img>
+                <img>success|fa-plus</img>
                 <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="true" disabled="false" right="false" java-type="Integer">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="true" disabled="false" right="false" java-type="Integer" load_service_data="false" tooltip="false" disable_copy_paste="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -107,7 +107,7 @@
                     </list>
                     <rules/>
                 </aplicacao>
-                <lst_dominio name="p_lst_dominio" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
+                <lst_dominio name="p_lst_dominio" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="" load_service_data="false" tooltip="false" disable_copy_paste="false">
                     <label>Editar domínio</label>
                     <list>
                         <option/>
@@ -143,19 +143,19 @@
                         </rule>
                     </rules>
                 </lst_dominio>
-                <novo_dominio name="p_novo_dominio" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="dad_name Ex: igrp_types_doc" right="true" desclabel="false">
+                <novo_dominio name="p_novo_dominio" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="dad_name Ex: igrp_types_doc" right="true" desclabel="false" disablehtml="true" inputmask="" tooltip="false" disable_copy_paste="false">
                     <label>Novo domínio</label>
-                    <value>Voluptatem elit omnis consectetur anim</value>
+                    <value>Lorem omnis adipiscing sit aliqua</value>
                 </novo_dominio>
-                <hidden name="p_app" type="hidden" maxlength="250" java-type="Integer" tag="app"/>
+                <hidden name="p_app" type="hidden" maxlength="250" java-type="Integer" tooltip="false" disable_copy_paste="false" tag="app"/>
             </fields>
         </form_1>
         <formlist_1 type="formlist" xml-type="formlist" gen-clean="true" gen-type="container" gen-group="true">
             <fields>
-                <description name="p_description" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="Yes" right="false" desc="true">
+                <description name="p_description" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="Yes" right="false" disablehtml="true" inputmask="" desc="true">
                     <label>Descrição</label>
                 </description>
-                <key name="p_key" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="Y" right="false" desc="true">
+                <key name="p_key" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="Y" right="false" disablehtml="true" inputmask="" desc="true">
                     <label>Chave</label>
                 </key>
                 <estado name="p_estado" type="checkbox" maxlength="1000" required="false" change="false" readonly="false" disabled="false" right="false" java-type="int" check="true" desc="true">
@@ -166,54 +166,54 @@
             <table>
                 <value>
                     <row>
-                        <description name="p_description" desc="true">Unde aperiam magna sed anim</description>
-                        <description_desc name="p_description_desc">Unde aperiam magna sed anim</description_desc>
-                        <key name="p_key" desc="true">Unde laudantium sit iste stract</key>
-                        <key_desc name="p_key_desc">Unde laudantium sit iste stract</key_desc>
+                        <description name="p_description" desc="true">Aliqua perspiciatis sed deserunt omnis</description>
+                        <description_check name="p_description_check">Aliqua perspiciatis sed deserunt omnis</description_check>
+                        <key name="p_key" desc="true">Aperiam totam doloremque adipiscing aliqua</key>
+                        <key_check name="p_key_check">Aperiam totam doloremque adipiscing aliqua</key_check>
                         <estado name="p_estado" check="true" desc="true">1</estado>
-                        <estado_desc name="p_estado_desc">1</estado_desc>
-                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-f31c_a3a9</ordem>
-                        <ordem_desc name="p_ordem_desc">hidden-f31c_a3a9</ordem_desc>
+                        <estado_check name="p_estado_check">1</estado_check>
+                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-59f9_4c2b</ordem>
+                        <ordem_check name="p_ordem_check">hidden-59f9_4c2b</ordem_check>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Accusantium perspiciatis stract voluptatem doloremque</description>
-                        <description_desc name="p_description_desc">Accusantium perspiciatis stract voluptatem doloremque</description_desc>
-                        <key name="p_key" desc="true">Doloremque mollit accusantium aliqua amet</key>
-                        <key_desc name="p_key_desc">Doloremque mollit accusantium aliqua amet</key_desc>
+                        <description name="p_description" desc="true">Iste deserunt adipiscing perspiciatis consectetur</description>
+                        <description_check name="p_description_check">Iste deserunt adipiscing perspiciatis consectetur</description_check>
+                        <key name="p_key" desc="true">Mollit deserunt ipsum perspiciatis elit</key>
+                        <key_check name="p_key_check">Mollit deserunt ipsum perspiciatis elit</key_check>
                         <estado name="p_estado" check="true" desc="true">1</estado>
-                        <estado_desc name="p_estado_desc">1</estado_desc>
-                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-adbb_dadb</ordem>
-                        <ordem_desc name="p_ordem_desc">hidden-adbb_dadb</ordem_desc>
+                        <estado_check name="p_estado_check">1</estado_check>
+                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-8a41_60fa</ordem>
+                        <ordem_check name="p_ordem_check">hidden-8a41_60fa</ordem_check>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Consectetur unde aperiam consectetur amet</description>
-                        <description_desc name="p_description_desc">Consectetur unde aperiam consectetur amet</description_desc>
-                        <key name="p_key" desc="true">Deserunt ut lorem stract sed</key>
-                        <key_desc name="p_key_desc">Deserunt ut lorem stract sed</key_desc>
+                        <description name="p_description" desc="true">Doloremque rem lorem officia sit</description>
+                        <description_check name="p_description_check">Doloremque rem lorem officia sit</description_check>
+                        <key name="p_key" desc="true">Amet adipiscing perspiciatis consectetur unde</key>
+                        <key_check name="p_key_check">Amet adipiscing perspiciatis consectetur unde</key_check>
                         <estado name="p_estado" check="true" desc="true">1</estado>
-                        <estado_desc name="p_estado_desc">1</estado_desc>
-                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-5530_5404</ordem>
-                        <ordem_desc name="p_ordem_desc">hidden-5530_5404</ordem_desc>
+                        <estado_check name="p_estado_check">1</estado_check>
+                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-ed16_db70</ordem>
+                        <ordem_check name="p_ordem_check">hidden-ed16_db70</ordem_check>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Deserunt aperiam omnis totam stract</description>
-                        <description_desc name="p_description_desc">Deserunt aperiam omnis totam stract</description_desc>
-                        <key name="p_key" desc="true">Amet totam rem sit aliqua</key>
-                        <key_desc name="p_key_desc">Amet totam rem sit aliqua</key_desc>
+                        <description name="p_description" desc="true">Elit anim sit amet unde</description>
+                        <description_check name="p_description_check">Elit anim sit amet unde</description_check>
+                        <key name="p_key" desc="true">Aperiam officia omnis iste adipiscing</key>
+                        <key_check name="p_key_check">Aperiam officia omnis iste adipiscing</key_check>
                         <estado name="p_estado" check="true" desc="true">1</estado>
-                        <estado_desc name="p_estado_desc">1</estado_desc>
-                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-dfe8_5c3f</ordem>
-                        <ordem_desc name="p_ordem_desc">hidden-dfe8_5c3f</ordem_desc>
+                        <estado_check name="p_estado_check">1</estado_check>
+                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-dcbb_acc4</ordem>
+                        <ordem_check name="p_ordem_check">hidden-dcbb_acc4</ordem_check>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Magna sit rem stract officia</description>
-                        <description_desc name="p_description_desc">Magna sit rem stract officia</description_desc>
-                        <key name="p_key" desc="true">Deserunt lorem consectetur magna sit</key>
-                        <key_desc name="p_key_desc">Deserunt lorem consectetur magna sit</key_desc>
+                        <description name="p_description" desc="true">Officia accusantium ut voluptatem consectetur</description>
+                        <description_check name="p_description_check">Officia accusantium ut voluptatem consectetur</description_check>
+                        <key name="p_key" desc="true">Dolor omnis officia amet aliqua</key>
+                        <key_check name="p_key_check">Dolor omnis officia amet aliqua</key_check>
                         <estado name="p_estado" check="true" desc="true">1</estado>
-                        <estado_desc name="p_estado_desc">1</estado_desc>
-                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-0ded_eb80</ordem>
-                        <ordem_desc name="p_ordem_desc">hidden-0ded_eb80</ordem_desc>
+                        <estado_check name="p_estado_check">1</estado_check>
+                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-d9ae_35db</ordem>
+                        <ordem_check name="p_ordem_check">hidden-d9ae_35db</ordem_check>
                     </row>
                 </value>
             </table>
@@ -232,40 +232,40 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <dominio name="p_dominio">Sed elit labore anim adipiscin</dominio>
-                        <id_dom name="p_id_dom" tag="id_dom">hidden-7f77_0cee</id_dom>
+                        <dominio name="p_dominio">Officia stract consectetur lab</dominio>
+                        <id_dom name="p_id_dom" tag="id_dom">hidden-5b66_80b8</id_dom>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <dominio name="p_dominio">Accusantium unde elit aliqua o</dominio>
-                        <id_dom name="p_id_dom" tag="id_dom">hidden-d39c_9591</id_dom>
+                        <dominio name="p_dominio">Lorem voluptatem aliqua aperia</dominio>
+                        <id_dom name="p_id_dom" tag="id_dom">hidden-12eb_f8c0</id_dom>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <dominio name="p_dominio">Omnis laudantium perspiciatis</dominio>
-                        <id_dom name="p_id_dom" tag="id_dom">hidden-6162_33ae</id_dom>
+                        <dominio name="p_dominio">Aliqua accusantium amet omnis</dominio>
+                        <id_dom name="p_id_dom" tag="id_dom">hidden-3076_fc8a</id_dom>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <dominio name="p_dominio">Aperiam magna aliqua accusanti</dominio>
-                        <id_dom name="p_id_dom" tag="id_dom">hidden-71bf_aee3</id_dom>
+                        <dominio name="p_dominio">Labore omnis voluptatem dolor</dominio>
+                        <id_dom name="p_id_dom" tag="id_dom">hidden-3c94_0c46</id_dom>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <dominio name="p_dominio">Dolor adipiscing accusantium a</dominio>
-                        <id_dom name="p_id_dom" tag="id_dom">hidden-a8b5_56cc</id_dom>
+                        <dominio name="p_dominio">Sit sed officia sit consectetu</dominio>
+                        <id_dom name="p_id_dom" tag="id_dom">hidden-590a_f4d2</id_dom>
                     </row>
                 </value>
                 <context-menu>
@@ -276,17 +276,27 @@
                         <link>index</link>
                         <parameter>../images/IGRP/IGRP2.3/app/igrp/novodominio/NovoDominio.xml?</parameter>
                         <target>right_panel|refresh</target>
-                        <img>warning|fa-pencil-square</img>
+                        <img>warning|fa-pencil</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/novodominio/NovoDominio.xml</preview>
                     </item>
-                    <item id="button_91cf_1728" type="specific" code="" class="danger" rel="delete" refresh_components="">
+                    <item id="button_91cf_1728" type="specific" code="" class="danger" rel="delete" refresh_components="" labelConfirm="Deseja realmente realizar esta operação?">
                         <title>Delete</title>
                         <app>igrp</app>
                         <page>Dominio</page>
                         <link>index</link>
                         <parameter>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
                         <target>alert_submit</target>
-                        <img>danger|fa-times-circle</img>
+                        <img>danger|fa-times</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
+                    </item>
+                    <item id="button_682b_bf52" type="specific" code="" class="grey" rel="download" refresh_components="">
+                        <title>Download</title>
+                        <app>igrp</app>
+                        <page>Dominio</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
+                        <target>download|refresh</target>
+                        <img>grey|fa-download</img>
                         <preview>../images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
                     </item>
                 </context-menu>

@@ -92,7 +92,7 @@ public class HomeController extends Controller {
 			String page = "tutorial/DefaultPage/index&title=";
 			if(ac!=null) { 
 				page = ac.getPage();
-				/**
+				/*
 				 * Go to home page of application or go to default page in case not exists home page associate to application
 				 */
 				page = (ac.getApplication()!=null)?(ac.getApplication().getDad().toLowerCase() + "/" + page):page+"/DefaultPage";

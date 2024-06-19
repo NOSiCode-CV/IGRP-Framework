@@ -406,7 +406,7 @@ public class IGRPTable extends IGRPComponent{
 	
 	
 	public static class Table{
-		private List<IGRPButton> buttons;
+		private final List<IGRPButton> buttons;
 		
 		public Table() {
 			this.buttons = new ArrayList<>();
@@ -500,7 +500,7 @@ public class IGRPTable extends IGRPComponent{
 		
 		private String tagName; 
 		private String tagValue; 
-		private Properties tagAttrs; 
+		private final Properties tagAttrs;
 		List<Struct> childs; 
 		
 		public Struct() {

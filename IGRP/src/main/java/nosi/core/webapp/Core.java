@@ -66,6 +66,7 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -241,18 +242,6 @@ public final class Core {
 			ok = false;
 		}
 		return ok;
-	}
-
-	/**
-	 * @deprecated Use ToTimestamp Convert string date into Timestamp
-	 * 
-	 * @param date
-	 * @param formatIn
-	 * @return
-	 */
-	@Deprecated
-	public static Timestamp stringToTimestamp(String date, String formatIn) {
-		return DateHelper.convertStringToTimestamp(date, formatIn);
 	}
 
 	public static String decrypt(String content) {
@@ -610,10 +599,6 @@ public final class Core {
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().fromJson(json, type);
 	}
 
-	public static String getAmberColor() {
-		return "2";
-	}
-
 	/**
 	 * 
 	 * @param name
@@ -622,7 +607,7 @@ public final class Core {
 	 * @return
 	 */
 	public static String getAttribute(String name, boolean isRemoved) {
-		if (Igrp.getInstance() != null && Igrp.getInstance().getRequest().getAttribute(name) != null) {
+		if ((Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null)  && Igrp.getInstance().getRequest().getAttribute(name) != null) {
 			String v;
 			if (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[])
 				v = ((Object[]) Igrp.getInstance().getRequest().getAttribute(name))[0].toString();
@@ -651,18 +636,6 @@ public final class Core {
 		if (isRemoved)
 			Igrp.getInstance().getRequest().removeAttribute(name);
 		return v;
-	}
-
-	public static String getBlueColor() {
-		return "7";
-	}
-
-	public static String getBlueGreyColor() {
-		return "5";
-	}
-
-	public static String getBrownColor() {
-		return "8";
 	}
 
 	/**
@@ -771,14 +744,6 @@ public final class Core {
 	 */
 	public static String getCurrentDate(String outputFormat) {
 		return DateHelper.getCurrentDate(outputFormat);
-	}
-
-	@Deprecated
-	/*
-	 * @Deprecated use getCurrentDateSql
-	 */
-	public static Date getCurrentDate1() {
-		return DateHelper.getCurrentDate();
 	}
 
 	/**
@@ -1027,8 +992,7 @@ public final class Core {
 	 * 
 	 * @param domainName
 	 *            domain/code name
-	 * @param applicationCode
-	 *            code of the application
+
 	 * @return a {@code Map<String, String>} of this domain with key as
 	 *         {@code valor} and value as {@code description}
 	 */
@@ -1135,10 +1099,6 @@ public final class Core {
 				.andWhere("lower(valor)", "valor", "=", key.toLowerCase()).andWhere("application.id", "=", idApp).one();
 		return oneDomain != null ? oneDomain.getDescription() : "";
 
-	}
-
-	public static String getDeepPurpleColor() {
-		return "9";
 	}
 
 	/**
@@ -1254,10 +1214,6 @@ public final class Core {
 		if (flag)
 			Igrp.getInstance().getRequest().getSession().removeAttribute(key);
 		return result;
-	}
-
-	public static String getGreenColor() {
-		return "4";
 	}
 
 	@Deprecated
@@ -1445,7 +1401,7 @@ public final class Core {
 	 * @return
 	 */
 	public static String getParam(String name,String defaultParam) {
-		Object v = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameter(name) : null;
+		Object v = (Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null)  ? Igrp.getInstance().getRequest().getParameter(name) : null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, true);
 		return (v != null && !v.equals("null")) ? v + "" : defaultParam;
@@ -1462,7 +1418,7 @@ public final class Core {
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name, boolean isRemoved) {
-		Object v = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameter(name) : null;
+		Object v = (Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null) ? Igrp.getInstance().getRequest().getParameter(name) : null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, isRemoved);
 		return v != null && !v.equals("null") ? v.toString() : "";
@@ -1493,7 +1449,7 @@ public final class Core {
 	 * @return value
 	 */
 	public static String[] getParamArray(String name) {
-		String[] value = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameterValues(name) : null;
+		String[] value = (Igrp.getInstance() != null && Igrp.getInstance().getRequest() != null)  ? Igrp.getInstance().getRequest().getParameterValues(name) : null;
 		if (value == null)
 			value = Core.getAttributeArray(name);
 		return value;
@@ -1724,14 +1680,6 @@ public final class Core {
 		return taskId;
 	}
 
-	public static String getPinkColor() {
-		return "1";
-	}
-
-	public static String getPurpleColor() {
-		return "6";
-	}
-
 	/**
 	 * Receive multiple params and get one of these params that's not null
 	 * 
@@ -1773,10 +1721,6 @@ public final class Core {
 				});
 		xml.endElement();
 		return xml.toString();
-	}
-
-	public static String getYellowColor() {
-		return "3";
 	}
 
 	public static String gt(String value) {
@@ -3794,8 +3738,7 @@ public final class Core {
 	/**
 	 * @param soapNameSpace
 	 *            The custom soap tag name envelope
-	 * @param soapNamespaceEnvelope
-	 *            custom namespace for custom tag name envelope
+
 	 * @param wsdlUrl
 	 *            The webservice description language url
 	 * @param namespaces
@@ -4986,11 +4929,11 @@ public final class Core {
 	}
 
 	public static String convertPartToString(Part file) throws IOException {
-		return FileHelper.convertToString(file);
+		return new FileHelper().convertToString(file);
 	}
 
 	public static String convertInputStreamToString(InputStream inputStream) throws IOException {
-		return FileHelper.convertToString(inputStream);
+		return new FileHelper().convertToString(inputStream);
 	}
 
 	public static boolean createDiretory(String path) throws IOException {
@@ -5214,7 +5157,7 @@ public final class Core {
 	 */
 	public static StartProcess nextTask(TaskService task, List<Part> parts, String myCustomPermission) {
 		BPMNExecution bpmnExecuteValidacao = new BPMNExecution();
-       return bpmnExecuteValidacao.exeuteTask(task, parts, myCustomPermission);
+       return bpmnExecuteValidacao.executeTask(task, parts, myCustomPermission);
 	}
 
 	/**
@@ -5512,5 +5455,44 @@ public final class Core {
 			System.out.println("loadProp4Cache "+e.getMessage());
 		} 
 		return propCached;
+	}
+
+	public static void populatePageOptionTypeFields(String dad, Map<Field, String> fieldDomainMap) {
+
+		Objects.requireNonNull(dad);
+		Objects.requireNonNull(fieldDomainMap);
+
+		if (fieldDomainMap.isEmpty())
+			return;
+
+		final var domainCodes = fieldDomainMap.values().toArray(new String[0]);
+
+		final var allDomains = Core.findDomainByCodes(dad, domainCodes);
+		if (Objects.isNull(allDomains))
+			return;
+
+		final var allDomainsMap = allDomains.stream().collect(Collectors.groupingBy(Domain::getDominio));
+		if (allDomainsMap.isEmpty())
+			return;
+
+		final Predicate<String> typeThatNeedPromptVerifier = fieldType -> !"radiolist".equals(fieldType) && !"checkboxlist".equals(fieldType);
+
+		final BiFunction<List<Domain>, Boolean, Map<String, String>> mapBuilder = (values, prompt) -> {
+			final var map = new HashMap<String, String>(values.size() + 1);
+			if (prompt)
+				map.put(null, "-- Selecionar --");
+			values.forEach(v -> map.put(v.getValor(), v.getDescription()));
+			return map;
+		};
+
+		fieldDomainMap.forEach((field, domainCode) -> {
+			final var domains = allDomainsMap.get(domainCode);
+			if (Objects.nonNull(domains)) {
+				final var fieldType = field.propertie().getProperty("type");
+				final var isTypeThatNeedPromptVal = typeThatNeedPromptVerifier.test(fieldType);
+				final var map = mapBuilder.apply(domains, isTypeThatNeedPromptVal);
+				field.setValue(map);
+			}
+		});
 	}
 }

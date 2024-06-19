@@ -1,37 +1,42 @@
 package nosi.webapps.igrp.pages.dominio;
 
-import static nosi.core.i18n.Translator.gt;
-
+import nosi.core.webapp.Controller;//
 import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
+import static nosi.core.i18n.Translator.gt;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import nosi.core.config.ConfigCommonMainConstants;
-import nosi.core.config.ConfigDBIGRP;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
+import nosi.core.webapp.Core.MimeType;
+import nosi.core.config.Config;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.helpers.DateHelper;
+import nosi.core.webapp.import_export_v2.exports.Export;
+import nosi.core.webapp.import_export_v2.exports.application.ApplicationExport;
+import nosi.core.webapp.import_export_v2.exports.domain.DomainExport;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Domain;
-
+import nosi.webapps.igrp.dao.ImportExportDAO;
 /*----#end-code----*/
 		
 public class DominioController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Dominio model = new Dominio();
+		var model = new Dominio();
 		model.load();
-		DominioView view = new DominioView();
+		var view = new DominioView();
 		view.id_dom.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT 'Mollit sit lorem laudantium natus' as description,'Sit deserunt iste accusantium elit' as key,'1' as estado,'hidden-f91b_f62b' as ordem "));
-		model.loadTable_1(Core.query(null,"SELECT 'Omnis sed ipsum aperiam mollit' as dominio,'hidden-ee2d_2c4d' as id_dom "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Anim doloremque sit accusantium aliqua' as description,'Omnis anim unde ut elit' as key,'1' as estado,'hidden-5faa_5057' as ordem "));
+		model.loadTable_1(Core.query(null,"SELECT 'Rem sed consectetur mollit omn' as dominio,'hidden-ce77_7ac8' as id_dom "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.lst_dominio.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/			
 		model.setDocumento(this.getConfig().getResolveUrl("tutorial","Listar_documentos","index&p_type=dominio"));
         view.aplicacao.setValue(DomainHeper.getApplications());
@@ -49,25 +54,26 @@ public class DominioController extends Controller {
 	     	mapDom.put(null,gt("++ Adicione um domínio ++"));
 			view.lst_dominio.setValue(mapDom);
 		}else
-			view.lst_dominio.setQuery(domainQuery, gt("-- Selecione ou adicione um domínio ++"));	
+			view.lst_dominio.setQuery(domainQuery, gt("-- Selecione ou adicione um domínio ++"));
 
-		if(Core.isNotNull(model.getLst_dominio())) {  
-			model.setFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio(),app));
-    	}
+		if (Core.isNotNull(model.getLst_dominio()) && Core.isNull(Core.getParam("error_saving_item")))
+			model.setFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio(), app));
       
 		if(Core.isNotNullOrZero(app)) {
 			 view.btn_gravar_domain.addParameter("p_aplicacao",app);
 			 view.btn_guardar_item_domain.addParameter("p_aplicacao",app);
-		}
+		} else
+			view.btn_download.setVisible(false);
+
         view.btn_gravar_domain.setVisible(Core.isNull(model.getLst_dominio()));           
      	view.btn_guardar_item_domain.setVisible(Core.isNotNull(model.getLst_dominio()));
      	//cod pa table de lista de dominio
-     	if(Core.isNotNull(model.getAplicacao())) {
-     		view.table_1.setVisible(true);
-     		model.loadTable_1(Core.query(this.configApp.getBaseConnection(), "SELECT DISTINCT dominio as id_dom, dominio  as dominio FROM tbl_domain WHERE env_fk=:env_fk").addInt("env_fk", model.getAplicacao()));
-     	}else {
-     		view.table_1.setVisible(false);
-     	}
+		if (Core.isNotNull(model.getAplicacao())) {
+			view.table_1.setVisible(true);
+			model.loadTable_1(Core.query(this.configApp.getBaseConnection(), "SELECT DISTINCT dominio as id_dom, dominio  as dominio FROM tbl_domain WHERE env_fk=:env_fk").addInt("env_fk", model.getAplicacao()));
+		} else {
+			view.table_1.setVisible(false);
+		}
      	
 		/*----#end-code----*/
 		view.setModel(model);
@@ -75,7 +81,7 @@ public class DominioController extends Controller {
 	}
 	
 	public Response actionGuardar_item_domain() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Dominio model = new Dominio();
+		var model = new Dominio();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -85,23 +91,27 @@ public class DominioController extends Controller {
 		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (guardar_item_domain)  *//* End-Code-Block  */
 		/*----#start-code(guardar_item_domain)----*/
-		if(DomainHeper.saveItemDomain(model)) {
+
+		if (DomainHeper.saveItemDomain(model)) {
 			Core.setMessageSuccess();
 			this.addQueryString("p_aplicacao", model.getAplicacao());
 			this.addQueryString("p_lst_dominio", model.getLst_dominio());
-          	this.addQueryString("target", Core.getParam("target"));
-			return this.redirect("igrp","Dominio","index", this.queryString());
-		}else {
+			this.addQueryString("target", Core.getParam("target"));
+			return this.redirect("igrp", model.getClass().getSimpleName(), "index", this.queryString());
+		} else {
 			Core.setMessageError();
-			return this.forward("igrp","Dominio","index", this.queryString());
+			this.addQueryString("error_saving_item", true);
+			return this.forward("igrp", model.getClass().getSimpleName(), "index", this.queryString());
 		}
+
 		/*----#end-code----*/
 			
 	}
 	
 	public Response actionGravar_domain() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Dominio model = new Dominio();
+		var model = new Dominio();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -111,12 +121,12 @@ public class DominioController extends Controller {
 		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (gravar_domain)  *//* End-Code-Block  */
 		/*----#start-code(gravar_domain)----*/
 		
 		if(DomainHeper.saveDomain(model)) {
 			Core.setMessageSuccess();
 			this.addQueryString("p_aplicacao", model.getAplicacao());
-		//this.addQueryString("p_lst_dominio", model.getNovo_dominio());
           this.addQueryString("target", Core.getParam("target"));
 			return this.redirect("igrp","Dominio","index", this.queryString());
 		}else {
@@ -128,7 +138,7 @@ public class DominioController extends Controller {
 	}
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Dominio model = new Dominio();
+		var model = new Dominio();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -138,6 +148,7 @@ public class DominioController extends Controller {
 		  return this.forward("igrp","NovoDominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (editar)  *//* End-Code-Block  */
 		/*----#start-code(editar)----*/
 		
 		this.addQueryString("p_id_dom",Core.getParam("p_id_dom"));
@@ -146,7 +157,7 @@ public class DominioController extends Controller {
 	}
 	
 	public Response actionDelete() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Dominio model = new Dominio();
+		var model = new Dominio();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
@@ -156,10 +167,11 @@ public class DominioController extends Controller {
 		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
+		/* Start-Code-Block (delete)  *//* End-Code-Block  */
 		/*----#start-code(delete)----*/
 		boolean dom = false;
-		List<Domain> list_domain = new Domain().find().andWhere("dominio","=",Core.getParam("p_id_dom")).all();
- 		for(Domain d : list_domain) {
+		List<Domain> listDomain = new Domain().find().andWhere("dominio","=",Core.getParam("p_id_dom")).all();
+ 		for(Domain d : listDomain) {
 			d.delete();
 			if(!d.hasError()) {
 				dom = true;
@@ -174,8 +186,39 @@ public class DominioController extends Controller {
 		return this.redirect("igrp","Dominio","index", this.queryString());	
 	}
 	
+	public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException{
+		var model = new Dominio();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_id_dom",Core.getParam("p_id_dom"));
+		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/* Start-Code-Block (download)  *//* End-Code-Block  */
+		/*----#start-code(download)----*/
+
+		final String domain = Core.getParam("p_id_dom");
+		final Application app = new Application().findOne(model.getAplicacao());
+
+		final Export export = new Export();
+		new DomainExport(app.getId()).export(export, new String[]{domain});
+		new ApplicationExport(app).export(export,null);
+
+		final byte[] bytes = export.execute();
+		if (bytes != null && bytes.length > 0) {
+			final ImportExportDAO importExport = new ImportExportDAO(domain, this.getConfig().getUserName(), DateHelper.getCurrentDataTime(), "Export Domain");
+			importExport.insert();
+			final String fileName = app.getName() + "-" + domain + "_igrp_v." + Config.VERSION;
+			return this.xSend(bytes, fileName + ".jar", MimeType.APPLICATION_JAR, true);
+		}
 		
-		
+		/*----#end-code----*/
+		return this.redirect("igrp","Dominio","index", this.queryString());	
+	}
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 
 

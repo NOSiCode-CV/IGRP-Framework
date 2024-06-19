@@ -124,14 +124,13 @@ public abstract class IgrpMigrationTemplate extends BaseJavaMigration{
 			if(rs.next()) {
 				this.app.setId(rs.getInt("id"));
 				rs.close();
-				psInsertOrUpdate = context.getConnection().prepareStatement("UPDATE public.tbl_env SET description=?, externo=?, img_src=?, name=?, status=?, template=? WHERE dad = ?"); 
+				psInsertOrUpdate = context.getConnection().prepareStatement("UPDATE public.tbl_env SET description=?, img_src=?, name=?, status=?, template=? WHERE dad = ?");
 				psInsertOrUpdate.setString(1,this.app.getDescription());
-				psInsertOrUpdate.setInt(2, 0);
-				psInsertOrUpdate.setString(3, this.app.getImg_src());
-				psInsertOrUpdate.setString(4, this.app.getName());
-				psInsertOrUpdate.setInt(5, this.app.getStatus());
-				psInsertOrUpdate.setString(6, this.app.getTemplateRaw());
-				psInsertOrUpdate.setString(7, this.app.getDad());
+				psInsertOrUpdate.setString(2, this.app.getImg_src());
+				psInsertOrUpdate.setString(3, this.app.getName());
+				psInsertOrUpdate.setInt(4, this.app.getStatus());
+				psInsertOrUpdate.setString(5, this.app.getTemplateRaw());
+				psInsertOrUpdate.setString(6, this.app.getDad());
 				psInsertOrUpdate.executeUpdate(); 
 			}else {
 				isAppExists = false;

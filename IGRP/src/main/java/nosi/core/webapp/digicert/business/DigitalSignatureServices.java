@@ -30,7 +30,7 @@ public class DigitalSignatureServices {
 	public static String saveSignatureNGetUuid() throws Exception {
 		Part file = Igrp.getInstance().getRequest().getPart(paramName);
 		if (file != null) {
-			String xml = FileHelper.convertToString(file);
+			String xml = new FileHelper().convertToString(file);
 			// log.info("[Content-type=]" + file.getContentType());
 			// log.info("[Name=]" + file.getName());
 			// log.info("[xml=]"+xml);

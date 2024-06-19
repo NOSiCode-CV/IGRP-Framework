@@ -1,0 +1,56 @@
+<div class="gis-widget-panel">
+	
+	<div class="gis-widget-panel-title">
+		<span>{{title}}</span>
+	</div>
+	
+	<div class="gis-widget-panel-body">
+		
+		<div class="widget-steps-container">
+			
+			<div class="control-measure">
+		
+				<div class="widget-step bg-white btn-group btn-group-justified" step-id="measure" role="group" style="border-bottom: 2px solid whitesmoke;">
+					<a widget-action="measure-length"  href="#" class="btn btn-default" role="button" widget-action="measure-length" action-event="click">Distância</a>
+					<a widget-action="measure-area"  href="#" class="btn btn-default" role="button" widget-action="measure-area" action-event="click">Área</a>
+				</div>
+				
+				<div class="widget-step measurement-body" step-id="measurement" widget-trigger="action-measure-area action-measure-length" step-when="widget.drawStart" style="padding: 0 8px 8px">
+					<p class="help widget-step clearfix" step-id="help" step-when="widget.drawHelp">Adicione pontos no mapa, para criar uma nova medição</p>
+					<div class="results" widget-template="measurement">
+						{{#if this.lastPoint.lat}}
+							<div class="group" style="margin-top: 0;"> 
+								<p class="heading">Último ponto</p>
+								<p style="margin-top: 8px;">{{ this.lastPoint.lat_c }} <span class="coorddivider">/</span> {{ this.lastPoint.lng_c }} </p>
+								<p style="margin-top: 8px;">{{ this.lastPoint.lat }} <span class="coorddivider">/</span> {{ this.lastPoint.lng }} </p> 
+							</div>
+						{{/if}}
+					    {{#if length}}
+							<div class="group" style="border-top: 2px solid whitesmoke;"> <p><span class="heading">Distância</span>{{ length }}</p> </div>
+						{{/if}}
+					    {{#if area}}
+							<div class="group" style="border-top: 2px solid whitesmoke;"> <p><span class="heading">Área</span> {{ area }} </p> </div>
+						{{/if}}
+					</div>
+					
+				</div>
+				
+				<div class="widget-step bg-white" step-id="tasks" widget-trigger="action-measure-area action-measure-length" step-when="widget.drawStart" style="padding: 0">
+					<div class="tasks" style="padding: 8px">
+						<a widget-action="finish" class="btn btn-success btn-sm" href="#" role="button">
+							<i class="fa fa-check"></i>
+							<span>Finalizar medição</span>
+						</a>
+						<a widget-action="cancel" class="btn btn-grey btn-sm" href="#" role="button">
+							<i class="fa fa-history"></i>
+							<span>Cancelar</span>
+						</a>
+					</div>
+				</div>
+			
+			 </div>
+		 </div>
+	</div>
+	
+</div>
+	

@@ -164,11 +164,13 @@ public class TaskAccess extends IGRPBaseActiveRecord<TaskAccess> implements Seri
 	}
 
 	public Boolean hasTaskAccess(String processKey){
-		return new TaskAccess().find().keepConnection().limit(1)
-				.where("organization", "=",Core.getCurrentOrganization())
-				.andWhere("profileType", "=",Core.getCurrentProfile())
-				.andWhere("processName","=",processKey)
-				.getCount()>0;		
+		 TaskAccess taskAccess = new TaskAccess().find().keepConnection().limit(1);
+		 //if(new Organization().find().where(Organization.FI)Core.getCurrentOrganization()).)
+		taskAccess.where("organization", "=", Core.getCurrentOrganization());
+		taskAccess.andWhere("profileType", "=", Core.getCurrentProfile())
+				.andWhere("processName", "=", processKey);
+		return taskAccess
+				.getCount()>0;
 	}
 	public List<TaskAccess> getTaskAccess(String processKey){
 		return new TaskAccess().find().keepConnection()
