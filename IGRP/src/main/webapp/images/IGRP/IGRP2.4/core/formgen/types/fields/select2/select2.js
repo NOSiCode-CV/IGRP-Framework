@@ -12,13 +12,12 @@ var SELECTFIELD = function(type,params){
 	field.includes = {
 		xsl :[],
 		css :[ 
-			//{ path:'/libs/select2/select2.min.css' }, 
-			//{ path:'/plugins/select2/select2.style.css' } 
+			{ path:'/libs/select2/select2.min.css' }, 
+			{ path:'/plugins/select2/select2.style.css' } 
 		],
 		js  :[ 
-			{ path:'/libs/choices.js/public/assets/scripts/choices.min.js'}, 
-			{ path:'/components/select.choices/select.choices.js'} 
-			//{ path:'/components/select-choices/init.js'} 
+			{ path:'/plugins/select2/select2.full.min.js'}, 
+			{ path:'/plugins/select2/select2.init.js'} 
 		]
 	}
 	
