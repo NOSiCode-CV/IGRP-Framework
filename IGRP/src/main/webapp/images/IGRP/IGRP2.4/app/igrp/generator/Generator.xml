@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="./Generator.xsl" type="text/xsl"?>
 <rows>
-    <template>sigtca</template>
+    <template>default</template>
     <title>IGRP Studio</title>
     <description>IGRP Studio - Software Developer</description>
     <version>220414</version>
     <link>webapps?r=9s7MhSXb-UfltD8epln1jtYUqRQVEFSFgDTfxflG9Ms=&amp;dad=igrp_studio&amp;p_application=353</link>
- 
+
     <target>_blank</target>
     <site>
         <welcome_note>Ola</welcome_note>

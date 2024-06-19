@@ -1,3 +1,5 @@
 *node_modules
 *testes_uxi
 .DS_Store
+*yarn.lock
+*package-lock.json
