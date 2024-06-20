@@ -1,4 +1,5 @@
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
     <xsl:template name="igrp-form-field" mode="igrp-form-field" match="*">
         <xsl:param name="change" select="''"/>
@@ -72,19 +73,17 @@
             </label>
         </xsl:if>
 
-        <select class="form-control {$change} {$desclabel}" id="{$parent-id}_{name()}" name="{@name}" placeholder="{@placeholder}">
+        <xsl:variable name="class">
+            <xsl:if test="$library = 'select2'">
+                <xsl:text>select2</xsl:text>
+            </xsl:if>
+        </xsl:variable>
 
-            <xsl:choose>
-                <xsl:when test="$library = 'select2'">
-                    <xsl:attribute name="data-select2">true</xsl:attribute>
-                </xsl:when>
-                <xsl:when test="$library = 'default'">
-                    <xsl:attribute name="data-select">true</xsl:attribute>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:attribute name="data-choices">true</xsl:attribute>
-                </xsl:otherwise>
-            </xsl:choose>
+        <select class="form-control {$change} {desclabel} ${class}" id="{$parent-id}_{name()}" name="{@name}" placeholder="{@placeholder}">
+
+            <xsl:if test="$library = 'choices'">
+                <xsl:attribute name="data-choices">true</xsl:attribute>
+            </xsl:if>
 
             <xsl:call-template name="setAttributes">
                 <xsl:with-param name="field" select="."/>

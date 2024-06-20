@@ -12,13 +12,10 @@ var SELECTFIELD = function (type, params) {
 
     field.includes = {
         xsl: [],
-        css: [
-            { path: '/libs/select2/select2.min.css' },
-            { path: '/plugins/select2/select2.style.css' }
-        ],
+        css: [],
         js: [
-            { path: '/plugins/select2/select2.min.js' },
-            { path: '/plugins/select2/select2.init.js' }
+            { path:'/libs/choices.js/public/assets/scripts/choices.min.js'},
+			{ path:'/components/select.choices/select.choices.js'},
         ]
     }
 
@@ -70,7 +67,7 @@ var SELECTFIELD = function (type, params) {
         field.on('draw-end', function () {
             const inputs = $(`.form-group[item-name="${field.GET.tag()}"] select`);
 
-            $.IGRP.components.select2.init(field.parent.holder);
+            $.IGRP.components.choices.init(inputs);
 
         }, true);
     }
@@ -83,6 +80,6 @@ var SELECTFIELD = function (type, params) {
 
 }
 this[VARS.name].declareField({
-    type: 'select2',
+    type: 'select_choices',
     field: SELECTFIELD
 });
