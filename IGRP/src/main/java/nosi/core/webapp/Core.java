@@ -75,7 +75,7 @@ import java.util.stream.IntStream;
  * The core of the IGRP, here you can find all the main functions and helper
  * function useful like toInt, parceInt, isNotNull...
  * 
- * @author: Emanuel Pereira 13 Nov 2017 
+ * author: Emanuel Pereira 13 Nov 2017
  */
 public final class Core {
 
@@ -1028,8 +1028,7 @@ public final class Core {
 	 * 
 	 * @param domainName
 	 *            domain/code name
-	 * @param applicationCode
-	 *            code of the application
+
 	 * @return a {@code Map<String, String>} of this domain with key as
 	 *         {@code valor} and value as {@code description}
 	 */
@@ -3469,9 +3468,9 @@ public final class Core {
 		TaskServiceRest taskRest = new TaskServiceRest();
 		TaskService task = taskRest.getTask(taskId);
 		if (task != null) {
-			if (scope.equalsIgnoreCase("global"))
-				new ProcessInstanceServiceRest().deleteVariable(task.getProcessInstanceId(),
-						task.getTaskDefinitionKey() + "_" + variableName);
+//			if (scope.equalsIgnoreCase("global"))
+//				new ProcessInstanceServiceRest().deleteVariable(task.getProcessInstanceId(),
+//						task.getTaskDefinitionKey() + "_" + variableName);
 			taskRest.addVariable(task.getTaskDefinitionKey() + "_" + variableName, scope, type, value);
 			taskRest.submitVariables(taskId);
 		}
@@ -3493,7 +3492,7 @@ public final class Core {
 			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
 					.collect(Collectors.toList());
-			return (variav != null && !variav.isEmpty()) ? "" + variav.get(variav.size() - 1).getValue() : "";
+			return !variav.isEmpty() ? "" + variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3511,7 +3510,7 @@ public final class Core {
 			List<TaskVariables> variav = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
 					.collect(Collectors.toList());
-			return (variav != null && !variav.isEmpty()) ? "" + variav.get(variav.size() - 1).getValue() : "";
+			return !variav.isEmpty() ? "" + variav.get(variav.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3810,8 +3809,6 @@ public final class Core {
 	/**
 	 * @param soapNameSpace
 	 *            The custom soap tag name envelope
-	 * @param soapNamespaceEnvelope
-	 *            custom namespace for custom tag name envelope
 	 * @param wsdlUrl
 	 *            The webservice description language url
 	 * @param namespaces
@@ -5334,7 +5331,6 @@ public final class Core {
 	/**
 	 * @param dad
 	 * @param appOwner
-	 * @param action
 	 * @return
 	 */
 	public static boolean isSharedPage(String dad, String appOwner, String page) {
@@ -5505,7 +5501,7 @@ public final class Core {
 	 * 
 	 * @param caller is used to get the full name of the class to be the filename saved 
 	 * @param moreArgs is to complement more arguments for example different profiles
-	 * @param experirationTime is the minutes to be checked for the document to be considered expired
+	 * @param expirationTime is the minutes to be checked for the document to be considered expired
 	 * @return
 	 */
 	public static Properties loadProp4Cache(Class<?> caller, String moreArgs,Integer expirationTime) {
