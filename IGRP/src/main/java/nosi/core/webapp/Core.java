@@ -3468,9 +3468,9 @@ public final class Core {
 		TaskServiceRest taskRest = new TaskServiceRest();
 		TaskService task = taskRest.getTask(taskId);
 		if (task != null) {
-//			if (scope.equalsIgnoreCase("global"))
-//				new ProcessInstanceServiceRest().deleteVariable(task.getProcessInstanceId(),
-//						task.getTaskDefinitionKey() + "_" + variableName);
+			if (scope.equalsIgnoreCase("global"))
+				new ProcessInstanceServiceRest().deleteVariable(task.getProcessInstanceId(),
+						task.getTaskDefinitionKey() + "_" + variableName);
 			taskRest.addVariable(task.getTaskDefinitionKey() + "_" + variableName, scope, type, value);
 			taskRest.submitVariables(taskId);
 		}

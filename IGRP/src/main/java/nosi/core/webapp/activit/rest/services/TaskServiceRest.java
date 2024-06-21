@@ -437,7 +437,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 	}
 
 	public boolean submitVariables(String taskId) {		
-		Response response = this.getRestRequest().put("runtime/tasks/" + taskId + "/variables",
+		Response response = this.getRestRequest().post("runtime/tasks/" + taskId + "/variables",
 				ResponseConverter.convertDaoToJson(this.variables)); 
 		boolean r = response != null && response.getStatus() == 201;
 		if(response != null) 
