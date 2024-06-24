@@ -18,7 +18,7 @@ var SELECTFIELD = function (type, params) {
         ],
         js: [
             { path: '/plugins/select2/select2.min.js' },
-            { path: '/plugins/select2/select2.init.js' }
+          //  { path: '/plugins/select2/select2.init.js' }
         ]
     }
 
@@ -69,8 +69,9 @@ var SELECTFIELD = function (type, params) {
 
         field.on('draw-end', function () {
             const inputs = $(`.form-group[item-name="${field.GET.tag()}"] select`);
-
+            
             $.IGRP.components.select2.init(field.parent.holder);
+         //  $(inputs).attr('id').select2();
 
         }, true);
     }

@@ -68,11 +68,11 @@ var SELECTFIELD = function(type,params){
 		});
 
 		field.on('draw-end',function(){
-			const inputs = $(`.form-group[item-name="${field.GET.tag()}"] select`);
+			/*const inputs = $(`.form-group[item-name="${field.GET.tag()}"] select`);
 
 			$.IGRP.components.choices.init(inputs);
 			
-			/*inputs.each( (i,el)=>{
+			inputs.each( (i,el)=>{
 				const choices = new Choices(el,{
 				
 				});

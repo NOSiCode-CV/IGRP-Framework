@@ -63,7 +63,7 @@
         <xsl:param name="desclabel" select="''"/>
         <xsl:param name="load_service_data" select="''"/>
         <xsl:param name="show-label" select="1"/>
-        <xsl:param name="library" select="'choices'"/>
+        <xsl:param name="library" select="''"/>
 
         <xsl:variable name="type" select="@type"/>
 
@@ -79,7 +79,7 @@
             </xsl:if>
         </xsl:variable>
 
-        <select class="form-control {$change} {desclabel} ${class}" id="{$parent-id}_{name()}" name="{@name}" placeholder="{@placeholder}">
+        <select class="form-control {$change} {desclabel} {$class}" id="{$parent-id}_{name()}" name="{@name}" placeholder="{@placeholder}">
 
             <xsl:if test="$library = 'choices'">
                 <xsl:attribute name="data-choices">true</xsl:attribute>

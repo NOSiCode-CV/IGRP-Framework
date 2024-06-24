@@ -17,10 +17,13 @@
             elements.each((i, el) => {
                 const id = $(el).attr('id') || $.IGRP.utils.unique() + '-select';
 
-                if (!$.IGRP.components.choices.list[id]) {
-                    $(el).attr(id);
+                const choiceElement = el.hasAttribute('data-choice') && el.getAttribute('data-choice') === 'active';
 
-                    $.IGRP.components.choices.list[id] = new Choices(el);
+                //if (!$.IGRP.components.choices.list[id] ||
+
+                if (!choiceElement) {
+                    $(el).attr(id);
+                    $.IGRP.components.choices.list[id] =  new Choices(el);
                 }
 
             });

@@ -14,10 +14,11 @@ var SELECTFIELD = function (type, params) {
         xsl: [],
         css: [],
         js: [
-            { path:'/libs/choices.js/public/assets/scripts/choices.min.js'},
-			{ path:'/components/select.choices/select.choices.js'},
+            { path: '/libs/choices.js/public/assets/scripts/choices.min.js' },
+            { path: '/components/select.choices/select.choices.js' },
         ]
     }
+
 
     field.ready = function () {
 
@@ -66,17 +67,15 @@ var SELECTFIELD = function (type, params) {
 
         field.on('draw-end', function () {
             const inputs = $(`.form-group[item-name="${field.GET.tag()}"] select`);
-
             $.IGRP.components.choices.init(inputs);
-
         }, true);
+        
     }
 
     field.onEditionStart = function () {
         var action = field.GET.multiple() ? 'show' : 'hide';
         $('.gen-properties-setts-holder div[rel="delimiter"]')[action]();
     }
-
 
 }
 this[VARS.name].declareField({
