@@ -591,10 +591,16 @@
 			<label>Input Spin</label>
 		</item>
 		<item>
-			<icon type='fa'>square-o</icon>
+			<icon type='fa'>dot-circle-o</icon>
 			<type>buttonradio</type>
 			<name>buttonradio</name>
 			<label>Button Radio</label>
+		</item>
+		<item>
+			<icon type='fa'>cog</icon>
+			<type>spinners</type>
+			<name>spinners</name>
+			<label>Spinners</label>
 		</item>
 		
 		<!--<item>
