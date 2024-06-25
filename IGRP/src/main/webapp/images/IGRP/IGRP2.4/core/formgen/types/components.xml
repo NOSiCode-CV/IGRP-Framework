@@ -590,6 +590,12 @@
 			<name>inputspin</name>
 			<label>Input Spin</label>
 		</item>
+		<item>
+			<icon type='fa'>square-o</icon>
+			<type>buttonradio</type>
+			<name>buttonradio</name>
+			<label>Button Radio</label>
+		</item>
 		
 		<!--<item>
 			<icon type='fa'>pencil-square</icon>
