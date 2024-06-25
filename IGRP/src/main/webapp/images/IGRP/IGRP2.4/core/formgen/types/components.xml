@@ -471,6 +471,12 @@
 			<label>Select</label>
 		</item>
 		<item>
+			<icon type='fa'>caret-square-o-down</icon>
+			<type>inputPhone</type>
+			<name>inputPhone</name>
+			<label>inputPhone</label>
+		</item>
+		<item>
 			<icon type='fa'>sliders</icon>
 			<type>range</type>
 			<name>range</name>
