@@ -49,6 +49,9 @@ var DATA = {
 			case 'range':
 				rtn=genNum(10);
 			break;	
+			case 'inputspin':
+				rtn=genNum(10);
+			break;
 			case 'number':			
 				rtn = genNum(mMaxValue);
 				//rtn = '123456789';
