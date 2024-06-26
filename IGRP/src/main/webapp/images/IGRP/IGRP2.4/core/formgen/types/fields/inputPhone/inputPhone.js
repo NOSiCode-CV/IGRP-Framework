@@ -5,18 +5,26 @@ var INPUTPHONE = function (type, params) {
     var field = this;
     var proprieties = params && params.properties;
 
-    field.ready = function () {
-
-    }
-
     field.includes = {
 		js :[
-			{ path:'/themes/default/assets/js/pages/flag-input.init.js' }
+			{ path:'/components/input.phone/input.phone.js' }
 		],
 		css:[
 		
 		]
 	}
+
+    field.ready = function () {
+
+		field.on('draw-end', function () {
+			console.log(field);
+
+			const parent = $(`.form-group[item-name="${field.GET.tag()}"]`);
+
+			$.IGRP.components.flagSelector.init(parent);
+
+		});
+    }
 }
 
 this[VARS.name].declareField({
