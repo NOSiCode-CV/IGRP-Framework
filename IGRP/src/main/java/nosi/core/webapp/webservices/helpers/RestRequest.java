@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import jakarta.ws.rs.core.HttpHeaders;
+import nosi.core.webapp.Core;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.ContentDisposition;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
@@ -72,6 +73,21 @@ public class RestRequest{
 		}
 		return null;
 	}
+	public <T> T get(String url, Object id, Class<T> responseType) throws Exception {
+		Client client = this.getConfig().bluidClient();
+		this.addUrl(url);
+		WebTarget target;
+
+		if (Core.isNotNull(id)){
+			target = client.target(this.getConfig().getUrl()).path(String.valueOf(id));
+		} else {
+			target = client.target(this.getConfig().getUrl());
+		}
+
+		T response = target.request(this.getAccept_format()).cacheControl(cacheControl).get(responseType);
+		client.close();
+		return response;
+	}
 	//TODO: optimize this code, testing purpose
 	public String getString(String url){
 		var authString = Credentials.getInstance().getUserName() + ":" + Credentials.getInstance().getPassword();
@@ -93,21 +109,19 @@ public class RestRequest{
 	}
 	public Response get(String url) {
 		try {
-			Client client = this.getConfig().bluidClient();
-			this.addUrl(url);
-	        WebTarget target = client.target(this.getConfig().getUrl());
-	        Response response = target.request(this.getAccept_format())
-	        		.cacheControl(cacheControl)
-	        		.get(Response.class);
-	        client.close();
-	        return response;
+			return this.get(url, Response.class);
 		}catch(Exception e){ 
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
-	public Response post(String url, Part file, String fileExtension) throws IOException {	
+	public <T> T get(String url, Class<T> responseType) throws Exception {
+		return this.get(url,null, responseType);
+	}
+	public Response post(String url, Part file, String fileExtension) throws IOException {
+		return this.post( url,  file,  fileExtension, Response.class);
+	}
+	public <T> T post(String url, Part file, String fileExtension, Class<T> responseType) throws IOException {
 		this.addUrl(url);
 		Client client = this.getConfig().bluidClient();
 		WebTarget target = client.target(this.getConfig().getUrl());
@@ -115,13 +129,16 @@ public class RestRequest{
 		List<Attachment> atts = new LinkedList<>();
 		atts.add(new Attachment("file", file.getInputStream(),cd));
 		MultipartBody body = new MultipartBody(atts);
-		Response response = target.request(this.getAccept_format()).cacheControl(cacheControl).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA));
-		client.close();	
+		T response = target.request(this.getAccept_format()).cacheControl(cacheControl).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA), responseType);
+		client.close();
 		return response;
 	}
-	
 
-	public Response post(String url, Part file) throws IOException {	
+	public Response post(String url, Part file) throws IOException {
+		return this.post( url,  file, Response.class);
+	}
+
+	public <T> T post(String url, Part file, Class<T> responseType) throws IOException {
 		this.addUrl(url);
 		Client client = this.getConfig().bluidClient();
 		WebTarget target = client.target(this.getConfig().getUrl());
@@ -129,12 +146,16 @@ public class RestRequest{
 		List<Attachment> atts = new LinkedList<>();
 		atts.add(new Attachment("file", file.getInputStream(),cd));
 		MultipartBody body = new MultipartBody(atts);
-		Response response = target.request(this.getAccept_format()).cacheControl(cacheControl).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA));
-		client.close();	
+		T response = target.request(this.getAccept_format()).cacheControl(cacheControl).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA), responseType);
+		client.close();
 		return response;
 	}
-	
-	public Response post(String url, InputStream file,String fileName,String contentType) throws IOException {	
+
+	public Response post(String url, InputStream file,String fileName,String contentType) throws IOException {
+		return this.post(url, file, fileName, contentType, Response.class);
+	}
+
+	public <T> T post(String url, InputStream file,String fileName,String contentType, Class<T> responseType) {
 		this.addUrl(url);
 		Client client = this.getConfig().bluidClient();
 		WebTarget target = client.target(this.getConfig().getUrl());
@@ -142,80 +163,112 @@ public class RestRequest{
 		List<Attachment> atts = new LinkedList<>();
 		atts.add(new Attachment("file", file,cd));
 		MultipartBody body = new MultipartBody(atts);
-		Response response = target.request(this.getAccept_format()).cacheControl(cacheControl).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA));
-		client.close();	
+		T response = target.request(this.getAccept_format()).cacheControl(cacheControl).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA), responseType);
+		client.close();
 		return response;
 	}
-	
+
 	public Response post(String url, String content) {
 		try {
-			Client client = this.getConfig().bluidClient();
-			this.addUrl(url);
-	        WebTarget target = client.target(this.getConfig().getUrl());
-	        Response response = target.request(this.getAccept_format()).cacheControl(cacheControl).post(Entity.json(content));
-	        client.close();
-	        return response;	      
-		}catch(Exception e){
+			return this.post( url,  content, Response.class) ;
+		} catch(Exception e){
 			e.printStackTrace();
 		}
-	   return null;
+		return null;
 	}
-	
-	public Response post(String url, String content,Object id) {
+
+	public <T> T post(String url, String content, Class<T> responseType) throws Exception {
+		Client client = this.getConfig().bluidClient();
+
+		T response;
+		this.addUrl(url);
+		WebTarget target = client.target(this.getConfig().getUrl());
+
 		try {
-			Client client = this.getConfig().bluidClient();
-			this.addUrl(url);
-	        WebTarget target = client.target(this.getConfig().getUrl()).path(String.valueOf(id));
-	        Response response = target.request(this.getAccept_format()).cacheControl(cacheControl).post(Entity.json(content));
-	        client.close();
-	        return response;
-		}catch(Exception e){
-			e.printStackTrace();
+			response = target.request(this.getAccept_format()).cacheControl(cacheControl).post(Entity.json(content), responseType);
+		} catch (Exception e) {
+			throw new IllegalArgumentException(e);
+		} finally {
+			client.close();
 		}
-	   return null;
+		return response;
 	}
-	
+
+
+	public Response post(String url, String content,Object id) {
+        try {
+            return this.post(url,content, id, Response.class);
+        } catch (Exception e) {
+			e.printStackTrace();
+        }
+		return null;
+    }
+
+	public <T> T post(String url, String content,Object id, Class<T> responseType) {
+		Client client = this.getConfig().bluidClient();
+		T response;
+
+			this.addUrl(url);
+			WebTarget target = client.target(this.getConfig().getUrl()).path(String.valueOf(id));
+            response = target.request(this.getAccept_format()).cacheControl(cacheControl).post(Entity.json(content), responseType);
+
+			client.close();
+
+		return response;
+	}
+
 	public Response put(String url,String content){
 		try{
-			Client client = this.getConfig().bluidClient();
-			this.addUrl(url);
-	        WebTarget target = client.target(this.getConfig().getUrl());
-	        Response response = target.request(this.getAccept_format()).put(Entity.json(content));
-	        client.close();
-	        return response;
+		return this.put( url, content, Response.class);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-	   return null;
+ 		return null;
 	}
-	
+
+	public <T> T put(String url,String content, Class<T> responseType) {
+		Client client = this.getConfig().bluidClient();
+		this.addUrl(url);
+		WebTarget target = client.target(this.getConfig().getUrl());
+		T response = target.request(this.getAccept_format()).put(Entity.json(content), responseType);
+		client.close();
+		return response;
+	}
 
 	public Response put(String url,String content, Object id){
 		try{
-			Client client = this.getConfig().bluidClient();
-			this.addUrl(url);
-	        WebTarget target = client.target(this.getConfig().getUrl()).path(String.valueOf(id));
-	        Response response = target.request(this.getAccept_format()).put(Entity.json(content));
-	        client.close();
-	        return response;
+		return put(url, content, id, Response.class);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-	   return null;
+		return null;
 	}
-	
+
+	public <T> T put(String url, String content, Object id, Class<T> responseType) {
+		Client client = this.getConfig().bluidClient();
+		this.addUrl(url);
+		WebTarget target = client.target(this.getConfig().getUrl()).path(String.valueOf(id));
+		T response = target.request(this.getAccept_format()).put(Entity.json(content), responseType);
+		client.close();
+		return response;
+	}
+
 	public Response delete(String url,Object id){
-		try{
-			Client client = this.getConfig().bluidClient();
-			this.addUrl(url);
-	        WebTarget target = client.target(this.getConfig().getUrl()).path(String.valueOf(id));
-	        Response response = target.request(this.getAccept_format()).delete();
-	        client.close();
-	        return response;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	   return null;
+        try {
+            return delete(url, id, Response.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return null;
+    }
+
+	public <T> T delete(String url,Object id, Class<T> responseType) {
+		Client client = this.getConfig().bluidClient();
+		this.addUrl(url);
+		WebTarget target = client.target(this.getConfig().getUrl()).path(String.valueOf(id));
+		T response = target.request(this.getAccept_format()).delete(responseType);
+		client.close();
+		return response;
 	}
 	
 	public void addUrl(String url){

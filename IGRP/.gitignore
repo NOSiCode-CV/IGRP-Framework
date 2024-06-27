@@ -8,3 +8,6 @@ WebContent/WEB-INF/config/app/
 /.classpath
 /.settings/
 
+/src/main/java/nosi/webapps/test_app/
+/src/main/webapp/images/IGRP/IGRP2.3/app/test_app/
+/.scannerwork/

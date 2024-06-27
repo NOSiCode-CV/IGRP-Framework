@@ -26,7 +26,6 @@ import nosi.core.webapp.activit.rest.entities.TaskVariableDetails;
 import nosi.core.webapp.activit.rest.entities.TaskVariables;
 import nosi.core.webapp.activit.rest.helpers.ActivitiConstants;
 import nosi.core.webapp.activit.rest.request.RestRequest;
-import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
@@ -45,15 +44,10 @@ public class TaskServiceRest extends GenericActivitiRest {
 
 	public TaskService getTask(String id) {
 		TaskService t = new TaskService();
-		Response response = this.getRestRequest().get("runtime/tasks", id);
+		var response = this.getRestRequest().getHttpClient("runtime/tasks", id);
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
 				t = (TaskService) ResponseConverter.convertJsonToDao(contentResp, TaskService.class);
 				ProcessDefinitionService proc = new ProcessDefinitionServiceRest()
 						.getProccessDescription(t.getProcessDefinitionUrl());
@@ -62,28 +56,21 @@ public class TaskServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return t;
 	}
 
 	public TaskService update(TaskService task) {
 		TaskService t = new TaskService();
-		Response response = new RestRequest().put("runtime/tasks", ResponseConverter.convertDaoToJson(task),
+		var response = new RestRequest().putHttpClient("runtime/tasks", ResponseConverter.convertDaoToJson(task),
 				task.getId());
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
 				t = (TaskService) ResponseConverter.convertJsonToDao(contentResp, TaskService.class);
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return t;
 	}
@@ -92,20 +79,14 @@ public class TaskServiceRest extends GenericActivitiRest {
 		JSONObject json = new JSONObject();
 		json.put("priority", task.getPriority()); 
 		TaskService t = new TaskService();
-		Response response = new RestRequest().put("runtime/tasks", json.toString(), task.getId()); 
+		var response = new RestRequest().putHttpClient("runtime/tasks", json.toString(), task.getId());
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
 				t = (TaskService) ResponseConverter.convertJsonToDao(contentResp, TaskService.class);
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return t;
 	}
@@ -129,16 +110,11 @@ public class TaskServiceRest extends GenericActivitiRest {
 
 	public List<TaskService> getTasks() {
 		List<TaskService> d = new ArrayList<>();
-		Response response = this.getRestRequest()
-				.get("runtime/tasks?size=" + ActivitiConstants.SIZE_QUERY + this.getFilterUrl());
+		var response = this.getRestRequest()
+				.getHttpClient("runtime/tasks?size=" + ActivitiConstants.SIZE_QUERY + this.getFilterUrl());
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
 				d = ResponseConverter
 						.convertJsonToListDao(contentResp, "data", new TypeToken<List<TaskService>>() {
 						}.getType()).stream().map(TaskService.class::cast).collect(Collectors.toList());
@@ -147,7 +123,6 @@ public class TaskServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return d;
 	}
@@ -155,15 +130,10 @@ public class TaskServiceRest extends GenericActivitiRest {
 	public List<TaskService> queryTasks() {
 		List<TaskService> d = new ArrayList<>();
 		
-		Response response = this.getRestRequest().post("query/tasks?size=" + ActivitiConstants.SIZE_QUERY,this.filterBody.toString());
+		var response = this.getRestRequest().postHttpClient("query/tasks?size=" + ActivitiConstants.SIZE_QUERY,this.filterBody.toString());
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
 				
 				d = ResponseConverter
 						.convertJsonToListDao(contentResp, "data", new TypeToken<List<TaskService>>() {
@@ -173,7 +143,6 @@ public class TaskServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return d;
 	}
@@ -234,16 +203,11 @@ public class TaskServiceRest extends GenericActivitiRest {
 	@SuppressWarnings("unchecked")
 	public List<HistoricTaskService> getHistory() {
 		List<HistoricTaskService> d = new ArrayList<>();
-		Response response = this.getRestRequest()
-				.get("history/historic-task-instances?size=" + ActivitiConstants.SIZE_QUERY + this.getFilterUrl());
+		var response = this.getRestRequest()
+				.getHttpClient("history/historic-task-instances?size=" + ActivitiConstants.SIZE_QUERY + this.getFilterUrl());
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (Response.Status.OK.getStatusCode() == response.getStatus()) {
+			String contentResp = response.body();
+			if (Response.Status.OK.getStatusCode() == response.statusCode()) {
 				d = (List<HistoricTaskService>) ResponseConverter.convertJsonToListDao(contentResp, "data",
 						new TypeToken<List<HistoricTaskService>>() {
 						}.getType());
@@ -251,23 +215,17 @@ public class TaskServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return d;
 	}
 
 	public List<TaskServiceQuery> queryHistoryTask() {
 		List<TaskServiceQuery> d = new ArrayList<>();
-		Response response = this.getRestRequest().post("query/historic-task-instances?size=100000000",
+		var response = this.getRestRequest().postHttpClient("query/historic-task-instances?size=100000000",
 				this.filterBody.toString());
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
 				d = ResponseConverter
 						.convertJsonToListDao(contentResp, "data", new TypeToken<List<TaskServiceQuery>>() {
 						}.getType()).stream().map(TaskServiceQuery.class::cast).collect(Collectors.toList());
@@ -295,7 +253,6 @@ public class TaskServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return d;
 	}
@@ -375,19 +332,13 @@ public class TaskServiceRest extends GenericActivitiRest {
 			e.printStackTrace();
 		}
 		boolean r = false;
-		Response response = this.getRestRequest().post("runtime/tasks", jobj.toString(), taskId);
+		var response = this.getRestRequest().postHttpClient("runtime/tasks", jobj.toString(), taskId);
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			this.setError(response.getStatus() != 200
+			String contentResp = response.body();
+			this.setError(response.statusCode() != 200
 					? (ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class)
 					: null);
-			r = response.getStatus() == 200;
-			response.close();
+			r = response.statusCode() == 200;
 		}
 		return r;
 	}
@@ -402,19 +353,13 @@ public class TaskServiceRest extends GenericActivitiRest {
 			e.printStackTrace();
 		}
 		boolean r =false;
-		Response response = this.getRestRequest().post("runtime/tasks", jobj.toString(), taskId);
+		var response = this.getRestRequest().postHttpClient("runtime/tasks", jobj.toString(), taskId);
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			this.setError(response.getStatus() != 200
+			String contentResp = response.body();
+			this.setError(response.statusCode() != 200
 					? (ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class)
 					: null);
-			r = response.getStatus() == 200;
-			response.close();
+			r = response.statusCode() == 200;
 		}
 		return r;
 	}
@@ -437,27 +382,21 @@ public class TaskServiceRest extends GenericActivitiRest {
 	}
 
 	public boolean submitVariables(String taskId) {		
-		Response response = this.getRestRequest().post("runtime/tasks/" + taskId + "/variables",
+		var response = this.getRestRequest().postHttpClient("runtime/tasks/" + taskId + "/variables",
 				ResponseConverter.convertDaoToJson(this.variables)); 
-		boolean r = response != null && response.getStatus() == 201;
-		if(response != null) 
-			response.close();
-		return r;
+		return response != null && response.statusCode() == 201;
 	}
 
 	public List<TaskService> getTasksByProcessDefinitionIdds(String processDefinitionId) {
 		List<TaskService> list = new ArrayList<>();
 		RestRequest req = this.getRestRequest();
 		req.setAccept_format(MediaType.APPLICATION_XML);
-		Response response = req.get("repository/process-definitions/" + processDefinitionId + "/resourcedata");
+
+		var response = req.getHttpClient("repository/process-definitions/" + processDefinitionId + "/resourcedata");
+
 		if (response != null) {
-			try {
-				String xml = new FileHelper().convertToString((InputStream) response.getEntity());
-				list = this.extractTasks(xml, false);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			response.close();
+            String xml = response.body();
+            list = this.extractTasks(xml, false);
 		}
 		return list;
 	}
@@ -469,15 +408,10 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (processD != null && processD.getId() != null) {
 			RestRequest req = this.getRestRequest();
 			req.setAccept_format(MediaType.APPLICATION_XML);
-			Response response = req.get("repository/process-definitions/" + processD.getId() + "/resourcedata");
+			var response = req.getHttpClient("repository/process-definitions/" + processD.getId() + "/resourcedata");
 			if (response != null) {
-				try {
-					String xml = new FileHelper().convertToString((InputStream) response.getEntity());
-					list = this.extractTasks(xml, false);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				response.close();
+                String xml = response.body();
+                list = this.extractTasks(xml, false);
 			}
 		}
 		return list;
@@ -485,10 +419,12 @@ public class TaskServiceRest extends GenericActivitiRest {
 
 	public List<TaskService> extractTasks(String xml, boolean includeStartProcess) { 
 		List<TaskService> list = new ArrayList<>();
-		String xml_ = xml.replace("xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"", "").replace("activiti:formKey",
-				"formKey");
-			if (Core.isNotNull(xml_)) { 
-				StringReader r = new StringReader(xml_); 
+		if(Core.isNotNull(xml)) {
+			String xml_ = xml.replace("xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"", "").replace("activiti:formKey",
+					"formKey");
+
+			if (Core.isNotNull(xml_)) {
+				StringReader r = new StringReader(xml_);
 				TaskOfProcess listTasks = JAXB.unmarshal(r, TaskOfProcess.class);
 				if (listTasks != null && listTasks.getProcess() != null) {
 					if (includeStartProcess && listTasks.getProcess().get(0) != null
@@ -524,27 +460,23 @@ public class TaskServiceRest extends GenericActivitiRest {
 							t.setName(task.getName());
 							t.setTaskDefinitionKey(task.getId());
 							t.setFormKey(task.getFormKey());
-							t.setProcessDefinitionId(listTasks.getProcess().get(0).getSubProcess().getId());							
+							t.setProcessDefinitionId(listTasks.getProcess().get(0).getSubProcess().getId());
 							list.add(t);
 						}
 					}
 				}
 			}
+		}
 		return list;
 	}
 
 	public List<TaskVariableDetails> queryHistoryTaskVariables(String taskId) {
 		List<TaskVariableDetails> d = new ArrayList<>();
-		Response response = this.getRestRequest().get("history/historic-detail?size=" + ActivitiConstants.SIZE_QUERY
+		var response = this.getRestRequest().getHttpClient("history/historic-detail?size=" + ActivitiConstants.SIZE_QUERY
 				+ "&selectOnlyFormProperties=true&taskId=" + taskId);
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
 				d = ResponseConverter
 						.convertJsonToListDao(contentResp, "data", new TypeToken<List<TaskVariableDetails>>() {
 						}.getType()).stream().map(TaskVariableDetails.class::cast).collect(Collectors.toList());
@@ -552,29 +484,21 @@ public class TaskServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return d;
 	}
 	
 	public TaskService getCurrentTaskByProcessNr(String processNr) {
 		List<TaskService> t = new ArrayList<>();
-		Response response = this.getRestRequest().get("runtime/tasks?processInstanceId=" + processNr);
+		var response = this.getRestRequest().getHttpClient("runtime/tasks?processInstanceId=" + processNr);
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) 
+			String contentResp = response.body();
+			if (response.statusCode() == 200)
 				 t = ResponseConverter
 					.convertJsonToListDao(contentResp, "data", new TypeToken<List<TaskService>>() {
 					}.getType()).stream().map(TaskService.class::cast).toList();
 			
 			 else this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
-			
-			response.close();
 		}
 		return !t.isEmpty() ? t.get(0) : null;
 	}

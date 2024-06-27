@@ -18,7 +18,6 @@ import nosi.core.webapp.activit.rest.request.RestRequest;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
-
 /**
  * Emanuel 14 May 2019
  */
@@ -33,7 +32,7 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 	}
 
 	public ProcessDefinitionService getProcessDefinitionService(String contentResp) {
-		ProcessDefinitionService dep = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(contentResp,
+		ProcessDefinitionService dep = ResponseConverter.convertJsonToDao(contentResp,
 				ProcessDefinitionService.class);
 		@SuppressWarnings("unchecked")
 		List<ProcessDefinitionService> listProcessInstancesService = (List<ProcessDefinitionService>) ResponseConverter
@@ -58,7 +57,7 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 			String response = request.getString(link);
 			if (response != null) {
 
-					process = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(response,
+					process = ResponseConverter.convertJsonToDao(response,
 							ProcessDefinitionService.class);
 
 			}
@@ -67,22 +66,17 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 	}
 
 	public ProcessDefinitionService getProcessDefinition(String id) {
-		Response response = this.getRestRequest().get("repository/process-definitions/", id);
+		var response = this.getRestRequest().getHttpClient("repository/process-definitions/", id);
 		ProcessDefinitionService process = new ProcessDefinitionService();
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
-				process = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(contentResp,
+			String contentResp = response.body();
+
+			if (response.statusCode() == 200) {
+				process = ResponseConverter.convertJsonToDao(contentResp,
 						ProcessDefinitionService.class);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}		
 		return process;
 	}
@@ -99,23 +93,20 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 	@SuppressWarnings("unchecked")
 	public List<ProcessDefinitionService> getProcessDefinitions() {
 		List<ProcessDefinitionService> d = new ArrayList<>();
-		Response response = this.getRestRequest()
-				.get("repository/process-definitions?size=" + ActivitiConstants.SIZE_QUERY + this.getFilterUrl());
+		var response = this.getRestRequest()
+				.getHttpClient("repository/process-definitions?size=" + ActivitiConstants.SIZE_QUERY + this.getFilterUrl());
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity()); 
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (Response.Status.OK.getStatusCode() == response.getStatus()) {
+			String contentResp = response.body();
+			if (Response.Status.OK.getStatusCode() == response.statusCode()) {
 				d = (List<ProcessDefinitionService>) ResponseConverter.convertJsonToListDao(contentResp, "data",
 						new TypeToken<List<ProcessDefinitionService>>() {
 						}.getType());
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+
+				var error = (ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class);
+
+				this.setError(error);
 			}
-			response.close();
 		}
 		return d;
 	}
@@ -146,61 +137,42 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		Response response = this.getRestRequest().put("repository/process-definitions", jobj.toString(), id);
+		var response = this.getRestRequest().putHttpClient("repository/process-definitions", jobj.toString(), id);
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			String contentResp = response.body();
 			this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
-			r = response.getStatus() == 200;
-			response.close();
-			
+			r = response.statusCode() == 200;
 		}
 		return r;
 	}
 
 	public ProcessDefinitionService create(ProcessDefinitionService p) {
 		ProcessDefinitionService d = new ProcessDefinitionService();
-		Response response = this.getRestRequest().post("repository/process-definitions", ResponseConverter.convertDaoToJson(p));
+		var response = this.getRestRequest().postHttpClient("repository/process-definitions", ResponseConverter.convertDaoToJson(p));
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 201) {
-				d = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(contentResp,
+			String contentResp = response.body();
+			if (response.statusCode() == 201) {
+				d = ResponseConverter.convertJsonToDao(contentResp,
 						ProcessDefinitionService.class);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return d;
 	}
 
 	public ProcessDefinitionService update(ProcessDefinitionService p) {
 		ProcessDefinitionService d = new ProcessDefinitionService();
-		Response response = this.getRestRequest().put("repository/process-definitions", ResponseConverter.convertDaoToJson(p),
+		var response = this.getRestRequest().putHttpClient("repository/process-definitions", ResponseConverter.convertDaoToJson(p),
 				p.getId());
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
-				d = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(contentResp,
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
+				d = ResponseConverter.convertJsonToDao(contentResp,
 						ProcessDefinitionService.class);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return d;
 	}
@@ -235,12 +207,8 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 	}
 
 	public boolean suspend(String processDefinitionId) {
-		Response response = this.getRestRequest().put("repository/process-definitions",
+		var response = this.getRestRequest().putHttpClient("repository/process-definitions",
 				"{\"action\":\"suspend\",\"includeProcessInstances\":\"true\"}", processDefinitionId);
-		boolean r= response != null && response.getStatus() == 200;
-		if(response!=null) {
-			response.close();
-		}
-		return r;
+		return response != null && response.statusCode() == 200;
 	} 
 }

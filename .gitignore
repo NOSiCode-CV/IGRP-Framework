@@ -1,3 +1,7 @@
 *node_modules
 *testes_uxi
 .DS_Store
+
+/.idea/
+/src/main/java/nosi/webapps/test_app/
+/target/

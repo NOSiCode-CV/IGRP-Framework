@@ -1,16 +1,13 @@
 package nosi.core.webapp.activit.rest.services;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import jakarta.ws.rs.core.Response;
 import com.google.gson.reflect.TypeToken;
-
+import jakarta.ws.rs.core.Response;
 import nosi.core.webapp.activit.rest.entities.UserService;
-import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Emanuel 15 May 2019
@@ -19,20 +16,14 @@ public class UserServiceRest extends GenericActivitiRest {
 	
 	public UserService getUser(String id) {
 		UserService d = new UserService();
-		Response response = this.getRestRequest().get("identity/users", id);
+		var response = this.getRestRequest().getHttpClient("identity/users", id);
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
 				d = (UserService) ResponseConverter.convertJsonToDao(contentResp, UserService.class);
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return d;
 	}
@@ -40,63 +31,45 @@ public class UserServiceRest extends GenericActivitiRest {
 	@SuppressWarnings("unchecked")
 	public List<UserService> getUsers() {
 		List<UserService> d = new ArrayList<>();
-		Response response = this.getRestRequest().get("identity/users");
+		var response = this.getRestRequest().getHttpClient("identity/users");
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
 				d = (List<UserService>) ResponseConverter.convertJsonToListDao(contentResp, "data",
 						new TypeToken<List<UserService>>() {
 						}.getType());
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return d;
 	}
 
 	public UserService create(UserService user) {
 		UserService u = new UserService();
-		Response response = this.getRestRequest().post("identity/users", ResponseConverter.convertDaoToJson(user));
+		var response = this.getRestRequest().postHttpClient("identity/users", ResponseConverter.convertDaoToJson(user));
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 201) {
+			String contentResp = response.body();
+			if (response.statusCode() == 201) {
 				u = (UserService) ResponseConverter.convertJsonToDao(contentResp, UserService.class);
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return u;
 	}
 
 	public UserService update(UserService user) {
 		UserService u = new UserService();
-		Response response = this.getRestRequest().put("identity/users", ResponseConverter.convertDaoToJson(user),
+		var response = this.getRestRequest().putHttpClient("identity/users", ResponseConverter.convertDaoToJson(user),
 				user.getId());
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
 				u = (UserService) ResponseConverter.convertJsonToDao(contentResp, UserService.class);
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return u;
 	}
