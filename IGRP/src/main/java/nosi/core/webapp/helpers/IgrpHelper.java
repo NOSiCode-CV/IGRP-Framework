@@ -1,5 +1,7 @@
 package nosi.core.webapp.helpers;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -7,6 +9,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
@@ -192,5 +197,11 @@ public final class IgrpHelper {
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static String convertToJsonString(InputStream inputStream) throws IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		var data = objectMapper.readValue(inputStream, new TypeReference<>() {});
+		return new Gson().toJson(data);
 	}
 }

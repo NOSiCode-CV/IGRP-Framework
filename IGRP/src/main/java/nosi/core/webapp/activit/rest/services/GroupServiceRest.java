@@ -1,21 +1,15 @@
 package nosi.core.webapp.activit.rest.services;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.gson.reflect.TypeToken;
 import jakarta.ws.rs.core.Response;
-
+import nosi.core.webapp.activit.rest.entities.GroupService;
+import nosi.core.webapp.webservices.helpers.ResponseConverter;
+import nosi.core.webapp.webservices.helpers.ResponseError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.gson.reflect.TypeToken;
-
-import nosi.core.webapp.activit.rest.entities.GroupService;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.webservices.helpers.ResponseConverter;
-import nosi.core.webapp.webservices.helpers.ResponseError;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Emanuel 15 May 2019
@@ -24,20 +18,14 @@ public class GroupServiceRest extends GenericActivitiRest{
 
 	public GroupService getGroup(String id) {
 		GroupService g = new GroupService();
-		Response response = this.getRestRequest().get("identity/groups", id);
+		var response = this.getRestRequest().getHttpClient("identity/groups", id);
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
-				g = (GroupService) ResponseConverter.convertJsonToDao(contentResp, GroupService.class);
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
+				g = ResponseConverter.convertJsonToDao(contentResp, GroupService.class);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return g;
 	}
@@ -45,63 +33,45 @@ public class GroupServiceRest extends GenericActivitiRest{
 	@SuppressWarnings("unchecked")
 	public List<GroupService> getGroups() {
 		List<GroupService> d = new ArrayList<>();
-		Response response = this.getRestRequest().get("identity/groups");
+		var response = this.getRestRequest().getHttpClient("identity/groups");
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
 				d = (List<GroupService>) ResponseConverter.convertJsonToListDao(contentResp, "data",
 						new TypeToken<List<GroupService>>() {
 						}.getType());
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return d;
 	}
 
 	public GroupService create(GroupService group) {
 		GroupService g = new GroupService();
-		Response response = this.getRestRequest().post("identity/groups", ResponseConverter.convertDaoToJson(group));
+		var response = this.getRestRequest().postHttpClient("identity/groups", ResponseConverter.convertDaoToJson(group));
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 201) {
-				g = (GroupService) ResponseConverter.convertJsonToDao(contentResp, GroupService.class);
+			String contentResp = response.body();
+			if (response.statusCode() == 201) {
+				g = ResponseConverter.convertJsonToDao(contentResp, GroupService.class);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return g;
 	}
 
 	public GroupService update(GroupService group) {
 		GroupService g = new GroupService();
-		Response response = this.getRestRequest().put("identity/groups", ResponseConverter.convertDaoToJson(group),
+		var response = this.getRestRequest().putHttpClient("identity/groups", ResponseConverter.convertDaoToJson(group),
 				group.getId());
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
-				g = (GroupService) ResponseConverter.convertJsonToDao(contentResp, GroupService.class);
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
+				g = ResponseConverter.convertJsonToDao(contentResp, GroupService.class);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return g;
 	}
@@ -113,12 +83,8 @@ public class GroupServiceRest extends GenericActivitiRest{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		Response response = this.getRestRequest().post("identity/groups/" + idGroup + "/members", jobj.toString());
-		int r= response != null ? response.getStatus() : -1;
-		if(response!=null) {
-			response.close();
-		}
-		return r;
+		var response = this.getRestRequest().postHttpClient("identity/groups/" + idGroup + "/members", jobj.toString());
+		return response != null ? response.statusCode() : -1;
 	}
 
 	public boolean delete(String id) {
