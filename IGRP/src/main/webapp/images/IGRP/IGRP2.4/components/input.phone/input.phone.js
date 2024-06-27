@@ -115,7 +115,7 @@
                     dropdownHtml += `
                         <li class="dropdown-item d-flex">
                             <div class="flex-shrink-0 me-2">
-                                <img src="${country.flagImg}" alt="country flag" class="options-flagimg" height="20">
+                                <img src="../../../${country.flagImg}" alt="country flag" class="options-flagimg" height="20">
                             </div>
                             <div class="flex-grow-1">
                                 <div class="d-flex">
