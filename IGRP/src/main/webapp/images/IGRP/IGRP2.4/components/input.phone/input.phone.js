@@ -19,7 +19,7 @@
             return $.IGRP.components.flagSelector.list[id];
         },
 
-        init: (parent = null) => {
+        init: (parent = null, countryId) => {
 
             const elements = parent
                 ? parent.find(selectorInputFlag)
@@ -29,15 +29,21 @@
                 console.log('Quantity updated for', element);
             };
 
-            const initializeDropdown = (element) => {
+            const initializeDropdown = (element, countryId) => {
                 const countryFlagImg = element.querySelector(selectorCountryFlagImg);
                 const dropdownMenuItems = element.querySelectorAll(`${selectorDropdownMenu} li`);
                 const flagInputElements = document.querySelectorAll('[data-option-flag-img-name]');
                 const optionFlagNameElements = document.querySelectorAll('[data-option-flag-name]');
 
-                let initialFlagSrc = "";
-                if (countryFlagImg) {
-                    initialFlagSrc = countryFlagImg.getAttribute('src');
+                if ($.IGRP.components.flagSelector.countryListData) {
+                    const country = $.IGRP.components.flagSelector.countryListData.find(c => c.id === countryId);
+                    if (country) {
+                        const button = element.querySelector('button');
+                        if (button) {
+                            button.querySelector('img').setAttribute('src', `../../../${country.flagImg}`);
+                            button.querySelector('span').innerHTML = country.countryCode;
+                        }
+                    }
                 }
 
                 dropdownMenuItems.forEach(item => {
@@ -50,9 +56,6 @@
                             button.querySelector('span').innerHTML = countryCode;
                         }
                     });
-                    if (initialFlagSrc === optionFlagImg) {
-                        item.classList.add('active');
-                    }
                 });
 
                 flagInputElements.forEach(flagInputElement => {
@@ -66,10 +69,6 @@
                             flagInput.style.backgroundImage = `url(${optionFlagImg})`;
                             flagInput.value = countryName;
                         });
-                        if (imageSrc === optionFlagImg) {
-                            item.classList.add('active');
-                            flagInput.value = item.querySelector(selectorCountryName).innerHTML;
-                        }
                     });
                 });
 
@@ -81,15 +80,11 @@
                         item.addEventListener('click', () => {
                             flagInput.value = countryName;
                         });
-                        if (initialCountryName === countryName) {
-                            item.classList.add('active');
-                            flagInput.value = countryName;
-                        }
                     });
                 });
             };
 
-            const fetchCountryList = () => {
+            const fetchCountryList = (countryId) => {
                 const xhr = new XMLHttpRequest();
                 xhr.open("GET", "../../../assets/json/country-list.json", true);
                 xhr.responseType = "json";
@@ -100,7 +95,7 @@
                         const elements = document.querySelectorAll(selectorInputFlag);
                         elements.forEach(element => {
                             populateDropdown(element, xhr.response);
-                            initializeDropdown(element);
+                            initializeDropdown(element, countryId);
                         });
                     } else {
                         console.log("Something went wrong: " + status);
@@ -149,7 +144,7 @@
                 }
             });
 
-            fetchCountryList();
+            fetchCountryList(countryId);
         }
 
     }, true);

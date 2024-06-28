@@ -16,13 +16,20 @@ var INPUTPHONE = function (type, params) {
 
     field.ready = function () {
 
+		field.setPropriety({
+			name: 'defaultCountry',
+			label: 'Set the default country',
+			value: '52',
+			inputType: 'selector'
+		});
+
 		field.on('draw-end', function () {
 			console.log(field);
 
 			const parent = $(`.form-group[item-name="${field.GET.tag()}"]`);
+			let defaultCountry = parseInt(field.GET.defaultCountry())
 
-			$.IGRP.components.flagSelector.init(parent);
-
+			$.IGRP.components.flagSelector.init(parent, defaultCountry);
 		});
     }
 }
