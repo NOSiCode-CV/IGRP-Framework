@@ -45,7 +45,7 @@ public class Permission {
 		return PagesScapePermission.getPagesWithoutLogin().contains((appP+"/"+page+"/"+action).toLowerCase());
 	}
 	
-	public boolean hasMenuPagPermition(HttpServletRequest request,String app, String appP, String page, String action){ // check permission on app with request
+	public boolean hasMenuPagPermition(HttpServletRequest request,String dad, String appP, String page, String action){ // check permission on dad with request
 	
 		//User Component Identity
 		nosi.core.webapp.User userCI= new nosi.core.webapp.User();
@@ -55,12 +55,12 @@ public class Permission {
 			if(PagesScapePermission.getPagesShared().contains((appP + "/" + page + "/" + action).toLowerCase()))
 				return true; 
 			if(appP.equals("tutorial")) // default page purpose 
-				return true; 
-			if(app.equals(appP) || appP.equals("igrp") || appP.equals("igrp_studio")) 
-				return (new Menu().getPermissionMenID(userCI.getIdentity().getIdentityId(),app, page)); 
+				return true;
+			if(appP.equals(dad) || appP.equals("igrp") || appP.equals("igrp_studio"))
+				return (new Menu().getPermissionMenID(userCI.getIdentity().getIdentityId(),dad, page));
 			else { 				
-				return new Menu().getPermissionMenID(userCI.getIdentity().getIdentityId(),app, page) 
-						&& new Share().getPermissionPage(app,appP,new Action().findByPage(page, appP).getId()); 
+				return new Menu().getPermissionMenID(userCI.getIdentity().getIdentityId(),dad, page) //Checks if the app destiny in the DAD has this page in the menu
+						&& new Share().getPermissionPage(dad,appP,new Action().findByPage(page, appP).getId());
 			}
 		}
 		return PagesScapePermission.getPagesWithoutLogin().contains((appP+"/"+page+"/"+action).toLowerCase());
