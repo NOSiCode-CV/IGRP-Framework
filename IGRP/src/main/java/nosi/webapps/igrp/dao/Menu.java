@@ -26,10 +26,7 @@ import nosi.core.webapp.security.EncrypDecrypt;
 import static nosi.core.i18n.Translator.gt;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.persistence.Column;
 
@@ -221,24 +218,42 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 	
 	
 	public boolean getPermissionMenID(Integer userID, String dad,String page) {
-		List<Integer> integerList = new Menu().find().keepConnection()
-				.where("action.page","=", page)
-				.andWhere("application.dad","=",dad)
+		//List of ids of menu pointing to the page on the dad specified
+		Integer[] menuIDs = new Menu().find().keepConnection()
+				.where("action.page", "=", page)
+				.andWhere("application.dad", "=", dad)
 				.andWhere("status", "=", 1)
 				.allColumns("id").stream()
-					    .flatMap(map -> map.values().stream())
-					    .filter(Integer.class::isInstance)
-					    .map(Integer.class::cast)
-					    .toList();
+				.flatMap(map -> map.values().stream())
+				.filter(Integer.class::isInstance)
+				.map(Integer.class::cast)
+				.toArray(Integer[]::new);
 
-					Integer[] menuIDs = integerList.toArray(new Integer[0]);
-		return new Profile().find().keepConnection().limit(1)
+		//List of ids of profiles of the current user
+		List<Integer> profsUserList = new Profile().find().keepConnection()
+				.where("type", "=", "PROF")
+				.andWhere("profileType.application.dad", "=", dad)
+				.andWhere("user.id", "=", userID)
+				.allColumns("type_fk").stream()
+				.flatMap(map -> map.values().stream())
+				.filter(Integer.class::isInstance)
+				.map(Integer.class::cast)
+				.toList();
+
+		//List of profiles with the given menu ids
+		List<Integer> profileList = new Profile().find().keepConnection()
 				.whereIn("type_fk", menuIDs)
 				.andWhere("type", "=", "MEN")
-				.andWhere("user.id", "=", userID)
 				.andWhere("profileType.id", ">", 1)
+				.allColumns("profileType").stream()
+				.flatMap(map -> map.values().stream())
+				.filter(Integer.class::isInstance)
+				.map(Integer.class::cast)
+				.toList();
+	// Compares if the user has a profile that has the menu that he wants to access
+		List<Integer> comparisonList = new ArrayList<>(profsUserList);
 
-				.getCount()>0;
+        return new HashSet<>(comparisonList).containsAll(profileList);
 	}
 	
 
@@ -321,8 +336,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 												+ r.getString("page") + "/" + r.getString("action")) + "&dad="
 												+ currentDad);
 									} else {
-										String _u = buildExternalUrl(r.getString("dad_app_page"),
-												r.getString("dad_app_page"), r.getString("page"),r.getString("action"));
+										String _u = String.format("%s?r=%s/%s/%s", url, r.getString("dad_app_page"), r.getString("page"),r.getString("action"));
 										ms.setLink(_u);
 									}
 								}
@@ -335,7 +349,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 												+ currentDad);
 									} else {
 										String _u = buildExternalUrl(url,
-												r.getString("dad_app_page"), r.getString("page"),r.getString("action")); // Custom Dad
+												r.getString("dad_app_page"), r.getString("page"),r.getString("action")) + "&dad=" + currentDad; // Custom Dad
 										ms.setLink(_u);
 									}
 								}
@@ -423,7 +437,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable {
 				+ menu + ", organization=" + organization + "]";
 	}
 
-	private String buildExternalUrl(String dad, String app, String page, String action) {
+	public String buildExternalUrl(String dad, String app, String page, String action) {
 		String url = "#";
 		url = String.format("%s?r=%s/%s/%s", ConfigApp.getInstance().getExternalUrl(dad), app, page, action);
 		return url;
