@@ -85,9 +85,8 @@ public final class IgrpHelper {
 	
 
 	public static String getValue(Object model,String name){
-		String value = "";
+		String value = null;
 		if(model!=null && name!=null && !name.isEmpty()){
-			value = "";
 			String methodName = "get"+name.substring(0, 1).toUpperCase()+name.substring(1);
 		    for (Method m : model.getClass().getDeclaredMethods()) {		    	
 		    	if(m.getName().equals(methodName)){
