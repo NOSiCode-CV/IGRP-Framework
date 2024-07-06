@@ -168,7 +168,7 @@ public abstract class AbstractField implements Field {
 	protected void configValue(Object model) {
 			final String auxValue = IgrpHelper.getValue(model, this.getName());
 			//If the view already sets a value, the model cannot interfere
-			if(!(Core.isNotNull(this.value) && Core.isNull(auxValue)))
+			if(!(Core.isNotNull(this.value) && auxValue==null)
 				this.value =auxValue ;
 
 	}
