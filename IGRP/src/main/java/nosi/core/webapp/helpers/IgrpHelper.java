@@ -85,12 +85,12 @@ public final class IgrpHelper {
 	
 
 	public static String getValue(Object model,String name){
-		String value = "";
+		String value = null;
 		if(model!=null && name!=null && !name.isEmpty()){
-			value = "";
 			String methodName = "get"+name.substring(0, 1).toUpperCase()+name.substring(1);
 		    for (Method m : model.getClass().getDeclaredMethods()) {		    	
 		    	if(m.getName().equals(methodName)){
+					value = "";
 			    	try {
 						final Object invoke = m.invoke(model);
 						if(invoke !=null) {
@@ -100,14 +100,8 @@ public final class IgrpHelper {
 			    			}else {
 			    				if(m.getReturnType().getSimpleName().equals("UploadFile")) {
 			    					UploadFile upload = (UploadFile) invoke;
-			    					if(upload!=null) {
-			    						value = upload.getSubmittedFileName();
-			    					}else {
-			    						TempFile tempFile = TempFileHelper.getTempFile(Model.getParamFileId(name));
-			    						if(tempFile!=null)
-			    							value = tempFile.getName();
-			    					}
-			    				}else {
+                                    value = upload.getSubmittedFileName();
+                                }else {
 				    				value = ""+ invoke;
 				    				if(m.getReturnType().getName().equals("java.time.LocalDate")) {
 				    					value = Core.convertDate(value, "yyyy-MM-dd", "dd-MM-yyyy");

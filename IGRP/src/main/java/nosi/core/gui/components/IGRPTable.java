@@ -176,8 +176,9 @@ public class IGRPTable extends IGRPComponent{
 						all=this.data;
 				float total = 0;
 				for(Object obj : all) { 
-					String val = IgrpHelper.getValue(obj, field.getName()); 
-					total += Core.toFloat(val); 
+					String val = IgrpHelper.getValue(obj, field.getName());
+					if(Core.isNotNull(val))
+						total += Core.toFloat(val);
 				}
 				m.put(field.getName(), total); 
 				hasOneFieldTotal = true; 

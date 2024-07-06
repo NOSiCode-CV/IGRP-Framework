@@ -37,7 +37,7 @@ public class ListField extends AbstractField {
 		this.propertie().put("required", Boolean.FALSE);
 		this.setTagName(name);
 		this.configValue(model);
-		ofNullable(this.propertie()).ifPresent(prop -> prop.put("value", this.getValue()));
+		ofNullable(this.propertie()).ifPresent(prop -> prop.put("value", this.getValue()==null?"":this.getValue()));
 	}
 
 	@Override

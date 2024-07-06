@@ -2,6 +2,7 @@ package nosi.core.gui.fields;
 
 import java.util.Map;
 import nosi.core.config.ConfigApp;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.IgrpHelper;
@@ -165,7 +166,11 @@ public abstract class AbstractField implements Field {
 	}
 
 	protected void configValue(Object model) {
-		this.value = IgrpHelper.getValue(model, this.getName());
+			final String auxValue = IgrpHelper.getValue(model, this.getName());
+			//If the view already sets a value, the model cannot interfere
+			if(!(Core.isNotNull(this.value) && Core.isNull(auxValue)))
+				this.value =auxValue ;
+
 	}
 
 	@Override

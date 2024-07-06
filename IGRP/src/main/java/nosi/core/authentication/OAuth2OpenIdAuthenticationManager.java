@@ -42,7 +42,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 		Map<String, String> m = swap(authCode, sessionState, settings);
 		
 		if(m.isEmpty())
-			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador.");
+			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador por causa do token swap.");
 		
 		String token = m.get("access_token");
 		String idToken = m.get("id_token");
@@ -74,10 +74,10 @@ public final class OAuth2OpenIdAuthenticationManager {
 		if (user != null) {
 
 			if (user.getStatus() != 1)
-				throw new IllegalStateException("Este utilizador " + user.getName() + " encontra-se desativado.");
+				throw new IllegalStateException("Este utilizador " + user.getName() + " ("+user.getEmail()+") encontra-se desativado.");
 			Profile profile = new Profile().getByUser(user.getId());
 			if(profile == null)
-				throw new IllegalStateException("Nenhum perfil foi encontrado para o utilizador.");
+				throw new IllegalStateException("Nenhum perfil foi encontrado para o utilizador: "+user.getUser_name());
 			
 			AuthenticationManager.createSecurityContext(user, session);
 			AuthenticationManager.afterLogin(profile, user, request);
@@ -110,15 +110,15 @@ public final class OAuth2OpenIdAuthenticationManager {
 			newUser.setRefreshToken(refresh_token);
 			newUser = newUser.insert();
 			if(newUser == null)
-				throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador. Utilizador não encontrado.");
+				throw new IllegalStateException("Ocorreu um erro ao adicionar o utilizador: "+name);
 			AuthenticationManager.createPerfilWhenAutoInvite(newUser);
 			AuthenticationManager.createSecurityContext(newUser, session);
 			session.setAttribute("_oidcIdToken", idToken);
 			session.setAttribute("_oidcState", sessionState);
 			isUserAuthenticated = true;
-		}
-		if(!isUserAuthenticated)
-			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador.");
+		}else
+			throw new IllegalStateException("Caro "+name+" ("+email+") não está convidado para para nenhuma aplicação. Contactar o administrador!");
+
 	}
 
 	private static Map<String, String> swap(String code, String sessionState, Properties settings) {
