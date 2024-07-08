@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.client.Invocation;
 import jakarta.ws.rs.core.Form;
 import nosi.core.config.ConfigCommonMainConstants;
 import nosi.core.webapp.ApplicationManager;
@@ -59,7 +58,6 @@ public final class OAuth2OpenIdAuthenticationManager {
 		String phone_number = userInfo.get("phone_number");
 
 		User user = null;
-		boolean isUserAuthenticated = false;
 		
 		if (uid != null)
 			user = new User().find().andWhere("cni", "=", uid).one();
@@ -90,7 +88,6 @@ public final class OAuth2OpenIdAuthenticationManager {
 			user.setIsAuthenticated(1);
 			user.setRefreshToken(refresh_token);
 			user = user.update();
-			isUserAuthenticated = true;
 		} else if ("dev".equalsIgnoreCase(env)) {
 			User newUser = new User();
 			newUser.setUser_name(uid);
@@ -114,7 +111,6 @@ public final class OAuth2OpenIdAuthenticationManager {
 			AuthenticationManager.createSecurityContext(newUser, session);
 			session.setAttribute("_oidcIdToken", idToken);
 			session.setAttribute("_oidcState", sessionState);
-			isUserAuthenticated = true;
 		} else
 			throw new IllegalStateException("Caro "+name+" ("+email+") não está convidado para para nenhuma aplicação. Contactar o administrador!");
 
@@ -130,24 +126,24 @@ public final class OAuth2OpenIdAuthenticationManager {
 			String endpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_TOKEN.value());
 			String redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
 
-			Form postData = new Form();
-			postData.param("grant_type", "authorization_code");
-			postData.param("code", code);
-			postData.param("redirect_uri", redirect_uri);
-			postData.param("scope", "openid email profile");
+			Form postData = new Form()
+					.param("grant_type", "authorization_code")
+					.param("code", code)
+					.param("redirect_uri", redirect_uri)
+					.param("scope", "openid email profile");
 
-			try (jakarta.ws.rs.core.Response r = curl.target(endpoint).request("application/x-www-form-urlencoded")
+			try (jakarta.ws.rs.core.Response r = curl.target(endpoint)
+					.request("application/x-www-form-urlencoded")
 					.header("Accept", "application/json")
 					.header("Authorization", "Basic " + Base64.getEncoder().encodeToString((client_id + ":" + client_secret).getBytes()))
 					.post(Entity.form(postData), jakarta.ws.rs.core.Response.class)) {
 
-				String resultPost = r.readEntity(String.class);
-
 				if (r.getStatus() == 200) {
+					String resultPost = r.readEntity(String.class);
 					JSONObject jToken = new JSONObject(resultPost);
 					String token = (String) jToken.get("access_token");
 					String id_token = (String) jToken.get("id_token");
-					String refresh_token = (String) jToken.optString("refresh_token", "" + jToken.optIntegerObject("expires_in", 4000));
+					String refresh_token = jToken.optString("refresh_token", "" + jToken.optIntegerObject("expires_in", 4000));
 					m.put("access_token", token);
 					m.put("id_token", id_token);
 					m.put("session_state", sessionState);
@@ -191,12 +187,11 @@ public final class OAuth2OpenIdAuthenticationManager {
 	}
 
 	private static String getAttributeStringValue(JSONObject obj, String attribute) {
-		String _value = null;
 		try {
-			_value = obj.getString(attribute);
+			return obj.getString(attribute);
 		} catch (JSONException ignored) {
-        }
-		return _value;
+			return null;
+		}
 	}
 	
 	public static Optional<String> signOut(User currentUser, Properties configs, HttpServletRequest request) {
@@ -206,11 +201,12 @@ public final class OAuth2OpenIdAuthenticationManager {
 
 		if(!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equalsIgnoreCase(authenticationType))
 			return Optional.empty();
-		String oidcIdToken = currentUser.getOidcIdToken(); 
-		String oidcState = currentUser.getOidcState(); 
+
 		String oidcLogout = configs.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_LOGOUT.value());
-		String redirectUri = configs.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value()); 
 		if(oidcLogout != null && !oidcLogout.isEmpty()) {
+			String oidcIdToken = currentUser.getOidcIdToken();
+			String oidcState = currentUser.getOidcState();
+			String redirectUri = configs.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
 			String aux = String.format("%s?id_token_hint=%s&state=%s&post_logout_redirect_uri=%s", oidcLogout, oidcIdToken, oidcState, redirectUri);
 			return Optional.of(aux);
 		}
