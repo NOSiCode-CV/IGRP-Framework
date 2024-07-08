@@ -40,22 +40,20 @@ public final class OAuth2OpenIdAuthenticationManager {
 		Properties settings = ApplicationManager.loadConfig();
 		
 		Map<String, String> m = swap(authCode, sessionState, settings);
-		
 		if(m.isEmpty())
 			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador por causa do token swap.");
 		
 		String token = m.get("access_token");
+		if (token == null)
+			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador. Token não encontrado.");
+
 		String idToken = m.get("id_token");
 		sessionState = m.get("session_state");
 		String refresh_token = m.get("refresh_token");
 
-		if (token == null)
-			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador. Token não encontrado.");
-
 		Map<String, String> userInfo = oAuth2GetUserInfoByToken(token, settings);
 
-		String email = userInfo.get("email") != null ? userInfo.get("email").trim().toLowerCase() : "";
-
+		String email = Optional.ofNullable(userInfo.get("email")).map(String::trim).map(String::toLowerCase).orElse("");
 		String uid = userInfo.get("sub");
 		String name = userInfo.get("name");
 		String phone_number = userInfo.get("phone_number");
@@ -75,6 +73,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 
 			if (user.getStatus() != 1)
 				throw new IllegalStateException("Este utilizador " + user.getName() + " ("+user.getEmail()+") encontra-se desativado.");
+
 			Profile profile = new Profile().getByUser(user.getId());
 			if(profile == null)
 				throw new IllegalStateException("Nenhum perfil foi encontrado para o utilizador: "+user.getUser_name());
@@ -116,57 +115,66 @@ public final class OAuth2OpenIdAuthenticationManager {
 			session.setAttribute("_oidcIdToken", idToken);
 			session.setAttribute("_oidcState", sessionState);
 			isUserAuthenticated = true;
-		}else
+		} else
 			throw new IllegalStateException("Caro "+name+" ("+email+") não está convidado para para nenhuma aplicação. Contactar o administrador!");
 
 	}
 
 	private static Map<String, String> swap(String code, String sessionState, Properties settings) {
 		Map<String, String> m = new HashMap<>();
+		Client curl = ClientBuilder.newClient();
 		try {
+
 			String client_id = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
-			String client_secret = settings
-					.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_SECRET.value());
+			String client_secret = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_SECRET.value());
 			String endpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_TOKEN.value());
-			String redirect_uri = settings
-					.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
+			String redirect_uri = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
+
 			Form postData = new Form();
 			postData.param("grant_type", "authorization_code");
 			postData.param("code", code);
 			postData.param("redirect_uri", redirect_uri);
 			postData.param("scope", "openid email profile");
-			Client curl = ClientBuilder.newClient();
-			Invocation.Builder ib = curl.target(endpoint).request("application/x-www-form-urlencoded");
-			ib.header("Accept", "application/json");
-			ib.header("Authorization", "Basic " + Base64.getEncoder().encodeToString((client_id + ":" + client_secret).getBytes()));
-			jakarta.ws.rs.core.Response r = ib.post(Entity.form(postData), jakarta.ws.rs.core.Response.class);
-			String resultPost = r.readEntity(String.class);
-			curl.close();
-			if (r.getStatus() == 200) {
-				JSONObject jToken = new JSONObject(resultPost);
-				String token = (String) jToken.get("access_token");
-				String id_token = (String) jToken.get("id_token");
-				String refresh_token = (String) jToken.optString("refresh_token", ""+jToken.optIntegerObject("expires_in",4000));
-				m.put("access_token", token);
-				m.put("id_token", id_token);
-				m.put("session_state", sessionState);
-				m.put("refresh_token", refresh_token);
+
+			try (jakarta.ws.rs.core.Response r = curl.target(endpoint).request("application/x-www-form-urlencoded")
+					.header("Accept", "application/json")
+					.header("Authorization", "Basic " + Base64.getEncoder().encodeToString((client_id + ":" + client_secret).getBytes()))
+					.post(Entity.form(postData), jakarta.ws.rs.core.Response.class)) {
+
+				String resultPost = r.readEntity(String.class);
+
+				if (r.getStatus() == 200) {
+					JSONObject jToken = new JSONObject(resultPost);
+					String token = (String) jToken.get("access_token");
+					String id_token = (String) jToken.get("id_token");
+					String refresh_token = (String) jToken.optString("refresh_token", "" + jToken.optIntegerObject("expires_in", 4000));
+					m.put("access_token", token);
+					m.put("id_token", id_token);
+					m.put("session_state", sessionState);
+					m.put("refresh_token", refresh_token);
+				}
 			}
+
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage(), ex);
+		} finally {
+			curl.close();
 		}
 		return m;
 	}
 
 	private static Map<String, String> oAuth2GetUserInfoByToken(String token, Properties settings) {
 		Map<String, String> uid = new HashMap<>();
+		Client curl = ClientBuilder.newClient();
 		try {
 			String endpoint = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_USER.value());
-			Client curl = ClientBuilder.newClient();
-			jakarta.ws.rs.core.Response r = curl.target(endpoint).request().header("Accept", "application/json").header("Authorization", "Bearer " + token).get(jakarta.ws.rs.core.Response.class);
+			jakarta.ws.rs.core.Response r = curl.target(endpoint)
+					.request()
+					.header("Accept", "application/json")
+					.header("Authorization", "Bearer " + token)
+					.get(jakarta.ws.rs.core.Response.class);
 			if (r.getStatus() == 200) {
 				String result = r.readEntity(String.class);
-				curl.close();
 				JSONObject jToken = new JSONObject(result);
 				uid.put("sub", getAttributeStringValue(jToken, "sub"));
 				uid.put("email", getAttributeStringValue(jToken, "email"));
@@ -176,14 +184,16 @@ public final class OAuth2OpenIdAuthenticationManager {
 			}
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage(), ex);
+		} finally {
+			curl.close();
 		}
 		return uid;
 	}
 
-	private static String getAttributeStringValue(JSONObject obj, String attibute) {
+	private static String getAttributeStringValue(JSONObject obj, String attribute) {
 		String _value = null;
 		try {
-			_value = obj.getString(attibute);
+			_value = obj.getString(attribute);
 		} catch (JSONException ignored) {
         }
 		return _value;
