@@ -136,7 +136,8 @@ public final class OAuth2OpenIdAuthenticationManager {
 			postData.param("redirect_uri", redirect_uri);
 			postData.param("scope", "openid email profile");
 
-			try (jakarta.ws.rs.core.Response r = curl.target(endpoint).request("application/x-www-form-urlencoded")
+			try (jakarta.ws.rs.core.Response r = curl.target(endpoint)
+					.request("application/x-www-form-urlencoded")
 					.header("Accept", "application/json")
 					.header("Authorization", "Basic " + Base64.getEncoder().encodeToString((client_id + ":" + client_secret).getBytes()))
 					.post(Entity.form(postData), jakarta.ws.rs.core.Response.class)) {
@@ -147,7 +148,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 					JSONObject jToken = new JSONObject(resultPost);
 					String token = (String) jToken.get("access_token");
 					String id_token = (String) jToken.get("id_token");
-					String refresh_token = (String) jToken.optString("refresh_token", "" + jToken.optIntegerObject("expires_in", 4000));
+					String refresh_token = jToken.optString("refresh_token", "" + jToken.optIntegerObject("expires_in", 4000));
 					m.put("access_token", token);
 					m.put("id_token", id_token);
 					m.put("session_state", sessionState);
@@ -206,11 +207,12 @@ public final class OAuth2OpenIdAuthenticationManager {
 
 		if(!ConfigCommonMainConstants.IGRP_AUTHENTICATION_TYPE_OAUTH2_OPENID.value().equalsIgnoreCase(authenticationType))
 			return Optional.empty();
-		String oidcIdToken = currentUser.getOidcIdToken(); 
-		String oidcState = currentUser.getOidcState(); 
+
 		String oidcLogout = configs.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_LOGOUT.value());
-		String redirectUri = configs.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value()); 
 		if(oidcLogout != null && !oidcLogout.isEmpty()) {
+			String oidcIdToken = currentUser.getOidcIdToken();
+			String oidcState = currentUser.getOidcState();
+			String redirectUri = configs.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_ENDPOINT_REDIRECT_URI.value());
 			String aux = String.format("%s?id_token_hint=%s&state=%s&post_logout_redirect_uri=%s", oidcLogout, oidcIdToken, oidcState, redirectUri);
 			return Optional.of(aux);
 		}
