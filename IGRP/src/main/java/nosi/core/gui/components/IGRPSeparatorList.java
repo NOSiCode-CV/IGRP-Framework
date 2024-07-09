@@ -78,9 +78,10 @@ public class IGRPSeparatorList extends IGRPTable {
 				if (!this.buttons.isEmpty()) {
 					this.xml.startElement("context-menu");//start context-menu
 					for (Field field : this.fields) {
-						if (field.isParam())
-							this.xml.setElement("param",
-						field.getName() + "=" + IgrpHelper.getValue(obj, field.getName()));
+						if (field.isParam()){
+							final String value = IgrpHelper.getValue(obj, field.getName());
+							this.xml.setElement("param",field.getName() + "=" + (value!=null?value:""));
+						}
 					}
 					this.xml.endElement();//end context-menu
 				}
