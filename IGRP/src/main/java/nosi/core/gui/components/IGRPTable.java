@@ -446,7 +446,7 @@ public class IGRPTable extends IGRPComponent{
 				for (java.lang.reflect.Field field : fields) {
 					xmlWritter.startElement(field.getName());
 					xmlWritter.writeAttribute("name", "p_" + field.getName());
-					final String value = IgrpHelper.getValue(obj, field.getName());
+					String value = IgrpHelper.getValue(obj, field.getName());
 					if(value==null)
 						value="";
 
