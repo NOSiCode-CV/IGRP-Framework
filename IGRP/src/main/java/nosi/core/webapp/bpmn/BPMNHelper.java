@@ -14,11 +14,11 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.RepTemplateSource;
+import nosi.webapps.igrp.dao.TaskFile;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import nosi.webapps.igrp_studio.pages.bpmndesigner.ReserveCodeControllerTask;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static nosi.core.i18n.Translator.gt;
 
@@ -101,38 +101,64 @@ public final class BPMNHelper {
 
 	public static List<TipoDocumentoEtapa> getInputDocumentTypeHistory(String taskDad,String processDefinition, String taskDefinition) {
 		List<TipoDocumentoEtapa> tipoDocsIN = getInputDocumentType(taskDad,processDefinition, taskDefinition);
-		if(tipoDocsIN!=null) {
-			tipoDocsIN.forEach(t->{
-				t.setFileId(-1);
-				IGRPLink link = new IGRPLink();
-				if(t.getTipoDocumento()!=null) {
-					nosi.webapps.igrp.dao.TaskFile taskFile = new nosi.webapps.igrp.dao.TaskFile().find()
-							.where("taskId","=",getCurrentTaskId())
-							.andWhere("tipo_doc_task.tipoDocumento.id","=",t.getTipoDocumento().getId())
-							.one();
-					if(taskFile!=null) {
-						if(taskFile.getClob().getUuid()!=null)
-							link.setLink(Core.getLinkFileByUuid(taskFile.getClob().getUuid()));
-						else
-							link.setLink(Core.getLinkFile(taskFile.getClob().getId()));
-						t.setFileId(taskFile.getClob().getId());
-						t.setUser(taskFile.getClob().getUser().getEmail());
+		if(tipoDocsIN!=null && !tipoDocsIN.isEmpty()) {
+			if (RuntimeTask.getRuntimeTask().isDetails()) {
+				//If details will show the inputed file for this task
+				tipoDocsIN.forEach(t->{
+					t.setFileId(-1);
+					IGRPLink link = new IGRPLink();
+					if(t.getTipoDocumento()!=null) {
+						TaskFile taskFile = new TaskFile().find()
+								.where("taskId","=",getCurrentTaskId())
+								.andWhere("tipo_doc_task.tipoDocumento.id","=",t.getTipoDocumento().getId())
+								.one();
+						if(taskFile!=null) {
+							if(taskFile.getClob().getUuid()!=null)
+								link.setLink(Core.getLinkFileByUuid(taskFile.getClob().getUuid()));
+							else
+								link.setLink(Core.getLinkFile(taskFile.getClob().getId()));
+							t.setFileId(taskFile.getClob().getId());
+							t.setUser(taskFile.getClob().getUser().getEmail()+" a "+Core.dateToString(taskFile.getClob().getDt_created(),"dd-MMM-yy"));
 
+						}
+					}
+					if(t.getRepTemplate()!=null) {
+						link = new IGRPLink(Core.getLinkReport(t.getRepTemplate().getCode()).addParam(BPMNConstants.PRM_TASK_ID, getCurrentTaskId()));
+					}
+					link.setLink_desc(gt("Mostrar"));
+					t.setLink(link);
+				});
+			} else {
+				//will show the last document inputed if exists
+				final List<TaskFile> tasksF = getTaskFiles(tipoDocsIN);
+				for (TaskFile taskFile : tasksF) {
+					for (int i=0; i<=tipoDocsIN.size();i++) {
+						if (Objects.equals(tipoDocsIN.get(i).getTipoDocumento().getId(), taskFile.getTipo_doc_task().getTipoDocumento().getId())) {
+							IGRPLink link = new IGRPLink();
+							tipoDocsIN.get(i).setFileId(-1);
+							if (taskFile.getClob().getUuid() != null)
+								link.setLink(Core.getLinkFileByUuid(taskFile.getClob().getUuid()));
+							else
+								link.setLink(Core.getLinkFile(taskFile.getClob().getId()));
+							tipoDocsIN.get(i).setFileId(taskFile.getClob().getId());
+							tipoDocsIN.get(i).setUser(taskFile.getClob().getUser().getEmail()+" a "+Core.dateToString(taskFile.getClob().getDt_created(),"dd-MMM-yy"));
+
+							link.setLink_desc(gt("Mostrar"));
+							tipoDocsIN.get(i).setLink(link);
+
+							break;
+						}
 					}
 				}
-				if(t.getRepTemplate()!=null) {
-					link = new IGRPLink(Core.getLinkReport(t.getRepTemplate().getCode()).addParam(BPMNConstants.PRM_TASK_ID, getCurrentTaskId()));
-				}
-				link.setLink_desc(gt("Mostrar"));
-				t.setLink(link);
-			});
+
+			}
 		}
 		return tipoDocsIN;
 	}
-	
+
 
 	public static List<TipoDocumentoEtapa> getInputDocumentType(String taskDad, String processDefinition, String taskDefinition){
-		List<TipoDocumentoEtapa> tipoDocsIN = new TipoDocumentoEtapa()
+		return new TipoDocumentoEtapa()
 				.find()
 				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")
 				.andWhere("taskId", "=",Core.isNotNull(taskDefinition)?taskDefinition:"-1")
@@ -140,7 +166,6 @@ public final class BPMNHelper {
 				.andWhere("tipo", "=","IN")
 				.andWhere("tipoDocumento.application.dad", "=",taskDad)
 				.all();
-		return tipoDocsIN;
 	}
 
 	private static String getCurrentTaskId() {
@@ -167,9 +192,6 @@ public final class BPMNHelper {
 	
 	private static List<TipoDocumentoEtapa> getDocumentOutputOthers(String taskDad, String processDefinition,
 																	String taskDefinition) {
-		List<TipoDocumentoEtapa> aux = new ArrayList<>();
-		RuntimeTask runtimeTask = RuntimeTask.getRuntimeTask();
-
 
 		List<TipoDocumentoEtapa> tipoDocs = new TipoDocumentoEtapa()
 				.find()
@@ -182,56 +204,59 @@ public final class BPMNHelper {
 				.all();
 
 		if(tipoDocs!=null && !tipoDocs.isEmpty()){
-			List<ActivityExecute> allBeforeTasks = new ActivityExecute().find()
-					.andWhere("processName", "=", runtimeTask.getTask().getProcessDefinitionId())
-					.andWhere("processid", "=", runtimeTask.getTask().getProcessInstanceId())
-					.orderByDesc("id")
-					.all();
-			List<String> taskIds = new ArrayList<>();
-			for(TipoDocumentoEtapa t : tipoDocs) {
-				for(ActivityExecute task : allBeforeTasks) {
-					TipoDocumentoEtapa doc = new TipoDocumentoEtapa().find()
-							.andWhere("processId", "=", task.getProccessKey())
-							.andWhere("taskId", "=", task.getTaskKey())
-							.andWhere("tipo", "=", "IN")
-							.andWhere("status", "=", 1)
-							.andWhere("tipoDocumento", "=", t.getTipoDocumento())
-							.one();
-					if(doc != null) {
-						aux.add(doc);
-						taskIds.add(task.getTaskid());
+			final List<TaskFile> tasksF = getTaskFiles(tipoDocs);
+
+			for (TaskFile taskFile : tasksF) {
+				for (int i=0; i<=tipoDocs.size();i++) {
+					if (Objects.equals(tipoDocs.get(i).getTipoDocumento().getId(), taskFile.getTipo_doc_task().getTipoDocumento().getId())) {
+						tipoDocs.get(i).setTipo("OUT");
+						IGRPLink link = new IGRPLink();
+						tipoDocs.get(i).setFileId(-1);
+						tipoDocs.get(i).setRequired(taskFile.getTipo_doc_task().getRequired());
+						if (taskFile.getClob().getUuid() != null)
+							link.setLink(Core.getLinkFileByUuid(taskFile.getClob().getUuid()));
+						else
+							link.setLink(Core.getLinkFile(taskFile.getClob().getId()));
+						tipoDocs.get(i).setFileId(taskFile.getClob().getId());
+						tipoDocs.get(i).setUser(taskFile.getClob().getUser().getEmail()+" a "+Core.dateToString(taskFile.getClob().getDt_created(),"dd-MMM-yy"));
+
+						link.setLink_desc(gt("Mostrar"));
+						tipoDocs.get(i).setLink(link);
+
 						break;
 					}
 				}
 			}
-
-			for(int i = 0; i < aux.size(); i++) {
-				TipoDocumentoEtapa t = aux.get(i);
-				t.setTipo("OUT");
-				IGRPLink link = new IGRPLink();
-				t.setFileId(-1);
-				nosi.webapps.igrp.dao.TaskFile taskFile = new nosi.webapps.igrp.dao.TaskFile().find()
-						.where("taskId","=", taskIds.get(i))
-						.andWhere("tipo_doc_task.tipoDocumento.id","=",t.getTipoDocumento().getId())
-						.one();
-
-				if(taskFile!=null) {
-					if(taskFile.getClob().getUuid()!=null)
-						link.setLink(Core.getLinkFileByUuid(taskFile.getClob().getUuid()));
-					else
-						link.setLink(Core.getLinkFile(taskFile.getClob().getId()));
-					t.setFileId(taskFile.getClob().getId());
-					t.setUser(taskFile.getClob().getUser().getEmail());
-				}
-				link.setLink_desc(gt("Mostrar"));
-				t.setLink(link);
-			}
 		}
-		
-		return aux;
+		return tipoDocs;
 	}
 
-	private static List<TipoDocumentoEtapa> getDocumentOutputReport(String taskDad,String processDefinition,String taskDefinition) { 
+	private static List<TaskFile> getTaskFiles(List<TipoDocumentoEtapa> tipoDocs) {
+		RuntimeTask runtimeTask = RuntimeTask.getRuntimeTask();
+		Integer[] tpIds = tipoDocs.stream()
+				.filter(t -> t.getTipoDocumento() != null)
+				.map(t -> t.getTipoDocumento().getId())
+				.toArray(Integer[]::new);
+		List<Map<String, Object>> allBeforeTasks = new ActivityExecute().find()
+				.andWhere("processName", "=", runtimeTask.getTask().getProcessDefinitionId())
+				.andWhere("processid", "=", runtimeTask.getTask().getProcessInstanceId())
+				.andWhere("taskid","!=","start")
+				.orderByDesc("id")
+				.allColumns("taskid");
+		String[] tasksIds = allBeforeTasks.stream()
+				.filter(map -> map.containsKey("taskid") && map.get("taskid") != null)
+				.map(map -> map.get("taskid").toString())
+				.toArray(String[]::new);
+
+		List<TaskFile> tasksF = new TaskFile().find()
+				.whereIn("taskId",tasksIds)
+				.andWhere("tipo_doc_task.tipoDocumento.id","IN", tpIds)
+				.orderByAsc("id")
+				.all();
+		return tasksF;
+	}
+
+	private static List<TipoDocumentoEtapa> getDocumentOutputReport(String taskDad,String processDefinition,String taskDefinition) {
 		List<TipoDocumentoEtapa> tipoDocs =  new TipoDocumentoEtapa()
 				.find()
 				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")
