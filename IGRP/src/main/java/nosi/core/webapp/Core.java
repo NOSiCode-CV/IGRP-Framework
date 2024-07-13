@@ -5495,4 +5495,20 @@ public final class Core {
 			}
 		});
 	}
+		public static String colorStateTableTemplate(String textValue, String colorFont) {
+			return colorStateTableTemplate(colorFont + "1a", textValue, colorFont);
+	}
+	public static String colorStateTableTemplate(String bg, String value, String color) {
+		//return value;
+		return "<div style=\"background-color: " + bg + ";\n"
+				+ "  color: " + color + ";\n"
+				+ "  padding: 0.35em 0.65em;\n"
+				+ "  text-align: center;\n"
+				+ "  line-height: 1;\n"
+				+ "  display: inline-block;\n"
+				+ "  border-radius: 0.25rem;\n "
+				+ "  font-weight: 500;"
+				+ "  margin-right: 4px;\n"
+				+ "\">" + value + "</div>";
+	}
 }
