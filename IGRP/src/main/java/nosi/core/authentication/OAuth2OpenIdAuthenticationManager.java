@@ -54,7 +54,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 
 		String email = Optional.ofNullable(userInfo.get("email")).map(String::trim).map(String::toLowerCase).orElse("");
 		String uid = userInfo.get("sub");
-		String name = userInfo.get("name");
+		String name = userInfo.getOrDefault("name","");
 		String phone_number = userInfo.get("phone_number");
 
 		User user = null;
