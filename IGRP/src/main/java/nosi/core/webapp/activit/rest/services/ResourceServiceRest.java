@@ -23,21 +23,15 @@ public class ResourceServiceRest extends GenericActivitiRest{
 
 	public ResourceService getResource(String id_deployment, String id_resource) {
 		ResourceService r = new ResourceService();
-		Response response = this.getRestRequest().get("repository/deployments/" + id_deployment + "/resources",
+		var response = this.getRestRequest().getHttpClient("repository/deployments/" + id_deployment + "/resources",
 				id_resource);
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
 				r = ResponseConverter.convertJsonToDao(contentResp, ResourceService.class);
 			} else {
 				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return r;
 	}
@@ -46,17 +40,12 @@ public class ResourceServiceRest extends GenericActivitiRest{
 		RestRequest request = this.getRestRequest();
 		request.setBase_url("");
 		request.setAccept_format(MediaType.APPLICATION_XML);
-		Response response = request.get("repository/deployments/" + id_deployment + "/resourcedata/", id_resource);
+		var response = request.getHttpClient("repository/deployments/" + id_deployment + "/resourcedata/", id_resource);
 		String contentResp = "";
 		if (response != null) {
-			if (response.getStatus() == 200) {
-				try {
-					contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			response.close();
+			if (response.statusCode() == 200) {
+                contentResp = response.body();
+            }
 		}
 		return contentResp;
 	}
@@ -83,22 +72,16 @@ public class ResourceServiceRest extends GenericActivitiRest{
 	@SuppressWarnings("unchecked")
 	public List<ResourceService> getResources(String id_deployment) {
 		List<ResourceService> d = new ArrayList<>();
-		Response response = this.getRestRequest().get("repository/deployments/" + id_deployment + "/resources");
+		var response = this.getRestRequest().getHttpClient("repository/deployments/" + id_deployment + "/resources");
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
 				d = (List<ResourceService>) ResponseConverter.convertJsonToListDao(contentResp,
 						new TypeToken<List<ResourceService>>() {
 						}.getType());
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return d;
 	}
@@ -106,21 +89,15 @@ public class ResourceServiceRest extends GenericActivitiRest{
 	public ResourcesService getResource(String url) {
 		RestRequest req = this.getRestRequest();
 		req.setBase_url("");
-		Response response = req.get(url);
+		var response = req.getHttpClient(url);
 		ResourcesService resource = new ResourcesService();
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
 				resource = ResponseConverter.convertJsonToDao(contentResp, ResourcesService.class);
 			} else {
 				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return resource;
 	}

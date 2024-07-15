@@ -1,8 +1,5 @@
 package nosi.core.webapp.activit.rest.services;
 
-import java.io.IOException;
-import java.io.InputStream;
-import jakarta.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,10 +8,10 @@ import nosi.core.webapp.activit.rest.entities.FormDataService;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.StartProcess;
 import nosi.core.webapp.activit.rest.entities.TaskService;
-import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Properties;
 import java.util.ArrayList;
@@ -44,25 +41,19 @@ public class FormDataServiceRest extends GenericActivitiRest {
 
 	private FormDataService getFormData(Activiti activiti) {
 		FormDataService d = new FormDataService();
-		Response response = null;
+		HttpResponse<String> response = null;
 		if (activiti instanceof TaskService) {
-			response = this.getRestRequest().get("form/form-data?taskId=" +activiti.getId());
+			response = this.getRestRequest().getHttpClient("form/form-data?taskId=" +activiti.getId());
 		} else if (activiti instanceof ProcessDefinitionService) {
-			response = this.getRestRequest().get("form/form-data?processDefinitionId=" +activiti.getId());
+			response = this.getRestRequest().getHttpClient("form/form-data?processDefinitionId=" +activiti.getId());
 		}
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200) {
-				d = (FormDataService) ResponseConverter.convertJsonToDao(contentResp, FormDataService.class);
+			String contentResp = response.body();
+			if (response.statusCode() == 200) {
+				d = ResponseConverter.convertJsonToDao(contentResp, FormDataService.class);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return d;
 	}
@@ -96,20 +87,16 @@ public class FormDataServiceRest extends GenericActivitiRest {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		Response response = this.getRestRequest().post("form/form-data", json.toString());
+
+		var response = this.getRestRequest().postHttpClient("form/form-data", json.toString());
+
 		if (response != null) {
-			String contentResp = "";
-			try {
-				contentResp = new FileHelper().convertToString((InputStream) response.getEntity());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (response.getStatus() == 200 || response.getStatus() == 204) {
-				s = (StartProcess) ResponseConverter.convertJsonToDao(contentResp, StartProcess.class);
+			String contentResp = response.body();
+			if (response.statusCode() == 200 || response.statusCode() == 204) {
+				s = ResponseConverter.convertJsonToDao(contentResp, StartProcess.class);
 			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError(ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-			response.close();
 		}
 		return s;
 	}
