@@ -22,7 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class NamedParameterStatement {
+public class NamedParameterStatement implements AutoCloseable {
 	
 	private final PreparedStatement statement;
 
@@ -45,11 +45,11 @@ public class NamedParameterStatement {
 
 	final String parse(String query) {
 		int length = query.length();
-		StringBuffer parsedQuery = new StringBuffer(length);
+		StringBuilder parsedQuery = new StringBuilder(length);
 		boolean inSingleQuote = false;
 		boolean inDoubleQuote = false;
 		int index = 1;
-		HashMap<String, List<Integer>> indexes = new HashMap<String, List<Integer>>(10);
+		HashMap<String, List<Integer>> indexes = new HashMap<>(10);
 
 		for (int i = 0; i < length; i++) {
 			char c = query.charAt(i);

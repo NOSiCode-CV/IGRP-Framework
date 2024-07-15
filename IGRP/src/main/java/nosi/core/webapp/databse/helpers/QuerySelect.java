@@ -113,7 +113,7 @@ public class QuerySelect extends CommonFIlter{
 				this.keepConnection = false;
 				this.setError(null, e);
 			}finally {
-				if(!this.keepConnection && session!=null && session.isOpen())
+				if(!this.keepConnection && session.isOpen())
 					session.close();
 			}
 		}
