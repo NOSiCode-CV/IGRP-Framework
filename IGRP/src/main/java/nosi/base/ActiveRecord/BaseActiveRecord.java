@@ -951,8 +951,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public List<Map<String, Object>> allColumns(String... columns) {
 		List<Map<String, Object>> lista = new ArrayList<>();
 		if (columns != null && columns.length > 0) {
-			for (String columnName : columns)
-				this.columnsSelect += ", " + recq.resolveColumnName(this.getAlias(), columnName.trim()) + " ";
+			for (String columnName : columns) {
+                this.columnsSelect += ", " + recq.resolveColumnName(this.getAlias(), columnName.trim()) + " ";
+            }
 			this.columnsSelect = this.columnsSelect.substring(1);
 			this.sql = this.generateSql() + this.sql;
 			Session s = this.getSession();
@@ -964,7 +965,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 					Core.log(this.getSql());
 					System.out.println(this.getSql());
 				}
-				Query query = s.createQuery(this.getSql());
+				TypedQuery<T> query = s.createQuery(this.getSql());
 			
 				if (this.offset > -1) {
 					query.setFirstResult(offset);
@@ -1011,13 +1012,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		return (list != null && !list.isEmpty()) ? list.get(0) : null;
 	}
 
-	private boolean beginTransaction(Transaction transaction) {
-		if (transaction != null && !transaction.isActive()) {
-			transaction.begin();
-			return true;
-		}
-		return transaction != null && transaction.isActive();
-	}
+//	private boolean beginTransaction(Transaction transaction) {
+//		if (transaction != null && !transaction.isActive()) {
+//			transaction.begin();
+//			return true;
+//		}
+//		return transaction != null && transaction.isActive();
+//	}
 
 	public List<T> query(String querySql,Class<T> className) {
 		return this.query(querySql, className,-1,-1);
@@ -1028,20 +1029,22 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		List<T> list = null;
 		Session s = this.getSession();
 		try {
-			transaction = s.getTransaction();
-			if(this.beginTransaction(transaction)) {
-				TypedQuery<T> query = s.createQuery(querySql, className);
-				if(offset > -1)
-					query.setFirstResult(offset);
-				if(limit > -1)
-					query.setMaxResults(limit);
-				if(!this.keepConnection)
-					query.setHint(QueryHints.HINT_READONLY, true);
-				this.setParameters(query);
-				list = query.getResultList();
-				if(!this.keepConnection)
-					transaction.commit();
+			 transaction=s.getTransaction();
+			if(!transaction.isActive()) {
+				transaction=s.beginTransaction();
 			}
+			TypedQuery<T> query = s.createQuery(querySql, className);
+			if(offset > -1)
+				query.setFirstResult(offset);
+			if(limit > -1)
+				query.setMaxResults(limit);
+			if(!this.keepConnection)
+				query.setHint(QueryHints.HINT_READONLY, true);
+			this.setParameters(query);
+			list = query.getResultList();
+			if(!this.keepConnection)
+				transaction.commit();
+
 		}catch (Exception e) {
 			this.keepConnection = false;
 			if (transaction != null) {
@@ -1049,7 +1052,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			}
 			this.setError(e);
 		} finally {
-			this.closeSession();
+			this.closeSession(s);
 		}
 		return list;
 	}
@@ -1059,12 +1062,14 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		Transaction transaction = null;
 		Session s = this.getSession();
 		try {
-			transaction = s.getTransaction();
-			if(this.beginTransaction(transaction)) {
-				this.getSession().persist(this);
+			transaction=s.getTransaction();
+			if(!transaction.isActive()) {
+				transaction=s.beginTransaction();
+			}
+				s.persist(this);
 				if(!this.keepConnection)
 					transaction.commit();
-			}
+
 		}catch (Exception e) {
 			this.keepConnection = false;
 			if (transaction != null) {
@@ -1082,12 +1087,14 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		Transaction transaction = null;
 		Session s = this.getSession();
 		try {
-			transaction = s.getTransaction();
-			if(this.beginTransaction(transaction)) {
+			transaction=s.getTransaction();
+			if(!transaction.isActive()) {
+				transaction=s.beginTransaction();
+			}
 				s.merge(this);
 				if(!this.keepConnection)
 					transaction.commit();
-			}
+
 		}catch (Exception e) {
 			this.keepConnection = false;
 			if (transaction != null) {
@@ -1108,13 +1115,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		Transaction transaction = null;
 		Session s = this.getSession();
 		try {
-			transaction = s.getTransaction();
-			if(this.beginTransaction(transaction)) {
-				s.remove(this.getSession().find(this.className, id));
+			transaction=s.getTransaction();
+			if(!transaction.isActive()) {
+				transaction=s.beginTransaction();
+			}
+				s.remove(s.find(this.className, id));
 				if(!this.keepConnection)
 					transaction.commit();
 				deleted=true;
-			}
+
 		}catch (Exception e) {
 			this.keepConnection = false;
 			if (transaction != null) {
@@ -1141,14 +1150,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Transient
 	@XmlTransient
 	public Object getValuePrimaryKey() {
-       return this.getSessionFactory() != null? this.getSessionFactory().getPersistenceUnitUtil().getIdentifier(this):null;
+        this.getSessionFactory();
+        return this.getSessionFactory().getPersistenceUnitUtil().getIdentifier(this);
 	}
 
 	@Override
 	@Transient	 
 	@XmlTransient
 	public String getNamePrimaryKey() {
-		for(Field field:this.className.getClass().getDeclaredFields()){
+		for(Field field: this.className.getDeclaredFields()){
 			if(field.isAnnotationPresent(Id.class))
 				return field.getName();
 		}
@@ -1208,21 +1218,24 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	private Object getSingleResult() {
 		Object result = null;
 		Transaction transaction = null;
+		Session s = this.getSession();
 		try {
-			transaction = this.getSession().getTransaction();
-			if(this.beginTransaction(transaction)) {
+			transaction=s.getTransaction();
+			if(!transaction.isActive()) {
+				transaction=s.beginTransaction();
+			}
 				if(this.isShowConsoleSql) {
 					Core.log(this.getSql());
 					System.out.println(this.getSql());
 				}
-				TypedQuery<T> query = this.getSession().createQuery(this.getSql());
+				TypedQuery<T> query = s.createQuery(this.getSql());
 				if(!this.keepConnection)
 					query.setHint(QueryHints.HINT_READONLY, true);
 				this.setParameters(query);
 				result = query.getSingleResult();
 				if(!this.keepConnection)
 					transaction.commit();
-			}
+
 		}catch (Exception e) {
 			if(!(e instanceof NoResultException)) {
 				this.keepConnection = false;
@@ -1232,7 +1245,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				this.setError(e);
 			}
 		} finally {
-			this.closeSession();
+			this.closeSession(s);
 		}
 		
 		return result;
@@ -1248,8 +1261,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		this.isReadOnly = isReadOnly;
 	}
 	
-	@Transient	 
-	protected Session getSession() {	
+	@Transient
+    private Session getSession() {
 		SessionFactory sessionFactory = getSessionFactory();
 		Session s;
 		if (sessionFactory.isOpen() && sessionFactory.getCurrentSession() != null
@@ -1260,15 +1273,12 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		sessionFactory.close();
 		HibernateUtils.removeSessionFactory(connectionName);
 		sessionFactory = getSessionFactory();
-		if (sessionFactory != null) {
-			s = sessionFactory.getCurrentSession();
-			return s;
-		}
-		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
-	}
+        s = sessionFactory.getCurrentSession();
+        return s;
+    }
 
-	@Transient	 
-	protected SessionFactory getSessionFactory() {		
+	@Transient
+    private SessionFactory getSessionFactory() {
 		SessionFactory sessionFactory;
 		if(Core.isNull(getApplicationName())) 
 			this.applicationName=Core.getCurrentDadParam();
@@ -1280,14 +1290,14 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
 	
-	protected void closeSession() {
+	private void closeSession() {
 		Session session = this.getSession();
 		if(!this.keepConnection && session!=null && session.isOpen()) {
 			session.close();
 		}
 	}
 	
-	protected void closeSession(Session session) {
+	private void closeSession(Session session) {
 		if(!this.keepConnection && session!=null && session.isOpen()) {
 			session.close();
 		}
