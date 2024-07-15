@@ -412,8 +412,7 @@ public abstract class QueryHelper implements QueryInterface{
 			}
 		}	
 		updates = new StringBuilder(Core.isNotNull(updates.toString()) ? updates.substring(0, updates.length() - 1) : "");
-		String s = "UPDATE "+tableName_ +" SET "+updates;
-		return s;
+       return "UPDATE " + tableName_ + " SET " + updates;
 	}
 	
 	public String getSqlDelete(String schemaName, String tableName) {
@@ -429,63 +428,56 @@ public abstract class QueryHelper implements QueryInterface{
 	@Override
 	public ResultSet execute() {
 		ResultSet r = new ResultSet();
-		Connection conn = nosi.core.webapp.databse.helpers.Connection.getConnection(this.getConnectionName());
+		try (Connection conn = nosi.core.webapp.databse.helpers.Connection.getConnection(this.getConnectionName())) {
 		if(conn!=null) {
-			try {
 				conn.setAutoCommit(this.isAutoCommit);
-			} catch (SQLException e1) {
-				this.setError(null, e1);
-			}
-			NamedParameterStatement q = null;
 			if(this instanceof QueryInsert) {
-				try {
-					if(this.retuerningKeys!=null) {
-						q = new NamedParameterStatement(conn ,this.getSqlExecute(),this.retuerningKeys);
+					executeInsertQuery(conn, r);
 					}else {
-						q = new NamedParameterStatement(conn ,this.getSqlExecute(),Statement.RETURN_GENERATED_KEYS);
+					executeUpdateQuery(conn, r);
+				}
+				if (!this.isAutoCommit) {
+					conn.commit();
+				}
+			}
+		} catch (SQLException e) {
+			this.setError(r, e);
 					}
-					this.setParameters(q);	
+		this.resetQuery();
+		this.whereIsCall = false;
+		return r;
+	}
+
+	private void executeInsertQuery(Connection conn, ResultSet r) throws SQLException {
+		try (NamedParameterStatement q = createStatementForInsert(conn)) {
+					this.setParameters(q);
 					Core.log("SQL:"+q.getSql());
 					r.setSql(q.getSql());
 					r.setKeyValue(q.executeInsert(this.tableName));
 				} catch (SQLException e) {
 					this.setError(r,e);
 				}
+	}
+
+	private NamedParameterStatement createStatementForInsert(Connection conn) throws SQLException {
+		if (this.retuerningKeys != null) {
+			return new NamedParameterStatement(conn, this.getSqlExecute(), this.retuerningKeys);
 			}else {
-				try {
-					String sqlEx = this.getSqlExecute();
-					q = new NamedParameterStatement(conn, sqlEx);
+			return new NamedParameterStatement(conn, this.getSqlExecute(), Statement.RETURN_GENERATED_KEYS);
+		}
+	}
+
+	private void executeUpdateQuery(Connection conn, ResultSet r) throws SQLException {
+		try (NamedParameterStatement q = new NamedParameterStatement(conn, this.getSqlExecute())) {
 					this.setParameters(q);
+					Core.log("SQL:" + q.getSql());
 					r.setSql(q.getSql());
-					Core.log("SQL:"+q.getSql());
 					r.setKeyValue(q.executeUpdate());
 				} catch (SQLException e) {
 					this.setError(r,e);
 				}
 			}
-			try {
-				if(!this.isAutoCommit)
-					conn.commit();
-			} catch (SQLException e) {
-				this.setError(r,e);
-			}finally {
-				try {
-					if(q!=null)
-						q.close();
-				} catch (SQLException e) {
-					this.setError(r, e);
-				}
-			}
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		this.resetQuery();
-		this.whereIsCall = false;
-		return r;
-	}
+
 	
 
 	protected void resetQuery() {
