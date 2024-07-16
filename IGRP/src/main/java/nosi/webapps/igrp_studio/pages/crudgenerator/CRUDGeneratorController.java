@@ -84,7 +84,7 @@ public class CRUDGeneratorController extends Controller {
 							Map<String, String> schemasMap = DatabaseMetadaHelper.getSchemas(config);
 							if (schemasMap.size() == 2)
 								schemasMap.remove(null);
-							else
+							else if(Core.isNull(model.getSchema()))
 								model.setSchema(Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 
 							view.schema.setValue(schemasMap);
