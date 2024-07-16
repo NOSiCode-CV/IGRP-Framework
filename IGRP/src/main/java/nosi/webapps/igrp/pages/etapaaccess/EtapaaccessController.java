@@ -1,5 +1,14 @@
 package nosi.webapps.igrp.pages.etapaaccess;
 
+import nosi.core.webapp.Controller;//
+import nosi.core.webapp.databse.helpers.ResultSet;//
+import nosi.core.webapp.databse.helpers.QueryInterface;//
+import java.io.IOException;//
+import nosi.core.webapp.Core;//
+import nosi.core.webapp.Response;//
+/* Start-Code-Block (import) */
+/* End-Code-Block */
+/*----#start-code(packages_import)----*/
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,17 +29,23 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TaskAccess;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.pages.etapaaccess.Etapaaccess.Table_1;
+
+/*----#end-code----*/
 		
 public class EtapaaccessController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Etapaaccess model = new Etapaaccess();
 		model.load();
 		EtapaaccessView view = new EtapaaccessView();
+		view.processid.setParam(true);
+		view.task_id.setParam(true);
+		view.env_fk.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as id,'Sit dolor voluptatem adipiscin' as descricao,'' as processid,'hidden-f2a1_7ea2' as task_description "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as id,'Labore adipiscing ipsum dolor' as descricao,'hidden-e9cd_468d' as processid,'hidden-aeca_ff2e' as task_id,'hidden-4a16_9364' as env_fk "));
 		  ----#gen-example */
+		/* Start-Code-Block (index) *//* End-Code-Block (index) */
 		/*----#start-code(index)----*/
 		String type = Core.getParam("type");
 		Integer orgProfId = Core.getParamInt("p_id");
@@ -53,6 +68,7 @@ public class EtapaaccessController extends Controller {
 			orgId = prof.getOrganization().getId();		
 		}
 		view.btn_gravar.setLink("gravar&type="+type+"&orgProfId="+orgProfId+"&orgId="+orgId+"&profId="+profId+"&userEmail="+userEmail);
+		view.btn_associar_etapa_documento.addParameter("p_aplicacao",Core.getParam("p_aplicacao"));
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -65,6 +81,9 @@ public class EtapaaccessController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 this.addQueryString("p_processid",Core.getParam("p_processid"));
+		 this.addQueryString("p_task_id",Core.getParam("p_task_id"));
+		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
 		 return this.forward("igrp","etapaaccess","index",this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		String type = Core.getParam("type");
@@ -104,8 +123,29 @@ public class EtapaaccessController extends Controller {
 			
 	}
 	
-		
-		
+	public Response actionAssociar_etapa_documento() throws IOException, IllegalArgumentException, IllegalAccessException{
+		Etapaaccess model = new Etapaaccess();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  this.addQueryString("p_processid",Core.getParam("p_processid"));
+		  this.addQueryString("p_task_id",Core.getParam("p_task_id"));
+		  this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
+		  return this.forward("igrp","LookupListPage","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
+		/* Start-Code-Block (associar_etapa_documento)  *//* End-Code-Block  */
+		/*----#start-code(associar_etapa_documento)----*/
+		this.addQueryString("p_process_id",Core.getParam("p_processid"));
+		this.addQueryString("p_general_id",Core.getParam("p_task_id"));
+		this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
+		this.addQueryString("onlyDocs","true");
+		/*----#end-code----*/
+		return this.redirect("igrp","LookupListPage","index", this.queryString());	
+	}
+	/* Start-Code-Block (custom-actions)  *//* End-Code-Block  */
 /*----#start-code(custom_actions)----*/
 
 	private boolean insertNew(List<String> chekedIds, String type, Integer orgProfId,User user) {
@@ -140,7 +180,7 @@ public class EtapaaccessController extends Controller {
 							r = task.insert() != null;
 						}
 					}else
-					if("prof".compareTo(type)==0) {
+					if("prof".compareTo(type)==0 && prof!=null) {
 						if(taskAux != null)
 							taskAux = taskAux.andWhere("organization", "=", prof.getOrganization()).andWhere("profileType", "=", prof).one(); 
 						if(taskAux == null) {
@@ -149,7 +189,7 @@ public class EtapaaccessController extends Controller {
 							r = task.insert() != null;	
 						}
 					}else
-					if("user".compareTo(type)==0) {
+					if("user".compareTo(type)==0 && prof!=null) {
 						task = task.find().andWhere("processName", "=",task.getProcessName())
 								   .andWhere("taskName","=",task.getTaskName())
 								   .andWhere("profileType", "=",prof.getId())
@@ -232,9 +272,10 @@ public class EtapaaccessController extends Controller {
 						.anyMatch(c -> c.getTaskName().compareTo(task.getTaskDefinitionKey()) == 0)) {
 					t.setId_check(t.getId());
 				}
-
-				t.setDescricao(Core.getSwitchNotNullValue(task.getProcessDefinitionKey(),task.getProcessDefinitionId()) + " - " + task.getName()+" ("+task.getProcessDefinitionId()+")");
+				t.setDescricao(Core.getSwitchNotNullValue(task.getProcessDefinitionKey(),task.getProcessDefinitionId()) + " - <b>" + task.getName()+"</b> ("+task.getProcessDefinitionId()+")");
 				t.setProcessid(task.getProcessDefinitionId());
+				t.setTask_id(task.getTaskDefinitionKey());
+				t.setEnv_fk(org.getApplication().getId());
 				table.add(t);
 			});
 		}
@@ -260,6 +301,8 @@ public class EtapaaccessController extends Controller {
 				Table_1 t = new Table_1();
 				t.setId(task.getTaskName()+SEPARATOR+task.getProcessName()+SEPARATOR+task.getTaskDescription());
 				t.setProcessid(task.getProcessName());
+				t.setTask_id(task.getTaskName());
+				t.setEnv_fk(prof.getApplication().getId());
 				t.setDescricao(task.getTaskDescription());
 				if(this.getTaskProfExists(prof.getOrganization().getId(), prof.getId(), task.getProcessName(), task.getTaskName()))
 					t.setId_check(t.getId());
@@ -285,6 +328,8 @@ public class EtapaaccessController extends Controller {
 				Table_1 t = new Table_1();
 				t.setId(task.getTaskName()+SEPARATOR+task.getProcessName()+SEPARATOR+task.getTaskDescription());
 				t.setProcessid(task.getProcessName());
+				t.setTask_id(task.getTaskName());
+				t.setEnv_fk(prof.getApplication().getId());
 				t.setDescricao(task.getTaskDescription());
 				if(this.getTaskUserExists(user,task.getProcessName(), task.getTaskName()))
 					t.setId_check(t.getId());
