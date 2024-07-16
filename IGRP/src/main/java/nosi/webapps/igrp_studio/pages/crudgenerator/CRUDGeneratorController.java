@@ -39,7 +39,7 @@ public class CRUDGeneratorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Anim sit ut officia natus' as table_name "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Sit elit perspiciatis unde rem' as table_name "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.schema.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -67,6 +67,7 @@ public class CRUDGeneratorController extends Controller {
 			if (Core.isNotNull(model.getAplicacao())) {
 				
 				final Map<Object, Object> datasourceByEnv = new Config_env().getListDSbyEnv(Core.toInt(model.getAplicacao()));
+
 				if (datasourceByEnv.size() == 2)
 					datasourceByEnv.remove(null);
 					
@@ -76,22 +77,22 @@ public class CRUDGeneratorController extends Controller {
 
 					Config_env config = new Config_env().find().andWhere("id", "=", Core.toInt(model.getData_source()))
 							.andWhere("application.id", "=", Core.toInt(model.getAplicacao())).one();
-					if (config != null) {
+					if(config!=null) {
 
-						Map<String, String> schemasMap = DatabaseMetadaHelper.getSchemas(config);
+							Map<String, String> schemasMap = DatabaseMetadaHelper.getSchemas(config);
+							if (schemasMap.size() == 2)
+								schemasMap.remove(null);
+							else if(Core.isNull(model.getSchema()))
+								model.setSchema(Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 
-						if (Core.isNull(model.getSchema()))
-							model.setSchema(Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+							view.schema.setValue(schemasMap);
 
-						view.schema.setValue(schemasMap);
+							this.fillTable(model, config);
 
-						this.fillTable(model, config);
 					}
 					
-				} else
+				}else
 					model.setSchema(null);
-
-
 			}
 		} catch (Exception e) {
 			model.setTable_1(new ArrayList<>());
@@ -162,7 +163,8 @@ public class CRUDGeneratorController extends Controller {
 			}
 		}
 		//return this.renderView(new CRUDGeneratorView());
-		return this.forward("igrp_studio","CRUDGenerator","index",this.queryString());
+		  return this.forward("igrp_studio","CRUDGenerator","index",this.queryString()); //if submit, loads the values
+
 		/*----#end-code----*/
 			
 	}
@@ -228,8 +230,9 @@ public class CRUDGeneratorController extends Controller {
 		}
 		/* -- FIM ACTION GERAR -- */
 
-		//return this.renderView(new CRUDGeneratorView());
-		return this.forward("igrp_studio","CRUDGenerator","index",this.queryString());
+	//	return this.renderView(new CRUDGeneratorView());
+		  return this.forward("igrp_studio","CRUDGenerator","index",this.queryString()); //if submit, loads the values
+
 		/*----#end-code----*/
 			
 	}

@@ -1,11 +1,10 @@
 package nosi.webapps.igrp.pages.etapaaccess;
 
-import static nosi.core.i18n.Translator.gt;
-
-import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
+import nosi.core.gui.components.*;
+import nosi.core.gui.fields.*;
+import static nosi.core.i18n.Translator.gt;
 
 public class EtapaaccessView extends View {
 
@@ -14,12 +13,14 @@ public class EtapaaccessView extends View {
 	public Field id_check;
 	public Field descricao;
 	public Field processid;
-	public Field task_description;
+	public Field task_id;
+	public Field env_fk;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
+	public IGRPButton btn_associar_etapa_documento;
 
 	public EtapaaccessView(){
 
@@ -41,23 +42,30 @@ public class EtapaaccessView extends View {
 		id_check = new CheckBoxField(model,"id_check");
 		id_check.propertie().add("name","p_id").add("type","checkbox").add("maxlength","255").add("switch","false").add("java-type","String").add("showLabel","true").add("group_in","").add("check","true").add("desc","true");
 		
-		descricao = new TextField(model,"descricao");
+		descricao = new PlainTextField(model,"descricao");
 		descricao.setLabel(gt("Descricao"));
-		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
+		descricao.propertie().add("name","p_descricao").add("type","plaintext").add("disable_output_escaping","true").add("html_class","ff-fix").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		processid = new HiddenField(model,"processid");
 		processid.setLabel(gt(""));
-		processid.propertie().add("name","p_processId").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","processid");
+		processid.propertie().add("name","p_processid").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","processid");
 		
-		task_description = new HiddenField(model,"task_description");
-		task_description.setLabel(gt(""));
-		task_description.propertie().add("name","p_task_description").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("group_in","").add("tag","task_description");
+		task_id = new HiddenField(model,"task_id");
+		task_id.setLabel(gt(""));
+		task_id.propertie().add("name","p_task_id").add("type","hidden").add("maxlength","70").add("java-type","").add("showLabel","true").add("group_in","").add("tag","task_id");
+		
+		env_fk = new HiddenField(model,"env_fk");
+		env_fk.setLabel(gt(""));
+		env_fk.propertie().add("name","p_env_fk").add("type","hidden").add("maxlength","30").add("showLabel","true").add("group_in","").add("java-type","Integer").add("tag","env_fk");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
 		btn_gravar = new IGRPButton("Gravar","igrp","Etapaaccess","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar").add("refresh_components","");
+
+		btn_associar_etapa_documento = new IGRPButton("Associar Etapa-Documentos","igrp","Etapaaccess","associar_etapa_documento","_blank","black|fa-file","","");
+		btn_associar_etapa_documento.propertie.add("id","button_8b47_a7fe").add("type","specific").add("class","black").add("rel","associar_etapa_documento").add("refresh_components","");
 
 		
 	}
@@ -72,9 +80,11 @@ public class EtapaaccessView extends View {
 		table_1.addField(id_check);
 		table_1.addField(descricao);
 		table_1.addField(processid);
-		table_1.addField(task_description);
+		table_1.addField(task_id);
+		table_1.addField(env_fk);
 
 		toolsbar_1.addButton(btn_gravar);
+		table_1.addButton(btn_associar_etapa_documento);
 		this.addToPage(sectionheader_1);
 		this.addToPage(table_1);
 		this.addToPage(toolsbar_1);
@@ -86,7 +96,8 @@ public class EtapaaccessView extends View {
 		id.setValue(model);
 		descricao.setValue(model);
 		processid.setValue(model);
-		task_description.setValue(model);	
+		task_id.setValue(model);
+		env_fk.setValue(model);	
 
 		table_1.loadModel(((Etapaaccess) model).getTable_1());
 		}

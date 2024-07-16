@@ -62,50 +62,88 @@
                 <id name="p_id" type="checkbox" maxlength="255" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" showLabel="true" group_in="" check="true" desc="true">
                     <label/>
                 </id>
-                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
+                <descricao name="p_descricao" type="plaintext" disable_output_escaping="true" html_class="ff-fix" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
                     <label>Descricao</label>
                 </descricao>
-                <processid name="p_processId" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" group_in="" tag="processid"/>
-                <task_description name="p_task_description" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" group_in="" tag="task_description"/>
+                <processid name="p_processid" type="hidden" maxlength="30" iskey="true" java-type="" showLabel="true" group_in="" tag="processid"/>
+                <task_id name="p_task_id" type="hidden" maxlength="70" iskey="true" java-type="" showLabel="true" group_in="" tag="task_id"/>
+                <env_fk name="p_env_fk" type="hidden" maxlength="30" showLabel="true" iskey="true" group_in="" java-type="Integer" tag="env_fk"/>
             </fields>
             <table>
                 <value>
                     <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
                         <id name="p_id" check="true" desc="true">1</id>
-                        <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Laudantium dolor doloremque la</descricao>
-                        <processid name="p_processId" tag="processid">hidden-d5eb_61c6</processid>
-                        <task_description name="p_task_description" tag="task_description">hidden-ebf8_9525</task_description>
+                        <id_check name="p_id_check">1</id_check>
+                        <descricao name="p_descricao">Iste totam sed magna doloremqu</descricao>
+                        <processid name="p_processid" tag="processid">hidden-77ce_44dd</processid>
+                        <task_id name="p_task_id" tag="task_id">hidden-9454_b0bb</task_id>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-5e99_4f05</env_fk>
                     </row>
                     <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
                         <id name="p_id" check="true" desc="true">1</id>
-                        <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Ut perspiciatis rem accusantiu</descricao>
-                        <processid name="p_processId" tag="processid">hidden-e7f0_23a6</processid>
-                        <task_description name="p_task_description" tag="task_description">hidden-c760_9118</task_description>
+                        <id_check name="p_id_check">1</id_check>
+                        <descricao name="p_descricao">Accusantium deserunt ipsum tot</descricao>
+                        <processid name="p_processid" tag="processid">hidden-752b_8e9d</processid>
+                        <task_id name="p_task_id" tag="task_id">hidden-b843_de51</task_id>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-47aa_0688</env_fk>
                     </row>
                     <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
                         <id name="p_id" check="true" desc="true">1</id>
-                        <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Omnis mollit natus doloremque</descricao>
-                        <processid name="p_processId" tag="processid">hidden-41d7_222f</processid>
-                        <task_description name="p_task_description" tag="task_description">hidden-3293_de88</task_description>
+                        <id_check name="p_id_check">1</id_check>
+                        <descricao name="p_descricao">Dolor unde sit anim sed sit lo</descricao>
+                        <processid name="p_processid" tag="processid">hidden-31cc_fcc0</processid>
+                        <task_id name="p_task_id" tag="task_id">hidden-536a_ca8a</task_id>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-da35_6cc5</env_fk>
                     </row>
                     <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
                         <id name="p_id" check="true" desc="true">1</id>
-                        <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Sit doloremque stract anim sit</descricao>
-                        <processid name="p_processId" tag="processid">hidden-036b_9560</processid>
-                        <task_description name="p_task_description" tag="task_description">hidden-8122_90a8</task_description>
+                        <id_check name="p_id_check">1</id_check>
+                        <descricao name="p_descricao">Ipsum sit ipsum aperiam natus</descricao>
+                        <processid name="p_processid" tag="processid">hidden-d1bc_62cd</processid>
+                        <task_id name="p_task_id" tag="task_id">hidden-6f22_11be</task_id>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-ca6c_78eb</env_fk>
                     </row>
                     <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
                         <id name="p_id" check="true" desc="true">1</id>
-                        <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Ipsum dolor labore anim rem</descricao>
-                        <processid name="p_processId" tag="processid">hidden-fad0_6d81</processid>
-                        <task_description name="p_task_description" tag="task_description">hidden-a56e_fb36</task_description>
+                        <id_check name="p_id_check">1</id_check>
+                        <descricao name="p_descricao">Omnis perspiciatis natus aliqu</descricao>
+                        <processid name="p_processid" tag="processid">hidden-4f95_39ae</processid>
+                        <task_id name="p_task_id" tag="task_id">hidden-489a_e5aa</task_id>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-8cba_21e6</env_fk>
                     </row>
                 </value>
+                <context-menu>
+                    <item id="button_8b47_a7fe" type="specific" code="" class="black" rel="associar_etapa_documento" refresh_components="">
+                        <title>Associar Etapa-Documentos</title>
+                        <app>igrp</app>
+                        <page>LookupListPage</page>
+                        <link>index</link>
+                        <parameter>../images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xml?</parameter>
+                        <target>_blank</target>
+                        <img>black|fa-file</img>
+                        <preview>../images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xml</preview>
+                    </item>
+                </context-menu>
             </table>
         </table_1>
     </content>
