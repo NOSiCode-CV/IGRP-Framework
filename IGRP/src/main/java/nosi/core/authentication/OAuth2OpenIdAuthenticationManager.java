@@ -31,16 +31,17 @@ public final class OAuth2OpenIdAuthenticationManager {
 	private OAuth2OpenIdAuthenticationManager() {}
 
 	public static void authorizationCodeSwap(HttpServletRequest request) {
+
 		final var error = request.getParameter("error");
-		final var authCode = request.getParameter("code");
-		String sessionState = request.getParameter("session_state");
-		final var session = request.getSession();
 		if (error != null && !error.equals("null") && !error.isEmpty())
 			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador. ERROR: (" + error + ").");
 
+		final var authCode = request.getParameter("code");
+		final var sessionState = request.getParameter("session_state");
+		final var session = request.getSession();
 		final var settings = ApplicationManager.loadConfig();
 		
-		final var m = swap(authCode, sessionState, settings);
+		final var m = generateToken(authCode, settings);
 		if(m.isEmpty())
 			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador por causa do token swap.");
 		
@@ -49,11 +50,9 @@ public final class OAuth2OpenIdAuthenticationManager {
 			throw new IllegalStateException("Ocorreu um erro na autenticação do utilizador. Token não encontrado.");
 
 		final var idToken = m.get("id_token");
-		sessionState = m.get("session_state");
 		final var refreshToken = m.get("refresh_token");
 
 		final var userInfo = oAuth2GetUserInfoByToken(token, settings);
-
 		final var email = Optional.ofNullable(userInfo.get("email")).map(String::trim).map(String::toLowerCase).orElse("");
 		final var uid = userInfo.get("sub");
 		final var name = userInfo.getOrDefault("name","");
@@ -118,7 +117,7 @@ public final class OAuth2OpenIdAuthenticationManager {
 
 	}
 
-	private static Map<String, String> swap(String code, String sessionState, Properties settings) {
+	private static Map<String, String> generateToken(String code, Properties settings) {
 		try {
 
 			final var client_id = settings.getProperty(ConfigCommonMainConstants.IDS_OAUTH2_OPENID_CLIENT_ID.value());
@@ -154,7 +153,6 @@ public final class OAuth2OpenIdAuthenticationManager {
 				final var m = new HashMap<String, String>();
 				m.put("access_token", token);
 				m.put("id_token", idToken);
-				m.put("session_state", sessionState);
 				m.put("refresh_token", refreshToken);
 				return m;
 			}
