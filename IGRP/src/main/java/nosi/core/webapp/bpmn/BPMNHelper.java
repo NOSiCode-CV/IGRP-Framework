@@ -252,11 +252,13 @@ public final class BPMNHelper {
 				.map(map -> map.get("taskid").toString())
 				.toArray(String[]::new);
 
-		List<TaskFile> tasksF = new TaskFile().find()
-				.whereIn("taskId",tasksIds)
-				.andWhere("tipo_doc_task.tipoDocumento.id","IN", tpIds)
-				.orderByAsc("id")
-				.all();
+		List<TaskFile> tasksF = Collections.emptyList();
+		if(tasksIds.length!=0)
+			tasksF= new TaskFile().find()
+					.whereIn("taskId",tasksIds)
+					.andWhere("tipo_doc_task.tipoDocumento.id","IN", tpIds)
+					.orderByAsc("id")
+					.all();
 		return tasksF;
 	}
 
