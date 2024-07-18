@@ -7,6 +7,7 @@ import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import nosi.webapps.igrp.dao.TaskAccess;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -118,6 +119,7 @@ public class TaskServiceIGRP extends GenericActivitiIGRP {
 		this.setMyProccessAccess(processInstanceIds);
 		return tasks.stream()
 				.filter(t -> this.myproccessId.contains(t.getProcessInstanceId()))
+				.sorted(Comparator.comparing(TaskServiceQuery::getId))
 				.collect(Collectors.toList());
 	}
 
