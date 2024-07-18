@@ -363,9 +363,10 @@ $(function ($) {
 						if($.WR.id){ // if edit
 							$('input[name="'+p.titleName+'"]').val(p.title);
 							$('input[name="'+p.codeName+'"]').val(p.code);
-							$('#ptsize').addClass('hidden');
-						}else
-							$('#ptsize').removeClass('hidden');
+//							$('#ptsize').addClass('hidden');
+						}
+						//else
+						//	$('#ptsize').removeClass('hidden');
 					},
 					buttons 	: [
 						{

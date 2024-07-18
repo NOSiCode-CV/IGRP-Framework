@@ -27,12 +27,12 @@ import static nosi.core.i18n.Translator.gt;
  * 7 May 2018
  */
 public final class BPMNHelper {
-	
+
 	private BPMNHelper() {}
 
 	public static String getGenerateXML(String app,String process_key,String task_key,String form_key,String path) {
 		XMLWritter xml = new XMLWritter();
-		ReserveCodeControllerTask resevreCode = new ReserveCodeControllerTask();	
+		ReserveCodeControllerTask resevreCode = new ReserveCodeControllerTask();
 		resevreCode.extract(FileHelper.readFile(path, task_key+"Controller.java"));
 		xml.startElement("rows");
 			xml.setElement("process_key", process_key);
@@ -50,7 +50,7 @@ public final class BPMNHelper {
 		xml.endElement();
 		return xml.toString();
 	}
-	
+
 	public static Object getValue(String type,String name){
 		Object value = Igrp.getInstance().getRequest().getParameter("p_"+name.toLowerCase());
 		try {
@@ -77,20 +77,20 @@ public final class BPMNHelper {
 		}catch(NullPointerException ignored) {}
 		return "";
 	}
-	
+
 	//Add file separator, allow to upload your file
 	public static String addFileSeparator(String taskDad,String processDefinition,String taskDefinition,List<HistoricTaskService> history) {
 		DisplayDocmentType displayDocsInput = new DisplayDocmentType();
 		List<TipoDocumentoEtapa> listInOutDoc = getInputOutputDocumentType(taskDad, processDefinition, taskDefinition, history);
 		displayDocsInput.setListDocmentType(listInOutDoc);
-		String xml = displayDocsInput.displayAllDocsInSameFormList(); 
+		String xml = displayDocsInput.displayAllDocsInSameFormList();
 		return xml;
 	}
-	
-	
+
+
 	public static List<TipoDocumentoEtapa> getInputOutputDocumentType(String taskDad,String processDefinition,String taskDefinition,List<HistoricTaskService> history) {
 		DisplayDocmentType display = new DisplayDocmentType();
-		if(history!=null && !history.isEmpty()) {			
+		if(history!=null && !history.isEmpty()) {
 			display.addListDocumentType(getOutputDocumentType(taskDad,history.get(0).getProcessDefinitionId(),taskDefinition));
 		}else {
 			display.addListDocumentType(getOutputDocumentType(taskDad,processDefinition,taskDefinition));
@@ -181,15 +181,15 @@ public final class BPMNHelper {
 		String currentProcessDefinition = resolveProcessDenifition(currentProcessDefinition_);
 		List<TipoDocumentoEtapa> docsReport = getDocumentOutputReport(currentTaskApp,currentProcessDefinition, currentTaskDefinition);
 		List<TipoDocumentoEtapa> docsOthers = getDocumentOutputOthers(currentTaskApp,currentProcessDefinition, currentTaskDefinition);
-		List<TipoDocumentoEtapa> tipoDocs = new ArrayList<>(); 
-		
+		List<TipoDocumentoEtapa> tipoDocs = new ArrayList<>();
+
 		if(docsReport!=null)
 			tipoDocs.addAll(docsReport);
 		if(docsOthers!=null)
 			tipoDocs.addAll(docsOthers);
 		return tipoDocs;
 	}
-	
+
 	private static List<TipoDocumentoEtapa> getDocumentOutputOthers(String taskDad, String processDefinition,
 																	String taskDefinition) {
 
@@ -248,11 +248,13 @@ public final class BPMNHelper {
 				.map(map -> map.get("taskid").toString())
 				.toArray(String[]::new);
 
-		List<TaskFile> tasksF = new TaskFile().find()
-				.whereIn("taskId",tasksIds)
-				.andWhere("tipo_doc_task.tipoDocumento.id","IN", tpIds)
-				.orderByAsc("id")
-				.all();
+		List<TaskFile> tasksF = Collections.emptyList();
+		if(tasksIds.length!=0)
+			tasksF= new TaskFile().find()
+					.whereIn("taskId",tasksIds)
+					.andWhere("tipo_doc_task.tipoDocumento.id","IN", tpIds)
+					.orderByAsc("id")
+					.all();
 		return tasksF;
 	}
 
@@ -290,18 +292,18 @@ public final class BPMNHelper {
 			link.setLink_desc(gt("Mostrar"));
 			t.setLink(link);
 		}
-		
+
 		return tipoDocs;
 	}
-	
-	public static List<TipoDocumentoEtapa> getFilesByProcessIdNTaskId(String appDad, String processId, String taskId) { 
-		List<TipoDocumentoEtapa> allOutDocs = new ArrayList<>(); 
+
+	public static List<TipoDocumentoEtapa> getFilesByProcessIdNTaskId(String appDad, String processId, String taskId) {
+		List<TipoDocumentoEtapa> allOutDocs = new ArrayList<>();
 		List<TipoDocumentoEtapa> tipoDocs = null;
 		TipoDocumentoEtapa tipoDocumentoEtapa = new TipoDocumentoEtapa().find().andWhere("processId", "=", Core.isNotNull(processId) ? processId: "-1");
-		if(taskId != null) 
+		if(taskId != null)
 			tipoDocumentoEtapa = tipoDocumentoEtapa.andWhere("taskId", "=", taskId);
 		tipoDocs = tipoDocumentoEtapa.andWhere("status", "=", 1).andWhere("tipo", "=", "OUT").all();
-		if(tipoDocs != null) { 
+		if(tipoDocs != null) {
 			for(TipoDocumentoEtapa doc : tipoDocs) {
 				if(doc.getTipoDocumento() != null && doc.getTipoDocumento().getApplication() != null && doc.getTipoDocumento().getApplication().getDad().equals(appDad)) {
 					List<TaskService> etapas = getAllTaskFromMetadataXml(appDad, processId);
@@ -350,34 +352,34 @@ public final class BPMNHelper {
 					allOutDocs.add(doc);
 				}
 			}
-		} 
-		
-		
-		
-		return allOutDocs; 
+		}
+
+
+
+		return allOutDocs;
 	}
-	
-	
+
+
 	public static List<TaskService> getAllTaskFromMetadataXml(String appDad, String processId) {
 		List<TaskService> list = new ArrayList<>();
-		List<ProcessDefinitionService> allProcess = new ProcessDefinitionIGRP().getProcessDefinitionsForCreated(appDad); 
+		List<ProcessDefinitionService> allProcess = new ProcessDefinitionIGRP().getProcessDefinitionsForCreated(appDad);
 		if(allProcess != null) {
 			TaskServiceRest taskRest = new TaskServiceRest();
-			for(ProcessDefinitionService process : allProcess) { 
+			for(ProcessDefinitionService process : allProcess) {
 				if(processId == null) {
 					String link = process.getResource().replace("/resources/", "/resourcedata/");
-					String resource = new ResourceServiceRest().getResourceData(link); 
+					String resource = new ResourceServiceRest().getResourceData(link);
 					list.addAll(taskRest.extractTasks(resource,true));
 				}else {
-					if(process.getKey().equals(processId)) { 
+					if(process.getKey().equals(processId)) {
 						String link = process.getResource().replace("/resources/", "/resourcedata/");
-						String resource = new ResourceServiceRest().getResourceData(link); 
+						String resource = new ResourceServiceRest().getResourceData(link);
 						list.addAll(taskRest.extractTasks(resource, true));
 					}
 				}
 			}
 		}
-		return list; 
+		return list;
 	}
 
 	private static String resolveProcessDenifition(String processDefinition_) {
