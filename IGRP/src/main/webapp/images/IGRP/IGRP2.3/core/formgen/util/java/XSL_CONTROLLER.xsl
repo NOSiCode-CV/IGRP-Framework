@@ -450,7 +450,17 @@
 				     	</xsl:call-template>
 
 				     	<xsl:if test="not(@custom_return) or @custom_return!='true'">
-					     	<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString());')"/>
+							<xsl:variable name="_page">
+								<xsl:choose>
+									<xsl:when test="contains($page_, '@')">
+										<xsl:value-of select="substring-after($page_, '@')" />
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="$page_" />
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:variable>
+							<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$_page,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString());')"/>
 					   	</xsl:if>
 						
 					</xsl:when>
